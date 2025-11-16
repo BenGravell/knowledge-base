@@ -4,8 +4,8 @@ site_url: https://bengravell.github.io/knowledge-base/
 
 theme:
   name: material
-  logo: site/icon.png   
-  favicon: site/favicon.png
+  logo: icon.png   
+  favicon: favicon.png
 
   palette:
     # Palette toggle for automatic mode
