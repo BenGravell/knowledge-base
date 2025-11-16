@@ -18,9 +18,15 @@ poetry shell
 
 ## Usage
 
-Serve the site with
+Serve the site locally with
 
 ```bash
 cd knowledge_base
 mkdocs serve 
+```
+
+Deploy to GitHub Pages with
+
+```bash
+mkdocs gh-deploy
 ```
