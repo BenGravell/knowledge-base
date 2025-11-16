@@ -1,0 +1,51 @@
+site_name: Knowledge Base
+theme:
+  name: material
+  logo: site/icon.png   
+  favicon: site/favicon.png
+
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  
+  font:
+    text: Atkinson Hyperlegible Next
+    code: Atkinson Hyperlegible Mono
+
+  features:
+    - navigation.expand
+    - navigation.sections
+    - content.code.annotate
+    - search.highlight
+
+nav:
+  - Home: index.md
+  - Planning:
+    - Path Planning:
+      - RRT: planning/path/rrt.md
+    - Trajectory Planning:  
+      - iLQR: planning/trajectory/ilqr.md
+  - Optimization:
+    - Gradient Descent: optimization/gradient_descent.md
+      

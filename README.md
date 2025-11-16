@@ -15,3 +15,12 @@ Activate the env with
 ```bash
 poetry shell
 ```
+
+## Usage
+
+Serve the site with
+
+```bash
+cd knowledge_base
+mkdocs serve 
+```
