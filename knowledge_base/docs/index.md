@@ -1,8 +1,6 @@
 # Knowledge Base
 
-Welcome to my curated collection of research papers, ideas, and explanations in the fields of **motion planning**, **optimization**, **robotics**, **machine learning**, and more.
-
-It's where I:
+Welcome to my curated collection of research papers, ideas, and explanations in the fields of **motion planning**, **optimization**, **robotics**, **machine learning**, and more, where I:
 
 - Document and reflect on academic papers.
 - Explore foundational and emerging topics.
@@ -13,6 +11,6 @@ Whether you're here to deepen your understanding, explore specific research area
 
 ## Contribute or Reach Out
 
-If you'd like to suggest papers, discuss an idea, or share feedback, feel free to reach out!
+If you'd like to suggest papers, discuss an idea, or share feedback, feel free to reach out to me on [GitHub](https://github.com/BenGravell).
 
 Happy exploring!
