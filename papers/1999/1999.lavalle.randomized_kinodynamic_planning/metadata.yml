@@ -1,0 +1,20 @@
+title: "Randomized Kinodynamic Planning"
+algorithm: RRT
+authors:
+  - Steven M. LaValle
+  - James J. Kuffner, Jr.
+year: 1999
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+identifier: 1999-lavalle-randomized
+tags:
+  - Motion planning
+  - Kinodynamic planning
+  - Trajectory planning
+  - Sampling-based
+  - RRT
+summary: >
+  Introduces RRTs for sampling-based trajectory planning in high-dimensional configuration spaces.
+link: https://msl.cs.uiuc.edu/~lavalle/papers/LavKuf01b.pdf
+links_alt:
+  - https://ieeexplore.ieee.org/document/770022
