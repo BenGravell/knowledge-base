@@ -2,6 +2,13 @@ site_name: Knowledge Base
 
 site_url: https://bengravell.github.io/knowledge-base/
 
+plugins:
+  - search
+  - macros
+  - gen-files:
+      scripts:
+        - generate_papers.py
+
 theme:
   name: material
   logo: icon.png   
@@ -36,19 +43,37 @@ theme:
     text: Atkinson Hyperlegible Next
     code: Atkinson Hyperlegible Mono
 
+  markdown_extensions:
+    - meta
+    - admonition
+    - footnotes
+    - pymdownx.superfences
+    - pymdownx.snippets:
+        jinja: true
+    - attr_list
+    - toc:
+        permalink: true
+
   features:
     - navigation.expand
     - navigation.sections
     - content.code.annotate
+    - content.tabs.link
+    - metadata
+    - tags
     - search.highlight
 
 nav:
   - Home: index.md
   - Planning:
     - Path Planning:
-      - RRT: planning/path/rrt.md
-    - Trajectory Planning:  
-      - iLQR: planning/trajectory/ilqr.md
-  - Optimization:
-    - Gradient Descent: optimization/gradient_descent.md
-      
+      - RRT: papers/1998_lavalle_rapidly_exploring_random_trees.md
+    - Trajectory Planning:
+      - Kinodynamic RRT: papers/1999_lavalle_randomized_kinodynamic_planning.md
+  - Prediction:
+    - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: papers/2511_00814.md
+  - Control:
+    - Robust Control:
+      - Robustness margins for LQG: papers/1978_doyle_guaranteed_margins_for_lqg.md
+  - Machine Learning:
+    - Attention Is All You Need: papers/1706_03762.md

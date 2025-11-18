@@ -1,0 +1,15 @@
+title: "Guaranteed margins for LQG regulators"
+algorithm: LQG
+authors:
+  - John C. Doyle
+year: 1978
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+identifier: lavalle-rrt
+doi: 10.1109/TAC.1978.1101812
+tags:
+  - Linear Quadratic Gaussian (LQG)
+  - Robust control
+summary: >
+  There are none.
+link: https://ieeexplore.ieee.org/document/1101812
