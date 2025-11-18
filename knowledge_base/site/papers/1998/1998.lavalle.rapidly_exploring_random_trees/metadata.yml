@@ -1,0 +1,16 @@
+title: "Rapidly-exploring Random Trees: A New Tool for Path Planning"
+algorithm: RRT
+authors:
+  - Steven M. LaValle
+year: 1998
+source: University of Illinois
+type: Tech Report
+identifier: lavalle-rrt
+tags:
+  - Motion planning
+  - Path planning
+  - Sampling-based
+  - RRT
+summary: >
+  Introduces RRTs for sampling-based motion planning in high-dimensional configuration spaces.
+link: http://msl.cs.uiuc.edu/~lavalle/papers/Lav98c.pdf

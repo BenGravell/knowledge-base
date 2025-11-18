@@ -1,0 +1,22 @@
+title: Attention Is All You Need
+algorithm: Transformer
+authors:
+  - Ashish Vaswani
+  - Noam Shazeer
+  - Niki Parmar
+  - Jakob Uszkoreit
+  - Llion Jones
+  - Aidan N. Gomez
+  - Lukasz Kaiser
+  - Illia Polosukhin
+year: 2017
+source: 31st Conference on Neural Information Processing Systems (NIPS)
+type: Journal Paper
+arxiv_id: 1706.03762
+tags:
+  - Transformers
+  - NLP
+  - Deep learning
+summary: >
+  The paper introduces the Transformer architecture, a novel neural network model based on attention mechanisms, demonstrating state-of-the-art performance on NLP tasks.
+link: https://arxiv.org/abs/1706.03762

@@ -2,18 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://bengravell.github.io/knowledge-base/</loc>
-         <lastmod>2025-11-16</lastmod>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
-         <loc>https://bengravell.github.io/knowledge-base/optimization/gradient_descent/</loc>
-         <lastmod>2025-11-16</lastmod>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1706_03762/</loc>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
-         <loc>https://bengravell.github.io/knowledge-base/planning/path/rrt/</loc>
-         <lastmod>2025-11-16</lastmod>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1978_doyle_guaranteed_margins_for_lqg/</loc>
+         <lastmod>2025-11-18</lastmod>
     </url>
     <url>
-         <loc>https://bengravell.github.io/knowledge-base/planning/trajectory/ilqr/</loc>
-         <lastmod>2025-11-16</lastmod>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1998_lavalle_rapidly_exploring_random_trees/</loc>
+         <lastmod>2025-11-18</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1999_lavalle_randomized_kinodynamic_planning/</loc>
+         <lastmod>2025-11-18</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2511_00814/</loc>
+         <lastmod>2025-11-18</lastmod>
     </url>
 </urlset>
