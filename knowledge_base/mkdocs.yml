@@ -67,13 +67,45 @@ nav:
   - Home: index.md
   - Planning:
     - Path Planning:
-      - RRT: papers/1998_lavalle_rapidly_exploring_random_trees.md
+      - Geometric Planning:
+        - Rapidly Exploring Random Trees (RRT):
+          - RRT: papers/1998_lavalle_rapidly_exploring_random_trees.md
+          - RRT-Connect: papers/2000_kuffner_rrt_connect_an_efficient
+      - Path Generation:
+        - Dubins path: papers/1957_dubins_on_curves_of_minimal
+        - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a
+      - Path Optimization:
+        - TODO
     - Trajectory Planning:
-      - Kinodynamic RRT: papers/1999_lavalle_randomized_kinodynamic_planning.md
+      - Kinodynamic Planning:
+        - Rapidly Exploring Random Trees (RRT):
+          - Kinodynamic RRT: papers/1999_lavalle_randomized_kinodynamic_planning.md
+      - Trajectory Generation:
+        - TODO
+      - Trajectory Optimization:
+        - TODO
   - Prediction:
     - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: papers/2511_00814.md
   - Control:
+    - Proportional-integral-derivative (PID):
+      - TODO
+    - Pole placement:
+      - TODO  
+    - Linear Quadratic Regulator (LQR):
+      - TODO
+    - Model Preditive Control (MPC):
+      - TODO
     - Robust Control:
       - Robustness margins for LQG: papers/1978_doyle_guaranteed_margins_for_lqg.md
+  - Reinforcement Learning:
+    - TODO
+  - Optimization:
+    - Automatic Generation of Explicit Quadratic Programming Solvers: papers/2506_11513
   - Machine Learning:
-    - Attention Is All You Need: papers/1706_03762.md
+    - Vision-language-action (VLA) Models:
+      - Alpamayo-R1: papers/2511_00088
+    - Large language models (LLM):
+      - Transformers & Attention-based models:
+        - Attention Is All You Need: papers/1706_03762.md
+  - Just for Fun:
+    - Design and Control of a Bipedal Robotic Character: papers/2501_05204
