@@ -1,0 +1,18 @@
+title: "Optimal paths for a car that goes both forwards and backwards"
+algorithm: Reeds-Shepp path
+authors:
+  - James Alexander Reeds, III
+  - Lawrence A. Shepp
+year: 1990
+source: Pacific Journal of Mathematics
+type: Journal Paper
+doi: 10.2140/pjm.1990.145.367
+tags:
+  - Path generation
+  - Reeds-Shepp
+  - Curvature
+summary: >
+  Reeds and Shepp provided analytic formulas for the shortest curve that connects two points in the two-dimensional Euclidean plane (i.e. x-y plane) with a constraint on the curvature of the path and with prescribed initial and terminal tangents to the path, and an assumption that the vehicle traveling the path can travel forward or backward. Reeds and Shepp proved using tools from analysis that any such path will consist of maximum curvature and/or straight line segments, with at most two cusps of the form CCSCC where C is an arc of a circle of the minimal turning radius and S is a line segment.
+link: https://msp.org/pjm/1990/145-2/p06.xhtml
+links_alt:
+  - https://en.wikipedia.org/wiki/Dubins_path

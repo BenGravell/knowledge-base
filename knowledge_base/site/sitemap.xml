@@ -2,26 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://bengravell.github.io/knowledge-base/</loc>
-         <lastmod>2025-11-18</lastmod>
+         <lastmod>2025-11-19</lastmod>
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1706_03762/</loc>
-         <lastmod>2025-11-18</lastmod>
+         <lastmod>2025-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1957_dubins_on_curves_of_minimal/</loc>
+         <lastmod>2025-11-19</lastmod>
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1978_doyle_guaranteed_margins_for_lqg/</loc>
-         <lastmod>2025-11-18</lastmod>
+         <lastmod>2025-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1990_reeds_optimal_paths_for_a/</loc>
+         <lastmod>2025-11-19</lastmod>
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1998_lavalle_rapidly_exploring_random_trees/</loc>
-         <lastmod>2025-11-18</lastmod>
+         <lastmod>2025-11-19</lastmod>
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1999_lavalle_randomized_kinodynamic_planning/</loc>
-         <lastmod>2025-11-18</lastmod>
+         <lastmod>2025-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2000_kuffner_rrt_connect_an_efficient/</loc>
+         <lastmod>2025-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2501_05204/</loc>
+         <lastmod>2025-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2506_11513/</loc>
+         <lastmod>2025-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2511_00088/</loc>
+         <lastmod>2025-11-19</lastmod>
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2511_00814/</loc>
-         <lastmod>2025-11-18</lastmod>
+         <lastmod>2025-11-19</lastmod>
     </url>
 </urlset>
