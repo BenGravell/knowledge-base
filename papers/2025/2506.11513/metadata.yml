@@ -1,0 +1,18 @@
+title: "Automatic Generation of Explicit Quadratic Programming Solvers"
+authors:
+ - Maximilian Schaller
+ - Daniel Arnström
+ - Alberto Bemporad
+ - Stephen Boyd
+year: 2025
+source: "Robotics: Science and Systems 2024"
+type: Journal Paper
+arxiv_id: 2506.11513
+tags:
+  - Quadratic programming
+  - CVX
+  - CVXPY
+  - CVXPYgen
+summary: >
+  Generate C++ code that solves explicit MPC problems. Super fast runtime for moderate size problems. Alternative to (implicit) quadratic program solvers.
+link: https://arxiv.org/abs/2506.11513

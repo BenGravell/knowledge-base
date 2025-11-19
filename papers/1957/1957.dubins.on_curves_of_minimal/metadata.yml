@@ -1,0 +1,17 @@
+title: "On Curves of Minimal Length with a Constraint on Average Curvature, and with Prescribed Initial and Terminal Positions and Tangents"
+algorithm: Dubins path
+authors:
+  - Lester E. Dubins
+year: 1957
+source: American Journal of Mathematics
+type: Journal Paper
+doi: 10.2307/2372560
+tags:
+  - Path generation
+  - Dubins
+  - Curvature
+summary: >
+  Dubins provided analytic formulas for the shortest curve that connects two points in the two-dimensional Euclidean plane (i.e. x-y plane) with a constraint on the curvature of the path and with prescribed initial and terminal tangents to the path, and an assumption that the vehicle traveling the path can only travel forward. Dubins proved using tools from analysis that any such path will consist of maximum curvature and/or straight line segments. In other words, the shortest path will be made by joining circular arcs of maximum curvature and straight lines.
+link: https://www.jstor.org/stable/2372560
+links_alt:
+  - https://en.wikipedia.org/wiki/Dubins_path

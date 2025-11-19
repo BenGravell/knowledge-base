@@ -1,0 +1,55 @@
+title: "Alpamayo-R1: Bridging Reasoning and Action Prediction for Generalizable Autonomous Driving in the Long Tail"
+algorithm: Alpamayo-R1
+authors:
+ - Yan Wang
+ - Wenjie Luo
+ - Junjie Bai
+ - Yulong Cao
+ - Tong Che 
+ - Ke Chen 
+ - Yuxiao Chen 
+ - Jenna Diamond
+ - Yifan Ding
+ - Wenhao Ding
+ - Liang Feng
+ - Greg Heinrich
+ - Jack Huang
+ - Peter Karkus
+ - Boyi Li
+ - Pinyi Li
+ - Tsung-Yi Lin
+ - Dongran Liu
+ - Ming-Yu Liu
+ - Langechuan Liu
+ - Zhijian Liu
+ - Jason Lu
+ - Yunxiang Mao
+ - Pavlo Molchanov
+ - Lindsey Pavao
+ - Zhenghao Peng
+ - Mike Ranzinger
+ - Ed Schmerling
+ - Shida Shen
+ - Yunfei Shi
+ - Sarah Tariq
+ - Ran Tian
+ - Tilman Wekel
+ - Xinshuo Weng
+ - Tianjun Xiao
+ - Eric Yang
+ - Xiaodong Yang
+ - Yurong You
+ - Xiaohui Zeng
+ - Wenyuan Zhang
+ - Boris Ivanovic
+ - Marco Pavone
+year: 2025
+source: NVIDIA
+type: Technical Report
+arxiv_id: 2511.00088
+tags:
+  - Vision-language-action model
+summary: >
+  A large team of authors from NVIDIA has put together a lot of big pieces in a data and deep model architecture pipeline for training and deploying an end-to-end (E2E) vision-language-action (VLA) model for autonomous driving.
+  It is interesting to see this hard push into end-to-end approaches, which the authors motivate by recent advances in "reasoning" abilities gained in large language models which is purported to address the safety gap that arises with E2E models.
+link: https://arxiv.org/abs/2511.00088
