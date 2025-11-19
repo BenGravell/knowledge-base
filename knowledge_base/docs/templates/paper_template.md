@@ -19,7 +19,7 @@
 {% if link %}
 ## Links
 
-- [Paper PDF]({{ link }})
+- [Paper]({{ link }})
 {% endif %}
 
 {% if links_alt %}
