@@ -106,7 +106,7 @@ nav:
     - Automatic Generation of Explicit Quadratic Programming Solvers: papers/2506_11513.md
   - Machine Learning:
     - Vision-language-action (VLA) Models:
-      - Alpamayo-R1: papers/2511_00088
+      - Alpamayo-R1: papers/2511_00088.md
     - Large language models (LLM):
       - Transformers & Attention-based models:
         - Attention Is All You Need: papers/1706_03762.md
