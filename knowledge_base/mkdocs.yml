@@ -70,10 +70,10 @@ nav:
       - Geometric Planning:
         - Rapidly Exploring Random Trees (RRT):
           - RRT: papers/1998_lavalle_rapidly_exploring_random_trees.md
-          - RRT-Connect: papers/2000_kuffner_rrt_connect_an_efficient
+          - RRT-Connect: papers/2000_kuffner_rrt_connect_an_efficient.md
       - Path Generation:
-        - Dubins path: papers/1957_dubins_on_curves_of_minimal
-        - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a
+        - Dubins path: papers/1957_dubins_on_curves_of_minimal.md
+        - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a.md
       - Path Optimization:
         - TODO
     - Trajectory Planning:
@@ -84,6 +84,8 @@ nav:
         - TODO
       - Trajectory Optimization:
         - TODO
+    - Speed Planning:
+      - TODO
   - Prediction:
     - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: papers/2511_00814.md
   - Control:
@@ -100,7 +102,7 @@ nav:
   - Reinforcement Learning:
     - TODO
   - Optimization:
-    - Automatic Generation of Explicit Quadratic Programming Solvers: papers/2506_11513
+    - Automatic Generation of Explicit Quadratic Programming Solvers: papers/2506_11513.md
   - Machine Learning:
     - Vision-language-action (VLA) Models:
       - Alpamayo-R1: papers/2511_00088
@@ -108,4 +110,4 @@ nav:
       - Transformers & Attention-based models:
         - Attention Is All You Need: papers/1706_03762.md
   - Just for Fun:
-    - Design and Control of a Bipedal Robotic Character: papers/2501_05204
+    - Design and Control of a Bipedal Robotic Character: papers/2501_05204.md
