@@ -6,6 +6,7 @@ authors:
 year: 1234
 source: ABCD Conference on Super Amazing Things
 type: Conference Paper
+arxiv_id: 1234.12345
 tags:
   - Tag
   - Other tag
