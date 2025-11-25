@@ -71,6 +71,7 @@ nav:
         - Rapidly Exploring Random Trees (RRT):
           - RRT: papers/1998_lavalle_rapidly_exploring_random_trees.md
           - RRT-Connect: papers/2000_kuffner_rrt_connect_an_efficient.md
+          - EET: papers/2008_rickert_balancing_exploration_and_exploitation.md
       - Path Generation:
         - Dubins path: papers/1957_dubins_on_curves_of_minimal.md
         - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a.md
