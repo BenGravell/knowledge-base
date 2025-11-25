@@ -43,17 +43,6 @@ theme:
     text: Atkinson Hyperlegible Next
     code: Atkinson Hyperlegible Mono
 
-  markdown_extensions:
-    - meta
-    - admonition
-    - footnotes
-    - pymdownx.superfences
-    - pymdownx.snippets:
-        jinja: true
-    - attr_list
-    - toc:
-        permalink: true
-
   features:
     - navigation.expand
     - navigation.sections
@@ -62,6 +51,16 @@ theme:
     - metadata
     - tags
     - search.highlight
+
+markdown_extensions:
+  - meta
+  - admonition
+  - footnotes
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - attr_list
+  - toc:
+      permalink: true
 
 nav:
   - Home: index.md
