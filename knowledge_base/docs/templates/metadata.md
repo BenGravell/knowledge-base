@@ -1,0 +1,16 @@
+title: "Title of the Paper"
+algorithm: ABC
+authors:
+  - Author Name
+  - Other Person
+year: 1234
+source: ABCD Conference on Super Amazing Things
+type: Conference Paper
+tags:
+  - Tag
+  - Other tag
+summary: >
+  One or two sentences describing the crux of the paper and its major contributions and things to remember about it.
+link: https://open_access_organization.com/that_guy/papers/paper_filename.pdf
+links_alt:
+  - https://paywalling_organization.com/document/123456
