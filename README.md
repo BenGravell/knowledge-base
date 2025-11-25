@@ -10,13 +10,13 @@ Install dependencies with
 poetry install
 ```
 
+## Usage
+
 Activate the env with
 
 ```bash
 poetry shell
 ```
-
-## Usage
 
 Serve the site locally with
 
