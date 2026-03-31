@@ -74,6 +74,7 @@ nav:
           - RRT*: papers/1105_1186.md
           - Anytime RRT*: papers/2011_karaman_anytime_motion_planning_using.md
           - RRT* theory correction: papers/1909_09688.md
+          - RRT*-Connect: papers/2015_klemm_rrt_star_connect_faster.md
           - RRT#: papers/1204_6453.md
           - FMT*: papers/1306_3532.md
           - Informed RRT*: papers/1404_2334.md
