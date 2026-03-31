@@ -77,6 +77,7 @@ nav:
           - RRT#: papers/1204_6453.md
           - FMT*: papers/1306_3532.md
           - Informed RRT*: papers/1404_2334.md
+          - BIT*: papers/1405.5848.md
       - Path Generation:
         - Dubins path: papers/1957_dubins_on_curves_of_minimal.md
         - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a.md
