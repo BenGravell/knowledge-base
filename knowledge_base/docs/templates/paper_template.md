@@ -14,7 +14,7 @@
 
 ## Summary
 
-{{ summary }}
+{{ summary | escape_markdown }}
 
 {% if link %}
 ## Links
