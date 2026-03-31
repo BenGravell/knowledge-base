@@ -73,8 +73,9 @@ nav:
           - EET: papers/2008_rickert_balancing_exploration_and_exploitation.md
         - Asymptotically Optimal Rapidly-exploring Random Trees (RRT*):
           - RRT*: papers/1105_1186.md
-          - Anytime RRT*: papers/2011_karaman_anytime_motion_planning_using
+          - Anytime RRT*: papers/2011_karaman_anytime_motion_planning_using.md
           - RRT* theory correction: papers/1909_09688.md
+          - RRT#: papers/1204.6453.md
       - Path Generation:
         - Dubins path: papers/1957_dubins_on_curves_of_minimal.md
         - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a.md
