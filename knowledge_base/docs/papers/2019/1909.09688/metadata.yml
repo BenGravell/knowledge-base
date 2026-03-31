@@ -1,0 +1,23 @@
+title: "Revisiting the Asymptotic Optimality of RRT*"
+algorithm: RRT*
+authors:
+  - Kiril Solovey
+  - Lucas Janson
+  - Edward Schmerling
+  - Emilio Frazzoli
+  - Marco Pavone
+year: 2019
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA40945.2020.9196553
+arxiv_id: 1909.09688
+tags:
+  - Motion planning
+  - Asymptotically optimal
+  - Probabilistically complete
+  - RRT*
+summary: >
+  This paper, from the original authors and friends, corrects some small mistakes in the theory of the asymptotic optimality results and offers new proof techniques.
+link: https://arxiv.org/abs/1909.09688
+links_alt:
+  - https://ieeexplore.ieee.org/document/9196553
