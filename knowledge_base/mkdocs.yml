@@ -92,6 +92,8 @@ nav:
         - TODO
     - Speed Planning:
       - TODO
+    - Interaction-aware Planning:
+      - Multimodal Probabilistic Model-Based Planning for Human-Robot Interaction: papers/1710_09483.md
   - Prediction:
     - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: papers/2511_00814.md
   - Control:
