@@ -29,7 +29,7 @@ env.filters["escape_markdown"] = escape_markdown
 
 # Iterate over all YAML files
 for metadata_file in metadata_root.rglob("*.yml"):
-    with open(metadata_file) as f:
+    with open(metadata_file, "r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
 
     if "id" in data:
