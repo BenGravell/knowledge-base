@@ -93,7 +93,8 @@ nav:
       - Trajectory Generation:
         - TODO
       - Trajectory Optimization:
-        - TODO
+        - Model Predictive Sampling-Based Control:
+          - Judo: papers/2506_17184.md
     - Speed Planning:
       - TODO
     - Interaction-aware Planning:
