@@ -99,6 +99,8 @@ nav:
       - TODO
     - Interaction-aware Planning:
       - Multimodal Probabilistic Model-Based Planning for Human-Robot Interaction: papers/1710_09483.md
+      - VISTA 2.0: papers/2111_12083.md
+      - Learning Interactive Driving Policies via Data-driven Simulation: papers/2111_12137.md
   - Prediction:
     - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: papers/2511_00814.md
   - Control:

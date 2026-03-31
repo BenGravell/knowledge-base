@@ -1,0 +1,27 @@
+title: "Learning Interactive Driving Policies via Data-driven Simulation"
+authors:
+  - Tsun-Hsuan Wang
+  - Alexander Amini
+  - Wilko Schwarting
+  - Igor Gilitschenski
+  - Sertac Karaman
+  - Daniela Rus
+year: 2022
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA46639.2022.9812407
+arxiv_id: 2111.12137
+tags:
+  - Autonomous Driving
+  - Data-driven Simulation
+  - Multi-agent Interaction
+  - Policy Learning
+  - Sim-to-Real Transfer
+  - Inpainting
+abstract: >
+  Data-driven simulators promise high data-efficiency for driving policy learning. When used for modelling interactions, this data-efficiency becomes a bottleneck: Small underlying datasets often lack interesting and challenging edge cases for learning interactive driving. We address this challenge by proposing a simulation method that uses in-painted ado vehicles for learning robust driving policies. Thus, our approach can be used to learn policies that involve multi-agent interactions and allows for training via state-of-the-art policy learning methods. We evaluate the approach for learning standard interaction scenarios in driving. In extensive experiments, our work demonstrates that the resulting policies can be directly transferred to a full-scale autonomous vehicle without making use of any traditional sim-to-real transfer techniques such as domain randomization.
+summary: >
+  Companion paper to VISTA 2.0 that extends data-driven simulation to multi-agent scenarios by inpainting other vehicles ("ado" vehicles) into real-world footage, enabling interactive driving policy learning that transfers directly to a full-scale autonomous vehicle.
+link: https://arxiv.org/abs/2111.12137
+links_alt:
+  - https://dl.acm.org/doi/10.1109/ICRA46639.2022.9812407
