@@ -11,6 +11,8 @@ arxiv_id: 1234.12345
 tags:
   - Tag
   - Other tag
+abstract: >
+  Verbatim copy of the official abstract.
 summary: >
   One or two sentences describing the crux of the paper and its major contributions and things to remember about it.
 link: https://open_access_organization.com/that_guy/papers/paper_filename.pdf
