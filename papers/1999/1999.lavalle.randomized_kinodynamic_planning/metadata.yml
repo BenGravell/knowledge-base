@@ -6,7 +6,6 @@ authors:
 year: 1999
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
-identifier: 1999-lavalle-randomized
 tags:
   - Motion planning
   - Kinodynamic planning

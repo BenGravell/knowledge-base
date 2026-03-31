@@ -4,8 +4,7 @@ authors:
   - Steven M. LaValle
 year: 1998
 source: University of Illinois
-type: Tech Report
-identifier: lavalle-rrt
+type: Technical Report
 tags:
   - Motion planning
   - Path planning
