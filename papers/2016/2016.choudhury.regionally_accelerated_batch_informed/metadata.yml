@@ -1,0 +1,29 @@
+title: "Regionally Accelerated Batch Informed Trees (RABIT*): A Framework to Integrate Local Information into Optimal Path Planning"
+algorithm: RABIT*
+authors:
+  - Sanjiban Choudhury
+  - Jonathan D. Gammell
+  - Timothy D. Barfoot
+  - Siddhartha S. Srinivasa
+  - Sebastian Scherer
+year: 2016
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA.2016.7487615
+arxiv_id:
+tags:
+  - Motion planning
+  - Sampling-based planning
+  - Asymptotic optimality
+  - Anytime planning
+  - RABIT*
+  - BIT*
+  - Hybrid planning
+  - Local optimization
+summary: >
+  RABIT* extends BIT* by hybridizing its global informed search with local gradient-based optimization (e.g. CHOMP). Rather than optimizing every edge, it selectively applies local optimization only to the subset of edges within the current informed set that are most likely to improve the solution, avoiding infeasible edges by finding alternative connections. This preserves asymptotic optimality while significantly accelerating convergence, particularly in problems with difficult-to-sample homotopy classes or narrow passages.
+link: https://personalrobotics.cs.washington.edu/publications/choudhury2016rabit.pdf
+links_alt:
+  - https://ieeexplore.ieee.org/document/7487615
+  - https://www.ri.cmu.edu/publications/regionally-accelerated-batch-informed-trees-rabit-a-framework-to-integrate-local-information-into-optimal-path-planning/
+  - https://www.youtube.com/watch?v=mgq-DW36jSo
