@@ -75,7 +75,10 @@ nav:
           - RRT*: papers/1105_1186.md
           - Anytime RRT*: papers/2011_karaman_anytime_motion_planning_using.md
           - RRT* theory correction: papers/1909_09688.md
+        - Asymptotically Optimal Vertex-Consistent Rapidly-exploring Random Trees (RRT#):
           - RRT#: papers/1204.6453.md
+        - Fast Marching Tree (FMT*):
+          - FMT*: papers/1306.3532.md
       - Path Generation:
         - Dubins path: papers/1957_dubins_on_curves_of_minimal.md
         - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a.md
