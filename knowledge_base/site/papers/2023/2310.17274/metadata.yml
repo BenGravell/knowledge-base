@@ -1,0 +1,38 @@
+title: "cuRobo: Parallelized Collision-Free Minimum-Jerk Robot Motion Generation"
+algorithm: cuRobo
+authors:
+  - Balakumar Sundaralingam
+  - Siva Kumar Sastry Hari
+  - Adam Fishman
+  - Caelan Garrett
+  - Karl Van Wyk
+  - Valts Blukis
+  - Alexander Millane
+  - Helen Oleynikova
+  - Ankur Handa
+  - Fabio Ramos
+  - Nathan Ratliff
+  - Dieter Fox
+year: 2023
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA48891.2023.10160765
+arxiv_id: 2310.17274
+tags:
+  - Motion planning
+  - Trajectory optimization
+  - CUDA
+  - GPU
+  - Parallelized
+  - Inverse kinematics
+  - Robot manipulation
+  - Open source
+  - Software
+summary: >
+  CUDA-accelerated library for collision-free robot motion generation. Formulates trajectory generation as a global optimization problem solved across thousands of parallel seeds on GPU. Combines L-BFGS with a novel parallel noisy line search and particle-based optimization to produce minimum-jerk, collision-free trajectories within ~50ms. Also includes a parallel geometric planner (~20ms) and a batched IK solver (>7000 queries/s). An earlier version without minimum-jerk optimization
+  was published at ICRA 2023.
+link: https://arxiv.org/abs/2310.17274
+links_alt:
+  - https://curobo.org/
+  - https://github.com/nvlabs/curobo
+  - https://ieeexplore.ieee.org/document/10160765
