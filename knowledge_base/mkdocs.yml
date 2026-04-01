@@ -81,6 +81,12 @@ nav:
           - BIT*: papers/1405_5848.md
           - RABIT*: papers/2016_choudhury_regionally_accelerated_batch_informed.md
           - Informed RRT*-Connect: papers/2020_mashayekhi_informed_rrt_star_connect.md
+          - Sliding Window Informed RRT*: papers/2021_li_sliding_window_informed_rrt.md
+          - FCIT*: papers/2411_17902.md
+          - AORRTC: papers/2505_10542.md
+        - Dynamic Replanning:
+          - RRTX: papers/2015_otte_rrtx_asymptotically_optimal_single.md
+          - RT-FMT: papers/2502_09556.md
       - Path Generation:
         - Dubins path: papers/1957_dubins_on_curves_of_minimal.md
         - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a.md
@@ -95,6 +101,11 @@ nav:
       - Trajectory Optimization:
         - Model Predictive Sampling-Based Control:
           - Judo: papers/2506_17184.md
+    - Planning with Graphs of Convex Sets (GCS):
+      - Shortest Paths in Graphs of Convex Sets: papers/
+      - Motion Planning around Obstacles with Convex Optimization: papers/
+      - Fast Path Planning Through Large Collections of Safe Boxes: papers/
+      - A Biconvex Method for Minimum-time Motion Planning Through Sequences of Convex Sets: papers/
     - Speed Planning:
       - TODO
     - Interaction-aware Planning:
