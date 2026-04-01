@@ -84,6 +84,13 @@ nav:
           - Sliding Window Informed RRT*: papers/2021_li_sliding_window_informed_rrt.md
           - FCIT*: papers/2411_17902.md
           - AORRTC: papers/2505_10542.md
+        - GPU Parallelized Planning:
+          - GMT*: papers/1705_02403.md
+          - Kino-PAX: papers/2409_06807.md
+          - Kino-PAX+: papers/2602_02846.md
+          - pRRTC: papers/2503_06757.md
+          - cuRobo: papers/2310_17274.md
+          - cuTAMP: papers/2411_11833.md
         - Dynamic Replanning:
           - RRTX: papers/2015_otte_rrtx_asymptotically_optimal_single.md
           - RT-FMT: papers/2502_09556.md

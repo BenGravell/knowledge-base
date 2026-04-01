@@ -1,0 +1,28 @@
+title: "pRRTC: GPU-Parallel RRT-Connect for Fast, Consistent, and Low-Cost Motion Planning"
+algorithm: pRRTC
+authors:
+  - Chih H. Huang
+  - Pranav Jadhav
+  - Brian Plancher
+  - Zachary Kingston
+year: 2025
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+type: Conference Paper
+doi:
+arxiv_id: 2503.06757
+tags:
+  - Motion planning
+  - Sampling-based planning
+  - GPU
+  - Parallelized
+  - SIMT
+  - CUDA
+  - Collision checking
+  - High-dimensional planning
+  - pRRTC
+  - RRT-Connect
+summary: >
+  GPU-accelerated RRT-Connect implementation co-designed for three hierarchical levels of parallelism: concurrent bidirectional tree expansion across GPU thread blocks, SIMT-optimized parallel collision checking within each block, and thread-level forward kinematics.
+link: https://arxiv.org/abs/2503.06757
+links_alt:
+  - https://github.com/CoMMALab/pRRTC
