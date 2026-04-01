@@ -1,0 +1,28 @@
+title: "AORRTC: Almost-Surely Asymptotically Optimal Planning with RRT-Connect"
+algorithm: AORRTC
+authors:
+  - Tyler S. Wilson
+  - Wil Thomason
+  - Zachary Kingston
+  - Jonathan D. Gammell
+year: 2025
+source: IEEE Robotics and Automation Letters (RA-L)
+type: Journal Article
+doi:
+arxiv_id: 2505.10542
+tags:
+  - Motion planning
+  - Sampling-based planning
+  - Asymptotic optimality
+  - Anytime planning
+  - Bidirectional search
+  - RRT-Connect
+  - SIMD
+  - High-dimensional planning
+abstract: >
+  Finding high-quality solutions quickly is an important objective in motion planning. This is especially true for high-degree-of-freedom robots. Satisficing planners have traditionally found feasible solutions quickly but provide no guarantees on their optimality, while almost-surely asymptotically optimal (a.s.a.o.) planners have probabilistic guarantees on their convergence towards an optimal solution but are more computationally expensive. This paper uses the AO-x meta-algorithm to extend the satisficing RRT-Connect planner to optimal planning. The resulting Asymptotically Optimal RRT-Connect (AORRTC) finds initial solutions in similar times as RRT-Connect and uses any additional planning time to converge towards the optimal solution in an anytime manner. It is proven to be probabilistically complete and a.s.a.o. AORRTC was tested with the Panda (7 DoF) and Fetch (8 DoF) robotic arms on the MotionBenchMaker dataset. These experiments show that AORRTC finds initial solutions as fast as RRT-Connect and faster than the tested state-of-the-art a.s.a.o. algorithms while converging to better solutions faster. AORRTC finds solutions to difficult high-DoF planning problems in milliseconds where the other a.s.a.o. planners could not consistently find solutions in seconds. This performance was demonstrated both with and without single instruction/multiple data (SIMD) acceleration.
+summary: >
+  Applies the AO-x meta-algorithm to RRT-Connect, inheriting its fast initial solution times while adding almost-sure asymptotic optimality. With SIMD acceleration, AORRTC solves difficult high-DoF problems (Panda, Fetch robots) in milliseconds where other almost-surely asymptotically optimal planners failed to find solutions even with seconds of planning time.
+link: https://arxiv.org/abs/2505.10542
+links_alt:
+  - https://robotic-esp.com/news/2025_05_18_arxiv25_wilson
