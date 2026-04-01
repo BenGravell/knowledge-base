@@ -103,16 +103,16 @@ nav:
       - Kinodynamic Planning:
         - Rapidly Exploring Random Trees (RRT):
           - Kinodynamic RRT: papers/1999_lavalle_randomized_kinodynamic_planning.md
+        - Planning with Graphs of Convex Sets (GCS):
+          - Shortest Paths in Graphs of Convex Sets: papers/2101_11565.md
+          - Motion Planning around Obstacles with Convex Optimization: papers/2205_04422.md
+          - Fast Path Planning Through Large Collections of Safe Boxes: papers/2305_01072.md
+          - A Biconvex Method for Minimum-time Motion Planning Through Sequences of Convex Sets: papers/2504_18978.md
       - Trajectory Generation:
         - TODO
       - Trajectory Optimization:
         - Model Predictive Sampling-Based Control:
           - Judo: papers/2506_17184.md
-    - Planning with Graphs of Convex Sets (GCS):
-      - Shortest Paths in Graphs of Convex Sets: papers/2101_11565.md
-      - Motion Planning around Obstacles with Convex Optimization: papers/2205_04422.md
-      - Fast Path Planning Through Large Collections of Safe Boxes: papers/2305_01072.md
-      - A Biconvex Method for Minimum-time Motion Planning Through Sequences of Convex Sets: papers/2504_18978.md
     - Speed Planning:
       - TODO
     - Interaction-aware Planning:
