@@ -16,6 +16,10 @@
 
 {{ summary | escape_markdown }}
 
+## Abstract
+
+{{ abstract | escape_markdown }}
+
 {% if link %}
 ## Links
 
