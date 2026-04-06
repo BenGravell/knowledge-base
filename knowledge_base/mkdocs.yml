@@ -106,7 +106,6 @@ nav:
           - Kinodynamic RRT*: papers/2010_karaman_optimal_kinodynamic_motion_planning.md
           - Linear Kinodynamic RRT*: papers/1205_5088.md
           - LQR-RRT*: papers/2012_perez_lqr_rrt_star_optimal.md
-          - AVP: papers/1411_4045.md
           - AO-x: papers/1505_04098.md
           - RRT*_MotionPrimitives: papers/1809_02399.md
           - BB-RRT: papers/2210_01744.md
@@ -126,7 +125,10 @@ nav:
         - Model Predictive Sampling-Based Control:
           - Judo: papers/2506_17184.md
     - Speed Planning:
-      - TOPP: papers/1985_bobrow_time_optimal_control_of.md
+      - Time-Optimal Path Parameterization (TOPP):
+        - TOPP: papers/1985_bobrow_time_optimal_control_of.md
+        - AVP: papers/1411_4045.md
+        - TOPP-RA: papers/1707_07239.md
     - Interaction-aware Planning:
       - Multimodal Probabilistic Model-Based Planning for Human-Robot Interaction: papers/1710_09483.md
       - VISTA 2.0: papers/2111_12083.md
