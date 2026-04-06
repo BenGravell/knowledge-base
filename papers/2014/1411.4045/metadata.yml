@@ -1,0 +1,26 @@
+title: "Admissible Velocity Propagation: Beyond Quasi-Static Path Planning for High-Dimensional Robots"
+algorithm: AVP
+authors:
+  - Quang-Cuong Pham
+  - Stephane Caron
+  - Puttichai Lertkultanon
+  - Yoshihiko Nakamura
+year: 2014
+source: The International Journal of Robotics Research (IJRR)
+type: Journal Article
+doi: 10.1177/0278364916675419
+arxiv_id: 1411.4045
+tags:
+  - Kinodynamic planning
+  - Path-velocity decomposition
+  - Quasi-static planning
+  - Velocity propagation
+  - Dynamic motions
+abstract: >
+  Path-velocity decomposition is an intuitive yet powerful approach to address the complexity of kinodynamic motion planning. The difficult trajectory planning problem is solved in two separate, simpler, steps: first, find a path in the configuration space that satisfies the geometric constraints (path planning), and second, find a time-parameterization of that path satisfying the kinodynamic constraints. A fundamental requirement is that the path found in the first step should be time-parameterizable. Most existing works fulfill this requirement by enforcing quasi-static constraints in the path planning step, resulting in an important loss in completeness. We propose a method that enables path-velocity decomposition to discover truly dynamic motions, i.e. motions that are not quasi-statically executable. At the heart of the proposed method is a new algorithm — Admissible Velocity Propagation — which, given a path and an interval of reachable velocities at the beginning of that path, computes the interval of all reachable and time-parameterizable velocities at the end of that path.
+summary: >
+  Starting point is quasi-static (velocity ~= 0) path planning. Then augments state space with velocity and uses propagation of velocity using kinodynamics to determine the reachable set (admissible interval) of velocity, and includes that in the connection check for new nodes. Builds on the foundational TOPP velocity planner (Bobrow 1985, DOI: 10.1177/027836498500400301). AVP is modularly (re)usable in many sampling-based planners; the authors give a concrete instantiation and numerical experiments with AVP-RRT.
+link: https://arxiv.org/abs/1411.4045
+links_alt:
+  - https://scaron.info/papers/journal/pham-ijrr-2016.pdf
+  - https://journals.sagepub.com/doi/10.1177/0278364916675419
