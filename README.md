@@ -22,7 +22,7 @@ Serve the site locally with
 
 ```bash
 cd knowledge_base
-mkdocs serve 
+mkdocs serve
 ```
 
 Deploy to GitHub Pages with
