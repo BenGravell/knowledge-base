@@ -103,6 +103,18 @@ nav:
       - Kinodynamic Planning:
         - Rapidly Exploring Random Trees (RRT):
           - Kinodynamic RRT: papers/1999_lavalle_randomized_kinodynamic_planning.md
+          - Kinodynamic RRT*: papers/2010_karaman_optimal_kinodynamic_motion_planning.md
+          - Linear Kinodynamic RRT*: papers/1205_5088.md
+          - LQR-RRT*: papers/2012_perez_lqr_rrt_star_optimal.md
+          - AVP: papers/1411_4045.md
+          - AO-x: papers/1505_04098.md
+          - RRT*_MotionPrimitives: papers/1809_02399.md
+          - BB-RRT: papers/2210_01744.md
+          - iDb-RRT: papers/2403_10745.md
+          - AkinoPDF: papers/2603_16059.md
+          - Completeness of Randomized Kinodynamic Planners with State-based Steering: papers/1511_05259.md
+        - Other Planning Schemes:
+          - SST*: papers/1407_2896.md
         - Planning with Graphs of Convex Sets (GCS):
           - Shortest Paths in Graphs of Convex Sets: papers/2101_11565.md
           - Motion Planning around Obstacles with Convex Optimization: papers/2205_04422.md
@@ -114,7 +126,7 @@ nav:
         - Model Predictive Sampling-Based Control:
           - Judo: papers/2506_17184.md
     - Speed Planning:
-      - TODO
+      - TOPP: papers/1985_bobrow_time_optimal_control_of.md
     - Interaction-aware Planning:
       - Multimodal Probabilistic Model-Based Planning for Human-Robot Interaction: papers/1710_09483.md
       - VISTA 2.0: papers/2111_12083.md
