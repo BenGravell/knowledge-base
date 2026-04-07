@@ -67,6 +67,9 @@ nav:
   - Planning:
     - Path Planning:
       - Geometric Planning:
+        - Probabilistic Roadmap (PRM):
+          - PRM: papers/1996_kavraki_probabilistic_roadmaps_for_path.md
+          - PRM*: papers/1105_1186.md
         - Rapidly Exploring Random Trees (RRT):
           - RRT: papers/1998_lavalle_rapidly_exploring_random_trees.md
           - RRT-Connect: papers/2000_kuffner_rrt_connect_an_efficient.md
@@ -83,7 +86,6 @@ nav:
           - Informed RRT*-Connect: papers/2020_mashayekhi_informed_rrt_star_connect.md
           - Sliding Window Informed RRT*: papers/2021_li_sliding_window_informed_rrt.md
           - FCIT*: papers/2411_17902.md
-          - AORRTC: papers/2505_10542.md
         - GPU Parallelized Planning:
           - GMT*: papers/1705_02403.md
           - Kino-PAX: papers/2409_06807.md
@@ -106,14 +108,18 @@ nav:
           - Kinodynamic RRT*: papers/2010_karaman_optimal_kinodynamic_motion_planning.md
           - Linear Kinodynamic RRT*: papers/1205_5088.md
           - LQR-RRT*: papers/2012_perez_lqr_rrt_star_optimal.md
-          - AO-x: papers/1505_04098.md
           - RRT*_MotionPrimitives: papers/1809_02399.md
           - BB-RRT: papers/2210_01744.md
           - iDb-RRT: papers/2403_10745.md
           - AkinoPDF: papers/2603_16059.md
           - Completeness of Randomized Kinodynamic Planners with State-based Steering: papers/1511_05259.md
-        - Other Planning Schemes:
+        - Expansive Space Trees (EST):
+          - EST: TODO
+        - Stable Sparse Tree (SST):
           - SST*: papers/1407_2896.md
+        - Meta Algorithms:
+          - AO-x: papers/1505_04098.md
+          - AORRTC: papers/2505_10542.md
         - Planning with Graphs of Convex Sets (GCS):
           - Shortest Paths in Graphs of Convex Sets: papers/2101_11565.md
           - Motion Planning around Obstacles with Convex Optimization: papers/2205_04422.md

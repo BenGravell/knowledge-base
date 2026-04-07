@@ -1,5 +1,5 @@
 title: "Sampling-based Algorithms for Optimal Motion Planning"
-algorithm: RRT*
+algorithm: RRT*, PRM*
 authors:
   - Sertac Karaman
   - Emilio Frazzoli
