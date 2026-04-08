@@ -22,7 +22,7 @@ abstract: >
   We present a fast algorithm for the design of smooth paths (or trajectories) that are constrained to lie in a collection of axis-aligned boxes. We consider the case where the number of these safe boxes is large, and basic preprocessing of them (such as finding their intersections) can be done offline. At runtime we quickly generate a smooth path between given initial and terminal positions. Our algorithm designs trajectories that are guaranteed to be safe at all times, and detects infeasibility whenever such a trajectory does not exist. Our algorithm is based on two subproblems that we can solve very efficiently: finding a shortest path in a weighted graph, and solving (multiple) convex optimal-control problems. We demonstrate the proposed path planner on large-scale numerical examples, and we provide an efficient open-source software implementation, fastpathplanning.
 summary: >
   Presents a fast two-phase path planner for environments where the free space is pre-decomposed into a large collection of axis-aligned safe boxes. An offline phase constructs a graph over box intersections. At runtime, a graph shortest-path search finds a polygonal waypoint sequence, then a convex optimal-control problem smooths it into a continuous Bézier trajectory guaranteed collision-free at all times. The decomposition into a cheap graph search followed by small convex programs gives near-real-time performance even with tens of thousands of boxes.
-link: https://arxiv.org/abs/2305.01072
+link: https://arxiv.org/pdf/2305.01072
 links_alt:
   - https://ieeexplore.ieee.org/document/10612232
   - https://github.com/cvxgrp/fastpathplanning

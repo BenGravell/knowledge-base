@@ -20,5 +20,5 @@ tags:
   - Kino-PAX+
 summary: >
   Extends Kino-PAX with asymptotic near-optimal guarantees by focusing each GPU thread block's computation on the most promising nodes within local neighborhoods for propagation and refinement.
-link: https://arxiv.org/abs/2602.02846
+link: https://arxiv.org/pdf/2602.02846
 links_alt:

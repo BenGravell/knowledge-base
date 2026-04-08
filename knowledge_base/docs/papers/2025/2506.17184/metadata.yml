@@ -22,7 +22,7 @@ tags:
   - Real-time control
 summary: >
   Judo is an open-source Python package providing standardized implementations of sampling-based MPC algorithms (e.g. MPPI and variants), benchmark tasks, and an interactive GUI for controller tuning. It uses MuJoCo as its physics backend for real-time performance, and supports asynchronous execution to ease sim-to-hardware transfer. The focus is on tooling and usability rather than novel algorithmic contributions.
-link: https://arxiv.org/abs/2506.17184
+link: https://arxiv.org/pdf/2506.17184
 links_alt:
   - https://rai-inst.com/resources/workshop/judo-open-source-package-for-sampling-based-model-predictive-control/
   - https://github.com/bdaiinstitute/judo

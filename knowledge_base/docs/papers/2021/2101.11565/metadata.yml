@@ -26,7 +26,7 @@ abstract: >
 summary: >
   Each graph vertex is associated with a convex set and edge lengths are convex functions of the endpoints' positions. The key contribution is a strong mixed-integer convex program (MICP) formulation based on perspective operators that yields a tight
   relaxation, enabling globally optimal paths in large graphs and high-dimensional spaces. Forms the theoretical foundation for GCS-based motion planning.
-link: https://arxiv.org/abs/2101.11565
+link: https://arxiv.org/pdf/2101.11565
 links_alt:
   - https://epubs.siam.org/doi/10.1137/22M1523790
   - https://github.com/TobiaMarcucci/shortest-paths-in-graphs-of-convex-sets
