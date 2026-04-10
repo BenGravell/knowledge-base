@@ -1,5 +1,5 @@
 title: "Fast Path Planning Through Large Collections of Safe Boxes"
-algorithm:
+algorithm: fastpathplanning
 authors:
   - Tobia Marcucci
   - Parth Nobel
