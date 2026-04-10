@@ -1,5 +1,5 @@
 title: "Sampling-based Algorithms for Optimal Motion Planning"
-algorithm: RRT*
+algorithm: RRT*, PRM*
 authors:
   - Sertac Karaman
   - Emilio Frazzoli
@@ -15,6 +15,6 @@ tags:
   - RRT*
 summary: >
   The main contribution of the paper is the introduction of new algorithms, namely, PRM* and RRT*, which are provably asymptotically optimal, i.e., such that the cost of the returned solution converges almost surely to the optimum. Moreover, it is shown that the computational complexity of the new algorithms is within a constant factor of that of their probabilistically complete (but not asymptotically optimal) counterparts. 
-link: https://arxiv.org/abs/1105.1186
+link: https://arxiv.org/pdf/1105.1186
 links_alt:
   - https://journals.sagepub.com/doi/10.1177/0278364911406761

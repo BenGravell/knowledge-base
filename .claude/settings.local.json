@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:ieeexplore.ieee.org)",
+      "WebSearch",
+      "WebFetch(domain:www.researchgate.net)",
+      "WebFetch(domain:trid.trb.org)",
+      "WebFetch(domain:www.ce.unipr.it)",
+      "WebFetch(domain:www.semanticscholar.org)",
+      "WebFetch(domain:cdn.intechopen.com)"
+    ]
+  }
+}
