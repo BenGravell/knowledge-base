@@ -12,6 +12,9 @@ python = ">=3.11,<3.14"
 mkdocs-material = "^9.7.0"
 mkdocs-macros-plugin = "^1.5.0"
 mkdocs-gen-files = "^0.5.0"
+streamlit = {extras = ["pdf"], version = "^1.56.0"}
+plotly = "^6.6.0"
+matplotlib = "^3.10.8"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

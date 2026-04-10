@@ -30,3 +30,12 @@ Deploy to GitHub Pages with
 ```bash
 mkdocs gh-deploy
 ```
+
+## Experimental
+
+Streamlit app for analyzing the knowledge base:
+
+```bash
+cd knowledge_base
+streamlit run app.py
+```
