@@ -52,4 +52,4 @@ tags:
 summary: >
   A large team of authors from NVIDIA has put together a lot of big pieces in a data and deep model architecture pipeline for training and deploying an end-to-end (E2E) vision-language-action (VLA) model for autonomous driving.
   It is interesting to see this hard push into end-to-end approaches, which the authors motivate by recent advances in "reasoning" abilities gained in large language models which is purported to address the safety gap that arises with E2E models.
-link: https://arxiv.org/abs/2511.00088
+link: https://arxiv.org/pdf/2511.00088

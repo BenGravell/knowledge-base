@@ -23,6 +23,6 @@ tags:
   - RRT-Connect
 summary: >
   GPU-accelerated RRT-Connect implementation co-designed for three hierarchical levels of parallelism: concurrent bidirectional tree expansion across GPU thread blocks, SIMT-optimized parallel collision checking within each block, and thread-level forward kinematics.
-link: https://arxiv.org/abs/2503.06757
+link: https://arxiv.org/pdf/2503.06757
 links_alt:
   - https://github.com/CoMMALab/pRRTC

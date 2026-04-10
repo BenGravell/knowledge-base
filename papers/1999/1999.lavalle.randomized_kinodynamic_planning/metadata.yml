@@ -1,5 +1,5 @@
 title: "Randomized Kinodynamic Planning"
-algorithm: RRT
+algorithm: Kinodynamic RRT
 authors:
   - Steven M. LaValle
   - James J. Kuffner, Jr.

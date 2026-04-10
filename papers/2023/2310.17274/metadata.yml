@@ -31,7 +31,7 @@ tags:
 summary: >
   CUDA-accelerated library for collision-free robot motion generation. Formulates trajectory generation as a global optimization problem solved across thousands of parallel seeds on GPU. Combines L-BFGS with a novel parallel noisy line search and particle-based optimization to produce minimum-jerk, collision-free trajectories within ~50ms. Also includes a parallel geometric planner (~20ms) and a batched IK solver (>7000 queries/s). An earlier version without minimum-jerk optimization
   was published at ICRA 2023.
-link: https://arxiv.org/abs/2310.17274
+link: https://arxiv.org/pdf/2310.17274
 links_alt:
   - https://curobo.org/
   - https://github.com/nvlabs/curobo

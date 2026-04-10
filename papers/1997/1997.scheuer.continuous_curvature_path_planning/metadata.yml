@@ -1,0 +1,24 @@
+title: "Continuous-Curvature Path Planning for Car-Like Vehicles"
+algorithm: SCC-Paths
+authors:
+  - Alexis Scheuer
+  - Thierry Fraichard
+year: 1997
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+type: Conference Paper
+doi: 10.1109/IROS.1997.655130
+arxiv_id:
+tags:
+  - Path planning
+  - Continuous curvature
+  - Clothoid
+  - Nonholonomic systems
+  - Mobile robotics
+abstract: >
+  In this paper, we consider path planning for a car-like vehicle. Previous solutions to this problem computed paths made up of circular arcs connected by tangential line segments. Such paths have a non continuous curvature profile. Accordingly a vehicle following such a path has to stop at each curvature discontinuity in order to reorient its front wheels. To remove this limitation, we add a continuous-curvature constraint to the problem at hand. In addition, we introduce a constraint on the curvature derivative, so as to reflect the fact that a car-like vehicle can only reorient its front wheels with a finite velocity. We propose an efficient solution to the problem at hand that relies upon the definition of a set of paths with continuous curvature and maximum curvature derivative. These paths contain at most eight pieces, each piece being either a line segment, a circular arc of maximum curvature, or a clothoid arc. They are called SCC-paths (for Simple Continuous Curvature paths). They are used to design a local path planner, i.e. a non-complete collision-free path planner, which in turn is embedded in a global path planning scheme. The result is the first path planner for a car-like vehicle that generates collision-free paths with continuous curvature and maximum curvature derivative. Experimental results are presented.
+summary: >
+  Simple Continuous Curvature (SSC) paths are composed of line segments, maximum-curvature circular arcs, and clothoid arcs, which guarantee both continuous curvature and bounded curvature derivative for car-like vehicles.
+link: https://www.researchgate.net/publication/3731247_Continuous-Curvature_Path_Planning_for_Car-Like_Vehicles
+links_alt:
+  - https://ieeexplore.ieee.org/document/655130
+  - https://inria.hal.science/inria-00000018

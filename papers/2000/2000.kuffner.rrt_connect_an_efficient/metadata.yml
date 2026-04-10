@@ -6,6 +6,7 @@ authors:
 year: 2000
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
+doi: 10.1109/ROBOT.2000.844730
 tags:
   - Motion planning
   - Kinodynamic planning
@@ -13,7 +14,7 @@ tags:
   - Sampling-based
   - RRT
 summary: >
-  Extend RRT with bidirectional search (two trees, one from start and one from goal)
+  Extends RRT with bidirectional search (two trees, one from start and one from goal).
 link: https://www.cs.cmu.edu/afs/cs/academic/class/15494-s12/readings/kuffner_icra2000.pdf
 links_alt:
   - https://ieeexplore.ieee.org/document/844730

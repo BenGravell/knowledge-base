@@ -15,4 +15,4 @@ tags:
   - CVXPYgen
 summary: >
   Generate C++ code that solves explicit MPC problems. Super fast runtime for moderate size problems. Alternative to (implicit) quadratic program solvers.
-link: https://arxiv.org/abs/2506.11513
+link: https://arxiv.org/pdf/2506.11513

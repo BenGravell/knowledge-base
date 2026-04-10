@@ -18,6 +18,6 @@ tags:
   - Real-time planning
 summary: >
   GPU-native kinodynamic sampling-based planner that decomposes the traditionally serial RRT tree-growth process into three massively parallel subroutines. The design aligns with GPU execution hierarchies: independent threads, balanced workloads, low-latency shared memory.
-link: https://arxiv.org/abs/2409.06807
+link: https://arxiv.org/pdf/2409.06807
 links_alt:
   - https://ieeexplore.ieee.org/document/10844318
