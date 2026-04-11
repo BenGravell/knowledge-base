@@ -86,6 +86,9 @@ nav:
           - Informed RRT*-Connect: papers/2020_mashayekhi_informed_rrt_star_connect.md
           - Sliding Window Informed RRT*: papers/2021_li_sliding_window_informed_rrt.md
           - FCIT*: papers/2411_17902.md
+          - Spline-based RRT: papers/2013_yang_spline_based_rrt_path.md
+          - Continuous-Curvature Target Tree: papers/2201_03163.md
+          - FDSPC: papers/2405_03281.md
         - GPU Parallelized Planning:
           - GMT*: papers/1705_02403.md
           - Kino-PAX: papers/2409_06807.md
@@ -105,6 +108,7 @@ nav:
           - CC Steer: papesr/2004_fraichard_from_reeds_and_shepps\metadata.yml.md
         - Generalized Clothoids (nonlinear curvature):
           - Cubic Curvature Polynomials: papers/2001_nagy_trajectory_generation_for_car.md
+          - Sharpness Continuous path: papers/1801_08995.md
         - Polynomials & Splines:
           - Quintic G2 Splines: papers/2000_piazzi_quintic_g2_splines_for.md
       - Path Optimization:
