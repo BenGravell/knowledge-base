@@ -16,7 +16,12 @@
       "Bash(py -3 -c \"import sys; print\\(sys.version\\); import pkgutil; pkgs = [p.name for p in pkgutil.iter_modules\\(\\)]; print\\([p for p in pkgs if 'pdf' in p.lower\\(\\)]\\)\")",
       "WebFetch(domain:www.ri.cmu.edu)",
       "WebFetch(domain:publications.ri.cmu.edu)",
-      "WebFetch(domain:www.cs.cmu.edu)"
+      "WebFetch(domain:www.cs.cmu.edu)",
+      "WebFetch(domain:arxiv.org)",
+      "WebFetch(domain:link.springer.com)",
+      "WebFetch(domain:scholar.google.com)",
+      "WebFetch(domain:doi.org)",
+      "WebFetch(domain:paperswithcode.com)"
     ]
   }
 }
