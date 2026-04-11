@@ -87,8 +87,7 @@ nav:
           - Sliding Window Informed RRT*: papers/2021_li_sliding_window_informed_rrt.md
           - FCIT*: papers/2411_17902.md
           - Spline-based RRT: papers/2013_yang_spline_based_rrt_path.md
-          - Continuous-Curvature Target Tree: papers/2201_03163.md
-          - FDSPC: papers/2405_03281.md
+          - Continuous-Curvature Target Tree: papers/2201_03163.md          
         - GPU Parallelized Planning:
           - GMT*: papers/1705_02403.md
           - Kino-PAX: papers/2409_06807.md
@@ -125,6 +124,7 @@ nav:
           - iDb-RRT: papers/2403_10745.md
           - AkinoPDF: papers/2603_16059.md
           - Completeness of Randomized Kinodynamic Planners with State-based Steering: papers/1511_05259.md
+          - FDSPC: papers/2405_03281.md
         - Expansive Space Trees (EST):
           - EST: TODO
         - Stable Sparse Tree (SST):
