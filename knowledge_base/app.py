@@ -134,6 +134,9 @@ with agg_tab:
     fig = px.histogram(df, x="year")
     st.plotly_chart(fig)
 
+    fig = px.histogram(df, x="source")
+    st.plotly_chart(fig)
+
 with detail_tab:
     arxiv_id = st.selectbox(
         "Select Paper", options=stuff.index, format_func=format_arxiv
