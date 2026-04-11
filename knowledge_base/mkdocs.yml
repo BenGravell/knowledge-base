@@ -97,10 +97,16 @@ nav:
           - RRTX: papers/2015_otte_rrtx_asymptotically_optimal_single.md
           - RT-FMT: papers/2502_09556.md
       - Path Generation:
-        - Dubins path: papers/1957_dubins_on_curves_of_minimal.md
-        - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a.md
-        - SCC path: papers/1997_scheuer_continuous_curvature_path_planning.md
-        - Quintic G2 Splines: papers/2000_piazzi_quintic_g2_splines_for.md
+        - Lines & Arcs:
+          - Dubins path: papers/1957_dubins_on_curves_of_minimal.md
+          - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a.md
+        - Clothoids (linear curvature):
+          - SCC path: papers/1997_scheuer_continuous_curvature_path_planning.md
+          - CC Steer: papesr/2004_fraichard_from_reeds_and_shepps\metadata.yml.md
+        - Generalized Clothoids (nonlinear curvature):
+          - Cubic Curvature Polynomials: papers/2001_nagy_trajectory_generation_for_car.md
+        - Polynomials & Splines:
+          - Quintic G2 Splines: papers/2000_piazzi_quintic_g2_splines_for.md
       - Path Optimization:
         - TODO
     - Trajectory Planning:
