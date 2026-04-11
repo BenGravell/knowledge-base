@@ -7,7 +7,16 @@
       "WebFetch(domain:trid.trb.org)",
       "WebFetch(domain:www.ce.unipr.it)",
       "WebFetch(domain:www.semanticscholar.org)",
-      "WebFetch(domain:cdn.intechopen.com)"
+      "WebFetch(domain:cdn.intechopen.com)",
+      "WebFetch(domain:inria.hal.science)",
+      "WebFetch(domain:api.semanticscholar.org)",
+      "WebFetch(domain:hal.inria.fr)",
+      "Bash(python3 -c ':*)",
+      "Bash(py -3 -c ':*)",
+      "Bash(py -3 -c \"import sys; print\\(sys.version\\); import pkgutil; pkgs = [p.name for p in pkgutil.iter_modules\\(\\)]; print\\([p for p in pkgs if 'pdf' in p.lower\\(\\)]\\)\")",
+      "WebFetch(domain:www.ri.cmu.edu)",
+      "WebFetch(domain:publications.ri.cmu.edu)",
+      "WebFetch(domain:www.cs.cmu.edu)"
     ]
   }
 }
