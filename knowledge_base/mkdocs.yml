@@ -44,7 +44,6 @@ theme:
     code: Atkinson Hyperlegible Mono
 
   features:
-    - navigation.expand
     - navigation.sections
     - content.code.annotate
     - content.tabs.link
