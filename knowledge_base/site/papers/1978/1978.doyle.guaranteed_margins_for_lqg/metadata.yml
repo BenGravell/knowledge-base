@@ -3,7 +3,7 @@ algorithm: LQG
 authors:
   - John C. Doyle
 year: 1978
-source: IEEE Transactions on Automatic Control
+source: IEEE Transactions on Automatic Control (TAC)
 type: Journal Paper
 doi: 10.1109/TAC.1978.1101812
 tags:
