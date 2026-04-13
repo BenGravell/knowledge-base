@@ -153,12 +153,15 @@ nav:
           - Judo: papers/2506_17184.md
         - Model Predictive Trees:
           - MPT: papers/2411_15651.md
+      - Hybrid Approaches:
+        - SBP-Guided MPC: papers/2019_hannigan_sbp_guided_mpc_to.md
+        - SETS: papers/2412_11270.md
     - Speed Planning:
       - Time-Optimal Path Parameterization (TOPP):
         - TOPP: papers/1985_bobrow_time_optimal_control_of.md
         - AVP: papers/1411_4045.md
         - TOPP-RA: papers/1707_07239.md
-      - Optimization-based speed Planning:
+      - Optimization-based Speed Planning:
         - "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach": papers/2009_verscheure_time_optimal_path_tracking.md
         - Minimum-time Speed Optimisation Over a Fixed Path: papers/2013_lipp_minimum_time_speed_optimisation_over.md
         - Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization: papers/2018_zhang_toward_a_more_complete.md
