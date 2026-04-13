@@ -176,6 +176,9 @@ nav:
       - DriveIRL: papers/2206_03004.md
       - Lab2Car: papers/2409_09523.md
       - Transitioning from Rule-Based to ML-Powered Motion Planning: papers/2025_hu_technical_speaking_transitioning_from.md
+    - Surveys & Comparative Studies:
+      - Asymptotically Optimal Sampling-Based Motion Planning Methods: papers/2009_10484.md
+      - A Comparative Study of Rapidly-exploring Random Tree Algorithms Applied to Ship Trajectory Planning and Behavior Generation: papers/2403_01194.md
   - Prediction:
     - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: papers/2511_00814.md
   - Control:
