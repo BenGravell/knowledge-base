@@ -104,7 +104,7 @@ nav:
           - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a.md
         - Clothoids (linear curvature):
           - SCC path: papers/1997_scheuer_continuous_curvature_path_planning.md
-          - CC Steer: papesr/2004_fraichard_from_reeds_and_shepps\metadata.yml.md
+          - CC Steer: papers/2004_fraichard_from_reeds_and_shepps.md
         - Generalized Clothoids (nonlinear curvature):
           - Cubic Curvature Polynomials: papers/2001_nagy_trajectory_generation_for_car.md
           - Sharpness Continuous path: papers/1801_08995.md
@@ -120,7 +120,7 @@ nav:
         - Gradient-based Path Optimization:
           - CHOMP: papers/2009_ratliff_chomp_gradient_optimization_techniques.md
         - Sample-based Path Optimization:
-          - STOMP: papers/2011_kalakrishnan_stomp_stochastic_trajectory_optimization\metadata.yml
+          - STOMP: papers/2011_kalakrishnan_stomp_stochastic_trajectory_optimization.md
     - Trajectory Planning:
       - Kinodynamic Planning:
         - Rapidly Exploring Random Trees (RRT):
