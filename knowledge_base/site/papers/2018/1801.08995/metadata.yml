@@ -1,0 +1,29 @@
+title: "Trajectory Generation using Sharpness Continuous Dubins-like Paths with Applications in Control of Heavy Duty Vehicles"
+algorithm: Sharpness Continuous Path
+authors:
+  - Rui Oliveira
+  - Pedro F. Lima
+  - Marcello Cirillo
+  - Jonas Mårtensson
+  - Bo Wahlberg
+year: 2018
+source: European Control Conference (ECC)
+type: Conference Paper
+doi: 10.23919/ECC.2018.8550279
+arxiv_id: 1801.08995
+tags:
+  - Path generation
+  - Dubins
+  - Curvature continuity
+  - Sharpness
+  - Trajectory generation
+  - Heavy vehicles
+  - Autonomous driving
+  - Steering constraints
+abstract: >
+  We present a trajectory generation framework for control of wheeled vehicles under steering actuator constraints. The motivation is smooth autonomous driving of heavy vehicles. The key idea is to take into account rate, and additionally, torque limitations of the steering actuator directly. Previous methods only take into account curvature rate limitations, which deal indirectly with steering rate limitations. We propose the new concept of Sharpness Continuous curves, which uses cubic and sigmoid curvature trajectories together with circular arcs to steer the vehicle. The obtained trajectories are characterized by a smooth and continuously differentiable steering angle profile. These trajectories provide low-level controllers with reference signals which are easier to track, resulting in improved performance. The smoothness of the obtained steering profiles also results in increased passenger comfort. The method is characterized by a fast computation time, which can be further speeded up through the use of simple pre-computations. We detail possible path planning applications of the method, and conduct simulations that show its advantages and real time capabilities.
+summary: >
+  Proposes sharpness-continuous (G3) path primitives composed of cubic curvature curves, circular arcs, and straight lines. Closely related to and builds upon ”Trajectory generation for car-like robots using cubic curvature polynomials” by Nagy and Kelly (2001) and ”From Reeds and Shepp's to continuous-curvature paths” by Fraichard and Scheuer (2004).
+link: https://arxiv.org/pdf/1801.08995
+links_alt:
+  - https://ieeexplore.ieee.org/document/8550279

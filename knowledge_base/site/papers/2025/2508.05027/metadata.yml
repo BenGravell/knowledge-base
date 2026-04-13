@@ -1,0 +1,28 @@
+title: "Benchmarking Shortcutting Techniques for Multi-Robot-Arm Motion Planning"
+algorithm:
+authors:
+  - Philip Huang
+  - Yorai Shaoul
+  - Jiaoyang Li
+year: 2025
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+type: Conference Paper
+doi: 10.1109/IROS60139.2025.11246427
+arxiv_id: 2508.05027
+tags:
+  - Motion planning
+  - Path shortcutting
+  - Path optimization
+  - Multi-robot
+  - Robot arm
+  - Benchmarking
+  - Post-processing
+abstract: >
+  Generating high-quality motion plans for multiple robot arms is challenging due to the high dimensionality of the system and the potential for inter-arm collisions. Traditional motion planning methods often produce motions that are suboptimal in terms of smoothness and execution time for multi-arm systems. Post-processing via shortcutting is a common approach to improve motion quality for efficient and smooth execution. However, in multi-arm scenarios, optimizing one arm’s motion must not introduce collisions with other arms. Although existing multi-arm planning works often use some form of shortcutting techniques, their exact methodology and impact on performance are often vaguely described. In this work, we present a comprehensive study quantitatively comparing existing shortcutting methods for multi-arm trajectories across diverse simulated scenarios. We carefully analyze the pros and cons of each shortcutting method and propose two simple strategies for combining these methods to achieve the best performance-runtime tradeoff. Video, code, and dataset are available at https://philip-huang.github.io/mr-shortcut/.
+summary: >
+  Systematic benchmark of shortcutting techniques applied to multi-robot-arm motion planning, where high dimensionality and inter-arm collision constraints make path quality improvement especially challenging.
+link: https://arxiv.org/pdf/2508.05027
+links_alt:
+  - https://ieeexplore.ieee.org/abstract/document/11246427
+  - https://philip-huang.com/mr-shortcut/
+  - https://github.com/philip-huang/mr-shortcut
