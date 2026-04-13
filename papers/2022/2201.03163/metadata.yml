@@ -1,0 +1,26 @@
+title: "Continuous-Curvature Target Tree Algorithm for Path Planning in Complex Parking Environments"
+algorithm: Continuous-Curvature Target Tree
+authors:
+  - Minsoo Kim
+  - Joonwoo Ahn
+  - Jaeheung Park
+year: 2022
+source: arXiv
+type: Preprint
+doi: 10.48550/arXiv.2201.03163
+arxiv_id: 2201.03163
+tags:
+  - Path planning
+  - Parking
+  - Clothoids
+  - Curvature continuity
+  - RRT
+  - Target tree
+  - Autonomous vehicles
+abstract: >
+  Rapidly-exploring random tree (RRT) has been applied for autonomous parking due to quickly solving high-dimensional motion planning and easily reflecting constraints. However, planning time increases by the low probability of extending toward narrow parking spots without collisions. To reduce the planning time, the target tree algorithm was proposed, substituting a parking goal in RRT with a set (target tree) of backward parking paths. However, it consists of circular and straight paths, and an autonomous vehicle cannot park accurately because of curvature-discontinuity. Moreover, the planning time increases in complex environments; backward paths can be blocked by obstacles. Therefore, this paper introduces the continuous-curvature target tree algorithm for complex parking environments. First, a target tree includes clothoid paths to address such curvature-discontinuity. Second, to reduce the planning time further, a cost function is defined to construct a target tree that considers obstacles. Integrated with optimal-variant RRT and searching for the shortest path among the reached backward paths, the proposed algorithm obtains a near-optimal path as the sampling time increases. Experiment results in real environments show that the vehicle more accurately parks, and continuous-curvature paths are obtained more quickly and with higher success rates than those acquired with other sampling-based algorithms.
+summary: >
+  Extends the target tree algorithm - “Model-based decision making with imagination for autonomous parking” by Feng, Chen, Chen, and Zheng (2018) - for autonomous parking by replacing circular/straight path segments with clothoid curves to achieve continuous curvature (G2). Introduces an obstacle-aware cost function for target tree construction to reduce planning time in complex environments. Combined with RRT* and shortest-path selection, yields near-optimal continuous-curvature parking solutions.
+link: https://arxiv.org/pdf/2201.03163
+links_alt:
+  - https://www.researchgate.net/publication/357733679_Continuous-Curvature_Target_Tree_Algorithm_for_Path_Planning_in_Complex_Parking_Environments
