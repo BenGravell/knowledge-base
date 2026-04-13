@@ -1,0 +1,27 @@
+title: "FRENETIX: A High-Performance and Modular Motion Planning Framework for Autonomous Driving"
+algorithm: FRENETIX
+authors:
+  - Rainer Trauth
+  - Korbinian Moller
+  - Gerald Wuersching
+  - Johannes Betz
+year: 2024
+source: IEEE Access
+type: Journal Paper
+doi: 10.1109/ACCESS.2024.3436835
+arxiv_id: 2402.01443
+tags:
+  - Motion planning
+  - Frenet frame
+  - Autonomous driving
+  - Modular
+  - High performance
+  - CommonRoad
+abstract: >
+  Our research introduces a modular motion planning framework for autonomous vehicles using a sampling-based trajectory planning algorithm. This approach effectively tackles the challenges of solution space construction and optimization in path planning. The algorithm is applicable to both real vehicles and simulations, offering a robust solution for complex autonomous navigation. Our method employs a multi-objective optimization strategy for efficient navigation in static and highly dynamic environments, focusing on optimizing trajectory comfort, safety, and path precision. The algorithm is used to analyze the algorithm performance and success rate in 1750 virtual complex urban and highway scenarios. Our results demonstrate fast calculation times (8ms for 800 trajectories), a high success rate in complex scenarios (88%), and easy adaptability with different modules presented. The most noticeable difference exhibited was the fast trajectory sampling, feasibility check, and cost evaluation step across various trajectory counts. We demonstrate the integration and execution of the framework on real vehicles by evaluating deviations from the controller using a test track. This evaluation highlights the algorithm's robustness and reliability, ensuring it meets the stringent requirements of real-world autonomous driving scenarios. The code and the additional modules used in this research are publicly available as open-source software and can be accessed at the following link: https://github.com/TUM-AVS/Frenetix-Motion-Planner
+summary: >
+  Introduces FRENETIX, a high-performance and modular motion planning framework for autonomous driving built around Frenet-frame trajectory sampling. Features a Python/C++ implementation with CommonRoad compatibility, achieving real-time performance through parallelized sampling and efficient trajectory evaluation.
+link: https://arxiv.org/pdf/2402.01443
+links_alt:
+  - https://ieeexplore.ieee.org/abstract/document/10620267
+  - https://github.com/TUM-AVS/Frenetix-Motion-Planner

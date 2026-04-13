@@ -1,0 +1,65 @@
+title: "Autonomous Driving in Urban Environments: Boss and the Urban Challenge"
+algorithm: Boss
+authors:
+  - Chris Urmson
+  - Joshua Anhalt
+  - Drew Bagnell
+  - Christopher Baker
+  - Robert Bittner
+  - M. N. Clark
+  - John Dolan
+  - Dave Duggins
+  - Tugrul Galatali
+  - Chris Geyer
+  - Michele Gittleman
+  - Sam Harbaugh
+  - Martial Hebert
+  - Thomas M. Howard
+  - Sascha Kolski
+  - Alonzo Kelly
+  - Maxim Likhachev
+  - Matt McNaughton
+  - Nick Miller
+  - Kevin Peterson
+  - Brian Pilnick
+  - Raj Rajkumar
+  - Paul Rybski
+  - Bryan Salesky
+  - Young-Woo Seo
+  - Sanjiv Singh
+  - Jarrod Snider
+  - Anthony Stentz
+  - William “Red” Whittaker
+  - Ziv Wolkowicki
+  - Jason Ziglar
+  - Hong Bae
+  - Thomas Brown
+  - Daniel Demitrish
+  - Bakhtiar Litkouhi
+  - Jim Nickolaou
+  - Varsha Sadekar
+  - Wende Zhang
+  - Joshua Struble
+  - Michael Taylor
+  - Michael Darms
+  - Dave Ferguson
+year: 2008
+source: Journal of Field Robotics
+type: Journal Article
+doi: 10.1002/rob.20255
+tags:
+  - Autonomous driving
+  - Urban driving
+  - DARPA Urban Challenge
+  - Behavior planning
+  - Sensor fusion
+  - Autonomous vehicles
+abstract: >
+  Boss is an autonomous vehicle that uses on-board sensors (global positioning system  - lasers, radars, and cameras) to track other vehicles, detect static obstacles, and localize itself relative to a road model. A three-layer planning system combines mission, behavioral, and motion planning to drive in urban environments. The mission planning layer considers which street to take to achieve a mission goal. The behavioral layer determines when to change lanes and precedence at intersections and performs error recovery maneuvers. The motion planning layer selects actions to avoid obstacles while making progress toward local goals. The system was developed from the ground up to address the requirements of the DARPA Urban Challenge using a spiral system development process with a heavy emphasis on regular, regressive system testing. During the National Qualification Event and the 85-km Urban Challenge Final Event, Boss demonstrated some of its capabilities, qualifying first and winning the challenge.
+summary: >
+  Describes Boss, the CMU autonomous vehicle that won the 2007 DARPA Urban Challenge. Presents the full software stack for urban driving including perception, behavior planning, and motion planning components that operate in complex traffic scenarios with other vehicles and pedestrians.
+link: https://onlinelibrary.wiley.com/doi/10.1002/rob.20255
+links_alt:
+  - https://www.cmu.edu/traffic21/pdfs/urmson_christopher_2008_1.pdf
+  - https://link.springer.com/chapter/10.1007/978-3-642-03991-1_1
+  - https://apps.dtic.mil/sti/pdfs/ADA522603.pdf

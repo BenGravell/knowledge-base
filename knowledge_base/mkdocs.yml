@@ -186,6 +186,10 @@ nav:
       - "Motion Planning for Autonomous Driving: The State of the Art and Future Perspectives": papers/2303_09824.md
       - A Comparative Study of Rapidly-exploring Random Tree Algorithms Applied to Ship Trajectory Planning and Behavior Generation: papers/2403_01194.md
       - "Motion Planning for Robotics: A Review for Sampling-based Planners": papers/2410_19414.md
+    - Frameworks & Stack Architectures:
+      - Boss: papers/2008_urmson_autonomous_driving_in_urban.md
+      - DiffStack: papers/2212_06437.md
+      - FRENETIX: papers/2402_01443.md
   - Prediction:
     - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: papers/2511_00814.md
   - Control:
