@@ -146,7 +146,8 @@ nav:
           - Fast Path Planning Through Large Collections of Safe Boxes: papers/2305_01072.md
           - A Biconvex Method for Minimum-time Motion Planning Through Sequences of Convex Sets: papers/2504_18978.md
       - Trajectory Generation:
-        - TODO
+        - TEB: papers/2017_roesmann_kinodynamic_trajectory_optimization_and.md
+        - Minimum Jerk Trajectory Generation for Differential Wheeled Mobile Robots: papers/2013_palamakumburu_minimum_jerk_trajectory_generation.md
       - Trajectory Optimization:
         - Model Predictive Sampling-Based Control:
           - Predictive Sampling: papers/2212_00541.md
