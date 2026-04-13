@@ -149,7 +149,10 @@ nav:
         - TODO
       - Trajectory Optimization:
         - Model Predictive Sampling-Based Control:
+          - Predictive Sampling: papers/2212_00541.md
           - Judo: papers/2506_17184.md
+        - Model Predictive Trees:
+          - MPT: papers/2411_15651.md
     - Speed Planning:
       - Time-Optimal Path Parameterization (TOPP):
         - TOPP: papers/1985_bobrow_time_optimal_control_of.md
