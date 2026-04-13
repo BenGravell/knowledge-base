@@ -115,6 +115,12 @@ nav:
           - Creating High-quality Paths for Motion Planning: papers/2007_geraerts_creating_high_quality_paths.md
           - Anytime Solution Optimization for Sampling-Based Motion Planning: papers/2013_luna_anytime_solution_optimization_for.md
           - Benchmarking Shortcutting Techniques for Multi-Robot-Arm Motion Planning: papers/2508_05027.md
+        - Path Smoothing:
+          - CCMA: papers/2023_steinecker_a_simple_and_model.md
+        - Gradient-based Path Optimization:
+          - CHOMP: papers/2009_ratliff_chomp_gradient_optimization_techniques.md
+        - Sample-based Path Optimization:
+          - STOMP: papers/2011_kalakrishnan_stomp_stochastic_trajectory_optimization\metadata.yml
     - Trajectory Planning:
       - Kinodynamic Planning:
         - Rapidly Exploring Random Trees (RRT):
