@@ -63,6 +63,8 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Explainers:
+    - Differential Flatness: explainers/differential_flatness.md
   - Planning:
     - Path Planning:
       - Geometric Planning:
