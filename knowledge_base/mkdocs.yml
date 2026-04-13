@@ -64,6 +64,10 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Explainers:
+    - PID: explainers/pid.md
+    - LQR: explainers/lqr.md
+    - MPC: explainers/mpc.md
+    - MCTS: explainers/mcts.md
     - Differential Flatness: explainers/differential_flatness.md
   - Planning:
     - Path Planning:
