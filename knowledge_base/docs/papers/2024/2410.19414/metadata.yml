@@ -1,0 +1,30 @@
+title: "Motion Planning for Robotics: A Review for Sampling-based Planners"
+algorithm:
+authors:
+  - Liding Zhang
+  - Kuanqi Cai
+  - Zewei Sun
+  - Zhenshan Bing
+  - Chaoqun Wang
+  - Luis Figueredo
+  - Sami Haddadin
+  - Alois Knoll
+year: 2024
+source: Biomimetic Intelligence and Robotics
+type: Journal Paper
+doi: 10.1016/j.birob.2024.100207
+arxiv_id: 2410.19414
+tags:
+  - Survey
+  - Motion planning
+  - Robot motion planning
+  - Sampling-based planning
+  - Robotics
+  - Benchmarking
+abstract: >
+  Recent advancements in robotics have transformed industries such as manufacturing, logistics, surgery, and planetary exploration. A key challenge is developing efficient motion planning algorithms that allow robots to navigate complex environments while avoiding collisions and optimizing metrics like path length, sweep area, execution time, and energy consumption. Among the available algorithms, sampling-based methods have gained the most traction in both research and industry due to their ability to handle complex environments, explore free space, and offer probabilistic completeness along with other formal guarantees. Despite their widespread application, significant challenges still remain. To advance future planning algorithms, it is essential to review the current state-of-the-art solutions and their limitations. In this context, this work aims to shed light on these challenges and assess the development and applicability of sampling-based methods. Furthermore, we aim to provide an in-depth analysis of the design and evaluation of ten of the most popular planners across various scenarios. Our findings highlight the strides made in sampling-based methods while underscoring persistent challenges. This work offers an overview of the important ongoing research in robotic motion planning.
+summary: >
+  Reviews ten popular sampling-based motion planners for robotic applications, analyzing their theoretical properties and empirical performance across diverse planning scenarios to highlight ongoing research challenges in the field.
+link: https://arxiv.org/pdf/2410.19414
+links_alt:
+  - https://www.sciencedirect.com/science/article/pii/S2667379724000652?via%3Dihub

@@ -177,8 +177,15 @@ nav:
       - Lab2Car: papers/2409_09523.md
       - Transitioning from Rule-Based to ML-Powered Motion Planning: papers/2025_hu_technical_speaking_transitioning_from.md
     - Surveys & Comparative Studies:
+      - An Empirical Study of Optimal Motion Planning: papers/2014_luo_an_empirical_study_of.md
+      - A Survey of Motion Planning and Control Techniques for Self-Driving Urban Vehicles: papers/1604_07446.md
+      - Sampling-Based Methods for Motion Planning with Constraints: papers/2018_kingston_sampling_based_methods_for.md
+      - Planning and Decision-Making for Autonomous Vehicles: papers/2018_schwarting_planning_and_decision_making.md
       - Asymptotically Optimal Sampling-Based Motion Planning Methods: papers/2009_10484.md
+      - Benchmarking Sampling-, Search-, and Optimization-based Approaches for Time-Optimal Kinodynamic Mobile Robot Motion Planning: papers/2022_honig_benchmarking_sampling_search_and.md
+      - "Motion Planning for Autonomous Driving: The State of the Art and Future Perspectives": papers/2303_09824.md
       - A Comparative Study of Rapidly-exploring Random Tree Algorithms Applied to Ship Trajectory Planning and Behavior Generation: papers/2403_01194.md
+      - "Motion Planning for Robotics: A Review for Sampling-based Planners": papers/2410_19414.md
   - Prediction:
     - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: papers/2511_00814.md
   - Control:
