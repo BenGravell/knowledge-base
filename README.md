@@ -39,3 +39,10 @@ Streamlit app for analyzing the knowledge base:
 cd knowledge_base
 streamlit run app.py
 ```
+
+Streamlit app for generating new entries from arXiv:
+
+```bash
+cd knowledge_base
+streamlit run generator_app.py
+```
