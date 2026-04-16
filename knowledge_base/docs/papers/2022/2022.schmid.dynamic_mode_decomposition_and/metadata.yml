@@ -1,0 +1,21 @@
+title: "Dynamic Mode Decomposition and Its Variants"
+algorithm:
+authors:
+  - Peter J. Schmid
+year: 2022
+source: Annual Review of Fluid Mechanics
+type: Journal Paper
+doi: 10.1146/annurev-fluid-030121-015835
+arxiv_id:
+tags:
+  - Dynamic mode decomposition
+  - DMD
+  - Fluid dynamics
+  - Data-driven methods
+  - Survey
+abstract: >
+  Dynamic mode decomposition (DMD) is a factorization and dimensionality reduction technique for data sequences. In its most common form, it processes high-dimensional sequential measurements, extracts coherent structures, isolates dynamic behavior, and reduces complex evolution processes to their dominant features and essential components. The decomposition is intimately related to Koopman analysis and, since its introduction, has spawned various extensions, generalizations, and improvements. It has been applied to numerical and experimental data sequences taken from simple to complex fluid systems and has also had an impact beyond fluid dynamics in, for example, video surveillance, epidemiology, neurobiology, and financial engineering. This review focuses on the practical aspects of DMD and its variants, as well as on its usage and characteristics as a quantitative tool for the analysis of complex fluid processes.
+summary: >
+  Comprehensive review of DMD from its fluid dynamics origins through current extensions, providing a unified perspective on theoretical foundations and practical applications.
+link: https://www.annualreviews.org/content/journals/10.1146/annurev-fluid-030121-015835
+links_alt:
