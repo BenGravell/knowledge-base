@@ -1,0 +1,31 @@
+title: "Path Planning: Differential Dynamic Programming and Model Predictive Path Integral Control on VTOL Aircraft"
+algorithm:
+authors:
+  - Matthew D. Houghton
+  - Alexander B. Oshin
+  - Michael J. Acheson
+  - Evangelos A. Theodorou
+  - Irene M. Gregory
+year: 2022
+source: AIAA SciTech Forum
+type: Conference Paper
+doi: 10.2514/6.2022-0624
+arxiv_id:
+tags:
+  - Path planning
+  - Trajectory optimization
+  - Differential dynamic programming 
+  - Model predictive path integral control
+  - DDP
+  - MPPI
+  - UAV
+  - VTOL
+  - Survey
+  - Comparative study
+abstract: >
+  This paper explores two optimal control approaches, widely used in robotics, to establish their viability as real-time trajectory planners for vehicle configurations envisioned for the emerging aviation sector of Urban Air Mobility (UAM). Differential Dynamic Programming (DDP) enables planning over highly nonlinear dynamics using second-order approximations along a nominal trajectory and displays quadratic convergence to a local solution. Model Predictive Path Integral Control (MPPI) is a stochastic sampling-based algorithm that can optimize for general cost criteria, including potentially highly nonlinear formulations, and supports parallel computation through the use of modern GPU hardware. In this work, DDP was implemented in a model predictive control (MPC) fashion alongside MPPI. The results indicate they are able to successfully transition the aircraft over different flight envelopes and generate trajectories unique to UAM vehicles.
+summary: >
+  Comparative study applying DDP and MPPI trajectory optimization methods to path planning for VTOL (urban air mobility) aircraft, benchmarking their performance and practical trade-offs on this application domain.
+link: https://ntrs.nasa.gov/api/citations/20210025529/downloads/SciTech2022%20-%20Path%20Planning_DDP%20and%20MPPI%20Applied%20to%20UAM%20-%20Houghton_Oshin_v4.pdf
+links_alt:
+  - https://arc.aiaa.org/doi/abs/10.2514/6.2022-0624
