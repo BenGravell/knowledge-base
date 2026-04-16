@@ -1,0 +1,26 @@
+title: "Model-Predictive Control via Cross-Entropy and Gradient-Based Optimization"
+algorithm: "Grad+CEM"
+authors:
+  - Homanga Bharadhwaj
+  - Kevin Xie
+  - Florian Shkurti
+year: 2020
+source: Learning for Dynamics and Control (L4DC)
+type: Conference Paper
+doi:
+arxiv_id: 2004.08763
+tags:
+  - Trajectory optimization
+  - Model predictive control
+  - Cross-entropy method
+  - Gradient-based optimization
+  - Sampling-based control
+abstract: >
+  Recent works in high-dimensional model-predictive control and model-based reinforcement learning with learned dynamics and reward models have resorted to population-based optimization methods, such as the Cross-Entropy Method (CEM), for planning a sequence of actions. To decide on an action to take, CEM conducts a search for the action sequence with the highest return according to the dynamics model and reward. Action sequences are typically randomly sampled from an unconditional Gaussian distribution and evaluated on the environment. This distribution is iteratively updated towards action sequences with higher returns. However, this planning method can be very inefficient, especially for high-dimensional action spaces. An alternative line of approaches optimize action sequences directly via gradient descent, but are prone to local optima. We propose a method to solve this planning problem by interleaving CEM and gradient descent steps in optimizing the action sequence. Our experiments show faster convergence of the proposed hybrid approach, even for high-dimensional action spaces, avoidance of local minima, and better or equal performance to CEM. Code accompanying the paper is available at https://github.com/homangab/gradcem
+summary: >
+  Combines CEM-style action sampling with gradient descent refinement in a single MPC loop: elite samples from CEM seed a gradient-based optimizer that fine-tunes the trajectory, blending global sampling exploration with local first-order convergence.
+link: https://arxiv.org/pdf/2004.08763
+links_alt:
+  - https://proceedings.mlr.press/v120/bharadhwaj20a.html
+  - https://people.eecs.berkeley.edu/~brecht/l4dc2020/papers/bharadhwaj20.pdf
+  - https://github.com/homangab/gradcem
