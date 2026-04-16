@@ -1,0 +1,28 @@
+title: "Iterative Linear Quadratic Optimization for Nonlinear Control: Differentiable Programming Algorithmic Templates"
+algorithm: iLQR Algorithmic Templates
+authors:
+  - Vincent Roulet
+  - Siddhartha Srinivasa
+  - Maryam Fazel
+  - Zaid Harchaoui
+year: 2022
+source: Open Journal of Mathematical Optimization
+type: Journal Paper
+doi: 10.5802/ojmo.32
+arxiv_id: 2207.06362
+tags:
+  - Trajectory optimization
+  - iLQR
+  - Differentiable programming
+  - Nonlinear control
+  - Tutorial
+abstract: >
+  Iterative optimization algorithms depend on access to information about the objective function. In a differentiable programming framework, this information, such as gradients, can be automatically derived from the computational graph. We explore how nonlinear control algorithms, often employing linear and/or quadratic approximations, can be effectively cast within this framework. Our approach illuminates shared components and differences between gradient descent, Gauss-Newton, Newton, and differential dynamic programming methods in the context of discrete time nonlinear control. Furthermore, we present line-search strategies and regularized variants of these algorithms, along with a comprehensive analysis of their computational complexities. We study the performance of the aforementioned algorithms on various nonlinear control benchmarks, including autonomous car racing simulations using a simplified car model. All implementations are publicly available in a package coded in a differentiable programming language.
+summary: >
+  Presents iLQR and its variants as differentiable programming algorithmic templates, enabling systematic derivation, implementation, and differentiation through iLQR solvers using automatic differentiation frameworks.
+link: https://arxiv.org/pdf/2207.06362
+links_alt:
+  - https://personalrobotics.cs.washington.edu/publications/roulet2024ilqrtemplates.pdf
+  - https://www.numdam.org/articles/10.5802/ojmo.32/
+  - https://ojmo.centre-mersenne.org/articles/10.5802/ojmo.32/
+  - https://github.com/vroulet/ilqc
