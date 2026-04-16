@@ -2,11 +2,12 @@ title: "Diffusion Policy: Visuomotor Policy Learning via Action Diffusion"
 algorithm: Diffusion Policy
 authors:
   - Cheng Chi
-  - Siyuan Feng
-  - Yilun Du
   - Zhenjia Xu
+  - Siyuan Feng
   - Eric Cousineau
+  - Yilun Du
   - Benjamin Burchfiel
+  - Russ Tedrake
   - Shuran Song
 year: 2023
 source: International Journal of Robotics Research (IJRR)
