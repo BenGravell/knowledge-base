@@ -1,0 +1,29 @@
+title: "Proximal Policy Optimization Algorithms"
+algorithm: PPO
+authors:
+  - John Schulman
+  - Filip Wolski
+  - Prafulla Dhariwal
+  - Alec Radford
+  - Oleg Klimov
+year: 2017
+source: arXiv
+type: Preprint
+doi: 10.5555/3045118.3045319
+arxiv_id: 1707.06347
+tags:
+  - Reinforcement learning
+  - Policy optimization
+  - Proximal policy optimization
+  - Continuous control
+abstract: >
+  We propose a new family of policy gradient methods for reinforcement learning, which alternate between sampling data through interaction with the environment, and optimizing a "surrogate" objective function using stochastic gradient ascent. Whereas standard policy gradient methods perform one gradient update per data sample, we propose a novel objective function that enables multiple epochs of minibatch updates. The new methods, which we call proximal policy optimization (PPO), have some of the benefits of trust region policy optimization (TRPO), but they are much simpler to implement, more general, and have better sample complexity (empirically). Our experiments test PPO on a collection of benchmark tasks, including simulated robotic locomotion and Atari game playing, and we show that PPO outperforms other online policy gradient methods, and overall strikes a favorable balance between sample complexity, simplicity, and wall-time.
+summary: >
+  Introduces PPO, which approximates TRPO's trust region constraint via a clipped surrogate objective. Achieves comparable stability and sample efficiency to TRPO with far lower computational overhead. Became the de facto standard RL algorithm quickly over the next decade after introduction.
+link: https://arxiv.org/pdf/1707.06347
+links_alt:
+  - https://dl.acm.org/doi/10.5555/3045118.3045319
+  - https://en.wikipedia.org/wiki/Proximal_policy_optimization
+  - https://www.ibm.com/think/topics/proximal-policy-optimization
+  - https://spinningup.openai.com/en/latest/algorithms/ppo.html
+  - https://www.youtube.com/watch?v=8jtAzxUwDj0
