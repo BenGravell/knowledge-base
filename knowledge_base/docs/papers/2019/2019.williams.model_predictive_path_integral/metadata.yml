@@ -1,5 +1,5 @@
 title: "Model Predictive Path Integral Control: Theoretical Foundations and Applications to Autonomous Driving"
-algorithm: MPPI
+algorithm:
 authors:
   - Grady Williams
 year: 2019
