@@ -16,14 +16,17 @@ arxiv_id: 1709.07174
 tags:
   - Imitation learning
   - End-to-end learning
+  - Reinforcement learning
+  - Deep learning
+  - End-to-end
   - Trajectory optimization
   - Autonomous driving
   - DDP
-  - Model-based RL
+  - Model-based
 abstract: >
   We present an end-to-end imitation learning system for agile, off-road autonomous driving using only low-cost on-board sensors. By imitating a model predictive controller equipped with advanced sensors, we train a deep neural network control policy to map raw, high-dimensional observations to continuous steering and throttle commands. Compared with recent approaches to similar tasks, our method requires neither state estimation nor on-the-fly planning to navigate the vehicle. Our approach relies on, and experimentally validates, recent imitation learning theory. Empirically, we show that policies trained with online imitation learning overcome well-known challenges related to covariate shift and generalize better than policies trained with batch imitation learning. Built on these insights, our autonomous driving system demonstrates successful high-speed off-road driving, matching the state-of-the-art performance.
 summary: >
-  Uses a DDP-based autonomy stack (trajectory optimization with learned dynamics, Kalman filter state estimation, and a cost function) as the expert policy, then trains a neural network to imitate it end-to-end from pixels to torques. Demonstrates that a full autonomy stack can be "compressed into" or "represented by" a single neural network.
+  Uses a "traditional" autonomy stack (trajectory optimization with learned dynamics, Kalman filter state estimation, and an handcrafted cost function) as the expert policy, then trains a neural network to imitate it end-to-end, from pixels to torques. Demonstrates that a full autonomy stack can be "compressed into" or "represented by" a single neural network. Notably, the trained neural network can be deployed with less expensive compute hardware and a lower fidelty sensor suite than the original autonomy stack.
 link: https://arxiv.org/pdf/1709.07174
 links_alt:
   - https://www.roboticsproceedings.org/rss14/p56.html
