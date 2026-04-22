@@ -15,6 +15,7 @@ arxiv_id: 2409.16915
 tags:
   - Trajectory optimization
   - Gaussian splatting
+  - 3DGS
   - Risk-aware planning
   - 3D scene 
   - Representation
