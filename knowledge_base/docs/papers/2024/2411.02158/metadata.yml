@@ -1,7 +1,12 @@
 title: "Learning Multiple Initial Solutions to Optimization Problems"
-algorithm:
+algorithm: MISO
 authors:
-  - Sharony
+  - Elad Sharony
+  - Heng Yang
+  - Tong Che
+  - Marco Pavone
+  - Shie Mannor
+  - Peter Karkus
 year: 2024
 source: arXiv
 type: Preprint
