@@ -336,7 +336,7 @@ nav:
     - Design and Control of a Bipedal Robotic Character: papers/2501_05204.md
   - Safety, Testing & Verification:
     - Safety:
-      - "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification": papers/2403.18972.md
+      - "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification": papers/2403_18972.md
   - Software & Programming:
     - Art & Practice: programming/art_and_practice.md
     - "C++": programming/cpp.md
