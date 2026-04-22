@@ -1,0 +1,24 @@
+title: "Primal-Dual iLQR"
+algorithm: Primal-Dual iLQR
+authors:
+  - João Sousa-Pinto
+  - Dominique Orban
+year: 2024
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: 2403.00748
+tags:
+  - iLQR
+  - Trajectory optimization
+  - Constrained optimization
+  - Primal-dual methods
+  - Nonlinear optimal control
+  - JAX
+abstract: >
+  We introduce a new algorithm for solving unconstrained discrete-time optimal control problems. Our method follows a direct multiple shooting approach, and consists of applying the SQP method together with an  augmented Lagrangian primal-dual merit function. We use the LQR algorithm to efficiently solve the primal-dual Newton-KKT system. As our algorithm is a specialization of NPSQP, it inherits its generic properties, including global convergence, fast local convergence, and the lack of need for second order corrections or dimension expansions, improving on existing direct multiple shooting approaches such as acados, ALTRO, GNMS, FATROP, and FDDP. The solutions of the LQR-shaped subproblems posed by our algorithm can be be parallelized to run in time logarithmic in the number of stages, states, and controls. Moreover, as our method avoids sequential rollouts of the nonlinear dynamics, it can run in  parallel time per line search iteration. Therefore, this paper provides a practical, theoretically sound, and highly parallelizable (for example, with a GPU) method for solving nonlinear discrete-time optimal control problems. An open-source JAX implementation of this algorithm can be found on GitHub (https://github.com/joaospinto/primal_dual_ilqr).
+summary: >
+  Introduces Primal-Dual iLQR, incorporating both primal and dual (Lagrange multiplier) variable updates within the iLQR backward/forward pass, enabling constrained trajectory optimization with favorable convergence properties.
+link: https://arxiv.org/pdf/2403.00748
+links_alt:
+  - https://github.com/joaospinto/primal_dual_ilqr
