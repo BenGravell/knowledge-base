@@ -20,4 +20,4 @@ summary: >
   Shows how to efficiently evaluate the second-order dynamics derivatives required by full DDP for rigid-body systems via recursive algorithms, making full DDP computationally competitive with or faster than iLQR. Also provides a clear derivation of DDP.
 link: https://arxiv.org/pdf/2103.03293
 links_alt:
-  - https://ieeexplore.ieee.org/abstract/document/9495268
+  - https://ieeexplore.ieee.org/document/9495268

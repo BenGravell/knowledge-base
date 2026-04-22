@@ -25,5 +25,5 @@ summary: >
   Analyzes how the required prediction horizon for autonomous driving depends on the competing objectives of safety, comfort, and efficiency, providing a framework for selecting appropriate prediction horizons for different driving scenarios and speed profiles.
 link: https://arxiv.org/pdf/2402.03893
 links_alt:
-  - https://ieeexplore.ieee.org/abstract/document/10588728
+  - https://ieeexplore.ieee.org/document/10588728
   - https://research.tue.nl/en/publications/prediction-horizon-requirements-for-automated-driving-optimizing-/

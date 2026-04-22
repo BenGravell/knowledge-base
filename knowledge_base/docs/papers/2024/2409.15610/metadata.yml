@@ -24,6 +24,6 @@ summary: >
   Generalizes MPPI as a single denoising step and extends it to a multi-step diffusion-style annealing process: DIAL-MPC starts with smooth-but-coarse cost approximations and progressively refines to accurate local objectives, enabling full-order torque-level locomotion control in real time.
 link: https://arxiv.org/pdf/2409.15610
 links_alt:
-  - https://ieeexplore.ieee.org/abstract/document/11127320
+  - https://ieeexplore.ieee.org/document/11127320
   - https://lecar-lab.github.io/dial-mpc/
   - https://github.com/LeCAR-Lab/dial-mpc

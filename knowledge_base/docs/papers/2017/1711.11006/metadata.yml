@@ -24,4 +24,4 @@ summary: >
   Presents a unified family of iterative Gauss-Newton multiple-shooting methods for nonlinear optimal control, covering single and multiple shooting variants within a common framework with analysis of convergence and computational tradeoffs.
 link: https://arxiv.org/pdf/1711.11006
 links_alt:
-  - https://ieeexplore.ieee.org/abstract/document/8593840
+  - https://ieeexplore.ieee.org/document/8593840

@@ -24,5 +24,5 @@ summary: >
   CHOMP formulates path optimization as minimizing an objective with terms for obstacle cost and path smoothness, then applies a covariant gradient descent (a special type of preconditioned gradient descent closely related to natural gradient descent) that exploits the special structure of the objective for fast convergence. Widely used via its MoveIt/ROS implementation.
 link: https://personalrobotics.cs.washington.edu/publications/ratliff2009chomp.pdf
 links_alt:
-  - https://ieeexplore.ieee.org/abstract/document/5152817
+  - https://ieeexplore.ieee.org/document/5152817
   - https://moveit.picknik.ai/humble/doc/how_to_guides/chomp_planner/chomp_planner_tutorial.html

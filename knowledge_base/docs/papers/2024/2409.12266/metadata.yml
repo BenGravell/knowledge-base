@@ -22,4 +22,4 @@ summary: >
   Proposes a C-Uniform action sampling distribution based on the dynamically reachable sets of the controlled system, enabling far more efficient exploration of trajectory space compared to naive Gaussian sampling—especially for tight obstacle avoidance. Offline training takes ~4 hours for a 3-state unicycle model but runtime cost matches naive sampling.
 link: https://arxiv.org/pdf/2409.12266
 links_alt:
-  - https://ieeexplore.ieee.org/abstract/document/11127482
+  - https://ieeexplore.ieee.org/document/11127482

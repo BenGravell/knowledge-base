@@ -23,7 +23,7 @@ summary: >
   TD-CD-MPPI enables the use of reduced control horizons by using a learned terminal value function to approximate long-term returns.
 link: https://hal.science/hal-05213269v2/document
 links_alt:
-  - https://ieeexplore.ieee.org/abstract/document/11248834
+  - https://ieeexplore.ieee.org/document/11248834
   - https://hal.science/hal-05213269/
   - https://hal.science/hal-05213269v1
   - https://insa-toulouse.hal.science/hal-05213269/

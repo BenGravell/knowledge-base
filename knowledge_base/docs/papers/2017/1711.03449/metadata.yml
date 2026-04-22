@@ -21,5 +21,5 @@ summary: >
   Presents an optimization-based collision avoidance formulation using differentiable signed distance functions. Optimization problems are solved with general nonlinear solver IPOPT. Proposes using A* for warm-starting.
 link: https://arxiv.org/pdf/1711.03449
 links_alt:
-  - https://ieeexplore.ieee.org/abstract/document/9062306/
+  - https://ieeexplore.ieee.org/document/9062306/
   - https://github.com/XiaojingGeorgeZhang/OBCA
