@@ -1,0 +1,27 @@
+title: "SINDy-RL: Interpretable and Efficient Model-Based Reinforcement Learning"
+algorithm: SINDy-RL
+authors:
+  - Nicholas Zolman
+  - Urban Fasel
+  - J. Nathan Kutz
+  - Steven L. Brunton
+year: 2024
+source: Nature Communications
+type: Journal Paper
+doi: 10.1038/s41467-025-65738-4
+arxiv_id: 2403.09110
+tags:
+  - Reinforcement learning
+  - SINDy
+  - Model-based RL
+  - Interpretable AI
+  - Data-driven methods
+abstract: >
+  Deep reinforcement learning (DRL) has shown significant promise for uncovering sophisticated control policies that interact in complex environments, such as stabilizing a tokamak fusion reactor or minimizing the drag force on an object in a fluid flow. However, DRL requires an abundance of training examples and may become prohibitively expensive for many applications. In addition, the reliance on deep neural networks often results in an uninterpretable, black-box policy that may be too computationally expensive to use with certain embedded systems. Recent advances in sparse dictionary learning, such as the sparse identification of nonlinear dynamics (SINDy), have shown promise for creating efficient and interpretable data-driven models in the low-data regime. In this work, we introduce SINDy-RL, a unifying framework for combining SINDy and DRL to create efficient, interpretable, and trustworthy representations of the dynamics model, reward function, and control policy. We demonstrate the effectiveness of our approaches on benchmark control environments and flow control problems, including gust mitigation on a 3D NACA 0012 airfoil at Re = 1000. SINDy-RL achieves comparable performance to modern DRL algorithms using significantly fewer interactions in the environment and results in an interpretable control policy orders of magnitude smaller than a DRL policy.
+summary: >
+  Combines SINDy with model-based RL: a SINDy surrogate world model replaces the environment for policy training, yielding interpretable dynamics models and improved sample efficiency compared to black-box neural network surrogates.
+link: https://arxiv.org/pdf/2403.09110
+links_alt:
+  - https://www.nature.com/articles/s41467-025-65738-4
+  - https://ideas.repec.org/a/nat/natcom/v16y2025i1d10.1038_s41467-025-65738-4.html
+  - https://pmc.ncbi.nlm.nih.gov/articles/PMC12663201/
