@@ -1,0 +1,35 @@
+title: "Efficient and Real-Time Motion Planning for Robotics Using Projection-Based Optimization"
+algorithm: ALSPG
+authors:
+  - Xuemin Chi
+  - Hakan Girgin
+  - Tobias Löw
+  - Yangyang Xie
+  - Teng Xue
+  - Jihao Huang
+  - Cheng Hu
+  - Zhitao Liu
+  - Sylvain Calinon
+year: 2025
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+type: Conference Paper
+doi: 10.1109/IROS60139.2025.11246470
+arxiv_id: 2506.14865
+tags:
+  - Trajectory optimization
+  - Constrained optimization
+  - Projection methods
+  - Real-time
+  - Robot motion planning
+abstract: >
+  Generating motions for robots interacting with objects of various shapes is a complex challenge, further complicated by the robot geometry and multiple desired behaviors. While current robot programming tools (such as inverse kinematics, collision avoidance, and manipulation planning) often treat these problems as constrained optimization, many existing solvers focus on specific problem domains or do not exploit geometric constraints effectively. We propose an efficient first-order method, Augmented Lagrangian Spectral Projected Gradient Descent (ALSPG), which leverages geometric projections via Euclidean projections, Minkowski sums, and basis functions. We show that by using geometric constraints rather than full constraints and gradients, ALSPG significantly improves real-time performance. Compared to second-order methods like iLQR, ALSPG remains competitive in the unconstrained case. We validate our method through toy examples and extensive simulations, and demonstrate its effectiveness on a 7-axis Franka robot, a 6-axis P-Rob robot and a 1:10 scale car in real-world experiments. Source codes, experimental data and videos are available on the project webpage: this https URL
+summary: >
+  Uses geometric projection operations to efficiently handle motion constraints in real-time robot trajectory optimization, avoiding full constraint Jacobian computations and achieving significant speedups over augmented Lagrangian approaches.
+link: https://arxiv.org/pdf/2506.14865
+links_alt:
+  - https://ieeexplore.ieee.org/abstract/document/11246470
+  - https://tobiloew.ch/publications/2025/conferences/chi2025_ALSPG/chi2025_ALSPG.pdf
+  - https://sites.google.com/view/alspg-oc
+  - https://www.idiap.ch/~scalinon/publications.htm
+  - https://infoscience.epfl.ch/entities/publication/2ba507ad-05fe-4a42-ae14-123a342ba4fa
+  - https://www.researchgate.net/publication/392839285_Efficient_and_Real-Time_Motion_Planning_for_Robotics_Using_Projection-Based_Optimization
