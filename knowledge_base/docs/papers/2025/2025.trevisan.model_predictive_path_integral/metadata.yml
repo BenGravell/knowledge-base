@@ -30,6 +30,6 @@ abstract: >
 
   Overall, this thesis explores key aspects of motion planning, particularly for ASVs, with extensions to ground robots and mobile manipulators. It advances the MPPI framework for autonomous navigation by adapting it for multi-agent systems and introducing biases through classic and learning-based ancillary controllers. Additionally, the thesis compares MPPI to MPC in navigation experiments and to optimization fabrics in manipulation tasks. The work presented promotes the use of MPPI, especially in domains where complex nonlinear dynamics and discontinuous costs complicate the use of real-time optimization-based MPC.
 summary: >
-  Incorporates a trajectory prediction model into MPPI to enable interaction-aware trajectory planning, allowing the ego agent to account for the anticipated reactions of surrounding dynamic agents when planning local motion.
+  Incorporates a trajectory prediction model into MPPI to enable interaction-aware trajectory planning.
 link: https://research.tudelft.nl/en/publications/model-predictive-path-integral-control-for-interaction-rich-local
 links_alt:
