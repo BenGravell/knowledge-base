@@ -1,0 +1,28 @@
+title: "Simple Random Search Provides a Competitive Approach to Reinforcement Learning"
+algorithm: ARS
+authors:
+  - Horia Mania
+  - Aurelia Guy
+  - Benjamin Recht
+year: 2018
+source: Neural Information Processing Systems (NeurIPS)
+type: Conference Paper
+doi: 10.5555/3326943.3327109
+arxiv_id: 1803.07055
+tags:
+  - Reinforcement learning
+  - Random search
+  - Evolution strategies
+  - Policy optimization
+  - Continuous control
+  - Baseline
+  - Evaluation
+abstract: >
+  A common belief in model-free reinforcement learning is that methods based on random search in the parameter space of policies exhibit significantly worse sample complexity than those that explore the space of actions. We dispel such beliefs by introducing a random search method for training static, linear policies for continuous control problems, matching state-of-the-art sample efficiency on the benchmark MuJoCo locomotion tasks. Our method also finds a nearly optimal controller for a challenging instance of the Linear Quadratic Regulator, a classical problem in control theory, when the dynamics are not known. Computationally, our random search algorithm is at least 15 times more efficient than the fastest competing model-free methods on these benchmarks. We take advantage of this computational efficiency to evaluate the performance of our method over hundreds of random seeds and many different hyperparameter configurations for each benchmark task. Our simulations highlight a high variability in performance in these benchmark tasks, suggesting that commonly used estimations of sample efficiency do not adequately evaluate the performance of RL algorithms.
+summary: >
+  Describes Basic Random Search (BRS) and Augmented Random Search (ARS) and demonstrates that simple random perturbations to the parameters of linear policies with state normalization achieves competitive performance against deep RL on MuJoCo benchmarks. Challenges the necessity of more complicated neural network-backed policy optimization algorithms such as Trust Region Policy Optimization (TRPO), Deep Deterministic Policy Gradient (DDPG), Natural Gradients (NG), Evolution Strategies (ES), Proximal Policy Optimization (PPO), Soft Actor Critic (SAC), Soft Q-Learning (SQL), A2C, and the Cross Entropy Method (CEM).
+link: https://arxiv.org/pdf/1803.07055
+links_alt:
+  - https://proceedings.neurips.cc/paper/2018/hash/7634ea65a4e6d9041cfd3f7de18e334a-Abstract.html
+  - https://dl.acm.org/doi/abs/10.5555/3326943.3327109
+  - https://archives.argmin.net/2018/03/20/mujocoloco/

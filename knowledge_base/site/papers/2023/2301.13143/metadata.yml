@@ -1,0 +1,24 @@
+title: "RRT Guided Model Predictive Path Integral Method"
+algorithm: RRT-MPPI
+authors:
+  - Chuyuan Tao
+  - Hunmin Kim
+  - Naira Hovakimyan
+year: 2023
+source: American Control Conference (ACC)
+type: Conference Paper
+doi: 10.23919/ACC55779.2023.10155837
+arxiv_id: 2301.13143
+tags:
+  - Trajectory optimization
+  - MPPI
+  - RRT
+  - Sampling-based planning
+  - Model predictive control
+abstract: >
+  This work presents an optimal sampling-based method to solve the real-time motion planning problem in static and dynamic environments, exploiting the Rapid-exploring Random Trees (RRT) algorithm and the Model Predictive Path Integral (MPPI) algorithm. The RRT algorithm provides a nominal mean value of the random control distribution in the MPPI algorithm, resulting in satisfactory control performance in static and dynamic environments without a need for fine parameter tuning. We also discuss the importance of choosing the right mean of the MPPI algorithm, which balances exploration and optimality gap, given a fixed sample size. In particular, a sufficiently large mean is required to explore the state space enough, and a sufficiently small mean is required to guarantee that the samples reconstruct the optimal controls. The proposed methodology automates the procedure of choosing the right mean by incorporating the RRT algorithm. The simulations demonstrate that the proposed algorithm can solve the motion planning problem in real-time for static or dynamic environments.
+summary: >
+  Grows an RRT to produce a coarse initial plan, then uses that plan as the mean of the MPPI sampling distribution, combining the global exploration of RRT with the real-time refinement and dynamic feasibility of MPPI.
+link: https://arxiv.org/pdf/2301.13143
+links_alt:
+  - https://ieeexplore.ieee.org/document/10155837

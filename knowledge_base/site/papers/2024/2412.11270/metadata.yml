@@ -1,0 +1,30 @@
+title: "Monte Carlo Tree Search with Spectral Expansion for Planning with Dynamical Systems"
+algorithm: SETS
+authors:
+  - Benjamin Rivière
+  - John Lathrop
+  - Soon-Jo Chung
+year: 2024
+source: Science Robotics
+type: Journal Paper
+doi: 10.1126/scirobotics.ado1010
+arxiv_id: 2412.11270
+tags:
+  - Trajectory planning
+  - Motion planning
+  - Monte Carlo Tree Search
+  - MCTS
+  - Spectral methods
+  - Dynamical systems
+  - Real-time planning
+  - Nonlinear systems
+  - Underactuated systems
+  - MDP
+abstract: >
+  The ability of a robot to plan complex behaviors with real-time computation, rather than adhering to predesigned or offline-learned routines, alleviates the need for specialized algorithms or training for each problem instance. Monte Carlo tree search is a powerful planning algorithm that strategically explores simulated future possibilities, but it requires a discrete problem representation that is irreconcilable with the continuous dynamics of the physical world. We present Spectral Expansion Tree Search (SETS), a real-time, tree-based planner that uses the spectrum of the locally linearized system to construct a low-complexity and approximately equivalent discrete representation of the continuous world. We prove that SETS converges to a bound of the globally optimal solution for continuous, deterministic, and differentiable Markov decision processes, a broad class of problems that includes underactuated nonlinear dynamics, nonconvex reward functions, and unstructured environments. We experimentally validated SETS on drone, spacecraft, and ground vehicle robots and one numerical experiment, each of which is not directly solvable with existing methods. We successfully show that SETS automatically discovers a diverse set of optimal behaviors and motion trajectories in real time.
+summary: >
+  Bridges Monte Carlo Tree Search and continuous physical dynamics by using the spectrum of locally linearized systems to build a low-complexity discrete model.
+link: https://arxiv.org/pdf/2412.11270
+links_alt:
+  - https://www.science.org/doi/10.1126/scirobotics.ado1010
+  - https://github.com/aerorobotics/sets

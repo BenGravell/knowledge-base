@@ -20,9 +20,12 @@ tags:
   - Open source
   - Software
   - Real-time control
+abstract: >
+  Recent advancements in parallel simulation and successful robotic applications are spurring a resurgence in sampling-based model predictive control. To build on this progress, however, the robotics community needs common tooling for prototyping, evaluating, and deploying sampling-based controllers. We introduce Judo, a software package designed to address this need. To facilitate rapid prototyping and evaluation, Judo provides robust implementations of common sampling-based MPC algorithms and standardized benchmark tasks. It further emphasizes usability with simple but extensible interfaces for controller and task definitions, asynchronous execution for straightforward simulation-to-hardware transfer, and a highly customizable interactive GUI for tuning controllers interactively. While written in Python, the software leverages MuJoCo as its physics backend to achieve real-time performance, which we validate across both consumer and server-grade hardware. Code at https://github.com/rai-opensource/judo.
 summary: >
-  Judo is an open-source Python package providing standardized implementations of sampling-based MPC algorithms (e.g. MPPI and variants), benchmark tasks, and an interactive GUI for controller tuning. It uses MuJoCo as its physics backend for real-time performance, and supports asynchronous execution to ease sim-to-hardware transfer. The focus is on tooling and usability rather than novel algorithmic contributions.
+  Judo is an open-source Python package providing standardized implementations of sampling-based MPC algorithms (MPPI, CEM, Predictive Sampling, etc.), benchmark tasks, and an interactive GUI for controller tuning. It uses MuJoCo as its physics backend for real-time performance, and supports asynchronous execution to ease sim-to-hardware transfer. The focus is on tooling and usability rather than novel algorithmic contributions. One interesting thing is that Judo runs 100% on CPU (by necessity rather than choice, as the authors indicate they are waiting for development of mujoco_warp to stabilize to provide GPU-based sim rollouts). If you get a server grade Threadripper CPU with 64 cores/128 threads you can do amazing things and plan/control in < 2ms.
 link: https://arxiv.org/pdf/2506.17184
 links_alt:
   - https://rai-inst.com/resources/workshop/judo-open-source-package-for-sampling-based-model-predictive-control/
+  - https://rai-inst.com/resources/blog/combining-sampling-and-learning-for-dynamic-whole-body-manipulation/
   - https://github.com/bdaiinstitute/judo

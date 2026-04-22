@@ -1,0 +1,31 @@
+title: "Streaming Flow Policy: Simplifying Diffusion/Flow-Matching Policies by Treating Action Trajectories as Flow Trajectories"
+algorithm: Streaming Flow Policy
+authors:
+  - Sunshine Jiang
+  - Xiaolin Fang
+  - Nicholas Roy
+  - Tomás Lozano-Pérez
+  - Leslie Pack Kaelbling
+  - Siddharth Ancha
+year: 2025
+source: Conference on Robot Learning (CoRL)
+type: Conference Paper
+doi:
+arxiv_id: 2505.21851
+tags:
+  - Flow matching
+  - Diffusion models
+  - Robot learning
+  - Imitation learning
+  - Visuomotor policy
+  - Streaming flow policy
+abstract: >
+  Recent advances in diffusion/flow-matching policies have enabled imitation learning of complex, multi-modal action trajectories. However, they are computationally expensive because they sample a *trajectory of trajectories*—a diffusion/flow trajectory of action trajectories. They discard intermediate action trajectories, and must wait for the sampling process to complete before any actions can be executed on the robot. We simplify diffusion/flow policies by *treating action trajectories as flow trajectories*. Instead of starting from pure noise, our algorithm samples from a narrow Gaussian around the last action. Then, it incrementally integrates a velocity field learned via flow matching to produce a sequence of actions that constitute a *single* trajectory. This enables actions to be streamed to the robot on-the-fly *during* the flow sampling process, and is well-suited for receding horizon policy execution. Despite streaming, our method retains the ability to model multi-modal behavior. We train flows that *stabilize* around demonstration trajectories to reduce distribution shift and improve imitation learning performance. Streaming flow policy outperforms prior methods while enabling faster policy execution and tighter sensorimotor loops for learning-based robot control.
+summary: >
+  Simplifies flow-matching robot policies by treating the entire action trajectory as a flow trajectory rather than denoising per-timestep, reducing inference overhead while maintaining expressive multimodal action distributions.
+link: https://arxiv.org/pdf/2505.21851
+links_alt:
+  - https://proceedings.mlr.press/v305/jiang25a.html
+  - https://siddancha.github.io/streaming-flow-policy/
+  - https://openreview.net/forum?id=jnpILGz9gQ
+  - https://openreview.net/forum?id=ay5lYpmywr
