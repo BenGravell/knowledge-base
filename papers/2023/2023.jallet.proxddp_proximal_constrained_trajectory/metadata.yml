@@ -1,0 +1,30 @@
+title: "PROXDDP: Proximal Constrained Trajectory Optimization"
+algorithm: ProxDDP
+authors:
+  - Wilson Jallet
+  - Antoine Bambade
+  - Etienne Arlaud
+  - Sarah El-Kazdadi
+  - Nicolas Mansard
+  - Justin Carpentier
+year: 2023
+source: IEEE Transactions on Robotics (TRO)
+type: Journal Paper
+doi: 10.1109/TRO.2025.3554437
+arxiv_id:
+tags:
+  - Trajectory optimization
+  - Differential dynamic programming
+  - Constrained optimization
+  - Proximal methods
+  - ProxDDP
+abstract: >
+  Trajectory optimization has been a popular choice for motion generation and control in robotics for at least a decade. Several numerical approaches have exhibited the required speed to enable online computation of trajectories for real-time of various systems, including complex robots. Many of these said are based on the differential dynamic programming (DDP) algorithm—initially designed for unconstrained trajectory optimization problems—and its variants, which are relatively easy to implement and provide good runtime performance. However, several problems in robot control call for using constrained formulations (e.g., torque limits, obstacle avoidance), from which several difficulties arise when trying to adapt DDP-type methods: numerical stability, computational efficiency, and constraint satisfaction. In this article, we leverage proximal methods for constrained optimization and introduce a DDP-type method for fast, constrained trajectory optimization suited for model-predictive control (MPC) applications with easy warm-starting. Compared to earlier solvers, our approach effectively manages hard constraints without warm-start limitations and exhibits good convergence behavior. We provide a complete implementation as part of an open-source and flexible C++ trajectory optimization library called aligator. These algorithmic contributions are validated through several trajectory planning scenarios from the robotics literature and the real-time whole-body MPC of a quadruped robot.
+summary: >
+  Introduces ProxDDP, using proximal point iterations within a DDP framework to overcome convergence issues often encountered in Augmented Lagrangian DDP methods (e.g., ALTRO), with provable convergence guarantees for constrained trajectory optimization.
+link: https://inria.hal.science/hal-04332348
+links_alt:
+  - https://www.researchgate.net/publication/376376150_PROXDDP_Proximal_Constrained_Trajectory_Optimization
+  - https://ieeexplore.ieee.org/document/10938351
+  - https://github.com/Simple-Robotics/aligator
+  - https://manifoldfr.github.io/

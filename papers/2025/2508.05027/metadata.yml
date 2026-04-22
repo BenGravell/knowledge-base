@@ -23,6 +23,6 @@ summary: >
   Systematic benchmark of shortcutting techniques applied to multi-robot-arm motion planning, where high dimensionality and inter-arm collision constraints make path quality improvement especially challenging.
 link: https://arxiv.org/pdf/2508.05027
 links_alt:
-  - https://ieeexplore.ieee.org/abstract/document/11246427
+  - https://ieeexplore.ieee.org/document/11246427
   - https://philip-huang.com/mr-shortcut/
   - https://github.com/philip-huang/mr-shortcut

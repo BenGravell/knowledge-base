@@ -1,0 +1,29 @@
+title: "Prediction Horizon Requirements for Automated Driving: Optimizing Safety, Comfort, and Efficiency"
+algorithm:
+authors:
+  - Manuel Muñoz Sánchez
+  - Chris van der Ploeg
+  - Robin Smit
+  - Jos Elfring
+  - Emilia Silvas
+  - Rene van de Molengraft
+year: 2024
+source: IEEE Intelligent Vehicles Symposium (IV)
+type: Conference Paper
+doi: 10.1109/IV55156.2024.10588728
+arxiv_id: 2402.03893
+tags:
+  - Motion prediction
+  - Prediction horizon
+  - Automated driving
+  - Safety
+  - Comfort
+  - Efficiency
+abstract: >
+  Predicting the movement of other road users is beneficial for improving automated vehicle (AV) performance. However, the relationship between the time horizon associated with these predictions and AV performance remains unclear. Despite the existence of numerous trajectory prediction algorithms, no studies have been conducted on how varying prediction lengths affect AV safety and other vehicle performance metrics, resulting in undefined horizon requirements for prediction methods. Our study addresses this gap by examining the effects of different prediction horizons on AV performance, focusing on safety, comfort, and efficiency. Through multiple experiments using a state-of-the-art, risk-based predictive trajectory planner, we simulated predictions with horizons up to 20 seconds. Based on our simulations, we propose a framework for specifying the minimum required and optimal prediction horizons based on specific AV performance criteria and application needs. Our results indicate that a horizon of 1.6 seconds is required to prevent collisions with crossing pedestrians, horizons of 7-8 seconds yield the best efficiency, and horizons up to 15 seconds improve passenger comfort. We conclude that prediction horizon requirements are application-dependent, and recommend aiming for a prediction horizon of 11.8 seconds as a general guideline for applications involving crossing pedestrians.
+summary: >
+  Analyzes how the required prediction horizon for autonomous driving depends on the competing objectives of safety, comfort, and efficiency, providing a framework for selecting appropriate prediction horizons for different driving scenarios and speed profiles.
+link: https://arxiv.org/pdf/2402.03893
+links_alt:
+  - https://ieeexplore.ieee.org/document/10588728
+  - https://research.tue.nl/en/publications/prediction-horizon-requirements-for-automated-driving-optimizing-/

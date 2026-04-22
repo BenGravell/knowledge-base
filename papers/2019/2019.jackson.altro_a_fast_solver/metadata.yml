@@ -1,0 +1,29 @@
+title: "ALTRO: A Fast Solver for Constrained Trajectory Optimization"
+algorithm: ALTRO
+authors:
+  - Taylor A. Howell
+  - Brian E. Jackson
+  - Zachary Manchester
+year: 2019
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+type: Conference Paper
+doi: 10.1109/IROS40897.2019.8967788
+arxiv_id:
+tags:
+  - Trajectory optimization
+  - Constrained optimization
+  - iLQR
+  - Augmented Lagrangian
+  - ALTRO
+abstract: >
+  Trajectory optimization is a widely used tool for robot motion planning and control. Existing solvers for these problems either rely on off-the-shelf nonlinear programming solvers that are numerically robust and capable of handling arbitrary constraints, but tend to be slow because they are general purpose; or they use custom numerical methods that take advantage of the problem structure to be fast, but often lack robustness and have limited or no ability to reason about constraints. This paper presents ALTRO (Augmented Lagrangian TRajectory optimizer), a solver for constrained trajectory optimization problems that handles general nonlinear state and input constraints and offers fast convergence and numerical robustness thanks to careful exploitation of problem structure. We demonstrate its performance on a set of benchmark motion-planning problems and offer comparisons to the standard direct collocation method with large-scale sequential quadratic programming and interior-point solvers.
+summary: >
+  Introduces ALTRO (Augmented Lagrangian TRajectory Optimizer), combining augmented Lagrangian outer iterations with iLQR inner loops for constrained trajectory optimization, with an active-set constraint handling polishing step for fast convergence near the solution.
+link: https://roboticexplorationlab.org/papers/altro-iros.pdf
+links_alt:
+  - https://ieeexplore.ieee.org/document/8967788
+  - https://dl.acm.org/doi/10.1109/IROS40897.2019.8967788
+  - https://bjack205.github.io/assets/ALTRO.pdf
+  - https://bjack205.github.io/papers/AL_iLQR_Tutorial.pdf
+  - https://github.com/RoboticExplorationLab/Altro.jl
+  - https://github.com/RoboticExplorationLab/TrajectoryOptimization.jl

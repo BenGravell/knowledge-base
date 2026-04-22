@@ -21,6 +21,6 @@ summary: >
   CCMA applies an iterative spatial-curvature-corrected moving average to smooth a path without requiring any kinematic model. Takes advantage of special structure and knowledge that the data series represents a spatial path (instead of an arbitrary sequence).
 link: https://www.researchgate.net/publication/372692752_A_Simple_and_Model-Free_Path_Filtering_Algorithm_for_Smoothing_and_Accuracy
 links_alt:
-  - https://ieeexplore.ieee.org/abstract/document/10186704
+  - https://ieeexplore.ieee.org/document/10186704
   - https://medium.com/@steineckertommy/an-accurate-model-free-path-smoothing-algorithm-890fe383d163
   - https://github.com/UniBwTAS/ccma
