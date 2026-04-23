@@ -78,7 +78,7 @@ def build_metadata(fields: dict) -> dict:
         "algorithm": fields.get("algorithm") or None,
         "authors": fields["authors"],
         "year": fields["year"],
-        "source": fields.get("source", ""),
+        "source": fields.get("source") or None,
         "type": fields.get("type", ""),
         "doi": fields.get("doi") or None,
         "arxiv_id": fields.get("arxiv_id") or None,
@@ -101,6 +101,8 @@ def metadata_to_yaml(metadata: dict) -> str:
             lines.append(f"{key}:")
             for item in value:
                 lines.append(f"  - {item}")
+        elif key == "arxiv_id":
+            lines.append(f'{key}: "{value}"')
         elif isinstance(value, str) and len(value) > 80:
             # Block scalar for long strings
             lines.append(f"{key}: >")
@@ -147,7 +149,7 @@ for key, default in FIELD_DEFAULTS.items():
 # Step 1 - fetch from arXiv
 # ---------------------------------------------------------------------------
 
-st.header("1. Fetch from arXiv")
+st.header("Fetch from arXiv")
 
 col_id, col_btn = st.columns([3, 1])
 with col_id:
@@ -182,7 +184,7 @@ if link := data.get("link"):
 # Step 2 - edit fields
 # ---------------------------------------------------------------------------
 
-st.header("2. Edit Fields")
+st.header("Edit Fields")
 
 PAPER_TYPES = [
     "Conference Paper",
@@ -259,7 +261,7 @@ st.session_state["summary"] = st.text_area(
 # Step 3 - preview YAML
 # ---------------------------------------------------------------------------
 
-st.header("3. Preview")
+st.header("Preview")
 
 metadata = build_metadata(
     {
@@ -292,7 +294,7 @@ st.caption(f"Will write to: `{out_path}`")
 # Step 4 - write to disk
 # ---------------------------------------------------------------------------
 
-st.header("4. Write Entry")
+st.header("Write Entry")
 
 ready = bool(
     st.session_state["title"]
