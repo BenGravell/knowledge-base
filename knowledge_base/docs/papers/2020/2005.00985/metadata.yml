@@ -9,7 +9,7 @@ year: 2020
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.1109/ICRA48506.2021.9561530
-arxiv_id: 2005.00985
+arxiv_id: "2005.00985"
 tags:
   - Differential dynamic programming
   - Constrained optimization

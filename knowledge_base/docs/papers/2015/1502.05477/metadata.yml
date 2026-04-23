@@ -10,7 +10,7 @@ year: 2015
 source: International Conference on Machine Learning (ICML)
 type: Conference Paper
 doi: 10.5555/3045118.3045319
-arxiv_id: 1502.05477
+arxiv_id: "1502.05477"
 tags:
   - Reinforcement learning
   - Policy optimization

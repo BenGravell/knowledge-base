@@ -9,7 +9,7 @@ year: 2024
 source: IEEE Access
 type: Journal Paper
 doi: 10.1109/ACCESS.2024.3436835
-arxiv_id: 2402.01443
+arxiv_id: "2402.01443"
 tags:
   - Motion planning
   - Frenet frame

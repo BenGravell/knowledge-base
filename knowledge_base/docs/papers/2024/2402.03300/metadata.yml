@@ -16,7 +16,7 @@ year: 2024
 source: DeepSeek
 type: Technical Report
 doi:
-arxiv_id: 2402.03300
+arxiv_id: "2402.03300"
 tags:
   - Reinforcement learning
   - Policy optimization

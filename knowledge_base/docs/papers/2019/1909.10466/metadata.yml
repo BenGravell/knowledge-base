@@ -8,7 +8,7 @@ year: 2019
 source: arXiv
 type: Preprint
 doi:
-arxiv_id: 1909.10466
+arxiv_id: "1909.10466"
 tags:
   - Dynamic mode decomposition
   - DMD

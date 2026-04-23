@@ -8,7 +8,7 @@ year: 2021
 source: International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.1109/ICRA46639.2022.9811562
-arxiv_id: 2109.07081
+arxiv_id: "2109.07081"
 tags:
   - Trajectory optimization
   - Sequential quadratic programming

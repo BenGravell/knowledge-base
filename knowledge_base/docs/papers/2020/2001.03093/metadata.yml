@@ -9,7 +9,7 @@ year: 2020
 source: European Conference on Computer Vision (ECCV)
 type: Conference Paper
 doi: 10.1007/978-3-030-58523-5_40
-arxiv_id: 2001.03093
+arxiv_id: "2001.03093"
 tags:
   - Trajectory prediction
   - Motion forecasting

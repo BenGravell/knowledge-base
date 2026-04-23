@@ -10,7 +10,7 @@ year: 2017
 source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
 type: Conference Paper
 doi: 10.1109/IROS.2018.8593840
-arxiv_id: 1711.11006
+arxiv_id: "1711.11006"
 tags:
   - Trajectory optimization
   - Multiple shooting

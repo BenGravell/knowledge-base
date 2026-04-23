@@ -8,7 +8,7 @@ year: 2015
 source: Proceedings of the National Academy of Sciences (PNAS)
 type: Journal Paper
 doi: 10.1073/pnas.1517384113
-arxiv_id: 1509.03580
+arxiv_id: "1509.03580"
 tags:
   - System identification
   - Sparse regression

@@ -8,7 +8,7 @@ year: 2020
 source: Learning for Dynamics and Control (L4DC)
 type: Conference Paper
 doi:
-arxiv_id: 2004.08763
+arxiv_id: "2004.08763"
 tags:
   - Trajectory optimization
   - Model predictive control

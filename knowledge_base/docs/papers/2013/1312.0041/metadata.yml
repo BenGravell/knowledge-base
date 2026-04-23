@@ -10,7 +10,7 @@ year: 2013
 source: Journal of Computational Dynamics
 type: Journal Paper
 doi: 10.3934/jcd.2014.1.391
-arxiv_id: 1312.0041
+arxiv_id: "1312.0041"
 tags:
   - Dynamic mode decomposition
   - DMD

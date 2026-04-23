@@ -7,7 +7,7 @@ year: 2021
 source: IEEE Robotics and Automation Letters (RA-L)
 type: Journal Paper
 doi: 10.1109/LRA.2021.3098928
-arxiv_id: 2103.03293
+arxiv_id: "2103.03293"
 tags:
   - Differential dynamic programming
   - DDP

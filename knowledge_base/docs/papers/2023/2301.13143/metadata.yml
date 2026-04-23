@@ -8,7 +8,7 @@ year: 2023
 source: American Control Conference (ACC)
 type: Conference Paper
 doi: 10.23919/ACC55779.2023.10155837
-arxiv_id: 2301.13143
+arxiv_id: "2301.13143"
 tags:
   - Trajectory optimization
   - MPPI

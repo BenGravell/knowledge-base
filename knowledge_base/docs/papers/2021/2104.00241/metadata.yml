@@ -7,7 +7,7 @@ year: 2021
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.15607/rss.2021.xvii.073
-arxiv_id: 2104.00241
+arxiv_id: "2104.00241"
 tags:
   - Model predictive path integral control
   - MPPI

@@ -10,7 +10,7 @@ year: 2025
 source: Agents and Robots for Reliable Engineered Autonomy (AREA)
 type: Conference Paper
 doi: 10.1007/978-3-032-08049-3_8
-arxiv_id: 2510.00272
+arxiv_id: "2510.00272"
 tags:
   - MPPI
   - Trajectory optimization

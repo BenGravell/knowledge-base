@@ -11,7 +11,7 @@ year: 2024
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.1109/ICRA55743.2025.11128590
-arxiv_id: 2409.16012
+arxiv_id: "2409.16012"
 tags:
   - PRESTO
   - Motion planning

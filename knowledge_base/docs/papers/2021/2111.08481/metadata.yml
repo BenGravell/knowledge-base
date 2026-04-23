@@ -17,7 +17,7 @@ year: 2021
 source: Journal of Open Source Software
 type: Journal Paper
 doi: 10.21105/joss.03994
-arxiv_id: 2111.08481
+arxiv_id: "2111.08481"
 tags:
   - SINDy
   - System identification

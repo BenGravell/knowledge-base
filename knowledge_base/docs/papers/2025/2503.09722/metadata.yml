@@ -8,7 +8,7 @@ year: 2025
 source: Conference on Learning Theory (COLT)
 type: Conference Paper
 doi:
-arxiv_id: 2503.09722
+arxiv_id: "2503.09722"
 tags:
   - Imitation learning
   - Behavior cloning
