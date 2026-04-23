@@ -299,9 +299,7 @@ nav:
       - PPO: papers/1707_06347.md
       - QNTRPO: papers/1912_11912.md
       - SPO: papers/2401_16025.md
-      - GRPO: papers/2402_03300.md      
-    - Approximate Dynamic Programming (ADP) & Q-learning:
-      - TODO
+      - GRPO: papers/2402_03300.md
     - Model-Based RL & System Identification:
       - Subspace Identification:
         - Subspace Identification for Linear Systems: papers/1996_overschee_subspace_identification_for_linear.md
@@ -330,7 +328,19 @@ nav:
       - Streaming Flow Policy: papers/2505_21851.md
       - Pitfalls of Imitation Learning: papers/2503_09722.md
   - Optimization:
-    - Automatic Generation of Explicit Quadratic Programming Solvers: papers/2506_11513.md
+    - Convex Optimization:
+      - Linear Programming:
+        - TODO
+      - Quadratic Programming:
+        - Automatic Generation of Explicit Quadratic Programming Solvers: papers/2506_11513.md
+      - Second-order Cone Programming:
+        - TODO
+      - Semidefinite Programming:
+        - TODO
+      - General Convex Optimization:
+        - TODO
+    - Nonlinear Programming:
+      - TODO
   - Machine Learning:
     - Vision-language-action (VLA) Models:
       - Alpamayo-R1: papers/2511_00088.md
@@ -338,9 +348,8 @@ nav:
       - Transformers & Attention-based models:
         - Attention Is All You Need: papers/1706_03762.md
   - Safety, Testing & Verification:
-    - Safety:
-      - "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification": papers/2403_18972.md
-    - Computer Graphics:
+    - "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification": papers/2403_18972.md
+  - Computer Graphics:
     - 3D Gaussian Splatting: papers/2308_04079.md
   - Software & Programming:
     - Art & Practice: programming/art_and_practice.md
