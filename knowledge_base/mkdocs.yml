@@ -162,6 +162,7 @@ nav:
             - Cross-Entropy Motion Planning: papers/2012_kobilarov_cross_entropy_motion_planning.md
           - Model Predictive Path Integral Control (MPPI):
             - MPPI: papers/2017_williams_model_predictive_path_integral.md
+            - "Model Predictive Path Integral Control using Covariance Variable Importance Sampling": papers/1509_01149.md
             - "Model Predictive Path Integral Control: Theoretical Foundations and Applications to Autonomous Driving (Grady Williams PhD Dissertation)": papers/2019_williams_model_predictive_path_integral.md
             - Tsallis VI-SOC: papers/2104_00241.md
             - C-Uniform MPPI: papers/2409_12266.md
