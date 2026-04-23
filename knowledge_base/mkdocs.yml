@@ -321,6 +321,7 @@ nav:
         - PySINDy: papers/2111_08481.md
       - World Models:
         - PlaNet: papers/1811_04551.md
+        - Dreamer: papers/1912_01603.md
     - Hybrid Approaches:
       - PLAL: papers/2209_09006.md
       - Power of Locally Linear Models: papers/2305_09619.md
