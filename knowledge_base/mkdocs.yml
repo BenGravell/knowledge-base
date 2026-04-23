@@ -156,8 +156,6 @@ nav:
         - Minimum Jerk Trajectory Generation for Differential Wheeled Mobile Robots: papers/2013_palamakumburu_minimum_jerk_trajectory_generation.md
       - Trajectory Optimization:
         - Model Predictive Sampling-Based Control:
-          - Predictive Sampling: papers/2212_00541.md
-          - Judo: papers/2506_17184.md
           - Cross-Entropy Motion Planning (CEM):
             - Cross-Entropy Motion Planning: papers/2012_kobilarov_cross_entropy_motion_planning.md
           - Model Predictive Path Integral Control (MPPI):
@@ -263,6 +261,9 @@ nav:
       - DDP and MPPI on VTOL Aircraft: papers/2022_houghton_path_planning_differential_dynamic.md
     - Frameworks & Stack Architectures:
       - Boss: papers/2008_urmson_autonomous_driving_in_urban.md
+      - MJPC: papers/2212_00541.md
+      - Judo: papers/2506_17184.md
+      - "MPPI+IsaacGym": papers/2307_09105.md
       - DiffStack: papers/2212_06437.md
       - FRENETIX: papers/2402_01443.md
   - Motion Prediction:
