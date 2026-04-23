@@ -271,11 +271,11 @@ nav:
       - "Trajectron++": papers/2001_03093.md
       - Wayformer: papers/2207_05844.md
     - Prediction Horizon:
-      - "Prediction Horizon Requirements for Automated Driving: Optimizing Safety, Comfort, and Efficiency": papers/2402_03893.md
+      - "Prediction Horizon Requirements for Automated Driving": papers/2402_03893.md
     - Surveys:
-      - "Trends in Motion Prediction Toward Deployable and Generalizable Autonomy: A Revisit and Perspectives": papers/2505_09074.md
-      - "Motion Forecasting for Autonomous Vehicles: A Survey": papers/2502_08664.md
-      - "Trajectory Prediction for Autonomous Driving: Progress, Limitations, and Future Directions": papers/2503_03262.md
+      - "Trends in Motion Prediction Toward Deployable and Generalizable Autonomy": papers/2505_09074.md
+      - "Motion Forecasting for Autonomous Vehicles": papers/2502_08664.md
+      - "Trajectory Prediction for Autonomous Driving": papers/2503_03262.md
       - Deep Learning-based Vehicle Behaviour Prediction: papers/1912_11676.md
       - A Survey on Motion Prediction and Risk Assessment for Intelligent Vehicles: papers/2014_lefevre_a_survey_on_motion.md
       - Action and Trajectory Prediction for Autonomous Driving: papers/2024_calem_action_and_trajectory_prediction.md
