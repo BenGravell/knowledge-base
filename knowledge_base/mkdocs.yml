@@ -337,6 +337,8 @@ nav:
     - Large language models (LLM):
       - Transformers & Attention-based models:
         - Attention Is All You Need: papers/1706_03762.md
+  - Computer Graphics:
+    - 3D Gaussian Splatting: papers/2308_04079.md
   - Just for Fun:
     - Design and Control of a Bipedal Robotic Character: papers/2501_05204.md
   - Safety, Testing & Verification:
