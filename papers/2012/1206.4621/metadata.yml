@@ -7,7 +7,7 @@ year: 2012
 source: International Conference on Machine Learning (ICML)
 type: Conference Paper
 doi: 10.5555/3042573.3042771
-arxiv_id: 1206.4621
+arxiv_id: "1206.4621"
 tags:
   - Path integral control
   - Policy optimization

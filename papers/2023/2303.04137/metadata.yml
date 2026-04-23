@@ -13,7 +13,7 @@ year: 2023
 source: International Journal of Robotics Research (IJRR)
 type: Journal Paper
 doi: 10.1177/02783649241273668
-arxiv_id: 2303.04137
+arxiv_id: "2303.04137"
 tags:
   - Diffusion policy
   - Diffusion models

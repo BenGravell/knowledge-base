@@ -9,7 +9,7 @@ year: 2022
 source: Open Journal of Mathematical Optimization
 type: Journal Paper
 doi: 10.5802/ojmo.32
-arxiv_id: 2207.06362
+arxiv_id: "2207.06362"
 tags:
   - Trajectory optimization
   - iLQR

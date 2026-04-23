@@ -10,7 +10,7 @@ year: 2024
 source: International Conference on Machine Learning (ICML)
 type: Preprint
 doi: 10.5555/3780338.3783085
-arxiv_id: 2401.16025
+arxiv_id: "2401.16025"
 tags:
   - Reinforcement learning
   - Policy optimization

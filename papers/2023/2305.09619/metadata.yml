@@ -10,7 +10,7 @@ year: 2023
 source: International Conference on Machine Learning (ICML)
 type: Conference Paper
 doi: 10.5555/3618408.3619563
-arxiv_id: 2305.09619
+arxiv_id: "2305.09619"
 tags:
   - Reinforcement learning
   - Trajectory optimization

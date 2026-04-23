@@ -9,7 +9,7 @@ year: 2025
 source: Journal of Machine Learning Research (JMLR)
 type: Journal Paper
 doi:
-arxiv_id: 2204.02322
+arxiv_id: "2204.02322"
 tags:
   - Trajectory optimization
   - iLQR

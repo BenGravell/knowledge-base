@@ -10,7 +10,7 @@ year: 2025
 source: arXiv
 type: Preprint
 doi:
-arxiv_id: 2505.05507
+arxiv_id: "2505.05507"
 tags:
   - MPPI
   - Trajectory optimization

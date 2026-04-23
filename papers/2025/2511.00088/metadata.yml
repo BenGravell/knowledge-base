@@ -46,7 +46,7 @@ authors:
 year: 2025
 source: NVIDIA
 type: Technical Report
-arxiv_id: 2511.00088
+arxiv_id: "2511.00088"
 tags:
   - Vision-language-action model
 summary: >

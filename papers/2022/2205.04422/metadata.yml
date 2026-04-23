@@ -9,7 +9,7 @@ year: 2022
 source: Science Robotics
 type: Journal Paper
 doi: 10.1126/scirobotics.adf7843
-arxiv_id: 2205.04422
+arxiv_id: "2205.04422"
 tags:
   - Motion planning
   - Trajectory optimization

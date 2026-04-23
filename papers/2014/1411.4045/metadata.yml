@@ -9,7 +9,7 @@ year: 2014
 source: The International Journal of Robotics Research (IJRR)
 type: Journal Paper
 doi: 10.1177/0278364916675419
-arxiv_id: 1411.4045
+arxiv_id: "1411.4045"
 tags:
   - Kinodynamic planning
   - Path-velocity decomposition

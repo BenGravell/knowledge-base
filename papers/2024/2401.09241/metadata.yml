@@ -7,7 +7,7 @@ year: 2024
 source: IEEE Robotics and Automation Letters (RA-L)
 type: Journal Paper
 doi: 10.1109/LRA.2024.3397083
-arxiv_id: 2401.09241
+arxiv_id: "2401.09241"
 tags:
   - MPPI
   - Trajectory optimization

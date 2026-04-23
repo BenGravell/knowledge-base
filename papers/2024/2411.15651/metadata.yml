@@ -9,7 +9,7 @@ year: 2024
 source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
 type: Conference Paper
 doi: 10.1109/IROS58592.2024.10802673
-arxiv_id: 2411.15651
+arxiv_id: "2411.15651"
 tags:
   - Model Predictive Control
   - Tree search

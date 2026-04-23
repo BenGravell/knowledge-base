@@ -16,7 +16,7 @@ year: 2024
 source: DeepSeek
 type: Technical Report
 doi:
-arxiv_id: 2402.03300
+arxiv_id: "2402.03300"
 tags:
   - Reinforcement learning
   - Policy optimization
@@ -26,7 +26,7 @@ tags:
 abstract: >
   Mathematical reasoning poses a significant challenge for language models due to its complex and structured nature. In this paper, we introduce DeepSeekMath 7B, which continues pre-training DeepSeek-Coder-Base-v1.5 7B with 120B math-related tokens sourced from Common Crawl, together with natural language and code data. DeepSeekMath 7B has achieved an impressive score of 51.7% on the competition-level MATH benchmark without relying on external toolkits and voting techniques, approaching the performance level of Gemini-Ultra and GPT-4. Self-consistency over 64 samples from DeepSeekMath 7B achieves 60.9% on MATH. The mathematical reasoning capability of DeepSeekMath is attributed to two key factors: First, we harness the significant potential of publicly available web data through a meticulously engineered data selection pipeline. Second, we introduce Group Relative Policy Optimization (GRPO), a variant of Proximal Policy Optimization (PPO), that enhances mathematical reasoning abilities while concurrently optimizing the memory usage of PPO.
 summary: >
-  Introduces GRPO (Group Relative Policy Optimization), a memory-efficient RL variant that replaces the PPO critic with group-relative reward normalization. Used to train DeepSeekMath to achieve state-of-the-art mathematical reasoning in open LLMs.
+  Introduces GRPO (Group Relative Policy Optimization), a memory-efficient RL variant that replaces the PPO critic with group-relative reward normalization. Historically this caused a big buzz in the Machine Learning world because it was used to train DeepSeek R1, an open weights LLM from China that performed nearly as well as leading closed weights LLMs from the USA. Nevertheless, GRPO is very similar to the REINFORCE policy gradient algorithm, c.f. [A vision researcher's guide to some RL stuff: PPO & GRPO - Yuge (Jimmy) Shi](https://yugeten.github.io/posts/2025/01/ppogrpo/)
 link: https://arxiv.org/pdf/2402.03300
 links_alt:
   - https://openreview.net/forum?id=UTsCnrhVSB

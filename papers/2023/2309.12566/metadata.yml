@@ -9,7 +9,7 @@ year: 2023
 source: Annual Reviews in Control
 type: Survey Paper
 doi: 10.1016/j.arcontrol.2023.100931
-arxiv_id: 2309.12566
+arxiv_id: "2309.12566"
 tags:
   - MPPI
   - Path integral control

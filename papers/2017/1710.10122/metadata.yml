@@ -9,7 +9,7 @@ year: 2017
 source: IEEE Robotics and Automation Letters (RA-L)
 type: Conference Paper
 doi: 10.1109/LRA.2018.2801470
-arxiv_id: 1710.10122
+arxiv_id: "1710.10122"
 tags:
   - Sampling-based
   - Sampling-based planning

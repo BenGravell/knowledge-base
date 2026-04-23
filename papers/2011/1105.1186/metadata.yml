@@ -7,7 +7,7 @@ year: 2011
 source: The International Journal of Robotics Research (IJRR)
 type: Journal Paper
 doi: 10.1177/0278364911406761
-arxiv_id: 1105.1186
+arxiv_id: "1105.1186"
 tags:
   - Motion planning
   - Asymptotically optimal

@@ -7,7 +7,7 @@ year: 2024
 source: arXiv
 type: Preprint
 doi:
-arxiv_id: 2403.00748
+arxiv_id: "2403.00748"
 tags:
   - iLQR
   - Trajectory optimization

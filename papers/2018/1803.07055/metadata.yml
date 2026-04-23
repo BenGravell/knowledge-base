@@ -8,7 +8,7 @@ year: 2018
 source: Neural Information Processing Systems (NeurIPS)
 type: Conference Paper
 doi: 10.5555/3326943.3327109
-arxiv_id: 1803.07055
+arxiv_id: "1803.07055"
 tags:
   - Reinforcement learning
   - Random search

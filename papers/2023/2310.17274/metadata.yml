@@ -17,7 +17,7 @@ year: 2023
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.1109/ICRA48891.2023.10160765
-arxiv_id: 2310.17274
+arxiv_id: "2310.17274"
 tags:
   - Motion planning
   - Trajectory optimization

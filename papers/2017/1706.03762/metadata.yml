@@ -12,7 +12,7 @@ authors:
 year: 2017
 source: 31st Conference on Neural Information Processing Systems (NIPS)
 type: Journal Paper
-arxiv_id: 1706.03762
+arxiv_id: "1706.03762"
 tags:
   - Transformers
   - NLP

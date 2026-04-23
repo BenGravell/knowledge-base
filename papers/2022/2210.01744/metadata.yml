@@ -8,7 +8,7 @@ year: 2022
 source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
 type: Conference Paper
 doi: 10.1109/IROS55552.2023.10341760
-arxiv_id: 2210.01744
+arxiv_id: "2210.01744"
 tags:
   - Kinodynamic planning
   - RRT

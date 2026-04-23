@@ -8,7 +8,7 @@ year: 2014
 source: The International Journal of Robotics Research (IJRR)
 type: Journal Paper
 doi: 10.1177/0278364915614386
-arxiv_id: 1407.2896
+arxiv_id: "1407.2896"
 tags:
   - Kinodynamic planning
   - Asymptotic optimality

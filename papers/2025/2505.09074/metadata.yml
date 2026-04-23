@@ -21,7 +21,7 @@ year: 2025
 source:
 type: Survey Paper
 doi:
-arxiv_id: 2505.09074
+arxiv_id: "2505.09074"
 tags:
   - Motion prediction
   - Autonomous driving

@@ -11,7 +11,7 @@ year: 2024
 source: IEEE Intelligent Vehicles Symposium (IV)
 type: Conference Paper
 doi: 10.1109/IV55156.2024.10588728
-arxiv_id: 2402.03893
+arxiv_id: "2402.03893"
 tags:
   - Motion prediction
   - Prediction horizon

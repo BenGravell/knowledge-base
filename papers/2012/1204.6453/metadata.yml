@@ -7,7 +7,7 @@ year: 2013
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.1109/ICRA.2013.6630906
-arxiv_id: 1204.6453
+arxiv_id: "1204.6453"
 tags:
   - Motion planning
   - Optimal motion planning

@@ -8,7 +8,7 @@ year: 2026
 source: arXiv
 type: Preprint
 doi:
-arxiv_id: 2602.02846
+arxiv_id: "2602.02846"
 tags:
   - Motion planning
   - Sampling-based planning

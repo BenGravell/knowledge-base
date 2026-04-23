@@ -9,7 +9,7 @@ year: 2017
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.1109/ICRA.2018.8460766
-arxiv_id: 1710.09483
+arxiv_id: "1710.09483"
 tags:
   - Multimodal
   - Probabilistic

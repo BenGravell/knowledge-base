@@ -9,7 +9,7 @@ year: 2023
 source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
 type: Conference Paper
 doi: 10.1109/IROS55552.2023.10342336
-arxiv_id: 2303.16746
+arxiv_id: "2303.16746"
 tags:
   - Trajectory optimization
   - Constrained optimization

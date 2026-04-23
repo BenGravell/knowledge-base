@@ -9,7 +9,7 @@ year: 2025
 source: IEEE Robotics and Automation Letters (RA-L)
 type: Journal Paper
 doi:
-arxiv_id: 2505.10542
+arxiv_id: "2505.10542"
 tags:
   - Motion planning
   - Sampling-based planning

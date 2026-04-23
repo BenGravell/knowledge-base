@@ -8,7 +8,7 @@ year: 2015
 source: Robotics and Autonomous Systems (RAS)
 type: Journal Paper
 doi: 10.1016/j.robot.2016.12.002
-arxiv_id: 1511.05259
+arxiv_id: "1511.05259"
 tags:
   - Kinodynamic planning
   - Probabilistic completeness

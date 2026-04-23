@@ -10,7 +10,7 @@ year: 2025
 source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
 type: Preprint
 doi: 10.1109/IROS60139.2025.11247256
-arxiv_id: 2503.05819
+arxiv_id: "2503.05819"
 tags:
   - MPPI
   - Trajectory optimization

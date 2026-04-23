@@ -10,7 +10,7 @@ year: 2022
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.1109/ICRA48891.2023.10160387
-arxiv_id: 2209.09006
+arxiv_id: "2209.09006"
 tags:
   - Trajectory optimization
   - Policy learning
