@@ -63,6 +63,7 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Mind Map: mind-map.md
   - Explainers:
     - PID: explainers/pid.md
     - LQR: explainers/lqr.md
