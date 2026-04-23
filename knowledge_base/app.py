@@ -48,17 +48,17 @@ def fetch_pdf(url):
 def show_paper(metadata: dict) -> None:
     title = metadata.get("title", "Untitled")
     algorithm = metadata.get("algorithm")
-    authors = metadata.get("authors", [])
+    authors = metadata.get("authors", []) or []
     year = metadata.get("year", "")
     source = metadata.get("source", "")
     type_ = metadata.get("type", "")
     doi = metadata.get("doi")
     arxiv_id = metadata.get("arxiv_id")
-    tags = metadata.get("tags", [])
+    tags = metadata.get("tags", []) or []
     abstract = metadata.get("abstract", "")
     summary = metadata.get("summary", "")
     link = metadata.get("link")
-    links_alt = metadata.get("links_alt", [])
+    links_alt = metadata.get("links_alt", []) or []
 
     heading = f"{algorithm}: {title}" if algorithm else title
     st.header(heading)
