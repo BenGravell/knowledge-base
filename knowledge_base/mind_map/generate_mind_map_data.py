@@ -46,26 +46,29 @@ the script falls back to fastembed automatically.
 Usage
 -----
 Basic (auto-selects backend, incremental):
-    python generate_mind_map_data.py
+    python knowledge_base/mind_map/generate_mind_map_data.py
 
 Force full re-embed (ignores cache):
-    python generate_mind_map_data.py --force
+    python knowledge_base/mind_map/generate_mind_map_data.py --force
 
 Choose a specific backend explicitly:
     python generate_mind_map_data.py --backend voyage
     python generate_mind_map_data.py --backend fastembed
 
 Custom similarity threshold and top-K guarantee:
-    python generate_mind_map_data.py --threshold 0.82 --top-k 4
+    python knowledge_base/mind_map/generate_mind_map_data.py --threshold 0.82 --top-k 4
 
 Custom paths:
-    python generate_mind_map_data.py --cache my_cache.json \\
-        --output knowledge_base/docs/javascripts/mind-map-data.js
+    python knowledge_base/mind_map/generate_mind_map_data.py \\
+        --cache knowledge_base/mind_map/my_cache.json \\
+        --output knowledge_base/mind_map/mind-map-data.js
 
 Output
 ------
-``knowledge_base/docs/javascripts/mind-map-data.js`` — a JS file that
-sets the global ``mindMapData`` variable consumed by mind-map.js.
+``knowledge_base/mind_map/mind-map-data.js`` — a JS file that sets the
+global ``mindMapData`` variable consumed by mind-map.js.  The MkDocs
+gen-files script ``copy_assets.py`` publishes this file into the served
+site automatically at build time.
 
 After running this script, rebuild or re-serve the MkDocs site:
     cd knowledge_base && mkdocs serve
@@ -95,15 +98,17 @@ from pathlib import Path
 import yaml
 
 # ---------------------------------------------------------------------------
-# Paths (all relative to this script's location, i.e. the repo root)
+# Paths (relative to this script's location: knowledge_base/mind_map/)
 # ---------------------------------------------------------------------------
 
-REPO_ROOT = Path(__file__).parent
-DOCS_DIR = REPO_ROOT / "knowledge_base" / "docs"
+MIND_MAP_DIR = Path(__file__).parent          # knowledge_base/mind_map/
+KB_DIR       = MIND_MAP_DIR.parent            # knowledge_base/
+REPO_ROOT    = KB_DIR.parent                  # repo root
+DOCS_DIR     = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
-MKDOCS_YML = REPO_ROOT / "knowledge_base" / "mkdocs.yml"
-DEFAULT_CACHE = REPO_ROOT / "embedding_cache.json"
-DEFAULT_OUTPUT = DOCS_DIR / "javascripts" / "mind-map-data.js"
+MKDOCS_YML   = KB_DIR / "mkdocs.yml"
+DEFAULT_CACHE  = MIND_MAP_DIR / "embedding_cache.json"
+DEFAULT_OUTPUT = MIND_MAP_DIR / "mind-map-data.js"
 
 # ---------------------------------------------------------------------------
 # Graph construction parameters (overridable via CLI)

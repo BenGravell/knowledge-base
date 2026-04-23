@@ -8,6 +8,7 @@ plugins:
   - gen-files:
       scripts:
         - generate_papers.py
+        - mind_map/copy_assets.py
 
 theme:
   name: material
