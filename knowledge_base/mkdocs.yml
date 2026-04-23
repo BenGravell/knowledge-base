@@ -319,6 +319,8 @@ nav:
         - SINDy with Control: papers/2108_13404.md
         - SINDy-RL: papers/2403_09110.md
         - PySINDy: papers/2111_08481.md
+      - World Models:
+        - PlaNet: papers/1811_04551.md
     - Hybrid Approaches:
       - PLAL: papers/2209_09006.md
       - Power of Locally Linear Models: papers/2305_09619.md
