@@ -9,7 +9,7 @@ year: 2013
 source: The International Journal of Robotics Research (IJRR)
 type: Journal Paper
 doi: 10.1177/0278364915577958
-arxiv_id: 1306.3532
+arxiv_id: "1306.3532"
 tags:
   - Motion planning
   - Optimal motion planning

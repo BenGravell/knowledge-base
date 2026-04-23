@@ -7,7 +7,7 @@ authors:
 year: 2025
 source: "Robotics: Science and Systems (RSS)"
 type: Journal Paper
-arxiv_id: 2506.11513
+arxiv_id: "2506.11513"
 tags:
   - Quadratic programming
   - CVX

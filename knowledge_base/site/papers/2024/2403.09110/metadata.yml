@@ -9,7 +9,7 @@ year: 2024
 source: Nature Communications
 type: Journal Paper
 doi: 10.1038/s41467-025-65738-4
-arxiv_id: 2403.09110
+arxiv_id: "2403.09110"
 tags:
   - Reinforcement learning
   - SINDy

@@ -16,7 +16,7 @@ year: 2023
 source: IEEE Transactions on Intelligent Vehicles
 type: Journal Paper
 doi: 10.1109/TIV.2023.3274536
-arxiv_id: 2303.09824
+arxiv_id: "2303.09824"
 tags:
   - Survey
   - Motion planning

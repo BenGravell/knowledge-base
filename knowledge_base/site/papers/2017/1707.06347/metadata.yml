@@ -10,7 +10,7 @@ year: 2017
 source: OpenAI
 type: Technical Report
 doi:
-arxiv_id: 1707.06347
+arxiv_id: "1707.06347"
 tags:
   - Reinforcement learning
   - Policy optimization

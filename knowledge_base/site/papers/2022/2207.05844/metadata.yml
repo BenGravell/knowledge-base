@@ -11,7 +11,7 @@ year: 2022
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.1109/ICRA48891.2023.10160609
-arxiv_id: 2207.05844
+arxiv_id: "2207.05844"
 tags:
   - Motion forecasting
   - Transformer

@@ -7,7 +7,7 @@ year: 2017
 source: IEEE Transactions on Robotics (TRO)
 type: Journal Paper
 doi: 10.1109/TRO.2018.2819195
-arxiv_id: 1707.07239
+arxiv_id: "1707.07239"
 tags:
   - Time-optimal
   - Speed planning

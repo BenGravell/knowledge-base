@@ -13,7 +13,7 @@ year: 2022
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.1109/ICRA46639.2022.9812276
-arxiv_id: 2111.12083
+arxiv_id: "2111.12083"
 tags:
   - Autonomous Driving
   - Data-driven Simulation

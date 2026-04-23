@@ -10,7 +10,7 @@ year: 2025
 source: "Robotics: Science and Systems (RSS)"
 type: Conference Paper
 doi:
-arxiv_id: 2504.18978
+arxiv_id: "2504.18978"
 tags:
   - Motion planning
   - Trajectory optimization

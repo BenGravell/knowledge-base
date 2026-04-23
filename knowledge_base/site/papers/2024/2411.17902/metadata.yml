@@ -10,7 +10,7 @@ year: 2025
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.1109/ICRA57013.2025.11127785
-arxiv_id: 2411.17902
+arxiv_id: "2411.17902"
 tags:
   - Motion planning
   - Sampling-based planning

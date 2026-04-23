@@ -10,7 +10,7 @@ year: 2021
 source: IEEE Conference on Decision and Control (CDC)
 type: Conference Paper
 doi: 10.1109/CDC45484.2021.9683120
-arxiv_id: 2108.13404
+arxiv_id: "2108.13404"
 tags:
   - SINDy
   - System identification

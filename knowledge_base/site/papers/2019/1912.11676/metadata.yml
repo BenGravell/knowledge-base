@@ -10,7 +10,7 @@ year: 2019
 source: IEEE Transactions on Intelligent Transportation Systems
 type: Survey Paper
 doi: 10.1109/tits.2020.3012034
-arxiv_id: 1912.11676
+arxiv_id: "1912.11676"
 tags:
   - Motion prediction
   - Vehicle behavior prediction

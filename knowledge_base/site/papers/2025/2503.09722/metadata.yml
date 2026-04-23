@@ -8,7 +8,7 @@ year: 2025
 source: Conference on Learning Theory (COLT)
 type: Conference Paper
 doi:
-arxiv_id: 2503.09722
+arxiv_id: "2503.09722"
 tags:
   - Imitation learning
   - Behavior cloning
@@ -18,7 +18,7 @@ tags:
 abstract: >
   We study the problem of imitating an expert demonstrator in a discrete-time, continuous state-and-action space control system. We show that there exist stable dynamics (i.e. contracting exponentially quickly) and smooth, deterministic experts such that any smooth, deterministic imitator policy necessarily suffers error on execution that is exponentially larger, as a function of problem horizon, than the error under the distribution of expert training data. Our negative result applies to both behavior cloning and offline-RL algorithms, unless they produce highly \emph{improper} imitator policies — those which are non-smooth, non-Markovian, or which exhibit highly state-dependent stochasticity — or unless the expert trajectory distribution is sufficiently spread. We provide preliminary evidence of the benefits of these more complex policy parameterizations, explicating the benefits of today’s popular policy parameterizations in robot learning (e.g. action-chunking and diffusion-policies). We also establish a host of complementary negative and positive results for imitation in control systems.
 summary: >
-  Provides theoretical analysis explaining why action chunking and high-capacity policy representations (Transformers, Diffusion Policy) outperform smooth or low-capacity policies in behavior cloning with continuous actions, rooted in the structure of the imitation learning error.
+  Provides theoretical analysis explaining why action chunking and high-capacity policy representations (Transformers, Diffusion Policy) outperform smooth or low-capacity representations in behavior cloning with continuous actions.
 link: https://arxiv.org/pdf/2503.09722
 links_alt:
   - https://proceedings.mlr.press/v291/simchowitz25a.html

@@ -9,7 +9,7 @@ year: 2018
 source: Autonomous Robots
 type: Journal Paper
 doi:
-arxiv_id: 1809.02399
+arxiv_id: "1809.02399"
 tags:
   - Kinodynamic planning
   - Trajectory planning

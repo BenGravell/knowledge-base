@@ -10,7 +10,7 @@ year: 2019
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.1109/ICRA40945.2020.9196553
-arxiv_id: 1909.09688
+arxiv_id: "1909.09688"
 tags:
   - Motion planning
   - Asymptotically optimal

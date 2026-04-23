@@ -8,7 +8,7 @@ year: 2025
 source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
 type: Conference Paper
 doi: 10.1109/IROS60139.2025.11246427
-arxiv_id: 2508.05027
+arxiv_id: "2508.05027"
 tags:
   - Motion planning
   - Path shortcutting

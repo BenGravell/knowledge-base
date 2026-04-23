@@ -8,7 +8,7 @@ year: 2014
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.1109/ICRA.2015.7139620
-arxiv_id: 1405.5848
+arxiv_id: "1405.5848"
 tags:
   - Motion planning
   - Sampling-based planning

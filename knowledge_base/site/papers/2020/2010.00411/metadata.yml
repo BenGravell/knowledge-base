@@ -12,7 +12,7 @@ year: 2020
 source: Autonomous Robots
 type: Journal Paper
 doi: 10.1007/s10514-022-10061-w
-arxiv_id: 2010.00411
+arxiv_id: "2010.00411"
 tags:
   - Differential dynamic programming
   - Constrained optimization

@@ -9,7 +9,7 @@ year: 2022
 source: Transactions on Industrial Informatics
 type: Journal Paper
 doi: 10.1109/TII.2024.3507940
-arxiv_id: 2208.02439
+arxiv_id: "2208.02439"
 tags:
   - Trajectory optimization
   - MPPI

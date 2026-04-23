@@ -10,7 +10,7 @@ year: 2024
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.1109/ICRA55743.2025.11127320
-arxiv_id: 2409.15610
+arxiv_id: "2409.15610"
 tags:
   - Trajectory optimization
   - MPPI
@@ -21,7 +21,7 @@ tags:
 abstract: >
   Due to high dimensionality and non-convexity, real-time optimal control using full-order dynamics models for legged robots is challenging. Therefore, Nonlinear Model Predictive Control (NMPC) approaches are often limited to reduced-order models. Sampling-based MPC has shown potential in nonconvex even discontinuous problems, but often yields suboptimal solutions with high variance, which limits its applications in high-dimensional locomotion. This work introduces DIAL-MPC (Diffusion-Inspired Annealing for Legged MPC), a sampling-based MPC framework with a novel diffusion-style annealing process. Such an annealing process is supported by the theoretical landscape analysis of Model Predictive Path Integral Control (MPPI) and the connection between MPPI and single-step diffusion. Algorithmically, DIAL-MPC iteratively refines solutions online and achieves both global coverage and local convergence. In quadrupedal torque-level control tasks, DIAL-MPC reduces the tracking error of standard MPPI by 13.4 times and outperforms reinforcement learning (RL) policies by 50% in challenging climbing tasks without any training. In particular, DIAL-MPC enables precise real-world quadrupedal jumping with payload. To the best of our knowledge, DIAL-MPC is the first training-free method that optimizes over full-order quadruped dynamics in real-time.
 summary: >
-  Generalizes MPPI as a single denoising step and extends it to a multi-step diffusion-style annealing process: DIAL-MPC starts with smooth-but-coarse cost approximations and progressively refines to accurate local objectives, enabling full-order torque-level locomotion control in real time.
+  Takes a perspective of treating MPPI as a single step of a denoising diffusion process, and generalizes this process to a multi-step diffusion-style annealing process. DIAL-MPC starts optimizing the control sequence with smooth but inaccurate objectives and gradually shifts to more accurate local objectives.
 link: https://arxiv.org/pdf/2409.15610
 links_alt:
   - https://ieeexplore.ieee.org/document/11127320

@@ -8,7 +8,7 @@ year: 2017
 source: IEEE International Conference on Robotic Computing (IRC)
 type: Conference Paper
 doi: 10.1109/IRC.2017.7926542
-arxiv_id: 1705.02403
+arxiv_id: "1705.02403"
 tags:
   - Motion planning
   - Kinodynamic planning  

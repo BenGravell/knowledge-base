@@ -8,7 +8,7 @@ year: 2014
 source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
 type: Conference Paper
 doi: 10.1109/IROS.2014.6942976
-arxiv_id: 1404.2334
+arxiv_id: "1404.2334"
 tags:
   - Motion planning
   - Sampling-based planning

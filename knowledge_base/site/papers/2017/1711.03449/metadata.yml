@@ -8,7 +8,7 @@ year: 2017
 source: IEEE Transactions on Control Systems Technology
 type: Journal Paper
 doi: 10.1109/TCST.2019.2949540
-arxiv_id: 1711.03449
+arxiv_id: "1711.03449"
 tags:
   - Collision avoidance
   - Trajectory optimization

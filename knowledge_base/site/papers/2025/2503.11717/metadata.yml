@@ -6,7 +6,7 @@ year: 2025
 source: International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi:
-arxiv_id: 2503.11717
+arxiv_id: "2503.11717"
 tags:
   - MPPI
   - Trajectory optimization
