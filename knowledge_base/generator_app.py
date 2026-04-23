@@ -29,6 +29,7 @@ st.title("Paper Entry Generator")
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def fetch_arxiv(arxiv_id: str) -> dict:
     """Fetch basic metadata from the arXiv Atom API and return a dict."""
     url = ARXIV_API.format(arxiv_id=arxiv_id.strip())
@@ -46,7 +47,7 @@ def fetch_arxiv(arxiv_id: str) -> dict:
 
     title = re.sub(r"\s+", " ", text("title"))
     abstract = re.sub(r"\s+", " ", text("summary"))
-    published = text("published")          # e.g. "2024-03-16T00:00:00Z"
+    published = text("published")  # e.g. "2024-03-16T00:00:00Z"
     year = int(published[:4]) if published else 0
 
     authors = []
@@ -151,12 +152,10 @@ for key, default in FIELD_DEFAULTS.items():
 
 st.header("Fetch from arXiv")
 
-col_id, col_btn = st.columns([3, 1])
-with col_id:
-    raw_id = st.text_input("arXiv ID", placeholder="e.g. 2403.10745")
-with col_btn:
-    st.write("")  # vertical alignment spacer
-    fetch_clicked = st.button("Fetch", use_container_width=True)
+
+raw_id = st.text_input("arXiv ID", placeholder="e.g. 2403.10745")
+
+fetch_clicked = st.button("Fetch", use_container_width=False)
 
 data = {}
 if fetch_clicked and raw_id.strip():
@@ -195,57 +194,51 @@ PAPER_TYPES = [
     "Other",
 ]
 
-left, right = st.columns(2)
 
-with left:
-    st.session_state["title"] = st.text_input(
-        "Title *", value=st.session_state["title"]
-    )
-    st.session_state["algorithm"] = st.text_input(
-        "Algorithm / Short name", value=st.session_state["algorithm"]
-    )
-    st.session_state["year"] = st.number_input(
-        "Year *", value=st.session_state["year"], step=1, format="%d"
-    )
-    st.session_state["arxiv_id"] = st.text_input(
-        "arXiv ID", value=st.session_state["arxiv_id"]
-    )
-    st.session_state["doi"] = st.text_input(
-        "DOI", value=st.session_state["doi"], placeholder="10.1109/…"
-    )
-    st.session_state["link"] = st.text_input(
-        "Primary link", value=st.session_state["link"]
-    )
+st.session_state["title"] = st.text_input("Title *", value=st.session_state["title"])
+st.session_state["algorithm"] = st.text_input(
+    "Algorithm / Short name", value=st.session_state["algorithm"]
+)
+st.session_state["year"] = st.number_input(
+    "Year *", value=st.session_state["year"], step=1, format="%d"
+)
+st.session_state["arxiv_id"] = st.text_input(
+    "arXiv ID", value=st.session_state["arxiv_id"]
+)
+st.session_state["doi"] = st.text_input(
+    "DOI", value=st.session_state["doi"], placeholder="10.1109/…"
+)
+st.session_state["link"] = st.text_input("Primary link", value=st.session_state["link"])
 
-with right:
-    st.session_state["source"] = st.text_input(
-        "Venue / Source *",
-        value=st.session_state["source"],
-        placeholder="IEEE International Conference on Robotics and Automation (ICRA)",
-    )
-    current_type = st.session_state["paper_type"]
-    type_index = PAPER_TYPES.index(current_type) if current_type in PAPER_TYPES else 0
-    st.session_state["paper_type"] = st.selectbox(
-        "Type *", PAPER_TYPES, index=type_index
-    )
-    authors_text = st.text_area(
-        "Authors * (one per line)",
-        value="\n".join(st.session_state["authors"]),
-        height=120,
-    )
-    st.session_state["authors"] = [a.strip() for a in authors_text.splitlines() if a.strip()]
+st.session_state["source"] = st.text_input(
+    "Venue / Source *",
+    value=st.session_state["source"],
+    placeholder="IEEE International Conference on Robotics and Automation (ICRA)",
+)
+current_type = st.session_state["paper_type"]
+type_index = PAPER_TYPES.index(current_type) if current_type in PAPER_TYPES else 0
+st.session_state["paper_type"] = st.selectbox("Type *", PAPER_TYPES, index=type_index)
+authors_text = st.text_area(
+    "Authors * (one per line)",
+    value="\n".join(st.session_state["authors"]),
+    height=120,
+)
+st.session_state["authors"] = [
+    a.strip() for a in authors_text.splitlines() if a.strip()
+]
 
-    st.session_state["tags_raw"] = st.text_area(
-        "Tags (one per line)",
-        value=st.session_state["tags_raw"],
-        height=120,
-        placeholder="Motion planning\nRRT\nKinodynamic",
-    )
-    st.session_state["links_alt_raw"] = st.text_area(
-        "Alternative links (one per line)",
-        value=st.session_state["links_alt_raw"],
-        height=80,
-    )
+st.session_state["tags_raw"] = st.text_area(
+    "Tags (one per line)",
+    value=st.session_state["tags_raw"],
+    height=120,
+    placeholder="Motion planning\nRRT\nKinodynamic",
+)
+st.session_state["links_alt_raw"] = st.text_area(
+    "Alternative links (one per line)",
+    value=st.session_state["links_alt_raw"],
+    height=120,
+)
+
 
 st.session_state["abstract"] = st.text_area(
     "Abstract", value=st.session_state["abstract"], height=180
