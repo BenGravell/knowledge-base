@@ -11423,7 +11423,7 @@ h1                  { display: none; }
           <span class="mm-section-label" style="margin:0">Similarity threshold</span>
           <span id="mm-threshold-val">0.80</span>
         </div>
-        <input id="mm-threshold-slider" type="range" min="50" max="98" step="1">
+        <input id="mm-threshold-slider" type="range" min="80" max="99" step="1">
       </div>
 
       <div class="mm-section">
@@ -11458,8 +11458,10 @@ h1                  { display: none; }
 
 <!-- Cytoscape core -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.29.2/cytoscape.min.js"></script>
-<!-- fcose layout plugin -->
-<script src="https://unpkg.com/cytoscape-fcose@2.2.0/cytoscape-fcose.js"></script>
+<!-- fcose layout plugin — served locally (v2.x requires layout-base and cose-base as separate globals) -->
+<script src="../javascripts/vendor/layout-base.js"></script>
+<script src="../javascripts/vendor/cose-base.js"></script>
+<script src="../javascripts/vendor/cytoscape-fcose.js"></script>
 <!-- Generated mind-map data (run generate_mind_map_data.py to regenerate) -->
 <script src="../javascripts/mind-map-data.js"></script>
 <!-- Visualisation logic -->

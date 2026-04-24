@@ -10059,6 +10059,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Links">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#additional-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Links
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -11247,6 +11264,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Links">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#additional-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Links
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -11282,11 +11316,21 @@
 <p><strong>Published</strong>: 2025 (Journal Paper)</p>
 <p><strong>Source</strong>: Robotics: Science and Systems (RSS)</p>
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>Generate C++ code that solves explicit MPC problems. Super fast runtime for moderate size problems. Alternative to (implicit) quadratic program solvers.</p>
+<p>Generates C++ code that solves explicit MPC problems. Super fast runtime for moderate size problems. Alternative to (implicit) quadratic program solvers.</p>
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
+<p>We consider a family of convex quadratic programs in which the coefficients of the linear objective term and the righthand side of the constraints are affine functions of a parameter. It is well known that the solution of such a parametrized quadratic program is a piecewise affine function of the parameter. The number of (polyhedral) regions in the solution map can grow exponentially in problem size, but when the number of regions is moderate, a so-called explicit solver is practical. Such a solver computes the coefficients of the affine functions and the linear inequalities defining the polyhedral regions offline; to solve a problem instance online it simply evaluates this explicit solution map. Potential advantages of an explicit solver over a more general purpose iterative solver can include transparency, interpretability, reliability, and speed. In this paper we describe how code generation can be used to automatically generate an explicit solver from a high level description of a parametrized quadratic program. Our method has been implemented in the open-source software CVXPYgen, which is part of CVXPY, a domain specific language for general convex optimization.</p>
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://arxiv.org/pdf/2506.11513">Paper</a></li>
+</ul>
+<h3 id="additional-links">Additional Links<a class="headerlink" href="#additional-links" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><a href="https://stanford.edu/~boyd/papers/pdf/cvxpygen_mpqp.pdf">https://stanford.edu/~boyd/papers/pdf/cvxpygen_mpqp.pdf</a></p>
+</li>
+<li>
+<p><a href="https://stanford.edu/~boyd/papers/pdf/cvxpygen_mpqp_talk.pdf">https://stanford.edu/~boyd/papers/pdf/cvxpygen_mpqp_talk.pdf</a></p>
+</li>
 </ul>
 <h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
 <ul>

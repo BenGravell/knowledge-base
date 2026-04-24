@@ -16,6 +16,8 @@ tags:
   - Asymptotically optimal
   - Probabilistically complete
   - RRT*
+abstract: >
+  RRT* is one of the most widely used sampling-based algorithms for asymptotically-optimal motion planning. RRT* laid the foundations for optimality in motion planning as a whole, and inspired the development of numerous new algorithms in the field, many of which build upon RRT* itself. In this paper, we first identify a logical gap in the optimality proof of RRT*, which was developed by Karaman and Frazzoli (2011). Then, we present an alternative and mathematically-rigorous proof for asymptotic optimality. Our proof suggests that the connection radius used by RRT* should be increased from γ (log n/n)1/d to γ' (log n/n)1/(d+1) in order to account n n for the additional dimension of time that dictates the samples' ordering. Here γ, γ' are constants, and n, d are the number of samples and the dimension of the problem, respectively.
 summary: >
   This paper, from the original authors and friends, corrects some small mistakes in the theory of the asymptotic optimality results and offers new proof techniques.
 link: https://arxiv.org/pdf/1909.09688
