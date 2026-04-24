@@ -31,6 +31,17 @@ Deploy to GitHub Pages with
 mkdocs gh-deploy
 ```
 
+## Mind Map
+
+Mind Map uses similarity between LLM embeddings of paper core content (title, abstracts, tags, and summary) to form edges between papers and displays the resulting graph using [Cytoscape.js](https://js.cytoscape.org/)
+
+(Re)generate embeddings with
+
+```bash
+cd knowledge_base
+python mind_map/generate_mind_map_data.py
+```
+
 ## Experimental
 
 Streamlit app for analyzing the knowledge base:
