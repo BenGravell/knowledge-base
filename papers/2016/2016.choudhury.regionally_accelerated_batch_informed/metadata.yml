@@ -20,6 +20,8 @@ tags:
   - BIT*
   - Hybrid planning
   - Local optimization
+abstract: >
+  Sampling-based optimal planners, such as RRT*, almost-surely converge asymptotically to the optimal solution, but have provably slow convergence rates in high dimensions. This is because their commitment to finding the global optimum compels them to prioritize exploration of the entire problem domain even as its size grows exponentially. Optimization techniques, such as CHOMP, have fast convergence on these problems but only to local optima. This is because they are exploitative, prioritizing the immediate improvement of a path even though this may not find the global optimum of nonconvex cost functions.
 summary: >
   RABIT* extends BIT* by hybridizing its global informed search with local gradient-based optimization (e.g. CHOMP). Rather than optimizing every edge, it selectively applies local optimization only to the subset of edges within the current informed set that are most likely to improve the solution, avoiding infeasible edges by finding alternative connections. This preserves asymptotic optimality while significantly accelerating convergence, particularly in problems with difficult-to-sample homotopy classes or narrow passages.
 link: https://personalrobotics.cs.washington.edu/publications/choudhury2016rabit.pdf

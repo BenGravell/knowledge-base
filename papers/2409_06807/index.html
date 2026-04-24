@@ -11315,12 +11315,13 @@
 
 <h1 id="kino-pax-highly-parallel-kinodynamic-sampling-based-planner">Kino-PAX: Highly Parallel Kinodynamic Sampling-based Planner<a class="headerlink" href="#kino-pax-highly-parallel-kinodynamic-sampling-based-planner" title="Permanent link">&para;</a></h1>
 <p><strong>Authors</strong>: Nicolas Perrault, Qi Heng Ho, Morteza Lahijanian</p>
-<p><strong>Published</strong>: 2025 (Journal Paper)</p>
+<p><strong>Published</strong>: 2024 (Journal Paper)</p>
 <p><strong>Source</strong>: IEEE Robotics and Automation Letters (RA-L)</p>
 <p><strong>Algorithm</strong>: Kino-PAX</p>
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <p>GPU-native kinodynamic sampling-based planner that decomposes the traditionally serial RRT tree-growth process into three massively parallel subroutines. The design aligns with GPU execution hierarchies: independent threads, balanced workloads, low-latency shared memory.</p>
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
+<p>Sampling-based motion planners (SBMPs) are effective for planning with complex kinodynamic constraints in high-dimensional spaces, but they still struggle to achieve real-time performance, which is mainly due to their serial computation design. We present Kinodynamic Parallel Accelerated eXpansion (Kino-PAX), a novel highly parallel kinodynamic SBMP designed for parallel devices such as GPUs. Kino-PAX grows a tree of trajectory segments directly in parallel. Our key insight is how to decompose the iterative tree growth process into three massively parallel subroutines. Kino-PAX is designed to align with the parallel device execution hierarchies, through ensuring that threads are largely independent, share equal workloads, and take advantage of low-latency resources while minimizing high-latency data transfers and process synchronization. This design results in a very efficient GPU implementation. We prove that Kino-PAX is probabilistically complete and analyze its scalability with compute hardware improvements. Empirical evaluations demonstrate solutions in the order of 10 ms on a desktop GPU and in the order of 100 ms on an embedded GPU, representing up to 1000× improvement compared to coarse-grained CPU parallelization of state-of-the-art sequential algorithms over a range of complex environments and systems.</p>
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://arxiv.org/pdf/2409.06807">Paper</a></li>
