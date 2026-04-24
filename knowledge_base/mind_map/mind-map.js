@@ -84,7 +84,57 @@
   }
 
   /* -------------------------------------------------------------------------
+   * Layout skeleton — decouple physics from display
+   *
+   * Force-directed physics is O(edges × iterations).  At low similarity
+   * thresholds the graph can contain many edges, making the simulation
+   * very slow even though those extra edges carry little new positional
+   * information — nearby nodes are already captured by their strongest links.
+   *
+   * Solution: pass only the top-LAYOUT_TOP_K strongest visible edges per
+   * node to the force solver.  The displayed edge count is unlimited; only
+   * the layout graph is capped.
+   * -------------------------------------------------------------------------*/
+  const LAYOUT_TOP_K = 5;
+
+  function buildLayoutEles() {
+    const visibleNodes = cy.nodes().filter(n => n.style('display') !== 'none');
+
+    // Collect each visible node's visible edges, keyed by node id.
+    const nodeEdges = new Map();
+    visibleNodes.forEach(n => nodeEdges.set(n.id(), []));
+
+    cy.edges()
+      .filter(e => e.style('display') !== 'none')
+      .forEach(e => {
+        const src = e.data('source'), tgt = e.data('target'), w = e.data('weight');
+        if (nodeEdges.has(src)) nodeEdges.get(src).push([w, e.id()]);
+        if (nodeEdges.has(tgt)) nodeEdges.get(tgt).push([w, e.id()]);
+      });
+
+    // Keep the LAYOUT_TOP_K highest-weight edges per node.
+    const layoutEdgeIds = new Set();
+    nodeEdges.forEach(pairs => {
+      pairs.sort((a, b) => b[0] - a[0]);
+      pairs.slice(0, LAYOUT_TOP_K).forEach(([, id]) => layoutEdgeIds.add(id));
+    });
+
+    return visibleNodes.union(cy.edges().filter(e => layoutEdgeIds.has(e.id())));
+  }
+
+  /* -------------------------------------------------------------------------
    * Layout configuration
+   *
+   * The layout skeleton (buildLayoutEles) limits physics to the top-K
+   * strongest edges per node, so fcose defaults work well for everything
+   * except idealEdgeLength.  Making that weight-based encodes semantic
+   * distance in the geometry: similar papers cluster tightly, weaker links
+   * push nodes apart rather than pulling them together.
+   *
+   * Empirical edge-weight range at threshold=0.80: [0.70, 0.95].
+   * We normalise into [0,1] over that window so the full spring-length
+   * range is always used, giving 4× more IQR discrimination than a [0,1] map.
+   *   w=0.95 → 60 px,  w=0.83 (median) → ~270 px,  w=0.70 → 500 px
    * -------------------------------------------------------------------------*/
   function layoutConfig(animate) {
     const useFcose = typeof cytoscapeFcose !== 'undefined';
@@ -97,17 +147,15 @@
         animationDuration: animate ? 1200 : 0,
         fit: true,
         padding: 40,
-        nodeRepulsion: 600000,
-        idealEdgeLength: 130,
-        edgeElasticity: 0.45,
-        nestingFactor: 0.1,
-        gravity: 0.25,
-        gravityRange: 3.8,
-        numIter: 2500,
-        initialEnergyOnIncremental: 0.5,
+        idealEdgeLength: edge => {
+          const w = edge.data('weight') || 0.8;
+          // Normalise into empirical display range [0.70, 0.95] → t ∈ [0, 1]
+          const t = Math.max(0, Math.min(1, (w - 0.70) / (0.95 - 0.70)));
+          return Math.round(36 + (1 - t) * 264);
+        },
       };
     }
-    // Built-in cose fallback
+    // Built-in cose fallback (no per-edge function support)
     return {
       name: 'cose',
       randomize: true,
@@ -115,10 +163,6 @@
       animationDuration: animate ? 1200 : 0,
       fit: true,
       padding: 40,
-      nodeRepulsion: 400000,
-      idealEdgeLength: 100,
-      gravity: 80,
-      numIter: 1000,
     };
   }
 
@@ -205,7 +249,7 @@
       container: document.getElementById('cy'),
       elements: buildElements(),
       style: STYLESHEET,
-      layout: layoutConfig(true),
+      layout: { name: 'preset' },   // positions set below via buildLayoutEles()
       minZoom: 0.04,
       maxZoom: 6,
       wheelSensitivity: 0.25,
@@ -241,6 +285,9 @@
     });
 
     updateStats();
+
+    // Run layout on the sparse skeleton — fast at any display threshold.
+    buildLayoutEles().layout(layoutConfig(true)).run();
   }
 
   /* -------------------------------------------------------------------------
@@ -435,7 +482,7 @@
     // Re-layout
     document.getElementById('mm-relayout-btn').addEventListener('click', () => {
       document.getElementById('mm-loading').style.display = 'flex';
-      cy.layout(layoutConfig(true)).run();
+      buildLayoutEles().layout(layoutConfig(true)).run();
     });
 
     // Select all / none categories

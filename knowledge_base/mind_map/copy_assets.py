@@ -4,11 +4,13 @@ MkDocs gen-files script: publish mind-map JS assets into the served site.
 Runs automatically during `mkdocs build` / `mkdocs serve` because it is
 listed under ``gen-files.scripts`` in mkdocs.yml.
 
-It copies two files from ``mind_map/`` (next to this script, relative to
-the mkdocs root) into the virtual ``javascripts/`` path that MkDocs serves:
+Copies files from ``mind_map/`` into the virtual ``javascripts/`` path:
 
-  mind_map/mind-map.js        → site/javascripts/mind-map.js
-  mind_map/mind-map-data.js   → site/javascripts/mind-map-data.js
+  mind_map/mind-map.js              → site/javascripts/mind-map.js
+  mind_map/mind-map-data.js         → site/javascripts/mind-map-data.js
+  mind_map/vendor/layout-base.js    → site/javascripts/vendor/layout-base.js
+  mind_map/vendor/cose-base.js      → site/javascripts/vendor/cose-base.js
+  mind_map/vendor/cytoscape-fcose.js→ site/javascripts/vendor/cytoscape-fcose.js
 
 If ``mind-map-data.js`` has not yet been generated (i.e. the user has not
 run ``generate_mind_map_data.py`` yet), a minimal placeholder is written so
@@ -35,11 +37,17 @@ for fname in ("mind-map.js", "mind-map-data.js"):
     if src.exists():
         content = src.read_text(encoding="utf-8")
     elif fname == "mind-map-data.js":
-        # Data not yet generated — use placeholder so the page doesn't crash.
         content = PLACEHOLDER_DATA
     else:
-        # mind-map.js is required; skip silently if somehow missing.
         continue
 
     with mkdocs_gen_files.open(f"javascripts/{fname}", "w") as out:
         out.write(content)
+
+# Vendor libraries (fcose and its deps) — served locally to avoid CDN issues.
+VENDOR_DIR = MIND_MAP_DIR / "vendor"
+for vname in ("layout-base.js", "cose-base.js", "cytoscape-fcose.js"):
+    src = VENDOR_DIR / vname
+    if src.exists():
+        with mkdocs_gen_files.open(f"javascripts/vendor/{vname}", "w") as out:
+            out.write(src.read_text(encoding="utf-8"))
