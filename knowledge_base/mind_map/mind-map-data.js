@@ -53,7 +53,7 @@ const mindMapData = {
           "Linear Quadratic Gaussian (LQG)",
           "Robust control"
         ],
-        "summary": "There are none."
+        "summary": "Seminal paper demonstrating that there are no guaranteed robustness margins for linear quadratic Gaussian (LQG) controllers i.e. an optimal linear dynamic output feedback controller composed of a linear quadratic regulator (LQR) and a Kalman filter. This was proven by counterexample using a very simple linear system with two states, one control input, one disturbance input, and one output. This is…"
       }
     },
     {
@@ -219,7 +219,8 @@ const mindMapData = {
           "Motion planning",
           "Path planning",
           "Sampling-based",
-          "RRT"
+          "RRT",
+          "Rapidly-exploring random trees"
         ],
         "summary": "Introduces RRTs for sampling-based motion planning in high-dimensional configuration spaces."
       }
@@ -3339,7 +3340,7 @@ const mindMapData = {
           "Qi Heng Ho",
           "Morteza Lahijanian"
         ],
-        "year": 2025,
+        "year": 2024,
         "category": "Motion Planning",
         "tags": [
           "Motion planning",
@@ -3755,7 +3756,8 @@ const mindMapData = {
           "Robot",
           "Disney",
           "Animation",
-          "Mechatronics"
+          "Mechatronics",
+          "Legged robots"
         ],
         "summary": "The Disney Research folks have created a cute small robot with surprisingly lifelike movements controllable from a gamepad. Fun!"
       }
@@ -4095,7 +4097,7 @@ const mindMapData = {
           "CVXPY",
           "CVXPYgen"
         ],
-        "summary": "Generate C++ code that solves explicit MPC problems. Super fast runtime for moderate size problems. Alternative to (implicit) quadratic program solvers."
+        "summary": "Generates C++ code that solves explicit MPC problems. Super fast runtime for moderate size problems. Alternative to (implicit) quadratic program solvers."
       }
     },
     {
@@ -4246,7 +4248,7 @@ const mindMapData = {
           "Prediction",
           "Dynamic Mode Decomposition"
         ],
-        "summary": "Autonomous systems often must predict the motions of nearby agents from partial and noisy data. This paper asks and answers the question: \"can we learn, in real-time, a nonlinear predictive model of another agent's motions?\" The problem is tackled by using a special kind of Dynamic Mode Decomposition (DMD), which comes from the Koopman operator theory, to learn a model of the agent motion. The mod…"
+        "summary": "Tackles the problem of data-driven motion prediction by using a special kind of Dynamic Mode Decomposition (DMD), which comes from the Koopman operator theory, to learn a model of the agent motion. The model also produces uncertainty estimates, which is useful for downstream risk-aware planning & control. This paper combines a lot of smaller techniques (Hankel-DMD, Cadzow projection, Singular Valu…"
       }
     },
     {
@@ -4304,7 +4306,7 @@ const mindMapData = {
         "id": "e0",
         "source": "1957_dubins_on_curves_of_minimal",
         "target": "2101_11565",
-        "weight": 0.7419
+        "weight": 0.7675
       }
     },
     {
@@ -4312,7 +4314,7 @@ const mindMapData = {
         "id": "e1",
         "source": "1957_dubins_on_curves_of_minimal",
         "target": "1990_reeds_optimal_paths_for_a",
-        "weight": 0.8488
+        "weight": 0.8668
       }
     },
     {
@@ -4320,7 +4322,7 @@ const mindMapData = {
         "id": "e2",
         "source": "1957_dubins_on_curves_of_minimal",
         "target": "1801_08995",
-        "weight": 0.7566
+        "weight": 0.7638
       }
     },
     {
@@ -4328,7 +4330,7 @@ const mindMapData = {
         "id": "e3",
         "source": "1957_dubins_on_curves_of_minimal",
         "target": "1997_scheuer_continuous_curvature_path_planning",
-        "weight": 0.7454
+        "weight": 0.7906
       }
     },
     {
@@ -4336,7 +4338,7 @@ const mindMapData = {
         "id": "e4",
         "source": "1957_dubins_on_curves_of_minimal",
         "target": "2001_nagy_trajectory_generation_for_car",
-        "weight": 0.7397
+        "weight": 0.7634
       }
     },
     {
@@ -4536,7 +4538,7 @@ const mindMapData = {
         "id": "e29",
         "source": "1978_doyle_guaranteed_margins_for_lqg",
         "target": "1998_scokaert_constrained_linear_quadratic_regulation",
-        "weight": 0.7318
+        "weight": 0.7782
       }
     },
     {
@@ -4544,7 +4546,7 @@ const mindMapData = {
         "id": "e30",
         "source": "1978_doyle_guaranteed_margins_for_lqg",
         "target": "2403_00748",
-        "weight": 0.6533
+        "weight": 0.6887
       }
     },
     {
@@ -4552,7 +4554,7 @@ const mindMapData = {
         "id": "e31",
         "source": "1978_doyle_guaranteed_margins_for_lqg",
         "target": "2204_02322",
-        "weight": 0.6958
+        "weight": 0.7445
       }
     },
     {
@@ -4560,7 +4562,7 @@ const mindMapData = {
         "id": "e32",
         "source": "1978_doyle_guaranteed_margins_for_lqg",
         "target": "2403_18972",
-        "weight": 0.666
+        "weight": 0.7091
       }
     },
     {
@@ -4568,7 +4570,7 @@ const mindMapData = {
         "id": "e33",
         "source": "1978_doyle_guaranteed_margins_for_lqg",
         "target": "2207_06362",
-        "weight": 0.6677
+        "weight": 0.7002
       }
     },
     {
@@ -4767,13 +4769,37 @@ const mindMapData = {
       "data": {
         "id": "e58",
         "source": "1996_kavraki_probabilistic_roadmaps_for_path",
+        "target": "1998_lavalle_rapidly_exploring_random_trees",
+        "weight": 0.8331
+      }
+    },
+    {
+      "data": {
+        "id": "e59",
+        "source": "1996_kavraki_probabilistic_roadmaps_for_path",
         "target": "1809_02399",
         "weight": 0.8081
       }
     },
     {
       "data": {
-        "id": "e59",
+        "id": "e60",
+        "source": "1996_kavraki_probabilistic_roadmaps_for_path",
+        "target": "1999_lavalle_randomized_kinodynamic_planning",
+        "weight": 0.8128
+      }
+    },
+    {
+      "data": {
+        "id": "e61",
+        "source": "1996_kavraki_probabilistic_roadmaps_for_path",
+        "target": "2000_kuffner_rrt_connect_an_efficient",
+        "weight": 0.8373
+      }
+    },
+    {
+      "data": {
+        "id": "e62",
         "source": "1996_kavraki_probabilistic_roadmaps_for_path",
         "target": "2009_10484",
         "weight": 0.817
@@ -4781,7 +4807,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e60",
+        "id": "e63",
         "source": "1996_kavraki_probabilistic_roadmaps_for_path",
         "target": "2014_luo_an_empirical_study_of",
         "weight": 0.8078
@@ -4789,7 +4815,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e61",
+        "id": "e64",
         "source": "1996_kavraki_probabilistic_roadmaps_for_path",
         "target": "2007_geraerts_creating_high_quality_paths",
         "weight": 0.8113
@@ -4797,7 +4823,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e62",
+        "id": "e65",
         "source": "1996_kavraki_probabilistic_roadmaps_for_path",
         "target": "2015_klemm_rrt_star_connect_faster",
         "weight": 0.8
@@ -4805,7 +4831,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e63",
+        "id": "e66",
         "source": "1996_kavraki_probabilistic_roadmaps_for_path",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.8136
@@ -4813,15 +4839,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e64",
+        "id": "e67",
         "source": "1996_kavraki_probabilistic_roadmaps_for_path",
         "target": "1105_1186",
-        "weight": 0.8334
+        "weight": 0.8512
       }
     },
     {
       "data": {
-        "id": "e65",
+        "id": "e68",
         "source": "1996_kavraki_probabilistic_roadmaps_for_path",
         "target": "2011_karaman_anytime_motion_planning_using",
         "weight": 0.8258
@@ -4829,7 +4855,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e66",
+        "id": "e69",
         "source": "1996_kavraki_probabilistic_roadmaps_for_path",
         "target": "2305_01072",
         "weight": 0.8055
@@ -4837,7 +4863,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e67",
+        "id": "e70",
         "source": "1996_overschee_subspace_identification_for_linear",
         "target": "1312_0041",
         "weight": 0.7601
@@ -4845,7 +4871,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e68",
+        "id": "e71",
         "source": "1996_overschee_subspace_identification_for_linear",
         "target": "1408_4408",
         "weight": 0.7367
@@ -4853,7 +4879,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e69",
+        "id": "e72",
         "source": "1996_overschee_subspace_identification_for_linear",
         "target": "1409_6358",
         "weight": 0.7515
@@ -4861,7 +4887,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e70",
+        "id": "e73",
         "source": "1997_scheuer_continuous_curvature_path_planning",
         "target": "2017_roesmann_kinodynamic_trajectory_optimization_and",
         "weight": 0.8084
@@ -4869,7 +4895,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e71",
+        "id": "e74",
         "source": "1997_scheuer_continuous_curvature_path_planning",
         "target": "2013_yang_spline_based_rrt_path",
         "weight": 0.8093
@@ -4877,7 +4903,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e72",
+        "id": "e75",
         "source": "1997_scheuer_continuous_curvature_path_planning",
         "target": "1801_08995",
         "weight": 0.8455
@@ -4885,7 +4911,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e73",
+        "id": "e76",
         "source": "1997_scheuer_continuous_curvature_path_planning",
         "target": "2201_03163",
         "weight": 0.8334
@@ -4893,7 +4919,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e74",
+        "id": "e77",
         "source": "1997_scheuer_continuous_curvature_path_planning",
         "target": "2504_18978",
         "weight": 0.8017
@@ -4901,7 +4927,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e75",
+        "id": "e78",
         "source": "1997_scheuer_continuous_curvature_path_planning",
         "target": "2000_piazzi_quintic_g2_splines_for",
         "weight": 0.8119
@@ -4909,7 +4935,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e76",
+        "id": "e79",
         "source": "1997_scheuer_continuous_curvature_path_planning",
         "target": "2001_nagy_trajectory_generation_for_car",
         "weight": 0.8542
@@ -4917,7 +4943,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e77",
+        "id": "e80",
         "source": "1997_scheuer_continuous_curvature_path_planning",
         "target": "2004_fraichard_from_reeds_and_shepps",
         "weight": 0.9124
@@ -4925,7 +4951,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e78",
+        "id": "e81",
         "source": "1997_scheuer_continuous_curvature_path_planning",
         "target": "2205_04422",
         "weight": 0.8361
@@ -4933,7 +4959,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e79",
+        "id": "e82",
         "source": "1997_scheuer_continuous_curvature_path_planning",
         "target": "2405_03281",
         "weight": 0.8771
@@ -4941,7 +4967,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e80",
+        "id": "e83",
         "source": "1997_scheuer_continuous_curvature_path_planning",
         "target": "2305_01072",
         "weight": 0.801
@@ -4949,215 +4975,335 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e81",
-        "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "1999_lavalle_randomized_kinodynamic_planning",
-        "weight": 0.8919
-      }
-    },
-    {
-      "data": {
-        "id": "e82",
-        "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2000_kuffner_rrt_connect_an_efficient",
-        "weight": 0.8815
-      }
-    },
-    {
-      "data": {
-        "id": "e83",
-        "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2403_01194",
-        "weight": 0.827
-      }
-    },
-    {
-      "data": {
         "id": "e84",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2403_10745",
-        "weight": 0.8511
+        "target": "1999_lavalle_randomized_kinodynamic_planning",
+        "weight": 0.9111
       }
     },
     {
       "data": {
         "id": "e85",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2010_karaman_optimal_kinodynamic_motion_planning",
-        "weight": 0.8443
+        "target": "2000_kuffner_rrt_connect_an_efficient",
+        "weight": 0.9097
       }
     },
     {
       "data": {
         "id": "e86",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "1105_1186",
-        "weight": 0.8646
+        "target": "2403_01194",
+        "weight": 0.873
       }
     },
     {
       "data": {
         "id": "e87",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2410_19414",
-        "weight": 0.8193
+        "target": "2403_10745",
+        "weight": 0.8944
       }
     },
     {
       "data": {
         "id": "e88",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2011_karaman_anytime_motion_planning_using",
-        "weight": 0.8838
+        "target": "2007_geraerts_creating_high_quality_paths",
+        "weight": 0.8
       }
     },
     {
       "data": {
         "id": "e89",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "1204_6453",
-        "weight": 0.8558
+        "target": "2008_rickert_balancing_exploration_and_exploitation",
+        "weight": 0.8197
       }
     },
     {
       "data": {
         "id": "e90",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2411_15651",
-        "weight": 0.8133
+        "target": "2409_12266",
+        "weight": 0.8125
       }
     },
     {
       "data": {
         "id": "e91",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "1306_3532",
-        "weight": 0.8378
+        "target": "2010_karaman_optimal_kinodynamic_motion_planning",
+        "weight": 0.8999
       }
     },
     {
       "data": {
         "id": "e92",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2502_09556",
-        "weight": 0.8207
+        "target": "1105_1186",
+        "weight": 0.89
       }
     },
     {
       "data": {
         "id": "e93",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2013_yang_spline_based_rrt_path",
-        "weight": 0.8445
+        "target": "2410_19414",
+        "weight": 0.8346
       }
     },
     {
       "data": {
         "id": "e94",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "1404_2334",
-        "weight": 0.8705
+        "target": "2011_karaman_anytime_motion_planning_using",
+        "weight": 0.9233
       }
     },
     {
       "data": {
         "id": "e95",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "1405_5848",
-        "weight": 0.8307
+        "target": "1204_6453",
+        "weight": 0.8738
       }
     },
     {
       "data": {
         "id": "e96",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2503_06757",
-        "weight": 0.8039
+        "target": "1205_5088",
+        "weight": 0.8142
       }
     },
     {
       "data": {
         "id": "e97",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2015_klemm_rrt_star_connect_faster",
-        "weight": 0.8255
+        "target": "2411_15651",
+        "weight": 0.856
       }
     },
     {
       "data": {
         "id": "e98",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2015_otte_rrtx_asymptotically_optimal_single",
-        "weight": 0.8472
+        "target": "2012_kobilarov_cross_entropy_motion_planning",
+        "weight": 0.8037
       }
     },
     {
       "data": {
         "id": "e99",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "1710_10122",
-        "weight": 0.8546
+        "target": "2012_perez_lqr_rrt_star_optimal",
+        "weight": 0.8404
       }
     },
     {
       "data": {
         "id": "e100",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "1809_02399",
-        "weight": 0.8576
+        "target": "2411_17902",
+        "weight": 0.8208
       }
     },
     {
       "data": {
         "id": "e101",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "1909_09688",
-        "weight": 0.826
+        "target": "1306_3532",
+        "weight": 0.8662
       }
     },
     {
       "data": {
         "id": "e102",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2009_10484",
-        "weight": 0.8034
+        "target": "2412_11270",
+        "weight": 0.83
       }
     },
     {
       "data": {
         "id": "e103",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2020_mashayekhi_informed_rrt_star_connect",
-        "weight": 0.8505
+        "target": "2013_luna_anytime_solution_optimization_for",
+        "weight": 0.8285
       }
     },
     {
       "data": {
         "id": "e104",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2021_li_sliding_window_informed_rrt",
-        "weight": 0.8524
+        "target": "2502_09556",
+        "weight": 0.8455
       }
     },
     {
       "data": {
         "id": "e105",
         "source": "1998_lavalle_rapidly_exploring_random_trees",
-        "target": "2301_13143",
-        "weight": 0.8661
+        "target": "2013_yang_spline_based_rrt_path",
+        "weight": 0.8853
       }
     },
     {
       "data": {
         "id": "e106",
-        "source": "1998_scokaert_constrained_linear_quadratic_regulation",
-        "target": "2109_07081",
-        "weight": 0.7745
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "1404_2334",
+        "weight": 0.9064
       }
     },
     {
       "data": {
         "id": "e107",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "1405_5848",
+        "weight": 0.862
+      }
+    },
+    {
+      "data": {
+        "id": "e108",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "1407_2896",
+        "weight": 0.8226
+      }
+    },
+    {
+      "data": {
+        "id": "e109",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "2503_06757",
+        "weight": 0.8498
+      }
+    },
+    {
+      "data": {
+        "id": "e110",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "2014_luo_an_empirical_study_of",
+        "weight": 0.8101
+      }
+    },
+    {
+      "data": {
+        "id": "e111",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "2505_10542",
+        "weight": 0.8144
+      }
+    },
+    {
+      "data": {
+        "id": "e112",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "2015_klemm_rrt_star_connect_faster",
+        "weight": 0.866
+      }
+    },
+    {
+      "data": {
+        "id": "e113",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "2015_otte_rrtx_asymptotically_optimal_single",
+        "weight": 0.882
+      }
+    },
+    {
+      "data": {
+        "id": "e114",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "2015_palmieri_distance_metric_learning_for",
+        "weight": 0.8139
+      }
+    },
+    {
+      "data": {
+        "id": "e115",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "2016_choudhury_regionally_accelerated_batch_informed",
+        "weight": 0.8024
+      }
+    },
+    {
+      "data": {
+        "id": "e116",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "1710_10122",
+        "weight": 0.899
+      }
+    },
+    {
+      "data": {
+        "id": "e117",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "1809_02399",
+        "weight": 0.9
+      }
+    },
+    {
+      "data": {
+        "id": "e118",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "1909_09688",
+        "weight": 0.8456
+      }
+    },
+    {
+      "data": {
+        "id": "e119",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "2009_10484",
+        "weight": 0.8077
+      }
+    },
+    {
+      "data": {
+        "id": "e120",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "2020_mashayekhi_informed_rrt_star_connect",
+        "weight": 0.881
+      }
+    },
+    {
+      "data": {
+        "id": "e121",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "2021_li_sliding_window_informed_rrt",
+        "weight": 0.8945
+      }
+    },
+    {
+      "data": {
+        "id": "e122",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "2201_03163",
+        "weight": 0.8417
+      }
+    },
+    {
+      "data": {
+        "id": "e123",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "2210_01744",
+        "weight": 0.802
+      }
+    },
+    {
+      "data": {
+        "id": "e124",
+        "source": "1998_lavalle_rapidly_exploring_random_trees",
+        "target": "2301_13143",
+        "weight": 0.9023
+      }
+    },
+    {
+      "data": {
+        "id": "e125",
         "source": "1998_scokaert_constrained_linear_quadratic_regulation",
         "target": "2403_00748",
         "weight": 0.8121
@@ -5165,7 +5311,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e108",
+        "id": "e126",
         "source": "1998_scokaert_constrained_linear_quadratic_regulation",
         "target": "2204_02322",
         "weight": 0.8328
@@ -5173,7 +5319,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e109",
+        "id": "e127",
         "source": "1998_scokaert_constrained_linear_quadratic_regulation",
         "target": "2207_06362",
         "weight": 0.7967
@@ -5181,7 +5327,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e110",
+        "id": "e128",
         "source": "1998_scokaert_constrained_linear_quadratic_regulation",
         "target": "2409_11649",
         "weight": 0.7858
@@ -5189,295 +5335,631 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e111",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "2000_kuffner_rrt_connect_an_efficient",
-        "weight": 0.8545
-      }
-    },
-    {
-      "data": {
-        "id": "e112",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "2403_10745",
-        "weight": 0.8638
-      }
-    },
-    {
-      "data": {
-        "id": "e113",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "2409_06807",
-        "weight": 0.8163
-      }
-    },
-    {
-      "data": {
-        "id": "e114",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "2010_karaman_optimal_kinodynamic_motion_planning",
-        "weight": 0.8766
-      }
-    },
-    {
-      "data": {
-        "id": "e115",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "1105_1186",
-        "weight": 0.8252
-      }
-    },
-    {
-      "data": {
-        "id": "e116",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "2410_19414",
-        "weight": 0.8014
-      }
-    },
-    {
-      "data": {
-        "id": "e117",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "2011_karaman_anytime_motion_planning_using",
-        "weight": 0.8189
-      }
-    },
-    {
-      "data": {
-        "id": "e118",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "1204_6453",
-        "weight": 0.8065
-      }
-    },
-    {
-      "data": {
-        "id": "e119",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "1205_5088",
-        "weight": 0.8472
-      }
-    },
-    {
-      "data": {
-        "id": "e120",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "2012_perez_lqr_rrt_star_optimal",
-        "weight": 0.8466
-      }
-    },
-    {
-      "data": {
-        "id": "e121",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "1404_2334",
-        "weight": 0.8072
-      }
-    },
-    {
-      "data": {
-        "id": "e122",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "1407_2896",
-        "weight": 0.8348
-      }
-    },
-    {
-      "data": {
-        "id": "e123",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "2014_luo_an_empirical_study_of",
-        "weight": 0.8022
-      }
-    },
-    {
-      "data": {
-        "id": "e124",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "1511_05259",
-        "weight": 0.8155
-      }
-    },
-    {
-      "data": {
-        "id": "e125",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "1710_10122",
-        "weight": 0.8878
-      }
-    },
-    {
-      "data": {
-        "id": "e126",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "1809_02399",
-        "weight": 0.8878
-      }
-    },
-    {
-      "data": {
-        "id": "e127",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "1909_09688",
-        "weight": 0.8015
-      }
-    },
-    {
-      "data": {
-        "id": "e128",
-        "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "2019_hannigan_sbp_guided_mpc_to",
-        "weight": 0.8071
-      }
-    },
-    {
-      "data": {
         "id": "e129",
         "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "2022_honig_benchmarking_sampling_search_and",
-        "weight": 0.814
+        "target": "2000_kuffner_rrt_connect_an_efficient",
+        "weight": 0.876
       }
     },
     {
       "data": {
         "id": "e130",
         "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "2210_01744",
-        "weight": 0.8378
+        "target": "2403_01194",
+        "weight": 0.8261
       }
     },
     {
       "data": {
         "id": "e131",
         "source": "1999_lavalle_randomized_kinodynamic_planning",
-        "target": "2301_13143",
-        "weight": 0.8372
+        "target": "2403_10745",
+        "weight": 0.8902
       }
     },
     {
       "data": {
         "id": "e132",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "2021_li_sliding_window_informed_rrt",
-        "weight": 0.8107
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2409_12266",
+        "weight": 0.8276
       }
     },
     {
       "data": {
         "id": "e133",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "1710_10122",
-        "weight": 0.8327
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2010_karaman_optimal_kinodynamic_motion_planning",
+        "weight": 0.9143
       }
     },
     {
       "data": {
         "id": "e134",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "2013_yang_spline_based_rrt_path",
-        "weight": 0.8071
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "1105_1186",
+        "weight": 0.8331
       }
     },
     {
       "data": {
         "id": "e135",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "1404_2334",
-        "weight": 0.8157
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2410_19414",
+        "weight": 0.8295
       }
     },
     {
       "data": {
         "id": "e136",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "1809_02399",
-        "weight": 0.8364
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2011_karaman_anytime_motion_planning_using",
+        "weight": 0.8592
       }
     },
     {
       "data": {
         "id": "e137",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "2503_06757",
-        "weight": 0.8158
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "1204_6453",
+        "weight": 0.8246
       }
     },
     {
       "data": {
         "id": "e138",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "1909_09688",
-        "weight": 0.8006
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "1205_5088",
+        "weight": 0.8935
       }
     },
     {
       "data": {
         "id": "e139",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "2403_10745",
-        "weight": 0.8419
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2411_15651",
+        "weight": 0.8228
       }
     },
     {
       "data": {
         "id": "e140",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "2015_klemm_rrt_star_connect_faster",
-        "weight": 0.8823
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2412_11270",
+        "weight": 0.822
       }
     },
     {
       "data": {
         "id": "e141",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "2015_otte_rrtx_asymptotically_optimal_single",
-        "weight": 0.8475
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2012_perez_lqr_rrt_star_optimal",
+        "weight": 0.8754
       }
     },
     {
       "data": {
         "id": "e142",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "2010_karaman_optimal_kinodynamic_motion_planning",
-        "weight": 0.8166
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "1306_3532",
+        "weight": 0.8262
       }
     },
     {
       "data": {
         "id": "e143",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "1105_1186",
-        "weight": 0.8061
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2013_luna_anytime_solution_optimization_for",
+        "weight": 0.817
       }
     },
     {
       "data": {
         "id": "e144",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "2011_karaman_anytime_motion_planning_using",
-        "weight": 0.8424
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2013_yang_spline_based_rrt_path",
+        "weight": 0.8287
       }
     },
     {
       "data": {
         "id": "e145",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "1204_6453",
-        "weight": 0.8028
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "1404_2334",
+        "weight": 0.8502
       }
     },
     {
       "data": {
         "id": "e146",
-        "source": "2000_kuffner_rrt_connect_an_efficient",
-        "target": "2020_mashayekhi_informed_rrt_star_connect",
-        "weight": 0.886
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "1405_5848",
+        "weight": 0.8089
       }
     },
     {
       "data": {
         "id": "e147",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "1407_2896",
+        "weight": 0.8732
+      }
+    },
+    {
+      "data": {
+        "id": "e148",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2503_06757",
+        "weight": 0.8102
+      }
+    },
+    {
+      "data": {
+        "id": "e149",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "1411_4045",
+        "weight": 0.829
+      }
+    },
+    {
+      "data": {
+        "id": "e150",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2014_luo_an_empirical_study_of",
+        "weight": 0.8311
+      }
+    },
+    {
+      "data": {
+        "id": "e151",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "1505_04098",
+        "weight": 0.8459
+      }
+    },
+    {
+      "data": {
+        "id": "e152",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "1511_05259",
+        "weight": 0.861
+      }
+    },
+    {
+      "data": {
+        "id": "e153",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2015_klemm_rrt_star_connect_faster",
+        "weight": 0.8131
+      }
+    },
+    {
+      "data": {
+        "id": "e154",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2015_otte_rrtx_asymptotically_optimal_single",
+        "weight": 0.8235
+      }
+    },
+    {
+      "data": {
+        "id": "e155",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2015_palmieri_distance_metric_learning_for",
+        "weight": 0.8093
+      }
+    },
+    {
+      "data": {
+        "id": "e156",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2602_02846",
+        "weight": 0.8114
+      }
+    },
+    {
+      "data": {
+        "id": "e157",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2603_16059",
+        "weight": 0.8449
+      }
+    },
+    {
+      "data": {
+        "id": "e158",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "1710_10122",
+        "weight": 0.904
+      }
+    },
+    {
+      "data": {
+        "id": "e159",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "1809_02399",
+        "weight": 0.9188
+      }
+    },
+    {
+      "data": {
+        "id": "e160",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2018_kingston_sampling_based_methods_for",
+        "weight": 0.8128
+      }
+    },
+    {
+      "data": {
+        "id": "e161",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "1909_09688",
+        "weight": 0.8156
+      }
+    },
+    {
+      "data": {
+        "id": "e162",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2019_hannigan_sbp_guided_mpc_to",
+        "weight": 0.8284
+      }
+    },
+    {
+      "data": {
+        "id": "e163",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2009_10484",
+        "weight": 0.8047
+      }
+    },
+    {
+      "data": {
+        "id": "e164",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2020_mashayekhi_informed_rrt_star_connect",
+        "weight": 0.8118
+      }
+    },
+    {
+      "data": {
+        "id": "e165",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2021_li_sliding_window_informed_rrt",
+        "weight": 0.837
+      }
+    },
+    {
+      "data": {
+        "id": "e166",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2022_honig_benchmarking_sampling_search_and",
+        "weight": 0.8453
+      }
+    },
+    {
+      "data": {
+        "id": "e167",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2205_04422",
+        "weight": 0.8025
+      }
+    },
+    {
+      "data": {
+        "id": "e168",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2210_01744",
+        "weight": 0.8662
+      }
+    },
+    {
+      "data": {
+        "id": "e169",
+        "source": "1999_lavalle_randomized_kinodynamic_planning",
+        "target": "2301_13143",
+        "weight": 0.8699
+      }
+    },
+    {
+      "data": {
+        "id": "e170",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2403_01194",
+        "weight": 0.8256
+      }
+    },
+    {
+      "data": {
+        "id": "e171",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2403_10745",
+        "weight": 0.8916
+      }
+    },
+    {
+      "data": {
+        "id": "e172",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2007_geraerts_creating_high_quality_paths",
+        "weight": 0.8132
+      }
+    },
+    {
+      "data": {
+        "id": "e173",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2010_karaman_optimal_kinodynamic_motion_planning",
+        "weight": 0.8671
+      }
+    },
+    {
+      "data": {
+        "id": "e174",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "1105_1186",
+        "weight": 0.8485
+      }
+    },
+    {
+      "data": {
+        "id": "e175",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2410_19414",
+        "weight": 0.8195
+      }
+    },
+    {
+      "data": {
+        "id": "e176",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2011_karaman_anytime_motion_planning_using",
+        "weight": 0.886
+      }
+    },
+    {
+      "data": {
+        "id": "e177",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "1204_6453",
+        "weight": 0.8436
+      }
+    },
+    {
+      "data": {
+        "id": "e178",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "1205_5088",
+        "weight": 0.8214
+      }
+    },
+    {
+      "data": {
+        "id": "e179",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2411_15651",
+        "weight": 0.8253
+      }
+    },
+    {
+      "data": {
+        "id": "e180",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2411_17902",
+        "weight": 0.8326
+      }
+    },
+    {
+      "data": {
+        "id": "e181",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2012_perez_lqr_rrt_star_optimal",
+        "weight": 0.8335
+      }
+    },
+    {
+      "data": {
+        "id": "e182",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2412_11270",
+        "weight": 0.8104
+      }
+    },
+    {
+      "data": {
+        "id": "e183",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "1306_3532",
+        "weight": 0.8457
+      }
+    },
+    {
+      "data": {
+        "id": "e184",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2013_luna_anytime_solution_optimization_for",
+        "weight": 0.8308
+      }
+    },
+    {
+      "data": {
+        "id": "e185",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2502_09556",
+        "weight": 0.827
+      }
+    },
+    {
+      "data": {
+        "id": "e186",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2013_yang_spline_based_rrt_path",
+        "weight": 0.8421
+      }
+    },
+    {
+      "data": {
+        "id": "e187",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "1404_2334",
+        "weight": 0.8622
+      }
+    },
+    {
+      "data": {
+        "id": "e188",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "1405_5848",
+        "weight": 0.8317
+      }
+    },
+    {
+      "data": {
+        "id": "e189",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "1407_2896",
+        "weight": 0.8161
+      }
+    },
+    {
+      "data": {
+        "id": "e190",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2503_06757",
+        "weight": 0.866
+      }
+    },
+    {
+      "data": {
+        "id": "e191",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "1411_4045",
+        "weight": 0.8009
+      }
+    },
+    {
+      "data": {
+        "id": "e192",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2014_luo_an_empirical_study_of",
+        "weight": 0.8019
+      }
+    },
+    {
+      "data": {
+        "id": "e193",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2505_10542",
+        "weight": 0.839
+      }
+    },
+    {
+      "data": {
+        "id": "e194",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2015_klemm_rrt_star_connect_faster",
+        "weight": 0.9073
+      }
+    },
+    {
+      "data": {
+        "id": "e195",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2015_otte_rrtx_asymptotically_optimal_single",
+        "weight": 0.8842
+      }
+    },
+    {
+      "data": {
+        "id": "e196",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2015_palmieri_distance_metric_learning_for",
+        "weight": 0.8034
+      }
+    },
+    {
+      "data": {
+        "id": "e197",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2602_02846",
+        "weight": 0.8012
+      }
+    },
+    {
+      "data": {
+        "id": "e198",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "1710_10122",
+        "weight": 0.8751
+      }
+    },
+    {
+      "data": {
+        "id": "e199",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "1809_02399",
+        "weight": 0.8868
+      }
+    },
+    {
+      "data": {
+        "id": "e200",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "1909_09688",
+        "weight": 0.8396
+      }
+    },
+    {
+      "data": {
+        "id": "e201",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2020_mashayekhi_informed_rrt_star_connect",
+        "weight": 0.9035
+      }
+    },
+    {
+      "data": {
+        "id": "e202",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2021_li_sliding_window_informed_rrt",
+        "weight": 0.8567
+      }
+    },
+    {
+      "data": {
+        "id": "e203",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2201_03163",
+        "weight": 0.8098
+      }
+    },
+    {
+      "data": {
+        "id": "e204",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2210_01744",
+        "weight": 0.8114
+      }
+    },
+    {
+      "data": {
+        "id": "e205",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2301_13143",
+        "weight": 0.8471
+      }
+    },
+    {
+      "data": {
+        "id": "e206",
+        "source": "2000_kuffner_rrt_connect_an_efficient",
+        "target": "2305_01072",
+        "weight": 0.8213
+      }
+    },
+    {
+      "data": {
+        "id": "e207",
         "source": "2000_piazzi_quintic_g2_splines_for",
         "target": "1711_03449",
         "weight": 0.8089
@@ -5485,7 +5967,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e148",
+        "id": "e208",
         "source": "2000_piazzi_quintic_g2_splines_for",
         "target": "2017_roesmann_kinodynamic_trajectory_optimization_and",
         "weight": 0.8017
@@ -5493,7 +5975,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e149",
+        "id": "e209",
         "source": "2000_piazzi_quintic_g2_splines_for",
         "target": "1801_08995",
         "weight": 0.8535
@@ -5501,7 +5983,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e150",
+        "id": "e210",
         "source": "2000_piazzi_quintic_g2_splines_for",
         "target": "2504_18978",
         "weight": 0.8059
@@ -5509,7 +5991,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e151",
+        "id": "e211",
         "source": "2000_piazzi_quintic_g2_splines_for",
         "target": "2205_04422",
         "weight": 0.8115
@@ -5517,7 +5999,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e152",
+        "id": "e212",
         "source": "2000_piazzi_quintic_g2_splines_for",
         "target": "2001_nagy_trajectory_generation_for_car",
         "weight": 0.8711
@@ -5525,7 +6007,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e153",
+        "id": "e213",
         "source": "2000_piazzi_quintic_g2_splines_for",
         "target": "2004_fraichard_from_reeds_and_shepps",
         "weight": 0.815
@@ -5533,7 +6015,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e154",
+        "id": "e214",
         "source": "2001_nagy_trajectory_generation_for_car",
         "target": "1801_08995",
         "weight": 0.8792
@@ -5541,7 +6023,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e155",
+        "id": "e215",
         "source": "2001_nagy_trajectory_generation_for_car",
         "target": "2205_04422",
         "weight": 0.8034
@@ -5549,7 +6031,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e156",
+        "id": "e216",
         "source": "2001_nagy_trajectory_generation_for_car",
         "target": "2004_fraichard_from_reeds_and_shepps",
         "weight": 0.8636
@@ -5557,7 +6039,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e157",
+        "id": "e217",
         "source": "2004_fraichard_from_reeds_and_shepps",
         "target": "1801_08995",
         "weight": 0.8575
@@ -5565,7 +6047,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e158",
+        "id": "e218",
         "source": "2004_fraichard_from_reeds_and_shepps",
         "target": "2201_03163",
         "weight": 0.8111
@@ -5573,7 +6055,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e159",
+        "id": "e219",
         "source": "2004_fraichard_from_reeds_and_shepps",
         "target": "2405_03281",
         "weight": 0.8546
@@ -5581,7 +6063,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e160",
+        "id": "e220",
         "source": "2004_fraichard_from_reeds_and_shepps",
         "target": "2023_steinecker_a_simple_and_model",
         "weight": 0.8021
@@ -5589,7 +6071,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e161",
+        "id": "e221",
         "source": "2004_li_iterative_linear_quadratic_regulator",
         "target": "2012_tassa_synthesis_and_stabilization_of",
         "weight": 0.8746
@@ -5597,7 +6079,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e162",
+        "id": "e222",
         "source": "2004_li_iterative_linear_quadratic_regulator",
         "target": "2103_03293",
         "weight": 0.8258
@@ -5605,7 +6087,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e163",
+        "id": "e223",
         "source": "2004_li_iterative_linear_quadratic_regulator",
         "target": "1711_11006",
         "weight": 0.8483
@@ -5613,7 +6095,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e164",
+        "id": "e224",
         "source": "2004_li_iterative_linear_quadratic_regulator",
         "target": "2109_07081",
         "weight": 0.8086
@@ -5621,7 +6103,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e165",
+        "id": "e225",
         "source": "2004_li_iterative_linear_quadratic_regulator",
         "target": "2403_00748",
         "weight": 0.8334
@@ -5629,7 +6111,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e166",
+        "id": "e226",
         "source": "2004_li_iterative_linear_quadratic_regulator",
         "target": "2204_02322",
         "weight": 0.8709
@@ -5637,7 +6119,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e167",
+        "id": "e227",
         "source": "2004_li_iterative_linear_quadratic_regulator",
         "target": "2207_06362",
         "weight": 0.868
@@ -5645,7 +6127,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e168",
+        "id": "e228",
         "source": "2004_li_iterative_linear_quadratic_regulator",
         "target": "2019_hannigan_sbp_guided_mpc_to",
         "weight": 0.8063
@@ -5653,7 +6135,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e169",
+        "id": "e229",
         "source": "2004_li_iterative_linear_quadratic_regulator",
         "target": "2305_09619",
         "weight": 0.8299
@@ -5661,7 +6143,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e170",
+        "id": "e230",
         "source": "2007_geraerts_creating_high_quality_paths",
         "target": "2013_luna_anytime_solution_optimization_for",
         "weight": 0.8902
@@ -5669,7 +6151,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e171",
+        "id": "e231",
         "source": "2007_geraerts_creating_high_quality_paths",
         "target": "1411_4045",
         "weight": 0.8052
@@ -5677,15 +6159,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e172",
-        "source": "2007_geraerts_creating_high_quality_paths",
-        "target": "2205_04422",
-        "weight": 0.8079
-      }
-    },
-    {
-      "data": {
-        "id": "e173",
+        "id": "e232",
         "source": "2007_geraerts_creating_high_quality_paths",
         "target": "2014_luo_an_empirical_study_of",
         "weight": 0.8006
@@ -5693,7 +6167,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e174",
+        "id": "e233",
+        "source": "2007_geraerts_creating_high_quality_paths",
+        "target": "2205_04422",
+        "weight": 0.8079
+      }
+    },
+    {
+      "data": {
+        "id": "e234",
         "source": "2007_geraerts_creating_high_quality_paths",
         "target": "2405_03281",
         "weight": 0.8119
@@ -5701,7 +6183,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e175",
+        "id": "e235",
         "source": "2007_geraerts_creating_high_quality_paths",
         "target": "2508_05027",
         "weight": 0.8637
@@ -5709,7 +6191,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e176",
+        "id": "e236",
         "source": "2007_geraerts_creating_high_quality_paths",
         "target": "2410_19414",
         "weight": 0.825
@@ -5717,7 +6199,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e177",
+        "id": "e237",
         "source": "2007_geraerts_creating_high_quality_paths",
         "target": "2009_10484",
         "weight": 0.8315
@@ -5725,7 +6207,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e178",
+        "id": "e238",
         "source": "2007_geraerts_creating_high_quality_paths",
         "target": "2305_01072",
         "weight": 0.832
@@ -5733,39 +6215,47 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e179",
+        "id": "e239",
         "source": "2008_rickert_balancing_exploration_and_exploitation",
         "target": "1404_2334",
-        "weight": 0.7364
+        "weight": 0.8131
       }
     },
     {
       "data": {
-        "id": "e180",
+        "id": "e240",
+        "source": "2008_rickert_balancing_exploration_and_exploitation",
+        "target": "1405_5848",
+        "weight": 0.813
+      }
+    },
+    {
+      "data": {
+        "id": "e241",
+        "source": "2008_rickert_balancing_exploration_and_exploitation",
+        "target": "1809_02399",
+        "weight": 0.8049
+      }
+    },
+    {
+      "data": {
+        "id": "e242",
         "source": "2008_rickert_balancing_exploration_and_exploitation",
         "target": "2410_19414",
-        "weight": 0.7388
+        "weight": 0.8209
       }
     },
     {
       "data": {
-        "id": "e181",
+        "id": "e243",
         "source": "2008_rickert_balancing_exploration_and_exploitation",
-        "target": "2009_10484",
-        "weight": 0.7363
+        "target": "2411_15651",
+        "weight": 0.8068
       }
     },
     {
       "data": {
-        "id": "e182",
-        "source": "2008_rickert_balancing_exploration_and_exploitation",
-        "target": "2012_kobilarov_cross_entropy_motion_planning",
-        "weight": 0.7308
-      }
-    },
-    {
-      "data": {
-        "id": "e183",
+        "id": "e244",
         "source": "2008_schmid_dynamic_mode_decomposition_of",
         "target": "1312_0041",
         "weight": 0.9046
@@ -5773,7 +6263,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e184",
+        "id": "e245",
         "source": "2008_schmid_dynamic_mode_decomposition_of",
         "target": "1408_4408",
         "weight": 0.8238
@@ -5781,7 +6271,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e185",
+        "id": "e246",
         "source": "2008_schmid_dynamic_mode_decomposition_of",
         "target": "1409_6358",
         "weight": 0.8689
@@ -5789,7 +6279,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e186",
+        "id": "e247",
         "source": "2008_schmid_dynamic_mode_decomposition_of",
         "target": "2022_schmid_dynamic_mode_decomposition_and",
         "weight": 0.909
@@ -5797,7 +6287,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e187",
+        "id": "e248",
         "source": "2008_schmid_dynamic_mode_decomposition_of",
         "target": "1909_10466",
         "weight": 0.8878
@@ -5805,7 +6295,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e188",
+        "id": "e249",
         "source": "2008_schmid_dynamic_mode_decomposition_of",
         "target": "1509_03580",
         "weight": 0.8088
@@ -5813,7 +6303,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e189",
+        "id": "e250",
         "source": "2008_urmson_autonomous_driving_in_urban",
         "target": "2503_03262",
         "weight": 0.8063
@@ -5821,7 +6311,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e190",
+        "id": "e251",
         "source": "2008_urmson_autonomous_driving_in_urban",
         "target": "2018_schwarting_planning_and_decision_making",
         "weight": 0.8126
@@ -5829,7 +6319,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e191",
+        "id": "e252",
         "source": "2008_urmson_autonomous_driving_in_urban",
         "target": "2409_09523",
         "weight": 0.8288
@@ -5837,7 +6327,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e192",
+        "id": "e253",
         "source": "2008_urmson_autonomous_driving_in_urban",
         "target": "1604_07446",
         "weight": 0.8279
@@ -5845,7 +6335,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e193",
+        "id": "e254",
         "source": "2008_urmson_autonomous_driving_in_urban",
         "target": "2303_09824",
         "weight": 0.7979
@@ -5853,7 +6343,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e194",
+        "id": "e255",
         "source": "2009_ratliff_chomp_gradient_optimization_techniques",
         "target": "1306_3532",
         "weight": 0.8026
@@ -5861,7 +6351,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e195",
+        "id": "e256",
         "source": "2009_ratliff_chomp_gradient_optimization_techniques",
         "target": "2504_18978",
         "weight": 0.8031
@@ -5869,7 +6359,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e196",
+        "id": "e257",
         "source": "2009_ratliff_chomp_gradient_optimization_techniques",
         "target": "2205_04422",
         "weight": 0.8009
@@ -5877,7 +6367,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e197",
+        "id": "e258",
         "source": "2009_ratliff_chomp_gradient_optimization_techniques",
         "target": "2506_14865",
         "weight": 0.8101
@@ -5885,7 +6375,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e198",
+        "id": "e259",
         "source": "2009_ratliff_chomp_gradient_optimization_techniques",
         "target": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "weight": 0.8503
@@ -5893,7 +6383,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e199",
+        "id": "e260",
         "source": "2009_ratliff_chomp_gradient_optimization_techniques",
         "target": "2411_11833",
         "weight": 0.8021
@@ -5901,7 +6391,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e200",
+        "id": "e261",
         "source": "2009_verscheure_time_optimal_path_tracking",
         "target": "2309_12566",
         "weight": 0.8
@@ -5909,7 +6399,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e201",
+        "id": "e262",
         "source": "2009_verscheure_time_optimal_path_tracking",
         "target": "2013_lipp_minimum_time_speed_optimisation_over",
         "weight": 0.8256
@@ -5917,7 +6407,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e202",
+        "id": "e263",
         "source": "2009_verscheure_time_optimal_path_tracking",
         "target": "2109_07081",
         "weight": 0.8163
@@ -5925,7 +6415,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e203",
+        "id": "e264",
         "source": "2009_verscheure_time_optimal_path_tracking",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8322
@@ -5933,7 +6423,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e204",
+        "id": "e265",
         "source": "2009_verscheure_time_optimal_path_tracking",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8112
@@ -5941,7 +6431,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e205",
+        "id": "e266",
         "source": "2009_verscheure_time_optimal_path_tracking",
         "target": "2504_18978",
         "weight": 0.8417
@@ -5949,7 +6439,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e206",
+        "id": "e267",
         "source": "2009_verscheure_time_optimal_path_tracking",
         "target": "2205_04422",
         "weight": 0.8322
@@ -5957,7 +6447,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e207",
+        "id": "e268",
         "source": "2009_verscheure_time_optimal_path_tracking",
         "target": "2506_14865",
         "weight": 0.8069
@@ -5965,7 +6455,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e208",
+        "id": "e269",
         "source": "2009_verscheure_time_optimal_path_tracking",
         "target": "2019_jackson_altro_a_fast_solver",
         "weight": 0.8077
@@ -5973,7 +6463,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e209",
+        "id": "e270",
         "source": "2009_verscheure_time_optimal_path_tracking",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8066
@@ -5981,7 +6471,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e210",
+        "id": "e271",
         "source": "2009_verscheure_time_optimal_path_tracking",
         "target": "2303_16746",
         "weight": 0.8092
@@ -5989,7 +6479,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e211",
+        "id": "e272",
         "source": "2009_verscheure_time_optimal_path_tracking",
         "target": "1205_5088",
         "weight": 0.8081
@@ -5997,7 +6487,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e212",
+        "id": "e273",
         "source": "2009_verscheure_time_optimal_path_tracking",
         "target": "1707_07239",
         "weight": 0.8301
@@ -6005,7 +6495,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e213",
+        "id": "e274",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2403_01194",
         "weight": 0.8279
@@ -6013,7 +6503,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e214",
+        "id": "e275",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2403_10745",
         "weight": 0.911
@@ -6021,7 +6511,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e215",
+        "id": "e276",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2409_12266",
         "weight": 0.8166
@@ -6029,15 +6519,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e216",
+        "id": "e277",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "1105_1186",
-        "weight": 0.8862
+        "weight": 0.8923
       }
     },
     {
       "data": {
-        "id": "e217",
+        "id": "e278",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "weight": 0.8003
@@ -6045,7 +6535,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e218",
+        "id": "e279",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2011_karaman_anytime_motion_planning_using",
         "weight": 0.8977
@@ -6053,7 +6543,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e219",
+        "id": "e280",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "1204_6453",
         "weight": 0.8911
@@ -6061,7 +6551,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e220",
+        "id": "e281",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "1205_5088",
         "weight": 0.9286
@@ -6069,7 +6559,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e221",
+        "id": "e282",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2410_19414",
         "weight": 0.8366
@@ -6077,7 +6567,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e222",
+        "id": "e283",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2012_kobilarov_cross_entropy_motion_planning",
         "weight": 0.8093
@@ -6085,7 +6575,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e223",
+        "id": "e284",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2012_perez_lqr_rrt_star_optimal",
         "weight": 0.9048
@@ -6093,7 +6583,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e224",
+        "id": "e285",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2411_15651",
         "weight": 0.8518
@@ -6101,7 +6591,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e225",
+        "id": "e286",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "1306_3532",
         "weight": 0.8715
@@ -6109,7 +6599,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e226",
+        "id": "e287",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2411_17902",
         "weight": 0.8277
@@ -6117,7 +6607,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e227",
+        "id": "e288",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2412_11270",
         "weight": 0.8235
@@ -6125,7 +6615,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e228",
+        "id": "e289",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2013_luna_anytime_solution_optimization_for",
         "weight": 0.834
@@ -6133,7 +6623,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e229",
+        "id": "e290",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2502_09556",
         "weight": 0.8078
@@ -6141,7 +6631,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e230",
+        "id": "e291",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2013_yang_spline_based_rrt_path",
         "weight": 0.8448
@@ -6149,7 +6639,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e231",
+        "id": "e292",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "1404_2334",
         "weight": 0.8829
@@ -6157,7 +6647,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e232",
+        "id": "e293",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "1405_5848",
         "weight": 0.826
@@ -6165,7 +6655,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e233",
+        "id": "e294",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "1407_2896",
         "weight": 0.9036
@@ -6173,7 +6663,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e234",
+        "id": "e295",
+        "source": "2010_karaman_optimal_kinodynamic_motion_planning",
+        "target": "2503_06757",
+        "weight": 0.8191
+      }
+    },
+    {
+      "data": {
+        "id": "e296",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "1411_4045",
         "weight": 0.822
@@ -6181,7 +6679,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e235",
+        "id": "e297",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2504_18978",
         "weight": 0.8027
@@ -6189,7 +6687,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e236",
+        "id": "e298",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2014_luo_an_empirical_study_of",
         "weight": 0.8315
@@ -6197,7 +6695,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e237",
+        "id": "e299",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2505_10542",
         "weight": 0.8388
@@ -6205,7 +6703,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e238",
+        "id": "e300",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "1505_04098",
         "weight": 0.872
@@ -6213,7 +6711,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e239",
+        "id": "e301",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "1511_05259",
         "weight": 0.846
@@ -6221,7 +6719,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e240",
+        "id": "e302",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2015_klemm_rrt_star_connect_faster",
         "weight": 0.8598
@@ -6229,7 +6727,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e241",
+        "id": "e303",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.8672
@@ -6237,7 +6735,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e242",
+        "id": "e304",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2015_palmieri_distance_metric_learning_for",
         "weight": 0.828
@@ -6245,7 +6743,23 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e243",
+        "id": "e305",
+        "source": "2010_karaman_optimal_kinodynamic_motion_planning",
+        "target": "2016_choudhury_regionally_accelerated_batch_informed",
+        "weight": 0.8019
+      }
+    },
+    {
+      "data": {
+        "id": "e306",
+        "source": "2010_karaman_optimal_kinodynamic_motion_planning",
+        "target": "2602_02846",
+        "weight": 0.8336
+      }
+    },
+    {
+      "data": {
+        "id": "e307",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2603_16059",
         "weight": 0.8458
@@ -6253,7 +6767,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e244",
+        "id": "e308",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "1710_10122",
         "weight": 0.9159
@@ -6261,7 +6775,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e245",
+        "id": "e309",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "1809_02399",
         "weight": 0.9289
@@ -6269,7 +6783,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e246",
+        "id": "e310",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2018_kingston_sampling_based_methods_for",
         "weight": 0.8242
@@ -6277,15 +6791,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e247",
+        "id": "e311",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "1909_09688",
-        "weight": 0.8401
+        "weight": 0.8844
       }
     },
     {
       "data": {
-        "id": "e248",
+        "id": "e312",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2019_hannigan_sbp_guided_mpc_to",
         "weight": 0.8405
@@ -6293,7 +6807,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e249",
+        "id": "e313",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2009_10484",
         "weight": 0.847
@@ -6301,7 +6815,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e250",
+        "id": "e314",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.8588
@@ -6309,7 +6823,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e251",
+        "id": "e315",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.8678
@@ -6317,7 +6831,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e252",
+        "id": "e316",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8621
@@ -6325,7 +6839,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e253",
+        "id": "e317",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2201_03163",
         "weight": 0.8218
@@ -6333,7 +6847,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e254",
+        "id": "e318",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2210_01744",
         "weight": 0.8704
@@ -6341,7 +6855,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e255",
+        "id": "e319",
         "source": "2010_karaman_optimal_kinodynamic_motion_planning",
         "target": "2301_13143",
         "weight": 0.8917
@@ -6349,239 +6863,311 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e256",
+        "id": "e320",
+        "source": "1105_1186",
+        "target": "2403_01194",
+        "weight": 0.8131
+      }
+    },
+    {
+      "data": {
+        "id": "e321",
         "source": "1105_1186",
         "target": "2403_10745",
-        "weight": 0.8265
+        "weight": 0.8417
       }
     },
     {
       "data": {
-        "id": "e257",
+        "id": "e322",
+        "source": "1105_1186",
+        "target": "2409_12266",
+        "weight": 0.8141
+      }
+    },
+    {
+      "data": {
+        "id": "e323",
         "source": "1105_1186",
         "target": "2410_19414",
-        "weight": 0.841
+        "weight": 0.8722
       }
     },
     {
       "data": {
-        "id": "e258",
+        "id": "e324",
+        "source": "1105_1186",
+        "target": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
+        "weight": 0.8146
+      }
+    },
+    {
+      "data": {
+        "id": "e325",
         "source": "1105_1186",
         "target": "2011_karaman_anytime_motion_planning_using",
-        "weight": 0.8797
+        "weight": 0.8994
       }
     },
     {
       "data": {
-        "id": "e259",
+        "id": "e326",
         "source": "1105_1186",
         "target": "1204_6453",
-        "weight": 0.9063
+        "weight": 0.9257
       }
     },
     {
       "data": {
-        "id": "e260",
+        "id": "e327",
         "source": "1105_1186",
         "target": "1205_5088",
-        "weight": 0.8128
+        "weight": 0.8021
       }
     },
     {
       "data": {
-        "id": "e261",
+        "id": "e328",
         "source": "1105_1186",
         "target": "2411_15651",
-        "weight": 0.8025
+        "weight": 0.837
       }
     },
     {
       "data": {
-        "id": "e262",
+        "id": "e329",
         "source": "1105_1186",
         "target": "2012_kobilarov_cross_entropy_motion_planning",
-        "weight": 0.8017
+        "weight": 0.8253
       }
     },
     {
       "data": {
-        "id": "e263",
+        "id": "e330",
         "source": "1105_1186",
         "target": "2012_perez_lqr_rrt_star_optimal",
-        "weight": 0.8277
+        "weight": 0.8195
       }
     },
     {
       "data": {
-        "id": "e264",
+        "id": "e331",
         "source": "1105_1186",
         "target": "2411_17902",
-        "weight": 0.805
+        "weight": 0.8305
       }
     },
     {
       "data": {
-        "id": "e265",
+        "id": "e332",
         "source": "1105_1186",
         "target": "1306_3532",
-        "weight": 0.8726
+        "weight": 0.8962
       }
     },
     {
       "data": {
-        "id": "e266",
+        "id": "e333",
+        "source": "1105_1186",
+        "target": "2412_11270",
+        "weight": 0.8149
+      }
+    },
+    {
+      "data": {
+        "id": "e334",
         "source": "1105_1186",
         "target": "2013_luna_anytime_solution_optimization_for",
-        "weight": 0.8317
+        "weight": 0.8591
       }
     },
     {
       "data": {
-        "id": "e267",
+        "id": "e335",
+        "source": "1105_1186",
+        "target": "2502_09556",
+        "weight": 0.8011
+      }
+    },
+    {
+      "data": {
+        "id": "e336",
         "source": "1105_1186",
         "target": "2013_yang_spline_based_rrt_path",
-        "weight": 0.8051
+        "weight": 0.8231
       }
     },
     {
       "data": {
-        "id": "e268",
+        "id": "e337",
         "source": "1105_1186",
         "target": "1404_2334",
-        "weight": 0.885
+        "weight": 0.9131
       }
     },
     {
       "data": {
-        "id": "e269",
+        "id": "e338",
         "source": "1105_1186",
         "target": "1405_5848",
-        "weight": 0.8316
+        "weight": 0.8772
       }
     },
     {
       "data": {
-        "id": "e270",
+        "id": "e339",
         "source": "1105_1186",
         "target": "1407_2896",
-        "weight": 0.8342
+        "weight": 0.8516
       }
     },
     {
       "data": {
-        "id": "e271",
+        "id": "e340",
+        "source": "1105_1186",
+        "target": "2503_06757",
+        "weight": 0.8161
+      }
+    },
+    {
+      "data": {
+        "id": "e341",
         "source": "1105_1186",
         "target": "2014_luo_an_empirical_study_of",
-        "weight": 0.8289
+        "weight": 0.8441
       }
     },
     {
       "data": {
-        "id": "e272",
+        "id": "e342",
         "source": "1105_1186",
         "target": "2505_10542",
-        "weight": 0.8384
+        "weight": 0.8378
       }
     },
     {
       "data": {
-        "id": "e273",
+        "id": "e343",
         "source": "1105_1186",
         "target": "1505_04098",
-        "weight": 0.8174
+        "weight": 0.8154
       }
     },
     {
       "data": {
-        "id": "e274",
+        "id": "e344",
         "source": "1105_1186",
         "target": "1511_05259",
-        "weight": 0.8004
+        "weight": 0.8179
       }
     },
     {
       "data": {
-        "id": "e275",
+        "id": "e345",
         "source": "1105_1186",
         "target": "2015_klemm_rrt_star_connect_faster",
-        "weight": 0.861
+        "weight": 0.88
       }
     },
     {
       "data": {
-        "id": "e276",
+        "id": "e346",
         "source": "1105_1186",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
-        "weight": 0.8778
+        "weight": 0.8996
       }
     },
     {
       "data": {
-        "id": "e277",
+        "id": "e347",
+        "source": "1105_1186",
+        "target": "2016_choudhury_regionally_accelerated_batch_informed",
+        "weight": 0.8386
+      }
+    },
+    {
+      "data": {
+        "id": "e348",
+        "source": "1105_1186",
+        "target": "2602_02846",
+        "weight": 0.8092
+      }
+    },
+    {
+      "data": {
+        "id": "e349",
         "source": "1105_1186",
         "target": "1710_10122",
-        "weight": 0.8176
+        "weight": 0.8345
       }
     },
     {
       "data": {
-        "id": "e278",
+        "id": "e350",
         "source": "1105_1186",
         "target": "1809_02399",
-        "weight": 0.8534
+        "weight": 0.8708
       }
     },
     {
       "data": {
-        "id": "e279",
+        "id": "e351",
+        "source": "1105_1186",
+        "target": "2018_kingston_sampling_based_methods_for",
+        "weight": 0.8086
+      }
+    },
+    {
+      "data": {
+        "id": "e352",
         "source": "1105_1186",
         "target": "1909_09688",
-        "weight": 0.924
+        "weight": 0.9277
       }
     },
     {
       "data": {
-        "id": "e280",
+        "id": "e353",
         "source": "1105_1186",
         "target": "2009_10484",
-        "weight": 0.9016
+        "weight": 0.9019
       }
     },
     {
       "data": {
-        "id": "e281",
+        "id": "e354",
         "source": "1105_1186",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
-        "weight": 0.852
+        "weight": 0.8793
       }
     },
     {
       "data": {
-        "id": "e282",
+        "id": "e355",
         "source": "1105_1186",
         "target": "2021_li_sliding_window_informed_rrt",
-        "weight": 0.8311
+        "weight": 0.8535
       }
     },
     {
       "data": {
-        "id": "e283",
+        "id": "e356",
         "source": "1105_1186",
         "target": "2022_honig_benchmarking_sampling_search_and",
-        "weight": 0.8078
+        "weight": 0.8177
       }
     },
     {
       "data": {
-        "id": "e284",
+        "id": "e357",
         "source": "1105_1186",
         "target": "2301_13143",
-        "weight": 0.8524
+        "weight": 0.8766
       }
     },
     {
       "data": {
-        "id": "e285",
+        "id": "e358",
         "source": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.815
@@ -6589,7 +7175,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e286",
+        "id": "e359",
         "source": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "target": "1306_3532",
         "weight": 0.8092
@@ -6597,7 +7183,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e287",
+        "id": "e360",
         "source": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "target": "2309_12566",
         "weight": 0.8134
@@ -6605,7 +7191,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e288",
+        "id": "e361",
+        "source": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
+        "target": "2410_19414",
+        "weight": 0.8214
+      }
+    },
+    {
+      "data": {
+        "id": "e362",
         "source": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "target": "2013_luna_anytime_solution_optimization_for",
         "weight": 0.8158
@@ -6613,7 +7207,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e289",
+        "id": "e363",
         "source": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "target": "1809_02399",
         "weight": 0.8161
@@ -6621,7 +7215,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e290",
+        "id": "e364",
         "source": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "target": "1407_2896",
         "weight": 0.8133
@@ -6629,7 +7223,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e291",
+        "id": "e365",
         "source": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "target": "2009_10484",
         "weight": 0.8152
@@ -6637,7 +7231,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e292",
+        "id": "e366",
         "source": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8145
@@ -6645,7 +7239,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e293",
+        "id": "e367",
         "source": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "target": "2403_10745",
         "weight": 0.8119
@@ -6653,7 +7247,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e294",
+        "id": "e368",
         "source": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "target": "2019_hannigan_sbp_guided_mpc_to",
         "weight": 0.8
@@ -6661,7 +7255,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e295",
+        "id": "e369",
         "source": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "target": "2409_16012",
         "weight": 0.812
@@ -6669,15 +7263,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e296",
-        "source": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
-        "target": "2410_19414",
-        "weight": 0.8214
-      }
-    },
-    {
-      "data": {
-        "id": "e297",
+        "id": "e370",
         "source": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "target": "2016_rajamaki_sampled_differential_dynamic_programming",
         "weight": 0.8059
@@ -6685,7 +7271,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e298",
+        "id": "e371",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2403_01194",
         "weight": 0.8735
@@ -6693,7 +7279,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e299",
+        "id": "e372",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2403_10745",
         "weight": 0.8725
@@ -6701,7 +7287,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e300",
+        "id": "e373",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2409_12266",
         "weight": 0.8079
@@ -6709,7 +7295,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e301",
+        "id": "e374",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2410_19414",
         "weight": 0.8306
@@ -6717,7 +7303,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e302",
+        "id": "e375",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "1204_6453",
         "weight": 0.8786
@@ -6725,7 +7311,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e303",
+        "id": "e376",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "1205_5088",
         "weight": 0.8271
@@ -6733,7 +7319,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e304",
+        "id": "e377",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2411_15651",
         "weight": 0.8644
@@ -6741,7 +7327,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e305",
+        "id": "e378",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2411_17902",
         "weight": 0.8384
@@ -6749,7 +7335,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e306",
+        "id": "e379",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2012_perez_lqr_rrt_star_optimal",
         "weight": 0.8421
@@ -6757,7 +7343,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e307",
+        "id": "e380",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2412_11270",
         "weight": 0.8438
@@ -6765,7 +7351,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e308",
+        "id": "e381",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "1306_3532",
         "weight": 0.8554
@@ -6773,7 +7359,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e309",
+        "id": "e382",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2013_luna_anytime_solution_optimization_for",
         "weight": 0.856
@@ -6781,7 +7367,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e310",
+        "id": "e383",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2502_09556",
         "weight": 0.8513
@@ -6789,7 +7375,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e311",
+        "id": "e384",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2013_yang_spline_based_rrt_path",
         "weight": 0.8597
@@ -6797,7 +7383,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e312",
+        "id": "e385",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "1404_2334",
         "weight": 0.8913
@@ -6805,7 +7391,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e313",
+        "id": "e386",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "1405_5848",
         "weight": 0.857
@@ -6813,7 +7399,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e314",
+        "id": "e387",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "1407_2896",
         "weight": 0.8158
@@ -6821,7 +7407,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e315",
+        "id": "e388",
+        "source": "2011_karaman_anytime_motion_planning_using",
+        "target": "2503_06757",
+        "weight": 0.8398
+      }
+    },
+    {
+      "data": {
+        "id": "e389",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2014_luo_an_empirical_study_of",
         "weight": 0.8067
@@ -6829,7 +7423,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e316",
+        "id": "e390",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2505_10542",
         "weight": 0.8625
@@ -6837,7 +7431,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e317",
+        "id": "e391",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "1505_04098",
         "weight": 0.8074
@@ -6845,7 +7439,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e318",
+        "id": "e392",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2015_klemm_rrt_star_connect_faster",
         "weight": 0.8959
@@ -6853,7 +7447,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e319",
+        "id": "e393",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.8989
@@ -6861,7 +7455,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e320",
+        "id": "e394",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2015_palmieri_distance_metric_learning_for",
         "weight": 0.829
@@ -6869,7 +7463,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e321",
+        "id": "e395",
+        "source": "2011_karaman_anytime_motion_planning_using",
+        "target": "2016_choudhury_regionally_accelerated_batch_informed",
+        "weight": 0.8091
+      }
+    },
+    {
+      "data": {
+        "id": "e396",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "1710_10122",
         "weight": 0.8631
@@ -6877,7 +7479,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e322",
+        "id": "e397",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "1809_02399",
         "weight": 0.8787
@@ -6885,15 +7487,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e323",
+        "id": "e398",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "1909_09688",
-        "weight": 0.8517
+        "weight": 0.8743
       }
     },
     {
       "data": {
-        "id": "e324",
+        "id": "e399",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2019_hannigan_sbp_guided_mpc_to",
         "weight": 0.8011
@@ -6901,7 +7503,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e325",
+        "id": "e400",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2009_10484",
         "weight": 0.828
@@ -6909,7 +7511,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e326",
+        "id": "e401",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.8833
@@ -6917,7 +7519,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e327",
+        "id": "e402",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.8851
@@ -6925,7 +7527,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e328",
+        "id": "e403",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8061
@@ -6933,7 +7535,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e329",
+        "id": "e404",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2201_03163",
         "weight": 0.8496
@@ -6941,7 +7543,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e330",
+        "id": "e405",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2210_01744",
         "weight": 0.8007
@@ -6949,7 +7551,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e331",
+        "id": "e406",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2301_13143",
         "weight": 0.8956
@@ -6957,7 +7559,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e332",
+        "id": "e407",
         "source": "2011_karaman_anytime_motion_planning_using",
         "target": "2305_01072",
         "weight": 0.8043
@@ -6965,7 +7567,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e333",
+        "id": "e408",
         "source": "1204_6453",
         "target": "2403_01194",
         "weight": 0.8021
@@ -6973,7 +7575,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e334",
+        "id": "e409",
         "source": "1204_6453",
         "target": "2403_10745",
         "weight": 0.8411
@@ -6981,7 +7583,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e335",
+        "id": "e410",
         "source": "1204_6453",
         "target": "2410_19414",
         "weight": 0.8287
@@ -6989,7 +7591,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e336",
+        "id": "e411",
         "source": "1204_6453",
         "target": "2411_15651",
         "weight": 0.8176
@@ -6997,7 +7599,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e337",
+        "id": "e412",
         "source": "1204_6453",
         "target": "1205_5088",
         "weight": 0.8056
@@ -7005,7 +7607,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e338",
+        "id": "e413",
         "source": "1204_6453",
         "target": "2411_17902",
         "weight": 0.8269
@@ -7013,7 +7615,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e339",
+        "id": "e414",
         "source": "1204_6453",
         "target": "2012_perez_lqr_rrt_star_optimal",
         "weight": 0.8235
@@ -7021,7 +7623,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e340",
+        "id": "e415",
         "source": "1204_6453",
         "target": "1306_3532",
         "weight": 0.8807
@@ -7029,7 +7631,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e341",
+        "id": "e416",
         "source": "1204_6453",
         "target": "2013_luna_anytime_solution_optimization_for",
         "weight": 0.8329
@@ -7037,7 +7639,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e342",
+        "id": "e417",
         "source": "1204_6453",
         "target": "2502_09556",
         "weight": 0.8055
@@ -7045,7 +7647,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e343",
+        "id": "e418",
         "source": "1204_6453",
         "target": "2013_yang_spline_based_rrt_path",
         "weight": 0.8228
@@ -7053,7 +7655,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e344",
+        "id": "e419",
         "source": "1204_6453",
         "target": "1404_2334",
         "weight": 0.8874
@@ -7061,7 +7663,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e345",
+        "id": "e420",
         "source": "1204_6453",
         "target": "1405_5848",
         "weight": 0.866
@@ -7069,7 +7671,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e346",
+        "id": "e421",
         "source": "1204_6453",
         "target": "1407_2896",
         "weight": 0.8451
@@ -7077,7 +7679,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e347",
+        "id": "e422",
+        "source": "1204_6453",
+        "target": "2503_06757",
+        "weight": 0.8067
+      }
+    },
+    {
+      "data": {
+        "id": "e423",
         "source": "1204_6453",
         "target": "2014_luo_an_empirical_study_of",
         "weight": 0.823
@@ -7085,7 +7695,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e348",
+        "id": "e424",
         "source": "1204_6453",
         "target": "2505_10542",
         "weight": 0.8329
@@ -7093,7 +7703,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e349",
+        "id": "e425",
         "source": "1204_6453",
         "target": "1505_04098",
         "weight": 0.8032
@@ -7101,7 +7711,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e350",
+        "id": "e426",
         "source": "1204_6453",
         "target": "2015_klemm_rrt_star_connect_faster",
         "weight": 0.8674
@@ -7109,7 +7719,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e351",
+        "id": "e427",
         "source": "1204_6453",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.8953
@@ -7117,15 +7727,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e352",
+        "id": "e428",
         "source": "1204_6453",
         "target": "2016_choudhury_regionally_accelerated_batch_informed",
-        "weight": 0.8022
+        "weight": 0.8328
       }
     },
     {
       "data": {
-        "id": "e353",
+        "id": "e429",
         "source": "1204_6453",
         "target": "1710_10122",
         "weight": 0.8323
@@ -7133,7 +7743,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e354",
+        "id": "e430",
         "source": "1204_6453",
         "target": "1809_02399",
         "weight": 0.8621
@@ -7141,15 +7751,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e355",
+        "id": "e431",
         "source": "1204_6453",
         "target": "1909_09688",
-        "weight": 0.8544
+        "weight": 0.8967
       }
     },
     {
       "data": {
-        "id": "e356",
+        "id": "e432",
         "source": "1204_6453",
         "target": "2009_10484",
         "weight": 0.8588
@@ -7157,7 +7767,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e357",
+        "id": "e433",
         "source": "1204_6453",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.8755
@@ -7165,7 +7775,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e358",
+        "id": "e434",
         "source": "1204_6453",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.852
@@ -7173,7 +7783,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e359",
+        "id": "e435",
         "source": "1204_6453",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8059
@@ -7181,7 +7791,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e360",
+        "id": "e436",
         "source": "1204_6453",
         "target": "2301_13143",
         "weight": 0.8549
@@ -7189,7 +7799,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e361",
+        "id": "e437",
         "source": "1205_5088",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8202
@@ -7197,7 +7807,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e362",
+        "id": "e438",
         "source": "1205_5088",
         "target": "2403_10745",
         "weight": 0.8704
@@ -7205,7 +7815,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e363",
+        "id": "e439",
         "source": "1205_5088",
         "target": "2012_perez_lqr_rrt_star_optimal",
         "weight": 0.9075
@@ -7213,7 +7823,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e364",
+        "id": "e440",
         "source": "1205_5088",
         "target": "1404_2334",
         "weight": 0.8085
@@ -7221,7 +7831,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e365",
+        "id": "e441",
         "source": "1205_5088",
         "target": "1407_2896",
         "weight": 0.8738
@@ -7229,7 +7839,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e366",
+        "id": "e442",
         "source": "1205_5088",
         "target": "1411_4045",
         "weight": 0.8203
@@ -7237,7 +7847,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e367",
+        "id": "e443",
         "source": "1205_5088",
         "target": "2504_18978",
         "weight": 0.8002
@@ -7245,7 +7855,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e368",
+        "id": "e444",
         "source": "1205_5088",
         "target": "2014_luo_an_empirical_study_of",
         "weight": 0.8033
@@ -7253,7 +7863,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e369",
+        "id": "e445",
         "source": "1205_5088",
         "target": "2505_10542",
         "weight": 0.812
@@ -7261,7 +7871,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e370",
+        "id": "e446",
         "source": "1205_5088",
         "target": "1505_04098",
         "weight": 0.8392
@@ -7269,7 +7879,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e371",
+        "id": "e447",
         "source": "1205_5088",
         "target": "1511_05259",
         "weight": 0.8339
@@ -7277,7 +7887,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e372",
+        "id": "e448",
         "source": "1205_5088",
         "target": "2015_klemm_rrt_star_connect_faster",
         "weight": 0.8205
@@ -7285,7 +7895,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e373",
+        "id": "e449",
         "source": "1205_5088",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.8181
@@ -7293,7 +7903,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e374",
+        "id": "e450",
         "source": "1205_5088",
         "target": "2015_palmieri_distance_metric_learning_for",
         "weight": 0.808
@@ -7301,7 +7911,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e375",
+        "id": "e451",
         "source": "1205_5088",
         "target": "2016_rajamaki_sampled_differential_dynamic_programming",
         "weight": 0.8116
@@ -7309,7 +7919,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e376",
+        "id": "e452",
         "source": "1205_5088",
         "target": "2603_16059",
         "weight": 0.8671
@@ -7317,7 +7927,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e377",
+        "id": "e453",
         "source": "1205_5088",
         "target": "1710_10122",
         "weight": 0.8763
@@ -7325,7 +7935,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e378",
+        "id": "e454",
         "source": "1205_5088",
         "target": "1711_11006",
         "weight": 0.8003
@@ -7333,7 +7943,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e379",
+        "id": "e455",
         "source": "1205_5088",
         "target": "2017_roesmann_kinodynamic_trajectory_optimization_and",
         "weight": 0.8114
@@ -7341,7 +7951,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e380",
+        "id": "e456",
         "source": "1205_5088",
         "target": "1809_02399",
         "weight": 0.8849
@@ -7349,7 +7959,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e381",
+        "id": "e457",
+        "source": "1205_5088",
+        "target": "1909_09688",
+        "weight": 0.8315
+      }
+    },
+    {
+      "data": {
+        "id": "e458",
         "source": "1205_5088",
         "target": "2019_hannigan_sbp_guided_mpc_to",
         "weight": 0.8314
@@ -7357,7 +7975,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e382",
+        "id": "e459",
         "source": "1205_5088",
         "target": "2010_00411",
         "weight": 0.8052
@@ -7365,7 +7983,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e383",
+        "id": "e460",
         "source": "1205_5088",
         "target": "2103_03293",
         "weight": 0.8182
@@ -7373,7 +7991,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e384",
+        "id": "e461",
         "source": "1205_5088",
         "target": "2109_07081",
         "weight": 0.8144
@@ -7381,7 +7999,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e385",
+        "id": "e462",
         "source": "1205_5088",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8603
@@ -7389,7 +8007,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e386",
+        "id": "e463",
         "source": "1205_5088",
         "target": "2204_02322",
         "weight": 0.8042
@@ -7397,7 +8015,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e387",
+        "id": "e464",
         "source": "1205_5088",
         "target": "2205_04422",
         "weight": 0.8055
@@ -7405,7 +8023,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e388",
+        "id": "e465",
         "source": "1205_5088",
         "target": "2210_01744",
         "weight": 0.8755
@@ -7413,7 +8031,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e389",
+        "id": "e466",
         "source": "1205_5088",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8014
@@ -7421,7 +8039,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e390",
+        "id": "e467",
         "source": "1205_5088",
         "target": "2301_13143",
         "weight": 0.836
@@ -7429,7 +8047,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e391",
+        "id": "e468",
         "source": "1206_4621",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.7947
@@ -7437,7 +8055,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e392",
+        "id": "e469",
         "source": "1206_4621",
         "target": "2309_12566",
         "weight": 0.8491
@@ -7445,7 +8063,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e393",
+        "id": "e470",
         "source": "1206_4621",
         "target": "2019_lefebvre_path_integral_policy_improvement",
         "weight": 0.9264
@@ -7453,7 +8071,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e394",
+        "id": "e471",
         "source": "1206_4621",
         "target": "2004_08763",
         "weight": 0.8143
@@ -7461,7 +8079,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e395",
+        "id": "e472",
         "source": "1206_4621",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.7977
@@ -7469,7 +8087,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e396",
+        "id": "e473",
         "source": "2012_kobilarov_cross_entropy_motion_planning",
         "target": "2004_08763",
         "weight": 0.9045
@@ -7477,7 +8095,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e397",
+        "id": "e474",
         "source": "2012_kobilarov_cross_entropy_motion_planning",
         "target": "2301_13143",
         "weight": 0.8107
@@ -7485,7 +8103,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e398",
+        "id": "e475",
         "source": "2012_kobilarov_cross_entropy_motion_planning",
         "target": "2309_12566",
         "weight": 0.8022
@@ -7493,7 +8111,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e399",
+        "id": "e476",
         "source": "2012_kobilarov_cross_entropy_motion_planning",
         "target": "2410_19414",
         "weight": 0.8352
@@ -7501,7 +8119,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e400",
+        "id": "e477",
         "source": "2012_kobilarov_cross_entropy_motion_planning",
         "target": "1809_02399",
         "weight": 0.8009
@@ -7509,7 +8127,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e401",
+        "id": "e478",
         "source": "2012_kobilarov_cross_entropy_motion_planning",
         "target": "2018_kingston_sampling_based_methods_for",
         "weight": 0.8111
@@ -7517,7 +8135,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e402",
+        "id": "e479",
         "source": "2012_kobilarov_cross_entropy_motion_planning",
         "target": "2014_luo_an_empirical_study_of",
         "weight": 0.8039
@@ -7525,7 +8143,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e403",
+        "id": "e480",
         "source": "2012_kobilarov_cross_entropy_motion_planning",
         "target": "2409_12266",
         "weight": 0.8004
@@ -7533,7 +8151,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e404",
+        "id": "e481",
         "source": "2012_kobilarov_cross_entropy_motion_planning",
         "target": "2009_10484",
         "weight": 0.8198
@@ -7541,7 +8159,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e405",
+        "id": "e482",
         "source": "2012_kobilarov_cross_entropy_motion_planning",
         "target": "2411_15651",
         "weight": 0.8046
@@ -7549,7 +8167,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e406",
+        "id": "e483",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2403_10745",
         "weight": 0.862
@@ -7557,7 +8175,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e407",
+        "id": "e484",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2409_12266",
         "weight": 0.8011
@@ -7565,7 +8183,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e408",
+        "id": "e485",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2410_19414",
         "weight": 0.8194
@@ -7573,7 +8191,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e409",
+        "id": "e486",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2411_15651",
         "weight": 0.8116
@@ -7581,7 +8199,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e410",
+        "id": "e487",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2412_11270",
         "weight": 0.8081
@@ -7589,7 +8207,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e411",
+        "id": "e488",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2013_luna_anytime_solution_optimization_for",
         "weight": 0.8049
@@ -7597,7 +8215,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e412",
+        "id": "e489",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2013_yang_spline_based_rrt_path",
         "weight": 0.8109
@@ -7605,7 +8223,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e413",
+        "id": "e490",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "1404_2334",
         "weight": 0.8468
@@ -7613,7 +8231,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e414",
+        "id": "e491",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "1407_2896",
         "weight": 0.85
@@ -7621,7 +8239,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e415",
+        "id": "e492",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "1411_4045",
         "weight": 0.8008
@@ -7629,7 +8247,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e416",
+        "id": "e493",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2014_luo_an_empirical_study_of",
         "weight": 0.8101
@@ -7637,7 +8255,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e417",
+        "id": "e494",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2505_10542",
         "weight": 0.8286
@@ -7645,7 +8263,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e418",
+        "id": "e495",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "1505_04098",
         "weight": 0.8192
@@ -7653,7 +8271,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e419",
+        "id": "e496",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2506_14865",
         "weight": 0.8028
@@ -7661,7 +8279,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e420",
+        "id": "e497",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "1511_05259",
         "weight": 0.8292
@@ -7669,7 +8287,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e421",
+        "id": "e498",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2015_klemm_rrt_star_connect_faster",
         "weight": 0.8286
@@ -7677,7 +8295,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e422",
+        "id": "e499",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.8328
@@ -7685,7 +8303,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e423",
+        "id": "e500",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2015_palmieri_distance_metric_learning_for",
         "weight": 0.8473
@@ -7693,7 +8311,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e424",
+        "id": "e501",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2603_16059",
         "weight": 0.8261
@@ -7701,7 +8319,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e425",
+        "id": "e502",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "1710_10122",
         "weight": 0.8861
@@ -7709,7 +8327,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e426",
+        "id": "e503",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "1711_11006",
         "weight": 0.8021
@@ -7717,7 +8335,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e427",
+        "id": "e504",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "1809_02399",
         "weight": 0.886
@@ -7725,7 +8343,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e428",
+        "id": "e505",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2018_kingston_sampling_based_methods_for",
         "weight": 0.803
@@ -7733,7 +8351,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e429",
+        "id": "e506",
+        "source": "2012_perez_lqr_rrt_star_optimal",
+        "target": "1909_09688",
+        "weight": 0.8444
+      }
+    },
+    {
+      "data": {
+        "id": "e507",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2019_hannigan_sbp_guided_mpc_to",
         "weight": 0.8521
@@ -7741,7 +8367,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e430",
+        "id": "e508",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2019_jackson_altro_a_fast_solver",
         "weight": 0.8125
@@ -7749,7 +8375,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e431",
+        "id": "e509",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2009_10484",
         "weight": 0.8092
@@ -7757,7 +8383,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e432",
+        "id": "e510",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.8069
@@ -7765,7 +8391,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e433",
+        "id": "e511",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.8257
@@ -7773,7 +8399,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e434",
+        "id": "e512",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2109_07081",
         "weight": 0.8106
@@ -7781,7 +8407,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e435",
+        "id": "e513",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8366
@@ -7789,7 +8415,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e436",
+        "id": "e514",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2210_01744",
         "weight": 0.8558
@@ -7797,7 +8423,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e437",
+        "id": "e515",
         "source": "2012_perez_lqr_rrt_star_optimal",
         "target": "2301_13143",
         "weight": 0.8459
@@ -7805,7 +8431,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e438",
+        "id": "e516",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "2103_03293",
         "weight": 0.8201
@@ -7813,7 +8439,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e439",
+        "id": "e517",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "1711_11006",
         "weight": 0.817
@@ -7821,7 +8447,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e440",
+        "id": "e518",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "2109_07081",
         "weight": 0.8342
@@ -7829,7 +8455,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e441",
+        "id": "e519",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8567
@@ -7837,7 +8463,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e442",
+        "id": "e520",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "2403_00748",
         "weight": 0.8167
@@ -7845,7 +8471,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e443",
+        "id": "e521",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "2204_02322",
         "weight": 0.8255
@@ -7853,7 +8479,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e444",
+        "id": "e522",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "2303_16746",
         "weight": 0.8071
@@ -7861,7 +8487,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e445",
+        "id": "e523",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "2207_06362",
         "weight": 0.8333
@@ -7869,7 +8495,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e446",
+        "id": "e524",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "2019_hannigan_sbp_guided_mpc_to",
         "weight": 0.8011
@@ -7877,7 +8503,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e447",
+        "id": "e525",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "2019_jackson_altro_a_fast_solver",
         "weight": 0.8084
@@ -7885,7 +8511,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e448",
+        "id": "e526",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "2409_15610",
         "weight": 0.802
@@ -7893,7 +8519,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e449",
+        "id": "e527",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8238
@@ -7901,7 +8527,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e450",
+        "id": "e528",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "2016_rajamaki_sampled_differential_dynamic_programming",
         "weight": 0.8104
@@ -7909,7 +8535,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e451",
+        "id": "e529",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "2010_00411",
         "weight": 0.8169
@@ -7917,7 +8543,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e452",
+        "id": "e530",
         "source": "2012_tassa_synthesis_and_stabilization_of",
         "target": "2305_09619",
         "weight": 0.8078
@@ -7925,7 +8551,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e453",
+        "id": "e531",
         "source": "1306_3532",
         "target": "2403_01194",
         "weight": 0.8138
@@ -7933,7 +8559,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e454",
+        "id": "e532",
         "source": "1306_3532",
         "target": "2403_10745",
         "weight": 0.8401
@@ -7941,7 +8567,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e455",
+        "id": "e533",
         "source": "1306_3532",
         "target": "2409_12266",
         "weight": 0.8111
@@ -7949,7 +8575,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e456",
+        "id": "e534",
         "source": "1306_3532",
         "target": "2410_19414",
         "weight": 0.8327
@@ -7957,7 +8583,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e457",
+        "id": "e535",
         "source": "1306_3532",
         "target": "2411_15651",
         "weight": 0.8321
@@ -7965,7 +8591,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e458",
+        "id": "e536",
         "source": "1306_3532",
         "target": "2411_17902",
         "weight": 0.8407
@@ -7973,7 +8599,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e459",
+        "id": "e537",
         "source": "1306_3532",
         "target": "2412_11270",
         "weight": 0.8307
@@ -7981,7 +8607,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e460",
+        "id": "e538",
         "source": "1306_3532",
         "target": "2013_luna_anytime_solution_optimization_for",
         "weight": 0.8281
@@ -7989,7 +8615,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e461",
+        "id": "e539",
         "source": "1306_3532",
         "target": "2502_09556",
         "weight": 0.8997
@@ -7997,7 +8623,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e462",
+        "id": "e540",
         "source": "1306_3532",
         "target": "2013_yang_spline_based_rrt_path",
         "weight": 0.8024
@@ -8005,7 +8631,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e463",
+        "id": "e541",
         "source": "1306_3532",
         "target": "1404_2334",
         "weight": 0.8748
@@ -8013,7 +8639,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e464",
+        "id": "e542",
         "source": "1306_3532",
         "target": "1405_5848",
         "weight": 0.8654
@@ -8021,7 +8647,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e465",
+        "id": "e543",
         "source": "1306_3532",
         "target": "1407_2896",
         "weight": 0.856
@@ -8029,7 +8655,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e466",
+        "id": "e544",
         "source": "1306_3532",
         "target": "2504_18978",
         "weight": 0.8026
@@ -8037,7 +8663,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e467",
+        "id": "e545",
         "source": "1306_3532",
         "target": "2014_luo_an_empirical_study_of",
         "weight": 0.8379
@@ -8045,7 +8671,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e468",
+        "id": "e546",
         "source": "1306_3532",
         "target": "2505_10542",
         "weight": 0.8269
@@ -8053,7 +8679,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e469",
+        "id": "e547",
         "source": "1306_3532",
         "target": "1505_04098",
         "weight": 0.8327
@@ -8061,7 +8687,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e470",
+        "id": "e548",
         "source": "1306_3532",
         "target": "2015_klemm_rrt_star_connect_faster",
         "weight": 0.8449
@@ -8069,7 +8695,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e471",
+        "id": "e549",
         "source": "1306_3532",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.865
@@ -8077,15 +8703,23 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e472",
+        "id": "e550",
         "source": "1306_3532",
         "target": "2016_choudhury_regionally_accelerated_batch_informed",
-        "weight": 0.8001
+        "weight": 0.8222
       }
     },
     {
       "data": {
-        "id": "e473",
+        "id": "e551",
+        "source": "1306_3532",
+        "target": "2602_02846",
+        "weight": 0.8329
+      }
+    },
+    {
+      "data": {
+        "id": "e552",
         "source": "1306_3532",
         "target": "1705_02403",
         "weight": 0.8745
@@ -8093,7 +8727,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e474",
+        "id": "e553",
         "source": "1306_3532",
         "target": "1710_10122",
         "weight": 0.8298
@@ -8101,7 +8735,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e475",
+        "id": "e554",
         "source": "1306_3532",
         "target": "1809_02399",
         "weight": 0.8691
@@ -8109,15 +8743,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e476",
+        "id": "e555",
         "source": "1306_3532",
         "target": "1909_09688",
-        "weight": 0.8119
+        "weight": 0.8637
       }
     },
     {
       "data": {
-        "id": "e477",
+        "id": "e556",
         "source": "1306_3532",
         "target": "2009_10484",
         "weight": 0.8549
@@ -8125,7 +8759,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e478",
+        "id": "e557",
         "source": "1306_3532",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.8408
@@ -8133,7 +8767,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e479",
+        "id": "e558",
         "source": "1306_3532",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.8216
@@ -8141,7 +8775,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e480",
+        "id": "e559",
         "source": "1306_3532",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8332
@@ -8149,7 +8783,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e481",
+        "id": "e560",
         "source": "1306_3532",
         "target": "2205_04422",
         "weight": 0.8001
@@ -8157,7 +8791,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e482",
+        "id": "e561",
         "source": "1306_3532",
         "target": "2301_13143",
         "weight": 0.8411
@@ -8165,7 +8799,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e483",
+        "id": "e562",
         "source": "1306_3532",
         "target": "2305_01072",
         "weight": 0.8157
@@ -8173,7 +8807,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e484",
+        "id": "e563",
         "source": "1312_0041",
         "target": "1408_4408",
         "weight": 0.9044
@@ -8181,7 +8815,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e485",
+        "id": "e564",
         "source": "1312_0041",
         "target": "1409_6358",
         "weight": 0.8781
@@ -8189,7 +8823,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e486",
+        "id": "e565",
         "source": "1312_0041",
         "target": "2022_schmid_dynamic_mode_decomposition_and",
         "weight": 0.9043
@@ -8197,7 +8831,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e487",
+        "id": "e566",
         "source": "1312_0041",
         "target": "1909_10466",
         "weight": 0.9041
@@ -8205,7 +8839,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e488",
+        "id": "e567",
         "source": "1312_0041",
         "target": "1509_03580",
         "weight": 0.8207
@@ -8213,7 +8847,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e489",
+        "id": "e568",
+        "source": "1312_0041",
+        "target": "2511_00814",
+        "weight": 0.8004
+      }
+    },
+    {
+      "data": {
+        "id": "e569",
         "source": "2013_lipp_minimum_time_speed_optimisation_over",
         "target": "2504_18978",
         "weight": 0.8345
@@ -8221,7 +8863,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e490",
+        "id": "e570",
         "source": "2013_lipp_minimum_time_speed_optimisation_over",
         "target": "2205_04422",
         "weight": 0.8057
@@ -8229,7 +8871,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e491",
+        "id": "e571",
         "source": "2013_lipp_minimum_time_speed_optimisation_over",
         "target": "2018_zhang_toward_a_more_complete",
         "weight": 0.859
@@ -8237,7 +8879,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e492",
+        "id": "e572",
         "source": "2013_lipp_minimum_time_speed_optimisation_over",
         "target": "1707_07239",
         "weight": 0.8033
@@ -8245,7 +8887,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e493",
+        "id": "e573",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2403_10745",
         "weight": 0.8196
@@ -8253,7 +8895,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e494",
+        "id": "e574",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2405_03281",
         "weight": 0.8141
@@ -8261,7 +8903,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e495",
+        "id": "e575",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2409_12266",
         "weight": 0.8284
@@ -8269,7 +8911,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e496",
+        "id": "e576",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2410_19414",
         "weight": 0.8586
@@ -8277,7 +8919,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e497",
+        "id": "e577",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2411_15651",
         "weight": 0.8027
@@ -8285,7 +8927,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e498",
+        "id": "e578",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2411_17902",
         "weight": 0.8071
@@ -8293,7 +8935,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e499",
+        "id": "e579",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "1404_2334",
         "weight": 0.8377
@@ -8301,7 +8943,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e500",
+        "id": "e580",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "1405_5848",
         "weight": 0.8335
@@ -8309,7 +8951,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e501",
+        "id": "e581",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "1407_2896",
         "weight": 0.8528
@@ -8317,7 +8959,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e502",
+        "id": "e582",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2504_18978",
         "weight": 0.8136
@@ -8325,7 +8967,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e503",
+        "id": "e583",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2014_luo_an_empirical_study_of",
         "weight": 0.838
@@ -8333,7 +8975,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e504",
+        "id": "e584",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "1505_04098",
         "weight": 0.8153
@@ -8341,7 +8983,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e505",
+        "id": "e585",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2015_klemm_rrt_star_connect_faster",
         "weight": 0.8201
@@ -8349,7 +8991,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e506",
+        "id": "e586",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.8446
@@ -8357,7 +8999,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e507",
+        "id": "e587",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2508_05027",
         "weight": 0.8366
@@ -8365,7 +9007,23 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e508",
+        "id": "e588",
+        "source": "2013_luna_anytime_solution_optimization_for",
+        "target": "2016_choudhury_regionally_accelerated_batch_informed",
+        "weight": 0.8036
+      }
+    },
+    {
+      "data": {
+        "id": "e589",
+        "source": "2013_luna_anytime_solution_optimization_for",
+        "target": "2602_02846",
+        "weight": 0.8135
+      }
+    },
+    {
+      "data": {
+        "id": "e590",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "1707_07239",
         "weight": 0.8036
@@ -8373,7 +9031,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e509",
+        "id": "e591",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "1809_02399",
         "weight": 0.8526
@@ -8381,7 +9039,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e510",
+        "id": "e592",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2018_kingston_sampling_based_methods_for",
         "weight": 0.8236
@@ -8389,7 +9047,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e511",
+        "id": "e593",
+        "source": "2013_luna_anytime_solution_optimization_for",
+        "target": "1909_09688",
+        "weight": 0.8187
+      }
+    },
+    {
+      "data": {
+        "id": "e594",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2009_10484",
         "weight": 0.8815
@@ -8397,7 +9063,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e512",
+        "id": "e595",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.8074
@@ -8405,7 +9071,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e513",
+        "id": "e596",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8295
@@ -8413,7 +9079,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e514",
+        "id": "e597",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2205_04422",
         "weight": 0.8103
@@ -8421,7 +9087,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e515",
+        "id": "e598",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2301_13143",
         "weight": 0.8313
@@ -8429,7 +9095,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e516",
+        "id": "e599",
         "source": "2013_luna_anytime_solution_optimization_for",
         "target": "2305_01072",
         "weight": 0.8348
@@ -8437,7 +9103,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e517",
+        "id": "e600",
         "source": "2013_palamakumburu_minimum_jerk_trajectory_generation",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8071
@@ -8445,7 +9111,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e518",
+        "id": "e601",
         "source": "2013_palamakumburu_minimum_jerk_trajectory_generation",
         "target": "1801_08995",
         "weight": 0.8006
@@ -8453,7 +9119,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e519",
+        "id": "e602",
         "source": "2013_palamakumburu_minimum_jerk_trajectory_generation",
         "target": "2208_02439",
         "weight": 0.8132
@@ -8461,7 +9127,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e520",
+        "id": "e603",
         "source": "2013_palamakumburu_minimum_jerk_trajectory_generation",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8047
@@ -8469,7 +9135,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e521",
+        "id": "e604",
         "source": "2013_yang_spline_based_rrt_path",
         "target": "2403_01194",
         "weight": 0.8271
@@ -8477,7 +9143,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e522",
+        "id": "e605",
         "source": "2013_yang_spline_based_rrt_path",
         "target": "2403_10745",
         "weight": 0.8293
@@ -8485,7 +9151,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e523",
+        "id": "e606",
         "source": "2013_yang_spline_based_rrt_path",
         "target": "2502_09556",
         "weight": 0.8096
@@ -8493,7 +9159,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e524",
+        "id": "e607",
         "source": "2013_yang_spline_based_rrt_path",
         "target": "1404_2334",
         "weight": 0.8483
@@ -8501,7 +9167,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e525",
+        "id": "e608",
         "source": "2013_yang_spline_based_rrt_path",
         "target": "2015_klemm_rrt_star_connect_faster",
         "weight": 0.8307
@@ -8509,7 +9175,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e526",
+        "id": "e609",
         "source": "2013_yang_spline_based_rrt_path",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.8213
@@ -8517,7 +9183,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e527",
+        "id": "e610",
         "source": "2013_yang_spline_based_rrt_path",
         "target": "1710_10122",
         "weight": 0.8218
@@ -8525,7 +9191,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e528",
+        "id": "e611",
         "source": "2013_yang_spline_based_rrt_path",
         "target": "1809_02399",
         "weight": 0.8123
@@ -8533,7 +9199,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e529",
+        "id": "e612",
+        "source": "2013_yang_spline_based_rrt_path",
+        "target": "1909_09688",
+        "weight": 0.8128
+      }
+    },
+    {
+      "data": {
+        "id": "e613",
         "source": "2013_yang_spline_based_rrt_path",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.823
@@ -8541,7 +9215,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e530",
+        "id": "e614",
         "source": "2013_yang_spline_based_rrt_path",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.8806
@@ -8549,7 +9223,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e531",
+        "id": "e615",
         "source": "2013_yang_spline_based_rrt_path",
         "target": "2201_03163",
         "weight": 0.8363
@@ -8557,7 +9231,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e532",
+        "id": "e616",
         "source": "2013_yang_spline_based_rrt_path",
         "target": "2301_13143",
         "weight": 0.8346
@@ -8565,7 +9239,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e533",
+        "id": "e617",
         "source": "1404_2334",
         "target": "2403_01194",
         "weight": 0.8224
@@ -8573,7 +9247,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e534",
+        "id": "e618",
         "source": "1404_2334",
         "target": "2403_10745",
         "weight": 0.8607
@@ -8581,7 +9255,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e535",
+        "id": "e619",
         "source": "1404_2334",
         "target": "2409_12266",
         "weight": 0.8087
@@ -8589,7 +9263,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e536",
+        "id": "e620",
         "source": "1404_2334",
         "target": "2410_19414",
         "weight": 0.8486
@@ -8597,7 +9271,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e537",
+        "id": "e621",
         "source": "1404_2334",
         "target": "2411_15651",
         "weight": 0.8531
@@ -8605,7 +9279,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e538",
+        "id": "e622",
         "source": "1404_2334",
         "target": "2411_17902",
         "weight": 0.8452
@@ -8613,7 +9287,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e539",
+        "id": "e623",
         "source": "1404_2334",
         "target": "2412_11270",
         "weight": 0.8396
@@ -8621,7 +9295,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e540",
+        "id": "e624",
         "source": "1404_2334",
         "target": "2502_09556",
         "weight": 0.8066
@@ -8629,7 +9303,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e541",
+        "id": "e625",
         "source": "1404_2334",
         "target": "1405_5848",
         "weight": 0.8954
@@ -8637,7 +9311,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e542",
+        "id": "e626",
         "source": "1404_2334",
         "target": "1407_2896",
         "weight": 0.8409
@@ -8645,7 +9319,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e543",
+        "id": "e627",
+        "source": "1404_2334",
+        "target": "2503_06757",
+        "weight": 0.8127
+      }
+    },
+    {
+      "data": {
+        "id": "e628",
         "source": "1404_2334",
         "target": "2014_luo_an_empirical_study_of",
         "weight": 0.8256
@@ -8653,7 +9335,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e544",
+        "id": "e629",
         "source": "1404_2334",
         "target": "2505_10542",
         "weight": 0.8381
@@ -8661,7 +9343,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e545",
+        "id": "e630",
         "source": "1404_2334",
         "target": "1505_04098",
         "weight": 0.813
@@ -8669,7 +9351,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e546",
+        "id": "e631",
         "source": "1404_2334",
         "target": "2015_klemm_rrt_star_connect_faster",
         "weight": 0.8788
@@ -8677,7 +9359,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e547",
+        "id": "e632",
         "source": "1404_2334",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.9085
@@ -8685,7 +9367,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e548",
+        "id": "e633",
         "source": "1404_2334",
         "target": "2015_palmieri_distance_metric_learning_for",
         "weight": 0.8095
@@ -8693,15 +9375,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e549",
+        "id": "e634",
         "source": "1404_2334",
         "target": "2016_choudhury_regionally_accelerated_batch_informed",
-        "weight": 0.842
+        "weight": 0.8637
       }
     },
     {
       "data": {
-        "id": "e550",
+        "id": "e635",
         "source": "1404_2334",
         "target": "1710_10122",
         "weight": 0.8562
@@ -8709,7 +9391,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e551",
+        "id": "e636",
         "source": "1404_2334",
         "target": "1809_02399",
         "weight": 0.8768
@@ -8717,7 +9399,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e552",
+        "id": "e637",
         "source": "1404_2334",
         "target": "2018_kingston_sampling_based_methods_for",
         "weight": 0.8012
@@ -8725,15 +9407,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e553",
+        "id": "e638",
         "source": "1404_2334",
         "target": "1909_09688",
-        "weight": 0.8436
+        "weight": 0.8884
       }
     },
     {
       "data": {
-        "id": "e554",
+        "id": "e639",
         "source": "1404_2334",
         "target": "2019_hannigan_sbp_guided_mpc_to",
         "weight": 0.8094
@@ -8741,7 +9423,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e555",
+        "id": "e640",
         "source": "1404_2334",
         "target": "2009_10484",
         "weight": 0.8583
@@ -8749,7 +9431,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e556",
+        "id": "e641",
         "source": "1404_2334",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.9287
@@ -8757,7 +9439,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e557",
+        "id": "e642",
         "source": "1404_2334",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.9176
@@ -8765,7 +9447,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e558",
+        "id": "e643",
         "source": "1404_2334",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8095
@@ -8773,7 +9455,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e559",
+        "id": "e644",
         "source": "1404_2334",
         "target": "2201_03163",
         "weight": 0.8102
@@ -8781,7 +9463,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e560",
+        "id": "e645",
         "source": "1404_2334",
         "target": "2301_13143",
         "weight": 0.877
@@ -8789,7 +9471,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e561",
+        "id": "e646",
         "source": "1404_2334",
         "target": "2305_01072",
         "weight": 0.8046
@@ -8797,7 +9479,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e562",
+        "id": "e647",
         "source": "1405_5848",
         "target": "2403_10745",
         "weight": 0.8299
@@ -8805,7 +9487,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e563",
+        "id": "e648",
         "source": "1405_5848",
         "target": "2409_12266",
         "weight": 0.8026
@@ -8813,7 +9495,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e564",
+        "id": "e649",
         "source": "1405_5848",
         "target": "2410_19414",
         "weight": 0.8481
@@ -8821,7 +9503,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e565",
+        "id": "e650",
         "source": "1405_5848",
         "target": "2411_15651",
         "weight": 0.8498
@@ -8829,7 +9511,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e566",
+        "id": "e651",
         "source": "1405_5848",
         "target": "2411_17902",
         "weight": 0.8615
@@ -8837,7 +9519,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e567",
+        "id": "e652",
         "source": "1405_5848",
         "target": "2412_11270",
         "weight": 0.8537
@@ -8845,7 +9527,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e568",
+        "id": "e653",
+        "source": "1405_5848",
+        "target": "2503_06757",
+        "weight": 0.8133
+      }
+    },
+    {
+      "data": {
+        "id": "e654",
         "source": "1405_5848",
         "target": "1407_2896",
         "weight": 0.8314
@@ -8853,7 +9543,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e569",
+        "id": "e655",
         "source": "1405_5848",
         "target": "2014_luo_an_empirical_study_of",
         "weight": 0.8198
@@ -8861,7 +9551,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e570",
+        "id": "e656",
         "source": "1405_5848",
         "target": "2505_10542",
         "weight": 0.8017
@@ -8869,7 +9559,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e571",
+        "id": "e657",
         "source": "1405_5848",
         "target": "2015_klemm_rrt_star_connect_faster",
         "weight": 0.8353
@@ -8877,7 +9567,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e572",
+        "id": "e658",
         "source": "1405_5848",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.8695
@@ -8885,15 +9575,23 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e573",
+        "id": "e659",
         "source": "1405_5848",
         "target": "2016_choudhury_regionally_accelerated_batch_informed",
-        "weight": 0.8794
+        "weight": 0.8769
       }
     },
     {
       "data": {
-        "id": "e574",
+        "id": "e660",
+        "source": "1405_5848",
+        "target": "2602_02846",
+        "weight": 0.8189
+      }
+    },
+    {
+      "data": {
+        "id": "e661",
         "source": "1405_5848",
         "target": "1705_02403",
         "weight": 0.8088
@@ -8901,7 +9599,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e575",
+        "id": "e662",
         "source": "1405_5848",
         "target": "1710_10122",
         "weight": 0.826
@@ -8909,7 +9607,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e576",
+        "id": "e663",
         "source": "1405_5848",
         "target": "1809_02399",
         "weight": 0.8504
@@ -8917,7 +9615,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e577",
+        "id": "e664",
+        "source": "1405_5848",
+        "target": "1909_09688",
+        "weight": 0.8271
+      }
+    },
+    {
+      "data": {
+        "id": "e665",
         "source": "1405_5848",
         "target": "2009_10484",
         "weight": 0.8315
@@ -8925,7 +9631,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e578",
+        "id": "e666",
         "source": "1405_5848",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.8524
@@ -8933,7 +9639,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e579",
+        "id": "e667",
         "source": "1405_5848",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.8233
@@ -8941,7 +9647,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e580",
+        "id": "e668",
         "source": "1405_5848",
         "target": "2301_13143",
         "weight": 0.8279
@@ -8949,7 +9655,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e581",
+        "id": "e669",
         "source": "1405_5848",
         "target": "2305_01072",
         "weight": 0.8142
@@ -8957,7 +9663,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e582",
+        "id": "e670",
         "source": "1407_2896",
         "target": "2401_09241",
         "weight": 0.8004
@@ -8965,7 +9671,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e583",
+        "id": "e671",
         "source": "1407_2896",
         "target": "2403_10745",
         "weight": 0.8495
@@ -8973,7 +9679,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e584",
+        "id": "e672",
+        "source": "1407_2896",
+        "target": "2409_06807",
+        "weight": 0.8205
+      }
+    },
+    {
+      "data": {
+        "id": "e673",
         "source": "1407_2896",
         "target": "2409_12266",
         "weight": 0.8376
@@ -8981,7 +9695,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e585",
+        "id": "e674",
         "source": "1407_2896",
         "target": "2410_19414",
         "weight": 0.8456
@@ -8989,7 +9703,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e586",
+        "id": "e675",
         "source": "1407_2896",
         "target": "2411_15651",
         "weight": 0.8194
@@ -8997,7 +9711,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e587",
+        "id": "e676",
         "source": "1407_2896",
         "target": "2411_17902",
         "weight": 0.8409
@@ -9005,7 +9719,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e588",
+        "id": "e677",
         "source": "1407_2896",
         "target": "2412_11270",
         "weight": 0.8236
@@ -9013,7 +9727,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e589",
+        "id": "e678",
         "source": "1407_2896",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8009
@@ -9021,7 +9735,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e590",
+        "id": "e679",
         "source": "1407_2896",
         "target": "2503_05819",
         "weight": 0.8098
@@ -9029,7 +9743,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e591",
+        "id": "e680",
         "source": "1407_2896",
         "target": "1411_4045",
         "weight": 0.8416
@@ -9037,7 +9751,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e592",
+        "id": "e681",
         "source": "1407_2896",
         "target": "2504_18978",
         "weight": 0.8174
@@ -9045,7 +9759,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e593",
+        "id": "e682",
         "source": "1407_2896",
         "target": "2014_luo_an_empirical_study_of",
         "weight": 0.8462
@@ -9053,7 +9767,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e594",
+        "id": "e683",
         "source": "1407_2896",
         "target": "2505_10542",
         "weight": 0.8096
@@ -9061,7 +9775,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e595",
+        "id": "e684",
         "source": "1407_2896",
         "target": "1505_04098",
         "weight": 0.8707
@@ -9069,7 +9783,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e596",
+        "id": "e685",
         "source": "1407_2896",
         "target": "1511_05259",
         "weight": 0.8682
@@ -9077,7 +9791,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e597",
+        "id": "e686",
         "source": "1407_2896",
         "target": "2015_klemm_rrt_star_connect_faster",
         "weight": 0.8161
@@ -9085,7 +9799,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e598",
+        "id": "e687",
         "source": "1407_2896",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.8354
@@ -9093,7 +9807,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e599",
+        "id": "e688",
         "source": "1407_2896",
         "target": "2016_rajamaki_sampled_differential_dynamic_programming",
         "weight": 0.8279
@@ -9101,15 +9815,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e600",
+        "id": "e689",
         "source": "1407_2896",
         "target": "2602_02846",
-        "weight": 0.8058
+        "weight": 0.8813
       }
     },
     {
       "data": {
-        "id": "e601",
+        "id": "e690",
         "source": "1407_2896",
         "target": "2603_16059",
         "weight": 0.8645
@@ -9117,7 +9831,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e602",
+        "id": "e691",
         "source": "1407_2896",
         "target": "1710_10122",
         "weight": 0.8666
@@ -9125,7 +9839,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e603",
+        "id": "e692",
         "source": "1407_2896",
         "target": "1809_02399",
         "weight": 0.8904
@@ -9133,7 +9847,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e604",
+        "id": "e693",
         "source": "1407_2896",
         "target": "2018_kingston_sampling_based_methods_for",
         "weight": 0.825
@@ -9141,7 +9855,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e605",
+        "id": "e694",
+        "source": "1407_2896",
+        "target": "1909_09688",
+        "weight": 0.8451
+      }
+    },
+    {
+      "data": {
+        "id": "e695",
         "source": "1407_2896",
         "target": "2019_hannigan_sbp_guided_mpc_to",
         "weight": 0.8337
@@ -9149,7 +9871,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e606",
+        "id": "e696",
         "source": "1407_2896",
         "target": "2004_08763",
         "weight": 0.808
@@ -9157,7 +9879,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e607",
+        "id": "e697",
         "source": "1407_2896",
         "target": "2009_10484",
         "weight": 0.8599
@@ -9165,7 +9887,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e608",
+        "id": "e698",
         "source": "1407_2896",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.8014
@@ -9173,7 +9895,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e609",
+        "id": "e699",
         "source": "1407_2896",
         "target": "2109_07081",
         "weight": 0.8103
@@ -9181,7 +9903,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e610",
+        "id": "e700",
         "source": "1407_2896",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8693
@@ -9189,7 +9911,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e611",
+        "id": "e701",
         "source": "1407_2896",
         "target": "2205_04422",
         "weight": 0.8278
@@ -9197,7 +9919,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e612",
+        "id": "e702",
         "source": "1407_2896",
         "target": "2210_01744",
         "weight": 0.8501
@@ -9205,7 +9927,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e613",
+        "id": "e703",
         "source": "1407_2896",
         "target": "2301_13143",
         "weight": 0.8166
@@ -9213,7 +9935,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e614",
+        "id": "e704",
         "source": "1407_2896",
         "target": "2307_09105",
         "weight": 0.8042
@@ -9221,7 +9943,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e615",
+        "id": "e705",
         "source": "1408_4408",
         "target": "2022_schmid_dynamic_mode_decomposition_and",
         "weight": 0.8254
@@ -9229,7 +9951,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e616",
+        "id": "e706",
         "source": "1408_4408",
         "target": "1409_6358",
         "weight": 0.8413
@@ -9237,7 +9959,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e617",
+        "id": "e707",
         "source": "1408_4408",
         "target": "1909_10466",
         "weight": 0.8261
@@ -9245,15 +9967,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e618",
-        "source": "1408_4408",
-        "target": "2511_00814",
-        "weight": 0.8059
-      }
-    },
-    {
-      "data": {
-        "id": "e619",
+        "id": "e708",
         "source": "1409_6358",
         "target": "2108_13404",
         "weight": 0.8276
@@ -9261,7 +9975,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e620",
+        "id": "e709",
         "source": "1409_6358",
         "target": "2022_schmid_dynamic_mode_decomposition_and",
         "weight": 0.8555
@@ -9269,7 +9983,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e621",
+        "id": "e710",
         "source": "1409_6358",
         "target": "1909_10466",
         "weight": 0.8664
@@ -9277,47 +9991,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e622",
-        "source": "1411_4045",
-        "target": "1710_10122",
-        "weight": 0.8038
+        "id": "e711",
+        "source": "1409_6358",
+        "target": "2511_00814",
+        "weight": 0.8164
       }
     },
     {
       "data": {
-        "id": "e623",
-        "source": "1411_4045",
-        "target": "1809_02399",
-        "weight": 0.8222
-      }
-    },
-    {
-      "data": {
-        "id": "e624",
-        "source": "1411_4045",
-        "target": "2022_honig_benchmarking_sampling_search_and",
-        "weight": 0.8111
-      }
-    },
-    {
-      "data": {
-        "id": "e625",
-        "source": "1411_4045",
-        "target": "2504_18978",
-        "weight": 0.8066
-      }
-    },
-    {
-      "data": {
-        "id": "e626",
-        "source": "1411_4045",
-        "target": "2205_04422",
-        "weight": 0.8116
-      }
-    },
-    {
-      "data": {
-        "id": "e627",
+        "id": "e712",
         "source": "1411_4045",
         "target": "2403_10745",
         "weight": 0.8264
@@ -9325,7 +10007,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e628",
+        "id": "e713",
+        "source": "1411_4045",
+        "target": "2504_18978",
+        "weight": 0.8066
+      }
+    },
+    {
+      "data": {
+        "id": "e714",
         "source": "1411_4045",
         "target": "1505_04098",
         "weight": 0.8295
@@ -9333,7 +10023,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e629",
+        "id": "e715",
         "source": "1411_4045",
         "target": "1511_05259",
         "weight": 0.8083
@@ -9341,15 +10031,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e630",
+        "id": "e716",
         "source": "1411_4045",
-        "target": "2305_01072",
-        "weight": 0.8171
+        "target": "2602_02846",
+        "weight": 0.8141
       }
     },
     {
       "data": {
-        "id": "e631",
+        "id": "e717",
         "source": "1411_4045",
         "target": "2603_16059",
         "weight": 0.847
@@ -9357,7 +10047,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e632",
+        "id": "e718",
         "source": "1411_4045",
         "target": "1707_07239",
         "weight": 0.8419
@@ -9365,7 +10055,47 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e633",
+        "id": "e719",
+        "source": "1411_4045",
+        "target": "1710_10122",
+        "weight": 0.8038
+      }
+    },
+    {
+      "data": {
+        "id": "e720",
+        "source": "1411_4045",
+        "target": "1809_02399",
+        "weight": 0.8222
+      }
+    },
+    {
+      "data": {
+        "id": "e721",
+        "source": "1411_4045",
+        "target": "2022_honig_benchmarking_sampling_search_and",
+        "weight": 0.8111
+      }
+    },
+    {
+      "data": {
+        "id": "e722",
+        "source": "1411_4045",
+        "target": "2205_04422",
+        "weight": 0.8116
+      }
+    },
+    {
+      "data": {
+        "id": "e723",
+        "source": "1411_4045",
+        "target": "2305_01072",
+        "weight": 0.8171
+      }
+    },
+    {
+      "data": {
+        "id": "e724",
         "source": "2014_lefevre_a_survey_on_motion",
         "target": "2502_08664",
         "weight": 0.8654
@@ -9373,7 +10103,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e634",
+        "id": "e725",
         "source": "2014_lefevre_a_survey_on_motion",
         "target": "2503_03262",
         "weight": 0.8694
@@ -9381,7 +10111,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e635",
+        "id": "e726",
         "source": "2014_lefevre_a_survey_on_motion",
         "target": "2402_03893",
         "weight": 0.8133
@@ -9389,7 +10119,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e636",
+        "id": "e727",
         "source": "2014_lefevre_a_survey_on_motion",
         "target": "2018_schwarting_planning_and_decision_making",
         "weight": 0.8434
@@ -9397,7 +10127,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e637",
+        "id": "e728",
         "source": "2014_lefevre_a_survey_on_motion",
         "target": "2505_09074",
         "weight": 0.8404
@@ -9405,7 +10135,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e638",
+        "id": "e729",
         "source": "2014_lefevre_a_survey_on_motion",
         "target": "1912_11676",
         "weight": 0.8274
@@ -9413,7 +10143,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e639",
+        "id": "e730",
         "source": "2014_lefevre_a_survey_on_motion",
         "target": "1604_07446",
         "weight": 0.815
@@ -9421,7 +10151,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e640",
+        "id": "e731",
         "source": "2014_lefevre_a_survey_on_motion",
         "target": "2303_09824",
         "weight": 0.8361
@@ -9429,7 +10159,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e641",
+        "id": "e732",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2403_10745",
         "weight": 0.8251
@@ -9437,7 +10167,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e642",
+        "id": "e733",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2409_12266",
         "weight": 0.8249
@@ -9445,7 +10175,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e643",
+        "id": "e734",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2410_19414",
         "weight": 0.9044
@@ -9453,7 +10183,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e644",
+        "id": "e735",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2504_18978",
         "weight": 0.8138
@@ -9461,7 +10191,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e645",
+        "id": "e736",
         "source": "2014_luo_an_empirical_study_of",
         "target": "1505_04098",
         "weight": 0.8105
@@ -9469,7 +10199,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e646",
+        "id": "e737",
         "source": "2014_luo_an_empirical_study_of",
         "target": "1511_05259",
         "weight": 0.8077
@@ -9477,7 +10207,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e647",
+        "id": "e738",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2015_klemm_rrt_star_connect_faster",
         "weight": 0.8056
@@ -9485,7 +10215,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e648",
+        "id": "e739",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.8083
@@ -9493,7 +10223,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e649",
+        "id": "e740",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2508_05027",
         "weight": 0.8099
@@ -9501,7 +10231,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e650",
+        "id": "e741",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2016_rajamaki_sampled_differential_dynamic_programming",
         "weight": 0.8031
@@ -9509,7 +10239,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e651",
+        "id": "e742",
+        "source": "2014_luo_an_empirical_study_of",
+        "target": "2602_02846",
+        "weight": 0.8076
+      }
+    },
+    {
+      "data": {
+        "id": "e743",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2603_16059",
         "weight": 0.8128
@@ -9517,7 +10255,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e652",
+        "id": "e744",
         "source": "2014_luo_an_empirical_study_of",
         "target": "1710_10122",
         "weight": 0.8086
@@ -9525,7 +10263,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e653",
+        "id": "e745",
         "source": "2014_luo_an_empirical_study_of",
         "target": "1809_02399",
         "weight": 0.854
@@ -9533,7 +10271,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e654",
+        "id": "e746",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2018_kingston_sampling_based_methods_for",
         "weight": 0.8401
@@ -9541,7 +10279,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e655",
+        "id": "e747",
+        "source": "2014_luo_an_empirical_study_of",
+        "target": "1909_09688",
+        "weight": 0.8141
+      }
+    },
+    {
+      "data": {
+        "id": "e748",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2009_10484",
         "weight": 0.8821
@@ -9549,7 +10295,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e656",
+        "id": "e749",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.9077
@@ -9557,7 +10303,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e657",
+        "id": "e750",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2205_04422",
         "weight": 0.826
@@ -9565,7 +10311,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e658",
+        "id": "e751",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2301_13143",
         "weight": 0.8127
@@ -9573,7 +10319,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e659",
+        "id": "e752",
         "source": "2014_luo_an_empirical_study_of",
         "target": "2305_01072",
         "weight": 0.8104
@@ -9581,7 +10327,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e660",
+        "id": "e753",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2309_07872",
         "weight": 0.8165
@@ -9589,7 +10335,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e661",
+        "id": "e754",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2309_12566",
         "weight": 0.8211
@@ -9597,7 +10343,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e662",
+        "id": "e755",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2024_wang_a_convergence_guaranteed_multiple",
         "weight": 0.8076
@@ -9605,7 +10351,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e663",
+        "id": "e756",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2409_11649",
         "weight": 0.8449
@@ -9613,7 +10359,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e664",
+        "id": "e757",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8144
@@ -9621,7 +10367,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e665",
+        "id": "e758",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.8156
@@ -9629,7 +10375,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e666",
+        "id": "e759",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2016_rajamaki_sampled_differential_dynamic_programming",
         "weight": 0.8614
@@ -9637,7 +10383,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e667",
+        "id": "e760",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "weight": 0.8551
@@ -9645,7 +10391,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e668",
+        "id": "e761",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2019_lefebvre_path_integral_policy_improvement",
         "weight": 0.8424
@@ -9653,7 +10399,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e669",
+        "id": "e762",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2005_00985",
         "weight": 0.8579
@@ -9661,7 +10407,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e670",
+        "id": "e763",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2010_00411",
         "weight": 0.8151
@@ -9669,7 +10415,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e671",
+        "id": "e764",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2020_pellegrini_a_multiple_shooting_differential",
         "weight": 0.8124
@@ -9677,7 +10423,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e672",
+        "id": "e765",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2103_03293",
         "weight": 0.8104
@@ -9685,7 +10431,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e673",
+        "id": "e766",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2109_07081",
         "weight": 0.8361
@@ -9693,7 +10439,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e674",
+        "id": "e767",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2022_houghton_path_planning_differential_dynamic",
         "weight": 0.8166
@@ -9701,7 +10447,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e675",
+        "id": "e768",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2208_02439",
         "weight": 0.8127
@@ -9709,7 +10455,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e676",
+        "id": "e769",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2209_09006",
         "weight": 0.8049
@@ -9717,7 +10463,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e677",
+        "id": "e770",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8307
@@ -9725,7 +10471,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e678",
+        "id": "e771",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
         "target": "2305_09619",
         "weight": 0.8004
@@ -9733,7 +10479,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e679",
+        "id": "e772",
         "source": "1502_05477",
         "target": "1803_07055",
         "weight": 0.8099
@@ -9741,7 +10487,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e680",
+        "id": "e773",
         "source": "1502_05477",
         "target": "2401_16025",
         "weight": 0.8692
@@ -9749,7 +10495,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e681",
+        "id": "e774",
         "source": "1502_05477",
         "target": "2209_09006",
         "weight": 0.8064
@@ -9757,7 +10503,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e682",
+        "id": "e775",
         "source": "1502_05477",
         "target": "1912_11912",
         "weight": 0.901
@@ -9765,7 +10511,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e683",
+        "id": "e776",
         "source": "1502_05477",
         "target": "1707_06347",
         "weight": 0.9172
@@ -9773,7 +10519,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e684",
+        "id": "e777",
         "source": "1505_04098",
         "target": "2403_10745",
         "weight": 0.8141
@@ -9781,7 +10527,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e685",
+        "id": "e778",
         "source": "1505_04098",
         "target": "2411_15651",
         "weight": 0.8013
@@ -9789,7 +10535,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e686",
+        "id": "e779",
         "source": "1505_04098",
         "target": "2412_11270",
         "weight": 0.8124
@@ -9797,7 +10543,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e687",
+        "id": "e780",
         "source": "1505_04098",
         "target": "2505_10542",
         "weight": 0.8413
@@ -9805,7 +10551,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e688",
+        "id": "e781",
         "source": "1505_04098",
         "target": "1511_05259",
         "weight": 0.8169
@@ -9813,7 +10559,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e689",
+        "id": "e782",
         "source": "1505_04098",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.8051
@@ -9821,7 +10567,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e690",
+        "id": "e783",
+        "source": "1505_04098",
+        "target": "2602_02846",
+        "weight": 0.8273
+      }
+    },
+    {
+      "data": {
+        "id": "e784",
         "source": "1505_04098",
         "target": "2603_16059",
         "weight": 0.8104
@@ -9829,7 +10583,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e691",
+        "id": "e785",
         "source": "1505_04098",
         "target": "1710_10122",
         "weight": 0.8368
@@ -9837,7 +10591,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e692",
+        "id": "e786",
         "source": "1505_04098",
         "target": "1809_02399",
         "weight": 0.85
@@ -9845,7 +10599,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e693",
+        "id": "e787",
+        "source": "1505_04098",
+        "target": "1909_09688",
+        "weight": 0.8161
+      }
+    },
+    {
+      "data": {
+        "id": "e788",
         "source": "1505_04098",
         "target": "2009_10484",
         "weight": 0.8159
@@ -9853,7 +10615,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e694",
+        "id": "e789",
         "source": "1505_04098",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8379
@@ -9861,7 +10623,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e695",
+        "id": "e790",
         "source": "1505_04098",
         "target": "2210_01744",
         "weight": 0.8096
@@ -9869,7 +10631,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e696",
+        "id": "e791",
         "source": "1509_01149",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8389
@@ -9877,7 +10639,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e697",
+        "id": "e792",
         "source": "1509_01149",
         "target": "2301_13143",
         "weight": 0.8413
@@ -9885,7 +10647,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e698",
+        "id": "e793",
         "source": "1509_01149",
         "target": "2309_12566",
         "weight": 0.8777
@@ -9893,7 +10655,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e699",
+        "id": "e794",
         "source": "1509_01149",
         "target": "2104_00241",
         "weight": 0.826
@@ -9901,7 +10663,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e700",
+        "id": "e795",
         "source": "1509_01149",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8563
@@ -9909,7 +10671,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e701",
+        "id": "e796",
         "source": "1509_01149",
         "target": "2017_williams_model_predictive_path_integral",
         "weight": 0.9505
@@ -9917,7 +10679,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e702",
+        "id": "e797",
         "source": "1509_01149",
         "target": "2401_09241",
         "weight": 0.8736
@@ -9925,7 +10687,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e703",
+        "id": "e798",
         "source": "1509_01149",
         "target": "2503_05819",
         "weight": 0.8356
@@ -9933,7 +10695,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e704",
+        "id": "e799",
         "source": "1509_01149",
         "target": "2022_houghton_path_planning_differential_dynamic",
         "weight": 0.8145
@@ -9941,7 +10703,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e705",
+        "id": "e800",
         "source": "1509_01149",
         "target": "2503_11717",
         "weight": 0.8524
@@ -9949,7 +10711,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e706",
+        "id": "e801",
         "source": "1509_01149",
         "target": "2409_12266",
         "weight": 0.8082
@@ -9957,7 +10719,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e707",
+        "id": "e802",
         "source": "1509_01149",
         "target": "2019_williams_model_predictive_path_integral",
         "weight": 0.8619
@@ -9965,7 +10727,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e708",
+        "id": "e803",
         "source": "1509_01149",
         "target": "2004_08763",
         "weight": 0.8084
@@ -9973,7 +10735,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e709",
+        "id": "e804",
         "source": "1509_01149",
         "target": "2016_rajamaki_sampled_differential_dynamic_programming",
         "weight": 0.8009
@@ -9981,7 +10743,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e710",
+        "id": "e805",
         "source": "1509_01149",
         "target": "2307_09105",
         "weight": 0.8545
@@ -9989,7 +10751,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e711",
+        "id": "e806",
         "source": "1509_03580",
         "target": "2108_13404",
         "weight": 0.8863
@@ -9997,7 +10759,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e712",
+        "id": "e807",
         "source": "1509_03580",
         "target": "2111_08481",
         "weight": 0.8926
@@ -10005,7 +10767,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e713",
+        "id": "e808",
         "source": "1509_03580",
         "target": "2403_09110",
         "weight": 0.8197
@@ -10013,7 +10775,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e714",
+        "id": "e809",
         "source": "1511_05259",
         "target": "2403_10745",
         "weight": 0.8231
@@ -10021,7 +10783,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e715",
+        "id": "e810",
         "source": "1511_05259",
         "target": "2409_12266",
         "weight": 0.8234
@@ -10029,7 +10791,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e716",
+        "id": "e811",
         "source": "1511_05259",
         "target": "2410_19414",
         "weight": 0.823
@@ -10037,7 +10799,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e717",
+        "id": "e812",
+        "source": "1511_05259",
+        "target": "2602_02846",
+        "weight": 0.8207
+      }
+    },
+    {
+      "data": {
+        "id": "e813",
         "source": "1511_05259",
         "target": "2603_16059",
         "weight": 0.833
@@ -10045,7 +10815,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e718",
+        "id": "e814",
         "source": "1511_05259",
         "target": "1710_10122",
         "weight": 0.8239
@@ -10053,7 +10823,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e719",
+        "id": "e815",
         "source": "1511_05259",
         "target": "1809_02399",
         "weight": 0.8463
@@ -10061,7 +10831,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e720",
+        "id": "e816",
+        "source": "1511_05259",
+        "target": "1909_09688",
+        "weight": 0.8115
+      }
+    },
+    {
+      "data": {
+        "id": "e817",
         "source": "1511_05259",
         "target": "2009_10484",
         "weight": 0.8008
@@ -10069,7 +10847,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e721",
+        "id": "e818",
         "source": "1511_05259",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8226
@@ -10077,7 +10855,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e722",
+        "id": "e819",
         "source": "1511_05259",
         "target": "2205_04422",
         "weight": 0.8023
@@ -10085,7 +10863,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e723",
+        "id": "e820",
         "source": "1511_05259",
         "target": "2210_01744",
         "weight": 0.8282
@@ -10093,7 +10871,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e724",
+        "id": "e821",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2403_01194",
         "weight": 0.8065
@@ -10101,7 +10879,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e725",
+        "id": "e822",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2403_10745",
         "weight": 0.8471
@@ -10109,7 +10887,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e726",
+        "id": "e823",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2410_19414",
         "weight": 0.8211
@@ -10117,7 +10895,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e727",
+        "id": "e824",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2411_15651",
         "weight": 0.8203
@@ -10125,7 +10903,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e728",
+        "id": "e825",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2411_17902",
         "weight": 0.8646
@@ -10133,7 +10911,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e729",
+        "id": "e826",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2412_11270",
         "weight": 0.806
@@ -10141,7 +10919,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e730",
+        "id": "e827",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2502_09556",
         "weight": 0.8117
@@ -10149,15 +10927,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e731",
+        "id": "e828",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2503_06757",
-        "weight": 0.804
+        "weight": 0.8461
       }
     },
     {
       "data": {
-        "id": "e732",
+        "id": "e829",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2505_10542",
         "weight": 0.8968
@@ -10165,7 +10943,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e733",
+        "id": "e830",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2015_otte_rrtx_asymptotically_optimal_single",
         "weight": 0.9128
@@ -10173,7 +10951,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e734",
+        "id": "e831",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2015_palmieri_distance_metric_learning_for",
         "weight": 0.8128
@@ -10181,7 +10959,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e735",
+        "id": "e832",
+        "source": "2015_klemm_rrt_star_connect_faster",
+        "target": "2016_choudhury_regionally_accelerated_batch_informed",
+        "weight": 0.8107
+      }
+    },
+    {
+      "data": {
+        "id": "e833",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "1710_10122",
         "weight": 0.8276
@@ -10189,7 +10975,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e736",
+        "id": "e834",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "1809_02399",
         "weight": 0.8487
@@ -10197,15 +10983,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e737",
+        "id": "e835",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "1909_09688",
-        "weight": 0.8497
+        "weight": 0.8974
       }
     },
     {
       "data": {
-        "id": "e738",
+        "id": "e836",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2009_10484",
         "weight": 0.8446
@@ -10213,7 +10999,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e739",
+        "id": "e837",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.9366
@@ -10221,7 +11007,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e740",
+        "id": "e838",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.8499
@@ -10229,7 +11015,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e741",
+        "id": "e839",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8135
@@ -10237,7 +11023,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e742",
+        "id": "e840",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2201_03163",
         "weight": 0.8119
@@ -10245,7 +11031,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e743",
+        "id": "e841",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2301_13143",
         "weight": 0.8223
@@ -10253,7 +11039,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e744",
+        "id": "e842",
         "source": "2015_klemm_rrt_star_connect_faster",
         "target": "2305_01072",
         "weight": 0.8053
@@ -10261,7 +11047,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e745",
+        "id": "e843",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2403_01194",
         "weight": 0.8075
@@ -10269,7 +11055,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e746",
+        "id": "e844",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2403_10745",
         "weight": 0.8536
@@ -10277,7 +11063,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e747",
+        "id": "e845",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2409_12266",
         "weight": 0.8087
@@ -10285,7 +11071,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e748",
+        "id": "e846",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2410_19414",
         "weight": 0.8422
@@ -10293,7 +11079,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e749",
+        "id": "e847",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2411_15651",
         "weight": 0.8406
@@ -10301,7 +11087,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e750",
+        "id": "e848",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2411_17902",
         "weight": 0.8379
@@ -10309,7 +11095,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e751",
+        "id": "e849",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2412_11270",
         "weight": 0.8119
@@ -10317,7 +11103,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e752",
+        "id": "e850",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2502_09556",
         "weight": 0.8418
@@ -10325,7 +11111,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e753",
+        "id": "e851",
+        "source": "2015_otte_rrtx_asymptotically_optimal_single",
+        "target": "2503_06757",
+        "weight": 0.8244
+      }
+    },
+    {
+      "data": {
+        "id": "e852",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2505_10542",
         "weight": 0.854
@@ -10333,7 +11127,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e754",
+        "id": "e853",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2015_palmieri_distance_metric_learning_for",
         "weight": 0.8087
@@ -10341,15 +11135,23 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e755",
+        "id": "e854",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2016_choudhury_regionally_accelerated_batch_informed",
-        "weight": 0.8087
+        "weight": 0.8254
       }
     },
     {
       "data": {
-        "id": "e756",
+        "id": "e855",
+        "source": "2015_otte_rrtx_asymptotically_optimal_single",
+        "target": "2602_02846",
+        "weight": 0.8127
+      }
+    },
+    {
+      "data": {
+        "id": "e856",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "1710_10122",
         "weight": 0.8365
@@ -10357,7 +11159,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e757",
+        "id": "e857",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "1809_02399",
         "weight": 0.8768
@@ -10365,15 +11167,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e758",
+        "id": "e858",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "1909_09688",
-        "weight": 0.8488
+        "weight": 0.8925
       }
     },
     {
       "data": {
-        "id": "e759",
+        "id": "e859",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2009_10484",
         "weight": 0.8523
@@ -10381,7 +11183,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e760",
+        "id": "e860",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.904
@@ -10389,7 +11191,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e761",
+        "id": "e861",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.8645
@@ -10397,7 +11199,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e762",
+        "id": "e862",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8155
@@ -10405,7 +11207,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e763",
+        "id": "e863",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2301_13143",
         "weight": 0.8491
@@ -10413,7 +11215,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e764",
+        "id": "e864",
         "source": "2015_otte_rrtx_asymptotically_optimal_single",
         "target": "2305_01072",
         "weight": 0.8143
@@ -10421,7 +11223,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e765",
+        "id": "e865",
         "source": "2015_palmieri_distance_metric_learning_for",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.8096
@@ -10429,7 +11231,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e766",
+        "id": "e866",
         "source": "2015_palmieri_distance_metric_learning_for",
         "target": "1710_10122",
         "weight": 0.8768
@@ -10437,7 +11239,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e767",
+        "id": "e867",
         "source": "2015_palmieri_distance_metric_learning_for",
         "target": "2410_19414",
         "weight": 0.8007
@@ -10445,7 +11247,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e768",
+        "id": "e868",
         "source": "2015_palmieri_distance_metric_learning_for",
         "target": "1809_02399",
         "weight": 0.8182
@@ -10453,7 +11255,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e769",
+        "id": "e869",
         "source": "2015_palmieri_distance_metric_learning_for",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8059
@@ -10461,7 +11263,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e770",
+        "id": "e870",
         "source": "2015_palmieri_distance_metric_learning_for",
         "target": "2403_10745",
         "weight": 0.8223
@@ -10469,7 +11271,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e771",
+        "id": "e871",
         "source": "2015_palmieri_distance_metric_learning_for",
         "target": "2505_09074",
         "weight": 0.803
@@ -10477,7 +11279,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e772",
+        "id": "e872",
         "source": "2015_palmieri_distance_metric_learning_for",
         "target": "2301_13143",
         "weight": 0.8031
@@ -10485,7 +11287,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e773",
+        "id": "e873",
         "source": "1604_07446",
         "target": "2017_roesmann_kinodynamic_trajectory_optimization_and",
         "weight": 0.8032
@@ -10493,7 +11295,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e774",
+        "id": "e874",
         "source": "1604_07446",
         "target": "2502_08664",
         "weight": 0.8438
@@ -10501,7 +11303,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e775",
+        "id": "e875",
         "source": "1604_07446",
         "target": "2503_03262",
         "weight": 0.8495
@@ -10509,7 +11311,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e776",
+        "id": "e876",
         "source": "1604_07446",
         "target": "2402_01443",
         "weight": 0.8151
@@ -10517,7 +11319,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e777",
+        "id": "e877",
         "source": "1604_07446",
         "target": "2201_03163",
         "weight": 0.8066
@@ -10525,7 +11327,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e778",
+        "id": "e878",
         "source": "1604_07446",
         "target": "2018_schwarting_planning_and_decision_making",
         "weight": 0.864
@@ -10533,7 +11335,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e779",
+        "id": "e879",
         "source": "1604_07446",
         "target": "2018_zhang_toward_a_more_complete",
         "weight": 0.8232
@@ -10541,7 +11343,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e780",
+        "id": "e880",
         "source": "1604_07446",
         "target": "2206_03004",
         "weight": 0.8077
@@ -10549,7 +11351,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e781",
+        "id": "e881",
         "source": "1604_07446",
         "target": "2505_09074",
         "weight": 0.8159
@@ -10557,7 +11359,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e782",
+        "id": "e882",
         "source": "1604_07446",
         "target": "2409_09523",
         "weight": 0.8318
@@ -10565,7 +11367,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e783",
+        "id": "e883",
         "source": "1604_07446",
         "target": "2019_williams_model_predictive_path_integral",
         "weight": 0.8076
@@ -10573,7 +11375,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e784",
+        "id": "e884",
         "source": "1604_07446",
         "target": "2410_19414",
         "weight": 0.8082
@@ -10581,7 +11383,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e785",
+        "id": "e885",
         "source": "1604_07446",
         "target": "2303_09824",
         "weight": 0.8566
@@ -10589,31 +11391,55 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e786",
+        "id": "e886",
+        "source": "2016_choudhury_regionally_accelerated_batch_informed",
+        "target": "2021_li_sliding_window_informed_rrt",
+        "weight": 0.8109
+      }
+    },
+    {
+      "data": {
+        "id": "e887",
+        "source": "2016_choudhury_regionally_accelerated_batch_informed",
+        "target": "1809_02399",
+        "weight": 0.8024
+      }
+    },
+    {
+      "data": {
+        "id": "e888",
         "source": "2016_choudhury_regionally_accelerated_batch_informed",
         "target": "2009_10484",
-        "weight": 0.8087
+        "weight": 0.8203
       }
     },
     {
       "data": {
-        "id": "e787",
+        "id": "e889",
+        "source": "2016_choudhury_regionally_accelerated_batch_informed",
+        "target": "1909_09688",
+        "weight": 0.8142
+      }
+    },
+    {
+      "data": {
+        "id": "e890",
         "source": "2016_choudhury_regionally_accelerated_batch_informed",
         "target": "2411_17902",
-        "weight": 0.8276
+        "weight": 0.831
       }
     },
     {
       "data": {
-        "id": "e788",
+        "id": "e891",
         "source": "2016_choudhury_regionally_accelerated_batch_informed",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
-        "weight": 0.8186
+        "weight": 0.8374
       }
     },
     {
       "data": {
-        "id": "e789",
+        "id": "e892",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2309_07872",
         "weight": 0.8582
@@ -10621,7 +11447,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e790",
+        "id": "e893",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2309_12566",
         "weight": 0.8339
@@ -10629,7 +11455,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e791",
+        "id": "e894",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8373
@@ -10637,7 +11463,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e792",
+        "id": "e895",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2024_wang_a_convergence_guaranteed_multiple",
         "weight": 0.8385
@@ -10645,7 +11471,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e793",
+        "id": "e896",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2401_09241",
         "weight": 0.8242
@@ -10653,7 +11479,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e794",
+        "id": "e897",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2409_11649",
         "weight": 0.8599
@@ -10661,7 +11487,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e795",
+        "id": "e898",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2409_12266",
         "weight": 0.8183
@@ -10669,7 +11495,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e796",
+        "id": "e899",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2409_15610",
         "weight": 0.8198
@@ -10677,7 +11503,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e797",
+        "id": "e900",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2410_19414",
         "weight": 0.8102
@@ -10685,7 +11511,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e798",
+        "id": "e901",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8365
@@ -10693,7 +11519,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e799",
+        "id": "e902",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8291
@@ -10701,7 +11527,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e800",
+        "id": "e903",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.8259
@@ -10709,7 +11535,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e801",
+        "id": "e904",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2503_05819",
         "weight": 0.8235
@@ -10717,7 +11543,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e802",
+        "id": "e905",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2503_11717",
         "weight": 0.8052
@@ -10725,7 +11551,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e803",
+        "id": "e906",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2603_16059",
         "weight": 0.8112
@@ -10733,7 +11559,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e804",
+        "id": "e907",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2017_williams_model_predictive_path_integral",
         "weight": 0.8208
@@ -10741,7 +11567,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e805",
+        "id": "e908",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "weight": 0.9167
@@ -10749,7 +11575,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e806",
+        "id": "e909",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2019_hannigan_sbp_guided_mpc_to",
         "weight": 0.8114
@@ -10757,7 +11583,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e807",
+        "id": "e910",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2019_lefebvre_path_integral_policy_improvement",
         "weight": 0.8547
@@ -10765,7 +11591,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e808",
+        "id": "e911",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2004_08763",
         "weight": 0.8366
@@ -10773,7 +11599,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e809",
+        "id": "e912",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2005_00985",
         "weight": 0.8802
@@ -10781,7 +11607,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e810",
+        "id": "e913",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2010_00411",
         "weight": 0.8675
@@ -10789,7 +11615,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e811",
+        "id": "e914",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2020_marti_saumell_squash_box_feasibility_driven",
         "weight": 0.8402
@@ -10797,7 +11623,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e812",
+        "id": "e915",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2020_pellegrini_a_multiple_shooting_differential",
         "weight": 0.8173
@@ -10805,7 +11631,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e813",
+        "id": "e916",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2103_03293",
         "weight": 0.85
@@ -10813,7 +11639,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e814",
+        "id": "e917",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2109_07081",
         "weight": 0.8648
@@ -10821,7 +11647,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e815",
+        "id": "e918",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.821
@@ -10829,7 +11655,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e816",
+        "id": "e919",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2022_houghton_path_planning_differential_dynamic",
         "weight": 0.8439
@@ -10837,7 +11663,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e817",
+        "id": "e920",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2204_02322",
         "weight": 0.8032
@@ -10845,7 +11671,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e818",
+        "id": "e921",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2208_02439",
         "weight": 0.8523
@@ -10853,7 +11679,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e819",
+        "id": "e922",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2209_09006",
         "weight": 0.8008
@@ -10861,7 +11687,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e820",
+        "id": "e923",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2212_00541",
         "weight": 0.8119
@@ -10869,7 +11695,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e821",
+        "id": "e924",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8621
@@ -10877,7 +11703,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e822",
+        "id": "e925",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
         "target": "2307_09105",
         "weight": 0.8189
@@ -10885,7 +11711,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e823",
+        "id": "e926",
+        "source": "1705_02403",
+        "target": "2310_17274",
+        "weight": 0.8022
+      }
+    },
+    {
+      "data": {
+        "id": "e927",
         "source": "1705_02403",
         "target": "2502_09556",
         "weight": 0.8059
@@ -10893,7 +11727,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e824",
+        "id": "e928",
         "source": "1705_02403",
         "target": "1809_02399",
         "weight": 0.8175
@@ -10901,23 +11735,31 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e825",
+        "id": "e929",
+        "source": "1705_02403",
+        "target": "2503_06757",
+        "weight": 0.8372
+      }
+    },
+    {
+      "data": {
+        "id": "e930",
         "source": "1705_02403",
         "target": "2602_02846",
-        "weight": 0.8388
+        "weight": 0.8575
       }
     },
     {
       "data": {
-        "id": "e826",
+        "id": "e931",
         "source": "1705_02403",
         "target": "2409_06807",
-        "weight": 0.8186
+        "weight": 0.8564
       }
     },
     {
       "data": {
-        "id": "e827",
+        "id": "e932",
         "source": "1705_02403",
         "target": "2411_11833",
         "weight": 0.8275
@@ -10925,47 +11767,47 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e828",
+        "id": "e933",
+        "source": "1706_03762",
+        "target": "1709_07174",
+        "weight": 0.6322
+      }
+    },
+    {
+      "data": {
+        "id": "e934",
         "source": "1706_03762",
         "target": "2025_hu_technical_speaking_transitioning_from",
-        "weight": 0.6169
+        "weight": 0.6489
       }
     },
     {
       "data": {
-        "id": "e829",
+        "id": "e935",
         "source": "1706_03762",
         "target": "2402_03300",
-        "weight": 0.5989
+        "weight": 0.6585
       }
     },
     {
       "data": {
-        "id": "e830",
+        "id": "e936",
         "source": "1706_03762",
         "target": "2207_05844",
-        "weight": 0.6795
+        "weight": 0.7301
       }
     },
     {
       "data": {
-        "id": "e831",
-        "source": "1706_03762",
-        "target": "1912_01603",
-        "weight": 0.5994
-      }
-    },
-    {
-      "data": {
-        "id": "e832",
+        "id": "e937",
         "source": "1706_03762",
         "target": "2511_00088",
-        "weight": 0.6767
+        "weight": 0.6721
       }
     },
     {
       "data": {
-        "id": "e833",
+        "id": "e938",
         "source": "1707_06347",
         "target": "1803_07055",
         "weight": 0.8209
@@ -10973,7 +11815,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e834",
+        "id": "e939",
         "source": "1707_06347",
         "target": "2401_16025",
         "weight": 0.9177
@@ -10981,7 +11823,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e835",
+        "id": "e940",
         "source": "1707_06347",
         "target": "1912_11912",
         "weight": 0.8783
@@ -10989,7 +11831,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e836",
+        "id": "e941",
         "source": "1707_06347",
         "target": "2209_09006",
         "weight": 0.8202
@@ -10997,7 +11839,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e837",
+        "id": "e942",
         "source": "1707_07239",
         "target": "1711_03449",
         "weight": 0.8012
@@ -11005,7 +11847,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e838",
+        "id": "e943",
         "source": "1707_07239",
         "target": "2504_18978",
         "weight": 0.8126
@@ -11013,7 +11855,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e839",
+        "id": "e944",
         "source": "1709_07174",
         "target": "2025_hu_technical_speaking_transitioning_from",
         "weight": 0.8188
@@ -11021,7 +11863,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e840",
+        "id": "e945",
         "source": "1709_07174",
         "target": "2111_12083",
         "weight": 0.8062
@@ -11029,7 +11871,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e841",
+        "id": "e946",
         "source": "1709_07174",
         "target": "2111_12137",
         "weight": 0.8328
@@ -11037,7 +11879,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e842",
+        "id": "e947",
         "source": "1709_07174",
         "target": "2206_03004",
         "weight": 0.8511
@@ -11045,7 +11887,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e843",
+        "id": "e948",
         "source": "1709_07174",
         "target": "2505_09074",
         "weight": 0.8132
@@ -11053,7 +11895,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e844",
+        "id": "e949",
         "source": "1709_07174",
         "target": "1912_11676",
         "weight": 0.804
@@ -11061,7 +11903,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e845",
+        "id": "e950",
         "source": "1709_07174",
         "target": "2409_09523",
         "weight": 0.8357
@@ -11069,7 +11911,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e846",
+        "id": "e951",
         "source": "1709_07174",
         "target": "2212_06437",
         "weight": 0.8516
@@ -11077,15 +11919,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e847",
+        "id": "e952",
         "source": "1709_07174",
         "target": "2511_00088",
-        "weight": 0.8074
+        "weight": 0.8595
       }
     },
     {
       "data": {
-        "id": "e848",
+        "id": "e953",
         "source": "1709_07174",
         "target": "2303_09824",
         "weight": 0.859
@@ -11093,7 +11935,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e849",
+        "id": "e954",
         "source": "1710_09483",
         "target": "2024_calem_action_and_trajectory_prediction",
         "weight": 0.823
@@ -11101,7 +11943,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e850",
+        "id": "e955",
         "source": "1710_09483",
         "target": "2111_12137",
         "weight": 0.8154
@@ -11109,7 +11951,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e851",
+        "id": "e956",
         "source": "1710_09483",
         "target": "2018_schwarting_planning_and_decision_making",
         "weight": 0.831
@@ -11117,7 +11959,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e852",
+        "id": "e957",
         "source": "1710_09483",
         "target": "2505_09074",
         "weight": 0.8145
@@ -11125,7 +11967,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e853",
+        "id": "e958",
         "source": "1710_09483",
         "target": "2409_09523",
         "weight": 0.8009
@@ -11133,7 +11975,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e854",
+        "id": "e959",
         "source": "1710_09483",
         "target": "2001_03093",
         "weight": 0.8095
@@ -11141,7 +11983,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e855",
+        "id": "e960",
+        "source": "1710_09483",
+        "target": "2511_00088",
+        "weight": 0.8193
+      }
+    },
+    {
+      "data": {
+        "id": "e961",
         "source": "1710_09483",
         "target": "2303_09824",
         "weight": 0.8026
@@ -11149,7 +11999,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e856",
+        "id": "e962",
         "source": "1710_10122",
         "target": "2403_01194",
         "weight": 0.8152
@@ -11157,7 +12007,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e857",
+        "id": "e963",
         "source": "1710_10122",
         "target": "2403_10745",
         "weight": 0.8943
@@ -11165,7 +12015,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e858",
+        "id": "e964",
         "source": "1710_10122",
         "target": "2409_12266",
         "weight": 0.8011
@@ -11173,7 +12023,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e859",
+        "id": "e965",
         "source": "1710_10122",
         "target": "2410_19414",
         "weight": 0.8064
@@ -11181,7 +12031,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e860",
+        "id": "e966",
         "source": "1710_10122",
         "target": "2411_15651",
         "weight": 0.8428
@@ -11189,7 +12039,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e861",
+        "id": "e967",
         "source": "1710_10122",
         "target": "2411_17902",
         "weight": 0.8082
@@ -11197,7 +12047,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e862",
+        "id": "e968",
         "source": "1710_10122",
         "target": "2412_11270",
         "weight": 0.8241
@@ -11205,7 +12055,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e863",
+        "id": "e969",
+        "source": "1710_10122",
+        "target": "2503_06757",
+        "weight": 0.8141
+      }
+    },
+    {
+      "data": {
+        "id": "e970",
         "source": "1710_10122",
         "target": "2505_10542",
         "weight": 0.8135
@@ -11213,7 +12071,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e864",
+        "id": "e971",
+        "source": "1710_10122",
+        "target": "2602_02846",
+        "weight": 0.8109
+      }
+    },
+    {
+      "data": {
+        "id": "e972",
         "source": "1710_10122",
         "target": "2603_16059",
         "weight": 0.8116
@@ -11221,7 +12087,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e865",
+        "id": "e973",
         "source": "1710_10122",
         "target": "1809_02399",
         "weight": 0.9096
@@ -11229,7 +12095,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e866",
+        "id": "e974",
+        "source": "1710_10122",
+        "target": "1909_09688",
+        "weight": 0.8251
+      }
+    },
+    {
+      "data": {
+        "id": "e975",
         "source": "1710_10122",
         "target": "2019_hannigan_sbp_guided_mpc_to",
         "weight": 0.8338
@@ -11237,7 +12111,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e867",
+        "id": "e976",
         "source": "1710_10122",
         "target": "2004_08763",
         "weight": 0.8049
@@ -11245,7 +12119,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e868",
+        "id": "e977",
         "source": "1710_10122",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.8315
@@ -11253,7 +12127,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e869",
+        "id": "e978",
         "source": "1710_10122",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.8439
@@ -11261,7 +12135,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e870",
+        "id": "e979",
         "source": "1710_10122",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8257
@@ -11269,7 +12143,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e871",
+        "id": "e980",
         "source": "1710_10122",
         "target": "2210_01744",
         "weight": 0.8564
@@ -11277,7 +12151,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e872",
+        "id": "e981",
         "source": "1710_10122",
         "target": "2301_13143",
         "weight": 0.8708
@@ -11285,7 +12159,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e873",
+        "id": "e982",
         "source": "1711_03449",
         "target": "2109_07081",
         "weight": 0.804
@@ -11293,7 +12167,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e874",
+        "id": "e983",
         "source": "1711_03449",
         "target": "2504_06437",
         "weight": 0.8194
@@ -11301,7 +12175,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e875",
+        "id": "e984",
         "source": "1711_03449",
         "target": "2504_18978",
         "weight": 0.8307
@@ -11309,7 +12183,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e876",
+        "id": "e985",
         "source": "1711_03449",
         "target": "2018_zhang_toward_a_more_complete",
         "weight": 0.829
@@ -11317,7 +12191,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e877",
+        "id": "e986",
         "source": "1711_03449",
         "target": "2205_04422",
         "weight": 0.8696
@@ -11325,7 +12199,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e878",
+        "id": "e987",
         "source": "1711_03449",
         "target": "2207_06362",
         "weight": 0.8012
@@ -11333,7 +12207,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e879",
+        "id": "e988",
         "source": "1711_03449",
         "target": "2208_02439",
         "weight": 0.8364
@@ -11341,7 +12215,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e880",
+        "id": "e989",
         "source": "1711_03449",
         "target": "2506_14865",
         "weight": 0.8265
@@ -11349,7 +12223,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e881",
+        "id": "e990",
         "source": "1711_03449",
         "target": "2019_jackson_altro_a_fast_solver",
         "weight": 0.821
@@ -11357,7 +12231,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e882",
+        "id": "e991",
         "source": "1711_03449",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8128
@@ -11365,7 +12239,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e883",
+        "id": "e992",
         "source": "1711_03449",
         "target": "2508_21364",
         "weight": 0.8049
@@ -11373,7 +12247,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e884",
+        "id": "e993",
         "source": "1711_03449",
         "target": "2005_00985",
         "weight": 0.8009
@@ -11381,7 +12255,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e885",
+        "id": "e994",
         "source": "1711_11006",
         "target": "2309_07872",
         "weight": 0.8286
@@ -11389,7 +12263,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e886",
+        "id": "e995",
         "source": "1711_11006",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8013
@@ -11397,7 +12271,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e887",
+        "id": "e996",
         "source": "1711_11006",
         "target": "2403_00748",
         "weight": 0.8673
@@ -11405,7 +12279,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e888",
+        "id": "e997",
         "source": "1711_11006",
         "target": "2204_02322",
         "weight": 0.8691
@@ -11413,7 +12287,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e889",
+        "id": "e998",
         "source": "1711_11006",
         "target": "2207_06362",
         "weight": 0.8575
@@ -11421,7 +12295,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e890",
+        "id": "e999",
         "source": "1711_11006",
         "target": "2019_hannigan_sbp_guided_mpc_to",
         "weight": 0.8138
@@ -11429,7 +12303,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e891",
+        "id": "e1000",
         "source": "1711_11006",
         "target": "2019_jackson_altro_a_fast_solver",
         "weight": 0.8023
@@ -11437,7 +12311,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e892",
+        "id": "e1001",
         "source": "1711_11006",
         "target": "2409_11649",
         "weight": 0.8076
@@ -11445,7 +12319,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e893",
+        "id": "e1002",
         "source": "1711_11006",
         "target": "2305_09619",
         "weight": 0.8183
@@ -11453,7 +12327,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e894",
+        "id": "e1003",
         "source": "1711_11006",
         "target": "2020_pellegrini_a_multiple_shooting_differential",
         "weight": 0.8173
@@ -11461,7 +12335,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e895",
+        "id": "e1004",
         "source": "2017_roesmann_kinodynamic_trajectory_optimization_and",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.811
@@ -11469,7 +12343,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e896",
+        "id": "e1005",
         "source": "2017_roesmann_kinodynamic_trajectory_optimization_and",
         "target": "2504_18978",
         "weight": 0.8061
@@ -11477,7 +12351,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e897",
+        "id": "e1006",
         "source": "2017_roesmann_kinodynamic_trajectory_optimization_and",
         "target": "2205_04422",
         "weight": 0.8041
@@ -11485,7 +12359,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e898",
+        "id": "e1007",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2309_12566",
         "weight": 0.9116
@@ -11493,7 +12367,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e899",
+        "id": "e1008",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2401_09241",
         "weight": 0.9003
@@ -11501,7 +12375,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e900",
+        "id": "e1009",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2409_12266",
         "weight": 0.8329
@@ -11509,7 +12383,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e901",
+        "id": "e1010",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2409_15610",
         "weight": 0.8204
@@ -11517,7 +12391,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e902",
+        "id": "e1011",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2411_15651",
         "weight": 0.8062
@@ -11525,7 +12399,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e903",
+        "id": "e1012",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8686
@@ -11533,7 +12407,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e904",
+        "id": "e1013",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8746
@@ -11541,7 +12415,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e905",
+        "id": "e1014",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2025_trevisan_model_predictive_path_integral",
         "weight": 0.8375
@@ -11549,7 +12423,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e906",
+        "id": "e1015",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2503_05819",
         "weight": 0.8559
@@ -11557,7 +12431,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e907",
+        "id": "e1016",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2503_11717",
         "weight": 0.8828
@@ -11565,7 +12439,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e908",
+        "id": "e1017",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2504_06437",
         "weight": 0.8354
@@ -11573,7 +12447,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e909",
+        "id": "e1018",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2505_05507",
         "weight": 0.8101
@@ -11581,7 +12455,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e910",
+        "id": "e1019",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2508_21364",
         "weight": 0.8588
@@ -11589,7 +12463,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e911",
+        "id": "e1020",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2510_00272",
         "weight": 0.8342
@@ -11597,7 +12471,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e912",
+        "id": "e1021",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2019_lefebvre_path_integral_policy_improvement",
         "weight": 0.811
@@ -11605,7 +12479,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e913",
+        "id": "e1022",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2019_williams_model_predictive_path_integral",
         "weight": 0.9369
@@ -11613,7 +12487,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e914",
+        "id": "e1023",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2004_08763",
         "weight": 0.8069
@@ -11621,7 +12495,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e915",
+        "id": "e1024",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2104_00241",
         "weight": 0.8406
@@ -11629,7 +12503,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e916",
+        "id": "e1025",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2022_houghton_path_planning_differential_dynamic",
         "weight": 0.8569
@@ -11637,7 +12511,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e917",
+        "id": "e1026",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2208_02439",
         "weight": 0.8234
@@ -11645,7 +12519,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e918",
+        "id": "e1027",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2301_13143",
         "weight": 0.8602
@@ -11653,7 +12527,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e919",
+        "id": "e1028",
         "source": "2017_williams_model_predictive_path_integral",
         "target": "2307_09105",
         "weight": 0.8842
@@ -11661,7 +12535,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e920",
+        "id": "e1029",
         "source": "1801_08995",
         "target": "2405_03281",
         "weight": 0.8157
@@ -11669,7 +12543,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e921",
+        "id": "e1030",
         "source": "1803_07055",
         "target": "2401_16025",
         "weight": 0.7891
@@ -11677,7 +12551,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e922",
+        "id": "e1031",
         "source": "1803_07055",
         "target": "2004_08763",
         "weight": 0.799
@@ -11685,7 +12559,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e923",
+        "id": "e1032",
         "source": "1803_07055",
         "target": "2412_11270",
         "weight": 0.7883
@@ -11693,7 +12567,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e924",
+        "id": "e1033",
         "source": "1809_02399",
         "target": "2403_01194",
         "weight": 0.817
@@ -11701,7 +12575,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e925",
+        "id": "e1034",
         "source": "1809_02399",
         "target": "2403_10745",
         "weight": 0.9214
@@ -11709,15 +12583,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e926",
+        "id": "e1035",
         "source": "1809_02399",
         "target": "2409_06807",
-        "weight": 0.8344
+        "weight": 0.8437
       }
     },
     {
       "data": {
-        "id": "e927",
+        "id": "e1036",
         "source": "1809_02399",
         "target": "2409_12266",
         "weight": 0.8517
@@ -11725,7 +12599,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e928",
+        "id": "e1037",
         "source": "1809_02399",
         "target": "2410_19414",
         "weight": 0.8623
@@ -11733,7 +12607,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e929",
+        "id": "e1038",
         "source": "1809_02399",
         "target": "2411_15651",
         "weight": 0.8551
@@ -11741,7 +12615,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e930",
+        "id": "e1039",
         "source": "1809_02399",
         "target": "2411_17902",
         "weight": 0.8414
@@ -11749,7 +12623,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e931",
+        "id": "e1040",
         "source": "1809_02399",
         "target": "2412_11270",
         "weight": 0.8299
@@ -11757,7 +12631,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e932",
+        "id": "e1041",
         "source": "1809_02399",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8059
@@ -11765,7 +12639,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e933",
+        "id": "e1042",
         "source": "1809_02399",
         "target": "2502_09556",
         "weight": 0.8095
@@ -11773,7 +12647,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e934",
+        "id": "e1043",
         "source": "1809_02399",
         "target": "2503_05819",
         "weight": 0.8255
@@ -11781,7 +12655,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e935",
+        "id": "e1044",
+        "source": "1809_02399",
+        "target": "2503_06757",
+        "weight": 0.8482
+      }
+    },
+    {
+      "data": {
+        "id": "e1045",
         "source": "1809_02399",
         "target": "2504_18978",
         "weight": 0.805
@@ -11789,7 +12671,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e936",
+        "id": "e1046",
         "source": "1809_02399",
         "target": "2505_10542",
         "weight": 0.8263
@@ -11797,15 +12679,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e937",
+        "id": "e1047",
         "source": "1809_02399",
         "target": "2602_02846",
-        "weight": 0.8225
+        "weight": 0.872
       }
     },
     {
       "data": {
-        "id": "e938",
+        "id": "e1048",
         "source": "1809_02399",
         "target": "2603_16059",
         "weight": 0.8548
@@ -11813,7 +12695,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e939",
+        "id": "e1049",
         "source": "1809_02399",
         "target": "2018_kingston_sampling_based_methods_for",
         "weight": 0.8379
@@ -11821,7 +12703,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e940",
+        "id": "e1050",
+        "source": "1809_02399",
+        "target": "1909_09688",
+        "weight": 0.8439
+      }
+    },
+    {
+      "data": {
+        "id": "e1051",
         "source": "1809_02399",
         "target": "2019_hannigan_sbp_guided_mpc_to",
         "weight": 0.8364
@@ -11829,7 +12719,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e941",
+        "id": "e1052",
         "source": "1809_02399",
         "target": "2009_10484",
         "weight": 0.8386
@@ -11837,7 +12727,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e942",
+        "id": "e1053",
         "source": "1809_02399",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.8472
@@ -11845,7 +12735,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e943",
+        "id": "e1054",
         "source": "1809_02399",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.8424
@@ -11853,7 +12743,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e944",
+        "id": "e1055",
         "source": "1809_02399",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8667
@@ -11861,7 +12751,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e945",
+        "id": "e1056",
         "source": "1809_02399",
         "target": "2205_04422",
         "weight": 0.8031
@@ -11869,7 +12759,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e946",
+        "id": "e1057",
         "source": "1809_02399",
         "target": "2210_01744",
         "weight": 0.8607
@@ -11877,7 +12767,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e947",
+        "id": "e1058",
         "source": "1809_02399",
         "target": "2301_13143",
         "weight": 0.8802
@@ -11885,7 +12775,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e948",
+        "id": "e1059",
         "source": "1809_02399",
         "target": "2305_01072",
         "weight": 0.8034
@@ -11893,7 +12783,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e949",
+        "id": "e1060",
         "source": "1809_02399",
         "target": "2307_09105",
         "weight": 0.8096
@@ -11901,7 +12791,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e950",
+        "id": "e1061",
         "source": "1811_04551",
         "target": "1912_01603",
         "weight": 0.8199
@@ -11909,7 +12799,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e951",
+        "id": "e1062",
         "source": "1811_04551",
         "target": "2409_16012",
         "weight": 0.7846
@@ -11917,7 +12807,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e952",
+        "id": "e1063",
         "source": "1811_04551",
         "target": "2411_15651",
         "weight": 0.7816
@@ -11925,7 +12815,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e953",
+        "id": "e1064",
         "source": "1811_04551",
         "target": "2412_11270",
         "weight": 0.7967
@@ -11933,39 +12823,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e954",
-        "source": "2018_kingston_sampling_based_methods_for",
-        "target": "2022_honig_benchmarking_sampling_search_and",
-        "weight": 0.8149
-      }
-    },
-    {
-      "data": {
-        "id": "e955",
-        "source": "2018_kingston_sampling_based_methods_for",
-        "target": "2503_05819",
-        "weight": 0.8041
-      }
-    },
-    {
-      "data": {
-        "id": "e956",
-        "source": "2018_kingston_sampling_based_methods_for",
-        "target": "2403_10745",
-        "weight": 0.8178
-      }
-    },
-    {
-      "data": {
-        "id": "e957",
-        "source": "2018_kingston_sampling_based_methods_for",
-        "target": "2409_12266",
-        "weight": 0.8195
-      }
-    },
-    {
-      "data": {
-        "id": "e958",
+        "id": "e1065",
         "source": "2018_kingston_sampling_based_methods_for",
         "target": "2410_19414",
         "weight": 0.8992
@@ -11973,7 +12831,39 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e959",
+        "id": "e1066",
+        "source": "2018_kingston_sampling_based_methods_for",
+        "target": "2022_honig_benchmarking_sampling_search_and",
+        "weight": 0.8149
+      }
+    },
+    {
+      "data": {
+        "id": "e1067",
+        "source": "2018_kingston_sampling_based_methods_for",
+        "target": "2503_05819",
+        "weight": 0.8041
+      }
+    },
+    {
+      "data": {
+        "id": "e1068",
+        "source": "2018_kingston_sampling_based_methods_for",
+        "target": "2403_10745",
+        "weight": 0.8178
+      }
+    },
+    {
+      "data": {
+        "id": "e1069",
+        "source": "2018_kingston_sampling_based_methods_for",
+        "target": "2409_12266",
+        "weight": 0.8195
+      }
+    },
+    {
+      "data": {
+        "id": "e1070",
         "source": "2018_kingston_sampling_based_methods_for",
         "target": "2009_10484",
         "weight": 0.8656
@@ -11981,7 +12871,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e960",
+        "id": "e1071",
         "source": "2018_kingston_sampling_based_methods_for",
         "target": "2603_16059",
         "weight": 0.815
@@ -11989,7 +12879,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e961",
+        "id": "e1072",
         "source": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "target": "2103_03293",
         "weight": 0.8073
@@ -11997,7 +12887,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e962",
+        "id": "e1073",
         "source": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "target": "2309_07872",
         "weight": 0.8332
@@ -12005,7 +12895,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e963",
+        "id": "e1074",
         "source": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.8307
@@ -12013,7 +12903,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e964",
+        "id": "e1075",
         "source": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "target": "2109_07081",
         "weight": 0.8191
@@ -12021,7 +12911,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e965",
+        "id": "e1076",
         "source": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "target": "2022_houghton_path_planning_differential_dynamic",
         "weight": 0.8093
@@ -12029,7 +12919,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e966",
+        "id": "e1077",
         "source": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "target": "2204_02322",
         "weight": 0.8058
@@ -12037,7 +12927,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e967",
+        "id": "e1078",
         "source": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "target": "2409_11649",
         "weight": 0.8459
@@ -12045,7 +12935,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e968",
+        "id": "e1079",
         "source": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "target": "2019_lefebvre_path_integral_policy_improvement",
         "weight": 0.8222
@@ -12053,7 +12943,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e969",
+        "id": "e1080",
         "source": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8094
@@ -12061,7 +12951,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e970",
+        "id": "e1081",
         "source": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "target": "2004_08763",
         "weight": 0.8052
@@ -12069,7 +12959,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e971",
+        "id": "e1082",
         "source": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "target": "2005_00985",
         "weight": 0.8486
@@ -12077,7 +12967,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e972",
+        "id": "e1083",
         "source": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "target": "2010_00411",
         "weight": 0.8147
@@ -12085,7 +12975,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e973",
+        "id": "e1084",
         "source": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "target": "2020_marti_saumell_squash_box_feasibility_driven",
         "weight": 0.802
@@ -12093,7 +12983,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e974",
+        "id": "e1085",
         "source": "2018_rajamaki_regularizing_sampled_differential_dynamic",
         "target": "2020_pellegrini_a_multiple_shooting_differential",
         "weight": 0.8131
@@ -12101,7 +12991,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e975",
+        "id": "e1086",
+        "source": "2018_schwarting_planning_and_decision_making",
+        "target": "2511_00088",
+        "weight": 0.8084
+      }
+    },
+    {
+      "data": {
+        "id": "e1087",
         "source": "2018_schwarting_planning_and_decision_making",
         "target": "2502_08664",
         "weight": 0.853
@@ -12109,7 +13007,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e976",
+        "id": "e1088",
         "source": "2018_schwarting_planning_and_decision_making",
         "target": "2503_03262",
         "weight": 0.8375
@@ -12117,7 +13015,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e977",
+        "id": "e1089",
         "source": "2018_schwarting_planning_and_decision_making",
         "target": "2111_12137",
         "weight": 0.8148
@@ -12125,7 +13023,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e978",
+        "id": "e1090",
         "source": "2018_schwarting_planning_and_decision_making",
         "target": "2018_zhang_toward_a_more_complete",
         "weight": 0.8122
@@ -12133,7 +13031,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e979",
+        "id": "e1091",
         "source": "2018_schwarting_planning_and_decision_making",
         "target": "2206_03004",
         "weight": 0.8034
@@ -12141,7 +13039,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e980",
+        "id": "e1092",
         "source": "2018_schwarting_planning_and_decision_making",
         "target": "2505_09074",
         "weight": 0.8406
@@ -12149,7 +13047,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e981",
+        "id": "e1093",
         "source": "2018_schwarting_planning_and_decision_making",
         "target": "2409_09523",
         "weight": 0.8284
@@ -12157,7 +13055,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e982",
+        "id": "e1094",
         "source": "2018_schwarting_planning_and_decision_making",
         "target": "2303_09824",
         "weight": 0.8607
@@ -12165,7 +13063,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e983",
+        "id": "e1095",
         "source": "2018_zhang_toward_a_more_complete",
         "target": "2402_01443",
         "weight": 0.8042
@@ -12173,7 +13071,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e984",
+        "id": "e1096",
         "source": "2018_zhang_toward_a_more_complete",
         "target": "2402_03893",
         "weight": 0.8031
@@ -12181,7 +13079,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e985",
+        "id": "e1097",
         "source": "2018_zhang_toward_a_more_complete",
         "target": "2205_04422",
         "weight": 0.8263
@@ -12189,7 +13087,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e986",
+        "id": "e1098",
         "source": "2018_zhang_toward_a_more_complete",
         "target": "2504_18978",
         "weight": 0.8237
@@ -12197,7 +13095,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e987",
+        "id": "e1099",
         "source": "2018_zhang_toward_a_more_complete",
         "target": "2409_09523",
         "weight": 0.8193
@@ -12205,7 +13103,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e988",
+        "id": "e1100",
         "source": "2018_zhang_toward_a_more_complete",
         "target": "2303_09824",
         "weight": 0.8097
@@ -12213,39 +13111,79 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e989",
+        "id": "e1101",
         "source": "1909_09688",
-        "target": "2021_li_sliding_window_informed_rrt",
-        "weight": 0.8088
+        "target": "2403_10745",
+        "weight": 0.8284
       }
     },
     {
       "data": {
-        "id": "e990",
+        "id": "e1102",
         "source": "1909_09688",
-        "target": "2009_10484",
-        "weight": 0.8382
+        "target": "2410_19414",
+        "weight": 0.8183
       }
     },
     {
       "data": {
-        "id": "e991",
+        "id": "e1103",
+        "source": "1909_09688",
+        "target": "2411_17902",
+        "weight": 0.8215
+      }
+    },
+    {
+      "data": {
+        "id": "e1104",
         "source": "1909_09688",
         "target": "2505_10542",
-        "weight": 0.8233
+        "weight": 0.8726
       }
     },
     {
       "data": {
-        "id": "e992",
+        "id": "e1105",
+        "source": "1909_09688",
+        "target": "2009_10484",
+        "weight": 0.8778
+      }
+    },
+    {
+      "data": {
+        "id": "e1106",
         "source": "1909_09688",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
-        "weight": 0.8255
+        "weight": 0.8755
       }
     },
     {
       "data": {
-        "id": "e993",
+        "id": "e1107",
+        "source": "1909_09688",
+        "target": "2021_li_sliding_window_informed_rrt",
+        "weight": 0.8373
+      }
+    },
+    {
+      "data": {
+        "id": "e1108",
+        "source": "1909_09688",
+        "target": "2022_honig_benchmarking_sampling_search_and",
+        "weight": 0.8054
+      }
+    },
+    {
+      "data": {
+        "id": "e1109",
+        "source": "1909_09688",
+        "target": "2301_13143",
+        "weight": 0.8231
+      }
+    },
+    {
+      "data": {
+        "id": "e1110",
         "source": "1909_10466",
         "target": "2022_schmid_dynamic_mode_decomposition_and",
         "weight": 0.9143
@@ -12253,7 +13191,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e994",
+        "id": "e1111",
         "source": "1912_01603",
         "target": "2111_12137",
         "weight": 0.7686
@@ -12261,7 +13199,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e995",
+        "id": "e1112",
         "source": "1912_01603",
         "target": "2403_09110",
         "weight": 0.78
@@ -12269,7 +13207,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e996",
+        "id": "e1113",
+        "source": "1912_01603",
+        "target": "2511_00088",
+        "weight": 0.7706
+      }
+    },
+    {
+      "data": {
+        "id": "e1114",
         "source": "1912_01603",
         "target": "2303_04137",
         "weight": 0.7806
@@ -12277,7 +13223,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e997",
+        "id": "e1115",
         "source": "1912_11676",
         "target": "2024_calem_action_and_trajectory_prediction",
         "weight": 0.8252
@@ -12285,7 +13231,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e998",
+        "id": "e1116",
         "source": "1912_11676",
         "target": "2502_08664",
         "weight": 0.8891
@@ -12293,7 +13239,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e999",
+        "id": "e1117",
         "source": "1912_11676",
         "target": "2503_03262",
         "weight": 0.8608
@@ -12301,7 +13247,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1000",
+        "id": "e1118",
         "source": "1912_11676",
         "target": "2207_05844",
         "weight": 0.8098
@@ -12309,7 +13255,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1001",
+        "id": "e1119",
         "source": "1912_11676",
         "target": "2505_09074",
         "weight": 0.8339
@@ -12317,7 +13263,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1002",
+        "id": "e1120",
+        "source": "1912_11676",
+        "target": "2511_00088",
+        "weight": 0.8082
+      }
+    },
+    {
+      "data": {
+        "id": "e1121",
         "source": "1912_11676",
         "target": "2303_09824",
         "weight": 0.8416
@@ -12325,7 +13279,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1003",
+        "id": "e1122",
         "source": "1912_11912",
         "target": "2401_16025",
         "weight": 0.8377
@@ -12333,7 +13287,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1004",
+        "id": "e1123",
         "source": "1912_11912",
         "target": "2209_09006",
         "weight": 0.8047
@@ -12341,7 +13295,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1005",
+        "id": "e1124",
         "source": "1912_11912",
         "target": "2305_09619",
         "weight": 0.7935
@@ -12349,7 +13303,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1006",
+        "id": "e1125",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2401_09241",
         "weight": 0.8119
@@ -12357,7 +13311,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1007",
+        "id": "e1126",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2403_00748",
         "weight": 0.8049
@@ -12365,7 +13319,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1008",
+        "id": "e1127",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2403_10745",
         "weight": 0.8281
@@ -12373,7 +13327,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1009",
+        "id": "e1128",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2409_12266",
         "weight": 0.8005
@@ -12381,7 +13335,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1010",
+        "id": "e1129",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2409_15610",
         "weight": 0.8037
@@ -12389,7 +13343,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1011",
+        "id": "e1130",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2411_15651",
         "weight": 0.8094
@@ -12397,7 +13351,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1012",
+        "id": "e1131",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2019_jackson_altro_a_fast_solver",
         "weight": 0.8144
@@ -12405,7 +13359,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1013",
+        "id": "e1132",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2004_08763",
         "weight": 0.8016
@@ -12413,7 +13367,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1014",
+        "id": "e1133",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.8026
@@ -12421,7 +13375,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1015",
+        "id": "e1134",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2109_07081",
         "weight": 0.829
@@ -12429,7 +13383,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1016",
+        "id": "e1135",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8124
@@ -12437,7 +13391,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1017",
+        "id": "e1136",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2204_02322",
         "weight": 0.83
@@ -12445,7 +13399,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1018",
+        "id": "e1137",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2207_06362",
         "weight": 0.8205
@@ -12453,7 +13407,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1019",
+        "id": "e1138",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2208_02439",
         "weight": 0.8113
@@ -12461,7 +13415,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1020",
+        "id": "e1139",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2210_01744",
         "weight": 0.8149
@@ -12469,7 +13423,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1021",
+        "id": "e1140",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2301_13143",
         "weight": 0.8565
@@ -12477,7 +13431,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1022",
+        "id": "e1141",
         "source": "2019_hannigan_sbp_guided_mpc_to",
         "target": "2305_09619",
         "weight": 0.8152
@@ -12485,7 +13439,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1023",
+        "id": "e1142",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.862
@@ -12493,7 +13447,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1024",
+        "id": "e1143",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2403_00748",
         "weight": 0.8282
@@ -12501,7 +13455,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1025",
+        "id": "e1144",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2409_11649",
         "weight": 0.8293
@@ -12509,7 +13463,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1026",
+        "id": "e1145",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2504_18978",
         "weight": 0.8143
@@ -12517,7 +13471,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1027",
+        "id": "e1146",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2506_14865",
         "weight": 0.8579
@@ -12525,7 +13479,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1028",
+        "id": "e1147",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2005_00985",
         "weight": 0.8402
@@ -12533,7 +13487,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1029",
+        "id": "e1148",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2103_03293",
         "weight": 0.8091
@@ -12541,7 +13495,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1030",
+        "id": "e1149",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2109_07081",
         "weight": 0.8258
@@ -12549,7 +13503,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1031",
+        "id": "e1150",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8032
@@ -12557,7 +13511,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1032",
+        "id": "e1151",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2204_02322",
         "weight": 0.8074
@@ -12565,7 +13519,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1033",
+        "id": "e1152",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2205_04422",
         "weight": 0.8231
@@ -12573,7 +13527,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1034",
+        "id": "e1153",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2207_06362",
         "weight": 0.8046
@@ -12581,7 +13535,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1035",
+        "id": "e1154",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2209_09006",
         "weight": 0.8144
@@ -12589,7 +13543,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1036",
+        "id": "e1155",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8535
@@ -12597,7 +13551,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1037",
+        "id": "e1156",
         "source": "2019_jackson_altro_a_fast_solver",
         "target": "2303_16746",
         "weight": 0.8541
@@ -12605,7 +13559,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1038",
+        "id": "e1157",
         "source": "2019_lefebvre_path_integral_policy_improvement",
         "target": "2309_12566",
         "weight": 0.8585
@@ -12613,7 +13567,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1039",
+        "id": "e1158",
         "source": "2019_lefebvre_path_integral_policy_improvement",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8192
@@ -12621,7 +13575,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1040",
+        "id": "e1159",
         "source": "2019_lefebvre_path_integral_policy_improvement",
         "target": "2109_07081",
         "weight": 0.8133
@@ -12629,7 +13583,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1041",
+        "id": "e1160",
         "source": "2019_lefebvre_path_integral_policy_improvement",
         "target": "2022_houghton_path_planning_differential_dynamic",
         "weight": 0.8112
@@ -12637,7 +13591,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1042",
+        "id": "e1161",
         "source": "2019_lefebvre_path_integral_policy_improvement",
         "target": "2208_02439",
         "weight": 0.8019
@@ -12645,7 +13599,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1043",
+        "id": "e1162",
         "source": "2019_lefebvre_path_integral_policy_improvement",
         "target": "2209_09006",
         "weight": 0.8323
@@ -12653,7 +13607,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1044",
+        "id": "e1163",
         "source": "2019_lefebvre_path_integral_policy_improvement",
         "target": "2409_11649",
         "weight": 0.8003
@@ -12661,7 +13615,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1045",
+        "id": "e1164",
         "source": "2019_lefebvre_path_integral_policy_improvement",
         "target": "2004_08763",
         "weight": 0.81
@@ -12669,7 +13623,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1046",
+        "id": "e1165",
         "source": "2019_lefebvre_path_integral_policy_improvement",
         "target": "2005_00985",
         "weight": 0.8082
@@ -12677,7 +13631,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1047",
+        "id": "e1166",
         "source": "2019_lefebvre_path_integral_policy_improvement",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.844
@@ -12685,7 +13639,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1048",
+        "id": "e1167",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2309_12566",
         "weight": 0.8983
@@ -12693,7 +13647,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1049",
+        "id": "e1168",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2401_09241",
         "weight": 0.8614
@@ -12701,7 +13655,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1050",
+        "id": "e1169",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2409_12266",
         "weight": 0.8004
@@ -12709,7 +13663,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1051",
+        "id": "e1170",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8627
@@ -12717,7 +13671,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1052",
+        "id": "e1171",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8512
@@ -12725,7 +13679,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1053",
+        "id": "e1172",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2025_trevisan_model_predictive_path_integral",
         "weight": 0.8394
@@ -12733,7 +13687,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1054",
+        "id": "e1173",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2503_05819",
         "weight": 0.8193
@@ -12741,7 +13695,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1055",
+        "id": "e1174",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2503_11717",
         "weight": 0.8556
@@ -12749,7 +13703,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1056",
+        "id": "e1175",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2504_06437",
         "weight": 0.8264
@@ -12757,7 +13711,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1057",
+        "id": "e1176",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2508_21364",
         "weight": 0.8683
@@ -12765,7 +13719,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1058",
+        "id": "e1177",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2510_00272",
         "weight": 0.8369
@@ -12773,7 +13727,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1059",
+        "id": "e1178",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2104_00241",
         "weight": 0.8197
@@ -12781,7 +13735,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1060",
+        "id": "e1179",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2022_houghton_path_planning_differential_dynamic",
         "weight": 0.8344
@@ -12789,7 +13743,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1061",
+        "id": "e1180",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2208_02439",
         "weight": 0.8095
@@ -12797,7 +13751,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1062",
+        "id": "e1181",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2301_13143",
         "weight": 0.8342
@@ -12805,7 +13759,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1063",
+        "id": "e1182",
         "source": "2019_williams_model_predictive_path_integral",
         "target": "2307_09105",
         "weight": 0.8252
@@ -12813,7 +13767,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1064",
+        "id": "e1183",
         "source": "2001_03093",
         "target": "2024_calem_action_and_trajectory_prediction",
         "weight": 0.8417
@@ -12821,7 +13775,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1065",
+        "id": "e1184",
         "source": "2001_03093",
         "target": "2502_08664",
         "weight": 0.8074
@@ -12829,7 +13783,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1066",
+        "id": "e1185",
         "source": "2001_03093",
         "target": "2503_03262",
         "weight": 0.847
@@ -12837,7 +13791,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1067",
+        "id": "e1186",
         "source": "2001_03093",
         "target": "2207_05844",
         "weight": 0.8168
@@ -12845,7 +13799,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1068",
+        "id": "e1187",
         "source": "2001_03093",
         "target": "2505_09074",
         "weight": 0.8551
@@ -12853,7 +13807,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1069",
+        "id": "e1188",
         "source": "2001_03093",
         "target": "2409_09523",
         "weight": 0.816
@@ -12861,7 +13815,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1070",
+        "id": "e1189",
         "source": "2004_08763",
         "target": "2309_12566",
         "weight": 0.8389
@@ -12869,7 +13823,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1071",
+        "id": "e1190",
         "source": "2004_08763",
         "target": "2409_12266",
         "weight": 0.8088
@@ -12877,7 +13831,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1072",
+        "id": "e1191",
         "source": "2004_08763",
         "target": "2409_15610",
         "weight": 0.8011
@@ -12885,7 +13839,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1073",
+        "id": "e1192",
         "source": "2004_08763",
         "target": "2411_15651",
         "weight": 0.8216
@@ -12893,7 +13847,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1074",
+        "id": "e1193",
         "source": "2004_08763",
         "target": "2412_11270",
         "weight": 0.8056
@@ -12901,7 +13855,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1075",
+        "id": "e1194",
         "source": "2004_08763",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8005
@@ -12909,7 +13863,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1076",
+        "id": "e1195",
         "source": "2004_08763",
         "target": "2503_05819",
         "weight": 0.8186
@@ -12917,7 +13871,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1077",
+        "id": "e1196",
         "source": "2004_08763",
         "target": "2104_00241",
         "weight": 0.8084
@@ -12925,7 +13879,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1078",
+        "id": "e1197",
         "source": "2004_08763",
         "target": "2209_09006",
         "weight": 0.8118
@@ -12933,7 +13887,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1079",
+        "id": "e1198",
         "source": "2004_08763",
         "target": "2301_13143",
         "weight": 0.8066
@@ -12941,7 +13895,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1080",
+        "id": "e1199",
         "source": "2005_00985",
         "target": "2309_07872",
         "weight": 0.8795
@@ -12949,7 +13903,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1081",
+        "id": "e1200",
         "source": "2005_00985",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8752
@@ -12957,7 +13911,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1082",
+        "id": "e1201",
         "source": "2005_00985",
         "target": "2024_wang_a_convergence_guaranteed_multiple",
         "weight": 0.8576
@@ -12965,7 +13919,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1083",
+        "id": "e1202",
         "source": "2005_00985",
         "target": "2403_00748",
         "weight": 0.8093
@@ -12973,7 +13927,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1084",
+        "id": "e1203",
         "source": "2005_00985",
         "target": "2409_11649",
         "weight": 0.9261
@@ -12981,7 +13935,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1085",
+        "id": "e1204",
         "source": "2005_00985",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8169
@@ -12989,7 +13943,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1086",
+        "id": "e1205",
         "source": "2005_00985",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.8901
@@ -12997,7 +13951,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1087",
+        "id": "e1206",
         "source": "2005_00985",
         "target": "2506_14865",
         "weight": 0.8042
@@ -13005,7 +13959,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1088",
+        "id": "e1207",
         "source": "2005_00985",
         "target": "2010_00411",
         "weight": 0.8773
@@ -13013,7 +13967,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1089",
+        "id": "e1208",
         "source": "2005_00985",
         "target": "2020_marti_saumell_squash_box_feasibility_driven",
         "weight": 0.8608
@@ -13021,7 +13975,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1090",
+        "id": "e1209",
         "source": "2005_00985",
         "target": "2020_pellegrini_a_multiple_shooting_differential",
         "weight": 0.849
@@ -13029,7 +13983,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1091",
+        "id": "e1210",
         "source": "2005_00985",
         "target": "2103_03293",
         "weight": 0.8803
@@ -13037,7 +13991,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1092",
+        "id": "e1211",
         "source": "2005_00985",
         "target": "2109_07081",
         "weight": 0.8776
@@ -13045,7 +13999,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1093",
+        "id": "e1212",
         "source": "2005_00985",
         "target": "2022_houghton_path_planning_differential_dynamic",
         "weight": 0.8299
@@ -13053,7 +14007,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1094",
+        "id": "e1213",
         "source": "2005_00985",
         "target": "2204_02322",
         "weight": 0.8322
@@ -13061,7 +14015,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1095",
+        "id": "e1214",
         "source": "2005_00985",
         "target": "2207_06362",
         "weight": 0.8132
@@ -13069,7 +14023,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1096",
+        "id": "e1215",
         "source": "2005_00985",
         "target": "2208_02439",
         "weight": 0.824
@@ -13077,7 +14031,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1097",
+        "id": "e1216",
         "source": "2005_00985",
         "target": "2209_09006",
         "weight": 0.8207
@@ -13085,7 +14039,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1098",
+        "id": "e1217",
         "source": "2005_00985",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.9079
@@ -13093,7 +14047,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1099",
+        "id": "e1218",
         "source": "2009_10484",
         "target": "2401_09241",
         "weight": 0.8028
@@ -13101,7 +14055,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1100",
+        "id": "e1219",
         "source": "2009_10484",
         "target": "2403_10745",
         "weight": 0.8135
@@ -13109,7 +14063,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1101",
+        "id": "e1220",
         "source": "2009_10484",
         "target": "2409_12266",
         "weight": 0.8311
@@ -13117,7 +14071,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1102",
+        "id": "e1221",
         "source": "2009_10484",
         "target": "2410_19414",
         "weight": 0.9036
@@ -13125,7 +14079,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1103",
+        "id": "e1222",
         "source": "2009_10484",
         "target": "2411_17902",
         "weight": 0.8177
@@ -13133,7 +14087,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1104",
+        "id": "e1223",
         "source": "2009_10484",
         "target": "2505_10542",
         "weight": 0.8018
@@ -13141,7 +14095,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1105",
+        "id": "e1224",
+        "source": "2009_10484",
+        "target": "2602_02846",
+        "weight": 0.8122
+      }
+    },
+    {
+      "data": {
+        "id": "e1225",
         "source": "2009_10484",
         "target": "2020_mashayekhi_informed_rrt_star_connect",
         "weight": 0.815
@@ -13149,7 +14111,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1106",
+        "id": "e1226",
         "source": "2009_10484",
         "target": "2022_honig_benchmarking_sampling_search_and",
         "weight": 0.8529
@@ -13157,7 +14119,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1107",
+        "id": "e1227",
         "source": "2009_10484",
         "target": "2205_04422",
         "weight": 0.8029
@@ -13165,7 +14127,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1108",
+        "id": "e1228",
         "source": "2009_10484",
         "target": "2301_13143",
         "weight": 0.8161
@@ -13173,7 +14135,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1109",
+        "id": "e1229",
         "source": "2009_10484",
         "target": "2305_01072",
         "weight": 0.8021
@@ -13181,7 +14143,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1110",
+        "id": "e1230",
         "source": "2010_00411",
         "target": "2309_07872",
         "weight": 0.9061
@@ -13189,7 +14151,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1111",
+        "id": "e1231",
         "source": "2010_00411",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8602
@@ -13197,7 +14159,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1112",
+        "id": "e1232",
         "source": "2010_00411",
         "target": "2024_wang_a_convergence_guaranteed_multiple",
         "weight": 0.8808
@@ -13205,7 +14167,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1113",
+        "id": "e1233",
         "source": "2010_00411",
         "target": "2409_11649",
         "weight": 0.8671
@@ -13213,7 +14175,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1114",
+        "id": "e1234",
         "source": "2010_00411",
         "target": "2409_15610",
         "weight": 0.8103
@@ -13221,7 +14183,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1115",
+        "id": "e1235",
         "source": "2010_00411",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.8427
@@ -13229,7 +14191,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1116",
+        "id": "e1236",
         "source": "2010_00411",
         "target": "2020_marti_saumell_squash_box_feasibility_driven",
         "weight": 0.8996
@@ -13237,7 +14199,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1117",
+        "id": "e1237",
         "source": "2010_00411",
         "target": "2020_pellegrini_a_multiple_shooting_differential",
         "weight": 0.8336
@@ -13245,7 +14207,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1118",
+        "id": "e1238",
         "source": "2010_00411",
         "target": "2103_03293",
         "weight": 0.8428
@@ -13253,7 +14215,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1119",
+        "id": "e1239",
         "source": "2010_00411",
         "target": "2109_07081",
         "weight": 0.872
@@ -13261,7 +14223,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1120",
+        "id": "e1240",
         "source": "2010_00411",
         "target": "2022_houghton_path_planning_differential_dynamic",
         "weight": 0.8015
@@ -13269,7 +14231,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1121",
+        "id": "e1241",
         "source": "2010_00411",
         "target": "2208_02439",
         "weight": 0.8285
@@ -13277,7 +14239,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1122",
+        "id": "e1242",
         "source": "2010_00411",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8904
@@ -13285,7 +14247,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1123",
+        "id": "e1243",
         "source": "2020_marti_saumell_squash_box_feasibility_driven",
         "target": "2103_03293",
         "weight": 0.8222
@@ -13293,7 +14255,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1124",
+        "id": "e1244",
         "source": "2020_marti_saumell_squash_box_feasibility_driven",
         "target": "2309_07872",
         "weight": 0.8275
@@ -13301,7 +14263,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1125",
+        "id": "e1245",
         "source": "2020_marti_saumell_squash_box_feasibility_driven",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.8157
@@ -13309,7 +14271,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1126",
+        "id": "e1246",
         "source": "2020_marti_saumell_squash_box_feasibility_driven",
         "target": "2109_07081",
         "weight": 0.8537
@@ -13317,7 +14279,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1127",
+        "id": "e1247",
         "source": "2020_marti_saumell_squash_box_feasibility_driven",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.834
@@ -13325,7 +14287,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1128",
+        "id": "e1248",
         "source": "2020_marti_saumell_squash_box_feasibility_driven",
         "target": "2024_wang_a_convergence_guaranteed_multiple",
         "weight": 0.8212
@@ -13333,7 +14295,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1129",
+        "id": "e1249",
         "source": "2020_marti_saumell_squash_box_feasibility_driven",
         "target": "2204_02322",
         "weight": 0.8026
@@ -13341,7 +14303,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1130",
+        "id": "e1250",
         "source": "2020_marti_saumell_squash_box_feasibility_driven",
         "target": "2208_02439",
         "weight": 0.8082
@@ -13349,7 +14311,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1131",
+        "id": "e1251",
         "source": "2020_marti_saumell_squash_box_feasibility_driven",
         "target": "2409_11649",
         "weight": 0.8315
@@ -13357,7 +14319,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1132",
+        "id": "e1252",
         "source": "2020_marti_saumell_squash_box_feasibility_driven",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8632
@@ -13365,7 +14327,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1133",
+        "id": "e1253",
         "source": "2020_mashayekhi_informed_rrt_star_connect",
         "target": "2403_01194",
         "weight": 0.8167
@@ -13373,7 +14335,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1134",
+        "id": "e1254",
         "source": "2020_mashayekhi_informed_rrt_star_connect",
         "target": "2403_10745",
         "weight": 0.8423
@@ -13381,7 +14343,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1135",
+        "id": "e1255",
         "source": "2020_mashayekhi_informed_rrt_star_connect",
         "target": "2411_15651",
         "weight": 0.8139
@@ -13389,7 +14351,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1136",
+        "id": "e1256",
         "source": "2020_mashayekhi_informed_rrt_star_connect",
         "target": "2411_17902",
         "weight": 0.8579
@@ -13397,7 +14359,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1137",
+        "id": "e1257",
         "source": "2020_mashayekhi_informed_rrt_star_connect",
         "target": "2502_09556",
         "weight": 0.8006
@@ -13405,7 +14367,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1138",
+        "id": "e1258",
+        "source": "2020_mashayekhi_informed_rrt_star_connect",
+        "target": "2503_06757",
+        "weight": 0.8265
+      }
+    },
+    {
+      "data": {
+        "id": "e1259",
         "source": "2020_mashayekhi_informed_rrt_star_connect",
         "target": "2505_10542",
         "weight": 0.8605
@@ -13413,7 +14383,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1139",
+        "id": "e1260",
         "source": "2020_mashayekhi_informed_rrt_star_connect",
         "target": "2021_li_sliding_window_informed_rrt",
         "weight": 0.8878
@@ -13421,7 +14391,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1140",
+        "id": "e1261",
         "source": "2020_mashayekhi_informed_rrt_star_connect",
         "target": "2301_13143",
         "weight": 0.8387
@@ -13429,7 +14399,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1141",
+        "id": "e1262",
         "source": "2020_pellegrini_a_multiple_shooting_differential",
         "target": "2103_03293",
         "weight": 0.8362
@@ -13437,7 +14407,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1142",
+        "id": "e1263",
         "source": "2020_pellegrini_a_multiple_shooting_differential",
         "target": "2309_07872",
         "weight": 0.9185
@@ -13445,7 +14415,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1143",
+        "id": "e1264",
         "source": "2020_pellegrini_a_multiple_shooting_differential",
         "target": "2109_07081",
         "weight": 0.8193
@@ -13453,7 +14423,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1144",
+        "id": "e1265",
         "source": "2020_pellegrini_a_multiple_shooting_differential",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.807
@@ -13461,7 +14431,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1145",
+        "id": "e1266",
         "source": "2020_pellegrini_a_multiple_shooting_differential",
         "target": "2024_wang_a_convergence_guaranteed_multiple",
         "weight": 0.8674
@@ -13469,7 +14439,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1146",
+        "id": "e1267",
         "source": "2020_pellegrini_a_multiple_shooting_differential",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.8258
@@ -13477,7 +14447,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1147",
+        "id": "e1268",
         "source": "2020_pellegrini_a_multiple_shooting_differential",
         "target": "2022_houghton_path_planning_differential_dynamic",
         "weight": 0.8089
@@ -13485,7 +14455,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1148",
+        "id": "e1269",
         "source": "2020_pellegrini_a_multiple_shooting_differential",
         "target": "2403_00748",
         "weight": 0.8011
@@ -13493,7 +14463,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1149",
+        "id": "e1270",
         "source": "2020_pellegrini_a_multiple_shooting_differential",
         "target": "2409_11649",
         "weight": 0.8758
@@ -13501,7 +14471,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1150",
+        "id": "e1271",
         "source": "2020_pellegrini_a_multiple_shooting_differential",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.822
@@ -13509,7 +14479,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1151",
+        "id": "e1272",
         "source": "2021_li_sliding_window_informed_rrt",
         "target": "2403_01194",
         "weight": 0.8324
@@ -13517,7 +14487,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1152",
+        "id": "e1273",
         "source": "2021_li_sliding_window_informed_rrt",
         "target": "2403_10745",
         "weight": 0.8486
@@ -13525,7 +14495,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1153",
+        "id": "e1274",
         "source": "2021_li_sliding_window_informed_rrt",
         "target": "2411_15651",
         "weight": 0.8187
@@ -13533,7 +14503,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1154",
+        "id": "e1275",
         "source": "2021_li_sliding_window_informed_rrt",
         "target": "2411_17902",
         "weight": 0.8021
@@ -13541,7 +14511,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1155",
+        "id": "e1276",
         "source": "2021_li_sliding_window_informed_rrt",
         "target": "2502_09556",
         "weight": 0.8165
@@ -13549,7 +14519,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1156",
+        "id": "e1277",
+        "source": "2021_li_sliding_window_informed_rrt",
+        "target": "2503_06757",
+        "weight": 0.81
+      }
+    },
+    {
+      "data": {
+        "id": "e1278",
         "source": "2021_li_sliding_window_informed_rrt",
         "target": "2505_10542",
         "weight": 0.8123
@@ -13557,7 +14535,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1157",
+        "id": "e1279",
         "source": "2021_li_sliding_window_informed_rrt",
         "target": "2201_03163",
         "weight": 0.8097
@@ -13565,7 +14543,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1158",
+        "id": "e1280",
         "source": "2021_li_sliding_window_informed_rrt",
         "target": "2301_13143",
         "weight": 0.8662
@@ -13573,7 +14551,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1159",
+        "id": "e1281",
         "source": "2101_11565",
         "target": "2504_18978",
         "weight": 0.8307
@@ -13581,7 +14559,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1160",
+        "id": "e1282",
         "source": "2101_11565",
         "target": "2205_04422",
         "weight": 0.8666
@@ -13589,7 +14567,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1161",
+        "id": "e1283",
         "source": "2101_11565",
         "target": "2305_01072",
         "weight": 0.8352
@@ -13597,7 +14575,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1162",
+        "id": "e1284",
         "source": "2103_03293",
         "target": "2309_07872",
         "weight": 0.8556
@@ -13605,7 +14583,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1163",
+        "id": "e1285",
         "source": "2103_03293",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8571
@@ -13613,7 +14591,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1164",
+        "id": "e1286",
         "source": "2103_03293",
         "target": "2024_wang_a_convergence_guaranteed_multiple",
         "weight": 0.8297
@@ -13621,7 +14599,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1165",
+        "id": "e1287",
         "source": "2103_03293",
         "target": "2409_11649",
         "weight": 0.9103
@@ -13629,7 +14607,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1166",
+        "id": "e1288",
         "source": "2103_03293",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.8359
@@ -13637,7 +14615,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1167",
+        "id": "e1289",
         "source": "2103_03293",
         "target": "2603_16059",
         "weight": 0.8084
@@ -13645,7 +14623,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1168",
+        "id": "e1290",
         "source": "2103_03293",
         "target": "2109_07081",
         "weight": 0.8579
@@ -13653,7 +14631,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1169",
+        "id": "e1291",
         "source": "2103_03293",
         "target": "2022_houghton_path_planning_differential_dynamic",
         "weight": 0.8101
@@ -13661,7 +14639,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1170",
+        "id": "e1292",
         "source": "2103_03293",
         "target": "2204_02322",
         "weight": 0.8259
@@ -13669,7 +14647,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1171",
+        "id": "e1293",
         "source": "2103_03293",
         "target": "2207_06362",
         "weight": 0.8183
@@ -13677,7 +14655,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1172",
+        "id": "e1294",
         "source": "2103_03293",
         "target": "2208_02439",
         "weight": 0.8041
@@ -13685,7 +14663,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1173",
+        "id": "e1295",
         "source": "2103_03293",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8691
@@ -13693,7 +14671,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1174",
+        "id": "e1296",
         "source": "2104_00241",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8101
@@ -13701,7 +14679,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1175",
+        "id": "e1297",
         "source": "2104_00241",
         "target": "2309_12566",
         "weight": 0.8549
@@ -13709,7 +14687,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1176",
+        "id": "e1298",
         "source": "2104_00241",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8297
@@ -13717,7 +14695,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1177",
+        "id": "e1299",
         "source": "2108_13404",
         "target": "2111_08481",
         "weight": 0.8547
@@ -13725,7 +14703,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1178",
+        "id": "e1300",
         "source": "2108_13404",
         "target": "2403_09110",
         "weight": 0.8512
@@ -13733,7 +14711,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1179",
+        "id": "e1301",
         "source": "2108_13404",
         "target": "2305_09619",
         "weight": 0.7931
@@ -13741,7 +14719,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1180",
+        "id": "e1302",
         "source": "2109_07081",
         "target": "2309_07872",
         "weight": 0.8583
@@ -13749,7 +14727,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1181",
+        "id": "e1303",
         "source": "2109_07081",
         "target": "2309_12566",
         "weight": 0.8133
@@ -13757,7 +14735,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1182",
+        "id": "e1304",
         "source": "2109_07081",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8493
@@ -13765,7 +14743,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1183",
+        "id": "e1305",
         "source": "2109_07081",
         "target": "2024_wang_a_convergence_guaranteed_multiple",
         "weight": 0.8421
@@ -13773,7 +14751,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1184",
+        "id": "e1306",
         "source": "2109_07081",
         "target": "2403_00748",
         "weight": 0.8235
@@ -13781,7 +14759,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1185",
+        "id": "e1307",
         "source": "2109_07081",
         "target": "2409_11649",
         "weight": 0.9034
@@ -13789,7 +14767,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1186",
+        "id": "e1308",
         "source": "2109_07081",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8252
@@ -13797,7 +14775,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1187",
+        "id": "e1309",
         "source": "2109_07081",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.8247
@@ -13805,7 +14783,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1188",
+        "id": "e1310",
         "source": "2109_07081",
         "target": "2504_06437",
         "weight": 0.8132
@@ -13813,7 +14791,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1189",
+        "id": "e1311",
         "source": "2109_07081",
         "target": "2504_18978",
         "weight": 0.8235
@@ -13821,7 +14799,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1190",
+        "id": "e1312",
         "source": "2109_07081",
         "target": "2506_14865",
         "weight": 0.8123
@@ -13829,7 +14807,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1191",
+        "id": "e1313",
         "source": "2109_07081",
         "target": "2022_houghton_path_planning_differential_dynamic",
         "weight": 0.8225
@@ -13837,7 +14815,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1192",
+        "id": "e1314",
         "source": "2109_07081",
         "target": "2204_02322",
         "weight": 0.8403
@@ -13845,7 +14823,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1193",
+        "id": "e1315",
         "source": "2109_07081",
         "target": "2205_04422",
         "weight": 0.8269
@@ -13853,7 +14831,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1194",
+        "id": "e1316",
         "source": "2109_07081",
         "target": "2207_06362",
         "weight": 0.832
@@ -13861,7 +14839,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1195",
+        "id": "e1317",
         "source": "2109_07081",
         "target": "2208_02439",
         "weight": 0.8463
@@ -13869,7 +14847,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1196",
+        "id": "e1318",
         "source": "2109_07081",
         "target": "2209_09006",
         "weight": 0.816
@@ -13877,7 +14855,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1197",
+        "id": "e1319",
         "source": "2109_07081",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8775
@@ -13885,7 +14863,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1198",
+        "id": "e1320",
         "source": "2109_07081",
         "target": "2303_16746",
         "weight": 0.8207
@@ -13893,7 +14871,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1199",
+        "id": "e1321",
         "source": "2111_08481",
         "target": "2403_09110",
         "weight": 0.796
@@ -13901,7 +14879,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1200",
+        "id": "e1322",
         "source": "2111_12083",
         "target": "2111_12137",
         "weight": 0.889
@@ -13909,7 +14887,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1201",
+        "id": "e1323",
         "source": "2111_12083",
         "target": "2505_09074",
         "weight": 0.8103
@@ -13917,7 +14895,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1202",
+        "id": "e1324",
         "source": "2111_12083",
         "target": "2409_09523",
         "weight": 0.8143
@@ -13925,15 +14903,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1203",
+        "id": "e1325",
         "source": "2111_12083",
-        "target": "2303_09824",
-        "weight": 0.7989
+        "target": "2511_00088",
+        "weight": 0.8178
       }
     },
     {
       "data": {
-        "id": "e1204",
+        "id": "e1326",
         "source": "2111_12137",
         "target": "2206_03004",
         "weight": 0.8236
@@ -13941,7 +14919,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1205",
+        "id": "e1327",
         "source": "2111_12137",
         "target": "2409_09523",
         "weight": 0.8156
@@ -13949,7 +14927,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1206",
+        "id": "e1328",
+        "source": "2111_12137",
+        "target": "2511_00088",
+        "weight": 0.8239
+      }
+    },
+    {
+      "data": {
+        "id": "e1329",
         "source": "2022_honig_benchmarking_sampling_search_and",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8008
@@ -13957,7 +14943,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1207",
+        "id": "e1330",
         "source": "2022_honig_benchmarking_sampling_search_and",
         "target": "2403_10745",
         "weight": 0.8489
@@ -13965,7 +14951,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1208",
+        "id": "e1331",
         "source": "2022_honig_benchmarking_sampling_search_and",
         "target": "2409_12266",
         "weight": 0.8287
@@ -13973,7 +14959,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1209",
+        "id": "e1332",
         "source": "2022_honig_benchmarking_sampling_search_and",
         "target": "2410_19414",
         "weight": 0.8767
@@ -13981,7 +14967,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1210",
+        "id": "e1333",
         "source": "2022_honig_benchmarking_sampling_search_and",
         "target": "2411_15651",
         "weight": 0.8061
@@ -13989,7 +14975,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1211",
+        "id": "e1334",
         "source": "2022_honig_benchmarking_sampling_search_and",
         "target": "2411_17902",
         "weight": 0.8075
@@ -13997,7 +14983,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1212",
+        "id": "e1335",
         "source": "2022_honig_benchmarking_sampling_search_and",
         "target": "2412_11270",
         "weight": 0.807
@@ -14005,7 +14991,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1213",
+        "id": "e1336",
         "source": "2022_honig_benchmarking_sampling_search_and",
         "target": "2504_18978",
         "weight": 0.8198
@@ -14013,7 +14999,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1214",
+        "id": "e1337",
         "source": "2022_honig_benchmarking_sampling_search_and",
         "target": "2508_05027",
         "weight": 0.8235
@@ -14021,15 +15007,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1215",
+        "id": "e1338",
         "source": "2022_honig_benchmarking_sampling_search_and",
         "target": "2602_02846",
-        "weight": 0.8032
+        "weight": 0.8509
       }
     },
     {
       "data": {
-        "id": "e1216",
+        "id": "e1339",
         "source": "2022_honig_benchmarking_sampling_search_and",
         "target": "2603_16059",
         "weight": 0.8548
@@ -14037,7 +15023,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1217",
+        "id": "e1340",
         "source": "2022_honig_benchmarking_sampling_search_and",
         "target": "2205_04422",
         "weight": 0.8204
@@ -14045,7 +15031,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1218",
+        "id": "e1341",
         "source": "2022_honig_benchmarking_sampling_search_and",
         "target": "2210_01744",
         "weight": 0.8367
@@ -14053,7 +15039,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1219",
+        "id": "e1342",
         "source": "2022_honig_benchmarking_sampling_search_and",
         "target": "2301_13143",
         "weight": 0.8044
@@ -14061,7 +15047,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1220",
+        "id": "e1343",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2309_07872",
         "weight": 0.8529
@@ -14069,7 +15055,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1221",
+        "id": "e1344",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2309_12566",
         "weight": 0.8313
@@ -14077,7 +15063,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1222",
+        "id": "e1345",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2024_wang_a_convergence_guaranteed_multiple",
         "weight": 0.8244
@@ -14085,7 +15071,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1223",
+        "id": "e1346",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2401_09241",
         "weight": 0.809
@@ -14093,7 +15079,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1224",
+        "id": "e1347",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2409_11649",
         "weight": 0.8397
@@ -14101,7 +15087,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1225",
+        "id": "e1348",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8492
@@ -14109,7 +15095,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1226",
+        "id": "e1349",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8322
@@ -14117,7 +15103,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1227",
+        "id": "e1350",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.8123
@@ -14125,7 +15111,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1228",
+        "id": "e1351",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2503_11717",
         "weight": 0.8172
@@ -14133,7 +15119,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1229",
+        "id": "e1352",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2504_06437",
         "weight": 0.831
@@ -14141,7 +15127,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1230",
+        "id": "e1353",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2508_21364",
         "weight": 0.8026
@@ -14149,7 +15135,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1231",
+        "id": "e1354",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2510_00272",
         "weight": 0.8045
@@ -14157,7 +15143,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1232",
+        "id": "e1355",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2208_02439",
         "weight": 0.8785
@@ -14165,7 +15151,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1233",
+        "id": "e1356",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8381
@@ -14173,7 +15159,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1234",
+        "id": "e1357",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2301_13143",
         "weight": 0.8049
@@ -14181,7 +15167,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1235",
+        "id": "e1358",
         "source": "2022_houghton_path_planning_differential_dynamic",
         "target": "2307_09105",
         "weight": 0.8008
@@ -14189,7 +15175,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1236",
+        "id": "e1359",
         "source": "2201_03163",
         "target": "2301_13143",
         "weight": 0.8054
@@ -14197,7 +15183,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1237",
+        "id": "e1360",
         "source": "2201_03163",
         "target": "2403_01194",
         "weight": 0.8267
@@ -14205,7 +15191,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1238",
+        "id": "e1361",
         "source": "2201_03163",
         "target": "2411_15651",
         "weight": 0.805
@@ -14213,7 +15199,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1239",
+        "id": "e1362",
         "source": "2204_02322",
         "target": "2309_07872",
         "weight": 0.8099
@@ -14221,7 +15207,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1240",
+        "id": "e1363",
         "source": "2204_02322",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8081
@@ -14229,7 +15215,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1241",
+        "id": "e1364",
         "source": "2204_02322",
         "target": "2403_00748",
         "weight": 0.8832
@@ -14237,7 +15223,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1242",
+        "id": "e1365",
         "source": "2204_02322",
         "target": "2409_11649",
         "weight": 0.8434
@@ -14245,7 +15231,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1243",
+        "id": "e1366",
         "source": "2204_02322",
         "target": "2207_06362",
         "weight": 0.9006
@@ -14253,7 +15239,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1244",
+        "id": "e1367",
         "source": "2204_02322",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8217
@@ -14261,7 +15247,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1245",
+        "id": "e1368",
         "source": "2204_02322",
         "target": "2305_09619",
         "weight": 0.8594
@@ -14269,7 +15255,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1246",
+        "id": "e1369",
         "source": "2205_04422",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8138
@@ -14277,7 +15263,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1247",
+        "id": "e1370",
         "source": "2205_04422",
         "target": "2403_10745",
         "weight": 0.8002
@@ -14285,7 +15271,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1248",
+        "id": "e1371",
         "source": "2205_04422",
         "target": "2405_03281",
         "weight": 0.8405
@@ -14293,7 +15279,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1249",
+        "id": "e1372",
         "source": "2205_04422",
         "target": "2409_12266",
         "weight": 0.811
@@ -14301,7 +15287,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1250",
+        "id": "e1373",
         "source": "2205_04422",
         "target": "2410_19414",
         "weight": 0.818
@@ -14309,7 +15295,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1251",
+        "id": "e1374",
         "source": "2205_04422",
         "target": "2412_11270",
         "weight": 0.8141
@@ -14317,7 +15303,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1252",
+        "id": "e1375",
         "source": "2205_04422",
         "target": "2504_06437",
         "weight": 0.8238
@@ -14325,7 +15311,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1253",
+        "id": "e1376",
         "source": "2205_04422",
         "target": "2504_18978",
         "weight": 0.9109
@@ -14333,7 +15319,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1254",
+        "id": "e1377",
         "source": "2205_04422",
         "target": "2506_14865",
         "weight": 0.8376
@@ -14341,7 +15327,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1255",
+        "id": "e1378",
         "source": "2205_04422",
         "target": "2603_16059",
         "weight": 0.8114
@@ -14349,7 +15335,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1256",
+        "id": "e1379",
         "source": "2205_04422",
         "target": "2208_02439",
         "weight": 0.8219
@@ -14357,7 +15343,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1257",
+        "id": "e1380",
         "source": "2205_04422",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8232
@@ -14365,7 +15351,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1258",
+        "id": "e1381",
         "source": "2205_04422",
         "target": "2303_16746",
         "weight": 0.8023
@@ -14373,7 +15359,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1259",
+        "id": "e1382",
         "source": "2205_04422",
         "target": "2305_01072",
         "weight": 0.8794
@@ -14381,7 +15367,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1260",
+        "id": "e1383",
+        "source": "2206_03004",
+        "target": "2511_00088",
+        "weight": 0.8255
+      }
+    },
+    {
+      "data": {
+        "id": "e1384",
         "source": "2206_03004",
         "target": "2503_03262",
         "weight": 0.8129
@@ -14389,7 +15383,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1261",
+        "id": "e1385",
         "source": "2206_03004",
         "target": "2505_09074",
         "weight": 0.8017
@@ -14397,7 +15391,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1262",
+        "id": "e1386",
         "source": "2206_03004",
         "target": "2409_09523",
         "weight": 0.8546
@@ -14405,7 +15399,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1263",
+        "id": "e1387",
         "source": "2206_03004",
         "target": "2303_09824",
         "weight": 0.8362
@@ -14413,7 +15407,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1264",
+        "id": "e1388",
         "source": "2207_05844",
         "target": "2024_calem_action_and_trajectory_prediction",
         "weight": 0.809
@@ -14421,7 +15415,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1265",
+        "id": "e1389",
         "source": "2207_05844",
         "target": "2502_08664",
         "weight": 0.854
@@ -14429,7 +15423,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1266",
+        "id": "e1390",
         "source": "2207_05844",
         "target": "2503_03262",
         "weight": 0.8391
@@ -14437,7 +15431,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1267",
+        "id": "e1391",
         "source": "2207_05844",
         "target": "2505_09074",
         "weight": 0.8696
@@ -14445,7 +15439,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1268",
+        "id": "e1392",
         "source": "2207_05844",
         "target": "2409_09523",
         "weight": 0.8163
@@ -14453,15 +15447,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1269",
+        "id": "e1393",
         "source": "2207_05844",
         "target": "2511_00088",
-        "weight": 0.8032
+        "weight": 0.8373
       }
     },
     {
       "data": {
-        "id": "e1270",
+        "id": "e1394",
         "source": "2207_05844",
         "target": "2303_09824",
         "weight": 0.8085
@@ -14469,7 +15463,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1271",
+        "id": "e1395",
         "source": "2207_06362",
         "target": "2403_00748",
         "weight": 0.8565
@@ -14477,7 +15471,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1272",
+        "id": "e1396",
         "source": "2207_06362",
         "target": "2409_11649",
         "weight": 0.8246
@@ -14485,7 +15479,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1273",
+        "id": "e1397",
         "source": "2207_06362",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8115
@@ -14493,7 +15487,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1274",
+        "id": "e1398",
         "source": "2207_06362",
         "target": "2305_09619",
         "weight": 0.8436
@@ -14501,7 +15495,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1275",
+        "id": "e1399",
         "source": "2208_02439",
         "target": "2309_07872",
         "weight": 0.8341
@@ -14509,7 +15503,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1276",
+        "id": "e1400",
         "source": "2208_02439",
         "target": "2309_12566",
         "weight": 0.8134
@@ -14517,7 +15511,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1277",
+        "id": "e1401",
         "source": "2208_02439",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8264
@@ -14525,7 +15519,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1278",
+        "id": "e1402",
         "source": "2208_02439",
         "target": "2024_wang_a_convergence_guaranteed_multiple",
         "weight": 0.8333
@@ -14533,7 +15527,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1279",
+        "id": "e1403",
         "source": "2208_02439",
         "target": "2401_09241",
         "weight": 0.8299
@@ -14541,7 +15535,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1280",
+        "id": "e1404",
         "source": "2208_02439",
         "target": "2405_03281",
         "weight": 0.8009
@@ -14549,7 +15543,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1281",
+        "id": "e1405",
         "source": "2208_02439",
         "target": "2409_11649",
         "weight": 0.8315
@@ -14557,7 +15551,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1282",
+        "id": "e1406",
         "source": "2208_02439",
         "target": "2409_12266",
         "weight": 0.8104
@@ -14565,7 +15559,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1283",
+        "id": "e1407",
         "source": "2208_02439",
         "target": "2409_15610",
         "weight": 0.8086
@@ -14573,7 +15567,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1284",
+        "id": "e1408",
         "source": "2208_02439",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8326
@@ -14581,7 +15575,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1285",
+        "id": "e1409",
         "source": "2208_02439",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8286
@@ -14589,7 +15583,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1286",
+        "id": "e1410",
         "source": "2208_02439",
         "target": "2025_trevisan_model_predictive_path_integral",
         "weight": 0.8142
@@ -14597,7 +15591,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1287",
+        "id": "e1411",
         "source": "2208_02439",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.8003
@@ -14605,7 +15599,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1288",
+        "id": "e1412",
         "source": "2208_02439",
         "target": "2503_05819",
         "weight": 0.8116
@@ -14613,7 +15607,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1289",
+        "id": "e1413",
         "source": "2208_02439",
         "target": "2503_11717",
         "weight": 0.8186
@@ -14621,7 +15615,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1290",
+        "id": "e1414",
         "source": "2208_02439",
         "target": "2504_06437",
         "weight": 0.8473
@@ -14629,7 +15623,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1291",
+        "id": "e1415",
         "source": "2208_02439",
         "target": "2504_18978",
         "weight": 0.805
@@ -14637,7 +15631,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1292",
+        "id": "e1416",
         "source": "2208_02439",
         "target": "2508_21364",
         "weight": 0.8273
@@ -14645,7 +15639,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1293",
+        "id": "e1417",
         "source": "2208_02439",
         "target": "2510_00272",
         "weight": 0.8041
@@ -14653,7 +15647,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1294",
+        "id": "e1418",
         "source": "2208_02439",
         "target": "2603_16059",
         "weight": 0.8068
@@ -14661,7 +15655,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1295",
+        "id": "e1419",
         "source": "2208_02439",
         "target": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "weight": 0.8645
@@ -14669,7 +15663,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1296",
+        "id": "e1420",
         "source": "2208_02439",
         "target": "2301_13143",
         "weight": 0.8044
@@ -14677,7 +15671,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1297",
+        "id": "e1421",
         "source": "2208_02439",
         "target": "2307_09105",
         "weight": 0.8072
@@ -14685,7 +15679,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1298",
+        "id": "e1422",
         "source": "2209_09006",
         "target": "2309_12566",
         "weight": 0.8185
@@ -14693,7 +15687,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1299",
+        "id": "e1423",
         "source": "2209_09006",
         "target": "2305_09619",
         "weight": 0.8413
@@ -14701,7 +15695,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1300",
+        "id": "e1424",
         "source": "2209_09006",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8047
@@ -14709,7 +15703,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1301",
+        "id": "e1425",
         "source": "2209_09006",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8039
@@ -14717,7 +15711,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1302",
+        "id": "e1426",
         "source": "2210_01744",
         "target": "2403_10745",
         "weight": 0.8411
@@ -14725,7 +15719,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1303",
+        "id": "e1427",
         "source": "2210_01744",
         "target": "2505_10542",
         "weight": 0.8003
@@ -14733,7 +15727,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1304",
+        "id": "e1428",
         "source": "2210_01744",
         "target": "2301_13143",
         "weight": 0.8195
@@ -14741,7 +15735,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1305",
+        "id": "e1429",
         "source": "2210_01744",
         "target": "2603_16059",
         "weight": 0.8324
@@ -14749,7 +15743,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1306",
+        "id": "e1430",
         "source": "2212_00541",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8185
@@ -14757,7 +15751,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1307",
+        "id": "e1431",
         "source": "2212_00541",
         "target": "2401_09241",
         "weight": 0.8128
@@ -14765,7 +15759,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1308",
+        "id": "e1432",
         "source": "2212_00541",
         "target": "2503_05819",
         "weight": 0.8116
@@ -14773,7 +15767,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1309",
+        "id": "e1433",
         "source": "2212_00541",
         "target": "2506_17184",
         "weight": 0.8765
@@ -14781,7 +15775,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1310",
+        "id": "e1434",
         "source": "2212_00541",
         "target": "2409_15610",
         "weight": 0.8243
@@ -14789,7 +15783,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1311",
+        "id": "e1435",
         "source": "2212_00541",
         "target": "2307_09105",
         "weight": 0.8234
@@ -14797,7 +15791,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1312",
+        "id": "e1436",
         "source": "2212_06437",
         "target": "2025_hu_technical_speaking_transitioning_from",
         "weight": 0.8152
@@ -14805,7 +15799,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1313",
+        "id": "e1437",
         "source": "2212_06437",
         "target": "2505_09074",
         "weight": 0.8217
@@ -14813,7 +15807,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1314",
+        "id": "e1438",
         "source": "2212_06437",
         "target": "2409_09523",
         "weight": 0.8307
@@ -14821,7 +15815,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1315",
+        "id": "e1439",
+        "source": "2212_06437",
+        "target": "2511_00088",
+        "weight": 0.8272
+      }
+    },
+    {
+      "data": {
+        "id": "e1440",
         "source": "2212_06437",
         "target": "2303_09824",
         "weight": 0.8216
@@ -14829,7 +15831,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1316",
+        "id": "e1441",
         "source": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "target": "2309_07872",
         "weight": 0.8685
@@ -14837,7 +15839,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1317",
+        "id": "e1442",
         "source": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.9257
@@ -14845,7 +15847,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1318",
+        "id": "e1443",
         "source": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "target": "2024_wang_a_convergence_guaranteed_multiple",
         "weight": 0.8483
@@ -14853,7 +15855,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1319",
+        "id": "e1444",
         "source": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "target": "2403_00748",
         "weight": 0.8138
@@ -14861,7 +15863,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1320",
+        "id": "e1445",
         "source": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "target": "2409_11649",
         "weight": 0.8826
@@ -14869,7 +15871,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1321",
+        "id": "e1446",
         "source": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "target": "2409_15610",
         "weight": 0.8045
@@ -14877,7 +15879,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1322",
+        "id": "e1447",
         "source": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8204
@@ -14885,7 +15887,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1323",
+        "id": "e1448",
         "source": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.8595
@@ -14893,7 +15895,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1324",
+        "id": "e1449",
         "source": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "target": "2504_06437",
         "weight": 0.807
@@ -14901,7 +15903,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1325",
+        "id": "e1450",
         "source": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "target": "2504_18978",
         "weight": 0.8214
@@ -14909,7 +15911,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1326",
+        "id": "e1451",
         "source": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "target": "2506_14865",
         "weight": 0.8238
@@ -14917,7 +15919,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1327",
+        "id": "e1452",
         "source": "2023_jallet_proxddp_proximal_constrained_trajectory",
         "target": "2303_16746",
         "weight": 0.8431
@@ -14925,7 +15927,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1328",
+        "id": "e1453",
         "source": "2023_steinecker_a_simple_and_model",
         "target": "2405_03281",
         "weight": 0.7946
@@ -14933,7 +15935,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1329",
+        "id": "e1454",
         "source": "2301_13143",
         "target": "2309_12566",
         "weight": 0.8455
@@ -14941,7 +15943,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1330",
+        "id": "e1455",
         "source": "2301_13143",
         "target": "2401_09241",
         "weight": 0.8503
@@ -14949,7 +15951,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1331",
+        "id": "e1456",
         "source": "2301_13143",
         "target": "2403_01194",
         "weight": 0.8295
@@ -14957,7 +15959,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1332",
+        "id": "e1457",
         "source": "2301_13143",
         "target": "2403_10745",
         "weight": 0.8581
@@ -14965,7 +15967,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1333",
+        "id": "e1458",
         "source": "2301_13143",
         "target": "2409_12266",
         "weight": 0.8435
@@ -14973,7 +15975,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1334",
+        "id": "e1459",
         "source": "2301_13143",
         "target": "2410_19414",
         "weight": 0.825
@@ -14981,7 +15983,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1335",
+        "id": "e1460",
         "source": "2301_13143",
         "target": "2411_15651",
         "weight": 0.8783
@@ -14989,7 +15991,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1336",
+        "id": "e1461",
         "source": "2301_13143",
         "target": "2412_11270",
         "weight": 0.8295
@@ -14997,7 +15999,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1337",
+        "id": "e1462",
         "source": "2301_13143",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8249
@@ -15005,7 +16007,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1338",
+        "id": "e1463",
         "source": "2301_13143",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8426
@@ -15013,7 +16015,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1339",
+        "id": "e1464",
         "source": "2301_13143",
         "target": "2025_trevisan_model_predictive_path_integral",
         "weight": 0.8011
@@ -15021,7 +16023,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1340",
+        "id": "e1465",
         "source": "2301_13143",
         "target": "2502_09556",
         "weight": 0.823
@@ -15029,7 +16031,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1341",
+        "id": "e1466",
         "source": "2301_13143",
         "target": "2503_05819",
         "weight": 0.8327
@@ -15037,7 +16039,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1342",
+        "id": "e1467",
+        "source": "2301_13143",
+        "target": "2503_06757",
+        "weight": 0.8017
+      }
+    },
+    {
+      "data": {
+        "id": "e1468",
         "source": "2301_13143",
         "target": "2503_11717",
         "weight": 0.83
@@ -15045,7 +16055,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1343",
+        "id": "e1469",
         "source": "2301_13143",
         "target": "2307_09105",
         "weight": 0.8255
@@ -15053,7 +16063,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1344",
+        "id": "e1470",
         "source": "2303_04137",
         "target": "2503_09722",
         "weight": 0.8432
@@ -15061,7 +16071,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1345",
+        "id": "e1471",
         "source": "2303_04137",
         "target": "2505_21851",
         "weight": 0.8821
@@ -15069,7 +16079,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1346",
+        "id": "e1472",
         "source": "2303_09824",
         "target": "2025_hu_technical_speaking_transitioning_from",
         "weight": 0.8494
@@ -15077,7 +16087,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1347",
+        "id": "e1473",
+        "source": "2303_09824",
+        "target": "2511_00088",
+        "weight": 0.8318
+      }
+    },
+    {
+      "data": {
+        "id": "e1474",
         "source": "2303_09824",
         "target": "2502_08664",
         "weight": 0.8654
@@ -15085,7 +16103,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1348",
+        "id": "e1475",
         "source": "2303_09824",
         "target": "2503_03262",
         "weight": 0.8689
@@ -15093,7 +16111,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1349",
+        "id": "e1476",
         "source": "2303_09824",
         "target": "2402_01443",
         "weight": 0.8139
@@ -15101,7 +16119,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1350",
+        "id": "e1477",
         "source": "2303_09824",
         "target": "2402_03893",
         "weight": 0.8014
@@ -15109,7 +16127,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1351",
+        "id": "e1478",
         "source": "2303_09824",
         "target": "2409_09523",
         "weight": 0.847
@@ -15117,7 +16135,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1352",
+        "id": "e1479",
         "source": "2303_09824",
         "target": "2505_09074",
         "weight": 0.8459
@@ -15125,7 +16143,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1353",
+        "id": "e1480",
         "source": "2303_16746",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8529
@@ -15133,7 +16151,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1354",
+        "id": "e1481",
         "source": "2303_16746",
         "target": "2506_14865",
         "weight": 0.818
@@ -15141,7 +16159,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1355",
+        "id": "e1482",
         "source": "2305_01072",
         "target": "2405_03281",
         "weight": 0.8357
@@ -15149,7 +16167,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1356",
+        "id": "e1483",
         "source": "2305_01072",
         "target": "2409_16012",
         "weight": 0.8018
@@ -15157,7 +16175,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1357",
+        "id": "e1484",
         "source": "2305_01072",
         "target": "2410_19414",
         "weight": 0.8128
@@ -15165,7 +16183,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1358",
+        "id": "e1485",
         "source": "2305_01072",
         "target": "2411_17902",
         "weight": 0.805
@@ -15173,7 +16191,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1359",
+        "id": "e1486",
         "source": "2305_01072",
         "target": "2504_18978",
         "weight": 0.8532
@@ -15181,7 +16199,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1360",
+        "id": "e1487",
+        "source": "2305_01072",
+        "target": "2602_02846",
+        "weight": 0.8132
+      }
+    },
+    {
+      "data": {
+        "id": "e1488",
         "source": "2305_09619",
         "target": "2403_00748",
         "weight": 0.8248
@@ -15189,7 +16215,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1361",
+        "id": "e1489",
         "source": "2305_09619",
         "target": "2403_09110",
         "weight": 0.8113
@@ -15197,7 +16223,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1362",
+        "id": "e1490",
         "source": "2307_09105",
         "target": "2309_12566",
         "weight": 0.8325
@@ -15205,7 +16231,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1363",
+        "id": "e1491",
         "source": "2307_09105",
         "target": "2401_09241",
         "weight": 0.8565
@@ -15213,7 +16239,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1364",
+        "id": "e1492",
+        "source": "2307_09105",
+        "target": "2409_06807",
+        "weight": 0.8077
+      }
+    },
+    {
+      "data": {
+        "id": "e1493",
         "source": "2307_09105",
         "target": "2409_12266",
         "weight": 0.8388
@@ -15221,7 +16255,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1365",
+        "id": "e1494",
         "source": "2307_09105",
         "target": "2409_15610",
         "weight": 0.825
@@ -15229,7 +16263,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1366",
+        "id": "e1495",
         "source": "2307_09105",
         "target": "2410_19414",
         "weight": 0.8175
@@ -15237,7 +16271,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1367",
+        "id": "e1496",
         "source": "2307_09105",
         "target": "2411_15651",
         "weight": 0.8008
@@ -15245,7 +16279,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1368",
+        "id": "e1497",
         "source": "2307_09105",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8267
@@ -15253,7 +16287,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1369",
+        "id": "e1498",
         "source": "2307_09105",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8438
@@ -15261,7 +16295,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1370",
+        "id": "e1499",
         "source": "2307_09105",
         "target": "2025_trevisan_model_predictive_path_integral",
         "weight": 0.8129
@@ -15269,7 +16303,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1371",
+        "id": "e1500",
         "source": "2307_09105",
         "target": "2503_05819",
         "weight": 0.8311
@@ -15277,7 +16311,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1372",
+        "id": "e1501",
         "source": "2307_09105",
         "target": "2503_11717",
         "weight": 0.8431
@@ -15285,7 +16319,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1373",
+        "id": "e1502",
         "source": "2307_09105",
         "target": "2505_05507",
         "weight": 0.8025
@@ -15293,7 +16327,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1374",
+        "id": "e1503",
         "source": "2307_09105",
         "target": "2506_17184",
         "weight": 0.8423
@@ -15301,7 +16335,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1375",
+        "id": "e1504",
         "source": "2307_09105",
         "target": "2510_00272",
         "weight": 0.8096
@@ -15309,7 +16343,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1376",
+        "id": "e1505",
+        "source": "2307_09105",
+        "target": "2602_02846",
+        "weight": 0.8234
+      }
+    },
+    {
+      "data": {
+        "id": "e1506",
         "source": "2307_09105",
         "target": "2603_16059",
         "weight": 0.8124
@@ -15317,7 +16359,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1377",
+        "id": "e1507",
         "source": "2308_04079",
         "target": "2505_08510",
         "weight": 0.8373
@@ -15325,7 +16367,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1378",
+        "id": "e1508",
+        "source": "2308_04079",
+        "target": "2409_06807",
+        "weight": 0.6858
+      }
+    },
+    {
+      "data": {
+        "id": "e1509",
         "source": "2308_04079",
         "target": "2409_16915",
         "weight": 0.8168
@@ -15333,15 +16383,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1379",
-        "source": "2308_04079",
-        "target": "2602_02846",
-        "weight": 0.6668
-      }
-    },
-    {
-      "data": {
-        "id": "e1380",
+        "id": "e1510",
         "source": "2309_07872",
         "target": "2024_jallet_real_time_constrained_trajectory",
         "weight": 0.8412
@@ -15349,7 +16391,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1381",
+        "id": "e1511",
         "source": "2309_07872",
         "target": "2024_wang_a_convergence_guaranteed_multiple",
         "weight": 0.9167
@@ -15357,7 +16399,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1382",
+        "id": "e1512",
         "source": "2309_07872",
         "target": "2403_00748",
         "weight": 0.8024
@@ -15365,7 +16407,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1383",
+        "id": "e1513",
         "source": "2309_07872",
         "target": "2409_11649",
         "weight": 0.8957
@@ -15373,7 +16415,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1384",
+        "id": "e1514",
         "source": "2309_07872",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.846
@@ -15381,7 +16423,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1385",
+        "id": "e1515",
         "source": "2309_12566",
         "target": "2401_09241",
         "weight": 0.8641
@@ -15389,7 +16431,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1386",
+        "id": "e1516",
         "source": "2309_12566",
         "target": "2409_12266",
         "weight": 0.8249
@@ -15397,7 +16439,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1387",
+        "id": "e1517",
         "source": "2309_12566",
         "target": "2409_15610",
         "weight": 0.8104
@@ -15405,7 +16447,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1388",
+        "id": "e1518",
         "source": "2309_12566",
         "target": "2411_15651",
         "weight": 0.8134
@@ -15413,7 +16455,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1389",
+        "id": "e1519",
         "source": "2309_12566",
         "target": "2412_11270",
         "weight": 0.8138
@@ -15421,7 +16463,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1390",
+        "id": "e1520",
         "source": "2309_12566",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8856
@@ -15429,7 +16471,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1391",
+        "id": "e1521",
         "source": "2309_12566",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8608
@@ -15437,7 +16479,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1392",
+        "id": "e1522",
         "source": "2309_12566",
         "target": "2025_trevisan_model_predictive_path_integral",
         "weight": 0.8291
@@ -15445,7 +16487,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1393",
+        "id": "e1523",
         "source": "2309_12566",
         "target": "2503_05819",
         "weight": 0.8396
@@ -15453,7 +16495,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1394",
+        "id": "e1524",
         "source": "2309_12566",
         "target": "2503_11717",
         "weight": 0.8492
@@ -15461,7 +16503,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1395",
+        "id": "e1525",
         "source": "2309_12566",
         "target": "2504_06437",
         "weight": 0.8382
@@ -15469,7 +16511,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1396",
+        "id": "e1526",
         "source": "2309_12566",
         "target": "2505_05507",
         "weight": 0.8182
@@ -15477,7 +16519,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1397",
+        "id": "e1527",
         "source": "2309_12566",
         "target": "2508_21364",
         "weight": 0.8061
@@ -15485,7 +16527,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1398",
+        "id": "e1528",
         "source": "2309_12566",
         "target": "2510_00272",
         "weight": 0.8278
@@ -15493,31 +16535,39 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1399",
+        "id": "e1529",
         "source": "2310_17274",
         "target": "2503_06757",
-        "weight": 0.7607
+        "weight": 0.8333
       }
     },
     {
       "data": {
-        "id": "e1400",
+        "id": "e1530",
         "source": "2310_17274",
         "target": "2602_02846",
-        "weight": 0.7722
+        "weight": 0.8291
       }
     },
     {
       "data": {
-        "id": "e1401",
+        "id": "e1531",
+        "source": "2310_17274",
+        "target": "2409_06807",
+        "weight": 0.8066
+      }
+    },
+    {
+      "data": {
+        "id": "e1532",
         "source": "2310_17274",
         "target": "2411_11833",
-        "weight": 0.8036
+        "weight": 0.8383
       }
     },
     {
       "data": {
-        "id": "e1402",
+        "id": "e1533",
         "source": "2024_calem_action_and_trajectory_prediction",
         "target": "2502_08664",
         "weight": 0.8458
@@ -15525,7 +16575,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1403",
+        "id": "e1534",
         "source": "2024_calem_action_and_trajectory_prediction",
         "target": "2503_03262",
         "weight": 0.8512
@@ -15533,7 +16583,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1404",
+        "id": "e1535",
         "source": "2024_calem_action_and_trajectory_prediction",
         "target": "2505_09074",
         "weight": 0.8638
@@ -15541,7 +16591,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1405",
+        "id": "e1536",
         "source": "2024_calem_action_and_trajectory_prediction",
         "target": "2409_09523",
         "weight": 0.8099
@@ -15549,7 +16599,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1406",
+        "id": "e1537",
+        "source": "2024_calem_action_and_trajectory_prediction",
+        "target": "2511_00088",
+        "weight": 0.8193
+      }
+    },
+    {
+      "data": {
+        "id": "e1538",
         "source": "2024_jallet_real_time_constrained_trajectory",
         "target": "2024_wang_a_convergence_guaranteed_multiple",
         "weight": 0.8259
@@ -15557,7 +16615,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1407",
+        "id": "e1539",
         "source": "2024_jallet_real_time_constrained_trajectory",
         "target": "2403_00748",
         "weight": 0.8122
@@ -15565,7 +16623,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1408",
+        "id": "e1540",
         "source": "2024_jallet_real_time_constrained_trajectory",
         "target": "2409_11649",
         "weight": 0.8456
@@ -15573,7 +16631,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1409",
+        "id": "e1541",
         "source": "2024_jallet_real_time_constrained_trajectory",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8087
@@ -15581,7 +16639,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1410",
+        "id": "e1542",
         "source": "2024_jallet_real_time_constrained_trajectory",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.811
@@ -15589,7 +16647,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1411",
+        "id": "e1543",
         "source": "2024_jallet_real_time_constrained_trajectory",
         "target": "2504_18978",
         "weight": 0.8038
@@ -15597,7 +16655,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1412",
+        "id": "e1544",
         "source": "2024_jallet_real_time_constrained_trajectory",
         "target": "2506_14865",
         "weight": 0.8517
@@ -15605,7 +16663,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1413",
+        "id": "e1545",
         "source": "2024_jallet_real_time_constrained_trajectory",
         "target": "2603_16059",
         "weight": 0.8095
@@ -15613,7 +16671,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1414",
+        "id": "e1546",
         "source": "2024_wang_a_convergence_guaranteed_multiple",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.8179
@@ -15621,7 +16679,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1415",
+        "id": "e1547",
         "source": "2024_wang_a_convergence_guaranteed_multiple",
         "target": "2409_11649",
         "weight": 0.8582
@@ -15629,7 +16687,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1416",
+        "id": "e1548",
         "source": "2401_09241",
         "target": "2409_12266",
         "weight": 0.8668
@@ -15637,7 +16695,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1417",
+        "id": "e1549",
         "source": "2401_09241",
         "target": "2409_15610",
         "weight": 0.8384
@@ -15645,7 +16703,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1418",
+        "id": "e1550",
         "source": "2401_09241",
         "target": "2410_19414",
         "weight": 0.833
@@ -15653,7 +16711,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1419",
+        "id": "e1551",
         "source": "2401_09241",
         "target": "2411_15651",
         "weight": 0.8207
@@ -15661,7 +16719,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1420",
+        "id": "e1552",
         "source": "2401_09241",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8584
@@ -15669,7 +16727,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1421",
+        "id": "e1553",
         "source": "2401_09241",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8846
@@ -15677,7 +16735,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1422",
+        "id": "e1554",
         "source": "2401_09241",
         "target": "2025_trevisan_model_predictive_path_integral",
         "weight": 0.8373
@@ -15685,7 +16743,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1423",
+        "id": "e1555",
         "source": "2401_09241",
         "target": "2503_05819",
         "weight": 0.8764
@@ -15693,7 +16751,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1424",
+        "id": "e1556",
         "source": "2401_09241",
         "target": "2503_11717",
         "weight": 0.8815
@@ -15701,7 +16759,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1425",
+        "id": "e1557",
         "source": "2401_09241",
         "target": "2504_06437",
         "weight": 0.8135
@@ -15709,7 +16767,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1426",
+        "id": "e1558",
         "source": "2401_09241",
         "target": "2505_05507",
         "weight": 0.8101
@@ -15717,7 +16775,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1427",
+        "id": "e1559",
         "source": "2401_09241",
         "target": "2506_17184",
         "weight": 0.807
@@ -15725,7 +16783,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1428",
+        "id": "e1560",
         "source": "2401_09241",
         "target": "2508_21364",
         "weight": 0.8119
@@ -15733,7 +16791,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1429",
+        "id": "e1561",
         "source": "2401_09241",
         "target": "2510_00272",
         "weight": 0.8398
@@ -15741,7 +16799,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1430",
+        "id": "e1562",
         "source": "2402_01443",
         "target": "2503_03262",
         "weight": 0.7983
@@ -15749,7 +16807,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1431",
+        "id": "e1563",
         "source": "2402_01443",
         "target": "2409_09523",
         "weight": 0.8222
@@ -15757,7 +16815,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1432",
+        "id": "e1564",
         "source": "2402_03300",
         "target": "2403_09110",
         "weight": 0.7374
@@ -15765,7 +16823,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1433",
+        "id": "e1565",
         "source": "2402_03893",
         "target": "2502_08664",
         "weight": 0.8286
@@ -15773,7 +16831,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1434",
+        "id": "e1566",
         "source": "2402_03893",
         "target": "2503_03262",
         "weight": 0.8628
@@ -15781,7 +16839,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1435",
+        "id": "e1567",
         "source": "2402_03893",
         "target": "2505_09074",
         "weight": 0.8261
@@ -15789,7 +16847,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1436",
+        "id": "e1568",
         "source": "2403_00748",
         "target": "2409_11649",
         "weight": 0.8462
@@ -15797,15 +16855,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1437",
-        "source": "2403_01194",
-        "target": "2502_09556",
-        "weight": 0.8082
-      }
-    },
-    {
-      "data": {
-        "id": "e1438",
+        "id": "e1569",
         "source": "2403_01194",
         "target": "2403_10745",
         "weight": 0.8178
@@ -15813,7 +16863,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1439",
+        "id": "e1570",
         "source": "2403_01194",
         "target": "2411_15651",
         "weight": 0.8251
@@ -15821,7 +16871,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1440",
+        "id": "e1571",
+        "source": "2403_01194",
+        "target": "2502_09556",
+        "weight": 0.8082
+      }
+    },
+    {
+      "data": {
+        "id": "e1572",
         "source": "2403_10745",
         "target": "2409_12266",
         "weight": 0.8071
@@ -15829,7 +16887,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1441",
+        "id": "e1573",
         "source": "2403_10745",
         "target": "2410_19414",
         "weight": 0.8406
@@ -15837,7 +16895,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1442",
+        "id": "e1574",
         "source": "2403_10745",
         "target": "2411_15651",
         "weight": 0.8307
@@ -15845,7 +16903,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1443",
+        "id": "e1575",
         "source": "2403_10745",
         "target": "2411_17902",
         "weight": 0.8144
@@ -15853,7 +16911,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1444",
+        "id": "e1576",
         "source": "2403_10745",
         "target": "2502_09556",
         "weight": 0.8022
@@ -15861,7 +16919,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1445",
+        "id": "e1577",
+        "source": "2403_10745",
+        "target": "2503_06757",
+        "weight": 0.8175
+      }
+    },
+    {
+      "data": {
+        "id": "e1578",
         "source": "2403_10745",
         "target": "2504_18978",
         "weight": 0.8065
@@ -15869,7 +16935,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1446",
+        "id": "e1579",
         "source": "2403_10745",
         "target": "2505_10542",
         "weight": 0.8045
@@ -15877,7 +16943,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1447",
+        "id": "e1580",
+        "source": "2403_10745",
+        "target": "2602_02846",
+        "weight": 0.8259
+      }
+    },
+    {
+      "data": {
+        "id": "e1581",
         "source": "2403_10745",
         "target": "2603_16059",
         "weight": 0.8288
@@ -15885,7 +16959,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1448",
+        "id": "e1582",
         "source": "2403_18972",
         "target": "2504_06437",
         "weight": 0.7761
@@ -15893,15 +16967,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1449",
-        "source": "2403_18972",
-        "target": "2409_09523",
-        "weight": 0.7751
-      }
-    },
-    {
-      "data": {
-        "id": "e1450",
+        "id": "e1583",
         "source": "2403_18972",
         "target": "2510_00272",
         "weight": 0.7928
@@ -15909,7 +16975,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1451",
+        "id": "e1584",
         "source": "2403_18972",
         "target": "2410_19414",
         "weight": 0.7937
@@ -15917,7 +16983,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1452",
+        "id": "e1585",
+        "source": "2403_18972",
+        "target": "2511_00814",
+        "weight": 0.7779
+      }
+    },
+    {
+      "data": {
+        "id": "e1586",
         "source": "2405_03281",
         "target": "2504_18978",
         "weight": 0.8197
@@ -15925,7 +16999,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1453",
+        "id": "e1587",
         "source": "2405_03281",
         "target": "2410_19414",
         "weight": 0.8058
@@ -15933,7 +17007,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1454",
+        "id": "e1588",
         "source": "2405_03281",
         "target": "2603_16059",
         "weight": 0.8192
@@ -15941,23 +17015,39 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1455",
+        "id": "e1589",
         "source": "2409_06807",
         "target": "2503_06757",
-        "weight": 0.8087
+        "weight": 0.8366
       }
     },
     {
       "data": {
-        "id": "e1456",
+        "id": "e1590",
         "source": "2409_06807",
         "target": "2602_02846",
-        "weight": 0.9453
+        "weight": 0.9552
       }
     },
     {
       "data": {
-        "id": "e1457",
+        "id": "e1591",
+        "source": "2409_06807",
+        "target": "2603_16059",
+        "weight": 0.8299
+      }
+    },
+    {
+      "data": {
+        "id": "e1592",
+        "source": "2409_06807",
+        "target": "2411_11833",
+        "weight": 0.8113
+      }
+    },
+    {
+      "data": {
+        "id": "e1593",
         "source": "2409_09523",
         "target": "2409_16012",
         "weight": 0.8033
@@ -15965,7 +17055,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1458",
+        "id": "e1594",
         "source": "2409_09523",
         "target": "2410_19414",
         "weight": 0.8064
@@ -15973,7 +17063,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1459",
+        "id": "e1595",
         "source": "2409_09523",
         "target": "2025_hu_technical_speaking_transitioning_from",
         "weight": 0.8136
@@ -15981,7 +17071,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1460",
+        "id": "e1596",
         "source": "2409_09523",
         "target": "2502_08664",
         "weight": 0.8094
@@ -15989,7 +17079,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1461",
+        "id": "e1597",
         "source": "2409_09523",
         "target": "2503_03262",
         "weight": 0.8271
@@ -15997,7 +17087,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1462",
+        "id": "e1598",
         "source": "2409_09523",
         "target": "2505_09074",
         "weight": 0.8611
@@ -16005,7 +17095,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1463",
+        "id": "e1599",
+        "source": "2409_09523",
+        "target": "2511_00088",
+        "weight": 0.8498
+      }
+    },
+    {
+      "data": {
+        "id": "e1600",
         "source": "2409_11649",
         "target": "2025_xia_an_adaptive_projection_differential",
         "weight": 0.8787
@@ -16013,7 +17111,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1464",
+        "id": "e1601",
         "source": "2409_12266",
         "target": "2409_15610",
         "weight": 0.813
@@ -16021,7 +17119,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1465",
+        "id": "e1602",
         "source": "2409_12266",
         "target": "2410_19414",
         "weight": 0.8527
@@ -16029,7 +17127,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1466",
+        "id": "e1603",
         "source": "2409_12266",
         "target": "2411_15651",
         "weight": 0.8144
@@ -16037,7 +17135,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1467",
+        "id": "e1604",
         "source": "2409_12266",
         "target": "2412_11270",
         "weight": 0.8039
@@ -16045,7 +17143,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1468",
+        "id": "e1605",
         "source": "2409_12266",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8079
@@ -16053,7 +17151,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1469",
+        "id": "e1606",
         "source": "2409_12266",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8463
@@ -16061,7 +17159,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1470",
+        "id": "e1607",
         "source": "2409_12266",
         "target": "2503_05819",
         "weight": 0.9383
@@ -16069,7 +17167,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1471",
+        "id": "e1608",
         "source": "2409_12266",
         "target": "2503_11717",
         "weight": 0.83
@@ -16077,7 +17175,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1472",
+        "id": "e1609",
         "source": "2409_12266",
         "target": "2504_18978",
         "weight": 0.8075
@@ -16085,7 +17183,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1473",
+        "id": "e1610",
         "source": "2409_12266",
         "target": "2506_17184",
         "weight": 0.8006
@@ -16093,7 +17191,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1474",
+        "id": "e1611",
+        "source": "2409_12266",
+        "target": "2602_02846",
+        "weight": 0.8011
+      }
+    },
+    {
+      "data": {
+        "id": "e1612",
         "source": "2409_12266",
         "target": "2603_16059",
         "weight": 0.823
@@ -16101,7 +17207,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1475",
+        "id": "e1613",
         "source": "2409_15610",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8322
@@ -16109,7 +17215,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1476",
+        "id": "e1614",
         "source": "2409_15610",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8207
@@ -16117,7 +17223,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1477",
+        "id": "e1615",
         "source": "2409_15610",
         "target": "2503_05819",
         "weight": 0.8272
@@ -16125,7 +17231,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1478",
+        "id": "e1616",
         "source": "2409_15610",
         "target": "2503_11717",
         "weight": 0.8474
@@ -16133,7 +17239,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1479",
+        "id": "e1617",
         "source": "2409_16012",
         "target": "2410_19414",
         "weight": 0.8085
@@ -16141,7 +17247,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1480",
+        "id": "e1618",
         "source": "2409_16915",
         "target": "2505_08510",
         "weight": 0.8891
@@ -16149,7 +17255,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1481",
+        "id": "e1619",
         "source": "2409_16915",
         "target": "2506_14865",
         "weight": 0.7763
@@ -16157,7 +17263,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1482",
+        "id": "e1620",
         "source": "2410_19414",
         "target": "2411_15651",
         "weight": 0.8175
@@ -16165,7 +17271,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1483",
+        "id": "e1621",
         "source": "2410_19414",
         "target": "2411_17902",
         "weight": 0.8171
@@ -16173,7 +17279,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1484",
+        "id": "e1622",
         "source": "2410_19414",
         "target": "2412_11270",
         "weight": 0.8112
@@ -16181,7 +17287,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1485",
+        "id": "e1623",
         "source": "2410_19414",
         "target": "2503_05819",
         "weight": 0.8152
@@ -16189,7 +17295,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1486",
+        "id": "e1624",
+        "source": "2410_19414",
+        "target": "2503_06757",
+        "weight": 0.8122
+      }
+    },
+    {
+      "data": {
+        "id": "e1625",
         "source": "2410_19414",
         "target": "2508_05027",
         "weight": 0.8123
@@ -16197,7 +17311,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1487",
+        "id": "e1626",
+        "source": "2410_19414",
+        "target": "2602_02846",
+        "weight": 0.8429
+      }
+    },
+    {
+      "data": {
+        "id": "e1627",
         "source": "2410_19414",
         "target": "2603_16059",
         "weight": 0.8285
@@ -16205,23 +17327,23 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1488",
+        "id": "e1628",
+        "source": "2411_11833",
+        "target": "2503_06757",
+        "weight": 0.8177
+      }
+    },
+    {
+      "data": {
+        "id": "e1629",
         "source": "2411_11833",
         "target": "2602_02846",
-        "weight": 0.7949
+        "weight": 0.8334
       }
     },
     {
       "data": {
-        "id": "e1489",
-        "source": "2411_11833",
-        "target": "2603_16059",
-        "weight": 0.7948
-      }
-    },
-    {
-      "data": {
-        "id": "e1490",
+        "id": "e1630",
         "source": "2411_15651",
         "target": "2411_17902",
         "weight": 0.8063
@@ -16229,7 +17351,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1491",
+        "id": "e1631",
         "source": "2411_15651",
         "target": "2412_11270",
         "weight": 0.8815
@@ -16237,7 +17359,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1492",
+        "id": "e1632",
         "source": "2411_15651",
         "target": "2025_crestaz_td_cd_mppi_temporal_difference",
         "weight": 0.8242
@@ -16245,7 +17367,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1493",
+        "id": "e1633",
         "source": "2411_15651",
         "target": "2502_09556",
         "weight": 0.8033
@@ -16253,7 +17375,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1494",
+        "id": "e1634",
         "source": "2411_15651",
         "target": "2503_05819",
         "weight": 0.8038
@@ -16261,7 +17383,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1495",
+        "id": "e1635",
+        "source": "2411_17902",
+        "target": "2503_06757",
+        "weight": 0.8257
+      }
+    },
+    {
+      "data": {
+        "id": "e1636",
         "source": "2411_17902",
         "target": "2505_10542",
         "weight": 0.838
@@ -16269,7 +17399,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1496",
+        "id": "e1637",
+        "source": "2411_17902",
+        "target": "2602_02846",
+        "weight": 0.8372
+      }
+    },
+    {
+      "data": {
+        "id": "e1638",
         "source": "2412_11270",
         "target": "2506_14865",
         "weight": 0.8029
@@ -16277,7 +17415,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1497",
+        "id": "e1639",
         "source": "2025_crestaz_td_cd_mppi_temporal_difference",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8834
@@ -16285,7 +17423,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1498",
+        "id": "e1640",
         "source": "2025_crestaz_td_cd_mppi_temporal_difference",
         "target": "2025_trevisan_model_predictive_path_integral",
         "weight": 0.82
@@ -16293,7 +17431,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1499",
+        "id": "e1641",
         "source": "2025_crestaz_td_cd_mppi_temporal_difference",
         "target": "2503_05819",
         "weight": 0.8157
@@ -16301,7 +17439,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1500",
+        "id": "e1642",
         "source": "2025_crestaz_td_cd_mppi_temporal_difference",
         "target": "2503_11717",
         "weight": 0.8636
@@ -16309,7 +17447,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1501",
+        "id": "e1643",
         "source": "2025_crestaz_td_cd_mppi_temporal_difference",
         "target": "2504_06437",
         "weight": 0.8492
@@ -16317,7 +17455,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1502",
+        "id": "e1644",
         "source": "2025_crestaz_td_cd_mppi_temporal_difference",
         "target": "2505_05507",
         "weight": 0.8084
@@ -16325,7 +17463,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1503",
+        "id": "e1645",
         "source": "2025_crestaz_td_cd_mppi_temporal_difference",
         "target": "2508_21364",
         "weight": 0.8154
@@ -16333,7 +17471,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1504",
+        "id": "e1646",
         "source": "2025_crestaz_td_cd_mppi_temporal_difference",
         "target": "2510_00272",
         "weight": 0.8556
@@ -16341,7 +17479,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1505",
+        "id": "e1647",
         "source": "2025_hu_technical_speaking_transitioning_from",
         "target": "2502_08664",
         "weight": 0.8135
@@ -16349,7 +17487,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1506",
+        "id": "e1648",
         "source": "2025_hu_technical_speaking_transitioning_from",
         "target": "2505_09074",
         "weight": 0.8346
@@ -16357,15 +17495,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1507",
+        "id": "e1649",
         "source": "2025_hu_technical_speaking_transitioning_from",
         "target": "2511_00088",
-        "weight": 0.8323
+        "weight": 0.845
       }
     },
     {
       "data": {
-        "id": "e1508",
+        "id": "e1650",
         "source": "2025_lee_time_correlated_model_predictive",
         "target": "2025_trevisan_model_predictive_path_integral",
         "weight": 0.8237
@@ -16373,7 +17511,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1509",
+        "id": "e1651",
         "source": "2025_lee_time_correlated_model_predictive",
         "target": "2503_05819",
         "weight": 0.8567
@@ -16381,7 +17519,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1510",
+        "id": "e1652",
         "source": "2025_lee_time_correlated_model_predictive",
         "target": "2503_11717",
         "weight": 0.8966
@@ -16389,7 +17527,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1511",
+        "id": "e1653",
         "source": "2025_lee_time_correlated_model_predictive",
         "target": "2504_06437",
         "weight": 0.8218
@@ -16397,7 +17535,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1512",
+        "id": "e1654",
         "source": "2025_lee_time_correlated_model_predictive",
         "target": "2505_05507",
         "weight": 0.8505
@@ -16405,7 +17543,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1513",
+        "id": "e1655",
         "source": "2025_lee_time_correlated_model_predictive",
         "target": "2510_00272",
         "weight": 0.8417
@@ -16413,7 +17551,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1514",
+        "id": "e1656",
         "source": "2025_lee_time_correlated_model_predictive",
         "target": "2603_16059",
         "weight": 0.8034
@@ -16421,7 +17559,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1515",
+        "id": "e1657",
         "source": "2025_trevisan_model_predictive_path_integral",
         "target": "2503_11717",
         "weight": 0.8047
@@ -16429,7 +17567,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1516",
+        "id": "e1658",
         "source": "2025_trevisan_model_predictive_path_integral",
         "target": "2504_06437",
         "weight": 0.8038
@@ -16437,7 +17575,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1517",
+        "id": "e1659",
         "source": "2025_trevisan_model_predictive_path_integral",
         "target": "2510_00272",
         "weight": 0.8066
@@ -16445,7 +17583,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1518",
+        "id": "e1660",
         "source": "2025_trevisan_model_predictive_path_integral",
         "target": "2508_21364",
         "weight": 0.8246
@@ -16453,23 +17591,31 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1519",
+        "id": "e1661",
         "source": "2501_05204",
+        "target": "2503_09722",
+        "weight": 0.73
+      }
+    },
+    {
+      "data": {
+        "id": "e1662",
+        "source": "2501_05204",
+        "target": "2505_21851",
+        "weight": 0.7404
+      }
+    },
+    {
+      "data": {
+        "id": "e1663",
+        "source": "2502_08664",
         "target": "2511_00088",
-        "weight": 0.6299
+        "weight": 0.8064
       }
     },
     {
       "data": {
-        "id": "e1520",
-        "source": "2501_05204",
-        "target": "2602_02846",
-        "weight": 0.6263
-      }
-    },
-    {
-      "data": {
-        "id": "e1521",
+        "id": "e1664",
         "source": "2502_08664",
         "target": "2503_03262",
         "weight": 0.9211
@@ -16477,7 +17623,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1522",
+        "id": "e1665",
         "source": "2502_08664",
         "target": "2505_09074",
         "weight": 0.8922
@@ -16485,7 +17631,23 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1523",
+        "id": "e1666",
+        "source": "2502_08664",
+        "target": "2511_00814",
+        "weight": 0.8091
+      }
+    },
+    {
+      "data": {
+        "id": "e1667",
+        "source": "2503_03262",
+        "target": "2511_00088",
+        "weight": 0.8147
+      }
+    },
+    {
+      "data": {
+        "id": "e1668",
         "source": "2503_03262",
         "target": "2505_09074",
         "weight": 0.8997
@@ -16493,7 +17655,15 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1524",
+        "id": "e1669",
+        "source": "2503_03262",
+        "target": "2511_00814",
+        "weight": 0.8107
+      }
+    },
+    {
+      "data": {
+        "id": "e1670",
         "source": "2503_05819",
         "target": "2503_11717",
         "weight": 0.8431
@@ -16501,7 +17671,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1525",
+        "id": "e1671",
         "source": "2503_05819",
         "target": "2506_17184",
         "weight": 0.8025
@@ -16509,7 +17679,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1526",
+        "id": "e1672",
         "source": "2503_05819",
         "target": "2510_00272",
         "weight": 0.8035
@@ -16517,15 +17687,23 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1527",
+        "id": "e1673",
         "source": "2503_06757",
         "target": "2505_10542",
-        "weight": 0.8283
+        "weight": 0.858
       }
     },
     {
       "data": {
-        "id": "e1528",
+        "id": "e1674",
+        "source": "2503_06757",
+        "target": "2602_02846",
+        "weight": 0.8344
+      }
+    },
+    {
+      "data": {
+        "id": "e1675",
         "source": "2503_09722",
         "target": "2505_21851",
         "weight": 0.8543
@@ -16533,7 +17711,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1529",
+        "id": "e1676",
         "source": "2503_11717",
         "target": "2504_06437",
         "weight": 0.8264
@@ -16541,7 +17719,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1530",
+        "id": "e1677",
         "source": "2503_11717",
         "target": "2505_05507",
         "weight": 0.8404
@@ -16549,7 +17727,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1531",
+        "id": "e1678",
         "source": "2503_11717",
         "target": "2508_21364",
         "weight": 0.8258
@@ -16557,7 +17735,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1532",
+        "id": "e1679",
         "source": "2503_11717",
         "target": "2510_00272",
         "weight": 0.8327
@@ -16565,7 +17743,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1533",
+        "id": "e1680",
         "source": "2504_06437",
         "target": "2510_00272",
         "weight": 0.8739
@@ -16573,7 +17751,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1534",
+        "id": "e1681",
         "source": "2504_06437",
         "target": "2508_21364",
         "weight": 0.8085
@@ -16581,7 +17759,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1535",
+        "id": "e1682",
         "source": "2504_18978",
         "target": "2506_14865",
         "weight": 0.8196
@@ -16589,7 +17767,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1536",
+        "id": "e1683",
         "source": "2504_18978",
         "target": "2603_16059",
         "weight": 0.8013
@@ -16597,7 +17775,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1537",
+        "id": "e1684",
         "source": "2505_08510",
         "target": "2506_14865",
         "weight": 0.772
@@ -16605,15 +17783,23 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1538",
+        "id": "e1685",
         "source": "2505_09074",
         "target": "2511_00088",
-        "weight": 0.8159
+        "weight": 0.8446
       }
     },
     {
       "data": {
-        "id": "e1539",
+        "id": "e1686",
+        "source": "2505_09074",
+        "target": "2511_00814",
+        "weight": 0.8315
+      }
+    },
+    {
+      "data": {
+        "id": "e1687",
         "source": "2506_14865",
         "target": "2603_16059",
         "weight": 0.8024
@@ -16621,10 +17807,26 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "e1540",
+        "id": "e1688",
+        "source": "2508_05027",
+        "target": "2602_02846",
+        "weight": 0.801
+      }
+    },
+    {
+      "data": {
+        "id": "e1689",
         "source": "2508_21364",
         "target": "2510_00272",
         "weight": 0.8049
+      }
+    },
+    {
+      "data": {
+        "id": "e1690",
+        "source": "2602_02846",
+        "target": "2603_16059",
+        "weight": 0.8568
       }
     }
   ],
@@ -16633,6 +17835,6 @@ const mindMapData = {
     "threshold": 0.8,
     "top_k": 5,
     "total_papers": 189,
-    "total_edges": 1541
+    "total_edges": 1691
   }
 };
