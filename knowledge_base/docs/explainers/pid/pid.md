@@ -168,7 +168,7 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
 (function () {
   "use strict";
 
-  // ── LQR preset gains (computed by scripts/compute_lqr_gains.py) ────────────
+  // ── LQR preset gains (computed by compute_lqr_gains.py) ────────────
   // Angle LQR: Q=diag(1,0,10,1), R=0.1
   var PRESET_KP   = 43.0;
   var PRESET_KI   = 0.0;
@@ -618,9 +618,9 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
 - [Proportional–integral–derivative controller - Wikipedia](https://en.wikipedia.org/wiki/Proportional%E2%80%93integral%E2%80%93derivative_controller)
 - [Proportional-Integral-Derivative (PID) Controllers - MATLAB](https://www.mathworks.com/help/control/ug/proportional-integral-derivative-pid-controllers.html)
 - Benjamin Recht's blog posts, emphasizing the relationship between PID and gradient-based optimization
-  - [The Best Things in Life Are Model Free](https://archives.argmin.net/2018/04/19/pid/)
-  - [Integral Action](https://www.argmin.net/p/integral-action)
-  - [Advanced Simplicity](https://www.argmin.net/p/advanced-simplicity)
+    - [The Best Things in Life Are Model Free](https://archives.argmin.net/2018/04/19/pid/)
+    - [Integral Action](https://www.argmin.net/p/integral-action)
+    - [Advanced Simplicity](https://www.argmin.net/p/advanced-simplicity)
 
 ## Marimo notebook
 
