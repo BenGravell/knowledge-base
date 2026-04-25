@@ -36,13 +36,11 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
 }
 #pid-sim-canvas {
   aspect-ratio: 900 / 270;
-  background: var(--md-code-bg-color, #f8f8f8);
   border: 1px solid var(--md-default-fg-color--lightest, #e0e0e0);
   margin-bottom: 6px;
 }
 #pid-plot-canvas {
   aspect-ratio: 900 / 210;
-  background: var(--md-code-bg-color, #f8f8f8);
   border: 1px solid var(--md-default-fg-color--lightest, #e0e0e0);
   margin-bottom: 10px;
 }
@@ -352,10 +350,15 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
   function bgCode()  { return isDark() ? "#1e1e2e" : "#f8fafc"; }
   function cartCol() { return fallen ? "#ef4444" : "#2563eb"; }
   function poleCol() { return fallen ? "#f97316" : "#16a34a"; }
+  function siteFont(spec) {
+    var ff = getComputedStyle(document.body).fontFamily || "sans-serif";
+    return spec + " " + ff;
+  }
 
   function drawSim() {
     var W = SIM_W, H = SIM_H;
-    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = bgCode();
+    ctx.fillRect(0, 0, W, H);
 
     var x  = state[0], th = state[2];
     // Cart x in pixels, clamped so it doesn't vanish off screen
@@ -460,7 +463,7 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
       ctx.fillStyle = "rgba(239,68,68,0.15)";
       ctx.fillRect(0, 0, W, H);
       ctx.fillStyle = "#dc2626";
-      ctx.font = "bold 40px sans-serif";
+      ctx.font = siteFont("bold 40px");
       ctx.textAlign = "center";
       ctx.fillText("Pole fell: press \"Reset\"", W / 2, H / 2);
       ctx.textAlign = "left";
@@ -500,8 +503,9 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
     // Position full-range: 2 m ↔ 30° tick; 2*(35/30) m ↔ 35° plot limit
     var POS_FULL = 2 * 35 / 30;
 
-    // Background
+    // Background — fill full canvas so padding/label margins match chart area
     pctx.fillStyle = bgCode();
+    pctx.fillRect(0, 0, W, H);
     pctx.fillRect(PAD.l, PAD.t, pw, ph);
 
     // Horizontal grid lines at 0°, ±30° (within ±35° range)
@@ -573,7 +577,7 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
     pctx.stroke();
 
     // Legend
-    pctx.font = "20px monospace";
+    pctx.font = siteFont("20px");
     pctx.textAlign = "left";
     pctx.fillStyle = "#dc2626";
     pctx.fillText("— Pole angle", PAD.l + pw - 190, PAD.t + 34);
