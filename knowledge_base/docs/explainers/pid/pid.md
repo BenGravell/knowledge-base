@@ -13,13 +13,14 @@ Despite its simplicity, PID is extremely (often surprisingly) effective in pract
 ## Interactive demo: balancing a cart-pole
 
 The **cart-pole** (inverted pendulum on a cart) is a canonical benchmark for control.
-The pole starts tilted and the PID controller applies horizontal forces to the cart to balance it upright.
+
+Here the pole starts tilted and the PID controller applies horizontal forces to the cart to keep it balanced in an upright configuration.
 
 Tune the gains and press **Disturb** to kick the pole. Notice how:
 
-- **K_p** alone causes oscillation — the controller overshoots.
-- Adding **K_d** damps the oscillation (derivative = "predictive braking").
-- **K_i** corrects steady-state offset but can cause windup instability if set too high.
+- **K_p** alone causes oscillation
+- **K_d** damps the oscillation
+- **K_i** corrects steady-state offset
 
 <div id="pid-demo-root">
 <style>
@@ -40,7 +41,7 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
   margin-bottom: 6px;
 }
 #pid-plot-canvas {
-  aspect-ratio: 900 / 110;
+  aspect-ratio: 900 / 210;
   background: var(--md-code-bg-color, #f8f8f8);
   border: 1px solid var(--md-default-fg-color--lightest, #e0e0e0);
   margin-bottom: 10px;
@@ -94,7 +95,26 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
   margin-top: 3px;
   flex-wrap: wrap;
 }
-.pid-btn-row button {
+.pid-preset-row {
+  display: flex;
+  margin-top: 3px;
+}
+.pid-preset-row button {
+  flex: 1;
+  text-align: center;
+}
+.pid-sim-controls {
+  margin-bottom: 10px;
+}
+.pid-sim-btn-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  justify-content: center;
+}
+.pid-btn-row button,
+.pid-preset-row button,
+.pid-sim-btn-row button {
   padding: 4px 13px;
   border-radius: 5px;
   border: 1px solid currentColor;
@@ -105,7 +125,9 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
   color: inherit;
   transition: background 0.15s;
 }
-.pid-btn-row button:hover {
+.pid-btn-row button:hover,
+.pid-preset-row button:hover,
+.pid-sim-btn-row button:hover {
   background: var(--md-accent-fg-color, #2563eb);
   color: #fff;
   border-color: transparent;
@@ -113,11 +135,19 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
 </style>
 
 <canvas id="pid-sim-canvas" width="900" height="270"></canvas>
-<canvas id="pid-plot-canvas" width="900" height="110"></canvas>
+<canvas id="pid-plot-canvas" width="900" height="210"></canvas>
+
+<div class="pid-sim-controls">
+  <div class="pid-section-label">Simulation Controls</div>
+  <div class="pid-sim-btn-row">
+    <button id="pid-reset-btn">Reset</button>
+    <button id="pid-disturb-btn">Disturb</button>
+  </div>
+</div>
 
 <div class="pid-controls">
   <div class="pid-section">
-    <div class="pid-section-label">Angle PID (θ → F)</div>
+    <div class="pid-section-label">Angle PID Gains</div>
     <div class="pid-slider-row">
       <label>K<sub>p</sub></label>
       <input type="range" class="angle-slider" id="pid-kp" min="0" max="100" step="0.5" value="43">
@@ -133,15 +163,13 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
       <input type="range" class="angle-slider" id="pid-kd" min="0" max="20" step="0.25" value="11">
       <span class="pid-val" id="pid-kd-val">11.0</span>
     </div>
-    <div class="pid-btn-row">
-      <button id="pid-reset-btn">Reset</button>
-      <button id="pid-disturb-btn">Disturb</button>
-      <button id="pid-zn-btn">Preset angle</button>
+    <div class="pid-preset-row">
+      <button id="pid-zn-btn">Preset Gains</button>
     </div>
   </div>
 
   <div class="pid-section">
-    <div class="pid-section-label">Position PID (x → F)</div>
+    <div class="pid-section-label">Position PID Gains</div>
     <div class="pid-slider-row">
       <label>K<sub>p</sub></label>
       <input type="range" class="pos-slider" id="pid-kpx" min="0" max="15" step="0.1" value="3.2">
@@ -157,8 +185,8 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
       <input type="range" class="pos-slider" id="pid-kdx" min="0" max="15" step="0.1" value="4.6">
       <span class="pid-val" id="pid-kdx-val">4.6</span>
     </div>
-    <div class="pid-btn-row">
-      <button id="pid-znx-btn">Preset position</button>
+    <div class="pid-preset-row">
+      <button id="pid-znx-btn">Preset Gains</button>
     </div>
   </div>
 </div>
@@ -218,13 +246,13 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
     canvas.height = h * dpr;
     context.scale(dpr, dpr);
   }
-  scaleCanvas(simCanvas,  ctx);
-  scaleCanvas(plotCanvas, pctx);
-
   var SIM_W  = parseInt(simCanvas.getAttribute("width")  || 900);
   var SIM_H  = parseInt(simCanvas.getAttribute("height") || 270);
   var PLOT_W = parseInt(plotCanvas.getAttribute("width")  || 900);
-  var PLOT_H = parseInt(plotCanvas.getAttribute("height") || 110);
+  var PLOT_H = parseInt(plotCanvas.getAttribute("height") || 210);
+
+  scaleCanvas(simCanvas,  ctx);
+  scaleCanvas(plotCanvas, pctx);
 
   // ── Gain accessors ─────────────────────────────────────────────────────────
   function getKp()  { return parseFloat(document.getElementById("pid-kp").value); }
@@ -284,6 +312,14 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
 
   function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
 
+  // Right-aligns integer part to intW chars then appends decimal digits,
+  // so the decimal point lands at the same column across all telemetry lines.
+  function fmtVal(v, dec, intW) {
+    var s = v.toFixed(dec);
+    var dot = s.indexOf('.');
+    return s.slice(0, dot).padStart(intW) + s.slice(dot);
+  }
+
   // ── Simulation step ────────────────────────────────────────────────────────
   var lastForce = 0;
 
@@ -327,7 +363,7 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
 
     // ── Track ──────────────────────────────────────────────────────────────
     ctx.beginPath();
-    ctx.strokeStyle = fgDim();
+    ctx.strokeStyle = "#2563eb";
     ctx.lineWidth = 2;
     ctx.moveTo(20, TRACK_Y + CART_H / 2 + WHEEL_R);
     ctx.lineTo(W - 20, TRACK_Y + CART_H / 2 + WHEEL_R);
@@ -336,7 +372,7 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
     // Track end bumpers
     [20, W - 20].forEach(function(bx) {
       ctx.beginPath();
-      ctx.strokeStyle = fgDim();
+      ctx.strokeStyle = "#2563eb";
       ctx.lineWidth = 3;
       ctx.moveTo(bx, TRACK_Y + CART_H / 2 + WHEEL_R - 10);
       ctx.lineTo(bx, TRACK_Y + CART_H / 2 + WHEEL_R + 10);
@@ -410,23 +446,23 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
     ctx.fill();
 
     // ── Telemetry ──────────────────────────────────────────────────────────
-    ctx.font = "13px monospace";
+    // intW=4, dec=2 for all four → 7-char numbers, units at the same column.
+    ctx.font = "26px monospace";
+    ctx.fillStyle = "#dc2626";
+    ctx.fillText("θ = " + fmtVal(th * 180 / Math.PI, 2, 4) + " °", 12, 28);
+    ctx.fillStyle = "#2563eb";
+    ctx.fillText("x = " + fmtVal(state[0],            2, 4) + " m", 12, 56);
     ctx.fillStyle = fg();
-    var degStr  = (th * 180 / Math.PI).toFixed(1).padStart(6);
-    var posStr  = state[0].toFixed(2).padStart(6);
-    var fStr    = lastForce.toFixed(1).padStart(6);
-    ctx.fillText("θ = " + degStr + "°", 12, 20);
-    ctx.fillText("x = " + posStr + " m",           12, 38);
-    ctx.fillText("F = " + fStr   + " N",           12, 56);
-    ctx.fillText("t = " + time.toFixed(1) + " s",  12, 74);
+    ctx.fillText("F = " + fmtVal(lastForce,            2, 4) + " N", 12, 84);
+    ctx.fillText("t = " + fmtVal(time,                 2, 4) + " s", 12, 112);
 
     if (fallen) {
       ctx.fillStyle = "rgba(239,68,68,0.15)";
       ctx.fillRect(0, 0, W, H);
       ctx.fillStyle = "#dc2626";
-      ctx.font = "bold 20px sans-serif";
+      ctx.font = "bold 40px sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText("Pole fell — press Reset", W / 2, H / 2);
+      ctx.fillText("Pole fell: press \"Reset\"", W / 2, H / 2);
       ctx.textAlign = "left";
     }
   }
@@ -452,7 +488,7 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
   }
 
   // ── Drawing — plot canvas ──────────────────────────────────────────────────
-  var PAD = { l: 42, r: 12, t: 14, b: 26 };
+  var PAD = { l: 60, r: 56, t: 30, b: 36 };
 
   function drawPlot() {
     var W = PLOT_W, H = PLOT_H;
@@ -461,16 +497,18 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
     var pw = W - PAD.l - PAD.r;
     var ph = H - PAD.t - PAD.b;
     var midY = PAD.t + ph / 2;
+    // Position full-range: 2 m ↔ 30° tick; 2*(35/30) m ↔ 35° plot limit
+    var POS_FULL = 2 * 35 / 30;
 
     // Background
     pctx.fillStyle = bgCode();
     pctx.fillRect(PAD.l, PAD.t, pw, ph);
 
-    // Horizontal grid lines at ±30°, 0°
-    [-60, -30, 0, 30, 60].forEach(function(deg) {
-      var y = midY - (deg / 90) * (ph / 2);
+    // Horizontal grid lines at 0°, ±30° (within ±35° range)
+    [-30, 0, 30].forEach(function(deg) {
+      var y = midY - (deg / 35) * (ph / 2);
       pctx.beginPath();
-      pctx.strokeStyle = deg === 0 ? fgDim() : (isDark() ? "#313244" : "#e2e8f0");
+      pctx.strokeStyle = fgDim();
       pctx.lineWidth = deg === 0 ? 1.2 : 0.8;
       pctx.setLineDash(deg === 0 ? [] : [4, 4]);
       pctx.moveTo(PAD.l, y);
@@ -479,10 +517,10 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
       pctx.setLineDash([]);
 
       // Y-axis label
-      pctx.fillStyle = fgDim();
-      pctx.font = "10px monospace";
+      pctx.fillStyle = "#dc2626";
+      pctx.font = "20px monospace";
       pctx.textAlign = "right";
-      pctx.fillText(deg + "°", PAD.l - 4, y + 3.5);
+      pctx.fillText(deg + "°", PAD.l - 4, y + 7);
     });
 
     // Border
@@ -490,6 +528,21 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
     pctx.strokeStyle = fgDim();
     pctx.lineWidth = 1;
     pctx.strokeRect(PAD.l, PAD.t, pw, ph);
+
+    // Right Y-axis labels (position in metres; ±2 m aligns with ±30° grid lines)
+    [-2, 0, 2].forEach(function(xm) {
+      var y = midY - (xm / POS_FULL) * (ph / 2);
+      pctx.beginPath();
+      pctx.strokeStyle = "#2563eb";
+      pctx.lineWidth = 1;
+      pctx.moveTo(PAD.l + pw, y);
+      pctx.lineTo(PAD.l + pw + 5, y);
+      pctx.stroke();
+      pctx.fillStyle = "#2563eb";
+      pctx.font = "20px monospace";
+      pctx.textAlign = "left";
+      pctx.fillText(xm + "m", PAD.l + pw + 7, y + 7);
+    });
 
     if (thetaHist.length < 2) return;
 
@@ -502,7 +555,7 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
     pctx.setLineDash([5, 4]);
     xHist.forEach(function(xv, i) {
       var px = PAD.l + (i / HISTORY) * pw;
-      var py = midY - clamp(xv / 2, -1, 1) * (ph / 2);
+      var py = midY - clamp(xv / POS_FULL, -1, 1) * (ph / 2);
       if (i === 0) pctx.moveTo(px, py); else pctx.lineTo(px, py);
     });
     pctx.stroke();
@@ -514,28 +567,28 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
     pctx.lineWidth = 2;
     thetaHist.forEach(function(th, i) {
       var px = PAD.l + (i / HISTORY) * pw;
-      var py = midY - clamp(th / (Math.PI / 2), -1, 1) * (ph / 2);
+      var py = midY - clamp(th / (35 * Math.PI / 180), -1, 1) * (ph / 2);
       if (i === 0) pctx.moveTo(px, py); else pctx.lineTo(px, py);
     });
     pctx.stroke();
 
     // Legend
-    pctx.font = "10px monospace";
+    pctx.font = "20px monospace";
     pctx.textAlign = "left";
     pctx.fillStyle = "#dc2626";
-    pctx.fillText("— θ (angle)", PAD.l + pw - 110, PAD.t + 11);
+    pctx.fillText("— Pole angle", PAD.l + pw - 190, PAD.t + 34);
     pctx.fillStyle = "#2563eb";
-    pctx.fillText("- - x (pos)",           PAD.l + pw - 110, PAD.t + 23);
+    pctx.fillText("- - Cart position", PAD.l + pw - 190, PAD.t + 58);
 
     // X-axis labels
     pctx.fillStyle = fgDim();
     pctx.textAlign = "center";
-    pctx.font = "10px monospace";
+    pctx.font = "20px monospace";
     var totalSec = HISTORY * DT;
     [0, 0.25, 0.5, 0.75, 1].forEach(function(frac) {
       var px = PAD.l + frac * pw;
       var sec = (frac - 1) * totalSec;
-      pctx.fillText(sec.toFixed(0) + "s", px, H - 4);
+      pctx.fillText(sec.toFixed(0) + "s", px, H - 8);
     });
   }
 
@@ -566,7 +619,7 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
 
   document.getElementById("pid-disturb-btn").addEventListener("click", function () {
     if (fallen) return;
-    state[3] += 2.5 * (Math.random() > 0.5 ? 1 : -1);
+    state[3] += 1.5 * (Math.random() > 0.5 ? 1 : -1);
   });
 
   document.getElementById("pid-zn-btn").addEventListener("click", function () {
@@ -621,17 +674,3 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
     - [The Best Things in Life Are Model Free](https://archives.argmin.net/2018/04/19/pid/)
     - [Integral Action](https://www.argmin.net/p/integral-action)
     - [Advanced Simplicity](https://www.argmin.net/p/advanced-simplicity)
-
-## Marimo notebook
-
-A companion [Marimo](https://marimo.io) notebook (`knowledge_base/notebooks/pid_cartpole.py`) runs the same simulation in Python using `numpy`/`scipy` and plots the full trajectory. Run it with:
-
-```bash
-marimo run knowledge_base/notebooks/pid_cartpole.py
-```
-
-or open it interactively with:
-
-```bash
-marimo edit knowledge_base/notebooks/pid_cartpole.py
-```
