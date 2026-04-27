@@ -14,21 +14,36 @@ Despite its simplicity, PID is extremely (often surprisingly) effective in pract
 
 The **cart-pole** (inverted pendulum on a cart) is a canonical benchmark for control.
 
-Here the pole starts tilted and the PID controller applies horizontal forces to the cart to keep it balanced in an upright configuration.
+Here the pole starts tilted and the controller applies horizontal forces to the cart to keep it balanced in an upright configuration at the center position.
 
-Tune the gains and press **Disturb** to kick the pole. Notice how:
+There are two PID controllers: one for the pole angle and one for the cart position.
+
+Tune the gains. Notice how:
 
 - **K_p** alone causes oscillation
 - **K_d** damps the oscillation
-- **K_i** corrects steady-state offset
+- **K_i** corrects low-frequency disturbances
+
+Simulation controls:
+
+- **Reset** will set the cart and pole back to a fixed initial state
+- **Kick** will apply a strong short transient disturbance to the pole
+
+Disturbance settings:
+
+- **HF** sets the amount of high-frequency disturbance
+- **LF** sets the amount of low-frequency disturbance
+- **Tau** sets the time between sign flips of the low-frequency square-wave disturbance in seconds
 
 <div id="pid-demo-root">
 <style>
 #pid-demo-root {
   font-family: inherit;
   margin: 1.5em 0;
-  --pid-red:  #dc2626;
-  --pid-blue: var(--md-primary-fg-color, #2563eb);
+  --pid-red:       #dc2626;
+  --pid-blue:      var(--md-primary-fg-color, #2563eb);
+  --pid-noise-hf:  #f59e0b;
+  --pid-noise-lf:  #10b981;
 }
 #pid-demo-root canvas {
   display: block;
@@ -81,8 +96,10 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
   width: 100%;
   cursor: pointer;
 }
-.pid-slider-row input[type=range].angle-slider  { accent-color: var(--pid-red); }
-.pid-slider-row input[type=range].pos-slider    { accent-color: var(--pid-blue); }
+.pid-slider-row input[type=range].angle-slider    { accent-color: var(--pid-red); }
+.pid-slider-row input[type=range].pos-slider      { accent-color: var(--pid-blue); }
+.pid-slider-row input[type=range].noise-hf-slider { accent-color: var(--pid-noise-hf); }
+.pid-slider-row input[type=range].noise-lf-slider { accent-color: var(--pid-noise-lf); }
 .pid-slider-row .pid-val {
   font-family: var(--md-code-font, monospace);
   font-size: 0.93em;
@@ -103,14 +120,21 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
   flex: 1;
   text-align: center;
 }
-.pid-sim-controls {
+.pid-top-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 20px;
   margin-bottom: 10px;
+}
+.pid-sim-controls {
 }
 .pid-sim-btn-row {
   display: flex;
   gap: 8px;
   margin-top: 4px;
-  justify-content: flex-start;
+}
+.pid-sim-btn-row button {
+  flex: 1;
 }
 .pid-btn-row button,
 .pid-preset-row button,
@@ -137,11 +161,31 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
 <canvas id="pid-sim-canvas" width="900" height="270"></canvas>
 <canvas id="pid-plot-canvas" width="900" height="210"></canvas>
 
-<div class="pid-sim-controls">
-  <div class="pid-section-label">Simulation Controls</div>
-  <div class="pid-sim-btn-row">
-    <button id="pid-reset-btn">Reset</button>
-    <button id="pid-disturb-btn">Disturb</button>
+<div class="pid-top-controls">
+  <div class="pid-sim-controls">
+    <div class="pid-section-label">Simulation Controls</div>
+    <div class="pid-sim-btn-row">
+      <button id="pid-reset-btn">Reset</button>
+      <button id="pid-disturb-btn">Kick</button>
+    </div>
+  </div>
+  <div class="pid-disturbance-controls">
+    <div class="pid-section-label">Disturbance Settings</div>
+    <div class="pid-slider-row">
+      <label>HF</label>
+      <input type="range" class="noise-hf-slider" id="pid-noise-hf" min="0" max="4" step="0.1">
+      <span class="pid-val" id="pid-noise-hf-val"></span>
+    </div>
+    <div class="pid-slider-row">
+      <label>LF</label>
+      <input type="range" class="noise-lf-slider" id="pid-noise-lf" min="0" max="4" step="0.1">
+      <span class="pid-val" id="pid-noise-lf-val"></span>
+    </div>
+    <div class="pid-slider-row">
+      <label>τ</label>
+      <input type="range" class="noise-lf-slider" id="pid-noise-tau" min="1" max="30" step="1">
+      <span style="white-space:nowrap"><span class="pid-val" id="pid-noise-tau-val"></span>s</span>
+    </div>
   </div>
 </div>
 
@@ -177,7 +221,7 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
     </div>
     <div class="pid-slider-row">
       <label>K<sub>i</sub></label>
-      <input type="range" class="pos-slider" id="pid-kix" min="0" max="2" step="0.05">
+      <input type="range" class="pos-slider" id="pid-kix" min="0" max="2" step="0.1">
       <span class="pid-val" id="pid-kix-val"></span>
     </div>
     <div class="pid-slider-row">
@@ -203,7 +247,7 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
   var PRESET_KD   = 11.0;
   // Position LQR: Q=diag(1,0,10,1), R=0.1  (POSITIVE sign: push in direction of x)
   var PRESET_KP_X = 3.2;
-  var PRESET_KI_X = 0.0;
+  var PRESET_KI_X = 1.0;
   var PRESET_KD_X = 4.6;
 
   // ── Physics constants ──────────────────────────────────────────────────────
@@ -213,9 +257,19 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
   var g = 9.81;   // gravity (m/s²)
   var DT = 1 / 60; // simulation timestep (s) — one per animation frame
 
+  // ── Disturbance noise defaults (driven by sliders at runtime) ─────────────
+  var NOISE_HF_DEFAULT   = 0.5;   // white noise std-dev (N)
+  var NOISE_LF_DEFAULT   = 1.0;   // square wave amplitude (N)
+  var NOISE_TAU_DEFAULT  = 15.0;   // square wave period (s)
+
+  function getNoiseHfSigma() { return parseFloat(document.getElementById("pid-noise-hf").value); }
+  function getNoiseLfSigma() { return parseFloat(document.getElementById("pid-noise-lf").value); }
+  function getNoiseLfTau()   { return Math.max(0.01, parseFloat(document.getElementById("pid-noise-tau").value)); }
+
   // ── Simulation state ───────────────────────────────────────────────────────
   // [x, xdot, theta, thetadot]   theta=0 → pole upright, theta>0 → tips right
   var state = [1, 0, 0.12, 0];
+  var lfNoise      = 0;    // LF square-wave disturbance state (N)
   var integralErr  = 0;    // angle PID integral
   var prevErr      = 0.12; // angle PID previous error (initialised to theta0)
   var integralErrX = 0;    // position PID integral
@@ -235,9 +289,11 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
   var ctx  = simCanvas.getContext("2d");
   var pctx = plotCanvas.getContext("2d");
 
-  var _rootStyle = getComputedStyle(document.getElementById("pid-demo-root"));
-  var PID_RED  = _rootStyle.getPropertyValue("--pid-red").trim();
-  var PID_BLUE = _rootStyle.getPropertyValue("--pid-blue").trim();
+  var _rootStyle   = getComputedStyle(document.getElementById("pid-demo-root"));
+  var PID_RED      = _rootStyle.getPropertyValue("--pid-red").trim();
+  var PID_BLUE     = _rootStyle.getPropertyValue("--pid-blue").trim();
+  var NOISE_HF_COL = _rootStyle.getPropertyValue("--pid-noise-hf").trim() || "#f59e0b";
+  var NOISE_LF_COL = _rootStyle.getPropertyValue("--pid-noise-lf").trim() || "#10b981";
 
   // Scale canvas internal resolution to device pixel ratio for crisp rendering.
   // CSS (width:100%, aspect-ratio) controls the display size; we must not
@@ -316,6 +372,11 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
 
   function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
 
+  function randn() {
+    var u = 1 - Math.random(), v = Math.random();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  }
+
   // Right-aligns integer part to intW chars then appends decimal digits,
   // so the decimal point lands at the same column across all telemetry lines.
   function fmtVal(v, dec, intW) {
@@ -325,11 +386,17 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
   }
 
   // ── Simulation step ────────────────────────────────────────────────────────
-  var lastForce = 0;
+  var lastForce    = 0;
+  var lastPidForce = 0;
+  var lastHfNoise  = 0;
 
   function step() {
     if (fallen) return 0;
-    var F = pidForce();
+    var lfSigma = getNoiseLfSigma();
+    lfNoise = lfSigma === 0 ? 0 : lfSigma * Math.sign(Math.sin(Math.PI * time / getNoiseLfTau()));
+    lastHfNoise = getNoiseHfSigma() * randn();
+    lastPidForce = pidForce();
+    var F = clamp(lastPidForce + lfNoise + lastHfNoise, -15, 15);
     lastForce = F;
     state = rk4(state, F);
     time += DT;
@@ -388,27 +455,65 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
       ctx.stroke();
     });
 
-    // ── Force arrow ────────────────────────────────────────────────────────
-    var arrowLen = clamp(lastForce * 8, -120, 120);
-    if (Math.abs(arrowLen) > 2) {
-      var arrowX0 = cartX + (arrowLen > 0 ? CART_W / 2 : -CART_W / 2);
-      var arrowX1 = arrowX0 + arrowLen;
+    // ── Force arrows (control + two noise components) ─────────────────────
+    function drawArrow(force, y, color, lw, headLen, headW) {
+      var len = clamp(force * 12, -120, 120);
+      if (Math.abs(len) < 2) return;
+      var x0 = cartX + (len > 0 ? CART_W / 2 : -CART_W / 2);
+      var x1 = x0 + len;
+      var d  = len > 0 ? 1 : -1;
       ctx.beginPath();
-      ctx.strokeStyle = "#a855f7";
-      ctx.lineWidth = 5;
-      ctx.moveTo(arrowX0, TRACK_Y);
-      ctx.lineTo(arrowX1, TRACK_Y);
+      ctx.strokeStyle = color;
+      ctx.lineWidth   = lw;
+      ctx.moveTo(x0, y);
+      ctx.lineTo(x1, y);
       ctx.stroke();
-      // Arrowhead
-      var dir = arrowLen > 0 ? 1 : -1;
       ctx.beginPath();
-      ctx.fillStyle = "#a855f7";
-      ctx.moveTo(arrowX1, TRACK_Y);
-      ctx.lineTo(arrowX1 - dir * 16, TRACK_Y - 10);
-      ctx.lineTo(arrowX1 - dir * 16, TRACK_Y + 10);
+      ctx.fillStyle = color;
+      ctx.moveTo(x1, y);
+      ctx.lineTo(x1 - d * headLen, y - headW);
+      ctx.lineTo(x1 - d * headLen, y + headW);
       ctx.closePath();
       ctx.fill();
     }
+    drawArrow(lastPidForce, TRACK_Y - 14, "#a855f7",    5,  16, 10);
+    drawArrow(lfNoise, TRACK_Y,      NOISE_LF_COL, 2.5, 8,  6);
+    drawArrow(lastHfNoise,  TRACK_Y + 14, NOISE_HF_COL, 2.5, 8,  6);
+
+    // ── Ghost silhouette at target (x=0, θ=0) ────────────────────────────
+    var ghostX    = W / 2;
+    var ghostBase = TRACK_Y - CART_H / 2;
+    ctx.save();
+    ctx.globalAlpha = 0.25;
+    ctx.setLineDash([8, 5]);
+    ctx.lineWidth = 2.5;
+    // Ghost cart
+    ctx.strokeStyle = cartCol();
+    roundRect(ctx, ghostX - CART_W / 2, TRACK_Y - CART_H / 2, CART_W, CART_H, 6);
+    ctx.stroke();
+    // Ghost wheels
+    [-0.3, 0.3].forEach(function(dx) {
+      ctx.beginPath();
+      ctx.strokeStyle = isDark() ? "#1e293b" : "#0f172a";
+      ctx.arc(ghostX + dx * CART_W, TRACK_Y + CART_H / 2, WHEEL_R, 0, 2 * Math.PI);
+      ctx.stroke();
+    });
+    // Ghost pole (theta = 0 → straight up)
+    ctx.beginPath();
+    ctx.strokeStyle = poleCol();
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = "butt";
+    ctx.moveTo(ghostX, ghostBase);
+    ctx.lineTo(ghostX, ghostBase - POLE_PX);
+    ctx.stroke();
+    // Ghost tip ball
+    ctx.beginPath();
+    ctx.strokeStyle = poleCol();
+    ctx.lineWidth = 2.5;
+    ctx.arc(ghostX, ghostBase - POLE_PX, 8, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
 
     // ── Cart ───────────────────────────────────────────────────────────────
     ctx.fillStyle = cartCol();
@@ -622,7 +727,7 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
     state = [1, 0, 0.12 + (Math.random() - 0.5) * 0.08, 0];
     resetPIDAngle(); resetPIDPos();
     thetaHist = []; xHist = []; forceHist = [];
-    time = 0; fallen = false; lastForce = 0;
+    time = 0; fallen = false; lastForce = 0; lfNoise = 0;
   }
 
   document.getElementById("pid-reset-btn").addEventListener("click", resetAll);
@@ -671,12 +776,25 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
     });
   });
 
+  // Noise slider live labels
+  [["noise-hf", 2], ["noise-lf", 2], ["noise-tau", 1]].forEach(function(pair) {
+    var el  = document.getElementById("pid-" + pair[0]);
+    var val = document.getElementById("pid-" + pair[0] + "-val");
+    el.addEventListener("input", function () {
+      val.textContent = parseFloat(el.value).toFixed(pair[1]);
+    });
+  });
+
   // Initialise sliders and labels from preset constants so there is one source of truth.
   [["kp", PRESET_KP, 1], ["ki", PRESET_KI, 2], ["kd", PRESET_KD, 1]].forEach(function(g) {
     document.getElementById("pid-" + g[0]).value = g[1];
     document.getElementById("pid-" + g[0] + "-val").textContent = g[1].toFixed(g[2]);
   });
   [["kpx", PRESET_KP_X, 1], ["kix", PRESET_KI_X, 2], ["kdx", PRESET_KD_X, 1]].forEach(function(g) {
+    document.getElementById("pid-" + g[0]).value = g[1];
+    document.getElementById("pid-" + g[0] + "-val").textContent = g[1].toFixed(g[2]);
+  });
+  [["noise-hf", NOISE_HF_DEFAULT, 2], ["noise-lf", NOISE_LF_DEFAULT, 2], ["noise-tau", NOISE_TAU_DEFAULT, 1]].forEach(function(g) {
     document.getElementById("pid-" + g[0]).value = g[1];
     document.getElementById("pid-" + g[0] + "-val").textContent = g[1].toFixed(g[2]);
   });
@@ -691,6 +809,6 @@ Tune the gains and press **Disturb** to kick the pole. Notice how:
 - [Proportional–integral–derivative controller - Wikipedia](https://en.wikipedia.org/wiki/Proportional%E2%80%93integral%E2%80%93derivative_controller)
 - [Proportional-Integral-Derivative (PID) Controllers - MATLAB](https://www.mathworks.com/help/control/ug/proportional-integral-derivative-pid-controllers.html)
 - Benjamin Recht's blog posts, emphasizing the relationship between PID and gradient-based optimization
-    - [The Best Things in Life Are Model Free](https://archives.argmin.net/2018/04/19/pid/)
-    - [Integral Action](https://www.argmin.net/p/integral-action)
-    - [Advanced Simplicity](https://www.argmin.net/p/advanced-simplicity)
+  - [The Best Things in Life Are Model Free](https://archives.argmin.net/2018/04/19/pid/)
+  - [Integral Action](https://www.argmin.net/p/integral-action)
+  - [Advanced Simplicity](https://www.argmin.net/p/advanced-simplicity)
