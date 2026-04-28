@@ -18,10 +18,17 @@ Activate the env with
 poetry shell
 ```
 
+Unless otherwise specified, all commands are assumed to be run from the `knowledge_base` directory.
+
 Serve the site locally with
 
 ```bash
-cd knowledge_base
+mkdocs serve
+```
+
+Build the site locally with
+
+```bash
 mkdocs serve
 ```
 
@@ -38,22 +45,19 @@ Mind Map uses similarity between LLM embeddings of paper core content (title, ab
 (Re)generate embeddings with
 
 ```bash
-cd knowledge_base
 python mind_map/generate_mind_map_data.py
 ```
 
-## Experimental
+## Dev Tools
 
 Streamlit app for analyzing the knowledge base:
 
 ```bash
-cd knowledge_base
 streamlit run app.py
 ```
 
 Streamlit app for generating new entries from arXiv:
 
 ```bash
-cd knowledge_base
 streamlit run generator_app.py
 ```
