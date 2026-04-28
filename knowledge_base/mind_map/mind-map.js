@@ -29,6 +29,18 @@
     'Other':                         '#546E7A',
   };
 
+  /* Sub-category colours for Motion Planning (one shade per 2nd-level nav section).
+   * Keys must match the 2nd-level section names in mkdocs.yml. */
+  const PLANNING_SUBCATEGORY_COLORS = {
+    'Path Planning':                       '#0D47A1',
+    'Trajectory Planning':                 '#1565C0',
+    'Speed Planning':                      '#006064',
+    'Interaction-aware Planning':          '#01579B',
+    'Machine Learning in Motion Planning': '#4527A0',
+    'Surveys & Comparative Studies':       '#546E7A',
+    'Frameworks & Stack Architectures':    '#37474F',
+  };
+
   /* -------------------------------------------------------------------------
    * Guard: data must be present
    * -------------------------------------------------------------------------*/
@@ -58,7 +70,8 @@
     if (el) el.style.display = 'none';
   }
 
-  function nodeColor(category) {
+  function nodeColor(category, subCategory) {
+    if (subCategory) return PLANNING_SUBCATEGORY_COLORS[subCategory] || CATEGORY_COLORS[category] || CATEGORY_COLORS['Other'];
     return CATEGORY_COLORS[category] || CATEGORY_COLORS['Other'];
   }
 
@@ -66,11 +79,14 @@
    * Build the Cytoscape element array respecting current filters
    * -------------------------------------------------------------------------*/
   function buildElements() {
-    const visibleNodes = DATA.nodes.filter(n => activeCategories.has(n.data.category));
+    const visibleNodes = DATA.nodes.filter(n => {
+      const key = n.data.sub_category || n.data.category;
+      return activeCategories.has(key);
+    });
     const visibleIds = new Set(visibleNodes.map(n => n.data.id));
 
     const nodesWithColor = visibleNodes.map(n => ({
-      data: { ...n.data, color: nodeColor(n.data.category) },
+      data: { ...n.data, color: nodeColor(n.data.category, n.data.sub_category) },
     }));
 
     const edges = DATA.edges
@@ -373,7 +389,8 @@
    * -------------------------------------------------------------------------*/
   function applyCategoryFilter() {
     cy.nodes().forEach(n => {
-      n.style('display', activeCategories.has(n.data('category')) ? 'element' : 'none');
+      const key = n.data('sub_category') || n.data('category');
+      n.style('display', activeCategories.has(key) ? 'element' : 'none');
     });
     cy.edges().forEach(e => {
       const srcOk = cy.getElementById(e.data('source')).style('display') !== 'none';
@@ -414,30 +431,77 @@
   /* -------------------------------------------------------------------------
    * Category filter panel
    * -------------------------------------------------------------------------*/
+  function makeCatItem(key, color, count) {
+    const label = document.createElement('label');
+    label.className = 'mm-cat-item';
+    label.innerHTML =
+      `<input type="checkbox" checked data-cat="${escHtml(key)}">` +
+      `<span class="mm-cat-dot" style="background:${color}"></span>` +
+      `<span class="mm-cat-name">${escHtml(key)}</span>` +
+      `<span class="mm-cat-count">${count}</span>`;
+    label.querySelector('input').addEventListener('change', e => {
+      if (e.target.checked) activeCategories.add(key);
+      else                   activeCategories.delete(key);
+      applyCategoryFilter();
+    });
+    return label;
+  }
+
   function buildCategoryFilters() {
-    const categories = [...new Set(DATA.nodes.map(n => n.data.category))].sort();
     const container = document.getElementById('mm-category-filters');
+    const allCats = [...new Set(DATA.nodes.map(n => n.data.category))].sort();
 
-    categories.forEach(cat => {
-      activeCategories.add(cat);
-      const color = nodeColor(cat);
-      const count = DATA.nodes.filter(n => n.data.category === cat).length;
+    allCats.forEach(cat => {
+      const subCats = [...new Set(
+        DATA.nodes.filter(n => n.data.category === cat && n.data.sub_category)
+          .map(n => n.data.sub_category)
+      )].sort();
 
-      const label = document.createElement('label');
-      label.className = 'mm-cat-item';
-      label.innerHTML =
-        `<input type="checkbox" checked data-cat="${escHtml(cat)}">` +
-        `<span class="mm-cat-dot" style="background:${color}"></span>` +
-        `<span class="mm-cat-name">${escHtml(cat)}</span>` +
-        `<span class="mm-cat-count">${count}</span>`;
+      if (subCats.length > 0) {
+        // Render as a collapsible group with nested sub-category items
+        const groupEl = document.createElement('div');
+        groupEl.className = 'mm-cat-group';
 
-      label.querySelector('input').addEventListener('change', e => {
-        if (e.target.checked) activeCategories.add(cat);
-        else                   activeCategories.delete(cat);
-        applyCategoryFilter();
-      });
+        const totalCount = DATA.nodes.filter(n => n.data.category === cat).length;
+        const header = document.createElement('div');
+        header.className = 'mm-cat-group-header';
+        header.innerHTML =
+          `<span class="mm-cat-group-arrow">▾</span>` +
+          `<span class="mm-cat-group-name">${escHtml(cat)}</span>` +
+          `<span class="mm-cat-count">${totalCount}</span>`;
 
-      container.appendChild(label);
+        const itemsEl = document.createElement('div');
+        itemsEl.className = 'mm-cat-group-items';
+
+        header.addEventListener('click', () => {
+          const collapsed = itemsEl.style.display === 'none';
+          itemsEl.style.display = collapsed ? '' : 'none';
+          header.querySelector('.mm-cat-group-arrow').textContent = collapsed ? '▾' : '▸';
+        });
+
+        subCats.forEach(subCat => {
+          activeCategories.add(subCat);
+          const color = nodeColor(cat, subCat);
+          const count = DATA.nodes.filter(n => n.data.sub_category === subCat).length;
+          itemsEl.appendChild(makeCatItem(subCat, color, count));
+        });
+
+        // Fallback: papers in this category without a sub_category
+        const orphanCount = DATA.nodes.filter(n => n.data.category === cat && !n.data.sub_category).length;
+        if (orphanCount > 0) {
+          activeCategories.add(cat);
+          itemsEl.appendChild(makeCatItem(cat, nodeColor(cat), orphanCount));
+        }
+
+        groupEl.appendChild(header);
+        groupEl.appendChild(itemsEl);
+        container.appendChild(groupEl);
+      } else {
+        activeCategories.add(cat);
+        const color = nodeColor(cat);
+        const count = DATA.nodes.filter(n => n.data.category === cat).length;
+        container.appendChild(makeCatItem(cat, color, count));
+      }
     });
   }
 

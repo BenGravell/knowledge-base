@@ -69,9 +69,6 @@ global ``mindMapData`` variable consumed by mind-map.js.  The MkDocs
 gen-files script ``copy_assets.py`` publishes this file into the served
 site automatically at build time.
 
-After running this script, rebuild or re-serve the MkDocs site:
-    cd knowledge_base && mkdocs serve
-
 Requirements
 ------------
 Always required:
@@ -160,32 +157,43 @@ def build_embed_text(data: dict) -> str:
 # Navigation parsing — paper_id → top-level category
 # ---------------------------------------------------------------------------
 
-def parse_nav_categories(config: dict) -> dict[str, str]:
+PLANNING_CATEGORY = "Motion Planning"  # top-level category that receives sub-categories
+
+
+def parse_nav_categories(config: dict) -> dict[str, dict]:
     """
     Recursively walk the mkdocs ``nav`` tree and record which top-level
-    section each paper belongs to.
+    section each paper belongs to, plus a sub-category for Motion Planning
+    derived from the 2nd-level nav sections in mkdocs.yml.
 
-    Returns a dict mapping paper_id (filename without .md) → category name.
+    Returns a dict mapping paper_id → {"category": str, "sub_category": str | None}.
+    sub_category is only set for Motion Planning papers; it is None for all others.
     """
-    mapping: dict[str, str] = {}
+    mapping: dict[str, dict] = {}
 
-    def walk(node: object, category: str | None = None) -> None:
+    def walk(node: object, category: str | None = None, sub_category: str | None = None) -> None:
         if isinstance(node, str):
             if node.startswith("papers/") and node.endswith(".md"):
                 pid = node[len("papers/"):-len(".md")]
                 if pid not in mapping:          # first occurrence wins
-                    mapping[pid] = category or "Other"
+                    mapping[pid] = {"category": category or "Other", "sub_category": sub_category}
         elif isinstance(node, list):
             for item in node:
-                walk(item, category)
+                walk(item, category, sub_category)
         elif isinstance(node, dict):
             for key, value in node.items():
-                walk(value, category or key)
+                if category is None:
+                    walk(value, key, None)
+                elif category == PLANNING_CATEGORY and sub_category is None:
+                    # Second level under Motion Planning → becomes sub_category
+                    walk(value, category, key)
+                else:
+                    walk(value, category, sub_category)
 
     for item in config.get("nav", []):
         if isinstance(item, dict):
             for section, content in item.items():
-                walk(content, section)
+                walk(content, section, None)
 
     return mapping
 
@@ -419,13 +427,15 @@ def main() -> None:
         year = data.get("year")
         embed_text = build_embed_text(data)
 
+        cat_info = paper_to_category.get(pid, {"category": "Other", "sub_category": None})
         papers.append({
             "id": pid,
             "title": title,
             "label": title[:60] + "…" if len(title) > 60 else title,
             "authors": authors[:3],
             "year": year,
-            "category": paper_to_category.get(pid, "Other"),
+            "category": cat_info["category"],
+            "sub_category": cat_info["sub_category"],
             "tags": tags,
             "summary": (summary[:400] + "…") if len(summary) > 400 else summary,
             "embed_text": embed_text,
@@ -502,6 +512,7 @@ def main() -> None:
                 "authors": p["authors"],
                 "year": p["year"],
                 "category": p["category"],
+                "sub_category": p["sub_category"],
                 "tags": p["tags"],
                 "summary": p["summary"],
             }
@@ -563,8 +574,7 @@ def main() -> None:
     print(f"    Nodes : {len(nodes)}")
     print(f"    Edges : {len(edges)}  (threshold={args.threshold}, top_k={args.top_k})")
     print(f"    Output: {args.output}")
-    print("\nDone!  Rebuild or re-serve the site:")
-    print("    cd knowledge_base && mkdocs serve")
+    print("\nDone!")
 
 
 if __name__ == "__main__":

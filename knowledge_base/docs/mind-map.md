@@ -55,18 +55,21 @@ h1                  { display: none; }
 /* ── Control panel ────────────────────────────────────────────────────────── */
 #mm-panel {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 268px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 400px;
   background: rgba(14,14,30,0.93);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 12px;
+  border-left: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px 0 0 12px;
   z-index: 200;
   backdrop-filter: blur(14px);
-  box-shadow: 0 8px 36px rgba(0,0,0,0.55);
+  box-shadow: -8px 0 36px rgba(0,0,0,0.55);
   color: #d0d4f8;
   font-size: 0.82rem;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 #mm-panel-header {
@@ -101,6 +104,10 @@ h1                  { display: none; }
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.15) transparent;
 }
 
 /* ── Panel sections ───────────────────────────────────────────────────────── */
@@ -170,10 +177,6 @@ h1                  { display: none; }
   display: flex;
   flex-direction: column;
   gap: 3px;
-  max-height: 240px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.15) transparent;
 }
 .mm-cat-item {
   display: flex;
@@ -202,6 +205,37 @@ h1                  { display: none; }
   accent-color: #4488ff;
   margin: 0;
   flex-shrink: 0;
+}
+
+/* Category group (collapsible, for categories with sub-categories) */
+.mm-cat-group {
+  margin-bottom: 1px;
+}
+.mm-cat-group-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 0;
+  cursor: pointer;
+  user-select: none;
+}
+.mm-cat-group-header:hover .mm-cat-group-name { color: #e8ecff; }
+.mm-cat-group-arrow {
+  font-size: 0.65rem;
+  color: #556;
+  flex-shrink: 0;
+  width: 10px;
+}
+.mm-cat-group-name {
+  flex: 1;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #99aac4;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.mm-cat-group-items {
+  padding-left: 14px;
 }
 
 /* Action buttons */
