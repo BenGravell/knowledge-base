@@ -10,6 +10,7 @@ const mindMapData = {
         ],
         "year": 1957,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Path generation",
           "Dubins",
@@ -29,6 +30,7 @@ const mindMapData = {
         ],
         "year": 1970,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
           "DDP",
@@ -49,6 +51,7 @@ const mindMapData = {
         ],
         "year": 1978,
         "category": "Control",
+        "sub_category": null,
         "tags": [
           "Linear Quadratic Gaussian (LQG)",
           "Robust control"
@@ -68,6 +71,7 @@ const mindMapData = {
         ],
         "year": 1985,
         "category": "Motion Planning",
+        "sub_category": "Speed Planning",
         "tags": [
           "Time-optimal control",
           "Path parameterization",
@@ -89,6 +93,7 @@ const mindMapData = {
         ],
         "year": 1985,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "System identification",
           "Modal analysis",
@@ -112,6 +117,7 @@ const mindMapData = {
         ],
         "year": 1990,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Path generation",
           "Reeds-Shepp",
@@ -131,6 +137,7 @@ const mindMapData = {
         ],
         "year": 1994,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "System identification",
           "Subspace identification",
@@ -153,6 +160,7 @@ const mindMapData = {
         ],
         "year": 1996,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Path planning",
           "Probabilistic",
@@ -174,6 +182,7 @@ const mindMapData = {
         ],
         "year": 1996,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "System identification",
           "Subspace identification",
@@ -195,6 +204,7 @@ const mindMapData = {
         ],
         "year": 1997,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Path planning",
           "Continuous curvature",
@@ -215,6 +225,7 @@ const mindMapData = {
         ],
         "year": 1998,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Path planning",
@@ -236,6 +247,7 @@ const mindMapData = {
         ],
         "year": 1998,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Linear quadratic regulation",
           "Constrained optimization",
@@ -257,6 +269,7 @@ const mindMapData = {
         ],
         "year": 1999,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
           "Kinodynamic planning",
@@ -278,6 +291,7 @@ const mindMapData = {
         ],
         "year": 2000,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Kinodynamic planning",
@@ -299,6 +313,7 @@ const mindMapData = {
         ],
         "year": 2000,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Path planning",
           "Motion planning",
@@ -324,6 +339,7 @@ const mindMapData = {
         ],
         "year": 2001,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Path planning",
           "Trajectory generation",
@@ -344,6 +360,7 @@ const mindMapData = {
         ],
         "year": 2004,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Path planning",
           "Continuous curvature",
@@ -364,6 +381,7 @@ const mindMapData = {
         ],
         "year": 2004,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Iterative linear quadratic regulator",
@@ -386,6 +404,7 @@ const mindMapData = {
         ],
         "year": 2007,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Path optimization",
@@ -407,6 +426,7 @@ const mindMapData = {
         ],
         "year": 2008,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Path planning",
@@ -429,6 +449,7 @@ const mindMapData = {
         ],
         "year": 2008,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Dynamic mode decomposition",
           "DMD",
@@ -452,6 +473,7 @@ const mindMapData = {
         ],
         "year": 2008,
         "category": "Motion Planning",
+        "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "Autonomous driving",
           "Urban driving",
@@ -475,6 +497,7 @@ const mindMapData = {
         ],
         "year": 2009,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Path planning",
@@ -500,6 +523,7 @@ const mindMapData = {
         ],
         "year": 2009,
         "category": "Motion Planning",
+        "sub_category": "Speed Planning",
         "tags": [
           "Speed planning",
           "Path tracking",
@@ -524,6 +548,7 @@ const mindMapData = {
         ],
         "year": 2010,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
           "RRT*",
@@ -544,6 +569,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Asymptotically optimal",
@@ -565,6 +591,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Path planning",
@@ -589,6 +616,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Anytime",
@@ -610,6 +638,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Optimal motion planning",
@@ -638,6 +667,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
           "RRT*",
@@ -659,6 +689,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Path integral control",
           "Policy optimization",
@@ -680,6 +711,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
           "Cross-entropy method",
@@ -702,6 +734,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
           "RRT*",
@@ -724,6 +757,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Iterative linear quadratic regulator",
@@ -751,6 +785,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Optimal motion planning",
@@ -780,6 +815,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Dynamic mode decomposition",
           "DMD",
@@ -801,6 +837,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "category": "Motion Planning",
+        "sub_category": "Speed Planning",
         "tags": [
           "Speed planning",
           "Convex optimization",
@@ -822,6 +859,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Path optimization",
@@ -845,6 +883,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory generation",
           "Minimum jerk",
@@ -867,6 +906,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Path planning",
           "RRT",
@@ -890,6 +930,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Sampling-based planning",
@@ -914,6 +955,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Sampling-based planning",
@@ -939,6 +981,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
           "Asymptotic optimality",
@@ -961,6 +1004,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Koopman operator",
           "Dynamic mode decomposition",
@@ -983,6 +1027,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Dynamic mode decomposition",
           "DMDc",
@@ -1005,6 +1050,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "category": "Motion Planning",
+        "sub_category": "Speed Planning",
         "tags": [
           "Kinodynamic planning",
           "Path-velocity decomposition",
@@ -1027,6 +1073,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "category": "Motion Prediction",
+        "sub_category": null,
         "tags": [
           "Motion prediction",
           "Risk assessment",
@@ -1050,6 +1097,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "category": "Motion Planning",
+        "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Survey",
           "Benchmarking",
@@ -1072,6 +1120,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Differential dynamic programming",
@@ -1097,6 +1146,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Reinforcement learning",
           "Policy optimization",
@@ -1117,6 +1167,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
           "Asymptotic optimality",
@@ -1137,6 +1188,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": "Folds importance sampling into the cost function in order to address the practical issue of infrequent selection of low-cost trajectories under naive sampling of actions on the uncontrolled system, which is a known drawback of MPPI. Also discusses implementation of MPPI on a GPU for massively parallel sampling. Includes a clear description of MPPI in Algorithm 1."
       }
@@ -1153,6 +1205,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "System identification",
           "Sparse regression",
@@ -1175,6 +1228,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
           "Probabilistic completeness",
@@ -1197,6 +1251,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Sampling-based planning",
@@ -1219,6 +1274,7 @@ const mindMapData = {
         ],
         "year": 2016,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Sampling-based planning",
@@ -1243,6 +1299,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "category": "Motion Planning",
+        "sub_category": "Machine Learning in Motion Planning",
         "tags": [
           "Motion planning",
           "Trajectory planning",
@@ -1268,6 +1325,7 @@ const mindMapData = {
         ],
         "year": 2016,
         "category": "Motion Planning",
+        "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Survey",
           "Motion planning",
@@ -1301,6 +1359,7 @@ const mindMapData = {
         ],
         "year": 2016,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Sampling-based planning",
@@ -1326,6 +1385,7 @@ const mindMapData = {
         ],
         "year": 2016,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Differential dynamic programming",
@@ -1354,6 +1414,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Kinodynamic planning",
@@ -1380,6 +1441,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "category": "Machine Learning",
+        "sub_category": null,
         "tags": [
           "Transformers",
           "NLP",
@@ -1400,6 +1462,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Reinforcement learning",
           "Policy optimization",
@@ -1420,6 +1483,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "category": "Motion Planning",
+        "sub_category": "Speed Planning",
         "tags": [
           "Time-optimal",
           "Speed planning",
@@ -1440,6 +1504,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Imitation learning",
           "End-to-end learning",
@@ -1466,6 +1531,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "category": "Motion Planning",
+        "sub_category": "Interaction-aware Planning",
         "tags": [
           "Multimodal",
           "Probabilistic",
@@ -1490,6 +1556,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "category": "Motion Planning",
+        "sub_category": "Machine Learning in Motion Planning",
         "tags": [
           "Sampling-based",
           "Sampling-based planning",
@@ -1512,6 +1579,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Collision avoidance",
           "Trajectory optimization",
@@ -1534,6 +1602,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Multiple shooting",
@@ -1557,6 +1626,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Timed Elastic Band",
@@ -1580,6 +1650,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Model predictive path integral control",
           "MPPI",
@@ -1604,6 +1675,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Path generation",
           "Dubins",
@@ -1629,6 +1701,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Reinforcement learning",
           "Random search",
@@ -1653,6 +1726,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
           "Trajectory planning",
@@ -1679,6 +1753,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Model-based",
           "Reinforcement learning",
@@ -1703,6 +1778,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "category": "Motion Planning",
+        "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Survey",
           "Motion planning",
@@ -1725,6 +1801,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Differential dynamic programming",
@@ -1747,6 +1824,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "category": "Motion Planning",
+        "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Survey",
           "Motion planning",
@@ -1771,6 +1849,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "category": "Motion Planning",
+        "sub_category": "Speed Planning",
         "tags": [
           "Speed planning",
           "Autonomous driving",
@@ -1796,6 +1875,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Asymptotically optimal",
@@ -1817,6 +1897,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Dynamic mode decomposition",
           "DMD",
@@ -1838,6 +1919,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "World models",
           "Deep learning",
@@ -1861,6 +1943,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "category": "Motion Prediction",
+        "sub_category": null,
         "tags": [
           "Motion prediction",
           "Vehicle behavior prediction",
@@ -1886,6 +1969,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Reinforcement learning",
           "Policy optimization",
@@ -1907,6 +1991,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory planning",
           "Trajectory optimization",
@@ -1932,6 +2017,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Constrained optimization",
@@ -1953,6 +2039,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Differential dynamic programming",
@@ -1973,6 +2060,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Model predictive path integral control",
           "MPPI",
@@ -1996,6 +2084,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "category": "Motion Prediction",
+        "sub_category": null,
         "tags": [
           "Trajectory prediction",
           "Motion forecasting",
@@ -2020,6 +2109,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Model predictive control",
@@ -2042,6 +2132,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
           "Constrained optimization",
@@ -2062,6 +2153,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "category": "Motion Planning",
+        "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Survey",
           "Robotics",
@@ -2086,6 +2178,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
           "Constrained optimization",
@@ -2108,6 +2201,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
           "Constrained optimization",
@@ -2132,6 +2226,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Sampling-based planning",
@@ -2155,6 +2250,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
           "Multiple shooting",
@@ -2177,6 +2273,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Sampling-based planning",
@@ -2201,6 +2298,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Graphs of convex sets",
           "GCS",
@@ -2227,6 +2325,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
           "DDP",
@@ -2248,6 +2347,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Model predictive path integral control",
           "MPPI",
@@ -2271,6 +2371,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "SINDy",
           "System identification",
@@ -2293,6 +2394,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Sequential quadratic programming",
@@ -2315,6 +2417,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "SINDy",
           "System identification",
@@ -2337,6 +2440,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Motion Planning",
+        "sub_category": "Interaction-aware Planning",
         "tags": [
           "Autonomous Driving",
           "Data-driven Simulation",
@@ -2361,6 +2465,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Motion Planning",
+        "sub_category": "Interaction-aware Planning",
         "tags": [
           "Autonomous Driving",
           "Data-driven Simulation",
@@ -2384,6 +2489,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Motion Planning",
+        "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Benchmarking",
           "Kinodynamic planning",
@@ -2408,6 +2514,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Motion Planning",
+        "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Path planning",
           "Trajectory optimization",
@@ -2433,6 +2540,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Dynamic mode decomposition",
           "DMD",
@@ -2455,6 +2563,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Path planning",
           "Parking",
@@ -2479,6 +2588,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "iLQR",
@@ -2501,6 +2611,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
           "Trajectory optimization",
@@ -2516,8 +2627,8 @@ const mindMapData = {
     {
       "data": {
         "id": "2206_03004",
-        "label": "DriveIRL: Drive in Real Life with Inverse Reinforcement Lear…",
-        "title": "DriveIRL: Drive in Real Life with Inverse Reinforcement Learning",
+        "label": "DriveIRL: Driving in Real Life with Inverse Reinforcement Le…",
+        "title": "DriveIRL: Driving in Real Life with Inverse Reinforcement Learning",
         "authors": [
           "Tung Phan-Minh",
           "Forbes Howington",
@@ -2525,6 +2636,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Motion Planning",
+        "sub_category": "Machine Learning in Motion Planning",
         "tags": [
           "Autonomous driving",
           "Inverse reinforcement learning",
@@ -2547,6 +2659,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Motion Prediction",
+        "sub_category": null,
         "tags": [
           "Motion forecasting",
           "Transformer",
@@ -2571,6 +2684,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "iLQR",
@@ -2593,6 +2707,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "MPPI",
@@ -2616,6 +2731,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Trajectory optimization",
           "Policy learning",
@@ -2638,6 +2754,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
           "RRT",
@@ -2661,6 +2778,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Motion Planning",
+        "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "Model predictive control",
           "Predictive Sampling",
@@ -2684,6 +2802,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "category": "Motion Planning",
+        "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "Differentiable planning",
           "Autonomous driving",
@@ -2707,6 +2826,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Differential dynamic programming",
@@ -2728,6 +2848,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Path planning",
           "Path smoothing",
@@ -2752,6 +2873,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "MPPI",
@@ -2774,6 +2896,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Diffusion policy",
           "Diffusion models",
@@ -2799,6 +2922,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "category": "Motion Planning",
+        "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Survey",
           "Motion planning",
@@ -2823,6 +2947,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Constrained optimization",
@@ -2847,6 +2972,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
           "Convex optimization",
@@ -2871,6 +2997,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Reinforcement learning",
           "Trajectory optimization",
@@ -2895,6 +3022,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "category": "Motion Planning",
+        "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "MPPI",
           "Motion planning",
@@ -2922,6 +3050,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "category": "Computer Graphics",
+        "sub_category": null,
         "tags": [
           "3DGS",
           "Gaussian splat",
@@ -2947,6 +3076,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
           "Multiple shooting",
@@ -2968,6 +3098,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
           "Path integral control",
@@ -2991,6 +3122,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Trajectory optimization",
@@ -3015,6 +3147,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Prediction",
+        "sub_category": null,
         "tags": [
           "Action prediction",
           "Trajectory prediction",
@@ -3038,6 +3171,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Robotics",
@@ -3071,6 +3205,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
           "Multiple shooting",
@@ -3092,6 +3227,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
           "Trajectory optimization",
@@ -3114,6 +3250,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Reinforcement learning",
           "Policy optimization",
@@ -3137,6 +3274,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "Motion planning",
           "Frenet frame",
@@ -3160,6 +3298,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Reinforcement learning",
           "Policy optimization",
@@ -3182,6 +3321,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Prediction",
+        "sub_category": null,
         "tags": [
           "Motion prediction",
           "Prediction horizon",
@@ -3204,6 +3344,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "iLQR",
           "Trajectory optimization",
@@ -3227,6 +3368,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "RRT",
           "Rapidly-exploring random trees",
@@ -3252,6 +3394,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Reinforcement learning",
           "SINDy",
@@ -3274,6 +3417,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
           "RRT",
@@ -3297,6 +3441,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Safety, Testing & Verification",
+        "sub_category": null,
         "tags": [
           "Survey",
           "Safety",
@@ -3321,6 +3466,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Path planning",
           "Smooth paths",
@@ -3342,6 +3488,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Sampling-based planning",
@@ -3365,6 +3512,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Machine Learning in Motion Planning",
         "tags": [
           "Motion planning",
           "Autonomous driving",
@@ -3388,6 +3536,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
           "Second-order methods",
@@ -3409,6 +3558,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
           "Trajectory optimization",
@@ -3432,6 +3582,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "MPPI",
@@ -3455,6 +3606,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Machine Learning in Motion Planning",
         "tags": [
           "PRESTO",
           "Motion planning",
@@ -3478,6 +3630,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Gaussian splatting",
@@ -3501,6 +3654,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Survey",
           "Motion planning",
@@ -3524,6 +3678,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Learning",
@@ -3546,6 +3701,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Task and motion planning",
           "TAMP",
@@ -3571,6 +3727,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Model Predictive Control",
           "Tree search",
@@ -3595,6 +3752,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Sampling-based planning",
@@ -3621,6 +3779,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory planning",
           "Motion planning",
@@ -3648,6 +3807,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
           "Trajectory optimization",
@@ -3668,6 +3828,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Machine Learning in Motion Planning",
         "tags": [
           "Autonomous driving",
           "Motion planning",
@@ -3689,6 +3850,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
           "Trajectory optimization",
@@ -3709,6 +3871,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
           "Trajectory optimization",
@@ -3730,6 +3893,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
           "Constrained optimization",
@@ -3752,6 +3916,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Just for Fun",
+        "sub_category": null,
         "tags": [
           "Robot",
           "Disney",
@@ -3774,6 +3939,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Prediction",
+        "sub_category": null,
         "tags": [
           "Motion forecasting",
           "Autonomous vehicles",
@@ -3795,6 +3961,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Sampling-based planning",
@@ -3818,6 +3985,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Prediction",
+        "sub_category": null,
         "tags": [
           "Trajectory prediction",
           "Autonomous driving",
@@ -3839,6 +4007,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
           "Trajectory optimization",
@@ -3862,6 +4031,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Sampling-based planning",
@@ -3889,6 +4059,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Imitation learning",
           "Behavior cloning",
@@ -3909,6 +4080,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
           "Trajectory optimization",
@@ -3931,6 +4103,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
           "Trajectory optimization",
@@ -3953,6 +4126,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
           "Trajectory optimization",
@@ -3976,6 +4150,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
           "Trajectory optimization",
@@ -3998,6 +4173,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Gaussian splatting",
@@ -4020,6 +4196,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Prediction",
+        "sub_category": null,
         "tags": [
           "Motion prediction",
           "Autonomous driving",
@@ -4043,6 +4220,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
           "Sampling-based planning",
@@ -4068,6 +4246,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Reinforcement Learning",
+        "sub_category": null,
         "tags": [
           "Flow matching",
           "Diffusion models",
@@ -4091,6 +4270,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Optimization",
+        "sub_category": null,
         "tags": [
           "Quadratic programming",
           "CVX",
@@ -4112,6 +4292,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
           "Constrained optimization",
@@ -4134,6 +4315,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "Model predictive control",
           "Sampling-based control",
@@ -4158,6 +4340,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Path shortcutting",
@@ -4182,6 +4365,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
           "Trajectory optimization",
@@ -4204,6 +4388,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
           "Trajectory optimization",
@@ -4226,6 +4411,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Machine Learning",
+        "sub_category": null,
         "tags": [
           "Vision-language-action model"
         ],
@@ -4244,6 +4430,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "category": "Motion Prediction",
+        "sub_category": null,
         "tags": [
           "Prediction",
           "Dynamic Mode Decomposition"
@@ -4263,6 +4450,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "category": "Motion Planning",
+        "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
           "Sampling-based planning",
@@ -4288,6 +4476,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "category": "Motion Planning",
+        "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
           "Differential flatness",
@@ -11346,7 +11535,7 @@ const mindMapData = {
         "id": "e880",
         "source": "1604_07446",
         "target": "2206_03004",
-        "weight": 0.8077
+        "weight": 0.8081
       }
     },
     {
@@ -11882,7 +12071,7 @@ const mindMapData = {
         "id": "e947",
         "source": "1709_07174",
         "target": "2206_03004",
-        "weight": 0.8511
+        "weight": 0.8522
       }
     },
     {
@@ -13034,7 +13223,7 @@ const mindMapData = {
         "id": "e1091",
         "source": "2018_schwarting_planning_and_decision_making",
         "target": "2206_03004",
-        "weight": 0.8034
+        "weight": 0.8052
       }
     },
     {
@@ -14914,7 +15103,7 @@ const mindMapData = {
         "id": "e1326",
         "source": "2111_12137",
         "target": "2206_03004",
-        "weight": 0.8236
+        "weight": 0.8256
       }
     },
     {
@@ -15370,7 +15559,7 @@ const mindMapData = {
         "id": "e1383",
         "source": "2206_03004",
         "target": "2511_00088",
-        "weight": 0.8255
+        "weight": 0.8274
       }
     },
     {
@@ -15378,7 +15567,7 @@ const mindMapData = {
         "id": "e1384",
         "source": "2206_03004",
         "target": "2503_03262",
-        "weight": 0.8129
+        "weight": 0.8159
       }
     },
     {
@@ -15386,7 +15575,7 @@ const mindMapData = {
         "id": "e1385",
         "source": "2206_03004",
         "target": "2505_09074",
-        "weight": 0.8017
+        "weight": 0.8033
       }
     },
     {
@@ -15394,7 +15583,7 @@ const mindMapData = {
         "id": "e1386",
         "source": "2206_03004",
         "target": "2409_09523",
-        "weight": 0.8546
+        "weight": 0.8555
       }
     },
     {
@@ -15402,7 +15591,7 @@ const mindMapData = {
         "id": "e1387",
         "source": "2206_03004",
         "target": "2303_09824",
-        "weight": 0.8362
+        "weight": 0.8372
       }
     },
     {
