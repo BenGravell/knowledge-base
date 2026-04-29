@@ -3,10 +3,10 @@ const mindMapData = {
     {
       "data": {
         "id": "1957_dubins_on_curves_of_minimal",
-        "label": "On Curves of Minimal Length with a Constraint on Average Cur…",
+        "label": "Dubins path",
         "title": "On Curves of Minimal Length with a Constraint on Average Curvature, and with Prescribed Initial and Terminal Positions and Tangents",
         "authors": [
-          "Lester E. Dubins"
+          "Dubins"
         ],
         "year": 1957,
         "category": "Motion Planning",
@@ -16,17 +16,17 @@ const mindMapData = {
           "Dubins",
           "Curvature"
         ],
-        "summary": "Dubins provided analytic formulas for the shortest curve that connects two points in the two-dimensional Euclidean plane (i.e. x-y plane) with a constraint on the curvature of the path and with prescribed initial and terminal tangents to the path, and an assumption that the vehicle traveling the path can only travel forward. Dubins proved using tools from analysis that any such path will consist o…"
+        "summary": "Dubins provided analytic formulas for the shortest curve that connects two points in the two-dimensional Euclidean plane (i.e. x-y plane) with a constraint on the curvature of the path and with prescribed initial and terminal tangents to the path, and an assumption that the vehicle traveling the path can only travel forward. Dubins proved using tools from analysis that any such path will consist of maximum curvature and/or straight line segments. In other words, the shortest path will be made by joining circular arcs of maximum curvature and straight lines."
       }
     },
     {
       "data": {
         "id": "1970_jacobson_differential_dynamic_programming",
-        "label": "Differential Dynamic Programming",
+        "label": "DDP",
         "title": "Differential Dynamic Programming",
         "authors": [
-          "David H. Jacobson",
-          "David Q. Mayne"
+          "Jacobson",
+          "Mayne"
         ],
         "year": 1970,
         "category": "Motion Planning",
@@ -44,10 +44,10 @@ const mindMapData = {
     {
       "data": {
         "id": "1978_doyle_guaranteed_margins_for_lqg",
-        "label": "Guaranteed margins for LQG regulators",
+        "label": "LQG",
         "title": "Guaranteed margins for LQG regulators",
         "authors": [
-          "John C. Doyle"
+          "Doyle"
         ],
         "year": 1978,
         "category": "Control",
@@ -56,18 +56,18 @@ const mindMapData = {
           "Linear Quadratic Gaussian (LQG)",
           "Robust control"
         ],
-        "summary": "Seminal paper demonstrating that there are no guaranteed robustness margins for linear quadratic Gaussian (LQG) controllers i.e. an optimal linear dynamic output feedback controller composed of a linear quadratic regulator (LQR) and a Kalman filter. This was proven by counterexample using a very simple linear system with two states, one control input, one disturbance input, and one output. This is…"
+        "summary": "Seminal paper demonstrating that there are no guaranteed robustness margins for linear quadratic Gaussian (LQG) controllers i.e. an optimal linear dynamic output feedback controller composed of a linear quadratic regulator (LQR) and a Kalman filter. This was proven by counterexample using a very simple linear system with two states, one control input, one disturbance input, and one output. This is in stark contrast to the simpler state feedback LQR setting, for which there are 60 degree phase and 6 dB gain margins. This paper is known for having the shortest abstract in the history of IEEE Transactions on Automatic Control, at just three words."
       }
     },
     {
       "data": {
         "id": "1985_bobrow_time_optimal_control_of",
-        "label": "Time-Optimal Control of Robotic Manipulators Along Specified…",
+        "label": "TOPP",
         "title": "Time-Optimal Control of Robotic Manipulators Along Specified Paths",
         "authors": [
-          "J.E. Bobrow",
-          "S. Dubowsky",
-          "J.S. Gibson"
+          "Bobrow",
+          "Dubowsky",
+          "Gibson"
         ],
         "year": 1985,
         "category": "Motion Planning",
@@ -85,11 +85,11 @@ const mindMapData = {
     {
       "data": {
         "id": "1985_juang_an_eigensystem_realization_algorithm",
-        "label": "An Eigensystem Realization Algorithm for Modal Parameter Ide…",
+        "label": "ERA",
         "title": "An Eigensystem Realization Algorithm for Modal Parameter Identification and Model Reduction",
         "authors": [
-          "Jer-Nan Juang",
-          "Richard S. Pappa"
+          "Juang",
+          "Pappa"
         ],
         "year": 1985,
         "category": "Reinforcement Learning",
@@ -109,11 +109,11 @@ const mindMapData = {
     {
       "data": {
         "id": "1990_reeds_optimal_paths_for_a",
-        "label": "Optimal paths for a car that goes both forwards and backward…",
+        "label": "Reeds-Shepp path",
         "title": "Optimal paths for a car that goes both forwards and backwards",
         "authors": [
-          "James Alexander Reeds, III",
-          "Lawrence A. Shepp"
+          "James Alexander Reeds",
+          "Shepp"
         ],
         "year": 1990,
         "category": "Motion Planning",
@@ -123,17 +123,17 @@ const mindMapData = {
           "Reeds-Shepp",
           "Curvature"
         ],
-        "summary": "Reeds and Shepp provided analytic formulas for the shortest curve that connects two points in the two-dimensional Euclidean plane (i.e. x-y plane) with a constraint on the curvature of the path and with prescribed initial and terminal tangents to the path, and an assumption that the vehicle traveling the path can travel forward or backward. Reeds and Shepp proved using tools from analysis that any…"
+        "summary": "Reeds and Shepp provided analytic formulas for the shortest curve that connects two points in the two-dimensional Euclidean plane (i.e. x-y plane) with a constraint on the curvature of the path and with prescribed initial and terminal tangents to the path, and an assumption that the vehicle traveling the path can travel forward or backward. Reeds and Shepp proved using tools from analysis that any such path will consist of maximum curvature and/or straight line segments, with at most two cusps of the form CCSCC where C is an arc of a circle of the minimal turning radius and S is a line segment."
       }
     },
     {
       "data": {
         "id": "1994_overschee_n4sid_numerical_algorithms_for",
-        "label": "N4SID: Numerical Algorithms for State Space Subspace System …",
+        "label": "N4SID",
         "title": "N4SID: Numerical Algorithms for State Space Subspace System Identification",
         "authors": [
-          "Peter Van Overschee",
-          "Bart De Moor"
+          "Overschee",
+          "Moor"
         ],
         "year": 1994,
         "category": "Reinforcement Learning",
@@ -151,12 +151,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1996_kavraki_probabilistic_roadmaps_for_path",
-        "label": "Probabilistic roadmaps for path planning in high-dimensional…",
+        "label": "PRM",
         "title": "Probabilistic roadmaps for path planning in high-dimensional configuration spaces",
         "authors": [
-          "L.E. Kavraki",
-          "P. Svestka",
-          "J.-C. Latombe"
+          "Kavraki",
+          "Svestka",
+          "Latombe"
         ],
         "year": 1996,
         "category": "Motion Planning",
@@ -174,11 +174,11 @@ const mindMapData = {
     {
       "data": {
         "id": "1996_overschee_subspace_identification_for_linear",
-        "label": "Subspace Identification for Linear Systems: Theory, Implemen…",
+        "label": "Overschee et al. 1996",
         "title": "Subspace Identification for Linear Systems: Theory, Implementation, Applications",
         "authors": [
-          "Peter Van Overschee",
-          "Bart De Moor"
+          "Overschee",
+          "Moor"
         ],
         "year": 1996,
         "category": "Reinforcement Learning",
@@ -196,11 +196,11 @@ const mindMapData = {
     {
       "data": {
         "id": "1997_scheuer_continuous_curvature_path_planning",
-        "label": "Continuous-Curvature Path Planning for Car-Like Vehicles",
+        "label": "SCC-Paths",
         "title": "Continuous-Curvature Path Planning for Car-Like Vehicles",
         "authors": [
-          "Alexis Scheuer",
-          "Thierry Fraichard"
+          "Scheuer",
+          "Fraichard"
         ],
         "year": 1997,
         "category": "Motion Planning",
@@ -218,10 +218,10 @@ const mindMapData = {
     {
       "data": {
         "id": "1998_lavalle_rapidly_exploring_random_trees",
-        "label": "Rapidly-exploring Random Trees: A New Tool for Path Planning",
+        "label": "RRT",
         "title": "Rapidly-exploring Random Trees: A New Tool for Path Planning",
         "authors": [
-          "Steven M. LaValle"
+          "LaValle"
         ],
         "year": 1998,
         "category": "Motion Planning",
@@ -239,11 +239,11 @@ const mindMapData = {
     {
       "data": {
         "id": "1998_scokaert_constrained_linear_quadratic_regulation",
-        "label": "Constrained Linear Quadratic Regulation",
+        "label": "CLQR",
         "title": "Constrained Linear Quadratic Regulation",
         "authors": [
-          "Pierre O.M. Scokaert",
-          "James B. Rawlings"
+          "Scokaert",
+          "Rawlings"
         ],
         "year": 1998,
         "category": "Motion Planning",
@@ -261,11 +261,11 @@ const mindMapData = {
     {
       "data": {
         "id": "1999_lavalle_randomized_kinodynamic_planning",
-        "label": "Randomized Kinodynamic Planning",
+        "label": "Kinodynamic RRT",
         "title": "Randomized Kinodynamic Planning",
         "authors": [
-          "Steven M. LaValle",
-          "James J. Kuffner, Jr."
+          "LaValle",
+          "James J. Kuffner"
         ],
         "year": 1999,
         "category": "Motion Planning",
@@ -283,11 +283,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2000_kuffner_rrt_connect_an_efficient",
-        "label": "RRT-Connect: An Efficient Approach to Single-Query Path Plan…",
+        "label": "RRT-Connect",
         "title": "RRT-Connect: An Efficient Approach to Single-Query Path Planning",
         "authors": [
-          "James J. Kuffner, Jr.",
-          "Steven M. LaValle"
+          "James J. Kuffner",
+          "LaValle"
         ],
         "year": 2000,
         "category": "Motion Planning",
@@ -305,11 +305,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2000_piazzi_quintic_g2_splines_for",
-        "label": "Quintic G2-Splines for Trajectory Planning of Autonomous Veh…",
+        "label": "Quintic G2-Spline",
         "title": "Quintic G2-Splines for Trajectory Planning of Autonomous Vehicles",
         "authors": [
-          "Aurelio Piazzi",
-          "Corrado Guarino Lo Bianco"
+          "Piazzi",
+          "Bianco"
         ],
         "year": 2000,
         "category": "Motion Planning",
@@ -325,17 +325,17 @@ const mindMapData = {
           "Differential flatness",
           "Curvature continuity"
         ],
-        "summary": "Proposes a steering method for connecting pairs of states in [x, y, yaw, curvature] state space using paths that are quintic polynomials in x, y position coordinates. This leaves four free tuning parameters eta1, eta2, eta3, eta4, which influence the shape of the paths and can be set according to heuristics or can be explicitly optimized, which is investigated in the companion work by the same aut…"
+        "summary": "Proposes a steering method for connecting pairs of states in [x, y, yaw, curvature] state space using paths that are quintic polynomials in x, y position coordinates. This leaves four free tuning parameters eta1, eta2, eta3, eta4, which influence the shape of the paths and can be set according to heuristics or can be explicitly optimized, which is investigated in the companion work by the same authors \"Optimal trajectory planning with quintic G2-splines\"."
       }
     },
     {
       "data": {
         "id": "2001_nagy_trajectory_generation_for_car",
-        "label": "Trajectory Generation for Car-Like Robots Using Cubic Curvat…",
+        "label": "Cubic Curvature Polynomials",
         "title": "Trajectory Generation for Car-Like Robots Using Cubic Curvature Polynomials",
         "authors": [
-          "Bryan Nagy",
-          "Alonzo Kelly"
+          "Nagy",
+          "Kelly"
         ],
         "year": 2001,
         "category": "Motion Planning",
@@ -346,17 +346,17 @@ const mindMapData = {
           "Continuous curvature",
           "Nonholonomic systems"
         ],
-        "summary": "Proposes a steering method for connecting boundary conditions in (x, y, yaw, curvature) state space with a curve having curvature which is a cubic polynomial of arc length, generalizing simple clothoids. The method for computing the curvature polynomial coefficients is based on an iterative procedure (essentially equivalent to Newton's method) with an informative heuristic initial guess and a resi…"
+        "summary": "Proposes a steering method for connecting boundary conditions in (x, y, yaw, curvature) state space with a curve having curvature which is a cubic polynomial of arc length, generalizing simple clothoids. The method for computing the curvature polynomial coefficients is based on an iterative procedure (essentially equivalent to Newton's method) with an informative heuristic initial guess and a residual based on the deviation from the target end state."
       }
     },
     {
       "data": {
         "id": "2004_fraichard_from_reeds_and_shepps",
-        "label": "From Reeds and Shepp's to Continuous-Curvature Paths",
+        "label": "CC Steer",
         "title": "From Reeds and Shepp's to Continuous-Curvature Paths",
         "authors": [
-          "Thierry Fraichard",
-          "Alexis Scheuer"
+          "Fraichard",
+          "Scheuer"
         ],
         "year": 2004,
         "category": "Motion Planning",
@@ -373,11 +373,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2004_li_iterative_linear_quadratic_regulator",
-        "label": "Iterative Linear Quadratic Regulator Design for Nonlinear Bi…",
+        "label": "iLQR",
         "title": "Iterative Linear Quadratic Regulator Design for Nonlinear Biological Movement Systems",
         "authors": [
-          "Weiwei Li",
-          "Emanuel Todorov"
+          "Li",
+          "Todorov"
         ],
         "year": 2004,
         "category": "Motion Planning",
@@ -396,11 +396,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2007_geraerts_creating_high_quality_paths",
-        "label": "Creating High-quality Paths for Motion Planning",
+        "label": "Geraerts et al. 2007",
         "title": "Creating High-quality Paths for Motion Planning",
         "authors": [
-          "Roland Geraerts",
-          "Mark H. Overmars"
+          "Geraerts",
+          "Overmars"
         ],
         "year": 2007,
         "category": "Motion Planning",
@@ -417,12 +417,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2008_rickert_balancing_exploration_and_exploitation",
-        "label": "Balancing Exploration and Exploitation in Motion Planning",
+        "label": "EET",
         "title": "Balancing Exploration and Exploitation in Motion Planning",
         "authors": [
-          "Markus Rickert",
-          "Oliver Brock",
-          "Alois Knoll"
+          "Rickert",
+          "Brock",
+          "Knoll"
         ],
         "year": 2008,
         "category": "Motion Planning",
@@ -441,11 +441,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2008_schmid_dynamic_mode_decomposition_of",
-        "label": "Dynamic Mode Decomposition of Numerical and Experimental Dat…",
+        "label": "DMD",
         "title": "Dynamic Mode Decomposition of Numerical and Experimental Data",
         "authors": [
-          "Peter J. Schmid",
-          "Jörn Sesterhenn"
+          "Schmid",
+          "Sesterhenn"
         ],
         "year": 2008,
         "category": "Reinforcement Learning",
@@ -458,18 +458,18 @@ const mindMapData = {
           "System identification",
           "Model reduction"
         ],
-        "summary": "Introduces Dynamic Mode Decomposition (DMD), a data-driven algorithm for creating dynamic models from numerical simulations and experimental data, decomposing the observed trajectory data into modes each associated with a single frequency and growth/decay rate. Naturally allows for model reduction based on quantitative measures of mode importance. Originally proposed for fluid flow data, but relev…"
+        "summary": "Introduces Dynamic Mode Decomposition (DMD), a data-driven algorithm for creating dynamic models from numerical simulations and experimental data, decomposing the observed trajectory data into modes each associated with a single frequency and growth/decay rate. Naturally allows for model reduction based on quantitative measures of mode importance. Originally proposed for fluid flow data, but relevant much more broadly to any kind of dynamical system, especially those observable with stochastic noise present and those with many states."
       }
     },
     {
       "data": {
         "id": "2008_urmson_autonomous_driving_in_urban",
-        "label": "Autonomous Driving in Urban Environments: Boss and the Urban…",
+        "label": "Boss",
         "title": "Autonomous Driving in Urban Environments: Boss and the Urban Challenge",
         "authors": [
-          "Chris Urmson",
-          "Joshua Anhalt",
-          "Drew Bagnell"
+          "Urmson",
+          "Anhalt",
+          "Bagnell"
         ],
         "year": 2008,
         "category": "Motion Planning",
@@ -488,12 +488,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2009_ratliff_chomp_gradient_optimization_techniques",
-        "label": "CHOMP: Gradient Optimization Techniques for Efficient Motion…",
+        "label": "CHOMP",
         "title": "CHOMP: Gradient Optimization Techniques for Efficient Motion Planning",
         "authors": [
-          "Nathan Ratliff",
-          "Matt Zucker",
-          "J. Andrew Bagnell"
+          "Ratliff",
+          "Zucker",
+          "Bagnell"
         ],
         "year": 2009,
         "category": "Motion Planning",
@@ -514,12 +514,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2009_verscheure_time_optimal_path_tracking",
-        "label": "Time-Optimal Path Tracking for Robots: A Convex Optimization…",
+        "label": "Verscheure et al. 2009",
         "title": "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach",
         "authors": [
-          "Diederik Verscheure",
-          "Bram Demeulenaere",
-          "Jan Swevers"
+          "Verscheure",
+          "Demeulenaere",
+          "Swevers"
         ],
         "year": 2009,
         "category": "Motion Planning",
@@ -540,11 +540,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2010_karaman_optimal_kinodynamic_motion_planning",
-        "label": "Optimal Kinodynamic Motion Planning using Incremental Sampli…",
+        "label": "Kinodynamic RRT*",
         "title": "Optimal Kinodynamic Motion Planning using Incremental Sampling-based Methods",
         "authors": [
-          "Sertac Karaman",
-          "Emilio Frazzoli"
+          "Karaman",
+          "Frazzoli"
         ],
         "year": 2010,
         "category": "Motion Planning",
@@ -561,11 +561,11 @@ const mindMapData = {
     {
       "data": {
         "id": "1105_1186",
-        "label": "Sampling-based Algorithms for Optimal Motion Planning",
+        "label": "RRT*",
         "title": "Sampling-based Algorithms for Optimal Motion Planning",
         "authors": [
-          "Sertac Karaman",
-          "Emilio Frazzoli"
+          "Karaman",
+          "Frazzoli"
         ],
         "year": 2011,
         "category": "Motion Planning",
@@ -576,18 +576,18 @@ const mindMapData = {
           "Probabilistically complete",
           "RRT*"
         ],
-        "summary": "The main contribution of the paper is the introduction of new algorithms, namely, PRM* and RRT*, which are provably asymptotically optimal, i.e., such that the cost of the returned solution converges almost surely to the optimum. Moreover, it is shown that the computational complexity of the new algorithms is within a constant factor of that of their probabilistically complete (but not asymptotica…"
+        "summary": "The main contribution of the paper is the introduction of new algorithms, namely, PRM* and RRT*, which are provably asymptotically optimal, i.e., such that the cost of the returned solution converges almost surely to the optimum. Moreover, it is shown that the computational complexity of the new algorithms is within a constant factor of that of their probabilistically complete (but not asymptotically optimal) counterparts."
       }
     },
     {
       "data": {
         "id": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
-        "label": "STOMP: Stochastic Trajectory Optimization for Motion Plannin…",
+        "label": "STOMP",
         "title": "STOMP: Stochastic Trajectory Optimization for Motion Planning",
         "authors": [
-          "Mrinal Kalakrishnan",
-          "Sachin Chitta",
-          "Evangelos Theodorou"
+          "Kalakrishnan",
+          "Chitta",
+          "Theodorou"
         ],
         "year": 2011,
         "category": "Motion Planning",
@@ -601,18 +601,18 @@ const mindMapData = {
           "Sampling",
           "STOMP"
         ],
-        "summary": "STOMP improves a trajectory by rolling out a large batch of noisy samples and computing a weighted average (based on a Boltzmann distribution i.e. exponentiated negative with a temperature parameter) over their costs. Effectively a path-space analogue of MPPI. Does not require cost gradients. Noise helps STOMP jiggle out of local minima that CHOMP can get stuck in, a similar mechanism and phenomen…"
+        "summary": "STOMP improves a trajectory by rolling out a large batch of noisy samples and computing a weighted average (based on a Boltzmann distribution i.e. exponentiated negative with a temperature parameter) over their costs. Effectively a path-space analogue of MPPI. Does not require cost gradients. Noise helps STOMP jiggle out of local minima that CHOMP can get stuck in, a similar mechanism and phenomenon as in general stochastic/perturbed gradient descent (c.f. \"How to Escape Saddle Points Efficiently\" by Jin et al, 2017 https://proceedings.mlr.press/v70/jin17a.html)."
       }
     },
     {
       "data": {
         "id": "2011_karaman_anytime_motion_planning_using",
-        "label": "Anytime Motion Planning using the RRT*",
+        "label": "RRT*",
         "title": "Anytime Motion Planning using the RRT*",
         "authors": [
-          "Sertac Karaman",
-          "Matthew R. Walter",
-          "Alejandro Perez"
+          "Karaman",
+          "Walter",
+          "Perez"
         ],
         "year": 2011,
         "category": "Motion Planning",
@@ -630,11 +630,11 @@ const mindMapData = {
     {
       "data": {
         "id": "1204_6453",
-        "label": "The Role of Vertex Consistency in Sampling-based Algorithms …",
+        "label": "RRT#",
         "title": "The Role of Vertex Consistency in Sampling-based Algorithms for Optimal Motion Planning",
         "authors": [
-          "Oktay Arslan",
-          "Panagiotis Tsiotras"
+          "Arslan",
+          "Tsiotras"
         ],
         "year": 2013,
         "category": "Motion Planning",
@@ -653,17 +653,17 @@ const mindMapData = {
           "Vertex consistency",
           "Consistent tree"
         ],
-        "summary": "RRT# is based on RRG, just like RRT*, but is aimed at obtaining faster convergence to the optimal cost compared to RRT* by maintaining better estimates of nodal costs. There is also some interesting commentary in Section 5 of the arXiv preprint where the authors discuss the \"relevant region\" as an elliptic region which could be \"used to implement more intelligent sampling strategies\"; it would see…"
+        "summary": "RRT# is based on RRG, just like RRT*, but is aimed at obtaining faster convergence to the optimal cost compared to RRT* by maintaining better estimates of nodal costs. There is also some interesting commentary in Section 5 of the arXiv preprint where the authors discuss the \"relevant region\" as an elliptic region which could be \"used to implement more intelligent sampling strategies\"; it would seem this idea was picked up on and formalized by Gammell et al. in the \"Informed RRT*\" (https://arxiv.org/pdf/1404.2334) paper."
       }
     },
     {
       "data": {
         "id": "1205_5088",
-        "label": "Kinodynamic RRT*: Optimal Motion Planning for Systems with L…",
+        "label": "Linear Kinodynamic RRT*",
         "title": "Kinodynamic RRT*: Optimal Motion Planning for Systems with Linear Differential Constraints",
         "authors": [
-          "Dustin J. Webb",
-          "Jur van den Berg"
+          "Webb",
+          "Berg"
         ],
         "year": 2012,
         "category": "Motion Planning",
@@ -681,11 +681,11 @@ const mindMapData = {
     {
       "data": {
         "id": "1206_4621",
-        "label": "Path Integral Policy Improvement with Covariance Matrix Adap…",
+        "label": "PI2-CMA",
         "title": "Path Integral Policy Improvement with Covariance Matrix Adaptation",
         "authors": [
-          "Freek Stulp",
-          "Olivier Sigaud"
+          "Stulp",
+          "Sigaud"
         ],
         "year": 2012,
         "category": "Motion Planning",
@@ -704,10 +704,10 @@ const mindMapData = {
     {
       "data": {
         "id": "2012_kobilarov_cross_entropy_motion_planning",
-        "label": "Cross-Entropy Motion Planning",
+        "label": "CEM",
         "title": "Cross-Entropy Motion Planning",
         "authors": [
-          "Marin Kobilarov"
+          "Kobilarov"
         ],
         "year": 2012,
         "category": "Motion Planning",
@@ -725,12 +725,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2012_perez_lqr_rrt_star_optimal",
-        "label": "LQR-RRT*: Optimal Sampling-Based Motion Planning with Automa…",
+        "label": "LQR-RRT*",
         "title": "LQR-RRT*: Optimal Sampling-Based Motion Planning with Automatically Derived Extension Heuristics",
         "authors": [
-          "Alejandro Perez",
-          "Robert Platt",
-          "George Konidaris"
+          "Perez",
+          "Platt",
+          "Konidaris"
         ],
         "year": 2012,
         "category": "Motion Planning",
@@ -748,12 +748,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2012_tassa_synthesis_and_stabilization_of",
-        "label": "Synthesis and Stabilization of Complex Behaviors through Onl…",
+        "label": "iLQR",
         "title": "Synthesis and Stabilization of Complex Behaviors through Online Trajectory Optimization",
         "authors": [
-          "Yuval Tassa",
-          "Tom Erez",
-          "Emanuel Todorov"
+          "Tassa",
+          "Erez",
+          "Todorov"
         ],
         "year": 2012,
         "category": "Motion Planning",
@@ -776,12 +776,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1306_3532",
-        "label": "Fast Marching Tree: a Fast Marching Sampling-Based Method fo…",
+        "label": "FMT*",
         "title": "Fast Marching Tree: a Fast Marching Sampling-Based Method for Optimal Motion Planning in Many Dimensions",
         "authors": [
-          "Lucas Janson",
-          "Edward Schmerling",
-          "Ashley Clark"
+          "Janson",
+          "Schmerling",
+          "Clark"
         ],
         "year": 2013,
         "category": "Motion Planning",
@@ -806,12 +806,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1312_0041",
-        "label": "On Dynamic Mode Decomposition: Theory and Applications",
+        "label": "DMD",
         "title": "On Dynamic Mode Decomposition: Theory and Applications",
         "authors": [
-          "Jonathan H. Tu",
-          "Clarence W. Rowley",
-          "Dirk M. Luchtenburg"
+          "Tu",
+          "Rowley",
+          "Luchtenburg"
         ],
         "year": 2013,
         "category": "Reinforcement Learning",
@@ -829,11 +829,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2013_lipp_minimum_time_speed_optimisation_over",
-        "label": "Minimum-time speed optimisation over a fixed path",
+        "label": "Lipp et al. 2013",
         "title": "Minimum-time speed optimisation over a fixed path",
         "authors": [
-          "Thomas Lipp",
-          "Stephen Boyd"
+          "Lipp",
+          "Boyd"
         ],
         "year": 2013,
         "category": "Motion Planning",
@@ -850,12 +850,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2013_luna_anytime_solution_optimization_for",
-        "label": "Anytime Solution Optimization for Sampling-Based Motion Plan…",
+        "label": "Luna et al. 2013",
         "title": "Anytime Solution Optimization for Sampling-Based Motion Planning",
         "authors": [
-          "Ryan Luna",
-          "Ioan A. Şucan",
-          "Mark Moll"
+          "Luna",
+          "Şucan",
+          "Moll"
         ],
         "year": 2013,
         "category": "Motion Planning",
@@ -874,12 +874,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2013_palamakumburu_minimum_jerk_trajectory_generation",
-        "label": "Minimum Jerk Trajectory Generation for Differential Wheeled …",
+        "label": "Palamakumbura et al. 2013",
         "title": "Minimum Jerk Trajectory Generation for Differential Wheeled Mobile Robots",
         "authors": [
-          "R. Palamakumbura",
-          "D. H. S. Maithripala",
-          "C. F. Martin"
+          "Palamakumbura",
+          "Maithripala",
+          "Martin"
         ],
         "year": 2013,
         "category": "Motion Planning",
@@ -897,12 +897,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2013_yang_spline_based_rrt_path",
-        "label": "Spline-Based RRT Path Planner for Non-Holonomic Robots",
+        "label": "Spline-based RRT",
         "title": "Spline-Based RRT Path Planner for Non-Holonomic Robots",
         "authors": [
-          "Kwangjin Yang",
-          "Sangwoo Moon",
-          "Seunghoon Yoo"
+          "Yang",
+          "Moon",
+          "Yoo"
         ],
         "year": 2013,
         "category": "Motion Planning",
@@ -921,12 +921,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1404_2334",
-        "label": "Informed RRT*: Optimal Sampling-based Path Planning Focused …",
+        "label": "Informed RRT*",
         "title": "Informed RRT*: Optimal Sampling-based Path Planning Focused via Direct Sampling of an Admissible Ellipsoidal Heuristic",
         "authors": [
-          "Jonathan D. Gammell",
-          "Siddhartha S. Srinivasa",
-          "Timothy D. Barfoot"
+          "Gammell",
+          "Srinivasa",
+          "Barfoot"
         ],
         "year": 2014,
         "category": "Motion Planning",
@@ -940,18 +940,18 @@ const mindMapData = {
           "Heuristic search",
           "Informed set"
         ],
-        "summary": "Informed RRT* accelerates convergence of RRT* by restricting sampling to the prolate hyperspheroid (ellipsoidal) subset of the state space that can possibly improve the current best solution, rather than sampling the entire domain. This focused sampling preserves RRT*'s probabilistic completeness and asymptotic optimality guarantees while significantly improving convergence rate and final solution…"
+        "summary": "Informed RRT* accelerates convergence of RRT* by restricting sampling to the prolate hyperspheroid (ellipsoidal) subset of the state space that can possibly improve the current best solution, rather than sampling the entire domain. This focused sampling preserves RRT*'s probabilistic completeness and asymptotic optimality guarantees while significantly improving convergence rate and final solution quality, especially in high-dimensional spaces or large environments. However, the ellipsoidal region is only valid for path planning where the cost is the Euclidean path length; for other costs or kindodynamic planning the informed set has some other geometry that is not generally known to be computable in closed form."
       }
     },
     {
       "data": {
         "id": "1405_5848",
-        "label": "Batch Informed Trees (BIT*): Sampling-based Optimal Planning…",
+        "label": "BIT*",
         "title": "Batch Informed Trees (BIT*): Sampling-based Optimal Planning via the Heuristically Guided Search of Implicit Random Geometric Graphs",
         "authors": [
-          "Jonathan D. Gammell",
-          "Siddhartha S. Srinivasa",
-          "Timothy D. Barfoot"
+          "Gammell",
+          "Srinivasa",
+          "Barfoot"
         ],
         "year": 2014,
         "category": "Motion Planning",
@@ -966,18 +966,18 @@ const mindMapData = {
           "Graph search",
           "Informed sampling"
         ],
-        "summary": "BIT* unifies graph- and sampling-based planning by treating a batch of random samples as an implicit random geometric graph (RGG) and searching it with an A*/LPA*-style ordered search focused on the informed ellipsoidal subset of states that can improve the current solution. Successive batches of increasing density are searched while reusing prior information, yielding a probabilistically complete…"
+        "summary": "BIT* unifies graph- and sampling-based planning by treating a batch of random samples as an implicit random geometric graph (RGG) and searching it with an A*/LPA*-style ordered search focused on the informed ellipsoidal subset of states that can improve the current solution. Successive batches of increasing density are searched while reusing prior information, yielding a probabilistically complete, asymptotically optimal anytime planner that converges substantially faster than RRT* and FMT*, especially in high-dimensional spaces."
       }
     },
     {
       "data": {
         "id": "1407_2896",
-        "label": "Asymptotically Optimal Sampling-based Kinodynamic Planning",
+        "label": "SST*",
         "title": "Asymptotically Optimal Sampling-based Kinodynamic Planning",
         "authors": [
-          "Yanbo Li",
-          "Zakary Littlefield",
-          "Kostas E. Bekris"
+          "Li",
+          "Littlefield",
+          "Bekris"
         ],
         "year": 2014,
         "category": "Motion Planning",
@@ -995,12 +995,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1408_4408",
-        "label": "A Data-Driven Approximation of the Koopman Operator: Extendi…",
+        "label": "eDMD",
         "title": "A Data-Driven Approximation of the Koopman Operator: Extending Dynamic Mode Decomposition",
         "authors": [
-          "Matthew O. Williams",
-          "Ioannis G. Kevrekidis",
-          "Clarence W. Rowley"
+          "Williams",
+          "Kevrekidis",
+          "Rowley"
         ],
         "year": 2014,
         "category": "Reinforcement Learning",
@@ -1018,12 +1018,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1409_6358",
-        "label": "Dynamic Mode Decomposition with Control",
+        "label": "DMDc",
         "title": "Dynamic Mode Decomposition with Control",
         "authors": [
-          "Joshua L. Proctor",
-          "Steven L. Brunton",
-          "J. Nathan Kutz"
+          "Proctor",
+          "Brunton",
+          "Kutz"
         ],
         "year": 2014,
         "category": "Reinforcement Learning",
@@ -1041,12 +1041,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1411_4045",
-        "label": "Admissible Velocity Propagation: Beyond Quasi-Static Path Pl…",
+        "label": "AVP",
         "title": "Admissible Velocity Propagation: Beyond Quasi-Static Path Planning for High-Dimensional Robots",
         "authors": [
-          "Quang-Cuong Pham",
-          "Stephane Caron",
-          "Puttichai Lertkultanon"
+          "Pham",
+          "Caron",
+          "Lertkultanon"
         ],
         "year": 2014,
         "category": "Motion Planning",
@@ -1058,18 +1058,18 @@ const mindMapData = {
           "Velocity propagation",
           "Dynamic motions"
         ],
-        "summary": "Starting point is quasi-static (velocity ~= 0) path planning. Then augments state space with velocity and uses propagation of velocity using kinodynamics to determine the reachable set (admissible interval) of velocity, and includes that in the connection check for new nodes. Builds on the foundational TOPP velocity planner (Bobrow 1985, DOI: 10.1177/027836498500400301). AVP is modularly (re)usabl…"
+        "summary": "Starting point is quasi-static (velocity ~= 0) path planning. Then augments state space with velocity and uses propagation of velocity using kinodynamics to determine the reachable set (admissible interval) of velocity, and includes that in the connection check for new nodes. Builds on the foundational TOPP velocity planner (Bobrow 1985, DOI: 10.1177/027836498500400301). AVP is modularly (re)usable in many sampling-based planners; the authors give a concrete instantiation and numerical experiments with AVP-RRT."
       }
     },
     {
       "data": {
         "id": "2014_lefevre_a_survey_on_motion",
-        "label": "A Survey On Motion Prediction and Risk Assessment for Intell…",
+        "label": "Lefèvre et al. 2014",
         "title": "A Survey On Motion Prediction and Risk Assessment for Intelligent Vehicles",
         "authors": [
-          "Stéphanie Lefèvre",
-          "Dizan Vasquez",
-          "Christian Laugier"
+          "Lefèvre",
+          "Vasquez",
+          "Laugier"
         ],
         "year": 2014,
         "category": "Motion Prediction",
@@ -1089,11 +1089,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2014_luo_an_empirical_study_of",
-        "label": "An Empirical Study of Optimal Motion Planning",
+        "label": "Luo et al. 2014",
         "title": "An Empirical Study of Optimal Motion Planning",
         "authors": [
-          "Jingru Luo",
-          "Kris K. Hauser"
+          "Luo",
+          "Hauser"
         ],
         "year": 2014,
         "category": "Motion Planning",
@@ -1112,11 +1112,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2014_pan_probabilistic_differential_dynamic_programming",
-        "label": "Probabilistic Differential Dynamic Programming",
+        "label": "PDDP",
         "title": "Probabilistic Differential Dynamic Programming",
         "authors": [
-          "Yunpeng Pan",
-          "Evangelos A. Theodorou"
+          "Pan",
+          "Theodorou"
         ],
         "year": 2014,
         "category": "Motion Planning",
@@ -1137,12 +1137,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1502_05477",
-        "label": "Trust Region Policy Optimization",
+        "label": "TRPO",
         "title": "Trust Region Policy Optimization",
         "authors": [
-          "John Schulman",
-          "Sergey Levine",
-          "Philipp Moritz"
+          "Schulman",
+          "Levine",
+          "Moritz"
         ],
         "year": 2015,
         "category": "Reinforcement Learning",
@@ -1159,11 +1159,11 @@ const mindMapData = {
     {
       "data": {
         "id": "1505_04098",
-        "label": "Asymptotically Optimal Planning by Feasible Kinodynamic Plan…",
+        "label": "AO-x",
         "title": "Asymptotically Optimal Planning by Feasible Kinodynamic Planning in State-Cost Space",
         "authors": [
-          "Kris Hauser",
-          "Yilun Zhou"
+          "Hauser",
+          "Zhou"
         ],
         "year": 2015,
         "category": "Motion Planning",
@@ -1179,12 +1179,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1509_01149",
-        "label": "Model Predictive Path Integral Control using Covariance Vari…",
+        "label": "Williams et al. 2015",
         "title": "Model Predictive Path Integral Control using Covariance Variable Importance Sampling\n",
         "authors": [
-          "Grady Williams",
-          "Andrew Aldrich",
-          "Evangelos Theodorou"
+          "Williams",
+          "Aldrich",
+          "Theodorou"
         ],
         "year": 2015,
         "category": "Motion Planning",
@@ -1196,12 +1196,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1509_03580",
-        "label": "Discovering Governing Equations from Data: Sparse Identifica…",
+        "label": "SINDy",
         "title": "Discovering Governing Equations from Data: Sparse Identification of Nonlinear Dynamical Systems",
         "authors": [
-          "Steven L. Brunton",
-          "Joshua L. Proctor",
-          "J. Nathan Kutz"
+          "Brunton",
+          "Proctor",
+          "Kutz"
         ],
         "year": 2015,
         "category": "Reinforcement Learning",
@@ -1219,12 +1219,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1511_05259",
-        "label": "Completeness of Randomized Kinodynamic Planners with State-b…",
+        "label": "Caron et al. 2015",
         "title": "Completeness of Randomized Kinodynamic Planners with State-based Steering",
         "authors": [
-          "Stephane Caron",
-          "Quang-Cuong Pham",
-          "Yoshihiko Nakamura"
+          "Caron",
+          "Pham",
+          "Nakamura"
         ],
         "year": 2015,
         "category": "Motion Planning",
@@ -1236,18 +1236,18 @@ const mindMapData = {
           "Steering function",
           "Interpolation"
         ],
-        "summary": "Proves probabilistic completeness for state-based (interpolating) kinodynamic planners under verifiable assumptions. Identifies second-order continuity as the key design requirement. Nice explanation of state-based steering and its beneficial properties as compraed with e.g. randomized action-propagation steering. Contains a great Section 2.3 on the differences between categories of steering funct…"
+        "summary": "Proves probabilistic completeness for state-based (interpolating) kinodynamic planners under verifiable assumptions. Identifies second-order continuity as the key design requirement. Nice explanation of state-based steering and its beneficial properties as compraed with e.g. randomized action-propagation steering. Contains a great Section 2.3 on the differences between categories of steering functions."
       }
     },
     {
       "data": {
         "id": "2015_klemm_rrt_star_connect_faster",
-        "label": "RRT*-Connect: Faster, Asymptotically Optimal Motion Planning",
+        "label": "RRT*-Connect",
         "title": "RRT*-Connect: Faster, Asymptotically Optimal Motion Planning",
         "authors": [
-          "Sebastian Klemm",
-          "Jan Oberländer",
-          "Andreas Hermann"
+          "Klemm",
+          "Oberländer",
+          "Hermann"
         ],
         "year": 2015,
         "category": "Motion Planning",
@@ -1260,17 +1260,17 @@ const mindMapData = {
           "RRT*",
           "RRT-Connect"
         ],
-        "summary": "RRT*-Connect merges the bidirectional search strategy of RRT-Connect with the asymptotic optimality guarantees of RRT*, growing two trees simultaneously from start and goal and connecting them greedily while rewiring for cost minimization. The result finds initial solutions significantly faster than RRT* while still converging toward the optimal path, combining the speed advantage of bidirectional…"
+        "summary": "RRT*-Connect merges the bidirectional search strategy of RRT-Connect with the asymptotic optimality guarantees of RRT*, growing two trees simultaneously from start and goal and connecting them greedily while rewiring for cost minimization. The result finds initial solutions significantly faster than RRT* while still converging toward the optimal path, combining the speed advantage of bidirectional search with provable optimality guarantees."
       }
     },
     {
       "data": {
         "id": "2015_otte_rrtx_asymptotically_optimal_single",
-        "label": "RRTX: Asymptotically Optimal Single-Query Sampling-Based Mot…",
+        "label": "RRTX",
         "title": "RRTX: Asymptotically Optimal Single-Query Sampling-Based Motion Planning with Quick Replanning",
         "authors": [
-          "Michael W. Otte",
-          "Emilio Frazzoli"
+          "Otte",
+          "Frazzoli"
         ],
         "year": 2016,
         "category": "Motion Planning",
@@ -1291,11 +1291,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2015_palmieri_distance_metric_learning_for",
-        "label": "Distance Metric Learning for RRT-Based Motion Planning with …",
+        "label": "Palmieri et al. 2015",
         "title": "Distance Metric Learning for RRT-Based Motion Planning with Constant-Time Inference",
         "authors": [
-          "Luigi Palmieri",
-          "Kai O. Arras"
+          "Palmieri",
+          "Arras"
         ],
         "year": 2015,
         "category": "Motion Planning",
@@ -1310,18 +1310,18 @@ const mindMapData = {
           "Machine learning",
           "Inference"
         ],
-        "summary": "Trains a supervised model to approximate the kinodynamic steering distance for RRT-based planners. The motivation is purely for increasing performance in terms of reducing average and worst-case runtime latency; assumes we have a slow-to-compute ground truth perfect steering function used to generate training data. The features are a set of 14 hand-crafted and cheap-to-evaluate metrics, and the la…"
+        "summary": "Trains a supervised model to approximate the kinodynamic steering distance for RRT-based planners. The motivation is purely for increasing performance in terms of reducing average and worst-case runtime latency; assumes we have a slow-to-compute ground truth perfect steering function used to generate training data. The features are a set of 14 hand-crafted and cheap-to-evaluate metrics, and the labels are a scalar ground truth cost. The learned model is a basis function model (BFM) using quadratic basis functions and trained using Levenberg-Marquadt. The model architecture was selected as the best (in terms of prediction quality and inference runtime latency) out of a ranking comparison against other architectures trained on the same data, including a small neural network, random forest, support vector machine with radial basis function kernel, and locally weighted projection."
       }
     },
     {
       "data": {
         "id": "1604_07446",
-        "label": "A Survey of Motion Planning and Control Techniques for Self-…",
+        "label": "Paden et al. 2016",
         "title": "A Survey of Motion Planning and Control Techniques for Self-Driving Urban Vehicles",
         "authors": [
-          "Brian Paden",
-          "Michal Čáp",
-          "Sze Zheng Yong"
+          "Paden",
+          "Čáp",
+          "Yong"
         ],
         "year": 2016,
         "category": "Motion Planning",
@@ -1350,12 +1350,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "label": "Regionally Accelerated Batch Informed Trees (RABIT*): A Fram…",
+        "label": "RABIT*",
         "title": "Regionally Accelerated Batch Informed Trees (RABIT*): A Framework to Integrate Local Information into Optimal Path Planning",
         "authors": [
-          "Sanjiban Choudhury",
-          "Jonathan D. Gammell",
-          "Timothy D. Barfoot"
+          "Choudhury",
+          "Gammell",
+          "Barfoot"
         ],
         "year": 2016,
         "category": "Motion Planning",
@@ -1370,18 +1370,18 @@ const mindMapData = {
           "Hybrid planning",
           "Local optimization"
         ],
-        "summary": "RABIT* extends BIT* by hybridizing its global informed search with local gradient-based optimization (e.g. CHOMP). Rather than optimizing every edge, it selectively applies local optimization only to the subset of edges within the current informed set that are most likely to improve the solution, avoiding infeasible edges by finding alternative connections. This preserves asymptotic optimality whi…"
+        "summary": "RABIT* extends BIT* by hybridizing its global informed search with local gradient-based optimization (e.g. CHOMP). Rather than optimizing every edge, it selectively applies local optimization only to the subset of edges within the current informed set that are most likely to improve the solution, avoiding infeasible edges by finding alternative connections. This preserves asymptotic optimality while significantly accelerating convergence, particularly in problems with difficult-to-sample homotopy classes or narrow passages."
       }
     },
     {
       "data": {
         "id": "2016_rajamaki_sampled_differential_dynamic_programming",
-        "label": "Sampled Differential Dynamic Programming",
+        "label": "SaDDP",
         "title": "Sampled Differential Dynamic Programming",
         "authors": [
-          "Joose Rajamäki",
-          "Kourosh Naderi",
-          "Ville Kyrki"
+          "Rajamäki",
+          "Naderi",
+          "Kyrki"
         ],
         "year": 2016,
         "category": "Motion Planning",
@@ -1399,18 +1399,18 @@ const mindMapData = {
           "Taylor expansion",
           "Gradient-based"
         ],
-        "summary": "Combines DDP and path integral control by estimating the DDP Hessian via zero-order sampling rather than analytical differentiation, yielding a trajectory optimizer that blends the structure and efficiency of DDP with the robustness and simplicity of sampling-based methods. Think of it as Hessian-Free optimization (using a zero-order oracle to estimate the Hessian c.f. \"Deep Learning via Hessian-f…"
+        "summary": "Combines DDP and path integral control by estimating the DDP Hessian via zero-order sampling rather than analytical differentiation, yielding a trajectory optimizer that blends the structure and efficiency of DDP with the robustness and simplicity of sampling-based methods. Think of it as Hessian-Free optimization (using a zero-order oracle to estimate the Hessian c.f. \"Deep Learning via Hessian-free Optimization\" by James Martens, 2010) specialized to trajectory optimization problems."
       }
     },
     {
       "data": {
         "id": "1705_02403",
-        "label": "Group Marching Tree: Sampling-Based Approximately Optimal Mo…",
+        "label": "GMT*",
         "title": "Group Marching Tree: Sampling-Based Approximately Optimal Motion Planning on GPUs",
         "authors": [
-          "Brian Ichter",
-          "Edward Schmerling",
-          "Marco Pavone"
+          "Ichter",
+          "Schmerling",
+          "Pavone"
         ],
         "year": 2017,
         "category": "Motion Planning",
@@ -1426,18 +1426,18 @@ const mindMapData = {
           "GMT*",
           "FMT*"
         ],
-        "summary": "GMT* adapts FMT*'s lazy dynamic-programming tree expansion for massively parallel execution on GPUs by replacing the sequential expansion of the single minimum-cost sample with simultaneous expansion of the entire group of active samples whose cost falls below an increasing threshold. This group approximation introduces a bounded suboptimality constant but eliminates sequential data structures and…"
+        "summary": "GMT* adapts FMT*'s lazy dynamic-programming tree expansion for massively parallel execution on GPUs by replacing the sequential expansion of the single minimum-cost sample with simultaneous expansion of the entire group of active samples whose cost falls below an increasing threshold. This group approximation introduces a bounded suboptimality constant but eliminates sequential data structures and reduces thread divergence. Achieves ~10 ms planning on desktop GPUs and ~30 ms on embedded GPUs."
       }
     },
     {
       "data": {
         "id": "1706_03762",
-        "label": "Attention Is All You Need",
+        "label": "Transformer",
         "title": "Attention Is All You Need",
         "authors": [
-          "Ashish Vaswani",
-          "Noam Shazeer",
-          "Niki Parmar"
+          "Vaswani",
+          "Shazeer",
+          "Parmar"
         ],
         "year": 2017,
         "category": "Machine Learning",
@@ -1453,12 +1453,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1707_06347",
-        "label": "Proximal Policy Optimization Algorithms",
+        "label": "PPO",
         "title": "Proximal Policy Optimization Algorithms",
         "authors": [
-          "John Schulman",
-          "Filip Wolski",
-          "Prafulla Dhariwal"
+          "Schulman",
+          "Wolski",
+          "Dhariwal"
         ],
         "year": 2017,
         "category": "Reinforcement Learning",
@@ -1475,11 +1475,11 @@ const mindMapData = {
     {
       "data": {
         "id": "1707_07239",
-        "label": "A New Approach to Time-Optimal Path Parameterization based o…",
+        "label": "TOPP-RA",
         "title": "A New Approach to Time-Optimal Path Parameterization based on Reachability Analysis",
         "authors": [
-          "Hung Pham",
-          "Quang-Cuong Pham"
+          "Pham",
+          "Pham"
         ],
         "year": 2017,
         "category": "Motion Planning",
@@ -1495,12 +1495,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1709_07174",
-        "label": "Agile Autonomous Driving using End-to-End Deep Imitation Lea…",
+        "label": "Pan et al. 2017",
         "title": "Agile Autonomous Driving using End-to-End Deep Imitation Learning",
         "authors": [
-          "Yunpeng Pan",
-          "Ching-An Cheng",
-          "Kamil Saigol"
+          "Pan",
+          "Cheng",
+          "Saigol"
         ],
         "year": 2017,
         "category": "Motion Planning",
@@ -1516,18 +1516,18 @@ const mindMapData = {
           "DDP",
           "Model-based"
         ],
-        "summary": "Uses a \"traditional\" autonomy stack (trajectory optimization with learned dynamics, Kalman filter state estimation, and an handcrafted cost function) as the expert policy, then trains a neural network to imitate it end-to-end, from pixels to torques. Demonstrates that a full autonomy stack can be \"compressed into\" or \"represented by\" a single neural network. Notably, the trained neural network can…"
+        "summary": "Uses a \"traditional\" autonomy stack (trajectory optimization with learned dynamics, Kalman filter state estimation, and an handcrafted cost function) as the expert policy, then trains a neural network to imitate it end-to-end, from pixels to torques. Demonstrates that a full autonomy stack can be \"compressed into\" or \"represented by\" a single neural network. Notably, the trained neural network can be deployed with less expensive compute hardware and a lower fidelty sensor suite than the original autonomy stack."
       }
     },
     {
       "data": {
         "id": "1710_09483",
-        "label": "Multimodal Probabilistic Model-Based Planning for Human-Robo…",
+        "label": "Schmerling et al. 2017",
         "title": "Multimodal Probabilistic Model-Based Planning for Human-Robot Interaction",
         "authors": [
-          "Edward Schmerling",
-          "Karen Leung",
-          "Wolf Vollprecht"
+          "Schmerling",
+          "Leung",
+          "Vollprecht"
         ],
         "year": 2017,
         "category": "Motion Planning",
@@ -1547,12 +1547,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1710_10122",
-        "label": "RRT-CoLearn: towards kinodynamic planning without numerical …",
+        "label": "RRT-CoLearn",
         "title": "RRT-CoLearn: towards kinodynamic planning without numerical trajectory optimization",
         "authors": [
-          "Wouter Wolfslag",
-          "Mukunda Bharatheesha",
-          "Thomas Moerland"
+          "Wolfslag",
+          "Bharatheesha",
+          "Moerland"
         ],
         "year": 2017,
         "category": "Motion Planning",
@@ -1570,12 +1570,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1711_03449",
-        "label": "Optimization-Based Collision Avoidance",
+        "label": "OBCA",
         "title": "Optimization-Based Collision Avoidance",
         "authors": [
-          "Xiaojing Zhang",
-          "Alexander Liniger",
-          "Francesco Borrelli"
+          "Zhang",
+          "Liniger",
+          "Borrelli"
         ],
         "year": 2017,
         "category": "Motion Planning",
@@ -1593,12 +1593,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1711_11006",
-        "label": "A Family of Iterative Gauss-Newton Shooting Methods for Nonl…",
+        "label": "iLQR-GNMS",
         "title": "A Family of Iterative Gauss-Newton Shooting Methods for Nonlinear Optimal Control",
         "authors": [
-          "Markus Giftthaler",
-          "Michael Neunert",
-          "Markus Stäuble"
+          "Giftthaler",
+          "Neunert",
+          "Stäuble"
         ],
         "year": 2017,
         "category": "Motion Planning",
@@ -1617,12 +1617,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2017_roesmann_kinodynamic_trajectory_optimization_and",
-        "label": "Kinodynamic Trajectory Optimization and Control for Car-Like…",
+        "label": "TEB",
         "title": "Kinodynamic Trajectory Optimization and Control for Car-Like Robots",
         "authors": [
-          "Christoph Rösmann",
-          "Frank Hoffmann",
-          "Torsten Bertram"
+          "Rösmann",
+          "Hoffmann",
+          "Bertram"
         ],
         "year": 2017,
         "category": "Motion Planning",
@@ -1641,12 +1641,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2017_williams_model_predictive_path_integral",
-        "label": "Model Predictive Path Integral Control: From Theory to Paral…",
+        "label": "MPPI",
         "title": "Model Predictive Path Integral Control: From Theory to Parallel Computation",
         "authors": [
-          "Grady Williams",
-          "Andrew Aldrich",
-          "Evangelos A. Theodorou"
+          "Williams",
+          "Aldrich",
+          "Theodorou"
         ],
         "year": 2017,
         "category": "Motion Planning",
@@ -1666,12 +1666,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1801_08995",
-        "label": "Trajectory Generation using Sharpness Continuous Dubins-like…",
+        "label": "Sharpness Continuous Path",
         "title": "Trajectory Generation using Sharpness Continuous Dubins-like Paths with Applications in Control of Heavy Duty Vehicles",
         "authors": [
-          "Rui Oliveira",
-          "Pedro F. Lima",
-          "Marcello Cirillo"
+          "Oliveira",
+          "Lima",
+          "Cirillo"
         ],
         "year": 2018,
         "category": "Motion Planning",
@@ -1692,12 +1692,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1803_07055",
-        "label": "Simple Random Search Provides a Competitive Approach to Rein…",
+        "label": "ARS",
         "title": "Simple Random Search Provides a Competitive Approach to Reinforcement Learning",
         "authors": [
-          "Horia Mania",
-          "Aurelia Guy",
-          "Benjamin Recht"
+          "Mania",
+          "Guy",
+          "Recht"
         ],
         "year": 2018,
         "category": "Reinforcement Learning",
@@ -1711,18 +1711,18 @@ const mindMapData = {
           "Baseline",
           "Evaluation"
         ],
-        "summary": "Describes Basic Random Search (BRS) and Augmented Random Search (ARS) and demonstrates that simple random perturbations to the parameters of linear policies with state normalization achieves competitive performance against deep RL on MuJoCo benchmarks. Challenges the necessity of more complicated neural network-backed policy optimization algorithms such as Trust Region Policy Optimization (TRPO), …"
+        "summary": "Describes Basic Random Search (BRS) and Augmented Random Search (ARS) and demonstrates that simple random perturbations to the parameters of linear policies with state normalization achieves competitive performance against deep RL on MuJoCo benchmarks. Challenges the necessity of more complicated neural network-backed policy optimization algorithms such as Trust Region Policy Optimization (TRPO), Deep Deterministic Policy Gradient (DDPG), Natural Gradients (NG), Evolution Strategies (ES), Proximal Policy Optimization (PPO), Soft Actor Critic (SAC), Soft Q-Learning (SQL), A2C, and the Cross Entropy Method (CEM)."
       }
     },
     {
       "data": {
         "id": "1809_02399",
-        "label": "Sampling-based Optimal Kinodynamic Planning with Motion Prim…",
+        "label": "RRT*_MotionPrimitives",
         "title": "Sampling-based Optimal Kinodynamic Planning with Motion Primitives",
         "authors": [
-          "Basak Sakcak",
-          "Luca Bascetta",
-          "Gianni Ferretti"
+          "Sakcak",
+          "Bascetta",
+          "Ferretti"
         ],
         "year": 2018,
         "category": "Motion Planning",
@@ -1744,12 +1744,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1811_04551",
-        "label": "Learning Latent Dynamics for Planning from Pixels",
+        "label": "PlaNet",
         "title": "Learning Latent Dynamics for Planning from Pixels",
         "authors": [
-          "Danijar Hafner",
-          "Timothy Lillicrap",
-          "Ian Fischer"
+          "Hafner",
+          "Lillicrap",
+          "Fischer"
         ],
         "year": 2018,
         "category": "Reinforcement Learning",
@@ -1769,12 +1769,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2018_kingston_sampling_based_methods_for",
-        "label": "Sampling-Based Methods for Motion Planning with Constraints",
+        "label": "Kingston et al. 2018",
         "title": "Sampling-Based Methods for Motion Planning with Constraints",
         "authors": [
-          "Zachary Kingston",
-          "Mark Moll",
-          "Lydia E. Kavraki"
+          "Kingston",
+          "Moll",
+          "Kavraki"
         ],
         "year": 2018,
         "category": "Motion Planning",
@@ -1793,11 +1793,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2018_rajamaki_regularizing_sampled_differential_dynamic",
-        "label": "Regularizing Sampled Differential Dynamic Programming",
+        "label": "Regularized SaDDP",
         "title": "Regularizing Sampled Differential Dynamic Programming",
         "authors": [
-          "Joose Rajamäki",
-          "Perttu Hämäläinen"
+          "Rajamäki",
+          "Hämäläinen"
         ],
         "year": 2018,
         "category": "Motion Planning",
@@ -1815,12 +1815,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2018_schwarting_planning_and_decision_making",
-        "label": "Planning and Decision-Making for Autonomous Vehicles",
+        "label": "Schwarting et al. 2018",
         "title": "Planning and Decision-Making for Autonomous Vehicles",
         "authors": [
-          "Wilko Schwarting",
-          "Javier Alonso-Mora",
-          "Daniela Rus"
+          "Schwarting",
+          "Alonso-Mora",
+          "Rus"
         ],
         "year": 2018,
         "category": "Motion Planning",
@@ -1840,12 +1840,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2018_zhang_toward_a_more_complete",
-        "label": "Toward a More Complete, Flexible, and Safer Speed Planning f…",
+        "label": "Zhang et al. 2018",
         "title": "Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization",
         "authors": [
-          "Yu Zhang",
-          "Huiyan Chen",
-          "Steven L. Waslander"
+          "Zhang",
+          "Chen",
+          "Waslander"
         ],
         "year": 2018,
         "category": "Motion Planning",
@@ -1866,12 +1866,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1909_09688",
-        "label": "Revisiting the Asymptotic Optimality of RRT*",
+        "label": "RRT*",
         "title": "Revisiting the Asymptotic Optimality of RRT*",
         "authors": [
-          "Kiril Solovey",
-          "Lucas Janson",
-          "Edward Schmerling"
+          "Solovey",
+          "Janson",
+          "Schmerling"
         ],
         "year": 2019,
         "category": "Motion Planning",
@@ -1888,12 +1888,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1909_10466",
-        "label": "Dynamic Mode Decomposition: Theory and Data Reconstruction",
+        "label": "Krake et al. 2019",
         "title": "Dynamic Mode Decomposition: Theory and Data Reconstruction",
         "authors": [
-          "Tim Krake",
-          "Daniel Weiskopf",
-          "Bernhard Eberhardt"
+          "Krake",
+          "Weiskopf",
+          "Eberhardt"
         ],
         "year": 2019,
         "category": "Reinforcement Learning",
@@ -1910,12 +1910,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1912_01603",
-        "label": "Dream to Control: Learning Behaviors by Latent Imagination",
+        "label": "Dreamer",
         "title": "Dream to Control: Learning Behaviors by Latent Imagination",
         "authors": [
-          "Danijar Hafner",
-          "Timothy Lillicrap",
-          "Jimmy Ba"
+          "Hafner",
+          "Lillicrap",
+          "Ba"
         ],
         "year": 2019,
         "category": "Reinforcement Learning",
@@ -1934,12 +1934,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1912_11676",
-        "label": "Deep Learning-based Vehicle Behaviour Prediction For Autonom…",
+        "label": "Mozaffari et al. 2019",
         "title": "Deep Learning-based Vehicle Behaviour Prediction For Autonomous Driving Applications: A Review",
         "authors": [
-          "Sajjad Mozaffari",
-          "Omar Y. Al-Jarrah",
-          "Mehrdad Dianati"
+          "Mozaffari",
+          "Al-Jarrah",
+          "Dianati"
         ],
         "year": 2019,
         "category": "Motion Prediction",
@@ -1960,12 +1960,12 @@ const mindMapData = {
     {
       "data": {
         "id": "1912_11912",
-        "label": "Quasi-Newton Trust Region Policy Optimization",
+        "label": "QNTRPO",
         "title": "Quasi-Newton Trust Region Policy Optimization",
         "authors": [
-          "Devesh Jha",
-          "Arvind Raghunathan",
-          "Diego Romeres"
+          "Jha",
+          "Raghunathan",
+          "Romeres"
         ],
         "year": 2019,
         "category": "Reinforcement Learning",
@@ -1982,12 +1982,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2019_hannigan_sbp_guided_mpc_to",
-        "label": "SBP-Guided MPC to Overcome Local Minima in Trajectory Planni…",
+        "label": "SBP-Guided MPC",
         "title": "SBP-Guided MPC to Overcome Local Minima in Trajectory Planning",
         "authors": [
-          "Emily Hannigan",
-          "Bing Song",
-          "Gagan Khandate"
+          "Hannigan",
+          "Song",
+          "Khandate"
         ],
         "year": 2019,
         "category": "Motion Planning",
@@ -2008,12 +2008,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2019_jackson_altro_a_fast_solver",
-        "label": "ALTRO: A Fast Solver for Constrained Trajectory Optimization",
+        "label": "ALTRO",
         "title": "ALTRO: A Fast Solver for Constrained Trajectory Optimization",
         "authors": [
-          "Taylor A. Howell",
-          "Brian E. Jackson",
-          "Zachary Manchester"
+          "Howell",
+          "Jackson",
+          "Manchester"
         ],
         "year": 2019,
         "category": "Motion Planning",
@@ -2031,11 +2031,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2019_lefebvre_path_integral_policy_improvement",
-        "label": "Path Integral Policy Improvement with Differential Dynamic P…",
+        "label": "PI2-DDP",
         "title": "Path Integral Policy Improvement with Differential Dynamic Programming",
         "authors": [
-          "Tom Lefebvre",
-          "Guillaume Crevecoeur"
+          "Lefebvre",
+          "Crevecoeur"
         ],
         "year": 2019,
         "category": "Motion Planning",
@@ -2053,10 +2053,10 @@ const mindMapData = {
     {
       "data": {
         "id": "2019_williams_model_predictive_path_integral",
-        "label": "Model Predictive Path Integral Control: Theoretical Foundati…",
+        "label": "Williams 2019",
         "title": "Model Predictive Path Integral Control: Theoretical Foundations and Applications to Autonomous Driving",
         "authors": [
-          "Grady Williams"
+          "Williams"
         ],
         "year": 2019,
         "category": "Motion Planning",
@@ -2075,12 +2075,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2001_03093",
-        "label": "Trajectron++: Dynamically-Feasible Trajectory Forecasting Wi…",
+        "label": "Trajectron++",
         "title": "Trajectron++: Dynamically-Feasible Trajectory Forecasting With Heterogeneous Data",
         "authors": [
-          "Tim Salzmann",
-          "Boris Ivanovic",
-          "Punarjay Chakravarty"
+          "Salzmann",
+          "Ivanovic",
+          "Chakravarty"
         ],
         "year": 2020,
         "category": "Motion Prediction",
@@ -2100,12 +2100,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2004_08763",
-        "label": "Model-Predictive Control via Cross-Entropy and Gradient-Base…",
+        "label": "Grad+CEM",
         "title": "Model-Predictive Control via Cross-Entropy and Gradient-Based Optimization",
         "authors": [
-          "Homanga Bharadhwaj",
-          "Kevin Xie",
-          "Florian Shkurti"
+          "Bharadhwaj",
+          "Xie",
+          "Shkurti"
         ],
         "year": 2020,
         "category": "Motion Planning",
@@ -2123,12 +2123,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2005_00985",
-        "label": "Constrained Differential Dynamic Programming Revisited",
+        "label": "AL-DDP",
         "title": "Constrained Differential Dynamic Programming Revisited",
         "authors": [
-          "Yuichiro Aoyama",
-          "George Boutselis",
-          "Akash Patel"
+          "Aoyama",
+          "Boutselis",
+          "Patel"
         ],
         "year": 2020,
         "category": "Motion Planning",
@@ -2145,11 +2145,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2009_10484",
-        "label": "Asymptotically Optimal Sampling-Based Motion Planning Method…",
+        "label": "Gammell et al. 2020",
         "title": "Asymptotically Optimal Sampling-Based Motion Planning Methods",
         "authors": [
-          "Jonathan D. Gammell",
-          "Marlin P. Strub"
+          "Gammell",
+          "Strub"
         ],
         "year": 2020,
         "category": "Motion Planning",
@@ -2169,12 +2169,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2010_00411",
-        "label": "A Feasibility-Driven Approach to Control-Limited DDP",
+        "label": "FDDP",
         "title": "A Feasibility-Driven Approach to Control-Limited DDP",
         "authors": [
-          "Carlos Mastalli",
-          "Wolfgang Merkt",
-          "Josep Marti-Saumell"
+          "Mastalli",
+          "Merkt",
+          "Marti-Saumell"
         ],
         "year": 2020,
         "category": "Motion Planning",
@@ -2192,12 +2192,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2020_marti_saumell_squash_box_feasibility_driven",
-        "label": "Squash-Box Feasibility Driven Differential Dynamic Programmi…",
+        "label": "Squash-Box FDDP",
         "title": "Squash-Box Feasibility Driven Differential Dynamic Programming",
         "authors": [
-          "Josep Marti-Saumell",
-          "Joan Solà",
-          "Carlos Mastalli"
+          "Marti-Saumell",
+          "Solà",
+          "Mastalli"
         ],
         "year": 2020,
         "category": "Motion Planning",
@@ -2217,12 +2217,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2020_mashayekhi_informed_rrt_star_connect",
-        "label": "Informed RRT*-Connect: An Asymptotically Optimal Single-Quer…",
+        "label": "Informed RRT*-Connect",
         "title": "Informed RRT*-Connect: An Asymptotically Optimal Single-Query Path Planning Method",
         "authors": [
-          "Reza Mashayekhi",
-          "Mohd Yamani Idna Idris",
-          "Mohammad Hossein Anisi"
+          "Mashayekhi",
+          "Idris",
+          "Anisi"
         ],
         "year": 2020,
         "category": "Motion Planning",
@@ -2236,17 +2236,17 @@ const mindMapData = {
           "RRT-Connect",
           "Informed sampling"
         ],
-        "summary": "Applies Informed RRT*'s ellipsoidal focused sampling to RRT*-Connect: the planner uses bidirectional tree growth and rewiring (as in RRT*-Connect) to find an initial solution quickly, then restricts subsequent sampling to the prolate hyperspheroid subset that can improve it (as in Informed RRT*). An incremental combination of two existing techniques with no major novel theoretical contribution, bu…"
+        "summary": "Applies Informed RRT*'s ellipsoidal focused sampling to RRT*-Connect: the planner uses bidirectional tree growth and rewiring (as in RRT*-Connect) to find an initial solution quickly, then restricts subsequent sampling to the prolate hyperspheroid subset that can improve it (as in Informed RRT*). An incremental combination of two existing techniques with no major novel theoretical contribution, but can achieve fewer iterations and lower solution cost than RRT*-Connect alone."
       }
     },
     {
       "data": {
         "id": "2020_pellegrini_a_multiple_shooting_differential",
-        "label": "A Multiple-Shooting Differential Dynamic Programming Algorit…",
+        "label": "MS-DDP",
         "title": "A Multiple-Shooting Differential Dynamic Programming Algorithm. Part 1: Theory",
         "authors": [
-          "Etienne Pellegrini",
-          "Ryan P. Russell"
+          "Pellegrini",
+          "Russell"
         ],
         "year": 2020,
         "category": "Motion Planning",
@@ -2264,12 +2264,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2021_li_sliding_window_informed_rrt",
-        "label": "Sliding-Window Informed RRT*: A Method for Speeding Up the O…",
+        "label": "SWIRRT*",
         "title": "Sliding-Window Informed RRT*: A Method for Speeding Up the Optimization and Path Smoothing",
         "authors": [
-          "Chenming Li",
-          "Chaoqun Wang",
-          "Jiankun Wang"
+          "Li",
+          "Wang",
+          "Wang"
         ],
         "year": 2021,
         "category": "Motion Planning",
@@ -2289,12 +2289,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2101_11565",
-        "label": "Shortest Paths in Graphs of Convex Sets",
+        "label": "SPP-GCS",
         "title": "Shortest Paths in Graphs of Convex Sets",
         "authors": [
-          "Tobia Marcucci",
-          "Jack Umenberger",
-          "Pablo A. Parrilo"
+          "Marcucci",
+          "Umenberger",
+          "Parrilo"
         ],
         "year": 2021,
         "category": "Motion Planning",
@@ -2311,17 +2311,17 @@ const mindMapData = {
           "Optimal control",
           "Trajectory optimization"
         ],
-        "summary": "Each graph vertex is associated with a convex set and edge lengths are convex functions of the endpoints' positions. The key contribution is a strong mixed-integer convex program (MICP) formulation based on perspective operators that yields a tight relaxation, enabling globally optimal paths in large graphs and high-dimensional spaces. Forms the theoretical foundation for GCS-based motion planning…"
+        "summary": "Each graph vertex is associated with a convex set and edge lengths are convex functions of the endpoints' positions. The key contribution is a strong mixed-integer convex program (MICP) formulation based on perspective operators that yields a tight relaxation, enabling globally optimal paths in large graphs and high-dimensional spaces. Forms the theoretical foundation for GCS-based motion planning."
       }
     },
     {
       "data": {
         "id": "2103_03293",
-        "label": "Accelerating Second-Order Differential Dynamic Programming f…",
+        "label": "DDP",
         "title": "Accelerating Second-Order Differential Dynamic Programming for Rigid-Body Systems",
         "authors": [
-          "John N. Nganga",
-          "Patrick M. Wensing"
+          "Nganga",
+          "Wensing"
         ],
         "year": 2021,
         "category": "Motion Planning",
@@ -2339,11 +2339,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2104_00241",
-        "label": "Variational Inference MPC using Tsallis Divergence",
+        "label": "Tsallis VI-SOC",
         "title": "Variational Inference MPC using Tsallis Divergence",
         "authors": [
-          "Masashi Okada",
-          "Tadahiro Taniguchi"
+          "Okada",
+          "Taniguchi"
         ],
         "year": 2021,
         "category": "Motion Planning",
@@ -2362,12 +2362,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2108_13404",
-        "label": "SINDy with Control: A Tutorial",
+        "label": "SINDy with Control",
         "title": "SINDy with Control: A Tutorial",
         "authors": [
-          "Urban Fasel",
-          "Eurika Kaiser",
-          "J. Nathan Kutz"
+          "Fasel",
+          "Kaiser",
+          "Kutz"
         ],
         "year": 2021,
         "category": "Reinforcement Learning",
@@ -2385,12 +2385,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2109_07081",
-        "label": "Optimizing Trajectories with Closed-Loop Dynamic SQP",
+        "label": "CL-SQP",
         "title": "Optimizing Trajectories with Closed-Loop Dynamic SQP",
         "authors": [
-          "Sumeet Singh",
-          "Jean-Jacques Slotine",
-          "Vikas Sindhwani"
+          "Singh",
+          "Slotine",
+          "Sindhwani"
         ],
         "year": 2021,
         "category": "Motion Planning",
@@ -2408,12 +2408,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2111_08481",
-        "label": "PySINDy: A Comprehensive Python Package for Robust Sparse Sy…",
+        "label": "PySINDy",
         "title": "PySINDy: A Comprehensive Python Package for Robust Sparse System Identification",
         "authors": [
-          "Alan A. Kaptanoglu",
-          "Brian M. de Silva",
-          "Urban Fasel"
+          "Kaptanoglu",
+          "Silva",
+          "Fasel"
         ],
         "year": 2021,
         "category": "Reinforcement Learning",
@@ -2431,12 +2431,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2111_12083",
-        "label": "VISTA 2.0: An Open, Data-driven Simulator for Multimodal Sen…",
+        "label": "VISTA 2.0",
         "title": "VISTA 2.0: An Open, Data-driven Simulator for Multimodal Sensing and Policy Learning for Autonomous Vehicles",
         "authors": [
-          "Alexander Amini",
-          "Tsun-Hsuan Wang",
-          "Igor Gilitschenski"
+          "Amini",
+          "Wang",
+          "Gilitschenski"
         ],
         "year": 2022,
         "category": "Motion Planning",
@@ -2456,12 +2456,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2111_12137",
-        "label": "Learning Interactive Driving Policies via Data-driven Simula…",
+        "label": "Wang et al. 2022",
         "title": "Learning Interactive Driving Policies via Data-driven Simulation",
         "authors": [
-          "Tsun-Hsuan Wang",
-          "Alexander Amini",
-          "Wilko Schwarting"
+          "Wang",
+          "Amini",
+          "Schwarting"
         ],
         "year": 2022,
         "category": "Motion Planning",
@@ -2480,12 +2480,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2022_honig_benchmarking_sampling_search_and",
-        "label": "Benchmarking Sampling-, Search-, and Optimization-based Appr…",
+        "label": "Hönig et al. 2022",
         "title": "Benchmarking Sampling-, Search-, and Optimization-based Approaches for Time-Optimal Kinodynamic Mobile Robot Motion Planning",
         "authors": [
-          "Wolfgang Hönig",
-          "Joaquim Ortiz-Haro",
-          "Marc Toussaint"
+          "Hönig",
+          "Ortiz-Haro",
+          "Toussaint"
         ],
         "year": 2022,
         "category": "Motion Planning",
@@ -2505,12 +2505,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2022_houghton_path_planning_differential_dynamic",
-        "label": "Path Planning: Differential Dynamic Programming and Model Pr…",
+        "label": "Houghton et al. 2022",
         "title": "Path Planning: Differential Dynamic Programming and Model Predictive Path Integral Control on VTOL Aircraft",
         "authors": [
-          "Matthew D. Houghton",
-          "Alexander B. Oshin",
-          "Michael J. Acheson"
+          "Houghton",
+          "Oshin",
+          "Acheson"
         ],
         "year": 2022,
         "category": "Motion Planning",
@@ -2533,10 +2533,10 @@ const mindMapData = {
     {
       "data": {
         "id": "2022_schmid_dynamic_mode_decomposition_and",
-        "label": "Dynamic Mode Decomposition and Its Variants",
+        "label": "Schmid 2022",
         "title": "Dynamic Mode Decomposition and Its Variants",
         "authors": [
-          "Peter J. Schmid"
+          "Schmid"
         ],
         "year": 2022,
         "category": "Reinforcement Learning",
@@ -2554,12 +2554,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2201_03163",
-        "label": "Continuous-Curvature Target Tree Algorithm for Path Planning…",
+        "label": "Continuous-Curvature Target Tree",
         "title": "Continuous-Curvature Target Tree Algorithm for Path Planning in Complex Parking Environments",
         "authors": [
-          "Minsoo Kim",
-          "Joonwoo Ahn",
-          "Jaeheung Park"
+          "Kim",
+          "Ahn",
+          "Park"
         ],
         "year": 2022,
         "category": "Motion Planning",
@@ -2573,18 +2573,18 @@ const mindMapData = {
           "Target tree",
           "Autonomous vehicles"
         ],
-        "summary": "Extends the target tree algorithm - “Model-based decision making with imagination for autonomous parking” by Feng, Chen, Chen, and Zheng (2018) - for autonomous parking by replacing circular/straight path segments with clothoid curves to achieve continuous curvature (G2). Introduces an obstacle-aware cost function for target tree construction to reduce planning time in complex environments. Combin…"
+        "summary": "Extends the target tree algorithm - “Model-based decision making with imagination for autonomous parking” by Feng, Chen, Chen, and Zheng (2018) - for autonomous parking by replacing circular/straight path segments with clothoid curves to achieve continuous curvature (G2). Introduces an obstacle-aware cost function for target tree construction to reduce planning time in complex environments. Combined with RRT* and shortest-path selection, yields near-optimal continuous-curvature parking solutions."
       }
     },
     {
       "data": {
         "id": "2204_02322",
-        "label": "On Global and Local Convergence of Iterative Linear Quadrati…",
+        "label": "Roulet et al. 2025",
         "title": "On Global and Local Convergence of Iterative Linear Quadratic Optimization Algorithms for Discrete Time Nonlinear Control",
         "authors": [
-          "Vincent Roulet",
-          "Siddhartha Srinivasa",
-          "Maryam Fazel"
+          "Roulet",
+          "Srinivasa",
+          "Fazel"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -2602,12 +2602,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2205_04422",
-        "label": "Motion Planning around Obstacles with Convex Optimization",
+        "label": "GCS",
         "title": "Motion Planning around Obstacles with Convex Optimization",
         "authors": [
-          "Tobia Marcucci",
-          "Mark Petersen",
-          "David von Wrangel"
+          "Marcucci",
+          "Petersen",
+          "Wrangel"
         ],
         "year": 2022,
         "category": "Motion Planning",
@@ -2621,18 +2621,18 @@ const mindMapData = {
           "Bezier curves",
           "GCS"
         ],
-        "summary": "Applies the GCS framework to collision-free trajectory optimization by decomposing the free configuration space into convex regions and formulating motion planning as a shortest-path problem in a GCS. Trajectories are parameterized as Bézier curves, enabling compact mixed-integer optimization with constraints on shape, duration, and velocity. A convex relaxation with randomized rounding provides n…"
+        "summary": "Applies the GCS framework to collision-free trajectory optimization by decomposing the free configuration space into convex regions and formulating motion planning as a shortest-path problem in a GCS. Trajectories are parameterized as Bézier curves, enabling compact mixed-integer optimization with constraints on shape, duration, and velocity. A convex relaxation with randomized rounding provides near-global solutions with certified optimality bounds, outperforming both sampling-based and prior trajectory optimization methods."
       }
     },
     {
       "data": {
         "id": "2206_03004",
-        "label": "DriveIRL: Driving in Real Life with Inverse Reinforcement Le…",
+        "label": "DriveIRL",
         "title": "DriveIRL: Driving in Real Life with Inverse Reinforcement Learning",
         "authors": [
-          "Tung Phan-Minh",
-          "Forbes Howington",
-          "Ting-Sheng Chu"
+          "Phan-Minh",
+          "Howington",
+          "Chu"
         ],
         "year": 2022,
         "category": "Motion Planning",
@@ -2644,18 +2644,18 @@ const mindMapData = {
           "Imitation learning",
           "Real-world deployment"
         ],
-        "summary": "Inverse Reinforcement Learning-based planner demonstrated on a real self-driving car in dense urban traffic. Trained on large-scale human driving logs. The architecture design is critical to the success of the approach: there is a classical trajectory generator (based on Dubins paths, pre-computed acceleration profiles, and access to a clean road geometry model) capable of generating diverse safe …"
+        "summary": "Inverse Reinforcement Learning-based planner demonstrated on a real self-driving car in dense urban traffic. Trained on large-scale human driving logs. The architecture design is critical to the success of the approach: there is a classical trajectory generator (based on Dubins paths, pre-computed acceleration profiles, and access to a clean road geometry model) capable of generating diverse safe trajectories, a safety filter that removes all trajectory candidates that are not forward recursively safe, and the learned model is only for assigning scores to the safety-filtered trajectory candidates. Includes a useful set of standardized evaluation metrics for learned planners (see Appendix A.5)."
       }
     },
     {
       "data": {
         "id": "2207_05844",
-        "label": "Wayformer: Motion Forecasting via Simple & Efficient Attenti…",
+        "label": "Wayformer",
         "title": "Wayformer: Motion Forecasting via Simple & Efficient Attention Networks",
         "authors": [
-          "Nigamaa Nayakanti",
-          "Rami Al-Rfou",
-          "Aurick Zhou"
+          "Nayakanti",
+          "Al-Rfou",
+          "Zhou"
         ],
         "year": 2022,
         "category": "Motion Prediction",
@@ -2675,12 +2675,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2207_06362",
-        "label": "Iterative Linear Quadratic Optimization for Nonlinear Contro…",
+        "label": "iLQR Algorithmic Templates",
         "title": "Iterative Linear Quadratic Optimization for Nonlinear Control: Differentiable Programming Algorithmic Templates",
         "authors": [
-          "Vincent Roulet",
-          "Siddhartha Srinivasa",
-          "Maryam Fazel"
+          "Roulet",
+          "Srinivasa",
+          "Fazel"
         ],
         "year": 2022,
         "category": "Motion Planning",
@@ -2698,12 +2698,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2208_02439",
-        "label": "MPPI-IPDDP: Hybrid Method of Collision-Free Smooth Trajector…",
+        "label": "MPPI-IPDDP",
         "title": "MPPI-IPDDP: Hybrid Method of Collision-Free Smooth Trajectory Generation for Autonomous Robots",
         "authors": [
-          "Min-Gyeom Kim",
-          "Minchan Jung",
-          "JunGee Hong"
+          "Kim",
+          "Jung",
+          "Hong"
         ],
         "year": 2022,
         "category": "Motion Planning",
@@ -2722,12 +2722,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2209_09006",
-        "label": "Enforcing the Consensus Between Trajectory Optimization and …",
+        "label": "PLAL",
         "title": "Enforcing the Consensus Between Trajectory Optimization and Policy Learning for Precise Robot Control",
         "authors": [
-          "Quentin Le Lidec",
-          "Wilson Jallet",
-          "Ivan Laptev"
+          "Lidec",
+          "Jallet",
+          "Laptev"
         ],
         "year": 2022,
         "category": "Reinforcement Learning",
@@ -2745,12 +2745,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2210_01744",
-        "label": "Bang-Bang Boosting of RRTs",
+        "label": "BB-RRT",
         "title": "Bang-Bang Boosting of RRTs",
         "authors": [
-          "Alexander J. LaValle",
-          "Basak Sakcak",
-          "Steven M. LaValle"
+          "LaValle",
+          "Sakcak",
+          "LaValle"
         ],
         "year": 2022,
         "category": "Motion Planning",
@@ -2769,12 +2769,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2212_00541",
-        "label": "Predictive Sampling: Real-time Behaviour Synthesis with MuJo…",
+        "label": "MJPC",
         "title": "Predictive Sampling: Real-time Behaviour Synthesis with MuJoCo",
         "authors": [
-          "Taylor Howell",
-          "Nimrod Gileadi",
-          "Saran Tunyasuvunakool"
+          "Howell",
+          "Gileadi",
+          "Tunyasuvunakool"
         ],
         "year": 2022,
         "category": "Motion Planning",
@@ -2793,12 +2793,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2212_06437",
-        "label": "DiffStack: A Differentiable and Modular Control Stack for Au…",
+        "label": "DiffStack",
         "title": "DiffStack: A Differentiable and Modular Control Stack for Autonomous Vehicles",
         "authors": [
-          "Peter Karkus",
-          "Boris Ivanovic",
-          "Shie Mannor"
+          "Karkus",
+          "Ivanovic",
+          "Mannor"
         ],
         "year": 2022,
         "category": "Motion Planning",
@@ -2817,12 +2817,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2023_jallet_proxddp_proximal_constrained_trajectory",
-        "label": "PROXDDP: Proximal Constrained Trajectory Optimization",
+        "label": "ProxDDP",
         "title": "PROXDDP: Proximal Constrained Trajectory Optimization",
         "authors": [
-          "Wilson Jallet",
-          "Antoine Bambade",
-          "Etienne Arlaud"
+          "Jallet",
+          "Bambade",
+          "Arlaud"
         ],
         "year": 2023,
         "category": "Motion Planning",
@@ -2840,11 +2840,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2023_steinecker_a_simple_and_model",
-        "label": "A Simple and Model-Free Path Filtering Algorithm for Smoothi…",
+        "label": "CCMA",
         "title": "A Simple and Model-Free Path Filtering Algorithm for Smoothing and Accuracy",
         "authors": [
-          "Tommy Steinecker",
-          "Hans-Joachim Wuensche"
+          "Steinecker",
+          "Wuensche"
         ],
         "year": 2023,
         "category": "Motion Planning",
@@ -2864,12 +2864,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2301_13143",
-        "label": "RRT Guided Model Predictive Path Integral Method",
+        "label": "RRT-MPPI",
         "title": "RRT Guided Model Predictive Path Integral Method",
         "authors": [
-          "Chuyuan Tao",
-          "Hunmin Kim",
-          "Naira Hovakimyan"
+          "Tao",
+          "Kim",
+          "Hovakimyan"
         ],
         "year": 2023,
         "category": "Motion Planning",
@@ -2887,12 +2887,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2303_04137",
-        "label": "Diffusion Policy: Visuomotor Policy Learning via Action Diff…",
+        "label": "Diffusion Policy",
         "title": "Diffusion Policy: Visuomotor Policy Learning via Action Diffusion",
         "authors": [
-          "Cheng Chi",
-          "Zhenjia Xu",
-          "Siyuan Feng"
+          "Chi",
+          "Xu",
+          "Feng"
         ],
         "year": 2023,
         "category": "Reinforcement Learning",
@@ -2913,12 +2913,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2303_09824",
-        "label": "Motion Planning for Autonomous Driving: The State of the Art…",
+        "label": "Teng et al. 2023",
         "title": "Motion Planning for Autonomous Driving: The State of the Art and Future Perspectives",
         "authors": [
-          "Siyu Teng",
-          "Xuemin Hu",
-          "Peng Deng"
+          "Teng",
+          "Hu",
+          "Deng"
         ],
         "year": 2023,
         "category": "Motion Planning",
@@ -2938,12 +2938,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2303_16746",
-        "label": "FATROP: A Fast Constrained Optimal Control Problem Solver fo…",
+        "label": "FATROP",
         "title": "FATROP: A Fast Constrained Optimal Control Problem Solver for Robot Trajectory Optimization and Control",
         "authors": [
-          "Lander Vanroye",
-          "Ajay Sathya",
-          "Joris De Schutter"
+          "Vanroye",
+          "Sathya",
+          "Schutter"
         ],
         "year": 2023,
         "category": "Motion Planning",
@@ -2963,12 +2963,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2305_01072",
-        "label": "Fast Path Planning Through Large Collections of Safe Boxes",
+        "label": "fastpathplanning",
         "title": "Fast Path Planning Through Large Collections of Safe Boxes",
         "authors": [
-          "Tobia Marcucci",
-          "Parth Nobel",
-          "Russ Tedrake"
+          "Marcucci",
+          "Nobel",
+          "Tedrake"
         ],
         "year": 2023,
         "category": "Motion Planning",
@@ -2982,18 +2982,18 @@ const mindMapData = {
           "Graph search",
           "GCS"
         ],
-        "summary": "Presents a fast two-phase path planner for environments where the free space is pre-decomposed into a large collection of axis-aligned safe boxes. An offline phase constructs a graph over box intersections. At runtime, a graph shortest-path search finds a polygonal waypoint sequence, then a convex optimal-control problem smooths it into a continuous Bézier trajectory guaranteed collision-free at a…"
+        "summary": "Presents a fast two-phase path planner for environments where the free space is pre-decomposed into a large collection of axis-aligned safe boxes. An offline phase constructs a graph over box intersections. At runtime, a graph shortest-path search finds a polygonal waypoint sequence, then a convex optimal-control problem smooths it into a continuous Bézier trajectory guaranteed collision-free at all times. The decomposition into a cheap graph search followed by small convex programs gives near-real-time performance even with tens of thousands of boxes."
       }
     },
     {
       "data": {
         "id": "2305_09619",
-        "label": "The Power of Learned Locally Linear Models for Nonlinear Pol…",
+        "label": "Pfrommer et al. 2023",
         "title": "The Power of Learned Locally Linear Models for Nonlinear Policy Optimization",
         "authors": [
-          "Daniel Pfrommer",
-          "Max Simchowitz",
-          "Tyler Westenbroek"
+          "Pfrommer",
+          "Simchowitz",
+          "Westenbroek"
         ],
         "year": 2023,
         "category": "Reinforcement Learning",
@@ -3013,12 +3013,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2307_09105",
-        "label": "Sampling-based Model Predictive Control Leveraging Paralleli…",
+        "label": "Pezzato et al. 2023",
         "title": "Sampling-based Model Predictive Control Leveraging Parallelizable Physics Simulations\n",
         "authors": [
-          "Corrado Pezzato",
-          "Chadi Salmi",
-          "Elia Trevisan"
+          "Pezzato",
+          "Salmi",
+          "Trevisan"
         ],
         "year": 2023,
         "category": "Motion Planning",
@@ -3041,12 +3041,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2308_04079",
-        "label": "3D Gaussian Splatting for Real-Time Radiance Field Rendering",
+        "label": "3DGS",
         "title": "3D Gaussian Splatting for Real-Time Radiance Field Rendering",
         "authors": [
-          "Bernhard Kerbl",
-          "Georgios Kopanas",
-          "Thomas Leimkühler"
+          "Kerbl",
+          "Kopanas",
+          "Leimkühler"
         ],
         "year": 2023,
         "category": "Computer Graphics",
@@ -3061,18 +3061,18 @@ const mindMapData = {
           "GPU",
           "Ellipsoid"
         ],
-        "summary": "Seminal paper that introduced 3D Gaussian Splatting, a rendering technique that optimizes the pose, shape, transparency, and view-dependent optic properties (modeled with spherical harmonics) of a large collection of 3D Gaussians (ellipsoidal distributions) to reconstruct a ground truth represented by multiple 2D image views (typically collected by taking photos or video from multiple views around…"
+        "summary": "Seminal paper that introduced 3D Gaussian Splatting, a rendering technique that optimizes the pose, shape, transparency, and view-dependent optic properties (modeled with spherical harmonics) of a large collection of 3D Gaussians (ellipsoidal distributions) to reconstruct a ground truth represented by multiple 2D image views (typically collected by taking photos or video from multiple views around an object or scene). The trained Gaussians are rendered via differentiable tile-based rasterization, enabling high-quality novel view synthesis at real-time frame rates."
       }
     },
     {
       "data": {
         "id": "2309_07872",
-        "label": "A Unified Perspective on Multiple Shooting In Differential D…",
+        "label": "MS-DDP",
         "title": "A Unified Perspective on Multiple Shooting In Differential Dynamic Programming",
         "authors": [
-          "He Li",
-          "Wenhao Yu",
-          "Tingnan Zhang"
+          "Li",
+          "Yu",
+          "Zhang"
         ],
         "year": 2023,
         "category": "Motion Planning",
@@ -3089,12 +3089,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2309_12566",
-        "label": "Recent Advances in Path Integral Control for Trajectory Opti…",
+        "label": "Kazim et al. 2023",
         "title": "Recent Advances in Path Integral Control for Trajectory Optimization: An Overview in Theoretical and Algorithmic Perspectives",
         "authors": [
-          "Muhammad Kazim",
-          "JunGee Hong",
-          "Min-Gyeom Kim"
+          "Kazim",
+          "Hong",
+          "Kim"
         ],
         "year": 2023,
         "category": "Motion Planning",
@@ -3113,12 +3113,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2310_17274",
-        "label": "cuRobo: Parallelized Collision-Free Minimum-Jerk Robot Motio…",
+        "label": "cuRobo",
         "title": "cuRobo: Parallelized Collision-Free Minimum-Jerk Robot Motion Generation",
         "authors": [
-          "Balakumar Sundaralingam",
-          "Siva Kumar Sastry Hari",
-          "Adam Fishman"
+          "Sundaralingam",
+          "Hari",
+          "Fishman"
         ],
         "year": 2023,
         "category": "Motion Planning",
@@ -3134,16 +3134,16 @@ const mindMapData = {
           "Open source",
           "Software"
         ],
-        "summary": "CUDA-accelerated library for collision-free robot motion generation. Formulates trajectory generation as a global optimization problem solved across thousands of parallel seeds on GPU. Combines L-BFGS with a novel parallel noisy line search and particle-based optimization to produce minimum-jerk, collision-free trajectories within ~50ms. Also includes a parallel geometric planner (~20ms) and a bat…"
+        "summary": "CUDA-accelerated library for collision-free robot motion generation. Formulates trajectory generation as a global optimization problem solved across thousands of parallel seeds on GPU. Combines L-BFGS with a novel parallel noisy line search and particle-based optimization to produce minimum-jerk, collision-free trajectories within ~50ms. Also includes a parallel geometric planner (~20ms) and a batched IK solver (>7000 queries/s). An earlier version without minimum-jerk optimization was published at ICRA 2023."
       }
     },
     {
       "data": {
         "id": "2024_calem_action_and_trajectory_prediction",
-        "label": "Action and Trajectory Prediction for Autonomous Driving",
+        "label": "Calem 2024",
         "title": "Action and Trajectory Prediction for Autonomous Driving",
         "authors": [
-          "Laura Calem"
+          "Calem"
         ],
         "year": 2024,
         "category": "Motion Prediction",
@@ -3164,10 +3164,10 @@ const mindMapData = {
     {
       "data": {
         "id": "2024_jallet_real_time_constrained_trajectory",
-        "label": "Real-time Constrained Trajectory Optimization in Robotics: T…",
+        "label": "Jallet 2024",
         "title": "Real-time Constrained Trajectory Optimization in Robotics: Theory, Implementation and Applications",
         "authors": [
-          "Wilson Jallet"
+          "Jallet"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3196,12 +3196,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2024_wang_a_convergence_guaranteed_multiple",
-        "label": "A Convergence Guaranteed Multiple-Shooting DDP Method for Op…",
+        "label": "MS-DDP",
         "title": "A Convergence Guaranteed Multiple-Shooting DDP Method for Optimization-Based Robot Motion Planning",
         "authors": [
-          "Yunlai Wang",
-          "Hui Li",
-          "Xuechao Chen"
+          "Wang",
+          "Li",
+          "Chen"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3219,11 +3219,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2401_09241",
-        "label": "Biased-MPPI: Informing Sampling-Based Model Predictive Contr…",
+        "label": "Biased-MPPI",
         "title": "Biased-MPPI: Informing Sampling-Based Model Predictive Control by Fusing Ancillary Controllers",
         "authors": [
-          "Elia Trevisan",
-          "Javier Alonso-Mora"
+          "Trevisan",
+          "Alonso-Mora"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3241,12 +3241,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2401_16025",
-        "label": "Simple Policy Optimization",
+        "label": "SPO",
         "title": "Simple Policy Optimization",
         "authors": [
-          "Zhengpeng Xie",
-          "Qiang Zhang",
-          "Fan Yang"
+          "Xie",
+          "Zhang",
+          "Yang"
         ],
         "year": 2024,
         "category": "Reinforcement Learning",
@@ -3265,12 +3265,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2402_01443",
-        "label": "FRENETIX: A High-Performance and Modular Motion Planning Fra…",
+        "label": "FRENETIX",
         "title": "FRENETIX: A High-Performance and Modular Motion Planning Framework for Autonomous Driving",
         "authors": [
-          "Rainer Trauth",
-          "Korbinian Moller",
-          "Gerald Wuersching"
+          "Trauth",
+          "Moller",
+          "Wuersching"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3289,12 +3289,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2402_03300",
-        "label": "DeepSeekMath: Pushing the Limits of Mathematical Reasoning i…",
+        "label": "GRPO",
         "title": "DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models",
         "authors": [
-          "Zhihong Shao",
-          "Peiyi Wang",
-          "Qihao Zhu"
+          "Shao",
+          "Wang",
+          "Zhu"
         ],
         "year": 2024,
         "category": "Reinforcement Learning",
@@ -3306,18 +3306,18 @@ const mindMapData = {
           "Large language models",
           "Mathematical reasoning"
         ],
-        "summary": "Introduces GRPO (Group Relative Policy Optimization), a memory-efficient RL variant that replaces the PPO critic with group-relative reward normalization. Historically this caused a big buzz in the Machine Learning world because it was used to train DeepSeek R1, an open weights LLM from China that performed nearly as well as leading closed weights LLMs from the USA. Nevertheless, GRPO is very simi…"
+        "summary": "Introduces GRPO (Group Relative Policy Optimization), a memory-efficient RL variant that replaces the PPO critic with group-relative reward normalization. Historically this caused a big buzz in the Machine Learning world because it was used to train DeepSeek R1, an open weights LLM from China that performed nearly as well as leading closed weights LLMs from the USA. Nevertheless, GRPO is very similar to the REINFORCE policy gradient algorithm, c.f. [A vision researcher's guide to some RL stuff: PPO & GRPO - Yuge (Jimmy) Shi](https://yugeten.github.io/posts/2025/01/ppogrpo/)"
       }
     },
     {
       "data": {
         "id": "2402_03893",
-        "label": "Prediction Horizon Requirements for Automated Driving: Optim…",
+        "label": "Sánchez et al. 2024",
         "title": "Prediction Horizon Requirements for Automated Driving: Optimizing Safety, Comfort, and Efficiency",
         "authors": [
-          "Manuel Muñoz Sánchez",
-          "Chris van der Ploeg",
-          "Robin Smit"
+          "Sánchez",
+          "Ploeg",
+          "Smit"
         ],
         "year": 2024,
         "category": "Motion Prediction",
@@ -3339,8 +3339,8 @@ const mindMapData = {
         "label": "Primal-Dual iLQR",
         "title": "Primal-Dual iLQR",
         "authors": [
-          "João Sousa-Pinto",
-          "Dominique Orban"
+          "Sousa-Pinto",
+          "Orban"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3359,12 +3359,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2403_01194",
-        "label": "A Comparative Study of Rapidly-exploring Random Tree Algorit…",
+        "label": "Tengesdal et al. 2024",
         "title": "A Comparative Study of Rapidly-exploring Random Tree Algorithms Applied to Ship Trajectory Planning and Behavior Generation",
         "authors": [
-          "Trym Tengesdal",
-          "Tom Arne Pedersen",
-          "Tor Arne Johansen"
+          "Tengesdal",
+          "Pedersen",
+          "Johansen"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3385,12 +3385,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2403_09110",
-        "label": "SINDy-RL: Interpretable and Efficient Model-Based Reinforcem…",
+        "label": "SINDy-RL",
         "title": "SINDy-RL: Interpretable and Efficient Model-Based Reinforcement Learning",
         "authors": [
-          "Nicholas Zolman",
-          "Urban Fasel",
-          "J. Nathan Kutz"
+          "Zolman",
+          "Fasel",
+          "Kutz"
         ],
         "year": 2024,
         "category": "Reinforcement Learning",
@@ -3408,12 +3408,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2403_10745",
-        "label": "iDb-RRT: Sampling-based Kinodynamic Motion Planning with Mot…",
+        "label": "iDb-RRT",
         "title": "iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization",
         "authors": [
-          "Joaquim Ortiz-Haro",
-          "Wolfgang Hönig",
-          "Valentin N. Hartmann"
+          "Ortiz-Haro",
+          "Hönig",
+          "Hartmann"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3432,12 +3432,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2403_18972",
-        "label": "Risk-Aware Robotics: Tail Risk Measures in Planning, Control…",
+        "label": "Akella et al. 2024",
         "title": "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification",
         "authors": [
-          "Prithvi Akella",
-          "Anushri Dixit",
-          "Mohamadreza Ahmadi"
+          "Akella",
+          "Dixit",
+          "Ahmadi"
         ],
         "year": 2024,
         "category": "Safety, Testing & Verification",
@@ -3457,12 +3457,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2405_03281",
-        "label": "FDSPC: Fast and Direct Smooth Path Planning via Continuous C…",
+        "label": "FDSPC",
         "title": "FDSPC: Fast and Direct Smooth Path Planning via Continuous Curvature Integration",
         "authors": [
-          "Zong Chen",
-          "Haoluo Shao",
-          "Ben Liu"
+          "Chen",
+          "Shao",
+          "Liu"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3479,12 +3479,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2409_06807",
-        "label": "Kino-PAX: Highly Parallel Kinodynamic Sampling-based Planner",
+        "label": "Kino-PAX",
         "title": "Kino-PAX: Highly Parallel Kinodynamic Sampling-based Planner",
         "authors": [
-          "Nicolas Perrault",
-          "Qi Heng Ho",
-          "Morteza Lahijanian"
+          "Perrault",
+          "Ho",
+          "Lahijanian"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3503,12 +3503,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2409_09523",
-        "label": "Lab2Car: A Versatile Wrapper for Deploying Experimental Plan…",
+        "label": "Lab2Car",
         "title": "Lab2Car: A Versatile Wrapper for Deploying Experimental Planners in Complex Real-World Environments",
         "authors": [
-          "Marc Heim",
-          "Francisco Suarez-Ruiz",
-          "Ishraq Bhuiyan"
+          "Heim",
+          "Suarez-Ruiz",
+          "Bhuiyan"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3527,12 +3527,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2409_11649",
-        "label": "Second-Order Constrained Dynamic Optimization",
+        "label": "Aoyama et al. 2024",
         "title": "Second-Order Constrained Dynamic Optimization",
         "authors": [
-          "Yuichiro Aoyama",
-          "Oswin So",
-          "Augustinos D. Saravanos"
+          "Aoyama",
+          "So",
+          "Saravanos"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3549,12 +3549,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2409_12266",
-        "label": "C-Uniform Trajectory Sampling For Fast Motion Planning",
+        "label": "C-Uniform MPPI",
         "title": "C-Uniform Trajectory Sampling For Fast Motion Planning",
         "authors": [
-          "O. Goktug Poyrazoglu",
-          "Yukang Cao",
-          "Volkan Isler"
+          "Poyrazoglu",
+          "Cao",
+          "Isler"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3573,12 +3573,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2409_15610",
-        "label": "Full-Order Sampling-Based MPC for Torque-Level Locomotion Co…",
+        "label": "DIAL-MPC",
         "title": "Full-Order Sampling-Based MPC for Torque-Level Locomotion Control via Diffusion-Style Annealing",
         "authors": [
-          "Haoru Xue",
-          "Chaoyi Pan",
-          "Zeji Yi"
+          "Xue",
+          "Pan",
+          "Yi"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3597,12 +3597,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2409_16012",
-        "label": "PRESTO: Fast Motion Planning Using Diffusion Models Based on…",
+        "label": "PRESTO",
         "title": "PRESTO: Fast Motion Planning Using Diffusion Models Based on Key-Configuration Environment Representation",
         "authors": [
-          "Mingyo Seo",
-          "Yoonyoung Cho",
-          "Yoonchang Sung"
+          "Seo",
+          "Cho",
+          "Sung"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3621,12 +3621,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2409_16915",
-        "label": "Let's Make a Splan: Risk-Aware Trajectory Optimization in a …",
+        "label": "SPLANNING",
         "title": "Let's Make a Splan: Risk-Aware Trajectory Optimization in a Normalized Gaussian Splat",
         "authors": [
-          "Jonathan Michaux",
-          "Seth Isaacson",
-          "Challen Enninful Adu"
+          "Michaux",
+          "Isaacson",
+          "Adu"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3645,12 +3645,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2410_19414",
-        "label": "Motion Planning for Robotics: A Review for Sampling-based Pl…",
+        "label": "Zhang et al. 2024",
         "title": "Motion Planning for Robotics: A Review for Sampling-based Planners",
         "authors": [
-          "Liding Zhang",
-          "Kuanqi Cai",
-          "Zewei Sun"
+          "Zhang",
+          "Cai",
+          "Sun"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3669,12 +3669,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2411_02158",
-        "label": "Learning Multiple Initial Solutions to Optimization Problems",
+        "label": "MISO",
         "title": "Learning Multiple Initial Solutions to Optimization Problems",
         "authors": [
-          "Elad Sharony",
-          "Heng Yang",
-          "Tong Che"
+          "Sharony",
+          "Yang",
+          "Che"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3692,12 +3692,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2411_11833",
-        "label": "Differentiable GPU-Parallelized Task and Motion Planning",
+        "label": "cuTAMP",
         "title": "Differentiable GPU-Parallelized Task and Motion Planning",
         "authors": [
-          "William Shen",
-          "Caelan Garrett",
-          "Nishanth Kumar"
+          "Shen",
+          "Garrett",
+          "Kumar"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3712,18 +3712,18 @@ const mindMapData = {
           "Robot manipulation",
           "Bilevel planning"
         ],
-        "summary": "Exploits GPU parallelism to simultaneously evaluate thousands of candidate continuous parameter seeds for a given plan skeleton, then applies differentiable gradient-based optimization to each seed in parallel to satisfy the induced continuous constraint satisfaction problem. This combines the discrete search of classical TAMP with massively parallel differentiable optimization, significantly redu…"
+        "summary": "Exploits GPU parallelism to simultaneously evaluate thousands of candidate continuous parameter seeds for a given plan skeleton, then applies differentiable gradient-based optimization to each seed in parallel to satisfy the induced continuous constraint satisfaction problem. This combines the discrete search of classical TAMP with massively parallel differentiable optimization, significantly reducing solve times for long-horizon manipulation tasks in highly constrained settings."
       }
     },
     {
       "data": {
         "id": "2411_15651",
-        "label": "Model Predictive Trees: Sample-Efficient Receding Horizon Pl…",
+        "label": "MPT",
         "title": "Model Predictive Trees: Sample-Efficient Receding Horizon Planning with Reusable Tree Search",
         "authors": [
-          "John Lathrop",
-          "Benjamin Rivière",
-          "Jedidiah Alindogan"
+          "Lathrop",
+          "Rivière",
+          "Alindogan"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3743,12 +3743,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2411_17902",
-        "label": "Nearest-Neighbourless Asymptotically Optimal Motion Planning…",
+        "label": "FCIT*",
         "title": "Nearest-Neighbourless Asymptotically Optimal Motion Planning with Fully Connected Informed Trees (FCIT*)",
         "authors": [
-          "Tyler S. Wilson",
-          "Wil Thomason",
-          "Zachary Kingston"
+          "Wilson",
+          "Thomason",
+          "Kingston"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -3770,12 +3770,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2412_11270",
-        "label": "Monte Carlo Tree Search with Spectral Expansion for Planning…",
+        "label": "SETS",
         "title": "Monte Carlo Tree Search with Spectral Expansion for Planning with Dynamical Systems",
         "authors": [
-          "Benjamin Rivière",
-          "John Lathrop",
-          "Soon-Jo Chung"
+          "Rivière",
+          "Lathrop",
+          "Chung"
         ],
         "year": 2024,
         "category": "Motion Planning",
@@ -3798,12 +3798,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2025_crestaz_td_cd_mppi_temporal_difference",
-        "label": "TD-CD-MPPI: Temporal-Difference Constraint-Discounted Model …",
+        "label": "TD-CD-MPPI",
         "title": "TD-CD-MPPI: Temporal-Difference Constraint-Discounted Model Predictive Path Integral Control",
         "authors": [
-          "Pietro Noah Crestaz",
-          "Ludovic De Matteis",
-          "Elliot Chane-Sane"
+          "Crestaz",
+          "Matteis",
+          "Chane-Sane"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -3821,10 +3821,10 @@ const mindMapData = {
     {
       "data": {
         "id": "2025_hu_technical_speaking_transitioning_from",
-        "label": "Technically Speaking: Transitioning from Rule-Based to ML-Po…",
+        "label": "Hu 2025",
         "title": "Technically Speaking: Transitioning from Rule-Based to ML-Powered Motion Planning",
         "authors": [
-          "Alexander Hu"
+          "Hu"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -3842,11 +3842,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2025_lee_time_correlated_model_predictive",
-        "label": "Time-Correlated Model Predictive Path Integral: Smooth Actio…",
+        "label": "TC-MPPI",
         "title": "Time-Correlated Model Predictive Path Integral: Smooth Action Generation for Sampling-Based Control",
         "authors": [
-          "Minhyeong Lee",
-          "Dongjun Lee"
+          "Lee",
+          "Lee"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -3864,10 +3864,10 @@ const mindMapData = {
     {
       "data": {
         "id": "2025_trevisan_model_predictive_path_integral",
-        "label": "Model Predictive Path Integral Control for Interaction-Rich …",
+        "label": "Trevisan 2025",
         "title": "Model Predictive Path Integral Control for Interaction-Rich Local Motion Planning in Dynamic Environments",
         "authors": [
-          "Elia Trevisan"
+          "Trevisan"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -3885,11 +3885,11 @@ const mindMapData = {
     {
       "data": {
         "id": "2025_xia_an_adaptive_projection_differential",
-        "label": "An Adaptive Projection Differential Dynamic Programming Meth…",
+        "label": "AP-DDP",
         "title": "An Adaptive Projection Differential Dynamic Programming Method for Control Constrained Trajectory Optimization",
         "authors": [
-          "Zhehao Xia",
-          "Yizhong Wu"
+          "Xia",
+          "Wu"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -3907,12 +3907,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2501_05204",
-        "label": "Design and Control of a Bipedal Robotic Character",
+        "label": "Grandia et al. 2025",
         "title": "Design and Control of a Bipedal Robotic Character",
         "authors": [
-          "Ruben Grandia",
-          "Espen Knoop",
-          "Michael A. Hopkins"
+          "Grandia",
+          "Knoop",
+          "Hopkins"
         ],
         "year": 2025,
         "category": "Just for Fun",
@@ -3930,12 +3930,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2502_08664",
-        "label": "Motion Forecasting for Autonomous Vehicles: A Survey",
+        "label": "Shi et al. 2025",
         "title": "Motion Forecasting for Autonomous Vehicles: A Survey",
         "authors": [
-          "Jianxin Shi",
-          "Jinhao Chen",
-          "Yuandong Wang"
+          "Shi",
+          "Chen",
+          "Wang"
         ],
         "year": 2025,
         "category": "Motion Prediction",
@@ -3952,12 +3952,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2502_09556",
-        "label": "Real-Time Fast Marching Tree for Mobile Robot Motion Plannin…",
+        "label": "RT-FMT",
         "title": "Real-Time Fast Marching Tree for Mobile Robot Motion Planning in Dynamic Environments",
         "authors": [
-          "Jefferson Silveira",
-          "Kleber Cabral",
-          "Sidney Givigi"
+          "Silveira",
+          "Cabral",
+          "Givigi"
         ],
         "year": 2023,
         "category": "Motion Planning",
@@ -3976,12 +3976,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2503_03262",
-        "label": "Trajectory Prediction for Autonomous Driving: Progress, Limi…",
+        "label": "Madjid et al. 2025",
         "title": "Trajectory Prediction for Autonomous Driving: Progress, Limitations, and Future Directions",
         "authors": [
-          "Nadya Abdel Madjid",
-          "Abdulrahman Ahmad",
-          "Murad Mebrahtu"
+          "Madjid",
+          "Ahmad",
+          "Mebrahtu"
         ],
         "year": 2025,
         "category": "Motion Prediction",
@@ -3998,12 +3998,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2503_05819",
-        "label": "An Unsupervised C-Uniform Trajectory Sampler with Applicatio…",
+        "label": "CU-MPPI",
         "title": "An Unsupervised C-Uniform Trajectory Sampler with Applications to Model Predictive Path Integral Control",
         "authors": [
-          "Oguzhan Goktug Poyrazoglu",
-          "Rahul Moorthy",
-          "Yukang Cao"
+          "Poyrazoglu",
+          "Moorthy",
+          "Cao"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -4022,12 +4022,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2503_06757",
-        "label": "pRRTC: GPU-Parallel RRT-Connect for Fast, Consistent, and Lo…",
+        "label": "pRRTC",
         "title": "pRRTC: GPU-Parallel RRT-Connect for Fast, Consistent, and Low-Cost Motion Planning",
         "authors": [
-          "Chih H. Huang",
-          "Pranav Jadhav",
-          "Brian Plancher"
+          "Huang",
+          "Jadhav",
+          "Plancher"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -4050,12 +4050,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2503_09722",
-        "label": "The Pitfalls of Imitation Learning when Actions are Continuo…",
+        "label": "Simchowitz et al. 2025",
         "title": "The Pitfalls of Imitation Learning when Actions are Continuous",
         "authors": [
-          "Max Simchowitz",
-          "Daniel Pfrommer",
-          "Ali Jadbabaie"
+          "Simchowitz",
+          "Pfrommer",
+          "Jadbabaie"
         ],
         "year": 2025,
         "category": "Reinforcement Learning",
@@ -4073,10 +4073,10 @@ const mindMapData = {
     {
       "data": {
         "id": "2503_11717",
-        "label": "Low-pass Sampling in Model Predictive Path Integral Control",
+        "label": "Low-pass MPPI",
         "title": "Low-pass Sampling in Model Predictive Path Integral Control",
         "authors": [
-          "Piotr Kicki"
+          "Kicki"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -4094,12 +4094,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2504_06437",
-        "label": "DBaS-Log-MPPI: Efficient and Safe Trajectory Optimization vi…",
+        "label": "DBaS-Log-MPPI",
         "title": "DBaS-Log-MPPI: Efficient and Safe Trajectory Optimization via Barrier States",
         "authors": [
-          "Fanxin Wang",
-          "Haolong Jiang",
-          "Chuyuan Tao"
+          "Wang",
+          "Jiang",
+          "Tao"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -4117,12 +4117,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2504_18978",
-        "label": "A Biconvex Method for Minimum-Time Motion Planning Through S…",
+        "label": "Marcucci et al. 2025",
         "title": "A Biconvex Method for Minimum-Time Motion Planning Through Sequences of Convex Sets",
         "authors": [
-          "Tobia Marcucci",
-          "Mathew Halm",
-          "William Yang"
+          "Marcucci",
+          "Halm",
+          "Yang"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -4135,18 +4135,18 @@ const mindMapData = {
           "GCS",
           "Bezier curves"
         ],
-        "summary": "Addresses minimum-time trajectory design through a fixed sequence of convex sets subject to velocity and acceleration constraints - a problem that is natively nonconvex due to the coupling between time scaling and path shape. The proposed biconvex method alternates between two convex subproblems, quickly generating a feasible initial trajectory and iteratively refining it without line-search param…"
+        "summary": "Addresses minimum-time trajectory design through a fixed sequence of convex sets subject to velocity and acceleration constraints - a problem that is natively nonconvex due to the coupling between time scaling and path shape. The proposed biconvex method alternates between two convex subproblems, quickly generating a feasible initial trajectory and iteratively refining it without line-search parameters."
       }
     },
     {
       "data": {
         "id": "2505_05507",
-        "label": "VIMPPI: Enhancing Model Predictive Path Integral Control wit…",
+        "label": "VIMPPI",
         "title": "VIMPPI: Enhancing Model Predictive Path Integral Control with Variational Integration for Underactuated Systems",
         "authors": [
-          "Igor Alentev",
-          "Lev Kozlov",
-          "Ivan Domrachev"
+          "Alentev",
+          "Kozlov",
+          "Domrachev"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -4164,12 +4164,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2505_08510",
-        "label": "FOCI: Trajectory Optimization on Gaussian Splats",
+        "label": "FOCI",
         "title": "FOCI: Trajectory Optimization on Gaussian Splats",
         "authors": [
-          "Mario Gomez Andreu",
-          "Maximum Wilder-Smith",
-          "Victor Klemm"
+          "Andreu",
+          "Wilder-Smith",
+          "Klemm"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -4187,12 +4187,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2505_09074",
-        "label": "Trends in Motion Prediction Toward Deployable and Generaliza…",
+        "label": "Wang et al. 2025",
         "title": "Trends in Motion Prediction Toward Deployable and Generalizable Autonomy: A Revisit and Perspectives",
         "authors": [
-          "Letian Wang",
-          "Marc-Antoine Lavoie",
-          "Sandro Papais"
+          "Wang",
+          "Lavoie",
+          "Papais"
         ],
         "year": 2025,
         "category": "Motion Prediction",
@@ -4211,12 +4211,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2505_10542",
-        "label": "AORRTC: Almost-Surely Asymptotically Optimal Planning with R…",
+        "label": "AORRTC",
         "title": "AORRTC: Almost-Surely Asymptotically Optimal Planning with RRT-Connect",
         "authors": [
-          "Tyler S. Wilson",
-          "Wil Thomason",
-          "Zachary Kingston"
+          "Wilson",
+          "Thomason",
+          "Kingston"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -4237,12 +4237,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2505_21851",
-        "label": "Streaming Flow Policy: Simplifying Diffusion/Flow-Matching P…",
+        "label": "Streaming Flow Policy",
         "title": "Streaming Flow Policy: Simplifying Diffusion/Flow-Matching Policies by Treating Action Trajectories as Flow Trajectories",
         "authors": [
-          "Sunshine Jiang",
-          "Xiaolin Fang",
-          "Nicholas Roy"
+          "Jiang",
+          "Fang",
+          "Roy"
         ],
         "year": 2025,
         "category": "Reinforcement Learning",
@@ -4261,12 +4261,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2506_11513",
-        "label": "Automatic Generation of Explicit Quadratic Programming Solve…",
+        "label": "Schaller et al. 2025",
         "title": "Automatic Generation of Explicit Quadratic Programming Solvers",
         "authors": [
-          "Maximilian Schaller",
-          "Daniel Arnström",
-          "Alberto Bemporad"
+          "Schaller",
+          "Arnström",
+          "Bemporad"
         ],
         "year": 2025,
         "category": "Optimization",
@@ -4283,12 +4283,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2506_14865",
-        "label": "Efficient and Real-Time Motion Planning for Robotics Using P…",
+        "label": "ALSPG",
         "title": "Efficient and Real-Time Motion Planning for Robotics Using Projection-Based Optimization",
         "authors": [
-          "Xuemin Chi",
-          "Hakan Girgin",
-          "Tobias Löw"
+          "Chi",
+          "Girgin",
+          "Löw"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -4306,12 +4306,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2506_17184",
-        "label": "Judo: A User-Friendly Open-Source Package for Sampling-Based…",
+        "label": "Judo",
         "title": "Judo: A User-Friendly Open-Source Package for Sampling-Based Model Predictive Control",
         "authors": [
-          "Albert H. Li",
-          "Brandon Hung",
-          "Aaron D. Ames"
+          "Li",
+          "Hung",
+          "Ames"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -4325,18 +4325,18 @@ const mindMapData = {
           "Software",
           "Real-time control"
         ],
-        "summary": "Judo is an open-source Python package providing standardized implementations of sampling-based MPC algorithms (MPPI, CEM, Predictive Sampling, etc.), benchmark tasks, and an interactive GUI for controller tuning. It uses MuJoCo as its physics backend for real-time performance, and supports asynchronous execution to ease sim-to-hardware transfer. The focus is on tooling and usability rather than no…"
+        "summary": "Judo is an open-source Python package providing standardized implementations of sampling-based MPC algorithms (MPPI, CEM, Predictive Sampling, etc.), benchmark tasks, and an interactive GUI for controller tuning. It uses MuJoCo as its physics backend for real-time performance, and supports asynchronous execution to ease sim-to-hardware transfer. The focus is on tooling and usability rather than novel algorithmic contributions. One interesting thing is that Judo runs 100% on CPU (by necessity rather than choice, as the authors indicate they are waiting for development of mujoco_warp to stabilize to provide GPU-based sim rollouts). If you get a server grade Threadripper CPU with 64 cores/128 threads you can do amazing things and plan/control in < 2ms."
       }
     },
     {
       "data": {
         "id": "2508_05027",
-        "label": "Benchmarking Shortcutting Techniques for Multi-Robot-Arm Mot…",
+        "label": "Huang et al. 2025",
         "title": "Benchmarking Shortcutting Techniques for Multi-Robot-Arm Motion Planning",
         "authors": [
-          "Philip Huang",
-          "Yorai Shaoul",
-          "Jiaoyang Li"
+          "Huang",
+          "Shaoul",
+          "Li"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -4356,12 +4356,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2508_21364",
-        "label": "Multi-Modal Model Predictive Path Integral Control for Colli…",
+        "label": "Multi-Modal MPPI",
         "title": "Multi-Modal Model Predictive Path Integral Control for Collision Avoidance",
         "authors": [
-          "Alberto Bertipaglia",
-          "Dariu M. Gavrila",
-          "Barys Shyrokau"
+          "Bertipaglia",
+          "Gavrila",
+          "Shyrokau"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -4379,12 +4379,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2510_00272",
-        "label": "BC-MPPI: A Probabilistic Constraint Layer for Safe Model-Pre…",
+        "label": "BC-MPPI",
         "title": "BC-MPPI: A Probabilistic Constraint Layer for Safe Model-Predictive Path-Integral Control",
         "authors": [
-          "Odichimnma Ezeji",
-          "Michael Ziegltrum",
-          "Giulio Turrisi"
+          "Ezeji",
+          "Ziegltrum",
+          "Turrisi"
         ],
         "year": 2025,
         "category": "Motion Planning",
@@ -4402,12 +4402,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2511_00088",
-        "label": "Alpamayo-R1: Bridging Reasoning and Action Prediction for Ge…",
+        "label": "Alpamayo-R1",
         "title": "Alpamayo-R1: Bridging Reasoning and Action Prediction for Generalizable Autonomous Driving in the Long Tail",
         "authors": [
-          "Yan Wang",
-          "Wenjie Luo",
-          "Junjie Bai"
+          "Wang",
+          "Luo",
+          "Bai"
         ],
         "year": 2025,
         "category": "Machine Learning",
@@ -4415,18 +4415,18 @@ const mindMapData = {
         "tags": [
           "Vision-language-action model"
         ],
-        "summary": "A large team of authors from NVIDIA has put together a lot of big pieces in a data and deep model architecture pipeline for training and deploying an end-to-end (E2E) vision-language-action (VLA) model for autonomous driving. It is interesting to see this hard push into end-to-end approaches, which the authors motivate by recent advances in \"reasoning\" abilities gained in large language models whi…"
+        "summary": "A large team of authors from NVIDIA has put together a lot of big pieces in a data and deep model architecture pipeline for training and deploying an end-to-end (E2E) vision-language-action (VLA) model for autonomous driving. It is interesting to see this hard push into end-to-end approaches, which the authors motivate by recent advances in \"reasoning\" abilities gained in large language models which is purported to address the safety gap that arises with E2E models."
       }
     },
     {
       "data": {
         "id": "2511_00814",
-        "label": "Real-Time Learning of Predictive Dynamic Obstacle Models for…",
+        "label": "Kombo et al. 2025",
         "title": "Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning",
         "authors": [
-          "Stella Kombo",
-          "Masih Haseli",
-          "Skylar Wei"
+          "Kombo",
+          "Haseli",
+          "Wei"
         ],
         "year": 2025,
         "category": "Motion Prediction",
@@ -4435,18 +4435,18 @@ const mindMapData = {
           "Prediction",
           "Dynamic Mode Decomposition"
         ],
-        "summary": "Tackles the problem of data-driven motion prediction by using a special kind of Dynamic Mode Decomposition (DMD), which comes from the Koopman operator theory, to learn a model of the agent motion. The model also produces uncertainty estimates, which is useful for downstream risk-aware planning & control. This paper combines a lot of smaller techniques (Hankel-DMD, Cadzow projection, Singular Valu…"
+        "summary": "Tackles the problem of data-driven motion prediction by using a special kind of Dynamic Mode Decomposition (DMD), which comes from the Koopman operator theory, to learn a model of the agent motion. The model also produces uncertainty estimates, which is useful for downstream risk-aware planning & control. This paper combines a lot of smaller techniques (Hankel-DMD, Cadzow projection, Singular Value Hard Thresholding (SVHT), etc.) together into a rather intricate bells-and-whistles learner, but that in itself is nice as it provides the reader some clues into those techniques."
       }
     },
     {
       "data": {
         "id": "2602_02846",
-        "label": "Kino-PAX+: Near-Optimal Massively Parallel Kinodynamic Sampl…",
+        "label": "Kino-PAX+",
         "title": "Kino-PAX+: Near-Optimal Massively Parallel Kinodynamic Sampling-based Motion Planner",
         "authors": [
-          "Nicolas Perrault",
-          "Qi Heng Ho",
-          "Morteza Lahijanian"
+          "Perrault",
+          "Ho",
+          "Lahijanian"
         ],
         "year": 2026,
         "category": "Motion Planning",
@@ -4467,12 +4467,12 @@ const mindMapData = {
     {
       "data": {
         "id": "2603_16059",
-        "label": "Ultrafast Sampling-based Kinodynamic Planning via Differenti…",
+        "label": "AkinoPDF",
         "title": "Ultrafast Sampling-based Kinodynamic Planning via Differential Flatness",
         "authors": [
-          "Thai Duong",
-          "Clayton W. Ramsey",
-          "Zachary Kingston"
+          "Duong",
+          "Ramsey",
+          "Kingston"
         ],
         "year": 2026,
         "category": "Motion Planning",
@@ -4485,7 +4485,7 @@ const mindMapData = {
           "Manipulators",
           "Quadrotors"
         ],
-        "summary": "Exploits differential flatness to obtain closed-form analytical BVP solutions in a flat output space. Planning is done in the flat space (concatenation of flat outputs and several time derivatives thereof). Kinodynamic constraints and collision checking can be done very efficiently/quickly by using SIMD instructions on CPU. Closely related to the linear-systems approach of Webb & van den Berg (120…"
+        "summary": "Exploits differential flatness to obtain closed-form analytical BVP solutions in a flat output space. Planning is done in the flat space (concatenation of flat outputs and several time derivatives thereof). Kinodynamic constraints and collision checking can be done very efficiently/quickly by using SIMD instructions on CPU. Closely related to the linear-systems approach of Webb & van den Berg (1205.5088) but extended to the broader class of differentially flat systems."
       }
     }
   ],

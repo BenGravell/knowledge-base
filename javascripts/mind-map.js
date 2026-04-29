@@ -61,6 +61,7 @@
   let currentThreshold = DATA.meta.threshold;
   let activeCategories = new Set();
   let currentSearch = '';
+  let pinnedNode = null;
 
   /* -------------------------------------------------------------------------
    * Utility
@@ -183,75 +184,73 @@
   }
 
   /* -------------------------------------------------------------------------
-   * Cytoscape stylesheet
+   * Cytoscape stylesheet — reads CSS variables so it responds to theme changes
    * -------------------------------------------------------------------------*/
-  const STYLESHEET = [
-    {
-      selector: 'node',
-      style: {
-        'background-color': 'data(color)',
-        'label': 'data(label)',
-        'font-size': 9,
-        'font-family': '"Atkinson Hyperlegible Next", "Segoe UI", sans-serif',
-        'color': '#ffffff',
-        'text-outline-color': 'data(color)',
-        'text-outline-width': 3,
-        'text-wrap': 'ellipsis',
-        'text-max-width': 110,
-        'text-valign': 'center',
-        'text-halign': 'center',
-        'width': 28,
-        'height': 28,
-        'border-width': 1.5,
-        'border-color': 'rgba(255,255,255,0.35)',
-        'min-zoomed-font-size': 6,
-        'transition-property': 'opacity, border-width, border-color',
-        'transition-duration': '120ms',
+  function buildStylesheet() {
+    const cs = getComputedStyle(document.documentElement);
+    const v  = name => cs.getPropertyValue(name).trim();
+
+    return [
+      {
+        selector: 'node',
+        style: {
+          'background-color': 'data(color)',
+          'label': 'data(label)',
+          'font-size': 9,
+          'font-family': '"Atkinson Hyperlegible Next", "Segoe UI", sans-serif',
+          'color': '#ffffff',
+          'text-outline-color': 'data(color)',
+          'text-outline-width': 3,
+          'text-wrap': 'ellipsis',
+          'text-max-width': 110,
+          'text-valign': 'center',
+          'text-halign': 'center',
+          'width': 28,
+          'height': 28,
+          'border-width': 1.5,
+          'border-color': 'rgba(255,255,255,0.35)',
+          'min-zoomed-font-size': 6,
+          'transition-property': 'opacity, border-width, border-color',
+          'transition-duration': '120ms',
+        },
       },
-    },
-    {
-      selector: 'node:selected',
-      style: {
-        'border-width': 4,
-        'border-color': '#FFD700',
+      {
+        selector: 'node:selected',
+        style: { 'border-width': 4, 'border-color': '#FFD700' },
       },
-    },
-    {
-      selector: 'node.highlighted',
-      style: {
-        'border-width': 3,
-        'border-color': '#FFD700',
-        'z-index': 10,
+      {
+        selector: 'node.highlighted',
+        style: { 'border-width': 3, 'border-color': '#FFD700', 'z-index': 10 },
       },
-    },
-    {
-      selector: 'node.dimmed',
-      style: { 'opacity': 0.12 },
-    },
-    {
-      selector: 'edge',
-      style: {
-        'width': 'mapData(weight, 0.50, 1.00, 0.4, 3.5)',
-        'line-color': 'rgba(180,200,255,0.35)',
-        'opacity': 1,
-        'curve-style': 'bezier',
-        'transition-property': 'opacity, line-color',
-        'transition-duration': '120ms',
+      {
+        selector: 'node.dimmed',
+        style: { 'opacity': 0.12 },
       },
-    },
-    {
-      selector: 'edge.highlighted',
-      style: {
-        'line-color': 'rgba(255,215,0,0.8)',
-        'width': 2.5,
-        'z-index': 10,
+      {
+        selector: 'edge',
+        style: {
+          'width': 'mapData(weight, 0.50, 1.00, 0.4, 3.5)',
+          'line-color': v('--mm-edge-color') || 'rgba(180,200,255,0.35)',
+          'opacity': 1,
+          'curve-style': 'bezier',
+          'transition-property': 'opacity, line-color',
+          'transition-duration': '120ms',
+        },
       },
-    },
-    {
-      selector: 'edge.dimmed',
-      style: { 'opacity': 0.04 },
-    },
-  ];
+      {
+        selector: 'edge.highlighted',
+        style: {
+          'line-color': v('--mm-edge-highlighted') || 'rgba(255,215,0,0.8)',
+          'width': 2.5,
+          'z-index': 10,
+        },
+      },
+      {
+        selector: 'edge.dimmed',
+        style: { 'opacity': 0.04 },
+      },
+    ];
+  }
 
   /* -------------------------------------------------------------------------
    * Initialise Cytoscape
@@ -264,7 +263,7 @@
     cy = cytoscape({
       container: document.getElementById('cy'),
       elements: buildElements(),
-      style: STYLESHEET,
+      style: buildStylesheet(),
       layout: { name: 'preset' },   // positions set below via buildLayoutEles()
       minZoom: 0.04,
       maxZoom: 6,
@@ -273,31 +272,45 @@
 
     cy.on('layoutstop', hideLoading);
 
-    // Hover: show tooltip + dim others
+    // Hover: show tooltip + dim others (skip if a node is pinned)
     cy.on('mouseover', 'node', evt => {
-      showNodeTooltip(evt.target, evt.renderedPosition);
+      if (pinnedNode) return;
+      showNodeTooltip(evt.target, evt.renderedPosition, false);
       dimExcept(evt.target.closedNeighborhood());
     });
     cy.on('mouseout', 'node', () => {
+      if (pinnedNode) return;
       hideTooltip();
       clearDim();
     });
 
-    // Hover on edge: show similarity tooltip
+    // Hover on edge: show similarity tooltip (skip if a node is pinned)
     cy.on('mouseover', 'edge', evt => {
+      if (pinnedNode) return;
       showEdgeTooltip(evt.target, evt.renderedPosition);
     });
-    cy.on('mouseout', 'edge', hideTooltip);
-
-    // Click: open paper in new tab
-    cy.on('tap', 'node', evt => {
-      const id = evt.target.id();
-      window.open(`../papers/${id}/`, '_blank');
+    cy.on('mouseout', 'edge', () => {
+      if (pinnedNode) return;
+      hideTooltip();
     });
 
-    // Click on background: clear dim
+    // Click: pin node (keep detail view open); clicking same node unpins
+    cy.on('tap', 'node', evt => {
+      const node = evt.target;
+      if (pinnedNode === node) {
+        pinnedNode = null;
+        hideTooltip();
+        clearDim();
+      } else {
+        pinnedNode = node;
+        showNodeTooltip(node, evt.renderedPosition, true);
+        dimExcept(node.closedNeighborhood());
+      }
+    });
+
+    // Click on background: clear pin + dim
     cy.on('tap', evt => {
-      if (evt.target === cy) { clearDim(); hideTooltip(); }
+      if (evt.target === cy) { pinnedNode = null; clearDim(); hideTooltip(); }
     });
 
     updateStats();
@@ -311,16 +324,19 @@
    * -------------------------------------------------------------------------*/
   const tooltip = document.getElementById('mm-tooltip');
 
-  function showNodeTooltip(node, pos) {
+  function showNodeTooltip(node, pos, pinned) {
     const d = node.data();
     const authors = (d.authors || []).join(', ') || 'Unknown';
     const tags = (d.tags || []).slice(0, 7).join(' · ');
+    const url = `../papers/${d.id}/`;
     tooltip.innerHTML =
       `<div class="tt-title">${escHtml(d.title)}</div>` +
+      `<a class="tt-link" href="${url}" target="_blank" rel="noopener">Open ↗</a>` +
       `<div class="tt-meta">${escHtml(authors)}&nbsp;&nbsp;${d.year || ''}</div>` +
       (tags ? `<div class="tt-tags">${escHtml(tags)}</div>` : '') +
       (d.summary ? `<div class="tt-summary">${escHtml(d.summary)}</div>` : '') +
-      `<div class="tt-hint">Click to open paper ↗</div>`;
+      (!pinned ? `<div class="tt-hint">Click to pin</div>` : `<div class="tt-hint">Click node again to unpin</div>`);
+    tooltip.classList.toggle('pinned', pinned);
     placeTooltip(pos);
   }
 
@@ -331,24 +347,36 @@
     tooltip.innerHTML =
       `<div class="tt-title">Similarity: ${pct}%</div>` +
       `<div class="tt-meta">${escHtml(src)}</div>` +
-      `<div class="tt-meta">↔&nbsp;${escHtml(tgt)}</div>`;
+      `<div class="tt-meta">↔</div>` +
+      `<div class="tt-meta">${escHtml(tgt)}</div>`;
     placeTooltip(pos);
   }
 
   function placeTooltip(pos) {
+    const MARGIN = 12;
     const cy_rect = document.getElementById('cy').getBoundingClientRect();
-    const margin = 16;
-    const W = 320, H = 220;
-    let x = cy_rect.left + pos.x + margin;
-    let y = cy_rect.top  + pos.y + margin;
-    if (x + W > window.innerWidth)  x = cy_rect.left + pos.x - W - margin;
-    if (y + H > window.innerHeight) y = cy_rect.top  + pos.y - H - margin;
+
+    // Make visible first so the browser lays out the content and we can measure it.
+    tooltip.classList.add('visible');
+    const W = tooltip.offsetWidth;
+    const H = tooltip.offsetHeight;
+
+    let x = cy_rect.left + pos.x + MARGIN;
+    let y = cy_rect.top  + pos.y + MARGIN;
+
+    // Prefer flipping to the other side before clamping.
+    if (x + W + MARGIN > window.innerWidth)  x = cy_rect.left + pos.x - W - MARGIN;
+    if (y + H + MARGIN > window.innerHeight) y = cy_rect.top  + pos.y - H - MARGIN;
+
+    // Hard clamp: never spill past any viewport edge.
+    x = Math.max(MARGIN, Math.min(x, window.innerWidth  - W - MARGIN));
+    y = Math.max(MARGIN, Math.min(y, window.innerHeight - H - MARGIN));
+
     tooltip.style.left = `${x}px`;
     tooltip.style.top  = `${y}px`;
-    tooltip.classList.add('visible');
   }
 
-  function hideTooltip() { tooltip.classList.remove('visible'); }
+  function hideTooltip() { tooltip.classList.remove('visible', 'pinned'); }
 
   function escHtml(s) {
     return String(s)
@@ -509,15 +537,6 @@
    * Wire up controls
    * -------------------------------------------------------------------------*/
   function setupControls() {
-    // Panel toggle
-    document.getElementById('mm-toggle-panel').addEventListener('click', () => {
-      const body = document.getElementById('mm-panel-body');
-      const btn  = document.getElementById('mm-toggle-panel');
-      const hidden = body.style.display === 'none';
-      body.style.display = hidden ? '' : 'none';
-      btn.textContent = hidden ? 'Hide' : 'Show';
-    });
-
     // Threshold slider
     const slider = document.getElementById('mm-threshold-slider');
     const label  = document.getElementById('mm-threshold-val');
@@ -572,6 +591,20 @@
   buildCategoryFilters();
   setupControls();
   initCy();
+
+  // Re-apply Cytoscape stylesheet when MkDocs switches light ↔ dark
+  const _themeObserver = new MutationObserver(() => {
+    if (cy) cy.style(buildStylesheet());
+  });
+  _themeObserver.observe(document.documentElement, {
+    attributes: true, attributeFilter: ['data-md-color-scheme'],
+  });
+  // Also observe body in case MkDocs sets the attribute there
+  if (document.body) {
+    _themeObserver.observe(document.body, {
+      attributes: true, attributeFilter: ['data-md-color-scheme'],
+    });
+  }
 
   // Expose for debugging
   window._cy = () => cy;
