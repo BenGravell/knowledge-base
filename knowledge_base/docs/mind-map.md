@@ -274,18 +274,23 @@ h1                  { display: none; }
   border: 1px solid rgba(255,255,255,0.18);
   border-radius: 10px;
   padding: 11px 14px;
-  max-width: 320px;
+  max-width: 40vw;
+  max-height: 65vh;
+  overflow-y: hidden;
   pointer-events: none;
   backdrop-filter: blur(10px);
   box-shadow: 0 6px 28px rgba(0,0,0,0.6);
   font-family: "Atkinson Hyperlegible Next", "Segoe UI", sans-serif;
 }
 #mm-tooltip.visible { display: block; }
+#mm-tooltip.pinned  { pointer-events: auto; border-color: rgba(255,215,0,0.35); overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.15) transparent; }
 
-.tt-title   { font-size: 0.83rem; font-weight: 600; color: #dce4ff; line-height: 1.35; margin-bottom: 5px; }
+.tt-title   { font-size: 0.83rem; font-weight: 600; color: #dce4ff; line-height: 1.35; margin-bottom: 4px; }
+.tt-link    { display: block; font-size: 0.75rem; color: #4d9fff; text-decoration: none; margin-bottom: 7px; }
+.tt-link:hover { color: #80bfff; text-decoration: underline; }
 .tt-meta    { font-size: 0.73rem; color: #778; margin-bottom: 2px; }
 .tt-tags    { font-size: 0.7rem;  color: #5588bb; margin: 5px 0; line-height: 1.5; }
-.tt-summary { font-size: 0.73rem; color: #99a; margin-top: 6px; line-height: 1.45; max-height: 90px; overflow: hidden; }
+.tt-summary { font-size: 0.73rem; color: #99a; margin-top: 6px; line-height: 1.45; }
 .tt-hint    { font-size: 0.68rem; color: #445; margin-top: 8px; font-style: italic; }
 </style>
 

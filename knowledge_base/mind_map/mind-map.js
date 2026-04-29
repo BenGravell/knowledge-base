@@ -61,6 +61,7 @@
   let currentThreshold = DATA.meta.threshold;
   let activeCategories = new Set();
   let currentSearch = '';
+  let pinnedNode = null;
 
   /* -------------------------------------------------------------------------
    * Utility
@@ -273,31 +274,45 @@
 
     cy.on('layoutstop', hideLoading);
 
-    // Hover: show tooltip + dim others
+    // Hover: show tooltip + dim others (skip if a node is pinned)
     cy.on('mouseover', 'node', evt => {
-      showNodeTooltip(evt.target, evt.renderedPosition);
+      if (pinnedNode) return;
+      showNodeTooltip(evt.target, evt.renderedPosition, false);
       dimExcept(evt.target.closedNeighborhood());
     });
     cy.on('mouseout', 'node', () => {
+      if (pinnedNode) return;
       hideTooltip();
       clearDim();
     });
 
-    // Hover on edge: show similarity tooltip
+    // Hover on edge: show similarity tooltip (skip if a node is pinned)
     cy.on('mouseover', 'edge', evt => {
+      if (pinnedNode) return;
       showEdgeTooltip(evt.target, evt.renderedPosition);
     });
-    cy.on('mouseout', 'edge', hideTooltip);
-
-    // Click: open paper in new tab
-    cy.on('tap', 'node', evt => {
-      const id = evt.target.id();
-      window.open(`../papers/${id}/`, '_blank');
+    cy.on('mouseout', 'edge', () => {
+      if (pinnedNode) return;
+      hideTooltip();
     });
 
-    // Click on background: clear dim
+    // Click: pin node (keep detail view open); clicking same node unpins
+    cy.on('tap', 'node', evt => {
+      const node = evt.target;
+      if (pinnedNode === node) {
+        pinnedNode = null;
+        hideTooltip();
+        clearDim();
+      } else {
+        pinnedNode = node;
+        showNodeTooltip(node, evt.renderedPosition, true);
+        dimExcept(node.closedNeighborhood());
+      }
+    });
+
+    // Click on background: clear pin + dim
     cy.on('tap', evt => {
-      if (evt.target === cy) { clearDim(); hideTooltip(); }
+      if (evt.target === cy) { pinnedNode = null; clearDim(); hideTooltip(); }
     });
 
     updateStats();
@@ -311,16 +326,19 @@
    * -------------------------------------------------------------------------*/
   const tooltip = document.getElementById('mm-tooltip');
 
-  function showNodeTooltip(node, pos) {
+  function showNodeTooltip(node, pos, pinned) {
     const d = node.data();
     const authors = (d.authors || []).join(', ') || 'Unknown';
     const tags = (d.tags || []).slice(0, 7).join(' · ');
+    const url = `../papers/${d.id}/`;
     tooltip.innerHTML =
       `<div class="tt-title">${escHtml(d.title)}</div>` +
+      `<a class="tt-link" href="${url}" target="_blank" rel="noopener">Open paper ↗</a>` +
       `<div class="tt-meta">${escHtml(authors)}&nbsp;&nbsp;${d.year || ''}</div>` +
       (tags ? `<div class="tt-tags">${escHtml(tags)}</div>` : '') +
       (d.summary ? `<div class="tt-summary">${escHtml(d.summary)}</div>` : '') +
-      `<div class="tt-hint">Click to open paper ↗</div>`;
+      (!pinned ? `<div class="tt-hint">Click to pin</div>` : `<div class="tt-hint">Click node again to unpin</div>`);
+    tooltip.classList.toggle('pinned', pinned);
     placeTooltip(pos);
   }
 
@@ -336,19 +354,30 @@
   }
 
   function placeTooltip(pos) {
+    const MARGIN = 12;
     const cy_rect = document.getElementById('cy').getBoundingClientRect();
-    const margin = 16;
-    const W = 320, H = 220;
-    let x = cy_rect.left + pos.x + margin;
-    let y = cy_rect.top  + pos.y + margin;
-    if (x + W > window.innerWidth)  x = cy_rect.left + pos.x - W - margin;
-    if (y + H > window.innerHeight) y = cy_rect.top  + pos.y - H - margin;
+
+    // Make visible first so the browser lays out the content and we can measure it.
+    tooltip.classList.add('visible');
+    const W = tooltip.offsetWidth;
+    const H = tooltip.offsetHeight;
+
+    let x = cy_rect.left + pos.x + MARGIN;
+    let y = cy_rect.top  + pos.y + MARGIN;
+
+    // Prefer flipping to the other side before clamping.
+    if (x + W + MARGIN > window.innerWidth)  x = cy_rect.left + pos.x - W - MARGIN;
+    if (y + H + MARGIN > window.innerHeight) y = cy_rect.top  + pos.y - H - MARGIN;
+
+    // Hard clamp: never spill past any viewport edge.
+    x = Math.max(MARGIN, Math.min(x, window.innerWidth  - W - MARGIN));
+    y = Math.max(MARGIN, Math.min(y, window.innerHeight - H - MARGIN));
+
     tooltip.style.left = `${x}px`;
     tooltip.style.top  = `${y}px`;
-    tooltip.classList.add('visible');
   }
 
-  function hideTooltip() { tooltip.classList.remove('visible'); }
+  function hideTooltip() { tooltip.classList.remove('visible', 'pinned'); }
 
   function escHtml(s) {
     return String(s)

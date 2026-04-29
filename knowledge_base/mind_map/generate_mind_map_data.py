@@ -437,7 +437,7 @@ def main() -> None:
             "category": cat_info["category"],
             "sub_category": cat_info["sub_category"],
             "tags": tags,
-            "summary": (summary[:400] + "…") if len(summary) > 400 else summary,
+            "summary": summary,
             "embed_text": embed_text,
             "hash": content_hash(embed_text),
         })
