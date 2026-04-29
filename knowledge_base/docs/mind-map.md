@@ -4,7 +4,7 @@ hide:
   - toc
 ---
 
-# Paper Mind Map
+# Mind Map
 
 <style>
 /* ── Remove MkDocs Material layout constraints for full-screen canvas ─────── */
@@ -308,7 +308,7 @@ h1                  { display: none; }
   <!-- Control panel -->
   <div id="mm-panel">
     <div id="mm-panel-header">
-      <h3>Paper Mind Map</h3>
+      <h3>Mind Map</h3>
       <button id="mm-toggle-panel">Hide</button>
     </div>
     <div id="mm-panel-body">
