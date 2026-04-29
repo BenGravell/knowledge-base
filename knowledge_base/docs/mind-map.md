@@ -15,11 +15,23 @@ h1                  { display: none; }
 .md-main            { overflow: hidden !important; }
 .md-main__inner     { height: 100% !important; margin-top: 0 !important; }
 
+/* ── Prevent page-level scrolling ─────────────────────────────────────────── */
+html, body          { overflow: hidden !important; height: 100vh !important; }
+
+/* ── Lock footer to bottom of viewport, always visible ────────────────────── */
+.md-footer {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 300 !important; /* must exceed #mm-panel z-index: 200 */
+}
+
 /* ── App shell ────────────────────────────────────────────────────────────── */
 #mm-app {
   position: relative;
   width:  100%;
-  height: calc(100vh - 56px); /* 56px = Material header */
+  height: calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 36px));
   overflow: hidden;
   background: #0a0a18;
   font-family: "Atkinson Hyperlegible Next", "Segoe UI", sans-serif;
@@ -87,17 +99,6 @@ h1                  { display: none; }
   color: #e8ecff;
   white-space: nowrap;
 }
-#mm-toggle-panel {
-  background: none;
-  border: 1px solid rgba(255,255,255,0.22);
-  color: #99a;
-  padding: 2px 9px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.72rem;
-  flex-shrink: 0;
-}
-#mm-toggle-panel:hover { background: rgba(255,255,255,0.08); }
 
 #mm-panel-body {
   padding: 0.8rem 1rem;
@@ -309,7 +310,6 @@ h1                  { display: none; }
   <div id="mm-panel">
     <div id="mm-panel-header">
       <h3>Mind Map</h3>
-      <button id="mm-toggle-panel">Hide</button>
     </div>
     <div id="mm-panel-body">
 
@@ -366,3 +366,21 @@ h1                  { display: none; }
 <script src="../javascripts/mind-map-data.js"></script>
 <!-- Visualisation logic -->
 <script src="../javascripts/mind-map.js"></script>
+<script>
+(function () {
+  function applyMmSizes() {
+    var header = document.querySelector('.md-header');
+    var footer = document.querySelector('.md-footer');
+    var hh = header ? header.getBoundingClientRect().height : 56;
+    var fh = footer ? footer.getBoundingClientRect().height : 36;
+    document.documentElement.style.setProperty('--mm-header-h', hh + 'px');
+    document.documentElement.style.setProperty('--mm-footer-h', fh + 'px');
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyMmSizes);
+  } else {
+    applyMmSizes();
+  }
+  window.addEventListener('resize', applyMmSizes);
+})();
+</script>

@@ -538,15 +538,6 @@
    * Wire up controls
    * -------------------------------------------------------------------------*/
   function setupControls() {
-    // Panel toggle
-    document.getElementById('mm-toggle-panel').addEventListener('click', () => {
-      const body = document.getElementById('mm-panel-body');
-      const btn  = document.getElementById('mm-toggle-panel');
-      const hidden = body.style.display === 'none';
-      body.style.display = hidden ? '' : 'none';
-      btn.textContent = hidden ? 'Hide' : 'Show';
-    });
-
     // Threshold slider
     const slider = document.getElementById('mm-threshold-slider');
     const label  = document.getElementById('mm-threshold-val');
