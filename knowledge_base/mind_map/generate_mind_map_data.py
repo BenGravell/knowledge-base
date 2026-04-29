@@ -126,6 +126,15 @@ def slugify(name: str) -> str:
     return re.sub(r"[^a-zA-Z0-9]+", "_", name.lower()).strip("_")
 
 
+def last_name(author: str) -> str:
+    """Extract the last name from an author string."""
+    author = author.strip()
+    if "," in author:
+        return author.split(",")[0].strip()
+    parts = author.split()
+    return parts[-1] if parts else author
+
+
 def paper_id_from_file(metadata_file: Path, data: dict) -> str:
     """Reproduce the ID logic used by generate_papers.py."""
     if "id" in data:
@@ -432,7 +441,7 @@ def main() -> None:
             "id": pid,
             "title": title,
             "label": title[:60] + "…" if len(title) > 60 else title,
-            "authors": authors[:3],
+            "authors": [last_name(a) for a in authors[:3]],
             "year": year,
             "category": cat_info["category"],
             "sub_category": cat_info["sub_category"],

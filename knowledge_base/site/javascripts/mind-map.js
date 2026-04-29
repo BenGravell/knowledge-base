@@ -333,7 +333,7 @@
     const url = `../papers/${d.id}/`;
     tooltip.innerHTML =
       `<div class="tt-title">${escHtml(d.title)}</div>` +
-      `<a class="tt-link" href="${url}" target="_blank" rel="noopener">Open paper ↗</a>` +
+      `<a class="tt-link" href="${url}" target="_blank" rel="noopener">Open ↗</a>` +
       `<div class="tt-meta">${escHtml(authors)}&nbsp;&nbsp;${d.year || ''}</div>` +
       (tags ? `<div class="tt-tags">${escHtml(tags)}</div>` : '') +
       (d.summary ? `<div class="tt-summary">${escHtml(d.summary)}</div>` : '') +
