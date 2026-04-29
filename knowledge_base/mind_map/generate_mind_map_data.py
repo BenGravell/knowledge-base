@@ -135,6 +135,24 @@ def last_name(author: str) -> str:
     return parts[-1] if parts else author
 
 
+def make_label(data: dict) -> str:
+    """
+    Node label: algorithm name if present, otherwise
+    '<FirstAuthorLastName> [et al.] <year>'.
+    """
+    algorithm = (data.get("algorithm") or "").strip()
+    if algorithm:
+        return algorithm
+    authors = data.get("authors") or []
+    year = data.get("year")
+    if not authors:
+        return str(year or "")
+    name = last_name(authors[0])
+    et_al = " et al." if len(authors) > 1 else ""
+    year_str = f" {year}" if year else ""
+    return f"{name}{et_al}{year_str}"
+
+
 def paper_id_from_file(metadata_file: Path, data: dict) -> str:
     """Reproduce the ID logic used by generate_papers.py."""
     if "id" in data:
@@ -440,7 +458,7 @@ def main() -> None:
         papers.append({
             "id": pid,
             "title": title,
-            "label": title[:60] + "…" if len(title) > 60 else title,
+            "label": make_label(data),
             "authors": [last_name(a) for a in authors[:3]],
             "year": year,
             "category": cat_info["category"],

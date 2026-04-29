@@ -347,7 +347,8 @@
     tooltip.innerHTML =
       `<div class="tt-title">Similarity: ${pct}%</div>` +
       `<div class="tt-meta">${escHtml(src)}</div>` +
-      `<div class="tt-meta">↔&nbsp;${escHtml(tgt)}</div>`;
+      `<div class="tt-meta">↔</div>` +
+      `<div class="tt-meta">${escHtml(tgt)}</div>`;
     placeTooltip(pos);
   }
 

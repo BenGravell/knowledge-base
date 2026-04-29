@@ -7,82 +7,10 @@ hide:
 # Mind Map
 
 <style>
-/* ── Theme tokens — light (default) ──────────────────────────────────────── */
+/* ── Derived vars: transparency adjustments on MkDocs palette tokens ─────── */
 :root {
-  --mm-canvas-bg:           #eef0f8;
-  --mm-overlay-bg:          rgba(230,233,245,0.88);
-  --mm-overlay-color:       #4a5478;
-  --mm-overlay-stroke:      #4466b0;
-  --mm-panel-bg:            rgba(246,247,253,0.96);
-  --mm-panel-border:        rgba(0,0,0,0.10);
-  --mm-panel-shadow:        rgba(0,0,0,0.15);
-  --mm-divider:             rgba(0,0,0,0.08);
-  --mm-text-primary:        #1a1e36;
-  --mm-text-secondary:      #2e3a5a;
-  --mm-text-muted:          #5a6888;
-  --mm-text-dim:            #8898b4;
-  --mm-surface-bg:          rgba(0,0,0,0.05);
-  --mm-surface-border:      rgba(0,0,0,0.14);
-  --mm-surface-hover-bg:    rgba(0,0,0,0.08);
-  --mm-surface-hover-border:rgba(60,100,220,0.45);
-  --mm-scrollbar:           rgba(0,0,0,0.14);
-  --mm-accent:              #2255cc;
-  --mm-threshold-val:       #1a44bb;
-  --mm-cat-name:            #2e3a5a;
-  --mm-cat-count:           #8898b4;
-  --mm-group-name:          #4a5878;
-  --mm-edge-color:          rgba(60,80,180,0.38);
-  --mm-edge-highlighted:    rgba(180,100,0,0.85);
-  --mm-tt-bg:               rgba(252,253,255,0.97);
-  --mm-tt-border:           rgba(0,0,0,0.12);
-  --mm-tt-shadow:           rgba(0,0,0,0.16);
-  --mm-tt-pinned-border:    rgba(160,100,0,0.40);
-  --mm-tt-title:            #1a1e36;
-  --mm-tt-link:             #1a6fd4;
-  --mm-tt-link-hover:       #1044a8;
-  --mm-tt-meta:             #5a6888;
-  --mm-tt-tags:             #1a50a8;
-  --mm-tt-summary:          #3a4a68;
-  --mm-tt-hint:             #8898b4;
-}
-
-/* ── Theme tokens — dark (MkDocs Material "slate") ───────────────────────── */
-[data-md-color-scheme="slate"] {
-  --mm-canvas-bg:           #0a0a18;
-  --mm-overlay-bg:          rgba(10,10,24,0.85);
-  --mm-overlay-color:       #aaaacc;
-  --mm-overlay-stroke:      #7090d0;
-  --mm-panel-bg:            rgba(14,14,30,0.93);
-  --mm-panel-border:        rgba(255,255,255,0.12);
-  --mm-panel-shadow:        rgba(0,0,0,0.55);
-  --mm-divider:             rgba(255,255,255,0.07);
-  --mm-text-primary:        #e8ecff;
-  --mm-text-secondary:      #d0d4f8;
-  --mm-text-muted:          #778899;
-  --mm-text-dim:            #556677;
-  --mm-surface-bg:          rgba(255,255,255,0.07);
-  --mm-surface-border:      rgba(255,255,255,0.18);
-  --mm-surface-hover-bg:    rgba(255,255,255,0.10);
-  --mm-surface-hover-border:rgba(100,150,255,0.55);
-  --mm-scrollbar:           rgba(255,255,255,0.15);
-  --mm-accent:              #4488ff;
-  --mm-threshold-val:       #a8c0ff;
-  --mm-cat-name:            #b0b8d8;
-  --mm-cat-count:           #556677;
-  --mm-group-name:          #99aac4;
-  --mm-edge-color:          rgba(180,200,255,0.35);
-  --mm-edge-highlighted:    rgba(255,215,0,0.80);
-  --mm-tt-bg:               rgba(8,8,22,0.96);
-  --mm-tt-border:           rgba(255,255,255,0.18);
-  --mm-tt-shadow:           rgba(0,0,0,0.60);
-  --mm-tt-pinned-border:    rgba(255,215,0,0.35);
-  --mm-tt-title:            #dce4ff;
-  --mm-tt-link:             #4d9fff;
-  --mm-tt-link-hover:       #80bfff;
-  --mm-tt-meta:             #778899;
-  --mm-tt-tags:             #5588bb;
-  --mm-tt-summary:          #9999aa;
-  --mm-tt-hint:             #445566;
+  --mm-edge-color:       color-mix(in srgb, var(--md-primary-fg-color) 35%, transparent);
+  --mm-edge-highlighted: color-mix(in srgb, var(--md-accent-fg-color)  80%, transparent);
 }
 
 /* ── Remove MkDocs Material layout constraints for full-screen canvas ─────── */
@@ -108,16 +36,19 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 /* ── App shell ────────────────────────────────────────────────────────────── */
 #mm-app {
   position: relative;
+  display: flex;
+  flex-direction: row;
   width:  100%;
   height: calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 36px));
   overflow: hidden;
-  background: var(--mm-canvas-bg);
+  background: var(--md-default-bg-color);
   font-family: "Atkinson Hyperlegible Next", "Segoe UI", sans-serif;
 }
 
 /* ── Cytoscape canvas ─────────────────────────────────────────────────────── */
 #cy {
-  width:  100%;
+  flex: 1;
+  min-width: 0;
   height: 100%;
 }
 
@@ -129,14 +60,15 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--mm-overlay-bg);
-  color: var(--mm-overlay-color);
+  background: color-mix(in srgb, var(--md-default-bg-color) 88%, transparent);
+  color: var(--md-default-fg-color--light);
   font-size: 0.9rem;
   gap: 1rem;
   z-index: 500;
   pointer-events: none;
 }
 #mm-loading svg {
+  color: var(--md-primary-fg-color);
   animation: mm-spin 1.2s linear infinite;
   opacity: 0.7;
 }
@@ -144,18 +76,15 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 /* ── Control panel ────────────────────────────────────────────────────────── */
 #mm-panel {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  flex-shrink: 0;
   width: 400px;
-  background: var(--mm-panel-bg);
-  border-left: 1px solid var(--mm-panel-border);
+  height: 100%;
+  background: color-mix(in srgb, var(--md-code-bg-color) 94%, transparent);
+  border-left: 1px solid var(--md-default-fg-color--lighter);
   border-radius: 12px 0 0 12px;
-  z-index: 200;
   backdrop-filter: blur(14px);
-  box-shadow: -8px 0 36px var(--mm-panel-shadow);
-  color: var(--mm-text-secondary);
+  box-shadow: -8px 0 36px rgba(0,0,0,0.35);
+  color: var(--md-default-fg-color);
   font-size: 0.82rem;
   overflow: hidden;
   display: flex;
@@ -167,14 +96,14 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   align-items: center;
   justify-content: space-between;
   padding: 0.65rem 1rem;
-  border-bottom: 1px solid var(--mm-divider);
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
   gap: 0.5rem;
 }
 #mm-panel-header h3 {
   margin: 0;
   font-size: 0.88rem;
   font-weight: 600;
-  color: var(--mm-text-primary);
+  color: var(--md-default-fg-color);
   white-space: nowrap;
 }
 
@@ -186,7 +115,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   flex: 1;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: var(--mm-scrollbar) transparent;
+  scrollbar-color: var(--md-default-fg-color--lighter) transparent;
 }
 
 /* ── Panel sections ───────────────────────────────────────────────────────── */
@@ -196,7 +125,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--mm-text-muted);
+  color: var(--md-default-fg-color--light);
   font-weight: 600;
   margin-bottom: 5px;
 }
@@ -205,18 +134,18 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 #mm-search {
   width: 100%;
   box-sizing: border-box;
-  background: var(--mm-surface-bg);
-  border: 1px solid var(--mm-surface-border);
-  color: var(--mm-text-primary);
+  background: var(--md-default-fg-color--lightest);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  color: var(--md-default-fg-color);
   padding: 6px 10px;
   border-radius: 7px;
   font-size: 0.82rem;
   outline: none;
 }
-#mm-search::placeholder { color: var(--mm-text-dim); }
+#mm-search::placeholder { color: var(--md-default-fg-color--lighter); }
 #mm-search:focus {
-  border-color: var(--mm-surface-hover-border);
-  background: var(--mm-surface-hover-bg);
+  border-color: var(--md-accent-fg-color);
+  background: var(--md-default-fg-color--lightest);
 }
 
 /* Threshold */
@@ -228,11 +157,11 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 #mm-threshold-val {
   font-variant-numeric: tabular-nums;
-  color: var(--mm-threshold-val);
+  color: var(--md-primary-fg-color);
 }
 #mm-threshold-slider {
   width: 100%;
-  accent-color: var(--mm-accent);
+  accent-color: var(--md-accent-fg-color);
 }
 
 /* Categories */
@@ -243,14 +172,14 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 .mm-cat-links button {
   background: none;
-  border: 1px solid var(--mm-surface-border);
-  color: var(--mm-text-muted);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  color: var(--md-default-fg-color--light);
   padding: 1px 7px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.7rem;
 }
-.mm-cat-links button:hover { color: var(--mm-text-secondary); border-color: var(--mm-surface-hover-border); }
+.mm-cat-links button:hover { color: var(--md-default-fg-color); border-color: var(--md-default-fg-color--light); }
 
 #mm-category-filters {
   display: flex;
@@ -264,7 +193,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   cursor: pointer;
   padding: 2px 0;
 }
-.mm-cat-item:hover .mm-cat-name { color: var(--mm-text-primary); }
+.mm-cat-item:hover .mm-cat-name { color: var(--md-default-fg-color); }
 .mm-cat-dot {
   width: 10px;
   height: 10px;
@@ -273,15 +202,15 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 .mm-cat-name {
   flex: 1;
-  color: var(--mm-cat-name);
+  color: var(--md-default-fg-color--light);
   font-size: 0.8rem;
 }
 .mm-cat-count {
-  color: var(--mm-cat-count);
+  color: var(--md-default-fg-color--lighter);
   font-size: 0.72rem;
 }
 .mm-cat-item input[type="checkbox"] {
-  accent-color: var(--mm-accent);
+  accent-color: var(--md-accent-fg-color);
   margin: 0;
   flex-shrink: 0;
 }
@@ -298,10 +227,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   cursor: pointer;
   user-select: none;
 }
-.mm-cat-group-header:hover .mm-cat-group-name { color: var(--mm-text-primary); }
+.mm-cat-group-header:hover .mm-cat-group-name { color: var(--md-default-fg-color); }
 .mm-cat-group-arrow {
   font-size: 0.65rem;
-  color: var(--mm-text-dim);
+  color: var(--md-default-fg-color--lighter);
   flex-shrink: 0;
   width: 10px;
 }
@@ -309,7 +238,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   flex: 1;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--mm-group-name);
+  color: var(--md-default-fg-color--light);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -324,23 +253,23 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 .mm-actions button {
   flex: 1;
-  background: var(--mm-surface-bg);
-  border: 1px solid var(--mm-surface-border);
-  color: var(--mm-text-secondary);
+  background: var(--md-default-fg-color--lightest);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  color: var(--md-default-fg-color--light);
   padding: 5px 0;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.78rem;
   transition: background 0.15s;
 }
-.mm-actions button:hover { background: var(--mm-surface-hover-bg); }
+.mm-actions button:hover { background: var(--md-default-fg-color--lighter); }
 
 /* Stats */
 #mm-stats {
   text-align: center;
-  color: var(--mm-text-dim);
+  color: var(--md-default-fg-color--lighter);
   font-size: 0.72rem;
-  border-top: 1px solid var(--mm-divider);
+  border-top: 1px solid var(--md-default-fg-color--lightest);
   padding-top: 0.5rem;
 }
 
@@ -349,8 +278,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   position: fixed;
   z-index: 1000;
   display: none;
-  background: var(--mm-tt-bg);
-  border: 1px solid var(--mm-tt-border);
+  background: var(--md-code-bg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
   border-radius: 10px;
   padding: 11px 14px;
   max-width: 30vw;
@@ -358,26 +287,26 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   overflow-y: hidden;
   pointer-events: none;
   backdrop-filter: blur(10px);
-  box-shadow: 0 6px 28px var(--mm-tt-shadow);
+  box-shadow: var(--md-shadow-z2);
   font-family: "Atkinson Hyperlegible Next", "Segoe UI", sans-serif;
 }
 #mm-tooltip.visible { display: block; }
-#mm-tooltip.pinned  { pointer-events: auto; border-color: var(--mm-tt-pinned-border); overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--mm-scrollbar) transparent; }
+#mm-tooltip.pinned  { pointer-events: auto; border-color: var(--md-accent-fg-color--transparent); overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--md-default-fg-color--lighter) transparent; }
 
-.tt-title   { font-size: 0.83rem; font-weight: 600; color: var(--mm-tt-title); line-height: 1.35; margin-bottom: 4px; }
-.tt-link    { display: block; font-size: 0.75rem; color: var(--mm-tt-link); text-decoration: none; margin-bottom: 7px; }
-.tt-link:hover { color: var(--mm-tt-link-hover); text-decoration: underline; }
-.tt-meta    { font-size: 0.73rem; color: var(--mm-tt-meta); margin-bottom: 2px; }
-.tt-tags    { font-size: 0.7rem;  color: var(--mm-tt-tags); margin: 5px 0; line-height: 1.5; }
-.tt-summary { font-size: 0.73rem; color: var(--mm-tt-summary); margin-top: 6px; line-height: 1.45; }
-.tt-hint    { font-size: 0.68rem; color: var(--mm-tt-hint); margin-top: 8px; font-style: italic; }
+.tt-title   { font-size: 0.83rem; font-weight: 600; color: var(--md-default-fg-color); line-height: 1.35; margin-bottom: 4px; }
+.tt-link    { display: block; font-size: 0.75rem; color: var(--md-typeset-a-color); text-decoration: none; margin-bottom: 7px; }
+.tt-link:hover { color: var(--md-primary-fg-color--dark); text-decoration: underline; }
+.tt-meta    { font-size: 0.73rem; color: var(--md-default-fg-color--light); margin-bottom: 2px; }
+.tt-tags    { font-size: 0.7rem;  color: var(--md-primary-fg-color--light); margin: 5px 0; line-height: 1.5; }
+.tt-summary { font-size: 0.73rem; color: var(--md-default-fg-color--light); margin-top: 6px; line-height: 1.45; }
+.tt-hint    { font-size: 0.68rem; color: var(--md-default-fg-color--lighter); margin-top: 8px; font-style: italic; }
 </style>
 
 <div id="mm-app">
 
   <!-- Loading spinner shown while fcose layout runs -->
   <div id="mm-loading">
-    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="var(--mm-overlay-stroke)" stroke-width="3">
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="3">
       <circle cx="20" cy="20" r="16" stroke-opacity="0.25"/>
       <path d="M20 4 a16 16 0 0 1 16 16" stroke-linecap="round"/>
     </svg>
