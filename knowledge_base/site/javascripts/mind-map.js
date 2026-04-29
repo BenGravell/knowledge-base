@@ -184,75 +184,73 @@
   }
 
   /* -------------------------------------------------------------------------
-   * Cytoscape stylesheet
+   * Cytoscape stylesheet — reads CSS variables so it responds to theme changes
    * -------------------------------------------------------------------------*/
-  const STYLESHEET = [
-    {
-      selector: 'node',
-      style: {
-        'background-color': 'data(color)',
-        'label': 'data(label)',
-        'font-size': 9,
-        'font-family': '"Atkinson Hyperlegible Next", "Segoe UI", sans-serif',
-        'color': '#ffffff',
-        'text-outline-color': 'data(color)',
-        'text-outline-width': 3,
-        'text-wrap': 'ellipsis',
-        'text-max-width': 110,
-        'text-valign': 'center',
-        'text-halign': 'center',
-        'width': 28,
-        'height': 28,
-        'border-width': 1.5,
-        'border-color': 'rgba(255,255,255,0.35)',
-        'min-zoomed-font-size': 6,
-        'transition-property': 'opacity, border-width, border-color',
-        'transition-duration': '120ms',
+  function buildStylesheet() {
+    const cs = getComputedStyle(document.documentElement);
+    const v  = name => cs.getPropertyValue(name).trim();
+
+    return [
+      {
+        selector: 'node',
+        style: {
+          'background-color': 'data(color)',
+          'label': 'data(label)',
+          'font-size': 9,
+          'font-family': '"Atkinson Hyperlegible Next", "Segoe UI", sans-serif',
+          'color': '#ffffff',
+          'text-outline-color': 'data(color)',
+          'text-outline-width': 3,
+          'text-wrap': 'ellipsis',
+          'text-max-width': 110,
+          'text-valign': 'center',
+          'text-halign': 'center',
+          'width': 28,
+          'height': 28,
+          'border-width': 1.5,
+          'border-color': 'rgba(255,255,255,0.35)',
+          'min-zoomed-font-size': 6,
+          'transition-property': 'opacity, border-width, border-color',
+          'transition-duration': '120ms',
+        },
       },
-    },
-    {
-      selector: 'node:selected',
-      style: {
-        'border-width': 4,
-        'border-color': '#FFD700',
+      {
+        selector: 'node:selected',
+        style: { 'border-width': 4, 'border-color': '#FFD700' },
       },
-    },
-    {
-      selector: 'node.highlighted',
-      style: {
-        'border-width': 3,
-        'border-color': '#FFD700',
-        'z-index': 10,
+      {
+        selector: 'node.highlighted',
+        style: { 'border-width': 3, 'border-color': '#FFD700', 'z-index': 10 },
       },
-    },
-    {
-      selector: 'node.dimmed',
-      style: { 'opacity': 0.12 },
-    },
-    {
-      selector: 'edge',
-      style: {
-        'width': 'mapData(weight, 0.50, 1.00, 0.4, 3.5)',
-        'line-color': 'rgba(180,200,255,0.35)',
-        'opacity': 1,
-        'curve-style': 'bezier',
-        'transition-property': 'opacity, line-color',
-        'transition-duration': '120ms',
+      {
+        selector: 'node.dimmed',
+        style: { 'opacity': 0.12 },
       },
-    },
-    {
-      selector: 'edge.highlighted',
-      style: {
-        'line-color': 'rgba(255,215,0,0.8)',
-        'width': 2.5,
-        'z-index': 10,
+      {
+        selector: 'edge',
+        style: {
+          'width': 'mapData(weight, 0.50, 1.00, 0.4, 3.5)',
+          'line-color': v('--mm-edge-color') || 'rgba(180,200,255,0.35)',
+          'opacity': 1,
+          'curve-style': 'bezier',
+          'transition-property': 'opacity, line-color',
+          'transition-duration': '120ms',
+        },
       },
-    },
-    {
-      selector: 'edge.dimmed',
-      style: { 'opacity': 0.04 },
-    },
-  ];
+      {
+        selector: 'edge.highlighted',
+        style: {
+          'line-color': v('--mm-edge-highlighted') || 'rgba(255,215,0,0.8)',
+          'width': 2.5,
+          'z-index': 10,
+        },
+      },
+      {
+        selector: 'edge.dimmed',
+        style: { 'opacity': 0.04 },
+      },
+    ];
+  }
 
   /* -------------------------------------------------------------------------
    * Initialise Cytoscape
@@ -265,7 +263,7 @@
     cy = cytoscape({
       container: document.getElementById('cy'),
       elements: buildElements(),
-      style: STYLESHEET,
+      style: buildStylesheet(),
       layout: { name: 'preset' },   // positions set below via buildLayoutEles()
       minZoom: 0.04,
       maxZoom: 6,
@@ -592,6 +590,20 @@
   buildCategoryFilters();
   setupControls();
   initCy();
+
+  // Re-apply Cytoscape stylesheet when MkDocs switches light ↔ dark
+  const _themeObserver = new MutationObserver(() => {
+    if (cy) cy.style(buildStylesheet());
+  });
+  _themeObserver.observe(document.documentElement, {
+    attributes: true, attributeFilter: ['data-md-color-scheme'],
+  });
+  // Also observe body in case MkDocs sets the attribute there
+  if (document.body) {
+    _themeObserver.observe(document.body, {
+      attributes: true, attributeFilter: ['data-md-color-scheme'],
+    });
+  }
 
   // Expose for debugging
   window._cy = () => cy;
