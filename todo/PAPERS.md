@@ -2,10 +2,6 @@
 
 ## arXiv
 
-https://arxiv.org/abs/2212.00541
-
-https://arxiv.org/pdf/1506.01085
-
 https://arxiv.org/abs/2309.14545
 
 https://arxiv.org/pdf/1710.09483
@@ -215,3 +211,5 @@ https://www.mdpi.com/2413-8851/10/4/215
 https://people.eecs.berkeley.edu/~brecht/papers/09.man.rec.ip.pdf
 
 https://web.ece.ucsb.edu/~hespanha/published/iav04-pathfollowing.pdf
+
+https://khatib.stanford.edu/publications/pdfs/Quinlan_1993_ICRA.pdf

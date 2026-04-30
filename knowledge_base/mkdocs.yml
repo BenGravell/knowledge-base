@@ -209,6 +209,8 @@ nav:
           - "Real-time Constrained Trajectory Optimization in Robotics: Theory, Implementation and Applications (Wilson Jallet PhD Dissertation)": papers/2024_jallet_real_time_constrained_trajectory.md
           - Second-Order Constrained DDP: papers/2409_11649.md
           - ALSPG: papers/2506_14865.md
+        - Elastic Smoothing:
+          - CES: papers/1506_01085.md
         - Nonlinear Optimization:
           - OBCA: papers/1711_03449.md
         - Trajectory Optimization on Gaussian Splats:
