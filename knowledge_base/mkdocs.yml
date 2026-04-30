@@ -71,6 +71,7 @@ nav:
     - MPC: explainers/mpc.md
     - MCTS: explainers/mcts.md
     - Differential Flatness: explainers/differential_flatness.md
+    - AkinoPDF: explainers/akino_pdf.md
   - Motion Planning:
     - Path Planning:
       - Geometric Planning:
