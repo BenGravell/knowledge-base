@@ -12,11 +12,15 @@ poetry install
 
 ## Usage
 
+### Python env
+
 Activate the env with
 
 ```bash
 poetry shell
 ```
+
+### MkDocs
 
 Unless otherwise specified, all commands are assumed to be run from the `knowledge_base` directory.
 

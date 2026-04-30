@@ -1,11 +1,5 @@
 # TODO
 
-## Site
-
-Make the top-level sidebar start collapsed, so Explainers, Motion Planning, etc. all collapsed.
-
-
-
 ## Metadata cleanup
 
 - go thru all the handwritten notes and make sure they end up in the docs metadata
