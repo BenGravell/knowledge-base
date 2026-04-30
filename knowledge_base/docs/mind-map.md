@@ -75,36 +75,69 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 @keyframes mm-spin { to { transform: rotate(360deg); } }
 
 /* ── Control panel ────────────────────────────────────────────────────────── */
-#mm-panel {
-  flex-shrink: 0;
-  width: 400px;
-  height: 100%;
-  background: color-mix(in srgb, var(--md-code-bg-color) 94%, transparent);
-  border-left: 1px solid var(--md-default-fg-color--lighter);
-  border-radius: 12px 0 0 12px;
-  backdrop-filter: blur(14px);
-  box-shadow: -8px 0 36px rgba(0,0,0,0.35);
-  color: var(--md-default-fg-color);
-  font-size: 0.82rem;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
 
+/* Header: always visible, absolutely positioned over the app so it survives
+   the panel collapsing to width:0. Clicking it toggles the panel body. */
 #mm-panel-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 400px;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.65rem 1rem;
-  border-bottom: 1px solid var(--md-default-fg-color--lightest);
   gap: 0.5rem;
+  background: color-mix(in srgb, var(--md-code-bg-color) 94%, transparent);
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  backdrop-filter: blur(14px);
+  cursor: pointer;
+  user-select: none;
 }
+#mm-panel-header:hover { background: color-mix(in srgb, var(--md-default-fg-color) 6%, transparent); }
 #mm-panel-header h3 {
   margin: 0;
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--md-default-fg-color);
   white-space: nowrap;
+}
+
+#mm-panel-hide-btn {
+  background: none;
+  border: none;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.78rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* Panel overlays the canvas so #cy is always full-width and never moves */
+#mm-panel {
+  position: absolute;
+  left: 0;
+  top: 44px;
+  height: calc(100% - 44px);
+  width: 400px;
+  z-index: 40;
+  background: color-mix(in srgb, var(--md-code-bg-color) 94%, transparent);
+  border-right: 1px solid var(--md-default-fg-color--lighter);
+  backdrop-filter: blur(14px);
+  color: var(--md-default-fg-color);
+  font-size: 0.82rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.25s ease;
+}
+#mm-panel.body-collapsed {
+  width: 0;
+  border-right: none;
 }
 
 #mm-panel-body {
@@ -313,11 +346,14 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     Computing layout…
   </div>
 
-  <!-- Control panel -->
+  <!-- Panel header: always visible, overlays app corner to survive panel collapse -->
+  <div id="mm-panel-header">
+    <h3>Mind Map</h3>
+    <button id="mm-panel-hide-btn">Hide</button>
+  </div>
+
+  <!-- Panel body: collapses to width:0 on hide -->
   <div id="mm-panel">
-    <div id="mm-panel-header">
-      <h3>Mind Map</h3>
-    </div>
     <div id="mm-panel-body">
 
       <div class="mm-section">
@@ -389,5 +425,50 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     applyMmSizes();
   }
   window.addEventListener('resize', applyMmSizes);
+})();
+</script>
+<script>
+(function () {
+  var panel   = document.getElementById('mm-panel');
+  var header  = document.getElementById('mm-panel-header');
+  var hideBtn = document.getElementById('mm-panel-hide-btn');
+  var PANEL_W = 400;
+  var PAD     = 30;
+
+  function fitBesidePanel(cy) {
+    var eles = cy.elements(':visible');
+    if (!eles.length) return;
+    var bb     = eles.boundingBox();
+    var left   = PANEL_W + PAD;
+    var right  = cy.width()  - PAD;
+    var top    = PAD;
+    var bottom = cy.height() - PAD;
+    var zoom   = Math.min((right - left) / bb.w, (bottom - top) / bb.h);
+    cy.viewport({
+      zoom: zoom,
+      pan: {
+        x: left + (right - left) / 2 - (bb.x1 + bb.x2) / 2 * zoom,
+        y: top  + (bottom - top) / 2 - (bb.y1 + bb.y2) / 2 * zoom
+      }
+    });
+  }
+
+  /* After initial layout and re-layout: fit to the visible canvas region */
+  var cy = window._cy && window._cy();
+  if (cy) {
+    cy.on('layoutstop', function () {
+      if (panel.classList.contains('body-collapsed')) {
+        cy.fit(cy.elements(':visible'), PAD);
+      } else {
+        fitBesidePanel(cy);
+      }
+    });
+  }
+
+  header.addEventListener('click', function () {
+    var collapsed = panel.classList.toggle('body-collapsed');
+    hideBtn.textContent = collapsed ? 'Show Settings' : 'Hide Settings';
+    header.title        = collapsed ? 'Show Settings'  : 'Hide Settings';
+  });
 })();
 </script>
