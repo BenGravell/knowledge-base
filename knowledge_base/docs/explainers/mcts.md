@@ -2,7 +2,7 @@
 
 *Monte Carlo Tree Search (MCTS)* is a lookahead planning algorithm that builds a search tree incrementally by simulating future trajectories and backing up value estimates. *Upper Confidence Tree (UCT)* is the dominant variant, using a principled exploration bonus to balance exploiting promising branches versus exploring uncertain ones.
 
-MCTS saw great success when applied towards playing the board game "Go" with the AlphaGo, AlphaGo Zero, and AlphaZero, ultimately achieving superhuman performance through pure self-play by combining MCTS with neural networks serving as policy and value functions.
+MCTS saw great success when applied towards playing the board game "Go" with the Alpha series of models (AlphaGo, AlphaGo Zero, and AlphaZero), ultimately achieving superhuman performance through pure self-play by combining MCTS with neural networks serving as policy and value functions.
 
 Learn more with these resources:
 
