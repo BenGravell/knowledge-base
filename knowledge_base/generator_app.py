@@ -33,7 +33,7 @@ st.title("Paper Entry Generator")
 def fetch_arxiv(arxiv_id: str) -> dict:
     """Fetch basic metadata from the arXiv Atom API and return a dict."""
     url = ARXIV_API.format(arxiv_id=arxiv_id.strip())
-    r = requests.get(url, timeout=10)
+    r = requests.get(url, timeout=60)
     r.raise_for_status()
 
     root = ET.fromstring(r.text)
