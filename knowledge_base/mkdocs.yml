@@ -72,6 +72,7 @@ nav:
     - MCTS: explainers/mcts.md
     - Differential Flatness: explainers/differential_flatness.md
     - AkinoPDF: explainers/akino_pdf.md
+    - Waymo AI: explainers/waymo_ai.md
   - Motion Planning:
     - Path Planning:
       - Geometric Planning:
