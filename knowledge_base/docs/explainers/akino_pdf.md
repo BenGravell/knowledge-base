@@ -20,7 +20,7 @@ See Algorithm 1.
 
 See Algorithm 2.
 
-I recommend starting with Section V. b) Example 4, which is a nice little self-contained steering method for differentially flat systems whose that only need up to second-order derivatives of flat outputs (includes unicycle dynamics) and a cost function that is quadratic in the control effort and linear in the duration. The main takeaway is that the optimal flat outputs are cubic polynomials of time, full stop. The optimal duration is computable by solving for the roots of a cubic polynomial - and why is that amazing and very lucky/cutting it close? Because quartic polynomials are the highest degree polynomials that admit closed-form solutions (which is a well-known fact c.f. Abel–Ruffini theorem - Wikipedia)! That means that if the dynamics included one more higher derivative of the flat outputs (third order derivatives), we would end up needing to solve for roots of a polynomial numerically, which is far more expensive and less robust.
+I recommend starting with Section V. b) Example 4, which is a nice little self-contained steering method for differentially flat systems whose that only need up to second-order derivatives of flat outputs (includes unicycle dynamics) and a cost function that is quadratic in the control effort and linear in the duration. The main takeaway is that the optimal flat outputs are cubic polynomials of time, full stop. The optimal duration is computable by solving for the roots of a cubic polynomial - and why is that amazing and very lucky/cutting it close? Because quartic polynomials are the highest degree polynomials that admit closed-form solutions (which is a well-known fact c.f. [Abel–Ruffini theorem - Wikipedia](https://en.wikipedia.org/wiki/Abel%E2%80%93Ruffini_theorem))! That means that if the dynamics included one more higher derivative of the flat outputs (third order derivatives), we would end up needing to solve for roots of a polynomial numerically, which is far more expensive and less robust.
 
 ### Takeaway 3: Batch the collision & constraint checks and run them way faster using SIMD instructions
 
@@ -34,7 +34,7 @@ See Line 5 of Algorithm 3.
 
 ### Takeaway 5: GPU is not necessary
 
-You will notice that all the experiments are on commodity workstation CPUs. This is consistent with other modern state-of-the-art work on motion planning e.g. judo that also relies completely on CPU-based parallelization (although judo is thread-level / coarse-grained, compared to fine-grained SIMD parallelization in the OP paper). I think it is worth meditating on this, as we do not necessarily need to go all in on GPU for motion planning, especially in the classical / physics / model-based paradigm.
+You will notice that all the experiments are on commodity workstation CPUs. This is consistent with other modern state-of-the-art work on motion planning e.g. [judo](https://github.com/rai-opensource/judo) that also relies completely on CPU-based parallelization (although judo is thread-level / coarse-grained, compared to fine-grained SIMD parallelization in the OP paper). I think it is worth meditating on this, as we do not necessarily need to go all in on GPU for motion planning, especially in the classical / physics / model-based paradigm.
 
 ## Parting thoughts
 
