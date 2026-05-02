@@ -1,5 +1,6 @@
 from typing import Any
 from pathlib import Path
+from urllib.parse import quote_plus
 import yaml
 import requests
 
@@ -7,7 +8,6 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-
 
 PAPERS_DIR = Path("docs/papers")
 
@@ -43,6 +43,42 @@ def fetch_pdf(url):
     r = requests.get(url, headers=headers)
     r.raise_for_status()
     return r.content
+
+
+_OPENALEX_HEADERS = {"User-Agent": "knowledge-base-app"}
+
+
+@st.cache_data
+def fetch_openalex_work_url(doi: str | None, arxiv_id: str | None) -> str | None:
+    if doi:
+        r = requests.get(
+            f"https://api.openalex.org/works/doi:{doi}",
+            headers=_OPENALEX_HEADERS,
+        )
+        if r.ok:
+            return r.json().get("id")
+
+    if arxiv_id:
+        r = requests.get(
+            f"https://api.openalex.org/works?filter=ids.arxiv:{arxiv_id}",
+            headers=_OPENALEX_HEADERS,
+        )
+        if r.ok:
+            results = r.json().get("results", [])
+            if results:
+                return results[0].get("id")
+
+    return None
+
+
+def make_openalex_url(metadata: dict) -> str:
+    doi = metadata.get("doi") or None
+    arxiv_id = str(metadata["arxiv_id"]) if metadata.get("arxiv_id") else None
+    work_url = fetch_openalex_work_url(doi, arxiv_id)
+    if work_url:
+        return work_url
+    title = metadata.get("title", "")
+    return f"https://openalex.org/works?page=1&sort=relevance_score:desc&search.title_and_abstract={quote_plus(title)}"
 
 
 def show_paper(metadata: dict) -> None:
@@ -136,7 +172,13 @@ with agg_tab:
     st.plotly_chart(fig)
 
     source_counts = df["source"].value_counts().sort_values(ascending=True)
-    fig = px.bar(source_counts, x=source_counts.values, y=source_counts.index, orientation="h", labels={"x": "Count", "y": "Source"})
+    fig = px.bar(
+        source_counts,
+        x=source_counts.values,
+        y=source_counts.index,
+        orientation="h",
+        labels={"x": "Count", "y": "Source"},
+    )
     st.plotly_chart(fig)
 
 with detail_tab:
@@ -144,39 +186,46 @@ with detail_tab:
         "Select Paper", options=stuff.index, format_func=format_arxiv
     )
 
-    cols = st.columns(4)
+    year = f"20{arxiv_id[0:2]}"
+    path = PAPERS_DIR / f"{year}/{arxiv_id}/metadata.yml"
+    metadata = load_metadata(path)
+
+    cols = st.columns(5)
     with cols[0]:
         st.link_button(
-            "View arXiv page",
+            "arXiv Abstract",
             f"https://arxiv.org/abs/{arxiv_id}",
             icon=":material/open_in_new:",
             use_container_width=True,
         )
     with cols[1]:
         st.link_button(
-            "View arXiv PDF",
+            "arXiv PDF",
             f"https://arxiv.org/pdf/{arxiv_id}",
             icon=":material/open_in_new:",
             use_container_width=True,
         )
     with cols[2]:
         st.link_button(
-            "View arXiv HTML",
+            "arXiv HTML",
             f"https://ar5iv.org/abs/{arxiv_id}",
             icon=":material/open_in_new:",
             use_container_width=True,
         )
     with cols[3]:
         st.link_button(
-            "View HuggingFace page",
+            "OpenAlex",
+            make_openalex_url(metadata),
+            icon=":material/open_in_new:",
+            use_container_width=True,
+        )
+    with cols[4]:
+        st.link_button(
+            "HuggingFace",
             f"https://huggingface.co/papers/{arxiv_id}",
             icon=":material/open_in_new:",
             use_container_width=True,
         )
-
-    year = f"20{arxiv_id[0:2]}"
-    path = PAPERS_DIR / f"{year}/{arxiv_id}/metadata.yml"
-    metadata = load_metadata(path)
 
     show_paper(metadata)
 
