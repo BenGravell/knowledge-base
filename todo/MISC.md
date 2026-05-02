@@ -43,11 +43,18 @@ https://arxiv.org/abs/2208.05888
 
 ## Quasi-Newton
 
-DFP
+### DFP
 
-BFGS
+Title: Variable Metric Method for Minimization
+Author: William C. Davidon
+Original report: AEC Research and Development Report ANL-5990, Argonne National Laboratory, May 1959 (revised November 1959)
+Published version: SIAM Journal on Optimization, Vol. 1, No. 1, pp. 1–17, February 1991
+DOI: 10.1137/0801001
+PDF (McGill): https://www.math.mcgill.ca/dstephens/680/Papers/Davidon91.pdf
+ 
+### BFGS
 
-SR1
+### SR1
 
 
 
