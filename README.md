@@ -57,7 +57,7 @@ python mind_map/generate_mind_map_data.py
 Streamlit app for analyzing the knowledge base:
 
 ```bash
-streamlit run app.py
+streamlit run analyzer_app.py
 ```
 
 Streamlit app for generating new entries from arXiv:

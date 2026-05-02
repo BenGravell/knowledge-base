@@ -131,10 +131,12 @@ with agg_tab:
 
     st.write(df)
 
-    fig = px.histogram(df, x="year")
+    year_int = df["year"].astype(int)
+    fig = px.histogram(df, x=year_int, nbins=int(year_int.max() - year_int.min() + 1))
     st.plotly_chart(fig)
 
-    fig = px.histogram(df, x="source")
+    source_counts = df["source"].value_counts().sort_values(ascending=True)
+    fig = px.bar(source_counts, x=source_counts.values, y=source_counts.index, orientation="h", labels={"x": "Count", "y": "Source"})
     st.plotly_chart(fig)
 
 with detail_tab:
