@@ -33,7 +33,7 @@ mkdocs serve
 Build the site locally with
 
 ```bash
-mkdocs serve
+mkdocs build
 ```
 
 Deploy to GitHub Pages with
