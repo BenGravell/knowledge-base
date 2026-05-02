@@ -8,7 +8,7 @@ For more details, refer to the [site page for arXiv:2603.16059](../papers/2603_1
 
 The paper brings together two of my favorite concepts in motion planning: sampling-based trajectory planning and differentially flat systems. They also massage things (trajectory generation + collision/constraint checking) into a SIMD-amenable implementation which can give huge speedups on CPU-based hardware.
 
-If you are not familiar with differential flatness, read these [grad school-level introductory notes by Marin Kobilarov](https://asco.lcsr.jhu.edu/docs/EN530_678_S2022/lectures/lecture6.pdf)
+If you are not familiar with differential flatness, refer to the [explainer on Differential Flatness](differential_flatness.md).
 
 ## Takeaways
 

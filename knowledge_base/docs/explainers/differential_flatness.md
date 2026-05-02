@@ -1,6 +1,7 @@
 # Differential Flatness
 
 *Differential Flatness* is a special property of certain dynamical systems where the states and the control actions can be expressed as pure functions of "flat outputs" and a finite number of its derivatives.
+
 Differentially flat systems are useful in situations where explicit trajectory generation is required. Since the behavior of a flat system is determined by the flat outputs, we can plan trajectories in the flat output space, and then map these back to appropriate control actions.
 
 Learn more with these resources:
