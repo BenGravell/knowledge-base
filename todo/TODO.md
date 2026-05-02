@@ -21,7 +21,41 @@ add other URIs besides DOI since not all papers have DOI e.g. dissertations, arx
   - policy: use algorithm if non-null, else use the paper name
 
 
+
+## Quality of life
+
+Create a one-click site regen script.
+
+Should call 
+- embedding regen
+- mkdocs build
+
+Take an argument -g or --github to use gh-deploy mkdocs
+
+## Content tree
+
+Put all the sections in a new top level header "Content Tree"
+
+Create a large form thing for that page that enables users to ergonomically traverse the tree.
+Key mechanism is hiding branches that are not on the currently node ancestor chain and emphasizing the current node over ancestors and successors
+
+Add a verbiage info statement that the content tree is just my personal interpretation of organizing items in a hierarchical way, and that multiple alternative organizations are possible, and that content does not literally have a tree structure and other associations exist in a more general graph.
+
+Then what is the value of a tree if the true info associations are more general?
+- It provides structure for newcomers and encode some opinion (my own) about the most relevant/important connections
+
 ## Mind Map
+
+Also seems like the show hide button disappeared.
+
+
+Settings menu is too wide on mobile 
+Make it use a more intelligent strategy, fitting to container/screen width if requested target width is too wide to fit screen.
+
+
+
+
+
 
 
 Make layout less busy, too cluttered in motion planning cluster
