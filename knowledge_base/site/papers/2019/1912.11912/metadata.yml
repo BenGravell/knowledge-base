@@ -1,0 +1,26 @@
+title: "Quasi-Newton Trust Region Policy Optimization"
+algorithm: QNTRPO
+authors:
+  - Devesh Jha
+  - Arvind Raghunathan
+  - Diego Romeres
+year: 2019
+source: Conference on Robot Learning (CoRL)
+type: Conference Paper
+doi: 
+arxiv_id: "1912.11912"
+tags:
+  - Reinforcement learning
+  - Policy optimization
+  - Trust region methods
+  - Quasi-Newton methods
+abstract: >
+  We propose a trust region method for policy optimization that employs Quasi-Newton approximation for the Hessian, called Quasi-Newton Trust Region Policy Optimization QNTRPO. Gradient descent is the de facto algorithm for reinforcement learning tasks with continuous controls. The algorithm has achieved state-of-the-art performance when used in reinforcement learning across a wide range of tasks. However, the algorithm suffers from a number of drawbacks including: lack of stepsize selection criterion, and slow convergence. We investigate the use of a trust region method using dogleg step and a Quasi-Newton approximation for the Hessian for policy optimization. We demonstrate through numerical experiments over a wide range of challenging continuous control tasks that our particular choice is efficient in terms of number of samples and improves performance
+summary: >
+  Applies a quasi-Newton Hessian approximation within the TRPO trust region framework, achieving better sample efficiency and faster convergence than standard TRPO by making more informed second-order parameter updates.
+link: https://arxiv.org/abs/1912.11912
+links_alt:
+  - https://proceedings.mlr.press/v100/jha20a/jha20a.pdf
+  - https://www.researchgate.net/publication/338228274_Quasi-Newton_Trust_Region_Policy_Optimization
+  - https://www.merl.com/research/downloads/QNTRPO
+  - https://github.com/merlresearch/QNTRPO

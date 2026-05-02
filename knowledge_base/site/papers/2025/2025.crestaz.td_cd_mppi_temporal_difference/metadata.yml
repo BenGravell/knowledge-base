@@ -1,0 +1,32 @@
+title: "TD-CD-MPPI: Temporal-Difference Constraint-Discounted Model Predictive Path Integral Control"
+algorithm: TD-CD-MPPI
+authors:
+  - Pietro Noah Crestaz
+  - Ludovic De Matteis
+  - Elliot Chane-Sane
+  - Nicolas Mansard
+  - Andrea Del Prete
+year: 2025
+source: IEEE Robotics and Automation Letters (RA-L)
+type: Journal Paper
+doi: 10.1109/LRA.2025.3632612
+arxiv_id:
+tags:
+  - MPPI
+  - Trajectory optimization
+  - Constraint handling
+  - Temporal difference
+  - Safety
+abstract: >
+  Path Integral methods have demonstrated remarkable capabilities for solving non-linear stochastic optimal control problems through sampling-based optimization. However, their computational complexity grows linearly with the prediction horizon, limiting long-term reasoning, while constraints are merely enforced through handcrafted penalties. In this work, we propose a unified and efficient framework for enabling long-horizon reasoning and constraint enforcement within Model Predictive Path Integral (MPPI) control. First, we introduce a practical method to incorporate a terminal value function, learned offline via temporal-difference learning, to approximate the long-term cost-to-go. This allows for significantly shorter roll-outs while enabling infinite-horizon reasoning, thereby improving computational efficiency and motion performance. Second, we propose a discount modulation strategy that adjusts the return of sampled trajectories based on constraint violations. This provides a more interpretable and effective mechanism for enforcing constraints compared to traditional cost shaping. Our formulation retains the flexibility and sampling efficiency of MPPI while supporting structured integration of long-term objectives and constraint handling. We validate our approach on both simulated and real-world robotic locomotion tasks, demonstrating improved performance, constraint-awareness, and generalization under reduced computational budgets.
+summary: >
+  TD-CD-MPPI enables the use of reduced control horizons by using a learned terminal value function to approximate long-term returns.
+link: https://hal.science/hal-05213269v2/document
+links_alt:
+  - https://ieeexplore.ieee.org/document/11248834
+  - https://hal.science/hal-05213269/
+  - https://hal.science/hal-05213269v1
+  - https://insa-toulouse.hal.science/hal-05213269/
+  - https://univ-tlse2.hal.science/hal-05213269/
+  - https://ut3-toulouseinp.hal.science/hal-05213269/
+  - https://iris.unitn.it/handle/11572/470791

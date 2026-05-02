@@ -1,0 +1,24 @@
+title: "Constrained Differential Dynamic Programming Revisited"
+algorithm: AL-DDP
+authors:
+  - Yuichiro Aoyama
+  - George Boutselis
+  - Akash Patel
+  - Evangelos A. Theodorou
+year: 2020
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA48506.2021.9561530
+arxiv_id: "2005.00985"
+tags:
+  - Differential dynamic programming
+  - Constrained optimization
+  - Augmented Lagrangian
+  - Trajectory optimization
+abstract: >
+  Differential Dynamic Programming (DDP) has become a well established method for unconstrained trajectory optimization. Despite its several applications in robotics and controls, however, a widely successful constrained version of the algorithm has yet to be developed. This paper builds upon penalty methods and active-set approaches towards designing a Dynamic Programming-based methodology for constrained optimal control. Regarding the former, our derivation employs a constrained version of Bellman's principle of optimality, by introducing a set of auxiliary slack variables in the backward pass. In parallel, we show how Augmented Lagrangian methods can be naturally incorporated within DDP, by utilizing a particular set of penalty-Lagrangian functions that preserve second-order differentiability. We demonstrate experimentally that our extensions (individually and combinations thereof) enhance significantly the convergence properties of the algorithm, and outperform previous approaches on a large number of simulated scenarios.
+summary: >
+  Revisits constrained DDP with augmented Lagrangian methods, improving constraint handling within the DDP backward-forward pass framework. Contemporary with ALTRO, but from a different group with a different perspective on convergence.
+link: https://arxiv.org/pdf/2005.00985
+links_alt:
+  - https://ieeexplore.ieee.org/document/9561530

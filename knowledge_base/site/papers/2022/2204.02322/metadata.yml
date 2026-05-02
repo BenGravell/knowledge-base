@@ -1,0 +1,28 @@
+title: "On Global and Local Convergence of Iterative Linear Quadratic Optimization Algorithms for Discrete Time Nonlinear Control"
+algorithm:
+authors:
+  - Vincent Roulet
+  - Siddhartha Srinivasa
+  - Maryam Fazel
+  - Zaid Harchaoui
+year: 2025
+source: Journal of Machine Learning Research (JMLR)
+type: Journal Paper
+doi:
+arxiv_id: "2204.02322"
+tags:
+  - Trajectory optimization
+  - iLQR
+  - Differential dynamic programming
+  - Convergence analysis
+  - Nonlinear control
+abstract: >
+  A classical approach for solving discrete time nonlinear control on a finite horizon consists in repeatedly minimizing linear quadratic approximations of the original problem around current candidate solutions. While widely popular in many domains, such an approach has mainly been analyzed locally. We provide detailed convergence guarantees to stationary points as well as local linear convergence rates for the Iterative Linear Quadratic Regulator (ILQR) algorithm and its Differential Dynamic Programming (DDP) variant. For problems without costs on control variables, we observe that global convergence to minima can be ensured provided that the linearized discrete time dynamics are surjective, costs on the state variables are gradient dominated. We further detail quadratic local convergence when the costs are self-concordant. We show that surjectivity of the linearized dynamics hold for appropriate discretization schemes given the existence of a feedback linearization scheme. We present complexity bounds of algorithms based on linear quadratic approximations through the lens of generalized Gauss-Newton methods. Our analysis uncovers several convergence phases for regularized generalized Gauss-Newton algorithms.
+summary: >
+  Analyzes both global and local convergence properties of iterative LQR/DDP algorithms for discrete-time nonlinear control, providing theoretical convergence guarantees under specific regularity conditions.
+link: https://arxiv.org/pdf/2204.02322
+links_alt:
+  - https://personalrobotics.cs.washington.edu/publications/roulet2025ilqriddp.pdf
+  - https://www.jmlr.org/papers/volume26/22-1271/22-1271.pdf
+  - https://jmlr.org/papers/v26/22-1271.html
+  - https://par.nsf.gov/biblio/10632248

@@ -1,0 +1,31 @@
+title: "Trajectory Prediction for Autonomous Driving: Progress, Limitations, and Future Directions"
+algorithm:
+authors:
+  - Nadya Abdel Madjid
+  - Abdulrahman Ahmad
+  - Murad Mebrahtu
+  - Yousef Babaa
+  - Abdelmoamen Nasser
+  - Sumbal Malik
+  - Bilal Hassan
+  - Naoufel Werghi
+  - Jorge Dias
+  - Majid Khonji
+year: 2025
+source: Information Fusion
+type: Survey Paper
+doi: 10.1016/j.inffus.2025.103588
+arxiv_id: "2503.03262"
+tags:
+  - Trajectory prediction
+  - Autonomous driving
+  - Survey
+  - Motion forecasting
+abstract: >
+  As the potential for autonomous vehicles to be integrated on a large scale into modern traffic systems continues to grow, ensuring safe navigation in dynamic environments is crucial for smooth integration. To guarantee safety and prevent collisions, autonomous vehicles must be capable of accurately predicting the trajectories of surrounding traffic agents. Over the past decade, significant efforts from both academia and industry have been dedicated to designing solutions for precise trajectory forecasting. These efforts have produced a diverse range of approaches, raising questions about the differences between these methods and whether trajectory prediction challenges have been fully addressed. This paper reviews a substantial portion of recent trajectory prediction methods proposing a taxonomy to classify existing solutions. A general overview of the prediction pipeline is also provided, covering input and output modalities, modeling features, and prediction paradigms existing in the literature. In addition, the paper discusses active research areas within trajectory prediction, addresses the posed research questions, and highlights the remaining research gaps and challenges.
+summary: >
+  Reviews progress in trajectory prediction for autonomous driving, systematically discussing limitations of current approaches and outlining promising future research directions.
+link: https://arxiv.org/pdf/2503.03262
+links_alt:
+  - https://www.sciencedirect.com/science/article/pii/S1566253525006608
+  - https://nchr.elsevierpure.com/en/publications/trajectory-prediction-for-autonomous-driving-progress-limitations/

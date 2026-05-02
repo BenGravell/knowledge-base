@@ -1,0 +1,30 @@
+title: "pRRTC: GPU-Parallel RRT-Connect for Fast, Consistent, and Low-Cost Motion Planning"
+algorithm: pRRTC
+authors:
+  - Chih H. Huang
+  - Pranav Jadhav
+  - Brian Plancher
+  - Zachary Kingston
+year: 2025
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+type: Conference Paper
+doi:
+arxiv_id: "2503.06757"
+tags:
+  - Motion planning
+  - Sampling-based planning
+  - GPU
+  - Parallelized
+  - SIMT
+  - CUDA
+  - Collision checking
+  - High-dimensional planning
+  - pRRTC
+  - RRT-Connect
+abstract: >
+  Sampling-based motion planning algorithms, like the Rapidly-Exploring Random Tree (RRT) and its widely used variant, RRT-Connect, provide efficient solutions for high-dimensional planning problems faced by real-world robots. However, these methods remain computationally intensive, particularly in complex environments that require many collision checks. To improve performance, recent efforts have explored parallelizing specific components of RRT such as collision checking, or running multiple planners independently. However, little has been done to develop an integrated parallelism approach, co-designed for large-scale parallelism. In this work we present pRRTC, a RRT-Connect based planner co-designed for GPU acceleration across the entire algorithm through parallel expansion and SIMT-optimized collision checking. We evaluate the effectiveness of pRRTC on the MotionBenchMaker dataset using robots with 7, 8, and 14 degrees of freedom (DoF). Compared to the state-of-the-art, pRRTC achieves as much as a 10x speedup on constrained reaching tasks with a 5.4x reduction in standard deviation. pRRTC also achieves a 1.4x reduction in average initial path cost. Finally, we deploy pRRTC on a 14-DoF dual Franka Panda arm setup and demonstrate real-time, collision-free motion planning with dynamic obstacles. We open-source our planner to support the wider community.
+summary: >
+  GPU-accelerated RRT-Connect implementation co-designed for three hierarchical levels of parallelism: concurrent bidirectional tree expansion across GPU thread blocks, SIMT-optimized parallel collision checking within each block, and thread-level forward kinematics.
+link: https://arxiv.org/pdf/2503.06757
+links_alt:
+  - https://github.com/CoMMALab/pRRTC

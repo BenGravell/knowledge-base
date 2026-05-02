@@ -1,0 +1,24 @@
+title: Asymptotically Optimal Sampling-Based Motion Planning Methods
+algorithm:
+authors:
+  - Jonathan D. Gammell
+  - Marlin P. Strub
+year: 2020
+source: Annual Review of Control, Robotics, and Autonomous Systems
+type: Journal Paper
+doi: 10.1146/annurev-control-061920-093753
+arxiv_id: "2009.10484"
+tags:
+  - Survey
+  - Robotics
+  - Motion planning
+  - Robot motion planning
+  - Sampling-based planning
+  - Optimal motion planning
+  - Asymptotically optimal
+abstract: >
+  Motion planning is a fundamental problem in autonomous robotics that requires finding a path to a specified goal that avoids obstacles and takes into account a robot's limitations and constraints. It is often desirable for this path to also optimize a cost function, such as path length. Formal path-quality guarantees for continuously valued search spaces are an active area of research interest. Recent results have proven that some sampling-based planning methods probabilistically converge toward the optimal solution as computational effort approaches infinity. This article summarizes the assumptions behind these popular asymptotically optimal techniques and provides an introduction to the significant ongoing research on this topic.
+summary:
+link: https://arxiv.org/pdf/2009.10484
+links_alt:
+  - https://www.annualreviews.org/content/journals/10.1146/annurev-control-061920-093753

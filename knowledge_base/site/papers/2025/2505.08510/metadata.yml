@@ -1,0 +1,32 @@
+title: "FOCI: Trajectory Optimization on Gaussian Splats"
+algorithm: FOCI
+authors:
+  - Mario Gomez Andreu
+  - Maximum Wilder-Smith
+  - Victor Klemm
+  - Vaishakh Patil
+  - Jesus Tordesillas
+  - Marco Hutter
+year: 2025
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+type: Conference Paper
+doi: 10.1109/IROS60139.2025.11245845
+arxiv_id: "2505.08510"
+tags:
+  - Trajectory optimization
+  - Gaussian splatting
+  - 3DGS
+  - 3D scene
+  - Representation
+abstract: >
+  3D Gaussian Splatting (3DGS) has recently gained popularity as a faster alternative to Neural Radiance Fields (NeRFs) in 3D reconstruction and view synthesis methods. Leveraging the spatial information encoded in 3DGS, this work proposes FOCI (Field Overlap Collision Integral), an algorithm that is able to optimize trajectories directly on the Gaussians themselves. FOCI leverages a novel and interpretable collision formulation for 3DGS using the notion of the overlap integral between Gaussians. Contrary to other approaches, which represent the robot with conservative bounding boxes that underestimate the traversability of the environment, we propose to represent the environment and the robot as Gaussian Splats. This not only has desirable computational properties, but also allows for orientation-aware planning, allowing the robot to pass through very tight and narrow spaces. We extensively test our algorithm in both synthetic and real Gaussian Splats, showcasing that collision-free trajectories for the ANYmal legged robot that can be computed in a few seconds, even with hundreds of thousands of Gaussians making up the environment. The project page and code are available at https://rffr.leggedrobotics.com/works/foci/
+summary: >
+  FOCI is a trajectory optimization method that operates directly on Gaussian Splat scene representations.
+link: https://arxiv.org/pdf/2505.08510
+links_alt:
+  - https://ieeexplore.ieee.org/document/11245845
+  - https://www.researchgate.net/publication/391707142_FOCI_Trajectory_Optimization_on_Gaussian_Splats
+  - https://ethz.ch/content/dam/ethz/special-interest/mavt/csfm-dam/events/2025/symposium/posters/mi/mi09-gomezandreu-foci.pdf
+  - https://rffr.leggedrobotics.com/works/foci/
+  - https://github.com/leggedrobotics/foci
+  - https://www.linkedin.com/posts/jesus-tordesillas-torres_our-paper-foci-trajectory-optimization-activity-7366099735817994242-OlZh

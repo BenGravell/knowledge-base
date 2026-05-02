@@ -1,0 +1,20 @@
+title: "Optimal paths for a car that goes both forwards and backwards"
+algorithm: Reeds-Shepp path
+authors:
+  - James Alexander Reeds, III
+  - Lawrence A. Shepp
+year: 1990
+source: Pacific Journal of Mathematics
+type: Journal Paper
+doi: 10.2140/pjm.1990.145.367
+tags:
+  - Path generation
+  - Reeds-Shepp
+  - Curvature
+abstract: > 
+  The path taken by a car with a given minimum turning radius has a lower bound on its radius of curvature at each point, but the path has cusps if the car shifts into or out of reverse gear. What is the shortest such path a car can travel between two points if its starting and ending directions are specified? One need consider only paths with at most 2 cusps or reversals. We give a set of paths which is sufficient in the sense that it always contains a shortest path and small in the sense that there are at most 68, but usually many fewer paths in the set for any pair of endpoints and directions. We give these paths by explicit formula. Calculating the length of each of these paths and selecting the (not necessarily unique) path with smallest length yields a simple algorithm for a shortest path in each case. These optimal paths or geodesics may be described as follows: If C is an arc of a circle of the minimal turning radius and S is a line segment, then it is sufficient to consider only certain paths of the form CCSCC where arcs and segments fit smoothly, one or more of the arcs or segments may vanish, and where reversals, or equivalently cusps, between arcs or segments are allowed. This contrasts with the case when cusps are not allowed, where Dubins (1957) has shown that paths of the form CCC and CSC suffice.
+summary: >
+  Reeds and Shepp provided analytic formulas for the shortest curve that connects two points in the two-dimensional Euclidean plane (i.e. x-y plane) with a constraint on the curvature of the path and with prescribed initial and terminal tangents to the path, and an assumption that the vehicle traveling the path can travel forward or backward. Reeds and Shepp proved using tools from analysis that any such path will consist of maximum curvature and/or straight line segments, with at most two cusps of the form CCSCC where C is an arc of a circle of the minimal turning radius and S is a line segment.
+link: https://msp.org/pjm/1990/145-2/p06.xhtml
+links_alt:
+  - https://en.wikipedia.org/wiki/Dubins_path

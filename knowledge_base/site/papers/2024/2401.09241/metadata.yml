@@ -1,0 +1,27 @@
+title: "Biased-MPPI: Informing Sampling-Based Model Predictive Control by Fusing Ancillary Controllers"
+algorithm: Biased-MPPI
+authors:
+  - Elia Trevisan
+  - Javier Alonso-Mora
+year: 2024
+source: IEEE Robotics and Automation Letters (RA-L)
+type: Journal Paper
+doi: 10.1109/LRA.2024.3397083
+arxiv_id: "2401.09241"
+tags:
+  - MPPI
+  - Trajectory optimization
+  - Sampling-based control
+  - Informed sampling
+  - Ancillary controller
+abstract: >
+  Motion planning for autonomous robots in dynamic environments poses numerous challenges due to uncertainties in the robot's dynamics and interaction with other agents. Sampling-based MPC approaches, such as Model Predictive Path Integral (MPPI) control, have shown promise in addressing these complex motion planning problems. However, the performance of MPPI relies heavily on the choice of sampling distribution. Existing literature often uses the previously computed input sequence as the mean of a Gaussian distribution for sampling, leading to potential failures and local minima. In this paper, we propose a novel derivation of MPPI that allows for arbitrary sampling distributions to enhance efficiency, robustness, and convergence while alleviating the problem of local minima. We present an efficient importance sampling scheme that combines classical and learning-based ancillary controllers simultaneously, resulting in more informative sampling and control fusion. Several simulated and real-world demonstrate the validity of our approach.
+summary: >
+  Biased-MPPI augments the MPPI sampling distribution by biasing it toward trajectories suggested by one or more ancillary controllers (e.g., path-following or optimization-based), improving sample efficiency and trajectory quality while preserving the exploration benefits of random sampling.
+link: https://arxiv.org/pdf/2401.09241
+links_alt:
+  - https://ieeexplore.ieee.org/document/10520879
+  - https://research.tudelft.nl/en/publications/biased-mppi-informing-sampling-based-model-predictive-control-by-/
+  - https://autonomousrobots.nl/paper_websites/biased-mppi
+  - https://github.com/tud-amr/biased-mppi
+  - https://www.youtube.com/watch?v=1ZbbcfFgpxc

@@ -1,0 +1,27 @@
+title: "On Dynamic Mode Decomposition: Theory and Applications"
+algorithm: DMD
+authors:
+  - Jonathan H. Tu
+  - Clarence W. Rowley
+  - Dirk M. Luchtenburg
+  - Steven L. Brunton
+  - J. Nathan Kutz
+year: 2013
+source: Journal of Computational Dynamics
+type: Journal Paper
+doi: 10.3934/jcd.2014.1.391
+arxiv_id: "1312.0041"
+tags:
+  - Dynamic mode decomposition
+  - DMD
+  - Fluid dynamics
+  - Data-driven methods
+  - Koopman operator
+abstract: >
+  Originally introduced in the fluid mechanics community, dynamic mode decomposition (DMD) has emerged as a powerful tool for analyzing the dynamics of nonlinear systems. However, existing DMD theory deals primarily with sequential time series for which the measurement dimension is much larger than the number of measurements taken. We present a theoretical framework in which we define DMD as the eigendecomposition of an approximating linear operator. This generalizes DMD to a larger class of datasets, including nonsequential time series. We demonstrate the utility of this approach by presenting novel sampling strategies that increase computational efficiency and mitigate the effects of noise, respectively. We also introduce the concept of linear consistency, which helps explain the potential pitfalls of applying DMD to rank-deficient datasets, illustrating with examples. Such computations are not considered in the existing literature, but can be understood using our more general framework. In addition, we show that our theory strengthens the connections between DMD and Koopman operator theory. It also establishes connections between DMD and other techniques, including the eigensystem realization algorithm (ERA), a system identification method, and linear inverse modeling (LIM), a method from climate science. We show that under certain conditions, DMD is equivalent to LIM.
+summary: >
+  Provides rigorous theoretical foundations for DMD, introduces the exact DMD formulation with improved numerical accuracy, and analyzes convergence properties and connections to Koopman spectral analysis.
+link: https://arxiv.org/pdf/1312.0041
+links_alt:
+  - https://cwrowley.princeton.edu/papers/Tu-DMD.pdf
+  - https://www.aimsciences.org/article/doi/10.3934/jcd.2014.1.391

@@ -1,0 +1,26 @@
+title: "Time-Correlated Model Predictive Path Integral: Smooth Action Generation for Sampling-Based Control"
+algorithm: TC-MPPI
+authors:
+  - Minhyeong Lee
+  - Dongjun Lee
+year: 2025
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA55743.2025.11128021
+arxiv_id:
+tags:
+  - MPPI
+  - Trajectory optimization
+  - Sampling-based control
+  - Action smoothing
+  - Time correlation
+abstract: >
+  In this paper, we introduce time-correlated model predictive path integral (TC-MPPI), a novel approach to mitigate action noise in sampling-based control methods. Unlike conventional smoothing techniques that rely on post-processing or additional state variables, TC-MPPI directly incorporates temporal correlation of actions into stochastic optimal control, effectively enforcing quadratic costs on action derivatives. This reformulation enables us to generate smooth action sequences without extra modifications, using a time-correlated and conditional Gaussian sampling distribution. We demonstrate the effectiveness of our approach through simulations on various robotic platforms, including a pendulum, cart-pole, 2D bicopter, 3D quadcopter, and autonomous vehicle. Simulation videos are available at https://youtu.be/nWfJ2MAV2JI.
+summary: >
+  Introduces temporally correlated noise sampling in MPPI to generate smoother action sequences, improving trajectory quality for sampling-based model predictive control of underactuated systems.
+link: https://www.inrol.snu.ac.kr/_files/ugd/0c0760_37314ffcabbd40039542c8fb802713ad.pdf
+links_alt:
+  - https://ieeexplore.ieee.org/document/11128021
+  - https://www.youtube.com/watch?v=nWfJ2MAV2JI
+  - https://openreview.net/pdf?id=RQ6NmGS2eB
+  - https://snu.elsevierpure.com/en/publications/time-correlated-model-predictive-path-integral-smooth-action-gene/

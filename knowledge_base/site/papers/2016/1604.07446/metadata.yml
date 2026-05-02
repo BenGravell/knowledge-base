@@ -1,0 +1,37 @@
+title: A Survey of Motion Planning and Control Techniques for Self-Driving Urban Vehicles
+algorithm:
+authors:
+  - Brian Paden
+  - Michal Čáp
+  - Sze Zheng Yong
+  - Dmitry Yershov
+  - Emilio Frazzoli
+year: 2016
+source: IEEE Transactions on Intelligent Vehicles
+type: Journal Paper
+doi: 10.1109/TIV.2016.2578706
+arxiv_id: "1604.07446"
+tags:
+  - Survey
+  - Motion planning
+  - Path planning
+  - Trajectory planning
+  - Autonomous vehicles
+  - Self-driving vehicles
+  - Urban driving
+  - Control
+  - Architecture
+  - System
+  - Hierarchy
+  - Modeling
+  - Kinematic model
+  - Dynamic model
+  - Variational methods
+  - Graph search
+abstract: >
+  Self-driving vehicles are a maturing technology with the potential to reshape mobility by enhancing the safety, accessibility, efficiency, and convenience of automotive transportation. Safety-critical tasks that must be executed by a self-driving vehicle include planning of motions through a dynamic environment shared with other vehicles and pedestrians, and their robust executions via feedback control. The objective of this paper is to survey the current state of the art on planning and control algorithms with particular regard to the urban setting. A selection of proposed techniques is reviewed along with a discussion of their effectiveness. The surveyed approaches differ in the vehicle mobility model used, in assumptions on the structure of the environment, and in computational requirements. The side-by-side comparison presented in this survey helps to gain insight into the strengths and limitations of the reviewed approaches and assists with system level design choices.
+summary: >
+  Surveys motion planning and control algorithms for self-driving urban vehicles, reviewing methods from route planning through behavior and motion planning to feedback control, with comparative analysis of vehicle models, environmental assumptions, and computational demands.
+link: https://arxiv.org/pdf/1604.07446
+links_alt:
+  - https://doi.org/10.1109/TIV.2016.2578706

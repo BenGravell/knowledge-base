@@ -1,0 +1,27 @@
+title: A Comparative Study of Rapidly-exploring Random Tree Algorithms Applied to Ship Trajectory Planning and Behavior Generation
+algorithm:
+authors:
+  - Trym Tengesdal
+  - Tom Arne Pedersen
+  - Tor Arne Johansen
+year: 2024
+source: Journal of Intelligent & Robotic Systems
+type: Journal Paper
+doi: 10.1007/s10846-025-02222-7
+arxiv_id: "2403.01194"
+tags:
+  - RRT
+  - Rapidly-exploring random trees
+  - Comparison study
+  - Ship trajectory planning
+  - Scenario generation
+  - Electronic navigational charts
+  - R-trees
+  - Constrained delaunay triangulation
+abstract: >
+  Rapidly Exploring Random Tree (RRT) algorithms, notably used for nonholonomic vehicle navigation in complex environments, are often not thoroughly evaluated for their specific challenges. This paper presents a first such comparison study of the variants Potential-Quick RRT* (PQ-RRT*), Informed RRT* (IRRT*), RRT*, and RRT, in maritime single-query nonholonomic motion planning. Additionally, the practicalities of using these algorithms in maritime environments are discussed and outlined. We also contend that these algorithms are beneficial not only for trajectory planning in Collision Avoidance Systems (CAS) but also for CAS verification when used as vessel behavior generators. Optimal RRT variants tend to produce more distance-optimal paths but require more computational time due to complex tree wiring and nearest neighbor searches. Our findings, supported by Welch`s t-test at a significance level of Alpha = 0.05, indicate that PQ-RRT* slightly outperform IRRT* and RRT* in achieving shorter trajectory length but at the expense of higher tuning complexity and longer run-times. Based on the results, we argue that these RRT algorithms are better suited for smaller-scale problems or environments with low obstacle congestion ratio. This is attributed to the curse of dimensionality, and trade-off with available memory and computational resources.
+summary: >
+  Compares variations of RRT in an application domain for marine ship navigation. The dynamic model is basically the same as for car-like vehicles.
+link: https://arxiv.org/pdf/2403.01194
+links_alt:
+  - https://link.springer.com/article/10.1007/s10846-025-02222-7

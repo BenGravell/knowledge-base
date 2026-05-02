@@ -1,0 +1,26 @@
+title: "RRTX: Asymptotically Optimal Single-Query Sampling-Based Motion Planning with Quick Replanning"
+algorithm: RRTX
+authors:
+  - Michael W. Otte
+  - Emilio Frazzoli
+year: 2016
+source: The International Journal of Robotics Research (IJRR)
+type: Journal Paper
+doi: 10.1177/0278364915594679
+arxiv_id:
+tags:
+  - Motion planning
+  - Sampling-based planning
+  - Asymptotic optimality
+  - Dynamic environments
+  - Replanning
+  - RRTX
+  - RRT*
+  - Graph search
+abstract: >
+  Dynamic environments have obstacles that unpredictably appear, disappear, or move. We present the first sampling-based replanning algorithm that is asymptotically optimal and single-query (designed for situation in which a priori offline computation is unavailable). Our algorithm, RRTX, refines and repairs the same search-graph over the entire duration of navigation (in contrast to previous single-query replanning algorithms that prune and then regrow some or all of the search-tree). Whenever obstacles change and/or the robot moves, a graph rewiring cascade quickly remodels the existing search-graph and repairs its shortest-path-to-goal sub-tree to reflect the new information. Both graph and tree are built directly in the robot's state-space; thus, the resulting plan(s) respect the kinematics of the robot and continue to improve during navigation. RRTX is probabilistically complete and makes no distinction between local and global planning, yet it reacts quickly enough for real-time high-speed navigation through unpredictably changing environments. Low information transfer time is essential for enabling RRTX to react quickly in dynamic environments; we prove that the information transfer time required to inform a graph of size n about an ε-cost decrease is O(n log n) for RRTX—faster than other current asymptotically optimal single-query algorithms (we prove RRT* is and RRT# is (n log2n)). In static environments RRTX has the same amortized runtime as RRT and RRT*, Θ(log n), and is faster than RRT#, (log2n). In order to achieve O(log n) iteration time, each node maintains a set of O(log n) expected neighbors, and the search-graph maintains ε-consistency for a predefined ε. Experiments and simulations confirm our theoretical analysis and demonstrate that RRTX is useful in both static and dynamic environments.
+summary: >
+  Same asymptotic optimality and probabilistically complete properties as RRT*, but can handle reactions to suddenly-appearing obstacles.
+link: http://ottelab.com/html_stuff/pdf_files/Otte.Frazzoli.IJRR15.pdf
+links_alt:
+  - https://journals.sagepub.com/doi/10.1177/0278364915594679

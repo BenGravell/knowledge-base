@@ -1,0 +1,25 @@
+title: "VIMPPI: Enhancing Model Predictive Path Integral Control with Variational Integration for Underactuated Systems"
+algorithm: VIMPPI
+authors:
+  - Igor Alentev
+  - Lev Kozlov
+  - Ivan Domrachev
+  - Simeon Nedelchev
+  - Jee-Hwan Ryu
+year: 2025
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2505.05507"
+tags:
+  - MPPI
+  - Trajectory optimization
+  - Sampling-based control
+  - Variational integration
+  - Underactuated systems
+abstract: >
+  This paper presents VIMPPI, a novel control approach for underactuated double pendulum systems developed for the AI Olympics competition. We enhance the Model Predictive Path Integral framework by incorporating variational integration techniques, enabling longer planning horizons without additional computational cost. Operating at 500-700 Hz with control interpolation and disturbance detection mechanisms, VIMPPI substantially outperforms both baseline methods and alternative MPPI implementations.
+summary: >
+  Enhances MPPI with variational integration (VI) to accurately simulate the system evolution inside an MPPI over long planning horizons.
+link: https://arxiv.org/pdf/2505.05507
+links_alt:

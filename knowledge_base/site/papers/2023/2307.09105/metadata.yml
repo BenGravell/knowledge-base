@@ -1,0 +1,35 @@
+title: >
+  Sampling-based Model Predictive Control Leveraging Parallelizable Physics Simulations
+algorithm:
+authors:
+  - Corrado Pezzato
+  - Chadi Salmi
+  - Elia Trevisan
+  - Max Spahn
+  - Javier Alonso-Mora
+  - Carlos Hernández Corbato
+year: 2023
+source: IEEE Robotics and Automation Letters (RA-L)
+type: Conference Paper
+doi: 10.1109/LRA.2025.3535185
+arxiv_id: "2307.09105"
+tags:
+  - MPPI
+  - Motion planning
+  - Trajectory optimization
+  - GPU
+  - Parallelized
+  - Isaac
+  - Gym
+  - IsaacGym
+  - Robotics
+  - Simulation
+abstract: >
+  We present a method for sampling-based model predictive control that makes use of a generic physics simulator as the dynamical model. In particular, we propose a Model Predictive Path Integral controller (MPPI), that uses the GPU-parallelizable IsaacGym simulator to compute the forward dynamics of a problem. By doing so, we eliminate the need for explicit encoding of robot dynamics and contacts with objects for MPPI. Since no explicit dynamic modeling is required, our method is easily extendable to different objects and robots and allows one to solve complex navigation and contact-rich tasks. We demonstrate the effectiveness of this method in several simulated and real-world settings, among which mobile navigation with collision avoidance, non-prehensile manipulation, and whole-body control for high-dimensional configuration spaces. This method is a powerful and accessible open-source tool to solve a large variety of contact-rich motion planning tasks.
+summary: >
+  Uses IsaacGym as a simulator for forward dynamics propagation within an MPPI framework.
+link: https://arxiv.org/pdf/2307.09105
+links_alt:
+  - https://ieeexplore.ieee.org/document/10856359
+  - https://sites.google.com/view/mppi-isaac
+  - https://github.com/tud-amr/mppi_torch

@@ -1,0 +1,26 @@
+title: "A Unified Perspective on Multiple Shooting In Differential Dynamic Programming"
+algorithm: MS-DDP
+authors:
+  - He Li
+  - Wenhao Yu
+  - Tingnan Zhang
+  - Patrick M. Wensing
+year: 2023
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+type: Conference Paper
+doi: 10.1109/IROS55552.2023.10342217
+arxiv_id: "2309.07872"
+tags:
+  - Differential dynamic programming
+  - Multiple shooting
+  - Trajectory optimization
+  - Optimal control
+abstract: >
+  Differential Dynamic Programming (DDP) is an efficient computational tool for solving nonlinear optimal control problems. It was originally designed as a single shooting method and thus is sensitive to the initial guess supplied. This work considers the extension of DDP to multiple shooting (MS), improving its robustness to initial guesses. A novel derivation is proposed that accounts for the defect between shooting segments during the DDP backward pass, while still maintaining quadratic convergence locally. The derivation enables unifying multiple previous MS algorithms, and opens the door to many smaller algorithmic improvements. A penalty method is introduced to strategically control the step size, further improving the convergence performance. An adaptive merit function and a more reliable acceptance condition are employed for globalization. The effects of these improvements are benchmarked for trajectory optimization with a quadrotor, an acrobot, and a manipulator. MS-DDP is also demonstrated for use in Model Predictive Control (MPC) for dynamic jumping with a quadruped robot, showing its benefits over a single shooting approach.
+summary: >
+  Provides a unified theoretical framework for multiple-shooting DDP variants, clarifying relationships between existing methods and deriving conditions under which they share convergence guarantees.
+link: https://arxiv.org/pdf/2309.07872
+links_alt:
+  - https://ieeexplore.ieee.org/document/10342217
+  - https://github.com/heli-sudoo/Multiple-Shooting-DDP
+  - https://www.youtube.com/watch?v=RNzE87sAn9E

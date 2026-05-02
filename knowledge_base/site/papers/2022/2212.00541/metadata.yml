@@ -1,0 +1,32 @@
+title: "Predictive Sampling: Real-time Behaviour Synthesis with MuJoCo"
+algorithm: MJPC
+authors:
+  - Taylor Howell
+  - Nimrod Gileadi
+  - Saran Tunyasuvunakool
+  - Kevin Zakka
+  - Tom Erez
+  - Yuval Tassa
+year: 2022
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2212.00541"
+tags:
+  - Model predictive control
+  - Predictive Sampling
+  - Derivative-free optimization
+  - Real-time
+  - MuJoCo
+  - Robotics
+abstract: >
+  We introduce MuJoCo MPC (MJPC), an open-source, interactive application and software framework for real-time predictive control, based on MuJoCo physics. MJPC allows the user to easily author and solve complex robotics tasks, and currently supports three shooting-based planners: derivative-based iLQG and Gradient Descent, and a simple derivative-free method we call Predictive Sampling. Predictive Sampling was designed as an elementary baseline, mostly for its pedagogical value, but turned out to be surprisingly competitive with the more established algorithms. This work does not present algorithmic advances, and instead, prioritises performant algorithms, simple code, and accessibility of model-based methods via intuitive and interactive software. MJPC is available at: this http URL, a video summary can be viewed at: https://deepmind.google/
+summary: >
+  Introduces MJPC, an open-source framework for real-time predictive control built on MuJoCo physics, implementing iLQG, Gradient Descent, and a derivative-free Predictive Sampling baseline. Demonstrates that simple sampling-based methods are competitive with classical trajectory optimizers.
+link: https://arxiv.org/pdf/2212.00541
+links_alt:
+  - https://openreview.net/pdf?id=JYa5sVW9NM
+  - https://ui.adsabs.harvard.edu/abs/2022arXiv221200541H/abstract
+  - https://github.com/google-deepmind/mujoco_mpc
+  - https://www.youtube.com/watch?v=2xVN-qY78P4
+  - https://deepmind.google/

@@ -1,0 +1,26 @@
+title: "Ultrafast Sampling-based Kinodynamic Planning via Differential Flatness"
+algorithm: AkinoPDF
+authors:
+  - Thai Duong
+  - Clayton W. Ramsey
+  - Zachary Kingston
+  - Wil Thomason
+  - Lydia E. Kavraki
+year: 2026
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2603.16059"
+tags:
+  - Kinodynamic planning
+  - Differential flatness
+  - Steering function
+  - Parallelization
+  - Manipulators
+  - Quadrotors
+abstract: >
+  Motion planning under dynamics constraints, i.e., kinodynamic planning, enables safe robot operation by generating dynamically feasible trajectories that the robot can accurately track. For high-DoF robots such as manipulators, sampling-based motion planners are commonly used, especially for complex tasks in cluttered environments. However, enforcing constraints on robot dynamics in such planners requires solving either challenging two-point boundary value problems (BVPs) or propagating robot dynamics over time, both of which are computational bottlenecks that drastically increase planning times. Meanwhile, recent efforts have shown that sampling-based motion planners can generate plans in microseconds using parallelization, but are limited to geometric paths. This paper develops AkinoPDF, a fast parallelized sampling-based kinodynamic motion planning technique for a broad class of differentially flat robot systems, including manipulators, ground and aerial vehicles, and more. Differential flatness allows us to transform the motion planning problem from the original state space to a flat output space, where an analytical time-parameterized solution of the BVP and dynamics integration can be obtained. A trajectory in the flat output space is then converted back to a closed-form dynamically feasible trajectory in the original state space, enabling fast validation via "single instruction, multiple data" parallelism. Our method is fast, exact, and compatible with any sampling-based motion planner. We extensively verify the effectiveness of our approach in both simulated benchmarks and real experiments with cluttered and dynamic environments, requiring mere microseconds to milliseconds of planning time.
+summary: >
+  Exploits differential flatness to obtain closed-form analytical BVP solutions in a flat output space. Planning is done in the flat space (concatenation of flat outputs and several time derivatives thereof). Kinodynamic constraints and collision checking can be done very efficiently/quickly by using SIMD instructions on CPU. Closely related to the linear-systems approach of Webb & van den Berg (1205.5088) but extended to the broader class of differentially flat systems.
+link: https://arxiv.org/pdf/2603.16059
+links_alt:

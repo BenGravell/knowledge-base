@@ -1,0 +1,21 @@
+title: "Low-pass Sampling in Model Predictive Path Integral Control"
+algorithm: Low-pass MPPI
+authors:
+  - Piotr Kicki
+year: 2025
+source: International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi:
+arxiv_id: "2503.11717"
+tags:
+  - MPPI
+  - Trajectory optimization
+  - Sampling-based control
+  - Action smoothing
+  - Low-pass filter
+abstract: >
+  Model Predictive Path Integral (MPPI) control is a widely used sampling-based approach for real-time control, valued for its flexibility in handling arbitrary dynamics and cost functions. However, it often suffers from high-frequency noise in the sampled control trajectories, which hinders the search for optimal controls and transfers to the applied controls, leading to actuator wear. In this work, we introduce Low-Pass Model Predictive Path Integral Control (LP-MPPI), which integrates low-pass filtering into the sampling process to eliminate detrimental high-frequency components and enhance the algorithm's efficiency. Unlike prior approaches, LP-MPPI provides direct and interpretable control over the frequency spectrum of sampled control trajectory perturbations, leading to more efficient sampling and smoother control. Through extensive evaluations in Gymnasium environments, simulated quadruped locomotion, and real-world F1TENTH autonomous racing, we demonstrate that LP-MPPI consistently outperforms state-of-the-art MPPI variants, achieving significant performance improvements while reducing control signal chattering.
+summary: >
+  Applies a low-pass filter to Gaussian noise before using it as sampled action sequences in MPPI, a heuristic that produces smoother trajectories and can improve exploration quality with minimal computational overhead.
+link: https://arxiv.org/pdf/2503.11717
+links_alt:

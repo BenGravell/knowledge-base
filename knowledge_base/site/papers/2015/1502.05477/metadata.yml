@@ -1,0 +1,26 @@
+title: "Trust Region Policy Optimization"
+algorithm: TRPO
+authors:
+  - John Schulman
+  - Sergey Levine
+  - Philipp Moritz
+  - Michael Jordan
+  - Pieter Abbeel
+year: 2015
+source: International Conference on Machine Learning (ICML)
+type: Conference Paper
+doi: 10.5555/3045118.3045319
+arxiv_id: "1502.05477"
+tags:
+  - Reinforcement learning
+  - Policy optimization
+  - Trust region methods
+  - Continuous control
+abstract: >
+  We describe an iterative procedure for optimizing policies, with guaranteed monotonic improvement. By making several approximations to the theoretically-justified procedure, we develop a practical algorithm, called Trust Region Policy Optimization (TRPO). This algorithm is similar to natural policy gradient methods and is effective for optimizing large nonlinear policies such as neural networks. Our experiments demonstrate its robust performance on a wide variety of tasks: learning simulated robotic swimming, hopping, and walking gaits; and playing Atari games using images of the screen as input. Despite its approximations that deviate from the theory, TRPO tends to give monotonic improvement, with little tuning of hyperparameters.
+summary: >
+  Introduces TRPO, which guarantees monotonic policy improvement by constraining each update to a KL-divergence trust region. Enables stable training on complex continuous control tasks without manual learning rate tuning.
+link: https://arxiv.org/pdf/1502.05477
+links_alt:
+  - https://dl.acm.org/doi/abs/10.5555/3045118.3045319
+  - https://spinningup.openai.com/en/latest/algorithms/trpo.html

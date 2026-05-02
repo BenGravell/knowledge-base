@@ -1,0 +1,28 @@
+title: "Informed RRT*-Connect: An Asymptotically Optimal Single-Query Path Planning Method"
+algorithm: Informed RRT*-Connect
+authors:
+  - Reza Mashayekhi
+  - Mohd Yamani Idna Idris
+  - Mohammad Hossein Anisi
+  - Ismail Ahmedy
+  - Ihsan Ali
+year: 2020
+source: IEEE Access
+type: Journal Paper
+doi: 10.1109/ACCESS.2020.2969316
+arxiv_id:
+tags:
+  - Motion planning
+  - Sampling-based planning
+  - Asymptotic optimality
+  - Bidirectional search
+  - RRT*
+  - RRT-Connect
+  - Informed sampling
+abstract: >
+  Rapidly-exploring Random Trees (RRTs) are successful in single-query motion planning problems. The standard version of RRT grows a tree from a start location and stops once it reached the goal configuration. RRT-Connect is the bidirectional version of RRT, which grows two trees simultaneously. These two trees try to establish a connection to stop searching. RRT-Connect finds solutions faster than RRT. Following that, an asymptotically optimal version of RRT-Connect called RRT*-Connect has been introduced. It not only rewires both trees while they are growing, but also it keeps searching the state space for better solutions than the current one. However, it is inefficient and inconsistent to search all over the state space in order to find better solutions than the current one concerning its single-query nature. The better way is to look through states that can provide a better solution. In this paper, we propose Informed RRT*-Connect, which is the informed version of RRT*-Connect that uses direct sampling after the first solution found. Unlike RRT*-Connect, the proposed method checks only the states that can potentially provide better solutions than the current solution. The proposed method benefited from the properties of RRT*-Connect and informed sampling, which offers low-cost solutions with fewer iterations in comparison to RRT*-Connect. Different simulations in OMPL have been carried out to show the significance of Informed RRT*-Connect in comparison with RRT*, Informed RRT*, and RRT*-Connect.
+summary: >
+  Applies Informed RRT*'s ellipsoidal focused sampling to RRT*-Connect: the planner uses bidirectional tree growth and rewiring (as in RRT*-Connect) to find an initial solution quickly, then restricts subsequent sampling to the prolate hyperspheroid subset that can improve it (as in Informed RRT*). An incremental combination of two existing techniques with no major novel theoretical contribution, but can achieve fewer iterations and lower solution cost than RRT*-Connect alone.
+link: https://ieeexplore.ieee.org/document/8968352
+links_alt:
+  - https://www.researchgate.net/publication/338812709_Informed_RRT-Connect_An_Asymptotically_Optimal_Single-Query_Path_Planning_Method

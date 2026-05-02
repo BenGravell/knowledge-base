@@ -1,0 +1,28 @@
+title: "CHOMP: Gradient Optimization Techniques for Efficient Motion Planning"
+algorithm: CHOMP
+authors:
+  - Nathan Ratliff
+  - Matt Zucker
+  - J. Andrew Bagnell
+  - Siddhartha Srinivasa
+year: 2009
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ROBOT.2009.5152817
+tags:
+  - Motion planning
+  - Path planning
+  - Path optimization
+  - Gradient descent
+  - Preconditioned
+  - Obstacle avoidance
+  - Path smoothness  
+  - CHOMP
+abstract: >
+  Existing high-dimensional motion planning algorithms are simultaneously overpowered and underpowered. In domains sparsely populated by obstacles, the heuristics used by sampling-based planners to navigate “narrow passages” can be needlessly complex; furthermore, additional post-processing is required to remove the jerky or extraneous motions from the paths that such planners generate. In this paper, we present CHOMP, a novel method for continuous path refinement that uses covariant gradient techniques to improve the quality of sampled trajectories. Our optimization technique both optimizes higher-order dynamics and is able to converge over a wider range of input paths relative to previous path optimization strategies. In particular, we relax the collision-free feasibility prerequisite on input paths required by those strategies. As a result, CHOMP can be used as a standalone motion planner in many real-world planning queries. We demonstrate the effectiveness of our proposed method in manipulation planning for a 6-DOF robotic arm as well as in trajectory generation for a walking quadruped robot.
+summary: >
+  CHOMP formulates path optimization as minimizing an objective with terms for obstacle cost and path smoothness, then applies a covariant gradient descent (a special type of preconditioned gradient descent closely related to natural gradient descent) that exploits the special structure of the objective for fast convergence. Widely used via its MoveIt/ROS implementation.
+link: https://personalrobotics.cs.washington.edu/publications/ratliff2009chomp.pdf
+links_alt:
+  - https://ieeexplore.ieee.org/document/5152817
+  - https://moveit.picknik.ai/humble/doc/how_to_guides/chomp_planner/chomp_planner_tutorial.html
