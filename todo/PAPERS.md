@@ -207,6 +207,15 @@ https://arxiv.org/pdf/2509.14978
 https://arxiv.org/pdf/2510.22015
 https://arxiv.org/pdf/2511.11131
 https://arxiv.org/abs/2512.18736
+https://arxiv.org/abs/2310.16828
+https://arxiv.org/abs/1711.05501
+https://arxiv.org/abs/2601.14880
+https://arxiv.org/abs/1707.01146
+https://arxiv.org/abs/2508.21001
+https://arxiv.org/abs/2309.14595
+https://arxiv.org/abs/2503.16164
+https://arxiv.org/abs/2305.09619
+https://arxiv.org/abs/2505.06791
 
 ## IEEE
 
@@ -228,6 +237,8 @@ https://ieeexplore.ieee.org/document/6907855
 https://ieeexplore.ieee.org/document/9453623
 https://ieeexplore.ieee.org/document/6942562
 https://ieeexplore.ieee.org/document/1308894
+https://ieeexplore.ieee.org/document/10480553
+https://ieeexplore.ieee.org/document/9037111
 
 ## ACM
 
@@ -531,3 +542,9 @@ https://openalex.org/works?search.title_and_abstract=Policy+gradient+multiplicat
 https://jmlr.org/papers/volume21/17-678/17-678.pdf
 https://rerun.io/blog/data-layer-tax
 https://opennav.org/news/mppi-low-acceleration/
+https://aaltodoc.aalto.fi/items/874eec9f-9841-464e-91fb-ec45b26066c4
+https://github.com/eurika-kaiser/SINDY-MPC
+
+## Dissertations
+
+https://utd-ir.tdl.org/items/34a39212-8423-4e4c-a750-75f140571af8

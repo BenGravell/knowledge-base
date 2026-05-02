@@ -58,8 +58,91 @@ PDF (McGill): https://www.math.mcgill.ca/dstephens/680/Papers/Davidon91.pdf
 
 
 
+## Optimization and learning for rough terrain legged locomotion
 
-## RL
+https://journals.sagepub.com/doi/10.1177/0278364910392608
+
+https://www.researchgate.net/publication/220122195_Optimization_and_learning_for_rough_terrain_legged_locomotion
+
+
+## Crocoddyl
+
+https://arxiv.org/abs/1909.04947
+
+https://github.com/loco-3d/crocoddyl
+
+https://gepettoweb.laas.fr/doc/loco-3d/crocoddyl/devel/doxygen-html/
+
+
+## GuSTO
+
+https://arxiv.org/abs/1903.00155
+
+https://ieeexplore.ieee.org/document/8794205
+
+https://github.com/StanfordASL/GuSTO.jl
+
+
+
+
+## Expansive space tree (EST)
+
+
+https://ieeexplore.ieee.org/document/619371
+
+
+https://www.researchgate.net/publication/4077277_Guided_Expansive_Spaces_Trees_a_search_strategy_for_motion-_and_cost-constrained_state_spaces
+
+
+https://journals.sagepub.com/doi/10.1177/027836402320556421
+
+## A* graph search
+
+https://en.wikipedia.org/wiki/A*_search_algorithm
+
+https://www.researchgate.net/publication/228785110_Near_optimal_hierarchical_path-finding_HPA
+
+https://webdocs.cs.ualberta.ca/~jonathan/publications/ai_publications/jogd.pdf
+
+
+## Primal-dual ilqr
+
+https://ieeexplore.ieee.org/abstract/document/11248841
+
+https://arxiv.org/abs/2506.07823
+
+https://github.com/iit-DLSLab/mpx
+
+
+
+## Stochastic gradient descent
+
+https://arxiv.org/abs/2507.02131
+https://neurips.cc/virtual/2021/33647
+https://arxiv.org/abs/1802.06175
+https://arxiv.org/abs/1602.04915
+https://proceedings.mlr.press/v49/lee16.pdf
+https://proceedings.mlr.press/v70/jin17a.html
+
+
+# RL
+
+## Cartpole
+
+https://coneural.org/florian/papers/05_cart_pole.pdf
+
+https://underactuated.mit.edu/acrobot.html
+
+
+
+## Q-learning
+
+https://en.wikipedia.org/wiki/Q-learning
+https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html
+https://docs.pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
+https://araffin.github.io/post/rl102/
+
+
 
 ## A Natural Policy Gradient
 
@@ -72,7 +155,7 @@ https://asmedigitalcollection.asme.org/appliedmechanics/article-abstract/29/2/24
 
 https://www.argmin.net/p/reticulating-splines
 
-
+# other
 
 ## Intelligent Driver Model (IDM)
 
