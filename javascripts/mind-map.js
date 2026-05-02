@@ -162,8 +162,7 @@
         randomize: true,
         animate,
         animationDuration: animate ? 1200 : 0,
-        fit: true,
-        padding: 40,
+        fit: false,
         idealEdgeLength: edge => {
           const w = edge.data('weight') || 0.8;
           // Normalise into empirical display range [0.70, 0.95] → t ∈ [0, 1]
@@ -178,8 +177,7 @@
       randomize: true,
       animate,
       animationDuration: animate ? 1200 : 0,
-      fit: true,
-      padding: 40,
+      fit: false,
     };
   }
 
