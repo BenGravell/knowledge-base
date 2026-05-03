@@ -1,15 +1,3 @@
-"""
-generator_app.py - Paper metadata generator
-
-Enter an arXiv ID to pre-populate fields, edit as needed, then write
-a new metadata.yml entry to docs/papers/{year}/{arxiv_id}/.
-
-Run from the knowledge_base/ directory:
-    streamlit run generator_app.py
-"""
-
-from __future__ import annotations
-
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
