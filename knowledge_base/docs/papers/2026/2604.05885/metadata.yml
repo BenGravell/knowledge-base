@@ -1,6 +1,6 @@
 title: >
   JZ-Tree: GPU Friendly Neighbour Search and Friends-of-friends with Dual Tree Walks in JAX plus CUDA
-algorithm:
+algorithm: "JZ-Tree"
 authors:
   - Jens Stücker
   - Oliver Hahn
