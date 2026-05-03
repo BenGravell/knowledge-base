@@ -26,6 +26,13 @@ def main() -> None:
         default=".",
         help="Repository root (default: current directory)",
     )
+    parser.add_argument(
+        "--max-results",
+        type=int,
+        default=None,
+        metavar="N",
+        help="Limit output to the first N results",
+    )
     args = parser.parse_args()
 
     papers_root = Path(args.root) / "docs" / "papers"
@@ -50,12 +57,19 @@ def main() -> None:
         if str(data.get(AUDIT_STATUS_FIELD, "")).strip() == "raw":
             raw_paths.append(path)
 
-    for p in raw_paths:
+    display_paths = raw_paths[: args.max_results] if args.max_results is not None else raw_paths
+    for p in display_paths:
         console.print(str(p))
 
-    console.print(
-        f"\n[bold]{len(raw_paths)}[/] raw paper(s) out of [dim]{len(targets)}[/] total."
-    )
+    truncated = len(raw_paths) - len(display_paths)
+    summary = f"\n[bold]{len(display_paths)}[/] raw paper(s) shown"
+    if truncated:
+        summary += f" ([dim]{truncated} more not shown[/])"
+    summary += f" out of [dim]{len(targets)}[/] total."
+    console.print(summary)
+
+    if args.max_results is not None:
+        console.print(f"\n[bold orange1]Results limited to first {args.max_results}. Omit --max-results to see all.[/]")
 
     if errors:
         sys.exit(1)
