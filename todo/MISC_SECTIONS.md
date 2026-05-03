@@ -57,6 +57,16 @@ PDF (McGill): https://www.math.mcgill.ca/dstephens/680/Papers/Davidon91.pdf
 ### SR1
 
 
+## MPTree
+
+https://www.sciencedirect.com/science/article/pii/S2405896324004166
+
+Quote
+"If a MP violates a collision avoidance or vehicle dynamic constraint (e.g. infeasible longitudinal or lateral acceleration) then the maneuver is discarded (or penalized if it is close to an infeasible region)."
+
+This is notable because, in the context of the success of the whole framework/algorithm, it suggests that rejection of trajectories does not destroy sample efficiency, at least in this autonomous driving setting.
+
+
 
 ## Optimization and learning for rough terrain legged locomotion
 
