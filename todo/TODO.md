@@ -2,6 +2,15 @@
 
 ## Claude instructions (skills?)
 
+### mkdocs content tree
+
+Run
+
+cd "c:\Users\bjgra\GitHub\knowledge-base\knowledge_base" && python scripts/list_raw_papers.py --max-results 5
+
+and insert the entries into the Content Tree in knowledge_base\mkdocs.yml at appropriate places. Attempt to use the existing categories as much as possible, but create new categories if the entry does not fit cleanly conceptually.
+
+
 ### Generate new metadata
 
 Fill the metadata for each of the papers in todo\reinforcement_learning.md using knowledge_base\docs\templates\metadata.yml as the template from which to create the new files. Use the subsection headers to guide where to add an entry for each paper in the hierarchy in knowledge_base\mkdocs.yml.
