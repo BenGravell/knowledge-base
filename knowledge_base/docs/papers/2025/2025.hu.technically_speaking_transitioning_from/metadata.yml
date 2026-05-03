@@ -19,3 +19,4 @@ summary: >
   Overview of Motional's approach to motion planning: a scene encoder-generator-ranker architecture with joint prediction and planning, closed-loop reinforcement learning training, and data mining for real-world scalability.
 link: https://motional.com/news/technical-speaking-transitioning-rule-based-ml-powered-motion-planning
 links_alt:
+audit_status: reviewed

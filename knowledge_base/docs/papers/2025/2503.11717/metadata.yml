@@ -19,3 +19,4 @@ summary: >
   Applies a low-pass filter to Gaussian noise before using it as sampled action sequences in MPPI, a heuristic that produces smoother trajectories and can improve exploration quality with minimal computational overhead.
 link: https://arxiv.org/pdf/2503.11717
 links_alt:
+audit_status: reviewed

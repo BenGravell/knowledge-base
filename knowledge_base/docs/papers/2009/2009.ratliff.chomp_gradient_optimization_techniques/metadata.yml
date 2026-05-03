@@ -26,3 +26,4 @@ link: https://personalrobotics.cs.washington.edu/publications/ratliff2009chomp.p
 links_alt:
   - https://ieeexplore.ieee.org/document/5152817
   - https://moveit.picknik.ai/humble/doc/how_to_guides/chomp_planner/chomp_planner_tutorial.html
+audit_status: reviewed

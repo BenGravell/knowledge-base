@@ -23,3 +23,4 @@ summary: >
   Tutorial paper introducing MPPI as a sampling-based model predictive control method, deriving it from path integral control theory and demonstrating a GPU-parallelized implementation for real-time autonomous driving.
 link: https://arc.aiaa.org/doi/10.2514/1.G001921
 links_alt:
+audit_status: reviewed
