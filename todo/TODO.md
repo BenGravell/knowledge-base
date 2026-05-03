@@ -1,5 +1,29 @@
 # TODO
 
+
+
+## Claude instructions (skills?)
+
+
+### Generate new metadata
+
+Fill the metadata for each of the papers in todo\reinforcement_learning.md using knowledge_base\docs\templates\metadata.yml as the template from which to create the new files. Use the subsection headers to guide where to add an entry for each paper in the hierarchy in knowledge_base\mkdocs.yml.
+
+Each new metadata file should be placed in the path location knowledge_base\docs\papers\YEAR\SLUG\metadata.yml where
+
+- YEAR is the 4 digit year in which the earliest version of the paper was published
+- SLUG is either the arXiv ID like YYMM.NNNNN if the arXiv ID exists, or YEAR.first_author_last_name_lowercase.title_first_four_words if not.
+
+Leave the "abstract" field blank with a placeholder ">" and newline in the value.
+
+Normalize the title so that it uses capitalized words in title case.
+
+### Prep raw metadata for review
+
+Run scripts\list_raw_papers.py and pipe the output to scripts\audit_metadata.py and attempt to resolve all the issues.
+
+
+
 ## Metadata cleanup
 
 - go thru all the handwritten notes and make sure they end up in the docs metadata
@@ -21,7 +45,6 @@ add other URIs besides DOI since not all papers have DOI e.g. dissertations, arx
   - policy: use algorithm if non-null, else use the paper name
 
 
-
 ## Quality of life
 
 Create a one-click site regen script.
@@ -33,6 +56,14 @@ Should call:
 - mkdocs build
 
 Take an argument -g or --github to use gh-deploy mkdocs
+
+
+Work on using AI automation to prefill the manual touch tasks:
+
+1. Tags
+2. Summary
+3. Alt links
+4. Placement in content tree
 
 ## Content tree
 
@@ -48,16 +79,27 @@ Then what is the value of a tree if the true info associations are more general?
 
 ## Mind Map
 
-Also seems like the show hide button disappeared.
 
+Fix the fit layout button, right now it is fitting to the whole canvas ignoring the sidebar menu visibility.
 
 Settings menu is too wide on mobile 
+
 Make it use a more intelligent strategy, fitting to container/screen width if requested target width is too wide to fit screen.
 
 
+Sidebar
+
+Sort categories by their original order from the mkdocs content tree, not alphabetical order
+
+Split large categories further until the number of entries in each leaf is no more than N, take N=16.
 
 
 
+Tune the edge threshold.
+
+GRPO should be connected to PPO.
+
+Define a reference set of known connected/disconnected items and use that to tune the threshold
 
 
 Make layout less busy, too cluttered in motion planning cluster
@@ -73,6 +115,7 @@ add a checkbox for supercategories (like Motion Planning) that can control aggre
 
 Add filters for paper type (exclude surveys)
 
+Do something about the unreadable clumps on motion planning
 
 
 
@@ -81,6 +124,15 @@ Use UMAP of embeddings to set initial or target positions of nodes in 2d space
 Optional: then use the actual cosine similarity to drive the force based layout.
 
 
+
+
+### Creative idea
+
+Turn the mind map into a generative game like a cave crawler or rogue-like
+
+Encourage exploration between rooms or lands represented by research items
+
+Collect points for clicking links, answering quiz questions.
 
 
 ## Knowledge Explorer
@@ -98,6 +150,14 @@ Paper details
 - Add Google Scholar link
 - Add https://www.connectedpapers.com/ link
     - ex. https://www.connectedpapers.com/main/4326d7e9933c77ff9dc53056c62ef6712d90c633/Sampling%20based-algorithms-for-optimal-motion-planning/graph
+
+Add links for each paper to app.
+
+- Google Scholar
+- https://openalex.org/
+- https://openknowledgemaps.org/
+- https://www.researchrabbit.ai/
+- https://incitefulmed.com/academic/
 
 Link direct to pdf instead of abstract for arxiv papers.
 
@@ -119,18 +179,6 @@ Provide HTML link for paper Explorer.
 - Add graph linking between papers to enhance cross-ideation grabbing ideas
 - Add paper harvesting - which techniques come out on top based on reported results?
 
-## Claude instructions
-
-Fill the metadata for each of the papers in todo\reinforcement_learning.md using knowledge_base\docs\templates\metadata.yml as the template from which to create the new files. Use the subsection headers to guide where to add an entry for each paper in the hierarchy in knowledge_base\mkdocs.yml.
-
-Each new metadata file should be placed in the path location knowledge_base\docs\papers\YEAR\SLUG\metadata.yml where
-
-- YEAR is the 4 digit year in which the earliest version of the paper was published
-- SLUG is either the arXiv ID like YYMM.NNNNN if the arXiv ID exists, or YEAR.first_author_last_name_lowercase.title_first_four_words if not.
-
-Leave the "abstract" field blank with a placeholder ">" and newline in the value.
-
-Normalize the title so that it uses capitalized words in title case.
 
 ## Metrics
 
