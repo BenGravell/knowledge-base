@@ -26,9 +26,14 @@ from knowledge_base.apps.arxiv_utils import (
 DEFAULT_INPUT = Path(__file__).parent.parent.parent / "todo" / "ARXIV_PAPERS.md"
 ARXIV_ID_RE = re.compile(r"arxiv\.org/(?:abs|pdf)/([^\s/?#]+)")
 
-BASE_DELAY = 5.0      # seconds between successful requests
+# Duration in seconds between successful requests
+# Set to 5 seconds, well above 3 seconds required by arXiv Terms of Use (which requries 3 seconds)
+# https://info.arxiv.org/help/api/tou.html
+BASE_DELAY = 5.0      
+# Max number of retries
 MAX_RETRIES = 5
-BACKOFF_BASE = 10.0   # seconds to wait after first 429; doubles each retry
+# seconds to wait after first 429; doubles each retry
+BACKOFF_BASE = 10.0   
 
 
 def extract_ids(path: Path) -> list[str]:
@@ -58,7 +63,7 @@ def fetch_with_retry(arxiv_id: str) -> dict:
             if exc.response is not None and exc.response.status_code == 429:
                 if attempt + 1 == MAX_RETRIES:
                     break
-                print(f"    429 rate-limited, waiting {delay:.0f}s (attempt {attempt + 1}/{MAX_RETRIES})")
+                print(f"    429 error, waiting {delay:.0f}s (attempt {attempt + 1}/{MAX_RETRIES})")
                 time.sleep(delay)
                 delay *= 2
             else:
