@@ -56,7 +56,6 @@ https://arxiv.org/abs/2509.21961
 https://arxiv.org/abs/2604.08508
 https://arxiv.org/abs/2503.06135
 https://arxiv.org/abs/1708.06056
-https://arxiv.org/abs/cs/0408007
 https://arxiv.org/abs/2506.05454
 https://arxiv.org/abs/2202.04612
 https://arxiv.org/abs/2406.19617
@@ -249,6 +248,10 @@ https://arxiv.org/abs/2205.09991
 https://arxiv.org/abs/1505.04597
 https://arxiv.org/abs/1406.1078
 https://arxiv.org/abs/2006.11239
+
+## arXiv old format
+
+https://arxiv.org/abs/cs/0408007
 
 ## IEEE
 
