@@ -11,7 +11,7 @@ from pathlib import Path
 import yaml
 from rich.console import Console
 
-from knowledge_base.config import VALID_TYPES
+from knowledge_base.config import AUDIT_STATUS_FIELD, REQUIRED_FIELDS, VALID_AUDIT_STATUSES, VALID_FIELDS, VALID_TYPES
 
 console = Console(highlight=False)
 err_console = Console(stderr=True, highlight=False)
@@ -184,6 +184,7 @@ def expected_slug(year: int, arxiv_id: str, title: str, authors: list[str]) -> s
 class Severity(Enum):
     ERROR = "error"
     WARNING = "warning"
+    INFO = "info"
 
 
 @dataclass
@@ -214,38 +215,59 @@ def audit_file(path: Path) -> tuple[dict, list[Issue]]:
         issues.append(Issue(path, "parse", "Root YAML value is not a mapping"))
         return {}, issues
 
+    # -- unknown fields --
+    _valid_set = set(VALID_FIELDS)
+    for key in data:
+        if key not in _valid_set:
+            issues.append(Issue(path, key, f"Unknown field {key!r}"))
+
+    # -- required fields presence --
+    missing = {f for f in REQUIRED_FIELDS if data.get(f) is None}
+    for f in sorted(missing):
+        issues.append(Issue(path, f, "Missing required field"))
+
     # -- title --
     title_raw = data.get("title")
     title = str(title_raw).strip() if title_raw not in (None, "") else ""
-    if not title:
-        issues.append(Issue(path, "title", "Missing or empty"))
-    else:
-        corrected = to_title_case(title)
-        if title != corrected:
-            issues.append(
-                Issue(
-                    path,
-                    "title",
-                    f"Not in title case: {title!r}",
-                    corrected,
+    if "title" not in missing:
+        if not title:
+            issues.append(Issue(path, "title", "Empty"))
+        else:
+            corrected = to_title_case(title)
+            if title != corrected:
+                issues.append(
+                    Issue(
+                        path,
+                        "title",
+                        f"Not in title case: {title!r}",
+                        corrected,
+                    )
                 )
-            )
 
     # -- authors --
     authors = data.get("authors")
-    if not authors or not isinstance(authors, list):
-        issues.append(Issue(path, "authors", "Must be a non-empty list"))
-        authors = []
-    elif len(authors) == 0:
-        issues.append(
-            Issue(path, "authors", "List is empty -- at least one entry required")
-        )
-    else:
-        blank = [i for i, a in enumerate(authors) if not str(a).strip()]
-        if blank:
+    if "authors" not in missing:
+        if not isinstance(authors, list):
+            issues.append(Issue(path, "authors", "Must be a list"))
+            authors = []
+        elif len(authors) == 0:
             issues.append(
-                Issue(path, "authors", f"Blank entries at index(es): {blank}")
+                Issue(path, "authors", "List is empty -- at least one entry required")
             )
+        else:
+            blank = [i for i, a in enumerate(authors) if not str(a).strip()]
+            if blank:
+                issues.append(
+                    Issue(path, "authors", f"Blank entries at index(es): {blank}")
+                )
+    else:
+        authors = []
+
+    # -- year --
+    if "year" not in missing:
+        meta_year_raw = data.get("year")
+        if not isinstance(meta_year_raw, int) or not (1000 <= meta_year_raw <= 9999):
+            issues.append(Issue(path, "year", f"Must be a 4-digit integer; got {meta_year_raw!r}"))
 
     # -- arxiv_id --
     arxiv_raw = data.get("arxiv_id")
@@ -254,21 +276,36 @@ def audit_file(path: Path) -> tuple[dict, list[Issue]]:
         issues.append(Issue(path, "arxiv_id", f"Invalid arXiv ID format: {arxiv_id!r}"))
 
     # -- abstract --
-    abstract = data.get("abstract")
-    if not abstract or not str(abstract).strip():
-        issues.append(Issue(path, "abstract", "Missing or empty"))
+    if "abstract" not in missing:
+        abstract = data.get("abstract")
+        if not str(abstract).strip():
+            issues.append(Issue(path, "abstract", "Empty"))
 
     # -- type --
-    paper_type = data.get("type")
-    type_str = str(paper_type).strip() if paper_type not in (None, "") else ""
-    if type_str not in VALID_TYPES:
-        issues.append(
-            Issue(
-                path,
-                "type",
-                f"Invalid value {type_str!r}; must be one of: {sorted(VALID_TYPES)}",
+    if "type" not in missing:
+        paper_type = data.get("type")
+        type_str = str(paper_type).strip() if paper_type not in (None, "") else ""
+        if type_str not in VALID_TYPES:
+            issues.append(
+                Issue(
+                    path,
+                    "type",
+                    f"Invalid value {type_str!r}; must be one of: {sorted(VALID_TYPES)}",
+                )
             )
-        )
+
+    # -- audit_status --
+    if "audit_status" not in missing:
+        audit_status = data.get(AUDIT_STATUS_FIELD)
+        status_str = str(audit_status).strip() if audit_status not in (None, "") else ""
+        if status_str not in VALID_AUDIT_STATUSES:
+            issues.append(
+                Issue(
+                    path,
+                    AUDIT_STATUS_FIELD,
+                    f"Invalid value {status_str!r}; must be one of: {VALID_AUDIT_STATUSES}",
+                )
+            )
 
     # -- path structure --
     parts = path.parts
@@ -319,6 +356,15 @@ def audit_file(path: Path) -> tuple[dict, list[Issue]]:
         issues.append(
             Issue(path, "summary", "Missing or empty", severity=Severity.WARNING)
         )
+
+    # -- optional field completeness (info) --
+    for f in VALID_FIELDS:
+        if f in REQUIRED_FIELDS or f == "summary":
+            continue  # already covered by required-check or summary-warning above
+        val = data.get(f)
+        is_empty = val is None or (isinstance(val, (str, list)) and not val)
+        if is_empty:
+            issues.append(Issue(path, f, "Not populated", severity=Severity.INFO))
 
     return data, issues
 
@@ -387,14 +433,18 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Checks performed on each metadata.yml:
-  title     - non-empty; in title case (mixed-case proper nouns preserved)
-  authors   - non-empty list of non-blank strings
-  arxiv_id  - empty or valid arXiv ID (YYMM.NNNNN or old-style archive/NNNNNNN)
-  abstract  - non-empty string
-  type      - one of: Conference Paper, Journal Paper, Workshop Paper,
-              Preprint, Technical Report, Other
-  path      - papers/YEAR/SLUG/metadata.yml where SLUG is the arXiv ID
-              (if present) or YEAR.lastname.title_first_four_words
+  unknown   - ERROR for any field not in the VALID_FIELDS schema
+  required  - ERROR if any of title, authors, year, abstract, type, audit_status missing
+  title     - ERROR if empty; ERROR if not in title case
+  authors   - ERROR if not a non-empty list of non-blank strings
+  year      - ERROR if not a 4-digit integer
+  arxiv_id  - ERROR if present but not a valid arXiv ID
+  abstract  - ERROR if empty
+  type      - ERROR if not a recognised paper type
+  audit_status - ERROR if not one of: raw, partial, reviewed
+  path      - ERROR if YEAR/SLUG do not match metadata or expected slug format
+  summary   - WARN if missing or empty
+  optional  - INFO for each optional field that is not populated
 """,
     )
     parser.add_argument(
@@ -432,6 +482,7 @@ Checks performed on each metadata.yml:
     all_issues = [i for _, issues in results for i in issues]
     n_errors = sum(1 for i in all_issues if i.severity == Severity.ERROR)
     n_warnings = sum(1 for i in all_issues if i.severity == Severity.WARNING)
+    n_infos = sum(1 for i in all_issues if i.severity == Severity.INFO)
 
     if not all_issues:
         console.print(f"[green]All {len(targets)} metadata.yml file(s) pass audit.[/]")
@@ -442,6 +493,8 @@ Checks performed on each metadata.yml:
         parts.append(f"[bold red]{n_errors} error(s)[/]")
     if n_warnings:
         parts.append(f"[bold yellow]{n_warnings} warning(s)[/]")
+    if n_infos:
+        parts.append(f"[bold cyan]{n_infos} info(s)[/]")
     console.print(
         ", ".join(parts) + f" across {len(results)} / {len(targets)} file(s):\n"
     )
@@ -451,8 +504,10 @@ Checks performed on each metadata.yml:
         for issue in issues:
             if issue.severity == Severity.ERROR:
                 badge = "[bold red]ERROR[/]"
-            else:
+            elif issue.severity == Severity.WARNING:
                 badge = "[bold yellow]WARN [/]"
+            else:
+                badge = "[bold cyan]INFO [/]"
             console.print(f"  {badge} [bold]\\[{issue.field}][/] {issue.message}")
             if issue.suggestion is not None:
                 console.print(f"         [dim]-> {issue.suggestion}[/]")

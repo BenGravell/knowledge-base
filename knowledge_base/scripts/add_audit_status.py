@@ -1,12 +1,7 @@
 """Add audit_status field to metadata.yml files that are missing it.
 
-Lifecycle stages (in order):
-  raw       - auto-generated/imported, never manually reviewed
-  partial   - some fields manually reviewed or corrected, but not complete
-  reviewed  - all key fields verified, good summary present
-
 Usage:
-  python scripts/add_audit_status [ROOT] [--dry-run] [--file PATH]
+  python scripts/add_audit_status.py [ROOT] [--dry-run] [--file PATH]
 """
 
 import argparse
@@ -16,11 +11,9 @@ from pathlib import Path
 import yaml
 from rich.console import Console
 
-console = Console(highlight=False)
+from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS, VALID_AUDIT_STATUSES
 
-AUDIT_STATUS_FIELD = "audit_status"
-VALID_STATUSES = ("raw", "partial", "reviewed")
-DEFAULT_STATUS = "raw"
+console = Console(highlight=False)
 
 
 def _has_audit_status(path: Path) -> bool:
@@ -78,9 +71,9 @@ Files that already have audit_status are left untouched.
     )
     parser.add_argument(
         "--status",
-        default=DEFAULT_STATUS,
-        choices=VALID_STATUSES,
-        help=f"Status to assign to new fields (default: {DEFAULT_STATUS})",
+        default=DEFAULT_AUDIT_STATUS,
+        choices=VALID_AUDIT_STATUSES,
+        help=f"Status to assign to new fields (default: {DEFAULT_AUDIT_STATUS})",
     )
     args = parser.parse_args()
 

@@ -10,16 +10,12 @@ Defaults:
 
 import argparse
 import re
-import sys
 import time
 from pathlib import Path
 
 import requests
 
-# Allow running from anywhere inside the repo
-sys.path.insert(0, str(Path(__file__).parent))
-
-from arxiv_utils import (
+from knowledge_base.apps.arxiv_utils import (
     build_metadata,
     fetch_arxiv,
     metadata_to_yaml,

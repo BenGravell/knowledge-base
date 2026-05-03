@@ -5,6 +5,8 @@ from pathlib import Path
 import requests
 import yaml
 
+from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS
+
 PAPERS_DIR = Path("docs/papers")
 ARXIV_API = "https://export.arxiv.org/api/query?id_list={arxiv_id}"
 ARXIV_NS = "http://www.w3.org/2005/Atom"
@@ -68,6 +70,7 @@ def build_metadata(fields: dict) -> dict:
         "summary": fields.get("summary", ""),
         "link": fields.get("link", ""),
         "links_alt": links_alt,
+        AUDIT_STATUS_FIELD: DEFAULT_AUDIT_STATUS,
     }
 
 
