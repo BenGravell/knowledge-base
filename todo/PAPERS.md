@@ -74,6 +74,7 @@ https://www.science.org/doi/10.1126/scirobotics.abm6074
 
 ## Other papers
 
+https://dl.acm.org/doi/10.1145/3721145.3730415
 https://stanfordasl.github.io/wp-content/papercite-data/pdf/Majumdar.Pavone.ISRR17.pdf
 https://journals.sagepub.com/doi/10.1177/027836498600500304
 https://journals.sagepub.com/doi/10.1177/0278364910369189

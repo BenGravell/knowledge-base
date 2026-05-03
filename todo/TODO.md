@@ -63,7 +63,7 @@ Work on using AI automation to prefill the manual touch tasks:
 
 ## Content tree
 
-Create a large form thing for that page that enables users to ergonomically traverse the tree.
+feature: Create a large form thing for the Content Tree landing page that enables users to ergonomically traverse the tree.
 Key mechanism is hiding branches that are not on the currently node ancestor chain and emphasizing the current node over ancestors and successors
 
 Add a verbiage info statement that the content tree is just my personal interpretation of organizing items in a hierarchical way, and that multiple alternative organizations are possible, and that content does not literally have a tree structure and other associations exist in a more general graph.
@@ -72,7 +72,6 @@ Then what is the value of a tree if the true info associations are more general?
 - It provides structure for newcomers and encode some opinion (my own) about the most relevant/important connections
 
 ## Mind Map
-
 
 Fix the fit layout button, right now it is fitting to the whole canvas ignoring the sidebar menu visibility.
 
