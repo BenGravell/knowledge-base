@@ -72,294 +72,295 @@ nav:
     - Differential Flatness: explainers/differential_flatness.md
     - AkinoPDF: explainers/akino_pdf.md
     - Waymo AI: explainers/waymo_ai.md
-  - Motion Planning:
-    - Path Planning:
-      - Geometric Planning:
-        - Probabilistic Roadmap (PRM):
-          - PRM: papers/1996_kavraki_probabilistic_roadmaps_for_path.md
-        - Rapidly Exploring Random Trees (RRT):
-          - RRT: papers/1998_lavalle_rapidly_exploring_random_trees.md
-          - RRT-Connect: papers/2000_kuffner_rrt_connect_an_efficient.md
-          - EET: papers/2008_rickert_balancing_exploration_and_exploitation.md
-          - RRT*: papers/1105_1186.md
-          - Anytime RRT*: papers/2011_karaman_anytime_motion_planning_using.md
-          - RRT* theory correction: papers/1909_09688.md
-          - RRT*-Connect: papers/2015_klemm_rrt_star_connect_faster.md
-          - RRT#: papers/1204_6453.md
-          - FMT*: papers/1306_3532.md
-          - Informed RRT*: papers/1404_2334.md
-          - BIT*: papers/1405_5848.md
-          - RABIT*: papers/2016_choudhury_regionally_accelerated_batch_informed.md
-          - Informed RRT*-Connect: papers/2020_mashayekhi_informed_rrt_star_connect.md
-          - Sliding Window Informed RRT*: papers/2021_li_sliding_window_informed_rrt.md
-          - FCIT*: papers/2411_17902.md
-          - Spline-based RRT: papers/2013_yang_spline_based_rrt_path.md
-          - Continuous-Curvature Target Tree: papers/2201_03163.md          
-        - GPU Parallelized Planning:
-          - GMT*: papers/1705_02403.md
-          - Kino-PAX: papers/2409_06807.md
-          - Kino-PAX+: papers/2602_02846.md
-          - pRRTC: papers/2503_06757.md
-          - cuRobo: papers/2310_17274.md
-          - cuTAMP: papers/2411_11833.md
-        - Dynamic Replanning:
-          - RRTX: papers/2015_otte_rrtx_asymptotically_optimal_single.md
-          - RT-FMT: papers/2502_09556.md
-      - Path Generation:
-        - Lines & Arcs:
-          - Dubins path: papers/1957_dubins_on_curves_of_minimal.md
-          - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a.md
-        - Clothoids (linear curvature):
-          - SCC path: papers/1997_scheuer_continuous_curvature_path_planning.md
-          - CC Steer: papers/2004_fraichard_from_reeds_and_shepps.md
-        - Generalized Clothoids (nonlinear curvature):
-          - Cubic Curvature Polynomials: papers/2001_nagy_trajectory_generation_for_car.md
-          - Sharpness Continuous path: papers/1801_08995.md
-        - Polynomials & Splines:
-          - Quintic G2 Splines: papers/2000_piazzi_quintic_g2_splines_for.md
-      - Path Optimization:
-        - Path Shortcutting:
-          - Creating High-quality Paths for Motion Planning: papers/2007_geraerts_creating_high_quality_paths.md
-          - Anytime Solution Optimization for Sampling-Based Motion Planning: papers/2013_luna_anytime_solution_optimization_for.md
-          - Benchmarking Shortcutting Techniques for Multi-Robot-Arm Motion Planning: papers/2508_05027.md
-        - Path Smoothing:
-          - CCMA: papers/2023_steinecker_a_simple_and_model.md
-        - Gradient-based Path Optimization:
-          - CHOMP: papers/2009_ratliff_chomp_gradient_optimization_techniques.md
-        - Sample-based Path Optimization:
-          - STOMP: papers/2011_kalakrishnan_stomp_stochastic_trajectory_optimization.md
-    - Trajectory Planning:
-      - Kinodynamic Planning:
-        - Rapidly Exploring Random Trees (RRT):
-          - Kinodynamic RRT: papers/1999_lavalle_randomized_kinodynamic_planning.md
-          - Kinodynamic RRT*: papers/2010_karaman_optimal_kinodynamic_motion_planning.md
-          - Linear Kinodynamic RRT*: papers/1205_5088.md
-          - LQR-RRT*: papers/2012_perez_lqr_rrt_star_optimal.md
-          - RRT*_MotionPrimitives: papers/1809_02399.md
-          - BB-RRT: papers/2210_01744.md
-          - iDb-RRT: papers/2403_10745.md
-          - AkinoPDF: papers/2603_16059.md
-          - Completeness of Randomized Kinodynamic Planners with State-based Steering: papers/1511_05259.md
-          - FDSPC: papers/2405_03281.md
-        - Expansive Space Trees (EST):
-          - EST: TODO
-        - Stable Sparse Tree (SST):
-          - SST*: papers/1407_2896.md
-        - Meta Algorithms:
-          - AO-x: papers/1505_04098.md
-          - AORRTC: papers/2505_10542.md
-        - Planning with Graphs of Convex Sets (GCS):
-          - Shortest Paths in Graphs of Convex Sets: papers/2101_11565.md
-          - Motion Planning around Obstacles with Convex Optimization: papers/2205_04422.md
-          - Fast Path Planning Through Large Collections of Safe Boxes: papers/2305_01072.md
-          - A Biconvex Method for Minimum-time Motion Planning Through Sequences of Convex Sets: papers/2504_18978.md
-      - Trajectory Generation:
-        - TEB: papers/2017_roesmann_kinodynamic_trajectory_optimization_and.md
-        - Minimum Jerk Trajectory Generation for Differential Wheeled Mobile Robots: papers/2013_palamakumburu_minimum_jerk_trajectory_generation.md
-      - Trajectory Optimization:
-        - Model Predictive Sampling-Based Control:
-          - Cross-Entropy Motion Planning (CEM):
-            - Cross-Entropy Motion Planning: papers/2012_kobilarov_cross_entropy_motion_planning.md
-          - Model Predictive Path Integral Control (MPPI):
-            - MPPI: papers/2017_williams_model_predictive_path_integral.md
-            - "Model Predictive Path Integral Control using Covariance Variable Importance Sampling": papers/1509_01149.md
-            - "Model Predictive Path Integral Control: Theoretical Foundations and Applications to Autonomous Driving (Grady Williams PhD Dissertation)": papers/2019_williams_model_predictive_path_integral.md
-            - Tsallis VI-SOC: papers/2104_00241.md
-            - C-Uniform MPPI: papers/2409_12266.md
-            - CU-MPPI: papers/2503_05819.md
-            - Biased-MPPI: papers/2401_09241.md
-            - Low-pass MPPI: papers/2503_11717.md
-            - TC-MPPI: papers/2025_lee_time_correlated_model_predictive.md
-            - VIMPPI: papers/2505_05507.md
-            - Interaction-Rich MPPI: papers/2025_trevisan_model_predictive_path_integral.md
-            - DBaS-Log-MPPI: papers/2504_06437.md
-            - Multi-Modal MPPI: papers/2508_21364.md
-            - TD-CD-MPPI: papers/2025_crestaz_td_cd_mppi_temporal.md
-            - BC-MPPI: papers/2510_00272.md
-          - "Recent Advances in Path Integral Control (Survey)": papers/2309_12566.md
-        - Model Predictive Trees:
-          - MPT: papers/2411_15651.md
-        - "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)":
-          - iLQR:
-            - iLQR: papers/2004_li_iterative_linear_quadratic_regulator.md
-            - "iLQR Synthesis & Stabilization": papers/2012_tassa_synthesis_and_stabilization_of.md
-          - Differential Dynamic Programming:
-            - DDP: papers/1970_jacobson_differential_dynamic_programming.md
-            - Accelerating Second-Order Differential Dynamic Programming for Rigid-Body Systems: papers/2103_03293.md
-          - Multiple Shooting DDP (MS-DDP):
-            - iLQR-GNMS: papers/1711_11006.md
-            - MS-DDP: papers/2020_pellegrini_a_multiple_shooting_differential.md
-            - Unified Perspective on MS-DDP: papers/2309_07872.md
-            - Convergence Guaranteed MS-DDP: papers/2024_wang_a_convergence_guaranteed_multiple.md
-          - Tutorials & Convergence Theory:
-            - iLQR Algorithmic Templates: papers/2207_06362.md
-            - "Global & Local Convergence of iLQR/DDP": papers/2204_02322.md
-        - Constrained DDP & iLQR:
-          - Constrained LQR: papers/1998_scokaert_constrained_linear_quadratic_regulation.md
-          - ALTRO: papers/2019_jackson_altro_a_fast_solver.md
-          - AL-DDP: papers/2005_00985.md
-          - FDDP: papers/2010_00411.md
-          - Squash-Box FDDP: papers/2020_marti_saumell_squash_box_feasibility_driven.md
-          - AP-DDP: papers/2025_xia_an_adaptive_projection_differential.md
-          - FATROP: papers/2303_16746.md
-          - Primal-Dual iLQR: papers/2403_00748.md
-          - CL-SQP: papers/2109_07081.md
-          - ProxDDP: papers/2023_jallet_proxddp_proximal_constrained_trajectory.md
-          - "Real-time Constrained Trajectory Optimization in Robotics: Theory, Implementation and Applications (Wilson Jallet PhD Dissertation)": papers/2024_jallet_real_time_constrained_trajectory.md
-          - Second-Order Constrained DDP: papers/2409_11649.md
-          - ALSPG: papers/2506_14865.md
-        - Elastic Smoothing:
-          - CES: papers/1506_01085.md
-        - Nonlinear Optimization:
-          - OBCA: papers/1711_03449.md
-        - Trajectory Optimization on Gaussian Splats:
-          - SPLANNING: papers/2409_16915.md
-          - FOCI: papers/2505_08510.md
+  - Content Tree:
+    - Motion Planning:
+      - Path Planning:
+        - Geometric Planning:
+          - Probabilistic Roadmap (PRM):
+            - PRM: papers/1996_kavraki_probabilistic_roadmaps_for_path.md
+          - Rapidly Exploring Random Trees (RRT):
+            - RRT: papers/1998_lavalle_rapidly_exploring_random_trees.md
+            - RRT-Connect: papers/2000_kuffner_rrt_connect_an_efficient.md
+            - EET: papers/2008_rickert_balancing_exploration_and_exploitation.md
+            - RRT*: papers/1105_1186.md
+            - Anytime RRT*: papers/2011_karaman_anytime_motion_planning_using.md
+            - RRT* theory correction: papers/1909_09688.md
+            - RRT*-Connect: papers/2015_klemm_rrt_star_connect_faster.md
+            - RRT#: papers/1204_6453.md
+            - FMT*: papers/1306_3532.md
+            - Informed RRT*: papers/1404_2334.md
+            - BIT*: papers/1405_5848.md
+            - RABIT*: papers/2016_choudhury_regionally_accelerated_batch_informed.md
+            - Informed RRT*-Connect: papers/2020_mashayekhi_informed_rrt_star_connect.md
+            - Sliding Window Informed RRT*: papers/2021_li_sliding_window_informed_rrt.md
+            - FCIT*: papers/2411_17902.md
+            - Spline-based RRT: papers/2013_yang_spline_based_rrt_path.md
+            - Continuous-Curvature Target Tree: papers/2201_03163.md          
+          - GPU Parallelized Planning:
+            - GMT*: papers/1705_02403.md
+            - Kino-PAX: papers/2409_06807.md
+            - Kino-PAX+: papers/2602_02846.md
+            - pRRTC: papers/2503_06757.md
+            - cuRobo: papers/2310_17274.md
+            - cuTAMP: papers/2411_11833.md
+          - Dynamic Replanning:
+            - RRTX: papers/2015_otte_rrtx_asymptotically_optimal_single.md
+            - RT-FMT: papers/2502_09556.md
+        - Path Generation:
+          - Lines & Arcs:
+            - Dubins path: papers/1957_dubins_on_curves_of_minimal.md
+            - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a.md
+          - Clothoids (linear curvature):
+            - SCC path: papers/1997_scheuer_continuous_curvature_path_planning.md
+            - CC Steer: papers/2004_fraichard_from_reeds_and_shepps.md
+          - Generalized Clothoids (nonlinear curvature):
+            - Cubic Curvature Polynomials: papers/2001_nagy_trajectory_generation_for_car.md
+            - Sharpness Continuous path: papers/1801_08995.md
+          - Polynomials & Splines:
+            - Quintic G2 Splines: papers/2000_piazzi_quintic_g2_splines_for.md
+        - Path Optimization:
+          - Path Shortcutting:
+            - Creating High-quality Paths for Motion Planning: papers/2007_geraerts_creating_high_quality_paths.md
+            - Anytime Solution Optimization for Sampling-Based Motion Planning: papers/2013_luna_anytime_solution_optimization_for.md
+            - Benchmarking Shortcutting Techniques for Multi-Robot-Arm Motion Planning: papers/2508_05027.md
+          - Path Smoothing:
+            - CCMA: papers/2023_steinecker_a_simple_and_model.md
+          - Gradient-based Path Optimization:
+            - CHOMP: papers/2009_ratliff_chomp_gradient_optimization_techniques.md
+          - Sample-based Path Optimization:
+            - STOMP: papers/2011_kalakrishnan_stomp_stochastic_trajectory_optimization.md
+      - Trajectory Planning:
+        - Kinodynamic Planning:
+          - Rapidly Exploring Random Trees (RRT):
+            - Kinodynamic RRT: papers/1999_lavalle_randomized_kinodynamic_planning.md
+            - Kinodynamic RRT*: papers/2010_karaman_optimal_kinodynamic_motion_planning.md
+            - Linear Kinodynamic RRT*: papers/1205_5088.md
+            - LQR-RRT*: papers/2012_perez_lqr_rrt_star_optimal.md
+            - RRT*_MotionPrimitives: papers/1809_02399.md
+            - BB-RRT: papers/2210_01744.md
+            - iDb-RRT: papers/2403_10745.md
+            - AkinoPDF: papers/2603_16059.md
+            - Completeness of Randomized Kinodynamic Planners with State-based Steering: papers/1511_05259.md
+            - FDSPC: papers/2405_03281.md
+          - Expansive Space Trees (EST):
+            - EST: TODO
+          - Stable Sparse Tree (SST):
+            - SST*: papers/1407_2896.md
+          - Meta Algorithms:
+            - AO-x: papers/1505_04098.md
+            - AORRTC: papers/2505_10542.md
+          - Planning with Graphs of Convex Sets (GCS):
+            - Shortest Paths in Graphs of Convex Sets: papers/2101_11565.md
+            - Motion Planning around Obstacles with Convex Optimization: papers/2205_04422.md
+            - Fast Path Planning Through Large Collections of Safe Boxes: papers/2305_01072.md
+            - A Biconvex Method for Minimum-time Motion Planning Through Sequences of Convex Sets: papers/2504_18978.md
+        - Trajectory Generation:
+          - TEB: papers/2017_roesmann_kinodynamic_trajectory_optimization_and.md
+          - Minimum Jerk Trajectory Generation for Differential Wheeled Mobile Robots: papers/2013_palamakumburu_minimum_jerk_trajectory_generation.md
+        - Trajectory Optimization:
+          - Model Predictive Sampling-Based Control:
+            - Cross-Entropy Motion Planning (CEM):
+              - Cross-Entropy Motion Planning: papers/2012_kobilarov_cross_entropy_motion_planning.md
+            - Model Predictive Path Integral Control (MPPI):
+              - MPPI: papers/2017_williams_model_predictive_path_integral.md
+              - "Model Predictive Path Integral Control using Covariance Variable Importance Sampling": papers/1509_01149.md
+              - "Model Predictive Path Integral Control: Theoretical Foundations and Applications to Autonomous Driving (Grady Williams PhD Dissertation)": papers/2019_williams_model_predictive_path_integral.md
+              - Tsallis VI-SOC: papers/2104_00241.md
+              - C-Uniform MPPI: papers/2409_12266.md
+              - CU-MPPI: papers/2503_05819.md
+              - Biased-MPPI: papers/2401_09241.md
+              - Low-pass MPPI: papers/2503_11717.md
+              - TC-MPPI: papers/2025_lee_time_correlated_model_predictive.md
+              - VIMPPI: papers/2505_05507.md
+              - Interaction-Rich MPPI: papers/2025_trevisan_model_predictive_path_integral.md
+              - DBaS-Log-MPPI: papers/2504_06437.md
+              - Multi-Modal MPPI: papers/2508_21364.md
+              - TD-CD-MPPI: papers/2025_crestaz_td_cd_mppi_temporal.md
+              - BC-MPPI: papers/2510_00272.md
+            - "Recent Advances in Path Integral Control (Survey)": papers/2309_12566.md
+          - Model Predictive Trees:
+            - MPT: papers/2411_15651.md
+          - "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)":
+            - iLQR:
+              - iLQR: papers/2004_li_iterative_linear_quadratic_regulator.md
+              - "iLQR Synthesis & Stabilization": papers/2012_tassa_synthesis_and_stabilization_of.md
+            - Differential Dynamic Programming:
+              - DDP: papers/1970_jacobson_differential_dynamic_programming.md
+              - Accelerating Second-Order Differential Dynamic Programming for Rigid-Body Systems: papers/2103_03293.md
+            - Multiple Shooting DDP (MS-DDP):
+              - iLQR-GNMS: papers/1711_11006.md
+              - MS-DDP: papers/2020_pellegrini_a_multiple_shooting_differential.md
+              - Unified Perspective on MS-DDP: papers/2309_07872.md
+              - Convergence Guaranteed MS-DDP: papers/2024_wang_a_convergence_guaranteed_multiple.md
+            - Tutorials & Convergence Theory:
+              - iLQR Algorithmic Templates: papers/2207_06362.md
+              - "Global & Local Convergence of iLQR/DDP": papers/2204_02322.md
+          - Constrained DDP & iLQR:
+            - Constrained LQR: papers/1998_scokaert_constrained_linear_quadratic_regulation.md
+            - ALTRO: papers/2019_jackson_altro_a_fast_solver.md
+            - AL-DDP: papers/2005_00985.md
+            - FDDP: papers/2010_00411.md
+            - Squash-Box FDDP: papers/2020_marti_saumell_squash_box_feasibility_driven.md
+            - AP-DDP: papers/2025_xia_an_adaptive_projection_differential.md
+            - FATROP: papers/2303_16746.md
+            - Primal-Dual iLQR: papers/2403_00748.md
+            - CL-SQP: papers/2109_07081.md
+            - ProxDDP: papers/2023_jallet_proxddp_proximal_constrained_trajectory.md
+            - "Real-time Constrained Trajectory Optimization in Robotics: Theory, Implementation and Applications (Wilson Jallet PhD Dissertation)": papers/2024_jallet_real_time_constrained_trajectory.md
+            - Second-Order Constrained DDP: papers/2409_11649.md
+            - ALSPG: papers/2506_14865.md
+          - Elastic Smoothing:
+            - CES: papers/1506_01085.md
+          - Nonlinear Optimization:
+            - OBCA: papers/1711_03449.md
+          - Trajectory Optimization on Gaussian Splats:
+            - SPLANNING: papers/2409_16915.md
+            - FOCI: papers/2505_08510.md
+          - Hybrid Approaches:
+            - Sampled Differential Dynamic Programming (SaDDP):
+              - SaDDP: papers/2016_rajamaki_sampled_differential_dynamic_programming.md
+              - Regularized SaDDP: papers/2018_rajamaki_regularizing_sampled_differential_dynamic.md
+              - PI2-CMA: papers/1206_4621.md
+              - PI2-DDP: papers/2019_lefebvre_path_integral_policy_improvement.md
+            - "Grad+CEM": papers/2004_08763.md
+            - MPPI-IPDDP: papers/2208_02439.md
+            - DIAL-MPC: papers/2409_15610.md
+          - Learning in Trajectory Optimization:
+            - MISO: papers/2411_02158.md
+            - Probabilistic DDP: papers/2014_pan_probabilistic_differential_dynamic_programming.md
+            - Agile Autonomous Driving (End-to-End Imitation): papers/1709_07174.md
         - Hybrid Approaches:
-          - Sampled Differential Dynamic Programming (SaDDP):
-            - SaDDP: papers/2016_rajamaki_sampled_differential_dynamic_programming.md
-            - Regularized SaDDP: papers/2018_rajamaki_regularizing_sampled_differential_dynamic.md
-            - PI2-CMA: papers/1206_4621.md
-            - PI2-DDP: papers/2019_lefebvre_path_integral_policy_improvement.md
-          - "Grad+CEM": papers/2004_08763.md
-          - MPPI-IPDDP: papers/2208_02439.md
-          - DIAL-MPC: papers/2409_15610.md
-        - Learning in Trajectory Optimization:
-          - MISO: papers/2411_02158.md
-          - Probabilistic DDP: papers/2014_pan_probabilistic_differential_dynamic_programming.md
-          - Agile Autonomous Driving (End-to-End Imitation): papers/1709_07174.md
+          - SBP-Guided MPC: papers/2019_hannigan_sbp_guided_mpc_to.md
+          - RRT-MPPI: papers/2301_13143.md
+          - SETS: papers/2412_11270.md
+      - Speed Planning:
+        - Time-Optimal Path Parameterization (TOPP):
+          - TOPP: papers/1985_bobrow_time_optimal_control_of.md
+          - AVP: papers/1411_4045.md
+          - TOPP-RA: papers/1707_07239.md
+        - Optimization-based Speed Planning:
+          - "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach": papers/2009_verscheure_time_optimal_path_tracking.md
+          - Minimum-time Speed Optimisation Over a Fixed Path: papers/2013_lipp_minimum_time_speed_optimisation_over.md
+          - Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization: papers/2018_zhang_toward_a_more_complete.md
+      - Interaction-aware Planning:
+        - Multimodal Probabilistic Model-Based Planning for Human-Robot Interaction: papers/1710_09483.md
+        - VISTA 2.0: papers/2111_12083.md
+        - Learning Interactive Driving Policies via Data-driven Simulation: papers/2111_12137.md      
+      - Machine Learning in Motion Planning:
+        - Distance Metric Learning for RRT-Based Motion Planning with Constant-Time Inference: papers/2015_palmieri_distance_metric_learning_for.md
+        - RRT-CoLearn: papers/1710_10122.md
+        - PRESTO: papers/2409_16012.md
+        - DriveIRL: papers/2206_03004.md
+        - Lab2Car: papers/2409_09523.md
+        - Transitioning from Rule-Based to ML-Powered Motion Planning: papers/2025_hu_technically_speaking_transitioning_from.md
+      - Surveys & Comparative Studies:
+        - An Empirical Study of Optimal Motion Planning: papers/2014_luo_an_empirical_study_of.md
+        - A Survey of Motion Planning and Control Techniques for Self-Driving Urban Vehicles: papers/1604_07446.md
+        - Sampling-Based Methods for Motion Planning with Constraints: papers/2018_kingston_sampling_based_methods_for.md
+        - Planning and Decision-Making for Autonomous Vehicles: papers/2018_schwarting_planning_and_decision_making.md
+        - Asymptotically Optimal Sampling-Based Motion Planning Methods: papers/2009_10484.md
+        - Benchmarking Sampling-, Search-, and Optimization-based Approaches for Time-Optimal Kinodynamic Mobile Robot Motion Planning: papers/2022_honig_benchmarking_sampling_search_and.md
+        - "Motion Planning for Autonomous Driving: The State of the Art and Future Perspectives": papers/2303_09824.md
+        - A Comparative Study of Rapidly-exploring Random Tree Algorithms Applied to Ship Trajectory Planning and Behavior Generation: papers/2403_01194.md
+        - "Motion Planning for Robotics: A Review for Sampling-based Planners": papers/2410_19414.md
+        - DDP and MPPI on VTOL Aircraft: papers/2022_houghton_path_planning_differential_dynamic.md
+      - Frameworks & Stack Architectures:
+        - Boss: papers/2008_urmson_autonomous_driving_in_urban.md
+        - MJPC: papers/2212_00541.md
+        - Judo: papers/2506_17184.md
+        - "MPPI+IsaacGym": papers/2307_09105.md
+        - DiffStack: papers/2212_06437.md
+        - FRENETIX: papers/2402_01443.md
+    - Motion Prediction:
+      - Multi-agent & Interaction-aware Prediction:
+        - "Trajectron++": papers/2001_03093.md
+        - Wayformer: papers/2207_05844.md
+      - Prediction Horizon:
+        - "Prediction Horizon Requirements for Automated Driving": papers/2402_03893.md
+      - Surveys:
+        - "Trends in Motion Prediction Toward Deployable and Generalizable Autonomy": papers/2505_09074.md
+        - "Motion Forecasting for Autonomous Vehicles": papers/2502_08664.md
+        - "Trajectory Prediction for Autonomous Driving": papers/2503_03262.md
+        - Deep Learning-based Vehicle Behaviour Prediction: papers/1912_11676.md
+        - A Survey on Motion Prediction and Risk Assessment for Intelligent Vehicles: papers/2014_lefevre_a_survey_on_motion.md
+        - Action and Trajectory Prediction for Autonomous Driving: papers/2024_calem_action_and_trajectory_prediction.md
+      - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: papers/2511_00814.md
+    - Control:
+      - Proportional-integral-derivative (PID):
+        - TODO
+      - Pole placement:
+        - TODO  
+      - Linear Quadratic Regulator (LQR):
+        - TODO
+      - Model Preditive Control (MPC):
+        - TODO
+      - Robust Control:
+        - Robustness margins for LQG: papers/1978_doyle_guaranteed_margins_for_lqg.md
+    - Reinforcement Learning:
+      - Random Search & Evolution Strategies:
+        - ARS: papers/1803_07055.md
+      - Policy Optimization:
+        - TRPO: papers/1502_05477.md
+        - PPO: papers/1707_06347.md
+        - QNTRPO: papers/1912_11912.md
+        - SPO: papers/2401_16025.md
+        - GRPO: papers/2402_03300.md
+      - Model-Based RL & System Identification:
+        - Subspace Identification:
+          - Subspace Identification for Linear Systems: papers/1996_overschee_subspace_identification_for_linear.md
+          - N4SID: papers/1994_overschee_n4sid_numerical_algorithms_for.md
+        - Eigensystem Realization Algorithm (ERA): papers/1985_juang_an_eigensystem_realization_algorithm.md
+        - Dynamic Mode Decomposition (DMD):
+          - DMD: papers/2008_schmid_dynamic_mode_decomposition_of.md
+          - "DMD: Theory and Applications": papers/1312_0041.md
+          - "DMD: Theory and Data Reconstruction": papers/1909_10466.md
+          - DMD and Its Variants: papers/2022_schmid_dynamic_mode_decomposition_and.md
+          - DMDc: papers/1409_6358.md
+          - eDMD: papers/1408_4408.md
+        - Sparse Identification of Nonlinear Dynamics (SINDy):
+          - SINDy: papers/1509_03580.md
+          - SINDy with Control: papers/2108_13404.md
+          - SINDy-RL: papers/2403_09110.md
+          - PySINDy: papers/2111_08481.md
+        - World Models:
+          - PlaNet: papers/1811_04551.md
+          - Dreamer: papers/1912_01603.md
       - Hybrid Approaches:
-        - SBP-Guided MPC: papers/2019_hannigan_sbp_guided_mpc_to.md
-        - RRT-MPPI: papers/2301_13143.md
-        - SETS: papers/2412_11270.md
-    - Speed Planning:
-      - Time-Optimal Path Parameterization (TOPP):
-        - TOPP: papers/1985_bobrow_time_optimal_control_of.md
-        - AVP: papers/1411_4045.md
-        - TOPP-RA: papers/1707_07239.md
-      - Optimization-based Speed Planning:
-        - "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach": papers/2009_verscheure_time_optimal_path_tracking.md
-        - Minimum-time Speed Optimisation Over a Fixed Path: papers/2013_lipp_minimum_time_speed_optimisation_over.md
-        - Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization: papers/2018_zhang_toward_a_more_complete.md
-    - Interaction-aware Planning:
-      - Multimodal Probabilistic Model-Based Planning for Human-Robot Interaction: papers/1710_09483.md
-      - VISTA 2.0: papers/2111_12083.md
-      - Learning Interactive Driving Policies via Data-driven Simulation: papers/2111_12137.md      
-    - Machine Learning in Motion Planning:
-      - Distance Metric Learning for RRT-Based Motion Planning with Constant-Time Inference: papers/2015_palmieri_distance_metric_learning_for.md
-      - RRT-CoLearn: papers/1710_10122.md
-      - PRESTO: papers/2409_16012.md
-      - DriveIRL: papers/2206_03004.md
-      - Lab2Car: papers/2409_09523.md
-      - Transitioning from Rule-Based to ML-Powered Motion Planning: papers/2025_hu_technically_speaking_transitioning_from.md
-    - Surveys & Comparative Studies:
-      - An Empirical Study of Optimal Motion Planning: papers/2014_luo_an_empirical_study_of.md
-      - A Survey of Motion Planning and Control Techniques for Self-Driving Urban Vehicles: papers/1604_07446.md
-      - Sampling-Based Methods for Motion Planning with Constraints: papers/2018_kingston_sampling_based_methods_for.md
-      - Planning and Decision-Making for Autonomous Vehicles: papers/2018_schwarting_planning_and_decision_making.md
-      - Asymptotically Optimal Sampling-Based Motion Planning Methods: papers/2009_10484.md
-      - Benchmarking Sampling-, Search-, and Optimization-based Approaches for Time-Optimal Kinodynamic Mobile Robot Motion Planning: papers/2022_honig_benchmarking_sampling_search_and.md
-      - "Motion Planning for Autonomous Driving: The State of the Art and Future Perspectives": papers/2303_09824.md
-      - A Comparative Study of Rapidly-exploring Random Tree Algorithms Applied to Ship Trajectory Planning and Behavior Generation: papers/2403_01194.md
-      - "Motion Planning for Robotics: A Review for Sampling-based Planners": papers/2410_19414.md
-      - DDP and MPPI on VTOL Aircraft: papers/2022_houghton_path_planning_differential_dynamic.md
-    - Frameworks & Stack Architectures:
-      - Boss: papers/2008_urmson_autonomous_driving_in_urban.md
-      - MJPC: papers/2212_00541.md
-      - Judo: papers/2506_17184.md
-      - "MPPI+IsaacGym": papers/2307_09105.md
-      - DiffStack: papers/2212_06437.md
-      - FRENETIX: papers/2402_01443.md
-  - Motion Prediction:
-    - Multi-agent & Interaction-aware Prediction:
-      - "Trajectron++": papers/2001_03093.md
-      - Wayformer: papers/2207_05844.md
-    - Prediction Horizon:
-      - "Prediction Horizon Requirements for Automated Driving": papers/2402_03893.md
-    - Surveys:
-      - "Trends in Motion Prediction Toward Deployable and Generalizable Autonomy": papers/2505_09074.md
-      - "Motion Forecasting for Autonomous Vehicles": papers/2502_08664.md
-      - "Trajectory Prediction for Autonomous Driving": papers/2503_03262.md
-      - Deep Learning-based Vehicle Behaviour Prediction: papers/1912_11676.md
-      - A Survey on Motion Prediction and Risk Assessment for Intelligent Vehicles: papers/2014_lefevre_a_survey_on_motion.md
-      - Action and Trajectory Prediction for Autonomous Driving: papers/2024_calem_action_and_trajectory_prediction.md
-    - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: papers/2511_00814.md
-  - Control:
-    - Proportional-integral-derivative (PID):
-      - TODO
-    - Pole placement:
-      - TODO  
-    - Linear Quadratic Regulator (LQR):
-      - TODO
-    - Model Preditive Control (MPC):
-      - TODO
-    - Robust Control:
-      - Robustness margins for LQG: papers/1978_doyle_guaranteed_margins_for_lqg.md
-  - Reinforcement Learning:
-    - Random Search & Evolution Strategies:
-      - ARS: papers/1803_07055.md
-    - Policy Optimization:
-      - TRPO: papers/1502_05477.md
-      - PPO: papers/1707_06347.md
-      - QNTRPO: papers/1912_11912.md
-      - SPO: papers/2401_16025.md
-      - GRPO: papers/2402_03300.md
-    - Model-Based RL & System Identification:
-      - Subspace Identification:
-        - Subspace Identification for Linear Systems: papers/1996_overschee_subspace_identification_for_linear.md
-        - N4SID: papers/1994_overschee_n4sid_numerical_algorithms_for.md
-      - Eigensystem Realization Algorithm (ERA): papers/1985_juang_an_eigensystem_realization_algorithm.md
-      - Dynamic Mode Decomposition (DMD):
-        - DMD: papers/2008_schmid_dynamic_mode_decomposition_of.md
-        - "DMD: Theory and Applications": papers/1312_0041.md
-        - "DMD: Theory and Data Reconstruction": papers/1909_10466.md
-        - DMD and Its Variants: papers/2022_schmid_dynamic_mode_decomposition_and.md
-        - DMDc: papers/1409_6358.md
-        - eDMD: papers/1408_4408.md
-      - Sparse Identification of Nonlinear Dynamics (SINDy):
-        - SINDy: papers/1509_03580.md
-        - SINDy with Control: papers/2108_13404.md
-        - SINDy-RL: papers/2403_09110.md
-        - PySINDy: papers/2111_08481.md
-      - World Models:
-        - PlaNet: papers/1811_04551.md
-        - Dreamer: papers/1912_01603.md
-    - Hybrid Approaches:
-      - PLAL: papers/2209_09006.md
-      - Power of Locally Linear Models: papers/2305_09619.md
-    - Diffusion & Flow Matching:
-      - Diffusion Policy: papers/2303_04137.md
-      - Streaming Flow Policy: papers/2505_21851.md
-      - Pitfalls of Imitation Learning: papers/2503_09722.md
-  - Optimization:
-    - Convex Optimization:
-      - Linear Programming:
+        - PLAL: papers/2209_09006.md
+        - Power of Locally Linear Models: papers/2305_09619.md
+      - Diffusion & Flow Matching:
+        - Diffusion Policy: papers/2303_04137.md
+        - Streaming Flow Policy: papers/2505_21851.md
+        - Pitfalls of Imitation Learning: papers/2503_09722.md
+    - Optimization:
+      - Convex Optimization:
+        - Linear Programming:
+          - TODO
+        - Quadratic Programming:
+          - Automatic Generation of Explicit Quadratic Programming Solvers: papers/2506_11513.md
+        - Second-order Cone Programming:
+          - TODO
+        - Semidefinite Programming:
+          - TODO
+        - General Convex Optimization:
+          - TODO
+      - Nonlinear Programming:
         - TODO
-      - Quadratic Programming:
-        - Automatic Generation of Explicit Quadratic Programming Solvers: papers/2506_11513.md
-      - Second-order Cone Programming:
-        - TODO
-      - Semidefinite Programming:
-        - TODO
-      - General Convex Optimization:
-        - TODO
-    - Nonlinear Programming:
-      - TODO
-  - Machine Learning:
-    - Vision-language-action (VLA) Models:
-      - Alpamayo-R1: papers/2511_00088.md
-    - Large language models (LLM):
-      - Transformers & Attention-based models:
-        - Attention Is All You Need: papers/1706_03762.md
-  - Safety, Testing & Verification:
-    - "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification": papers/2403_18972.md
-  - Computer Graphics:
-    - 3D Gaussian Splatting: papers/2308_04079.md
-  - Software & Programming:
-    - Art & Practice: programming/art_and_practice.md
-    - "C++": programming/cpp.md
-    - Python: programming/python.md
-    - Interoperability: programming/interoperability.md
-    - Trajectory Optimization: programming/trajectory_optimization.md
-  - Just for Fun:
-    - Design and Control of a Bipedal Robotic Character: papers/2501_05204.md
+    - Machine Learning:
+      - Vision-language-action (VLA) Models:
+        - Alpamayo-R1: papers/2511_00088.md
+      - Large language models (LLM):
+        - Transformers & Attention-based models:
+          - Attention Is All You Need: papers/1706_03762.md
+    - Safety, Testing & Verification:
+      - "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification": papers/2403_18972.md
+    - Computer Graphics:
+      - 3D Gaussian Splatting: papers/2308_04079.md
+    - Software & Programming:
+      - Art & Practice: programming/art_and_practice.md
+      - "C++": programming/cpp.md
+      - Python: programming/python.md
+      - Interoperability: programming/interoperability.md
+      - Trajectory Optimization: programming/trajectory_optimization.md
+    - Just for Fun:
+      - Design and Control of a Bipedal Robotic Character: papers/2501_05204.md

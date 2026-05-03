@@ -1,9 +1,6 @@
 # TODO
 
-
-
 ## Claude instructions (skills?)
-
 
 ### Generate new metadata
 
@@ -21,7 +18,6 @@ Normalize the title so that it uses capitalized words in title case.
 ### Prep raw metadata for review
 
 Run scripts\list_raw_papers.py and pipe the output to scripts\audit_metadata.py and attempt to resolve all the issues.
-
 
 
 ## Metadata cleanup
@@ -66,8 +62,6 @@ Work on using AI automation to prefill the manual touch tasks:
 4. Placement in content tree
 
 ## Content tree
-
-Put all the sections in a new top level header "Content Tree"
 
 Create a large form thing for that page that enables users to ergonomically traverse the tree.
 Key mechanism is hiding branches that are not on the currently node ancestor chain and emphasizing the current node over ancestors and successors
