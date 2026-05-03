@@ -26,7 +26,9 @@ add other URIs besides DOI since not all papers have DOI e.g. dissertations, arx
 
 Create a one-click site regen script.
 
-Should call 
+Should call:
+
+- audit metadata
 - embedding regen
 - mkdocs build
 
