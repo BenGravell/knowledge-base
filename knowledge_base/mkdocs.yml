@@ -174,7 +174,7 @@ nav:
             - Interaction-Rich MPPI: papers/2025_trevisan_model_predictive_path_integral.md
             - DBaS-Log-MPPI: papers/2504_06437.md
             - Multi-Modal MPPI: papers/2508_21364.md
-            - TD-CD-MPPI: papers/2025_crestaz_td_cd_mppi_temporal_difference.md
+            - TD-CD-MPPI: papers/2025_crestaz_td_cd_mppi_temporal.md
             - BC-MPPI: papers/2510_00272.md
           - "Recent Advances in Path Integral Control (Survey)": papers/2309_12566.md
         - Model Predictive Trees:
@@ -251,7 +251,7 @@ nav:
       - PRESTO: papers/2409_16012.md
       - DriveIRL: papers/2206_03004.md
       - Lab2Car: papers/2409_09523.md
-      - Transitioning from Rule-Based to ML-Powered Motion Planning: papers/2025_hu_technical_speaking_transitioning_from.md
+      - Transitioning from Rule-Based to ML-Powered Motion Planning: papers/2025_hu_technically_speaking_transitioning_from.md
     - Surveys & Comparative Studies:
       - An Empirical Study of Optimal Motion Planning: papers/2014_luo_an_empirical_study_of.md
       - A Survey of Motion Planning and Control Techniques for Self-Driving Urban Vehicles: papers/1604_07446.md

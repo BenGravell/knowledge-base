@@ -3797,7 +3797,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "id": "2025_crestaz_td_cd_mppi_temporal",
         "label": "TD-CD-MPPI",
         "title": "TD-CD-MPPI: Temporal-Difference Constraint-Discounted Model Predictive Path Integral Control",
         "authors": [
@@ -3820,7 +3820,7 @@ const mindMapData = {
     },
     {
       "data": {
-        "id": "2025_hu_technical_speaking_transitioning_from",
+        "id": "2025_hu_technically_speaking_transitioning_from",
         "label": "Hu 2025",
         "title": "Technically Speaking: Transitioning from Rule-Based to ML-Powered Motion Planning",
         "authors": [
@@ -4590,7 +4590,7 @@ const mindMapData = {
       "data": {
         "id": "e12",
         "source": "1970_jacobson_differential_dynamic_programming",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8024
       }
     },
@@ -8270,7 +8270,7 @@ const mindMapData = {
       "data": {
         "id": "e472",
         "source": "1206_4621",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.7977
       }
     },
@@ -10550,7 +10550,7 @@ const mindMapData = {
       "data": {
         "id": "e757",
         "source": "2014_pan_probabilistic_differential_dynamic_programming",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8144
       }
     },
@@ -10822,7 +10822,7 @@ const mindMapData = {
       "data": {
         "id": "e791",
         "source": "1509_01149",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8389
       }
     },
@@ -11702,7 +11702,7 @@ const mindMapData = {
       "data": {
         "id": "e901",
         "source": "2016_rajamaki_sampled_differential_dynamic_programming",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8365
       }
     },
@@ -11966,7 +11966,7 @@ const mindMapData = {
       "data": {
         "id": "e934",
         "source": "1706_03762",
-        "target": "2025_hu_technical_speaking_transitioning_from",
+        "target": "2025_hu_technically_speaking_transitioning_from",
         "weight": 0.6489
       }
     },
@@ -12046,7 +12046,7 @@ const mindMapData = {
       "data": {
         "id": "e944",
         "source": "1709_07174",
-        "target": "2025_hu_technical_speaking_transitioning_from",
+        "target": "2025_hu_technically_speaking_transitioning_from",
         "weight": 0.8188
       }
     },
@@ -12590,7 +12590,7 @@ const mindMapData = {
       "data": {
         "id": "e1012",
         "source": "2017_williams_model_predictive_path_integral",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8686
       }
     },
@@ -13822,7 +13822,7 @@ const mindMapData = {
       "data": {
         "id": "e1166",
         "source": "2019_lefebvre_path_integral_policy_improvement",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.844
       }
     },
@@ -13854,7 +13854,7 @@ const mindMapData = {
       "data": {
         "id": "e1170",
         "source": "2019_williams_model_predictive_path_integral",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8627
       }
     },
@@ -14126,7 +14126,7 @@ const mindMapData = {
       "data": {
         "id": "e1204",
         "source": "2005_00985",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8169
       }
     },
@@ -14878,7 +14878,7 @@ const mindMapData = {
       "data": {
         "id": "e1298",
         "source": "2104_00241",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8297
       }
     },
@@ -14958,7 +14958,7 @@ const mindMapData = {
       "data": {
         "id": "e1308",
         "source": "2109_07081",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8252
       }
     },
@@ -15278,7 +15278,7 @@ const mindMapData = {
       "data": {
         "id": "e1348",
         "source": "2022_houghton_path_planning_differential_dynamic",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8492
       }
     },
@@ -15758,7 +15758,7 @@ const mindMapData = {
       "data": {
         "id": "e1408",
         "source": "2208_02439",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8326
       }
     },
@@ -15894,7 +15894,7 @@ const mindMapData = {
       "data": {
         "id": "e1425",
         "source": "2209_09006",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8039
       }
     },
@@ -15982,7 +15982,7 @@ const mindMapData = {
       "data": {
         "id": "e1436",
         "source": "2212_06437",
-        "target": "2025_hu_technical_speaking_transitioning_from",
+        "target": "2025_hu_technically_speaking_transitioning_from",
         "weight": 0.8152
       }
     },
@@ -16070,7 +16070,7 @@ const mindMapData = {
       "data": {
         "id": "e1447",
         "source": "2023_jallet_proxddp_proximal_constrained_trajectory",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8204
       }
     },
@@ -16190,7 +16190,7 @@ const mindMapData = {
       "data": {
         "id": "e1462",
         "source": "2301_13143",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8249
       }
     },
@@ -16270,7 +16270,7 @@ const mindMapData = {
       "data": {
         "id": "e1472",
         "source": "2303_09824",
-        "target": "2025_hu_technical_speaking_transitioning_from",
+        "target": "2025_hu_technically_speaking_transitioning_from",
         "weight": 0.8494
       }
     },
@@ -16470,7 +16470,7 @@ const mindMapData = {
       "data": {
         "id": "e1497",
         "source": "2307_09105",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8267
       }
     },
@@ -16654,7 +16654,7 @@ const mindMapData = {
       "data": {
         "id": "e1520",
         "source": "2309_12566",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8856
       }
     },
@@ -16822,7 +16822,7 @@ const mindMapData = {
       "data": {
         "id": "e1541",
         "source": "2024_jallet_real_time_constrained_trajectory",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8087
       }
     },
@@ -16910,7 +16910,7 @@ const mindMapData = {
       "data": {
         "id": "e1552",
         "source": "2401_09241",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8584
       }
     },
@@ -17254,7 +17254,7 @@ const mindMapData = {
       "data": {
         "id": "e1595",
         "source": "2409_09523",
-        "target": "2025_hu_technical_speaking_transitioning_from",
+        "target": "2025_hu_technically_speaking_transitioning_from",
         "weight": 0.8136
       }
     },
@@ -17334,7 +17334,7 @@ const mindMapData = {
       "data": {
         "id": "e1605",
         "source": "2409_12266",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8079
       }
     },
@@ -17398,7 +17398,7 @@ const mindMapData = {
       "data": {
         "id": "e1613",
         "source": "2409_15610",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8322
       }
     },
@@ -17550,7 +17550,7 @@ const mindMapData = {
       "data": {
         "id": "e1632",
         "source": "2411_15651",
-        "target": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "target": "2025_crestaz_td_cd_mppi_temporal",
         "weight": 0.8242
       }
     },
@@ -17605,7 +17605,7 @@ const mindMapData = {
     {
       "data": {
         "id": "e1639",
-        "source": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "source": "2025_crestaz_td_cd_mppi_temporal",
         "target": "2025_lee_time_correlated_model_predictive",
         "weight": 0.8834
       }
@@ -17613,7 +17613,7 @@ const mindMapData = {
     {
       "data": {
         "id": "e1640",
-        "source": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "source": "2025_crestaz_td_cd_mppi_temporal",
         "target": "2025_trevisan_model_predictive_path_integral",
         "weight": 0.82
       }
@@ -17621,7 +17621,7 @@ const mindMapData = {
     {
       "data": {
         "id": "e1641",
-        "source": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "source": "2025_crestaz_td_cd_mppi_temporal",
         "target": "2503_05819",
         "weight": 0.8157
       }
@@ -17629,7 +17629,7 @@ const mindMapData = {
     {
       "data": {
         "id": "e1642",
-        "source": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "source": "2025_crestaz_td_cd_mppi_temporal",
         "target": "2503_11717",
         "weight": 0.8636
       }
@@ -17637,7 +17637,7 @@ const mindMapData = {
     {
       "data": {
         "id": "e1643",
-        "source": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "source": "2025_crestaz_td_cd_mppi_temporal",
         "target": "2504_06437",
         "weight": 0.8492
       }
@@ -17645,7 +17645,7 @@ const mindMapData = {
     {
       "data": {
         "id": "e1644",
-        "source": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "source": "2025_crestaz_td_cd_mppi_temporal",
         "target": "2505_05507",
         "weight": 0.8084
       }
@@ -17653,7 +17653,7 @@ const mindMapData = {
     {
       "data": {
         "id": "e1645",
-        "source": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "source": "2025_crestaz_td_cd_mppi_temporal",
         "target": "2508_21364",
         "weight": 0.8154
       }
@@ -17661,7 +17661,7 @@ const mindMapData = {
     {
       "data": {
         "id": "e1646",
-        "source": "2025_crestaz_td_cd_mppi_temporal_difference",
+        "source": "2025_crestaz_td_cd_mppi_temporal",
         "target": "2510_00272",
         "weight": 0.8556
       }
@@ -17669,7 +17669,7 @@ const mindMapData = {
     {
       "data": {
         "id": "e1647",
-        "source": "2025_hu_technical_speaking_transitioning_from",
+        "source": "2025_hu_technically_speaking_transitioning_from",
         "target": "2502_08664",
         "weight": 0.8135
       }
@@ -17677,7 +17677,7 @@ const mindMapData = {
     {
       "data": {
         "id": "e1648",
-        "source": "2025_hu_technical_speaking_transitioning_from",
+        "source": "2025_hu_technically_speaking_transitioning_from",
         "target": "2505_09074",
         "weight": 0.8346
       }
@@ -17685,7 +17685,7 @@ const mindMapData = {
     {
       "data": {
         "id": "e1649",
-        "source": "2025_hu_technical_speaking_transitioning_from",
+        "source": "2025_hu_technically_speaking_transitioning_from",
         "target": "2511_00088",
         "weight": 0.845
       }
