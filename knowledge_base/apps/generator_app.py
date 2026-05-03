@@ -1,6 +1,7 @@
 import streamlit as st
 
 from arxiv_utils import build_metadata, fetch_arxiv, metadata_to_yaml, target_path
+from knowledge_base.config import VALID_TYPES
 
 # ---------------------------------------------------------------------------
 # Session state defaults
@@ -66,16 +67,6 @@ if link := data.get("link"):
 
 st.header("Edit Fields")
 
-PAPER_TYPES = [
-    "Conference Paper",
-    "Journal Paper",
-    "Workshop Paper",
-    "Preprint",
-    "Technical Report",
-    "Other",
-]
-
-
 st.session_state["title"] = st.text_input("Title *", value=st.session_state["title"])
 st.session_state["algorithm"] = st.text_input(
     "Algorithm / Short name", value=st.session_state["algorithm"]
@@ -97,8 +88,8 @@ st.session_state["source"] = st.text_input(
     placeholder="IEEE International Conference on Robotics and Automation (ICRA)",
 )
 current_type = st.session_state["paper_type"]
-type_index = PAPER_TYPES.index(current_type) if current_type in PAPER_TYPES else 0
-st.session_state["paper_type"] = st.selectbox("Type *", PAPER_TYPES, index=type_index)
+type_index = VALID_TYPES.index(current_type) if current_type in VALID_TYPES else 0
+st.session_state["paper_type"] = st.selectbox("Type *", VALID_TYPES, index=type_index)
 authors_text = st.text_area(
     "Authors * (one per line)",
     value="\n".join(st.session_state["authors"]),

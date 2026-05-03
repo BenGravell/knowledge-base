@@ -54,6 +54,12 @@ python mind_map/generate_mind_map_data.py
 
 ## Dev Tools
 
+Audit the metadata with
+
+```bash
+python scripts/audit_metadata.py
+```
+
 Streamlit app for analyzing the knowledge base:
 
 ```bash
