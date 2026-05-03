@@ -1,0 +1,17 @@
+title: Batch Informed Trees (BIT*)
+algorithm:
+authors:
+  - James Swedeen
+  - Greg Droge
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2302.11670"
+tags:
+abstract: >
+  Path planning through complex obstacle spaces is a fundamental requirement of many mobile robot applications. Recently a rapid convergence path planning algorithm, Batch Informed Trees (BIT*), was introduced. This work serves as a concise write-up and explanation of BIT*. This work includes a description of BIT* and how BIT* operates, a graphical demonstration of BIT*, and simulation results where BIT* is compared to Optimal Rapidly-exploring Random Trees (RRT*).
+summary: ''
+link: https://arxiv.org/pdf/2302.11670
+links_alt:
+audit_status: raw

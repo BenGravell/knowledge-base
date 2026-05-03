@@ -1,0 +1,22 @@
+title: Gated Transformer Networks for Multivariate Time Series Classification
+algorithm:
+authors:
+  - Minghao Liu
+  - Shengqi Ren
+  - Siyuan Ma
+  - Jiahui Jiao
+  - Yizhou Chen
+  - Zhiguang Wang
+  - Wei Song
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2103.14438"
+tags:
+abstract: >
+  Deep learning model (primarily convolutional networks and LSTM) for time series classification has been studied broadly by the community with the wide applications in different domains like healthcare, finance, industrial engineering and IoT. Meanwhile, Transformer Networks recently achieved frontier performance on various natural language processing and computer vision tasks. In this work, we explored a simple extension of the current Transformer Networks with gating, named Gated Transformer Networks (GTN) for the multivariate time series classification problem. With the gating that merges two towers of Transformer which model the channel-wise and step-wise correlations respectively, we show how GTN is naturally and effectively suitable for the multivariate time series classification task. We conduct comprehensive experiments on thirteen dataset with full ablation study. Our results show that GTN is able to achieve competing results with current state-of-the-art deep learning models. We also explored the attention map for the natural interpretability of GTN on time series modeling. Our preliminary results provide a strong baseline for the Transformer Networks on multivariate time series classification task and grounds the foundation for future research.
+summary: ''
+link: https://arxiv.org/pdf/2103.14438
+links_alt:
+audit_status: raw

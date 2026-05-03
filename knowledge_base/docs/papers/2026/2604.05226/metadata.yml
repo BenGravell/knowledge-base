@@ -1,0 +1,22 @@
+title: >
+  RoboPlayground: Democratizing Robotic Evaluation through Structured Physical Domains
+algorithm:
+authors:
+  - Yi Ru Wang
+  - Carter Ung
+  - Evan Gubarev
+  - Christopher Tan
+  - Siddhartha Srinivasa
+  - Dieter Fox
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.05226"
+tags:
+abstract: >
+  Evaluation of robotic manipulation systems has largely relied on fixed benchmarks authored by a small number of experts, where task instances, constraints, and success criteria are predefined and difficult to extend. This paradigm limits who can shape evaluation and obscures how policies respond to user-authored variations in task intent, constraints, and notions of success. We argue that evaluating modern manipulation policies requires reframing evaluation as a language-driven process over structured physical domains. We present RoboPlayground, a framework that enables users to author executable manipulation tasks using natural language within a structured physical domain. Natural language instructions are compiled into reproducible task specifications with explicit asset definitions, initialization distributions, and success predicates. Each instruction defines a structured family of related tasks, enabling controlled semantic and behavioral variation while preserving executability and comparability. We instantiate RoboPlayground in a structured block manipulation domain and evaluate it along three axes. A user study shows that the language-driven interface is easier to use and imposes lower cognitive workload than programming-based and code-assist baselines. Evaluating learned policies on language-defined task families reveals generalization failures that are not apparent under fixed benchmark evaluations. Finally, we show that task diversity scales with contributor diversity rather than task count alone, enabling evaluation spaces to grow continuously through crowd-authored contributions. Project Page: https://roboplayground.github.io
+summary: ''
+link: https://arxiv.org/pdf/2604.05226
+links_alt:
+audit_status: raw

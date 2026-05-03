@@ -1,0 +1,17 @@
+title: Smooth Feedback Motion Planning with Reduced Curvature
+algorithm:
+authors:
+  - Aref Amiri
+  - Steven M. LaValle
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.01614"
+tags:
+abstract: >
+  Feedback motion planning over cell decompositions provides a robust method for generating collision-free robot motion with formal guarantees. However, existing algorithms often produce paths with unnecessary bending, leading to slower motion and higher control effort. This paper presents a computationally efficient method to mitigate this issue for a given simplicial decomposition. A heuristic is introduced that systematically aligns and assigns local vector fields to produce more direct trajectories, complemented by a novel geometric algorithm that constructs a maximal star-shaped chain of simplexes around the goal. This creates a large ``funnel'' in which an optimal, direct-to-goal control law can be safely applied. Simulations demonstrate that our method generates measurably more direct paths, reducing total bending by an average of 91.40\% and LQR control effort by an average of 45.47\%. Furthermore, comparative analysis against sampling-based and optimization-based planners confirms the time efficacy and robustness of our approach. While the proposed algorithms work over any finite-dimensional simplicial complex embedded in the collision-free subset of the configuration space, the practical application focuses on low-dimensional ($d\le3$) configuration spaces, where simplicial decomposition is computationally tractable.
+summary: ''
+link: https://arxiv.org/pdf/2604.01614
+links_alt:
+audit_status: raw

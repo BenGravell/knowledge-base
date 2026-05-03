@@ -1,0 +1,19 @@
+title: 'Learning-based predictive control for linear systems: a unitary approach'
+algorithm:
+authors:
+  - Enrico Terzi
+  - Lorenzo Fagiano
+  - Marcello Farina
+  - Riccardo Scattolini
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1810.12584"
+tags:
+abstract: >
+  A comprehensive approach addressing identification and control for learningbased Model Predictive Control (MPC) for linear systems is presented. The design technique yields a data-driven MPC law, based on a dataset collected from the working plant. The method is indirect, i.e. it relies on a model learning phase and a model-based control design one, devised in an integrated manner. In the model learning phase, a twofold outcome is achieved: first, different optimal p-steps ahead prediction models are obtained, to be used in the MPC cost function; secondly, a perturbed state-space model is derived, to be used for robust constraint satisfaction. Resorting to Set Membership techniques, a characterization of the bounded model uncertainties is obtained, which is a key feature for a successful application of the robust control algorithm. In the control design phase, a robust MPC law is proposed, able to track piece-wise constant reference signals, with guaranteed recursive feasibility and convergence properties. The controller embeds multistep predictors in the cost function, it ensures robust constraints satisfaction thanks to the learnt uncertainty model, and it can deal with possibly unfeasible reference values. The proposed approach is finally tested in a numerical example.
+summary: ''
+link: https://arxiv.org/pdf/1810.12584
+links_alt:
+audit_status: raw

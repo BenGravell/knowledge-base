@@ -1,0 +1,21 @@
+title: 'Assume/Guarantee Contracts for Dynamical Systems: Theory and Computational
+  Tools'
+algorithm:
+authors:
+  - Miel Sharf
+  - Bart Besselink
+  - Adam Molin
+  - Qiming Zhao
+  - Karl Henrik Johansson
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2012.12657"
+tags:
+abstract: >
+  Modern engineering systems include many components of different types and functions. Verifying that these systems satisfy given specifications can be an arduous task, as most formal verification methods are limited to systems of moderate size. Recently, contract theory has been proposed as a modular framework for defining specifications. In this paper, we present a contract theory for discrete-time dynamical control systems relying on assume/guarantee contracts, which prescribe assumptions on the input of the system and guarantees on the output. We then focus on contracts defined by linear constraints, and develop efficient computational tools for verification of satisfaction and refinement based on linear programming. We exemplify these tools in a simulation example, proving a certain safety specification for a two-vehicle autonomous driving setting.
+summary: ''
+link: https://arxiv.org/pdf/2012.12657
+links_alt:
+audit_status: raw

@@ -1,0 +1,22 @@
+title: >
+  Revisiting Replanning from Scratch: Real-Time Incremental Planning with Fast Almost-Surely Asymptotically Optimal Planners
+algorithm:
+authors:
+  - Mitchell E. C. Sabbadini
+  - Andrew H. Liu
+  - Joseph Ruan
+  - Tyler S. Wilson
+  - Zachary Kingston
+  - Jonathan D. Gammell
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2510.21074"
+tags:
+abstract: >
+  Robots operating in changing environments either predict obstacle changes and/or plan quickly enough to react to them. Predictive approaches require a strong prior about the position and motion of obstacles. Reactive approaches require no assumptions about their environment but must replan quickly and find high-quality paths to navigate effectively. Reactive approaches often reuse information between queries to reduce planning cost. These techniques are conceptually sound but updating dense planning graphs when information changes can be computationally prohibitive. It can also require significant effort to detect the changes in some applications. This paper revisits the long-held assumption that reactive replanning requires updating existing plans. It shows that the incremental planning problem can alternatively be solved more efficiently as a series of independent problems using fast almost-surely asymptotically optimal (ASAO) planning algorithms. These ASAO algorithms quickly find an initial solution and converge towards an optimal solution which allows them to find consistent global plans in the presence of changing obstacles without requiring explicit plan reuse. This is demonstrated with simulated experiments where Effort Informed Trees (EIT*) finds shorter median solution paths than the tested reactive planning algorithms and is further validated using Asymptotically Optimal RRT-Connect (AORRTC) on a real-world planning problem on a robot arm.
+summary: ''
+link: https://arxiv.org/pdf/2510.21074
+links_alt:
+audit_status: raw

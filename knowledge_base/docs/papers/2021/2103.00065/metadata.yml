@@ -1,0 +1,20 @@
+title: Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability
+algorithm:
+authors:
+  - Jeremy M. Cohen
+  - Simran Kaur
+  - Yuanzhi Li
+  - J. Zico Kolter
+  - Ameet Talwalkar
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2103.00065"
+tags:
+abstract: >
+  We empirically demonstrate that full-batch gradient descent on neural network training objectives typically operates in a regime we call the Edge of Stability. In this regime, the maximum eigenvalue of the training loss Hessian hovers just above the numerical value $2 / \text{(step size)}$, and the training loss behaves non-monotonically over short timescales, yet consistently decreases over long timescales. Since this behavior is inconsistent with several widespread presumptions in the field of optimization, our findings raise questions as to whether these presumptions are relevant to neural network training. We hope that our findings will inspire future efforts aimed at rigorously understanding optimization at the Edge of Stability. Code is available at https://github.com/locuslab/edge-of-stability.
+summary: ''
+link: https://arxiv.org/pdf/2103.00065
+links_alt:
+audit_status: raw

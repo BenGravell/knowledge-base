@@ -1,0 +1,20 @@
+title: A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for
+  LQR
+algorithm:
+authors:
+  - Bowen Song
+  - Simon Weissmann
+  - Mathias Staudigl
+  - Andrea Iannelli
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2602.18933"
+tags:
+abstract: >
+  In this work, we propose a stochastic gradient descent (SGD) framework to design data-driven policy gradient descent algorithms for the linear quadratic regulator problem. Two alternative schemes are considered to estimate the policy gradient from stochastic trajectory data: (i) an indirect online identification based approach, in which the system matrices are first estimated and subsequently used to construct the gradient, and (ii) a direct zeroth-order approach, which approximates the gradient using empirical cost evaluations. In both cases, the resulting gradient estimates are random due to stochasticity in the data, allowing us to use SGD theory to analyze the convergence of the associated policy gradient methods. A key technical step consists of modeling the gradient estimates as suitable stochastic gradient oracles, which, because of the way they are computed, are inherently based. We derive sufficient conditions under which SGD with a biased gradient oracle converges asymptotically to the optimal policy, and leverage these conditions to design the parameters of the gradient estimation schemes. Moreover, we compare the advantages and limitations of the two data-driven gradient estimators. Numerical experiments validate the effectiveness of the proposed methods.
+summary: ''
+link: https://arxiv.org/pdf/2602.18933
+links_alt:
+audit_status: raw

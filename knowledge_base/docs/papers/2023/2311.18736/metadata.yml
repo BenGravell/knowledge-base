@@ -1,0 +1,21 @@
+title: >
+  Controlgym: Large-Scale Control Environments for Benchmarking Reinforcement Learning Algorithms
+algorithm:
+authors:
+  - Xiangyuan Zhang
+  - Weichao Mao
+  - Saviz Mowlavi
+  - Mouhacine Benosman
+  - Tamer Başar
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2311.18736"
+tags:
+abstract: >
+  We introduce controlgym, a library of thirty-six industrial control settings, and ten infinite-dimensional partial differential equation (PDE)-based control problems. Integrated within the OpenAI Gym/Gymnasium (Gym) framework, controlgym allows direct applications of standard reinforcement learning (RL) algorithms like stable-baselines3. Our control environments complement those in Gym with continuous, unbounded action and observation spaces, motivated by real-world control applications. Moreover, the PDE control environments uniquely allow the users to extend the state dimensionality of the system to infinity while preserving the intrinsic dynamics. This feature is crucial for evaluating the scalability of RL algorithms for control. This project serves the learning for dynamics & control (L4DC) community, aiming to explore key questions: the convergence of RL algorithms in learning control policies; the stability and robustness issues of learning-based controllers; and the scalability of RL algorithms to high- and potentially infinite-dimensional systems. We open-source the controlgym project at https://github.com/xiangyuan-zhang/controlgym.
+summary: ''
+link: https://arxiv.org/pdf/2311.18736
+links_alt:
+audit_status: raw

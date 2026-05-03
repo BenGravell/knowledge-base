@@ -1,0 +1,17 @@
+title: 'RES: Regularized Stochastic BFGS Algorithm'
+algorithm:
+authors:
+  - Aryan Mokhtari
+  - Alejandro Ribeiro
+year: 2014
+source:
+type: ''
+doi:
+arxiv_id: "1401.7625"
+tags:
+abstract: >
+  RES, a regularized stochastic version of the Broyden-Fletcher-Goldfarb-Shanno (BFGS) quasi-Newton method is proposed to solve convex optimization problems with stochastic objectives. The use of stochastic gradient descent algorithms is widespread, but the number of iterations required to approximate optimal arguments can be prohibitive in high dimensional problems. Application of second order methods, on the other hand, is impracticable because computation of objective function Hessian inverses incurs excessive computational cost. BFGS modifies gradient descent by introducing a Hessian approximation matrix computed from finite gradient differences. RES utilizes stochastic gradients in lieu of deterministic gradients for both, the determination of descent directions and the approximation of the objective function's curvature. Since stochastic gradients can be computed at manageable computational cost RES is realizable and retains the convergence rate advantages of its deterministic counterparts. Convergence results show that lower and upper bounds on the Hessian egeinvalues of the sample functions are sufficient to guarantee convergence to optimal arguments. Numerical experiments showcase reductions in convergence time relative to stochastic gradient descent algorithms and non-regularized stochastic versions of BFGS. An application of RES to the implementation of support vector machines is developed.
+summary: ''
+link: https://arxiv.org/pdf/1401.7625
+links_alt:
+audit_status: raw

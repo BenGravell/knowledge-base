@@ -1,0 +1,19 @@
+title: Memory of Motion for Warm-starting Trajectory Optimization
+algorithm:
+authors:
+  - Teguh Santoso Lembono
+  - Antonio Paolillo
+  - Emmanuel Pignat
+  - Sylvain Calinon
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1907.01474"
+tags:
+abstract: >
+  Trajectory optimization for motion planning requires good initial guesses to obtain good performance. In our proposed approach, we build a memory of motion based on a database of robot paths to provide good initial guesses. The memory of motion relies on function approximators and dimensionality reduction techniques to learn the mapping between the tasks and the robot paths. Three function approximators are compared: $k$-Nearest Neighbor, Gaussian Process Regression, and Bayesian Gaussian Mixture Regression. In addition, we show that the memory can be used as a metric to choose between several possible goals, and using an ensemble method to combine different function approximators results in a significantly improved warm-starting performance. We demonstrate the proposed approach with motion planning examples on the dual-arm robot PR2 and the humanoid robot Atlas.
+summary: ''
+link: https://arxiv.org/pdf/1907.01474
+links_alt:
+audit_status: raw

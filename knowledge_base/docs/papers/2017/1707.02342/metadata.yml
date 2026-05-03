@@ -1,0 +1,21 @@
+title: >
+  Information Theoretic Model Predictive Control: Theory and Applications to Autonomous Driving
+algorithm:
+authors:
+  - Grady Williams
+  - Paul Drews
+  - Brian Goldfain
+  - James M. Rehg
+  - Evangelos A. Theodorou
+year: 2017
+source:
+type: ''
+doi:
+arxiv_id: "1707.02342"
+tags:
+abstract: >
+  We present an information theoretic approach to stochastic optimal control problems that can be used to derive general sampling based optimization schemes. This new mathematical method is used to develop a sampling based model predictive control algorithm. We apply this information theoretic model predictive control (IT-MPC) scheme to the task of aggressive autonomous driving around a dirt test track, and compare its performance to a model predictive control version of the cross-entropy method.
+summary: ''
+link: https://arxiv.org/pdf/1707.02342
+links_alt:
+audit_status: raw

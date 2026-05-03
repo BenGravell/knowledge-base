@@ -1,0 +1,19 @@
+title: An Introduction to Zero-Order Optimization Techniques for Robotics
+algorithm:
+authors:
+  - Armand Jordana
+  - Jianghan Zhang
+  - Joseph Amigo
+  - Ludovic Righetti
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2506.22087"
+tags:
+abstract: >
+  Zero-order optimization techniques are becoming increasingly popular in robotics due to their ability to handle non-differentiable functions and escape local minima. These advantages make them particularly useful for trajectory optimization and policy optimization. In this work, we propose a mathematical tutorial on random search. It offers a simple and unifying perspective for understanding a wide range of algorithms commonly used in robotics. Leveraging this viewpoint, we classify many trajectory optimization methods under a common framework and derive novel competitive RL algorithms.
+summary: ''
+link: https://arxiv.org/pdf/2506.22087
+links_alt:
+audit_status: raw

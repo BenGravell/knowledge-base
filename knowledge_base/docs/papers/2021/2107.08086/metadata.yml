@@ -1,0 +1,21 @@
+title: >
+  An Information-state based Approach to the Optimal Output Feedback Control of Nonlinear Systems
+algorithm:
+authors:
+  - Raman Goyal
+  - Ran Wang
+  - Mohamed Naveed Gul Mohamed
+  - Aayushman Sharma
+  - Suman Chakravorty
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2107.08086"
+tags:
+abstract: >
+  This paper develops a data-based approach to the closed-loop output feedback control of nonlinear dynamical systems with a partial nonlinear observation model. We propose an information state based approach to rigorously transform the partially observed problem into a fully observed problem where the information state consists of the past several observations and control inputs. We further show the equivalence of the transformed and the initial partially observed optimal control problems and provide the conditions to solve for the deterministic optimal solution. We develop a data based generalization of the iterative Linear Quadratic Regulator (iLQR) to partially observed systems using a local linear time varying model of the information state dynamics approximated by an Autoregressive moving average (ARMA) model, that is generated using only the input-output data. This open-loop trajectory optimization solution is then used to design a local feedback control law, and the composite law then provides an optimum solution to the partially observed feedback design problem. The efficacy of the developed method is shown by controlling complex high dimensional nonlinear dynamical systems in the presence of model and sensing uncertainty.
+summary: ''
+link: https://arxiv.org/pdf/2107.08086
+links_alt:
+audit_status: raw

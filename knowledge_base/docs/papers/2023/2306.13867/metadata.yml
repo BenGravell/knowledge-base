@@ -1,0 +1,28 @@
+title: Physics-Informed Machine Learning for Modeling and Control of Dynamical Systems
+algorithm:
+authors:
+  - Truong X. Nghiem
+  - Ján Drgoňa
+  - Colin Jones
+  - Zoltan Nagy
+  - Roland Schwan
+  - Biswadip Dey
+  - Ankush Chakrabarty
+  - Stefano Di Cairano
+  - Joel A. Paulson
+  - Andrea Carron
+  - Melanie N. Zeilinger
+  - Wenceslao Shaw Cortez
+  - Draguna L. Vrabie
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2306.13867"
+tags:
+abstract: >
+  Physics-informed machine learning (PIML) is a set of methods and tools that systematically integrate machine learning (ML) algorithms with physical constraints and abstract mathematical models developed in scientific and engineering domains. As opposed to purely data-driven methods, PIML models can be trained from additional information obtained by enforcing physical laws such as energy and mass conservation. More broadly, PIML models can include abstract properties and conditions such as stability, convexity, or invariance. The basic premise of PIML is that the integration of ML and physics can yield more effective, physically consistent, and data-efficient models. This paper aims to provide a tutorial-like overview of the recent advances in PIML for dynamical system modeling and control. Specifically, the paper covers an overview of the theory, fundamental concepts and methods, tools, and applications on topics of: 1) physics-informed learning for system identification; 2) physics-informed learning for control; 3) analysis and verification of PIML models; and 4) physics-informed digital twins. The paper is concluded with a perspective on open challenges and future research opportunities.
+summary: ''
+link: https://arxiv.org/pdf/2306.13867
+links_alt:
+audit_status: raw

@@ -1,0 +1,19 @@
+title: >
+  A Regularized Limited Memory BFGS method for Large-Scale Unconstrained Optimization and its Efficient Implementations
+algorithm:
+authors:
+  - Hardik Tankaria
+  - Shinji Sugimoto
+  - Nobuo Yamashita
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2101.04413"
+tags:
+abstract: >
+  The limited memory BFGS (L-BFGS) method is one of the popular methods for solving large-scale unconstrained optimization. Since the standard L-BFGS method uses a line search to guarantee its global convergence, it sometimes requires a large number of function evaluations. To overcome the difficulty, we propose a new L-BFGS with a certain regularization technique. We show its global convergence under the usual assumptions. In order to make the method more robust and efficient, we also extend it with several techniques such as nonmonotone technique and simultaneous use of the Wolfe line search. Finally, we present some numerical results for test problems in CUTEst, which show that the proposed method is robust in terms of solving number of problems.
+summary: ''
+link: https://arxiv.org/pdf/2101.04413
+links_alt:
+audit_status: raw

@@ -1,0 +1,22 @@
+title: >
+  From Demonstrations to Safe Deployment: Path-Consistent Safety Filtering for Diffusion Policies
+algorithm:
+authors:
+  - Ralf Römer
+  - Julian Balletshofer
+  - Jakob Thumm
+  - Marco Pavone
+  - Angela P. Schoellig
+  - Matthias Althoff
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2511.06385"
+tags:
+abstract: >
+  Diffusion policies (DPs) achieve state-of-the-art performance on complex manipulation tasks by learning from large-scale demonstration datasets, often spanning multiple embodiments and environments. However, they cannot guarantee safe behavior, requiring external safety mechanisms. These, however, alter actions in ways unseen during training, causing unpredictable behavior and performance degradation. To address these problems, we propose path-consistent safety filtering (PACS) for DPs. Our approach performs path-consistent braking on a trajectory computed from the sequence of generated actions. In this way, we keep the execution consistent with the training distribution of the policy, maintaining the learned, task-completing behavior. To enable real-time deployment and handle uncertainties, we verify safety using set-based reachability analysis. Our experimental evaluation in simulation and on three challenging real-world human-robot interaction tasks shows that PACS (a) provides formal safety guarantees in dynamic environments, (b) preserves task success rates, and (c) outperforms reactive safety approaches, such as control barrier functions, by up to 68 % in terms of task success. Videos are available at our project website: https://tum-lsy.github.io/pacs.
+summary: ''
+link: https://arxiv.org/pdf/2511.06385
+links_alt:
+audit_status: raw

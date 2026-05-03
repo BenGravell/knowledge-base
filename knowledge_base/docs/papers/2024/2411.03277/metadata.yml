@@ -1,0 +1,16 @@
+title: Asymptotic stability equals exponential stability -- while you twist your eyes
+algorithm:
+authors:
+  - Wouter Jongeneel
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2411.03277"
+tags:
+abstract: >
+  Suppose that two vector fields on a smooth manifold render some equilibrium point globally asymptotically stable (GAS). We show that there exists a homotopy between the corresponding semiflows such that this point remains GAS along this homotopy.
+summary: ''
+link: https://arxiv.org/pdf/2411.03277
+links_alt:
+audit_status: raw

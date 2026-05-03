@@ -1,0 +1,20 @@
+title: Time-aware Motion Planning in Dynamic Environments with Conformal Prediction
+algorithm:
+authors:
+  - Kaier Liang
+  - Licheng Luo
+  - Yixuan Wang
+  - Mingyu Cai
+  - Cristian Ioan Vasile
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2511.18170"
+tags:
+abstract: >
+  Safe navigation in dynamic environments remains challenging due to uncertain obstacle behaviors and the lack of formal prediction guarantees. We propose two motion planning frameworks that leverage conformal prediction (CP): a global planner that integrates Safe Interval Path Planning (SIPP) for uncertainty-aware trajectory generation, and a local planner that performs online reactive planning. The global planner offers distribution-free safety guarantees for long-horizon navigation, while the local planner mitigates inaccuracies in obstacle trajectory predictions through adaptive CP, enabling robust and responsive motion in dynamic environments. To further enhance trajectory feasibility, we introduce an adaptive quantile mechanism in the CP-based uncertainty quantification. Instead of using a fixed confidence level, the quantile is automatically tuned to the optimal value that preserves trajectory feasibility, allowing the planner to adaptively tighten safety margins in regions with higher uncertainty. We validate the proposed framework through numerical experiments conducted in dynamic and cluttered environments. The project page is available at https://time-aware-planning.github.io
+summary: ''
+link: https://arxiv.org/pdf/2511.18170
+links_alt:
+audit_status: raw
