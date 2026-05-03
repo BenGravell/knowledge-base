@@ -358,13 +358,21 @@ def audit_file(path: Path) -> tuple[dict, list[Issue]]:
         )
 
     # -- optional field completeness (info) --
-    for f in VALID_FIELDS:
-        if f in REQUIRED_FIELDS or f == "summary":
-            continue  # already covered by required-check or summary-warning above
-        val = data.get(f)
-        is_empty = val is None or (isinstance(val, (str, list)) and not val)
-        if is_empty:
-            issues.append(Issue(path, f, "Not populated", severity=Severity.INFO))
+    audit_status_val = str(data.get(AUDIT_STATUS_FIELD) or "").strip()
+    if audit_status_val == "raw":
+        issues.append(Issue(path, AUDIT_STATUS_FIELD, "raw; skipping optional field checks", severity=Severity.INFO))
+    else:
+        for f in VALID_FIELDS:
+            if f in REQUIRED_FIELDS or f == "summary":
+                continue  # already covered by required-check or summary-warning above
+            val = data.get(f)
+            is_empty = val is None or (isinstance(val, (str, list)) and not val)
+            if is_empty:
+                if f == "arxiv_id":
+                    link = str(data.get("link") or "").strip()
+                    if link and "arxiv.org" not in link:
+                        continue
+                issues.append(Issue(path, f, "Not populated", severity=Severity.INFO))
 
     return data, issues
 
