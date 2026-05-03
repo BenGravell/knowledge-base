@@ -1,14 +1,14 @@
 # Papers
 
-## arXiv
-
-
 ## arXiv old format
 
 https://arxiv.org/abs/cs/0408007
 
 ## IEEE
 
+https://ieeexplore.ieee.org/document/8793865
+https://ieeexplore.ieee.org/document/655130
+https://ieeexplore.ieee.org/document/9454013
 https://ieeexplore.ieee.org/document/6795963
 https://ieeexplore.ieee.org/document/5175292
 https://ieeexplore.ieee.org/document/7758092
@@ -42,6 +42,7 @@ https://dl.acm.org/doi/full/10.1145/3624480
 
 ## SPRINGER
 
+https://link.springer.com/chapter/10.1007/978-3-642-19457-3_1
 https://link.springer.com/article/10.1007/s10107-015-0893-2
 https://link.springer.com/article/10.1007/s10107-006-0706-8
 https://link.springer.com/article/10.1007/s10957-021-01930-y
@@ -74,6 +75,7 @@ https://www.science.org/doi/10.1126/scirobotics.abm6074
 ## Other papers
 
 https://stanfordasl.github.io/wp-content/papercite-data/pdf/Majumdar.Pavone.ISRR17.pdf
+https://journals.sagepub.com/doi/10.1177/027836498600500304
 https://journals.sagepub.com/doi/10.1177/0278364910369189
 https://journals.sagepub.com/doi/10.1177/0278364908099462
 https://proceedings.mlr.press/v242/salzmann24a.html
