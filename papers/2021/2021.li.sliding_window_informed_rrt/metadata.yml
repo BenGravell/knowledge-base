@@ -25,3 +25,4 @@ summary: >
   SWIRRT* addresses the degradation of Informed RRT* in large environments where the ellipsoidal sampling region covers most of the state space. Instead of sampling from a single ellipsoid spanning start to goal, it applies a sliding-window approach that focuses successive local ellipsoids along the current path, accelerating post-initial-solution optimization and improving path smoothness.
 link: https://ieeexplore.ieee.org/document/9517672
 links_alt:
+audit_status: reviewed

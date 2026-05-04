@@ -1,0 +1,16 @@
+title: The Hessian of tall-skinny networks is easy to invert
+algorithm:
+authors:
+  - Ali Rahimi
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2601.06096"
+tags:
+abstract: >
+  We describe an exact algorithm to solve linear systems of the form $Hx=b$ where $H$ is the Hessian of a deep net. The method computes Hessian-inverse-vector products without storing the Hessian or its inverse. It requires time and storage that scale linearly in the number of layers. This is in contrast to the naive approach of first computing the Hessian, then solving the linear system, which takes storage and time that are respectively quadratic and cubic in the number of layers. The Hessian-inverse-vector product method scales roughly like Pearlmutter's algorithm for computing Hessian-vector products.
+summary: ''
+link: https://arxiv.org/pdf/2601.06096
+links_alt:
+audit_status: raw

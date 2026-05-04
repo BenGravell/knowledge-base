@@ -1,0 +1,18 @@
+title: 'Explainable AI: Learning from the Learners'
+algorithm:
+authors:
+  - Ricardo Vinuesa
+  - Steven L. Brunton
+  - Gianmarco Mengaldo
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2601.05525"
+tags:
+abstract: >
+  Artificial intelligence now outperforms humans in several scientific and engineering tasks, yet its internal representations often remain opaque. In this Perspective, we argue that explainable artificial intelligence (XAI), combined with causal reasoning, enables {\it learning from the learners}. Focusing on discovery, optimization and certification, we show how the combination of foundation models and explainability methods allows the extraction of causal mechanisms, guides robust design and control, and supports trust and accountability in high-stakes applications. We discuss challenges in faithfulness, generalization and usability of explanations, and propose XAI as a unifying framework for human-AI collaboration in science and engineering.
+summary: ''
+link: https://arxiv.org/pdf/2601.05525
+links_alt:
+audit_status: raw

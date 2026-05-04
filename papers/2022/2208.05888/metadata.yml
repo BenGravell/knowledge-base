@@ -1,0 +1,18 @@
+title: Super-Universal Regularized Newton Method
+algorithm:
+authors:
+  - Nikita Doikov
+  - Konstantin Mishchenko
+  - Yurii Nesterov
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2208.05888"
+tags:
+abstract: >
+  We analyze the performance of a variant of Newton method with quadratic regularization for solving composite convex minimization problems. At each step of our method, we choose regularization parameter proportional to a certain power of the gradient norm at the current point. We introduce a family of problem classes characterized by Hölder continuity of either the second or third derivative. Then we present the method with a simple adaptive search procedure allowing an automatic adjustment to the problem class with the best global complexity bounds, without knowing specific parameters of the problem. In particular, for the class of functions with Lipschitz continuous third derivative, we get the global $O(1/k^3)$ rate, which was previously attributed to third-order tensor methods. When the objective function is uniformly convex, we justify an automatic acceleration of our scheme, resulting in a faster global rate and local superlinear convergence. The switching between the different rates (sublinear, linear, and superlinear) is automatic. Again, for that, no a priori knowledge of parameters is needed.
+summary: ''
+link: https://arxiv.org/pdf/2208.05888
+links_alt:
+audit_status: raw

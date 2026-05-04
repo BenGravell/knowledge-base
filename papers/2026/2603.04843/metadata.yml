@@ -1,0 +1,20 @@
+title: >
+  Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality
+algorithm:
+authors:
+  - Chih-Fan Pai
+  - Yuto Watanabe
+  - Yujie Tang
+  - Yang Zheng
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2603.04843"
+tags:
+abstract: >
+  Mixed H2/H-infinity control balances performance and robustness by minimizing an H2 cost bound subject to an H-infinity constraint. However, classical Riccati/LMI solutions offer limited insight into the nonconvex optimization landscape and do not readily scale to large-scale or data-driven settings. In this paper, we revisit mixed H2/H-infinity control from a modern policy optimization viewpoint, including the general two-channel and single-channel cases. One central result is that both cases enjoy a benign nonconvex structure: every stationary point is globally optimal. We characterize the H-infinity-constrained feasible set, which is open, path-connected, with boundary given exactly by policies saturating the H-infinity constraint. We also show that the mixed objective is real analytic in the interior with explicit gradient formulas. Our key analysis builds on an Extended Convex Lifting (ECL) framework that bridges nonconvex policy optimization and convex reformulations. The ECL constructions rely on non-strict Riccati inequalities that allow us to characterize global optimality. These insights reveal hidden convexity in mixed H2/H-infinity control and facilitate the design of scalable policy iteration methods in large-scale settings.
+summary: ''
+link: https://arxiv.org/pdf/2603.04843
+links_alt:
+audit_status: raw

@@ -1,0 +1,17 @@
+title: Beyond Convexity -- Contraction and Global Convergence of Gradient Descent
+algorithm:
+authors:
+  - Patrick M. Wensing
+  - Jean-Jacques E. Slotine
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1806.06655"
+tags:
+abstract: >
+  This paper considers the analysis of continuous time gradient-based optimization algorithms through the lens of nonlinear contraction theory. It demonstrates that in the case of a time-invariant objective, most elementary results on gradient descent based on convexity can be replaced by much more general results based on contraction. In particular, gradient descent converges to a unique equilibrium if its dynamics are contracting in any metric, with convexity of the cost corresponding to the special case of contraction in the identity metric. More broadly, contraction analysis provides new insights for the case of geodesically-convex optimization, wherein non-convex problems in Euclidean space can be transformed to convex ones posed over a Riemannian manifold. In this case, natural gradient descent converges to a unique equilibrium if it is contracting in any metric, with geodesic convexity of the cost corresponding to contraction in the natural metric. New results using semi-contraction provide additional insights into the topology of the set of optimizers in the case when multiple optima exist. Furthermore, they show how semi-contraction may be combined with specific additional information to reach broad conclusions about a dynamical system. The contraction perspective also easily extends to time-varying optimization settings and allows one to recursively build large optimization structures out of simpler elements. Extensions to natural primal-dual optimization and game-theoretic contexts further illustrate the potential reach of these new perspectives.
+summary: ''
+link: https://arxiv.org/pdf/1806.06655
+links_alt:
+audit_status: raw

@@ -1,0 +1,16 @@
+title: Every Model Learned by Gradient Descent Is Approximately a Kernel Machine
+algorithm:
+authors:
+  - Pedro Domingos
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2012.00152"
+tags:
+abstract: >
+  Deep learning's successes are often attributed to its ability to automatically discover new representations of the data, rather than relying on handcrafted features like other learning methods. We show, however, that deep networks learned by the standard gradient descent algorithm are in fact mathematically approximately equivalent to kernel machines, a learning method that simply memorizes the data and uses it directly for prediction via a similarity function (the kernel). This greatly enhances the interpretability of deep network weights, by elucidating that they are effectively a superposition of the training examples. The network architecture incorporates knowledge of the target function into the kernel. This improved understanding should lead to better learning algorithms.
+summary: ''
+link: https://arxiv.org/pdf/2012.00152
+links_alt:
+audit_status: raw

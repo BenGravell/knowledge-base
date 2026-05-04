@@ -1,0 +1,17 @@
+title: CLT-Optimal Parameter Error Bounds for Linear System Identification
+algorithm:
+authors:
+  - Yichen Zhou
+  - Stephen Tu
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.21270"
+tags:
+abstract: >
+  There has been remarkable progress over the past decade in establishing finite-sample, non-asymptotic bounds on recovering unknown system parameters from observed system behavior. Surprisingly, however, we show that the current state-of-the-art bounds do not accurately capture the statistical complexity of system identification, even in the most fundamental setting of estimating a discrete-time linear dynamical system (LDS) via ordinary least-squares regression (OLS). Specifically, we utilize asymptotic normality to identify classes of problem instances for which current bounds overstate the squared parameter error, in both spectral and Frobenius norm, by a factor of the state-dimension of the system. Informed by this discrepancy, we then sharpen the OLS parameter error bounds via a novel second-order decomposition of the parameter error, where crucially the lower-order term is a matrix-valued martingale that we show correctly captures the CLT scaling. From our analysis we obtain finite-sample bounds for both (i) stable systems and (ii) the many-trajectories setting that match the instance-specific optimal rates up to constant factors in Frobenius norm, and polylogarithmic state-dimension factors in spectral norm.
+summary: ''
+link: https://arxiv.org/pdf/2604.21270
+links_alt:
+audit_status: raw

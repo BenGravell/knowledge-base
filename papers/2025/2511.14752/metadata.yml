@@ -1,0 +1,19 @@
+title: >
+  A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces
+algorithm:
+authors:
+  - Justin Ganiban
+  - Natalia Pavlasek
+  - Behcet Acikmese
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2511.14752"
+tags:
+abstract: >
+  Trajectory optimization methods provide an efficient and reliable means of computing feasible trajectories in nonconvex solution spaces. However, a well-known limitation of these algorithms is that they are inherently local in nature, and typically converge to a solution in the neighborhood of their initial guess. This paper presents a sequential operator-splitting framework, based on the alternating direction method of multipliers (ADMM), aimed at promoting exploration within the sequential convex programming (SCP) framework. In particular, diverse initial solutions are modeled as agents within the consensus ADMM framework. Driving these agents toward consensus facilitates exploration of the nonconvex optimization landscape. Numerical simulations demonstrate that the proposed method consistently yields equivalent or lower-cost solutions compared to the standard SCP approach, with the same number of or fewer agents.
+summary: ''
+link: https://arxiv.org/pdf/2511.14752
+links_alt:
+audit_status: raw

@@ -1,0 +1,18 @@
+title: Augmented Lagrangian Methods as Layered Control Architectures
+algorithm:
+authors:
+  - Anusha Srikanthan
+  - Vijay Kumar
+  - Nikolai Matni
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2311.06404"
+tags:
+abstract: >
+  For optimal control problems that involve planning and following a trajectory, two degree of freedom (2DOF) controllers are a ubiquitously used control architecture that decomposes the problem into a trajectory generation layer and a feedback control layer. However, despite the broad use and practical success of this layered control architecture, it remains a design choice that must be imposed $a\ priori$ on the control policy. To address this gap, this paper seeks to initiate a principled study of the design of layered control architectures, with an initial focus on the 2DOF controller. We show that applying the Alternating Direction Method of Multipliers (ADMM) algorithm to solve a strategically rewritten optimal control problem results in solutions that are naturally layered, and composed of a trajectory generation layer and a feedback control layer. Furthermore, these layers are coupled via Lagrange multipliers that ensure dynamic feasibility of the planned trajectory. We instantiate this framework in the context of deterministic and stochastic linear optimal control problems, and show how our approach automatically yields a feedforward/feedback-based control policy that exactly solves the original problem. We then show that the simplicity of the resulting controller structure suggests natural heuristic algorithms for approximately solving nonlinear optimal control problems. We empirically demonstrate improved performance of these layered nonlinear optimal controllers as compared to iLQR, and highlight their flexibility by incorporating both convex and nonconvex constraints.
+summary: ''
+link: https://arxiv.org/pdf/2311.06404
+links_alt:
+audit_status: raw

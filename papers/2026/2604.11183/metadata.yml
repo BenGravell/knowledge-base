@@ -1,0 +1,20 @@
+title: Closed-loop analysis of linear stochastic MPC with risk-averse constraints
+algorithm:
+authors:
+  - Jonas Schießl
+  - Ruchuan Ou
+  - Michael H. Baumann
+  - Timm Faulwasser
+  - Lars Grüne
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.11183"
+tags:
+abstract: >
+  Chance constraints are widely used in stochastic model predictive control (MPC) to enforce probabilistic state and input constraints in the presence of unbounded disturbances. However, they only restrict violation probabilities and do not account for the magnitude of rare but severe constraint violations. In this paper, we extend the indirect feedback approach for linear stochastic MPC from chance constraints to risk-averse constraints like the conditional value-at-risk. For the resulting risk-averse MPC scheme, we establish recursive feasibility and closed-loop constraint satisfaction. Furthermore, based on a stochastic dissipativity notion and suitable conditions on the terminal ingredients we show that (near)-optimality of the averaged closed-loop performance can be ensured.
+summary: ''
+link: https://arxiv.org/pdf/2604.11183
+links_alt:
+audit_status: raw

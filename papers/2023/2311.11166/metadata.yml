@@ -1,0 +1,17 @@
+title: 'From Optimization to Control: Quasi Policy Iteration'
+algorithm:
+authors:
+  - Mohammad Amin Sharifi Kolarijani
+  - Peyman Mohajerin Esfahani
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2311.11166"
+tags:
+abstract: >
+  Recent control algorithms for Markov decision processes (MDPs) have been designed using an implicit analogy with well-established optimization algorithms. In this paper, we adopt the quasi-Newton method (QNM) from convex optimization to introduce a novel control algorithm coined as quasi-policy iteration (QPI). In particular, QPI is based on a novel approximation of the ``Hessian'' matrix in the policy iteration algorithm, which exploits two linear structural constraints specific to MDPs and allows for the incorporation of prior information on the transition probability kernel. While the proposed algorithm has the same computational complexity as value iteration, it exhibits an empirical convergence behavior similar to that of QNM with a low sensitivity to the discount factor.
+summary: ''
+link: https://arxiv.org/pdf/2311.11166
+links_alt:
+audit_status: raw

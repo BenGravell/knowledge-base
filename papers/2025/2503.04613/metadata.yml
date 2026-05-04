@@ -1,0 +1,24 @@
+title: Whole-Body Model-Predictive Control of Legged Robots with MuJoCo
+algorithm:
+authors:
+  - John Z. Zhang
+  - Taylor A. Howell
+  - Zeji Yi
+  - Chaoyi Pan
+  - Guanya Shi
+  - Guannan Qu
+  - Tom Erez
+  - Yuval Tassa
+  - Zachary Manchester
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2503.04613"
+tags:
+abstract: >
+  We demonstrate the surprising real-world effectiveness of a very simple approach to whole-body model-predictive control (MPC) of quadruped and humanoid robots: the iterative LQR (iLQR) algorithm with MuJoCo dynamics and finite-difference approximated derivatives. Building upon the previous success of model-based behavior synthesis and control of locomotion and manipulation tasks with MuJoCo in simulation, we show that these policies can easily generalize to the real world with few sim-to-real considerations. Our baseline method achieves real-time whole-body MPC on a variety of hardware experiments, including dynamic quadruped locomotion, quadruped walking on two legs, and full-sized humanoid bipedal locomotion. We hope this easy-to-reproduce hardware baseline lowers the barrier to entry for real-world whole-body MPC research and contributes to accelerating research velocity in the community. Our code and experiment videos will be available online at:https://johnzhang3.github.io/mujoco_ilqr
+summary: ''
+link: https://arxiv.org/pdf/2503.04613
+links_alt:
+audit_status: raw

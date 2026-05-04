@@ -24,3 +24,4 @@ summary: >
   Exploits differential flatness to obtain closed-form analytical BVP solutions in a flat output space. Planning is done in the flat space (concatenation of flat outputs and several time derivatives thereof). Kinodynamic constraints and collision checking can be done very efficiently/quickly by using SIMD instructions on CPU. Closely related to the linear-systems approach of Webb & van den Berg (1205.5088) but extended to the broader class of differentially flat systems.
 link: https://arxiv.org/pdf/2603.16059
 links_alt:
+audit_status: reviewed

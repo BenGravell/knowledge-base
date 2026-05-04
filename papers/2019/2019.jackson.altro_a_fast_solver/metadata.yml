@@ -27,3 +27,4 @@ links_alt:
   - https://bjack205.github.io/papers/AL_iLQR_Tutorial.pdf
   - https://github.com/RoboticExplorationLab/Altro.jl
   - https://github.com/RoboticExplorationLab/TrajectoryOptimization.jl
+audit_status: reviewed

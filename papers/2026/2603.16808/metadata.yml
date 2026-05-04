@@ -1,0 +1,19 @@
+title: Exponential stability of data-driven nonlinear MPC based on input/output models
+algorithm:
+authors:
+  - Lea Bold
+  - Irene Schimperna
+  - Karl Worthmann
+  - Johannes Köhler
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2603.16808"
+tags:
+abstract: >
+  We consider nonlinear model predictive control (MPC) schemes using surrogate models in the optimization step based on input-output data only. We establish exponential stability for sufficiently long prediction horizons assuming exponential stabilizability and a proportional error bound. Moreover, we verify the imposed condition on the approximation using kernel interpolation and demonstrate the practical applicability to nonlinear systems with a numerical example.
+summary: ''
+link: https://arxiv.org/pdf/2603.16808
+links_alt:
+audit_status: raw

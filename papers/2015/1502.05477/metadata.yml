@@ -24,3 +24,4 @@ link: https://arxiv.org/pdf/1502.05477
 links_alt:
   - https://dl.acm.org/doi/abs/10.5555/3045118.3045319
   - https://spinningup.openai.com/en/latest/algorithms/trpo.html
+audit_status: reviewed

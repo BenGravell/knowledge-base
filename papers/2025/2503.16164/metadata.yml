@@ -1,0 +1,18 @@
+title: Asymptotically Optimal Path Planning With an Approximation of the Omniscient
+  Set
+algorithm:
+authors:
+  - Jonáš Kříž
+  - Vojtěch Vonásek
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2503.16164"
+tags:
+abstract: >
+  The asymptotically optimal version of Rapidly-exploring Random Tree (RRT*) is often used to find optimal paths in a high-dimensional configuration space. The well-known issue of RRT* is its slow convergence towards the optimal solution. A possible solution is to draw random samples only from a subset of the configuration space that is known to contain configurations that can improve the cost of the path (omniscient set). A fast convergence rate may be achieved by approximating the omniscient with a low-volume set. In this letter, we propose new methods to approximate the omniscient set and methods for their effective sampling. First, we propose to approximate the omniscient set using several (small) hyperellipsoids defined by sections of the current best solution. The second approach approximates the omniscient set by a convex hull computed from the current solution. Both approaches ensure asymptotical optimality and work in a general n-dimensional configuration space. The experiments have shown superior performance of our approaches in multiple scenarios in 3D and 6D configuration spaces.
+summary: ''
+link: https://arxiv.org/pdf/2503.16164
+links_alt:
+audit_status: raw

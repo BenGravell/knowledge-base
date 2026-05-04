@@ -1,0 +1,24 @@
+title: 'Splat-Nav: Safe Real-Time Robot Navigation in Gaussian Splatting Maps'
+algorithm:
+authors:
+  - Timothy Chen
+  - Ola Shorinwa
+  - Joseph Bruno
+  - Aiden Swann
+  - Javier Yu
+  - Weijia Zeng
+  - Keiko Nagami
+  - Philip Dames
+  - Mac Schwager
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2403.02751"
+tags:
+abstract: >
+  We present Splat-Nav, a real-time robot navigation pipeline for Gaussian Splatting (GSplat) scenes, a powerful new 3D scene representation. Splat-Nav consists of two components: 1) Splat-Plan, a safe planning module, and 2) Splat-Loc, a robust vision-based pose estimation module. Splat-Plan builds a safe-by-construction polytope corridor through the map based on mathematically rigorous collision constraints and then constructs a Bézier curve trajectory through this corridor. Splat-Loc provides real-time recursive state estimates given only an RGB feed from an on-board camera, leveraging the point-cloud representation inherent in GSplat scenes. Working together, these modules give robots the ability to recursively re-plan smooth and safe trajectories to goal locations. Goals can be specified with position coordinates, or with language commands by using a semantic GSplat. We demonstrate improved safety compared to point cloud-based methods in extensive simulation experiments. In a total of 126 hardware flights, we demonstrate equivalent safety and speed compared to motion capture and visual odometry, but without a manual frame alignment required by those methods. We show online re-planning at more than 2 Hz and pose estimation at about 25 Hz, an order of magnitude faster than Neural Radiance Field (NeRF)-based navigation methods, thereby enabling real-time navigation. We provide experiment videos on our project page at https://chengine.github.io/splatnav/. Our codebase and ROS nodes can be found at https://github.com/chengine/splatnav.
+summary: ''
+link: https://arxiv.org/pdf/2403.02751
+links_alt:
+audit_status: raw

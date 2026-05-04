@@ -1,0 +1,17 @@
+title: 'MINVO Basis: Finding Simplexes with Minimum Volume Enclosing Polynomial Curves'
+algorithm:
+authors:
+  - Jesus Tordesillas
+  - Jonathan P. How
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2010.10726"
+tags:
+abstract: >
+  This paper studies the polynomial basis that generates the smallest $n$-simplex enclosing a given $n^{\text{th}}$-degree polynomial curve in $\mathbb{R}^n$. Although the Bernstein and B-Spline polynomial bases provide feasible solutions to this problem, the simplexes obtained by these bases are not the smallest possible, which leads to overly conservative results in many CAD (computer-aided design) applications. We first prove that the polynomial basis that solves this problem (MINVO basis) also solves for the $n^\text{th}$-degree polynomial curve with largest convex hull enclosed in a given $n$-simplex. Then, we present a formulation that is independent of the $n$-simplex or $n^{\text{th}}$-degree polynomial curve given. By using Sum-Of-Squares (SOS) programming, branch and bound, and moment relaxations, we obtain high-quality feasible solutions for any $n\in\mathbb{N}$, and prove (numerical) global optimality for $n=1,2,3$ and (numerical) local optimality for $n=4$. The results obtained for $n=3$ show that, for any given $3^{\text{rd}}$-degree polynomial curve in $\mathbb{R}^3$, the MINVO basis is able to obtain an enclosing simplex whose volume is $2.36$ and $254.9$ times smaller than the ones obtained by the Bernstein and B-Spline bases, respectively. When $n=7$, these ratios increase to $902.7$ and $2.997\cdot10^{21}$, respectively.
+summary: ''
+link: https://arxiv.org/pdf/2010.10726
+links_alt:
+audit_status: raw

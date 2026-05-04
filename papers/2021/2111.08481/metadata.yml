@@ -34,3 +34,4 @@ links_alt:
   - https://hal.science/hal-03903891/file/DYNFLUID_JOSS_2022_LOISEAU.pdf
   - https://www.researchgate.net/publication/358212600_PySINDy_A_comprehensive_Python_package_for_robust_sparse_system_identification
   - https://github.com/dynamicslab/pysindy
+audit_status: reviewed

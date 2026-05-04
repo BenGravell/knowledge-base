@@ -1,0 +1,23 @@
+title: >
+  Contingency Planning for Safety-Critical Autonomous Vehicles: A Review and Perspectives
+algorithm:
+authors:
+  - Lei Zheng
+  - Luyao Zhang
+  - Peiqi Yu
+  - Yifan Sun
+  - Sergio Grammatico
+  - Jun Ma
+  - Changliu Liu
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2601.14880"
+tags:
+abstract: >
+  Contingency planning is the architectural capability that enables autonomous vehicles (AVs) to anticipate and mitigate discrete, high-impact hazards, such as sensor outages and adversarial interactions. This paper presents a comprehensive survey of the field, synthesizing fragmented literature into a unified logic-conditioned hybrid control framework. Within this formalism, we categorize approaches into two distinct paradigms: Reactive Safety, which responds to realized hazards by enforcing safety constraints or executing fail-safe maneuvers; and Proactive Safety, which optimizes for future recourse by branching over potential modal transitions. In addition, we propose a fine-grained taxonomy that partitions the landscape into external contingencies (environmental and interactive hazards) and internal contingencies (system faults). Through a critical comparative analysis, we reveal a fundamental structural divergence: internal faults are predominantly addressed via reactive fail-safe mechanisms, whereas external interaction uncertainties increasingly require proactive branching strategies. Furthermore, we identify a critical methodological divergence: whereas physical hazards are typically managed with formal guarantees, semantic and out-of-distribution anomalies currently rely heavily on empirical validation. We conclude by identifying the open challenges in bridging the gap between theoretical guarantees and practical validation, advocating for hybrid architectures and standardized benchmarking to transition contingency planning from formulation to certifiable real-world deployment.
+summary: ''
+link: https://arxiv.org/pdf/2601.14880
+links_alt:
+audit_status: raw

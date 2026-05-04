@@ -1,0 +1,17 @@
+title: Supersparse Linear Integer Models for Optimized Medical Scoring Systems
+algorithm:
+authors:
+  - Berk Ustun
+  - Cynthia Rudin
+year: 2015
+source:
+type: ''
+doi:
+arxiv_id: "1502.04269"
+tags:
+abstract: >
+  Scoring systems are linear classification models that only require users to add, subtract and multiply a few small numbers in order to make a prediction. These models are in widespread use by the medical community, but are difficult to learn from data because they need to be accurate and sparse, have coprime integer coefficients, and satisfy multiple operational constraints. We present a new method for creating data-driven scoring systems called a Supersparse Linear Integer Model (SLIM). SLIM scoring systems are built by solving an integer program that directly encodes measures of accuracy (the 0-1 loss) and sparsity (the $\ell_0$-seminorm) while restricting coefficients to coprime integers. SLIM can seamlessly incorporate a wide range of operational constraints related to accuracy and sparsity, and can produce highly tailored models without parameter tuning. We provide bounds on the testing and training accuracy of SLIM scoring systems, and present a new data reduction technique that can improve scalability by eliminating a portion of the training data beforehand. Our paper includes results from a collaboration with the Massachusetts General Hospital Sleep Laboratory, where SLIM was used to create a highly tailored scoring system for sleep apnea screening
+summary: ''
+link: https://arxiv.org/pdf/1502.04269
+links_alt:
+audit_status: raw

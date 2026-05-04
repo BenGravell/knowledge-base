@@ -1,0 +1,20 @@
+title: >
+  Parallel-in-Time Nonlinear Optimal Control via GPU-native Sequential Convex Programming
+algorithm:
+authors:
+  - Yilin Zou
+  - Zhong Zhang
+  - Maxime Robic
+  - Fanghua Jiang
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2603.10711"
+tags:
+abstract: >
+  Real-time trajectory optimization for nonlinear constrained autonomous systems is critical and typically performed by CPU-based sequential solvers. Specifically, reliance on global sparse linear algebra or the serial nature of dynamic programming algorithms restricts the utilization of massively parallel computing architectures like GPUs. To bridge this gap, we introduce a fully GPU-native trajectory optimization framework that combines sequential convex programming with a consensus-based alternating direction method of multipliers. By applying a temporal splitting strategy, our algorithm decouples the optimization horizon into independent, per-node subproblems that execute massively in parallel. The entire process runs fully on the GPU, eliminating costly memory transfers and large-scale sparse factorizations. This architecture naturally scales to multi-trajectory optimization. We validate the solver on a quadrotor agile flight task and a Mars powered descent problem using an on-board edge computing platform. Benchmarks reveal a sustained 4x throughput speedup and a 51% reduction in energy consumption over a heavily optimized 12-core CPU baseline. Crucially, the framework saturates the hardware, maintaining over 96% active GPU utilization to achieve planning rates exceeding 100 Hz. Furthermore, we demonstrate the solver's extensibility to robust Model Predictive Control by jointly optimizing dynamically coupled scenarios under stochastic disturbances, enabling scalable and safe autonomy.
+summary: ''
+link: https://arxiv.org/pdf/2603.10711
+links_alt:
+audit_status: raw

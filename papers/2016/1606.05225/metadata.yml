@@ -1,0 +1,20 @@
+title: Geometric Median in Nearly Linear Time
+algorithm:
+authors:
+  - Michael B. Cohen
+  - Yin Tat Lee
+  - Gary Miller
+  - Jakub Pachocki
+  - Aaron Sidford
+year: 2016
+source:
+type: ''
+doi:
+arxiv_id: "1606.05225"
+tags:
+abstract: >
+  In this paper we provide faster algorithms for solving the geometric median problem: given $n$ points in $\mathbb{R}^{d}$ compute a point that minimizes the sum of Euclidean distances to the points. This is one of the oldest non-trivial problems in computational geometry yet despite an abundance of research the previous fastest algorithms for computing a $(1+ε)$-approximate geometric median were $O(d\cdot n^{4/3}ε^{-8/3})$ by Chin et. al, $\tilde{O}(d\exp{ε^{-4}\logε^{-1}})$ by Badoiu et. al, $O(nd+\mathrm{poly}(d,ε^{-1})$ by Feldman and Langberg, and $O((nd)^{O(1)}\log\frac{1}ε)$ by Parrilo and Sturmfels and Xue and Ye. In this paper we show how to compute a $(1+ε)$-approximate geometric median in time $O(nd\log^{3}\frac{1}ε)$ and $O(dε^{-2})$. While our $O(dε^{-2})$ is a fairly straightforward application of stochastic subgradient descent, our $O(nd\log^{3}\frac{1}ε)$ time algorithm is a novel long step interior point method. To achieve this running time we start with a simple $O((nd)^{O(1)}\log\frac{1}ε)$ time interior point method and show how to improve it, ultimately building an algorithm that is quite non-standard from the perspective of interior point literature. Our result is one of very few cases we are aware of outperforming traditional interior point theory and the only we are aware of using interior point methods to obtain a nearly linear time algorithm for a canonical optimization problem that traditionally requires superlinear time. We hope our work leads to further improvements in this line of research.
+summary: ''
+link: https://arxiv.org/pdf/1606.05225
+links_alt:
+audit_status: raw

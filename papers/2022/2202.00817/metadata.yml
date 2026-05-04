@@ -1,0 +1,19 @@
+title: Do Differentiable Simulators Give Better Policy Gradients?
+algorithm:
+authors:
+  - H. J. Terry Suh
+  - Max Simchowitz
+  - Kaiqing Zhang
+  - Russ Tedrake
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2202.00817"
+tags:
+abstract: >
+  Differentiable simulators promise faster computation time for reinforcement learning by replacing zeroth-order gradient estimates of a stochastic objective with an estimate based on first-order gradients. However, it is yet unclear what factors decide the performance of the two estimators on complex landscapes that involve long-horizon planning and control on physical systems, despite the crucial relevance of this question for the utility of differentiable simulators. We show that characteristics of certain physical systems, such as stiffness or discontinuities, may compromise the efficacy of the first-order estimator, and analyze this phenomenon through the lens of bias and variance. We additionally propose an $α$-order gradient estimator, with $α\in [0,1]$, which correctly utilizes exact gradients to combine the efficiency of first-order estimates with the robustness of zero-order methods. We demonstrate the pitfalls of traditional estimators and the advantages of the $α$-order estimator on some numerical examples.
+summary: ''
+link: https://arxiv.org/pdf/2202.00817
+links_alt:
+audit_status: raw

@@ -1,0 +1,21 @@
+title: >
+  Probabilistic completeness of RRT for geometric and kinodynamic planning with forward propagation
+algorithm:
+authors:
+  - Michal Kleinbort
+  - Kiril Solovey
+  - Zakary Littlefield
+  - Kostas E. Bekris
+  - Dan Halperin
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1809.07051"
+tags:
+abstract: >
+  The Rapidly-exploring Random Tree (RRT) algorithm has been one of the most prevalent and popular motion-planning techniques for two decades now. Surprisingly, in spite of its centrality, there has been an active debate under which conditions RRT is probabilistically complete. We provide two new proofs of probabilistic completeness (PC) of RRT with a reduced set of assumptions. The first one for the purely geometric setting, where we only require that the solution path has a certain clearance from the obstacles. For the kinodynamic case with forward propagation of random controls and duration, we only consider in addition mild Lipschitz-continuity conditions. These proofs fill a gap in the study of RRT itself. They also lay sound foundations for a variety of more recent and alternative sampling-based methods, whose PC property relies on that of RRT. Our original publication contains an error in the analysis of the case of the kinodynamic RRT. Here, we rectify the problem by modifying the proof of Theorem 2, which, in particular, necessitated a revision of Lemma 3. Briefly, the original (and erroneous) proof of Theorem 2 used a sequence of equal-size balls. The correction uses a sequence of balls of increasing radii. We emphasize that the correction is in Lemma 3 and the proof of Theorem 2 only. The main results remain unchanged.
+summary: ''
+link: https://arxiv.org/pdf/1809.07051
+links_alt:
+audit_status: raw

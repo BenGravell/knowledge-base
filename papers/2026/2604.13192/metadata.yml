@@ -1,0 +1,20 @@
+title: >
+  Synthesis and Deployment of Maximal Robust Control Barrier Functions through Adversarial Reinforcement Learning
+algorithm:
+authors:
+  - Donggeon David Oh
+  - Duy P. Nguyen
+  - Haimin Hu
+  - Jaime Fernández Fisac
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.13192"
+tags:
+abstract: >
+  Robust control barrier functions (CBFs) provide a principled mechanism for smooth safety enforcement under worst-case disturbances. However, existing approaches typically rely on explicit, closed-form structure in the dynamics (e.g., control-affine) and uncertainty models. This has led to limited scalability and generality, with most robust CBFs certifying only conservative subsets of the maximal robust safe set. In this paper, we introduce a new robust CBF framework for general nonlinear systems under bounded uncertainty. We first show that the safety value function solving the dynamic programming Isaacs equation is a valid robust discrete-time CBF that enforces safety on the maximal robust safe set. We then adopt the key reinforcement learning (RL) notion of quality function (or Q-function), which removes the need for explicit dynamics by lifting the barrier certificate into state-action space and yields a novel robust Q-CBF constraint for safety filtering. Combined with adversarial RL, this enables the synthesis and deployment of robust Q-CBFs on general nonlinear systems with black-box dynamics and unknown uncertainty structure. We validate the framework on a canonical inverted pendulum benchmark and a 36-D quadruped simulator, achieving substantially less conservative safe sets than barrier-based baselines on the pendulum and reliable safety enforcement even under adversarial uncertainty realizations on the quadruped.
+summary: ''
+link: https://arxiv.org/pdf/2604.13192
+links_alt:
+audit_status: raw

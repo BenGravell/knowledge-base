@@ -30,3 +30,4 @@ summary: >
   PhD dissertation by Wilson Jallet covering the ProxDDP algorithm and the Aligator library. Good discussion on recent works in constrained DDP e.g. ALTRO, primal-dual iLQR, etc.
 link: https://repository.gatech.edu/entities/publication/7ca91cea-ee94-4751-9b53-54dc7a542a38
 links_alt:
+audit_status: reviewed

@@ -1,0 +1,20 @@
+title: >
+  Actor-Critic Model Predictive Control: Differentiable Optimization meets Reinforcement Learning for Agile Flight
+algorithm:
+authors:
+  - Angel Romero
+  - Elie Aljalbout
+  - Yunlong Song
+  - Davide Scaramuzza
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2306.09852"
+tags:
+abstract: >
+  A key open challenge in agile quadrotor flight is how to combine the flexibility and task-level generality of model-free reinforcement learning (RL) with the structure and online replanning capabilities of model predictive control (MPC), aiming to leverage their complementary strengths in dynamic and uncertain environments. This paper provides an answer by introducing a new framework called Actor-Critic Model Predictive Control. The key idea is to embed a differentiable MPC within an actor-critic RL framework. This integration allows for short-term predictive optimization of control actions through MPC, while leveraging RL for end-to-end learning and exploration over longer horizons. Through various ablation studies, conducted in the context of agile quadrotor racing, we expose the benefits of the proposed approach: it achieves better out-of-distribution behaviour, better robustness to changes in the quadrotor's dynamics and improved sample efficiency. Additionally, we conduct an empirical analysis using a quadrotor platform that reveals a relationship between the critic's learned value function and the cost function of the differentiable MPC, providing a deeper understanding of the interplay between the critic's value and the MPC cost functions. Finally, we validate our method in a drone racing task on different tracks, in both simulation and the real world. Our method achieves the same superhuman performance as state-of-the-art model-free RL, showcasing speeds of up to 21 m/s. We show that the proposed architecture can achieve real-time control performance, learn complex behaviors via trial and error, and retain the predictive properties of the MPC to better handle out-of-distribution behavior.
+summary: ''
+link: https://arxiv.org/pdf/2306.09852
+links_alt:
+audit_status: raw

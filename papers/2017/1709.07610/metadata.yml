@@ -1,0 +1,20 @@
+title: >
+  Efficient Nearest-Neighbor Search for Dynamical Systems with Nonholonomic Constraints
+algorithm:
+authors:
+  - Valerio Varricchio
+  - Brian Paden
+  - Dmitry Yershov
+  - Emilio Frazzoli
+year: 2017
+source:
+type: ''
+doi:
+arxiv_id: "1709.07610"
+tags:
+abstract: >
+  Nearest-neighbor search dominates the asymptotic complexity of sampling-based motion planning algorithms and is often addressed with k-d tree data structures. While it is generally believed that the expected complexity of nearest-neighbor queries is $O(log(N))$ in the size of the tree, this paper reveals that when a classic k-d tree approach is used with sub-Riemannian metrics, the expected query complexity is in fact $Θ(N^p \log(N))$ for a number $p \in [0, 1)$ determined by the degree of nonholonomy of the system. These metrics arise naturally in nonholonomic mechanical systems, including classic wheeled robot models. To address this negative result, we propose novel k-d tree build and query strategies tailored to sub-Riemannian metrics and demonstrate significant improvements in the running time of nearest-neighbor search queries.
+summary: ''
+link: https://arxiv.org/pdf/1709.07610
+links_alt:
+audit_status: raw

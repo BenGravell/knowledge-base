@@ -1,0 +1,18 @@
+title: Efficient Numerical Algorithm for Large-Scale Damped Natural Gradient Descent
+algorithm:
+authors:
+  - Yixiao Chen
+  - Hao Xie
+  - Han Wang
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2310.17556"
+tags:
+abstract: >
+  We propose a new algorithm for efficiently solving the damped Fisher matrix in large-scale scenarios where the number of parameters significantly exceeds the number of available samples. This problem is fundamental for natural gradient descent and stochastic reconfiguration. Our algorithm is based on Cholesky decomposition and is generally applicable. Benchmark results show that the algorithm is significantly faster than existing methods.
+summary: ''
+link: https://arxiv.org/pdf/2310.17556
+links_alt:
+audit_status: raw

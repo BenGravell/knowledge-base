@@ -1,0 +1,19 @@
+title: ADMM-based Continuous Trajectory Optimization in Graphs of Convex Sets
+algorithm:
+authors:
+  - Lukas Pries
+  - Jon Arrizabalaga
+  - Zachary Manchester
+  - Markus Ryll
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2603.11335"
+tags:
+abstract: >
+  This paper presents a numerical solver for computing continuous trajectories in non-convex environments. Our approach relies on a customized implementation of the Alternating Direction Method of Multipliers (ADMM) built upon two key components: First, we parameterize trajectories as polynomials, allowing the primal update to be computed in closed form as a minimum-control-effort problem. Second, we introduce the concept of a spatio-temporal allocation graph based on a mixed-integer formulation and pose the slack update as a shortest-path search. The combination of these ingredients results in a solver with several distinct advantages over the state of the art. By jointly optimizing over both discrete spatial and continuous temporal domains, our method accesses a larger search space than existing decoupled approaches, enabling the discovery of superior trajectories. Additionally, the solver's structural robustness ensures reliable convergence from naive initializations, removing the bottleneck of complex warm starting in non-convex environments.
+summary: ''
+link: https://arxiv.org/pdf/2603.11335
+links_alt:
+audit_status: raw

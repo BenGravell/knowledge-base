@@ -1,0 +1,19 @@
+title: >
+  Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective
+algorithm:
+authors:
+  - Yunian Pan
+  - Tao Li
+  - Quanyan Zhu
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2503.00385"
+tags:
+abstract: >
+  Meta-learning has been proposed as a promising machine learning topic in recent years, with important applications to image classification, robotics, computer games, and control systems. In this paper, we study the problem of using meta-learning to deal with uncertainty and heterogeneity in ergodic linear quadratic regulators. We integrate the zeroth-order optimization technique with a typical meta-learning method, proposing an algorithm that omits the estimation of policy Hessian, which applies to tasks of learning a set of heterogeneous but similar linear dynamic systems. The induced meta-objective function inherits important properties of the original cost function when the set of linear dynamic systems are meta-learnable, allowing the algorithm to optimize over a learnable landscape without projection onto the feasible set. We provide stability and convergence guarantees for the exact gradient descent process by analyzing the boundedness and local smoothness of the gradient for the meta-objective, which justify the proposed algorithm with gradient estimation error being small. We provide the sample complexity conditions for these theoretical guarantees, as well as a numerical example at the end to corroborate this perspective.
+summary: ''
+link: https://arxiv.org/pdf/2503.00385
+links_alt:
+audit_status: raw

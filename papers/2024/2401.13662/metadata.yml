@@ -1,0 +1,17 @@
+title: >
+  The Definitive Guide to Policy Gradients in Deep Reinforcement Learning: Theory, Algorithms and Implementations
+algorithm:
+authors:
+  - Matthias Lehmann
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2401.13662"
+tags:
+abstract: >
+  In recent years, various powerful policy gradient algorithms have been proposed in deep reinforcement learning. While all these algorithms build on the Policy Gradient Theorem, the specific design choices differ significantly across algorithms. We provide a holistic overview of on-policy policy gradient algorithms to facilitate the understanding of both their theoretical foundations and their practical implementations. In this overview, we include a detailed proof of the continuous version of the Policy Gradient Theorem, convergence results and a comprehensive discussion of practical algorithms. We compare the most prominent algorithms on continuous control environments and provide insights on the benefits of regularization. All code is available at https://github.com/Matt00n/PolicyGradientsJax.
+summary: ''
+link: https://arxiv.org/pdf/2401.13662
+links_alt:
+audit_status: raw

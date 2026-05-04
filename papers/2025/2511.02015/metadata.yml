@@ -1,0 +1,18 @@
+title: >
+  Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control
+algorithm:
+authors:
+  - Jace Aldrich
+  - Odest Chadwicke Jenkins
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2511.02015"
+tags:
+abstract: >
+  This paper introduces a method for Model Predictive Path Integral (MPPI) control that optimizes sample generation towards an optimal trajectory through Stein Variational Gradient Descent (SVGD). MPPI relies upon predictive rollout of trajectories sampled from a distribution of possible actions. Traditionally, these action distributions are assumed to be unimodal and represented as Gaussian. The result can lead suboptimal rollout predictions due to sample deprivation and, in the case of differentiable simulation, sensitivity to noise in the cost gradients. Through introducing SVGD updates in between MPPI environment steps, we present Stein-Optimized Path-Integral Inference (SOPPI), an MPPI/SVGD algorithm that can dynamically update noise distributions at runtime to better capture action sampling distributions without an excessive increase in computational requirements. We demonstrate the efficacy of SOPPI through experiments on a planar cart-pole, 7-DOF robot arm, and a planar bipedal walker. These results indicate improved system performance compared to state-of-the-art MPPI algorithms across a range of hyper-parameters and demonstrate feasibility at lower particle counts.
+summary: ''
+link: https://arxiv.org/pdf/2511.02015
+links_alt:
+audit_status: raw

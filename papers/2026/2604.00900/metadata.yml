@@ -1,0 +1,18 @@
+title: Soft projections for robust data-driven control
+algorithm:
+authors:
+  - András Sasfi
+  - Jaap Eising
+  - Florian Dörfler
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.00900"
+tags:
+abstract: >
+  We consider data-based predictive control based on behavioral systems theory. In the linear setting this means that a system is described as a subspace of trajectories, and predictive control can be formulated using a projection onto the intersection of this behavior and a constraint set. Instead of learning the model, or subspace, we focus on determining this projection from data. Motivated by the use of regularization in data-enabled predictive control (DeePC), we introduce the use of soft projections, which approximate the true projector onto the behavior from noisy data. In the simplest case, these are equivalent to known regularized DeePC schemes, but they exhibit a number of benefits. First, we provide a bound on the approximation error consisting of a bias and a variance term that can be traded-off by the regularization weight. The derived bound is independent of the true system order, highlighting the benefit of soft projections compared to low-dimensional subspace estimates. Moreover, soft projections allow for intuitive generalizations, one of which we show has superior performance on a case study. Finally, we provide update formulas for soft projectors enabling the efficient adaptation of the proposed data-driven control methods in the case of streaming data.
+summary: ''
+link: https://arxiv.org/pdf/2604.00900
+links_alt:
+audit_status: raw

@@ -1,0 +1,20 @@
+title: >
+  Robust multi-rate predictive control using multi-step prediction models learned from data
+algorithm:
+authors:
+  - Enrico Terzi
+  - Lorenzo Fagiano
+  - Marcello Farina
+  - Riccardo Scattolini
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2102.08302"
+tags:
+abstract: >
+  This note extends a recently proposed algorithm for model identification and robust MPC of asymptotically stable, linear time-invariant systems subject to process and measurement disturbances. Independent output predictors for different steps ahead are estimated with Set Membership methods. It is here shown that the corresponding prediction error bounds are the least conservative in the considered model class. Then, a new multi-rate robust MPC algorithm is developed, employing said multi-step predictors to robustly enforce constraints and stability against disturbances and model uncertainty, and to reduce conservativeness. A simulation example illustrates the effectiveness of the approach.
+summary: ''
+link: https://arxiv.org/pdf/2102.08302
+links_alt:
+audit_status: raw

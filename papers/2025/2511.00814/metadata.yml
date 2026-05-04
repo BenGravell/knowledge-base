@@ -16,3 +16,4 @@ abstract: >
 summary: >
   Tackles the problem of data-driven motion prediction by using a special kind of Dynamic Mode Decomposition (DMD), which comes from the Koopman operator theory, to learn a model of the agent motion. The model also produces uncertainty estimates, which is useful for downstream risk-aware planning & control. This paper combines a lot of smaller techniques (Hankel-DMD, Cadzow projection, Singular Value Hard Thresholding (SVHT), etc.) together into a rather intricate bells-and-whistles learner, but that in itself is nice as it provides the reader some clues into those techniques.
 link: https://arxiv.org/pdf/2511.00814
+audit_status: reviewed

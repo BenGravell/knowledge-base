@@ -1,0 +1,25 @@
+title: >
+  A review of path following control strategies for autonomous robotic vehicles: theory, simulations, and experiments
+algorithm:
+authors:
+  - Nguyen Hung
+  - Francisco Rego
+  - Joao Quintas
+  - Joao Cruz
+  - Marcelo Jacinto
+  - David Souto
+  - Andre Potes
+  - Luis Sebastiao
+  - Antonio Pascoal
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2204.07319"
+tags:
+abstract: >
+  This article presents an in-depth review of the topic of path following for autonomous robotic vehicles, with a specific focus on vehicle motion in two dimensional space (2D). From a control system standpoint, path following can be formulated as the problem of stabilizing a path following error system that describes the dynamics of position and possibly orientation errors of a vehicle with respect to a path, with the errors defined in an appropriate reference frame. In spite of the large variety of path following methods described in the literature we show that, in principle, most of them can be categorized in two groups: stabilization of the path following error system expressed either in the vehicle's body frame or in a frame attached to a "reference point" moving along the path, such as a Frenet-Serret (F-S) frame or a Parallel Transport (P-T) frame. With this observation, we provide a unified formulation that is simple but general enough to cover many methods available in the literature. We then discuss the advantages and disadvantages of each method, comparing them from the design and implementation standpoint. We further show experimental results of the path following methods obtained from field trials testing with under-actuated and fully-actuated autonomous marine vehicles. In addition, we introduce open-source Matlab and Gazebo/ROS simulation toolboxes that are helpful in testing path following methods prior to their integration in the combined guidance, navigation, and control systems of autonomous vehicles.
+summary: ''
+link: https://arxiv.org/pdf/2204.07319
+links_alt:
+audit_status: raw

@@ -1,0 +1,19 @@
+title: 'KPC: Learning-Based Model Predictive Control with Deterministic Guarantees'
+algorithm:
+authors:
+  - Emilio T. Maddalena
+  - Paul Scharnhorst
+  - Yuning Jiang
+  - Colin N. Jones
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2011.11303"
+tags:
+abstract: >
+  We propose Kernel Predictive Control (KPC), a learning-based predictive control strategy that enjoys deterministic guarantees of safety. Noise-corrupted samples of the unknown system dynamics are used to learn several models through the formalism of non-parametric kernel regression. By treating each prediction step individually, we dispense with the need of propagating sets through highly non-linear maps, a procedure that often involves multiple conservative approximation steps. Finite-sample error bounds are then used to enforce state-feasibility by employing an efficient robust formulation. We then present a relaxation strategy that exploits on-line data to weaken the optimization problem constraints while preserving safety. Two numerical examples are provided to illustrate the applicability of the proposed control method.
+summary: ''
+link: https://arxiv.org/pdf/2011.11303
+links_alt:
+audit_status: raw

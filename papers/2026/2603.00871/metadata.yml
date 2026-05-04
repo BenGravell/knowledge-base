@@ -1,0 +1,19 @@
+title: >
+  Hippo: High-performance Interior-Point and Projection-based Solver for Generic Constrained Trajectory Optimization
+algorithm:
+authors:
+  - Haizhou Zhao
+  - Ludovic Righetti
+  - Majid Khadiv
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2603.00871"
+tags:
+abstract: >
+  Trajectory optimization is the core of modern model-based robotic control and motion planning. Existing trajectory optimizers, based on sequential quadratic programming (SQP) or differential dynamic programming (DDP), are often limited by their slow computation efficiency, low modeling flexibility, and poor convergence for complex tasks requiring hard constraints. In this paper, we introduce Hippo, a solver that can handle inequality constraints using the interior-point method (IPM) with an adaptive barrier update strategy and hard equality constraints via projection or IPM. Through extensive numerical benchmarks, we show that Hippo is a robust and efficient alternative to existing state-of-the-art solvers for difficult robotic trajectory optimization problems requiring high-quality solutions, such as locomotion and manipulation.
+summary: ''
+link: https://arxiv.org/pdf/2603.00871
+links_alt:
+audit_status: raw

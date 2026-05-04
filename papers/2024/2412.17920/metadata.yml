@@ -1,0 +1,24 @@
+title: Causal Composition Diffusion Model for Closed-loop Traffic Generation
+algorithm:
+authors:
+  - Haohong Lin
+  - Xin Huang
+  - Tung Phan-Minh
+  - David S. Hayden
+  - Huan Zhang
+  - Ding Zhao
+  - Siddhartha Srinivasa
+  - Eric M. Wolff
+  - Hongge Chen
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2412.17920"
+tags:
+abstract: >
+  Simulation is critical for safety evaluation in autonomous driving, particularly in capturing complex interactive behaviors. However, generating realistic and controllable traffic scenarios in long-tail situations remains a significant challenge. Existing generative models suffer from the conflicting objective between user-defined controllability and realism constraints, which is amplified in safety-critical contexts. In this work, we introduce the Causal Compositional Diffusion Model (CCDiff), a structure-guided diffusion framework to address these challenges. We first formulate the learning of controllable and realistic closed-loop simulation as a constrained optimization problem. Then, CCDiff maximizes controllability while adhering to realism by automatically identifying and injecting causal structures directly into the diffusion process, providing structured guidance to enhance both realism and controllability. Through rigorous evaluations on benchmark datasets and in a closed-loop simulator, CCDiff demonstrates substantial gains over state-of-the-art approaches in generating realistic and user-preferred trajectories. Our results show CCDiff's effectiveness in extracting and leveraging causal structures, showing improved closed-loop performance based on key metrics such as collision rate, off-road rate, FDE, and comfort.
+summary: ''
+link: https://arxiv.org/pdf/2412.17920
+links_alt:
+audit_status: raw

@@ -1,0 +1,21 @@
+title: Zeroth-Order Optimization at the Edge of Stability
+algorithm:
+authors:
+  - Minhak Song
+  - Liang Zhang
+  - Bingcong Li
+  - Niao He
+  - Michael Muehlebach
+  - Sewoong Oh
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.14669"
+tags:
+abstract: >
+  Zeroth-order (ZO) methods are widely used when gradients are unavailable or prohibitively expensive, including black-box learning and memory-efficient fine-tuning of large models, yet their optimization dynamics in deep learning remain underexplored. In this work, we provide an explicit step size condition that exactly captures the (mean-square) linear stability of a family of ZO methods based on the standard two-point estimator. Our characterization reveals a sharp contrast with first-order (FO) methods: whereas FO stability is governed solely by the largest Hessian eigenvalue, mean-square stability of ZO methods depends on the entire Hessian spectrum. Since computing the full Hessian spectrum is infeasible in practical neural network training, we further derive tractable stability bounds that depend only on the largest eigenvalue and the Hessian trace. Empirically, we find that full-batch ZO methods operate at the edge of stability: ZO-GD, ZO-GDM, and ZO-Adam consistently stabilize near the predicted stability boundary across a range of deep learning training problems. Our results highlight an implicit regularization effect specific to ZO methods, where large step sizes primarily regularize the Hessian trace, whereas in FO methods they regularize the top eigenvalue.
+summary: ''
+link: https://arxiv.org/pdf/2604.14669
+links_alt:
+audit_status: raw

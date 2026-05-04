@@ -1,0 +1,18 @@
+title: Train-Once Plan-Anywhere Kinodynamic Motion Planning via Diffusion Trees
+algorithm:
+authors:
+  - Yaniv Hassidof
+  - Tom Jurgenson
+  - Kiril Solovey
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2508.21001"
+tags:
+abstract: >
+  Kinodynamic motion planning is concerned with computing collision-free trajectories while abiding by the robot's dynamic constraints. This critical problem is often tackled using sampling-based planners (SBPs) that explore the robot's high-dimensional state space by constructing a search tree via action propagations. Although SBPs can offer global guarantees on completeness and solution quality, their performance is often hindered by slow exploration due to uninformed action sampling. Learning-based approaches can yield significantly faster runtimes, yet they fail to generalize to out-of-distribution (OOD) scenarios and lack critical guarantees, e.g., safety, thus limiting their deployment on physical robots. We present Diffusion Tree (DiTree): a provably-generalizable framework leveraging diffusion policies (DPs) as informed samplers to efficiently guide state-space search within SBPs. DiTree combines DP's ability to model complex distributions of expert trajectories, conditioned on local observations, with the completeness of SBPs to yield provably-safe solutions within a few action propagation iterations for complex dynamical systems. We demonstrate DiTree's power with an implementation combining the popular RRT planner with a DP action sampler trained on a single environment. In comprehensive evaluations on OOD scenarios, DiTree achieves on average a 30% higher success rate compared to standalone DP or SBPs, on a dynamic car and Mujoco's ant robot settings (for the latter, SBPs fail completely). Beyond simulation, real-world car experiments confirm DiTree's applicability, demonstrating superior trajectory quality and robustness even under severe sim-to-real gaps. Project webpage: https://sites.google.com/view/ditree.
+summary: ''
+link: https://arxiv.org/pdf/2508.21001
+links_alt:
+audit_status: raw

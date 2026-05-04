@@ -1,0 +1,21 @@
+title: >
+  Action Chunking and Exploratory Data Collection Yield Exponential Improvements in Behavior Cloning for Continuous Control
+algorithm:
+authors:
+  - Thomas T. Zhang
+  - Daniel Pfrommer
+  - Chaoyi Pan
+  - Nikolai Matni
+  - Max Simchowitz
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2507.09061"
+tags:
+abstract: >
+  This paper presents a theoretical analysis of two of the most impactful interventions in modern learning from demonstration in robotics and continuous control: the practice of action-chunking (predicting sequences of actions in open-loop) and exploratory augmentation of expert demonstrations. Though recent results show that learning from demonstration, also known as imitation learning (IL), can suffer errors that compound exponentially with task horizon in continuous settings, we demonstrate that action chunking and exploratory data collection circumvent exponential compounding errors in different regimes. Our results identify control-theoretic stability as the key mechanism underlying the benefits of these interventions. On the empirical side, we validate our predictions and the role of control-theoretic stability through experimentation on popular robot learning benchmarks. On the theoretical side, we demonstrate that the control-theoretic lens provides fine-grained insights into how compounding error arises, leading to tighter statistical guarantees on imitation learning error when these interventions are applied than previous techniques based on information-theoretic considerations alone.
+summary: ''
+link: https://arxiv.org/pdf/2507.09061
+links_alt:
+audit_status: raw

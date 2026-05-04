@@ -1,0 +1,22 @@
+title: >
+  Transformer-based Model Predictive Control: Trajectory Optimization via Sequence Modeling
+algorithm:
+authors:
+  - Davide Celestini
+  - Daniele Gammelli
+  - Tommaso Guffanti
+  - Simone D'Amico
+  - Elisa Capello
+  - Marco Pavone
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2410.23916"
+tags:
+abstract: >
+  Model predictive control (MPC) has established itself as the primary methodology for constrained control, enabling general-purpose robot autonomy in diverse real-world scenarios. However, for most problems of interest, MPC relies on the recursive solution of highly non-convex trajectory optimization problems, leading to high computational complexity and strong dependency on initialization. In this work, we present a unified framework to combine the main strengths of optimization-based and learning-based methods for MPC. Our approach entails embedding high-capacity, transformer-based neural network models within the optimization process for trajectory generation, whereby the transformer provides a near-optimal initial guess, or target plan, to a non-convex optimization problem. Our experiments, performed in simulation and the real world onboard a free flyer platform, demonstrate the capabilities of our framework to improve MPC convergence and runtime. Compared to purely optimization-based approaches, results show that our approach can improve trajectory generation performance by up to 75%, reduce the number of solver iterations by up to 45%, and improve overall MPC runtime by 7x without loss in performance.
+summary: ''
+link: https://arxiv.org/pdf/2410.23916
+links_alt:
+audit_status: raw

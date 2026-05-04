@@ -1,0 +1,21 @@
+title: >
+  Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction
+algorithm:
+authors:
+  - Julia Briden
+  - Trey Gurga
+  - Breanna Johnson
+  - Abhishek Cauligi
+  - Richard Linares
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2311.05135"
+tags:
+abstract: >
+  In this work, we present Transformer-based Powered Descent Guidance (T-PDG), a scalable algorithm for reducing the computational complexity of the direct optimization formulation of the spacecraft powered descent guidance problem. T-PDG uses data from prior runs of trajectory optimization algorithms to train a transformer neural network, which accurately predicts the relationship between problem parameters and the globally optimal solution for the powered descent guidance problem. The solution is encoded as the set of tight constraints corresponding to the constrained minimum-cost trajectory and the optimal final time of landing. By leveraging the attention mechanism of transformer neural networks, large sequences of time series data can be accurately predicted when given only the spacecraft state and landing site parameters. When applied to the real problem of Mars powered descent guidance, T-PDG reduces the time for computing the 3 degree of freedom fuel-optimal trajectory, when compared to lossless convexification, from an order of 1-8 seconds to less than 500 milliseconds. A safe and optimal solution is guaranteed by including a feasibility check in T-PDG before returning the final trajectory.
+summary: ''
+link: https://arxiv.org/pdf/2311.05135
+links_alt:
+audit_status: raw

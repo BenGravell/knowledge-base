@@ -1,0 +1,22 @@
+title: >
+  RAKOMO: Reachability-Aware K-Order Markov Path Optimization for Quadrupedal Loco-Manipulation
+algorithm:
+authors:
+  - Mattia Risiglione
+  - Abdelrahman Abdalla
+  - Victor Barasuol
+  - Kim Tien Ly
+  - Ioannis Havoutis
+  - Claudio Semini
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2507.19652"
+tags:
+abstract: >
+  Legged manipulators, such as quadrupeds equipped with robotic arms, require motion planning techniques that account for their complex kinematic constraints in order to perform manipulation tasks both safely and effectively. However, trajectory optimization methods often face challenges due to the hybrid dynamics introduced by contact discontinuities, and tend to neglect leg limitations during planning for computational reasons. In this work, we propose RAKOMO, a path optimization technique that integrates the strengths of K-Order Markov Optimization (KOMO) with a kinematically-aware criterion based on the reachable region defined as reachability margin. We leverage a neural-network to predict the margin and optimize it by incorporating it in the standard KOMO formulation. This approach enables rapid convergence of gradient-based motion planning -- commonly tailored for continuous systems -- while adapting it effectively to legged manipulators, successfully executing loco-manipulation tasks. We benchmark RAKOMO against a baseline KOMO approach through a set of simulations for pick-and-place tasks with the HyQReal quadruped robot equipped with a Kinova Gen3 robotic arm.
+summary: ''
+link: https://arxiv.org/pdf/2507.19652
+links_alt:
+audit_status: raw

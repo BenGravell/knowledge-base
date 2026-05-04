@@ -1,0 +1,19 @@
+title: On multi-step prediction models for receding horizon control
+algorithm:
+authors:
+  - Enrico Terzi
+  - Lorenzo Fagiano
+  - Marcello Farina
+  - Riccardo Scattolini
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1802.09767"
+tags:
+abstract: >
+  The derivation of multi-step-ahead prediction models from sampled data of a linear system is considered. A dedicated prediction model is built for each future time step of interest. In addition to a nominal model, the set of all models consistent with data and prior information is derived as well, making the approach suitable for robust control design within a Model Predictive Control framework. The resulting parameter identification problem is solved through a sequence of convex programs, overcoming the non-convexity arising when identifying 1-step prediction models with an output-error criterion. At the same time, the derived models guarantee a worst-case error which is always smaller than the one obtained by iterating models identified with a 1-step prediction error criterion.
+summary: ''
+link: https://arxiv.org/pdf/1802.09767
+links_alt:
+audit_status: raw

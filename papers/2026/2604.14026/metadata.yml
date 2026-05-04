@@ -1,0 +1,19 @@
+title: >
+  Scale-Invariant Sampling in Multi-Arm Bandit Motion Planning for Object Extraction
+algorithm:
+authors:
+  - Servet B. Bayraktar
+  - Andreas Orthey
+  - Marc Toussaint
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.14026"
+tags:
+abstract: >
+  Object extraction tasks often occur in disassembly problems, where bolts, screws, or pins have to be removed from tight, narrow spaces. In such problems, the distance to the environment is often on the millimeter scale. Sampling-based planners can solve such problems and provide completeness guarantees. However, sampling becomes a bottleneck, since almost all motions will result in collisions with the environment. To overcome this problem, we propose a novel scale-invariant sampling strategy which explores the configuration space using a grow-shrink search to find useful, high-entropy sampling scales. Once a useful sampling scale has been found, our framework exploits this scale by using a principal components analysis (PCA) to find useful directions for object extraction. We embed this sampler into a multi-arm bandit rapidly-exploring random tree (MAB-RRT) planner and test it on eight challenging 3D object extraction scenarios, involving bolts, gears, rods, pins, and sockets. To evaluate our framework, we compare it with classical sampling strategies like uniform sampling, obstacle-based sampling, and narrow-passage sampling, and with modern strategies like mate vectors, physics-based planning, and disassembly breadth first search. Our experiments show that scale-invariant sampling improves success rate by one order of magnitude on 7 out of 8 scenarios. This demonstrates that scale-invariant sampling is an important concept for general purpose object extraction in disassembly tasks.
+summary: ''
+link: https://arxiv.org/pdf/2604.14026
+links_alt:
+audit_status: raw

@@ -1,0 +1,18 @@
+title: 'Soft MPCritic: Amortized Model Predictive Value Iteration'
+algorithm:
+authors:
+  - Thomas Banker
+  - Nathan P. Lawrence
+  - Ali Mesbah
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.01477"
+tags:
+abstract: >
+  Reinforcement learning (RL) and model predictive control (MPC) offer complementary strengths, yet combining them at scale remains computationally challenging. We propose soft MPCritic, an RL-MPC framework that learns in (soft) value space while using sample-based planning for both online control and value target generation. soft MPCritic instantiates MPC through model predictive path integral control (MPPI) and trains a terminal Q-function with fitted value iteration, aligning the learned value function with the planner and implicitly extending the effective planning horizon. We introduce an amortized warm-start strategy that recycles planned open-loop action sequences from online observations when computing batched MPPI-based value targets. This makes soft MPCritic computationally practical, while preserving solution quality. soft MPCritic plans in a scenario-based fashion with an ensemble of dynamic models trained for next-step prediction accuracy. Together, these ingredients enable soft MPCritic to learn effectively through robust, short-horizon planning on classic and complex control tasks. These results establish soft MPCritic as a practical and scalable blueprint for synthesizing MPC policies in settings where policy extraction and direct, long-horizon planning may fail.
+summary: ''
+link: https://arxiv.org/pdf/2604.01477
+links_alt:
+audit_status: raw

@@ -1,0 +1,18 @@
+title: Efficient Learning of a Linear Dynamical System with Stability Guarantees
+algorithm:
+authors:
+  - Wouter Jongeneel
+  - Tobias Sutter
+  - Daniel Kuhn
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2102.03664"
+tags:
+abstract: >
+  We propose a principled method for projecting an arbitrary square matrix to the non-convex set of asymptotically stable matrices. Leveraging ideas from large deviations theory, we show that this projection is optimal in an information-theoretic sense and that it simply amounts to shifting the initial matrix by an optimal linear quadratic feedback gain, which can be computed exactly and highly efficiently by solving a standard linear quadratic regulator problem. The proposed approach allows us to learn the system matrix of a stable linear dynamical system from a single trajectory of correlated state observations. The resulting estimator is guaranteed to be stable and offers explicit statistical bounds on the estimation error.
+summary: ''
+link: https://arxiv.org/pdf/2102.03664
+links_alt:
+audit_status: raw

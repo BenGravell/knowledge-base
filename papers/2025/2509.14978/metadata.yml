@@ -1,0 +1,19 @@
+title: >
+  PA-MPPI: Perception-Aware Model Predictive Path Integral Control for Quadrotor Navigation in Unknown Environments
+algorithm:
+authors:
+  - Yifan Zhai
+  - Rudolf Reiter
+  - Davide Scaramuzza
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2509.14978"
+tags:
+abstract: >
+  Quadrotor navigation in unknown environments is critical for practical missions such as search-and-rescue. Solving this problem requires addressing three key challenges: path planning in non-convex free space due to obstacles, satisfying quadrotor-specific dynamics and objectives, and exploring unknown regions to expand the map. Recently, the Model Predictive Path Integral (MPPI) method has emerged as a promising solution to the first two challenges. By leveraging sampling-based optimization, it can effectively handle non-convex free space while directly optimizing over the full quadrotor dynamics, enabling the inclusion of quadrotor-specific costs such as energy consumption. However, MPPI has been limited to tracking control that optimizes trajectories only within a small neighborhood around a reference trajectory, as it lacks the ability to explore unknown regions and plan alternative paths when blocked by large obstacles. To address this limitation, we introduce Perception-Aware MPPI (PA-MPPI). In this approach, perception-awareness is characterized by planning and adapting the trajectory online based on perception objectives. Specifically, when the goal is occluded, PA-MPPI incorporates a perception cost that biases trajectories toward those that can observe unknown regions. This expands the mapped traversable space and increases the likelihood of finding alternative paths to the goal. Through hardware experiments, we demonstrate that PA-MPPI, running at 50 Hz, performs on par with the state-of-the-art quadrotor navigation planner for unknown environments in challenging test scenarios. Furthermore, we show that PA-MPPI can serve as a safe and robust action policy for navigation foundation models, which often provide goal poses that are not directly reachable.
+summary: ''
+link: https://arxiv.org/pdf/2509.14978
+links_alt:
+audit_status: raw
