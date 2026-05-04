@@ -1,0 +1,18 @@
+title: Model Predictive Path Integral Control as Preconditioned Gradient Descent
+algorithm:
+authors:
+  - Mahyar Fazlyab
+  - Sina Sharifi
+  - Jiarui Wang
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2603.24489"
+tags:
+abstract: >
+  Model Predictive Path Integral (MPPI) control is a popular sampling-based method for trajectory optimization in nonlinear and nonconvex settings, yet its optimization structure remains only partially understood. We develop a variational, optimization-theoretic interpretation of MPPI by lifting constrained trajectory optimization to a KL-regularized problem over distributions and reducing it to a negative log-partition (free-energy) objective over a tractable sampling family. For a general parametric family, this yields a preconditioned gradient method on the distribution parameters and a natural multi-step extension of MPPI. For the fixed-covariance Gaussian family, we show that classical MPPI is recovered exactly as a preconditioned gradient descent step with unit step size. This interpretation enables a direct convergence analysis: under bounded feasible sets, we derive an explicit upper bound on the smoothness constant and a simple sufficient condition guaranteeing descent of exact MPPI. Numerical experiments support the theory and illustrate the effect of key hyperparameters on performance.
+summary: ''
+link: https://arxiv.org/pdf/2603.24489
+links_alt:
+audit_status: raw

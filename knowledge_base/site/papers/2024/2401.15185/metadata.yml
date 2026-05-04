@@ -1,0 +1,19 @@
+title: >
+  Towards a Theory of Control Architecture: A quantitative framework for layered multi-rate control
+algorithm:
+authors:
+  - Nikolai Matni
+  - Aaron D. Ames
+  - John C. Doyle
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2401.15185"
+tags:
+abstract: >
+  This paper focuses on the need for a rigorous theory of layered control architectures (LCAs) for complex engineered and natural systems, such as power systems, communication networks, autonomous robotics, bacteria, and human sensorimotor control. All deliver extraordinary capabilities, but they lack a coherent theory of analysis and design, partly due to the diverse domains across which LCAs can be found. In contrast, there is a core universal set of control concepts and theory that applies very broadly and accommodates necessary domain-specific specializations. However, control methods are typically used only to design algorithms in components within a larger system designed by others, typically with minimal or no theory. This points towards a need for natural but large extensions of robust performance from control to the full decision and control stack. It is encouraging that the successes of extant architectures from bacteria to the Internet are due to strikingly universal mechanisms and design patterns. This is largely due to convergent evolution by natural selection and not intelligent design, particularly when compared with the sophisticated design of components. Our aim here is to describe the universals of architecture and sketch tentative paths towards a useful design theory.
+summary: ''
+link: https://arxiv.org/pdf/2401.15185
+links_alt:
+audit_status: raw

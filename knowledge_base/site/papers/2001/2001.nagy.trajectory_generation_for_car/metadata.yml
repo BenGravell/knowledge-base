@@ -20,3 +20,4 @@ summary: >
 link: https://www.cs.cmu.edu/~alonzo/pubs/papers/fsr2001.pdf
 links_alt:
   - https://publications.ri.cmu.edu/trajectory-generation-for-car-like-robots-using-cubic-curvature-polynomials/
+audit_status: reviewed

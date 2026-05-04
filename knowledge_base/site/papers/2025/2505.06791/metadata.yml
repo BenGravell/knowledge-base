@@ -1,0 +1,18 @@
+title: 'cpRRTC: GPU-Parallel RRT-Connect for Constrained Motion Planning'
+algorithm:
+authors:
+  - Jiaming Hu
+  - Jiawei Wang
+  - Henrik Christensen
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2505.06791"
+tags:
+abstract: >
+  Motion planning is a fundamental problem in robotics that involves generating feasible trajectories for a robot to follow. Recent advances in parallel computing, particularly through CPU and GPU architectures, have significantly reduced planning times to the order of milliseconds. However, constrained motion planning especially using sampling based methods on GPUs remains underexplored. Prior work such as pRRTC leverages a tracking compiler with a CUDA backend to accelerate forward kinematics and collision checking. While effective in simple settings, their approach struggles with increased complexity in robot models or environments. In this paper, we propose a novel GPU based framework utilizing NVRTC for runtime compilation, enabling efficient handling of high complexity scenarios and supporting constrained motion planning. Experimental results demonstrate that our method achieves superior performance compared to existing approaches.
+summary: ''
+link: https://arxiv.org/pdf/2505.06791
+links_alt:
+audit_status: raw

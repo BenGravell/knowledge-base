@@ -1,0 +1,18 @@
+title: >
+  DWPP: Dynamic Window Pure Pursuit Considering Velocity and Acceleration Constraints
+algorithm:
+authors:
+  - Fumiya Ohnishi
+  - Masaki Takahashi
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2601.15006"
+tags:
+abstract: >
+  Pure pursuit and its variants are widely used for mobile robot path tracking owing to their simplicity and computational efficiency. However, many conventional approaches do not explicitly account for velocity and acceleration constraints, resulting in discrepancies between commanded and actual velocities that result in overshoot and degraded tracking performance. To address this problem, this paper proposes dynamic window pure pursuit (DWPP), which fundamentally reformulates the command velocity computation process to explicitly incorporate velocity and acceleration constraints. Specifically, DWPP formulates command velocity computation in the velocity space (the $v$-$ω$ plane) and selects the command velocity as the point within the dynamic window that is closest to the line $ω= κv$. Experimental results demonstrate that DWPP avoids constraint-violating commands and achieves superior path-tracking accuracy compared with conventional pure pursuit methods. The proposed method has been integrated into the official Nav2 repository and is publicly available (https://github.com/ros-navigation/navigation2).
+summary: ''
+link: https://arxiv.org/pdf/2601.15006
+links_alt:
+audit_status: raw

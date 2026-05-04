@@ -20,3 +20,4 @@ summary: >
   Uses a fixed-final-state-free-final-time controller that exactly and optimally connects any pair of states in RRT*, where cost trades off trajectory duration against control effort. Dynamics are restricted to linear (or linearized) systems.
 link: https://arxiv.org/pdf/1205.5088
 links_alt:
+audit_status: reviewed

@@ -1,0 +1,23 @@
+title: On the Optimization Landscape of Observer-based Dynamic Linear Quadratic Control
+algorithm:
+authors:
+  - Jingliang Duan
+  - Jie Li
+  - Yinsong Ma
+  - Liye Tang
+  - Guofa Li
+  - Liping Zhang
+  - Shengbo Eben Li
+  - Lin Zhao
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.10635"
+tags:
+abstract: >
+  Understanding the optimization landscape of linear quadratic regulation (LQR) problems is fundamental to the design of efficient reinforcement learning solutions. Recent work has made significant progress in characterizing the landscape of static output-feedback control and linear quadratic Gaussian (LQG) control. For LQG, much of the analysis leverages the separation principle, which allows the controller and estimator to be designed independently. However, this simplification breaks down when the gradients with respect to the estimator and controller parameters are inherently coupled, leading to a more intricate analysis. This paper investigates the optimization landscape of observer-based dynamic output-feedback control of LQR problems. We derive the optimal observer-controller pair in settings where transient quadratic performance cannot be neglected. Our analysis reveals that, in general, the combination of the standard LQR controller and the observer that minimizes the trace of the accumulated estimation error covariance does not correspond to a stationary point of the overall closed-loop performance objective. Moreover, we derive a pair of discrete-time Sylvester equations with symmetric structure, both involving the same set of matrix elements, that characterize the stationary point of the observer-based dynamic LQR problem. These equations offer analytical insight into the structure of the optimality conditions and provide a foundation for developing numerical policy gradient methods aimed at learning complex controllers that rely on reconstructed state information.
+summary: ''
+link: https://arxiv.org/pdf/2604.10635
+links_alt:
+audit_status: raw

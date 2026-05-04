@@ -1,0 +1,28 @@
+title: MuJoCo Playground
+algorithm:
+authors:
+  - Kevin Zakka
+  - Baruch Tabanpour
+  - Qiayuan Liao
+  - Mustafa Haiderbhai
+  - Samuel Holt
+  - Jing Yuan Luo
+  - Arthur Allshire
+  - Erik Frey
+  - Koushil Sreenath
+  - Lueder A. Kahrs
+  - Carmelo Sferrazza
+  - Yuval Tassa
+  - Pieter Abbeel
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2502.08844"
+tags:
+abstract: >
+  We introduce MuJoCo Playground, a fully open-source framework for robot learning built with MJX, with the express goal of streamlining simulation, training, and sim-to-real transfer onto robots. With a simple "pip install playground", researchers can train policies in minutes on a single GPU. Playground supports diverse robotic platforms, including quadrupeds, humanoids, dexterous hands, and robotic arms, enabling zero-shot sim-to-real transfer from both state and pixel inputs. This is achieved through an integrated stack comprising a physics engine, batch renderer, and training environments. Along with video results, the entire framework is freely available at playground.mujoco.org
+summary: ''
+link: https://arxiv.org/pdf/2502.08844
+links_alt:
+audit_status: raw

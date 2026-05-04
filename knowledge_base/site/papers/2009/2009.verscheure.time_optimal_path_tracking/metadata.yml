@@ -25,3 +25,4 @@ abstract: >
 summary: >
   Demonstrates how to write down a large optimal control problem (OCP) for time-optimal path tracking for a robotic manipulator, considering many constraints and the dynamics related to such systems. The resulting OCP is a convex second-order cone program, which can be solved with a variety of generic solvers. The value of the paper mostly comes from just the handwritten transcription of the OCP.
 link: https://ieeexplore.ieee.org/document/5256286
+audit_status: reviewed

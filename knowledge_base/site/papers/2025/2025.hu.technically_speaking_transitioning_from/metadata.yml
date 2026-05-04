@@ -1,0 +1,22 @@
+title: "Technically Speaking: Transitioning from Rule-Based to ML-Powered Motion Planning"
+algorithm:
+authors:
+  - Alexander Hu
+year: 2025
+source: Motional Blog
+type: Blog Post
+doi:
+arxiv_id:
+tags:
+  - Autonomous driving
+  - Motion planning
+  - Machine learning
+  - Reinforcement learning
+  - End-to-end learning
+abstract: >
+  The future of autonomous vehicles (AVs) lies in scalability, adaptability, and human-like driving behavior. At Motional, we are pioneering the next evolution of AV technology by transitioning from traditional rule-based planning systems to an end-to-end machine learning (ML) powered motion planning system. This shift allows us to address some of the key limitations of legacy AV architectures and embrace a future where AVs rapidly learn, adapt, and improve with every mile driven. Traditional AV stacks follow a sequential modular pipeline: Sensors -> Perception → Tracking → Prediction → Rule-based Planning. While this approach offers modularity, interpretability and structured debugging, it also introduces significant drawbacks. By embracing an ML-first approach, Motional is building the foundation for the future: a fully end-to-end ML-based AV system. In this blog post, we will introduce our initial steps in this direction - developing an ML-powered Motion Planning system that integrates prediction and planning into a unified framework.
+summary: >
+  Overview of Motional's approach to motion planning: a scene encoder-generator-ranker architecture with joint prediction and planning, closed-loop reinforcement learning training, and data mining for real-world scalability.
+link: https://motional.com/news/technical-speaking-transitioning-rule-based-ml-powered-motion-planning
+links_alt:
+audit_status: reviewed

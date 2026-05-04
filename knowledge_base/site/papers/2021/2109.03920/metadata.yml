@@ -1,0 +1,18 @@
+title: 'Inverse Optimization: Theory and Applications'
+algorithm:
+authors:
+  - Timothy C. Y. Chan
+  - Rafid Mahmood
+  - Ian Yihang Zhu
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2109.03920"
+tags:
+abstract: >
+  Inverse optimization describes a process that is the "reverse" of traditional mathematical optimization. Unlike traditional optimization, which seeks to compute optimal decisions given an objective and constraints, inverse optimization takes decisions as input and determines an objective and/or constraints that render these decisions approximately or exactly optimal. In recent years, there has been an explosion of interest in the mathematics and applications of inverse optimization. This paper provides a comprehensive review of both the methodological and application-oriented literature in inverse optimization.
+summary: ''
+link: https://arxiv.org/pdf/2109.03920
+links_alt:
+audit_status: raw

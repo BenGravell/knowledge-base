@@ -1,0 +1,19 @@
+title: >
+  Understanding the Effects of Second-Order Approximations in Natural Policy Gradient Reinforcement Learning
+algorithm:
+authors:
+  - Brennan Gebotys
+  - Alexander Wong
+  - David A. Clausi
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2201.09104"
+tags:
+abstract: >
+  Natural policy gradient methods are popular reinforcement learning methods that improve the stability of policy gradient methods by utilizing second-order approximations to precondition the gradient with the inverse of the Fisher-information matrix. However, to the best of the authors' knowledge, there has not been a study that has investigated the effects of different second-order approximations in a comprehensive and systematic manner. To address this, five different second-order approximations were studied and compared across multiple key metrics including performance, stability, sample efficiency, and computation time. Furthermore, hyperparameters which aren't typically acknowledged in the literature are studied including the effect of different batch sizes and optimizing the critic network with the natural gradient. Experimental results show that on average, improved second-order approximations achieve the best performance and that using properly tuned hyperparameters can lead to large improvements in performance and sample efficiency ranging up to +181%. We also make the code in this study available at https://github.com/gebob19/natural-policy-gradient-reinforcement-learning.
+summary: ''
+link: https://arxiv.org/pdf/2201.09104
+links_alt:
+audit_status: raw

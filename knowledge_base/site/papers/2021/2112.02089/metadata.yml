@@ -1,0 +1,16 @@
+title: Regularized Newton Method with Global $O(1/k^2)$ Convergence
+algorithm:
+authors:
+  - Konstantin Mishchenko
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2112.02089"
+tags:
+abstract: >
+  We present a Newton-type method that converges fast from any initialization and for arbitrary convex objectives with Lipschitz Hessians. We achieve this by merging the ideas of cubic regularization with a certain adaptive Levenberg--Marquardt penalty. In particular, we show that the iterates given by $x^{k+1}=x^k - \bigl(\nabla^2 f(x^k) + \sqrt{H\|\nabla f(x^k)\|} \mathbf{I}\bigr)^{-1}\nabla f(x^k)$, where $H>0$ is a constant, converge globally with a $\mathcal{O}(\frac{1}{k^2})$ rate. Our method is the first variant of Newton's method that has both cheap iterations and provably fast global convergence. Moreover, we prove that locally our method converges superlinearly when the objective is strongly convex. To boost the method's performance, we present a line search procedure that does not need prior knowledge of $H$ and is provably efficient.
+summary: ''
+link: https://arxiv.org/pdf/2112.02089
+links_alt:
+audit_status: raw

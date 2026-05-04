@@ -1,0 +1,17 @@
+title: Presolving for GPU-Accelerated First-Order LP Solvers
+algorithm:
+authors:
+  - Daniel Cederberg
+  - Stephen Boyd
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.23951"
+tags:
+abstract: >
+  Recent research has focused on developing GPU-accelerated first-order solvers for linear programming (LP). This line of work, however, has largely overlooked the role of presolving, and thus prior results do not fully reflect the speedups achievable through GPU acceleration in a realistic end-to-end solver pipeline. At the same time, LP presolving has traditionally been developed for CPU-based solvers, where presolve time rarely dominates the total runtime and the emphasis has been on maximizing the reduction in problem size, even at the expense of costly presolve rules. Given the high performance of modern GPU-accelerated solvers and the inherently sequential nature of presolving, it is unclear whether this traditional approach to presolving remains appropriate. In this paper we revisit LP presolving from the perspective of GPU-accelerated first-order LP solvers. We identify a set of relatively simple presolve rules and show that a carefully engineered collection of these captures most of the reduction achieved by Gurobi's commercial state-of-the-art presolver, at a fraction of the cost. Moreover, we demonstrate that such lightweight presolving can yield substantial end-to-end speedups for the GPU-accelerated solver cuPDLPx, despite presolving sometimes constituting a significant fraction of the total runtime. These results suggest that lightweight presolving may remain beneficial as GPU performance continues to scale, while the sequential nature of presolving presumably does not. We accompany this paper with an open-source C implementation of an LP presolver, called PSLP (Presolver for Linear Programs). PSLP is battle-tested and has been adopted by the community, with integrations in cuPDLPx, cuOpt (NVIDIA's optimization library), and HPR-LP.
+summary: ''
+link: https://arxiv.org/pdf/2604.23951
+links_alt:
+audit_status: raw

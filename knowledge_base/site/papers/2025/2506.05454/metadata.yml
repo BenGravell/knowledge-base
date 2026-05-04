@@ -1,0 +1,21 @@
+title: Zeroth-Order Optimization Finds Flat Minima
+algorithm:
+authors:
+  - Liang Zhang
+  - Bingcong Li
+  - Kiran Koshy Thekumparampil
+  - Sewoong Oh
+  - Michael Muehlebach
+  - Niao He
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2506.05454"
+tags:
+abstract: >
+  Zeroth-order methods are extensively used in machine learning applications where gradients are infeasible or expensive to compute, such as black-box attacks, reinforcement learning, and language model fine-tuning. Existing optimization theory focuses on convergence to an arbitrary stationary point, but less is known on the implicit regularization that provides a fine-grained characterization on which particular solutions are finally reached. We show that zeroth-order optimization with the standard two-point estimator favors solutions with small trace of Hessian, which is widely used in previous work to distinguish between sharp and flat minima. We further provide convergence rates of zeroth-order optimization to approximate flat minima for convex and sufficiently smooth functions, where flat minima are defined as the minimizers that achieve the smallest trace of Hessian among all optimal solutions. Experiments on binary classification tasks with convex losses and language model fine-tuning support our theoretical findings.
+summary: ''
+link: https://arxiv.org/pdf/2506.05454
+links_alt:
+audit_status: raw

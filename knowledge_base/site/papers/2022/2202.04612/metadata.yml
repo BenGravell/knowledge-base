@@ -1,0 +1,18 @@
+title: Zeroth-Order Randomized Subspace Newton Methods
+algorithm:
+authors:
+  - Erik Berglund
+  - Sarit Khirirat
+  - Xiaoyu Wang
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2202.04612"
+tags:
+abstract: >
+  Zeroth-order methods have become important tools for solving problems where we have access only to function evaluations. However, the zeroth-order methods only using gradient approximations are $n$ times slower than classical first-order methods for solving n-dimensional problems. To accelerate the convergence rate, this paper proposes the zeroth order randomized subspace Newton (ZO-RSN) method, which estimates projections of the gradient and Hessian by random sketching and finite differences. This allows us to compute the Newton step in a lower dimensional subspace, with small computational costs. We prove that ZO-RSN can attain lower iteration complexity than existing zeroth order methods for strongly convex problems. Our numerical experiments show that ZO-RSN can perform black-box attacks under a more restrictive limit on the number of function queries than the state-of-the-art Hessian-aware zeroth-order method.
+summary: ''
+link: https://arxiv.org/pdf/2202.04612
+links_alt:
+audit_status: raw

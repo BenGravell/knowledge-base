@@ -1,0 +1,23 @@
+title: >
+  Motion Planning with Precedence Specifications via Augmented Graphs of Convex Sets
+algorithm:
+authors:
+  - Shilin You
+  - Gael Luna
+  - Juned Shaikh
+  - David Gostin
+  - Yu Xiang
+  - Justin Koeln
+  - Tyler Summers
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2510.22015"
+tags:
+abstract: >
+  We present an algorithm for planning trajectories that avoid obstacles and satisfy key-door precedence specifications expressed with a fragment of signal temporal logic. Our method includes a novel exact convex partitioning of the obstacle free space that encodes connectivity among convex free space sets, key sets, and door sets. We then construct an augmented graph of convex sets that exactly encodes the key-door precedence specifications. By solving a shortest path problem in this augmented graph of convex sets, our pipeline provides an exact solution up to a finite parameterization of the trajectory. To illustrate the effectiveness of our approach, we present a method to generate key-door mazes that provide challenging problem instances, and we perform numerical experiments to evaluate the proposed pipeline. Our pipeline is faster by several orders of magnitude than recent state-of-the art methods that use general purpose temporal logic tools.
+summary: ''
+link: https://arxiv.org/pdf/2510.22015
+links_alt:
+audit_status: raw

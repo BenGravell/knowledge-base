@@ -1,0 +1,16 @@
+title: Interpreting Reinforcement Learning Model Behavior via Koopman with Control
+algorithm:
+authors:
+  - William T. Redman
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2603.19968"
+tags:
+abstract: >
+  Reinforcement learning (RL) models have shown the capability of learning complex behaviors, but quantitatively assessing those behaviors - which is critical for safety assurance and the discovery of novel strategies - is challenging. By viewing RL models as control systems, we hypothesize that data-driven approximations of their associated Koopman operators may provide dynamical information about their behavior, thus enabling greater interpretability. To test this, we apply the Koopman with control framework to RL models trained on several standard benchmark environments and demonstrate that properties of the fit linear control models, such as stability and controllability, evolve during training in a task dependent manner. Comparing these metrics across different training epochs or across differently optimized RL models enables an understanding of how they differ. In addition, we find cases where - even when the reward achieved by the RL model is static - the stability and controllability is nonetheless evolving, predicting increased reward with further training. This suggests that these metrics may be able to serve as hidden progress measures, a core idea in mechanistic interpretability. Taken together, our results illustrate that the Koopman with control framework provides a comprehensive way in which to analyze and interpret the behavior of RL models, particularly across training.
+summary: ''
+link: https://arxiv.org/pdf/2603.19968
+links_alt:
+audit_status: raw

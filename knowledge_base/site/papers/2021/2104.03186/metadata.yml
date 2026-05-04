@@ -1,0 +1,17 @@
+title: Temporal Parallelisation of Dynamic Programming and Linear Quadratic Control
+algorithm:
+authors:
+  - Simo Särkkä
+  - Ángel F. García-Fernández
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2104.03186"
+tags:
+abstract: >
+  This paper proposes a general formulation for temporal parallelisation of dynamic programming for optimal control problems. We derive the elements and associative operators to be able to use parallel scans to solve these problems with logarithmic time complexity rather than linear time complexity. We apply this methodology to problems with finite state and control spaces, linear quadratic tracking control problems, and to a class of nonlinear control problems. The computational benefits of the parallel methods are demonstrated via numerical simulations run on a graphics processing unit.
+summary: ''
+link: https://arxiv.org/pdf/2104.03186
+links_alt:
+audit_status: raw

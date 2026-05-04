@@ -1,0 +1,17 @@
+title: 'SIL-RRT*: Learning Sampling Distribution through Self Imitation Learning'
+algorithm:
+authors:
+  - Xuzhe Dang
+  - Stefan Edelkamp
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2411.17293"
+tags:
+abstract: >
+  Efficiently finding safe and feasible trajectories for mobile objects is a critical field in robotics and computer science. In this paper, we propose SIL-RRT*, a novel learning-based motion planning algorithm that extends the RRT* algorithm by using a deep neural network to predict a distribution for sampling at each iteration. We evaluate SIL-RRT* on various 2D and 3D environments and establish that it can efficiently solve high-dimensional motion planning problems with fewer samples than traditional sampling-based algorithms. Moreover, SIL-RRT* is able to scale to more complex environments, making it a promising approach for solving challenging robotic motion planning problems.
+summary: ''
+link: https://arxiv.org/pdf/2411.17293
+links_alt:
+audit_status: raw

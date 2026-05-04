@@ -1,0 +1,21 @@
+title: >
+  Variance-Reduced Model Predictive Path Integral via Quadratic Model Approximation
+algorithm:
+authors:
+  - Fabian Schramm
+  - Franki Nguimatsia Tiofack
+  - Nicolas Perrin-Gilbert
+  - Marc Toussaint
+  - Justin Carpentier
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2602.03639"
+tags:
+abstract: >
+  Sampling-based controllers, such as Model Predictive Path Integral (MPPI) methods, offer substantial flexibility but often suffer from high variance and low sample efficiency. To address these challenges, we introduce a hybrid variance-reduced MPPI framework that integrates a prior model into the sampling process. Our key insight is to decompose the objective function into a known approximate model and a residual term. Since the residual captures only the discrepancy between the model and the objective, it typically exhibits a smaller magnitude and lower variance than the original objective. Although this principle applies to general modeling choices, we demonstrate that adopting a quadratic approximation enables the derivation of a closed-form, model-guided prior that effectively concentrates samples in informative regions. Crucially, the framework is agnostic to the source of geometric information, allowing the quadratic model to be constructed from exact derivatives, structural approximations (e.g., Gauss- or Quasi-Newton), or gradient-free randomized smoothing. We validate the approach on standard optimization benchmarks, a nonlinear, underactuated cart-pole control task, and a contact-rich manipulation problem with non-smooth dynamics. Across these domains, we achieve faster convergence and superior performance in low-sample regimes compared to standard MPPI. These results suggest that the method can make sample-based control strategies more practical in scenarios where obtaining samples is expensive or limited.
+summary: ''
+link: https://arxiv.org/pdf/2602.03639
+links_alt:
+audit_status: raw

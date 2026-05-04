@@ -1,0 +1,20 @@
+title: Matrix-free Second-order Optimization of Gaussian Splats with Residual Sampling
+algorithm:
+authors:
+  - Hamza Pehlivan
+  - Andrea Boscolo Camiletto
+  - Lin Geng Foo
+  - Marc Habermann
+  - Christian Theobalt
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2504.12905"
+tags:
+abstract: >
+  3D Gaussian Splatting (3DGS) is widely used for novel view synthesis due to its high rendering quality and fast inference time. However, 3DGS predominantly relies on first-order optimizers such as Adam, which leads to long training times. To address this limitation, we propose a novel second-order optimization strategy based on Levenberg-Marquardt (LM) and Conjugate Gradient (CG), specifically tailored towards Gaussian Splatting. Our key insight is that the Jacobian in 3DGS exhibits significant sparsity since each Gaussian affects only a limited number of pixels. We exploit this sparsity by proposing a matrix-free and GPU-parallelized LM optimization. To further improve its efficiency, we propose sampling strategies for both camera views and loss function and, consequently, the normal equation, significantly reducing the computational complexity. In addition, we increase the convergence rate of the second-order approximation by introducing an effective heuristic to determine the learning rate that avoids the expensive computation cost of line search methods. As a result, our method achieves a 4x speedup over standard LM and outperforms Adam by ~5x when the Gaussian count is low while providing ~1.3x speed in moderate counts. In addition, our matrix-free implementation achieves 2x speedup over the concurrent second-order optimizer 3DGS-LM, while using 3.5x less memory. Project Page: https://vcai.mpi-inf.mpg.de/projects/LM-RS/
+summary: ''
+link: https://arxiv.org/pdf/2504.12905
+links_alt:
+audit_status: raw

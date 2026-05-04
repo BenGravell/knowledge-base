@@ -1,0 +1,19 @@
+title: Gradient Descent Converges to Minimizers
+algorithm:
+authors:
+  - Jason D. Lee
+  - Max Simchowitz
+  - Michael I. Jordan
+  - Benjamin Recht
+year: 2016
+source:
+type: ''
+doi:
+arxiv_id: "1602.04915"
+tags:
+abstract: >
+  We show that gradient descent converges to a local minimizer, almost surely with random initialization. This is proved by applying the Stable Manifold Theorem from dynamical systems theory.
+summary: ''
+link: https://arxiv.org/pdf/1602.04915
+links_alt:
+audit_status: raw

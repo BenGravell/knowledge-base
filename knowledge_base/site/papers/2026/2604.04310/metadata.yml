@@ -1,0 +1,17 @@
+title: 'frax: Fast Robot Kinematics and Dynamics in JAX'
+algorithm:
+authors:
+  - Daniel Morton
+  - Marco Pavone
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.04310"
+tags:
+abstract: >
+  In robot control, planning, and learning, there is a need for rigid-body dynamics libraries that are highly performant, easy to use, and compatible with CPUs and accelerators. While existing libraries often excel at either low-latency CPU execution or high-throughput GPU workloads, few provide a unified framework that targets multiple architectures without compromising performance or ease-of-use. To address this, we introduce frax, a JAX-based library for robot kinematics and dynamics, providing a high-performance, pure-Python interface across CPU, GPU, and TPU. Via a fully-vectorized approach to robot dynamics, frax enables efficient real-time control and parallelization, while supporting automatic differentiation for optimization-based methods. On CPU, frax achieves low-microsecond computation times suitable for kilohertz control rates, outperforming common libraries in Python and approaching optimized C++ implementations. On GPU, the same code scales to thousands of instances, reaching upwards of 100 million dynamics evaluations per second. We validate performance on a Franka Panda manipulator and a Unitree G1 humanoid, and release frax as an open-source library.
+summary: ''
+link: https://arxiv.org/pdf/2604.04310
+links_alt:
+audit_status: raw

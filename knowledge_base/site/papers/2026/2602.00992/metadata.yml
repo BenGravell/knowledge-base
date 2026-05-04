@@ -1,0 +1,17 @@
+title: Geometry-Aware Sampling-Based Motion Planning on Riemannian Manifolds
+algorithm:
+authors:
+  - Phone Thiha Kyaw
+  - Jonathan Kelly
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2602.00992"
+tags:
+abstract: >
+  In many robot motion planning problems, task objectives and physical constraints induce non-Euclidean geometry on the configuration space, yet many planners operate using Euclidean distances that ignore this structure. We address the problem of planning collision-free motions that minimize length under configuration-dependent Riemannian metrics, corresponding to geodesics on the configuration manifold. Conventional numerical methods for computing such paths do not scale well to high-dimensional systems, while sampling-based planners trade scalability for geometric fidelity. To bridge this gap, we propose a sampling-based motion planning framework that operates directly on Riemannian manifolds. We introduce a computationally efficient midpoint-based approximation of the Riemannian geodesic distance and prove that it matches the true Riemannian distance with third-order accuracy. Building on this approximation, we design a local planner that traces the manifold using first-order retractions guided by Riemannian natural gradients. Experiments on a two-link planar arm and a 7-DoF Franka manipulator under a kinetic-energy metric, as well as on rigid-body planning in $\mathrm{SE}(2)$ with non-holonomic motion constraints, demonstrate that our approach consistently produces lower-cost trajectories than Euclidean-based planners and classical numerical geodesic-solver baselines.
+summary: ''
+link: https://arxiv.org/pdf/2602.00992
+links_alt:
+audit_status: raw

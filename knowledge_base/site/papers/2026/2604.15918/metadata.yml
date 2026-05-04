@@ -1,0 +1,20 @@
+title: A Practical Guide to PID Controller Implementation
+algorithm:
+authors:
+  - E. Sundström
+  - M. Bauer
+  - J. L. Guzmán
+  - T. Hägglund
+  - K. Soltesz
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.15918"
+tags:
+abstract: >
+  How difficult can it be to implement a PID controller? The answer is twofold. Implementing the PID control law is simple and computationally inexpensive. However, this basic form will not work in practical applications. The primary reason for this is the various physical limitations of the actuator. Measurement noise, different implementations depending on the various structures (P, PI, PD or PID), bumpless transfer, and varying sampling time also result in problems rendering the basic form inoperable. PID implementation is therefore more difficult than meets the eye. This paper introduces a reference implementation of the PID controller which considers these practical issues. It includes pseudo-code, discussion of the implementation choices and simulation of carefully selected, important test cases.
+summary: ''
+link: https://arxiv.org/pdf/2604.15918
+links_alt:
+audit_status: raw

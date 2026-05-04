@@ -1,0 +1,21 @@
+title: 'Beyond Nonconvexity: A Universal Trust-Region Method with New Analyses'
+algorithm:
+authors:
+  - Yuntian Jiang
+  - Chang He
+  - Chuwen Zhang
+  - Dongdong Ge
+  - Bo Jiang
+  - Yinyu Ye
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2311.11489"
+tags:
+abstract: >
+  The trust-region (TR) method is renowned historically for its robustness in nonconvex problems and extraordinary numerical performance, but the study of its performance in convex optimization is somehow limited. This paper complements the existing literature by presenting a universal trust-region method that simultaneously incorporates the quadratic regularization and ball constraint. In particular, we introduce a novel descent property tailored for trust-region-type algorithms, enabling us to unify and streamline the analysis for both convex and nonconvex optimization. Our method exhibits an iteration complexity of $\tilde O(ε^{-3/2})$ to find an $ε$-approximate second-order stationary point for nonconvex optimization. Meanwhile, the analysis reveals that the universal method attains an $O(ε^{-1/2})$ complexity bound for convex optimization. Finally, we develop an adaptive universal method to address practical implementations. The numerical results show the effectiveness of our method in both nonconvex and convex problems.
+summary: ''
+link: https://arxiv.org/pdf/2311.11489
+links_alt:
+audit_status: raw

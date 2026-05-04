@@ -33,3 +33,4 @@ summary: >
   Incorporates a trajectory prediction model into MPPI to enable interaction-aware trajectory planning.
 link: https://research.tudelft.nl/en/publications/model-predictive-path-integral-control-for-interaction-rich-local
 links_alt:
+audit_status: reviewed

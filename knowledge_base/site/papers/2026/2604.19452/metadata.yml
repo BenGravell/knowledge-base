@@ -1,0 +1,20 @@
+title: >
+  Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks
+algorithm:
+authors:
+  - Joscha F. Bongard
+  - Georg Jank
+  - Simon Sagmeister
+  - Boris Lohmann
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.19452"
+tags:
+abstract: >
+  We propose a robust nonlinear model predictive control (MPC) scheme for trajectory-tracking control of autonomous vehicles at the limits of handling on non-planar road surfaces. We derive the dynamics from first principles and selectively omit terms with negligible dynamic influence to maintain real-time capability. The resulting MPC with a three-dimensional (3D) dynamic single-track model integrates relevant dynamic effects directly into the prediction model and leverages them to improve prediction accuracy and therefore control performance. Even if the influence of terrain-induced vertical loads on the total acceleration potential is modeled, tire-road interactions are subject to uncertainty and disturbance. The uncertainty-aware constraint tightening scheme introduces a margin to constraint bounds to keep the vehicle controllable and stable in this environment. To validate our proposed approach, we perform high-fidelity dynamic double-track vehicle dynamics simulations on a model of a real circuit. We find that our algorithm can improve trajectory-tracking accuracy while maintaining low computation times.
+summary: ''
+link: https://arxiv.org/pdf/2604.19452
+links_alt:
+audit_status: raw

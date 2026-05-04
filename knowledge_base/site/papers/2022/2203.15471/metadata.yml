@@ -1,0 +1,20 @@
+title: >
+  State space models vs. multi-step predictors in predictive control: Are state space models complicating safe data-driven designs?
+algorithm:
+authors:
+  - Johannes Köhler
+  - Kim P. Wabersich
+  - Julian Berberich
+  - Melanie N. Zeilinger
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2203.15471"
+tags:
+abstract: >
+  This paper contrasts recursive state space models and direct multi-step predictors for linear predictive control. We provide a tutorial exposition for both model structures to solve the following problems: 1. stochastic optimal control; 2. system identification; 3. stochastic optimal control based on the estimated model. Throughout the paper, we provide detailed discussions of the benefits and limitations of these two model parametrizations for predictive control and highlight the relation to existing works. Additionally, we derive a novel (partially tight) constraint tightening for stochastic predictive control with parametric uncertainty in the multi-step predictor.
+summary: ''
+link: https://arxiv.org/pdf/2203.15471
+links_alt:
+audit_status: raw
