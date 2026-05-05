@@ -1,9 +1,8 @@
 /* mind-map.js — Cytoscape.js paper mind-map visualisation
  *
  * Loaded by mind-map.md after:
- *   1. cytoscape.min.js   (sets window.cytoscape)
- *   2. cytoscape-fcose.js (registers the fcose layout)
- *   3. mind-map-data.js   (sets window.mindMapData)
+ *   1. cytoscape.min.js  (sets window.cytoscape)
+ *   2. mind-map-data.js  (sets window.mindMapData, includes UMAP positions)
  */
 
 'use strict';
@@ -88,6 +87,7 @@
 
     const nodesWithColor = visibleNodes.map(n => ({
       data: { ...n.data, color: nodeColor(n.data.category, n.data.sub_category) },
+      position: n.position,
     }));
 
     const edges = DATA.edges
@@ -98,87 +98,6 @@
       );
 
     return [...nodesWithColor, ...edges];
-  }
-
-  /* -------------------------------------------------------------------------
-   * Layout skeleton — decouple physics from display
-   *
-   * Force-directed physics is O(edges × iterations).  At low similarity
-   * thresholds the graph can contain many edges, making the simulation
-   * very slow even though those extra edges carry little new positional
-   * information — nearby nodes are already captured by their strongest links.
-   *
-   * Solution: pass only the top-LAYOUT_TOP_K strongest visible edges per
-   * node to the force solver.  The displayed edge count is unlimited; only
-   * the layout graph is capped.
-   * -------------------------------------------------------------------------*/
-  const LAYOUT_TOP_K = 5;
-
-  function buildLayoutEles() {
-    const visibleNodes = cy.nodes().filter(n => n.style('display') !== 'none');
-
-    // Collect each visible node's visible edges, keyed by node id.
-    const nodeEdges = new Map();
-    visibleNodes.forEach(n => nodeEdges.set(n.id(), []));
-
-    cy.edges()
-      .filter(e => e.style('display') !== 'none')
-      .forEach(e => {
-        const src = e.data('source'), tgt = e.data('target'), w = e.data('weight');
-        if (nodeEdges.has(src)) nodeEdges.get(src).push([w, e.id()]);
-        if (nodeEdges.has(tgt)) nodeEdges.get(tgt).push([w, e.id()]);
-      });
-
-    // Keep the LAYOUT_TOP_K highest-weight edges per node.
-    const layoutEdgeIds = new Set();
-    nodeEdges.forEach(pairs => {
-      pairs.sort((a, b) => b[0] - a[0]);
-      pairs.slice(0, LAYOUT_TOP_K).forEach(([, id]) => layoutEdgeIds.add(id));
-    });
-
-    return visibleNodes.union(cy.edges().filter(e => layoutEdgeIds.has(e.id())));
-  }
-
-  /* -------------------------------------------------------------------------
-   * Layout configuration
-   *
-   * The layout skeleton (buildLayoutEles) limits physics to the top-K
-   * strongest edges per node, so fcose defaults work well for everything
-   * except idealEdgeLength.  Making that weight-based encodes semantic
-   * distance in the geometry: similar papers cluster tightly, weaker links
-   * push nodes apart rather than pulling them together.
-   *
-   * Empirical edge-weight range at threshold=0.80: [0.70, 0.95].
-   * We normalise into [0,1] over that window so the full spring-length
-   * range is always used, giving 4× more IQR discrimination than a [0,1] map.
-   *   w=0.95 → 60 px,  w=0.83 (median) → ~270 px,  w=0.70 → 500 px
-   * -------------------------------------------------------------------------*/
-  function layoutConfig(animate) {
-    const useFcose = typeof cytoscapeFcose !== 'undefined';
-    if (useFcose) {
-      return {
-        name: 'fcose',
-        quality: 'proof',
-        randomize: true,
-        animate,
-        animationDuration: animate ? 1200 : 0,
-        fit: false,
-        idealEdgeLength: edge => {
-          const w = edge.data('weight') || 0.8;
-          // Normalise into empirical display range [0.70, 0.95] → t ∈ [0, 1]
-          const t = Math.max(0, Math.min(1, (w - 0.70) / (0.95 - 0.70)));
-          return Math.round(36 + (1 - t) * 264);
-        },
-      };
-    }
-    // Built-in cose fallback (no per-edge function support)
-    return {
-      name: 'cose',
-      randomize: true,
-      animate,
-      animationDuration: animate ? 1200 : 0,
-      fit: false,
-    };
   }
 
   /* -------------------------------------------------------------------------
@@ -254,21 +173,17 @@
    * Initialise Cytoscape
    * -------------------------------------------------------------------------*/
   function initCy() {
-    if (typeof cytoscapeFcose !== 'undefined') {
-      try { cytoscape.use(cytoscapeFcose); } catch (_) { /* already registered */ }
-    }
-
     cy = cytoscape({
       container: document.getElementById('cy'),
       elements: buildElements(),
       style: buildStylesheet(),
-      layout: { name: 'preset' },   // positions set below via buildLayoutEles()
+      layout: { name: 'preset' },   // UMAP positions baked into each element
       minZoom: 0.04,
       maxZoom: 6,
       wheelSensitivity: 0.25,
     });
 
-    cy.on('layoutstop', hideLoading);
+    hideLoading();
 
     // Hover: show tooltip + dim others (skip if a node is pinned)
     cy.on('mouseover', 'node', evt => {
@@ -312,9 +227,6 @@
     });
 
     updateStats();
-
-    // Run layout on the sparse skeleton — fast at any display threshold.
-    buildLayoutEles().layout(layoutConfig(true)).run();
   }
 
   /* -------------------------------------------------------------------------
@@ -558,12 +470,6 @@
     document.getElementById('mm-fit-btn').addEventListener('click', () => {
       const visible = cy.elements().filter(el => el.style('display') !== 'none');
       cy.fit(visible, 40);
-    });
-
-    // Re-layout
-    document.getElementById('mm-relayout-btn').addEventListener('click', () => {
-      document.getElementById('mm-loading').style.display = 'flex';
-      buildLayoutEles().layout(layoutConfig(true)).run();
     });
 
     // Select all / none categories
