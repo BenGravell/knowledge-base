@@ -6,11 +6,8 @@ listed under ``gen-files.scripts`` in mkdocs.yml.
 
 Copies files from ``mind_map/`` into the virtual ``javascripts/`` path:
 
-  mind_map/mind-map.js              → site/javascripts/mind-map.js
-  mind_map/mind-map-data.js         → site/javascripts/mind-map-data.js
-  mind_map/vendor/layout-base.js    → site/javascripts/vendor/layout-base.js
-  mind_map/vendor/cose-base.js      → site/javascripts/vendor/cose-base.js
-  mind_map/vendor/cytoscape-fcose.js→ site/javascripts/vendor/cytoscape-fcose.js
+  mind_map/mind-map.js     → site/javascripts/mind-map.js
+  mind_map/mind-map-data.js→ site/javascripts/mind-map-data.js
 
 If ``mind-map-data.js`` has not yet been generated (i.e. the user has not
 run ``generate_mind_map_data.py`` yet), a minimal placeholder is written so
@@ -44,10 +41,3 @@ for fname in ("mind-map.js", "mind-map-data.js"):
     with mkdocs_gen_files.open(f"javascripts/{fname}", "w") as out:
         out.write(content)
 
-# Vendor libraries (fcose and its deps) — served locally to avoid CDN issues.
-VENDOR_DIR = MIND_MAP_DIR / "vendor"
-for vname in ("layout-base.js", "cose-base.js", "cytoscape-fcose.js"):
-    src = VENDOR_DIR / vname
-    if src.exists():
-        with mkdocs_gen_files.open(f"javascripts/vendor/{vname}", "w") as out:
-            out.write(src.read_text(encoding="utf-8"))

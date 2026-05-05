@@ -72,7 +72,7 @@ site automatically at build time.
 Requirements
 ------------
 Always required:
-    pyyaml numpy
+    pyyaml numpy umap-learn
 
 For Voyage AI backend:
     voyageai
@@ -92,6 +92,7 @@ import sys
 from pathlib import Path
 
 import yaml
+import numpy as np
 
 # ---------------------------------------------------------------------------
 # Paths (relative to this script's location: knowledge_base/mind_map/)
@@ -167,6 +168,31 @@ def content_hash(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()[:16]
 
 
+def compute_umap_positions(embeddings: "np.ndarray", scale: float = 1000.0, random_state: int = 42) -> "np.ndarray":
+    """Project high-dimensional embeddings to 2-D UMAP coords scaled to pixel-space.
+
+    The result is centred at the origin and scaled so the largest axis spans
+    ±scale pixels.  This gives the browser-side Cytoscape preset layout a
+    stable, semantically meaningful arrangement without any force simulation.
+    """
+    import umap
+
+    reducer = umap.UMAP(
+        n_components=2,
+        metric="cosine",
+        n_neighbors=min(50, len(embeddings) - 1),  # large neighbourhood → global structure
+        min_dist=0.05,   # tighter packing within clusters
+        n_epochs=500,    # more optimisation steps → better convergence
+        random_state=random_state,
+    )
+    coords = reducer.fit_transform(embeddings).astype(np.float64)
+    coords -= coords.mean(axis=0)
+    spread = np.abs(coords).max()
+    if spread > 0:
+        coords = coords / spread * scale
+    return coords
+
+
 def build_embed_text(data: dict) -> str:
     """Construct the text that represents a paper for embedding purposes."""
     parts = [
@@ -186,12 +212,20 @@ def build_embed_text(data: dict) -> str:
 
 PLANNING_CATEGORY = "Motion Planning"  # top-level category that receives sub-categories
 
+# Nav sections that act as transparent grouping wrappers: their children are
+# treated as top-level categories rather than the wrapper itself.
+TRANSPARENT_NAV_SECTIONS = {"Content Tree"}
+
 
 def parse_nav_categories(config: dict) -> dict[str, dict]:
     """
     Recursively walk the mkdocs ``nav`` tree and record which top-level
     section each paper belongs to, plus a sub-category for Motion Planning
     derived from the 2nd-level nav sections in mkdocs.yml.
+
+    Sections listed in TRANSPARENT_NAV_SECTIONS (e.g. "Content Tree") are
+    treated as invisible wrappers: their children are promoted to top-level
+    categories instead.
 
     Returns a dict mapping paper_id → {"category": str, "sub_category": str | None}.
     sub_category is only set for Motion Planning papers; it is None for all others.
@@ -210,7 +244,10 @@ def parse_nav_categories(config: dict) -> dict[str, dict]:
         elif isinstance(node, dict):
             for key, value in node.items():
                 if category is None:
-                    walk(value, key, None)
+                    if key in TRANSPARENT_NAV_SECTIONS:
+                        walk(value, None, None)   # skip wrapper, keep looking for real category
+                    else:
+                        walk(value, key, None)
                 elif category == PLANNING_CATEGORY and sub_category is None:
                     # Second level under Motion Planning → becomes sub_category
                     walk(value, category, key)
@@ -220,7 +257,10 @@ def parse_nav_categories(config: dict) -> dict[str, dict]:
     for item in config.get("nav", []):
         if isinstance(item, dict):
             for section, content in item.items():
-                walk(content, section, None)
+                if section in TRANSPARENT_NAV_SECTIONS:
+                    walk(content, None, None)
+                else:
+                    walk(content, section, None)
 
     return mapping
 
@@ -240,7 +280,6 @@ def embed_voyage(texts: list[str], model: str = "voyage-3-large") -> "np.ndarray
     The API is called in batches of up to 128 texts (the per-request limit).
     """
     import voyageai  # type: ignore[import]
-    import numpy as np
 
     api_key = os.environ["VOYAGE_API_KEY"]
     client = voyageai.Client(api_key=api_key)
@@ -277,7 +316,6 @@ def embed_fastembed(
     similarity as of 2025 and produces embeddings competitive with many
     commercial APIs.
     """
-    import numpy as np
     from fastembed import TextEmbedding  # type: ignore[import]
 
     print(f"    Loading fastembed model: {model}")
@@ -368,7 +406,6 @@ def save_cache(cache_path: Path, model_name: str, paper_data: dict) -> None:
 
 def cosine_similarity_matrix(embeddings: "np.ndarray") -> "np.ndarray":
     """Return the (n × n) pairwise cosine similarity matrix."""
-    import numpy as np
     norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
     normalised = embeddings / np.clip(norms, 1e-10, None)
     return (normalised @ normalised.T).astype(np.float32)
@@ -428,8 +465,6 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    import numpy as np
-
     print("=" * 60)
     print("Knowledge Base — Mind Map Data Generator")
     print("=" * 60)
@@ -440,7 +475,7 @@ def main() -> None:
     paper_to_category = parse_nav_categories(config)
 
     # ---- collect papers ----------------------------------------------------
-    print("\n[1/5] Collecting paper metadata…")
+    print("\n[1/6] Collecting paper metadata…")
     papers: list[dict] = []
     for metadata_file in sorted(METADATA_ROOT.rglob("*.yml")):
         with open(metadata_file, "r", encoding="utf-8") as f:
@@ -472,11 +507,11 @@ def main() -> None:
     print(f"    Found {len(papers)} papers")
 
     # ---- choose backend ----------------------------------------------------
-    print("\n[2/5] Selecting embedding backend…")
+    print("\n[2/6] Selecting embedding backend…")
     model_name, embed_fn = choose_backend(args.backend)
 
     # ---- load cache and find which papers need (re-)embedding --------------
-    print("\n[3/5] Checking embedding cache…")
+    print("\n[3/6] Checking embedding cache…")
     cache = load_cache(args.cache)
 
     # Invalidate entire cache if the model changed
@@ -503,7 +538,7 @@ def main() -> None:
         print(f"    All {len(papers)} papers are cached — skipping embedding API call")
 
     # ---- generate embeddings -----------------------------------------------
-    print("\n[4/5] Generating embeddings…")
+    print("\n[4/6] Generating embeddings…")
     if to_embed:
         texts = [papers[i]["embed_text"] for i in to_embed]
         new_embeddings = embed_fn(texts)
@@ -524,8 +559,13 @@ def main() -> None:
     embeddings = np.array(embedding_list, dtype=np.float32)
     print(f"    Embedding matrix: {embeddings.shape}")
 
+    # ---- UMAP layout -------------------------------------------------------
+    print("\n[5/6] Computing UMAP 2-D layout…")
+    umap_coords = compute_umap_positions(embeddings)
+    print(f"    UMAP coords: {umap_coords.shape}  range x=[{umap_coords[:,0].min():.0f}, {umap_coords[:,0].max():.0f}]  y=[{umap_coords[:,1].min():.0f}, {umap_coords[:,1].max():.0f}]")
+
     # ---- build graph -------------------------------------------------------
-    print("\n[5/5] Building graph and writing output…")
+    print("\n[6/6] Building graph and writing output…")
 
     sim = cosine_similarity_matrix(embeddings)
     n = len(papers)
@@ -542,9 +582,13 @@ def main() -> None:
                 "sub_category": p["sub_category"],
                 "tags": p["tags"],
                 "summary": p["summary"],
-            }
+            },
+            "position": {
+                "x": round(float(umap_coords[i, 0]), 1),
+                "y": round(float(umap_coords[i, 1]), 1),
+            },
         }
-        for p in papers
+        for i, p in enumerate(papers)
     ]
 
     edges: list[dict] = []

@@ -337,13 +337,13 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 <div id="mm-app">
 
-  <!-- Loading spinner shown while fcose layout runs -->
+  <!-- Loading spinner shown while the graph initialises -->
   <div id="mm-loading">
     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="3">
       <circle cx="20" cy="20" r="16" stroke-opacity="0.25"/>
       <path d="M20 4 a16 16 0 0 1 16 16" stroke-linecap="round"/>
     </svg>
-    Computing layout…
+    Loading…
   </div>
 
   <!-- Panel header: always visible, overlays app corner to survive panel collapse -->
@@ -380,7 +380,6 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
       <div class="mm-section mm-actions">
         <button id="mm-fit-btn">Fit view</button>
-        <button id="mm-relayout-btn">Re-layout</button>
       </div>
 
       <div id="mm-stats">
@@ -401,10 +400,6 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 <!-- Cytoscape core -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.29.2/cytoscape.min.js"></script>
-<!-- fcose layout plugin — served locally (v2.x requires layout-base and cose-base as separate globals) -->
-<script src="../javascripts/vendor/layout-base.js"></script>
-<script src="../javascripts/vendor/cose-base.js"></script>
-<script src="../javascripts/vendor/cytoscape-fcose.js"></script>
 <!-- Generated mind-map data (run generate_mind_map_data.py to regenerate) -->
 <script src="../javascripts/mind-map-data.js"></script>
 <!-- Visualisation logic -->
@@ -453,16 +448,14 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     });
   }
 
-  /* After initial layout and re-layout: fit to the visible canvas region */
+  /* Fit to the visible canvas region on initial load */
   var cy = window._cy && window._cy();
   if (cy) {
-    cy.on('layoutstop', function () {
-      if (panel.classList.contains('body-collapsed')) {
-        cy.fit(cy.elements(':visible'), PAD);
-      } else {
-        fitBesidePanel(cy);
-      }
-    });
+    if (panel.classList.contains('body-collapsed')) {
+      cy.fit(cy.elements(':visible'), PAD);
+    } else {
+      fitBesidePanel(cy);
+    }
   }
 
   header.addEventListener('click', function () {
