@@ -35,6 +35,12 @@ https://ieeexplore.ieee.org/document/10480553
 https://ieeexplore.ieee.org/document/9037111
 https://ieeexplore.ieee.org/document/194354
 https://ieeexplore.ieee.org/document/657778
+https://ieeexplore.ieee.org/document/1056489
+https://ieeexplore.ieee.org/document/5509718
+https://ieeexplore.ieee.org/document/9835027
+https://ieeexplore.ieee.org/document/9812259
+https://ieeexplore.ieee.org/document/11005576/
+https://ieeexplore.ieee.org/document/11081470
 
 ## ACM
 
@@ -42,6 +48,7 @@ https://dl.acm.org/doi/full/10.1145/3624480
 
 ## SPRINGER
 
+https://link.springer.com/article/10.1007/BF00115009
 https://link.springer.com/chapter/10.1007/978-3-642-19457-3_1
 https://link.springer.com/article/10.1007/s10107-015-0893-2
 https://link.springer.com/article/10.1007/s10107-006-0706-8
@@ -49,6 +56,9 @@ https://link.springer.com/article/10.1007/s10957-021-01930-y
 https://link.springer.com/article/10.1007/s42452-020-2506-9
 https://link.springer.com/article/10.1023/A:1013689704352
 https://link.springer.com/article/10.1007/s12532-018-0139-4
+https://link.springer.com/chapter/10.1007/978-3-642-37456-2_14
+https://link.springer.com/article/10.1007/BF00992696
+https://link.springer.com/article/10.1007/BF02278710
 
 ## ELSEVIER
 
@@ -61,12 +71,15 @@ https://www.sciencedirect.com/science/article/abs/pii/S0005109803002838
 https://www.sciencedirect.com/science/article/pii/S0096300324006805
 https://www.sciencedirect.com/science/article/abs/pii/036402139090002E
 https://www.sciencedirect.com/science/article/abs/pii/S0005109803002838
+https://www.sciencedirect.com/science/article/abs/pii/0167691189900285
+https://www.sciencedirect.com/science/article/pii/S147466701763475X
 
 ## NATURE
 
 https://www.nature.com/articles/s43588-023-00503-5
 https://www.nature.com/articles/s41567-022-01852-0
 https://www.nature.com/articles/323533a0
+https://www.nature.com/articles/s41586-021-04357-7
 
 ## Science
 
@@ -74,6 +87,22 @@ https://www.science.org/doi/10.1126/scirobotics.abm6074
 
 ## Other papers
 
+https://web.stanford.edu/~boyd/papers/ecos_codegen_ecc.html
+https://web.stanford.edu/~boyd/papers/ecos.html
+https://liberzon.csl.illinois.edu/teaching/kalman_paper.pdf
+https://www.annualreviews.org/content/journals/10.1146/annurev-control-061520-010504
+https://epubs.siam.org/doi/abs/10.1137/070700978?journalCode=sjmael
+https://papers.neurips.cc/paper_files/paper/1988/file/812b4ba287f5ee0bc9d43bbf5bbe87fb-Paper.pdf
+https://proceedings.mlr.press/v9/ross10a.html
+https://onlinelibrary.wiley.com/doi/abs/10.1002/nav.3800030109
+https://www.researchgate.net/profile/Mahesan-Niranjan/publication/2500611_On-Line_Q-Learning_Using_Connectionist_Systems/links/5438d5db0cf204cab1d6db0f/On-Line-Q-Learning-Using-Connectionist-Systems.pdf
+https://papers.nips.cc/paper_files/paper/1999/hash/464d828b85b0bed98e80ade0a5c43b0f-Abstract.html
+https://research.tilburguniversity.edu/en/publications/visualizing-high-dimensional-data-using-t-sne/
+https://jmlr.org/papers/v15/vandermaaten14a.html
+https://nvlpubs.nist.gov/nistpubs/jres/049/jresv49n6p409_a1b.pdf
+https://epubs.siam.org/doi/10.1137/1011036
+https://epubs.siam.org/doi/10.1137/1013035
+https://epubs.siam.org/doi/10.1137/0321028
 https://dl.acm.org/doi/10.1145/3721145.3730415
 https://stanfordasl.github.io/wp-content/papercite-data/pdf/Majumdar.Pavone.ISRR17.pdf
 https://journals.sagepub.com/doi/10.1177/027836498600500304
@@ -372,6 +401,21 @@ https://rerun.io/blog/data-layer-tax
 https://opennav.org/news/mppi-low-acceleration/
 https://aaltodoc.aalto.fi/items/874eec9f-9841-464e-91fb-ec45b26066c4
 https://github.com/eurika-kaiser/SINDY-MPC
+
+## Tools
+
+https://github.com/slidevjs/slidev
+https://mermaid.ai/
+https://marp.app/
+
+
+## Textbooks
+
+https://www.cambridge.org/core/books/highdimensional-statistics/8A91ECEEC38F46DAB53E9FF8757C7A4E
+
+https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-book.html
+
+
 
 ## Dissertations
 

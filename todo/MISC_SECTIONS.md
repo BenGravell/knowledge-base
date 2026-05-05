@@ -56,6 +56,30 @@ PDF (McGill): https://www.math.mcgill.ca/dstephens/680/Papers/Davidon91.pdf
 
 ### SR1
 
+## AV Safety Concepts
+
+
+https://iot-automotive.news/rss-explained-the-five-rules-for-autonomous-vehicle-safety/
+
+https://www.mobileye.com/technology/true-redundancy/
+
+https://kodiak.ai/safety-report
+
+https://www.nvidia.com/content/dam/en-zz/Solutions/self-driving-cars/safety-force-field/an-introduction-to-the-safety-force-field-v2.pdf
+
+https://ieeexplore.ieee.org/document/9575420
+
+https://ieeexplore.ieee.org/document/9304563
+
+https://ieeexplore.ieee.org/document/9575928
+
+
+## ERA
+
+"Identification of Observer/Kalman Filter Markov Parameters: Theory and Experiments"
+Juang, Phan, Horta & Longman — Journal of Guidance, Control, and Dynamics, 1993
+
+This is Juang's own follow-on to his 1985 ERA paper. OKID generalizes ERA from pure impulse response data to data driven by arbitrary input signals, by identifying a special set of parameters called Observer Markov Parameters that subsume both the state-space model and an associated Kalman filter gain. (Dartmouth) This is critical: ERA only works on impulse responses (clean, structured experiments), while OKID/ERA works on any input-output time series — which is exactly the setting DMD and SINDy later target.
 
 ## MPTree
 

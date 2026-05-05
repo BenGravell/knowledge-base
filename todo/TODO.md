@@ -101,6 +101,12 @@ Tune the edge threshold.
 
 GRPO should be connected to PPO.
 
+
+1312.0041 should be connected to the 1985 ERA paper by Juang and Pappa
+Also to Identification of Observer/Kalman Filter Markov Parameters: Theory and Experiments" by Juang, Phan, Horta & Longman, 1993
+
+Tune edge weight threshold or revisit the text fed to embedding model, maybe we need more than the abstract.
+
 Define a reference set of known connected/disconnected items and use that to tune the threshold
 
 
