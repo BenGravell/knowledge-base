@@ -257,10 +257,22 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   align-items: center;
   gap: 5px;
   padding: 3px 0;
+}
+.mm-cat-group-cb {
+  flex-shrink: 0;
+  cursor: pointer;
+  margin: 0;
+}
+.mm-cat-group-toggle {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 5px;
   cursor: pointer;
   user-select: none;
+  min-width: 0;
 }
-.mm-cat-group-header:hover .mm-cat-group-name { color: var(--md-default-fg-color); }
+.mm-cat-group-toggle:hover .mm-cat-group-name { color: var(--md-default-fg-color); }
 .mm-cat-group-arrow {
   font-size: 0.65rem;
   color: var(--md-default-fg-color--lighter);
@@ -272,7 +284,6 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--md-default-fg-color--light);
-  text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 .mm-cat-group-items {

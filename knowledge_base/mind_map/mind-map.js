@@ -369,7 +369,7 @@
   /* -------------------------------------------------------------------------
    * Category filter panel
    * -------------------------------------------------------------------------*/
-  function makeCatItem(key, color, count) {
+  function makeCatItem(key, color, count, onChildChange) {
     const label = document.createElement('label');
     label.className = 'mm-cat-item';
     label.innerHTML =
@@ -380,6 +380,7 @@
     label.querySelector('input').addEventListener('change', e => {
       if (e.target.checked) activeCategories.add(key);
       else                   activeCategories.delete(key);
+      if (onChildChange) onChildChange();
       applyCategoryFilter();
     });
     return label;
@@ -411,32 +412,61 @@
         const totalCount = DATA.nodes.filter(n => n.data.category === cat).length;
         const header = document.createElement('div');
         header.className = 'mm-cat-group-header';
-        header.innerHTML =
-          `<span class="mm-cat-group-arrow">▾</span>` +
+
+        const groupCb = document.createElement('input');
+        groupCb.type = 'checkbox';
+        groupCb.className = 'mm-cat-group-cb';
+        groupCb.checked = true;
+
+        const toggleEl = document.createElement('span');
+        toggleEl.className = 'mm-cat-group-toggle';
+        toggleEl.innerHTML =
+          `<span class="mm-cat-group-arrow">▸</span>` +
           `<span class="mm-cat-group-name">${escHtml(cat)}</span>` +
           `<span class="mm-cat-count">${totalCount}</span>`;
 
+        header.appendChild(groupCb);
+        header.appendChild(toggleEl);
+
         const itemsEl = document.createElement('div');
         itemsEl.className = 'mm-cat-group-items';
+        itemsEl.style.display = 'none';
 
-        header.addEventListener('click', () => {
+        toggleEl.addEventListener('click', () => {
           const collapsed = itemsEl.style.display === 'none';
           itemsEl.style.display = collapsed ? '' : 'none';
-          header.querySelector('.mm-cat-group-arrow').textContent = collapsed ? '▾' : '▸';
+          toggleEl.querySelector('.mm-cat-group-arrow').textContent = collapsed ? '▾' : '▸';
+        });
+
+        function syncGroupCb() {
+          const childCbs = itemsEl.querySelectorAll('input[type="checkbox"]');
+          const checkedCount = [...childCbs].filter(cb => cb.checked).length;
+          groupCb.indeterminate = checkedCount > 0 && checkedCount < childCbs.length;
+          groupCb.checked = checkedCount === childCbs.length;
+        }
+
+        groupCb.addEventListener('change', () => {
+          groupCb.indeterminate = false;
+          itemsEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.checked = groupCb.checked;
+            if (groupCb.checked) activeCategories.add(cb.dataset.cat);
+            else                 activeCategories.delete(cb.dataset.cat);
+          });
+          applyCategoryFilter();
         });
 
         subCats.forEach(subCat => {
           activeCategories.add(subCat);
           const color = nodeColor(cat, subCat);
           const count = DATA.nodes.filter(n => n.data.sub_category === subCat).length;
-          itemsEl.appendChild(makeCatItem(subCat, color, count));
+          itemsEl.appendChild(makeCatItem(subCat, color, count, syncGroupCb));
         });
 
         // Fallback: papers in this category without a sub_category
         const orphanCount = DATA.nodes.filter(n => n.data.category === cat && !n.data.sub_category).length;
         if (orphanCount > 0) {
           activeCategories.add(cat);
-          itemsEl.appendChild(makeCatItem(cat, nodeColor(cat), orphanCount));
+          itemsEl.appendChild(makeCatItem(cat, nodeColor(cat), orphanCount, syncGroupCb));
         }
 
         groupEl.appendChild(header);
@@ -476,16 +506,24 @@
 
     // Select all / none categories
     document.getElementById('mm-all-cats').addEventListener('click', () => {
-      document.querySelectorAll('#mm-category-filters input').forEach(cb => {
+      document.querySelectorAll('#mm-category-filters input[data-cat]').forEach(cb => {
         cb.checked = true;
         activeCategories.add(cb.dataset.cat);
+      });
+      document.querySelectorAll('#mm-category-filters .mm-cat-group-cb').forEach(cb => {
+        cb.checked = true;
+        cb.indeterminate = false;
       });
       applyCategoryFilter();
     });
     document.getElementById('mm-no-cats').addEventListener('click', () => {
-      document.querySelectorAll('#mm-category-filters input').forEach(cb => {
+      document.querySelectorAll('#mm-category-filters input[data-cat]').forEach(cb => {
         cb.checked = false;
         activeCategories.delete(cb.dataset.cat);
+      });
+      document.querySelectorAll('#mm-category-filters .mm-cat-group-cb').forEach(cb => {
+        cb.checked = false;
+        cb.indeterminate = false;
       });
       applyCategoryFilter();
     });
