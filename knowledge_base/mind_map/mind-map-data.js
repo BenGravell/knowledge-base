@@ -163471,7 +163471,6 @@ const mindMapData = {
     "total_edges": 16880,
     "categoryOrder": [
       "Home",
-      "Portfolio",
       "Mind Map",
       "Explainers",
       "Motion Planning",
@@ -163483,7 +163482,8 @@ const mindMapData = {
       "Safety, Testing & Verification",
       "Computer Graphics",
       "Software & Programming",
-      "Just for Fun"
+      "Just for Fun",
+      "Portfolio"
     ],
     "subCategoryOrder": {
       "Motion Planning": [
