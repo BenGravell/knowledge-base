@@ -23,8 +23,11 @@ file (``embedding_cache.json`` by default).  On each run it:
   5. Recomputes the full similarity matrix from the (now complete) set of
      embeddings and rewrites the JS output file.
 
-Because the similarity matrix is O(n²) dot products over small vectors it
-is always fast to recompute, so only the embedding step is cached.
+UMAP positions are also cached in the same file (under a ``"umap"`` key).
+The UMAP cache is keyed by a SHA-256 hash of the paper IDs (in order),
+the embedding matrix bytes, and the UMAP hyperparameters, so it is
+automatically invalidated whenever any paper is added/removed/changed or
+the parameters change.
 
 Embedding backends
 ------------------
@@ -168,7 +171,14 @@ def content_hash(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()[:16]
 
 
-def compute_umap_positions(embeddings: "np.ndarray", scale: float = 1000.0, random_state: int = 42) -> "np.ndarray":
+def compute_umap_positions(
+    embeddings: "np.ndarray",
+    scale: float = 1000.0,
+    random_state: int = 42,
+    n_neighbors: int | None = None,
+    min_dist: float = 0.05,
+    n_epochs: int = 500,
+) -> "np.ndarray":
     """Project high-dimensional embeddings to 2-D UMAP coords scaled to pixel-space.
 
     The result is centred at the origin and scaled so the largest axis spans
@@ -177,12 +187,15 @@ def compute_umap_positions(embeddings: "np.ndarray", scale: float = 1000.0, rand
     """
     import umap
 
+    if n_neighbors is None:
+        n_neighbors = min(50, len(embeddings) - 1)
+
     reducer = umap.UMAP(
         n_components=2,
         metric="cosine",
-        n_neighbors=min(50, len(embeddings) - 1),  # large neighbourhood → global structure
-        min_dist=0.05,   # tighter packing within clusters
-        n_epochs=500,    # more optimisation steps → better convergence
+        n_neighbors=n_neighbors,  # large neighbourhood → global structure
+        min_dist=min_dist,        # tighter packing within clusters
+        n_epochs=n_epochs,        # more optimisation steps → better convergence
         random_state=random_state,
     )
     coords = reducer.fit_transform(embeddings).astype(np.float64)
@@ -191,6 +204,19 @@ def compute_umap_positions(embeddings: "np.ndarray", scale: float = 1000.0, rand
     if spread > 0:
         coords = coords / spread * scale
     return coords
+
+
+def umap_cache_key(
+    paper_ids: "list[str]",
+    embeddings: "np.ndarray",
+    **umap_params,
+) -> str:
+    """Stable hash over inputs that fully determine the UMAP result."""
+    h = hashlib.sha256()
+    h.update(json.dumps(paper_ids).encode("utf-8"))
+    h.update(embeddings.tobytes())
+    h.update(json.dumps(umap_params, sort_keys=True).encode("utf-8"))
+    return h.hexdigest()[:24]
 
 
 def build_embed_text(data: dict) -> str:
@@ -378,6 +404,10 @@ def load_cache(cache_path: Path) -> dict:
               "hash": "<16-char hex>",
               "embedding": [<float>, ...]
             }
+          },
+          "umap": {
+            "key": "<24-char hex — hash of paper IDs + embeddings + UMAP params>",
+            "coords": [[x, y], ...]
           }
         }
     """
@@ -387,13 +417,8 @@ def load_cache(cache_path: Path) -> dict:
     return {"model": None, "papers": {}}
 
 
-def save_cache(cache_path: Path, model_name: str, paper_data: dict) -> None:
-    """
-    Persist the embedding cache to disk.
-
-    ``paper_data`` maps paper_id → {"hash": str, "embedding": list[float]}.
-    """
-    cache = {"model": model_name, "papers": paper_data}
+def save_cache(cache_path: Path, cache: dict) -> None:
+    """Persist the full cache dict (embeddings + umap) to disk."""
     with open(cache_path, "w", encoding="utf-8") as f:
         json.dump(cache, f, separators=(",", ":"))
     size_kb = cache_path.stat().st_size // 1024
@@ -550,7 +575,11 @@ def main() -> None:
                 "embedding": new_embeddings[idx].tolist(),
             }
 
-        save_cache(args.cache, model_name, cached_papers)
+        cache["model"] = model_name
+        cache["papers"] = cached_papers
+        # Invalidate UMAP cache whenever embeddings change
+        cache.pop("umap", None)
+        save_cache(args.cache, cache)
     else:
         print("    (nothing to do)")
 
@@ -561,7 +590,25 @@ def main() -> None:
 
     # ---- UMAP layout -------------------------------------------------------
     print("\n[5/6] Computing UMAP 2-D layout…")
-    umap_coords = compute_umap_positions(embeddings)
+
+    umap_params = dict(
+        scale=1000.0,
+        random_state=42,
+        n_neighbors=min(50, len(embeddings) - 1),
+        min_dist=0.05,
+        n_epochs=500,
+    )
+    key = umap_cache_key([p["id"] for p in papers], embeddings, **umap_params)
+    umap_entry = cache.get("umap", {})
+
+    if not args.force and umap_entry.get("key") == key:
+        print("    UMAP layout loaded from cache (embeddings unchanged)")
+        umap_coords = np.array(umap_entry["coords"], dtype=np.float64)
+    else:
+        umap_coords = compute_umap_positions(embeddings, **umap_params)
+        cache["umap"] = {"key": key, "coords": umap_coords.tolist()}
+        save_cache(args.cache, cache)
+
     print(f"    UMAP coords: {umap_coords.shape}  range x=[{umap_coords[:,0].min():.0f}, {umap_coords[:,0].max():.0f}]  y=[{umap_coords[:,1].min():.0f}, {umap_coords[:,1].max():.0f}]")
 
     # ---- build graph -------------------------------------------------------
