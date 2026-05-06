@@ -1,0 +1,17 @@
+title: Non-asymptotic Identification of LTI Systems from a Single Trajectory
+algorithm:
+authors:
+  - Samet Oymak
+  - Necmiye Ozay
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1806.05722"
+tags:
+abstract: >
+  We consider the problem of learning a realization for a linear time-invariant (LTI) dynamical system from input/output data. Given a single input/output trajectory, we provide finite time analysis for learning the system's Markov parameters, from which a balanced realization is obtained using the classical Ho-Kalman algorithm. By proving a stability result for the Ho-Kalman algorithm and combining it with the sample complexity results for Markov parameters, we show how much data is needed to learn a balanced realization of the system up to a desired accuracy with high probability.
+summary: ''
+link: https://arxiv.org/pdf/1806.05722
+links_alt:
+audit_status: raw

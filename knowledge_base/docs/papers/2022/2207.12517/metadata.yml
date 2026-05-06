@@ -1,0 +1,17 @@
+title: Scenario-based Stochastic MPC for systems with uncertain dynamics
+algorithm:
+authors:
+  - Francesco Micheli
+  - John Lygeros
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2207.12517"
+tags:
+abstract: >
+  Model Predictive Control is an extremely effective control method for systems with input and state constraints. Model Predictive Control performance heavily depends on the accuracy of the open-loop prediction. For systems with uncertainty this in turn depends on the information that is available about the properties of the model and disturbance uncertainties. Here we are interested in situations where such information is only available through realizations of the system trajectories. We propose a general scenario-based optimization framework for stochastic control of a linear system affected by additive disturbance, when the dynamics are only approximately known. The main contribution is in the derivation of an upper bound on the number of scenarios required to provide probabilistic guarantees on the quality of the solution to the deterministic scenario-based finite horizon optimal control problem. We provide a theoretical analysis of the sample complexity of the proposed method and demonstrate its performance on a simple simulation example. Since the proposed approach leverages sampling, it does not rely on the explicit knowledge of the model or disturbance distributions, making it applicable in a wide variety of contexts.
+summary: ''
+link: https://arxiv.org/pdf/2207.12517
+links_alt:
+audit_status: raw

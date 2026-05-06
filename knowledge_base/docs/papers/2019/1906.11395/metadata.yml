@@ -1,0 +1,17 @@
+title: A Tutorial on Concentration Bounds for System Identification
+algorithm:
+authors:
+  - Nikolai Matni
+  - Stephen Tu
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1906.11395"
+tags:
+abstract: >
+  We provide a brief tutorial on the use of concentration inequalities as they apply to system identification of state-space parameters of linear time invariant systems, with a focus on the fully observed setting. We draw upon tools from the theories of large-deviations and self-normalized martingales, and provide both data-dependent and independent bounds on the learning rate.
+summary: ''
+link: https://arxiv.org/pdf/1906.11395
+links_alt:
+audit_status: raw

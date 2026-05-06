@@ -1,0 +1,20 @@
+title: 'CatBoost: unbiased boosting with categorical features'
+algorithm:
+authors:
+  - Liudmila Prokhorenkova
+  - Gleb Gusev
+  - Aleksandr Vorobev
+  - Anna Veronika Dorogush
+  - Andrey Gulin
+year: 2017
+source:
+type: ''
+doi:
+arxiv_id: "1706.09516"
+tags:
+abstract: >
+  This paper presents the key algorithmic techniques behind CatBoost, a new gradient boosting toolkit. Their combination leads to CatBoost outperforming other publicly available boosting implementations in terms of quality on a variety of datasets. Two critical algorithmic advances introduced in CatBoost are the implementation of ordered boosting, a permutation-driven alternative to the classic algorithm, and an innovative algorithm for processing categorical features. Both techniques were created to fight a prediction shift caused by a special kind of target leakage present in all currently existing implementations of gradient boosting algorithms. In this paper, we provide a detailed analysis of this problem and demonstrate that proposed algorithms solve it effectively, leading to excellent empirical results.
+summary: ''
+link: https://arxiv.org/pdf/1706.09516
+links_alt:
+audit_status: raw

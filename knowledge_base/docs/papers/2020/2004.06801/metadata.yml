@@ -1,0 +1,19 @@
+title: >
+  Scalable Autonomous Vehicle Safety Validation through Dynamic Programming and Scene Decomposition
+algorithm:
+authors:
+  - Anthony Corso
+  - Ritchie Lee
+  - Mykel J. Kochenderfer
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2004.06801"
+tags:
+abstract: >
+  An open question in autonomous driving is how best to use simulation to validate the safety of autonomous vehicles. Existing techniques rely on simulated rollouts, which can be inefficient for finding rare failure events, while other techniques are designed to only discover a single failure. In this work, we present a new safety validation approach that attempts to estimate the distribution over failures of an autonomous policy using approximate dynamic programming. Knowledge of this distribution allows for the efficient discovery of many failure examples. To address the problem of scalability, we decompose complex driving scenarios into subproblems consisting of only the ego vehicle and one other vehicle. These subproblems can be solved with approximate dynamic programming and their solutions are recombined to approximate the solution to the full scenario. We apply our approach to a simple two-vehicle scenario to demonstrate the technique as well as a more complex five-vehicle scenario to demonstrate scalability. In both experiments, we observed an increase in the number of failures discovered compared to baseline approaches.
+summary: ''
+link: https://arxiv.org/pdf/2004.06801
+links_alt:
+audit_status: raw

@@ -1,0 +1,21 @@
+title: 'Tune: A Research Platform for Distributed Model Selection and Training'
+algorithm:
+authors:
+  - Richard Liaw
+  - Eric Liang
+  - Robert Nishihara
+  - Philipp Moritz
+  - Joseph E. Gonzalez
+  - Ion Stoica
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1807.05118"
+tags:
+abstract: >
+  Modern machine learning algorithms are increasingly computationally demanding, requiring specialized hardware and distributed computation to achieve high performance in a reasonable time frame. Many hyperparameter search algorithms have been proposed for improving the efficiency of model selection, however their adaptation to the distributed compute environment is often ad-hoc. We propose Tune, a unified framework for model selection and training that provides a narrow-waist interface between training scripts and search algorithms. We show that this interface meets the requirements for a broad range of hyperparameter search algorithms, allows straightforward scaling of search to large clusters, and simplifies algorithm implementation. We demonstrate the implementation of several state-of-the-art hyperparameter search algorithms in Tune. Tune is available at http://ray.readthedocs.io/en/latest/tune.html.
+summary: ''
+link: https://arxiv.org/pdf/1807.05118
+links_alt:
+audit_status: raw

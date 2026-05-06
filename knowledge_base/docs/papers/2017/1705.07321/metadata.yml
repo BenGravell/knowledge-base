@@ -1,0 +1,17 @@
+title: Accelerated Hierarchical Density Clustering
+algorithm:
+authors:
+  - Leland McInnes
+  - John Healy
+year: 2017
+source:
+type: ''
+doi:
+arxiv_id: "1705.07321"
+tags:
+abstract: >
+  We present an accelerated algorithm for hierarchical density based clustering. Our new algorithm improves upon HDBSCAN*, which itself provided a significant qualitative improvement over the popular DBSCAN algorithm. The accelerated HDBSCAN* algorithm provides comparable performance to DBSCAN, while supporting variable density clusters, and eliminating the need for the difficult to tune distance scale parameter. This makes accelerated HDBSCAN* the default choice for density based clustering. Library available at: https://github.com/scikit-learn-contrib/hdbscan
+summary: ''
+link: https://arxiv.org/pdf/1705.07321
+links_alt:
+audit_status: raw

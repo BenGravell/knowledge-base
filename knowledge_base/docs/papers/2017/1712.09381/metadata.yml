@@ -1,0 +1,24 @@
+title: 'RLlib: Abstractions for Distributed Reinforcement Learning'
+algorithm:
+authors:
+  - Eric Liang
+  - Richard Liaw
+  - Philipp Moritz
+  - Robert Nishihara
+  - Roy Fox
+  - Ken Goldberg
+  - Joseph E. Gonzalez
+  - Michael I. Jordan
+  - Ion Stoica
+year: 2017
+source:
+type: ''
+doi:
+arxiv_id: "1712.09381"
+tags:
+abstract: >
+  Reinforcement learning (RL) algorithms involve the deep nesting of highly irregular computation patterns, each of which typically exhibits opportunities for distributed computation. We argue for distributing RL components in a composable way by adapting algorithms for top-down hierarchical control, thereby encapsulating parallelism and resource requirements within short-running compute tasks. We demonstrate the benefits of this principle through RLlib: a library that provides scalable software primitives for RL. These primitives enable a broad range of algorithms to be implemented with high performance, scalability, and substantial code reuse. RLlib is available at https://rllib.io/.
+summary: ''
+link: https://arxiv.org/pdf/1712.09381
+links_alt:
+audit_status: raw
