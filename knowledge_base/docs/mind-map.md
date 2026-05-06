@@ -13,7 +13,7 @@ hide:
   --mm-edge-highlighted: color-mix(in srgb, var(--md-accent-fg-color)  80%, transparent);
 }
 [data-md-color-scheme="slate"] {
-  --mm-edge-color:       #cccccc;
+  --mm-edge-color:       #ffffff;
 }
 
 /* ── Remove MkDocs Material layout constraints for full-screen canvas ─────── */
