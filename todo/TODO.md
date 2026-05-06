@@ -87,6 +87,8 @@ Fix the fit layout button, right now it is fitting to the whole canvas ignoring 
 Settings menu is too wide on mobile 
 
 Make it use a more intelligent strategy, fitting to container/screen width if requested target width is too wide to fit screen.
+Sluggish performance, laggy feeling when hovering and clicking on nodes and edges
+
 
 
 Sidebar
