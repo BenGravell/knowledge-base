@@ -466,12 +466,6 @@
       debounce = setTimeout(() => applySearch(e.target.value), 180);
     });
 
-    // Fit
-    document.getElementById('mm-fit-btn').addEventListener('click', () => {
-      const visible = cy.elements().filter(el => el.style('display') !== 'none');
-      cy.fit(visible, 40);
-    });
-
     // Select all / none categories
     document.getElementById('mm-all-cats').addEventListener('click', () => {
       document.querySelectorAll('#mm-category-filters input').forEach(cb => {

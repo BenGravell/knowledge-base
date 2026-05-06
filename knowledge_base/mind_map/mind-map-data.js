@@ -19,8 +19,8 @@ const mindMapData = {
         "summary": "Dubins provided analytic formulas for the shortest curve that connects two points in the two-dimensional Euclidean plane (i.e. x-y plane) with a constraint on the curvature of the path and with prescribed initial and terminal tangents to the path, and an assumption that the vehicle traveling the path can only travel forward. Dubins proved using tools from analysis that any such path will consist of maximum curvature and/or straight line segments. In other words, the shortest path will be made by joining circular arcs of maximum curvature and straight lines."
       },
       "position": {
-        "x": 422.4,
-        "y": -508.3
+        "x": 831.5,
+        "y": -1023.4
       }
     },
     {
@@ -45,8 +45,8 @@ const mindMapData = {
         "summary": "Foundational text introducing Differential Dynamic Programming (DDP), a trajectory optimization method that uses second-order Taylor expansions of the value function within a dynamic programming framework for efficient nonlinear optimal control."
       },
       "position": {
-        "x": 389.2,
-        "y": 0.2
+        "x": 803.6,
+        "y": 0.6
       }
     },
     {
@@ -67,8 +67,8 @@ const mindMapData = {
         "summary": "Seminal paper demonstrating that there are no guaranteed robustness margins for linear quadratic Gaussian (LQG) controllers i.e. an optimal linear dynamic output feedback controller composed of a linear quadratic regulator (LQR) and a Kalman filter. This was proven by counterexample using a very simple linear system with two states, one control input, one disturbance input, and one output. This is in stark contrast to the simpler state feedback LQR setting, for which there are 60 degree phase and 6 dB gain margins. This paper is known for having the shortest abstract in the history of IEEE Transactions on Automatic Control, at just three words."
       },
       "position": {
-        "x": 169.0,
-        "y": 350.4
+        "x": 340.0,
+        "y": 699.0
       }
     },
     {
@@ -94,8 +94,8 @@ const mindMapData = {
         "summary": "Seminal paper establishing the time-optimal path parameterization (TOPP) problem: given a specified geometric path and actuator torque limits, finds the minimum-time traversal by solving for bang-bang optimal torques in the velocity-position phase plane."
       },
       "position": {
-        "x": 377.0,
-        "y": -302.7
+        "x": 723.2,
+        "y": -606.6
       }
     },
     {
@@ -122,8 +122,8 @@ const mindMapData = {
         "summary": "Introduces ERA, which extracts modal parameters (natural frequencies, damping ratios, mode shapes) from free-decay or impulse response data via eigendecomposition of a Hankel matrix, enabling reduced-order model construction for structural dynamics."
       },
       "position": {
-        "x": 288.8,
-        "y": 668.2
+        "x": 546.6,
+        "y": 1327.2
       }
     },
     {
@@ -146,8 +146,8 @@ const mindMapData = {
         "summary": "Reeds and Shepp provided analytic formulas for the shortest curve that connects two points in the two-dimensional Euclidean plane (i.e. x-y plane) with a constraint on the curvature of the path and with prescribed initial and terminal tangents to the path, and an assumption that the vehicle traveling the path can travel forward or backward. Reeds and Shepp proved using tools from analysis that any such path will consist of maximum curvature and/or straight line segments, with at most two cusps of the form CCSCC where C is an arc of a circle of the minimal turning radius and S is a line segment."
       },
       "position": {
-        "x": 418.7,
-        "y": -495.5
+        "x": 850.6,
+        "y": -966.9
       }
     },
     {
@@ -172,8 +172,8 @@ const mindMapData = {
         "summary": "Introduces the N4SID algorithm, which identifies linear state-space models from input-output data using projections of block Hankel matrices, providing a numerically robust approach to subspace system identification."
       },
       "position": {
-        "x": 244.7,
-        "y": 603.2
+        "x": 471.3,
+        "y": 1195.1
       }
     },
     {
@@ -199,8 +199,8 @@ const mindMapData = {
         "summary": "Seminal paper that introduced PRM."
       },
       "position": {
-        "x": 302.6,
-        "y": -876.4
+        "x": 588.8,
+        "y": -1733.5
       }
     },
     {
@@ -225,8 +225,8 @@ const mindMapData = {
         "summary": "Reference textbook covering the theory, numerical implementation, and applications of subspace identification methods (N4SID, MOESP, CVA) for identifying linear state-space models from input-output data."
       },
       "position": {
-        "x": 253.0,
-        "y": 598.6
+        "x": 528.0,
+        "y": 1213.2
       }
     },
     {
@@ -251,8 +251,8 @@ const mindMapData = {
         "summary": "Simple Continuous Curvature (SSC) paths are composed of line segments, maximum-curvature circular arcs, and clothoid arcs, which guarantee both continuous curvature and bounded curvature derivative for car-like vehicles."
       },
       "position": {
-        "x": 474.0,
-        "y": -520.0
+        "x": 986.0,
+        "y": -1042.9
       }
     },
     {
@@ -276,8 +276,8 @@ const mindMapData = {
         "summary": "Introduces RRTs for sampling-based motion planning in high-dimensional configuration spaces."
       },
       "position": {
-        "x": 347.5,
-        "y": -926.1
+        "x": 701.3,
+        "y": -1840.7
       }
     },
     {
@@ -302,8 +302,8 @@ const mindMapData = {
         "summary": "Formulates constrained LQR as a finite-horizon QP, establishes closed-loop stability under receding-horizon implementation, and characterizes the relationship between the constrained optimal cost and unconstrained LQR performance."
       },
       "position": {
-        "x": 214.5,
-        "y": 310.0
+        "x": 427.9,
+        "y": 621.2
       }
     },
     {
@@ -328,8 +328,8 @@ const mindMapData = {
         "summary": "Introduces RRTs for sampling-based trajectory planning in high-dimensional configuration spaces."
       },
       "position": {
-        "x": 398.3,
-        "y": -818.7
+        "x": 821.9,
+        "y": -1636.4
       }
     },
     {
@@ -354,8 +354,8 @@ const mindMapData = {
         "summary": "Extends RRT with bidirectional search (two trees, one from start and one from goal)."
       },
       "position": {
-        "x": 310.0,
-        "y": -912.2
+        "x": 640.3,
+        "y": -1822.2
       }
     },
     {
@@ -384,8 +384,8 @@ const mindMapData = {
         "summary": "Proposes a steering method for connecting pairs of states in [x, y, yaw, curvature] state space using paths that are quintic polynomials in x, y position coordinates. This leaves four free tuning parameters eta1, eta2, eta3, eta4, which influence the shape of the paths and can be set according to heuristics or can be explicitly optimized, which is investigated in the companion work by the same authors \"Optimal trajectory planning with quintic G2-splines\"."
       },
       "position": {
-        "x": 491.4,
-        "y": -473.8
+        "x": 1000.3,
+        "y": -974.8
       }
     },
     {
@@ -409,8 +409,8 @@ const mindMapData = {
         "summary": "Proposes a steering method for connecting boundary conditions in (x, y, yaw, curvature) state space with a curve having curvature which is a cubic polynomial of arc length, generalizing simple clothoids. The method for computing the curvature polynomial coefficients is based on an iterative procedure (essentially equivalent to Newton's method) with an informative heuristic initial guess and a residual based on the deviation from the target end state."
       },
       "position": {
-        "x": 494.5,
-        "y": -468.3
+        "x": 955.5,
+        "y": -936.0
       }
     },
     {
@@ -434,8 +434,8 @@ const mindMapData = {
         "summary": "CC Steer is a steering algorithm for car-like vehicles that produces paths composed of line segments, circular arcs, and clothoid arcs with continuous curvature and bounded curvature derivative."
       },
       "position": {
-        "x": 467.6,
-        "y": -508.9
+        "x": 946.7,
+        "y": -998.7
       }
     },
     {
@@ -461,8 +461,8 @@ const mindMapData = {
         "summary": "Introduces iLQR, applying iterative linearization around the current nominal trajectory to reduce nonlinear trajectory optimization to a sequence of LQR problems, enabling efficient second-order trajectory optimization for nonlinear systems."
       },
       "position": {
-        "x": 199.3,
-        "y": 126.4
+        "x": 378.1,
+        "y": 254.5
       }
     },
     {
@@ -486,8 +486,8 @@ const mindMapData = {
         "summary": "Presents path-quality improvement techniques applied as post-processing steps to paths produced by sampling-based planners. One of the clearest early treatments of path shortcutting."
       },
       "position": {
-        "x": 278.1,
-        "y": -705.2
+        "x": 552.5,
+        "y": -1424.3
       }
     },
     {
@@ -514,8 +514,8 @@ const mindMapData = {
         "summary": "Introduces exploring/exploiting trees (EET) which first tries to acquire information about the workspace and exploit it (using a potential-field-like approach), then gradually shifts to exploration only as much as needed to alleviate exploitation failures."
       },
       "position": {
-        "x": 229.1,
-        "y": -843.6
+        "x": 455.6,
+        "y": -1685.6
       }
     },
     {
@@ -541,8 +541,8 @@ const mindMapData = {
         "summary": "Introduces Dynamic Mode Decomposition (DMD), a data-driven algorithm for creating dynamic models from numerical simulations and experimental data, decomposing the observed trajectory data into modes each associated with a single frequency and growth/decay rate. Naturally allows for model reduction based on quantitative measures of mode importance. Originally proposed for fluid flow data, but relevant much more broadly to any kind of dynamical system, especially those observable with stochastic noise present and those with many states."
       },
       "position": {
-        "x": 314.6,
-        "y": 676.8
+        "x": 646.2,
+        "y": 1350.4
       }
     },
     {
@@ -569,8 +569,8 @@ const mindMapData = {
         "summary": "Describes Boss, the CMU autonomous vehicle that won the 2007 DARPA Urban Challenge. Presents the full software stack for urban driving including perception, behavior planning, and motion planning components that operate in complex traffic scenarios with other vehicles and pedestrians."
       },
       "position": {
-        "x": -780.7,
-        "y": -323.0
+        "x": -1568.0,
+        "y": -663.6
       }
     },
     {
@@ -599,8 +599,8 @@ const mindMapData = {
         "summary": "CHOMP formulates path optimization as minimizing an objective with terms for obstacle cost and path smoothness, then applies a covariant gradient descent (a special type of preconditioned gradient descent closely related to natural gradient descent) that exploits the special structure of the objective for fast convergence. Widely used via its MoveIt/ROS implementation."
       },
       "position": {
-        "x": 196.2,
-        "y": -644.0
+        "x": 372.7,
+        "y": -1296.7
       }
     },
     {
@@ -629,8 +629,8 @@ const mindMapData = {
         "summary": "Demonstrates how to write down a large optimal control problem (OCP) for time-optimal path tracking for a robotic manipulator, considering many constraints and the dynamics related to such systems. The resulting OCP is a convex second-order cone program, which can be solved with a variety of generic solvers. The value of the paper mostly comes from just the handwritten transcription of the OCP."
       },
       "position": {
-        "x": 378.8,
-        "y": -320.0
+        "x": 763.3,
+        "y": -650.3
       }
     },
     {
@@ -650,8 +650,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -239.4,
-        "y": 93.7
+        "x": -475.5,
+        "y": 185.6
       }
     },
     {
@@ -675,8 +675,8 @@ const mindMapData = {
         "summary": "Extends RRT* to kinodynamic systems with differential constraints, providing sufficient conditions for asymptotic optimality."
       },
       "position": {
-        "x": 361.8,
-        "y": -819.3
+        "x": 711.1,
+        "y": -1665.9
       }
     },
     {
@@ -700,8 +700,8 @@ const mindMapData = {
         "summary": "The main contribution of the paper is the introduction of new algorithms, namely, PRM* and RRT*, which are provably asymptotically optimal, i.e., such that the cost of the returned solution converges almost surely to the optimum. Moreover, it is shown that the computational complexity of the new algorithms is within a constant factor of that of their probabilistically complete (but not asymptotically optimal) counterparts."
       },
       "position": {
-        "x": 306.2,
-        "y": -881.0
+        "x": 640.2,
+        "y": -1763.2
       }
     },
     {
@@ -729,8 +729,8 @@ const mindMapData = {
         "summary": "STOMP improves a trajectory by rolling out a large batch of noisy samples and computing a weighted average (based on a Boltzmann distribution i.e. exponentiated negative with a temperature parameter) over their costs. Effectively a path-space analogue of MPPI. Does not require cost gradients. Noise helps STOMP jiggle out of local minima that CHOMP can get stuck in, a similar mechanism and phenomenon as in general stochastic/perturbed gradient descent (c.f. \"How to Escape Saddle Points Efficiently\" by Jin et al, 2017 https://proceedings.mlr.press/v70/jin17a.html)."
       },
       "position": {
-        "x": 186.6,
-        "y": -677.4
+        "x": 374.3,
+        "y": -1357.0
       }
     },
     {
@@ -756,8 +756,8 @@ const mindMapData = {
         "summary": "This was a companion to the original RRT* paper, and introduced key innovations for anytime motion planning including the \"committed trajectory\" and a \"branch-and-bound\" technique for periodically pruning obviously suboptimal nodes from the tree."
       },
       "position": {
-        "x": 343.5,
-        "y": -956.7
+        "x": 673.2,
+        "y": -1940.9
       }
     },
     {
@@ -789,8 +789,8 @@ const mindMapData = {
         "summary": "RRT# is based on RRG, just like RRT*, but is aimed at obtaining faster convergence to the optimal cost compared to RRT* by maintaining better estimates of nodal costs. There is also some interesting commentary in Section 5 of the arXiv preprint where the authors discuss the \"relevant region\" as an elliptic region which could be \"used to implement more intelligent sampling strategies\"; it would seem this idea was picked up on and formalized by Gammell et al. in the \"Informed RRT*\" (https://arxiv.org/pdf/1404.2334) paper."
       },
       "position": {
-        "x": 293.7,
-        "y": -923.8
+        "x": 589.0,
+        "y": -1851.3
       }
     },
     {
@@ -815,8 +815,8 @@ const mindMapData = {
         "summary": "Uses a fixed-final-state-free-final-time controller that exactly and optimally connects any pair of states in RRT*, where cost trades off trajectory duration against control effort. Dynamics are restricted to linear (or linearized) systems."
       },
       "position": {
-        "x": 407.8,
-        "y": -711.1
+        "x": 811.7,
+        "y": -1426.2
       }
     },
     {
@@ -842,8 +842,8 @@ const mindMapData = {
         "summary": "Shows that PI2, CEM, and CMA-ES all share the concept of probability-weighted averaging for parameter updates, unifying them into a common family. Derives PI2-CMA, which inherits PI2's stochastic optimal control foundations while automatically adapting the exploration noise covariance, eliminating the need to manually tune exploration magnitude."
       },
       "position": {
-        "x": 449.9,
-        "y": 165.9
+        "x": 892.9,
+        "y": 324.4
       }
     },
     {
@@ -862,8 +862,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -160.6,
-        "y": 623.7
+        "x": -317.7,
+        "y": 1246.7
       }
     },
     {
@@ -887,8 +887,8 @@ const mindMapData = {
         "summary": "Applies the cross-entropy method (CEM) to motion planning, framing trajectory search as a distribution estimation problem where elite samples iteratively refine a sampling distribution toward low-cost trajectories."
       },
       "position": {
-        "x": 246.2,
-        "y": -787.3
+        "x": 487.1,
+        "y": -1565.0
       }
     },
     {
@@ -914,8 +914,8 @@ const mindMapData = {
         "summary": "Uses a linear-quadratic approximation for both the steering function and the cost-to-go extension heuristic in RRT*, automatically deriving these heuristics by locally linearizing system dynamics."
       },
       "position": {
-        "x": 406.8,
-        "y": -791.6
+        "x": 809.8,
+        "y": -1578.6
       }
     },
     {
@@ -946,8 +946,8 @@ const mindMapData = {
         "summary": "Refines iLQR with key algorithmic improvements now standard in modern implementations: state Hessian regularization, improved feedforward gain line search, and adaptive regularization scheduling. Clearer presentation than the original Li & Todorov paper."
       },
       "position": {
-        "x": 193.3,
-        "y": -7.0
+        "x": 388.6,
+        "y": -12.9
       }
     },
     {
@@ -966,8 +966,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 491.2,
-        "y": -451.9
+        "x": 987.5,
+        "y": -886.3
       }
     },
     {
@@ -1000,8 +1000,8 @@ const mindMapData = {
         "summary": "FMT* operates on a fundamentally different mechanism than RRT*, yet still achieves asymptotic optimality. FMT* can be faster than RRT* in certain planning regimes, and it is more amenable to parallelization (c.f. Group Marching Tree)."
       },
       "position": {
-        "x": 272.5,
-        "y": -830.8
+        "x": 548.0,
+        "y": -1664.7
       }
     },
     {
@@ -1027,8 +1027,8 @@ const mindMapData = {
         "summary": "Provides rigorous theoretical foundations for DMD, introduces the exact DMD formulation with improved numerical accuracy, and analyzes convergence properties and connections to Koopman spectral analysis."
       },
       "position": {
-        "x": 302.5,
-        "y": 685.4
+        "x": 589.4,
+        "y": 1367.7
       }
     },
     {
@@ -1052,8 +1052,8 @@ const mindMapData = {
         "summary": "Formulates minimum-time speed planning along a fixed geometric path as a convex optimization problem."
       },
       "position": {
-        "x": 367.1,
-        "y": -396.3
+        "x": 732.9,
+        "y": -790.1
       }
     },
     {
@@ -1080,8 +1080,8 @@ const mindMapData = {
         "summary": "Anytime algorithm that progressively improves path quality after an initial solution is found, combining random shortcutting with path hybridization. Algorithm 1 gives a particularly clear presentation of the shortcutting procedure."
       },
       "position": {
-        "x": 285.9,
-        "y": -750.0
+        "x": 570.0,
+        "y": -1501.5
       }
     },
     {
@@ -1107,8 +1107,8 @@ const mindMapData = {
         "summary": "Proposes a minimum jerk trajectory generation method for differential wheeled mobile robots, based on solving a finite-dimensional unconstrained nonlinear optimization problem."
       },
       "position": {
-        "x": 428.3,
-        "y": -177.8
+        "x": 854.9,
+        "y": -353.6
       }
     },
     {
@@ -1135,8 +1135,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 380.1,
-        "y": -945.6
+        "x": 770.8,
+        "y": -1883.5
       }
     },
     {
@@ -1155,8 +1155,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -278.3,
-        "y": 682.8
+        "x": -558.8,
+        "y": 1357.0
       }
     },
     {
@@ -1184,8 +1184,8 @@ const mindMapData = {
         "summary": "Informed RRT* accelerates convergence of RRT* by restricting sampling to the prolate hyperspheroid (ellipsoidal) subset of the state space that can possibly improve the current best solution, rather than sampling the entire domain. This focused sampling preserves RRT*'s probabilistic completeness and asymptotic optimality guarantees while significantly improving convergence rate and final solution quality, especially in high-dimensional spaces or large environments. However, the ellipsoidal region is only valid for path planning where the cost is the Euclidean path length; for other costs or kindodynamic planning the informed set has some other geometry that is not generally known to be computable in closed form."
       },
       "position": {
-        "x": 268.3,
-        "y": -895.4
+        "x": 529.8,
+        "y": -1793.0
       }
     },
     {
@@ -1214,8 +1214,8 @@ const mindMapData = {
         "summary": "BIT* unifies graph- and sampling-based planning by treating a batch of random samples as an implicit random geometric graph (RGG) and searching it with an A*/LPA*-style ordered search focused on the informed ellipsoidal subset of states that can improve the current solution. Successive batches of increasing density are searched while reusing prior information, yielding a probabilistically complete, asymptotically optimal anytime planner that converges substantially faster than RRT* and FMT*, especially in high-dimensional spaces."
       },
       "position": {
-        "x": 188.6,
-        "y": -862.9
+        "x": 381.3,
+        "y": -1727.6
       }
     },
     {
@@ -1235,8 +1235,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 377.2,
-        "y": -670.5
+        "x": 750.8,
+        "y": -1341.4
       }
     },
     {
@@ -1256,8 +1256,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -647.3,
-        "y": 606.2
+        "x": -1290.0,
+        "y": 1207.3
       }
     },
     {
@@ -1275,8 +1275,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 273.8,
-        "y": -182.7
+        "x": 547.5,
+        "y": -362.0
       }
     },
     {
@@ -1302,8 +1302,8 @@ const mindMapData = {
         "summary": "SST is a kinodynamic planner that requires no 2-point BVP solver or steering function, instead relying solely on forward propagation of control actions while maintaining a sparse sample set for computational efficiency."
       },
       "position": {
-        "x": 333.1,
-        "y": -721.9
+        "x": 667.0,
+        "y": -1447.1
       }
     },
     {
@@ -1329,8 +1329,8 @@ const mindMapData = {
         "summary": "Extends DMD to nonlinear systems by lifting states into a function space (RKHS), yielding a data-driven approximation of the infinite-dimensional Koopman operator and enabling nonlinear system analysis via linear tools."
       },
       "position": {
-        "x": 317.3,
-        "y": 648.3
+        "x": 656.1,
+        "y": 1284.1
       }
     },
     {
@@ -1356,8 +1356,8 @@ const mindMapData = {
         "summary": "Extends DMD to systems with exogenous control inputs, enabling separate identification of the state transition matrix and control influence matrix from input-output data, making DMD applicable to controlled dynamical systems."
       },
       "position": {
-        "x": 314.1,
-        "y": 666.2
+        "x": 603.0,
+        "y": 1310.1
       }
     },
     {
@@ -1383,8 +1383,8 @@ const mindMapData = {
         "summary": "Starting point is quasi-static (velocity ~= 0) path planning. Then augments state space with velocity and uses propagation of velocity using kinodynamics to determine the reachable set (admissible interval) of velocity, and includes that in the connection check for new nodes. Builds on the foundational TOPP velocity planner (Bobrow 1985, DOI: 10.1177/027836498500400301). AVP is modularly (re)usable in many sampling-based planners; the authors give a concrete instantiation and numerical experiments with AVP-RRT."
       },
       "position": {
-        "x": 344.6,
-        "y": -675.8
+        "x": 686.6,
+        "y": -1352.9
       }
     },
     {
@@ -1412,8 +1412,8 @@ const mindMapData = {
         "summary": "Surveys motion prediction and risk assessment methods for intelligent vehicles, organizing approaches into three categories - physics-based, maneuver-based, and interaction-aware - and reviewing how predicted trajectories are used to compute collision risk for safety applications."
       },
       "position": {
-        "x": -810.0,
-        "y": -287.3
+        "x": -1652.1,
+        "y": -574.4
       }
     },
     {
@@ -1439,8 +1439,8 @@ const mindMapData = {
         "summary": "Benchmarks several categories of optimal motion planners (sampling-based, grid-based, and trajectory optimization) on synthetic problems varying in dimensionality, number of homotopy classes, and passage geometry, providing empirical guidance on planner selection."
       },
       "position": {
-        "x": 213.7,
-        "y": -754.4
+        "x": 438.7,
+        "y": -1496.8
       }
     },
     {
@@ -1468,8 +1468,8 @@ const mindMapData = {
         "summary": "Extends DDP to handle probabilistic dynamics models, propagating uncertainty through the backward and forward passes to produce trajectories that are robust to model uncertainty and compatible with learned probabilistic dynamics."
       },
       "position": {
-        "x": 429.3,
-        "y": 73.9
+        "x": 851.2,
+        "y": 134.2
       }
     },
     {
@@ -1487,8 +1487,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -79.1,
-        "y": 675.9
+        "x": -164.1,
+        "y": 1356.2
       }
     },
     {
@@ -1507,8 +1507,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -470.0,
-        "y": 540.9
+        "x": -945.0,
+        "y": 1068.8
       }
     },
     {
@@ -1533,8 +1533,8 @@ const mindMapData = {
         "summary": "Introduces TRPO, which guarantees monotonic policy improvement by constraining each update to a KL-divergence trust region. Enables stable training on complex continuous control tasks without manual learning rate tuning."
       },
       "position": {
-        "x": -93.2,
-        "y": 272.0
+        "x": -180.9,
+        "y": 543.8
       }
     },
     {
@@ -1554,8 +1554,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -705.3,
-        "y": 656.8
+        "x": -1443.2,
+        "y": 1278.0
       }
     },
     {
@@ -1574,8 +1574,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -363.0,
-        "y": 779.2
+        "x": -743.9,
+        "y": 1573.3
       }
     },
     {
@@ -1598,8 +1598,8 @@ const mindMapData = {
         "summary": "AO-x meta-algorithm turns any feasible kinodynamic planner into an asymptotically optimal planner by lifting planning into a state-cost space."
       },
       "position": {
-        "x": 332.9,
-        "y": -792.4
+        "x": 651.3,
+        "y": -1567.1
       }
     },
     {
@@ -1619,8 +1619,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -677.4,
-        "y": 659.1
+        "x": -1349.0,
+        "y": 1317.5
       }
     },
     {
@@ -1657,8 +1657,8 @@ const mindMapData = {
         "summary": "CES takes a reference trajectory as input, then re-plans both the path shape and speed profile within a sequence of obstacle-free \"bubble\" regions along the trajectory using convex programming. This makes it a powerful post-processor, reportedly outperforming traditional path shortcutting heuristics as well as elastic band approaches."
       },
       "position": {
-        "x": 406.4,
-        "y": -459.6
+        "x": 812.9,
+        "y": -919.3
       }
     },
     {
@@ -1676,8 +1676,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -186.3,
-        "y": 624.4
+        "x": -375.0,
+        "y": 1232.1
       }
     },
     {
@@ -1697,8 +1697,8 @@ const mindMapData = {
         "summary": "Folds importance sampling into the cost function in order to address the practical issue of infrequent selection of low-cost trajectories under naive sampling of actions on the uncontrolled system, which is a known drawback of MPPI. Also discusses implementation of MPPI on a GPU for massively parallel sampling. Includes a clear description of MPPI in Algorithm 1."
       },
       "position": {
-        "x": 533.2,
-        "y": 181.7
+        "x": 1057.2,
+        "y": 334.6
       }
     },
     {
@@ -1724,8 +1724,8 @@ const mindMapData = {
         "summary": "Introduces SINDy, which applies sparse nonlinear least squares regression over a library of candidate nonlinear functions to identify parsimonious governing equations from trajectory data, recovering interpretable symbolic expressions for nonlinear dynamical systems."
       },
       "position": {
-        "x": 271.1,
-        "y": 587.5
+        "x": 538.0,
+        "y": 1155.0
       }
     },
     {
@@ -1751,8 +1751,8 @@ const mindMapData = {
         "summary": "Proves probabilistic completeness for state-based (interpolating) kinodynamic planners under verifiable assumptions. Identifies second-order continuity as the key design requirement. Nice explanation of state-based steering and its beneficial properties as compraed with e.g. randomized action-propagation steering. Contains a great Section 2.3 on the differences between categories of steering functions."
       },
       "position": {
-        "x": 398.9,
-        "y": -757.4
+        "x": 805.9,
+        "y": -1519.6
       }
     },
     {
@@ -1779,8 +1779,8 @@ const mindMapData = {
         "summary": "RRT*-Connect merges the bidirectional search strategy of RRT-Connect with the asymptotic optimality guarantees of RRT*, growing two trees simultaneously from start and goal and connecting them greedily while rewiring for cost minimization. The result finds initial solutions significantly faster than RRT* while still converging toward the optimal path, combining the speed advantage of bidirectional search with provable optimality guarantees."
       },
       "position": {
-        "x": 264.4,
-        "y": -966.4
+        "x": 506.9,
+        "y": -1923.3
       }
     },
     {
@@ -1808,8 +1808,8 @@ const mindMapData = {
         "summary": "Same asymptotic optimality and probabilistically complete properties as RRT*, but can handle reactions to suddenly-appearing obstacles."
       },
       "position": {
-        "x": 282.0,
-        "y": -956.7
+        "x": 561.8,
+        "y": -1903.2
       }
     },
     {
@@ -1837,8 +1837,8 @@ const mindMapData = {
         "summary": "Trains a supervised model to approximate the kinodynamic steering distance for RRT-based planners. The motivation is purely for increasing performance in terms of reducing average and worst-case runtime latency; assumes we have a slow-to-compute ground truth perfect steering function used to generate training data. The features are a set of 14 hand-crafted and cheap-to-evaluate metrics, and the labels are a scalar ground truth cost. The learned model is a basis function model (BFM) using quadratic basis functions and trained using Levenberg-Marquadt. The model architecture was selected as the best (in terms of prediction quality and inference runtime latency) out of a ranking comparison against other architectures trained on the same data, including a small neural network, random forest, support vector machine with radial basis function kernel, and locally weighted projection."
       },
       "position": {
-        "x": 339.7,
-        "y": -806.5
+        "x": 691.7,
+        "y": -1610.1
       }
     },
     {
@@ -1858,8 +1858,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -262.8,
-        "y": 771.3
+        "x": -529.9,
+        "y": 1524.7
       }
     },
     {
@@ -1879,8 +1879,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -478.9,
-        "y": 431.3
+        "x": -941.4,
+        "y": 852.4
       }
     },
     {
@@ -1899,8 +1899,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 167.2,
-        "y": -179.7
+        "x": 326.3,
+        "y": -353.6
       }
     },
     {
@@ -1919,8 +1919,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -458.8,
-        "y": 560.2
+        "x": -904.9,
+        "y": 1112.2
       }
     },
     {
@@ -1940,8 +1940,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -122.5,
-        "y": 519.8
+        "x": -257.3,
+        "y": 1026.2
       }
     },
     {
@@ -1978,8 +1978,8 @@ const mindMapData = {
         "summary": "Surveys motion planning and control algorithms for self-driving urban vehicles, reviewing methods from route planning through behavior and motion planning to feedback control, with comparative analysis of vehicle models, environmental assumptions, and computational demands."
       },
       "position": {
-        "x": -771.8,
-        "y": -361.7
+        "x": -1539.2,
+        "y": -715.1
       }
     },
     {
@@ -1999,8 +1999,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -710.2,
-        "y": -308.2
+        "x": -1431.3,
+        "y": -608.4
       }
     },
     {
@@ -2018,8 +2018,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -499.3,
-        "y": 425.3
+        "x": -997.0,
+        "y": 831.9
       }
     },
     {
@@ -2039,8 +2039,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 279.9,
-        "y": -518.5
+        "x": 559.6,
+        "y": -1037.6
       }
     },
     {
@@ -2058,8 +2058,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -282.5,
-        "y": 702.0
+        "x": -579.0,
+        "y": 1412.7
       }
     },
     {
@@ -2079,8 +2079,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -644.1,
-        "y": 656.2
+        "x": -1290.6,
+        "y": 1318.8
       }
     },
     {
@@ -2099,8 +2099,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -83.3,
-        "y": 336.4
+        "x": -162.5,
+        "y": 680.7
       }
     },
     {
@@ -2129,8 +2129,8 @@ const mindMapData = {
         "summary": "RABIT* extends BIT* by hybridizing its global informed search with local gradient-based optimization (e.g. CHOMP). Rather than optimizing every edge, it selectively applies local optimization only to the subset of edges within the current informed set that are most likely to improve the solution, avoiding infeasible edges by finding alternative connections. This preserves asymptotic optimality while significantly accelerating convergence, particularly in problems with difficult-to-sample homotopy classes or narrow passages."
       },
       "position": {
-        "x": 234.8,
-        "y": -914.0
+        "x": 474.0,
+        "y": -1812.3
       }
     },
     {
@@ -2162,8 +2162,8 @@ const mindMapData = {
         "summary": "Combines DDP and path integral control by estimating the DDP Hessian via zero-order sampling rather than analytical differentiation, yielding a trajectory optimizer that blends the structure and efficiency of DDP with the robustness and simplicity of sampling-based methods. Think of it as Hessian-Free optimization (using a zero-order oracle to estimate the Hessian c.f. \"Deep Learning via Hessian-free Optimization\" by James Martens, 2010) specialized to trajectory optimization problems."
       },
       "position": {
-        "x": 415.4,
-        "y": 23.8
+        "x": 807.6,
+        "y": 59.5
       }
     },
     {
@@ -2182,8 +2182,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -499.2,
-        "y": 436.1
+        "x": -986.6,
+        "y": 890.3
       }
     },
     {
@@ -2203,8 +2203,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -568.9,
-        "y": 610.7
+        "x": -1145.9,
+        "y": 1209.9
       }
     },
     {
@@ -2224,8 +2224,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -298.4,
-        "y": 749.2
+        "x": -577.0,
+        "y": 1490.1
       }
     },
     {
@@ -2245,8 +2245,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -156.2,
-        "y": 170.5
+        "x": -315.6,
+        "y": 338.0
       }
     },
     {
@@ -2266,8 +2266,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -738.6,
-        "y": -167.9
+        "x": -1479.0,
+        "y": -337.3
       }
     },
     {
@@ -2297,8 +2297,8 @@ const mindMapData = {
         "summary": "GMT* adapts FMT*'s lazy dynamic-programming tree expansion for massively parallel execution on GPUs by replacing the sequential expansion of the single minimum-cost sample with simultaneous expansion of the entire group of active samples whose cost falls below an increasing threshold. This group approximation introduces a bounded suboptimality constant but eliminates sequential data structures and reduces thread divergence. Achieves ~10 ms planning on desktop GPUs and ~30 ms on embedded GPUs."
       },
       "position": {
-        "x": 116.6,
-        "y": -634.4
+        "x": 228.4,
+        "y": -1272.7
       }
     },
     {
@@ -2317,8 +2317,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -504.8,
-        "y": 577.7
+        "x": -1012.4,
+        "y": 1157.3
       }
     },
     {
@@ -2342,8 +2342,8 @@ const mindMapData = {
         "summary": "The paper introduces the Transformer architecture, a novel neural network model based on attention mechanisms, demonstrating state-of-the-art performance on NLP tasks."
       },
       "position": {
-        "x": -656.6,
-        "y": 630.8
+        "x": -1328.7,
+        "y": 1252.0
       }
     },
     {
@@ -2362,8 +2362,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 310.9,
-        "y": 261.2
+        "x": 622.7,
+        "y": 521.9
       }
     },
     {
@@ -2383,8 +2383,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -480.8,
-        "y": 560.0
+        "x": -962.8,
+        "y": 1125.3
       }
     },
     {
@@ -2404,8 +2404,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 304.1,
-        "y": 570.3
+        "x": 596.5,
+        "y": 1163.7
       }
     },
     {
@@ -2425,8 +2425,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 458.0,
-        "y": 280.8
+        "x": 917.1,
+        "y": 558.8
       }
     },
     {
@@ -2451,8 +2451,8 @@ const mindMapData = {
         "summary": "Introduces PPO, which approximates TRPO's trust region constraint via a clipped surrogate objective. Achieves comparable stability and sample efficiency to TRPO with far lower computational overhead. Became the de facto standard RL algorithm quickly over the next decade after introduction."
       },
       "position": {
-        "x": -120.0,
-        "y": 285.4
+        "x": -241.5,
+        "y": 542.8
       }
     },
     {
@@ -2475,8 +2475,8 @@ const mindMapData = {
         "summary": "Reframes TOPP as a reachability problem, propagating feasible velocity sets via small LPs, so you get the speed of numerical integration and the robustness of convex optimization in one easy-to-implement algorithm. Claims to (at least partially) generalize AVP (1411.4045)."
       },
       "position": {
-        "x": 356.6,
-        "y": -418.7
+        "x": 732.9,
+        "y": -849.4
       }
     },
     {
@@ -2496,8 +2496,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 265.9,
-        "y": -968.4
+        "x": 517.2,
+        "y": -1981.5
       }
     },
     {
@@ -2517,8 +2517,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -662.5,
-        "y": -324.6
+        "x": -1286.1,
+        "y": -666.6
       }
     },
     {
@@ -2538,8 +2538,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 396.6,
-        "y": -275.6
+        "x": 799.0,
+        "y": -534.3
       }
     },
     {
@@ -2559,8 +2559,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 76.5,
-        "y": -764.2
+        "x": 154.2,
+        "y": -1511.4
       }
     },
     {
@@ -2590,8 +2590,8 @@ const mindMapData = {
         "summary": "Uses a \"traditional\" autonomy stack (trajectory optimization with learned dynamics, Kalman filter state estimation, and an handcrafted cost function) as the expert policy, then trains a neural network to imitate it end-to-end, from pixels to torques. Demonstrates that a full autonomy stack can be \"compressed into\" or \"represented by\" a single neural network. Notably, the trained neural network can be deployed with less expensive compute hardware and a lower fidelty sensor suite than the original autonomy stack."
       },
       "position": {
-        "x": -707.5,
-        "y": -187.7
+        "x": -1423.7,
+        "y": -371.9
       }
     },
     {
@@ -2611,8 +2611,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 251.9,
-        "y": -634.3
+        "x": 509.2,
+        "y": -1256.7
       }
     },
     {
@@ -2640,8 +2640,8 @@ const mindMapData = {
         "summary": "The paper puts together a few cool technologies, such as massively parallel trajectory sampling and evaluation on a GPU, as well as a CVAE neural network trained on actual human driving data for prediction of future driver response at robot inference time."
       },
       "position": {
-        "x": -711.5,
-        "y": -181.9
+        "x": -1419.0,
+        "y": -313.4
       }
     },
     {
@@ -2667,8 +2667,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 386.1,
-        "y": -824.1
+        "x": 762.8,
+        "y": -1637.4
       }
     },
     {
@@ -2694,8 +2694,8 @@ const mindMapData = {
         "summary": "Presents an optimization-based collision avoidance formulation using differentiable signed distance functions. Optimization problems are solved with general nonlinear solver IPOPT. Proposes using A* for warm-starting."
       },
       "position": {
-        "x": 367.0,
-        "y": -364.9
+        "x": 732.3,
+        "y": -729.8
       }
     },
     {
@@ -2714,8 +2714,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -464.5,
-        "y": 764.7
+        "x": -942.9,
+        "y": 1532.6
       }
     },
     {
@@ -2735,8 +2735,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 291.9,
-        "y": 551.0
+        "x": 574.5,
+        "y": 1108.7
       }
     },
     {
@@ -2756,8 +2756,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -537.2,
-        "y": 473.6
+        "x": -1084.6,
+        "y": 954.3
       }
     },
     {
@@ -2777,8 +2777,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -766.6,
-        "y": -383.2
+        "x": -1532.2,
+        "y": -773.6
       }
     },
     {
@@ -2805,8 +2805,8 @@ const mindMapData = {
         "summary": "Presents a unified family of iterative Gauss-Newton multiple-shooting methods for nonlinear optimal control, covering single and multiple shooting variants within a common framework with analysis of convergence and computational tradeoffs."
       },
       "position": {
-        "x": 208.5,
-        "y": 127.0
+        "x": 435.0,
+        "y": 271.3
       }
     },
     {
@@ -2826,8 +2826,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -215.7,
-        "y": 144.1
+        "x": -431.6,
+        "y": 288.3
       }
     },
     {
@@ -2847,8 +2847,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -189.3,
-        "y": 140.2
+        "x": -373.0,
+        "y": 280.5
       }
     },
     {
@@ -2875,8 +2875,8 @@ const mindMapData = {
         "summary": "Extends the Timed Elastic Band (TEB) local planner to handle kinodynamic constraints for car-like (Ackermann-steered) robots. Optimizes trajectories over time-parameterized elastic bands subject to nonholonomic constraints, enabling smooth and feasible path following for vehicles with curvature limitations."
       },
       "position": {
-        "x": 461.2,
-        "y": -517.3
+        "x": 928.5,
+        "y": -1055.7
       }
     },
     {
@@ -2904,8 +2904,8 @@ const mindMapData = {
         "summary": "Tutorial paper introducing MPPI as a sampling-based model predictive control method, deriving it from path integral control theory and demonstrating a GPU-parallelized implementation for real-time autonomous driving."
       },
       "position": {
-        "x": 578.9,
-        "y": 136.0
+        "x": 1148.1,
+        "y": 272.4
       }
     },
     {
@@ -2934,8 +2934,8 @@ const mindMapData = {
         "summary": "Proposes sharpness-continuous (G3) path primitives composed of cubic curvature curves, circular arcs, and straight lines. Closely related to and builds upon ”Trajectory generation for car-like robots using cubic curvature polynomials” by Nagy and Kelly (2001) and ”From Reeds and Shepp's to continuous-curvature paths” by Fraichard and Scheuer (2004)."
       },
       "position": {
-        "x": 511.3,
-        "y": -467.1
+        "x": 1032.1,
+        "y": -925.0
       }
     },
     {
@@ -2955,8 +2955,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -563.4,
-        "y": 645.4
+        "x": -1135.4,
+        "y": 1308.8
       }
     },
     {
@@ -2976,8 +2976,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -453.5,
-        "y": 580.6
+        "x": -913.8,
+        "y": 1170.5
       }
     },
     {
@@ -2997,8 +2997,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 139.0,
-        "y": 629.6
+        "x": 293.1,
+        "y": 1270.1
       }
     },
     {
@@ -3018,8 +3018,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 323.7,
-        "y": 439.7
+        "x": 626.6,
+        "y": 866.6
       }
     },
     {
@@ -3038,8 +3038,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 406.7,
-        "y": -488.9
+        "x": 792.7,
+        "y": -978.7
       }
     },
     {
@@ -3067,8 +3067,8 @@ const mindMapData = {
         "summary": "Describes Basic Random Search (BRS) and Augmented Random Search (ARS) and demonstrates that simple random perturbations to the parameters of linear policies with state normalization achieves competitive performance against deep RL on MuJoCo benchmarks. Challenges the necessity of more complicated neural network-backed policy optimization algorithms such as Trust Region Policy Optimization (TRPO), Deep Deterministic Policy Gradient (DDPG), Natural Gradients (NG), Evolution Strategies (ES), Proximal Policy Optimization (PPO), Soft Actor Critic (SAC), Soft Q-Learning (SQL), A2C, and the Cross Entropy Method (CEM)."
       },
       "position": {
-        "x": -86.2,
-        "y": 248.2
+        "x": -187.1,
+        "y": 485.0
       }
     },
     {
@@ -3088,8 +3088,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -297.0,
-        "y": 662.6
+        "x": -613.1,
+        "y": 1333.8
       }
     },
     {
@@ -3108,8 +3108,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 167.6,
-        "y": 599.2
+        "x": 335.0,
+        "y": 1196.5
       }
     },
     {
@@ -3128,8 +3128,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -230.3,
-        "y": 726.6
+        "x": -452.8,
+        "y": 1450.8
       }
     },
     {
@@ -3147,8 +3147,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 60.1,
-        "y": 300.8
+        "x": 111.5,
+        "y": 580.0
       }
     },
     {
@@ -3168,8 +3168,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -429.1,
-        "y": 493.9
+        "x": -856.5,
+        "y": 987.4
       }
     },
     {
@@ -3189,8 +3189,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -154.6,
-        "y": -88.0
+        "x": -303.4,
+        "y": -204.3
       }
     },
     {
@@ -3220,8 +3220,8 @@ const mindMapData = {
         "summary": "Integrates a grid of states and offline precomputed connecting motion primitives into RRT*. Moves the computational burden of trajectory generation to an offline phase, trading runtime efficiency for memory usage and some optimality degradation tied to grid resolution."
       },
       "position": {
-        "x": 324.0,
-        "y": -823.8
+        "x": 646.0,
+        "y": -1647.9
       }
     },
     {
@@ -3241,8 +3241,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 352.0,
-        "y": -866.4
+        "x": 703.8,
+        "y": -1733.5
       }
     },
     {
@@ -3261,8 +3261,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 45.2,
-        "y": -714.9
+        "x": 94.2,
+        "y": -1429.2
       }
     },
     {
@@ -3282,8 +3282,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -341.6,
-        "y": 786.2
+        "x": -684.6,
+        "y": 1577.9
       }
     },
     {
@@ -3302,8 +3302,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -641.5,
-        "y": 701.0
+        "x": -1291.0,
+        "y": 1427.0
       }
     },
     {
@@ -3323,8 +3323,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 351.8,
-        "y": 425.8
+        "x": 725.5,
+        "y": 843.0
       }
     },
     {
@@ -3352,8 +3352,8 @@ const mindMapData = {
         "summary": "One of the earlier papers describing a successful approach using a deep-learned predictive world model from image inputs."
       },
       "position": {
-        "x": -328.4,
-        "y": -101.4
+        "x": -672.6,
+        "y": -197.6
       }
     },
     {
@@ -3371,8 +3371,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -527.7,
-        "y": 402.9
+        "x": -1051.3,
+        "y": 808.8
       }
     },
     {
@@ -3399,8 +3399,8 @@ const mindMapData = {
         "summary": "Surveys constraint satisfaction techniques for sampling-based motion planning, organizing methods along a spectrum from configuration-space to task-space approaches and covering both configuration sampling and steering primitives for constraint-satisfying motion."
       },
       "position": {
-        "x": 203.0,
-        "y": -769.6
+        "x": 402.0,
+        "y": -1543.1
       }
     },
     {
@@ -3425,8 +3425,8 @@ const mindMapData = {
         "summary": "Extends Sampled DDP with regularization strategies to improve numerical stability and convergence, addressing ill-conditioning issues that arise when the sampled Hessian estimates are noisy or rank-deficient."
       },
       "position": {
-        "x": 421.4,
-        "y": 27.2
+        "x": 865.1,
+        "y": 45.8
       }
     },
     {
@@ -3454,8 +3454,8 @@ const mindMapData = {
         "summary": "Reviews motion planning and decision-making techniques for autonomous vehicles, covering probabilistic prediction of other agents, game-theoretic and learning-based interaction models, and socially-aware planning for urban driving scenarios."
       },
       "position": {
-        "x": -775.9,
-        "y": -301.0
+        "x": -1554.9,
+        "y": -606.3
       }
     },
     {
@@ -3484,8 +3484,8 @@ const mindMapData = {
         "summary": "Extends convex-optimization-based speed planning to handle a broader set of constraints (comfort, safety, traffic rules) more completely and flexibly than prior approaches, demonstrated on autonomous driving scenarios."
       },
       "position": {
-        "x": 351.9,
-        "y": -418.8
+        "x": 680.6,
+        "y": -822.0
       }
     },
     {
@@ -3503,8 +3503,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 324.4,
-        "y": 53.3
+        "x": 643.3,
+        "y": 127.1
       }
     },
     {
@@ -3524,8 +3524,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -516.5,
-        "y": 458.7
+        "x": -1031.6,
+        "y": 928.3
       }
     },
     {
@@ -3545,8 +3545,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 151.5,
-        "y": 363.8
+        "x": 291.7,
+        "y": 733.6
       }
     },
     {
@@ -3566,8 +3566,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -666.3,
-        "y": -346.2
+        "x": -1342.2,
+        "y": -685.7
       }
     },
     {
@@ -3587,8 +3587,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 269.9,
-        "y": -91.0
+        "x": 519.4,
+        "y": -164.0
       }
     },
     {
@@ -3608,8 +3608,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 84.0,
-        "y": 7.8
+        "x": 167.0,
+        "y": 12.8
       }
     },
     {
@@ -3629,8 +3629,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -451.2,
-        "y": 757.9
+        "x": -885.9,
+        "y": 1517.2
       }
     },
     {
@@ -3649,8 +3649,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -180.3,
-        "y": 720.5
+        "x": -359.3,
+        "y": 1439.6
       }
     },
     {
@@ -3670,8 +3670,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -337.9,
-        "y": 715.1
+        "x": -674.0,
+        "y": 1430.2
       }
     },
     {
@@ -3690,8 +3690,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 120.0,
-        "y": 633.5
+        "x": 234.7,
+        "y": 1281.7
       }
     },
     {
@@ -3711,8 +3711,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 57.6,
-        "y": -462.3
+        "x": 116.1,
+        "y": -922.6
       }
     },
     {
@@ -3732,8 +3732,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -641.3,
-        "y": 513.3
+        "x": -1293.3,
+        "y": 1014.7
       }
     },
     {
@@ -3753,8 +3753,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -512.6,
-        "y": 439.1
+        "x": -1042.5,
+        "y": 870.0
       }
     },
     {
@@ -3779,8 +3779,8 @@ const mindMapData = {
         "summary": "This paper, from the original authors and friends, corrects some small mistakes in the theory of the asymptotic optimality results and offers new proof techniques."
       },
       "position": {
-        "x": 313.2,
-        "y": -958.0
+        "x": 617.4,
+        "y": -1923.0
       }
     },
     {
@@ -3805,8 +3805,8 @@ const mindMapData = {
         "summary": "Tutorial and survey that presents theoretical analysis of DMD with a focus on data reconstruction from DMD modes, addressing the relationship between DMD approximations and the underlying dynamics of the system."
       },
       "position": {
-        "x": 325.4,
-        "y": 693.7
+        "x": 688.7,
+        "y": 1391.2
       }
     },
     {
@@ -3825,8 +3825,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -426.0,
-        "y": 594.7
+        "x": -841.9,
+        "y": 1176.4
       }
     },
     {
@@ -3853,8 +3853,8 @@ const mindMapData = {
         "summary": "Build on the predecessor work PlaNet and learns an actor-critic model in place of online planning with the cross entropy method."
       },
       "position": {
-        "x": -291.6,
-        "y": -30.1
+        "x": -578.8,
+        "y": -60.2
       }
     },
     {
@@ -3883,8 +3883,8 @@ const mindMapData = {
         "summary": "Reviews deep learning approaches for vehicle behavior prediction in autonomous driving, categorizing methods by architecture and prediction output type, with discussion of datasets and evaluation metrics."
       },
       "position": {
-        "x": -808.9,
-        "y": -224.9
+        "x": -1634.7,
+        "y": -448.4
       }
     },
     {
@@ -3909,8 +3909,8 @@ const mindMapData = {
         "summary": "Applies a quasi-Newton Hessian approximation within the TRPO trust region framework, achieving better sample efficiency and faster convergence than standard TRPO by making more informed second-order parameter updates."
       },
       "position": {
-        "x": -53.5,
-        "y": 300.9
+        "x": -105.3,
+        "y": 599.4
       }
     },
     {
@@ -3939,8 +3939,8 @@ const mindMapData = {
         "summary": "Uses an RRT solution trajectory to warm-start iLQR, preventing the optimizer from getting stuck in local minima and simultaneously refining the crude RRT path into a smoother, more optimal trajectory."
       },
       "position": {
-        "x": 444.4,
-        "y": -745.4
+        "x": 887.5,
+        "y": -1489.9
       }
     },
     {
@@ -3966,8 +3966,8 @@ const mindMapData = {
         "summary": "Introduces ALTRO (Augmented Lagrangian TRajectory Optimizer), combining augmented Lagrangian outer iterations with iLQR inner loops for constrained trajectory optimization, with an active-set constraint handling polishing step for fast convergence near the solution."
       },
       "position": {
-        "x": 302.3,
-        "y": -196.1
+        "x": 591.0,
+        "y": -402.0
       }
     },
     {
@@ -3992,8 +3992,8 @@ const mindMapData = {
         "summary": "Integrates path integral policy improvement (PI²) with differential dynamic programming (DDP), using DDP's second-order local model to guide the sampling distribution in a PI-style update."
       },
       "position": {
-        "x": 437.4,
-        "y": 87.3
+        "x": 882.2,
+        "y": 184.5
       }
     },
     {
@@ -4018,8 +4018,8 @@ const mindMapData = {
         "summary": "PhD dissertation by Grady Williams at Georgia Tech establishing the theoretical foundations of Model Predictive Path Integral (MPPI) control and demonstrating its application to autonomous vehicle navigation."
       },
       "position": {
-        "x": 592.6,
-        "y": 170.2
+        "x": 1203.1,
+        "y": 376.3
       }
     },
     {
@@ -4047,8 +4047,8 @@ const mindMapData = {
         "summary": "Extends Trajectron with dynamic feasibility constraints and heterogeneous input data (HD maps, agent types), using a CVAE-based graph recurrent network to produce multi-modal trajectory distributions for multiple interacting agents simultaneously."
       },
       "position": {
-        "x": -695.5,
-        "y": -286.5
+        "x": -1419.3,
+        "y": -550.6
       }
     },
     {
@@ -4068,8 +4068,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 384.2,
-        "y": 4.1
+        "x": 745.0,
+        "y": 7.9
       }
     },
     {
@@ -4089,8 +4089,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -448.4,
-        "y": 732.5
+        "x": -894.2,
+        "y": 1458.7
       }
     },
     {
@@ -4110,8 +4110,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -393.9,
-        "y": 811.1
+        "x": -793.3,
+        "y": 1615.8
       }
     },
     {
@@ -4131,8 +4131,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -644.7,
-        "y": 695.5
+        "x": -1255.1,
+        "y": 1379.4
       }
     },
     {
@@ -4152,8 +4152,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -663.9,
-        "y": -321.8
+        "x": -1330.6,
+        "y": -627.8
       }
     },
     {
@@ -4179,8 +4179,8 @@ const mindMapData = {
         "summary": "Combines CEM-style action sampling with gradient descent refinement. Quite similar in spirit to Sampled DDP (SaDDP), but uses first-order (gradient) refinement instead of second-order (Hessian), and stays closer to vanilla CEM."
       },
       "position": {
-        "x": 403.6,
-        "y": 91.8
+        "x": 809.6,
+        "y": 185.7
       }
     },
     {
@@ -4205,8 +4205,8 @@ const mindMapData = {
         "summary": "Revisits constrained DDP with augmented Lagrangian methods, improving constraint handling within the DDP backward-forward pass framework. Contemporary with ALTRO, but from a different group with a different perspective on convergence."
       },
       "position": {
-        "x": 384.6,
-        "y": -42.6
+        "x": 756.1,
+        "y": -95.7
       }
     },
     {
@@ -4226,8 +4226,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -798.2,
-        "y": -156.1
+        "x": -1595.3,
+        "y": -305.9
       }
     },
     {
@@ -4247,8 +4247,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -331.3,
-        "y": 760.4
+        "x": -652.1,
+        "y": 1528.7
       }
     },
     {
@@ -4268,8 +4268,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -610.2,
-        "y": 744.1
+        "x": -1219.1,
+        "y": 1491.4
       }
     },
     {
@@ -4288,8 +4288,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -550.4,
-        "y": 392.9
+        "x": -1104.7,
+        "y": 783.5
       }
     },
     {
@@ -4308,8 +4308,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -619.2,
-        "y": 717.3
+        "x": -1232.3,
+        "y": 1433.9
       }
     },
     {
@@ -4327,8 +4327,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -17.4,
-        "y": 255.3
+        "x": -36.6,
+        "y": 511.4
       }
     },
     {
@@ -4348,8 +4348,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 382.7,
-        "y": -290.4
+        "x": 779.9,
+        "y": -590.2
       }
     },
     {
@@ -4376,8 +4376,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 254.6,
-        "y": -807.4
+        "x": 510.2,
+        "y": -1619.3
       }
     },
     {
@@ -4403,8 +4403,8 @@ const mindMapData = {
         "summary": "Introduces FDDP (Feasibility-Driven DDP) which enforces feasibility at each iteration rather than penalizing infeasibility, overcoming convergence issues in control-limited DDP."
       },
       "position": {
-        "x": 386.4,
-        "y": -71.7
+        "x": 765.8,
+        "y": -154.0
       }
     },
     {
@@ -4424,8 +4424,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -567.7,
-        "y": 719.9
+        "x": -1133.3,
+        "y": 1439.9
       }
     },
     {
@@ -4444,8 +4444,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 444.9,
-        "y": -411.1
+        "x": 889.4,
+        "y": -822.9
       }
     },
     {
@@ -4465,8 +4465,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -682.1,
-        "y": 679.4
+        "x": -1372.2,
+        "y": 1372.2
       }
     },
     {
@@ -4485,8 +4485,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -61.3,
-        "y": 663.9
+        "x": -115.0,
+        "y": 1323.3
       }
     },
     {
@@ -4506,8 +4506,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -217.6,
-        "y": -136.4
+        "x": -435.6,
+        "y": -278.7
       }
     },
     {
@@ -4527,8 +4527,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 377.7,
-        "y": 438.9
+        "x": 782.2,
+        "y": 859.3
       }
     },
     {
@@ -4547,8 +4547,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -532.9,
-        "y": 690.3
+        "x": -1064.9,
+        "y": 1381.3
       }
     },
     {
@@ -4566,8 +4566,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -410.0,
-        "y": 776.3
+        "x": -820.1,
+        "y": 1551.3
       }
     },
     {
@@ -4587,8 +4587,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -562.3,
-        "y": 630.8
+        "x": -1109.0,
+        "y": 1255.9
       }
     },
     {
@@ -4608,8 +4608,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -603.6,
-        "y": 489.2
+        "x": -1191.9,
+        "y": 999.5
       }
     },
     {
@@ -4629,8 +4629,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -526.1,
-        "y": -321.5
+        "x": -1051.5,
+        "y": -641.4
       }
     },
     {
@@ -4658,8 +4658,8 @@ const mindMapData = {
         "summary": "Presents a homotopy method which progressively penalizes control action constraint violations more aggressively in an outer loop, using FDDP in the inner loop solves. Solution converges to the hard-constrained optimal trajectory. Quadratic barrier keeps decision variables (control actions) near the center of the sigmoid squashing functions, i.e. avoids a kind of \"dead gradients\" numerical issue."
       },
       "position": {
-        "x": 376.3,
-        "y": -61.6
+        "x": 710.4,
+        "y": -133.6
       }
     },
     {
@@ -4687,8 +4687,8 @@ const mindMapData = {
         "summary": "Applies Informed RRT*'s ellipsoidal focused sampling to RRT*-Connect: the planner uses bidirectional tree growth and rewiring (as in RRT*-Connect) to find an initial solution quickly, then restricts subsequent sampling to the prolate hyperspheroid subset that can improve it (as in Informed RRT*). An incremental combination of two existing techniques with no major novel theoretical contribution, but can achieve fewer iterations and lower solution cost than RRT*-Connect alone."
       },
       "position": {
-        "x": 336.6,
-        "y": -1000.0
+        "x": 683.4,
+        "y": -2001.0
       }
     },
     {
@@ -4713,8 +4713,8 @@ const mindMapData = {
         "summary": "Develops a rigorous multiple-shooting formulation of DDP with theoretical convergence analysis, establishing connections to classical multiple-shooting methods."
       },
       "position": {
-        "x": 397.3,
-        "y": -34.6
+        "x": 801.4,
+        "y": -58.2
       }
     },
     {
@@ -4742,8 +4742,8 @@ const mindMapData = {
         "summary": "SWIRRT* addresses the degradation of Informed RRT* in large environments where the ellipsoidal sampling region covers most of the state space. Instead of sampling from a single ellipsoid spanning start to goal, it applies a sliding-window approach that focuses successive local ellipsoids along the current path, accelerating post-initial-solution optimization and improving path smoothness."
       },
       "position": {
-        "x": 362.9,
-        "y": -981.6
+        "x": 728.5,
+        "y": -1961.9
       }
     },
     {
@@ -4763,8 +4763,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -218.3,
-        "y": 701.4
+        "x": -410.2,
+        "y": 1409.8
       }
     },
     {
@@ -4795,8 +4795,8 @@ const mindMapData = {
         "summary": "Each graph vertex is associated with a convex set and edge lengths are convex functions of the endpoints' positions. The key contribution is a strong mixed-integer convex program (MICP) formulation based on perspective operators that yields a tight relaxation, enabling globally optimal paths in large graphs and high-dimensional spaces. Forms the theoretical foundation for GCS-based motion planning."
       },
       "position": {
-        "x": 315.1,
-        "y": -459.7
+        "x": 630.3,
+        "y": -911.0
       }
     },
     {
@@ -4816,8 +4816,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -207.6,
-        "y": 62.2
+        "x": -413.7,
+        "y": 122.5
       }
     },
     {
@@ -4837,8 +4837,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 113.7,
-        "y": 575.6
+        "x": 230.2,
+        "y": 1150.4
       }
     },
     {
@@ -4858,8 +4858,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -146.8,
-        "y": -84.2
+        "x": -285.8,
+        "y": -147.9
       }
     },
     {
@@ -4879,8 +4879,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 357.0,
-        "y": 407.8
+        "x": 702.9,
+        "y": 788.5
       }
     },
     {
@@ -4900,8 +4900,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -693.7,
-        "y": 643.1
+        "x": -1384.6,
+        "y": 1270.3
       }
     },
     {
@@ -4921,8 +4921,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -359.4,
-        "y": 777.8
+        "x": -710.9,
+        "y": 1524.3
       }
     },
     {
@@ -4947,8 +4947,8 @@ const mindMapData = {
         "summary": "Shows how to efficiently evaluate the second-order dynamics derivatives required by full DDP for rigid-body systems via recursive algorithms. This can make full DDP computationally competitive with or faster than iLQR. Also provides a clear derivation of DDP."
       },
       "position": {
-        "x": 365.6,
-        "y": -49.9
+        "x": 700.6,
+        "y": -75.3
       }
     },
     {
@@ -4968,8 +4968,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -230.2,
-        "y": 702.4
+        "x": -464.3,
+        "y": 1386.4
       }
     },
     {
@@ -4989,8 +4989,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -706.8,
-        "y": 677.6
+        "x": -1430.4,
+        "y": 1379.7
       }
     },
     {
@@ -5010,8 +5010,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -649.3,
-        "y": 534.0
+        "x": -1299.0,
+        "y": 1073.5
       }
     },
     {
@@ -5031,8 +5031,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -716.8,
-        "y": 666.2
+        "x": -1465.9,
+        "y": 1332.5
       }
     },
     {
@@ -5058,8 +5058,8 @@ const mindMapData = {
         "summary": "Extends variational inference MPC by replacing KL divergence with Tsallis divergence, yielding a broader family of sampling-based controllers that recovers MPPI as a special case and can better handle multimodal cost landscapes."
       },
       "position": {
-        "x": 537.9,
-        "y": 190.8
+        "x": 1085.6,
+        "y": 386.3
       }
     },
     {
@@ -5079,8 +5079,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -46.5,
-        "y": 148.4
+        "x": -91.3,
+        "y": 299.1
       }
     },
     {
@@ -5099,8 +5099,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 307.3,
-        "y": 24.5
+        "x": 606.5,
+        "y": 46.1
       }
     },
     {
@@ -5120,8 +5120,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -736.3,
-        "y": -242.1
+        "x": -1470.7,
+        "y": -522.1
       }
     },
     {
@@ -5141,8 +5141,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 216.9,
-        "y": 415.5
+        "x": 432.7,
+        "y": 828.9
       }
     },
     {
@@ -5168,8 +5168,8 @@ const mindMapData = {
         "summary": "Tutorial demonstrating how to extend SINDy to systems with exogenous control inputs (SINDy-C), covering library selection, ensemble methods for robustness, and applications to controlled nonlinear dynamical systems."
       },
       "position": {
-        "x": 308.7,
-        "y": 549.8
+        "x": 620.8,
+        "y": 1071.9
       }
     },
     {
@@ -5189,8 +5189,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -187.0,
-        "y": 540.3
+        "x": -362.2,
+        "y": 1068.9
       }
     },
     {
@@ -5216,8 +5216,8 @@ const mindMapData = {
         "summary": "Introduces closed-loop dynamic SQP, which integrates feedback gain computation within the SQP iteration structure, improving robustness and convergence for trajectory optimization compared to open-loop sequential approaches."
       },
       "position": {
-        "x": 390.4,
-        "y": -96.1
+        "x": 774.8,
+        "y": -212.2
       }
     },
     {
@@ -5243,8 +5243,8 @@ const mindMapData = {
         "summary": "Comprehensive Python package implementing SINDy with support for multiple sparse regression algorithms, customizable feature libraries, etc."
       },
       "position": {
-        "x": 248.2,
-        "y": 616.5
+        "x": 484.5,
+        "y": 1253.1
       }
     },
     {
@@ -5272,8 +5272,8 @@ const mindMapData = {
         "summary": "VISTA 2.0 is an open-source, data-driven simulator from MIT that synthesizes novel viewpoints from real-world data across RGB cameras, 3D LiDAR, and event-based cameras; policies trained in it transfer directly to a full-scale autonomous vehicle without domain randomization."
       },
       "position": {
-        "x": -710.5,
-        "y": -228.3
+        "x": -1420.8,
+        "y": -432.7
       }
     },
     {
@@ -5300,8 +5300,8 @@ const mindMapData = {
         "summary": "Companion paper to VISTA 2.0 that extends data-driven simulation to multi-agent scenarios by inpainting other vehicles into real-world footage, enabling interactive driving policy learning that transfers directly to a full-scale autonomous vehicle."
       },
       "position": {
-        "x": -685.0,
-        "y": -216.8
+        "x": -1320.6,
+        "y": -427.8
       }
     },
     {
@@ -5319,8 +5319,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -250.0,
-        "y": 766.5
+        "x": -487.0,
+        "y": 1565.3
       }
     },
     {
@@ -5348,8 +5348,8 @@ const mindMapData = {
         "summary": "Benchmarks and compares sampling-, search-, and optimization-based planners for time-optimal kinodynamic mobile robot motion planning, providing an empirical evaluation of modern approaches."
       },
       "position": {
-        "x": 310.0,
-        "y": -682.8
+        "x": 628.6,
+        "y": -1364.3
       }
     },
     {
@@ -5380,8 +5380,8 @@ const mindMapData = {
         "summary": "Comparative study applying DDP and MPPI trajectory optimization methods to path planning for VTOL (urban air mobility) aircraft, benchmarking their performance and practical trade-offs on this application domain."
       },
       "position": {
-        "x": 520.4,
-        "y": -0.5
+        "x": 1039.2,
+        "y": -1.7
       }
     },
     {
@@ -5405,8 +5405,8 @@ const mindMapData = {
         "summary": "Comprehensive review of DMD from its fluid dynamics origins through current extensions, providing a unified perspective on theoretical foundations and practical applications."
       },
       "position": {
-        "x": 319.0,
-        "y": 688.9
+        "x": 632.2,
+        "y": 1408.4
       }
     },
     {
@@ -5426,8 +5426,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -469.6,
-        "y": 692.3
+        "x": -939.4,
+        "y": 1385.0
       }
     },
     {
@@ -5455,8 +5455,8 @@ const mindMapData = {
         "summary": "Extends the target tree algorithm - “Model-based decision making with imagination for autonomous parking” by Feng, Chen, Chen, and Zheng (2018) - for autonomous parking by replacing circular/straight path segments with clothoid curves to achieve continuous curvature (G2). Introduces an obstacle-aware cost function for target tree construction to reduce planning time in complex environments. Combined with RRT* and shortest-path selection, yields near-optimal continuous-curvature parking solutions."
       },
       "position": {
-        "x": 407.1,
-        "y": -941.7
+        "x": 829.8,
+        "y": -1880.3
       }
     },
     {
@@ -5476,8 +5476,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -35.2,
-        "y": 347.2
+        "x": -74.9,
+        "y": 690.2
       }
     },
     {
@@ -5497,8 +5497,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -17.4,
-        "y": 360.8
+        "x": -26.9,
+        "y": 724.6
       }
     },
     {
@@ -5518,8 +5518,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -240.1,
-        "y": 741.2
+        "x": -511.3,
+        "y": 1460.4
       }
     },
     {
@@ -5539,8 +5539,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -621.1,
-        "y": 512.2
+        "x": -1238.2,
+        "y": 1036.1
       }
     },
     {
@@ -5560,8 +5560,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 186.2,
-        "y": -740.6
+        "x": 375.3,
+        "y": -1481.1
       }
     },
     {
@@ -5581,8 +5581,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 310.7,
-        "y": -985.3
+        "x": 628.0,
+        "y": -1981.1
       }
     },
     {
@@ -5602,8 +5602,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 380.6,
-        "y": 336.7
+        "x": 756.4,
+        "y": 660.3
       }
     },
     {
@@ -5623,8 +5623,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 57.9,
-        "y": 253.8
+        "x": 106.8,
+        "y": 501.1
       }
     },
     {
@@ -5644,8 +5644,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 178.4,
-        "y": -208.0
+        "x": 349.0,
+        "y": -426.0
       }
     },
     {
@@ -5665,8 +5665,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 344.4,
-        "y": 439.6
+        "x": 683.1,
+        "y": 883.8
       }
     },
     {
@@ -5692,8 +5692,8 @@ const mindMapData = {
         "summary": "Analyzes both global and local convergence properties of iterative LQR/DDP algorithms for discrete-time nonlinear control, providing theoretical convergence guarantees under specific regularity conditions."
       },
       "position": {
-        "x": 172.7,
-        "y": 206.7
+        "x": 345.9,
+        "y": 412.9
       }
     },
     {
@@ -5713,8 +5713,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 532.6,
-        "y": -289.6
+        "x": 1062.6,
+        "y": -577.9
       }
     },
     {
@@ -5734,8 +5734,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 215.4,
-        "y": -479.8
+        "x": 447.4,
+        "y": -960.2
       }
     },
     {
@@ -5754,8 +5754,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -212.6,
-        "y": 646.9
+        "x": -432.8,
+        "y": 1293.3
       }
     },
     {
@@ -5783,8 +5783,8 @@ const mindMapData = {
         "summary": "Applies the GCS framework to collision-free trajectory optimization by decomposing the free configuration space into convex regions and formulating motion planning as a shortest-path problem in a GCS. Trajectories are parameterized as Bézier curves, enabling compact mixed-integer optimization with constraints on shape, duration, and velocity. A convex relaxation with randomized rounding provides near-global solutions with certified optimality bounds, outperforming both sampling-based and prior trajectory optimization methods."
       },
       "position": {
-        "x": 311.7,
-        "y": -433.4
+        "x": 629.7,
+        "y": -852.0
       }
     },
     {
@@ -5804,8 +5804,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -93.4,
-        "y": 8.0
+        "x": -186.6,
+        "y": 19.2
       }
     },
     {
@@ -5825,8 +5825,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -652.0,
-        "y": 645.0
+        "x": -1270.6,
+        "y": 1263.0
       }
     },
     {
@@ -5846,8 +5846,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -231.3,
-        "y": 11.2
+        "x": -478.7,
+        "y": 28.0
       }
     },
     {
@@ -5873,8 +5873,8 @@ const mindMapData = {
         "summary": "Inverse Reinforcement Learning-based planner demonstrated on a real self-driving car in dense urban traffic. Trained on large-scale human driving logs. The architecture design is critical to the success of the approach: there is a classical trajectory generator (based on Dubins paths, pre-computed acceleration profiles, and access to a clean road geometry model) capable of generating diverse safe trajectories, a safety filter that removes all trajectory candidates that are not forward recursively safe, and the learned model is only for assigning scores to the safety-filtered trajectory candidates. Includes a useful set of standardized evaluation metrics for learned planners (see Appendix A.5)."
       },
       "position": {
-        "x": -722.9,
-        "y": -209.8
+        "x": -1472.5,
+        "y": -404.1
       }
     },
     {
@@ -5894,8 +5894,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -436.8,
-        "y": 601.7
+        "x": -881.7,
+        "y": 1220.1
       }
     },
     {
@@ -5923,8 +5923,8 @@ const mindMapData = {
         "summary": "Proposes a simple and efficient transformer-based architecture for motion forecasting, showing that a straightforward attention design over scene and agent context can match or surpass more complex architectures on standard benchmarks like Waymo Open Motion Dataset (WOMD)."
       },
       "position": {
-        "x": -812.1,
-        "y": -176.3
+        "x": -1626.1,
+        "y": -356.4
       }
     },
     {
@@ -5950,8 +5950,8 @@ const mindMapData = {
         "summary": "Presents iLQR and its variants as differentiable programming algorithmic templates, enabling systematic derivation, implementation, and differentiation through iLQR solvers using automatic differentiation frameworks."
       },
       "position": {
-        "x": 194.7,
-        "y": 170.5
+        "x": 389.0,
+        "y": 340.7
       }
     },
     {
@@ -5971,8 +5971,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -201.4,
-        "y": 593.1
+        "x": -403.3,
+        "y": 1180.3
       }
     },
     {
@@ -5992,8 +5992,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 548.1,
-        "y": -217.4
+        "x": 1093.7,
+        "y": -433.4
       }
     },
     {
@@ -6012,8 +6012,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 165.2,
-        "y": 374.4
+        "x": 345.4,
+        "y": 758.1
       }
     },
     {
@@ -6033,8 +6033,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -713.7,
-        "y": -328.1
+        "x": -1442.3,
+        "y": -666.6
       }
     },
     {
@@ -6053,8 +6053,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 384.5,
-        "y": 353.0
+        "x": 740.9,
+        "y": 717.8
       }
     },
     {
@@ -6081,8 +6081,8 @@ const mindMapData = {
         "summary": "Hybrid method combining MPPI for global, collision-free trajectory generation with Interior Point DDP (IPDDP) for smooth, dynamically optimal local refinement, leveraging the complementary strengths of sampling and gradient-based trajectory optimization."
       },
       "position": {
-        "x": 507.9,
-        "y": -89.9
+        "x": 1011.9,
+        "y": -179.1
       }
     },
     {
@@ -6102,8 +6102,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -227.5,
-        "y": 761.6
+        "x": -431.1,
+        "y": 1546.6
       }
     },
     {
@@ -6129,8 +6129,8 @@ const mindMapData = {
         "summary": "Uses an Augmented Lagrangian / ADMM technique to penalize disagreement between a learned policy and a trajectory optimizer during training, combining the accuracy of trajectory optimization with the generalization of learned policies for precise robot control."
       },
       "position": {
-        "x": 151.5,
-        "y": 134.3
+        "x": 303.0,
+        "y": 269.5
       }
     },
     {
@@ -6157,8 +6157,8 @@ const mindMapData = {
         "summary": "Derives a complete, exact bang-bang time-optimal steering method for synchronized double integrators, using it to boost RRT performance via better BVP solving, improved Voronoi bias metrics, and post-hoc trajectory time-optimization."
       },
       "position": {
-        "x": 382.1,
-        "y": -749.7
+        "x": 753.7,
+        "y": -1492.1
       }
     },
     {
@@ -6178,8 +6178,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -692.9,
-        "y": -302.1
+        "x": -1374.8,
+        "y": -589.3
       }
     },
     {
@@ -6199,8 +6199,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 268.4,
-        "y": 208.6
+        "x": 534.1,
+        "y": 414.3
       }
     },
     {
@@ -6220,8 +6220,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 279.1,
-        "y": 530.9
+        "x": 557.0,
+        "y": 1052.3
       }
     },
     {
@@ -6241,8 +6241,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -657.7,
-        "y": 677.8
+        "x": -1313.5,
+        "y": 1372.5
       }
     },
     {
@@ -6262,8 +6262,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -148.2,
-        "y": -9.8
+        "x": -296.3,
+        "y": -19.0
       }
     },
     {
@@ -6290,8 +6290,8 @@ const mindMapData = {
         "summary": "Introduces MJPC, an open-source framework for real-time predictive control built on MuJoCo physics, implementing iLQG, Gradient Descent, and a derivative-free Predictive Sampling baseline. Demonstrates that simple sampling-based methods are competitive with classical trajectory optimizers."
       },
       "position": {
-        "x": 150.8,
-        "y": -40.9
+        "x": 295.1,
+        "y": -59.1
       }
     },
     {
@@ -6310,8 +6310,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 338.0,
-        "y": 284.9
+        "x": 676.6,
+        "y": 570.5
       }
     },
     {
@@ -6338,8 +6338,8 @@ const mindMapData = {
         "summary": "Presents DiffStack, a fully differentiable and modular autonomous driving stack that combines prediction, planning, and control. By making the entire stack differentiable, it enables end-to-end gradient-based optimization across components, improving performance over non-differentiable modular baselines."
       },
       "position": {
-        "x": -696.6,
-        "y": -198.4
+        "x": -1371.9,
+        "y": -399.4
       }
     },
     {
@@ -6365,8 +6365,8 @@ const mindMapData = {
         "summary": "Introduces ProxDDP, using proximal point iterations within a DDP framework to overcome convergence issues often encountered in Augmented Lagrangian DDP methods (e.g., ALTRO), with provable convergence guarantees for constrained trajectory optimization."
       },
       "position": {
-        "x": 367.8,
-        "y": -138.9
+        "x": 737.3,
+        "y": -271.0
       }
     },
     {
@@ -6393,8 +6393,8 @@ const mindMapData = {
         "summary": "CCMA applies an iterative spatial-curvature-corrected moving average to smooth a path without requiring any kinematic model. Takes advantage of special structure and knowledge that the data series represents a spatial path (instead of an arbitrary sequence)."
       },
       "position": {
-        "x": 457.6,
-        "y": -511.7
+        "x": 889.1,
+        "y": -1011.5
       }
     },
     {
@@ -6414,8 +6414,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -629.0,
-        "y": -230.4
+        "x": -1258.4,
+        "y": -461.4
       }
     },
     {
@@ -6441,8 +6441,8 @@ const mindMapData = {
         "summary": "Grows an RRT to produce a coarse initial plan, then uses that plan as the mean of the MPPI sampling distribution, combining the global exploration of RRT with the local refinement of MPPI."
       },
       "position": {
-        "x": 415.2,
-        "y": -863.4
+        "x": 831.9,
+        "y": -1732.9
       }
     },
     {
@@ -6461,8 +6461,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 224.1,
-        "y": -916.4
+        "x": 425.6,
+        "y": -1847.3
       }
     },
     {
@@ -6491,8 +6491,8 @@ const mindMapData = {
         "summary": "Models robot visuomotor policy as a denoising diffusion process over action sequences, enabling multimodal and high-dimensional action distributions that outperform regression-based imitation learning methods on dexterous manipulation benchmarks."
       },
       "position": {
-        "x": -188.8,
-        "y": -68.8
+        "x": -365.0,
+        "y": -133.9
       }
     },
     {
@@ -6520,8 +6520,8 @@ const mindMapData = {
         "summary": "Surveys both pipeline-based and end-to-end motion planning approaches for autonomous driving, analyzing selection, expansion, and optimization in classical methods alongside deep learning training strategies for end-to-end systems, with experimental comparisons and future challenges."
       },
       "position": {
-        "x": -784.5,
-        "y": -276.7
+        "x": -1536.9,
+        "y": -549.7
       }
     },
     {
@@ -6549,8 +6549,8 @@ const mindMapData = {
         "summary": "Presents FATROP, a fast OCP solver based on Riccati factorization of the KKT conditions, achieving sub-2ms solve times with C++ code generation via CasADi integration (ships with CasADi ≥3.6.7 which is also accessible from acados)."
       },
       "position": {
-        "x": 308.6,
-        "y": -189.7
+        "x": 609.9,
+        "y": -346.0
       }
     },
     {
@@ -6570,8 +6570,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 194.3,
-        "y": 26.2
+        "x": 389.1,
+        "y": 52.2
       }
     },
     {
@@ -6591,8 +6591,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -698.3,
-        "y": 654.5
+        "x": -1407.5,
+        "y": 1325.0
       }
     },
     {
@@ -6612,8 +6612,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -620.4,
-        "y": 487.9
+        "x": -1245.8,
+        "y": 974.3
       }
     },
     {
@@ -6641,8 +6641,8 @@ const mindMapData = {
         "summary": "Presents a fast two-phase path planner for environments where the free space is pre-decomposed into a large collection of axis-aligned safe boxes. An offline phase constructs a graph over box intersections. At runtime, a graph shortest-path search finds a polygonal waypoint sequence, then a convex optimal-control problem smooths it into a continuous Bézier trajectory guaranteed collision-free at all times. The decomposition into a cheap graph search followed by small convex programs gives near-real-time performance even with tens of thousands of boxes."
       },
       "position": {
-        "x": 319.0,
-        "y": -522.0
+        "x": 637.7,
+        "y": -1041.7
       }
     },
     {
@@ -6670,8 +6670,8 @@ const mindMapData = {
         "summary": "Provides theoretical grounding for why locally linear models learned from data combined with model-based trajectory optimization (iLQR) can achieve sample efficiency for control of nonlinear systems with unknown dynamics."
       },
       "position": {
-        "x": 117.2,
-        "y": 263.5
+        "x": 234.9,
+        "y": 524.5
       }
     },
     {
@@ -6691,8 +6691,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -656.5,
-        "y": -239.0
+        "x": -1313.3,
+        "y": -486.3
       }
     },
     {
@@ -6712,8 +6712,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -704.4,
-        "y": -234.8
+        "x": -1419.8,
+        "y": -491.8
       }
     },
     {
@@ -6733,8 +6733,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 286.7,
-        "y": 190.0
+        "x": 579.2,
+        "y": 376.0
       }
     },
     {
@@ -6754,8 +6754,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 308.4,
-        "y": 563.2
+        "x": 642.6,
+        "y": 1126.8
       }
     },
     {
@@ -6775,8 +6775,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 228.5,
-        "y": -90.4
+        "x": 458.2,
+        "y": -180.7
       }
     },
     {
@@ -6795,8 +6795,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 59.0,
-        "y": 310.5
+        "x": 131.7,
+        "y": 635.5
       }
     },
     {
@@ -6827,8 +6827,8 @@ const mindMapData = {
         "summary": "Uses IsaacGym as a simulator for forward dynamics propagation within an MPPI framework."
       },
       "position": {
-        "x": 545.8,
-        "y": 130.2
+        "x": 1089.0,
+        "y": 269.7
       }
     },
     {
@@ -6848,8 +6848,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 282.2,
-        "y": -75.6
+        "x": 576.8,
+        "y": -149.4
       }
     },
     {
@@ -6869,8 +6869,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -597.3,
-        "y": 483.4
+        "x": -1196.8,
+        "y": 940.6
       }
     },
     {
@@ -6899,8 +6899,8 @@ const mindMapData = {
         "summary": "Seminal paper that introduced 3D Gaussian Splatting, a rendering technique that optimizes the pose, shape, transparency, and view-dependent optic properties (modeled with spherical harmonics) of a large collection of 3D Gaussians (ellipsoidal distributions) to reconstruct a ground truth represented by multiple 2D image views (typically collected by taking photos or video from multiple views around an object or scene). The trained Gaussians are rendered via differentiable tile-based rasterization, enabling high-quality novel view synthesis at real-time frame rates."
       },
       "position": {
-        "x": -7.6,
-        "y": -495.0
+        "x": -14.7,
+        "y": -951.2
       }
     },
     {
@@ -6925,8 +6925,8 @@ const mindMapData = {
         "summary": "Provides a unified theoretical framework for multiple-shooting DDP variants, clarifying relationships between existing methods and deriving conditions under which they share convergence guarantees."
       },
       "position": {
-        "x": 416.2,
-        "y": -67.8
+        "x": 866.5,
+        "y": -137.4
       }
     },
     {
@@ -6953,8 +6953,8 @@ const mindMapData = {
         "summary": "Survey paper reviewing the theoretical foundations and algorithmic advances in path integral control methods for trajectory optimization, covering MPPI variants, variational inference approaches, and connections to stochastic optimal control theory."
       },
       "position": {
-        "x": 568.8,
-        "y": 154.7
+        "x": 1116.1,
+        "y": 322.2
       }
     },
     {
@@ -6974,8 +6974,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 203.3,
-        "y": -640.4
+        "x": 425.4,
+        "y": -1269.9
       }
     },
     {
@@ -6995,8 +6995,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 232.0,
-        "y": -932.9
+        "x": 479.6,
+        "y": -1871.2
       }
     },
     {
@@ -7016,8 +7016,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 352.3,
-        "y": 331.6
+        "x": 697.4,
+        "y": 663.2
       }
     },
     {
@@ -7037,8 +7037,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -687.2,
-        "y": -226.2
+        "x": -1369.1,
+        "y": -461.5
       }
     },
     {
@@ -7058,8 +7058,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -147.8,
-        "y": 111.5
+        "x": -292.8,
+        "y": 223.2
       }
     },
     {
@@ -7089,8 +7089,8 @@ const mindMapData = {
         "summary": "CUDA-accelerated library for collision-free robot motion generation. Formulates trajectory generation as a global optimization problem solved across thousands of parallel seeds on GPU. Combines L-BFGS with a novel parallel noisy line search and particle-based optimization to produce minimum-jerk, collision-free trajectories within ~50ms. Also includes a parallel geometric planner (~20ms) and a batched IK solver (>7000 queries/s). An earlier version without minimum-jerk optimization was published at ICRA 2023."
       },
       "position": {
-        "x": 87.7,
-        "y": -556.3
+        "x": 156.4,
+        "y": -1098.2
       }
     },
     {
@@ -7110,8 +7110,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -259.8,
-        "y": 694.4
+        "x": -520.9,
+        "y": 1402.2
       }
     },
     {
@@ -7131,8 +7131,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 323.7,
-        "y": 42.9
+        "x": 660.3,
+        "y": 70.5
       }
     },
     {
@@ -7152,8 +7152,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 251.9,
-        "y": 83.1
+        "x": 505.5,
+        "y": 165.4
       }
     },
     {
@@ -7173,8 +7173,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -72.1,
-        "y": 371.1
+        "x": -141.3,
+        "y": 741.1
       }
     },
     {
@@ -7193,8 +7193,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 72.7,
-        "y": 262.4
+        "x": 156.4,
+        "y": 533.1
       }
     },
     {
@@ -7214,8 +7214,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -200.8,
-        "y": 759.0
+        "x": -391.9,
+        "y": 1502.5
       }
     },
     {
@@ -7235,8 +7235,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -82.6,
-        "y": 131.9
+        "x": -167.0,
+        "y": 265.6
       }
     },
     {
@@ -7256,8 +7256,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 343.1,
-        "y": 458.3
+        "x": 696.9,
+        "y": 941.2
       }
     },
     {
@@ -7277,8 +7277,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 88.3,
-        "y": 687.7
+        "x": 177.1,
+        "y": 1374.9
       }
     },
     {
@@ -7305,8 +7305,8 @@ const mindMapData = {
         "summary": "PhD thesis covering action and trajectory prediction methods for autonomous driving."
       },
       "position": {
-        "x": -780.9,
-        "y": -212.3
+        "x": -1576.5,
+        "y": -457.2
       }
     },
     {
@@ -7341,8 +7341,8 @@ const mindMapData = {
         "summary": "PhD dissertation by Wilson Jallet covering the ProxDDP algorithm and the Aligator library. Good discussion on recent works in constrained DDP e.g. ALTRO, primal-dual iLQR, etc."
       },
       "position": {
-        "x": 309.5,
-        "y": -192.1
+        "x": 649.2,
+        "y": -390.7
       }
     },
     {
@@ -7368,8 +7368,8 @@ const mindMapData = {
         "summary": "Proposes a multiple-shooting DDP method with formal convergence guarantees obtained by using a state augmentation strategy."
       },
       "position": {
-        "x": 405.5,
-        "y": -76.9
+        "x": 820.8,
+        "y": -175.0
       }
     },
     {
@@ -7389,8 +7389,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -534.1,
-        "y": 608.2
+        "x": -1066.6,
+        "y": 1214.8
       }
     },
     {
@@ -7415,8 +7415,8 @@ const mindMapData = {
         "summary": "Biased-MPPI augments the MPPI sampling distribution by biasing it toward trajectories suggested by one or more ancillary controllers (e.g., path-following or optimization-based), improving sample efficiency and trajectory quality while preserving the exploration benefits of random sampling."
       },
       "position": {
-        "x": 573.6,
-        "y": 124.3
+        "x": 1121.4,
+        "y": 219.9
       }
     },
     {
@@ -7434,8 +7434,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -84.1,
-        "y": 313.7
+        "x": -160.0,
+        "y": 621.7
       }
     },
     {
@@ -7455,8 +7455,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 66.9,
-        "y": 182.3
+        "x": 122.1,
+        "y": 355.1
       }
     },
     {
@@ -7483,8 +7483,8 @@ const mindMapData = {
         "summary": "Proposes a modified policy gradient loss that achieves better performance than PPO while maintaining simplicity."
       },
       "position": {
-        "x": -139.8,
-        "y": 289.5
+        "x": -283.7,
+        "y": 584.3
       }
     },
     {
@@ -7511,8 +7511,8 @@ const mindMapData = {
         "summary": "Introduces FRENETIX, a high-performance and modular motion planning framework for autonomous driving built around Frenet-frame trajectory sampling. Features a Python/C++ implementation with CommonRoad compatibility, achieving real-time performance through parallelized sampling and efficient trajectory evaluation."
       },
       "position": {
-        "x": -752.1,
-        "y": -319.5
+        "x": -1504.3,
+        "y": -652.2
       }
     },
     {
@@ -7538,8 +7538,8 @@ const mindMapData = {
         "summary": "Introduces GRPO (Group Relative Policy Optimization), a memory-efficient RL variant that replaces the PPO critic with group-relative reward normalization. Historically this caused a big buzz in the Machine Learning world because it was used to train DeepSeek R1, an open weights LLM from China that performed nearly as well as leading closed weights LLMs from the USA. Nevertheless, GRPO is very similar to the REINFORCE policy gradient algorithm, c.f. [A vision researcher's guide to some RL stuff: PPO & GRPO - Yuge (Jimmy) Shi](https://yugeten.github.io/posts/2025/01/ppogrpo/)"
       },
       "position": {
-        "x": -186.9,
-        "y": 292.8
+        "x": -374.3,
+        "y": 585.6
       }
     },
     {
@@ -7566,8 +7566,8 @@ const mindMapData = {
         "summary": "Analyzes how the required prediction horizon for autonomous driving depends on the competing objectives of safety, comfort, and efficiency, providing a framework for selecting appropriate prediction horizons for different driving scenarios and speed profiles."
       },
       "position": {
-        "x": -770.0,
-        "y": -305.2
+        "x": -1497.3,
+        "y": -593.4
       }
     },
     {
@@ -7593,8 +7593,8 @@ const mindMapData = {
         "summary": "Introduces Primal-Dual iLQR, incorporating both primal and dual (Lagrange multiplier) variable updates within the iLQR backward/forward pass, enabling constrained trajectory optimization with favorable convergence properties."
       },
       "position": {
-        "x": 209.5,
-        "y": 116.1
+        "x": 421.2,
+        "y": 213.6
       }
     },
     {
@@ -7623,8 +7623,8 @@ const mindMapData = {
         "summary": "Compares variations of RRT in an application domain for marine ship navigation. The dynamic model is basically the same as for car-like vehicles."
       },
       "position": {
-        "x": 352.1,
-        "y": -957.6
+        "x": 714.3,
+        "y": -1898.4
       }
     },
     {
@@ -7644,8 +7644,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 0.6,
-        "y": -494.6
+        "x": 32.5,
+        "y": -986.6
       }
     },
     {
@@ -7665,8 +7665,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -753.0,
-        "y": -248.2
+        "x": -1522.4,
+        "y": -492.9
       }
     },
     {
@@ -7686,8 +7686,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 192.4,
-        "y": -553.2
+        "x": 385.7,
+        "y": -1101.8
       }
     },
     {
@@ -7713,8 +7713,8 @@ const mindMapData = {
         "summary": "Combines SINDy with model-based RL: a SINDy surrogate world model replaces the environment for policy training, yielding interpretable dynamics models and improved sample efficiency compared to black-box neural network surrogates."
       },
       "position": {
-        "x": -131.5,
-        "y": 171.3
+        "x": -256.8,
+        "y": 343.6
       }
     },
     {
@@ -7741,8 +7741,8 @@ const mindMapData = {
         "summary": "Combines short motion primitives (allowing bounded discontinuities) with the RRT exploration strategy, iteratively repairing discontinuities via trajectory optimization. Finds solutions up to 10X faster than prior methods across a benchmark of 30 problems."
       },
       "position": {
-        "x": 402.3,
-        "y": -846.1
+        "x": 793.3,
+        "y": -1688.2
       }
     },
     {
@@ -7761,8 +7761,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -210.9,
-        "y": 464.4
+        "x": -421.8,
+        "y": 929.5
       }
     },
     {
@@ -7790,8 +7790,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -152.4,
-        "y": -242.8
+        "x": -302.4,
+        "y": -484.8
       }
     },
     {
@@ -7816,8 +7816,8 @@ const mindMapData = {
         "summary": "Proposes FDSPC, a global path planner that directly produces G2 smooth paths via continuous curvature integration. It essentially uses a goal-directed heuristic for selecting (otherwise unspecified) yaw angles at sampled positions, rather than attempting to connect (x, y, yaw) boundary poses directly."
       },
       "position": {
-        "x": 448.9,
-        "y": -524.8
+        "x": 870.6,
+        "y": -1067.7
       }
     },
     {
@@ -7836,8 +7836,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -121.4,
-        "y": 549.1
+        "x": -253.1,
+        "y": 1108.1
       }
     },
     {
@@ -7857,8 +7857,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 189.7,
-        "y": -577.6
+        "x": 380.3,
+        "y": -1160.6
       }
     },
     {
@@ -7878,8 +7878,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 263.6,
-        "y": -244.0
+        "x": 527.7,
+        "y": -487.0
       }
     },
     {
@@ -7899,8 +7899,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -508.9,
-        "y": 741.0
+        "x": -1016.3,
+        "y": 1480.8
       }
     },
     {
@@ -7920,8 +7920,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -190.0,
-        "y": 634.2
+        "x": -373.7,
+        "y": 1291.2
       }
     },
     {
@@ -7941,8 +7941,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -220.2,
-        "y": -6.0
+        "x": -422.7,
+        "y": 9.3
       }
     },
     {
@@ -7969,8 +7969,8 @@ const mindMapData = {
         "summary": "GPU-native kinodynamic sampling-based planner that decomposes the traditionally serial RRT tree-growth process into three massively parallel subroutines. The design aligns with GPU execution hierarchies: independent threads, balanced workloads, low-latency shared memory."
       },
       "position": {
-        "x": 118.9,
-        "y": -611.8
+        "x": 234.3,
+        "y": -1213.9
       }
     },
     {
@@ -7997,8 +7997,8 @@ const mindMapData = {
         "summary": "Optimization-based wrapper that converts any planner's trajectory sketch into a safe, comfortable, dynamically feasible trajectory, enabling rapid real-world testing of experimental ML and classical planners on self-driving vehicles without full safety-stack integration."
       },
       "position": {
-        "x": -741.7,
-        "y": -237.3
+        "x": -1471.3,
+        "y": -463.0
       }
     },
     {
@@ -8023,8 +8023,8 @@ const mindMapData = {
         "summary": "Comparative study over the variations of differential dynamic programming for constrained trajectory optimization problems, including interior-point, augmented Lagrangian, primal-dual, and sequential quadratic programming techniques."
       },
       "position": {
-        "x": 398.8,
-        "y": -62.1
+        "x": 811.0,
+        "y": -116.5
       }
     },
     {
@@ -8051,8 +8051,8 @@ const mindMapData = {
         "summary": "Proposes a C-Uniform action sampling distribution based on the dynamically reachable sets of the controlled system, enabling far more efficient exploration of trajectory space compared to naive Gaussian sampling, especially for tight obstacle avoidance. Offline training takes ~4 hours for a 3-state unicycle model, but runtime cost matches naive sampling."
       },
       "position": {
-        "x": 245.4,
-        "y": -650.4
+        "x": 486.0,
+        "y": -1311.0
       }
     },
     {
@@ -8072,8 +8072,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -169.0,
-        "y": -142.8
+        "x": -327.7,
+        "y": -302.7
       }
     },
     {
@@ -8100,8 +8100,8 @@ const mindMapData = {
         "summary": "Takes a perspective of treating MPPI as a single step of a denoising diffusion process, and generalizes this process to a multi-step diffusion-style annealing process. DIAL-MPC starts optimizing the control sequence with smooth but inaccurate objectives and gradually shifts to more accurate local objectives."
       },
       "position": {
-        "x": 489.2,
-        "y": 190.7
+        "x": 991.8,
+        "y": 388.8
       }
     },
     {
@@ -8128,8 +8128,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -5.2,
-        "y": -603.8
+        "x": -10.2,
+        "y": -1206.4
       }
     },
     {
@@ -8156,8 +8156,8 @@ const mindMapData = {
         "summary": "Proposes trajectory optimization directly within a Normalized Gaussian Splat (NGS) scene representation, treating Gaussian density as a risk measure to enable risk-aware collision avoidance without requiring explicit geometric extraction."
       },
       "position": {
-        "x": -8.9,
-        "y": -497.4
+        "x": -22.5,
+        "y": -1010.3
       }
     },
     {
@@ -8177,8 +8177,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -241.9,
-        "y": 753.5
+        "x": -473.8,
+        "y": 1506.0
       }
     },
     {
@@ -8198,8 +8198,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -635.9,
-        "y": 655.1
+        "x": -1232.3,
+        "y": 1308.4
       }
     },
     {
@@ -8219,8 +8219,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 20.3,
-        "y": -568.3
+        "x": 43.6,
+        "y": -1138.3
       }
     },
     {
@@ -8247,8 +8247,8 @@ const mindMapData = {
         "summary": "Reviews ten popular sampling-based motion planners for robotic applications, analyzing their theoretical properties and empirical performance across diverse planning scenarios to highlight ongoing research challenges in the field."
       },
       "position": {
-        "x": 161.1,
-        "y": -778.6
+        "x": 326.3,
+        "y": -1548.3
       }
     },
     {
@@ -8268,8 +8268,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 368.0,
-        "y": 202.1
+        "x": 734.5,
+        "y": 405.6
       }
     },
     {
@@ -8295,8 +8295,8 @@ const mindMapData = {
         "summary": "Learns a generative model that produces multiple diverse initial solutions for optimization problems, enabling warm-started solvers to explore different basins of attraction and improve the probability of finding high-quality global optima."
       },
       "position": {
-        "x": 270.1,
-        "y": 234.7
+        "x": 540.5,
+        "y": 473.0
       }
     },
     {
@@ -8314,8 +8314,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 68.6,
-        "y": 599.3
+        "x": 137.2,
+        "y": 1198.7
       }
     },
     {
@@ -8335,8 +8335,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -792.8,
-        "y": -281.8
+        "x": -1594.6,
+        "y": -562.6
       }
     },
     {
@@ -8365,8 +8365,8 @@ const mindMapData = {
         "summary": "Exploits GPU parallelism to simultaneously evaluate thousands of candidate continuous parameter seeds for a given plan skeleton, then applies differentiable gradient-based optimization to each seed in parallel to satisfy the induced continuous constraint satisfaction problem. This combines the discrete search of classical TAMP with massively parallel differentiable optimization, significantly reducing solve times for long-horizon manipulation tasks in highly constrained settings."
       },
       "position": {
-        "x": 88.1,
-        "y": -560.8
+        "x": 211.1,
+        "y": -1121.2
       }
     },
     {
@@ -8394,8 +8394,8 @@ const mindMapData = {
         "summary": "Proposes reusing the entire optimal subtree (not just the best trajectory) across receding horizon planning steps, enabling simultaneous refinement toward better solutions and away from worse ones."
       },
       "position": {
-        "x": 171.1,
-        "y": -836.3
+        "x": 343.7,
+        "y": -1671.2
       }
     },
     {
@@ -8414,8 +8414,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 78.6,
-        "y": -778.8
+        "x": 159.8,
+        "y": -1570.2
       }
     },
     {
@@ -8445,8 +8445,8 @@ const mindMapData = {
         "summary": "Use SIMD instructions to evaluate edge costs to every neighbor (hence eliminating expensive nearest neighbor routine) in Informed RRT*. Gives huge empirical computational end-to-end planning time."
       },
       "position": {
-        "x": 212.0,
-        "y": -906.8
+        "x": 419.7,
+        "y": -1788.6
       }
     },
     {
@@ -8466,8 +8466,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -722.0,
-        "y": -107.9
+        "x": -1446.3,
+        "y": -215.6
       }
     },
     {
@@ -8498,8 +8498,8 @@ const mindMapData = {
         "summary": "Bridges Monte Carlo Tree Search and continuous physical dynamics by using the spectrum of locally linearized systems to build a low-complexity discrete model."
       },
       "position": {
-        "x": 136.9,
-        "y": -859.4
+        "x": 274.8,
+        "y": -1715.2
       }
     },
     {
@@ -8518,8 +8518,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 185.2,
-        "y": 640.3
+        "x": 370.7,
+        "y": 1277.2
       }
     },
     {
@@ -8539,8 +8539,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -780.0,
-        "y": -166.0
+        "x": -1547.0,
+        "y": -340.0
       }
     },
     {
@@ -8560,8 +8560,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -661.4,
-        "y": -172.5
+        "x": -1324.3,
+        "y": -353.0
       }
     },
     {
@@ -8581,8 +8581,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 143.0,
-        "y": -295.6
+        "x": 286.4,
+        "y": -596.3
       }
     },
     {
@@ -8608,8 +8608,8 @@ const mindMapData = {
         "summary": "TD-CD-MPPI enables the use of reduced control horizons by using a learned terminal value function to approximate long-term returns."
       },
       "position": {
-        "x": 544.7,
-        "y": 112.8
+        "x": 1062.7,
+        "y": 216.8
       }
     },
     {
@@ -8633,8 +8633,8 @@ const mindMapData = {
         "summary": "Overview of Motional's approach to motion planning: a scene encoder-generator-ranker architecture with joint prediction and planning, closed-loop reinforcement learning training, and data mining for real-world scalability."
       },
       "position": {
-        "x": -757.0,
-        "y": -227.2
+        "x": -1522.6,
+        "y": -433.8
       }
     },
     {
@@ -8659,8 +8659,8 @@ const mindMapData = {
         "summary": "Introduces temporally correlated noise sampling in MPPI to generate smoother action sequences, improving trajectory quality for sampling-based model predictive control of underactuated systems."
       },
       "position": {
-        "x": 594.9,
-        "y": 146.5
+        "x": 1207.2,
+        "y": 274.8
       }
     },
     {
@@ -8684,8 +8684,8 @@ const mindMapData = {
         "summary": "Incorporates a trajectory prediction model into MPPI to enable interaction-aware trajectory planning."
       },
       "position": {
-        "x": 601.7,
-        "y": 72.8
+        "x": 1202.8,
+        "y": 145.0
       }
     },
     {
@@ -8710,8 +8710,8 @@ const mindMapData = {
         "summary": "Proposes an adaptive projection method within the DDP framework for handling control constraints, using projection operators that adapt based on constraint activity to achieve efficient and convergent constrained trajectory optimization."
       },
       "position": {
-        "x": 413.9,
-        "y": -51.0
+        "x": 856.8,
+        "y": -79.0
       }
     },
     {
@@ -8737,8 +8737,8 @@ const mindMapData = {
         "summary": "The Disney Research folks have created a cute small robot with surprisingly lifelike movements controllable from a gamepad. Fun!"
       },
       "position": {
-        "x": -80.3,
-        "y": -136.7
+        "x": -151.2,
+        "y": -279.2
       }
     },
     {
@@ -8758,8 +8758,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -282.6,
-        "y": 770.2
+        "x": -583.5,
+        "y": 1549.2
       }
     },
     {
@@ -8778,8 +8778,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -118.6,
-        "y": 795.7
+        "x": -235.4,
+        "y": 1588.5
       }
     },
     {
@@ -8804,8 +8804,8 @@ const mindMapData = {
         "summary": "Comprehensive survey of motion forecasting methods for autonomous vehicles, covering classical physics-based approaches through modern deep learning methods, with discussion of datasets, metrics, and open problems."
       },
       "position": {
-        "x": -810.7,
-        "y": -271.6
+        "x": -1632.9,
+        "y": -518.1
       }
     },
     {
@@ -8825,8 +8825,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -95.0,
-        "y": -126.4
+        "x": -200.9,
+        "y": -247.3
       }
     },
     {
@@ -8853,8 +8853,8 @@ const mindMapData = {
         "summary": "Basically makes FMT* operable in real-time fashion. Essentially the FMT* version of RT-RRT*."
       },
       "position": {
-        "x": 325.5,
-        "y": -953.8
+        "x": 657.9,
+        "y": -1880.7
       }
     },
     {
@@ -8874,8 +8874,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 117.9,
-        "y": 371.1
+        "x": 234.3,
+        "y": 720.1
       }
     },
     {
@@ -8895,8 +8895,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 56.1,
-        "y": 396.0
+        "x": 97.1,
+        "y": 788.9
       }
     },
     {
@@ -8921,8 +8921,8 @@ const mindMapData = {
         "summary": "Reviews progress in trajectory prediction for autonomous driving, systematically discussing limitations of current approaches and outlining promising future research directions."
       },
       "position": {
-        "x": -809.3,
-        "y": -303.8
+        "x": -1612.8,
+        "y": -618.8
       }
     },
     {
@@ -8942,8 +8942,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 16.7,
-        "y": -121.2
+        "x": 34.6,
+        "y": -241.5
       }
     },
     {
@@ -8970,8 +8970,8 @@ const mindMapData = {
         "summary": "Extension of C-Uniform trajectory sampling that trains a neural network to approximate the reachable-set-based sampling distribution in an unsupervised manner, achieving similar reachable state coverage as the original method with dramatically faster training time."
       },
       "position": {
-        "x": 513.9,
-        "y": 133.0
+        "x": 1028.2,
+        "y": 265.7
       }
     },
     {
@@ -8991,8 +8991,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -62.5,
-        "y": -445.8
+        "x": -123.6,
+        "y": -894.2
       }
     },
     {
@@ -9023,8 +9023,8 @@ const mindMapData = {
         "summary": "GPU-accelerated RRT-Connect implementation co-designed for three hierarchical levels of parallelism: concurrent bidirectional tree expansion across GPU thread blocks, SIMT-optimized parallel collision checking within each block, and thread-level forward kinematics."
       },
       "position": {
-        "x": 116.2,
-        "y": -664.4
+        "x": 221.3,
+        "y": -1331.4
       }
     },
     {
@@ -9050,8 +9050,8 @@ const mindMapData = {
         "summary": "Provides theoretical analysis explaining why action chunking and high-capacity policy representations (Transformers, Diffusion Policy) outperform smooth or low-capacity representations in behavior cloning with continuous actions."
       },
       "position": {
-        "x": -217.1,
-        "y": -21.6
+        "x": -422.9,
+        "y": -49.7
       }
     },
     {
@@ -9075,8 +9075,8 @@ const mindMapData = {
         "summary": "Applies a low-pass filter to Gaussian noise before using it as sampled action sequences in MPPI, a heuristic that produces smoother trajectories and can improve exploration quality with minimal computational overhead."
       },
       "position": {
-        "x": 585.4,
-        "y": 120.3
+        "x": 1180.3,
+        "y": 222.6
       }
     },
     {
@@ -9095,8 +9095,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 298.9,
-        "y": -900.7
+        "x": 588.9,
+        "y": -1792.4
       }
     },
     {
@@ -9116,8 +9116,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 105.2,
-        "y": 380.3
+        "x": 214.2,
+        "y": 775.6
       }
     },
     {
@@ -9137,8 +9137,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 205.4,
-        "y": 472.9
+        "x": 411.3,
+        "y": 945.8
       }
     },
     {
@@ -9164,8 +9164,8 @@ const mindMapData = {
         "summary": "Integrates logarithmic barrier states (DBaS) into the dynamics, providing smooth cost shaping that discourages safety constraint violations."
       },
       "position": {
-        "x": 566.3,
-        "y": 30.8
+        "x": 1119.6,
+        "y": 61.1
       }
     },
     {
@@ -9185,8 +9185,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -24.0,
-        "y": -478.2
+        "x": -73.3,
+        "y": -958.2
       }
     },
     {
@@ -9213,8 +9213,8 @@ const mindMapData = {
         "summary": "Addresses minimum-time trajectory design through a fixed sequence of convex sets subject to velocity and acceleration constraints - a problem that is natively nonconvex due to the coupling between time scaling and path shape. The proposed biconvex method alternates between two convex subproblems, quickly generating a feasible initial trajectory and iteratively refining it without line-search parameters."
       },
       "position": {
-        "x": 336.5,
-        "y": -440.5
+        "x": 681.3,
+        "y": -881.3
       }
     },
     {
@@ -9240,8 +9240,8 @@ const mindMapData = {
         "summary": "Enhances MPPI with variational integration (VI) to accurately simulate the system evolution inside an MPPI over long planning horizons."
       },
       "position": {
-        "x": 597.9,
-        "y": 164.2
+        "x": 1175.2,
+        "y": 324.6
       }
     },
     {
@@ -9261,8 +9261,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 308.9,
-        "y": 134.9
+        "x": 617.1,
+        "y": 267.7
       }
     },
     {
@@ -9282,8 +9282,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 134.7,
-        "y": -664.8
+        "x": 280.2,
+        "y": -1326.6
       }
     },
     {
@@ -9309,8 +9309,8 @@ const mindMapData = {
         "summary": "FOCI is a trajectory optimization method that operates directly on Gaussian Splat scene representations."
       },
       "position": {
-        "x": 13.4,
-        "y": -511.3
+        "x": 25.3,
+        "y": -1045.2
       }
     },
     {
@@ -9337,8 +9337,8 @@ const mindMapData = {
         "summary": "Surveys the state-of-the-art in motion prediction for autonomous driving with a focus on real-world deployability and generalization, providing a taxonomy of approaches and discussing open challenges for bringing prediction models from research to production."
       },
       "position": {
-        "x": -796.0,
-        "y": -201.0
+        "x": -1584.5,
+        "y": -398.3
       }
     },
     {
@@ -9367,8 +9367,8 @@ const mindMapData = {
         "summary": "Applies the AO-x meta-algorithm to RRT-Connect, inheriting its fast initial solution times while adding almost-sure asymptotic optimality. With SIMD acceleration, AORRTC solves difficult high-DoF problems (Panda, Fetch robots) in milliseconds where other almost-surely asymptotically optimal planners failed to find solutions even with seconds of planning time."
       },
       "position": {
-        "x": 284.0,
-        "y": -979.5
+        "x": 572.5,
+        "y": -1961.4
       }
     },
     {
@@ -9388,8 +9388,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -73.7,
-        "y": 249.7
+        "x": -132.8,
+        "y": 508.4
       }
     },
     {
@@ -9416,8 +9416,8 @@ const mindMapData = {
         "summary": "Simplifies flow-matching robot policies by treating the entire action trajectory as a flow trajectory rather than denoising per-timestep, reducing inference overhead while maintaining expressive multimodal action distributions."
       },
       "position": {
-        "x": -206.7,
-        "y": -58.0
+        "x": -418.2,
+        "y": -108.2
       }
     },
     {
@@ -9437,8 +9437,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -196.7,
-        "y": 549.0
+        "x": -403.7,
+        "y": 1111.0
       }
     },
     {
@@ -9458,8 +9458,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -690.5,
-        "y": -257.8
+        "x": -1368.2,
+        "y": -520.6
       }
     },
     {
@@ -9479,8 +9479,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -290.8,
-        "y": 651.2
+        "x": -565.7,
+        "y": 1298.4
       }
     },
     {
@@ -9505,8 +9505,8 @@ const mindMapData = {
         "summary": "Generates C++ code that solves explicit MPC problems. Super fast runtime for moderate size problems. Alternative to (implicit) quadratic program solvers."
       },
       "position": {
-        "x": 184.0,
-        "y": -193.1
+        "x": 380.9,
+        "y": -376.3
       }
     },
     {
@@ -9532,8 +9532,8 @@ const mindMapData = {
         "summary": "Uses geometric projection operations to efficiently handle motion constraints in real-time robot trajectory optimization, avoiding full constraint Jacobian computations and achieving significant speedups over augmented Lagrangian approaches."
       },
       "position": {
-        "x": 283.4,
-        "y": -334.8
+        "x": 566.0,
+        "y": -668.5
       }
     },
     {
@@ -9561,8 +9561,8 @@ const mindMapData = {
         "summary": "Judo is an open-source Python package providing standardized implementations of sampling-based MPC algorithms (MPPI, CEM, Predictive Sampling, etc.), benchmark tasks, and an interactive GUI for controller tuning. It uses MuJoCo as its physics backend for real-time performance, and supports asynchronous execution to ease sim-to-hardware transfer. The focus is on tooling and usability rather than novel algorithmic contributions. One interesting thing is that Judo runs 100% on CPU (by necessity rather than choice, as the authors indicate they are waiting for development of mujoco_warp to stabilize to provide GPU-based sim rollouts). If you get a server grade Threadripper CPU with 64 cores/128 threads you can do amazing things and plan/control in < 2ms."
       },
       "position": {
-        "x": 156.1,
-        "y": -45.6
+        "x": 323.3,
+        "y": -111.0
       }
     },
     {
@@ -9582,8 +9582,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 591.7,
-        "y": 47.0
+        "x": 1160.1,
+        "y": 104.1
       }
     },
     {
@@ -9603,8 +9603,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 173.5,
-        "y": -116.7
+        "x": 344.9,
+        "y": -233.5
       }
     },
     {
@@ -9623,8 +9623,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 78.1,
-        "y": -358.2
+        "x": 172.8,
+        "y": -710.2
       }
     },
     {
@@ -9644,8 +9644,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -193.0,
-        "y": -99.8
+        "x": -361.1,
+        "y": -192.5
       }
     },
     {
@@ -9665,8 +9665,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -201.0,
-        "y": -96.0
+        "x": -409.9,
+        "y": -225.8
       }
     },
     {
@@ -9684,8 +9684,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 189.9,
-        "y": 368.2
+        "x": 395.0,
+        "y": 726.2
       }
     },
     {
@@ -9705,8 +9705,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 41.5,
-        "y": -189.5
+        "x": 83.3,
+        "y": -377.5
       }
     },
     {
@@ -9726,8 +9726,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -692.6,
-        "y": -316.4
+        "x": -1386.5,
+        "y": -647.1
       }
     },
     {
@@ -9747,8 +9747,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 78.1,
-        "y": 192.0
+        "x": 166.9,
+        "y": 393.6
       }
     },
     {
@@ -9776,8 +9776,8 @@ const mindMapData = {
         "summary": "Systematic benchmark of shortcutting techniques applied to multi-robot-arm motion planning, where high dimensionality and inter-arm collision constraints make path quality improvement especially challenging."
       },
       "position": {
-        "x": 287.7,
-        "y": -690.9
+        "x": 569.7,
+        "y": -1367.7
       }
     },
     {
@@ -9797,8 +9797,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -106.5,
-        "y": 319.2
+        "x": -214.7,
+        "y": 652.9
       }
     },
     {
@@ -9818,8 +9818,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 142.1,
-        "y": -707.9
+        "x": 284.7,
+        "y": -1414.6
       }
     },
     {
@@ -9845,8 +9845,8 @@ const mindMapData = {
         "summary": "Extends MPPI to handle multimodal trajectory distributions for collision avoidance, enabling the controller to simultaneously explore multiple qualitatively different trajectory groups (homotopy classes) rather than collapsing to a single mode."
       },
       "position": {
-        "x": 630.8,
-        "y": 73.2
+        "x": 1261.9,
+        "y": 145.1
       }
     },
     {
@@ -9866,8 +9866,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -48.6,
-        "y": -615.8
+        "x": -95.4,
+        "y": -1229.0
       }
     },
     {
@@ -9887,8 +9887,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 584.8,
-        "y": 21.9
+        "x": 1174.4,
+        "y": 38.8
       }
     },
     {
@@ -9908,8 +9908,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -573.9,
-        "y": -244.1
+        "x": -1150.8,
+        "y": -488.7
       }
     },
     {
@@ -9935,8 +9935,8 @@ const mindMapData = {
         "summary": "Adds a Bayesian probabilistic layer to MPPI that models constraint satisfaction as a probability distribution, enabling principled soft constraint handling within the MPPI sampling framework."
       },
       "position": {
-        "x": 595.7,
-        "y": 44.0
+        "x": 1214.8,
+        "y": 82.0
       }
     },
     {
@@ -9956,8 +9956,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -502.7,
-        "y": 698.9
+        "x": -1005.5,
+        "y": 1397.7
       }
     },
     {
@@ -9977,8 +9977,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 243.8,
-        "y": -978.9
+        "x": 461.8,
+        "y": -1961.2
       }
     },
     {
@@ -9998,8 +9998,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 326.2,
-        "y": -460.8
+        "x": 681.2,
+        "y": -940.7
       }
     },
     {
@@ -10021,8 +10021,8 @@ const mindMapData = {
         "summary": "A large team of authors from NVIDIA has put together a lot of big pieces in a data and deep model architecture pipeline for training and deploying an end-to-end (E2E) vision-language-action (VLA) model for autonomous driving. It is interesting to see this hard push into end-to-end approaches, which the authors motivate by recent advances in \"reasoning\" abilities gained in large language models which is purported to address the safety gap that arises with E2E models."
       },
       "position": {
-        "x": -738.3,
-        "y": -125.8
+        "x": -1476.8,
+        "y": -266.1
       }
     },
     {
@@ -10045,8 +10045,8 @@ const mindMapData = {
         "summary": "Tackles the problem of data-driven motion prediction by using a special kind of Dynamic Mode Decomposition (DMD), which comes from the Koopman operator theory, to learn a model of the agent motion. The model also produces uncertainty estimates, which is useful for downstream risk-aware planning & control. This paper combines a lot of smaller techniques (Hankel-DMD, Cadzow projection, Singular Value Hard Thresholding (SVHT), etc.) together into a rather intricate bells-and-whistles learner, but that in itself is nice as it provides the reader some clues into those techniques."
       },
       "position": {
-        "x": 406.3,
-        "y": 569.6
+        "x": 809.7,
+        "y": 1141.2
       }
     },
     {
@@ -10065,8 +10065,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 579.8,
-        "y": 180.0
+        "x": 1143.8,
+        "y": 374.3
       }
     },
     {
@@ -10086,8 +10086,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 54.1,
-        "y": 344.5
+        "x": 98.0,
+        "y": 684.0
       }
     },
     {
@@ -10107,8 +10107,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -225.2,
-        "y": -108.5
+        "x": -466.9,
+        "y": -210.7
       }
     },
     {
@@ -10128,8 +10128,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -117.9,
-        "y": 532.6
+        "x": -212.7,
+        "y": 1065.0
       }
     },
     {
@@ -10149,8 +10149,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -98.5,
-        "y": 586.8
+        "x": -200.8,
+        "y": 1174.3
       }
     },
     {
@@ -10169,8 +10169,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 40.1,
-        "y": 368.1
+        "x": 66.5,
+        "y": 733.8
       }
     },
     {
@@ -10190,8 +10190,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 285.7,
-        "y": 299.6
+        "x": 575.6,
+        "y": 599.8
       }
     },
     {
@@ -10211,8 +10211,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 268.2,
-        "y": -98.0
+        "x": 546.4,
+        "y": -216.6
       }
     },
     {
@@ -10232,8 +10232,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -28.4,
-        "y": -347.4
+        "x": -52.1,
+        "y": -691.8
       }
     },
     {
@@ -10253,8 +10253,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -224.9,
-        "y": -40.5
+        "x": -471.7,
+        "y": -83.2
       }
     },
     {
@@ -10274,8 +10274,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -186.0,
-        "y": -47.6
+        "x": -369.2,
+        "y": -75.1
       }
     },
     {
@@ -10295,8 +10295,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -557.5,
-        "y": 779.9
+        "x": -1115.6,
+        "y": 1559.5
       }
     },
     {
@@ -10316,8 +10316,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -432.2,
-        "y": 444.3
+        "x": -866.0,
+        "y": 887.9
       }
     },
     {
@@ -10337,8 +10337,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -507.2,
-        "y": 366.0
+        "x": -1014.8,
+        "y": 735.8
       }
     },
     {
@@ -10356,8 +10356,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -372.7,
-        "y": 809.8
+        "x": -736.3,
+        "y": 1631.8
       }
     },
     {
@@ -10377,8 +10377,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -665.6,
-        "y": -361.1
+        "x": -1322.9,
+        "y": -741.5
       }
     },
     {
@@ -10397,8 +10397,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 486.8,
-        "y": -299.4
+        "x": 974.4,
+        "y": -598.7
       }
     },
     {
@@ -10418,8 +10418,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -680.9,
-        "y": 747.5
+        "x": -1361.8,
+        "y": 1495.0
       }
     },
     {
@@ -10438,8 +10438,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 292.7,
-        "y": -610.5
+        "x": 583.5,
+        "y": -1218.1
       }
     },
     {
@@ -10468,8 +10468,8 @@ const mindMapData = {
         "summary": "Extends Kino-PAX with asymptotic near-optimal guarantees by focusing each GPU thread block's computation on the most promising nodes within local neighborhoods for propagation and refinement."
       },
       "position": {
-        "x": 134.7,
-        "y": -623.4
+        "x": 282.4,
+        "y": -1248.4
       }
     },
     {
@@ -10489,8 +10489,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 560.3,
-        "y": 209.2
+        "x": 1125.0,
+        "y": 430.3
       }
     },
     {
@@ -10510,8 +10510,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 69.6,
-        "y": 380.8
+        "x": 156.3,
+        "y": 786.4
       }
     },
     {
@@ -10531,8 +10531,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 60.1,
-        "y": 24.6
+        "x": 120.2,
+        "y": 48.8
       }
     },
     {
@@ -10552,8 +10552,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 281.3,
-        "y": -217.9
+        "x": 538.2,
+        "y": -428.8
       }
     },
     {
@@ -10573,8 +10573,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 608.3,
-        "y": 118.5
+        "x": 1239.3,
+        "y": 225.5
       }
     },
     {
@@ -10594,8 +10594,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 121.9,
-        "y": 288.6
+        "x": 244.6,
+        "y": 582.8
       }
     },
     {
@@ -10615,8 +10615,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 603.7,
-        "y": 204.3
+        "x": 1195.3,
+        "y": 434.5
       }
     },
     {
@@ -10636,8 +10636,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -114.9,
-        "y": -347.8
+        "x": -229.6,
+        "y": -691.9
       }
     },
     {
@@ -10657,8 +10657,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -244.9,
-        "y": 449.9
+        "x": -489.5,
+        "y": 899.2
       }
     },
     {
@@ -10678,8 +10678,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 219.9,
-        "y": -258.7
+        "x": 440.2,
+        "y": -516.4
       }
     },
     {
@@ -10699,8 +10699,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 286.4,
-        "y": -219.8
+        "x": 587.9,
+        "y": -461.1
       }
     },
     {
@@ -10720,8 +10720,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 39.4,
-        "y": -661.4
+        "x": 78.2,
+        "y": -1321.5
       }
     },
     {
@@ -10740,8 +10740,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 80.9,
-        "y": 350.5
+        "x": 168.9,
+        "y": 696.1
       }
     },
     {
@@ -10761,8 +10761,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -346.7,
-        "y": -181.2
+        "x": -692.2,
+        "y": -360.9
       }
     },
     {
@@ -10789,8 +10789,8 @@ const mindMapData = {
         "summary": "Exploits differential flatness to obtain closed-form analytical BVP solutions in a flat output space. Planning is done in the flat space (concatenation of flat outputs and several time derivatives thereof). Kinodynamic constraints and collision checking can be done very efficiently/quickly by using SIMD instructions on CPU. Closely related to the linear-systems approach of Webb & van den Berg (1205.5088) but extended to the broader class of differentially flat systems."
       },
       "position": {
-        "x": 307.7,
-        "y": -632.3
+        "x": 616.3,
+        "y": -1267.2
       }
     },
     {
@@ -10810,8 +10810,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 375.2,
-        "y": 441.4
+        "x": 739.8,
+        "y": 900.5
       }
     },
     {
@@ -10829,8 +10829,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -119.3,
-        "y": 123.5
+        "x": -240.0,
+        "y": 249.6
       }
     },
     {
@@ -10850,8 +10850,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 254.1,
-        "y": 473.5
+        "x": 507.5,
+        "y": 950.3
       }
     },
     {
@@ -10871,8 +10871,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 538.5,
-        "y": 219.7
+        "x": 1062.9,
+        "y": 440.8
       }
     },
     {
@@ -10892,8 +10892,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -397.2,
-        "y": 408.4
+        "x": -794.0,
+        "y": 816.0
       }
     },
     {
@@ -10913,8 +10913,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 330.1,
-        "y": 457.4
+        "x": 640.1,
+        "y": 924.3
       }
     },
     {
@@ -10934,8 +10934,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 365.3,
-        "y": 254.2
+        "x": 725.3,
+        "y": 508.5
       }
     },
     {
@@ -10954,8 +10954,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 340.8,
-        "y": -540.6
+        "x": 682.4,
+        "y": -1080.4
       }
     },
     {
@@ -10975,8 +10975,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -51.9,
-        "y": -355.2
+        "x": -108.0,
+        "y": -711.2
       }
     },
     {
@@ -10996,8 +10996,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -318.7,
-        "y": -105.3
+        "x": -616.2,
+        "y": -215.0
       }
     },
     {
@@ -11016,8 +11016,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 67.1,
-        "y": -362.3
+        "x": 116.9,
+        "y": -729.3
       }
     },
     {
@@ -11037,8 +11037,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -202.1,
-        "y": -81.0
+        "x": -414.5,
+        "y": -166.9
       }
     },
     {
@@ -11058,8 +11058,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 65.7,
-        "y": 373.5
+        "x": 125.4,
+        "y": 736.0
       }
     },
     {
@@ -11079,8 +11079,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -174.4,
-        "y": -130.6
+        "x": -356.7,
+        "y": -251.3
       }
     },
     {
@@ -11100,8 +11100,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 88.9,
-        "y": -569.4
+        "x": 164.0,
+        "y": -1157.3
       }
     },
     {
@@ -11120,8 +11120,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 302.6,
-        "y": -459.0
+        "x": 573.3,
+        "y": -926.0
       }
     },
     {
@@ -11141,8 +11141,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -654.1,
-        "y": -149.0
+        "x": -1313.1,
+        "y": -295.0
       }
     },
     {
@@ -11162,8 +11162,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -698.5,
-        "y": -94.8
+        "x": -1393.5,
+        "y": -189.1
       }
     },
     {
@@ -11183,8 +11183,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -37.6,
-        "y": -141.9
+        "x": -75.5,
+        "y": -284.0
       }
     },
     {
@@ -11204,8 +11204,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 147.2,
-        "y": 342.7
+        "x": 285.9,
+        "y": 674.9
       }
     },
     {
@@ -11225,8 +11225,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 384.2,
-        "y": 350.2
+        "x": 798.2,
+        "y": 702.5
       }
     },
     {
@@ -11246,8 +11246,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 473.7,
-        "y": 180.9
+        "x": 941.6,
+        "y": 357.7
       }
     },
     {
@@ -11267,8 +11267,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 84.9,
-        "y": 52.2
+        "x": 169.9,
+        "y": 104.4
       }
     },
     {
@@ -11287,8 +11287,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 603.7,
-        "y": 165.4
+        "x": 1235.3,
+        "y": 326.9
       }
     },
     {
@@ -11308,8 +11308,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 200.6,
-        "y": -479.7
+        "x": 388.3,
+        "y": -959.7
       }
     },
     {
@@ -11329,8 +11329,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 186.1,
-        "y": -790.0
+        "x": 367.4,
+        "y": -1590.9
       }
     },
     {
@@ -11350,8 +11350,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -301.0,
-        "y": 749.8
+        "x": -633.4,
+        "y": 1472.7
       }
     },
     {
@@ -11371,8 +11371,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 158.6,
-        "y": 273.6
+        "x": 317.3,
+        "y": 547.2
       }
     },
     {
@@ -11392,8 +11392,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -107.7,
-        "y": 293.7
+        "x": -212.0,
+        "y": 594.1
       }
     },
     {
@@ -11413,8 +11413,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 564.4,
-        "y": -121.1
+        "x": 1128.9,
+        "y": -242.3
       }
     },
     {
@@ -11433,8 +11433,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 129.2,
-        "y": 630.0
+        "x": 253.8,
+        "y": 1225.6
       }
     },
     {
@@ -11453,8 +11453,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 142.9,
-        "y": -271.7
+        "x": 285.9,
+        "y": -537.2
       }
     },
     {
@@ -11474,8 +11474,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 157.5,
-        "y": 394.6
+        "x": 303.8,
+        "y": 800.0
       }
     },
     {
@@ -11495,8 +11495,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": -186.2,
-        "y": -192.2
+        "x": -370.6,
+        "y": -382.6
       }
     },
     {
@@ -11515,8 +11515,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 669.0,
-        "y": 176.9
+        "x": 1336.2,
+        "y": 353.2
       }
     },
     {
@@ -11536,8 +11536,8 @@ const mindMapData = {
         "summary": ""
       },
       "position": {
-        "x": 497.0,
-        "y": 234.9
+        "x": 992.0,
+        "y": 461.0
       }
     }
   ],

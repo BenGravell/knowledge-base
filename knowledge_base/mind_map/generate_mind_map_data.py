@@ -92,10 +92,13 @@ import json
 import os
 import re
 import sys
+import time
 from pathlib import Path
 
 import yaml
 import numpy as np
+from scipy.spatial import cKDTree
+from sklearn.preprocessing import normalize
 
 # ---------------------------------------------------------------------------
 # Paths (relative to this script's location: knowledge_base/mind_map/)
@@ -182,8 +185,7 @@ def compute_umap_positions(
     """Project high-dimensional embeddings to 2-D UMAP coords scaled to pixel-space.
 
     The result is centred at the origin and scaled so the largest axis spans
-    ±scale pixels.  This gives the browser-side Cytoscape preset layout a
-    stable, semantically meaningful arrangement without any force simulation.
+    ±scale pixels.
     """
     import umap
 
@@ -217,6 +219,244 @@ def umap_cache_key(
     h.update(embeddings.tobytes())
     h.update(json.dumps(umap_params, sort_keys=True).encode("utf-8"))
     return h.hexdigest()[:24]
+
+
+# ---------------------------------------------------------------------------
+# Force-directed layout post-processing
+# ---------------------------------------------------------------------------
+
+def force_cache_key(
+    umap_coords: "np.ndarray",
+    embeddings: "np.ndarray",
+    **force_params,
+) -> str:
+    """Stable hash over inputs that fully determine the force layout result."""
+    h = hashlib.sha256()
+    h.update(umap_coords.tobytes())
+    h.update(embeddings.tobytes())
+    h.update(json.dumps(force_params, sort_keys=True).encode("utf-8"))
+    return h.hexdigest()[:24]
+
+
+def force_layout_postprocess(
+    umap_coords: "np.ndarray",
+    embeddings: "np.ndarray",
+    *,
+    anchor_strength: float = 0.85,
+    sim_threshold: float = 0.75,
+    sim_top_k: int = 10,
+    sim_attraction_strength: float = 0.4,
+    gap_factor: float = 2.0,
+    collision_radius_factor: float = 0.45,
+    collision_iterations: int = 3,
+    iterations: int = 120,
+    initial_alpha: float = 0.3,
+    alpha_decay: float = 0.98,
+    post_scale: float = 2.0,
+    verbose: bool = True,
+    random_seed: int = 42,
+) -> "np.ndarray":
+    """Post-process UMAP coordinates with a constrained force simulation.
+
+    Three forces act each iteration:
+
+    1. **Anchor** — every node is pulled back toward its original UMAP position
+       with strength *anchor_strength*, keeping the global topology intact.
+    2. **Similarity attraction** — pairs that are semantically close
+       (cosine similarity ≥ *sim_threshold*) but spatially far apart in UMAP
+       space (distance > *gap_factor* x median nearest-neighbour distance) are
+       pulled together.  Only the *sim_top_k* most similar neighbours per node
+       are considered, so the cost is O(N · sim_top_k) per iteration.
+    3. **Collision resolution** — after each integration step, overlapping nodes
+       are pushed apart until no two nodes are closer than ``2 * collision_radius``,
+       where ``collision_radius = sqrt(canvas_area / N) * collision_radius_factor``.
+
+    The step size decays as ``alpha *= alpha_decay`` each iteration, so the
+    simulation cools and converges rather than oscillating indefinitely.
+
+    Parameters
+    ----------
+    umap_coords:
+        (N, 2) array of 2-D positions from UMAP, in whatever coordinate scale
+        UMAP produced (e.g. ±1000 px).
+    embeddings:
+        (N, D) array of raw embedding vectors; L2-normalised internally for
+        cosine similarity computation.
+    anchor_strength:
+        Weight of the anchor force pulling nodes back to their UMAP home.
+        Higher values preserve UMAP topology more faithfully (range: 0-1).
+    sim_threshold:
+        Minimum cosine similarity for a pair to receive an attraction force.
+    sim_top_k:
+        Number of nearest embedding-space neighbours to consider per node when
+        building the attraction pair list.
+    sim_attraction_strength:
+        Magnitude of the similarity attraction force, scaled by cosine similarity.
+    gap_factor:
+        A pair is only attracted if their current UMAP distance exceeds
+        ``gap_factor x median_nn_dist``.  Prevents attracting already-close nodes.
+    collision_radius_factor:
+        Hard exclusion radius per node is computed as
+        ``sqrt(canvas_area / N) * collision_radius_factor``, where
+        *canvas_area* is the bounding-box area of the UMAP positions.
+        The default of ``0.45`` fills roughly 60 % of a unit-density grid cell.
+    collision_iterations:
+        Sub-steps of collision resolution applied after each force integration.
+    iterations:
+        Total number of simulation steps.
+    initial_alpha:
+        Starting step size.
+    alpha_decay:
+        Multiplicative decay applied to alpha each iteration.
+    verbose:
+        Print per-iteration progress to stdout.
+    random_seed:
+        NumPy random seed for reproducibility.
+
+    post_scale:
+        After the simulation, all coordinates are scaled by this factor
+        outward from the centroid.  ``2.0`` doubles inter-node spacing.
+        Set to ``1.0`` to disable.
+
+    Returns
+    -------
+    np.ndarray
+        (N, 2) array of adjusted coordinates, scaled *post_scale*× outward
+        from the centroid relative to the post-simulation positions.
+    """
+    np.random.seed(random_seed)
+    N = len(umap_coords)
+
+    if verbose:
+        print(f"    [force_layout] N={N}, iterations={iterations}, alpha0={initial_alpha}")
+
+    emb_norm = normalize(embeddings.astype(np.float32))
+    home = umap_coords.copy().astype(np.float64)
+    pos  = umap_coords.copy().astype(np.float64)
+
+    canvas = np.ptp(pos, axis=0)
+    area   = canvas[0] * canvas[1]
+    collision_radius = np.sqrt(area / N) * collision_radius_factor
+    if verbose:
+        print(f"    [force_layout] collision_radius = {collision_radius:.4f}")
+
+    tree_home = cKDTree(home)
+    nn_dists, _ = tree_home.query(home, k=2)
+    median_nn_dist = np.median(nn_dists[:, 1])
+    gap_threshold = gap_factor * median_nn_dist
+    if verbose:
+        print(f"    [force_layout] median nn dist = {median_nn_dist:.4f}, "
+              f"gap threshold = {gap_threshold:.4f}")
+
+    attract_pairs = _build_attraction_pairs(
+        emb_norm, home, sim_top_k, sim_threshold, gap_threshold, verbose
+    )
+
+    alpha = initial_alpha
+    t0 = time.time()
+
+    for it in range(iterations):
+        forces = np.zeros_like(pos)
+
+        delta_anchor = home - pos
+        forces += anchor_strength * delta_anchor
+
+        if len(attract_pairs) > 0:
+            _apply_attraction(pos, attract_pairs, sim_attraction_strength, forces)
+
+        pos += alpha * forces
+
+        for _ in range(collision_iterations):
+            _resolve_collisions(pos, collision_radius)
+
+        alpha *= alpha_decay
+
+        if verbose and (it % 20 == 0 or it == iterations - 1):
+            drift = np.mean(np.linalg.norm(pos - home, axis=1))
+            print(f"    [force_layout] iter {it:4d}  alpha={alpha:.4f}  "
+                  f"mean drift from UMAP = {drift:.4f}")
+
+    if verbose:
+        elapsed = time.time() - t0
+        final_drift = np.mean(np.linalg.norm(pos - home, axis=1))
+        print(f"    [force_layout] done in {elapsed:.2f}s  "
+              f"final mean drift = {final_drift:.4f}")
+
+    centroid = pos.mean(axis=0)
+    pos = centroid + (pos - centroid) * post_scale
+    return pos
+
+
+def _build_attraction_pairs(
+    emb_norm: "np.ndarray",
+    home: "np.ndarray",
+    top_k: int,
+    sim_threshold: float,
+    gap_threshold: float,
+    verbose: bool,
+) -> "np.ndarray":
+    N = len(emb_norm)
+    sim_matrix = emb_norm @ emb_norm.T
+
+    pairs = []
+    for i in range(N):
+        sims = sim_matrix[i]
+        sims[i] = -1.0
+        top_idx = np.argpartition(sims, -top_k)[-top_k:]
+        for j in top_idx:
+            if j <= i:
+                continue
+            s = sims[j]
+            if s < sim_threshold:
+                continue
+            umap_dist = np.linalg.norm(home[i] - home[j])
+            if umap_dist < gap_threshold:
+                continue
+            pairs.append((i, j, float(s)))
+
+    result = np.array(pairs, dtype=np.float64) if pairs else np.empty((0, 3))
+    if verbose:
+        print(f"    [force_layout] similarity attraction pairs: {len(result)}")
+    return result
+
+
+def _apply_attraction(
+    pos: "np.ndarray",
+    pairs: "np.ndarray",
+    strength: float,
+    forces: "np.ndarray",
+) -> None:
+    i_idx = pairs[:, 0].astype(int)
+    j_idx = pairs[:, 1].astype(int)
+    weights = pairs[:, 2]
+
+    delta = pos[j_idx] - pos[i_idx]
+    dist  = np.linalg.norm(delta, axis=1, keepdims=True) + 1e-8
+    unit  = delta / dist
+    mag   = strength * weights[:, None]
+
+    np.add.at(forces, i_idx,  mag * unit)
+    np.add.at(forces, j_idx, -mag * unit)
+
+
+def _resolve_collisions(pos: "np.ndarray", radius: float) -> None:
+    tree = cKDTree(pos)
+    pairs = tree.query_pairs(r=2 * radius, output_type="ndarray")
+
+    if len(pairs) == 0:
+        return
+
+    i_idx = pairs[:, 0]
+    j_idx = pairs[:, 1]
+
+    delta = pos[i_idx] - pos[j_idx]
+    dist  = np.linalg.norm(delta, axis=1, keepdims=True) + 1e-8
+    overlap = np.maximum(2 * radius - dist, 0)
+    unit  = delta / dist
+    correction = 0.5 * overlap * unit
+
+    np.add.at(pos, i_idx,  correction)
+    np.add.at(pos, j_idx, -correction)
 
 
 def build_embed_text(data: dict) -> str:
@@ -408,6 +648,10 @@ def load_cache(cache_path: Path) -> dict:
           "umap": {
             "key": "<24-char hex — hash of paper IDs + embeddings + UMAP params>",
             "coords": [[x, y], ...]
+          },
+          "force": {
+            "key": "<24-char hex — hash of UMAP coords + embeddings + force params>",
+            "coords": [[x, y], ...]
           }
         }
     """
@@ -488,6 +732,12 @@ def main() -> None:
         default=DEFAULT_OUTPUT,
         help=f"Path to the output JS file (default: {DEFAULT_OUTPUT}).",
     )
+    parser.add_argument(
+        "--skip-force-layout",
+        action="store_true",
+        dest="skip_force_layout",
+        help="Skip the force-directed post-processing step after UMAP.",
+    )
     args = parser.parse_args()
 
     print("=" * 60)
@@ -500,7 +750,7 @@ def main() -> None:
     paper_to_category = parse_nav_categories(config)
 
     # ---- collect papers ----------------------------------------------------
-    print("\n[1/6] Collecting paper metadata…")
+    print("\n[1/7] Collecting paper metadata…")
     papers: list[dict] = []
     for metadata_file in sorted(METADATA_ROOT.rglob("*.yml")):
         with open(metadata_file, "r", encoding="utf-8") as f:
@@ -532,11 +782,11 @@ def main() -> None:
     print(f"    Found {len(papers)} papers")
 
     # ---- choose backend ----------------------------------------------------
-    print("\n[2/6] Selecting embedding backend…")
+    print("\n[2/7] Selecting embedding backend…")
     model_name, embed_fn = choose_backend(args.backend)
 
     # ---- load cache and find which papers need (re-)embedding --------------
-    print("\n[3/6] Checking embedding cache…")
+    print("\n[3/7] Checking embedding cache…")
     cache = load_cache(args.cache)
 
     # Invalidate entire cache if the model changed
@@ -563,7 +813,7 @@ def main() -> None:
         print(f"    All {len(papers)} papers are cached — skipping embedding API call")
 
     # ---- generate embeddings -----------------------------------------------
-    print("\n[4/6] Generating embeddings…")
+    print("\n[4/7] Generating embeddings…")
     if to_embed:
         texts = [papers[i]["embed_text"] for i in to_embed]
         new_embeddings = embed_fn(texts)
@@ -579,6 +829,7 @@ def main() -> None:
         cache["papers"] = cached_papers
         # Invalidate UMAP cache whenever embeddings change
         cache.pop("umap", None)
+        cache.pop("force", None)
         save_cache(args.cache, cache)
     else:
         print("    (nothing to do)")
@@ -589,7 +840,7 @@ def main() -> None:
     print(f"    Embedding matrix: {embeddings.shape}")
 
     # ---- UMAP layout -------------------------------------------------------
-    print("\n[5/6] Computing UMAP 2-D layout…")
+    print("\n[5/7] Computing UMAP 2-D layout…")
 
     umap_params = dict(
         scale=1000.0,
@@ -611,8 +862,45 @@ def main() -> None:
 
     print(f"    UMAP coords: {umap_coords.shape}  range x=[{umap_coords[:,0].min():.0f}, {umap_coords[:,0].max():.0f}]  y=[{umap_coords[:,1].min():.0f}, {umap_coords[:,1].max():.0f}]")
 
+    # ---- force-directed layout post-processing -----------------------------
+    print("\n[6/7] Force-directed layout post-processing…")
+
+    force_params = dict(
+        anchor_strength=0.85,
+        sim_threshold=0.75,
+        sim_top_k=10,
+        sim_attraction_strength=0.4,
+        gap_factor=2.0,
+        collision_radius_factor=0.2,
+        collision_iterations=3,
+        iterations=120,
+        initial_alpha=0.3,
+        alpha_decay=0.98,
+        post_scale=2.0,
+        random_seed=42,
+    )
+
+    if args.skip_force_layout:
+        print("    Skipped (--skip-force-layout)")
+        layout_coords = umap_coords
+    else:
+        fkey = force_cache_key(umap_coords, embeddings, **force_params)
+        force_entry = cache.get("force", {})
+
+        if not args.force and force_entry.get("key") == fkey:
+            print("    Force layout loaded from cache (UMAP + embeddings unchanged)")
+            layout_coords = np.array(force_entry["coords"], dtype=np.float64)
+        else:
+            layout_coords = force_layout_postprocess(
+                umap_coords, embeddings, verbose=True, **force_params
+            )
+            cache["force"] = {"key": fkey, "coords": layout_coords.tolist()}
+            save_cache(args.cache, cache)
+
+        print(f"    Force coords: {layout_coords.shape}  range x=[{layout_coords[:,0].min():.0f}, {layout_coords[:,0].max():.0f}]  y=[{layout_coords[:,1].min():.0f}, {layout_coords[:,1].max():.0f}]")
+
     # ---- build graph -------------------------------------------------------
-    print("\n[6/6] Building graph and writing output…")
+    print("\n[7/7] Building graph and writing output…")
 
     sim = cosine_similarity_matrix(embeddings)
     n = len(papers)
@@ -631,8 +919,8 @@ def main() -> None:
                 "summary": p["summary"],
             },
             "position": {
-                "x": round(float(umap_coords[i, 0]), 1),
-                "y": round(float(umap_coords[i, 1]), 1),
+                "x": round(float(layout_coords[i, 0]), 1),
+                "y": round(float(layout_coords[i, 1]), 1),
             },
         }
         for i, p in enumerate(papers)

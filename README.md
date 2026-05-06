@@ -52,6 +52,12 @@ Mind Map uses similarity between LLM embeddings of paper core content (title, ab
 python mind_map/generate_mind_map_data.py
 ```
 
+Preview the Mind Map quickly with
+
+```bash
+python mind_map/preview_mind_map.py
+```
+
 ## Dev Tools
 
 Audit the metadata with
