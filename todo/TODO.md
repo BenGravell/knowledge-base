@@ -49,7 +49,11 @@ add other URIs besides DOI since not all papers have DOI e.g. dissertations, arx
 
 ## Quality of life
 
-Create a one-click site regen script.
+### Get mkdocs rebuilds faster
+
+Incremental? other stuff / caching?
+
+### Create a one-click site regen script
 
 Should call:
 
@@ -59,7 +63,7 @@ Should call:
 
 Take an argument -g or --github to use gh-deploy mkdocs
 
-Work on using AI automation to prefill the manual touch tasks:
+### Work on using AI automation to prefill the manual touch tasks
 
 1. Tags
 2. Summary
@@ -80,20 +84,15 @@ Then what is the value of a tree if the true info associations are more general?
 
 Sluggish performance, laggy feeling when hovering and clicking on nodes and edges
 
-
-
-Sidebar
-
-Sort categories by their original order from the mkdocs content tree, not alphabetical order
+### Sidebar
 
 Split large categories further until the number of entries in each leaf is no more than N, take N=16.
 
+Add filters for item type (e.g. to exclude surveys)
 
-
-### Tune the edge threshold.
+### Tune the edge threshold
 
 GRPO should be connected to PPO.
-
 
 1312.0041 should be connected to the 1985 ERA paper by Juang and Pappa
 Also to Identification of Observer/Kalman Filter Markov Parameters: Theory and Experiments" by Juang, Phan, Horta & Longman, 1993
@@ -102,19 +101,10 @@ Tune edge weight threshold or revisit the text fed to embedding model, maybe we 
 
 Define a reference set of known connected/disconnected items and use that to tune the threshold
 
+### Layout
 
 Make layout less busy, too cluttered in motion planning cluster
 Do something about the unreadable clumps on motion planning
-
-
-Use title case instead of all caps for "MOTION PLANNING" in the sidebar
-
-Start with all supercategories (like Motion Planning) collapsed
-
-Add a checkbox for supercategories (like Motion Planning) that can control aggregate active/inactive of its children, keeping all the checkboxes for the subcategories in sync automatically/dynamically
-
-Add filters for paper type (exclude surveys)
-
 
 ### Creative idea
 
