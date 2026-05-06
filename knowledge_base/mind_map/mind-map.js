@@ -136,8 +136,6 @@
           'border-width': 1.5,
           'border-color': 'rgba(255,255,255,0.35)',
           'min-zoomed-font-size': 6,
-          'transition-property': 'opacity, border-width, border-color',
-          'transition-duration': '120ms',
         },
       },
       {
@@ -158,9 +156,7 @@
           'width': 'mapData(weight, 0.50, 1.00, 0.4, 3.5)',
           'line-color': v('--mm-edge-color') || 'rgba(180,200,255,0.35)',
           'opacity': 1,
-          'curve-style': 'bezier',
-          'transition-property': 'opacity, line-color',
-          'transition-duration': '120ms',
+          'curve-style': 'haystack',
         },
       },
       {
@@ -190,6 +186,8 @@
       minZoom: 0.04,
       maxZoom: 6,
       wheelSensitivity: 0.25,
+      autoungrabify: true,
+      hideEdgesOnViewport: true,
     });
 
     hideLoading();
@@ -309,12 +307,14 @@
    * Highlight / dim helpers
    * -------------------------------------------------------------------------*/
   function dimExcept(keep) {
-    cy.elements().difference(keep).addClass('dimmed').removeClass('highlighted');
-    keep.addClass('highlighted').removeClass('dimmed');
+    cy.batch(() => {
+      cy.elements().difference(keep).addClass('dimmed').removeClass('highlighted');
+      keep.addClass('highlighted').removeClass('dimmed');
+    });
   }
 
   function clearDim() {
-    cy.elements().removeClass('highlighted dimmed');
+    cy.batch(() => { cy.elements().removeClass('highlighted dimmed'); });
   }
 
   /* -------------------------------------------------------------------------
@@ -322,11 +322,13 @@
    * -------------------------------------------------------------------------*/
   function applyThreshold(t) {
     currentThreshold = t;
-    cy.edges().forEach(e => {
-      const show = e.data('weight') >= t &&
-        cy.getElementById(e.data('source')).style('display') !== 'none' &&
-        cy.getElementById(e.data('target')).style('display') !== 'none';
-      e.style('display', show ? 'element' : 'none');
+    cy.batch(() => {
+      cy.edges().forEach(e => {
+        const show = e.data('weight') >= t &&
+          cy.getElementById(e.data('source')).style('display') !== 'none' &&
+          cy.getElementById(e.data('target')).style('display') !== 'none';
+        e.style('display', show ? 'element' : 'none');
+      });
     });
     updateStats();
   }
@@ -335,14 +337,16 @@
    * Category filter — show/hide nodes + their edges
    * -------------------------------------------------------------------------*/
   function applyCategoryFilter() {
-    cy.nodes().forEach(n => {
-      const key = n.data('sub_category') || n.data('category');
-      n.style('display', activeCategories.has(key) ? 'element' : 'none');
-    });
-    cy.edges().forEach(e => {
-      const srcOk = cy.getElementById(e.data('source')).style('display') !== 'none';
-      const tgtOk = cy.getElementById(e.data('target')).style('display') !== 'none';
-      e.style('display', srcOk && tgtOk && e.data('weight') >= currentThreshold ? 'element' : 'none');
+    cy.batch(() => {
+      cy.nodes().forEach(n => {
+        const key = n.data('sub_category') || n.data('category');
+        n.style('display', activeCategories.has(key) ? 'element' : 'none');
+      });
+      cy.edges().forEach(e => {
+        const srcOk = cy.getElementById(e.data('source')).style('display') !== 'none';
+        const tgtOk = cy.getElementById(e.data('target')).style('display') !== 'none';
+        e.style('display', srcOk && tgtOk && e.data('weight') >= currentThreshold ? 'element' : 'none');
+      });
     });
     updateStats();
   }
@@ -353,16 +357,18 @@
   function applySearch(query) {
     currentSearch = query.toLowerCase().trim();
     if (!currentSearch) { clearDim(); return; }
-    cy.nodes().forEach(n => {
-      const d = n.data();
-      const match =
-        d.title.toLowerCase().includes(currentSearch) ||
-        (d.tags || []).some(t => t.toLowerCase().includes(currentSearch)) ||
-        (d.summary || '').toLowerCase().includes(currentSearch);
-      if (match) n.removeClass('dimmed').addClass('highlighted');
-      else        n.removeClass('highlighted').addClass('dimmed');
+    cy.batch(() => {
+      cy.nodes().forEach(n => {
+        const d = n.data();
+        const match =
+          d.title.toLowerCase().includes(currentSearch) ||
+          (d.tags || []).some(t => t.toLowerCase().includes(currentSearch)) ||
+          (d.summary || '').toLowerCase().includes(currentSearch);
+        if (match) n.removeClass('dimmed').addClass('highlighted');
+        else        n.removeClass('highlighted').addClass('dimmed');
+      });
+      cy.edges().addClass('dimmed').removeClass('highlighted');
     });
-    cy.edges().addClass('dimmed').removeClass('highlighted');
   }
 
   /* -------------------------------------------------------------------------

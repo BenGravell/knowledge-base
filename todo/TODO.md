@@ -82,8 +82,6 @@ Then what is the value of a tree if the true info associations are more general?
 
 ## Mind Map
 
-Sluggish performance, laggy feeling when hovering and clicking on nodes and edges
-
 ### Sidebar
 
 Split large categories further until the number of entries in each leaf is no more than N, take N=16.
