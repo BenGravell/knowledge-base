@@ -41,10 +41,36 @@ https://ieeexplore.ieee.org/document/9835027
 https://ieeexplore.ieee.org/document/9812259
 https://ieeexplore.ieee.org/document/11005576/
 https://ieeexplore.ieee.org/document/11081470
+https://ieeexplore.ieee.org/document/1284395
+https://ieeexplore.ieee.org/document/10156043
+https://ieeexplore.ieee.org/document/7782377
+https://ieeexplore.ieee.org/document/1087247
+https://ieeexplore.ieee.org/document/481750
+https://ieeexplore.ieee.org/document/7225830
+https://ieeexplore.ieee.org/document/9116486
+https://ieeexplore.ieee.org/document/6579835
+https://ieeexplore.ieee.org/document/4160265
+https://ieeexplore.ieee.org/document/1676196
+https://ieeexplore.ieee.org/document/86079
+https://ieeexplore.ieee.org/document/4081862
+https://ieeexplore.ieee.org/document/4075580
 
 ## ACM
 
 https://dl.acm.org/doi/full/10.1145/3624480
+https://dl.acm.org/doi/10.1145/2783258.2788613
+https://dl.acm.org/doi/10.1145/174147.174150
+https://dl.acm.org/doi/10.1145/37402.37422
+https://dl.acm.org/doi/10.1145/325165.325247
+https://dl.acm.org/doi/10.5555/3001460.3001507
+https://dl.acm.org/doi/10.1145/3542945
+https://dl.acm.org/doi/10.1145/2661735.2661737
+https://dl.acm.org/doi/10.1145/192161.192167
+https://dl.acm.org/doi/10.1145/3596711.3596785
+https://dl.acm.org/doi/10.5555/3546258.3546526
+https://dl.acm.org/doi/10.1145/3721145.3730415
+https://dl.acm.org/doi/10.5555/3104482.3104568
+https://dl.acm.org/doi/10.1145/355604.361591
 
 ## SPRINGER
 
@@ -73,6 +99,17 @@ https://www.sciencedirect.com/science/article/abs/pii/036402139090002E
 https://www.sciencedirect.com/science/article/abs/pii/S0005109803002838
 https://www.sciencedirect.com/science/article/abs/pii/0167691189900285
 https://www.sciencedirect.com/science/article/pii/S147466701763475X
+https://www.sciencedirect.com/science/article/pii/S2405896323016944
+https://www.sciencedirect.com/science/article/pii/S1474667017655848
+https://www.sciencedirect.com/science/article/pii/0771050X80900133
+https://www.sciencedirect.com/science/article/abs/pii/S092575350300047X
+https://www.sciencedirect.com/science/article/abs/pii/0041555364901375
+
+## Taylor & Francis
+
+https://www.tandfonline.com/doi/abs/10.1080/00423119208969994
+https://www.tandfonline.com/doi/abs/10.1080/00423110412331290419
+https://www.tandfonline.com/doi/full/10.1080/00423114.2020.1741652
 
 ## NATURE
 
@@ -84,6 +121,18 @@ https://www.nature.com/articles/s41586-021-04357-7
 ## Science
 
 https://www.science.org/doi/10.1126/scirobotics.abm6074
+
+## ML
+
+https://proceedings.neurips.cc/paper/2018/hash/0ae3f79a30234b6c45a6f7d298ba1310-Abstract.html
+https://proceedings.mlr.press/v120/dean20a.html
+https://proceedings.mlr.press/v144/dean21a
+https://proceedings.neurips.cc/paper/1993/hash/288cc0ff022877bd3df94bc9360b9c5d-Abstract.html
+https://proceedings.neurips.cc/paper_files/paper/2001/file/801272ee79cfde7fa5960571fee36b9b-Paper.pdf
+https://proceedings.mlr.press/v80/arora18a.html
+https://proceedings.neurips.cc/paper/2019/hash/78719f11fa2df9917de3110133506521-Abstract.html
+https://proceedings.mlr.press/v247/suggala24a.html
+https://proceedings.neurips.cc/paper_files/paper/2017/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf
 
 ## Other papers
 
@@ -103,19 +152,16 @@ https://nvlpubs.nist.gov/nistpubs/jres/049/jresv49n6p409_a1b.pdf
 https://epubs.siam.org/doi/10.1137/1011036
 https://epubs.siam.org/doi/10.1137/1013035
 https://epubs.siam.org/doi/10.1137/0321028
-https://dl.acm.org/doi/10.1145/3721145.3730415
 https://stanfordasl.github.io/wp-content/papercite-data/pdf/Majumdar.Pavone.ISRR17.pdf
 https://journals.sagepub.com/doi/10.1177/027836498600500304
 https://journals.sagepub.com/doi/10.1177/0278364910369189
 https://journals.sagepub.com/doi/10.1177/0278364908099462
 https://proceedings.mlr.press/v242/salzmann24a.html
-https://dl.acm.org/doi/10.5555/3104482.3104568
 https://psycnet.apa.org/doiLanding?doi=10.1037%2Fh0042519
 https://web.stanford.edu/~boyd/papers/dnlp.html
 https://web.stanford.edu/~boyd/papers/pdf/disc_cvx_prog.pdf
 https://ai.stanford.edu/~ang/papers/icraoss09-ROS.pdf
 https://www.tandfonline.com/doi/abs/10.1080/00207727008920220
-https://dl.acm.org/doi/10.1145/355604.361591
 https://www.semanticscholar.org/paper/A-Theoretical-Framework-for-Back-Propagation-Cun/5d1f4d800a3a3bd0bf10839f9869f533e0d41c23
 https://www.jstor.org/stable/43633461
 https://bibbase.org/network/publication/cauchy-mthodegnralepourlarsolutiondessystmesdquationssimultanes-1847
@@ -137,9 +183,31 @@ https://www.mdpi.com/2413-8851/10/4/215
 https://people.eecs.berkeley.edu/~brecht/papers/09.man.rec.ip.pdf
 https://web.ece.ucsb.edu/~hespanha/published/iav04-pathfollowing.pdf
 https://khatib.stanford.edu/publications/pdfs/Quinlan_1993_ICRA.pdf
+https://roboticsproceedings.org/rss09/p31.pdf
+https://nn.cs.utexas.edu/?stanley:ec02
+https://onlinelibrary.wiley.com/doi/10.1002/col.20227
+https://www.jstor.org/stable/2282967
+https://people.eecs.berkeley.edu/~sseshia/pubdir/atva18.pdf
+https://projecteuclid.org/ebooks/berkeley-symposium-on-mathematical-statistics-and-probability/Proceedings-of-the-Fifth-Berkeley-Symposium-on-Mathematical-Statistics-and/chapter/Some-methods-for-classification-and-analysis-of-multivariate-observations/bsmsp/1200512992
+https://www.academia.edu/3104881/A_universal_formula_for_stabilization_with_bounded_controls
+https://weizmann.elsevierpure.com/en/publications/stabilization-with-relaxed-controls/
+https://journals.sagepub.com/doi/10.1177/027836498900800502
+https://onlinelibrary.wiley.com/doi/abs/10.1002/rob.4620040209
+https://people.eecs.berkeley.edu/~sequin/CS284/PAPERS/CatmullClark_SDSurf.pdf
+https://jmlr.csail.mit.edu/papers/volume10/weinberger09a/weinberger09a.pdf
+https://users.ece.cmu.edu/~koopman/pubs/koopman16_sae_autonomous_validation.pdf
+https://ora.ox.ac.uk/objects/uuid:14fb94e3-ab81-4f73-86c9-526ee94d23ac/files/s05741v14q
+https://opg.optica.org/josa/abstract.cfm?uri=josa-32-5-247
+https://library.imaging.org/cic/articles/6/1/art00003
+https://www.rand.org/pubs/research_reports/RR1478.html
+http://lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
+https://direct.mit.edu/neco/article/6/1/147/5766/Fast-Exact-Multiplication-by-the-Hessian
 
 ## MISC
 
+https://interpret.ml/
+https://research.google/blog/turbo-an-improved-rainbow-colormap-for-visualization/
+https://bottosson.github.io/posts/oklab/
 https://github.com/karpathy/nanochat
 https://github.com/karpathy/nanoGPT
 https://github.com/karpathy/minGPT
@@ -408,14 +476,10 @@ https://github.com/slidevjs/slidev
 https://mermaid.ai/
 https://marp.app/
 
-
 ## Textbooks
 
 https://www.cambridge.org/core/books/highdimensional-statistics/8A91ECEEC38F46DAB53E9FF8757C7A4E
-
 https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-book.html
-
-
 
 ## Dissertations
 

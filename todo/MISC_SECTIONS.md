@@ -25,21 +25,17 @@ RmsProp
 
 ADAM: https://arxiv.org/abs/1412.6980
 
-
 ## Least Squares
 
 Gauss-Newton
 
 Levenberg-Marquadt
 
-
-
 ## Regularized Newton
 
 https://arxiv.org/abs/2112.02089
 
 https://arxiv.org/abs/2208.05888
-
 
 ## Quasi-Newton
 
@@ -58,7 +54,6 @@ PDF (McGill): https://www.math.mcgill.ca/dstephens/680/Papers/Davidon91.pdf
 
 ## AV Safety Concepts
 
-
 https://iot-automotive.news/rss-explained-the-five-rules-for-autonomous-vehicle-safety/
 
 https://www.mobileye.com/technology/true-redundancy/
@@ -72,7 +67,6 @@ https://ieeexplore.ieee.org/document/9575420
 https://ieeexplore.ieee.org/document/9304563
 
 https://ieeexplore.ieee.org/document/9575928
-
 
 ## ERA
 
@@ -90,14 +84,11 @@ Quote
 
 This is notable because, in the context of the success of the whole framework/algorithm, it suggests that rejection of trajectories does not destroy sample efficiency, at least in this autonomous driving setting.
 
-
-
 ## Optimization and learning for rough terrain legged locomotion
 
 https://journals.sagepub.com/doi/10.1177/0278364910392608
 
 https://www.researchgate.net/publication/220122195_Optimization_and_learning_for_rough_terrain_legged_locomotion
-
 
 ## Crocoddyl
 
@@ -107,7 +98,6 @@ https://github.com/loco-3d/crocoddyl
 
 https://gepettoweb.laas.fr/doc/loco-3d/crocoddyl/devel/doxygen-html/
 
-
 ## GuSTO
 
 https://arxiv.org/abs/1903.00155
@@ -116,17 +106,11 @@ https://ieeexplore.ieee.org/document/8794205
 
 https://github.com/StanfordASL/GuSTO.jl
 
-
-
-
 ## Expansive space tree (EST)
-
 
 https://ieeexplore.ieee.org/document/619371
 
-
 https://www.researchgate.net/publication/4077277_Guided_Expansive_Spaces_Trees_a_search_strategy_for_motion-_and_cost-constrained_state_spaces
-
 
 https://journals.sagepub.com/doi/10.1177/027836402320556421
 
@@ -138,7 +122,6 @@ https://www.researchgate.net/publication/228785110_Near_optimal_hierarchical_pat
 
 https://webdocs.cs.ualberta.ca/~jonathan/publications/ai_publications/jogd.pdf
 
-
 ## Primal-dual ilqr
 
 https://ieeexplore.ieee.org/abstract/document/11248841
@@ -146,8 +129,6 @@ https://ieeexplore.ieee.org/abstract/document/11248841
 https://arxiv.org/abs/2506.07823
 
 https://github.com/iit-DLSLab/mpx
-
-
 
 ## Stochastic gradient descent
 
@@ -158,7 +139,6 @@ https://arxiv.org/abs/1602.04915
 https://proceedings.mlr.press/v49/lee16.pdf
 https://proceedings.mlr.press/v70/jin17a.html
 
-
 # RL
 
 ## Cartpole
@@ -167,8 +147,6 @@ https://coneural.org/florian/papers/05_cart_pole.pdf
 
 https://underactuated.mit.edu/acrobot.html
 
-
-
 ## Q-learning
 
 https://en.wikipedia.org/wiki/Q-learning
@@ -176,12 +154,9 @@ https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html
 https://docs.pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
 https://araffin.github.io/post/rl102/
 
-
-
 ## A Natural Policy Gradient
 
 https://proceedings.neurips.cc/paper_files/paper/2001/hash/4b86abe48d358ecf194c56c69108433e-Abstract.html
-
 
 ## Gradient descent trajectory optimization
 
@@ -197,11 +172,9 @@ https://en.wikipedia.org/wiki/Intelligent_driver_model
 
 https://journals.aps.org/pre/abstract/10.1103/PhysRevE.62.1805
 
-
 https://arxiv.org/abs/cond-mat/0002177
 
 Treiber, Martin; Hennecke, Ansgar; Helbing, Dirk (2000-08-01). "Congested traffic states in empirical observations and microscopic simulations". Physical Review E. 62 (2): 1805–1824. arXiv:cond-mat/0002177. Bibcode:2000PhRvE..62.1805T
-
 
 ## Clothoids
 
@@ -209,34 +182,26 @@ https://seminariomatematico.polito.it/rendiconti/76-2/47.pdf
 
 https://github.com/ebertolazzi/Clothoids 
 
-
 ## Central64
 
 https://github.com/Autodesk/Central64
 
-
 Lots of good ideas:
 "path smoothing" is nothing but "path shortcutting" with a deterministic strategy for choosing the sub-segments.
 
-
 ## Motion Prediction Datasets
-
 
 ### **Waymo**
 
 [About – Waymo Open Dataset](https://waymo.com/open/)
 
-
 ### **Motional**
 
 [nuScenes](https://www.nuscenes.org/nuscenes?externalData=all&mapData=all&modalities=Any)
 
-
 ### **Toyota Woven Planet**
 
 [woven.toyota/en/prediction-dataset](https://woven.toyota/en/prediction-dataset)
-
-
 
 # Safety, Testing, Verification, Validation
 
@@ -246,25 +211,19 @@ Lots of good ideas:
 
 [Quantifying What-Ifs in Simulation | Nuro](https://www.nuro.ai/blog/quantifying-what-ifs-in-simulation)
 
-
 # MISC packages
 
 https://github.com/iit-DLSLab/Quadruped-PyMPC
 
 https://dspace.mit.edu/bitstream/handle/1721.1/119149/16-412j-spring-2005/contents/projects/1aslam_blas_repo.pdf 
 
-
-
 https://isaac.earth/torchid/
-
 
 # MISC sections
 
 ### UN Regulation on uniform provisions concerning the approval of vehicles with regard to Driver Control Assistance Systems
 
 https://unece.org/sites/default/files/2025-03/R171e.pdf
-
-
 
 ### Quintic bezier path planning
 
@@ -274,22 +233,16 @@ https://www.researchgate.net/publication/379463578_Quintic_Bezier_curve_and_nume
 
 https://link.springer.com/article/10.1007/s40430-021-02826-8
 
-
 ### Model predictive contouring control
 
 [2604.24064] Trajectory Planning for an Articulated Commercial Vehicle using Model Predictive Contouring Control
-
 
 [1711.07300] Optimization-Based Autonomous Racing of 1:43 Scale RC Cars
 
 this is the paper that popularized the approach for vehicle control.
 this is the paper that made the transfer from XY stage positioner control (cited original paper from 2009-2010) to vehicle control.
 
-
-
-
-
-## prediction horizon
+## Prediction horizon
 
 [2402.03893] Prediction Horizon Requirements for Automated Driving: Optimizing Safety, Comfort, and Efficiency
 
@@ -300,20 +253,15 @@ Accel            Comfort level
 [-1.89, -0.89]   Uncomfortable
 <-1.89           Highly Unomfortable
 
-
-
 ### Cartpole
 
 https://ieeexplore.ieee.org/document/6313077
 http://incompleteideas.net/papers/barto-sutton-anderson-83.pdf
 https://dl.acm.org/doi/10.5555/104134.104143
 
-
 https://underactuated.mit.edu/acrobot.html
 
 https://coneural.org/florian/papers/05_cart_pole.pdf
-
-
 
 ### **Data-driven MPC (DeePC)**
 
@@ -321,17 +269,13 @@ Florian Dorfler & Friends
 
 [A Tutorial on Data-Enabled Predictive Control (DeePC) - Speaker Deck](https://speakerdeck.com/floriandoerfler/a-tutorial-on-data-enabled-predictive-control-deepc)
 
-
-
-
 ### **trajax: Differentiable Trajectory Optimization using JAX**
 
 [GitHub - google/trajax](https://github.com/google/trajax/tree/main)
 
 [Tutorials – 5th L4DC Conference](https://l4dc.seas.upenn.edu/tutorials/)
 
-
-## tesla
+## Tesla
 
 Tesla AI Day 2021
 
@@ -340,6 +284,33 @@ Clip related to planning & control: https://youtu.be/j0z4FweCy4M?t=4370
 Neural networks serve as learned heuristics for optimal motion planning in action space, guiding search away from local minima. A neural network planner outputs a trajectory distribution that seeds an explicit planner, combining the generalization of learned models with the optimality guarantees of classical planning.
 
 Experiments show the value of strong heuristics for trajectory search: hand-crafted heuristics improve performance over blind search, but learned, AI-based heuristics outperform both.
+
+## Decision trees
+
+| Paper / book | Why it matters |
+|---|---|
+| Morgan & Sonquist, 1963 — “Problems in the Analysis of Survey Data, and a Proposal” | Introduced AID, often cited as the first regression-tree-style algorithm; important pre-ML origin of recursive partitioning. |
+| Kass, 1980 — “An Exploratory Technique for Investigating Large Quantities of Categorical Data” | Introduced CHAID, a statistically driven multiway-split tree method for categorical data. |
+| Breiman, Friedman, Olshen & Stone, 1984 — Classification and Regression Trees | The foundational CART reference: binary splits, Gini/least-squares criteria, pruning, classification and regression in one framework. Frequently treated as the canonical statistical tree text. |
+| Quinlan, 1986 — “Induction of Decision Trees” | Introduced/popularized ID3 and top-down decision-tree induction using information-theoretic splitting; one of the core ML decision-tree papers. |
+| Quinlan, 1993 — C4.5: Programs for Machine Learning | The practical successor to ID3: gain ratio, pruning, continuous attributes, missing values; historically one of the most used decision-tree systems. |
+| Breiman, 1996 — “Bagging Predictors” | Not only about trees, but crucial because bagging unstable learners like trees became a core way to make them powerful and robust. |
+| Breiman, 2001 — “Random Forests” | The key paper turning trees into a dominant ensemble method. |
+| Friedman, 2001 — “Greedy Function Approximation: A Gradient Boosting Machine” | The foundational paper for gradient boosted trees / TreeBoost, framing boosting as optimization in function space and giving tree-specific enhancements. |
+| Hothorn, Hornik & Zeileis, 2006 — “Unbiased Recursive Partitioning: A Conditional Inference Framework” | Important correction to classic tree induction: addresses selection bias toward variables with many possible splits or missing values, using statistical tests. |
+
+## SHAP
+
+GitHub - shap/shap: A game theoretic approach to explain the output of any machine learning model. · GitHub
+
+1. Shapley, “A Value for n-Person Games” — 1953
+The original cooperative game theory paper. It is not about ML, but it defines the Shapley value and the axioms later reused in SHAP: efficiency, symmetry, dummy/null player, and additivity. Read this for the mathematical foundation.
+
+2. Lundberg & Lee, “A Unified Approach to Interpreting Model Predictions” — NeurIPS 2017
+This is the central SHAP paper. It introduces SHAP as a unified additive feature-attribution framework, connects Shapley values to local explanations, and argues for a unique attribution method under desirable axioms. It also relates SHAP to methods such as LIME, DeepLIFT, and classic Shapley sampling.
+
+3. Lundberg et al., “Consistent Individualized Feature Attribution for Tree Ensembles” — 2018/2020
+Usually referred to as the TreeSHAP paper. Essential if you use random forests, gradient boosting, XGBoost, LightGBM, CatBoost, or other tree classifiers. It made exact or fast SHAP computation practical for tree models and is one of the reasons SHAP became widely used.
 
 ## GitHub
 
