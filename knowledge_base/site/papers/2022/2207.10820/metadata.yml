@@ -1,0 +1,19 @@
+title: Mean Robust Optimization
+algorithm:
+authors:
+  - Irina Wang
+  - Cole Becker
+  - Bart Van Parys
+  - Bartolomeo Stellato
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2207.10820"
+tags:
+abstract: >
+  Robust optimization is a tractable and expressive technique for decision-making under uncertainty, but it can lead to overly conservative decisions when pessimistic assumptions are made on the uncertain parameters. Wasserstein distributionally robust optimization can reduce conservatism by being data-driven, but it often leads to very large problems with prohibitive solution times. We introduce mean robust optimization, a general framework that combines the best of both worlds by providing a trade-off between computational effort and conservatism. We propose uncertainty sets constructed based on clustered data rather than on observed data points directly thereby significantly reducing problem size. By varying the number of clusters, our method bridges between robust and Wasserstein distributionally robust optimization. We show finite-sample performance guarantees and explicitly control the potential additional pessimism introduced by any clustering procedure. In addition, we prove conditions for which, when the uncertainty enters linearly in the constraints, clustering does not affect the optimal solution. We illustrate the efficiency and performance preservation of our method on several numerical examples, obtaining multiple orders of magnitude speedups in solution time with little-to-no effect on the solution quality.
+summary: ''
+link: https://arxiv.org/pdf/2207.10820
+links_alt:
+audit_status: raw

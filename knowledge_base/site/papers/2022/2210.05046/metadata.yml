@@ -1,0 +1,18 @@
+title: Data-Driven Feedback Linearization using the Koopman Generator
+algorithm:
+authors:
+  - Darshan Gadginmath
+  - Vishaal Krishnan
+  - Fabio Pasqualetti
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2210.05046"
+tags:
+abstract: >
+  This paper contributes a theoretical framework for data-driven feedback linearization of nonlinear control-affine systems. We unify the traditional geometric perspective on feedback linearization with an operator-theoretic perspective involving the Koopman operator. We first show that if the distribution of the control vector field and its repeated Lie brackets with the drift vector field is involutive, then there exists an output and a feedback control law for which the Koopman generator is finite-dimensional and locally nilpotent. We use this connection to propose a data-driven algorithm Koopman Generator-based Feedback Linearization (KGFL) for feedback linearization. Particularly, we use experimental data to identify the state transformation and control feedback from a dictionary of functions for which feedback linearization is achieved in a least-squares sense. We also propose a single-step data-driven formula which can be used to compute the linearizing transformations. When the system is feedback linearizable and the chosen dictionary is complete, our data-driven algorithm provides the same solution as model-based feedback linearization. Finally, we provide numerical examples for the data-driven algorithm and compare it with model-based feedback linearization. We also numerically study the effect of the richness of the dictionary and the size of the data set on the effectiveness of feedback linearization.
+summary: ''
+link: https://arxiv.org/pdf/2210.05046
+links_alt:
+audit_status: raw

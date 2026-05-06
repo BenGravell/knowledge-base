@@ -1,0 +1,16 @@
+title: A Gentle Lecture Note on Filtrations in Reinforcement Learning
+algorithm:
+authors:
+  - W. J. A. van Heeswijk
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2008.02622"
+tags:
+abstract: >
+  This note aims to provide a basic intuition on the concept of filtrations as used in the context of reinforcement learning (RL). Filtrations are often used to formally define RL problems, yet their implications might not be eminent for those without a background in measure theory. Essentially, a filtration is a construct that captures partial knowledge up to time $t$, without revealing any future information that has already been simulated, yet not revealed to the decision-maker. We illustrate this with simple examples from the finance domain on both discrete and continuous outcome spaces. Furthermore, we show that the notion of filtration is not needed, as basing decisions solely on the current problem state (which is possible due to the Markovian property) suffices to eliminate future knowledge from the decision-making process.
+summary: ''
+link: https://arxiv.org/pdf/2008.02622
+links_alt:
+audit_status: raw

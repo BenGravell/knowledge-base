@@ -387,13 +387,21 @@
 
   function buildCategoryFilters() {
     const container = document.getElementById('mm-category-filters');
-    const allCats = [...new Set(DATA.nodes.map(n => n.data.category))].sort();
+    const catOrderNav = DATA.meta.categoryOrder || Object.keys(CATEGORY_COLORS);
+    const subCatOrderNav = DATA.meta.subCategoryOrder || {};
+
+    const dataCatSet = new Set(DATA.nodes.map(n => n.data.category));
+    const allCats = catOrderNav.filter(c => dataCatSet.has(c));
+    dataCatSet.forEach(c => { if (!allCats.includes(c)) allCats.push(c); });
 
     allCats.forEach(cat => {
-      const subCats = [...new Set(
+      const dataSubCatSet = new Set(
         DATA.nodes.filter(n => n.data.category === cat && n.data.sub_category)
           .map(n => n.data.sub_category)
-      )].sort();
+      );
+      const subCatOrder = subCatOrderNav[cat] || [];
+      const subCats = subCatOrder.filter(s => dataSubCatSet.has(s));
+      dataSubCatSet.forEach(s => { if (!subCats.includes(s)) subCats.push(s); });
 
       if (subCats.length > 0) {
         // Render as a collapsible group with nested sub-category items
@@ -464,12 +472,6 @@
     search.addEventListener('input', e => {
       clearTimeout(debounce);
       debounce = setTimeout(() => applySearch(e.target.value), 180);
-    });
-
-    // Fit
-    document.getElementById('mm-fit-btn').addEventListener('click', () => {
-      const visible = cy.elements().filter(el => el.style('display') !== 'none');
-      cy.fit(visible, 40);
     });
 
     // Select all / none categories

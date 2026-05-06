@@ -11192,7 +11192,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   top: 0;
   left: 0;
   z-index: 50;
-  width: 400px;
+  width: min(400px, 100vw);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -11232,7 +11232,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   left: 0;
   top: 44px;
   height: calc(100% - 44px);
-  width: 400px;
+  width: min(400px, 100vw);
   z-index: 40;
   background: color-mix(in srgb, var(--md-code-bg-color) 94%, transparent);
   border-right: 1px solid var(--md-default-fg-color--lighter);
@@ -11465,6 +11465,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   <div id="mm-panel">
     <div id="mm-panel-body">
 
+      <div class="mm-section mm-actions">
+        <button id="mm-fit-btn">Fit view</button>
+      </div>
+
       <div class="mm-section">
         <span class="mm-section-label">Search</span>
         <input id="mm-search" type="text" placeholder="Title, tag or keyword…">
@@ -11487,12 +11491,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
         <div id="mm-category-filters"></div>
       </div>
 
-      <div class="mm-section mm-actions">
-        <button id="mm-fit-btn">Fit view</button>
-      </div>
-
       <div id="mm-stats">
-        <span id="mm-node-count">…</span> papers &nbsp;·&nbsp;
+        <span id="mm-node-count">…</span> items &nbsp;·&nbsp;
         <span id="mm-edge-count">…</span> connections
       </div>
 
@@ -11536,14 +11536,13 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   var panel   = document.getElementById('mm-panel');
   var header  = document.getElementById('mm-panel-header');
   var hideBtn = document.getElementById('mm-panel-hide-btn');
-  var PANEL_W = 400;
-  var PAD     = 30;
+  var PAD = 30;
 
   function fitBesidePanel(cy) {
     var eles = cy.elements(':visible');
     if (!eles.length) return;
     var bb     = eles.boundingBox();
-    var left   = PANEL_W + PAD;
+    var left   = panel.offsetWidth + PAD;
     var right  = cy.width()  - PAD;
     var top    = PAD;
     var bottom = cy.height() - PAD;
@@ -11571,6 +11570,16 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     var collapsed = panel.classList.toggle('body-collapsed');
     hideBtn.textContent = collapsed ? 'Show Settings' : 'Hide Settings';
     header.title        = collapsed ? 'Show Settings'  : 'Hide Settings';
+  });
+
+  document.getElementById('mm-fit-btn').addEventListener('click', function () {
+    var fitCy = window._cy && window._cy();
+    if (!fitCy) return;
+    if (panel.classList.contains('body-collapsed')) {
+      fitCy.fit(fitCy.elements(':visible'), PAD);
+    } else {
+      fitBesidePanel(fitCy);
+    }
   });
 })();
 </script>

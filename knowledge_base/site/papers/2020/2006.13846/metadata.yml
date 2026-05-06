@@ -1,0 +1,17 @@
+title: Understanding SSIM
+algorithm:
+authors:
+  - Jim Nilsson
+  - Tomas Akenine-Möller
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2006.13846"
+tags:
+abstract: >
+  The use of the structural similarity index (SSIM) is widespread. For almost two decades, it has played a major role in image quality assessment in many different research disciplines. Clearly, its merits are indisputable in the research community. However, little deep scrutiny of this index has been performed. Contrary to popular belief, there are some interesting properties of SSIM that merit such scrutiny. In this paper, we analyze the mathematical factors of SSIM and show that it can generate results, in both synthetic and realistic use cases, that are unexpected, sometimes undefined, and nonintuitive. As a consequence, assessing image quality based on SSIM can lead to incorrect conclusions and using SSIM as a loss function for deep learning can guide neural network training in the wrong direction.
+summary: ''
+link: https://arxiv.org/pdf/2006.13846
+links_alt:
+audit_status: raw

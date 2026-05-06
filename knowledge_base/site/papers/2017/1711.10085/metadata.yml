@@ -1,0 +1,19 @@
+title: 'Recent Developments in Aerial Robotics: A Survey and Prototypes Overview'
+algorithm:
+authors:
+  - Chun Fui Liew
+  - Danielle DeLatte
+  - Naoya Takeishi
+  - Takehisa Yairi
+year: 2017
+source:
+type: ''
+doi:
+arxiv_id: "1711.10085"
+tags:
+abstract: >
+  In recent years, research and development in aerial robotics (i.e., unmanned aerial vehicles, UAVs) has been growing at an unprecedented speed, and there is a need to summarize the background, latest developments, and trends of UAV research. Along with a general overview on the definition, types, categories, and topics of UAV, this work describes a systematic way to identify 1,318 high-quality UAV papers from more than thirty thousand that have been appeared in the top journals and conferences. On top of that, we provide a bird's-eye view of UAV research since 2001 by summarizing various statistical information, such as the year, type, and topic distribution of the UAV papers. We make our survey list public and believe that the list can not only help researchers identify, study, and compare their work, but is also useful for understanding research trends in the field. From our survey results, we find there are many types of UAV, and to the best of our knowledge, no literature has attempted to summarize all types in one place. With our survey list, we explain the types within our survey and outline the recent progress of each. We believe this summary can enhance readers' understanding on the UAVs and inspire researchers to propose new methods and new applications.
+summary: ''
+link: https://arxiv.org/pdf/1711.10085
+links_alt:
+audit_status: raw

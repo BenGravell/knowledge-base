@@ -1,0 +1,17 @@
+title: Concentration Inequalities for Statistical Inference
+algorithm:
+authors:
+  - Huiming Zhang
+  - Song Xi Chen
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2011.02258"
+tags:
+abstract: >
+  This paper gives a review of concentration inequalities which are widely employed in non-asymptotical analyses of mathematical statistics in a wide range of settings, from distribution-free to distribution-dependent, from sub-Gaussian to sub-exponential, sub-Gamma, and sub-Weibull random variables, and from the mean to the maximum concentration. This review provides results in these settings with some fresh new results. Given the increasing popularity of high-dimensional data and inference, results in the context of high-dimensional linear and Poisson regressions are also provided. We aim to illustrate the concentration inequalities with known constants and to improve existing bounds with sharper constants.
+summary: ''
+link: https://arxiv.org/pdf/2011.02258
+links_alt:
+audit_status: raw

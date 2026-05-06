@@ -1,0 +1,19 @@
+title: On the validation of complex systems operating in open contexts
+algorithm:
+authors:
+  - Alexander Poddey
+  - Tino Brade
+  - Jan Erik Stellet
+  - Wolfgang Branz
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1902.10517"
+tags:
+abstract: >
+  In the recent years, there has been a rush towards highly autonomous systems operating in public environments, such as automated driving of road vehicles, passenger shuttle systems and mobile robots. These systems, operating in unstructured, public real-world environments (the operational design domain can be characterized as open context) per se bear a serious safety risk. The serious safety risk, the complexity of the necessary technical systems, the openness of the operational design domain and the regulatory situation pose a fundamental challenge to the automotive industry. Many different approaches to the validation of autonomous driving functions have been proposed over the course of the last years. However, although partly announced as the solution to the validation challenge, many of the praised approaches leave open crucial parts. To illustrate the contributions as well as the limitations of the individual approaches and providing strategies for 'viable' validation and approval of such systems, the first part of the paper gives an analysis of the fundamental challenges related to the valid design and operation of complex autonomous systems operating in open contexts. In the second part, we formalize the problem statement and provide algorithms for an iterative development and validation. In the last part we give a high level overview of a practical, holistic development process which we refer to as systematic, system view based approach to validation (in short sys2val) and comment on the contributions from ISO26262 and current state of ISO/PAS 21448 (SOTIF).
+summary: ''
+link: https://arxiv.org/pdf/1902.10517
+links_alt:
+audit_status: raw

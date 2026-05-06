@@ -1,0 +1,17 @@
+title: Revisiting the Polyak step size
+algorithm:
+authors:
+  - Elad Hazan
+  - Sham Kakade
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1905.00313"
+tags:
+abstract: >
+  This paper revisits the Polyak step size schedule for convex optimization problems, proving that a simple variant of it simultaneously attains near optimal convergence rates for the gradient descent algorithm, for all ranges of strong convexity, smoothness, and Lipschitz parameters, without a-priory knowledge of these parameters.
+summary: ''
+link: https://arxiv.org/pdf/1905.00313
+links_alt:
+audit_status: raw

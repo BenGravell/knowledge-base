@@ -1,0 +1,18 @@
+title: Sampling-Based Control via Entropy-Regularized Optimal Transport
+algorithm:
+authors:
+  - Vincent Pacelli
+  - Akash Ratheesh
+  - Evangelos A. Theodorou
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2605.02147"
+tags:
+abstract: >
+  Sampling-based model predictive control methods like MPPI and CEM are essential for real-time control of nonlinear robotic systems, particularly where discontinuous dynamics preclude gradient-based optimization. However, these methods derive from information-theoretic objectives that are agnostic to the geometry of the control problem, leading to pathological behaviors such as mode-averaging when the cost landscape is complex. We present OT-MPC, a sampling-based algorithm that overcomes these limitations through an entropy-regularized optimal transport formulation. By computing an optimal coupling between candidate control sequences and low-cost proposals, OT-MPC refines candidates toward nearby promising samples while coordinating updates across the ensemble to maintain coverage of the solution space. We derive closed-form, gradient-free updates via the Sinkhorn algorithm, enabling real-time performance. Experiments on navigation, manipulation, and locomotion tasks demonstrate improved success rates over existing methods.
+summary: ''
+link: https://arxiv.org/pdf/2605.02147
+links_alt:
+audit_status: raw

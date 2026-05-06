@@ -1,0 +1,19 @@
+title: >
+  Optimal Sampling-Based Motion Planning under Differential Constraints: the Drift Case with Linear Affine Dynamics
+algorithm:
+authors:
+  - Edward Schmerling
+  - Lucas Janson
+  - Marco Pavone
+year: 2014
+source:
+type: ''
+doi:
+arxiv_id: "1405.7421"
+tags:
+abstract: >
+  In this paper we provide a thorough, rigorous theoretical framework to assess optimality guarantees of sampling-based algorithms for drift control systems: systems that, loosely speaking, can not stop instantaneously due to momentum. We exploit this framework to design and analyze a sampling-based algorithm (the Differential Fast Marching Tree algorithm) that is asymptotically optimal, that is, it is guaranteed to converge, as the number of samples increases, to an optimal solution. In addition, our approach allows us to provide concrete bounds on the rate of this convergence. The focus of this paper is on mixed time/control energy cost functions and on linear affine dynamical systems, which encompass a range of models of interest to applications (e.g., double-integrators) and represent a necessary step to design, via successive linearization, sampling-based and provably-correct algorithms for non-linear drift control systems. Our analysis relies on an original perturbation analysis for two-point boundary value problems, which could be of independent interest.
+summary: ''
+link: https://arxiv.org/pdf/1405.7421
+links_alt:
+audit_status: raw
