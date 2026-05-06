@@ -70,6 +70,16 @@ Take an argument -g or --github to use gh-deploy mkdocs
 3. Alt links
 4. Placement in content tree
 
+## ConLab scrape
+
+https://labs.utdallas.edu/conlab/ 
+
+pull content for portfolio
+
+research
+digest
+resources
+
 ## Content tree
 
 feature: Create a large form thing for the Content Tree landing page that enables users to ergonomically traverse the tree.
@@ -81,6 +91,10 @@ Then what is the value of a tree if the true info associations are more general?
 - It provides structure for newcomers and encode some opinion (my own) about the most relevant/important connections
 
 ## Mind Map
+
+### Edge styling
+
+Use color dark grey/black with opacity.
 
 ### Sidebar
 
@@ -145,6 +159,13 @@ Provide HTML link for paper Explorer.
 <https://ar5iv.org/abs/2210.01744>
 
 <https://ar5iv.labs.arxiv.org/html/2210.01744>
+
+### Related papers
+
+Add a section with links to most closely related papers, either Top N or similarity threshold cutoff (variable N).
+
+- Leverage the embeddings we already have, should be tied to the Mind Map
+- Make the Top N / cutoff threshold a dynamic slider widget.
 
 ## Analytics Explorer
 
