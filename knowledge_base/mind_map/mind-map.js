@@ -25,7 +25,7 @@
     'Software & Programming':        '#37474F',
     'Explainers':                    '#283593',
     'Just for Fun':                  '#4E342E',
-    'Other':                         '#546E7A',
+    'Other':                         '#000000',
   };
 
   /* Sub-category colours for Motion Planning (one shade per 2nd-level nav section).
@@ -76,6 +76,15 @@
   }
 
   /* -------------------------------------------------------------------------
+   * Format node label: split "Author [et al.] YEAR" onto two lines so the
+   * text fits squarer over the circular node.
+   * -------------------------------------------------------------------------*/
+  function formatLabel(label) {
+    const m = label.match(/^(.+?)\s+(\d{4})$/);
+    return m ? `${m[1]}\n${m[2]}` : label;
+  }
+
+  /* -------------------------------------------------------------------------
    * Build the Cytoscape element array respecting current filters
    * -------------------------------------------------------------------------*/
   function buildElements() {
@@ -86,7 +95,7 @@
     const visibleIds = new Set(visibleNodes.map(n => n.data.id));
 
     const nodesWithColor = visibleNodes.map(n => ({
-      data: { ...n.data, color: nodeColor(n.data.category, n.data.sub_category) },
+      data: { ...n.data, color: nodeColor(n.data.category, n.data.sub_category), label: formatLabel(n.data.label) },
       position: n.position,
     }));
 
@@ -118,7 +127,7 @@
           'color': '#ffffff',
           'text-outline-color': 'data(color)',
           'text-outline-width': 3,
-          'text-wrap': 'ellipsis',
+          'text-wrap': 'wrap',
           'text-max-width': 110,
           'text-valign': 'center',
           'text-halign': 'center',
