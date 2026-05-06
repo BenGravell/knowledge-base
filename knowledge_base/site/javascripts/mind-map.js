@@ -25,7 +25,7 @@
     'Software & Programming':        '#37474F',
     'Explainers':                    '#283593',
     'Just for Fun':                  '#4E342E',
-    'Other':                         '#546E7A',
+    'Other':                         '#000000',
   };
 
   /* Sub-category colours for Motion Planning (one shade per 2nd-level nav section).
@@ -76,6 +76,15 @@
   }
 
   /* -------------------------------------------------------------------------
+   * Format node label: split "Author [et al.] YEAR" onto two lines so the
+   * text fits squarer over the circular node.
+   * -------------------------------------------------------------------------*/
+  function formatLabel(label) {
+    const m = label.match(/^(.+?)\s+(\d{4})$/);
+    return m ? `${m[1]}\n${m[2]}` : label;
+  }
+
+  /* -------------------------------------------------------------------------
    * Build the Cytoscape element array respecting current filters
    * -------------------------------------------------------------------------*/
   function buildElements() {
@@ -86,16 +95,15 @@
     const visibleIds = new Set(visibleNodes.map(n => n.data.id));
 
     const nodesWithColor = visibleNodes.map(n => ({
-      data: { ...n.data, color: nodeColor(n.data.category, n.data.sub_category) },
+      data: { ...n.data, color: nodeColor(n.data.category, n.data.sub_category), label: formatLabel(n.data.label) },
       position: n.position,
     }));
 
-    const edges = DATA.edges
-      .filter(e =>
-        e.data.weight >= currentThreshold &&
-        visibleIds.has(e.data.source) &&
-        visibleIds.has(e.data.target)
-      );
+    const edges = DATA.edges.filter(e =>
+      e.data.weight >= currentThreshold &&
+      visibleIds.has(e.data.source) &&
+      visibleIds.has(e.data.target)
+    );
 
     return [...nodesWithColor, ...edges];
   }
@@ -118,7 +126,7 @@
           'color': '#ffffff',
           'text-outline-color': 'data(color)',
           'text-outline-width': 3,
-          'text-wrap': 'ellipsis',
+          'text-wrap': 'wrap',
           'text-max-width': 110,
           'text-valign': 'center',
           'text-halign': 'center',
@@ -127,8 +135,6 @@
           'border-width': 1.5,
           'border-color': 'rgba(255,255,255,0.35)',
           'min-zoomed-font-size': 6,
-          'transition-property': 'opacity, border-width, border-color',
-          'transition-duration': '120ms',
         },
       },
       {
@@ -147,11 +153,9 @@
         selector: 'edge',
         style: {
           'width': 'mapData(weight, 0.50, 1.00, 0.4, 3.5)',
-          'line-color': v('--mm-edge-color') || 'rgba(180,200,255,0.35)',
-          'opacity': 1,
-          'curve-style': 'bezier',
-          'transition-property': 'opacity, line-color',
-          'transition-duration': '120ms',
+          'line-color': v('--mm-edge-color') || '#333333',
+          'opacity': 'data(edgeAlpha)',
+          'curve-style': 'haystack',
         },
       },
       {
@@ -159,6 +163,7 @@
         style: {
           'line-color': v('--mm-edge-highlighted') || 'rgba(255,215,0,0.8)',
           'width': 2.5,
+          'opacity': 1,
           'z-index': 10,
         },
       },
@@ -181,6 +186,8 @@
       minZoom: 0.04,
       maxZoom: 6,
       wheelSensitivity: 0.25,
+      autoungrabify: true,
+      hideEdgesOnViewport: true,
     });
 
     hideLoading();
@@ -300,12 +307,14 @@
    * Highlight / dim helpers
    * -------------------------------------------------------------------------*/
   function dimExcept(keep) {
-    cy.elements().difference(keep).addClass('dimmed').removeClass('highlighted');
-    keep.addClass('highlighted').removeClass('dimmed');
+    cy.batch(() => {
+      cy.elements().difference(keep).addClass('dimmed').removeClass('highlighted');
+      keep.addClass('highlighted').removeClass('dimmed');
+    });
   }
 
   function clearDim() {
-    cy.elements().removeClass('highlighted dimmed');
+    cy.batch(() => { cy.elements().removeClass('highlighted dimmed'); });
   }
 
   /* -------------------------------------------------------------------------
@@ -313,11 +322,13 @@
    * -------------------------------------------------------------------------*/
   function applyThreshold(t) {
     currentThreshold = t;
-    cy.edges().forEach(e => {
-      const show = e.data('weight') >= t &&
-        cy.getElementById(e.data('source')).style('display') !== 'none' &&
-        cy.getElementById(e.data('target')).style('display') !== 'none';
-      e.style('display', show ? 'element' : 'none');
+    cy.batch(() => {
+      cy.edges().forEach(e => {
+        const show = e.data('weight') >= t &&
+          cy.getElementById(e.data('source')).style('display') !== 'none' &&
+          cy.getElementById(e.data('target')).style('display') !== 'none';
+        e.style('display', show ? 'element' : 'none');
+      });
     });
     updateStats();
   }
@@ -326,14 +337,16 @@
    * Category filter — show/hide nodes + their edges
    * -------------------------------------------------------------------------*/
   function applyCategoryFilter() {
-    cy.nodes().forEach(n => {
-      const key = n.data('sub_category') || n.data('category');
-      n.style('display', activeCategories.has(key) ? 'element' : 'none');
-    });
-    cy.edges().forEach(e => {
-      const srcOk = cy.getElementById(e.data('source')).style('display') !== 'none';
-      const tgtOk = cy.getElementById(e.data('target')).style('display') !== 'none';
-      e.style('display', srcOk && tgtOk && e.data('weight') >= currentThreshold ? 'element' : 'none');
+    cy.batch(() => {
+      cy.nodes().forEach(n => {
+        const key = n.data('sub_category') || n.data('category');
+        n.style('display', activeCategories.has(key) ? 'element' : 'none');
+      });
+      cy.edges().forEach(e => {
+        const srcOk = cy.getElementById(e.data('source')).style('display') !== 'none';
+        const tgtOk = cy.getElementById(e.data('target')).style('display') !== 'none';
+        e.style('display', srcOk && tgtOk && e.data('weight') >= currentThreshold ? 'element' : 'none');
+      });
     });
     updateStats();
   }
@@ -344,16 +357,18 @@
   function applySearch(query) {
     currentSearch = query.toLowerCase().trim();
     if (!currentSearch) { clearDim(); return; }
-    cy.nodes().forEach(n => {
-      const d = n.data();
-      const match =
-        d.title.toLowerCase().includes(currentSearch) ||
-        (d.tags || []).some(t => t.toLowerCase().includes(currentSearch)) ||
-        (d.summary || '').toLowerCase().includes(currentSearch);
-      if (match) n.removeClass('dimmed').addClass('highlighted');
-      else        n.removeClass('highlighted').addClass('dimmed');
+    cy.batch(() => {
+      cy.nodes().forEach(n => {
+        const d = n.data();
+        const match =
+          d.title.toLowerCase().includes(currentSearch) ||
+          (d.tags || []).some(t => t.toLowerCase().includes(currentSearch)) ||
+          (d.summary || '').toLowerCase().includes(currentSearch);
+        if (match) n.removeClass('dimmed').addClass('highlighted');
+        else        n.removeClass('highlighted').addClass('dimmed');
+      });
+      cy.edges().addClass('dimmed').removeClass('highlighted');
     });
-    cy.edges().addClass('dimmed').removeClass('highlighted');
   }
 
   /* -------------------------------------------------------------------------
@@ -369,7 +384,7 @@
   /* -------------------------------------------------------------------------
    * Category filter panel
    * -------------------------------------------------------------------------*/
-  function makeCatItem(key, color, count) {
+  function makeCatItem(key, color, count, onChildChange) {
     const label = document.createElement('label');
     label.className = 'mm-cat-item';
     label.innerHTML =
@@ -380,6 +395,7 @@
     label.querySelector('input').addEventListener('change', e => {
       if (e.target.checked) activeCategories.add(key);
       else                   activeCategories.delete(key);
+      if (onChildChange) onChildChange();
       applyCategoryFilter();
     });
     return label;
@@ -411,32 +427,61 @@
         const totalCount = DATA.nodes.filter(n => n.data.category === cat).length;
         const header = document.createElement('div');
         header.className = 'mm-cat-group-header';
-        header.innerHTML =
-          `<span class="mm-cat-group-arrow">▾</span>` +
+
+        const groupCb = document.createElement('input');
+        groupCb.type = 'checkbox';
+        groupCb.className = 'mm-cat-group-cb';
+        groupCb.checked = true;
+
+        const toggleEl = document.createElement('span');
+        toggleEl.className = 'mm-cat-group-toggle';
+        toggleEl.innerHTML =
+          `<span class="mm-cat-group-arrow">▸</span>` +
           `<span class="mm-cat-group-name">${escHtml(cat)}</span>` +
           `<span class="mm-cat-count">${totalCount}</span>`;
 
+        header.appendChild(groupCb);
+        header.appendChild(toggleEl);
+
         const itemsEl = document.createElement('div');
         itemsEl.className = 'mm-cat-group-items';
+        itemsEl.style.display = 'none';
 
-        header.addEventListener('click', () => {
+        toggleEl.addEventListener('click', () => {
           const collapsed = itemsEl.style.display === 'none';
           itemsEl.style.display = collapsed ? '' : 'none';
-          header.querySelector('.mm-cat-group-arrow').textContent = collapsed ? '▾' : '▸';
+          toggleEl.querySelector('.mm-cat-group-arrow').textContent = collapsed ? '▾' : '▸';
+        });
+
+        function syncGroupCb() {
+          const childCbs = itemsEl.querySelectorAll('input[type="checkbox"]');
+          const checkedCount = [...childCbs].filter(cb => cb.checked).length;
+          groupCb.indeterminate = checkedCount > 0 && checkedCount < childCbs.length;
+          groupCb.checked = checkedCount === childCbs.length;
+        }
+
+        groupCb.addEventListener('change', () => {
+          groupCb.indeterminate = false;
+          itemsEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.checked = groupCb.checked;
+            if (groupCb.checked) activeCategories.add(cb.dataset.cat);
+            else                 activeCategories.delete(cb.dataset.cat);
+          });
+          applyCategoryFilter();
         });
 
         subCats.forEach(subCat => {
           activeCategories.add(subCat);
           const color = nodeColor(cat, subCat);
           const count = DATA.nodes.filter(n => n.data.sub_category === subCat).length;
-          itemsEl.appendChild(makeCatItem(subCat, color, count));
+          itemsEl.appendChild(makeCatItem(subCat, color, count, syncGroupCb));
         });
 
         // Fallback: papers in this category without a sub_category
         const orphanCount = DATA.nodes.filter(n => n.data.category === cat && !n.data.sub_category).length;
         if (orphanCount > 0) {
           activeCategories.add(cat);
-          itemsEl.appendChild(makeCatItem(cat, nodeColor(cat), orphanCount));
+          itemsEl.appendChild(makeCatItem(cat, nodeColor(cat), orphanCount, syncGroupCb));
         }
 
         groupEl.appendChild(header);
@@ -476,16 +521,24 @@
 
     // Select all / none categories
     document.getElementById('mm-all-cats').addEventListener('click', () => {
-      document.querySelectorAll('#mm-category-filters input').forEach(cb => {
+      document.querySelectorAll('#mm-category-filters input[data-cat]').forEach(cb => {
         cb.checked = true;
         activeCategories.add(cb.dataset.cat);
+      });
+      document.querySelectorAll('#mm-category-filters .mm-cat-group-cb').forEach(cb => {
+        cb.checked = true;
+        cb.indeterminate = false;
       });
       applyCategoryFilter();
     });
     document.getElementById('mm-no-cats').addEventListener('click', () => {
-      document.querySelectorAll('#mm-category-filters input').forEach(cb => {
+      document.querySelectorAll('#mm-category-filters input[data-cat]').forEach(cb => {
         cb.checked = false;
         activeCategories.delete(cb.dataset.cat);
+      });
+      document.querySelectorAll('#mm-category-filters .mm-cat-group-cb').forEach(cb => {
+        cb.checked = false;
+        cb.indeterminate = false;
       });
       applyCategoryFilter();
     });

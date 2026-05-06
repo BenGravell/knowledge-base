@@ -1,0 +1,64 @@
+/* ── Portfolio nav link: frosted-glass pill button ─────────────────────── */
+
+/* Separator above the Portfolio item */
+.md-nav__item:has(> a.md-nav__link[href*="portfolio"]) {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+[data-md-color-scheme="default"] .md-nav__item:has(> a.md-nav__link[href*="portfolio"]) {
+  border-top-color: rgba(30, 136, 229, 0.18);
+}
+
+/* Pill button */
+a.md-nav__link[href*="portfolio"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px 3px 10px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.11);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+a.md-nav__link[href*="portfolio"]:hover {
+  background: rgba(255, 255, 255, 0.20);
+  border-color: rgba(255, 255, 255, 0.32);
+}
+
+[data-md-color-scheme="default"] a.md-nav__link[href*="portfolio"] {
+  background: rgba(30, 136, 229, 0.08);
+  border-color: rgba(30, 136, 229, 0.22);
+}
+
+[data-md-color-scheme="default"] a.md-nav__link[href*="portfolio"]:hover {
+  background: rgba(30, 136, 229, 0.15);
+  border-color: rgba(30, 136, 229, 0.38);
+}
+
+/* Icon badge — open_in_new SVG, pillbox background layered beneath */
+a.md-nav__link[href*="portfolio"]::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3C/svg%3E")
+    center / 70% no-repeat,
+    rgba(255, 255, 255, 0.18);
+}
+
+[data-md-color-scheme="default"] a.md-nav__link[href*="portfolio"]::after {
+  border-color: rgba(30, 136, 229, 0.28);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231e88e5' d='M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3C/svg%3E")
+    center / 70% no-repeat,
+    rgba(30, 136, 229, 0.13);
+}
