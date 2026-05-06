@@ -1,0 +1,16 @@
+title: Probabilistic Robustness in the Gap Metric
+algorithm:
+authors:
+  - Venkatraman Renganathan
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2507.10010"
+tags:
+abstract: >
+  Uncertainties influencing the dynamical systems pose a significant challenge in estimating the achievable performance of a controller aiming to control such uncertain systems. When the uncertainties are of stochastic nature, obtaining hard guarantees for the robustness of a controller aiming to hedge against the uncertainty is not possible. This issue set the platform for the development of probabilistic robust control approaches. In this work, we utilise the gap metric between the known nominal model and the unknown perturbed model of the uncertain system as a tool to gauge the robustness of a controller and formulate the gap as a random variable in the setting with stochastic uncertainties. The main results of this paper include giving a probabilistic bound on the gap exceeding a known threshold, followed by bounds on the expected gap value and probabilistic robust stability and performance guarantees in terms of the gap metric. We also provide a probabilistic controller performance certification under gap uncertainty and probabilistic guarantee on the achievable $\mathcal{H}_{\infty}$ robustness. Numerical simulations are provided to demonstrate the proposed approach.
+summary: ''
+link: https://arxiv.org/pdf/2507.10010
+links_alt:
+audit_status: raw

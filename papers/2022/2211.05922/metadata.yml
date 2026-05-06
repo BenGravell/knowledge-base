@@ -1,0 +1,20 @@
+title: >
+  Internal feedback in the cortical perception-action loop enables fast and accurate behavior
+algorithm:
+authors:
+  - Jing Shuang Li
+  - Anish A. Sarma
+  - Terrence J. Sejnowski
+  - John C. Doyle
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2211.05922"
+tags:
+abstract: >
+  Animals move smoothly and reliably in unpredictable environments. Models of sensorimotor control have assumed that sensory information from the environment leads to actions, which then act back on the environment, creating a single, unidirectional perception-action loop. This loop contains internal delays in sensory and motor pathways, which can lead to unstable control. We show here that these delays can be compensated by internal feedback signals that flow backwards, from motor towards sensory areas. Internal feedback is ubiquitous in neural sensorimotor systems and recent advances in control theory show how internal feedback compensates internal delays. This is accomplished by filtering out self-generated and other predictable changes in early sensory areas so that unpredicted, actionable information can be rapidly transmitted toward action by the fastest components. For example, fast, giant neurons are necessarily less accurate than smaller neurons, but they are crucial for fast and accurate behavior. We use a mathematically tractable control model to show that internal feedback has an indispensable role in achieving state estimation, localization of function -- how different parts of cortex control different parts of the body -- and attention, all of which are crucial for effective sensorimotor control. This control model can explain anatomical, physiological and behavioral observations, including motor signals in visual cortex, heterogeneous kinetics of sensory receptors and the presence of giant Betz cells in motor cortex, Meynert cells in visual cortex and giant von Economo cells in the prefrontal cortex of humans as well as internal feedback patterns and unexplained heterogeneity in other neural systems.
+summary: ''
+link: https://arxiv.org/pdf/2211.05922
+links_alt:
+audit_status: raw

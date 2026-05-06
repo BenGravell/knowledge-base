@@ -1,0 +1,21 @@
+title: 'Control Barrier Functions: Theory and Applications'
+algorithm:
+authors:
+  - Aaron D. Ames
+  - Samuel Coogan
+  - Magnus Egerstedt
+  - Gennaro Notomista
+  - Koushil Sreenath
+  - Paulo Tabuada
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1903.11199"
+tags:
+abstract: >
+  This paper provides an introduction and overview of recent work on control barrier functions and their use to verify and enforce safety properties in the context of (optimization based) safety-critical controllers. We survey the main technical results and discuss applications to several domains including robotic systems.
+summary: ''
+link: https://arxiv.org/pdf/1903.11199
+links_alt:
+audit_status: raw

@@ -1,0 +1,18 @@
+title: >
+  Global Sampling-Based Trajectory Optimization for Contact-Rich Manipulation via KernelSOS
+algorithm:
+authors:
+  - Zhongqi Wei
+  - Frederike Dümbgen
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.27175"
+tags:
+abstract: >
+  Contact-rich manipulation is challenging due to its high dimensionality, the requirement for long time horizons, and the presence of hybrid contact dynamics. Sampling-based methods have become a popular approach for this class of problems, but without explicit mechanisms for global exploration, they are susceptible to converging to poor local minima. In this paper, we introduce Global-MPPI, a unified trajectory optimization framework that integrates global exploration and local refinement. At the global level, we leverage kernel sum-of-squares optimization to identify globally promising regions of the solution space. To enable reliable performance for the non-smooth landscapes inherent to contact-rich manipulation, we introduce a graduated non-convexity strategy based on log-sum-exp smoothing, which transitions the optimization landscape from a smoothed surrogate to the original non-smooth objective. Finally, we employ the model-predictive path integral method to locally refine the solution. We evaluate Global-MPPI on high-dimensional, long-horizon contact-rich tasks, including the PushT task and dexterous in-hand manipulation. Experimental results demonstrate that our approach robustly uncovers high-quality solutions, achieving faster convergence and lower final costs compared to existing baseline methods.
+summary: ''
+link: https://arxiv.org/pdf/2604.27175
+links_alt:
+audit_status: raw

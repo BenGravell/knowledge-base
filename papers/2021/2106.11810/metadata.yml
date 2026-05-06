@@ -1,0 +1,24 @@
+title: 'NuPlan: A closed-loop ML-based planning benchmark for autonomous vehicles'
+algorithm:
+authors:
+  - Holger Caesar
+  - Juraj Kabzan
+  - Kok Seang Tan
+  - Whye Kit Fong
+  - Eric Wolff
+  - Alex Lang
+  - Luke Fletcher
+  - Oscar Beijbom
+  - Sammy Omari
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2106.11810"
+tags:
+abstract: >
+  In this work, we propose the world's first closed-loop ML-based planning benchmark for autonomous driving. While there is a growing body of ML-based motion planners, the lack of established datasets and metrics has limited the progress in this area. Existing benchmarks for autonomous vehicle motion prediction have focused on short-term motion forecasting, rather than long-term planning. This has led previous works to use open-loop evaluation with L2-based metrics, which are not suitable for fairly evaluating long-term planning. Our benchmark overcomes these limitations by introducing a large-scale driving dataset, lightweight closed-loop simulator, and motion-planning-specific metrics. We provide a high-quality dataset with 1500h of human driving data from 4 cities across the US and Asia with widely varying traffic patterns (Boston, Pittsburgh, Las Vegas and Singapore). We will provide a closed-loop simulation framework with reactive agents and provide a large set of both general and scenario-specific planning metrics. We plan to release the dataset at NeurIPS 2021 and organize benchmark challenges starting in early 2022.
+summary: ''
+link: https://arxiv.org/pdf/2106.11810
+links_alt:
+audit_status: raw

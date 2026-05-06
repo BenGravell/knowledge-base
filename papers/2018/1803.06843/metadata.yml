@@ -1,0 +1,17 @@
+title: "Linear-time geometric algorithm for evaluating B\xE9zier curves"
+algorithm:
+authors:
+  - Filip Chudy
+  - Paweł Woźny
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1803.06843"
+tags:
+abstract: >
+  A new algorithm for computing a point on a polynomial or rational curve in Bézier form is proposed. The method has a geometric interpretation and uses only convex combinations of control points. The new algorithm's computational complexity is linear with respect to the number of control points and its memory complexity is $O(1)$. Some remarks on similar methods for surfaces in rectangular and triangular Bézier form are also given.
+summary: ''
+link: https://arxiv.org/pdf/1803.06843
+links_alt:
+audit_status: raw

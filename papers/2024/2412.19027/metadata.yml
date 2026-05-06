@@ -1,0 +1,20 @@
+title: 'CuClarabel: GPU Acceleration for a Conic Optimization Solver'
+algorithm:
+authors:
+  - Yuwen Chen
+  - Danny Tse
+  - Parth Nobel
+  - Paul Goulart
+  - Stephen Boyd
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2412.19027"
+tags:
+abstract: >
+  We present the GPU implementation of the general-purpose interior-point solver Clarabel for convex optimization problems with conic constraints. We introduce a mixed parallel computing strategy that processes linear constraints first, then handles other conic constraints in parallel. The GPU solver currently supports linear equality and inequality constraints, second-order cones, exponential cones, power cones and positive semidefinite cones of the same dimensionality. We demonstrate that integrating a mixed parallel computing strategy with GPU-based direct linear system solvers enhances the performance of GPU-based conic solvers, surpassing their CPU-based counterparts across a wide range of conic optimization problems. We also show that employing mixed-precision linear system solvers can potentially achieve additional acceleration without compromising solution accuracy.
+summary: ''
+link: https://arxiv.org/pdf/2412.19027
+links_alt:
+audit_status: raw

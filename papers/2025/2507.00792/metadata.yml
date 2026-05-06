@@ -1,0 +1,18 @@
+title: >
+  JAX-IK: Real-Time Inverse Kinematics for Generating Multi-Constrained Movements of Virtual Human Characters
+algorithm:
+authors:
+  - Hendric Voss
+  - Stefan Kopp
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2507.00792"
+tags:
+abstract: >
+  Generating accurate and realistic virtual human movements in real-time is of high importance for a variety of applications in computer graphics, interactive virtual environments, robotics, and biomechanics. This paper introduces a novel real-time inverse kinematics (IK) solver specifically designed for realistic human-like movement generation. Leveraging the automatic differentiation and just-in-time compilation of TensorFlow, the proposed solver efficiently handles complex articulated human skeletons with high degrees of freedom. By treating forward and inverse kinematics as differentiable operations, our method effectively addresses common challenges such as error accumulation and complicated joint limits in multi-constrained problems, which are critical for realistic human motion modeling. We demonstrate the solver's effectiveness on the SMPLX human skeleton model, evaluating its performance against widely used iterative-based IK algorithms, like Cyclic Coordinate Descent (CCD), FABRIK, and the nonlinear optimization algorithm IPOPT. Our experiments cover both simple end-effector tasks and sophisticated, multi-constrained problems with realistic joint limits. Results indicate that our IK solver achieves real-time performance, exhibiting rapid convergence, minimal computational overhead per iteration, and improved success rates compared to existing methods. The project code is available at https://github.com/hvoss-techfak/JAX-IK
+summary: ''
+link: https://arxiv.org/pdf/2507.00792
+links_alt:
+audit_status: raw

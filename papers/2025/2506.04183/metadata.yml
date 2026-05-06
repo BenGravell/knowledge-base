@@ -1,0 +1,18 @@
+title: Learning Parametric Convex Functions
+algorithm:
+authors:
+  - Maximilian Schaller
+  - Alberto Bemporad
+  - Stephen Boyd
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2506.04183"
+tags:
+abstract: >
+  A parametrized convex function depends on a variable and a parameter, and is convex in the variable for any valid value of the parameter. Such functions can be used to specify parametrized convex optimization problems, i.e., a convex optimization family, in domain specific languages for convex optimization. In this paper we address the problem of fitting a parametrized convex function that is compatible with disciplined programming, to some given data. This allows us to fit a function arising in a convex optimization formulation directly to observed or simulated data. We demonstrate our open-source implementation on several examples, ranging from illustrative to practical.
+summary: ''
+link: https://arxiv.org/pdf/2506.04183
+links_alt:
+audit_status: raw

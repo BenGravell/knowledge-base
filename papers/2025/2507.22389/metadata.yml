@@ -1,0 +1,25 @@
+title: >
+  Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators
+algorithm:
+authors:
+  - Kaustav Chakraborty
+  - Zeyuan Feng
+  - Sushant Veer
+  - Apoorva Sharma
+  - Wenhao Ding
+  - Sever Topan
+  - Boris Ivanovic
+  - Marco Pavone
+  - Somil Bansal
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2507.22389"
+tags:
+abstract: >
+  The advent of end-to-end autonomy stacks - often lacking interpretable intermediate modules - has placed an increased burden on ensuring that the final output, i.e., the motion plan, is safe in order to validate the safety of the entire stack. This requires a safety monitor that is both complete (able to detect all unsafe plans) and sound (does not flag safe plans). In this work, we propose a principled safety monitor that leverages modern multi-modal trajectory predictors to approximate forward reachable sets (FRS) of surrounding agents. By formulating a convex program, we efficiently extract these data-driven FRSs directly from the predicted state distributions, conditioned on scene context such as lane topology and agent history. To ensure completeness, we leverage conformal prediction to calibrate the FRS and guarantee coverage of ground-truth trajectories with high probability. To preserve soundness in out-of-distribution (OOD) scenarios or under predictor failure, we introduce a Bayesian filter that dynamically adjusts the FRS conservativeness based on the predictor's observed performance. We then assess the safety of the ego vehicle's motion plan by checking for intersections with these calibrated FRSs, ensuring the plan remains collision-free under plausible future behaviors of others. Extensive experiments on the nuScenes dataset show our approach significantly improves soundness while maintaining completeness, offering a practical and reliable safety monitor for learned autonomy stacks.
+summary: ''
+link: https://arxiv.org/pdf/2507.22389
+links_alt:
+audit_status: raw

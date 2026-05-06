@@ -51,6 +51,8 @@
       
     
     
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -11075,6 +11077,33 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://bengravell.github.io/portfolio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Portfolio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -11118,8 +11147,11 @@
 <style>
 /* ── Derived vars: transparency adjustments on MkDocs palette tokens ─────── */
 :root {
-  --mm-edge-color:       color-mix(in srgb, var(--md-primary-fg-color) 35%, transparent);
+  --mm-edge-color:       #333333;
   --mm-edge-highlighted: color-mix(in srgb, var(--md-accent-fg-color)  80%, transparent);
+}
+[data-md-color-scheme="slate"] {
+  --mm-edge-color:       #ffffff;
 }
 
 /* ── Remove MkDocs Material layout constraints for full-screen canvas ─────── */
@@ -11192,7 +11224,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   top: 0;
   left: 0;
   z-index: 50;
-  width: 400px;
+  width: min(400px, 100vw);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -11232,7 +11264,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   left: 0;
   top: 44px;
   height: calc(100% - 44px);
-  width: 400px;
+  width: min(400px, 100vw);
   z-index: 40;
   background: color-mix(in srgb, var(--md-code-bg-color) 94%, transparent);
   border-right: 1px solid var(--md-default-fg-color--lighter);
@@ -11366,10 +11398,22 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   align-items: center;
   gap: 5px;
   padding: 3px 0;
+}
+.mm-cat-group-cb {
+  flex-shrink: 0;
+  cursor: pointer;
+  margin: 0;
+}
+.mm-cat-group-toggle {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 5px;
   cursor: pointer;
   user-select: none;
+  min-width: 0;
 }
-.mm-cat-group-header:hover .mm-cat-group-name { color: var(--md-default-fg-color); }
+.mm-cat-group-toggle:hover .mm-cat-group-name { color: var(--md-default-fg-color); }
 .mm-cat-group-arrow {
   font-size: 0.65rem;
   color: var(--md-default-fg-color--lighter);
@@ -11381,7 +11425,6 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--md-default-fg-color--light);
-  text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 .mm-cat-group-items {
@@ -11465,17 +11508,21 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   <div id="mm-panel">
     <div id="mm-panel-body">
 
-      <div class="mm-section">
-        <span class="mm-section-label">Search</span>
-        <input id="mm-search" type="text" placeholder="Title, tag or keyword…">
+      <div class="mm-section mm-actions">
+        <button id="mm-fit-btn">Fit view</button>
       </div>
 
       <div class="mm-section">
         <div class="mm-threshold-row">
           <span class="mm-section-label" style="margin:0">Similarity threshold</span>
-          <span id="mm-threshold-val">0.80</span>
+          <span id="mm-threshold-val">0.77</span>
         </div>
-        <input id="mm-threshold-slider" type="range" min="80" max="99" step="1">
+        <input id="mm-threshold-slider" type="range" min="75" max="99" step="1">
+      </div>
+
+      <div class="mm-section">
+        <span class="mm-section-label">Search</span>
+        <input id="mm-search" type="text" placeholder="Title, tag or keyword…">
       </div>
 
       <div class="mm-section">
@@ -11487,12 +11534,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
         <div id="mm-category-filters"></div>
       </div>
 
-      <div class="mm-section mm-actions">
-        <button id="mm-fit-btn">Fit view</button>
-      </div>
-
       <div id="mm-stats">
-        <span id="mm-node-count">…</span> papers &nbsp;·&nbsp;
+        <span id="mm-node-count">…</span> items &nbsp;·&nbsp;
         <span id="mm-edge-count">…</span> connections
       </div>
 
@@ -11536,14 +11579,13 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   var panel   = document.getElementById('mm-panel');
   var header  = document.getElementById('mm-panel-header');
   var hideBtn = document.getElementById('mm-panel-hide-btn');
-  var PANEL_W = 400;
-  var PAD     = 30;
+  var PAD = 30;
 
   function fitBesidePanel(cy) {
     var eles = cy.elements(':visible');
     if (!eles.length) return;
     var bb     = eles.boundingBox();
-    var left   = PANEL_W + PAD;
+    var left   = panel.offsetWidth + PAD;
     var right  = cy.width()  - PAD;
     var top    = PAD;
     var bottom = cy.height() - PAD;
@@ -11571,6 +11613,16 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     var collapsed = panel.classList.toggle('body-collapsed');
     hideBtn.textContent = collapsed ? 'Show Settings' : 'Hide Settings';
     header.title        = collapsed ? 'Show Settings'  : 'Hide Settings';
+  });
+
+  document.getElementById('mm-fit-btn').addEventListener('click', function () {
+    var fitCy = window._cy && window._cy();
+    if (!fitCy) return;
+    if (panel.classList.contains('body-collapsed')) {
+      fitCy.fit(fitCy.elements(':visible'), PAD);
+    } else {
+      fitBesidePanel(fitCy);
+    }
   });
 })();
 </script>
@@ -11634,6 +11686,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     
     
       <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../javascripts/header-link.js"></script>
       
     
   </body>

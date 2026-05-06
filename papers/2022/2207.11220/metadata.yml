@@ -1,0 +1,18 @@
+title: >
+  Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically
+algorithm:
+authors:
+  - Zhen-Chen Guo
+  - Xin Liang
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2207.11220"
+tags:
+abstract: >
+  Stochastic algebraic Riccati equations, also known as rational algebraic Riccati equations, arising in linear-quadratic optimal control for stochastic linear time-invariant systems, were considered to be not easy to solve. The-state-of-art numerical methods most rely on differentiability or continuity, such as Newton-type method, LMI method, or homotopy method. In this paper, we will build a novel theoretical framework and reveal the intrinsic algebraic structure appearing in this kind of algebraic Riccati equations. This structure guarantees that to solve them is almost as easy as to solve deterministic/classical ones, which will shed light on the theoretical analysis and numerical algorithm design for this topic.
+summary: ''
+link: https://arxiv.org/pdf/2207.11220
+links_alt:
+audit_status: raw

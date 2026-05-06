@@ -1,0 +1,17 @@
+title: Value-Gradient Iteration with Quadratic Approximate Value Functions
+algorithm:
+authors:
+  - Alan Yang
+  - Stephen Boyd
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2307.07086"
+tags:
+abstract: >
+  We propose a method for designing policies for convex stochastic control problems characterized by random linear dynamics and convex stage cost. We consider policies that employ quadratic approximate value functions as a substitute for the true value function. Evaluating the associated control policy involves solving a convex problem, typically a quadratic program, which can be carried out reliably in real-time. Such policies often perform well even when the approximate value function is not a particularly good approximation of the true value function. We propose value-gradient iteration, which fits the gradient of value function, with regularization that can include constraints reflecting known bounds on the true value function. Our value-gradient iteration method can yield a good approximate value function with few samples, and little hyperparameter tuning. We find that the method can find a good policy with computational effort comparable to that required to just evaluate a control policy via simulation.
+summary: ''
+link: https://arxiv.org/pdf/2307.07086
+links_alt:
+audit_status: raw

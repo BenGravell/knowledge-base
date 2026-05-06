@@ -1,0 +1,21 @@
+title: >
+  Dynamic Programming Through the Lens of Semismooth Newton-Type Methods (Extended Version)
+algorithm:
+authors:
+  - Matilde Gargiani
+  - Andrea Zanelli
+  - Dominic Liao-McPherson
+  - Tyler Summers
+  - John Lygeros
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2203.08678"
+tags:
+abstract: >
+  Policy iteration and value iteration are at the core of many (approximate) dynamic programming methods. For Markov Decision Processes with finite state and action spaces, we show that they are instances of semismooth Newton-type methods to solve the Bellman equation. In particular, we prove that policy iteration is equivalent to the exact semismooth Newton method and enjoys local quadratic convergence rate. This finding is corroborated by extensive numerical evidence in the fields of control and operations research, which confirms that policy iteration generally requires few iterations to achieve convergence even when the number of policies is vast. We then show that value iteration is an instance of the fixed-point iteration method. In this spirit, we develop a novel locally accelerated version of value iteration with global convergence guarantees and negligible extra computational costs.
+summary: ''
+link: https://arxiv.org/pdf/2203.08678
+links_alt:
+audit_status: raw

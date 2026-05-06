@@ -1,0 +1,19 @@
+title: 'Inside madupite: Technical Design and Performance'
+algorithm:
+authors:
+  - Matilde Gargiani
+  - Robin Sieber
+  - Philip Pawlowsky
+  - John Lygeros
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2507.22538"
+tags:
+abstract: >
+  In this work, we introduce and benchmark madupite, a newly proposed high-performance solver designed for large-scale discounted infinite-horizon Markov decision processes with finite state and action spaces. After a brief overview of the class of mathematical optimization methods on which madupite relies, we provide details on implementation choices, technical design and deployment. We then demonstrate its scalability and efficiency by showcasing its performance on the solution of Markov decision processes arising from different application areas, including epidemiology and classical control. Madupite sets a new standard as, to the best of our knowledge, it is the only solver capable of efficiently computing exact solutions for large-scale Markov decision processes, even when these exceed the memory capacity of modern laptops and operate in near-undiscounted settings. This is possible as madupite can work in a fully distributed manner and therefore leverage the memory storage and computation capabilities of modern high-performance computing clusters. This key feature enables the solver to efficiently handle problems of medium to large size in an exact manner instead of necessarily resorting to function approximations. Moreover, madupite is unique in allowing users to customize the solution algorithm to better exploit the specific structure of their problem, significantly accelerating convergence especially in large-discount factor settings. Overall, madupite represents a significant advancement, offering unmatched scalability and flexibility in solving large-scale Markov decision processes.
+summary: ''
+link: https://arxiv.org/pdf/2507.22538
+links_alt:
+audit_status: raw

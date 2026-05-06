@@ -1,0 +1,24 @@
+title: Motion Planning and Control for Multi Vehicle Autonomous Racing at High Speeds
+algorithm:
+authors:
+  - Ayoub Raji
+  - Alexander Liniger
+  - Andrea Giove
+  - Alessandro Toschi
+  - Nicola Musiu
+  - Daniele Morra
+  - Micaela Verucchi
+  - Danilo Caporale
+  - Marko Bertogna
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2207.11136"
+tags:
+abstract: >
+  This paper presents a multi-layer motion planning and control architecture for autonomous racing, capable of avoiding static obstacles, performing active overtakes, and reaching velocities above 75 $m/s$. The used offline global trajectory generation and the online model predictive controller are highly based on optimization and dynamic models of the vehicle, where the tires and camber effects are represented in an extended version of the basic Pacejka Magic Formula. The proposed single-track model is identified and validated using multi-body motorsport libraries which allow simulating the vehicle dynamics properly, especially useful when real experimental data are missing. The fundamental regularization terms and constraints of the controller are tuned to reduce the rate of change of the inputs while assuring an acceptable velocity and path tracking. The motion planning strategy consists of a Frenét-Frame-based planner which considers a forecast of the opponent produced by a Kalman filter. The planner chooses the collision-free path and velocity profile to be tracked on a 3 seconds horizon to realize different goals such as following and overtaking. The proposed solution has been applied on a Dallara AV-21 racecar and tested at oval race tracks achieving lateral accelerations up to 25 $m/s^{2}$.
+summary: ''
+link: https://arxiv.org/pdf/2207.11136
+links_alt:
+audit_status: raw

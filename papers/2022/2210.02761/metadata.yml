@@ -1,0 +1,19 @@
+title: Learning Autonomous Vehicle Safety Concepts from Demonstrations
+algorithm:
+authors:
+  - Karen Leung
+  - Sushant Veer
+  - Edward Schmerling
+  - Marco Pavone
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2210.02761"
+tags:
+abstract: >
+  Evaluating the safety of an autonomous vehicle (AV) depends on the behavior of surrounding agents which can be heavily influenced by factors such as environmental context and informally-defined driving etiquette. A key challenge is in determining a minimum set of assumptions on what constitutes reasonable foreseeable behaviors of other road users for the development of AV safety models and techniques. In this paper, we propose a data-driven AV safety design methodology that first learns ``reasonable'' behavioral assumptions from data, and then synthesizes an AV safety concept using these learned behavioral assumptions. We borrow techniques from control theory, namely high order control barrier functions and Hamilton-Jacobi reachability, to provide inductive bias to aid interpretability, verifiability, and tractability of our approach. In our experiments, we learn an AV safety concept using demonstrations collected from a highway traffic-weaving scenario, compare our learned concept to existing baselines, and showcase its efficacy in evaluating real-world driving logs.
+summary: ''
+link: https://arxiv.org/pdf/2210.02761
+links_alt:
+audit_status: raw
