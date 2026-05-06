@@ -372,16 +372,16 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
       </div>
 
       <div class="mm-section">
-        <span class="mm-section-label">Search</span>
-        <input id="mm-search" type="text" placeholder="Title, tag or keyword…">
-      </div>
-
-      <div class="mm-section">
         <div class="mm-threshold-row">
           <span class="mm-section-label" style="margin:0">Similarity threshold</span>
           <span id="mm-threshold-val">0.80</span>
         </div>
         <input id="mm-threshold-slider" type="range" min="80" max="99" step="1">
+      </div>
+
+      <div class="mm-section">
+        <span class="mm-section-label">Search</span>
+        <input id="mm-search" type="text" placeholder="Title, tag or keyword…">
       </div>
 
       <div class="mm-section">
