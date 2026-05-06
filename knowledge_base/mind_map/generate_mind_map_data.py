@@ -531,6 +531,54 @@ def parse_nav_categories(config: dict) -> dict[str, dict]:
     return mapping
 
 
+def parse_nav_category_order(config: dict) -> dict:
+    """
+    Walk the mkdocs nav tree and return the ordered lists of categories and
+    sub-categories as they appear in mkdocs.yml (not alphabetically).
+
+    Returns:
+        {
+            "categories": [str, ...],
+            "subCategoryOrder": {"<category>": [str, ...], ...},
+        }
+    """
+    categories: list[str] = []
+    sub_category_order: dict[str, list[str]] = {}
+
+    def walk(node: object, category: str | None = None) -> None:
+        if isinstance(node, list):
+            for item in node:
+                walk(item, category)
+        elif isinstance(node, dict):
+            for key, value in node.items():
+                if category is None:
+                    if key in TRANSPARENT_NAV_SECTIONS:
+                        walk(value, None)
+                    else:
+                        if key not in categories:
+                            categories.append(key)
+                        walk(value, key)
+                elif category == PLANNING_CATEGORY:
+                    if category not in sub_category_order:
+                        sub_category_order[category] = []
+                    if key not in sub_category_order[category]:
+                        sub_category_order[category].append(key)
+                    walk(value, category)
+                # else: deeper nesting — no new categories to record
+
+    for item in config.get("nav", []):
+        if isinstance(item, dict):
+            for section, content in item.items():
+                if section in TRANSPARENT_NAV_SECTIONS:
+                    walk(content, None)
+                else:
+                    if section not in categories:
+                        categories.append(section)
+                    walk(content, section)
+
+    return {"categories": categories, "subCategoryOrder": sub_category_order}
+
+
 # ---------------------------------------------------------------------------
 # Embedding backends
 # ---------------------------------------------------------------------------
@@ -748,6 +796,7 @@ def main() -> None:
     with open(MKDOCS_YML, "r", encoding="utf-8") as f:
         config = yaml.safe_load(f)
     paper_to_category = parse_nav_categories(config)
+    nav_order = parse_nav_category_order(config)
 
     # ---- collect papers ----------------------------------------------------
     print("\n[1/7] Collecting paper metadata…")
@@ -969,6 +1018,8 @@ def main() -> None:
             "top_k": args.top_k,
             "total_papers": len(papers),
             "total_edges": len(edges),
+            "categoryOrder": nav_order["categories"],
+            "subCategoryOrder": nav_order["subCategoryOrder"],
         },
     }
 
