@@ -89,6 +89,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import re
 import sys
@@ -117,7 +118,7 @@ DEFAULT_OUTPUT = MIND_MAP_DIR / "mind-map-data.js"
 # Graph construction parameters (overridable via CLI)
 # ---------------------------------------------------------------------------
 
-DEFAULT_THRESHOLD = 0.80   # Minimum cosine similarity to draw an edge
+DEFAULT_THRESHOLD = 0.75   # Minimum cosine similarity to draw an edge
 DEFAULT_TOP_K = 5          # Always connect each paper to its top-K neighbours
                            # even if their similarity falls below the threshold
                            # (floor-capped at 0.50 to avoid noisy edges)
@@ -1008,6 +1009,17 @@ def main() -> None:
                     "weight": round(sim_val, 4),
                 }
             })
+
+    # Bake per-edge opacity based on node degree (high-degree hubs → more transparent)
+    degree: dict[str, int] = {}
+    for e in edges:
+        degree[e["data"]["source"]] = degree.get(e["data"]["source"], 0) + 1
+        degree[e["data"]["target"]] = degree.get(e["data"]["target"], 0) + 1
+    max_deg = max(degree.values(), default=1)
+    for e in edges:
+        d = max(degree.get(e["data"]["source"], 1), degree.get(e["data"]["target"], 1))
+        t = math.log(d) / math.log(max_deg) if max_deg > 1 else 0.0
+        e["data"]["edgeAlpha"] = round(0.50 - t * (0.50 - 0.06), 3)
 
     graph_data = {
         "nodes": nodes,

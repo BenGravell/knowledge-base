@@ -99,12 +99,11 @@
       position: n.position,
     }));
 
-    const edges = DATA.edges
-      .filter(e =>
-        e.data.weight >= currentThreshold &&
-        visibleIds.has(e.data.source) &&
-        visibleIds.has(e.data.target)
-      );
+    const edges = DATA.edges.filter(e =>
+      e.data.weight >= currentThreshold &&
+      visibleIds.has(e.data.source) &&
+      visibleIds.has(e.data.target)
+    );
 
     return [...nodesWithColor, ...edges];
   }
@@ -154,8 +153,8 @@
         selector: 'edge',
         style: {
           'width': 'mapData(weight, 0.50, 1.00, 0.4, 3.5)',
-          'line-color': v('--mm-edge-color') || 'rgba(180,200,255,0.35)',
-          'opacity': 1,
+          'line-color': v('--mm-edge-color') || '#333333',
+          'opacity': 'data(edgeAlpha)',
           'curve-style': 'haystack',
         },
       },
@@ -164,6 +163,7 @@
         style: {
           'line-color': v('--mm-edge-highlighted') || 'rgba(255,215,0,0.8)',
           'width': 2.5,
+          'opacity': 1,
           'z-index': 10,
         },
       },

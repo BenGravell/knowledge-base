@@ -51,6 +51,12 @@ theme:
     - tags
     - search.highlight
 
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/header-link.js
+
 markdown_extensions:
   - meta
   - admonition
@@ -63,7 +69,6 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Portfolio: https://bengravell.github.io/portfolio/
   - Mind Map: mind-map.md
   - Explainers:
     - PID: explainers/pid/pid.md
@@ -365,3 +370,4 @@ nav:
       - Trajectory Optimization: programming/trajectory_optimization.md
     - Just for Fun:
       - Design and Control of a Bipedal Robotic Character: papers/2501_05204.md
+  - Portfolio: https://bengravell.github.io/portfolio/

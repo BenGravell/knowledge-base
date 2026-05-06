@@ -24,7 +24,7 @@ MIND_MAP_DIR = Path("mind_map")
 PLACEHOLDER_DATA = (
     "const mindMapData = {"
     'nodes:[], edges:[], meta:{'
-    'model:"none", threshold:0.80, top_k:5, '
+    'model:"none", threshold:0.75, top_k:5, '
     'total_papers:0, total_edges:0'
     "}};\n"
 )

@@ -9,8 +9,11 @@ hide:
 <style>
 /* ── Derived vars: transparency adjustments on MkDocs palette tokens ─────── */
 :root {
-  --mm-edge-color:       color-mix(in srgb, var(--md-primary-fg-color) 35%, transparent);
+  --mm-edge-color:       #333333;
   --mm-edge-highlighted: color-mix(in srgb, var(--md-accent-fg-color)  80%, transparent);
+}
+[data-md-color-scheme="slate"] {
+  --mm-edge-color:       #cccccc;
 }
 
 /* ── Remove MkDocs Material layout constraints for full-screen canvas ─────── */
@@ -374,9 +377,9 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
       <div class="mm-section">
         <div class="mm-threshold-row">
           <span class="mm-section-label" style="margin:0">Similarity threshold</span>
-          <span id="mm-threshold-val">0.80</span>
+          <span id="mm-threshold-val">0.77</span>
         </div>
-        <input id="mm-threshold-slider" type="range" min="80" max="99" step="1">
+        <input id="mm-threshold-slider" type="range" min="75" max="99" step="1">
       </div>
 
       <div class="mm-section">
