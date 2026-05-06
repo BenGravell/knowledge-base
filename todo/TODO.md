@@ -10,7 +10,6 @@ cd "c:\Users\bjgra\GitHub\knowledge-base\knowledge_base" && python scripts/list_
 
 and insert the entries into the Content Tree in knowledge_base\mkdocs.yml at appropriate places. Attempt to use the existing categories as much as possible, but create new categories if the entry does not fit cleanly conceptually.
 
-
 ### Generate new metadata
 
 Fill the metadata for each of the papers in todo\reinforcement_learning.md using knowledge_base\docs\templates\metadata.yml as the template from which to create the new files. Use the subsection headers to guide where to add an entry for each paper in the hierarchy in knowledge_base\mkdocs.yml.
@@ -27,7 +26,6 @@ Normalize the title so that it uses capitalized words in title case.
 ### Prep raw metadata for review
 
 Run scripts\list_raw_papers.py and pipe the output to scripts\audit_metadata.py and attempt to resolve all the issues.
-
 
 ## Metadata cleanup
 
@@ -49,7 +47,6 @@ add other URIs besides DOI since not all papers have DOI e.g. dissertations, arx
 - Autogenerate the key for papers
   - policy: use algorithm if non-null, else use the paper name
 
-
 ## Quality of life
 
 Create a one-click site regen script.
@@ -61,7 +58,6 @@ Should call:
 - mkdocs build
 
 Take an argument -g or --github to use gh-deploy mkdocs
-
 
 Work on using AI automation to prefill the manual touch tasks:
 
@@ -82,11 +78,6 @@ Then what is the value of a tree if the true info associations are more general?
 
 ## Mind Map
 
-Fix the fit layout button, right now it is fitting to the whole canvas ignoring the sidebar menu visibility.
-
-Settings menu is too wide on mobile 
-
-Make it use a more intelligent strategy, fitting to container/screen width if requested target width is too wide to fit screen.
 Sluggish performance, laggy feeling when hovering and clicking on nodes and edges
 
 
@@ -99,7 +90,7 @@ Split large categories further until the number of entries in each leaf is no mo
 
 
 
-Tune the edge threshold.
+### Tune the edge threshold.
 
 GRPO should be connected to PPO.
 
@@ -113,27 +104,16 @@ Define a reference set of known connected/disconnected items and use that to tun
 
 
 Make layout less busy, too cluttered in motion planning cluster
-
-call them 'items' instead of 'papers' in the sidebar 
-
-use title case instead of all caps for "MOTION PLANNING" in the sidebar
-
-start with all supercategories (like Motion Planning) collapsed
-
-add a checkbox for supercategories (like Motion Planning) that can control aggregate active/inactive of its children, keeping all the checkboxes for the subcategories in sync automatically/dynamically
-
-
-Add filters for paper type (exclude surveys)
-
 Do something about the unreadable clumps on motion planning
 
 
+Use title case instead of all caps for "MOTION PLANNING" in the sidebar
 
-Use UMAP of embeddings to set initial or target positions of nodes in 2d space
+Start with all supercategories (like Motion Planning) collapsed
 
-Optional: then use the actual cosine similarity to drive the force based layout.
+Add a checkbox for supercategories (like Motion Planning) that can control aggregate active/inactive of its children, keeping all the checkboxes for the subcategories in sync automatically/dynamically
 
-
+Add filters for paper type (exclude surveys)
 
 
 ### Creative idea
@@ -143,7 +123,6 @@ Turn the mind map into a generative game like a cave crawler or rogue-like
 Encourage exploration between rooms or lands represented by research items
 
 Collect points for clicking links, answering quiz questions.
-
 
 ## Knowledge Explorer
 
