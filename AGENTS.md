@@ -70,25 +70,40 @@ knowledge-base/
 
 2. Insert the returned entries into the `nav` tree in `knowledge_base/mkdocs.yml` at appropriate places. Reuse existing categories where possible; create new ones only when no existing category fits conceptually.
 
-### Generate metadata files for new papers
+### Generate metadata for a single paper
+
+1. Copy `knowledge_base/docs/templates/metadata.yml` as the template.
+2. Place the new file at:
+
+    ```text
+    knowledge_base/docs/papers/<YEAR>/<SLUG>/metadata.yml
+    ```
+
+    - `YEAR`: 4-digit year of the earliest published version.
+    - `SLUG`: arXiv ID in `YYMM.NNNNN` format if one exists; otherwise `YEAR.first_author_last_name_lowercase.title_first_four_words`.
+3. Fill in all fields.
+    - title: Full title of the paper, copied verbatim then re-written in title case, in double quotes (string).
+    - algorithm: Short name of the primary algorithm or technique or method put forward by the paper.
+    - authors: List of authors, one author per item, in the order given by the paper. Include full name where possible. Use middle initials if given. Prefer using the 26 English letters to make searching and pattern matching easier.
+    - year: Year of the first publication of the paper. If there is an arXiv preprint, then use its year as the year (even if another publication preceeded it, which is rare).
+    - source: Name of the venue where the most official version of the paper was presented. Usually a conference or journal name. Omit years from this field.
+    - type: The type of item this is. See VALID_TYPES in config.py for the list of valid types.
+    - doi: The DOI for the item. Use the DOI of the formally published item e.g. from the conference or journal or publisher. Never use the arXiv DOI since it is redundant.
+    - arxiv_id: arXiv ID, in double quotes (string)
+    - tags: List of tags, one tag per line. This is a soft field, create tags using short, commonly pattern-matched phrases. Limit the list to about 5-20 entries.
+    - abstract: The full abstract, reproduced verbatim from the source. If there are multiple published versions, prefer the abstract from the arXiv version, then the formal published version, then whatever is available. Leave it blank if there truly is no abstract for the item, do not invent one.
+    - summary: Short summary of the paper, as written from an external observer's perspective, with a focus on highlighting the main contributions and any important or useful secondary constributions that were not necessarily emphasized by the paper's authors themselves.
+    - link: Primary link to the paper. Use the arXiv link to pdf when available. Must be a freely openable link whenever possible, not paywalled. Use paywalled links only as a final resort.
+    - links_alt: List of alternate links. Start with freely openable paper links first, place paywalled links at the end. Also include links to supporting material such as code repos or packages associated with the item.
+    - audit_status: Audit status of the item. See VALID_AUDIT_STATUSES in config.py for definitions and valid values.
+
+### Generate metadata for a group of papers
 
 Collect papers from the location/file given by the user.
 
 Use subsection headers and other contextual clues to determine where each paper belongs in the `nav` hierarchy in `knowledge_base/mkdocs.yml`.
 
-For each paper:
-
-1. Copy `knowledge_base/docs/templates/metadata.yml` as the template.
-2. Place the new file at:
-
-   ```text
-   knowledge_base/docs/papers/<YEAR>/<SLUG>/metadata.yml
-   ```
-
-   - `YEAR`: 4-digit year of the earliest published version.
-   - `SLUG`: arXiv ID in `YYMM.NNNNN` format if one exists; otherwise `YEAR.first_author_last_name_lowercase.title_first_four_words`.
-3. Fill in all fields. Leave `abstract` blank with a `>` placeholder followed by a newline.
-4. Normalize the title to title case.
+For each paper, perform "Generate metadata for a single paper"
 
 ### Audit and fix raw metadata
 
