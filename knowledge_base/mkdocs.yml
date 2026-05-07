@@ -78,6 +78,11 @@ nav:
     - Differential Flatness: explainers/differential_flatness.md
     - AkinoPDF: explainers/akino_pdf.md
     - Waymo AI: explainers/waymo_ai.md
+    - Polyak-Łojasiewicz Condition: explainers/polyak_lojasiewicz.md
+    - Permutation-Invariant Neural Nets for RL: explainers/permutation_invariant_nn_rl.md
+    - Adversarial Training and Robot Safety: explainers/adversarial_training_robot_safety.md
+    - Explorations in Dynamics: explainers/explorations_in_dynamics.md
+    - Respect the Unstable: explainers/respect_the_unstable.md
   - Content Tree:
     - Motion Planning:
       - Path Planning:
