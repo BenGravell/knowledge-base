@@ -11,9 +11,11 @@ hide:
 :root {
   --mm-edge-color:       #333333;
   --mm-edge-highlighted: color-mix(in srgb, var(--md-accent-fg-color)  80%, transparent);
+  --mm-edge-alpha-scale: 1;
 }
 [data-md-color-scheme="slate"] {
   --mm-edge-color:       #ffffff;
+  --mm-edge-alpha-scale: 2;
 }
 
 /* ── Remove MkDocs Material layout constraints for full-screen canvas ─────── */
