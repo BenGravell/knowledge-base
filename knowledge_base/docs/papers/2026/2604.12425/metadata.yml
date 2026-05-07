@@ -1,0 +1,19 @@
+title: >
+  Forecasting the Past: Gradient-Based Distribution Shift Detection in Trajectory Prediction
+algorithm:
+authors:
+  - Michele De Vita
+  - Julian Wiederer
+  - Vasileios Belagiannis
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.12425"
+tags:
+abstract: >
+  Trajectory prediction models often fail in real-world automated driving due to distributional shifts between training and test conditions. Such distributional shifts, whether behavioural or environmental, pose a critical risk by causing the model to make incorrect forecasts in unfamiliar situations. We propose a self-supervised method that trains a decoder in a post-hoc fashion on the self-supervised task of forecasting the second half of observed trajectories from the first half. The L2 norm of the gradient of this forecasting loss with respect to the decoder's final layer defines a score to identify distribution shifts. Our approach, first, does not affect the trajectory prediction model, ensuring no interference with original prediction performance and second, demonstrates substantial improvements on distribution shift detection for trajectory prediction on the Shifts and Argoverse datasets. Moreover, we show that this method can also be used to early detect collisions of a deep Q-Network motion planner in the Highway simulator. Source code is available at https://github.com/Michedev/forecasting-the-past.
+summary: ''
+link: https://arxiv.org/pdf/2604.12425
+links_alt:
+audit_status: raw

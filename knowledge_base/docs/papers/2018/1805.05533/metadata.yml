@@ -1,0 +1,17 @@
+title: >
+  Discovering Transforms: A Tutorial on Circulant Matrices, Circular Convolution, and the Discrete Fourier Transform
+algorithm:
+authors:
+  - Bassam Bamieh
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1805.05533"
+tags:
+abstract: >
+  How could the Fourier and other transforms be naturally discovered if one didn't know how to postulate them? In the case of the Discrete Fourier Transform (DFT), we show how it arises naturally out of analysis of circulant matrices. In particular, the DFT can be derived as the change of basis that simultaneously diagonalizes all circulant matrices. In this way, the DFT arises naturally from a linear algebra question about a set of matrices. Rather than thinking of the DFT as a signal transform, it is more natural to think of it as a single change of basis that renders an entire set of mutually-commuting matrices into simple, diagonal forms. The DFT can then be "discovered" by solving the eigenvalue/eigenvector problem for a special element in that set. A brief outline is given of how this line of thinking can be generalized to families of linear operators, leading to the discovery of the other common Fourier-type transforms, as well as its connections with group representations theory.
+summary: ''
+link: https://arxiv.org/pdf/1805.05533
+links_alt:
+audit_status: raw

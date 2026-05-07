@@ -1,0 +1,19 @@
+title: A chiral aperiodic monotile
+algorithm:
+authors:
+  - David Smith
+  - Joseph Samuel Myers
+  - Craig S. Kaplan
+  - Chaim Goodman-Strauss
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2305.17743"
+tags:
+abstract: >
+  The recently discovered "hat" aperiodic monotile mixes unreflected and reflected tiles in every tiling it admits, leaving open the question of whether a single shape can tile aperiodically using translations and rotations alone. We show that a close relative of the hat -- the equilateral member of the continuum to which it belongs -- is a weakly chiral aperiodic monotile: it admits only non-periodic tilings if we forbid reflections by fiat. Furthermore, by modifying this polygon's edges we obtain a family of shapes called Spectres that are strictly chiral aperiodic monotiles: they admit only chiral non-periodic tilings based on a hierarchical substitution system.
+summary: ''
+link: https://arxiv.org/pdf/2305.17743
+links_alt:
+audit_status: raw
