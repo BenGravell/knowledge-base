@@ -52,14 +52,6 @@ https://labs.utdallas.edu/conlab/learning-robust-control-for-lqr-systems-with-mu
 https://labs.utdallas.edu/conlab/robust-learning-based-control-via-bootstrapped-multiplicative-noise/
 https://labs.utdallas.edu/conlab/risk-averse-rrt-planning-with-nonlinear-steering-and-tracking-controllers-for-nonlinear-robotic-systems-under-uncertainty/
 
-### Digest
-
-https://labs.utdallas.edu/conlab/linear-convergence-of-gradient-and-proximal-gradient-methods-under-the-polyak-lojasiewicz-condition/
-https://labs.utdallas.edu/conlab/permutation-invariant-neural-networks-for-reinforcement-learning/
-https://labs.utdallas.edu/conlab/adversarial-training-of-neural-networks-reduces-safety-in-robots/
-https://labs.utdallas.edu/conlab/explorations-in-dynamics/
-https://labs.utdallas.edu/conlab/respect-the-unstable/
-
 ### Resources
 
 https://labs.utdallas.edu/conlab/resources/
