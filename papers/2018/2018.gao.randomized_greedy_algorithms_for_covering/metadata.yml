@@ -1,0 +1,19 @@
+title: Randomized greedy algorithms for covering problems
+algorithm:
+authors:
+  - Wanru Gao
+  - Tobias Friedrich
+  - Frank Neumann
+  - Christian Hercher
+year: 2018
+source: Proceedings of the Genetic and Evolutionary Computation Conference
+type: Conference Paper
+doi: 10.1145/3205455.3205542
+arxiv_id:
+tags:
+abstract: >
+  Greedy algorithms provide a fast and often also effective solution to many combinatorial optimization problems. However, it is well known that they sometimes lead to low quality solutions on certain instances. In this paper, we explore the use of randomness in greedy algorithms for the minimum vertex cover and dominating set problem and compare the resulting performance against their deterministic counterpart. Our algorithms are based on a parameter y which allows to explore the spectrum between uniform and deterministic greedy selection in the steps of the algorithm and our theoretical and experimental investigations point out the benefits of incorporating randomness into greedy algorithms for the two considered combinatorial optimization problems.
+summary: ''
+link: https://doi.org/10.1145/3205455.3205542
+links_alt:
+audit_status: raw

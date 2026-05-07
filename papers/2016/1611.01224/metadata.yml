@@ -1,0 +1,22 @@
+title: Sample Efficient Actor-Critic with Experience Replay
+algorithm:
+authors:
+  - Ziyu Wang
+  - Victor Bapst
+  - Nicolas Heess
+  - Volodymyr Mnih
+  - Remi Munos
+  - Koray Kavukcuoglu
+  - Nando de Freitas
+year: 2016
+source:
+type: ''
+doi:
+arxiv_id: "1611.01224"
+tags:
+abstract: >
+  This paper presents an actor-critic deep reinforcement learning agent with experience replay that is stable, sample efficient, and performs remarkably well on challenging environments, including the discrete 57-game Atari domain and several continuous control problems. To achieve this, the paper introduces several innovations, including truncated importance sampling with bias correction, stochastic dueling network architectures, and a new trust region policy optimization method.
+summary: ''
+link: https://arxiv.org/pdf/1611.01224
+links_alt:
+audit_status: raw

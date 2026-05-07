@@ -1,0 +1,17 @@
+title: Finite Sample Analysis of Stochastic System Identification
+algorithm:
+authors:
+  - Anastasios Tsiamis
+  - George J. Pappas
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1903.09122"
+tags:
+abstract: >
+  In this paper, we analyze the finite sample complexity of stochastic system identification using modern tools from machine learning and statistics. An unknown discrete-time linear system evolves over time under Gaussian noise without external inputs. The objective is to recover the system parameters as well as the Kalman filter gain, given a single trajectory of output measurements over a finite horizon of length $N$. Based on a subspace identification algorithm and a finite number of $N$ output samples, we provide non-asymptotic high-probability upper bounds for the system parameter estimation errors. Our analysis uses recent results from random matrix theory, self-normalized martingales and SVD robustness, in order to show that with high probability the estimation errors decrease with a rate of $1/\sqrt{N}$. Our non-asymptotic bounds not only agree with classical asymptotic results, but are also valid even when the system is marginally stable.
+summary: ''
+link: https://arxiv.org/pdf/1903.09122
+links_alt:
+audit_status: raw

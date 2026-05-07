@@ -1,0 +1,17 @@
+title: Subgradient Methods for Saddle-Point Problems
+algorithm:
+authors:
+  - A. Nedić
+  - A. Ozdaglar
+year: 2009
+source: Journal of Optimization Theory and Applications
+type: Journal Paper
+doi: 10.1007/s10957-009-9522-7
+arxiv_id:
+tags:
+abstract: >
+  We study subgradient methods for computing the saddle points of a convex-concave function. Our motivation comes from networking applications where dual and primal-dual subgradient methods have attracted much attention in the design of decentralized network protocols. We first present a subgradient algorithm for generating approximate saddle points and provide per-iteration convergence rate estimates on the constructed solutions. We then focus on Lagrangian duality, where we consider a convex primal optimization problem and its Lagrangian dual problem, and generate approximate primal-dual optimal solutions as approximate saddle points of the Lagrangian function. We present a variation of our subgradient method under the Slater constraint qualification and provide stronger estimates on the convergence rate of the generated primal sequences. In particular, we provide bounds on the amount of feasibility violation and on the primal objective function values at the approximate solutions. Our algorithm is particularly well-suited for problems where the subgradient of the dual function cannot be evaluated easily (equivalently, the minimum of the Lagrangian function at a dual solution cannot be computed efficiently), thus impeding the use of dual subgradient methods.
+summary: ''
+link: https://doi.org/10.1007/s10957-009-9522-7
+links_alt:
+audit_status: raw

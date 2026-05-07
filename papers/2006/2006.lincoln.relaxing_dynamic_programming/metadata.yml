@@ -1,0 +1,17 @@
+title: Relaxing Dynamic Programming
+algorithm:
+authors:
+  - B. Lincoln
+  - A. Rantzer
+year: 2006
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.2006.878720
+arxiv_id:
+tags:
+abstract: >
+  The idea of dynamic programming is general and very simple, but the "curse of dimensionality" is often prohibitive and restricts the fields of application. This paper introduces a method to reduce the complexity by relaxing the demand for optimality. The distance from optimality is kept within prespecified bounds and the size of the bounds determines the computational complexity. Several computational examples are considered. The first is optimal switching between linear systems, with application to design of a dc/dc voltage converter. The second is optimal control of a linear system with piecewise linear cost with application to stock order control. Finally, the method is applied to a partially observable Markov decision problem (POMDP)
+summary: ''
+link: https://doi.org/10.1109/TAC.2006.878720
+links_alt:
+audit_status: raw

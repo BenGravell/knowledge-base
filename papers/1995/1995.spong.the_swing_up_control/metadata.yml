@@ -1,0 +1,19 @@
+title: "The Swing Up Control Problem for the Acrobot"
+authors:
+  - Mark W. Spong
+year: 1995
+source: IEEE Control Systems
+type: Journal Paper
+doi: 10.1109/37.341864
+tags:
+  - Acrobot
+  - Swing-up control
+  - Underactuated systems
+  - Energy-based control
+  - Nonlinear control
+  - Robotics
+abstract: >
+summary: >
+  Introduces the Acrobot (a two-link robot arm with one passive joint) as a benchmark for underactuated control and presents an energy-based swing-up strategy that pumps energy to bring the arm from hanging to the inverted position, after which a linear stabilizer takes over. Popularized the Acrobot as a canonical underactuated control problem.
+link: https://ieeexplore.ieee.org/document/341864
+audit_status: raw

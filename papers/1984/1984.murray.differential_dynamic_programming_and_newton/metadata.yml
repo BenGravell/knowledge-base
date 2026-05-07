@@ -1,0 +1,18 @@
+title: >
+  Differential dynamic programming and Newton's method for discrete optimal control problems
+algorithm:
+authors:
+  - D. M. Murray
+  - S. J. Yakowitz
+year: 1984
+source: Journal of Optimization Theory and Applications
+type: Journal Paper
+doi: 10.1007/BF00934463
+arxiv_id:
+tags:
+abstract: >
+  The purpose of this paper is to draw a detailed comparison between Newton&#39;s method, as applied to discrete-time, unconstrained optimal control problems, and the second-order method known as differential dynamic programming (DDP). The main outcomes of the comparison are: (i) DDP does not coincide with Newton&#39;s method, but (ii) the methods are close enough that they have the same convergence rate, namely, quadratic. The comparison also reveals some other facts of theoretical and computational interest. For example, the methods differ only in that Newton&#39;s method operates on a linear approximation of the state at a certain point at which DDP operates on the exact value. This would suggest that DDP ought to be more accurate, an anticipation borne out in our computational example. Also, the positive definiteness of the Hessian of the objective function is easy to check within the framework of DDP. This enables one to propose a modification of DDP, so that a descent direction is produced at each iteration, regardless of the Hessian.
+summary: ''
+link: https://doi.org/10.1007/BF00934463
+links_alt:
+audit_status: raw

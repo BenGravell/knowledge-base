@@ -112,8 +112,10 @@
    * Cytoscape stylesheet — reads CSS variables so it responds to theme changes
    * -------------------------------------------------------------------------*/
   function buildStylesheet() {
-    const cs = getComputedStyle(document.documentElement);
+    const cs = getComputedStyle(document.body);
     const v  = name => cs.getPropertyValue(name).trim();
+
+    const alphaScale = parseFloat(v('--mm-edge-alpha-scale')) || 1;
 
     return [
       {
@@ -154,7 +156,7 @@
         style: {
           'width': 'mapData(weight, 0.50, 1.00, 0.4, 3.5)',
           'line-color': v('--mm-edge-color') || '#333333',
-          'opacity': 'data(edgeAlpha)',
+          'opacity': ele => Math.min(ele.data('edgeAlpha') * alphaScale, 1),
           'curve-style': 'haystack',
         },
       },

@@ -1,0 +1,21 @@
+title: Approximate Dynamic Programming via Sum of Squares Programming
+algorithm:
+authors:
+  - Tyler H. Summers
+  - Konstantin Kunz
+  - Nikolaos Kariotoglou
+  - Maryam Kamgarpour
+  - Sean Summers
+  - John Lygeros
+year: 2012
+source:
+type: ''
+doi:
+arxiv_id: "1212.1269"
+tags:
+abstract: >
+  We describe an approximate dynamic programming method for stochastic control problems on infinite state and input spaces. The optimal value function is approximated by a linear combination of basis functions with coefficients as decision variables. By relaxing the Bellman equation to an inequality, one obtains a linear program in the basis coefficients with an infinite set of constraints. We show that a recently introduced method, which obtains convex quadratic value function approximations, can be extended to higher order polynomial approximations via sum of squares programming techniques. An approximate value function can then be computed offline by solving a semidefinite program, without having to sample the infinite constraint. The policy is evaluated online by solving a polynomial optimization problem, which also turns out to be convex in some cases. We experimentally validate the method on an autonomous helicopter testbed using a 10-dimensional helicopter model.
+summary: ''
+link: https://arxiv.org/pdf/1212.1269
+links_alt:
+audit_status: raw

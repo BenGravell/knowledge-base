@@ -1,0 +1,16 @@
+title: On the identification of variances and adaptive Kalman filtering
+algorithm:
+authors:
+  - R. Mehra
+year: 1970
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.1970.1099422
+arxiv_id:
+tags:
+abstract: >
+  A Kalman filter requires an exact knowledge of the process noise covariance matrix <tex xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">Q</tex> and the measurement noise covariance matrix <tex xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">R</tex> . Here we consider the case in which the true values of <tex xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">Q</tex> and <tex xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">R</tex> are unknown. The system is assumed to be constant, and the random inputs are stationary. First, a correlation test is given which checks whether a particular Kalman filter is working optimally or not. If the filter is suboptimal, a technique is given to obtain asymptotically normal, unbiased, and consistent estimates of <tex xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">Q</tex> and <tex xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">R</tex> . This technique works only for the case in which the form of <tex xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">Q</tex> is known and the number of unknown elements in <tex xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">Q</tex> is less than <tex xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">n \times r</tex> where <tex xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">n</tex> is the dimension of the state vector and <tex xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">r</tex> is the dimension of the measurement vector. For other cases, the optimal steady-state gain K <inf xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">op</inf> is obtained directly by an iterative procedure without identifying <tex xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">Q</tex> . As a corollary, it is shown that the steady-state optimal Kalman filter gain K <inf xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">op</inf> depends only on <tex xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">n \times r</tex> linear functionals of <tex xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">Q</tex> . The results are first derived for discrete systems. They are then extended to continuous systems. A numerical example is given to show the usefulness of the approach.
+summary: ''
+link: https://doi.org/10.1109/TAC.1970.1099422
+links_alt:
+audit_status: raw

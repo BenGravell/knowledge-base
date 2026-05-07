@@ -1,0 +1,17 @@
+title: The numerical solution of A'Q + QA = -C
+algorithm:
+authors:
+  - E. Davison
+  - F. Man
+year: 1968
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.1968.1098954
+arxiv_id:
+tags:
+abstract: >
+  The eigenvalues of the system matrix are used to construct a matrix which is a transformation in state space between two most frequently used canonical forms.
+summary: ''
+link: https://doi.org/10.1109/TAC.1968.1098954
+links_alt:
+audit_status: raw

@@ -1,0 +1,16 @@
+title: Values and strategies for infinite time linear quadratic games
+algorithm:
+authors:
+  - E. Mageirou
+year: 1976
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.1976.1101291
+arxiv_id:
+tags:
+abstract: >
+  For a class of infinite time linear quadratic games it is shown that an appropriate solution of an algebraic Riccati type equation determines the value of the game but not necessarily any equilibrium strategies. In the case of nonexistence of equilibrium strategies, ε-optimal strategies are constructed through the solutions of a differential Riccati equation.
+summary: ''
+link: https://doi.org/10.1109/TAC.1976.1101291
+links_alt:
+audit_status: raw

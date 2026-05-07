@@ -1,0 +1,16 @@
+title: The scaled unscented transformation
+algorithm:
+authors:
+  - S.J. Julier
+year: 2002
+source: Proceedings of the 2002 American Control Conference (IEEE Cat. No.CH37301)
+type: Conference Paper
+doi: 10.1109/ACC.2002.1025369
+arxiv_id:
+tags:
+abstract: >
+  This paper describes a generalisation of the unscented transformation (UT) which allows sigma points to be scaled to an arbitrary dimension. The UT is a method for predicting means and covariances in nonlinear systems. A set of samples are deterministically chosen which match the mean and covariance of a (not necessarily Gaussian-distributed) probability distribution. These samples can be scaled by an arbitrary constant. The method guarantees that the mean and covariance second order accuracy in mean and covariance, giving the same performance as a second order truncated filter but without the need to calculate any Jacobians or Hessians. The impacts of scaling issues are illustrated by considering conversions from polar to Cartesian coordinates with large angular uncertainties.
+summary: ''
+link: https://doi.org/10.1109/ACC.2002.1025369
+links_alt:
+audit_status: raw

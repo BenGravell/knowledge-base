@@ -1,0 +1,18 @@
+title: On the robustness of LQ regulators for discrete-time systems
+algorithm:
+authors:
+  - A.T. Neto
+  - J.M. Dion
+  - L. Dugard
+year: 1992
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/9.256383
+arxiv_id:
+tags:
+abstract: >
+  A sufficient condition for quadratic stabilizability of uncertain linear discrete-time systems using LQ regulators is presented. The true system is represented by a nominal model plus additive terms representing the most common types of uncertainties in the state and input matrices. Sufficient robustness bounds as well as a robustification procedure for discrete-time LQ regulators are presented and the conservativeness of the proposed condition is discussed.< <ETX xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">&gt;</ETX>
+summary: ''
+link: https://doi.org/10.1109/9.256383
+links_alt:
+audit_status: raw

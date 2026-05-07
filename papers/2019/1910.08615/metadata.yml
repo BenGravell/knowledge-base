@@ -1,0 +1,17 @@
+title: Fitting a Kalman Smoother to Data
+algorithm:
+authors:
+  - Shane Barratt
+  - Stephen Boyd
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1910.08615"
+tags:
+abstract: >
+  This paper considers the problem of fitting the parameters of a Kalman smoother to data. We formulate the Kalman smoothing problem with missing measurements as a constrained least squares problem and provide an efficient method to solve it based on sparse linear algebra. We then introduce the Kalman smoother tuning problem, which seeks to find parameters that achieve low prediction error on held out measurements. We derive a Kalman smoother auto-tuning algorithm, which is based on the proximal gradient method, that finds good, if not the best, parameters for a given dataset. Central to our method is the computation of the gradient of the prediction error with respect to the parameters of the Kalman smoother; we describe how to compute this at little to no additional cost. We demonstrate the method on population migration within the United States as well as data collected from an IMU+GPS system while driving. The paper is accompanied by an open-source implementation.
+summary: ''
+link: https://arxiv.org/pdf/1910.08615
+links_alt:
+audit_status: raw

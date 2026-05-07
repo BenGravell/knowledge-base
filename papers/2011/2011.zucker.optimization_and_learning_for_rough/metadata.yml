@@ -1,0 +1,31 @@
+title: "Optimization and Learning for Rough Terrain Legged Locomotion"
+algorithm:
+authors:
+  - Matthew Zucker
+  - Nathan Ratliff
+  - Martin Stolle
+  - Joel Chestnutt
+  - J. Andrew Bagnell
+  - Christopher G. Atkeson
+  - James Kuffner
+year: 2011
+source: International Journal of Robotics Research
+type: Journal Paper
+doi: 10.1177/0278364910392608
+arxiv_id:
+tags:
+  - Legged locomotion
+  - Rough terrain
+  - Footstep planning
+  - Trajectory optimization
+  - Inverse optimal control
+  - Quadruped
+  - Anytime planning
+abstract: >
+  This paper presents a novel approach to legged locomotion over rough terrain rooted in optimization. The approach relies on a hierarchy of fast, anytime algorithms to plan a set of footholds and the dynamic body motions required to execute them. Components within the planning framework coordinate to exchange plans, cost-to-go estimates, and certificates that ensure the output of an abstract high-level planner can be realized by lower layers of the hierarchy. The burden of careful engineering of cost functions is mitigated by a simple inverse optimal control technique, and robustness is achieved by real-time re-planning of the full trajectory, augmented by reflexes and feedback control. We demonstrate the approach guiding the LittleDog quadruped robot over various rough terrains.
+summary: >
+  Proposes a hierarchical optimization framework for quadruped locomotion over rough terrain, combining anytime footstep planning with dynamic body motion optimization. Uses inverse optimal control to learn cost functions from demonstrations and real-time re-planning for robustness, demonstrated on the LittleDog robot.
+link: https://www.researchgate.net/publication/220122195_Optimization_and_learning_for_rough_terrain_legged_locomotion
+links_alt:
+  - https://journals.sagepub.com/doi/10.1177/0278364910392608
+audit_status: raw

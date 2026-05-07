@@ -1,0 +1,18 @@
+title: "On the Generalized Halley Method for Solving Nonlinear Equations"
+authors:
+  - G. Albeanu
+year: 2008
+source: ROMAI Journal
+type: Journal Paper
+tags:
+  - Halley's method
+  - Nonlinear equations
+  - Root finding
+  - Iterative methods
+  - Generalized inverse
+  - Convergence
+abstract: >
+summary: >
+  Studies a generalized form of Halley's method for solving nonlinear equations F(x) = 0 in general spaces, using the generalized inverse approach. Presents Kantorovich-like convergence theorems, quasi-Halley variants, and numerical behavior studies of the iterative scheme.
+link: https://rj.romai.ro/arhiva/2008/2/RJv4n2-Albeanu.pdf
+audit_status: raw

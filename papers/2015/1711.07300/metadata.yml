@@ -1,0 +1,28 @@
+title: "Optimization-Based Autonomous Racing of 1:43 Scale RC Cars"
+algorithm: MPCC
+authors:
+  - Alexander Liniger
+  - Alexander Domahidi
+  - Manfred Morari
+year: 2015
+source: Optimal Control Applications and Methods
+type: Journal Paper
+doi: 10.1002/oca.2123
+arxiv_id: "1711.07300"
+tags:
+  - Model predictive control
+  - Contouring control
+  - Autonomous racing
+  - Path planning
+  - Real-time optimization
+  - RC cars
+  - MPCC
+abstract: >
+  This paper describes autonomous racing of RC race cars based on mathematical optimization. Using a dynamical model of the vehicle, control inputs are computed by receding horizon based controllers, where the objective is to maximize progress on the track subject to the requirement of staying on the track and avoiding opponents. Two different control formulations are presented. The first controller employs a two-level structure, consisting of a path planner and a nonlinear model predictive controller (NMPC) for tracking. The second controller combines both tasks in one nonlinear optimization problem (NLP) following the ideas of contouring control. Linear time varying models obtained by linearization are used to build local approximations of the control NLPs in the form of convex quadratic programs (QPs) at each sampling time. The resulting QPs have a typical MPC structure and can be solved in the range of milliseconds by recent structure exploiting solvers, which is key to the real-time feasibility of the overall control scheme. Obstacle avoidance is incorporated by means of a high-level corridor planner based on dynamic programming, which generates convex constraints for the controllers according to the current position of opponents and the track layout. The control performance is investigated experimentally using 1:43 scale RC race cars, driven at speeds of more than 3 m/s and in operating regions with saturated rear tire forces (drifting). The algorithms run at 50 Hz sampling rate on embedded computing platforms, demonstrating the real-time feasibility and high performance of optimization-based approaches for autonomous racing.
+summary: >
+  Foundational paper for Model Predictive Contouring Control (MPCC) in vehicle racing, introducing the idea of maximizing progress along a reference path as an MPC objective. Demonstrates real-time performance on 1:43 scale RC cars at drifting speeds, and coined the contouring-control formulation widely adopted in subsequent autonomous racing and AV trajectory planning work.
+link: https://arxiv.org/pdf/1711.07300
+links_alt:
+  - https://onlinelibrary.wiley.com/doi/abs/10.1002/oca.2123
+  - https://github.com/alexliniger/MPCC
+audit_status: raw

@@ -1,6 +1,6 @@
 title: >
   FlashSAC: Fast and Stable Off-Policy Reinforcement Learning for High-Dimensional Robot Control
-algorithm:
+algorithm: FlashSAC
 authors:
   - Donghu Kim
   - Youngdo Lee

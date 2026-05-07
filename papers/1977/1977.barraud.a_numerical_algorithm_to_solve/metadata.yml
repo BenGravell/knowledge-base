@@ -1,0 +1,17 @@
+title: A numerical algorithm to solve AT X A - X = Q
+algorithm:
+authors:
+  - A. Barraud
+year: 1977
+source: >
+  1977 IEEE Conference on Decision and Control including the 16th Symposium on Adaptive Processes and A Special Symposium on Fuzzy Set Theory and Applications
+type: Conference Paper
+doi: 10.1109/CDC.1977.271607
+arxiv_id:
+tags:
+abstract: >
+  Two kinds of algorithm are usually resorted to in order to solve the well-known Lyapounov discrete equation AT X A - X = Q : transformation of the original linear system in a classical one with n(n+1)/2 unknowns, and iterative scheme [1]. The first requires n4/4 storage words and a cost of n6/3 multiplications, which is impractical with a large system, and the second applies only if A is a stable matrix. The solution proposed requires no stability assumption and operates in only some n2 words and n3 multiplications.
+summary: ''
+link: https://doi.org/10.1109/CDC.1977.271607
+links_alt:
+audit_status: raw

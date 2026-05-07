@@ -1,0 +1,18 @@
+title: "A Note on the Convergence of Newton's Method"
+authors:
+  - L. B. Rall
+year: 1974
+source: SIAM Journal on Numerical Analysis
+type: Journal Paper
+doi: 10.1137/0711004
+tags:
+  - Newton's method
+  - Convergence analysis
+  - Nonlinear equations
+  - Numerical analysis
+  - Quadratic convergence
+abstract: >
+summary: >
+  Provides refined conditions and tighter bounds on the local quadratic convergence of Newton's method for solving nonlinear equations in Banach spaces, extending classical Kantorovich-type analyses.
+link: https://epubs.siam.org/doi/10.1137/0711004
+audit_status: raw

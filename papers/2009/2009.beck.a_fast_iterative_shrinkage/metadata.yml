@@ -1,0 +1,20 @@
+title: "A Fast Iterative Shrinkage-Thresholding Algorithm for Linear Inverse Problems"
+authors:
+  - Amir Beck
+  - Marc Teboulle
+year: 2009
+source: SIAM Journal on Imaging Sciences
+type: Journal Paper
+doi: 10.1137/080716542
+tags:
+  - FISTA
+  - Proximal gradient
+  - Iterative shrinkage-thresholding
+  - Convex optimization
+  - Sparse recovery
+  - First-order methods
+abstract: >
+summary: >
+  Introduces FISTA (Fast Iterative Shrinkage-Thresholding Algorithm), an accelerated proximal gradient method achieving O(1/k²) convergence rate for composite convex minimization with a Lipschitz-smooth term and a proximal-friendly nonsmooth term such as L1 regularization. Extends ISTA with Nesterov-style momentum and became a foundational algorithm for sparse signal recovery and regularized optimization.
+link: https://epubs.siam.org/doi/10.1137/080716542
+audit_status: raw

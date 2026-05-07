@@ -1,0 +1,21 @@
+title: "Least-Squares Policy Iteration"
+authors:
+  - Michail G. Lagoudakis
+  - Ronald Parr
+year: 2003
+source: Journal of Machine Learning Research
+type: Journal Paper
+tags:
+  - Reinforcement learning
+  - Policy iteration
+  - Least squares
+  - Value function approximation
+  - LSPI
+  - Model-free control
+abstract: >
+summary: >
+  Introduces LSPI (Least-Squares Policy Iteration), combining approximate policy iteration with LSTD value estimation under linear function approximation. Enables offline, model-free, off-policy reinforcement learning with efficient data reuse across policy updates. Widely cited as a foundation for batch RL methods.
+link: https://www.jmlr.org/papers/v4/lagoudakis03a.html
+links_alt:
+  - https://users.cs.duke.edu/~parr/jmlr03.pdf
+audit_status: raw

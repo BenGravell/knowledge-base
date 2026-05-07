@@ -1,0 +1,18 @@
+title: "QuickMatch: A Very Fast Algorithm for the Assignment Problem"
+authors:
+  - James B. Orlin
+  - Yusin Lee
+year: 1993
+source: MIT Sloan School of Management
+type: Technical Report
+tags:
+  - Assignment problem
+  - Hungarian algorithm
+  - Combinatorial optimization
+  - Graph algorithms
+  - Matching
+abstract: >
+summary: >
+  Introduces QuickMatch, a fast practical algorithm for the linear assignment problem. Designed to exploit problem structure for speed in practice, complementing theoretically optimal but slow algorithms. An MIT Sloan working paper (WP 3547-93) targeting large-scale assignment instances.
+link: https://dspace.mit.edu/handle/1721.1/2460
+audit_status: raw

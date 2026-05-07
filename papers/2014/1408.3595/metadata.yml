@@ -1,0 +1,19 @@
+title: >
+  Analysis and Design of Optimization Algorithms via Integral Quadratic Constraints
+algorithm:
+authors:
+  - Laurent Lessard
+  - Benjamin Recht
+  - Andrew Packard
+year: 2014
+source:
+type: ''
+doi:
+arxiv_id: "1408.3595"
+tags:
+abstract: >
+  This manuscript develops a new framework to analyze and design iterative optimization algorithms built on the notion of Integral Quadratic Constraints (IQC) from robust control theory. IQCs provide sufficient conditions for the stability of complicated interconnected systems, and these conditions can be checked by semidefinite programming. We discuss how to adapt IQC theory to study optimization algorithms, proving new inequalities about convex functions and providing a version of IQC theory adapted for use by optimization researchers. Using these inequalities, we derive numerical upper bounds on convergence rates for the gradient method, the heavy-ball method, Nesterov's accelerated method, and related variants by solving small, simple semidefinite programming problems. We also briefly show how these techniques can be used to search for optimization algorithms with desired performance characteristics, establishing a new methodology for algorithm design.
+summary: ''
+link: https://arxiv.org/pdf/1408.3595
+links_alt:
+audit_status: raw

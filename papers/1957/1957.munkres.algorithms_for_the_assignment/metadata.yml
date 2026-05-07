@@ -1,0 +1,21 @@
+title: "Algorithms for the Assignment and Transportation Problems"
+algorithm: Munkres algorithm
+authors:
+  - James Munkres
+year: 1957
+source: Journal of the Society for Industrial and Applied Mathematics
+type: Journal Paper
+doi: 10.1137/0105003
+tags:
+  - Assignment problem
+  - Hungarian algorithm
+  - Transportation problem
+  - Combinatorial optimization
+  - Polynomial time algorithm
+abstract: >
+summary: >
+  Revisits the Hungarian method for the assignment problem and proves that it runs in polynomial time, giving the algorithm its modern form. Also extends the approach to the transportation problem.
+link: https://epubs.siam.org/doi/10.1137/0105003
+links_alt:
+  - https://www.jstor.org/stable/2098689
+audit_status: raw

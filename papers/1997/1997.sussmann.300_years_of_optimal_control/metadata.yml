@@ -1,0 +1,17 @@
+title: '300 years of optimal control: from the brachystochrone to the maximum principle'
+algorithm:
+authors:
+  - H.J. Sussmann
+  - J.C. Willems
+year: 1997
+source: IEEE Control Systems
+type: Journal Paper
+doi: 10.1109/37.588098
+arxiv_id:
+tags:
+abstract: >
+  An historical review of the development of optimal control from the publication of the brachystochrone problem by Johann Bernoulli in 1696. Ideas on curve minimization already known at the time are briefly outlined. The brachystochrone problem is stated and Bernoulli's solution is given. Bernoulli's personality and his family are discussed. The article then traces the development of the necessary conditions for a minimum, from the Euler-Lagrange equations to the work of Legendre and Weierstrass and, eventually, the maximum principle of optimal control theory.
+summary: ''
+link: https://doi.org/10.1109/37.588098
+links_alt:
+audit_status: raw

@@ -1,0 +1,18 @@
+title: >
+  LQG control with an H-infinity / performance bound: a Riccati equation approach
+algorithm:
+authors:
+  - D.S. Bernstein
+  - W.M. Haddad
+year: 1989
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/9.16419
+arxiv_id:
+tags:
+abstract: >
+  An LQG (linear quadratic Gaussian) control-design problem involving a constraint on H/sup infinity / disturbance attenuation is considered. The H/sup infinity / performance constraint is embedded within the optimization process by replacing the covariance Lyapunov equation by a Riccati equation whose solution leads to an upper bound on L/sub 2/ performance. In contrast to the pair of separated Riccati equations of standard LQG theory, the H/sup infinity /-constrained gains are given by a coupled system of three modified Riccati equations. The coupling illustrates the breakdown of the separation principle for the H/sup infinity /-constrained problem. Both full- and reduced-order design problems are considered with an H/sup infinity / attenuation constraint involving both state and control variables. An algorithm is developed for the full-order design problem and illustrative numerical results are given.< <ETX xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">&gt;</ETX>
+summary: ''
+link: https://doi.org/10.1109/9.16419
+links_alt:
+audit_status: raw

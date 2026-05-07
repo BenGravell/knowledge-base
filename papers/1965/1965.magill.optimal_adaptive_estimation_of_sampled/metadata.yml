@@ -1,0 +1,16 @@
+title: Optimal adaptive estimation of sampled stochastic processes
+algorithm:
+authors:
+  - D. Magill
+year: 1965
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.1965.1098191
+arxiv_id:
+tags:
+abstract: >
+  This work presents an adaptive approach to the problem of estimating a sampled, stochastic process described by an initially unknown parameter vector. Knowledge of this quantity completely specifies the statistics of the process, and consequently the optimal estimator must "learn" the value of the parameter vector. In order that construction of the optimal estimator be feasible it is necessary to consider only those processes whose parameter vector comes from a finite set of a priori known values. Fortunately, many practical problems may be represented or adequately approximated by such a model. The optimal estimator is found to be composed of a set of elemental estimators and a corresponding set of weighting coefficients, one pair for each possible value of the parameter vector. This structure is derived using properties of the conditional mean operator. For Gauss-Markov processes the elemental estimators are linear, dynamic systems, and evaluation of the weighting coefficients involves relatively simple, nonlinear calculations. The resulting system is optimum in the sense that it minimizes the expected value of a positive-definite, quadratic form in terms of the error (a generalized mean-square-error criterion). Because the system described in this work is optimal, it differs from previous attempts at adaptive estimation, all of which have used approximation techniques or sub-optimal, sequential, optimization procedures [12], [13], and [14].
+summary: ''
+link: https://doi.org/10.1109/TAC.1965.1098191
+links_alt:
+audit_status: raw

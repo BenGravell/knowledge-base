@@ -1,0 +1,22 @@
+title: "A Value for n-Person Games"
+algorithm: Shapley Value
+authors:
+  - Lloyd S. Shapley
+year: 1953
+source: Princeton University Press
+type: Other
+doi: 10.1515/9781400829156-012
+arxiv_id:
+tags:
+  - Game theory
+  - Cooperative games
+  - Shapley value
+  - Fair allocation
+  - Axiomatic game theory
+abstract:
+summary: >
+  Defines the Shapley Value, a unique allocation rule for cooperative n-player games derived from four axioms: efficiency, symmetry, the null player property, and additivity. The Shapley value assigns each player a fair share of the total coalition value based on their marginal contributions across all possible orderings. It became the mathematical foundation for SHAP feature attribution in machine learning.
+link: https://www.rand.org/content/dam/rand/pubs/papers/2021/P295.pdf
+links_alt:
+  - https://www.degruyterbrill.com/document/doi/10.1515/9781400829156-012/html
+audit_status: raw

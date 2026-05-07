@@ -1,0 +1,17 @@
+title: On optimal stationary control of systems with state dependent noise
+algorithm:
+authors:
+  - R. Rana
+  - A. Mahalanabis
+year: 1975
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.1975.1101056
+arxiv_id:
+tags:
+abstract: >
+  This note proposes a simplified existence criterion for the linear quadratic optimal control law for systems with state dependent noise.
+summary: ''
+link: https://doi.org/10.1109/TAC.1975.1101056
+links_alt:
+audit_status: raw

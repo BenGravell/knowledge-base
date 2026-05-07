@@ -1,0 +1,20 @@
+title: "On a Routing Problem"
+algorithm: Bellman-Ford
+authors:
+  - Richard Bellman
+year: 1958
+source: Quarterly of Applied Mathematics
+type: Journal Paper
+doi: 10.1090/qam/102435
+tags:
+  - Shortest path
+  - Graph search
+  - Dynamic programming
+  - Bellman-Ford algorithm
+  - Network routing
+abstract: >
+  This paper is devoted to the discussion of the determination of an optimal path between two cities in a network of roads where the travel time depends upon the road and possibly the time of departure and the direction of travel.
+summary: >
+  Introduces the Bellman-Ford shortest-path algorithm using dynamic programming, handling graphs with negative-weight edges and detecting negative cycles. Foundational to modern network routing and graph search.
+link: https://pubs.ams.org/journals/qam/1958-16-01/S0033-569X-1958-0102435-2/
+audit_status: raw

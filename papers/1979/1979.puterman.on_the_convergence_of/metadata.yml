@@ -1,0 +1,20 @@
+title: "On the Convergence of Policy Iteration in Stationary Dynamic Programming"
+authors:
+  - Martin L. Puterman
+  - Shelby L. Brumelle
+year: 1979
+source: Mathematics of Operations Research
+type: Journal Paper
+doi: 10.1287/moor.4.1.60
+tags:
+  - Policy iteration
+  - Dynamic programming
+  - Convergence
+  - Newton-Kantorovich iteration
+  - Markov decision processes
+  - Reinforcement learning
+abstract: >
+summary: >
+  Proves that policy iteration in stationary dynamic programming is equivalent to Newton-Kantorovich iteration on the Bellman operator, yielding superlinear (quadratic) convergence rates. Provides error bounds for finite-state MDPs and establishes a foundational connection between policy iteration and Newton-type numerical methods.
+link: https://pubsonline.informs.org/doi/10.1287/moor.4.1.60
+audit_status: raw

@@ -1,0 +1,20 @@
+title: "Motion Planning in Dynamic Environments Using Velocity Obstacles"
+authors:
+  - Paolo Fiorini
+  - Zvi Shiller
+year: 1998
+source: The International Journal of Robotics Research
+type: Journal Paper
+doi: 10.1177/027836499801700706
+tags:
+  - Motion planning
+  - Velocity obstacles
+  - Dynamic environments
+  - Collision avoidance
+  - Robot navigation
+  - Moving obstacles
+abstract: >
+summary: >
+  Introduces the velocity obstacle (VO) concept: a set of velocities in velocity space that would lead to collision with a moving obstacle. The robot plans collision-free motion by selecting velocities outside all VOs, filtered through its acceleration limits. The foundational paper for VO-based collision avoidance, spawning the RVO and ORCA family of methods.
+link: https://doi.org/10.1177/027836499801700706
+audit_status: raw

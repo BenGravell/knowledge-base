@@ -1,0 +1,18 @@
+title: On Symplectic Optimization
+algorithm:
+authors:
+  - Michael Betancourt
+  - Michael I. Jordan
+  - Ashia C. Wilson
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1802.03653"
+tags:
+abstract: >
+  Accelerated gradient methods have had significant impact in machine learning -- in particular the theoretical side of machine learning -- due to their ability to achieve oracle lower bounds. But their heuristic construction has hindered their full integration into the practical machine-learning algorithmic toolbox, and has limited their scope. In this paper we build on recent work which casts acceleration as a phenomenon best explained in continuous time, and we augment that picture by providing a systematic methodology for converting continuous-time dynamics into discrete-time algorithms while retaining oracle rates. Our framework is based on ideas from Hamiltonian dynamical systems and symplectic integration. These ideas have had major impact in many areas in applied mathematics, but have not yet been seen to have a relationship with optimization.
+summary: ''
+link: https://arxiv.org/pdf/1802.03653
+links_alt:
+audit_status: raw

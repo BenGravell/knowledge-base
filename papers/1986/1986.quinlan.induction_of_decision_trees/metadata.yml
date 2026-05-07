@@ -1,0 +1,24 @@
+title: "Induction of Decision Trees"
+algorithm: ID3
+authors:
+  - J. R. Quinlan
+year: 1986
+source: Machine Learning
+type: Journal Paper
+doi: 10.1007/BF00116251
+arxiv_id:
+tags:
+  - Decision trees
+  - ID3
+  - Information theory
+  - Classification
+  - Machine learning
+  - Inductive learning
+abstract: >
+  The technology for building knowledge-based systems by inductive inference from examples has been demonstrated successfully in several practical applications. This paper summarizes an approach to synthesizing decision trees that has been used in a variety of systems, and it describes one such system, ID3, in detail. Results from recent studies show ways in which the methodology can be modified to deal with information that is noisy and/or incomplete. A reported shortcoming of the basic algorithm is discussed and two means of overcoming it are compared.
+summary: >
+  Introduces ID3, a decision tree induction algorithm using information gain (entropy reduction) as the splitting criterion. ID3 popularized top-down inductive learning of decision trees and directly motivated C4.5, CART, and the broader field of tree-based machine learning.
+link: https://hunch.net/~coms-4771/quinlan.pdf
+links_alt:
+  - https://link.springer.com/article/10.1007/BF00116251
+audit_status: raw
