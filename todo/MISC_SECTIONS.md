@@ -27,17 +27,11 @@ Levenberg-Marquadt
 ## AV Safety Concepts
 
 https://iot-automotive.news/rss-explained-the-five-rules-for-autonomous-vehicle-safety/
-
 https://www.mobileye.com/technology/true-redundancy/
-
 https://kodiak.ai/safety-report
-
 https://www.nvidia.com/content/dam/en-zz/Solutions/self-driving-cars/safety-force-field/an-introduction-to-the-safety-force-field-v2.pdf
-
 https://ieeexplore.ieee.org/document/9575420
-
 https://ieeexplore.ieee.org/document/9304563
-
 https://ieeexplore.ieee.org/document/9575928
 
 ## A* graph search
@@ -70,8 +64,7 @@ https://www.argmin.net/p/reticulating-splines
 ## Clothoids
 
 https://seminariomatematico.polito.it/rendiconti/76-2/47.pdf
-
-https://github.com/ebertolazzi/Clothoids 
+https://github.com/ebertolazzi/Clothoids
 
 ## Central64
 
@@ -97,17 +90,13 @@ Lots of good ideas:
 # Safety, Testing, Verification, Validation
 
 [A Safety-first Approach to Explainable E2E Autonomous Driving | Einride Engineering](https://einride.engineering/blog/a-safety-first-approach-to-explainable-e2e-autonomous-driving)
-
 [Redundancy in autonomous vehicles: Steering, Braking and Power systems | Einride Engineering](https://einride.engineering/blog/redundancy-in-autonomous-vehicles-steering-braking-and-power-systems)
-
 [Quantifying What-Ifs in Simulation | Nuro](https://www.nuro.ai/blog/quantifying-what-ifs-in-simulation)
 
 # MISC packages
 
 https://github.com/iit-DLSLab/Quadruped-PyMPC
-
 https://dspace.mit.edu/bitstream/handle/1721.1/119149/16-412j-spring-2005/contents/projects/1aslam_blas_repo.pdf 
-
 https://isaac.earth/torchid/
 
 # MISC sections
@@ -144,7 +133,6 @@ Florian Dorfler & Friends
 ### **trajax: Differentiable Trajectory Optimization using JAX**
 
 [GitHub - google/trajax](https://github.com/google/trajax/tree/main)
-
 [Tutorials – 5th L4DC Conference](https://l4dc.seas.upenn.edu/tutorials/)
 
 ## Tesla
