@@ -70,6 +70,14 @@ knowledge-base/
 
 2. Insert the returned entries into the `nav` tree in `knowledge_base/mkdocs.yml` at appropriate places. Reuse existing categories where possible; create new ones only when no existing category fits conceptually.
 
+### Generate metadata for a group of papers
+
+Collect papers from the location/file given by the user.
+
+Use subsection headers and other contextual clues to determine where each paper belongs in the `nav` hierarchy in `knowledge_base/mkdocs.yml`.
+
+For each paper, perform the agent task "Generate metadata for a single paper"
+
 ### Generate metadata for a single paper
 
 1. Use `knowledge_base/docs/templates/metadata.yml` as the template.
@@ -98,13 +106,6 @@ knowledge-base/
     - links_alt: List of alternate links. Start with freely openable paper links first, place paywalled links at the end. Also include links to supporting material such as code repos or packages associated with the item.
     - audit_status: Audit status of the item. See VALID_AUDIT_STATUSES in config.py for definitions and valid values.
 
-### Generate metadata for a group of papers
-
-Collect papers from the location/file given by the user.
-
-Use subsection headers and other contextual clues to determine where each paper belongs in the `nav` hierarchy in `knowledge_base/mkdocs.yml`.
-
-For each paper, perform "Generate metadata for a single paper"
 
 ### Audit and fix raw metadata
 
