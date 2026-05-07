@@ -1,0 +1,19 @@
+title: "Optimal Stationary Control with State and Control Dependent Noise"
+authors:
+  - U. G. Haussmann
+year: 1971
+source: SIAM Journal on Control
+type: Journal Paper
+doi: 10.1137/0309016
+tags:
+  - Stochastic control
+  - Multiplicative noise
+  - State-dependent noise
+  - Control-dependent noise
+  - Algebraic Riccati equation
+  - Optimal control
+abstract: >
+summary: >
+  Generalizes stochastic LQR to linear systems where noise depends on both the state and the control input, deriving modified Riccati equations for the optimal stationary feedback law. Extends the results of Wonham (1967) to the control-dependent noise case.
+link: https://epubs.siam.org/doi/10.1137/0309016
+audit_status: raw

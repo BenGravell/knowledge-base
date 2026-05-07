@@ -1,0 +1,22 @@
+title: "Correct Equations for the Dynamics of the Cart-Pole System"
+algorithm:
+authors:
+  - Razvan V. Florian
+year: 2007
+source: Center for Cognitive and Neural Studies (Coneural)
+type: Technical Report
+doi:
+arxiv_id:
+tags:
+  - Cart-pole
+  - Inverted pendulum
+  - Equations of motion
+  - Reinforcement learning
+  - Control
+abstract: >
+  The cart-pole system is one of the most popular benchmark problems in control and reinforcement learning. However, some commonly used equations of motion for this system contain errors. We derive the correct equations of motion for the cart-pole system, considering both the forces applied to the cart and the friction at the hinge and between the cart and the track. We also provide correct equations for the case when the pole can fall out of the allowed region.
+summary: >
+  Derives corrected equations of motion for the cart-pole system, fixing errors present in commonly used formulations (notably the one in Barto-Sutton-Anderson 1983 and subsequent RL literature). A frequently cited reference for obtaining physically accurate cart-pole dynamics in simulation.
+link: https://coneural.org/florian/papers/05_cart_pole.pdf
+links_alt:
+audit_status: raw

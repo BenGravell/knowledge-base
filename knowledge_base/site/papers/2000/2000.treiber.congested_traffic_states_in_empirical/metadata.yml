@@ -1,0 +1,26 @@
+title: "Congested Traffic States in Empirical Observations and Microscopic Simulations"
+algorithm: IDM
+authors:
+  - Martin Treiber
+  - Ansgar Hennecke
+  - Dirk Helbing
+year: 2000
+source: Physical Review E
+type: Journal Paper
+doi: 10.1103/PhysRevE.62.1805
+arxiv_id: "cond-mat/0002177"
+tags:
+  - Traffic modeling
+  - Intelligent driver model
+  - Microscopic simulation
+  - Car following
+  - Traffic flow
+  - Autonomous vehicles
+abstract: >
+  We present data from several German freeways showing different kinds of congested traffic forming near road inhomogeneities, specifically lane closings, intersections, or uphill gradients. The states are localized or extended, homogeneous or oscillating. Combined states are observed as well, like the coexistence of moving localized clusters and clusters pinned at road inhomogeneities, or regions of oscillating congested traffic upstream of nearly homogeneous congested traffic. The experimental findings are consistent with a recently proposed theoretical phase diagram for traffic near on-ramps [D. Helbing, A. Hennecke, and M. Treiber, Phys. Rev. Lett. 82, 4360 (1999)]. We simulate these situations with a novel continuous microscopic single-lane model, the "intelligent driver model" (IDM), using the empirical boundary conditions. All observations, including the coexistence of states, are qualitatively reproduced by describing inhomogeneities with local variations of one model parameter. We show that the results of the microscopic model can be understood by formulating the theoretical phase diagram for bottlenecks in a more general way. In particular, a local drop of the road capacity induced by parameter variations has practically the same effect as an on-ramp.
+summary: >
+  Introduces the Intelligent Driver Model (IDM), a continuous microscopic car-following model that reproduces congested traffic phases observed on German freeways. IDM became the standard baseline car-following model in autonomous driving simulation and is widely used as a simple, interpretable longitudinal behavior model.
+link: https://arxiv.org/pdf/cond-mat/0002177
+links_alt:
+  - https://journals.aps.org/pre/abstract/10.1103/PhysRevE.62.1805
+audit_status: raw

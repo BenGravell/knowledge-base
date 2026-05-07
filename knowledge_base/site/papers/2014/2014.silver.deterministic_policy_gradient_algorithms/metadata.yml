@@ -1,0 +1,23 @@
+title: "Deterministic Policy Gradient Algorithms"
+authors:
+  - David Silver
+  - Guy Lever
+  - Nicolas Heess
+  - Thomas Degris
+  - Daan Wierstra
+  - Martin Riedmiller
+year: 2014
+source: International Conference on Machine Learning
+type: Conference Paper
+tags:
+  - Reinforcement learning
+  - Policy gradient
+  - Deterministic policy
+  - Actor-critic
+  - Continuous action spaces
+  - Model-free control
+abstract: >
+summary: >
+  Derives a deterministic policy gradient (DPG) theorem for model-free RL with continuous action spaces, showing that the deterministic policy gradient equals the expected gradient of the action-value function and is computable without integrating over actions. Introduces compatible function approximation and off-policy actor-critic algorithms, forming the theoretical foundation for DDPG and related methods.
+link: http://proceedings.mlr.press/v32/silver14.html
+audit_status: raw

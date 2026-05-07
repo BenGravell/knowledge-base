@@ -1,0 +1,19 @@
+title: "On the Separation Theorem of Stochastic Control"
+authors:
+  - W. M. Wonham
+year: 1968
+source: SIAM Journal on Control
+type: Journal Paper
+doi: 10.1137/0306023
+tags:
+  - Stochastic control
+  - Separation theorem
+  - Certainty equivalence
+  - Kalman filter
+  - LQG control
+  - Optimal control
+abstract: >
+summary: >
+  Proves the separation theorem for linear-Gaussian stochastic control: the optimal policy decomposes into a Kalman filter for state estimation and an LQR feedback law computed as if the state were known. Establishes the theoretical foundation for LQG control and certainty-equivalence principles.
+link: https://epubs.siam.org/doi/10.1137/0306023
+audit_status: raw

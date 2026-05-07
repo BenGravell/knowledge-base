@@ -1,0 +1,17 @@
+title: "Suboptimal Design of Linear Regulator Systems Subject to Computer Storage Limitations"
+authors:
+  - David L. Kleinman
+year: 1967
+source: Massachusetts Institute of Technology
+type: PhD Dissertation
+tags:
+  - Linear quadratic regulator
+  - Suboptimal control
+  - Computational constraints
+  - State feedback
+  - Optimal control
+abstract: >
+summary: >
+  Develops methods for designing suboptimal linear regulators when computer storage constraints limit the complexity of the feedback law. Studies how to approximate optimal LQR controllers under computational restrictions, with relevance to real-time embedded control systems of the era.
+link: https://dspace.mit.edu/handle/1721.1/31024
+audit_status: raw

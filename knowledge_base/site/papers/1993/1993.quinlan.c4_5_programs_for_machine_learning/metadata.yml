@@ -1,0 +1,22 @@
+title: "C4.5: Programs for Machine Learning"
+algorithm: C4.5
+authors:
+  - J. Ross Quinlan
+year: 1993
+source: Morgan Kaufmann
+type: Other
+doi:
+arxiv_id:
+tags:
+  - Decision trees
+  - C4.5
+  - Classification
+  - Machine learning
+  - Gain ratio
+  - Pruning
+abstract:
+summary: >
+  Extends the ID3 algorithm into C4.5, adding gain ratio (to correct ID3's bias toward high-cardinality attributes), cost-sensitive learning, handling of continuous attributes, pruning by estimated error rate, and direct handling of missing values. C4.5 was historically one of the most used decision-tree systems and the basis for Weka's J48 classifier.
+link: https://dl.acm.org/doi/book/10.5555/152181
+links_alt:
+audit_status: raw

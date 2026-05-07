@@ -9,11 +9,19 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/explainers/adversarial_training_robot_safety/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/explainers/akino_pdf/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/explainers/differential_flatness/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/explainers/explorations_in_dynamics/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -29,11 +37,27 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/explainers/permutation_invariant_nn_rl/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/explainers/polyak_lojasiewicz/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/explainers/respect_the_unstable/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/explainers/waymo_ai/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/explainers/pid/pid/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/0711_1612/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -61,6 +85,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1212_1269/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1305_6644/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -70,6 +98,10 @@
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1312_0041/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1312_5602/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -101,6 +133,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1408_3595/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1408_4408/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -121,6 +157,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1412_6980/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1501_01571/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -133,11 +173,19 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1502_04759/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1502_05477/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1502_05767/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1503_01243/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -161,6 +209,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1506_02438/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1507_08752/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -169,7 +221,15 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1509_02971/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1509_03580/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1509_06461/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -177,7 +237,19 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1511_05952/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1511_06581/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1512_03385/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1602_01783/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -229,6 +301,18 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1611_01224/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1611_02247/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1612_03239/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1612_05628/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -261,6 +345,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1705_07874/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1706_03762/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -277,6 +365,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1707_02286/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1707_02342/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -286,6 +378,10 @@
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1707_07239/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1708_05144/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -313,6 +409,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1710_02298/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1710_09483/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -325,6 +425,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1711_03938/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1711_05101/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -334,6 +438,10 @@
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1711_06178/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1711_07300/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -353,6 +461,14 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1801_01290/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1801_05039/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1801_08995/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -361,11 +477,27 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1802_03653/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1802_03888/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1802_06175/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1802_06640/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1802_08334/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1802_09477/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -386,6 +518,14 @@
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1805_05533/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1805_09388/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1805_10367/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -417,6 +557,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1809_08830/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1809_10252/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -437,7 +581,15 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1811_05890/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1811_10154/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1812_08305/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -461,6 +613,14 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1903_04100/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1903_09122/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1903_11199/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -477,6 +637,18 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1905_12842/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1906_00729/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1906_11392/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1906_11395/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -485,11 +657,19 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1907_08921/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1908_10396/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1909_04939/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1909_04947/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -505,11 +685,19 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1910_08615/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1910_13051/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1910_13204/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1911_06317/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -525,7 +713,47 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1953_shapley_a_value_for_n_person_games/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1955_kuhn_the_hungarian_method_for/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1957_dubins_on_curves_of_minimal/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1957_munkres_algorithms_for_the_assignment/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1958_bellman_on_a_routing_problem/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1958_sion_on_general_minimax_theorems/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1959_dijkstra_a_note_on_two_problems/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1960_kalman_a_new_approach_to/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1962_bryson_a_steepest_ascent_method/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1963_morgan_problems_in_the_analysis_of_survey_data/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1963_polyak_gradient_methods_for_the_minimisation/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -534,6 +762,46 @@
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1964_williams_algorithm_232_heapsort/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1965_bogdanoff_experiments_with_an_inverted/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1965_magill_optimal_adaptive_estimation_of_sampled/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1966_zames_on_the_input_output_stability/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1967_kleinman_suboptimal_design_of_linear/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1967_wonham_optimal_stationary_control_of/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1968_davison_the_numerical_solution_of_amp/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1968_kleinman_on_an_iterative_technique_for/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1968_wonham_on_the_separation_theorem/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1969_kleinman_optimal_stationary_control_of_linear/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1969_kozin_a_survey_of_stability_of/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -553,7 +821,35 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1970_mclane_the_optimal_regulator_problem/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1970_mehra_on_the_identification_of_variances/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1971_haussmann_optimal_stationary_control_with/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1971_hewer_an_iterative_technique_for_the/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1972_dijkstra_the_humble_programmer/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1972_ikeda_stabilization_of_linear_systems/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1972_karp_reducibility_among_combinatorial_problems/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1973_molinari_the_stabilizing_solution_of/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -565,7 +861,39 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1974_rall_a_note_on_the/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1975_bentley_multidimensional_binary_search_trees_used/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1975_francis_the_internal_model_principle_for/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1975_gustafson_design_of_linear_regulators/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1975_rana_on_optimal_stationary_control_of/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1976_athans_the_uncertainty_threshold_principle_fundamental/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1976_kleinman_numerical_solution_of_the_state/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1976_mageirou_values_and_strategies_for_infinite/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1977_barraud_a_numerical_algorithm_to_solve/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -589,7 +917,15 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1979_puterman_on_the_convergence_of/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1980_dormand_a_family_of_embedded_runge/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1980_kass_an_exploratory_technique_for/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -597,7 +933,15 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1983_barto_neuronlike_adaptive_elements_that_can/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1983_lozano_spatial_planning_a_configuration_space/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1984_breiman_classification_and_regression_trees/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -605,7 +949,15 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1984_murray_differential_dynamic_programming_and_newton/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1985_bobrow_time_optimal_control_of/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1985_cuyt_computational_implementation_of_the_multivariate/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -622,6 +974,10 @@
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1986_canny_a_computational_approach_to_edge/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1986_quinlan_induction_of_decision_trees/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -653,11 +1009,23 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1989_bernstein_lqg_control_with_an_h/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1989_doyle_state_space_solutions_to_standard/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1989_sontag_a_universal_construction_of_artstein/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1990_reeds_optimal_paths_for_a/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1991_davidon_variable_metric_method_for_minimization/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -669,6 +1037,14 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1992_kollerstrom_thomas_simpson_and_newtons/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1992_neto_on_the_robustness_of_lq/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1992_williams_simple_statistical_gradient_following_algorithms/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -677,11 +1053,47 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1993_juang_identification_of_observer_kalman_filter/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1993_orlin_quickmatch_a_very_fast/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1993_quinlan_c4_5_programs_for_machine_learning/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1994_bradtke_adaptive_linear_quadratic_control_using/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1994_overschee_n4sid_numerical_algorithms_for/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1994_sims_evolving_virtual_creatures/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1995_cortes_support_vector_networks/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1995_ghaoui_state_feedback_control_of_systems/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1995_spong_the_swing_up_control/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1995_wilamowsky_how_the_oldest_recorded_multiple/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1996_breiman_bagging_predictors/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -705,11 +1117,31 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1997_gutierrez_new_recurrence_relations_for_chebyshev/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1997_hochreiter_long_short_term_memory/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1997_hsu_path_planning_in_expansive_configuration/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1997_julier_new_extension_of_the/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1997_megretski_system_analysis_via_integral_quadratic/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1997_scheuer_continuous_curvature_path_planning/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1997_sussmann_300_years_of_optimal_control/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -718,6 +1150,10 @@
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/1997_wegenkittl_animating_flow_fields_rendering_of/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/1998_fiorini_motion_planning_in_dynamic/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -753,7 +1189,35 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2000_treiber_congested_traffic_states_in_empirical/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2000_wan_the_unscented_kalman_filter_for/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2001_03093/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2001_breiman_random_forests/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2001_damm_newton_s_method_for_a/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2001_friedman_greedy_function_approximation/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2001_gutierrez_an_acceleration_of_newton_s/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2001_kakade_a_natural_policy_gradient/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -773,6 +1237,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2002_julier_the_scaled_unscented_transformation/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2003_02218/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -785,6 +1253,14 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2003_lagoudakis_least_squares_policy_iteration/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2003_unknown_respect_the_unstable/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2004_06801/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -793,7 +1269,19 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2004_botea_near_optimal_hierarchical_path_finding/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2004_de_la_pena_self_normalized_processes_exponential/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2004_fraichard_from_reeds_and_shepps/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2004_homeier_a_modified_newton_method_with/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -841,6 +1329,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2005_willems_a_note_on_persistency_of/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2006_06835/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -861,7 +1353,23 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2006_hothorn_unbiased_recursive_partitioning/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2006_lincoln_relaxing_dynamic_programming/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2006_nesterov_cubic_regularization_of_newton_method/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2007_arthur_k_means_the_advantages_of/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2007_florian_correct_equations_for_the_dynamics/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -881,6 +1389,18 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2008_albeanu_on_the_generalized_halley/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2008_berg_reciprocal_velocity_obstacles_for_real/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2008_rahimi_weighted_sums_of_random/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2008_rickert_balancing_exploration_and_exploitation/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -897,7 +1417,15 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2009_beck_a_fast_iterative_shrinkage/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2009_kuwata_real_time_motion_planning_with/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2009_nedic_subgradient_methods_for_saddle_point/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -965,6 +1493,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2011_abbasi_yadkori_regret_bounds_for_the/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2011_berg_reciprocal_n_body_collision_avoidance/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -978,6 +1510,18 @@
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2011_karaman_anytime_motion_planning_using/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2011_kucera_a_method_to_teach_the/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2011_mellinger_minimum_snap_trajectory_generation_and/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2011_zucker_optimization_and_learning_for_rough/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -1041,6 +1585,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2013_turpin_goal_assignment_and_trajectory/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2013_yang_spline_based_rrt_path/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -1069,6 +1617,14 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2014_parikh_proximal_algorithms/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2014_silver_deterministic_policy_gradient_algorithms/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2014_sintov_time_based_rrt_algorithm_for/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -1085,6 +1641,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2015_nesterov_random_gradient_free_minimization_of/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2015_otte_rrtx_asymptotically_optimal_single/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -1097,11 +1657,19 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2016_choi_constrained_global_path_optimization/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2016_choudhury_regionally_accelerated_batch_informed/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2016_hutter_anymal_a_highly_mobile_and/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2016_karimi_linear_convergence_of_gradient_and/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -1129,7 +1697,15 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2018_gao_randomized_greedy_algorithms_for_covering/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2018_hachem_technological_challenges_and_optimization_efforts/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2018_honig_trajectory_planning_for_quadrotor_swarms/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -1142,6 +1718,10 @@
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2018_schwarting_planning_and_decision_making/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2018_summers_distributionally_robust_sampling_based_motion/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -1306,6 +1886,10 @@
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2024_jallet_real_time_constrained_trajectory/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2024_niu_quintic_bezier_curve/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -2141,6 +2725,10 @@
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2506_07823/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2506_11513/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
@@ -2162,6 +2750,10 @@
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2507_00792/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2507_02131/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>
@@ -2510,6 +3102,10 @@
     </url>
     <url>
          <loc>https://bengravell.github.io/knowledge-base/papers/2604_23951/</loc>
+         <lastmod>2026-05-07</lastmod>
+    </url>
+    <url>
+         <loc>https://bengravell.github.io/knowledge-base/papers/2604_24064/</loc>
          <lastmod>2026-05-07</lastmod>
     </url>
     <url>

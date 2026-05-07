@@ -1,0 +1,17 @@
+title: >
+  An iterative technique for the computation of the steady state gains for the discrete optimal regulator
+algorithm:
+authors:
+  - G. Hewer
+year: 1971
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.1971.1099755
+arxiv_id:
+tags:
+abstract: >
+  In this correspondence an algorithm is presented for computing the steady-state optimal feedback law of the discrete-time invariant linear regulator that converges quadratically in a neighborhood of the steady state.
+summary: ''
+link: https://doi.org/10.1109/TAC.1971.1099755
+links_alt:
+audit_status: raw

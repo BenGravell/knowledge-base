@@ -1,0 +1,17 @@
+title: System analysis via integral quadratic constraints
+algorithm:
+authors:
+  - A. Megretski
+  - A. Rantzer
+year: 1997
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/9.587335
+arxiv_id:
+tags:
+abstract: >
+  This paper introduces a unified approach to robustness analysis with respect to nonlinearities, time variations, and uncertain parameters. From an original idea by Yakubovich (1967), the approach has been developed under a combination of influences from the Western and Russian traditions of control theory. It is shown how a complex system can be described, using integral quadratic constraints (IQC) for its elementary components. A stability theorem for systems described by IQCs is presented that covers classical passivity/dissipativity arguments but simplifies the use of multipliers and the treatment of causality. A systematic computational approach is described, and relations to other methods of stability analysis are discussed. Last, but not least, the paper contains a summarizing list of IQCs for important types of system components.
+summary: ''
+link: https://doi.org/10.1109/9.587335
+links_alt:
+audit_status: raw

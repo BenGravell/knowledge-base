@@ -1,0 +1,22 @@
+title: "Goal Assignment and Trajectory Planning for Large Teams of Aerial Robots"
+authors:
+  - Matthew Turpin
+  - Kartik Mohta
+  - Nathan Michael
+  - Vijay Kumar
+year: 2013
+source: "Robotics: Science and Systems"
+type: Conference Paper
+tags:
+  - Multi-robot systems
+  - Goal assignment
+  - Trajectory planning
+  - Quadrotors
+  - UAV swarms
+  - Hungarian algorithm
+  - Multi-agent systems
+abstract: >
+summary: >
+  Addresses the combined goal assignment and collision-free trajectory planning problem for large teams of quadrotor aerial robots. Exploits symmetry of quadrotor dynamics to show that optimal assignment and trajectory generation can be solved efficiently and independently, enabling scalable planning for tens to hundreds of UAVs.
+link: https://www.roboticsproceedings.org/rss09/p33.pdf
+audit_status: raw

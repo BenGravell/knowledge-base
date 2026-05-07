@@ -1,0 +1,19 @@
+title: "Weighted Sums of Random Kitchen Sinks: Replacing Minimization with Randomization in Learning"
+authors:
+  - Ali Rahimi
+  - Benjamin Recht
+year: 2008
+source: Advances in Neural Information Processing Systems
+type: Conference Paper
+tags:
+  - Random features
+  - Kernel methods
+  - Randomization
+  - Function approximation
+  - Learning theory
+  - Machine learning
+abstract: >
+summary: >
+  Shows that randomly-weighted sums of random kitchen-sink basis functions (random Fourier features) can uniformly approximate any target function in a reproducing kernel Hilbert space, replacing costly convex minimization with a randomized learning algorithm. Establishes approximation bounds and demonstrates competitive empirical performance. Companion to the authors' 2007 random features paper.
+link: https://papers.nips.cc/paper_files/paper/2008/hash/0efe32849d230d7f53049ddc4a4b0c60-Abstract.html
+audit_status: raw

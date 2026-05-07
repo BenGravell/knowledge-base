@@ -1,0 +1,20 @@
+title: "Design of Linear Regulators for Nonlinear Stochastic Systems"
+authors:
+  - Donald E. Gustafson
+  - Jason L. Speyer
+year: 1975
+source: Journal of Spacecraft and Rockets
+type: Journal Paper
+doi: 10.2514/3.56987
+tags:
+  - Stochastic control
+  - Linear quadratic regulator
+  - Nonlinear systems
+  - Linearization
+  - LQR design
+  - Trajectory optimization
+abstract: >
+summary: >
+  Develops a methodology for designing linear regulators for nonlinear stochastic systems by linearizing about a nominal trajectory and applying LQR synthesis to the resulting linear stochastic model. Provides a practical design framework for near-optimal control of nonlinear systems encountered in aerospace applications.
+link: https://arc.aiaa.org/doi/10.2514/3.56987
+audit_status: raw

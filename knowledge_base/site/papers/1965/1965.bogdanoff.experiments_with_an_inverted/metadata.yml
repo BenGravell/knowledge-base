@@ -1,0 +1,19 @@
+title: "Experiments with an Inverted Pendulum Subject to Random Parametric Excitation"
+authors:
+  - J. L. Bogdanoff
+  - S. J. Citron
+year: 1965
+source: Journal of the Acoustical Society of America
+type: Journal Paper
+doi: 10.1121/1.1909711
+tags:
+  - Inverted pendulum
+  - Stochastic stability
+  - Parametric excitation
+  - Random vibration
+  - Stochastic control
+abstract: >
+summary: >
+  Provides experimental verification that an inverted pendulum can be stabilized by second-order stationary random parametric excitation with a discrete-power spectral density, confirming theoretical stability predictions for stochastically driven unstable linear systems.
+link: https://pubs.aip.org/asa/jasa/article-abstract/38/3/447/646775/Experiments-with-an-Inverted-Pendulum-Subject-to
+audit_status: raw

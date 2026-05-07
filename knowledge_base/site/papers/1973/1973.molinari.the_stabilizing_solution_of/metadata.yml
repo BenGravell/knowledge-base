@@ -1,0 +1,19 @@
+title: "The Stabilizing Solution of the Algebraic Riccati Equation"
+authors:
+  - B. P. Molinari
+year: 1973
+source: SIAM Journal on Control
+type: Journal Paper
+doi: 10.1137/0311021
+tags:
+  - Algebraic Riccati equation
+  - LQR
+  - Stabilizing solution
+  - Optimal control
+  - Linear quadratic regulator
+  - Existence conditions
+abstract: >
+summary: >
+  Characterizes the stabilizing solution of the algebraic Riccati equation arising in LQR design, establishing necessary and sufficient conditions for its existence and uniqueness. A key reference for the theoretical foundations of Riccati-based optimal control synthesis.
+link: https://epubs.siam.org/doi/10.1137/0311021
+audit_status: raw

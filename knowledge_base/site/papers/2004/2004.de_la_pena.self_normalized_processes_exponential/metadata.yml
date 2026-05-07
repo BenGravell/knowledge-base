@@ -1,0 +1,28 @@
+title: "Self-Normalized Processes: Exponential Inequalities, Moment Bounds and Iterated Logarithm Laws"
+algorithm:
+authors:
+  - Victor H. de la Pena
+  - Michael J. Klass
+  - Tze Leung Lai
+year: 2004
+source: Annals of Probability
+type: Journal Paper
+doi: 10.1214/009117904000000397
+arxiv_id: "math/0410102"
+tags:
+  - Self-normalized processes
+  - Martingales
+  - Law of the iterated logarithm
+  - Exponential inequalities
+  - Probability theory
+  - Supermartingales
+  - Sequential analysis
+abstract: >
+  Self-normalized processes arise naturally in statistical applications. Being unit free, they are not affected by scale changes. Moreover, self-normalization often eliminates or weakens moment assumptions. In this paper we present several exponential and moment inequalities, particularly those related to laws of the iterated logarithm, for self-normalized random variables including martingales. Tail probability bounds are also derived. For random variables B_t>0 and A_t, let Y_t(λ)=exp{λ A_t-λ^2 B_t^2/2}. We develop inequalities for the moments of A_t/B_t or sup_{t≥0} A_t/{B_t(\log\log B_t)^{1/2}} and variants thereof, when EY_t(λ)≤1 or when Y_t(λ) is a supermartingale, for all λ belonging to some interval. Our results are valid for a wide class of random processes including continuous martingales with A_t=M_t and B_t=\sqrt{<M>_t}, and sums of conditionally symmetric variables d_i with A_t=\sum_{i=1}^t d_i and B_t=\sqrt{\sum_{i=1}^t d_i^2}. A sharp maximal inequality for conditionally symmetric random variables and for continuous local martingales with values in R^m, m≥1, is also established. Another development in this paper is a bounded law of the iterated logarithm for general adapted sequences that are centered at certain truncated conditional expectations and self-normalized by the square root of the sum of squares. The key ingredient in this development is a new exponential supermartingale involving \sum_{i=1}^t d_i and \sum_{i=1}^t d_i^2.
+summary: >
+  Derives exponential inequalities and moment bounds for self-normalized random variables and martingales, with a focus on laws of the iterated logarithm. The central device is an exponential supermartingale Y_t(λ) built from a process A_t and its self-normalizer B_t; when Y_t(λ) ≤ 1 in expectation or is a supermartingale, tight tail and moment bounds follow. The paper also establishes a bounded LIL for general adapted sequences centered at truncated conditional expectations.
+link: https://arxiv.org/pdf/math/0410102
+links_alt:
+  - https://arxiv.org/abs/math/0410102
+  - https://doi.org/10.1214/009117904000000397
+audit_status: raw

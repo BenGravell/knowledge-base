@@ -1,0 +1,25 @@
+title: "Problems in the Analysis of Survey Data, and a Proposal"
+algorithm: AID
+authors:
+  - James N. Morgan
+  - John A. Sonquist
+year: 1963
+source: Journal of the American Statistical Association
+type: Journal Paper
+doi: 10.1080/01621459.1963.10500855
+arxiv_id:
+tags:
+  - Decision trees
+  - AID
+  - Survey data analysis
+  - Regression trees
+  - Interaction detection
+  - Statistical learning
+abstract: >
+  Most of the problems of analyzing survey data have been reasonably well handled, except those revolving around the existence of interaction effects. Indeed, increased efficiency in handling multivariate analyses even with non-numerical variables, has been achieved largely by assuming additivity. An approach to survey data is proposed which imposes no restrictions on interaction effects, focuses on importance in reducing predictive error, operates sequentially, and is independent of the extent of linearity in the classifications or the order in which the explanatory factors are introduced.
+summary: >
+  Introduces AID (Automatic Interaction Detection), the first regression-tree algorithm, which recursively partitions survey data into binary groups to maximize variance reduction. Though designed for survey analysis, it established the recursive partitioning framework later refined into CART, CHAID, ID3, and all modern decision tree methods.
+link: https://brei.org/wp-content/uploads/2020/08/morgan-problems-in-the-analysis-of-survey-data-1963.pdf
+links_alt:
+  - https://www.tandfonline.com/doi/abs/10.1080/01621459.1963.10500855
+audit_status: raw

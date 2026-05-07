@@ -1,0 +1,17 @@
+title: "On General Minimax Theorems"
+authors: Sion Minimax Theorem
+  - Maurice Sion
+year: 1958
+source: Pacific Journal of Mathematics
+type: Journal Paper
+tags:
+  - Minimax theorem
+  - Game theory
+  - Convexity
+  - Fixed-point theory
+  - Optimization
+abstract: >
+summary: >
+  Proves a generalization of von Neumann's minimax theorem to quasi-convex/quasi-concave functions on compact convex sets in topological vector spaces, without requiring the sets to be finite-dimensional. The Sion minimax theorem is a foundational result in game theory and saddle-point optimization.
+link: https://projecteuclid.org/journals/pacific-journal-of-mathematics/volume-8/issue-1/On-general-minimax-theorems/pjm/1103040253.full
+audit_status: raw

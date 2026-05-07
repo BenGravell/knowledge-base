@@ -1,0 +1,21 @@
+title: "Regret Bounds for the Adaptive Control of Linear Quadratic Systems"
+authors:
+  - Yasin Abbasi-Yadkori
+  - Csaba Szepesvari
+year: 2011
+source: Conference on Learning Theory
+type: Conference Paper
+tags:
+  - Reinforcement learning
+  - Linear quadratic regulator
+  - Adaptive control
+  - Regret bounds
+  - Exploration-exploitation
+  - System identification
+abstract: >
+summary: >
+  Derives O(sqrt(T)) regret bounds for adaptive control of unknown linear-quadratic systems without forced exploration, using optimistic control with a confidence set around the estimated model parameters. Establishes the first regret bound for the LQ control problem and connects online learning to adaptive control theory.
+link: https://proceedings.mlr.press/v19/abbasi-yadkori11a.html
+links_alt:
+  - https://proceedings.mlr.press/v19/abbasi-yadkori11a/abbasi-yadkori11a.pdf
+audit_status: raw

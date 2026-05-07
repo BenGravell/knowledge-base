@@ -1,0 +1,19 @@
+title: State-space solutions to standard H-2/ and H-infinity / control problems
+algorithm:
+authors:
+  - J.C. Doyle
+  - K. Glover
+  - P.P. Khargonekar
+  - B.A. Francis
+year: 1989
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/9.29425
+arxiv_id:
+tags:
+abstract: >
+  Simple state-space formulas are derived for all controllers solving the following standard H/sub infinity / problem: For a given number gamma >0, find all controllers such that the H/sub infinity / norm of the closed-loop transfer function is (strictly) less than gamma . It is known that a controller exists if and only if the unique stabilizing solutions to two algebraic Riccati equations are positive definite and the spectral radius of their product is less than gamma /sup 2/. Under these conditions, a parameterization of all controllers solving the problem is given as a linear fractional transformation (LFT) on a contractive, stable, free parameter. The state dimension of the coefficient matrix for the LFT, constructed using the two Riccati solutions, equals that of the plant and has a separation structure reminiscent of classical LQG (i.e. H/sub 2/) theory. This paper is intended to be of tutorial value, so a standard H/sub 2/ solution is developed in parallel.< <ETX xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">&gt;</ETX>
+summary: ''
+link: https://doi.org/10.1109/9.29425
+links_alt:
+audit_status: raw

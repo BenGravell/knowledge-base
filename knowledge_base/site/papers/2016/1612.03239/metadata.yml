@@ -1,0 +1,19 @@
+title: When multiplicative noise stymies control
+algorithm:
+authors:
+  - Jian Ding
+  - Yuval Peres
+  - Gireeja Ranade
+  - Alex Zhai
+year: 2016
+source:
+type: ''
+doi:
+arxiv_id: "1612.03239"
+tags:
+abstract: >
+  We consider the stabilization of an unstable discrete-time linear system that is observed over a channel corrupted by continuous multiplicative noise. Our main result shows that if the system growth is large enough, then the system cannot be stabilized in a second-moment sense. This is done by showing that the probability that the state magnitude remains bounded must go to zero with time. Our proof technique recursively bounds the conditional density of the system state (instead of focusing on the second moment) to bound the progress the controller can make. This sidesteps the difficulty encountered in using the standard data-rate theorem style approach; that approach does not work because the mutual information per round between the system state and the observation is potentially unbounded. It was known that a system with multiplicative observation noise can be stabilized using a simple memoryless linear strategy if the system growth is suitably bounded. In this paper, we show that while memory cannot improve the performance of a linear scheme, a simple non-linear scheme that uses one-step memory can do better than the best linear scheme.
+summary: ''
+link: https://arxiv.org/pdf/1612.03239
+links_alt:
+audit_status: raw

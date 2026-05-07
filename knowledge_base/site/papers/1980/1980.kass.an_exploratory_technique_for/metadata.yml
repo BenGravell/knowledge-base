@@ -1,0 +1,24 @@
+title: "An Exploratory Technique for Investigating Large Quantities of Categorical Data"
+algorithm: CHAID
+authors:
+  - G. V. Kass
+year: 1980
+source: Applied Statistics
+type: Journal Paper
+doi: 10.2307/2986296
+arxiv_id:
+tags:
+  - Decision trees
+  - CHAID
+  - Categorical data
+  - Chi-square tests
+  - Survey analysis
+  - Statistical learning
+abstract: >
+  The technique set out in the paper, chaid, is an offshoot of aid (Automatic Interaction Detection) designed for a categorized dependent variable. Some important modifications which are relevant to standard aid include: built-in significance testing with the consequence of using the most significant predictor (rather than the most explanatory), multi-way splits (in contrast to binary) and a new type of predictor which is especially useful in handling missing information.
+summary: >
+  Introduces CHAID (Chi-square Automatic Interaction Detection), a multi-way decision tree algorithm for categorical outcomes that uses chi-square tests to select split variables and allows more than two branches per node. CHAID pioneered statistical significance testing as the split criterion, addressing AID's bias toward high-cardinality variables.
+link: https://www.jstor.org/stable/2986296
+links_alt:
+  - https://rss.onlinelibrary.wiley.com/doi/abs/10.2307/2986296
+audit_status: raw

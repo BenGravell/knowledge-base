@@ -1,0 +1,16 @@
+title: Numerical solution of the state dependent noise problem
+algorithm:
+authors:
+  - D. Kleinman
+year: 1976
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.1976.1101248
+arxiv_id:
+tags:
+abstract: >
+  A numerical technique is given for solving the matrix quadratic equation that arises in the optimal stationary control of linear systems with state (and/or control) dependent noise. The technique exploits fully existing, efficient algorithms for the matrix Lyapunov and Ricatti equations. The computational requirements are discussed, with an associated example.
+summary: ''
+link: https://doi.org/10.1109/TAC.1976.1101248
+links_alt:
+audit_status: raw

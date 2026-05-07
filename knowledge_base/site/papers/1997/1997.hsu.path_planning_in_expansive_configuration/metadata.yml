@@ -1,0 +1,26 @@
+title: "Path Planning in Expansive Configuration Spaces"
+algorithm: EST
+authors:
+  - David Hsu
+  - Jean-Claude Latombe
+  - Rajeev Motwani
+year: 1997
+source: IEEE International Conference on Robotics and Automation
+type: Conference Paper
+doi: 10.1142/S0218195999000285
+arxiv_id:
+tags:
+  - Motion planning
+  - Expansive configuration spaces
+  - Randomized planning
+  - Configuration space
+  - Sampling-based planning
+abstract: >
+  The authors introduce the notion of expansiveness to characterize a family of robot configuration spaces whose connectivity can be effectively captured by a roadmap of randomly-sampled milestones. The analysis of expansive configuration spaces inspired them to develop a new randomized planning algorithm that tries to sample only the portion of the configuration space that is relevant to the current query, avoiding the cost of precomputing a roadmap for the entire configuration space.
+summary: >
+  Introduces the Expansive Space Trees (EST) algorithm and the notion of "expansive" configuration spaces, characterizing when randomized sampling-based planners can efficiently capture connectivity. EST explores the configuration space by biasing sampling toward less explored regions, a complementary approach to RRT's goal-biased exploration.
+link: http://ftp.cs.stanford.edu/cs/robotics/dyhsu/papers/icra97.pdf
+links_alt:
+  - https://www.researchgate.net/publication/2426823_Path_Planning_in_Expansive_Configuration_Spaces
+  - https://www.cs.cmu.edu/~motionplanning/papers/sbp_papers/h/00619371.pdf
+audit_status: raw

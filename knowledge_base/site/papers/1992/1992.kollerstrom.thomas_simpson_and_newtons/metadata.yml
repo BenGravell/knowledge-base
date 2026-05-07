@@ -1,0 +1,19 @@
+title: "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth"
+authors:
+  - Nick Kollerstrom
+year: 1992
+source: The British Journal for the History of Science
+type: Journal Paper
+doi: 10.1017/s0007087400029150
+tags:
+  - History of mathematics
+  - Newton's method
+  - Thomas Simpson
+  - Root finding
+  - Attribution
+  - Numerical methods
+abstract: >
+summary: >
+  Argues that the iterative root-finding method commonly known as "Newton's method" was invented and published by Thomas Simpson in 1740, not by Isaac Newton. Newton's 1669 manuscript De analysi contains a different, non-iterative procedure; the modern method's misattribution to Newton is traced as an "enduring myth" and a curious historical transposition.
+link: https://doi.org/10.1017/s0007087400029150
+audit_status: raw

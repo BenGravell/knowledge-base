@@ -1,0 +1,20 @@
+title: >
+  The uncertainty threshold principle: Fundamental limitations of optimal decision making under dynamic uncertainty
+algorithm:
+authors:
+  - Michael Athans
+  - Richard Ku
+  - Stanley Gershwin
+year: 1976
+source: >
+  1976 IEEE Conference on Decision and Control including the 15th Symposium on Adaptive Processes
+type: Conference Paper
+doi: 10.1109/CDC.1976.267656
+arxiv_id:
+tags:
+abstract: >
+  This note shows that the optimal control of dynamic systems with uncertain parameters has certain limitations. In particular, by means of a simple scalar linear-quadratic optimal control example, it is shown that the infinite horizon solution does not exist if the parameter uncertainty exceeds a certain threshold; we call this the Uncertainty Thereshold Principle. The philosophical and design implications of this result are discussed.
+summary: ''
+link: https://doi.org/10.1109/CDC.1976.267656
+links_alt:
+audit_status: raw

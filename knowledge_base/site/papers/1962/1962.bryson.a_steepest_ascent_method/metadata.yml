@@ -1,0 +1,24 @@
+title: "A Steepest-Ascent Method for Solving Optimum Programming Problems"
+algorithm: Steepest Ascent
+authors:
+  - Arthur E. Bryson
+  - Walter F. Denham
+year: 1962
+source: Journal of Applied Mechanics
+type: Journal Paper
+doi: 10.1115/1.3640537
+arxiv_id:
+tags:
+  - Trajectory optimization
+  - Optimal control
+  - Gradient descent
+  - Adjoint equations
+  - Numerical methods
+  - Variational calculus
+abstract: >
+  A systematic and rapid steepest-ascent numerical procedure is described for determining optimum programs for nonlinear systems with terminal constraints. The procedure uses the concept of local linearization around a nominal (nonoptimum) path. The effect on the terminal conditions of a small change in the control variable program is determined by numerical integration of the adjoint differential equations for small perturbations about the nominal path.
+summary: >
+  One of the foundational papers on gradient-based trajectory optimization, introducing the use of adjoint-equation integration to compute the steepest-ascent direction for optimal control problems with terminal constraints. The adjoint (co-state) approach is the direct predecessor of modern shooting methods and continuous-time policy gradient algorithms.
+link: https://asmedigitalcollection.asme.org/appliedmechanics/article-abstract/29/2/247/386190/
+links_alt:
+audit_status: raw

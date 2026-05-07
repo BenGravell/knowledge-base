@@ -1,0 +1,16 @@
+title: Respect the unstable
+algorithm:
+authors:
+  - Glenn Vinnicombe
+year: 2003
+source: IEEE Control Systems
+type: Journal Paper
+doi: 10.1109/MCS.2003.1213600
+arxiv_id:
+tags:
+abstract: >
+  Control engineers often design feedback control systems for inherently unstable systems, to keep them operating safely. In such cases, there are fundamental limitations on the achievable sensitivity function. The article discusses the potentially serious consequences of sensitivity constraints, input saturation, and instability. Inadequacies of control systems in such cases have led to deaths.
+summary: ''
+link: https://doi.org/10.1109/MCS.2003.1213600
+links_alt:
+audit_status: raw

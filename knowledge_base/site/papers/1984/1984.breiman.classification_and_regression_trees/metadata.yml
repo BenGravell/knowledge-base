@@ -1,0 +1,26 @@
+title: "Classification and Regression Trees"
+algorithm: CART
+authors:
+  - Leo Breiman
+  - Jerome H. Friedman
+  - Richard A. Olshen
+  - Charles J. Stone
+year: 1984
+source: Wadsworth
+type: Other
+doi:
+arxiv_id:
+tags:
+  - Decision trees
+  - CART
+  - Classification
+  - Regression trees
+  - Binary splitting
+  - Pruning
+  - Statistical learning
+abstract:
+summary: >
+  The canonical reference for Classification and Regression Trees (CART), introducing binary recursive partitioning with Gini impurity for classification and variance reduction for regression, cross-validation-based pruning, and handling of missing values. Defines the mathematical and algorithmic foundations that underpin most modern tree-based methods including Random Forests and gradient boosting.
+link: https://www.taylorfrancis.com/books/mono/10.1201/9781315139470/classification-regression-trees-leo-breiman
+links_alt:
+audit_status: raw

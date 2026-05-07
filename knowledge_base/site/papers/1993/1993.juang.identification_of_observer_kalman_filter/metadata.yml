@@ -1,0 +1,27 @@
+title: "Identification of Observer/Kalman Filter Markov Parameters: Theory and Experiments"
+algorithm: OKID
+authors:
+  - Jer-Nan Juang
+  - Minh Q. Phan
+  - Lucas G. Horta
+  - Richard W. Longman
+year: 1993
+source: Journal of Guidance, Control, and Dynamics
+type: Journal Paper
+doi: 10.2514/3.21006
+arxiv_id:
+tags:
+  - System identification
+  - Kalman filter
+  - Observer design
+  - Markov parameters
+  - State-space models
+  - Subspace identification
+abstract: >
+  This paper discusses an algorithm to compute the Markov parameters of an observer or Kalman filter from experimental input and output data. The Markov parameters can then be used for identification of a state space representation, with associated Kalman gain or observer gain, for the purpose of controller design.
+summary: >
+  Introduces OKID (Observer/Kalman Filter Identification), extending the Eigensystem Realization Algorithm (ERA) to handle arbitrary input-output time series rather than only impulse responses. By identifying Observer Markov Parameters, OKID simultaneously recovers both the state-space model and a Kalman gain from data, making system identification practical in the same setting as DMD and SINDy.
+link: https://people.duke.edu/~hpgavin/SystemID/References/Juang+Phan+etal-JGCD-1993.pdf
+links_alt:
+  - https://ntrs.nasa.gov/citations/19910016123
+audit_status: raw
