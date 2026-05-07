@@ -251,6 +251,9 @@ nav:
           - "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach": papers/2009_verscheure_time_optimal_path_tracking.md
           - Minimum-time Speed Optimisation Over a Fixed Path: papers/2013_lipp_minimum_time_speed_optimisation_over.md
           - Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization: papers/2018_zhang_toward_a_more_complete.md
+      - Collision Avoidance:
+        - Velocity Obstacles:
+          - Motion Planning in Dynamic Environments Using Velocity Obstacles: papers/1998_fiorini_motion_planning_in_dynamic.md
       - Interaction-aware Planning:
         - Multimodal Probabilistic Model-Based Planning for Human-Robot Interaction: papers/1710_09483.md
         - VISTA 2.0: papers/2111_12083.md
@@ -262,6 +265,8 @@ nav:
         - DriveIRL: papers/2206_03004.md
         - Lab2Car: papers/2409_09523.md
         - Transitioning from Rule-Based to ML-Powered Motion Planning: papers/2025_hu_technically_speaking_transitioning_from.md
+      - Multi-Robot Planning:
+        - Goal Assignment and Trajectory Planning for Large Teams of Aerial Robots: papers/2013_turpin_goal_assignment_and_trajectory.md
       - Surveys & Comparative Studies:
         - An Empirical Study of Optimal Motion Planning: papers/2014_luo_an_empirical_study_of.md
         - A Survey of Motion Planning and Control Techniques for Self-Driving Urban Vehicles: papers/1604_07446.md
@@ -300,40 +305,117 @@ nav:
       - Pole placement:
         - TODO  
       - Linear Quadratic Regulator (LQR):
-        - TODO
+        - LQR Foundations:
+          - Suboptimal Design of Linear Regulator Systems: papers/1967_kleinman_suboptimal_design_of_linear.md
+          - Stabilization of Linear Systems: papers/1972_ikeda_stabilization_of_linear_systems.md
+        - Riccati Equations:
+          - The Stabilizing Solution of the Algebraic Riccati Equation: papers/1973_molinari_the_stabilizing_solution_of.md
+          - "The Numerical Solution of A'Q+QA=-C": papers/1968_davison_the_numerical_solution_of_amp.md
+          - On an Iterative Technique for Riccati Equation Computations: papers/1968_kleinman_on_an_iterative_technique_for.md
+          - An Iterative Technique for the Steady-State Gains: papers/1971_hewer_an_iterative_technique_for_the.md
+          - "A Numerical Algorithm to Solve A^T X A - X = Q": papers/1977_barraud_a_numerical_algorithm_to_solve.md
+          - Systematic Control Design by Optimizing a Vector Performance Index: papers/1979_kreisselmeier_systematic_control_design_by_optimizing.md
+        - Multiplicative noise / stochastic system parameters:
+          - Experiments with an Inverted Pendulum Subject to Random Parametric Excitation: papers/1965_bogdanoff_experiments_with_an_inverted.md
+          - A Survey of Stability of Stochastic Systems: papers/1969_kozin_a_survey_of_stability_of.md
+          - Optimal Stationary Control of a Linear System with State-Dependent Noise: papers/1967_wonham_optimal_stationary_control_of.md
+          - On the Separation Theorem of Stochastic Control: papers/1968_wonham_on_the_separation_theorem.md
+          - Optimal Stationary Control of Linear Systems with Control-Dependent Noise: papers/1969_kleinman_optimal_stationary_control_of_linear.md
+          - The Optimal Regulator Problem for a Stationary Linear System with State-Dependent Noise: papers/1970_mclane_the_optimal_regulator_problem.md
+          - Optimal Stationary Control with State and Control Dependent Noise: papers/1971_haussmann_optimal_stationary_control_with.md
+          - Design of Linear Regulators for Nonlinear Stochastic Systems: papers/1975_gustafson_design_of_linear_regulators.md
+          - On Optimal Stationary Control of Systems with State-Dependent Noise: papers/1975_rana_on_optimal_stationary_control_of.md
+          - "The Uncertainty Threshold Principle: Fundamental Limitations": papers/1976_athans_the_uncertainty_threshold_principle_fundamental.md
+          - Numerical Solution of the State-Dependent Noise Problem: papers/1976_kleinman_numerical_solution_of_the_state.md
+          - State-Feedback Control of Systems with Multiplicative Noise via LMIs: papers/1995_ghaoui_state_feedback_control_of_systems.md
+          - When Multiplicative Noise Stymies Control: papers/1612_03239.md
+        - Quadratic Regulator Heuristics:
+          - A Quadratic Regulator-Based Heuristic for Rapidly Exploring State Space: papers/2010_glassman_a_quadratic_regulator_based_heuristic.md
       - Model Predictive Control (MPC):
         - Receding Horizon Control of Nonlinear Systems: papers/1988_mayne_receding_horizon_control_of_nonlinear.md
       - Robust Control:
         - Robustness margins for LQG: papers/1978_doyle_guaranteed_margins_for_lqg.md
+        - On the Input-Output Stability of Time-Varying Nonlinear Feedback Systems: papers/1966_zames_on_the_input_output_stability.md
+        - State-Space Solutions to Standard H2 and H-inf Control Problems: papers/1989_doyle_state_space_solutions_to_standard.md
+        - "LQG Control with an H-infinity Performance Bound: A Riccati Equation Approach": papers/1989_bernstein_lqg_control_with_an_h.md
+        - On the Robustness of LQ Regulators for Discrete-Time Systems: papers/1992_neto_on_the_robustness_of_lq.md
+      - Control Theory:
+        - The Internal Model Principle for Linear Multivariable Regulators: papers/1975_francis_the_internal_model_principle_for.md
+      - Underactuated Systems:
+        - The Swing Up Control Problem for the Acrobot: papers/1995_spong_the_swing_up_control.md
     - Reinforcement Learning:
+      - Foundations:
+        - Learning to Predict by the Methods of Temporal Differences: papers/1988_sutton_learning_to_predict_by_the.md
+      - Dynamic Programming:
+        - Exact Dynamic Programming:
+          - On the Convergence of Policy Iteration in Stationary Dynamic Programming: papers/1979_puterman_on_the_convergence_of.md
+          - Values and Strategies for Infinite Time Linear Quadratic Games: papers/1976_mageirou_values_and_strategies_for_infinite.md
+        - Approximate Dynamic Programming:
+          - Adaptive Linear Quadratic Control Using Policy Iteration: papers/1994_bradtke_adaptive_linear_quadratic_control_using.md
+          - Least-Squares Policy Iteration (LSPI): papers/2003_lagoudakis_least_squares_policy_iteration.md
+          - Approximate Dynamic Programming via Sum of Squares Programming: papers/1212_1269.md
+          - Finite-Time Analysis of Approximate Policy Iteration for LQR: papers/1905_12842.md
+        - Deep Value-Based:
+          - DQN (Playing Atari with Deep RL): papers/1312_5602.md
+          - Prioritized Experience Replay: papers/1511_05952.md
+          - Double DQN: papers/1509_06461.md
+          - Dueling Networks: papers/1511_06581.md
+          - Rainbow: papers/1710_02298.md
+      - Policy Optimization:
+        - Policy Gradient:
+          - REINFORCE: papers/1992_williams_simple_statistical_gradient_following_algorithms.md
+        - Actor-Critic Methods:
+          - DPG: papers/2014_silver_deterministic_policy_gradient_algorithms.md
+          - DDPG: papers/1509_02971.md
+          - A3C: papers/1602_01783.md
+          - GAE: papers/1506_02438.md
+          - ACKTR: papers/1708_05144.md
+          - TD3: papers/1802_09477.md
+          - ACER: papers/1611_01224.md
+          - Q-Prop: papers/1611_02247.md
+          - Emergence of Locomotion Behaviours in Rich Environments: papers/1707_02286.md
+        - Trust Region:
+          - TRPO: papers/1502_05477.md
+          - PPO: papers/1707_06347.md
+          - QNTRPO: papers/1912_11912.md
+          - SPO: papers/2401_16025.md
+          - GRPO: papers/2402_03300.md
+        - RL for Linear Systems:
+          - Global Convergence of Policy Gradient Methods for LQR: papers/1801_05039.md
+          - LQR through the Lens of First Order Methods: papers/1907_08921.md
+          - Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum LQ Games: papers/1906_00729.md
+      - Model-Based RL:
+        - Adaptive Control:
+          - Regret Bounds for the Adaptive Control of Linear Quadratic Systems: papers/2011_abbasi_yadkori_regret_bounds_for_the.md
+          - Regret Bounds for Robust Adaptive Control of LQR: papers/1805_09388.md
+          - From Self-Tuning Regulators to Reinforcement Learning and Back Again: papers/1906_11392.md
+          - DeePC: papers/1811_05890.md
+        - System Identification:
+          - Non-Asymptotic Identification of LTI Systems from a Single Trajectory: papers/1806_05722.md
+          - Finite Sample Analysis of Stochastic System Identification: papers/1903_09122.md
+          - A Tutorial on Concentration Bounds for System Identification: papers/1906_11395.md
+          - Subspace Identification:
+            - Subspace Identification for Linear Systems: papers/1996_overschee_subspace_identification_for_linear.md
+            - N4SID: papers/1994_overschee_n4sid_numerical_algorithms_for.md
+          - Eigensystem Realization Algorithm (ERA): papers/1985_juang_an_eigensystem_realization_algorithm.md
+          - Dynamic Mode Decomposition (DMD):
+            - DMD: papers/2008_schmid_dynamic_mode_decomposition_of.md
+            - "DMD: Theory and Applications": papers/1312_0041.md
+            - "DMD: Theory and Data Reconstruction": papers/1909_10466.md
+            - DMD and Its Variants: papers/2022_schmid_dynamic_mode_decomposition_and.md
+            - DMDc: papers/1409_6358.md
+            - eDMD: papers/1408_4408.md
+          - Sparse Identification of Nonlinear Dynamics (SINDy):
+            - SINDy: papers/1509_03580.md
+            - SINDy with Control: papers/2108_13404.md
+            - SINDy-RL: papers/2403_09110.md
+            - PySINDy: papers/2111_08481.md
+          - World Models:
+            - PlaNet: papers/1811_04551.md
+            - Dreamer: papers/1912_01603.md
       - Random Search & Evolution Strategies:
         - ARS: papers/1803_07055.md
-      - Policy Optimization:
-        - TRPO: papers/1502_05477.md
-        - PPO: papers/1707_06347.md
-        - QNTRPO: papers/1912_11912.md
-        - SPO: papers/2401_16025.md
-        - GRPO: papers/2402_03300.md
-      - Model-Based RL & System Identification:
-        - Subspace Identification:
-          - Subspace Identification for Linear Systems: papers/1996_overschee_subspace_identification_for_linear.md
-          - N4SID: papers/1994_overschee_n4sid_numerical_algorithms_for.md
-        - Eigensystem Realization Algorithm (ERA): papers/1985_juang_an_eigensystem_realization_algorithm.md
-        - Dynamic Mode Decomposition (DMD):
-          - DMD: papers/2008_schmid_dynamic_mode_decomposition_of.md
-          - "DMD: Theory and Applications": papers/1312_0041.md
-          - "DMD: Theory and Data Reconstruction": papers/1909_10466.md
-          - DMD and Its Variants: papers/2022_schmid_dynamic_mode_decomposition_and.md
-          - DMDc: papers/1409_6358.md
-          - eDMD: papers/1408_4408.md
-        - Sparse Identification of Nonlinear Dynamics (SINDy):
-          - SINDy: papers/1509_03580.md
-          - SINDy with Control: papers/2108_13404.md
-          - SINDy-RL: papers/2403_09110.md
-          - PySINDy: papers/2111_08481.md
-        - World Models:
-          - PlaNet: papers/1811_04551.md
-          - Dreamer: papers/1912_01603.md
+        - Derivative-Free Methods for Policy Optimization: papers/1812_08305.md
       - Hybrid Approaches:
         - PLAL: papers/2209_09006.md
         - Power of Locally Linear Models: papers/2305_09619.md
@@ -344,6 +426,26 @@ nav:
     - Optimization:
       - Toolboxes & Solvers:
         - YALMIP: papers/2004_lofberg_yalmip_a_toolbox_for_modeling.md
+      - Minimax & Game Theory:
+        - On General Minimax Theorems: papers/1958_sion_on_general_minimax_theorems.md
+        - Subgradient Methods for Saddle-Point Problems: papers/2009_nedic_subgradient_methods_for_saddle_point.md
+      - First-Order Methods:
+        - Polyak-Łojasiewicz inequality: papers/1963_polyak_gradient_methods_for_the_minimisation.md
+        - Polyak momentum: papers/1964_polyak_some_methods_of_speeding_up.md
+        - "A Differential Equation for Modeling Nesterov's Accelerated Gradient Method": papers/1503_01243.md
+        - Adam: papers/1412_6980.md
+        - Coordinate Descent Algorithms: papers/1502_04759.md
+        - Analysis and Design of Optimization Algorithms via IQC: papers/1408_3595.md
+        - On Symplectic Optimization: papers/1802_03653.md
+        - Conformal Symplectic and Relativistic Optimization: papers/1903_04100.md
+      - Proximal Methods:
+        - FISTA: papers/2009_beck_a_fast_iterative_shrinkage.md
+        - Proximal Algorithms: papers/2014_parikh_proximal_algorithms.md
+      - Zeroth-Order Methods:
+        - Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization: papers/1805_10367.md
+        - "Gradientless Descent: High-Dimensional Zeroth-Order Optimization": papers/1911_06317.md
+      - Stochastic Optimization:
+        - Enhancing Sparsity by Reweighted L1 Minimization: papers/0711_1612.md
       - Convex Optimization:
         - Linear Programming:
           - TODO
@@ -357,7 +459,37 @@ nav:
           - TODO
       - Nonlinear Programming:
         - TODO
+      - Newton's Method:
+        - A Note on the Convergence of Newton's Method: papers/1974_rall_a_note_on_the.md
+        - Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control: papers/2001_damm_newton_s_method_for_a.md
+      - Halley's Method and High-Order Roots:
+        - Multivariate Halley method: papers/1985_cuyt_computational_implementation_of_the_multivariate.md
+        - Super-Halley method: papers/2001_gutierrez_an_acceleration_of_newton_s.md
+        - Generalized Halley method: papers/2008_albeanu_on_the_generalized_halley.md
+      - Assignment Problems:
+        - Hungarian algorithm: papers/1955_kuhn_the_hungarian_method_for.md
+        - Munkres algorithm: papers/1957_munkres_algorithms_for_the_assignment.md
+        - Jonker-Volgenant algorithm: papers/1987_jonker_a_shortest_augmenting_path_algorithm.md
+        - QuickMatch: papers/1993_orlin_quickmatch_a_very_fast.md
+      - Graph Search:
+        - Dijkstra's algorithm: papers/1959_dijkstra_a_note_on_two_problems.md
+        - Bellman-Ford algorithm: papers/1958_bellman_on_a_routing_problem.md
+    - State Estimation:
+      - Kalman Filter:
+        - Kalman Filter: papers/1960_kalman_a_new_approach_to.md
+        - Optimal Adaptive Estimation of Sampled Stochastic Processes: papers/1965_magill_optimal_adaptive_estimation_of_sampled.md
+        - Fitting a Kalman Smoother to Data: papers/1910_08615.md
+        - Wasserstein Distributionally Robust Kalman Filtering: papers/1809_08830.md
+      - Unscented Kalman Filter (UKF):
+        - UKF: papers/1997_julier_new_extension_of_the.md
+        - The Unscented Kalman Filter for Nonlinear Estimation: papers/2000_wan_the_unscented_kalman_filter_for.md
+        - The Scaled Unscented Transformation: papers/2002_julier_the_scaled_unscented_transformation.md
+    - Simulation:
+      - CARLA: papers/1711_03938.md
     - Machine Learning:
+      - Kernel Machines:
+        - SVM: papers/1995_cortes_support_vector_networks.md
+        - Random Kitchen Sinks: papers/2008_rahimi_weighted_sums_of_random.md
       - Vision-language-action (VLA) Models:
         - Alpamayo-R1: papers/2511_00088.md
       - Large language models (LLM):
@@ -383,6 +515,9 @@ nav:
       - Python: programming/python.md
       - Interoperability: programming/interoperability.md
       - Trajectory Optimization: programming/trajectory_optimization.md
+    - History:
+      - "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth": papers/1992_kollerstrom_thomas_simpson_and_newtons.md
     - Just for Fun:
+      - Evolving Virtual Creatures: papers/1994_sims_evolving_virtual_creatures.md
       - Design and Control of a Bipedal Robotic Character: papers/2501_05204.md
   - Portfolio: https://bengravell.github.io/portfolio/

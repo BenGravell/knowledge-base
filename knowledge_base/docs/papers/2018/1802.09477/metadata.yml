@@ -1,5 +1,5 @@
 title: Addressing Function Approximation Error in Actor-Critic Methods
-algorithm:
+algorithm: TD3
 authors:
   - Scott Fujimoto
   - Herke van Hoof
