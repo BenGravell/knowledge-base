@@ -1,0 +1,23 @@
+title: "Elementary Proof for Sion's Minimax Theorem"
+algorithm:
+authors:
+  - Hidetoshi Komiya
+year: 1988
+source: Kodai Mathematical Journal
+type: Journal Paper
+doi: 10.2996/kmj/1138038812
+arxiv_id:
+tags:
+  - Minimax theorem
+  - Game theory
+  - Convex analysis
+  - Mathematical proof
+  - Optimization
+abstract: >
+  There are several celebrated generalizations of von Neumann's minimax theorem, one of which is by Sion. Sion proved the theorem using Knaster-Kuratowski-Mazurkiewicz theorem (or shortly KKM theorem). Alternative proofs for the theorem were proposed by several authors. For example, Fan deduced the theorem from his theorem concerning sets with convex sections. Takahashi derived the theorem from Fan-Browder fixed point theorem for multi-valued mappings. However their proofs depend on topological tools such as Brouwer fixed point theorem or KKM theorem. The purpose of this note is to present an elementary proof for Sion's minimax theorem.
+summary: >
+  Short, self-contained elementary proof of Sion's minimax theorem using two simple lemmas, avoiding the topological fixed-point arguments used in Sion's original proof.
+link: https://projecteuclid.org/journals/kodai-mathematical-journal/volume-11/issue-1/Elementary-proof-for-Sions-minimax-theorem/10.2996/kmj/1138038812.full
+links_alt:
+  - https://keio.elsevierpure.com/en/publications/elementary-proof-for-sions-minimax-theorem/
+audit_status: raw
