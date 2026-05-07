@@ -15,7 +15,7 @@ hide:
 }
 [data-md-color-scheme="slate"] {
   --mm-edge-color:       #ffffff;
-  --mm-edge-alpha-scale: 2;
+  --mm-edge-alpha-scale: 1.2;
 }
 
 /* ── Remove MkDocs Material layout constraints for full-screen canvas ─────── */
