@@ -1,0 +1,20 @@
+title: "The Humble Programmer"
+authors:
+  - Edsger W. Dijkstra
+year: 1972
+source: Communications of the ACM
+type: Journal Paper
+doi: 10.1145/355604.361591
+arxiv_id:
+tags:
+  - Software engineering
+  - Structured programming
+  - Program correctness
+  - Software quality
+  - Programming methodology
+abstract: >
+summary: >
+  Dijkstr argues that the programmer's job is an intellectual challenge of the highest order, and that genuine mastery requires humility about the limits of human reasoning. He advocates structured programming and formal correctness arguments as the only reliable path to trustworthy software.
+link: https://www.cs.utexas.edu/~EWD/transcriptions/EWD03xx/EWD340.html
+links_alt:
+  - https://doi.org/10.1145/355604.361591

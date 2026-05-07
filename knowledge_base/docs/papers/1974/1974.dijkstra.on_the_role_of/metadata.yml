@@ -1,0 +1,23 @@
+title: "On the Role of Scientific Thought"
+authors:
+  - Edsger W. Dijkstra
+year: 1974
+source: "Selected Writings on Computing: A Personal Perspective"
+type: Other
+doi: 10.1007/978-1-4612-5695-3_12
+arxiv_id:
+tags:
+  - Scientific thought
+  - Separation of concerns
+  - Programming methodology
+  - Computer science philosophy
+  - Software engineering
+  - Epistemology
+abstract:
+summary: >
+  Dijkstra coined the phrase "the separation of concerns": the deliberate isolation of one aspect of a problem for study in its own right, while setting other aspects temporarily aside. He argues that faithfullly adhering to this principle is a key aspect of organizing code, logic, data, and ideas in an efficient and understandable way (the "effective ordering of one's thoughts"). Extremely influential in the field of computer programming and software design.
+link: https://www.cs.utexas.edu/~EWD/transcriptions/EWD04xx/EWD447.html
+links_alt:
+  - https://link.springer.com/chapter/10.1007/978-1-4612-5695-3_12
+  - https://en.wikipedia.org/wiki/Separation_of_concerns
+audit_status: raw

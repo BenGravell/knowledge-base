@@ -363,6 +363,8 @@ nav:
     - Computer Graphics:
       - 3D Gaussian Splatting: papers/2308_04079.md
     - Software & Programming:
+      - The Humble Programmer: papers/1972_dijkstra_the_humble_programmer.md
+      - On the Role of Scientific Thought: papers/1974_dijkstra_on_the_role_of.md
       - Art & Practice: programming/art_and_practice.md
       - "C++": programming/cpp.md
       - Python: programming/python.md
