@@ -72,8 +72,8 @@ knowledge-base/
 
 ### Generate metadata for a single paper
 
-1. Copy `knowledge_base/docs/templates/metadata.yml` as the template.
-2. Place the new file at:
+1. Use `knowledge_base/docs/templates/metadata.yml` as the template.
+2. The metadata for the item is to be placed at:
 
     ```text
     knowledge_base/docs/papers/<YEAR>/<SLUG>/metadata.yml
@@ -81,7 +81,8 @@ knowledge-base/
 
     - `YEAR`: 4-digit year of the earliest published version.
     - `SLUG`: arXiv ID in `YYMM.NNNNN` format if one exists; otherwise `YEAR.first_author_last_name_lowercase.title_first_four_words`.
-3. Fill in all fields.
+3. Re-use existing files and information, if it exists.
+4. Fill in all fields.
     - title: Full title of the paper, copied verbatim then re-written in title case, in double quotes (string).
     - algorithm: Short name of the primary algorithm or technique or method put forward by the paper.
     - authors: List of authors, one author per item, in the order given by the paper. Include full name where possible. Use middle initials if given. Prefer using the 26 English letters to make searching and pattern matching easier.
@@ -90,7 +91,7 @@ knowledge-base/
     - type: The type of item this is. See VALID_TYPES in config.py for the list of valid types.
     - doi: The DOI for the item. Use the DOI of the formally published item e.g. from the conference or journal or publisher. Never use the arXiv DOI since it is redundant.
     - arxiv_id: arXiv ID, in double quotes (string)
-    - tags: List of tags, one tag per line. This is a soft field, create tags using short, commonly pattern-matched phrases. Limit the list to about 5-20 entries.
+    - tags: List of tags, one tag per line. This is a soft field, create tags using short, commonly pattern-matched phrases. Limit the list to about 5-20 entries. Capitalize the first word of each tag.
     - abstract: The full abstract, reproduced verbatim from the source. If there are multiple published versions, prefer the abstract from the arXiv version, then the formal published version, then whatever is available. Leave it blank if there truly is no abstract for the item, do not invent one.
     - summary: Short summary of the paper, as written from an external observer's perspective, with a focus on highlighting the main contributions and any important or useful secondary constributions that were not necessarily emphasized by the paper's authors themselves.
     - link: Primary link to the paper. Use the arXiv link to pdf when available. Must be a freely openable link whenever possible, not paywalled. Use paywalled links only as a final resort.
