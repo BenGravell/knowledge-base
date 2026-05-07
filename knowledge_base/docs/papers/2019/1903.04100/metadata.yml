@@ -1,0 +1,24 @@
+title: "Conformal Symplectic and Relativistic Optimization"
+authors:
+  - Guilherme Franca
+  - Jeremias Sulam
+  - Daniel Robinson
+  - Rene Vidal
+year: 2019
+source: Advances in Neural Information Processing Systems
+type: Conference Paper
+arxiv_id: "1903.04100"
+tags:
+  - Optimization
+  - Symplectic geometry
+  - Momentum methods
+  - Nesterov acceleration
+  - Hamiltonian systems
+  - Relativistic mechanics
+abstract: >
+summary: >
+  Analyzes momentum-based optimization algorithms (Nesterov, heavy ball) through the lens of structure-preserving discretizations of dissipative Hamiltonian systems. Proposes a novel relativistic optimizer that normalizes momentum, unifying both Nesterov and heavy ball as special limiting cases, with improved stability and no additional computational overhead. Published at NeurIPS 2020.
+link: https://arxiv.org/abs/1903.04100
+links_alt:
+  - https://proceedings.neurips.cc/paper/2020/hash/c4b108f53550f1d5967305a9a8140ddd-Abstract.html
+audit_status: raw

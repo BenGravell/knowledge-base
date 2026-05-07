@@ -1,0 +1,19 @@
+title: "Optimal Stationary Control of a Linear System with State-Dependent Noise"
+authors:
+  - W. M. Wonham
+year: 1967
+source: SIAM Journal on Control
+type: Journal Paper
+doi: 10.1137/0305028
+tags:
+  - Stochastic control
+  - Linear systems
+  - State-dependent noise
+  - Multiplicative noise
+  - Algebraic Riccati equation
+  - Optimal control
+abstract: >
+summary: >
+  Extends LQR to linear systems subject to multiplicative (state-dependent) Gaussian noise, deriving a modified algebraic Riccati equation whose stabilizing solution yields the optimal stationary feedback gain. Establishes existence and uniqueness conditions and lays the groundwork for stochastic LQR theory.
+link: https://epubs.siam.org/doi/10.1137/0305028
+audit_status: raw

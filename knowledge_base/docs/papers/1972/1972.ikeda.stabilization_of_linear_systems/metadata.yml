@@ -1,0 +1,21 @@
+title: "Stabilization of Linear Systems"
+authors:
+  - Masao Ikeda
+  - Hajime Maeda
+  - Shinzo Kodama
+year: 1972
+source: SIAM Journal on Control
+type: Journal Paper
+doi: 10.1137/0310052
+tags:
+  - Stabilization
+  - Linear systems
+  - State feedback
+  - Controllability
+  - Pole placement
+  - Eigenvalue assignment
+abstract: >
+summary: >
+  Studies stabilization of linear time-invariant systems via state feedback, providing conditions under which a system can be stabilized and characterizing the achievable closed-loop spectra. Connects controllability theory to stabilizability and eigenvalue assignment.
+link: https://epubs.siam.org/doi/10.1137/0310052
+audit_status: raw
