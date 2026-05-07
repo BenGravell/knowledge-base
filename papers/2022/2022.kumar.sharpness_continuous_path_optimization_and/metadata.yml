@@ -1,0 +1,20 @@
+title: Sharpness Continuous Path optimization and Sparsification for Automated Vehicles
+algorithm:
+authors:
+  - Mohit Kumar
+  - Peter Strauss
+  - Sven Kraus
+  - Omer Sahin Tas
+  - Christoph Stiller
+year: 2022
+source: 2022 IEEE Intelligent Vehicles Symposium (IV)
+type: Conference Paper
+doi: 10.1109/IV51971.2022.9827011
+arxiv_id:
+tags:
+abstract: >
+  We present a path optimization approach that ensures driveability while considering a vehicle’s lateral dynamics. The lateral dynamics are non-holonomic; therefore, a vehicle cannot follow a path with abrupt changes even with infinitely fast steering. The curvature and sharpness, i.e., the rate change of curvature with respect to the traveled distance, must be continuous to track a defined reference path efficiently. Existing path optimization techniques typically include sharpness limitations but not sharpness continuity. The sharpness discontinuity is especially problematic for heavy-duty vehicles because their actuator dynamics are even slower than cars. We propose an algorithm that constructs a sparsified sharpness continuous path for a given reference path considering the limits on sharpness and its derivative, which subsequently addresses the torque restrictions of the actuator. The sharpness continuous path needs less steering effort and reduces mechanical stress and fatigue in the steering unit. We compare and present the outcomes for each of the three different types of optimized paths. Simulation results demonstrate that computed sharpness continuous path profiles reduce lateral jerks, enhancing comfort and driveability.
+summary: ''
+link: https://doi.org/10.1109/IV51971.2022.9827011
+links_alt:
+audit_status: raw

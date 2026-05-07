@@ -1,0 +1,18 @@
+title: Time series shapelets
+algorithm:
+authors:
+  - Lexiang Ye
+  - Eamonn Keogh
+year: 2009
+source: >
+  Proceedings of the 15th ACM SIGKDD international conference on Knowledge discovery and data mining
+type: Conference Paper
+doi: 10.1145/1557019.1557122
+arxiv_id:
+tags:
+abstract: >
+  Classification of time series has been attracting great interest over the past decade. Recent empirical evidence has strongly suggested that the simple nearest neighbor algorithm is very difficult to beat for most time series problems. While this may be considered good news, given the simplicity of implementing the nearest neighbor algorithm, there are some negative consequences of this. First, the nearest neighbor algorithm requires storing and searching the entire dataset, resulting in a time and space complexity that limits its applicability, especially on resource-limited sensors. Second, beyond mere classification accuracy, we often wish to gain some insight into the data.
+summary: ''
+link: https://doi.org/10.1145/1557019.1557122
+links_alt:
+audit_status: raw

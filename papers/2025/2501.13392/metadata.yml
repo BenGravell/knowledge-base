@@ -1,0 +1,19 @@
+title: 'Time Series Embedding Methods for Classification Tasks: A Review'
+algorithm:
+authors:
+  - Habib Irani
+  - Yasamin Ghahremani
+  - Arshia Kermani
+  - Vangelis Metsis
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2501.13392"
+tags:
+abstract: >
+  Time series analysis has become crucial in various fields, from engineering and finance to healthcare and social sciences. Due to their multidimensional nature, time series often need to be embedded into a fixed-dimensional feature space to enable processing with various machine learning algorithms. In this paper, we present a comprehensive review and quantitative evaluation of time series embedding methods for effective representations in machine learning and deep learning models. We introduce a taxonomy of embedding techniques, categorizing them based on their theoretical foundations and application contexts. Our work provides a quantitative evaluation of representative methods from each category by assessing their performance on downstream classification tasks across diverse real-world datasets. Our experimental results demonstrate that the performance of embedding methods varies significantly depending on the dataset and classification algorithm used, highlighting the importance of careful model selection and extensive experimentation for specific applications. To facilitate further research and practical applications, we provide an open-source code repository implementing these embedding methods. This study contributes to the field by offering a systematic comparison of time series embedding techniques, guiding practitioners in selecting appropriate methods for their specific applications, and providing a foundation for future advancements in time series analysis.
+summary: ''
+link: https://arxiv.org/pdf/2501.13392
+links_alt:
+audit_status: raw

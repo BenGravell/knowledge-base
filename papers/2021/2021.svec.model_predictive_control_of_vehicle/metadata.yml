@@ -1,0 +1,19 @@
+title: >
+  Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition
+algorithm:
+authors:
+  - Marko Svec
+  - Sandor Iles
+  - Jadranko Matusko
+year: 2021
+source: 2021 22nd IEEE International Conference on Industrial Technology (ICIT)
+type: Conference Paper
+doi: 10.1109/ICIT46573.2021.9453623
+arxiv_id:
+tags:
+abstract: >
+  The control of vehicle dynamics is a very demanding task due to the complex nonlinear tire characteristics and the coupled lateral and longitudinal dynamics of the vehicle. When designing a Model Predictive Controller (MPC) for vehicle dynamics, this can lead to a non-convex optimization problem. A novel approach to solve the problem of controlling nonlinear systems is based on the so-called Koopman operator. The Koopman operator is a linear operator that governs the evolution of scalar functions (often referred to as observables) along the trajectories of a given nonlinear dynamical system and is a powerful tool for the analysis and decomposition of nonlinear dynamical systems. The main idea is to lift the nonlinear dynamics to a higher dimensional space where its evolution can be described with a linear system model. In this paper we propose a model predictive controller for vehicle dynamics based on the Kooopman operator decomposition of vehicle dynamics with Extended Dynamic Mode Decomposition (EDMD) method. Both model identification and predictive controller design are validated using Matlab/Simulink environment.
+summary: ''
+link: https://doi.org/10.1109/ICIT46573.2021.9453623
+links_alt:
+audit_status: raw

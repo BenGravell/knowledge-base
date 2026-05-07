@@ -1,0 +1,18 @@
+title: >
+  Time-optimal control of linear time invariant systems between two arbitrary states
+algorithm:
+authors:
+  - Marcello Romano
+  - Fabio Curti
+year: 2020
+source: Automatica
+type: Journal Paper
+doi: 10.1016/j.automatica.2020.109151
+arxiv_id:
+tags:
+abstract: >
+  Abstract New results are presented for the problem of minimum-time control of a general linear time-invariant normal system evolving from an arbitrary initial state to an arbitrary final state (no-rest to no-rest problem), subjected to bound controls. In particular, it is demonstrated that the above problem is equivalent to an associated minimum-time control problem of transferring the same system from a particular initial state to the state-space origin (no-rest to rest problem), where that particular initial state is related to the boundary states of the original problem through a transformation of the state-space onto itself. If the optimal control history that transfers the system from an arbitrary initial state to the origin is known, either analytically or numerically, then the new results provide a method to solve the problem of minimum-time control between two arbitrary states and moreover, to find all of the extremal controlled trajectories. A criterion of existence is also given for the solution of the minimum-time control between two arbitrary states. Finally, the analytic solution is presented for the minimum-time control of the double integrator between arbitrary states. That solution provides a significant example of applying the new results.
+summary: ''
+link: https://doi.org/10.1016/j.automatica.2020.109151
+links_alt:
+audit_status: raw

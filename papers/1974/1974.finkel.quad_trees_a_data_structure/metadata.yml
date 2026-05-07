@@ -1,0 +1,17 @@
+title: Quad trees a data structure for retrieval on composite keys
+algorithm:
+authors:
+  - R. A. Finkel
+  - J. L. Bentley
+year: 1974
+source: Acta Informatica
+type: Journal Paper
+doi: 10.1007/BF00288933
+arxiv_id:
+tags:
+abstract: >
+  The quad tree is a data structure appropriate for storing information to be retrieved on composite keys. We discuss the specific case of two-dimensional retrieval, although the structure is easily generalised to arbitrary dimensions. Algorithms are given both for staightforward insertion and for a type of balanced insertion into quad trees. Empirical analyses show that the average time for insertion is logarithmic with the tree size. An algorithm for retrieval within regions is presented along with data from empirical studies which imply that searching is reasonably efficient. We define an optimized tree and present an algorithm to accomplish optimization in n log n time. Searching is guaranteed to be fast in optimized trees. Remaining problems include those of deletion from quad trees and merging of quad trees, which seem to be inherently difficult operations.
+summary: ''
+link: https://doi.org/10.1007/BF00288933
+links_alt:
+audit_status: raw

@@ -1,0 +1,17 @@
+title: Exact indexing of dynamic time warping
+algorithm:
+authors:
+  - Eamonn Keogh
+  - Chotirat Ann Ratanamahatana
+year: 2005
+source: Knowledge and Information Systems
+type: Journal Paper
+doi: 10.1007/s10115-004-0154-9
+arxiv_id:
+tags:
+abstract: >
+  The problem of indexing time series has attracted much interest. Most algorithms used to index time series utilize the Euclidean distance or some variation thereof. However, it has been forcefully shown that the Euclidean distance is a very brittle distance measure. Dynamic time warping (DTW) is a much more robust distance measure for time series, allowing similar shapes to match even if they are out of phase in the time axis. Because of this flexibility, DTW is widely used in science, medicine, industry and finance. Unfortunately, however, DTW does not obey the triangular inequality and thus has resisted attempts at exact indexing. Instead, many researchers have introduced approximate indexing techniques or abandoned the idea of indexing and concentrated on speeding up sequential searches. In this work, we introduce a novel technique for the exact indexing of DTW. We prove that our method guarantees no false dismissals and we demonstrate its vast superiority over all competing approaches in the largest and most comprehensive set of time series indexing experiments ever undertaken.
+summary: ''
+link: https://doi.org/10.1007/s10115-004-0154-9
+links_alt:
+audit_status: raw

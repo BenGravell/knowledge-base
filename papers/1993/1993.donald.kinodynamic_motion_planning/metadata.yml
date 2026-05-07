@@ -1,0 +1,19 @@
+title: Kinodynamic motion planning
+algorithm:
+authors:
+  - Bruce Donald
+  - Patrick Xavier
+  - John Canny
+  - John Reif
+year: 1993
+source: Journal of the ACM
+type: Journal Paper
+doi: 10.1145/174147.174150
+arxiv_id:
+tags:
+abstract: >
+  Kinodynamic planmng attempts to solve a robot motion problem subject to simultaneous kinematic and dynamics constraints. In the general problem, ggven a robot system, we must find a minimal-time trajectory that goes from a start position and veloclty to a goal position and velocity while avoiding obstacles by a safety margur and respecting constraints cm velocity and acceleration.
+summary: ''
+link: https://doi.org/10.1145/174147.174150
+links_alt:
+audit_status: raw

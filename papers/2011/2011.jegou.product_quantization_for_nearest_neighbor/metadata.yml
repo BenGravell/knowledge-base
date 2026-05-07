@@ -1,0 +1,18 @@
+title: Product Quantization for Nearest Neighbor Search
+algorithm:
+authors:
+  - H Jégou
+  - M Douze
+  - C Schmid
+year: 2011
+source: IEEE Transactions on Pattern Analysis and Machine Intelligence
+type: Journal Paper
+doi: 10.1109/TPAMI.2010.57
+arxiv_id:
+tags:
+abstract: >
+  This paper introduces a product quantization-based approach for approximate nearest neighbor search. The idea is to decompose the space into a Cartesian product of low-dimensional subspaces and to quantize each subspace separately. A vector is represented by a short code composed of its subspace quantization indices. The euclidean distance between two vectors can be efficiently estimated from their codes. An asymmetric version increases precision, as it computes the approximate distance between a vector and a code. Experimental results show that our approach searches for nearest neighbors efficiently, in particular in combination with an inverted file system. Results for SIFT and GIST image descriptors show excellent search accuracy, outperforming three state-of-the-art approaches. The scalability of our approach is validated on a data set of two billion vectors.
+summary: ''
+link: https://doi.org/10.1109/TPAMI.2010.57
+links_alt:
+audit_status: raw

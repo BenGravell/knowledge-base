@@ -1,0 +1,16 @@
+title: Resolved Motion Rate Control of Manipulators and Human Prostheses
+algorithm:
+authors:
+  - Daniel Whitney
+year: 1969
+source: IEEE Transactions on Man Machine Systems
+type: Journal Paper
+doi: 10.1109/TMMS.1969.299896
+arxiv_id:
+tags:
+abstract: >
+  The kinematics of remote manipulators and human prostheses is analyzed for the purpose of deriving resolved motion rate control. That is, the operator is enabled to call for the desired hand motion directly along axes relevant to the task environment. The approach suggests solutions to problems of coordination, motion under task constraints, and appreciation of forces encountered by the controlled hand.
+summary: ''
+link: https://doi.org/10.1109/TMMS.1969.299896
+links_alt:
+audit_status: raw

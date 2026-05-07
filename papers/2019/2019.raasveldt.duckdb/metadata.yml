@@ -1,0 +1,17 @@
+title: DuckDB
+algorithm:
+authors:
+  - Mark Raasveldt
+  - Hannes Mühleisen
+year: 2019
+source: Proceedings of the 2019 International Conference on Management of Data
+type: Conference Paper
+doi: 10.1145/3299869.3320212
+arxiv_id:
+tags:
+abstract: >
+  The immense popularity of SQLite shows that there is a need for unobtrusive in-process data management solutions. However, there is no such system yet geared towards analytical workloads. We demonstrate DuckDB, a novel data management system designed to execute analytical SQL queries while embedded in another process. In our demonstration, we pit DuckDB against other data management solutions to showcase its performance in the embedded analytics scenario. DuckDB is available as Open Source software under a permissive license.
+summary: ''
+link: https://doi.org/10.1145/3299869.3320212
+links_alt:
+audit_status: raw

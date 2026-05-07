@@ -1,0 +1,20 @@
+title: 'CasADi: a software framework for nonlinear optimization and optimal control'
+algorithm:
+authors:
+  - Joel A. E. Andersson
+  - Joris Gillis
+  - Greg Horn
+  - James B. Rawlings
+  - Moritz Diehl
+year: 2018
+source: Mathematical Programming Computation
+type: Journal Paper
+doi: 10.1007/s12532-018-0139-4
+arxiv_id:
+tags:
+abstract: >
+  We present CasADi, an open-source software framework for numerical optimization. CasADi is a general-purpose tool that can be used to model and solve optimization problems with a large degree of flexibility, larger than what is associated with popular algebraic modeling languages such as AMPL, GAMS, JuMP or Pyomo. Of special interest are problems constrained by differential equations, i.e. optimal control problems. CasADi is written in self-contained C++, but is most conveniently used via full-featured interfaces to Python, MATLAB or Octave. Since its inception in late 2009, it has been used successfully for academic teaching as well as in applications from multiple fields, including process control, robotics and aerospace. This article gives an up-to-date and accessible introduction to the CasADi framework, which has undergone numerous design improvements over the last 7&amp;nbsp;years.
+summary: ''
+link: https://doi.org/10.1007/s12532-018-0139-4
+links_alt:
+audit_status: raw

@@ -1,0 +1,16 @@
+title: 'Matplotlib: A 2D Graphics Environment'
+algorithm:
+authors:
+  - John D. Hunter
+year: 2007
+source: Computing in Science &amp; Engineering
+type: Journal Paper
+doi: 10.1109/MCSE.2007.55
+arxiv_id:
+tags:
+abstract: >
+  Matplotlib is a 2D graphics package used for Python for application development, interactive scripting,and publication-quality image generation across user interfaces and operating systems
+summary: ''
+link: https://doi.org/10.1109/MCSE.2007.55
+links_alt:
+audit_status: raw

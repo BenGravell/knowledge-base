@@ -1,0 +1,18 @@
+title: >
+  A combined optimization method for solving the inverse kinematics problems of mechanical manipulators
+algorithm:
+authors:
+  - L.-C.T. Wang
+  - C.C. Chen
+year: 1991
+source: IEEE Transactions on Robotics and Automation
+type: Journal Paper
+doi: 10.1109/70.86079
+arxiv_id:
+tags:
+abstract: >
+  A new method for computing numerical solutions to the inverse kinematics problem of robotic manipulators is developed. The method is based on a combination of two nonlinear programming techniques and the forward recursion formulas, with the joint limitations of the robot being handled implicitly as simple boundary constraints. This method is numerically stable since it converges to the correct answer with virtually any initial approximation, and it is not sensitive to the singular configuration of the manipulator. In addition, this method is computationally efficient and can be applied to serial manipulators having any number of degrees of freedom.< <ETX xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">&gt;</ETX>
+summary: ''
+link: https://doi.org/10.1109/70.86079
+links_alt:
+audit_status: raw

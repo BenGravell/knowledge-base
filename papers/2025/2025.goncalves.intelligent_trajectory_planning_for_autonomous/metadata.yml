@@ -1,0 +1,19 @@
+title: >
+  Intelligent Trajectory Planning for Autonomous Vehicles via Adaptive Model Predictive Control
+algorithm:
+authors:
+  - Catarina Gonçalves
+  - M. do Rosário Calado
+  - Nuno Pombo
+year: 2025
+source: IEEE Access
+type: Journal Paper
+doi: 10.1109/ACCESS.2025.3570609
+arxiv_id:
+tags:
+abstract: >
+  This study introduces an Adaptive Model Predictive Control (AMPC) framework for intelligent trajectory planning in autonomous vehicles navigating complex and dynamic highway environments. The proposed system is designed to adapt in real time to environmental changes, vehicle dynamics, and traffic conditions, with a focus on ensuring safety, efficiency, and collision avoidance. A comprehensive simulation test bench was developed using MATLAB and Simulink, including four representative highway driving scenarios that vary in traffic density, lane configurations, and event complexity (e.g., accidents, junctions). Results demonstrate that the AMPC system significantly improves trajectory tracking, reduces abrupt maneuvers, and maintains vehicle stability even at high speeds. Notably, increased lane availability and lower traffic density contribute to smoother lane changes and fewer collisions. Compared to traditional MPC, the adaptive approach shows greater robustness and responsiveness in unpredictable driving contexts. Although exact computational profiling was not performed, the design follows principles compatible with real-time implementation in automotive contexts.
+summary: ''
+link: https://doi.org/10.1109/ACCESS.2025.3570609
+links_alt:
+audit_status: raw

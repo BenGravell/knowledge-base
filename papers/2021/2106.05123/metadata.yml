@@ -1,0 +1,16 @@
+title: Pattern-defeating Quicksort
+algorithm:
+authors:
+  - Orson R. L. Peters
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2106.05123"
+tags:
+abstract: >
+  A new solution for the Dutch national flag problem is proposed, requiring no three-way comparisons, which gives quicksort a proper worst-case runtime of $O(nk)$ for inputs with $k$ distinct elements. This is used together with other known and novel techniques to construct a hybrid sort that is never significantly slower than regular quicksort while speeding up drastically for many input distributions.
+summary: ''
+link: https://arxiv.org/pdf/2106.05123
+links_alt:
+audit_status: raw

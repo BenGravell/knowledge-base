@@ -1,0 +1,18 @@
+title: >
+  A novel RRT extend function for efficient and smooth mobile robot motion planning
+algorithm:
+authors:
+  - Luigi Palmieri
+  - Kai O. Arras
+year: 2014
+source: 2014 IEEE/RSJ International Conference on Intelligent Robots and Systems
+type: Conference Paper
+doi: 10.1109/IROS.2014.6942562
+arxiv_id:
+tags:
+abstract: >
+  In this paper we introduce a novel RRT extend function for wheeled mobile robots. The approach computes closed-loop forward simulations based on the kinematic model of the robot and enables the planner to efficiently generate smooth and feasible paths that connect any pairs of states. We extend the control law of an existing discontinuous state feedback controller to make it usable as an RRT extend function and prove that all relevant stability properties are retained. We study the properties of the new approach as extender for RRT and RRT* and compare it systematically to a spline-based approach and a large and small set of motion primitives. The results show that our approach generally produces smoother paths to the goal in less time with smaller trees. For RRT*, the approach produces also the shortest paths and achieves the lowest cost solutions when given more planning time.
+summary: ''
+link: https://doi.org/10.1109/IROS.2014.6942562
+links_alt:
+audit_status: raw

@@ -1,0 +1,17 @@
+title: A family of embedded Runge-Kutta formulae
+algorithm:
+authors:
+  - J.R. Dormand
+  - P.J. Prince
+year: 1980
+source: Journal of Computational and Applied Mathematics
+type: Journal Paper
+doi: 10.1016/0771-050x(80)90013-3
+arxiv_id:
+tags:
+abstract: >
+  Abstract A family of embedded Runge-Kutta formulae RK5 (4) are derived. From these are presented formulae which have (a) ‘small’ principal truncation terms in the fifth order and (b) extended regions of absolute stability.
+summary: ''
+link: https://doi.org/10.1016/0771-050x(80)90013-3
+links_alt:
+audit_status: raw

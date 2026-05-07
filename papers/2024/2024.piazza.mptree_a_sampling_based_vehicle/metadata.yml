@@ -1,0 +1,19 @@
+title: 'MPTree: A Sampling-based Vehicle Motion Planner for Real-time Obstacle Avoidance'
+algorithm:
+authors:
+  - Mattia Piazza
+  - Mattia Piccinini
+  - Sebastiano Taddei
+  - Francesco Biral
+year: 2024
+source: IFAC-PapersOnLine
+type: Journal Paper
+doi: 10.1016/j.ifacol.2024.07.332
+arxiv_id:
+tags:
+abstract: >
+  This paper presents a novel and modular framework, named MPTree, for real-time vehicle motion planning with dynamic obstacle avoidance. MPTree adopts a sampling-based algorithm, to explore a tree of Motion Primitives (MPs) and return near-optimal trajectories. Specifically, MPTree builds motion primitives to connect the tree nodes (waypoints), sampled in a mesh of waylines on the local planning horizon. The tree exploration is based on a semi-structured RRTa, with an application-specific cost function (e.g., minimum-jerk or minimum-time) and high-level behavioral policy. We show examples of MPTREE’s specialization for urban environments and autonomous racing, using fast-to-evaluate motion primitives to accelerate the tree exploration phase. A prototype implementation is tested in a closed-loop simulation environment. Our preliminary results show that MPTree provides feasible collision-free trajectories while ensuring low computational times.
+summary: ''
+link: https://doi.org/10.1016/j.ifacol.2024.07.332
+links_alt:
+audit_status: raw

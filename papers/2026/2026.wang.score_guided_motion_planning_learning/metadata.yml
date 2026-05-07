@@ -1,0 +1,20 @@
+title: 'Score-Guided Motion Planning: Learning the Gradient Field of Promising Regions'
+algorithm:
+authors:
+  - Shaochen Wang
+  - Qilin Wu
+  - Qing Huang
+  - Zhuo Cheng
+year: 2026
+source: >
+  ICASSP 2026 - 2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)
+type: Conference Paper
+doi: 10.1109/ICASSP55912.2026.11460477
+arxiv_id:
+tags:
+abstract: >
+  In this paper, a score-guided sampling framework, ScorePlanner, is proposed to address the critical challenge of sampling inefficiency in sampling-based motion planning. ScorePlanner fundamentally reframes the sampling problem: instead of relying on blind, uniform exploration, it introduces a guided generation process. This process leverages a learned score function, the gradient of the log-probability of promising configurations, to actively steer samples towards the connective backbone of the promising space. ScorePlanner can be seamlessly integrated as a modular sampler into foundational planners like RRT and RRT* to dramatically improve sampling efficiency and accelerate convergence to high-quality solutions. Extensive experiments in a variety of challenging environments are conducted to demonstrate the performance gains of the proposed framework.
+summary: ''
+link: https://doi.org/10.1109/ICASSP55912.2026.11460477
+links_alt:
+audit_status: raw

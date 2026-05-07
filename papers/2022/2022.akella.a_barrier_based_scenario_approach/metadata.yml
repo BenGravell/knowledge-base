@@ -1,0 +1,17 @@
+title: A Barrier-Based Scenario Approach to Verifying Safety-Critical Systems
+algorithm:
+authors:
+  - Prithvi Akella
+  - Aaron D. Ames
+year: 2022
+source: IEEE Robotics and Automation Letters
+type: Journal Paper
+doi: 10.1109/LRA.2022.3192805
+arxiv_id:
+tags:
+abstract: >
+  We detail an approach to safety-critical verification using barrier functions. Our method requires limited system data to verify a system's ability to keep positive a candidate barrier function <inline-formula><tex-math notation="LaTeX">$h$</tex-math></inline-formula> at discrete-time intervals over its trajectories. Specifically, our method first randomly samples initial conditions and parameters for a controlled, continuous-time system and records the state trajectory at discrete intervals. Then, we evaluate these states under a candidate barrier function <inline-formula><tex-math notation="LaTeX">$h$</tex-math></inline-formula> to determine the constraints for a randomized linear program. The solution to this program provides either a probabilistic verification statement in the aforementioned vein or a counterexample - an instance where the system went unsafe. To showcase our results, we verify the robotarium simulator, identify counterexamples for its hardware counterpart, and experimentally verify the safety of a multi-agent quadrupedal system.
+summary: ''
+link: https://doi.org/10.1109/LRA.2022.3192805
+links_alt:
+audit_status: raw

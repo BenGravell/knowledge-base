@@ -1,0 +1,19 @@
+title: >
+  ROCKET: Exceptionally fast and accurate time series classification using random convolutional kernels
+algorithm:
+authors:
+  - Angus Dempster
+  - François Petitjean
+  - Geoffrey I. Webb
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1910.13051"
+tags:
+abstract: >
+  Most methods for time series classification that attain state-of-the-art accuracy have high computational complexity, requiring significant training time even for smaller datasets, and are intractable for larger datasets. Additionally, many existing methods focus on a single type of feature such as shape or frequency. Building on the recent success of convolutional neural networks for time series classification, we show that simple linear classifiers using random convolutional kernels achieve state-of-the-art accuracy with a fraction of the computational expense of existing methods.
+summary: ''
+link: https://arxiv.org/pdf/1910.13051
+links_alt:
+audit_status: raw

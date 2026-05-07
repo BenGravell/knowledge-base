@@ -1,0 +1,24 @@
+title: "The Markov-Dubins Problem with Angular Acceleration Control"
+algorithm:
+authors:
+  - Hector J. Sussmann
+year: 1997
+source: Proceedings of the 36th IEEE Conference on Decision and Control
+type: Conference Paper
+doi: 10.1109/CDC.1997.657778
+arxiv_id:
+tags:
+  - Dubins path
+  - optimal control
+  - angular acceleration
+  - bang-bang control
+  - singular control
+  - path planning
+  - Pontryagin maximum principle
+abstract: >
+  We study a modified version of the well known Markov-Dubins problem, in which the control is angular acceleration rather than angular velocity. We show that an optimal trajectory cannot contain a junction of a bang-bang and a singular piece, and use the results of Zelikin and Borisov (1994) to show that there are Pontryagin extremals involving infinite chattering.
+summary: >
+  Studies a second-order variant of the Markov-Dubins minimum-length path problem where angular acceleration is the control rather than angular velocity, finding that optimal trajectories exclude bang-bang/singular junctions but may exhibit the Fuller phenomenon of infinite control chattering in Pontryagin extremals.
+link: https://doi.org/10.1109/CDC.1997.657778
+links_alt:
+audit_status: raw

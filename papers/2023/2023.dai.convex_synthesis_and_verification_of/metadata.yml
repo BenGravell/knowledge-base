@@ -1,0 +1,18 @@
+title: >
+  Convex synthesis and verification of control-Lyapunov and barrier functions with input constraints
+algorithm:
+authors:
+  - Hongkai Dai
+  - Frank Permenter
+year: 2023
+source: 2023 American Control Conference (ACC)
+type: Conference Paper
+doi: 10.23919/ACC55779.2023.10156043
+arxiv_id:
+tags:
+abstract: >
+  Control Lyapunov functions (CLFs) and control barrier functions (CBFs) are widely used tools for synthesizing controllers subject to stability and safety constraints. Paired with online optimization, they provide stabilizing control actions that satisfy input constraints and avoid unsafe regions of state-space. Designing CLFs and CBFs with rigorous performance guarantees is computationally challenging. To certify existence of control actions, current techniques not only design a CLF/CBF, but also a nominal controller. This can make the synthesis task more expensive, and performance estimation more conservative. In this work, we characterize polynomial CLFs/CBFs using sum-of-squares conditions, which can be directly certified using convex optimization. This yields a CLF and CBF synthesis technique that does not rely on a nominal controller. We then present algorithms for iteratively enlarging estimates of the stabilizable and safe regions. We demonstrate our algorithms on a 2D toy system, a pendulum and a quadrotor.
+summary: ''
+link: https://doi.org/10.23919/ACC55779.2023.10156043
+links_alt:
+audit_status: raw
