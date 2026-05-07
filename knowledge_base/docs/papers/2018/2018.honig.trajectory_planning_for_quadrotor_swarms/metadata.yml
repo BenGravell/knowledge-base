@@ -1,0 +1,20 @@
+title: Trajectory Planning for Quadrotor Swarms
+algorithm:
+authors:
+  - Wolfgang Honig
+  - James A. Preiss
+  - T. K. Satish Kumar
+  - Gaurav S. Sukhatme
+  - Nora Ayanian
+year: 2018
+source: IEEE Transactions on Robotics
+type: Journal Paper
+doi: 10.1109/TRO.2018.2853613
+arxiv_id:
+tags:
+abstract: >
+  We describe a method for multirobot trajectory planning in known, obstacle-rich environments. We demonstrate our approach on a quadrotor swarm navigating in a warehouse setting. Our method consists of following three stages: 1) roadmap generation that generates sparse roadmaps annotated with possible interrobot collisions; 2) discrete planning that finds valid execution schedules in discrete time and space; 3) continuous refinement that creates smooth trajectories. We account for the downwash effect of quadrotors, allowing safe flight in dense formations. We demonstrate computational efficiency in simulation with up to 200 robots and physical plausibility with an experiment on 32 nano-quadrotors. Our approach can compute safe and smooth trajectories for hundreds of quadrotors in dense environments with obstacles in a few minutes.
+summary: ''
+link: https://doi.org/10.1109/TRO.2018.2853613
+links_alt:
+audit_status: raw

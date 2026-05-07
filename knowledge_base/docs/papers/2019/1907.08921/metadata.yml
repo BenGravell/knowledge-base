@@ -1,0 +1,19 @@
+title: 'LQR through the Lens of First Order Methods: Discrete-time Case'
+algorithm:
+authors:
+  - Jingjing Bu
+  - Afshin Mesbahi
+  - Maryam Fazel
+  - Mehran Mesbahi
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1907.08921"
+tags:
+abstract: >
+  We consider the Linear-Quadratic-Regulator (LQR) problem in terms of optimizing a real-valued matrix function over the set of feedback gains. Such a setup facilitates examining the implications of a natural initial-state independent formulation of LQR in designing first order algorithms. It is shown that this cost function is smooth and coercive, and provide an alternate means of noting its gradient dominated property. In the process, we provide a number of analytic observations on the LQR cost when directly analyzed in terms of the feedback gain. We then examine three types of well-posed flows for LQR: gradient flow, natural gradient flow and the quasi-Newton flow. The coercive property suggests that these flows admit unique solutions while gradient dominated property indicates that the corresponding Lyapunov functionals decay at an exponential rate; we also prove that these flows are exponentially stable in the sense of Lyapunov. We then discuss the forward Euler discretization of these flows, realized as gradient descent, natural gradient descent and the quasi-Newton iteration. We present stepsize criteria for gradient descent and natural gradient descent, guaranteeing that both algorithms converge linearly to the global optima. An optimal stepsize for the quasi-Newton iteration is also proposed, guaranteeing a $Q$-quadratic convergence rate--and in the meantime--recovering the Hewer algorithm.
+summary: ''
+link: https://arxiv.org/pdf/1907.08921
+links_alt:
+audit_status: raw

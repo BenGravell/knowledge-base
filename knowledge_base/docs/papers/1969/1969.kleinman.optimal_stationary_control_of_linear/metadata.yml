@@ -1,0 +1,16 @@
+title: Optimal stationary control of linear systems with control-dependent noise
+algorithm:
+authors:
+  - D. Kleinman
+year: 1969
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.1969.1099303
+arxiv_id:
+tags:
+abstract: >
+  Optimal stochastic control is investigated for linear systems in which the intensity of the driving noise is proportional to control input. Conditions are given under which an optimal control always exists. It is shown that the optimal control is linear in the system state. A convergent algorithm is developed for computing the optimal feedback gains.
+summary: ''
+link: https://doi.org/10.1109/TAC.1969.1099303
+links_alt:
+audit_status: raw

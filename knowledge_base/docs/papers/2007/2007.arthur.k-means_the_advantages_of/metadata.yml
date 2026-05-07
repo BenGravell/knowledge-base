@@ -1,0 +1,27 @@
+title: "k-means++: The Advantages of Careful Seeding"
+algorithm: k-means++
+authors:
+  - David Arthur
+  - Sergei Vassilvitskii
+year: 2007
+source: ACM-SIAM Symposium on Discrete Algorithms
+type: Conference Paper
+doi: 10.5555/1283383.1283494
+arxiv_id:
+tags:
+  - Clustering
+  - k-means
+  - Initialization
+  - Seeding
+  - Approximation algorithms
+  - Unsupervised learning
+  - Competitive analysis
+abstract: >
+  The k-means method is a widely used clustering technique that seeks to minimize the average squared distance between points in the same cluster. Although it offers no accuracy guarantees, its simplicity and speed are very appealing in practice. By augmenting k-means with a very simple, randomized seeding technique, we obtain an algorithm that is O(log k)-competitive with the optimal clustering. Preliminary experiments show that our augmentation improves both the speed and the accuracy of k-means, often quite dramatically.
+summary: >
+  Introduces k-means++, a seeding strategy that initializes cluster centers by sampling proportional to squared distance from already-chosen centers (D² sampling). This simple change yields an O(log k) approximation guarantee on the objective — the first provable bound for a practical k-means variant — while also improving empirical speed and accuracy, often dramatically.
+link: https://theory.stanford.edu/~sergei/papers/kMeansPP-soda.pdf
+links_alt:
+  - http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf
+  - https://dl.acm.org/doi/10.5555/1283383.1283494
+audit_status: raw

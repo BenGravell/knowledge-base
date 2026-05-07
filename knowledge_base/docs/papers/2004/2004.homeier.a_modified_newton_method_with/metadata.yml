@@ -1,0 +1,16 @@
+title: 'A modified Newton method with cubic convergence: the multivariate case'
+algorithm:
+authors:
+  - H.H.H Homeier
+year: 2004
+source: Journal of Computational and Applied Mathematics
+type: Journal Paper
+doi: 10.1016/j.cam.2003.12.041
+arxiv_id:
+tags:
+abstract: >
+  Recently, a modification of the Newton method for finding a zero of a univariate function with local cubic convergence has been introduced. Here, we extend this modification to the multi-dimensional case, i.e., we introduce a modified Newton method for vector functions that converges locally cubically, without the need to compute higher derivatives. The case of multiple roots is not treated. Per iteration the method requires one evaluation of the function vector and solving two linear systems with the Jacobian as coefficient matrix, where the Jacobian has to be evaluated twice. Since the additional computational effort is nearly that of an additional Newton step, the proposed method is useful especially in difficult cases where the number of iterations can be reduced by a factor of two in comparison to the Newton method. This much better convergence is indeed possible as shown by a numerical example. Also, the modified Newton method can be advantageous in cases where the evaluation of the function is more expensive than solving a linear system with the Jacobian as coefficient matrix. An example for this is given where numerical quadrature is involved. Finally, we discuss shortly possible extensions of the method to make it globally convergent.
+summary: ''
+link: https://doi.org/10.1016/j.cam.2003.12.041
+links_alt:
+audit_status: raw

@@ -1,0 +1,18 @@
+title: Adaptive linear quadratic control using policy iteration
+algorithm:
+authors:
+  - S.J. Bradtke
+  - B.E. Ydstie
+  - A.G. Barto
+year: 1994
+source: Proceedings of 1994 American Control Conference - ACC '94
+type: Conference Paper
+doi: 10.1109/ACC.1994.735224
+arxiv_id:
+tags:
+abstract: >
+  In this paper we present the stability and convergence results for dynamic programming-based reinforcement learning applied to linear quadratic regulation (LQR). The specific algorithm we analyze is based on Q-learning and it is proven to converge to an optimal controller provided that the underlying system is controllable and a particular signal vector is persistently excited. This is the first convergence result for DP-based reinforcement learning algorithms for a continuous problem.
+summary: ''
+link: https://doi.org/10.1109/ACC.1994.735224
+links_alt:
+audit_status: raw
