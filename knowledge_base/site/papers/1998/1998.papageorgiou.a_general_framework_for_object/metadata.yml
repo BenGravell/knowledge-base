@@ -1,0 +1,26 @@
+title: "A General Framework for Object Detection"
+algorithm:
+authors:
+  - Constantine P. Papageorgiou
+  - Michael Oren
+  - Tomaso Poggio
+year: 1998
+source: Sixth International Conference on Computer Vision
+type: Conference Paper
+doi: 10.1109/ICCV.1998.710772
+arxiv_id:
+tags:
+  - object detection
+  - computer vision
+  - wavelet features
+  - support vector machine
+  - SVM
+  - face detection
+  - pedestrian detection
+abstract: >
+  This paper presents a general trainable framework for object detection in static images of cluttered scenes. The detection technique we develop is based on a wavelet representation of an object class derived from a statistical analysis of the class instances. By learning an object class in terms of a subset of an overcomplete dictionary of wavelet basis functions, we derive a compact representation of an object class which is used as an input to a support vector machine classifier. This representation overcomes both the problem of in-class variability and provides a low false detection rate in unconstrained environments. We demonstrate the capabilities of the technique in two domains whose inherent information content differs significantly. The first system is face detection and the second is the domain of people which, in contrast to faces, vary greatly in color, texture, and patterns. Unlike previous approaches, this system learns from examples and does not rely on any a priori (hand-crafted) models or motion-based segmentation. The paper also presents a motion-based extension to enhance the performance of the detection algorithm over video sequences. The results presented here suggest that this architecture may well be quite general.
+summary: >
+  Introduces a trainable object detection framework using wavelet feature representations and SVM classification, demonstrated on faces and pedestrians. An influential precursor to the HOG-SVM and cascade detector pipelines that established the learn-from-examples paradigm for visual object detection.
+link: https://doi.org/10.1109/ICCV.1998.710772
+links_alt:
+audit_status: raw

@@ -1,0 +1,20 @@
+title: >
+  MultiRocket: Multiple pooling operators and transformations for fast and effective time series classification
+algorithm:
+authors:
+  - Chang Wei Tan
+  - Angus Dempster
+  - Christoph Bergmeir
+  - Geoffrey I. Webb
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2102.00457"
+tags:
+abstract: >
+  We propose MultiRocket, a fast time series classification (TSC) algorithm that achieves state-of-the-art performance with a tiny fraction of the time and without the complex ensembling structure of many state-of-the-art methods. MultiRocket improves on MiniRocket, one of the fastest TSC algorithms to date, by adding multiple pooling operators and transformations to improve the diversity of the features generated. In addition to processing the raw input series, MultiRocket also applies first order differences to transform the original series. Convolutions are applied to both representations, and four pooling operators are applied to the convolution outputs. When benchmarked using the University of California Riverside TSC benchmark datasets, MultiRocket is significantly more accurate than MiniRocket, and competitive with the best ranked current method in terms of accuracy, HIVE-COTE 2.0, while being orders of magnitude faster.
+summary: ''
+link: https://arxiv.org/pdf/2102.00457
+links_alt:
+audit_status: raw

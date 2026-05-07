@@ -1,0 +1,19 @@
+title: OBBTree
+algorithm:
+authors:
+  - S. Gottschalk
+  - M. C. Lin
+  - D. Manocha
+year: 1996
+source: >
+  Proceedings of the 23rd annual conference on Computer graphics and interactive techniques
+type: Conference Paper
+doi: 10.1145/237170.237244
+arxiv_id:
+tags:
+abstract: >
+  Article OBBTree: a hierarchical structure for rapid interference detection Share on Authors: S. Gottschalk Department of Computer Science, University of North Carolina, Chapel Hill, NC Department of Computer Science, University of North Carolina, Chapel Hill, NCView Profile , M. C. Lin Department of Computer Science, University of North Carolina, Chapel Hill, NC and U.S. Army Research Office Department of Computer Science, University of North Carolina, Chapel Hill, NC and U.S. Army Research OfficeView Profile , D. Manocha Department of Computer Science, University of North Carolina, Chapel Hill, NC Department of Computer Science, University of North Carolina, Chapel Hill, NCView Profile Authors Info & Claims SIGGRAPH '96: Proceedings of the 23rd annual conference on Computer graphics and interactive techniquesAugust 1996 Pages 171–180https://doi.org/10.1145/237170.237244Online:01 August 1996Publication History 959citation5,396DownloadsMetricsTotal Citations959Total Downloads5,396Last 12 Months262Last 6 weeks40 Get Citation AlertsNew Citation Alert added!This alert has been successfully added and will be sent to:You will be notified whenever a record that you have chosen has been cited.To manage your alert preferences, click on the button below.Manage my AlertsNew Citation Alert!Please log in to your account Save to BinderSave to BinderCreate a New BinderNameCancelCreateExport CitationPublisher SiteGet Access
+summary: ''
+link: https://doi.org/10.1145/237170.237244
+links_alt:
+audit_status: raw

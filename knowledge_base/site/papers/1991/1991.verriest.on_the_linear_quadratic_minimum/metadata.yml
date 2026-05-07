@@ -1,0 +1,17 @@
+title: On the linear quadratic minimum-time problem
+algorithm:
+authors:
+  - E.I. Verriest
+  - F.L. Lewis
+year: 1991
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/9.85066
+arxiv_id:
+tags:
+abstract: >
+  A nontraditional minimum-time problem that includes quadratic-state and control-weighting terms in the performance index is investigated. This formulation provides a convenient solution to the problem that uses the solution of the Riccati equation to compute the optimal feedback gain and the optimal time. In some cases the latter is simply found using the derivative of the Riccati equation solution.< <ETX xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">&gt;</ETX>
+summary: ''
+link: https://doi.org/10.1109/9.85066
+links_alt:
+audit_status: raw

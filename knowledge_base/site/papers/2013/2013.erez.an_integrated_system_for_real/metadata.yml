@@ -1,0 +1,21 @@
+title: An integrated system for real-time model predictive control of humanoid robots
+algorithm:
+authors:
+  - Tom Erez
+  - Kendall Lowrey
+  - Yuval Tassa
+  - Vikash Kumar
+  - Svetoslav Kolev
+  - Emanuel Todorov
+year: 2013
+source: 2013 13th IEEE-RAS International Conference on Humanoid Robots (Humanoids)
+type: Conference Paper
+doi: 10.1109/HUMANOIDS.2013.7029990
+arxiv_id:
+tags:
+abstract: >
+  Generating diverse behaviors with a humanoid robot requires a mix of human supervision and automatic control. Ideally, the user's input is restricted to high-level instruction and guidance, and the controller is intelligent enough to accomplish the tasks autonomously. Here we describe an integrated system that achieves this goal. The automatic controller is based on real-time model-predictive control (MPC) applied to the full dynamics of the robot. This is possible due to the speed of our new physics engine (MuJoCo), the efficiency of our trajectory optimization algorithm, and the contact smoothing methods we have developed for the purpose of control optimization. In our system, the operator specifies subtasks by selecting from a menu of predefined cost functions, and optionally adjusting the mixing weights of the different cost terms in runtime. The resulting composite cost is sent to the MPC machinery which constructs a new locally-optimal time-varying linear feedback control law once every 30 msec, while planning 500 msec into the future. This control law is evaluated at 1 kHz to generate control signals for the robot, until the next control law becomes available. Performance is illustrated on a subset of the tasks from the DARPA Virtual Robotics Challenge.
+summary: ''
+link: https://doi.org/10.1109/HUMANOIDS.2013.7029990
+links_alt:
+audit_status: raw

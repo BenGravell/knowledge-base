@@ -1,0 +1,16 @@
+title: Evolving Virtual Creatures
+algorithm:
+authors:
+  - Karl Sims
+year: 2023
+source: 'Seminal Graphics Papers: Pushing the Boundaries, Volume 2'
+type: Conference Paper
+doi: 10.1145/3596711.3596785
+arxiv_id:
+tags:
+abstract: >
+  This paper describes a novel system for creating virtual creatures that move and behave in simulated three-dimensional physical worlds. The morphologies of creatures and the neural systems for controlling their muscle forces are both generated automatically using genetic algorithms. Different fitness evaluation functions are used to direct simulated evolutions towards specific behaviors such as swimming, walking, jumping, and following.
+summary: ''
+link: https://doi.org/10.1145/3596711.3596785
+links_alt:
+audit_status: raw

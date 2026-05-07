@@ -1,0 +1,16 @@
+title: Ubiquitous B-Tree
+algorithm:
+authors:
+  - Douglas Comer
+year: 1979
+source: ACM Computing Surveys
+type: Journal Paper
+doi: 10.1145/356770.356776
+arxiv_id:
+tags:
+abstract: >
+  B-trees have become, de facto, a standard for file organization. File indexes of users, dedicated database systems, and general-purpose access methods have all been proposed and nnplemented using B-trees This paper reviews B-trees and shows why they have been so successful It discusses the major variations of the B-tree, especially the B+-tree, contrasting the relatwe merits and costs of each implementatmn. It illustrates a general purpose access method whmh uses a B-tree.
+summary: ''
+link: https://doi.org/10.1145/356770.356776
+links_alt:
+audit_status: raw

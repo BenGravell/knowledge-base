@@ -1,0 +1,16 @@
+title: Learning to predict by the methods of temporal differences
+algorithm:
+authors:
+  - Richard S. Sutton
+year: 1988
+source: Machine Learning
+type: Journal Paper
+doi: 10.1007/BF00115009
+arxiv_id:
+tags:
+abstract: >
+  This article introduces a class of incremental learning procedures specialized for prediction-that is, for using past experience with an incompletely known system to predict its future behavior. Whereas conventional prediction-learning methods assign credit by means of the difference between predicted and actual outcomes, the new methods assign credit by means of the difference between temporally successive predictions. Although such temporal-difference methods have been used in Samuel&#39;s checker player, Holland&#39;s bucket brigade, and the author&#39;s Adaptive Heuristic Critic, they have remained poorly understood. Here we prove their convergence and optimality for special cases and relate them to supervised-learning methods. For most real-world prediction problems, temporal-difference methods require less memory and less peak computation than conventional methods and they produce more accurate predictions. We argue that most problems to which supervised learning is currently applied are really prediction problems of the sort to which temporal-difference methods can be applied to advantage.
+summary: ''
+link: https://doi.org/10.1007/BF00115009
+links_alt:
+audit_status: raw

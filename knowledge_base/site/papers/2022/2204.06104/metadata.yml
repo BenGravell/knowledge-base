@@ -1,0 +1,16 @@
+title: A Tutorial on Solution Properties of State Space Models of Dynamical Systems
+algorithm:
+authors:
+  - Bassam Bamieh
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2204.06104"
+tags:
+abstract: >
+  The starting point of analysis of state space models is investigating existence, uniqueness and solution properties such as the semigroup property, and various formulas for the solutions. Several concepts such as the state transition matrix, the matrix exponential, the variations of constants formula (the Cauchy formula), the Peano-Baker series, and the Picard iteration are used to characterize solutions. In this note, a tutorial treatment is given where all of these concepts are shown to be various manifestations of a single abstract method, namely solving equations using an operator Neumann series involving the Volterra operator of forward integration. The matrix exponential, the Peano-Baker series, the Picard iteration, and the Cauchy formula can be "discovered" naturally from this Neumann series. The convergence of the series and iterations is a consequence of the key property of asymptotic nilpotence of the Volterra operator. This property is an asymptotic version of the nilpotence property of a strictly-lower-triangular matrix.
+summary: ''
+link: https://arxiv.org/pdf/2204.06104
+links_alt:
+audit_status: raw

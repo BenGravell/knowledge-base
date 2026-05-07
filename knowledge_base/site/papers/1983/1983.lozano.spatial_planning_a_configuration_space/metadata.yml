@@ -1,0 +1,16 @@
+title: 'Spatial Planning: A Configuration Space Approach'
+algorithm:
+authors:
+  - Lozano-Perez
+year: 1983
+source: IEEE Transactions on Computers
+type: Journal Paper
+doi: 10.1109/TC.1983.1676196
+arxiv_id:
+tags:
+abstract: >
+  This paper presents algorithms for computing constraints on the position of an object due to the presence of ther objects. This problem arises in applications that require choosing how to arrange or how to move objects without collisions. The approach presented here is based on characterizing the position and orientation of an object as a single point in a configuration space, in which each coordinate represents a degree of freedom in the position or orientation of the object. The configurations forbidden to this object, due to the presence of other objects, can then be characterized as regions in the configuration space, called configuration space obstacles. The paper presents algorithms for computing these configuration space obstacles when the objects are polygons or polyhedra.
+summary: ''
+link: https://doi.org/10.1109/TC.1983.1676196
+links_alt:
+audit_status: raw

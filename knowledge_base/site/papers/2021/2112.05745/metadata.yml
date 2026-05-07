@@ -1,0 +1,20 @@
+title: >
+  A Simple and Efficient Sampling-based Algorithm for General Reachability Analysis
+algorithm:
+authors:
+  - Thomas Lew
+  - Lucas Janson
+  - Riccardo Bonalli
+  - Marco Pavone
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2112.05745"
+tags:
+abstract: >
+  In this work, we analyze an efficient sampling-based algorithm for general-purpose reachability analysis, which remains a notoriously challenging problem with applications ranging from neural network verification to safety analysis of dynamical systems. By sampling inputs, evaluating their images in the true reachable set, and taking their $ε$-padded convex hull as a set estimator, this algorithm applies to general problem settings and is simple to implement. Our main contribution is the derivation of asymptotic and finite-sample accuracy guarantees using random set theory. This analysis informs algorithmic design to obtain an $ε$-close reachable set approximation with high probability, provides insights into which reachability problems are most challenging, and motivates safety-critical applications of the technique. On a neural network verification task, we show that this approach is more accurate and significantly faster than prior work. Informed by our analysis, we also design a robust model predictive controller that we demonstrate in hardware experiments.
+summary: ''
+link: https://arxiv.org/pdf/2112.05745
+links_alt:
+audit_status: raw

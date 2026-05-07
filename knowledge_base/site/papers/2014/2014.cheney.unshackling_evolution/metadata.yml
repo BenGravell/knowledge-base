@@ -1,0 +1,19 @@
+title: Unshackling evolution
+algorithm:
+authors:
+  - Nick Cheney
+  - Robert MacCurdy
+  - Jeff Clune
+  - Hod Lipson
+year: 2014
+source: ACM SIGEVOlution
+type: Journal Paper
+doi: 10.1145/2661735.2661737
+arxiv_id:
+tags:
+abstract: >
+  In 1994, Karl Sims' evolved virtual creatures showed the potential of evolutionary algorithms to produce natural, complex morphologies and behaviors [30]. One might assume that nearly 20 years of improvements in computational speed and evolutionary algorithms would produce far more impressive organisms, yet the creatures evolved in the field of artificial life today are not obviously more complex, natural, or intelligent. Fig. 2 demonstrates an example of similar complexity in robots evolved 17 years apart.
+summary: ''
+link: https://doi.org/10.1145/2661735.2661737
+links_alt:
+audit_status: raw

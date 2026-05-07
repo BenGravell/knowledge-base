@@ -1,0 +1,18 @@
+title: Organization and maintenance of large ordered indices
+algorithm:
+authors:
+  - R. Bayer
+  - E. McCreight
+year: 1970
+source: >
+  Proceedings of the 1970 ACM SIGFIDET (now SIGMOD) Workshop on Data Description, Access and Control - SIGFIDET '70
+type: Conference Paper
+doi: 10.1145/1734663.1734671
+arxiv_id:
+tags:
+abstract: >
+  Organization and maintenance of an index for a dynamic random access file is considered. It is assumed that the index must be kept on some pseudo random access backup store like a disc or a drum. The index organization described allows retrieval, insertion, and deletion of keys in time proportional to logk I where I is the size of the index and k is a device dependent natural number such that the performance of the scheme becomes near optimal. Storage utilization is at least 50% but generally much higher. The pages of the index are organized in a special data-structure, so-called B-trees. The scheme is analyzed, performance bounds are obtained, and a near optimal k is computed. Experiments have been performed with indices up to 100,000 keys. An index of size 15,000 (100,000) can be maintained with an average of 9 (at least 4) transactions per second on an IBM 360/44 with a 2311 disc.
+summary: ''
+link: https://doi.org/10.1145/1734663.1734671
+links_alt:
+audit_status: raw

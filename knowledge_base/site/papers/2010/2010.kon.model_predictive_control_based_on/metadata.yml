@@ -1,0 +1,17 @@
+title: Model predictive control based on ARX models
+algorithm:
+authors:
+  - Junichiro Kon
+  - Yoshiyuki Yamashita
+year: 2010
+source: ICCAS 2010
+type: Conference Paper
+doi: 10.1109/ICCAS.2010.5669662
+arxiv_id:
+tags:
+abstract: >
+  This study proposes linear model predictive control (MPC) based on ARX models in incremental form. Feedforward action for external disturbance can eliminate the effect of unmeasured disturbance, which is popular in process industries. Simulation example illustrates the robust performance of the proposed approach.
+summary: ''
+link: https://doi.org/10.1109/ICCAS.2010.5669662
+links_alt:
+audit_status: raw

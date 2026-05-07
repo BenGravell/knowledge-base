@@ -1,0 +1,16 @@
+title: Superfast Second-Order Methods for Unconstrained Convex Optimization
+algorithm:
+authors:
+  - Yurii Nesterov
+year: 2021
+source: Journal of Optimization Theory and Applications
+type: Journal Paper
+doi: 10.1007/s10957-021-01930-y
+arxiv_id:
+tags:
+abstract: >
+  AbstractIn this paper, we present new second-order methods with convergence rate $$O\left( k^{-4}\right) $$ O k - 4 , where k is the iteration counter. This is faster than the existing lower bound for this type of schemes (Agarwal and Hazan in Proceedings of the 31st conference on learning theory, PMLR, pp. 774–792, 2018; Arjevani and Shiff in Math Program 178(1–2):327–360, 2019), which is $$O\left( k^{-7/2} \right) $$ O k - 7 / 2 . Our progress can be explained by a finer specification of the problem class. The main idea of this approach consists in implementation of the third-order scheme from Nesterov (Math Program 186:157–183, 2021) using the second-order oracle. At each iteration of our method, we solve a nontrivial auxiliary problem by a linearly convergent scheme based on the relative non-degeneracy condition (Bauschke et al. in Math Oper Res 42:330–348, 2016; Lu et al. in SIOPT 28(1):333–354, 2018). During this process, the Hessian of the objective function is computed once, and the gradient is computed $$O\left( \ln {1 \over \epsilon }\right) $$ O ln 1 ϵ times, where $$\epsilon $$ ϵ is the desired accuracy of the solution for our problem.
+summary: ''
+link: https://doi.org/10.1007/s10957-021-01930-y
+links_alt:
+audit_status: raw

@@ -1,0 +1,19 @@
+title: >
+  A fast procedure for computing the distance between complex objects in three-dimensional space
+algorithm:
+authors:
+  - E.G. Gilbert
+  - D.W. Johnson
+  - S.S. Keerthi
+year: 1988
+source: IEEE Journal on Robotics and Automation
+type: Journal Paper
+doi: 10.1109/56.2083
+arxiv_id:
+tags:
+abstract: >
+  An algorithm for computing the Euclidean distance between a pair of convex sets in R/sup m/ is described. Extensive numerical experience with a broad family of polytopes in R/sup 3/ shows that the computational cost is approximately linear in the total number of vertices specifying the two polytopes. The algorithm has special features which makes its application in a variety of robotics problems attractive. These features are discussed and an example of collision detection is given.< <ETX xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">&gt;</ETX>
+summary: ''
+link: https://doi.org/10.1109/56.2083
+links_alt:
+audit_status: raw
