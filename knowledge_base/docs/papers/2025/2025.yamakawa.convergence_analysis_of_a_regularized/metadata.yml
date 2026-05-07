@@ -1,0 +1,18 @@
+title: >
+  Convergence analysis of a regularized Newton method with generalized regularization terms for unconstrained convex optimization problems
+algorithm:
+authors:
+  - Yuya Yamakawa
+  - Nobuo Yamashita
+year: 2025
+source: Applied Mathematics and Computation
+type: Journal Paper
+doi: 10.1016/j.amc.2024.129219
+arxiv_id:
+tags:
+abstract: >
+  This paper presents a regularized Newton method (RNM) with generalized regularization terms for unconstrained convex optimization problems. The generalized regularization includes quadratic, cubic, and elastic net regularizations as special cases. Therefore, the proposed method serves as a general framework that includes not only the classical and cubic RNMs but also a novel RNM with elastic net regularization. We show that the proposed RNM has the global O ( k − 2 ) and local superlinear convergence, which are the same as those of the cubic RNM.
+summary: ''
+link: https://doi.org/10.1016/j.amc.2024.129219
+links_alt:
+audit_status: raw

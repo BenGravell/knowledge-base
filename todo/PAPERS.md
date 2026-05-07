@@ -4,9 +4,18 @@
 
 https://arxiv.org/abs/cs/0408007
 
-## arXiv stubborn, breaks prefill script
+## stubborn, failed in prefill script
 
 https://arxiv.org/abs/1506.02640
+
+https://dl.acm.org/doi/10.5555/3001460.3001507
+https://dl.acm.org/doi/10.5555/3546258.3546526
+https://dl.acm.org/doi/10.5555/3104482.3104568
+https://dl.acm.org/doi/10.5555/2999134.2999257
+
+https://www.sciencedirect.com/science/article/pii/S1474667017391346
+https://www.sciencedirect.com/science/article/abs/pii/036402139090002E
+https://www.sciencedirect.com/science/article/pii/S147466701763475X
 
 ## Taylor & Francis
 

@@ -1,0 +1,18 @@
+title: Continuous-curvature path planning for car-like vehicles
+algorithm:
+authors:
+  - A. Scheuer
+  - Th. Fraichard
+year:
+source: >
+  Proceedings of the 1997 IEEE/RSJ International Conference on Intelligent Robot and Systems. Innovative Robotics for Real-World Applications. IROS '97
+type: Conference Paper
+doi: 10.1109/IROS.1997.655130
+arxiv_id:
+tags:
+abstract: >
+  We consider path planning for a car-like vehicle. Previous solutions to this problem computed paths made up of circular arcs connected by tangential line segments. Such paths have a discontinuous curvature profile. Accordingly a vehicle following such a path has to stop at each curvature discontinuity in order to re-orientate its front wheels. To remove this limitation, we add a continuous-curvature constraint to the problem at hand. In addition, we introduce a constraint on the curvature derivative, so as to reflect the fact that a car-like vehicle can only re-orientate its front wheels with a finite velocity. We propose an efficient solution to the problem at hand that relies upon the definition of a set of paths with continuous curvature and maximum curvature derivative. These paths contain at most eight pieces, each piece being either a line segment, a circular arc of maximum curvature, or a clothoid arc. They are called simple continuous curvature paths. They are used to design a local path planner. The experimental results are presented.
+summary: ''
+link: https://doi.org/10.1109/IROS.1997.655130
+links_alt:
+audit_status: raw

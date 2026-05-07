@@ -1,0 +1,19 @@
+title: >
+  Edge Nearest Neighbor: Neighbor-Finding Revisited in Sampling-Based Motion Planning
+algorithm:
+authors:
+  - Stav Ashur
+  - Nancy M. Amato
+  - Sariel Har-Peled
+year: 2026
+source: IEEE Transactions on Robotics
+type: Journal Paper
+doi: 10.1109/TRO.2026.3686266
+arxiv_id:
+tags:
+abstract: >
+  Neighborhood finders and nearest neighbor queries are fundamental components of sampling-based motion planning (SBMP) algorithms. Using different distance metrics or otherwise changing the definition of a neighborhood produces different algorithms with unique empirical and theoretical properties. In his textbook on planning algorithms, LaValle suggests a neighborhood finder for the Rapidly-exploring Random Tree (RRT) algorithm, which finds the nearest neighbor of the sampled point on the <italic xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">swath</i> of the tree, that is, on the set of all of the points on the tree edges, using a hierarchical data structure. In this paper, we implement such a neighborhood finder and show, theoretically and experimentally, that this results in more efficient algorithms.
+summary: ''
+link: https://doi.org/10.1109/TRO.2026.3686266
+links_alt:
+audit_status: raw

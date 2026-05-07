@@ -1,0 +1,23 @@
+title: >
+  Optimal motion planning with the half-car dynamical model for autonomous high-speed driving
+algorithm:
+authors:
+  - Jeong hwan Jeon
+  - Raghvendra V. Cowlagi
+  - Steven C. Peters
+  - Sertac Karaman
+  - Emilio Frazzoli
+  - Panagiotis Tsiotras
+  - Karl Iagnemma
+year: 2013
+source: 2013 American Control Conference
+type: Conference Paper
+doi: 10.1109/ACC.2013.6579835
+arxiv_id:
+tags:
+abstract: >
+  We discuss an implementation of the RRT* optimal motion planning algorithm for the half-car dynamical model to enable autonomous high-speed driving. To develop fast solutions of the associated local steering problem, we observe that the motion of a special point (namely, the front center of oscillation) can be modeled as a double integrator augmented with fictitious inputs. We first map the constraints on tire friction forces to constraints on these augmented inputs, which provides instantaneous, state-dependent bounds on the curvature of geometric paths feasibly traversable by the front center of oscillation. Next, we map the vehicle's actual inputs to the augmented inputs. The local steering problem for the half-car dynamical model can then be transformed to a simpler steering problem for the front center of oscillation, which we solve efficiently by first constructing a curvature-bounded geometric path and then imposing a suitable speed profile on this geometric path. Finally, we demonstrate the efficacy of the proposed motion planner via numerical simulation results.
+summary: ''
+link: https://doi.org/10.1109/ACC.2013.6579835
+links_alt:
+audit_status: raw

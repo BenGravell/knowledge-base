@@ -1,0 +1,20 @@
+title: >
+  Technological challenges and optimization efforts of the Stirling machine: A review
+algorithm:
+authors:
+  - Houda Hachem
+  - Ramla Gheith
+  - Fethi Aloui
+  - Sassi Ben Nasrallah
+year: 2018
+source: Energy Conversion and Management
+type: Journal Paper
+doi: 10.1016/j.enconman.2018.06.042
+arxiv_id:
+tags:
+abstract: >
+  Abstract The Stirling engines are being carried out worldwide, used for divers’ application such as solar generator, micro cogeneration and cryogenic uses. The present paper is an over view of Stirling technologies researches. Several possibilities of resolving technical challenges encountered when manufacturing or using Stirling machines will be discussed. The most appropriate models and optimizations strategies are reported. Stirling engine performances are derived as function of geometric parameters (swept volumes, dead volumes, heat exchange areas, compression ratio…) for several working conditions (speed, mean pressure, temperature difference and working fluid). The effect of each parameter on the Stirling performances when using numerical and/or experimental approaches are presented. It is concluded that multi-objective optimizations methods are useful for predicting geometric and working parameters that corresponding to the optimal performances of the Stirling engine.
+summary: ''
+link: https://doi.org/10.1016/j.enconman.2018.06.042
+links_alt:
+audit_status: raw

@@ -1,0 +1,18 @@
+title: 'Animating flow fields: rendering of oriented line integral convolution'
+algorithm:
+authors:
+  - R. Wegenkittl
+  - E. Groller
+  - W. Purgathofer
+year:
+source: Proceedings. Computer Animation '97 (Cat. No.97TB100120)
+type: Conference Paper
+doi: 10.1109/CA.1997.601035
+arxiv_id:
+tags:
+abstract: >
+  Line Integral Convolution (LIC) is a common approach for the visualisation of 2D vector fields. It is well suited for visualizing the direction of a flow field, but it gives no information about the orientation of the underlying vectors. We introduce Oriented Line Integral Convolution (OLIC), where direction as well as orientation are encoded within the resulting image. This is achieved by using a sparse input texture and a ramp like (anisotropic) convolution kernel. This method can be used for animations, whereby the computation of so called pixel traces fastens the calculation process. Various OLICs illustrating simple and real world vector fields are shown.
+summary: ''
+link: https://doi.org/10.1109/CA.1997.601035
+links_alt:
+audit_status: raw

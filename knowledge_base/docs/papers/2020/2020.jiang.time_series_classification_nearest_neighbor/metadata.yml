@@ -1,0 +1,16 @@
+title: 'Time series classification: nearest neighbor versus deep learning models'
+algorithm:
+authors:
+  - Weiwei Jiang
+year: 2020
+source: SN Applied Sciences
+type: Journal Paper
+doi: 10.1007/s42452-020-2506-9
+arxiv_id:
+tags:
+abstract: >
+  Time series classification has been an important and challenging research task. In different domains, time series show different patterns, which makes it difficult to design a global optimal solution and requires a comprehensive evaluation of different classifiers across multiple datasets. With the rise of big data and cloud computing, deep learning models, especially deep neural networks, arise as a new paradigm for many problems, including image classification, object detection and natural language processing. In recent years, deep learning models are also applied for time series classification and show superiority over traditional models. However, the previous evaluation is usually limited to a small number of datasets and lack of significance analysis. In this study, we give a comprehensive comparison between nearest neighbor and deep learning models. Specifically, we compare 1-NN classifiers with eight different distance measures and three state-of-the-art deep learning models on 128 time series datasets. Our results indicate that deep learning models are not significantly better than 1-NN classifiers with edit distance with real penalty and dynamic time warping.
+summary: ''
+link: https://doi.org/10.1007/s42452-020-2506-9
+links_alt:
+audit_status: raw

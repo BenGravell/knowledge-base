@@ -1,0 +1,16 @@
+title: >
+  IEEE Standard for Assumptions in Safety-Related Models for Automated Driving Systems
+algorithm:
+authors:
+year:
+source:
+type: Other
+doi: 10.1109/IEEESTD.2022.9761121
+arxiv_id:
+tags:
+abstract: >
+  This standard applies to road vehicles. It defines a minimum set of reasonable assumptions and foreseeable scenarios that shall be considered in the development of safety related models that are part of an automated driving system (ADS).
+summary: ''
+link: https://doi.org/10.1109/IEEESTD.2022.9761121
+links_alt:
+audit_status: raw

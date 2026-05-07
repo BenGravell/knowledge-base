@@ -1,0 +1,16 @@
+title: Real-time obstacle avoidance for manipulators and mobile robots
+algorithm:
+authors:
+  - O. Khatib
+year:
+source: Proceedings. 1985 IEEE International Conference on Robotics and Automation
+type: Conference Paper
+doi: 10.1109/ROBOT.1985.1087247
+arxiv_id:
+tags:
+abstract: >
+  This paper presents a unique real-time obstacle avoidance approach for manipulators and mobile robots based on the "artificial potential field" concept. In this approach, collision avoidance, traditionally considered a high level planning problem, can be effectively distributed between different levels of control, allowing real-time robot operations in a complex environment. We have applied this obstacle avoidance scheme to robot arm using a new approach to the general problem of real-time manipulator control. We reformulated the manipulator control problem as direct control of manipulator motion in operational space-the space in which the task is originally described-rather than as control of the task's corresponding joint space motion obtained only after geometric and kinematic transformation. This method has been implemented in the COSMOS system for a PUMA 560 robot. Using visual sensing, real-time collision avoidance demonstrations on moving obstacles have been performed.
+summary: ''
+link: https://doi.org/10.1109/ROBOT.1985.1087247
+links_alt:
+audit_status: raw

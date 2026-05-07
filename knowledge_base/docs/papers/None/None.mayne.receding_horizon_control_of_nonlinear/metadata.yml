@@ -1,0 +1,17 @@
+title: Receding horizon control of nonlinear systems
+algorithm:
+authors:
+  - D.Q. Mayne
+  - H. Michalska
+year:
+source: Proceedings of the 27th IEEE Conference on Decision and Control
+type: Conference Paper
+doi: 10.1109/CDC.1988.194354
+arxiv_id:
+tags:
+abstract: >
+  The receding-horizon control strategy provides a relatively simple method for determining feedback control for linear or nonlinear systems: the method is especially useful for the control of slow nonlinear systems, such as chemical batch processes, where it is possible to solve, sequentially, open-loop, fixed-horizon, optimal control problems online. The authors show that the method yields a stable closed-loop system when applied to nonlinear systems.< <ETX xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">&gt;</ETX>
+summary: ''
+link: https://doi.org/10.1109/CDC.1988.194354
+links_alt:
+audit_status: raw

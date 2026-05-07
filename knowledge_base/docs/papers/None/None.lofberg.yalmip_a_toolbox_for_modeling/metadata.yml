@@ -1,0 +1,17 @@
+title: 'YALMIP : a toolbox for modeling and optimization in MATLAB'
+algorithm:
+authors:
+  - J. Lofberg
+year:
+source: >
+  2004 IEEE International Conference on Robotics and Automation (IEEE Cat. No.04CH37508)
+type: Conference Paper
+doi: 10.1109/CACSD.2004.1393890
+arxiv_id:
+tags:
+abstract: >
+  The MATLAB toolbox YALMIP is introduced. It is described how YALMIP can be used to model and solve optimization problems typically occurring in systems and control theory. In this paper, free MATLAB toolbox YALMIP, developed initially to model SDPs and solve these by interfacing eternal solvers. The toolbox makes development of optimization problems in general, and control oriented SDP problems in particular, extremely simple. In fact, learning 3 YALMIP commands is enough for most users to model and solve the optimization problems
+summary: ''
+link: https://doi.org/10.1109/CACSD.2004.1393890
+links_alt:
+audit_status: raw

@@ -1,0 +1,15 @@
+title: System identification and long-range predictive control of multi-rate systems
+algorithm:
+authors:
+year: 1999
+source: Proceedings of the 1999 American Control Conference (Cat. No. 99CH36251)
+type: Conference Paper
+doi: 10.1109/ACC.1999.782796
+arxiv_id:
+tags:
+abstract: >
+  Discusses system identification and model-based predictive control of multi-rate systems. In particular, the practically useful case of systems with fast manipulative variable sampling and slow output sampling is considered. The lifting method is used to analyze the multi-rate system in a state-space framework. A subspace identification algorithm, is first used to identify the lifted multi-rate system. The single-rate model at the faster sampling rate is then extracted from this estimated system and subsequently used for long-range predictive control. The fast-sampling rate model is used to estimate the outputs at inter-sample instants, using a minimum variance predictor. The estimated output is then used for model-based predictive control at the faster sampling rate. The performance of this controller is compared with the performance of the slow sample-rate scheme, and it is shown that the fast-rate controller has a significantly better performance.
+summary: ''
+link: https://doi.org/10.1109/ACC.1999.782796
+links_alt:
+audit_status: raw

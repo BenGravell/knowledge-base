@@ -1,0 +1,17 @@
+title: Fibonacci heaps and their uses in improved network optimization algorithms
+algorithm:
+authors:
+  - Michael L. Fredman
+  - Robert Endre Tarjan
+year: 1987
+source: Journal of the ACM
+type: Journal Paper
+doi: 10.1145/28869.28874
+arxiv_id:
+tags:
+abstract: >
+  In this paper we develop a new data structure for implementing heaps (priority queues). Our structure, Fibonacci heaps (abbreviated F-heaps ), extends the binomial queues proposed by Vuillemin and studied further by Brown. F-heaps support arbitrary deletion from an n -item heap in O (log n ) amortized time and all other standard heap operations in O (1) amortized time. Using F-heaps we are able to obtain improved running times for several network optimization algorithms. In particular, we obtain the following worst-case bounds, where n is the number of vertices and m the number of edges in the problem graph: O ( n log n + m ) for the single-source shortest path problem with nonnegative edge lengths, improved from O ( m log ( m/n +2) n ); O ( n 2 log n + nm ) for the all-pairs shortest path problem, improved from O ( nm log ( m/n +2) n ); O ( n 2 log n + nm ) for the assignment problem (weighted bipartite matching), improved from O ( nm log ( m/n +2) n ); O ( mβ ( m, n )) for the minimum spanning tree problem, improved from O ( m log log ( m/n +2) n ); where β ( m, n ) = min { i | log ( i ) n ≤ m/n }. Note that β ( m, n ) ≤ log * n if m ≥ n . Of these results, the improved bound for minimum spanning trees is the most striking, although all the results give asymptotic improvements for graphs of appropriate densities.
+summary: ''
+link: https://doi.org/10.1145/28869.28874
+links_alt:
+audit_status: raw

@@ -1,0 +1,17 @@
+title: 'Marching cubes: A high resolution 3D surface construction algorithm'
+algorithm:
+authors:
+  - William E. Lorensen
+  - Harvey E. Cline
+year: 1987
+source: ACM SIGGRAPH Computer Graphics
+type: Journal Paper
+doi: 10.1145/37402.37422
+arxiv_id:
+tags:
+abstract: >
+  We present a new algorithm, called marching cubes , that creates triangle models of constant density surfaces from 3D medical data. Using a divide-and-conquer approach to generate inter-slice connectivity, we create a case table that defines triangle topology. The algorithm processes the 3D medical data in scan-line order and calculates triangle vertices using linear interpolation. We find the gradient of the original data, normalize it, and use it as a basis for shading the models. The detail in images produced from the generated surface models is the result of maintaining the inter-slice connectivity, surface data, and gradient information present in the original 3D data. Results from computed tomography (CT), magnetic resonance (MR), and single-photon emission computed tomography (SPECT) illustrate the quality and functionality of marching cubes . We also discuss improvements that decrease processing time and add solid modeling capabilities.
+summary: ''
+link: https://doi.org/10.1145/37402.37422
+links_alt:
+audit_status: raw
