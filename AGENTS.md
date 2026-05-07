@@ -57,3 +57,45 @@ knowledge-base/
 - MkDocs commands must be run from the `knowledge_base/` subdirectory
 - New knowledge entries go under `knowledge_base/docs/` following the structure of existing files
 - No test suite; verify changes by running `mkdocs build` and checking for warnings
+
+## Agent Tasks
+
+### Add entries to the MkDocs content tree
+
+1. Run from the repo root:
+
+   ```bash
+   cd knowledge_base && python scripts/list_raw_papers.py --max-results 5
+   ```
+
+2. Insert the returned entries into the `nav` tree in `knowledge_base/mkdocs.yml` at appropriate places. Reuse existing categories where possible; create new ones only when no existing category fits conceptually.
+
+### Generate metadata files for new papers
+
+Collect papers from the location/file given by the user.
+
+Use subsection headers and other contextual clues to determine where each paper belongs in the `nav` hierarchy in `knowledge_base/mkdocs.yml`.
+
+For each paper:
+
+1. Copy `knowledge_base/docs/templates/metadata.yml` as the template.
+2. Place the new file at:
+
+   ```text
+   knowledge_base/docs/papers/<YEAR>/<SLUG>/metadata.yml
+   ```
+
+   - `YEAR`: 4-digit year of the earliest published version.
+   - `SLUG`: arXiv ID in `YYMM.NNNNN` format if one exists; otherwise `YEAR.first_author_last_name_lowercase.title_first_four_words`.
+3. Fill in all fields. Leave `abstract` blank with a `>` placeholder followed by a newline.
+4. Normalize the title to title case.
+
+### Audit and fix raw metadata
+
+1. Run from `knowledge_base/`:
+
+   ```bash
+   python scripts/list_raw_papers.py | python scripts/audit_metadata.py
+   ```
+
+2. Resolve all reported issues.

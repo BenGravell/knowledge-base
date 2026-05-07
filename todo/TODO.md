@@ -1,32 +1,5 @@
 # TODO
 
-## Claude instructions (skills?)
-
-### mkdocs content tree
-
-Run
-
-cd "c:\Users\bjgra\GitHub\knowledge-base\knowledge_base" && python scripts/list_raw_papers.py --max-results 5
-
-and insert the entries into the Content Tree in knowledge_base\mkdocs.yml at appropriate places. Attempt to use the existing categories as much as possible, but create new categories if the entry does not fit cleanly conceptually.
-
-### Generate new metadata
-
-Fill the metadata for each of the papers in todo\reinforcement_learning.md using knowledge_base\docs\templates\metadata.yml as the template from which to create the new files. Use the subsection headers to guide where to add an entry for each paper in the hierarchy in knowledge_base\mkdocs.yml.
-
-Each new metadata file should be placed in the path location knowledge_base\docs\papers\YEAR\SLUG\metadata.yml where
-
-- YEAR is the 4 digit year in which the earliest version of the paper was published
-- SLUG is either the arXiv ID like YYMM.NNNNN if the arXiv ID exists, or YEAR.first_author_last_name_lowercase.title_first_four_words if not.
-
-Leave the "abstract" field blank with a placeholder ">" and newline in the value.
-
-Normalize the title so that it uses capitalized words in title case.
-
-### Prep raw metadata for review
-
-Run scripts\list_raw_papers.py and pipe the output to scripts\audit_metadata.py and attempt to resolve all the issues.
-
 ## Metadata cleanup
 
 - go thru all the handwritten notes and make sure they end up in the docs metadata
@@ -72,7 +45,7 @@ Take an argument -g or --github to use gh-deploy mkdocs
 
 ## ConLab scrape
 
-https://labs.utdallas.edu/conlab/ 
+https://labs.utdallas.edu/conlab/
 
 pull content for portfolio
 
