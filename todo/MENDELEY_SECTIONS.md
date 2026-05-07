@@ -69,14 +69,11 @@ https://www.sciencedirect.com/science/article/abs/pii/016769119400045W
 https://pubs.aip.org/asa/jasa/article-abstract/38/3/447/646775/Experiments-with-an-Inverted-Pendulum-Subject-to?redirectedFrom=fulltext
 
 
-
 ## Robust control
 
 https://ieeexplore.ieee.org/document/256383
 
 https://ieeexplore.ieee.org/document/16419
-
-
 
 
 ## LQR design, Riccati equations
@@ -92,9 +89,6 @@ https://ieeexplore.ieee.org/document/1098954
 https://ieeexplore.ieee.org/document/4045877
 
 https://epubs.siam.org/doi/10.1137/0311021
-
-
-
 
 ## Motion planning
 
@@ -128,9 +122,6 @@ https://arxiv.org/abs/1910.08615
 https://arxiv.org/abs/1809.08830
 
 https://ieeexplore.ieee.org/document/1099422
-
-
-
 
 ## Optimization
 
@@ -222,9 +213,7 @@ https://dl.acm.org/doi/10.5555/1283383.1283494
 https://www.sciencedirect.com/science/article/abs/pii/S0167691104001434?via%3Dihub
 
 https://arxiv.org/abs/1806.05722
-
 https://arxiv.org/abs/1903.09122
-
 https://arxiv.org/abs/1906.11395
 
 https://ieeexplore.ieee.org/document/1098191
@@ -298,10 +287,8 @@ https://arxiv.org/abs/math/0410102
 
 https://ieeexplore.ieee.org/document/588098
 
-
 https://www.cambridge.org/core/journals/british-journal-for-the-history-of-science/article/abs/thomas-simpson-and-newtons-method-of-approximation-an-enduring-myth/265FA038F1A1873E8850CAFB4468DD8F
 
 ## Just for fun
-
 
 https://www.sciencedirect.com/science/article/abs/pii/096683499500001X?via%3Dihub

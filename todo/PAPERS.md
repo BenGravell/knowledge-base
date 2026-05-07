@@ -54,6 +54,14 @@ https://ieeexplore.ieee.org/document/1676196
 https://ieeexplore.ieee.org/document/86079
 https://ieeexplore.ieee.org/document/4081862
 https://ieeexplore.ieee.org/document/4075580
+https://ieeexplore.ieee.org/document/9386189
+https://ieeexplore.ieee.org/document/9170864
+https://ieeexplore.ieee.org/document/9761121
+https://ieeexplore.ieee.org/document/710772
+https://ieeexplore.ieee.org/document/1163055
+https://ieeexplore.ieee.org/document/990517
+https://ieeexplore.ieee.org/document/1467360
+https://ieeexplore.ieee.org/document/2083
 
 ## ACM
 
@@ -71,9 +79,25 @@ https://dl.acm.org/doi/10.5555/3546258.3546526
 https://dl.acm.org/doi/10.1145/3721145.3730415
 https://dl.acm.org/doi/10.5555/3104482.3104568
 https://dl.acm.org/doi/10.1145/355604.361591
+https://dl.acm.org/doi/10.1145/1557019.1557122
+https://dl.acm.org/doi/10.5555/2999134.2999257
+https://dl.acm.org/doi/10.1109/TPAMI.1986.4767851
+https://dl.acm.org/doi/10.1145/3299869.3320212
+https://dl.acm.org/doi/10.1145/362686.362692
+https://dl.acm.org/doi/10.1109/TPAMI.2010.57
+https://dl.acm.org/doi/10.1145/237170.237244
+https://dl.acm.org/doi/10.1080/10867651.1999.10487502
+https://dl.acm.org/doi/10.1145/361002.361007
+https://dl.acm.org/doi/10.1145/971697.602266
+https://dl.acm.org/doi/10.1145/28869.28874
+https://dl.acm.org/doi/10.1145/512274.3734138
+https://dl.acm.org/doi/10.1109/SFCS.1978.3
+https://dl.acm.org/doi/10.1145/356770.356776
+https://dl.acm.org/doi/10.1145/1734663.1734671
 
 ## SPRINGER
 
+https://link.springer.com/article/10.1186/s40648-014-0001-z
 https://link.springer.com/article/10.1007/BF00115009
 https://link.springer.com/chapter/10.1007/978-3-642-19457-3_1
 https://link.springer.com/article/10.1007/s10107-015-0893-2
@@ -85,6 +109,11 @@ https://link.springer.com/article/10.1007/s12532-018-0139-4
 https://link.springer.com/chapter/10.1007/978-3-642-37456-2_14
 https://link.springer.com/article/10.1007/BF00992696
 https://link.springer.com/article/10.1007/BF02278710
+https://link.springer.com/article/10.1007/s10115-004-0154-9
+https://link.springer.com/chapter/10.1007/11744023_32
+https://link.springer.com/article/10.1023/B:VISI.0000029664.99615.94
+https://link.springer.com/article/10.1007/s10514-012-9321-0
+https://link.springer.com/article/10.1007/BF00288933
 
 ## ELSEVIER
 
@@ -104,12 +133,15 @@ https://www.sciencedirect.com/science/article/pii/S1474667017655848
 https://www.sciencedirect.com/science/article/pii/0771050X80900133
 https://www.sciencedirect.com/science/article/abs/pii/S092575350300047X
 https://www.sciencedirect.com/science/article/abs/pii/0041555364901375
+https://www.sciencedirect.com/science/article/abs/pii/S0196890418306514
+https://www.sciencedirect.com/science/article/pii/S002200009791504X
 
 ## Taylor & Francis
 
 https://www.tandfonline.com/doi/abs/10.1080/00423119208969994
 https://www.tandfonline.com/doi/abs/10.1080/00423110412331290419
 https://www.tandfonline.com/doi/full/10.1080/00423114.2020.1741652
+https://www.tandfonline.com/doi/full/10.1080/15389588.2022.2125231
 
 ## NATURE
 
@@ -117,6 +149,7 @@ https://www.nature.com/articles/s43588-023-00503-5
 https://www.nature.com/articles/s41567-022-01852-0
 https://www.nature.com/articles/323533a0
 https://www.nature.com/articles/s41586-021-04357-7
+https://www.nature.com/articles/s41467-020-18353-4
 
 ## Science
 
@@ -136,6 +169,31 @@ https://proceedings.neurips.cc/paper_files/paper/2017/file/6449f44a102fde848669b
 
 ## Other papers
 
+https://www.semanticscholar.org/paper/AN-ALGORITHM-FOR-THE-ORGANIZATION-OF-INFORMATION-AdelsonVelskii/3b48b6c79dec4791c36e6623cb0e5bfea6c2a383
+https://pdfs.semanticscholar.org/80d8/531ce3c7ad5dbf18e659addb71ed3539f395.pdf
+https://softlib.rice.edu/pub/CRPC-TRs/reports/CRPC-TR89003.pdf
+https://cs.stanford.edu/~rfrostig/pubs/jax-mlsys2018.pdf
+https://people.eecs.berkeley.edu/~jfc/papers/91/LCicra91.pdf
+https://gamma-web.iacs.umd.edu/SSV/ssv.pdf
+https://www.cs.ubc.ca/research/flann/
+https://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf
+https://www.cs.cmu.edu/~dga/papers/cuckoo-conext2014.pdf
+https://www.usenix.org/legacy/event/osdi06/tech/chang/chang.pdf
+https://academic.oup.com/comjnl/article-abstract/5/1/10/395338?redirectedFrom=fulltext
+https://onlinelibrary.wiley.com/doi/abs/10.1002/%28SICI%291097-024X%28199708%2927%3A8%3C983%3A%3AAID-SPE117%3E3.0.CO%3B2-%23
+https://drops.dagstuhl.de/storage/00lipics/lipics-vol112-esa2018/LIPIcs.ESA.2018.4/LIPIcs.ESA.2018.4.pdf
+https://www.hms.harvard.edu/bss/neuro/bornlab/qmbc/beta/day4/marr-hildreth-edge-prsl1980.pdf
+https://www.researchgate.net/publication/239398674_An_Isotropic_3x3_Image_Gradient_Operator
+https://www.bmva-archive.org.uk/bmvc/1988/avc-88-023.pdf
+http://vision.stanford.edu/cs598_spring07/papers/Lecun98.pdf
+https://www.jstor.org/stable/2003354
+https://www.researchgate.net/publication/282271002_The_BOSS_is_concerned_with_time_series_classification_in_the_presence_of_noise
+https://www.brachengineering.com/content/publications/SAE-2011-01-0094-Brach-Engineering.pdf
+https://rpg.ifi.uzh.ch/docs/ICRA26_Romero.pdf
+https://eprints.whiterose.ac.uk/id/eprint/197454/
+https://asmedigitalcollection.asme.org/dynamicsystems/article/140/4/041001/384566/Control-Oriented-Modeling-of-the-Dynamics-of
+http://hotairengines.org/closed-cycle-engine/stirling-1816
+https://ntrs.nasa.gov/api/citations/20040171934/downloads/20040171934.pdf
 https://web.stanford.edu/~boyd/papers/ecos_codegen_ecc.html
 https://web.stanford.edu/~boyd/papers/ecos.html
 https://liberzon.csl.illinois.edu/teaching/kalman_paper.pdf
