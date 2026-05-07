@@ -416,49 +416,32 @@ https://opennav.org/news/mppi-low-acceleration/
 https://aaltodoc.aalto.fi/items/874eec9f-9841-464e-91fb-ec45b26066c4
 https://github.com/eurika-kaiser/SINDY-MPC
 
-
 ## GitHub
 
 https://github.com/open-planning/roboplan
-
 https://github.com/Genesis-Embodied-AI/Genesis 
-
 https://github.com/TUMFTM/PointCloudCrafter
-
 https://github.com/MarcToussaint/KOMO 
 
 ## Cool stuff
 
 https://usgs-lidar.gishub.org/
-
 https://geodatakatalogen.naturvardsverket.se/geonetwork/srv/swe/catalog.search#/metadata/8853721d-a466-4c01-afcc-9eae57b17b39
-
 https://rreusser.github.io/
-
 https://en.wikipedia.org/wiki/The_Checklist_Manifesto
-
 https://www.vg.no/nyheter/i/3pkoP9/busser-fast-paa-alexander-kiellands-plass-i-oslo
-
 https://depth-anything-3.github.io/
-
 https://ompl.kavrakilab.org/gallery.html 
-
 https://deepwiki.com/acados/acados/2.1-ocp-nlp-solvers#differential-dynamic-programming-ddp
-
 https://huggingface.co/datasets/nvidia/PhysicalAI-Autonomous-Vehicles
 
 ## Blogs
 
 https://m0nads.wordpress.com/2021/05/09/are-deep-networks-just-kernel-machines/ 
-
 https://rai-inst.com/resources/blog/dull-dirty-dangerous-redefining-undesirable-work-for-robotics/
-
 https://www.nuro.ai/blog/nuros-universal-autonomy-model
-
 https://developer.nvidia.com/blog/integrate-physical-ai-capabilities-into-existing-apps-with-nvidia-omniverse-libraries/
-
 https://www.openautonomy.com/article/modular-vs-end-to-end-autonomy-architecture-mining
-
 https://badas.nexar.app/
 
 ## Tools
