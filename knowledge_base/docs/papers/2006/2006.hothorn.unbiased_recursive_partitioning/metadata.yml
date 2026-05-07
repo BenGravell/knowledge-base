@@ -1,0 +1,26 @@
+title: "Unbiased Recursive Partitioning: A Conditional Inference Framework"
+algorithm: ctree
+authors:
+  - Torsten Hothorn
+  - Kurt Hornik
+  - Achim Zeileis
+year: 2006
+source: Journal of Computational and Graphical Statistics
+type: Journal Paper
+doi: 10.1198/106186006X133933
+arxiv_id:
+tags:
+  - Decision trees
+  - Conditional inference
+  - Unbiased variable selection
+  - Statistical testing
+  - Recursive partitioning
+  - Machine learning
+abstract: >
+  A unified framework for recursive partitioning is proposed which embeds tree-structured regression models into a well defined theory of conditional inference procedures. The approach results in unbiased variable selection and does not require additional pruning. The stopping criterion is based on multiple test procedures. The framework is applicable to all kinds of regression problems including nominal, ordinal, numeric, censored as well as multivariate response variables and arbitrary measurement scales of the covariates.
+summary: >
+  Introduces a conditional inference framework (ctree) for decision trees that uses permutation tests to select split variables, eliminating the selection bias toward high-cardinality or many-split predictors that plagues standard CART. The unbiased variable selection also removes the need for separate pruning, yielding statistically well-calibrated trees.
+link: https://www.zeileis.org/papers/Hothorn+Hornik+Zeileis-2006.pdf
+links_alt:
+  - https://academic.oup.com/jrsssc/article-abstract/29/2/119/6953940
+audit_status: raw

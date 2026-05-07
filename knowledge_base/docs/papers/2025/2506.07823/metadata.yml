@@ -1,0 +1,31 @@
+title: "Primal-Dual iLQR for GPU-Accelerated Learning and Control in Legged Robots"
+algorithm: Primal-Dual iLQR (GPU)
+authors:
+  - Lorenzo Amatucci
+  - Joao Sousa-Pinto
+  - Giulio Turrisi
+  - Dominique Orban
+  - Victor Barasuol
+  - Claudio Semini
+year: 2025
+source: IEEE Robotics and Automation Letters
+type: Journal Paper
+doi: 10.1109/LRA.2025.3559000
+arxiv_id: "2506.07823"
+tags:
+  - GPU acceleration
+  - Model predictive control
+  - Legged robots
+  - Primal-dual optimization
+  - Trajectory optimization
+  - Parallel computing
+  - iLQR
+abstract: >
+  This paper introduces a novel Model Predictive Control (MPC) implementation for legged robot locomotion that leverages GPU parallelization. Our approach enables both temporal and state-space parallelization by incorporating a parallel associative scan to solve the primal-dual Karush-Kuhn-Tucker (KKT) system. In this way, the optimal control problem is solved in O(log²(n)log(N) + log²(m)) complexity, instead of O(N(n + m)³), where n, m, and N are the dimension of the system state, control vector, and the length of the prediction horizon. We demonstrate the advantages of this implementation over two state-of-the-art solvers (acados and crocoddyl), achieving up to a 60% improvement in runtime for Whole Body Dynamics (WB)-MPC and a 700% improvement for Single Rigid Body Dynamics (SRBD)-MPC when varying the prediction horizon length. The presented formulation scales efficiently with the problem state dimensions as well, enabling the definition of a centralized controller for up to 16 legged robots that can be computed in less than 25 ms. Furthermore, thanks to the JAX implementation, the solver supports large-scale parallelization across multiple environments, allowing the possibility of performing learning with the MPC in the loop directly in GPU.
+summary: >
+  Implements Primal-Dual iLQR on GPU using parallel associative scans, reducing complexity from O(N(n+m)³) to O(log²(n)log(N)) per solve. Achieves up to 700% runtime improvement over acados and Crocoddyl for legged robot MPC, enabling centralized control of 16 robots and direct GPU-based learning-in-the-loop.
+link: https://arxiv.org/pdf/2506.07823
+links_alt:
+  - https://ieeexplore.ieee.org/abstract/document/11248841
+  - https://github.com/iit-DLSLab/mpx
+audit_status: raw

@@ -1,0 +1,28 @@
+title: "Trajectory Planning for an Articulated Commercial Vehicle Using Model Predictive Contouring Control"
+algorithm: MPCC
+authors:
+  - A. J. Aertssen
+  - R. G. M. Huisman
+  - I. J. M. Besselink
+  - J. Elfring
+  - M. J. G. van de Molengraft
+year: 2025
+source: IEEE International Conference on Intelligent Transportation Systems
+type: Conference Paper
+doi:
+arxiv_id: "2604.24064"
+tags:
+  - Model predictive contouring control
+  - Articulated vehicles
+  - Tractor-semitrailer
+  - Trajectory planning
+  - MPCC
+  - Autonomous driving
+  - Road boundary constraints
+abstract: >
+  This paper presents a trajectory planning method for articulated commercial vehicles, specifically tractor-semitrailers, based on Model Predictive Contouring Control (MPCC). Although MPCC has proven effective for passenger cars, it is generally ill-suited for tractor-semitrailers. These vehicles are significantly larger, the semitrailer follows a different path than the tractor, and reversing maneuvers are unstable and prone to jackknifing. Furthermore, practical driving scenarios often require scenario-dependent prioritization of different vehicle "anchor points", e.g., prioritizing the semitrailer position during docking or the tractor position when parking to charge. Therefore, we extend MPCC to enable scenario-dependent weighting of these anchor points and incorporate explicit road-boundary constraints for the front and rear tractor axles and the semitrailer axle, thereby ensuring that all considered wheels remain within the drivable area. The simulation results demonstrate the successful navigation of a representative logistic scenario in both forward and reverse direction. Furthermore, the influence of the optimization parameters on the trajectories is analyzed, providing insights into controlling the vehicle behavior. Finally, first tests using a full-scale prototype vehicle show the practical applicability of the approach.
+summary: >
+  Extends MPCC to tractor-semitrailer vehicles by adding scenario-dependent anchor-point weighting and explicit road-boundary constraints for all axles. Validates forward and reverse navigation including docking and parking-to-charge, with full-scale prototype tests.
+link: https://arxiv.org/pdf/2604.24064
+links_alt:
+audit_status: raw

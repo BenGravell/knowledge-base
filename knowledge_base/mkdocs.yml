@@ -127,6 +127,8 @@ nav:
             - Sharpness Continuous path: papers/1801_08995.md
           - Polynomials & Splines:
             - Quintic G2 Splines: papers/2000_piazzi_quintic_g2_splines_for.md
+            - Quintic Bezier Splines: papers/2016_choi_constrained_global_path_optimization.md
+            - Quintic Bezier Curve Path Planning: papers/2024_niu_quintic_bezier_curve.md
         - Path Optimization:
           - Path Shortcutting:
             - Creating High-quality Paths for Motion Planning: papers/2007_geraerts_creating_high_quality_paths.md
@@ -152,7 +154,7 @@ nav:
             - Completeness of Randomized Kinodynamic Planners with State-based Steering: papers/1511_05259.md
             - FDSPC: papers/2405_03281.md
           - Expansive Space Trees (EST):
-            - EST: TODO
+            - EST: papers/1997_hsu_path_planning_in_expansive_configuration.md
           - Stable Sparse Tree (SST):
             - SST*: papers/1407_2896.md
           - Meta Algorithms:
@@ -189,6 +191,10 @@ nav:
             - "Recent Advances in Path Integral Control (Survey)": papers/2309_12566.md
           - Model Predictive Trees:
             - MPT: papers/2411_15651.md
+            - MPTree: papers/2024_piazza_mptree_a_sampling_based_vehicle.md
+          - Model Predictive Contouring Control (MPCC):
+            - "MPCC (RC Cars)": papers/1711_07300.md
+            - "MPCC (Articulated Vehicles)": papers/2604_24064.md
           - "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)":
             - iLQR:
               - iLQR: papers/2004_li_iterative_linear_quadratic_regulator.md
@@ -213,6 +219,8 @@ nav:
             - AP-DDP: papers/2025_xia_an_adaptive_projection_differential.md
             - FATROP: papers/2303_16746.md
             - Primal-Dual iLQR: papers/2403_00748.md
+            - "Primal-Dual iLQR (GPU)": papers/2506_07823.md
+            - Crocoddyl: papers/1909_04947.md
             - CL-SQP: papers/2109_07081.md
             - ProxDDP: papers/2023_jallet_proxddp_proximal_constrained_trajectory.md
             - "Real-time Constrained Trajectory Optimization in Robotics: Theory, Implementation and Applications (Wilson Jallet PhD Dissertation)": papers/2024_jallet_real_time_constrained_trajectory.md
@@ -279,6 +287,7 @@ nav:
         - "Motion Planning for Robotics: A Review for Sampling-based Planners": papers/2410_19414.md
         - DDP and MPPI on VTOL Aircraft: papers/2022_houghton_path_planning_differential_dynamic.md
       - Frameworks & Stack Architectures:
+        - Rough Terrain Locomotion: papers/2011_zucker_optimization_and_learning_for_rough.md
         - Boss: papers/2008_urmson_autonomous_driving_in_urban.md
         - MJPC: papers/2212_00541.md
         - Judo: papers/2506_17184.md
@@ -286,6 +295,8 @@ nav:
         - DiffStack: papers/2212_06437.md
         - FRENETIX: papers/2402_01443.md
     - Motion Prediction:
+      - Traffic Models:
+        - IDM: papers/2000_treiber_congested_traffic_states_in_empirical.md
       - Multi-agent & Interaction-aware Prediction:
         - "Trajectron++": papers/2001_03093.md
         - Wayformer: papers/2207_05844.md
@@ -343,8 +354,10 @@ nav:
         - The Internal Model Principle for Linear Multivariable Regulators: papers/1975_francis_the_internal_model_principle_for.md
       - Underactuated Systems:
         - The Swing Up Control Problem for the Acrobot: papers/1995_spong_the_swing_up_control.md
+        - Correct Equations for Cart-Pole Dynamics: papers/2007_florian_correct_equations_for_the_dynamics.md
     - Reinforcement Learning:
       - Foundations:
+        - Neuronlike Adaptive Elements (Actor-Critic, Cart-Pole): papers/1983_barto_neuronlike_adaptive_elements_that_can.md
         - Learning to Predict by the Methods of Temporal Differences: papers/1988_sutton_learning_to_predict_by_the.md
       - Dynamic Programming:
         - Exact Dynamic Programming:
@@ -364,6 +377,7 @@ nav:
       - Policy Optimization:
         - Policy Gradient:
           - REINFORCE: papers/1992_williams_simple_statistical_gradient_following_algorithms.md
+          - Natural Policy Gradient: papers/2001_kakade_a_natural_policy_gradient.md
         - Actor-Critic Methods:
           - DPG: papers/2014_silver_deterministic_policy_gradient_algorithms.md
           - DDPG: papers/1509_02971.md
@@ -371,6 +385,7 @@ nav:
           - GAE: papers/1506_02438.md
           - ACKTR: papers/1708_05144.md
           - TD3: papers/1802_09477.md
+          - SAC: papers/1801_01290.md
           - ACER: papers/1611_01224.md
           - Q-Prop: papers/1611_02247.md
           - Emergence of Locomotion Behaviours in Rich Environments: papers/1707_02286.md
@@ -397,7 +412,8 @@ nav:
           - Subspace Identification:
             - Subspace Identification for Linear Systems: papers/1996_overschee_subspace_identification_for_linear.md
             - N4SID: papers/1994_overschee_n4sid_numerical_algorithms_for.md
-          - Eigensystem Realization Algorithm (ERA): papers/1985_juang_an_eigensystem_realization_algorithm.md
+          - ERA: papers/1985_juang_an_eigensystem_realization_algorithm.md
+          - OKID: papers/1993_juang_identification_of_observer_kalman_filter.md
           - Dynamic Mode Decomposition (DMD):
             - DMD: papers/2008_schmid_dynamic_mode_decomposition_of.md
             - "DMD: Theory and Applications": papers/1312_0041.md
@@ -429,6 +445,9 @@ nav:
       - Minimax & Game Theory:
         - On General Minimax Theorems: papers/1958_sion_on_general_minimax_theorems.md
         - Subgradient Methods for Saddle-Point Problems: papers/2009_nedic_subgradient_methods_for_saddle_point.md
+      - Zeroth-Order Methods:
+        - Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization: papers/1805_10367.md
+        - "Gradientless Descent: High-Dimensional Zeroth-Order Optimization": papers/1911_06317.md
       - First-Order Methods:
         - Polyak-Łojasiewicz inequality: papers/1963_polyak_gradient_methods_for_the_minimisation.md
         - Polyak momentum: papers/1964_polyak_some_methods_of_speeding_up.md
@@ -438,14 +457,27 @@ nav:
         - Analysis and Design of Optimization Algorithms via IQC: papers/1408_3595.md
         - On Symplectic Optimization: papers/1802_03653.md
         - Conformal Symplectic and Relativistic Optimization: papers/1903_04100.md
+        - Gradient Descent Converges to Minimizers: papers/1602_04915.md
+        - How to Escape Saddle Points Efficiently: papers/1703_00887.md
+        - Steepest Ascent for Optimal Programming: papers/1962_bryson_a_steepest_ascent_method.md
+      - Quasi-Newton Methods:
+        - DFP: papers/1991_davidon_variable_metric_method_for_minimization.md
+      - Newton's Method:
+        - A Note on the Convergence of Newton's Method: papers/1974_rall_a_note_on_the.md
+        - Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control: papers/2001_damm_newton_s_method_for_a.md
+        - Regularized Newton Method: papers/2112_02089.md
+        - Super-Universal Regularized Newton Method: papers/2208_05888.md
+      - Halley's Method and High-Order Roots:
+        - Multivariate Halley method: papers/1985_cuyt_computational_implementation_of_the_multivariate.md
+        - Super-Halley method: papers/2001_gutierrez_an_acceleration_of_newton_s.md
+        - Generalized Halley method: papers/2008_albeanu_on_the_generalized_halley.md
       - Proximal Methods:
         - FISTA: papers/2009_beck_a_fast_iterative_shrinkage.md
         - Proximal Algorithms: papers/2014_parikh_proximal_algorithms.md
-      - Zeroth-Order Methods:
-        - Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization: papers/1805_10367.md
-        - "Gradientless Descent: High-Dimensional Zeroth-Order Optimization": papers/1911_06317.md
       - Stochastic Optimization:
         - Enhancing Sparsity by Reweighted L1 Minimization: papers/0711_1612.md
+        - When Does SGD Escape Local Minima?: papers/1802_06175.md
+        - SGD Input-to-State Stability: papers/2507_02131.md
       - Convex Optimization:
         - Linear Programming:
           - TODO
@@ -458,14 +490,7 @@ nav:
         - General Convex Optimization:
           - TODO
       - Nonlinear Programming:
-        - TODO
-      - Newton's Method:
-        - A Note on the Convergence of Newton's Method: papers/1974_rall_a_note_on_the.md
-        - Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control: papers/2001_damm_newton_s_method_for_a.md
-      - Halley's Method and High-Order Roots:
-        - Multivariate Halley method: papers/1985_cuyt_computational_implementation_of_the_multivariate.md
-        - Super-Halley method: papers/2001_gutierrez_an_acceleration_of_newton_s.md
-        - Generalized Halley method: papers/2008_albeanu_on_the_generalized_halley.md
+        - GuSTO: papers/1903_00155.md
       - Assignment Problems:
         - Hungarian algorithm: papers/1955_kuhn_the_hungarian_method_for.md
         - Munkres algorithm: papers/1957_munkres_algorithms_for_the_assignment.md
@@ -474,6 +499,7 @@ nav:
       - Graph Search:
         - Dijkstra's algorithm: papers/1959_dijkstra_a_note_on_two_problems.md
         - Bellman-Ford algorithm: papers/1958_bellman_on_a_routing_problem.md
+        - HPA*: papers/2004_botea_near_optimal_hierarchical_path_finding.md
     - State Estimation:
       - Kalman Filter:
         - Kalman Filter: papers/1960_kalman_a_new_approach_to.md
@@ -490,6 +516,21 @@ nav:
       - Kernel Machines:
         - SVM: papers/1995_cortes_support_vector_networks.md
         - Random Kitchen Sinks: papers/2008_rahimi_weighted_sums_of_random.md
+      - Decision Trees:
+        - AID: papers/1963_morgan_problems_in_the_analysis_of_survey_data.md
+        - CHAID: papers/1980_kass_an_exploratory_technique_for.md
+        - CART: papers/1984_breiman_classification_and_regression_trees.md
+        - ID3: papers/1986_quinlan_induction_of_decision_trees.md
+        - C4.5: papers/1993_quinlan_c4_5_programs_for_machine_learning.md
+        - ctree: papers/2006_hothorn_unbiased_recursive_partitioning.md
+      - Ensemble Methods:
+        - Bagging: papers/1996_breiman_bagging_predictors.md
+        - Random Forests: papers/2001_breiman_random_forests.md
+        - GBM: papers/2001_friedman_greedy_function_approximation.md
+      - Interpretability:
+        - Shapley Value: papers/1953_shapley_a_value_for_n_person_games.md
+        - SHAP: papers/1705_07874.md
+        - TreeSHAP: papers/1802_03888.md
       - Vision-language-action (VLA) Models:
         - Alpamayo-R1: papers/2511_00088.md
       - Large language models (LLM):
