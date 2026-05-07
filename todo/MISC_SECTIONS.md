@@ -1,13 +1,4 @@
-## RL
-    - Approximate Dynamic Programming (ADP) & Q-learning:
-      - Value Iteration (VI):
-        - TODO
-      - Policy Iteration (PI):
-        - TODO
-      - Soft Actor-Critic (SAC):
-        - TODO
-
-## Optimization
+# Optimization
 
 ## Acceleration
 
@@ -31,23 +22,8 @@ Gauss-Newton
 
 Levenberg-Marquadt
 
-## Regularized Newton
-
-https://arxiv.org/abs/2112.02089
-
-https://arxiv.org/abs/2208.05888
-
 ## Quasi-Newton
 
-### DFP
-
-Title: Variable Metric Method for Minimization
-Author: William C. Davidon
-Original report: AEC Research and Development Report ANL-5990, Argonne National Laboratory, May 1959 (revised November 1959)
-Published version: SIAM Journal on Optimization, Vol. 1, No. 1, pp. 1–17, February 1991
-DOI: 10.1137/0801001
-PDF (McGill): https://www.math.mcgill.ca/dstephens/680/Papers/Davidon91.pdf
- 
 ### BFGS
 
 ### SR1
@@ -68,82 +44,17 @@ https://ieeexplore.ieee.org/document/9304563
 
 https://ieeexplore.ieee.org/document/9575928
 
-## ERA
-
-"Identification of Observer/Kalman Filter Markov Parameters: Theory and Experiments"
-Juang, Phan, Horta & Longman — Journal of Guidance, Control, and Dynamics, 1993
-
-This is Juang's own follow-on to his 1985 ERA paper. OKID generalizes ERA from pure impulse response data to data driven by arbitrary input signals, by identifying a special set of parameters called Observer Markov Parameters that subsume both the state-space model and an associated Kalman filter gain. (Dartmouth) This is critical: ERA only works on impulse responses (clean, structured experiments), while OKID/ERA works on any input-output time series — which is exactly the setting DMD and SINDy later target.
-
-## MPTree
-
-https://www.sciencedirect.com/science/article/pii/S2405896324004166
-
-Quote
-"If a MP violates a collision avoidance or vehicle dynamic constraint (e.g. infeasible longitudinal or lateral acceleration) then the maneuver is discarded (or penalized if it is close to an infeasible region)."
-
-This is notable because, in the context of the success of the whole framework/algorithm, it suggests that rejection of trajectories does not destroy sample efficiency, at least in this autonomous driving setting.
-
-## Optimization and learning for rough terrain legged locomotion
-
-https://journals.sagepub.com/doi/10.1177/0278364910392608
-
-https://www.researchgate.net/publication/220122195_Optimization_and_learning_for_rough_terrain_legged_locomotion
-
-## Crocoddyl
-
-https://arxiv.org/abs/1909.04947
-
-https://github.com/loco-3d/crocoddyl
-
-https://gepettoweb.laas.fr/doc/loco-3d/crocoddyl/devel/doxygen-html/
-
-## GuSTO
-
-https://arxiv.org/abs/1903.00155
-
-https://ieeexplore.ieee.org/document/8794205
-
-https://github.com/StanfordASL/GuSTO.jl
-
-## Expansive space tree (EST)
-
-https://ieeexplore.ieee.org/document/619371
-
-https://www.researchgate.net/publication/4077277_Guided_Expansive_Spaces_Trees_a_search_strategy_for_motion-_and_cost-constrained_state_spaces
-
-https://journals.sagepub.com/doi/10.1177/027836402320556421
-
 ## A* graph search
 
 https://en.wikipedia.org/wiki/A*_search_algorithm
 
-https://www.researchgate.net/publication/228785110_Near_optimal_hierarchical_path-finding_HPA
-
-https://webdocs.cs.ualberta.ca/~jonathan/publications/ai_publications/jogd.pdf
-
-## Primal-dual ilqr
-
-https://ieeexplore.ieee.org/abstract/document/11248841
-
-https://arxiv.org/abs/2506.07823
-
-https://github.com/iit-DLSLab/mpx
-
 ## Stochastic gradient descent
 
-https://arxiv.org/abs/2507.02131
 https://neurips.cc/virtual/2021/33647
-https://arxiv.org/abs/1802.06175
-https://arxiv.org/abs/1602.04915
-https://proceedings.mlr.press/v49/lee16.pdf
-https://proceedings.mlr.press/v70/jin17a.html
 
 # RL
 
 ## Cartpole
-
-https://coneural.org/florian/papers/05_cart_pole.pdf
 
 https://underactuated.mit.edu/acrobot.html
 
@@ -154,27 +65,11 @@ https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html
 https://docs.pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
 https://araffin.github.io/post/rl102/
 
-## A Natural Policy Gradient
-
-https://proceedings.neurips.cc/paper_files/paper/2001/hash/4b86abe48d358ecf194c56c69108433e-Abstract.html
-
 ## Gradient descent trajectory optimization
-
-https://asmedigitalcollection.asme.org/appliedmechanics/article-abstract/29/2/247/386190/A-Steepest-Ascent-Method-for-Solving-Optimum?redirectedFrom=fulltext
 
 https://www.argmin.net/p/reticulating-splines
 
 # other
-
-## Intelligent Driver Model (IDM)
-
-https://en.wikipedia.org/wiki/Intelligent_driver_model
-
-https://journals.aps.org/pre/abstract/10.1103/PhysRevE.62.1805
-
-https://arxiv.org/abs/cond-mat/0002177
-
-Treiber, Martin; Hennecke, Ansgar; Helbing, Dirk (2000-08-01). "Congested traffic states in empirical observations and microscopic simulations". Physical Review E. 62 (2): 1805–1824. arXiv:cond-mat/0002177. Bibcode:2000PhRvE..62.1805T
 
 ## Clothoids
 
@@ -227,20 +122,7 @@ https://unece.org/sites/default/files/2025-03/R171e.pdf
 
 ### Quintic bezier path planning
 
-https://www.researchgate.net/publication/277358943_Constrained_Global_Path_Optimization_for_Articulated_Steering_Vehicles
-
-https://www.researchgate.net/publication/379463578_Quintic_Bezier_curve_and_numerical_optimal_solution_based_path_planning_approach_in_seismic_exploration 
-
 https://link.springer.com/article/10.1007/s40430-021-02826-8
-
-### Model predictive contouring control
-
-[2604.24064] Trajectory Planning for an Articulated Commercial Vehicle using Model Predictive Contouring Control
-
-[1711.07300] Optimization-Based Autonomous Racing of 1:43 Scale RC Cars
-
-this is the paper that popularized the approach for vehicle control.
-this is the paper that made the transfer from XY stage positioner control (cited original paper from 2009-2010) to vehicle control.
 
 ## Prediction horizon
 
@@ -255,13 +137,7 @@ Accel            Comfort level
 
 ### Cartpole
 
-https://ieeexplore.ieee.org/document/6313077
-http://incompleteideas.net/papers/barto-sutton-anderson-83.pdf
-https://dl.acm.org/doi/10.5555/104134.104143
-
 https://underactuated.mit.edu/acrobot.html
-
-https://coneural.org/florian/papers/05_cart_pole.pdf
 
 ### **Data-driven MPC (DeePC)**
 
@@ -284,74 +160,3 @@ Clip related to planning & control: https://youtu.be/j0z4FweCy4M?t=4370
 Neural networks serve as learned heuristics for optimal motion planning in action space, guiding search away from local minima. A neural network planner outputs a trajectory distribution that seeds an explicit planner, combining the generalization of learned models with the optimality guarantees of classical planning.
 
 Experiments show the value of strong heuristics for trajectory search: hand-crafted heuristics improve performance over blind search, but learned, AI-based heuristics outperform both.
-
-## Decision trees
-
-| Paper / book | Why it matters |
-|---|---|
-| Morgan & Sonquist, 1963 — “Problems in the Analysis of Survey Data, and a Proposal” | Introduced AID, often cited as the first regression-tree-style algorithm; important pre-ML origin of recursive partitioning. |
-| Kass, 1980 — “An Exploratory Technique for Investigating Large Quantities of Categorical Data” | Introduced CHAID, a statistically driven multiway-split tree method for categorical data. |
-| Breiman, Friedman, Olshen & Stone, 1984 — Classification and Regression Trees | The foundational CART reference: binary splits, Gini/least-squares criteria, pruning, classification and regression in one framework. Frequently treated as the canonical statistical tree text. |
-| Quinlan, 1986 — “Induction of Decision Trees” | Introduced/popularized ID3 and top-down decision-tree induction using information-theoretic splitting; one of the core ML decision-tree papers. |
-| Quinlan, 1993 — C4.5: Programs for Machine Learning | The practical successor to ID3: gain ratio, pruning, continuous attributes, missing values; historically one of the most used decision-tree systems. |
-| Breiman, 1996 — “Bagging Predictors” | Not only about trees, but crucial because bagging unstable learners like trees became a core way to make them powerful and robust. |
-| Breiman, 2001 — “Random Forests” | The key paper turning trees into a dominant ensemble method. |
-| Friedman, 2001 — “Greedy Function Approximation: A Gradient Boosting Machine” | The foundational paper for gradient boosted trees / TreeBoost, framing boosting as optimization in function space and giving tree-specific enhancements. |
-| Hothorn, Hornik & Zeileis, 2006 — “Unbiased Recursive Partitioning: A Conditional Inference Framework” | Important correction to classic tree induction: addresses selection bias toward variables with many possible splits or missing values, using statistical tests. |
-
-## SHAP
-
-GitHub - shap/shap: A game theoretic approach to explain the output of any machine learning model. · GitHub
-
-1. Shapley, “A Value for n-Person Games” — 1953
-The original cooperative game theory paper. It is not about ML, but it defines the Shapley value and the axioms later reused in SHAP: efficiency, symmetry, dummy/null player, and additivity. Read this for the mathematical foundation.
-
-2. Lundberg & Lee, “A Unified Approach to Interpreting Model Predictions” — NeurIPS 2017
-This is the central SHAP paper. It introduces SHAP as a unified additive feature-attribution framework, connects Shapley values to local explanations, and argues for a unique attribution method under desirable axioms. It also relates SHAP to methods such as LIME, DeepLIFT, and classic Shapley sampling.
-
-3. Lundberg et al., “Consistent Individualized Feature Attribution for Tree Ensembles” — 2018/2020
-Usually referred to as the TreeSHAP paper. Essential if you use random forests, gradient boosting, XGBoost, LightGBM, CatBoost, or other tree classifiers. It made exact or fast SHAP computation practical for tree models and is one of the reasons SHAP became widely used.
-
-## GitHub
-
-https://github.com/open-planning/roboplan
-
-https://github.com/Genesis-Embodied-AI/Genesis 
-
-https://github.com/TUMFTM/PointCloudCrafter
-
-https://github.com/MarcToussaint/KOMO 
-
-## Cool stuff
-
-https://usgs-lidar.gishub.org/
-
-https://geodatakatalogen.naturvardsverket.se/geonetwork/srv/swe/catalog.search#/metadata/8853721d-a466-4c01-afcc-9eae57b17b39
-
-https://rreusser.github.io/
-
-https://en.wikipedia.org/wiki/The_Checklist_Manifesto
-
-https://www.vg.no/nyheter/i/3pkoP9/busser-fast-paa-alexander-kiellands-plass-i-oslo
-
-https://depth-anything-3.github.io/
-
-https://ompl.kavrakilab.org/gallery.html 
-
-https://deepwiki.com/acados/acados/2.1-ocp-nlp-solvers#differential-dynamic-programming-ddp
-
-https://huggingface.co/datasets/nvidia/PhysicalAI-Autonomous-Vehicles
-
-## Blogs
-
-https://m0nads.wordpress.com/2021/05/09/are-deep-networks-just-kernel-machines/ 
-
-https://rai-inst.com/resources/blog/dull-dirty-dangerous-redefining-undesirable-work-for-robotics/
-
-https://www.nuro.ai/blog/nuros-universal-autonomy-model
-
-https://developer.nvidia.com/blog/integrate-physical-ai-capabilities-into-existing-apps-with-nvidia-omniverse-libraries/
-
-https://www.openautonomy.com/article/modular-vs-end-to-end-autonomy-architecture-mining
-
-https://badas.nexar.app/
