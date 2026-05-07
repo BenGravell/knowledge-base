@@ -17,6 +17,15 @@ https://www.sciencedirect.com/science/article/pii/S1474667017391346
 https://www.sciencedirect.com/science/article/abs/pii/036402139090002E
 https://www.sciencedirect.com/science/article/pii/S147466701763475X
 
+
+
+## TODO 
+
+
+1. Organize all the items into sections
+2. Write new prefill scripts for the new sections
+3. Ingest
+
 ## Taylor & Francis
 
 https://www.tandfonline.com/doi/abs/10.1080/00423119208969994
