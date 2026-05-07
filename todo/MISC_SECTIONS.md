@@ -6,15 +6,11 @@ Nesterov accelerated gradient descent
 
 Tensor methods
 
-Cubic regularized Newton (Nesterov 2006)
-
 ## SGD variants
 
 AdaGrad
 
 RmsProp
-
-ADAM: https://arxiv.org/abs/1412.6980
 
 ## Least Squares
 

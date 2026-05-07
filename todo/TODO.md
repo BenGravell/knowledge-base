@@ -2,7 +2,15 @@
 
 ## Metadata cleanup
 
+### Add validation on mkdocs.yml
+  - ensure every linked doc actually exists
+  - ensure every paper in the docs source has a reference in mkdocs.yml (no dead data)
+
+### notes
+
 - go thru all the handwritten notes and make sure they end up in the docs metadata
+
+### schema
 
 - revise the metadata schema:
   - notes: handwritten note from myself
@@ -12,10 +20,6 @@
 clarify distinction between year of first publication (typically arxiv preprint) and year of official publication
 
 add other URIs besides DOI since not all papers have DOI e.g. dissertations, arxiv papers, PLMR and JMLR
-
-- Add validation on mkdocs.yml
-  - ensure every linked doc actually exists
-  - ensure every paper in the docs source has a reference in mkdocs.yml (no dead data)
 
 - Autogenerate the key for papers
   - policy: use algorithm if non-null, else use the paper name
@@ -36,32 +40,28 @@ Should call:
 
 Take an argument -g or --github to use gh-deploy mkdocs
 
-### Work on using AI automation to prefill the manual touch tasks
-
-1. Tags
-2. Summary
-3. Alt links
-4. Placement in content tree
-
 ## ConLab scrape
 
 https://labs.utdallas.edu/conlab/
 
-pull content for portfolio
+Pull content for portfolio
 
-research
+### Original research
+
 https://labs.utdallas.edu/conlab/learning-robust-control-for-lqr-systems-with-multiplicative-noise-via-policy-gradient/
 https://labs.utdallas.edu/conlab/robust-learning-based-control-via-bootstrapped-multiplicative-noise/
 https://labs.utdallas.edu/conlab/risk-averse-rrt-planning-with-nonlinear-steering-and-tracking-controllers-for-nonlinear-robotic-systems-under-uncertainty/
 
-digest
+### Digest
+
 https://labs.utdallas.edu/conlab/linear-convergence-of-gradient-and-proximal-gradient-methods-under-the-polyak-lojasiewicz-condition/
 https://labs.utdallas.edu/conlab/permutation-invariant-neural-networks-for-reinforcement-learning/
 https://labs.utdallas.edu/conlab/adversarial-training-of-neural-networks-reduces-safety-in-robots/
 https://labs.utdallas.edu/conlab/explorations-in-dynamics/
 https://labs.utdallas.edu/conlab/respect-the-unstable/
 
-resources
+### Resources
+
 https://labs.utdallas.edu/conlab/resources/
 
 ## Content tree
@@ -76,9 +76,9 @@ Then what is the value of a tree if the true info associations are more general?
 
 ## Mind Map
 
-### Edge styling
+## Performance on web
 
-Use color dark grey/black with opacity.
+Too slow when hovering over nodes.
 
 ### Sidebar
 
@@ -96,11 +96,6 @@ Also to Identification of Observer/Kalman Filter Markov Parameters: Theory and E
 Tune edge weight threshold or revisit the text fed to embedding model, maybe we need more than the abstract.
 
 Define a reference set of known connected/disconnected items and use that to tune the threshold
-
-### Layout
-
-Make layout less busy, too cluttered in motion planning cluster
-Do something about the unreadable clumps on motion planning
 
 ### Creative idea
 
@@ -161,7 +156,6 @@ Add a section with links to most closely related papers, either Top N or similar
 - Add graph linking between papers to enhance cross-ideation grabbing ideas
 - Add paper harvesting - which techniques come out on top based on reported results?
 
-
 ## Metrics
 
 Add scores/metrics:
@@ -191,13 +185,10 @@ Coolness
 “uses idea”
 “contradicts”
 
-
-
-use-cases
+### Use-cases, features enabled
 
 “Show me all planning methods derived from DDP”
 “Find shortest conceptual path between RRT and MPPI”
-
 
 ## Reading plans
 
