@@ -82,6 +82,8 @@ nav:
     - Motion Planning:
       - Path Planning:
         - Geometric Planning:
+          - Potential Fields:
+            - Artificial Potential Field: papers/1985_khatib_real_time_obstacle_avoidance_for.md
           - Probabilistic Roadmap (PRM):
             - PRM: papers/1996_kavraki_probabilistic_roadmaps_for_path.md
           - Rapidly Exploring Random Trees (RRT):
@@ -116,6 +118,7 @@ nav:
           - Lines & Arcs:
             - Dubins path: papers/1957_dubins_on_curves_of_minimal.md
             - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a.md
+            - Markov-Dubins with Acceleration: papers/1997_sussmann_the_markov_dubins_problem_with.md
           - Clothoids (linear curvature):
             - SCC path: papers/1997_scheuer_continuous_curvature_path_planning.md
             - CC Steer: papers/2004_fraichard_from_reeds_and_shepps.md
@@ -298,8 +301,8 @@ nav:
         - TODO  
       - Linear Quadratic Regulator (LQR):
         - TODO
-      - Model Preditive Control (MPC):
-        - TODO
+      - Model Predictive Control (MPC):
+        - Receding Horizon Control of Nonlinear Systems: papers/1988_mayne_receding_horizon_control_of_nonlinear.md
       - Robust Control:
         - Robustness margins for LQG: papers/1978_doyle_guaranteed_margins_for_lqg.md
     - Reinforcement Learning:
@@ -339,6 +342,8 @@ nav:
         - Streaming Flow Policy: papers/2505_21851.md
         - Pitfalls of Imitation Learning: papers/2503_09722.md
     - Optimization:
+      - Toolboxes & Solvers:
+        - YALMIP: papers/2004_lofberg_yalmip_a_toolbox_for_modeling.md
       - Convex Optimization:
         - Linear Programming:
           - TODO
@@ -358,10 +363,18 @@ nav:
       - Large language models (LLM):
         - Transformers & Attention-based models:
           - Attention Is All You Need: papers/1706_03762.md
+    - Computer Vision:
+      - Object Detection:
+        - A General Framework for Object Detection: papers/1998_papageorgiou_a_general_framework_for_object.md
+        - Viola-Jones Detector: papers/2001_viola_rapid_object_detection_using_a.md
+        - HOG: papers/2005_dalal_histograms_of_oriented_gradients_for.md
     - Safety, Testing & Verification:
       - "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification": papers/2403_18972.md
+      - "IEEE Std 3079-2022 (ADS Safety Assumptions)": papers/2022_unknown_ieee_standard_for_assumptions_in.md
     - Computer Graphics:
       - 3D Gaussian Splatting: papers/2308_04079.md
+      - Flow Visualization:
+        - OLIC: papers/1997_wegenkittl_animating_flow_fields_rendering_of.md
     - Software & Programming:
       - The Humble Programmer: papers/1972_dijkstra_the_humble_programmer.md
       - On the Role of Scientific Thought: papers/1974_dijkstra_on_the_role_of.md

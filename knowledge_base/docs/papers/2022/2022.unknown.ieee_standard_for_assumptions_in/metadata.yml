@@ -1,0 +1,22 @@
+title: "IEEE Standard for Assumptions in Safety-Related Models for Automated Driving Systems"
+algorithm:
+authors: []
+year: 2022
+source: IEEE Standards
+type: Other
+doi: 10.1109/IEEESTD.2022.9761121
+arxiv_id:
+tags:
+  - automated driving
+  - ADS
+  - safety
+  - IEEE standard
+  - safety models
+  - autonomous vehicles
+abstract: >
+  This standard applies to road vehicles. It defines a minimum set of reasonable assumptions and foreseeable scenarios that shall be considered in the development of safety related models that are part of an automated driving system (ADS).
+summary: >
+  IEEE Std 3079-2022 defines the minimum set of assumptions and foreseeable scenarios that must be considered when developing safety-related models for automated driving systems, providing a normative baseline for ADS safety analysis.
+link: https://doi.org/10.1109/IEEESTD.2022.9761121
+links_alt:
+audit_status: raw
