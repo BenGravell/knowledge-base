@@ -8,7 +8,6 @@ Defaults:
     --overwrite  False (skip IDs whose metadata.yml already exists)
 """
 
-import argparse
 import re
 import time
 from pathlib import Path
@@ -22,6 +21,7 @@ from knowledge_base.apps.arxiv_utils import (
     target_path,
     write_metadata,
 )
+from knowledge_base.utils.doi_utils import find_existing_by_arxiv_id, make_parser, needs_reingest
 
 DEFAULT_INPUT = Path(__file__).parent.parent.parent / "todo" / "ARXIV_PAPERS.md"
 ARXIV_ID_RE = re.compile(r"arxiv\.org/(?:abs|pdf)/([^\s/?#]+)")
@@ -72,14 +72,17 @@ def fetch_with_retry(arxiv_id: str) -> dict:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Prefill arXiv metadata files.")
-    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
-    parser.add_argument("--overwrite", action="store_true",
-                        help="Overwrite existing metadata.yml files")
-    args = parser.parse_args()
+    args = make_parser("Prefill arXiv metadata files.", DEFAULT_INPUT).parse_args()
 
     ids = extract_ids(args.input)
     print(f"Found {len(ids)} unique arXiv IDs in {args.input}")
+
+    if args.list_skipped:
+        for arxiv_id in ids:
+            existing = find_existing_by_arxiv_id(arxiv_id)
+            if existing:
+                print(f"{arxiv_id}  {existing}")
+        return
 
     ok = skipped = failed = 0
 
@@ -92,14 +95,19 @@ def main() -> None:
             print(f"{prefix}  ERROR fetching: {exc}")
             failed += 1
             time.sleep(BASE_DELAY)
+            if args.first is not None and ok + failed >= args.first:
+                break
             continue
 
         out = target_path(arxiv_id, data["year"])
 
         if out.exists() and not args.overwrite:
-            print(f"{prefix}  SKIP (exists: {out})")
-            skipped += 1
-            continue
+            if args.reingest and needs_reingest(out):
+                pass  # abstract is empty — fall through to re-fetch
+            else:
+                print(f"{prefix}  SKIP (exists: {out})")
+                skipped += 1
+                continue
 
         metadata = build_metadata(data)
         yaml_text = metadata_to_yaml(metadata)
@@ -107,8 +115,9 @@ def main() -> None:
         print(f"{prefix}  OK -> {out}")
         ok += 1
 
-        if i < len(ids):
-            time.sleep(BASE_DELAY)
+        if args.first is not None and ok + failed >= args.first:
+            break
+        time.sleep(BASE_DELAY)
 
     print(f"\nDone: {ok} written, {skipped} skipped, {failed} failed")
 
