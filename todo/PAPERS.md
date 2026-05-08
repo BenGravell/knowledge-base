@@ -12,6 +12,7 @@ https://dl.acm.org/doi/10.5555/3001460.3001507
 https://dl.acm.org/doi/10.5555/3546258.3546526
 https://dl.acm.org/doi/10.5555/3104482.3104568
 https://dl.acm.org/doi/10.5555/2999134.2999257
+https://dl.acm.org/doi/10.5555/1921427.1921446
 
 https://www.sciencedirect.com/science/article/pii/S1474667017391346
 https://www.sciencedirect.com/science/article/abs/pii/036402139090002E
@@ -45,6 +46,7 @@ https://www.science.org/doi/10.1126/scirobotics.abm6074
 
 ## ML
 
+https://proceedings.neurips.cc/paper/2001/hash/a591024321c5e2bdbd23ed35f0574dde-Abstract.html
 https://proceedings.mlr.press/v32/levine14.html
 https://proceedings.neurips.cc/paper/2018/hash/0ae3f79a30234b6c45a6f7d298ba1310-Abstract.html
 https://proceedings.mlr.press/v120/dean20a.html
