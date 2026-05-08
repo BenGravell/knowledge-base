@@ -1,0 +1,17 @@
+title: On Linear Convergence of Policy Gradient Methods for Finite MDPs
+algorithm:
+authors:
+  - Jalaj Bhandari
+  - Daniel Russo
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2007.11120"
+tags:
+abstract: >
+  We revisit the finite time analysis of policy gradient methods in the one of the simplest settings: finite state and action MDPs with a policy class consisting of all stochastic policies and with exact gradient evaluations. There has been some recent work viewing this setting as an instance of smooth non-linear optimization problems and showing sub-linear convergence rates with small step-sizes. Here, we take a different perspective based on connections with policy iteration and show that many variants of policy gradient methods succeed with large step-sizes and attain a linear rate of convergence.
+summary: ''
+link: https://arxiv.org/pdf/2007.11120
+links_alt:
+audit_status: raw
