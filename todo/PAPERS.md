@@ -29,6 +29,7 @@ https://www.tandfonline.com/doi/abs/10.1080/00423119208969994
 https://www.tandfonline.com/doi/abs/10.1080/00423110412331290419
 https://www.tandfonline.com/doi/full/10.1080/00423114.2020.1741652
 https://www.tandfonline.com/doi/full/10.1080/15389588.2022.2125231
+https://www.tandfonline.com/doi/full/10.1080/00207179.2016.1222553
 
 ## NATURE
 
@@ -44,6 +45,7 @@ https://www.science.org/doi/10.1126/scirobotics.abm6074
 
 ## ML
 
+https://proceedings.mlr.press/v32/levine14.html
 https://proceedings.neurips.cc/paper/2018/hash/0ae3f79a30234b6c45a6f7d298ba1310-Abstract.html
 https://proceedings.mlr.press/v120/dean20a.html
 https://proceedings.mlr.press/v144/dean21a
@@ -53,9 +55,12 @@ https://proceedings.mlr.press/v80/arora18a.html
 https://proceedings.neurips.cc/paper/2019/hash/78719f11fa2df9917de3110133506521-Abstract.html
 https://proceedings.mlr.press/v247/suggala24a.html
 https://proceedings.neurips.cc/paper_files/paper/2017/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf
+https://papers.nips.cc/paper_files/paper/2013/hash/ac1dd209cbcc5e5d1c6e28598e8cbbe8-Abstract.html
 
 ## Other papers
 
+https://msp.org/pjm/1966/16-1/pjm-v16-n1-p01-p.pdf
+https://openreview.net/pdf?id=NALsdGEPhB
 https://www.semanticscholar.org/paper/AN-ALGORITHM-FOR-THE-ORGANIZATION-OF-INFORMATION-AdelsonVelskii/3b48b6c79dec4791c36e6623cb0e5bfea6c2a383
 https://pdfs.semanticscholar.org/80d8/531ce3c7ad5dbf18e659addb71ed3539f395.pdf
 https://softlib.rice.edu/pub/CRPC-TRs/reports/CRPC-TR89003.pdf
@@ -415,6 +420,8 @@ https://rerun.io/blog/data-layer-tax
 https://opennav.org/news/mppi-low-acceleration/
 https://aaltodoc.aalto.fi/items/874eec9f-9841-464e-91fb-ec45b26066c4
 https://github.com/eurika-kaiser/SINDY-MPC
+https://emerge-lab.github.io/PufferDrive/index.html
+https://emerge-lab.github.io/PufferDrive/pufferdrive-2.0.html
 
 ## GitHub
 
