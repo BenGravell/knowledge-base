@@ -1,0 +1,20 @@
+title: >
+  PAGE: A Simple and Optimal Probabilistic Gradient Estimator for Nonconvex Optimization
+algorithm: PAGE
+authors:
+  - Zhize Li
+  - Hongyan Bao
+  - Xiangliang Zhang
+  - Peter Richtárik
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2008.10898"
+tags:
+abstract: >
+  In this paper, we propose a novel stochastic gradient estimator -- ProbAbilistic Gradient Estimator (PAGE) -- for nonconvex optimization. PAGE is easy to implement as it is designed via a small adjustment to vanilla SGD: in each iteration, PAGE uses the vanilla minibatch SGD update with probability $p_t$ or reuses the previous gradient with a small adjustment, at a much lower computational cost, with probability $1-p_t$. We give a simple formula for the optimal choice of $p_t$. Moreover, we prove the first tight lower bound $Ω(n+\frac{\sqrt{n}}{ε^2})$ for nonconvex finite-sum problems, which also leads to a tight lower bound $Ω(b+\frac{\sqrt{b}}{ε^2})$ for nonconvex online problems, where $b:= \min\{\frac{σ^2}{ε^2}, n\}$. Then, we show that PAGE obtains the optimal convergence results $O(n+\frac{\sqrt{n}}{ε^2})$ (finite-sum) and $O(b+\frac{\sqrt{b}}{ε^2})$ (online) matching our lower bounds for both nonconvex finite-sum and online problems. Besides, we also show that for nonconvex functions satisfying the Polyak-Łojasiewicz (PL) condition, PAGE can automatically switch to a faster linear convergence rate $O(\cdot\log \frac{1}ε)$. Finally, we conduct several deep learning experiments (e.g., LeNet, VGG, ResNet) on real datasets in PyTorch showing that PAGE not only converges much faster than SGD in training but also achieves the higher test accuracy, validating the optimal theoretical results and confirming the practical superiority of PAGE.
+summary: ''
+link: https://arxiv.org/pdf/2008.10898
+links_alt:
+audit_status: raw

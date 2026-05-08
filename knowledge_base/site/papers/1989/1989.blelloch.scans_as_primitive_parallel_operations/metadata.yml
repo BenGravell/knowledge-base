@@ -1,0 +1,16 @@
+title: Scans as primitive parallel operations
+algorithm:
+authors:
+  - G.E. Blelloch
+year: 1989
+source: IEEE Transactions on Computers
+type: Journal Paper
+doi: 10.1109/12.42122
+arxiv_id:
+tags:
+abstract: >
+  A study of the effects of adding two scan primitives as unit-time primitives to PRAM (parallel random access machine) models is presented. It is shown that the primitives improve the asymptotic running time of many algorithms by an O(log n) factor, greatly simplifying the description of many algorithms, and are significantly easier to implement than memory references. It is argued that the algorithm designer should feel free to use these operations as if they were as cheap as a memory reference. The author describes five algorithms that clearly illustrate how the scan primitives can be used in algorithm design: a radix-sort algorithm, a quicksort algorithm, a minimum-spanning-tree algorithm, a line-drawing algorithm, and a merging algorithm. These all run on an EREW (exclusive read, exclusive write) PRAM with the addition of two scan primitives and are either simpler or more efficient than their pure PRAM counterparts. The scan primitives have been implemented in microcode on the Connection Machine system, are available in PARIS (the parallel instruction set of the machine).< <ETX xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">&gt;</ETX>
+summary: ''
+link: https://doi.org/10.1109/12.42122
+links_alt:
+audit_status: raw
