@@ -21,7 +21,7 @@ from knowledge_base.apps.arxiv_utils import (
     target_path,
     write_metadata,
 )
-from knowledge_base.utils.doi_utils import find_existing_by_arxiv_id, make_parser, needs_reingest
+from knowledge_base.utils.doi_utils import find_existing_by_arxiv_id, make_parser, should_skip
 
 DEFAULT_INPUT = Path(__file__).parent.parent.parent / "todo" / "ARXIV_PAPERS.md"
 ARXIV_ID_RE = re.compile(r"arxiv\.org/(?:abs|pdf)/([^\s/?#]+)")
@@ -84,6 +84,12 @@ def main() -> None:
     for i, arxiv_id in enumerate(ids, 1):
         prefix = f"[{i}/{len(ids)}] {arxiv_id}"
 
+        existing = find_existing_by_arxiv_id(arxiv_id)
+        if should_skip(existing, args):
+            print(f"{prefix}  SKIP (exists: {existing})")
+            skipped += 1
+            continue
+
         try:
             data = fetch_with_retry(arxiv_id)
         except RateLimitBailout as exc:
@@ -99,15 +105,6 @@ def main() -> None:
             continue
 
         out = target_path(arxiv_id, data["year"])
-
-        if out.exists() and not args.overwrite:
-            if args.reingest and needs_reingest(out):
-                pass  # abstract is empty — fall through to re-fetch
-            else:
-                print(f"{prefix}  SKIP (exists: {out})")
-                skipped += 1
-                continue
-
         metadata = build_metadata(data)
         yaml_text = metadata_to_yaml(metadata)
         write_metadata(arxiv_id, data["year"], yaml_text)

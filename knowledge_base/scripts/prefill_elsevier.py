@@ -31,8 +31,8 @@ from knowledge_base.utils.doi_utils import (
     fetch_with_retry,
     generate_folder_name,
     make_parser,
-    needs_reingest,
     scrape_doi_from_html,
+    should_skip,
     write_doi_metadata,
 )
 
@@ -104,11 +104,12 @@ def main() -> None:
         return
 
     ok = skipped = failed = 0
+    doi_index = build_doi_index()
 
     for i, (url, pii) in enumerate(entries, 1):
         prefix = f"[{i}/{len(entries)}] {pii}"
 
-        # Step 1: scrape DOI from Elsevier page
+        # Step 1: resolve DOI from Elsevier PII
         try:
             doi = fetch_elsevier_doi(url, pii)
         except Exception as exc:
@@ -117,6 +118,12 @@ def main() -> None:
             time.sleep(BASE_DELAY)
             if args.first is not None and ok + failed >= args.first:
                 break
+            continue
+
+        existing = doi_index.get(doi.lower())
+        if should_skip(existing, args):
+            print(f"{prefix}  SKIP (exists: {existing})")
+            skipped += 1
             continue
 
         # Step 2: fetch full metadata from Crossref
@@ -132,15 +139,6 @@ def main() -> None:
 
         folder = generate_folder_name(data["year"], data["authors"], data["title"])
         out = doi_target_path(data["year"], folder)
-
-        if out.exists() and not args.overwrite:
-            if args.reingest and needs_reingest(out):
-                pass  # abstract is empty — fall through to re-fetch
-            else:
-                print(f"{prefix}  SKIP (exists: {out})")
-                skipped += 1
-                continue
-
         metadata = build_doi_metadata(data)
         yaml_text = metadata_to_yaml(metadata)
         write_doi_metadata(data["year"], folder, yaml_text)

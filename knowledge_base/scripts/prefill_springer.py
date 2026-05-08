@@ -19,7 +19,6 @@ from pathlib import Path
 from knowledge_base.apps.arxiv_utils import metadata_to_yaml
 from knowledge_base.utils.doi_utils import (
     BASE_DELAY,
-    PAPERS_DIR,
     build_doi_index,
     build_doi_metadata,
     doi_target_path,
@@ -28,8 +27,8 @@ from knowledge_base.utils.doi_utils import (
     fetch_with_retry,
     generate_folder_name,
     make_parser,
-    needs_reingest,
     scrape_abstract_from_html,
+    should_skip,
     write_doi_metadata,
 )
 
@@ -73,9 +72,16 @@ def main() -> None:
         return
 
     ok = skipped = failed = 0
+    doi_index = build_doi_index()
 
     for i, (url, doi) in enumerate(entries, 1):
         prefix = f"[{i}/{len(entries)}] {doi}"
+
+        existing = doi_index.get(doi.lower())
+        if should_skip(existing, args):
+            print(f"{prefix}  SKIP (exists: {existing})")
+            skipped += 1
+            continue
 
         try:
             data = fetch_with_retry(fetch_crossref, doi)
@@ -98,15 +104,6 @@ def main() -> None:
 
         folder = generate_folder_name(data["year"], data["authors"], data["title"])
         out = doi_target_path(data["year"], folder)
-
-        if out.exists() and not args.overwrite:
-            if args.reingest and needs_reingest(out):
-                pass  # abstract is empty — fall through to re-fetch
-            else:
-                print(f"{prefix}  SKIP (exists: {out})")
-                skipped += 1
-                continue
-
         metadata = build_doi_metadata(data)
         yaml_text = metadata_to_yaml(metadata)
         write_doi_metadata(data["year"], folder, yaml_text)
