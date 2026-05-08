@@ -55,12 +55,16 @@ extra_css:
   - stylesheets/extra.css
 
 extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
   - javascripts/header-link.js
 
 markdown_extensions:
   - meta
   - admonition
   - footnotes
+  - pymdownx.arithmatex:
+      generic: true
   - pymdownx.superfences
   - pymdownx.snippets
   - attr_list
