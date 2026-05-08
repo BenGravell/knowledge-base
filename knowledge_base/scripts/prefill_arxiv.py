@@ -30,10 +30,8 @@ ARXIV_ID_RE = re.compile(r"arxiv\.org/(?:abs|pdf)/([^\s/?#]+)")
 # Set to 5 seconds, well above 3 seconds required by arXiv Terms of Use (which requries 3 seconds)
 # https://info.arxiv.org/help/api/tou.html
 BASE_DELAY = 5.0      
-# Max number of retries
+# Max number of retries for transient (non-HTTP) errors
 MAX_RETRIES = 5
-# seconds to wait after first 429; doubles each retry
-BACKOFF_BASE = 10.0   
 
 
 def extract_ids(path: Path) -> list[str]:
@@ -52,23 +50,20 @@ def extract_ids(path: Path) -> list[str]:
     return ids
 
 
+class RateLimitBailout(Exception):
+    pass
+
+
 def fetch_with_retry(arxiv_id: str) -> dict:
-    delay = BACKOFF_BASE
-    last_exc: Exception = RuntimeError("no attempts made")
     for attempt in range(MAX_RETRIES):
         try:
             return fetch_arxiv(arxiv_id)
         except requests.HTTPError as exc:
-            last_exc = exc
             if exc.response is not None and exc.response.status_code == 429:
-                if attempt + 1 == MAX_RETRIES:
-                    break
-                print(f"    429 error, waiting {delay:.0f}s (attempt {attempt + 1}/{MAX_RETRIES})")
-                time.sleep(delay)
-                delay *= 2
-            else:
-                raise
-    raise last_exc
+                raise RateLimitBailout(
+                    "Bailing out! 429 errors tend to be unrecoverable even with retry. Try running the script again later."
+                ) from exc
+            raise
 
 
 def main() -> None:
@@ -91,6 +86,10 @@ def main() -> None:
 
         try:
             data = fetch_with_retry(arxiv_id)
+        except RateLimitBailout as exc:
+            print(f"{prefix}")
+            print(f"{exc}")
+            break
         except Exception as exc:
             print(f"{prefix}  ERROR fetching: {exc}")
             failed += 1
