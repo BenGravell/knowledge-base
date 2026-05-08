@@ -59,6 +59,13 @@ https://proceedings.mlr.press/v247/suggala24a.html
 https://proceedings.neurips.cc/paper_files/paper/2017/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf
 https://papers.nips.cc/paper_files/paper/2013/hash/ac1dd209cbcc5e5d1c6e28598e8cbbe8-Abstract.html
 
+## Robotics
+
+https://www.roboticsproceedings.org/rss09/p31.pdf
+https://www.roboticsproceedings.org/rss07/p32.pdf
+https://www.roboticsproceedings.org/rss09/p30.pdf
+https://www.roboticsproceedings.org/rss21/p032.pdf
+
 ## Other papers
 
 https://msp.org/pjm/1966/16-1/pjm-v16-n1-p01-p.pdf
@@ -130,13 +137,11 @@ https://stanfordasl.github.io/wp-content/papercite-data/pdf/Janson.Ichter.Pavone
 https://opennav.org/news/mppi-low-acceleration/ 
 https://personal.ntu.edu.sg/cuong/docs/trajectory-planning.pdf 
 https://www.semanticscholar.org/paper/Motion-planning-with-sequential-convex-optimization-Schulman-Duan/4bea655156a6d97f224995f55feb23e5e26dd92c
-https://www.roboticsproceedings.org/rss07/p32.pdf
 https://www.annualreviews.org/content/journals/10.1146/annurev-control-061623-094742
 https://www.mdpi.com/2413-8851/10/4/215
 https://people.eecs.berkeley.edu/~brecht/papers/09.man.rec.ip.pdf
 https://web.ece.ucsb.edu/~hespanha/published/iav04-pathfollowing.pdf
 https://khatib.stanford.edu/publications/pdfs/Quinlan_1993_ICRA.pdf
-https://roboticsproceedings.org/rss09/p31.pdf
 https://nn.cs.utexas.edu/?stanley:ec02
 https://onlinelibrary.wiley.com/doi/10.1002/col.20227
 https://www.jstor.org/stable/2282967
@@ -191,7 +196,6 @@ https://www.databookuw.com/
 https://en.wikipedia.org/wiki/Menger_curvature
 https://web.mit.edu/dimitrib/www/Bertsekas_1976_dynamic-programming.pdf
 https://calhoun.nps.edu/server/api/core/bitstreams/d13f9e60-3e4a-4fee-be9e-52779f040aaa/content
-https://www.roboticsproceedings.org/rss21/p032.pdf
 https://github.com/ebertolazzi/Clothoids
 https://github.com/UW-ACL/SCPToolbox.jl
 https://mpcworkshop.org/
