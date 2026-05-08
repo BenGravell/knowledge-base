@@ -75,18 +75,21 @@ nav:
   - Home: index.md
   - Mind Map: mind-map.md
   - Explainers:
-    - PID: explainers/pid/pid.md
-    - LQR: explainers/lqr.md
-    - MPC: explainers/mpc.md
-    - MCTS: explainers/mcts.md
-    - Differential Flatness: explainers/differential_flatness.md
-    - AkinoPDF: explainers/akino_pdf.md
-    - Waymo AI: explainers/waymo_ai.md
-    - Gradient Descent under Polyak-Łojasiewicz: explainers/polyak_lojasiewicz.md-
-    - Permutation-Invariant Neural Nets for RL: explainers/permutation_invariant_nn_rl.md
-    - Adversarial Training and Robot Safety: explainers/adversarial_training_robot_safety.md
-    - Explorations in Dynamics: explainers/explorations_in_dynamics.md
-    - Respect the Unstable: explainers/respect_the_unstable.md
+    - Planning & Control:
+      - PID: explainers/pid/pid.md
+      - LQR: explainers/lqr.md
+      - MPC: explainers/mpc.md
+      - MCTS: explainers/mcts.md
+      - Differential Flatness: explainers/differential_flatness.md
+      - Respect the Unstable: explainers/respect_the_unstable.md
+      - Explorations in Dynamics: explainers/explorations_in_dynamics.md
+      - Permutation-Invariant Neural Nets for RL: explainers/permutation_invariant_nn_rl.md
+      - AkinoPDF: explainers/akino_pdf.md
+    - Optimization:
+      - Gradient Descent under Polyak-Łojasiewicz: explainers/polyak_lojasiewicz.md
+    - AI for Autonomy:
+      - Waymo AI: explainers/waymo_ai.md
+      - Adversarial Training and Robot Safety: explainers/adversarial_training_robot_safety.md
   - Content Tree:
     - Motion Planning:
       - Path Planning:
