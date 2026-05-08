@@ -1,0 +1,31 @@
+title: >
+  Orbit: A Unified Simulation Framework for Interactive Robot Learning Environments
+algorithm: Orbit
+authors:
+  - Mayank Mittal
+  - Calvin Yu
+  - Qinxi Yu
+  - Jingzhou Liu
+  - Nikita Rudin
+  - David Hoeller
+  - Jia Lin Yuan
+  - Ritvik Singh
+  - Yunrong Guo
+  - Hammad Mazhar
+  - Ajay Mandlekar
+  - Buck Babich
+  - Gavriel State
+  - Marco Hutter
+  - Animesh Garg
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2301.04195"
+tags:
+abstract: >
+  We present Orbit, a unified and modular framework for robot learning powered by NVIDIA Isaac Sim. It offers a modular design to easily and efficiently create robotic environments with photo-realistic scenes and high-fidelity rigid and deformable body simulation. With Orbit, we provide a suite of benchmark tasks of varying difficulty -- from single-stage cabinet opening and cloth folding to multi-stage tasks such as room reorganization. To support working with diverse observations and action spaces, we include fixed-arm and mobile manipulators with different physically-based sensors and motion generators. Orbit allows training reinforcement learning policies and collecting large demonstration datasets from hand-crafted or expert solutions in a matter of minutes by leveraging GPU-based parallelization. In summary, we offer an open-sourced framework that readily comes with 16 robotic platforms, 4 sensor modalities, 10 motion generators, more than 20 benchmark tasks, and wrappers to 4 learning libraries. With this framework, we aim to support various research areas, including representation learning, reinforcement learning, imitation learning, and task and motion planning. We hope it helps establish interdisciplinary collaborations in these communities, and its modularity makes it easily extensible for more tasks and applications in the future.
+summary: ''
+link: https://arxiv.org/pdf/2301.04195
+links_alt:
+audit_status: raw

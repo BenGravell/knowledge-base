@@ -1,0 +1,16 @@
+title: Stochastic Gradient Descent Tricks
+algorithm:
+authors:
+  - Léon Bottou
+year: 2012
+source: Lecture Notes in Computer Science
+type: Conference Paper
+doi: 10.1007/978-3-642-35289-8_25
+arxiv_id:
+tags:
+abstract: >
+  Chapter 1 strongly advocates the stochastic back-propagation method to train neural networks. This is in fact an instance of a more general technique called stochastic gradient descent (SGD). This chapter provides background material, explains why SGD is a good learning algorithm when the training set is large, and provides useful recommendations.
+summary: ''
+link: https://doi.org/10.1007/978-3-642-35289-8_25
+links_alt:
+audit_status: raw
