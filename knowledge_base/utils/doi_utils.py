@@ -353,6 +353,18 @@ def needs_reingest(path: Path) -> bool:
         return True
 
 
+def should_skip(existing: Path | None, args) -> bool:
+    """Return True if the item should not be fetched or written.
+
+    Centralises the overwrite/reingest decision shared by all prefill scripts.
+    """
+    if existing is None or args.overwrite:
+        return False
+    if args.reingest and needs_reingest(existing):
+        return False
+    return True
+
+
 def build_doi_index(papers_dir: Path | None = None) -> dict[str, Path]:
     """Return {doi_lowercase: metadata_path} for every existing metadata.yml with a doi field."""
     base = papers_dir if papers_dir is not None else PAPERS_DIR
