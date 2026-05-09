@@ -1,5 +1,5 @@
 title: 'Automatic differentiation in machine learning: a survey'
-algorithm:
+algorithm: "Automatic Differentiation"
 authors:
   - Atilim Gunes Baydin
   - Barak A. Pearlmutter

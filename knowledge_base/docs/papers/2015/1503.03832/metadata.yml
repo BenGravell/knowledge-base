@@ -1,5 +1,5 @@
 title: 'FaceNet: A Unified Embedding for Face Recognition and Clustering'
-algorithm:
+algorithm: "FaceNet"
 authors:
   - Florian Schroff
   - Dmitry Kalenichenko

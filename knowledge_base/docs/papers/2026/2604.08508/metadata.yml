@@ -1,5 +1,5 @@
 title: 'Sumo: Dynamic and Generalizable Whole-Body Loco-Manipulation'
-algorithm:
+algorithm: "Sumo"
 authors:
   - John Z. Zhang
   - Maks Sorokin

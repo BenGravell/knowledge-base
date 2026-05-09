@@ -1,6 +1,6 @@
 title: >
   PA-MPPI: Perception-Aware Model Predictive Path Integral Control for Quadrotor Navigation in Unknown Environments
-algorithm:
+algorithm: "MPPI"
 authors:
   - Yifan Zhai
   - Rudolf Reiter

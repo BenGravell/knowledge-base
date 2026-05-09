@@ -1,5 +1,5 @@
 title: Random Gradient-Free Minimization of Convex Functions
-algorithm:
+algorithm: "Random Gradient-Free Method"
 authors:
   - Yurii Nesterov
   - Vladimir Spokoiny

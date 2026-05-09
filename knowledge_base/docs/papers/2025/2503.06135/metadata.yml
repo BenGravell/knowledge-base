@@ -1,5 +1,5 @@
 title: 'FlowMP: Learning Motion Fields for Robot Planning with Conditional Flow Matching'
-algorithm:
+algorithm: "FlowMP"
 authors:
   - Khang Nguyen
   - An T. Le

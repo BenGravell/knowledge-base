@@ -1,5 +1,5 @@
 title: Differentiable Collision Avoidance Using Collision Primitives
-algorithm:
+algorithm: "Collision Primitives"
 authors:
   - Simon Zimmermann
   - Matthias Busenhart

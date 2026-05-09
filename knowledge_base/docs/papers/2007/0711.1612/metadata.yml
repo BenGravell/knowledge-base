@@ -1,5 +1,5 @@
 title: Enhancing Sparsity by Reweighted L1 Minimization
-algorithm:
+algorithm: "Reweighted L1 Minimization"
 authors:
   - Emmanuel J. Candes
   - Michael B. Wakin

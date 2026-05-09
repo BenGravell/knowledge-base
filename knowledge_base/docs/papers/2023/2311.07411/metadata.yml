@@ -1,5 +1,5 @@
 title: A Large Deviations Perspective on Policy Gradient Algorithms
-algorithm:
+algorithm: "Policy Gradient"
 authors:
   - Wouter Jongeneel
   - Daniel Kuhn

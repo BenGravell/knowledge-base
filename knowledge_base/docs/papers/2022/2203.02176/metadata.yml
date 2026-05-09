@@ -1,5 +1,5 @@
 title: 'ST-RRT*: Asymptotically-Optimal Bidirectional Motion Planning through Space-Time'
-algorithm:
+algorithm: "ST-RRT*"
 authors:
   - Francesco Grothe
   - Valentin N. Hartmann

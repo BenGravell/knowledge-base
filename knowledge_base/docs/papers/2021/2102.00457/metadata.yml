@@ -1,6 +1,6 @@
 title: >
   MultiRocket: Multiple pooling operators and transformations for fast and effective time series classification
-algorithm:
+algorithm: "MultiRocket"
 authors:
   - Chang Wei Tan
   - Angus Dempster

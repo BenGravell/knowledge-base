@@ -1,5 +1,5 @@
 title: 'Ray: A Distributed Framework for Emerging AI Applications'
-algorithm:
+algorithm: "Ray"
 authors:
   - Philipp Moritz
   - Robert Nishihara

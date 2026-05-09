@@ -1,6 +1,6 @@
 title: A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for
   LQR
-algorithm:
+algorithm: "Policy Gradient"
 authors:
   - Bowen Song
   - Simon Weissmann

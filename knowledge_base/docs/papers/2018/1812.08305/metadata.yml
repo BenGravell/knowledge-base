@@ -1,6 +1,6 @@
 title: >
   Derivative-Free Methods for Policy Optimization: Guarantees for Linear Quadratic Systems
-algorithm:
+algorithm: "Derivative-Free Methods for Policy Optimization"
 authors:
   - Dhruv Malik
   - Ashwin Pananjady

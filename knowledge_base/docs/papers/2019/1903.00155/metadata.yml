@@ -1,6 +1,6 @@
 title: >
   GuSTO: Guaranteed Sequential Trajectory Optimization via Sequential Convex Programming
-algorithm:
+algorithm: "GuSTO"
 authors:
   - Riccardo Bonalli
   - Abhishek Cauligi

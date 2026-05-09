@@ -1,5 +1,5 @@
 title: Stochastic Gradient Descent Tricks
-algorithm:
+algorithm: "SGD"
 authors:
   - Léon Bottou
 year: 2012

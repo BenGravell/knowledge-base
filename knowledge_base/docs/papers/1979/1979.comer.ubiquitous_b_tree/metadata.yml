@@ -1,5 +1,5 @@
 title: Ubiquitous B-Tree
-algorithm:
+algorithm: "B-tree"
 authors:
   - Douglas Comer
 year: 1979

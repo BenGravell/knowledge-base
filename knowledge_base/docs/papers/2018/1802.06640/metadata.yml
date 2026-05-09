@@ -1,5 +1,5 @@
 title: Finding Influential Training Samples for Gradient Boosted Decision Trees
-algorithm:
+algorithm: "TreeInfluence"
 authors:
   - Boris Sharchilev
   - Yury Ustinovsky

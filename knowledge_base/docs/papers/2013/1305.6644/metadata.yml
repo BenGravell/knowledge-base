@@ -1,5 +1,5 @@
 title: Fast and Accurate G1 Fitting of Clothoid Curves
-algorithm:
+algorithm: "Clothoid Fitting"
 authors:
   - Enrico Bertolazzi
   - Marco Frego

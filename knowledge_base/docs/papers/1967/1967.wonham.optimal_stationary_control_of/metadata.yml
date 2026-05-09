@@ -1,4 +1,5 @@
 title: "Optimal Stationary Control of a Linear System with State-Dependent Noise"
+algorithm: "State-Dependent Noise LQR"
 authors:
   - W. M. Wonham
 year: 1967

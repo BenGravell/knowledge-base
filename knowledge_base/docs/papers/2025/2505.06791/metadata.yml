@@ -1,5 +1,5 @@
 title: 'cpRRTC: GPU-Parallel RRT-Connect for Constrained Motion Planning'
-algorithm:
+algorithm: "cpRRTC"
 authors:
   - Jiaming Hu
   - Jiawei Wang

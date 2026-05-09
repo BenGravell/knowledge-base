@@ -1,5 +1,5 @@
 title: Playing Atari with Deep Reinforcement Learning
-algorithm:
+algorithm: "DQN"
 authors:
   - Volodymyr Mnih
   - Koray Kavukcuoglu

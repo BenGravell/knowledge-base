@@ -1,5 +1,5 @@
 title: Learning to predict by the methods of temporal differences
-algorithm:
+algorithm: "TD Learning"
 authors:
   - Richard S. Sutton
 year: 1988

@@ -1,5 +1,5 @@
 title: Closed-loop analysis of linear stochastic MPC with risk-averse constraints
-algorithm:
+algorithm: "Risk-Averse Stochastic MPC"
 authors:
   - Jonas Schießl
   - Ruchuan Ou

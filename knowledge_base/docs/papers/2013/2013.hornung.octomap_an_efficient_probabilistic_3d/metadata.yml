@@ -1,5 +1,5 @@
 title: 'OctoMap: an efficient probabilistic 3D mapping framework based on octrees'
-algorithm:
+algorithm: "OctoMap"
 authors:
   - Armin Hornung
   - Kai M. Wurm

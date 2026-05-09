@@ -1,5 +1,5 @@
 title: System analysis via integral quadratic constraints
-algorithm:
+algorithm: "IQC"
 authors:
   - A. Megretski
   - A. Rantzer

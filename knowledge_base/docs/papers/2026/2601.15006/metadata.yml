@@ -1,6 +1,6 @@
 title: >
   DWPP: Dynamic Window Pure Pursuit Considering Velocity and Acceleration Constraints
-algorithm:
+algorithm: "DWPP"
 authors:
   - Fumiya Ohnishi
   - Masaki Takahashi

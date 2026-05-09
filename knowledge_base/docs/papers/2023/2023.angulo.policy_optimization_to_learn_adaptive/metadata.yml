@@ -1,6 +1,6 @@
 title: >
   Policy Optimization to Learn Adaptive Motion Primitives in Path Planning With Dynamic Obstacles
-algorithm:
+algorithm: "POLAMP"
 authors:
   - Brian Angulo
   - Aleksandr Panov

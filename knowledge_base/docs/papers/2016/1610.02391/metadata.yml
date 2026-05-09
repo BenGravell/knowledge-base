@@ -1,5 +1,5 @@
 title: 'Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization'
-algorithm:
+algorithm: "Grad-CAM"
 authors:
   - Ramprasaath R. Selvaraju
   - Michael Cogswell

@@ -1,6 +1,6 @@
 title: >
   BOBShield: An Open-Source Miniature “Ball and Beam” Device for Control Engineering Education
-algorithm:
+algorithm: "BOBShield"
 authors:
   - Gergely Takacs
   - Erik Mikulas

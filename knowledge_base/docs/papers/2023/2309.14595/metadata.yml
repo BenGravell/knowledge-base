@@ -1,6 +1,6 @@
 title: >
   Neural Informed RRT*: Learning-based Path Planning with Point Cloud State Representations under Admissible Ellipsoidal Constraints
-algorithm:
+algorithm: "Neural Informed RRT*"
 authors:
   - Zhe Huang
   - Hongyu Chen

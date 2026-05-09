@@ -1,5 +1,5 @@
 title: On an iterative technique for Riccati equation computations
-algorithm:
+algorithm: "Kleinman Riccati Iteration"
 authors:
   - D. Kleinman
 year: 1968

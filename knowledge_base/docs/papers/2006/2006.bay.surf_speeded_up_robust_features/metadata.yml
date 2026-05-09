@@ -1,5 +1,5 @@
 title: 'SURF: Speeded Up Robust Features'
-algorithm:
+algorithm: "SURF"
 authors:
   - Herbert Bay
   - Tinne Tuytelaars

@@ -1,5 +1,5 @@
 title: 'TD-MPC2: Scalable, Robust World Models for Continuous Control'
-algorithm:
+algorithm: "TD-MPC2"
 authors:
   - Nicklas Hansen
   - Hao Su

@@ -1,5 +1,5 @@
 title: Zeroth-Order Randomized Subspace Newton Methods
-algorithm:
+algorithm: "Newton's Method"
 authors:
   - Erik Berglund
   - Sarit Khirirat

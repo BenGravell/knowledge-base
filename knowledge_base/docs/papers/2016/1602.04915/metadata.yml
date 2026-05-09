@@ -1,5 +1,5 @@
 title: Gradient Descent Converges to Minimizers
-algorithm:
+algorithm: "Gradient Descent"
 authors:
   - Jason D. Lee
   - Max Simchowitz

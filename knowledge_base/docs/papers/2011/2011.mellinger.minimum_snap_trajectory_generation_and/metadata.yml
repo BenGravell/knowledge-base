@@ -1,5 +1,5 @@
 title: Minimum snap trajectory generation and control for quadrotors
-algorithm:
+algorithm: "Minimum-Snap Trajectory Generation"
 authors:
   - Daniel Mellinger
   - Vijay Kumar

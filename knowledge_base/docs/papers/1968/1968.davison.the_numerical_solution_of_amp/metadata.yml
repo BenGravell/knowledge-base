@@ -1,5 +1,5 @@
 title: The numerical solution of A'Q + QA = -C
-algorithm:
+algorithm: "Lyapunov Equation Solver"
 authors:
   - E. Davison
   - F. Man

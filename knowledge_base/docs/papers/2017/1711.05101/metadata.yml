@@ -1,5 +1,5 @@
 title: Decoupled Weight Decay Regularization
-algorithm:
+algorithm: "AdamW"
 authors:
   - Ilya Loshchilov
   - Frank Hutter

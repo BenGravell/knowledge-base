@@ -1,5 +1,5 @@
 title: Subgradient Methods for Saddle-Point Problems
-algorithm:
+algorithm: "Saddle-Point Subgradient Method"
 authors:
   - A. Nedić
   - A. Ozdaglar

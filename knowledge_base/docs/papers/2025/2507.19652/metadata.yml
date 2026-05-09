@@ -1,6 +1,6 @@
 title: >
   RAKOMO: Reachability-Aware K-Order Markov Path Optimization for Quadrupedal Loco-Manipulation
-algorithm:
+algorithm: "RAKOMO"
 authors:
   - Mattia Risiglione
   - Abdelrahman Abdalla

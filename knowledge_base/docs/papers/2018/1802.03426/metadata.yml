@@ -1,5 +1,5 @@
 title: 'UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction'
-algorithm:
+algorithm: "UMAP"
 authors:
   - Leland McInnes
   - John Healy

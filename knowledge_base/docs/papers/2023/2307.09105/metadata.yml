@@ -1,6 +1,6 @@
 title: >
   Sampling-based Model Predictive Control Leveraging Parallelizable Physics Simulations
-algorithm:
+algorithm: "MPPI+IsaacGym"
 authors:
   - Corrado Pezzato
   - Chadi Salmi

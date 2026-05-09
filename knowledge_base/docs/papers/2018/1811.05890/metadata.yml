@@ -1,5 +1,5 @@
 title: 'Data-Enabled Predictive Control: In the Shallows of the DeePC'
-algorithm:
+algorithm: "DeePC"
 authors:
   - Jeremy Coulson
   - John Lygeros

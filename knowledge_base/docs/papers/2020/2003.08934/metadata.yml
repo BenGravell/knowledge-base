@@ -1,5 +1,5 @@
 title: 'NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis'
-algorithm:
+algorithm: "NeRF"
 authors:
   - Ben Mildenhall
   - Pratul P. Srinivasan

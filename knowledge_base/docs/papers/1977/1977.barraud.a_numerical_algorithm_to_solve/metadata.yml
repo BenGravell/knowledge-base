@@ -1,5 +1,5 @@
 title: A numerical algorithm to solve AT X A - X = Q
-algorithm:
+algorithm: "Discrete Lyapunov Equation Solver"
 authors:
   - A. Barraud
 year: 1977

@@ -1,5 +1,5 @@
 title: A family of embedded Runge-Kutta formulae
-algorithm:
+algorithm: "Dormand-Prince Method"
 authors:
   - J.R. Dormand
   - P.J. Prince
