@@ -98,6 +98,7 @@ nav:
             - Artificial Potential Field: papers/1985_khatib_real_time_obstacle_avoidance_for.md
           - Probabilistic Roadmap (PRM):
             - PRM: papers/1996_kavraki_probabilistic_roadmaps_for_path.md
+            - Deterministic Sampling-Based Motion Planning: papers/2015_janson_deterministic_sampling_based_motion.md
           - Rapidly Exploring Random Trees (RRT):
             - RRT: papers/1998_lavalle_rapidly_exploring_random_trees.md
             - RRT-Connect: papers/2000_kuffner_rrt_connect_an_efficient.md
@@ -126,6 +127,9 @@ nav:
           - Dynamic Replanning:
             - RRTX: papers/2015_otte_rrtx_asymptotically_optimal_single.md
             - RT-FMT: papers/2502_09556.md
+          - Collision Detection & Proximity Queries:
+            - Incremental Distance Calculation: papers/1991_lin_a_fast_algorithm_for.md
+            - SSV: papers/1999_larsen_fast_proximity_queries_with.md
         - Path Generation:
           - Lines & Arcs:
             - Dubins path: papers/1957_dubins_on_curves_of_minimal.md
@@ -148,6 +152,7 @@ nav:
             - Benchmarking Shortcutting Techniques for Multi-Robot-Arm Motion Planning: papers/2508_05027.md
           - Path Smoothing:
             - CCMA: papers/2023_steinecker_a_simple_and_model.md
+            - Elastic Bands: papers/1993_quinlan_elastic_bands_connecting_path.md
           - Gradient-based Path Optimization:
             - CHOMP: papers/2009_ratliff_chomp_gradient_optimization_techniques.md
           - Sample-based Path Optimization:
@@ -180,6 +185,7 @@ nav:
         - Trajectory Generation:
           - TEB: papers/2017_roesmann_kinodynamic_trajectory_optimization_and.md
           - Minimum Jerk Trajectory Generation for Differential Wheeled Mobile Robots: papers/2013_palamakumburu_minimum_jerk_trajectory_generation.md
+          - Trajectory Planning: papers/2014_pham_trajectory_planning.md
         - Trajectory Optimization:
           - Model Predictive Sampling-Based Control:
             - Cross-Entropy Motion Planning (CEM):
@@ -200,6 +206,7 @@ nav:
               - Multi-Modal MPPI: papers/2508_21364.md
               - TD-CD-MPPI: papers/2025_crestaz_td_cd_mppi_temporal.md
               - BC-MPPI: papers/2510_00272.md
+              - Improving MPPI for High-Inertia Industrial Vehicles: papers/2026_macenski_improving_mppi_for_high.md
             - "Recent Advances in Path Integral Control (Survey)": papers/2309_12566.md
           - Model Predictive Trees:
             - MPT: papers/2411_15651.md
@@ -306,6 +313,7 @@ nav:
         - "MPPI+IsaacGym": papers/2307_09105.md
         - DiffStack: papers/2212_06437.md
         - FRENETIX: papers/2402_01443.md
+        - ROS: papers/2009_quigley_ros_an_open_source.md
     - Motion Prediction:
       - Traffic Models:
         - IDM: papers/2000_treiber_congested_traffic_states_in_empirical.md
@@ -364,6 +372,15 @@ nav:
         - On the Robustness of LQ Regulators for Discrete-Time Systems: papers/1992_neto_on_the_robustness_of_lq.md
       - Control Theory:
         - The Internal Model Principle for Linear Multivariable Regulators: papers/1975_francis_the_internal_model_principle_for.md
+        - Path-Following or Reference-Tracking: papers/2004_aguiar_path_following_or_reference.md
+        - Control for Societal-Scale Challenges: papers/2023_alleyne_control_for_societal_scale.md
+      - Control Lyapunov Functions:
+        - Stabilization with Relaxed Controls: papers/1983_artstein_stabilization_with_relaxed_controls.md
+        - Universal Formula for Stabilization: papers/1991_lin_a_universal_formula_for.md
+      - Control Barrier Functions (CBF):
+        - Co-designing Control Barrier Functions and Linear State-Feedback Controllers: papers/2403_11763.md
+      - Vehicle Dynamics:
+        - The Tire-Force Ellipse: papers/2011_brach_the_tire_force_ellipse.md
       - Underactuated Systems:
         - The Swing Up Control Problem for the Acrobot: papers/1995_spong_the_swing_up_control.md
         - Correct Equations for Cart-Pole Dynamics: papers/2007_florian_correct_equations_for_the_dynamics.md
@@ -441,9 +458,11 @@ nav:
           - World Models:
             - PlaNet: papers/1811_04551.md
             - Dreamer: papers/1912_01603.md
+            - Dream to Fly: papers/2501_14377.md
       - Random Search & Evolution Strategies:
         - ARS: papers/1803_07055.md
         - Derivative-Free Methods for Policy Optimization: papers/1812_08305.md
+        - NEAT: papers/2002_stanley_evolving_neural_networks_through.md
       - Hybrid Approaches:
         - PLAL: papers/2209_09006.md
         - Power of Locally Linear Models: papers/2305_09619.md
@@ -454,6 +473,10 @@ nav:
     - Optimization:
       - Toolboxes & Solvers:
         - YALMIP: papers/2004_lofberg_yalmip_a_toolbox_for_modeling.md
+        - ECOS: papers/2013_domahidi_ecos_an_socp_solver.md
+        - Embedded SOCP Code Generation: papers/2013_chu_code_generation_for_embedded.md
+      - Automatic Differentiation:
+        - On Automatic Differentiation: papers/1989_griewank_on_automatic_differentiation.md
       - Minimax & Game Theory:
         - On General Minimax Theorems: papers/1958_sion_on_general_minimax_theorems.md
         - Subgradient Methods for Saddle-Point Problems: papers/2009_nedic_subgradient_methods_for_saddle_point.md
@@ -461,6 +484,7 @@ nav:
         - Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization: papers/1805_10367.md
         - "Gradientless Descent: High-Dimensional Zeroth-Order Optimization": papers/1911_06317.md
       - First-Order Methods:
+        - Cauchy's Gradient Method: papers/1847_cauchy_methode_generale_pour_la.md
         - Polyak-Łojasiewicz inequality: papers/1963_polyak_gradient_methods_for_the_minimisation.md
         - Polyak momentum: papers/1964_polyak_some_methods_of_speeding_up.md
         - "A Differential Equation for Modeling Nesterov's Accelerated Gradient Method": papers/1503_01243.md
@@ -492,17 +516,18 @@ nav:
         - SGD Input-to-State Stability: papers/2507_02131.md
       - Convex Optimization:
         - Linear Programming:
-          - TODO
+          - Probability of Unique Integer Solution to a System of Linear Equations: papers/2011_mangasarian_probability_of_unique_integer.md
         - Quadratic Programming:
           - Automatic Generation of Explicit Quadratic Programming Solvers: papers/2506_11513.md
         - Second-order Cone Programming:
-          - TODO
+          - ECOS: papers/2013_domahidi_ecos_an_socp_solver.md
         - Semidefinite Programming:
           - TODO
         - General Convex Optimization:
-          - TODO
+          - Disciplined Convex Programming: papers/2006_grant_disciplined_convex_programming.md
       - Nonlinear Programming:
         - GuSTO: papers/1903_00155.md
+        - Disciplined Nonlinear Programming: papers/2025_cederberg_disciplined_nonlinear_programming.md
       - Assignment Problems:
         - Hungarian algorithm: papers/1955_kuhn_the_hungarian_method_for.md
         - Munkres algorithm: papers/1957_munkres_algorithms_for_the_assignment.md
@@ -512,6 +537,12 @@ nav:
         - Dijkstra's algorithm: papers/1959_dijkstra_a_note_on_two_problems.md
         - Bellman-Ford algorithm: papers/1958_bellman_on_a_routing_problem.md
         - HPA*: papers/2004_botea_near_optimal_hierarchical_path_finding.md
+    - Algorithms & Data Structures:
+      - Probabilistic Data Structures:
+        - HyperLogLog: papers/2007_flajolet_hyperloglog_the_analysis_of.md
+        - Cuckoo Filter: papers/2014_fan_cuckoo_filter_practically_better.md
+      - Nearest Neighbor Search:
+        - FLANN: papers/2014_muja_scalable_nearest_neighbor_algorithms.md
     - State Estimation:
       - Kalman Filter:
         - Kalman Filter: papers/1960_kalman_a_new_approach_to.md
@@ -525,6 +556,11 @@ nav:
     - Simulation:
       - CARLA: papers/1711_03938.md
     - Machine Learning:
+      - Neural Networks:
+        - Gradient-Based Learning Applied to Document Recognition: papers/1998_lecun_gradient_based_learning_applied.md
+      - Dimensionality Reduction:
+        - t-SNE: papers/2008_maaten_visualizing_high_dimensional_data.md
+        - DrLIM: papers/2006_hadsell_dimensionality_reduction_by_learning.md
       - Kernel Machines:
         - SVM: papers/1995_cortes_support_vector_networks.md
         - Random Kitchen Sinks: papers/2008_rahimi_weighted_sums_of_random.md
@@ -549,20 +585,29 @@ nav:
         - Transformers & Attention-based models:
           - Attention Is All You Need: papers/1706_03762.md
     - Computer Vision:
+      - Edge Detection:
+        - Theory of Edge Detection: papers/1980_marr_theory_of_edge_detection.md
       - Object Detection:
         - A General Framework for Object Detection: papers/1998_papageorgiou_a_general_framework_for_object.md
         - Viola-Jones Detector: papers/2001_viola_rapid_object_detection_using_a.md
         - HOG: papers/2005_dalal_histograms_of_oriented_gradients_for.md
     - Safety, Testing & Verification:
+      - How Should a Robot Assess Risk?: papers/2017_majumdar_how_should_a_robot.md
+      - Formal Specification for Deep Neural Networks: papers/2018_seshia_formal_specification_for_deep.md
+      - Challenges in Autonomous Vehicle Testing and Validation: papers/2016_koopman_challenges_in_autonomous_vehicle.md
       - "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification": papers/2403_18972.md
       - "IEEE Std 3079-2022 (ADS Safety Assumptions)": papers/2022_unknown_ieee_standard_for_assumptions_in.md
     - Computer Graphics:
       - 3D Gaussian Splatting: papers/2308_04079.md
+      - Subdivision Surfaces:
+        - Catmull-Clark Subdivision Surfaces: papers/1978_catmull_recursively_generated_b_spline.md
       - Flow Visualization:
         - OLIC: papers/1997_wegenkittl_animating_flow_fields_rendering_of.md
     - Software & Programming:
       - The Humble Programmer: papers/1972_dijkstra_the_humble_programmer.md
       - On the Role of Scientific Thought: papers/1974_dijkstra_on_the_role_of.md
+      - Scientific Computing & ML Systems:
+        - JAX: papers/2018_frostig_compiling_machine_learning_programs.md
       - Art & Practice: programming/art_and_practice.md
       - "C++": programming/cpp.md
       - Python: programming/python.md
@@ -570,6 +615,7 @@ nav:
       - Trajectory Optimization: programming/trajectory_optimization.md
     - History:
       - "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth": papers/1992_kollerstrom_thomas_simpson_and_newtons.md
+      - The Stirling Engine of 1816: papers/1816_stirling_the_stirling_engine_of.md
     - Just for Fun:
       - Evolving Virtual Creatures: papers/1994_sims_evolving_virtual_creatures.md
       - Design and Control of a Bipedal Robotic Character: papers/2501_05204.md

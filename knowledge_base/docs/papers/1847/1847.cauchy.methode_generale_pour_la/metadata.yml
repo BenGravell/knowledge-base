@@ -1,0 +1,23 @@
+title: "Methode Generale Pour La Resolution Des Systemes D'Equations Simultanees"
+algorithm: "Gradient descent"
+authors:
+  - "Augustin-Louis Cauchy"
+year: 1847
+source: "Comptes Rendus de l Academie des Sciences"
+type: "Journal Paper"
+doi: 
+arxiv_id: 
+tags:
+  - "Gradient descent"
+  - "Steepest descent"
+  - "Optimization history"
+  - "Numerical methods"
+  - "Systems of equations"
+abstract: ""
+summary: >
+  Cauchy classic note is an early source for the method now recognized as gradient descent or steepest
+  descent, proposing iterative progress guided by derivatives for solving simultaneous equations. It
+  is primarily useful as historical context for first-order optimization.
+link: "https://bibbase.org/network/publication/cauchy-mthodegnralepourlarsolutiondessystmesdquationssimultanes-1847"
+links_alt: []
+audit_status: raw
