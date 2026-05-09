@@ -73,6 +73,36 @@ knowledge-base/
 
 2. Insert the returned entries into the `nav` tree in `knowledge_base/mkdocs.yml` at appropriate places. Reuse existing categories where possible; create new ones only when no existing category fits conceptually.
 
+### Audit and place all missing papers in the MkDocs content tree
+
+1. Run the unplaced-paper audit from `knowledge_base/`:
+
+   ```bash
+   python scripts/list_unplaced_papers.py --neighbors 5
+   ```
+
+   This lists every `docs/papers/**/metadata.yml` item whose generated `papers/<ID>.md` page is not under the `Content Tree` nav in `mkdocs.yml`. It also uses `mind_map/embedding_cache.json` to show nearest already-placed neighbors as initial placement hints.
+
+2. Insert each missing generated paper page into `knowledge_base/mkdocs.yml` under the closest appropriate content-tree branch.
+   - Use embedding nearest neighbors as a first-pass proxy, not as the final answer.
+   - Reuse existing categories whenever they fit.
+   - Create new categories only when the abstract/tags make the existing tree a poor conceptual fit.
+   - Prefer the metadata `algorithm` as the nav label when it is present and useful; otherwise use the cleaned paper title.
+
+3. Take a final pass over the proposed placements using the actual `metadata.yml` abstract, title, tags, and summary. Watch for false-neighbor matches caused by broad words such as "control", "optimization", "planning", "safety", or "model predictive"; move those papers into the branch that reflects the paper's primary contribution.
+
+4. Verify that no metadata-backed papers remain unplaced:
+
+   ```bash
+   python scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
+   ```
+
+5. Verify the MkDocs nav:
+
+   ```bash
+   mkdocs build
+   ```
+
 ### Generate metadata for a group of papers
 
 Collect papers from the location/file given by the user.
