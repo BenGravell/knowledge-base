@@ -1,6 +1,6 @@
 title: >
   WestWorld: A Knowledge-Encoded Scalable Trajectory World Model for Diverse Robotic Systems
-algorithm:
+algorithm: "WestWorld"
 authors:
   - Yuchen Wang
   - Jiangtao Kong

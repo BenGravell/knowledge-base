@@ -1,6 +1,6 @@
 title: >
   Policy Optimization for Unknown Systems using Differentiable Model Predictive Control
-algorithm:
+algorithm: "MPC"
 authors:
   - Riccardo Zuliani
   - Efe C. Balta

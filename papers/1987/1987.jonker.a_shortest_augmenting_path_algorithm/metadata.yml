@@ -1,6 +1,6 @@
 title: >
   A shortest augmenting path algorithm for dense and sparse linear assignment problems
-algorithm:
+algorithm: "Jonker-Volgenant Algorithm"
 authors:
   - R. Jonker
   - A. Volgenant

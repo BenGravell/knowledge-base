@@ -1,4 +1,5 @@
 title: "Motion Planning in Dynamic Environments Using Velocity Obstacles"
+algorithm: "Velocity Obstacles"
 authors:
   - Paolo Fiorini
   - Zvi Shiller

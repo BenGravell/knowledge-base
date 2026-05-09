@@ -1,5 +1,5 @@
 title: 'EGO-Planner: An ESDF-free Gradient-based Local Planner for Quadrotors'
-algorithm:
+algorithm: "EGO-Planner"
 authors:
   - Xin Zhou
   - Zhepei Wang

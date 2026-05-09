@@ -1,5 +1,5 @@
 title: "Perturbed Gradient Descent Algorithms Are Small-Disturbance Input-to-State Stable"
-algorithm:
+algorithm: "SGD Input-to-State Stability"
 authors:
   - Leilei Cui
   - Zhong-Ping Jiang

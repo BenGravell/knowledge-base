@@ -1,5 +1,5 @@
 title: 'Q-Prop: Sample-Efficient Policy Gradient with An Off-Policy Critic'
-algorithm:
+algorithm: "Q-Prop"
 authors:
   - Shixiang Gu
   - Timothy Lillicrap

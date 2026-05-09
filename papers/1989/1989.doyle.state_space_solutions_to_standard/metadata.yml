@@ -1,5 +1,5 @@
 title: State-space solutions to standard H-2/ and H-infinity / control problems
-algorithm:
+algorithm: "H2/H-infinity Control Synthesis"
 authors:
   - J.C. Doyle
   - K. Glover

@@ -1,6 +1,6 @@
 title: >
   Deep Learning Warm Starts for Trajectory Optimization on the International Space Station
-algorithm:
+algorithm: "Trajectory Optimization"
 authors:
   - Somrita Banerjee
   - Abhishek Cauligi

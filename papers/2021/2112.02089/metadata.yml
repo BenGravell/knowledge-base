@@ -1,5 +1,5 @@
 title: Regularized Newton Method with Global $O(1/k^2)$ Convergence
-algorithm:
+algorithm: "Regularized Newton Method"
 authors:
   - Konstantin Mishchenko
 year: 2021

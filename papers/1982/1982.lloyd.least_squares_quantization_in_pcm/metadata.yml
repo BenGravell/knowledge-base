@@ -1,5 +1,5 @@
 title: Least squares quantization in PCM
-algorithm:
+algorithm: "Lloyd-Max Quantization"
 authors:
   - S. Lloyd
 year: 1982

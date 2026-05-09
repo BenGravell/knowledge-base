@@ -1,5 +1,5 @@
 title: 'An acceleration of Newton''s method: Super-Halley method'
-algorithm:
+algorithm: "Super-Halley Method"
 authors:
   - J.M. Gutiérrez
   - M.A. Hernández

@@ -1,5 +1,5 @@
 title: 'XGBoost: A Scalable Tree Boosting System'
-algorithm:
+algorithm: "XGBoost"
 authors:
   - Tianqi Chen
   - Carlos Guestrin

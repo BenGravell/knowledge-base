@@ -1,6 +1,6 @@
 title: >
   Accelerated Evaluation of Automated Vehicles Safety in Lane Change Scenarios Based on Importance Sampling Techniques
-algorithm:
+algorithm: "Importance Sampling"
 authors:
   - Ding Zhao
   - Henry Lam

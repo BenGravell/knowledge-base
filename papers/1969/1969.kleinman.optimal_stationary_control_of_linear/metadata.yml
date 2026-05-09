@@ -1,5 +1,5 @@
 title: Optimal stationary control of linear systems with control-dependent noise
-algorithm:
+algorithm: "Stochastic LQR"
 authors:
   - D. Kleinman
 year: 1969

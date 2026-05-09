@@ -1,5 +1,5 @@
 title: 'U-Net: Convolutional Networks for Biomedical Image Segmentation'
-algorithm:
+algorithm: "U-Net"
 authors:
   - Olaf Ronneberger
   - Philipp Fischer

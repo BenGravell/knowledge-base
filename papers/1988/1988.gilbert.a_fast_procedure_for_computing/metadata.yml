@@ -1,6 +1,6 @@
 title: >
   A fast procedure for computing the distance between complex objects in three-dimensional space
-algorithm:
+algorithm: "GJK"
 authors:
   - E.G. Gilbert
   - D.W. Johnson

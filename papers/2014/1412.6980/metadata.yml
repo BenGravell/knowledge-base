@@ -1,5 +1,5 @@
 title: 'Adam: A Method for Stochastic Optimization'
-algorithm:
+algorithm: "Adam"
 authors:
   - Diederik P. Kingma
   - Jimmy Ba

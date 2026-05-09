@@ -1,6 +1,6 @@
 title: >
   DiffusionSeeder: Seeding Motion Optimization with Diffusion for Rapid Motion Planning
-algorithm:
+algorithm: "DiffusionSeeder"
 authors:
   - Huang Huang
   - Balakumar Sundaralingam

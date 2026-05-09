@@ -1,5 +1,5 @@
 title: How to Escape Saddle Points Efficiently
-algorithm:
+algorithm: "Perturbed Gradient Descent"
 authors:
   - Chi Jin
   - Rong Ge

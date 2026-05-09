@@ -1,6 +1,6 @@
 title: >
   Hippo: High-performance Interior-Point and Projection-based Solver for Generic Constrained Trajectory Optimization
-algorithm:
+algorithm: "Hippo"
 authors:
   - Haizhou Zhao
   - Ludovic Righetti

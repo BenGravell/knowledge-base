@@ -1,5 +1,5 @@
 title: An Alternative Softmax Operator for Reinforcement Learning
-algorithm:
+algorithm: "Softmax Bellman Operator"
 authors:
   - Kavosh Asadi
   - Michael L. Littman

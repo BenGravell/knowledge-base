@@ -1,5 +1,5 @@
 title: 'InterpretML: A Unified Framework for Machine Learning Interpretability'
-algorithm:
+algorithm: "InterpretML"
 authors:
   - Harsha Nori
   - Samuel Jenkins

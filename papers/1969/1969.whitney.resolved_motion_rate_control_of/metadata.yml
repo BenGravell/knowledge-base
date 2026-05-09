@@ -1,5 +1,5 @@
 title: Resolved Motion Rate Control of Manipulators and Human Prostheses
-algorithm:
+algorithm: "Resolved-Rate Motion Control"
 authors:
   - Daniel Whitney
 year: 1969

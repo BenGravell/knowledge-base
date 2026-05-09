@@ -1,5 +1,5 @@
 title: Deep Reinforcement Learning with Double Q-learning
-algorithm:
+algorithm: "Double DQN"
 authors:
   - Hado van Hasselt
   - Arthur Guez

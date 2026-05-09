@@ -1,6 +1,6 @@
 title: >
   Sparse identification of nonlinear dynamics for model predictive control in the low-data limit
-algorithm:
+algorithm: "MPC"
 authors:
   - Eurika Kaiser
   - J. Nathan Kutz

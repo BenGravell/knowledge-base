@@ -1,5 +1,5 @@
 title: Finite-time Analysis of the Multiarmed Bandit Problem
-algorithm:
+algorithm: "UCB"
 authors:
   - Peter Auer
   - Nicolò Cesa-Bianchi

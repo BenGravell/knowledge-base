@@ -1,5 +1,5 @@
 title: On the Convergence of Adam and Beyond
-algorithm:
+algorithm: "AMSGrad"
 authors:
   - Sashank J. Reddi
   - Satyen Kale

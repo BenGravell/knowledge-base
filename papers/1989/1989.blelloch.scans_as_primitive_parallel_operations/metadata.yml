@@ -1,5 +1,5 @@
 title: Scans as primitive parallel operations
-algorithm:
+algorithm: "Parallel Prefix Scan"
 authors:
   - G.E. Blelloch
 year: 1989

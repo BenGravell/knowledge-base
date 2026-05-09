@@ -1,4 +1,5 @@
 title: "QuickMatch: A Very Fast Algorithm for the Assignment Problem"
+algorithm: "QuickMatch"
 authors:
   - James B. Orlin
   - Yusin Lee

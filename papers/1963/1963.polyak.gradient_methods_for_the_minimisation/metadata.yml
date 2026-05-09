@@ -1,5 +1,5 @@
 title: Gradient methods for the minimisation of functionals
-algorithm:
+algorithm: "Gradient Descent"
 authors:
   - B.T. Polyak
 year: 1963

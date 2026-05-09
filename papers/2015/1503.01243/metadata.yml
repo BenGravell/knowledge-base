@@ -1,6 +1,6 @@
 title: >
   A Differential Equation for Modeling Nesterov's Accelerated Gradient Method: Theory and Insights
-algorithm:
+algorithm: "Nesterov Accelerated Gradient"
 authors:
   - Weijie Su
   - Stephen Boyd

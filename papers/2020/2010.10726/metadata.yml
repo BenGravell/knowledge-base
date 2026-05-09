@@ -1,5 +1,5 @@
 title: 'MINVO Basis: Finding Simplexes with Minimum Volume Enclosing Polynomial Curves'
-algorithm:
+algorithm: "MINVO Basis"
 authors:
   - Jesus Tordesillas
   - Jonathan P. How

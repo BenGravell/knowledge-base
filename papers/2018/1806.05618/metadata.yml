@@ -1,5 +1,5 @@
 title: Stochastic Variance-Reduced Policy Gradient
-algorithm:
+algorithm: "SVRPG"
 authors:
   - Matteo Papini
   - Damiano Binaghi

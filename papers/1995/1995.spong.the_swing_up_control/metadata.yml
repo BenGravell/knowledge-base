@@ -1,4 +1,5 @@
 title: "The Swing Up Control Problem for the Acrobot"
+algorithm: "Energy-Based Swing-Up Control"
 authors:
   - Mark W. Spong
 year: 1995

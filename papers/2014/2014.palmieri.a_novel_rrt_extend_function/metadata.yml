@@ -1,6 +1,6 @@
 title: >
   A novel RRT extend function for efficient and smooth mobile robot motion planning
-algorithm:
+algorithm: "novel RRT"
 authors:
   - Luigi Palmieri
   - Kai O. Arras

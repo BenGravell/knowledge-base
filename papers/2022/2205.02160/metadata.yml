@@ -1,5 +1,5 @@
 title: Making SGD Parameter-Free
-algorithm:
+algorithm: "Parameter-Free SGD"
 authors:
   - Yair Carmon
   - Oliver Hinder

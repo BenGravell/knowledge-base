@@ -1,5 +1,5 @@
 title: Train-Once Plan-Anywhere Kinodynamic Motion Planning via Diffusion Trees
-algorithm:
+algorithm: "Diffusion Trees"
 authors:
   - Yaniv Hassidof
   - Tom Jurgenson

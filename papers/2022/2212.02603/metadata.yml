@@ -1,5 +1,5 @@
 title: Learning to Optimize in Model Predictive Control
-algorithm:
+algorithm: "MPC"
 authors:
   - Jacob Sacks
   - Byron Boots

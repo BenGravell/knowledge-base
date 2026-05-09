@@ -1,5 +1,5 @@
 title: 'InceptionTime: Finding AlexNet for Time Series Classification'
-algorithm:
+algorithm: "InceptionTime"
 authors:
   - Hassan Ismail Fawaz
   - Benjamin Lucas

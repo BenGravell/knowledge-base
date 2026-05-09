@@ -34132,6 +34132,7 @@
 <h1 id="temporal-difference-learning-for-model-predictive-control">Temporal Difference Learning for Model Predictive Control<a class="headerlink" href="#temporal-difference-learning-for-model-predictive-control" title="Permanent link">&para;</a></h1>
 <p><strong>Authors</strong>: Nicklas Hansen, Xiaolong Wang, Hao Su</p>
 <p><strong>Published</strong>: 2022 ()</p>
+<p><strong>Algorithm</strong>: MPC</p>
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Data-driven model predictive control has two key advantages over model-free methods: a potential for improved sample efficiency through model learning, and better performance as computational budget for planning increases. However, it is both costly to plan over long horizons and challenging to obtain an accurate model of the environment. In this work, we combine the strengths of model-free and model-based methods. We use a learned task-oriented latent dynamics model for local trajectory optimization over a short horizon, and use a learned terminal value function to estimate long-term return, both of which are learned jointly by temporal difference learning. Our method, TD-MPC, achieves superior sample efficiency and asymptotic performance over prior work on both state and image-based continuous control tasks from DMControl and Meta-World. Code and video results are available at https://nicklashansen.github.io/td-mpc.</p>

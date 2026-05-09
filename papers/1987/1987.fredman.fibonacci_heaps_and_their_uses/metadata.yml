@@ -1,5 +1,5 @@
 title: Fibonacci heaps and their uses in improved network optimization algorithms
-algorithm:
+algorithm: "Fibonacci Heap"
 authors:
   - Michael L. Fredman
   - Robert Endre Tarjan

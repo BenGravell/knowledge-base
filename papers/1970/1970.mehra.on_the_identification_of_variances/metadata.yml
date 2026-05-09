@@ -1,5 +1,5 @@
 title: On the identification of variances and adaptive Kalman filtering
-algorithm:
+algorithm: "Adaptive Kalman Filter"
 authors:
   - R. Mehra
 year: 1970

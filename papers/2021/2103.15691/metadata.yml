@@ -1,5 +1,5 @@
 title: 'ViViT: A Video Vision Transformer'
-algorithm:
+algorithm: "ViViT"
 authors:
   - Anurag Arnab
   - Mostafa Dehghani

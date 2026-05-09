@@ -1,5 +1,5 @@
 title: A new accident model for engineering safer systems
-algorithm:
+algorithm: "STAMP"
 authors:
   - Nancy Leveson
 year: 2004

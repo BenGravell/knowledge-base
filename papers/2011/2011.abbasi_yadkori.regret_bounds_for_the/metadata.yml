@@ -1,4 +1,5 @@
 title: "Regret Bounds for the Adaptive Control of Linear Quadratic Systems"
+algorithm: "OFU-LQ"
 authors:
   - Yasin Abbasi-Yadkori
   - Csaba Szepesvari

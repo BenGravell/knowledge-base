@@ -1,5 +1,5 @@
 title: "Subspace Identification for Linear Systems: Theory, Implementation, Applications"
-algorithm:
+algorithm: "Subspace Identification"
 authors:
   - Peter Van Overschee
   - Bart De Moor

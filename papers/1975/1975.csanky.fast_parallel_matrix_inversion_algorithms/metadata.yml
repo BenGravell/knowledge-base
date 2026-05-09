@@ -1,5 +1,5 @@
 title: Fast parallel matrix inversion algorithms
-algorithm:
+algorithm: "Csanky Matrix Inversion"
 authors:
   - L. Csanky
 year: 1975

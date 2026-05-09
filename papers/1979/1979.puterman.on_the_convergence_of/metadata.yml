@@ -1,4 +1,5 @@
 title: "On the Convergence of Policy Iteration in Stationary Dynamic Programming"
+algorithm: "Policy Iteration"
 authors:
   - Martin L. Puterman
   - Shelby L. Brumelle

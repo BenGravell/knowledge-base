@@ -1,6 +1,6 @@
 title: >
   Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control
-algorithm:
+algorithm: "MPPI"
 authors:
   - Jace Aldrich
   - Odest Chadwicke Jenkins

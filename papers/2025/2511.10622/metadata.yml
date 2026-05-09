@@ -1,6 +1,6 @@
 title: >
   Verification of Sequential Convex Programming for Parametric Non-convex Optimization
-algorithm:
+algorithm: "SCP"
 authors:
   - Rajiv Sambharya
   - Nikolai Matni

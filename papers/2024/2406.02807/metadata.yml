@@ -1,6 +1,6 @@
 title: >
   Collision-Affording Point Trees: SIMD-Amenable Nearest Neighbors for Fast Collision Checking
-algorithm:
+algorithm: "Collision-Affording Point Trees"
 authors:
   - Clayton W. Ramsey
   - Zachary Kingston

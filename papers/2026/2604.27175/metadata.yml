@@ -1,6 +1,6 @@
 title: >
   Global Sampling-Based Trajectory Optimization for Contact-Rich Manipulation via KernelSOS
-algorithm:
+algorithm: "KernelSOS"
 authors:
   - Zhongqi Wei
   - Frederike Dümbgen

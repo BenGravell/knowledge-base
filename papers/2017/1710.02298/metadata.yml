@@ -1,5 +1,5 @@
 title: 'Rainbow: Combining Improvements in Deep Reinforcement Learning'
-algorithm:
+algorithm: "Rainbow"
 authors:
   - Matteo Hessel
   - Joseph Modayil

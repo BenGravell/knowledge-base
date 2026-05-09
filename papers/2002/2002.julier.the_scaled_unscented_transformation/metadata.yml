@@ -1,5 +1,5 @@
 title: The scaled unscented transformation
-algorithm:
+algorithm: "Scaled Unscented Transform"
 authors:
   - S.J. Julier
 year: 2002

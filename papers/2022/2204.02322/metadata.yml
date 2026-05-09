@@ -1,5 +1,5 @@
 title: "On Global and Local Convergence of Iterative Linear Quadratic Optimization Algorithms for Discrete Time Nonlinear Control"
-algorithm:
+algorithm: "Global & Local Convergence of iLQR/DDP"
 authors:
   - Vincent Roulet
   - Siddhartha Srinivasa

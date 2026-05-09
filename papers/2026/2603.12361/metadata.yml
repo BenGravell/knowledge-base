@@ -1,5 +1,5 @@
 title: 'GNN-DIP: Neural Corridor Selection for Decomposition-Based Motion Planning'
-algorithm:
+algorithm: "GNN-DIP"
 authors:
   - Peng Xie
   - Yanlinag Huang

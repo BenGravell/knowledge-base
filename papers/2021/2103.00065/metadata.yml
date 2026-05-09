@@ -1,5 +1,5 @@
 title: Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability
-algorithm:
+algorithm: "Gradient Descent"
 authors:
   - Jeremy M. Cohen
   - Simran Kaur

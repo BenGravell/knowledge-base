@@ -1,5 +1,5 @@
 title: Gradient Boosting Performs Gaussian Process Inference
-algorithm:
+algorithm: "Gradient Boosting"
 authors:
   - Aleksei Ustimenko
   - Artem Beliakov

@@ -1,6 +1,6 @@
 title: >
   MINIROCKET: A Very Fast (Almost) Deterministic Transform for Time Series Classification
-algorithm:
+algorithm: "MINIROCKET"
 authors:
   - Angus Dempster
   - Daniel F. Schmidt

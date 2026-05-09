@@ -1,5 +1,5 @@
 title: Asynchronous Methods for Deep Reinforcement Learning
-algorithm:
+algorithm: "A3C"
 authors:
   - Volodymyr Mnih
   - Adrià Puigdomènech Badia

@@ -1,5 +1,5 @@
 title: Accelerated Hierarchical Density Clustering
-algorithm:
+algorithm: "HDBSCAN"
 authors:
   - Leland McInnes
   - John Healy

@@ -1,5 +1,5 @@
 title: Every Model Learned by Gradient Descent Is Approximately a Kernel Machine
-algorithm:
+algorithm: "Gradient Descent"
 authors:
   - Pedro Domingos
 year: 2020

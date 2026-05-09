@@ -1,6 +1,6 @@
 title: >
   A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning
-algorithm:
+algorithm: "DAgger"
 authors:
   - Stephane Ross
   - Geoffrey J. Gordon

@@ -1,5 +1,5 @@
 title: Convergent iLQR for Safe Trajectory Planning and Control of Legged Robots
-algorithm:
+algorithm: "Convergent iLQR"
 authors:
   - James Zhu
   - J. Joe Payne

@@ -1,4 +1,5 @@
 title: "A Fast Iterative Shrinkage-Thresholding Algorithm for Linear Inverse Problems"
+algorithm: "FISTA"
 authors:
   - Amir Beck
   - Marc Teboulle

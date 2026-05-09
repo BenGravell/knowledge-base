@@ -1,5 +1,5 @@
 title: Second-Order Policy Gradient Methods for the Linear Quadratic Regulator
-algorithm:
+algorithm: "LQR"
 authors:
   - Amirreza Valaei
   - Arash Bahari Kordabad

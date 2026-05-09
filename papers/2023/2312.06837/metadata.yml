@@ -1,5 +1,5 @@
 title: Spectral State Space Models
-algorithm:
+algorithm: "S4"
 authors:
   - Naman Agarwal
   - Daniel Suo

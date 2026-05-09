@@ -1,5 +1,5 @@
 title: 'Orion-Lite: Distilling LLM Reasoning into Efficient Vision-Only Driving Models'
-algorithm:
+algorithm: "Orion-Lite"
 authors:
   - Jing Gu
   - Niccolò Cavagnero

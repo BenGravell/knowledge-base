@@ -1,5 +1,5 @@
 title: 'MPTree: A Sampling-based Vehicle Motion Planner for Real-time Obstacle Avoidance'
-algorithm:
+algorithm: "MPTree"
 authors:
   - Mattia Piazza
   - Mattia Piccinini

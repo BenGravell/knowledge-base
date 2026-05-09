@@ -1,5 +1,5 @@
 title: Supersparse Linear Integer Models for Optimized Medical Scoring Systems
-algorithm:
+algorithm: "SLIM"
 authors:
   - Berk Ustun
   - Cynthia Rudin

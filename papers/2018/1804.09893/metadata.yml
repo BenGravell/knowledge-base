@@ -1,6 +1,6 @@
 title: >
   Random Fourier Features for Kernel Ridge Regression: Approximation Bounds and Statistical Guarantees
-algorithm:
+algorithm: "Random Fourier Features"
 authors:
   - Haim Avron
   - Michael Kapralov

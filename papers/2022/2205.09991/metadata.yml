@@ -1,5 +1,5 @@
 title: Planning with Diffusion for Flexible Behavior Synthesis
-algorithm:
+algorithm: "Diffuser"
 authors:
   - Michael Janner
   - Yilun Du

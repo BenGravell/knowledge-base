@@ -1,5 +1,5 @@
 title: Control Barrier Function Based Quadratic Programs for Safety Critical Systems
-algorithm:
+algorithm: "CBF-QP"
 authors:
   - Aaron D. Ames
   - Xiangru Xu

@@ -1,5 +1,5 @@
 title: "B\xE9zier clipping is quadratically convergent"
-algorithm:
+algorithm: "Bezier Clipping"
 authors:
   - Christian Schulz
 year: 2009

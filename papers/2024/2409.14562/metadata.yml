@@ -1,5 +1,5 @@
 title: 'DROP: Dexterous Reorientation via Online Planning'
-algorithm:
+algorithm: "DROP"
 authors:
   - Albert H. Li
   - Preston Culbertson

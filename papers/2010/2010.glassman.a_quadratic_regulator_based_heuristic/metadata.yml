@@ -1,5 +1,5 @@
 title: A quadratic regulator-based heuristic for rapidly exploring state space
-algorithm:
+algorithm: "LQR-RRT"
 authors:
   - Elena Glassman
   - Russ Tedrake

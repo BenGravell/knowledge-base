@@ -1,5 +1,5 @@
 title: DuckDB
-algorithm:
+algorithm: "DuckDB"
 authors:
   - Mark Raasveldt
   - Hannes Mühleisen

@@ -1,5 +1,5 @@
 title: Batch Informed Trees (BIT*)
-algorithm:
+algorithm: "BIT*"
 authors:
   - James Swedeen
   - Greg Droge

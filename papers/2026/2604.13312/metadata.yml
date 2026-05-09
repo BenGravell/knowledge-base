@@ -1,5 +1,5 @@
 title: Path Integral Control in Gaussian Belief Space for Partially Observed Systems
-algorithm:
+algorithm: "MPPI-Belief"
 authors:
   - Goutam Das
   - Takashi Tanaka

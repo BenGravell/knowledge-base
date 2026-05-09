@@ -1,5 +1,5 @@
 title: 'Neural RRT*: Learning-Based Optimal Path Planning'
-algorithm:
+algorithm: "Neural RRT*"
 authors:
   - Jiankun Wang
   - Wenzheng Chi

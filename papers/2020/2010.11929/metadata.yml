@@ -1,5 +1,5 @@
 title: 'An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale'
-algorithm:
+algorithm: "ViT"
 authors:
   - Alexey Dosovitskiy
   - Lucas Beyer

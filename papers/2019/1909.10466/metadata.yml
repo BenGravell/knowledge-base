@@ -1,5 +1,5 @@
 title: "Dynamic Mode Decomposition: Theory and Data Reconstruction"
-algorithm:
+algorithm: "DMD: Theory and Data Reconstruction"
 authors:
   - Tim Krake
   - Daniel Weiskopf

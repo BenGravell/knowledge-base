@@ -1,5 +1,5 @@
 title: 'Tune: A Research Platform for Distributed Model Selection and Training'
-algorithm:
+algorithm: "Tune"
 authors:
   - Richard Liaw
   - Eric Liang

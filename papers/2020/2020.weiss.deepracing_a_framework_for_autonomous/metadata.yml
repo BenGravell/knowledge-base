@@ -1,5 +1,5 @@
 title: 'DeepRacing: A Framework for Autonomous Racing'
-algorithm:
+algorithm: "DeepRacing"
 authors:
   - Trent Weiss
   - Madhur Behl

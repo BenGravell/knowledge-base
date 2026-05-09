@@ -1,5 +1,5 @@
 title: Robust model predictive control using tubes
-algorithm:
+algorithm: "Tube MPC"
 authors:
   - W. Langson
   - I. Chryssochoos

@@ -1,6 +1,6 @@
 title: >
   Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation
-algorithm:
+algorithm: "RNN Encoder-Decoder"
 authors:
   - Kyunghyun Cho
   - Bart van Merrienboer

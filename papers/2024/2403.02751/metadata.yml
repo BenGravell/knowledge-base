@@ -1,5 +1,5 @@
 title: 'Splat-Nav: Safe Real-Time Robot Navigation in Gaussian Splatting Maps'
-algorithm:
+algorithm: "Splat-Nav"
 authors:
   - Timothy Chen
   - Ola Shorinwa

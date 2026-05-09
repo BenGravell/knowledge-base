@@ -1,5 +1,5 @@
 title: 'DINOv2: Learning Robust Visual Features without Supervision'
-algorithm:
+algorithm: "DINOv2"
 authors:
   - Maxime Oquab
   - Timothée Darcet

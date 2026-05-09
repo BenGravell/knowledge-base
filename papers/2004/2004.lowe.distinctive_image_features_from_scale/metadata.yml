@@ -1,5 +1,5 @@
 title: Distinctive Image Features from Scale-Invariant Keypoints
-algorithm:
+algorithm: "SIFT"
 authors:
   - David G. Lowe
 year: 2004

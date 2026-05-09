@@ -1,5 +1,5 @@
 title: 'CuClarabel: GPU Acceleration for a Conic Optimization Solver'
-algorithm:
+algorithm: "CuClarabel"
 authors:
   - Yuwen Chen
   - Danny Tse

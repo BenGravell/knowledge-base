@@ -1,4 +1,5 @@
 title: "Least-Squares Policy Iteration"
+algorithm: "LSPI"
 authors:
   - Michail G. Lagoudakis
   - Ronald Parr

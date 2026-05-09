@@ -1,5 +1,5 @@
 title: Memory of Motion for Warm-starting Trajectory Optimization
-algorithm:
+algorithm: "Trajectory Optimization"
 authors:
   - Teguh Santoso Lembono
   - Antonio Paolillo

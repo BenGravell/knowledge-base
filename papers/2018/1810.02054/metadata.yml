@@ -1,5 +1,5 @@
 title: Gradient Descent Provably Optimizes Over-parameterized Neural Networks
-algorithm:
+algorithm: "Gradient Descent"
 authors:
   - Simon S. Du
   - Xiyu Zhai

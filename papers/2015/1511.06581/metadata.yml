@@ -1,5 +1,5 @@
 title: Dueling Network Architectures for Deep Reinforcement Learning
-algorithm:
+algorithm: "Dueling DQN"
 authors:
   - Ziyu Wang
   - Tom Schaul

@@ -1,4 +1,5 @@
 title: "Optimal Stationary Control with State and Control Dependent Noise"
+algorithm: "Multiplicative Noise LQR"
 authors:
   - U. G. Haussmann
 year: 1971

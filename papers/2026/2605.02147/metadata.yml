@@ -1,5 +1,5 @@
 title: Sampling-Based Control via Entropy-Regularized Optimal Transport
-algorithm:
+algorithm: "Sinkhorn Control"
 authors:
   - Vincent Pacelli
   - Akash Ratheesh

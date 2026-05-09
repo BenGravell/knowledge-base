@@ -1,5 +1,5 @@
 title: 'SIL-RRT*: Learning Sampling Distribution through Self Imitation Learning'
-algorithm:
+algorithm: "SIL-RRT*"
 authors:
   - Xuzhe Dang
   - Stefan Edelkamp

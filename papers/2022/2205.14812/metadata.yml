@@ -1,5 +1,5 @@
 title: 'TaSIL: Taylor Series Imitation Learning'
-algorithm:
+algorithm: "TaSIL"
 authors:
   - Daniel Pfrommer
   - Thomas T. C. K. Zhang

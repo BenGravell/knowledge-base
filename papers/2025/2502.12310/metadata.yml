@@ -1,5 +1,5 @@
 title: Domain Randomization is Sample Efficient for Linear Quadratic Control
-algorithm:
+algorithm: "LQR"
 authors:
   - Tesshu Fujinami
   - Bruce D. Lee

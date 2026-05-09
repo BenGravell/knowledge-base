@@ -1,5 +1,5 @@
 title: R-trees
-algorithm:
+algorithm: "R-tree"
 authors:
   - Antonin Guttman
 year: 1984

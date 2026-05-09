@@ -1,5 +1,5 @@
 title: Prioritized Experience Replay
-algorithm:
+algorithm: "Prioritized Experience Replay"
 authors:
   - Tom Schaul
   - John Quan

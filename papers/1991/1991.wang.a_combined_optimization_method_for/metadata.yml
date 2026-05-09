@@ -1,6 +1,6 @@
 title: >
   A combined optimization method for solving the inverse kinematics problems of mechanical manipulators
-algorithm:
+algorithm: "Combined IK Optimization"
 authors:
   - L.-C.T. Wang
   - C.C. Chen

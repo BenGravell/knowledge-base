@@ -1,5 +1,5 @@
 title: A Fast and Robust GJK Implementation for Collision Detection of Convex Objects
-algorithm:
+algorithm: "GJK"
 authors:
   - Gino Van den Bergen
 year: 1999

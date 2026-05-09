@@ -1,4 +1,5 @@
 title: "Deterministic Policy Gradient Algorithms"
+algorithm: "DPG"
 authors:
   - David Silver
   - Guy Lever

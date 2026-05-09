@@ -1,6 +1,6 @@
 title: >
   Convergence of Flow-Policy Gradient Learning for Linear Quadratic Regulator Problems
-algorithm:
+algorithm: "LQR"
 authors:
   - Farnaz Adib Yaghmaie
   - Arunava Naha

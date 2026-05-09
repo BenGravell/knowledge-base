@@ -1,5 +1,5 @@
 title: On multi-step prediction models for receding horizon control
-algorithm:
+algorithm: "Multi-Step Prediction Models"
 authors:
   - Enrico Terzi
   - Lorenzo Fagiano

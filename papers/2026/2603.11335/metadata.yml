@@ -1,5 +1,5 @@
 title: ADMM-based Continuous Trajectory Optimization in Graphs of Convex Sets
-algorithm:
+algorithm: "GCS"
 authors:
   - Lukas Pries
   - Jon Arrizabalaga

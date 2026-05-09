@@ -1,5 +1,5 @@
 title: 'Score-Guided Motion Planning: Learning the Gradient Field of Promising Regions'
-algorithm:
+algorithm: "Score-Guided Motion Planning"
 authors:
   - Shaochen Wang
   - Qilin Wu

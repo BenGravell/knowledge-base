@@ -1,6 +1,6 @@
 title: >
   Kinodynamic motion planning: connecting exploration trees using trajectory optimization Methods
-algorithm:
+algorithm: "Trajectory Optimization"
 authors:
   - F. Lamiraux
   - E. Ferre

@@ -1,5 +1,5 @@
 title: "The Markov-Dubins Problem with Angular Acceleration Control"
-algorithm:
+algorithm: "Markov-Dubins Path"
 authors:
   - Hector J. Sussmann
 year: 1997

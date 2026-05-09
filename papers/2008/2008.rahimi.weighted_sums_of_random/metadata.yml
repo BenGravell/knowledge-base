@@ -1,4 +1,5 @@
 title: "Weighted Sums of Random Kitchen Sinks: Replacing Minimization with Randomization in Learning"
+algorithm: "Random Kitchen Sinks"
 authors:
   - Ali Rahimi
   - Benjamin Recht

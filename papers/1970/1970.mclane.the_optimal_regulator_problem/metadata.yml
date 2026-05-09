@@ -1,4 +1,5 @@
 title: "The Optimal Regulator Problem for a Stationary Linear System with State-Dependent Noise"
+algorithm: "State-Dependent Noise LQR"
 authors:
   - P. J. McLane
 year: 1970

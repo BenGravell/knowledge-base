@@ -1,5 +1,5 @@
 title: Gradient-based Hyperparameter Optimization through Reversible Learning
-algorithm:
+algorithm: "Reversible Learning"
 authors:
   - Dougal Maclaurin
   - David Duvenaud

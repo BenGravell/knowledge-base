@@ -1,5 +1,5 @@
 title: Newton methods for k-order Markov Constrained Motion Problems
-algorithm:
+algorithm: "Newton's Method"
 authors:
   - Marc Toussaint
 year: 2014

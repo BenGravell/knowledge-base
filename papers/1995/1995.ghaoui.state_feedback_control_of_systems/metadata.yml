@@ -1,6 +1,6 @@
 title: >
   State-feedback control of systems with multiplicative noise via linear matrix inequalities
-algorithm:
+algorithm: "LMI State-Feedback Control"
 authors:
   - Laurent El Ghaoui
 year: 1995

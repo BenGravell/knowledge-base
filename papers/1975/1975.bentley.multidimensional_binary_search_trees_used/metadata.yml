@@ -1,5 +1,5 @@
 title: Multidimensional binary search trees used for associative searching
-algorithm:
+algorithm: "k-d Tree"
 authors:
   - Jon Louis Bentley
 year: 1975

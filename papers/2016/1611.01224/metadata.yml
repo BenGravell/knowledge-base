@@ -1,5 +1,5 @@
 title: Sample Efficient Actor-Critic with Experience Replay
-algorithm:
+algorithm: "ACER"
 authors:
   - Ziyu Wang
   - Victor Bapst

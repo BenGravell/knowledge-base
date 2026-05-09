@@ -1,5 +1,5 @@
 title: 'DriveGPT: Scaling Autoregressive Behavior Models for Driving'
-algorithm:
+algorithm: "DriveGPT"
 authors:
   - Xin Huang
   - Eric M. Wolff

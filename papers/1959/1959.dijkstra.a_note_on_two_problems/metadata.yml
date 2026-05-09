@@ -1,5 +1,5 @@
 title: A note on two problems in connexion with graphs
-algorithm:
+algorithm: "Dijkstra's algorithm"
 authors:
   - E. W. Dijkstra
 year: 1959

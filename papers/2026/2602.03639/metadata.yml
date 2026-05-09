@@ -1,6 +1,6 @@
 title: >
   Variance-Reduced Model Predictive Path Integral via Quadratic Model Approximation
-algorithm:
+algorithm: "MPPI"
 authors:
   - Fabian Schramm
   - Franki Nguimatsia Tiofack
