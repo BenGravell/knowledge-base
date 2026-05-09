@@ -1,0 +1,41 @@
+title: "Visualizing High-Dimensional Data Using T-SNE"
+algorithm: "t-SNE"
+authors:
+  - "Laurens van der Maaten"
+  - "Geoffrey E. Hinton"
+year: 2008
+source: "Journal of Machine Learning Research"
+type: "Journal Paper"
+doi: 
+arxiv_id: 
+tags:
+  - "t-SNE"
+  - "Dimensionality reduction"
+  - "Visualization"
+  - "Manifold learning"
+  - "Stochastic neighbor embedding"
+  - "High-dimensional data"
+abstract: >
+  We present a new technique called "t-SNE" that visualizes high-dimensional data by giving each
+  datapoint a location in a two or three-dimensional map. The technique is a variation of Stochastic
+  Neighbor Embedding (Hinton and Roweis, 2002) that is much easier to optimize, and produces
+  significantly better visualizations by reducing the tendency to crowd points together in the center
+  of the map. t-SNE is better than existing techniques at creating a single map that reveals structure
+  at many different scales. This is particularly important for high-dimensional data that lie on
+  several different, but related, low-dimensional manifolds, such as images of objects from multiple
+  classes seen from multiple viewpoints. For visualizing the structure of very large data sets, we
+  show how t-SNE can use random walks on neighborhood graphs to allow the implicit structure of all of
+  the data to influence the way in which a subset of the data is displayed. We illustrate the
+  performance of t-SNE on a wide variety of data sets and compare it with many other non-parametric
+  visualization techniques, including Sammon mapping, Isomap, and Locally Linear Embedding. The
+  visualizations produced by t-SNE are significantly better than those produced by the other
+  techniques on almost all of the data sets.
+summary: >
+  Introduces t-SNE, replacing SNE Gaussian low-dimensional similarities with a heavy-tailed Student-t
+  distribution to reduce crowding and produce visually useful embeddings. It became a default
+  exploratory visualization method for high-dimensional ML data.
+link: "https://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf"
+links_alt:
+  - "https://jmlr.org/beta/papers/v9/vandermaaten08a.html"
+  - "https://research.tilburguniversity.edu/en/publications/visualizing-high-dimensional-data-using-t-sne/"
+audit_status: raw

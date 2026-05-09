@@ -1,0 +1,26 @@
+title: "Stabilization with Relaxed Controls"
+algorithm: "Artstein theorem"
+authors:
+  - "Zvi Artstein"
+year: 1983
+source: "Nonlinear Analysis: Theory, Methods & Applications"
+type: "Journal Paper"
+doi: 10.1016/0362-546X(83)90049-4
+arxiv_id: 
+tags:
+  - "Stabilization"
+  - "Relaxed controls"
+  - "Control Lyapunov functions"
+  - "Nonlinear control"
+  - "Feedback control"
+  - "Artstein theorem"
+abstract: ""
+summary: >
+  Establishes the relaxed-control stabilization result now associated with Artstein theorem,
+  connecting stabilizability and control-Lyapunov-type conditions to feedback construction. It is a
+  foundational reference behind later universal CLF feedback formulas.
+link: "https://weizmann.elsevierpure.com/en/publications/stabilization-with-relaxed-controls/"
+links_alt:
+  - "https://doi.org/10.1016/0362-546X(83)90049-4"
+  - "https://www.sciencedirect.com/science/article/pii/0362546X83900494"
+audit_status: raw

@@ -1,0 +1,31 @@
+title: "The Stirling Engine of 1816"
+algorithm: "Stirling engine"
+authors:
+  - "Robert Stirling"
+year: 1816
+source: "Letters Patent No. 4081"
+type: "Other"
+doi: 
+arxiv_id: 
+tags:
+  - "Stirling engine"
+  - "Regenerator"
+  - "Heat engines"
+  - "Thermodynamics"
+  - "Engineering history"
+  - "Patents"
+abstract: >
+  The principle of the Stirling Air Engine differs from that of Sir George Cayley (1807), in which the
+  air is forced through the furnace and exhausted, whereas in Stirling engine the air works in a
+  closed circuit. It was to it that the inventor devoted most of his attention. A two horse-power
+  engine, built in 1818 for pumping water at an Ayrshire quarry, continued to work for some time,
+  until a careless attendant allowed the heater to become overheated. This experiment proved to the
+  inventor that, owing to the low working pressure obtainable, the engine could only be adapted to
+  small powers for which there was at that time no demand.
+summary: >
+  A historical source on Robert Stirling original hot-air engine and regenerator patent. The important
+  idea is the closed-cycle heat engine with an economiser/regenerator, a concept that later became
+  foundational to Stirling engine design.
+link: "http://hotairengines.org/closed-cycle-engine/stirling-1816"
+links_alt:
+audit_status: raw

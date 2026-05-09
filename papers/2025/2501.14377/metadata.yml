@@ -1,0 +1,47 @@
+title: "Dream to Fly: Model-Based Reinforcement Learning for Vision-Based Drone Flight"
+algorithm: "DreamerV3 drone racing"
+authors:
+  - "Angel Romero"
+  - "Ashwin Shenai"
+  - "Ismail Geles"
+  - "Elie Aljalbout"
+  - "Davide Scaramuzza"
+year: 2025
+source: "IEEE International Conference on Robotics and Automation (ICRA)"
+type: "Conference Paper"
+doi: 
+arxiv_id: "2501.14377"
+tags:
+  - "Model-based reinforcement learning"
+  - "DreamerV3"
+  - "Drone racing"
+  - "Vision-based control"
+  - "Pixel-to-control"
+  - "Quadrotors"
+  - "Robot learning"
+abstract: >
+  Autonomous drone racing has risen as a challenging robotic benchmark for testing the limits of
+  learning, perception, planning, and control. Expert human pilots are able to fly a drone through a
+  race track by mapping pixels from a single camera directly to control commands. Recent works in
+  autonomous drone racing attempting direct pixel-to-commands control policies have relied on either
+  intermediate representations that simplify the observation space or performed extensive
+  bootstrapping using Imitation Learning (IL). This paper leverages DreamerV3 to train visuomotor
+  policies capable of agile flight through a racetrack using only pixels as observations. In contrast
+  to model-free methods like PPO or SAC, which are sample-inefficient and struggle in this setting,
+  our approach acquires drone racing skills from pixels. Notably, a perception-aware behaviour of
+  actively steering the camera toward texture-rich gate regions emerges without the need of
+  handcrafted reward terms for the viewing direction. Our experiments show in both, simulation and
+  real-world flight using a hardware-in-the-loop setup with rendered image observations, how the
+  proposed approach can be deployed on real quadrotors at speeds of up to 9 m/s. These results advance
+  the state of pixel-based autonomous flight and demonstrate that MBRL offers a promising path for
+  real-world robotics research.
+summary: >
+  Applies DreamerV3 to train a drone-racing policy directly from camera pixels, reducing reliance on
+  hand-crafted intermediate perception or imitation bootstrapping. The key result is that model-based
+  RL can learn visuomotor flight behaviors efficient enough to deploy on real quadrotors through
+  hardware-in-the-loop transfer.
+link: "https://arxiv.org/pdf/2501.14377"
+links_alt:
+  - "https://arxiv.org/abs/2501.14377"
+  - "https://rpg.ifi.uzh.ch/docs/ICRA26_Romero.pdf"
+audit_status: raw
