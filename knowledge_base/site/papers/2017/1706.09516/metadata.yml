@@ -1,5 +1,5 @@
 title: 'CatBoost: unbiased boosting with categorical features'
-algorithm:
+algorithm: "CatBoost"
 authors:
   - Liudmila Prokhorenkova
   - Gleb Gusev

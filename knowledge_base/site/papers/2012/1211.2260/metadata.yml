@@ -1,5 +1,5 @@
 title: No-Regret Algorithms for Unconstrained Online Convex Optimization
-algorithm:
+algorithm: "No-Regret OCO"
 authors:
   - Matthew Streeter
   - H. Brendan McMahan

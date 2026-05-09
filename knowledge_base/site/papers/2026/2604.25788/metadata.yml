@@ -1,5 +1,5 @@
 title: 'KinDER: A Physical Reasoning Benchmark for Robot Learning and Planning'
-algorithm:
+algorithm: "KinDER"
 authors:
   - Yixuan Huang
   - Bowen Li

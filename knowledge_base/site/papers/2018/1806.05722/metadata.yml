@@ -1,5 +1,5 @@
 title: Non-asymptotic Identification of LTI Systems from a Single Trajectory
-algorithm:
+algorithm: "Ho-Kalman Identification"
 authors:
   - Samet Oymak
   - Necmiye Ozay

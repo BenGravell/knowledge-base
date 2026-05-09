@@ -1,4 +1,5 @@
 title: "Suboptimal Design of Linear Regulator Systems Subject to Computer Storage Limitations"
+algorithm: "Suboptimal LQR"
 authors:
   - David L. Kleinman
 year: 1967

@@ -1,5 +1,5 @@
 title: 'QUANT: A Minimalist Interval Method for Time Series Classification'
-algorithm:
+algorithm: "QUANT"
 authors:
   - Angus Dempster
   - Daniel F. Schmidt

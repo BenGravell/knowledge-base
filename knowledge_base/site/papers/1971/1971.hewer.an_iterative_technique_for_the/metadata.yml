@@ -1,6 +1,6 @@
 title: >
   An iterative technique for the computation of the steady state gains for the discrete optimal regulator
-algorithm:
+algorithm: "Discrete Riccati Iteration"
 authors:
   - G. Hewer
 year: 1971

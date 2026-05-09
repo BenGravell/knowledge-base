@@ -1,5 +1,5 @@
 title: Organization and maintenance of large ordered indices
-algorithm:
+algorithm: "B-tree"
 authors:
   - R. Bayer
   - E. McCreight

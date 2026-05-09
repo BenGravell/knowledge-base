@@ -1,5 +1,5 @@
 title: Low Frequency Sampling in Model Predictive Path Integral Control
-algorithm:
+algorithm: "MPPI"
 authors:
   - Bogdan Vlahov
   - Jason Gibson

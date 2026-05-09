@@ -1,5 +1,5 @@
 title: 'FlowDrive: moderated flow matching with data balancing for trajectory planning'
-algorithm:
+algorithm: "FlowDrive"
 authors:
   - Lingguang Wang
   - Ömer Şahin Taş

@@ -1,5 +1,5 @@
 title: Data-driven discovery of Koopman eigenfunctions for control
-algorithm:
+algorithm: "Koopman Eigenfunction EDMD"
 authors:
   - Eurika Kaiser
   - J. Nathan Kutz

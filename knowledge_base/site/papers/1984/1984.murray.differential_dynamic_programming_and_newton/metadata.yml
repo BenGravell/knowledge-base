@@ -1,6 +1,6 @@
 title: >
   Differential dynamic programming and Newton's method for discrete optimal control problems
-algorithm:
+algorithm: "DDP"
 authors:
   - D. M. Murray
   - S. J. Yakowitz

@@ -1,5 +1,5 @@
 title: 'CARLA: An Open Urban Driving Simulator'
-algorithm:
+algorithm: "CARLA"
 authors:
   - Alexey Dosovitskiy
   - German Ros

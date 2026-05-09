@@ -1,6 +1,6 @@
 title: >
   Actor-Critic Model Predictive Control: Differentiable Optimization meets Reinforcement Learning for Agile Flight
-algorithm:
+algorithm: "Actor-Critic Model Predictive Control"
 authors:
   - Angel Romero
   - Elie Aljalbout

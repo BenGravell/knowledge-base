@@ -34187,6 +34187,7 @@
 <p><strong>Authors</strong>: Luigi Palmieri, Kai O. Arras</p>
 <p><strong>Published</strong>: 2015 (Conference Paper)</p>
 <p><strong>Source</strong>: IEEE International Conference on Robotics and Automation (ICRA)</p>
+<p><strong>Algorithm</strong>: for RRT-Based</p>
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <p>Trains a supervised model to approximate the kinodynamic steering distance for RRT-based planners. The motivation is purely for increasing performance in terms of reducing average and worst-case runtime latency; assumes we have a slow-to-compute ground truth perfect steering function used to generate training data. The features are a set of 14 hand-crafted and cheap-to-evaluate metrics, and the labels are a scalar ground truth cost. The learned model is a basis function model <span class="arithmatex">\(BFM\)</span> using quadratic basis functions and trained using Levenberg-Marquadt. The model architecture was selected as the best <span class="arithmatex">\(in terms of prediction quality and inference runtime latency\)</span> out of a ranking comparison against other architectures trained on the same data, including a small neural network, random forest, support vector machine with radial basis function kernel, and locally weighted projection.</p>
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>

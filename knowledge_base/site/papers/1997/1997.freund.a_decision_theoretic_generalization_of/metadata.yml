@@ -1,6 +1,6 @@
 title: >
   A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting
-algorithm:
+algorithm: "AdaBoost"
 authors:
   - Yoav Freund
   - Robert E Schapire

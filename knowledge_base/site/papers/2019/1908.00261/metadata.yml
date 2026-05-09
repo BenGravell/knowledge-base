@@ -1,6 +1,6 @@
 title: >
   On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift
-algorithm:
+algorithm: "Policy Gradient"
 authors:
   - Alekh Agarwal
   - Sham M. Kakade

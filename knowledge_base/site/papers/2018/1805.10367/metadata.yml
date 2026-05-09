@@ -1,5 +1,5 @@
 title: Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization
-algorithm:
+algorithm: "ZO-SVRG"
 authors:
   - Sijia Liu
   - Bhavya Kailkhura

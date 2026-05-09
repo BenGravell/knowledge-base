@@ -1,5 +1,5 @@
 title: Infinite-Horizon Policy-Gradient Estimation
-algorithm:
+algorithm: "Policy Gradient"
 authors:
   - Jonathan Baxter
   - Peter L. Bartlett

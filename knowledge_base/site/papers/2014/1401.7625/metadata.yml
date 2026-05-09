@@ -1,5 +1,5 @@
 title: 'RES: Regularized Stochastic BFGS Algorithm'
-algorithm:
+algorithm: "RES"
 authors:
   - Aryan Mokhtari
   - Alejandro Ribeiro

@@ -1,5 +1,5 @@
 title: Denoising Diffusion Probabilistic Models
-algorithm:
+algorithm: "DDPM"
 authors:
   - Jonathan Ho
   - Ajay Jain

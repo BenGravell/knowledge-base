@@ -1,6 +1,6 @@
 title: >
   Simple statistical gradient-following algorithms for connectionist reinforcement learning
-algorithm:
+algorithm: "REINFORCE"
 authors:
   - Ronald J. Williams
 year: 1992

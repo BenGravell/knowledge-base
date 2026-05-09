@@ -1,6 +1,6 @@
 title: >
   Parallel-in-Time Nonlinear Optimal Control via GPU-native Sequential Convex Programming
-algorithm:
+algorithm: "SCP"
 authors:
   - Yilin Zou
   - Zhong Zhang

@@ -1,4 +1,5 @@
 title: "New Extension of the Kalman Filter to Nonlinear Systems"
+algorithm: "UKF"
 authors:
   - Simon J. Julier
   - Jeffrey K. Uhlmann

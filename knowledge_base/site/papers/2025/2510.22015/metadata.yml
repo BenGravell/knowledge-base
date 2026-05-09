@@ -1,6 +1,6 @@
 title: >
   Motion Planning with Precedence Specifications via Augmented Graphs of Convex Sets
-algorithm:
+algorithm: "Augmented GCS"
 authors:
   - Shilin You
   - Gael Luna

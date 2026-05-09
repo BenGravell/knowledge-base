@@ -1,5 +1,5 @@
 title: "An Alternative View: When Does SGD Escape Local Minima?"
-algorithm:
+algorithm: "SGD"
 authors:
   - Robert Kleinberg
   - Yuanzhi Li

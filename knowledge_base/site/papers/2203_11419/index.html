@@ -34130,6 +34130,7 @@
 <h1 id="embedded-code-generation-with-cvxpy">Embedded Code Generation with CVXPY<a class="headerlink" href="#embedded-code-generation-with-cvxpy" title="Permanent link">&para;</a></h1>
 <p><strong>Authors</strong>: Maximilian Schaller, Goran Banjac, Steven Diamond, Akshay Agrawal, Bartolomeo Stellato, Stephen Boyd</p>
 <p><strong>Published</strong>: 2022 ()</p>
+<p><strong>Algorithm</strong>: CVXPY</p>
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We introduce CVXPYgen, a tool for generating custom C code, suitable for embedded applications, that solves a parametrized class of convex optimization problems. CVXPYgen is based on CVXPY, a Python-embedded domain-specific language that supports a natural syntax <span class="arithmatex">\(that follows the mathematical description\)</span> for specifying convex optimization problems. Along with the C implementation of a custom solver, CVXPYgen creates a Python wrapper for prototyping and desktop <span class="arithmatex">\(non\-embedded\)</span> applications. We give two examples, position control of a quadcopter and back-testing a portfolio optimization model. CVXPYgen outperforms a state-of-the-art code generation tool in terms of problem size it can handle, binary code size, and solve times. CVXPYgen and the generated solvers are open-source.</p>

@@ -1,5 +1,5 @@
 title: Adaptive linear quadratic control using policy iteration
-algorithm:
+algorithm: "Policy Iteration LQR"
 authors:
   - S.J. Bradtke
   - B.E. Ydstie

@@ -1,5 +1,5 @@
 title: Differentiable MPC for End-to-end Planning and Control
-algorithm:
+algorithm: "Differentiable MPC"
 authors:
   - Brandon Amos
   - Ivan Dario Jimenez Rodriguez

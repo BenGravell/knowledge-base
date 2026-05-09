@@ -34130,6 +34130,7 @@
 <h1 id="cuclarabel-gpu-acceleration-for-a-conic-optimization-solver">CuClarabel: GPU Acceleration for a Conic Optimization Solver<a class="headerlink" href="#cuclarabel-gpu-acceleration-for-a-conic-optimization-solver" title="Permanent link">&para;</a></h1>
 <p><strong>Authors</strong>: Yuwen Chen, Danny Tse, Parth Nobel, Paul Goulart, Stephen Boyd</p>
 <p><strong>Published</strong>: 2024 ()</p>
+<p><strong>Algorithm</strong>: CuClarabel</p>
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We present the GPU implementation of the general-purpose interior-point solver Clarabel for convex optimization problems with conic constraints. We introduce a mixed parallel computing strategy that processes linear constraints first, then handles other conic constraints in parallel. The GPU solver currently supports linear equality and inequality constraints, second-order cones, exponential cones, power cones and positive semidefinite cones of the same dimensionality. We demonstrate that integrating a mixed parallel computing strategy with GPU-based direct linear system solvers enhances the performance of GPU-based conic solvers, surpassing their CPU-based counterparts across a wide range of conic optimization problems. We also show that employing mixed-precision linear system solvers can potentially achieve additional acceleration without compromising solution accuracy.</p>

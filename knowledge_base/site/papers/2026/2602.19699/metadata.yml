@@ -1,6 +1,6 @@
 title: >
   CACTO-BIC: Scalable Actor-Critic Learning via Biased Sampling and GPU-Accelerated Trajectory Optimization
-algorithm:
+algorithm: "CACTO-BIC"
 authors:
   - Elisa Alboni
   - Pietro Noah Crestaz

@@ -1,5 +1,5 @@
 title: A Computational Approach to Edge Detection
-algorithm:
+algorithm: "Canny Edge Detector"
 authors:
   - John Canny
 year: 1986

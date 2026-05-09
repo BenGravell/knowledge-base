@@ -1,6 +1,6 @@
 title: >
   Scalable trust-region method for deep reinforcement learning using Kronecker-factored approximation
-algorithm:
+algorithm: "ACKTR"
 authors:
   - Yuhuai Wu
   - Elman Mansimov

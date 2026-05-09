@@ -1,6 +1,6 @@
 title: >
   Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition
-algorithm:
+algorithm: "MPC"
 authors:
   - Marko Svec
   - Sandor Iles

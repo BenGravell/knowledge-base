@@ -1,5 +1,5 @@
 title: Cubic regularization of Newton method and its global performance
-algorithm:
+algorithm: "Cubic Regularized Newton"
 authors:
   - Yurii Nesterov
   - B.T. Polyak

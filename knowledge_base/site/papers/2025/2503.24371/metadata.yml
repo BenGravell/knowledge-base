@@ -1,5 +1,5 @@
 title: Policy Gradient for LQR with Domain Randomization
-algorithm:
+algorithm: "Policy Gradient"
 authors:
   - Tesshu Fujinami
   - Bruce D. Lee

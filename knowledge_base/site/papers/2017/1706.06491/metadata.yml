@@ -1,6 +1,6 @@
 title: >
   Data-Efficient Reinforcement Learning with Probabilistic Model Predictive Control
-algorithm:
+algorithm: "PETS"
 authors:
   - Sanket Kamthe
   - Marc Peter Deisenroth

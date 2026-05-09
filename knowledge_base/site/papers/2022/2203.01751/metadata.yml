@@ -1,6 +1,6 @@
 title: >
   BITKOMO: Combining Sampling and Optimization for Fast Convergence in Optimal Motion Planning
-algorithm:
+algorithm: "BITKOMO"
 authors:
   - Jay Kamat
   - Joaquim Ortiz-Haro

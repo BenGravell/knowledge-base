@@ -1,6 +1,6 @@
 title: >
   SoftJAX & SoftTorch: Empowering Automatic Differentiation Libraries with Informative Gradients
-algorithm:
+algorithm: "SoftJAX & SoftTorch"
 authors:
   - Anselm Paulus
   - A. René Geist

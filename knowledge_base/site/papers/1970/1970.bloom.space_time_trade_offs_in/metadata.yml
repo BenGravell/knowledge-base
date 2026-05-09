@@ -1,5 +1,5 @@
 title: Space/time trade-offs in hash coding with allowable errors
-algorithm:
+algorithm: "Bloom Filter"
 authors:
   - Burton H. Bloom
 year: 1970

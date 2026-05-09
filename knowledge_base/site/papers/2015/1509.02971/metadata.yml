@@ -1,5 +1,5 @@
 title: Continuous control with deep reinforcement learning
-algorithm:
+algorithm: "DDPG"
 authors:
   - Timothy P. Lillicrap
   - Jonathan J. Hunt

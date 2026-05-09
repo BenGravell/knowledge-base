@@ -1,5 +1,5 @@
 title: "Second-Order Constrained Dynamic Optimization"
-algorithm:
+algorithm: "Second-Order Constrained DDP"
 authors:
   - Yuichiro Aoyama
   - Oswin So

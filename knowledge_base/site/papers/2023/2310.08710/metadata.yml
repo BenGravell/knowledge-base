@@ -1,6 +1,6 @@
 title: >
   Waymax: An Accelerated, Data-Driven Simulator for Large-Scale Autonomous Driving Research
-algorithm:
+algorithm: "Waymax"
 authors:
   - Cole Gulino
   - Justin Fu

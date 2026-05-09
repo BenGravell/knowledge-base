@@ -1,6 +1,6 @@
 title: >
   Probabilistic completeness of RRT for geometric and kinodynamic planning with forward propagation
-algorithm:
+algorithm: "of RRT"
 authors:
   - Michal Kleinbort
   - Kiril Solovey

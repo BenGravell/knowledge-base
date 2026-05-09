@@ -1,5 +1,5 @@
 title: An integrated system for real-time model predictive control of humanoid robots
-algorithm:
+algorithm: "MPC"
 authors:
   - Tom Erez
   - Kendall Lowrey
