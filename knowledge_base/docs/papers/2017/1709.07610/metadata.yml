@@ -1,6 +1,6 @@
 title: >
   Efficient Nearest-Neighbor Search for Dynamical Systems with Nonholonomic Constraints
-algorithm:
+algorithm: "Nearest Neighbor Search"
 authors:
   - Valerio Varricchio
   - Brian Paden

@@ -1,6 +1,6 @@
 title: >
   Manipulator Inverse Kinematic Solutions Based on Vector Formulations and Damped Least-Squares Methods
-algorithm:
+algorithm: "Damped Least-Squares IK"
 authors:
   - Charles Wampler
 year: 1986

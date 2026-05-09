@@ -1,4 +1,5 @@
 title: "Experiments with an Inverted Pendulum Subject to Random Parametric Excitation"
+algorithm:
 authors:
   - J. L. Bogdanoff
   - S. J. Citron

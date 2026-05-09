@@ -1,5 +1,5 @@
 title: Billion-scale similarity search with GPUs
-algorithm:
+algorithm: "Faiss"
 authors:
   - Jeff Johnson
   - Matthijs Douze

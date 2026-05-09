@@ -1,5 +1,5 @@
 title: 'CLOVER: A GPU-native, Spatio-graph-based Approach to Exact kNN'
-algorithm:
+algorithm: "CLOVER"
 authors:
   - Victor Kamel
   - Hanxueyu Yan

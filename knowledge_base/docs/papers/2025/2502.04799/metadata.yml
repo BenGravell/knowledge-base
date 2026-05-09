@@ -1,6 +1,6 @@
 title: >
   A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees
-algorithm:
+algorithm: "Newton's Method"
 authors:
   - Yuhao Zhou
   - Jintao Xu

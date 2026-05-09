@@ -1,6 +1,6 @@
 title: >
   The Definitive Guide to Policy Gradients in Deep Reinforcement Learning: Theory, Algorithms and Implementations
-algorithm:
+algorithm: "Policy Gradient"
 authors:
   - Matthias Lehmann
 year: 2024

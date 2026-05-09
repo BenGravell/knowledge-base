@@ -1,5 +1,5 @@
 title: Reciprocal n-Body Collision Avoidance
-algorithm:
+algorithm: "ORCA"
 authors:
   - Jur van den Berg
   - Stephen J. Guy

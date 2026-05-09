@@ -1,5 +1,5 @@
 title: 'VectorNet: Encoding HD Maps and Agent Dynamics from Vectorized Representation'
-algorithm:
+algorithm: "VectorNet"
 authors:
   - Jiyang Gao
   - Chen Sun

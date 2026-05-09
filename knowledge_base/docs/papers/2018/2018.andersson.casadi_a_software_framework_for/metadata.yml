@@ -1,5 +1,5 @@
 title: 'CasADi: a software framework for nonlinear optimization and optimal control'
-algorithm:
+algorithm: "CasADi"
 authors:
   - Joel A. E. Andersson
   - Joris Gillis

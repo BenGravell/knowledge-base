@@ -1,5 +1,5 @@
 title: Product Quantization for Nearest Neighbor Search
-algorithm:
+algorithm: "Product Quantization"
 authors:
   - H Jégou
   - M Douze

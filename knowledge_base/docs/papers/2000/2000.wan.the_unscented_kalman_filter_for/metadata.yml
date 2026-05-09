@@ -1,5 +1,5 @@
 title: The unscented Kalman filter for nonlinear estimation
-algorithm:
+algorithm: "UKF"
 authors:
   - E.A. Wan
   - R. Van Der Merwe

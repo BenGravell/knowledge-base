@@ -1,6 +1,6 @@
 title: >
   LeARN: Learnable and Adaptive Representations for Nonlinear Dynamics in System Identification
-algorithm:
+algorithm: "LeARN"
 authors:
   - Arunabh Singh
   - Joyjit Mukherjee

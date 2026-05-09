@@ -1,5 +1,5 @@
 title: 'Soft MPCritic: Amortized Model Predictive Value Iteration'
-algorithm:
+algorithm: "Soft MPCritic"
 authors:
   - Thomas Banker
   - Nathan P. Lawrence

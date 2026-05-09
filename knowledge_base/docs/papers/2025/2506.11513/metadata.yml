@@ -1,4 +1,5 @@
 title: "Automatic Generation of Explicit Quadratic Programming Solvers"
+algorithm: "CVXPYgen"
 authors:
  - Maximilian Schaller
  - Daniel Arnström

@@ -1,5 +1,5 @@
 title: 'Clarabel: An interior-point solver for conic programs with quadratic objectives'
-algorithm:
+algorithm: "Clarabel"
 authors:
   - Paul J. Goulart
   - Yuwen Chen

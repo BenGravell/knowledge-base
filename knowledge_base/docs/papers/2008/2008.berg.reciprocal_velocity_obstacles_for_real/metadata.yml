@@ -1,5 +1,5 @@
 title: Reciprocal Velocity Obstacles for real-time multi-agent navigation
-algorithm:
+algorithm: "RVO"
 authors:
   - Jur van den Berg
   - Ming Lin

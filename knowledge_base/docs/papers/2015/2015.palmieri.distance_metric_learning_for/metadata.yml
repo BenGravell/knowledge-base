@@ -1,5 +1,5 @@
 title: "Distance Metric Learning for RRT-Based Motion Planning with Constant-Time Inference"
-algorithm:
+algorithm: "for RRT-Based"
 authors:
   - Luigi Palmieri
   - Kai O. Arras

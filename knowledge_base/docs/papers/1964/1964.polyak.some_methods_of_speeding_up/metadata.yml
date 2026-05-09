@@ -1,5 +1,5 @@
 title: Some methods of speeding up the convergence of iteration methods
-algorithm:
+algorithm: "Polyak Momentum"
 authors:
   - B.T. Polyak
 year: 1964

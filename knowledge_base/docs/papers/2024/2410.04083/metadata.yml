@@ -1,5 +1,5 @@
 title: 'OPTAMI: Global Superlinear Convergence of High-order Methods'
-algorithm:
+algorithm: "OPTAMI"
 authors:
   - Dmitry Kamzolov
   - Dmitry Pasechnyuk

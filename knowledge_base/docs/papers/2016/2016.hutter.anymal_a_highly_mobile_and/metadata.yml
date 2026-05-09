@@ -1,5 +1,5 @@
 title: ANYmal - a highly mobile and dynamic quadrupedal robot
-algorithm:
+algorithm: "ANYmal"
 authors:
   - Marco Hutter
   - Christian Gehring

@@ -1,5 +1,5 @@
 title: Super-Universal Regularized Newton Method
-algorithm:
+algorithm: "Newton's Method"
 authors:
   - Nikita Doikov
   - Konstantin Mishchenko

@@ -1,5 +1,5 @@
 title: Optimizing Neural Networks with Kronecker-factored Approximate Curvature
-algorithm:
+algorithm: "K-FAC"
 authors:
   - James Martens
   - Roger Grosse

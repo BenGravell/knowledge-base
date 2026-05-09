@@ -1,5 +1,5 @@
 title: Exact indexing of dynamic time warping
-algorithm:
+algorithm: "Dynamic Time Warping"
 authors:
   - Eamonn Keogh
   - Chotirat Ann Ratanamahatana

@@ -1,6 +1,6 @@
 title: >
   On the <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML" id="mml15" display="inline" overflow="scroll" altimg="si1.gif"><mml:msup><mml:mrow><mml:mi>G</mml:mi></mml:mrow><mml:mrow><mml:mn>2</mml:mn></mml:mrow></mml:msup></mml:math> Hermite Interpolation Problem with clothoids
-algorithm:
+algorithm: "G2 Hermite Interpolation with Clothoids"
 authors:
   - Enrico Bertolazzi
   - Marco Frego

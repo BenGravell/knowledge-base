@@ -1,5 +1,5 @@
 title: 'Meta-Harness: End-to-End Optimization of Model Harnesses'
-algorithm:
+algorithm: "Meta-Harness"
 authors:
   - Yoonho Lee
   - Roshen Nair

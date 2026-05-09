@@ -1,4 +1,5 @@
 title: "Design of Linear Regulators for Nonlinear Stochastic Systems"
+algorithm: "Stochastic LQR"
 authors:
   - Donald E. Gustafson
   - Jason L. Speyer

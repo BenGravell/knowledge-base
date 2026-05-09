@@ -1,5 +1,5 @@
 title: Scalar Federated Learning for Linear Quadratic Regulator
-algorithm:
+algorithm: "LQR"
 authors:
   - Mohammadreza Rostami
   - Shahriar Talebi

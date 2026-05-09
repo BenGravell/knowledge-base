@@ -1,5 +1,5 @@
 title: "Path Planning: Differential Dynamic Programming and Model Predictive Path Integral Control on VTOL Aircraft"
-algorithm:
+algorithm: "MPPI"
 authors:
   - Matthew D. Houghton
   - Alexander B. Oshin

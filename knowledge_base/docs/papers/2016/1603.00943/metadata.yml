@@ -1,5 +1,5 @@
 title: 'CVXPY: A Python-Embedded Modeling Language for Convex Optimization'
-algorithm:
+algorithm: "CVXPY"
 authors:
   - Steven Diamond
   - Stephen Boyd

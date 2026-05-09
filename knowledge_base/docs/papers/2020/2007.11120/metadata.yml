@@ -1,5 +1,5 @@
 title: On Linear Convergence of Policy Gradient Methods for Finite MDPs
-algorithm:
+algorithm: "Policy Gradient"
 authors:
   - Jalaj Bhandari
   - Daniel Russo

@@ -1,6 +1,6 @@
 title: >
   JAX-IK: Real-Time Inverse Kinematics for Generating Multi-Constrained Movements of Virtual Human Characters
-algorithm:
+algorithm: "JAX-IK"
 authors:
   - Hendric Voss
   - Stefan Kopp

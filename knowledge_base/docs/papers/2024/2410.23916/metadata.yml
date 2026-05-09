@@ -1,6 +1,6 @@
 title: >
   Transformer-based Model Predictive Control: Trajectory Optimization via Sequence Modeling
-algorithm:
+algorithm: "MPC"
 authors:
   - Davide Celestini
   - Daniele Gammelli

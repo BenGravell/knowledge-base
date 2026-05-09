@@ -1,5 +1,5 @@
 title: 'Marching cubes: A high resolution 3D surface construction algorithm'
-algorithm:
+algorithm: "Marching Cubes"
 authors:
   - William E. Lorensen
   - Harvey E. Cline

@@ -1,5 +1,5 @@
 title: 'KPC: Learning-Based Model Predictive Control with Deterministic Guarantees'
-algorithm:
+algorithm: "KPC"
 authors:
   - Emilio T. Maddalena
   - Paul Scharnhorst

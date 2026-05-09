@@ -1,5 +1,5 @@
 title: 'RLlib: Abstractions for Distributed Reinforcement Learning'
-algorithm:
+algorithm: "RLlib"
 authors:
   - Eric Liang
   - Richard Liaw

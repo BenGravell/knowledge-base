@@ -1,5 +1,5 @@
 title: High-Dimensional Continuous Control Using Generalized Advantage Estimation
-algorithm:
+algorithm: "GAE"
 authors:
   - John Schulman
   - Philipp Moritz

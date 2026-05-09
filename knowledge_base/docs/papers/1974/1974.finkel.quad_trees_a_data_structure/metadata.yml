@@ -1,5 +1,5 @@
 title: Quad trees a data structure for retrieval on composite keys
-algorithm:
+algorithm: "Quadtree"
 authors:
   - R. A. Finkel
   - J. L. Bentley

@@ -1,5 +1,5 @@
 title: On the Optimization Landscape of Observer-based Dynamic Linear Quadratic Control
-algorithm:
+algorithm: "LQR"
 authors:
   - Jingliang Duan
   - Jie Li

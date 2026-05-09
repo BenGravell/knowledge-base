@@ -1,5 +1,5 @@
 title: Presolving for GPU-Accelerated First-Order LP Solvers
-algorithm:
+algorithm: "PSLP"
 authors:
   - Daniel Cederberg
   - Stephen Boyd

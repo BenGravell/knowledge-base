@@ -1,6 +1,6 @@
 title: >
   LQG control with an H-infinity / performance bound: a Riccati equation approach
-algorithm:
+algorithm: "H-infinity LQG Control"
 authors:
   - D.S. Bernstein
   - W.M. Haddad
