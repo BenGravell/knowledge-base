@@ -1,10 +1,10 @@
 """Batch-prefill metadata.yml files from a list of IEEE Xplore URLs.
 
 Usage:
-    python prefill_ieee.py [--input PATH] [--overwrite]
+    python knowledge_base/scripts/prefill/ieee.py [--input PATH] [--overwrite]
 
 Defaults:
-    --input      ../../todo/IEEE_PAPERS.md
+    --input      todo/papers/IEEE.md
     --overwrite  False (skip entries whose metadata.yml already exists)
 
 Strategy:
@@ -16,28 +16,19 @@ Strategy:
 """
 
 import re
-import time
 from pathlib import Path
 
-from knowledge_base.apps.arxiv_utils import metadata_to_yaml
-from knowledge_base.utils.doi_utils import (
-    BASE_DELAY,
-    BACKOFF_BASE,
-    MAX_RETRIES,
-    build_doi_index,
-    build_doi_metadata,
-    doi_target_path,
-    fetch_crossref,
-    fetch_page_html,
-    fetch_with_retry,
-    generate_folder_name,
-    make_parser,
-    scrape_doi_from_html,
-    should_skip,
-    write_doi_metadata,
-)
+if __package__ in (None, ""):
+    import sys
+    sys.path.append(str(Path(__file__).resolve().parents[3]))
 
-DEFAULT_INPUT = Path(__file__).parent.parent.parent / "todo" / "IEEE_PAPERS.md"
+from knowledge_base.utils.doi_utils import (
+    fetch_page_html,
+    scrape_doi_from_html,
+)
+from knowledge_base.utils.prefill_template import DoiPrefillScript
+
+DEFAULT_INPUT = Path(__file__).parent.parent.parent.parent / "todo" / "papers" / "IEEE.md"
 
 _IEEE_ARTICLE_RE = re.compile(r"ieeexplore\.ieee\.org/document/(\d+)")
 
@@ -101,74 +92,27 @@ def fetch_ieee_doi(article_id: str) -> str:
     return scrape_doi_from_html(html)
 
 
+class IeeePrefill(DoiPrefillScript[tuple[str, str]]):
+    description = "Prefill metadata from IEEE Xplore URLs."
+    default_input = DEFAULT_INPUT
+    entry_kind = "IEEE articles"
+    fetch_error_label = "fetching metadata"
+    show_resolved_doi = True
+
+    def extract_entries(self, path: Path) -> list[tuple[str, str]]:
+        return extract_articles(path)
+
+    def entry_label(self, entry: tuple[str, str]) -> str:
+        _url, article_id = entry
+        return article_id
+
+    def resolve_doi(self, entry: tuple[str, str]) -> str:
+        _url, article_id = entry
+        return fetch_ieee_doi(article_id)
+
+
 def main() -> None:
-    args = make_parser("Prefill metadata from IEEE Xplore URLs.", DEFAULT_INPUT).parse_args()
-
-    entries = extract_articles(args.input)
-    print(f"Found {len(entries)} unique IEEE articles in {args.input}")
-
-    if args.list_skipped:
-        doi_index = build_doi_index()
-        for _url, article_id in entries:
-            try:
-                doi = fetch_ieee_doi(article_id)
-            except Exception as exc:
-                print(f"{article_id}  ERROR getting DOI: {exc}")
-                time.sleep(BASE_DELAY)
-                continue
-            existing = doi_index.get(doi.lower())
-            if existing:
-                print(f"{article_id} ({doi})  {existing}")
-            time.sleep(BASE_DELAY)
-        return
-
-    ok = skipped = failed = 0
-    doi_index = build_doi_index()
-
-    for i, (url, article_id) in enumerate(entries, 1):
-        prefix = f"[{i}/{len(entries)}] {article_id}"
-
-        # Step 1: get DOI from IEEE
-        try:
-            doi = fetch_ieee_doi(article_id)
-        except Exception as exc:
-            print(f"{prefix}  ERROR getting DOI: {exc}")
-            failed += 1
-            time.sleep(BASE_DELAY)
-            if args.first is not None and ok + failed >= args.first:
-                break
-            continue
-
-        existing = doi_index.get(doi.lower())
-        if should_skip(existing, args):
-            print(f"{prefix}  SKIP (exists: {existing})")
-            skipped += 1
-            continue
-
-        # Step 2: fetch full metadata from Crossref
-        try:
-            data = fetch_with_retry(fetch_crossref, doi)
-        except Exception as exc:
-            print(f"{prefix}  ERROR fetching Crossref for doi={doi}: {exc}")
-            failed += 1
-            time.sleep(BASE_DELAY)
-            if args.first is not None and ok + failed >= args.first:
-                break
-            continue
-
-        folder = generate_folder_name(data["year"], data["authors"], data["title"])
-        out = doi_target_path(data["year"], folder)
-        metadata = build_doi_metadata(data)
-        yaml_text = metadata_to_yaml(metadata)
-        write_doi_metadata(data["year"], folder, yaml_text)
-        print(f"{prefix}  OK doi={doi} -> {out}")
-        ok += 1
-
-        if args.first is not None and ok + failed >= args.first:
-            break
-        time.sleep(BASE_DELAY)
-
-    print(f"\nDone: {ok} written, {skipped} skipped, {failed} failed")
+    IeeePrefill().run()
 
 
 if __name__ == "__main__":

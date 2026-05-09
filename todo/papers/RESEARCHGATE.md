@@ -1,0 +1,4 @@
+https://www.researchgate.net/publication/239398674_An_Isotropic_3x3_Image_Gradient_Operator
+https://www.researchgate.net/publication/282271002_The_BOSS_is_concerned_with_time_series_classification_in_the_presence_of_noise
+https://www.researchgate.net/profile/Mahesan-Niranjan/publication/2500611_On-Line_Q-Learning_Using_Connectionist_Systems/links/5438d5db0cf204cab1d6db0f/On-Line-Q-Learning-Using-Connectionist-Systems.pdf
+https://www.researchgate.net/publication/228785110_Near_optimal_hierarchical_path-finding_HPA

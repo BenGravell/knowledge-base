@@ -1,0 +1,30 @@
+title: "Improving MPPI for High-Inertia Industrial Vehicles"
+algorithm: "Nav2 MPPI acceleration constraints"
+authors:
+  - "Steven Macenski"
+year: 2026
+source: "Open Navigation"
+type: "Blog Post"
+doi: 
+arxiv_id: 
+tags:
+  - "MPPI"
+  - "Nav2"
+  - "Acceleration constraints"
+  - "Industrial robots"
+  - "Model predictive control"
+  - "Robot navigation"
+abstract: >
+  Deep dive into improving Nav2's MPPI controller to properly respect low acceleration constraints for
+  heavy industrial robots.
+summary: >
+  Engineering post dissecting why Nav2 MPPI struggled with low acceleration limits on heavy robots,
+  especially the distinction between control velocities and rollout state velocities. The useful
+  contribution is a concrete diagnosis of inter-iteration feasibility and timing mismatches between
+  model_dt and the controller period.
+link: "https://opennav.org/news/mppi-low-acceleration/"
+links_alt:
+  - "https://github.com/ros-navigation/navigation2/pull/5266"
+  - "https://github.com/ros-navigation/navigation2/issues/5464"
+  - "https://github.com/ros-navigation/navigation2/issues/5214"
+audit_status: raw

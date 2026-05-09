@@ -9,6 +9,7 @@ import re
 import time
 import unicodedata
 from pathlib import Path
+from urllib.parse import quote
 
 import requests
 import yaml
@@ -59,14 +60,18 @@ _BROWSER_HEADERS = {
 # ---------------------------------------------------------------------------
 
 def _fetch_s2_abstract(doi: str) -> str:
-    r = requests.get(_S2_API.format(doi=doi), timeout=30)
+    r = requests.get(_S2_API.format(doi=quote(doi, safe="")), timeout=30)
     if not r.ok:
         return ""
     return (r.json().get("abstract") or "").strip()
 
 
 def _fetch_openalex_abstract(doi: str) -> str:
-    r = requests.get(_OPENALEX_API.format(doi=doi), headers=_OPENALEX_HEADERS, timeout=30)
+    r = requests.get(
+        _OPENALEX_API.format(doi=quote(doi, safe="")),
+        headers=_OPENALEX_HEADERS,
+        timeout=30,
+    )
     if not r.ok:
         return ""
     inv = r.json().get("abstract_inverted_index") or {}
@@ -103,7 +108,11 @@ def _fetch_abstract_fallback(doi: str) -> str:
 def fetch_crossref(doi: str) -> dict:
     """Return paper fields from the Crossref API for *doi*."""
     doi = doi.strip()
-    r = requests.get(CROSSREF_API.format(doi=doi), headers=CROSSREF_HEADERS, timeout=60)
+    r = requests.get(
+        CROSSREF_API.format(doi=quote(doi, safe="")),
+        headers=CROSSREF_HEADERS,
+        timeout=60,
+    )
     r.raise_for_status()
     msg = r.json()["message"]
 
