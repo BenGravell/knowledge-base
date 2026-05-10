@@ -1,5 +1,10 @@
 # TODO
 
+## Rendering
+
+investigate rendering issues in Abstract of 
+https://bengravell.github.io/knowledge-base/papers/2503_16164/
+
 ## Metadata cleanup
 
 ### Add validation on mkdocs.yml
