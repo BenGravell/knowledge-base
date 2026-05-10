@@ -22,7 +22,7 @@ from pathlib import Path
 
 DATA_FILE = Path(__file__).parent / "mind-map-data.js"
 
-# Material Design 800-weight palette (matches existing Cytoscape viz)
+# Material Design 800-weight palette (matches existing Sigma viz)
 _PALETTE = [
     "#AD1457", "#6A1B9A", "#283593", "#1565C0", "#00695C",
     "#2E7D32", "#558B2F", "#F57F17", "#E65100", "#BF360C",

@@ -1,9 +1,9 @@
 title: Distributionally Robust Sampling-Based Motion Planning Under Uncertainty
-algorithm:
+algorithm: DR-RRT
 authors:
   - Tyler Summers
 year: 2018
-source: 2018 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
 type: Conference Paper
 doi: 10.1109/IROS.2018.8593893
 arxiv_id:
@@ -13,4 +13,5 @@ abstract: >
 summary: ''
 link: https://doi.org/10.1109/IROS.2018.8593893
 links_alt:
-audit_status: raw
+  - https://personal.utdallas.edu/~tyler.summers/papers/IROS2018.pdf
+audit_status: partial

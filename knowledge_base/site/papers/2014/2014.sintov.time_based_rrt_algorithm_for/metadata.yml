@@ -1,5 +1,5 @@
-title: Time-based RRT algorithm for rendezvous planning of two dynamic systems
-algorithm: "Time-based RRT"
+title: Time-based RRT Algorithm for Rendezvous Planning of Two Dynamic Systems
+algorithm: TB-RRT
 authors:
   - Avishai Sintov
   - Amir Shapiro

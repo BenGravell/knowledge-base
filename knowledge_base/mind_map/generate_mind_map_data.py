@@ -1,12 +1,12 @@
 """
 generate_mind_map_data.py
 =========================
-Generate the Cytoscape.js mind-map data file for the knowledge-base site.
+Generate the Sigma.js mind-map data file for the knowledge-base site.
 
 This script reads every paper's ``metadata.yml``, embeds each paper's
 text using a high-quality embedding model, computes pairwise cosine
-similarities, and writes ``knowledge_base/docs/javascripts/mind-map-data.js``
-which the Cytoscape.js visualisation loads at runtime.
+similarities, and writes ``knowledge_base/mind_map/mind-map-data.js``
+which the Sigma.js visualisation loads at runtime.
 
 Incremental operation
 ---------------------
@@ -735,7 +735,7 @@ def cosine_similarity_matrix(embeddings: "np.ndarray") -> "np.ndarray":
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Generate Cytoscape.js mind-map data from paper embeddings.",
+        description="Generate Sigma.js mind-map data from paper embeddings.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )

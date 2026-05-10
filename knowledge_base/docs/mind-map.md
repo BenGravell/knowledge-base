@@ -50,8 +50,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   font-family: "Atkinson Hyperlegible Next", "Segoe UI", sans-serif;
 }
 
-/* ── Cytoscape canvas ─────────────────────────────────────────────────────── */
-#cy {
+/* ── Sigma canvas ─────────────────────────────────────────────────────────── */
+#mm-graph {
   flex: 1;
   min-width: 0;
   height: 100%;
@@ -122,7 +122,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   pointer-events: none;
 }
 
-/* Panel overlays the canvas so #cy is always full-width and never moves */
+/* Panel overlays the canvas so #mm-graph is always full-width and never moves */
 #mm-panel {
   position: absolute;
   left: 0;
@@ -409,13 +409,14 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   <!-- Tooltip (positioned by JS) -->
   <div id="mm-tooltip"></div>
 
-  <!-- Cytoscape canvas -->
-  <div id="cy"></div>
+  <!-- Sigma canvas -->
+  <div id="mm-graph"></div>
 
 </div>
 
-<!-- Cytoscape core -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.29.2/cytoscape.min.js"></script>
+<!-- Sigma core and graph model -->
+<script src="../javascripts/vendor/graphology.umd.min.js"></script>
+<script src="../javascripts/vendor/sigma.min.js"></script>
 <!-- Generated mind-map data (run generate_mind_map_data.py to regenerate) -->
 <script src="../javascripts/mind-map-data.js"></script>
 <!-- Visualisation logic -->
@@ -436,57 +437,5 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     applyMmSizes();
   }
   window.addEventListener('resize', applyMmSizes);
-})();
-</script>
-<script>
-(function () {
-  var panel   = document.getElementById('mm-panel');
-  var header  = document.getElementById('mm-panel-header');
-  var hideBtn = document.getElementById('mm-panel-hide-btn');
-  var PAD = 30;
-
-  function fitBesidePanel(cy) {
-    var eles = cy.elements(':visible');
-    if (!eles.length) return;
-    var bb     = eles.boundingBox();
-    var left   = panel.offsetWidth + PAD;
-    var right  = cy.width()  - PAD;
-    var top    = PAD;
-    var bottom = cy.height() - PAD;
-    var zoom   = Math.min((right - left) / bb.w, (bottom - top) / bb.h);
-    cy.viewport({
-      zoom: zoom,
-      pan: {
-        x: left + (right - left) / 2 - (bb.x1 + bb.x2) / 2 * zoom,
-        y: top  + (bottom - top) / 2 - (bb.y1 + bb.y2) / 2 * zoom
-      }
-    });
-  }
-
-  /* Fit to the visible canvas region on initial load */
-  var cy = window._cy && window._cy();
-  if (cy) {
-    if (panel.classList.contains('body-collapsed')) {
-      cy.fit(cy.elements(':visible'), PAD);
-    } else {
-      fitBesidePanel(cy);
-    }
-  }
-
-  header.addEventListener('click', function () {
-    var collapsed = panel.classList.toggle('body-collapsed');
-    hideBtn.textContent = collapsed ? 'Show Settings' : 'Hide Settings';
-    header.title        = collapsed ? 'Show Settings'  : 'Hide Settings';
-  });
-
-  document.getElementById('mm-fit-btn').addEventListener('click', function () {
-    var fitCy = window._cy && window._cy();
-    if (!fitCy) return;
-    if (panel.classList.contains('body-collapsed')) {
-      fitCy.fit(fitCy.elements(':visible'), PAD);
-    } else {
-      fitBesidePanel(fitCy);
-    }
-  });
 })();
 </script>

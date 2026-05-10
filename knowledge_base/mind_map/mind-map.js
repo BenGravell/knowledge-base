@@ -1,8 +1,9 @@
-/* mind-map.js — Cytoscape.js paper mind-map visualisation
+/* mind-map.js - Sigma.js paper mind-map visualisation
  *
  * Loaded by mind-map.md after:
- *   1. cytoscape.min.js  (sets window.cytoscape)
- *   2. mind-map-data.js  (sets window.mindMapData, includes UMAP positions)
+ *   1. graphology.umd.min.js (sets window.graphology)
+ *   2. sigma.min.js          (sets window.Sigma)
+ *   3. mind-map-data.js      (sets window.mindMapData, includes UMAP positions)
  */
 
 'use strict';
@@ -10,7 +11,7 @@
 (function () {
 
   /* -------------------------------------------------------------------------
-   * Category → colour mapping (Material Design 800-weight palette)
+   * Category -> colour mapping (Material Design 800-weight palette)
    * Keys must match the top-level nav section names in mkdocs.yml.
    * -------------------------------------------------------------------------*/
   const CATEGORY_COLORS = {
@@ -41,26 +42,56 @@
   };
 
   /* -------------------------------------------------------------------------
-   * Guard: data must be present
+   * Guard: dependencies and data must be present
    * -------------------------------------------------------------------------*/
+  const graphContainer = document.getElementById('mm-graph');
+
+  if (!graphContainer) {
+    hideLoading();
+    return;
+  }
+
   if (typeof mindMapData === 'undefined') {
-    document.getElementById('cy').innerHTML =
+    graphContainer.innerHTML =
       '<p style="padding:2em;color:#ccc">No mind-map data found.<br>' +
       'Run <code>python generate_mind_map_data.py</code> from the repo root first.</p>';
     hideLoading();
     return;
   }
 
+  if (typeof window.graphology === 'undefined' || typeof window.Sigma === 'undefined') {
+    const missing = [
+      typeof window.graphology === 'undefined' ? 'Graphology' : null,
+      typeof window.Sigma === 'undefined' ? 'Sigma' : null,
+    ].filter(Boolean).join(' and ');
+    graphContainer.innerHTML =
+      `<p style="padding:2em;color:#ccc">Mind-map viewer libraries failed to load: ${missing}.</p>`;
+    hideLoading();
+    return;
+  }
+
   const DATA = mindMapData;
+  const NODE_RADIUS_CLEARANCE_RATIO = 0.5;
+  const NODE_SCREEN_RADIUS_CAP = 5;
+  const NODE_SCREEN_RADIUS_MIN = 1;
+  const NODE_SCREEN_RADIUS_FALLBACK = 4.5;
+  const NODE_LABEL_FONT_SIZE = 11;
+  const NODE_LABEL_LINE_HEIGHT = 11.5;
 
   /* -------------------------------------------------------------------------
    * State
    * -------------------------------------------------------------------------*/
-  let cy = null;
+  let graph = null;
+  let renderer = null;
   let currentThreshold = DATA.meta.threshold;
   let activeCategories = new Set();
   let currentSearch = '';
   let pinnedNode = null;
+  let hoveredNode = null;
+  let hoveredEdge = null;
+  let focus = { active: false, nodes: new Set(), edges: new Set(), mode: null };
+  let theme = readTheme();
+  let nodeScreenRadius = NODE_SCREEN_RADIUS_FALLBACK;
 
   /* -------------------------------------------------------------------------
    * Utility
@@ -75,227 +106,88 @@
     return CATEGORY_COLORS[category] || CATEGORY_COLORS['Other'];
   }
 
+  function readTheme() {
+    const cs = getComputedStyle(document.body);
+    const v = name => cs.getPropertyValue(name).trim();
+    const alphaScale = parseFloat(v('--mm-edge-alpha-scale')) || 1;
+    return {
+      edgeColor: v('--mm-edge-color') || '#333333',
+      edgeHighlighted: normalizedCssColor(v('--mm-edge-highlighted')) || '#FFD54F',
+      edgeAlphaScale: alphaScale,
+    };
+  }
+
+  function normalizedCssColor(color) {
+    const c = String(color || '').trim();
+    return c && !c.startsWith('color-mix(') ? c : null;
+  }
+
+  function colorWithAlpha(color, alpha) {
+    const c = normalizedCssColor(color) || '#333333';
+    const a = Math.max(0, Math.min(alpha, 1));
+    let m;
+
+    if ((m = c.match(/^#([0-9a-f]{3})$/i))) {
+      const hex = m[1].split('').map(ch => ch + ch).join('');
+      return hexToRgba(hex, a);
+    }
+    if ((m = c.match(/^#([0-9a-f]{6})$/i))) {
+      return hexToRgba(m[1], a);
+    }
+    if ((m = c.match(/^rgba?\(([^)]+)\)$/i))) {
+      const parts = m[1].split(',').map(p => p.trim());
+      if (parts.length >= 3) return `rgba(${parts[0]},${parts[1]},${parts[2]},${a})`;
+    }
+
+    return a >= 1 ? c : `rgba(51,51,51,${a})`;
+  }
+
+  function hexToRgba(hex, alpha) {
+    const r = parseInt(hex.slice(0, 2), 16);
+    const g = parseInt(hex.slice(2, 4), 16);
+    const b = parseInt(hex.slice(4, 6), 16);
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+
+  function edgeSize(weight) {
+    const t = Math.max(0, Math.min((weight - 0.5) / 0.5, 1));
+    return 0.4 + t * 3.1;
+  }
+
+  function currentNodeRadius() {
+    return nodeScreenRadius;
+  }
+
   /* -------------------------------------------------------------------------
    * Format node label: split "Author [et al.] YEAR" onto two lines so the
    * text fits squarer over the circular node.
    * -------------------------------------------------------------------------*/
   function formatLabel(label) {
-    const m = label.match(/^(.+?)\s+(\d{4})$/);
-    return m ? `${m[1]}\n${m[2]}` : label;
+    const m = String(label || '').match(/^(.+?)\s+(\d{4})$/);
+    return m ? `${m[1]}\n${m[2]}` : String(label || '');
   }
 
-  /* -------------------------------------------------------------------------
-   * Build the Cytoscape element array respecting current filters
-   * -------------------------------------------------------------------------*/
-  function buildElements() {
-    const visibleNodes = DATA.nodes.filter(n => {
-      const key = n.data.sub_category || n.data.category;
-      return activeCategories.has(key);
-    });
-    const visibleIds = new Set(visibleNodes.map(n => n.data.id));
-
-    const nodesWithColor = visibleNodes.map(n => ({
-      data: { ...n.data, color: nodeColor(n.data.category, n.data.sub_category), label: formatLabel(n.data.label) },
-      position: n.position,
-    }));
-
-    const edges = DATA.edges.filter(e =>
-      e.data.weight >= currentThreshold &&
-      visibleIds.has(e.data.source) &&
-      visibleIds.has(e.data.target)
-    );
-
-    return [...nodesWithColor, ...edges];
+  function nodeKey(attrs) {
+    return attrs.sub_category || attrs.category;
   }
 
-  /* -------------------------------------------------------------------------
-   * Cytoscape stylesheet — reads CSS variables so it responds to theme changes
-   * -------------------------------------------------------------------------*/
-  function buildStylesheet() {
-    const cs = getComputedStyle(document.body);
-    const v  = name => cs.getPropertyValue(name).trim();
-
-    const alphaScale = parseFloat(v('--mm-edge-alpha-scale')) || 1;
-
-    return [
-      {
-        selector: 'node',
-        style: {
-          'background-color': 'data(color)',
-          'label': 'data(label)',
-          'font-size': 9,
-          'font-family': '"Atkinson Hyperlegible Next", "Segoe UI", sans-serif',
-          'color': '#ffffff',
-          'text-outline-color': 'data(color)',
-          'text-outline-width': 3,
-          'text-wrap': 'wrap',
-          'text-max-width': 110,
-          'text-valign': 'center',
-          'text-halign': 'center',
-          'width': 28,
-          'height': 28,
-          'border-width': 1.5,
-          'border-color': 'rgba(255,255,255,0.35)',
-          'min-zoomed-font-size': 6,
-        },
-      },
-      {
-        selector: 'node:selected',
-        style: { 'border-width': 4, 'border-color': '#FFD700' },
-      },
-      {
-        selector: 'node.highlighted',
-        style: { 'border-width': 3, 'border-color': '#FFD700', 'z-index': 10 },
-      },
-      {
-        selector: 'node.dimmed',
-        style: { 'opacity': 0.12 },
-      },
-      {
-        selector: 'edge',
-        style: {
-          'width': 'mapData(weight, 0.50, 1.00, 0.4, 3.5)',
-          'line-color': v('--mm-edge-color') || '#333333',
-          'opacity': ele => Math.min(ele.data('edgeAlpha') * alphaScale, 1),
-          'curve-style': 'haystack',
-        },
-      },
-      {
-        selector: 'edge.highlighted',
-        style: {
-          'line-color': v('--mm-edge-highlighted') || 'rgba(255,215,0,0.8)',
-          'width': 2.5,
-          'opacity': 1,
-          'z-index': 10,
-        },
-      },
-      {
-        selector: 'edge.dimmed',
-        style: { 'opacity': 0.04 },
-      },
-    ];
+  function nodeVisible(node) {
+    return activeCategories.has(nodeKey(graph.getNodeAttributes(node)));
   }
 
-  /* -------------------------------------------------------------------------
-   * Initialise Cytoscape
-   * -------------------------------------------------------------------------*/
-  function initCy() {
-    cy = cytoscape({
-      container: document.getElementById('cy'),
-      elements: buildElements(),
-      style: buildStylesheet(),
-      layout: { name: 'preset' },   // UMAP positions baked into each element
-      minZoom: 0.04,
-      maxZoom: 6,
-      wheelSensitivity: 0.25,
-      autoungrabify: true,
-      hideEdgesOnViewport: true,
-    });
-
-    hideLoading();
-
-    // Hover: show tooltip + dim others (skip if a node is pinned)
-    cy.on('mouseover', 'node', evt => {
-      if (pinnedNode) return;
-      showNodeTooltip(evt.target, evt.renderedPosition, false);
-      dimExcept(evt.target.closedNeighborhood());
-    });
-    cy.on('mouseout', 'node', () => {
-      if (pinnedNode) return;
-      hideTooltip();
-      clearDim();
-    });
-
-    // Hover on edge: show similarity tooltip (skip if a node is pinned)
-    cy.on('mouseover', 'edge', evt => {
-      if (pinnedNode) return;
-      showEdgeTooltip(evt.target, evt.renderedPosition);
-    });
-    cy.on('mouseout', 'edge', () => {
-      if (pinnedNode) return;
-      hideTooltip();
-    });
-
-    // Click: pin node (keep detail view open); clicking same node unpins
-    cy.on('tap', 'node', evt => {
-      const node = evt.target;
-      if (pinnedNode === node) {
-        pinnedNode = null;
-        hideTooltip();
-        clearDim();
-      } else {
-        pinnedNode = node;
-        showNodeTooltip(node, evt.renderedPosition, true);
-        dimExcept(node.closedNeighborhood());
-      }
-    });
-
-    // Click on background: clear pin + dim
-    cy.on('tap', evt => {
-      if (evt.target === cy) { pinnedNode = null; clearDim(); hideTooltip(); }
-    });
-
-    updateStats();
+  function edgeVisible(edge) {
+    const attrs = graph.getEdgeAttributes(edge);
+    return attrs.weight >= currentThreshold &&
+      nodeVisible(graph.source(edge)) &&
+      nodeVisible(graph.target(edge));
   }
 
-  /* -------------------------------------------------------------------------
-   * Tooltip
-   * -------------------------------------------------------------------------*/
-  const tooltip = document.getElementById('mm-tooltip');
-
-  function showNodeTooltip(node, pos, pinned) {
-    const d = node.data();
-    const authors = (d.authors || []).join(', ') || 'Unknown';
-    const tags = (d.tags || []).slice(0, 7).join(' · ');
-    const url = `../papers/${d.id}/`;
-    tooltip.innerHTML =
-      `<div class="tt-title">${escHtml(d.title)}</div>` +
-      `<a class="tt-link" href="${url}" target="_blank" rel="noopener">Open ↗</a>` +
-      `<div class="tt-meta">${escHtml(authors)}&nbsp;&nbsp;${d.year || ''}</div>` +
-      (tags ? `<div class="tt-tags">${escHtml(tags)}</div>` : '') +
-      (d.summary ? `<div class="tt-summary">${escHtml(d.summary)}</div>` : '') +
-      (!pinned ? `<div class="tt-hint">Click to pin</div>` : `<div class="tt-hint">Click node again to unpin</div>`);
-    tooltip.classList.toggle('pinned', pinned);
-    placeTooltip(pos);
+  function nodeMatchesSearch(attrs) {
+    if (!currentSearch) return false;
+    return attrs.title.toLowerCase().includes(currentSearch) ||
+      (attrs.tags || []).some(t => t.toLowerCase().includes(currentSearch)) ||
+      (attrs.summary || '').toLowerCase().includes(currentSearch);
   }
-
-  function showEdgeTooltip(edge, pos) {
-    const src = cy.getElementById(edge.data('source')).data('label') || '';
-    const tgt = cy.getElementById(edge.data('target')).data('label') || '';
-    const pct = (edge.data('weight') * 100).toFixed(1);
-    tooltip.innerHTML =
-      `<div class="tt-title">Similarity: ${pct}%</div>` +
-      `<div class="tt-meta">${escHtml(src)}</div>` +
-      `<div class="tt-meta">↔</div>` +
-      `<div class="tt-meta">${escHtml(tgt)}</div>`;
-    placeTooltip(pos);
-  }
-
-  function placeTooltip(pos) {
-    const MARGIN = 12;
-    const cy_rect = document.getElementById('cy').getBoundingClientRect();
-
-    // Make visible first so the browser lays out the content and we can measure it.
-    tooltip.classList.add('visible');
-    const W = tooltip.offsetWidth;
-    const H = tooltip.offsetHeight;
-
-    let x = cy_rect.left + pos.x + MARGIN;
-    let y = cy_rect.top  + pos.y + MARGIN;
-
-    // Prefer flipping to the other side before clamping.
-    if (x + W + MARGIN > window.innerWidth)  x = cy_rect.left + pos.x - W - MARGIN;
-    if (y + H + MARGIN > window.innerHeight) y = cy_rect.top  + pos.y - H - MARGIN;
-
-    // Hard clamp: never spill past any viewport edge.
-    x = Math.max(MARGIN, Math.min(x, window.innerWidth  - W - MARGIN));
-    y = Math.max(MARGIN, Math.min(y, window.innerHeight - H - MARGIN));
-
-    tooltip.style.left = `${x}px`;
-    tooltip.style.top  = `${y}px`;
-  }
-
-  function hideTooltip() { tooltip.classList.remove('visible', 'pinned'); }
 
   function escHtml(s) {
     return String(s)
@@ -306,81 +198,533 @@
   }
 
   /* -------------------------------------------------------------------------
-   * Highlight / dim helpers
+   * Build the Graphology graph. Sigma renders directly from node/edge attrs.
    * -------------------------------------------------------------------------*/
-  function dimExcept(keep) {
-    cy.batch(() => {
-      cy.elements().difference(keep).addClass('dimmed').removeClass('highlighted');
-      keep.addClass('highlighted').removeClass('dimmed');
-    });
-  }
+  function buildGraph() {
+    const GraphCtor = window.graphology.UndirectedGraph || window.graphology.Graph;
+    const g = new GraphCtor();
 
-  function clearDim() {
-    cy.batch(() => { cy.elements().removeClass('highlighted dimmed'); });
+    DATA.nodes.forEach(n => {
+      const attrs = n.data;
+      const color = nodeColor(attrs.category, attrs.sub_category);
+      g.addNode(attrs.id, {
+        ...attrs,
+        x: n.position.x,
+        y: n.position.y,
+        size: currentNodeRadius(),
+        color,
+        baseColor: color,
+        label: formatLabel(attrs.label),
+        fullLabel: attrs.label,
+        labelColor: '#ffffff',
+        labelOutlineColor: color,
+        forceLabel: false,
+      });
+    });
+
+    DATA.edges.forEach(e => {
+      const attrs = e.data;
+      const edgeAttrs = {
+        ...attrs,
+        size: edgeSize(attrs.weight),
+        color: colorWithAlpha(theme.edgeColor, Math.min((attrs.edgeAlpha || 0.2) * theme.edgeAlphaScale, 1)),
+        type: 'line',
+      };
+
+      if (typeof g.addUndirectedEdgeWithKey === 'function') {
+        g.addUndirectedEdgeWithKey(attrs.id, attrs.source, attrs.target, edgeAttrs);
+      } else {
+        g.addEdgeWithKey(attrs.id, attrs.source, attrs.target, edgeAttrs);
+      }
+    });
+
+    return g;
   }
 
   /* -------------------------------------------------------------------------
-   * Threshold slider — show/hide edges without re-layout
+   * Sigma reducers: apply filtering, dimming and highlights at render time.
+   * -------------------------------------------------------------------------*/
+  function nodeReducer(node, attrs) {
+    if (!nodeVisible(node)) return { ...attrs, hidden: true };
+
+    const highlighted = focus.nodes.has(node);
+    const dimmed = focus.active && !highlighted;
+    const forceLabel =
+      node === pinnedNode ||
+      node === hoveredNode ||
+      (highlighted && focus.mode === 'edge');
+
+    if (dimmed) {
+      return {
+        ...attrs,
+        size: currentNodeRadius(),
+        color: colorWithAlpha(attrs.baseColor, 0.16),
+        labelColor: colorWithAlpha('#ffffff', 0.28),
+        labelOutlineColor: colorWithAlpha(attrs.baseColor, 0.18),
+        forceLabel: false,
+        zIndex: 0,
+      };
+    }
+
+    if (highlighted) {
+      return {
+        ...attrs,
+        size: currentNodeRadius(),
+        labelOutlineColor: theme.edgeHighlighted,
+        forceLabel,
+        zIndex: 3,
+      };
+    }
+
+    return {
+      ...attrs,
+      size: currentNodeRadius(),
+      color: attrs.baseColor,
+      labelColor: '#ffffff',
+      labelOutlineColor: attrs.baseColor,
+      forceLabel: false,
+      zIndex: 1,
+    };
+  }
+
+  function edgeReducer(edge, attrs) {
+    if (!edgeVisible(edge)) return { ...attrs, hidden: true };
+
+    const highlighted = focus.edges.has(edge);
+    const dimmed = focus.active && !highlighted;
+    const baseAlpha = Math.min((attrs.edgeAlpha || 0.2) * theme.edgeAlphaScale, 1);
+
+    if (dimmed) {
+      return {
+        ...attrs,
+        color: colorWithAlpha(theme.edgeColor, 0.04),
+        size: Math.max(attrs.size * 0.45, 0.25),
+        zIndex: 0,
+      };
+    }
+
+    if (highlighted) {
+      return {
+        ...attrs,
+        color: theme.edgeHighlighted,
+        size: Math.max(attrs.size, 2.5),
+        zIndex: 2,
+      };
+    }
+
+    return {
+      ...attrs,
+      color: colorWithAlpha(theme.edgeColor, baseAlpha),
+      size: attrs.size,
+      zIndex: 1,
+    };
+  }
+
+  function drawNodeLabel(context, data) {
+    if (!data.label) return;
+
+    const lines = String(data.label).split('\n');
+    const startY = data.y - ((lines.length - 1) * NODE_LABEL_LINE_HEIGHT) / 2;
+
+    context.save();
+    context.font = `650 ${NODE_LABEL_FONT_SIZE}px "Atkinson Hyperlegible Next", "Segoe UI", sans-serif`;
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    context.lineJoin = 'round';
+    context.miterLimit = 2;
+    context.lineWidth = 3.25;
+    context.strokeStyle = data.labelOutlineColor || data.color || '#000000';
+    context.fillStyle = data.labelColor || '#ffffff';
+
+    lines.forEach((line, i) => {
+      const y = startY + i * NODE_LABEL_LINE_HEIGHT;
+      context.strokeText(line, data.x, y);
+      context.fillText(line, data.x, y);
+    });
+
+    context.restore();
+  }
+
+  /* -------------------------------------------------------------------------
+   * Focus helpers
+   * -------------------------------------------------------------------------*/
+  function setNeighborhoodFocus(node, mode) {
+    const nodes = new Set([node]);
+    const edges = new Set();
+
+    graph.forEachNeighbor(node, neighbor => {
+      if (nodeVisible(neighbor)) nodes.add(neighbor);
+    });
+
+    graph.forEachEdge(node, edge => {
+      if (edgeVisible(edge)) edges.add(edge);
+    });
+
+    focus = { active: true, nodes, edges, mode };
+  }
+
+  function setEdgeFocus(edge) {
+    if (!edgeVisible(edge)) {
+      focus = { active: false, nodes: new Set(), edges: new Set(), mode: null };
+      return;
+    }
+    focus = {
+      active: true,
+      nodes: new Set([graph.source(edge), graph.target(edge)]),
+      edges: new Set([edge]),
+      mode: 'edge',
+    };
+  }
+
+  function applySearchFocus() {
+    const nodes = new Set();
+
+    graph.forEachNode((node, attrs) => {
+      if (nodeVisible(node) && nodeMatchesSearch(attrs)) nodes.add(node);
+    });
+
+    focus = {
+      active: currentSearch.length > 0,
+      nodes,
+      edges: new Set(),
+      mode: currentSearch.length > 0 ? 'search' : null,
+    };
+  }
+
+  function recomputeFocus() {
+    if (pinnedNode) {
+      setNeighborhoodFocus(pinnedNode, 'pinned');
+    } else if (hoveredNode) {
+      setNeighborhoodFocus(hoveredNode, 'hover');
+    } else if (hoveredEdge) {
+      setEdgeFocus(hoveredEdge);
+    } else {
+      applySearchFocus();
+    }
+  }
+
+  function refreshView() {
+    recomputeFocus();
+    if (renderer) renderer.scheduleRefresh();
+    updateStats();
+  }
+
+  /* -------------------------------------------------------------------------
+   * Initialise Sigma
+   * -------------------------------------------------------------------------*/
+  function initSigma() {
+    graph = buildGraph();
+
+    try {
+      renderer = new window.Sigma(graph, graphContainer, {
+        minCameraRatio: 0.04,
+        maxCameraRatio: 6,
+        zIndex: true,
+        enableEdgeEvents: true,
+        hideEdgesOnMove: true,
+        renderLabels: true,
+        renderEdgeLabels: false,
+        labelRenderedSizeThreshold: 0,
+        labelDensity: 1,
+        labelGridCellSize: 100,
+        labelFont: '"Atkinson Hyperlegible Next", "Segoe UI", sans-serif',
+        labelSize: NODE_LABEL_FONT_SIZE,
+        itemSizesReference: 'screen',
+        zoomToSizeRatioFunction: ratio => Math.max(ratio, 1e-6),
+        stagePadding: 30,
+        nodeReducer,
+        edgeReducer,
+        defaultDrawNodeLabel: drawNodeLabel,
+      });
+    } catch (err) {
+      const rawMessage = err && err.message ? err.message : String(err);
+      const message = rawMessage.includes('blendFunc')
+        ? 'WebGL is unavailable or disabled in this browser.'
+        : rawMessage;
+      if (window.console && console.error) console.error('Mind-map viewer failed to initialise:', err);
+      graphContainer.innerHTML =
+        `<p style="padding:2em;color:#ccc">Mind-map viewer failed to initialise: ${escHtml(message)}</p>`;
+      hideLoading();
+      return;
+    }
+
+    hideLoading();
+    setupGraphEvents();
+    updateStats();
+    window.setTimeout(() => fitVisible(0), 0);
+  }
+
+  function setupGraphEvents() {
+    renderer.on('enterNode', payload => {
+      if (pinnedNode) return;
+      hoveredNode = payload.node;
+      hoveredEdge = null;
+      showNodeTooltip(payload.node, eventPosition(payload), false);
+      refreshView();
+    });
+
+    renderer.on('leaveNode', () => {
+      if (pinnedNode) return;
+      hoveredNode = null;
+      hideTooltip();
+      refreshView();
+    });
+
+    renderer.on('enterEdge', payload => {
+      if (pinnedNode) return;
+      hoveredEdge = payload.edge;
+      hoveredNode = null;
+      showEdgeTooltip(payload.edge, eventPosition(payload));
+      refreshView();
+    });
+
+    renderer.on('leaveEdge', () => {
+      if (pinnedNode) return;
+      hoveredEdge = null;
+      hideTooltip();
+      refreshView();
+    });
+
+    renderer.on('clickNode', payload => {
+      const node = payload.node;
+      if (pinnedNode === node) {
+        pinnedNode = null;
+        hoveredNode = null;
+        hideTooltip();
+      } else {
+        pinnedNode = node;
+        hoveredNode = null;
+        hoveredEdge = null;
+        showNodeTooltip(node, eventPosition(payload), true);
+      }
+      refreshView();
+    });
+
+    renderer.on('clickStage', () => {
+      pinnedNode = null;
+      hoveredNode = null;
+      hoveredEdge = null;
+      hideTooltip();
+      refreshView();
+    });
+  }
+
+  function eventPosition(payload) {
+    if (payload && payload.event) return { x: payload.event.x, y: payload.event.y };
+    return { x: graphContainer.clientWidth / 2, y: graphContainer.clientHeight / 2 };
+  }
+
+  /* -------------------------------------------------------------------------
+   * Tooltip
+   * -------------------------------------------------------------------------*/
+  const tooltip = document.getElementById('mm-tooltip');
+
+  function showNodeTooltip(node, pos, pinned) {
+    const d = graph.getNodeAttributes(node);
+    const authors = (d.authors || []).join(', ') || 'Unknown';
+    const tags = (d.tags || []).slice(0, 7).join(' · ');
+    const url = `../papers/${d.id}/`;
+    tooltip.innerHTML =
+      `<div class="tt-title">${escHtml(d.title)}</div>` +
+      `<a class="tt-link" href="${url}" target="_blank" rel="noopener">Open -&gt;</a>` +
+      `<div class="tt-meta">${escHtml(authors)}&nbsp;&nbsp;${d.year || ''}</div>` +
+      (tags ? `<div class="tt-tags">${escHtml(tags)}</div>` : '') +
+      (d.summary ? `<div class="tt-summary">${escHtml(d.summary)}</div>` : '') +
+      (!pinned ? `<div class="tt-hint">Click to pin</div>` : `<div class="tt-hint">Click node again to unpin</div>`);
+    tooltip.classList.toggle('pinned', pinned);
+    placeTooltip(pos);
+  }
+
+  function showEdgeTooltip(edge, pos) {
+    const src = graph.getNodeAttribute(graph.source(edge), 'fullLabel') || '';
+    const tgt = graph.getNodeAttribute(graph.target(edge), 'fullLabel') || '';
+    const pct = (graph.getEdgeAttribute(edge, 'weight') * 100).toFixed(1);
+    tooltip.innerHTML =
+      `<div class="tt-title">Similarity: ${pct}%</div>` +
+      `<div class="tt-meta">${escHtml(src)}</div>` +
+      `<div class="tt-meta">&lt;-&gt;</div>` +
+      `<div class="tt-meta">${escHtml(tgt)}</div>`;
+    placeTooltip(pos);
+  }
+
+  function placeTooltip(pos) {
+    const MARGIN = 12;
+    const graphRect = graphContainer.getBoundingClientRect();
+
+    tooltip.classList.add('visible');
+    const W = tooltip.offsetWidth;
+    const H = tooltip.offsetHeight;
+
+    let x = graphRect.left + pos.x + MARGIN;
+    let y = graphRect.top + pos.y + MARGIN;
+
+    if (x + W + MARGIN > window.innerWidth) x = graphRect.left + pos.x - W - MARGIN;
+    if (y + H + MARGIN > window.innerHeight) y = graphRect.top + pos.y - H - MARGIN;
+
+    x = Math.max(MARGIN, Math.min(x, window.innerWidth - W - MARGIN));
+    y = Math.max(MARGIN, Math.min(y, window.innerHeight - H - MARGIN));
+
+    tooltip.style.left = `${x}px`;
+    tooltip.style.top = `${y}px`;
+  }
+
+  function hideTooltip() {
+    tooltip.classList.remove('visible', 'pinned');
+  }
+
+  /* -------------------------------------------------------------------------
+   * Filters
    * -------------------------------------------------------------------------*/
   function applyThreshold(t) {
     currentThreshold = t;
-    cy.batch(() => {
-      cy.edges().forEach(e => {
-        const show = e.data('weight') >= t &&
-          cy.getElementById(e.data('source')).style('display') !== 'none' &&
-          cy.getElementById(e.data('target')).style('display') !== 'none';
-        e.style('display', show ? 'element' : 'none');
-      });
-    });
-    updateStats();
+    refreshView();
   }
 
-  /* -------------------------------------------------------------------------
-   * Category filter — show/hide nodes + their edges
-   * -------------------------------------------------------------------------*/
   function applyCategoryFilter() {
-    cy.batch(() => {
-      cy.nodes().forEach(n => {
-        const key = n.data('sub_category') || n.data('category');
-        n.style('display', activeCategories.has(key) ? 'element' : 'none');
-      });
-      cy.edges().forEach(e => {
-        const srcOk = cy.getElementById(e.data('source')).style('display') !== 'none';
-        const tgtOk = cy.getElementById(e.data('target')).style('display') !== 'none';
-        e.style('display', srcOk && tgtOk && e.data('weight') >= currentThreshold ? 'element' : 'none');
-      });
-    });
-    updateStats();
+    if (pinnedNode && !nodeVisible(pinnedNode)) {
+      pinnedNode = null;
+      hideTooltip();
+    }
+    refreshView();
   }
 
-  /* -------------------------------------------------------------------------
-   * Search — highlight matching nodes, dim everything else
-   * -------------------------------------------------------------------------*/
   function applySearch(query) {
     currentSearch = query.toLowerCase().trim();
-    if (!currentSearch) { clearDim(); return; }
-    cy.batch(() => {
-      cy.nodes().forEach(n => {
-        const d = n.data();
-        const match =
-          d.title.toLowerCase().includes(currentSearch) ||
-          (d.tags || []).some(t => t.toLowerCase().includes(currentSearch)) ||
-          (d.summary || '').toLowerCase().includes(currentSearch);
-        if (match) n.removeClass('dimmed').addClass('highlighted');
-        else        n.removeClass('highlighted').addClass('dimmed');
-      });
-      cy.edges().addClass('dimmed').removeClass('highlighted');
-    });
+    refreshView();
   }
 
   /* -------------------------------------------------------------------------
    * Stats
    * -------------------------------------------------------------------------*/
   function updateStats() {
-    const vn = cy.nodes().filter(n => n.style('display') !== 'none').length;
-    const ve = cy.edges().filter(e => e.style('display') !== 'none').length;
+    if (!graph) return;
+
+    let vn = 0;
+    let ve = 0;
+
+    graph.forEachNode(node => {
+      if (nodeVisible(node)) vn += 1;
+    });
+    graph.forEachEdge(edge => {
+      if (edgeVisible(edge)) ve += 1;
+    });
+
     document.getElementById('mm-node-count').textContent = vn;
     document.getElementById('mm-edge-count').textContent = ve;
+  }
+
+  /* -------------------------------------------------------------------------
+   * Fit to visible graph, leaving space for the overlay panel when open.
+   * -------------------------------------------------------------------------*/
+  function visibleBBox() {
+    let xmin = Infinity;
+    let xmax = -Infinity;
+    let ymin = Infinity;
+    let ymax = -Infinity;
+
+    graph.forEachNode((node, attrs) => {
+      if (!nodeVisible(node)) return;
+      xmin = Math.min(xmin, attrs.x);
+      xmax = Math.max(xmax, attrs.x);
+      ymin = Math.min(ymin, attrs.y);
+      ymax = Math.max(ymax, attrs.y);
+    });
+
+    if (!Number.isFinite(xmin)) return null;
+
+    if (xmin === xmax) {
+      xmin -= 1;
+      xmax += 1;
+    }
+    if (ymin === ymax) {
+      ymin -= 1;
+      ymax += 1;
+    }
+
+    return { x: [xmin, xmax], y: [ymin, ymax] };
+  }
+
+  function minimumVisibleScreenDistance(cameraState) {
+    if (!renderer || !graph) return Infinity;
+
+    const points = [];
+    graph.forEachNode((node, attrs) => {
+      if (!nodeVisible(node)) return;
+      const p = renderer.graphToViewport(
+        { x: attrs.x, y: attrs.y },
+        cameraState ? { cameraState } : undefined
+      );
+      points.push(p);
+    });
+
+    let minDistance = Infinity;
+    for (let i = 0; i < points.length; i += 1) {
+      const a = points[i];
+      for (let j = i + 1; j < points.length; j += 1) {
+        const b = points[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < minDistance) minDistance = d;
+      }
+    }
+
+    return minDistance;
+  }
+
+  function calibrateNodeRadius(cameraState) {
+    const minDistance = minimumVisibleScreenDistance(cameraState);
+    if (!Number.isFinite(minDistance)) return;
+
+    const target = minDistance / (2 + NODE_RADIUS_CLEARANCE_RATIO);
+    const nextRadius = Math.max(
+      NODE_SCREEN_RADIUS_MIN,
+      Math.min(NODE_SCREEN_RADIUS_CAP, Math.floor(target * 10) / 10)
+    );
+
+    if (Math.abs(nextRadius - nodeScreenRadius) < 0.05) return;
+
+    nodeScreenRadius = nextRadius;
+    if (renderer) renderer.refresh();
+  }
+
+  function fitVisible(duration) {
+    if (!renderer || !graph) return;
+
+    const bbox = visibleBBox();
+    if (!bbox) return;
+
+    const PAD = 30;
+    const dims = renderer.getDimensions();
+    const panel = document.getElementById('mm-panel');
+    const panelOpen = panel && !panel.classList.contains('body-collapsed');
+    const panelWidth = panelOpen ? Math.min(panel.offsetWidth || 0, Math.max(0, dims.width - PAD * 2)) : 0;
+    const left = panelWidth + PAD;
+    const right = dims.width - PAD;
+    const stagePadding = PAD;
+    const desiredX = left < right ? (left + right) / 2 : dims.width / 2;
+    const desiredY = dims.height / 2;
+    const resetState = { x: 0.5, y: 0.5, ratio: 1, angle: 0 };
+
+    renderer.setCustomBBox(bbox);
+    renderer.setSetting('stagePadding', stagePadding);
+
+    const framedAtDesiredCenter = renderer.viewportToFramedGraph(
+      { x: desiredX, y: desiredY },
+      { cameraState: resetState, padding: stagePadding }
+    );
+
+    const target = {
+      x: 1 - framedAtDesiredCenter.x,
+      y: 1 - framedAtDesiredCenter.y,
+      ratio: 1,
+      angle: 0,
+    };
+
+    calibrateNodeRadius(target);
+
+    if (duration === 0) renderer.getCamera().setState(target);
+    else renderer.getCamera().animate(target, { duration: duration || 260 });
   }
 
   /* -------------------------------------------------------------------------
@@ -396,7 +740,7 @@
       `<span class="mm-cat-count">${count}</span>`;
     label.querySelector('input').addEventListener('change', e => {
       if (e.target.checked) activeCategories.add(key);
-      else                   activeCategories.delete(key);
+      else activeCategories.delete(key);
       if (onChildChange) onChildChange();
       applyCategoryFilter();
     });
@@ -422,7 +766,6 @@
       dataSubCatSet.forEach(s => { if (!subCats.includes(s)) subCats.push(s); });
 
       if (subCats.length > 0) {
-        // Render as a collapsible group with nested sub-category items
         const groupEl = document.createElement('div');
         groupEl.className = 'mm-cat-group';
 
@@ -467,7 +810,7 @@
           itemsEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
             cb.checked = groupCb.checked;
             if (groupCb.checked) activeCategories.add(cb.dataset.cat);
-            else                 activeCategories.delete(cb.dataset.cat);
+            else activeCategories.delete(cb.dataset.cat);
           });
           applyCategoryFilter();
         });
@@ -479,7 +822,6 @@
           itemsEl.appendChild(makeCatItem(subCat, color, count, syncGroupCb));
         });
 
-        // Fallback: papers in this category without a sub_category
         const orphanCount = DATA.nodes.filter(n => n.data.category === cat && !n.data.sub_category).length;
         if (orphanCount > 0) {
           activeCategories.add(cat);
@@ -502,18 +844,16 @@
    * Wire up controls
    * -------------------------------------------------------------------------*/
   function setupControls() {
-    // Threshold slider
     const slider = document.getElementById('mm-threshold-slider');
-    const label  = document.getElementById('mm-threshold-val');
+    const label = document.getElementById('mm-threshold-val');
     slider.value = Math.round(currentThreshold * 100);
     label.textContent = currentThreshold.toFixed(2);
     slider.addEventListener('input', e => {
-      const t = parseInt(e.target.value) / 100;
+      const t = parseInt(e.target.value, 10) / 100;
       label.textContent = t.toFixed(2);
       applyThreshold(t);
     });
 
-    // Search
     const search = document.getElementById('mm-search');
     let debounce;
     search.addEventListener('input', e => {
@@ -521,7 +861,6 @@
       debounce = setTimeout(() => applySearch(e.target.value), 180);
     });
 
-    // Select all / none categories
     document.getElementById('mm-all-cats').addEventListener('click', () => {
       document.querySelectorAll('#mm-category-filters input[data-cat]').forEach(cb => {
         cb.checked = true;
@@ -533,6 +872,7 @@
       });
       applyCategoryFilter();
     });
+
     document.getElementById('mm-no-cats').addEventListener('click', () => {
       document.querySelectorAll('#mm-category-filters input[data-cat]').forEach(cb => {
         cb.checked = false;
@@ -544,6 +884,18 @@
       });
       applyCategoryFilter();
     });
+
+    document.getElementById('mm-fit-btn').addEventListener('click', () => fitVisible());
+
+    const panel = document.getElementById('mm-panel');
+    const header = document.getElementById('mm-panel-header');
+    const hideBtn = document.getElementById('mm-panel-hide-btn');
+    header.addEventListener('click', () => {
+      const collapsed = panel.classList.toggle('body-collapsed');
+      hideBtn.textContent = collapsed ? 'Show Settings' : 'Hide Settings';
+      header.title = collapsed ? 'Show Settings' : 'Hide Settings';
+      window.setTimeout(() => fitVisible(), 280);
+    });
   }
 
   /* -------------------------------------------------------------------------
@@ -551,23 +903,35 @@
    * -------------------------------------------------------------------------*/
   buildCategoryFilters();
   setupControls();
-  initCy();
+  initSigma();
 
-  // Re-apply Cytoscape stylesheet when MkDocs switches light ↔ dark
-  const _themeObserver = new MutationObserver(() => {
-    if (cy) cy.style(buildStylesheet());
+  const themeObserver = new MutationObserver(() => {
+    theme = readTheme();
+    if (renderer) renderer.refresh();
   });
-  _themeObserver.observe(document.documentElement, {
+  themeObserver.observe(document.documentElement, {
     attributes: true, attributeFilter: ['data-md-color-scheme'],
   });
-  // Also observe body in case MkDocs sets the attribute there
   if (document.body) {
-    _themeObserver.observe(document.body, {
+    themeObserver.observe(document.body, {
       attributes: true, attributeFilter: ['data-md-color-scheme'],
     });
   }
 
-  // Expose for debugging
-  window._cy = () => cy;
+  window.addEventListener('resize', () => {
+    if (renderer) window.setTimeout(() => fitVisible(0), 0);
+  });
+
+  // Expose a small debugging/control surface.
+  window._mindMap = {
+    graph: () => graph,
+    renderer: () => renderer,
+    fit: fitVisible,
+    metrics: () => ({
+      nodeScreenRadius,
+      minimumVisibleScreenDistance: minimumVisibleScreenDistance(),
+      clearanceRatio: NODE_RADIUS_CLEARANCE_RATIO,
+    }),
+  };
 
 })();

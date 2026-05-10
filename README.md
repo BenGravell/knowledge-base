@@ -44,7 +44,7 @@ mkdocs gh-deploy
 
 ## Mind Map
 
-Mind Map uses similarity between LLM embeddings of paper core content (title, abstracts, tags, and summary) to form edges between papers and displays the resulting graph using [Cytoscape.js](https://js.cytoscape.org/)
+Mind Map uses similarity between LLM embeddings of paper core content (title, abstracts, tags, and summary) to form edges between papers and displays the resulting graph using [Sigma.js](https://www.sigmajs.org/) with [Graphology](https://graphology.github.io/).
 
 (Re)generate embeddings with
 
