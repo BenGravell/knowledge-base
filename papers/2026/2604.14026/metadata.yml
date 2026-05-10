@@ -1,6 +1,6 @@
 title: >
   Scale-Invariant Sampling in Multi-Arm Bandit Motion Planning for Object Extraction
-algorithm:
+algorithm: MAB-RRT
 authors:
   - Servet B. Bayraktar
   - Andreas Orthey
