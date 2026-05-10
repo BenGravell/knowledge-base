@@ -9,6 +9,7 @@ plugins:
       scripts:
         - generate_papers.py
         - mind_map/copy_assets.py
+        - content_tree/generate_content_tree_data.py
 
 theme:
   name: material
@@ -91,6 +92,7 @@ nav:
       - Waymo AI: explainers/waymo_ai.md
       - Adversarial Training and Robot Safety: explainers/adversarial_training_robot_safety.md
   - Content Tree:
+    - Overview: content-tree.md
     - Motion Planning:
       - Path Planning:
         - Geometric Planning:

@@ -66,13 +66,15 @@ https://labs.utdallas.edu/conlab/resources/
 
 ## Content tree
 
-feature: Create a large form thing for the Content Tree landing page that enables users to ergonomically traverse the tree.
-Key mechanism is hiding branches that are not on the currently node ancestor chain and emphasizing the current node over ancestors and successors
+Keep sidebar menu visible.
 
-Add a verbiage info statement that the content tree is just my personal interpretation of organizing items in a hierarchical way, and that multiple alternative organizations are possible, and that content does not literally have a tree structure and other associations exist in a more general graph.
+Hide or make disclaimer box less obnoxious.
 
-Then what is the value of a tree if the true info associations are more general?
-- It provides structure for newcomers and encode some opinion (my own) about the most relevant/important connections
+Make Content Tree just go directly into the applet (currently called Overview).
+Integrate the directory-style structure into the applet (expanding only branch+current ancestors hiding all else based on currently active branch) - this should be integrated in to the existing "Path" left sidebar, making the non-active branches visible/expandable/openable with de-emphasized visual style (greys, lower opacity value, etc)
+
+Move Content Tree to just after Mind Map in the sidebar. Explainers go last.
+
 
 ## Mind Map
 
