@@ -1,0 +1,572 @@
+#!/usr/bin/env python3
+"""Browser smoke checks for the MkDocs/Sigma mind-map page.
+
+The script talks to a local Chrome/Chromium instance over the Chrome DevTools
+Protocol using only the Python standard library. It expects a served MkDocs
+site URL, e.g. http://127.0.0.1:8123/mind-map/.
+"""
+
+from __future__ import annotations
+
+import argparse
+import base64
+import json
+import os
+import secrets
+import shutil
+import socket
+import struct
+import subprocess
+import sys
+import tempfile
+import time
+import urllib.request
+from dataclasses import dataclass
+from typing import Any
+from urllib.parse import quote, urlparse
+
+
+JS_CHECKS = r"""
+(async () => {
+  const failures = [];
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+  const assert = (condition, message, detail) => {
+    if (!condition) failures.push(detail ? `${message}: ${detail}` : message);
+  };
+  const colorIsWhite = color => {
+    const c = String(color || '').trim().toLowerCase();
+    return c === 'white' || c === '#fff' || c === '#ffffff' ||
+      /^rgba?\(\s*255\s*,\s*255\s*,\s*255(?:\s*,\s*(?:1(?:\.0)?|0?\.\d+))?\s*\)$/.test(c);
+  };
+  const colorAlpha = color => {
+    const c = String(color || '').trim();
+    const rgba = c.match(/^rgba?\(([^)]+)\)$/i);
+    if (!rgba) return c ? 1 : 0;
+    const parts = rgba[1].split(',').map(part => part.trim());
+    return parts.length >= 4 ? Number(parts[3]) : 1;
+  };
+  const edgeAlphaStats = edgeIds => {
+    const alphas = edgeIds
+      .map(id => renderer.getEdgeDisplayData(id))
+      .filter(Boolean)
+      .map(edge => colorAlpha(edge.color))
+      .filter(Number.isFinite)
+      .sort((a, b) => a - b);
+    const pick = p => alphas[Math.min(alphas.length - 1, Math.max(0, Math.floor((alphas.length - 1) * p)))] || 0;
+    return {
+      min: alphas[0] || 0,
+      p10: pick(0.10),
+      median: pick(0.50),
+      p90: pick(0.90),
+      max: alphas[alphas.length - 1] || 0,
+      count: alphas.length,
+    };
+  };
+  const setScheme = scheme => {
+    document.documentElement.setAttribute('data-md-color-scheme', scheme);
+    document.body.setAttribute('data-md-color-scheme', scheme);
+  };
+  const cssVar = name => getComputedStyle(document.body).getPropertyValue(name).trim();
+  const mm = window._mindMap;
+  const graph = mm && mm.graph && mm.graph();
+  const renderer = mm && mm.renderer && mm.renderer();
+  const graphEl = document.getElementById('mm-graph');
+  const panel = document.getElementById('mm-panel');
+
+  assert(Boolean(mm && graph && renderer && graphEl), 'mind map debug surface is available');
+  if (!(mm && graph && renderer && graphEl)) return { failures };
+
+  const visibleNodes = () => graph.nodes().filter(id => {
+    const data = renderer.getNodeDisplayData(id);
+    return data && !data.hidden;
+  });
+  const visibleEdges = () => graph.edges().filter(id => {
+    const data = renderer.getEdgeDisplayData(id);
+    return data && !data.hidden;
+  });
+  const viewportBBox = () => {
+    const ids = visibleNodes();
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+    ids.forEach(id => {
+      const attrs = graph.getNodeAttributes(id);
+      const point = renderer.graphToViewport({ x: attrs.x, y: attrs.y });
+      if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) return;
+      minX = Math.min(minX, point.x);
+      minY = Math.min(minY, point.y);
+      maxX = Math.max(maxX, point.x);
+      maxY = Math.max(maxY, point.y);
+    });
+    return {
+      minX, minY, maxX, maxY,
+      width: graphEl.clientWidth,
+      height: graphEl.clientHeight,
+      count: ids.length,
+      panelOpen: Boolean(panel && !panel.classList.contains('body-collapsed')),
+      panelWidth: panel ? panel.offsetWidth : 0,
+    };
+  };
+
+  renderer.refresh();
+  await sleep(80);
+
+  const settings = renderer.getSettings();
+  assert(settings.enableCameraRotation === false, 'camera rotation setting is disabled');
+  assert(settings.minEdgeThickness <= 0.5, 'minimum edge thickness is subdued', settings.minEdgeThickness);
+
+  const camera = renderer.getCamera();
+  const originalAngle = camera.getState().angle;
+  camera.setState({ angle: originalAngle + 0.75 });
+  await sleep(30);
+  assert(Math.abs(camera.getState().angle - originalAngle) < 1e-8, 'camera rejects rotation changes');
+
+  let nodes = visibleNodes();
+  let edges = visibleEdges();
+  assert(nodes.length > 20, 'visible node count is plausible', nodes.length);
+  assert(edges.length > 20, 'visible edge count is plausible', edges.length);
+
+  setScheme('default');
+  await sleep(90);
+  renderer.refresh();
+  await sleep(50);
+  edges = visibleEdges();
+  const defaultEdge = edges.length ? renderer.getEdgeDisplayData(edges[0]) : null;
+  const defaultEdgeAlphaStats = edgeAlphaStats(edges);
+  assert(!colorIsWhite(cssVar('--mm-edge-color')), 'default theme edge variable is not white', cssVar('--mm-edge-color'));
+  assert(defaultEdge && !colorIsWhite(defaultEdge.color), 'default rendered edge is not white', defaultEdge && defaultEdge.color);
+  assert(defaultEdgeAlphaStats.min >= 0.13,
+    'default rendered edges have a visible opacity floor', JSON.stringify(defaultEdgeAlphaStats));
+  assert(defaultEdgeAlphaStats.median >= 0.14,
+    'default rendered edges have visible median opacity', JSON.stringify(defaultEdgeAlphaStats));
+  assert(defaultEdge && defaultEdge.size <= 1.25, 'default rendered edge width is restrained', defaultEdge && defaultEdge.size);
+
+  setScheme('slate');
+  await sleep(90);
+  renderer.refresh();
+  await sleep(50);
+  const slateEdge = edges.length ? renderer.getEdgeDisplayData(edges[0]) : null;
+  const slateEdgeAlphaStats = edgeAlphaStats(edges);
+  assert(!colorIsWhite(cssVar('--mm-edge-color')), 'slate theme edge variable is not pure white', cssVar('--mm-edge-color'));
+  assert(slateEdge && !colorIsWhite(slateEdge.color), 'slate rendered edge is not pure white', slateEdge && slateEdge.color);
+  assert(slateEdgeAlphaStats.median <= 0.04,
+    'slate rendered edges stay quiet at median opacity', JSON.stringify(slateEdgeAlphaStats));
+  assert(slateEdgeAlphaStats.max <= 0.085,
+    'slate rendered edges stay subdued at the high end', JSON.stringify(slateEdgeAlphaStats));
+
+  setScheme('default');
+  await sleep(90);
+  renderer.refresh();
+  await sleep(50);
+
+  nodes = visibleNodes();
+  const target = nodes[Math.floor(nodes.length / 2)];
+  const other = nodes.find(id => id !== target);
+  const otherBase = other ? graph.getNodeAttribute(other, 'baseColor') : null;
+  renderer.emit('clickNode', { node: target, event: { x: graphEl.clientWidth / 2, y: graphEl.clientHeight / 2 } });
+  await sleep(120);
+  renderer.refresh();
+  await sleep(60);
+
+  const selected = renderer.getNodeDisplayData(target);
+  const muted = other ? renderer.getNodeDisplayData(other) : null;
+  const selectedRing = cssVar('--mm-selected-ring').toLowerCase();
+  const mutedColors = [
+    cssVar('--mm-node-muted').toLowerCase(),
+    cssVar('--mm-node-muted-related').toLowerCase(),
+  ];
+
+  assert(selected && String(selected.labelColor).toLowerCase() === '#111111',
+    'selected node label uses black text', selected && selected.labelColor);
+  assert(selected && String(selected.labelOutlineColor).toLowerCase() === selectedRing,
+    'selected node label outline uses the gold emphasis color',
+    selected && `${selected.labelOutlineColor} vs ${selectedRing}`);
+  assert(selected && selected.highlighted === true, 'selected node is marked for ring rendering');
+  assert(muted && String(muted.color).toLowerCase() !== String(otherBase).toLowerCase(),
+    'non-selected node loses its category color while focus is active',
+    muted && `${muted.color} vs ${otherBase}`);
+  assert(muted && mutedColors.includes(String(muted.color).toLowerCase()),
+    'non-selected node uses one of the muted grey colors',
+    muted && `${muted.color} not in ${mutedColors.join(', ')}`);
+
+  renderer.emit('clickStage', {});
+  await sleep(80);
+
+  camera.setState({ x: 0, y: 0, ratio: 5 });
+  await sleep(30);
+  document.getElementById('mm-fit-btn').click();
+  await sleep(420);
+  const buttonFitState = camera.getState();
+  assert(buttonFitState.ratio <= 1.15, 'Fit View button returns the camera to fitted zoom', buttonFitState.ratio);
+
+  camera.setState({ x: 0, y: 0, ratio: 5 });
+  await sleep(30);
+  mm.fit(0);
+  await sleep(120);
+  renderer.refresh();
+  await sleep(60);
+  const fitted = viewportBBox();
+  const reservePanel = fitted.panelOpen && fitted.panelWidth < fitted.width * 0.72 ? fitted.panelWidth : 0;
+  const slack = 40;
+  assert(fitted.count > 20, 'fit check has visible nodes', fitted.count);
+  assert(fitted.minX >= reservePanel + 20 - slack,
+    'fit keeps visible nodes clear of the left/panel side', JSON.stringify(fitted));
+  assert(fitted.maxX <= fitted.width - 20 + slack,
+    'fit keeps visible nodes clear of the right side', JSON.stringify(fitted));
+  assert(fitted.minY >= 20 - slack,
+    'fit keeps visible nodes clear of the top side', JSON.stringify(fitted));
+  assert(fitted.maxY <= fitted.height - 20 + slack,
+    'fit keeps visible nodes clear of the bottom side', JSON.stringify(fitted));
+
+  return {
+    failures,
+    metrics: {
+      nodes: nodes.length,
+      edges: edges.length,
+      defaultEdge,
+      defaultEdgeAlphaStats,
+      slateEdge,
+      slateEdgeAlphaStats,
+      fitted,
+      buttonFitState,
+      selected: {
+        labelColor: selected && selected.labelColor,
+        labelOutlineColor: selected && selected.labelOutlineColor,
+        highlighted: selected && selected.highlighted,
+      },
+      muted: {
+        color: muted && muted.color,
+        baseColor: otherBase,
+      },
+    },
+  };
+})()
+"""
+
+
+@dataclass
+class ChromeSession:
+    process: subprocess.Popen[bytes]
+    user_data_dir: str
+    port: int
+
+
+class CdpClient:
+    def __init__(self, websocket_url: str) -> None:
+        parsed = urlparse(websocket_url)
+        if parsed.scheme != "ws":
+            raise ValueError(f"Unsupported WebSocket URL: {websocket_url}")
+
+        host = parsed.hostname or "127.0.0.1"
+        port = parsed.port or 80
+        path = parsed.path
+        if parsed.query:
+            path += f"?{parsed.query}"
+
+        self.sock = socket.create_connection((host, port), timeout=10)
+        self.sock.settimeout(10)
+        key = base64.b64encode(secrets.token_bytes(16)).decode("ascii")
+        request = (
+            f"GET {path} HTTP/1.1\r\n"
+            f"Host: {host}:{port}\r\n"
+            "Upgrade: websocket\r\n"
+            "Connection: Upgrade\r\n"
+            f"Sec-WebSocket-Key: {key}\r\n"
+            "Sec-WebSocket-Version: 13\r\n"
+            "\r\n"
+        )
+        self.sock.sendall(request.encode("ascii"))
+        response = self._read_http_response()
+        if b" 101 " not in response.split(b"\r\n", 1)[0]:
+            raise RuntimeError(f"WebSocket handshake failed: {response[:200]!r}")
+        self.next_id = 0
+
+    def close(self) -> None:
+        try:
+            self.sock.close()
+        except OSError:
+            pass
+
+    def call(self, method: str, params: dict[str, Any] | None = None, timeout: float = 10) -> dict[str, Any]:
+        self.next_id += 1
+        message_id = self.next_id
+        payload = {"id": message_id, "method": method}
+        if params is not None:
+            payload["params"] = params
+        self._send_json(payload)
+
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            message = self._recv_json(deadline - time.time())
+            if message.get("id") != message_id:
+                continue
+            if "error" in message:
+                raise RuntimeError(f"CDP {method} failed: {message['error']}")
+            return message.get("result", {})
+        raise TimeoutError(f"Timed out waiting for CDP method {method}")
+
+    def evaluate(self, expression: str, timeout: float = 10) -> Any:
+        result = self.call(
+            "Runtime.evaluate",
+            {
+                "expression": expression,
+                "awaitPromise": True,
+                "returnByValue": True,
+                "userGesture": True,
+            },
+            timeout=timeout,
+        )
+        if "exceptionDetails" in result:
+            text = result["exceptionDetails"].get("text", "Runtime exception")
+            raise RuntimeError(text)
+        value = result.get("result", {})
+        if "value" in value:
+            return value["value"]
+        return None
+
+    def _read_http_response(self) -> bytes:
+        chunks: list[bytes] = []
+        data = b""
+        while b"\r\n\r\n" not in data:
+            chunk = self.sock.recv(4096)
+            if not chunk:
+                break
+            chunks.append(chunk)
+            data = b"".join(chunks)
+        return data
+
+    def _send_json(self, payload: dict[str, Any]) -> None:
+        data = json.dumps(payload, separators=(",", ":")).encode("utf-8")
+        mask = secrets.token_bytes(4)
+        header = bytearray([0x81])
+        length = len(data)
+        if length < 126:
+            header.append(0x80 | length)
+        elif length < 65536:
+            header.append(0x80 | 126)
+            header.extend(struct.pack("!H", length))
+        else:
+            header.append(0x80 | 127)
+            header.extend(struct.pack("!Q", length))
+        masked = bytes(byte ^ mask[i % 4] for i, byte in enumerate(data))
+        self.sock.sendall(bytes(header) + mask + masked)
+
+    def _recv_json(self, timeout: float) -> dict[str, Any]:
+        self.sock.settimeout(max(timeout, 0.1))
+        while True:
+            first = self._recv_exact(2)
+            opcode = first[0] & 0x0F
+            masked = bool(first[1] & 0x80)
+            length = first[1] & 0x7F
+            if length == 126:
+                length = struct.unpack("!H", self._recv_exact(2))[0]
+            elif length == 127:
+                length = struct.unpack("!Q", self._recv_exact(8))[0]
+            mask = self._recv_exact(4) if masked else b""
+            payload = self._recv_exact(length) if length else b""
+            if masked:
+                payload = bytes(byte ^ mask[i % 4] for i, byte in enumerate(payload))
+            if opcode == 0x8:
+                raise RuntimeError("Chrome closed the DevTools WebSocket")
+            if opcode == 0x9:
+                self._send_pong(payload)
+                continue
+            if opcode == 0x1:
+                return json.loads(payload.decode("utf-8"))
+
+    def _send_pong(self, payload: bytes) -> None:
+        mask = secrets.token_bytes(4)
+        header = bytes([0x8A, 0x80 | len(payload)])
+        masked = bytes(byte ^ mask[i % 4] for i, byte in enumerate(payload))
+        self.sock.sendall(header + mask + masked)
+
+    def _recv_exact(self, length: int) -> bytes:
+        chunks: list[bytes] = []
+        remaining = length
+        while remaining:
+            chunk = self.sock.recv(remaining)
+            if not chunk:
+                raise RuntimeError("Socket closed while reading WebSocket frame")
+            chunks.append(chunk)
+            remaining -= len(chunk)
+        return b"".join(chunks)
+
+
+def find_chrome(explicit: str | None) -> str:
+    candidates = [explicit] if explicit else []
+    candidates.extend(["google-chrome-stable", "google-chrome", "chromium", "chromium-browser"])
+    for candidate in candidates:
+        if not candidate:
+            continue
+        path = shutil.which(candidate) if os.path.basename(candidate) == candidate else candidate
+        if path and os.path.exists(path):
+            return path
+    raise RuntimeError("Could not find Chrome. Pass --chrome /path/to/chrome.")
+
+
+def free_port() -> int:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.bind(("127.0.0.1", 0))
+        return int(sock.getsockname()[1])
+
+
+def launch_chrome(chrome: str) -> ChromeSession:
+    port = free_port()
+    user_data_dir = tempfile.mkdtemp(prefix="kb-mind-map-chrome-")
+    command = [
+        chrome,
+        "--headless=new",
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--disable-extensions",
+        "--no-first-run",
+        "--no-default-browser-check",
+        "--enable-unsafe-swiftshader",
+        f"--remote-debugging-port={port}",
+        f"--user-data-dir={user_data_dir}",
+        "about:blank",
+    ]
+    process = subprocess.Popen(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    session = ChromeSession(process=process, user_data_dir=user_data_dir, port=port)
+    wait_for_json(session, "/json/version")
+    return session
+
+
+def wait_for_json(session: ChromeSession, path: str, timeout: float = 10) -> Any:
+    url = f"http://127.0.0.1:{session.port}{path}"
+    deadline = time.time() + timeout
+    last_error: Exception | None = None
+    while time.time() < deadline:
+        if session.process.poll() is not None:
+            raise RuntimeError("Chrome exited before DevTools became available")
+        try:
+            with urllib.request.urlopen(url, timeout=1) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except Exception as exc:  # noqa: BLE001 - retry startup races
+            last_error = exc
+            time.sleep(0.1)
+    raise TimeoutError(f"Timed out waiting for {url}: {last_error}")
+
+
+def get_tab_websocket(session: ChromeSession, url: str) -> str:
+    create_url = f"http://127.0.0.1:{session.port}/json/new?{quote('about:blank', safe='')}"
+    request = urllib.request.Request(create_url, method="PUT")
+    try:
+        with urllib.request.urlopen(request, timeout=2) as response:
+            tab = json.loads(response.read().decode("utf-8"))
+            return str(tab["webSocketDebuggerUrl"])
+    except Exception:
+        tabs = wait_for_json(session, "/json/list")
+        if not tabs:
+            raise RuntimeError(f"Could not create a Chrome tab for {url}")
+        return str(tabs[0]["webSocketDebuggerUrl"])
+
+
+def wait_for_page_ready(client: CdpClient, timeout: float = 35) -> None:
+    expression = """
+    Boolean(
+      window._mindMap &&
+      window._mindMap.renderer &&
+      window._mindMap.renderer() &&
+      window._mindMap.graph &&
+      window._mindMap.graph() &&
+      (!document.getElementById('mm-loading') || document.getElementById('mm-loading').style.display === 'none')
+    )
+    """
+    deadline = time.time() + timeout
+    last_error: Exception | None = None
+    while time.time() < deadline:
+        try:
+            if client.evaluate(expression, timeout=2):
+                return
+        except Exception as exc:  # noqa: BLE001 - page may still be navigating
+            last_error = exc
+        time.sleep(0.25)
+    raise TimeoutError(f"Mind map did not become ready: {last_error}")
+
+
+def run_viewport(client: CdpClient, url: str, width: int, height: int, mobile: bool) -> dict[str, Any]:
+    client.call("Page.enable")
+    client.call("Runtime.enable")
+    client.call(
+        "Emulation.setDeviceMetricsOverride",
+        {
+            "width": width,
+            "height": height,
+            "deviceScaleFactor": 1,
+            "mobile": mobile,
+        },
+    )
+    client.call("Page.navigate", {"url": url})
+    wait_for_page_ready(client)
+    result = client.evaluate(JS_CHECKS, timeout=30)
+    failures = result.get("failures", []) if isinstance(result, dict) else ["JS checks returned no result"]
+    if failures:
+        formatted = "\n".join(f"  - {failure}" for failure in failures)
+        raise AssertionError(f"{width}x{height} failed:\n{formatted}")
+    return result.get("metrics", {})
+
+
+def shutdown_chrome(session: ChromeSession | None) -> None:
+    if not session:
+        return
+    try:
+        session.process.terminate()
+        session.process.wait(timeout=3)
+    except Exception:
+        session.process.kill()
+    shutil.rmtree(session.user_data_dir, ignore_errors=True)
+
+
+def parse_viewport(value: str) -> tuple[int, int, bool]:
+    parts = value.split(":")
+    size = parts[0]
+    width_s, height_s = size.lower().split("x", 1)
+    mobile = len(parts) > 1 and parts[1].lower() == "mobile"
+    return int(width_s), int(height_s), mobile
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Verify the mind-map page in headless Chrome")
+    parser.add_argument("--url", required=True, help="Served MkDocs mind-map URL")
+    parser.add_argument("--chrome", help="Path to Chrome/Chromium")
+    parser.add_argument(
+        "--viewport",
+        action="append",
+        default=["1366x900", "390x844:mobile"],
+        help="Viewport to test, e.g. 1366x900 or 390x844:mobile. May be repeated.",
+    )
+    args = parser.parse_args()
+
+    chrome = find_chrome(args.chrome)
+    session: ChromeSession | None = None
+    client: CdpClient | None = None
+    try:
+        session = launch_chrome(chrome)
+        client = CdpClient(get_tab_websocket(session, args.url))
+        all_metrics = {}
+        for viewport in args.viewport:
+            width, height, mobile = parse_viewport(viewport)
+            metrics = run_viewport(client, args.url, width, height, mobile)
+            all_metrics[viewport] = metrics
+            fitted = metrics.get("fitted", {})
+            print(
+                f"PASS {viewport}: "
+                f"{metrics.get('nodes')} nodes, {metrics.get('edges')} edges, "
+                f"fit bbox x=[{fitted.get('minX'):.1f}, {fitted.get('maxX'):.1f}] "
+                f"y=[{fitted.get('minY'):.1f}, {fitted.get('maxY'):.1f}]"
+            )
+        return 0
+    finally:
+        if client:
+            client.close()
+        shutdown_chrome(session)
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except Exception as exc:  # noqa: BLE001
+        print(f"FAIL: {exc}", file=sys.stderr)
+        raise SystemExit(1)

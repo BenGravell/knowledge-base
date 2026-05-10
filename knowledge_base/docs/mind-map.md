@@ -9,13 +9,40 @@ hide:
 <style>
 /* ── Derived vars: transparency adjustments on MkDocs palette tokens ─────── */
 :root {
-  --mm-edge-color:       #333333;
-  --mm-edge-highlighted: color-mix(in srgb, var(--md-accent-fg-color)  80%, transparent);
-  --mm-edge-alpha-scale: 1;
+  --mm-edge-color:         #111827;
+  --mm-edge-highlighted:   #c28a00;
+  --mm-edge-alpha-scale:   1.10;
+  --mm-edge-alpha-min:     0.14;
+  --mm-edge-alpha-max:     0.34;
+  --mm-node-muted:         #a3adb8;
+  --mm-node-muted-related: #7f8b97;
+  --mm-muted-label:        #475569;
+  --mm-selected-ring:      #d9a316;
+  --mm-selected-label:     #111111;
+}
+[data-md-color-scheme="default"] {
+  --mm-edge-color:         #111827;
+  --mm-edge-highlighted:   #c28a00;
+  --mm-edge-alpha-scale:   1.10;
+  --mm-edge-alpha-min:     0.14;
+  --mm-edge-alpha-max:     0.34;
+  --mm-node-muted:         #a3adb8;
+  --mm-node-muted-related: #7f8b97;
+  --mm-muted-label:        #475569;
+  --mm-selected-ring:      #d9a316;
+  --mm-selected-label:     #111111;
 }
 [data-md-color-scheme="slate"] {
-  --mm-edge-color:       #ffffff;
-  --mm-edge-alpha-scale: 1.2;
+  --mm-edge-color:         #64748b;
+  --mm-edge-highlighted:   #f1c232;
+  --mm-edge-alpha-scale:   0.22;
+  --mm-edge-alpha-min:     0.02;
+  --mm-edge-alpha-max:     0.08;
+  --mm-node-muted:         #66717d;
+  --mm-node-muted-related: #8b96a2;
+  --mm-muted-label:        #c8d0d8;
+  --mm-selected-ring:      #f1c232;
+  --mm-selected-label:     #111111;
 }
 
 /* ── Remove MkDocs Material layout constraints for full-screen canvas ─────── */

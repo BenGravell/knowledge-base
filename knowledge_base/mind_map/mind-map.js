@@ -77,6 +77,7 @@
   const NODE_SCREEN_RADIUS_FALLBACK = 4.5;
   const NODE_LABEL_FONT_SIZE = 11;
   const NODE_LABEL_LINE_HEIGHT = 11.5;
+  const SELECTED_NODE_RADIUS_SCALE = 1.12;
 
   /* -------------------------------------------------------------------------
    * State
@@ -112,8 +113,15 @@
     const alphaScale = parseFloat(v('--mm-edge-alpha-scale')) || 1;
     return {
       edgeColor: v('--mm-edge-color') || '#333333',
-      edgeHighlighted: normalizedCssColor(v('--mm-edge-highlighted')) || '#FFD54F',
+      edgeHighlighted: normalizedCssColor(v('--mm-edge-highlighted')) || '#D9A316',
       edgeAlphaScale: alphaScale,
+      edgeAlphaMin: parseFloat(v('--mm-edge-alpha-min')) || 0,
+      edgeAlphaMax: parseFloat(v('--mm-edge-alpha-max')) || 0.22,
+      nodeMuted: normalizedCssColor(v('--mm-node-muted')) || '#8A949E',
+      nodeMutedRelated: normalizedCssColor(v('--mm-node-muted-related')) || '#737D88',
+      mutedLabel: normalizedCssColor(v('--mm-muted-label')) || '#4B5563',
+      selectedLabel: normalizedCssColor(v('--mm-selected-label')) || '#111111',
+      selectedRing: normalizedCssColor(v('--mm-selected-ring')) || '#D9A316',
     };
   }
 
@@ -151,7 +159,7 @@
 
   function edgeSize(weight) {
     const t = Math.max(0, Math.min((weight - 0.5) / 0.5, 1));
-    return 0.4 + t * 3.1;
+    return 0.22 + t * 0.95;
   }
 
   function currentNodeRadius() {
@@ -248,29 +256,40 @@
     if (!nodeVisible(node)) return { ...attrs, hidden: true };
 
     const highlighted = focus.nodes.has(node);
-    const dimmed = focus.active && !highlighted;
+    const primaryFocus = highlighted && (
+      node === pinnedNode ||
+      node === hoveredNode ||
+      focus.mode === 'edge' ||
+      focus.mode === 'search'
+    );
+    const muted = focus.active && !primaryFocus;
     const forceLabel =
       node === pinnedNode ||
       node === hoveredNode ||
       (highlighted && focus.mode === 'edge');
 
-    if (dimmed) {
+    if (muted) {
+      const mutedColor = highlighted ? theme.nodeMutedRelated : theme.nodeMuted;
       return {
         ...attrs,
         size: currentNodeRadius(),
-        color: colorWithAlpha(attrs.baseColor, 0.16),
-        labelColor: colorWithAlpha('#ffffff', 0.28),
-        labelOutlineColor: colorWithAlpha(attrs.baseColor, 0.18),
+        color: mutedColor,
+        labelColor: theme.mutedLabel,
+        labelOutlineColor: colorWithAlpha(mutedColor, 0.55),
         forceLabel: false,
-        zIndex: 0,
+        zIndex: highlighted ? 1 : 0,
       };
     }
 
-    if (highlighted) {
+    if (primaryFocus) {
       return {
         ...attrs,
-        size: currentNodeRadius(),
-        labelOutlineColor: theme.edgeHighlighted,
+        size: currentNodeRadius() * SELECTED_NODE_RADIUS_SCALE,
+        color: attrs.baseColor,
+        labelColor: theme.selectedLabel,
+        labelOutlineColor: theme.selectedRing,
+        ringColor: theme.selectedRing,
+        highlighted: true,
         forceLabel,
         zIndex: 3,
       };
@@ -282,6 +301,7 @@
       color: attrs.baseColor,
       labelColor: '#ffffff',
       labelOutlineColor: attrs.baseColor,
+      highlighted: false,
       forceLabel: false,
       zIndex: 1,
     };
@@ -292,13 +312,16 @@
 
     const highlighted = focus.edges.has(edge);
     const dimmed = focus.active && !highlighted;
-    const baseAlpha = Math.min((attrs.edgeAlpha || 0.2) * theme.edgeAlphaScale, 1);
+    const baseAlpha = Math.min(
+      Math.max((attrs.edgeAlpha || 0.2) * theme.edgeAlphaScale, theme.edgeAlphaMin),
+      theme.edgeAlphaMax
+    );
 
     if (dimmed) {
       return {
         ...attrs,
-        color: colorWithAlpha(theme.edgeColor, 0.04),
-        size: Math.max(attrs.size * 0.45, 0.25),
+        color: colorWithAlpha(theme.edgeColor, 0.025),
+        size: Math.max(attrs.size * 0.35, 0.18),
         zIndex: 0,
       };
     }
@@ -307,7 +330,7 @@
       return {
         ...attrs,
         color: theme.edgeHighlighted,
-        size: Math.max(attrs.size, 2.5),
+        size: Math.max(Math.min(attrs.size * 1.35, 1.65), 1.15),
         zIndex: 2,
       };
     }
@@ -318,6 +341,21 @@
       size: attrs.size,
       zIndex: 1,
     };
+  }
+
+  function drawNodeHover(context, data) {
+    const ringColor = data.ringColor || theme.selectedRing;
+    const radius = Math.max(data.size + 3.5, 6);
+
+    context.save();
+    context.beginPath();
+    context.arc(data.x, data.y, radius, 0, Math.PI * 2);
+    context.lineWidth = Math.max(2, Math.min(3.25, data.size * 0.55));
+    context.strokeStyle = ringColor;
+    context.shadowColor = colorWithAlpha(ringColor, 0.32);
+    context.shadowBlur = 5;
+    context.stroke();
+    context.restore();
   }
 
   function drawNodeLabel(context, data) {
@@ -424,17 +462,20 @@
         hideEdgesOnMove: true,
         renderLabels: true,
         renderEdgeLabels: false,
+        enableCameraRotation: false,
         labelRenderedSizeThreshold: 0,
         labelDensity: 1,
         labelGridCellSize: 100,
         labelFont: '"Atkinson Hyperlegible Next", "Segoe UI", sans-serif',
         labelSize: NODE_LABEL_FONT_SIZE,
         itemSizesReference: 'screen',
+        minEdgeThickness: 0.35,
         zoomToSizeRatioFunction: ratio => Math.max(ratio, 1e-6),
         stagePadding: 30,
         nodeReducer,
         edgeReducer,
         defaultDrawNodeLabel: drawNodeLabel,
+        defaultDrawNodeHover: drawNodeHover,
       });
     } catch (err) {
       const rawMessage = err && err.message ? err.message : String(err);
@@ -616,32 +657,72 @@
   /* -------------------------------------------------------------------------
    * Fit to visible graph, leaving space for the overlay panel when open.
    * -------------------------------------------------------------------------*/
-  function visibleBBox() {
-    let xmin = Infinity;
-    let xmax = -Infinity;
-    let ymin = Infinity;
-    let ymax = -Infinity;
+  function visibleBBoxes() {
+    let rawXmin = Infinity;
+    let rawXmax = -Infinity;
+    let rawYmin = Infinity;
+    let rawYmax = -Infinity;
+    let framedXmin = Infinity;
+    let framedXmax = -Infinity;
+    let framedYmin = Infinity;
+    let framedYmax = -Infinity;
 
     graph.forEachNode((node, attrs) => {
       if (!nodeVisible(node)) return;
-      xmin = Math.min(xmin, attrs.x);
-      xmax = Math.max(xmax, attrs.x);
-      ymin = Math.min(ymin, attrs.y);
-      ymax = Math.max(ymax, attrs.y);
+
+      const displayAttrs = renderer && typeof renderer.getNodeDisplayData === 'function'
+        ? renderer.getNodeDisplayData(node)
+        : null;
+      const framedPoint = displayAttrs &&
+        Number.isFinite(displayAttrs.x) &&
+        Number.isFinite(displayAttrs.y)
+          ? displayAttrs
+          : attrs;
+
+      rawXmin = Math.min(rawXmin, attrs.x);
+      rawXmax = Math.max(rawXmax, attrs.x);
+      rawYmin = Math.min(rawYmin, attrs.y);
+      rawYmax = Math.max(rawYmax, attrs.y);
+      framedXmin = Math.min(framedXmin, framedPoint.x);
+      framedXmax = Math.max(framedXmax, framedPoint.x);
+      framedYmin = Math.min(framedYmin, framedPoint.y);
+      framedYmax = Math.max(framedYmax, framedPoint.y);
     });
 
-    if (!Number.isFinite(xmin)) return null;
+    if (!Number.isFinite(rawXmin) || !Number.isFinite(framedXmin)) return null;
 
-    if (xmin === xmax) {
-      xmin -= 1;
-      xmax += 1;
+    if (rawXmin === rawXmax) {
+      rawXmin -= 1;
+      rawXmax += 1;
     }
-    if (ymin === ymax) {
-      ymin -= 1;
-      ymax += 1;
+    if (rawYmin === rawYmax) {
+      rawYmin -= 1;
+      rawYmax += 1;
+    }
+    if (framedXmin === framedXmax) {
+      framedXmin -= 0.01;
+      framedXmax += 0.01;
+    }
+    if (framedYmin === framedYmax) {
+      framedYmin -= 0.01;
+      framedYmax += 0.01;
     }
 
-    return { x: [xmin, xmax], y: [ymin, ymax] };
+    const rawPadX = Math.max((rawXmax - rawXmin) * 0.04, 1);
+    const rawPadY = Math.max((rawYmax - rawYmin) * 0.04, 1);
+    const framedPadX = Math.max((framedXmax - framedXmin) * 0.04, 0.01);
+    const framedPadY = Math.max((framedYmax - framedYmin) * 0.04, 0.01);
+
+    return {
+      raw: {
+        x: [rawXmin - rawPadX, rawXmax + rawPadX],
+        y: [rawYmin - rawPadY, rawYmax + rawPadY],
+      },
+      framed: {
+        x: [framedXmin - framedPadX, framedXmax + framedPadX],
+        y: [framedYmin - framedPadY, framedYmax + framedPadY],
+      },
+    };
   }
 
   function minimumVisibleScreenDistance(cameraState) {
@@ -691,32 +772,41 @@
   function fitVisible(duration) {
     if (!renderer || !graph) return;
 
-    const bbox = visibleBBox();
-    if (!bbox) return;
+    renderer.resize(true);
+
+    const bboxes = visibleBBoxes();
+    if (!bboxes) return;
 
     const PAD = 30;
     const dims = renderer.getDimensions();
+    if (!dims.width || !dims.height) return;
+
     const panel = document.getElementById('mm-panel');
     const panelOpen = panel && !panel.classList.contains('body-collapsed');
-    const panelWidth = panelOpen ? Math.min(panel.offsetWidth || 0, Math.max(0, dims.width - PAD * 2)) : 0;
+    const rawPanelWidth = panelOpen ? panel.offsetWidth || 0 : 0;
+    const panelWidth = rawPanelWidth < dims.width * 0.72
+      ? Math.min(rawPanelWidth, Math.max(0, dims.width - PAD * 2))
+      : 0;
     const left = panelWidth + PAD;
     const right = dims.width - PAD;
     const stagePadding = PAD;
     const desiredX = left < right ? (left + right) / 2 : dims.width / 2;
     const desiredY = dims.height / 2;
-    const resetState = { x: 0.5, y: 0.5, ratio: 1, angle: 0 };
+    const bboxCenterX = (bboxes.framed.x[0] + bboxes.framed.x[1]) / 2;
+    const bboxCenterY = (bboxes.framed.y[0] + bboxes.framed.y[1]) / 2;
+    const baseState = { x: bboxCenterX, y: bboxCenterY, ratio: 1, angle: 0 };
 
-    renderer.setCustomBBox(bbox);
+    renderer.setCustomBBox(bboxes.raw);
     renderer.setSetting('stagePadding', stagePadding);
 
     const framedAtDesiredCenter = renderer.viewportToFramedGraph(
       { x: desiredX, y: desiredY },
-      { cameraState: resetState, padding: stagePadding }
+      { cameraState: baseState, padding: stagePadding }
     );
 
     const target = {
-      x: 1 - framedAtDesiredCenter.x,
-      y: 1 - framedAtDesiredCenter.y,
+      x: baseState.x + (bboxCenterX - framedAtDesiredCenter.x),
+      y: baseState.y + (bboxCenterY - framedAtDesiredCenter.y),
       ratio: 1,
       angle: 0,
     };
