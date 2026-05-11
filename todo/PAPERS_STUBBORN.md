@@ -7,6 +7,7 @@ https://dl.acm.org/doi/10.5555/2999134.2999257
 https://dl.acm.org/doi/10.5555/1921427.1921446
 https://dl.acm.org/doi/10.5555/777092.777184
 https://dl.acm.org/doi/10.5555/315149.315322
+https://dl.acm.org/doi/10.5555/2987189.2987282
 https://www.sciencedirect.com/science/article/pii/S1474667017391346
 https://www.sciencedirect.com/science/article/abs/pii/036402139090002E
 https://www.sciencedirect.com/science/article/pii/S147466701763475X
@@ -19,6 +20,7 @@ https://www.mdpi.com/2227-7390/13/8/1319
 https://nvlpubs.nist.gov/nistpubs/jres/049/jresv49n6p409_a1b.pdf
 https://openreview.net/pdf?id=NALsdGEPhB
 https://openreview.net/forum?id=MQVyuWBfSH
+https://openreview.net/pdf?id=BZ5a1r-kVsf
 https://academic.oup.com/ml/article-abstract/98/4/601/4828180
 https://www.researchgate.net/publication/286571049_Constrained_path_optimization_with_Bezier_curve_primitives
 https://www.researchgate.net/publication/329393581_Vaporwave_Is_Not_a_Critique_of_Capitalism_Genre_Work_in_An_Online_Music_Scene
