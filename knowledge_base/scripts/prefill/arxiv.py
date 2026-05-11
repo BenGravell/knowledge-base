@@ -30,7 +30,7 @@ DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ARXIV.md"
 ARXIV_ID_RE = re.compile(r"arxiv\.org/(?:abs|pdf)/([^\s/?#]+)")
 
 # Duration in seconds between successful requests
-# Set to 5 seconds, well above 3 seconds required by arXiv Terms of Use (which requries 3 seconds)
+# Set to 5 seconds, well above 3 seconds required by arXiv Terms of Use (which requires 3 seconds)
 # https://info.arxiv.org/help/api/tou.html
 BASE_DELAY = 5.0      
 # Max number of retries for transient (non-HTTP) errors

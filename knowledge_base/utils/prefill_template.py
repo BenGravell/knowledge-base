@@ -97,6 +97,7 @@ class PrefillScript(ABC, Generic[EntryT]):
             if should_skip(existing, args):
                 print(f"{prefix}  SKIP (exists: {existing})")
                 skipped += 1
+                time.sleep(self.delay)
                 continue
 
             metadata = self.build_metadata(entry, fields)

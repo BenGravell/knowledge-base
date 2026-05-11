@@ -10,12 +10,15 @@ from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS
 PAPERS_DIR = Path("docs/papers")
 ARXIV_API = "https://export.arxiv.org/api/query?id_list={arxiv_id}"
 ARXIV_NS = "http://www.w3.org/2005/Atom"
+# arXiv ToU requires a descriptive User-Agent with contact info:
+# https://info.arxiv.org/help/api/tou.html
+ARXIV_HEADERS = {"User-Agent": "knowledge-base/1.0 (bjgravell@gmail.com; https://github.com/bjgravell/knowledge-base)"}
 
 
 def fetch_arxiv(arxiv_id: str) -> dict:
     """Fetch basic metadata from the arXiv Atom API and return a dict."""
     url = ARXIV_API.format(arxiv_id=arxiv_id.strip())
-    r = requests.get(url, timeout=60)
+    r = requests.get(url, headers=ARXIV_HEADERS, timeout=60)
     r.raise_for_status()
 
     root = ET.fromstring(r.text)
