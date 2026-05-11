@@ -964,6 +964,42 @@ window.contentTreeData = {
                     "branchCount": 0
                   },
                   {
+                    "id": "content-tree-motion-planning-path-planning-geometric-planning-constrained-motion-planning",
+                    "label": "Constrained Motion Planning",
+                    "kind": "branch",
+                    "source": null,
+                    "url": null,
+                    "path": [
+                      "Content Tree",
+                      "Motion Planning",
+                      "Path Planning",
+                      "Geometric Planning",
+                      "Constrained Motion Planning"
+                    ],
+                    "children": [
+                      {
+                        "id": "content-tree-motion-planning-path-planning-geometric-planning-constrained-motion-planning-vectorizing-projection-in-manifold-constrained-motion-planning-for-real-time-whole-body-control-papers-2604-13323-md",
+                        "label": "Vectorizing Projection in Manifold-Constrained Motion Planning for Real-Time Whole-Body Control",
+                        "kind": "paper",
+                        "source": "papers/2604_13323.md",
+                        "url": "../papers/2604_13323/",
+                        "path": [
+                          "Content Tree",
+                          "Motion Planning",
+                          "Path Planning",
+                          "Geometric Planning",
+                          "Constrained Motion Planning",
+                          "Vectorizing Projection in Manifold-Constrained Motion Planning for Real-Time Whole-Body Control"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0
+                      }
+                    ],
+                    "leafCount": 1,
+                    "branchCount": 0
+                  },
+                  {
                     "id": "content-tree-motion-planning-path-planning-geometric-planning-collision-detection-proximity-queries",
                     "label": "Collision Detection & Proximity Queries",
                     "kind": "branch",
@@ -1090,8 +1126,8 @@ window.contentTreeData = {
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 50,
-                "branchCount": 8
+                "leafCount": 51,
+                "branchCount": 9
               },
               {
                 "id": "content-tree-motion-planning-path-planning-path-generation",
@@ -1425,13 +1461,49 @@ window.contentTreeData = {
                         "children": [],
                         "leafCount": 1,
                         "branchCount": 0
+                      },
+                      {
+                        "id": "content-tree-motion-planning-path-planning-path-generation-polynomials-splines-linear-time-geometric-algorithm-for-evaluating-b-zier-curves-papers-1803-06843-md",
+                        "label": "Linear-time geometric algorithm for evaluating Bézier curves",
+                        "kind": "paper",
+                        "source": "papers/1803_06843.md",
+                        "url": "../papers/1803_06843/",
+                        "path": [
+                          "Content Tree",
+                          "Motion Planning",
+                          "Path Planning",
+                          "Path Generation",
+                          "Polynomials & Splines",
+                          "Linear-time geometric algorithm for evaluating Bézier curves"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0
+                      },
+                      {
+                        "id": "content-tree-motion-planning-path-planning-path-generation-polynomials-splines-minvo-basis-finding-simplexes-with-minimum-volume-enclosing-polynomial-curves-papers-2010-10726-md",
+                        "label": "MINVO Basis: Finding Simplexes with Minimum Volume Enclosing Polynomial Curves",
+                        "kind": "paper",
+                        "source": "papers/2010_10726.md",
+                        "url": "../papers/2010_10726/",
+                        "path": [
+                          "Content Tree",
+                          "Motion Planning",
+                          "Path Planning",
+                          "Path Generation",
+                          "Polynomials & Splines",
+                          "MINVO Basis: Finding Simplexes with Minimum Volume Enclosing Polynomial Curves"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0
                       }
                     ],
-                    "leafCount": 4,
+                    "leafCount": 6,
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 14,
+                "leafCount": 16,
                 "branchCount": 4
               },
               {
@@ -1568,9 +1640,27 @@ window.contentTreeData = {
                         "children": [],
                         "leafCount": 1,
                         "branchCount": 0
+                      },
+                      {
+                        "id": "content-tree-motion-planning-path-planning-path-optimization-path-smoothing-smooth-feedback-motion-planning-with-reduced-curvature-papers-2604-01614-md",
+                        "label": "Smooth Feedback Motion Planning with Reduced Curvature",
+                        "kind": "paper",
+                        "source": "papers/2604_01614.md",
+                        "url": "../papers/2604_01614/",
+                        "path": [
+                          "Content Tree",
+                          "Motion Planning",
+                          "Path Planning",
+                          "Path Optimization",
+                          "Path Smoothing",
+                          "Smooth Feedback Motion Planning with Reduced Curvature"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0
                       }
                     ],
-                    "leafCount": 2,
+                    "leafCount": 3,
                     "branchCount": 0
                   },
                   {
@@ -1646,12 +1736,12 @@ window.contentTreeData = {
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 7,
+                "leafCount": 8,
                 "branchCount": 4
               }
             ],
-            "leafCount": 71,
-            "branchCount": 19
+            "leafCount": 75,
+            "branchCount": 20
           },
           {
             "id": "content-tree-motion-planning-trajectory-planning",
@@ -2285,13 +2375,53 @@ window.contentTreeData = {
                         "children": [],
                         "leafCount": 1,
                         "branchCount": 0
+                      },
+                      {
+                        "id": "content-tree-motion-planning-trajectory-planning-kinodynamic-planning-planning-with-graphs-of-convex-sets-gcs-augmented-graphs-of-convex-sets-and-the-traveling-salesman-problem-papers-2604-06406-md",
+                        "label": "Augmented Graphs of Convex Sets and the Traveling Salesman Problem",
+                        "kind": "paper",
+                        "source": "papers/2604_06406.md",
+                        "url": "../papers/2604_06406/",
+                        "path": [
+                          "Content Tree",
+                          "Motion Planning",
+                          "Trajectory Planning",
+                          "Kinodynamic Planning",
+                          "Planning with Graphs of Convex Sets (GCS)",
+                          "Augmented Graphs of Convex Sets and the Traveling Salesman Problem"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0
+                      },
+                      {
+                        "id": "content-tree-motion-planning-trajectory-planning-kinodynamic-planning-planning-with-graphs-of-convex-sets-gcs-motion-planning-with-precedence-specifications-via-augmented-graphs-of-convex-sets-papers-2510-22015-md",
+                        "label": "Motion Planning with Precedence Specifications via Augmented Graphs of Convex Sets",
+                        "kind": "paper",
+                        "source": "papers/2510_22015.md",
+                        "url": "../papers/2510_22015/",
+                        "path": [
+                          "Content Tree",
+                          "Motion Planning",
+                          "Trajectory Planning",
+                          "Kinodynamic Planning",
+                          "Planning with Graphs of Convex Sets (GCS)",
+                          "Motion Planning with Precedence Specifications via Augmented Graphs of Convex Sets"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0
                       }
                     ],
-                    "leafCount": 4,
+                    "leafCount": 6,
                     "branchCount": 0
                   }
                 ],
+<<<<<<< HEAD
                 "leafCount": 29,
+=======
+                "leafCount": 30,
+>>>>>>> 4551d757 (update site)
                 "branchCount": 5
               },
               {
@@ -2374,9 +2504,43 @@ window.contentTreeData = {
                     "children": [],
                     "leafCount": 1,
                     "branchCount": 0
+                  },
+                  {
+                    "id": "content-tree-motion-planning-trajectory-planning-trajectory-generation-dynamic-movement-primitives-in-robotics-a-tutorial-survey-papers-2102-03861-md",
+                    "label": "Dynamic Movement Primitives in Robotics: A Tutorial Survey",
+                    "kind": "paper",
+                    "source": "papers/2102_03861.md",
+                    "url": "../papers/2102_03861/",
+                    "path": [
+                      "Content Tree",
+                      "Motion Planning",
+                      "Trajectory Planning",
+                      "Trajectory Generation",
+                      "Dynamic Movement Primitives in Robotics: A Tutorial Survey"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0
+                  },
+                  {
+                    "id": "content-tree-motion-planning-trajectory-planning-trajectory-generation-robust-and-efficient-quadrotor-trajectory-generation-for-fast-autonomous-flight-papers-2019-zhou-robust-and-efficient-quadrotor-trajectory-md",
+                    "label": "Robust and Efficient Quadrotor Trajectory Generation for Fast Autonomous Flight",
+                    "kind": "paper",
+                    "source": "papers/2019_zhou_robust_and_efficient_quadrotor_trajectory.md",
+                    "url": "../papers/2019_zhou_robust_and_efficient_quadrotor_trajectory/",
+                    "path": [
+                      "Content Tree",
+                      "Motion Planning",
+                      "Trajectory Planning",
+                      "Trajectory Generation",
+                      "Robust and Efficient Quadrotor Trajectory Generation for Fast Autonomous Flight"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0
                   }
                 ],
-                "leafCount": 4,
+                "leafCount": 6,
                 "branchCount": 0
               },
               {
@@ -2800,9 +2964,85 @@ window.contentTreeData = {
                             "children": [],
                             "leafCount": 1,
                             "branchCount": 0
+                          },
+                          {
+                            "id": "content-tree-motion-planning-trajectory-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-pa-mppi-perception-aware-model-predictive-path-integral-control-for-quadrotor-navigation-in-unknown-environments-papers-2509-14978-md",
+                            "label": "PA-MPPI: Perception-Aware Model Predictive Path Integral Control for Quadrotor Navigation in Unknown Environments",
+                            "kind": "paper",
+                            "source": "papers/2509_14978.md",
+                            "url": "../papers/2509_14978/",
+                            "path": [
+                              "Content Tree",
+                              "Motion Planning",
+                              "Trajectory Planning",
+                              "Trajectory Optimization",
+                              "Model Predictive Sampling-Based Control",
+                              "Model Predictive Path Integral Control (MPPI)",
+                              "PA-MPPI: Perception-Aware Model Predictive Path Integral Control for Quadrotor Navigation in Unknown Environments"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0
+                          },
+                          {
+                            "id": "content-tree-motion-planning-trajectory-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-variance-reduced-model-predictive-path-integral-via-quadratic-model-approximation-papers-2602-03639-md",
+                            "label": "Variance-Reduced Model Predictive Path Integral via Quadratic Model Approximation",
+                            "kind": "paper",
+                            "source": "papers/2602_03639.md",
+                            "url": "../papers/2602_03639/",
+                            "path": [
+                              "Content Tree",
+                              "Motion Planning",
+                              "Trajectory Planning",
+                              "Trajectory Optimization",
+                              "Model Predictive Sampling-Based Control",
+                              "Model Predictive Path Integral Control (MPPI)",
+                              "Variance-Reduced Model Predictive Path Integral via Quadratic Model Approximation"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0
+                          },
+                          {
+                            "id": "content-tree-motion-planning-trajectory-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-dynamic-risk-aware-mppi-for-mobile-robots-in-crowds-via-efficient-monte-carlo-approximations-papers-2506-21205-md",
+                            "label": "Dynamic Risk-Aware MPPI for Mobile Robots in Crowds via Efficient Monte Carlo Approximations",
+                            "kind": "paper",
+                            "source": "papers/2506_21205.md",
+                            "url": "../papers/2506_21205/",
+                            "path": [
+                              "Content Tree",
+                              "Motion Planning",
+                              "Trajectory Planning",
+                              "Trajectory Optimization",
+                              "Model Predictive Sampling-Based Control",
+                              "Model Predictive Path Integral Control (MPPI)",
+                              "Dynamic Risk-Aware MPPI for Mobile Robots in Crowds via Efficient Monte Carlo Approximations"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0
+                          },
+                          {
+                            "id": "content-tree-motion-planning-trajectory-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-model-predictive-path-integral-control-as-preconditioned-gradient-descent-papers-2603-24489-md",
+                            "label": "Model Predictive Path Integral Control as Preconditioned Gradient Descent",
+                            "kind": "paper",
+                            "source": "papers/2603_24489.md",
+                            "url": "../papers/2603_24489/",
+                            "path": [
+                              "Content Tree",
+                              "Motion Planning",
+                              "Trajectory Planning",
+                              "Trajectory Optimization",
+                              "Model Predictive Sampling-Based Control",
+                              "Model Predictive Path Integral Control (MPPI)",
+                              "Model Predictive Path Integral Control as Preconditioned Gradient Descent"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0
                           }
                         ],
-                        "leafCount": 18,
+                        "leafCount": 22,
                         "branchCount": 0
                       },
                       {
@@ -2840,9 +3080,27 @@ window.contentTreeData = {
                         "children": [],
                         "leafCount": 1,
                         "branchCount": 0
+                      },
+                      {
+                        "id": "content-tree-motion-planning-trajectory-planning-trajectory-optimization-model-predictive-sampling-based-control-sampling-based-control-via-entropy-regularized-optimal-transport-papers-2605-02147-md",
+                        "label": "Sampling-Based Control via Entropy-Regularized Optimal Transport",
+                        "kind": "paper",
+                        "source": "papers/2605_02147.md",
+                        "url": "../papers/2605_02147/",
+                        "path": [
+                          "Content Tree",
+                          "Motion Planning",
+                          "Trajectory Planning",
+                          "Trajectory Optimization",
+                          "Model Predictive Sampling-Based Control",
+                          "Sampling-Based Control via Entropy-Regularized Optimal Transport"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0
                       }
                     ],
-                    "leafCount": 21,
+                    "leafCount": 26,
                     "branchCount": 2
                   },
                   {
@@ -3227,9 +3485,28 @@ window.contentTreeData = {
                             "children": [],
                             "leafCount": 1,
                             "branchCount": 0
+                          },
+                          {
+                            "id": "content-tree-motion-planning-trajectory-planning-trajectory-optimization-iterative-linear-quadratic-regulator-ilqr-differential-dynamic-programming-ddp-differential-dynamic-programming-differential-dynamic-programming-and-newton-s-method-for-discrete-optimal-control-problems-papers-1984-murray-differential-dynamic-programming-and-newton-md",
+                            "label": "Differential dynamic programming and Newton's method for discrete optimal control problems",
+                            "kind": "paper",
+                            "source": "papers/1984_murray_differential_dynamic_programming_and_newton.md",
+                            "url": "../papers/1984_murray_differential_dynamic_programming_and_newton/",
+                            "path": [
+                              "Content Tree",
+                              "Motion Planning",
+                              "Trajectory Planning",
+                              "Trajectory Optimization",
+                              "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)",
+                              "Differential Dynamic Programming",
+                              "Differential dynamic programming and Newton's method for discrete optimal control problems"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0
                           }
                         ],
-                        "leafCount": 8,
+                        "leafCount": 9,
                         "branchCount": 0
                       },
                       {
@@ -3385,7 +3662,7 @@ window.contentTreeData = {
                         "branchCount": 0
                       }
                     ],
-                    "leafCount": 17,
+                    "leafCount": 18,
                     "branchCount": 4
                   },
                   {
@@ -3833,9 +4110,45 @@ window.contentTreeData = {
                         "children": [],
                         "leafCount": 1,
                         "branchCount": 0
+                      },
+                      {
+                        "id": "content-tree-motion-planning-trajectory-planning-trajectory-optimization-nonlinear-optimization-newton-methods-for-k-order-markov-constrained-motion-problems-papers-1407-0414-md",
+                        "label": "Newton methods for k-order Markov Constrained Motion Problems",
+                        "kind": "paper",
+                        "source": "papers/1407_0414.md",
+                        "url": "../papers/1407_0414/",
+                        "path": [
+                          "Content Tree",
+                          "Motion Planning",
+                          "Trajectory Planning",
+                          "Trajectory Optimization",
+                          "Nonlinear Optimization",
+                          "Newton methods for k-order Markov Constrained Motion Problems"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0
+                      },
+                      {
+                        "id": "content-tree-motion-planning-trajectory-planning-trajectory-optimization-nonlinear-optimization-grasping-trajectory-optimization-with-point-clouds-papers-2403-05466-md",
+                        "label": "Grasping Trajectory Optimization with Point Clouds",
+                        "kind": "paper",
+                        "source": "papers/2403_05466.md",
+                        "url": "../papers/2403_05466/",
+                        "path": [
+                          "Content Tree",
+                          "Motion Planning",
+                          "Trajectory Planning",
+                          "Trajectory Optimization",
+                          "Nonlinear Optimization",
+                          "Grasping Trajectory Optimization with Point Clouds"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0
                       }
                     ],
-                    "leafCount": 5,
+                    "leafCount": 7,
                     "branchCount": 0
                   },
                   {
@@ -4180,13 +4493,31 @@ window.contentTreeData = {
                         "children": [],
                         "leafCount": 1,
                         "branchCount": 0
+                      },
+                      {
+                        "id": "content-tree-motion-planning-trajectory-planning-trajectory-optimization-learning-in-trajectory-optimization-learning-aided-warmstart-of-model-predictive-control-in-uncertain-fast-changing-traffic-papers-2310-02918-md",
+                        "label": "Learning-Aided Warmstart of Model Predictive Control in Uncertain Fast-Changing Traffic",
+                        "kind": "paper",
+                        "source": "papers/2310_02918.md",
+                        "url": "../papers/2310_02918/",
+                        "path": [
+                          "Content Tree",
+                          "Motion Planning",
+                          "Trajectory Planning",
+                          "Trajectory Optimization",
+                          "Learning in Trajectory Optimization",
+                          "Learning-Aided Warmstart of Model Predictive Control in Uncertain Fast-Changing Traffic"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0
                       }
                     ],
-                    "leafCount": 5,
+                    "leafCount": 6,
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 80,
+                "leafCount": 89,
                 "branchCount": 17
               },
               {
@@ -4258,7 +4589,11 @@ window.contentTreeData = {
                 "branchCount": 0
               }
             ],
+<<<<<<< HEAD
             "leafCount": 116,
+=======
+            "leafCount": 128,
+>>>>>>> 4551d757 (update site)
             "branchCount": 26
           },
           {
@@ -4606,9 +4941,25 @@ window.contentTreeData = {
                 "children": [],
                 "leafCount": 1,
                 "branchCount": 0
+              },
+              {
+                "id": "content-tree-motion-planning-interaction-aware-planning-trajectory-tree-based-pairwise-game-for-interactive-decision-making-and-motion-planning-in-autonomous-driving-papers-2025-ma-trajectory-tree-based-pairwise-game-md",
+                "label": "Trajectory Tree-Based Pairwise Game for Interactive Decision-Making and Motion Planning in Autonomous Driving",
+                "kind": "paper",
+                "source": "papers/2025_ma_trajectory_tree_based_pairwise_game.md",
+                "url": "../papers/2025_ma_trajectory_tree_based_pairwise_game/",
+                "path": [
+                  "Content Tree",
+                  "Motion Planning",
+                  "Interaction-aware Planning",
+                  "Trajectory Tree-Based Pairwise Game for Interactive Decision-Making and Motion Planning in Autonomous Driving"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
               }
             ],
-            "leafCount": 4,
+            "leafCount": 5,
             "branchCount": 0
           },
           {
@@ -4910,9 +5261,25 @@ window.contentTreeData = {
                 "children": [],
                 "leafCount": 1,
                 "branchCount": 0
+              },
+              {
+                "id": "content-tree-motion-planning-machine-learning-in-motion-planning-gnn-dip-neural-corridor-selection-for-decomposition-based-motion-planning-papers-2603-12361-md",
+                "label": "GNN-DIP: Neural Corridor Selection for Decomposition-Based Motion Planning",
+                "kind": "paper",
+                "source": "papers/2603_12361.md",
+                "url": "../papers/2603_12361/",
+                "path": [
+                  "Content Tree",
+                  "Motion Planning",
+                  "Machine Learning in Motion Planning",
+                  "GNN-DIP: Neural Corridor Selection for Decomposition-Based Motion Planning"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
               }
             ],
-            "leafCount": 18,
+            "leafCount": 19,
             "branchCount": 0
           },
           {
@@ -5550,14 +5917,35 @@ window.contentTreeData = {
                 "children": [],
                 "leafCount": 1,
                 "branchCount": 0
+              },
+              {
+                "id": "content-tree-motion-planning-frameworks-stack-architectures-motion-planning-and-control-for-multi-vehicle-autonomous-racing-at-high-speeds-papers-2207-11136-md",
+                "label": "Motion Planning and Control for Multi Vehicle Autonomous Racing at High Speeds",
+                "kind": "paper",
+                "source": "papers/2207_11136.md",
+                "url": "../papers/2207_11136/",
+                "path": [
+                  "Content Tree",
+                  "Motion Planning",
+                  "Frameworks & Stack Architectures",
+                  "Motion Planning and Control for Multi Vehicle Autonomous Racing at High Speeds"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
               }
             ],
-            "leafCount": 11,
+            "leafCount": 12,
             "branchCount": 0
           }
         ],
+<<<<<<< HEAD
         "leafCount": 257,
         "branchCount": 57
+=======
+        "leafCount": 275,
+        "branchCount": 58
+>>>>>>> 4551d757 (update site)
       },
       {
         "id": "content-tree-motion-prediction",
@@ -5982,6 +6370,70 @@ window.contentTreeData = {
               }
             ],
             "leafCount": 1,
+            "branchCount": 0
+          },
+          {
+            "id": "content-tree-control-inverse-kinematics-resolved-rate-control",
+            "label": "Inverse Kinematics & Resolved-Rate Control",
+            "kind": "branch",
+            "source": null,
+            "url": null,
+            "path": [
+              "Content Tree",
+              "Control",
+              "Inverse Kinematics & Resolved-Rate Control"
+            ],
+            "children": [
+              {
+                "id": "content-tree-control-inverse-kinematics-resolved-rate-control-a-combined-optimization-method-for-solving-the-inverse-kinematics-problems-of-mechanical-manipulators-papers-1991-wang-a-combined-optimization-method-for-md",
+                "label": "A combined optimization method for solving the inverse kinematics problems of mechanical manipulators",
+                "kind": "paper",
+                "source": "papers/1991_wang_a_combined_optimization_method_for.md",
+                "url": "../papers/1991_wang_a_combined_optimization_method_for/",
+                "path": [
+                  "Content Tree",
+                  "Control",
+                  "Inverse Kinematics & Resolved-Rate Control",
+                  "A combined optimization method for solving the inverse kinematics problems of mechanical manipulators"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-control-inverse-kinematics-resolved-rate-control-resolved-motion-rate-control-of-manipulators-and-human-prostheses-papers-1969-whitney-resolved-motion-rate-control-of-md",
+                "label": "Resolved Motion Rate Control of Manipulators and Human Prostheses",
+                "kind": "paper",
+                "source": "papers/1969_whitney_resolved_motion_rate_control_of.md",
+                "url": "../papers/1969_whitney_resolved_motion_rate_control_of/",
+                "path": [
+                  "Content Tree",
+                  "Control",
+                  "Inverse Kinematics & Resolved-Rate Control",
+                  "Resolved Motion Rate Control of Manipulators and Human Prostheses"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-control-inverse-kinematics-resolved-rate-control-jax-ik-real-time-inverse-kinematics-for-generating-multi-constrained-movements-of-virtual-human-characters-papers-2507-00792-md",
+                "label": "JAX-IK: Real-Time Inverse Kinematics for Generating Multi-Constrained Movements of Virtual Human Characters",
+                "kind": "paper",
+                "source": "papers/2507_00792.md",
+                "url": "../papers/2507_00792/",
+                "path": [
+                  "Content Tree",
+                  "Control",
+                  "Inverse Kinematics & Resolved-Rate Control",
+                  "JAX-IK: Real-Time Inverse Kinematics for Generating Multi-Constrained Movements of Virtual Human Characters"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              }
+            ],
+            "leafCount": 3,
             "branchCount": 0
           },
           {
@@ -6519,9 +6971,73 @@ window.contentTreeData = {
                 "children": [],
                 "leafCount": 1,
                 "branchCount": 0
+              },
+              {
+                "id": "content-tree-control-model-predictive-control-mpc-robust-multi-rate-predictive-control-using-multi-step-prediction-models-learned-from-data-papers-2102-08302-md",
+                "label": "Robust multi-rate predictive control using multi-step prediction models learned from data",
+                "kind": "paper",
+                "source": "papers/2102_08302.md",
+                "url": "../papers/2102_08302/",
+                "path": [
+                  "Content Tree",
+                  "Control",
+                  "Model Predictive Control (MPC)",
+                  "Robust multi-rate predictive control using multi-step prediction models learned from data"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-control-model-predictive-control-mpc-learning-multi-step-prediction-models-for-receding-horizon-control-papers-2018-terzi-learning-multi-step-prediction-models-md",
+                "label": "Learning multi-step prediction models for receding horizon control",
+                "kind": "paper",
+                "source": "papers/2018_terzi_learning_multi_step_prediction_models.md",
+                "url": "../papers/2018_terzi_learning_multi_step_prediction_models/",
+                "path": [
+                  "Content Tree",
+                  "Control",
+                  "Model Predictive Control (MPC)",
+                  "Learning multi-step prediction models for receding horizon control"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-control-model-predictive-control-mpc-on-multi-step-prediction-models-for-receding-horizon-control-papers-1802-09767-md",
+                "label": "On multi-step prediction models for receding horizon control",
+                "kind": "paper",
+                "source": "papers/1802_09767.md",
+                "url": "../papers/1802_09767/",
+                "path": [
+                  "Content Tree",
+                  "Control",
+                  "Model Predictive Control (MPC)",
+                  "On multi-step prediction models for receding horizon control"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-control-model-predictive-control-mpc-model-predictive-control-of-vehicle-dynamics-based-on-the-koopman-operator-with-extended-dynamic-mode-decomposition-papers-2021-svec-model-predictive-control-of-vehicle-md",
+                "label": "Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition",
+                "kind": "paper",
+                "source": "papers/2021_svec_model_predictive_control_of_vehicle.md",
+                "url": "../papers/2021_svec_model_predictive_control_of_vehicle/",
+                "path": [
+                  "Content Tree",
+                  "Control",
+                  "Model Predictive Control (MPC)",
+                  "Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
               }
             ],
-            "leafCount": 2,
+            "leafCount": 6,
             "branchCount": 0
           },
           {
@@ -6631,9 +7147,41 @@ window.contentTreeData = {
                 "children": [],
                 "leafCount": 1,
                 "branchCount": 0
+              },
+              {
+                "id": "content-tree-control-robust-control-policy-optimization-of-mixed-h2-h-infinity-control-benign-nonconvexity-and-global-optimality-papers-2603-04843-md",
+                "label": "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality",
+                "kind": "paper",
+                "source": "papers/2603_04843.md",
+                "url": "../papers/2603_04843/",
+                "path": [
+                  "Content Tree",
+                  "Control",
+                  "Robust Control",
+                  "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-control-robust-control-system-analysis-via-integral-quadratic-constraints-papers-1997-megretski-system-analysis-via-integral-quadratic-md",
+                "label": "System analysis via integral quadratic constraints",
+                "kind": "paper",
+                "source": "papers/1997_megretski_system_analysis_via_integral_quadratic.md",
+                "url": "../papers/1997_megretski_system_analysis_via_integral_quadratic/",
+                "path": [
+                  "Content Tree",
+                  "Control",
+                  "Robust Control",
+                  "System analysis via integral quadratic constraints"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
               }
             ],
-            "leafCount": 6,
+            "leafCount": 8,
             "branchCount": 0
           },
           {
@@ -6675,6 +7223,22 @@ window.contentTreeData = {
                   "Control",
                   "Control Theory",
                   "Path-Following or Reference-Tracking"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-control-control-theory-dwpp-dynamic-window-pure-pursuit-considering-velocity-and-acceleration-constraints-papers-2601-15006-md",
+                "label": "DWPP: Dynamic Window Pure Pursuit Considering Velocity and Acceleration Constraints",
+                "kind": "paper",
+                "source": "papers/2601_15006.md",
+                "url": "../papers/2601_15006/",
+                "path": [
+                  "Content Tree",
+                  "Control",
+                  "Control Theory",
+                  "DWPP: Dynamic Window Pure Pursuit Considering Velocity and Acceleration Constraints"
                 ],
                 "children": [],
                 "leafCount": 1,
@@ -6727,9 +7291,41 @@ window.contentTreeData = {
                 "children": [],
                 "leafCount": 1,
                 "branchCount": 0
+              },
+              {
+                "id": "content-tree-control-control-theory-augmented-lagrangian-methods-as-layered-control-architectures-papers-2311-06404-md",
+                "label": "Augmented Lagrangian Methods as Layered Control Architectures",
+                "kind": "paper",
+                "source": "papers/2311_06404.md",
+                "url": "../papers/2311_06404/",
+                "path": [
+                  "Content Tree",
+                  "Control",
+                  "Control Theory",
+                  "Augmented Lagrangian Methods as Layered Control Architectures"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-control-control-theory-asymptotic-stability-equals-exponential-stability-while-you-twist-your-eyes-papers-2411-03277-md",
+                "label": "Asymptotic stability equals exponential stability - while you twist your eyes",
+                "kind": "paper",
+                "source": "papers/2411_03277.md",
+                "url": "../papers/2411_03277/",
+                "path": [
+                  "Content Tree",
+                  "Control",
+                  "Control Theory",
+                  "Asymptotic stability equals exponential stability - while you twist your eyes"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
               }
             ],
-            "leafCount": 5,
+            "leafCount": 8,
             "branchCount": 0
           },
           {
@@ -6825,6 +7421,22 @@ window.contentTreeData = {
                 "branchCount": 0
               },
               {
+                "id": "content-tree-control-control-barrier-functions-cbf-convex-synthesis-and-verification-of-control-lyapunov-and-barrier-functions-with-input-constraints-papers-2023-dai-convex-synthesis-and-verification-of-md",
+                "label": "Convex synthesis and verification of control-Lyapunov and barrier functions with input constraints",
+                "kind": "paper",
+                "source": "papers/2023_dai_convex_synthesis_and_verification_of.md",
+                "url": "../papers/2023_dai_convex_synthesis_and_verification_of/",
+                "path": [
+                  "Content Tree",
+                  "Control",
+                  "Control Barrier Functions (CBF)",
+                  "Convex synthesis and verification of control-Lyapunov and barrier functions with input constraints"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
                 "id": "content-tree-control-control-barrier-functions-cbf-a-barrier-based-scenario-approach-to-verifying-safety-critical-systems-papers-2022-akella-a-barrier-based-scenario-approach-md",
                 "label": "A Barrier-Based Scenario Approach to Verifying Safety-Critical Systems",
                 "kind": "paper",
@@ -6889,7 +7501,7 @@ window.contentTreeData = {
                 "branchCount": 0
               }
             ],
-            "leafCount": 5,
+            "leafCount": 6,
             "branchCount": 0
           },
           {
@@ -6999,14 +7611,35 @@ window.contentTreeData = {
                 "children": [],
                 "leafCount": 1,
                 "branchCount": 0
+              },
+              {
+                "id": "content-tree-control-underactuated-systems-a-data-driven-approach-to-synthesizing-dynamics-aware-trajectories-for-underactuated-robotic-systems-papers-2307-13782-md",
+                "label": "A Data-Driven Approach to Synthesizing Dynamics-Aware Trajectories for Underactuated Robotic Systems",
+                "kind": "paper",
+                "source": "papers/2307_13782.md",
+                "url": "../papers/2307_13782/",
+                "path": [
+                  "Content Tree",
+                  "Control",
+                  "Underactuated Systems",
+                  "A Data-Driven Approach to Synthesizing Dynamics-Aware Trajectories for Underactuated Robotic Systems"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
               }
             ],
-            "leafCount": 3,
+            "leafCount": 4,
             "branchCount": 0
           }
         ],
+<<<<<<< HEAD
         "leafCount": 52,
         "branchCount": 12
+=======
+        "leafCount": 63,
+        "branchCount": 13
+>>>>>>> 4551d757 (update site)
       },
       {
         "id": "content-tree-reinforcement-learning",
@@ -7062,9 +7695,73 @@ window.contentTreeData = {
                 "children": [],
                 "leafCount": 1,
                 "branchCount": 0
+              },
+              {
+                "id": "content-tree-reinforcement-learning-foundations-finite-time-analysis-of-the-multiarmed-bandit-problem-papers-2002-auer-finite-time-analysis-of-the-md",
+                "label": "Finite-time Analysis of the Multiarmed Bandit Problem",
+                "kind": "paper",
+                "source": "papers/2002_auer_finite_time_analysis_of_the.md",
+                "url": "../papers/2002_auer_finite_time_analysis_of_the/",
+                "path": [
+                  "Content Tree",
+                  "Reinforcement Learning",
+                  "Foundations",
+                  "Finite-time Analysis of the Multiarmed Bandit Problem"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-reinforcement-learning-foundations-mellowmax-papers-1612-05628-md",
+                "label": "mellowmax",
+                "kind": "paper",
+                "source": "papers/1612_05628.md",
+                "url": "../papers/1612_05628/",
+                "path": [
+                  "Content Tree",
+                  "Reinforcement Learning",
+                  "Foundations",
+                  "mellowmax"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
               }
             ],
-            "leafCount": 2,
+            "leafCount": 4,
+            "branchCount": 0
+          },
+          {
+            "id": "content-tree-reinforcement-learning-inverse-reinforcement-learning-reward-learning",
+            "label": "Inverse Reinforcement Learning & Reward Learning",
+            "kind": "branch",
+            "source": null,
+            "url": null,
+            "path": [
+              "Content Tree",
+              "Reinforcement Learning",
+              "Inverse Reinforcement Learning & Reward Learning"
+            ],
+            "children": [
+              {
+                "id": "content-tree-reinforcement-learning-inverse-reinforcement-learning-reward-learning-efficient-reward-identification-in-max-entropy-reinforcement-learning-with-sparsity-and-rank-priors-papers-2508-07400-md",
+                "label": "Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors",
+                "kind": "paper",
+                "source": "papers/2508_07400.md",
+                "url": "../papers/2508_07400/",
+                "path": [
+                  "Content Tree",
+                  "Reinforcement Learning",
+                  "Inverse Reinforcement Learning & Reward Learning",
+                  "Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              }
+            ],
+            "leafCount": 1,
             "branchCount": 0
           },
           {
@@ -7142,9 +7839,26 @@ window.contentTreeData = {
                     "children": [],
                     "leafCount": 1,
                     "branchCount": 0
+                  },
+                  {
+                    "id": "content-tree-reinforcement-learning-dynamic-programming-exact-dynamic-programming-dynamic-programming-through-the-lens-of-semismooth-newton-type-methods-extended-version-papers-2203-08678-md",
+                    "label": "Dynamic Programming Through the Lens of Semismooth Newton-Type Methods (Extended Version)",
+                    "kind": "paper",
+                    "source": "papers/2203_08678.md",
+                    "url": "../papers/2203_08678/",
+                    "path": [
+                      "Content Tree",
+                      "Reinforcement Learning",
+                      "Dynamic Programming",
+                      "Exact Dynamic Programming",
+                      "Dynamic Programming Through the Lens of Semismooth Newton-Type Methods (Extended Version)"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0
                   }
                 ],
-                "leafCount": 3,
+                "leafCount": 4,
                 "branchCount": 0
               },
               {
@@ -7229,17 +7943,29 @@ window.contentTreeData = {
                     "branchCount": 0
                   },
                   {
+<<<<<<< HEAD
                     "id": "content-tree-reinforcement-learning-dynamic-programming-approximate-dynamic-programming-ampi-papers-2011-14212-md",
                     "label": "AMPI",
                     "kind": "paper",
                     "source": "papers/2011_14212.md",
                     "url": "../papers/2011_14212/",
+=======
+                    "id": "content-tree-reinforcement-learning-dynamic-programming-approximate-dynamic-programming-value-gradient-iteration-with-quadratic-approximate-value-functions-papers-2307-07086-md",
+                    "label": "Value-Gradient Iteration with Quadratic Approximate Value Functions",
+                    "kind": "paper",
+                    "source": "papers/2307_07086.md",
+                    "url": "../papers/2307_07086/",
+>>>>>>> 4551d757 (update site)
                     "path": [
                       "Content Tree",
                       "Reinforcement Learning",
                       "Dynamic Programming",
                       "Approximate Dynamic Programming",
+<<<<<<< HEAD
                       "AMPI"
+=======
+                      "Value-Gradient Iteration with Quadratic Approximate Value Functions"
+>>>>>>> 4551d757 (update site)
                     ],
                     "children": [],
                     "leafCount": 1,
@@ -7352,7 +8078,11 @@ window.contentTreeData = {
                 "branchCount": 0
               }
             ],
+<<<<<<< HEAD
             "leafCount": 13,
+=======
+            "leafCount": 14,
+>>>>>>> 4551d757 (update site)
             "branchCount": 3
           },
           {
@@ -7549,9 +8279,60 @@ window.contentTreeData = {
                     "children": [],
                     "leafCount": 1,
                     "branchCount": 0
+                  },
+                  {
+                    "id": "content-tree-reinforcement-learning-policy-optimization-policy-gradient-do-differentiable-simulators-give-better-policy-gradients-papers-2202-00817-md",
+                    "label": "Do Differentiable Simulators Give Better Policy Gradients?",
+                    "kind": "paper",
+                    "source": "papers/2202_00817.md",
+                    "url": "../papers/2202_00817/",
+                    "path": [
+                      "Content Tree",
+                      "Reinforcement Learning",
+                      "Policy Optimization",
+                      "Policy Gradient",
+                      "Do Differentiable Simulators Give Better Policy Gradients?"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0
+                  },
+                  {
+                    "id": "content-tree-reinforcement-learning-policy-optimization-policy-gradient-a-large-deviations-perspective-on-policy-gradient-algorithms-papers-2311-07411-md",
+                    "label": "A Large Deviations Perspective on Policy Gradient Algorithms",
+                    "kind": "paper",
+                    "source": "papers/2311_07411.md",
+                    "url": "../papers/2311_07411/",
+                    "path": [
+                      "Content Tree",
+                      "Reinforcement Learning",
+                      "Policy Optimization",
+                      "Policy Gradient",
+                      "A Large Deviations Perspective on Policy Gradient Algorithms"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0
+                  },
+                  {
+                    "id": "content-tree-reinforcement-learning-policy-optimization-policy-gradient-stochastic-recursive-momentum-for-policy-gradient-methods-papers-2003-04302-md",
+                    "label": "Stochastic Recursive Momentum for Policy Gradient Methods",
+                    "kind": "paper",
+                    "source": "papers/2003_04302.md",
+                    "url": "../papers/2003_04302/",
+                    "path": [
+                      "Content Tree",
+                      "Reinforcement Learning",
+                      "Policy Optimization",
+                      "Policy Gradient",
+                      "Stochastic Recursive Momentum for Policy Gradient Methods"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0
                   }
                 ],
-                "leafCount": 10,
+                "leafCount": 13,
                 "branchCount": 0
               },
               {
@@ -7974,9 +8755,26 @@ window.contentTreeData = {
                     "children": [],
                     "leafCount": 1,
                     "branchCount": 0
+                  },
+                  {
+                    "id": "content-tree-reinforcement-learning-policy-optimization-trust-region-bounded-ratio-reinforcement-learning-papers-2604-18578-md",
+                    "label": "Bounded Ratio Reinforcement Learning",
+                    "kind": "paper",
+                    "source": "papers/2604_18578.md",
+                    "url": "../papers/2604_18578/",
+                    "path": [
+                      "Content Tree",
+                      "Reinforcement Learning",
+                      "Policy Optimization",
+                      "Trust Region",
+                      "Bounded Ratio Reinforcement Learning"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0
                   }
                 ],
-                "leafCount": 6,
+                "leafCount": 7,
                 "branchCount": 0
               },
               {
@@ -8112,33 +8910,54 @@ window.contentTreeData = {
                     "branchCount": 0
                   },
                   {
+<<<<<<< HEAD
                     "id": "content-tree-reinforcement-learning-policy-optimization-rl-for-linear-systems-learning-robust-control-for-lqr-systems-with-multiplicative-noise-via-policy-gradient-papers-1905-13547-md",
                     "label": "Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient",
                     "kind": "paper",
                     "source": "papers/1905_13547.md",
                     "url": "../papers/1905_13547/",
+=======
+                    "id": "content-tree-reinforcement-learning-policy-optimization-rl-for-linear-systems-scalar-federated-learning-for-linear-quadratic-regulator-papers-2604-05088-md",
+                    "label": "Scalar Federated Learning for Linear Quadratic Regulator",
+                    "kind": "paper",
+                    "source": "papers/2604_05088.md",
+                    "url": "../papers/2604_05088/",
+>>>>>>> 4551d757 (update site)
                     "path": [
                       "Content Tree",
                       "Reinforcement Learning",
                       "Policy Optimization",
                       "RL for Linear Systems",
+<<<<<<< HEAD
                       "Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient"
+=======
+                      "Scalar Federated Learning for Linear Quadratic Regulator"
+>>>>>>> 4551d757 (update site)
                     ],
                     "children": [],
                     "leafCount": 1,
                     "branchCount": 0
                   },
                   {
+<<<<<<< HEAD
                     "id": "content-tree-reinforcement-learning-policy-optimization-rl-for-linear-systems-sparse-optimal-control-of-networks-with-multiplicative-noise-via-policy-gradient-papers-1905-13548-md",
                     "label": "Sparse Optimal Control of Networks with Multiplicative Noise via Policy Gradient",
                     "kind": "paper",
                     "source": "papers/1905_13548.md",
                     "url": "../papers/1905_13548/",
+=======
+                    "id": "content-tree-reinforcement-learning-policy-optimization-rl-for-linear-systems-model-agnostic-meta-policy-optimization-via-zeroth-order-estimation-a-linear-quadratic-regulator-perspective-papers-2503-00385-md",
+                    "label": "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective",
+                    "kind": "paper",
+                    "source": "papers/2503_00385.md",
+                    "url": "../papers/2503_00385/",
+>>>>>>> 4551d757 (update site)
                     "path": [
                       "Content Tree",
                       "Reinforcement Learning",
                       "Policy Optimization",
                       "RL for Linear Systems",
+<<<<<<< HEAD
                       "Sparse Optimal Control of Networks with Multiplicative Noise via Policy Gradient"
                     ],
                     "children": [],
@@ -8174,17 +8993,28 @@ window.contentTreeData = {
                       "Policy Optimization",
                       "RL for Linear Systems",
                       "Data-driven Control and Planning for Uncertain Complex Systems (Gravell PhD Dissertation)"
+=======
+                      "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective"
+>>>>>>> 4551d757 (update site)
                     ],
                     "children": [],
                     "leafCount": 1,
                     "branchCount": 0
                   }
                 ],
+<<<<<<< HEAD
                 "leafCount": 11,
                 "branchCount": 0
               }
             ],
             "leafCount": 44,
+=======
+                "leafCount": 9,
+                "branchCount": 0
+              }
+            ],
+            "leafCount": 46,
+>>>>>>> 4551d757 (update site)
             "branchCount": 4
           },
           {
@@ -8553,6 +9383,23 @@ window.contentTreeData = {
                     "branchCount": 0
                   },
                   {
+                    "id": "content-tree-reinforcement-learning-model-based-rl-adaptive-control-differentiable-mpc-for-end-to-end-planning-and-control-papers-1810-13400-md",
+                    "label": "Differentiable MPC for End-to-end Planning and Control",
+                    "kind": "paper",
+                    "source": "papers/1810_13400.md",
+                    "url": "../papers/1810_13400/",
+                    "path": [
+                      "Content Tree",
+                      "Reinforcement Learning",
+                      "Model-Based RL",
+                      "Adaptive Control",
+                      "Differentiable MPC for End-to-end Planning and Control"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0
+                  },
+                  {
                     "id": "content-tree-reinforcement-learning-model-based-rl-adaptive-control-learning-based-predictive-control-for-linear-systems-a-unitary-approach-papers-1810-12584-md",
                     "label": "Learning-based predictive control for linear systems: a unitary approach",
                     "kind": "paper",
@@ -8598,6 +9445,40 @@ window.contentTreeData = {
                       "Model-Based RL",
                       "Adaptive Control",
                       "MPCritic"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0
+                  },
+                  {
+                    "id": "content-tree-reinforcement-learning-model-based-rl-adaptive-control-td-mpc2-papers-2310-16828-md",
+                    "label": "TD-MPC2",
+                    "kind": "paper",
+                    "source": "papers/2310_16828.md",
+                    "url": "../papers/2310_16828/",
+                    "path": [
+                      "Content Tree",
+                      "Reinforcement Learning",
+                      "Model-Based RL",
+                      "Adaptive Control",
+                      "TD-MPC2"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0
+                  },
+                  {
+                    "id": "content-tree-reinforcement-learning-model-based-rl-adaptive-control-policy-optimization-for-unknown-systems-using-differentiable-model-predictive-control-papers-2511-11308-md",
+                    "label": "Policy Optimization for Unknown Systems using Differentiable Model Predictive Control",
+                    "kind": "paper",
+                    "source": "papers/2511_11308.md",
+                    "url": "../papers/2511_11308/",
+                    "path": [
+                      "Content Tree",
+                      "Reinforcement Learning",
+                      "Model-Based RL",
+                      "Adaptive Control",
+                      "Policy Optimization for Unknown Systems using Differentiable Model Predictive Control"
                     ],
                     "children": [],
                     "leafCount": 1,
@@ -8808,7 +9689,11 @@ window.contentTreeData = {
                     "branchCount": 0
                   }
                 ],
+<<<<<<< HEAD
                 "leafCount": 35,
+=======
+                "leafCount": 36,
+>>>>>>> 4551d757 (update site)
                 "branchCount": 0
               },
               {
@@ -9514,6 +10399,23 @@ window.contentTreeData = {
                     "branchCount": 0
                   },
                   {
+                    "id": "content-tree-reinforcement-learning-model-based-rl-system-identification-efficient-learning-of-a-linear-dynamical-system-with-stability-guarantees-papers-2102-03664-md",
+                    "label": "Efficient Learning of a Linear Dynamical System with Stability Guarantees",
+                    "kind": "paper",
+                    "source": "papers/2102_03664.md",
+                    "url": "../papers/2102_03664/",
+                    "path": [
+                      "Content Tree",
+                      "Reinforcement Learning",
+                      "Model-Based RL",
+                      "System Identification",
+                      "Efficient Learning of a Linear Dynamical System with Stability Guarantees"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0
+                  },
+                  {
                     "id": "content-tree-reinforcement-learning-model-based-rl-system-identification-how-are-learned-perception-based-controllers-impacted-by-the-limits-of-robust-control-papers-2104-00827-md",
                     "label": "How Are Learned Perception-Based Controllers Impacted by the Limits of Robust Control?",
                     "kind": "paper",
@@ -9525,6 +10427,23 @@ window.contentTreeData = {
                       "Model-Based RL",
                       "System Identification",
                       "How Are Learned Perception-Based Controllers Impacted by the Limits of Robust Control?"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0
+                  },
+                  {
+                    "id": "content-tree-reinforcement-learning-model-based-rl-system-identification-physics-informed-machine-learning-for-modeling-and-control-of-dynamical-systems-papers-2306-13867-md",
+                    "label": "Physics-Informed Machine Learning for Modeling and Control of Dynamical Systems",
+                    "kind": "paper",
+                    "source": "papers/2306_13867.md",
+                    "url": "../papers/2306_13867/",
+                    "path": [
+                      "Content Tree",
+                      "Reinforcement Learning",
+                      "Model-Based RL",
+                      "System Identification",
+                      "Physics-Informed Machine Learning for Modeling and Control of Dynamical Systems"
                     ],
                     "children": [],
                     "leafCount": 1,
@@ -9603,7 +10522,11 @@ window.contentTreeData = {
                 "branchCount": 4
               }
             ],
+<<<<<<< HEAD
             "leafCount": 75,
+=======
+            "leafCount": 76,
+>>>>>>> 4551d757 (update site)
             "branchCount": 6
           },
           {
@@ -9757,6 +10680,38 @@ window.contentTreeData = {
                   "Reinforcement Learning",
                   "Diffusion & Flow Matching",
                   "Diffusion Policy"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-reinforcement-learning-diffusion-flow-matching-planning-with-diffusion-for-flexible-behavior-synthesis-papers-2205-09991-md",
+                "label": "Planning with Diffusion for Flexible Behavior Synthesis",
+                "kind": "paper",
+                "source": "papers/2205_09991.md",
+                "url": "../papers/2205_09991/",
+                "path": [
+                  "Content Tree",
+                  "Reinforcement Learning",
+                  "Diffusion & Flow Matching",
+                  "Planning with Diffusion for Flexible Behavior Synthesis"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-reinforcement-learning-diffusion-flow-matching-tree-guided-diffusion-planner-papers-2508-21800-md",
+                "label": "Tree-Guided Diffusion Planner",
+                "kind": "paper",
+                "source": "papers/2508_21800.md",
+                "url": "../papers/2508_21800/",
+                "path": [
+                  "Content Tree",
+                  "Reinforcement Learning",
+                  "Diffusion & Flow Matching",
+                  "Tree-Guided Diffusion Planner"
                 ],
                 "children": [],
                 "leafCount": 1,
@@ -10067,12 +11022,17 @@ window.contentTreeData = {
                 "branchCount": 0
               }
             ],
-            "leafCount": 20,
+            "leafCount": 22,
             "branchCount": 0
           }
         ],
+<<<<<<< HEAD
         "leafCount": 160,
         "branchCount": 20
+=======
+        "leafCount": 169,
+        "branchCount": 21
+>>>>>>> 4551d757 (update site)
       },
       {
         "id": "content-tree-optimization",
@@ -10482,6 +11442,22 @@ window.contentTreeData = {
                 "branchCount": 0
               },
               {
+                "id": "content-tree-optimization-automatic-differentiation-gradient-based-hyperparameter-optimization-through-reversible-learning-papers-1502-03492-md",
+                "label": "Gradient-based Hyperparameter Optimization through Reversible Learning",
+                "kind": "paper",
+                "source": "papers/1502_03492.md",
+                "url": "../papers/1502_03492/",
+                "path": [
+                  "Content Tree",
+                  "Optimization",
+                  "Automatic Differentiation",
+                  "Gradient-based Hyperparameter Optimization through Reversible Learning"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
                 "id": "content-tree-optimization-automatic-differentiation-softjax-softtorch-empowering-automatic-differentiation-libraries-with-informative-gradients-papers-2603-08824-md",
                 "label": "SoftJAX & SoftTorch: Empowering Automatic Differentiation Libraries with Informative Gradients",
                 "kind": "paper",
@@ -10514,7 +11490,7 @@ window.contentTreeData = {
                 "branchCount": 0
               }
             ],
-            "leafCount": 4,
+            "leafCount": 5,
             "branchCount": 0
           },
           {
@@ -10819,6 +11795,38 @@ window.contentTreeData = {
               }
             ],
             "leafCount": 11,
+            "branchCount": 0
+          },
+          {
+            "id": "content-tree-optimization-online-convex-optimization",
+            "label": "Online Convex Optimization",
+            "kind": "branch",
+            "source": null,
+            "url": null,
+            "path": [
+              "Content Tree",
+              "Optimization",
+              "Online Convex Optimization"
+            ],
+            "children": [
+              {
+                "id": "content-tree-optimization-online-convex-optimization-no-regret-algorithms-for-unconstrained-online-convex-optimization-papers-1211-2260-md",
+                "label": "No-Regret Algorithms for Unconstrained Online Convex Optimization",
+                "kind": "paper",
+                "source": "papers/1211_2260.md",
+                "url": "../papers/1211_2260/",
+                "path": [
+                  "Content Tree",
+                  "Optimization",
+                  "Online Convex Optimization",
+                  "No-Regret Algorithms for Unconstrained Online Convex Optimization"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              }
+            ],
+            "leafCount": 1,
             "branchCount": 0
           },
           {
@@ -11138,6 +12146,38 @@ window.contentTreeData = {
                 "branchCount": 0
               },
               {
+                "id": "content-tree-optimization-first-order-methods-gradient-descent-on-neural-networks-typically-occurs-at-the-edge-of-stability-papers-2103-00065-md",
+                "label": "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability",
+                "kind": "paper",
+                "source": "papers/2103_00065.md",
+                "url": "../papers/2103_00065/",
+                "path": [
+                  "Content Tree",
+                  "Optimization",
+                  "First-Order Methods",
+                  "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-optimization-first-order-methods-gradient-descent-provably-optimizes-over-parameterized-neural-networks-papers-1810-02054-md",
+                "label": "Gradient Descent Provably Optimizes Over-parameterized Neural Networks",
+                "kind": "paper",
+                "source": "papers/1810_02054.md",
+                "url": "../papers/1810_02054/",
+                "path": [
+                  "Content Tree",
+                  "Optimization",
+                  "First-Order Methods",
+                  "Gradient Descent Provably Optimizes Over-parameterized Neural Networks"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
                 "id": "content-tree-optimization-first-order-methods-katyusha-papers-1603-05953-md",
                 "label": "Katyusha",
                 "kind": "paper",
@@ -11148,6 +12188,22 @@ window.contentTreeData = {
                   "Optimization",
                   "First-Order Methods",
                   "Katyusha"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-optimization-first-order-methods-linear-convergence-of-gradient-and-proximal-gradient-methods-under-the-polyak-ojasiewicz-condition-papers-2016-karimi-linear-convergence-of-gradient-and-md",
+                "label": "Linear Convergence of Gradient and Proximal-Gradient Methods Under the Polyak-Łojasiewicz Condition",
+                "kind": "paper",
+                "source": "papers/2016_karimi_linear_convergence_of_gradient_and.md",
+                "url": "../papers/2016_karimi_linear_convergence_of_gradient_and/",
+                "path": [
+                  "Content Tree",
+                  "Optimization",
+                  "First-Order Methods",
+                  "Linear Convergence of Gradient and Proximal-Gradient Methods Under the Polyak-Łojasiewicz Condition"
                 ],
                 "children": [],
                 "leafCount": 1,
@@ -11196,6 +12252,22 @@ window.contentTreeData = {
                   "Optimization",
                   "First-Order Methods",
                   "On the Convergence of Adam and Beyond"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-optimization-first-order-methods-optimizing-neural-networks-with-kronecker-factored-approximate-curvature-papers-1503-05671-md",
+                "label": "Optimizing Neural Networks with Kronecker-factored Approximate Curvature",
+                "kind": "paper",
+                "source": "papers/1503_05671.md",
+                "url": "../papers/1503_05671/",
+                "path": [
+                  "Content Tree",
+                  "Optimization",
+                  "First-Order Methods",
+                  "Optimizing Neural Networks with Kronecker-factored Approximate Curvature"
                 ],
                 "children": [],
                 "leafCount": 1,
@@ -11314,6 +12386,22 @@ window.contentTreeData = {
                 "branchCount": 0
               },
               {
+                "id": "content-tree-optimization-first-order-methods-the-large-learning-rate-phase-of-deep-learning-the-catapult-mechanism-papers-2003-02218-md",
+                "label": "The large learning rate phase of deep learning: the catapult mechanism",
+                "kind": "paper",
+                "source": "papers/2003_02218.md",
+                "url": "../papers/2003_02218/",
+                "path": [
+                  "Content Tree",
+                  "Optimization",
+                  "First-Order Methods",
+                  "The large learning rate phase of deep learning: the catapult mechanism"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
                 "id": "content-tree-optimization-first-order-methods-universal-sequence-preconditioning-papers-2502-06545-md",
                 "label": "Universal Sequence Preconditioning",
                 "kind": "paper",
@@ -11330,7 +12418,7 @@ window.contentTreeData = {
                 "branchCount": 0
               }
             ],
-            "leafCount": 31,
+            "leafCount": 36,
             "branchCount": 0
           },
           {
@@ -11570,6 +12658,38 @@ window.contentTreeData = {
                 "branchCount": 0
               },
               {
+                "id": "content-tree-optimization-newton-s-method-superfast-second-order-methods-for-unconstrained-convex-optimization-papers-2021-nesterov-superfast-second-order-methods-for-md",
+                "label": "Superfast Second-Order Methods for Unconstrained Convex Optimization",
+                "kind": "paper",
+                "source": "papers/2021_nesterov_superfast_second_order_methods_for.md",
+                "url": "../papers/2021_nesterov_superfast_second_order_methods_for/",
+                "path": [
+                  "Content Tree",
+                  "Optimization",
+                  "Newton's Method",
+                  "Superfast Second-Order Methods for Unconstrained Convex Optimization"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-optimization-newton-s-method-the-hessian-of-tall-skinny-networks-is-easy-to-invert-papers-2601-06096-md",
+                "label": "The Hessian of tall-skinny networks is easy to invert",
+                "kind": "paper",
+                "source": "papers/2601_06096.md",
+                "url": "../papers/2601_06096/",
+                "path": [
+                  "Content Tree",
+                  "Optimization",
+                  "Newton's Method",
+                  "The Hessian of tall-skinny networks is easy to invert"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
                 "id": "content-tree-optimization-newton-s-method-stochastic-algebraic-riccati-equations-are-almost-as-easy-as-deterministic-ones-theoretically-papers-2207-11220-md",
                 "label": "Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically",
                 "kind": "paper",
@@ -11602,7 +12722,39 @@ window.contentTreeData = {
                 "branchCount": 0
               }
             ],
-            "leafCount": 12,
+            "leafCount": 14,
+            "branchCount": 0
+          },
+          {
+            "id": "content-tree-optimization-trust-region-methods",
+            "label": "Trust Region Methods",
+            "kind": "branch",
+            "source": null,
+            "url": null,
+            "path": [
+              "Content Tree",
+              "Optimization",
+              "Trust Region Methods"
+            ],
+            "children": [
+              {
+                "id": "content-tree-optimization-trust-region-methods-recent-advances-in-trust-region-algorithms-papers-2015-yuan-recent-advances-in-trust-region-md",
+                "label": "Recent advances in trust region algorithms",
+                "kind": "paper",
+                "source": "papers/2015_yuan_recent_advances_in_trust_region.md",
+                "url": "../papers/2015_yuan_recent_advances_in_trust_region/",
+                "path": [
+                  "Content Tree",
+                  "Optimization",
+                  "Trust Region Methods",
+                  "Recent advances in trust region algorithms"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              }
+            ],
+            "leafCount": 1,
             "branchCount": 0
           },
           {
@@ -11926,6 +13078,38 @@ window.contentTreeData = {
             "branchCount": 0
           },
           {
+            "id": "content-tree-optimization-robust-optimization",
+            "label": "Robust Optimization",
+            "kind": "branch",
+            "source": null,
+            "url": null,
+            "path": [
+              "Content Tree",
+              "Optimization",
+              "Robust Optimization"
+            ],
+            "children": [
+              {
+                "id": "content-tree-optimization-robust-optimization-mean-robust-optimization-papers-2207-10820-md",
+                "label": "Mean Robust Optimization",
+                "kind": "paper",
+                "source": "papers/2207_10820.md",
+                "url": "../papers/2207_10820/",
+                "path": [
+                  "Content Tree",
+                  "Optimization",
+                  "Robust Optimization",
+                  "Mean Robust Optimization"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              }
+            ],
+            "leafCount": 1,
+            "branchCount": 0
+          },
+          {
             "id": "content-tree-optimization-convex-optimization",
             "label": "Convex Optimization",
             "kind": "branch",
@@ -12034,13 +13218,47 @@ window.contentTreeData = {
                     "children": [],
                     "leafCount": 1,
                     "branchCount": 0
+                  },
+                  {
+                    "id": "content-tree-optimization-convex-optimization-general-convex-optimization-learning-parametric-convex-functions-papers-2506-04183-md",
+                    "label": "Learning Parametric Convex Functions",
+                    "kind": "paper",
+                    "source": "papers/2506_04183.md",
+                    "url": "../papers/2506_04183/",
+                    "path": [
+                      "Content Tree",
+                      "Optimization",
+                      "Convex Optimization",
+                      "General Convex Optimization",
+                      "Learning Parametric Convex Functions"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0
+                  },
+                  {
+                    "id": "content-tree-optimization-convex-optimization-general-convex-optimization-geometric-median-in-nearly-linear-time-papers-1606-05225-md",
+                    "label": "Geometric Median in Nearly Linear Time",
+                    "kind": "paper",
+                    "source": "papers/1606_05225.md",
+                    "url": "../papers/1606_05225/",
+                    "path": [
+                      "Content Tree",
+                      "Optimization",
+                      "Convex Optimization",
+                      "General Convex Optimization",
+                      "Geometric Median in Nearly Linear Time"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0
                   }
                 ],
-                "leafCount": 1,
+                "leafCount": 3,
                 "branchCount": 0
               }
             ],
-            "leafCount": 3,
+            "leafCount": 5,
             "branchCount": 3
           },
           {
@@ -12088,6 +13306,22 @@ window.contentTreeData = {
                 "branchCount": 0
               },
               {
+                "id": "content-tree-optimization-nonlinear-programming-global-solutions-to-non-convex-functional-constrained-problems-with-hidden-convexity-papers-2511-10626-md",
+                "label": "Global Solutions to Non-Convex Functional Constrained Problems with Hidden Convexity",
+                "kind": "paper",
+                "source": "papers/2511_10626.md",
+                "url": "../papers/2511_10626/",
+                "path": [
+                  "Content Tree",
+                  "Optimization",
+                  "Nonlinear Programming",
+                  "Global Solutions to Non-Convex Functional Constrained Problems with Hidden Convexity"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
                 "id": "content-tree-optimization-nonlinear-programming-risk-averse-trajectory-optimization-via-sample-average-approximation-papers-2307-03167-md",
                 "label": "Risk-Averse Trajectory Optimization via Sample Average Approximation",
                 "kind": "paper",
@@ -12104,7 +13338,7 @@ window.contentTreeData = {
                 "branchCount": 0
               }
             ],
-            "leafCount": 3,
+            "leafCount": 4,
             "branchCount": 0
           },
           {
@@ -12236,8 +13470,8 @@ window.contentTreeData = {
             "branchCount": 0
           }
         ],
-        "leafCount": 117,
-        "branchCount": 17
+        "leafCount": 131,
+        "branchCount": 20
       },
       {
         "id": "content-tree-algorithms-data-structures",
@@ -13370,9 +14604,25 @@ window.contentTreeData = {
                 "children": [],
                 "leafCount": 1,
                 "branchCount": 0
+              },
+              {
+                "id": "content-tree-machine-learning-kernel-machines-every-model-learned-by-gradient-descent-is-approximately-a-kernel-machine-papers-2012-00152-md",
+                "label": "Every Model Learned by Gradient Descent Is Approximately a Kernel Machine",
+                "kind": "paper",
+                "source": "papers/2012_00152.md",
+                "url": "../papers/2012_00152/",
+                "path": [
+                  "Content Tree",
+                  "Machine Learning",
+                  "Kernel Machines",
+                  "Every Model Learned by Gradient Descent Is Approximately a Kernel Machine"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
               }
             ],
-            "leafCount": 4,
+            "leafCount": 5,
             "branchCount": 0
           },
           {
@@ -13948,6 +15198,22 @@ window.contentTreeData = {
             ],
             "children": [
               {
+                "id": "content-tree-machine-learning-large-language-models-llm-meta-harness-papers-2603-28052-md",
+                "label": "Meta-Harness",
+                "kind": "paper",
+                "source": "papers/2603_28052.md",
+                "url": "../papers/2603_28052/",
+                "path": [
+                  "Content Tree",
+                  "Machine Learning",
+                  "Large language models (LLM)",
+                  "Meta-Harness"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
                 "id": "content-tree-machine-learning-large-language-models-llm-transformers-attention-based-models",
                 "label": "Transformers & Attention-based models",
                 "kind": "branch",
@@ -14033,7 +15299,7 @@ window.contentTreeData = {
                 "branchCount": 0
               }
             ],
-            "leafCount": 4,
+            "leafCount": 5,
             "branchCount": 1
           },
           {
@@ -14273,6 +15539,22 @@ window.contentTreeData = {
                 "branchCount": 0
               },
               {
+                "id": "content-tree-machine-learning-time-series-dynamic-programming-algorithm-optimization-for-spoken-word-recognition-papers-1978-sakoe-dynamic-programming-algorithm-optimization-for-md",
+                "label": "Dynamic programming algorithm optimization for spoken word recognition",
+                "kind": "paper",
+                "source": "papers/1978_sakoe_dynamic_programming_algorithm_optimization_for.md",
+                "url": "../papers/1978_sakoe_dynamic_programming_algorithm_optimization_for/",
+                "path": [
+                  "Content Tree",
+                  "Machine Learning",
+                  "Time Series",
+                  "Dynamic programming algorithm optimization for spoken word recognition"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
                 "id": "content-tree-machine-learning-time-series-exact-indexing-of-dynamic-time-warping-papers-2005-keogh-exact-indexing-of-dynamic-time-md",
                 "label": "Exact indexing of dynamic time warping",
                 "kind": "paper",
@@ -14347,6 +15629,22 @@ window.contentTreeData = {
                   "Machine Learning",
                   "Time Series",
                   "ROCKET"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0
+              },
+              {
+                "id": "content-tree-machine-learning-time-series-spectral-state-space-models-papers-2312-06837-md",
+                "label": "Spectral State Space Models",
+                "kind": "paper",
+                "source": "papers/2312_06837.md",
+                "url": "../papers/2312_06837/",
+                "path": [
+                  "Content Tree",
+                  "Machine Learning",
+                  "Time Series",
+                  "Spectral State Space Models"
                 ],
                 "children": [],
                 "leafCount": 1,
@@ -14481,11 +15779,11 @@ window.contentTreeData = {
                 "branchCount": 0
               }
             ],
-            "leafCount": 14,
+            "leafCount": 16,
             "branchCount": 0
           }
         ],
-        "leafCount": 67,
+        "leafCount": 71,
         "branchCount": 15
       },
       {
@@ -14947,6 +16245,21 @@ window.contentTreeData = {
         ],
         "children": [
           {
+            "id": "content-tree-safety-testing-verification-a-simple-and-efficient-sampling-based-algorithm-for-general-reachability-analysis-papers-2112-05745-md",
+            "label": "A Simple and Efficient Sampling-based Algorithm for General Reachability Analysis",
+            "kind": "paper",
+            "source": "papers/2112_05745.md",
+            "url": "../papers/2112_05745/",
+            "path": [
+              "Content Tree",
+              "Safety, Testing & Verification",
+              "A Simple and Efficient Sampling-based Algorithm for General Reachability Analysis"
+            ],
+            "children": [],
+            "leafCount": 1,
+            "branchCount": 0
+          },
+          {
             "id": "content-tree-safety-testing-verification-how-should-a-robot-assess-risk-papers-2017-majumdar-how-should-a-robot-md",
             "label": "How Should a Robot Assess Risk?",
             "kind": "paper",
@@ -15007,6 +16320,21 @@ window.contentTreeData = {
             "branchCount": 0
           },
           {
+            "id": "content-tree-safety-testing-verification-safety-evaluation-of-motion-plans-using-trajectory-predictors-as-forward-reachable-set-estimators-papers-2507-22389-md",
+            "label": "Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators",
+            "kind": "paper",
+            "source": "papers/2507_22389.md",
+            "url": "../papers/2507_22389/",
+            "path": [
+              "Content Tree",
+              "Safety, Testing & Verification",
+              "Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators"
+            ],
+            "children": [],
+            "leafCount": 1,
+            "branchCount": 0
+          },
+          {
             "id": "content-tree-safety-testing-verification-ieee-std-3079-2022-ads-safety-assumptions-papers-2022-unknown-ieee-standard-for-assumptions-in-md",
             "label": "IEEE Std 3079-2022 (ADS Safety Assumptions)",
             "kind": "paper",
@@ -15052,6 +16380,51 @@ window.contentTreeData = {
             "branchCount": 0
           },
           {
+            "id": "content-tree-safety-testing-verification-learning-autonomous-vehicle-safety-concepts-from-demonstrations-papers-2210-02761-md",
+            "label": "Learning Autonomous Vehicle Safety Concepts from Demonstrations",
+            "kind": "paper",
+            "source": "papers/2210_02761.md",
+            "url": "../papers/2210_02761/",
+            "path": [
+              "Content Tree",
+              "Safety, Testing & Verification",
+              "Learning Autonomous Vehicle Safety Concepts from Demonstrations"
+            ],
+            "children": [],
+            "leafCount": 1,
+            "branchCount": 0
+          },
+          {
+            "id": "content-tree-safety-testing-verification-on-a-formal-model-of-safe-and-scalable-self-driving-cars-papers-1708-06374-md",
+            "label": "On a Formal Model of Safe and Scalable Self-driving Cars",
+            "kind": "paper",
+            "source": "papers/1708_06374.md",
+            "url": "../papers/1708_06374/",
+            "path": [
+              "Content Tree",
+              "Safety, Testing & Verification",
+              "On a Formal Model of Safe and Scalable Self-driving Cars"
+            ],
+            "children": [],
+            "leafCount": 1,
+            "branchCount": 0
+          },
+          {
+            "id": "content-tree-safety-testing-verification-the-field-of-safe-motion-operationalizing-affordances-in-the-field-of-safe-travel-using-reachability-analysis-papers-2604-27168-md",
+            "label": "The Field of Safe Motion: Operationalizing Affordances in the Field of Safe Travel Using Reachability Analysis",
+            "kind": "paper",
+            "source": "papers/2604_27168.md",
+            "url": "../papers/2604_27168/",
+            "path": [
+              "Content Tree",
+              "Safety, Testing & Verification",
+              "The Field of Safe Motion: Operationalizing Affordances in the Field of Safe Travel Using Reachability Analysis"
+            ],
+            "children": [],
+            "leafCount": 1,
+            "branchCount": 0
+          },
+          {
             "id": "content-tree-safety-testing-verification-on-the-validation-of-complex-systems-operating-in-open-contexts-papers-1902-10517-md",
             "label": "On the validation of complex systems operating in open contexts",
             "kind": "paper",
@@ -15082,7 +16455,7 @@ window.contentTreeData = {
             "branchCount": 0
           }
         ],
-        "leafCount": 9,
+        "leafCount": 14,
         "branchCount": 0
       },
       {
@@ -15408,9 +16781,24 @@ window.contentTreeData = {
             "children": [],
             "leafCount": 1,
             "branchCount": 0
+          },
+          {
+            "id": "content-tree-robot-platforms-mini-cheetah-a-platform-for-pushing-the-limits-of-dynamic-quadruped-control-papers-2019-katz-mini-cheetah-a-platform-for-md",
+            "label": "Mini Cheetah: A Platform for Pushing the Limits of Dynamic Quadruped Control",
+            "kind": "paper",
+            "source": "papers/2019_katz_mini_cheetah_a_platform_for.md",
+            "url": "../papers/2019_katz_mini_cheetah_a_platform_for/",
+            "path": [
+              "Content Tree",
+              "Robot Platforms",
+              "Mini Cheetah: A Platform for Pushing the Limits of Dynamic Quadruped Control"
+            ],
+            "children": [],
+            "leafCount": 1,
+            "branchCount": 0
           }
         ],
-        "leafCount": 3,
+        "leafCount": 4,
         "branchCount": 0
       },
       {
@@ -15926,1168 +17314,22 @@ window.contentTreeData = {
         ],
         "leafCount": 4,
         "branchCount": 0
-      },
-      {
-        "id": "content-tree-uncategorized",
-        "label": "Uncategorized",
-        "kind": "branch",
-        "source": null,
-        "url": null,
-        "path": [
-          "Content Tree",
-          "Uncategorized"
-        ],
-        "children": [
-          {
-            "id": "content-tree-uncategorized-a-combined-optimization-method-for-solving-the-inverse-kinematics-problems-of-mechanical-manipulators-papers-1991-wang-a-combined-optimization-method-for-md",
-            "label": "A combined optimization method for solving the inverse kinematics problems of mechanical manipulators",
-            "kind": "paper",
-            "source": "papers/1991_wang_a_combined_optimization_method_for.md",
-            "url": "../papers/1991_wang_a_combined_optimization_method_for/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "A combined optimization method for solving the inverse kinematics problems of mechanical manipulators"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-a-data-driven-approach-to-synthesizing-dynamics-aware-trajectories-for-underactuated-robotic-systems-papers-2307-13782-md",
-            "label": "A Data-Driven Approach to Synthesizing Dynamics-Aware Trajectories for Underactuated Robotic Systems",
-            "kind": "paper",
-            "source": "papers/2307_13782.md",
-            "url": "../papers/2307_13782/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "A Data-Driven Approach to Synthesizing Dynamics-Aware Trajectories for Underactuated Robotic Systems"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-dwpp-dynamic-window-pure-pursuit-considering-velocity-and-acceleration-constraints-papers-2601-15006-md",
-            "label": "DWPP: Dynamic Window Pure Pursuit Considering Velocity and Acceleration Constraints",
-            "kind": "paper",
-            "source": "papers/2601_15006.md",
-            "url": "../papers/2601_15006/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "DWPP: Dynamic Window Pure Pursuit Considering Velocity and Acceleration Constraints"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-resolved-motion-rate-control-of-manipulators-and-human-prostheses-papers-1969-whitney-resolved-motion-rate-control-of-md",
-            "label": "Resolved Motion Rate Control of Manipulators and Human Prostheses",
-            "kind": "paper",
-            "source": "papers/1969_whitney_resolved_motion_rate_control_of.md",
-            "url": "../papers/1969_whitney_resolved_motion_rate_control_of/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Resolved Motion Rate Control of Manipulators and Human Prostheses"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-robust-multi-rate-predictive-control-using-multi-step-prediction-models-learned-from-data-papers-2102-08302-md",
-            "label": "Robust multi-rate predictive control using multi-step prediction models learned from data",
-            "kind": "paper",
-            "source": "papers/2102_08302.md",
-            "url": "../papers/2102_08302/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Robust multi-rate predictive control using multi-step prediction models learned from data"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-vectorizing-projection-in-manifold-constrained-motion-planning-for-real-time-whole-body-control-papers-2604-13323-md",
-            "label": "Vectorizing Projection in Manifold-Constrained Motion Planning for Real-Time Whole-Body Control",
-            "kind": "paper",
-            "source": "papers/2604_13323.md",
-            "url": "../papers/2604_13323/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Vectorizing Projection in Manifold-Constrained Motion Planning for Real-Time Whole-Body Control"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-mean-robust-optimization-papers-2207-10820-md",
-            "label": "Mean Robust Optimization",
-            "kind": "paper",
-            "source": "papers/2207_10820.md",
-            "url": "../papers/2207_10820/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Mean Robust Optimization"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-a-simple-and-efficient-sampling-based-algorithm-for-general-reachability-analysis-papers-2112-05745-md",
-            "label": "A Simple and Efficient Sampling-based Algorithm for General Reachability Analysis",
-            "kind": "paper",
-            "source": "papers/2112_05745.md",
-            "url": "../papers/2112_05745/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "A Simple and Efficient Sampling-based Algorithm for General Reachability Analysis"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-augmented-lagrangian-methods-as-layered-control-architectures-papers-2311-06404-md",
-            "label": "Augmented Lagrangian Methods as Layered Control Architectures",
-            "kind": "paper",
-            "source": "papers/2311_06404.md",
-            "url": "../papers/2311_06404/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Augmented Lagrangian Methods as Layered Control Architectures"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-convex-synthesis-and-verification-of-control-lyapunov-and-barrier-functions-with-input-constraints-papers-2023-dai-convex-synthesis-and-verification-of-md",
-            "label": "Convex synthesis and verification of control-Lyapunov and barrier functions with input constraints",
-            "kind": "paper",
-            "source": "papers/2023_dai_convex_synthesis_and_verification_of.md",
-            "url": "../papers/2023_dai_convex_synthesis_and_verification_of/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Convex synthesis and verification of control-Lyapunov and barrier functions with input constraints"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-differentiable-mpc-for-end-to-end-planning-and-control-papers-1810-13400-md",
-            "label": "Differentiable MPC for End-to-end Planning and Control",
-            "kind": "paper",
-            "source": "papers/1810_13400.md",
-            "url": "../papers/1810_13400/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Differentiable MPC for End-to-end Planning and Control"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-efficient-learning-of-a-linear-dynamical-system-with-stability-guarantees-papers-2102-03664-md",
-            "label": "Efficient Learning of a Linear Dynamical System with Stability Guarantees",
-            "kind": "paper",
-            "source": "papers/2102_03664.md",
-            "url": "../papers/2102_03664/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Efficient Learning of a Linear Dynamical System with Stability Guarantees"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-efficient-reward-identification-in-max-entropy-reinforcement-learning-with-sparsity-and-rank-priors-papers-2508-07400-md",
-            "label": "Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors",
-            "kind": "paper",
-            "source": "papers/2508_07400.md",
-            "url": "../papers/2508_07400/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-global-solutions-to-non-convex-functional-constrained-problems-with-hidden-convexity-papers-2511-10626-md",
-            "label": "Global Solutions to Non-Convex Functional Constrained Problems with Hidden Convexity",
-            "kind": "paper",
-            "source": "papers/2511_10626.md",
-            "url": "../papers/2511_10626/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Global Solutions to Non-Convex Functional Constrained Problems with Hidden Convexity"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-learning-multi-step-prediction-models-for-receding-horizon-control-papers-2018-terzi-learning-multi-step-prediction-models-md",
-            "label": "Learning multi-step prediction models for receding horizon control",
-            "kind": "paper",
-            "source": "papers/2018_terzi_learning_multi_step_prediction_models.md",
-            "url": "../papers/2018_terzi_learning_multi_step_prediction_models/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Learning multi-step prediction models for receding horizon control"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-learning-parametric-convex-functions-papers-2506-04183-md",
-            "label": "Learning Parametric Convex Functions",
-            "kind": "paper",
-            "source": "papers/2506_04183.md",
-            "url": "../papers/2506_04183/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Learning Parametric Convex Functions"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-learning-aided-warmstart-of-model-predictive-control-in-uncertain-fast-changing-traffic-papers-2310-02918-md",
-            "label": "Learning-Aided Warmstart of Model Predictive Control in Uncertain Fast-Changing Traffic",
-            "kind": "paper",
-            "source": "papers/2310_02918.md",
-            "url": "../papers/2310_02918/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Learning-Aided Warmstart of Model Predictive Control in Uncertain Fast-Changing Traffic"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-linear-time-geometric-algorithm-for-evaluating-b-zier-curves-papers-1803-06843-md",
-            "label": "Linear-time geometric algorithm for evaluating Bézier curves",
-            "kind": "paper",
-            "source": "papers/1803_06843.md",
-            "url": "../papers/1803_06843/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Linear-time geometric algorithm for evaluating Bézier curves"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-mini-cheetah-a-platform-for-pushing-the-limits-of-dynamic-quadruped-control-papers-2019-katz-mini-cheetah-a-platform-for-md",
-            "label": "Mini Cheetah: A Platform for Pushing the Limits of Dynamic Quadruped Control",
-            "kind": "paper",
-            "source": "papers/2019_katz_mini_cheetah_a_platform_for.md",
-            "url": "../papers/2019_katz_mini_cheetah_a_platform_for/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Mini Cheetah: A Platform for Pushing the Limits of Dynamic Quadruped Control"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-minvo-basis-finding-simplexes-with-minimum-volume-enclosing-polynomial-curves-papers-2010-10726-md",
-            "label": "MINVO Basis: Finding Simplexes with Minimum Volume Enclosing Polynomial Curves",
-            "kind": "paper",
-            "source": "papers/2010_10726.md",
-            "url": "../papers/2010_10726/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "MINVO Basis: Finding Simplexes with Minimum Volume Enclosing Polynomial Curves"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-model-predictive-control-of-vehicle-dynamics-based-on-the-koopman-operator-with-extended-dynamic-mode-decomposition-papers-2021-svec-model-predictive-control-of-vehicle-md",
-            "label": "Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition",
-            "kind": "paper",
-            "source": "papers/2021_svec_model_predictive_control_of_vehicle.md",
-            "url": "../papers/2021_svec_model_predictive_control_of_vehicle/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-no-regret-algorithms-for-unconstrained-online-convex-optimization-papers-1211-2260-md",
-            "label": "No-Regret Algorithms for Unconstrained Online Convex Optimization",
-            "kind": "paper",
-            "source": "papers/1211_2260.md",
-            "url": "../papers/1211_2260/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "No-Regret Algorithms for Unconstrained Online Convex Optimization"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-on-multi-step-prediction-models-for-receding-horizon-control-papers-1802-09767-md",
-            "label": "On multi-step prediction models for receding horizon control",
-            "kind": "paper",
-            "source": "papers/1802_09767.md",
-            "url": "../papers/1802_09767/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "On multi-step prediction models for receding horizon control"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-pa-mppi-perception-aware-model-predictive-path-integral-control-for-quadrotor-navigation-in-unknown-environments-papers-2509-14978-md",
-            "label": "PA-MPPI: Perception-Aware Model Predictive Path Integral Control for Quadrotor Navigation in Unknown Environments",
-            "kind": "paper",
-            "source": "papers/2509_14978.md",
-            "url": "../papers/2509_14978/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "PA-MPPI: Perception-Aware Model Predictive Path Integral Control for Quadrotor Navigation in Unknown Environments"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-physics-informed-machine-learning-for-modeling-and-control-of-dynamical-systems-papers-2306-13867-md",
-            "label": "Physics-Informed Machine Learning for Modeling and Control of Dynamical Systems",
-            "kind": "paper",
-            "source": "papers/2306_13867.md",
-            "url": "../papers/2306_13867/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Physics-Informed Machine Learning for Modeling and Control of Dynamical Systems"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-policy-optimization-of-mixed-h2-h-infinity-control-benign-nonconvexity-and-global-optimality-papers-2603-04843-md",
-            "label": "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality",
-            "kind": "paper",
-            "source": "papers/2603_04843.md",
-            "url": "../papers/2603_04843/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-recent-advances-in-trust-region-algorithms-papers-2015-yuan-recent-advances-in-trust-region-md",
-            "label": "Recent advances in trust region algorithms",
-            "kind": "paper",
-            "source": "papers/2015_yuan_recent_advances_in_trust_region.md",
-            "url": "../papers/2015_yuan_recent_advances_in_trust_region/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Recent advances in trust region algorithms"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-safety-evaluation-of-motion-plans-using-trajectory-predictors-as-forward-reachable-set-estimators-papers-2507-22389-md",
-            "label": "Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators",
-            "kind": "paper",
-            "source": "papers/2507_22389.md",
-            "url": "../papers/2507_22389/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-superfast-second-order-methods-for-unconstrained-convex-optimization-papers-2021-nesterov-superfast-second-order-methods-for-md",
-            "label": "Superfast Second-Order Methods for Unconstrained Convex Optimization",
-            "kind": "paper",
-            "source": "papers/2021_nesterov_superfast_second_order_methods_for.md",
-            "url": "../papers/2021_nesterov_superfast_second_order_methods_for/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Superfast Second-Order Methods for Unconstrained Convex Optimization"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-tree-guided-diffusion-planner-papers-2508-21800-md",
-            "label": "Tree-Guided Diffusion Planner",
-            "kind": "paper",
-            "source": "papers/2508_21800.md",
-            "url": "../papers/2508_21800/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Tree-Guided Diffusion Planner"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-value-gradient-iteration-with-quadratic-approximate-value-functions-papers-2307-07086-md",
-            "label": "Value-Gradient Iteration with Quadratic Approximate Value Functions",
-            "kind": "paper",
-            "source": "papers/2307_07086.md",
-            "url": "../papers/2307_07086/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Value-Gradient Iteration with Quadratic Approximate Value Functions"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-asymptotic-stability-equals-exponential-stability-while-you-twist-your-eyes-papers-2411-03277-md",
-            "label": "Asymptotic stability equals exponential stability - while you twist your eyes",
-            "kind": "paper",
-            "source": "papers/2411_03277.md",
-            "url": "../papers/2411_03277/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Asymptotic stability equals exponential stability - while you twist your eyes"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-bounded-ratio-reinforcement-learning-papers-2604-18578-md",
-            "label": "Bounded Ratio Reinforcement Learning",
-            "kind": "paper",
-            "source": "papers/2604_18578.md",
-            "url": "../papers/2604_18578/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Bounded Ratio Reinforcement Learning"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-dynamic-movement-primitives-in-robotics-a-tutorial-survey-papers-2102-03861-md",
-            "label": "Dynamic Movement Primitives in Robotics: A Tutorial Survey",
-            "kind": "paper",
-            "source": "papers/2102_03861.md",
-            "url": "../papers/2102_03861/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Dynamic Movement Primitives in Robotics: A Tutorial Survey"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-finite-time-analysis-of-the-multiarmed-bandit-problem-papers-2002-auer-finite-time-analysis-of-the-md",
-            "label": "Finite-time Analysis of the Multiarmed Bandit Problem",
-            "kind": "paper",
-            "source": "papers/2002_auer_finite_time_analysis_of_the.md",
-            "url": "../papers/2002_auer_finite_time_analysis_of_the/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Finite-time Analysis of the Multiarmed Bandit Problem"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-meta-harness-papers-2603-28052-md",
-            "label": "Meta-Harness",
-            "kind": "paper",
-            "source": "papers/2603_28052.md",
-            "url": "../papers/2603_28052/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Meta-Harness"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-motion-planning-and-control-for-multi-vehicle-autonomous-racing-at-high-speeds-papers-2207-11136-md",
-            "label": "Motion Planning and Control for Multi Vehicle Autonomous Racing at High Speeds",
-            "kind": "paper",
-            "source": "papers/2207_11136.md",
-            "url": "../papers/2207_11136/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Motion Planning and Control for Multi Vehicle Autonomous Racing at High Speeds"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-spectral-state-space-models-papers-2312-06837-md",
-            "label": "Spectral State Space Models",
-            "kind": "paper",
-            "source": "papers/2312_06837.md",
-            "url": "../papers/2312_06837/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Spectral State Space Models"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-td-mpc2-papers-2310-16828-md",
-            "label": "TD-MPC2",
-            "kind": "paper",
-            "source": "papers/2310_16828.md",
-            "url": "../papers/2310_16828/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "TD-MPC2"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-trajectory-tree-based-pairwise-game-for-interactive-decision-making-and-motion-planning-in-autonomous-driving-papers-2025-ma-trajectory-tree-based-pairwise-game-md",
-            "label": "Trajectory Tree-Based Pairwise Game for Interactive Decision-Making and Motion Planning in Autonomous Driving",
-            "kind": "paper",
-            "source": "papers/2025_ma_trajectory_tree_based_pairwise_game.md",
-            "url": "../papers/2025_ma_trajectory_tree_based_pairwise_game/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Trajectory Tree-Based Pairwise Game for Interactive Decision-Making and Motion Planning in Autonomous Driving"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-scalar-federated-learning-for-linear-quadratic-regulator-papers-2604-05088-md",
-            "label": "Scalar Federated Learning for Linear Quadratic Regulator",
-            "kind": "paper",
-            "source": "papers/2604_05088.md",
-            "url": "../papers/2604_05088/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Scalar Federated Learning for Linear Quadratic Regulator"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-the-hessian-of-tall-skinny-networks-is-easy-to-invert-papers-2601-06096-md",
-            "label": "The Hessian of tall-skinny networks is easy to invert",
-            "kind": "paper",
-            "source": "papers/2601_06096.md",
-            "url": "../papers/2601_06096/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "The Hessian of tall-skinny networks is easy to invert"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-variance-reduced-model-predictive-path-integral-via-quadratic-model-approximation-papers-2602-03639-md",
-            "label": "Variance-Reduced Model Predictive Path Integral via Quadratic Model Approximation",
-            "kind": "paper",
-            "source": "papers/2602_03639.md",
-            "url": "../papers/2602_03639/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Variance-Reduced Model Predictive Path Integral via Quadratic Model Approximation"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-sampling-based-control-via-entropy-regularized-optimal-transport-papers-2605-02147-md",
-            "label": "Sampling-Based Control via Entropy-Regularized Optimal Transport",
-            "kind": "paper",
-            "source": "papers/2605_02147.md",
-            "url": "../papers/2605_02147/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Sampling-Based Control via Entropy-Regularized Optimal Transport"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-do-differentiable-simulators-give-better-policy-gradients-papers-2202-00817-md",
-            "label": "Do Differentiable Simulators Give Better Policy Gradients?",
-            "kind": "paper",
-            "source": "papers/2202_00817.md",
-            "url": "../papers/2202_00817/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Do Differentiable Simulators Give Better Policy Gradients?"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-dynamic-risk-aware-mppi-for-mobile-robots-in-crowds-via-efficient-monte-carlo-approximations-papers-2506-21205-md",
-            "label": "Dynamic Risk-Aware MPPI for Mobile Robots in Crowds via Efficient Monte Carlo Approximations",
-            "kind": "paper",
-            "source": "papers/2506_21205.md",
-            "url": "../papers/2506_21205/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Dynamic Risk-Aware MPPI for Mobile Robots in Crowds via Efficient Monte Carlo Approximations"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-model-agnostic-meta-policy-optimization-via-zeroth-order-estimation-a-linear-quadratic-regulator-perspective-papers-2503-00385-md",
-            "label": "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective",
-            "kind": "paper",
-            "source": "papers/2503_00385.md",
-            "url": "../papers/2503_00385/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-policy-optimization-for-unknown-systems-using-differentiable-model-predictive-control-papers-2511-11308-md",
-            "label": "Policy Optimization for Unknown Systems using Differentiable Model Predictive Control",
-            "kind": "paper",
-            "source": "papers/2511_11308.md",
-            "url": "../papers/2511_11308/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Policy Optimization for Unknown Systems using Differentiable Model Predictive Control"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-a-large-deviations-perspective-on-policy-gradient-algorithms-papers-2311-07411-md",
-            "label": "A Large Deviations Perspective on Policy Gradient Algorithms",
-            "kind": "paper",
-            "source": "papers/2311_07411.md",
-            "url": "../papers/2311_07411/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "A Large Deviations Perspective on Policy Gradient Algorithms"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-dynamic-programming-algorithm-optimization-for-spoken-word-recognition-papers-1978-sakoe-dynamic-programming-algorithm-optimization-for-md",
-            "label": "Dynamic programming algorithm optimization for spoken word recognition",
-            "kind": "paper",
-            "source": "papers/1978_sakoe_dynamic_programming_algorithm_optimization_for.md",
-            "url": "../papers/1978_sakoe_dynamic_programming_algorithm_optimization_for/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Dynamic programming algorithm optimization for spoken word recognition"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-every-model-learned-by-gradient-descent-is-approximately-a-kernel-machine-papers-2012-00152-md",
-            "label": "Every Model Learned by Gradient Descent Is Approximately a Kernel Machine",
-            "kind": "paper",
-            "source": "papers/2012_00152.md",
-            "url": "../papers/2012_00152/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Every Model Learned by Gradient Descent Is Approximately a Kernel Machine"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-geometric-median-in-nearly-linear-time-papers-1606-05225-md",
-            "label": "Geometric Median in Nearly Linear Time",
-            "kind": "paper",
-            "source": "papers/1606_05225.md",
-            "url": "../papers/1606_05225/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Geometric Median in Nearly Linear Time"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-gradient-descent-on-neural-networks-typically-occurs-at-the-edge-of-stability-papers-2103-00065-md",
-            "label": "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability",
-            "kind": "paper",
-            "source": "papers/2103_00065.md",
-            "url": "../papers/2103_00065/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-gradient-descent-provably-optimizes-over-parameterized-neural-networks-papers-1810-02054-md",
-            "label": "Gradient Descent Provably Optimizes Over-parameterized Neural Networks",
-            "kind": "paper",
-            "source": "papers/1810_02054.md",
-            "url": "../papers/1810_02054/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Gradient Descent Provably Optimizes Over-parameterized Neural Networks"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-gradient-based-hyperparameter-optimization-through-reversible-learning-papers-1502-03492-md",
-            "label": "Gradient-based Hyperparameter Optimization through Reversible Learning",
-            "kind": "paper",
-            "source": "papers/1502_03492.md",
-            "url": "../papers/1502_03492/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Gradient-based Hyperparameter Optimization through Reversible Learning"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-linear-convergence-of-gradient-and-proximal-gradient-methods-under-the-polyak-ojasiewicz-condition-papers-2016-karimi-linear-convergence-of-gradient-and-md",
-            "label": "Linear Convergence of Gradient and Proximal-Gradient Methods Under the Polyak-Łojasiewicz Condition",
-            "kind": "paper",
-            "source": "papers/2016_karimi_linear_convergence_of_gradient_and.md",
-            "url": "../papers/2016_karimi_linear_convergence_of_gradient_and/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Linear Convergence of Gradient and Proximal-Gradient Methods Under the Polyak-Łojasiewicz Condition"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-model-predictive-path-integral-control-as-preconditioned-gradient-descent-papers-2603-24489-md",
-            "label": "Model Predictive Path Integral Control as Preconditioned Gradient Descent",
-            "kind": "paper",
-            "source": "papers/2603_24489.md",
-            "url": "../papers/2603_24489/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Model Predictive Path Integral Control as Preconditioned Gradient Descent"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-optimizing-neural-networks-with-kronecker-factored-approximate-curvature-papers-1503-05671-md",
-            "label": "Optimizing Neural Networks with Kronecker-factored Approximate Curvature",
-            "kind": "paper",
-            "source": "papers/1503_05671.md",
-            "url": "../papers/1503_05671/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Optimizing Neural Networks with Kronecker-factored Approximate Curvature"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-stochastic-recursive-momentum-for-policy-gradient-methods-papers-2003-04302-md",
-            "label": "Stochastic Recursive Momentum for Policy Gradient Methods",
-            "kind": "paper",
-            "source": "papers/2003_04302.md",
-            "url": "../papers/2003_04302/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Stochastic Recursive Momentum for Policy Gradient Methods"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-system-analysis-via-integral-quadratic-constraints-papers-1997-megretski-system-analysis-via-integral-quadratic-md",
-            "label": "System analysis via integral quadratic constraints",
-            "kind": "paper",
-            "source": "papers/1997_megretski_system_analysis_via_integral_quadratic.md",
-            "url": "../papers/1997_megretski_system_analysis_via_integral_quadratic/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "System analysis via integral quadratic constraints"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-the-large-learning-rate-phase-of-deep-learning-the-catapult-mechanism-papers-2003-02218-md",
-            "label": "The large learning rate phase of deep learning: the catapult mechanism",
-            "kind": "paper",
-            "source": "papers/2003_02218.md",
-            "url": "../papers/2003_02218/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "The large learning rate phase of deep learning: the catapult mechanism"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-differential-dynamic-programming-and-newton-s-method-for-discrete-optimal-control-problems-papers-1984-murray-differential-dynamic-programming-and-newton-md",
-            "label": "Differential dynamic programming and Newton's method for discrete optimal control problems",
-            "kind": "paper",
-            "source": "papers/1984_murray_differential_dynamic_programming_and_newton.md",
-            "url": "../papers/1984_murray_differential_dynamic_programming_and_newton/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Differential dynamic programming and Newton's method for discrete optimal control problems"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-dynamic-programming-through-the-lens-of-semismooth-newton-type-methods-extended-version-papers-2203-08678-md",
-            "label": "Dynamic Programming Through the Lens of Semismooth Newton-Type Methods (Extended Version)",
-            "kind": "paper",
-            "source": "papers/2203_08678.md",
-            "url": "../papers/2203_08678/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Dynamic Programming Through the Lens of Semismooth Newton-Type Methods (Extended Version)"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-newton-methods-for-k-order-markov-constrained-motion-problems-papers-1407-0414-md",
-            "label": "Newton methods for k-order Markov Constrained Motion Problems",
-            "kind": "paper",
-            "source": "papers/1407_0414.md",
-            "url": "../papers/1407_0414/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Newton methods for k-order Markov Constrained Motion Problems"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-learning-autonomous-vehicle-safety-concepts-from-demonstrations-papers-2210-02761-md",
-            "label": "Learning Autonomous Vehicle Safety Concepts from Demonstrations",
-            "kind": "paper",
-            "source": "papers/2210_02761.md",
-            "url": "../papers/2210_02761/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Learning Autonomous Vehicle Safety Concepts from Demonstrations"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-on-a-formal-model-of-safe-and-scalable-self-driving-cars-papers-1708-06374-md",
-            "label": "On a Formal Model of Safe and Scalable Self-driving Cars",
-            "kind": "paper",
-            "source": "papers/1708_06374.md",
-            "url": "../papers/1708_06374/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "On a Formal Model of Safe and Scalable Self-driving Cars"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-planning-with-diffusion-for-flexible-behavior-synthesis-papers-2205-09991-md",
-            "label": "Planning with Diffusion for Flexible Behavior Synthesis",
-            "kind": "paper",
-            "source": "papers/2205_09991.md",
-            "url": "../papers/2205_09991/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Planning with Diffusion for Flexible Behavior Synthesis"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-the-field-of-safe-motion-operationalizing-affordances-in-the-field-of-safe-travel-using-reachability-analysis-papers-2604-27168-md",
-            "label": "The Field of Safe Motion: Operationalizing Affordances in the Field of Safe Travel Using Reachability Analysis",
-            "kind": "paper",
-            "source": "papers/2604_27168.md",
-            "url": "../papers/2604_27168/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "The Field of Safe Motion: Operationalizing Affordances in the Field of Safe Travel Using Reachability Analysis"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-jax-ik-real-time-inverse-kinematics-for-generating-multi-constrained-movements-of-virtual-human-characters-papers-2507-00792-md",
-            "label": "JAX-IK: Real-Time Inverse Kinematics for Generating Multi-Constrained Movements of Virtual Human Characters",
-            "kind": "paper",
-            "source": "papers/2507_00792.md",
-            "url": "../papers/2507_00792/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "JAX-IK: Real-Time Inverse Kinematics for Generating Multi-Constrained Movements of Virtual Human Characters"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-augmented-graphs-of-convex-sets-and-the-traveling-salesman-problem-papers-2604-06406-md",
-            "label": "Augmented Graphs of Convex Sets and the Traveling Salesman Problem",
-            "kind": "paper",
-            "source": "papers/2604_06406.md",
-            "url": "../papers/2604_06406/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Augmented Graphs of Convex Sets and the Traveling Salesman Problem"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-gnn-dip-neural-corridor-selection-for-decomposition-based-motion-planning-papers-2603-12361-md",
-            "label": "GNN-DIP: Neural Corridor Selection for Decomposition-Based Motion Planning",
-            "kind": "paper",
-            "source": "papers/2603_12361.md",
-            "url": "../papers/2603_12361/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "GNN-DIP: Neural Corridor Selection for Decomposition-Based Motion Planning"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-grasping-trajectory-optimization-with-point-clouds-papers-2403-05466-md",
-            "label": "Grasping Trajectory Optimization with Point Clouds",
-            "kind": "paper",
-            "source": "papers/2403_05466.md",
-            "url": "../papers/2403_05466/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Grasping Trajectory Optimization with Point Clouds"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-motion-planning-with-precedence-specifications-via-augmented-graphs-of-convex-sets-papers-2510-22015-md",
-            "label": "Motion Planning with Precedence Specifications via Augmented Graphs of Convex Sets",
-            "kind": "paper",
-            "source": "papers/2510_22015.md",
-            "url": "../papers/2510_22015/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Motion Planning with Precedence Specifications via Augmented Graphs of Convex Sets"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-robust-and-efficient-quadrotor-trajectory-generation-for-fast-autonomous-flight-papers-2019-zhou-robust-and-efficient-quadrotor-trajectory-md",
-            "label": "Robust and Efficient Quadrotor Trajectory Generation for Fast Autonomous Flight",
-            "kind": "paper",
-            "source": "papers/2019_zhou_robust_and_efficient_quadrotor_trajectory.md",
-            "url": "../papers/2019_zhou_robust_and_efficient_quadrotor_trajectory/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Robust and Efficient Quadrotor Trajectory Generation for Fast Autonomous Flight"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-smooth-feedback-motion-planning-with-reduced-curvature-papers-2604-01614-md",
-            "label": "Smooth Feedback Motion Planning with Reduced Curvature",
-            "kind": "paper",
-            "source": "papers/2604_01614.md",
-            "url": "../papers/2604_01614/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "Smooth Feedback Motion Planning with Reduced Curvature"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          },
-          {
-            "id": "content-tree-uncategorized-mellowmax-papers-1612-05628-md",
-            "label": "mellowmax",
-            "kind": "paper",
-            "source": "papers/1612_05628.md",
-            "url": "../papers/1612_05628/",
-            "path": [
-              "Content Tree",
-              "Uncategorized",
-              "mellowmax"
-            ],
-            "children": [],
-            "leafCount": 1,
-            "branchCount": 0
-          }
-        ],
-        "leafCount": 76,
-        "branchCount": 0
       }
     ],
+<<<<<<< HEAD
     "leafCount": 858,
     "branchCount": 172
   },
   "meta": {
     "totalLeaves": 858,
     "totalBranches": 172
+=======
+    "leafCount": 844,
+    "branchCount": 177
+  },
+  "meta": {
+    "totalLeaves": 844,
+    "totalBranches": 177
+>>>>>>> 4551d757 (update site)
   }
 };
