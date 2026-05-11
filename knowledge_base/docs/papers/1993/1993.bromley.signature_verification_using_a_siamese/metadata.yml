@@ -13,7 +13,7 @@ doi:
 arxiv_id:
 tags:
 abstract: >
-  This paper describes an algorithm for verification of signatures written on a pen-input tablet. The algorithm is based on a novel, artificial neural network, called a "Siamese" neural network. This network consists of two identical sub-networks joined at their out(cid:173) puts. During training the two sub-networks extract features from two signatures, while the joining neuron measures the distance be(cid:173) tween the two feature vectors. Verification consists of comparing an extracted feature vector ~ith a stored feature vector for the signer. Signatures closer to this stored representation than a chosen thresh(cid:173) old are accepted, all other signatures are rejected as forgeries.
+  This paper describes an algorithm for verification of signatures written on a pen-input tablet. The algorithm is based on a novel, artificial neural network, called a "Siamese" neural network. This network consists of two identical sub-networks joined at their outputs. During training the two sub-networks extract features from two signatures, while the joining neuron measures the distance between the two feature vectors. Verification consists of comparing an extracted feature vector with a stored feature vector for the signer. Signatures closer to this stored representation than a chosen threshold are accepted, all other signatures are rejected as forgeries.
 summary: ''
 link: >
   https://proceedings.neurips.cc/paper_files/paper/1993/file/288cc0ff022877bd3df94bc9360b9c5d-Paper.pdf

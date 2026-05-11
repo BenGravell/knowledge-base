@@ -70,6 +70,54 @@ _ARXIV_OLD_RE = re.compile(  # e.g. math.CO/0701001
 _HTML_ENTITY_RE = re.compile(
     r"&(?:#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);"
 )
+CHECK_ESCAPED_SEQUENCES = "escaped_sequences"
+CHECK_MALFORMED_ABSTRACTS = "malformed_abstracts"
+_LONG_ABSTRACT_CHAR_LIMIT = 6000
+_PDF_TEXT_ARTIFACT_RE = re.compile(r"\(cid:\d+\)")
+_SCRAPED_ABSTRACT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    (
+        "journal navigation text",
+        re.compile(r"\bPrevious article\s*Next article\b", re.I),
+    ),
+    (
+        "publisher section toolbar",
+        re.compile(r"PDF\s*Bib\s*TeX?\s*Sections\b", re.I),
+    ),
+    (
+        "publisher tool links",
+        re.compile(
+            r"Tools\s*Add to favorites\s*Export Citation\s*Track Citations\s*Email Sections",
+            re.I,
+        ),
+    ),
+    (
+        "references/cited-by section",
+        re.compile(r"References\s*Cited By\s*Details\b", re.I),
+    ),
+    (
+        "page abstract heading",
+        re.compile(r"About\s*Abstract[A-Z]", re.I),
+    ),
+    (
+        "related/references section",
+        re.compile(r"Figures\s*Related\s*References\b", re.I),
+    ),
+    (
+        "publisher author/profile chrome",
+        re.compile(r"(?:Authors Info & Claims|View Profile)\b", re.I),
+    ),
+    (
+        "publisher metrics/citation controls",
+        re.compile(
+            r"(?:Publication History|Get Citation Alerts|Save to Binder|Metrics\s*Total Citations)\b",
+            re.I,
+        ),
+    ),
+    (
+        "publisher access controls",
+        re.compile(r"Publisher Site\s*(?:Get Access|eReaderPDF)?\b", re.I),
+    ),
+)
 
 
 # ---------------------------------------------------------------------------
@@ -254,12 +302,77 @@ class Issue:
 
 
 # ---------------------------------------------------------------------------
+# Abstract-quality helpers
+# ---------------------------------------------------------------------------
+
+
+def _normalize_inline_text(text: str) -> str:
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def find_malformed_abstract_issues(path: Path, abstract: str) -> list[Issue]:
+    issues: list[Issue] = []
+    text = _normalize_inline_text(abstract)
+    if not text:
+        return issues
+
+    scraped_hits = [
+        label
+        for label, pattern in _SCRAPED_ABSTRACT_PATTERNS
+        if pattern.search(text)
+    ]
+    if scraped_hits:
+        examples = ", ".join(scraped_hits[:4])
+        if len(scraped_hits) > 4:
+            examples += f", ... ({len(scraped_hits)} total)"
+        issues.append(
+            Issue(
+                path,
+                "abstract",
+                f"Looks like scraped page text mixed into the abstract: {examples}",
+                "Replace with only the source abstract; remove navigation, references, metrics, and cited-by text.",
+            )
+        )
+
+    if _PDF_TEXT_ARTIFACT_RE.search(text):
+        issues.append(
+            Issue(
+                path,
+                "abstract",
+                "Contains PDF extraction artifacts like '(cid:173)'",
+                "Replace OCR/PDF text artifacts with clean source abstract text.",
+            )
+        )
+
+    if not scraped_hits and len(text) > _LONG_ABSTRACT_CHAR_LIMIT:
+        issues.append(
+            Issue(
+                path,
+                "abstract",
+                f"Unusually long ({len(text)} characters); verify this is only the abstract",
+                severity=Severity.WARNING,
+            )
+        )
+
+    return issues
+
+
+# ---------------------------------------------------------------------------
 # Per-file audit
 # ---------------------------------------------------------------------------
 
 
-def audit_file(path: Path, *, escaped_sequences_only: bool = False) -> tuple[dict, list[Issue]]:
+def audit_file(
+    path: Path,
+    *,
+    selected_checks: set[str] | None = None,
+    escaped_sequences_only: bool = False,
+) -> tuple[dict, list[Issue]]:
     issues: list[Issue] = []
+
+    if escaped_sequences_only:
+        selected_checks = set(selected_checks or ())
+        selected_checks.add(CHECK_ESCAPED_SEQUENCES)
 
     try:
         raw = path.read_text(encoding="utf-8")
@@ -272,9 +385,16 @@ def audit_file(path: Path, *, escaped_sequences_only: bool = False) -> tuple[dic
         issues.append(Issue(path, "parse", "Root YAML value is not a mapping"))
         return {}, issues
 
-    issues.extend(find_escaped_sequence_issues(path, data))
-    if escaped_sequences_only:
+    if selected_checks is not None:
+        if CHECK_ESCAPED_SEQUENCES in selected_checks:
+            issues.extend(find_escaped_sequence_issues(path, data))
+        if CHECK_MALFORMED_ABSTRACTS in selected_checks:
+            abstract = data.get("abstract")
+            if abstract not in (None, ""):
+                issues.extend(find_malformed_abstract_issues(path, str(abstract)))
         return data, issues
+
+    issues.extend(find_escaped_sequence_issues(path, data))
 
     # -- unknown fields --
     _valid_set = set(VALID_FIELDS)
@@ -339,8 +459,11 @@ def audit_file(path: Path, *, escaped_sequences_only: bool = False) -> tuple[dic
     # -- abstract --
     if "abstract" not in missing:
         abstract = data.get("abstract")
-        if not str(abstract).strip():
+        abstract_str = str(abstract)
+        if not abstract_str.strip():
             issues.append(Issue(path, "abstract", "Empty"))
+        else:
+            issues.extend(find_malformed_abstract_issues(path, abstract_str))
 
     # -- type --
     if "type" not in missing:
@@ -531,13 +654,18 @@ Checks performed on each metadata.yml:
   authors   - ERROR if not a non-empty list of non-blank strings
   year      - ERROR if not a 4-digit integer
   arxiv_id  - ERROR if present but not a valid arXiv ID
-  abstract  - ERROR if empty
+  abstract  - ERROR if empty, contains scraped page text, or has PDF extraction artifacts
   escaped   - ERROR if string fields contain HTML/entity escapes like &#39; or &amp;
   type      - ERROR if not a recognised paper type
   audit_status - ERROR if not one of: raw, partial, reviewed
   path      - ERROR if YEAR/SLUG do not match metadata or expected slug format
   summary   - WARN if missing or empty
   optional  - INFO for each optional field that is not populated
+
+Selective check flags are additive. If any are provided, only those check
+families run:
+  --check-escaped-sequences
+  --check-malformed-abstracts
 """,
     )
     parser.add_argument(
@@ -557,12 +685,30 @@ Checks performed on each metadata.yml:
         help="Audit a single metadata.yml instead of the whole tree",
     )
     parser.add_argument(
+        "--check-escaped-sequences",
+        action="append_const",
+        const=CHECK_ESCAPED_SEQUENCES,
+        dest="selected_checks",
+        help="Check string fields for HTML/entity escape issues",
+    )
+    parser.add_argument(
+        "--check-malformed-abstracts",
+        "--check-abstract-issues",
+        action="append_const",
+        const=CHECK_MALFORMED_ABSTRACTS,
+        dest="selected_checks",
+        help="Check abstracts for scraped page text, PDF artifacts, and unusual length",
+    )
+    parser.add_argument(
         "--escaped-sequences-only",
         "--only-escaped-sequences",
-        action="store_true",
-        help="Only report HTML/entity escape issues, suppressing all other audit checks",
+        action="append_const",
+        const=CHECK_ESCAPED_SEQUENCES,
+        dest="selected_checks",
+        help="Alias for --check-escaped-sequences",
     )
     args = parser.parse_args()
+    selected_checks = set(args.selected_checks) if args.selected_checks else None
 
     if args.file:
         targets = [Path(args.file)]
@@ -574,7 +720,7 @@ Checks performed on each metadata.yml:
 
     results: list[tuple[Path, list[Issue]]] = []
     for p in targets:
-        _, issues = audit_file(p, escaped_sequences_only=args.escaped_sequences_only)
+        _, issues = audit_file(p, selected_checks=selected_checks)
         if issues:
             results.append((p, issues))
 
@@ -616,7 +762,7 @@ Checks performed on each metadata.yml:
         apply_fixes(results)
         remaining_errors = 0
         for p in targets:
-            _, issues = audit_file(p, escaped_sequences_only=args.escaped_sequences_only)
+            _, issues = audit_file(p, selected_checks=selected_checks)
             remaining_errors += sum(1 for i in issues if i.severity == Severity.ERROR)
         sys.exit(1 if remaining_errors else 0)
 
