@@ -1,5 +1,48 @@
 # TODO
 
+
+# general
+
+https://bengravell.github.io/knowledge-base/papers/1988_sutton_learning_to_predict_by_the/ 
+
+
+Getting rendering artifacts in the abstract text
+
+&#39;s
+
+# content tree
+
+When opening a leaf (paper) node, it should expand to include the abstract, a link for the paper detail page, and a link to open in mind map.
+
+
+
+# mind map
+
+## node tooltip author count
+
+The box on click node shows up to 3 author names. It should just be et al like the node label.
+
+## edges
+
+Edges are still too prominent. Reduce opacity further?
+
+Maybe just take a hard count cap like top 5 neighbors.
+
+
+## Slugs for non arxiv papers are sometimes getting more than 4 words
+
+Clean up existing
+
+Revise prefill script logic (shared utils) to use no more than exactly 4 words, including helper words like "the" and "a"
+
+
+
+## mind map font
+
+make node label font bigger
+
+
+
 ## metadata path index key
 
 Revise the setup for mkdocs.yml so that we can refer to the literal path under doc/papers (including dots) instead of slugified version with underscores.
