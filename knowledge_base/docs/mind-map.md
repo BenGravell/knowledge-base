@@ -311,6 +311,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   flex-shrink: 0;
   width: 10px;
 }
+.mm-cat-group-toggle .mm-cat-dot {
+  width: 9px;
+  height: 9px;
+}
 .mm-cat-group-name {
   flex: 1;
   font-size: 0.75rem;
@@ -320,6 +324,21 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 .mm-cat-group-items {
   padding-left: 14px;
+}
+.mm-super-group {
+  margin: 3px 0 5px;
+}
+.mm-super-group > .mm-cat-group-header {
+  padding-top: 5px;
+}
+.mm-super-group > .mm-cat-group-header .mm-cat-group-name {
+  color: var(--md-default-fg-color);
+  font-size: 0.78rem;
+}
+.mm-super-group > .mm-cat-group-items {
+  border-left: 1px solid var(--md-default-fg-color--lightest);
+  margin-left: 5px;
+  padding-left: 12px;
 }
 
 /* Action buttons */

@@ -474,110 +474,159 @@ def build_embed_text(data: dict) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Navigation parsing — paper_id → top-level category
+# Navigation parsing — paper_id → content-tree category
 # ---------------------------------------------------------------------------
 
-PLANNING_CATEGORY = "Motion Planning"  # top-level category that receives sub-categories
+PLANNING_CATEGORY = "Motion Planning"  # category that receives sub-categories
+UNCATEGORIZED_CATEGORY = "Uncategorized"
 
 # Nav sections that act as transparent grouping wrappers: their children are
-# treated as top-level categories rather than the wrapper itself.
+# treated as top-level content-tree branches rather than the wrapper itself.
 TRANSPARENT_NAV_SECTIONS = {"Content Tree"}
+
+
+def find_content_tree_nav(config: dict) -> object | None:
+    """Return the nav subtree under ``Content Tree`` if present."""
+    for item in config.get("nav", []):
+        if not isinstance(item, dict):
+            continue
+        if "Content Tree" in item:
+            return item["Content Tree"]
+    return None
 
 
 def parse_nav_categories(config: dict) -> dict[str, dict]:
     """
-    Recursively walk the mkdocs ``nav`` tree and record which top-level
-    section each paper belongs to, plus a sub-category for Motion Planning
-    derived from the 2nd-level nav sections in mkdocs.yml.
+    Recursively walk the mkdocs ``Content Tree`` nav and record each paper's
+    super-category, category, and optional Motion Planning sub-category.
 
-    Sections listed in TRANSPARENT_NAV_SECTIONS (e.g. "Content Tree") are
-    treated as invisible wrappers: their children are promoted to top-level
-    categories instead.
+    The first branch level under ``Content Tree`` is the super-category level:
 
-    Returns a dict mapping paper_id → {"category": str, "sub_category": str | None}.
-    sub_category is only set for Motion Planning papers; it is None for all others.
+        Content Tree → Decision-Making → Motion Planning → Path Planning → ...
+
+    This keeps the Mind Map hierarchy synchronized with the MkDocs content
+    tree instead of maintaining a separate list of super-categories.
+
+    Returns a dict mapping paper_id to:
+
+        {
+            "super_category": str | None,
+            "category": str,
+            "sub_category": str | None,
+        }
+
+    ``sub_category`` is only set for direct children of Motion Planning.
     """
     mapping: dict[str, dict] = {}
 
-    def walk(node: object, category: str | None = None, sub_category: str | None = None) -> None:
+    def walk(
+        node: object,
+        super_category: str | None = None,
+        category: str | None = None,
+        sub_category: str | None = None,
+    ) -> None:
         if isinstance(node, str):
             if node.startswith("papers/") and node.endswith(".md"):
                 pid = node[len("papers/"):-len(".md")]
                 if pid not in mapping:          # first occurrence wins
-                    mapping[pid] = {"category": category or "Other", "sub_category": sub_category}
+                    mapping[pid] = {
+                        "super_category": super_category,
+                        "category": category or super_category or UNCATEGORIZED_CATEGORY,
+                        "sub_category": sub_category,
+                    }
         elif isinstance(node, list):
             for item in node:
-                walk(item, category, sub_category)
+                walk(item, super_category, category, sub_category)
         elif isinstance(node, dict):
             for key, value in node.items():
-                if category is None:
+                if isinstance(value, str):
+                    walk(value, super_category, category, sub_category)
+                elif super_category is None and category is None:
                     if key in TRANSPARENT_NAV_SECTIONS:
-                        walk(value, None, None)   # skip wrapper, keep looking for real category
+                        walk(value, None, None, None)
                     else:
-                        walk(value, key, None)
+                        walk(value, key, None, None)
+                elif category is None:
+                    walk(value, super_category, key, None)
                 elif category == PLANNING_CATEGORY and sub_category is None:
-                    # Second level under Motion Planning → becomes sub_category
-                    walk(value, category, key)
+                    # Direct children under Motion Planning become sub-categories.
+                    walk(value, super_category, category, key)
                 else:
-                    walk(value, category, sub_category)
+                    walk(value, super_category, category, sub_category)
 
-    for item in config.get("nav", []):
-        if isinstance(item, dict):
-            for section, content in item.items():
-                if section in TRANSPARENT_NAV_SECTIONS:
-                    walk(content, None, None)
-                else:
-                    walk(content, section, None)
+    content_tree = find_content_tree_nav(config)
+    if content_tree is not None:
+        walk(content_tree, None, None, None)
 
     return mapping
 
 
 def parse_nav_category_order(config: dict) -> dict:
     """
-    Walk the mkdocs nav tree and return the ordered lists of categories and
-    sub-categories as they appear in mkdocs.yml (not alphabetically).
+    Walk the mkdocs ``Content Tree`` nav and return ordered hierarchy lists as
+    they appear in mkdocs.yml (not alphabetically).
 
     Returns:
         {
+            "superCategories": [str, ...],
             "categories": [str, ...],
+            "categorySuperCategory": {"<category>": "<super-category>" | None, ...},
             "subCategoryOrder": {"<category>": [str, ...], ...},
         }
     """
+    super_categories: list[str] = []
     categories: list[str] = []
+    category_super_category: dict[str, str | None] = {}
     sub_category_order: dict[str, list[str]] = {}
 
-    def walk(node: object, category: str | None = None) -> None:
+    def add_super_category(name: str) -> None:
+        if name not in super_categories:
+            super_categories.append(name)
+
+    def add_category(name: str, super_category: str | None) -> None:
+        if name not in categories:
+            categories.append(name)
+        category_super_category.setdefault(name, super_category)
+
+    def walk(
+        node: object,
+        super_category: str | None = None,
+        category: str | None = None,
+        depth_under_category: int = 0,
+    ) -> None:
         if isinstance(node, list):
             for item in node:
-                walk(item, category)
+                walk(item, super_category, category, depth_under_category)
         elif isinstance(node, dict):
             for key, value in node.items():
-                if category is None:
+                if isinstance(value, str):
+                    continue
+                if super_category is None and category is None:
                     if key in TRANSPARENT_NAV_SECTIONS:
-                        walk(value, None)
+                        walk(value, None, None, 0)
                     else:
-                        if key not in categories:
-                            categories.append(key)
-                        walk(value, key)
-                elif category == PLANNING_CATEGORY:
-                    if category not in sub_category_order:
-                        sub_category_order[category] = []
-                    if key not in sub_category_order[category]:
-                        sub_category_order[category].append(key)
-                    walk(value, category)
-                # else: deeper nesting — no new categories to record
-
-    for item in config.get("nav", []):
-        if isinstance(item, dict):
-            for section, content in item.items():
-                if section in TRANSPARENT_NAV_SECTIONS:
-                    walk(content, None)
+                        add_super_category(key)
+                        walk(value, key, None, 0)
+                elif category is None:
+                    add_category(key, super_category)
+                    walk(value, super_category, key, 0)
                 else:
-                    if section not in categories:
-                        categories.append(section)
-                    walk(content, section)
+                    if category == PLANNING_CATEGORY and depth_under_category == 0:
+                        sub_category_order.setdefault(category, [])
+                        if key not in sub_category_order[category]:
+                            sub_category_order[category].append(key)
+                    walk(value, super_category, category, depth_under_category + 1)
 
-    return {"categories": categories, "subCategoryOrder": sub_category_order}
+    content_tree = find_content_tree_nav(config)
+    if content_tree is not None:
+        walk(content_tree, None, None, 0)
+
+    return {
+        "superCategories": super_categories,
+        "categories": categories,
+        "categorySuperCategory": category_super_category,
+        "subCategoryOrder": sub_category_order,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -814,13 +863,21 @@ def main() -> None:
         year = data.get("year")
         embed_text = build_embed_text(data)
 
-        cat_info = paper_to_category.get(pid, {"category": "Other", "sub_category": None})
+        cat_info = paper_to_category.get(
+            pid,
+            {
+                "super_category": None,
+                "category": UNCATEGORIZED_CATEGORY,
+                "sub_category": None,
+            },
+        )
         papers.append({
             "id": pid,
             "title": title,
             "label": make_label(data),
             "authors": [last_name(a) for a in authors[:3]],
             "year": year,
+            "super_category": cat_info["super_category"],
             "category": cat_info["category"],
             "sub_category": cat_info["sub_category"],
             "tags": tags,
@@ -963,6 +1020,7 @@ def main() -> None:
                 "title": p["title"],
                 "authors": p["authors"],
                 "year": p["year"],
+                "super_category": p["super_category"],
                 "category": p["category"],
                 "sub_category": p["sub_category"],
                 "tags": p["tags"],
@@ -1030,7 +1088,9 @@ def main() -> None:
             "top_k": args.top_k,
             "total_papers": len(papers),
             "total_edges": len(edges),
+            "superCategoryOrder": nav_order["superCategories"],
             "categoryOrder": nav_order["categories"],
+            "categorySuperCategory": nav_order["categorySuperCategory"],
             "subCategoryOrder": nav_order["subCategoryOrder"],
         },
     }
