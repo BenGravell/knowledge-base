@@ -1,0 +1,18 @@
+title: Learning Complex Neural Network Policies with Trajectory Optimization
+algorithm:
+authors:
+  - Sergey Levine
+  - Vladlen Koltun
+year: 2014
+source: International Conference on Machine Learning
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+abstract: >
+  Direct policy search methods offer the promise of automatically learning controllers for complex, high-dimensional tasks. However, prior applications of policy search often required specialized, low-dimensional policy classes, limiting their generality. In this work, we introduce a policy search algorithm that can directly learn high-dimensional, general-purpose policies, represented by neural networks. We formulate the policy search problem as an optimization over trajectory distributions, alternating between optimizing the policy to match the trajectories, and optimizing the trajectories to match the policy and minimize expected cost. Our method can learn policies for complex tasks such as bipedal push recovery and walking on uneven terrain, while outperforming prior methods.
+summary: ''
+link: https://proceedings.mlr.press/v32/levine14.pdf
+links_alt:
+  - https://proceedings.mlr.press/v32/levine14.html
+audit_status: raw

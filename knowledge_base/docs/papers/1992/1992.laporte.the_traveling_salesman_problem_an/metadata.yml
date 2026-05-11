@@ -1,0 +1,15 @@
+title: 'The traveling salesman problem: An overview of exact and approximate algorithms'
+algorithm:
+authors:
+  - Gilbert Laporte
+year: 1992
+source: European Journal of Operational Research
+type: Journal Paper
+doi: 10.1016/0377-2217(92)90138-y
+arxiv_id:
+tags:
+abstract: ''
+summary: ''
+link: https://doi.org/10.1016/0377-2217(92)90138-y
+links_alt:
+audit_status: raw

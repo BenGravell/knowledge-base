@@ -1,0 +1,20 @@
+title: Review of Computational Stirling Analysis Methods
+algorithm:
+authors:
+  - Rodger W. Dyson
+  - Scott D. Wilson
+  - Roy C. Tew
+year: 2004
+source: Second International Energy Conversion Engineering Conference
+type: Technical Report
+doi:
+arxiv_id:
+tags:
+abstract: >
+  Nuclear thermal to electric power conversion carries the promise of longer duration missions and higher scientific data transmission rates back to Earth for both Mars rovers and deep space missions. A free-piston Stirling convertor is a candidate technology that is considered an efficient and reliable power conversion device for such purposes. While already very efficient, it is believed that better Stirling engines can be developed if the losses inherent its current designs could be better understood. However, they are difficult to instrument and so efforts are underway to simulate a complete Stirling engine numerically. This has only recently been attempted and a review of the methods leading up to and including such computational analysis is presented. And finally it is proposed that the quality and depth of Stirling loss understanding may be improved by utilizing the higher fidelity and efficiency of recently developed numerical methods. One such method, the Ultra HI-Fl technique is presented in detail.
+summary: ''
+link: https://ntrs.nasa.gov/api/citations/20040171934/downloads/20040171934.pdf
+links_alt:
+  - https://ntrs.nasa.gov/citations/20040171934
+  - https://ntrs.nasa.gov/api/citations/20040171934
+audit_status: raw

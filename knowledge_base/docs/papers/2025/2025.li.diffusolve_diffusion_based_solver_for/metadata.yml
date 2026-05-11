@@ -1,0 +1,20 @@
+title: 'DiffuSolve: Diffusion-based Solver for Non-convex Trajectory Optimization'
+algorithm:
+authors:
+  - Anjian Li
+  - Zihan Ding
+  - Adji Bousso Dieng
+  - Ryne Beeson
+year: 2025
+source: 7th Annual Learning for Dynamics \& Control Conference
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+abstract: >
+  Optimal trajectory design is computationally expensive for nonlinear and high-dimensional dynamical systems. The challenge arises from solving a non-convex optimization problem with multiple local optima, where traditional numerical solvers struggle to find diverse solutions efficiently without appropriate initial guesses. In this paper, we introduce DiffuSolve, a general diffusion model-based solver for non-convex trajectory optimization. An expressive diffusion model is trained on pre-collected locally optimal solutions and efficiently samples initial guesses, which then warm-starts numerical solvers to fine-tune the feasibility and optimality. We also present DiffuSolve+, a novel constrained diffusion model with an additional loss in training that further reduces the problem constraint violations of diffusion samples. Experimental evaluations on three tasks verify the improved robustness, diversity, and a 2x to 11x increase in computational efficiency with our proposed method, which generalizes well to trajectory optimization problems of varying challenges.
+summary: ''
+link: https://raw.githubusercontent.com/mlresearch/v283/main/assets/li25a/li25a.pdf
+links_alt:
+  - https://proceedings.mlr.press/v283/li25a.html
+audit_status: raw

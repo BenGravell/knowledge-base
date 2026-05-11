@@ -1,0 +1,18 @@
+title: Quicksort
+algorithm:
+authors:
+  - C. A. R. Hoare
+year: 1962
+source: The Computer Journal
+type: Journal Paper
+doi: 10.1093/comjnl/5.1.10
+arxiv_id:
+tags:
+abstract: >
+  A description is given of a new method of sorting in the random-access store of a computer. The method compares very favourably with other known methods in speed, in economy of storage, and in ease of programming. Certain refinements of the method, which may be useful in the optimization of inner loops, are described in the second part of the paper.
+summary: ''
+link: >
+  https://academic.oup.com/comjnl/article-abstract/5/1/10/395338?redirectedFrom=fulltext
+links_alt:
+  - https://doi.org/10.1093/comjnl/5.1.10
+audit_status: raw

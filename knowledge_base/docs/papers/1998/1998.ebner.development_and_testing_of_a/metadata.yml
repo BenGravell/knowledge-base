@@ -1,0 +1,18 @@
+title: Development and Testing of a Color Space (IPT) with Improved Hue Uniformity
+algorithm:
+authors:
+  - Fritz Ebner
+  - Mark D. Fairchild
+year: 1998
+source: Color and Imaging Conference
+type: Journal Paper
+doi: 10.2352/CIC.1998.6.1.art00003
+arxiv_id:
+tags:
+abstract: >
+  A simple, uniform color space (the IPT color space) has been derived that accurately models constant perceived hue. The model accurately predicts hue without detrimentally affecting other color appearance attributes. Several psychophysical data sets have been modeled in the new color space and appear to perform as well as or better than CIELAB and CIECAM97s color spaces. Data sets tested and compared to CIELAB and CIECAM97s include Munsell renotation colors at Value 5, OSA color system uniform scale data, MacAdam's (observer PGN) equi-luminant color tolerance ellipses, suprathreshold color-difference ellipsoids (RIT-DuPont visual color difference data), lightness of chromatic object colors (Helmholtz-Kohlrausch effect), and the two constant hue data sets. Quantitative analysis is discussed for the constant hue data sets and the Helmholtz-Kohlrausch effect data. A verification experiment that compares the new space to Hung and Berns', and Ebner and Fairchild's constant hue data sets has been performed. Results show that the new space is judged to be at least as uniform as table based hue corrections derived from the data sets.
+summary: ''
+link: https://library.imaging.org/cic/articles/6/1/art00003
+links_alt:
+  - https://doi.org/10.2352/CIC.1998.6.1.art00003
+audit_status: raw

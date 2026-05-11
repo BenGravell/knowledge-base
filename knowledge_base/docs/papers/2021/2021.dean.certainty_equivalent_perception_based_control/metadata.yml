@@ -1,0 +1,18 @@
+title: Certainty Equivalent Perception-Based Control
+algorithm:
+authors:
+  - Sarah Dean
+  - Benjamin Recht
+year: 2021
+source: Learning for Dynamics and Control
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+abstract: >
+  In order to certify performance and safety, feedback control requires precise characterization of sensor errors. In this paper, we provide guarantees on such feedback systems when sensors are characterized by solving a supervised learning problem. We show a uniform error bound on nonparametric kernel regression under a dynamically-achievable dense sampling scheme. This allows for a finite-time convergence rate on the sub-optimality of using the regressor in closed-loop for waypoint tracking. We demonstrate our results in simulation with simplified unmanned aerial vehicle and autonomous driving examples.
+summary: ''
+link: https://proceedings.mlr.press/v144/dean21a/dean21a.pdf
+links_alt:
+  - https://proceedings.mlr.press/v144/dean21a.html
+audit_status: raw

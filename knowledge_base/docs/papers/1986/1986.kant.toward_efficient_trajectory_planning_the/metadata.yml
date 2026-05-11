@@ -1,0 +1,18 @@
+title: 'Toward Efficient Trajectory Planning: The Path-Velocity Decomposition'
+algorithm:
+authors:
+  - Kamal Kant
+  - Steven W. Zucker
+year: 1986
+source: The International Journal of Robotics Research
+type: Journal Paper
+doi: 10.1177/027836498600500304
+arxiv_id:
+tags:
+abstract: >
+  We present a novel approach to solving the trajectory plan ning problem (TPP) in time-varying environments. The es sence of our approach lies in a heuristic but natural decom position of TPP into two subproblems: (1) planning a path to avoid collision with static obstacles and (2) planning the velocity along the path to avoid collision with moving obsta cles. We call thefirst subproblem the path planning problem (PPP) and the second the velocity planning problem (VPP). Thus, our decomposition is summarized by the equation TPP =&gt; PPP + VPP. The symbol =&gt; indicates that the de composition holds under certain assumptions, e.g., when obstacles are moving independently of ( i.e., not tracking ) the robot. Furthermore, we pose the VPP in path-time space, where time is explicitly represented as an extra dimension, and reduce it to a graph search in this space. In fact, VPP is transformed to a two-dimensional PPP in path-time space with some additional constraints. Algorithms are then pre sented to solve the VPP with different optimality criteria: minimum length in path-time space, and minimum time.
+summary: ''
+link: https://journals.sagepub.com/doi/10.1177/027836498600500304
+links_alt:
+  - https://doi.org/10.1177/027836498600500304
+audit_status: raw

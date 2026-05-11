@@ -1,0 +1,19 @@
+title: Uniform colour spaces based on CIECAM02 colour appearance model
+algorithm:
+authors:
+  - M. Ronnier Luo
+  - Guihua Cui
+  - Changjun Li
+year: 2006
+source: Color Research &amp; Application
+type: Journal Paper
+doi: 10.1002/col.20227
+arxiv_id:
+tags:
+abstract: >
+  AbstractCan a single colour model be used for all colorimetric applications? This article intends to answer that question. Colour appearance models have been developed to predict colour appearance under different viewing conditions. They are also capable of evaluating colour differences because of their embedded uniform colour spaces. This article first tests the performance of the CIE 2002 colour appearance model, CIECAM02, in predicting three types of colour discrimination data sets: large‐ and small‐magnitude colour differences under daylight illuminants and small‐magnitude colour differences under illuminant A. The results showed that CIECAM02 gave reasonable performance compared with the best available formulae and uniform colour spaces. It was further extended to give accurate predictions to all types of colour discrimination data. The results were very encouraging in that the CIECAM02 extensions performed second best among all the colour models tested and only slightly poorer than the models that were developed to fit a particular data set. One extension derived to fit all types of data can predict well for colour differences having a large range of difference magnitudes. © 2006 Wiley Periodicals, Inc. Col Res Appl, 31, 320–330, 2006; Published online in Wiley InterScience (www.interscience.wiley.com). DOI 10.1002/col.20227
+summary: ''
+link: https://onlinelibrary.wiley.com/doi/10.1002/col.20227
+links_alt:
+  - https://doi.org/10.1002/col.20227
+audit_status: raw
