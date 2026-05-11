@@ -66,10 +66,6 @@ https://labs.utdallas.edu/conlab/resources/
 
 ## Content tree
 
-Keep sidebar menu visible while on the Content Tree page.
-
-Move Content Tree to just after Mind Map in the sidebar. Explainers go last.
-
 ## Mind Map
 
 ## Performance on web
