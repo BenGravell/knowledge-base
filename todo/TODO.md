@@ -1,33 +1,18 @@
 # TODO
 
-
-# general
-
-https://bengravell.github.io/knowledge-base/papers/1988_sutton_learning_to_predict_by_the/ 
-
-
-Getting rendering artifacts in the abstract text
-
-&#39;s
-
 # content tree
 
 When opening a leaf (paper) node, it should expand to include the abstract, a link for the paper detail page, and a link to open in mind map.
-
-
 
 # mind map
 
 ## node tooltip author count
 
-The box on click node shows up to 3 author names. It should just be et al like the node label.
+The box on clicking a node shows up to 3 author names. It should just be 'et al' like the node label.
 
 ## edges
 
-Edges are still too prominent. Reduce opacity further?
-
-Maybe just take a hard count cap like top 5 neighbors.
-
+Edges opacity - autotune
 
 ## Slugs for non arxiv papers are sometimes getting more than 4 words
 
@@ -35,18 +20,9 @@ Clean up existing
 
 Revise prefill script logic (shared utils) to use no more than exactly 4 words, including helper words like "the" and "a"
 
-
-
-## mind map font
-
-make node label font bigger
-
-
-
 ## metadata path index key
 
 Revise the setup for mkdocs.yml so that we can refer to the literal path under doc/papers (including dots) instead of slugified version with underscores.
-
 
 ## Metadata cleanup
 
@@ -201,7 +177,6 @@ Coolness
 - "synthesizes": Ego paper creates its result by using a literal result of the related paper as a smaller piece of a larger whole.
 - "inspired by": Ego paper creates its result by using an idealogical result of the related paper. Directionally the same as the "synthesizes" relation, but weaker.
 - “same family as”: Ego paper provides a result that shares key attributes ("DNA") with the result of the related paper.
-
 
 “builds on X”
 “similar to Y”

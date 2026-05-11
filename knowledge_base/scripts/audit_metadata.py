@@ -1,6 +1,7 @@
 """Audit (and optionally fix) metadata.yml files under knowledge_base/docs/papers/."""
 
 import argparse
+import html
 import re
 import sys
 from dataclasses import dataclass
@@ -65,6 +66,9 @@ _LOWERCASE_TITLE_WORDS = {
 _ARXIV_NEW_RE = re.compile(r"^\d{4}\.\d{4,5}(v\d+)?$")  # e.g. 2401.09241
 _ARXIV_OLD_RE = re.compile(  # e.g. math.CO/0701001
     r"^[a-z]+(-[a-z]+)?(\.[A-Z]{2})?/\d{7}(v\d+)?$"
+)
+_HTML_ENTITY_RE = re.compile(
+    r"&(?:#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);"
 )
 
 
@@ -145,6 +149,59 @@ def strip_arxiv_version(arxiv_id: str) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Escaped-sequence helpers
+# ---------------------------------------------------------------------------
+
+
+def _html_unescape_repeated(text: str, max_rounds: int = 3) -> str:
+    """Decode HTML entities, including values that were escaped more than once."""
+    current = text
+    for _ in range(max_rounds):
+        decoded = html.unescape(current)
+        if decoded == current:
+            break
+        current = decoded
+    return current
+
+
+def _walk_string_values(value, field_name: str):
+    if isinstance(value, str):
+        yield field_name, value
+    elif isinstance(value, list):
+        for i, item in enumerate(value):
+            yield from _walk_string_values(item, f"{field_name}[{i}]")
+    elif isinstance(value, dict):
+        for key, item in value.items():
+            nested = f"{field_name}.{key}" if field_name else str(key)
+            yield from _walk_string_values(item, nested)
+
+
+def find_escaped_sequence_issues(path: Path, data: dict) -> list["Issue"]:
+    issues: list[Issue] = []
+    for field_name, value in _walk_string_values(data, ""):
+        matches = sorted(set(_HTML_ENTITY_RE.findall(value)))
+        if not matches:
+            continue
+
+        examples = ", ".join(matches[:5])
+        if len(matches) > 5:
+            examples += f", ... ({len(matches)} total)"
+        decoded_examples = ", ".join(
+            f"{match} decodes to {_html_unescape_repeated(match)!r}"
+            for match in matches[:3]
+        )
+        issues.append(
+            Issue(
+                path,
+                field_name,
+                f"Contains escaped HTML/entity sequence(s): {examples}",
+                decoded_examples,
+            )
+        )
+    return issues
+
+
+# ---------------------------------------------------------------------------
 # Slug helpers
 # ---------------------------------------------------------------------------
 
@@ -201,7 +258,7 @@ class Issue:
 # ---------------------------------------------------------------------------
 
 
-def audit_file(path: Path) -> tuple[dict, list[Issue]]:
+def audit_file(path: Path, *, escaped_sequences_only: bool = False) -> tuple[dict, list[Issue]]:
     issues: list[Issue] = []
 
     try:
@@ -214,6 +271,10 @@ def audit_file(path: Path) -> tuple[dict, list[Issue]]:
     if not isinstance(data, dict):
         issues.append(Issue(path, "parse", "Root YAML value is not a mapping"))
         return {}, issues
+
+    issues.extend(find_escaped_sequence_issues(path, data))
+    if escaped_sequences_only:
+        return data, issues
 
     # -- unknown fields --
     _valid_set = set(VALID_FIELDS)
@@ -448,6 +509,7 @@ Checks performed on each metadata.yml:
   year      - ERROR if not a 4-digit integer
   arxiv_id  - ERROR if present but not a valid arXiv ID
   abstract  - ERROR if empty
+  escaped   - ERROR if string fields contain HTML/entity escapes like &#39; or &amp;
   type      - ERROR if not a recognised paper type
   audit_status - ERROR if not one of: raw, partial, reviewed
   path      - ERROR if YEAR/SLUG do not match metadata or expected slug format
@@ -471,6 +533,12 @@ Checks performed on each metadata.yml:
         metavar="PATH",
         help="Audit a single metadata.yml instead of the whole tree",
     )
+    parser.add_argument(
+        "--escaped-sequences-only",
+        "--only-escaped-sequences",
+        action="store_true",
+        help="Only report HTML/entity escape issues, suppressing all other audit checks",
+    )
     args = parser.parse_args()
 
     if args.file:
@@ -483,7 +551,7 @@ Checks performed on each metadata.yml:
 
     results: list[tuple[Path, list[Issue]]] = []
     for p in targets:
-        _, issues = audit_file(p)
+        _, issues = audit_file(p, escaped_sequences_only=args.escaped_sequences_only)
         if issues:
             results.append((p, issues))
 

@@ -122,6 +122,7 @@ DEFAULT_THRESHOLD = 0.75   # Minimum cosine similarity to draw an edge
 DEFAULT_TOP_K = 5          # Always connect each paper to its top-K neighbours
                            # even if their similarity falls below the threshold
                            # (floor-capped at 0.50 to avoid noisy edges)
+MAX_EDGE_CANDIDATES_PER_NODE = 10  # Per-node pruning cap before the undirected union
 ABSOLUTE_FLOOR = 0.50      # Hard minimum similarity; top-K edges below this
                            # are silently dropped
 DEFAULT_UMAP_SCALE = 1500.0  # Base UMAP coordinate extent; formerly 1000 px.
@@ -1035,8 +1036,7 @@ def main() -> None:
         for i, p in enumerate(papers)
     ]
 
-    edges: list[dict] = []
-    edge_set: set[tuple[str, str]] = set()
+    edge_candidates: dict[tuple[int, int], float] = {}
 
     for i in range(n):
         row = sim[i].copy()
@@ -1046,28 +1046,39 @@ def main() -> None:
         above = set(int(j) for j in np.where(row >= args.threshold)[0])
 
         # Plus top-K neighbours (guarantees connectivity even for outlier papers)
-        top_k_idx = np.argpartition(row, -args.top_k)[-args.top_k :]
-        above.update(int(j) for j in top_k_idx)
+        top_k = min(max(args.top_k, 0), n - 1)
+        if top_k:
+            top_k_idx = np.argpartition(row, -top_k)[-top_k:]
+            above.update(int(j) for j in top_k_idx)
 
-        for j in above:
-            if j <= i:
-                continue
-            sim_val = float(sim[i, j])
-            if sim_val < ABSOLUTE_FLOOR:
-                continue
-            id_i, id_j = papers[i]["id"], papers[j]["id"]
-            key = (min(id_i, id_j), max(id_i, id_j))
-            if key in edge_set:
-                continue
-            edge_set.add(key)
-            edges.append({
-                "data": {
-                    "id": f"e{len(edges)}",
-                    "source": id_i,
-                    "target": id_j,
-                    "weight": round(sim_val, 4),
-                }
-            })
+        strongest = sorted(
+            (
+                (float(sim[i, j]), j)
+                for j in above
+                if j != i and float(sim[i, j]) >= ABSOLUTE_FLOOR
+            ),
+            reverse=True,
+        )[:MAX_EDGE_CANDIDATES_PER_NODE]
+
+        for sim_val, j in strongest:
+            # The cap above is a per-node pruning strategy only.  The output
+            # graph remains undirected: if either endpoint selects this pair,
+            # emit one canonical edge between them.
+            key = (min(i, j), max(i, j))
+            edge_candidates[key] = max(edge_candidates.get(key, 0.0), sim_val)
+
+    edges: list[dict] = []
+    for (i, j), sim_val in sorted(edge_candidates.items()):
+        id_i, id_j = papers[i]["id"], papers[j]["id"]
+        edges.append({
+            "data": {
+                "id": f"e{len(edges)}",
+                "source": id_i,
+                "target": id_j,
+                "weight": round(sim_val, 4),
+                "undirected": True,
+            }
+        })
 
     # Bake per-edge opacity based on node degree (high-degree hubs → more transparent)
     degree: dict[str, int] = {}
@@ -1087,6 +1098,7 @@ def main() -> None:
             "model": model_name,
             "threshold": args.threshold,
             "top_k": args.top_k,
+            "max_edge_candidates_per_node": MAX_EDGE_CANDIDATES_PER_NODE,
             "total_papers": len(papers),
             "total_edges": len(edges),
             "superCategoryOrder": nav_order["superCategories"],
@@ -1102,7 +1114,11 @@ def main() -> None:
         f.write(js)
 
     print(f"    Nodes : {len(nodes)}")
-    print(f"    Edges : {len(edges)}  (threshold={args.threshold}, top_k={args.top_k})")
+    print(
+        f"    Edges : {len(edges)}  "
+        f"(threshold={args.threshold}, top_k={args.top_k}, "
+        f"max_edge_candidates_per_node={MAX_EDGE_CANDIDATES_PER_NODE})"
+    )
     print(f"    Output: {args.output}")
     print("\nDone!")
 

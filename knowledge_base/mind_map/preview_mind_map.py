@@ -35,6 +35,9 @@ SUPER_CATEGORY_PALETTE = [
     {"h": 12, "s": 72, "l": 42},
     {"h": 188, "s": 72, "l": 36},
 ]
+NODE_MARKER_DIAMETER = 7
+EDGE_NODE_DIAMETER_RATIO = 0.2
+EDGE_LINE_WIDTH = NODE_MARKER_DIAMETER * EDGE_NODE_DIAMETER_RATIO
 
 
 def load_data() -> dict:
@@ -236,7 +239,7 @@ def build_figure(data: dict):
             x=ex,
             y=ey,
             mode="lines",
-            line=dict(width=0.6, color="rgba(180,180,200,0.15)"),
+            line=dict(width=EDGE_LINE_WIDTH, color="rgba(180,180,200,0.15)"),
             hoverinfo="none",
             showlegend=False,
         )
@@ -258,7 +261,9 @@ def build_figure(data: dict):
         for n in cat_nodes:
             d = n["data"]
             authors = d.get("authors", [])
-            author_str = ", ".join(authors[:3]) + (" et al." if len(authors) > 3 else "")
+            author_str = "Unknown"
+            if authors:
+                author_str = authors[0] + (" et al." if len(authors) > 1 else "")
             sub = f"<br><i>{d['sub_category']}</i>" if d.get("sub_category") else ""
             super_cat = f"{d.get('super_category')} / " if d.get("super_category") else ""
             tags = ", ".join(d.get("tags", [])[:6])
@@ -276,7 +281,7 @@ def build_figure(data: dict):
                 mode="markers",
                 name=trace_name,
                 marker=dict(
-                    size=7,
+                    size=NODE_MARKER_DIAMETER,
                     color=node_color(data, cat, sub_cat),
                     line=dict(width=0.8, color="rgba(255,255,255,0.35)"),
                     opacity=0.9,

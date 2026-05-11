@@ -69,9 +69,10 @@
   const NODE_SCREEN_RADIUS_CAP = 5;
   const NODE_SCREEN_RADIUS_MIN = 1;
   const NODE_SCREEN_RADIUS_FALLBACK = 4.5;
-  const NODE_LABEL_FONT_SIZE = 11;
-  const NODE_LABEL_LINE_HEIGHT = 11.5;
+  const NODE_LABEL_FONT_SIZE = 22;
+  const NODE_LABEL_LINE_HEIGHT = 23;
   const SELECTED_NODE_RADIUS_SCALE = 1.12;
+  const EDGE_NODE_DIAMETER_RATIO = 0.2;
 
   /* -------------------------------------------------------------------------
    * State
@@ -325,8 +326,12 @@
   }
 
   function edgeSize(weight) {
-    const t = Math.max(0, Math.min((weight - 0.5) / 0.5, 1));
-    return 0.22 + t * 0.95;
+    const numericWeight = Number(weight);
+    const t = Number.isFinite(numericWeight)
+      ? Math.max(0, Math.min((numericWeight - 0.5) / 0.5, 1))
+      : 0.5;
+    const targetWidth = currentNodeRadius() * 2 * EDGE_NODE_DIAMETER_RATIO;
+    return targetWidth * (0.9 + t * 0.2);
   }
 
   function currentNodeRadius() {
@@ -380,8 +385,9 @@
    * Build the Graphology graph. Sigma renders directly from node/edge attrs.
    * -------------------------------------------------------------------------*/
   function buildGraph() {
-    const GraphCtor = window.graphology.UndirectedGraph || window.graphology.Graph;
-    const g = new GraphCtor();
+    const g = window.graphology.UndirectedGraph ?
+      new window.graphology.UndirectedGraph() :
+      new window.graphology.Graph({ type: 'undirected' });
 
     DATA.nodes.forEach(n => {
       const attrs = n.data;
@@ -410,11 +416,10 @@
         type: 'line',
       };
 
-      if (typeof g.addUndirectedEdgeWithKey === 'function') {
-        g.addUndirectedEdgeWithKey(attrs.id, attrs.source, attrs.target, edgeAttrs);
-      } else {
-        g.addEdgeWithKey(attrs.id, attrs.source, attrs.target, edgeAttrs);
+      if (typeof g.addUndirectedEdgeWithKey !== 'function') {
+        throw new Error('Mind map graph must support undirected edges.');
       }
+      g.addUndirectedEdgeWithKey(attrs.id, attrs.source, attrs.target, edgeAttrs);
     });
 
     return g;
@@ -487,12 +492,13 @@
       Math.max((attrs.edgeAlpha || 0.2) * theme.edgeAlphaScale, theme.edgeAlphaMin),
       theme.edgeAlphaMax
     );
+    const size = edgeSize(attrs.weight);
 
     if (dimmed) {
       return {
         ...attrs,
         color: colorWithAlpha(theme.edgeColor, 0.025),
-        size: Math.max(attrs.size * 0.35, 0.18),
+        size: Math.max(size * 0.35, 0.18),
         zIndex: 0,
       };
     }
@@ -501,7 +507,7 @@
       return {
         ...attrs,
         color: theme.edgeHighlighted,
-        size: Math.max(Math.min(attrs.size * 1.35, 1.65), 1.15),
+        size: size * 1.25,
         zIndex: 2,
       };
     }
@@ -509,7 +515,7 @@
     return {
       ...attrs,
       color: colorWithAlpha(theme.edgeColor, baseAlpha),
-      size: attrs.size,
+      size,
       zIndex: 1,
     };
   }
@@ -731,9 +737,15 @@
    * -------------------------------------------------------------------------*/
   const tooltip = document.getElementById('mm-tooltip');
 
+  function formatAuthors(authors) {
+    const names = Array.isArray(authors) ? authors.filter(Boolean) : [];
+    if (!names.length) return 'Unknown';
+    return names.length > 1 ? `${names[0]} et al.` : names[0];
+  }
+
   function showNodeTooltip(node, pos, pinned) {
     const d = graph.getNodeAttributes(node);
-    const authors = (d.authors || []).join(', ') || 'Unknown';
+    const authors = formatAuthors(d.authors);
     const tags = (d.tags || []).slice(0, 7).join(' · ');
     const url = `../papers/${d.id}/`;
     tooltip.innerHTML =

@@ -655,7 +655,7 @@ nav:
       - Reinforcement Learning:
         - Foundations:
           - Neuronlike Adaptive Elements (Actor-Critic, Cart-Pole): papers/1983_barto_neuronlike_adaptive_elements_that_can.md
-          - Learning to Predict by the Methods of Temporal Differences: papers/1988_sutton_learning_to_predict_by_the.md
+          - TD Learning: papers/1988_sutton_learning_to_predict_by_the.md
           - mellowmax: papers/1612_05628.md
           - "A Gentle Lecture Note on Filtrations in Reinforcement Learning": papers/2008_02622.md
         - Imitation Learning:
