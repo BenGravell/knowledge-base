@@ -1,8 +1,5 @@
 # TODO
 
-Header menu turns into hamburger menu on mobile desktop site
-
-
 ## Rendering
 
 investigate rendering issues in Abstract of 
