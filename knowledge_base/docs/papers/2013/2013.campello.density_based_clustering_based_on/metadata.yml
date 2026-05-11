@@ -1,5 +1,5 @@
 title: Density-Based Clustering Based on Hierarchical Density Estimates
-algorithm: "HDBSCAN"
+algorithm: HDBSCAN
 authors:
   - Ricardo J. G. B. Campello
   - Davoud Moulavi

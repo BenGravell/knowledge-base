@@ -1,0 +1,30 @@
+title: "An Algorithm for the Machine Calculation of Complex Fourier Series"
+algorithm: Cooley-Tukey FFT
+authors:
+  - James W. Cooley
+  - John W. Tukey
+year: 1965
+source: Mathematics of Computation
+type: Journal Paper
+doi: 10.1090/S0025-5718-1965-0178586-1
+arxiv_id:
+tags:
+  - Fast Fourier transform
+  - Cooley-Tukey FFT
+  - Fourier analysis
+  - Numerical algorithms
+  - Divide and conquer
+  - Sparse factorization
+  - Signal processing
+  - Computational mathematics
+abstract: >
+  An efficient method for the calculation of the interactions of a 2m factorial experiment was introduced by Yates and is widely known by his name. The generalization to 3m was given by Box et al. Good generalized these methods and gave elegant algorithms for which one class of applications is the calculation of Fourier series. In their full generality, Good's methods are applicable to certain problems in which one must multiply an JV-vector by an JV X N matrix which can be factored into m sparse matrices, where m is proportional to log JV. This results in a procedure requiring a number of operations proportional to JV log JV rather than JV2. These methods are applied here to the calculation of complex Fourier series. They are useful in situations where the number of data points is, or can be chosen to be, a highly composite number. The algorithm is here derived and presented in a rather different form. Attention is given to the choice of JV. It is also shown how special advantage can be obtained in the use of a binary computer with JV = 2m and how the entire calculation can be performed within the array of JV data storage locations used for the given Fourier coefficients.
+summary: >
+  Cooley and Tukey present the modern fast Fourier transform as a practical factorization of the complex discrete Fourier transform into sparse stages, reducing computation from quadratic time to roughly N log N when the number of samples has a favorable composite factorization. The paper's derivation, in-place storage strategy, and special treatment of powers of two helped make FFT computation a standard tool for numerical analysis, signal processing, and scientific computing.
+link: https://www.ams.org/mcom/1965-19-090/S0025-5718-1965-0178586-1/S0025-5718-1965-0178586-1.pdf
+links_alt:
+  - https://doi.org/10.1090/S0025-5718-1965-0178586-1
+  - https://www.ams.org/mcom/1965-19-090/S0025-5718-1965-0178586-1/
+  - https://www.jstor.org/stable/2003354
+  - https://doi.org/10.2307/2003354
+audit_status: raw

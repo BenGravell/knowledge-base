@@ -126,7 +126,8 @@ nav:
           - "Zeroth-Order Optimization Finds Flat Minima": papers/2506_05454.md
           - "Zeroth-Order Randomized Subspace Newton Methods": papers/2202_04612.md
         - First-Order Methods:
-          - Cauchy's Gradient Method: papers/1847_cauchy_methode_generale_pour_la.md
+          - Gradient Method: papers/1847_cauchy_methode_generale_pour_la.md
+          - Steepest Descent: papers/1944_curry_the_method_of_steepest.md
           - Polyak-Łojasiewicz inequality: papers/1963_polyak_gradient_methods_for_the_minimisation.md
           - Polyak momentum: papers/1964_polyak_some_methods_of_speeding_up.md
           - "A Differential Equation for Modeling Nesterov's Accelerated Gradient Method": papers/1503_01243.md
@@ -186,19 +187,18 @@ nav:
           - "The Hessian of tall-skinny networks is easy to invert": papers/2601_06096.md
           - "Verification of Sequential Convex Programming for Parametric Non-convex Optimization": papers/2511_10622.md
         - Trust Region Methods:
+          - Levenberg-Marquardt: papers/1944_levenberg_a_method_for_the.md
           - "Recent advances in trust region algorithms": papers/2015_yuan_recent_advances_in_trust_region.md
-        - Halley's Method and High-Order Roots:
+        - Halley's Method and High-Order Methods:
           - Multivariate Halley method: papers/1985_cuyt_computational_implementation_of_the_multivariate.md
           - Super-Halley method: papers/2001_gutierrez_an_acceleration_of_newton_s.md
           - Generalized Halley method: papers/2008_albeanu_on_the_generalized_halley.md
-          - "New recurrence relations for Chebyshev method": papers/1997_gutierrez_new_recurrence_relations_for_chebyshev.md
+          - New recurrence relations for Chebyshev method: papers/1997_gutierrez_new_recurrence_relations_for_chebyshev.md
         - Proximal Methods:
           - FISTA: papers/2009_beck_a_fast_iterative_shrinkage.md
           - Proximal Algorithms: papers/2014_parikh_proximal_algorithms.md
           - "Inverse Optimization: Theory and Applications": papers/2109_03920.md
           - "Supersparse Linear Integer Models for Optimized Medical Scoring Systems": papers/1502_04269.md
-          - "UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction": papers/1802_03426.md
-          - "Understanding How Dimension Reduction Tools Work: An Empirical Approach to Deciphering t-SNE, UMAP, TriMAP, and PaCMAP for Data Visualization": papers/2012_04456.md
         - Stochastic Optimization:
           - Enhancing Sparsity by Reweighted L1 Minimization: papers/0711_1612.md
           - When Does SGD Escape Local Minima?: papers/1802_06175.md
@@ -514,9 +514,10 @@ nav:
               - "Learning Complex Neural Network Policies with Trajectory Optimization": papers/2014_levine_learning_complex_neural_network_policies.md
               - "Learning-Aided Warmstart of Model Predictive Control in Uncertain Fast-Changing Traffic": papers/2310_02918.md
               - "Learning to Optimize in Model Predictive Control": papers/2212_02603.md
-              - "CACTO-BIC: Scalable Actor-Critic Learning via Biased Sampling and GPU-Accelerated Trajectory Optimization": papers/2602_19699.md
+              - CACTO-BIC: papers/2602_19699.md
+              - "Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction": papers/2311_05135.md
               - "Deep Learning Warm Starts for Trajectory Optimization on the International Space Station": papers/2505_05588.md
-              - "Transformer-based Model Predictive Control: Trajectory Optimization via Sequence Modeling": papers/2410_23916.md
+              - "Transformer-based Model Predictive Control: Trajectory Optimization via Sequence Modeling": papers/2410_23916.md              
           - Hybrid Approaches:
             - SBP-Guided MPC: papers/2019_hannigan_sbp_guided_mpc_to.md
             - RRT-MPPI: papers/2301_13143.md
@@ -574,12 +575,12 @@ nav:
         - Multi-Robot Planning:
           - Goal Assignment and Trajectory Planning: papers/2013_turpin_goal_assignment_and_trajectory.md
           - Goal Assignment and Trajectory Planning for Large Teams of Aerial Robots: papers/2013_turpin_goal_assignment_and_trajectory_planning.md
-          - "CAPT": papers/2014_turpin_c_scp_apt_scp_concurrent.md
+          - CAPT: papers/2014_turpin_c_scp_apt_scp_concurrent.md
           - "Concurrent Goal Assignment and Collision-Free Trajectory Generation for Multiple Aerial Robots": papers/2018_gravell_concurrent_goal_assignment_and.md
-          - CAT-ORA: papers/2412_00603.md
-          - "Agile and cooperative aerial manipulation of a cable-suspended load": papers/2025_sun_agile_and_cooperative_aerial_manipulation.md
           - CanNoN-TaGS: papers/2101_08829.md
           - "Trajectory Planning for Quadrotor Swarms": papers/2018_honig_trajectory_planning_for_quadrotor_swarms.md
+          - CAT-ORA: papers/2412_00603.md
+          - "Agile and cooperative aerial manipulation of a cable-suspended load": papers/2025_sun_agile_and_cooperative_aerial_manipulation.md
           - "Safe multi-agent motion planning via filtered reinforcement learning": papers/2022_vinod_safe_multi_agent_motion_planning.md
         - Surveys & Comparative Studies:
           - An Empirical Study of Optimal Motion Planning: papers/2014_luo_an_empirical_study_of.md
@@ -613,6 +614,7 @@ nav:
           - Judo: papers/2506_17184.md
           - Sumo: papers/2604_08508.md
           - "Whole-Body Model-Predictive Control of Legged Robots with MuJoCo": papers/2503_04613.md
+          - SONIC: papers/2511_07820.md
           - "MPPI+IsaacGym": papers/2307_09105.md
           - DiffStack: papers/2212_06437.md
           - FRENETIX: papers/2402_01443.md
@@ -977,6 +979,10 @@ nav:
       - Machine Learning:
         - Foundations:
           - "From Entropy to Epiplexity: Rethinking Information for Computationally Bounded Intelligence": papers/2601_03220.md
+        - Datasets:
+          - MNIST: papers/2012_deng_the_mnist_database_of_handwritten.md
+          - The Lost MNIST Digits: papers/2019_yadav_cold_case_the_lost_mnist.md
+          - MNIST-1D: papers/2011_14439.md
         - Interpretability:
           - Shapley Value: papers/1953_shapley_a_value_for_n_person_games.md
           - SHAP: papers/1705_07874.md
@@ -988,30 +994,37 @@ nav:
           - Grad-CAM: papers/1610_02391.md
           - "Intelligible Models for HealthCare": papers/2015_caruana_intelligible_models_for_healthcare.md
           - "Interpretable machine learning: definitions, methods, and applications": papers/1901_04592.md
-          - "InterpretML: A Unified Framework for Machine Learning Interpretability": papers/1909_09223.md
+          - InterpretML: papers/1909_09223.md
           - "Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey": papers/2006_11371.md
           - "Stop Explaining Black Box Machine Learning Models for High Stakes Decisions and Use Interpretable Models Instead": papers/1811_10154.md
           - "The Mythos of Model Interpretability": papers/1606_03490.md
           - "Towards A Rigorous Science of Interpretable Machine Learning": papers/1702_08608.md
           - "Tree-structured Policy Planning with Learned Behavior Models": papers/2301_11902.md
         - Clustering:
-          - "Accelerated Hierarchical Density Clustering": papers/1705_07321.md
-          - "Density-Based Clustering Based on Hierarchical Density Estimates": papers/2013_campello_density_based_clustering_based_on.md
-          - k-means: papers/1967_macqueen_some_methods_for_classification_and.md
-          - Leiden: papers/1810_08473.md
-          - Spectral Clustering: papers/2001_ng_on_spectral_clustering_analysis_and.md
-          - OPTICS: papers/1999_ankerst_optics.md
-          - DEC: papers/1511_06335.md
-          - DEPICT: papers/1704_06327.md
-          - N2D: papers/1908_05968.md
-          - BERTopic: papers/2203_05794.md
-          - DenMune: papers/2309_13420.md
-          - "k-means++": papers/2007_arthur_k_means_the_advantages_of.md
-          - "Least squares quantization in PCM": papers/1982_lloyd_least_squares_quantization_in_pcm.md
+          - "k-means":
+            - k-means: papers/1967_macqueen_some_methods_for_classification_and.md
+            - "Least squares quantization in PCM": papers/1982_lloyd_least_squares_quantization_in_pcm.md
+            - "k-means++": papers/2007_arthur_k_means_the_advantages_of.md
+          - Hierarchical Clustering:
+            - Ward's Method: papers/1963_ward_hierarchical_grouping_to_optimize.md
+          - Density-based Clustering:
+            - OPTICS: papers/1999_ankerst_optics.md
+            - DBSCAN: papers/1996_ester.a_density_based_algorithm.md
+            - HDBSCAN: papers/2013_campello_density_based_clustering_based_on.md
+            - Accelerated HDBSCAN: papers/1705_07321.md
+            - DenMune: papers/2309_13420.md
+          - Spectral Clustering:
+            - Spectral Clustering: papers/2001_ng_on_spectral_clustering_analysis_and.md
+          - Deep Embedding Clustering:
+            - DEC: papers/1511_06335.md
+            - DEPICT: papers/1704_06327.md
+            - N2D: papers/1908_05968.md
         - Dimensionality Reduction:
+          - DrLIM: papers/2006_hadsell_dimensionality_reduction_by_learning.md
           - t-SNE: papers/2008_maaten_visualizing_high_dimensional_data.md
           - "Accelerating t-SNE using Tree-Based Algorithms": papers/2014_maaten_accelerating_t_sne_using_tree.md
-          - DrLIM: papers/2006_hadsell_dimensionality_reduction_by_learning.md
+          - UMAP: papers/1802_03426.md
+          - "Understanding How Dimension Reduction Tools Work: An Empirical Approach to Deciphering t-SNE, UMAP, TriMAP, and PaCMAP for Data Visualization": papers/2012_04456.md
         - Decision Trees:
           - AID: papers/1963_morgan_problems_in_the_analysis_of_survey_data.md
           - CHAID: papers/1980_kass_an_exploratory_technique_for.md
@@ -1039,22 +1052,23 @@ nav:
           - Backpropagation: papers/1986_rumelhart_learning_representations_by_back_propagating.md
           - Siamese Neural Network: papers/1993_bromley_signature_verification_using_a_siamese.md
           - Gradient-Based Learning Applied to Document Recognition: papers/1998_lecun_gradient_based_learning_applied.md
+          - LSTM: papers/1997_hochreiter_long_short_term_memory.md
+          - U-Net: papers/1505_04597.md
           - ELU: papers/1511_07289.md
           - Dropout: papers/2014_srivastava_dropout_a_simple_way_to.md
-          - "Understanding deep learning requires rethinking generalization": papers/1611_03530.md
-          - "Do CIFAR-10 Classifiers Generalize to CIFAR-10?": papers/1806_00451.md
+          - "Understanding deep learning requires rethinking generalization": papers/1611_03530.md          
           - "Reconciling modern machine learning practice and the bias-variance trade-off": papers/1812_11118.md
           - "Deep Double Descent: Where Bigger Models and More Data Hurt": papers/1912_02292.md
-          - "The MNIST Database of Handwritten Digit Images for Machine Learning Research": papers/2012_deng_the_mnist_database_of_handwritten.md
-          - "Cold Case: The Lost MNIST Digits": papers/2019_yadav_cold_case_the_lost_mnist.md
+          - "Do CIFAR-10 Classifiers Generalize to CIFAR-10?": papers/1806_00451.md
           - Grokking: papers/2201_02177.md
-          - LSTM: papers/1997_hochreiter_long_short_term_memory.md
-          - "MNIST-1D": papers/2011_14439.md
         - Vision-language-action (VLA) Models:
+          - GR00T N1: papers/2503_14734.md
           - Alpamayo-R1: papers/2511_00088.md
           - Orion-Lite: papers/2604_08266.md
           - MolmoAct2: papers/2605_02881.md
           - RLDX-1: papers/2605_03269.md
+        - Natural Language Processing (NLP):
+          - BERTopic: papers/2203_05794.md
         - Large language models (LLM):
           - Llama 2: papers/2307_09288.md
           - LoRA: papers/2106_09685.md
@@ -1066,8 +1080,9 @@ nav:
             - "Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation": papers/1406_1078.md
             - "Reducing the Transformer Architecture to a Minimum": papers/2410_13732.md
         - Diffusion Models:
-          - "Denoising Diffusion Probabilistic Models": papers/2006_11239.md
-          - "Deblurring via Stochastic Refinement": papers/2112_02475.md
+          - Denoising Diffusion Probabilistic Models: papers/2006_11239.md
+          - ChopGrad: papers/2603_17812.md
+          - Deblurring via Stochastic Refinement: papers/2112_02475.md
           - "Is Your Conditional Diffusion Model Actually Denoising?": papers/2512_18736.md
         - State-space Models (SSM):
           - "Spectral State Space Models": papers/2312_06837.md        
@@ -1083,29 +1098,34 @@ nav:
           - "A Topology Layer for Machine Learning": papers/1905_12200.md
           - "Distance Metric Learning for Large Margin Nearest Neighbor Classification": papers/2009_weinberger_distance_metric_learning_for_large.md
           - "A Cookbook of Self-Supervised Learning": papers/2304_12210.md
-          - "Robust and Controllable Object-Centric Learning through Energy-based Models": papers/2210_05519.md
+          - BYOL: papers/2006_07733.md
+          - Barlow Twins: papers/2103_03230.md
+          - VICReg: papers/2105_04906.md
+          - Energy-based Models: papers/2210_05519.md
         - Time Series:
-          - "Bake off redux: a review and experimental evaluation of recent time series classification algorithms": papers/2304_13029.md
-          - BOSS: papers/2014_schafer_the_boss_is_concerned_with.md
-          - "Dynamic programming algorithm optimization for spoken word recognition": papers/1978_sakoe_dynamic_programming_algorithm_optimization_for.md
-          - "Exact indexing of dynamic time warping": papers/2005_keogh_exact_indexing_of_dynamic_time.md
-          - "Gated Transformer Networks for Multivariate Time Series Classification": papers/2103_14438.md
-          - "Forecasting at Scale": papers/2018_taylor_forecasting_at_scale.md
-          - HierarchicalForecast: papers/2207_03517.md
-          - "Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction": papers/2311_05135.md
-          - Informer: papers/2012_07436.md
-          - "InceptionTime: Finding AlexNet for Time Series Classification": papers/1909_04939.md
-          - "ROCKET": papers/1910_13051.md
-          - "MINIROCKET": papers/2012_08791.md
-          - "MultiRocket: Multiple pooling operators and transformations for fast and effective time series classification": papers/2102_00457.md
-          - "QUANT: A Minimalist Interval Method for Time Series Classification": papers/2308_00928.md
-          - "Higher-order organization of multivariate time series": papers/2023_santoro_higher_order_organization_of_multivariate.md
-          - TimeGPT-1: papers/2310_03589.md
-          - "Time series classification: nearest neighbor versus deep learning models": papers/2020_jiang_time_series_classification_nearest_neighbor.md
-          - "Time Series Embedding Methods for Classification Tasks: A Review": papers/2501_13392.md
-          - "Time series shapelets": papers/2009_ye_time_series_shapelets.md
-          - "Transformers in Time Series: A Survey": papers/2202_07125.md
-          - "Understanding Any Time Series Classifier with a Subsequence-based Explainer": papers/2023_spinnato_understanding_any_time_series_classifier.md
+          - Algorithms:
+            - BOSS: papers/2014_schafer_the_boss_is_concerned_with.md
+            - DTW: papers/1978_sakoe_dynamic_programming_algorithm_optimization_for.md
+            - "Exact indexing of dynamic time warping": papers/2005_keogh_exact_indexing_of_dynamic_time.md
+            - "Gated Transformer Networks for Multivariate Time Series Classification": papers/2103_14438.md
+            - "Forecasting at Scale": papers/2018_taylor_forecasting_at_scale.md
+            - HierarchicalForecast: papers/2207_03517.md
+            - "Time series shapelets": papers/2009_ye_time_series_shapelets.md          
+            - Informer: papers/2012_07436.md
+            - InceptionTime: papers/1909_04939.md
+            - ROCKET: papers/1910_13051.md
+            - MINIROCKET: papers/2012_08791.md
+            - MultiRocket: papers/2102_00457.md
+            - QUANT: papers/2308_00928.md
+            - TimeGPT-1: papers/2310_03589.md
+          - Surveys and Comparative Studies:
+            - Bake Off Redux: papers/2304_13029.md
+            - "Time series classification: nearest neighbor versus deep learning models": papers/2020_jiang_time_series_classification_nearest_neighbor.md
+            - "Time Series Embedding Methods for Classification Tasks: A Review": papers/2501_13392.md
+            - "Transformers in Time Series: A Survey": papers/2202_07125.md
+          - Explainability:
+            - "Higher-order organization of multivariate time series": papers/2023_santoro_higher_order_organization_of_multivariate.md
+            - "Understanding Any Time Series Classifier with a Subsequence-based Explainer": papers/2023_spinnato_understanding_any_time_series_classifier.md
       - Computer Vision:
         - Edge Detection:
           - Sobel Operator: papers/2015_sobel_an_isotropic_3x3_image_gradient.md
@@ -1122,19 +1142,21 @@ nav:
         - Face Recognition:
           - FaceNet: papers/1503_03832.md
         - "Feature Detection & Description":
-          - "Distinctive Image Features from Scale-Invariant Keypoints": papers/2004_lowe_distinctive_image_features_from_scale.md
+          - SIFT: papers/2004_lowe_distinctive_image_features_from_scale.md
           - SURF: papers/2006_bay_surf_speeded_up_robust_features.md
         - "Image Classification & Recognition":
-          - "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale": papers/2010_11929.md
-          - "Deep Residual Learning for Image Recognition": papers/1512_03385.md
-          - DINOv2: papers/2304_07193.md
-          - "Going Deeper with Convolutions": papers/1409_4842.md
+          - "Inception/GoogLeNet": papers/1409_4842.md
+          - VGG: papers/1409_1556.md        
+          - ResNet: papers/1512_03385.md
+          - ViT: papers/2010_11929.md
           - Swin Transformer: papers/2103_14030.md
-          - "Very Deep Convolutional Networks for Large-Scale Image Recognition": papers/1409_1556.md
+          - DINO: papers/2104_14294.md
+          - DINOv2: papers/2304_07193.md
+          - DINOv3: papers/2508_10104.md
         - Image Quality Assessment:
+          - SSIM: papers/2004_wang_image_quality_assessment_from_error.md
+          - Understanding SSIM: papers/2006_13846.md
           - "A new Image Similarity Metric for a Perceptual and Transparent Geometric and Chromatic Assessment": papers/2601_19680.md
-          - "Image quality assessment: from error visibility to structural similarity": papers/2004_wang_image_quality_assessment_from_error.md
-          - "Understanding SSIM": papers/2006_13846.md
         - "Color & Perception":
           - "Visual Sensitivities to Color Differences in Daylight": papers/1942_macadam_visual_sensitivities_to_color_differences.md
           - IPT Color Space: papers/1998_ebner_development_and_testing_of_a.md
@@ -1144,12 +1166,12 @@ nav:
           - "Lossy Image Compression with Compressive Autoencoders": papers/1703_00395.md
           - Polyblur: papers/2012_09322.md
           - "Burst photography for high dynamic range and low-light imaging on mobile cameras": papers/2016_hasinoff_burst_photography_for_high_dynamic.md
-          - "Is Nano Banana Pro a Low-Level Vision All-Rounder? A Comprehensive Evaluation on 14 Tasks and 40 Datasets": papers/2512_15110.md
+          - Nano Banana Pro: papers/2512_15110.md
           - "What Matters in Practical Learned Image Compression": papers/2605_05148.md
-        - Segmentation:
-          - U-Net: papers/1505_04597.md
         - Video Understanding:
           - ViViT: papers/2103_15691.md
+          - V-JEPA: papers/2404_08471.md
+          - V-JEPA 2: papers/2506_09985.md
     - Evaluation:
       - Simulation:
         - CARLA: papers/1711_03938.md
@@ -1173,7 +1195,7 @@ nav:
         - "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification": papers/2403_18972.md
         - "Unconventional Roundabouts: Third-Generation Insights from the United States and Europe": papers/2026_brocchini_unconventional_roundabouts_third_generation_insights.md
         - "Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators": papers/2507_22389.md
-        - "IEEE Std 3079-2022 (ADS Safety Assumptions)": papers/2022_unknown_ieee_standard_for_assumptions_in.md
+        - "IEEE Standard 3079-2022": papers/2022_unknown_ieee_standard_for_assumptions_in.md
         - "A new accident model for engineering safer systems": papers/2004_leveson_a_new_accident_model_for.md
         - "Assume/Guarantee Contracts for Dynamical Systems: Theory and Computational Tools": papers/2012_12657.md
         - "Learning Autonomous Vehicle Safety Concepts from Demonstrations": papers/2210_02761.md
@@ -1182,11 +1204,17 @@ nav:
         - "On the validation of complex systems operating in open contexts": papers/1902_10517.md
         - "Testing, Validation, and Verification of Robotic and Autonomous Systems: A Systematic Review": papers/2023_araujo_testing_validation_and_verification_of.md
     - Computing:
+      - Network Science:
+        - Centrality:
+          - PageRank: papers/1998_page_the_pagerank_citation_ranking.md
+        - Community Detection:
+          - "Louvain Algorithm": papers/0803_0476.md
+          - "Leiden Algorithm": papers/1810_08473.md
       - Algorithms & Data Structures:
         - Probabilistic Data Structures:
+          - "Space/time trade-offs in hash coding with allowable errors": papers/1970_bloom_space_time_trade_offs_in.md
           - HyperLogLog: papers/2007_flajolet_hyperloglog_the_analysis_of.md
           - Cuckoo Filter: papers/2014_fan_cuckoo_filter_practically_better.md
-          - "Space/time trade-offs in hash coding with allowable errors": papers/1970_bloom_space_time_trade_offs_in.md
         - Nearest Neighbor Search:
           - FLANN: papers/2014_muja_scalable_nearest_neighbor_algorithms.md
           - "Accelerating Large-Scale Inference with Anisotropic Vector Quantization": papers/1908_10396.md
@@ -1194,7 +1222,7 @@ nav:
           - CLOVER: papers/2025_kamel_clover_a_gpu_native_spatio.md
           - "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs": papers/1603_09320.md
           - JZ-Tree: papers/2604_05885.md
-          - "Neural Nearest Neighbors Networks": papers/1810_12575.md
+          - Neural Nearest Neighbors Networks: papers/1810_12575.md
           - "Product Quantization for Nearest Neighbor Search": papers/2011_jegou_product_quantization_for_nearest_neighbor.md
           - FAISS: papers/2401_08281.md
         - "Complexity & Approximation":
@@ -1239,20 +1267,20 @@ nav:
       - Computer Graphics:
         - Subdivision Surfaces:
           - Catmull-Clark Subdivision Surfaces: papers/1978_catmull_recursively_generated_b_spline.md
+        - Geometry Processing:
+          - Marching Cubes: papers/1987_lorensen_marching_cubes_a_high_resolution.md
+        - "Noise & Dithering":
+          - Perlin Noise: papers/1985_perlin_an_image_synthesizer.md
+          - Blue Noise Dithering: papers/1988_ulichney_dithering_with_blue_noise.md
+          - Forced Random Dithering: papers/1994_purgathofer_forced_random_dithering_improved_threshold.md
+          - "Scalar Spatiotemporal Blue Noise Masks": papers/2112_09629.md
         - Flow Visualization:
           - OLIC: papers/1997_wegenkittl_animating_flow_fields_rendering_of.md
         - 3D Gaussian Splatting:
           - 3D Gaussian Splatting: papers/2308_04079.md
           - "Matrix-free Second-order Optimization of Gaussian Splats with Residual Sampling": papers/2504_12905.md
-        - Geometry Processing:
-          - "Marching cubes: A high resolution 3D surface construction algorithm": papers/1987_lorensen_marching_cubes_a_high_resolution.md
         - Neural Rendering:
-          - "NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis": papers/2003_08934.md
-        - "Rendering & Image Synthesis":
-          - "An image synthesizer": papers/1985_perlin_an_image_synthesizer.md
-          - Blue Noise Dithering: papers/1988_ulichney_dithering_with_blue_noise.md
-          - Forced Random Dithering: papers/1994_purgathofer_forced_random_dithering_improved_threshold.md
-          - "Scalar Spatiotemporal Blue Noise Masks": papers/2112_09629.md
+          - NeRF: papers/2003_08934.md
     - Misc:
       - Mathematics:
         - "Geometry & Tiling":
@@ -1260,7 +1288,10 @@ nav:
           - "A chiral aperiodic monotile": papers/2305_17743.md
           - "A Simple Proof of Thue's Theorem on Circle Packing": papers/1009_4322.md          
           - The Table Theorem: papers/1970_fenn_the_table_theorem.md
+        - Topology:
+          - Dyson's Sphere Theorem: papers/1951_dyson_continuous_functions_defined_on.md
         - "Linear Algebra & Signal Processing":
+          - Cooley-Tukey FFT: papers/1965_cooley_an_algorithm_for_the.md
           - "Discovering Transforms: A Tutorial on Circulant Matrices, Circular Convolution, and the Discrete Fourier Transform": papers/1805_05533.md
         - "Numerical Methods":
           - "A family of embedded Runge-Kutta formulae": papers/1980_dormand_a_family_of_embedded_runge.md
@@ -1280,6 +1311,7 @@ nav:
           - Evolving Virtual Creatures: papers/1994_sims_evolving_virtual_creatures.md
           - Unshackling Evolution: papers/2014_cheney_unshackling_evolution.md
       - Robot Platforms:
+        - Duckietown: papers/2017_paull_duckietown_an_open_inexpensive.md
         - ANYmal: papers/2016_hutter_anymal_a_highly_mobile_and.md
         - Cheetah 3: papers/2018_bledt_mit_cheetah_3_design_and.md
         - Mini Cheetah: papers/2019_katz_mini_cheetah_a_platform_for.md

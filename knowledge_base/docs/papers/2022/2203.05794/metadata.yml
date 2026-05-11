@@ -1,5 +1,5 @@
 title: 'BERTopic: Neural topic modeling with a class-based TF-IDF procedure'
-algorithm:
+algorithm: BERTopic
 authors:
   - Maarten Grootendorst
 year: 2022

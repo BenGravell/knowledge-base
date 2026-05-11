@@ -1,5 +1,5 @@
 title: 'DenMune: Density peak based clustering using mutual nearest neighbors'
-algorithm:
+algorithm: DenMune
 authors:
   - Mohamed Abbas
   - Adel El-Zoghobi

@@ -1,6 +1,6 @@
 title: >
   Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction
-algorithm:
+algorithm: T-PDG
 authors:
   - Julia Briden
   - Trey Gurga

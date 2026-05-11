@@ -1,0 +1,31 @@
+title: "A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise"
+algorithm: "DBSCAN"
+authors:
+  - Martin Ester
+  - Hans-Peter Kriegel
+  - Joerg Sander
+  - Xiaowei Xu
+year: 1996
+source: International Conference on Knowledge Discovery and Data Mining
+type: Conference Paper
+doi: 10.5555/3001460.3001507
+arxiv_id:
+tags:
+  - DBSCAN
+  - Density-based clustering
+  - Clustering
+  - Spatial databases
+  - Noise handling
+  - Outlier detection
+  - Arbitrary-shape clusters
+  - Unsupervised learning
+  - Data mining
+  - Region query
+abstract: >
+  Clustering algorithms are attractive for the task of class identification in spatial databases. However, the application to large spatial databases rises the following requirements for clustering algorithms: minimal requirements of domain knowledge to determine the input parameters, discovery of clusters with arbitrary shape and good efficiency on large databases. The well-known clustering algorithms offer no solution to the combination of these requirements. In this paper, we present the new clustering algorithm DBSCAN relying on a density-based notion of clusters which is designed to discover clusters of arbitrary shape. DBSCAN requires only one input parameter and supports the user in determining an appropriate value for it. We performed an experimental evaluation of the effectiveness and efficiency of DBSCAN using synthetic data and real data of the SEQUOIA 2000 benchmark. The results of our experiments demonstrate that (1) DBSCAN is significantly more effective in discovering clusters of arbitrary shape than the well-known algorithm CLARANS, and that (2) DBSCAN outperforms CLARANS by a factor of more than 100 in terms of efficiency.
+summary: >
+  This paper introduces DBSCAN, a density-based clustering algorithm that grows clusters from core points with sufficiently many neighbors inside an epsilon radius and labels sparse points as noise. Its central contribution is a practical alternative to centroid-based clustering for spatial data: it can recover arbitrary-shaped clusters, does not require the number of clusters in advance, and scales efficiently when neighborhood queries are supported by spatial indexes.
+link: https://aaai.org/papers/kdd96-037-a-density-based-algorithm-for-discovering-clusters-in-large-spatial-databases-with-noise/
+links_alt:
+  - https://dl.acm.org/doi/10.5555/3001460.3001507
+audit_status: partial

@@ -1,0 +1,32 @@
+title: "Fast Unfolding of Communities in Large Networks"
+algorithm: "Louvain Method"
+authors:
+  - Vincent D. Blondel
+  - Jean-Loup Guillaume
+  - Renaud Lambiotte
+  - Etienne Lefebvre
+year: 2008
+source: "Journal of Statistical Mechanics: Theory and Experiment"
+type: Journal Paper
+doi: 10.1088/1742-5468/2008/10/P10008
+arxiv_id: "0803.0476"
+tags:
+  - Community detection
+  - Louvain method
+  - Modularity optimization
+  - Graph clustering
+  - Network science
+  - Complex networks
+  - Hierarchical clustering
+  - Large-scale graphs
+  - Heuristic optimization
+  - Web graph
+abstract: >
+  We propose a simple method to extract the community structure of large networks. Our method is a heuristic method that is based on modularity optimization. It is shown to outperform all other known community detection method in terms of computation time. Moreover, the quality of the communities detected is very good, as measured by the so-called modularity. This is shown first by identifying language communities in a Belgian mobile phone network of 2.6 million customers and by analyzing a web graph of 118 million nodes and more than one billion links. The accuracy of our algorithm is also verified on ad-hoc modular networks. .
+summary: >
+  This paper introduces the Louvain method, a fast greedy heuristic for community detection that alternates local modularity-improving node moves with aggregation of discovered communities into a coarser network. Its key contribution is making modularity-based community detection practical on very large graphs while naturally producing a hierarchy of communities across successive aggregation levels.
+link: https://arxiv.org/pdf/0803.0476
+links_alt:
+  - https://doi.org/10.1088/1742-5468/2008/10/P10008
+  - https://iopscience.iop.org/article/10.1088/1742-5468/2008/10/P10008
+audit_status: partial

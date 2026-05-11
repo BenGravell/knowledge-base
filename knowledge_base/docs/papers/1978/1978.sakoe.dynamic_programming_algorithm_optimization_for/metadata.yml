@@ -1,5 +1,5 @@
 title: Dynamic programming algorithm optimization for spoken word recognition
-algorithm: "Dynamic Time Warping"
+algorithm: DTW
 authors:
   - H. Sakoe
   - S. Chiba
