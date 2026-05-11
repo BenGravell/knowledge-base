@@ -172,6 +172,7 @@ nav:
           - DFP: papers/1991_davidon_variable_metric_method_for_minimization.md
           - "A Regularized Limited Memory BFGS method for Large-Scale Unconstrained Optimization and its Efficient Implementations": papers/2101_04413.md
           - RES: papers/1401_7625.md
+          - DDPNOpt: papers/2002_08809.md
         - Newton's Method:
           - A Note on the Convergence of Newton's Method: papers/1974_rall_a_note_on_the.md
           - Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control: papers/2001_damm_newton_s_method_for_a.md
@@ -196,9 +197,7 @@ nav:
           - New recurrence relations for Chebyshev method: papers/1997_gutierrez_new_recurrence_relations_for_chebyshev.md
         - Proximal Methods:
           - FISTA: papers/2009_beck_a_fast_iterative_shrinkage.md
-          - Proximal Algorithms: papers/2014_parikh_proximal_algorithms.md
-          - "Inverse Optimization: Theory and Applications": papers/2109_03920.md
-          - "Supersparse Linear Integer Models for Optimized Medical Scoring Systems": papers/1502_04269.md
+          - Proximal Algorithms: papers/2014_parikh_proximal_algorithms.md          
         - Stochastic Optimization:
           - Enhancing Sparsity by Reweighted L1 Minimization: papers/0711_1612.md
           - When Does SGD Escape Local Minima?: papers/1802_06175.md
@@ -543,6 +542,7 @@ nav:
           - Multimodal Probabilistic Model-Based Planning for Human-Robot Interaction: papers/1710_09483.md
           - VISTA 2.0: papers/2111_12083.md
           - Learning Interactive Driving Policies via Data-driven Simulation: papers/2111_12137.md
+          - "Tree-structured Policy Planning with Learned Behavior Models": papers/2301_11902.md
           - "Causal Composition Diffusion Model for Closed-loop Traffic Generation": papers/2412_17920.md
           - "Trajectory Tree-Based Pairwise Game for Interactive Decision-Making and Motion Planning in Autonomous Driving": papers/2025_ma_trajectory_tree_based_pairwise_game.md
         - Machine Learning in Motion Planning:
@@ -904,15 +904,14 @@ nav:
             - "An Information-state based Approach to the Optimal Output Feedback Control of Nonlinear Systems": papers/2107_08086.md
             - "An Introduction to Matrix Concentration Inequalities": papers/1501_01571.md
             - "CLT-Optimal Parameter Error Bounds for Linear System Identification": papers/2604_21270.md
-            - "Concentration Inequalities for Statistical Inference": papers/2011_02258.md
-            - "DDPNOpt: Differential Dynamic Programming Neural Optimizer": papers/2002_08809.md
+            - "Concentration Inequalities for Statistical Inference": papers/2011_02258.md            
             - "Efficient Learning of a Linear Dynamical System with Stability Guarantees": papers/2102_03664.md
             - "How Are Learned Perception-Based Controllers Impacted by the Limits of Robust Control?": papers/2104_00827.md
             - "Physics-Informed Machine Learning for Modeling and Control of Dynamical Systems": papers/2306_13867.md
             - "Self-Normalized Processes: Exponential Inequalities, Moment Bounds and Iterated Logarithm Laws": papers/2004_de_la_pena_self_normalized_processes_exponential.md
             - "State space models vs. multi-step predictors in predictive control: Are state space models complicating safe data-driven designs?": papers/2203_15471.md
             - "Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control": papers/2603_23465.md
-            - "System identification and long-range predictive control of multi-rate systems": papers/1999_unknown_system_identification_and_long_range.md
+            - "System identification and long-range predictive control of multi-rate systems": papers/1999_li_system_identification_and_long_range.md
         - Hybrid Approaches:
           - PLAL: papers/2209_09006.md
           - Power of Locally Linear Models: papers/2305_09619.md
@@ -925,6 +924,7 @@ nav:
           - "From Demonstrations to Safe Deployment: Path-Consistent Safety Filtering for Diffusion Policies": papers/2511_06385.md
           - "Much Ado About Noising: Dispelling the Myths of Generative Robotic Control": papers/2512_01809.md
         - Inverse Reinforcement Learning & Reward Learning:
+          - "Inverse Optimization: Theory and Applications": papers/2109_03920.md
           - "Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors": papers/2508_07400.md
     - Prediction:
       - Motion Prediction:
@@ -984,9 +984,10 @@ nav:
           - The Lost MNIST Digits: papers/2019_yadav_cold_case_the_lost_mnist.md
           - MNIST-1D: papers/2011_14439.md
         - Interpretability:
-          - Shapley Value: papers/1953_shapley_a_value_for_n_person_games.md
-          - SHAP: papers/1705_07874.md
-          - TreeSHAP: papers/1802_03888.md
+          - Shapley:
+            - Shapley Value: papers/1953_shapley_a_value_for_n_person_games.md
+            - SHAP: papers/1705_07874.md
+            - TreeSHAP: papers/1802_03888.md
           - "\"Why Should I Trust You?\": Explaining the Predictions of Any Classifier": papers/1602_04938.md
           - "Beyond Sparsity: Tree Regularization of Deep Models for Interpretability": papers/1711_06178.md
           - "Explainable AI: Learning from the Learners": papers/2601_05525.md
@@ -995,11 +996,11 @@ nav:
           - "Intelligible Models for HealthCare": papers/2015_caruana_intelligible_models_for_healthcare.md
           - "Interpretable machine learning: definitions, methods, and applications": papers/1901_04592.md
           - InterpretML: papers/1909_09223.md
+          - SLIM: papers/1502_04269.md
           - "Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey": papers/2006_11371.md
           - "Stop Explaining Black Box Machine Learning Models for High Stakes Decisions and Use Interpretable Models Instead": papers/1811_10154.md
           - "The Mythos of Model Interpretability": papers/1606_03490.md
-          - "Towards A Rigorous Science of Interpretable Machine Learning": papers/1702_08608.md
-          - "Tree-structured Policy Planning with Learned Behavior Models": papers/2301_11902.md
+          - "Towards A Rigorous Science of Interpretable Machine Learning": papers/1702_08608.md          
         - Clustering:
           - "k-means":
             - k-means: papers/1967_macqueen_some_methods_for_classification_and.md
@@ -1009,7 +1010,7 @@ nav:
             - Ward's Method: papers/1963_ward_hierarchical_grouping_to_optimize.md
           - Density-based Clustering:
             - OPTICS: papers/1999_ankerst_optics.md
-            - DBSCAN: papers/1996_ester.a_density_based_algorithm.md
+            - DBSCAN: papers/1996_ester_a_density_based_algorithm.md
             - HDBSCAN: papers/2013_campello_density_based_clustering_based_on.md
             - Accelerated HDBSCAN: papers/1705_07321.md
             - DenMune: papers/2309_13420.md
@@ -1085,7 +1086,7 @@ nav:
           - Deblurring via Stochastic Refinement: papers/2112_02475.md
           - "Is Your Conditional Diffusion Model Actually Denoising?": papers/2512_18736.md
         - State-space Models (SSM):
-          - "Spectral State Space Models": papers/2312_06837.md        
+          - "Spectral State Space Models": papers/2312_06837.md
         - Multimodal Models:
           - "Zero-Shot Text-to-Image Generation": papers/2102_12092.md
           - "Learning Transferable Visual Models From Natural Language Supervision": papers/2103_00020.md

@@ -1,5 +1,5 @@
 title: "A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise"
-algorithm: "DBSCAN"
+algorithm: DBSCAN
 authors:
   - Martin Ester
   - Hans-Peter Kriegel
