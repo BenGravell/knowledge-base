@@ -191,7 +191,8 @@ nav:
             - "Kinodynamic motion planning: connecting exploration trees using trajectory optimization Methods": papers/2004_lamiraux_kinodynamic_motion_planning_connecting_exploration.md
             - "Optimal motion planning with the half-car dynamical model for autonomous high-speed driving": papers/2013_jeon_optimal_motion_planning_with_the.md
             - "Randomized Kinodynamic Motion Planning with Moving Obstacles": papers/2002_hsu_randomized_kinodynamic_motion_planning.md
-            - "Search-based Motion Planning for Quadrotors using Linear Quadratic Minimum Time Control": papers/1709_05401.md            
+            - "Search-based Motion Planning for Quadrotors using Linear Quadratic Minimum Time Control": papers/1709_05401.md
+            - RANS-RRT*: papers/2103_05572.md
           - Expansive Space Trees (EST):
             - EST: papers/1997_hsu_path_planning_in_expansive_configuration.md
             - Guided EST: papers/2004_phillips_guided_expansive_spaces_trees.md
@@ -356,6 +357,7 @@ nav:
         - Goal Assignment and Trajectory Planning for Large Teams of Aerial Robots: papers/2013_turpin_goal_assignment_and_trajectory.md
         - "CAPT": papers/2014_turpin_c_scp_apt_scp_concurrent.md
         - "Concurrent Goal Assignment and Collision-Free Trajectory Generation for Multiple Aerial Robots": papers/2018_gravell_concurrent_goal_assignment_and.md
+        - CanNoN-TaGS: papers/2101_08829.md
         - "Trajectory Planning for Quadrotor Swarms": papers/2018_honig_trajectory_planning_for_quadrotor_swarms.md
         - "Safe multi-agent motion planning via filtered reinforcement learning": papers/2022_vinod_safe_multi_agent_motion_planning.md
       - Surveys & Comparative Studies:
@@ -443,7 +445,10 @@ nav:
           - "The Uncertainty Threshold Principle: Fundamental Limitations": papers/1976_athans_the_uncertainty_threshold_principle_fundamental.md
           - Numerical Solution of the State-Dependent Noise Problem: papers/1976_kleinman_numerical_solution_of_the_state.md
           - State-Feedback Control of Systems with Multiplicative Noise via LMIs: papers/1995_ghaoui_state_feedback_control_of_systems.md
-          - When Multiplicative Noise Stymies Control: papers/1612_03239.md          
+          - When Multiplicative Noise Stymies Control: papers/1612_03239.md
+          - "Robust Control Design for Linear Systems via Multiplicative Noise": papers/2004_08019.md
+          - "Stochastic Stability via Robustness of Linear Systems": papers/2021_gravell_stochastic_stability_via_robustness.md
+          - "Anomaly Detection Under Multiplicative Noise Model Uncertainty": papers/2103_15228.md
       - Model Predictive Control (MPC):
         - Receding Horizon Control of Nonlinear Systems: papers/1988_mayne_receding_horizon_control_of_nonlinear.md
         - "Robust model predictive control using tubes": papers/2004_langson_robust_model_predictive_control_using.md
@@ -490,7 +495,8 @@ nav:
           - Adaptive Linear Quadratic Control Using Policy Iteration: papers/1994_bradtke_adaptive_linear_quadratic_control_using.md
           - LSPI: papers/2003_lagoudakis_least_squares_policy_iteration.md
           - Approximate Dynamic Programming via Sum of Squares Programming: papers/1212_1269.md
-          - Finite-Time Analysis of Approximate Policy Iteration for LQR: papers/1905_12842.md          
+          - Finite-Time Analysis of Approximate Policy Iteration for LQR: papers/1905_12842.md
+          - AMPI: papers/2011_14212.md
         - Deep Value-Based:
           - DQN (Playing Atari with Deep RL): papers/1312_5602.md
           - Prioritized Experience Replay: papers/1511_05952.md
@@ -542,12 +548,18 @@ nav:
           - "On the Optimization Landscape of Observer-based Dynamic Linear Quadratic Control": papers/2604_10635.md
           - "Policy Gradient for LQR with Domain Randomization": papers/2503_24371.md
           - "Second-Order Policy Gradient Methods for the Linear Quadratic Regulator": papers/2511_02095.md
+          - "Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient": papers/1905_13547.md
+          - "Sparse Optimal Control of Networks with Multiplicative Noise via Policy Gradient": papers/1905_13548.md
+          - "Policy Iteration for Linear Quadratic Games with Stochastic Parameters": papers/2021_gravell_policy_iteration_for_linear.md
+          - "Data-driven Control and Planning for Uncertain Complex Systems (Gravell PhD Dissertation)": papers/2022_gravell_data_driven_control_and.md
       - Model-Based RL:
         - Adaptive Control:
           - Regret Bounds for the Adaptive Control of Linear Quadratic Systems: papers/2011_abbasi_yadkori_regret_bounds_for_the.md
           - Regret Bounds for Robust Adaptive Control of LQR: papers/1805_09388.md
           - From Self-Tuning Regulators to Reinforcement Learning and Back Again: papers/1906_11392.md
           - DeePC: papers/1811_05890.md
+          - "Robust Learning-Based Control via Bootstrapped Multiplicative Noise": papers/2002_10069.md
+          - "Robust Data-Driven Output Feedback Control via Bootstrapped Multiplicative Noise": papers/2205_05119.md
           - "A Tour of Reinforcement Learning: The View from Continuous Control": papers/1806_09460.md
           - "A view on learning robust goal-conditioned value functions: Interplay between RL and MPC": papers/2502_06996.md
           - "An integrated system for real-time model predictive control of humanoid robots": papers/2013_erez_an_integrated_system_for_real.md
@@ -581,6 +593,8 @@ nav:
           - Non-Asymptotic Identification of LTI Systems from a Single Trajectory: papers/1806_05722.md
           - Finite Sample Analysis of Stochastic System Identification: papers/1903_09122.md
           - A Tutorial on Concentration Bounds for System Identification: papers/1906_11395.md
+          - "Linear System Identification Under Multiplicative Noise from Multiple Trajectory Data": papers/2002_06613.md
+          - "Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data": papers/2106_16078.md
           - Subspace Identification:
             - Subspace Identification for Linear Systems: papers/1996_overschee_subspace_identification_for_linear.md
             - N4SID: papers/1994_overschee_n4sid_numerical_algorithms_for.md

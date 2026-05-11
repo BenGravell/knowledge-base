@@ -1,0 +1,42 @@
+title: >
+  Centralized Collision-free Polynomial Trajectories and Goal Assignment for Aerial Swarms
+algorithm: CanNoN-TaGS
+authors:
+  - Benjamin Gravell
+  - Tyler Summers
+year: 2021
+source: Control Engineering Practice
+type: Journal Paper
+doi: 10.1016/j.conengprac.2021.104753
+arxiv_id: "2101.08829"
+tags:
+- Robotics
+- Swarm robotics
+- Cooperative robotics
+- Multi-agent systems
+- Aerial swarms
+- Autonomous drones
+- Quadrotors
+- UAV coordination
+- Formation control
+- Centralized planning
+- Goal assignment
+- Task allocation
+- Assignment problem
+- Hungarian algorithm
+- Motion planning
+- Collision-free motion planning
+- Collision avoidance
+- Trajectory planning
+- Trajectory optimization
+- Polynomial trajectories
+abstract: >
+  Computationally tractable methods are developed for centralized goal assignment and planning of collision-free polynomial-in-time trajectories for systems of multiple aerial robots. The method first assigns robots to goals to minimize total time-in-motion based on initial trajectories. By coupling the assignment and trajectory generation, the initial motion plans tend to require only limited collision resolution. The plans are then refined by checking for potential collisions and resolving them using either start time delays or altitude assignment. Numerical experiments using both methods show significant reductions in the total time required for agents to arrive at goals with only modest additional computational effort in comparison to state-of-the-art prior work, enabling planning for thousands of agents.
+summary: >
+  Follow-up to earlier work "Concurrent Goal Assignment and Collision-Free Trajectory Generation for Multiple Aerial Robots" that makes fewer unrealistic assumptions (e.g. no instant altitude teleporting, kinodynamic constraints). Cool demo showing scaling up to swarms with 1000 agents for making arbitrary formation patterns like words and letters.
+link: https://arxiv.org/pdf/2101.08829
+links_alt:
+  - https://www.sciencedirect.com/science/article/abs/pii/S0967066121000307
+  - https://www.youtube.com/watch?v=OapaAQAGWDE
+  - https://github.com/TSummersLab/cannon-tags
+audit_status: reviewed
