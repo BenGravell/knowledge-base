@@ -2,13 +2,7 @@
 
 ## Content tree
 
-When opening a leaf (paper) node, it should expand to include the abstract, a link for the paper detail page, and a link to open in mind map.
-
 ## Mind Map
-
-### Hierarchy super nodes
-
-Start the map at a high level of aggregation (super categories) and progressively reveal/hide levels of aggregation based on clickable buttons. Take UX inspiration from SpaceSniffer.
 
 ### Sidebar
 

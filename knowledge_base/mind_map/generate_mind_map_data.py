@@ -57,8 +57,8 @@ Choose a specific backend explicitly:
     python generate_mind_map_data.py --backend voyage
     python generate_mind_map_data.py --backend fastembed
 
-Custom similarity threshold and top-K guarantee:
-    python knowledge_base/mind_map/generate_mind_map_data.py --threshold 0.82 --top-k 4
+Custom similarity threshold:
+    python knowledge_base/mind_map/generate_mind_map_data.py --threshold 0.82
 
 Custom paths:
     python knowledge_base/mind_map/generate_mind_map_data.py \\
@@ -115,16 +115,11 @@ DEFAULT_CACHE  = MIND_MAP_DIR / "embedding_cache.json"
 DEFAULT_OUTPUT = MIND_MAP_DIR / "mind-map-data.js"
 
 # ---------------------------------------------------------------------------
-# Graph construction parameters (overridable via CLI)
+# Graph construction parameters
 # ---------------------------------------------------------------------------
 
 DEFAULT_THRESHOLD = 0.75   # Minimum cosine similarity to draw an edge
-DEFAULT_TOP_K = 5          # Always connect each paper to its top-K neighbours
-                           # even if their similarity falls below the threshold
-                           # (floor-capped at 0.50 to avoid noisy edges)
 MAX_EDGE_CANDIDATES_PER_NODE = 10  # Per-node pruning cap before the undirected union
-ABSOLUTE_FLOOR = 0.50      # Hard minimum similarity; top-K edges below this
-                           # are silently dropped
 DEFAULT_UMAP_SCALE = 1500.0  # Base UMAP coordinate extent; formerly 1000 px.
 
 # ---------------------------------------------------------------------------
@@ -247,7 +242,7 @@ def force_layout_postprocess(
     *,
     anchor_strength: float = 0.85,
     sim_threshold: float = 0.75,
-    sim_top_k: int = 10,
+    sim_candidate_limit: int = 10,
     sim_attraction_strength: float = 0.4,
     gap_factor: float = 2.0,
     collision_radius_factor: float = 0.45,
@@ -268,8 +263,9 @@ def force_layout_postprocess(
     2. **Similarity attraction** — pairs that are semantically close
        (cosine similarity ≥ *sim_threshold*) but spatially far apart in UMAP
        space (distance > *gap_factor* x median nearest-neighbour distance) are
-       pulled together.  Only the *sim_top_k* most similar neighbours per node
-       are considered, so the cost is O(N · sim_top_k) per iteration.
+       pulled together.  Only the *sim_candidate_limit* most similar neighbours
+       per node are considered, so the cost is O(N · sim_candidate_limit) per
+       iteration.
     3. **Collision resolution** — after each integration step, overlapping nodes
        are pushed apart until no two nodes are closer than ``2 * collision_radius``,
        where ``collision_radius = sqrt(canvas_area / N) * collision_radius_factor``.
@@ -290,7 +286,7 @@ def force_layout_postprocess(
         Higher values preserve UMAP topology more faithfully (range: 0-1).
     sim_threshold:
         Minimum cosine similarity for a pair to receive an attraction force.
-    sim_top_k:
+    sim_candidate_limit:
         Number of nearest embedding-space neighbours to consider per node when
         building the attraction pair list.
     sim_attraction_strength:
@@ -352,7 +348,7 @@ def force_layout_postprocess(
               f"gap threshold = {gap_threshold:.4f}")
 
     attract_pairs = _build_attraction_pairs(
-        emb_norm, home, sim_top_k, sim_threshold, gap_threshold, verbose
+        emb_norm, home, sim_candidate_limit, sim_threshold, gap_threshold, verbose
     )
 
     alpha = initial_alpha
@@ -393,20 +389,26 @@ def force_layout_postprocess(
 def _build_attraction_pairs(
     emb_norm: "np.ndarray",
     home: "np.ndarray",
-    top_k: int,
+    candidate_limit: int,
     sim_threshold: float,
     gap_threshold: float,
     verbose: bool,
 ) -> "np.ndarray":
     N = len(emb_norm)
+    candidate_limit = min(max(candidate_limit, 0), N - 1)
+    if candidate_limit == 0:
+        if verbose:
+            print("    [force_layout] similarity attraction pairs: 0")
+        return np.empty((0, 3))
+
     sim_matrix = emb_norm @ emb_norm.T
 
     pairs = []
     for i in range(N):
         sims = sim_matrix[i]
         sims[i] = -1.0
-        top_idx = np.argpartition(sims, -top_k)[-top_k:]
-        for j in top_idx:
+        candidate_idx = np.argpartition(sims, -candidate_limit)[-candidate_limit:]
+        for j in candidate_idx:
             if j <= i:
                 continue
             s = sims[j]
@@ -479,7 +481,6 @@ def build_embed_text(data: dict) -> str:
 # Navigation parsing — paper_id → content-tree category
 # ---------------------------------------------------------------------------
 
-PLANNING_CATEGORY = "Motion Planning"  # category that receives sub-categories
 UNCATEGORIZED_CATEGORY = "Uncategorized"
 
 # Nav sections that act as transparent grouping wrappers: their children are
@@ -500,11 +501,11 @@ def find_content_tree_nav(config: dict) -> object | None:
 def parse_nav_categories(config: dict) -> dict[str, dict]:
     """
     Recursively walk the mkdocs ``Content Tree`` nav and record each paper's
-    super-category, category, and optional Motion Planning sub-category.
+    super-category, category, and optional sub-category.
 
     The first branch level under ``Content Tree`` is the super-category level:
 
-        Content Tree → Decision-Making → Motion Planning → Path Planning → ...
+        Content Tree → Decision-Making → Optimization → Toolboxes & Solvers → ...
 
     This keeps the Mind Map hierarchy synchronized with the MkDocs content
     tree instead of maintaining a separate list of super-categories.
@@ -517,7 +518,7 @@ def parse_nav_categories(config: dict) -> dict[str, dict]:
             "sub_category": str | None,
         }
 
-    ``sub_category`` is only set for direct children of Motion Planning.
+    ``sub_category`` is set for direct child branches under every category.
     """
     mapping: dict[str, dict] = {}
 
@@ -550,8 +551,8 @@ def parse_nav_categories(config: dict) -> dict[str, dict]:
                         walk(value, key, None, None)
                 elif category is None:
                     walk(value, super_category, key, None)
-                elif category == PLANNING_CATEGORY and sub_category is None:
-                    # Direct children under Motion Planning become sub-categories.
+                elif sub_category is None:
+                    # Direct child branches under any category become sub-categories.
                     walk(value, super_category, category, key)
                 else:
                     walk(value, super_category, category, sub_category)
@@ -613,7 +614,7 @@ def parse_nav_category_order(config: dict) -> dict:
                     add_category(key, super_category)
                     walk(value, super_category, key, 0)
                 else:
-                    if category == PLANNING_CATEGORY and depth_under_category == 0:
+                    if depth_under_category == 0:
                         sub_category_order.setdefault(category, [])
                         if key not in sub_category_order[category]:
                             sub_category_order[category].append(key)
@@ -809,18 +810,6 @@ def main() -> None:
         help=f"Minimum cosine similarity to draw an edge (default: {DEFAULT_THRESHOLD}).",
     )
     parser.add_argument(
-        "--top-k",
-        type=int,
-        default=DEFAULT_TOP_K,
-        metavar="K",
-        dest="top_k",
-        help=(
-            f"Always connect each paper to its top-K most similar neighbours "
-            f"even if their similarity is below --threshold (default: {DEFAULT_TOP_K}). "
-            f"Edges below {ABSOLUTE_FLOOR} are still dropped."
-        ),
-    )
-    parser.add_argument(
         "--cache",
         type=Path,
         default=DEFAULT_CACHE,
@@ -977,7 +966,7 @@ def main() -> None:
     force_params = dict(
         anchor_strength=0.85,
         sim_threshold=0.75,
-        sim_top_k=10,
+        sim_candidate_limit=10,
         sim_attraction_strength=0.4,
         gap_factor=2.0,
         collision_radius_factor=0.2,
@@ -1042,20 +1031,14 @@ def main() -> None:
         row = sim[i].copy()
         row[i] = -1.0  # exclude self-similarity
 
-        # Candidates: all above threshold
+        # Candidates: only edges whose similarity meets the threshold.
         above = set(int(j) for j in np.where(row >= args.threshold)[0])
-
-        # Plus top-K neighbours (guarantees connectivity even for outlier papers)
-        top_k = min(max(args.top_k, 0), n - 1)
-        if top_k:
-            top_k_idx = np.argpartition(row, -top_k)[-top_k:]
-            above.update(int(j) for j in top_k_idx)
 
         strongest = sorted(
             (
                 (float(sim[i, j]), j)
                 for j in above
-                if j != i and float(sim[i, j]) >= ABSOLUTE_FLOOR
+                if j != i
             ),
             reverse=True,
         )[:MAX_EDGE_CANDIDATES_PER_NODE]
@@ -1097,7 +1080,6 @@ def main() -> None:
         "meta": {
             "model": model_name,
             "threshold": args.threshold,
-            "top_k": args.top_k,
             "max_edge_candidates_per_node": MAX_EDGE_CANDIDATES_PER_NODE,
             "total_papers": len(papers),
             "total_edges": len(edges),
@@ -1116,7 +1098,7 @@ def main() -> None:
     print(f"    Nodes : {len(nodes)}")
     print(
         f"    Edges : {len(edges)}  "
-        f"(threshold={args.threshold}, top_k={args.top_k}, "
+        f"(threshold={args.threshold}, "
         f"max_edge_candidates_per_node={MAX_EDGE_CANDIDATES_PER_NODE})"
     )
     print(f"    Output: {args.output}")

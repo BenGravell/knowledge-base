@@ -9,8 +9,8 @@ hide:
 <style>
 /* ── Derived vars: transparency adjustments on MkDocs palette tokens ─────── */
 :root {
-  --mm-edge-color:         #111827;
-  --mm-edge-highlighted:   #c28a00;
+  --mm-edge-color:         #242424;
+  --mm-edge-highlighted:   rgba(78, 78, 78, 0.72);
   --mm-edge-alpha-scale:   1.10;
   --mm-edge-alpha-min:     0.14;
   --mm-edge-alpha-max:     0.34;
@@ -21,8 +21,8 @@ hide:
   --mm-selected-label:     #111111;
 }
 [data-md-color-scheme="default"] {
-  --mm-edge-color:         #111827;
-  --mm-edge-highlighted:   #c28a00;
+  --mm-edge-color:         #242424;
+  --mm-edge-highlighted:   rgba(78, 78, 78, 0.72);
   --mm-edge-alpha-scale:   1.10;
   --mm-edge-alpha-min:     0.14;
   --mm-edge-alpha-max:     0.34;
@@ -33,11 +33,11 @@ hide:
   --mm-selected-label:     #111111;
 }
 [data-md-color-scheme="slate"] {
-  --mm-edge-color:         #64748b;
-  --mm-edge-highlighted:   #f1c232;
-  --mm-edge-alpha-scale:   0.22;
-  --mm-edge-alpha-min:     0.02;
-  --mm-edge-alpha-max:     0.08;
+  --mm-edge-color:         #8a8a8a;
+  --mm-edge-highlighted:   rgba(178, 178, 178, 0.56);
+  --mm-edge-alpha-scale:   0.14;
+  --mm-edge-alpha-min:     0.012;
+  --mm-edge-alpha-max:     0.045;
   --mm-node-muted:         #66717d;
   --mm-node-muted-related: #8b96a2;
   --mm-muted-label:        #c8d0d8;
@@ -229,6 +229,34 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   accent-color: var(--md-accent-fg-color);
 }
 
+/* Detail level */
+.mm-detail-controls {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+}
+.mm-detail-controls button {
+  min-width: 0;
+  background: var(--md-default-fg-color--lightest);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  color: var(--md-default-fg-color--light);
+  padding: 5px 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.72rem;
+  line-height: 1.1;
+}
+.mm-detail-controls button:hover {
+  color: var(--md-default-fg-color);
+  border-color: var(--md-default-fg-color--light);
+}
+.mm-detail-controls button.active {
+  background: color-mix(in srgb, var(--md-accent-fg-color) 16%, var(--md-default-bg-color));
+  border-color: var(--md-accent-fg-color);
+  color: var(--md-default-fg-color);
+  font-weight: 600;
+}
+
 /* Categories */
 .mm-cat-links {
   display: flex;
@@ -396,6 +424,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .tt-tags    { font-size: 0.7rem;  color: var(--md-primary-fg-color--light); margin: 5px 0; line-height: 1.5; }
 .tt-summary { font-size: 0.73rem; color: var(--md-default-fg-color--light); margin-top: 6px; line-height: 1.45; }
 .tt-hint    { font-size: 0.68rem; color: var(--md-default-fg-color--lighter); margin-top: 8px; font-style: italic; }
+.tt-list    { margin: 7px 0 0; padding-left: 1rem; color: var(--md-default-fg-color--light); font-size: 0.72rem; line-height: 1.35; }
+.tt-list li { margin-bottom: 3px; }
 
 @media (max-width: 700px) {
   #mm-tooltip {
@@ -439,6 +469,11 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
       </div>
 
       <div class="mm-section">
+        <span class="mm-section-label">Detail</span>
+        <div id="mm-detail-controls" class="mm-detail-controls"></div>
+      </div>
+
+      <div class="mm-section">
         <div class="mm-threshold-row">
           <span class="mm-section-label" style="margin:0">Similarity threshold</span>
           <span id="mm-threshold-val">0.77</span>
@@ -461,6 +496,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
       </div>
 
       <div id="mm-stats">
+        <span id="mm-level-label">Super</span> ·
         <span id="mm-node-count">…</span> items &nbsp;·&nbsp;
         <span id="mm-edge-count">…</span> connections
       </div>

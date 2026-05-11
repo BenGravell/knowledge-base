@@ -1,9 +1,9 @@
 title: The scaled unscented transformation
 algorithm: "Scaled Unscented Transform"
 authors:
-  - S.J. Julier
+  - S. J. Julier
 year: 2002
-source: Proceedings of the 2002 American Control Conference (IEEE Cat. No.CH37301)
+source: American Control Conference (ACC)
 type: Conference Paper
 doi: 10.1109/ACC.2002.1025369
 arxiv_id:

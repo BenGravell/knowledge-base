@@ -63,10 +63,12 @@
   });
 
   function hydrate(node, parent) {
+    const paper = node.paper || {};
+    const authors = Array.isArray(paper.authors) ? paper.authors.join(' ') : '';
     node.parent = parent;
     node.children = Array.isArray(node.children) ? node.children : [];
     node.pathNodes = parent ? parent.pathNodes.concat(node) : [node];
-    node.searchText = normalized([node.label, node.path.join(' '), node.source || ''].join(' '));
+    node.searchText = normalized([node.label, node.path.join(' '), node.source || '', authors, paper.year || ''].join(' '));
     nodes.set(node.id, node);
     searchableNodes.push(node);
     node.children.forEach(function (child) {
@@ -119,9 +121,7 @@
     const isSuccessor = Boolean(treeNode.parent && treeNode.parent.id === currentNode.id);
     const isExpanded = treeNode.children.length > 0 && pathIds.has(treeNode.id);
     const isMuted = !isCurrent && !isAncestor && !isParent && !isSuccessor;
-    const action = isCurrent && treeNode.url
-      ? '<a class="ct-tree-open-link" href="' + escAttr(treeNode.url) + '">Open page</a>'
-      : '';
+    const details = isCurrent ? renderCurrentNodeDetails(treeNode) : '';
     const classes = [
       'ct-tree-node',
       'ct-tree-kind-' + treeNode.kind,
@@ -147,10 +147,43 @@
       '<span class="ct-tree-meta">' + esc(treeNodeMeta(treeNode)) + '</span>',
       '</span>',
       '</button>',
-      action,
+      details,
       children,
       '</li>',
     ].join('');
+  }
+
+  function renderCurrentNodeDetails(node) {
+    if (node.kind === 'paper') return renderPaperDetails(node);
+    if (!node.url) return '';
+    return '<a class="ct-tree-open-link" href="' + escAttr(node.url) + '">Open page</a>';
+  }
+
+  function renderPaperDetails(node) {
+    const paper = node.paper || {};
+    const abstract = paper.abstract || 'No abstract recorded yet.';
+    const detailUrl = node.url || '';
+    const mindMapUrl = paper.mindMapUrl || mindMapUrlFromSource(node.source);
+    const actions = [
+      detailUrl
+        ? '<a class="ct-paper-link" href="' + escAttr(detailUrl) + '" target="_blank" rel="noopener noreferrer" aria-label="Open detail page in a new tab">Open detail page</a>'
+        : '',
+      mindMapUrl
+        ? '<a class="ct-paper-link" href="' + escAttr(mindMapUrl) + '" target="_blank" rel="noopener noreferrer" aria-label="Open in mind map in a new tab">Open in mind map</a>'
+        : '',
+    ].filter(Boolean).join('');
+
+    return [
+      '<div class="ct-paper-details">',
+      '<p class="ct-paper-abstract">' + esc(abstract) + '</p>',
+      actions ? '<div class="ct-paper-actions">' + actions + '</div>' : '',
+      '</div>',
+    ].join('');
+  }
+
+  function mindMapUrlFromSource(source) {
+    const match = String(source || '').match(/^papers\/(.+)\.md$/);
+    return match ? '../mind-map/#paper=' + encodeURIComponent(match[1]) : '';
   }
 
   function renderSearch() {
@@ -228,7 +261,18 @@
     if (node.kind === 'branch') {
       return plural(node.leafCount, 'item') + ' / ' + plural(node.children.length, 'child', 'children');
     }
+    if (node.kind === 'paper') {
+      return paperCitationMeta(node) || kindLabel(node);
+    }
     return kindLabel(node);
+  }
+
+  function paperCitationMeta(node) {
+    const paper = node.paper || {};
+    const authors = Array.isArray(paper.authors) ? paper.authors.filter(Boolean) : [];
+    const year = String(paper.year || '').trim();
+    const author = authors.length ? authors[0] + (authors.length > 1 ? ' et al.' : '') : '';
+    return [author, year].filter(Boolean).join(' · ');
   }
 
   function kindLabel(node) {

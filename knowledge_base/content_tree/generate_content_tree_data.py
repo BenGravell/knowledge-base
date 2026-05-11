@@ -11,14 +11,16 @@ from __future__ import annotations
 
 import json
 import re
-from pathlib import PurePosixPath
+from pathlib import Path, PurePosixPath
 from typing import Any
+from urllib.parse import quote
 
 import mkdocs_gen_files
 import yaml
 
 
 MKDOCS_YML = "mkdocs.yml"
+METADATA_ROOT = Path("docs/papers")
 LANDING_PAGES = {"content-tree.md", "content-tree/index.md"}
 
 
@@ -43,6 +45,10 @@ def is_landing_item(label: str, child: Any) -> bool:
 def slugify_id(text: str) -> str:
     slug = re.sub(r"[^a-zA-Z0-9]+", "-", text.lower()).strip("-")
     return slug or "node"
+
+
+def slugify_page(name: str) -> str:
+    return re.sub(r"[^a-zA-Z0-9]+", "_", name.lower()).strip("_")
 
 
 class IdFactory:
@@ -78,9 +84,48 @@ def link_kind(source: str) -> str:
     return "link"
 
 
+def paper_id_from_metadata(metadata_file: Path, data: dict[str, Any]) -> str:
+    if "id" in data:
+        return slugify_page(str(data["id"]))
+    if metadata_file.stem != "metadata":
+        return slugify_page(metadata_file.stem)
+    return slugify_page(metadata_file.parent.name)
+
+
+def clean_text(value: Any) -> str:
+    text = str(value or "").strip()
+    return re.sub(r"[ \t\r\f\v]+", " ", text)
+
+
+def collect_paper_details() -> dict[str, dict[str, Any]]:
+    details: dict[str, dict[str, Any]] = {}
+    for metadata_file in sorted(METADATA_ROOT.rglob("*.yml")):
+        with open(metadata_file, "r", encoding="utf-8") as f:
+            data = yaml.safe_load(f) or {}
+        if not isinstance(data, dict):
+            continue
+
+        paper_id = paper_id_from_metadata(metadata_file, data)
+        source = f"papers/{paper_id}.md"
+        authors = [clean_text(author) for author in as_list(data.get("authors"))]
+        authors = [author for author in authors if author]
+        details[source] = {
+            "id": paper_id,
+            "title": clean_text(data.get("title")),
+            "authors": authors,
+            "year": data.get("year") or "",
+            "abstract": clean_text(data.get("abstract")),
+            "mindMapUrl": f"../mind-map/#paper={quote(paper_id, safe='')}",
+        }
+    return details
+
+
+paper_details_by_source = collect_paper_details()
+
+
 def build_leaf(label: str, source: str, path: list[str], ids: IdFactory) -> dict[str, Any]:
     full_path = path + [label]
-    return {
+    node = {
         "id": ids.make(full_path, source),
         "label": label,
         "kind": link_kind(source),
@@ -91,6 +136,9 @@ def build_leaf(label: str, source: str, path: list[str], ids: IdFactory) -> dict
         "leafCount": 1,
         "branchCount": 0,
     }
+    if node["kind"] == "paper":
+        node["paper"] = paper_details_by_source.get(source, {})
+    return node
 
 
 def build_branch(label: str, child: list[Any], path: list[str], ids: IdFactory) -> dict[str, Any]:

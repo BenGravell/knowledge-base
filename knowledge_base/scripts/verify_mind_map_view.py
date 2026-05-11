@@ -37,12 +37,40 @@ JS_CHECKS = r"""
     return c === 'white' || c === '#fff' || c === '#ffffff' ||
       /^rgba?\(\s*255\s*,\s*255\s*,\s*255(?:\s*,\s*(?:1(?:\.0)?|0?\.\d+))?\s*\)$/.test(c);
   };
-  const colorAlpha = color => {
+  const colorChannels = color => {
     const c = String(color || '').trim();
-    const rgba = c.match(/^rgba?\(([^)]+)\)$/i);
-    if (!rgba) return c ? 1 : 0;
-    const parts = rgba[1].split(',').map(part => part.trim());
-    return parts.length >= 4 ? Number(parts[3]) : 1;
+    let match = c.match(/^#([0-9a-f]{3})$/i);
+    if (match) {
+      return match[1].split('').map(ch => parseInt(ch + ch, 16)).concat(1);
+    }
+    match = c.match(/^#([0-9a-f]{6})$/i);
+    if (match) {
+      const hex = match[1];
+      return [
+        parseInt(hex.slice(0, 2), 16),
+        parseInt(hex.slice(2, 4), 16),
+        parseInt(hex.slice(4, 6), 16),
+        1,
+      ];
+    }
+    match = c.match(/^rgba?\(([^)]+)\)$/i);
+    if (match) {
+      const parts = match[1].split(',').map(part => Number(part.trim()));
+      if (parts.length >= 3 && parts.slice(0, 3).every(Number.isFinite)) {
+        return parts.slice(0, 3).concat(Number.isFinite(parts[3]) ? parts[3] : 1);
+      }
+    }
+    return null;
+  };
+  const colorIsNeutralGrey = color => {
+    const channels = colorChannels(color);
+    if (!channels) return false;
+    const [r, g, b] = channels;
+    return Math.max(r, g, b) - Math.min(r, g, b) <= 1;
+  };
+  const colorAlpha = color => {
+    const channels = colorChannels(color);
+    return channels ? channels[3] : 0;
   };
   const edgeAlphaStats = edgeIds => {
     const alphas = edgeIds
@@ -83,6 +111,86 @@ JS_CHECKS = r"""
     const data = renderer.getEdgeDisplayData(id);
     return data && !data.hidden;
   });
+  const hashParams = () => new URLSearchParams(window.location.hash.slice(1));
+  const canvasHasDarkPixelNear = (canvas, point) => {
+    if (!canvas || !point || !Number.isFinite(point.x) || !Number.isFinite(point.y)) return false;
+    const context = canvas.getContext('2d');
+    if (!context) return false;
+
+    const scaleX = canvas.width / Math.max(graphEl.clientWidth, 1);
+    const scaleY = canvas.height / Math.max(graphEl.clientHeight, 1);
+    const radiusX = Math.max(12, Math.round(58 * scaleX));
+    const radiusY = Math.max(12, Math.round(32 * scaleY));
+    const cx = Math.round(point.x * scaleX);
+    const cy = Math.round(point.y * scaleY);
+    const x = Math.max(0, cx - radiusX);
+    const y = Math.max(0, cy - radiusY);
+    const width = Math.min(canvas.width - x, radiusX * 2 + 1);
+    const height = Math.min(canvas.height - y, radiusY * 2 + 1);
+    if (width <= 0 || height <= 0) return false;
+
+    const pixels = context.getImageData(x, y, width, height).data;
+    let darkPixels = 0;
+    for (let i = 0; i < pixels.length; i += 4) {
+      const [r, g, b, a] = [pixels[i], pixels[i + 1], pixels[i + 2], pixels[i + 3]];
+      if (a > 80 && r < 80 && g < 80 && b < 80) darkPixels += 1;
+      if (darkPixels > 10) return true;
+    }
+    return false;
+  };
+  const overlayBounds = el => {
+    if (!el) return null;
+    const graphRect = graphEl.getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
+    const left = Math.max(0, Math.min(rect.left - graphRect.left, graphEl.clientWidth));
+    const right = Math.max(0, Math.min(rect.right - graphRect.left, graphEl.clientWidth));
+    const top = Math.max(0, Math.min(rect.top - graphRect.top, graphEl.clientHeight));
+    const bottom = Math.max(0, Math.min(rect.bottom - graphRect.top, graphEl.clientHeight));
+    return right > left && bottom > top
+      ? { left, right, top, bottom, width: right - left, height: bottom - top }
+      : null;
+  };
+  const usableCanvasRect = (pad = 30) => {
+    const rect = {
+      left: Math.min(pad, graphEl.clientWidth / 2),
+      top: Math.min(pad, graphEl.clientHeight / 2),
+      right: Math.max(graphEl.clientWidth - pad, Math.min(graphEl.clientWidth, pad * 2 + 1)),
+      bottom: Math.max(graphEl.clientHeight - pad, Math.min(graphEl.clientHeight, pad * 2 + 1)),
+    };
+    const panelOpen = Boolean(panel && !panel.classList.contains('body-collapsed'));
+    const panelBounds = panelOpen ? overlayBounds(panel) : null;
+    if (panelBounds && panelBounds.left <= pad && panelBounds.width < graphEl.clientWidth * 0.72) {
+      rect.left = Math.max(rect.left, Math.min(panelBounds.right + pad, graphEl.clientWidth - pad));
+    }
+    const headerBounds = overlayBounds(document.getElementById('mm-panel-header'));
+    if (headerBounds) {
+      const centerX = (rect.left + rect.right) / 2;
+      if (centerX >= headerBounds.left && centerX <= headerBounds.right && headerBounds.height < graphEl.clientHeight * 0.5) {
+        rect.top = Math.max(rect.top, Math.min(headerBounds.bottom + pad, graphEl.clientHeight - pad));
+      }
+    }
+    if (rect.right <= rect.left) {
+      rect.left = Math.min(pad, graphEl.clientWidth / 2);
+      rect.right = Math.max(graphEl.clientWidth - pad, rect.left + 1);
+    }
+    if (rect.bottom <= rect.top) {
+      rect.top = Math.min(pad, graphEl.clientHeight / 2);
+      rect.bottom = Math.max(graphEl.clientHeight - pad, rect.top + 1);
+    }
+    return rect;
+  };
+  const assertNodeCenteredInUsableCanvas = (node, label) => {
+    const attrs = graph.getNodeAttributes(node);
+    const point = renderer.graphToViewport({ x: attrs.x, y: attrs.y });
+    const usable = usableCanvasRect();
+    const expected = {
+      x: (usable.left + usable.right) / 2,
+      y: (usable.top + usable.bottom) / 2,
+    };
+    assert(Math.abs(point.x - expected.x) <= 36 && Math.abs(point.y - expected.y) <= 36,
+      `${label} centers the paper in the usable canvas area`,
+      JSON.stringify({ point, expected, usable }));
+  };
   const viewportBBox = () => {
     const ids = visibleNodes();
     let minX = Infinity;
@@ -107,13 +215,62 @@ JS_CHECKS = r"""
       panelWidth: panel ? panel.offsetWidth : 0,
     };
   };
+  const allDetailViewportBBox = () => {
+    const detailLevels = new Set(['super_category', 'category', 'sub_category', 'paper']);
+    const ids = graph.nodes().filter(id => detailLevels.has(graph.getNodeAttribute(id, 'detailLevel')));
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+    ids.forEach(id => {
+      const attrs = graph.getNodeAttributes(id);
+      const point = renderer.graphToViewport({
+        x: Number.isFinite(attrs.homeX) ? attrs.homeX : attrs.x,
+        y: Number.isFinite(attrs.homeY) ? attrs.homeY : attrs.y,
+      });
+      if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) return;
+      minX = Math.min(minX, point.x);
+      minY = Math.min(minY, point.y);
+      maxX = Math.max(maxX, point.x);
+      maxY = Math.max(maxY, point.y);
+    });
+    return {
+      minX, minY, maxX, maxY,
+      width: graphEl.clientWidth,
+      height: graphEl.clientHeight,
+      count: ids.length,
+      panelOpen: Boolean(panel && !panel.classList.contains('body-collapsed')),
+      panelWidth: panel ? panel.offsetWidth : 0,
+    };
+  };
+  const assertFittedBBox = (bbox, label) => {
+    const reservePanel = bbox.panelOpen && bbox.panelWidth < bbox.width * 0.72 ? bbox.panelWidth : 0;
+    const slack = 40;
+    assert(bbox.count > 20, `${label} has visible nodes`, bbox.count);
+    assert(bbox.minX >= reservePanel + 20 - slack,
+      `${label} keeps nodes clear of the left/panel side`, JSON.stringify(bbox));
+    assert(bbox.maxX <= bbox.width - 20 + slack,
+      `${label} keeps nodes clear of the right side`, JSON.stringify(bbox));
+    assert(bbox.minY >= 20 - slack,
+      `${label} keeps nodes clear of the top side`, JSON.stringify(bbox));
+    assert(bbox.maxY <= bbox.height - 20 + slack,
+      `${label} keeps nodes clear of the bottom side`, JSON.stringify(bbox));
+  };
 
   renderer.refresh();
   await sleep(80);
 
   const settings = renderer.getSettings();
   assert(settings.enableCameraRotation === false, 'camera rotation setting is disabled');
+  assert(settings.enableEdgeEvents === false, 'edge hover/click events are disabled');
   assert(settings.minEdgeThickness <= 0.5, 'minimum edge thickness is subdued', settings.minEdgeThickness);
+
+  const superGroups = [...document.querySelectorAll('#mm-category-filters > .mm-super-group')];
+  assert(superGroups.length >= 2, 'sidebar has top-level super-category groups', superGroups.length);
+  assert(superGroups.every(group => {
+    const items = group.querySelector(':scope > .mm-cat-group-items');
+    return items && getComputedStyle(items).display === 'none';
+  }), 'sidebar super-category groups start collapsed');
 
   const camera = renderer.getCamera();
   const originalAngle = camera.getState().angle;
@@ -121,8 +278,64 @@ JS_CHECKS = r"""
   await sleep(30);
   assert(Math.abs(camera.getState().angle - originalAngle) < 1e-8, 'camera rejects rotation changes');
 
+  const initialLevel = mm.detailLevel && mm.detailLevel();
   let nodes = visibleNodes();
   let edges = visibleEdges();
+  const initialSuperNodeCount = nodes.length;
+  assert(initialLevel === 'super_category', 'mind map starts at the super-category detail level', initialLevel);
+  assert(nodes.length >= 2 && nodes.length <= 20,
+    'initial super-category node count is aggregated', nodes.length);
+  assert(nodes.every(id => graph.getNodeAttribute(id, 'kind') === 'aggregate'),
+    'initial visible nodes are aggregate nodes');
+
+  const cameraDelta = (a, b) =>
+    Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y), Math.abs(a.ratio - b.ratio));
+  const beforeSuperClickCamera = { ...camera.getState() };
+  const superNode = nodes[0];
+  renderer.emit('clickNode', { node: superNode, event: { x: graphEl.clientWidth / 2, y: graphEl.clientHeight / 2 } });
+  await sleep(420);
+  renderer.refresh();
+  await sleep(60);
+  assert(cameraDelta(beforeSuperClickCamera, camera.getState()) < 1e-8,
+    'drilling down from super-category keeps the camera stable',
+    JSON.stringify({ before: beforeSuperClickCamera, after: camera.getState() }));
+  const categoryNodeCount = visibleNodes().length;
+  assert(mm.detailLevel && mm.detailLevel() === 'category',
+    'clicking a super node reveals the category aggregation level',
+    mm.detailLevel && mm.detailLevel());
+  assert(categoryNodeCount > initialSuperNodeCount,
+    'category level reveals more aggregate nodes than the super level',
+    `${categoryNodeCount} vs ${initialSuperNodeCount}`);
+
+  nodes = visibleNodes();
+  const beforeCategoryClickCamera = { ...camera.getState() };
+  renderer.emit('clickNode', { node: nodes[0], event: { x: graphEl.clientWidth / 2, y: graphEl.clientHeight / 2 } });
+  await sleep(420);
+  renderer.refresh();
+  await sleep(60);
+  assert(cameraDelta(beforeCategoryClickCamera, camera.getState()) < 1e-8,
+    'drilling down from category keeps the camera stable',
+    JSON.stringify({ before: beforeCategoryClickCamera, after: camera.getState() }));
+  assert(mm.detailLevel && mm.detailLevel() === 'sub_category',
+    'clicking a category node reveals the sub-category aggregation level',
+    mm.detailLevel && mm.detailLevel());
+
+  const paperButton = document.querySelector('#mm-detail-controls button[data-level="paper"]');
+  assert(Boolean(paperButton), 'paper detail level button exists');
+  const beforePaperButtonCamera = { ...camera.getState() };
+  paperButton && paperButton.click();
+  await sleep(420);
+  renderer.refresh();
+  await sleep(60);
+  assert(cameraDelta(beforePaperButtonCamera, camera.getState()) < 1e-8,
+    'paper detail button keeps the camera stable',
+    JSON.stringify({ before: beforePaperButtonCamera, after: camera.getState() }));
+  assert(mm.detailLevel && mm.detailLevel() === 'paper',
+    'paper button reveals paper nodes',
+    mm.detailLevel && mm.detailLevel());
+
+  nodes = visibleNodes();
+  edges = visibleEdges();
   assert(nodes.length > 20, 'visible node count is plausible', nodes.length);
   assert(edges.length > 20, 'visible edge count is plausible', edges.length);
 
@@ -134,7 +347,13 @@ JS_CHECKS = r"""
   const defaultEdge = edges.length ? renderer.getEdgeDisplayData(edges[0]) : null;
   const defaultEdgeAlphaStats = edgeAlphaStats(edges);
   assert(!colorIsWhite(cssVar('--mm-edge-color')), 'default theme edge variable is not white', cssVar('--mm-edge-color'));
+  assert(colorIsNeutralGrey(cssVar('--mm-edge-color')),
+    'default theme edge variable is true neutral grey', cssVar('--mm-edge-color'));
+  assert(colorIsNeutralGrey(cssVar('--mm-edge-highlighted')),
+    'default highlighted edge variable is true neutral grey', cssVar('--mm-edge-highlighted'));
   assert(defaultEdge && !colorIsWhite(defaultEdge.color), 'default rendered edge is not white', defaultEdge && defaultEdge.color);
+  assert(defaultEdge && colorIsNeutralGrey(defaultEdge.color),
+    'default rendered edge is true neutral grey', defaultEdge && defaultEdge.color);
   assert(defaultEdgeAlphaStats.min >= 0.13,
     'default rendered edges have a visible opacity floor', JSON.stringify(defaultEdgeAlphaStats));
   assert(defaultEdgeAlphaStats.median >= 0.14,
@@ -148,10 +367,16 @@ JS_CHECKS = r"""
   const slateEdge = edges.length ? renderer.getEdgeDisplayData(edges[0]) : null;
   const slateEdgeAlphaStats = edgeAlphaStats(edges);
   assert(!colorIsWhite(cssVar('--mm-edge-color')), 'slate theme edge variable is not pure white', cssVar('--mm-edge-color'));
+  assert(colorIsNeutralGrey(cssVar('--mm-edge-color')),
+    'slate theme edge variable is true neutral grey', cssVar('--mm-edge-color'));
+  assert(colorIsNeutralGrey(cssVar('--mm-edge-highlighted')),
+    'slate highlighted edge variable is true neutral grey', cssVar('--mm-edge-highlighted'));
   assert(slateEdge && !colorIsWhite(slateEdge.color), 'slate rendered edge is not pure white', slateEdge && slateEdge.color);
-  assert(slateEdgeAlphaStats.median <= 0.04,
+  assert(slateEdge && colorIsNeutralGrey(slateEdge.color),
+    'slate rendered edge is true neutral grey', slateEdge && slateEdge.color);
+  assert(slateEdgeAlphaStats.median <= 0.032,
     'slate rendered edges stay quiet at median opacity', JSON.stringify(slateEdgeAlphaStats));
-  assert(slateEdgeAlphaStats.max <= 0.085,
+  assert(slateEdgeAlphaStats.max <= 0.05,
     'slate rendered edges stay subdued at the high end', JSON.stringify(slateEdgeAlphaStats));
 
   setScheme('default');
@@ -182,22 +407,59 @@ JS_CHECKS = r"""
     'selected node label outline uses the gold emphasis color',
     selected && `${selected.labelOutlineColor} vs ${selectedRing}`);
   assert(selected && selected.highlighted === true, 'selected node is marked for ring rendering');
+  const focusLabelsCanvas = renderer.getCanvases && renderer.getCanvases().focusLabels;
+  const targetAttrs = graph.getNodeAttributes(target);
+  const targetPoint = renderer.graphToViewport({ x: targetAttrs.x, y: targetAttrs.y });
+  assert(canvasHasDarkPixelNear(focusLabelsCanvas, targetPoint),
+    'selected node label is redrawn on the final overlay above the emphasis disk',
+    JSON.stringify({ hasCanvas: Boolean(focusLabelsCanvas), targetPoint }));
   assert(muted && String(muted.color).toLowerCase() !== String(otherBase).toLowerCase(),
     'non-selected node loses its category color while focus is active',
     muted && `${muted.color} vs ${otherBase}`);
   assert(muted && mutedColors.includes(String(muted.color).toLowerCase()),
     'non-selected node uses one of the muted grey colors',
     muted && `${muted.color} not in ${mutedColors.join(', ')}`);
+  assert(hashParams().get('paper') === target,
+    'clicking a paper updates the shareable mind-map URL',
+    window.location.hash);
 
   renderer.emit('clickStage', {});
   await sleep(80);
+  assert(!hashParams().get('paper') && !hashParams().get('node'),
+    'clearing the selected paper removes stale paper URL state',
+    window.location.hash);
+
+  window.location.hash = `paper=${encodeURIComponent(target)}`;
+  await sleep(420);
+  renderer.refresh();
+  await sleep(80);
+  assert(mm.detailLevel && mm.detailLevel() === 'paper',
+    'paper hash switches to the paper detail level',
+    mm.detailLevel && mm.detailLevel());
+  assert(hashParams().get('paper') === target,
+    'paper hash remains canonical after focusing',
+    window.location.hash);
+  assert(camera.getState().ratio >= 0.24 && camera.getState().ratio <= 0.42,
+    'paper hash uses a moderate zoom level',
+    camera.getState().ratio);
+  assertNodeCenteredInUsableCanvas(target, 'paper hash focus with menu shown');
+
+  document.getElementById('mm-panel-header').click();
+  await sleep(600);
+  renderer.refresh();
+  await sleep(80);
+  assertNodeCenteredInUsableCanvas(target, 'paper hash focus after hiding the menu');
 
   camera.setState({ x: 0, y: 0, ratio: 5 });
   await sleep(30);
   document.getElementById('mm-fit-btn').click();
   await sleep(420);
+  renderer.refresh();
+  await sleep(60);
   const buttonFitState = camera.getState();
+  const buttonAllDetailFitted = allDetailViewportBBox();
   assert(buttonFitState.ratio <= 1.15, 'Fit View button returns the camera to fitted zoom', buttonFitState.ratio);
+  assertFittedBBox(buttonAllDetailFitted, 'single-click Fit View across all detail levels');
 
   camera.setState({ x: 0, y: 0, ratio: 5 });
   await sleep(30);
@@ -206,17 +468,9 @@ JS_CHECKS = r"""
   renderer.refresh();
   await sleep(60);
   const fitted = viewportBBox();
-  const reservePanel = fitted.panelOpen && fitted.panelWidth < fitted.width * 0.72 ? fitted.panelWidth : 0;
-  const slack = 40;
-  assert(fitted.count > 20, 'fit check has visible nodes', fitted.count);
-  assert(fitted.minX >= reservePanel + 20 - slack,
-    'fit keeps visible nodes clear of the left/panel side', JSON.stringify(fitted));
-  assert(fitted.maxX <= fitted.width - 20 + slack,
-    'fit keeps visible nodes clear of the right side', JSON.stringify(fitted));
-  assert(fitted.minY >= 20 - slack,
-    'fit keeps visible nodes clear of the top side', JSON.stringify(fitted));
-  assert(fitted.maxY <= fitted.height - 20 + slack,
-    'fit keeps visible nodes clear of the bottom side', JSON.stringify(fitted));
+  const allDetailFitted = allDetailViewportBBox();
+  assertFittedBBox(fitted, 'fit keeps current visible detail level inside viewport');
+  assertFittedBBox(allDetailFitted, 'fit keeps every detail level inside viewport');
 
   return {
     failures,
@@ -228,6 +482,8 @@ JS_CHECKS = r"""
       slateEdge,
       slateEdgeAlphaStats,
       fitted,
+      allDetailFitted,
+      buttonAllDetailFitted,
       buttonFitState,
       selected: {
         labelColor: selected && selected.labelColor,
@@ -237,6 +493,11 @@ JS_CHECKS = r"""
       muted: {
         color: muted && muted.color,
         baseColor: otherBase,
+      },
+      hierarchy: {
+        initialLevel,
+        initialSuperNodeCount,
+        categoryNodeCount,
       },
     },
   };

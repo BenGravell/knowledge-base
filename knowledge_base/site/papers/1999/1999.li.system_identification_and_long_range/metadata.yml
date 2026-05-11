@@ -1,8 +1,12 @@
 title: System identification and long-range predictive control of multi-rate systems
 algorithm:
-authors: []
+authors:
+  - Dongguang Li
+  - S. L. Shah
+  - Tongwen Chen
+  - R. Patwardhan
 year: 1999
-source: Proceedings of the 1999 American Control Conference (Cat. No. 99CH36251)
+source: American Control Conference (ACC)
 type: Conference Paper
 doi: 10.1109/ACC.1999.782796
 arxiv_id:

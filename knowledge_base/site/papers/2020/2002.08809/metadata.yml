@@ -1,5 +1,5 @@
 title: 'DDPNOpt: Differential Dynamic Programming Neural Optimizer'
-algorithm: "DDPNOpt"
+algorithm: DDPNOpt
 authors:
   - Guan-Horng Liu
   - Tianrong Chen

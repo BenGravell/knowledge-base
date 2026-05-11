@@ -3,6 +3,7 @@
 /* Separator above the Portfolio item */
 .md-nav__item:has(> a.md-nav__link[href*="portfolio"]) {
   margin-top: 8px;
+  padding-inline: 0.25rem;
   padding-top: 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
@@ -13,10 +14,13 @@
 
 /* Pill button */
 a.md-nav__link[href*="portfolio"] {
-  display: inline-flex;
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
   align-items: center;
+  justify-content: space-between;
   gap: 5px;
-  padding: 3px 8px 3px 10px;
+  padding: 5px 12px;
   border-radius: 7px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(6px);
@@ -129,17 +133,14 @@ a.md-nav__link[href*="portfolio"]::after {
 .md-typeset details.ct-note > summary {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.32rem;
   box-sizing: border-box;
-  min-height: 1.65rem;
+  min-height: 1.45rem;
   margin: 0;
-  padding: 0.34rem 0.44rem 0.34rem 0.72rem;
-  border: 1px solid var(--ct-soft-border);
-  border-left-color: var(--ct-teal);
-  border-radius: 999px;
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--ct-teal) 7%, transparent), transparent 42%),
-    var(--ct-panel);
+  padding: 0.12rem 0.1rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: var(--md-default-fg-color--light);
   cursor: pointer;
   font-size: 0.78rem;
@@ -164,24 +165,20 @@ a.md-nav__link[href*="portfolio"]::after {
 
 .md-typeset details.ct-note > summary::after {
   content: "+";
-  display: grid;
+  display: inline-grid;
   flex: 0 0 auto;
   place-items: center;
-  width: 1.1rem;
-  height: 1.1rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--ct-cyan) 14%, transparent);
+  width: 0.8rem;
+  height: 1rem;
+  background: transparent;
   color: var(--ct-cyan);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 900;
   line-height: 1;
 }
 
 .md-typeset details.ct-note[open] > summary {
-  border-color: color-mix(in srgb, var(--ct-teal) 32%, var(--ct-soft-border));
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--ct-teal) 9%, transparent), transparent 42%),
-    var(--ct-panel);
+  color: var(--md-default-fg-color);
 }
 
 .md-typeset details.ct-note[open] > summary::after {
@@ -386,9 +383,10 @@ a.md-nav__link[href*="portfolio"]::after {
   position: relative;
   display: grid;
   width: 100%;
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 1.05rem;
+  max-width: none;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0.9rem 0.85rem;
   border: 1px solid var(--ct-border);
   border-radius: 8px;
   background:
@@ -430,9 +428,21 @@ a.md-nav__link[href*="portfolio"]::after {
 }
 
 .ct-tree-list .ct-tree-list {
-  margin-left: 1rem;
-  padding-left: 1rem;
-  border-left: 1px solid var(--ct-muted-line);
+  position: relative;
+  margin-left: 0;
+  padding-left: 0;
+  border-left: 0;
+}
+
+.ct-tree-list .ct-tree-list::before {
+  content: "";
+  position: absolute;
+  top: -0.18rem;
+  bottom: 0.18rem;
+  left: 0.72rem;
+  width: 1px;
+  background: var(--ct-muted-line);
+  pointer-events: none;
 }
 
 .ct-tree-node {
@@ -442,6 +452,7 @@ a.md-nav__link[href*="portfolio"]::after {
 
 .ct-tree-button {
   position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1.45rem minmax(0, 1fr);
   gap: 0.5rem;
@@ -582,6 +593,72 @@ a.md-nav__link[href*="portfolio"]::after {
   color: var(--md-typeset-a-color);
 }
 
+.ct-paper-details {
+  display: grid;
+  gap: 0.62rem;
+  margin: 0.35rem 0 0.65rem 2rem;
+  padding: 0.78rem 0.88rem;
+  border: 1px solid color-mix(in srgb, var(--ct-cyan) 34%, transparent);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--ct-cyan) 10%, transparent), transparent 42%),
+    var(--md-default-bg-color);
+  box-shadow: 0 8px 18px color-mix(in srgb, #000000 7%, transparent);
+}
+
+.ct-paper-abstract {
+  margin: 0;
+  color: var(--md-default-fg-color);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.ct-paper-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.ct-paper-link {
+  display: inline-flex;
+  min-height: 2rem;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.28rem 0.58rem;
+  border: 1px solid color-mix(in srgb, var(--ct-cyan) 42%, transparent);
+  border-radius: 8px;
+  color: var(--md-typeset-a-color);
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.ct-paper-link::after {
+  content: "\2197";
+  display: inline-grid;
+  width: 1.32rem;
+  height: 1rem;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--ct-cyan) 34%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ct-cyan) 9%, transparent);
+  color: var(--ct-cyan);
+  font-size: 0.66rem;
+  line-height: 1;
+  transform: translateY(-0.02rem);
+}
+
+.ct-paper-link:hover {
+  border-color: var(--ct-cyan);
+  background: color-mix(in srgb, var(--ct-cyan) 8%, transparent);
+  color: var(--md-typeset-a-color);
+}
+
+.ct-paper-link:hover::after {
+  border-color: color-mix(in srgb, var(--ct-cyan) 70%, transparent);
+  background: color-mix(in srgb, var(--ct-cyan) 15%, transparent);
+}
+
 .ct-kind {
   color: var(--md-default-fg-color--light);
   font-size: 0.7rem;
@@ -638,11 +715,6 @@ a.md-nav__link[href*="portfolio"]::after {
   }
 
   .ct-chain {
-    padding: 0.78rem;
-  }
-
-  .ct-tree-list .ct-tree-list {
-    margin-left: 0.52rem;
-    padding-left: 0.52rem;
+    padding: 0.64rem 0.45rem;
   }
 }
