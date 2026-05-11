@@ -157,10 +157,10 @@ def _html_unescape_repeated(text: str, max_rounds: int = 3) -> str:
     """Decode HTML entities, including values that were escaped more than once."""
     current = text
     for _ in range(max_rounds):
-        decoded = html.unescape(current)
+        decoded = _HTML_ENTITY_RE.sub(lambda m: html.unescape(m.group(0)), current)
         if decoded == current:
             break
-        current = decoded
+        current = decoded.replace("\xa0", " ")
     return current
 
 
@@ -465,30 +465,53 @@ def _fix_title_in_yaml(raw: str, new_title: str) -> str:
     return _TITLE_LINE_RE.sub(replacer, raw, count=1)
 
 
-def apply_fixes(results: list[tuple[Path, list[Issue]]]) -> None:
+def _is_escaped_sequence_issue(issue: Issue) -> bool:
+    return issue.message.startswith("Contains escaped HTML/entity sequence")
+
+
+def _fix_escaped_sequences_in_yaml(raw: str) -> tuple[str, int]:
+    new_raw = _html_unescape_repeated(raw)
+    return new_raw, len(_HTML_ENTITY_RE.findall(raw))
+
+
+def apply_fixes(results: list[tuple[Path, list[Issue]]]) -> int:
     fixed = 0
     for path, issues in results:
         title_fixes = [
             i for i in issues if i.field == "title" and i.suggestion is not None
         ]
-        if not title_fixes:
+        has_escaped_sequence_fixes = any(_is_escaped_sequence_issue(i) for i in issues)
+        if not title_fixes and not has_escaped_sequence_fixes:
             continue
-        new_title = title_fixes[0].suggestion
         try:
             raw = path.read_text(encoding="utf-8")
-            new_raw = _fix_title_in_yaml(raw, new_title)
+            new_raw = raw
+            messages = []
+
+            if title_fixes:
+                new_title = title_fixes[0].suggestion
+                new_raw = _fix_title_in_yaml(new_raw, new_title)
+                old_title = yaml.safe_load(raw).get("title", "")
+                messages.append(f"  title: {old_title!r} [green]->[/] {new_title!r}")
+
+            if has_escaped_sequence_fixes:
+                new_raw, n_decoded = _fix_escaped_sequences_in_yaml(new_raw)
+                if n_decoded:
+                    messages.append(f"  decoded {n_decoded} escaped sequence(s)")
+
             if new_raw == raw:
                 err_console.print(f"  [dim](no change written for {path})[/]")
                 continue
+            yaml.safe_load(new_raw)
             path.write_text(new_raw, encoding="utf-8")
-            old_title = yaml.safe_load(raw).get("title", "")
-            console.print(
-                f"[green]Fixed:[/] {path}\n  {old_title!r}\n  [green]->[/] {new_title!r}"
-            )
+            console.print(f"[green]Fixed:[/] {path}")
+            for message in messages:
+                console.print(message)
             fixed += 1
         except Exception as exc:
             err_console.print(f"[red]Error fixing {path}:[/] {exc}")
     console.print(f"\n[green]{fixed} file(s) fixed.[/]")
+    return fixed
 
 
 # ---------------------------------------------------------------------------
@@ -526,7 +549,7 @@ Checks performed on each metadata.yml:
     parser.add_argument(
         "--fix",
         action="store_true",
-        help="Auto-fix title-case issues (rewrites files in place)",
+        help="Auto-fix title-case and escaped HTML/entity issues (rewrites files in place)",
     )
     parser.add_argument(
         "--file",
@@ -591,6 +614,11 @@ Checks performed on each metadata.yml:
 
     if args.fix:
         apply_fixes(results)
+        remaining_errors = 0
+        for p in targets:
+            _, issues = audit_file(p, escaped_sequences_only=args.escaped_sequences_only)
+            remaining_errors += sum(1 for i in issues if i.severity == Severity.ERROR)
+        sys.exit(1 if remaining_errors else 0)
 
     sys.exit(1 if n_errors else 0)
 
