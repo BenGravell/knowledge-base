@@ -14,11 +14,11 @@
 
 ## Summary
 
-{{ summary | escape_markdown }}
+{{ summary | metadata_text_html }}
 
 ## Abstract
 
-{{ abstract | escape_markdown }}
+{{ abstract | metadata_text_html }}
 
 {% if link %}
 ## Links

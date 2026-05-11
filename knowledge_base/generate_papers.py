@@ -1,5 +1,6 @@
-import yaml
+import html
 import re
+import yaml
 from pathlib import Path
 import mkdocs_gen_files
 from jinja2 import Environment
@@ -17,15 +18,25 @@ def slugify(name: str) -> str:
     return re.sub(r"[^a-zA-Z0-9]+", "_", name.lower()).strip("_")
 
 
-def escape_markdown(text):
-    """Escape all markdown special characters to render text verbatim."""
-    chars = r"\`*_{}[]()#+-.!|>"
-    return re.sub(r"([%s])" % re.escape(chars), r"\\\1", str(text))
+def metadata_text_html(text):
+    """Render metadata text as HTML paragraphs without Markdown/math parsing."""
+    text = str(text or "").strip()
+    if not text:
+        return ""
+
+    paragraphs = re.split(r"\n\s*\n", text)
+    rendered = []
+    for paragraph in paragraphs:
+        lines = [html.escape(line.strip(), quote=False) for line in paragraph.splitlines()]
+        body = "<br>\n".join(line for line in lines if line)
+        if body:
+            rendered.append(f"<p>{body}</p>")
+    return "\n".join(rendered)
 
 
 # Set up Jinja2 environment with custom filter
 env = Environment()
-env.filters["escape_markdown"] = escape_markdown
+env.filters["metadata_text_html"] = metadata_text_html
 
 # Iterate over all YAML files
 for metadata_file in metadata_root.rglob("*.yml"):
