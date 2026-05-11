@@ -1,8 +1,13 @@
 # TODO
 
+## wip2
+
+pillbox for About in content tree should stay static (with some open/closed indicator) for GUI UX stabiltiy and ergonomics, working more like an expander.
+
 ## Metadata cleanup
 
 ### Add validation on mkdocs.yml
+
   - ensure every linked doc actually exists
   - ensure every paper in the docs source has a reference in mkdocs.yml (no dead data)
 
