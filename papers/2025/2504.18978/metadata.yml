@@ -1,5 +1,5 @@
 title: "A Biconvex Method for Minimum-Time Motion Planning Through Sequences of Convex Sets"
-algorithm:
+algorithm: SCS
 authors:
   - Tobia Marcucci
   - Mathew Halm

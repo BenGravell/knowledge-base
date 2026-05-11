@@ -1,0 +1,30 @@
+title: "VICReg: Variance-Invariance-Covariance Regularization for Self-Supervised Learning"
+algorithm: VICReg
+authors:
+  - Adrien Bardes
+  - Jean Ponce
+  - Yann LeCun
+year: 2021
+source: International Conference on Learning Representations
+type: Conference Paper
+doi:
+arxiv_id: "2105.04906"
+tags:
+  - Self-supervised learning
+  - Representation learning
+  - Computer vision
+  - VICReg
+  - Variance regularization
+  - Covariance regularization
+  - Collapse prevention
+  - Redundancy reduction
+  - Non-contrastive learning
+abstract: >
+  Recent self-supervised methods for image representation learning are based on maximizing the agreement between embedding vectors from different views of the same image. A trivial solution is obtained when the encoder outputs constant vectors. This collapse problem is often avoided through implicit biases in the learning architecture, that often lack a clear justification or interpretation. In this paper, we introduce VICReg (Variance-Invariance-Covariance Regularization), a method that explicitly avoids the collapse problem with a simple regularization term on the variance of the embeddings along each dimension individually. VICReg combines the variance term with a decorrelation mechanism based on redundancy reduction and covariance regularization, and achieves results on par with the state of the art on several downstream tasks. In addition, we show that incorporating our new variance term into other methods helps stabilize the training and leads to performance improvements.
+summary: >
+  VICReg decomposes non-contrastive representation learning into three explicit pressures: make paired augmentations agree, keep each embedding dimension's variance above a floor, and reduce covariance between dimensions. The variance term makes collapse prevention direct rather than architectural, and the paper usefully separates invariance, information preservation, and redundancy reduction into interpretable regularizers that can also stabilize other SSL methods.
+link: https://arxiv.org/pdf/2105.04906
+links_alt:
+  - https://iclr.cc/virtual/2022/poster/6481
+  - https://github.com/facebookresearch/vicreg
+audit_status: raw

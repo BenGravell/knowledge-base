@@ -11,7 +11,7 @@ doi: 10.1007/BF02278710
 arxiv_id:
 tags:
 abstract: >
-  We develop a shortest augmenting path algorithm for the linear assignment problem. It contains new initialization routines and a special implementation of Dijkstra&#39;s shortest path method. For both dense and sparse problems computational experiments show this algorithm to be uniformly faster than the best algorithms from the literature. A Pascal implementation is presented.
+  We develop a shortest augmenting path algorithm for the linear assignment problem. It contains new initialization routines and a special implementation of Dijkstra's shortest path method. For both dense and sparse problems computational experiments show this algorithm to be uniformly faster than the best algorithms from the literature. A Pascal implementation is presented.
 summary: ''
 link: https://doi.org/10.1007/BF02278710
 links_alt:

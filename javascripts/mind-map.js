@@ -11,35 +11,29 @@
 (function () {
 
   /* -------------------------------------------------------------------------
-   * Category -> colour mapping (Material Design 800-weight palette)
-   * Keys must match the top-level nav section names in mkdocs.yml.
+   * Hierarchy-aware category colours.
+   *
+   * Black is reserved for uncategorized papers only. Categorized papers derive
+   * their colour from the content-tree hierarchy:
+   *   super-category -> distinct hue family
+   *   sibling category -> slight hue/lightness variation
+   *   Motion Planning sub-category -> smaller variation around its category
    * -------------------------------------------------------------------------*/
-  const CATEGORY_COLORS = {
-    'Motion Planning':               '#1565C0',
-    'Motion Prediction':             '#2E7D32',
-    'Control':                       '#BF360C',
-    'Reinforcement Learning':        '#6A1B9A',
-    'Optimization':                  '#E65100',
-    'Machine Learning':              '#880E4F',
-    'Safety, Testing & Verification':'#00695C',
-    'Computer Graphics':             '#0277BD',
-    'Software & Programming':        '#37474F',
-    'Explainers':                    '#283593',
-    'Just for Fun':                  '#4E342E',
-    'Other':                         '#000000',
-  };
+  const UNCATEGORIZED_CATEGORY = 'Uncategorized';
+  const UNCATEGORIZED_CATEGORIES = new Set([UNCATEGORIZED_CATEGORY, 'Other']);
 
-  /* Sub-category colours for Motion Planning (one shade per 2nd-level nav section).
-   * Keys must match the 2nd-level section names in mkdocs.yml. */
-  const PLANNING_SUBCATEGORY_COLORS = {
-    'Path Planning':                       '#0D47A1',
-    'Trajectory Planning':                 '#1565C0',
-    'Speed Planning':                      '#006064',
-    'Interaction-aware Planning':          '#01579B',
-    'Machine Learning in Motion Planning': '#4527A0',
-    'Surveys & Comparative Studies':       '#546E7A',
-    'Frameworks & Stack Architectures':    '#37474F',
-  };
+  const SUPER_CATEGORY_PALETTE = [
+    { h: 213, s: 76, l: 42 },
+    { h: 152, s: 70, l: 35 },
+    { h:  31, s: 82, l: 43 },
+    { h: 271, s: 62, l: 44 },
+    { h: 334, s: 58, l: 44 },
+    { h:  12, s: 72, l: 42 },
+    { h: 188, s: 72, l: 36 },
+  ];
+  const categoryHslCache = new Map();
+  const categoryColorCache = new Map();
+  const subCategoryColorCache = new Map();
 
   /* -------------------------------------------------------------------------
    * Guard: dependencies and data must be present
@@ -75,9 +69,10 @@
   const NODE_SCREEN_RADIUS_CAP = 5;
   const NODE_SCREEN_RADIUS_MIN = 1;
   const NODE_SCREEN_RADIUS_FALLBACK = 4.5;
-  const NODE_LABEL_FONT_SIZE = 11;
-  const NODE_LABEL_LINE_HEIGHT = 11.5;
+  const NODE_LABEL_FONT_SIZE = 22;
+  const NODE_LABEL_LINE_HEIGHT = 23;
   const SELECTED_NODE_RADIUS_SCALE = 1.12;
+  const EDGE_NODE_DIAMETER_RATIO = 0.2;
 
   /* -------------------------------------------------------------------------
    * State
@@ -103,8 +98,181 @@
   }
 
   function nodeColor(category, subCategory) {
-    if (subCategory) return PLANNING_SUBCATEGORY_COLORS[subCategory] || CATEGORY_COLORS[category] || CATEGORY_COLORS['Other'];
-    return CATEGORY_COLORS[category] || CATEGORY_COLORS['Other'];
+    if (isUncategorizedCategory(category)) return '#000000';
+
+    if (subCategory) {
+      const key = `${category}::${subCategory}`;
+      if (!subCategoryColorCache.has(key)) {
+        subCategoryColorCache.set(key, hslToHex(subCategoryHsl(category, subCategory)));
+      }
+      return subCategoryColorCache.get(key);
+    }
+
+    if (!categoryColorCache.has(category)) {
+      categoryColorCache.set(category, hslToHex(categoryHsl(category)));
+    }
+    return categoryColorCache.get(category);
+  }
+
+  function isUncategorizedCategory(category) {
+    return !category || UNCATEGORIZED_CATEGORIES.has(category);
+  }
+
+  function categoryHsl(category) {
+    if (categoryHslCache.has(category)) return categoryHslCache.get(category);
+
+    const superCategory = categorySuperCategory(category) || category;
+    const base = superCategoryHsl(superCategory);
+    const siblings = categoriesForSuper(superCategory, category);
+    const index = Math.max(siblings.indexOf(category), 0);
+    const center = (siblings.length - 1) / 2;
+    const hueStep = siblings.length > 1 ? Math.min(7, 18 / (siblings.length - 1)) : 0;
+    const hsl = {
+      h: normalizeHue(base.h + (index - center) * hueStep),
+      s: clamp(base.s + (index % 2 === 0 ? 2 : -2), 48, 86),
+      l: clamp(base.l + (index - center) * 2.2, 32, 58),
+    };
+
+    categoryHslCache.set(category, hsl);
+    return hsl;
+  }
+
+  function subCategoryHsl(category, subCategory) {
+    const base = categoryHsl(category);
+    const subCategoryOrder = (DATA.meta || {}).subCategoryOrder || {};
+    const ordered = (subCategoryOrder[category] || []).filter(Boolean);
+    const siblings = ordered.includes(subCategory)
+      ? ordered
+      : ordered.concat(subCategory).sort((a, b) => a.localeCompare(b));
+    const index = Math.max(siblings.indexOf(subCategory), 0);
+    const center = (siblings.length - 1) / 2;
+    const hueStep = siblings.length > 1 ? Math.min(4, 14 / (siblings.length - 1)) : 0;
+
+    return {
+      h: normalizeHue(base.h + (index - center) * hueStep),
+      s: clamp(base.s + (index % 2 === 0 ? 3 : -3), 45, 88),
+      l: clamp(base.l + (index - center) * 1.5 + (index % 2 === 0 ? 1 : -1), 32, 60),
+    };
+  }
+
+  function categorySuperCategory(category) {
+    const explicit = ((DATA.meta || {}).categorySuperCategory || {})[category];
+    if (explicit) return explicit;
+
+    const node = DATA.nodes.find(n =>
+      n.data.category === category && n.data.super_category
+    );
+    return node ? node.data.super_category : null;
+  }
+
+  function categoryOrder() {
+    const configured = (DATA.meta || {}).categoryOrder || [];
+    const dataCategories = new Set(DATA.nodes.map(n => n.data.category).filter(Boolean));
+    const ordered = configured.filter(cat => dataCategories.has(cat));
+
+    [...dataCategories]
+      .sort((a, b) => a.localeCompare(b))
+      .forEach(cat => {
+        if (!ordered.includes(cat)) ordered.push(cat);
+      });
+
+    return ordered;
+  }
+
+  function superCategoryOrder() {
+    const ordered = [...((DATA.meta || {}).superCategoryOrder || [])];
+
+    categoryOrder().forEach(cat => {
+      if (isUncategorizedCategory(cat)) return;
+      const superCategory = categorySuperCategory(cat) || cat;
+      if (superCategory && !ordered.includes(superCategory)) {
+        ordered.push(superCategory);
+      }
+    });
+
+    DATA.nodes.forEach(node => {
+      const superCategory = node.data.super_category;
+      if (superCategory && !ordered.includes(superCategory)) {
+        ordered.push(superCategory);
+      }
+    });
+
+    return ordered;
+  }
+
+  function superCategoryHsl(superCategory) {
+    const order = superCategoryOrder();
+    const index = Math.max(order.indexOf(superCategory), 0);
+    const paletteIndex = index % SUPER_CATEGORY_PALETTE.length;
+    const cycle = Math.floor(index / SUPER_CATEGORY_PALETTE.length);
+    const base = SUPER_CATEGORY_PALETTE[paletteIndex];
+
+    return {
+      h: normalizeHue(base.h + cycle * 19),
+      s: base.s,
+      l: base.l,
+    };
+  }
+
+  function superCategoryColor(superCategory) {
+    return hslToHex(superCategoryHsl(superCategory));
+  }
+
+  function categoriesForSuper(superCategory, currentCategory) {
+    const siblings = categoryOrder().filter(cat =>
+      (categorySuperCategory(cat) || cat) === superCategory
+    );
+
+    if (!siblings.includes(currentCategory)) siblings.push(currentCategory);
+    return siblings;
+  }
+
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function normalizeHue(hue) {
+    return ((hue % 360) + 360) % 360;
+  }
+
+  function hslToHex({ h, s, l }) {
+    const hue = normalizeHue(h) / 360;
+    const sat = clamp(s, 0, 100) / 100;
+    const light = clamp(l, 0, 100) / 100;
+
+    if (sat === 0) {
+      const gray = Math.round(light * 255);
+      return rgbToHex(gray, gray, gray);
+    }
+
+    const q = light < 0.5
+      ? light * (1 + sat)
+      : light + sat - light * sat;
+    const p = 2 * light - q;
+    const r = hueToRgb(p, q, hue + 1 / 3);
+    const g = hueToRgb(p, q, hue);
+    const b = hueToRgb(p, q, hue - 1 / 3);
+
+    return rgbToHex(
+      Math.round(r * 255),
+      Math.round(g * 255),
+      Math.round(b * 255)
+    );
+  }
+
+  function hueToRgb(p, q, t) {
+    let next = t;
+    if (next < 0) next += 1;
+    if (next > 1) next -= 1;
+    if (next < 1 / 6) return p + (q - p) * 6 * next;
+    if (next < 1 / 2) return q;
+    if (next < 2 / 3) return p + (q - p) * (2 / 3 - next) * 6;
+    return p;
+  }
+
+  function rgbToHex(r, g, b) {
+    const toHex = value => value.toString(16).padStart(2, '0').toUpperCase();
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
   }
 
   function readTheme() {
@@ -158,8 +326,12 @@
   }
 
   function edgeSize(weight) {
-    const t = Math.max(0, Math.min((weight - 0.5) / 0.5, 1));
-    return 0.22 + t * 0.95;
+    const numericWeight = Number(weight);
+    const t = Number.isFinite(numericWeight)
+      ? Math.max(0, Math.min((numericWeight - 0.5) / 0.5, 1))
+      : 0.5;
+    const targetWidth = currentNodeRadius() * 2 * EDGE_NODE_DIAMETER_RATIO;
+    return targetWidth * (0.9 + t * 0.2);
   }
 
   function currentNodeRadius() {
@@ -175,8 +347,12 @@
     return m ? `${m[1]}\n${m[2]}` : String(label || '');
   }
 
+  function filterKey(category, subCategory) {
+    return subCategory ? `${category}::${subCategory}` : category;
+  }
+
   function nodeKey(attrs) {
-    return attrs.sub_category || attrs.category;
+    return filterKey(attrs.category, attrs.sub_category);
   }
 
   function nodeVisible(node) {
@@ -209,8 +385,9 @@
    * Build the Graphology graph. Sigma renders directly from node/edge attrs.
    * -------------------------------------------------------------------------*/
   function buildGraph() {
-    const GraphCtor = window.graphology.UndirectedGraph || window.graphology.Graph;
-    const g = new GraphCtor();
+    const g = window.graphology.UndirectedGraph ?
+      new window.graphology.UndirectedGraph() :
+      new window.graphology.Graph({ type: 'undirected' });
 
     DATA.nodes.forEach(n => {
       const attrs = n.data;
@@ -239,11 +416,10 @@
         type: 'line',
       };
 
-      if (typeof g.addUndirectedEdgeWithKey === 'function') {
-        g.addUndirectedEdgeWithKey(attrs.id, attrs.source, attrs.target, edgeAttrs);
-      } else {
-        g.addEdgeWithKey(attrs.id, attrs.source, attrs.target, edgeAttrs);
+      if (typeof g.addUndirectedEdgeWithKey !== 'function') {
+        throw new Error('Mind map graph must support undirected edges.');
       }
+      g.addUndirectedEdgeWithKey(attrs.id, attrs.source, attrs.target, edgeAttrs);
     });
 
     return g;
@@ -316,12 +492,13 @@
       Math.max((attrs.edgeAlpha || 0.2) * theme.edgeAlphaScale, theme.edgeAlphaMin),
       theme.edgeAlphaMax
     );
+    const size = edgeSize(attrs.weight);
 
     if (dimmed) {
       return {
         ...attrs,
         color: colorWithAlpha(theme.edgeColor, 0.025),
-        size: Math.max(attrs.size * 0.35, 0.18),
+        size: Math.max(size * 0.35, 0.18),
         zIndex: 0,
       };
     }
@@ -330,7 +507,7 @@
       return {
         ...attrs,
         color: theme.edgeHighlighted,
-        size: Math.max(Math.min(attrs.size * 1.35, 1.65), 1.15),
+        size: size * 1.25,
         zIndex: 2,
       };
     }
@@ -338,7 +515,7 @@
     return {
       ...attrs,
       color: colorWithAlpha(theme.edgeColor, baseAlpha),
-      size: attrs.size,
+      size,
       zIndex: 1,
     };
   }
@@ -560,9 +737,15 @@
    * -------------------------------------------------------------------------*/
   const tooltip = document.getElementById('mm-tooltip');
 
+  function formatAuthors(authors) {
+    const names = Array.isArray(authors) ? authors.filter(Boolean) : [];
+    if (!names.length) return 'Unknown';
+    return names.length > 1 ? `${names[0]} et al.` : names[0];
+  }
+
   function showNodeTooltip(node, pos, pinned) {
     const d = graph.getNodeAttributes(node);
-    const authors = (d.authors || []).join(', ') || 'Unknown';
+    const authors = formatAuthors(d.authors);
     const tags = (d.tags || []).slice(0, 7).join(' · ');
     const url = `../papers/${d.id}/`;
     tooltip.innerHTML =
@@ -820,13 +1003,13 @@
   /* -------------------------------------------------------------------------
    * Category filter panel
    * -------------------------------------------------------------------------*/
-  function makeCatItem(key, color, count, onChildChange) {
+  function makeCatItem(key, labelText, color, count, onChildChange) {
     const label = document.createElement('label');
     label.className = 'mm-cat-item';
     label.innerHTML =
       `<input type="checkbox" checked data-cat="${escHtml(key)}">` +
       `<span class="mm-cat-dot" style="background:${color}"></span>` +
-      `<span class="mm-cat-name">${escHtml(key)}</span>` +
+      `<span class="mm-cat-name">${escHtml(labelText)}</span>` +
       `<span class="mm-cat-count">${count}</span>`;
     label.querySelector('input').addEventListener('change', e => {
       if (e.target.checked) activeCategories.add(key);
@@ -837,96 +1020,192 @@
     return label;
   }
 
+  function makeFilterGroup(name, count, color, expanded, className) {
+    const groupEl = document.createElement('div');
+    groupEl.className = className;
+
+    const header = document.createElement('div');
+    header.className = 'mm-cat-group-header';
+
+    const groupCb = document.createElement('input');
+    groupCb.type = 'checkbox';
+    groupCb.className = 'mm-cat-group-cb';
+    groupCb.checked = true;
+
+    const toggleEl = document.createElement('span');
+    toggleEl.className = 'mm-cat-group-toggle';
+    toggleEl.innerHTML =
+      `<span class="mm-cat-group-arrow">${expanded ? '▾' : '▸'}</span>` +
+      `<span class="mm-cat-dot" style="background:${color}"></span>` +
+      `<span class="mm-cat-group-name">${escHtml(name)}</span>` +
+      `<span class="mm-cat-count">${count}</span>`;
+
+    const itemsEl = document.createElement('div');
+    itemsEl.className = 'mm-cat-group-items';
+    itemsEl.style.display = expanded ? '' : 'none';
+
+    toggleEl.addEventListener('click', () => {
+      const collapsed = itemsEl.style.display === 'none';
+      itemsEl.style.display = collapsed ? '' : 'none';
+      toggleEl.querySelector('.mm-cat-group-arrow').textContent = collapsed ? '▾' : '▸';
+    });
+
+    header.appendChild(groupCb);
+    header.appendChild(toggleEl);
+    groupEl.appendChild(header);
+    groupEl.appendChild(itemsEl);
+
+    return { groupEl, groupCb, itemsEl };
+  }
+
+  function syncGroupCheckbox(groupCb, itemsEl) {
+    const childCbs = itemsEl.querySelectorAll('input[data-cat]');
+    const checkedCount = [...childCbs].filter(cb => cb.checked).length;
+    groupCb.indeterminate = checkedCount > 0 && checkedCount < childCbs.length;
+    groupCb.checked = childCbs.length > 0 && checkedCount === childCbs.length;
+  }
+
+  function setLeafCheckbox(cb, checked) {
+    cb.checked = checked;
+    if (checked) activeCategories.add(cb.dataset.cat);
+    else activeCategories.delete(cb.dataset.cat);
+  }
+
+  function buildCategoryEntry(cat, subCatOrderNav, onChildChange) {
+    const dataSubCatSet = new Set(
+      DATA.nodes
+        .filter(n => n.data.category === cat && n.data.sub_category)
+        .map(n => n.data.sub_category)
+    );
+    const subCatOrder = subCatOrderNav[cat] || [];
+    const subCats = subCatOrder.filter(s => dataSubCatSet.has(s));
+    [...dataSubCatSet].sort((a, b) => a.localeCompare(b)).forEach(s => {
+      if (!subCats.includes(s)) subCats.push(s);
+    });
+
+    const totalCount = DATA.nodes.filter(n => n.data.category === cat).length;
+
+    if (subCats.length === 0) {
+      const key = filterKey(cat);
+      activeCategories.add(key);
+      return makeCatItem(key, cat, nodeColor(cat), totalCount, onChildChange);
+    }
+
+    const { groupEl, groupCb, itemsEl } = makeFilterGroup(
+      cat,
+      totalCount,
+      nodeColor(cat),
+      false,
+      'mm-cat-group'
+    );
+
+    function syncCategoryCb() {
+      syncGroupCheckbox(groupCb, itemsEl);
+      if (onChildChange) onChildChange();
+    }
+
+    groupCb.addEventListener('change', () => {
+      groupCb.indeterminate = false;
+      itemsEl.querySelectorAll('input[data-cat]').forEach(cb => {
+        setLeafCheckbox(cb, groupCb.checked);
+      });
+      if (onChildChange) onChildChange();
+      applyCategoryFilter();
+    });
+
+    subCats.forEach(subCat => {
+      const key = filterKey(cat, subCat);
+      activeCategories.add(key);
+      const color = nodeColor(cat, subCat);
+      const count = DATA.nodes.filter(n =>
+        n.data.category === cat && n.data.sub_category === subCat
+      ).length;
+      itemsEl.appendChild(makeCatItem(key, subCat, color, count, syncCategoryCb));
+    });
+
+    const orphanCount = DATA.nodes.filter(n =>
+      n.data.category === cat && !n.data.sub_category
+    ).length;
+    if (orphanCount > 0) {
+      const key = filterKey(cat);
+      activeCategories.add(key);
+      itemsEl.appendChild(makeCatItem(key, cat, nodeColor(cat), orphanCount, syncCategoryCb));
+    }
+
+    syncGroupCheckbox(groupCb, itemsEl);
+    return groupEl;
+  }
+
+  function buildSuperCategoryGroup(superCategory, cats, subCatOrderNav) {
+    const catSet = new Set(cats);
+    const totalCount = DATA.nodes.filter(n => catSet.has(n.data.category)).length;
+    const { groupEl, groupCb, itemsEl } = makeFilterGroup(
+      superCategory,
+      totalCount,
+      superCategoryColor(superCategory),
+      true,
+      'mm-cat-group mm-super-group'
+    );
+
+    function syncSuperCb() {
+      syncGroupCheckbox(groupCb, itemsEl);
+    }
+
+    groupCb.addEventListener('change', () => {
+      groupCb.indeterminate = false;
+      itemsEl.querySelectorAll('input[data-cat]').forEach(cb => {
+        setLeafCheckbox(cb, groupCb.checked);
+      });
+      itemsEl.querySelectorAll('.mm-cat-group-cb').forEach(cb => {
+        cb.checked = groupCb.checked;
+        cb.indeterminate = false;
+      });
+      applyCategoryFilter();
+    });
+
+    cats.forEach(cat => {
+      itemsEl.appendChild(buildCategoryEntry(cat, subCatOrderNav, syncSuperCb));
+    });
+
+    syncGroupCheckbox(groupCb, itemsEl);
+    return groupEl;
+  }
+
   function buildCategoryFilters() {
     const container = document.getElementById('mm-category-filters');
-    const catOrderNav = DATA.meta.categoryOrder || Object.keys(CATEGORY_COLORS);
-    const subCatOrderNav = DATA.meta.subCategoryOrder || {};
+    const subCatOrderNav = (DATA.meta || {}).subCategoryOrder || {};
+    container.innerHTML = '';
 
-    const dataCatSet = new Set(DATA.nodes.map(n => n.data.category));
-    const allCats = catOrderNav.filter(c => dataCatSet.has(c));
-    dataCatSet.forEach(c => { if (!allCats.includes(c)) allCats.push(c); });
+    const allCats = categoryOrder().filter(Boolean);
+    const catsBySuper = new Map();
+    const uncategorizedCats = [];
 
     allCats.forEach(cat => {
-      const dataSubCatSet = new Set(
-        DATA.nodes.filter(n => n.data.category === cat && n.data.sub_category)
-          .map(n => n.data.sub_category)
-      );
-      const subCatOrder = subCatOrderNav[cat] || [];
-      const subCats = subCatOrder.filter(s => dataSubCatSet.has(s));
-      dataSubCatSet.forEach(s => { if (!subCats.includes(s)) subCats.push(s); });
-
-      if (subCats.length > 0) {
-        const groupEl = document.createElement('div');
-        groupEl.className = 'mm-cat-group';
-
-        const totalCount = DATA.nodes.filter(n => n.data.category === cat).length;
-        const header = document.createElement('div');
-        header.className = 'mm-cat-group-header';
-
-        const groupCb = document.createElement('input');
-        groupCb.type = 'checkbox';
-        groupCb.className = 'mm-cat-group-cb';
-        groupCb.checked = true;
-
-        const toggleEl = document.createElement('span');
-        toggleEl.className = 'mm-cat-group-toggle';
-        toggleEl.innerHTML =
-          `<span class="mm-cat-group-arrow">▸</span>` +
-          `<span class="mm-cat-group-name">${escHtml(cat)}</span>` +
-          `<span class="mm-cat-count">${totalCount}</span>`;
-
-        header.appendChild(groupCb);
-        header.appendChild(toggleEl);
-
-        const itemsEl = document.createElement('div');
-        itemsEl.className = 'mm-cat-group-items';
-        itemsEl.style.display = 'none';
-
-        toggleEl.addEventListener('click', () => {
-          const collapsed = itemsEl.style.display === 'none';
-          itemsEl.style.display = collapsed ? '' : 'none';
-          toggleEl.querySelector('.mm-cat-group-arrow').textContent = collapsed ? '▾' : '▸';
-        });
-
-        function syncGroupCb() {
-          const childCbs = itemsEl.querySelectorAll('input[type="checkbox"]');
-          const checkedCount = [...childCbs].filter(cb => cb.checked).length;
-          groupCb.indeterminate = checkedCount > 0 && checkedCount < childCbs.length;
-          groupCb.checked = checkedCount === childCbs.length;
-        }
-
-        groupCb.addEventListener('change', () => {
-          groupCb.indeterminate = false;
-          itemsEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-            cb.checked = groupCb.checked;
-            if (groupCb.checked) activeCategories.add(cb.dataset.cat);
-            else activeCategories.delete(cb.dataset.cat);
-          });
-          applyCategoryFilter();
-        });
-
-        subCats.forEach(subCat => {
-          activeCategories.add(subCat);
-          const color = nodeColor(cat, subCat);
-          const count = DATA.nodes.filter(n => n.data.sub_category === subCat).length;
-          itemsEl.appendChild(makeCatItem(subCat, color, count, syncGroupCb));
-        });
-
-        const orphanCount = DATA.nodes.filter(n => n.data.category === cat && !n.data.sub_category).length;
-        if (orphanCount > 0) {
-          activeCategories.add(cat);
-          itemsEl.appendChild(makeCatItem(cat, nodeColor(cat), orphanCount, syncGroupCb));
-        }
-
-        groupEl.appendChild(header);
-        groupEl.appendChild(itemsEl);
-        container.appendChild(groupEl);
-      } else {
-        activeCategories.add(cat);
-        const color = nodeColor(cat);
-        const count = DATA.nodes.filter(n => n.data.category === cat).length;
-        container.appendChild(makeCatItem(cat, color, count));
+      if (isUncategorizedCategory(cat)) {
+        uncategorizedCats.push(cat);
+        return;
       }
+
+      const superCategory = categorySuperCategory(cat) || cat;
+      if (!catsBySuper.has(superCategory)) catsBySuper.set(superCategory, []);
+      catsBySuper.get(superCategory).push(cat);
+    });
+
+    const orderedSupers = superCategoryOrder().filter(superCategory =>
+      catsBySuper.has(superCategory)
+    );
+    [...catsBySuper.keys()].sort((a, b) => a.localeCompare(b)).forEach(superCategory => {
+      if (!orderedSupers.includes(superCategory)) orderedSupers.push(superCategory);
+    });
+
+    orderedSupers.forEach(superCategory => {
+      container.appendChild(
+        buildSuperCategoryGroup(superCategory, catsBySuper.get(superCategory), subCatOrderNav)
+      );
+    });
+
+    uncategorizedCats.forEach(cat => {
+      container.appendChild(buildCategoryEntry(cat, subCatOrderNav));
     });
   }
 

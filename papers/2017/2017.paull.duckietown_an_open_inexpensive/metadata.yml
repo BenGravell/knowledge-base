@@ -1,0 +1,56 @@
+title: "Duckietown: An Open, Inexpensive and Flexible Platform for Autonomy Education and Research"
+algorithm: Duckietown
+authors:
+  - Liam Paull
+  - Jacopo Tani
+  - Heejin Ahn
+  - Javier Alonso-Mora
+  - Luca Carlone
+  - Michal Cap
+  - Yu Fan Chen
+  - Changhyun Choi
+  - Jeff Dusek
+  - Yajun Fang
+  - Daniel Hoehener
+  - Shih-Yuan Liu
+  - Michael Novitzky
+  - Igor Franzoni Okuyama
+  - Jason Pazis
+  - Guy Rosman
+  - Valerio Varricchio
+  - Hsueh-Cheng Wang
+  - Dmitry Yershov
+  - Hang Zhao
+  - Michael Benjamin
+  - Christopher Carr
+  - Maria Zuber
+  - Sertac Karaman
+  - Emilio Frazzoli
+  - Domitilla Del Vecchio
+  - Daniela Rus
+  - Jonathan How
+  - John Leonard
+  - Andrea Censi
+year: 2017
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA.2017.7989179
+arxiv_id:
+tags:
+  - Robotics education
+  - Autonomous vehicles
+  - Mobile robotics
+  - Low-cost robotics
+  - Research platform
+  - Monocular perception
+  - Multi-robot coordination
+  - Open-source hardware
+  - Duckietown
+abstract: >
+  Duckietown is an open, inexpensive and flexible platform for autonomy education and research. The platform comprises small autonomous vehicles (“Duckiebots”) built from off-the-shelf components, and cities (“Duckietowns”) complete with roads, signage, traffic lights, obstacles, and citizens (duckies) in need of transportation. The Duckietown platform offers a wide range of functionalities at a low cost. Duckiebots sense the world with only one monocular camera and perform all processing onboard with a Raspberry Pi 2, yet are able to: follow lanes while avoiding obstacles, pedestrians (duckies) and other Duckiebots, localize within a global map, navigate a city, and coordinate with other Duckiebots to avoid collisions. Duckietown is a useful tool since educators and researchers can save money and time by not having to develop all of the necessary supporting infrastructure and capabilities. All materials are available as open source, and the hope is that others in the community will adopt the platform for education and research.
+summary: >
+  Paull and collaborators present Duckietown as a deliberately low-cost autonomy platform that combines small camera-only robots, modular city infrastructure, and open teaching materials into a reproducible environment for robotics education and research. The contribution is not a single control algorithm so much as a complete educational robotics ecosystem: it lets students and researchers work on perception, lane following, localization, navigation, and coordination while sharing hardware, software, and course infrastructure across institutions.
+link: https://duckietown.com/duckietown-an-open-inexpensive-and-flexible-platform-for-autonomy-education-and-research/
+links_alt:
+  - https://ieeexplore.ieee.org/document/7989179
+audit_status: raw
