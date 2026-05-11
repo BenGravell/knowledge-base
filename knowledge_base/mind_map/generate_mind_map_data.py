@@ -124,6 +124,7 @@ DEFAULT_TOP_K = 5          # Always connect each paper to its top-K neighbours
                            # (floor-capped at 0.50 to avoid noisy edges)
 ABSOLUTE_FLOOR = 0.50      # Hard minimum similarity; top-K edges below this
                            # are silently dropped
+DEFAULT_UMAP_SCALE = 1500.0  # Base UMAP coordinate extent; formerly 1000 px.
 
 # ---------------------------------------------------------------------------
 # Helper utilities
@@ -177,7 +178,7 @@ def content_hash(text: str) -> str:
 
 def compute_umap_positions(
     embeddings: "np.ndarray",
-    scale: float = 1000.0,
+    scale: float = DEFAULT_UMAP_SCALE,
     random_state: int = 42,
     n_neighbors: int | None = None,
     min_dist: float = 0.05,
@@ -279,7 +280,7 @@ def force_layout_postprocess(
     ----------
     umap_coords:
         (N, 2) array of 2-D positions from UMAP, in whatever coordinate scale
-        UMAP produced (e.g. ±1000 px).
+        UMAP produced (e.g. ±1500 px).
     embeddings:
         (N, D) array of raw embedding vectors; L2-normalised internally for
         cosine similarity computation.
@@ -950,7 +951,7 @@ def main() -> None:
     print("\n[5/7] Computing UMAP 2-D layout…")
 
     umap_params = dict(
-        scale=1000.0,
+        scale=DEFAULT_UMAP_SCALE,
         random_state=42,
         n_neighbors=min(50, len(embeddings) - 1),
         min_dist=0.05,
