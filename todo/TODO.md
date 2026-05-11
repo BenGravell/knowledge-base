@@ -1,5 +1,10 @@
 # TODO
 
+## metadata path index key
+
+Revise the setup for mkdocs.yml so that we can refer to the literal path under doc/papers (including dots) instead of slugified version with underscores.
+
+
 ## Metadata cleanup
 
 ### Add validation on mkdocs.yml

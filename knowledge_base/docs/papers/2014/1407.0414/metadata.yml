@@ -1,5 +1,5 @@
-title: Newton methods for k-order Markov Constrained Motion Problems
-algorithm: "Newton's Method"
+title: "KOMO: Newton methods for k-order Markov Constrained Motion Problems"
+algorithm: KOMO
 authors:
   - Marc Toussaint
 year: 2014

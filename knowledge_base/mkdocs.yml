@@ -253,16 +253,15 @@ nav:
               - FCIT*: papers/2411_17902.md
               - Spline-based RRT: papers/2013_yang_spline_based_rrt_path.md
               - Continuous-Curvature Target Tree: papers/2201_03163.md
-              - "Batch Informed Trees (BIT*)": papers/2302_11670.md
-              - "BITKOMO: Combining Sampling and Optimization for Fast Convergence in Optimal Motion Planning": papers/2022_kamat_bitkomo_combining_sampling_and_optimization.md
-              - "BITKOMO: Combining Sampling and Optimization for Fast Convergence in Optimal Motion Planning": papers/2203_01751.md
+              - BIT*: papers/2302_11670.md
+              - BITKOMO: papers/2203_01751.md
               - Edge Nearest Neighbor: papers/2506_13753.md
               - HRT1: papers/2510_21026.md
               - "Integrating asymptotically-optimal path planning with local optimization": papers/1708_06056.md
               - "Optimal Sampling-Based Motion Planning under Differential Constraints: the Drift Case with Linear Affine Dynamics": papers/1405_7421.md
               - "Probabilistic completeness of RRT for geometric and kinodynamic planning with forward propagation": papers/1809_07051.md
               - "Real-Time Motion Planning With Applications to Autonomous Urban Driving": papers/2009_kuwata_real_time_motion_planning_with.md
-              - "ST-RRT*": papers/2203_02176.md
+              - ST-RRT*: papers/2203_02176.md
             - GPU Parallelized Planning:
               - GMT*: papers/1705_02403.md
               - Kino-PAX: papers/2409_06807.md
@@ -286,11 +285,11 @@ nav:
               - OBBTree: papers/1996_gottschalk_obbtree.md
           - Path Generation:
             - Lines & Arcs:
-              - Dubins path: papers/1957_dubins_on_curves_of_minimal.md
-              - Reeds-Shepp path: papers/1990_reeds_optimal_paths_for_a.md
+              - Dubins Paths: papers/1957_dubins_on_curves_of_minimal.md
+              - Reeds-Shepp Paths: papers/1990_reeds_optimal_paths_for_a.md
               - Markov-Dubins with Acceleration: papers/1997_sussmann_the_markov_dubins_problem_with.md
             - Clothoids (linear curvature):
-              - SCC path: papers/1997_scheuer_continuous_curvature_path_planning.md
+              - SCC Paths: papers/1997_scheuer_continuous_curvature_path_planning.md
               - CC Steer: papers/2004_fraichard_from_reeds_and_shepps.md
             - Generalized Clothoids (nonlinear curvature):
               - Cubic Curvature Polynomials: papers/2001_nagy_trajectory_generation_for_car.md
@@ -351,12 +350,12 @@ nav:
               - AO-x: papers/1505_04098.md
               - AORRTC: papers/2505_10542.md
             - Planning with Graphs of Convex Sets (GCS):
-              - Shortest Paths in Graphs of Convex Sets: papers/2101_11565.md
-              - Motion Planning around Obstacles with Convex Optimization: papers/2205_04422.md
-              - Fast Path Planning Through Large Collections of Safe Boxes: papers/2305_01072.md
-              - A Biconvex Method for Minimum-time Motion Planning Through Sequences of Convex Sets: papers/2504_18978.md
-              - "Motion Planning with Precedence Specifications via Augmented Graphs of Convex Sets": papers/2510_22015.md
-              - "Augmented Graphs of Convex Sets and the Traveling Salesman Problem": papers/2604_06406.md
+              - SPP-GCS: papers/2101_11565.md
+              - GCS: papers/2205_04422.md
+              - fastpathplanning: papers/2305_01072.md
+              - SCS: papers/2504_18978.md
+              - Augmented GCS: papers/2510_22015.md
+              - Augmented GCS for TSP: papers/2604_06406.md
           - Trajectory Generation:
             - TEB: papers/2017_roesmann_kinodynamic_trajectory_optimization_and.md
             - Minimum Snap Trajectory Generation and Control for Quadrotors: papers/2011_mellinger_minimum_snap_trajectory_generation_and.md
@@ -393,6 +392,7 @@ nav:
               - "Recent Advances in Path Integral Control (Survey)": papers/2309_12566.md
               - "Path Integral Particle Filtering for Hybrid Systems via Saltation Matrices": papers/2603_01176.md
               - "Sampling-Based Control via Entropy-Regularized Optimal Transport": papers/2605_02147.md
+              - DROP: papers/2409_14562.md
             - Model Predictive Trees:
               - MPT: papers/2411_15651.md
               - MPTree: papers/2024_piazza_mptree_a_sampling_based_vehicle.md
@@ -445,14 +445,14 @@ nav:
             - Nonlinear Optimization:
               - OBCA: papers/1711_03449.md
               - "Differentiable Collision Avoidance Using Collision Primitives": papers/2204_09352.md
-              - "EGO-Planner: An ESDF-free Gradient-based Local Planner for Quadrotors": papers/2008_08835.md
+              - EGO-Planner: papers/2008_08835.md
               - "Global Sampling-Based Trajectory Optimization for Contact-Rich Manipulation via KernelSOS": papers/2604_27175.md
               - "ADMM-based Continuous Trajectory Optimization in Graphs of Convex Sets": papers/2603_11335.md
               - "Fast and Certifiable Trajectory Optimization": papers/2406_05846.md
-              - "Hippo: High-performance Interior-Point and Projection-based Solver for Generic Constrained Trajectory Optimization": papers/2603_00871.md
+              - Hippo: papers/2603_00871.md
               - "Parallel-in-Time Nonlinear Optimal Control via GPU-native Sequential Convex Programming": papers/2603_10711.md
               - "Using Reachable Sets for Trajectory Planning of Automated Vehicles": papers/2021_manzinger_using_reachable_sets_for_trajectory.md
-              - "Newton methods for k-order Markov Constrained Motion Problems": papers/1407_0414.md
+              - KOMO: papers/1407_0414.md
               - "A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces": papers/2511_14752.md
               - "Risk-Averse Trajectory Optimization via Sample Average Approximation": papers/2307_03167.md
             - Trajectory Optimization on Point Clouds:
@@ -477,6 +477,7 @@ nav:
               - DeepRacing: papers/2020_weiss_deepracing_a_framework_for_autonomous.md
               - "Explaining How a Deep Neural Network Trained with End-to-End Learning Steers a Car": papers/1704_07911.md
               - "Learning-Aided Warmstart of Model Predictive Control in Uncertain Fast-Changing Traffic": papers/2310_02918.md
+              - "Learning to Optimize in Model Predictive Control": papers/2212_02603.md
               - "CACTO-BIC: Scalable Actor-Critic Learning via Biased Sampling and GPU-Accelerated Trajectory Optimization": papers/2602_19699.md
               - "Deep Learning Warm Starts for Trajectory Optimization on the International Space Station": papers/2505_05588.md
               - "Transformer-based Model Predictive Control: Trajectory Optimization via Sequence Modeling": papers/2410_23916.md
@@ -520,6 +521,8 @@ nav:
           - Lab2Car: papers/2409_09523.md
           - Transitioning from Rule-Based to ML-Powered Motion Planning: papers/2025_hu_technically_speaking_transitioning_from.md
           - "DiffusionSeeder: Seeding Motion Optimization with Diffusion for Rapid Motion Planning": papers/2410_16727.md
+          - FlowDrive: papers/2509_21961.md
+          - FlowMP: papers/2503_06135.md
           - "Memory of Motion for Warm-starting Trajectory Optimization": papers/1907_01474.md
           - "Parting with Misconceptions about Learning-based Vehicle Motion Planning": papers/2306_07962.md
           - "Towards learning-based planning:The nuPlan benchmark for real-world autonomous driving": papers/2403_04133.md
@@ -609,6 +612,7 @@ nav:
           - "Robust model predictive control using tubes": papers/2004_langson_robust_model_predictive_control_using.md
           - "Robust multi-rate predictive control using multi-step prediction models learned from data": papers/2102_08302.md
           - "Learning multi-step prediction models for receding horizon control": papers/2018_terzi_learning_multi_step_prediction_models.md
+          - "Learning with Imperfect Models: When Multi-step Prediction Mitigates Compounding Error": papers/2504_01766.md
           - "On multi-step prediction models for receding horizon control": papers/1802_09767.md
           - "Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition": papers/2021_svec_model_predictive_control_of_vehicle.md
         - Robust Control:
@@ -654,6 +658,15 @@ nav:
           - Learning to Predict by the Methods of Temporal Differences: papers/1988_sutton_learning_to_predict_by_the.md
           - mellowmax: papers/1612_05628.md
           - "A Gentle Lecture Note on Filtrations in Reinforcement Learning": papers/2008_02622.md
+        - Imitation Learning:
+          - DAgger: papers/1011_0686.md
+          - TaSIL: papers/2205_14812.md
+          - Grasping with Chopsticks: papers/2011_06719.md
+          - "Is Behavior Cloning All You Need?": papers/2407_15007.md
+          - Pitfalls of Imitation Learning: papers/2503_09722.md
+          - "Action Chunking and Exploratory Data Collection Yield Exponential Improvements in Behavior Cloning for Continuous Control": papers/2507_09061.md
+          - "A Careful Examination of Large Behavior Models for Multitask Dexterous Manipulation": papers/2507_05331.md
+          - "Sample-Efficient Expert Query Control in Active Imitation Learning via Conformal Prediction": papers/2512_00453.md
         - Multi-arm Bandits:
           - "Finite-time Analysis of the Multiarmed Bandit Problem": papers/2002_auer_finite_time_analysis_of_the.md
         - Dynamic Programming:
@@ -661,7 +674,7 @@ nav:
             - On the Convergence of Policy Iteration in Stationary Dynamic Programming: papers/1979_puterman_on_the_convergence_of.md
             - Values and Strategies for Infinite Time Linear Quadratic Games: papers/1976_mageirou_values_and_strategies_for_infinite.md
             - Quasi Policy Iteration: papers/2311_11166.md
-            - "Dynamic Programming Through the Lens of Semismooth Newton-Type Methods (Extended Version)": papers/2203_08678.md
+            - "Dynamic Programming Through the Lens of Semismooth Newton-Type Methods": papers/2203_08678.md
           - Approximate Dynamic Programming:
             - Adaptive Linear Quadratic Control Using Policy Iteration: papers/1994_bradtke_adaptive_linear_quadratic_control_using.md
             - LSPI: papers/2003_lagoudakis_least_squares_policy_iteration.md
@@ -710,6 +723,7 @@ nav:
             - "Embodied Intelligence via Learning and Evolution": papers/2102_02202.md
             - "FlashSAC": papers/2604_04539.md
             - "Internal feedback in the cortical perception-action loop enables fast and accurate behavior": papers/2211_05922.md
+            - "Learning Dexterous In-Hand Manipulation": papers/1808_00177.md
             - "Model-Based Value Estimation for Efficient Model-Free Reinforcement Learning": papers/1803_00101.md
             - "Synthesis of Model Predictive Control and Reinforcement Learning: Survey and Classification": papers/2502_02133.md
           - Trust Region:
@@ -829,24 +843,8 @@ nav:
           - "Planning with Diffusion for Flexible Behavior Synthesis": papers/2205_09991.md
           - "Tree-Guided Diffusion Planner": papers/2508_21800.md
           - Streaming Flow Policy: papers/2505_21851.md
-          - Pitfalls of Imitation Learning: papers/2503_09722.md
-          - "A Careful Examination of Large Behavior Models for Multitask Dexterous Manipulation": papers/2507_05331.md
-          - "A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning": papers/1011_0686.md
-          - "Action Chunking and Exploratory Data Collection Yield Exponential Improvements in Behavior Cloning for Continuous Control": papers/2507_09061.md
-          - "DROP: Dexterous Reorientation via Online Planning": papers/2409_14562.md
-          - "FlowDrive: moderated flow matching with data balancing for trajectory planning": papers/2509_21961.md
-          - "FlowMP: Learning Motion Fields for Robot Planning with Conditional Flow Matching": papers/2503_06135.md
           - "From Demonstrations to Safe Deployment: Path-Consistent Safety Filtering for Diffusion Policies": papers/2511_06385.md
-          - "Grasping with Chopsticks: Combating Covariate Shift in Model-free Imitation Learning for Fine Manipulation": papers/2011_06719.md
-          - "Is Behavior Cloning All You Need? Understanding Horizon in Imitation Learning": papers/2407_15007.md
-          - "Is Your Conditional Diffusion Model Actually Denoising?": papers/2512_18736.md
-          - "KinDER: A Physical Reasoning Benchmark for Robot Learning and Planning": papers/2604_25788.md
-          - "Learning Dexterous In-Hand Manipulation": papers/1808_00177.md
-          - "Learning to Optimize in Model Predictive Control": papers/2212_02603.md
-          - "Learning with Imperfect Models: When Multi-step Prediction Mitigates Compounding Error": papers/2504_01766.md
           - "Much Ado About Noising: Dispelling the Myths of Generative Robotic Control": papers/2512_01809.md
-          - "Sample-Efficient Expert Query Control in Active Imitation Learning via Conformal Prediction": papers/2512_00453.md
-          - "TaSIL: Taylor Series Imitation Learning": papers/2205_14812.md
         - Inverse Reinforcement Learning & Reward Learning:
           - "Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors": papers/2508_07400.md
     - Prediction:
@@ -891,35 +889,8 @@ nav:
           - OctoMap: papers/2013_hornung_octomap_an_efficient_probabilistic_3d.md
           - "Learning Occupancy Grid Maps with Forward Sensor Models": papers/2003_thrun_learning_occupancy_grid_maps_with.md
       - Machine Learning:
-        - Neural Networks:
-          - Gradient-Based Learning Applied to Document Recognition: papers/1998_lecun_gradient_based_learning_applied.md
-          - Grokking: papers/2201_02177.md
-          - LSTM: papers/1997_hochreiter_long_short_term_memory.md
-          - "MNIST-1D": papers/2011_14439.md
-        - Dimensionality Reduction:
-          - t-SNE: papers/2008_maaten_visualizing_high_dimensional_data.md
-          - DrLIM: papers/2006_hadsell_dimensionality_reduction_by_learning.md
-        - Kernel Machines:
-          - SVM: papers/1995_cortes_support_vector_networks.md
-          - Random Kitchen Sinks: papers/2008_rahimi_weighted_sums_of_random.md
-          - "A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting": papers/1997_freund_a_decision_theoretic_generalization_of.md
-          - "Random Fourier Features for Kernel Ridge Regression: Approximation Bounds and Statistical Guarantees": papers/1804_09893.md
-          - "Every Model Learned by Gradient Descent Is Approximately a Kernel Machine": papers/2012_00152.md
-        - Decision Trees:
-          - AID: papers/1963_morgan_problems_in_the_analysis_of_survey_data.md
-          - CHAID: papers/1980_kass_an_exploratory_technique_for.md
-          - CART: papers/1984_breiman_classification_and_regression_trees.md
-          - ID3: papers/1986_quinlan_induction_of_decision_trees.md
-          - C4.5: papers/1993_quinlan_c4_5_programs_for_machine_learning.md
-          - ctree: papers/2006_hothorn_unbiased_recursive_partitioning.md
-        - Ensemble Methods:
-          - Bagging: papers/1996_breiman_bagging_predictors.md
-          - Random Forests: papers/2001_breiman_random_forests.md
-          - GBM: papers/2001_friedman_greedy_function_approximation.md
-          - XGBoost: papers/1603_02754.md
-          - CatBoost: papers/1706_09516.md
-          - "Finding Influential Training Samples for Gradient Boosted Decision Trees": papers/1802_06640.md
-          - "Gradient Boosting Performs Gaussian Process Inference": papers/2206_05608.md
+        - Foundations:
+          - "From Entropy to Epiplexity: Rethinking Information for Computationally Bounded Intelligence": papers/2601_03220.md
         - Interpretability:
           - Shapley Value: papers/1953_shapley_a_value_for_n_person_games.md
           - SHAP: papers/1705_07874.md
@@ -937,6 +908,40 @@ nav:
           - "The Mythos of Model Interpretability": papers/1606_03490.md
           - "Towards A Rigorous Science of Interpretable Machine Learning": papers/1702_08608.md
           - "Tree-structured Policy Planning with Learned Behavior Models": papers/2301_11902.md
+        - Clustering:
+          - "Accelerated Hierarchical Density Clustering": papers/1705_07321.md
+          - "Density-Based Clustering Based on Hierarchical Density Estimates": papers/2013_campello_density_based_clustering_based_on.md
+          - "k-means++": papers/2007_arthur_k_means_the_advantages_of.md
+          - "Least squares quantization in PCM": papers/1982_lloyd_least_squares_quantization_in_pcm.md
+        - Dimensionality Reduction:
+          - t-SNE: papers/2008_maaten_visualizing_high_dimensional_data.md
+          - DrLIM: papers/2006_hadsell_dimensionality_reduction_by_learning.md
+        - Decision Trees:
+          - AID: papers/1963_morgan_problems_in_the_analysis_of_survey_data.md
+          - CHAID: papers/1980_kass_an_exploratory_technique_for.md
+          - CART: papers/1984_breiman_classification_and_regression_trees.md
+          - ID3: papers/1986_quinlan_induction_of_decision_trees.md
+          - C4.5: papers/1993_quinlan_c4_5_programs_for_machine_learning.md
+          - ctree: papers/2006_hothorn_unbiased_recursive_partitioning.md
+        - Kernel Machines:
+          - SVM: papers/1995_cortes_support_vector_networks.md
+          - Random Kitchen Sinks: papers/2008_rahimi_weighted_sums_of_random.md
+          - "A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting": papers/1997_freund_a_decision_theoretic_generalization_of.md
+          - "Random Fourier Features for Kernel Ridge Regression: Approximation Bounds and Statistical Guarantees": papers/1804_09893.md
+          - "Every Model Learned by Gradient Descent Is Approximately a Kernel Machine": papers/2012_00152.md
+        - Ensemble Methods:
+          - Bagging: papers/1996_breiman_bagging_predictors.md
+          - Random Forests: papers/2001_breiman_random_forests.md
+          - GBM: papers/2001_friedman_greedy_function_approximation.md
+          - XGBoost: papers/1603_02754.md
+          - CatBoost: papers/1706_09516.md
+          - "Finding Influential Training Samples for Gradient Boosted Decision Trees": papers/1802_06640.md
+          - "Gradient Boosting Performs Gaussian Process Inference": papers/2206_05608.md
+        - Neural Networks:
+          - Gradient-Based Learning Applied to Document Recognition: papers/1998_lecun_gradient_based_learning_applied.md
+          - Grokking: papers/2201_02177.md
+          - LSTM: papers/1997_hochreiter_long_short_term_memory.md
+          - "MNIST-1D": papers/2011_14439.md
         - Vision-language-action (VLA) Models:
           - Alpamayo-R1: papers/2511_00088.md
           - Orion-Lite: papers/2604_08266.md
@@ -947,17 +952,11 @@ nav:
             - FlashAttention: papers/2205_14135.md
             - "Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation": papers/1406_1078.md
             - "Reducing the Transformer Architecture to a Minimum": papers/2410_13732.md
-        - State-space Models (SSM):
-          - "Spectral State Space Models": papers/2312_06837.md
-        - Clustering:
-          - "Accelerated Hierarchical Density Clustering": papers/1705_07321.md
-          - "Density-Based Clustering Based on Hierarchical Density Estimates": papers/2013_campello_density_based_clustering_based_on.md
-          - "k-means++": papers/2007_arthur_k_means_the_advantages_of.md
-          - "Least squares quantization in PCM": papers/1982_lloyd_least_squares_quantization_in_pcm.md
-        - Foundations:
-          - "From Entropy to Epiplexity: Rethinking Information for Computationally Bounded Intelligence": papers/2601_03220.md
-        - Generative Models:
+        - Diffusion Models:
           - "Denoising Diffusion Probabilistic Models": papers/2006_11239.md
+          - "Is Your Conditional Diffusion Model Actually Denoising?": papers/2512_18736.md
+        - State-space Models (SSM):
+          - "Spectral State Space Models": papers/2312_06837.md        
         - Multimodal Models:
           - "Learning Transferable Visual Models From Natural Language Supervision": papers/2103_00020.md
         - Representation Learning:
@@ -1010,11 +1009,13 @@ nav:
       - Simulation:
         - CARLA: papers/1711_03938.md
         - GPUDrive: papers/2408_01584.md
-        - "MuJoCo Playground": papers/2502_08844.md
+        - KinDER: papers/2604_25788.md
+        - MuJoCo Playground: papers/2502_08844.md
         - Orbit: papers/2301_04195.md
-        - "Pseudo-Simulation for Autonomous Driving": papers/2506_04218.md
+        - NAVSIM: papers/2406_15349.md
+        - NAVSIM v2: papers/2506_04218.md
         - RoboPlayground: papers/2604_05226.md
-        - "The Waymo Open Sim Agents Challenge": papers/2305_12032.md
+        - Waymo Open Sim Agents Challenge: papers/2305_12032.md
         - Waymax: papers/2310_08710.md
       - Safety, Testing & Verification:
         - "A Simple and Efficient Sampling-based Algorithm for General Reachability Analysis": papers/2112_05745.md
