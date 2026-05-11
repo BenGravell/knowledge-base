@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Browser smoke checks for the MkDocs/Sigma mind-map page.
 
 The script talks to a local Chrome/Chromium instance over the Chrome DevTools

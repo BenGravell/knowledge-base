@@ -6,6 +6,10 @@ When opening a leaf (paper) node, it should expand to include the abstract, a li
 
 ## Mind Map
 
+### Hierarchy super nodes
+
+Start the map at a high level of aggregation (super categories) and progressively reveal/hide levels of aggregation based on clickable buttons. Take UX inspiration from SpaceSniffer.
+
 ### Sidebar
 
 Split large categories further until the number of entries in each leaf is no more than N, take N=16.
