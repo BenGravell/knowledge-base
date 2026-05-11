@@ -1,14 +1,35 @@
 # TODO
 
-# content tree
+## Content tree
 
 When opening a leaf (paper) node, it should expand to include the abstract, a link for the paper detail page, and a link to open in mind map.
 
-# mind map
+## Mind Map
 
-## node tooltip author count
+### Sidebar
 
-The box on clicking a node shows up to 3 author names. It should just be 'et al' like the node label.
+Split large categories further until the number of entries in each leaf is no more than N, take N=16.
+
+Add filters for item type (e.g. to exclude surveys)
+
+### Tune the edge threshold
+
+GRPO should be connected to PPO.
+
+1312.0041 should be connected to the 1985 ERA paper by Juang and Pappa
+Also to Identification of Observer/Kalman Filter Markov Parameters: Theory and Experiments" by Juang, Phan, Horta & Longman, 1993
+
+Tune edge weight threshold or revisit the text fed to embedding model, maybe we need more than the abstract.
+
+Define a reference set of known connected/disconnected items and use that to tune the threshold
+
+### Creative idea
+
+Turn the mind map into a generative game like a cave crawler or rogue-like
+
+Encourage exploration between rooms or lands represented by research items
+
+Collect points for clicking links, answering quiz questions.
 
 ## edges
 
@@ -20,11 +41,11 @@ Clean up existing
 
 Revise prefill script logic (shared utils) to use no more than exactly 4 words, including helper words like "the" and "a"
 
-## metadata path index key
+## Metadata cleanup
+
+### metadata path index key
 
 Revise the setup for mkdocs.yml so that we can refer to the literal path under doc/papers (including dots) instead of slugified version with underscores.
-
-## Metadata cleanup
 
 ### Add validation on mkdocs.yml
 
@@ -81,34 +102,6 @@ https://labs.utdallas.edu/conlab/risk-averse-rrt-planning-with-nonlinear-steerin
 
 https://labs.utdallas.edu/conlab/resources/
 
-## Content tree
-
-## Mind Map
-
-### Sidebar
-
-Split large categories further until the number of entries in each leaf is no more than N, take N=16.
-
-Add filters for item type (e.g. to exclude surveys)
-
-### Tune the edge threshold
-
-GRPO should be connected to PPO.
-
-1312.0041 should be connected to the 1985 ERA paper by Juang and Pappa
-Also to Identification of Observer/Kalman Filter Markov Parameters: Theory and Experiments" by Juang, Phan, Horta & Longman, 1993
-
-Tune edge weight threshold or revisit the text fed to embedding model, maybe we need more than the abstract.
-
-Define a reference set of known connected/disconnected items and use that to tune the threshold
-
-### Creative idea
-
-Turn the mind map into a generative game like a cave crawler or rogue-like
-
-Encourage exploration between rooms or lands represented by research items
-
-Collect points for clicking links, answering quiz questions.
 
 ## Knowledge Explorer
 
