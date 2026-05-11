@@ -1,1 +1,0 @@
-https://www.bmva-archive.org.uk/bmvc/1988/avc-88-023.pdf
