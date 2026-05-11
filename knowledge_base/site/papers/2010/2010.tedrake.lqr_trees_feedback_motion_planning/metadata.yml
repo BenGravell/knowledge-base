@@ -1,0 +1,20 @@
+title: 'LQR-trees: Feedback Motion Planning via Sums-of-Squares Verification'
+algorithm:
+authors:
+  - Russ Tedrake
+  - Ian R. Manchester
+  - Mark Tobenkin
+  - John W. Roberts
+year: 2010
+source: The International Journal of Robotics Research
+type: Journal Paper
+doi: 10.1177/0278364910369189
+arxiv_id:
+tags:
+abstract: >
+  Advances in the direct computation of Lyapunov functions using convex optimization make it possible to efficiently evaluate regions of attraction for smooth non-linear systems. Here we present a feedback motion-planning algorithm which uses rigorously computed stability regions to build a sparse tree of LQR-stabilized trajectories. The region of attraction of this non-linear feedback policy “probabilistically covers” the entire controllable subset of state space, verifying that all initial conditions that are capable of reaching the goal will reach the goal. We numerically investigate the properties of this systematic non-linear feedback design algorithm on simple non-linear systems, prove the property of probabilistic coverage, and discuss extensions and implementation details of the basic algorithm.
+summary: ''
+link: https://journals.sagepub.com/doi/10.1177/0278364910369189
+links_alt:
+  - https://doi.org/10.1177/0278364910369189
+audit_status: raw

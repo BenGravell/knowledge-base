@@ -1,0 +1,19 @@
+title: A Stochastic Approximation Method
+algorithm:
+authors:
+  - Herbert Robbins
+  - Sutton Monro
+year: 1951
+source: The Annals of Mathematical Statistics
+type: Journal Paper
+doi: 10.1214/aoms/1177729586
+arxiv_id:
+tags:
+abstract: >
+  Let $M(x)$ denote the expected value at level $x$ of the response to a certain experiment. $M(x)$ is assumed to be a monotone function of $x$ but is unknown to the experimenter, and it is desired to find the solution $x = \theta$ of the equation $M(x) = \alpha$, where $\alpha$ is a given constant. We give a method for making successive experiments at levels $x_1,x_2,\cdots$ in such a way that $x_n$ will tend to $\theta$ in probability.
+summary: ''
+link: >
+  https://projecteuclid.org/journals/annals-of-mathematical-statistics/volume-22/issue-3/A-Stochastic-Approximation-Method/10.1214/aoms/1177729586.full
+links_alt:
+  - https://doi.org/10.1214/aoms/1177729586
+audit_status: raw

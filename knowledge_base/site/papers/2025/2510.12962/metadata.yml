@@ -1,0 +1,18 @@
+title: Enhancing Sampling-based Planning with a Library of Paths
+algorithm:
+authors:
+  - Michal Minařík
+  - Vojtěch Vonásek
+  - Robert Pěnička
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2510.12962"
+tags:
+abstract: >
+  Path planning for 3D solid objects is a challenging problem, requiring a search in a six-dimensional configuration space, which is, nevertheless, essential in many robotic applications such as bin-picking and assembly. The commonly used sampling-based planners, such as Rapidly-exploring Random Trees, struggle with narrow passages where the sampling probability is low, increasing the time needed to find a solution. In scenarios like robotic bin-picking, various objects must be transported through the same environment. However, traditional planners start from scratch each time, losing valuable information gained during the planning process. We address this by using a library of past solutions, allowing the reuse of previous experiences even when planning for a new, previously unseen object. Paths for a set of objects are stored, and when planning for a new object, we find the most similar one in the library and use its paths as approximate solutions, adjusting for possible mutual transformations. The configuration space is then sampled along the approximate paths. Our method is tested in various narrow passage scenarios and compared with state-of-the-art methods from the OMPL library. Results show significant speed improvements (up to 85% decrease in the required time) of our method, often finding a solution in cases where the other planners fail. Our implementation of the proposed method is released as an open-source package.
+summary: ''
+link: https://arxiv.org/pdf/2510.12962
+links_alt:
+audit_status: raw

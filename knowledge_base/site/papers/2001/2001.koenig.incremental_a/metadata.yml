@@ -1,0 +1,20 @@
+title: Incremental A*
+algorithm:
+authors:
+  - S. Koenig
+  - M. Likhachev
+year: 2001
+source: Advances in Neural Information Processing Systems
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+abstract: >
+  Incremental search techniques ﬁnd optimal solutions to series of similar search tasks much faster than is possible by solving each search task from scratch. While researchers have developed incremental versions of uninformed search methods, we develop an incremental version of A*. The ﬁrst search of Lifelong Planning A* is the same as that of A* but all subsequent searches are much faster because it reuses those parts of the previous search tree that are identical to the new search tree. We then present experimental results that demonstrate the advantages of Lifelong Planning A* for simple route planning tasks.
+summary: ''
+link: >
+  https://proceedings.neurips.cc/paper_files/paper/2001/file/a591024321c5e2bdbd23ed35f0574dde-Paper.pdf
+links_alt:
+  - https://proceedings.neurips.cc/paper/2001/hash/a591024321c5e2bdbd23ed35f0574dde-Abstract.html
+  - https://proceedings.neurips.cc/paper_files/paper/2001/file/a591024321c5e2bdbd23ed35f0574dde-Metadata.json
+audit_status: raw
