@@ -52,10 +52,6 @@ Revise the setup for mkdocs.yml so that we can refer to the literal path under d
   - ensure every linked doc actually exists
   - ensure every paper in the docs source has a reference in mkdocs.yml (no dead data)
 
-### notes
-
-- go thru all the handwritten notes and make sure they end up in the docs metadata
-
 ### schema
 
 - revise the metadata schema:
@@ -101,7 +97,6 @@ https://labs.utdallas.edu/conlab/risk-averse-rrt-planning-with-nonlinear-steerin
 ### Resources
 
 https://labs.utdallas.edu/conlab/resources/
-
 
 ## Knowledge Explorer
 
