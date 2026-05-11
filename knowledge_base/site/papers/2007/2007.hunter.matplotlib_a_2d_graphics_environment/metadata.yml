@@ -3,14 +3,16 @@ algorithm: "Matplotlib"
 authors:
   - John D. Hunter
 year: 2007
-source: Computing in Science &amp; Engineering
+source: "Computing in Science & Engineering"
 type: Journal Paper
 doi: 10.1109/MCSE.2007.55
 arxiv_id:
 tags:
 abstract: >
-  Matplotlib is a 2D graphics package used for Python for application development, interactive scripting,and publication-quality image generation across user interfaces and operating systems
-summary: ''
+  Matplotlib is a 2D graphics package used for Python for application development, interactive scripting, and publication-quality image generation across user interfaces and operating systems.
+summary: >
+  Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python. Matplotlib makes easy things easy and hard things possible. Create publication quality plots. Make interactive figures that can zoom, pan, update. Customize visual style and layout. Export to many file formats. Embed in JupyterLab and Graphical User Interfaces. Use a rich array of third-party packages built on Matplotlib.
 link: https://doi.org/10.1109/MCSE.2007.55
 links_alt:
+  - https://matplotlib.org/
 audit_status: raw

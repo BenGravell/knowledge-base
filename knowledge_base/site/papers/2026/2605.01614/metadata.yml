@@ -1,6 +1,6 @@
 title: >
   CvxCluster: Solving Large, Complex, Granular Resource Allocation Problems 100-1000x Faster
-algorithm:
+algorithm: CvxCluster
 authors:
   - Obi Nnorom
   - Stephen Boyd

@@ -1,5 +1,5 @@
 title: Embedded Code Generation with CVXPY
-algorithm: "CVXPY"
+algorithm: "CVXPYgen"
 authors:
   - Maximilian Schaller
   - Goran Banjac

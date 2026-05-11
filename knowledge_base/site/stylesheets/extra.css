@@ -89,14 +89,13 @@ a.md-nav__link[href*="portfolio"]::after {
 }
 
 .md-typeset .ct-title-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  display: grid;
+  grid-template-columns: max-content minmax(12rem, 1fr);
+  align-items: start;
   gap: 0.55rem 0.75rem;
 }
 
 .md-typeset .ct-title-row h1 {
-  flex: 0 0 auto;
   margin: 0;
   line-height: 1.15;
 }
@@ -114,42 +113,92 @@ a.md-nav__link[href*="portfolio"]::after {
 
 .md-typeset details.ct-note {
   margin: 0;
-  width: fit-content;
-  max-width: 100%;
+  width: 100%;
+  max-width: 42rem;
   padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.md-typeset details.ct-note[open] {
+  width: 100%;
+}
+
+.md-typeset details.ct-note > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-sizing: border-box;
+  min-height: 1.65rem;
+  margin: 0;
+  padding: 0.34rem 0.44rem 0.34rem 0.72rem;
   border: 1px solid var(--ct-soft-border);
   border-left-color: var(--ct-teal);
   border-radius: 999px;
   background:
     linear-gradient(135deg, color-mix(in srgb, var(--ct-teal) 7%, transparent), transparent 42%),
     var(--ct-panel);
-  box-shadow: none;
-}
-
-.md-typeset details.ct-note[open] {
-  width: min(42rem, 100%);
-  border-radius: 8px;
-}
-
-.md-typeset details.ct-note > summary {
-  min-height: 1.65rem;
-  margin: 0;
-  padding: 0.34rem 1.75rem 0.34rem 1.95rem;
   color: var(--md-default-fg-color--light);
   cursor: pointer;
   font-size: 0.78rem;
   font-weight: 800;
   line-height: 1.3;
+  list-style: none;
   white-space: nowrap;
+  user-select: none;
+}
+
+.md-typeset details.ct-note > summary::-webkit-details-marker {
+  display: none;
+}
+
+.md-typeset details.ct-note > summary::marker {
+  content: "";
 }
 
 .md-typeset details.ct-note > summary::before {
-  background-color: var(--ct-cyan);
+  display: none;
+}
+
+.md-typeset details.ct-note > summary::after {
+  content: "+";
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ct-cyan) 14%, transparent);
+  color: var(--ct-cyan);
+  font-size: 0.78rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.md-typeset details.ct-note[open] > summary {
+  border-color: color-mix(in srgb, var(--ct-teal) 32%, var(--ct-soft-border));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--ct-teal) 9%, transparent), transparent 42%),
+    var(--ct-panel);
+}
+
+.md-typeset details.ct-note[open] > summary::after {
+  content: "-";
 }
 
 .md-typeset details.ct-note p {
-  margin: 0;
-  padding: 0.2rem 0.75rem 0.75rem;
+  box-sizing: border-box;
+  max-width: 42rem;
+  margin: 0.45rem 0 0;
+  padding: 0.68rem 0.75rem 0.75rem;
+  border: 1px solid var(--ct-soft-border);
+  border-left-color: var(--ct-teal);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--ct-teal) 7%, transparent), transparent 42%),
+    var(--ct-panel);
   color: var(--md-default-fg-color--light);
   font-size: 0.78rem;
   line-height: 1.55;
@@ -574,6 +623,10 @@ a.md-nav__link[href*="portfolio"]::after {
 @media (max-width: 720px) {
   .md-content__inner:has(#ct-app) {
     max-width: 100%;
+  }
+
+  .md-typeset .ct-title-row {
+    grid-template-columns: 1fr;
   }
 
   .ct-search-panel {

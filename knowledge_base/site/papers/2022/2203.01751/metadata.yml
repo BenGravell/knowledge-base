@@ -8,9 +8,9 @@ authors:
   - Florian T. Pokorny
   - Andreas Orthey
 year: 2022
-source:
-type: ''
-doi:
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+type: Conference Paper
+doi: 10.1109/IROS47612.2022.9981732
 arxiv_id: "2203.01751"
 tags:
 abstract: >
@@ -18,4 +18,5 @@ abstract: >
 summary: ''
 link: https://arxiv.org/pdf/2203.01751
 links_alt:
+  - https://doi.org/10.1109/IROS47612.2022.9981732
 audit_status: raw

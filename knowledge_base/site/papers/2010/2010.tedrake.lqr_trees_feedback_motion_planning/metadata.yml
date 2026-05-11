@@ -1,5 +1,5 @@
 title: 'LQR-trees: Feedback Motion Planning via Sums-of-Squares Verification'
-algorithm:
+algorithm: LQR-trees
 authors:
   - Russ Tedrake
   - Ian R. Manchester
@@ -16,5 +16,7 @@ abstract: >
 summary: ''
 link: https://journals.sagepub.com/doi/10.1177/0278364910369189
 links_alt:
-  - https://doi.org/10.1177/0278364910369189
+  - https://people.eecs.berkeley.edu/~pabbeel/cs287-fa15/optreadings/lqrtrees.pdf
+  - https://www-personal.acfr.usyd.edu.au/ian/TMTR_09.pdf
+  - https://www.youtube.com/watch?v=uh13FoZLnPo
 audit_status: raw

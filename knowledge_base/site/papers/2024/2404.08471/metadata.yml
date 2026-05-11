@@ -1,0 +1,35 @@
+title: "Revisiting Feature Prediction for Learning Visual Representations from Video"
+algorithm: V-JEPA
+authors:
+  - Adrien Bardes
+  - Quentin Garrido
+  - Jean Ponce
+  - Xinlei Chen
+  - Michael Rabbat
+  - Yann LeCun
+  - Mahmoud Assran
+  - Nicolas Ballas
+year: 2024
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2404.08471"
+tags:
+  - Self-supervised learning
+  - Video representation learning
+  - Joint embedding predictive architecture
+  - V-JEPA
+  - Feature prediction
+  - Computer vision
+  - Masked prediction
+  - Video understanding
+  - Frozen backbone evaluation
+abstract: >
+  This paper explores feature prediction as a stand-alone objective for unsupervised learning from video and introduces V-JEPA, a collection of vision models trained solely using a feature prediction objective, without the use of pretrained image encoders, text, negative examples, reconstruction, or other sources of supervision. The models are trained on 2 million videos collected from public datasets and are evaluated on downstream image and video tasks. Our results show that learning by predicting video features leads to versatile visual representations that perform well on both motion and appearance-based tasks, without adaption of the model's parameters; e.g., using a frozen backbone. Our largest model, a ViT-H/16 trained only on videos, obtains 81.9% on Kinetics-400, 72.2% on Something-Something-v2, and 77.9% on ImageNet1K.
+summary: >
+  V-JEPA tests whether masked feature prediction alone can learn useful video representations, removing common auxiliary signals such as contrastive negatives, text supervision, reconstruction targets, or pretrained image encoders. The result is a video-trained JEPA model whose frozen backbone transfers to both motion-heavy and appearance-heavy tasks, making it a clean example of latent-space prediction as a self-supervised visual objective.
+link: https://arxiv.org/pdf/2404.08471
+links_alt:
+  - https://ai.meta.com/research/publications/revisiting-feature-prediction-for-learning-visual-representations-from-video/
+  - https://github.com/facebookresearch/jepa
+audit_status: raw
