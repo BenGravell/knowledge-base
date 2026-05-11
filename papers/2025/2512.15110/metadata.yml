@@ -1,0 +1,29 @@
+title: >
+  Is Nano Banana Pro a Low-Level Vision All-Rounder? A Comprehensive Evaluation on 14 Tasks and 40 Datasets
+algorithm:
+authors:
+  - Jialong Zuo
+  - Haoyou Deng
+  - Hanyu Zhou
+  - Jiaxin Zhu
+  - Yicheng Zhang
+  - Yiwei Zhang
+  - Yongxin Yan
+  - Kaixing Huang
+  - Weisen Chen
+  - Yongtai Deng
+  - Rui Jin
+  - Nong Sang
+  - Changxin Gao
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2512.15110"
+tags:
+abstract: >
+  The rapid evolution of text-to-image generation models has revolutionized visual content creation. While commercial products like Nano Banana Pro have garnered significant attention, their potential as generalist solvers for traditional low-level vision challenges remains largely underexplored. In this study, we investigate the critical question: Is Nano Banana Pro a Low-Level Vision All-Rounder? We conducted a comprehensive zero-shot evaluation across 14 distinct low-level tasks spanning 40 diverse datasets. By utilizing simple textual prompts without fine-tuning, we benchmarked Nano Banana Pro against state-of-the-art specialist models. Our extensive analysis reveals a distinct performance dichotomy: while \textbf{Nano Banana Pro demonstrates superior subjective visual quality}, often hallucinating plausible high-frequency details that surpass specialist models, it lags behind in traditional reference-based quantitative metrics. We attribute this discrepancy to the inherent stochasticity of generative models, which struggle to maintain the strict pixel-level consistency required by conventional metrics. This report identifies Nano Banana Pro as a capable zero-shot contender for low-level vision tasks, while highlighting that achieving the high fidelity of domain specialists remains a significant hurdle.
+summary: ''
+link: https://arxiv.org/pdf/2512.15110
+links_alt:
+audit_status: raw

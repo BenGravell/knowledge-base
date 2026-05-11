@@ -1,0 +1,17 @@
+title: Improving Motion-Planning Algorithms by Efficient Nearest-Neighbor Searching
+algorithm:
+authors:
+  - Anna Yershova
+  - Steven M. LaValle
+year: 2007
+source: IEEE Transactions on Robotics
+type: Journal Paper
+doi: 10.1109/TRO.2006.886840
+arxiv_id:
+tags:
+abstract: >
+  The cost of nearest-neighbor (NN) calls is one of the bottlenecks in the performance of sampling-based motion-planning algorithms. Therefore, it is crucial to develop efficient techniques for NN searching in configuration spaces arising in motion planning. In this paper, we present and implement an algorithm for performing NN queries in Cartesian products of R, S <sup xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">1</sup> , and RP <sup xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">3</sup> , the most common topological spaces in the context of motion planning. Our approach extends the algorithm based on kd-trees, called ANN, developed by Arya and Mount for Euclidean spaces. We prove the correctness of the algorithm and illustrate substantial performance improvement over the brute-force approach and several existing NN packages developed for general metric spaces. Our experimental results demonstrate a clear advantage of using the proposed method for both probabilistic roadmaps and rapidly exploring random trees
+summary: ''
+link: https://doi.org/10.1109/TRO.2006.886840
+links_alt:
+audit_status: raw

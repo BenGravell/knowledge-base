@@ -1,0 +1,16 @@
+title: Dithering with blue noise
+algorithm:
+authors:
+  - R.A. Ulichney
+year: 1988
+source: Proceedings of the IEEE
+type: Journal Paper
+doi: 10.1109/5.3288
+arxiv_id:
+tags:
+abstract: >
+  Digital halftoning, also referred to as spatial dithering is a method of rendering the illusion of continuous-tone pictures on displays that are capable of only producing binary picture elements. The concept of blue noise-high-frequency white noise-is introduced and found to have desirable properties for halftoning. Efficient algorithms for dithering with blue noise, based on perturbed error diffusion, are developed. The nature of dither patterns produced is extensively examined in the frequency domain. Metrics for analyzing the frequency content of aperiodic patterns for both rectangular and hexagonal grids are developed; blue-noise dithering is found to be ideally suited for rectangular grids. Several carefully selected digitally produced examples are included.< <ETX xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">&gt;</ETX>
+summary: ''
+link: https://doi.org/10.1109/5.3288
+links_alt:
+audit_status: raw

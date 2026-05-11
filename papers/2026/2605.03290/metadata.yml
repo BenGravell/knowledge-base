@@ -1,0 +1,20 @@
+title: >
+  On Surprising Effects of Risk-Aware Domain Randomization for Contact-Rich Sampling-based Predictive Control
+algorithm:
+authors:
+  - Sergio A. Esteban
+  - Junheng Li
+  - Vince Kurtz
+  - Aaron D. Ames
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2605.03290"
+tags:
+abstract: >
+  Domain randomization (DR) is widely used in policy learning to improve robustness to modeling error, but remains underexplored in contact-rich sampling-based predictive control (SPC), where rollout quality is highly sensitive to uncertainty. In this work, we take the first step by studying risk-aware DR in predictive sampling on a simple yet representative Push-T task, comparing average, optimistic, and pessimistic rollout aggregations under randomized model instances. Our initial results suggest that DR affects not only robustness to model error, but also the effective cost landscape seen by the sampling-based optimizer, by reshaping the basin of attraction around contact-producing actions. This opens up potential for exploring better grounded risk-aware contact-rich SPC under model uncertainty. Video: https://youtu.be/f1F0ALXxhSM
+summary: ''
+link: https://arxiv.org/pdf/2605.03290
+links_alt:
+audit_status: raw

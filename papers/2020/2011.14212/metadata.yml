@@ -1,0 +1,33 @@
+title: Approximate Midpoint Policy Iteration for Linear Quadratic Control
+algorithm: AMPI
+authors:
+  - Benjamin Gravell
+  - Iman Shames
+  - Tyler Summers
+year: 2020
+source: Conference on Learning for Dynamics and Control (L4DC)
+type: Conference Paper
+doi:
+arxiv_id: "2011.14212"
+tags:
+  - Policy iteration
+  - Dynamic programming
+  - Approximate dynamic programming
+  - Reinforcement learning
+  - Newton method
+  - Midpoint method
+  - Linear systems
+  - Linear quadratic regulator
+  - Control
+  - Least-squares
+  - Temporal difference learning
+abstract: >
+  We present a midpoint policy iteration algorithm to solve linear quadratic optimal control problems in both model-based and model-free settings. The algorithm is a variation of Newton's method, and we show that in the model-based setting it achieves cubic convergence, which is superior to standard policy iteration and policy gradient algorithms that achieve quadratic and linear convergence, respectively. We also demonstrate that the algorithm can be approximately implemented without knowledge of the dynamics model by using least-squares estimates of the state-action value function from trajectory data, from which policy improvements can be obtained. With sufficient trajectory data, the policy iterates converge cubically to approximately optimal policies, and this occurs with the same available sample budget as the approximate standard policy iteration. Numerical experiments demonstrate effectiveness of the proposed algorithms.
+summary: >
+  By viewing policy iteration as Newton's method for solving MDPs and extending the analogy to the midpoint method, the work shows that policies can be solved for more efficiently, both in the model-known and model-unknown settings.
+link: https://arxiv.org/pdf/2011.14212
+links_alt:
+  - https://proceedings.mlr.press/v144/gravell21a.html
+  - https://personal.utdallas.edu/~tyler.summers/papers/AMPI_extended.pdf
+  - https://github.com/TSummersLab/midpoint-policy-iteration
+audit_status: reviewed

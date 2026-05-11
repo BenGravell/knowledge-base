@@ -1,0 +1,35 @@
+title: >
+  Risk-Averse RRT* Planning with Nonlinear Steering and Tracking Controllers for Nonlinear Robotic Systems Under Uncertainty
+algorithm: RANS-RRT*
+authors:
+  - Sleiman Safaoui
+  - Benjamin J. Gravell
+  - Venkatraman Renganathan
+  - Tyler H. Summers
+year: 2021
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+type: Conference Paper
+doi: 10.1109/IROS51168.2021.9636834
+arxiv_id: "2103.05572"
+tags:
+  - Nonlinear systems
+  - Uncertain systems
+  - Robotics
+  - Tracking control
+  - Nonlinear programming
+  - Model predictive control
+  - Reference trajectory
+  - Multiplicative noise
+  - Linear quadratic regulator
+  - Safe planning
+  - Risk-averse
+  - RRT
+abstract: >
+  We propose a two-phase risk-averse architecture for controlling stochastic nonlinear robotic systems. We present Risk-Averse Nonlinear Steering RRT* (RANS-RRT*) as an RRT* variant that incorporates nonlinear dynamics by solving a nonlinear program (NLP) and accounts for risk by approximating the state distribution and performing a distributionally robust (DR) collision check to promote safe planning. The generated plan is used as a reference for a low-level tracking controller. We demonstrate three controllers: finite horizon linear quadratic regulator (LQR) with linearized dynamics around the reference trajectory, LQR with robustness-promoting multiplicative noise terms, and a nonlinear model predictive control law (NMPC). We demonstrate the effectiveness of our algorithm using unicycle dynamics under heavy-tailed Laplace process noise in a cluttered environment.
+summary: >
+  Assembles a motion planning and control architecture that focuses on mitigating the effect of stochastic disturbances by modeling and accounting for it explicitly in both the planner and the controller, performing uncertainty propagation between the planner-controller interface to ensure alignment numerically. Trajectory optimization using a generic nonlinear programming solver is used as the local steering function inside the RRT, which gives high quality trajectories, but is very expensive at runtime. Useful empirical comparison between vanilla LQR, the multiplicative-noise-as-robustified-LQR-design methodology described in 2004.08019, and full high-powered NMPC tracking control in a more realistic and sophisticated post-perception stack.
+link: https://arxiv.org/pdf/2103.05572
+links_alt:
+  - https://ieeexplore.ieee.org/document/9636834
+  - https://github.com/TSummersLab/RANS-RRTStar
+audit_status: raw

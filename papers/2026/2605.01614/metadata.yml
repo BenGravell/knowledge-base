@@ -1,0 +1,19 @@
+title: >
+  CvxCluster: Solving Large, Complex, Granular Resource Allocation Problems 100-1000x Faster
+algorithm:
+authors:
+  - Obi Nnorom
+  - Stephen Boyd
+  - Philip Levis
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2605.01614"
+tags:
+abstract: >
+  Cluster resource allocation is a multidimensional search problem that finds the best allocation of tasks to servers. Because the search space grows exponentially, modern approaches frame it as a mixed integer program (MIP) or a complex set of search heuristics. This paper proposes using a different approach: convex optimization, which has extremely fast solution methods. The research challenge is devising how to transform cluster resource allocation into a convex problem that generates good placements. We describe CvxCluster, which allocates cluster resources with a two-stage algorithm. The first stage solves a convex relaxation of the placement problem to yield a principled set of per-machine resource prices. The second stage uses these prices to drive a lightweight greedy procedure to place tasks. Experimental results with Azure traces find that CvxCluster scales to 100,480 servers under proportional workload growth and sustains arrival rates up to 500,000x the baseline trace. CvxCluster runs 100 to 2,500x faster than a state-of-the-art MIP solver while remaining within 3% of the optimal objective. CvxCluster can support complex constraints such as job anti-affinity, machine types, and GPU servers. The key insight behind CvxCluster is that reformulating placement as a continuous rather than discrete problem enables much faster methods that find solutions just as good or better than prior heuristics.
+summary: ''
+link: https://arxiv.org/pdf/2605.01614
+links_alt:
+audit_status: raw

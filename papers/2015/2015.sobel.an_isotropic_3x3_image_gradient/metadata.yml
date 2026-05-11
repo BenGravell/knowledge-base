@@ -1,0 +1,19 @@
+title: An Isotropic 3x3 Image Gradient Operator
+algorithm:
+authors:
+  - Irwin Sobel
+  - Gary Feldman
+year: 2015
+source: ResearchGate
+type: Other
+doi: 10.13140/RG.2.1.1912.4965
+arxiv_id:
+tags:
+abstract: >
+  We would like to document the derivation of a simple, computationally efficient, gradient operator which we developed in 1968. This operator has been frequently used and referenced since that time.
+summary: ''
+link: >
+  https://www.researchgate.net/publication/239398674_An_Isotropic_3x3_Image_Gradient_Operator
+links_alt:
+  - https://doi.org/10.13140/RG.2.1.1912.4965
+audit_status: raw

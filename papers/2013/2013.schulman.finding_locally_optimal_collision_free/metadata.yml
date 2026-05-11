@@ -1,0 +1,24 @@
+title: >
+  Finding Locally Optimal, Collision-Free Trajectories with Sequential Convex Optimization
+algorithm:
+authors:
+  - John Schulman
+  - Jonathan Ho
+  - Alex Lee
+  - Ibrahim Awwal
+  - Henry Bradlow
+  - Pieter Abbeel
+year: 2013
+source: 'Robotics: Science and Systems'
+type: Conference Paper
+doi: 10.15607/RSS.2013.IX.031
+arxiv_id:
+tags:
+abstract: >
+  We present a novel approach for incorporating collision avoidance into trajectory optimization as a method of solving robotic motion planning problems. At the core of our approach are (i) A sequential convex optimization procedure, which penalizes collisions with a hinge loss and increases the penalty coefficients in an outer loop as necessary. (ii) An efficient formulation of the no-collisions constraint that directly considers continuous-time safety and enables the algorithm to reliably solve motion planning problems, including problems involving thin and complex obstacles. We benchmarked our algorithm against several other mo- tion planning algorithms, solving a suite of 7-degree-of-freedom (DOF) arm-planning problems and 18-DOF full-body planning problems. We compared against sampling-based planners from OMPL, and we also compared to CHOMP, a leading approach for trajectory optimization. Our algorithm was faster than the alternatives, solved more problems, and yielded higher quality paths. Experimental evaluation on the following additional problem types also confirmed the speed and effectiveness of our approach: (i) Planning foot placements with 34 degrees of freedom (28 joints + 6 DOF pose) of the Atlas humanoid robot as it maintains static stability and has to negotiate environmental constraints. (ii) Industrial box picking. (iii) Real-world motion planning for the PR2 that requires considering all degrees of freedom at the same time.
+summary: ''
+link: https://www.roboticsproceedings.org/rss09/p31.pdf
+links_alt:
+  - https://www.roboticsproceedings.org/rss09/p31.html
+  - https://doi.org/10.15607/RSS.2013.IX.031
+audit_status: raw

@@ -1,0 +1,17 @@
+title: Sample Complexity of Data-Driven Stochastic LQR with Multiplicative Uncertainty
+algorithm:
+authors:
+  - Peter Coppens
+  - Panagiotis Patrinos
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2005.12167"
+tags:
+abstract: >
+  This paper studies the sample complexity of the stochastic Linear Quadratic Regulator when applied to systems with multiplicative noise. We assume that the covariance of the noise is unknown and estimate it using the sample covariance, which results in suboptimal behaviour. The main contribution of this paper is then to bound the suboptimality of the methodology and prove that it decreases with 1/N, where N denotes the amount of samples. The methodology easily generalizes to the case where the mean is unknown and to the distributionally robust case studied in a previous work of the authors. The analysis is mostly based on results from matrix function perturbation analysis.
+summary: ''
+link: https://arxiv.org/pdf/2005.12167
+links_alt:
+audit_status: raw

@@ -1,0 +1,18 @@
+title: 'STAR-Tree: An Efficient Self-Adjusting Index for Moving Objects'
+algorithm:
+authors:
+  - Cecilia M. Procopiuc
+  - Pankaj K. Agarwal
+  - Sariel Har-Peled
+year: 2002
+source: Lecture Notes in Computer Science
+type: Conference Paper
+doi: 10.1007/3-540-45643-0_14
+arxiv_id:
+tags:
+abstract: >
+  We present a new technique called STAR-tree, based on R*-tree, for indexing a set of moving points so that various queries, including range queries, time-slice queries, and nearest-neighbor queries, can be answered efficiently. A novel feature of the index is that it is self-adjusting in the sense that it re-organizes itself locally whenever its query performance deteriorates. The index provides tradeoffs between storage and query performance and between time spent in updating the index and in answering queries. We present detailed performance studies and compare our methods with the existing ones under a varying type of data sets and queries. Our experiments show that the index proposed here performs considerably better than the previously known ones.
+summary: ''
+link: https://doi.org/10.1007/3-540-45643-0_14
+links_alt:
+audit_status: raw

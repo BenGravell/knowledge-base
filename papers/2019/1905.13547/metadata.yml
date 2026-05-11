@@ -1,0 +1,37 @@
+title: >
+  Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient
+algorithm:
+authors:
+  - Benjamin Gravell
+  - Peyman Mohajerin Esfahani
+  - Tyler Summers
+year: 2019
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.2020.3037046
+arxiv_id: "1905.13547"
+tags:
+  - Gradient methods
+  - Gradient descent
+  - Natural gradient
+  - Reinforcement learning
+  - Policy gradient
+  - Linear systems
+  - Uncertain systems
+  - Optimal control
+  - Stochastic systems
+  - Multiplicative noise
+  - Non-convex
+  - Dynamics
+  - Global convergence
+  - Linear quadratic regulator
+abstract: >
+  The linear quadratic regulator (LQR) problem has reemerged as an important theoretical benchmark for reinforcement learning-based control of complex dynamical systems with continuous state and action spaces. In contrast with nearly all recent work in this area, we consider multiplicative noise models, which are increasingly relevant because they explicitly incorporate inherent uncertainty and variation in the system dynamics and thereby improve robustness properties of the controller. Robustness is a critical and poorly understood issue in reinforcement learning; existing methods which do not account for uncertainty can converge to fragile policies or fail to converge at all. Additionally, intentional injection of multiplicative noise into learning algorithms can enhance robustness of policies, as observed in ad hoc work on domain randomization. Although policy gradient algorithms require optimization of a non-convex cost function, we show that the multiplicative noise LQR cost has a special property called gradient domination, which is exploited to prove global convergence of policy gradient algorithms to the globally optimum control policy with polynomial dependence on problem parameters. Results are provided both in the model-known and model-unknown settings where samples of system trajectories are used to estimate policy gradients.
+summary: >
+  Provides non-asymptotic finite-sample convergence results for policy gradient algorithms applied to the problem of optimal control of linear systems with multiplicative noise when the dynamics and noise covariances are unknown.
+link: https://arxiv.org/pdf/1905.13547
+links_alt:
+  - https://personal.utdallas.edu/~tyler.summers/papers/GravellEsfahaniSummers_TACfinal.pdf 
+  - https://ieeexplore.ieee.org/document/9254115
+  - https://github.com/TSummersLab/polgrad-multinoise
+audit_status: reviewed

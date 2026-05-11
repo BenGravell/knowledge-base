@@ -1,0 +1,22 @@
+title: Agile and cooperative aerial manipulation of a cable-suspended load
+algorithm:
+authors:
+  - Sihao Sun
+  - Xuerui Wang
+  - Dario Sanalitro
+  - Antonio Franchi
+  - Marco Tognon
+  - Javier Alonso-Mora
+year: 2025
+source: Science Robotics
+type: Journal Paper
+doi: 10.1126/scirobotics.adu8015
+arxiv_id:
+tags:
+abstract: >
+  Quadrotors can carry slung loads to hard-to-reach locations at high speed. Given that a single quadrotor has limited payload capacities, using a team of quadrotors to collaboratively manipulate the full pose of a heavy object is a scalable and promising solution. However, existing control algorithms for multilifting systems only enable low-speed and low-acceleration operations because of the complex dynamic coupling between quadrotors and the load, limiting their use in time-critical missions such as search and rescue. In this work, we present a solution to substantially enhance the agility of cable-suspended multilifting systems. Unlike traditional cascaded solutions, we introduce a trajectory-based framework that solves the whole-body kinodynamic motion planning problem online, accounting for the dynamic coupling effects and constraints between the quadrotors and the load. The planned trajectory is provided to the quadrotors as a reference in a receding-horizon fashion and is tracked by an onboard controller that observes and compensates for the cable tension. Real-world experiments demonstrate that our framework can achieve at least eight times greater acceleration than state-of-the-art methods to follow agile trajectories. Our method can even perform complex maneuvers such as flying through narrow passages at high speed. In addition, it exhibits high robustness against load uncertainties and wind disturbances and does not require adding any sensors to the load, demonstrating strong practicality.
+summary: ''
+link: https://www.science.org/doi/10.1126/scirobotics.adu8015
+links_alt:
+  - https://doi.org/10.1126/scirobotics.adu8015
+audit_status: raw

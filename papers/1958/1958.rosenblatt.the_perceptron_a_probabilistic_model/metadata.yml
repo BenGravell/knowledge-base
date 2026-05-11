@@ -1,0 +1,18 @@
+title: >
+  The perceptron: A probabilistic model for information storage and organization in the brain.
+algorithm:
+authors:
+  - F. Rosenblatt
+year: 1958
+source: Psychological Review
+type: Journal Paper
+doi: 10.1037/h0042519
+arxiv_id:
+tags:
+abstract: >
+  If we are eventually to understand the capability of higher organisms for perceptual recognition, generalization, recall, and thinking, we must first have answers to three fundamental questions: 1. How is information about the physical world sensed, or detected, by the biological system? 2. In what form is information stored, or remembered? 3. How does information contained in storage, or in memory, influence recognition and behavior? The first of these questions is in the
+summary: ''
+link: https://psycnet.apa.org/doiLanding?doi=10.1037%2Fh0042519
+links_alt:
+  - https://doi.org/10.1037/h0042519
+audit_status: raw

@@ -1,0 +1,16 @@
+title: Gradient-Based Optimization of Hyperparameters
+algorithm:
+authors:
+  - Yoshua Bengio
+year: 2000
+source: Neural Computation
+type: Journal Paper
+doi: 10.1162/089976600300015187
+arxiv_id:
+tags:
+abstract: >
+  Many machine learning algorithms can be formulated as the minimization of a training criterion that involves a hyperparameter. This hyperparameter is usually chosen by trial and error with a model selection criterion. In this article we present a methodology to optimize several hyper-parameters, based on the computation of the gradient of a model selection criterion with respect to the hyperparameters. In the case of a quadratic training criterion, the gradient of the selection criterion with respect to the hyperparameters is efficiently computed by backpropagating through a Cholesky decomposition. In the more general case, we show that the implicit function theorem can be used to derive a formula for the hyper-parameter gradient involving second derivatives of the training criterion.
+summary: ''
+link: https://doi.org/10.1162/089976600300015187
+links_alt:
+audit_status: raw

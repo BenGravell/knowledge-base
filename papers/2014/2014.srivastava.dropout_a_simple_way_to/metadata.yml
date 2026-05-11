@@ -1,0 +1,20 @@
+title: 'Dropout: A Simple Way to Prevent Neural Networks from Overfitting'
+algorithm:
+authors:
+  - Nitish Srivastava
+  - Geoffrey Hinton
+  - Alex Krizhevsky
+  - Ilya Sutskever
+  - Ruslan Salakhutdinov
+year: 2014
+source: Journal of Machine Learning Research
+type: Journal Paper
+doi:
+arxiv_id:
+tags:
+abstract: ''
+summary: ''
+link: http://jmlr.org/papers/volume15/srivastava14a/srivastava14a.pdf
+links_alt:
+  - https://jmlr.org/papers/v15/srivastava14a.html
+audit_status: raw

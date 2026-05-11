@@ -1,0 +1,19 @@
+title: >
+  Simple and Efficient Algorithms for Computing Smooth, Collision-free Feedback Laws Over Given Cell Decompositions
+algorithm:
+authors:
+  - Stephen R. Lindemann
+  - Steven M. LaValle
+year: 2009
+source: The International Journal of Robotics Research
+type: Journal Paper
+doi: 10.1177/0278364908099462
+arxiv_id:
+tags:
+abstract: >
+  This paper presents a novel approach to computing feedback laws in the presence of obstacles. Instead of computing a trajectory between a pair of initial and goal states, our algorithms compute a vector field over the entire state space; all trajectories obtained from following this vector field are guaranteed to asymptotically reach the goal state. As a result, the vector field globally solves the navigation problem and provides robustness to disturbances in sensing and control. The vector field's integral curves (system trajectories) are guaranteed to avoid obstacles and are C ∞ smooth. We construct a vector field with these properties by partitioning the space into simple cells, defining local vector fields for each cell, and smoothly interpolating between them to obtain a global vector field. We present an algorithm that computes these feedback controls for a kinematic point robot in an arbitrary dimensional space with piecewise linear boundary; the algorithm requires minimal preprocessing of the environment and is extremely fast during execution. For many practical applications in two-dimensional environments, full computation can be done in milliseconds. We also present an algorithm for computing feedback laws over cylindrical algebraic decompositions, thereby solving a smooth feedback version of the generalized piano movers' problem.
+summary: ''
+link: https://journals.sagepub.com/doi/10.1177/0278364908099462
+links_alt:
+  - https://doi.org/10.1177/0278364908099462
+audit_status: raw

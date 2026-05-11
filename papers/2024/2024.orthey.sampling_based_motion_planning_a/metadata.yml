@@ -1,0 +1,20 @@
+title: 'Sampling-Based Motion Planning: A Comparative Review'
+algorithm:
+authors:
+  - Andreas Orthey
+  - Constantinos Chamzas
+  - Lydia E. Kavraki
+year: 2024
+source: Annual Review of Control, Robotics, and Autonomous Systems
+type: Journal Paper
+doi: 10.1146/annurev-control-061623-094742
+arxiv_id:
+tags:
+abstract: >
+  Sampling-based motion planning is one of the fundamental paradigms to generate robot motions, and a cornerstone of robotics research. This comparative review provides an up-to-date guide and reference manual for the use of sampling-based motion planning algorithms. It includes a history of motion planning, an overview of the most successful planners, and a discussion of their properties. It also shows how planners can handle special cases and how extensions of motion planning can be accommodated. To put sampling-based motion planning into a larger context, a discussion of alternative motion generation frameworks highlights their respective differences from sampling-based motion planning. Finally, a set of sampling-based motion planners are compared on 24 challenging planning problems in order to provide insights into which planners perform well in which situations and where future research would be required. This comparative review thereby provides not only a useful reference manual for researchers in the field but also a guide for practitioners to make informed algorithmic decisions.
+summary: ''
+link: >
+  https://www.annualreviews.org/content/journals/10.1146/annurev-control-061623-094742
+links_alt:
+  - https://doi.org/10.1146/annurev-control-061623-094742
+audit_status: raw

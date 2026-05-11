@@ -1,0 +1,17 @@
+title: Mean, What do You Mean?
+algorithm:
+authors:
+  - Miguel de Carvalho
+year: 2016
+source: The American Statistician
+type: Journal Paper
+doi: 10.1080/00031305.2016.1148632
+arxiv_id:
+tags:
+abstract: >
+  When teaching statistics we often resort to several notions of mean, such as arithmetic mean, geometric mean, and harmonic mean, and hence the student is often left with the question: The word mean appears in all such concepts, so what is actually a mean? I revisit Kolmogorov's axiomatic view of the mean, which unifies all these concepts of mean, among others. A population counterpart of the notion of regular mean, along with notions of regular variance and standard deviation will also be discussed here as unifying concepts. Some examples are used to illustrate main ideas.
+summary: ''
+link: https://www.tandfonline.com/doi/abs/10.1080/00031305.2016.1148632
+links_alt:
+  - https://doi.org/10.1080/00031305.2016.1148632
+audit_status: raw

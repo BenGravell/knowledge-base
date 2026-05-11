@@ -1,0 +1,20 @@
+title: 'Cold Case: The Lost MNIST Digits'
+algorithm:
+authors:
+  - Chhavi Yadav
+  - Leon Bottou
+year: 2019
+source: Advances in Neural Information Processing Systems
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+abstract: >
+  Although the popular MNIST dataset \citep{mnist} is derived from the NIST database \citep{nist-sd19}, precise processing steps of this derivation have been lost to time. We propose a reconstruction that is accurate enough to serve as a replacement for the MNIST dataset, with insignificant changes in accuracy. We trace each MNIST digit to its NIST source and its rich metadata such as writer identifier, partition identifier, etc. We also reconstruct the complete MNIST test set with 60,000 samples instead of the usual 10,000. Since the balance 50,000 were never distributed, they enable us to investigate the impact of twenty-five years of MNIST experiments on the reported testing performances. Our results unambiguously confirm the trends observed by \citet{recht2018cifar,recht2019imagenet}: although the misclassification rates are slightly off, classifier ordering and model selection remain broadly reliable. We attribute this phenomenon to the pairing benefits of comparing classifiers on the same digits.
+summary: ''
+link: >
+  https://proceedings.neurips.cc/paper_files/paper/2019/file/51c68dc084cb0b8467eafad1330bce66-Paper.pdf
+links_alt:
+  - https://proceedings.neurips.cc/paper/2019/hash/51c68dc084cb0b8467eafad1330bce66-Abstract.html
+  - https://proceedings.neurips.cc/paper_files/paper/2019/file/51c68dc084cb0b8467eafad1330bce66-Metadata.json
+audit_status: raw

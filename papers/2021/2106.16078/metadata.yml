@@ -1,0 +1,41 @@
+title: >
+  Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data
+algorithm: MALS
+authors:
+  - Yu Xing
+  - Benjamin Gravell
+  - Xingkang He
+  - Karl Henrik Johansson
+  - Tyler Summers
+year: 2021
+source: Automatica
+type: Journal Paper
+doi: 10.1016/j.automatica.2022.110486
+arxiv_id: "2106.16078"
+tags:
+  - System identification
+  - Linear systems
+  - Multiplicative noise
+  - Stochastic systems
+  - Multiple trajectory data
+  - Least-squares estimation
+  - Covariance estimation
+  - Identifiability
+  - Second-moment dynamics
+  - Asymptotic consistency
+  - Non-asymptotic
+  - High-probability
+  - Sample complexity
+  - Excitation conditions
+  - Controllability
+  - Data-driven control
+abstract: >
+  The paper studies identification of linear systems with multiplicative noise from multiple-trajectory data. An algorithm based on the least-squares method and multiple-trajectory data is proposed for joint estimation of the nominal system matrices and the covariance matrix of the multiplicative noise. The algorithm does not need prior knowledge of the noise or stability of the system, but requires only independent inputs with pre-designed first and second moments and relatively small trajectory length. The study of identifiability of the noise covariance matrix shows that there exists an equivalent class of matrices that generate the same second-moment dynamic of system states. It is demonstrated how to obtain the equivalent class based on estimates of the noise covariance. Asymptotic consistency of the algorithm is verified under sufficiently exciting inputs and system controllability conditions. Non-asymptotic performance of the algorithm is also analyzed under the assumption that the system is bounded. The analysis provides high-probability bounds vanishing as the number of trajectories grows to infinity. The results are illustrated by numerical simulations.
+summary: >
+  Extends the asymptotic results of 2002.06613 to rigorous non-asymptotic finite-sample results, using basically the same system identification / parameter estimation algorithm.
+link: https://arxiv.org/pdf/2106.16078
+links_alt:
+  - https://www.sciencedirect.com/science/article/pii/S0005109822003454
+  - https://people.kth.se/~kallej/papers/learning_auto22xing.pdf
+  - https://github.com/TSummersLab/sysid-multinoise
+audit_status: reviewed
