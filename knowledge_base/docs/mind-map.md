@@ -358,7 +358,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   border: 1px solid var(--md-default-fg-color--lighter);
   border-radius: 10px;
   padding: 11px 14px;
-  max-width: 30vw;
+  box-sizing: border-box;
+  max-width: min(34rem, calc(100vw - 24px));
   max-height: 65vh;
   overflow-y: hidden;
   pointer-events: none;
@@ -376,6 +377,21 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .tt-tags    { font-size: 0.7rem;  color: var(--md-primary-fg-color--light); margin: 5px 0; line-height: 1.5; }
 .tt-summary { font-size: 0.73rem; color: var(--md-default-fg-color--light); margin-top: 6px; line-height: 1.45; }
 .tt-hint    { font-size: 0.68rem; color: var(--md-default-fg-color--lighter); margin-top: 8px; font-style: italic; }
+
+@media (max-width: 700px) {
+  #mm-tooltip {
+    width: calc(100vw - 24px);
+    max-width: calc(100vw - 24px);
+    max-height: min(70vh, calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 36px) - 24px));
+    padding: 12px 14px;
+  }
+  .tt-title   { font-size: 0.9rem; line-height: 1.35; }
+  .tt-link    { font-size: 0.8rem; }
+  .tt-meta    { font-size: 0.78rem; }
+  .tt-tags    { font-size: 0.76rem; line-height: 1.45; }
+  .tt-summary { font-size: 0.78rem; line-height: 1.48; }
+  .tt-hint    { font-size: 0.72rem; }
+}
 </style>
 
 <div id="mm-app">
