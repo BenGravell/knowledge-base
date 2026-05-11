@@ -13,8 +13,6 @@
   const searchResults = document.getElementById('ct-search-results');
   const breadcrumbs = document.getElementById('ct-breadcrumbs');
   const ancestorChain = document.getElementById('ct-ancestor-chain');
-  const currentNode = document.getElementById('ct-current-node');
-  const childNodes = document.getElementById('ct-child-nodes');
 
   if (!data || !data.root) {
     app.innerHTML = '<p class="ct-error">Content tree data is unavailable. Run <code>mkdocs build</code> to regenerate it.</p>';
@@ -91,9 +89,8 @@
     currentSummary.textContent = nodeSummary(node);
     renderBreadcrumbs(node);
     renderAncestorChain(node);
-    renderCurrentNode(node);
-    renderChildren(node);
     renderSearch();
+    centerCurrentTreeNode(node);
   }
 
   function renderBreadcrumbs(node) {
@@ -105,79 +102,54 @@
   }
 
   function renderAncestorChain(node) {
-    ancestorChain.innerHTML = node.pathNodes.map(function (pathNode) {
-      const isCurrent = pathNode.id === node.id;
-      return [
-        '<button type="button" class="ct-chain-item' + (isCurrent ? ' is-current' : '') + '" data-ct-select="' + escAttr(pathNode.id) + '">',
-        '<span class="ct-chain-label">' + esc(pathNode.label) + '</span>',
-        '<span class="ct-chain-meta">' + esc(compactNodeSummary(pathNode)) + '</span>',
-        '</button>',
-      ].join('');
-    }).join('');
-  }
-
-  function renderCurrentNode(node) {
-    const parentButton = node.parent
-      ? '<button type="button" class="ct-secondary-action" data-ct-select="' + escAttr(node.parent.id) + '">Parent</button>'
-      : '';
-    const openLink = node.url
-      ? '<a class="ct-primary-link" href="' + escAttr(node.url) + '">Open page</a>'
-      : '';
-    const descendants = node.children.length
-      ? '<p class="ct-current-preview">' + esc(node.children.slice(0, 5).map(function (child) { return child.label; }).join(' / ')) + '</p>'
-      : '';
-
-    currentNode.innerHTML = [
-      '<div class="ct-current-header">',
-      '<span class="ct-kind">' + esc(kindLabel(node)) + '</span>',
-      '<span class="ct-depth">' + esc(depthLabel(node)) + '</span>',
-      '</div>',
-      '<h2>' + esc(node.label) + '</h2>',
-      '<p class="ct-current-path">' + esc(node.path.join(' / ')) + '</p>',
-      '<p class="ct-current-counts">' + esc(nodeSummary(node)) + '</p>',
-      descendants,
-      '<div class="ct-actions">',
-      parentButton,
-      openLink,
-      '</div>',
+    const pathIds = new Set(node.pathNodes.map(function (pathNode) { return pathNode.id; }));
+    ancestorChain.innerHTML = [
+      '<ul class="ct-tree-list ct-tree-root">',
+      data.root.children.map(function (child) {
+        return renderTreeNode(child, node, pathIds, 0);
+      }).join(''),
+      '</ul>',
     ].join('');
   }
 
-  function renderChildren(node) {
-    if (!node.children.length) {
-      childNodes.innerHTML = [
-        '<div class="ct-section-heading">',
-        '<h2>No deeper branch</h2>',
-        '<p>Open this page, search for another item, or move back up the path.</p>',
-        '</div>',
-      ].join('');
-      return;
-    }
+  function renderTreeNode(treeNode, currentNode, pathIds, depth) {
+    const isCurrent = treeNode.id === currentNode.id;
+    const isAncestor = pathIds.has(treeNode.id) && !isCurrent;
+    const isParent = Boolean(currentNode.parent && treeNode.id === currentNode.parent.id);
+    const isSuccessor = Boolean(treeNode.parent && treeNode.parent.id === currentNode.id);
+    const isExpanded = treeNode.children.length > 0 && pathIds.has(treeNode.id);
+    const isMuted = !isCurrent && !isAncestor && !isParent && !isSuccessor;
+    const action = isCurrent && treeNode.url
+      ? '<a class="ct-tree-open-link" href="' + escAttr(treeNode.url) + '">Open page</a>'
+      : '';
+    const classes = [
+      'ct-tree-node',
+      'ct-tree-kind-' + treeNode.kind,
+      isCurrent ? 'is-current' : '',
+      isAncestor ? 'is-ancestor' : '',
+      isParent ? 'is-parent' : '',
+      isSuccessor ? 'is-successor' : '',
+      isExpanded ? 'is-expanded' : '',
+      isMuted ? 'is-muted' : '',
+    ].filter(Boolean).join(' ');
+    const children = isExpanded
+      ? '<ul class="ct-tree-list">' + treeNode.children.map(function (child) {
+        return renderTreeNode(child, currentNode, pathIds, depth + 1);
+      }).join('') + '</ul>'
+      : '';
 
-    const cards = node.children.map(function (child) {
-      const preview = child.children.length
-        ? '<span class="ct-node-preview">' + esc(child.children.slice(0, 4).map(function (grandchild) { return grandchild.label; }).join(' / ')) + '</span>'
-        : '';
-      return [
-        '<button type="button" class="ct-node-card ct-kind-' + escAttr(child.kind) + '" data-ct-select="' + escAttr(child.id) + '">',
-        '<span class="ct-node-topline">',
-        '<span class="ct-kind">' + esc(kindLabel(child)) + '</span>',
-        '<span class="ct-node-count">' + esc(compactNodeSummary(child)) + '</span>',
-        '</span>',
-        '<strong>' + esc(child.label) + '</strong>',
-        preview,
-        '</button>',
-      ].join('');
-    }).join('');
-
-    childNodes.innerHTML = [
-      '<div class="ct-section-heading">',
-      '<h2>Next choices</h2>',
-      '<p>Only successors of the current node are shown here; unrelated branches stay out of the way.</p>',
-      '</div>',
-      '<div class="ct-child-grid">',
-      cards,
-      '</div>',
+    return [
+      '<li class="' + escAttr(classes) + '" style="--ct-depth:' + depth + '">',
+      '<button type="button" class="ct-tree-button" data-ct-select="' + escAttr(treeNode.id) + '">',
+      '<span class="ct-tree-rail" aria-hidden="true"><span class="ct-tree-dot"></span></span>',
+      '<span class="ct-tree-copy">',
+      '<span class="ct-tree-label">' + esc(treeNode.label) + '</span>',
+      '<span class="ct-tree-meta">' + esc(treeNodeMeta(treeNode)) + '</span>',
+      '</span>',
+      '</button>',
+      action,
+      children,
+      '</li>',
     ].join('');
   }
 
@@ -213,6 +185,15 @@
     ].join('');
   }
 
+  function centerCurrentTreeNode(node) {
+    if (node.id === data.root.id) return;
+    window.requestAnimationFrame(function () {
+      const current = ancestorChain.querySelector('.ct-tree-node.is-current > .ct-tree-button');
+      if (!current) return;
+      current.scrollIntoView({ block: 'center', inline: 'nearest' });
+    });
+  }
+
   function getMatches(query) {
     const terms = normalized(query).split(/\s+/).filter(Boolean);
     if (!terms.length) return [];
@@ -243,13 +224,11 @@
     return plural(node.leafCount, 'item') + ' across ' + plural(node.children.length, 'next choice', 'next choices');
   }
 
-  function compactNodeSummary(node) {
-    if (node.kind !== 'branch') return kindLabel(node);
-    return plural(node.leafCount, 'item');
-  }
-
-  function depthLabel(node) {
-    return node.parent ? 'Level ' + (node.pathNodes.length - 1) : 'Root';
+  function treeNodeMeta(node) {
+    if (node.kind === 'branch') {
+      return plural(node.leafCount, 'item') + ' / ' + plural(node.children.length, 'child', 'children');
+    }
+    return kindLabel(node);
   }
 
   function kindLabel(node) {

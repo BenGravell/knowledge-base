@@ -66,15 +66,9 @@ https://labs.utdallas.edu/conlab/resources/
 
 ## Content tree
 
-Keep sidebar menu visible.
-
-Hide or make disclaimer box less obnoxious.
-
-Make Content Tree just go directly into the applet (currently called Overview).
-Integrate the directory-style structure into the applet (expanding only branch+current ancestors hiding all else based on currently active branch) - this should be integrated in to the existing "Path" left sidebar, making the non-active branches visible/expandable/openable with de-emphasized visual style (greys, lower opacity value, etc)
+Keep sidebar menu visible while on the Content Tree page.
 
 Move Content Tree to just after Mind Map in the sidebar. Explainers go last.
-
 
 ## Mind Map
 

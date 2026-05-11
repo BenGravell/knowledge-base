@@ -19,7 +19,7 @@ import yaml
 
 
 MKDOCS_YML = "mkdocs.yml"
-LANDING_PAGE = "content-tree.md"
+LANDING_PAGES = {"content-tree.md", "content-tree/index.md"}
 
 
 def as_list(value: Any) -> list[Any]:
@@ -34,7 +34,10 @@ def content_tree(config: dict[str, Any]) -> list[Any]:
 
 
 def is_landing_item(label: str, child: Any) -> bool:
-    return str(label).strip().lower() == "overview" and child == LANDING_PAGE
+    return isinstance(child, str) and (
+        child in LANDING_PAGES
+        or (str(label).strip().lower() == "overview" and child in LANDING_PAGES)
+    )
 
 
 def slugify_id(text: str) -> str:
@@ -113,6 +116,8 @@ def build_children(items: list[Any], path: list[str], ids: IdFactory) -> list[di
     nodes: list[dict[str, Any]] = []
     for item in items:
         if isinstance(item, str):
+            if item in LANDING_PAGES:
+                continue
             label = item.removesuffix(".md").replace("-", " ").replace("_", " ").title()
             nodes.append(build_leaf(label, item, path, ids))
             continue

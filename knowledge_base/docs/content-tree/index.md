@@ -1,21 +1,22 @@
 ---
 hide:
-  - navigation
   - toc
 ---
 
-# Content Tree
-
 <div id="ct-app" class="ct-page">
-  <section class="ct-note" aria-label="About this content tree">
-    <p>
-      This content tree is my personal interpretation of how to organize these items in a hierarchical way.
-      Multiple alternative organizations are possible. The content itself does not literally have a tree
-      structure, and many of the real associations live in a more general graph of ideas, methods, and problems.
-      The value of the tree is that it gives newcomers some structure and encodes my opinion about which
-      connections are currently the most relevant or important.
-    </p>
-  </section>
+  <div class="ct-title-row">
+    <h1>Content Tree</h1>
+    <details class="ct-note">
+      <summary>About</summary>
+      <p>
+        This content tree is my personal interpretation of how to organize these items in a hierarchical way.
+        Multiple alternative organizations are possible. The content itself does not literally have a tree
+        structure, and many of the real associations live in a more general graph of ideas, methods, and problems.
+        The value of the tree is that it gives newcomers some structure and encodes my opinion about which
+        connections are currently the most relevant or important.
+      </p>
+    </details>
+  </div>
 
   <form id="ct-search-form" class="ct-search-panel">
     <div class="ct-search-field">
@@ -36,17 +37,9 @@ hide:
   <nav id="ct-breadcrumbs" class="ct-breadcrumbs" aria-label="Content tree path"></nav>
 
   <section class="ct-browser" aria-label="Focused content tree browser">
-    <aside class="ct-chain" aria-label="Current ancestor chain">
-      <div class="ct-section-heading">
-        <h2>Path</h2>
-      </div>
+    <section class="ct-chain" aria-label="Focused content tree">
       <div id="ct-ancestor-chain"></div>
-    </aside>
-
-    <main class="ct-stage">
-      <section id="ct-current-node" class="ct-current-node" aria-live="polite"></section>
-      <section id="ct-child-nodes" class="ct-child-nodes"></section>
-    </main>
+    </section>
   </section>
 </div>
 
