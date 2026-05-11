@@ -5,3 +5,6 @@ https://proceedings.mlr.press/v80/arora18a.html
 https://proceedings.mlr.press/v247/suggala24a.html
 https://proceedings.mlr.press/v9/ross10a.html
 https://proceedings.mlr.press/v242/salzmann24a.html
+https://proceedings.mlr.press/v108/gabrielsson20a/gabrielsson20a.pdf
+https://proceedings.mlr.press/v283/li25a.html
+https://proceedings.mlr.press/v202/ivgi23a.html

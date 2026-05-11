@@ -2,3 +2,6 @@ https://onlinelibrary.wiley.com/doi/abs/10.1002/%28SICI%291097-024X%28199708%292
 https://onlinelibrary.wiley.com/doi/abs/10.1002/nav.3800030109
 https://onlinelibrary.wiley.com/doi/10.1002/col.20227
 https://onlinelibrary.wiley.com/doi/abs/10.1002/rob.4620040209
+https://londmathsoc.onlinelibrary.wiley.com/doi/abs/10.1112/blms/2.1.73
+https://onlinelibrary.wiley.com/doi/abs/10.1002/rob.20262
+https://onlinelibrary.wiley.com/doi/abs/10.1002/rob.20266
