@@ -20,8 +20,8 @@ from typing import Any
 
 import yaml
 
+from knowledge_base.config import KB_DIR
 
-KB_DIR = Path(__file__).resolve().parents[1]
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
 MKDOCS_YML = KB_DIR / "mkdocs.yml"

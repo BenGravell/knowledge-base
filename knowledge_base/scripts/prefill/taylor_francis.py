@@ -24,9 +24,9 @@ from knowledge_base.utils.doi_utils import (
     fetch_page_html,
     scrape_abstract_from_html,
 )
-from knowledge_base.utils.prefill_template import DoiPrefillScript
+from knowledge_base.utils.prefill_template import DoiPrefillScript, REPO_ROOT
 
-DEFAULT_INPUT = Path(__file__).parent.parent.parent.parent / "todo" / "papers" / "TAYLOR_FRANCIS.md"
+DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "TAYLOR_FRANCIS.md"
 
 _TF_DOI_RE = re.compile(r"tandfonline\.com/doi/(?:abs/|full/|pdf/|epdf/)?([^\s?#]+)", re.I)
 

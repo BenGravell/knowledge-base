@@ -23,10 +23,10 @@ from knowledge_base.apps.arxiv_utils import (
     target_path,
     write_metadata,
 )
-from knowledge_base.utils.prefill_template import HaltPrefill, PrefillScript
+from knowledge_base.utils.prefill_template import HaltPrefill, PrefillScript, REPO_ROOT
 from knowledge_base.utils.doi_utils import find_existing_by_arxiv_id
 
-DEFAULT_INPUT = Path(__file__).parent.parent.parent.parent / "todo" / "papers" / "ARXIV.md"
+DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ARXIV.md"
 ARXIV_ID_RE = re.compile(r"arxiv\.org/(?:abs|pdf)/([^\s/?#]+)")
 
 # Duration in seconds between successful requests

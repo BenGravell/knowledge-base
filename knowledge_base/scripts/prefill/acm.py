@@ -19,9 +19,9 @@ if __package__ in (None, ""):
     import sys
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
-from knowledge_base.utils.prefill_template import DoiPrefillScript
+from knowledge_base.utils.prefill_template import DoiPrefillScript, REPO_ROOT
 
-DEFAULT_INPUT = Path(__file__).parent.parent.parent.parent / "todo" / "papers" / "ACM.md"
+DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ACM.md"
 
 # Captures the DOI portion after /doi/ (with optional /full/, /abs/, etc.)
 _ACM_DOI_RE = re.compile(r"dl\.acm\.org/doi/(?:full/|abs/)?(\S+?)(?:\s|$)")

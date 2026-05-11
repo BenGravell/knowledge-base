@@ -26,9 +26,9 @@ from knowledge_base.utils.doi_utils import (
     scrape_abstract_from_html,
     scrape_doi_from_html,
 )
-from knowledge_base.utils.prefill_template import DoiPrefillScript
+from knowledge_base.utils.prefill_template import DoiPrefillScript, REPO_ROOT
 
-DEFAULT_INPUT = Path(__file__).parent.parent.parent.parent / "todo" / "papers" / "NATURE.md"
+DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "NATURE.md"
 
 _NATURE_ARTICLE_RE = re.compile(r"nature\.com/articles/([^/?#\s]+)", re.I)
 

@@ -21,7 +21,7 @@ if __package__ in (None, ""):
 import requests
 
 from knowledge_base.utils.doi_utils import fetch_page_html
-from knowledge_base.utils.prefill_template import PagePrefillScript
+from knowledge_base.utils.prefill_template import PagePrefillScript, REPO_ROOT
 from knowledge_base.utils.prefill_utils import (
     clean_text,
     first_element_text,
@@ -30,7 +30,7 @@ from knowledge_base.utils.prefill_utils import (
     read_url_lines,
 )
 
-DEFAULT_INPUT = Path(__file__).parent.parent.parent.parent / "todo" / "papers" / "NEURIPS.md"
+DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "NEURIPS.md"
 
 _ABSTRACT_RE = re.compile(
     r"(?:proceedings\.neurips\.cc|papers\.neurips\.cc|papers\.nips\.cc)/(?:paper|paper_files/paper)/(\d{4})/hash/([0-9a-f]+)-Abstract\.html",

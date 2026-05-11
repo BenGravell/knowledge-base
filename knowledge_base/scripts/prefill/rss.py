@@ -20,7 +20,7 @@ if __package__ in (None, ""):
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
 from knowledge_base.utils.doi_utils import fetch_page_html
-from knowledge_base.utils.prefill_template import PagePrefillScript
+from knowledge_base.utils.prefill_template import PagePrefillScript, REPO_ROOT
 from knowledge_base.utils.prefill_utils import (
     absolutize_url,
     clean_text,
@@ -30,7 +30,7 @@ from knowledge_base.utils.prefill_utils import (
     read_url_lines,
 )
 
-DEFAULT_INPUT = Path(__file__).parent.parent.parent.parent / "todo" / "papers" / "RSS.md"
+DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "RSS.md"
 
 _RSS_RE = re.compile(r"roboticsproceedings\.org/(rss\d{2})/(p\d+)\.(?:pdf|html)", re.I)
 _BASE = "https://www.roboticsproceedings.org"

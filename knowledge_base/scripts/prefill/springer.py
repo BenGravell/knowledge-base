@@ -23,9 +23,9 @@ from knowledge_base.utils.doi_utils import (
     fetch_page_html,
     scrape_abstract_from_html,
 )
-from knowledge_base.utils.prefill_template import DoiPrefillScript
+from knowledge_base.utils.prefill_template import DoiPrefillScript, REPO_ROOT
 
-DEFAULT_INPUT = Path(__file__).parent.parent.parent.parent / "todo" / "papers" / "SPRINGER.md"
+DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "SPRINGER.md"
 
 # Captures the DOI portion from article/ or chapter/ paths
 _SPRINGER_DOI_RE = re.compile(r"link\.springer\.com/(?:article|chapter|book|referenceworkentry)/(\S+?)(?:\s|$)")

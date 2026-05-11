@@ -26,9 +26,9 @@ from knowledge_base.utils.doi_utils import (
     fetch_page_html,
     scrape_doi_from_html,
 )
-from knowledge_base.utils.prefill_template import DoiPrefillScript
+from knowledge_base.utils.prefill_template import DoiPrefillScript, REPO_ROOT
 
-DEFAULT_INPUT = Path(__file__).parent.parent.parent.parent / "todo" / "papers" / "IEEE.md"
+DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "IEEE.md"
 
 _IEEE_ARTICLE_RE = re.compile(r"ieeexplore\.ieee\.org/document/(\d+)")
 

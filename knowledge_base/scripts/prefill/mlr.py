@@ -20,7 +20,7 @@ if __package__ in (None, ""):
 from knowledge_base.utils.doi_utils import (
     fetch_page_html,
 )
-from knowledge_base.utils.prefill_template import PagePrefillScript
+from knowledge_base.utils.prefill_template import PagePrefillScript, REPO_ROOT
 from knowledge_base.utils.prefill_utils import (
     absolutize_url,
     clean_text,
@@ -31,7 +31,7 @@ from knowledge_base.utils.prefill_utils import (
     read_url_lines,
 )
 
-DEFAULT_INPUT = Path(__file__).parent.parent.parent.parent / "todo" / "papers" / "MLR.md"
+DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "MLR.md"
 
 
 def normalize_url(url: str) -> str:
