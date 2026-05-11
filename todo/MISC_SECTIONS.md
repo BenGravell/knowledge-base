@@ -144,3 +144,42 @@ Clip related to planning & control: https://youtu.be/j0z4FweCy4M?t=4370
 Neural networks serve as learned heuristics for optimal motion planning in action space, guiding search away from local minima. A neural network planner outputs a trajectory distribution that seeds an explicit planner, combining the generalization of learned models with the optimality guarantees of classical planning.
 
 Experiments show the value of strong heuristics for trajectory search: hand-crafted heuristics improve performance over blind search, but learned, AI-based heuristics outperform both.
+
+## GitHub
+
+https://github.com/open-planning/roboplan
+https://github.com/Genesis-Embodied-AI/Genesis
+https://github.com/TUMFTM/PointCloudCrafter
+https://github.com/MarcToussaint/KOMO
+
+## Cool stuff
+
+https://usgs-lidar.gishub.org/
+https://geodatakatalogen.naturvardsverket.se/geonetwork/srv/swe/catalog.search#/metadata/8853721d-a466-4c01-afcc-9eae57b17b39
+https://rreusser.github.io/
+https://en.wikipedia.org/wiki/The_Checklist_Manifesto
+https://www.vg.no/nyheter/i/3pkoP9/busser-fast-paa-alexander-kiellands-plass-i-oslo
+https://depth-anything-3.github.io/
+https://ompl.kavrakilab.org/gallery.html
+https://deepwiki.com/acados/acados/2.1-ocp-nlp-solvers#differential-dynamic-programming-ddp
+https://huggingface.co/datasets/nvidia/PhysicalAI-Autonomous-Vehicles
+
+## Blogs
+
+https://m0nads.wordpress.com/2021/05/09/are-deep-networks-just-kernel-machines/ 
+https://rai-inst.com/resources/blog/dull-dirty-dangerous-redefining-undesirable-work-for-robotics/
+https://www.nuro.ai/blog/nuros-universal-autonomy-model
+https://developer.nvidia.com/blog/integrate-physical-ai-capabilities-into-existing-apps-with-nvidia-omniverse-libraries/
+https://www.openautonomy.com/article/modular-vs-end-to-end-autonomy-architecture-mining
+https://badas.nexar.app/
+
+## Tools
+
+https://github.com/slidevjs/slidev
+https://mermaid.ai/
+https://marp.app/
+
+## Textbooks
+
+https://www.cambridge.org/core/books/highdimensional-statistics/8A91ECEEC38F46DAB53E9FF8757C7A4E
+https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-book.html

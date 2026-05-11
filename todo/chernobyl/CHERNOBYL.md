@@ -89,6 +89,10 @@ this reddit thread helped: https://www.reddit.com/r/chernobyl/comments/btzxov/ca
 - https://patriotyk.name/Ukrainika/%D0%86%D1%81%D1%82%D0%BE%D1%80%D1%96%D1%8F/Mould%2C%20R.%20F.%20Chernobyl%20record.%20The%20definitive%20history%20of%20the%20Chernobyl%20catastrophe.%20Bristol%20-%20Pholadelphia%2C%202000.pdf
 
 
+## Sources on Dyatlov
+
+https://www.neimagazine.com/advanced-reactorsfusion/how-it-was-an-operator-s-perspective/
+
 ## Legasov himself railed against certain aspects of the RBMK reactor he saw as flaws.
 
 
