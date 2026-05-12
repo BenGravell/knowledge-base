@@ -1,6 +1,9 @@
 # Claude
 .claude/
 
+# Site
+knowledge_base/site/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
