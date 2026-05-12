@@ -745,8 +745,6 @@ nav:
           - TD Learning: papers/1988_sutton_learning_to_predict_by_the.md
           - mellowmax: papers/1612_05628.md
           - "A Gentle Lecture Note on Filtrations in Reinforcement Learning": papers/2008_02622.md
-        - Benchmarks & Environments:
-          - OpenAI Gym: papers/1606_01540.md
         - Imitation Learning:
           - DAgger: papers/1011_0686.md
           - "Efficient Reductions for Imitation Learning": papers/2010_ross_efficient_reductions_for_imitation_learning.md
@@ -815,7 +813,6 @@ nav:
             - Q-Prop: papers/1611_02247.md
             - Emergence of Locomotion Behaviours in Rich Environments: papers/1707_02286.md
             - "Actor-Critic Model Predictive Control: Differentiable Optimization meets Reinforcement Learning for Agile Flight": papers/2306_09852.md
-            - "Controlgym: Large-Scale Control Environments for Benchmarking Reinforcement Learning Algorithms": papers/2311_18736.md
             - "Embodied Intelligence via Learning and Evolution": papers/2102_02202.md
             - "FlashSAC": papers/2604_04539.md
             - "Internal feedback in the cortical perception-action loop enables fast and accurate behavior": papers/2211_05922.md
@@ -1214,6 +1211,9 @@ nav:
         - RoboPlayground: papers/2604_05226.md
         - Waymo Open Sim Agents Challenge: papers/2305_12032.md
         - Waymax: papers/2310_08710.md
+      - Benchmarks:
+        - Gym: papers/1606_01540.md
+        - controlgym: papers/2311_18736.md
       - Safety, Testing & Verification:
         - "A Simple and Efficient Sampling-based Algorithm for General Reachability Analysis": papers/2112_05745.md
         - How Should a Robot Assess Risk?: papers/2017_majumdar_how_should_a_robot.md
