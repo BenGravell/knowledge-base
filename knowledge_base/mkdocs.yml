@@ -707,10 +707,11 @@ nav:
         - Control Theory:
           - The Internal Model Principle for Linear Multivariable Regulators: papers/1975_francis_the_internal_model_principle_for.md
           - Every Good Regulator Theorem: papers/1970_conant_every_good_regulator_of_a.md
+          - "Internal feedback in the cortical perception-action loop enables fast and accurate behavior": papers/2211_05922.md
           - Path-Following or Reference-Tracking: papers/2004_aguiar_path_following_or_reference.md
-          - "DWPP: Dynamic Window Pure Pursuit Considering Velocity and Acceleration Constraints": papers/2601_15006.md
-          - "Control Principles of Complex Networks": papers/1508_05384.md
-          - "Control Profiles of Complex Networks": papers/2014_ruths_control_profiles_of_complex_networks.md
+          - DWPP: papers/2601_15006.md
+          - Control Principles of Complex Networks: papers/1508_05384.md
+          - Control Profiles of Complex Networks: papers/2014_ruths_control_profiles_of_complex_networks.md
           - Control for Societal-Scale Challenges: papers/2023_alleyne_control_for_societal_scale.md
           - "A note on persistency of excitation": papers/2005_willems_a_note_on_persistency_of.md
           - "Respect the unstable": papers/2003_unknown_respect_the_unstable.md
@@ -719,8 +720,8 @@ nav:
         - Control Lyapunov Functions:
           - Stabilization with Relaxed Controls: papers/1983_artstein_stabilization_with_relaxed_controls.md
           - "A Lyapunov-Like Characterization of Asymptotic Controllability": papers/1983_sontag_a_lyapunov_like_characterization_of.md
-          - Universal Formula for Stabilization: papers/1991_lin_a_universal_formula_for.md
-          - "A ‘universal’ construction of Artstein's theorem on nonlinear stabilization": papers/1989_sontag_a_universal_construction_of_artstein.md
+          - Sontag's Universal Formula: papers/1991_lin_a_universal_formula_for.md
+          - "A 'universal' construction of Artstein's theorem on nonlinear stabilization": papers/1989_sontag_a_universal_construction_of_artstein.md
         - Control Barrier Functions (CBF) and Control Lyapunov Functions (CLF):
           - Co-designing Control Barrier Functions and Linear State-Feedback Controllers: papers/2403_11763.md
           - "Convex synthesis and verification of control-Lyapunov and barrier functions with input constraints": papers/2023_dai_convex_synthesis_and_verification_of.md
@@ -732,7 +733,7 @@ nav:
           - The Tire-Force Ellipse: papers/2011_brach_the_tire_force_ellipse.md
           - "Kinematic modeling of wheeled mobile robots": papers/1987_muir_kinematic_modeling_of_wheeled_mobile.md
           - "On the Kinematics of Wheeled Mobile Robots": papers/1989_alexander_on_the_kinematics_of_wheeled.md
-          - "The Magic Formula Tyre Model": papers/1992_pacejka_the_magic_formula_tyre_model.md
+          - The Magic Formula Tyre Model: papers/1992_pacejka_the_magic_formula_tyre_model.md
           - "Structural properties and classification of kinematic and dynamic models of wheeled mobile robots": papers/1996_campion_structural_properties_and_classification_of.md
         - Underactuated Systems:
           - Acrobot: papers/1995_spong_the_swing_up_control.md
@@ -784,6 +785,7 @@ nav:
             - ARS: papers/1803_07055.md
             - Derivative-Free Methods for Policy Optimization: papers/1812_08305.md
             - NEAT: papers/2002_stanley_evolving_neural_networks_through.md
+            - "Embodied Intelligence via Learning and Evolution": papers/2102_02202.md
           - Policy Gradient:
             - REINFORCE: papers/1992_williams_simple_statistical_gradient_following_algorithms.md
             - "Policy Gradient Methods for Reinforcement Learning with Function Approximation": papers/1999_sutton_policy_gradient_methods_for_reinforcement.md
@@ -812,15 +814,7 @@ nav:
             - ACER: papers/1611_01224.md
             - Q-Prop: papers/1611_02247.md
             - Emergence of Locomotion Behaviours in Rich Environments: papers/1707_02286.md
-            - "Actor-Critic Model Predictive Control: Differentiable Optimization meets Reinforcement Learning for Agile Flight": papers/2306_09852.md
-            - "Embodied Intelligence via Learning and Evolution": papers/2102_02202.md
-            - "FlashSAC": papers/2604_04539.md
-            - "Internal feedback in the cortical perception-action loop enables fast and accurate behavior": papers/2211_05922.md
-            - "Learning Dexterous In-Hand Manipulation": papers/1808_00177.md
-            - "Model-Based Value Estimation for Efficient Model-Free Reinforcement Learning": papers/1803_00101.md
-            - "Outracing champion Gran Turismo drivers with deep reinforcement learning": papers/2022_wurman_outracing_champion_gran_turismo_drivers.md
-            - "Spatial planning of urban communities via deep reinforcement learning": papers/2023_zheng_spatial_planning_of_urban_communities.md
-            - "Synthesis of Model Predictive Control and Reinforcement Learning: Survey and Classification": papers/2502_02133.md
+            - FlashSAC: papers/2604_04539.md
           - Trust Region:
             - TRPO: papers/1502_05477.md
             - PPO: papers/1707_06347.md
@@ -844,7 +838,7 @@ nav:
             - "Policy Iteration for Linear Quadratic Games with Stochastic Parameters": papers/2021_gravell_policy_iteration_for_linear.md
             - "Data-driven Control and Planning for Uncertain Complex Systems (Gravell PhD Dissertation)": papers/2022_gravell_data_driven_control_and.md
             - "Scalar Federated Learning for Linear Quadratic Regulator": papers/2604_05088.md
-            - "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective": papers/2503_00385.md
+            - "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective": papers/2503_00385.md        
         - Model-Based RL:
           - Adaptive Control:
             - Regret Bounds for the Adaptive Control of Linear Quadratic Systems: papers/2011_abbasi_yadkori_regret_bounds_for_the.md
@@ -857,6 +851,7 @@ nav:
             - "Robust Data-Driven Output Feedback Control via Bootstrapped Multiplicative Noise": papers/2205_05119.md
             - "A Tour of Reinforcement Learning: The View from Continuous Control": papers/1806_09460.md
             - "A view on learning robust goal-conditioned value functions: Interplay between RL and MPC": papers/2502_06996.md
+            - "Synthesis of Model Predictive Control and Reinforcement Learning: Survey and Classification": papers/2502_02133.md
             - "An integrated system for real-time model predictive control of humanoid robots": papers/2013_erez_an_integrated_system_for_real.md
             - "Certainty Equivalence is Efficient for Linear Quadratic Control": papers/1902_07826.md
             - "Closed-loop analysis of linear stochastic MPC with risk-averse constraints": papers/2604_11183.md
@@ -870,6 +865,7 @@ nav:
             - "Kinematic and dynamic vehicle models for autonomous driving control design": papers/2015_kong_kinematic_and_dynamic_vehicle_models.md
             - "KPC: Learning-Based Model Predictive Control with Deterministic Guarantees": papers/2011_11303.md
             - "Differentiable MPC for End-to-end Planning and Control": papers/1810_13400.md
+            - "Actor-Critic Model Predictive Control: Differentiable Optimization meets Reinforcement Learning for Agile Flight": papers/2306_09852.md
             - "Learning-based predictive control for linear systems: a unitary approach": papers/1810_12584.md
             - "Logarithmic Regret for Online Control": papers/2019_agarwal_logarithmic_regret_for_online_control.md
             - "Model predictive control based on ARX models": papers/2010_kon_model_predictive_control_based_on.md
@@ -936,7 +932,8 @@ nav:
             - "Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control": papers/2603_23465.md
             - "System identification and long-range predictive control of multi-rate systems": papers/1999_li_system_identification_and_long_range.md
         - Hybrid Approaches:
-          - PLAL: papers/2209_09006.md
+          - "Model-Based Value Estimation for Efficient Model-Free Reinforcement Learning": papers/1803_00101.md
+          - PLAL: papers/2209_09006.md          
           - Power of Locally Linear Models: papers/2305_09619.md
         - Diffusion & Flow Matching:
           - Diffusion Policy: papers/2303_04137.md
@@ -950,6 +947,10 @@ nav:
           - "Inverse Optimization: Theory and Applications": papers/2109_03920.md
           - Inverse LQR: papers/2019_zhang_inverse_optimal_control_for.md
           - "Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors": papers/2508_07400.md
+        - Applications of RL:
+          - "Learning Dexterous In-Hand Manipulation": papers/1808_00177.md
+          - "Outracing champion Gran Turismo drivers with deep reinforcement learning": papers/2022_wurman_outracing_champion_gran_turismo_drivers.md
+          - "Spatial planning of urban communities via deep reinforcement learning": papers/2023_zheng_spatial_planning_of_urban_communities.md
     - Prediction:
       - Motion Prediction:
         - Traffic Models:
