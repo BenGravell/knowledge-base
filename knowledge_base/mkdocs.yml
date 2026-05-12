@@ -76,26 +76,32 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Mind Map: mind-map.md
+  - Timeline: timeline.md
   - Content Tree:
     - content-tree/index.md
     - Decision-Making:
       - Optimization:
         - Toolboxes & Solvers:
-          - YALMIP: papers/2004_lofberg_yalmip_a_toolbox_for_modeling.md
-          - ECOS: papers/2013_domahidi_ecos_an_socp_solver.md
-          - Embedded SOCP Code Generation: papers/2013_chu_code_generation_for_embedded.md
-          - CasADi: papers/2018_andersson_casadi_a_software_framework_for.md
-          - CusADi: papers/2408_09662.md
-          - Learning for CasADi: papers/2024_salzmann_learning_for_casadi_data_driven.md
-          - CVXPY: papers/1603_00943.md
-          - CVXPYgen: papers/2203_11419.md
-          - "Disciplined Convex-Concave Programming": papers/1604_02639.md          
-          - Clarabel: papers/2405_12762.md
-          - CuClarabel: papers/2412_19027.md          
-          - "Geometry-Aware Sampling-Based Motion Planning on Riemannian Manifolds": papers/2602_00992.md
-          - madupite: papers/2507_22538.md
-          - "Optimality Guarantees for Particle Belief Approximation of POMDPs": papers/2210_05015.md
-          - "Presolving for GPU-Accelerated First-Order LP Solvers": papers/2604_23951.md
+          - Convex Optimization:
+            - CVXPY: papers/1603_00943.md
+            - CVXPYgen: papers/2203_11419.md
+            - "Disciplined Convex-Concave Programming": papers/1604_02639.md
+            - ECOS: papers/2013_domahidi_ecos_an_socp_solver.md
+            - Embedded SOCP Code Generation: papers/2013_chu_code_generation_for_embedded.md
+            - Clarabel: papers/2405_12762.md
+            - CuClarabel: papers/2412_19027.md
+            - "Presolving for GPU-Accelerated First-Order LP Solvers": papers/2604_23951.md
+          - Nonlinear Optimization:
+            - YALMIP: papers/2004_lofberg_yalmip_a_toolbox_for_modeling.md
+            - CasADi: papers/2018_andersson_casadi_a_software_framework_for.md
+            - CusADi: papers/2408_09662.md
+            - Learning for CasADi: papers/2024_salzmann_learning_for_casadi_data_driven.md
+          - Markov Decision Processes (MDPs):
+            - madupite: papers/2507_22538.md
+            - "Optimality Guarantees for Particle Belief Approximation of POMDPs": papers/2210_05015.md
+          - Black-Box Optimization:
+            - Optuna: papers/1907_10902.md
+            - Nevergrad: papers/2021_bennet_nevergrad_black_box_optimization.md
         - Automatic Differentiation:
           - On Automatic Differentiation: papers/1989_griewank_on_automatic_differentiation.md
           - "Automatic differentiation in machine learning: a survey": papers/1502_05767.md
@@ -118,7 +124,12 @@ nav:
           - "An Introduction to Zero-Order Optimization Techniques for Robotics": papers/2506_22087.md
           - "An Optimal Algorithm for Bandit and Zero-Order Convex Optimization with Two-Point Feedback": papers/1507_08752.md
           - "Random Gradient-Free Minimization of Convex Functions": papers/2015_nesterov_random_gradient_free_minimization_of.md
-          - "An Automatic Method for Finding the Greatest or Least Value of a Function": papers/1960_rosenbrock_an_automatic_method_for_finding.md
+          - Direct Search & Pattern Search:
+            - Rosenbrock's Method: papers/1960_rosenbrock_an_automatic_method_for_finding.md
+            - Powell's Method: papers/1964_powell_an_efficient_method_for.md
+          - Evolutionary & Swarm Optimization:
+            - Particle Swarm Optimization: papers/1995_kennedy_particle_swarm_optimization.md
+            - Differential Evolution: papers/1997_storn_differential_evolution_a_simple.md
           - "Second Order Methods for Bandit Optimization and Control": papers/2024_suggala_second_order_methods_for_bandit.md
           - "Small errors in random zeroth-order optimization are imaginary": papers/2103_05478.md
           - "Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity": papers/2406_19617.md
@@ -262,8 +273,9 @@ nav:
               - RRT-Connect: papers/2000_kuffner_rrt_connect_an_efficient.md
               - EET: papers/2008_rickert_balancing_exploration_and_exploitation.md
               - RRT*: papers/1105_1186.md
-              - Anytime RRT*: papers/2011_karaman_anytime_motion_planning_using.md
               - RRT* theory correction: papers/1909_09688.md
+              - Anytime RRT*: papers/2011_karaman_anytime_motion_planning_using.md
+              - "BT+RRT*": papers/2011_perez_asymptotically_optimal_path_planning_for.md              
               - RRT*-Connect: papers/2015_klemm_rrt_star_connect_faster.md
               - RRT#: papers/1204_6453.md
               - FMT*: papers/1306_3532.md
@@ -280,12 +292,8 @@ nav:
               - BITKOMO: papers/2203_01751.md
               - "Improving Motion-Planning Algorithms by Efficient Nearest-Neighbor Searching": papers/2007_yershova_improving_motion_planning_algorithms_by.md
               - Edge Nearest Neighbor: papers/2506_13753.md
-              - HRT1: papers/2510_21026.md
               - "Integrating asymptotically-optimal path planning with local optimization": papers/1708_06056.md
-              - "Optimal Sampling-Based Motion Planning under Differential Constraints: the Drift Case with Linear Affine Dynamics": papers/1405_7421.md
-              - "Asymptotically-optimal path planning for manipulation using incremental sampling-based algorithms": papers/2011_perez_asymptotically_optimal_path_planning_for.md
-              - "Probabilistic completeness of RRT for geometric and kinodynamic planning with forward propagation": papers/1809_07051.md
-              - "Real-Time Motion Planning With Applications to Autonomous Urban Driving": papers/2009_kuwata_real_time_motion_planning_with.md
+              - "Geometry-Aware Sampling-Based Motion Planning on Riemannian Manifolds": papers/2602_00992.md
               - ST-RRT*: papers/2203_02176.md
             - GPU Parallelized Planning:
               - GMT*: papers/1705_02403.md
@@ -332,7 +340,7 @@ nav:
           - Path Optimization:
             - Path Shortcutting:
               - Creating High-quality Paths for Motion Planning: papers/2007_geraerts_creating_high_quality_paths.md
-              - Anytime Solution Optimization for Sampling-Based Motion Planning: papers/2013_luna_anytime_solution_optimization_for.md
+              - Anytime Solution Optimization for Sampling-Based Motion Planning: papers/2013_luna_anytime_solution_optimization_for.md              
               - Benchmarking Shortcutting Techniques for Multi-Robot-Arm Motion Planning: papers/2508_05027.md
             - Path Smoothing:
               - CCMA: papers/2023_steinecker_a_simple_and_model.md
@@ -348,16 +356,19 @@ nav:
             - Trajectory Planning: papers/2014_pham_trajectory_planning.md
             - Rapidly Exploring Random Trees (RRT):
               - Kinodynamic RRT: papers/1999_lavalle_randomized_kinodynamic_planning.md
+              - CL-RRT: papers/2009_kuwata_real_time_motion_planning_with.md
               - Kinodynamic RRT*: papers/2010_karaman_optimal_kinodynamic_motion_planning.md
               - Linear Kinodynamic RRT*: papers/1205_5088.md
               - AQR-RRT: papers/2010_glassman_a_quadratic_regulator_based_heuristic.md
               - LQR-trees: papers/2010_tedrake_lqr_trees_feedback_motion_planning.md
               - LQR-RRT*: papers/2012_perez_lqr_rrt_star_optimal.md
+              - "Optimal Sampling-Based Motion Planning under Differential Constraints: the Drift Case with Linear Affine Dynamics": papers/1405_7421.md
               - RRT*_MotionPrimitives: papers/1809_02399.md
               - BB-RRT: papers/2210_01744.md
               - iDb-RRT: papers/2403_10745.md
               - AkinoPDF: papers/2603_16059.md
               - Completeness of Randomized Kinodynamic Planners with State-based Steering: papers/1511_05259.md
+              - "Probabilistic completeness of RRT for geometric and kinodynamic planning with forward propagation": papers/1809_07051.md
               - FDSPC: papers/2405_03281.md
               - TB-RRT: papers/2014_sintov_time_based_rrt_algorithm_for.md
               - "A novel RRT extend function for efficient and smooth mobile robot motion planning": papers/2014_palmieri_a_novel_rrt_extend_function.md
@@ -681,6 +692,11 @@ nav:
           - "A Method to Teach the Parameterization of All Stabilizing Controllers": papers/2011_kucera_a_method_to_teach_the.md
           - "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality": papers/2603_04843.md
           - "System analysis via integral quadratic constraints": papers/1997_megretski_system_analysis_via_integral_quadratic.md
+        - Control Co-Design:
+          - Gradient-Based Plant-Controller Co-Design: papers/2015_wang_a_gradient_based_approach.md
+        - Control-Oriented Physical Modeling:
+          - 5-DOF Electrodynamic Maglev State-Space Model: papers/2004_boeij_mathematical_model_of_the.md
+          - "Control-Oriented Modeling of the Dynamics of Stirling Engine Regenerators": papers/2017_craun_control_oriented_modeling_of_the.md
         - Control Theory:
           - The Internal Model Principle for Linear Multivariable Regulators: papers/1975_francis_the_internal_model_principle_for.md
           - Every Good Regulator Theorem: papers/1970_conant_every_good_regulator_of_a.md
@@ -688,7 +704,6 @@ nav:
           - "DWPP: Dynamic Window Pure Pursuit Considering Velocity and Acceleration Constraints": papers/2601_15006.md
           - "Control Principles of Complex Networks": papers/1508_05384.md
           - "Control Profiles of Complex Networks": papers/2014_ruths_control_profiles_of_complex_networks.md
-          - "Control-Oriented Modeling of the Dynamics of Stirling Engine Regenerators": papers/2017_craun_control_oriented_modeling_of_the.md
           - Control for Societal-Scale Challenges: papers/2023_alleyne_control_for_societal_scale.md
           - "A note on persistency of excitation": papers/2005_willems_a_note_on_persistency_of.md
           - "Respect the unstable": papers/2003_unknown_respect_the_unstable.md
@@ -728,7 +743,8 @@ nav:
           - "Efficient Reductions for Imitation Learning": papers/2010_ross_efficient_reductions_for_imitation_learning.md
           - TaSIL: papers/2205_14812.md
           - Grasping with Chopsticks: papers/2011_06719.md
-          - "DROID: A Large-Scale In-The-Wild Robot Manipulation Dataset": papers/2403_12945.md
+          - DROID: papers/2403_12945.md
+          - HRT1: papers/2510_21026.md
           - "Is Behavior Cloning All You Need?": papers/2407_15007.md
           - Pitfalls of Imitation Learning: papers/2503_09722.md
           - "Action Chunking and Exploratory Data Collection Yield Exponential Improvements in Behavior Cloning for Continuous Control": papers/2507_09061.md
@@ -925,6 +941,7 @@ nav:
           - "Much Ado About Noising: Dispelling the Myths of Generative Robotic Control": papers/2512_01809.md
         - Inverse Reinforcement Learning & Reward Learning:
           - "Inverse Optimization: Theory and Applications": papers/2109_03920.md
+          - Inverse LQR: papers/2019_zhang_inverse_optimal_control_for.md
           - "Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors": papers/2508_07400.md
     - Prediction:
       - Motion Prediction:
@@ -1270,6 +1287,8 @@ nav:
           - Catmull-Clark Subdivision Surfaces: papers/1978_catmull_recursively_generated_b_spline.md
         - Geometry Processing:
           - Marching Cubes: papers/1987_lorensen_marching_cubes_a_high_resolution.md
+        - Animation & Simulation:
+          - Boids: papers/1987_reynolds_flocks_herds_and_schools.md
         - "Noise & Dithering":
           - Perlin Noise: papers/1985_perlin_an_image_synthesizer.md
           - Blue Noise Dithering: papers/1988_ulichney_dithering_with_blue_noise.md
