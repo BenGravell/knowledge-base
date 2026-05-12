@@ -77,7 +77,6 @@ nav:
   - Home: index.md
   - Mind Map: mind-map.md
   - Timeline: timeline.md
-  - Analytics: analytics.md
   - Content Tree:
     - content-tree/index.md
     - Decision-Making:
@@ -1376,4 +1375,5 @@ nav:
     - AI for Autonomy:
       - Waymo AI: explainers/waymo_ai.md
       - Adversarial Training and Robot Safety: explainers/adversarial_training_robot_safety.md
+  - Analytics: analytics.md
   - Portfolio: https://bengravell.github.io/portfolio/

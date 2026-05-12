@@ -215,9 +215,20 @@ JS_CHECKS = r"""
       panelWidth: panel ? panel.offsetWidth : 0,
     };
   };
-  const assertAllVisibleLabelsForced = (level, label) => {
+  const onScreenNodeIds = ids => ids.filter(id => {
+    const attrs = graph.getNodeAttributes(id);
+    const point = renderer.graphToViewport({ x: attrs.x, y: attrs.y });
+    return Number.isFinite(point.x) &&
+      Number.isFinite(point.y) &&
+      point.x >= -120 &&
+      point.x <= graphEl.clientWidth + 120 &&
+      point.y >= -80 &&
+      point.y <= graphEl.clientHeight + 80;
+  });
+  const assertAllVisibleLabelsForced = (level, label, requireOnScreenOnly = false) => {
     renderer.refresh();
     const ids = visibleNodes().filter(id => graph.getNodeAttribute(id, 'detailLevel') === level);
+    const renderedIds = requireOnScreenOnly ? onScreenNodeIds(ids) : ids;
     const displayed = renderer.getNodeDisplayedLabels
       ? renderer.getNodeDisplayedLabels()
       : new Set();
@@ -225,24 +236,41 @@ JS_CHECKS = r"""
       const data = renderer.getNodeDisplayData(id);
       return !data || data.forceLabel !== true;
     });
-    const missing = ids.filter(id => !displayed.has(id));
 
     assert(ids.length > 0, `${label} has visible nodes`, ids.length);
     assert(unforced.length === 0,
       `${label} forces all visible node labels`,
       JSON.stringify(unforced.slice(0, 8)));
+    const missing = renderedIds.filter(id => !displayed.has(id));
     assert(missing.length === 0,
-      `${label} renders every visible node label`,
+      requireOnScreenOnly
+        ? `${label} renders every on-screen visible node label`
+        : `${label} renders every visible node label`,
       JSON.stringify(missing.slice(0, 8)));
+  };
+  const assertAllVisibleLabelsForcedAcrossZoom = async (level, label) => {
+    const before = { ...camera.getState() };
+    assertAllVisibleLabelsForced(level, label);
+
+    for (const ratioScale of [0.55, 1.85]) {
+      camera.setState({ ratio: before.ratio * ratioScale });
+      await sleep(50);
+      renderer.refresh();
+      assertAllVisibleLabelsForced(level, `${label} at ${ratioScale}x zoom`, true);
+    }
+
+    camera.setState(before);
+    await sleep(50);
+    renderer.refresh();
   };
   const assertPaperNodeClearance = label => {
     const metrics = mm.metrics && mm.metrics();
-    const minDistance = metrics && metrics.minimumVisibleScreenDistance;
-    const radius = metrics && metrics.nodeScreenRadius;
+    const minDistance = metrics && metrics.minimumVisibleGraphDistance;
+    const radius = metrics && metrics.nodeGraphRadius;
     const clearanceRatio = metrics && metrics.clearanceRatio;
     const requiredDistance = radius * (2 + clearanceRatio);
 
-    assert(radius <= 3.85, `${label} uses reduced paper disk radius`, radius);
+    assert(radius <= 12.1, `${label} uses reduced static paper disk radius`, radius);
     assert(minDistance + 0.05 >= requiredDistance,
       `${label} keeps at least the configured paper-node clearance`,
       JSON.stringify({ minDistance, radius, clearanceRatio, requiredDistance }));
@@ -296,9 +324,18 @@ JS_CHECKS = r"""
   assert(settings.enableCameraRotation === false, 'camera rotation setting is disabled');
   assert(settings.enableEdgeEvents === false, 'edge hover/click events are disabled');
   assert(settings.minEdgeThickness <= 0.5, 'minimum edge thickness is subdued', settings.minEdgeThickness);
+  assert(settings.itemSizesReference === 'positions',
+    'node sizes are interpreted in graph coordinates', settings.itemSizesReference);
 
   const superGroups = [...document.querySelectorAll('#mm-category-filters > .mm-super-group')];
   assert(superGroups.length >= 2, 'sidebar has top-level super-category groups', superGroups.length);
+  const detailControls = document.getElementById('mm-detail-controls');
+  const detailLabel = detailControls &&
+    detailControls.closest('.mm-section') &&
+    detailControls.closest('.mm-section').querySelector('.mm-section-label');
+  assert(detailLabel && detailLabel.textContent.trim() === 'Level-of-detail',
+    'detail selector label reads Level-of-detail',
+    detailLabel && detailLabel.textContent.trim());
   assert(superGroups.every(group => {
     const items = group.querySelector(':scope > .mm-cat-group-items');
     return items && getComputedStyle(items).display === 'none';
@@ -319,7 +356,7 @@ JS_CHECKS = r"""
     'initial super-category node count is aggregated', nodes.length);
   assert(nodes.every(id => graph.getNodeAttribute(id, 'kind') === 'aggregate'),
     'initial visible nodes are aggregate nodes');
-  assertAllVisibleLabelsForced('super_category', 'super-category level');
+  await assertAllVisibleLabelsForcedAcrossZoom('super_category', 'super-category level');
 
   const cameraDelta = (a, b) =>
     Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y), Math.abs(a.ratio - b.ratio));
@@ -339,7 +376,7 @@ JS_CHECKS = r"""
   assert(categoryNodeCount > initialSuperNodeCount,
     'category level reveals more aggregate nodes than the super level',
     `${categoryNodeCount} vs ${initialSuperNodeCount}`);
-  assertAllVisibleLabelsForced('category', 'category level');
+  await assertAllVisibleLabelsForcedAcrossZoom('category', 'category level');
 
   nodes = visibleNodes();
   const beforeCategoryClickCamera = { ...camera.getState() };
@@ -380,6 +417,27 @@ JS_CHECKS = r"""
   assert(nodes.length > 20, 'visible node count is plausible', nodes.length);
   assert(edges.length > 20, 'visible edge count is plausible', edges.length);
   assertPaperNodeClearance('paper detail level');
+  const paperRadiusBeforeZoom = mm.metrics && mm.metrics().nodeGraphRadius;
+  const paperNodeBeforeZoom = nodes[0] && renderer.getNodeDisplayData(nodes[0]);
+  const paperCameraBeforeZoom = { ...camera.getState() };
+  camera.setState({ ratio: paperCameraBeforeZoom.ratio * 0.65 });
+  await sleep(50);
+  renderer.refresh();
+  const paperRadiusAfterZoom = mm.metrics && mm.metrics().nodeGraphRadius;
+  const paperNodeAfterZoom = nodes[0] && renderer.getNodeDisplayData(nodes[0]);
+  assert(Math.abs(paperRadiusBeforeZoom - paperRadiusAfterZoom) < 1e-8,
+    'paper node graph radius stays fixed while zooming',
+    JSON.stringify({ paperRadiusBeforeZoom, paperRadiusAfterZoom }));
+  assert(paperNodeBeforeZoom && paperNodeAfterZoom &&
+    Math.abs(paperNodeBeforeZoom.size - paperNodeAfterZoom.size) < 1e-8,
+    'paper node display size attribute stays fixed while zooming',
+    JSON.stringify({
+      before: paperNodeBeforeZoom && paperNodeBeforeZoom.size,
+      after: paperNodeAfterZoom && paperNodeAfterZoom.size,
+    }));
+  camera.setState(paperCameraBeforeZoom);
+  await sleep(50);
+  renderer.refresh();
 
   setScheme('default');
   await sleep(90);
@@ -800,7 +858,12 @@ def run_viewport(client: CdpClient, url: str, width: int, height: int, mobile: b
             "mobile": mobile,
         },
     )
-    client.call("Page.navigate", {"url": url})
+    base_url, sep, hash_fragment = url.partition("#")
+    query_sep = "&" if "?" in base_url else "?"
+    nav_url = f"{base_url}{query_sep}_verify={width}x{height}_{int(mobile)}_{time.time_ns()}"
+    if sep:
+        nav_url = f"{nav_url}#{hash_fragment}"
+    client.call("Page.navigate", {"url": nav_url})
     wait_for_page_ready(client)
     result = client.evaluate(JS_CHECKS, timeout=30)
     failures = result.get("failures", []) if isinstance(result, dict) else ["JS checks returned no result"]

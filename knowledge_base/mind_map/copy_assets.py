@@ -18,9 +18,7 @@ that the page loads without a JS error and shows a helpful message instead.
 from pathlib import Path
 import mkdocs_gen_files
 
-# gen-files scripts run with CWD = the mkdocs root (the directory that
-# contains mkdocs.yml), which is knowledge_base/.
-MIND_MAP_DIR = Path("mind_map")
+MIND_MAP_DIR = Path(__file__).resolve().parent
 
 PLACEHOLDER_DATA = (
     "const mindMapData = {"

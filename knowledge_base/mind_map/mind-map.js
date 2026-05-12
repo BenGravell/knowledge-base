@@ -65,17 +65,15 @@
   }
 
   const DATA = mindMapData;
-  const NODE_RADIUS_CLEARANCE_RATIO = 0.35;
-  const NODE_SCREEN_RADIUS_CAP = 3.8;
-  const NODE_SCREEN_RADIUS_MIN = 0.3;
-  const NODE_SCREEN_RADIUS_FALLBACK = 3.2;
+  const PAPER_NODE_RADIUS_CLEARANCE_RATIO = 0.30;
+  const PAPER_NODE_RADIUS = 12;
   const NODE_LABEL_FONT_SIZE = 11;
   const NODE_LABEL_LINE_HEIGHT_RATIO = 1.1;
   const NODE_LABEL_ZOOM_REFERENCE_RATIO = 1;
   const NODE_LABEL_ZOOM_EXPONENT = 0.22;
   const NODE_LABEL_ZOOM_SCALE_MIN = 0.68;
   const NODE_LABEL_ZOOM_SCALE_MAX = 1.55;
-  const SELECTED_NODE_RADIUS_SCALE = 1.12;
+  const SELECTED_NODE_RADIUS_SCALE = 1;
   const EDGE_NODE_DIAMETER_RATIO = 0.2;
   const LEVEL_TRANSITION_MS = 260;
   const LEVEL_TRANSITION_MAX_SCREEN_TRAVEL = 160;
@@ -91,6 +89,7 @@
   ];
   const HIERARCHY_LEVEL_BY_ID = new Map(HIERARCHY_LEVELS.map(level => [level.id, level]));
   const DETAIL_LEVELS = HIERARCHY_LEVELS.map(level => level.id);
+  const ALWAYS_LABELED_DETAIL_LEVELS = new Set(['super_category', 'category']);
   const AGGREGATE_LEVELS = new Set(
     HIERARCHY_LEVELS.filter(level => level.aggregate).map(level => level.id)
   );
@@ -108,11 +107,9 @@
   let hoveredNode = null;
   let focus = { active: false, nodes: new Set(), edges: new Set(), mode: null };
   let theme = readTheme();
-  let nodeScreenRadius = NODE_SCREEN_RADIUS_FALLBACK;
   let hierarchyData = null;
   let activeLevelTransition = null;
   let focusLabelContext = null;
-  let pendingNodeRadiusCalibration = null;
   let lastLevelTransitionMetrics = null;
 
   /* -------------------------------------------------------------------------
@@ -352,7 +349,7 @@
   }
 
   function currentNodeRadius() {
-    return nodeScreenRadius;
+    return PAPER_NODE_RADIUS;
   }
 
   function currentCameraRatio() {
@@ -401,9 +398,9 @@
   function aggregateNodeSize(count, level) {
     const n = Math.max(Number(count) || 1, 1);
     const scale = Math.sqrt(n);
-    if (level === 'super_category') return clamp(20 + scale * 2.8, 24, 56);
-    if (level === 'category') return clamp(13 + scale * 2.1, 16, 42);
-    return clamp(10 + scale * 1.8, 13, 34);
+    if (level === 'super_category') return clamp(110 + scale * 7.5, 125, 210);
+    if (level === 'category') return clamp(78 + scale * 5.2, 88, 160);
+    return clamp(56 + scale * 4.3, 68, 130);
   }
 
   function nodeDisplaySize(attrs) {
@@ -413,10 +410,7 @@
   }
 
   function levelAlwaysShowsLabels(attrs) {
-    return attrs.kind === 'aggregate' && (
-      attrs.detailLevel === 'super_category' ||
-      attrs.detailLevel === 'category'
-    );
+    return attrs.kind === 'aggregate' && ALWAYS_LABELED_DETAIL_LEVELS.has(attrs.detailLevel);
   }
 
   function edgeDisplaySize(weight, attrs) {
@@ -853,7 +847,7 @@
         count: attrs.count || 1,
         labelColor: '#ffffff',
         labelOutlineColor: color,
-        forceLabel: false,
+        forceLabel: levelAlwaysShowsLabels({ ...attrs, kind, detailLevel }),
       });
     });
 
@@ -1351,7 +1345,7 @@
         labelGridCellSize: 100,
         labelFont: '"Atkinson Hyperlegible Next", "Segoe UI", sans-serif',
         labelSize: NODE_LABEL_FONT_SIZE,
-        itemSizesReference: 'screen',
+        itemSizesReference: 'positions',
         minEdgeThickness: 0.35,
         zoomToSizeRatioFunction: ratio => Math.max(ratio, 1e-6),
         stagePadding: 30,
@@ -1383,14 +1377,8 @@
   }
 
   function setupCameraEvents() {
-    const camera = renderer && renderer.getCamera && renderer.getCamera();
-    if (!camera || typeof camera.on !== 'function') return;
-
-    camera.on('updated', state => {
-      if (currentDetailLevel === 'paper') {
-        scheduleNodeRadiusCalibration(state);
-      }
-    });
+    // Paper disks are expressed in graph coordinates, so camera movement should
+    // not mutate node radii.
   }
 
   function setupGraphEvents() {
@@ -1561,7 +1549,6 @@
     hoveredNode = null;
     hideTooltip();
     syncUrlToPinnedNode();
-    if (renderer) calibrateNodeRadius(renderer.getCamera().getState());
     updateDetailButtons();
     refreshView();
     startLevelTransition(transitionNodes);
@@ -1725,6 +1712,30 @@
     return finalBBoxes(bboxes);
   }
 
+  function minimumVisibleGraphDistance() {
+    if (!graph) return Infinity;
+
+    const points = [];
+    graph.forEachNode((node, attrs) => {
+      if (!nodeVisible(node)) return;
+      points.push({ x: attrs.x, y: attrs.y });
+    });
+
+    let minDistance = Infinity;
+    for (let i = 0; i < points.length; i += 1) {
+      const a = points[i];
+      for (let j = i + 1; j < points.length; j += 1) {
+        const b = points[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < minDistance) minDistance = d;
+      }
+    }
+
+    return minDistance;
+  }
+
   function minimumVisibleScreenDistance(cameraState) {
     if (!renderer || !graph) return Infinity;
 
@@ -1751,32 +1762,6 @@
     }
 
     return minDistance;
-  }
-
-  function calibrateNodeRadius(cameraState) {
-    const minDistance = minimumVisibleScreenDistance(cameraState);
-    if (!Number.isFinite(minDistance)) return;
-
-    const target = minDistance / (2 + NODE_RADIUS_CLEARANCE_RATIO);
-    const quantizedTarget = Math.floor(Math.max(NODE_SCREEN_RADIUS_MIN, target) * 20) / 20;
-    const nextRadius = Math.min(NODE_SCREEN_RADIUS_CAP, quantizedTarget);
-
-    if (Math.abs(nextRadius - nodeScreenRadius) < 0.05) return;
-
-    nodeScreenRadius = nextRadius;
-    if (renderer) renderer.refresh();
-  }
-
-  function scheduleNodeRadiusCalibration(cameraState) {
-    if (pendingNodeRadiusCalibration) {
-      window.cancelAnimationFrame(pendingNodeRadiusCalibration);
-    }
-
-    pendingNodeRadiusCalibration = window.requestAnimationFrame(() => {
-      pendingNodeRadiusCalibration = null;
-      if (currentDetailLevel !== 'paper' || activeLevelTransition) return;
-      calibrateNodeRadius(cameraState);
-    });
   }
 
   function fitVisible(duration) {
@@ -1817,8 +1802,6 @@
       ratio: 1,
       angle: 0,
     };
-
-    calibrateNodeRadius(target);
 
     if (duration === 0) renderer.getCamera().setState(target);
     else renderer.getCamera().animate(target, { duration: duration || 260 });
@@ -1949,7 +1932,6 @@
       angle: 0,
     };
 
-    calibrateNodeRadius(target);
     if (duration === 0) renderer.getCamera().setState(target);
     else renderer.getCamera().animate(target, { duration: duration || 300 });
   }
@@ -2288,9 +2270,13 @@
     detailLevel: () => currentDetailLevel,
     setDetailLevel: level => applyDetailLevel(level),
     metrics: () => ({
-      nodeScreenRadius,
+      nodeGraphRadius: currentNodeRadius(),
+      nodeScreenRadius: renderer && typeof renderer.scaleSize === 'function'
+        ? renderer.scaleSize(currentNodeRadius())
+        : currentNodeRadius(),
+      minimumVisibleGraphDistance: minimumVisibleGraphDistance(),
       minimumVisibleScreenDistance: minimumVisibleScreenDistance(),
-      clearanceRatio: NODE_RADIUS_CLEARANCE_RATIO,
+      clearanceRatio: PAPER_NODE_RADIUS_CLEARANCE_RATIO,
       lastLevelTransition: lastLevelTransitionMetrics,
     }),
   };

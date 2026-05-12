@@ -68,6 +68,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 #mm-app {
   --mm-panel-header-h: 46px;
   position: relative;
+  isolation: isolate;
+  z-index: 0;
   display: flex;
   flex-direction: row;
   width:  100%;
@@ -96,7 +98,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   color: var(--md-default-fg-color--light);
   font-size: 0.9rem;
   gap: 1rem;
-  z-index: 500;
+  z-index: 6;
   pointer-events: none;
 }
 #mm-loading svg {
@@ -114,7 +116,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 50;
+  z-index: 5;
   width: min(400px, 100vw);
   box-sizing: border-box;
   display: flex;
@@ -156,7 +158,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   top: var(--mm-panel-header-h);
   height: calc(100% - var(--mm-panel-header-h));
   width: min(400px, 100vw);
-  z-index: 40;
+  z-index: 4;
   background: color-mix(in srgb, var(--md-code-bg-color) 94%, transparent);
   border-right: 1px solid var(--md-default-fg-color--lighter);
   backdrop-filter: blur(14px);
@@ -399,7 +401,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 /* ── Tooltip ──────────────────────────────────────────────────────────────── */
 #mm-tooltip {
   position: fixed;
-  z-index: 1000;
+  z-index: 7;
   display: none;
   background: var(--md-code-bg-color);
   border: 1px solid var(--md-default-fg-color--lighter);
@@ -469,7 +471,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
       </div>
 
       <div class="mm-section">
-        <span class="mm-section-label">Detail</span>
+        <span class="mm-section-label">Level-of-detail</span>
         <div id="mm-detail-controls" class="mm-detail-controls"></div>
       </div>
 
