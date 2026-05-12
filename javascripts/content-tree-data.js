@@ -10645,7 +10645,7 @@ window.contentTreeData = {
                               "year": 2007,
                               "yearValue": 2007,
                               "sourceName": "The International Journal of Robotics Research (IJRR)",
-                              "type": "Jounral Article",
+                              "type": "Journal Paper",
                               "doi": "10.1177/0278364907079280",
                               "arxivId": "",
                               "hasPrimaryLink": true,

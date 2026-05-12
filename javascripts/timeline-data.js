@@ -7106,7 +7106,7 @@ window.timelineData = {
       "authorShort": "Geraerts, Overmars",
       "year": 2007,
       "source": "The International Journal of Robotics Research (IJRR)",
-      "type": "Jounral Article",
+      "type": "Journal Paper",
       "superCategory": "Decision-Making",
       "category": "Motion Planning",
       "subCategory": "Path Planning",
@@ -34586,266 +34586,266 @@ window.timelineData = {
         "label": "1816-1949",
         "start": 1816,
         "end": 1949,
-        "width": 10,
+        "width": 11.653389726001343,
         "count": 5
       },
       {
         "label": "1950-1954",
         "start": 1950,
         "end": 1954,
-        "width": 5,
+        "width": 6.075812626901609,
         "count": 3
       },
       {
         "label": "1955-1959",
         "start": 1955,
         "end": 1959,
-        "width": 5,
+        "width": 7.339154053656161,
         "count": 8
       },
       {
         "label": "1960-1964",
         "start": 1960,
         "end": 1964,
-        "width": 5,
+        "width": 8.095718801446232,
         "count": 12
       },
       {
         "label": "1965-1969",
         "start": 1965,
         "end": 1969,
-        "width": 5,
+        "width": 8.594987810273402,
         "count": 15
       },
       {
         "label": "1970-1974",
         "start": 1970,
         "end": 1974,
-        "width": 5,
+        "width": 8.905282265781135,
         "count": 17
       },
       {
         "label": "1975-1979",
         "start": 1975,
         "end": 1979,
-        "width": 5,
+        "width": 8.752101866684487,
         "count": 16
       },
       {
         "label": "1980-1984",
         "start": 1980,
         "end": 1984,
-        "width": 5,
+        "width": 7.918085684292347,
         "count": 11
       },
       {
         "label": "1985-1989",
         "start": 1985,
         "end": 1989,
-        "width": 5,
+        "width": 10.27693221848406,
         "count": 27
       },
       {
         "label": "1990-1994",
         "start": 1990,
         "end": 1994,
-        "width": 5,
+        "width": 9.890680571298486,
         "count": 24
       },
       {
         "label": "1995-1999",
         "start": 1995,
         "end": 1999,
-        "width": 5,
+        "width": 11.567243342669851,
         "count": 38
       },
       {
         "label": "2000",
         "start": 2000,
         "end": 2000,
-        "width": 1,
+        "width": 2.6533897260013424,
         "count": 5
       },
       {
         "label": "2001",
         "start": 2001,
         "end": 2001,
-        "width": 1,
+        "width": 3.5410536348880504,
         "count": 9
       },
       {
         "label": "2002",
         "start": 2002,
         "end": 2002,
-        "width": 1,
+        "width": 2.898713519367774,
         "count": 6
       },
       {
         "label": "2003",
         "start": 2003,
         "end": 2003,
-        "width": 1,
+        "width": 2.075812626901609,
         "count": 3
       },
       {
         "label": "2004",
         "start": 2004,
         "end": 2004,
-        "width": 1,
+        "width": 4.752101866684488,
         "count": 16
       },
       {
         "label": "2005",
         "start": 2005,
         "end": 2005,
-        "width": 1,
+        "width": 2.898713519367774,
         "count": 6
       },
       {
         "label": "2006",
         "start": 2006,
         "end": 2006,
-        "width": 1,
+        "width": 3.339154053656161,
         "count": 8
       },
       {
         "label": "2007",
         "start": 2007,
         "end": 2007,
-        "width": 1,
+        "width": 3.12594397439396,
         "count": 7
       },
       {
         "label": "2008",
         "start": 2008,
         "end": 2008,
-        "width": 1,
+        "width": 3.7335586469335036,
         "count": 10
       },
       {
         "label": "2009",
         "start": 2009,
         "end": 2009,
-        "width": 1,
+        "width": 4.095718801446233,
         "count": 12
       },
       {
         "label": "2010",
         "start": 2010,
         "end": 2010,
-        "width": 1,
+        "width": 3.339154053656161,
         "count": 8
       },
       {
         "label": "2011",
         "start": 2011,
         "end": 2011,
-        "width": 1,
+        "width": 4.433546382121683,
         "count": 14
       },
       {
         "label": "2012",
         "start": 2012,
         "end": 2012,
-        "width": 1,
+        "width": 3.5410536348880504,
         "count": 9
       },
       {
         "label": "2013",
         "start": 2013,
         "end": 2013,
-        "width": 1,
+        "width": 5.4847334650607555,
         "count": 21
       },
       {
         "label": "2014",
         "start": 2014,
         "end": 2014,
-        "width": 1,
+        "width": 7.344833465086979,
         "count": 36
       },
       {
         "label": "2015",
         "start": 2015,
         "end": 2015,
-        "width": 1,
+        "width": 7.567243342669852,
         "count": 38
       },
       {
         "label": "2016",
         "start": 2016,
         "end": 2016,
-        "width": 1,
+        "width": 6.88494339910617,
         "count": 32
       },
       {
         "label": "2017",
         "start": 2017,
         "end": 2017,
-        "width": 1,
+        "width": 8.414635369881891,
         "count": 46
       },
       {
         "label": "2018",
         "start": 2018,
         "end": 2018,
-        "width": 1,
+        "width": 9.585002985599528,
         "count": 58
       },
       {
         "label": "2019",
         "start": 2019,
         "end": 2019,
-        "width": 1,
+        "width": 9.301989334429697,
         "count": 55
       },
       {
         "label": "2020",
         "start": 2020,
         "end": 2020,
-        "width": 1,
+        "width": 8.816630981051503,
         "count": 50
       },
       {
         "label": "2021",
         "start": 2021,
         "end": 2021,
-        "width": 1,
+        "width": 8.915155342056346,
         "count": 51
       },
       {
         "label": "2022",
         "start": 2022,
         "end": 2022,
-        "width": 1,
+        "width": 10.134592556973367,
         "count": 64
       },
       {
         "label": "2023",
         "start": 2023,
         "end": 2023,
-        "width": 1,
+        "width": 9.678074936796452,
         "count": 59
       },
       {
         "label": "2024",
         "start": 2024,
         "end": 2024,
-        "width": 1,
+        "width": 10.489960782293801,
         "count": 68
       },
       {
         "label": "2025",
         "start": 2025,
         "end": 2025,
-        "width": 1,
+        "width": 13.239883713436898,
         "count": 102
       },
       {
         "label": "2026",
         "start": 2026,
         "end": 2026,
-        "width": 1,
+        "width": 11.344804547689355,
         "count": 78
       }
     ],

@@ -75,6 +75,10 @@ body:has(#ct-app) {
   --md-sidebar-width: 8.8rem;
 }
 
+body:has(#ct-app) {
+  --md-sidebar-width: 10.2rem;
+}
+
 @media screen and (min-width: 76.25em) {
   body:has(#mm-app) .md-sidebar--primary,
   body:has(#tl-app) .md-sidebar--primary,
@@ -95,18 +99,18 @@ body:has(#ct-app) {
   body:has(#tl-app) .md-sidebar--primary .md-nav__title,
   body:has(#an-app) .md-sidebar--primary .md-nav__title,
   body:has(#ct-app) .md-sidebar--primary .md-nav__title {
-    padding: 0.65rem 0.55rem;
-    font-size: 0.72rem;
+    padding: 0.72rem 0.65rem;
+    font-size: 0.74rem;
   }
 
   body:has(#mm-app) .md-sidebar--primary .md-nav__link,
   body:has(#tl-app) .md-sidebar--primary .md-nav__link,
   body:has(#an-app) .md-sidebar--primary .md-nav__link,
   body:has(#ct-app) .md-sidebar--primary .md-nav__link {
-    margin-top: 0.12rem;
-    padding: 0.32rem 0.55rem;
-    font-size: 0.72rem;
-    line-height: 1.2;
+    margin-top: 0.16rem;
+    padding: 0.42rem 0.65rem;
+    font-size: 0.74rem;
+    line-height: 1.28;
   }
 
   body:has(#mm-app) .md-sidebar--primary .md-nav__icon,
@@ -117,7 +121,7 @@ body:has(#ct-app) {
   }
 }
 
-/* Keep Content Tree as a single app link in the sidebar.
+/* Render Content Tree as a regular top-level sidebar link.
    The full hierarchy remains in mkdocs.yml for data generation. */
 .md-nav--primary
   > .md-nav__list
@@ -161,7 +165,7 @@ body:has(#ct-app)
   > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="content-tree"])
   > .md-nav__container {
   display: block;
-  margin-top: 0;
+  margin: 0;
   padding: 0;
 }
 
@@ -177,26 +181,17 @@ body:has(#ct-app)
   > .md-nav__container
   > a.md-nav__link {
   display: flex;
-  margin-top: 0.12rem;
-  padding: 0.32rem 0.55rem;
   width: 100%;
+  box-sizing: border-box;
 }
 
-@media screen and (min-width: 76.25em) {
-  body:has(#ct-app)
-    .md-nav--primary
-    > .md-nav__list
-    > .md-nav__item--active.md-nav__item--nested
-    > .md-nav__container
-    > a.md-nav__link,
+body:not(:has(#mm-app)):not(:has(#tl-app)):not(:has(#an-app)):not(:has(#ct-app))
   .md-nav--primary
-    > .md-nav__list
-    > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="content-tree"])
-    > .md-nav__container
-    > a.md-nav__link {
-    margin-right: 0.4rem;
-    width: auto;
-  }
+  > .md-nav__list
+  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="content-tree"])
+  > .md-nav__container
+  > a.md-nav__link {
+  margin-top: 0.625em;
 }
 
 /* Content Tree applet */
@@ -365,10 +360,7 @@ body:has(#ct-app)
   padding: 0.85rem;
   border: 1px solid var(--ct-border);
   border-radius: 8px;
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--ct-cyan) 10%, transparent), transparent 44%),
-    linear-gradient(315deg, color-mix(in srgb, var(--ct-gold) 8%, transparent), transparent 46%),
-    var(--ct-panel);
+  background: var(--ct-panel);
   box-shadow: 0 8px 22px color-mix(in srgb, #000000 9%, transparent);
 }
 
@@ -545,10 +537,7 @@ body:has(#ct-app)
   padding: 0.9rem 0.85rem;
   border: 1px solid var(--ct-border);
   border-radius: 8px;
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--ct-teal) 10%, transparent), transparent 34%),
-    linear-gradient(315deg, color-mix(in srgb, var(--ct-rose) 8%, transparent), transparent 40%),
-    var(--ct-panel);
+  background: var(--ct-panel);
   box-shadow: var(--ct-shadow);
 }
 
@@ -735,9 +724,7 @@ body:has(#ct-app)
   padding: 0.32rem 0.58rem;
   border: 1px solid color-mix(in srgb, var(--ct-cyan) 42%, transparent);
   border-radius: 8px;
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--ct-cyan) 12%, transparent), transparent),
-    var(--md-default-bg-color);
+  background: var(--md-default-bg-color);
   color: var(--md-typeset-a-color);
   font-size: 0.76rem;
   font-weight: 800;
@@ -756,9 +743,7 @@ body:has(#ct-app)
   padding: 0.78rem 0.88rem;
   border: 1px solid color-mix(in srgb, var(--ct-cyan) 34%, transparent);
   border-radius: 8px;
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--ct-cyan) 10%, transparent), transparent 42%),
-    var(--md-default-bg-color);
+  background: var(--md-default-bg-color);
   box-shadow: 0 8px 18px color-mix(in srgb, #000000 7%, transparent);
 }
 
@@ -889,16 +874,12 @@ body:has(#ct-app)
   padding: 0.72rem;
   border: 1px solid color-mix(in srgb, var(--md-default-fg-color) 12%, transparent);
   border-radius: 8px;
-  background:
-    linear-gradient(135deg, color-mix(in srgb, #12877f 7%, transparent), transparent 44%),
-    var(--md-default-bg-color);
+  background: var(--md-default-bg-color);
 }
 
 .paper-link-section--primary {
   border-color: color-mix(in srgb, #2276c9 42%, transparent);
-  background:
-    linear-gradient(135deg, color-mix(in srgb, #2276c9 12%, transparent), transparent 48%),
-    var(--md-default-bg-color);
+  background: var(--md-default-bg-color);
 }
 
 .paper-link-section h3 {
