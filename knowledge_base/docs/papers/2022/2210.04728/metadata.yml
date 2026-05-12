@@ -1,0 +1,31 @@
+title: "PyHopper - A Plug-and-Play Hyperparameter Optimization Engine"
+algorithm: PyHopper
+authors:
+  - Mathias Lechner
+  - Ramin Hasani
+  - Sophie Neubauer
+  - Philipp Neubauer
+  - Daniela Rus
+year: 2022
+source: Has It Trained Yet? Workshop at NeurIPS
+type: Workshop Paper
+doi:
+arxiv_id: "2210.04728"
+tags:
+  - PyHopper
+  - Hyperparameter optimization
+  - Black-box optimization
+  - Markov chain Monte Carlo
+  - Optimization software
+  - High-dimensional optimization
+  - Machine learning tooling
+  - Open-source software
+abstract: >
+  Hyperparameter tuning is a fundamental aspect of machine learning research. Setting up the infrastructure for systematic optimization of hyperparameters can take a significant amount of time. Here, we present PyHopper, a black-box optimization platform designed to streamline the hyperparameter tuning workflow of machine learning researchers. PyHopper's goal is to integrate with existing code with minimal effort and run the optimization process with minimal necessary manual oversight. With simplicity as the primary theme, PyHopper is powered by a single robust Markov-chain Monte-Carlo optimization algorithm that scales to millions of dimensions. Compared to existing tuning packages, focusing on a single algorithm frees the user from having to decide between several algorithms and makes PyHopper easily customizable. PyHopper is publicly available under the Apache-2.0 license at https://github.com/PyHopper/PyHopper.
+summary: >
+  Introduces PyHopper, a lightweight Python platform for hyperparameter optimization centered on a single robust Markov-chain Monte Carlo search algorithm. The paper emphasizes ease of integration, scalability to very high-dimensional hyperparameter spaces, and practical utilities that reduce the setup burden for ML experiments.
+link: https://arxiv.org/pdf/2210.04728
+links_alt:
+  - https://openreview.net/forum?id=TG-K0j23RK
+  - https://github.com/PyHopper/PyHopper
+audit_status: raw

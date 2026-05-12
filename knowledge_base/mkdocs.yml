@@ -99,9 +99,15 @@ nav:
           - Markov Decision Processes (MDPs):
             - madupite: papers/2507_22538.md
             - "Optimality Guarantees for Particle Belief Approximation of POMDPs": papers/2210_05015.md
+            - Online Planning Algorithms for POMDPs: papers/1401_3436.md
           - Black-Box Optimization:
+            - REMBO: papers/1301_1942.md
             - Optuna: papers/1907_10902.md
             - Nevergrad: papers/2021_bennet_nevergrad_black_box_optimization.md
+            - "Bayesian Hyperparameter Optimization with BoTorch, GPyTorch and Ax": papers/1912_05686.md
+            - "Bayesian Optimization Is Superior to Random Search for Machine Learning Hyperparameter Tuning": papers/2104_10201.md
+            - PyHopper: papers/2210_04728.md
+            - "Optimizing with Low Budgets": papers/2310_00077.md
         - Automatic Differentiation:
           - On Automatic Differentiation: papers/1989_griewank_on_automatic_differentiation.md
           - "Automatic differentiation in machine learning: a survey": papers/1502_05767.md
@@ -684,6 +690,7 @@ nav:
           - Linear Matrix Inequalities in System and Control Theory: papers/1994_boyd_linear_matrix_inequalities_in_system.md
           - "LMI Properties and Applications in Systems, Stability, and Control Theory": papers/1903_08599.md
           - Robustness margins for LQG: papers/1978_doyle_guaranteed_margins_for_lqg.md
+          - DR-LQG: papers/2505_08370.md
           - "Conformal Robust Control of Linear Systems": papers/2405_16250.md
           - On the Input-Output Stability of Time-Varying Nonlinear Feedback Systems: papers/1966_zames_on_the_input_output_stability.md
           - State-Space Solutions to Standard H2 and H-inf Control Problems: papers/1989_doyle_state_space_solutions_to_standard.md
@@ -738,6 +745,8 @@ nav:
           - TD Learning: papers/1988_sutton_learning_to_predict_by_the.md
           - mellowmax: papers/1612_05628.md
           - "A Gentle Lecture Note on Filtrations in Reinforcement Learning": papers/2008_02622.md
+        - Benchmarks & Environments:
+          - OpenAI Gym: papers/1606_01540.md
         - Imitation Learning:
           - DAgger: papers/1011_0686.md
           - "Efficient Reductions for Imitation Learning": papers/2010_ross_efficient_reductions_for_imitation_learning.md
@@ -781,6 +790,7 @@ nav:
             - REINFORCE: papers/1992_williams_simple_statistical_gradient_following_algorithms.md
             - "Policy Gradient Methods for Reinforcement Learning with Function Approximation": papers/1999_sutton_policy_gradient_methods_for_reinforcement.md
             - Natural Policy Gradient: papers/2001_kakade_a_natural_policy_gradient.md
+            - HOOF: papers/1902_06583.md
             - "Evolution Strategies as a Scalable Alternative to Reinforcement Learning": papers/1703_03864.md
             - "How are policy gradient methods affected by the limits of control?": papers/2206_06863.md
             - "On Linear Convergence of Policy Gradient Methods for Finite MDPs": papers/2007_11120.md
@@ -996,6 +1006,8 @@ nav:
       - Machine Learning:
         - Foundations:
           - "From Entropy to Epiplexity: Rethinking Information for Computationally Bounded Intelligence": papers/2601_03220.md
+        - Uncertainty Quantification:
+          - Backward Conformal Prediction: papers/2505_13732.md
         - Datasets:
           - MNIST: papers/2012_deng_the_mnist_database_of_handwritten.md
           - The Lost MNIST Digits: papers/2019_yadav_cold_case_the_lost_mnist.md
