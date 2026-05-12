@@ -1,32 +1,105 @@
 # TODO
 
+## Site
+
+Use git-filter-repo. It is the modern, reliable way to remove a path from all reachable Git history.
+
+Important caveat: this rewrites commit hashes. Everyone else should stop pushing, then reclone or hard-reset after you force-push. Also keep your gh-pages deploy branch conceptually separate: you want to remove knowledge_base/site/ from source history, not erase the deployed site branch.
+
+Recommended flow:
+
+# From somewhere outside your working repo
+
+git clone --mirror <git@github.com>:USER/REPO.git knowledge-base-clean.git
+cd knowledge-base-clean.git
+
+# Install if needed
+
+# pipx install git-filter-repo
+
+# or: brew install git-filter-repo
+
+git filter-repo --path knowledge_base/site/ --invert-paths
+
+git push --force --mirror
+That removes knowledge_base/site/ from every branch and tag in the mirror’s history.
+
+Then in your normal working clone, easiest is to reclone. If you keep the existing clone:
+
+git fetch --all --prune
+git reset --hard origin/main
+Make sure .gitignore contains:
+
+knowledge_base/site/
+Then verify:
+
+git rev-list --objects --all | rg 'knowledge_base/site/'
+No output means the path is gone from reachable local history.
+
+One more reality check: “completely” means removed from refs you control. Old clones, forks, PR refs, and GitHub’s internal unreachable-object cache may still retain it for a while. If this was just build-output cleanup, that’s fine. If it contained secrets, rotate them and contact GitHub Support to purge cached objects.
+
+## Paper Detail Pages
+
+Paper details
+
+- Add DOI link
+- Add Google Scholar link
+- Add <https://www.connectedpapers.com/> link
+  - ex. <https://www.connectedpapers.com/main/4326d7e9933c77ff9dc53056c62ef6712d90c633/Sampling%20based-algorithms-for-optimal-motion-planning/graph>
+
+Add links for each paper to app.
+
+- Google Scholar
+- <https://openalex.org/>
+- <https://openknowledgemaps.org/>
+- <https://www.researchrabbit.ai/>
+- <https://incitefulmed.com/academic/>
+
+Link direct to pdf instead of abstract for arxiv papers.
+
+<https://arxiv.org/pdf/2210.01744>
+
+Provide HTML link for paper Explorer.
+
+<https://ar5iv.org/abs/2210.01744>
+
+<https://ar5iv.labs.arxiv.org/html/2210.01744>
+
+Try to render arXiv in the app window natively as much as possible (using HTML when available)
+
+### Chat with paper
+
+Add LLM ideation using a slim local model or call to external API, chat with the paper c.f. DeepWiki
+
+### Related papers
+
+Add a section with links to most closely related papers, either Top N or similarity threshold cutoff (variable N).
+
+- Leverage the embeddings we already have, should be tied to the Mind Map
+- Make the Top N / cutoff threshold a dynamic slider widget.
+
+## Reading plans
+
+Hand-crafted
+
+- guide users thru papers in a nice sequence, with rationale provided as a pre amble
+- can have a "view from above" that just hits the most important papers
+- can have "deep dives" that go into weeds on topics
+
 ## Timeline
-
-## Port
-
-Portfolio features from the streamlit apps into the website.
-
-Paper detail page (make it spiffy, better aesthetics and gradient colors and fun, load some kind of rich content like images)
-
-Add tabs with more data slicing views like the tables,
 
 ## Content tree
 
 ## Mind Map
 
-### nodes jumping on level-of-detail change
+## #Ideas
 
-whenever we change level-of-detail to more detailed it makes the nodes "jump" and "explode" way too much flying off screen temporarily during the transition animation briefly before coming back on screen and flowing gently and properly into new positions. revise the logic to prevent the explosion. tackle the root cause of why they are flying away and try to keep the transition animation in tact and feeling gentle and smooth natively (do not simply make the transition duration longer)
+<https://www.litmaps.com/about/us>
 
-### Node style
-
-Reduce disk sizes, at the paper detail level the disks should not touch ever, maintain at least a 30% radius clearance gap.
-
-Show node labels all the time for super category and category detail levels.
+<https://chatgpt.com/share/69d55fa0-e2dc-8332-b847-357e80355305>
+<https://chatgpt.com/share/69d41a6e-df98-8333-bc8f-429f7f8717c3>
 
 ### Sidebar
-
-Split large categories further until the number of entries in each leaf is no more than N, take N=16.
 
 Add filters for item type (e.g. to exclude surveys)
 
@@ -49,7 +122,7 @@ Encourage exploration between rooms or lands represented by research items
 
 Collect points for clicking links, answering quiz questions.
 
-## edges
+## Edges
 
 Edges opacity - autotune
 
@@ -79,10 +152,15 @@ Create scripts for automatically creating the databases the first time, and for 
 
 ### Add validation on mkdocs.yml
 
-  - ensure every linked doc actually exists
-  - ensure every paper in the docs source has a reference in mkdocs.yml (no dead data)
+- ensure every linked doc actually exists
+- ensure every paper in the docs source has a reference in mkdocs.yml (no dead data)
 
-### schema
+### Schema
+
+Define the schema in a single source of truth doc.
+
+- use pydantic?
+- human-readable
 
 - revise the metadata schema:
   - notes: handwritten note from myself
@@ -102,6 +180,8 @@ add other URIs besides DOI since not all papers have DOI e.g. dissertations, arx
 
 Incremental? other stuff / caching?
 
+Back by a DuckDB database?
+
 ### Create a one-click site regen script
 
 Should call:
@@ -114,70 +194,19 @@ Take an argument -g or --github to use gh-deploy mkdocs
 
 ## ConLab scrape
 
-https://labs.utdallas.edu/conlab/
+<https://labs.utdallas.edu/conlab/>
 
 Pull content for portfolio
 
 ### Original research
 
-https://labs.utdallas.edu/conlab/learning-robust-control-for-lqr-systems-with-multiplicative-noise-via-policy-gradient/
-https://labs.utdallas.edu/conlab/robust-learning-based-control-via-bootstrapped-multiplicative-noise/
-https://labs.utdallas.edu/conlab/risk-averse-rrt-planning-with-nonlinear-steering-and-tracking-controllers-for-nonlinear-robotic-systems-under-uncertainty/
+<https://labs.utdallas.edu/conlab/learning-robust-control-for-lqr-systems-with-multiplicative-noise-via-policy-gradient/>
+<https://labs.utdallas.edu/conlab/robust-learning-based-control-via-bootstrapped-multiplicative-noise/>
+<https://labs.utdallas.edu/conlab/risk-averse-rrt-planning-with-nonlinear-steering-and-tracking-controllers-for-nonlinear-robotic-systems-under-uncertainty/>
 
 ### Resources
 
-https://labs.utdallas.edu/conlab/resources/
-
-## Knowledge Explorer
-
-<https://www.litmaps.com/about/us>
-
-<https://chatgpt.com/share/69d55fa0-e2dc-8332-b847-357e80355305>
-<https://chatgpt.com/share/69d41a6e-df98-8333-bc8f-429f7f8717c3>
-
-## Paper Deep Dive App
-
-Paper details
-
-- Add DOI link
-- Add Google Scholar link
-- Add https://www.connectedpapers.com/ link
-    - ex. https://www.connectedpapers.com/main/4326d7e9933c77ff9dc53056c62ef6712d90c633/Sampling%20based-algorithms-for-optimal-motion-planning/graph
-
-Add links for each paper to app.
-
-- Google Scholar
-- https://openalex.org/
-- https://openknowledgemaps.org/
-- https://www.researchrabbit.ai/
-- https://incitefulmed.com/academic/
-
-Link direct to pdf instead of abstract for arxiv papers.
-
-<https://arxiv.org/pdf/2210.01744>
-
-Provide HTML link for paper Explorer.
-
-<https://ar5iv.org/abs/2210.01744>
-
-<https://ar5iv.labs.arxiv.org/html/2210.01744>
-
-### Related papers
-
-Add a section with links to most closely related papers, either Top N or similarity threshold cutoff (variable N).
-
-- Leverage the embeddings we already have, should be tied to the Mind Map
-- Make the Top N / cutoff threshold a dynamic slider widget.
-
-## Analytics Explorer
-
-- Streamlit app? Marimo notebook? backed by a DuckDB database?
-- Details for individual paper pages
-  - Try to render arXiv in the app window natively as much as possible
-  - Add LLM ideation using a slim local model or call to external API, chat with the paper c.f. DeepWiki
-- dashboard page with aggregation stats like papers by year, by topic, tag
-- Add graph linking between papers to enhance cross-ideation grabbing ideas
-- Add paper harvesting - which techniques come out on top based on reported results?
+<https://labs.utdallas.edu/conlab/resources/>
 
 ## Metrics
 
@@ -211,12 +240,6 @@ Coolness
 
 “Show me all planning methods derived from DDP”
 “Find shortest conceptual path between RRT and MPPI”
-
-## Reading plans
-
-- guide users thru papers in a nice sequence, with rationale provided as a pre amble
-- can have a "view from above" that just hits the most important papers
-- can have "deep dives" that go into weeds on topics
 
 ## Quiz questions
 
