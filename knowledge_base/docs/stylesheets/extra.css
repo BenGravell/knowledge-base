@@ -85,6 +85,10 @@ a.md-nav__link[href*="portfolio"]::after {
   --ct-panel-strong: color-mix(in srgb, var(--ct-cyan) 12%, var(--md-default-bg-color));
   --ct-muted-bg: color-mix(in srgb, var(--md-default-fg-color) 4%, transparent);
   --ct-muted-line: color-mix(in srgb, var(--md-default-fg-color) 28%, transparent);
+  --ct-subtle-grey-surface: #e4e7eb;
+  --ct-subtle-grey-surface-hover: #b8bec8;
+  --ct-subtle-grey-border: #8d96a3;
+  --ct-subtle-grey-text: #22272e;
   --ct-shadow: 0 12px 30px color-mix(in srgb, #000000 14%, transparent);
   display: flex;
   flex-direction: column;
@@ -94,7 +98,7 @@ a.md-nav__link[href*="portfolio"]::after {
 
 .md-typeset .ct-title-row {
   display: grid;
-  grid-template-columns: max-content minmax(12rem, 1fr);
+  grid-template-columns: max-content auto minmax(0, 1fr);
   align-items: start;
   gap: 0.55rem 0.75rem;
 }
@@ -112,13 +116,19 @@ a.md-nav__link[href*="portfolio"]::after {
   --ct-green: #8fce5a;
   --ct-panel: color-mix(in srgb, var(--md-code-bg-color) 82%, #050910);
   --ct-panel-strong: color-mix(in srgb, var(--ct-cyan) 18%, var(--md-default-bg-color));
+  --ct-subtle-grey-surface: #626d7a;
+  --ct-subtle-grey-surface-hover: #4a5360;
+  --ct-subtle-grey-border: #66717f;
+  --ct-subtle-grey-text: #f1f4f7;
   --ct-shadow: 0 14px 34px color-mix(in srgb, #000000 36%, transparent);
 }
 
 .md-typeset details.ct-note {
+  grid-column: 2;
+  grid-row: 1;
   margin: 0;
-  width: 100%;
-  max-width: 42rem;
+  width: auto;
+  max-width: none;
   padding: 0;
   border: 0;
   border-radius: 0;
@@ -127,19 +137,20 @@ a.md-nav__link[href*="portfolio"]::after {
 }
 
 .md-typeset details.ct-note[open] {
-  width: 100%;
+  width: auto;
 }
 
 .md-typeset details.ct-note > summary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.32rem;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
   box-sizing: border-box;
-  min-height: 1.45rem;
+  width: 1.8rem;
+  height: 1.8rem;
   margin: 0;
-  padding: 0.12rem 0.1rem;
+  padding: 0;
   border: 0;
-  border-radius: 0;
+  border-radius: 999px;
   background: transparent;
   color: var(--md-default-fg-color--light);
   cursor: pointer;
@@ -164,16 +175,21 @@ a.md-nav__link[href*="portfolio"]::after {
 }
 
 .md-typeset details.ct-note > summary::after {
-  content: "+";
-  display: inline-grid;
-  flex: 0 0 auto;
+  display: none !important;
+  content: none !important;
+}
+
+.ct-note-icon {
+  display: grid;
   place-items: center;
-  width: 0.8rem;
-  height: 1rem;
+  width: 1.24rem;
+  height: 1.24rem;
+  border: 1px solid var(--ct-soft-border);
+  border-radius: 999px;
   background: transparent;
-  color: var(--ct-cyan);
-  font-size: 0.82rem;
-  font-weight: 900;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.76rem;
+  font-weight: 800;
   line-height: 1;
 }
 
@@ -181,24 +197,32 @@ a.md-nav__link[href*="portfolio"]::after {
   color: var(--md-default-fg-color);
 }
 
-.md-typeset details.ct-note[open] > summary::after {
-  content: "-";
+.md-typeset details.ct-note > summary:hover .ct-note-icon,
+.md-typeset details.ct-note[open] > summary .ct-note-icon {
+  border-color: var(--ct-subtle-grey-border);
+  background: var(--ct-subtle-grey-surface-hover);
+  color: var(--ct-subtle-grey-text);
 }
 
-.md-typeset details.ct-note p {
+.md-typeset .ct-note-body {
+  display: none;
+  grid-column: 1 / -1;
+  grid-row: 2;
   box-sizing: border-box;
-  max-width: 42rem;
+  width: 100%;
+  max-width: none;
   margin: 0.45rem 0 0;
   padding: 0.68rem 0.75rem 0.75rem;
-  border: 1px solid var(--ct-soft-border);
-  border-left-color: var(--ct-teal);
+  border: 1px solid var(--ct-subtle-grey-border);
   border-radius: 8px;
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--ct-teal) 7%, transparent), transparent 42%),
-    var(--ct-panel);
-  color: var(--md-default-fg-color--light);
+  background: var(--ct-subtle-grey-surface);
+  color: var(--ct-subtle-grey-text);
   font-size: 0.78rem;
   line-height: 1.55;
+}
+
+.md-typeset details.ct-note[open] + .ct-note-body {
+  display: block;
 }
 
 .ct-search-panel {
@@ -703,7 +727,7 @@ a.md-nav__link[href*="portfolio"]::after {
   }
 
   .md-typeset .ct-title-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: max-content auto minmax(0, 1fr);
   }
 
   .ct-search-panel {
