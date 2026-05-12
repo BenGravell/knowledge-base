@@ -77,6 +77,7 @@ nav:
   - Home: index.md
   - Mind Map: mind-map.md
   - Timeline: timeline.md
+  - Analytics: analytics.md
   - Content Tree:
     - content-tree/index.md
     - Decision-Making:
@@ -88,6 +89,7 @@ nav:
             - "Disciplined Convex-Concave Programming": papers/1604_02639.md
             - ECOS: papers/2013_domahidi_ecos_an_socp_solver.md
             - Embedded SOCP Code Generation: papers/2013_chu_code_generation_for_embedded.md
+            - OSQP: papers/1711_08013.md
             - Clarabel: papers/2405_12762.md
             - CuClarabel: papers/2412_19027.md
             - "Presolving for GPU-Accelerated First-Order LP Solvers": papers/2604_23951.md
@@ -379,12 +381,13 @@ nav:
               - TB-RRT: papers/2014_sintov_time_based_rrt_algorithm_for.md
               - "A novel RRT extend function for efficient and smooth mobile robot motion planning": papers/2014_palmieri_a_novel_rrt_extend_function.md
               - DR-RRT: papers/2018_summers_distributionally_robust_sampling_based_motion.md
+              - RANS-RRT*: papers/2103_05572.md
               - "Efficient Nearest-Neighbor Search for Dynamical Systems with Nonholonomic Constraints": papers/1709_07610.md
               - "Kinodynamic motion planning: connecting exploration trees using trajectory optimization Methods": papers/2004_lamiraux_kinodynamic_motion_planning_connecting_exploration.md
               - "Optimal motion planning with the half-car dynamical model for autonomous high-speed driving": papers/2013_jeon_optimal_motion_planning_with_the.md
               - "Randomized Kinodynamic Motion Planning with Moving Obstacles": papers/2002_hsu_randomized_kinodynamic_motion_planning.md
               - "Search-based Motion Planning for Quadrotors using Linear Quadratic Minimum Time Control": papers/1709_05401.md
-              - RANS-RRT*: papers/2103_05572.md
+              - StaGE: papers/2603_06773.md
             - Expansive Space Trees (EST):
               - EST: papers/1997_hsu_path_planning_in_expansive_configuration.md
               - Guided EST: papers/2004_phillips_guided_expansive_spaces_trees.md
@@ -412,6 +415,7 @@ nav:
               - Cross-Entropy Motion Planning (CEM):
                 - Cross-Entropy Motion Planning: papers/2012_kobilarov_cross_entropy_motion_planning.md
               - Model Predictive Path Integral Control (MPPI):
+                - IT-MPC: papers/1707_02342.md
                 - MPPI: papers/2017_williams_model_predictive_path_integral.md
                 - "Model Predictive Path Integral Control using Covariance Variable Importance Sampling": papers/1509_01149.md
                 - "Model Predictive Path Integral Control: Theoretical Foundations and Applications to Autonomous Driving (Grady Williams PhD Dissertation)": papers/2019_williams_model_predictive_path_integral.md
@@ -437,6 +441,7 @@ nav:
               - "Recent Advances in Path Integral Control (Survey)": papers/2309_12566.md
               - "Path Integral Particle Filtering for Hybrid Systems via Saltation Matrices": papers/2603_01176.md
               - "Sampling-Based Control via Entropy-Regularized Optimal Transport": papers/2605_02147.md
+              - "Uncertainty Guided Exploratory Trajectory Optimization for Sampling-Based Model Predictive Control": papers/2604_12149.md
               - "On Surprising Effects of Risk-Aware Domain Randomization for Contact-Rich Sampling-based Predictive Control": papers/2605_03290.md
               - DROP: papers/2409_14562.md
             - Model Predictive Trees:
@@ -627,6 +632,7 @@ nav:
           - Boss: papers/2008_urmson_autonomous_driving_in_urban.md
           - "A perception-driven autonomous urban vehicle": papers/2008_leonard_a_perceptiondriven_autonomous_urban_vehicle.md
           - RAKOMO: papers/2507_19652.md
+          - "An integrated system for real-time model predictive control of humanoid robots": papers/2013_erez_an_integrated_system_for_real.md
           - MJPC: papers/2212_00541.md
           - Judo: papers/2506_17184.md
           - Sumo: papers/2604_08508.md
@@ -673,6 +679,7 @@ nav:
             - "Sample Complexity of Data-Driven Stochastic LQR with Multiplicative Uncertainty": papers/2005_12167.md
             - "Data-driven distributionally robust LQR with multiplicative noise": papers/1912_09990.md
             - "Stochastic Stability via Robustness of Linear Systems": papers/2021_gravell_stochastic_stability_via_robustness.md
+            - "Stochasticity in Feedback Loops: Great Expectations and Guaranteed Ruin": papers/2021_smith_stochasticity_in_feedback_loops_great.md
             - "Anomaly Detection Under Multiplicative Noise Model Uncertainty": papers/2103_15228.md
             - "Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically": papers/2207_11220.md
             - "Provably Stable Learning Control of Linear Dynamics With Multiplicative Noise": papers/2024_coppens_provably_stable_learning_control_of.md
@@ -686,12 +693,27 @@ nav:
           - "Learning with Imperfect Models: When Multi-step Prediction Mitigates Compounding Error": papers/2504_01766.md
           - "On multi-step prediction models for receding horizon control": papers/1802_09767.md
           - "Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition": papers/2021_svec_model_predictive_control_of_vehicle.md
+          - Data-Driven and Learning-Based MPC:
+            - DeePC: papers/1811_05890.md
+            - "Model predictive control based on ARX models": papers/2010_kon_model_predictive_control_based_on.md
+            - "Learning-based predictive control for linear systems: a unitary approach": papers/1810_12584.md
+            - "KPC: Learning-Based Model Predictive Control with Deterministic Guarantees": papers/2011_11303.md
+            - "Exponential stability of data-driven nonlinear MPC based on input/output models": papers/2603_16808.md
+            - "Soft projections for robust data-driven control": papers/2604_00900.md
+            - "Stochastic Data-Driven Predictive Control: Regularization, Estimation, and Constraint Tightening": papers/2312_02758.md
+          - Robust and Stochastic MPC:
+            - "Closed-loop analysis of linear stochastic MPC with risk-averse constraints": papers/2604_11183.md
+            - "Scenario-based Stochastic MPC for systems with uncertain dynamics": papers/2207_12517.md
+          - MPC Applications and Implementations:
+            - "Intelligent Trajectory Planning for Autonomous Vehicles via Adaptive Model Predictive Control": papers/2025_goncalves_intelligent_trajectory_planning_for_autonomous.md
+            - "Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks": papers/2604_19452.md
         - Robust Control:
           - Linear Matrix Inequalities in System and Control Theory: papers/1994_boyd_linear_matrix_inequalities_in_system.md
           - "LMI Properties and Applications in Systems, Stability, and Control Theory": papers/1903_08599.md
           - Robustness margins for LQG: papers/1978_doyle_guaranteed_margins_for_lqg.md
           - DR-LQG: papers/2505_08370.md
           - "Conformal Robust Control of Linear Systems": papers/2405_16250.md
+          - "Probabilistic Robustness in the Gap Metric": papers/2507_10010.md
           - On the Input-Output Stability of Time-Varying Nonlinear Feedback Systems: papers/1966_zames_on_the_input_output_stability.md
           - State-Space Solutions to Standard H2 and H-inf Control Problems: papers/1989_doyle_state_space_solutions_to_standard.md
           - "LQG Control with an H-infinity Performance Bound: A Riccati Equation Approach": papers/1989_bernstein_lqg_control_with_an_h.md
@@ -699,6 +721,9 @@ nav:
           - "A Method to Teach the Parameterization of All Stabilizing Controllers": papers/2011_kucera_a_method_to_teach_the.md
           - "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality": papers/2603_04843.md
           - "System analysis via integral quadratic constraints": papers/1997_megretski_system_analysis_via_integral_quadratic.md
+        - Perception-Based Control:
+          - "Robust Guarantees for Perception-Based Control": papers/2020_dean_robust_guarantees_for_perception_based.md
+          - "Certainty Equivalent Perception-Based Control": papers/2021_dean_certainty_equivalent_perception_based_control.md
         - Control Co-Design:
           - Gradient-Based Plant-Controller Co-Design: papers/2015_wang_a_gradient_based_approach.md
         - Control-Oriented Physical Modeling:
@@ -716,6 +741,7 @@ nav:
           - "A note on persistency of excitation": papers/2005_willems_a_note_on_persistency_of.md
           - "Respect the unstable": papers/2003_unknown_respect_the_unstable.md
           - "Augmented Lagrangian Methods as Layered Control Architectures": papers/2311_06404.md
+          - "Towards a Theory of Control Architecture: A quantitative framework for layered multi-rate control": papers/2401_15185.md
           - "Asymptotic stability equals exponential stability - while you twist your eyes": papers/2411_03277.md
         - Control Lyapunov Functions:
           - Stabilization with Relaxed Controls: papers/1983_artstein_stabilization_with_relaxed_controls.md
@@ -735,6 +761,7 @@ nav:
           - "On the Kinematics of Wheeled Mobile Robots": papers/1989_alexander_on_the_kinematics_of_wheeled.md
           - The Magic Formula Tyre Model: papers/1992_pacejka_the_magic_formula_tyre_model.md
           - "Structural properties and classification of kinematic and dynamic models of wheeled mobile robots": papers/1996_campion_structural_properties_and_classification_of.md
+          - "Kinematic and dynamic vehicle models for autonomous driving control design": papers/2015_kong_kinematic_and_dynamic_vehicle_models.md
         - Underactuated Systems:
           - Acrobot: papers/1995_spong_the_swing_up_control.md
           - CartPole (Correct Equations): papers/2007_florian_correct_equations_for_the_dynamics.md
@@ -746,6 +773,7 @@ nav:
           - TD Learning: papers/1988_sutton_learning_to_predict_by_the.md
           - mellowmax: papers/1612_05628.md
           - "A Gentle Lecture Note on Filtrations in Reinforcement Learning": papers/2008_02622.md
+          - "Reinforcement Learning and Control as Probabilistic Inference: Tutorial and Review": papers/1805_00909.md
         - Imitation Learning:
           - DAgger: papers/1011_0686.md
           - "Efficient Reductions for Imitation Learning": papers/2010_ross_efficient_reductions_for_imitation_learning.md
@@ -760,6 +788,35 @@ nav:
           - "Sample-Efficient Expert Query Control in Active Imitation Learning via Conformal Prediction": papers/2512_00453.md
         - Multi-arm Bandits:
           - "Finite-time Analysis of the Multiarmed Bandit Problem": papers/2002_auer_finite_time_analysis_of_the.md
+        - RL for Linear Systems:
+          - "Data-driven Control and Planning for Uncertain Complex Systems (Gravell PhD Dissertation)": papers/2022_gravell_data_driven_control_and.md
+          - Policy Optimization:
+            - Global Convergence of Policy Gradient Methods for LQR: papers/1801_05039.md
+            - "Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient": papers/1905_13547.md
+            - "Sparse Optimal Control of Networks with Multiplicative Noise via Policy Gradient": papers/1905_13548.md
+            - "Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators": papers/2303_08431.md
+            - LQR through the Lens of First Order Methods: papers/1907_08921.md
+            - Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum LQ Games: papers/1906_00729.md
+            - "Convergence of Flow-Policy Gradient Learning for Linear Quadratic Regulator Problems": papers/2511_11131.md
+            - "On the Optimization Landscape of Observer-based Dynamic Linear Quadratic Control": papers/2604_10635.md
+            - "Policy Gradient for LQR with Domain Randomization": papers/2503_24371.md
+            - "Second-Order Policy Gradient Methods for the Linear Quadratic Regulator": papers/2511_02095.md
+            - "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective": papers/2503_00385.md
+            - "Scalar Federated Learning for Linear Quadratic Regulator": papers/2604_05088.md
+          - Dynamic Programming:
+            - "Policy iteration using Q-functions: Linear dynamics with multiplicative noise": papers/2212_01192.md
+            - "Policy Iteration for Linear Quadratic Games with Stochastic Parameters": papers/2021_gravell_policy_iteration_for_linear.md
+          - Model-based RL:
+            - "Logarithmic Regret for Online Control": papers/2019_agarwal_logarithmic_regret_for_online_control.md
+            - Regret Bounds for the Adaptive Control of Linear Quadratic Systems: papers/2011_abbasi_yadkori_regret_bounds_for_the.md
+            - Regret Bounds for Robust Adaptive Control of LQR: papers/1805_09388.md
+            - "Regret Bounds for Robust Adaptive Control of the Linear Quadratic Regulator": papers/2018_dean_regret_bounds_for_robust_adaptive.md
+            - "Certainty Equivalence is Efficient for Linear Quadratic Control": papers/1902_07826.md
+            - "Domain Randomization is Sample Efficient for Linear Quadratic Control": papers/2502_12310.md
+            - "Robust Learning-Based Control via Bootstrapped Multiplicative Noise": papers/2002_10069.md
+            - "Robust Data-Driven Output Feedback Control via Bootstrapped Multiplicative Noise": papers/2205_05119.md
+            - "Efficient Learning of a Linear Dynamical System with Stability Guarantees": papers/2102_03664.md
+            - "CLT-Optimal Parameter Error Bounds for Linear System Identification": papers/2604_21270.md
         - Dynamic Programming:
           - Exact Dynamic Programming:
             - On the Convergence of Policy Iteration in Stationary Dynamic Programming: papers/1979_puterman_on_the_convergence_of.md
@@ -823,68 +880,22 @@ nav:
             - GRPO: papers/2402_03300.md
             - KIPPO: papers/2505_14566.md
             - "Bounded Ratio Reinforcement Learning": papers/2604_18578.md
-          - RL for Linear Systems:
-            - Global Convergence of Policy Gradient Methods for LQR: papers/1801_05039.md
-            - "Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators": papers/2303_08431.md
-            - LQR through the Lens of First Order Methods: papers/1907_08921.md
-            - Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum LQ Games: papers/1906_00729.md
-            - "Convergence of Flow-Policy Gradient Learning for Linear Quadratic Regulator Problems": papers/2511_11131.md
-            - "On the Optimization Landscape of Observer-based Dynamic Linear Quadratic Control": papers/2604_10635.md
-            - "Policy iteration using Q-functions: Linear dynamics with multiplicative noise": papers/2212_01192.md
-            - "Policy Gradient for LQR with Domain Randomization": papers/2503_24371.md
-            - "Second-Order Policy Gradient Methods for the Linear Quadratic Regulator": papers/2511_02095.md
-            - "Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient": papers/1905_13547.md
-            - "Sparse Optimal Control of Networks with Multiplicative Noise via Policy Gradient": papers/1905_13548.md
-            - "Policy Iteration for Linear Quadratic Games with Stochastic Parameters": papers/2021_gravell_policy_iteration_for_linear.md
-            - "Data-driven Control and Planning for Uncertain Complex Systems (Gravell PhD Dissertation)": papers/2022_gravell_data_driven_control_and.md
-            - "Scalar Federated Learning for Linear Quadratic Regulator": papers/2604_05088.md
-            - "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective": papers/2503_00385.md        
         - Model-Based RL:
-          - Adaptive Control:
-            - Regret Bounds for the Adaptive Control of Linear Quadratic Systems: papers/2011_abbasi_yadkori_regret_bounds_for_the.md
-            - Regret Bounds for Robust Adaptive Control of LQR: papers/1805_09388.md
-            - "Regret Bounds for Robust Adaptive Control of the Linear Quadratic Regulator": papers/2018_dean_regret_bounds_for_robust_adaptive.md
+          - Surveys & Control Connections:
             - From Self-Tuning Regulators to Reinforcement Learning and Back Again: papers/1906_11392.md
-            - DeePC: papers/1811_05890.md
-            - "Robust Learning-Based Control via Bootstrapped Multiplicative Noise": papers/2002_10069.md
-            - "Robust Guarantees for Perception-Based Control": papers/2020_dean_robust_guarantees_for_perception_based.md
-            - "Robust Data-Driven Output Feedback Control via Bootstrapped Multiplicative Noise": papers/2205_05119.md
             - "A Tour of Reinforcement Learning: The View from Continuous Control": papers/1806_09460.md
             - "A view on learning robust goal-conditioned value functions: Interplay between RL and MPC": papers/2502_06996.md
             - "Synthesis of Model Predictive Control and Reinforcement Learning: Survey and Classification": papers/2502_02133.md
-            - "An integrated system for real-time model predictive control of humanoid robots": papers/2013_erez_an_integrated_system_for_real.md
-            - "Certainty Equivalence is Efficient for Linear Quadratic Control": papers/1902_07826.md
-            - "Closed-loop analysis of linear stochastic MPC with risk-averse constraints": papers/2604_11183.md
+          - MPC-RL Hybrids:
             - "Data-Efficient Reinforcement Learning with Probabilistic Model Predictive Control": papers/1706_06491.md
-            - "Domain Randomization is Sample Efficient for Linear Quadratic Control": papers/2502_12310.md
-            - "Exponential stability of data-driven nonlinear MPC based on input/output models": papers/2603_16808.md
-            - "Hierarchical Planning with Latent World Models": papers/2604_03208.md
-            - "Information Theoretic Model Predictive Control: Theory and Applications to Autonomous Driving": papers/1707_02342.md
             - "Information Theoretic Model Predictive Q-Learning": papers/2001_02153.md
-            - "Intelligent Trajectory Planning for Autonomous Vehicles via Adaptive Model Predictive Control": papers/2025_goncalves_intelligent_trajectory_planning_for_autonomous.md
-            - "Kinematic and dynamic vehicle models for autonomous driving control design": papers/2015_kong_kinematic_and_dynamic_vehicle_models.md
-            - "KPC: Learning-Based Model Predictive Control with Deterministic Guarantees": papers/2011_11303.md
             - "Differentiable MPC for End-to-end Planning and Control": papers/1810_13400.md
             - "Actor-Critic Model Predictive Control: Differentiable Optimization meets Reinforcement Learning for Agile Flight": papers/2306_09852.md
-            - "Learning-based predictive control for linear systems: a unitary approach": papers/1810_12584.md
-            - "Logarithmic Regret for Online Control": papers/2019_agarwal_logarithmic_regret_for_online_control.md
-            - "Model predictive control based on ARX models": papers/2010_kon_model_predictive_control_based_on.md
             - "MPCritic": papers/2504_01086.md
-            - "TD-MPC2": papers/2310_16828.md
             - "Policy Optimization for Unknown Systems using Differentiable Model Predictive Control": papers/2511_11308.md
-            - "Probabilistic Robustness in the Gap Metric": papers/2507_10010.md
-            - "Reinforcement Learning and Control as Probabilistic Inference: Tutorial and Review": papers/1805_00909.md
-            - "Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks": papers/2604_19452.md
-            - "Scenario-based Stochastic MPC for systems with uncertain dynamics": papers/2207_12517.md
             - "Soft MPCritic: Amortized Model Predictive Value Iteration": papers/2604_01477.md
-            - "Soft projections for robust data-driven control": papers/2604_00900.md
-            - "Stability-Guided Exploration for Diverse Motion Generation": papers/2603_06773.md
-            - "Stochastic Data-Driven Predictive Control: Regularization, Estimation, and Constraint Tightening": papers/2312_02758.md
-            - "Stochasticity in Feedback Loops: Great Expectations and Guaranteed Ruin": papers/2021_smith_stochasticity_in_feedback_loops_great.md
             - "Temporal Difference Learning for Model Predictive Control": papers/2203_04955.md
-            - "Towards a Theory of Control Architecture: A quantitative framework for layered multi-rate control": papers/2401_15185.md
-            - "Certainty Equivalent Perception-Based Control": papers/2021_dean_certainty_equivalent_perception_based_control.md
-            - "Uncertainty Guided Exploratory Trajectory Optimization for Sampling-Based Model Predictive Control": papers/2604_12149.md
+            - "TD-MPC2": papers/2310_16828.md
           - System Identification:
             - Non-Asymptotic Identification of LTI Systems from a Single Trajectory: papers/1806_05722.md
             - Finite Sample Analysis of Stochastic System Identification: papers/1903_09122.md
@@ -919,12 +930,11 @@ nav:
               - PlaNet: papers/1811_04551.md
               - Dreamer: papers/1912_01603.md
               - Dream to Fly: papers/2501_14377.md
+              - Hierarchical Planning with Latent World Models: papers/2604_03208.md
             - "A Tutorial on Solution Properties of State Space Models of Dynamical Systems": papers/2204_06104.md
             - "An Information-state based Approach to the Optimal Output Feedback Control of Nonlinear Systems": papers/2107_08086.md
-            - "An Introduction to Matrix Concentration Inequalities": papers/1501_01571.md
-            - "CLT-Optimal Parameter Error Bounds for Linear System Identification": papers/2604_21270.md
-            - "Concentration Inequalities for Statistical Inference": papers/2011_02258.md            
-            - "Efficient Learning of a Linear Dynamical System with Stability Guarantees": papers/2102_03664.md
+            - "An Introduction to Matrix Concentration Inequalities": papers/1501_01571.md            
+            - "Concentration Inequalities for Statistical Inference": papers/2011_02258.md
             - "How Are Learned Perception-Based Controllers Impacted by the Limits of Robust Control?": papers/2104_00827.md
             - "Physics-Informed Machine Learning for Modeling and Control of Dynamical Systems": papers/2306_13867.md
             - "Self-Normalized Processes: Exponential Inequalities, Moment Bounds and Iterated Logarithm Laws": papers/2004_de_la_pena_self_normalized_processes_exponential.md
@@ -1203,7 +1213,7 @@ nav:
     - Evaluation:
       - Simulation:
         - CARLA: papers/1711_03938.md
-        - GPUDrive: papers/2408_01584.md
+        - GPUDrive: papers/2408_01584.md        
         - KinDER: papers/2604_25788.md
         - MuJoCo Playground: papers/2502_08844.md
         - Orbit: papers/2301_04195.md
@@ -1214,6 +1224,7 @@ nav:
         - Waymax: papers/2310_08710.md
       - Benchmarks:
         - Gym: papers/1606_01540.md
+        - Isaac Gym: papers/2108_10470.md
         - controlgym: papers/2311_18736.md
       - Safety, Testing & Verification:
         - "A Simple and Efficient Sampling-based Algorithm for General Reachability Analysis": papers/2112_05745.md
