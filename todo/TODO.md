@@ -1,8 +1,56 @@
 # TODO
 
+## Timeline
+
+Create a year driven timeline view that shows all the papers flowing over time. Color by category. Inspired by books on development of the world
+
+## Port
+
+Portfolio features from the streamlit apps into the website. 
+
+Paper detail page (make it spiffy, better aesthetics and gradient colors and fun, load some kind of rich content like images)
+
+Add tabs with more data slicing views like the tables,
+
+## Pages
+
+I have two tasks for you.
+
+1.
+Consider the "Aggregate" tab in the streamlit analysis_app.
+
+Port the functionality to a new page in the site nav tree called "Analytics"
+
+Also include more analytics metrics, like histogram of author, count of unique authors.
+
+
+2.
+Consider the "arXiv paper inspector" tab in the streamlit analysis_app.
+
+Port the functionality to the template used for rendering the paper detail pages in mkdocs.
+
+I especially want the links section to be robust and easy to navigate. Use a style hierarchy. The most important link is the primary link in the metadata. That should be followed by a set of standardized links for arxiv ID when available (abstract page, pdf page, html page) and doi (doi.org) when available. After that should be a group of all the alternate links from the metadata.
+Put all links in attractive, cohesively styled pillboxes.
+
+
+
+Guidance for both tasks.
+Use standard frameworks as much as possible without too much custom code. Prefer mkdocs first since the site is built in mkdcos. Prefer plugins for mkdocs second. Prefer third party libraries third. Use custom code only as a last resort.
+
+
 ## Content tree
 
 ## Mind Map
+
+### menu
+
+Start with settings menu folded when on mobile site.
+
+### Node style
+
+Reduce disk sizes, at the paper detail level the disks should not touch ever, maintain at least a 30% radius clearance gap.
+
+Show node labels all the time for super category and category detail levels.
 
 ### Sidebar
 
@@ -44,6 +92,16 @@ Revise prefill script logic (shared utils) to use no more than exactly 4 words, 
 ### metadata path index key
 
 Revise the setup for mkdocs.yml so that we can refer to the literal path under doc/papers (including dots) instead of slugified version with underscores.
+
+## normalization and de-duplication
+
+Normalized authors to remove differently spelled duplicates. Align them to a central database of unique authors in the repo.
+
+Eliminate initials in the author names for first and last name (middle initial ok and preferred).
+
+Do same for source field (venues).
+
+Create scripts for automatically creating the databases the first time, and for auditong and suggesting fix based on pattern matching
 
 ### Add validation on mkdocs.yml
 
