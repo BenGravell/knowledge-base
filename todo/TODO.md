@@ -2,11 +2,9 @@
 
 ## Timeline
 
-Create a year driven timeline view that shows all the papers flowing over time. Color by category. Inspired by books on development of the world
-
 ## Port
 
-Portfolio features from the streamlit apps into the website. 
+Portfolio features from the streamlit apps into the website.
 
 Paper detail page (make it spiffy, better aesthetics and gradient colors and fun, load some kind of rich content like images)
 
@@ -23,7 +21,6 @@ Port the functionality to a new page in the site nav tree called "Analytics"
 
 Also include more analytics metrics, like histogram of author, count of unique authors.
 
-
 2.
 Consider the "arXiv paper inspector" tab in the streamlit analysis_app.
 
@@ -33,10 +30,8 @@ I especially want the links section to be robust and easy to navigate. Use a sty
 Put all links in attractive, cohesively styled pillboxes.
 
 
-
 Guidance for both tasks.
 Use standard frameworks as much as possible without too much custom code. Prefer mkdocs first since the site is built in mkdcos. Prefer plugins for mkdocs second. Prefer third party libraries third. Use custom code only as a last resort.
-
 
 ## Content tree
 
@@ -80,6 +75,8 @@ Collect points for clicking links, answering quiz questions.
 ## edges
 
 Edges opacity - autotune
+
+edges still too bright on light mode
 
 ## Slugs for non arxiv papers are sometimes getting more than 4 words
 
