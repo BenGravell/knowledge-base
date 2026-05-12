@@ -1,5 +1,5 @@
 title: Stability-Guided Exploration for Diverse Motion Generation
-algorithm:
+algorithm: StaGE
 authors:
   - Eckart Cobo-Briesewitz
   - Tilman Burghoff

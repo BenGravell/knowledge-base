@@ -1,5 +1,5 @@
 title: An Automatic Method for Finding the Greatest or Least Value of a Function
-algorithm:
+algorithm: Rosenbrock's method
 authors:
   - H. H. Rosenbrock
 year: 1960

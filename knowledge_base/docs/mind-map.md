@@ -1,6 +1,5 @@
 ---
 hide:
-  - navigation
   - toc
 ---
 
@@ -67,6 +66,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 /* ── App shell ────────────────────────────────────────────────────────────── */
 #mm-app {
+  --mm-panel-header-h: 46px;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -153,8 +153,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 #mm-panel {
   position: absolute;
   left: 0;
-  top: 44px;
-  height: calc(100% - 44px);
+  top: var(--mm-panel-header-h);
+  height: calc(100% - var(--mm-panel-header-h));
   width: min(400px, 100vw);
   z-index: 40;
   background: color-mix(in srgb, var(--md-code-bg-color) 94%, transparent);
@@ -173,7 +173,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 
 #mm-panel-body {
-  padding: 0.8rem 1rem;
+  padding: 1.05rem 1rem 0.8rem;
   display: flex;
   flex-direction: column;
   gap: 0.85rem;

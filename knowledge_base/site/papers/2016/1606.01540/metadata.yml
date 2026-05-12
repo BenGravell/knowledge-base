@@ -1,0 +1,32 @@
+title: "OpenAI Gym"
+algorithm: Gym
+authors:
+  - Greg Brockman
+  - Vicki Cheung
+  - Ludwig Pettersson
+  - Jonas Schneider
+  - John Schulman
+  - Jie Tang
+  - Wojciech Zaremba
+year: 2016
+source: arXiv
+type: Technical Report
+doi:
+arxiv_id: "1606.01540"
+tags:
+  - OpenAI Gym
+  - Reinforcement learning
+  - Benchmarking
+  - Simulation environments
+  - Research infrastructure
+  - Standardized interface
+  - Open-source software
+abstract: >
+  OpenAI Gym is a toolkit for reinforcement learning research. It includes a growing collection of benchmark problems that expose a common interface, and a website where people can share their results and compare the performance of algorithms. This whitepaper discusses the components of OpenAI Gym and the design decisions that went into the software.
+summary: >
+  Introduces OpenAI Gym as a common interface and benchmark collection for reinforcement learning experiments. Its main contribution is infrastructural: standardizing environments, result sharing, and evaluation workflows so RL algorithms can be compared more consistently.
+link: https://arxiv.org/pdf/1606.01540
+links_alt:
+  - https://github.com/openai/gym
+  - https://arxiv.org/abs/1606.01540
+audit_status: raw

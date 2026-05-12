@@ -65,10 +65,10 @@
   }
 
   const DATA = mindMapData;
-  const NODE_RADIUS_CLEARANCE_RATIO = 0.5;
-  const NODE_SCREEN_RADIUS_CAP = 5;
-  const NODE_SCREEN_RADIUS_MIN = 1;
-  const NODE_SCREEN_RADIUS_FALLBACK = 4.5;
+  const NODE_RADIUS_CLEARANCE_RATIO = 0.35;
+  const NODE_SCREEN_RADIUS_CAP = 3.8;
+  const NODE_SCREEN_RADIUS_MIN = 0.3;
+  const NODE_SCREEN_RADIUS_FALLBACK = 3.2;
   const NODE_LABEL_FONT_SIZE = 11;
   const NODE_LABEL_LINE_HEIGHT_RATIO = 1.1;
   const NODE_LABEL_ZOOM_REFERENCE_RATIO = 1;
@@ -78,6 +78,8 @@
   const SELECTED_NODE_RADIUS_SCALE = 1.12;
   const EDGE_NODE_DIAMETER_RATIO = 0.2;
   const LEVEL_TRANSITION_MS = 260;
+  const LEVEL_TRANSITION_MAX_SCREEN_TRAVEL = 160;
+  const LEVEL_TRANSITION_DRILLDOWN_TRAVEL_RATIO = 0.58;
   const VIEWPORT_PADDING = 30;
   const PANEL_MAX_FOCUS_WIDTH_RATIO = 0.72;
   const FOCUSED_PAPER_CAMERA_RATIO = 0.32;
@@ -110,6 +112,8 @@
   let hierarchyData = null;
   let activeLevelTransition = null;
   let focusLabelContext = null;
+  let pendingNodeRadiusCalibration = null;
+  let lastLevelTransitionMetrics = null;
 
   /* -------------------------------------------------------------------------
    * Utility
@@ -406,6 +410,13 @@
     return attrs.kind === 'aggregate'
       ? aggregateNodeSize(attrs.count, attrs.detailLevel)
       : currentNodeRadius();
+  }
+
+  function levelAlwaysShowsLabels(attrs) {
+    return attrs.kind === 'aggregate' && (
+      attrs.detailLevel === 'super_category' ||
+      attrs.detailLevel === 'category'
+    );
   }
 
   function edgeDisplaySize(weight, attrs) {
@@ -882,7 +893,7 @@
       focus.mode === 'search'
     );
     const muted = focus.active && !primaryFocus;
-    const forceLabel =
+    const forceLabel = levelAlwaysShowsLabels(attrs) ||
       node === pinnedNode ||
       node === hoveredNode;
 
@@ -894,7 +905,7 @@
         color: mutedColor,
         labelColor: theme.mutedLabel,
         labelOutlineColor: colorWithAlpha(mutedColor, 0.55),
-        forceLabel: false,
+        forceLabel,
         zIndex: highlighted ? 1 : 0,
       };
     }
@@ -920,7 +931,7 @@
       labelColor: '#ffffff',
       labelOutlineColor: attrs.baseColor,
       highlighted: false,
-      forceLabel: false,
+      forceLabel,
       zIndex: 1,
     };
   }
@@ -1155,6 +1166,56 @@
     };
   }
 
+  function transitionCameraState() {
+    if (!renderer || typeof renderer.getCamera !== 'function') return null;
+    const camera = renderer.getCamera();
+    return camera && typeof camera.getState === 'function'
+      ? camera.getState()
+      : null;
+  }
+
+  function screenDistance(a, b, cameraState = null) {
+    if (!renderer) return Infinity;
+    const options = cameraState ? { cameraState } : undefined;
+    const av = renderer.graphToViewport(a, options);
+    const bv = renderer.graphToViewport(b, options);
+    const dx = av.x - bv.x;
+    const dy = av.y - bv.y;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  function limitTransitionOriginTravel(from, to, cameraState = null) {
+    if (!renderer) return from;
+
+    const options = cameraState ? { cameraState } : undefined;
+    const fromView = renderer.graphToViewport(from, options);
+    const toView = renderer.graphToViewport(to, options);
+    const dx = fromView.x - toView.x;
+    const dy = fromView.y - toView.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const maxTravel = Math.min(
+      LEVEL_TRANSITION_MAX_SCREEN_TRAVEL,
+      Math.max(24, distance * LEVEL_TRANSITION_DRILLDOWN_TRAVEL_RATIO)
+    );
+
+    if (!Number.isFinite(distance) || distance <= maxTravel || !distance) return from;
+
+    const scale = maxTravel / distance;
+    const boundedView = {
+      x: toView.x + dx * scale,
+      y: toView.y + dy * scale,
+    };
+
+    if (typeof renderer.viewportToGraph === 'function') {
+      return renderer.viewportToGraph(boundedView, options);
+    }
+
+    return {
+      x: to.x + (from.x - to.x) * scale,
+      y: to.y + (from.y - to.y) * scale,
+    };
+  }
+
   function finishLevelTransition() {
     if (!activeLevelTransition) return;
     window.cancelAnimationFrame(activeLevelTransition.raf);
@@ -1166,9 +1227,15 @@
     activeLevelTransition = null;
   }
 
-  function transitionOriginForDrillDown(attrs, previousLevel) {
-    const ancestorId = attrs.ancestorIds && attrs.ancestorIds[previousLevel];
-    if (ancestorId && graphHasNode(ancestorId)) return nodePoint(ancestorId);
+  function transitionOriginForDrillDown(attrs, previousLevel, to, cameraState) {
+    const parentLevel = previousDetailLevel(attrs.detailLevel);
+    const ancestorId = attrs.ancestorIds && (
+      attrs.ancestorIds[parentLevel] ||
+      attrs.ancestorIds[previousLevel]
+    );
+    if (ancestorId && graphHasNode(ancestorId)) {
+      return limitTransitionOriginTravel(nodePoint(ancestorId), to, cameraState);
+    }
     return homePoint(attrs);
   }
 
@@ -1192,6 +1259,8 @@
   function prepareLevelTransition(previousLevel, nextLevel) {
     const direction = detailLevelDirection(previousLevel, nextLevel);
     const nodes = [];
+    const cameraState = transitionCameraState();
+    let maxScreenTravel = 0;
 
     graph.forEachNode((node, attrs) => {
       if (attrs.detailLevel !== nextLevel || !nodeAllowedByFilters(attrs)) return;
@@ -1200,14 +1269,24 @@
       let from = null;
 
       if (direction > 0) {
-        from = transitionOriginForDrillDown(attrs, previousLevel);
+        from = transitionOriginForDrillDown(attrs, previousLevel, to, cameraState);
       } else if (direction < 0) {
         from = transitionOriginForRollUp(node, nextLevel, previousLevel) || homePoint(attrs);
       }
 
       if (!from) return;
+      maxScreenTravel = Math.max(maxScreenTravel, screenDistance(from, to, cameraState));
       nodes.push({ node, from, to });
     });
+
+    lastLevelTransitionMetrics = {
+      fromLevel: previousLevel,
+      toLevel: nextLevel,
+      direction,
+      nodeCount: nodes.length,
+      maxScreenTravel,
+      maxAllowedScreenTravel: direction > 0 ? LEVEL_TRANSITION_MAX_SCREEN_TRAVEL : null,
+    };
 
     return nodes;
   }
@@ -1296,10 +1375,22 @@
     hideLoading();
     setupFocusLabelOverlay();
     setupGraphEvents();
+    setupCameraEvents();
     updateStats();
     window.setTimeout(() => {
       if (!focusPaperFromHash()) fitVisible(0);
     }, 0);
+  }
+
+  function setupCameraEvents() {
+    const camera = renderer && renderer.getCamera && renderer.getCamera();
+    if (!camera || typeof camera.on !== 'function') return;
+
+    camera.on('updated', state => {
+      if (currentDetailLevel === 'paper') {
+        scheduleNodeRadiusCalibration(state);
+      }
+    });
   }
 
   function setupGraphEvents() {
@@ -1667,15 +1758,25 @@
     if (!Number.isFinite(minDistance)) return;
 
     const target = minDistance / (2 + NODE_RADIUS_CLEARANCE_RATIO);
-    const nextRadius = Math.max(
-      NODE_SCREEN_RADIUS_MIN,
-      Math.min(NODE_SCREEN_RADIUS_CAP, Math.floor(target * 10) / 10)
-    );
+    const quantizedTarget = Math.floor(Math.max(NODE_SCREEN_RADIUS_MIN, target) * 20) / 20;
+    const nextRadius = Math.min(NODE_SCREEN_RADIUS_CAP, quantizedTarget);
 
     if (Math.abs(nextRadius - nodeScreenRadius) < 0.05) return;
 
     nodeScreenRadius = nextRadius;
     if (renderer) renderer.refresh();
+  }
+
+  function scheduleNodeRadiusCalibration(cameraState) {
+    if (pendingNodeRadiusCalibration) {
+      window.cancelAnimationFrame(pendingNodeRadiusCalibration);
+    }
+
+    pendingNodeRadiusCalibration = window.requestAnimationFrame(() => {
+      pendingNodeRadiusCalibration = null;
+      if (currentDetailLevel !== 'paper' || activeLevelTransition) return;
+      calibrateNodeRadius(cameraState);
+    });
   }
 
   function fitVisible(duration) {
@@ -2132,6 +2233,11 @@
     const panel = document.getElementById('mm-panel');
     const header = document.getElementById('mm-panel-header');
     const hideBtn = document.getElementById('mm-panel-hide-btn');
+    if (window.matchMedia('(max-width: 700px)').matches) {
+      panel.classList.add('body-collapsed');
+      hideBtn.textContent = 'Show Settings';
+      header.title = 'Show Settings';
+    }
     header.addEventListener('click', () => {
       const collapsed = panel.classList.toggle('body-collapsed');
       hideBtn.textContent = collapsed ? 'Show Settings' : 'Hide Settings';
@@ -2185,6 +2291,7 @@
       nodeScreenRadius,
       minimumVisibleScreenDistance: minimumVisibleScreenDistance(),
       clearanceRatio: NODE_RADIUS_CLEARANCE_RATIO,
+      lastLevelTransition: lastLevelTransitionMetrics,
     }),
   };
 

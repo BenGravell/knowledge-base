@@ -1,0 +1,28 @@
+title: "Flocks, Herds, and Schools: A Distributed Behavioral Model"
+algorithm: Boids
+authors:
+  - Craig W. Reynolds
+year: 1987
+source: "ACM SIGGRAPH"
+type: Conference Paper
+doi: 10.1145/37401.37406
+arxiv_id:
+tags:
+  - Boids
+  - Flocking
+  - Behavioral animation
+  - Multi-agent simulation
+  - Particle systems
+  - Distributed control
+  - Computer graphics
+abstract: >
+  The aggregate motion of a flock of birds, a herd of land animals, or a school of fish is a beautiful and familiar part of the natural world. But this type of complex motion is rarely seen in computer animation. This paper explores an approach based on simulation as an alternative to scripting the paths of each bird individually. The simulated flock is an elaboration of a particle system, with the simulated birds being the particles. The aggregate motion of the simulated flock is created by a distributed behavioral model much like that at work in a natural flock; the birds choose their own course. Each simulated bird is implemented as an independent actor that navigates according to its local perception of the dynamic environment, the laws of simulated physics that rule its motion, and a set of behaviors programmed into it by the "animator." The aggregate motion of the simulated flock is the result of the dense interaction of the relatively simple behaviors of the individual simulated birds.
+summary: >
+  Introduces the boids model, a local-rule simulation of flocking in which each actor steers from its own perception rather than from a centralized script. The paper became a core reference for emergent multi-agent motion, behavioral animation, and decentralized swarm simulation.
+link: https://www.red3d.com/cwr/papers/1987/boids.pdf
+links_alt:
+  - https://www.red3d.com/cwr/papers/1987/boids.html
+  - https://www.cs.toronto.edu/~dt/siggraph97-course/cwr87/
+  - https://doi.org/10.1145/37401.37406
+  - https://doi.org/10.1145/37402.37406
+audit_status: raw

@@ -1,0 +1,30 @@
+title: "Mathematical Model of the 5-DOF Sled Dynamics of an Electrodynamic Maglev System with a Passive Sled"
+algorithm: Maglev State-Space Model
+authors:
+  - Jeroen de Boeij
+  - Maarten Steinbuch
+  - Hector M. Gutierrez
+year: 2004
+source: "IEEE Symposium on Electromagnetic Launch Technology"
+type: Conference Paper
+doi: 10.1109/ELT.2004.1398123
+arxiv_id:
+tags:
+  - Electrodynamic maglev
+  - Magnetic levitation
+  - State-space modeling
+  - Parameter estimation
+  - Sled dynamics
+  - Robust control
+  - Electromagnetic launch
+abstract: >
+  A model that describes the 5-DOF dynamics of a passively levitated electrodynamic Maglev system is presented. The model is based on the flux-current-force interactions and the geometric relationships between the levitation coils and the permanent magnets on the sled. The model is presented in a parametric state-space formulation, suitable to extract model parameters from input-output measurements in a minimum mean-square error sense. The proposed structure is very well suited for parameter estimation and to later develop robust feedback control of the sled dynamics.
+summary: >
+  Develops a five-degree-of-freedom state-space model for the sled dynamics of a passively levitated electrodynamic maglev system. The model connects coil-magnet geometry and flux-current-force interactions to a parameterized form that is useful for system identification and later robust feedback-control design.
+link: https://doi.org/10.1109/ELT.2004.1398123
+links_alt:
+  - https://ieeexplore.ieee.org/document/1398123
+  - https://research.tue.nl/en/publications/mathematical-model-of-the-5-dof-sled-dynamics-of-an-electromagnet
+  - https://doi.org/10.1109/TMAG.2004.839284
+  - https://research.tue.nl/en/publications/mathematical-model-of-the-5-dof-sled-dynamics-of-an-electrodynami
+audit_status: raw

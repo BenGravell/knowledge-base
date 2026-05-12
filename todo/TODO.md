@@ -10,36 +10,13 @@ Paper detail page (make it spiffy, better aesthetics and gradient colors and fun
 
 Add tabs with more data slicing views like the tables,
 
-## Pages
-
-I have two tasks for you.
-
-1.
-Consider the "Aggregate" tab in the streamlit analysis_app.
-
-Port the functionality to a new page in the site nav tree called "Analytics"
-
-Also include more analytics metrics, like histogram of author, count of unique authors.
-
-2.
-Consider the "arXiv paper inspector" tab in the streamlit analysis_app.
-
-Port the functionality to the template used for rendering the paper detail pages in mkdocs.
-
-I especially want the links section to be robust and easy to navigate. Use a style hierarchy. The most important link is the primary link in the metadata. That should be followed by a set of standardized links for arxiv ID when available (abstract page, pdf page, html page) and doi (doi.org) when available. After that should be a group of all the alternate links from the metadata.
-Put all links in attractive, cohesively styled pillboxes.
-
-
-Guidance for both tasks.
-Use standard frameworks as much as possible without too much custom code. Prefer mkdocs first since the site is built in mkdcos. Prefer plugins for mkdocs second. Prefer third party libraries third. Use custom code only as a last resort.
-
 ## Content tree
 
 ## Mind Map
 
-### menu
+### nodes jumping on level-of-detail change
 
-Start with settings menu folded when on mobile site.
+whenever we change level-of-detail to more detailed it makes the nodes "jump" and "explode" way too much flying off screen temporarily during the transition animation briefly before coming back on screen and flowing gently and properly into new positions. revise the logic to prevent the explosion. tackle the root cause of why they are flying away and try to keep the transition animation in tact and feeling gentle and smooth natively (do not simply make the transition duration longer)
 
 ### Node style
 

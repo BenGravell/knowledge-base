@@ -215,6 +215,38 @@ JS_CHECKS = r"""
       panelWidth: panel ? panel.offsetWidth : 0,
     };
   };
+  const assertAllVisibleLabelsForced = (level, label) => {
+    renderer.refresh();
+    const ids = visibleNodes().filter(id => graph.getNodeAttribute(id, 'detailLevel') === level);
+    const displayed = renderer.getNodeDisplayedLabels
+      ? renderer.getNodeDisplayedLabels()
+      : new Set();
+    const unforced = ids.filter(id => {
+      const data = renderer.getNodeDisplayData(id);
+      return !data || data.forceLabel !== true;
+    });
+    const missing = ids.filter(id => !displayed.has(id));
+
+    assert(ids.length > 0, `${label} has visible nodes`, ids.length);
+    assert(unforced.length === 0,
+      `${label} forces all visible node labels`,
+      JSON.stringify(unforced.slice(0, 8)));
+    assert(missing.length === 0,
+      `${label} renders every visible node label`,
+      JSON.stringify(missing.slice(0, 8)));
+  };
+  const assertPaperNodeClearance = label => {
+    const metrics = mm.metrics && mm.metrics();
+    const minDistance = metrics && metrics.minimumVisibleScreenDistance;
+    const radius = metrics && metrics.nodeScreenRadius;
+    const clearanceRatio = metrics && metrics.clearanceRatio;
+    const requiredDistance = radius * (2 + clearanceRatio);
+
+    assert(radius <= 3.85, `${label} uses reduced paper disk radius`, radius);
+    assert(minDistance + 0.05 >= requiredDistance,
+      `${label} keeps at least the configured paper-node clearance`,
+      JSON.stringify({ minDistance, radius, clearanceRatio, requiredDistance }));
+  };
   const allDetailViewportBBox = () => {
     const detailLevels = new Set(['super_category', 'category', 'sub_category', 'paper']);
     const ids = graph.nodes().filter(id => detailLevels.has(graph.getNodeAttribute(id, 'detailLevel')));
@@ -287,6 +319,7 @@ JS_CHECKS = r"""
     'initial super-category node count is aggregated', nodes.length);
   assert(nodes.every(id => graph.getNodeAttribute(id, 'kind') === 'aggregate'),
     'initial visible nodes are aggregate nodes');
+  assertAllVisibleLabelsForced('super_category', 'super-category level');
 
   const cameraDelta = (a, b) =>
     Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y), Math.abs(a.ratio - b.ratio));
@@ -306,6 +339,7 @@ JS_CHECKS = r"""
   assert(categoryNodeCount > initialSuperNodeCount,
     'category level reveals more aggregate nodes than the super level',
     `${categoryNodeCount} vs ${initialSuperNodeCount}`);
+  assertAllVisibleLabelsForced('category', 'category level');
 
   nodes = visibleNodes();
   const beforeCategoryClickCamera = { ...camera.getState() };
@@ -333,11 +367,19 @@ JS_CHECKS = r"""
   assert(mm.detailLevel && mm.detailLevel() === 'paper',
     'paper button reveals paper nodes',
     mm.detailLevel && mm.detailLevel());
+  const paperTransition = mm.metrics && mm.metrics().lastLevelTransition;
+  assert(paperTransition && paperTransition.toLevel === 'paper',
+    'paper drill-down records transition metrics',
+    JSON.stringify(paperTransition));
+  assert(paperTransition && paperTransition.maxScreenTravel <= paperTransition.maxAllowedScreenTravel + 1,
+    'paper drill-down caps node travel to prevent explosive transitions',
+    JSON.stringify(paperTransition));
 
   nodes = visibleNodes();
   edges = visibleEdges();
   assert(nodes.length > 20, 'visible node count is plausible', nodes.length);
   assert(edges.length > 20, 'visible edge count is plausible', edges.length);
+  assertPaperNodeClearance('paper detail level');
 
   setScheme('default');
   await sleep(90);

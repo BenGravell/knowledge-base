@@ -1,0 +1,32 @@
+title: "Nevergrad: Black-Box Optimization Platform"
+algorithm: Nevergrad
+authors:
+  - Pauline Bennet
+  - Carola Doerr
+  - Antoine Moreau
+  - Jeremy Rapin
+  - Fabien Teytaud
+  - Olivier Teytaud
+year: 2021
+source: ACM SIGEVOlution
+type: Journal Paper
+doi: 10.1145/3460310.3460312
+arxiv_id:
+tags:
+  - Nevergrad
+  - Black-box optimization
+  - Derivative-free optimization
+  - Evolutionary computation
+  - Optimization software
+  - Benchmarking
+  - Open-source software
+abstract: >
+  Nevergrad is an open source platform for black-box optimization. Join the user group! And if you like Nevergrad, please support us by adding a star on GitHub (https://github.com/facebookresearch/nevergrad).
+summary: >
+  Introduces Nevergrad as an open-source platform for black-box and derivative-free optimization, collecting optimizers, benchmark tooling, and practical interfaces in one package. The article is less a theoretical algorithm paper than a software reference for experimentation across noisy, parallel, discrete, continuous, structured, and multiobjective optimization settings.
+link: https://doi.org/10.1145/3460310.3460312
+links_alt:
+  - https://dl.acm.org/doi/10.1145/3460310.3460312
+  - https://www.researchgate.net/publication/350784577_Nevergrad_black-box_optimization_platform
+  - https://github.com/facebookresearch/nevergrad
+audit_status: raw

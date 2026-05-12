@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # Knowledge Base
 
 Welcome to my curated collection of research papers, ideas, and explanations in the fields of **motion planning**, **optimization**, **robotics**, **machine learning**, and more.
