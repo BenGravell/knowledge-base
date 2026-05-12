@@ -1,6 +1,6 @@
 title: >
   Controlgym: Large-Scale Control Environments for Benchmarking Reinforcement Learning Algorithms
-algorithm: "Controlgym"
+algorithm: controlgym
 authors:
   - Xiangyuan Zhang
   - Weichao Mao

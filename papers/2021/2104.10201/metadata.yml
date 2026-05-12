@@ -1,0 +1,33 @@
+title: "Bayesian Optimization Is Superior to Random Search for Machine Learning Hyperparameter Tuning: Analysis of the Black-Box Optimization Challenge 2020"
+algorithm: Black-Box Optimization Challenge analysis
+authors:
+  - Ryan Turner
+  - David Eriksson
+  - Michael McCourt
+  - Juha Kiili
+  - Eero Laaksonen
+  - Zhen Xu
+  - Isabelle Guyon
+year: 2021
+source: NeurIPS Competition and Demonstration Track
+type: Conference Paper
+doi:
+arxiv_id: "2104.10201"
+tags:
+  - Bayesian optimization
+  - Random search
+  - Hyperparameter optimization
+  - Black-box optimization
+  - Derivative-free optimization
+  - Machine learning benchmarks
+  - NeurIPS challenge
+  - Competition analysis
+abstract: >
+  This paper presents the results and insights from the black-box optimization (BBO) challenge at NeurIPS 2020 which ran from July-October, 2020. The challenge emphasized the importance of evaluating derivative-free optimizers for tuning the hyperparameters of machine learning models. This was the first black-box optimization challenge with a machine learning emphasis. It was based on tuning (validation set) performance of standard machine learning models on real datasets. This competition has widespread impact as black-box optimization (e.g., Bayesian optimization) is relevant for hyperparameter tuning in almost every machine learning project as well as many applications outside of machine learning. The final leaderboard was determined using the optimization performance on held-out (hidden) objective functions, where the optimizers ran without human intervention. Baselines were set using the default settings of several open-source black-box optimization packages as well as random search.
+summary: >
+  Analyzes the NeurIPS black-box optimization challenge for machine-learning hyperparameter tuning and finds that Bayesian optimization and related black-box optimizers substantially outperform default-package baselines and random search on held-out objectives. The paper is valuable less for a new optimizer than for its benchmark design and empirical evidence about optimizer selection under realistic tuning constraints.
+link: https://arxiv.org/pdf/2104.10201
+links_alt:
+  - https://proceedings.mlr.press/v133/turner21a.html
+  - https://proceedings.mlr.press/v133/turner21a/turner21a.pdf
+audit_status: raw
