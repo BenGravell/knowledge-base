@@ -2,6 +2,7 @@
 
 import argparse
 import html
+import json
 import re
 import sys
 from dataclasses import dataclass
@@ -470,7 +471,7 @@ def audit_file(
         if not title:
             issues.append(Issue(path, "title", "Empty"))
         else:
-            corrected = to_title_case(title)
+            corrected = _suggest_title_fix(raw, title)
             if title != corrected:
                 issues.append(
                     Issue(
@@ -628,27 +629,129 @@ def audit_file(
 # Fix helpers
 # ---------------------------------------------------------------------------
 
-_TITLE_LINE_RE = re.compile(
-    r"""^(title:\s*)(['"]?)(.*?)(['"]?)(\s*)$""",
-    re.MULTILINE,
-)
+_TITLE_LINE_RE = re.compile(r"^title\s*:\s*(?P<value>.*?)(?P<newline>\r?\n?)$")
+_BLOCK_SCALAR_HEADER_RE = re.compile(r"^[>|][0-9+-]*(?:\s+#.*)?$")
+
+
+def _format_title_line(new_title: str, line_ending: str = "\n") -> str:
+    return f"title: {json.dumps(new_title, ensure_ascii=False)}{line_ending}"
+
+
+def _is_block_scalar_header(value: str) -> bool:
+    return bool(_BLOCK_SCALAR_HEADER_RE.match(value.strip()))
+
+
+def _is_multiline_quoted_scalar_header(value: str) -> bool:
+    stripped = value.lstrip()
+    if not stripped or stripped[0] not in ("'", '"'):
+        return False
+
+    quote = stripped[0]
+    escaped = False
+    for char in stripped[1:]:
+        if quote == '"' and char == "\\" and not escaped:
+            escaped = True
+            continue
+        if char == quote and not escaped:
+            return False
+        escaped = False
+    return True
+
+
+def _has_indented_continuation(lines: list[str], start: int) -> bool:
+    for line in lines[start + 1 :]:
+        if not line.strip():
+            continue
+        return line.startswith((" ", "\t"))
+    return False
+
+
+def _plain_multiline_title_parts(raw: str) -> tuple[str, str] | None:
+    lines = raw.splitlines(keepends=True)
+    for start, line in enumerate(lines):
+        m = _TITLE_LINE_RE.match(line)
+        if not m:
+            continue
+
+        value = m.group("value")
+        if _is_block_scalar_header(value) or not _has_indented_continuation(
+            lines, start
+        ):
+            return None
+
+        end = start + 1
+        continuation_lines = []
+        while end < len(lines):
+            next_line = lines[end]
+            if next_line.strip() and not next_line.startswith((" ", "\t")):
+                break
+            if next_line.strip():
+                continuation_lines.append(next_line.strip())
+            end += 1
+
+        header = value.strip()
+        try:
+            parsed = yaml.safe_load(f"title: {header}\n")
+            header = str(parsed.get("title", header)) if isinstance(parsed, dict) else header
+        except yaml.YAMLError:
+            header = header.strip("'\"")
+
+        continuation = " ".join(continuation_lines)
+        return header, continuation
+
+    return None
+
+
+def _normalize_for_duplicate_title_check(title: str) -> str:
+    return " ".join(title.split()).casefold()
+
+
+def _suggest_title_fix(raw: str, title: str) -> str:
+    parts = _plain_multiline_title_parts(raw)
+    if parts is not None:
+        header, continuation = parts
+        if (
+            header
+            and continuation
+            and _normalize_for_duplicate_title_check(header)
+            == _normalize_for_duplicate_title_check(continuation)
+        ):
+            return header
+
+    return to_title_case(title)
 
 
 def _fix_title_in_yaml(raw: str, new_title: str) -> str:
-    """Replace the title value in raw YAML text, preserving surrounding quoting."""
+    """Replace the title value in raw YAML text.
 
-    def replacer(m: re.Match) -> str:
-        prefix = m.group(1)
-        q_open = m.group(2)
-        q_close = m.group(4)
-        needs_quotes = any(
-            c in new_title for c in (":", "#", "[", "]", "{", "}", "&", "*", "!")
-        )
-        if needs_quotes and not q_open:
-            return f'{prefix}"{new_title}"'
-        return f"{prefix}{q_open}{new_title}{q_close}"
+    Titles are usually single-line scalars, but older metadata can use folded or
+    literal block scalars. In that case the title node spans the `title: >` line
+    plus the following indented lines, so replacing only the first line leaves a
+    dangling duplicate continuation line behind.
+    """
+    lines = raw.splitlines(keepends=True)
+    for start, line in enumerate(lines):
+        m = _TITLE_LINE_RE.match(line)
+        if not m:
+            continue
 
-    return _TITLE_LINE_RE.sub(replacer, raw, count=1)
+        end = start + 1
+        value = m.group("value")
+        if (
+            _is_block_scalar_header(value)
+            or _is_multiline_quoted_scalar_header(value)
+            or _has_indented_continuation(lines, start)
+        ):
+            while end < len(lines):
+                next_line = lines[end]
+                if next_line.strip() and not next_line.startswith((" ", "\t")):
+                    break
+                end += 1
+
+        replacement = _format_title_line(new_title, m.group("newline"))
+        return "".join(lines[:start] + [replacement] + lines[end:])
+
+    return raw
 
 
 def _is_escaped_sequence_issue(issue: Issue) -> bool:
