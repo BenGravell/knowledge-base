@@ -87,7 +87,7 @@ python scripts/add_audit_status.py
 Find generated paper pages that are missing from the `Content Tree` nav:
 
 ```bash
-python scripts/list_unplaced_papers.py --neighbors 5
+python scripts/list_unplaced_papers.py --neighbors 3
 python scripts/list_unplaced_papers.py --format paths
 python scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
 ```
