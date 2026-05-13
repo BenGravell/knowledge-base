@@ -1,5 +1,4 @@
-title: >
-  A fast procedure for computing the distance between complex objects in three-dimensional space
+title: A Fast Procedure for Computing the Distance Between Complex Objects in Three-dimensional Space
 algorithm: "GJK"
 authors:
   - E.G. Gilbert

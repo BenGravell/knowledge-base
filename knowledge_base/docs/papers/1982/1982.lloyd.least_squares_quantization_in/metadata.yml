@@ -1,4 +1,4 @@
-title: Least squares quantization in PCM
+title: Least Squares Quantization in PCM
 algorithm: "Lloyd's algorithm"
 authors:
   - Stuart P. Lloyd

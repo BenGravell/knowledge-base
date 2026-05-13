@@ -1,5 +1,4 @@
-title: >
-  Computational implementation of the multivariate Halley method for solving nonlinear systems of equations
+title: Computational Implementation of the Multivariate Halley Method for Solving Nonlinear Systems of Equations
 algorithm: "Multivariate Halley Method"
 authors:
   - Annie A. M. Cuyt
