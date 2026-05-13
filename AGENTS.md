@@ -139,7 +139,6 @@ For each paper, perform the agent task "Generate metadata for a single paper"
     - links_alt: List of alternate links. Start with freely openable paper links first, place paywalled links at the end. Also include links to supporting material such as code repos or packages associated with the item.
     - audit_status: Audit status of the item. See VALID_AUDIT_STATUSES in config.py for definitions and valid values.
 
-
 ### Audit and fix raw metadata
 
 1. Run from `knowledge_base/`:
