@@ -35,3 +35,4 @@ https://dl.acm.org/doi/abs/10.5555/1620113.1620125
 https://proceedings.neurips.cc/paper_files/paper/2025/hash/31fb284a0aaaad837d2930a610cd5e50-Abstract-Conference.html
 https://proceedings.neurips.cc/paper/2021/hash/f4f6dce2f3a0f9dada0c2b5b66452017-Abstract.html
 https://www.semanticscholar.org/paper/System-Identification-of-the-Crazyflie-2.0-Nano-F%C3%B6rster/7c614b5a930d38092b83459e63390c3721b408b5
+https://www.jstor.org/stable/2975033
