@@ -8,8 +8,10 @@ type: Journal Paper
 doi: 10.1016/0041-5553(63)90382-3
 arxiv_id:
 tags:
-abstract: ''
-summary: ''
+abstract: >
+  Let f(t) be a functional defined in the (real) Hilbert space H. The problem consists in finding its minimum value f* = inf f(x) and some minimum point x* (if such exists).
+summary: >
+  Historically important because it introduced what is now called the Polyak-Lojasiewicz (PL) or gradient-domination condition: the objective gap is controlled by the squared gradient norm, so a small gradient certifies near-optimality and gradient descent can converge linearly without strong convexity. This idea became a central bridge from classical optimization to modern machine learning: Karimi et al. (2016) showed that the PL inequality gives simple linear-convergence analyses for least squares, logistic regression, coordinate descent, stochastic and variance-reduced methods, proximal-gradient methods, SVMs, and L1-regularized problems, while Fazel et al. (2018) used the same gradient-domination viewpoint to explain why policy gradient methods can globally optimize the nonconvex LQR objective."
 link: https://doi.org/10.1016/0041-5553(63)90382-3
 links_alt:
-audit_status: raw
+audit_status: partial

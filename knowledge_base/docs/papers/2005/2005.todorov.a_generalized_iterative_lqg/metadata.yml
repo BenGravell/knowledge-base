@@ -1,0 +1,30 @@
+title: "A Generalized Iterative LQG Method for Locally-Optimal Feedback Control of Constrained Nonlinear Stochastic Systems"
+algorithm: iLQG
+authors:
+  - Emanuel Todorov
+  - Weiwei Li
+year: 2005
+source: American Control Conference
+type: Conference Paper
+doi: 10.1109/ACC.2005.1469949
+arxiv_id:
+tags:
+  - Trajectory optimization
+  - Iterative linear quadratic Gaussian
+  - iLQG
+  - Stochastic optimal control
+  - Differential dynamic programming
+  - Control-dependent noise
+  - Multiplicative noise
+  - Constrained optimal control
+  - Nonlinear control
+  - Optimal feedback control
+  - Biomechanical control
+abstract: >
+  We present an iterative linear-quadratic-Gaussian method for locally-optimal feedback control of nonlinear stochastic systems subject to control constraints. Previously, similar methods have been restricted to deterministic unconstrained problems with quadratic costs. The new method constructs an affine feedback control law, obtained by minimizing a novel quadratic approximation to the optimal cost-to-go function. Global convergence is guaranteed through a Levenberg-Marquardt method; convergence in the vicinity of a local minimum is quadratic. Performance is illustrated on a limited-torque inverted pendulum problem, as well as a complex biomechanical control problem involving a stochastic model of the human arm, with 10 state dimensions and 6 muscle actuators. A Matlab implementation of the new algorithm is available at http://www.cogsci.ucsd.edu/~todorov.
+summary: >
+  Extends the earlier iLQR trajectory-optimization framework into an iterative LQG method for nonlinear stochastic systems with control constraints and control-dependent multiplicative noise. The paper shows how a local linear-quadratic approximation can account for noise whose variance depends on the control signal, producing affine feedback policies via modified Riccati-style backward passes and demonstrating the method on constrained pendulum and biomechanical arm-control examples.
+link: https://roboti.us/lab/papers/TodorovACC05.pdf
+links_alt:
+  - https://ieeexplore.ieee.org/document/1469949
+audit_status: partial

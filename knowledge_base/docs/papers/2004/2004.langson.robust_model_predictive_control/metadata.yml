@@ -11,7 +11,8 @@ type: Journal Paper
 doi: 10.1016/j.automatica.2003.08.009
 arxiv_id:
 tags:
-abstract: ''
+abstract: >
+  A form of feedback model predictive control (MPC) that overcomes disadvantages of conventional MPC but which has manageable computational complexity is presented. The optimal control problem, solved on-line, yields a ‘tube’ and an associated piecewise affine control law that maintains the controlled trajectories in the tube despite uncertainty; computational complexity is linear (rather than exponential) in horizon length. Asymptotic stability of the controlled system is established.
 summary: ''
 link: https://doi.org/10.1016/j.automatica.2003.08.009
 links_alt:

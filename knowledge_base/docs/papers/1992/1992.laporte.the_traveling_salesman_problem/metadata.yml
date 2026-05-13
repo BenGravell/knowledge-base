@@ -8,7 +8,8 @@ type: Journal Paper
 doi: 10.1016/0377-2217(92)90138-y
 arxiv_id:
 tags:
-abstract: ''
+abstract: >
+  In this paper, some of the main known algorithms for the traveling salesman problem are surveyed. The paper is organized as follows: 1) definition; 2) applications; 3) complexity analysis; 4) exact algorithms; 5) heuristic algorithms; 6) conclusion. The Traveling Salesman Problem (TSP) is one of the most widely studied combinatorial optimization problems. Its statement is deceptively simple, and yet it remains one of the most challenging problems in Operational Research. Hundreds of articles have been written on the TSP. The book edited by Lawler et al. (1985) provides an insightful and comprehensive survey of all major research results until that date. The purpose of this survey paper is less ambitious. Our main objective is to present an integrated overview of some of the best exact and approximate algorithms so far developed for the TSP, at a level appropriate for a first graduate course in combinatorial optimization.
 summary: ''
 link: https://doi.org/10.1016/0377-2217(92)90138-y
 links_alt:

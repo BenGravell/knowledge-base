@@ -9,7 +9,8 @@ doi: 10.1145/512274.3734138
 arxiv_id:
 tags:
 abstract: ''
-summary: ''
-link: https://doi.org/10.1145/512274.3734138
+summary: >
+  Williams introduces heapsort as an array-based sorting procedure built around a binary heap, first arranging the input into a heap and then repeatedly removing the largest element to produce the sorted order. The note is historically important as the original presentation of heapsort: a comparison sort with worst-case O(n log n) running time and in-place operation using only a small amount of auxiliary storage.
+link: https://dl.acm.org/doi/10.1145/512274.3734138
 links_alt:
-audit_status: raw
+audit_status: reviewed

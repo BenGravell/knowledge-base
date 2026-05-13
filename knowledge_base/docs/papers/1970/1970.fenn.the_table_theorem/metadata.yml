@@ -8,7 +8,8 @@ type: Journal Paper
 doi: 10.1112/blms/2.1.73
 arxiv_id:
 tags:
-abstract: ''
+abstract: >
+  Dyson proves that for any real-valued continuous map f: S^2 -> R on the unit sphere, there are four points on S^2 forming the vertices of a square centered at the origin such that f takes the same value at all four points. This paper proves a similar result for a compact convex disc D in R^2: for any d > 0 and any map f: R^2 -> R with f(x) >= 0 on D and f(x) = 0 outside D, there are four points in R^2 forming the vertices of a square of side length d, with center in D, such that f takes the same value at all four vertices. The result can be interpreted practically as placing a table on a bumpy floor so that it is horizontal and all its feet are on the floor.
 summary: >
   Proves the square-table theorem for a continuous nonnegative "hill" f: R^2 -> R that is zero outside a compact convex disk D: for any prescribed square side length, there is a square with center in D on whose four vertices f takes a single value. Later accounts describe this as the problem of balancing a square table on a hill, and follow-up work shows that the convex support condition is essential while several natural strengthenings, such as using only translations or replacing the square by most other polygons, fail.
 link: https://londmathsoc.onlinelibrary.wiley.com/doi/abs/10.1112/blms/2.1.73

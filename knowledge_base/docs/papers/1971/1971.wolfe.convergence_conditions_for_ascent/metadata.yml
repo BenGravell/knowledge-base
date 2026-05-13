@@ -14,5 +14,4 @@ summary: >
   Corrections to 'Convergence Conditions for Ascent Methods' (https://epubs.siam.org/doi/10.1137/1011036).
 link: https://epubs.siam.org/doi/10.1137/1013035
 links_alt:
-  - https://doi.org/10.1137/1013035
-audit_status: raw
+audit_status: reviewed

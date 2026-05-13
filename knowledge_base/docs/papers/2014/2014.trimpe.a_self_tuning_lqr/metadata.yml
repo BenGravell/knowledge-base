@@ -11,7 +11,8 @@ type: Journal Paper
 doi: 10.3182/20140824-6-za-1003.01455
 arxiv_id:
 tags:
-abstract: ''
+abstract: >
+  An automatic controller tuning approach is presented that iteratively updates a linear quadratic regulator (LQR) design such that the resulting controller achieves improved closed-loop performance. In each iteration, an updated LQR gain is obtained by adjusting the weighting matrices of the associated quadratic cost. The performance of the resulting controller (measured in terms of another quadratic cost with fixed weights) is evaluated from experimental data obtained by testing the controller in closed-loop operation. The weight adjustment occurs through a stochastic optimization seeking to minimize the experimental cost. Simulation results of a stochastic linear system show that the self-tuning algorithm can recover optimal performance despite having imprecise model knowledge. Experiments on an inverted pendulum demonstrate that the method is effective in improving the system's balancing performance.
 summary: ''
 link: https://doi.org/10.3182/20140824-6-za-1003.01455
 links_alt:

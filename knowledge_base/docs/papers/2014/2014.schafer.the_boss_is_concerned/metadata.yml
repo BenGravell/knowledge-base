@@ -1,5 +1,5 @@
 title: The BOSS is concerned with time series classification in the presence of noise
-algorithm:
+algorithm: BOSS
 authors:
   - Patrick Schäfer
 year: 2014
@@ -8,10 +8,11 @@ type: Journal Paper
 doi: 10.1007/s10618-014-0377-7
 arxiv_id:
 tags:
-abstract: ''
+abstract: >
+  Similarity search is one of the most important and probably best studied methods for data mining. In the context of time series analysis it reaches its limits when it comes to mining raw datasets. The raw time series data may be recorded at variable lengths, be noisy, or are composed of repetitive substructures. These build a foundation for state of the art search algorithms. However, noise has been paid surprisingly little attention to and is assumed to be filtered as part of a preprocessing step carried out by a human. Our Bag-of-SFA-Symbols (BOSS) model combines the extraction of substructures with the tolerance to extraneous and erroneous data using a noise reducing representation of the time series. We show that our BOSS ensemble classifier improves the best published classification accuracies in diverse application areas and on the official UCR classification benchmark datasets by a large margin.
 summary: ''
 link: >
   https://www.researchgate.net/publication/282271002_The_BOSS_is_concerned_with_time_series_classification_in_the_presence_of_noise
 links_alt:
-  - https://doi.org/10.1007/s10618-014-0377-7
+  - https://link.springer.com/article/10.1007/s10618-014-0377-7
 audit_status: raw

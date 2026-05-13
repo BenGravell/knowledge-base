@@ -13,6 +13,7 @@ tags:
   - Generalized inverse
   - Convergence
 abstract: >
+  Halley's method is a famous iteration method for solving nonlinear equations F (X) = 0. Some Kantorovich-like theorems have been given, including extensions for general spaces. Quasi-Halley methods were proposed too. This paper uses the generalized inverse approach in order to obtain a robust generalized Halley method.
 summary: >
   Studies a generalized form of Halley's method for solving nonlinear equations F(x) = 0 in general spaces, using the generalized inverse approach. Presents Kantorovich-like convergence theorems, quasi-Halley variants, and numerical behavior studies of the iterative scheme.
 link: https://rj.romai.ro/arhiva/2008/2/RJv4n2-Albeanu.pdf
