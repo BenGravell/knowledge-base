@@ -14,7 +14,7 @@ from urllib.parse import quote
 import requests
 import yaml
 
-from knowledge_base.apps.arxiv_utils import metadata_to_yaml
+from knowledge_base.utils.arxiv_utils import metadata_to_yaml
 from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS
 
 PAPERS_DIR = Path(__file__).parent.parent / "docs" / "papers"
@@ -207,16 +207,22 @@ def build_doi_metadata(fields: dict) -> dict:
 # Path / write helpers
 # ---------------------------------------------------------------------------
 
-def slugify(text: str, max_words: int = 5) -> str:
+def slugify(text: str, max_words: int = 4) -> str:
     text = unicodedata.normalize("NFKD", text)
     text = text.encode("ascii", "ignore").decode("ascii")
     words = re.findall(r"[a-z0-9]+", text.lower())
     return "_".join(words[:max_words])
 
 
+def collapse_intra_word_apostrophes(text: str) -> str:
+    """Keep names like D'Andrea or O'Neill together for author slugs."""
+    return re.sub(r"(?<=[A-Za-z0-9])['’](?=[A-Za-z0-9])", "", text)
+
+
 def generate_folder_name(year: int, authors: list[str], title: str) -> str:
     if authors:
-        author_slug = slugify(authors[0].split()[-1], max_words=1)
+        last_name = collapse_intra_word_apostrophes(authors[0].split()[-1])
+        author_slug = slugify(last_name, max_words=1)
     else:
         author_slug = "unknown"
     return f"{year}.{author_slug}.{slugify(title)}"

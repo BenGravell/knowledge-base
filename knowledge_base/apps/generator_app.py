@@ -1,6 +1,11 @@
 import streamlit as st
 
-from arxiv_utils import build_metadata, fetch_arxiv, metadata_to_yaml, target_path
+from knowledge_base.utils.arxiv_utils import (
+    build_metadata,
+    fetch_arxiv,
+    metadata_to_yaml,
+    target_path,
+)
 from knowledge_base.config import VALID_TYPES
 
 # ---------------------------------------------------------------------------

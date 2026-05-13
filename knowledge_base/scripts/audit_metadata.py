@@ -261,6 +261,11 @@ def _slugify(text: str) -> str:
     return s.strip("_")
 
 
+def _collapse_intra_word_apostrophes(text: str) -> str:
+    """Keep names like D'Andrea or O'Neill together for author slugs."""
+    return re.sub(r"(?<=[A-Za-z0-9])['’](?=[A-Za-z0-9])", "", text)
+
+
 def _extract_last_name(author: str) -> str:
     """Best-effort extraction of last name from a full name string."""
     # Strip generational/title suffix after comma: "Reeds, III" -> "Reeds"
@@ -274,7 +279,9 @@ def expected_slug(year: int, arxiv_id: str, title: str, authors: list[str]) -> s
     if arxiv_id:
         return strip_arxiv_version(arxiv_id)
     first_author = authors[0] if authors else ""
-    last_name = _slugify(_extract_last_name(first_author))
+    last_name = _slugify(
+        _collapse_intra_word_apostrophes(_extract_last_name(first_author))
+    )
     # First four words of title; split on whitespace and hyphens
     title_tokens = re.split(r"[\s\-]+", title.strip())[:4]
     title_part = "_".join(_slugify(w) for w in title_tokens if w)

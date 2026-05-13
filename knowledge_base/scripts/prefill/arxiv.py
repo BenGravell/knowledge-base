@@ -17,7 +17,7 @@ if __package__ in (None, ""):
 
 import requests
 
-from knowledge_base.apps.arxiv_utils import (
+from knowledge_base.utils.arxiv_utils import (
     build_metadata,
     fetch_arxiv,
     target_path,
