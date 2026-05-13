@@ -58,8 +58,12 @@ class PrefillScript(ABC, Generic[EntryT]):
     delay: float = BASE_DELAY
     fetch_error_label: str = "fetching metadata"
 
+    def __init__(self) -> None:
+        self.parse_failures: list[str] = []
+
     def run(self) -> None:
         args = make_parser(self.description, self.default_input).parse_args()
+        self.parse_failures = []
         entries = self.extract_entries(args.input)
         print(f"Found {len(entries)} unique {self.entry_kind} in {args.input}")
 
@@ -69,6 +73,7 @@ class PrefillScript(ABC, Generic[EntryT]):
             return
 
         ok = skipped = failed = 0
+        parse_failed = len(self.parse_failures)
 
         for i, entry in enumerate(entries, 1):
             prefix = f"[{i}/{len(entries)}] {self.entry_label(entry)}"
@@ -110,7 +115,15 @@ class PrefillScript(ABC, Generic[EntryT]):
                 break
             time.sleep(self.delay)
 
-        print(f"\nDone: {ok} written, {skipped} skipped, {failed} failed")
+        failed += parse_failed
+        if parse_failed:
+            print(f"\nDone: {ok} written, {skipped} skipped, {failed} failed ({parse_failed} parse)")
+        else:
+            print(f"\nDone: {ok} written, {skipped} skipped, {failed} failed")
+
+    def record_parse_failure(self, message: str) -> None:
+        self.parse_failures.append(message)
+        print(f"  WARN: {message}")
 
     def list_skipped(self, entries: list[EntryT], context: dict[str, Any]) -> None:
         for entry in entries:
@@ -285,7 +298,7 @@ class UrlDoiPrefillScript(DoiPrefillScript[str]):
         entries: list[str] = []
         for url in read_url_lines(path):
             if not self.accept_url(url):
-                print(f"  WARN: could not parse {self.source_hint} URL from: {url!r}")
+                self.record_parse_failure(f"could not parse {self.source_hint} URL from: {url!r}")
                 continue
             key = self.entry_key(url)
             if key not in seen:
@@ -350,7 +363,7 @@ class CitationPagePrefillScript(PagePrefillScript[str]):
         entries: list[str] = []
         for url in read_url_lines(path):
             if not self.accept_url(url):
-                print(f"  WARN: could not parse {self.source_hint} URL from: {url!r}")
+                self.record_parse_failure(f"could not parse {self.source_hint} URL from: {url!r}")
                 continue
             key = self.normalize_url(url)
             if key not in seen:
@@ -455,7 +468,7 @@ class SemanticScholarPrefillScript(PagePrefillScript[str]):
         for url in read_url_lines(path):
             identifier = self.identifier_for_url(url)
             if not identifier:
-                print(f"  WARN: could not parse Semantic Scholar identifier from: {url!r}")
+                self.record_parse_failure(f"could not parse Semantic Scholar identifier from: {url!r}")
                 continue
             if identifier not in seen:
                 seen.add(identifier)
@@ -512,7 +525,7 @@ class PdfTextPrefillScript(PagePrefillScript[str], ABC):
         entries: list[str] = []
         for url in read_url_lines(path):
             if not self.accept_url(url):
-                print(f"  WARN: could not parse {self.source_hint} PDF URL from: {url!r}")
+                self.record_parse_failure(f"could not parse {self.source_hint} PDF URL from: {url!r}")
                 continue
             if url not in seen:
                 seen.add(url)

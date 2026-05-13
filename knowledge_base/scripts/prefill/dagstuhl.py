@@ -16,13 +16,17 @@ DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "DAGSTUHL.md"
 _LIPICS_RE = re.compile(r"/(LIPIcs\.[^/]+)\.pdf$", re.I)
 
 
-def extract_entries(path: Path) -> list[tuple[str, str]]:
+def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
     for url in read_url_lines(path):
         match = _LIPICS_RE.search(url)
         if not match:
-            print(f"  WARN: could not parse Dagstuhl DOI from: {url!r}")
+            message = f"could not parse Dagstuhl DOI from: {url!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
             continue
         doi = f"10.4230/{match.group(1)}"
         if doi.lower() not in seen:
@@ -37,7 +41,7 @@ class DagstuhlPrefill(DoiPrefillScript[tuple[str, str]]):
     entry_kind = "Dagstuhl DOIs"
 
     def extract_entries(self, path: Path) -> list[tuple[str, str]]:
-        return extract_entries(path)
+        return extract_entries(path, self.record_parse_failure)
 
     def entry_label(self, entry: tuple[str, str]) -> str:
         return entry[1]

@@ -31,7 +31,7 @@ DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "TAYLOR_FRANCIS.md"
 _TF_DOI_RE = re.compile(r"tandfonline\.com/doi/(?:abs/|full/|pdf/|epdf/)?([^\s?#]+)", re.I)
 
 
-def extract_entries(path: Path) -> list[tuple[str, str]]:
+def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
     """Return (original_url, doi) pairs, deduplicated by DOI."""
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
@@ -42,7 +42,11 @@ def extract_entries(path: Path) -> list[tuple[str, str]]:
         url = line.split()[0]
         m = _TF_DOI_RE.search(url)
         if not m:
-            print(f"  WARN: could not parse Taylor & Francis DOI from: {line!r}")
+            message = f"could not parse Taylor & Francis DOI from: {line!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
             continue
         doi = unquote(m.group(1)).rstrip("/")
         if doi and doi.lower() not in seen:
@@ -57,7 +61,7 @@ class TaylorFrancisPrefill(DoiPrefillScript[tuple[str, str]]):
     entry_kind = "Taylor & Francis DOIs"
 
     def extract_entries(self, path: Path) -> list[tuple[str, str]]:
-        return extract_entries(path)
+        return extract_entries(path, self.record_parse_failure)
 
     def entry_label(self, entry: tuple[str, str]) -> str:
         return entry[1]

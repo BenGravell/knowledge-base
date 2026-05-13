@@ -33,7 +33,7 @@ DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "NATURE.md"
 _NATURE_ARTICLE_RE = re.compile(r"nature\.com/articles/([^/?#\s]+)", re.I)
 
 
-def extract_entries(path: Path) -> list[tuple[str, str]]:
+def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
     """Return (original_url, doi) pairs, deduplicated by DOI."""
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
@@ -44,7 +44,11 @@ def extract_entries(path: Path) -> list[tuple[str, str]]:
         url = line.split()[0]
         m = _NATURE_ARTICLE_RE.search(url)
         if not m:
-            print(f"  WARN: could not parse Nature article ID from: {line!r}")
+            message = f"could not parse Nature article ID from: {line!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
             continue
         doi = f"10.1038/{m.group(1).rstrip('/')}"
         if doi.lower() not in seen:
@@ -84,7 +88,7 @@ class NaturePrefill(DoiPrefillScript[tuple[str, str]]):
     show_resolved_doi = True
 
     def extract_entries(self, path: Path) -> list[tuple[str, str]]:
-        return extract_entries(path)
+        return extract_entries(path, self.record_parse_failure)
 
     def entry_label(self, entry: tuple[str, str]) -> str:
         return entry[1]

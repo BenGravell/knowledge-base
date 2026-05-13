@@ -36,14 +36,18 @@ _RSS_RE = re.compile(r"roboticsproceedings\.org/(rss\d{2})/(p\d+)\.(?:pdf|html)"
 _BASE = "https://www.roboticsproceedings.org"
 
 
-def extract_entries(path: Path) -> list[tuple[str, str, str]]:
+def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str, str]]:
     """Return deduplicated (html_url, pdf_url, key) tuples."""
     seen: set[str] = set()
     entries: list[tuple[str, str, str]] = []
     for url in read_url_lines(path):
         m = _RSS_RE.search(url)
         if not m:
-            print(f"  WARN: could not parse RSS URL from: {url!r}")
+            message = f"could not parse RSS URL from: {url!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
             continue
         volume, paper = m.group(1).lower(), m.group(2)
         key = f"{volume}/{paper}"
@@ -114,7 +118,7 @@ class RssPrefill(PagePrefillScript[tuple[str, str, str]]):
     entry_kind = "RSS papers"
 
     def extract_entries(self, path: Path) -> list[tuple[str, str, str]]:
-        return extract_entries(path)
+        return extract_entries(path, self.record_parse_failure)
 
     def entry_label(self, entry: tuple[str, str, str]) -> str:
         _html_url, _pdf_url, key = entry

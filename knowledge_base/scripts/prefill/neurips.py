@@ -43,14 +43,18 @@ _FILE_RE = re.compile(
 _BASE = "https://proceedings.neurips.cc"
 
 
-def extract_entries(path: Path) -> list[tuple[str, str]]:
+def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
     """Return deduplicated (year, hash) pairs."""
     seen: set[tuple[str, str]] = set()
     entries: list[tuple[str, str]] = []
     for url in read_url_lines(path):
         m = _ABSTRACT_RE.search(url) or _FILE_RE.search(url)
         if not m:
-            print(f"  WARN: could not parse NeurIPS URL from: {url!r}")
+            message = f"could not parse NeurIPS URL from: {url!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
             continue
         key = (m.group(1), m.group(2).lower())
         if key not in seen:
@@ -160,7 +164,7 @@ class NeuripsPrefill(PagePrefillScript[tuple[str, str]]):
     entry_kind = "NeurIPS papers"
 
     def extract_entries(self, path: Path) -> list[tuple[str, str]]:
-        return extract_entries(path)
+        return extract_entries(path, self.record_parse_failure)
 
     def entry_label(self, entry: tuple[str, str]) -> str:
         year, paper_hash = entry

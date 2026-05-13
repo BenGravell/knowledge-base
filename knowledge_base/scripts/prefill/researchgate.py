@@ -53,12 +53,16 @@ _DOI_BY_TOKEN = {
 }
 
 
-def extract_entries(path: Path) -> list[str]:
+def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
     seen: set[str] = set()
     entries: list[str] = []
     for url in read_url_lines(path):
         if "researchgate.net/" not in url:
-            print(f"  WARN: could not parse ResearchGate URL from: {url!r}")
+            message = f"could not parse ResearchGate URL from: {url!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
             continue
         if url not in seen:
             seen.add(url)
@@ -96,7 +100,7 @@ class ResearchGatePrefill(PagePrefillScript[str]):
     entry_kind = "ResearchGate URLs"
 
     def extract_entries(self, path: Path) -> list[str]:
-        return extract_entries(path)
+        return extract_entries(path, self.record_parse_failure)
 
     def fetch_fields(self, entry: str, _context: dict) -> dict:
         return fetch_researchgate_fields(entry)

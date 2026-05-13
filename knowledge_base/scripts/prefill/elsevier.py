@@ -35,7 +35,7 @@ _SD_PII_RE = re.compile(r"sciencedirect\.com/science/article/(?:abs/|pii/)?pii/(
 _SD_PAGE_TMPL = "https://www.sciencedirect.com/science/article/pii/{pii}"
 
 
-def extract_entries(path: Path) -> list[tuple[str, str]]:
+def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
     """Return (url, pii) pairs, deduplicated."""
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
@@ -45,7 +45,11 @@ def extract_entries(path: Path) -> list[tuple[str, str]]:
             continue
         m = _SD_PII_RE.search(line)
         if not m:
-            print(f"  WARN: could not parse ScienceDirect PII from: {line!r}")
+            message = f"could not parse ScienceDirect PII from: {line!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
             continue
         pii = m.group(1).upper()
         url = _SD_PAGE_TMPL.format(pii=pii)
@@ -83,7 +87,7 @@ class ElsevierPrefill(DoiPrefillScript[tuple[str, str]]):
     show_resolved_doi = True
 
     def extract_entries(self, path: Path) -> list[tuple[str, str]]:
-        return extract_entries(path)
+        return extract_entries(path, self.record_parse_failure)
 
     def entry_label(self, entry: tuple[str, str]) -> str:
         _url, pii = entry

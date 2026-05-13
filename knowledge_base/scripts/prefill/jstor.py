@@ -24,13 +24,17 @@ def doi_for_stable_id(stable_id: str) -> str:
     return _DOI_BY_STABLE_ID.get(stable_id, f"10.2307/{stable_id}")
 
 
-def extract_entries(path: Path) -> list[tuple[str, str, str]]:
+def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str, str]]:
     seen: set[str] = set()
     entries: list[tuple[str, str, str]] = []
     for url in read_url_lines(path):
         match = _STABLE_RE.search(url)
         if not match:
-            print(f"  WARN: could not parse JSTOR stable URL from: {url!r}")
+            message = f"could not parse JSTOR stable URL from: {url!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
             continue
         stable_id = match.group(1)
         doi = doi_for_stable_id(stable_id)
@@ -46,7 +50,7 @@ class JstorPrefill(DoiPrefillScript[tuple[str, str, str]]):
     entry_kind = "JSTOR stable URLs"
 
     def extract_entries(self, path: Path) -> list[tuple[str, str, str]]:
-        return extract_entries(path)
+        return extract_entries(path, self.record_parse_failure)
 
     def entry_label(self, entry: tuple[str, str, str]) -> str:
         _url, stable_id, _doi = entry

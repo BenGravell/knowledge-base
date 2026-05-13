@@ -9,6 +9,7 @@ Defaults:
 
 Strategy:
   1. Extract the article number from each IEEE Xplore URL.
+     Supports both /document/<id> and /abstract/document/<id> forms.
   2. Fetch the IEEE Xplore page for that article and scrape the DOI from
      embedded metadata (citation_doi meta tag or JSON payload).
   3. Query Crossref with the DOI for full, structured metadata.
@@ -30,14 +31,17 @@ from knowledge_base.utils.prefill_template import DoiPrefillScript, REPO_ROOT
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "IEEE.md"
 
-_IEEE_ARTICLE_RE = re.compile(r"ieeexplore\.ieee\.org/document/(\d+)")
+_IEEE_ARTICLE_RE = re.compile(
+    r"ieeexplore\.ieee\.org/(?:abstract/)?document/(\d+)",
+    re.I,
+)
 
 # IEEE Xplore internal REST endpoint used by their own website
 _IEEE_REST_TMPL = "https://ieeexplore.ieee.org/rest/document/{article_id}/metadata"
 _IEEE_PAGE_TMPL = "https://ieeexplore.ieee.org/document/{article_id}"
 
 
-def extract_articles(path: Path) -> list[tuple[str, str]]:
+def extract_articles(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
     """Return (url, article_id) pairs, deduplicated."""
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
@@ -47,7 +51,11 @@ def extract_articles(path: Path) -> list[tuple[str, str]]:
             continue
         m = _IEEE_ARTICLE_RE.search(line)
         if not m:
-            print(f"  WARN: could not parse IEEE article ID from: {line!r}")
+            message = f"could not parse IEEE article ID from: {line!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
             continue
         article_id = m.group(1)
         url = _IEEE_PAGE_TMPL.format(article_id=article_id)
@@ -100,7 +108,7 @@ class IeeePrefill(DoiPrefillScript[tuple[str, str]]):
     show_resolved_doi = True
 
     def extract_entries(self, path: Path) -> list[tuple[str, str]]:
-        return extract_articles(path)
+        return extract_articles(path, self.record_parse_failure)
 
     def entry_label(self, entry: tuple[str, str]) -> str:
         _url, article_id = entry

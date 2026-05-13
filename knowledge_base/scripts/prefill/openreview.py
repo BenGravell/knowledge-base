@@ -36,13 +36,17 @@ def extract_note_id(url: str) -> str:
     return parts[-1] if parts else ""
 
 
-def extract_entries(path: Path) -> list[str]:
+def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
     seen: set[str] = set()
     entries: list[str] = []
     for url in read_url_lines(path):
         note_id = extract_note_id(url)
         if not note_id:
-            print(f"  WARN: could not parse OpenReview note id from: {url!r}")
+            message = f"could not parse OpenReview note id from: {url!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
             continue
         if note_id not in seen:
             seen.add(note_id)
@@ -115,7 +119,7 @@ class OpenReviewPrefill(PagePrefillScript[str]):
     entry_kind = "OpenReview notes"
 
     def extract_entries(self, path: Path) -> list[str]:
-        return extract_entries(path)
+        return extract_entries(path, self.record_parse_failure)
 
     def fetch_fields(self, entry: str, _context: dict) -> dict:
         return fetch_openreview_fields(entry)

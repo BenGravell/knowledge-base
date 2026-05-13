@@ -27,7 +27,7 @@ DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ACM.md"
 _ACM_DOI_RE = re.compile(r"dl\.acm\.org/doi/(?:full/|abs/)?(\S+?)(?:\s|$)")
 
 
-def extract_dois(path: Path) -> list[str]:
+def extract_dois(path: Path, on_parse_failure=None) -> list[str]:
     seen: set[str] = set()
     dois: list[str] = []
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -36,7 +36,11 @@ def extract_dois(path: Path) -> list[str]:
             continue
         m = _ACM_DOI_RE.search(line)
         if not m:
-            print(f"  WARN: could not parse ACM DOI from: {line!r}")
+            message = f"could not parse ACM DOI from: {line!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
             continue
         doi = m.group(1).rstrip("/")
         if doi and doi not in seen:
@@ -50,7 +54,7 @@ class AcmPrefill(DoiPrefillScript[str]):
     default_input = DEFAULT_INPUT
 
     def extract_entries(self, path: Path) -> list[str]:
-        return extract_dois(path)
+        return extract_dois(path, self.record_parse_failure)
 
     def entry_doi(self, entry: str) -> str:
         return entry

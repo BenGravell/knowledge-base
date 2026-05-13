@@ -35,13 +35,17 @@ def display_name(name: str) -> str:
     return f"{given} {family}".strip()
 
 
-def extract_entries(path: Path) -> list[str]:
+def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
     seen: set[str] = set()
     entries: list[str] = []
     for url in read_url_lines(path):
         match = _NTRS_ID_RE.search(url)
         if not match:
-            print(f"  WARN: could not parse NASA NTRS citation ID from: {url!r}")
+            message = f"could not parse NASA NTRS citation ID from: {url!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
             continue
         citation_id = match.group(1)
         if citation_id not in seen:
@@ -105,7 +109,7 @@ class NasaPrefill(PagePrefillScript[str]):
     entry_kind = "NASA NTRS citations"
 
     def extract_entries(self, path: Path) -> list[str]:
-        return extract_entries(path)
+        return extract_entries(path, self.record_parse_failure)
 
     def fetch_fields(self, entry: str, _context: dict) -> dict:
         return fetch_nasa_fields(entry)

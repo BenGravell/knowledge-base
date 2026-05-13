@@ -31,7 +31,7 @@ DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "SPRINGER.md"
 _SPRINGER_DOI_RE = re.compile(r"link\.springer\.com/(?:article|chapter|book|referenceworkentry)/(\S+?)(?:\s|$)")
 
 
-def extract_entries(path: Path) -> list[tuple[str, str]]:
+def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
     """Return (original_url, doi) pairs, deduplicated by DOI."""
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
@@ -41,7 +41,11 @@ def extract_entries(path: Path) -> list[tuple[str, str]]:
             continue
         m = _SPRINGER_DOI_RE.search(line)
         if not m:
-            print(f"  WARN: could not parse Springer DOI from: {line!r}")
+            message = f"could not parse Springer DOI from: {line!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
             continue
         doi = m.group(1).rstrip("/")
         if doi and doi not in seen:
@@ -55,7 +59,7 @@ class SpringerPrefill(DoiPrefillScript[tuple[str, str]]):
     default_input = DEFAULT_INPUT
 
     def extract_entries(self, path: Path) -> list[tuple[str, str]]:
-        return extract_entries(path)
+        return extract_entries(path, self.record_parse_failure)
 
     def entry_label(self, entry: tuple[str, str]) -> str:
         return entry[1]

@@ -20,13 +20,17 @@ _MSP_RE = re.compile(
 )
 
 
-def extract_entries(path: Path) -> list[tuple[str, str]]:
+def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
     for url in read_url_lines(path):
         match = _MSP_RE.search(url)
         if not match:
-            print(f"  WARN: could not parse MSP DOI from: {url!r}")
+            message = f"could not parse MSP DOI from: {url!r}"
+            if on_parse_failure:
+                on_parse_failure(message)
+            else:
+                print(f"  WARN: {message}")
             continue
         doi = "10.2140/{journal}.{year}.{volume}.{page}".format(
             journal=match.group("journal"),
@@ -46,7 +50,7 @@ class MspPrefill(DoiPrefillScript[tuple[str, str]]):
     entry_kind = "MSP DOIs"
 
     def extract_entries(self, path: Path) -> list[tuple[str, str]]:
-        return extract_entries(path)
+        return extract_entries(path, self.record_parse_failure)
 
     def entry_label(self, entry: tuple[str, str]) -> str:
         return entry[1]
