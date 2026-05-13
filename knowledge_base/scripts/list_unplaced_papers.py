@@ -2,7 +2,7 @@
 
 Usage:
   python scripts/list_unplaced_papers.py
-  python scripts/list_unplaced_papers.py --neighbors 5
+  python scripts/list_unplaced_papers.py --neighbors 3
   python scripts/list_unplaced_papers.py --format paths
   python scripts/list_unplaced_papers.py --fail-on-missing
 """

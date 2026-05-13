@@ -70,10 +70,43 @@ _ARXIV_OLD_RE = re.compile(  # e.g. math.CO/0701001
 _HTML_ENTITY_RE = re.compile(
     r"&(?:#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);"
 )
-CHECK_ESCAPED_SEQUENCES = "escaped_sequences"
-CHECK_MALFORMED_ABSTRACTS = "malformed_abstracts"
+CHECK_UNKNOWN = "unknown"
+CHECK_REQUIRED = "required"
+CHECK_TITLE = "title"
+CHECK_AUTHORS = "authors"
+CHECK_YEAR = "year"
+CHECK_ARXIV = "arxiv"
+CHECK_ABSTRACT = "abstract"
+CHECK_ESCAPE = "escape"
+CHECK_TYPE = "type"
+CHECK_STATUS = "status"
+CHECK_PATH = "path"
+CHECK_SUMMARY = "summary"
+CHECK_OPTIONAL = "optional"
+CHECKS: tuple[str, ...] = (
+    CHECK_UNKNOWN,
+    CHECK_REQUIRED,
+    CHECK_TITLE,
+    CHECK_AUTHORS,
+    CHECK_YEAR,
+    CHECK_ARXIV,
+    CHECK_ABSTRACT,
+    CHECK_ESCAPE,
+    CHECK_TYPE,
+    CHECK_STATUS,
+    CHECK_PATH,
+    CHECK_SUMMARY,
+    CHECK_OPTIONAL,
+)
+_NEAR_EMPTY_ABSTRACT_CHAR_LIMIT = 120
+_NEAR_EMPTY_ABSTRACT_WORD_LIMIT = 20
 _LONG_ABSTRACT_CHAR_LIMIT = 6000
 _PDF_TEXT_ARTIFACT_RE = re.compile(r"\(cid:\d+\)")
+_PLACEHOLDER_ABSTRACT_RE = re.compile(
+    r"^(?:n/?a|none|no abstract(?: available)?|not available|abstract unavailable|"
+    r"to be added|todo|tbd|unknown)\.?$",
+    re.I,
+)
 _SCRAPED_ABSTRACT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     (
         "journal navigation text",
@@ -317,11 +350,35 @@ def _normalize_inline_text(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+def _abstract_word_count(text: str) -> int:
+    return len(re.findall(r"[A-Za-z0-9]+(?:[-'][A-Za-z0-9]+)*", text))
+
+
 def find_malformed_abstract_issues(path: Path, abstract: str) -> list[Issue]:
     issues: list[Issue] = []
     text = _normalize_inline_text(abstract)
     if not text:
         return issues
+
+    word_count = _abstract_word_count(text)
+    if _PLACEHOLDER_ABSTRACT_RE.fullmatch(text):
+        issues.append(
+            Issue(
+                path,
+                "abstract",
+                f"Placeholder abstract: {text!r}",
+                "Replace with the full source abstract, or leave blank only when no abstract truly exists.",
+            )
+        )
+    elif len(text) < _NEAR_EMPTY_ABSTRACT_CHAR_LIMIT or word_count < _NEAR_EMPTY_ABSTRACT_WORD_LIMIT:
+        issues.append(
+            Issue(
+                path,
+                "abstract",
+                f"Near-empty abstract ({len(text)} characters, {word_count} words)",
+                "Replace with the full source abstract, or verify that the source abstract is genuinely this short.",
+            )
+        )
 
     scraped_hits = [
         label
@@ -373,13 +430,11 @@ def audit_file(
     path: Path,
     *,
     selected_checks: set[str] | None = None,
-    escaped_sequences_only: bool = False,
 ) -> tuple[dict, list[Issue]]:
     issues: list[Issue] = []
 
-    if escaped_sequences_only:
-        selected_checks = set(selected_checks or ())
-        selected_checks.add(CHECK_ESCAPED_SEQUENCES)
+    def should_check(check: str) -> bool:
+        return selected_checks is None or check in selected_checks
 
     try:
         raw = path.read_text(encoding="utf-8")
@@ -392,32 +447,26 @@ def audit_file(
         issues.append(Issue(path, "parse", "Root YAML value is not a mapping"))
         return {}, issues
 
-    if selected_checks is not None:
-        if CHECK_ESCAPED_SEQUENCES in selected_checks:
-            issues.extend(find_escaped_sequence_issues(path, data))
-        if CHECK_MALFORMED_ABSTRACTS in selected_checks:
-            abstract = data.get("abstract")
-            if abstract not in (None, ""):
-                issues.extend(find_malformed_abstract_issues(path, str(abstract)))
-        return data, issues
-
-    issues.extend(find_escaped_sequence_issues(path, data))
+    if should_check(CHECK_ESCAPE):
+        issues.extend(find_escaped_sequence_issues(path, data))
 
     # -- unknown fields --
-    _valid_set = set(VALID_FIELDS)
-    for key in data:
-        if key not in _valid_set:
-            issues.append(Issue(path, key, f"Unknown field {key!r}"))
+    if should_check(CHECK_UNKNOWN):
+        _valid_set = set(VALID_FIELDS)
+        for key in data:
+            if key not in _valid_set:
+                issues.append(Issue(path, key, f"Unknown field {key!r}"))
 
     # -- required fields presence --
     missing = {f for f in REQUIRED_FIELDS if data.get(f) is None}
-    for f in sorted(missing):
-        issues.append(Issue(path, f, "Missing required field"))
+    if should_check(CHECK_REQUIRED):
+        for f in sorted(missing):
+            issues.append(Issue(path, f, "Missing required field"))
 
     # -- title --
     title_raw = data.get("title")
     title = str(title_raw).strip() if title_raw not in (None, "") else ""
-    if "title" not in missing:
+    if should_check(CHECK_TITLE) and "title" not in missing:
         if not title:
             issues.append(Issue(path, "title", "Empty"))
         else:
@@ -434,7 +483,7 @@ def audit_file(
 
     # -- authors --
     authors = data.get("authors")
-    if "authors" not in missing:
+    if should_check(CHECK_AUTHORS) and "authors" not in missing:
         if not isinstance(authors, list):
             issues.append(Issue(path, "authors", "Must be a list"))
             authors = []
@@ -449,10 +498,10 @@ def audit_file(
                     Issue(path, "authors", f"Blank entries at index(es): {blank}")
                 )
     else:
-        authors = []
+        authors = authors if isinstance(authors, list) else []
 
     # -- year --
-    if "year" not in missing:
+    if should_check(CHECK_YEAR) and "year" not in missing:
         meta_year_raw = data.get("year")
         if not isinstance(meta_year_raw, int) or not (1000 <= meta_year_raw <= 9999):
             issues.append(Issue(path, "year", f"Must be a 4-digit integer; got {meta_year_raw!r}"))
@@ -460,11 +509,11 @@ def audit_file(
     # -- arxiv_id --
     arxiv_raw = data.get("arxiv_id")
     arxiv_id = str(arxiv_raw).strip() if arxiv_raw not in (None, "") else ""
-    if arxiv_id and not is_valid_arxiv_id(arxiv_id):
+    if should_check(CHECK_ARXIV) and arxiv_id and not is_valid_arxiv_id(arxiv_id):
         issues.append(Issue(path, "arxiv_id", f"Invalid arXiv ID format: {arxiv_id!r}"))
 
     # -- abstract --
-    if "abstract" not in missing:
+    if should_check(CHECK_ABSTRACT) and "abstract" not in missing:
         abstract = data.get("abstract")
         abstract_str = str(abstract)
         if not abstract_str.strip():
@@ -473,7 +522,7 @@ def audit_file(
             issues.extend(find_malformed_abstract_issues(path, abstract_str))
 
     # -- type --
-    if "type" not in missing:
+    if should_check(CHECK_TYPE) and "type" not in missing:
         paper_type = data.get("type")
         type_str = str(paper_type).strip() if paper_type not in (None, "") else ""
         if type_str not in VALID_TYPES:
@@ -486,7 +535,7 @@ def audit_file(
             )
 
     # -- audit_status --
-    if "audit_status" not in missing:
+    if should_check(CHECK_STATUS) and "audit_status" not in missing:
         audit_status = data.get(AUDIT_STATUS_FIELD)
         status_str = str(audit_status).strip() if audit_status not in (None, "") else ""
         if status_str not in VALID_AUDIT_STATUSES:
@@ -499,71 +548,78 @@ def audit_file(
             )
 
     # -- path structure --
-    parts = path.parts
-    try:
-        papers_idx = next(i for i, p in enumerate(parts) if p == "papers")
-        path_year_str = parts[papers_idx + 1]
-        path_slug = parts[papers_idx + 2]
-    except (StopIteration, IndexError):
-        issues.append(Issue(path, "path", "Cannot locate papers/YEAR/SLUG in path"))
-        return data, issues
+    if should_check(CHECK_PATH):
+        parts = path.parts
+        try:
+            papers_idx = next(i for i, p in enumerate(parts) if p == "papers")
+            path_year_str = parts[papers_idx + 1]
+            path_slug = parts[papers_idx + 2]
+        except (StopIteration, IndexError):
+            issues.append(Issue(path, "path", "Cannot locate papers/YEAR/SLUG in path"))
+            return data, issues
 
-    if not re.match(r"^\d{4}$", path_year_str):
-        issues.append(
-            Issue(path, "path", f"YEAR component {path_year_str!r} is not 4 digits")
-        )
-        return data, issues
-
-    path_year = int(path_year_str)
-
-    # Year in metadata should match path year
-    meta_year = data.get("year")
-    if meta_year is not None and int(meta_year) != path_year:
-        issues.append(
-            Issue(
-                path,
-                "path",
-                f"Metadata year {meta_year!r} does not match path year {path_year}",
+        if not re.match(r"^\d{4}$", path_year_str):
+            issues.append(
+                Issue(path, "path", f"YEAR component {path_year_str!r} is not 4 digits")
             )
-        )
+            return data, issues
 
-    # Slug check (only when we have enough data)
-    author_strs = [str(a) for a in (authors or [])]
-    if author_strs and title:
-        exp = expected_slug(path_year, arxiv_id, title, author_strs)
-        if path_slug != exp:
+        path_year = int(path_year_str)
+
+        # Year in metadata should match path year
+        meta_year = data.get("year")
+        try:
+            meta_year_int = int(meta_year) if meta_year is not None else None
+        except (TypeError, ValueError):
+            meta_year_int = None
+        if meta_year_int is not None and meta_year_int != path_year:
             issues.append(
                 Issue(
                     path,
                     "path",
-                    f"Slug {path_slug!r} does not match expected {exp!r}",
-                    exp,
+                    f"Metadata year {meta_year!r} does not match path year {path_year}",
                 )
             )
 
+        # Slug check (only when we have enough data)
+        author_strs = [str(a) for a in (authors or [])]
+        if author_strs and title:
+            exp = expected_slug(path_year, arxiv_id, title, author_strs)
+            if path_slug != exp:
+                issues.append(
+                    Issue(
+                        path,
+                        "path",
+                        f"Slug {path_slug!r} does not match expected {exp!r}",
+                        exp,
+                    )
+                )
+
     # -- summary (warning) --
-    summary = data.get("summary")
-    if not summary or not str(summary).strip():
-        issues.append(
-            Issue(path, "summary", "Missing or empty", severity=Severity.WARNING)
-        )
+    if should_check(CHECK_SUMMARY):
+        summary = data.get("summary")
+        if not summary or not str(summary).strip():
+            issues.append(
+                Issue(path, "summary", "Missing or empty", severity=Severity.WARNING)
+            )
 
     # -- optional field completeness (info) --
-    audit_status_val = str(data.get(AUDIT_STATUS_FIELD) or "").strip()
-    if audit_status_val == "raw":
-        issues.append(Issue(path, AUDIT_STATUS_FIELD, "raw; skipping optional field checks", severity=Severity.INFO))
-    else:
-        for f in VALID_FIELDS:
-            if f in REQUIRED_FIELDS or f == "summary":
-                continue  # already covered by required-check or summary-warning above
-            val = data.get(f)
-            is_empty = val is None or (isinstance(val, (str, list)) and not val)
-            if is_empty:
-                if f == "arxiv_id":
-                    link = str(data.get("link") or "").strip()
-                    if link and "arxiv.org" not in link:
-                        continue
-                issues.append(Issue(path, f, "Not populated", severity=Severity.INFO))
+    if should_check(CHECK_OPTIONAL):
+        audit_status_val = str(data.get(AUDIT_STATUS_FIELD) or "").strip()
+        if audit_status_val == "raw":
+            issues.append(Issue(path, AUDIT_STATUS_FIELD, "raw; skipping optional field checks", severity=Severity.INFO))
+        else:
+            for f in VALID_FIELDS:
+                if f in REQUIRED_FIELDS or f == "summary":
+                    continue  # already covered by required-check or summary-warning above
+                val = data.get(f)
+                is_empty = val is None or (isinstance(val, (str, list)) and not val)
+                if is_empty:
+                    if f == "arxiv_id":
+                        link = str(data.get("link") or "").strip()
+                        if link and "arxiv.org" not in link:
+                            continue
+                    issues.append(Issue(path, f, "Not populated", severity=Severity.INFO))
 
     return data, issues
 
@@ -644,6 +700,36 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]]) -> int:
     return fixed
 
 
+def _flatten_check_args(check_args: list[list[str]] | None) -> list[str]:
+    if not check_args:
+        return []
+    return [name for group in check_args for name in group]
+
+
+def _normalize_check_names(names: list[str]) -> tuple[set[str], list[str]]:
+    selected: set[str] = set()
+    invalid: list[str] = []
+    valid = set(CHECKS)
+    for name in names:
+        if name in valid:
+            selected.add(name)
+        else:
+            invalid.append(name)
+    return selected, invalid
+
+
+def _audit_status(data: dict) -> str:
+    return str(data.get(AUDIT_STATUS_FIELD) or "").strip()
+
+
+def _skip_reviewed_errors(data: dict, issues: list[Issue]) -> tuple[list[Issue], int]:
+    if _audit_status(data) != "reviewed":
+        return issues, 0
+
+    kept = [issue for issue in issues if issue.severity != Severity.ERROR]
+    return kept, len(issues) - len(kept)
+
+
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
@@ -660,19 +746,20 @@ Checks performed on each metadata.yml:
   title     - ERROR if empty; ERROR if not in title case
   authors   - ERROR if not a non-empty list of non-blank strings
   year      - ERROR if not a 4-digit integer
-  arxiv_id  - ERROR if present but not a valid arXiv ID
-  abstract  - ERROR if empty, contains scraped page text, or has PDF extraction artifacts
-  escaped   - ERROR if string fields contain HTML/entity escapes like &#39; or &amp;
+  arxiv     - ERROR if arxiv_id is present but not a valid arXiv ID
+  abstract  - ERROR if empty, near-empty, placeholder-like, contains scraped page text, or has PDF extraction artifacts
+  escape    - ERROR if string fields contain HTML/entity escapes like &#39; or &amp;
   type      - ERROR if not a recognised paper type
-  audit_status - ERROR if not one of: raw, partial, reviewed
+  status    - ERROR if audit_status is not one of: raw, partial, reviewed
   path      - ERROR if YEAR/SLUG do not match metadata or expected slug format
   summary   - WARN if missing or empty
   optional  - INFO for each optional field that is not populated
 
-Selective check flags are additive. If any are provided, only those check
-families run:
-  --check-escaped-sequences
-  --check-malformed-abstracts
+By default, every check runs. Use --check to opt into a smaller set:
+  --check abstract escape
+
+Available --check names:
+  unknown required title authors year arxiv abstract escape type status path summary optional
 """,
     )
     parser.add_argument(
@@ -692,30 +779,30 @@ families run:
         help="Audit a single metadata.yml instead of the whole tree",
     )
     parser.add_argument(
-        "--check-escaped-sequences",
-        action="append_const",
-        const=CHECK_ESCAPED_SEQUENCES,
-        dest="selected_checks",
-        help="Check string fields for HTML/entity escape issues",
+        "--check",
+        nargs="+",
+        action="append",
+        metavar="NAME",
+        dest="check_names",
+        help="Run only the named checks. Names: " + ", ".join(CHECKS),
     )
     parser.add_argument(
-        "--check-malformed-abstracts",
-        "--check-abstract-issues",
-        action="append_const",
-        const=CHECK_MALFORMED_ABSTRACTS,
-        dest="selected_checks",
-        help="Check abstracts for scraped page text, PDF artifacts, and unusual length",
-    )
-    parser.add_argument(
-        "--escaped-sequences-only",
-        "--only-escaped-sequences",
-        action="append_const",
-        const=CHECK_ESCAPED_SEQUENCES,
-        dest="selected_checks",
-        help="Alias for --check-escaped-sequences",
+        "--skip-reviewed-errors",
+        action="store_true",
+        help="Do not report or fail on ERROR issues for metadata with audit_status: reviewed",
     )
     args = parser.parse_args()
-    selected_checks = set(args.selected_checks) if args.selected_checks else None
+    selected_names, invalid_names = _normalize_check_names(
+        _flatten_check_args(args.check_names)
+    )
+    if invalid_names:
+        parser.error(
+            "unknown --check value(s): "
+            + ", ".join(sorted(set(invalid_names)))
+            + "\nvalid values: "
+            + ", ".join(CHECKS)
+        )
+    selected_checks = selected_names or None
 
     if args.file:
         targets = [Path(args.file)]
@@ -725,9 +812,13 @@ families run:
             sys.exit(f"Papers directory not found: {papers_root}")
         targets = sorted(papers_root.rglob("metadata.yml"))
 
+    skipped_reviewed_errors = 0
     results: list[tuple[Path, list[Issue]]] = []
     for p in targets:
-        _, issues = audit_file(p, selected_checks=selected_checks)
+        data, issues = audit_file(p, selected_checks=selected_checks)
+        if args.skip_reviewed_errors:
+            issues, skipped_count = _skip_reviewed_errors(data, issues)
+            skipped_reviewed_errors += skipped_count
         if issues:
             results.append((p, issues))
 
@@ -738,6 +829,10 @@ families run:
 
     if not all_issues:
         console.print(f"[green]All {len(targets)} metadata.yml file(s) pass audit.[/]")
+        if skipped_reviewed_errors:
+            console.print(
+                f"[dim]Skipped {skipped_reviewed_errors} error(s) from reviewed metadata.[/]"
+            )
         return
 
     parts = []
@@ -750,6 +845,10 @@ families run:
     console.print(
         ", ".join(parts) + f" across {len(results)} / {len(targets)} file(s):\n"
     )
+    if skipped_reviewed_errors:
+        console.print(
+            f"[dim]Skipped {skipped_reviewed_errors} error(s) from reviewed metadata.[/]\n"
+        )
 
     for path, issues in results:
         console.print(f"[bold]{path}[/]")
@@ -769,7 +868,9 @@ families run:
         apply_fixes(results)
         remaining_errors = 0
         for p in targets:
-            _, issues = audit_file(p, selected_checks=selected_checks)
+            data, issues = audit_file(p, selected_checks=selected_checks)
+            if args.skip_reviewed_errors:
+                issues, _ = _skip_reviewed_errors(data, issues)
             remaining_errors += sum(1 for i in issues if i.severity == Severity.ERROR)
         sys.exit(1 if remaining_errors else 0)
 
