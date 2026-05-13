@@ -1,4 +1,4 @@
-title: Space/time trade-offs in hash coding with allowable errors
+title: Space/time Trade-offs in Hash Coding with Allowable Errors
 algorithm: "Bloom Filter"
 authors:
   - Burton H. Bloom
