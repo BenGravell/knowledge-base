@@ -1,0 +1,17 @@
+title: 'ASIA: an Autonomous System Identification Agent'
+algorithm:
+authors:
+  - Dario Piga
+  - Marco Forgione
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2605.10480"
+tags:
+abstract: >
+  Over the years, research in system identification has provided a rich set of methods for learning dynamical models, together with well-established theoretical guarantees. In practice, however, the choice of model class, training algorithm, and hyperparameter tuning is still largely left to empirical trial-and-error, requiring substantial expert time and domain experience. Motivated by recent advances in agentic artificial intelligence, we present ASIA, a framework that delegates this iterative search to a large language model acting as an autonomous coding agent. Building on existing agentic platforms, ASIA closes the loop between hypothesis, implementation, and evaluation without human intervention, requiring only a plain-English description of the identification problem. We conduct an empirical study of ASIA on two system identification benchmarks and analyse the agent's search behaviour, the architectures and training strategies it discovers, and the quality of the resulting models. We also discuss the potential of the approach and its current limitations, including implicit test leakage, reduced methodological transparency, and reproducibility concerns.
+summary: ''
+link: https://arxiv.org/pdf/2605.10480
+links_alt:
+audit_status: raw

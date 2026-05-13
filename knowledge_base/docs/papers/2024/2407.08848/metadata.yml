@@ -1,0 +1,20 @@
+title: 'GCS*: Forward Heuristic Search on Implicit Graphs of Convex Sets'
+algorithm:
+authors:
+  - Shao Yuan Chew Chia
+  - Rebecca H. Jiang
+  - Bernhard Paus Graesdal
+  - Leslie Pack Kaelbling
+  - Russ Tedrake
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2407.08848"
+tags:
+abstract: >
+  We consider large-scale, implicit-search-based solutions to Shortest Path Problems on Graphs of Convex Sets (GCS). We propose GCS*, a forward heuristic search algorithm that generalizes A* search to the GCS setting, where a continuous-valued decision is made at each graph vertex, and constraints across graph edges couple these decisions, influencing costs and feasibility. Such mixed discrete-continuous planning is needed in many domains, including motion planning around obstacles and planning through contact. This setting provides a unique challenge for best-first search algorithms: the cost and feasibility of a path depend on continuous-valued points chosen along the entire path. We show that by pruning paths that are cost-dominated over their entire terminal vertex, GCS* can search efficiently while still guaranteeing cost-optimality and completeness. To find satisficing solutions quickly, we also present a complete but suboptimal variation, pruning instead reachability-dominated paths. We implement these checks using polyhedral-containment or sampling-based methods. The former implementation is complete and cost-optimal, while the latter is probabilistically complete and asymptotically cost-optimal and performs effectively even with minimal samples in practice. We demonstrate GCS* on planar pushing tasks where the combinatorial explosion of contact modes renders prior methods intractable and show it performs favorably compared to the state-of-the-art. Project website: https://shaoyuan.cc/research/gcs-star/
+summary: ''
+link: https://arxiv.org/pdf/2407.08848
+links_alt:
+audit_status: raw

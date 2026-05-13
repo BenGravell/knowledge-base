@@ -1,0 +1,17 @@
+title: Distributed control design for spatially interconnected systems
+algorithm:
+authors:
+  - R. D'Andrea
+  - G.E. Dullerud
+year: 2003
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.2003.816954
+arxiv_id:
+tags:
+abstract: >
+  This paper deals with analysis, synthesis, and implementation of distributed controllers, designed for spatially interconnected systems. We develop a state space framework for posing problems of this type, and focus on systems whose model is spatially discrete. In this paper, analysis and synthesis results are developed for this class of systems using the l/sub 2/-induced norm as the performance criterion. The results are stated in terms of linear matrix inequalities and are thus readily amenable to computation. A special implementation of the resulting controllers is presented, which is particularly attractive for distributed operation of the controller. Several examples are provided to further illustrate the application of the results.
+summary: ''
+link: https://doi.org/10.1109/TAC.2003.816954
+links_alt:
+audit_status: raw

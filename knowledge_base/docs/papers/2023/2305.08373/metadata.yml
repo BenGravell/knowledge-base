@@ -1,0 +1,22 @@
+title: 'AcroMonk: A Minimalist Underactuated Brachiating Robot'
+algorithm:
+authors:
+  - Mahdi Javadi
+  - Daniel Harnack
+  - Paula Stocco
+  - Shivesh Kumar
+  - Shubham Vyas
+  - Daniel Pizzutilo
+  - Frank Kirchner
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2305.08373"
+tags:
+abstract: >
+  Brachiation is a dynamic, coordinated swinging maneuver of body and arms used by monkeys and apes to move between branches. As a unique underactuated mode of locomotion, it is interesting to study from a robotics perspective since it can broaden the deployment scenarios for humanoids and animaloids. While several brachiating robots of varying complexity have been proposed in the past, this paper presents the simplest possible prototype of a brachiation robot, using only a single actuator and unactuated grippers. The novel passive gripper design allows it to snap on and release from monkey bars, while guaranteeing well defined start and end poses of the swing. The brachiation behavior is realized in three different ways, using trajectory optimization via direct collocation and stabilization by a model-based time-varying linear quadratic regulator (TVLQR) or model-free proportional derivative (PD) control, as well as by a reinforcement learning (RL) based control policy. The three control schemes are compared in terms of robustness to disturbances, mass uncertainty, and energy consumption. The system design and controllers have been open-sourced. Due to its minimal and open design, the system can serve as a canonical underactuated platform for education and research.
+summary: ''
+link: https://arxiv.org/pdf/2305.08373
+links_alt:
+audit_status: raw

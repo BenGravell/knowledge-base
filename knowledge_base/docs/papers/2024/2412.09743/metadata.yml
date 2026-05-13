@@ -1,0 +1,22 @@
+title: Should We Learn Contact-Rich Manipulation Policies from Sampling-Based Planners?
+algorithm:
+authors:
+  - Huaijiang Zhu
+  - Tong Zhao
+  - Xinpei Ni
+  - Jiuguang Wang
+  - Kuan Fang
+  - Ludovic Righetti
+  - Tao Pang
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2412.09743"
+tags:
+abstract: >
+  The tremendous success of behavior cloning (BC) in robotic manipulation has been largely confined to tasks where demonstrations can be effectively collected through human teleoperation. However, demonstrations for contact-rich manipulation tasks that require complex coordination of multiple contacts are difficult to collect due to the limitations of current teleoperation interfaces. We investigate how to leverage model-based planning and optimization to generate training data for contact-rich dexterous manipulation tasks. Our analysis reveals that popular sampling-based planners like rapidly exploring random tree (RRT), while efficient for motion planning, produce demonstrations with unfavorably high entropy. This motivates modifications to our data generation pipeline that prioritizes demonstration consistency while maintaining solution diversity. Combined with a diffusion-based goal-conditioned BC approach, our method enables effective policy learning and zero-shot transfer to hardware for two challenging contact-rich manipulation tasks.
+summary: ''
+link: https://arxiv.org/pdf/2412.09743
+links_alt:
+audit_status: raw

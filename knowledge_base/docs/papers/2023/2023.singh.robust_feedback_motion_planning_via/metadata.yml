@@ -1,0 +1,21 @@
+title: Robust feedback motion planning via contraction theory
+algorithm:
+authors:
+  - Sumeet Singh
+  - Benoit Landry
+  - Anirudha Majumdar
+  - Jean-Jacques Slotine
+  - Marco Pavone
+year: 2023
+source: The International Journal of Robotics Research
+type: Journal Paper
+doi: 10.1177/02783649231186165
+arxiv_id:
+tags:
+abstract: >
+  We present a framework for online generation of robust motion plans for robotic systems with nonlinear dynamics subject to bounded disturbances, control constraints, and online state constraints such as obstacles. In an offline phase, one computes the structure of a feedback controller that can be efficiently implemented online to track any feasible nominal trajectory. The offline phase leverages contraction theory, specifically, Control Contraction Metrics, and convex optimization to characterize a fixed-size “tube” that the state is guaranteed to remain within while tracking a nominal trajectory (representing the center of the tube). In the online phase, when the robot is faced with obstacles, a motion planner uses such a tube as a robustness margin for collision checking, yielding nominal trajectories that can be safely executed, that is, tracked without collisions under disturbances. In contrast to recent work on robust online planning using funnel libraries, our approach is not restricted to a fixed library of maneuvers computed offline and is thus particularly well-suited to applications such as UAV flight in densely cluttered environments where complex maneuvers may be required to reach a goal. We demonstrate our approach through numerical simulations of planar and 3D quadrotors, and hardware results on a quadrotor platform navigating a complex obstacle environment while subject to aerodynamic disturbances. The results demonstrate the ability of our approach to jointly balance motion safety and efficiency for agile robotic systems.
+summary: ''
+link: https://journals.sagepub.com/doi/10.1177/02783649231186165
+links_alt:
+  - https://doi.org/10.1177/02783649231186165
+audit_status: raw

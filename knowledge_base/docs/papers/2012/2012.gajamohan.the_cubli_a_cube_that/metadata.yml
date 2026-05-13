@@ -1,0 +1,19 @@
+title: 'The Cubli: A cube that can jump up and balance'
+algorithm:
+authors:
+  - Mohanarajah Gajamohan
+  - Michael Merz
+  - Igor Thommen
+  - Raffaello D'Andrea
+year: 2012
+source: 2012 IEEE/RSJ International Conference on Intelligent Robots and Systems
+type: Conference Paper
+doi: 10.1109/IROS.2012.6385896
+arxiv_id:
+tags:
+abstract: >
+  This paper introduces the Cubli, a 15×15×15 cm cube that can jump up and balance on a corner. Momentum wheels mounted on three faces of the cube (Fig. 1) rotate at high angular velocities and then brake suddenly, causing the Cubli to jump up. Once the Cubli has almost reached the corner stand-up position, controlled motor torques are applied to make it balance on its corner. This paper tracks the development of the Cubli's one dimensional prototype at ETH Zurich and presents preliminary results.
+summary: ''
+link: https://doi.org/10.1109/IROS.2012.6385896
+links_alt:
+audit_status: raw

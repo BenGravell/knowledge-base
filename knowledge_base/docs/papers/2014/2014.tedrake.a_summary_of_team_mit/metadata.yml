@@ -1,0 +1,41 @@
+title: A summary of team MIT's approach to the virtual robotics challenge
+algorithm:
+authors:
+  - R. Tedrake
+  - M. Fallon
+  - S. Karumanchi
+  - S. Kuindersma
+  - M. Antone
+  - T. Schneider
+  - T. Howard
+  - M. Walter
+  - H. Dai
+  - R. Deits
+  - M. Fleder
+  - D. Fourie
+  - R. Hammoud
+  - S. Hemachandra
+  - P. Ilardi
+  - C. Perez-D'Arpino
+  - S. Pillai
+  - A. Valenzuela
+  - C. Cantu
+  - C. Dolan
+  - I. Evans
+  - S. Jorgensen
+  - J. Kristeller
+  - J. A. Shah
+  - K. Iagnemma
+  - S. Teller
+year: 2014
+source: 2014 IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA.2014.6907140
+arxiv_id:
+tags:
+abstract: >
+  The paper describes the system developed by researchers from MIT for the Defense Advanced Research Projects Agency's (DARPA) Virtual Robotics Challenge (VRC), held in June 2013. The VRC was the first competition in the DARPA Robotics Challenge (DRC), a program that aims to “develop ground robotic capabilities to execute complex tasks in dangerous, degraded, human-engineered environments”. The VRC required teams to guide a model of Boston Dynamics' humanoid robot, Atlas, through driving, walking, and manipulation tasks in simulation. Team MIT's user interface, the Viewer, provided the operator with a unified representation of all available information. A 3D rendering of the robot depicted its most recently estimated body state with respect to the surrounding environment, represented by point clouds and texture-mapped meshes as sensed by on-board LIDAR and fused over time.
+summary: ''
+link: https://doi.org/10.1109/ICRA.2014.6907140
+links_alt:
+audit_status: raw

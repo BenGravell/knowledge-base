@@ -1,0 +1,20 @@
+title: >
+  Cost-Driven Representation Learning for Linear Quadratic Gaussian Control: Part II
+algorithm:
+authors:
+  - Yi Tian
+  - Kaiqing Zhang
+  - Russ Tedrake
+  - Suvrit Sra
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2603.07437"
+tags:
+abstract: >
+  We study the problem of state representation learning for control from partial and potentially high-dimensional observations. We approach this problem via cost-driven state representation learning, in which we learn a dynamical model in a latent state space by predicting cumulative costs. In particular, we establish finite-sample guarantees on finding a near-optimal representation function and a near-optimal controller using the learned latent model for infinite-horizon time-invariant Linear Quadratic Gaussian (LQG) control. We study two approaches to cost-driven representation learning, which differ in whether the transition function of the latent state is learned explicitly or implicitly. The first approach has also been investigated in Part I of this work, for finite-horizon time-varying LQG control. The second approach closely resembles MuZero, a recent breakthrough in empirical reinforcement learning, in that it learns latent dynamics implicitly by predicting cumulative costs. A key technical contribution of this Part II is to prove persistency of excitation for a new stochastic process that arises from the analysis of quadratic regression in our approach, and may be of independent interest.
+summary: ''
+link: https://arxiv.org/pdf/2603.07437
+links_alt:
+audit_status: raw

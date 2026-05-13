@@ -1,0 +1,21 @@
+title: >
+  Pinet: Optimizing hard-constrained neural networks with orthogonal projection layers
+algorithm:
+authors:
+  - Panagiotis D. Grontas
+  - Antonio Terpin
+  - Efe C. Balta
+  - Raffaello D'Andrea
+  - John Lygeros
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2508.10480"
+tags:
+abstract: >
+  We introduce an output layer for neural networks that ensures satisfaction of convex constraints. Our approach, $Π$net, leverages operator splitting for rapid and reliable projections in the forward pass, and the implicit function theorem for backpropagation. We deploy $Π$net as a feasible-by-design optimization proxy for parametric constrained optimization problems and obtain modest-accuracy solutions faster than traditional solvers when solving a single problem, and significantly faster for a batch of problems. We surpass state-of-the-art learning approaches by orders of magnitude in terms of training time, solution quality, and robustness to hyperparameter tuning, while maintaining similar inference times. Finally, we tackle multi-vehicle motion planning with non-convex trajectory preferences and provide $Π$net as a GPU-ready package implemented in JAX.
+summary: ''
+link: https://arxiv.org/pdf/2508.10480
+links_alt:
+audit_status: raw

@@ -1,0 +1,19 @@
+title: >
+  R3T: Rapidly-exploring Random Reachable Set Tree for Optimal Kinodynamic Planning of Nonlinear Hybrid Systems
+algorithm:
+authors:
+  - Albert Wu
+  - Sadra Sadraddini
+  - Russ Tedrake
+year: 2020
+source: 2020 IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA40945.2020.9196802
+arxiv_id:
+tags:
+abstract: >
+  We introduce R3T, a reachability-based variant of the rapidly-exploring random tree (RRT) algorithm that is suitable for (optimal) kinodynamic planning in nonlinear and hybrid systems. We developed tools to approximate reachable sets using polytopes and perform sampling-based planning with them. This method has a unique advantage in hybrid systems: different dynamic modes in the reachable set can be explicitly represented using multiple polytopes. We prove that under mild assumptions, R3T is probabilistically complete in kinodynamic systems, and asymptotically optimal through rewiring. Moreover, R3T provides a formal verification method for reachability analysis of nonlinear systems. The advantages of R3T are demonstrated with case studies on nonlinear, hybrid, and contact-rich robotic systems.
+summary: ''
+link: https://doi.org/10.1109/ICRA40945.2020.9196802
+links_alt:
+audit_status: raw

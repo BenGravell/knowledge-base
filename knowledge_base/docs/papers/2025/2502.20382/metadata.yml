@@ -1,0 +1,24 @@
+title: >
+  Physics-Driven Data Generation for Contact-Rich Manipulation via Trajectory Optimization
+algorithm:
+authors:
+  - Lujie Yang
+  - H. J. Terry Suh
+  - Tong Zhao
+  - Bernhard Paus Graesdal
+  - Tarik Kelestemur
+  - Jiuguang Wang
+  - Tao Pang
+  - Russ Tedrake
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2502.20382"
+tags:
+abstract: >
+  We present a low-cost data generation pipeline that integrates physics-based simulation, human demonstrations, and model-based planning to efficiently generate large-scale, high-quality datasets for contact-rich robotic manipulation tasks. Starting with a small number of embodiment-flexible human demonstrations collected in a virtual reality simulation environment, the pipeline refines these demonstrations using optimization-based kinematic retargeting and trajectory optimization to adapt them across various robot embodiments and physical parameters. This process yields a diverse, physically consistent dataset that enables cross-embodiment data transfer, and offers the potential to reuse legacy datasets collected under different hardware configurations or physical parameters. We validate the pipeline's effectiveness by training diffusion policies from the generated datasets for challenging contact-rich manipulation tasks across multiple robot embodiments, including a floating Allegro hand and bimanual robot arms. The trained policies are deployed zero-shot on hardware for bimanual iiwa arms, achieving high success rates with minimal human input. Project website: https://lujieyang.github.io/physicsgen/.
+summary: ''
+link: https://arxiv.org/pdf/2502.20382
+links_alt:
+audit_status: raw

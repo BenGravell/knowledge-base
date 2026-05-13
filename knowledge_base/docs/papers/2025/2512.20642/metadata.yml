@@ -1,0 +1,20 @@
+title: >
+  Flow Gym: A framework for the development, benchmarking, training, and deployment of flow-field quantification methods
+algorithm:
+authors:
+  - Francesco Banelli
+  - Antonio Terpin
+  - Alan Bonomi
+  - Raffaello D'Andrea
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2512.20642"
+tags:
+abstract: >
+  Particle image velocimetry (PIV) and related optical-flow methods are widely used to quantify fluid motion, but their development and evaluation are often hindered by fragmented software, inconsistent interfaces, and limited reproducibility. To address these challenges, we present Flow Gym, a framework for developing, benchmarking, training, and deploying flow-field quantification methods, with a primary focus on PIV. Its core contribution is a standardized interface that allows classical and learning-based algorithms to be integrated, compared, and deployed within a common pipeline. The framework includes JAX implementations and wrappers for existing methods, modular pre-processing and post-processing components, and utilities for training and benchmarking. By leveraging JAX, Flow Gym supports hardware-accelerated execution while remaining interoperable with external implementations from libraries such as OpenCV and PyTorch. It can operate on both synthetic and experimental data and supports the same workflow for offline benchmarking and real-time deployment. Flow Gym is designed to improve reproducibility, reduce barriers to method development, and facilitate the translation of flow-field quantification algorithms from research to experimental settings.
+summary: ''
+link: https://arxiv.org/pdf/2512.20642
+links_alt:
+audit_status: raw

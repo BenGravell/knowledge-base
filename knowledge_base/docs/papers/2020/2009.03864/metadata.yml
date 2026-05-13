@@ -1,0 +1,22 @@
+title: Contraction $\mathcal{L}_1$-Adaptive Control using Gaussian Processes
+algorithm:
+authors:
+  - Aditya Gahlawat
+  - Arun Lakshmanan
+  - Lin Song
+  - Andrew Patterson
+  - Zhuohuan Wu
+  - Naira Hovakimyan
+  - Evangelos Theodorou
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2009.03864"
+tags:
+abstract: >
+  We present $\mathcal{CL}_1$-$\mathcal{GP}$, a control framework that enables safe simultaneous learning and control for systems subject to uncertainties. The two main constituents are contraction theory-based $\mathcal{L}_1$ ($\mathcal{CL}_1$) control and Bayesian learning in the form of Gaussian process (GP) regression. The $\mathcal{CL}_1$ controller ensures that control objectives are met while providing safety certificates. Furthermore, $\mathcal{CL}_1$-$\mathcal{GP}$ incorporates any available data into a GP model of uncertainties, which improves performance and enables the motion planner to achieve optimality safely. This way, the safe operation of the system is always guaranteed, even during the learning transients. We provide a few illustrative examples for the safe learning and control of planar quadrotor systems in a variety of environments.
+summary: ''
+link: https://arxiv.org/pdf/2009.03864
+links_alt:
+audit_status: raw

@@ -1,0 +1,19 @@
+title: A direct method for trajectory optimization of rigid bodies through contact
+algorithm:
+authors:
+  - Michael Posa
+  - Cecilia Cantu
+  - Russ Tedrake
+year: 2013
+source: The International Journal of Robotics Research
+type: Journal Paper
+doi: 10.1177/0278364913506757
+arxiv_id:
+tags:
+abstract: >
+  Direct methods for trajectory optimization are widely used for planning locally optimal trajectories of robotic systems. Many critical tasks, such as locomotion and manipulation, often involve impacting the ground or objects in the environment. Most state-of-the-art techniques treat the discontinuous dynamics that result from impacts as discrete modes and restrict the search for a complete path to a specified sequence through these modes. Here we present a novel method for trajectory planning of rigid-body systems that contact their environment through inelastic impacts and Coulomb friction. This method eliminates the requirement for a priori mode ordering. Motivated by the formulation of multi-contact dynamics as a Linear Complementarity Problem for forward simulation, the proposed algorithm poses the optimization problem as a Mathematical Program with Complementarity Constraints. We leverage Sequential Quadratic Programming to naturally resolve contact constraint forces while simultaneously optimizing a trajectory that satisfies the complementarity constraints. The method scales well to high-dimensional systems with large numbers of possible modes. We demonstrate the approach on four increasingly complex systems: rotating a pinned object with a finger, simple grasping and manipulation, planar walking with the Spring Flamingo robot, and high-speed bipedal running on the FastRunner platform.
+summary: ''
+link: https://journals.sagepub.com/doi/abs/10.1177/0278364913506757
+links_alt:
+  - https://doi.org/10.1177/0278364913506757
+audit_status: raw

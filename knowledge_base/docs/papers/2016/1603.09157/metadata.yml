@@ -1,0 +1,20 @@
+title: >
+  Linear System Identification via EM with Latent Disturbances and Lagrangian Relaxation
+algorithm:
+authors:
+  - Jack Umenberger
+  - Johan Wågberg
+  - Ian R. Manchester
+  - Thomas B. Schön
+year: 2016
+source:
+type: ''
+doi:
+arxiv_id: "1603.09157"
+tags:
+abstract: >
+  In the application of the Expectation Maximization algorithm to identification of dynamical systems, internal states are typically chosen as latent variables, for simplicity. In this work, we propose a different choice of latent variables, namely, system disturbances. Such a formulation elegantly handles the problematic case of singular state space models, and is shown, under certain circumstances, to improve the fidelity of bounds on the likelihood, leading to convergence in fewer iterations. To access these benefits we develop a Lagrangian relaxation of the nonconvex optimization problems that arise in the latent disturbances formulation, and proceed via semidefinite programming.
+summary: ''
+link: https://arxiv.org/pdf/1603.09157
+links_alt:
+audit_status: raw

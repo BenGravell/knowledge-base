@@ -1,0 +1,20 @@
+title: Efficient Bipedal Robots Based on Passive-Dynamic Walkers
+algorithm:
+authors:
+  - Steve Collins
+  - Andy Ruina
+  - Russ Tedrake
+  - Martijn Wisse
+year: 2005
+source: Science
+type: Journal Paper
+doi: 10.1126/science.1107799
+arxiv_id:
+tags:
+abstract: >
+  Passive-dynamic walkers are simple mechanical devices, composed of solid parts connected by joints, that walk stably down a slope. They have no motors or controllers, yet can have remarkably humanlike motions. This suggests that these machines are useful models of human locomotion; however, they cannot walk on level ground. Here we present three robots based on passive-dynamics, with small active power sources substituted for gravity, which can walk on level ground. These robots use less control and less energy than other powered robots, yet walk more naturally, further suggesting the importance of passive-dynamics in human locomotion.
+summary: ''
+link: https://www.science.org/doi/10.1126/science.1107799
+links_alt:
+  - https://doi.org/10.1126/science.1107799
+audit_status: raw

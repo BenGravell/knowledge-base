@@ -1,0 +1,25 @@
+title: 'EVORA: Deep Evidential Traversability Learning for Risk-Aware Off-Road Autonomy'
+algorithm:
+authors:
+  - Xiaoyi Cai
+  - Siddharth Ancha
+  - Lakshay Sharma
+  - Philip R. Osteen
+  - Bernadette Bucher
+  - Stephen Phillips
+  - Jiuguang Wang
+  - Michael Everett
+  - Nicholas Roy
+  - Jonathan P. How
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2311.06234"
+tags:
+abstract: >
+  Traversing terrain with good traction is crucial for achieving fast off-road navigation. Instead of manually designing costs based on terrain features, existing methods learn terrain properties directly from data via self-supervision to automatically penalize trajectories moving through undesirable terrain, but challenges remain to properly quantify and mitigate the risk due to uncertainty in learned models. To this end, this work proposes a unified framework to learn uncertainty-aware traction model and plan risk-aware trajectories. For uncertainty quantification, we efficiently model both aleatoric and epistemic uncertainty by learning discrete traction distributions and probability densities of the traction predictor's latent features. Leveraging evidential deep learning, we parameterize Dirichlet distributions with the network outputs and propose a novel uncertainty-aware squared Earth Mover's distance loss with a closed-form expression that improves learning accuracy and navigation performance. For risk-aware navigation, the proposed planner simulates state trajectories with the worst-case expected traction to handle aleatoric uncertainty, and penalizes trajectories moving through terrain with high epistemic uncertainty. Our approach is extensively validated in simulation and on wheeled and quadruped robots, showing improved navigation performance compared to methods that assume no slip, assume the expected traction, or optimize for the worst-case expected cost.
+summary: ''
+link: https://arxiv.org/pdf/2311.06234
+links_alt:
+audit_status: raw

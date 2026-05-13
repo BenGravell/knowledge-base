@@ -1,0 +1,28 @@
+title: 'Director: A User Interface Designed for Robot Operation with Shared Autonomy'
+algorithm:
+authors:
+  - Pat Marion
+  - Maurice Fallon
+  - Robin Deits
+  - Andrés Valenzuela
+  - Claudia Pérez D’Arpino
+  - Greg Izatt
+  - Lucas Manuelli
+  - Matt Antone
+  - Hongkai Dai
+  - Twan Koolen
+  - John Carter
+  - Scott Kuindersma
+  - Russ Tedrake
+year: 2018
+source: Springer Tracts in Advanced Robotics
+type: Conference Paper
+doi: 10.1007/978-3-319-74666-1_7
+arxiv_id:
+tags:
+abstract: >
+  Operating a high degree of freedom mobile manipulator, such as a humanoid, in a field scenario requires constant situational awareness, capable perception modules, and effective mechanisms for interactive motion planning and control. A well-designed operator interface presents the operator with enough context to quickly carry out a mission and the flexibility to handle unforeseen operating scenarios robustly. By contrast, an unintuitive user interface can increase the risk of catastrophic operator error by overwhelming the user with unnecessary information. With these principles in mind, we present the philosophy and design decisions behind Director —the open-source user interface developed by Team MIT to pilot the Atlas robot in the DARPA Robotics Challenge (DRC). At the heart of Director is an integrated task execution system that specifies sequences of actions needed to achieve a substantive task, such as drilling a wall or climbing a staircase. These task sequences, developed a priori , make online queries to automated perception and planning algorithms with outputs that can be reviewed by the operator and executed by our whole-body controller. Our use of Director at the DRC resulted in efficient high-level task operation while being fully competitive with approaches focusing on teleoperation by highly-trained operators. We discuss the primary interface elements that comprise the Director and provide analysis of its successful use at the DRC.
+summary: ''
+link: https://doi.org/10.1007/978-3-319-74666-1_7
+links_alt:
+audit_status: raw

@@ -325,3 +325,4 @@ https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-book.html
 https://iopscience.iop.org/article/10.1088/1749-4699/8/1/014008
 https://www.kavrakilab.org/publications/moll2021hyperplan.html
 https://publications.ri.cmu.edu/tron-a-fast-solver-for-trajectory-optimization-with-non-smooth-cost-functions
+https://dspace.mit.edu/handle/1721.1/62571

@@ -1,0 +1,16 @@
+title: 'AprilTag: A robust and flexible visual fiducial system'
+algorithm:
+authors:
+  - Edwin Olson
+year: 2011
+source: 2011 IEEE International Conference on Robotics and Automation
+type: Conference Paper
+doi: 10.1109/ICRA.2011.5979561
+arxiv_id:
+tags:
+abstract: >
+  While the use of naturally-occurring features is a central focus of machine perception, artificial features (fiducials) play an important role in creating controllable experiments, ground truthing, and in simplifying the development of systems where perception is not the central objective. We describe a new visual fiducial system that uses a 2D bar code style "tag", allowing full 6 DOF localization of features from a single image. Our system improves upon previous systems, incorporating a fast and robust line detection system, a stronger digital coding system, and greater robustness to occlusion, warping, and lens distortion. While similar in concept to the ARTag system, our method is fully open and the algorithms are documented in detail.
+summary: ''
+link: https://doi.org/10.1109/ICRA.2011.5979561
+links_alt:
+audit_status: raw

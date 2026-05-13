@@ -1,0 +1,17 @@
+title: 'CLIPPER+: A Fast Maximal Clique Algorithm for Robust Global Registration'
+algorithm:
+authors:
+  - Kaveh Fathian
+  - Tyler Summers
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2402.15464"
+tags:
+abstract: >
+  We present CLIPPER+, an algorithm for finding maximal cliques in unweighted graphs for outlier-robust global registration. The registration problem can be formulated as a graph and solved by finding its maximum clique. This formulation leads to extreme robustness to outliers; however, finding the maximum clique is an NP-hard problem, and therefore approximation is required in practice for large-size problems. The performance of an approximation algorithm is evaluated by its computational complexity (the lower the runtime, the better) and solution accuracy (how close the solution is to the maximum clique). Accordingly, the main contribution of CLIPPER+ is outperforming the state-of-the-art in accuracy while maintaining a relatively low runtime. CLIPPER+ builds on prior work (CLIPPER [1] and PMC [2]) and prunes the graph by removing vertices that have a small core number and cannot be a part of the maximum clique. This will result in a smaller graph, on which the maximum clique can be estimated considerably faster. We evaluate the performance of CLIPPER+ on standard graph benchmarks, as well as synthetic and real-world point cloud registration problems. These evaluations demonstrate that CLIPPER+ has the highest accuracy and can register point clouds in scenarios where over $99\%$ of associations are outliers. Our code and evaluation benchmarks are released at https://github.com/ariarobotics/clipperp.
+summary: ''
+link: https://arxiv.org/pdf/2402.15464
+links_alt:
+audit_status: raw

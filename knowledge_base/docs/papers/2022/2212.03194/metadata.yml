@@ -1,0 +1,20 @@
+title: 'DiffTune$^+$: Hyperparameter-Free Auto-Tuning using Auto-Differentiation'
+algorithm:
+authors:
+  - Sheng Cheng
+  - Lin Song
+  - Minkyung Kim
+  - Shenlong Wang
+  - Naira Hovakimyan
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2212.03194"
+tags:
+abstract: >
+  Controller tuning is a vital step to ensure the controller delivers its designed performance. DiffTune has been proposed as an automatic tuning method that unrolls the dynamical system and controller into a computational graph and uses auto-differentiation to obtain the gradient for the controller's parameter update. However, DiffTune uses the vanilla gradient descent to iteratively update the parameter, in which the performance largely depends on the choice of the learning rate (as a hyperparameter). In this paper, we propose to use hyperparameter-free methods to update the controller parameters. We find the optimal parameter update by maximizing the loss reduction, where a predicted loss based on the approximated state and control is used for the maximization. Two methods are proposed to optimally update the parameters and are compared with related variants in simulations on a Dubin's car and a quadrotor. Simulation experiments show that the proposed first-order method outperforms the hyperparameter-based methods and is more robust than the second-order hyperparameter-free methods.
+summary: ''
+link: https://arxiv.org/pdf/2212.03194
+links_alt:
+audit_status: raw

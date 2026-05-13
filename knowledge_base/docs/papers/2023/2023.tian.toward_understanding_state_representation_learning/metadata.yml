@@ -1,0 +1,20 @@
+title: >
+  Toward Understanding State Representation Learning in MuZero: A Case Study in Linear Quadratic Gaussian Control
+algorithm:
+authors:
+  - Yi Tian
+  - Kaiqing Zhang
+  - Russ Tedrake
+  - Suvrit Sra
+year: 2023
+source: 2023 62nd IEEE Conference on Decision and Control (CDC)
+type: Conference Paper
+doi: 10.1109/CDC49753.2023.10383754
+arxiv_id:
+tags:
+abstract: >
+  We study the problem of representation learning for control from partial and potentially high-dimensional observations. We approach this problem via direct latent model learning, where one directly learns a dynamical model in some latent state space by predicting costs. In particular, we establish finite-sample guarantees of finding a near-optimal representation function and a near-optimal controller using the directly learned latent model for infinite-horizon time-invariant Linear Quadratic Gaussian (LQG) control. A part of our approach to latent model learning closely resembles MuZero, a recent breakthrough in empirical reinforcement learning, in that it learns latent dynamics implicitly by predicting cumulative costs. A key technical contribution of this work is to prove persistency of excitation for a new stochastic process that arises from the analysis of quadratic regression in our approach.
+summary: ''
+link: https://doi.org/10.1109/CDC49753.2023.10383754
+links_alt:
+audit_status: raw

@@ -1,0 +1,27 @@
+title: Large Video Planner Enables Generalizable Robot Control
+algorithm:
+authors:
+  - Boyuan Chen
+  - Tianyuan Zhang
+  - Haoran Geng
+  - Caiyi Zhang
+  - Peihao Li
+  - Kiwhan Song
+  - William T. Freeman
+  - Jitendra Malik
+  - Pieter Abbeel
+  - Russ Tedrake
+  - Vincent Sitzmann
+  - Yilun Du
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2512.15840"
+tags:
+abstract: >
+  General-purpose robots require decision-making models that generalize across diverse tasks and environments. Recent works build robot foundation models by extending multimodal large language models (MLLMs) with action outputs, creating vision-language-action (VLA) systems. These efforts are motivated by the intuition that MLLMs' large-scale language and image pretraining can be effectively transferred to the action output modality. In this work, we explore an alternative paradigm of using large-scale video pretraining as a primary modality for building robot foundation models. Unlike static images and language, videos capture spatio-temporal sequences of states and actions in the physical world that are naturally aligned with robotic behavior. We curate an internet-scale video dataset of human activities and task demonstrations, and train, for the first time at a foundation-model scale, an open video model for generative robotics planning. The model produces zero-shot video plans for novel scenes and tasks, which we post-process to extract executable robot actions. We evaluate task-level generalization through third-party selected tasks in the wild and real-robot experiments, demonstrating successful physical execution. Together, these results show robust instruction following, strong generalization, and real-world feasibility. We release both the model and dataset to support open, reproducible video-based robot learning. Our website is available at https://www.boyuan.space/large-video-planner/.
+summary: ''
+link: https://arxiv.org/pdf/2512.15840
+links_alt:
+audit_status: raw

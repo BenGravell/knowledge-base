@@ -1,0 +1,18 @@
+title: Dynamic Tube MPC for Nonlinear Systems
+algorithm:
+authors:
+  - Brett T. Lopez
+  - Jean-Jacques E. Slotine
+  - Jonathan P. How
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1907.06553"
+tags:
+abstract: >
+  Modeling error or external disturbances can severely degrade the performance of Model Predictive Control (MPC) in real-world scenarios. Robust MPC (RMPC) addresses this limitation by optimizing over feedback policies but at the expense of increased computational complexity. Tube MPC is an approximate solution strategy in which a robust controller, designed offline, keeps the system in an invariant tube around a desired nominal trajectory, generated online. Naturally, this decomposition is suboptimal, especially for systems with changing objectives or operating conditions. In addition, many tube MPC approaches are unable to capture state-dependent uncertainty due to the complexity of calculating invariant tubes, resulting in overly-conservative approximations. This work presents the Dynamic Tube MPC (DTMPC) framework for nonlinear systems where both the tube geometry and open-loop trajectory are optimized simultaneously. By using boundary layer sliding control, the tube geometry can be expressed as a simple relation between control parameters and uncertainty bound; enabling the tube geometry dynamics to be added to the nominal MPC optimization with minimal increase in computational complexity. In addition, DTMPC is able to leverage state-dependent uncertainty to reduce conservativeness and improve optimization feasibility. DTMPC is demonstrated to robustly perform obstacle avoidance and modify the tube geometry in response to obstacle proximity.
+summary: ''
+link: https://arxiv.org/pdf/1907.06553
+links_alt:
+audit_status: raw
