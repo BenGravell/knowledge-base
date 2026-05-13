@@ -1,13 +1,5 @@
 # TODO
 
-
-
-perform agent task "### Audit and place all missing papers in the MkDocs content tree"
-
-
-
-
-
 ## Site
 
 Use git-filter-repo. It is the modern, reliable way to remove a path from all reachable Git history.

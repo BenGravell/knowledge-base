@@ -61,20 +61,10 @@ Audit all paper metadata files:
 python scripts/audit_metadata.py
 ```
 
-Useful variants:
-
-```bash
-python scripts/audit_metadata.py --file docs/papers/2024/2401.00001/metadata.yml
-python scripts/audit_metadata.py --fix
-python scripts/audit_metadata.py --check-malformed-abstracts
-python scripts/audit_metadata.py --check-escaped-sequences
-```
-
 List entries still marked `audit_status: raw`:
 
 ```bash
 python scripts/list_raw_papers.py
-python scripts/list_raw_papers.py --max-results 5
 ```
 
 Add `audit_status` to older metadata files that do not have it yet:
