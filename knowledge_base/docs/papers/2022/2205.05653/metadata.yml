@@ -1,0 +1,18 @@
+title: >
+  The First Optimal Algorithm for Smooth and Strongly-Convex-Strongly-Concave Minimax Optimization
+algorithm:
+authors:
+  - Dmitry Kovalev
+  - Alexander Gasnikov
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2205.05653"
+tags:
+abstract: >
+  In this paper, we revisit the smooth and strongly-convex-strongly-concave minimax optimization problem. Zhang et al. (2021) and Ibrahim et al. (2020) established the lower bound $Ω\left(\sqrt{κ_xκ_y} \log \frac{1}ε\right)$ on the number of gradient evaluations required to find an $ε$-accurate solution, where $κ_x$ and $κ_y$ are condition numbers for the strong convexity and strong concavity assumptions. However, the existing state-of-the-art methods do not match this lower bound: algorithms of Lin et al. (2020) and Wang and Li (2020) have gradient evaluation complexity $\mathcal{O}\left( \sqrt{κ_xκ_y}\log^3\frac{1}ε\right)$ and $\mathcal{O}\left( \sqrt{κ_xκ_y}\log^3 (κ_xκ_y)\log\frac{1}ε\right)$, respectively. We fix this fundamental issue by providing the first algorithm with $\mathcal{O}\left(\sqrt{κ_xκ_y}\log\frac{1}ε\right)$ gradient evaluation complexity. We design our algorithm in three steps: (i) we reformulate the original problem as a minimization problem via the pointwise conjugate function; (ii) we apply a specific variant of the proximal point algorithm to the reformulated problem; (iii) we compute the proximal operator inexactly using the optimal algorithm for operator norm reduction in monotone inclusions.
+summary: ''
+link: https://arxiv.org/pdf/2205.05653
+links_alt:
+audit_status: raw

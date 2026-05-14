@@ -1,0 +1,19 @@
+title: Neural Tree Expansion for Multi-Robot Planning in Non-Cooperative Environments
+algorithm:
+authors:
+  - Benjamin Riviere
+  - Wolfgang Hoenig
+  - Matthew Anderson
+  - Soon-Jo Chung
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2104.09705"
+tags:
+abstract: >
+  We present a self-improving, Neural Tree Expansion (NTE) method for multi-robot online planning in non-cooperative environments, where each robot attempts to maximize its cumulative reward while interacting with other self-interested robots. Our algorithm adapts the centralized, perfect information, discrete-action space method from AlphaZero to a decentralized, partial information, continuous action space setting for multi-robot applications. Our method has three interacting components: (i) a centralized, perfect-information "expert" Monte Carlo Tree Search (MCTS) with large computation resources that provides expert demonstrations, (ii) a decentralized, partial-information "learner" MCTS with small computation resources that runs in real-time and provides self-play examples, and (iii) policy & value neural networks that are trained with the expert demonstrations and bias both the expert and the learner tree growth. Our numerical experiments demonstrate Neural Tree Expansion's computational advantage by finding better solutions than a MCTS with 20 times more resources. The resulting policies are dynamically sophisticated, demonstrate coordination between robots, and play the Reach-Target-Avoid differential game significantly better than the state-of-the-art control-theoretic baseline for multi-robot, double-integrator systems. Our hardware experiments on an aerial swarm demonstrate the computational advantage of Neural Tree Expansion, enabling online planning at 20Hz with effective policies in complex scenarios.
+summary: ''
+link: https://arxiv.org/pdf/2104.09705
+links_alt:
+audit_status: raw

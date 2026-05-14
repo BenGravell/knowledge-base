@@ -1,0 +1,21 @@
+title: >
+  Fast Non-Episodic Adaptive Tuning of Robot Controllers with Online Policy Optimization
+algorithm:
+authors:
+  - James A. Preiss
+  - Fengze Xie
+  - Yiheng Lin
+  - Adam Wierman
+  - Yisong Yue
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2507.10914"
+tags:
+abstract: >
+  We study online algorithms to tune the parameters of a robot controller in a setting where the dynamics, policy class, and optimality objective are all time-varying. The system follows a single trajectory without episodes or state resets, and the time-varying information is not known in advance. Focusing on nonlinear geometric quadrotor controllers as a test case, we propose a practical implementation of a single-trajectory model-based online policy optimization algorithm, M-GAPS,along with reparameterizations of the quadrotor state space and policy class to improve the optimization landscape. In hardware experiments,we compare to model-based and model-free baselines that impose artificial episodes. We show that M-GAPS finds near-optimal parameters more quickly, especially when the episode length is not favorable. We also show that M-GAPS rapidly adapts to heavy unmodeled wind and payload disturbances, and achieves similar strong improvement on a 1:6-scale Ackermann-steered car. Our results demonstrate the hardware practicality of this emerging class of online policy optimization that offers significantly more flexibility than classic adaptive control, while being more stable and data-efficient than model-free reinforcement learning.
+summary: ''
+link: https://arxiv.org/pdf/2507.10914
+links_alt:
+audit_status: raw

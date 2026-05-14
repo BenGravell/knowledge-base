@@ -1,0 +1,19 @@
+title: >
+  Real-time Mixed-Integer Quadratic Programming for Vehicle Decision Making and Motion Planning
+algorithm:
+authors:
+  - Rien Quirynen
+  - Sleiman Safaoui
+  - Stefano Di Cairano
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2308.10069"
+tags:
+abstract: >
+  We develop a real-time feasible mixed-integer programming-based decision making (MIP-DM) system for automated driving. Using a linear vehicle model in a road-aligned coordinate frame, the lane change constraints, collision avoidance and traffic rules can be formulated as mixed-integer inequalities, resulting in a mixed-integer quadratic program (MIQP). The proposed MIP-DM simultaneously performs maneuver selection and trajectory generation by solving the MIQP at each sampling time instant. While solving MIQPs in real time has been considered intractable in the past, we show that our recently developed solver BB-ASIPM is capable of solving MIP-DM problems on embedded hardware in real time. The performance of this approach is illustrated in simulations in various scenarios including merging points and traffic intersections, and hardware-in-the-loop simulations on dSPACE Scalexio and MicroAutoBox-III. Finally, we present results from hardware experiments on small-scale automated vehicles.
+summary: ''
+link: https://arxiv.org/pdf/2308.10069
+links_alt:
+audit_status: raw

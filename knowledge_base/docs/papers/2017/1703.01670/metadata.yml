@@ -1,0 +1,17 @@
+title: Control Interpretations for First-Order Optimization Methods
+algorithm:
+authors:
+  - Bin Hu
+  - Laurent Lessard
+year: 2017
+source:
+type: ''
+doi:
+arxiv_id: "1703.01670"
+tags:
+abstract: >
+  First-order iterative optimization methods play a fundamental role in large scale optimization and machine learning. This paper presents control interpretations for such optimization methods. First, we give loop-shaping interpretations for several existing optimization methods and show that they are composed of basic control elements such as PID and lag compensators. Next, we apply the small gain theorem to draw a connection between the convergence rate analysis of optimization methods and the input-output gain computations of certain complementary sensitivity functions. These connections suggest that standard classical control synthesis tools may be brought to bear on the design of optimization algorithms.
+summary: ''
+link: https://arxiv.org/pdf/1703.01670
+links_alt:
+audit_status: raw

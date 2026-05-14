@@ -1,0 +1,16 @@
+title: On pole assignment in multi-input controllable linear systems
+algorithm:
+authors:
+  - W. Wonham
+year: 1967
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.1967.1098739
+arxiv_id:
+tags:
+abstract: >
+  It is shown that controllability of an open-loop system is equivalent to the possibility of assigning an arbitrary set of poles to the transfer matrix of the closed-loop system, formed by means of suitable linear feedback of the state. As an application of this result, it is shown that an open-loop system can be stabilized by linear feedback if and only if the unstable modes of its system matrix are controllable. A dual of this criterion is shown to be equivalent to the existence of an observer of Luenberger's type for asymptotic state identification.
+summary: ''
+link: https://doi.org/10.1109/TAC.1967.1098739
+links_alt:
+audit_status: raw

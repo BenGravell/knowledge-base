@@ -1,0 +1,17 @@
+title: Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means
+algorithm:
+authors:
+  - Mitchell Tong Harris
+  - Pablo A. Parrilo
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2309.10675"
+tags:
+abstract: >
+  We develop a new kind of nonnegativity certificate for univariate polynomials on an interval. In many applications, nonnegative Bernstein coefficients are often used as a simple way of certifying polynomial nonnegativity. Our proposed condition is instead an explicit lower bound for each Bernstein coefficient in terms of the geometric mean of its adjacent coefficients, which is provably less restrictive than the usual test based on nonnegative coefficients. We generalize to matrix-valued polynomials of arbitrary degree, and we provide numerical experiments suggesting the practical benefits of this condition. The techniques for constructing this inexpensive certificate could potentially be applied to other semialgebraic feasibility problems.
+summary: ''
+link: https://arxiv.org/pdf/2309.10675
+links_alt:
+audit_status: raw

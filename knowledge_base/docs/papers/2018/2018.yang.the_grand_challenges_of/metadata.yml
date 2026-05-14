@@ -1,0 +1,33 @@
+title: The grand challenges of <i>Science Robotics</i>
+algorithm:
+authors:
+  - Guang-Zhong Yang
+  - Jim Bellingham
+  - Pierre E. Dupont
+  - Peer Fischer
+  - Luciano Floridi
+  - Robert Full
+  - Neil Jacobstein
+  - Vijay Kumar
+  - Marcia McNutt
+  - Robert Merrifield
+  - Bradley J. Nelson
+  - Brian Scassellati
+  - Mariarosaria Taddeo
+  - Russell Taylor
+  - Manuela Veloso
+  - Zhong Lin Wang
+  - Robert Wood
+year: 2018
+source: Science Robotics
+type: Journal Paper
+doi: 10.1126/scirobotics.aar7650
+arxiv_id:
+tags:
+abstract: >
+  These 10 grand challenges may have major breakthroughs, research, and/or socioeconomic impacts in the next 5 to 10 years.
+summary: ''
+link: https://www.science.org/doi/10.1126/scirobotics.aar7650
+links_alt:
+  - https://doi.org/10.1126/scirobotics.aar7650
+audit_status: raw

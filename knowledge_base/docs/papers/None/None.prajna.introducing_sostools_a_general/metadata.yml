@@ -1,0 +1,18 @@
+title: 'Introducing SOSTOOLS: a general purpose sum of squares programming solver'
+algorithm:
+authors:
+  - S. Prajna
+  - A. Papachristodoulou
+  - P.A. Parrilo
+year:
+source: Proceedings of the 41st IEEE Conference on Decision and Control, 2002.
+type: Conference Paper
+doi: 10.1109/CDC.2002.1184594
+arxiv_id:
+tags:
+abstract: >
+  SOSTOOLS is a MATLAB toolbox for constructing and solving sum of squares programs. It can be used in combination with semidefinite programming software, such as SeDuMi, to solve many continuous and combinatorial optimization problems, as well as various control-related problems. The paper provides an overview on sum of squares programming, describes the primary features of SOSTOOLS, and shows how SOSTOOLS is used to solve sum of squares programs. Some applications from different areas are presented to show the wide applicability of sum of squares programming in general and SOSTOOLS in particular.
+summary: ''
+link: https://doi.org/10.1109/CDC.2002.1184594
+links_alt:
+audit_status: raw

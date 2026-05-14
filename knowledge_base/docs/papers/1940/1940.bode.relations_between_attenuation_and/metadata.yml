@@ -1,0 +1,16 @@
+title: Relations Between Attenuation and Phase in Feedback Amplifier Design
+algorithm:
+authors:
+  - H. W. Bode
+year: 1940
+source: Bell System Technical Journal
+type: Journal Paper
+doi: 10.1002/j.1538-7305.1940.tb00839.x
+arxiv_id:
+tags:
+abstract: >
+  THE engineer who embarks upon the design of a feedback amplifier must be a creature of mixed emotions. On the one hand, he can rejoice in the improvements in the characteristics of the structure which feedback promises to secure him. <sup xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">1</sup> On the other hand, he knows that unless he can finally adjust the phase and attenuation characteristics around the feedback loop so the amplifier will not spontaneously burst into uncontrollable singing, none of these advantages can actually be realized. The emotional situation is much like that of an impecunious young man who has impetuously invited the lady of his heart to see a play, unmindful, for the moment, of the limitations of the $2.65 in his pockets. The rapturous comments of the girl on the way to the theater would be very pleasant if they were not shadowed by his private speculation about the cost of the tickets.
+summary: ''
+link: https://doi.org/10.1002/j.1538-7305.1940.tb00839.x
+links_alt:
+audit_status: raw

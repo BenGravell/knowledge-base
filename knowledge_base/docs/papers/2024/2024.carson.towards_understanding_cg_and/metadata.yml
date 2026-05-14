@@ -1,0 +1,18 @@
+title: Towards understanding CG and GMRES through examples
+algorithm:
+authors:
+  - Erin Carson
+  - Jörg Liesen
+  - Zdeněk Strakoš
+year: 2024
+source: Linear Algebra and its Applications
+type: Journal Paper
+doi: 10.1016/j.laa.2024.04.003
+arxiv_id:
+tags:
+abstract: >
+  When the conjugate gradient (CG) method for solving linear algebraic systems was formulated about 70 years ago by Lanczos, Hestenes, and Stiefel, it was considered an iterative process possessing a mathematical finite termination property. With the deep insight of the original authors, CG was placed into a very rich mathematical context, including links with Gauss quadrature and continued fractions. The optimality property of CG was described via a normalized weighted polynomial least squares approximation to zero. This highly nonlinear problem explains the adaptation of CG iterates to the given data. Karush and Hayes immediately considered CG in infinite dimensional Hilbert spaces and investigated its superlinear convergence. Since then, the view of CG, as well as other Krylov subspace methods developed in the meantime, has changed. Today these methods are considered primarily as computational tools, and their behavior is typically characterized using linear upper bounds, or heuristics based on clustering of eigenvalues. Such simplifications limit the mathematical understanding of Krylov subspace methods, and also negatively affect their practical application. This paper offers a different perspective. Focusing on CG and the generalized minimal residual (GMRES) method, it presents mathematically important as well as practically relevant phenomena that uncover their behavior through a discussion of computed examples. These examples provide an easily accessible approach that enables understanding of the methods, while pointers to more detailed analyses in the literature are given. This approach allows readers to choose the level of depth and thoroughness appropriate for their intentions. Some of the points made in this paper illustrate well known facts. Others challenge mainstream views and explain existing misunderstandings. Several points refer to recent results leading to open problems. We consider CG and GMRES crucially important for the mathematical understanding, further development, and practical applications also of other Krylov subspace methods. The paper additionally addresses the motivation of preconditioning.
+summary: ''
+link: https://doi.org/10.1016/j.laa.2024.04.003
+links_alt:
+audit_status: raw

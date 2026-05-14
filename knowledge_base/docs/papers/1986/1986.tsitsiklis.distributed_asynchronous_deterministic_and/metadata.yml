@@ -1,0 +1,19 @@
+title: >
+  Distributed asynchronous deterministic and stochastic gradient optimization algorithms
+algorithm:
+authors:
+  - J. Tsitsiklis
+  - D. Bertsekas
+  - M. Athans
+year: 1986
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.1986.1104412
+arxiv_id:
+tags:
+abstract: >
+  We present a model for asynchronous distributed computation and then proceed to analyze the convergence of natural asynchronous distributed versions of a large class of deterministic and stochastic gradient-like algorithms. We show that such algorithms retain the desirable convergence properties of their centralized counterparts, provided that the time between consecutive interprocessor communications and the communication delays are not too large.
+summary: ''
+link: https://doi.org/10.1109/TAC.1986.1104412
+links_alt:
+audit_status: raw

@@ -1,0 +1,41 @@
+title: 'Junior: The Stanford entry in the Urban Challenge'
+algorithm:
+authors:
+  - Michael Montemerlo
+  - Jan Becker
+  - Suhrid Bhat
+  - Hendrik Dahlkamp
+  - Dmitri Dolgov
+  - Scott Ettinger
+  - Dirk Haehnel
+  - Tim Hilden
+  - Gabe Hoffmann
+  - Burkhard Huhnke
+  - Doug Johnston
+  - Stefan Klumpp
+  - Dirk Langer
+  - Anthony Levandowski
+  - Jesse Levinson
+  - Julien Marcil
+  - David Orenstein
+  - Johannes Paefgen
+  - Isaac Penny
+  - Anna Petrovskaya
+  - Mike Pflueger
+  - Ganymed Stanek
+  - David Stavens
+  - Antone Vogt
+  - Sebastian Thrun
+year: 2008
+source: Journal of Field Robotics
+type: Journal Paper
+doi: 10.1002/rob.20258
+arxiv_id:
+tags:
+abstract: >
+  AbstractThis article presents the architecture of Junior, a robotic vehicle capable of navigating urban environments autonomously. In doing so, the vehicle is able to select its own routes, perceive and interact with other traffic, and execute various urban driving skills including lane changes, U‐turns, parking, and merging into moving traffic. The vehicle successfully finished and won second place in the DARPA Urban Challenge, a robot competition organized by the U.S. Government. © 2008 Wiley Periodicals, Inc.
+summary: ''
+link: https://onlinelibrary.wiley.com/doi/abs/10.1002/rob.20258
+links_alt:
+  - https://doi.org/10.1002/rob.20258
+audit_status: raw

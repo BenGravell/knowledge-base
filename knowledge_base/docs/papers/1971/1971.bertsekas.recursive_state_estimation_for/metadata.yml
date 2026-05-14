@@ -1,0 +1,17 @@
+title: Recursive state estimation for a set-membership description of uncertainty
+algorithm:
+authors:
+  - D. Bertsekas
+  - I. Rhodes
+year: 1971
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.1971.1099674
+arxiv_id:
+tags:
+abstract: >
+  This paper is concerned with the problem of estimating the state of a linear dynamic system using noise-corrupted observations, when input disturbances and observation errors are unknown except for the fact that they belong to given bounded sets. The cases of both energy constraints and individual instantaneous constraints for the uncertain quantities are considereal. In the former case, the set of possible system states compatible with the observations received is shown to be an ellipsoid, and equations for its center and weighting matrix are given, while in the latter case, equations describing a bounding ellipsoid to the set of possible states are derived. All three problems of filtering, prediction, and smoothing are examined by relating them to standard tracking problems of optimal control theory. The resulting estimators are similar in structure and comparable in simplicity to the corresponding stochastic linear minimum-variance estimators, and it is shown that they provide distinct advantages over existing schemes for recursive estimation with a set-membership description of uncertainty.
+summary: ''
+link: https://doi.org/10.1109/TAC.1971.1099674
+links_alt:
+audit_status: raw

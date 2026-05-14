@@ -1,0 +1,19 @@
+title: >
+  GMRES: A Generalized Minimal Residual Algorithm for Solving Nonsymmetric Linear Systems
+algorithm:
+authors:
+  - Youcef Saad
+  - Martin H. Schultz
+year: 1986
+source: SIAM Journal on Scientific and Statistical Computing
+type: Journal Paper
+doi: 10.1137/0907058
+arxiv_id:
+tags:
+abstract: >
+  We present an iterative method for solving linear systems, which has the property ofminimizing at every step the norm of the residual vector over a Krylov subspace. The algorithm is derived from the Arnoldi process for constructing an l2-orthogonal basis of Krylov subspaces. It can be considered as a generalization of Paige and Saunders’ MINRES algorithm and is theoretically equivalent to the Generalized Conjugate Residual (GCR) method and to ORTHODIR. The new algorithm presents several advantages over GCR and ORTHODIR.
+summary: ''
+link: https://epubs.siam.org/doi/10.1137/0907058
+links_alt:
+  - https://doi.org/10.1137/0907058
+audit_status: raw

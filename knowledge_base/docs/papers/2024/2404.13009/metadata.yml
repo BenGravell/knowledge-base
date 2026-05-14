@@ -1,0 +1,22 @@
+title: Online Policy Optimization in Unknown Nonlinear Systems
+algorithm:
+authors:
+  - Yiheng Lin
+  - James A. Preiss
+  - Fengze Xie
+  - Emile Anand
+  - Soon-Jo Chung
+  - Yisong Yue
+  - Adam Wierman
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2404.13009"
+tags:
+abstract: >
+  We study online policy optimization in nonlinear time-varying dynamical systems where the true dynamical models are unknown to the controller. This problem is challenging because, unlike in linear systems, the controller cannot obtain globally accurate estimations of the ground-truth dynamics using local exploration. We propose a meta-framework that combines a general online policy optimization algorithm ($\texttt{ALG}$) with a general online estimator of the dynamical system's model parameters ($\texttt{EST}$). We show that if the hypothetical joint dynamics induced by $\texttt{ALG}$ with known parameters satisfies several desired properties, the joint dynamics under inexact parameters from $\texttt{EST}$ will be robust to errors. Importantly, the final policy regret only depends on $\texttt{EST}$'s predictions on the visited trajectory, which relaxes a bottleneck on identifying the true parameters globally. To demonstrate our framework, we develop a computationally efficient variant of Gradient-based Adaptive Policy Selection, called Memoryless GAPS (M-GAPS), and use it to instantiate $\texttt{ALG}$. Combining M-GAPS with online gradient descent to instantiate $\texttt{EST}$ yields (to our knowledge) the first local regret bound for online policy optimization in nonlinear time-varying systems with unknown dynamics.
+summary: ''
+link: https://arxiv.org/pdf/2404.13009
+links_alt:
+audit_status: raw

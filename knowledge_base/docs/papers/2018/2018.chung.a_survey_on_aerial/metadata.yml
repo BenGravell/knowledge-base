@@ -1,0 +1,20 @@
+title: A Survey on Aerial Swarm Robotics
+algorithm:
+authors:
+  - Soon-Jo Chung
+  - Aditya Avinash Paranjape
+  - Philip Dames
+  - Shaojie Shen
+  - Vijay Kumar
+year: 2018
+source: IEEE Transactions on Robotics
+type: Journal Paper
+doi: 10.1109/TRO.2018.2857475
+arxiv_id:
+tags:
+abstract: >
+  The use of aerial swarms to solve real-world problems has been increasing steadily, accompanied by falling prices and improving performance of communication, sensing, and processing hardware. The commoditization of hardware has reduced unit costs, thereby lowering the barriers to entry to the field of aerial swarm robotics. A key enabling technology for swarms is the family of algorithms that allow the individual members of the swarm to communicate and allocate tasks amongst themselves, plan their trajectories, and coordinate their flight in such a way that the overall objectives of the swarm are achieved efficiently. These algorithms, often organized in a hierarchical fashion, endow the swarm with autonomy at every level, and the role of a human operator can be reduced, in principle, to interactions at a higher level without direct intervention. This technology depends on the clever and innovative application of theoretical tools from control and estimation. This paper reviews the state of the art of these theoretical tools, specifically focusing on how they have been developed for, and applied to, aerial swarms. Aerial swarms differ from swarms of ground-based vehicles in two respects: they operate in a three-dimensional space and the dynamics of individual vehicles adds an extra layer of complexity. We review dynamic modeling and conditions for stability and controllability that are essential in order to achieve cooperative flight and distributed sensing. The main sections of this paper focus on major results covering trajectory generation, task allocation, adversarial control, distributed sensing, monitoring, and mapping. Wherever possible, we indicate how the physics and subsystem technologies of aerial robots are brought to bear on these individual areas.
+summary: ''
+link: https://doi.org/10.1109/TRO.2018.2857475
+links_alt:
+audit_status: raw

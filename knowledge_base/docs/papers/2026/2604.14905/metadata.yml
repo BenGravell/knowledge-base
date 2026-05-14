@@ -1,0 +1,19 @@
+title: >
+  Data-driven Linear Quadratic Integral Control: A Convex Formulation and Policy Gradient Approach
+algorithm:
+authors:
+  - Armin Gießler
+  - Pol Jané-Soneira
+  - Sören Hohmann
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.14905"
+tags:
+abstract: >
+  This paper studies the data-driven synthesis of linear quadratic integral (LQI) controllers for continuous-time systems. The objective is to achieve optimal state-feedback control with integral action for reference tracking using only measured data. To this end, we derive a data-driven closed-loop parameterization of the augmented dynamics that incorporates the integral state while relying solely on input-state-output measurements of the underlying system. Based on this parameterization, a data-driven convex optimization problem is formulated whose solution yields the optimal linear quadratic regulator (LQR) feedback gain for the augmented system without explicit knowledge of the system matrices. In addition, a policy gradient flow is derived to compute the optimal controller within the space of stabilizing gains. The proposed approach enables data-driven optimal tracking control while avoiding explicit state augmentation in the data collection phase. The effectiveness of the method is demonstrated through a numerical example involving a distributed generation unit (DGU) in a DC microgrid.
+summary: ''
+link: https://arxiv.org/pdf/2604.14905
+links_alt:
+audit_status: raw

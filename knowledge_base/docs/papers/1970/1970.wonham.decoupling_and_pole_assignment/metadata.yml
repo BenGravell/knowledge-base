@@ -1,0 +1,19 @@
+title: >
+  Decoupling and Pole Assignment in Linear Multivariable Systems: A Geometric Approach
+algorithm:
+authors:
+  - W. M. Wonham
+  - A. S. Morse
+year: 1970
+source: SIAM Journal on Control
+type: Journal Paper
+doi: 10.1137/0308001
+arxiv_id:
+tags:
+abstract: >
+  Decoupling and pole assignments in linear multivariable control systems using geometric method
+summary: ''
+link: https://epubs.siam.org/doi/10.1137/0308001
+links_alt:
+  - https://doi.org/10.1137/0308001
+audit_status: raw

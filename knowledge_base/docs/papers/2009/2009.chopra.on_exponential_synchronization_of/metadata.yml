@@ -1,0 +1,17 @@
+title: On Exponential Synchronization of Kuramoto Oscillators
+algorithm:
+authors:
+  - Nikhil Chopra
+  - Mark W. Spong
+year: 2009
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.2008.2007884
+arxiv_id:
+tags:
+abstract: >
+  In this technical note we study the problem of exponential synchronization for one of the most popular models of coupled phase oscillators, the Kuramoto model. We consider the special case of finite oscillators with distinct, bounded natural frequencies. Our first result derives a lower bound on the coupling gain which is necessary for the onset of synchronization. This bound improves the one derived by Jadbabaie . We then calculate a lower bound on the coupling gain that is sufficient to guarantee oscillator synchronization and derive further sufficient conditions to ensure exponential synchronization of the angular frequencies of all oscillators to the mean natural frequency of the group. We also characterize the coupling gain that is sufficient for the oscillator phase differences to approach any desired compact set in finite time.
+summary: ''
+link: https://doi.org/10.1109/TAC.2008.2007884
+links_alt:
+audit_status: raw

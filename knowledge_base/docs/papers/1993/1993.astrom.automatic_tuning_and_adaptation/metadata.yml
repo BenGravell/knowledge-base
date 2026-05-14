@@ -1,0 +1,18 @@
+title: Automatic tuning and adaptation for PID controllers - a survey
+algorithm:
+authors:
+  - K.J. Åström
+  - T. Hägglund
+  - C.C. Hang
+  - W.K. Ho
+year: 1993
+source: Control Engineering Practice
+type: Journal Paper
+doi: 10.1016/0967-0661(93)91394-c
+arxiv_id:
+tags:
+abstract: ''
+summary: ''
+link: https://doi.org/10.1016/0967-0661(93)91394-c
+links_alt:
+audit_status: raw

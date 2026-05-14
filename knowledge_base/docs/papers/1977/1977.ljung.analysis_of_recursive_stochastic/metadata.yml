@@ -1,0 +1,16 @@
+title: Analysis of recursive stochastic algorithms
+algorithm:
+authors:
+  - L. Ljung
+year: 1977
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.1977.1101561
+arxiv_id:
+tags:
+abstract: >
+  Recursive algorithms where random observations enter are studied in a fairly general framework. An important feature is that the observations my depend on previous "outputs" of the algorithm. The considered class of algorithms contains, e.g., stochastic approximation algorithm, recursive identification algorithm, and algorithms for adaptive control of linear systems. It is shown how a deterministic differential equation can be associated with the algorithm. Problems like convergence with probability one, possible convergence points and asymptotic behavior of the algorithm can all be studied in terms of this differential equation. Theorems stating the precise relationships between the differential equation and the algorithm are given as well as examples of applications of the results to problems in identification and adaptive control.
+summary: ''
+link: https://doi.org/10.1109/TAC.1977.1101561
+links_alt:
+audit_status: raw

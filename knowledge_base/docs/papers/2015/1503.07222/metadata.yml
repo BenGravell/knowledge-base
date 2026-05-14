@@ -1,0 +1,18 @@
+title: Exponential Convergence Bounds using Integral Quadratic Constraints
+algorithm:
+authors:
+  - Ross Boczar
+  - Laurent Lessard
+  - Benjamin Recht
+year: 2015
+source:
+type: ''
+doi:
+arxiv_id: "1503.07222"
+tags:
+abstract: >
+  The theory of integral quadratic constraints (IQCs) allows verification of stability and gain-bound properties of systems containing nonlinear or uncertain elements. Gain bounds often imply exponential stability, but it can be challenging to compute useful numerical bounds on the exponential decay rate. In this work, we present a modification of the classical IQC results of Megretski and Rantzer that leads to a tractable computational procedure for finding exponential rate certificates.
+summary: ''
+link: https://arxiv.org/pdf/1503.07222
+links_alt:
+audit_status: raw

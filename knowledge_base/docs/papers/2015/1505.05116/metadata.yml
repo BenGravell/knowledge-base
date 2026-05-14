@@ -1,0 +1,18 @@
+title: >
+  Data-driven Distributionally Robust Optimization Using the Wasserstein Metric: Performance Guarantees and Tractable Reformulations
+algorithm:
+authors:
+  - Peyman Mohajerin Esfahani
+  - Daniel Kuhn
+year: 2015
+source:
+type: ''
+doi:
+arxiv_id: "1505.05116"
+tags:
+abstract: >
+  We consider stochastic programs where the distribution of the uncertain parameters is only observable through a finite training dataset. Using the Wasserstein metric, we construct a ball in the space of (multivariate and non-discrete) probability distributions centered at the uniform distribution on the training samples, and we seek decisions that perform best in view of the worst-case distribution within this Wasserstein ball. The state-of-the-art methods for solving the resulting distributionally robust optimization problems rely on global optimization techniques, which quickly become computationally excruciating. In this paper we demonstrate that, under mild assumptions, the distributionally robust optimization problems over Wasserstein balls can in fact be reformulated as finite convex programs - in many interesting cases even as tractable linear programs. Leveraging recent measure concentration results, we also show that their solutions enjoy powerful finite-sample performance guarantees. Our theoretical results are exemplified in mean-risk portfolio optimization as well as uncertainty quantification.
+summary: ''
+link: https://arxiv.org/pdf/1505.05116
+links_alt:
+audit_status: raw

@@ -1,0 +1,18 @@
+title: Probably Approximately Correct Nonlinear Model Predictive Control (PAC-NMPC)
+algorithm:
+authors:
+  - Adam Polevoy
+  - Marin Kobilarov
+  - Joseph Moore
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2210.08092"
+tags:
+abstract: >
+  Approaches for stochastic nonlinear model predictive control (SNMPC) typically make restrictive assumptions about the system dynamics and rely on approximations to characterize the evolution of the underlying uncertainty distributions. For this reason, they are often unable to capture more complex distributions (e.g., non-Gaussian or multi-modal) and cannot provide accurate guarantees of performance. In this paper, we present a sampling-based SNMPC approach that leverages recently derived sample complexity bounds to certify the performance of a feedback policy without making assumptions about the system dynamics or underlying uncertainty distributions. By parallelizing our approach, we are able to demonstrate real-time receding-horizon SNMPC with statistical safety guarantees in simulation and on hardware using a 1/10th scale rally car and a 24-inch wingspan fixed-wing unmanned aerial vehicle (UAV).
+summary: ''
+link: https://arxiv.org/pdf/2210.08092
+links_alt:
+audit_status: raw

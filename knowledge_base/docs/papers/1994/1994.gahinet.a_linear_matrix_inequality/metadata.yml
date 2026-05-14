@@ -1,0 +1,18 @@
+title: "A linear matrix inequality approach to<i>H</i><sub>\u221E</sub>control"
+algorithm:
+authors:
+  - Pascal Gahinet
+  - Pierre Apkarian
+year: 1994
+source: International Journal of Robust and Nonlinear Control
+type: Journal Paper
+doi: 10.1002/rnc.4590040403
+arxiv_id:
+tags:
+abstract: >
+  AbstractThe continuous‐ and discrete‐timeH∞control problems are solved via elementary manipulations on linear matrix inequalities (LMI). Two interesting new features emerge through this approach: solvability conditions valid for both regular and singular problems, and an LMI‐based parametrization of allH∞‐suboptimal controllers, including reduced‐order controllers.The solvability conditions involve Riccati inequalities rather than the usual indefinite Riccati equations. Alternatively, these conditions can be expressed as a system of three LMIs. Efficient convex optimization techniques are available to solve this system. Moreover, its solutions parametrize the set ofH∞controllers and bear important connections with the controller order and the closed‐loop Lyapunov functions.Thanks to such connections, the LMI‐based characterization ofH∞controllers opens new perspectives for the refinement ofH∞design. Applications to cancellation‐free design and controller order reduction are discussed and illustrated by examples.
+summary: ''
+link: https://onlinelibrary.wiley.com/doi/10.1002/rnc.4590040403
+links_alt:
+  - https://doi.org/10.1002/rnc.4590040403
+audit_status: raw

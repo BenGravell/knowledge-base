@@ -1,0 +1,19 @@
+title: A stable tracking control method for an autonomous mobile robot
+algorithm:
+authors:
+  - Y. Kanayama
+  - Y. Kimura
+  - F. Miyazaki
+  - T. Noguchi
+year:
+source: Proceedings., IEEE International Conference on Robotics and Automation
+type: Conference Paper
+doi: 10.1109/ROBOT.1990.126006
+arxiv_id:
+tags:
+abstract: >
+  A stable tracking control rule is proposed for nonholonomic vehicles. The stability of the rule is proved through the use of a Liapunov function. Inputs to the vehicle are a reference posture (x/sub r/, y/sub r/, theta /sub r/)/sup t/ and reference velocities ( nu /sub r/, omega /sub r/)/sup t/. The major objective of this study is to propose a control rule to find reasonable target linear and rotational velocities ( nu , omega )/sup t/. Linearizing the system's differential equation is useful for deciding parameters for critical dumping for a small disturbance. In order to avoid slippage, a velocity/acceleration limitation scheme is introduced. Several simulation results are presented with or without the velocity/acceleration limiter. The control rule and limiting method proposed are robot independent and hence can be applied to various kinds of mobile robots with a dead reckoning ability. This method was implemented on the autonomous mobile robot Yamabico-11. Experimental results obtained are close to the results with the velocity/acceleration limiter.< <ETX xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">&gt;</ETX>
+summary: ''
+link: https://doi.org/10.1109/ROBOT.1990.126006
+links_alt:
+audit_status: raw

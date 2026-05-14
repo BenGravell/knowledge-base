@@ -1,0 +1,17 @@
+title: Stabilized Feedback Amplifiers*
+algorithm:
+authors:
+  - H. S. Black
+year: 1934
+source: Bell System Technical Journal
+type: Journal Paper
+doi: 10.1002/j.1538-7305.1934.tb00652.x
+arxiv_id:
+tags:
+abstract: >
+  This paper describes and explains the theory of the feedback principle and then demonstrates how stability of amplification and reduction of modulation products, as well as certain other advantages, follow when stabilized feedback is applied to an amplifier. The underlying principle of design by means of which singing is avoided is next set forth. The paper concludes with some examples of results obtained on amplifiers which have been built employing this new principle.
+summary: ''
+link: https://onlinelibrary.wiley.com/doi/abs/10.1002/j.1538-7305.1934.tb00652.x
+links_alt:
+  - https://doi.org/10.1002/j.1538-7305.1934.tb00652.x
+audit_status: raw

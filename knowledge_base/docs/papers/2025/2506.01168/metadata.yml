@@ -1,0 +1,18 @@
+title: >
+  The Fastest Known First-Order Method for Minimizing Twice Continuously Differentiable Smooth Strongly Convex Functions
+algorithm:
+authors:
+  - Bryan Van Scoy
+  - Laurent Lessard
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2506.01168"
+tags:
+abstract: >
+  We consider iterative gradient-based optimization algorithms applied to functions that are smooth and strongly convex. The fastest globally convergent algorithm for this class of functions is the Triple Momentum (TM) method. We show that if the objective function is also twice continuously differentiable, a new, faster algorithm emerges, which we call $C^2$-Momentum (C2M). We prove that C2M is globally convergent and that its worst-case convergence rate is strictly faster than that of TM, with no additional computational cost. We validate our theoretical findings with numerical examples, demonstrating that C2M outperforms TM when the objective function is twice continuously differentiable.
+summary: ''
+link: https://arxiv.org/pdf/2506.01168
+links_alt:
+audit_status: raw

@@ -1,0 +1,18 @@
+title: Bilateral control of teleoperators with time delay
+algorithm:
+authors:
+  - R.J. Anderson
+  - M.W. Spong
+year:
+source: >
+  Proceedings of the 1988 IEEE International Conference on Systems, Man, and Cybernetics
+type: Conference Paper
+doi: 10.1109/ICSMC.1988.754257
+arxiv_id:
+tags:
+abstract: >
+  When a robot is operated remotely by use of a teleoperator, it is desirable to communicate contact force information from the slave to the master, in order to kinesthetically couple the operator to the environment and increase the sense of telepresence. One problem, however, recognized as early as 1965, has remained unsolved until now: How to maintain stability in a force-reflecting bilateral teleoperator in the presence of substantial time delay? In this paper, we present a solution to this problem.
+summary: ''
+link: https://doi.org/10.1109/ICSMC.1988.754257
+links_alt:
+audit_status: raw

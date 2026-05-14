@@ -1,0 +1,17 @@
+title: 'Optimizing Static Linear Feedback: Gradient Method'
+algorithm:
+authors:
+  - Ilyas Fatkhullin
+  - Boris Polyak
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2004.09875"
+tags:
+abstract: >
+  The linear quadratic regulator is the fundamental problem of optimal control. Its state feedback version was set and solved in the early 1960s. However the static output feedback problem has no explicit-form solution. It is suggested to look at both of them from another point of view as matrix optimization problems, where the variable is a feedback matrix gain. The properties of such a function are investigated, it turns out to be smooth, but not convex, with possible non-connected domain. Nevertheless, the gradient method for it with the special step-size choice converges to the optimal solution in the state feedback case and to a stationary point in the output feedback case. The results can be extended for the general framework of unconstrained optimization and for reduced gradient method for minimization with equality-type constraints.
+summary: ''
+link: https://arxiv.org/pdf/2004.09875
+links_alt:
+audit_status: raw

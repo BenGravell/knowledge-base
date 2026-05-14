@@ -1,0 +1,17 @@
+title: Product of Random Stochastic Matrices
+algorithm:
+authors:
+  - Behrouz Touri
+  - Angelia Nedich
+year: 2011
+source:
+type: ''
+doi:
+arxiv_id: "1110.1751"
+tags:
+abstract: >
+  The paper deals with the convergence properties of the products of random (row-)stochastic matrices. The limiting behavior of such products is studied from a dynamical system point of view. In particular, by appropriately defining a dynamic associated with a given sequence of random (row-)stochastic matrices, we prove that the dynamics admits a class of time-varying Lyapunov functions, including a quadratic one. Then, we discuss a special class of stochastic matrices, a class $\Pstar$, which plays a central role in this work. We then introduce balanced chains and using some geometric properties of these chains, we characterize the stability of a subclass of balanced chains. As a special consequence of this stability result, we obtain an extension of a central result in the non-negative matrix theory stating that, for any aperiodic and irreducible row-stochastic matrix $A$, the limit $\lim_{k\to\infty}A^k$ exists and it is a rank one stochastic matrix. We show that a generalization of this result holds not only for sequences of stochastic matrices but also for independent random sequences of such matrices.
+summary: ''
+link: https://arxiv.org/pdf/1110.1751
+links_alt:
+audit_status: raw

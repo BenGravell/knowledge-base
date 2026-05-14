@@ -1,0 +1,18 @@
+title: Generating Driving Scenes with Diffusion
+algorithm:
+authors:
+  - Ethan Pronovost
+  - Kai Wang
+  - Nick Roy
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2305.18452"
+tags:
+abstract: >
+  In this paper we describe a learned method of traffic scene generation designed to simulate the output of the perception system of a self-driving car. In our "Scene Diffusion" system, inspired by latent diffusion, we use a novel combination of diffusion and object detection to directly create realistic and physically plausible arrangements of discrete bounding boxes for agents. We show that our scene generation model is able to adapt to different regions in the US, producing scenarios that capture the intricacies of each region.
+summary: ''
+link: https://arxiv.org/pdf/2305.18452
+links_alt:
+audit_status: raw

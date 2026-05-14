@@ -1,0 +1,18 @@
+title: A geometric approach to three-dimensional hipped bipedal robotic walking
+algorithm:
+authors:
+  - Aaron D. Ames
+  - Robert D. Gregg
+  - Mark W. Spong
+year: 2007
+source: 2007 46th IEEE Conference on Decision and Control
+type: Conference Paper
+doi: 10.1109/CDC.2007.4434880
+arxiv_id:
+tags:
+abstract: >
+  This paper presents a control law that results in stable walking for a three-dimensional bipedal robot with a hip. To obtain this control law, we utilize techniques from geometric reduction, and specifically a variant of Routhian reduction termed functional Routhian reduction, to effectively decouple the dynamics of the three-dimensional biped into its sagittal and lateral components. Motivated by the decoupling afforded by functional Routhian reduction, the control law we present is obtained by combining three separate control laws: the first shapes the potential energy of the sagittal dynamics of the biped to obtain stable walking gaits when it is constrained to the sagittal plane, the second shapes the total energy of the walker so that functional Routhian reduction can be applied to decoupling the dynamics of the walker for certain initial conditions, and the third utilizes an output zeroing controller to stabilize to the surface defining these initial conditions. We numerically verify that this method results in stable walking, and we discuss certain attributes of this walking gait.
+summary: ''
+link: https://doi.org/10.1109/CDC.2007.4434880
+links_alt:
+audit_status: raw

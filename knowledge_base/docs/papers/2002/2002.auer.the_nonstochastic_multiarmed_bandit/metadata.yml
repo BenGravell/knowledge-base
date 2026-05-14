@@ -1,0 +1,20 @@
+title: The Nonstochastic Multiarmed Bandit Problem
+algorithm:
+authors:
+  - Peter Auer
+  - Nicolò Cesa-Bianchi
+  - Yoav Freund
+  - Robert E. Schapire
+year: 2002
+source: SIAM Journal on Computing
+type: Journal Paper
+doi: 10.1137/S0097539701398375
+arxiv_id:
+tags:
+abstract: >
+  In the multiarmed bandit problem, a gambler must decide which arm of K nonidentical slot machines to play in a sequence of trials so as to maximize his reward. This classical problem has received much attention because of the simple model it provides of the trade-off between exploration (trying out each arm to find the best one) and exploitation (playing the arm believed to give the best payoff). Past solutions for the bandit problem have almost always relied on assumptions about the statistics of the slot machines. In this work, we make no statistical assumptions whatsoever about the nature of the process generating the payoffs of the slot machines. We give a solution to the bandit problem in which an adversary, rather than a well-behaved stochastic process, has complete control over the payoffs. In a sequence of T plays, we prove that the per-round payoff of our algorithm approaches that of the best arm at the rate O(T-1/2 ). We show by a matching lower bound that this is the best possible. We also prove that our algorithm approaches the per-round payoff of any set of strategies at a similar rate: if the best strategy is chosen from a pool of N strategies, then our algorithm approaches the per-round payoff of the strategy at the rate O((log N1/2T-1/2 ). Finally, we apply our results to the problem of playing an unknown repeated matrix game. We show that our algorithm approaches the minimax payoff of the unknown game at the rate O(T-1/2 ).
+summary: ''
+link: https://epubs.siam.org/doi/10.1137/S0097539701398375
+links_alt:
+  - https://doi.org/10.1137/S0097539701398375
+audit_status: raw

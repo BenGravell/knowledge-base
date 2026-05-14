@@ -1,0 +1,17 @@
+title: 'DiffLoop: Tuning PID controllers by differentiating through the feedback loop'
+algorithm:
+authors:
+  - Athindran Ramesh Kumar
+  - Peter J. Ramadge
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2106.10516"
+tags:
+abstract: >
+  Since most industrial control applications use PID controllers, PID tuning and anti-windup measures are significant problems. This paper investigates tuning the feedback gains of a PID controller via back-calculation and automatic differentiation tools. In particular, we episodically use a cost function to generate gradients and perform gradient descent to improve controller performance. We provide a theoretical framework for analyzing this non-convex optimization and establish a relationship between back-calculation and disturbance feedback policies. We include numerical experiments on linear systems with actuator saturation to show the efficacy of this approach.
+summary: ''
+link: https://arxiv.org/pdf/2106.10516
+links_alt:
+audit_status: raw

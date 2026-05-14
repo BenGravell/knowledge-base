@@ -1,0 +1,18 @@
+title: On Topological Properties of the Set of Stabilizing Feedback Gains
+algorithm:
+authors:
+  - Jingjing Bu
+  - Afshin Mesbahi
+  - Mehran Mesbahi
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1904.08451"
+tags:
+abstract: >
+  This work presents a fairly complete account on various topological and metrical aspects of feedback stabilization for single-input-single-output (SISO) continuous and discrete time linear-time-invariant (LTI) systems. In particular, we prove that the set of stabilizing output feedback gains for a SISO system with n states has at most $\lceil{\frac{n}{2}}\rceil$ connected components. Furthermore, our analysis yields an algorithm for determining intervals of stabilizing gains for general continuous and discrete LIT systems; the proposed algorithm also computes the number of unstable roots in each unstable interval. Along the way, we also make a number of observations on the set of stabilizing state feedback gains for MIMO systems.
+summary: ''
+link: https://arxiv.org/pdf/1904.08451
+links_alt:
+audit_status: raw

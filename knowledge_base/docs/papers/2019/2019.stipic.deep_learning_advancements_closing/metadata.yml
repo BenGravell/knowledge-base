@@ -1,0 +1,20 @@
+title: 'Deep learning advancements: closing the gap'
+algorithm:
+authors:
+  - A. Stipic
+  - T. Bronzin
+  - B. Prole
+  - K. Pap
+year: 2019
+source: >
+  2019 42nd International Convention on Information and Communication Technology, Electronics and Microelectronics (MIPRO)
+type: Conference Paper
+doi: 10.23919/MIPRO.2019.8757133
+arxiv_id:
+tags:
+abstract: >
+  This article explains how recent development in the field of Artificial Intelligence (AI) makes gap between human and machine smaller than ever before, by explaining and comparing traditional approach user in development of AI systems with new approach that has been used by AI system AlphaZero, developed by DeepMind. Traditionally AI systems have been tested in chess and the same has been done to demonstrate the power of AlphaZero. But, instead of playing against human, it played against the best (at the time) chess program Stockfish. While chess programs (before AlphaZero), were using powerful hardware and embedded built-in formal knowledge about the game, AlphaZero is using completely new approach, running on standard hardware and using deep learning. It learned about the game by playing a large number of games with itself, learning in the process. Article will also explain what is so revolutionary in AlphaZero approach to AI and how this new approach can be used in different areas of processing visual information, bio-medicine, autonomous driving, robotics and AI generated images/videos of humans.
+summary: ''
+link: https://doi.org/10.23919/MIPRO.2019.8757133
+links_alt:
+audit_status: raw

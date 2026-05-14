@@ -1,0 +1,20 @@
+title: >
+  Analyzing the Variance of Policy Gradient Estimators for the Linear-Quadratic Regulator
+algorithm:
+authors:
+  - James A. Preiss
+  - Sébastien M. R. Arnold
+  - Chen-Yu Wei
+  - Marius Kloft
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1910.01249"
+tags:
+abstract: >
+  We study the variance of the REINFORCE policy gradient estimator in environments with continuous state and action spaces, linear dynamics, quadratic cost, and Gaussian noise. These simple environments allow us to derive bounds on the estimator variance in terms of the environment and noise parameters. We compare the predictions of our bounds to the empirical variance in simulation experiments.
+summary: ''
+link: https://arxiv.org/pdf/1910.01249
+links_alt:
+audit_status: raw
