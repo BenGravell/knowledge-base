@@ -1,5 +1,5 @@
 title: 'EVORA: Deep Evidential Traversability Learning for Risk-Aware Off-Road Autonomy'
-algorithm:
+algorithm: EVORA
 authors:
   - Xiaoyi Cai
   - Siddharth Ancha

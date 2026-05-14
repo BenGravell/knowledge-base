@@ -1,5 +1,5 @@
 title: Temporal Difference Learning for Model Predictive Control
-algorithm: "MPC"
+algorithm: "TD-MPC"
 authors:
   - Nicklas Hansen
   - Xiaolong Wang

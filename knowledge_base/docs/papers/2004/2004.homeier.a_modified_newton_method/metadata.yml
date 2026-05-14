@@ -1,5 +1,5 @@
 title: 'A modified Newton method with cubic convergence: the multivariate case'
-algorithm: "Modified Newton Method"
+algorithm: "Midpoint Newton Method, cubic convergence analysis"
 authors:
   - H.H.H Homeier
 year: 2004

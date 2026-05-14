@@ -83,9 +83,11 @@ nav:
       - Optimization:
         - Toolboxes & Solvers:
           - Convex Optimization:
+            - Disciplined Convex Programming: papers/2006_grant_disciplined_convex_programming.md            
             - CVXPY: papers/1603_00943.md
             - CVXPYgen: papers/2203_11419.md
             - "Disciplined Convex-Concave Programming": papers/1604_02639.md
+            - CvxCluster: papers/2605_01614.md
             - ECOS: papers/2013_domahidi_ecos_an_socp_solver.md
             - Embedded SOCP Code Generation: papers/2013_chu_code_generation_for_embedded.md
             - OSQP: papers/1711_08013.md
@@ -108,7 +110,7 @@ nav:
             - "Bayesian Hyperparameter Optimization with BoTorch, GPyTorch and Ax": papers/1912_05686.md
             - "Bayesian Optimization Is Superior to Random Search for Machine Learning Hyperparameter Tuning": papers/2104_10201.md
             - PyHopper: papers/2210_04728.md
-            - "Optimizing with Low Budgets": papers/2310_00077.md
+            - "Optimizing with Low Budgets": papers/2310_00077.md            
         - Automatic Differentiation:
           - On Automatic Differentiation: papers/1989_griewank_on_automatic_differentiation.md
           - "Automatic differentiation in machine learning: a survey": papers/1502_05767.md
@@ -126,8 +128,7 @@ nav:
           - "The Fragility of Learning LQG Controllers": papers/2604_24442.md
         - Zeroth-Order Methods:
           - Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization: papers/1805_10367.md
-          - "Gradientless Descent: High-Dimensional Zeroth-Order Optimization": papers/1911_06317.md
-          - "A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR": papers/2602_18933.md
+          - Gradientless Descent: papers/1911_06317.md
           - "An Introduction to Zero-Order Optimization Techniques for Robotics": papers/2506_22087.md
           - "An Optimal Algorithm for Bandit and Zero-Order Convex Optimization with Two-Point Feedback": papers/1507_08752.md
           - "Random Gradient-Free Minimization of Convex Functions": papers/2015_nesterov_random_gradient_free_minimization.md
@@ -144,12 +145,14 @@ nav:
           - "Zeroth-Order Optimization Finds Flat Minima": papers/2506_05454.md
           - "Zeroth-Order Randomized Subspace Newton Methods": papers/2202_04612.md
         - First-Order Methods:
-          - Gradient Method: papers/1847_cauchy_methode_generale_pour_la.md
-          - Steepest Descent: papers/1944_curry_the_method_of_steepest.md
+          - Gradient Descent (Cauchy): papers/1847_cauchy_methode_generale_pour_la.md
+          - Gradient Descent (Curry): papers/1944_curry_the_method_of_steepest.md
           - Polyak-Łojasiewicz inequality: papers/1963_polyak_gradient_methods_for_the.md
           - Polyak momentum: papers/1964_polyak_some_methods_of_speeding.md
           - "A Differential Equation for Modeling Nesterov's Accelerated Gradient Method": papers/1503_01243.md
           - Adam: papers/1412_6980.md
+          - "A Simple Convergence Proof of Adam and Adagrad": papers/2003_02395.md
+          - Adam-mini: papers/2406_16793.md
           - Coordinate Descent Algorithms: papers/1502_04759.md
           - Analysis and Design of Optimization Algorithms via IQC: papers/1408_3595.md
           - On Symplectic Optimization: papers/1802_03653.md
@@ -158,8 +161,6 @@ nav:
           - How to Escape Saddle Points Efficiently: papers/1703_00887.md
           - Steepest Ascent for Optimal Programming: papers/1962_bryson_a_steepest_ascent_method.md
           - Armijo Rule: papers/1966_armijo_minimization_of_functions_having.md
-          - "A Simple Convergence Proof of Adam and Adagrad": papers/2003_02395.md
-          - Adam-mini: papers/2406_16793.md
           - "Adaptive Gradient Methods Converge Faster with Over-Parameterization (but you should do a line-search)": papers/2006_06835.md
           - "An overview of gradient descent optimization algorithms": papers/1609_04747.md
           - "Beyond Convexity - Contraction and Global Convergence of Gradient Descent": papers/1806_06655.md
@@ -192,22 +193,23 @@ nav:
           - RES: papers/1401_7625.md
           - DDPNOpt: papers/2002_08809.md
         - Newton's Method:
-          - A Note on the Convergence of Newton's Method: papers/1974_rall_a_note_on_the.md
-          - Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control: papers/2001_damm_newton_s_method_for.md
-          - Regularized Newton Method: papers/2112_02089.md
-          - Super-Universal Regularized Newton Method: papers/2208_05888.md
-          - "A modified Newton method with cubic convergence: the multivariate case": papers/2004_homeier_a_modified_newton_method.md
-          - "A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees": papers/2502_04799.md
-          - "Beyond Nonconvexity: A Universal Trust-Region Method with New Analyses": papers/2311_11489.md
-          - "Convergence analysis of a regularized Newton method with generalized regularization terms for unconstrained convex optimization problems": papers/2025_yamakawa_convergence_analysis_of_a.md
-          - Cubic regularized Newton: papers/2006_nesterov_cubic_regularization_of_newton.md
+          - A Note on the Convergence of Newton's Method: papers/1974_rall_a_note_on_the.md          
           - OPTAMI: papers/2410_04083.md
           - "Superfast Second-Order Methods for Unconstrained Convex Optimization": papers/2021_nesterov_superfast_second_order_methods.md
           - "The Hessian of tall-skinny networks is easy to invert": papers/2601_06096.md
           - "Verification of Sequential Convex Programming for Parametric Non-convex Optimization": papers/2511_10622.md
-        - Trust Region Methods:
-          - Levenberg-Marquardt: papers/1944_levenberg_a_method_for_the.md
+          - Regularized Newton Method:
+            - Levenberg-Marquardt: papers/1944_levenberg_a_method_for_the.md
+            - Cubic regularized Newton: papers/2006_nesterov_cubic_regularization_of_newton.md
+            - Regularized Newton Method: papers/2112_02089.md
+            - Super-Universal Regularized Newton Method: papers/2208_05888.md
+            - "A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees": papers/2502_04799.md
+            - "Convergence analysis of a regularized Newton method with generalized regularization terms for unconstrained convex optimization problems": papers/2025_yamakawa_convergence_analysis_of_a.md
+        - Trust Region Methods:          
           - "Recent advances in trust region algorithms": papers/2015_yuan_recent_advances_in_trust.md
+          - "Beyond Nonconvexity: A Universal Trust-Region Method with New Analyses": papers/2311_11489.md
+        - Midpoint Newton Method:
+          - "Midpoint Newton Method, cubic convergence analysis": papers/2004_homeier_a_modified_newton_method.md
         - Halley's Method and High-Order Methods:
           - Multivariate Halley method: papers/1985_cuyt_computational_implementation_of_the.md
           - Super-Halley method: papers/2001_gutierrez_an_acceleration_of_newton.md
@@ -233,12 +235,11 @@ nav:
             - Probability of Unique Integer Solution to a System of Linear Equations: papers/2011_mangasarian_probability_of_unique_integer.md
           - Quadratic Programming:
             - Automatic Generation of Explicit Quadratic Programming Solvers: papers/2506_11513.md
-          - General Convex Optimization:
-            - Disciplined Convex Programming: papers/2006_grant_disciplined_convex_programming.md
+          - General Convex Optimization:            
             - Frank-Wolfe Algorithm: papers/1956_frank_an_algorithm_for_quadratic.md
-            - CvxCluster: papers/2605_01614.md
             - Learning Parametric Convex Functions: papers/2506_04183.md
             - Geometric Median in Nearly Linear Time: papers/1606_05225.md
+            - PInet: papers/2508_10480.md
           - Online Convex Optimization:
             - "No-Regret Algorithms for Unconstrained Online Convex Optimization": papers/1211_2260.md
         - Nonlinear Programming:
@@ -256,6 +257,9 @@ nav:
         - Graph Search:
           - Dijkstra's algorithm: papers/1959_dijkstra_a_note_on_two.md
           - Bellman-Ford algorithm: papers/1958_bellman_on_a_routing_problem.md
+        - Controller Autotuning:
+          - A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum: papers/2014_trimpe_a_self_tuning_lqr.md
+          - "DiffTune+: Hyperparameter-Free Auto-Tuning using Auto-Differentiation": papers/2212_03194.md
       - Motion Planning:
         - Path Planning:
           - Geometric Planning:
@@ -276,7 +280,7 @@ nav:
               - "Enhancing Sampling-based Planning with a Library of Paths": papers/2510_12962.md
               - "Generating Diverse Trajectories Using Roadmap Search and Sampling-Based Motion Planning": papers/2026_plaku_generating_diverse_trajectories_using.md
             - Rapidly Exploring Random Trees (RRT):
-              - RRT: papers/1998_lavalle_rapidly_exploring_random_trees.md
+              - RRT: papers/1998_lavalle_rapidly_exploring_random_trees.md              
               - RRT-Connect: papers/2000_kuffner_rrt_connect_an_efficient.md
               - EET: papers/2008_rickert_balancing_exploration_and_exploitation.md
               - RRT*: papers/1105_1186.md
@@ -299,6 +303,7 @@ nav:
               - BITKOMO: papers/2203_01751.md
               - "Improving Motion-Planning Algorithms by Efficient Nearest-Neighbor Searching": papers/2007_yershova_improving_motion_planning_algorithms.md
               - Edge Nearest Neighbor: papers/2506_13753.md
+              - "Path planning in 1000+ dimensions using a task-space Voronoi bias": papers/2009_shkolnik_path_planning_in_1000.md
               - "Integrating asymptotically-optimal path planning with local optimization": papers/1708_06056.md
               - "Geometry-Aware Sampling-Based Motion Planning on Riemannian Manifolds": papers/2602_00992.md
               - ST-RRT*: papers/2203_02176.md
@@ -317,12 +322,13 @@ nav:
             - Constrained Motion Planning:
               - "Vectorizing Projection in Manifold-Constrained Motion Planning for Real-Time Whole-Body Control": papers/2604_13323.md
             - Collision Detection & Proximity Queries:
-              - Incremental Distance Calculation: papers/1991_lin_a_fast_algorithm_for.md
-              - SSV: papers/1999_larsen_fast_proximity_queries_with.md
               - GJK: papers/1988_gilbert_a_fast_procedure_for.md
               - "A Fast and Robust GJK Implementation for Collision Detection of Convex Objects": papers/1999_bergen_a_fast_and_robust.md
-              - Collision-Affording Point Trees: papers/2406_02807.md
+              - Incremental Distance Calculation: papers/1991_lin_a_fast_algorithm_for.md
               - OBBTree: papers/1996_gottschalk_obbtree.md
+              - SSV: papers/1999_larsen_fast_proximity_queries_with.md
+              - NanoMap: papers/1802_09076.md
+              - Collision-Affording Point Trees: papers/2406_02807.md
           - Path Generation:
             - Lines & Arcs:
               - Dubins Paths: papers/1957_dubins_on_curves_of_minimal.md
@@ -353,7 +359,6 @@ nav:
               - CCMA: papers/2023_steinecker_a_simple_and_model.md
               - Elastic Bands: papers/1993_quinlan_elastic_bands_connecting_path.md
               - "Collision-Free and Curvature-Continuous Path Smoothing In Cluttered Environments": papers/2011_pan_collision_free_and_curvature.md
-              - "Smooth Feedback Motion Planning with Reduced Curvature": papers/2604_01614.md
             - Gradient-based Path Optimization:
               - CHOMP: papers/2009_ratliff_chomp_gradient_optimization_techniques.md
             - Sample-based Path Optimization:
@@ -367,8 +372,9 @@ nav:
               - Kinodynamic RRT*: papers/2010_karaman_optimal_kinodynamic_motion_planning.md
               - Linear Kinodynamic RRT*: papers/1205_5088.md
               - AQR-RRT: papers/2010_glassman_a_quadratic_regulator_based.md
-              - LQR-trees: papers/2010_tedrake_lqr_trees_feedback_motion.md
+              - LQR-trees: papers/2010_tedrake_lqr_trees_feedback_motion.md              
               - LQR-RRT*: papers/2012_perez_lqr_rrt_star_optimal.md
+              - Reachability-guided sampling for planning under differential constraints: papers/2009_shkolnik_reachability_guided_sampling_for.md
               - "Optimal Sampling-Based Motion Planning under Differential Constraints: the Drift Case with Linear Affine Dynamics": papers/1405_7421.md
               - RRT*_MotionPrimitives: papers/1809_02399.md
               - BB-RRT: papers/2210_01744.md
@@ -379,8 +385,9 @@ nav:
               - FDSPC: papers/2405_03281.md
               - TB-RRT: papers/2014_sintov_time_based_rrt_algorithm.md
               - "A novel RRT extend function for efficient and smooth mobile robot motion planning": papers/2014_palmieri_a_novel_rrt_extend.md
-              - DR-RRT: papers/2018_summers_distributionally_robust_sampling_based.md
+              - DR-RRT: papers/2018_summers_distributionally_robust_sampling_based.md              
               - RANS-RRT*: papers/2103_05572.md
+              - R3T: papers/2020_wu_r3t_rapidly_exploring_random.md
               - "Efficient Nearest-Neighbor Search for Dynamical Systems with Nonholonomic Constraints": papers/1709_07610.md
               - "Kinodynamic motion planning: connecting exploration trees using trajectory optimization Methods": papers/2004_lamiraux_kinodynamic_motion_planning_connecting.md
               - "Optimal motion planning with the half-car dynamical model for autonomous high-speed driving": papers/2013_jeon_optimal_motion_planning_with.md
@@ -399,16 +406,24 @@ nav:
               - SPP-GCS: papers/2101_11565.md
               - GCS: papers/2205_04422.md
               - fastpathplanning: papers/2305_01072.md
+              - GCS*: papers/2407_08848.md
+              - Multi-Query Shortest-Path Problem in Graphs of Convex Sets: papers/2409_19543.md
+              - Faster Algorithms for Growing Collision-Free Convex Polytopes in Robot Configuration Space: papers/2410_12649.md
               - SCS: papers/2504_18978.md
               - Augmented GCS: papers/2510_22015.md
               - Augmented GCS for TSP: papers/2604_06406.md
           - Trajectory Generation:
-            - TEB: papers/2017_roesmann_kinodynamic_trajectory_optimization_and.md
-            - Minimum Snap Trajectory Generation and Control for Quadrotors: papers/2011_mellinger_minimum_snap_trajectory_generation.md
-            - Minimum Jerk Trajectory Generation for Differential Wheeled Mobile Robots: papers/2013_palamakumburu_minimum_jerk_trajectory_generation.md
-            - "Aggressive flight of fixed-wing and quadrotor aircraft in dense indoor environments": papers/2015_bry_aggressive_flight_of_fixed.md
             - "Dynamic Movement Primitives in Robotics: A Tutorial Survey": papers/2102_03861.md
-            - "Robust and Efficient Quadrotor Trajectory Generation for Fast Autonomous Flight": papers/2019_zhou_robust_and_efficient_quadrotor.md
+            - Wheeled Robots:
+              - Minimum Jerk Trajectory Generation for Differential Wheeled Mobile Robots: papers/2013_palamakumburu_minimum_jerk_trajectory_generation.md
+              - TEB: papers/2017_roesmann_kinodynamic_trajectory_optimization_and.md
+            - Quadrotors:
+              - Minimum Snap Trajectory Generation and Control for Quadrotors: papers/2011_mellinger_minimum_snap_trajectory_generation.md
+              - Quadrocopter Trajectory Generation and Control: papers/2011_hehn_quadrocopter_trajectory_generation_and.md
+              - "Aggressive flight of fixed-wing and quadrotor aircraft in dense indoor environments": papers/2015_bry_aggressive_flight_of_fixed.md
+              - A Computationally Efficient Motion Primitive for Quadrocopter Trajectory Generation: papers/2015_mueller_a_computationally_efficient_motion.md
+              - Polynomial Trajectory Planning for Aggressive Quadrotor Flight in Dense Indoor Environments: papers/2016_richter_polynomial_trajectory_planning_for.md
+              - "Robust and Efficient Quadrotor Trajectory Generation for Fast Autonomous Flight": papers/2019_zhou_robust_and_efficient_quadrotor.md
           - Trajectory Optimization:
             - Model Predictive Sampling-Based Control:
               - Cross-Entropy Motion Planning (CEM):
@@ -438,6 +453,7 @@ nav:
                 - "Dynamic Risk-Aware MPPI for Mobile Robots in Crowds via Efficient Monte Carlo Approximations": papers/2506_21205.md
                 - "Model Predictive Path Integral Control as Preconditioned Gradient Descent": papers/2603_24489.md
               - "Recent Advances in Path Integral Control (Survey)": papers/2309_12566.md
+              - "Generative Models From and For Sampling-Based MPC: A Bootstrapped Approach For Adaptive Contact-Rich Manipulation": papers/2510_14643.md
               - "Path Integral Particle Filtering for Hybrid Systems via Saltation Matrices": papers/2603_01176.md
               - "Sampling-Based Control via Entropy-Regularized Optimal Transport": papers/2605_02147.md
               - "Uncertainty Guided Exploratory Trajectory Optimization for Sampling-Based Model Predictive Control": papers/2604_12149.md
@@ -454,6 +470,7 @@ nav:
             - "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)":
               - iLQR:
                 - iLQR: papers/2004_li_iterative_linear_quadratic_regulator.md
+                - iLQG: papers/2005_todorov_a_generalized_iterative_lqg.md
                 - "iLQR Synthesis & Stabilization": papers/2012_tassa_synthesis_and_stabilization_of.md
                 - "Convergent iLQR for Safe Trajectory Planning and Control of Legged Robots": papers/2304_00346.md
               - Differential Dynamic Programming:
@@ -494,6 +511,9 @@ nav:
             - Elastic Smoothing:
               - CES: papers/1506_01085.md
             - Nonlinear Optimization:
+              - A direct method for trajectory optimization of rigid bodies through contact: papers/2013_posa_a_direct_method_for.md
+              - Whole-body motion planning with centroidal dynamics and full kinematics: papers/2014_dai_whole_body_motion_planning.md
+              - Optimization and stabilization of trajectories for constrained dynamical systems: papers/2016_posa_optimization_and_stabilization_of.md
               - OBCA: papers/1711_03449.md
               - "Differentiable Collision Avoidance Using Collision Primitives": papers/2204_09352.md
               - EGO-Planner: papers/2008_08835.md
@@ -501,6 +521,7 @@ nav:
               - "Global Sampling-Based Trajectory Optimization for Contact-Rich Manipulation via KernelSOS": papers/2604_27175.md
               - "ADMM-based Continuous Trajectory Optimization in Graphs of Convex Sets": papers/2603_11335.md
               - "Dexterous contact-rich manipulation via the contact trust region": papers/2026_suh_dexterous_contact_rich_manipulation.md
+              - Is Linear Feedback on Smoothed Dynamics Sufficient for Stabilizing Contact-Rich Plans?: papers/2411_06542.md
               - "Fast and Certifiable Trajectory Optimization": papers/2406_05846.md
               - Hippo: papers/2603_00871.md
               - "Parallel-in-Time Nonlinear Optimal Control via GPU-native Sequential Convex Programming": papers/2603_10711.md
@@ -525,6 +546,7 @@ nav:
               - DIAL-MPC: papers/2409_15610.md
             - Learning in Trajectory Optimization:
               - MISO: papers/2411_02158.md
+              - Physics-Driven Data Generation for Contact-Rich Manipulation via Trajectory Optimization: papers/2502_20382.md
               - Probabilistic DDP: papers/2014_pan_probabilistic_differential_dynamic_programming.md
               - DiffuSolve: papers/2025_li_diffusolve_diffusion_based_solver.md
               - "Accelerating trajectory optimization with Sobolev-trained diffusion policies": papers/2604_19011.md
@@ -537,7 +559,8 @@ nav:
               - CACTO-BIC: papers/2602_19699.md
               - "Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction": papers/2311_05135.md
               - "Deep Learning Warm Starts for Trajectory Optimization on the International Space Station": papers/2505_05588.md
-              - "Transformer-based Model Predictive Control: Trajectory Optimization via Sequence Modeling": papers/2410_23916.md              
+              - "Transformer-based Model Predictive Control: Trajectory Optimization via Sequence Modeling": papers/2410_23916.md
+              - "A Data-Driven Approach to Synthesizing Dynamics-Aware Trajectories for Underactuated Robotic Systems": papers/2307_13782.md
           - Hybrid Approaches:
             - SBP-Guided MPC: papers/2019_hannigan_sbp_guided_mpc_to.md
             - RRT-MPPI: papers/2301_13143.md
@@ -559,7 +582,17 @@ nav:
             - ClearPath: papers/2009_guy_clearpath.md
             - "Reciprocal n-Body Collision Avoidance": papers/2011_berg_reciprocal_n_body_collision.md
             - "Reciprocal Velocity Obstacles for real-time multi-agent navigation": papers/2008_berg_reciprocal_velocity_obstacles_for.md
+        - Feedback Motion Planning:
+          - Funnel Libraries for Real-Time Robust Feedback Motion Planning: papers/1601_04037.md
+          - "Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach": papers/2004_01142.md
+          - Learning-based Robust Motion Planning with Guaranteed Stability: papers/2102_12668.md
+          - Robust feedback motion planning via contraction theory: papers/2023_singh_robust_feedback_motion_planning.md
+          - "Smooth Feedback Motion Planning with Reduced Curvature": papers/2604_01614.md
         - Interaction-aware Planning:
+          - Multipolicy Decision Making (MPDM):
+            - MPDM: papers/2015_cunningham_mpdm_multipolicy_decision_making.md
+            - MPDM via changepoint-based behavior prediction: papers/2017_galceran_multipolicy_decision_making_for.md
+            - Backprop-MPDM: papers/2018_mehta_backprop_mpdm_faster_risk.md
           - Multimodal Probabilistic Model-Based Planning for Human-Robot Interaction: papers/1710_09483.md
           - VISTA 2.0: papers/2111_12083.md
           - Learning Interactive Driving Policies via Data-driven Simulation: papers/2111_12137.md
@@ -568,6 +601,7 @@ nav:
           - "Trajectory Tree-Based Pairwise Game for Interactive Decision-Making and Motion Planning in Autonomous Driving": papers/2025_ma_trajectory_tree_based_pairwise.md
         - Machine Learning in Motion Planning:
           - ALVINN: papers/1988_pomerleau_alvinn_an_autonomous_land.md
+          - EVORA: papers/2311_06234.md
           - Distance Metric Learning for RRT-Based Motion Planning with Constant-Time Inference: papers/2015_palmieri_distance_metric_learning_for.md
           - RRT-CoLearn: papers/1710_10122.md
           - "Neural RRT*": papers/2020_wang_neural_rrt_learning_based.md
@@ -580,7 +614,7 @@ nav:
           - DriveIRL: papers/2206_03004.md
           - Lab2Car: papers/2409_09523.md
           - Transitioning from Rule-Based to ML-Powered Motion Planning: papers/2025_hu_technically_speaking_transitioning_from.md
-          - "DiffusionSeeder: Seeding Motion Optimization with Diffusion for Rapid Motion Planning": papers/2410_16727.md
+          - DiffusionSeeder: papers/2410_16727.md
           - FlowDrive: papers/2509_21961.md
           - FlowMP: papers/2503_06135.md
           - "Memory of Motion for Warm-starting Trajectory Optimization": papers/1907_01474.md
@@ -588,12 +622,13 @@ nav:
           - "Towards learning-based planning:The nuPlan benchmark for real-world autonomous driving": papers/2403_04133.md
           - "Goal-Conditioned Neural ODEs with Guaranteed Safety and Stability for Learning-Based All-Pairs Motion Planning": papers/2604_02821.md
           - NuPlan: papers/2106_11810.md
-          - "GNN-DIP": papers/2603_12361.md
+          - GNN-DIP: papers/2603_12361.md
         - Inverse Kinematics:
           - "A combined optimization method for solving the inverse kinematics problems of mechanical manipulators": papers/1991_wang_a_combined_optimization_method.md
           - "Resolved Motion Rate Control of Manipulators and Human Prostheses": papers/1969_whitney_resolved_motion_rate_control.md
           - "JAX-IK": papers/2507_00792.md
         - Multi-Robot Planning:
+          - Generation of collision-free trajectories for a quadrocopter fleet: papers/2012_augugliaro_generation_of_collision_free.md
           - Goal Assignment and Trajectory Planning: papers/2013_turpin_goal_assignment_and_trajectory.md
           - CAPT: papers/2014_turpin_capt_concurrent_assignment_and.md
           - "Concurrent Goal Assignment and Collision-Free Trajectory Generation for Multiple Aerial Robots": papers/2018_gravell_concurrent_goal_assignment_and.md
@@ -601,6 +636,7 @@ nav:
           - "Trajectory Planning for Quadrotor Swarms": papers/2018_honig_trajectory_planning_for_quadrotor.md
           - CAT-ORA: papers/2412_00603.md
           - "Agile and cooperative aerial manipulation of a cable-suspended load": papers/2025_sun_agile_and_cooperative_aerial.md
+          - Robust Distributed Planar Formation Control for Higher-Order Holonomic and Nonholonomic Agents: papers/1807_11058.md
           - "Safe multi-agent motion planning via filtered reinforcement learning": papers/2022_vinod_safe_multi_agent_motion.md
         - Surveys & Comparative Studies:
           - An Empirical Study of Optimal Motion Planning: papers/2014_luo_an_empirical_study_of.md
@@ -629,6 +665,10 @@ nav:
           - Rough Terrain Locomotion: papers/2011_zucker_optimization_and_learning_for.md
           - Boss: papers/2008_urmson_autonomous_driving_in_urban.md
           - "A perception-driven autonomous urban vehicle": papers/2008_leonard_a_perceptiondriven_autonomous_urban.md
+          - A summary of team MIT's approach to the virtual robotics challenge: papers/2014_tedrake_a_summary_of_team.md
+          - Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot: papers/2015_kuindersma_optimization_based_locomotion_planning.md
+          - Director: papers/2018_marion_director_a_user_interface.md
+          - Jacta: papers/2408_01258.md
           - RAKOMO: papers/2507_19652.md
           - "An integrated system for real-time model predictive control of humanoid robots": papers/2013_erez_an_integrated_system_for.md
           - MJPC: papers/2212_00541.md
@@ -672,6 +712,7 @@ nav:
             - "The Uncertainty Threshold Principle: Fundamental Limitations": papers/1976_athans_the_uncertainty_threshold_principle.md
             - Numerical Solution of the State-Dependent Noise Problem: papers/1976_kleinman_numerical_solution_of_the.md
             - State-Feedback Control of Systems with Multiplicative Noise via LMIs: papers/1995_ghaoui_state_feedback_control_of.md
+            - Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control: papers/2001_damm_newton_s_method_for.md
             - When Multiplicative Noise Stymies Control: papers/1612_03239.md
             - "Robust Control Design for Linear Systems via Multiplicative Noise": papers/2004_08019.md
             - "Sample Complexity of Data-Driven Stochastic LQR with Multiplicative Uncertainty": papers/2005_12167.md
@@ -701,12 +742,15 @@ nav:
             - "Stochastic Data-Driven Predictive Control: Regularization, Estimation, and Constraint Tightening": papers/2312_02758.md
           - Robust and Stochastic MPC:
             - "Closed-loop analysis of linear stochastic MPC with risk-averse constraints": papers/2604_11183.md
+            - Dynamic Tube MPC: papers/1907_06553.md
+            - Elastic Tube MPC: papers/2016_rakovic_elastic_tube_model_predictive.md
             - "Scenario-based Stochastic MPC for systems with uncertain dynamics": papers/2207_12517.md
           - MPC Applications and Implementations:
             - "Intelligent Trajectory Planning for Autonomous Vehicles via Adaptive Model Predictive Control": papers/2025_goncalves_intelligent_trajectory_planning_for.md
             - "Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks": papers/2604_19452.md
         - Robust Control:
-          - Linear Matrix Inequalities in System and Control Theory: papers/1994_boyd_linear_matrix_inequalities_in.md
+          - Distributed control design for spatially interconnected systems: papers/2003_dandrea_distributed_control_design_for.md
+          - LMIs in System and Control Theory: papers/1994_boyd_linear_matrix_inequalities_in.md
           - "LMI Properties and Applications in Systems, Stability, and Control Theory": papers/1903_08599.md
           - Robustness margins for LQG: papers/1978_doyle_guaranteed_margins_for_lqg.md
           - DR-LQG: papers/2505_08370.md
@@ -719,7 +763,10 @@ nav:
           - "A Method to Teach the Parameterization of All Stabilizing Controllers": papers/2011_kucera_a_method_to_teach.md
           - "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality": papers/2603_04843.md
           - "System analysis via integral quadratic constraints": papers/1997_megretski_system_analysis_via_integral.md
+          - Contraction L1-Adaptive Control using Gaussian Processes: papers/2009_03864.md
+          - Stability and control of a quadrocopter despite the complete loss of one, two, or three propellers: papers/2014_mueller_stability_and_control_of.md
         - Perception-Based Control:
+          - Integrated Perception and Control at High Speed: papers/2020_florence_integrated_perception_and_control.md
           - "Robust Guarantees for Perception-Based Control": papers/2020_dean_robust_guarantees_for_perception.md
           - "Certainty Equivalent Perception-Based Control": papers/2021_dean_certainty_equivalent_perception_based.md
         - Control Co-Design:
@@ -733,26 +780,29 @@ nav:
           - "Internal feedback in the cortical perception-action loop enables fast and accurate behavior": papers/2211_05922.md
           - Path-Following or Reference-Tracking: papers/2004_aguiar_path_following_or_reference.md
           - DWPP: papers/2601_15006.md
-          - Control Principles of Complex Networks: papers/1508_05384.md
-          - Control Profiles of Complex Networks: papers/2014_ruths_control_profiles_of_complex.md
           - Control for Societal-Scale Challenges: papers/2023_alleyne_control_for_societal_scale.md
           - "A note on persistency of excitation": papers/2005_willems_a_note_on_persistency.md
           - "Respect the unstable": papers/2003_unknown_respect_the_unstable.md
           - "Augmented Lagrangian Methods as Layered Control Architectures": papers/2311_06404.md
           - "Towards a Theory of Control Architecture: A quantitative framework for layered multi-rate control": papers/2401_15185.md
           - "Asymptotic stability equals exponential stability - while you twist your eyes": papers/2411_03277.md
-        - Control Lyapunov Functions:
+        - Control of Networks:
+          - Control Principles of Complex Networks: papers/1508_05384.md
+          - Control Profiles of Complex Networks: papers/2014_ruths_control_profiles_of_complex.md
+        - Control Lyapunov Functions (CLF):
           - Stabilization with Relaxed Controls: papers/1983_artstein_stabilization_with_relaxed_controls.md
           - "A Lyapunov-Like Characterization of Asymptotic Controllability": papers/1983_sontag_a_lyapunov_like_characterization.md
           - Sontag's Universal Formula: papers/1991_lin_a_universal_formula_for.md
           - "A 'universal' construction of Artstein's theorem on nonlinear stabilization": papers/1989_sontag_a_universal_construction_of.md
-        - Control Barrier Functions (CBF) and Control Lyapunov Functions (CLF):
+        - Control Barrier Functions (CBF):
           - Co-designing Control Barrier Functions and Linear State-Feedback Controllers: papers/2403_11763.md
           - "Convex synthesis and verification of control-Lyapunov and barrier functions with input constraints": papers/2023_dai_convex_synthesis_and_verification.md
           - "A Barrier-Based Scenario Approach to Verifying Safety-Critical Systems": papers/2022_akella_a_barrier_based_scenario.md
           - "Control Barrier Function Based Quadratic Programs for Safety Critical Systems": papers/2017_ames_control_barrier_function_based.md
           - "Control Barrier Functions: Theory and Applications": papers/1903_11199.md
           - "Synthesis and Deployment of Maximal Robust Control Barrier Functions through Adversarial Reinforcement Learning": papers/2604_13192.md
+        - Iterative Learning Control:
+          - Optimization-based iterative learning for precise quadrocopter trajectory tracking: papers/2012_schoellig_optimization_based_iterative_learning.md
         - Vehicle Dynamics:
           - The Tire-Force Ellipse: papers/2011_brach_the_tire_force_ellipse.md
           - "Kinematic modeling of wheeled mobile robots": papers/1987_muir_kinematic_modeling_of_wheeled.md
@@ -760,11 +810,6 @@ nav:
           - The Magic Formula Tyre Model: papers/1992_pacejka_the_magic_formula_tyre.md
           - "Structural properties and classification of kinematic and dynamic models of wheeled mobile robots": papers/1996_campion_structural_properties_and_classification.md
           - "Kinematic and dynamic vehicle models for autonomous driving control design": papers/2015_kong_kinematic_and_dynamic_vehicle.md
-        - Underactuated Systems:
-          - Acrobot: papers/1995_spong_the_swing_up_control.md
-          - CartPole (Correct Equations): papers/2007_florian_correct_equations_for_the.md
-          - BOBShield: papers/2021_takacs_bobshield_an_open_source.md
-          - "A Data-Driven Approach to Synthesizing Dynamics-Aware Trajectories for Underactuated Robotic Systems": papers/2307_13782.md
       - Reinforcement Learning:
         - Foundations:
           - Neuronlike Adaptive Elements (Actor-Critic, Cart-Pole): papers/1983_barto_neuronlike_adaptive_elements_that.md
@@ -775,11 +820,15 @@ nav:
         - Imitation Learning:
           - DAgger: papers/1011_0686.md
           - "Efficient Reductions for Imitation Learning": papers/2010_ross_efficient_reductions_for_imitation.md
+          - Self-Supervised Correspondence in Visuomotor Policy Learning: papers/1909_06933.md
           - TaSIL: papers/2205_14812.md
           - Grasping with Chopsticks: papers/2011_06719.md
           - DROID: papers/2403_12945.md
+          - Universal Manipulation Interface: papers/2402_10329.md
           - HRT1: papers/2510_21026.md
+          - Robot Fleet Learning via Policy Merging: papers/2310_01362.md
           - "Is Behavior Cloning All You Need?": papers/2407_15007.md
+          - Should We Learn Contact-Rich Manipulation Policies from Sampling-Based Planners?: papers/2412_09743.md
           - Pitfalls of Imitation Learning: papers/2503_09722.md
           - "Action Chunking and Exploratory Data Collection Yield Exponential Improvements in Behavior Cloning for Continuous Control": papers/2507_09061.md
           - "A Careful Examination of Large Behavior Models for Multitask Dexterous Manipulation": papers/2507_05331.md
@@ -790,8 +839,11 @@ nav:
           - "Data-driven Control and Planning for Uncertain Complex Systems (Gravell PhD Dissertation)": papers/2022_gravell_data_driven_control_and.md
           - Policy Optimization:
             - Global Convergence of Policy Gradient Methods for LQR: papers/1801_05039.md
+            - Derivative-Free Policy Optimization for Linear Risk-Sensitive and Robust Control Design: papers/2101_01041.md
             - "Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient": papers/1905_13547.md
             - "Sparse Optimal Control of Networks with Multiplicative Noise via Policy Gradient": papers/1905_13548.md
+            - "Policy Optimization for H2 Linear Control with H-infinity Robustness Guarantee": papers/1910_09496.md
+            - Globally Convergent Policy Search over Dynamic Filters for Output Estimation: papers/2202_11659.md
             - "Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators": papers/2303_08431.md
             - LQR through the Lens of First Order Methods: papers/1907_08921.md
             - Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum LQ Games: papers/1906_00729.md
@@ -800,11 +852,14 @@ nav:
             - "Policy Gradient for LQR with Domain Randomization": papers/2503_24371.md
             - "Second-Order Policy Gradient Methods for the Linear Quadratic Regulator": papers/2511_02095.md
             - "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective": papers/2503_00385.md
+            - "A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR": papers/2602_18933.md
             - "Scalar Federated Learning for Linear Quadratic Regulator": papers/2604_05088.md
           - Dynamic Programming:
-            - "Policy iteration using Q-functions: Linear dynamics with multiplicative noise": papers/2212_01192.md
             - "Policy Iteration for Linear Quadratic Games with Stochastic Parameters": papers/2021_gravell_policy_iteration_for_linear.md
+            - "Policy iteration using Q-functions: Linear dynamics with multiplicative noise": papers/2212_01192.md
           - Model-based RL:
+            - Robust exploration in linear quadratic reinforcement learning: papers/1906_01584.md
+            - Optimistic robust linear quadratic dual control: papers/1912_13143.md
             - "Logarithmic Regret for Online Control": papers/2019_agarwal_logarithmic_regret_for_online.md
             - Regret Bounds for the Adaptive Control of Linear Quadratic Systems: papers/2011_abbasi_yadkori_regret_bounds_for_the.md
             - Regret Bounds for Robust Adaptive Control of LQR: papers/1805_09388.md
@@ -814,6 +869,9 @@ nav:
             - "Robust Learning-Based Control via Bootstrapped Multiplicative Noise": papers/2002_10069.md
             - "Robust Data-Driven Output Feedback Control via Bootstrapped Multiplicative Noise": papers/2205_05119.md
             - "Efficient Learning of a Linear Dynamical System with Stability Guarantees": papers/2102_03664.md
+            - "Toward Understanding State Representation Learning in MuZero: A Case Study in Linear Quadratic Gaussian Control": papers/2023_tian_toward_understanding_state_representation.md
+            - "Cost-Driven Representation Learning for Linear Quadratic Gaussian Control: Part I": papers/2212_14511.md
+            - "Cost-Driven Representation Learning for Linear Quadratic Gaussian Control: Part II": papers/2603_07437.md
             - "CLT-Optimal Parameter Error Bounds for Linear System Identification": papers/2604_21270.md
         - Dynamic Programming:
           - Exact Dynamic Programming:
@@ -845,6 +903,7 @@ nav:
             - REINFORCE: papers/1992_williams_simple_statistical_gradient_following.md
             - "Policy Gradient Methods for Reinforcement Learning with Function Approximation": papers/1999_sutton_policy_gradient_methods_for.md
             - Natural Policy Gradient: papers/2001_kakade_a_natural_policy_gradient.md
+            - Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies: papers/2210_04810.md
             - HOOF: papers/1902_06583.md
             - "Evolution Strategies as a Scalable Alternative to Reinforcement Learning": papers/1703_03864.md
             - "How are policy gradient methods affected by the limits of control?": papers/2206_06863.md
@@ -853,6 +912,7 @@ nav:
             - "On-Policy Distillation of Language Models for Autonomous Vehicle Motion Planning": papers/2604_07944.md
             - "PAGE-PG": papers/2202_00308.md
             - "Stochastic Variance-Reduced Policy Gradient": papers/1806_05618.md
+            - An Improved Analysis of Variance-Reduced Policy Gradient and Natural Policy Gradient Methods: papers/2211_07937.md
             - "The Definitive Guide to Policy Gradients in Deep Reinforcement Learning: Theory, Algorithms and Implementations": papers/2401_13662.md
             - "Understanding the Effects of Second-Order Approximations in Natural Policy Gradient Reinforcement Learning": papers/2201_09104.md
             - "Do Differentiable Simulators Give Better Policy Gradients?": papers/2202_00817.md
@@ -889,13 +949,15 @@ nav:
             - "Information Theoretic Model Predictive Q-Learning": papers/2001_02153.md
             - "Differentiable MPC for End-to-end Planning and Control": papers/1810_13400.md
             - "Actor-Critic Model Predictive Control: Differentiable Optimization meets Reinforcement Learning for Agile Flight": papers/2306_09852.md
-            - "MPCritic": papers/2504_01086.md
+            - MPCritic: papers/2504_01086.md
+            - Soft MPCritic: papers/2604_01477.md
             - "Policy Optimization for Unknown Systems using Differentiable Model Predictive Control": papers/2511_11308.md
-            - "Soft MPCritic: Amortized Model Predictive Value Iteration": papers/2604_01477.md
-            - "Temporal Difference Learning for Model Predictive Control": papers/2203_04955.md
-            - "TD-MPC2": papers/2310_16828.md
+            - TD-MPC: papers/2203_04955.md
+            - TD-MPC2: papers/2310_16828.md
           - System Identification:
             - Non-Asymptotic Identification of LTI Systems from a Single Trajectory: papers/1806_05722.md
+            - Linear System Identification via EM with Latent Disturbances and Lagrangian Relaxation: papers/1603_09157.md
+            - On the smoothness of nonlinear system identification: papers/1905_00820.md
             - Finite Sample Analysis of Stochastic System Identification: papers/1903_09122.md
             - A Tutorial on Concentration Bounds for System Identification: papers/1906_11395.md
             - "Linear System Identification Under Multiplicative Noise from Multiple Trajectory Data": papers/2002_06613.md
@@ -930,6 +992,7 @@ nav:
               - Dream to Fly: papers/2501_14377.md
               - Hierarchical Planning with Latent World Models: papers/2604_03208.md
             - "A Tutorial on Solution Properties of State Space Models of Dynamical Systems": papers/2204_06104.md
+            - Interactive Bayesian identification of kinematic mechanisms: papers/2014_barragan_interactive_bayesian_identification_of.md
             - "An Information-state based Approach to the Optimal Output Feedback Control of Nonlinear Systems": papers/2107_08086.md
             - "An Introduction to Matrix Concentration Inequalities": papers/1501_01571.md            
             - "Concentration Inequalities for Statistical Inference": papers/2011_02258.md
@@ -938,6 +1001,8 @@ nav:
             - "Self-Normalized Processes: Exponential Inequalities, Moment Bounds and Iterated Logarithm Laws": papers/2004_de_la_pena_self_normalized_processes_exponential.md
             - "State space models vs. multi-step predictors in predictive control: Are state space models complicating safe data-driven designs?": papers/2203_15471.md
             - "Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control": papers/2603_23465.md
+            - Nonlinear System Identification Nano-drone Benchmark: papers/2512_14450.md
+            - ASIA: papers/2605_10480.md
             - "System identification and long-range predictive control of multi-rate systems": papers/1999_li_system_identification_and_long.md
         - Hybrid Approaches:
           - "Model-Based Value Estimation for Efficient Model-Free Reinforcement Learning": papers/1803_00101.md
@@ -945,6 +1010,7 @@ nav:
           - Power of Locally Linear Models: papers/2305_09619.md
         - Diffusion & Flow Matching:
           - Diffusion Policy: papers/2303_04137.md
+          - Equivariant Diffusion Policy: papers/2407_01812.md
           - "Planning with Diffusion for Flexible Behavior Synthesis": papers/2205_09991.md
           - "Tree-Guided Diffusion Planner": papers/2508_21800.md
           - Streaming Flow Policy: papers/2505_21851.md
@@ -954,6 +1020,7 @@ nav:
         - Inverse Reinforcement Learning & Reward Learning:
           - "Inverse Optimization: Theory and Applications": papers/2109_03920.md
           - Inverse LQR: papers/2019_zhang_inverse_optimal_control_for.md
+          - Inverse Quadratic Optimal Control: papers/1810_12590.md
           - "Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors": papers/2508_07400.md
         - Applications of RL:
           - "Learning Dexterous In-Hand Manipulation": papers/1808_00177.md
@@ -966,9 +1033,11 @@ nav:
           - "An adaptive lateral preview driver model": papers/2005_ungoren_an_adaptive_lateral_preview.md
           - "Human-like driving behaviour emerges from a risk-based driver model": papers/2020_kolekar_human_like_driving_behaviour.md
         - Multi-agent & Interaction-aware Prediction:
-          - "Trajectron++": papers/2001_03093.md
+          - A Bayesian nonparametric approach to modeling motion patterns: papers/2011_joseph_a_bayesian_nonparametric_approach.md
+          - Trajectron++: papers/2001_03093.md
           - Wayformer: papers/2207_05844.md
-          - "VectorNet: Encoding HD Maps and Agent Dynamics from Vectorized Representation": papers/2005_04259.md
+          - VectorNet: papers/2005_04259.md
+          - Learning and Predicting Multimodal Vehicle Action Distributions in a Unified Probabilistic Model Without Labels: papers/2212_07013.md
         - Prediction Horizon:
           - "Prediction Horizon Requirements for Automated Driving": papers/2402_03893.md
           - "Accelerated Evaluation of Automated Vehicles Safety in Lane Change Scenarios Based on Importance Sampling Techniques": papers/1605_04965.md
@@ -979,11 +1048,11 @@ nav:
           - Deep Learning-based Vehicle Behaviour Prediction: papers/1912_11676.md
           - A Survey on Motion Prediction and Risk Assessment for Intelligent Vehicles: papers/2014_lefevre_a_survey_on_motion.md
           - Action and Trajectory Prediction for Autonomous Driving: papers/2024_calem_action_and_trajectory_prediction.md
-          - "DriveGPT: Scaling Autoregressive Behavior Models for Driving": papers/2412_14415.md
+          - DriveGPT: papers/2412_14415.md
           - "Forecasting the Past: Gradient-Based Distribution Shift Detection in Trajectory Prediction": papers/2604_12425.md
           - "Task-Relevant Failure Detection for Trajectory Predictors in Autonomous Vehicles": papers/2207_12380.md
           - "Time-aware Motion Planning in Dynamic Environments with Conformal Prediction": papers/2511_18170.md
-          - "WestWorld: A Knowledge-Encoded Scalable Trajectory World Model for Diverse Robotic Systems": papers/2603_14392.md
+          - WestWorld: papers/2603_14392.md
         - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: papers/2511_00814.md
       - State Estimation:
         - Kalman Filter:
@@ -1003,14 +1072,17 @@ nav:
         - "Mapping & SLAM":
           - Hydra: papers/2201_13360.md
           - Khronos: papers/2402_13817.md
+          - CLIPPER: papers/2011_10202.md
+          - CLIPPER+: papers/2402_15464.md
           - OctoMap: papers/2013_hornung_octomap_an_efficient_probabilistic.md
           - "Fast Iterative Alignment of Pose Graphs with Poor Initial Estimates": papers/2006_olson_fast_iterative_alignment_of.md
+          - Visual Odometry and Mapping for Autonomous Flight Using an RGB-D Camera: papers/2016_huang_visual_odometry_and_mapping.md
           - "Factor Graphs: Exploiting Structure in Robotics": papers/2021_dellaert_factor_graphs_exploiting_structure.md
           - "Building Rome with Convex Optimization": papers/2025_han_building_rome_with_convex.md
           - "Learning Occupancy Grid Maps with Forward Sensor Models": papers/2003_thrun_learning_occupancy_grid_maps.md
       - Machine Learning:
         - Foundations:
-          - "From Entropy to Epiplexity: Rethinking Information for Computationally Bounded Intelligence": papers/2601_03220.md
+          - Epiplexity: papers/2601_03220.md
         - Uncertainty Quantification:
           - Backward Conformal Prediction: papers/2505_13732.md
         - Datasets:
@@ -1036,10 +1108,10 @@ nav:
           - "The Mythos of Model Interpretability": papers/1606_03490.md
           - "Towards A Rigorous Science of Interpretable Machine Learning": papers/1702_08608.md          
         - Clustering:
-          - "k-means":
+          - k-means:
             - k-means: papers/1967_macqueen_some_methods_for_classification.md
-            - "Least squares quantization in PCM": papers/1982_lloyd_least_squares_quantization_in.md
-            - "k-means++": papers/2007_arthur_k_means_the_advantages.md
+            - Lloyd's Algorithm: papers/1982_lloyd_least_squares_quantization_in.md
+            - k-means++: papers/2007_arthur_k_means_the_advantages.md
           - Hierarchical Clustering:
             - Ward's Method: papers/1963_ward_hierarchical_grouping_to_optimize.md
           - Density-based Clustering:
@@ -1098,7 +1170,10 @@ nav:
           - Grokking: papers/2201_02177.md
         - Vision-language-action (VLA) Models:
           - GR00T N1: papers/2503_14734.md
+          - OpenVLA: papers/2406_09246.md
           - Alpamayo-R1: papers/2511_00088.md
+          - SAGA: papers/2512_12842.md
+          - Large Video Planner: papers/2512_15840.md
           - Orion-Lite: papers/2604_08266.md
           - MolmoAct2: papers/2605_02881.md
           - RLDX-1: papers/2605_03269.md
@@ -1116,6 +1191,7 @@ nav:
             - "Reducing the Transformer Architecture to a Minimum": papers/2410_13732.md
         - Diffusion Models:
           - Denoising Diffusion Probabilistic Models: papers/2006_11239.md
+          - Diffusion Forcing: papers/2407_01392.md
           - ChopGrad: papers/2603_17812.md
           - Deblurring via Stochastic Refinement: papers/2112_02475.md
           - "Is Your Conditional Diffusion Model Actually Denoising?": papers/2512_18736.md
@@ -1173,12 +1249,15 @@ nav:
           - YOLO: papers/1506_02640.md
         - "3D Vision & Shape Understanding":
           - 3D ShapeNets: papers/1406_5670.md
+          - Quaternion Based Camera Pose Estimation From Matched Feature Points: papers/1704_02672.md
           - ShapeNet: papers/1512_03012.md
         - Face Recognition:
           - FaceNet: papers/1503_03832.md
         - "Feature Detection & Description":
           - SIFT: papers/2004_lowe_distinctive_image_features_from.md
           - SURF: papers/2006_bay_surf_speeded_up_robust.md
+          - AprilTag: papers/2011_olson_apriltag_a_robust_and.md
+          - AprilTag 2: papers/2016_wang_apriltag_2_efficient_and.md
         - "Image Classification & Recognition":
           - "Inception/GoogLeNet": papers/1409_4842.md
           - VGG: papers/1409_1556.md        
@@ -1210,6 +1289,7 @@ nav:
     - Evaluation:
       - Simulation:
         - CARLA: papers/1711_03938.md
+        - SceneSmith: papers/2602_09153.md
         - GPUDrive: papers/2408_01584.md        
         - KinDER: papers/2604_25788.md
         - MuJoCo Playground: papers/2502_08844.md
@@ -1223,7 +1303,10 @@ nav:
         - Gym: papers/1606_01540.md
         - Isaac Gym: papers/2108_10470.md
         - controlgym: papers/2311_18736.md
+        - Flow Gym: papers/2512_20642.md
+        - Beyond Self-Play and Scale: papers/2605_10034.md
       - Safety, Testing & Verification:
+        - Scalable End-to-End Autonomous Vehicle Testing via Rare-event Simulation: papers/1811_00145.md
         - "A Simple and Efficient Sampling-based Algorithm for General Reachability Analysis": papers/2112_05745.md
         - How Should a Robot Assess Risk?: papers/2017_majumdar_how_should_a_robot.md
         - Formal Specification for Deep Neural Networks: papers/2018_seshia_formal_specification_for_deep.md
@@ -1247,8 +1330,8 @@ nav:
         - Centrality:
           - PageRank: papers/1998_page_the_pagerank_citation_ranking.md
         - Community Detection:
-          - "Louvain Algorithm": papers/0803_0476.md
-          - "Leiden Algorithm": papers/1810_08473.md
+          - Louvain Algorithm: papers/0803_0476.md
+          - Leiden Algorithm: papers/1810_08473.md
       - Algorithms & Data Structures:
         - Probabilistic Data Structures:
           - "Space/time trade-offs in hash coding with allowable errors": papers/1970_bloom_space_time_trade_offs.md
@@ -1265,6 +1348,7 @@ nav:
           - "Product Quantization for Nearest Neighbor Search": papers/2011_jegou_product_quantization_for_nearest.md
           - FAISS: papers/2401_08281.md
         - "Complexity & Approximation":
+          - Complexity of Ten Decision Problems in Continuous Time Dynamical Systems: papers/1210_7420.md
           - "Randomized greedy algorithms for covering problems": papers/2018_gao_randomized_greedy_algorithms_for.md
           - "Reducibility among Combinatorial Problems": papers/1972_karp_reducibility_among_combinatorial_problems.md
         - Parallel Algorithms:
@@ -1278,6 +1362,7 @@ nav:
           - Introsort: papers/1997_musser_introspective_sorting_and_selection.md
           - Pattern-defeating Quicksort: papers/2106_05123.md
         - "Trees & Spatial Indexing":
+          - Barnes-Hut algorithm: papers/1986_barnes_a_hierarchical_o_n_log.md
           - "A dichromatic framework for balanced trees": papers/1978_guibas_a_dichromatic_framework_for.md
           - "Multidimensional binary search trees used for associative searching": papers/1975_bentley_multidimensional_binary_search_trees.md
           - "Organization and maintenance of large ordered indices": papers/1970_bayer_organization_and_maintenance_of.md
@@ -1287,8 +1372,15 @@ nav:
           - Ubiquitous B-Tree: papers/1979_comer_ubiquitous_b_tree.md
           - R-trees: papers/1984_guttman_r_trees.md
       - Software & Programming:
-        - The Humble Programmer: papers/1972_dijkstra_the_humble_programmer.md
-        - On the Role of Scientific Thought: papers/1974_dijkstra_on_the_role_of.md
+        - Essays:
+          - The Humble Programmer: papers/1972_dijkstra_the_humble_programmer.md
+          - On the Role of Scientific Thought: papers/1974_dijkstra_on_the_role_of.md
+        - Art & Practice: programming/art_and_practice.md
+        - Programming Languages:
+          - "C++": programming/cpp.md
+          - Python: programming/python.md
+          - Julia: papers/2017_bezanson_julia_a_fresh_approach.md
+          - Interoperability: programming/interoperability.md
         - Scientific Computing & ML Systems:
           - JAX: papers/2018_frostig_compiling_machine_learning_programs.md
           - frax: papers/2604_04310.md
@@ -1298,11 +1390,9 @@ nav:
           - Ray: papers/1712_05889.md
           - RLlib: papers/1712_09381.md
           - Tune: papers/1807_05118.md
-        - Art & Practice: programming/art_and_practice.md
-        - "C++": programming/cpp.md
-        - Python: programming/python.md
-        - Interoperability: programming/interoperability.md
         - Trajectory Optimization: programming/trajectory_optimization.md
+        - Message Protocols:
+          - LCM: papers/2010_huang_lcm_lightweight_communications_and.md
       - Computer Graphics:
         - Subdivision Surfaces:
           - Catmull-Clark Subdivision Surfaces: papers/1978_catmull_recursively_generated_b_spline.md
@@ -1347,16 +1437,30 @@ nav:
         - Review of Computational Stirling Analysis Methods: papers/2004_dyson_review_of_computational_stirling.md
         - "How the oldest recorded multiple facility location problem was solved": papers/1995_wilamowsky_how_the_oldest_recorded.md
         - "Technological challenges and optimization efforts of the Stirling machine: A review": papers/2018_hachem_technological_challenges_and_optimization.md
-      - Just for Fun:
-        - Evolving Virtual Creatues:
-          - Evolving Virtual Creatures: papers/1994_sims_evolving_virtual_creatures.md
-          - Unshackling Evolution: papers/2014_cheney_unshackling_evolution.md
+      - Evolving Virtual Creatues:
+        - Evolving Virtual Creatures: papers/1994_sims_evolving_virtual_creatures.md
+        - Unshackling Evolution: papers/2014_cheney_unshackling_evolution.md
       - Robot Platforms:
-        - Duckietown: papers/2017_paull_duckietown_an_open_inexpensive.md
-        - ANYmal: papers/2016_hutter_anymal_a_highly_mobile.md
-        - Cheetah 3: papers/2018_bledt_mit_cheetah_3_design.md
-        - Mini Cheetah: papers/2019_katz_mini_cheetah_a_platform.md
-        - Design and Control of a Bipedal Robotic Character: papers/2501_05204.md
+        - Balancing Robots:
+          - Acrobot: papers/1995_spong_the_swing_up_control.md
+          - CartPole (Correct Equations): papers/2007_florian_correct_equations_for_the.md
+          - BOBShield: papers/2021_takacs_bobshield_an_open_source.md
+          - Cubli: papers/2012_gajamohan_the_cubli_a_cube.md
+          - One-Wheel Cubli: papers/2023_hofer_the_one_wheel_cubli.md
+        - Bipeds:
+          - Efficient Bipedal Robots Based on Passive-Dynamic Walkers: papers/2005_collins_efficient_bipedal_robots_based.md
+          - Design and Control of a Bipedal Robotic Character: papers/2501_05204.md
+        - Quadrupeds:
+          - ANYmal: papers/2016_hutter_anymal_a_highly_mobile.md
+          - Cheetah 3: papers/2018_bledt_mit_cheetah_3_design.md
+          - Mini Cheetah: papers/2019_katz_mini_cheetah_a_platform.md
+        - Wheeled Robots:
+          - Duckietown: papers/2017_paull_duckietown_an_open_inexpensive.md
+        - Flying Robots:
+          - Flying Inverted Pendulum: papers/2011_hehn_a_flying_inverted_pendulum.md
+          - Flying Machine Arena: papers/2014_lupashin_a_platform_for_aerial.md
+        - Brachiating Robots:
+          - AcroMonk: papers/2305_08373.md
   - Explainers:
     - Planning & Control:
       - PID: explainers/pid/pid.md
