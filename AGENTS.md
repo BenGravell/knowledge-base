@@ -1,6 +1,6 @@
 # knowledge-base
 
-A personal knowledge base of distilled notes, paper summaries, and explainers, published as a static site via MkDocs. Includes an embedding-based Mind Map and Streamlit tooling for browsing and generating entries.
+A personal knowledge base of distilled notes, paper summaries, and explainers, published as a static site via MkDocs.
 
 ## Key Commands
 

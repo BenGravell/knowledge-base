@@ -43,3 +43,6 @@ https://www.jstor.org/stable/2098941
 https://www.jstor.org/stable/2627476
 https://www.jstor.org/stable/2630487
 https://direct.mit.edu/books/oa-monograph/4361/chapter/187132/The-Linear-Filter-for-a-Single-Time-Series
+https://dl.acm.org/doi/10.5555/3009657.3009806
+https://projecteuclid.org/journals/bulletin-of-the-american-mathematical-society-new-series/volume-58/issue-5/Some-aspects-of-the-sequential-design-of-experiments/bams/1183517370.full
+https://www.researchgate.net/profile/Kamyar_Azizzadenesheli/publication/325817047_Sample-Efficient_Deep_RL_with_Generative_Adversarial_Tree_Search/links/5b3185880f7e9b0df5cb8773/Sample-Efficient-Deep-RL-with-Generative-Adversarial-Tree-Search.pdf

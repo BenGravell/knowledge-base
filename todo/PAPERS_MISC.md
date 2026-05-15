@@ -349,3 +349,8 @@ https://www.jamespreiss.com/pubs/Preiss_Hausman_SysID_Embedding_Space_Neurips_RL
 https://web.mit.edu/~a_a_a/Public/Publications/refs_for_seb_blog/Parrilo_thesis.pdf
 https://repository.gatech.edu/server/api/core/bitstreams/b3606eb4-ce55-4c16-8495-767bd46f0351/content
 https://dspace.mit.edu/handle/1721.1/78894
+https://www.worldscientific.com/doi/10.1142/9789814354301_0005?srsltid=AfmBOorfRXd3Yh6d7ZHNXIKaBdTlx33jR8YleEoVR1F8Fx8LTjGdNrB9
+https://rkeramati.github.io/assets/pdf/CVaR_Bandit.pdf
+https://ojs.aaai.org/index.php/AAAI/article/view/7749
+https://courses.cs.umbc.edu/471/papers/turing.pdf
+https://sandjournal.com/wp-content/uploads/2021/04/On-the-Tendency-of-Species-to-Form-Varieties-Darwin-Wallace.pdf
