@@ -344,7 +344,7 @@ nav:
               - Cubic Curvature Polynomials: papers/2001_nagy_trajectory_generation_for_car.md
               - Sharpness Continuous path: papers/1801_08995.md
               - "Fast and Accurate G1 Fitting of Clothoid Curves": papers/1305_6644.md
-              - "G2 Hermite Interpolation with Clothoids": papers/2018_bertolazzi_on_the_mml_math.md
+              - "G2 Hermite Interpolation with Clothoids": papers/2018_bertolazzi_on_the_g2_hermite.md
               - "Sharpness Continuous Path optimization and Sparsification for Automated Vehicles": papers/2022_kumar_sharpness_continuous_path_optimization.md
             - Polynomials & Splines:
               - Quintic G2 Splines: papers/2000_piazzi_quintic_g2_splines_for.md

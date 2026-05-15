@@ -1,8 +1,8 @@
 title: "QMR: A Quasi-minimal Residual Method for Non-Hermitian Linear Systems"
-algorithm:
+algorithm: QMR
 authors:
   - Roland W. Freund
-  - No�l M. Nachtigal
+  - Noel M. Nachtigal
 year: 1991
 source: Numerische Mathematik
 type: Journal Paper
