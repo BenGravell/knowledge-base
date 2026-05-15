@@ -185,9 +185,7 @@ body:has(#ct-app)
   > .md-nav__list
   > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="content-tree"])
   > .md-nav__container {
-  display: contents;
-  margin: 0;
-  padding: 0;
+  display: flex;
 }
 
 body:has(#ct-app)
@@ -204,6 +202,8 @@ body:has(#ct-app)
   display: flex;
   width: 100%;
   box-sizing: border-box;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 body:has(#ct-app)
@@ -213,15 +213,6 @@ body:has(#ct-app)
   > .md-nav__container
   > a.md-nav__link {
   color: var(--md-typeset-a-color);
-}
-
-body:not(:has(#mm-app)):not(:has(#tl-app)):not(:has(#an-app)):not(:has(#ct-app))
-  .md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="content-tree"])
-  > .md-nav__container
-  > a.md-nav__link {
-  margin-top: 0.625em;
 }
 
 /* Content Tree applet */
