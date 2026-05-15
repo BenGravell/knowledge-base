@@ -99,14 +99,54 @@ Hand-crafted
 - can have a "view from above" that just hits the most important papers
 - can have "deep dives" that go into weeds on topics
 
+## Analytics
+
+For the 'N items not displayed' make it clicksble to show more.
+
+Paper by year
+Make the bins start on 0 or 5 and end on 4 or 9
+
 ## Timeline
+
+Design inspiration:
+https://pin.it/7kjN4B5KZ
 
 ## Content Tree
 
-Find a more ergonomic way to store and represent the source of truth of the content tree. Perhaps use a literal filesystem tree, terminating with leaf nodes as files named like paper_slug.node ?
-Aim is to make it easier to recategorize branches, reduce vertical scrolling through thousands of lines, better git diff.
+### Taxonomy guidance
+
+Revise the content tree taxonomy
+
+Use branching factor rule of 3 to 7, with sweet spot at 5.
+
+Use clustering algorithm results (hierarchical agg) to help set new categories.
+
+Balance or expand tree
+
+Write a script to list insufficient subcategories.
+
+### Targeted edits
+
+1. Put all category together devoted to the table theorem. Includes Dyson sphere theorem.
+2. Move boids paper under simulation category.
+3. Move programming/trajectory_optimization/ under the trajectory optimization category.
+4. Move papers/2603_01176/ to state estimation category.
+5. Move 2005_bertsimas_optimal_inequalities_in_probability_theory/ to convex optimization, under applications or mathematics section
+6. Move 1992_kollerstrom_thomas_simpson_and_newtons/ from history to optimization (maybe a history subsection)
+7. Move 1810_12575/ under machine learning
+8. Rename motion planning to just planning
+9. Collison avoidance- velocity obstacles should be collapsed into a single level
+10. Harmonize sections on control lyapnuov functions and control barrier functions
 
 ## Mind Map
+
+### UX
+
+Revise the UX behavior.
+
+Keep level of detail as it is - it should set the global level of detail/aggregation.
+
+When clicking a branch node, it should show the children of the node (the branch disappears and is replaced by its children, one level of detail deeper) but keep the rest of the graph the same.
 
 ### Ideas
 
@@ -146,9 +186,13 @@ edges still too bright on light mode
 
 ## Metadata cleanup
 
-### metadata path index key
+Arxiv prefill script should strip off version number from url if present before fetching data.
 
-Revise the setup for mkdocs.yml so that we can refer to the literal path under doc/papers (including dots) instead of slugified version with underscores.
+Add checked in audit for dollar signs in abstract
+
+https://bengravell.github.io/knowledge-base/papers/2015_nesterov_random_gradient_free_minimization_of/?h=spokoiny
+
+Fix math notation, make plain text readable.
 
 ## normalization and de-duplication
 
@@ -159,6 +203,9 @@ Eliminate initials in the author names for first and last name (middle initial o
 Do same for source field (venues).
 
 Create scripts for automatically creating the databases the first time, and for auditong and suggesting fix based on pattern matching
+
+Audit the algorithm field.
+It should only use an abbreviation representing a concrete algorithm if it was the first paper to propose thr algorithm. If it merely analyzes an existing algorithm, then it should be a phrase like "Adam convergence analysis"
 
 ### Add validation on mkdocs.yml
 
