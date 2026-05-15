@@ -84,9 +84,11 @@ nav:
         - Toolboxes & Solvers:
           - Convex Optimization:
             - Disciplined Convex Programming: papers/2006_grant_disciplined_convex_programming.md            
+            - Graph Implementations: papers/2008_grant_graph_implementations_for_nonsmooth.md
             - CVXPY: papers/1603_00943.md
             - CVXPYgen: papers/2203_11419.md
             - "Disciplined Convex-Concave Programming": papers/1604_02639.md
+            - SOSTOOLS: papers/2002_prajna_introducing_sostools_a_general.md
             - CvxCluster: papers/2605_01614.md
             - ECOS: papers/2013_domahidi_ecos_an_socp_solver.md
             - Embedded SOCP Code Generation: papers/2013_chu_code_generation_for_embedded.md
@@ -601,6 +603,7 @@ nav:
           - "Trajectory Tree-Based Pairwise Game for Interactive Decision-Making and Motion Planning in Autonomous Driving": papers/2025_ma_trajectory_tree_based_pairwise.md
         - Machine Learning in Motion Planning:
           - ALVINN: papers/1988_pomerleau_alvinn_an_autonomous_land.md
+          - Motion Planning Through Policy Search: papers/2002_roy_motion_planning_through_policy.md
           - EVORA: papers/2311_06234.md
           - Distance Metric Learning for RRT-Based Motion Planning with Constant-Time Inference: papers/2015_palmieri_distance_metric_learning_for.md
           - RRT-CoLearn: papers/1710_10122.md
@@ -627,6 +630,8 @@ nav:
           - "A combined optimization method for solving the inverse kinematics problems of mechanical manipulators": papers/1991_wang_a_combined_optimization_method.md
           - "Resolved Motion Rate Control of Manipulators and Human Prostheses": papers/1969_whitney_resolved_motion_rate_control.md
           - "JAX-IK": papers/2507_00792.md
+        - Manipulation & Contact:
+          - Robotic Grasping and Contact: papers/2000_bicchi_robotic_grasping_and_contact.md
         - Multi-Robot Planning:
           - Generation of collision-free trajectories for a quadrocopter fleet: papers/2012_augugliaro_generation_of_collision_free.md
           - Goal Assignment and Trajectory Planning: papers/2013_turpin_goal_assignment_and_trajectory.md
@@ -662,6 +667,7 @@ nav:
           - "Scalable Autonomous Vehicle Safety Validation through Dynamic Programming and Scene Decomposition": papers/2004_06801.md
           - "Score-Guided Motion Planning: Learning the Gradient Field of Promising Regions": papers/2026_wang_score_guided_motion_planning.md
         - Frameworks & Stack Architectures:
+          - MINERVA: papers/1999_thrun_minerva_a_second_generation.md
           - Rough Terrain Locomotion: papers/2011_zucker_optimization_and_learning_for.md
           - Boss: papers/2008_urmson_autonomous_driving_in_urban.md
           - "A perception-driven autonomous urban vehicle": papers/2008_leonard_a_perceptiondriven_autonomous_urban.md
@@ -757,6 +763,7 @@ nav:
           - "Conformal Robust Control of Linear Systems": papers/2405_16250.md
           - "Probabilistic Robustness in the Gap Metric": papers/2507_10010.md
           - On the Input-Output Stability of Time-Varying Nonlinear Feedback Systems: papers/1966_zames_on_the_input_output.md
+          - Bilateral Control of Teleoperators with Time Delay: papers/1989_anderson_bilateral_control_of_teleoperators.md
           - State-Space Solutions to Standard H2 and H-inf Control Problems: papers/1989_doyle_state_space_solutions_to.md
           - "LQG Control with an H-infinity Performance Bound: A Riccati Equation Approach": papers/1989_bernstein_lqg_control_with_an.md
           - On the Robustness of LQ Regulators for Discrete-Time Systems: papers/1992_neto_on_the_robustness_of.md
@@ -769,7 +776,7 @@ nav:
           - Integrated Perception and Control at High Speed: papers/2020_florence_integrated_perception_and_control.md
           - "Robust Guarantees for Perception-Based Control": papers/2020_dean_robust_guarantees_for_perception.md
           - "Certainty Equivalent Perception-Based Control": papers/2021_dean_certainty_equivalent_perception_based.md
-        - Control Co-Design:
+        - Control-Plant Co-Design:
           - Gradient-Based Plant-Controller Co-Design: papers/2015_wang_a_gradient_based_approach.md
         - Control-Oriented Physical Modeling:
           - 5-DOF Electrodynamic Maglev State-Space Model: papers/2004_boeij_mathematical_model_of_the.md
@@ -786,6 +793,7 @@ nav:
           - "Augmented Lagrangian Methods as Layered Control Architectures": papers/2311_06404.md
           - "Towards a Theory of Control Architecture: A quantitative framework for layered multi-rate control": papers/2401_15185.md
           - "Asymptotic stability equals exponential stability - while you twist your eyes": papers/2411_03277.md
+          - Partial Feedback Linearization: papers/1994_spong_partial_feedback_linearization_of.md
         - Control of Networks:
           - Control Principles of Complex Networks: papers/1508_05384.md
           - Control Profiles of Complex Networks: papers/2014_ruths_control_profiles_of_complex.md
@@ -803,6 +811,8 @@ nav:
           - "Synthesis and Deployment of Maximal Robust Control Barrier Functions through Adversarial Reinforcement Learning": papers/2604_13192.md
         - Iterative Learning Control:
           - Optimization-based iterative learning for precise quadrocopter trajectory tracking: papers/2012_schoellig_optimization_based_iterative_learning.md
+        - Tracking Control for Wheeled Robots:
+          - Kanayama Tracking Controller: papers/1990_kanayama_a_stable_tracking_control.md
         - Vehicle Dynamics:
           - The Tire-Force Ellipse: papers/2011_brach_the_tire_force_ellipse.md
           - "Kinematic modeling of wheeled mobile robots": papers/1987_muir_kinematic_modeling_of_wheeled.md
@@ -902,6 +912,7 @@ nav:
           - Policy Gradient:
             - REINFORCE: papers/1992_williams_simple_statistical_gradient_following.md
             - "Policy Gradient Methods for Reinforcement Learning with Function Approximation": papers/1999_sutton_policy_gradient_methods_for.md
+            - Direct Gradient-Based Reinforcement Learning: papers/2000_baxter_direct_gradient_based_reinforcement.md
             - Natural Policy Gradient: papers/2001_kakade_a_natural_policy_gradient.md
             - Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies: papers/2210_04810.md
             - HOOF: papers/1902_06583.md
@@ -1443,6 +1454,7 @@ nav:
       - Robot Platforms:
         - Balancing Robots:
           - Acrobot: papers/1995_spong_the_swing_up_control.md
+          - Pendubot: papers/1995_spong_the_pendubot_a_mechatronic.md
           - CartPole (Correct Equations): papers/2007_florian_correct_equations_for_the.md
           - BOBShield: papers/2021_takacs_bobshield_an_open_source.md
           - Cubli: papers/2012_gajamohan_the_cubli_a_cube.md
