@@ -71,6 +71,12 @@ Try to render arXiv in the app window natively as much as possible (using HTML w
 
 Add LLM ideation using a slim local model or call to external API, chat with the paper c.f. DeepWiki
 
+### Creative Idea: procedurally generated visual image anchor/thumbnail
+
+Use the LLM sentence embedding and map it into a vision-language model embedding space and generate a relevant thumbnail image for the paper. Then we can show the thumbnail in the hover tooltip in mind map, in content tree, etc. everywhere the title string or other unique ID is used we can have the synthetic thumbnail too.
+
+I am a visual learner, I use my eyes for cognition, so this would help me a lot.
+
 ### Related papers
 
 Add a section with links to most closely related papers, either Top N or similarity threshold cutoff (variable N).
