@@ -1,5 +1,4 @@
-title: >
-  State space models vs. multi-step predictors in predictive control: Are state space models complicating safe data-driven designs?
+title: "State Space Models vs. Multi-step Predictors in Predictive Control: Are State Space Models Complicating Safe Data-driven Designs?"
 algorithm:
 authors:
   - Johannes Köhler

@@ -1,5 +1,4 @@
-title: >
-  A view on learning robust goal-conditioned value functions: Interplay between RL and MPC
+title: "A View on Learning Robust Goal-conditioned Value Functions: Interplay between RL and MPC"
 algorithm:
 authors:
   - Nathan P. Lawrence

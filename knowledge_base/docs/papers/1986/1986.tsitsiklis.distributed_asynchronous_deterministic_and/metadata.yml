@@ -1,5 +1,4 @@
-title: >
-  Distributed asynchronous deterministic and stochastic gradient optimization algorithms
+title: "Distributed Asynchronous Deterministic and Stochastic Gradient Optimization Algorithms"
 algorithm:
 authors:
   - J. Tsitsiklis

@@ -1,4 +1,4 @@
-title: 'DiffLoop: Tuning PID controllers by differentiating through the feedback loop'
+title: "DiffLoop: Tuning PID Controllers by Differentiating through the Feedback Loop"
 algorithm:
 authors:
   - Athindran Ramesh Kumar

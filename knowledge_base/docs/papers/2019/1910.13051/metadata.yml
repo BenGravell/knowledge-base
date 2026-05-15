@@ -1,5 +1,4 @@
-title: >
-  ROCKET: Exceptionally fast and accurate time series classification using random convolutional kernels
+title: "ROCKET: Exceptionally Fast and Accurate Time Series Classification Using Random Convolutional Kernels"
 algorithm: "ROCKET"
 authors:
   - Angus Dempster

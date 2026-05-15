@@ -1,4 +1,4 @@
-title: Model predictive control based on ARX models
+title: "Model Predictive Control Based on ARX Models"
 algorithm: "ARX-MPC"
 authors:
   - Junichiro Kon

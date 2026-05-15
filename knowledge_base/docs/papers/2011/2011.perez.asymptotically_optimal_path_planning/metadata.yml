@@ -1,5 +1,4 @@
-title: >
-  Asymptotically-optimal path planning for manipulation using incremental sampling-based algorithms
+title: "Asymptotically-optimal Path Planning for Manipulation Using Incremental Sampling-based Algorithms"
 algorithm: "BT+RRT*"
 authors:
   - Alejandro Perez

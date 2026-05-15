@@ -1,4 +1,4 @@
-title: 'Image quality assessment: from error visibility to structural similarity'
+title: "Image Quality Assessment: From Error Visibility to Structural Similarity"
 algorithm: "SSIM"
 authors:
   - Zhou Wang

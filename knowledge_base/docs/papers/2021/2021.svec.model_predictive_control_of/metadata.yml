@@ -1,5 +1,4 @@
-title: >
-  Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition
+title: "Model Predictive Control of Vehicle Dynamics Based on the Koopman Operator with Extended Dynamic Mode Decomposition"
 algorithm: "MPC"
 authors:
   - Marko Svec

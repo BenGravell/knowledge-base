@@ -1,5 +1,4 @@
-title: >
-  Implementation of the simultaneous perturbation algorithm for stochastic optimization
+title: "Implementation of the Simultaneous Perturbation Algorithm for Stochastic Optimization"
 algorithm:
 authors:
   - J.C. Spall

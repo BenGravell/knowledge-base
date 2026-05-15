@@ -1,5 +1,4 @@
-title: >
-  Computational Optimal Transport: Complexity by Accelerated Gradient Descent Is Better Than by Sinkhorn's Algorithm
+title: "Computational Optimal Transport: Complexity by Accelerated Gradient Descent Is Better than by Sinkhorn's Algorithm"
 algorithm:
 authors:
   - Pavel Dvurechensky

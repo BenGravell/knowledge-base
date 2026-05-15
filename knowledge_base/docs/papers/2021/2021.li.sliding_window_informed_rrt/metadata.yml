@@ -1,4 +1,4 @@
-title: "Sliding-Window Informed RRT*: A Method for Speeding Up the Optimization and Path Smoothing"
+title: "Sliding-Window Informed RRT*: A Method for Speeding up the Optimization and Path Smoothing"
 algorithm: SWIRRT*
 authors:
   - Chenming Li

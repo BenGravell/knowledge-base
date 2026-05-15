@@ -1,5 +1,4 @@
-title: >
-  Risk-Averse RRT* Planning with Nonlinear Steering and Tracking Controllers for Nonlinear Robotic Systems Under Uncertainty
+title: "Risk-Averse RRT* Planning with Nonlinear Steering and Tracking Controllers for Nonlinear Robotic Systems under Uncertainty"
 algorithm: RANS-RRT*
 authors:
   - Sleiman Safaoui

@@ -1,4 +1,4 @@
-title: Optimal Thompson Sampling strategies for support-aware CVaR bandits
+title: "Optimal Thompson Sampling Strategies for Support-aware CVaR Bandits"
 algorithm:
 authors:
   - Dorian Baudry

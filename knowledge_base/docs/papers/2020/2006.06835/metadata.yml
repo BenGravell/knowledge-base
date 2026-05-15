@@ -1,5 +1,4 @@
-title: >
-  Adaptive Gradient Methods Converge Faster with Over-Parameterization (but you should do a line-search)
+title: "Adaptive Gradient Methods Converge Faster with Over-Parameterization (but You Should Do a Line-search)"
 algorithm:
 authors:
   - Sharan Vaswani

@@ -1,4 +1,4 @@
-title: 'DiffTune+: Hyperparameter-Free Auto-Tuning using Auto-Differentiation'
+title: "DiffTune+: Hyperparameter-Free Auto-Tuning Using Auto-Differentiation"
 algorithm:
 authors:
   - Sheng Cheng

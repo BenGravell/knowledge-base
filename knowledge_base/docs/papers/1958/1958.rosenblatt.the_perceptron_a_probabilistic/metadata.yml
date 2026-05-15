@@ -1,6 +1,5 @@
-title: >
-  The perceptron: A probabilistic model for information storage and organization in the brain.
-algorithm:
+title: "The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain."
+algorithm: Perceptron
 authors:
   - F. Rosenblatt
 year: 1958

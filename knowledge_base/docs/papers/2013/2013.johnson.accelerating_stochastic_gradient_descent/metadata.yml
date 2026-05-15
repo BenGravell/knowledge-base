@@ -1,4 +1,4 @@
-title: Accelerating Stochastic Gradient Descent using Predictive Variance Reduction
+title: "Accelerating Stochastic Gradient Descent Using Predictive Variance Reduction"
 algorithm:
 authors:
   - Rie Johnson

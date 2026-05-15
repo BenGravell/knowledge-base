@@ -1,5 +1,4 @@
-title: >
-  When Simple Exploration is Sample Efficient: Identifying Sufficient Conditions for Random Exploration to Yield PAC RL Algorithms
+title: "When Simple Exploration Is Sample Efficient: Identifying Sufficient Conditions for Random Exploration to Yield PAC RL Algorithms"
 algorithm:
 authors:
   - Yao Liu

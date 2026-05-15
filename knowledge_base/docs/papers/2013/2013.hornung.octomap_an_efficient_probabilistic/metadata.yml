@@ -1,4 +1,4 @@
-title: 'OctoMap: an efficient probabilistic 3D mapping framework based on octrees'
+title: "OctoMap: An Efficient Probabilistic 3D Mapping Framework Based on Octrees"
 algorithm: "OctoMap"
 authors:
   - Armin Hornung

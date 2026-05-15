@@ -1,4 +1,4 @@
-title: 'CatBoost: unbiased boosting with categorical features'
+title: "CatBoost: Unbiased Boosting with Categorical Features"
 algorithm: "CatBoost"
 authors:
   - Liudmila Prokhorenkova

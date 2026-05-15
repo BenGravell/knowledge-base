@@ -1,5 +1,4 @@
-title: >
-  Backprop-MPDM: Faster Risk-Aware Policy Evaluation Through Efficient Gradient Optimization
+title: "Backprop-MPDM: Faster Risk-Aware Policy Evaluation through Efficient Gradient Optimization"
 algorithm:
 authors:
   - Dhanvin Mehta

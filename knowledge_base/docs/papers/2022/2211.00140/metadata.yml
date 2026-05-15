@@ -1,5 +1,4 @@
-title: >
-  A Damped Newton Method Achieves Global $O\left(\frac{1}{k^2}\right)$ and Local Quadratic Convergence Rate
+title: "A Damped Newton Method Achieves Global O(1/k^2) and Local Quadratic Convergence Rate"
 algorithm:
 authors:
   - Slavomír Hanzely

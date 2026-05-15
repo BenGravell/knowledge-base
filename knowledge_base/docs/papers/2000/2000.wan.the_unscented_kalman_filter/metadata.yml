@@ -1,4 +1,4 @@
-title: The unscented Kalman filter for nonlinear estimation
+title: "The Unscented Kalman Filter for Nonlinear Estimation"
 algorithm: "UKF"
 authors:
   - E.A. Wan

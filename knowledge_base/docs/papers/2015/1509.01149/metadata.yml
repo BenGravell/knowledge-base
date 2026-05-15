@@ -1,5 +1,4 @@
-title: >
-  Model Predictive Path Integral Control using Covariance Variable Importance Sampling
+title: "Model Predictive Path Integral Control Using Covariance Variable Importance Sampling"
 algorithm: "MPPI"
 authors:
   - Grady Williams
