@@ -11,7 +11,7 @@ doi: 10.1137/0308001
 arxiv_id:
 tags:
 abstract: >
-  Decoupling and pole assignments in linear multivariable control systems using geometric method.
+  The current interest in linear multivariable control has led to several algebraic results with important applications to system synthesis. In particular, the problem of decoupling of individual system outputs by means of state variable feedback was studied by Rekasius [1], Falb and Wolovich [2] and Gilbert [3]; the problem of realizing arbitrary pole locations in the closed loop system transfer matrix was investigated by Wonham [4] and Heymann [5]. In the present article, new results are obtained along these lines. In § 3, the problem of neutralizing the effect of disturbances with respect to a specified group of output variables is solved. In § 4, the concept of a controllability subspace is introduced and its relation to pole assignability is investigated. This material is preliminary to the formulation of a general problem of output decoupling in § 5. In § 6 and § 7, necessary and sufficient conditions for decoupling are obtained in two special cases; the results of § 7 complement and extend those obtained previously in [1], [2] and [3]. In each case, the problem of pole assignment is solved completely. Our viewpoint is that such problems are usefully treated in a geometric framework in which both definitions and results become intuitively transparent. In this way, entanglement at the outset in a thicket of algebraic calculations is avoided. Of course, for applications, it is necessary to translate the geometric criteria into matrix operations suitable for computation. This matter will be considered in a future article.
 summary: ''
 link: https://epubs.siam.org/doi/10.1137/0308001
 links_alt:

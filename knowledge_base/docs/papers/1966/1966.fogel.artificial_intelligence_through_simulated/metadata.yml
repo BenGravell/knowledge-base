@@ -1,17 +1,32 @@
-title: Artificial Intelligence through Simulated Evolution
-algorithm:
+title: "Artificial Intelligence Through Simulated Evolution"
+algorithm: Evolutionary Programming
 authors:
-  - L. Fogel
-  - A. J. Owens
-  - M. J. Walsh
+  - Lawrence J. Fogel
+  - Alvin J. Owens
+  - Michael J. Walsh
 year: 1966
-source: Semantic Scholar
+source: John Wiley and Sons
 type: Other
-doi: 10.1109/9780470544600.ch7
+doi:
 arxiv_id:
 tags:
+  - Evolutionary programming
+  - Evolutionary computation
+  - Artificial intelligence
+  - Simulated evolution
+  - Finite-state machines
+  - Adaptive behavior
+  - Prediction
+  - Machine learning
+  - Bio-inspired optimization
+  - Cybernetics
 abstract: ''
-summary: ''
-link: https://www.semanticscholar.org/paper/69022c885504a091680cf2dc9cfc84597332ac69
+summary: >
+  Introduces evolutionary programming as an artificial intelligence method that treats intelligence as adaptive behavior produced by simulated evolution. The book develops populations of finite-state predictor machines, mutates their transition structures, and selects them by predictive performance, establishing one of the founding branches of evolutionary computation alongside later genetic algorithms and evolution strategies.
+link: https://openlibrary.org/books/OL26792074M/Artificial_Intelligence_through_Simulated_Evolution
 links_alt:
-audit_status: raw
+  - https://books.google.com/books?id=QMLaAAAAMAAJ
+  - https://catalogue.nla.gov.au/catalog/2542224
+  - https://www.semanticscholar.org/paper/69022c885504a091680cf2dc9cfc84597332ac69
+  - https://doi.org/10.1109/9780470544600.ch7
+audit_status: reviewed
