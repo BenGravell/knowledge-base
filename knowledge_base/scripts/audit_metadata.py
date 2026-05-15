@@ -5,6 +5,7 @@ import html
 import json
 import re
 import sys
+import unicodedata
 from dataclasses import dataclass
 from dataclasses import field as dc_field
 from enum import Enum
@@ -152,6 +153,63 @@ _SCRAPED_ABSTRACT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
         re.compile(r"Publisher Site\s*(?:Get Access|eReaderPDF)?\b", re.I),
     ),
 )
+_AUTHOR_SUFFIX_RE = re.compile(
+    r"^(?:"
+    r"Jr\.?|Sr\.?|"
+    r"I{2,3}|IV|V|VI{0,3}|IX|X|"
+    r"Ph\.?D\.?|M\.?D\.?|DPhil|Esq\.?"
+    r")$",
+    re.I,
+)
+_LAST_NAME_PARTICLES = {
+    "da",
+    "das",
+    "de",
+    "del",
+    "della",
+    "den",
+    "der",
+    "di",
+    "do",
+    "dos",
+    "du",
+    "la",
+    "las",
+    "le",
+    "les",
+    "los",
+    "ten",
+    "ter",
+    "van",
+    "von",
+}
+
+
+# ---------------------------------------------------------------------------
+# Author helpers
+# ---------------------------------------------------------------------------
+
+
+def _looks_like_author_suffix(segment: str) -> bool:
+    cleaned = segment.strip().strip(".")
+    return bool(cleaned and _AUTHOR_SUFFIX_RE.fullmatch(cleaned))
+
+
+def _looks_like_last_first_author(author: str) -> bool:
+    """Detect likely "Last, First" author entries while allowing suffix commas."""
+    comma_parts = [part.strip() for part in author.split(",")]
+    if len(comma_parts) < 2 or not comma_parts[0]:
+        return False
+
+    for part in comma_parts[1:]:
+        if not part or _looks_like_author_suffix(part):
+            continue
+        return bool(
+            re.search(r"[A-Za-z]", comma_parts[0])
+            and re.search(r"[A-Za-z]", part)
+        )
+
+    return False
 
 
 # ---------------------------------------------------------------------------
@@ -288,11 +346,22 @@ def find_escaped_sequence_issues(path: Path, data: dict) -> list["Issue"]:
 # ---------------------------------------------------------------------------
 
 
+def _ascii_fold(text: str) -> str:
+    return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
+
+
 def _slugify(text: str) -> str:
     """Lowercase; replace runs of non-alphanumeric chars with single underscore."""
-    s = text.lower()
+    s = _ascii_fold(text)
+    s = _collapse_intra_word_apostrophes(s).lower()
     s = re.sub(r"[^a-z0-9]+", "_", s)
     return s.strip("_")
+
+
+def _title_slug_tokens(title: str) -> list[str]:
+    s = _collapse_intra_word_apostrophes(_ascii_fold(title))
+    raw_tokens = re.findall(r"[A-Za-z0-9]+(?:\.[A-Za-z0-9]+)*", s)
+    return [slug for token in raw_tokens if (slug := _slugify(token))]
 
 
 def _collapse_intra_word_apostrophes(text: str) -> str:
@@ -306,7 +375,17 @@ def _extract_last_name(author: str) -> str:
     if "," in author:
         author = author[: author.index(",")]
     parts = author.strip().split()
-    return parts[-1] if parts else author
+    if not parts:
+        return author
+
+    last_name_start = len(parts) - 1
+    while last_name_start > 0:
+        particle = parts[last_name_start - 1].strip(".").lower()
+        if particle not in _LAST_NAME_PARTICLES:
+            break
+        last_name_start -= 1
+
+    return " ".join(parts[last_name_start:])
 
 
 def expected_slug(year: int, arxiv_id: str, title: str, authors: list[str]) -> str:
@@ -316,9 +395,10 @@ def expected_slug(year: int, arxiv_id: str, title: str, authors: list[str]) -> s
     last_name = _slugify(
         _collapse_intra_word_apostrophes(_extract_last_name(first_author))
     )
-    # First four words of title; split on whitespace and hyphens
-    title_tokens = re.split(r"[\s\-]+", title.strip())[:4]
-    title_part = "_".join(_slugify(w) for w in title_tokens if w)
+    # First four slug-bearing words of title; punctuation separates words except
+    # inside dotted terms such as C4.5.
+    title_tokens = _title_slug_tokens(title)[:4]
+    title_part = "_".join(title_tokens)
     return f"{year}.{last_name}.{title_part}"
 
 
@@ -498,6 +578,24 @@ def audit_file(
                 issues.append(
                     Issue(path, "authors", f"Blank entries at index(es): {blank}")
                 )
+            last_first = [
+                i
+                for i, a in enumerate(authors)
+                if _looks_like_last_first_author(str(a))
+            ]
+            if last_first:
+                examples = ", ".join(repr(str(authors[i])) for i in last_first[:3])
+                if len(last_first) > 3:
+                    examples += f", ... ({len(last_first)} total)"
+                issues.append(
+                    Issue(
+                        path,
+                        "authors",
+                        "Author entries appear to use 'Last, First' order at index(es): "
+                        f"{last_first}",
+                        f"Use first-name last-name order; review: {examples}",
+                    )
+                )
     else:
         authors = authors if isinstance(authors, list) else []
 
@@ -554,8 +652,12 @@ def audit_file(
         try:
             papers_idx = next(i for i, p in enumerate(parts) if p == "papers")
             path_year_str = parts[papers_idx + 1]
-            path_slug = parts[papers_idx + 2]
+            path_slug = "/".join(parts[papers_idx + 2 : -1])
         except (StopIteration, IndexError):
+            issues.append(Issue(path, "path", "Cannot locate papers/YEAR/SLUG in path"))
+            return data, issues
+
+        if not path_slug:
             issues.append(Issue(path, "path", "Cannot locate papers/YEAR/SLUG in path"))
             return data, issues
 
@@ -847,7 +949,7 @@ Checks performed on each metadata.yml:
   unknown   - ERROR for any field not in the VALID_FIELDS schema
   required  - ERROR if any of title, authors, year, abstract, type, audit_status missing
   title     - ERROR if empty; ERROR if not in title case
-  authors   - ERROR if not a non-empty list of non-blank strings
+  authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order
   year      - ERROR if not a 4-digit integer
   arxiv     - ERROR if arxiv_id is present but not a valid arXiv ID
   abstract  - ERROR if empty, near-empty, placeholder-like, contains scraped page text, or has PDF extraction artifacts

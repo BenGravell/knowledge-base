@@ -53,6 +53,28 @@ _BROWSER_HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.5",
 }
+_LAST_NAME_PARTICLES = {
+    "da",
+    "das",
+    "de",
+    "del",
+    "della",
+    "den",
+    "der",
+    "di",
+    "do",
+    "dos",
+    "du",
+    "la",
+    "las",
+    "le",
+    "les",
+    "los",
+    "ten",
+    "ter",
+    "van",
+    "von",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -219,10 +241,28 @@ def collapse_intra_word_apostrophes(text: str) -> str:
     return re.sub(r"(?<=[A-Za-z0-9])['’](?=[A-Za-z0-9])", "", text)
 
 
+def extract_last_name(author: str) -> str:
+    """Extract a slug surname, preserving surname particles."""
+    if "," in author:
+        author = author[: author.index(",")]
+    parts = author.strip().split()
+    if not parts:
+        return author
+
+    last_name_start = len(parts) - 1
+    while last_name_start > 0:
+        particle = parts[last_name_start - 1].strip(".").lower()
+        if particle not in _LAST_NAME_PARTICLES:
+            break
+        last_name_start -= 1
+
+    return " ".join(parts[last_name_start:])
+
+
 def generate_folder_name(year: int, authors: list[str], title: str) -> str:
     if authors:
-        last_name = collapse_intra_word_apostrophes(authors[0].split()[-1])
-        author_slug = slugify(last_name, max_words=1)
+        last_name = collapse_intra_word_apostrophes(extract_last_name(authors[0]))
+        author_slug = slugify(last_name)
     else:
         author_slug = "unknown"
     return f"{year}.{author_slug}.{slugify(title)}"
