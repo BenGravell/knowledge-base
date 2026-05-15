@@ -80,6 +80,7 @@ nav:
   - Mind Map: mind-map.md
   - Timeline: timeline.md
   - Content Tree: content-tree/index.md
+  - Analytics: analytics.md
   - Explainers:
     - Planning & Control:
       - PID: explainers/pid/pid.md
@@ -96,7 +97,6 @@ nav:
     - AI for Autonomy:
       - Waymo AI: explainers/waymo_ai.md
       - Adversarial Training and Robot Safety: explainers/adversarial_training_robot_safety.md
-  - Analytics: analytics.md
   - Software:
     - Art & Practice: programming/art_and_practice.md
     - "C++": programming/cpp.md
