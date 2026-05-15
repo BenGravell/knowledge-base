@@ -9,7 +9,7 @@ const mindMapData = {
           "Stirling"
         ],
         "year": 1816,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "History",
         "sub_category": null,
         "tags": [
@@ -142,7 +142,7 @@ const mindMapData = {
           "MacAdam"
         ],
         "year": 1942,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Color & Perception",
         "tags": [],
@@ -240,7 +240,7 @@ const mindMapData = {
           "Dyson"
         ],
         "year": 1951,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Topology",
         "tags": [
@@ -290,7 +290,7 @@ const mindMapData = {
           "Stiefel"
         ],
         "year": 1952,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Linear Algebra & Signal Processing",
         "tags": [],
@@ -310,7 +310,7 @@ const mindMapData = {
           "Lanczos"
         ],
         "year": 1952,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Linear Algebra & Signal Processing",
         "tags": [],
@@ -330,7 +330,7 @@ const mindMapData = {
           "Shapley"
         ],
         "year": 1953,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [
@@ -357,7 +357,7 @@ const mindMapData = {
           "CRICK"
         ],
         "year": 1953,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Evolution",
         "sub_category": null,
         "tags": [],
@@ -425,7 +425,7 @@ const mindMapData = {
         ],
         "year": 1957,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Path generation",
@@ -500,7 +500,7 @@ const mindMapData = {
           "Rosenblatt"
         ],
         "year": 1958,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Neural Networks",
         "tags": [],
@@ -566,7 +566,7 @@ const mindMapData = {
           "Kalman"
         ],
         "year": 1960,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Kalman Filter",
         "tags": [
@@ -682,7 +682,7 @@ const mindMapData = {
           "Hoare"
         ],
         "year": 1962,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Sorting",
         "tags": [],
@@ -703,7 +703,7 @@ const mindMapData = {
           "Sonquist"
         ],
         "year": 1963,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Decision Trees",
         "tags": [
@@ -750,7 +750,7 @@ const mindMapData = {
           "Ward"
         ],
         "year": 1963,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Clustering",
         "tags": [],
@@ -817,7 +817,7 @@ const mindMapData = {
           "Williams"
         ],
         "year": 1964,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Sorting",
         "tags": [],
@@ -865,7 +865,7 @@ const mindMapData = {
           "Tukey"
         ],
         "year": 1965,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Linear Algebra & Signal Processing",
         "tags": [],
@@ -885,7 +885,7 @@ const mindMapData = {
           "Magill"
         ],
         "year": 1965,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Kalman Filter",
         "tags": [],
@@ -938,7 +938,7 @@ const mindMapData = {
           "Walsh"
         ],
         "year": 1966,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Evolution",
         "sub_category": null,
         "tags": [
@@ -1035,7 +1035,7 @@ const mindMapData = {
           "MacQueen"
         ],
         "year": 1967,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Clustering",
         "tags": [],
@@ -1211,7 +1211,7 @@ const mindMapData = {
         ],
         "year": 1969,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Inverse Kinematics",
         "tags": [],
         "summary": ""
@@ -1251,7 +1251,7 @@ const mindMapData = {
           "McCreight"
         ],
         "year": 1970,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Trees & Spatial Indexing",
         "tags": [],
@@ -1271,7 +1271,7 @@ const mindMapData = {
           "Bloom"
         ],
         "year": 1970,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Probabilistic Data Structures",
         "tags": [],
@@ -1312,7 +1312,7 @@ const mindMapData = {
           "Fenn"
         ],
         "year": 1970,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Geometry & Tiling",
         "tags": [],
@@ -1334,7 +1334,7 @@ const mindMapData = {
         ],
         "year": 1970,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
@@ -1386,7 +1386,7 @@ const mindMapData = {
           "Mehra"
         ],
         "year": 1970,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Kalman Filter",
         "tags": [],
@@ -1428,7 +1428,7 @@ const mindMapData = {
           "Rhodes"
         ],
         "year": 1971,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Kalman Filter",
         "tags": [],
@@ -1515,7 +1515,7 @@ const mindMapData = {
           "Dijkstra"
         ],
         "year": 1972,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Essays",
         "tags": [
@@ -1570,7 +1570,7 @@ const mindMapData = {
           "Karp"
         ],
         "year": 1972,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Complexity & Approximation",
         "tags": [],
@@ -1659,7 +1659,7 @@ const mindMapData = {
           "Dijkstra"
         ],
         "year": 1974,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Essays",
         "tags": [
@@ -1687,7 +1687,7 @@ const mindMapData = {
           "Bentley"
         ],
         "year": 1974,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Trees & Spatial Indexing",
         "tags": [],
@@ -1733,7 +1733,7 @@ const mindMapData = {
           "Bentley"
         ],
         "year": 1975,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Trees & Spatial Indexing",
         "tags": [],
@@ -1753,7 +1753,7 @@ const mindMapData = {
           "Csanky"
         ],
         "year": 1975,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Parallel Algorithms",
         "tags": [],
@@ -1823,7 +1823,7 @@ const mindMapData = {
           "Saunders"
         ],
         "year": 1975,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Linear Algebra & Signal Processing",
         "tags": [],
@@ -1906,7 +1906,7 @@ const mindMapData = {
           "Fletcher"
         ],
         "year": 1976,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Linear Algebra & Signal Processing",
         "tags": [],
@@ -1986,7 +1986,7 @@ const mindMapData = {
           "Ljung"
         ],
         "year": 1977,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Kalman Filter",
         "tags": [],
@@ -2007,7 +2007,7 @@ const mindMapData = {
           "Clark"
         ],
         "year": 1978,
-        "super_category": "Computing",
+        "super_category": "Evaluation",
         "category": "Computer Graphics",
         "sub_category": "Subdivision Surfaces",
         "tags": [
@@ -2058,7 +2058,7 @@ const mindMapData = {
           "Sedgewick"
         ],
         "year": 1978,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Trees & Spatial Indexing",
         "tags": [],
@@ -2079,7 +2079,7 @@ const mindMapData = {
           "Chiba"
         ],
         "year": 1978,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -2099,7 +2099,7 @@ const mindMapData = {
           "Comer"
         ],
         "year": 1979,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Trees & Spatial Indexing",
         "tags": [],
@@ -2169,7 +2169,7 @@ const mindMapData = {
           "Prince"
         ],
         "year": 1980,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Numerical Methods",
         "tags": [],
@@ -2189,7 +2189,7 @@ const mindMapData = {
           "Kass"
         ],
         "year": 1980,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Decision Trees",
         "tags": [
@@ -2217,7 +2217,7 @@ const mindMapData = {
           "Hildreth"
         ],
         "year": 1980,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Edge Detection",
         "tags": [
@@ -2264,7 +2264,7 @@ const mindMapData = {
           "Lloyd"
         ],
         "year": 1982,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Clustering",
         "tags": [],
@@ -2341,7 +2341,7 @@ const mindMapData = {
         ],
         "year": 1983,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -2382,7 +2382,7 @@ const mindMapData = {
           "Olshen"
         ],
         "year": 1984,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Decision Trees",
         "tags": [
@@ -2410,7 +2410,7 @@ const mindMapData = {
           "Guttman"
         ],
         "year": 1984,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Trees & Spatial Indexing",
         "tags": [],
@@ -2432,7 +2432,7 @@ const mindMapData = {
         ],
         "year": 1984,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -2454,7 +2454,7 @@ const mindMapData = {
         ],
         "year": 1985,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Speed Planning",
         "tags": [
           "Time-optimal control",
@@ -2530,7 +2530,7 @@ const mindMapData = {
         ],
         "year": 1985,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "obstacle avoidance",
@@ -2578,7 +2578,7 @@ const mindMapData = {
           "Perlin"
         ],
         "year": 1985,
-        "super_category": "Computing",
+        "super_category": "Evaluation",
         "category": "Computer Graphics",
         "sub_category": "Noise & Dithering",
         "tags": [],
@@ -2599,7 +2599,7 @@ const mindMapData = {
           "Hut"
         ],
         "year": 1986,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Trees & Spatial Indexing",
         "tags": [
@@ -2630,7 +2630,7 @@ const mindMapData = {
           "Canny"
         ],
         "year": 1986,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Edge Detection",
         "tags": [],
@@ -2652,7 +2652,7 @@ const mindMapData = {
         ],
         "year": 1986,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Speed Planning",
         "tags": [],
         "summary": ""
@@ -2671,7 +2671,7 @@ const mindMapData = {
           "Quinlan"
         ],
         "year": 1986,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Decision Trees",
         "tags": [
@@ -2700,7 +2700,7 @@ const mindMapData = {
           "Williams"
         ],
         "year": 1986,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Neural Networks",
         "tags": [],
@@ -2721,7 +2721,7 @@ const mindMapData = {
           "Schultz"
         ],
         "year": 1986,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Linear Algebra & Signal Processing",
         "tags": [],
@@ -2764,7 +2764,7 @@ const mindMapData = {
         ],
         "year": 1986,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -2784,7 +2784,7 @@ const mindMapData = {
           "Tarjan"
         ],
         "year": 1987,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Priority Queues",
         "tags": [],
@@ -2826,7 +2826,7 @@ const mindMapData = {
           "Cline"
         ],
         "year": 1987,
-        "super_category": "Computing",
+        "super_category": "Evaluation",
         "category": "Computer Graphics",
         "sub_category": "Geometry Processing",
         "tags": [],
@@ -2867,7 +2867,7 @@ const mindMapData = {
           "Reynolds"
         ],
         "year": 1987,
-        "super_category": "Computing",
+        "super_category": "Evaluation",
         "category": "Computer Graphics",
         "sub_category": "Animation & Simulation",
         "tags": [
@@ -2918,7 +2918,7 @@ const mindMapData = {
         ],
         "year": 1988,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -2992,7 +2992,7 @@ const mindMapData = {
         ],
         "year": 1988,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -3031,7 +3031,7 @@ const mindMapData = {
           "Ulichney"
         ],
         "year": 1988,
-        "super_category": "Computing",
+        "super_category": "Evaluation",
         "category": "Computer Graphics",
         "sub_category": "Noise & Dithering",
         "tags": [],
@@ -3122,7 +3122,7 @@ const mindMapData = {
           "Blelloch"
         ],
         "year": 1989,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Parallel Algorithms",
         "tags": [],
@@ -3166,7 +3166,7 @@ const mindMapData = {
         ],
         "year": 1989,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -3285,7 +3285,7 @@ const mindMapData = {
         ],
         "year": 1990,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Path generation",
@@ -3336,7 +3336,7 @@ const mindMapData = {
           "Nachtigal"
         ],
         "year": 1991,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Linear Algebra & Signal Processing",
         "tags": [],
@@ -3358,7 +3358,7 @@ const mindMapData = {
         ],
         "year": 1991,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Collision detection",
@@ -3435,7 +3435,7 @@ const mindMapData = {
         ],
         "year": 1991,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Inverse Kinematics",
         "tags": [],
         "summary": ""
@@ -3497,7 +3497,7 @@ const mindMapData = {
           "Kobayashi"
         ],
         "year": 1992,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Balancing Robots",
         "tags": [],
@@ -3517,7 +3517,7 @@ const mindMapData = {
           "Holland"
         ],
         "year": 1992,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Evolution",
         "sub_category": null,
         "tags": [],
@@ -3537,7 +3537,7 @@ const mindMapData = {
           "Kollerstrom"
         ],
         "year": 1992,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "History",
         "sub_category": null,
         "tags": [
@@ -3627,7 +3627,7 @@ const mindMapData = {
           "Vorst"
         ],
         "year": 1992,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Linear Algebra & Signal Processing",
         "tags": [],
@@ -3712,7 +3712,7 @@ const mindMapData = {
           "LeCun"
         ],
         "year": 1993,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Neural Networks",
         "tags": [],
@@ -3735,7 +3735,7 @@ const mindMapData = {
         ],
         "year": 1993,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Speed Planning",
         "tags": [],
         "summary": ""
@@ -3810,7 +3810,7 @@ const mindMapData = {
           "Quinlan"
         ],
         "year": 1993,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Decision Trees",
         "tags": [
@@ -3839,7 +3839,7 @@ const mindMapData = {
         ],
         "year": 1993,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Elastic bands",
@@ -3952,7 +3952,7 @@ const mindMapData = {
           "Geiler"
         ],
         "year": 1994,
-        "super_category": "Computing",
+        "super_category": "Evaluation",
         "category": "Computer Graphics",
         "sub_category": "Noise & Dithering",
         "tags": [
@@ -4002,7 +4002,7 @@ const mindMapData = {
           "Sims"
         ],
         "year": 1994,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Evolution",
         "sub_category": null,
         "tags": [],
@@ -4082,7 +4082,7 @@ const mindMapData = {
           "Vapnik"
         ],
         "year": 1995,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Kernel Machines",
         "tags": [],
@@ -4104,7 +4104,7 @@ const mindMapData = {
           "Başar"
         ],
         "year": 1995,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Kalman Filter",
         "tags": [],
@@ -4174,7 +4174,7 @@ const mindMapData = {
           "Block"
         ],
         "year": 1995,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Balancing Robots",
         "tags": [
@@ -4201,7 +4201,7 @@ const mindMapData = {
           "Spong"
         ],
         "year": 1995,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Balancing Robots",
         "tags": [
@@ -4230,7 +4230,7 @@ const mindMapData = {
           "Dickman"
         ],
         "year": 1995,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "History",
         "sub_category": null,
         "tags": [],
@@ -4250,7 +4250,7 @@ const mindMapData = {
           "Breiman"
         ],
         "year": 1996,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Ensemble Methods",
         "tags": [
@@ -4301,7 +4301,7 @@ const mindMapData = {
           "Sander"
         ],
         "year": 1996,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Clustering",
         "tags": [
@@ -4335,7 +4335,7 @@ const mindMapData = {
         ],
         "year": 1996,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -4357,7 +4357,7 @@ const mindMapData = {
         ],
         "year": 1996,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Path planning",
@@ -4432,7 +4432,7 @@ const mindMapData = {
           "Schapire"
         ],
         "year": 1997,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Kernel Machines",
         "tags": [],
@@ -4474,7 +4474,7 @@ const mindMapData = {
           "Schmidhuber"
         ],
         "year": 1997,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Neural Networks",
         "tags": [],
@@ -4497,7 +4497,7 @@ const mindMapData = {
         ],
         "year": 1997,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
@@ -4523,7 +4523,7 @@ const mindMapData = {
           "Uhlmann"
         ],
         "year": 1997,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Unscented Kalman Filter (UKF)",
         "tags": [
@@ -4551,7 +4551,7 @@ const mindMapData = {
           "Satoh"
         ],
         "year": 1997,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Trees & Spatial Indexing",
         "tags": [],
@@ -4592,7 +4592,7 @@ const mindMapData = {
           "MUSSER"
         ],
         "year": 1997,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Sorting",
         "tags": [],
@@ -4614,7 +4614,7 @@ const mindMapData = {
         ],
         "year": 1997,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Path planning",
@@ -4670,7 +4670,7 @@ const mindMapData = {
         ],
         "year": 1997,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -4690,7 +4690,7 @@ const mindMapData = {
         ],
         "year": 1997,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Dubins path",
@@ -4719,7 +4719,7 @@ const mindMapData = {
           "Purgathofer"
         ],
         "year": 1997,
-        "super_category": "Computing",
+        "super_category": "Evaluation",
         "category": "Computer Graphics",
         "sub_category": "Flow Visualization",
         "tags": [
@@ -4790,7 +4790,7 @@ const mindMapData = {
           "Fairchild"
         ],
         "year": 1998,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Color & Perception",
         "tags": [],
@@ -4812,7 +4812,7 @@ const mindMapData = {
         ],
         "year": 1998,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Collision Avoidance",
         "tags": [
           "Motion planning",
@@ -4839,7 +4839,7 @@ const mindMapData = {
           "Blake"
         ],
         "year": 1998,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Particle Filters",
         "tags": [],
@@ -4860,7 +4860,7 @@ const mindMapData = {
         ],
         "year": 1998,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -4887,7 +4887,7 @@ const mindMapData = {
           "Bengio"
         ],
         "year": 1998,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Neural Networks",
         "tags": [
@@ -4937,7 +4937,7 @@ const mindMapData = {
           "Motwani"
         ],
         "year": 1998,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Network Science",
         "sub_category": "Centrality",
         "tags": [
@@ -4970,7 +4970,7 @@ const mindMapData = {
           "Poggio"
         ],
         "year": 1998,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Object Detection",
         "tags": [
@@ -5001,7 +5001,7 @@ const mindMapData = {
         ],
         "year": 1998,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -5022,7 +5022,7 @@ const mindMapData = {
         ],
         "year": 1998,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Linear quadratic regulation",
@@ -5069,7 +5069,7 @@ const mindMapData = {
           "Kriegel"
         ],
         "year": 1999,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Clustering",
         "tags": [],
@@ -5091,7 +5091,7 @@ const mindMapData = {
           "Eber"
         ],
         "year": 1999,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Statistics & Probability",
         "tags": [],
@@ -5112,7 +5112,7 @@ const mindMapData = {
         ],
         "year": 1999,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -5134,7 +5134,7 @@ const mindMapData = {
         ],
         "year": 1999,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Collision detection",
@@ -5162,7 +5162,7 @@ const mindMapData = {
         ],
         "year": 1999,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
@@ -5209,7 +5209,7 @@ const mindMapData = {
           "Spong"
         ],
         "year": 1999,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Bipeds",
         "tags": [],
@@ -5254,7 +5254,7 @@ const mindMapData = {
         ],
         "year": 1999,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "MINERVA",
@@ -5282,7 +5282,7 @@ const mindMapData = {
         ],
         "year": 1999,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -5303,7 +5303,7 @@ const mindMapData = {
           "Holt"
         ],
         "year": 2000,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Evolution",
         "sub_category": null,
         "tags": [],
@@ -5374,7 +5374,7 @@ const mindMapData = {
         ],
         "year": 2000,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Manipulation & Contact",
         "tags": [
           "Robotic grasping",
@@ -5403,7 +5403,7 @@ const mindMapData = {
           "Spong"
         ],
         "year": 2000,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Balancing Robots",
         "tags": [],
@@ -5425,7 +5425,7 @@ const mindMapData = {
         ],
         "year": 2000,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -5452,7 +5452,7 @@ const mindMapData = {
         ],
         "year": 2000,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Path planning",
@@ -5483,7 +5483,7 @@ const mindMapData = {
           "Helbing"
         ],
         "year": 2000,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Traffic Models",
         "tags": [
@@ -5511,7 +5511,7 @@ const mindMapData = {
           "Merwe"
         ],
         "year": 2000,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Unscented Kalman Filter (UKF)",
         "tags": [],
@@ -5531,7 +5531,7 @@ const mindMapData = {
           "Breiman"
         ],
         "year": 2001,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Ensemble Methods",
         "tags": [
@@ -5588,7 +5588,7 @@ const mindMapData = {
           "Friedman"
         ],
         "year": 2001,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Ensemble Methods",
         "tags": [
@@ -5687,7 +5687,7 @@ const mindMapData = {
         ],
         "year": 2001,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -5708,7 +5708,7 @@ const mindMapData = {
           "Loeliger"
         ],
         "year": 2001,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Mapping & SLAM",
         "tags": [],
@@ -5730,7 +5730,7 @@ const mindMapData = {
         ],
         "year": 2001,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Path planning",
@@ -5777,7 +5777,7 @@ const mindMapData = {
           "Weiss"
         ],
         "year": 2001,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Clustering",
         "tags": [],
@@ -5799,7 +5799,7 @@ const mindMapData = {
           "Lozano"
         ],
         "year": 2001,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Balancing Robots",
         "tags": [],
@@ -5820,7 +5820,7 @@ const mindMapData = {
           "Jones"
         ],
         "year": 2001,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Object Detection",
         "tags": [
@@ -5894,7 +5894,7 @@ const mindMapData = {
           "Bergman"
         ],
         "year": 2002,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Particle Filters",
         "tags": [],
@@ -5917,7 +5917,7 @@ const mindMapData = {
         ],
         "year": 2002,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
@@ -5943,7 +5943,7 @@ const mindMapData = {
           "Julier"
         ],
         "year": 2002,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Unscented Kalman Filter (UKF)",
         "tags": [],
@@ -5995,7 +5995,7 @@ const mindMapData = {
           "Har-Peled"
         ],
         "year": 2002,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Trees & Spatial Indexing",
         "tags": [],
@@ -6016,7 +6016,7 @@ const mindMapData = {
           "Uryasev"
         ],
         "year": 2002,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Statistics & Probability",
         "tags": [],
@@ -6038,7 +6038,7 @@ const mindMapData = {
         ],
         "year": 2002,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [
           "Motion planning",
@@ -6144,7 +6144,7 @@ const mindMapData = {
           "Pennock"
         ],
         "year": 2003,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Evolution",
         "sub_category": null,
         "tags": [],
@@ -6215,7 +6215,7 @@ const mindMapData = {
           "Thrun"
         ],
         "year": 2003,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Mapping & SLAM",
         "tags": [],
@@ -6288,7 +6288,7 @@ const mindMapData = {
         ],
         "year": 2004,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Path planning",
@@ -6376,7 +6376,7 @@ const mindMapData = {
           "Tew"
         ],
         "year": 2004,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "History",
         "sub_category": null,
         "tags": [],
@@ -6398,7 +6398,7 @@ const mindMapData = {
         ],
         "year": 2004,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Path planning",
@@ -6445,7 +6445,7 @@ const mindMapData = {
         ],
         "year": 2004,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -6467,7 +6467,7 @@ const mindMapData = {
         ],
         "year": 2004,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -6530,7 +6530,7 @@ const mindMapData = {
         ],
         "year": 2004,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -6583,7 +6583,7 @@ const mindMapData = {
           "Lowe"
         ],
         "year": 2004,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Feature Detection & Description",
         "tags": [],
@@ -6606,7 +6606,7 @@ const mindMapData = {
         ],
         "year": 2004,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
@@ -6656,7 +6656,7 @@ const mindMapData = {
           "Sheikh"
         ],
         "year": 2004,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Quality Assessment",
         "tags": [],
@@ -6677,7 +6677,7 @@ const mindMapData = {
           "Popescu"
         ],
         "year": 2005,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Statistics & Probability",
         "tags": [],
@@ -6699,7 +6699,7 @@ const mindMapData = {
           "Tedrake"
         ],
         "year": 2005,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Bipeds",
         "tags": [],
@@ -6720,7 +6720,7 @@ const mindMapData = {
           "Triggs"
         ],
         "year": 2005,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Object Detection",
         "tags": [
@@ -6749,7 +6749,7 @@ const mindMapData = {
           "Ratanamahatana"
         ],
         "year": 2005,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -6771,7 +6771,7 @@ const mindMapData = {
           "Nordlund"
         ],
         "year": 2005,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Particle Filters",
         "tags": [],
@@ -6793,7 +6793,7 @@ const mindMapData = {
         ],
         "year": 2005,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -6825,7 +6825,7 @@ const mindMapData = {
           "Peng"
         ],
         "year": 2005,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Traffic Models",
         "tags": [],
@@ -6869,7 +6869,7 @@ const mindMapData = {
           "Gool"
         ],
         "year": 2006,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Feature Detection & Description",
         "tags": [],
@@ -6920,7 +6920,7 @@ const mindMapData = {
           "LeCun"
         ],
         "year": 2006,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Dimensionality Reduction",
         "tags": [
@@ -6949,7 +6949,7 @@ const mindMapData = {
           "Zeileis"
         ],
         "year": 2006,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Decision Trees",
         "tags": [
@@ -7000,7 +7000,7 @@ const mindMapData = {
         ],
         "year": 2006,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -7021,7 +7021,7 @@ const mindMapData = {
           "Li"
         ],
         "year": 2006,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Color & Perception",
         "tags": [],
@@ -7064,7 +7064,7 @@ const mindMapData = {
           "Teller"
         ],
         "year": 2006,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Mapping & SLAM",
         "tags": [
@@ -7161,7 +7161,7 @@ const mindMapData = {
         ],
         "year": 2007,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [],
         "summary": ""
@@ -7181,7 +7181,7 @@ const mindMapData = {
           "Vassilvitskii"
         ],
         "year": 2007,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Clustering",
         "tags": [
@@ -7211,7 +7211,7 @@ const mindMapData = {
           "Gandouet"
         ],
         "year": 2007,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Probabilistic Data Structures",
         "tags": [
@@ -7238,7 +7238,7 @@ const mindMapData = {
           "Florian"
         ],
         "year": 2007,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Balancing Robots",
         "tags": [
@@ -7266,7 +7266,7 @@ const mindMapData = {
         ],
         "year": 2007,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -7290,7 +7290,7 @@ const mindMapData = {
           "Hunter"
         ],
         "year": 2007,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Scientific Computing & ML Systems",
         "tags": [],
@@ -7312,7 +7312,7 @@ const mindMapData = {
         ],
         "year": 2007,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -7333,7 +7333,7 @@ const mindMapData = {
           "Lambiotte"
         ],
         "year": 2008,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Network Science",
         "sub_category": "Community Detection",
         "tags": [
@@ -7445,7 +7445,7 @@ const mindMapData = {
         ],
         "year": 2008,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Planning Under Uncertainty",
         "tags": [],
         "summary": ""
@@ -7466,7 +7466,7 @@ const mindMapData = {
           "Dellaert"
         ],
         "year": 2008,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Mapping & SLAM",
         "tags": [],
@@ -7489,7 +7489,7 @@ const mindMapData = {
         ],
         "year": 2008,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [],
         "summary": ""
@@ -7511,7 +7511,7 @@ const mindMapData = {
         ],
         "year": 2008,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [],
         "summary": ""
@@ -7531,7 +7531,7 @@ const mindMapData = {
           "Recht"
         ],
         "year": 2008,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Kernel Machines",
         "tags": [
@@ -7561,7 +7561,7 @@ const mindMapData = {
         ],
         "year": 2008,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -7618,7 +7618,7 @@ const mindMapData = {
         ],
         "year": 2008,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "Autonomous driving",
@@ -7647,7 +7647,7 @@ const mindMapData = {
         ],
         "year": 2008,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Collision Avoidance",
         "tags": [],
         "summary": ""
@@ -7667,7 +7667,7 @@ const mindMapData = {
           "Hinton"
         ],
         "year": 2008,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Dimensionality Reduction",
         "tags": [
@@ -7740,7 +7740,7 @@ const mindMapData = {
         ],
         "year": 2009,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -7855,7 +7855,7 @@ const mindMapData = {
         ],
         "year": 2009,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Collision Avoidance",
         "tags": [],
         "summary": ""
@@ -7876,7 +7876,7 @@ const mindMapData = {
         ],
         "year": 2009,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Planning Under Uncertainty",
         "tags": [],
         "summary": ""
@@ -7898,7 +7898,7 @@ const mindMapData = {
         ],
         "year": 2009,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -7919,7 +7919,7 @@ const mindMapData = {
         ],
         "year": 2009,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -7961,7 +7961,7 @@ const mindMapData = {
         ],
         "year": 2009,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Planning Under Uncertainty",
         "tags": [],
         "summary": ""
@@ -7983,7 +7983,7 @@ const mindMapData = {
         ],
         "year": 2009,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "ROS",
@@ -8012,7 +8012,7 @@ const mindMapData = {
         ],
         "year": 2009,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -8041,7 +8041,7 @@ const mindMapData = {
         ],
         "year": 2009,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -8062,7 +8062,7 @@ const mindMapData = {
         ],
         "year": 2009,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -8084,7 +8084,7 @@ const mindMapData = {
         ],
         "year": 2009,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -8128,7 +8128,7 @@ const mindMapData = {
         ],
         "year": 2009,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Speed Planning",
         "tags": [
           "Speed planning",
@@ -8157,7 +8157,7 @@ const mindMapData = {
           "Saul"
         ],
         "year": 2009,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Representation Learning",
         "tags": [],
@@ -8178,7 +8178,7 @@ const mindMapData = {
           "Keogh"
         ],
         "year": 2009,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -8199,7 +8199,7 @@ const mindMapData = {
           "Wang"
         ],
         "year": 2010,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Geometry & Tiling",
         "tags": [],
@@ -8266,7 +8266,7 @@ const mindMapData = {
         ],
         "year": 2010,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -8287,7 +8287,7 @@ const mindMapData = {
         ],
         "year": 2010,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -8308,7 +8308,7 @@ const mindMapData = {
           "Moore"
         ],
         "year": 2010,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Message Protocols",
         "tags": [],
@@ -8330,7 +8330,7 @@ const mindMapData = {
         ],
         "year": 2010,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
@@ -8378,7 +8378,7 @@ const mindMapData = {
         ],
         "year": 2010,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -8398,7 +8398,7 @@ const mindMapData = {
           "Thrun"
         ],
         "year": 2010,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Particle Filters",
         "tags": [],
@@ -8442,7 +8442,7 @@ const mindMapData = {
         ],
         "year": 2010,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -8463,7 +8463,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -8581,7 +8581,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -8650,7 +8650,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Planning Under Uncertainty",
         "tags": [],
         "summary": ""
@@ -8670,7 +8670,7 @@ const mindMapData = {
           "D'Andrea"
         ],
         "year": 2011,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Flying Robots",
         "tags": [],
@@ -8692,7 +8692,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -8713,7 +8713,7 @@ const mindMapData = {
           "Schmid"
         ],
         "year": 2011,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Nearest Neighbor Search",
         "tags": [],
@@ -8735,7 +8735,7 @@ const mindMapData = {
           "Huang"
         ],
         "year": 2011,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Multi-agent & Interaction-aware Prediction",
         "tags": [],
@@ -8758,7 +8758,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -8788,7 +8788,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -8834,7 +8834,7 @@ const mindMapData = {
           "Stanley"
         ],
         "year": 2011,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Evolution",
         "sub_category": null,
         "tags": [],
@@ -8878,7 +8878,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [],
         "summary": ""
@@ -8927,7 +8927,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -8946,7 +8946,7 @@ const mindMapData = {
           "Olson"
         ],
         "year": 2011,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Feature Detection & Description",
         "tags": [],
@@ -8969,7 +8969,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -8991,7 +8991,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -9013,7 +9013,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Collision Avoidance",
         "tags": [],
         "summary": ""
@@ -9035,7 +9035,7 @@ const mindMapData = {
         ],
         "year": 2011,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "Legged locomotion",
@@ -9064,7 +9064,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Planning Under Uncertainty",
         "tags": [],
         "summary": ""
@@ -9085,7 +9085,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -9119,7 +9119,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
@@ -9168,7 +9168,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Path integral control",
@@ -9196,7 +9196,7 @@ const mindMapData = {
           "Tedrake"
         ],
         "year": 2012,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Complexity & Approximation",
         "tags": [],
@@ -9262,7 +9262,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [],
         "summary": ""
@@ -9301,7 +9301,7 @@ const mindMapData = {
           "Deng"
         ],
         "year": 2012,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Datasets",
         "tags": [],
@@ -9323,7 +9323,7 @@ const mindMapData = {
           "Thommen"
         ],
         "year": 2012,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Balancing Robots",
         "tags": [],
@@ -9344,7 +9344,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
@@ -9371,7 +9371,7 @@ const mindMapData = {
           "Hinton"
         ],
         "year": 2012,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Classification & Recognition",
         "tags": [],
@@ -9394,7 +9394,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [],
         "summary": ""
@@ -9416,7 +9416,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -9438,7 +9438,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
@@ -9488,7 +9488,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -9521,7 +9521,7 @@ const mindMapData = {
         ],
         "year": 2012,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [],
         "summary": ""
@@ -9572,7 +9572,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -9594,7 +9594,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -9699,7 +9699,7 @@ const mindMapData = {
           "Welling"
         ],
         "year": 2013,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Generative Models",
         "tags": [],
@@ -9721,7 +9721,7 @@ const mindMapData = {
           "Sander"
         ],
         "year": 2013,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Clustering",
         "tags": [],
@@ -9802,7 +9802,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [],
         "summary": ""
@@ -9823,7 +9823,7 @@ const mindMapData = {
           "Bennewitz"
         ],
         "year": 2013,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Mapping & SLAM",
         "tags": [],
@@ -9846,7 +9846,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -9932,7 +9932,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Speed Planning",
         "tags": [
           "Speed planning",
@@ -9959,7 +9959,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -9988,7 +9988,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory generation",
@@ -10016,7 +10016,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -10038,7 +10038,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -10060,7 +10060,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [
           "Multi-robot planning",
@@ -10092,7 +10092,7 @@ const mindMapData = {
         ],
         "year": 2013,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Path planning",
@@ -10151,7 +10151,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Planning Under Uncertainty",
         "tags": [],
         "summary": ""
@@ -10194,7 +10194,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -10224,7 +10224,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -10255,7 +10255,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -10276,7 +10276,7 @@ const mindMapData = {
           "Gulcehre"
         ],
         "year": 2014,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Large language models (LLM)",
         "tags": [],
@@ -10298,7 +10298,7 @@ const mindMapData = {
           "Mirza"
         ],
         "year": 2014,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Generative Models",
         "tags": [],
@@ -10320,7 +10320,7 @@ const mindMapData = {
           "Khosla"
         ],
         "year": 2014,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "3D Vision & Shape Understanding",
         "tags": [],
@@ -10341,7 +10341,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -10363,7 +10363,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
@@ -10461,7 +10461,7 @@ const mindMapData = {
           "Zisserman"
         ],
         "year": 2014,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Classification & Recognition",
         "tags": [],
@@ -10483,7 +10483,7 @@ const mindMapData = {
           "Jia"
         ],
         "year": 2014,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Classification & Recognition",
         "tags": [],
@@ -10534,7 +10534,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -10556,7 +10556,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Speed Planning",
         "tags": [
           "Kinodynamic planning",
@@ -10626,7 +10626,7 @@ const mindMapData = {
           "Clune"
         ],
         "year": 2014,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Evolution",
         "sub_category": null,
         "tags": [],
@@ -10649,7 +10649,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -10670,7 +10670,7 @@ const mindMapData = {
           "Kaminsky"
         ],
         "year": 2014,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Probabilistic Data Structures",
         "tags": [
@@ -10699,7 +10699,7 @@ const mindMapData = {
           "Laugier"
         ],
         "year": 2014,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Surveys",
         "tags": [
@@ -10729,7 +10729,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -10750,7 +10750,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Survey",
@@ -10778,7 +10778,7 @@ const mindMapData = {
           "Mueller"
         ],
         "year": 2014,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Flying Robots",
         "tags": [],
@@ -10820,7 +10820,7 @@ const mindMapData = {
           "Lowe"
         ],
         "year": 2014,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Nearest Neighbor Search",
         "tags": [
@@ -10850,7 +10850,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -10871,7 +10871,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -10921,7 +10921,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory planning",
@@ -10968,7 +10968,7 @@ const mindMapData = {
           "Schäfer"
         ],
         "year": 2014,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -11019,7 +11019,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -11040,7 +11040,7 @@ const mindMapData = {
           "Krizhevsky"
         ],
         "year": 2014,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Neural Networks",
         "tags": [],
@@ -11062,7 +11062,7 @@ const mindMapData = {
           "Dellaert"
         ],
         "year": 2014,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Mapping & SLAM",
         "tags": [],
@@ -11085,7 +11085,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [],
         "summary": ""
@@ -11129,7 +11129,7 @@ const mindMapData = {
         ],
         "year": 2014,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [],
         "summary": ""
@@ -11148,7 +11148,7 @@ const mindMapData = {
           "Maaten"
         ],
         "year": 2014,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Dimensionality Reduction",
         "tags": [],
@@ -11255,7 +11255,7 @@ const mindMapData = {
           "Rudin"
         ],
         "year": 2015,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [],
@@ -11368,7 +11368,7 @@ const mindMapData = {
           "Philbin"
         ],
         "year": 2015,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Face Recognition",
         "tags": [],
@@ -11454,7 +11454,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
@@ -11479,7 +11479,7 @@ const mindMapData = {
           "Brox"
         ],
         "year": 2015,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Neural Networks",
         "tags": [],
@@ -11523,7 +11523,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Smooth trajectory",
@@ -11583,7 +11583,7 @@ const mindMapData = {
           "Girshick"
         ],
         "year": 2015,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Object Detection",
         "tags": [],
@@ -11667,7 +11667,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": "Folds importance sampling into the cost function in order to address the practical issue of infrequent selection of low-cost trajectories under naive sampling of actions on the uncontrolled system, which is a known drawback of MPPI. Also discusses implementation of MPPI on a GPU for massively parallel sampling. Includes a clear description of MPPI in Algorithm 1."
@@ -11804,7 +11804,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
@@ -11853,7 +11853,7 @@ const mindMapData = {
           "Farhadi"
         ],
         "year": 2015,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Clustering",
         "tags": [],
@@ -11897,7 +11897,7 @@ const mindMapData = {
           "Hochreiter"
         ],
         "year": 2015,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Neural Networks",
         "tags": [],
@@ -11919,7 +11919,7 @@ const mindMapData = {
           "Guibas"
         ],
         "year": 2015,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "3D Vision & Shape Understanding",
         "tags": [],
@@ -11941,7 +11941,7 @@ const mindMapData = {
           "Ren"
         ],
         "year": 2015,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Classification & Recognition",
         "tags": [],
@@ -11985,7 +11985,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Model predictive control",
@@ -12015,7 +12015,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -12036,7 +12036,7 @@ const mindMapData = {
           "Gehrke"
         ],
         "year": 2015,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [],
@@ -12059,7 +12059,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Interaction-aware Planning",
         "tags": [],
         "summary": ""
@@ -12081,7 +12081,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Sampling-based planning",
@@ -12111,7 +12111,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -12139,7 +12139,7 @@ const mindMapData = {
           "Dellaert"
         ],
         "year": 2015,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Kalman Filter",
         "tags": [],
@@ -12204,7 +12204,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [],
         "summary": ""
@@ -12225,7 +12225,7 @@ const mindMapData = {
           "Seibert"
         ],
         "year": 2015,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Scientific Computing & ML Systems",
         "tags": [],
@@ -12248,7 +12248,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -12290,7 +12290,7 @@ const mindMapData = {
         ],
         "year": 2015,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [
           "Motion planning",
@@ -12319,7 +12319,7 @@ const mindMapData = {
           "Feldman"
         ],
         "year": 2015,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Edge Detection",
         "tags": [],
@@ -12340,7 +12340,7 @@ const mindMapData = {
           "Lehman"
         ],
         "year": 2015,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Essays",
         "tags": [],
@@ -12411,7 +12411,7 @@ const mindMapData = {
         ],
         "year": 2016,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Feedback Motion Planning",
         "tags": [],
         "summary": ""
@@ -12476,7 +12476,7 @@ const mindMapData = {
           "Guestrin"
         ],
         "year": 2016,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [],
@@ -12540,7 +12540,7 @@ const mindMapData = {
           "Guestrin"
         ],
         "year": 2016,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Ensemble Methods",
         "tags": [],
@@ -12603,7 +12603,7 @@ const mindMapData = {
           "Yashunin"
         ],
         "year": 2016,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Nearest Neighbor Search",
         "tags": [],
@@ -12689,7 +12689,7 @@ const mindMapData = {
         ],
         "year": 2016,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Survey",
@@ -12727,7 +12727,7 @@ const mindMapData = {
           "Peng"
         ],
         "year": 2016,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Prediction Horizon",
         "tags": [],
@@ -12777,7 +12777,7 @@ const mindMapData = {
           "Lipton"
         ],
         "year": 2016,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [],
@@ -12885,7 +12885,7 @@ const mindMapData = {
           "Das"
         ],
         "year": 2016,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [],
@@ -12929,7 +12929,7 @@ const mindMapData = {
           "Simoncelli"
         ],
         "year": 2016,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Processing & Computational Photography",
         "tags": [],
@@ -12973,7 +12973,7 @@ const mindMapData = {
           "Hardt"
         ],
         "year": 2016,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Neural Networks",
         "tags": [],
@@ -13082,7 +13082,7 @@ const mindMapData = {
         ],
         "year": 2016,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Path planning",
@@ -13112,7 +13112,7 @@ const mindMapData = {
         ],
         "year": 2016,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -13140,7 +13140,7 @@ const mindMapData = {
           "Carvalho"
         ],
         "year": 2016,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Statistics & Probability",
         "tags": [],
@@ -13184,7 +13184,7 @@ const mindMapData = {
           "Geiss"
         ],
         "year": 2016,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Processing & Computational Photography",
         "tags": [],
@@ -13206,7 +13206,7 @@ const mindMapData = {
           "Henry"
         ],
         "year": 2016,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Mapping & SLAM",
         "tags": [],
@@ -13228,7 +13228,7 @@ const mindMapData = {
           "Jud"
         ],
         "year": 2016,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Quadrupeds",
         "tags": [],
@@ -13322,7 +13322,7 @@ const mindMapData = {
         ],
         "year": 2016,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -13353,7 +13353,7 @@ const mindMapData = {
         ],
         "year": 2016,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -13375,7 +13375,7 @@ const mindMapData = {
         ],
         "year": 2016,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -13431,7 +13431,7 @@ const mindMapData = {
         ],
         "year": 2016,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -13473,7 +13473,7 @@ const mindMapData = {
           "Olson"
         ],
         "year": 2016,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Feature Detection & Description",
         "tags": [],
@@ -13495,7 +13495,7 @@ const mindMapData = {
           "Bottou"
         ],
         "year": 2017,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Generative Models",
         "tags": [],
@@ -13538,7 +13538,7 @@ const mindMapData = {
           "Kim"
         ],
         "year": 2017,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [],
@@ -13560,7 +13560,7 @@ const mindMapData = {
           "Jégou"
         ],
         "year": 2017,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Nearest Neighbor Search",
         "tags": [],
@@ -13604,7 +13604,7 @@ const mindMapData = {
           "Cunningham"
         ],
         "year": 2017,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Processing & Computational Photography",
         "tags": [],
@@ -13734,7 +13734,7 @@ const mindMapData = {
           "Doucette"
         ],
         "year": 2017,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "3D Vision & Shape Understanding",
         "tags": [],
@@ -13757,7 +13757,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [],
         "summary": ""
@@ -13778,7 +13778,7 @@ const mindMapData = {
           "Deng"
         ],
         "year": 2017,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Clustering",
         "tags": [],
@@ -13801,7 +13801,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -13845,7 +13845,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -13875,7 +13875,7 @@ const mindMapData = {
           "Healy"
         ],
         "year": 2017,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Clustering",
         "tags": [],
@@ -13896,7 +13896,7 @@ const mindMapData = {
           "Lee"
         ],
         "year": 2017,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [
@@ -13947,7 +13947,7 @@ const mindMapData = {
           "Parmar"
         ],
         "year": 2017,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Large language models (LLM)",
         "tags": [
@@ -14036,7 +14036,7 @@ const mindMapData = {
           "Vorobev"
         ],
         "year": 2017,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Ensemble Methods",
         "tags": [],
@@ -14103,7 +14103,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -14151,7 +14151,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Speed Planning",
         "tags": [
           "Time-optimal",
@@ -14199,7 +14199,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -14286,7 +14286,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -14308,7 +14308,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [],
         "summary": ""
@@ -14330,7 +14330,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Imitation learning",
@@ -14362,7 +14362,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -14428,7 +14428,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Interaction-aware Planning",
         "tags": [
           "Multimodal",
@@ -14458,7 +14458,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [
           "Sampling-based",
@@ -14530,7 +14530,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Collision avoidance",
@@ -14622,7 +14622,7 @@ const mindMapData = {
           "Parbhoo"
         ],
         "year": 2017,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [],
@@ -14679,7 +14679,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [],
         "summary": ""
@@ -14701,7 +14701,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -14729,7 +14729,7 @@ const mindMapData = {
           "Wang"
         ],
         "year": 2017,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Scientific Computing & ML Systems",
         "tags": [],
@@ -14751,7 +14751,7 @@ const mindMapData = {
           "Moritz"
         ],
         "year": 2017,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Scientific Computing & ML Systems",
         "tags": [],
@@ -14795,7 +14795,7 @@ const mindMapData = {
           "Karpinski"
         ],
         "year": 2017,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Programming Languages",
         "tags": [],
@@ -14839,7 +14839,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Interaction-aware Planning",
         "tags": [],
         "summary": ""
@@ -14882,7 +14882,7 @@ const mindMapData = {
           "Finley"
         ],
         "year": 2017,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Ensemble Methods",
         "tags": [],
@@ -14932,7 +14932,7 @@ const mindMapData = {
           "Ahn"
         ],
         "year": 2017,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Wheeled Robots",
         "tags": [
@@ -14965,7 +14965,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [],
         "summary": ""
@@ -14987,7 +14987,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -15016,7 +15016,7 @@ const mindMapData = {
         ],
         "year": 2017,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Model predictive path integral control",
@@ -15098,7 +15098,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Path generation",
@@ -15150,7 +15150,7 @@ const mindMapData = {
           "Melville"
         ],
         "year": 2018,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Dimensionality Reduction",
         "tags": [],
@@ -15194,7 +15194,7 @@ const mindMapData = {
           "Lee"
         ],
         "year": 2018,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [
@@ -15275,7 +15275,7 @@ const mindMapData = {
           "Serdyukov"
         ],
         "year": 2018,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Ensemble Methods",
         "tags": [],
@@ -15320,7 +15320,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -15429,7 +15429,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -15501,7 +15501,7 @@ const mindMapData = {
           "Musco"
         ],
         "year": 2018,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Kernel Machines",
         "tags": [],
@@ -15541,7 +15541,7 @@ const mindMapData = {
           "Bamieh"
         ],
         "year": 2018,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Linear Algebra & Signal Processing",
         "tags": [],
@@ -15628,7 +15628,7 @@ const mindMapData = {
           "Schmidt"
         ],
         "year": 2018,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Neural Networks",
         "tags": [],
@@ -15756,7 +15756,7 @@ const mindMapData = {
           "Nishihara"
         ],
         "year": 2018,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Scientific Computing & ML Systems",
         "tags": [],
@@ -15779,7 +15779,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [],
         "summary": ""
@@ -15823,7 +15823,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
@@ -15855,7 +15855,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -15876,7 +15876,7 @@ const mindMapData = {
           "Kuhn"
         ],
         "year": 2018,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Kalman Filter",
         "tags": [],
@@ -15898,7 +15898,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [],
         "summary": ""
@@ -15941,7 +15941,7 @@ const mindMapData = {
           "Eck"
         ],
         "year": 2018,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Network Science",
         "sub_category": "Community Detection",
         "tags": [],
@@ -15962,7 +15962,7 @@ const mindMapData = {
           "Roth"
         ],
         "year": 2018,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Nearest Neighbor Search",
         "tags": [],
@@ -16144,7 +16144,7 @@ const mindMapData = {
           "Rudin"
         ],
         "year": 2018,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [],
@@ -16188,7 +16188,7 @@ const mindMapData = {
           "Ma"
         ],
         "year": 2018,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Neural Networks",
         "tags": [],
@@ -16254,7 +16254,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -16275,7 +16275,7 @@ const mindMapData = {
           "Katz"
         ],
         "year": 2018,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Quadrupeds",
         "tags": [],
@@ -16298,7 +16298,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [],
         "summary": ""
@@ -16341,7 +16341,7 @@ const mindMapData = {
           "Leary"
         ],
         "year": 2018,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Scientific Computing & ML Systems",
         "tags": [
@@ -16372,7 +16372,7 @@ const mindMapData = {
           "Neumann"
         ],
         "year": 2018,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Complexity & Approximation",
         "tags": [],
@@ -16394,7 +16394,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [
           "Goal assignment",
@@ -16425,7 +16425,7 @@ const mindMapData = {
           "Aloui"
         ],
         "year": 2018,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "History",
         "sub_category": null,
         "tags": [],
@@ -16448,7 +16448,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [],
         "summary": ""
@@ -16470,7 +16470,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Survey",
@@ -16499,7 +16499,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [],
         "summary": ""
@@ -16521,7 +16521,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Interaction-aware Planning",
         "tags": [],
         "summary": ""
@@ -16543,7 +16543,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -16564,7 +16564,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -16592,7 +16592,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Survey",
@@ -16649,7 +16649,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -16669,7 +16669,7 @@ const mindMapData = {
           "Letham"
         ],
         "year": 2018,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -16736,7 +16736,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [],
         "summary": ""
@@ -16758,7 +16758,7 @@ const mindMapData = {
         ],
         "year": 2018,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Speed Planning",
         "tags": [
           "Speed planning",
@@ -16787,7 +16787,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -16808,7 +16808,7 @@ const mindMapData = {
           "Kolla"
         ],
         "year": 2019,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Statistics & Probability",
         "tags": [],
@@ -16830,7 +16830,7 @@ const mindMapData = {
           "Kumbier"
         ],
         "year": 2019,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [],
@@ -16928,7 +16928,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -17172,7 +17172,7 @@ const mindMapData = {
           "Dwaraknath"
         ],
         "year": 2019,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Representation Learning",
         "tags": [],
@@ -17391,7 +17391,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -17508,7 +17508,7 @@ const mindMapData = {
           "Piechocki"
         ],
         "year": 2019,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Clustering",
         "tags": [],
@@ -17530,7 +17530,7 @@ const mindMapData = {
           "Lindgren"
         ],
         "year": 2019,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Nearest Neighbor Search",
         "tags": [],
@@ -17552,7 +17552,7 @@ const mindMapData = {
           "Forestier"
         ],
         "year": 2019,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -17575,7 +17575,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -17626,7 +17626,7 @@ const mindMapData = {
           "Koch"
         ],
         "year": 2019,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [],
@@ -17649,7 +17649,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -17723,7 +17723,7 @@ const mindMapData = {
           "Boyd"
         ],
         "year": 2019,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Kalman Filter",
         "tags": [],
@@ -17767,7 +17767,7 @@ const mindMapData = {
           "Webb"
         ],
         "year": 2019,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -17905,7 +17905,7 @@ const mindMapData = {
           "Massa"
         ],
         "year": 2019,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Scientific Computing & ML Systems",
         "tags": [],
@@ -17927,7 +17927,7 @@ const mindMapData = {
           "Bansal"
         ],
         "year": 2019,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Neural Networks",
         "tags": [],
@@ -18000,7 +18000,7 @@ const mindMapData = {
           "Dianati"
         ],
         "year": 2019,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Surveys",
         "tags": [
@@ -18146,7 +18146,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory planning",
@@ -18177,7 +18177,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -18204,7 +18204,7 @@ const mindMapData = {
           "Kim"
         ],
         "year": 2019,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Quadrupeds",
         "tags": [],
@@ -18226,7 +18226,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -18252,7 +18252,7 @@ const mindMapData = {
           "Mühleisen"
         ],
         "year": 2019,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Scientific Computing & ML Systems",
         "tags": [],
@@ -18275,7 +18275,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -18318,7 +18318,7 @@ const mindMapData = {
           "Prole"
         ],
         "year": 2019,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Neural Networks",
         "tags": [],
@@ -18361,7 +18361,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Model predictive path integral control",
@@ -18388,7 +18388,7 @@ const mindMapData = {
           "Bottou"
         ],
         "year": 2019,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Datasets",
         "tags": [],
@@ -18463,7 +18463,7 @@ const mindMapData = {
         ],
         "year": 2019,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -18484,7 +18484,7 @@ const mindMapData = {
           "Chakravarty"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Multi-agent & Interaction-aware Prediction",
         "tags": [
@@ -18514,7 +18514,7 @@ const mindMapData = {
           "Romoff"
         ],
         "year": 2020,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Scientific Computing & ML Systems",
         "tags": [],
@@ -18649,7 +18649,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Manipulation & Contact",
         "tags": [],
         "summary": ""
@@ -18736,7 +18736,7 @@ const mindMapData = {
           "Tancik"
         ],
         "year": 2020,
-        "super_category": "Computing",
+        "super_category": "Evaluation",
         "category": "Computer Graphics",
         "sub_category": "Neural Rendering",
         "tags": [],
@@ -18759,7 +18759,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Feedback Motion Planning",
         "tags": [],
         "summary": ""
@@ -18781,7 +18781,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [],
         "summary": ""
@@ -18831,7 +18831,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -18880,7 +18880,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -18902,7 +18902,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
@@ -18928,7 +18928,7 @@ const mindMapData = {
           "Zhao"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Multi-agent & Interaction-aware Prediction",
         "tags": [],
@@ -18993,7 +18993,7 @@ const mindMapData = {
           "Altche"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Representation Learning",
         "tags": [
@@ -19025,7 +19025,7 @@ const mindMapData = {
           "Abbeel"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Diffusion Models",
         "tags": [],
@@ -19046,7 +19046,7 @@ const mindMapData = {
           "Rad"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [],
@@ -19067,7 +19067,7 @@ const mindMapData = {
           "Akenine-Möller"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Quality Assessment",
         "tags": [],
@@ -19153,7 +19153,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -19218,7 +19218,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Survey",
@@ -19248,7 +19248,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
@@ -19297,7 +19297,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -19318,7 +19318,7 @@ const mindMapData = {
           "Kolesnikov"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Classification & Recognition",
         "tags": [],
@@ -19383,7 +19383,7 @@ const mindMapData = {
           "How"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Mapping & SLAM",
         "tags": [],
@@ -19460,7 +19460,7 @@ const mindMapData = {
           "Kobak"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Datasets",
         "tags": [],
@@ -19480,7 +19480,7 @@ const mindMapData = {
           "Domingos"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Kernel Machines",
         "tags": [],
@@ -19525,7 +19525,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [],
         "summary": ""
@@ -19546,7 +19546,7 @@ const mindMapData = {
           "Rudin"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Dimensionality Reduction",
         "tags": [],
@@ -19612,7 +19612,7 @@ const mindMapData = {
           "Peng"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -19634,7 +19634,7 @@ const mindMapData = {
           "Webb"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -19656,7 +19656,7 @@ const mindMapData = {
           "Choi"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Processing & Computational Photography",
         "tags": [],
@@ -19723,7 +19723,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [],
         "summary": ""
@@ -19764,7 +19764,7 @@ const mindMapData = {
           "Jiang"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -19786,7 +19786,7 @@ const mindMapData = {
           "Abbink"
         ],
         "year": 2020,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Traffic Models",
         "tags": [],
@@ -19809,7 +19809,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
@@ -19839,7 +19839,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -19868,7 +19868,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
@@ -19916,7 +19916,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -19938,7 +19938,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -19959,7 +19959,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -19981,7 +19981,7 @@ const mindMapData = {
         ],
         "year": 2020,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -20051,7 +20051,7 @@ const mindMapData = {
           "Dellaert"
         ],
         "year": 2021,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Mapping & SLAM",
         "tags": [],
@@ -20160,7 +20160,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -20190,7 +20190,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -20274,7 +20274,7 @@ const mindMapData = {
           "Vargova"
         ],
         "year": 2021,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Balancing Robots",
         "tags": [],
@@ -20340,7 +20340,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [
           "Robotics",
@@ -20383,7 +20383,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Graphs of convex sets",
@@ -20415,7 +20415,7 @@ const mindMapData = {
           "Bergmeir"
         ],
         "year": 2021,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -20482,7 +20482,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -20547,7 +20547,7 @@ const mindMapData = {
           "Goh"
         ],
         "year": 2021,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-langugage models (VLM)",
         "tags": [],
@@ -20569,7 +20569,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Feedback Motion Planning",
         "tags": [],
         "summary": ""
@@ -20590,7 +20590,7 @@ const mindMapData = {
           "Hallacy"
         ],
         "year": 2021,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-langugage models (VLM)",
         "tags": [],
@@ -20676,7 +20676,7 @@ const mindMapData = {
           "Misra"
         ],
         "year": 2021,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Representation Learning",
         "tags": [
@@ -20708,7 +20708,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
@@ -20758,7 +20758,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Nonlinear systems",
@@ -20814,7 +20814,7 @@ const mindMapData = {
           "Cao"
         ],
         "year": 2021,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Classification & Recognition",
         "tags": [],
@@ -20836,7 +20836,7 @@ const mindMapData = {
           "Ma"
         ],
         "year": 2021,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -20899,7 +20899,7 @@ const mindMapData = {
           "Heigold"
         ],
         "year": 2021,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Video Understanding",
         "tags": [],
@@ -20921,7 +20921,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Model predictive path integral control",
@@ -20971,7 +20971,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -20993,7 +20993,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [],
         "summary": ""
@@ -21088,7 +21088,7 @@ const mindMapData = {
           "Misra"
         ],
         "year": 2021,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Classification & Recognition",
         "tags": [],
@@ -21132,7 +21132,7 @@ const mindMapData = {
           "LeCun"
         ],
         "year": 2021,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Representation Learning",
         "tags": [
@@ -21162,7 +21162,7 @@ const mindMapData = {
           "Peters"
         ],
         "year": 2021,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Sorting",
         "tags": [],
@@ -21184,7 +21184,7 @@ const mindMapData = {
           "Wallis"
         ],
         "year": 2021,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Large language models (LLM)",
         "tags": [],
@@ -21228,7 +21228,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -21310,7 +21310,7 @@ const mindMapData = {
           "Adeli"
         ],
         "year": 2021,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Foundations",
         "tags": [],
@@ -21448,7 +21448,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -21475,7 +21475,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Planning Under Uncertainty",
         "tags": [],
         "summary": ""
@@ -21555,7 +21555,7 @@ const mindMapData = {
         ],
         "year": 2021,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Interaction-aware Planning",
         "tags": [
           "Autonomous Driving",
@@ -21603,7 +21603,7 @@ const mindMapData = {
           "Talebi"
         ],
         "year": 2021,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Diffusion Models",
         "tags": [],
@@ -21647,7 +21647,7 @@ const mindMapData = {
           "Akenine-Möller"
         ],
         "year": 2021,
-        "super_category": "Computing",
+        "super_category": "Evaluation",
         "category": "Computer Graphics",
         "sub_category": "Noise & Dithering",
         "tags": [],
@@ -21730,7 +21730,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Benchmarking",
@@ -21760,7 +21760,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Path planning",
@@ -21793,7 +21793,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -21836,7 +21836,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [],
         "summary": ""
@@ -21911,7 +21911,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [],
         "summary": ""
@@ -21955,7 +21955,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Planning Under Uncertainty",
         "tags": [],
         "summary": ""
@@ -21976,7 +21976,7 @@ const mindMapData = {
           "Edwards"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Neural Networks",
         "tags": [],
@@ -21999,7 +21999,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Path planning",
@@ -22050,7 +22050,7 @@ const mindMapData = {
           "Carlone"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Mapping & SLAM",
         "tags": [],
@@ -22138,7 +22138,7 @@ const mindMapData = {
           "Zhang"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -22183,7 +22183,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -22205,7 +22205,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -22246,7 +22246,7 @@ const mindMapData = {
           "Grootendorst"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Natural Language Processing (NLP)",
         "tags": [],
@@ -22291,7 +22291,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -22378,7 +22378,7 @@ const mindMapData = {
           "Devlin"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Large language models (LLM)",
         "tags": [],
@@ -22401,7 +22401,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -22448,7 +22448,7 @@ const mindMapData = {
           "Nichol"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-langugage models (VLM)",
         "tags": [],
@@ -22471,7 +22471,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [],
         "summary": ""
@@ -22493,7 +22493,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -22536,7 +22536,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
@@ -22670,7 +22670,7 @@ const mindMapData = {
           "Ermon"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Large language models (LLM)",
         "tags": [],
@@ -22715,7 +22715,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [
           "Autonomous driving",
@@ -22742,7 +22742,7 @@ const mindMapData = {
           "Prokhorenkova"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Ensemble Methods",
         "tags": [],
@@ -22786,7 +22786,7 @@ const mindMapData = {
           "Luo"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -22808,7 +22808,7 @@ const mindMapData = {
           "Zhou"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Multi-agent & Interaction-aware Prediction",
         "tags": [
@@ -22839,7 +22839,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -22889,7 +22889,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [],
         "summary": ""
@@ -22931,7 +22931,7 @@ const mindMapData = {
           "Ivanovic"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Surveys",
         "tags": [],
@@ -22975,7 +22975,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -23025,7 +23025,7 @@ const mindMapData = {
           "Liu"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Diffusion Models",
         "tags": [],
@@ -23095,7 +23095,7 @@ const mindMapData = {
           "Liu"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Diffusion Models",
         "tags": [],
@@ -23118,7 +23118,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
@@ -23146,7 +23146,7 @@ const mindMapData = {
           "Ben-Hamu"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Diffusion Models",
         "tags": [],
@@ -23287,7 +23287,7 @@ const mindMapData = {
           "Ivanovic"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Representation Learning",
         "tags": [],
@@ -23398,7 +23398,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "Model predictive control",
@@ -23447,7 +23447,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -23491,7 +23491,7 @@ const mindMapData = {
         ],
         "year": 2022,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "Differentiable planning",
@@ -23519,7 +23519,7 @@ const mindMapData = {
           "Carbajal"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-language-action Models (VLA)",
         "tags": [],
@@ -23541,7 +23541,7 @@ const mindMapData = {
           "Karaman"
         ],
         "year": 2022,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Multi-agent & Interaction-aware Prediction",
         "tags": [],
@@ -23616,7 +23616,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -23702,7 +23702,7 @@ const mindMapData = {
           "D’Andrea"
         ],
         "year": 2023,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Balancing Robots",
         "tags": [],
@@ -23747,7 +23747,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -23774,7 +23774,7 @@ const mindMapData = {
           "Petri"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -23797,7 +23797,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Feedback Motion Planning",
         "tags": [],
         "summary": ""
@@ -23818,7 +23818,7 @@ const mindMapData = {
           "Monreale"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -23840,7 +23840,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Path planning",
@@ -23936,7 +23936,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Interaction-aware Planning",
         "tags": [],
         "summary": ""
@@ -23958,7 +23958,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -23985,7 +23985,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -24006,7 +24006,7 @@ const mindMapData = {
           "Sajjadi"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-langugage models (VLM)",
         "tags": [],
@@ -24082,7 +24082,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Survey",
@@ -24111,7 +24111,7 @@ const mindMapData = {
           "Kaplan"
         ],
         "year": 2023,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Geometry & Tiling",
         "tags": [],
@@ -24133,7 +24133,7 @@ const mindMapData = {
           "Kolesnikov"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-langugage models (VLM)",
         "tags": [],
@@ -24156,7 +24156,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -24186,7 +24186,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -24207,7 +24207,7 @@ const mindMapData = {
           "Moutakanni"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Classification & Recognition",
         "tags": [],
@@ -24229,7 +24229,7 @@ const mindMapData = {
           "Sobal"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Representation Learning",
         "tags": [],
@@ -24251,7 +24251,7 @@ const mindMapData = {
           "Bagnall"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -24274,7 +24274,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -24295,7 +24295,7 @@ const mindMapData = {
           "Domingo-Enrich"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Diffusion Models",
         "tags": [],
@@ -24318,7 +24318,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
@@ -24347,7 +24347,7 @@ const mindMapData = {
           "Stocco"
         ],
         "year": 2023,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Brachiating Robots",
         "tags": [],
@@ -24421,7 +24421,7 @@ const mindMapData = {
           "Kaplan"
         ],
         "year": 2023,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Geometry & Tiling",
         "tags": [],
@@ -24466,7 +24466,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -24554,7 +24554,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -24597,7 +24597,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "MPPI",
@@ -24629,7 +24629,7 @@ const mindMapData = {
           "Stone"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Large language models (LLM)",
         "tags": [],
@@ -24652,7 +24652,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -24673,7 +24673,7 @@ const mindMapData = {
           "Carbajal"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-language-action Models (VLA)",
         "tags": [],
@@ -24695,7 +24695,7 @@ const mindMapData = {
           "Webb"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -24717,7 +24717,7 @@ const mindMapData = {
           "Leimkühler"
         ],
         "year": 2023,
-        "super_category": "Computing",
+        "super_category": "Evaluation",
         "category": "Computer Graphics",
         "sub_category": "3D Gaussian Splatting",
         "tags": [
@@ -24749,7 +24749,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -24771,7 +24771,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
@@ -24818,7 +24818,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Planning Under Uncertainty",
         "tags": [],
         "summary": ""
@@ -24861,7 +24861,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
@@ -24888,7 +24888,7 @@ const mindMapData = {
           "Li"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Large language models (LLM)",
         "tags": [],
@@ -24910,7 +24910,7 @@ const mindMapData = {
           "Shoukry"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Clustering",
         "tags": [],
@@ -24933,7 +24933,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [],
         "summary": ""
@@ -24955,7 +24955,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -25052,7 +25052,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -25073,7 +25073,7 @@ const mindMapData = {
           "Mergenthaler-Canseco"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -25140,7 +25140,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -25216,7 +25216,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -25238,7 +25238,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -25260,7 +25260,7 @@ const mindMapData = {
         ],
         "year": 2023,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -25412,7 +25412,7 @@ const mindMapData = {
           "Chen"
         ],
         "year": 2023,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "State-space Models (SSM)",
         "tags": [],
@@ -25454,7 +25454,7 @@ const mindMapData = {
           "Calem"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Surveys",
         "tags": [
@@ -25485,7 +25485,7 @@ const mindMapData = {
           "Strakoš"
         ],
         "year": 2024,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Linear Algebra & Signal Processing",
         "tags": [],
@@ -25527,7 +25527,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -25566,7 +25566,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Path planning",
@@ -25595,7 +25595,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [],
         "summary": ""
@@ -25617,7 +25617,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
@@ -25712,7 +25712,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -25734,7 +25734,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
@@ -25761,7 +25761,7 @@ const mindMapData = {
           "Deng"
         ],
         "year": 2024,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Nearest Neighbor Search",
         "tags": [],
@@ -25783,7 +25783,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
@@ -25882,7 +25882,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "Motion planning",
@@ -25938,7 +25938,7 @@ const mindMapData = {
           "Smit"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Prediction Horizon",
         "tags": [
@@ -25989,7 +25989,7 @@ const mindMapData = {
           "Chang"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Mapping & SLAM",
         "tags": [],
@@ -26010,7 +26010,7 @@ const mindMapData = {
           "Summers"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Mapping & SLAM",
         "tags": [],
@@ -26032,7 +26032,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "iLQR",
@@ -26060,7 +26060,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "RRT",
@@ -26091,7 +26091,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -26113,7 +26113,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -26135,7 +26135,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -26156,7 +26156,7 @@ const mindMapData = {
           "Dadashi"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Large language models (LLM)",
         "tags": [],
@@ -26207,7 +26207,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
@@ -26286,7 +26286,7 @@ const mindMapData = {
           "Gasnikov"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Diffusion Models",
         "tags": [],
@@ -26359,7 +26359,7 @@ const mindMapData = {
           "Ponce"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Video Understanding",
         "tags": [
@@ -26414,7 +26414,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Path planning",
@@ -26484,7 +26484,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -26506,7 +26506,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -26527,7 +26527,7 @@ const mindMapData = {
           "Karamcheti"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-language-action Models (VLA)",
         "tags": [],
@@ -26615,7 +26615,7 @@ const mindMapData = {
           "Du"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Diffusion Models",
         "tags": [],
@@ -26659,7 +26659,7 @@ const mindMapData = {
           "Pinto"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-langugage models (VLM)",
         "tags": [],
@@ -26682,7 +26682,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -26747,7 +26747,7 @@ const mindMapData = {
           "Sessa"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Large language models (LLM)",
         "tags": [],
@@ -26770,7 +26770,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [],
         "summary": ""
@@ -26814,7 +26814,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Manipulation & Contact",
         "tags": [],
         "summary": ""
@@ -26858,7 +26858,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -26887,7 +26887,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [
           "Motion planning",
@@ -26916,7 +26916,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
@@ -26943,7 +26943,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
@@ -26972,7 +26972,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -26994,7 +26994,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -27023,7 +27023,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [
           "PRESTO",
@@ -27052,7 +27052,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -27081,7 +27081,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -27125,7 +27125,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -27146,7 +27146,7 @@ const mindMapData = {
           "Pavone"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Large language models (LLM)",
         "tags": [],
@@ -27169,7 +27169,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -27191,7 +27191,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [
           "Survey",
@@ -27220,7 +27220,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -27241,7 +27241,7 @@ const mindMapData = {
           "Driess"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-language-action Models (VLA)",
         "tags": [],
@@ -27264,7 +27264,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -27312,7 +27312,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [],
         "summary": ""
@@ -27334,7 +27334,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -27356,7 +27356,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Task and motion planning",
@@ -27387,7 +27387,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Model Predictive Control",
@@ -27416,7 +27416,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -27438,7 +27438,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -27469,7 +27469,7 @@ const mindMapData = {
           "Lee"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [],
@@ -27492,7 +27492,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [],
         "summary": ""
@@ -27536,7 +27536,7 @@ const mindMapData = {
         ],
         "year": 2024,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory planning",
@@ -27589,7 +27589,7 @@ const mindMapData = {
           "Vernaza"
         ],
         "year": 2024,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Surveys",
         "tags": [],
@@ -27685,7 +27685,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
@@ -27733,7 +27733,7 @@ const mindMapData = {
           "Yang"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "State Estimation",
         "sub_category": "Mapping & SLAM",
         "tags": [],
@@ -27754,7 +27754,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [
           "Autonomous driving",
@@ -27781,7 +27781,7 @@ const mindMapData = {
           "Chester"
         ],
         "year": 2025,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Nearest Neighbor Search",
         "tags": [],
@@ -27803,7 +27803,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
@@ -27831,7 +27831,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -27853,7 +27853,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Interaction-aware Planning",
         "tags": [],
         "summary": ""
@@ -27875,7 +27875,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Multi-Robot Planning",
         "tags": [],
         "summary": ""
@@ -27895,7 +27895,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
@@ -27922,7 +27922,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Differential dynamic programming",
@@ -27991,7 +27991,7 @@ const mindMapData = {
           "Hopkins"
         ],
         "year": 2025,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Bipeds",
         "tags": [
@@ -28019,7 +28019,7 @@ const mindMapData = {
           "Kermani"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -28158,7 +28158,7 @@ const mindMapData = {
           "Wang"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Surveys",
         "tags": [
@@ -28208,7 +28208,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -28259,7 +28259,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -28302,7 +28302,7 @@ const mindMapData = {
           "Mebrahtu"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Surveys",
         "tags": [
@@ -28330,7 +28330,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [],
         "summary": ""
@@ -28352,7 +28352,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -28374,7 +28374,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
@@ -28403,7 +28403,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -28425,7 +28425,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -28484,7 +28484,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
@@ -28511,7 +28511,7 @@ const mindMapData = {
           "Cherniadev"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-language-action Models (VLA)",
         "tags": [
@@ -28543,7 +28543,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -28631,7 +28631,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
@@ -28658,7 +28658,7 @@ const mindMapData = {
           "Yin"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-langugage models (VLM)",
         "tags": [],
@@ -28680,7 +28680,7 @@ const mindMapData = {
           "Foo"
         ],
         "year": 2025,
-        "super_category": "Computing",
+        "super_category": "Evaluation",
         "category": "Computer Graphics",
         "sub_category": "3D Gaussian Splatting",
         "tags": [],
@@ -28702,7 +28702,7 @@ const mindMapData = {
           "Darpinian"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-language-action Models (VLA)",
         "tags": [],
@@ -28725,7 +28725,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
@@ -28754,7 +28754,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
@@ -28782,7 +28782,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -28804,7 +28804,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -28857,7 +28857,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -28884,7 +28884,7 @@ const mindMapData = {
           "Papais"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Surveys",
         "tags": [
@@ -28914,7 +28914,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Motion planning",
@@ -28944,7 +28944,7 @@ const mindMapData = {
           "Bai"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Diffusion Models",
         "tags": [],
@@ -28966,7 +28966,7 @@ const mindMapData = {
           "Jordan"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Uncertainty Quantification",
         "tags": [
@@ -29019,7 +29019,7 @@ const mindMapData = {
           "Doubli"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Time Series",
         "tags": [],
@@ -29158,7 +29158,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "GPU acceleration",
@@ -29187,7 +29187,7 @@ const mindMapData = {
           "Fan"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Video Understanding",
         "tags": [
@@ -29248,7 +29248,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -29270,7 +29270,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Trajectory optimization",
@@ -29298,7 +29298,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "Model predictive control",
@@ -29328,7 +29328,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -29371,7 +29371,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Inverse Kinematics",
         "tags": [],
         "summary": ""
@@ -29508,7 +29508,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [],
         "summary": ""
@@ -29574,7 +29574,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -29625,7 +29625,7 @@ const mindMapData = {
           "Seitzer"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Classification & Recognition",
         "tags": [
@@ -29681,7 +29681,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -29703,7 +29703,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
@@ -29753,7 +29753,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -29774,7 +29774,7 @@ const mindMapData = {
           "Hendy"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Surveys",
         "tags": [],
@@ -29797,7 +29797,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -29819,7 +29819,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
@@ -29846,7 +29846,7 @@ const mindMapData = {
           "Chahine"
         ],
         "year": 2025,
-        "super_category": "Misc",
+        "super_category": "Foundations",
         "category": "Mathematics",
         "sub_category": "Sampling & Quasi-Monte Carlo",
         "tags": [],
@@ -29869,7 +29869,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -29891,7 +29891,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -29935,7 +29935,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -29957,7 +29957,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -29978,7 +29978,7 @@ const mindMapData = {
           "Bai"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-language-action Models (VLA)",
         "tags": [
@@ -30002,7 +30002,7 @@ const mindMapData = {
           "Wei"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": null,
         "tags": [
@@ -30093,7 +30093,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [
           "Robotics",
@@ -30213,7 +30213,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -30234,7 +30234,7 @@ const mindMapData = {
           "Wang"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Surveys",
         "tags": [],
@@ -30300,7 +30300,7 @@ const mindMapData = {
           "Zhu"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-language-action Models (VLA)",
         "tags": [],
@@ -30344,7 +30344,7 @@ const mindMapData = {
           "Zhou"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Processing & Computational Photography",
         "tags": [],
@@ -30366,7 +30366,7 @@ const mindMapData = {
           "Geng"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-language-action Models (VLA)",
         "tags": [],
@@ -30410,7 +30410,7 @@ const mindMapData = {
           "Scarvelis"
         ],
         "year": 2025,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Diffusion Models",
         "tags": [],
@@ -30455,7 +30455,7 @@ const mindMapData = {
         ],
         "year": 2025,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Model predictive contouring control",
@@ -30507,7 +30507,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -30527,7 +30527,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "MPPI",
@@ -30556,7 +30556,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -30599,7 +30599,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -30621,7 +30621,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [],
         "summary": ""
@@ -30642,7 +30642,7 @@ const mindMapData = {
           "Jiang"
         ],
         "year": 2026,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Foundations",
         "tags": [],
@@ -30664,7 +30664,7 @@ const mindMapData = {
           "Mengaldo"
         ],
         "year": 2026,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Interpretability",
         "tags": [],
@@ -30707,7 +30707,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Surveys & Comparative Studies",
         "tags": [],
         "summary": ""
@@ -30749,7 +30749,7 @@ const mindMapData = {
           "Nardo"
         ],
         "year": 2026,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Quality Assessment",
         "tags": [],
@@ -30771,7 +30771,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -30793,7 +30793,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [
           "Motion planning",
@@ -30824,7 +30824,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -30867,7 +30867,7 @@ const mindMapData = {
           "Zheng"
         ],
         "year": 2026,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-language-action Models (VLA)",
         "tags": [],
@@ -30912,7 +30912,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -30934,7 +30934,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -30956,7 +30956,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -31044,7 +31044,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -31110,7 +31110,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -31132,7 +31132,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -31154,7 +31154,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -31196,7 +31196,7 @@ const mindMapData = {
           "Wei"
         ],
         "year": 2026,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Surveys",
         "tags": [],
@@ -31219,7 +31219,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [
           "Kinodynamic planning",
@@ -31269,7 +31269,7 @@ const mindMapData = {
           "Gao"
         ],
         "year": 2026,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Diffusion Models",
         "tags": [
@@ -31345,7 +31345,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -31366,7 +31366,7 @@ const mindMapData = {
           "Zhang"
         ],
         "year": 2026,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Large language models (LLM)",
         "tags": [],
@@ -31388,7 +31388,7 @@ const mindMapData = {
           "Spong"
         ],
         "year": 2026,
-        "super_category": "Misc",
+        "super_category": "Evaluation",
         "category": "Robot Platforms",
         "sub_category": "Flying Robots",
         "tags": [],
@@ -31454,7 +31454,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Feedback Motion Planning",
         "tags": [],
         "summary": ""
@@ -31476,7 +31476,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -31518,7 +31518,7 @@ const mindMapData = {
           "Pavone"
         ],
         "year": 2026,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Software & Programming",
         "sub_category": "Scientific Computing & ML Systems",
         "tags": [],
@@ -31606,7 +31606,7 @@ const mindMapData = {
           "Winkler"
         ],
         "year": 2026,
-        "super_category": "Computing",
+        "super_category": "Foundations",
         "category": "Algorithms & Data Structures",
         "sub_category": "Nearest Neighbor Search",
         "tags": [],
@@ -31628,7 +31628,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -31671,7 +31671,7 @@ const mindMapData = {
           "Dubbelman"
         ],
         "year": 2026,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-language-action Models (VLA)",
         "tags": [],
@@ -31694,7 +31694,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Frameworks & Stack Architectures",
         "tags": [],
         "summary": ""
@@ -31760,7 +31760,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -31781,7 +31781,7 @@ const mindMapData = {
           "Belagiannis"
         ],
         "year": 2026,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Motion Prediction",
         "sub_category": "Surveys",
         "tags": [],
@@ -31825,7 +31825,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -31847,7 +31847,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Path Planning",
         "tags": [],
         "summary": ""
@@ -31869,7 +31869,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Machine Learning in Motion Planning",
         "tags": [],
         "summary": ""
@@ -31979,7 +31979,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -32022,7 +32022,7 @@ const mindMapData = {
           "Peng"
         ],
         "year": 2026,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Generative Models",
         "tags": [],
@@ -32172,7 +32172,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -32215,7 +32215,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Planning Under Uncertainty",
         "tags": [],
         "summary": ""
@@ -32237,7 +32237,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -32258,7 +32258,7 @@ const mindMapData = {
           "Clay"
         ],
         "year": 2026,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-language-action Models (VLA)",
         "tags": [],
@@ -32302,7 +32302,7 @@ const mindMapData = {
           "Koo"
         ],
         "year": 2026,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Machine Learning",
         "sub_category": "Vision-language-action Models (VLA)",
         "tags": [],
@@ -32325,7 +32325,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -32346,7 +32346,7 @@ const mindMapData = {
           "Sun"
         ],
         "year": 2026,
-        "super_category": "Prediction",
+        "super_category": "Prediction & Perception",
         "category": "Computer Vision",
         "sub_category": "Image Processing & Computational Photography",
         "tags": [],
@@ -32412,7 +32412,7 @@ const mindMapData = {
         ],
         "year": 2026,
         "super_category": "Decision-Making",
-        "category": "Motion Planning",
+        "category": "Planning",
         "sub_category": "Trajectory Planning",
         "tags": [],
         "summary": ""
@@ -118377,52 +118377,51 @@ const mindMapData = {
     "total_edges": 8588,
     "superCategoryOrder": [
       "Decision-Making",
-      "Prediction",
+      "Prediction & Perception",
       "Evaluation",
-      "Computing",
-      "Misc"
+      "Foundations"
     ],
     "categoryOrder": [
       "Optimization",
-      "Motion Planning",
+      "Planning",
       "Control",
       "Reinforcement Learning",
-      "Motion Prediction",
       "State Estimation",
-      "Machine Learning",
+      "Motion Prediction",
       "Computer Vision",
+      "Machine Learning",
       "Simulation",
+      "Computer Graphics",
       "Benchmarks",
       "Safety, Testing & Verification",
-      "Network Science",
-      "Algorithms & Data Structures",
-      "Software & Programming",
-      "Computer Graphics",
+      "Robot Platforms",
       "Mathematics",
+      "Software & Programming",
+      "Algorithms & Data Structures",
+      "Network Science",
       "History",
-      "Evolution",
-      "Robot Platforms"
+      "Evolution"
     ],
     "categorySuperCategory": {
       "Optimization": "Decision-Making",
-      "Motion Planning": "Decision-Making",
+      "Planning": "Decision-Making",
       "Control": "Decision-Making",
       "Reinforcement Learning": "Decision-Making",
-      "Motion Prediction": "Prediction",
-      "State Estimation": "Prediction",
-      "Machine Learning": "Prediction",
-      "Computer Vision": "Prediction",
+      "State Estimation": "Prediction & Perception",
+      "Motion Prediction": "Prediction & Perception",
+      "Computer Vision": "Prediction & Perception",
+      "Machine Learning": "Prediction & Perception",
       "Simulation": "Evaluation",
+      "Computer Graphics": "Evaluation",
       "Benchmarks": "Evaluation",
       "Safety, Testing & Verification": "Evaluation",
-      "Network Science": "Computing",
-      "Algorithms & Data Structures": "Computing",
-      "Software & Programming": "Computing",
-      "Computer Graphics": "Computing",
-      "Mathematics": "Misc",
-      "History": "Misc",
-      "Evolution": "Misc",
-      "Robot Platforms": "Misc"
+      "Robot Platforms": "Evaluation",
+      "Mathematics": "Foundations",
+      "Software & Programming": "Foundations",
+      "Algorithms & Data Structures": "Foundations",
+      "Network Science": "Foundations",
+      "History": "Foundations",
+      "Evolution": "Foundations"
     },
     "subCategoryOrder": {
       "Optimization": [
@@ -118446,7 +118445,7 @@ const mindMapData = {
         "Automatic Differentiation",
         "Controller Autotuning"
       ],
-      "Motion Planning": [
+      "Planning": [
         "Path Planning",
         "Trajectory Planning",
         "Speed Planning",
@@ -118490,17 +118489,29 @@ const mindMapData = {
         "Inverse Reinforcement Learning & Reward Learning",
         "Applications of RL"
       ],
+      "State Estimation": [
+        "Kalman Filter",
+        "Unscented Kalman Filter (UKF)",
+        "Particle Filters",
+        "Mapping & SLAM"
+      ],
       "Motion Prediction": [
         "Traffic Models",
         "Multi-agent & Interaction-aware Prediction",
         "Prediction Horizon",
         "Surveys"
       ],
-      "State Estimation": [
-        "Kalman Filter",
-        "Unscented Kalman Filter (UKF)",
-        "Particle Filters",
-        "Mapping & SLAM"
+      "Computer Vision": [
+        "Edge Detection",
+        "Object Detection",
+        "3D Vision & Shape Understanding",
+        "Face Recognition",
+        "Feature Detection & Description",
+        "Image Classification & Recognition",
+        "Image Quality Assessment",
+        "Color & Perception",
+        "Image Processing & Computational Photography",
+        "Video Understanding"
       ],
       "Machine Learning": [
         "Foundations",
@@ -118523,41 +118534,10 @@ const mindMapData = {
         "Representation Learning",
         "Time Series"
       ],
-      "Computer Vision": [
-        "Edge Detection",
-        "Object Detection",
-        "3D Vision & Shape Understanding",
-        "Face Recognition",
-        "Feature Detection & Description",
-        "Image Classification & Recognition",
-        "Image Quality Assessment",
-        "Color & Perception",
-        "Image Processing & Computational Photography",
-        "Video Understanding"
-      ],
       "Simulation": [
         "Driving & Traffic Simulation",
         "Flying Simulation",
         "Manipulation & Indoor Simulation"
-      ],
-      "Network Science": [
-        "Centrality",
-        "Community Detection"
-      ],
-      "Algorithms & Data Structures": [
-        "Probabilistic Data Structures",
-        "Nearest Neighbor Search",
-        "Complexity & Approximation",
-        "Parallel Algorithms",
-        "Priority Queues",
-        "Sorting",
-        "Trees & Spatial Indexing"
-      ],
-      "Software & Programming": [
-        "Essays",
-        "Programming Languages",
-        "Scientific Computing & ML Systems",
-        "Message Protocols"
       ],
       "Computer Graphics": [
         "Subdivision Surfaces",
@@ -118568,6 +118548,14 @@ const mindMapData = {
         "3D Gaussian Splatting",
         "Neural Rendering"
       ],
+      "Robot Platforms": [
+        "Balancing Robots",
+        "Bipeds",
+        "Quadrupeds",
+        "Wheeled Robots",
+        "Flying Robots",
+        "Brachiating Robots"
+      ],
       "Mathematics": [
         "Geometry & Tiling",
         "Topology",
@@ -118576,13 +118564,24 @@ const mindMapData = {
         "Sampling & Quasi-Monte Carlo",
         "Statistics & Probability"
       ],
-      "Robot Platforms": [
-        "Balancing Robots",
-        "Bipeds",
-        "Quadrupeds",
-        "Wheeled Robots",
-        "Flying Robots",
-        "Brachiating Robots"
+      "Software & Programming": [
+        "Essays",
+        "Programming Languages",
+        "Scientific Computing & ML Systems",
+        "Message Protocols"
+      ],
+      "Algorithms & Data Structures": [
+        "Probabilistic Data Structures",
+        "Nearest Neighbor Search",
+        "Complexity & Approximation",
+        "Parallel Algorithms",
+        "Priority Queues",
+        "Sorting",
+        "Trees & Spatial Indexing"
+      ],
+      "Network Science": [
+        "Centrality",
+        "Community Detection"
       ]
     }
   }
