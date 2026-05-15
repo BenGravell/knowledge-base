@@ -9,6 +9,9 @@ Defaults:
 """
 
 import re
+import random
+import time
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 
 if __package__ in (None, ""):
@@ -29,12 +32,15 @@ from knowledge_base.utils.doi_utils import find_existing_by_arxiv_id
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ARXIV.md"
 ARXIV_ID_RE = re.compile(r"arxiv\.org/(?:abs|pdf)/([^\s/?#]+)")
 
-# Duration in seconds between successful requests
-# Set to 5 seconds, well above 3 seconds required by arXiv Terms of Use (which requires 3 seconds)
+# Duration in seconds between successful requests.
+# arXiv asks clients to make no more than one request every 3 seconds and
+# use a single connection; keep this comfortably above that floor.
 # https://info.arxiv.org/help/api/tou.html
-BASE_DELAY = 5.0      
-# Max number of retries for transient (non-HTTP) errors
-MAX_RETRIES = 5
+BASE_DELAY = 5.0
+MAX_RETRIES = 3
+BACKOFF_BASE = 10.0
+BACKOFF_MAX = 30.0
+RETRY_STATUS_CODES = {429, 500, 502, 503, 504}
 
 
 def extract_ids(path: Path) -> list[str]:
@@ -53,16 +59,54 @@ def extract_ids(path: Path) -> list[str]:
     return ids
 
 
+def retry_after_seconds(response: requests.Response | None) -> float | None:
+    """Return Retry-After as seconds, if the response supplies a usable value."""
+    if response is None:
+        return None
+    raw = response.headers.get("Retry-After")
+    if not raw:
+        return None
+    try:
+        return max(float(raw), 0.0)
+    except ValueError:
+        try:
+            retry_at = parsedate_to_datetime(raw)
+        except (TypeError, ValueError):
+            return None
+        return max(retry_at.timestamp() - time.time(), 0.0)
+
+
+def wait_for_retry(attempt: int, response: requests.Response | None) -> None:
+    retry_after = retry_after_seconds(response)
+    fallback = min(BACKOFF_BASE * (2 ** attempt), BACKOFF_MAX)
+    wait = retry_after if retry_after is not None else fallback
+    wait += random.uniform(0.0, min(BASE_DELAY, wait * 0.1))
+    status = response.status_code if response is not None else "network"
+    print(f"    {status} from arXiv - waiting {wait:.0f}s before retry {attempt + 2}/{MAX_RETRIES}")
+    time.sleep(wait)
+
+
 def fetch_with_retry(arxiv_id: str) -> dict:
-    for _attempt in range(MAX_RETRIES):
+    last_exc: Exception | None = None
+    for attempt in range(MAX_RETRIES):
         try:
             return fetch_arxiv(arxiv_id)
         except requests.HTTPError as exc:
-            if exc.response is not None and exc.response.status_code == 429:
-                raise HaltPrefill(
-                    "Bailing out! 429 errors tend to be unrecoverable even with retry. Try running the script again later."
-                ) from exc
-            raise
+            response = exc.response
+            if response is None or response.status_code not in RETRY_STATUS_CODES:
+                raise
+            last_exc = exc
+            if attempt + 1 < MAX_RETRIES:
+                wait_for_retry(attempt, response)
+        except (requests.ConnectionError, requests.Timeout) as exc:
+            last_exc = exc
+            if attempt + 1 < MAX_RETRIES:
+                wait_for_retry(attempt, None)
+
+    raise HaltPrefill(
+        "arXiv is still rate-limiting or unavailable after several polite retries. "
+        "The run stopped so it can be resumed later without hammering the API."
+    ) from last_exc
 
 
 class ArxivPrefill(PrefillScript[str]):

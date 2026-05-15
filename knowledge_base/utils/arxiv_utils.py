@@ -1,3 +1,4 @@
+import os
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -8,17 +9,30 @@ import yaml
 from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS
 
 PAPERS_DIR = Path("docs/papers")
-ARXIV_API = "https://export.arxiv.org/api/query?id_list={arxiv_id}"
+ARXIV_API = "https://export.arxiv.org/api/query"
 ARXIV_NS = "http://www.w3.org/2005/Atom"
-# arXiv ToU requires a descriptive User-Agent with contact info:
+# arXiv asks automated clients to identify themselves and stay contactable.
 # https://info.arxiv.org/help/api/tou.html
-ARXIV_HEADERS = {"User-Agent": "knowledge-base/1.0 (bjgravell@gmail.com; https://github.com/bjgravell/knowledge-base)"}
+ARXIV_CONTACT_EMAIL = os.environ.get("ARXIV_CONTACT_EMAIL", "bjgravell@gmail.com").strip()
+ARXIV_HEADERS = {
+    "Accept": "application/atom+xml, application/xml;q=0.9, */*;q=0.8",
+    "From": ARXIV_CONTACT_EMAIL,
+    "User-Agent": (
+        "knowledge-base-prefill/1.0 "
+        f"({ARXIV_CONTACT_EMAIL}; https://github.com/bjgravell/knowledge-base)"
+    ),
+}
 
 
 def fetch_arxiv(arxiv_id: str) -> dict:
     """Fetch basic metadata from the arXiv Atom API and return a dict."""
-    url = ARXIV_API.format(arxiv_id=arxiv_id.strip())
-    r = requests.get(url, headers=ARXIV_HEADERS, timeout=60)
+    arxiv_id = arxiv_id.strip()
+    r = requests.get(
+        ARXIV_API,
+        params={"id_list": arxiv_id, "max_results": 1},
+        headers=ARXIV_HEADERS,
+        timeout=60,
+    )
     r.raise_for_status()
 
     root = ET.fromstring(r.text)
@@ -46,8 +60,8 @@ def fetch_arxiv(arxiv_id: str) -> dict:
         "authors": authors,
         "year": year,
         "abstract": abstract,
-        "arxiv_id": arxiv_id.strip(),
-        "link": f"https://arxiv.org/pdf/{arxiv_id.strip()}",
+        "arxiv_id": arxiv_id,
+        "link": f"https://arxiv.org/pdf/{arxiv_id}",
     }
 
 
