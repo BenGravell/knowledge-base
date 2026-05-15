@@ -105,7 +105,7 @@ Hand-crafted
 
 ## Mind Map
 
-## #Ideas
+### Ideas
 
 <https://www.litmaps.com/about/us>
 
@@ -140,12 +140,6 @@ Collect points for clicking links, answering quiz questions.
 Edges opacity - autotune
 
 edges still too bright on light mode
-
-## Slugs for non arxiv papers are sometimes getting more than 4 words
-
-Clean up existing
-
-Revise prefill script logic (shared utils) to use no more than exactly 4 words, including helper words like "the" and "a"
 
 ## Metadata cleanup
 
