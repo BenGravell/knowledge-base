@@ -91,7 +91,7 @@ python scripts/funnel_papers.py
 
 ## Source Prefill Scripts
 
-Source-specific prefill scripts read URL or ID lists from `todo/papers/*.md`, fetch initial metadata, and write `docs/papers/<YEAR>/<SLUG>/metadata.yml`. 
+Source-specific prefill scripts read URL or ID lists from `todo/papers/*.md`, fetch initial metadata, and write `docs/papers/<YEAR>/<SLUG>/metadata.yml`.
 
 Generated metadata starts as `audit_status: raw` and should be reviewed with `scripts/audit_metadata.py`.
 
