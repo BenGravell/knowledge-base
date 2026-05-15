@@ -1,0 +1,11 @@
+https://drake.mit.edu/
+https://www.databookuw.com/
+https://github.com/KavrakiLab/vamp
+https://mykel.kochenderfer.com/textbooks/
+https://sites.google.com/monash.edu/motionperceiver
+https://jessicaleu24.github.io/doc/ACC21.pdf
+https://sites.google.com/view/alspg-oc
+https://mykel.kochenderfer.com/publications/
+https://github.com/google-research/scenic
+https://colab.research.google.com/drive/1m7-XiBmO3CtHJOj9XiKjFNxQnd0o2ez7
+https://stockfishchess.org/

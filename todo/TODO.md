@@ -1,5 +1,12 @@
 # TODO
 
+## Ingest
+
+Perform agent task
+"### Generate metadata for a group of papers"
+for
+todo/papers_misc/001_autonomous_driving_and_av_01.md
+
 ## Site
 
 Use git-filter-repo. It is the modern, reliable way to remove a path from all reachable Git history.

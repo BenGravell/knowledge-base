@@ -24,7 +24,11 @@ Levenberg-Marquadt
 
 ### SR1
 
-## AV Safety Concepts
+## Stochastic gradient descent
+
+https://neurips.cc/virtual/2021/33647
+
+# AV Safety Concepts
 
 https://iot-automotive.news/rss-explained-the-five-rules-for-autonomous-vehicle-safety/
 https://www.mobileye.com/technology/true-redundancy/
@@ -34,13 +38,10 @@ https://ieeexplore.ieee.org/document/9575420
 https://ieeexplore.ieee.org/document/9304563
 https://ieeexplore.ieee.org/document/9575928
 
-## A* graph search
+# A* graph search
 
 https://en.wikipedia.org/wiki/A*_search_algorithm
 
-## Stochastic gradient descent
-
-https://neurips.cc/virtual/2021/33647
 
 # RL
 
@@ -59,7 +60,7 @@ https://araffin.github.io/post/rl102/
 
 https://www.argmin.net/p/reticulating-splines
 
-# other
+# Other
 
 ## Clothoids
 

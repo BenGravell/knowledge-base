@@ -1,0 +1,15 @@
+https://cs.stanford.edu/~rfrostig/pubs/jax-mlsys2018.pdf
+https://github.com/nvidia/warp
+https://docs.nvidia.com/cuda/cuda-programming-guide/index.html
+https://huggingface.co/spaces/webml-community/bonsai-webgpu
+https://huggingface.co/collections/prism-ml/bonsai
+https://github.com/dynamicslab/hydrogym
+https://abseil.io/fast/hints.html
+https://edgl.dev/blog/cmake-precompiled-headers/
+https://msgpack.org/index.html
+https://sanket-pixel.github.io//blog/2025/that-first-cuda-blog-1/
+https://github.com/vectorclass/version2
+https://bluebrain.github.io/HighFive/poster/
+https://www.agner.org/optimize/
+https://perfwiki.github.io/main/tutorial/
+https://developer.nvidia.com/blog/integrate-physical-ai-capabilities-into-existing-apps-with-nvidia-omniverse-libraries/

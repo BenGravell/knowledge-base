@@ -1,0 +1,15 @@
+https://liberzon.csl.illinois.edu/teaching/kalman_paper.pdf
+https://www.academia.edu/3104881/A_universal_formula_for_stabilization_with_bounded_controls
+https://weizmann.elsevierpure.com/en/publications/stabilization-with-relaxed-controls/
+https://web.mit.edu/dimitrib/www/Bertsekas_1976_dynamic-programming.pdf
+https://wjongeneel.nl/pub/EPFL_TH10550_WJ.pdf
+https://en.wikipedia.org/wiki/Contraction_hierarchies
+https://digital-library.theiet.org/doi/abs/10.1049/ip-d.1991.0010
+https://seminariomatematico.polito.it/rendiconti/76-2/47.pdf
+https://web.stanford.edu/~pavone/papers/Singh.Pavone.Slotine.CDC16EV.pdf
+https://github.com/markosvec/bicycle-model-koopman
+https://github.com/radarFudan/Awesome-state-space-models
+https://se.mathworks.com/help/uav/ref/minimumjerkpolynomialtrajectory.html
+https://deepwiki.com/acados/acados/2.1-ocp-nlp-solvers#differential-dynamic-programming-ddp
+https://elib.dlr.de/96054/1/Ackermann_Der%20Entwurf%20linearer%20Regelungssysteme%20im%20Zustandsraum_Regelungstechnik_1972.pdf
+https://www.semanticscholar.org/paper/On-adaptive-control-processes-Bellman-Kalaba/2203f539aff403ac3c9c775d696a60c1418754d6

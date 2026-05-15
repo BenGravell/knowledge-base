@@ -1,0 +1,12 @@
+https://engineering.atspotify.com/2024/03/risk-aware-product-decisions-in-a-b-tests-with-multiple-metrics
+https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.qmc.Halton.html
+https://en.wikipedia.org/wiki/Sobol_sequence
+https://en.wikipedia.org/wiki/Halton_sequence
+https://medium.com/toyotaresearch/statistical-thinking-for-robot-policy-evaluation-from-rigorous-a-b-testing-to-effective-0ae886fbd68d
+https://www.cambridge.org/core/books/highdimensional-statistics/8A91ECEEC38F46DAB53E9FF8757C7A4E
+https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-book.html
+https://tor-lattimore.com/downloads/book/book.pdf
+https://sites.math.washington.edu/~rtr/papers/rtr179-CVaR1.pdf
+https://pubsonline.informs.org/doi/abs/10.1287/moor.16.3.580
+https://rkeramati.github.io/assets/pdf/CVaR_Bandit.pdf
+https://projecteuclid.org/journals/bulletin-of-the-american-mathematical-society-new-series/volume-58/issue-5/Some-aspects-of-the-sequential-design-of-experiments/bams/1183517370.full

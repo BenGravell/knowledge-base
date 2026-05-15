@@ -1,0 +1,9 @@
+https://gnpalencia.org/optbinning/counterfactual.html
+https://gnpalencia.org/optbinning/scorecard.html
+https://imitation.readthedocs.io/en/latest/
+https://www.ericsson.com/en/blog/2023/11/reinforcement-learning
+https://people.eecs.berkeley.edu/~brecht/kitchensinks.html
+https://gregorygundersen.com/blog/2019/12/23/random-fourier-features/
+https://m0nads.wordpress.com/2021/05/09/are-deep-networks-just-kernel-machines/
+https://www.jamespreiss.com/pubs/Preiss_Hausman_SysID_Embedding_Space_Neurips_RLPO_2018.pdf
+https://www.semanticscholar.org/paper/A-Theoretical-Framework-for-Back-Propagation-Cun/5d1f4d800a3a3bd0bf10839f9869f533e0d41c23

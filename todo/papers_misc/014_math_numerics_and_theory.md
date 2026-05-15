@@ -1,0 +1,11 @@
+https://github.com/patrick-kidger/diffrax
+https://en.wikipedia.org/wiki/Fast_marching_method
+https://en.wikipedia.org/wiki/Midpoint_method
+https://en.wikipedia.org/wiki/Chebyshev_polynomials
+https://pythonot.github.io/
+https://www.amp.i.kyoto-u.ac.jp/tecrep/ps_file/2009/2009-007.pdf
+https://www.mathnet.ru//php/archive.phtml?wshow=paper&jrnid=dan&paperid=26403&option_lang=eng
+https://www.math.ucla.edu/~wgangbo/Cedric-Villani.pdf
+https://uvammm.github.io/docs/theoryofgames.pdf
+https://www.scirp.org/reference/referencespapers?referenceid=1493059
+https://www.worldscientific.com/doi/10.1142/9789814354301_0005?srsltid=AfmBOorfRXd3Yh6d7ZHNXIKaBdTlx33jR8YleEoVR1F8Fx8LTjGdNrB9
