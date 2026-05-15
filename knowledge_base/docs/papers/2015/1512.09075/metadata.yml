@@ -1,0 +1,16 @@
+title: A Notation for Markov Decision Processes
+algorithm:
+authors:
+  - Philip S. Thomas
+  - Billy Okal
+year: 2015
+source:
+type: ''
+doi:
+arxiv_id: "1512.09075"
+tags:
+abstract: This paper specifies a notation for Markov decision processes.
+summary: ''
+link: https://arxiv.org/pdf/1512.09075
+links_alt:
+audit_status: raw

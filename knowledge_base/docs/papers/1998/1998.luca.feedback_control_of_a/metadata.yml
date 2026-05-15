@@ -1,0 +1,18 @@
+title: Feedback control of a nonholonomic car-like robot
+algorithm:
+authors:
+  - A. De Luca
+  - G. Oriolo
+  - C. Samson
+year: 1998
+source: Lecture Notes in Control and Information Sciences
+type: Conference Paper
+doi: 10.1007/BFb0036073
+arxiv_id:
+tags:
+abstract: >
+  'Feedback control of a nonholonomic car-like robot' published in 'Robot Motion Planning and Control'
+summary: ''
+link: https://doi.org/10.1007/BFb0036073
+links_alt:
+audit_status: raw

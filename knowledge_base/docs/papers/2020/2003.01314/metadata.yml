@@ -1,0 +1,19 @@
+title: >
+  EGAD! an Evolved Grasping Analysis Dataset for diversity and reproducibility in robotic manipulation
+algorithm:
+authors:
+  - Douglas Morrison
+  - Peter Corke
+  - Jürgen Leitner
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2003.01314"
+tags:
+abstract: >
+  We present the Evolved Grasping Analysis Dataset (EGAD), comprising over 2000 generated objects aimed at training and evaluating robotic visual grasp detection algorithms. The objects in EGAD are geometrically diverse, filling a space ranging from simple to complex shapes and from easy to difficult to grasp, compared to other datasets for robotic grasping, which may be limited in size or contain only a small number of object classes. Additionally, we specify a set of 49 diverse 3D-printable evaluation objects to encourage reproducible testing of robotic grasping systems across a range of complexity and difficulty. The dataset, code and videos can be found at https://dougsm.github.io/egad/
+summary: ''
+link: https://arxiv.org/pdf/2003.01314
+links_alt:
+audit_status: raw

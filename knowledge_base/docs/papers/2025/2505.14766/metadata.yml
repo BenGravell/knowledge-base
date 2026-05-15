@@ -1,0 +1,35 @@
+title: >
+  This Time is Different: An Observability Perspective on Time Series Foundation Models
+algorithm:
+authors:
+  - Ben Cohen
+  - Emaad Khwaja
+  - Youssef Doubli
+  - Salahidine Lemaachi
+  - Chris Lettieri
+  - Charles Masson
+  - Hugo Miccinilli
+  - Elise Ramé
+  - Qiqi Ren
+  - Afshin Rostamizadeh
+  - Jean Ogier du Terrail
+  - Anna-Monica Toon
+  - Kan Wang
+  - Stephan Xie
+  - Zongzhe Xu
+  - Viktoriya Zhukova
+  - David Asker
+  - Ameet Talwalkar
+  - Othmane Abou-Amal
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2505.14766"
+tags:
+abstract: >
+  We introduce Toto, a time series forecasting foundation model with 151 million parameters. Toto uses a modern decoder-only architecture coupled with architectural innovations designed to account for specific challenges found in multivariate observability time series data. Toto's pre-training corpus is a mixture of observability data, open datasets, and synthetic data, and is 4-10$\times$ larger than those of leading time series foundation models. Additionally, we introduce BOOM, a large-scale benchmark consisting of 350 million observations across 2,807 real-world time series. For both Toto and BOOM, we source observability data exclusively from Datadog's own telemetry and internal observability metrics. Extensive evaluations demonstrate that Toto achieves state-of-the-art performance on both BOOM and on established general purpose time series forecasting benchmarks. Toto's model weights, inference code, and evaluation scripts, as well as BOOM's data and evaluation code, are all available as open source under the Apache 2.0 License available at https://huggingface.co/Datadog/Toto-Open-Base-1.0 and https://github.com/DataDog/toto.
+summary: ''
+link: https://arxiv.org/pdf/2505.14766
+links_alt:
+audit_status: raw

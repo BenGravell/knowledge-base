@@ -1,0 +1,18 @@
+title: A Hypercube-Based Encoding for Evolving Large-Scale Neural Networks
+algorithm:
+authors:
+  - Kenneth O. Stanley
+  - David B. D'Ambrosio
+  - Jason Gauci
+year: 2009
+source: Artificial Life
+type: Journal Paper
+doi: 10.1162/artl.2009.15.2.15202
+arxiv_id:
+tags:
+abstract: >
+  Research in neuroevolution—that is, evolving artificial neural networks (ANNs) through evolutionary algorithms—is inspired by the evolution of biological brains, which can contain trillions of connections. Yet while neuroevolution has produced successful results, the scale of natural brains remains far beyond reach. This article presents a method called hypercube-based NeuroEvolution of Augmenting Topologies (HyperNEAT) that aims to narrow this gap. HyperNEAT employs an indirect encoding called connective compositional pattern-producing networks (CPPNs) that can produce connectivity patterns with symmetries and repeating motifs by interpreting spatial patterns generated within a hypercube as connectivity patterns in a lower-dimensional space. This approach can exploit the geometry of the task by mapping its regularities onto the topology of the network, thereby shifting problem difficulty away from dimensionality to the underlying problem structure. Furthermore, connective CPPNs can represent the same connectivity pattern at any resolution, allowing ANNs to scale to new numbers of inputs and outputs without further evolution. HyperNEAT is demonstrated through visual discrimination and food-gathering tasks, including successful visual discrimination networks containing over eight million connections. The main conclusion is that the ability to explore the space of regular connectivity patterns opens up a new class of complex high-dimensional tasks to neuroevolution.
+summary: ''
+link: https://doi.org/10.1162/artl.2009.15.2.15202
+links_alt:
+audit_status: raw

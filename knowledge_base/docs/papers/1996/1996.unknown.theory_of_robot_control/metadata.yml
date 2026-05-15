@@ -1,0 +1,15 @@
+title: Theory of Robot Control
+algorithm:
+authors:
+year: 1996
+source: Communications and Control Engineering
+type: Other
+doi: 10.1007/978-1-4471-1501-4
+arxiv_id:
+tags:
+abstract: >
+  The advent of new high-speed microprocessor technology together with the need for high-performance robots created substantial and realistic place for control theory in the field of robotics. Since the beginning of the 80&apos;s, robotics and control theory have greatly benefited from a mutual fertiliza­ tion. On one hand, robot models (inherently highly nonlinear) have been used as good case studies for exemplifying general concepts of analysis and design of advanced control theory; on the other hand, robot manipulator by using new control algorithms. Fur­ performance has been improved thermore, many interesting robotics problems, e. g. , in mobile robots, have brought new control theory research lines and given rise to the development of new controllers (time-varying and nonlinear). Robots in control are more than a simple case study. They represent a natural source of inspiration and a great pedagogical tool for research and teaching in control theory. Several advanced control algorithms have been developed for different types of robots (rigid, flexible and mobile), based either on existing control techniques, e. g. , feedback linearization and adaptive control, or on new control techniques that have been developed on purpose. Most of those results, although widely spread, are nowadays rather dispersed in different journals and conference proceedings. The purpose of this book is to collect some of the most fundamental and current results on theory of robot control in a unified framework, by editing, improving and completing previous works in the area.
+summary: ''
+link: https://doi.org/10.1007/978-1-4471-1501-4
+links_alt:
+audit_status: raw

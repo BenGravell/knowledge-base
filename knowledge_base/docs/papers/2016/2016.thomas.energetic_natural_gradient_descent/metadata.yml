@@ -1,0 +1,20 @@
+title: Energetic Natural Gradient Descent
+algorithm:
+authors:
+  - Philip Thomas
+  - Bruno Castro Silva
+  - Christoph Dann
+  - Emma Brunskill
+year: 2016
+source: International Conference on Machine Learning
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+abstract: >
+  We propose a new class of algorithms for minimizing or maximizing functions of parametric probabilistic models. These new algorithms are natural gradient algorithms that leverage more information than prior methods by using a new metric tensor in place of the commonly used Fisher information matrix. This new metric tensor is derived by computing directions of steepest ascent where the distance between distributions is measured using an approximation of energy distance (as opposed to Kullback-Leibler divergence, which produces the Fisher information matrix), and so we refer to our new ascent direction as the energetic natural gradient.
+summary: ''
+link: https://proceedings.mlr.press/v48/thomasb16.pdf
+links_alt:
+  - https://proceedings.mlr.press/v48/thomasb16.html
+audit_status: raw

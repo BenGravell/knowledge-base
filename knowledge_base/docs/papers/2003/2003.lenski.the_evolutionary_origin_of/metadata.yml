@@ -1,0 +1,20 @@
+title: The evolutionary origin of complex features
+algorithm:
+authors:
+  - Richard E. Lenski
+  - Charles Ofria
+  - Robert T. Pennock
+  - Christoph Adami
+year: 2003
+source: Nature
+type: Journal Paper
+doi: 10.1038/nature01568
+arxiv_id:
+tags:
+abstract: >
+  A long-standing challenge to evolutionary theory has been whether it can explain the origin of complex organismal features. We examined this issue using digital organisms&#8212;computer programs that self-replicate, mutate, compete and evolve. Populations of digital organisms often evolved the ability to perform complex logic functions requiring the coordinated execution of many genomic instructions. Complex functions evolved by building on simpler functions that had evolved earlier, provided that these were also selectively favoured. However, no particular intermediate stage was essential for evolving complex functions. The first genotypes able to perform complex functions differed from their non-performing parents by only one or two mutations, but differed from the ancestor by many mutations that were also crucial to the new functions. In some cases, mutations that were deleterious when they appeared served as stepping-stones in the evolution of complex features. These findings show how complex functions can originate by random mutation and natural selection.
+summary: ''
+link: https://www.nature.com/articles/nature01568
+links_alt:
+  - https://doi.org/10.1038/nature01568
+audit_status: raw

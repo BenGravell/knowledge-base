@@ -1,0 +1,18 @@
+title: Data-Efficient Design Exploration through Surrogate-Assisted Illumination
+algorithm:
+authors:
+  - Adam Gaier
+  - Alexander Asteroth
+  - Jean-Baptiste Mouret
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1806.05865"
+tags:
+abstract: >
+  Design optimization techniques are often used at the beginning of the design process to explore the space of possible designs. In these domains illumination algorithms, such as MAP-Elites, are promising alternatives to classic optimization algorithms because they produce diverse, high-quality solutions in a single run, instead of only a single near-optimal solution. Unfortunately, these algorithms currently require a large number of function evaluations, limiting their applicability. In this article we introduce a new illumination algorithm, Surrogate-Assisted Illumination (SAIL), that leverages surrogate modeling techniques to create a map of the design space according to user-defined features while minimizing the number of fitness evaluations. On a 2-dimensional airfoil optimization problem SAIL produces hundreds of diverse but high-performing designs with several orders of magnitude fewer evaluations than MAP-Elites or CMA-ES. We demonstrate that SAIL is also capable of producing maps of high-performing designs in realistic 3-dimensional aerodynamic tasks with an accurate flow simulation. Data-efficient design exploration with SAIL can help designers understand what is possible, beyond what is optimal, by considering more than pure objective-based optimization.
+summary: ''
+link: https://arxiv.org/pdf/1806.05865
+links_alt:
+audit_status: raw

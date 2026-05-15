@@ -1,0 +1,18 @@
+title: >
+  When Simple Exploration is Sample Efficient: Identifying Sufficient Conditions for Random Exploration to Yield PAC RL Algorithms
+algorithm:
+authors:
+  - Yao Liu
+  - Emma Brunskill
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1805.09045"
+tags:
+abstract: >
+  Efficient exploration is one of the key challenges for reinforcement learning (RL) algorithms. Most traditional sample efficiency bounds require strategic exploration. Recently many deep RL algorithms with simple heuristic exploration strategies that have few formal guarantees, achieve surprising success in many domains. These results pose an important question about understanding these exploration strategies such as $e$-greedy, as well as understanding what characterize the difficulty of exploration in MDPs. In this work we propose problem specific sample complexity bounds of $Q$ learning with random walk exploration that rely on several structural properties. We also link our theoretical results to some empirical benchmark domains, to illustrate if our bound gives polynomial sample complexity in these domains and how that is related with the empirical performance.
+summary: ''
+link: https://arxiv.org/pdf/1805.09045
+links_alt:
+audit_status: raw

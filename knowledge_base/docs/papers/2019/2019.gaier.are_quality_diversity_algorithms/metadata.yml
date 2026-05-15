@@ -1,0 +1,20 @@
+title: >
+  Are quality diversity algorithms better at generating stepping stones than objective-based search?
+algorithm:
+authors:
+  - Adam Gaier
+  - Alexander Asteroth
+  - Jean-Baptiste Mouret
+year: 2019
+source: Proceedings of the Genetic and Evolutionary Computation Conference Companion
+type: Conference Paper
+doi: 10.1145/3319619.3321897
+arxiv_id:
+tags:
+abstract: >
+  The route to the solution of complex design problems often lies through intermediate "stepping stones" which bear little resemblance to the final solution. By greedily following the path of greatest fitness improvement, objective-based search overlooks and discards stepping stones which might be critical to solving the problem. Here, we hypothesize that Quality Diversity (QD) algorithms are a better way to generate stepping stones than objective-based search: by maintaining a large set of solutions which are of high-quality, but phenotypically different, these algorithms collect promising stepping stones while protecting them in their own "ecological niche". To demonstrate the capabilities of QD we revisit the challenge of recreating images produced by user-driven evolution, a classic challenge which spurred work in novelty search and illustrated the limits of objective-based search. We show that QD far outperforms objective-based search in matching user-evolved images. Further, our results suggest some intriguing possibilities for leveraging the diversity of solutions created by QD.
+summary: ''
+link: https://dl.acm.org/doi/10.1145/3319619.3321897
+links_alt:
+  - https://doi.org/10.1145/3319619.3321897
+audit_status: raw

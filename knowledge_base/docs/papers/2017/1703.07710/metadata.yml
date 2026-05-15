@@ -1,0 +1,18 @@
+title: 'Unifying PAC and Regret: Uniform PAC Bounds for Episodic Reinforcement Learning'
+algorithm:
+authors:
+  - Christoph Dann
+  - Tor Lattimore
+  - Emma Brunskill
+year: 2017
+source:
+type: ''
+doi:
+arxiv_id: "1703.07710"
+tags:
+abstract: >
+  Statistical performance bounds for reinforcement learning (RL) algorithms can be critical for high-stakes applications like healthcare. This paper introduces a new framework for theoretically measuring the performance of such algorithms called Uniform-PAC, which is a strengthening of the classical Probably Approximately Correct (PAC) framework. In contrast to the PAC framework, the uniform version may be used to derive high probability regret guarantees and so forms a bridge between the two setups that has been missing in the literature. We demonstrate the benefits of the new framework for finite-state episodic MDPs with a new algorithm that is Uniform-PAC and simultaneously achieves optimal regret and PAC guarantees except for a factor of the horizon.
+summary: ''
+link: https://arxiv.org/pdf/1703.07710
+links_alt:
+audit_status: raw
