@@ -8,7 +8,7 @@ year: 2000
 source: Physical Review E
 type: Journal Paper
 doi: 10.1103/PhysRevE.62.1805
-arxiv_id: "cond-mat/0002177"
+arxiv_id:
 tags:
   - Traffic modeling
   - Intelligent driver model

@@ -1,0 +1,30 @@
+title: "Respect the Unstable"
+algorithm:
+authors:
+  - Gunter Stein
+year: 2003
+source: IEEE Control Systems Magazine
+type: Journal Paper
+doi: 10.1109/MCS.2003.1213600
+arxiv_id:
+tags:
+  - Feedback control
+  - Control limitations
+  - Unstable systems
+  - Bode sensitivity integral
+  - Sensitivity function
+  - Waterbed effect
+  - Actuator saturation
+  - Robustness
+  - Flight control
+  - Chernobyl
+abstract: >
+  Control engineers often design feedback control systems for inherently unstable systems, to keep them operating safely. In such cases, there are fundamental limitations on the achievable sensitivity function. The article discusses the potentially serious consequences of sensitivity constraints, input saturation, and instability. Inadequacies of control systems in such cases have led to deaths.
+summary: >
+  Recasts unstable feedback-control design as a practical safety problem governed by unavoidable sensitivity and saturation trade-offs, using the Bode sensitivity integral as a memorable "conservation law" for control. The article connects these limits to high-consequence examples including inverted pendulums, unstable aircraft, and Chernobyl, arguing that engineers must teach and check fundamental limitations before trusting sophisticated synthesis tools.
+link: https://ieeecss.org/sites/ieeecss/files/2021-09/Gunter%20Stein%20IEEE_2003.pdf
+links_alt:
+  - https://ieeexplore.ieee.org/document/1213600
+  - https://doi.org/10.1109/MCS.2003.1213600
+  - https://people.ee.ethz.ch/~rsmith/cs2files/2003_Stein_Respect_Unstable.pdf
+audit_status: reviewed

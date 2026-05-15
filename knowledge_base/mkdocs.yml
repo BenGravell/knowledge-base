@@ -789,7 +789,7 @@ nav:
           - DWPP: papers/2601_15006.md
           - Control for Societal-Scale Challenges: papers/2023_alleyne_control_for_societal_scale.md
           - "A note on persistency of excitation": papers/2005_willems_a_note_on_persistency.md
-          - "Respect the unstable": papers/2003_unknown_respect_the_unstable.md
+          - "Respect the Unstable": papers/2003_stein_respect_the_unstable.md
           - "Augmented Lagrangian Methods as Layered Control Architectures": papers/2311_06404.md
           - "Towards a Theory of Control Architecture: A quantitative framework for layered multi-rate control": papers/2401_15185.md
           - "Asymptotic stability equals exponential stability - while you twist your eyes": papers/2411_03277.md
