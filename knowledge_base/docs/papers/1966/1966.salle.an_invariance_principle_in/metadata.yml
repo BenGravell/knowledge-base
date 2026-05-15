@@ -1,5 +1,5 @@
 title: An invariance principle in the theory of stability
-algorithm:
+algorithm: La Salle Invariance Principle
 authors:
   - J. P. La Salle
 year: 1966
@@ -9,7 +9,7 @@ doi:
 arxiv_id:
 tags:
 abstract: >
-  Unified presentation of Liapunov stability theory and application to dynamic systems defined by partial differential equations
+  Unified presentation of Liapunov stability theory and application to dynamic systems defined by partial differential equations.
 summary: ''
 link: https://ntrs.nasa.gov/citations/19660025642
 links_alt:

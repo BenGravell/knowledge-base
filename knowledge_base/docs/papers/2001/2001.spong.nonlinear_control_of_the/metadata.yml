@@ -10,7 +10,8 @@ type: Journal Paper
 doi: 10.1016/s0005-1098(01)00145-5
 arxiv_id:
 tags:
-abstract: ''
+abstract: >
+  In this paper we introduce the Reaction Wheel Pendulum, a novel mechanical system consisting of a physical pendulum with a rotating bob. This system has several attractive features both from a pedagogical standpoint and from a research standpoint. From a pedagogical standpoint, the dynamics are the simplest among the various pendulum experiments available so that the system can be introduced to students earlier in their education. At the same time, the system is nonlinear and underactuated so that it can be used as a benchmark experiment to study recent advanced methodologies in nonlinear control, such as feedback linearization, passivity methods, backstepping and hybrid control. In this paper we discuss two control approaches for the problems of swingup and balance, namely, feedback linearization and passivity based control. We first show that the system is locally feedback linearizable by a local diffeomorphism in state space and nonlinear feedback. We compare the feedback linearization control with a linear pole-placement control for the problem of balancing the pendulum about the inverted position. For the swingup problem we discuss an energy approach based on collocated partial feedback linearization, and passivity of the resulting zero dynamics. A hybrid/switching control strategy is used to switch between the swingup and the balance control. Experimental results are presented.
 summary: ''
 link: https://doi.org/10.1016/s0005-1098(01)00145-5
 links_alt:

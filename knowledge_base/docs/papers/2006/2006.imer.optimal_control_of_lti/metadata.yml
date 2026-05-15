@@ -10,7 +10,8 @@ type: Journal Paper
 doi: 10.1016/j.automatica.2006.03.011
 arxiv_id:
 tags:
-abstract: ''
+abstract: >
+  In this paper, optimal control of linear time-invariant (LTI) systems over unreliable communication links is studied. The motivation of the problem comes from growing applications that demand remote control of objects over Internet-type or wireless networks where links are prone to failure. Depending on the availability of acknowledgment (ACK) signals, two different types of networking protocols are considered. Under a TCP structure, existence of ACK signals is assumed, unlike the UDP structure where no ACK packets are present. The objective here is to mean-square (m.s.) stabilize the system while minimizing a quadratic performance criterion when the information flow between the controller and the plant is disrupted due to link failures, or packet losses. Sufficient conditions for the existence of stabilizing optimal controllers are derived.
 summary: ''
 link: https://doi.org/10.1016/j.automatica.2006.03.011
 links_alt:

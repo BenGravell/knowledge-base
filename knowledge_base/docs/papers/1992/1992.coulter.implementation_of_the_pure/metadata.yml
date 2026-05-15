@@ -8,7 +8,8 @@ type: Other
 doi:
 arxiv_id:
 tags:
-abstract: ''
+abstract: >
+  The main purpose of this technical report is to describe in detail the implementation of the pure pursuit path tracking algorithm. Given the general success of the algorithm over the past few years, it seems likely that it will be used again in land-based navigation problems. This report also includes a geometric derivation of the method, and presents some insights into the performance of the algorithm as a function of its parameters
 summary: ''
 link: https://www.semanticscholar.org/paper/ee756e53b6a68cb2e7a2e5d537a3eff43d793d70
 links_alt:

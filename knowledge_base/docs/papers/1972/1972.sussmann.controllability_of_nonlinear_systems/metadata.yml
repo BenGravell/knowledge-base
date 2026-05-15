@@ -9,7 +9,8 @@ type: Journal Paper
 doi: 10.1016/0022-0396(72)90007-1
 arxiv_id:
 tags:
-abstract: ''
+abstract: >
+  In this article we study the controllability of nonlinear systems of the form dx/dt = F(x, u). Our objective is to establish criteria in terms of F and its derivatives at a point x which will give qualitative information about the sets attainable from x. The study is based primarily on the work of Chow [4] and Lohry [16], although it is similar in its approach to works by other authors in that it makes systematic use of differential geometry (for instance, see Hermann [8, 9], Haynes and Hermes [6], Brockett [2], etc.). The state variable x is assumed to take values in an arbitrary real, analytic manifold M, rather than in R^n. We chose this generalization because it creates no essential new difficulties while, on the other hand, it allows for certain applications which are not commonly treated in control theory. For instance, when M is a Lie group, then the present results can be specialized to obtain more detailed controllability criteria. Control problems on Lie groups were first considered by Brockett in [2], and will be treated in a forthcoming paper by the authors.
 summary: ''
 link: https://doi.org/10.1016/0022-0396(72)90007-1
 links_alt:

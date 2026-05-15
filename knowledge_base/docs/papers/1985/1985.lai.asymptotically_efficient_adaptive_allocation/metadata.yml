@@ -1,7 +1,7 @@
 title: Asymptotically efficient adaptive allocation rules
-algorithm:
+algorithm: "Asymptotic regret lower bound for bandit problems"
 authors:
-  - T.L Lai
+  - Tze Leung Lai
   - Herbert Robbins
 year: 1985
 source: Advances in Applied Mathematics
