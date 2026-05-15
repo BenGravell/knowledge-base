@@ -53,6 +53,48 @@ Generate and edit a `metadata.yml` entry from an arXiv ID:
 streamlit run apps/generator_app.py
 ```
 
+## Item Ingest
+
+The starting point for adding new items into the Knowledge Base is ingestion.
+
+You can ingest manually by creating a new directory in `docs/papers/` and a `metadata.yml` file.
+
+An easier way to get started is to collect a batch of URLs and follow the automated workflow below.
+
+### Funnel Items
+
+Place a batch of URLs in `todo/PAPERS_FUNNEL.md`, one URL per line.
+
+Route URLs from `todo/PAPERS_FUNNEL.md` into source-specific files under `todo/papers/`, or into `todo/PAPERS_MISC.md` when the source is unknown:
+
+```bash
+python scripts/funnel_papers.py --dry-run
+python scripts/funnel_papers.py
+```
+
+### Source Prefill Scripts
+
+Source-specific prefill scripts read URL or ID lists from `todo/papers/*.md`, fetch initial metadata, and write `docs/papers/<YEAR>/<SLUG>/metadata.yml`.
+
+Generated metadata starts as `audit_status: raw` and should be reviewed with `scripts/audit_metadata.py`.
+
+Run a prefill script with its default input file:
+
+```bash
+python scripts/prefill/arxiv.py
+python scripts/prefill/ieee.py
+```
+
+Common options shared by the prefill scripts:
+
+```bash
+python scripts/prefill/<source>.py --input ../todo/papers/<SOURCE>.md
+python scripts/prefill/<source>.py --first 5
+python scripts/prefill/<source>.py --list-skipped
+python scripts/prefill/<source>.py --overwrite
+python scripts/prefill/<source>.py --reingest
+```
+
 ## Paper Metadata Scripts
 
 Audit all paper metadata files:
@@ -80,36 +122,6 @@ Find generated paper pages that are missing from the `Content Tree` nav:
 python scripts/list_unplaced_papers.py --neighbors 3
 python scripts/list_unplaced_papers.py --format paths
 python scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
-```
-
-Route URLs from `todo/PAPERS_FUNNEL.md` into source-specific files under `todo/papers/`, or into `todo/PAPERS_MISC.md` when the source is unknown:
-
-```bash
-python scripts/funnel_papers.py --dry-run
-python scripts/funnel_papers.py
-```
-
-## Source Prefill Scripts
-
-Source-specific prefill scripts read URL or ID lists from `todo/papers/*.md`, fetch initial metadata, and write `docs/papers/<YEAR>/<SLUG>/metadata.yml`.
-
-Generated metadata starts as `audit_status: raw` and should be reviewed with `scripts/audit_metadata.py`.
-
-Run a prefill script with its default input file:
-
-```bash
-python scripts/prefill/arxiv.py
-python scripts/prefill/ieee.py
-```
-
-Common options shared by the prefill scripts:
-
-```bash
-python scripts/prefill/<source>.py --input ../todo/papers/<SOURCE>.md
-python scripts/prefill/<source>.py --first 5
-python scripts/prefill/<source>.py --list-skipped
-python scripts/prefill/<source>.py --overwrite
-python scripts/prefill/<source>.py --reingest
 ```
 
 ## Mind Map
