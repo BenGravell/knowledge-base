@@ -623,7 +623,7 @@ nav:
           - FlowMP: papers/2503_06135.md
           - "Memory of Motion for Warm-starting Trajectory Optimization": papers/1907_01474.md
           - "Parting with Misconceptions about Learning-based Vehicle Motion Planning": papers/2306_07962.md
-          - "Towards learning-based planning:The nuPlan benchmark for real-world autonomous driving": papers/2403_04133.md
+          - nuPlan: papers/2403_04133.md
           - "Goal-Conditioned Neural ODEs with Guaranteed Safety and Stability for Learning-Based All-Pairs Motion Planning": papers/2604_02821.md
           - NuPlan: papers/2106_11810.md
           - GNN-DIP: papers/2603_12361.md
