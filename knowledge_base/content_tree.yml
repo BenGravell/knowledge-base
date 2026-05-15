@@ -15,7 +15,7 @@
           - "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization": docs/papers/2007/0706.4138/metadata.yml
           - "A Convex Polynomial That Is Not sos-convex": docs/papers/2009/0903.1287/metadata.yml
           - "The Convex Geometry of Linear Inverse Problems": docs/papers/2010/1012.0621/metadata.yml
-          - "OptNet": docs/papers/2017/1703.00443/metadata.yml
+          - OptNet: docs/papers/2017/1703.00443/metadata.yml
           - "Semidefinite Approximations of the Matrix Logarithm": docs/papers/2017/1705.00812/metadata.yml
           - "Computational Optimal Transport: Complexity by Accelerated Gradient Descent Is Better than by Sinkhorn's Algorithm": docs/papers/2018/1802.04367/metadata.yml
           - "Semidefinite Programming Relaxations for Semialgebraic Problems": docs/papers/2003/2003.parrilo.semidefinite_programming_relaxations_for/metadata.yml
@@ -440,6 +440,7 @@
               - "Variance-Reduced Model Predictive Path Integral via Quadratic Model Approximation": docs/papers/2026/2602.03639/metadata.yml
               - "Dynamic Risk-Aware MPPI for Mobile Robots in Crowds via Efficient Monte Carlo Approximations": docs/papers/2025/2506.21205/metadata.yml
               - "Model Predictive Path Integral Control as Preconditioned Gradient Descent": docs/papers/2026/2603.24489/metadata.yml
+              - "Neural Distance-Guided Path Integral Control for Tractor-Trailer Navigation": docs/papers/2026/2605.09939/metadata.yml
             - "Recent Advances in Path Integral Control (Survey)": docs/papers/2023/2309.12566/metadata.yml
             - "Generative Models From and For Sampling-Based MPC: A Bootstrapped Approach For Adaptive Contact-Rich Manipulation": docs/papers/2025/2510.14643/metadata.yml
             - "Path Integral Particle Filtering for Hybrid Systems via Saltation Matrices": docs/papers/2026/2603.01176/metadata.yml
@@ -589,6 +590,7 @@
             - RRBT: docs/papers/2011/2011.bry.rapidly_exploring_random_belief/metadata.yml
             - RAPID: docs/papers/2012/1203.3538/metadata.yml
             - "Efficient Planning under Uncertainty with Macro-actions": docs/papers/2014/1401.3827/metadata.yml
+            - BBT: docs/papers/2021/2110.00173/metadata.yml
             - Optimizing Trajectory-Trees in Belief Space: docs/papers/2026/2605.01860/metadata.yml
         - "Risk Bounded Nonlinear Robot Motion Planning with Integrated Perception & Control": docs/papers/2022/2201.01483/metadata.yml
         - "Distributionally Robust CVaR-Based Safety Filtering for Motion Planning in Uncertain Environments": docs/papers/2023/2309.08821/metadata.yml
@@ -765,12 +767,14 @@
           - "Exponential stability of data-driven nonlinear MPC based on input/output models": docs/papers/2026/2603.16808/metadata.yml
           - "Soft projections for robust data-driven control": docs/papers/2026/2604.00900/metadata.yml
           - "Stochastic Data-Driven Predictive Control: Regularization, Estimation, and Constraint Tightening": docs/papers/2023/2312.02758/metadata.yml
+          - "Distributionally Robust Data-Driven Predictive Control for Stochastic LTI Systems": docs/papers/2026/2605.07589/metadata.yml
         - Robust and Stochastic MPC:
           - "Closed-loop analysis of linear stochastic MPC with risk-averse constraints": docs/papers/2026/2604.11183/metadata.yml
           - Dynamic Tube MPC: docs/papers/2019/1907.06553/metadata.yml
           - Elastic Tube MPC: docs/papers/2016/2016.rakovic.elastic_tube_model_predictive/metadata.yml
           - "Scenario-based Stochastic MPC for systems with uncertain dynamics": docs/papers/2022/2207.12517/metadata.yml
           - "Probably Approximately Correct Nonlinear Model Predictive Control (PAC-NMPC)": docs/papers/2022/2210.08092/metadata.yml
+          - "Interactive Trajectory Planning with Learning-based Distributionally Robust Model Predictive Control and Markov Systems": docs/papers/2026/2605.07768/metadata.yml
         - MPC Applications and Implementations:
           - "Intelligent Trajectory Planning for Autonomous Vehicles via Adaptive Model Predictive Control": docs/papers/2025/2025.goncalves.intelligent_trajectory_planning_for/metadata.yml
           - "Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks": docs/papers/2026/2604.19452/metadata.yml
@@ -873,6 +877,7 @@
         - Self-Supervised Correspondence in Visuomotor Policy Learning: docs/papers/2019/1909.06933/metadata.yml
         - TaSIL: docs/papers/2022/2205.14812/metadata.yml
         - Grasping with Chopsticks: docs/papers/2020/2011.06719/metadata.yml
+        - SayCan: docs/papers/2022/2204.01691/metadata.yml
         - DROID: docs/papers/2024/2403.12945/metadata.yml
         - Universal Manipulation Interface: docs/papers/2024/2402.10329/metadata.yml
         - HRT1: docs/papers/2025/2510.21026/metadata.yml
@@ -979,6 +984,7 @@
           - "Policy Gradient Methods for Reinforcement Learning with Function Approximation": docs/papers/1999/1999.sutton.policy_gradient_methods_for/metadata.yml
           - Direct Gradient-Based Reinforcement Learning: docs/papers/2000/2000.baxter.direct_gradient_based_reinforcement/metadata.yml
           - Natural Policy Gradient: docs/papers/2001/2001.kakade.a_natural_policy_gradient/metadata.yml
+          - "Natural Policy Gradient as Doubly Smoothed Policy Iteration: A Bellman-Operator Framework": docs/papers/2026/2605.10671/metadata.yml
           - Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies: docs/papers/2022/2210.04810/metadata.yml
           - HOOF: docs/papers/2019/1902.06583/metadata.yml
           - "Evolution Strategies as a Scalable Alternative to Reinforcement Learning": docs/papers/2017/1703.03864/metadata.yml
@@ -1284,7 +1290,10 @@
       - Natural Language Processing (NLP):
         - BERTopic: docs/papers/2022/2203.05794/metadata.yml
       - Large language models (LLM):
+        - PaLM: docs/papers/2022/2204.02311/metadata.yml
         - Llama 2: docs/papers/2023/2307.09288/metadata.yml
+        - Gemma: docs/papers/2024/2403.08295/metadata.yml
+        - Gemma 2: docs/papers/2024/2408.00118/metadata.yml
         - LoRA: docs/papers/2021/2106.09685/metadata.yml
         - AnglE: docs/papers/2023/2309.12871/metadata.yml
         - Meta-Harness: docs/papers/2026/2603.28052/metadata.yml
@@ -1297,13 +1306,21 @@
         - CLIP: docs/papers/2021/2103.00020/metadata.yml
         - DALL-E: docs/papers/2021/2102.12092/metadata.yml
         - DALL-E 2: docs/papers/2022/2204.06125/metadata.yml
+        - SigLIP: docs/papers/2023/2303.15343/metadata.yml
+        - PaLM-E: docs/papers/2023/2303.03378/metadata.yml
+        - PaliGemma: docs/papers/2024/2407.07726/metadata.yml
         - Kimi-VL: docs/papers/2025/2504.07491/metadata.yml     
       - Vision-language-action Models (VLA):
+        - RT-1: docs/papers/2022/2212.06817/metadata.yml
+        - RT-2: docs/papers/2023/2307.15818/metadata.yml
+        - pi0: docs/papers/2024/2410.24164/metadata.yml
+        - pi0.5: docs/papers/2025/2504.16054/metadata.yml
         - GR00T N1: docs/papers/2025/2503.14734/metadata.yml
         - OpenVLA: docs/papers/2024/2406.09246/metadata.yml
         - Alpamayo-R1: docs/papers/2025/2511.00088/metadata.yml
         - SAGA: docs/papers/2025/2512.12842/metadata.yml
         - Large Video Planner: docs/papers/2025/2512.15840/metadata.yml
+        - DreamZero: docs/papers/2026/2602.15922/metadata.yml
         - Orion-Lite: docs/papers/2026/2604.08266/metadata.yml
         - MolmoAct2: docs/papers/2026/2605.02881/metadata.yml
         - RLDX-1: docs/papers/2026/2605.03269/metadata.yml             
