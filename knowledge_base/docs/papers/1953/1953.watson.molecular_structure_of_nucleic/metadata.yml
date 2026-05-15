@@ -1,5 +1,4 @@
-title: 'Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic
-  Acid'
+title: 'Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic Acid'
 algorithm:
 authors:
   - J. D. WATSON
@@ -11,8 +10,9 @@ doi: 10.1038/171737a0
 arxiv_id:
 tags:
 abstract: >
-  The determination in 1953 of the structure of deoxyribonucleic acid (DNA), with its two entwined helices and paired organic bases, was a tour de force in X-ray crystallography. But more significantly, it also opened the way for a deeper understanding of perhaps the most important biological process. In the words of Watson and Crick: &quot;It has not escaped our notice that the specific pairing that we have postulated immediately suggests a possible copying mechanism for the genetic material.&quot; [Obituary of Francis Crick: Nature 430, 845-847 (2004); obituary of Maurice Wilkins: Nature 431, 922 (2004)]
-summary: ''
+  We wish to suggest a structure for the salt of deoxyribose nucleic acid (D.N.A.). This structure has novel features which are of considerable biological interest.
+summary: >
+  The determination in 1953 of the structure of deoxyribonucleic acid (DNA), with its two entwined helices and paired organic bases, was a tour de force in X-ray crystallography. But more significantly, it also opened the way for a deeper understanding of perhaps the most important biological process. In the words of Watson and Crick: "It has not escaped our notice that the specific pairing that we have postulated immediately suggests a possible copying mechanism for the genetic material."
 link: https://www.nature.com/articles/171737a0
 links_alt:
   - https://doi.org/10.1038/171737a0
