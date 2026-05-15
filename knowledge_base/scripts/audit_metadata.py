@@ -56,11 +56,40 @@ _LOWERCASE_TITLE_WORDS = {
     "plus",
     "since",
     "than",
+    "about",
+    "above",
+    "across",
+    "after",
+    "against",
+    "along",
+    "amid",
+    "amidst",
+    "among",
+    "amongst",
+    "around",
+    "before",
+    "behind",
+    "below",
+    "beneath",
+    "beside",
+    "besides",
+    "between",
+    "beyond",
+    "despite",
+    "down",
+    "during",
+    "inside",
+    "outside",
+    "through",
+    "throughout",
     "till",
     "under",
     "until",
     "unto",
     "upon",
+    "versus",
+    "within",
+    "without",
     "with",
 }
 
@@ -71,6 +100,11 @@ _ARXIV_OLD_RE = re.compile(  # e.g. math.CO/0701001
 )
 _HTML_ENTITY_RE = re.compile(
     r"&(?:#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);"
+)
+_TITLE_HTML_TAG_RE = re.compile(r"</?\s*[A-Za-z][^>]*>")
+_TITLE_MATH_SPAN_RE = re.compile(r"\$(?P<math>[^$]+)\$")
+_TITLE_LATEX_COMMAND_RE = re.compile(
+    r"\\(?:mathcal|mathrm|mathbf|mathit|operatorname)\{([^{}]+)\}"
 )
 CHECK_UNKNOWN = "unknown"
 CHECK_REQUIRED = "required"
@@ -212,6 +246,21 @@ def _looks_like_last_first_author(author: str) -> bool:
     return False
 
 
+def _suspicious_author_char_descriptions(author: str) -> list[str]:
+    descriptions: list[str] = []
+    for char in author:
+        if char == "\ufffd":
+            descriptions.append("U+FFFD REPLACEMENT CHARACTER")
+            continue
+
+        category = unicodedata.category(char)
+        if category in {"Cc", "Cf", "Cs", "Cn"}:
+            name = unicodedata.name(char, "UNNAMED")
+            descriptions.append(f"U+{ord(char):04X} {name}")
+
+    return descriptions
+
+
 # ---------------------------------------------------------------------------
 # Title-case helpers
 # ---------------------------------------------------------------------------
@@ -225,32 +274,113 @@ def _cap_first(s: str) -> str:
     return s[0].upper() + s[1:] if s else s
 
 
+_PROTECTED_TITLE_TOKENS = {
+    "db-a*": "db-A*",
+    "k-means++": "k-means++",
+    "sos-convex": "sos-convex",
+    "t-sne": "t-SNE",
+}
+_SCIENTIFIC_BINOMIALS = {
+    "drosophila melanogaster",
+}
+_PLACEHOLDER_PREFIX = "TITLEPROTECTED"
+
+
+def _split_token_punctuation(token: str) -> tuple[str, str, str]:
+    m = re.match(r"^([\"'“‘([{]*)(.*?)([\"'”’)\]},:;!?.]*)$", token)
+    return (m.group(1), m.group(2), m.group(3)) if m else ("", token, "")
+
+
+def _canonical_protected_token(core: str) -> str | None:
+    return _PROTECTED_TITLE_TOKENS.get(core.casefold())
+
+
+def _is_placeholder_token(core: str) -> bool:
+    return bool(re.fullmatch(rf"{_PLACEHOLDER_PREFIX}\d+", core))
+
+
+def _is_intentional_mixed_case(alpha: str) -> bool:
+    return len(alpha) > 1 and any(c.isupper() for c in alpha[1:])
+
+
+def _is_identifier_like_hyphenated_core(core: str) -> bool:
+    if "-" not in core:
+        return False
+
+    parts = core.split("-")
+    if len(parts) < 2:
+        return False
+
+    first = parts[0]
+    if len(first) == 1 and first.islower():
+        return True
+
+    first_alpha = re.sub(r"[^a-zA-Z]", "", first)
+    return bool(
+        first_alpha
+        and (
+            first_alpha == first_alpha.upper()
+            or first_alpha[0].isupper()
+            or _is_intentional_mixed_case(first_alpha)
+        )
+    )
+
+
+def _is_lowercase_leading_label(core: str, tail: str, is_first: bool) -> bool:
+    """Preserve stylized one-token method names in titles like "frax: ..."."""
+    return bool(
+        is_first
+        and tail == ":"
+        and re.fullmatch(r"[a-z][a-z0-9_+.-]{1,24}", core)
+        and core.casefold() not in _LOWERCASE_TITLE_WORDS
+    )
+
+
+def _is_scientific_binomial_epithet(previous_core: str | None, core: str) -> bool:
+    """Preserve the lowercase species epithet in known binomial names."""
+    if previous_core is None:
+        return False
+
+    return f"{previous_core} {core}".casefold() in _SCIENTIFIC_BINOMIALS
+
+
 def _case_token(token: str, force_cap: bool) -> str:
     """Apply title-case rules to a single word token (no hyphens)."""
-    # Separate trailing punctuation for classification, reattach after
-    m = re.match(r"^(.*?)([,:;!?.]*)$", token)
-    core, tail = (m.group(1), m.group(2)) if m else (token, "")
+    # Separate punctuation for classification, reattach after.
+    lead, core, tail = _split_token_punctuation(token)
 
     alpha = re.sub(r"[^a-zA-Z]", "", core)
+    protected = _canonical_protected_token(core)
+    if protected is not None:
+        return lead + protected + tail
+    if _is_placeholder_token(core):
+        return token
     # All-uppercase: acronym (e.g. MPPI, GPU, G1) — preserve as-is
     if alpha and alpha == alpha.upper():
         return token
     # Mixed-case: uppercase beyond the first character signals an intentional
     # capitalization pattern (e.g. pRRTC, iPhone, WestWorld) — preserve as-is
-    if len(alpha) > 1 and any(c.isupper() for c in alpha[1:]):
+    if _is_intentional_mixed_case(alpha):
         return token
 
     if force_cap or core.lower() not in _LOWERCASE_TITLE_WORDS:
-        return _cap_first(core) + tail
-    return core.lower() + tail
+        return lead + _cap_first(core) + tail
+    return lead + core.lower() + tail
+
+
+def _normalize_title_spacing(title: str) -> str:
+    title = re.sub(r"([:;!?])(?=\S)", r"\1 ", title)
+    return " ".join(title.split())
 
 
 def to_title_case(title: str) -> str:
+    title = _normalize_title_spacing(title)
     words = title.split()
     if not words:
         return title
     result = []
     after_colon = False
+    previous_core: str | None = None
     for i, word in enumerate(words):
         is_first = i == 0
         is_last = i == len(words) - 1
@@ -258,15 +388,26 @@ def to_title_case(title: str) -> str:
         # Track whether the next word follows a subtitle colon
         after_colon = word.endswith(":")
 
-        if "-" in word:
+        lead, core, tail = _split_token_punctuation(word)
+        protected = _canonical_protected_token(core)
+        if protected is not None:
+            result.append(lead + protected + tail)
+        elif _is_scientific_binomial_epithet(previous_core, core):
+            result.append(word)
+        elif _is_lowercase_leading_label(core, tail, is_first):
+            result.append(word)
+        elif _is_identifier_like_hyphenated_core(core):
+            result.append(word)
+        elif "-" in core:
             # Hyphenated compound: case the first part normally; preserve
             # existing case on subsequent parts (e.g. "Sampling-based" stays
             # "Sampling-based", not "Sampling-Based").
-            parts = word.split("-")
+            parts = core.split("-")
             cased_parts = [_case_token(parts[0], force)] + parts[1:]
-            result.append("-".join(cased_parts))
+            result.append(lead + "-".join(cased_parts) + tail)
         else:
             result.append(_case_token(word, force))
+        previous_core = core
 
     return " ".join(result)
 
@@ -553,11 +694,16 @@ def audit_file(
         else:
             corrected = _suggest_title_fix(raw, title)
             if title != corrected:
+                message = (
+                    f"Contains title markup/math garbage: {title!r}"
+                    if _title_has_garbage(title)
+                    else f"Not in title case: {title!r}"
+                )
                 issues.append(
                     Issue(
                         path,
                         "title",
-                        f"Not in title case: {title!r}",
+                        message,
                         corrected,
                     )
                 )
@@ -594,6 +740,27 @@ def audit_file(
                         "Author entries appear to use 'Last, First' order at index(es): "
                         f"{last_first}",
                         f"Use first-name last-name order; review: {examples}",
+                    )
+                )
+            suspicious_chars = {}
+            for i, a in enumerate(authors):
+                char_descriptions = _suspicious_author_char_descriptions(str(a))
+                if char_descriptions:
+                    suspicious_chars[i] = sorted(set(char_descriptions))
+            if suspicious_chars:
+                examples = ", ".join(
+                    f"{i}: {repr(str(authors[i]))} ({', '.join(chars[:3])})"
+                    for i, chars in list(suspicious_chars.items())[:3]
+                )
+                if len(suspicious_chars) > 3:
+                    examples += f", ... ({len(suspicious_chars)} total)"
+                issues.append(
+                    Issue(
+                        path,
+                        "authors",
+                        "Author entries contain suspicious Unicode character(s) at index(es): "
+                        f"{list(suspicious_chars)}",
+                        f"Replace mojibake/control characters with clean author names; review: {examples}",
                     )
                 )
     else:
@@ -808,7 +975,94 @@ def _normalize_for_duplicate_title_check(title: str) -> str:
     return " ".join(title.split()).casefold()
 
 
+def _title_has_garbage(title: str) -> bool:
+    return bool(
+        _TITLE_HTML_TAG_RE.search(title)
+        or _TITLE_MATH_SPAN_RE.search(title)
+        or _TITLE_LATEX_COMMAND_RE.search(title)
+    )
+
+
+def _plain_latex_math(text: str) -> str:
+    text = text.replace(r"\left", "")
+    text = text.replace(r"\right", "")
+    text = re.sub(r"\\frac\{([^{}]+)\}\{([^{}]+)\}", r"\1/\2", text)
+    text = _TITLE_LATEX_COMMAND_RE.sub(r"\1", text)
+    text = text.replace(r"\infty", "∞")
+    text = text.replace(r"\times", "x")
+    text = re.sub(r"\{([^{}]+)\}", r"\1", text)
+    text = re.sub(r"_\{?([^{}\s]+)\}?", r"\1", text)
+    text = text.replace("\\", "")
+    return text
+
+
+def _protect_title_spans(title: str) -> tuple[str, list[str], bool]:
+    protected: list[str] = []
+    changed = False
+
+    def protect(value: str) -> str:
+        protected.append(value)
+        return f"{_PLACEHOLDER_PREFIX}{len(protected) - 1}"
+
+    def replace_math(m: re.Match[str]) -> str:
+        nonlocal changed
+        changed = True
+        return protect(_plain_latex_math(m.group("math")))
+
+    title = _TITLE_MATH_SPAN_RE.sub(replace_math, title)
+
+    def replace_paired_tag(m: re.Match[str]) -> str:
+        nonlocal changed
+        changed = True
+        inner = _TITLE_HTML_TAG_RE.sub("", m.group("inner"))
+        return protect(html.unescape(inner))
+
+    paired_tag_re = re.compile(
+        r"<\s*(?P<tag>i|em|b|strong|sub|sup)\b[^>]*>"
+        r"(?P<inner>.*?)"
+        r"</\s*(?P=tag)\s*>",
+        re.I,
+    )
+    title = paired_tag_re.sub(replace_paired_tag, title)
+    return title, protected, changed
+
+
+def _restore_title_spans(title: str, protected: list[str]) -> str:
+    for i, value in enumerate(protected):
+        title = title.replace(f"{_PLACEHOLDER_PREFIX}{i}", value)
+    return title
+
+
+def _prepare_title_garbage_fix(title: str) -> tuple[str, list[str], bool]:
+    title = html.unescape(title)
+    title, protected, changed = _protect_title_spans(title)
+
+    if _TITLE_HTML_TAG_RE.search(title):
+        changed = True
+        title = _TITLE_HTML_TAG_RE.sub("", title)
+
+    if _TITLE_LATEX_COMMAND_RE.search(title):
+        changed = True
+        title = _plain_latex_math(title)
+
+    if changed:
+        # Removing inline markup can join neighboring tokens, e.g.
+        # "to<i>H</i><sub>∞</sub>control" -> "toH∞control".
+        title = re.sub(rf"(?<=[a-z])(?={_PLACEHOLDER_PREFIX}\d+)", " ", title)
+        title = re.sub(
+            rf"({_PLACEHOLDER_PREFIX}\d+)(?!{_PLACEHOLDER_PREFIX})(?=[A-Za-z])",
+            r"\1 ",
+            title,
+        )
+        title = re.sub(r"(?<=[a-z])(?=[A-Z∞])", " ", title)
+        title = re.sub(r"(?<=[∞])(?=[A-Za-z])", " ", title)
+        title = _normalize_title_spacing(title)
+
+    return title, protected, changed
+
+
 def _suggest_title_fix(raw: str, title: str) -> str:
+    title_to_fix = title
     parts = _plain_multiline_title_parts(raw)
     if parts is not None:
         header, continuation = parts
@@ -818,9 +1072,11 @@ def _suggest_title_fix(raw: str, title: str) -> str:
             and _normalize_for_duplicate_title_check(header)
             == _normalize_for_duplicate_title_check(continuation)
         ):
-            return header
+            title_to_fix = header
 
-    return to_title_case(title)
+    title_to_fix, protected, _ = _prepare_title_garbage_fix(title_to_fix)
+    fixed = to_title_case(title_to_fix)
+    return _restore_title_spans(fixed, protected)
 
 
 def _fix_title_in_yaml(raw: str, new_title: str) -> str:
@@ -949,7 +1205,7 @@ Checks performed on each metadata.yml:
   unknown   - ERROR for any field not in the VALID_FIELDS schema
   required  - ERROR if any of title, authors, year, abstract, type, audit_status missing
   title     - ERROR if empty; ERROR if not in title case
-  authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order
+  authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order; ERROR if entries contain suspicious Unicode corruption/control characters
   year      - ERROR if not a 4-digit integer
   arxiv     - ERROR if arxiv_id is present but not a valid arXiv ID
   abstract  - ERROR if empty, near-empty, placeholder-like, contains scraped page text, or has PDF extraction artifacts
