@@ -106,6 +106,32 @@ For the 'N items not displayed' make it clicksble to show more.
 Paper by year
 Make the bins start on 0 or 5 and end on 4 or 9
 
+Each of the horizontal bars graphs should have the numeric count label placed above the bar (right justified), in line with the string label (left justified)
+
+Flip the papers by year chart so it has horizontal bars. Also style them same as the other charts using the blue green gradient (not red pink). Use the red pink gradient for emphasizing the selected bar when mousing/hovering.
+
+Place the most recent year at the top, oldest year at the bottom.
+
+This is so it is consistent with the other charts and to give more space for bars especially on mobile.
+
+Also put grid lines at the ticks where years are marked. This is to give a visual guide across multiple bars for easier eyeballing quantity comparison.
+
+Rename "Content tree" section to "Categories" and remove the top n selector.
+
+When clicking histogram bar, do not snap the hover tool tip to the top of the chart, put it in a stable constant position at the top of the bar.
+
+Also make it possible to scroll over the bars when using finger touch on mobile site and have the hover tool tip follow
+
+Rename "papers by year" to "items by year"
+
+Perform same rename throughout the page, they are items not papers.
+
+Get rid of title caption about number of items indexed since it is redundant, we already count it as the first big metric.
+
+Rename big metric "papers" to "items"
+
+Get rid of "unique" from the big metric labels for authors and tags, it is obvious from context just like the other metrics do not explicitly say unique.
+
 ## Timeline
 
 Design inspiration:
@@ -148,6 +174,28 @@ Keep level of detail as it is - it should set the global level of detail/aggrega
 
 When clicking a branch node, it should show the children of the node (the branch disappears and is replaced by its children, one level of detail deeper) but keep the rest of the graph the same.
 
+Make sure every branch goes 3 levels deep to sub category. This is a way to make the existing level of detail work properly in mind map. Otherwise it is unintuitive that when you click a node it might not split up.
+
+Another way would be to skip lod expansion if node clicked has no child in the next overall lod
+
+### Nodes style
+
+https://bengravell.github.io/knowledge-base/mind-map/
+
+Node disks at all levels of detail are a bit small, can bump up diameter probably 2x and look good. Paper level of detail should still enforce minimum disk clearance after the change. Higher level of detail can permit a small amount of overlap between disks.
+
+### Rename
+
+Rename "mind map" to "knowledge graph" because mind map is for a different concept that encode hierarchy in a flat way in one big graph
+
+### True Mind Map (new feature)
+
+Create a true mind map that shows the hierarchical relations directly in the graph. Super categories are big nodes and have edges to categories which have edges to subcategories which have edges to papers.
+
+This can be tightly integrated with the content tree page since they share an identical hierarchy. The mind map can be shown on the side / top of the nav tree as a kind of minimap (Gran Turismo style). It should focus on the currently selected branch by zooming and centering on it (not discarding the upper levels of hierarchy, just letting ancestors and other non descendent parts of the tree go off screen).
+
+Edges in the mind map are not based on the embedding similarity at all, only the hierarchy from the content tree.
+
 ### Ideas
 
 <https://www.litmaps.com/about/us>
@@ -178,11 +226,23 @@ Encourage exploration between rooms or lands represented by research items
 
 Collect points for clicking links, answering quiz questions.
 
-## Edges
+### Edges
 
 Edges opacity - autotune
 
 edges still too bright on light mode
+
+## Explainers
+
+https://bengravell.github.io/knowledge-base/explainers/polyak_lojasiewicz/
+
+Force equations to fit to container width, using scaling to achieve it. On mobile site with narrow width it induces a horizontal scroll bar which is undesirable.
+
+https://bengravell.github.io/knowledge-base/explainers/pid/pid/
+
+Bullet list for Ben Recht blog posts are not indenting properly.
+
+Simulation of cartpole seems unrealistic when cart reaches world borders. It should rebound elastically on collision and not have any weird physical effects on the pole, forces should be transmitted properly.
 
 ## Metadata cleanup
 
@@ -212,6 +272,8 @@ It should only use an abbreviation representing a concrete algorithm if it was t
 - ensure every linked doc actually exists
 - ensure every paper in the docs source has a reference in mkdocs.yml (no dead data)
 
+- Ensure every tail branch in tree has more than one leaf node / item. Use sparse tail branches to guide exploration
+
 ### Schema
 
 Define the schema in a single source of truth doc.
@@ -231,6 +293,7 @@ add other URIs besides DOI since not all papers have DOI e.g. dissertations, arx
 - Autogenerate the key for papers
   - policy: use algorithm if non-null, else use the paper name
 
+
 ## Quality of life
 
 ### Get mkdocs rebuilds faster
@@ -248,6 +311,8 @@ Should call:
 - mkdocs build
 
 Take an argument -g or --github to use gh-deploy mkdocs
+
+Set up an automation orchestration script to invest from paper funnel, run prefill, ask ai for preliminary metadata fixup using audit script, generate mind map data, place papers in content tree
 
 ## ConLab scrape
 
