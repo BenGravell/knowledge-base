@@ -101,7 +101,10 @@ Hand-crafted
 
 ## Timeline
 
-## Content tree
+## Content Tree
+
+Find a more ergonomic way to store and represent the source of truth of the content tree. Perhaps use a literal filesystem tree, terminating with leaf nodes as files named like paper_slug.node ?
+Aim is to make it easier to recategorize branches, reduce vertical scrolling through thousands of lines, better git diff.
 
 ## Mind Map
 
