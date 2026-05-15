@@ -1,5 +1,5 @@
 title: 'RAPID: A Reachable Anytime Planner for Imprecisely-sensed Domains'
-algorithm:
+algorithm: RAPID
 authors:
   - Emma Brunskill
   - Stuart Russell

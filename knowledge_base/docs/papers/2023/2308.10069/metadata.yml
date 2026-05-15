@@ -1,6 +1,6 @@
 title: >
   Real-time Mixed-Integer Quadratic Programming for Vehicle Decision Making and Motion Planning
-algorithm:
+algorithm: MIP-DM
 authors:
   - Rien Quirynen
   - Sleiman Safaoui

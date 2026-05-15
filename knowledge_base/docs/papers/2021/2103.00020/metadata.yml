@@ -1,5 +1,5 @@
 title: "Learning Transferable Visual Models from Natural Language Supervision"
-algorithm: "CLIP"
+algorithm: CLIP
 authors:
   - Alec Radford
   - Jong Wook Kim

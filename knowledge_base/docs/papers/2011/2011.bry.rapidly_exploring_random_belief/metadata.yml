@@ -1,5 +1,5 @@
 title: "Rapidly-exploring Random Belief Trees for Motion Planning under Uncertainty"
-algorithm:
+algorithm: RRBT
 authors:
   - Adam Bry
   - Nicholas Roy

@@ -1,5 +1,5 @@
 title: 'db-A*: Discontinuity-bounded Search for Kinodynamic Mobile Robot Motion Planning'
-algorithm:
+algorithm: db-A*
 authors:
   - Wolfgang Hoenig
   - Joaquim Ortiz-Haro

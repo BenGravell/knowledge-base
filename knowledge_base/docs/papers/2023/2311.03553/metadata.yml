@@ -1,6 +1,6 @@
 title: >
   iDb-A*: Iterative Search and Optimization for Optimal Kinodynamic Motion Planning
-algorithm:
+algorithm: iDb-A*
 authors:
   - Joaquim Ortiz-Haro
   - Wolfgang Hoenig

@@ -1,5 +1,5 @@
 title: A Hypercube-Based Encoding for Evolving Large-Scale Neural Networks
-algorithm:
+algorithm: HyperNEAT
 authors:
   - Kenneth O. Stanley
   - David B. D'Ambrosio
