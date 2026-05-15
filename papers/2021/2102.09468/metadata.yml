@@ -1,0 +1,20 @@
+title: >
+  Near-optimal Local Convergence of Alternating Gradient Descent-Ascent for Minimax Optimization
+algorithm:
+authors:
+  - Guodong Zhang
+  - Yuanhao Wang
+  - Laurent Lessard
+  - Roger Grosse
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2102.09468"
+tags:
+abstract: >
+  Smooth minimax games often proceed by simultaneous or alternating gradient updates. Although algorithms with alternating updates are commonly used in practice, the majority of existing theoretical analyses focus on simultaneous algorithms for convenience of analysis. In this paper, we study alternating gradient descent-ascent (Alt-GDA) in minimax games and show that Alt-GDA is superior to its simultaneous counterpart~(Sim-GDA) in many settings. We prove that Alt-GDA achieves a near-optimal local convergence rate for strongly convex-strongly concave (SCSC) problems while Sim-GDA converges at a much slower rate. To our knowledge, this is the \emph{first} result of any setting showing that Alt-GDA converges faster than Sim-GDA by more than a constant. We further adapt the theory of integral quadratic constraints (IQC) and show that Alt-GDA attains the same rate \emph{globally} for a subclass of SCSC minimax problems. Empirically, we demonstrate that alternating updates speed up GAN training significantly and the use of optimism only helps for simultaneous algorithms.
+summary: ''
+link: https://arxiv.org/pdf/2102.09468
+links_alt:
+audit_status: raw

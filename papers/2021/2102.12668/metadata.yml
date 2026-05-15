@@ -1,0 +1,18 @@
+title: >
+  Learning-based Robust Motion Planning with Guaranteed Stability: A Contraction Theory Approach
+algorithm:
+authors:
+  - Hiroyasu Tsukamoto
+  - Soon-Jo Chung
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2102.12668"
+tags:
+abstract: >
+  This paper presents Learning-based Autonomous Guidance with RObustness and Stability guarantees (LAG-ROS), which provides machine learning-based nonlinear motion planners with formal robustness and stability guarantees, by designing a differential Lyapunov function using contraction theory. LAG-ROS utilizes a neural network to model a robust tracking controller independently of a target trajectory, for which we show that the Euclidean distance between the target and controlled trajectories is exponentially bounded linearly in the learning error, even under the existence of bounded external disturbances. We also present a convex optimization approach that minimizes the steady-state bound of the tracking error to construct the robust control law for neural network training. In numerical simulations, it is demonstrated that the proposed method indeed possesses superior properties of robustness and nonlinear stability resulting from contraction theory, whilst retaining the computational efficiency of existing learning-based motion planners.
+summary: ''
+link: https://arxiv.org/pdf/2102.12668
+links_alt:
+audit_status: raw

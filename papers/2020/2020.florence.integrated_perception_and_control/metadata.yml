@@ -1,0 +1,18 @@
+title: "Integrated Perception and Control at High Speed: Evaluating Collision Avoidance Maneuvers without Maps"
+algorithm:
+authors:
+  - Pete Florence
+  - John Carter
+  - Russ Tedrake
+year: 2020
+source: Springer Proceedings in Advanced Robotics
+type: Conference Paper
+doi: 10.1007/978-3-030-43089-4_20
+arxiv_id:
+tags:
+abstract: >
+  We present a method for robust high-speed quadrotor flight through unknown cluttered environments using integrated perception and control. Motivated by experiments in which the difficulty of accurate state estimation was a primary limitation on speed, our method forgoes maintaining a map in favor of using only instantaneous depth information in the local frame. This provides robustness in the presence of significant state estimate uncertainty. Additionally, we present approximation methods augmented with spatial partitioning data structures that enable low-latency, real-time reactive control. The probabilistic formulation provides a natural way to integrate reactive obstacle avoidance with arbitrary navigation objectives. We validate the method using a simulated quadrotor race through a forest at high speeds in the presence of increasing state estimate noise. We pair our method with a motion primitive library and compare with a global path-generation and pathfollowing approach.
+summary: ''
+link: https://doi.org/10.1007/978-3-030-43089-4_20
+links_alt:
+audit_status: raw

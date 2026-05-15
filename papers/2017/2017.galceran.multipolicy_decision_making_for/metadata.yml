@@ -1,0 +1,19 @@
+title: "Multipolicy Decision-making for Autonomous Driving via Changepoint-based Behavior Prediction: Theory and Experiment"
+algorithm:
+authors:
+  - Enric Galceran
+  - Alexander G. Cunningham
+  - Ryan M. Eustice
+  - Edwin Olson
+year: 2017
+source: Autonomous Robots
+type: Journal Paper
+doi: 10.1007/s10514-017-9619-z
+arxiv_id:
+tags:
+abstract: >
+  This paper reports on an integrated inference and decision-making approach for autonomous driving that models vehicle behavior for both our vehicle and nearby vehicles as a discrete set of closed-loop policies. Each policy captures a distinct high-level behavior and intention, such as driving along a lane or turning at an intersection. We first employ Bayesian changepoint detection on the observed history of nearby cars to estimate the distribution over potential policies that each nearby car might be executing. We then sample policy assignments from these distributions to obtain high-likelihood actions for each participating vehicle, and perform closed-loop forward simulation to predict the outcome for each sampled policy assignment. After evaluating these predicted outcomes, we execute the policy with the maximum expected reward value. We validate behavioral prediction and decision-making using simulated and real-world experiments.
+summary: ''
+link: https://doi.org/10.1007/s10514-017-9619-z
+links_alt:
+audit_status: raw

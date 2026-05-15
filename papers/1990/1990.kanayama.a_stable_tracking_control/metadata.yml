@@ -1,0 +1,29 @@
+title: "A Stable Tracking Control Method for an Autonomous Mobile Robot"
+algorithm: Kanayama Tracking Controller
+authors:
+  - Yutaka Kanayama
+  - Yoshihiko Kimura
+  - Fumio Miyazaki
+  - Tetsuo Noguchi
+year: 1990
+source: IEEE International Conference on Robotics and Automation
+type: Conference Paper
+doi: 10.1109/ROBOT.1990.126006
+arxiv_id:
+tags:
+  - Mobile robot tracking
+  - Nonholonomic vehicles
+  - Wheeled mobile robots
+  - Lyapunov stability
+  - Velocity control
+  - Path tracking
+  - Yamabico
+abstract: >
+  A stable tracking control rule is proposed for nonholonomic vehicles. The stability of the rule is proved through the use of a Liapunov function. Inputs to the vehicle are a reference posture (x_r, y_r, theta_r)^t and reference velocities (nu_r, omega_r)^t. The major objective of this study is to propose a control rule to find reasonable target linear and rotational velocities (nu, omega)^t. Linearizing the system's differential equation is useful for deciding parameters for critical damping for a small disturbance. In order to avoid slippage, a velocity/acceleration limitation scheme is introduced. Several simulation results are presented with or without the velocity/acceleration limiter. The control rule and limiting method proposed are robot independent and hence can be applied to various kinds of mobile robots with a dead reckoning ability. This method was implemented on the autonomous mobile robot Yamabico-11. Experimental results obtained are close to the results with the velocity/acceleration limiter.
+summary: >
+  Gives a Lyapunov-stable tracking controller for nonholonomic mobile robots that maps a reference pose and reference velocities into target linear and angular velocity commands. The velocity and acceleration limiting scheme makes the method practically relevant for real wheeled robots and helped establish a standard tracking-error model for mobile robot control.
+link: https://doi.org/10.1109/ROBOT.1990.126006
+links_alt:
+  - https://dblp.org/rec/conf/icra/KanayamaKMN90
+  - https://cir.nii.ac.jp/crid/1360574093905295488
+audit_status: raw

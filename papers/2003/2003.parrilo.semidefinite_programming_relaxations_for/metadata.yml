@@ -1,0 +1,16 @@
+title: "Semidefinite Programming Relaxations for Semialgebraic Problems"
+algorithm:
+authors:
+  - Pablo A. Parrilo
+year: 2003
+source: Mathematical Programming
+type: Journal Paper
+doi: 10.1007/s10107-003-0387-5
+arxiv_id:
+tags:
+abstract: >
+  A hierarchy of convex relaxations for semialgebraic problems is introduced. For questions reducible to a finite number of polynomial equalities and inequalities, it is shown how to construct a complete family of polynomially sized semidefinite programming conditions that prove infeasibility. The main tools employed are a semidefinite programming formulation of the sum of squares decomposition for multivariate polynomials, and some results from real algebraic geometry. The techniques provide a constructive approach for finding bounded degree solutions to the Positivstellensatz, and are illustrated with examples from diverse application fields.
+summary: ''
+link: https://doi.org/10.1007/s10107-003-0387-5
+links_alt:
+audit_status: raw

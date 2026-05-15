@@ -1,0 +1,17 @@
+title: "On the Douglas—Rachford Splitting Method and the Proximal Point Algorithm for Maximal Monotone Operators"
+algorithm:
+authors:
+  - Jonathan Eckstein
+  - Dimitri P. Bertsekas
+year: 1992
+source: Mathematical Programming
+type: Journal Paper
+doi: 10.1007/BF01581204
+arxiv_id:
+tags:
+abstract: >
+  This paper shows, by means of an operator called asplitting operator, that the Douglas-Rachford splitting method for finding a zero of the sum of two monotone operators is a special case of the proximal point algorithm. Therefore, applications of Douglas-Rachford splitting, such as the alternating direction method of multipliers for convex programming decomposition, are also special cases of the proximal point algorithm. This observation allows the unification and generalization of a variety of convex programming algorithms. By introducing a modified version of the proximal point algorithm, we derive a new,generalized alternating direction method of multipliers for convex programming. Advances of this sort illustrate the power and generality gained by adopting monotone operator theory as a conceptual framework.
+summary: ''
+link: https://doi.org/10.1007/BF01581204
+links_alt:
+audit_status: raw

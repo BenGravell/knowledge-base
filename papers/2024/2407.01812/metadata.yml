@@ -1,0 +1,25 @@
+title: Equivariant Diffusion Policy
+algorithm:
+authors:
+  - Dian Wang
+  - Stephen Hart
+  - David Surovik
+  - Tarik Kelestemur
+  - Haojie Huang
+  - Haibo Zhao
+  - Mark Yeatman
+  - Jiuguang Wang
+  - Robin Walters
+  - Robert Platt
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2407.01812"
+tags:
+abstract: >
+  Recent work has shown diffusion models are an effective approach to learning the multimodal distributions arising from demonstration data in behavior cloning. However, a drawback of this approach is the need to learn a denoising function, which is significantly more complex than learning an explicit policy. In this work, we propose Equivariant Diffusion Policy, a novel diffusion policy learning method that leverages domain symmetries to obtain better sample efficiency and generalization in the denoising function. We theoretically analyze the $\mathrm{SO}(2)$ symmetry of full 6-DoF control and characterize when a diffusion model is $\mathrm{SO}(2)$-equivariant. We furthermore evaluate the method empirically on a set of 12 simulation tasks in MimicGen, and show that it obtains a success rate that is, on average, 21.9% higher than the baseline Diffusion Policy. We also evaluate the method on a real-world system to show that effective policies can be learned with relatively few training samples, whereas the baseline Diffusion Policy cannot.
+summary: ''
+link: https://arxiv.org/pdf/2407.01812
+links_alt:
+audit_status: raw

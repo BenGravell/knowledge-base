@@ -1,0 +1,16 @@
+title: A Survey of Stability of Stochastic Systems
+algorithm:
+authors:
+  - F. Kozin
+year: 1969
+source: Automatica
+type: Journal Paper
+doi: 10.1016/0005-1098(69)90060-0
+arxiv_id:
+tags:
+abstract: >
+  The main purpose of this manuscript is to give to the interested reader some understanding of the subject of stability of stochastic systems. We present some of the basic ideas as well as a survey of results that have appeared in the literature. Theorems are presented, where appropriate, but no proofs are given. It is hoped that the interested reader will go to the original source for the full development of the ideas involved. We restrict ourselves to continuous parameter models and distinguish between those systems that do incorporate Gaussian white noise in the system equations, and those systems that do not incorporate Gaussian white noise. A reasonably representative bibliography is included.
+summary: ''
+link: https://doi.org/10.1016/0005-1098(69)90060-0
+links_alt:
+audit_status: raw

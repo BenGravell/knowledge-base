@@ -1,0 +1,22 @@
+title: "Preventing Undesirable Behavior of Intelligent Machines"
+algorithm:
+authors:
+  - Philip S. Thomas
+  - Bruno Castro da Silva
+  - Andrew G. Barto
+  - Stephen Giguere
+  - Yuriy Brun
+  - Emma Brunskill
+year: 2019
+source: Science
+type: Journal Paper
+doi: 10.1126/science.aag3311
+arxiv_id:
+tags:
+abstract: >
+  Making well-behaved algorithms Machine learning algorithms are being used in an ever-increasing number of applications, and many of these applications affect quality of life. Yet such algorithms often exhibit undesirable behavior, from various types of bias to causing financial loss or delaying medical diagnoses. In standard machine learning approaches, the burden of avoiding this harmful behavior is placed on the user of the algorithm, who most often is not a computer scientist. Thomas et al. introduce a general framework for algorithm design in which this burden is shifted from the user to the designer of the algorithm. The researchers illustrate the benefits of their approach using examples in gender fairness and diabetes management. Science , this issue p. 999
+summary: ''
+link: https://www.science.org/doi/10.1126/science.aag3311
+links_alt:
+  - https://doi.org/10.1126/science.aag3311
+audit_status: raw

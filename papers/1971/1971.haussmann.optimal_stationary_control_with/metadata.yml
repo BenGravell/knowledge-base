@@ -14,6 +14,7 @@ tags:
   - Algebraic Riccati equation
   - Optimal control
 abstract: >
+  The steady state optimal linear regulator with state and control dependent noise is analyzed in a manner similar to that developed by Wonham [1]. By state dependent noise we mean Gaussian white noise with coefficient linear in the state variable, and similarly for control dependent noise. Using a Lyapunov criterion for the existence of stationary probability distributions due to Zakai, it is possible to treat equations leading to diffusion processes with degenerate differential generators. It is found that if the noise is sufficiently small, then an optimal control exists. Further analysis, again using Lyapunov methods, yields conditions under which an optimal control exists no matter how large the noise is.
 summary: >
   Generalizes stochastic LQR to linear systems where noise depends on both the state and the control input, deriving modified Riccati equations for the optimal stationary feedback law. Extends the results of Wonham (1967) to the control-dependent noise case.
 link: https://epubs.siam.org/doi/10.1137/0309016

@@ -1,0 +1,21 @@
+title: >
+  Scaling Is All You Need: Autonomous Driving with JAX-Accelerated Reinforcement Learning
+algorithm:
+authors:
+  - Moritz Harmel
+  - Anubhav Paras
+  - Andreas Pasternak
+  - Nicholas Roy
+  - Gary Linscott
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2312.15122"
+tags:
+abstract: >
+  Reinforcement learning has been demonstrated to outperform even the best humans in complex domains like video games. However, running reinforcement learning experiments on the required scale for autonomous driving is extremely difficult. Building a large scale reinforcement learning system and distributing it across many GPUs is challenging. Gathering experience during training on real world vehicles is prohibitive from a safety and scalability perspective. Therefore, an efficient and realistic driving simulator is required that uses a large amount of data from real-world driving. We bring these capabilities together and conduct large-scale reinforcement learning experiments for autonomous driving. We demonstrate that our policy performance improves with increasing scale. Our best performing policy reduces the failure rate by 64% while improving the rate of driving progress by 25% compared to the policies produced by state-of-the-art machine learning for autonomous driving.
+summary: ''
+link: https://arxiv.org/pdf/2312.15122
+links_alt:
+audit_status: raw

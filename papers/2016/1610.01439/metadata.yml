@@ -1,0 +1,19 @@
+title: Nonlinear Systems Identification Using Deep Dynamic Neural Networks
+algorithm:
+authors:
+  - Olalekan Ogunmolu
+  - Xuejun Gu
+  - Steve Jiang
+  - Nicholas Gans
+year: 2016
+source:
+type: ''
+doi:
+arxiv_id: "1610.01439"
+tags:
+abstract: >
+  Neural networks are known to be effective function approximators. Recently, deep neural networks have proven to be very effective in pattern recognition, classification tasks and human-level control to model highly nonlinear realworld systems. This paper investigates the effectiveness of deep neural networks in the modeling of dynamical systems with complex behavior. Three deep neural network structures are trained on sequential data, and we investigate the effectiveness of these networks in modeling associated characteristics of the underlying dynamical systems. We carry out similar evaluations on select publicly available system identification datasets. We demonstrate that deep neural networks are effective model estimators from input-output data
+summary: ''
+link: https://arxiv.org/pdf/1610.01439
+links_alt:
+audit_status: raw

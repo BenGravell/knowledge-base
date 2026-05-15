@@ -1,4 +1,4 @@
-title: "Policy Iteration for Linear Quadratic Games With Stochastic Parameters"
+title: "Policy Iteration for Linear Quadratic Games with Stochastic Parameters"
 algorithm: Approximate policy iteration for SLQ games
 authors:
   - Benjamin Gravell

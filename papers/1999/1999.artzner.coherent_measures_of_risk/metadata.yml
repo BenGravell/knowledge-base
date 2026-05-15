@@ -1,0 +1,20 @@
+title: Coherent Measures of Risk
+algorithm:
+authors:
+  - Philippe Artzner
+  - Freddy Delbaen
+  - Jean‐Marc Eber
+  - David Heath
+year: 1999
+source: Mathematical Finance
+type: Journal Paper
+doi: 10.1111/1467-9965.00068
+arxiv_id:
+tags:
+abstract: >
+  In this paper we study both market risks and nonmarket risks, without complete markets assumption, and discuss methods of measurement of these risks. We present and justify a set of four desirable properties for measures of risk, and call the measures satisfying these properties “coherent.” We examine the measures of risk provided and the related actions required by SPAN, by the SEC/NASD rules, and by quantile‐based methods. We demonstrate the universality of scenario‐based methods for providing coherent measures. We offer suggestions concerning the SEC method. We also suggest a method to repair the failure of subadditivity of quantile‐based methods.
+summary: ''
+link: https://onlinelibrary.wiley.com/doi/10.1111/1467-9965.00068
+links_alt:
+  - https://doi.org/10.1111/1467-9965.00068
+audit_status: raw

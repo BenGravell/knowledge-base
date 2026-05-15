@@ -1,0 +1,22 @@
+title: "ClearPath: Highly Parallel Collision Avoidance for Multi-agent Simulation"
+algorithm: ClearPath
+authors:
+  - Stephen. J. Guy
+  - Jatin Chhugani
+  - Changkyu Kim
+  - Nadathur Satish
+  - Ming Lin
+  - Dinesh Manocha
+  - Pradeep Dubey
+year: 2009
+source: SIGGRAPH
+type: Conference Paper
+doi: 10.1145/1599470.1599494
+arxiv_id:
+tags:
+abstract: >
+  We present a new local collision avoidance algorithm between multiple agents for real-time simulations. Our approach extends the notion of velocity obstacles from robotics and formulates the conditions for collision free navigation as a quadratic optimization problem. We use a discrete optimization method to efficiently compute the motion of each agent. This resulting algorithm can be parallelized by exploiting data-parallelism and thread-level parallelism. The overall approach, ClearPath, is general and can robustly handle dense scenarios with tens or hundreds of thousands of heterogeneous agents in a few milli-seconds. As compared to prior collision avoidance algorithms, we observe more than an order of magnitude performance improvement.
+summary: ''
+link: https://doi.org/10.1145/1599470.1599494
+links_alt:
+audit_status: raw

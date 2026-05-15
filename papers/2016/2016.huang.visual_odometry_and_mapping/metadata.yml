@@ -1,0 +1,22 @@
+title: Visual Odometry and Mapping for Autonomous Flight Using an RGB-D Camera
+algorithm:
+authors:
+  - Albert S. Huang
+  - Abraham Bachrach
+  - Peter Henry
+  - Michael Krainin
+  - Daniel Maturana
+  - Dieter Fox
+  - Nicholas Roy
+year: 2016
+source: Springer Tracts in Advanced Robotics
+type: Conference Paper
+doi: 10.1007/978-3-319-29363-9_14
+arxiv_id:
+tags:
+abstract: >
+  RGB-D cameras provide both a color image and per-pixel depth estimates. The richness of their data and the recent development of low-cost sensors have combined to present an attractive opportunity for mobile robotics research. In this paper, we describe a system for visual odometry and mapping using an RGB-D camera, and its application to autonomous flight. By leveraging results from recent state-of-the-art algorithms and hardware, our system enables 3D flight in cluttered environments using only onboard sensor data. All computation and sensing required for local position control are performed onboard the vehicle, reducing the dependence on unreliable wireless links. We evaluate the effectiveness of our system for stabilizing and controlling a quadrotor micro air vehicle, demonstrate its use for constructing detailed 3D maps of an indoor environment, and discuss its limitations.
+summary: ''
+link: https://doi.org/10.1007/978-3-319-29363-9_14
+links_alt:
+audit_status: raw

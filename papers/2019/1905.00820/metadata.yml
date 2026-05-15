@@ -1,0 +1,20 @@
+title: "On the Smoothness of Nonlinear System Identification"
+algorithm:
+authors:
+  - Antônio H. Ribeiro
+  - Koen Tiels
+  - Jack Umenberger
+  - Thomas B. Schön
+  - Luis A. Aguirre
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1905.00820"
+tags:
+abstract: >
+  We shed new light on the \textit{smoothness} of optimization problems arising in prediction error parameter estimation of linear and nonlinear systems. We show that for regions of the parameter space where the model is not contractive, the Lipschitz constant and $β$-smoothness of the objective function might blow up exponentially with the simulation length, making it hard to numerically find minima within those regions or, even, to escape from them. In addition to providing theoretical understanding of this problem, this paper also proposes the use of multiple shooting as a viable solution. The proposed method minimizes the error between a prediction model and the observed values. Rather than running the prediction model over the entire dataset, multiple shooting splits the data into smaller subsets and runs the prediction model over each subset, making the simulation length a design parameter and making it possible to solve problems that would be infeasible using a standard approach. The equivalence to the original problem is obtained by including constraints in the optimization. The new method is illustrated by estimating the parameters of nonlinear systems with chaotic or unstable behavior, as well as neural networks. We also present a comparative analysis of the proposed method with multi-step-ahead prediction error minimization.
+summary: ''
+link: https://arxiv.org/pdf/1905.00820
+links_alt:
+audit_status: raw

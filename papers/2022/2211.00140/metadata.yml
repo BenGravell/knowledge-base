@@ -1,0 +1,21 @@
+title: "A Damped Newton Method Achieves Global O(1/k^2) and Local Quadratic Convergence Rate"
+algorithm:
+authors:
+  - Slavomír Hanzely
+  - Dmitry Kamzolov
+  - Dmitry Pasechnyuk
+  - Alexander Gasnikov
+  - Peter Richtárik
+  - Martin Takáč
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2211.00140"
+tags:
+abstract: >
+  In this paper, we present the first stepsize schedule for Newton method resulting in fast global and local convergence guarantees. In particular, a) we prove an $O\left( \frac 1 {k^2} \right)$ global rate, which matches the state-of-the-art global rate of cubically regularized Newton method of Polyak and Nesterov (2006) and of regularized Newton method of Mishchenko (2021) and Doikov and Nesterov (2021), b) we prove a local quadratic rate, which matches the best-known local rate of second-order methods, and c) our stepsize formula is simple, explicit, and does not require solving any subproblem. Our convergence proofs hold under affine-invariance assumptions closely related to the notion of self-concordance. Finally, our method has competitive performance when compared to existing baselines, which share the same fast global convergence guarantees.
+summary: ''
+link: https://arxiv.org/pdf/2211.00140
+links_alt:
+audit_status: raw

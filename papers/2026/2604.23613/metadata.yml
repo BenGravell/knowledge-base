@@ -1,0 +1,17 @@
+title: >
+  High-Probability Guarantees for Random Zeroth-Order (Stochastic) Gradient Descent
+algorithm:
+authors:
+  - Haishan Ye
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.23613"
+tags:
+abstract: >
+  Zeroth-order optimization aims to minimize an objective function using only function evaluations, and is therefore fundamental in black-box optimization, hyperparameter tuning, bandit learning, and adversarial machine learning. While classical zeroth-order methods are well understood in expectation, much less is known about their high-probability behavior, especially for smooth and strongly convex objectives. In this paper, we establish high-probability convergence guarantees for random zeroth-order gradient descent in both deterministic and stochastic settings. For deterministic $L$-smooth and $μ$-strongly convex objectives of $d$-dimension, we show that the classical two-query random zeroth-order method finds an $\varepsilon$-suboptimal solution with probability at least $1-δ$ using \[ \mathcal{O}\left( \frac{dL}μ\log\frac{1}{\varepsilon} + \log\frac{1}δ \right) \] function queries. Thus, compared with the standard in-expectation complexity, only an additive logarithmic dependence on the confidence parameter is needed. For stochastic objectives, under a bounded-noise condition and without assuming uniformly bounded stochastic gradients, we prove that random zeroth-order stochastic gradient descent achieves an $\varepsilon$-suboptimal solution with probability at least $1-δ$ using \[ \mathcal{O}\left( \frac{ d\log(1/\varepsilon) \left(\log(1/\varepsilon)+\log(1/δ)\right) }{\varepsilon} \right) \] queries. Our results provide high-confidence counterparts to classical expectation-based zeroth-order convergence guarantees and clarify the additional cost required to obtain reliable performance guarantees.
+summary: ''
+link: https://arxiv.org/pdf/2604.23613
+links_alt:
+audit_status: raw

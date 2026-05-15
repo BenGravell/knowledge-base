@@ -1,0 +1,18 @@
+title: "Elastic Tube Model Predictive Control"
+algorithm:
+authors:
+  - Sasa V. Rakovic
+  - William S. Levine
+  - Behcet Acikmese
+year: 2016
+source: 2016 American Control Conference (ACC)
+type: Conference Paper
+doi: 10.1109/ACC.2016.7525471
+arxiv_id:
+tags:
+abstract: >
+  This paper introduces elastic tube model predictive control (MPC) synthesis. The proposed framework is a natural generalization of the rigid and homothetic tube MPC design methods. The cross-sections of the employed state and control tubes are allowed to change more elastically, while the local component of the tubes control policy is permitted to take a more general form. The related stabilizing terminal conditions are also adequately generalized in order to take advantage of more flexible tubes and tubes control policy parameterizations. These novel features result in an improved tube MPC at the cost of a manageable increase in computational complexity.
+summary: ''
+link: https://doi.org/10.1109/ACC.2016.7525471
+links_alt:
+audit_status: raw

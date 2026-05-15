@@ -1,0 +1,16 @@
+title: "A New Accident Model for Engineering Safer Systems"
+algorithm: STAMP
+authors:
+  - Nancy Leveson
+year: 2004
+source: Safety Science
+type: Journal Paper
+doi: 10.1016/s0925-7535(03)00047-x
+arxiv_id:
+tags:
+abstract: >
+  New technology is making fundamental changes in the etiology of accidents and is creating a need for changes in the explanatory mechanisms used. We need better and less subjective understanding of why accidents occur and how to prevent future ones. The most effective models will go beyond assigning blame and instead help engineers to learn as much as possible about all the factors involved, including those related to social and organizational structures. This paper presents a new accident model founded on basic systems theory concepts. The use of such a model provides a theoretical foundation for the introduction of unique new types of accident analysis, hazard analysis, accident prevention strategies including new approaches to designing for safety, risk assessment techniques, and approaches to designing performance monitoring and safety metrics.
+summary: ''
+link: https://doi.org/10.1016/s0925-7535(03)00047-x
+links_alt:
+audit_status: raw

@@ -1,0 +1,17 @@
+title: "Quadratic Invariance Is Necessary and Sufficient for Convexity"
+algorithm:
+authors:
+  - Laurent Lessard
+  - Sanjay Lall
+year: 2011
+source: Proceedings of the 2011 American Control Conference
+type: Conference Paper
+doi: 10.1109/ACC.2011.5990928
+arxiv_id:
+tags:
+abstract: >
+  In decentralized control problems, a standard approach is to specify the set of allowable decentralized controllers as a closed subspace of linear operators. This then induces a corresponding set of of Youla parameters. Previous work has shown that quadratic invariance of the controller set implies that the the set of Youla parameters is convex. In this short note, we prove the converse. We thereby show that the only decentralized control problems for which the set of Youla parameters is convex are those which are quadratically invariant.
+summary: ''
+link: https://doi.org/10.1109/ACC.2011.5990928
+links_alt:
+audit_status: raw

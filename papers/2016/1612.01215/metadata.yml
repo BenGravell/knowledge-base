@@ -1,0 +1,20 @@
+title: >
+  Do What I Want, Not What I Did: Imitation of Skills by Planning Sequences of Actions
+algorithm:
+authors:
+  - Chris Paxton
+  - Felix Jonathan
+  - Marin Kobilarov
+  - Gregory D Hager
+year: 2016
+source:
+type: ''
+doi:
+arxiv_id: "1612.01215"
+tags:
+abstract: >
+  We propose a learning-from-demonstration approach for grounding actions from expert data and an algorithm for using these actions to perform a task in new environments. Our approach is based on an application of sampling-based motion planning to search through the tree of discrete, high-level actions constructed from a symbolic representation of a task. Recursive sampling-based planning is used to explore the space of possible continuous-space instantiations of these actions. We demonstrate the utility of our approach with a magnetic structure assembly task, showing that the robot can intelligently select a sequence of actions in different parts of the workspace and in the presence of obstacles. This approach can better adapt to new environments by selecting the correct high-level actions for the particular environment while taking human preferences into account.
+summary: ''
+link: https://arxiv.org/pdf/1612.01215
+links_alt:
+audit_status: raw

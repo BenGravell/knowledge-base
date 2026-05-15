@@ -1,0 +1,17 @@
+title: "Continuous Finite-time Stabilization of the Translational and Rotational Double Integrators"
+algorithm:
+authors:
+  - S.P. Bhat
+  - D.S. Bernstein
+year: 1998
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/9.668834
+arxiv_id:
+tags:
+abstract: >
+  A class of bounded continuous time-invariant finite-time stabilizing feedback laws is given for the double integrator. Lyapunov theory is used to prove finite-time convergence. For the rotational double integrator, these controllers are modified to obtain finite-time-stabilizing feedback that avoid "unwinding".
+summary: ''
+link: https://doi.org/10.1109/9.668834
+links_alt:
+audit_status: raw

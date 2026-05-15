@@ -15,13 +15,9 @@ tags:
   - "Model predictive control"
   - "Robot navigation"
 abstract: >
-  Deep dive into improving Nav2's MPPI controller to properly respect low acceleration constraints for
-  heavy industrial robots.
+  If you've ever tried to navigate a 4-ton warehouse robot, you know that “move carefully” is not just a suggestion: it's a physics problem. Heavy industrial vehicles with raised centers of gravity, like Dexory's autonomous inventory scanning towers, cannot accelerate or decelerate the way a lightweight AMR can. Commanding even modest jerks can tip product, stress mechanical joints, or simply cause the drivetrain to fight the controller. Yet until now, Nav2's MPPI controller was tuned for the nimble end of the spectrum, with default acceleration limits of 3.0 m/s^2, more than ten times what some industrial platforms can safely handle. This post walks through the investigation and set of fixes we developed to make MPPI reliably respect low and asymmetric acceleration constraints. The work was motivated by Dexory, whose tall scanning towers require acceleration limits as low as 0.25 m/s^2 forward and -0.5 m/s^2 braking which is an order of magnitude below the defaults typically used. The result is a set of carefully validated improvements that benefit not just Dexory, but every team pushing Nav2 onto heavier, higher-inertia platforms. We write these musings up as a blog post because it is a nice, confined challenge to solve in a highly technical part of the Nav2 project. Hopefully this provides useful context and learnings for future engineers about both MPPI itself and understanding these changes in detail.
 summary: >
-  Engineering post dissecting why Nav2 MPPI struggled with low acceleration limits on heavy robots,
-  especially the distinction between control velocities and rollout state velocities. The useful
-  contribution is a concrete diagnosis of inter-iteration feasibility and timing mismatches between
-  model_dt and the controller period.
+  Engineering post dissecting why Nav2 MPPI struggled with low acceleration limits on heavy robots, especially the distinction between control velocities and rollout state velocities. The useful contribution is a concrete diagnosis of inter-iteration feasibility and timing mismatches between model_dt and the controller period.
 link: "https://opennav.org/news/mppi-low-acceleration/"
 links_alt:
   - "https://github.com/ros-navigation/navigation2/pull/5266"

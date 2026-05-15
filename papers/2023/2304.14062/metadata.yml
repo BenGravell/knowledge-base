@@ -1,0 +1,20 @@
+title: >
+  Comparison of Optimization-Based Methods for Energy-Optimal Quadrotor Motion Planning
+algorithm:
+authors:
+  - Welf Rehberg
+  - Joaquim Ortiz-Haro
+  - Marc Toussaint
+  - Wolfgang Hönig
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2304.14062"
+tags:
+abstract: >
+  Quadrotors are agile flying robots that are challenging to control. Considering the full dynamics of quadrotors during motion planning is crucial to achieving good solution quality and small tracking errors during flight. Optimization-based methods scale well with high-dimensional state spaces and can handle dynamic constraints directly, therefore they are often used in these scenarios. The resulting optimization problem is notoriously difficult to solve due to its nonconvex constraints. In this work, we present an analysis of four solvers for nonlinear trajectory optimization (KOMO, direct collocation with SCvx, direct collocation with CasADi, Crocoddyl) and evaluate their performance in scenarios where the solvers are tasked to find minimum-effort solutions to geometrically complex problems and problems requiring highly dynamic solutions. Benchmarking these methods helps to determine the best algorithm structures for these kinds of problems.
+summary: ''
+link: https://arxiv.org/pdf/2304.14062
+links_alt:
+audit_status: raw

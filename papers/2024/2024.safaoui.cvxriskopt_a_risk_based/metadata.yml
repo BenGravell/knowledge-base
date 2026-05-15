@@ -1,0 +1,17 @@
+title: 'cvxRiskOpt: A Risk-Based Optimization Tool Based on CVXPY'
+algorithm:
+authors:
+  - Sleiman Safaoui
+  - Tyler H. Summers
+year: 2024
+source: IEEE Control Systems Letters
+type: Journal Paper
+doi: 10.1109/LCSYS.2024.3452194
+arxiv_id:
+tags:
+abstract: >
+  We introduce cvxRiskOpt (convex Risk-based Optimization): a Python package built on top of CVXPY for the rapid prototyping of convex risk-based optimization problems and generating embeddable C code using CVXPYgen. Our package provides high-level functions to handle several risk-based optimization problems and constraints. These functions reformulate problems and constraints involving random variables and uncertainty into deterministic convex counterparts. The output is either a CVXPY Problem instance or CVXPY constraints that users can directly add to their CVXPY Problem instance. Accordingly, our package can use CVXPYgen to generate C code resulting in custom embeddable risk-based optimization problems. cvxRiskOpt is available at <uri xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">https://tsummerslab.github.io/cvxRiskOpt/</uri>.
+summary: ''
+link: https://doi.org/10.1109/LCSYS.2024.3452194
+links_alt:
+audit_status: raw

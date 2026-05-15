@@ -1,0 +1,18 @@
+title: >
+  Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization
+algorithm:
+authors:
+  - Jason M. Altschuler
+  - Pablo A. Parrilo
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2309.16530"
+tags:
+abstract: >
+  We provide a concise, self-contained proof that the Silver Stepsize Schedule proposed in Part I directly applies to smooth (non-strongly) convex optimization. Specifically, we show that with these stepsizes, gradient descent computes an $ε$-minimizer in $O(ε^{-\log_ρ 2}) = O(ε^{-0.7864})$ iterations, where $ρ= 1+\sqrt{2}$ is the silver ratio. This is intermediate between the textbook unaccelerated rate $O(ε^{-1})$ and the accelerated rate $O(ε^{-1/2})$ due to Nesterov in 1983. The Silver Stepsize Schedule is a simple explicit fractal: the $i$-th stepsize is $1+ρ^{v(i)-1}$ where $v(i)$ is the $2$-adic valuation of $i$. The design and analysis are conceptually identical to the strongly convex setting in Part I, but simplify remarkably in this specific setting.
+summary: ''
+link: https://arxiv.org/pdf/2309.16530
+links_alt:
+audit_status: raw

@@ -1,0 +1,18 @@
+title: 'iSAM: Incremental Smoothing and Mapping'
+algorithm:
+authors:
+  - M. Kaess
+  - A. Ranganathan
+  - F. Dellaert
+year: 2008
+source: IEEE Transactions on Robotics
+type: Journal Paper
+doi: 10.1109/TRO.2008.2006706
+arxiv_id:
+tags:
+abstract: >
+  In this paper, we present incremental smoothing and mapping (iSAM), which is a novel approach to the simultaneous localization and mapping problem that is based on fast incremental matrix factorization. iSAM provides an efficient and exact solution by updating a QR factorization of the naturally sparse smoothing information matrix, thereby recalculating only those matrix entries that actually change. iSAM is efficient even for robot trajectories with many loops as it avoids unnecessary fill-in in the factor matrix by periodic variable reordering. Also, to enable data association in real time, we provide efficient algorithms to access the estimation uncertainties of interest based on the factored information matrix. We systematically evaluate the different components of iSAM as well as the overall algorithm using various simulated and real-world datasets for both landmark and pose-only settings.
+summary: ''
+link: https://doi.org/10.1109/TRO.2008.2006706
+links_alt:
+audit_status: raw

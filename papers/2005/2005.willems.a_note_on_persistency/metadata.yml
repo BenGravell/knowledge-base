@@ -1,0 +1,19 @@
+title: "A Note on Persistency of Excitation"
+algorithm:
+authors:
+  - Jan C. Willems
+  - Paolo Rapisarda
+  - Ivan Markovsky
+  - Bart L.M. De Moor
+year: 2005
+source: Systems and Control Letters
+type: Journal Paper
+doi: 10.1016/j.sysconle.2004.09.003
+arxiv_id:
+tags:
+abstract: >
+  We prove that if a component of the response signal of a controllable linear time-invariant system is persistently exciting of sufficiently high order, then the windows of the signal span the full system behavior. This is then applied to obtain conditions under which the state trajectory of a state representation spans the whole state space. The related question of when the matrix formed from a state sequence has linearly independent rows from the matrix formed from an input sequence and a finite number of its shifts is of central importance in subspace system identification.
+summary: ''
+link: https://doi.org/10.1016/j.sysconle.2004.09.003
+links_alt:
+audit_status: raw

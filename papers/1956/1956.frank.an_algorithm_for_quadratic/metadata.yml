@@ -1,0 +1,17 @@
+title: An Algorithm for Quadratic Programming
+algorithm: Frank-Wolfe algorithm
+authors:
+  - Marguerite Frank
+  - Philip Wolfe
+year: 1956
+source: Naval Research Logistics Quarterly
+type: Journal Paper
+doi: 10.1002/nav.3800030109
+arxiv_id:
+tags:
+abstract: >
+  A finite iteration method for calculating the solution of quadratic programming problems is described. Extensions to more general non-linear problems are suggested. The problem of maximizing a concave quadratic function whose variables are subject to linear inequality constraints has been the subject of several recent studies, from both the computational side and the theoretical (see Bibliography). Our aim here has been to develop a method for solving this non-linear programming problem which should be particularly well adapted to high-speed machine computation. The quadratic programming problem as such, called PI, is set forth in Section 2. We find in Section 3 that with the aid of generalized Lagrange multipliers the solutions of PI can be exhibited in a simple way as parts of the solutions of a new quadratic programming problem, called PII, which embraces the multipliers. The maximum sought in PII is known to be zero. A test for the existence of solutions to PI arises from the fact that the boundedness of its objective function is equivalent to the feasibility of the (linear) constraints of PII. In Section 4 we apply to PII an iterative process in which the principal computation is the simplex method change-of-basis. One step of our "gradient and interpolation" method, given an initial feasible point, selects by the simplex routine a secondary basic feasible point whose projection along the gradient of the objective function at the initial point is sufficiently large. The point at which the objective is maximized for the segment joining the initial and secondary points is then chosen as the initial point for the next step. The values of the objective function on the initial points thus obtained converge to zero; but a remarkable feature of the quadratic problem is that in some step a secondary point which is a solution of the problem will be found, insuring the termination of the process. A simplex technique machine program requires little alteration for the employment of this method. Limited experience suggests that solving a quadratic program in n variables and m constraints will take about as long as solving a linear program having m+n constraints and a "reasonable" number of variables. Section 5 discusses, for completeness, some other computational proposals making use of generalized Lagrange multipliers. Section 6 carries over the applicable part of the method, the gradient-and-interpolation routine, to the maximization of an arbitrary concave function under linear constraints (with or one qualification). Convergence to the maximum is obtained as above, but termination of the process in an exact solution is not, although an estimate of error is readily found. In Section 7 (the Appendix) are accumulated some facts about linear programs and concave functions which are used throughout the paper.
+summary: ''
+link: https://onlinelibrary.wiley.com/doi/abs/10.1002/nav.3800030109
+links_alt:
+audit_status: raw

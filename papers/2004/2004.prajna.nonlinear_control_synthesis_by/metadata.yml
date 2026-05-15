@@ -1,0 +1,18 @@
+title: Nonlinear Control Synthesis by Convex Optimization
+algorithm:
+authors:
+  - S. Prajna
+  - P.A. Parrilo
+  - A. Rantzer
+year: 2004
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.2003.823000
+arxiv_id:
+tags:
+abstract: >
+  A stability criterion for nonlinear systems, recently derived by the third author, can be viewed as a dual to Lyapunov's second theorem. The criterion is stated in terms of a function which can be interpreted as the stationary density of a substance that is generated all over the state-space and flows along the system trajectories toward the equilibrium. The new criterion has a remarkable convexity property, which in this note is used for controller synthesis via convex optimization. Recent numerical methods for verification of positivity of multivariate polynomials based on sum of squares decompositions are used.
+summary: ''
+link: https://doi.org/10.1109/TAC.2003.823000
+links_alt:
+audit_status: raw

@@ -1,0 +1,27 @@
+title: "Graph Implementations for Nonsmooth Convex Programs"
+algorithm: Graph Implementations
+authors:
+  - Michael C. Grant
+  - Stephen P. Boyd
+year: 2008
+source: Lecture Notes in Control and Information Sciences
+type: Conference Paper
+doi: 10.1007/978-1-84800-155-8_7
+arxiv_id:
+tags:
+  - Graph implementations
+  - Disciplined convex programming
+  - Nonsmooth convex optimization
+  - Epigraph reformulation
+  - Conic optimization
+  - Convex modeling
+  - Optimization software
+abstract: >
+  We describe graph implementations, a generic method for representing a convex function via its epigraph, described in a disciplined convex programming framework. This simple and natural idea allows a very wide variety of smooth and nonsmooth convex programs to be easily specified and efficiently solved, using interior-point methods for smooth or cone convex programs.
+summary: >
+  Explains the graph-implementation idea behind disciplined convex programming systems: represent atoms by epigraph or cone-compatible graph forms so nonsmooth convex expressions can be reduced to solver-ready conic form. This is an important conceptual layer between convex analysis and practical modeling tools such as CVX.
+link: https://web.stanford.edu/~boyd/papers/pdf/graph_dcp.pdf
+links_alt:
+  - https://web.stanford.edu/~boyd/papers/graph_dcp.html
+  - https://doi.org/10.1007/978-1-84800-155-8_7
+audit_status: raw

@@ -1,0 +1,17 @@
+title: An Iterative Technique for the Computation of the Steady State Gains for the Discrete Optimal Regulator
+algorithm: Hewer algorithm
+authors:
+  - Gary A. Hewer
+year: 1971
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.1971.1099755
+arxiv_id:
+tags:
+abstract: >
+  In this correspondence an algorithm is presented for computing the steady-state optimal feedback law of the discrete-time invariant linear regulator that converges quadratically in a neighborhood of the steady state.
+summary: >
+  An efficient algorithm for designing the discrete-time linear quadratic regulator / solving the discrete-time algebraic Riccati equation is proposed and proven to be globally convergent with a quadratic rate. It was later shown that Hewer's algorithm is an instance of the dynamic programming technique of policy iteration, which itself is an application of Newton's method to the Bellman equation.
+link: https://doi.org/10.1109/TAC.1971.1099755
+links_alt:
+audit_status: raw

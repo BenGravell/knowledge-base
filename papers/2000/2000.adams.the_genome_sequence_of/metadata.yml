@@ -1,0 +1,212 @@
+title: "The Genome Sequence of Drosophila melanogaster"
+algorithm:
+authors:
+  - Mark D. Adams
+  - Susan E. Celniker
+  - Robert A. Holt
+  - Cheryl A. Evans
+  - Jeannine D. Gocayne
+  - Peter G. Amanatides
+  - Steven E. Scherer
+  - Peter W. Li
+  - Roger A. Hoskins
+  - Richard F. Galle
+  - Reed A. George
+  - Suzanna E. Lewis
+  - Stephen Richards
+  - Michael Ashburner
+  - Scott N. Henderson
+  - Granger G. Sutton
+  - Jennifer R. Wortman
+  - Mark D. Yandell
+  - Qing Zhang
+  - Lin X. Chen
+  - Rhonda C. Brandon
+  - Yu-Hui C. Rogers
+  - Robert G. Blazej
+  - Mark Champe
+  - Barret D. Pfeiffer
+  - Kenneth H. Wan
+  - Clare Doyle
+  - Evan G. Baxter
+  - Gregg Helt
+  - Catherine R. Nelson
+  - George L. Gabor
+  - Miklos
+  - Josep F. Abril
+  - Anna Agbayani
+  - Hui-Jin An
+  - Cynthia Andrews-Pfannkoch
+  - Danita Baldwin
+  - Richard M. Ballew
+  - Anand Basu
+  - James Baxendale
+  - Leyla Bayraktaroglu
+  - Ellen M. Beasley
+  - Karen Y. Beeson
+  - P. V. Benos
+  - Benjamin P. Berman
+  - Deepali Bhandari
+  - Slava Bolshakov
+  - Dana Borkova
+  - Michael R. Botchan
+  - John Bouck
+  - Peter Brokstein
+  - Phillipe Brottier
+  - Kenneth C. Burtis
+  - Dana A. Busam
+  - Heather Butler
+  - Edouard Cadieu
+  - Angela Center
+  - Ishwar Chandra
+  - J. Michael Cherry
+  - Simon Cawley
+  - Carl Dahlke
+  - Lionel B. Davenport
+  - Peter Davies
+  - Beatriz de Pablos
+  - Arthur Delcher
+  - Zuoming Deng
+  - Anne Deslattes Mays
+  - Ian Dew
+  - Suzanne M. Dietz
+  - Kristina Dodson
+  - Lisa E. Doup
+  - Michael Downes
+  - Shannon Dugan-Rocha
+  - Boris C. Dunkov
+  - Patrick Dunn
+  - Kenneth J. Durbin
+  - Carlos C. Evangelista
+  - Concepcion Ferraz
+  - Steven Ferriera
+  - Wolfgang Fleischmann
+  - Carl Fosler
+  - Andrei E. Gabrielian
+  - Neha S. Garg
+  - William M. Gelbart
+  - Ken Glasser
+  - Anna Glodek
+  - Fangcheng Gong
+  - J. Harley Gorrell
+  - Zhiping Gu
+  - Ping Guan
+  - Michael Harris
+  - Nomi L. Harris
+  - Damon Harvey
+  - Thomas J. Heiman
+  - Judith R. Hernandez
+  - Jarrett Houck
+  - Damon Hostin
+  - Kathryn A. Houston
+  - Timothy J. Howland
+  - Ming-Hui Wei
+  - Chinyere Ibegwam
+  - Mena Jalali
+  - Francis Kalush
+  - Gary H. Karpen
+  - Zhaoxi Ke
+  - James A. Kennison
+  - Karen A. Ketchum
+  - Bruce E. Kimmel
+  - Chinnappa D. Kodira
+  - Cheryl Kraft
+  - Saul Kravitz
+  - David Kulp
+  - Zhongwu Lai
+  - Paul Lasko
+  - Yiding Lei
+  - Alexander A. Levitsky
+  - Jiayin Li
+  - Zhenya Li
+  - Yong Liang
+  - Xiaoying Lin
+  - Xiangjun Liu
+  - Bettina Mattei
+  - Tina C. McIntosh
+  - Michael P. McLeod
+  - Duncan McPherson
+  - Gennady Merkulov
+  - Natalia V. Milshina
+  - Clark Mobarry
+  - Joe Morris
+  - Ali Moshrefi
+  - Stephen M. Mount
+  - Mee Moy
+  - Brian Murphy
+  - Lee Murphy
+  - Donna M. Muzny
+  - David L. Nelson
+  - David R. Nelson
+  - Keith A. Nelson
+  - Katherine Nixon
+  - Deborah R. Nusskern
+  - Joanne M. Pacleb
+  - Michael Palazzolo
+  - Gjange S. Pittman
+  - Sue Pan
+  - John Pollard
+  - Vinita Puri
+  - Martin G. Reese
+  - Knut Reinert
+  - Karin Remington
+  - Robert D. C. Saunders
+  - Frederick Scheeler
+  - Hua Shen
+  - Bixiang Christopher Shue
+  - Inga Sidén-Kiamos
+  - Michael Simpson
+  - Marian P. Skupski
+  - Tom Smith
+  - Eugene Spier
+  - Allan C. Spradling
+  - Mark Stapleton
+  - Renee Strong
+  - Eric Sun
+  - Robert Svirskas
+  - Cyndee Tector
+  - Russell Turner
+  - Eli Venter
+  - Aihui H. Wang
+  - Xin Wang
+  - Zhen-Yuan Wang
+  - David A. Wassarman
+  - George M. Weinstock
+  - Jean Weissenbach
+  - Sherita M. Williams
+  - Trevor Woodage
+  - Kim C. Worley
+  - David Wu
+  - Song Yang
+  - Q. Alison Yao
+  - Jane Ye
+  - Ru-Fang Yeh
+  - Jayshree S. Zaveri
+  - Ming Zhan
+  - Guangren Zhang
+  - Qi Zhao
+  - Liansheng Zheng
+  - Xiangqun H. Zheng
+  - Fei N. Zhong
+  - Wenyan Zhong
+  - Xiaojun Zhou
+  - Shiaoping Zhu
+  - Xiaohong Zhu
+  - Hamilton O. Smith
+  - Richard A. Gibbs
+  - Eugene W. Myers
+  - Gerald M. Rubin
+  - J. Craig Venter
+year: 2000
+source: Science
+type: Journal Paper
+doi: 10.1126/science.287.5461.2185
+arxiv_id:
+tags:
+abstract: >
+  The fly Drosophila melanogaster is one of the most intensively studied organisms in biology and serves as a model system for the investigation of many developmental and cellular processes common to higher eukaryotes, including humans. We have determined the nucleotide sequence of nearly all of the ∼120-megabase euchromatic portion of the Drosophila genome using a whole-genome shotgun sequencing strategy supported by extensive clone-based sequence and a high-quality bacterial artificial chromosome physical map. Efforts are under way to close the remaining gaps; however, the sequence is of sufficient accuracy and contiguity to be declared substantially complete and to support an initial analysis of genome structure and preliminary gene annotation and interpretation. The genome encodes ∼13,600 genes, somewhat fewer than the smaller Caenorhabditis elegans genome, but with comparable functional diversity.
+summary: ''
+link: https://www.science.org/doi/10.1126/science.287.5461.2185
+links_alt:
+  - https://doi.org/10.1126/science.287.5461.2185
+audit_status: raw

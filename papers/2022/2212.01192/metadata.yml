@@ -1,4 +1,4 @@
-title: 'Policy iteration using Q-functions: Linear dynamics with multiplicative noise'
+title: "Policy Iteration Using Q-functions: Linear Dynamics with Multiplicative Noise"
 algorithm:
 authors:
   - Peter Coppens

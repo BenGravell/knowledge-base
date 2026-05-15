@@ -1,0 +1,20 @@
+title: Linear Matrix Inequalities in System and Control Theory
+algorithm:
+authors:
+  - Stephen Boyd
+  - Laurent El Ghaoui
+  - Eric Feron
+  - Venkataramanan Balakrishnan
+year: 1994
+source:
+type: Other
+doi: book/10.1137/1.9781611970777
+arxiv_id:
+tags:
+abstract: >
+  In this book the authors reduce a wide variety of problems arising in system and control theory to a handful of convex and quasiconvex optimization problems that involve linear matrix inequalities. These optimization problems can be solved using recently developed numerical algorithms that not only are polynomial-time but also work very well in practice; the reduction therefore can be considered a solution to the original problems. This book opens up an important new research area in which convex optimization is combined with system and control theory, resulting in the solution of a large number of previously unsolved problems.
+summary: ''
+link: https://epubs.siam.org/doi/book/10.1137/1.9781611970777
+links_alt:
+  - https://doi.org/book/10.1137/1.9781611970777
+audit_status: raw

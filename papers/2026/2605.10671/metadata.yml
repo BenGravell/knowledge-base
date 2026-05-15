@@ -1,0 +1,18 @@
+title: >
+  Natural Policy Gradient as Doubly Smoothed Policy Iteration: A Bellman-Operator Framework
+algorithm:
+authors:
+  - Phalguni Nanda
+  - Zaiwei Chen
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2605.10671"
+tags:
+abstract: >
+  In this work, we show that natural policy gradient, a core algorithm in reinforcement learning, admits an exact formulation as a smoothed and averaged form of policy iteration. Specifically, we introduce doubly smoothed policy iteration (DSPI), a Bellman-operator framework in which each policy is obtained by applying a regularized greedy step to a weighted average of past $Q$-functions. DSPI includes policy iteration, dual-averaged policy iteration, natural policy gradient, and more general policy dual averaging methods as special cases. Using only monotonicity and contraction of smoothed Bellman operators, we prove distribution-free global geometric convergence of DSPI. Consequently, standard natural policy gradient and policy dual averaging achieve an iteration complexity of $\mathcal{O}((1-γ)^{-1}\log((1-γ)^{-1}ε^{-1}))$ for computing an $ε$-optimal policy, without modifying the MDP, adding regularization beyond the mirror map inherent in the update, or using adaptive, trajectory-dependent stepsizes. For the unregularized greedy case, corresponding to dual-averaged policy iteration, we also prove finite termination. The same Bellman-operator framework further extends to discounted MDPs with linear function approximation and stochastic shortest path problems.
+summary: ''
+link: https://arxiv.org/pdf/2605.10671
+links_alt:
+audit_status: raw

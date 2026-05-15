@@ -1,0 +1,19 @@
+title: A Rewriting System for Convex Optimization Problems
+algorithm:
+authors:
+  - Akshay Agrawal
+  - Robin Verschueren
+  - Steven Diamond
+  - Stephen Boyd
+year: 2017
+source:
+type: ''
+doi:
+arxiv_id: "1709.04494"
+tags:
+abstract: >
+  We describe a modular rewriting system for translating optimization problems written in a domain-specific language to forms compatible with low-level solver interfaces. Translation is facilitated by reductions, which accept a category of problems and transform instances of that category to equivalent instances of another category. Our system proceeds in two key phases: analysis, in which we attempt to find a suitable solver for a supplied problem, and canonicalization, in which we rewrite the problem in the selected solver's standard form. We implement the described system in version 1.0 of CVXPY, a domain-specific language for mathematical and especially convex optimization. By treating reductions as first-class objects, our method makes it easy to match problems to solvers well-suited for them and to support solvers with a wide variety of standard forms.
+summary: ''
+link: https://arxiv.org/pdf/1709.04494
+links_alt:
+audit_status: raw

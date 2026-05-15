@@ -1,0 +1,22 @@
+title: Maximum Entropy Inverse Reinforcement Learning
+algorithm:
+authors:
+  - Brian D. Ziebart
+  - Andrew L. Maas
+  - J. Andrew Bagnell
+  - Anind K. Dey
+year: 2008
+source: AAAI Conference on Artificial Intelligence
+type: Conference Paper
+doi: 10.5555/1620270.1620297
+arxiv_id:
+tags:
+abstract: >
+  Recent research has shown the benefit of framing problems of imitation learning as solutions to Markov Decision Problems. This approach reduces learning to the problem of recovering a utility function that makes the behavior induced by a near-optimal policy closely mimic demonstrated behavior. In this work, we develop a probabilistic approach based on the principle of maximum entropy. Our approach provides a well-defined, globally normalized distribution over decision sequences, while providing the same performance guarantees as existing methods. We develop our technique in the context of modeling real-world navigation and driving behaviors where collected data is inherently noisy and imperfect. Our probabilistic approach enables modeling of route preferences as well as a powerful new approach to inferring destinations and routes based on partial trajectories.
+summary: ''
+link: https://cdn.aaai.org/AAAI/2008/AAAI08-227.pdf
+links_alt:
+  - https://dl.acm.org/doi/10.5555/1620270.1620297
+  - https://dblp.org/rec/conf/aaai/ZiebartMBD08
+  - http://www.aaai.org/Library/AAAI/2008/aaai08-227.php
+audit_status: raw

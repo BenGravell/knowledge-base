@@ -1,0 +1,22 @@
+title: Multi-Query Shortest-Path Problem in Graphs of Convex Sets
+algorithm:
+authors:
+  - Savva Morozov
+  - Tobia Marcucci
+  - Alexandre Amice
+  - Bernhard Paus Graesdal
+  - Rohan Bosworth
+  - Pablo A. Parrilo
+  - Russ Tedrake
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2409.19543"
+tags:
+abstract: >
+  The Shortest-Path Problem in Graph of Convex Sets (SPP in GCS) is a recently developed optimization framework that blends discrete and continuous decision making. Many relevant problems in robotics, such as collision-free motion planning, can be cast and solved as an SPP in GCS, yielding lower-cost solutions and faster runtimes than state-of-the-art algorithms. In this paper, we are motivated by motion planning of robot arms that must operate swiftly in static environments. We consider a multi-query extension of the SPP in GCS, where the goal is to efficiently precompute optimal paths between given sets of initial and target conditions. Our solution consists of two stages. Offline, we use semidefinite programming to compute a coarse lower bound on the problem's cost-to-go function. Then, online, this lower bound is used to incrementally generate feasible paths by solving short-horizon convex programs. For a robot arm with seven joints, our method designs higher quality trajectories up to two orders of magnitude faster than existing motion planners.
+summary: ''
+link: https://arxiv.org/pdf/2409.19543
+links_alt:
+audit_status: raw

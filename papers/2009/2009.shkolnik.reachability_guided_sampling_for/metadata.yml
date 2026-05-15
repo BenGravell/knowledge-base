@@ -1,0 +1,18 @@
+title: "Reachability-guided Sampling for Planning under Differential Constraints"
+algorithm:
+authors:
+  - A. Shkolnik
+  - M. Walter
+  - R. Tedrake
+year: 2009
+source: 2009 IEEE International Conference on Robotics and Automation
+type: Conference Paper
+doi: 10.1109/ROBOT.2009.5152874
+arxiv_id:
+tags:
+abstract: >
+  Rapidly-exploring random trees (RRTs) are widely used to solve large planning problems where the scope prohibits the feasibility of deterministic solvers, but the efficiency of these algorithms can be severely compromised in the presence of certain kinodynamics constraints. Obstacle fields with tunnels, or tubes are notoriously difficult, as are systems with differential constraints, because the tree grows inefficiently at the boundaries. Here we present a new sampling strategy for the RRT algorithm, based on an estimated feasibility set, which affords a dramatic improvement in performance in these severely constrained systems. We demonstrate the algorithm with a detailed look at the expansion of an RRT in a swing up task, and on path planning for a nonholonomic car.
+summary: ''
+link: https://doi.org/10.1109/ROBOT.2009.5152874
+links_alt:
+audit_status: raw

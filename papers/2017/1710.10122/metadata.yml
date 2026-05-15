@@ -1,4 +1,4 @@
-title: "RRT-CoLearn: towards kinodynamic planning without numerical trajectory optimization"
+title: "RRT-CoLearn: Towards Kinodynamic Planning without Numerical Trajectory Optimization"
 algorithm: RRT-CoLearn
 authors:
   - Wouter Wolfslag 

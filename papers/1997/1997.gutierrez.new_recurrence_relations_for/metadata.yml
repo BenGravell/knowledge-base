@@ -1,0 +1,17 @@
+title: "New Recurrence Relations for Chebyshev Method"
+algorithm: "Chebyshev Method convergence analysis"
+authors:
+  - J.M. Gutiérrez
+  - M.A. Hernández
+year: 1997
+source: Applied Mathematics Letters
+type: Journal Paper
+doi: 10.1016/s0893-9659(97)00012-8
+arxiv_id:
+tags:
+abstract: >
+  New conditions on the convergence of the Chebyshev method in Banach spaces are stated by using recurrence relations. The results are compared with the ones obtained by other authors.
+summary: ''
+link: https://doi.org/10.1016/s0893-9659(97)00012-8
+links_alt:
+audit_status: raw

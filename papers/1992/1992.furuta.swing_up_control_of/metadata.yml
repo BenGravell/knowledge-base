@@ -1,0 +1,20 @@
+title: Swing-up Control of Inverted Pendulum Using Pseudo-State Feedback
+algorithm:
+authors:
+  - K Furuta
+  - M Yamakita
+  - S Kobayashi
+year: 1992
+source: >
+  Proceedings of the Institution of Mechanical Engineers, Part I: Journal of Systems and Control Engineering
+type: Journal Paper
+doi: 10.1243/PIME_PROC_1992_206_341_02
+arxiv_id:
+tags:
+abstract: >
+  Swing-up control, that is the transfer of a pendulum from a pendant state to the inverted one, is a good laboratory experiment of optimal control theory for non-linear control systems. The optimal control can be determined by the maximum principle and obtained as a function of time. Since the control is, however, determined in a feedforward fashion, the control is not robust to disturbances and uncertainties of the system, and the transfer of the state of the pendulum is not assured. In the paper, a robust swing-up control using a subspace projected from the whole state space is proposed. Based on the projected state space or pseudo-state, the control input is determined depending on the partitioning of the state as a bang-bang type control. The control algorithm is applied for a new type of pendulum (TI Tech pendulum), and the effectiveness and robustness of the proposed control are examined by experiments.
+summary: ''
+link: https://journals.sagepub.com/doi/10.1243/PIME_PROC_1992_206_341_02
+links_alt:
+  - https://doi.org/10.1243/PIME_PROC_1992_206_341_02
+audit_status: raw

@@ -1,0 +1,20 @@
+title: Stochastic Variance Reduction Methods for Policy Evaluation
+algorithm:
+authors:
+  - Simon S. Du
+  - Jianshu Chen
+  - Lihong Li
+  - Lin Xiao
+  - Dengyong Zhou
+year: 2017
+source:
+type: ''
+doi:
+arxiv_id: "1702.07944"
+tags:
+abstract: >
+  Policy evaluation is a crucial step in many reinforcement-learning procedures, which estimates a value function that predicts states' long-term value under a given policy. In this paper, we focus on policy evaluation with linear function approximation over a fixed dataset. We first transform the empirical policy evaluation problem into a (quadratic) convex-concave saddle point problem, and then present a primal-dual batch gradient method, as well as two stochastic variance reduction methods for solving the problem. These algorithms scale linearly in both sample size and feature dimension. Moreover, they achieve linear convergence even when the saddle-point problem has only strong concavity in the dual variables but no strong convexity in the primal variables. Numerical experiments on benchmark problems demonstrate the effectiveness of our methods.
+summary: ''
+link: https://arxiv.org/pdf/1702.07944
+links_alt:
+audit_status: raw

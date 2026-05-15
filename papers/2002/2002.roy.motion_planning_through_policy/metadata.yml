@@ -1,0 +1,27 @@
+title: "Motion Planning through Policy Search"
+algorithm: Policy Search Motion Planning
+authors:
+  - Nicholas Roy
+  - Sebastian Thrun
+year: 2002
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems
+type: Conference Paper
+doi: 10.1109/IRDS.2002.1041630
+arxiv_id:
+tags:
+  - Motion planning
+  - Policy search
+  - Mobile robotics
+  - Kinodynamic planning
+  - Value functions
+  - Gradient ascent
+  - Learning in planning
+abstract: >
+  We propose a motion planning algorithm for performing policy search in the full pose and velocity space of a mobile robot. By comparison, existing techniques optimize high-level plans, but fail to optimize the low-level motion controls. We use policy search in a high dimensional control space to find plans that lead to measurably better motion planning. Our experimental results suggest that our approach leads to superior robot motion than many existing techniques.
+summary: >
+  Uses policy search to refine mobile robot plans directly in a higher-dimensional state/control space rather than stopping at a coarse geometric path. The method seeds a waypoint/controller representation from a value-function plan, then improves it with gradient ascent to obtain smoother and less conservative robot motion.
+link: https://robots.stanford.edu/papers/roy.policy-search02.pdf
+links_alt:
+  - https://doi.org/10.1109/IRDS.2002.1041630
+  - https://ieeexplore.ieee.org/document/1041630
+audit_status: raw

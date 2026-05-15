@@ -1,0 +1,19 @@
+title: >
+  Polynomial Trajectory Planning for Aggressive Quadrotor Flight in Dense Indoor Environments
+algorithm:
+authors:
+  - Charles Richter
+  - Adam Bry
+  - Nicholas Roy
+year: 2016
+source: Springer Tracts in Advanced Robotics
+type: Conference Paper
+doi: 10.1007/978-3-319-28872-7_37
+arxiv_id:
+tags:
+abstract: >
+  We explore the challenges of planning trajectories for quadrotors through cluttered indoor environments. We extend the existing work on polynomial trajectory generation by presenting a method of jointly optimizing polynomial path segments in an unconstrained quadratic program that is numerically stable for high-order polynomials and large numbers of segments, and is easily formulated for efficient sparse computation. We also present a technique for automatically selecting the amount of time allocated to each segment, and hence the quadrotor speeds along the path, as a function of a single parameter determining aggressiveness, subject to actuator constraints. The use of polynomial trajectories, coupled with the differentially flat representation of the quadrotor, eliminates the need for computationally intensive sampling and simulation in the high dimensional state space of the vehicle during motion planning. Our approach generates high-quality trajecrtories much faster than purely sampling-based optimal kinodynamic planning methods, but sacrifices the guarantee of asymptotic convergence to the global optimum that those methods provide. We demonstrate the performance of our algorithm by efficiently generating trajectories through challenging indoor spaces and successfully traversing them at speeds up to 8 m/s. A demonstration of our algorithm and flight performance is available at:                    http://groups.csail.mit.edu/rrg/quad_polynomial_trajectory_planning                                    .
+summary: ''
+link: https://doi.org/10.1007/978-3-319-28872-7_37
+links_alt:
+audit_status: raw

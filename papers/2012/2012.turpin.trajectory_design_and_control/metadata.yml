@@ -1,0 +1,18 @@
+title: "Trajectory Design and Control for Aggressive Formation Flight with Quadrotors"
+algorithm:
+authors:
+  - Matthew Turpin
+  - Nathan Michael
+  - Vijay Kumar
+year: 2012
+source: Autonomous Robots
+type: Journal Paper
+doi: 10.1007/s10514-012-9279-y
+arxiv_id:
+tags:
+abstract: >
+  In this work we consider the problem of controlling a team of micro-aerial vehicles moving quickly through a three-dimensional environment while maintaining a tight formation. The formation is specified by shape vectors which prescribe the relative separations and bearings between the robots. To maintain the desired shape, each robot plans its trajectory independently based on its local information of other robot plans and estimates of states of other robots in the team. We explore the interaction between nonlinear decentralized controllers, the fourth-order dynamics of the individual robots, time delays in the network, and the effects of communication failures on system performance. Simulations as well as an experimental evaluation of our approach on a team of quadrotors suggests that suitable performance is maintained as the formation motions become increasingly aggressive and as communication degrades.
+summary: ''
+link: https://doi.org/10.1007/s10514-012-9279-y
+links_alt:
+audit_status: raw

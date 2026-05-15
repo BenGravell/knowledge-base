@@ -1,0 +1,18 @@
+title: Self-Supervised Correspondence in Visuomotor Policy Learning
+algorithm:
+authors:
+  - Peter Florence
+  - Lucas Manuelli
+  - Russ Tedrake
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1909.06933"
+tags:
+abstract: >
+  In this paper we explore using self-supervised correspondence for improving the generalization performance and sample efficiency of visuomotor policy learning. Prior work has primarily used approaches such as autoencoding, pose-based losses, and end-to-end policy optimization in order to train the visual portion of visuomotor policies. We instead propose an approach using self-supervised dense visual correspondence training, and show this enables visuomotor policy learning with surprisingly high generalization performance with modest amounts of data: using imitation learning, we demonstrate extensive hardware validation on challenging manipulation tasks with as few as 50 demonstrations. Our learned policies can generalize across classes of objects, react to deformable object configurations, and manipulate textureless symmetrical objects in a variety of backgrounds, all with closed-loop, real-time vision-based policies. Simulated imitation learning experiments suggest that correspondence training offers sample complexity and generalization benefits compared to autoencoding and end-to-end training.
+summary: ''
+link: https://arxiv.org/pdf/1909.06933
+links_alt:
+audit_status: raw

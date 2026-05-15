@@ -1,0 +1,18 @@
+title: >
+  Distributionally Robust Data-Driven Predictive Control for Stochastic LTI Systems
+algorithm:
+authors:
+  - Mirhan Urkmez
+  - Shahab Heshmati-Alamdari
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2605.07589"
+tags:
+abstract: >
+  We propose a distributionally robust data-driven predictive control framework for stochastic linear time-invariant systems with unknown dynamics and disturbance distributions. We use an offline trajectory to fit the subspace predictive control (SPC) predictor via least squares and construct an empirical distribution of the prediction residuals as a proxy for the unknown disturbance distribution. We then center a Wasserstein ambiguity set around this estimate and minimize the worst-case expected cost while enforcing probabilistic output constraint satisfaction over all distributions in the set. The resulting problem admits a tractable reformulation with an equivalent direct data-driven form, eliminating the need for explicit predictor identification. Using finite-sample concentration results, we provide a data-driven Wasserstein radius such that, with high probability, the true expected cost is bounded above by the tractable objective and output constraints are satisfied with respect to the true disturbance distribution. Numerical simulations validate the framework against existing methods under various disturbance conditions and cost functions.
+summary: ''
+link: https://arxiv.org/pdf/2605.07589
+links_alt:
+audit_status: raw

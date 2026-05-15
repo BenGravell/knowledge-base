@@ -1,0 +1,27 @@
+title: "Bilateral Control of Teleoperators with Time Delay"
+algorithm:
+authors:
+  - Robert J. Anderson
+  - Mark W. Spong
+year: 1989
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/9.24201
+arxiv_id:
+tags:
+  - Bilateral teleoperation
+  - Time delay
+  - Passivity
+  - Scattering theory
+  - Force reflection
+  - Teleoperators
+  - Haptic control
+abstract: >
+  A control law for teleoperators is presented which overcomes the instability caused by time delay. By using passivity and scattering theory, a criterion is developed which shows why existing bilateral control systems are unstable for certain environments, and why the proposed bilateral control law is stable for any environment and any time delay. The control law has been implemented on a single-axis force-reflecting hand controller, and preliminary results are shown. To keep the presentation clear, a 1-DOF linear time-invariant teleoperator system is discussed. Nevertheless, the results can be extended without loss of generality to an n-DOF nonlinear teleoperation system.
+summary: >
+  Introduces the passivity/scattering-theory viewpoint that makes bilateral force-reflecting teleoperation robust to communication delay. The core insight is to reshape the master-slave communication channel so that delay behaves like a passive transmission line rather than an energy-generating feedback element.
+link: https://doi.org/10.1109/9.24201
+links_alt:
+  - https://ieeexplore.ieee.org/document/24201
+  - https://ntrs.nasa.gov/citations/19890049855
+audit_status: raw

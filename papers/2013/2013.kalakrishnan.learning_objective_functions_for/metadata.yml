@@ -1,0 +1,19 @@
+title: "Learning Objective Functions for Manipulation"
+algorithm:
+authors:
+  - Mrinal Kalakrishnan
+  - Peter Pastor
+  - Ludovic Righetti
+  - Stefan Schaal
+year: 2013
+source: 2013 IEEE International Conference on Robotics and Automation
+type: Conference Paper
+doi: 10.1109/ICRA.2013.6630743
+arxiv_id:
+tags:
+abstract: >
+  We present an approach to learning objective functions for robotic manipulation based on inverse reinforcement learning. Our path integral inverse reinforcement learning algorithm can deal with high-dimensional continuous state-action spaces, and only requires local optimality of demonstrated trajectories. We use L <sub xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">1</sub> regularization in order to achieve feature selection, and propose an efficient algorithm to minimize the resulting convex objective function. We demonstrate our approach by applying it to two core problems in robotic manipulation. First, we learn a cost function for redundancy resolution in inverse kinematics. Second, we use our method to learn a cost function over trajectories, which is then used in optimization-based motion planning for grasping and manipulation tasks. Experimental results show that our method outperforms previous algorithms in high-dimensional settings.
+summary: ''
+link: https://doi.org/10.1109/ICRA.2013.6630743
+links_alt:
+audit_status: raw

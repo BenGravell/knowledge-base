@@ -1,0 +1,19 @@
+title: Autonomous Flight in Unknown Indoor Environments
+algorithm:
+authors:
+  - Abraham Bachrach
+  - Ruijie He
+  - Nicholas Roy
+year: 2009
+source: International Journal of Micro Air Vehicles
+type: Journal Paper
+doi: 10.1260/175682909790291492
+arxiv_id:
+tags:
+abstract: >
+  This paper presents our solution for enabling a quadrotor helicopter, equipped with a laser rangefinder sensor, to autonomously explore and map unstructured and unknown indoor environments. While these capabilities are already commodities on ground vehicles, air vehicles seeking the same performance face unique challenges. In this paper, we describe the difficulties in achieving fully autonomous helicopter flight, highlighting the differences between ground and helicopter robots that make it difficult to use algorithms that have been developed for ground robots. We then provide an overview of our solution to the key problems, including a multilevel sensing and control hierarchy, a high-speed laser scan-matching algorithm, an EKF for data fusion, a high-level SLAM implementation, and an exploration planner.1 Finally, we show experimental results demonstrating the helicopter's ability to navigate accurately and autonomously in unknown environments.
+summary: ''
+link: https://journals.sagepub.com/doi/10.1260/175682909790291492
+links_alt:
+  - https://doi.org/10.1260/175682909790291492
+audit_status: raw

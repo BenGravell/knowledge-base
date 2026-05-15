@@ -1,0 +1,16 @@
+title: "State-feedback Control of Systems with Multiplicative Noise via Linear Matrix Inequalities"
+algorithm:
+authors:
+  - Laurent El Ghaoui
+year: 1995
+source: Systems and Control Letters
+type: Journal Paper
+doi: 10.1016/0167-6911(94)00045-w
+arxiv_id:
+tags:
+abstract: >
+  We consider LTI systems perturbed by parametric uncertainties, modeled as white noise disturbances. We show how to maximize, via state-feedback control, the smallest norm of the noise intensity vector producing instability in the mean square sense, using convex optimization over linear matrix inequalities. We also show how to maximize performance robustness, where performance is measured by expected output energy, with either bounded initial conditions and zero inputs (classical LQG cost), or zero initial conditions and deterministic inputs of bounded energy (a generalization of the H∞ norm).
+summary: ''
+link: https://doi.org/10.1016/0167-6911(94)00045-w
+links_alt:
+audit_status: raw

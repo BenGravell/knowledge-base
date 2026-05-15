@@ -1,0 +1,18 @@
+title: "Energy Based Control of the Pendubot"
+algorithm:
+authors:
+  - I. Fantoni
+  - R. Lozano
+  - M.W. Spong
+year: 2000
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/9.847110
+arxiv_id:
+tags:
+abstract: >
+  This paper presents the control of an underactuated two-link robot called the Pendubot. We propose a controller for swinging the linkage and raise it to its uppermost unstable equilibrium position. The balancing control is based on an energy approach and the passivity properties of the system.
+summary: ''
+link: https://doi.org/10.1109/9.847110
+links_alt:
+audit_status: raw

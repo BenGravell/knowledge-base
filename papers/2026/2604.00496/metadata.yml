@@ -1,0 +1,20 @@
+title: >
+  The QuadSoft: Design, Construction, and Experimental Validation of a Soft and Actuated Quadrotor
+algorithm:
+authors:
+  - Rodolfo Verdin
+  - Hugo Moreno
+  - Mark W. Spong
+  - Gerardo Flores
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.00496"
+tags:
+abstract: >
+  This paper presents QuadSoft, a novel fully actuated quadrotor equipped with continuous-curvature, tendon-driven soft robotic arms. The design combines a semi-rigid central frame with flexible arms, enabling controlled structural reconfiguration during flight without altering the propeller layout. Unlike existing soft aerial platforms that rely on discrete bending joints, QuadSoft utilizes a continuum deformation approach to modulate arm curvature, actively adjusting its thrust vector and aerodynamic characteristics. We characterize the geometric mapping between servomotor input and the resulting constant curvature, validating it experimentally. Outdoor flight tests demonstrate stable take-off, hover, directional maneuvers, and landing, confirming that controlled arm bending can generate horizontal displacement while preserving altitude. Measurements of pitch, roll, and curvature angles show that the platform follows intended actuation patterns with minimal attitude deviations. These results demonstrate that QuadSoft preserves the baseline stability of rigid quadrotors while enabling morphology-driven maneuverability, all under the standard PX4 autopilot without retuning. Beyond a proof of concept, this work establishes a distinctive outdoor validation of a tendon-driven continuum morphing quadrotor, opening a new research avenue toward adaptive aerial systems that combine the safety and versatility of soft robotics with the performance of conventional UAVs.
+summary: ''
+link: https://arxiv.org/pdf/2604.00496
+links_alt:
+audit_status: raw

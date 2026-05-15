@@ -1,0 +1,18 @@
+title: 'Multirotor Aerial Vehicles: Modeling, Estimation, and Control of Quadrotor'
+algorithm:
+authors:
+  - Robert Mahony
+  - Vijay Kumar
+  - Peter Corke
+year: 2012
+source: IEEE Robotics & Automation Magazine
+type: Journal Paper
+doi: 10.1109/MRA.2012.2206474
+arxiv_id:
+tags:
+abstract: >
+  This article provides a tutorial introduction to modeling, estimation, and control formultirotor aerial vehicles that includes the common four-rotor or quadrotor case.
+summary: ''
+link: https://doi.org/10.1109/MRA.2012.2206474
+links_alt:
+audit_status: raw

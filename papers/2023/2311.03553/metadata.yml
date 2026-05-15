@@ -1,0 +1,20 @@
+title: >
+  iDb-A*: Iterative Search and Optimization for Optimal Kinodynamic Motion Planning
+algorithm: iDb-A*
+authors:
+  - Joaquim Ortiz-Haro
+  - Wolfgang Hoenig
+  - Valentin N. Hartmann
+  - Marc Toussaint
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2311.03553"
+tags:
+abstract: >
+  Motion planning for robotic systems with complex dynamics is a challenging problem. While recent sampling-based algorithms achieve asymptotic optimality by propagating random control inputs, their empirical convergence rate is often poor, especially in high-dimensional systems such as multirotors. An alternative approach is to first plan with a simplified geometric model and then use trajectory optimization to follow the reference path while accounting for the true dynamics. However, this approach may fail to produce a valid trajectory if the initial guess is not close to a dynamically feasible trajectory. In this paper, we present Iterative Discontinuity Bounded A* (iDb-A*), a novel kinodynamic motion planner that combines search and optimization iteratively. The search step utilizes a finite set of short trajectories (motion primitives) that are interconnected while allowing for a bounded discontinuity between them. The optimization step locally repairs the discontinuities with trajectory optimization. By progressively reducing the allowed discontinuity and incorporating more motion primitives, our algorithm achieves asymptotic optimality with excellent any-time performance. We provide a benchmark of 43 problems across eight different dynamical systems, including different versions of unicycles and multirotors. Compared to state-of-the-art methods, iDb-A* consistently solves more problem instances and finds lower-cost solutions more rapidly.
+summary: ''
+link: https://arxiv.org/pdf/2311.03553
+links_alt:
+audit_status: raw

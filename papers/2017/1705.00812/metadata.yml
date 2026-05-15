@@ -1,0 +1,18 @@
+title: "Semidefinite Approximations of the Matrix Logarithm"
+algorithm:
+authors:
+  - Hamza Fawzi
+  - James Saunderson
+  - Pablo A. Parrilo
+year: 2017
+source:
+type: ''
+doi:
+arxiv_id: "1705.00812"
+tags:
+abstract: >
+  The matrix logarithm, when applied to Hermitian positive definite matrices, is concave with respect to the positive semidefinite order. This operator concavity property leads to numerous concavity and convexity results for other matrix functions, many of which are of importance in quantum information theory. In this paper we show how to approximate the matrix logarithm with functions that preserve operator concavity and can be described using the feasible regions of semidefinite optimization problems of fairly small size. Such approximations allow us to use off-the-shelf semidefinite optimization solvers for convex optimization problems involving the matrix logarithm and related functions, such as the quantum relative entropy. The basic ingredients of our approach apply, beyond the matrix logarithm, to functions that are operator concave and operator monotone. As such, we introduce strategies for constructing semidefinite approximations that we expect will be useful, more generally, for studying the approximation power of functions with small semidefinite representations.
+summary: ''
+link: https://arxiv.org/pdf/1705.00812
+links_alt:
+audit_status: raw

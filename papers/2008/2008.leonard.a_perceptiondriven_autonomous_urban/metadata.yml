@@ -1,0 +1,44 @@
+title: "A Perception‐driven Autonomous Urban Vehicle"
+algorithm:
+authors:
+  - John Leonard
+  - Jonathan How
+  - Seth Teller
+  - Mitch Berger
+  - Stefan Campbell
+  - Gaston Fiore
+  - Luke Fletcher
+  - Emilio Frazzoli
+  - Albert Huang
+  - Sertac Karaman
+  - Olivier Koch
+  - Yoshiaki Kuwata
+  - David Moore
+  - Edwin Olson
+  - Steve Peters
+  - Justin Teo
+  - Robert Truax
+  - Matthew Walter
+  - David Barrett
+  - Alexander Epstein
+  - Keoni Maheloni
+  - Katy Moyer
+  - Troy Jones
+  - Ryan Buckley
+  - Matthew Antone
+  - Robert Galejs
+  - Siddhartha Krishnamurthy
+  - Jonathan Williams
+year: 2008
+source: Journal of Field Robotics
+type: Journal Paper
+doi: 10.1002/rob.20262
+arxiv_id:
+tags:
+abstract: >
+  AbstractThis paper describes the architecture and implementation of an autonomous passenger vehicle designed to navigate using locally perceived information in preference to potentially inaccurate or incomplete map data. The vehicle architecture was designed to handle the original DARPA Urban Challenge requirements of perceiving and navigating a road network with segments defined by sparse waypoints. The vehicle implementation includes many heterogeneous sensors with significant communications and computation bandwidth to capture and process high‐resolution, high‐rate sensor data. The output of the comprehensive environmental sensing subsystem is fed into a kinodynamic motion planning algorithm to generate all vehicle motion. The requirements of driving in lanes, three‐point turns, parking, and maneuvering through obstacle fields are all generated with a unified planner. A key aspect of the planner is its use of closed‐loop simulation in a rapidly exploring randomized trees algorithm, which can randomly explore the space while efficiently generating smooth trajectories in a dynamic and uncertain environment. The overall system was realized through the creation of a powerful new suite of software tools for message passing, logging, and visualization. These innovations provide a strong platform for future research in autonomous driving in global positioning system–denied and highly dynamic environments with poor a priori information. © 2008 Wiley Periodicals, Inc.
+summary: ''
+link: https://onlinelibrary.wiley.com/doi/abs/10.1002/rob.20262
+links_alt:
+  - https://doi.org/10.1002/rob.20262
+audit_status: raw

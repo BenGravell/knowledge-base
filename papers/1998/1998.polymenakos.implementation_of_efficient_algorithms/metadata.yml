@@ -1,0 +1,18 @@
+title: "Implementation of Efficient Algorithms for Globally Optimal Trajectories"
+algorithm:
+authors:
+  - L.C. Polymenakos
+  - D.P. Bertsekas
+  - J.N. Tsitsiklis
+year: 1998
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/9.661081
+arxiv_id:
+tags:
+abstract: >
+  We consider a continuous space shortest path problem in a two-dimensional plane. This is the problem of finding a trajectory that starts at a given point, ends at the boundary of a compact set of /spl Rfr//sup 2/, and minimizes a cost function of the form /spl int//sub O//sup T/ r(x(t)) dt+q(x(T)). For a discretized version of this problem, a Dijkstra-like method that requires one iteration per discretization point has been developed by Tsitsiklis (1995). Here we develop some new label correcting-like methods based on the small label first methods of Bertsekas (1993) and Bertsekas et al. (1996). We prove the finite termination of these methods, and present computational results showing that they are competitive and often superior to the Dijkstra-like method and are also much faster than the traditional Jacobi and Gauss-Seidel methods.
+summary: ''
+link: https://doi.org/10.1109/9.661081
+links_alt:
+audit_status: raw

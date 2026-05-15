@@ -1,4 +1,4 @@
-title: '"Why Should I Trust You?": Explaining the Predictions of Any Classifier'
+title: "\"Why Should I Trust You? \": Explaining the Predictions of Any Classifier"
 algorithm: "LIME"
 authors:
   - Marco Tulio Ribeiro

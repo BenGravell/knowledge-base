@@ -1,0 +1,18 @@
+title: "The One-Wheel Cubli: A 3D Inverted Pendulum That Can Balance with a Single Reaction Wheel"
+algorithm:
+authors:
+  - Matthias Hofer
+  - Michael Muehlebach
+  - Raffaello D’Andrea
+year: 2023
+source: Mechatronics
+type: Journal Paper
+doi: 10.1016/j.mechatronics.2023.102965
+arxiv_id:
+tags:
+abstract: >
+  This article presents a novel 3D inverted pendulum that can balance on one of its corners using only a single reaction wheel. This is achieved by a careful design of the mass moment of inertia in such a way that the inertia along the two principal tilt axes is significantly different. The consequence is a time-scale separation of the underlying tilt dynamics, which renders the system controllable. We show that controllability is maximized when the ratio of the two principal inertia values amounts to the square of the silver ratio and discuss a sensor placement that minimizes variance in our tilt estimates. Both of these aspects lead to a principled design of the system. A model is derived from first-principles and used for delay compensation, state estimation, and to design a linear-quadratic regulator that stabilizes the highly underactuated system in its upright equilibrium. Thereby, the modeling and compensation of cantilever deflections, which arise from the lightweight design, is crucial. The article includes experimental results, which underline the efficacy of the system design and highlight an excellent balancing performance of the proposed feedback controller.
+summary: ''
+link: https://doi.org/10.1016/j.mechatronics.2023.102965
+links_alt:
+audit_status: raw

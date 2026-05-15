@@ -1,0 +1,17 @@
+title: "Batch Belief Trees for Motion Planning under Uncertainty"
+algorithm: BBT
+authors:
+  - Dongliang Zheng
+  - Panagiotis Tsiotras
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2110.00173"
+tags:
+abstract: >
+  In this work, we develop the Batch Belief Trees (BBT) algorithm for motion planning under motion and sensing uncertainties. The algorithm interleaves between batch sampling, building a graph of nominal trajectories in the state space, and searching over the graph to find belief space motion plans. By searching over the graph, BBT finds sophisticated plans that will visit (and revisit) information-rich regions to reduce uncertainty. One of the key benefits of this algorithm is the modified interplay between exploration and exploitation. Instead of an exhaustive search (exploitation) after one exploration step, the proposed algorithm uses batch samples to explore the state space and, in addition, does not require exhaustive search before the next iteration of batch sampling, which adds flexibility.The algorithm finds motion plans that converge to the optimal one as more samples are added to the graph. We test BBT in different planning environments. Our numerical investigation confirms that BBT finds non-trivial motion plans and is faster compared with previous similar methods.
+summary: ''
+link: https://arxiv.org/pdf/2110.00173
+links_alt:
+audit_status: raw

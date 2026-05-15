@@ -1,0 +1,16 @@
+title: "Passivity Based Control of the Compass Gait Biped"
+algorithm:
+authors:
+  - Mark W. Spong
+year: 1999
+source: IFAC Proceedings Volumes
+type: Journal Paper
+doi: 10.1016/s1474-6670(17)56086-3
+arxiv_id:
+tags:
+abstract: >
+  In this paper we discuss the passivity based control of the two-link robot known as the Compass Gait Biped. Starting from a narrow region of initial conditions, the compass gait biped is capable of locomotion down shallow inclines without actuation or feedback control of any kind. We will discuss some feedback control strategies that can exploit these passive dynamics by shaping the energy of the system. Using potential energy shaping we can make the passive limit cycle slope invariant. We also discuss the use of switching control to address the sensitivity to initial conditions and robustness to disturbances.
+summary: ''
+link: https://doi.org/10.1016/s1474-6670(17)56086-3
+links_alt:
+audit_status: raw

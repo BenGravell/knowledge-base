@@ -1,0 +1,16 @@
+title: "On the Goldstein-Levitin-Polyak Gradient Projection Method"
+algorithm:
+authors:
+  - Dimitri P. Bertsekas
+year: 1976
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.1976.1101194
+arxiv_id:
+tags:
+abstract: >
+  This paper considers some aspects of a gradient projection method proposed by Goldstein [1], Levitin and Polyak [3], and more recently, in a less general context, by McCormick [10]. We propose and analyze some convergent step-size rules to be used in conjunction with the method. These rules are similar in spirit to the efficient Armijo rule for the method of steepest descent and under mild assumptions they have the desirable property that they identify the set of active inequality constraints in a finite number of iterations. As a result the method may be converted towards the end of the process to a conjugate direction, quasi-Newton or Newton's method, and achieve the attendant superlinear convergence rate. As an example we propose some quadratically convergent combinations of the method with Newton's method. Such combined methods appear to be very efficient for large-scale problems with many simple constraints such as those often appearing in optimal control.
+summary: ''
+link: https://doi.org/10.1109/TAC.1976.1101194
+links_alt:
+audit_status: raw

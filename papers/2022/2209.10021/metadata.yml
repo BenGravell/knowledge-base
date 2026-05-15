@@ -1,0 +1,22 @@
+title: 'DiffTune: Auto-Tuning through Auto-Differentiation'
+algorithm:
+authors:
+  - Sheng Cheng
+  - Minkyung Kim
+  - Lin Song
+  - Chengyu Yang
+  - Yiquan Jin
+  - Shenlong Wang
+  - Naira Hovakimyan
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2209.10021"
+tags:
+abstract: >
+  The performance of robots in high-level tasks depends on the quality of their lower-level controller, which requires fine-tuning. However, the intrinsically nonlinear dynamics and controllers make tuning a challenging task when it is done by hand. In this paper, we present DiffTune, a novel, gradient-based automatic tuning framework. We formulate the controller tuning as a parameter optimization problem. Our method unrolls the dynamical system and controller as a computational graph and updates the controller parameters through gradient-based optimization. The gradient is obtained using sensitivity propagation, which is the only method for gradient computation when tuning for a physical system instead of its simulated counterpart. Furthermore, we use $\mathcal{L}_1$ adaptive control to compensate for the uncertainties (that unavoidably exist in a physical system) such that the gradient is not biased by the unmodelled uncertainties. We validate the DiffTune on a Dubin's car and a quadrotor in challenging simulation environments. In comparison with state-of-the-art auto-tuning methods, DiffTune achieves the best performance in a more efficient manner owing to its effective usage of the first-order information of the system. Experiments on tuning a nonlinear controller for quadrotor show promising results, where DiffTune achieves 3.5x tracking error reduction on an aggressive trajectory in only 10 trials over a 12-dimensional controller parameter space.
+summary: ''
+link: https://arxiv.org/pdf/2209.10021
+links_alt:
+audit_status: raw

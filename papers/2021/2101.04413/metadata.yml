@@ -1,5 +1,4 @@
-title: >
-  A Regularized Limited Memory BFGS method for Large-Scale Unconstrained Optimization and its Efficient Implementations
+title: "A Regularized Limited Memory BFGS Method for Large-Scale Unconstrained Optimization and Its Efficient Implementations"
 algorithm:
 authors:
   - Hardik Tankaria

@@ -1,0 +1,31 @@
+title: "Towards Fully Autonomous Driving: Systems and Algorithms"
+algorithm:
+authors:
+  - Jesse Levinson
+  - Jake Askeland
+  - Jan Becker
+  - Jennifer Dolson
+  - David Held
+  - Soeren Kammel
+  - J. Zico Kolter
+  - Dirk Langer
+  - Oliver Pink
+  - Vaughan Pratt
+  - Michael Sokolsky
+  - Ganymed Stanek
+  - David Stavens
+  - Alex Teichman
+  - Moritz Werling
+  - Sebastian Thrun
+year: 2011
+source: 2011 IEEE Intelligent Vehicles Symposium (IV)
+type: Conference Paper
+doi: 10.1109/IVS.2011.5940562
+arxiv_id:
+tags:
+abstract: >
+  In order to achieve autonomous operation of a vehicle in urban situations with unpredictable traffic, several realtime systems must interoperate, including environment perception, localization, planning, and control. In addition, a robust vehicle platform with appropriate sensors, computational hardware, networking, and software infrastructure is essential. We previously published an overview of Junior, Stanford's entry in the 2007 DARPA Urban Challenge. This race was a closed-course competition which, while historic and inciting much progress in the field, was not fully representative of the situations that exist in the real world. In this paper, we present a summary of our recent research towards the goal of enabling safe and robust autonomous operation in more realistic situations. First, a trio of unsupervised algorithms automatically calibrates our 64-beam rotating LIDAR with accuracy superior to tedious hand measurements. We then generate high-resolution maps of the environment which are subsequently used for online localization with centimeter accuracy. Improved perception and recognition algorithms now enable Junior to track and classify obstacles as cyclists, pedestrians, and vehicles; traffic lights are detected as well. A new planning system uses this incoming data to generate thousands of candidate trajectories per second, choosing the optimal path dynamically. The improved controller continuously selects throttle, brake, and steering actuations that maximize comfort and minimize trajectory error. All of these algorithms work in sun or rain and during the day or night. With these systems operating together, Junior has successfully logged hundreds of miles of autonomous operation in a variety of real-life conditions.
+summary: ''
+link: https://doi.org/10.1109/IVS.2011.5940562
+links_alt:
+audit_status: raw

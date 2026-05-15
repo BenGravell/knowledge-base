@@ -1,0 +1,20 @@
+title: >
+  Interactive Trajectory Planning with Learning-based Distributionally Robust Model Predictive Control and Markov Systems
+algorithm:
+authors:
+  - Erik Börve
+  - Nikolce Murgovski
+  - Morteza Haghir Chehreghani
+  - Leo Laine
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2605.07768"
+tags:
+abstract: >
+  We investigate interactive trajectory planning subject to uncertainty in the decisions of surrounding agents. To control the ego-agent, we aim to first learn the decision distribution and solve a Stochastic Model Predictive Control (SMPC) problem. To account for errors in the learned distribution, we show that it is possible to utilize Probably Approximately Correct (PAC) learning in combination with Distributionally Robust (DR) optimization to obtain a solution which accounts for the errors induced by the learning model. The results indicate that our PAC learning-based DR-MPC framework provides a method to interpolate between a robust MPC and an omnipotent SMPC, based on the available number of samples.
+summary: ''
+link: https://arxiv.org/pdf/2605.07768
+links_alt:
+audit_status: raw

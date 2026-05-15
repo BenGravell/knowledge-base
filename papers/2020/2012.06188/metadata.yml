@@ -1,0 +1,22 @@
+title: Recent Theoretical Advances in Non-Convex Optimization
+algorithm:
+authors:
+  - Marina Danilova
+  - Pavel Dvurechensky
+  - Alexander Gasnikov
+  - Eduard Gorbunov
+  - Sergey Guminov
+  - Dmitry Kamzolov
+  - Innokentiy Shibaev
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2012.06188"
+tags:
+abstract: >
+  Motivated by recent increased interest in optimization algorithms for non-convex optimization in application to training deep neural networks and other optimization problems in data analysis, we give an overview of recent theoretical results on global performance guarantees of optimization algorithms for non-convex optimization. We start with classical arguments showing that general non-convex problems could not be solved efficiently in a reasonable time. Then we give a list of problems that can be solved efficiently to find the global minimizer by exploiting the structure of the problem as much as it is possible. Another way to deal with non-convexity is to relax the goal from finding the global minimum to finding a stationary point or a local minimum. For this setting, we first present known results for the convergence rates of deterministic first-order methods, which are then followed by a general theoretical analysis of optimal stochastic and randomized gradient schemes, and an overview of the stochastic first-order methods. After that, we discuss quite general classes of non-convex problems, such as minimization of $α$-weakly-quasi-convex functions and functions that satisfy Polyak--Lojasiewicz condition, which still allow obtaining theoretical convergence guarantees of first-order methods. Then we consider higher-order and zeroth-order/derivative-free methods and their convergence rates for non-convex optimization problems.
+summary: ''
+link: https://arxiv.org/pdf/2012.06188
+links_alt:
+audit_status: raw

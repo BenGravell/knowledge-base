@@ -1,0 +1,18 @@
+title: >
+  Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule
+algorithm:
+authors:
+  - Jason M. Altschuler
+  - Pablo A. Parrilo
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2309.07879"
+tags:
+abstract: >
+  Can we accelerate convergence of gradient descent without changing the algorithm -- just by carefully choosing stepsizes? Surprisingly, we show that the answer is yes. Our proposed Silver Stepsize Schedule optimizes strongly convex functions in $k^{\log_ρ 2} \approx k^{0.7864}$ iterations, where $ρ=1+\sqrt{2}$ is the silver ratio and $k$ is the condition number. This is intermediate between the textbook unaccelerated rate $k$ and the accelerated rate $\sqrt{k}$ due to Nesterov in 1983. The non-strongly convex setting is conceptually identical, and standard black-box reductions imply an analogous accelerated rate $\varepsilon^{-\log_ρ 2} \approx \varepsilon^{-0.7864}$. We conjecture and provide partial evidence that these rates are optimal among all possible stepsize schedules. The Silver Stepsize Schedule is constructed recursively in a fully explicit way. It is non-monotonic, fractal-like, and approximately periodic of period $k^{\log_ρ 2}$. This leads to a phase transition in the convergence rate: initially super-exponential (acceleration regime), then exponential (saturation regime).
+summary: ''
+link: https://arxiv.org/pdf/2309.07879
+links_alt:
+audit_status: raw

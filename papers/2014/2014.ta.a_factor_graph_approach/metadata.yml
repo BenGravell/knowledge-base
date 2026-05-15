@@ -1,0 +1,18 @@
+title: "A Factor Graph Approach to Estimation and Model Predictive Control on Unmanned Aerial Vehicles"
+algorithm:
+authors:
+  - Duy-Nguyen Ta
+  - Marin Kobilarov
+  - Frank Dellaert
+year: 2014
+source: 2014 International Conference on Unmanned Aircraft Systems (ICUAS)
+type: Conference Paper
+doi: 10.1109/ICUAS.2014.6842254
+arxiv_id:
+tags:
+abstract: >
+  In this paper, we present a factor graph framework to solve both estimation and deterministic optimal control problems, and apply it to an obstacle avoidance task on Unmanned Aerial Vehicles (UAVs). We show that factor graphs allow us to consistently use the same optimization method, system dynamics, uncertainty models and other internal and external parameters, which potentially improves the UAV performance as a whole. To this end, we extended the modeling capabilities of factor graphs to represent nonlinear dynamics using constraint factors. For inference, we reformulate Sequential Quadratic Programming as an optimization algorithm on a factor graph with nonlinear constraints. We demonstrate our framework on a simulated quadrotor in an obstacle avoidance application.
+summary: ''
+link: https://doi.org/10.1109/ICUAS.2014.6842254
+links_alt:
+audit_status: raw

@@ -1,4 +1,4 @@
-title: 'BERTopic: Neural topic modeling with a class-based TF-IDF procedure'
+title: "BERTopic: Neural Topic Modeling with a Class-based TF-IDF Procedure"
 algorithm: BERTopic
 authors:
   - Maarten Grootendorst

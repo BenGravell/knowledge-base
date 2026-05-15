@@ -1,5 +1,4 @@
-title: >
-  Synthesis and Deployment of Maximal Robust Control Barrier Functions through Adversarial Reinforcement Learning
+title: "Synthesis and Deployment of Maximal Robust Control Barrier Functions through Adversarial Reinforcement Learning"
 algorithm: "CBF-QP"
 authors:
   - Donggeon David Oh

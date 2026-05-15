@@ -1,0 +1,18 @@
+title: >
+  The Speed-Robustness Trade-Off for First-Order Methods with Additive Gradient Noise
+algorithm:
+authors:
+  - Bryan Van Scoy
+  - Laurent Lessard
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2109.05059"
+tags:
+abstract: >
+  We study the trade-off between convergence rate and sensitivity to stochastic additive gradient noise for first-order optimization methods. Ordinary Gradient Descent (GD) can be made fast-and-sensitive or slow-and-robust by increasing or decreasing the stepsize, respectively. However, it is not clear how such a trade-off can be navigated when working with accelerated methods such as Polyak's Heavy Ball (HB) or Nesterov's Fast Gradient (FG) methods. We consider two classes of functions: (1) strongly convex quadratics and (2) smooth strongly convex functions. For each function class, we present a tractable way to compute the convergence rate and sensitivity to additive gradient noise for a broad family of first-order methods, and we present algorithm designs that trade off these competing performance metrics. Each design consists of a simple analytic update rule with two states of memory, similar to HB and FG. Moreover, each design has a scalar tuning parameter that explicitly trades off convergence rate and sensitivity to additive gradient noise. We numerically validate the performance of our designs by comparing their convergence rate and sensitivity to those of many other algorithms, and through simulations on Nesterov's "bad function".
+summary: ''
+link: https://arxiv.org/pdf/2109.05059
+links_alt:
+audit_status: raw

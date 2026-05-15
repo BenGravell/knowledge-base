@@ -1,4 +1,4 @@
-title: 'Q-Prop: Sample-Efficient Policy Gradient with An Off-Policy Critic'
+title: "Q-Prop: Sample-Efficient Policy Gradient with an Off-Policy Critic"
 algorithm: "Q-Prop"
 authors:
   - Shixiang Gu

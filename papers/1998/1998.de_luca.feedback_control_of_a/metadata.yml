@@ -1,0 +1,18 @@
+title: "Feedback Control of a Nonholonomic Car-like Robot"
+algorithm:
+authors:
+  - A. De Luca
+  - G. Oriolo
+  - C. Samson
+year: 1998
+source: Lecture Notes in Control and Information Sciences
+type: Conference Paper
+doi: 10.1007/BFb0036073
+arxiv_id:
+tags:
+abstract: >
+  The subject of this chapter is the control problem for nonholonomic wheeled mobile robots moving on the plane, and in particular the use of feedback techniques for achieving a given motion task. In automatic control, feedback improves system performance by allowing the successful completion of a task even in the presence of external disturbances and/or initial errors. To this end, real-time sensor measurements are used to reconstruct the robot state. Throughout this study, the latter is assumed to be available at every instant, as provided by proprioceptive (e.g., odometry) or exteroceptive (sonar, laser) sensors. We will limit our analysis to the case of a robot workspace free of obstacles. In fact, we implicitly consider the robot controller to be embedded in a hierarchical architecture in which a higher-level planner solves the obstacle avoidance problem and provides a series of motion goals to the lower control layer. In this perspective, the controller deals with the basic issue of converting ideal plans into actual motion execution. Wherever appropriate, we shall highlight the interactions between feedback control and motion planning primitives, such as the generation of open-loop commands and the availability of a feasible smooth path joining the current robot position to the destination.
+summary: ''
+link: https://doi.org/10.1007/BFb0036073
+links_alt:
+audit_status: raw

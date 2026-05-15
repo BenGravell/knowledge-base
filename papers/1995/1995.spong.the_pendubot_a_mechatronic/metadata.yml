@@ -1,0 +1,25 @@
+title: "The Pendubot: A Mechatronic System for Control Research and Education"
+algorithm: Pendubot
+authors:
+  - Mark W. Spong
+  - Daniel J. Block
+year: 1995
+source: IEEE Conference on Decision and Control
+type: Conference Paper
+doi: 10.1109/CDC.1995.478951
+arxiv_id:
+tags:
+  - Pendubot
+  - Underactuated systems
+  - Mechatronic systems
+  - Control education
+  - Nonlinear control
+  - Robotics
+abstract: >
+  In this paper we describe the Pendubot, a mechatronic device for use in control engineering education and for research in nonlinear control and robotics. This device is a two-link planar robot with an actuator at the shoulder but no actuator at the elbow. With this system, a number of fundamental concepts in nonlinear dynamics and control theory may be illustrated. The Pendubot complements previous mechatronic systems, such as the Acrobot and the inverted pendulum of Furuta.
+summary: >
+  Introduces the Pendubot as a compact two-link, one-actuator robotic benchmark for demonstrating nonlinear dynamics, underactuation, and control design. The paper is useful historically because it frames the device as both an education platform and a repeatable research system alongside the Acrobot and Furuta pendulum.
+link: https://doi.org/10.1109/CDC.1995.478951
+links_alt:
+  - https://ieeexplore.ieee.org/document/478951
+audit_status: raw

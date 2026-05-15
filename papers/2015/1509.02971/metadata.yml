@@ -1,4 +1,4 @@
-title: Continuous control with deep reinforcement learning
+title: "Continuous Control with Deep Reinforcement Learning"
 algorithm: "DDPG"
 authors:
   - Timothy P. Lillicrap

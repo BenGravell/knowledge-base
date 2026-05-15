@@ -1,0 +1,19 @@
+title: A Robust Accelerated Optimization Algorithm for Strongly Convex Functions
+algorithm:
+authors:
+  - Saman Cyrus
+  - Bin Hu
+  - Bryan Van Scoy
+  - Laurent Lessard
+year: 2017
+source:
+type: ''
+doi:
+arxiv_id: "1710.04753"
+tags:
+abstract: >
+  This work proposes an accelerated first-order algorithm we call the Robust Momentum Method for optimizing smooth strongly convex functions. The algorithm has a single scalar parameter that can be tuned to trade off robustness to gradient noise versus worst-case convergence rate. At one extreme, the algorithm is faster than Nesterov's Fast Gradient Method by a constant factor but more fragile to noise. At the other extreme, the algorithm reduces to the Gradient Method and is very robust to noise. The algorithm design technique is inspired by methods from classical control theory and the resulting algorithm has a simple analytical form. Algorithm performance is verified on a series of numerical simulations in both noise-free and relative gradient noise cases.
+summary: ''
+link: https://arxiv.org/pdf/1710.04753
+links_alt:
+audit_status: raw

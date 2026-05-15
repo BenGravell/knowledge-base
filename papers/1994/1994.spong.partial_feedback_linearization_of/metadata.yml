@@ -1,0 +1,26 @@
+title: "Partial Feedback Linearization of Underactuated Mechanical Systems"
+algorithm: Partial Feedback Linearization
+authors:
+  - Mark W. Spong
+year: 1994
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems
+type: Conference Paper
+doi: 10.1109/IROS.1994.407375
+arxiv_id:
+tags:
+  - Partial feedback linearization
+  - Underactuated systems
+  - Nonlinear control
+  - Strong inertial coupling
+  - Zero dynamics
+  - Acrobot
+  - Robotics
+abstract: >
+  In this paper we discuss the partial feedback linearization control of underactuated mechanical systems. We consider an n degree of freedom system having m actuated, or active, degrees of freedom and l = n - m unactuated, or passive, degrees of freedom. It is known that the portion of the dynamics corresponding to the active degrees of freedom may be linearized by nonlinear feedback. In this paper we show, alternatively, that the portion of the dynamics corresponding to the passive degrees of freedom may be linearized by nonlinear feedback under a condition that we call strong inertial coupling. We derive and analyze the resulting zero dynamics which are crucial to an understanding of the response of the overall system. Simulation results are presented showing the performance of two link underactuated robots under partial feedback linearization control.
+summary: >
+  Develops partial feedback linearization for underactuated mechanical systems and highlights when either the active or passive coordinates can be linearized through nonlinear feedback. The paper is especially useful for understanding how inertial coupling and zero dynamics shape controllers for Acrobot-like systems.
+link: https://courses.ece.ucsb.edu/ECE238/238_F11Byl/papers/Spong94.pdf
+links_alt:
+  - https://doi.org/10.1109/IROS.1994.407375
+  - https://dblp.org/rec/conf/iros/Spong94
+audit_status: raw

@@ -1,0 +1,18 @@
+title: Inverse Quadratic Optimal Control for Discrete-Time Linear Systems
+algorithm:
+authors:
+  - Han Zhang
+  - Jack Umenberger
+  - Xiaoming Hu
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1810.12590"
+tags:
+abstract: >
+  In this paper, we consider the inverse optimal control problem for the discrete-time linear quadratic regulator, over finite-time horizons. Given observations of the optimal trajectories, and optimal control inputs, to a linear time-invariant system, the goal is to infer the parameters that define the quadratic cost function. The well-posedness of the inverse optimal control problem is first justified. In the noiseless case, when these observations are exact, we analyze the identifiability of the problem and provide sufficient conditions for uniqueness of the solution. In the noisy case, when the observations are corrupted by additive zero-mean noise, we formulate the problem as an optimization problem and prove the statistical consistency of the problem later. The performance of the proposed method is illustrated through numerical examples.
+summary: ''
+link: https://arxiv.org/pdf/1810.12590
+links_alt:
+audit_status: raw

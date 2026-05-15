@@ -1,0 +1,16 @@
+title: "Control System Synthesis by Root Locus Method"
+algorithm:
+authors:
+  - W. R. Evans
+year: 1950
+source: Electrical Engineering
+type: Journal Paper
+doi: 10.1109/EE.1950.6433836
+arxiv_id:
+tags:
+abstract: >
+  THE ROOT LOCUS method solves the problem of finding the roots of the characteristic equation by an extension of concepts now associated with the frequency-response method. The roots describe the natural response of the system, and knowing them permits a solution for any input. Consider a simple single-loop system, shown in Figure 1, for convenience in developing a physical picture.
+summary: ''
+link: https://doi.org/10.1109/EE.1950.6433836
+links_alt:
+audit_status: raw

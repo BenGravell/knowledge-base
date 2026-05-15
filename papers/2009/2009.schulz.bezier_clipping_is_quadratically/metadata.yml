@@ -1,0 +1,16 @@
+title: "Bezier Clipping Is Quadratically Convergent"
+algorithm: "Bezier Clipping"
+authors:
+  - Christian Schulz
+year: 2009
+source: Computer Aided Geometric Design
+type: Journal Paper
+doi: 10.1016/j.cagd.2007.12.006
+arxiv_id:
+tags:
+abstract: >
+  In 1990 Sederberg et al. introduced Bézier clipping as a new method to determine the intersections of two Bézier curves in the plane. The method utilizes the convex hull property of Bézier curves. In experiments a quadratic convergence rate was observed at transversal intersections, the equivalent of simple roots of functions, but no formal proof for this has been provided. In this paper we formally prove the quadratic convergence rate. Bézier clipping bounds one of the curves by a region along a line. We also discuss the usefulness of arbitrary lines for creating these so called 'fat lines', leading to two general classes of fat lines which both give quadratic convergence.
+summary: ''
+link: https://doi.org/10.1016/j.cagd.2007.12.006
+links_alt:
+audit_status: raw

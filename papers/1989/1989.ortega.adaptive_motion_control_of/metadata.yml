@@ -1,0 +1,17 @@
+title: "Adaptive Motion Control of Rigid Robots: A Tutorial"
+algorithm:
+authors:
+  - Romeo Ortega
+  - Mark W. Spong
+year: 1989
+source: Automatica
+type: Journal Paper
+doi: 10.1016/0005-1098(89)90054-x
+arxiv_id:
+tags:
+abstract: >
+  In this paper we give a tutorial account of several of the most recent adaptive control results for rigid robot manipulators. Our intent is to lend some perspective to the growing list of adaptive control results for manipulators by providing a unified framework for comparison of those adaptive control algorithms which have been shown to be globally convergent. In most cases we are able to simplify the derivations and proofs of these results as well.
+summary: ''
+link: https://doi.org/10.1016/0005-1098(89)90054-x
+links_alt:
+audit_status: raw

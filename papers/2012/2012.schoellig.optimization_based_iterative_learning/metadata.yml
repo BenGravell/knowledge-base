@@ -1,0 +1,18 @@
+title: "Optimization-based Iterative Learning for Precise Quadrocopter Trajectory Tracking"
+algorithm:
+authors:
+  - Angela P. Schoellig
+  - Fabian L. Mueller
+  - Raffaello D’Andrea
+year: 2012
+source: Autonomous Robots
+type: Journal Paper
+doi: 10.1007/s10514-012-9283-2
+arxiv_id:
+tags:
+abstract: >
+  Current control systems regulate the behavior of dynamic systems by reacting to noise and unexpected disturbances as they occur. To improve the performance of such control systems, experience from iterative executions can be used to anticipate recurring disturbances and proactively compensate for them. This paper presents an algorithm that exploits data from previous repetitions in order to learn to precisely follow a predefined trajectory. We adapt the feed-forward input signal to the system with the goal of achieving high tracking performance - even under the presence of model errors and other recurring disturbances. The approach is based on a dynamics model that captures the essential features of the system and that explicitly takes system input and state constraints into account. We combine traditional optimal filtering methods with state-of-the-art optimization techniques in order to obtain an effective and computationally efficient learning strategy that updates the feed-forward input signal according to a customizable learning objective. It is possible to define a termination condition that stops an execution early if the deviation from the nominal trajectory exceeds a given bound. This allows for a safe learning that gradually extends the time horizon of the trajectory. We developed a framework for generating arbitrary flight trajectories and for applying the algorithm to highly maneuverable autonomous quadrotor vehicles in the ETH Flying Machine Arena testbed. Experimental results are discussed for selected trajectories and different learning algorithm parameters.
+summary: ''
+link: https://doi.org/10.1007/s10514-012-9283-2
+links_alt:
+audit_status: raw

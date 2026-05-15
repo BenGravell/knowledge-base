@@ -1,0 +1,18 @@
+title: "Learning and Predicting Multimodal Vehicle Action Distributions in a Unified Probabilistic Model without Labels"
+algorithm:
+authors:
+  - Charles Richter
+  - Patrick R. Barragán
+  - Sertac Karaman
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2212.07013"
+tags:
+abstract: >
+  We present a unified probabilistic model that learns a representative set of discrete vehicle actions and predicts the probability of each action given a particular scenario. Our model also enables us to estimate the distribution over continuous trajectories conditioned on a scenario, representing what each discrete action would look like if executed in that scenario. While our primary objective is to learn representative action sets, these capabilities combine to produce accurate multimodal trajectory predictions as a byproduct. Although our learned action representations closely resemble semantically meaningful categories (e.g., "go straight", "turn left", etc.), our method is entirely self-supervised and does not utilize any manually generated labels or categories. Our method builds upon recent advances in variational inference and deep unsupervised clustering, resulting in full distribution estimates based on deterministic model evaluations.
+summary: ''
+link: https://arxiv.org/pdf/2212.07013
+links_alt:
+audit_status: raw

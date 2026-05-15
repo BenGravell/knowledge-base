@@ -1,0 +1,23 @@
+title: "Universal Manipulation Interface: In-The-Wild Robot Teaching without In-The-Wild Robots"
+algorithm:
+authors:
+  - Cheng Chi
+  - Zhenjia Xu
+  - Chuer Pan
+  - Eric Cousineau
+  - Benjamin Burchfiel
+  - Siyuan Feng
+  - Russ Tedrake
+  - Shuran Song
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2402.10329"
+tags:
+abstract: >
+  We present Universal Manipulation Interface (UMI) -- a data collection and policy learning framework that allows direct skill transfer from in-the-wild human demonstrations to deployable robot policies. UMI employs hand-held grippers coupled with careful interface design to enable portable, low-cost, and information-rich data collection for challenging bimanual and dynamic manipulation demonstrations. To facilitate deployable policy learning, UMI incorporates a carefully designed policy interface with inference-time latency matching and a relative-trajectory action representation. The resulting learned policies are hardware-agnostic and deployable across multiple robot platforms. Equipped with these features, UMI framework unlocks new robot manipulation capabilities, allowing zero-shot generalizable dynamic, bimanual, precise, and long-horizon behaviors, by only changing the training data for each task. We demonstrate UMI's versatility and efficacy with comprehensive real-world experiments, where policies learned via UMI zero-shot generalize to novel environments and objects when trained on diverse human demonstrations. UMI's hardware and software system is open-sourced at https://umi-gripper.github.io.
+summary: ''
+link: https://arxiv.org/pdf/2402.10329
+links_alt:
+audit_status: raw

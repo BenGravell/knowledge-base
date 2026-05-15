@@ -1,0 +1,22 @@
+title: 'Surgical Robot Transformer (SRT): Imitation Learning for Surgical Tasks'
+algorithm:
+authors:
+  - Ji Woong Kim
+  - Tony Z. Zhao
+  - Samuel Schmidgall
+  - Anton Deguet
+  - Marin Kobilarov
+  - Chelsea Finn
+  - Axel Krieger
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2407.12998"
+tags:
+abstract: >
+  We explore whether surgical manipulation tasks can be learned on the da Vinci robot via imitation learning. However, the da Vinci system presents unique challenges which hinder straight-forward implementation of imitation learning. Notably, its forward kinematics is inconsistent due to imprecise joint measurements, and naively training a policy using such approximate kinematics data often leads to task failure. To overcome this limitation, we introduce a relative action formulation which enables successful policy training and deployment using its approximate kinematics data. A promising outcome of this approach is that the large repository of clinical data, which contains approximate kinematics, may be directly utilized for robot learning without further corrections. We demonstrate our findings through successful execution of three fundamental surgical tasks, including tissue manipulation, needle handling, and knot-tying.
+summary: ''
+link: https://arxiv.org/pdf/2407.12998
+links_alt:
+audit_status: raw

@@ -1,0 +1,25 @@
+title: 'Jacta: A Versatile Planner for Learning Dexterous and Whole-body Manipulation'
+algorithm: Jacta
+authors:
+  - Jan Brüdigam
+  - Ali-Adeeb Abbas
+  - Maks Sorokin
+  - Kuan Fang
+  - Brandon Hung
+  - Maya Guru
+  - Stefan Sosnowski
+  - Jiuguang Wang
+  - Sandra Hirche
+  - Simon Le Cleac'h
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2408.01258"
+tags:
+abstract: >
+  Robotic manipulation is challenging due to discontinuous dynamics, as well as high-dimensional state and action spaces. Data-driven approaches that succeed in manipulation tasks require large amounts of data and expert demonstrations, typically from humans. Existing planners are restricted to specific systems and often depend on specialized algorithms for using demonstrations. Therefore, we introduce a flexible motion planner tailored to dexterous and whole-body manipulation tasks. Our planner creates readily usable demonstrations for reinforcement learning algorithms, eliminating the need for additional training pipeline complexities. With this approach, we can efficiently learn policies for complex manipulation tasks, where traditional reinforcement learning alone only makes little progress. Furthermore, we demonstrate that learned policies are transferable to real robotic systems for solving complex dexterous manipulation tasks. Project website: https://jacta-manipulation.github.io/
+summary: ''
+link: https://arxiv.org/pdf/2408.01258
+links_alt:
+audit_status: raw

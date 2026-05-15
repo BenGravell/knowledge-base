@@ -14,6 +14,7 @@ tags:
   - Random vibration
   - Stochastic control
 abstract: >
+  Experimental results are presented that verify the theoretical conclusion that an inverted pendulum may be stabilized with second-order stationary, random parametric excitation having a discrete-power spectral density. Experiments also verified that the theoretical condition on frequency spacing is critical.
 summary: >
   Provides experimental verification that an inverted pendulum can be stabilized by second-order stationary random parametric excitation with a discrete-power spectral density, confirming theoretical stability predictions for stochastically driven unstable linear systems.
 link: https://pubs.aip.org/asa/jasa/article-abstract/38/3/447/646775/Experiments-with-an-Inverted-Pendulum-Subject-to

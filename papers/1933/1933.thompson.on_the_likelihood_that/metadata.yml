@@ -1,0 +1,17 @@
+title: "On the Likelihood That One Unknown Probability Exceeds Another in View of the Evidence of Two Samples"
+algorithm: Thompson Sampling
+authors:
+  - William R. Thompson
+year: 1933
+source: Biometrika
+type: Journal Paper
+doi: 10.2307/2332286
+arxiv_id:
+tags:
+abstract: >
+  In elaborating the relations of the present communication interest was not centred upon the interpretation of particular data, but grew out of a general interest in problems of research planning. From this point of view there can be no objection to the use of data, however meagre, as a guide to action required before more can be collected; although serious objection can otherwise be raised to argument based upon a small number of observations. Indeed, the fact that such objection can never be eliminated entirely, no matter how great the number of observations, suggested the possible value of seeking other modes of operation than that of taking a large number of observations before analysis or any attempt to direct our course. This problem is more general than that treated in Section 2, and is directly concerned with any case where probable error may be established by means of which we judge whether one mode of operation is better than another in some given sense or not. Thus, if, in this sense, P is the probability estimate that one treatment of a certain class of individuals is better than a second, as judged by data at present available, then we might take some monotone increasing function of P, say f(P), to fix the fraction of such individuals to be treated in the first manner; until more evidence may be utilised, where 0 <= f(P) <= 1; the remaining fraction of such individuals (1 - f(P)) to be treated in the second manner; or we may establish a probability of treatment by the two methods of f(P) and 1 - f(P), respectively. If such a discipline were adopted, even though it were not the best possible, it seems apparent that a considerable saving of individuals otherwise sacrificed to the inferior treatment might be effected. This would be important in cases where either the rate of accumulation of data is slow or the individuals treated are valuable, or both.
+summary: ''
+link: https://www.jstor.org/stable/2332286
+links_alt:
+  - https://doi.org/10.2307/2332286
+audit_status: raw
