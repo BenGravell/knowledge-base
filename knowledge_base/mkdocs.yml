@@ -188,6 +188,7 @@ nav:
           - "Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control": papers/2511_02015.md
           - "Stochastic Gradient Descent Tricks": papers/2012_bottou_stochastic_gradient_descent_tricks.md
           - Catapult mechanism: papers/2003_02218.md
+          - "The Fastest Known Globally Convergent First-Order Method for Minimizing Strongly Convex Functions": papers/2018_van_scoy_the_fastest_known_globally.md
           - "Universal Sequence Preconditioning": papers/2502_06545.md
         - Quasi-Newton Methods:
           - DFP: papers/1991_davidon_variable_metric_method_for.md
@@ -214,7 +215,7 @@ nav:
           - "Midpoint Newton Method, cubic convergence analysis": papers/2004_homeier_a_modified_newton_method.md
         - Halley's Method and High-Order Methods:
           - Multivariate Halley method: papers/1985_cuyt_computational_implementation_of_the.md
-          - Super-Halley method: papers/2001_gutierrez_an_acceleration_of_newton.md
+          - Super-Halley method: papers/2001_gutierrez_an_acceleration_of_newtons.md
           - Generalized Halley method: papers/2008_albeanu_on_the_generalized_halley.md
           - New recurrence relations for Chebyshev method: papers/1997_gutierrez_new_recurrence_relations_for.md
         - Proximal Methods:
@@ -266,7 +267,7 @@ nav:
         - Path Planning:
           - Geometric Planning:
             - Fundamentals:
-              - "Spatial Planning: A Configuration Space Approach": papers/1983_lozano_spatial_planning_a_configuration.md
+              - "Spatial Planning: A Configuration Space Approach": papers/1983_lozano_perez_spatial_planning_a_configuration.md
             - Potential Fields:
               - Artificial Potential Field: papers/1985_khatib_real_time_obstacle_avoidance.md
               - Smooth Collision-Free Feedback Laws: papers/2009_lindemann_simple_and_efficient_algorithms.md
@@ -289,14 +290,14 @@ nav:
               - RRT* theory correction: papers/1909_09688.md
               - Anytime RRT*: papers/2011_karaman_anytime_motion_planning_using.md
               - "BT+RRT*": papers/2011_perez_asymptotically_optimal_path_planning.md              
-              - RRT*-Connect: papers/2015_klemm_rrt_star_connect_faster.md
+              - RRT*-Connect: papers/2015_klemm_rrt_connect_faster_asymptotically.md
               - RRT#: papers/1204_6453.md
               - FMT*: papers/1306_3532.md
               - Informed RRT*: papers/1404_2334.md
               - BIT*: papers/1405_5848.md
               - RABIT*: papers/2016_choudhury_regionally_accelerated_batch_informed.md
               - PI-RRT*: papers/2503_16164.md
-              - Informed RRT*-Connect: papers/2020_mashayekhi_informed_rrt_star_connect.md
+              - Informed RRT*-Connect: papers/2020_mashayekhi_informed_rrt_connect_an.md
               - Sliding Window Informed RRT*: papers/2021_li_sliding_window_informed_rrt.md
               - FCIT*: papers/2411_17902.md
               - Spline-based RRT: papers/2013_yang_spline_based_rrt_path.md
@@ -318,14 +319,14 @@ nav:
               - cuRobo: papers/2310_17274.md
               - cuTAMP: papers/2411_11833.md
             - Dynamic Replanning:
-              - RRTX: papers/2015_otte_rrtx_asymptotically_optimal_single.md
+              - RRTX: papers/2016_otte_rrtx_asymptotically_optimal_single.md
               - RT-FMT: papers/2502_09556.md
               - "Revisiting Replanning from Scratch: Real-Time Incremental Planning with Fast Almost-Surely Asymptotically Optimal Planners": papers/2510_21074.md
             - Constrained Motion Planning:
               - "Vectorizing Projection in Manifold-Constrained Motion Planning for Real-Time Whole-Body Control": papers/2604_13323.md
             - Collision Detection & Proximity Queries:
               - GJK: papers/1988_gilbert_a_fast_procedure_for.md
-              - "A Fast and Robust GJK Implementation for Collision Detection of Convex Objects": papers/1999_bergen_a_fast_and_robust.md
+              - "A Fast and Robust GJK Implementation for Collision Detection of Convex Objects": papers/1999_van_den_bergen_a_fast_and_robust.md
               - Incremental Distance Calculation: papers/1991_lin_a_fast_algorithm_for.md
               - OBBTree: papers/1996_gottschalk_obbtree.md
               - SSV: papers/1999_larsen_fast_proximity_queries_with.md
@@ -348,7 +349,7 @@ nav:
             - Polynomials & Splines:
               - Quintic G2 Splines: papers/2000_piazzi_quintic_g2_splines_for.md
               - Quintic Bezier Splines: papers/2016_choi_constrained_global_path_optimization.md
-              - Quintic Bezier Curve Path Planning: papers/2024_niu_quintic_bezier_curve.md
+              - Quintic Bezier Curve Path Planning: papers/2024_niu_quintic_bezier_curve_and.md
               - "Bézier clipping is quadratically convergent": papers/2009_schulz_bezier_clipping_is_quadratically.md
               - "Linear-time geometric algorithm for evaluating Bézier curves": papers/1803_06843.md
               - "MINVO Basis: Finding Simplexes with Minimum Volume Enclosing Polynomial Curves": papers/2010_10726.md
@@ -375,7 +376,7 @@ nav:
               - Linear Kinodynamic RRT*: papers/1205_5088.md
               - AQR-RRT: papers/2010_glassman_a_quadratic_regulator_based.md
               - LQR-trees: papers/2010_tedrake_lqr_trees_feedback_motion.md              
-              - LQR-RRT*: papers/2012_perez_lqr_rrt_star_optimal.md
+              - LQR-RRT*: papers/2012_perez_lqr_rrt_optimal_sampling.md
               - Reachability-guided sampling for planning under differential constraints: papers/2009_shkolnik_reachability_guided_sampling_for.md
               - "Optimal Sampling-Based Motion Planning under Differential Constraints: the Drift Case with Linear Affine Dynamics": papers/1405_7421.md
               - RRT*_MotionPrimitives: papers/1809_02399.md
@@ -417,8 +418,8 @@ nav:
           - Trajectory Generation:
             - "Dynamic Movement Primitives in Robotics: A Tutorial Survey": papers/2102_03861.md
             - Wheeled Robots:
-              - Minimum Jerk Trajectory Generation for Differential Wheeled Mobile Robots: papers/2013_palamakumburu_minimum_jerk_trajectory_generation.md
-              - TEB: papers/2017_roesmann_kinodynamic_trajectory_optimization_and.md
+              - Minimum Jerk Trajectory Generation for Differential Wheeled Mobile Robots: papers/2013_palamakumbura_minimum_jerk_trajectory_generation.md
+              - TEB: papers/2017_rosmann_kinodynamic_trajectory_optimization_and.md
             - Quadrotors:
               - Minimum Snap Trajectory Generation and Control for Quadrotors: papers/2011_mellinger_minimum_snap_trajectory_generation.md
               - Quadrocopter Trajectory Generation and Control: papers/2011_hehn_quadrocopter_trajectory_generation_and.md
@@ -495,7 +496,7 @@ nav:
                 - "Global & Local Convergence of iLQR/DDP": papers/2204_02322.md
             - Constrained DDP & iLQR:
               - Constrained LQR: papers/1998_scokaert_constrained_linear_quadratic_regulation.md
-              - ALTRO: papers/2019_jackson_altro_a_fast_solver.md
+              - ALTRO: papers/2019_howell_altro_a_fast_solver.md
               - AL-DDP: papers/2005_00985.md
               - FDDP: papers/2010_00411.md
               - Squash-Box FDDP: papers/2020_marti_saumell_squash_box_feasibility_driven.md
@@ -581,9 +582,9 @@ nav:
         - Collision Avoidance:
           - Velocity Obstacles:
             - Motion Planning in Dynamic Environments Using Velocity Obstacles: papers/1998_fiorini_motion_planning_in_dynamic.md
-            - ClearPath: papers/2009_guy_clearpath.md
-            - "Reciprocal n-Body Collision Avoidance": papers/2011_berg_reciprocal_n_body_collision.md
-            - "Reciprocal Velocity Obstacles for real-time multi-agent navigation": papers/2008_berg_reciprocal_velocity_obstacles_for.md
+            - ClearPath: papers/2009_guy_clearpath_highly_parallel_collision.md
+            - "Reciprocal n-Body Collision Avoidance": papers/2011_van_den_berg_reciprocal_n_body_collision.md
+            - "Reciprocal Velocity Obstacles for real-time multi-agent navigation": papers/2008_van_den_berg_reciprocal_velocity_obstacles_for.md
         - Feedback Motion Planning:
           - Funnel Libraries for Real-Time Robust Feedback Motion Planning: papers/1601_04037.md
           - "Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach": papers/2004_01142.md
@@ -718,7 +719,7 @@ nav:
             - "The Uncertainty Threshold Principle: Fundamental Limitations": papers/1976_athans_the_uncertainty_threshold_principle.md
             - Numerical Solution of the State-Dependent Noise Problem: papers/1976_kleinman_numerical_solution_of_the.md
             - State-Feedback Control of Systems with Multiplicative Noise via LMIs: papers/1995_ghaoui_state_feedback_control_of.md
-            - Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control: papers/2001_damm_newton_s_method_for.md
+            - Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control: papers/2001_damm_newtons_method_for_a.md
             - When Multiplicative Noise Stymies Control: papers/1612_03239.md
             - "Robust Control Design for Linear Systems via Multiplicative Noise": papers/2004_08019.md
             - "Sample Complexity of Data-Driven Stochastic LQR with Multiplicative Uncertainty": papers/2005_12167.md
@@ -779,9 +780,10 @@ nav:
         - Control-Plant Co-Design:
           - Gradient-Based Plant-Controller Co-Design: papers/2015_wang_a_gradient_based_approach.md
         - Control-Oriented Physical Modeling:
-          - 5-DOF Electrodynamic Maglev State-Space Model: papers/2004_boeij_mathematical_model_of_the.md
+          - 5-DOF Electrodynamic Maglev State-Space Model: papers/2004_de_boeij_mathematical_model_of_the.md
           - "Control-Oriented Modeling of the Dynamics of Stirling Engine Regenerators": papers/2017_craun_control_oriented_modeling_of.md
         - Control Theory:
+          - La Salle Invariance Principle: papers/1966_la_salle_an_invariance_principle_in.md
           - The Internal Model Principle for Linear Multivariable Regulators: papers/1975_francis_the_internal_model_principle.md
           - Every Good Regulator Theorem: papers/1970_conant_every_good_regulator_of.md
           - "Internal feedback in the cortical perception-action loop enables fast and accurate behavior": papers/2211_05922.md
@@ -794,6 +796,7 @@ nav:
           - "Towards a Theory of Control Architecture: A quantitative framework for layered multi-rate control": papers/2401_15185.md
           - "Asymptotic stability equals exponential stability - while you twist your eyes": papers/2411_03277.md
           - Partial Feedback Linearization: papers/1994_spong_partial_feedback_linearization_of.md
+          - Theory of Robot Control: papers/1996_wit_theory_of_robot_control.md
         - Control of Networks:
           - Control Principles of Complex Networks: papers/1508_05384.md
           - Control Profiles of Complex Networks: papers/2014_ruths_control_profiles_of_complex.md
@@ -813,6 +816,7 @@ nav:
           - Optimization-based iterative learning for precise quadrocopter trajectory tracking: papers/2012_schoellig_optimization_based_iterative_learning.md
         - Tracking Control for Wheeled Robots:
           - Kanayama Tracking Controller: papers/1990_kanayama_a_stable_tracking_control.md
+          - Feedback Control of a Nonholonomic Car-Like Robot: papers/1998_de_luca_feedback_control_of_a.md
         - Vehicle Dynamics:
           - The Tire-Force Ellipse: papers/2011_brach_the_tire_force_ellipse.md
           - "Kinematic modeling of wheeled mobile robots": papers/1987_muir_kinematic_modeling_of_wheeled.md
@@ -974,8 +978,8 @@ nav:
             - "Linear System Identification Under Multiplicative Noise from Multiple Trajectory Data": papers/2002_06613.md
             - "Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data": papers/2106_16078.md
             - Subspace Identification:
-              - Subspace Identification for Linear Systems: papers/1996_overschee_subspace_identification_for_linear.md
-              - N4SID: papers/1994_overschee_n4sid_numerical_algorithms_for.md
+              - Subspace Identification for Linear Systems: papers/1996_van_overschee_subspace_identification_for_linear.md
+              - N4SID: papers/1994_van_overschee_n4sid_numerical_algorithms_for.md
             - ERA: papers/1985_juang_an_eigensystem_realization_algorithm.md
             - OKID: papers/1993_juang_identification_of_observer_kalman.md
             - Dynamic Mode Decomposition (DMD):
@@ -1040,7 +1044,7 @@ nav:
     - Prediction:
       - Motion Prediction:
         - Traffic Models:
-          - IDM: papers/2000_treiber_congested_traffic_states_in_empirical.md
+          - IDM: papers/2000_treiber_congested_traffic_states_in.md
           - "An adaptive lateral preview driver model": papers/2005_ungoren_an_adaptive_lateral_preview.md
           - "Human-like driving behaviour emerges from a risk-based driver model": papers/2020_kolekar_human_like_driving_behaviour.md
         - Multi-agent & Interaction-aware Prediction:
@@ -1139,8 +1143,8 @@ nav:
             - N2D: papers/1908_05968.md
         - Dimensionality Reduction:
           - DrLIM: papers/2006_hadsell_dimensionality_reduction_by_learning.md
-          - t-SNE: papers/2008_maaten_visualizing_high_dimensional_data.md
-          - "Accelerating t-SNE using Tree-Based Algorithms": papers/2014_maaten_accelerating_t_sne_using.md
+          - t-SNE: papers/2008_van_der_maaten_visualizing_high_dimensional_data.md
+          - "Accelerating t-SNE using Tree-Based Algorithms": papers/2014_van_der_maaten_accelerating_t_sne_using.md
           - UMAP: papers/1802_03426.md
           - "Understanding How Dimension Reduction Tools Work: An Empirical Approach to Deciphering t-SNE, UMAP, TriMAP, and PaCMAP for Data Visualization": papers/2012_04456.md
         - Decision Trees:
@@ -1148,8 +1152,8 @@ nav:
           - CHAID: papers/1980_kass_an_exploratory_technique_for.md
           - CART: papers/1984_breiman_classification_and_regression_trees.md
           - ID3: papers/1986_quinlan_induction_of_decision_trees.md
-          - C4.5: papers/1993_quinlan_c4_5_programs_for.md
-          - ctree: papers/2006_hothorn_unbiased_recursive_partitioning.md
+          - C4.5: papers/1993_quinlan_c4_5_programs_for_machine.md
+          - ctree: papers/2006_hothorn_unbiased_recursive_partitioning_a.md
         - Kernel Machines:
           - SVM: papers/1995_cortes_support_vector_networks.md
           - Random Kitchen Sinks: papers/2008_rahimi_weighted_sums_of_random.md
@@ -1159,7 +1163,7 @@ nav:
         - Ensemble Methods:
           - Bagging: papers/1996_breiman_bagging_predictors.md
           - Random Forests: papers/2001_breiman_random_forests.md
-          - GBM: papers/2001_friedman_greedy_function_approximation.md
+          - GBM: papers/2001_friedman_greedy_function_approximation_a.md
           - XGBoost: papers/1603_02754.md
           - LightGBM: papers/2017_ke_lightgbm_a_highly_efficient.md
           - CatBoost: papers/1706_09516.md
@@ -1322,7 +1326,7 @@ nav:
         - How Should a Robot Assess Risk?: papers/2017_majumdar_how_should_a_robot.md
         - Formal Specification for Deep Neural Networks: papers/2018_seshia_formal_specification_for_deep.md
         - Challenges in Autonomous Vehicle Testing and Validation: papers/2016_koopman_challenges_in_autonomous_vehicle.md
-        - "Driving to Safety: How Many Miles of Driving Would It Take to Demonstrate Autonomous Vehicle Reliability?": papers/2016_nidhi_driving_to_safety_how.md
+        - "Driving to Safety: How Many Miles of Driving Would It Take to Demonstrate Autonomous Vehicle Reliability?": papers/2016_kalra_driving_to_safety_how.md
         - "The MIT-Cornell collision and why it happened": papers/2008_fletcher_the_mitcornell_collision_and.md
         - "Methodology for determining maximum injury potential for automated driving system evaluation": papers/2022_kusano_methodology_for_determining_maximum.md
         - "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification": papers/2403_18972.md
@@ -1373,7 +1377,7 @@ nav:
           - Introsort: papers/1997_musser_introspective_sorting_and_selection.md
           - Pattern-defeating Quicksort: papers/2106_05123.md
         - "Trees & Spatial Indexing":
-          - Barnes-Hut algorithm: papers/1986_barnes_a_hierarchical_o_n_log.md
+          - Barnes-Hut algorithm: papers/1986_barnes_a_hierarchical_o_n.md
           - "A dichromatic framework for balanced trees": papers/1978_guibas_a_dichromatic_framework_for.md
           - "Multidimensional binary search trees used for associative searching": papers/1975_bentley_multidimensional_binary_search_trees.md
           - "Organization and maintenance of large ordered indices": papers/1970_bayer_organization_and_maintenance_of.md
@@ -1434,13 +1438,14 @@ nav:
           - Dyson's Sphere Theorem: papers/1951_dyson_continuous_functions_defined_on.md
         - "Linear Algebra & Signal Processing":
           - Cooley-Tukey FFT: papers/1965_cooley_an_algorithm_for_the.md
+          - Bi-CGSTAB: papers/1992_van_der_vorst_bi_cgstab_a_fast.md
           - "Discovering Transforms: A Tutorial on Circulant Matrices, Circular Convolution, and the Discrete Fourier Transform": papers/1805_05533.md
         - "Numerical Methods":
           - "A family of embedded Runge-Kutta formulae": papers/1980_dormand_a_family_of_embedded.md
         - "Sampling & Quasi-Monte Carlo":
           - "Neural Low-Discrepancy Sequences": papers/2510_03745.md
         - "Statistics & Probability":
-          - "Mean, What do You Mean?": papers/2016_carvalho_mean_what_do_you.md
+          - "Mean, What do You Mean?": papers/2016_de_carvalho_mean_what_do_you.md
           - "Optimal Inequalities in Probability Theory: A Convex Optimization Approach": papers/2005_bertsimas_optimal_inequalities_in_probability.md
       - History:
         - "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth": papers/1992_kollerstrom_thomas_simpson_and_newtons.md
