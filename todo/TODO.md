@@ -114,7 +114,7 @@ https://pin.it/7kjN4B5KZ
 
 ### Taxonomy guidance
 
-Balance or expand tree to fix all issues reported by 
+Balance or expand tree to fix all issues reported by python scripts/list_branching_factor_violations.py
 
 Use clustering algorithm results (hierarchical agg) to help set new categories.
 
