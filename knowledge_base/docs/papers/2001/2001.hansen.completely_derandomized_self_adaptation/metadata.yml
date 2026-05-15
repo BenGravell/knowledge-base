@@ -1,5 +1,5 @@
 title: Completely Derandomized Self-Adaptation in Evolution Strategies
-algorithm:
+algorithm: CMA-ES
 authors:
   - Nikolaus Hansen
   - Andreas Ostermeier

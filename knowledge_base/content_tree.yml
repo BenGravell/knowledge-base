@@ -23,6 +23,8 @@
           - "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means": docs/papers/2023/2309.10675/metadata.yml
         - Online Convex Optimization:
           - "No-Regret Algorithms for Unconstrained Online Convex Optimization": docs/papers/2012/1211.2260/metadata.yml
+        - Applications in Probability Theory:
+          - "Optimal Inequalities in Probability Theory: A Convex Optimization Approach": docs/papers/2005/2005.bertsimas.optimal_inequalities_in_probability/metadata.yml
       - Nonlinear Programming:
         - Disciplined Nonlinear Programming: docs/papers/2025/2025.cederberg.disciplined_nonlinear_programming/metadata.yml
         - "Global Solutions to Non-Convex Functional Constrained Problems with Hidden Convexity": docs/papers/2025/2511.10626/metadata.yml
@@ -35,11 +37,26 @@
         - Direct Search & Pattern Search:
           - Rosenbrock's Method: docs/papers/1960/1960.rosenbrock.an_automatic_method_for/metadata.yml
           - Powell's Method: docs/papers/1964/1964.powell.an_efficient_method_for/metadata.yml
-        - Evolutionary & Swarm Optimization:
+        - Evolutionary Algorithms:
+          - "Evolutionary Programming": docs/papers/1966/1966.fogel.artificial_intelligence_through_simulated/metadata.yml
+          - "Adaptation in Natural and Artificial Systems": docs/papers/1992/1992.holland.adaptation_in_natural_and/metadata.yml
+          - Evolving Virtual Creatures: docs/papers/1994/1994.sims.evolving_virtual_creatures/metadata.yml
           - Particle Swarm Optimization: docs/papers/1995/1995.kennedy.particle_swarm_optimization/metadata.yml
           - Differential Evolution: docs/papers/1997/1997.storn.differential_evolution_a_simple/metadata.yml
-          - "Robots That Can Adapt like Animals": docs/papers/2014/1407.3501/metadata.yml
+          - CMA-ES: docs/papers/2001/2001.hansen.completely_derandomized_self_adaptation/metadata.yml
           - "The CMA Evolution Strategy: A Tutorial": docs/papers/2016/1604.00772/metadata.yml
+          - NEAT: docs/papers/2002/2002.stanley.evolving_neural_networks_through/metadata.yml
+          - HyperNEAT: docs/papers/2009/2009.stanley.a_hypercube_based_encoding/metadata.yml
+          - Unshackling Evolution: docs/papers/2014/2014.cheney.unshackling_evolution/metadata.yml
+          - "Abandoning Objectives: Evolution through the Search for Novelty Alone": docs/papers/2011/2011.lehman.abandoning_objectives_evolution_through/metadata.yml
+          - "Robots That Can Adapt like Animals": docs/papers/2014/1407.3501/metadata.yml
+          - "Regularized Evolution for Image Classifier Architecture Search": docs/papers/2018/1802.01548/metadata.yml
+          - "Illuminating Search Spaces by Mapping Elites": docs/papers/2015/1504.04909/metadata.yml
+          - "Quality and Diversity Optimization: A Unifying Modular Framework": docs/papers/2017/1708.09251/metadata.yml
+          - "Discovering the Elite Hypervolume by Leveraging Interspecies Correlation": docs/papers/2018/1804.03906/metadata.yml
+          - "Data-Efficient Design Exploration through Surrogate-Assisted Illumination": docs/papers/2018/1806.05865/metadata.yml
+          - "Are Quality Diversity Algorithms Better at Generating Stepping Stones than Objective-based Search?": docs/papers/2019/2019.gaier.are_quality_diversity_algorithms/metadata.yml
+          - "Embodied Intelligence via Learning and Evolution": docs/papers/2021/2102.02202/metadata.yml
         - "Second Order Methods for Bandit Optimization and Control": docs/papers/2024/2024.suggala.second_order_methods_for/metadata.yml
         - "Small errors in random zeroth-order optimization are imaginary": docs/papers/2021/2103.05478/metadata.yml
         - "Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity": docs/papers/2024/2406.19617/metadata.yml
@@ -111,6 +128,7 @@
         - RES: docs/papers/2014/1401.7625/metadata.yml
         - DDPNOpt: docs/papers/2020/2002.08809/metadata.yml
       - Newton's Method:
+        - "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth": docs/papers/1992/1992.kollerstrom.thomas_simpson_and_newtons/metadata.yml
         - A Note on the Convergence of Newton's Method: docs/papers/1974/1974.rall.a_note_on_the/metadata.yml          
         - OPTAMI: docs/papers/2024/2410.04083/metadata.yml
         - "Superfast Second-Order Methods for Unconstrained Convex Optimization": docs/papers/2021/2021.nesterov.superfast_second_order_methods/metadata.yml
@@ -212,12 +230,6 @@
           - Bayesian Optimization:
             - "Bayesian Hyperparameter Optimization with BoTorch, GPyTorch and Ax": docs/papers/2019/1912.05686/metadata.yml
             - "Bayesian Optimization Is Superior to Random Search for Machine Learning Hyperparameter Tuning": docs/papers/2021/2104.10201/metadata.yml
-          - Evolutionary Algorithms:
-            - "Illuminating Search Spaces by Mapping Elites": docs/papers/2015/1504.04909/metadata.yml
-            - "Quality and Diversity Optimization: A Unifying Modular Framework": docs/papers/2017/1708.09251/metadata.yml
-            - "Discovering the Elite Hypervolume by Leveraging Interspecies Correlation": docs/papers/2018/1804.03906/metadata.yml
-            - "Data-Efficient Design Exploration through Surrogate-Assisted Illumination": docs/papers/2018/1806.05865/metadata.yml
-            - "Are Quality Diversity Algorithms Better at Generating Stepping Stones than Objective-based Search?": docs/papers/2019/2019.gaier.are_quality_diversity_algorithms/metadata.yml
           - REMBO: docs/papers/2013/1301.1942/metadata.yml
           - Optuna: docs/papers/2019/1907.10902/metadata.yml
           - Nevergrad: docs/papers/2021/2021.bennet.nevergrad_black_box_optimization/metadata.yml
@@ -443,7 +455,6 @@
               - "Neural Distance-Guided Path Integral Control for Tractor-Trailer Navigation": docs/papers/2026/2605.09939/metadata.yml
             - "Recent Advances in Path Integral Control (Survey)": docs/papers/2023/2309.12566/metadata.yml
             - "Generative Models From and For Sampling-Based MPC: A Bootstrapped Approach For Adaptive Contact-Rich Manipulation": docs/papers/2025/2510.14643/metadata.yml
-            - "Path Integral Particle Filtering for Hybrid Systems via Saltation Matrices": docs/papers/2026/2603.01176/metadata.yml
             - "Sampling-Based Control via Entropy-Regularized Optimal Transport": docs/papers/2026/2605.02147/metadata.yml
             - "Uncertainty Guided Exploratory Trajectory Optimization for Sampling-Based Model Predictive Control": docs/papers/2026/2604.12149/metadata.yml
             - "On Surprising Effects of Risk-Aware Domain Randomization for Contact-Rich Sampling-based Predictive Control": docs/papers/2026/2605.03290/metadata.yml
@@ -568,12 +579,11 @@
           - "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach": docs/papers/2009/2009.verscheure.time_optimal_path_tracking/metadata.yml
           - Minimum-time Speed Optimisation Over a Fixed Path: docs/papers/2013/2013.lipp.minimum_time_speed_optimisation/metadata.yml
           - Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization: docs/papers/2018/2018.zhang.toward_a_more_complete/metadata.yml
-      - Collision Avoidance:
-        - Velocity Obstacles:
-          - Motion Planning in Dynamic Environments Using Velocity Obstacles: docs/papers/1998/1998.fiorini.motion_planning_in_dynamic/metadata.yml
-          - ClearPath: docs/papers/2009/2009.guy.clearpath_highly_parallel_collision/metadata.yml
-          - "Reciprocal n-Body Collision Avoidance": docs/papers/2011/2011.van_den_berg.reciprocal_n_body_collision/metadata.yml
-          - "Reciprocal Velocity Obstacles for real-time multi-agent navigation": docs/papers/2008/2008.van_den_berg.reciprocal_velocity_obstacles_for/metadata.yml
+      - Velocity Obstacles:
+        - Velocity Obstacles: docs/papers/1998/1998.fiorini.motion_planning_in_dynamic/metadata.yml
+        - RVO: docs/papers/2008/2008.van_den_berg.reciprocal_velocity_obstacles_for/metadata.yml
+        - ClearPath: docs/papers/2009/2009.guy.clearpath_highly_parallel_collision/metadata.yml
+        - ORCA: docs/papers/2011/2011.van_den_berg.reciprocal_n_body_collision/metadata.yml        
       - Feedback Motion Planning:
         - Funnel Libraries for Real-Time Robust Feedback Motion Planning: docs/papers/2016/1601.04037/metadata.yml
         - "Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach": docs/papers/2020/2004.01142/metadata.yml
@@ -975,10 +985,6 @@
         - Random Search & Evolution Strategies:
           - ARS: docs/papers/2018/1803.07055/metadata.yml
           - Derivative-Free Methods for Policy Optimization: docs/papers/2018/1812.08305/metadata.yml
-          - NEAT: docs/papers/2002/2002.stanley.evolving_neural_networks_through/metadata.yml
-          - HyperNEAT: docs/papers/2009/2009.stanley.a_hypercube_based_encoding/metadata.yml
-          - "Embodied Intelligence via Learning and Evolution": docs/papers/2021/2102.02202/metadata.yml
-          - "Regularized Evolution for Image Classifier Architecture Search": docs/papers/2018/1802.01548/metadata.yml
         - Policy Gradient:
           - REINFORCE: docs/papers/1992/1992.williams.simple_statistical_gradient_following/metadata.yml
           - "Policy Gradient Methods for Reinforcement Learning with Function Approximation": docs/papers/1999/1999.sutton.policy_gradient_methods_for/metadata.yml
@@ -1006,7 +1012,6 @@
           - "Policy Gradient Methods for Reinforcement Learning with Function Approximation and Action-Dependent Baselines": docs/papers/2017/1706.06643/metadata.yml
           - "Global Convergence of Policy Gradient Methods to (Almost) Locally Optimal Policies": docs/papers/2019/1906.08383/metadata.yml
           - "Being Optimistic to Be Conservative: Quickly Learning a CVaR Policy": docs/papers/2019/1911.01546/metadata.yml
-          - "Completely Derandomized Self-Adaptation in Evolution Strategies": docs/papers/2001/2001.hansen.completely_derandomized_self_adaptation/metadata.yml
           - "Sample Complexity Bounds for Iterative Stochastic Policy Optimization": docs/papers/2015/2015.kobilarov.sample_complexity_bounds_for/metadata.yml
           - "Energetic Natural Gradient Descent": docs/papers/2016/2016.thomas.energetic_natural_gradient_descent/metadata.yml
           - "Suboptimal Coverings for Continuous Spaces of Control Tasks": docs/papers/2021/2104.11865/metadata.yml
@@ -1149,11 +1154,12 @@
         - UKF: docs/papers/1997/1997.julier.new_extension_of_the/metadata.yml
         - The Unscented Kalman Filter for Nonlinear Estimation: docs/papers/2000/2000.wan.the_unscented_kalman_filter/metadata.yml
         - The Scaled Unscented Transformation: docs/papers/2002/2002.julier.the_scaled_unscented_transformation/metadata.yml
-      - Particle Filters:
+      - Particle Filter:
         - CONDENSATION: docs/papers/1998/1998.isard.condensationconditional_density_propagation_for/metadata.yml
         - "Particle filters for positioning, navigation, and tracking": docs/papers/2002/2002.gustafsson.particle_filters_for_positioning/metadata.yml
         - "Marginalized particle filters for mixed linear/nonlinear state-space models": docs/papers/2005/2005.schon.marginalized_particle_filters_for/metadata.yml
         - "Robust Vehicle Localization in Urban Environments Using Probabilistic Maps": docs/papers/2010/2010.levinson.robust_vehicle_localization_in/metadata.yml
+        - "Path Integral Particle Filtering for Hybrid Systems via Saltation Matrices": docs/papers/2026/2603.01176/metadata.yml
       - "Mapping & SLAM":
         - Hydra: docs/papers/2022/2201.13360/metadata.yml
         - Khronos: docs/papers/2024/2402.13817/metadata.yml
@@ -1331,6 +1337,7 @@
         - U-Net: docs/papers/2015/1505.04597/metadata.yml
         - ELU: docs/papers/2015/1511.07289/metadata.yml
         - Dropout: docs/papers/2014/2014.srivastava.dropout_a_simple_way/metadata.yml
+        - Neural Nearest Neighbors Networks: docs/papers/2018/1810.12575/metadata.yml
         - "Understanding deep learning requires rethinking generalization": docs/papers/2016/1611.03530/metadata.yml          
         - "Reconciling modern machine learning practice and the bias-variance trade-off": docs/papers/2018/1812.11118/metadata.yml
         - "Deep Double Descent: Where Bigger Models and More Data Hurt": docs/papers/2019/1912.02292/metadata.yml
@@ -1548,7 +1555,6 @@
         - "Neural Low-Discrepancy Sequences": docs/papers/2025/2510.03745/metadata.yml
       - "Statistics & Probability":
         - "Mean, What do You Mean?": docs/papers/2016/2016.de_carvalho.mean_what_do_you/metadata.yml
-        - "Optimal Inequalities in Probability Theory: A Convex Optimization Approach": docs/papers/2005/2005.bertsimas.optimal_inequalities_in_probability/metadata.yml
         - Risk Measures:
           - Coherent Measures of Risk: docs/papers/1999/1999.artzner.coherent_measures_of_risk/metadata.yml
           - CVaR: docs/papers/2002/2002.rockafellar.conditional_value_at_risk/metadata.yml
@@ -1584,7 +1590,6 @@
         - CLOVER: docs/papers/2025/2025.kamel.clover_a_gpu_native/metadata.yml
         - "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs": docs/papers/2016/1603.09320/metadata.yml
         - JZ-Tree: docs/papers/2026/2604.05885/metadata.yml
-        - Neural Nearest Neighbors Networks: docs/papers/2018/1810.12575/metadata.yml
         - "Product Quantization for Nearest Neighbor Search": docs/papers/2011/2011.jegou.product_quantization_for_nearest/metadata.yml
         - FAISS: docs/papers/2024/2401.08281/metadata.yml
       - "Complexity & Approximation":
@@ -1617,8 +1622,7 @@
       - Community Detection:
         - Louvain Algorithm: docs/papers/2008/0803.0476/metadata.yml
         - Leiden Algorithm: docs/papers/2018/1810.08473/metadata.yml
-    - History:
-      - "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth": docs/papers/1992/1992.kollerstrom.thomas_simpson_and_newtons/metadata.yml
+    - History:      
       - The Stirling Engine of 1816: docs/papers/1816/1816.stirling.the_stirling_engine_of/metadata.yml
       - Review of Computational Stirling Analysis Methods: docs/papers/2004/2004.dyson.review_of_computational_stirling/metadata.yml
       - "How the oldest recorded multiple facility location problem was solved": docs/papers/1995/1995.wilamowsky.how_the_oldest_recorded/metadata.yml
@@ -1627,8 +1631,3 @@
       - "Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic Acid": docs/papers/1953/1953.watson.molecular_structure_of_nucleic/metadata.yml
       - "The Genome Sequence of Drosophila melanogaster": docs/papers/2000/2000.adams.the_genome_sequence_of/metadata.yml
       - "The Evolutionary Origin of Complex Features": docs/papers/2003/2003.lenski.the_evolutionary_origin_of/metadata.yml
-      - Evolving Virtual Creatures: docs/papers/1994/1994.sims.evolving_virtual_creatures/metadata.yml
-      - Unshackling Evolution: docs/papers/2014/2014.cheney.unshackling_evolution/metadata.yml
-      - "Evolutionary Programming": docs/papers/1966/1966.fogel.artificial_intelligence_through_simulated/metadata.yml
-      - "Adaptation in Natural and Artificial Systems": docs/papers/1992/1992.holland.adaptation_in_natural_and/metadata.yml
-      - "Abandoning Objectives: Evolution through the Search for Novelty Alone": docs/papers/2011/2011.lehman.abandoning_objectives_evolution_through/metadata.yml

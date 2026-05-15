@@ -151,20 +151,6 @@ Balance or expand tree
 
 Write a script to list insufficient subcategories.
 
-### Targeted edits
-
-
-3. Move programming/trajectory_optimization/ under the trajectory optimization category.
-4. Move papers/2603_01176/ to state estimation category.
-5. Move 2005_bertsimas_optimal_inequalities_in_probability_theory/ to convex optimization, under applications or mathematics section
-6. Move 1992_kollerstrom_thomas_simpson_and_newtons/ from history to optimization (maybe a history subsection)
-7. Move 1810_12575/ under machine learning
-8. Rename motion planning to just planning
-9. Collison avoidance- velocity obstacles should be collapsed into a single level
-10. Harmonize sections on control lyapnuov functions and control barrier functions
-11. Move Evolution from Foundations to the section about evolutionary algorithms in optimization
-12. Move 2112_05745/ to motion planning -> trajectory planning -> rrt
-
 ## Mind Map
 
 ### UX
