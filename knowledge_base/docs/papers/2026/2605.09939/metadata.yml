@@ -1,0 +1,18 @@
+title: Neural Distance-Guided Path Integral Control for Tractor-Trailer Navigation
+algorithm:
+authors:
+  - Peng Wei
+  - Chen Peng
+  - Stavros Vougioukas
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2605.09939"
+tags:
+abstract: >
+  Autonomous and safe navigation of tractor-trailer systems requires accurate, real-time collision avoidance and dynamically feasible control, particularly in cluttered and complex agricultural environments. This is challenging due to their articulated, deformable geometries and nonlinear dynamics. Traditional methods oversimplify vehicle geometry or rely on precomputed distance fields that assume a known map, limiting their applicability in dynamic, partially unknown environments. To address these limitations, we propose a geometric neural encoder that provides fast and accurate distance estimates between the full tractor-trailer body and raw LiDAR perception, enabling real-time, map-free geometric reasoning. These learned distances are integrated into a Model Predictive Path Integral (MPPI) controller, allowing the system to incorporate true articulated geometry directly into its cost evaluation and enabling more responsive navigation in challenging agricultural settings. Simulation results demonstrate that the proposed framework generates dynamically feasible and safe trajectories for navigating tractor-trailer systems in cluttered and complex environments.
+summary: ''
+link: https://arxiv.org/pdf/2605.09939
+links_alt:
+audit_status: raw
