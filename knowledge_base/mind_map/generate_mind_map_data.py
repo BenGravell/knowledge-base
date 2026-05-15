@@ -17,10 +17,11 @@ file (``embedding_cache.json`` by default).  On each run it:
   1. Reads the cache (if it exists).
   2. For every paper computes a *content hash* over the text that will be
      embedded (title + tags + summary + abstract).
-  3. Re-embeds only the papers whose hash differs from the cached value or
+  3. Removes cached entries for papers whose ``metadata.yml`` no longer exists.
+  4. Re-embeds only the papers whose hash differs from the cached value or
      which are entirely new.
-  4. Writes the updated cache back to disk.
-  5. Recomputes the full similarity matrix from the (now complete) set of
+  5. Writes the updated cache back to disk.
+  6. Recomputes the full similarity matrix from the (now complete) set of
      embeddings and rewrites the JS output file.
 
 UMAP positions are also cached in the same file (under a ``"umap"`` key).
@@ -770,6 +771,31 @@ def save_cache(cache_path: Path, cache: dict) -> None:
     print(f"Cache saved: {cache_path}  ({size_kb} KB)")
 
 
+def prune_missing_papers_from_cache(cache: dict, active_paper_ids: set[str]) -> list[str]:
+    """
+    Remove embeddings for papers that no longer have a metadata.yml file.
+
+    The derived layout caches depend on the active paper set, so they are
+    invalidated whenever an embedding entry is pruned.
+    """
+    cached_papers = cache.get("papers")
+    if not isinstance(cached_papers, dict):
+        cache["papers"] = {}
+        cache.pop("umap", None)
+        cache.pop("force", None)
+        return []
+
+    stale_ids = sorted(set(cached_papers) - active_paper_ids)
+    for paper_id in stale_ids:
+        del cached_papers[paper_id]
+
+    if stale_ids:
+        cache.pop("umap", None)
+        cache.pop("force", None)
+
+    return stale_ids
+
+
 # ---------------------------------------------------------------------------
 # Cosine similarity
 # ---------------------------------------------------------------------------
@@ -842,7 +868,7 @@ def main() -> None:
     # ---- collect papers ----------------------------------------------------
     print("\n[1/7] Collecting paper metadata…")
     papers: list[dict] = []
-    for metadata_file in sorted(METADATA_ROOT.rglob("*.yml")):
+    for metadata_file in sorted(METADATA_ROOT.rglob("metadata.yml")):
         with open(metadata_file, "r", encoding="utf-8") as f:
             data = yaml.safe_load(f)
 
@@ -896,6 +922,11 @@ def main() -> None:
         cache = {"model": model_name, "papers": {}}
 
     cached_papers: dict[str, dict] = cache.get("papers", {})
+    active_paper_ids = {p["id"] for p in papers}
+    pruned_ids = prune_missing_papers_from_cache(cache, active_paper_ids)
+    if pruned_ids:
+        print(f"    Removed {len(pruned_ids)} stale cached paper(s) with no metadata.yml")
+        cached_papers = cache["papers"]
 
     # Determine which papers need new embeddings
     to_embed: list[int] = []   # indices into `papers`
@@ -928,6 +959,10 @@ def main() -> None:
         # Invalidate UMAP cache whenever embeddings change
         cache.pop("umap", None)
         cache.pop("force", None)
+        save_cache(args.cache, cache)
+    elif pruned_ids:
+        cache["model"] = model_name
+        cache["papers"] = cached_papers
         save_cache(args.cache, cache)
     else:
         print("    (nothing to do)")
