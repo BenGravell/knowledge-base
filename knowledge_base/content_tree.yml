@@ -1,0 +1,1625 @@
+- Content Tree:
+  - content-tree/index.md
+  - Decision-Making:
+    - Optimization:
+      - Convex Optimization:
+        - Linear Programming:
+          - Probability of Unique Integer Solution to a System of Linear Equations: docs/papers/2011/2011.mangasarian.probability_of_unique_integer/metadata.yml
+        - Quadratic Programming:
+          - Automatic Generation of Explicit Quadratic Programming Solvers: docs/papers/2025/2506.11513/metadata.yml
+        - General Convex Optimization:            
+          - Frank-Wolfe Algorithm: docs/papers/1956/1956.frank.an_algorithm_for_quadratic/metadata.yml
+          - Learning Parametric Convex Functions: docs/papers/2025/2506.04183/metadata.yml
+          - Geometric Median in Nearly Linear Time: docs/papers/2016/1606.05225/metadata.yml
+          - PInet: docs/papers/2025/2508.10480/metadata.yml
+          - "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization": docs/papers/2007/0706.4138/metadata.yml
+          - "A Convex Polynomial That Is Not sos-convex": docs/papers/2009/0903.1287/metadata.yml
+          - "The Convex Geometry of Linear Inverse Problems": docs/papers/2010/1012.0621/metadata.yml
+          - "OptNet": docs/papers/2017/1703.00443/metadata.yml
+          - "Semidefinite Approximations of the Matrix Logarithm": docs/papers/2017/1705.00812/metadata.yml
+          - "Computational Optimal Transport: Complexity by Accelerated Gradient Descent Is Better than by Sinkhorn's Algorithm": docs/papers/2018/1802.04367/metadata.yml
+          - "Semidefinite Programming Relaxations for Semialgebraic Problems": docs/papers/2003/2003.parrilo.semidefinite_programming_relaxations_for/metadata.yml
+          - "Sparse and Low-rank Matrix Decompositions": docs/papers/2009/2009.chandrasekaran.sparse_and_low_rank/metadata.yml
+          - "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means": docs/papers/2023/2309.10675/metadata.yml
+        - Online Convex Optimization:
+          - "No-Regret Algorithms for Unconstrained Online Convex Optimization": docs/papers/2012/1211.2260/metadata.yml
+      - Nonlinear Programming:
+        - Disciplined Nonlinear Programming: docs/papers/2025/2025.cederberg.disciplined_nonlinear_programming/metadata.yml
+        - "Global Solutions to Non-Convex Functional Constrained Problems with Hidden Convexity": docs/papers/2025/2511.10626/metadata.yml
+      - Zeroth-Order Methods:
+        - Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization: docs/papers/2018/1805.10367/metadata.yml
+        - Gradientless Descent: docs/papers/2019/1911.06317/metadata.yml
+        - "An Introduction to Zero-Order Optimization Techniques for Robotics": docs/papers/2025/2506.22087/metadata.yml
+        - "An Optimal Algorithm for Bandit and Zero-Order Convex Optimization with Two-Point Feedback": docs/papers/2015/1507.08752/metadata.yml
+        - "Random Gradient-Free Minimization of Convex Functions": docs/papers/2015/2015.nesterov.random_gradient_free_minimization/metadata.yml
+        - Direct Search & Pattern Search:
+          - Rosenbrock's Method: docs/papers/1960/1960.rosenbrock.an_automatic_method_for/metadata.yml
+          - Powell's Method: docs/papers/1964/1964.powell.an_efficient_method_for/metadata.yml
+        - Evolutionary & Swarm Optimization:
+          - Particle Swarm Optimization: docs/papers/1995/1995.kennedy.particle_swarm_optimization/metadata.yml
+          - Differential Evolution: docs/papers/1997/1997.storn.differential_evolution_a_simple/metadata.yml
+          - "Robots That Can Adapt like Animals": docs/papers/2014/1407.3501/metadata.yml
+          - "The CMA Evolution Strategy: A Tutorial": docs/papers/2016/1604.00772/metadata.yml
+        - "Second Order Methods for Bandit Optimization and Control": docs/papers/2024/2024.suggala.second_order_methods_for/metadata.yml
+        - "Small errors in random zeroth-order optimization are imaginary": docs/papers/2021/2103.05478/metadata.yml
+        - "Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity": docs/papers/2024/2406.19617/metadata.yml
+        - "Zeroth-Order Optimization at the Edge of Stability": docs/papers/2026/2604.14669/metadata.yml
+        - "Zeroth-Order Optimization Finds Flat Minima": docs/papers/2025/2506.05454/metadata.yml
+        - "Zeroth-Order Randomized Subspace Newton Methods": docs/papers/2022/2202.04612/metadata.yml
+        - "High-Probability Guarantees for Random Zeroth-Order (Stochastic) Gradient Descent": docs/papers/2026/2604.23613/metadata.yml
+      - First-Order Methods:
+        - Gradient Descent (Cauchy): docs/papers/1847/1847.cauchy.methode_generale_pour_la/metadata.yml
+        - Gradient Descent (Curry): docs/papers/1944/1944.curry.the_method_of_steepest/metadata.yml
+        - Polyak-Łojasiewicz inequality: docs/papers/1963/1963.polyak.gradient_methods_for_the/metadata.yml
+        - Polyak momentum: docs/papers/1964/1964.polyak.some_methods_of_speeding/metadata.yml
+        - "A Differential Equation for Modeling Nesterov's Accelerated Gradient Method": docs/papers/2015/1503.01243/metadata.yml
+        - Adam: docs/papers/2014/1412.6980/metadata.yml
+        - "A Simple Convergence Proof of Adam and Adagrad": docs/papers/2020/2003.02395/metadata.yml
+        - Adam-mini: docs/papers/2024/2406.16793/metadata.yml
+        - Coordinate Descent Algorithms: docs/papers/2015/1502.04759/metadata.yml
+        - Analysis and Design of Optimization Algorithms via IQC: docs/papers/2014/1408.3595/metadata.yml
+        - On Symplectic Optimization: docs/papers/2018/1802.03653/metadata.yml
+        - Conformal Symplectic and Relativistic Optimization: docs/papers/2019/1903.04100/metadata.yml
+        - Gradient Descent Converges to Minimizers: docs/papers/2016/1602.04915/metadata.yml
+        - How to Escape Saddle Points Efficiently: docs/papers/2017/1703.00887/metadata.yml
+        - Steepest Ascent for Optimal Programming: docs/papers/1962/1962.bryson.a_steepest_ascent_method/metadata.yml
+        - Armijo Rule: docs/papers/1966/1966.armijo.minimization_of_functions_having/metadata.yml
+        - "Adaptive Gradient Methods Converge Faster with Over-Parameterization (but you should do a line-search)": docs/papers/2020/2006.06835/metadata.yml
+        - "An overview of gradient descent optimization algorithms": docs/papers/2016/1609.04747/metadata.yml
+        - "Beyond Convexity - Contraction and Global Convergence of Gradient Descent": docs/papers/2018/1806.06655/metadata.yml
+        - "Convergence Conditions for Ascent Methods": docs/papers/1969/1969.wolfe.convergence_conditions_for_ascent/metadata.yml
+        - "Convergence Conditions for Ascent Methods. II: Some Corrections": docs/papers/1971/1971.wolfe.convergence_conditions_for_ascent/metadata.yml
+        - "Decoupled Weight Decay Regularization": docs/papers/2017/1711.05101/metadata.yml
+        - "DoG is SGD's Best Friend": docs/papers/2023/2023.ivgi.dog_is_sgds_best/metadata.yml
+        - "Efficient Numerical Algorithm for Large-Scale Damped Natural Gradient Descent": docs/papers/2023/2310.17556/metadata.yml
+        - "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability": docs/papers/2021/2103.00065/metadata.yml
+        - "Gradient Descent Provably Optimizes Over-parameterized Neural Networks": docs/papers/2018/1810.02054/metadata.yml
+        - "Katyusha": docs/papers/2016/1603.05953/metadata.yml
+        - "Linear Convergence of Gradient and Proximal-Gradient Methods Under the Polyak-Łojasiewicz Condition": docs/papers/2016/2016.karimi.linear_convergence_of_gradient/metadata.yml
+        - "Momentum-Based Variance Reduction in Non-Convex SGD": docs/papers/2019/1905.10018/metadata.yml
+        - "On Globally Optimal Stochastic Policy Gradient Methods for Domain Randomized LQR Synthesis": docs/papers/2026/2603.14197/metadata.yml
+        - "On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization": docs/papers/2018/2018.arora.on_the_optimization_of/metadata.yml
+        - "On the Convergence of Adam and Beyond": docs/papers/2019/1904.09237/metadata.yml
+        - "Optimizing Neural Networks with Kronecker-factored Approximate Curvature": docs/papers/2015/1503.05671/metadata.yml
+        - "Painless Stochastic Gradient: Interpolation, Line-Search, and Convergence Rates": docs/papers/2019/1905.09997/metadata.yml
+        - "Perception-Based Sampled-Data Optimization of Dynamical Systems": docs/papers/2023/2023.cothren.perception_based_sampled_data/metadata.yml
+        - "Revisiting the Polyak step size": docs/papers/2019/1905.00313/metadata.yml
+        - SARAH: docs/papers/2017/1703.00102/metadata.yml
+        - "Sharpness-Aware Minimization for Efficiently Improving Generalization": docs/papers/2020/2010.01412/metadata.yml
+        - "Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control": docs/papers/2025/2511.02015/metadata.yml
+        - "Stochastic Gradient Descent Tricks": docs/papers/2012/2012.bottou.stochastic_gradient_descent_tricks/metadata.yml
+        - Catapult mechanism: docs/papers/2020/2003.02218/metadata.yml
+        - "The Fastest Known Globally Convergent First-Order Method for Minimizing Strongly Convex Functions": docs/papers/2018/2018.van_scoy.the_fastest_known_globally/metadata.yml
+        - "Universal Sequence Preconditioning": docs/papers/2025/2502.06545/metadata.yml
+        - "Exponential Convergence Bounds Using Integral Quadratic Constraints": docs/papers/2015/1503.07222/metadata.yml
+        - "Control Interpretations for First-Order Optimization Methods": docs/papers/2017/1703.01670/metadata.yml
+        - "Dissipativity Theory for Nesterov's Accelerated Method": docs/papers/2017/1706.04381/metadata.yml
+        - "A Robust Accelerated Optimization Algorithm for Strongly Convex Functions": docs/papers/2017/1710.04753/metadata.yml
+        - "Lyapunov Functions for First-Order Methods: Tight Automated Convergence Guarantees": docs/papers/2018/1803.06073/metadata.yml
+        - "On the Goldstein-Levitin-Polyak Gradient Projection Method": docs/papers/1976/1976.bertsekas.on_the_goldstein_levitin/metadata.yml
+        - "Implementation of the Simultaneous Perturbation Algorithm for Stochastic Optimization": docs/papers/1998/1998.spall.implementation_of_the_simultaneous/metadata.yml
+        - "Incremental Subgradient Methods for Nondifferentiable Optimization": docs/papers/2001/2001.nedic.incremental_subgradient_methods_for/metadata.yml
+        - "Recent Theoretical Advances in Non-Convex Optimization": docs/papers/2020/2012.06188/metadata.yml
+        - "When Cyclic Coordinate Descent Outperforms Randomized Coordinate Descent": docs/papers/2017/2017.gurbuzbalaban.when_cyclic_coordinate_descent/metadata.yml
+        - "The Speed-Robustness Trade-Off for First-Order Methods with Additive Gradient Noise": docs/papers/2021/2109.05059/metadata.yml
+        - "Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule": docs/papers/2023/2309.07879/metadata.yml
+        - "Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization": docs/papers/2023/2309.16530/metadata.yml
+        - "The Fastest Known First-Order Method for Minimizing Twice Continuously Differentiable Smooth Strongly Convex Functions": docs/papers/2025/2506.01168/metadata.yml
+      - Quasi-Newton Methods:
+        - DFP: docs/papers/1991/1991.davidon.variable_metric_method_for/metadata.yml
+        - "A Regularized Limited Memory BFGS method for Large-Scale Unconstrained Optimization and its Efficient Implementations": docs/papers/2021/2101.04413/metadata.yml
+        - RES: docs/papers/2014/1401.7625/metadata.yml
+        - DDPNOpt: docs/papers/2020/2002.08809/metadata.yml
+      - Newton's Method:
+        - A Note on the Convergence of Newton's Method: docs/papers/1974/1974.rall.a_note_on_the/metadata.yml          
+        - OPTAMI: docs/papers/2024/2410.04083/metadata.yml
+        - "Superfast Second-Order Methods for Unconstrained Convex Optimization": docs/papers/2021/2021.nesterov.superfast_second_order_methods/metadata.yml
+        - "The Hessian of tall-skinny networks is easy to invert": docs/papers/2026/2601.06096/metadata.yml
+        - "Verification of Sequential Convex Programming for Parametric Non-convex Optimization": docs/papers/2025/2511.10622/metadata.yml
+        - Regularized Newton Method:
+          - Levenberg-Marquardt: docs/papers/1944/1944.levenberg.a_method_for_the/metadata.yml
+          - Cubic regularized Newton: docs/papers/2006/2006.nesterov.cubic_regularization_of_newton/metadata.yml
+          - Regularized Newton Method: docs/papers/2021/2112.02089/metadata.yml
+          - Super-Universal Regularized Newton Method: docs/papers/2022/2208.05888/metadata.yml
+          - "A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees": docs/papers/2025/2502.04799/metadata.yml
+          - "Convergence analysis of a regularized Newton method with generalized regularization terms for unconstrained convex optimization problems": docs/papers/2025/2025.yamakawa.convergence_analysis_of_a/metadata.yml
+          - "A Damped Newton Method Achieves Global O(1/k^2) and Local Quadratic Convergence Rate": docs/papers/2022/2211.00140/metadata.yml
+        - "An Automatic System to Detect Equivalence between Iterative Algorithms": docs/papers/2021/2105.04684/metadata.yml
+        - "Algebraic Characterization of Equivalence between Oracle-based Iterative Algorithms": docs/papers/2025/2501.04972/metadata.yml
+      - Trust Region Methods:          
+        - "Recent advances in trust region algorithms": docs/papers/2015/2015.yuan.recent_advances_in_trust/metadata.yml
+        - "Beyond Nonconvexity: A Universal Trust-Region Method with New Analyses": docs/papers/2023/2311.11489/metadata.yml
+      - Midpoint Newton Method:
+        - "Midpoint Newton Method, cubic convergence analysis": docs/papers/2004/2004.homeier.a_modified_newton_method/metadata.yml
+      - Halley's Method and High-Order Methods:
+        - Multivariate Halley method: docs/papers/1985/1985.cuyt.computational_implementation_of_the/metadata.yml
+        - Super-Halley method: docs/papers/2001/2001.gutierrez.an_acceleration_of_newtons/metadata.yml
+        - Generalized Halley method: docs/papers/2008/2008.albeanu.on_the_generalized_halley/metadata.yml
+        - New recurrence relations for Chebyshev method: docs/papers/1997/1997.gutierrez.new_recurrence_relations_for/metadata.yml
+      - Proximal Methods:
+        - FISTA: docs/papers/2009/2009.beck.a_fast_iterative_shrinkage/metadata.yml
+        - Proximal Algorithms: docs/papers/2014/2014.parikh.proximal_algorithms/metadata.yml          
+        - "A General Analysis of the Convergence of ADMM": docs/papers/2015/1502.02009/metadata.yml
+        - "Incremental Gradient, Subgradient, and Proximal Methods for Convex Optimization: A Survey": docs/papers/2015/1507.01030/metadata.yml
+        - "On the Douglas-Rachford Splitting Method and the Proximal Point Algorithm for Maximal Monotone Operators": docs/papers/1992/1992.eckstein.on_the_douglasrachford_splitting/metadata.yml
+      - Stochastic Optimization:
+        - Enhancing Sparsity by Reweighted L1 Minimization: docs/papers/2007/0711.1612/metadata.yml
+        - When Does SGD Escape Local Minima?: docs/papers/2018/1802.06175/metadata.yml
+        - SGD Input-to-State Stability: docs/papers/2025/2507.02131/metadata.yml
+        - "Infinite-Horizon Policy-Gradient Estimation": docs/papers/2011/1106.0665/metadata.yml
+        - "A Stochastic Approximation Method": docs/papers/1951/1951.robbins.a_stochastic_approximation_method/metadata.yml
+        - "Accelerating Stochastic Gradient Descent using Predictive Variance Reduction": docs/papers/2013/2013.johnson.accelerating_stochastic_gradient_descent/metadata.yml
+        - "Making SGD Parameter-Free": docs/papers/2022/2205.02160/metadata.yml
+        - "Why Random Reshuffling Beats Stochastic Gradient Descent": docs/papers/2015/1510.08560/metadata.yml
+        - "Minimal Variance Sampling in Stochastic Gradient Boosting": docs/papers/2019/1910.13204/metadata.yml
+        - PAGE: docs/papers/2020/2008.10898/metadata.yml
+      - Robust Optimization:
+        - Mean Robust Optimization: docs/papers/2022/2207.10820/metadata.yml          
+        - "Data-driven Distributionally Robust Optimization Using the Wasserstein Metric: Performance Guarantees and Tractable Reformulations": docs/papers/2015/1505.05116/metadata.yml
+        - "Certifying Some Distributional Robustness with Principled Adversarial Training": docs/papers/2017/1710.10571/metadata.yml
+        - "Distributionally Robust Convex Optimization": docs/papers/2014/2014.wiesemann.distributionally_robust_convex_optimization/metadata.yml
+      - Minimax & Game Theory:
+        - On General Minimax Theorems: docs/papers/1958/1958.sion.on_general_minimax_theorems/metadata.yml
+        - "Elementary Proof for Sion's Minimax Theorem": docs/papers/1988/1988.komiya.elementary_proof_for_sions/metadata.yml
+        - Subgradient Methods for Saddle-Point Problems: docs/papers/2009/2009.nedic.subgradient_methods_for_saddle/metadata.yml
+        - "A survey of distributed optimization": docs/papers/2019/2019.yang.a_survey_of_distributed/metadata.yml
+        - "Distributed Asynchronous Deterministic and Stochastic Gradient Optimization Algorithms": docs/papers/1986/1986.tsitsiklis.distributed_asynchronous_deterministic_and/metadata.yml
+        - "Near-optimal Local Convergence of Alternating Gradient Descent-Ascent for Minimax Optimization": docs/papers/2021/2102.09468/metadata.yml
+        - "The First Optimal Algorithm for Smooth and Strongly-Convex-Strongly-Concave Minimax Optimization": docs/papers/2022/2205.05653/metadata.yml
+      - Combinatorial Optimization:
+        - Held-Karp Dynamic Programming: docs/papers/1961/1961.held.a_dynamic_programming_approach/metadata.yml
+        - "Dynamic Programming Treatment of the Travelling Salesman Problem": docs/papers/1962/1962.bellman.dynamic_programming_treatment_of/metadata.yml
+        - "The traveling salesman problem: An overview of exact and approximate algorithms": docs/papers/1992/1992.laporte.the_traveling_salesman_problem/metadata.yml
+      - Assignment Problems:
+        - Hungarian algorithm: docs/papers/1955/1955.kuhn.the_hungarian_method_for/metadata.yml
+        - Munkres algorithm: docs/papers/1957/1957.munkres.algorithms_for_the_assignment/metadata.yml
+        - Jonker-Volgenant algorithm: docs/papers/1987/1987.jonker.a_shortest_augmenting_path/metadata.yml
+        - Auction Algorithm: docs/papers/1988/1988.bertsekas.the_auction_algorithm_a/metadata.yml
+        - QuickMatch: docs/papers/1993/1993.orlin.quickmatch_a_very_fast/metadata.yml          
+      - Graph Search:
+        - Dijkstra's algorithm: docs/papers/1959/1959.dijkstra.a_note_on_two/metadata.yml
+        - Bellman-Ford algorithm: docs/papers/1958/1958.bellman.on_a_routing_problem/metadata.yml
+      - Toolboxes & Solvers:
+        - Convex Optimization:
+          - Disciplined Convex Programming: docs/papers/2006/2006.grant.disciplined_convex_programming/metadata.yml            
+          - Graph Implementations: docs/papers/2008/2008.grant.graph_implementations_for_nonsmooth/metadata.yml
+          - CVXPY: docs/papers/2016/1603.00943/metadata.yml
+          - CVXPYgen: docs/papers/2022/2203.11419/metadata.yml
+          - "Disciplined Convex-Concave Programming": docs/papers/2016/1604.02639/metadata.yml
+          - "Disciplined Multi-Convex Programming": docs/papers/2016/1609.03285/metadata.yml
+          - "A Rewriting System for Convex Optimization Problems": docs/papers/2017/1709.04494/metadata.yml
+          - cvxRiskOpt: docs/papers/2024/2024.safaoui.cvxriskopt_a_risk_based/metadata.yml
+          - SOSTOOLS: docs/papers/2002/2002.prajna.introducing_sostools_a_general/metadata.yml
+          - CvxCluster: docs/papers/2026/2605.01614/metadata.yml
+          - ECOS: docs/papers/2013/2013.domahidi.ecos_an_socp_solver/metadata.yml
+          - Embedded SOCP Code Generation: docs/papers/2013/2013.chu.code_generation_for_embedded/metadata.yml
+          - OSQP: docs/papers/2017/1711.08013/metadata.yml
+          - Clarabel: docs/papers/2024/2405.12762/metadata.yml
+          - CuClarabel: docs/papers/2024/2412.19027/metadata.yml
+          - "Presolving for GPU-Accelerated First-Order LP Solvers": docs/papers/2026/2604.23951/metadata.yml
+          - "Approximation of the Joint Spectral Radius Using Sum of Squares": docs/papers/2007/0712.2887/metadata.yml
+          - "Conic Optimization via Operator Splitting and Homogeneous Self-Dual Embedding": docs/papers/2013/1312.3039/metadata.yml            
+        - Nonlinear Optimization:
+          - YALMIP: docs/papers/2004/2004.lofberg.yalmip_a_toolbox_for/metadata.yml
+          - CasADi: docs/papers/2018/2018.andersson.casadi_a_software_framework/metadata.yml
+          - CusADi: docs/papers/2024/2408.09662/metadata.yml
+          - Learning for CasADi: docs/papers/2024/2024.salzmann.learning_for_casadi_data/metadata.yml
+        - Markov Decision Processes (MDPs):
+          - madupite: docs/papers/2025/2507.22538/metadata.yml
+          - "Optimality Guarantees for Particle Belief Approximation of POMDPs": docs/papers/2022/2210.05015/metadata.yml
+          - Online Planning Algorithms for POMDPs: docs/papers/2014/1401.3436/metadata.yml
+        - Black-Box Optimization:
+          - Bayesian Optimization:
+            - "Bayesian Hyperparameter Optimization with BoTorch, GPyTorch and Ax": docs/papers/2019/1912.05686/metadata.yml
+            - "Bayesian Optimization Is Superior to Random Search for Machine Learning Hyperparameter Tuning": docs/papers/2021/2104.10201/metadata.yml
+          - Evolutionary Algorithms:
+            - "Illuminating Search Spaces by Mapping Elites": docs/papers/2015/1504.04909/metadata.yml
+            - "Quality and Diversity Optimization: A Unifying Modular Framework": docs/papers/2017/1708.09251/metadata.yml
+            - "Discovering the Elite Hypervolume by Leveraging Interspecies Correlation": docs/papers/2018/1804.03906/metadata.yml
+            - "Data-Efficient Design Exploration through Surrogate-Assisted Illumination": docs/papers/2018/1806.05865/metadata.yml
+            - "Are Quality Diversity Algorithms Better at Generating Stepping Stones than Objective-based Search?": docs/papers/2019/2019.gaier.are_quality_diversity_algorithms/metadata.yml
+          - REMBO: docs/papers/2013/1301.1942/metadata.yml
+          - Optuna: docs/papers/2019/1907.10902/metadata.yml
+          - Nevergrad: docs/papers/2021/2021.bennet.nevergrad_black_box_optimization/metadata.yml
+          - PyHopper: docs/papers/2022/2210.04728/metadata.yml
+          - "Optimizing with Low Budgets": docs/papers/2023/2310.00077/metadata.yml            
+      - Automatic Differentiation:
+        - On Automatic Differentiation: docs/papers/1989/1989.griewank.on_automatic_differentiation/metadata.yml
+        - "Automatic differentiation in machine learning: a survey": docs/papers/2015/1502.05767/metadata.yml
+        - Fast Exact Multiplication by the Hessian: docs/papers/1994/1994.pearlmutter.fast_exact_multiplication_by/metadata.yml
+        - Gradient-Based Optimization of Hyperparameters: docs/papers/2000/2000.bengio.gradient_based_optimization_of/metadata.yml
+        - "Gradient-based Hyperparameter Optimization through Reversible Learning": docs/papers/2015/1502.03492/metadata.yml
+        - "SoftJAX & SoftTorch": docs/papers/2026/2603.08824/metadata.yml
+        - "The Elements of Differentiable Programming": docs/papers/2024/2403.14606/metadata.yml
+      - Controller Autotuning:
+        - "On Self-Tuning Regulators": docs/papers/1973/1973.astrom.on_self_tuning_regulators/metadata.yml
+        - A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum: docs/papers/2014/2014.trimpe.a_self_tuning_lqr/metadata.yml          
+        - AutoTune: docs/papers/2021/2103.10698/metadata.yml
+        - DiffLoop: docs/papers/2021/2106.10516/metadata.yml
+        - DiffTune: docs/papers/2022/2209.10021/metadata.yml
+        - DiffTune+: docs/papers/2022/2212.03194/metadata.yml
+    - Motion Planning:
+      - Path Planning:
+        - Geometric Planning:
+          - Fundamentals:
+            - "Spatial Planning: A Configuration Space Approach": docs/papers/1983/1983.lozano_perez.spatial_planning_a_configuration/metadata.yml
+          - Potential Fields:
+            - Artificial Potential Field: docs/papers/1985/1985.khatib.real_time_obstacle_avoidance/metadata.yml
+            - Smooth Collision-Free Feedback Laws: docs/papers/2009/2009.lindemann.simple_and_efficient_algorithms/metadata.yml
+          - Graph Search:
+            - "Implementation of Efficient Algorithms for Globally Optimal Trajectories": docs/papers/1998/1998.polymenakos.implementation_of_efficient_algorithms/metadata.yml
+            - Incremental A*: docs/papers/2001/2001.koenig.incremental_a/metadata.yml
+            - HPA*: docs/papers/2004/2004.botea.near_optimal_hierarchical_path/metadata.yml
+            - LPA*: docs/papers/2004/2004.koenig.lifelong_planning_a/metadata.yml
+            - "Path Planning for Autonomous Vehicles in Unknown Semi-structured Environments": docs/papers/2010/2010.dolgov.path_planning_for_autonomous/metadata.yml
+            - Smac Planner: docs/papers/2026/2026.macenski.cost_aware_kinematically_feasible/metadata.yml              
+          - Probabilistic Roadmap (PRM):
+            - PRM: docs/papers/1996/1996.kavraki.probabilistic_roadmaps_for_path/metadata.yml
+            - Deterministic Sampling-Based Motion Planning: docs/papers/2015/2015.janson.deterministic_sampling_based_motion/metadata.yml
+            - "Efficient high-quality motion planning by fast all-pairs r-nearest-neighbors": docs/papers/2014/1409.8112/metadata.yml
+            - "Enhancing Sampling-based Planning with a Library of Paths": docs/papers/2025/2510.12962/metadata.yml
+            - "Generating Diverse Trajectories Using Roadmap Search and Sampling-Based Motion Planning": docs/papers/2026/2026.plaku.generating_diverse_trajectories_using/metadata.yml
+          - Rapidly Exploring Random Trees (RRT):
+            - RRT: docs/papers/1998/1998.lavalle.rapidly_exploring_random_trees/metadata.yml              
+            - RRT-Connect: docs/papers/2000/2000.kuffner.rrt_connect_an_efficient/metadata.yml
+            - EET: docs/papers/2008/2008.rickert.balancing_exploration_and_exploitation/metadata.yml
+            - RRT*: docs/papers/2011/1105.1186/metadata.yml
+            - RRT* theory correction: docs/papers/2019/1909.09688/metadata.yml
+            - Anytime RRT*: docs/papers/2011/2011.karaman.anytime_motion_planning_using/metadata.yml
+            - "BT+RRT*": docs/papers/2011/2011.perez.asymptotically_optimal_path_planning/metadata.yml              
+            - RRT*-Connect: docs/papers/2015/2015.klemm.rrt_connect_faster_asymptotically/metadata.yml
+            - RRT#: docs/papers/2012/1204.6453/metadata.yml
+            - FMT*: docs/papers/2013/1306.3532/metadata.yml
+            - Informed RRT*: docs/papers/2014/1404.2334/metadata.yml
+            - BIT*: docs/papers/2014/1405.5848/metadata.yml
+            - RABIT*: docs/papers/2016/2016.choudhury.regionally_accelerated_batch_informed/metadata.yml
+            - PI-RRT*: docs/papers/2025/2503.16164/metadata.yml
+            - Informed RRT*-Connect: docs/papers/2020/2020.mashayekhi.informed_rrt_connect_an/metadata.yml
+            - Sliding Window Informed RRT*: docs/papers/2021/2021.li.sliding_window_informed_rrt/metadata.yml
+            - FCIT*: docs/papers/2024/2411.17902/metadata.yml
+            - Spline-based RRT: docs/papers/2013/2013.yang.spline_based_rrt_path/metadata.yml
+            - Continuous-Curvature Target Tree: docs/papers/2022/2201.03163/metadata.yml
+            - BIT*: docs/papers/2023/2302.11670/metadata.yml
+            - BITKOMO: docs/papers/2022/2203.01751/metadata.yml
+            - "Improving Motion-Planning Algorithms by Efficient Nearest-Neighbor Searching": docs/papers/2007/2007.yershova.improving_motion_planning_algorithms/metadata.yml
+            - Edge Nearest Neighbor: docs/papers/2025/2506.13753/metadata.yml
+            - "Path planning in 1000+ dimensions using a task-space Voronoi bias": docs/papers/2009/2009.shkolnik.path_planning_in_1000/metadata.yml
+            - "Integrating asymptotically-optimal path planning with local optimization": docs/papers/2017/1708.06056/metadata.yml
+            - "Geometry-Aware Sampling-Based Motion Planning on Riemannian Manifolds": docs/papers/2026/2602.00992/metadata.yml
+            - ST-RRT*: docs/papers/2022/2203.02176/metadata.yml
+          - GPU Parallelized Planning:
+            - GMT*: docs/papers/2017/1705.02403/metadata.yml
+            - Kino-PAX: docs/papers/2024/2409.06807/metadata.yml
+            - Kino-PAX+: docs/papers/2026/2602.02846/metadata.yml
+            - pRRTC: docs/papers/2025/2503.06757/metadata.yml
+            - cpRRTC: docs/papers/2025/2505.06791/metadata.yml
+            - cuRobo: docs/papers/2023/2310.17274/metadata.yml
+            - cuTAMP: docs/papers/2024/2411.11833/metadata.yml
+          - Dynamic Replanning:
+            - RRTX: docs/papers/2016/2016.otte.rrtx_asymptotically_optimal_single/metadata.yml
+            - RT-FMT: docs/papers/2025/2502.09556/metadata.yml
+            - "Revisiting Replanning from Scratch: Real-Time Incremental Planning with Fast Almost-Surely Asymptotically Optimal Planners": docs/papers/2025/2510.21074/metadata.yml
+          - Constrained Motion Planning:
+            - "Vectorizing Projection in Manifold-Constrained Motion Planning for Real-Time Whole-Body Control": docs/papers/2026/2604.13323/metadata.yml
+          - Collision Detection & Proximity Queries:
+            - GJK: docs/papers/1988/1988.gilbert.a_fast_procedure_for/metadata.yml
+            - "A Fast and Robust GJK Implementation for Collision Detection of Convex Objects": docs/papers/1999/1999.van_den_bergen.a_fast_and_robust/metadata.yml
+            - Incremental Distance Calculation: docs/papers/1991/1991.lin.a_fast_algorithm_for/metadata.yml
+            - OBBTree: docs/papers/1996/1996.gottschalk.obbtree/metadata.yml
+            - SSV: docs/papers/1999/1999.larsen.fast_proximity_queries_with/metadata.yml
+            - NanoMap: docs/papers/2018/1802.09076/metadata.yml
+            - Collision-Affording Point Trees: docs/papers/2024/2406.02807/metadata.yml
+        - Path Generation:
+          - Lines & Arcs:
+            - Dubins Paths: docs/papers/1957/1957.dubins.on_curves_of_minimal/metadata.yml
+            - Reeds-Shepp Paths: docs/papers/1990/1990.reeds.optimal_paths_for_a/metadata.yml
+            - Markov-Dubins with Acceleration: docs/papers/1997/1997.sussmann.the_markov_dubins_problem/metadata.yml
+          - Clothoids (linear curvature):
+            - SCC Paths: docs/papers/1997/1997.scheuer.continuous_curvature_path_planning/metadata.yml
+            - CC Steer: docs/papers/2004/2004.fraichard.from_reeds_and_shepps/metadata.yml
+          - Generalized Clothoids (nonlinear curvature):
+            - Cubic Curvature Polynomials: docs/papers/2001/2001.nagy.trajectory_generation_for_car/metadata.yml
+            - Sharpness Continuous path: docs/papers/2018/1801.08995/metadata.yml
+            - "Fast and Accurate G1 Fitting of Clothoid Curves": docs/papers/2013/1305.6644/metadata.yml
+            - "G2 Hermite Interpolation with Clothoids": docs/papers/2018/2018.bertolazzi.on_the_g2_hermite/metadata.yml
+            - "Sharpness Continuous Path optimization and Sparsification for Automated Vehicles": docs/papers/2022/2022.kumar.sharpness_continuous_path_optimization/metadata.yml
+          - Polynomials & Splines:
+            - Quintic G2 Splines: docs/papers/2000/2000.piazzi.quintic_g2_splines_for/metadata.yml
+            - Quintic Bezier Splines: docs/papers/2016/2016.choi.constrained_global_path_optimization/metadata.yml
+            - Quintic Bezier Curve Path Planning: docs/papers/2024/2024.niu.quintic_bezier_curve_and/metadata.yml
+            - "Bézier clipping is quadratically convergent": docs/papers/2009/2009.schulz.bezier_clipping_is_quadratically/metadata.yml
+            - "Linear-time geometric algorithm for evaluating Bézier curves": docs/papers/2018/1803.06843/metadata.yml
+            - MINVO Basis: docs/papers/2020/2010.10726/metadata.yml
+        - Path Optimization:
+          - Path Shortcutting:
+            - Creating High-quality Paths for Motion Planning: docs/papers/2007/2007.geraerts.creating_high_quality_paths/metadata.yml
+            - Anytime Solution Optimization for Sampling-Based Motion Planning: docs/papers/2013/2013.luna.anytime_solution_optimization_for/metadata.yml              
+            - Benchmarking Shortcutting Techniques for Multi-Robot-Arm Motion Planning: docs/papers/2025/2508.05027/metadata.yml
+          - Path Smoothing:
+            - CCMA: docs/papers/2023/2023.steinecker.a_simple_and_model/metadata.yml
+            - Elastic Bands: docs/papers/1993/1993.quinlan.elastic_bands_connecting_path/metadata.yml
+            - "Collision-Free and Curvature-Continuous Path Smoothing In Cluttered Environments": docs/papers/2011/2011.pan.collision_free_and_curvature/metadata.yml
+          - Gradient-based Path Optimization:
+            - CHOMP: docs/papers/2009/2009.ratliff.chomp_gradient_optimization_techniques/metadata.yml
+          - Sample-based Path Optimization:
+            - STOMP: docs/papers/2011/2011.kalakrishnan.stomp_stochastic_trajectory_optimization/metadata.yml
+      - Trajectory Planning:
+        - Kinodynamic Planning:
+          - Trajectory Planning: docs/papers/2014/2014.pham.trajectory_planning/metadata.yml
+          - Rapidly Exploring Random Trees (RRT):
+            - Kinodynamic RRT: docs/papers/1999/1999.lavalle.randomized_kinodynamic_planning/metadata.yml
+            - CL-RRT: docs/papers/2009/2009.kuwata.real_time_motion_planning/metadata.yml
+            - Kinodynamic RRT*: docs/papers/2010/2010.karaman.optimal_kinodynamic_motion_planning/metadata.yml
+            - Linear Kinodynamic RRT*: docs/papers/2012/1205.5088/metadata.yml
+            - AQR-RRT: docs/papers/2010/2010.glassman.a_quadratic_regulator_based/metadata.yml
+            - LQR-trees: docs/papers/2010/2010.tedrake.lqr_trees_feedback_motion/metadata.yml              
+            - LQR-RRT*: docs/papers/2012/2012.perez.lqr_rrt_optimal_sampling/metadata.yml
+            - Reachability-guided sampling for planning under differential constraints: docs/papers/2009/2009.shkolnik.reachability_guided_sampling_for/metadata.yml
+            - "Optimal Sampling-Based Motion Planning under Differential Constraints: the Drift Case with Linear Affine Dynamics": docs/papers/2014/1405.7421/metadata.yml
+            - RRT*_MotionPrimitives: docs/papers/2018/1809.02399/metadata.yml
+            - BB-RRT: docs/papers/2022/2210.01744/metadata.yml
+            - AkinoPDF: docs/papers/2026/2603.16059/metadata.yml
+            - Completeness of Randomized Kinodynamic Planners with State-based Steering: docs/papers/2015/1511.05259/metadata.yml
+            - "Probabilistic completeness of RRT for geometric and kinodynamic planning with forward propagation": docs/papers/2018/1809.07051/metadata.yml
+            - FDSPC: docs/papers/2024/2405.03281/metadata.yml
+            - TB-RRT: docs/papers/2014/2014.sintov.time_based_rrt_algorithm/metadata.yml
+            - "A novel RRT extend function for efficient and smooth mobile robot motion planning": docs/papers/2014/2014.palmieri.a_novel_rrt_extend/metadata.yml
+            - DR-RRT: docs/papers/2018/2018.summers.distributionally_robust_sampling_based/metadata.yml              
+            - RANS-RRT*: docs/papers/2021/2103.05572/metadata.yml
+            - R3T: docs/papers/2020/2020.wu.r3t_rapidly_exploring_random/metadata.yml
+            - "Efficient Nearest-Neighbor Search for Dynamical Systems with Nonholonomic Constraints": docs/papers/2017/1709.07610/metadata.yml
+            - "Kinodynamic motion planning: connecting exploration trees using trajectory optimization Methods": docs/papers/2004/2004.lamiraux.kinodynamic_motion_planning_connecting/metadata.yml
+            - "Optimal motion planning with the half-car dynamical model for autonomous high-speed driving": docs/papers/2013/2013.jeon.optimal_motion_planning_with/metadata.yml
+            - "Randomized Kinodynamic Motion Planning with Moving Obstacles": docs/papers/2002/2002.hsu.randomized_kinodynamic_motion_planning/metadata.yml
+            - "Search-based Motion Planning for Quadrotors using Linear Quadratic Minimum Time Control": docs/papers/2017/1709.05401/metadata.yml
+            - StaGE: docs/papers/2026/2603.06773/metadata.yml        
+          - Expansive Space Trees (EST):
+            - EST: docs/papers/1997/1997.hsu.path_planning_in_expansive/metadata.yml
+            - Guided EST: docs/papers/2004/2004.phillips.guided_expansive_spaces_trees/metadata.yml
+          - Stable Sparse Tree (SST):
+            - SST*: docs/papers/2014/1407.2896/metadata.yml
+          - Meta Algorithms:
+            - AO-x: docs/papers/2015/1505.04098/metadata.yml
+            - AORRTC: docs/papers/2025/2505.10542/metadata.yml
+          - Discontinuity-bounded Planning:
+            - db-A*: docs/papers/2022/2203.11108/metadata.yml
+            - iDb-A: docs/papers/2023/2311.03553/metadata.yml
+            - iDb-RRT: docs/papers/2024/2403.10745/metadata.yml
+          - Planning with Graphs of Convex Sets (GCS):
+            - SPP-GCS: docs/papers/2021/2101.11565/metadata.yml
+            - GCS: docs/papers/2022/2205.04422/metadata.yml
+            - fastpathplanning: docs/papers/2023/2305.01072/metadata.yml
+            - GCS*: docs/papers/2024/2407.08848/metadata.yml
+            - Multi-Query Shortest-Path Problem in Graphs of Convex Sets: docs/papers/2024/2409.19543/metadata.yml
+            - Faster Algorithms for Growing Collision-Free Convex Polytopes in Robot Configuration Space: docs/papers/2024/2410.12649/metadata.yml
+            - SCS: docs/papers/2025/2504.18978/metadata.yml
+            - Augmented GCS: docs/papers/2025/2510.22015/metadata.yml
+            - Augmented GCS for TSP: docs/papers/2026/2604.06406/metadata.yml
+        - Trajectory Generation:
+          - "Dynamic Movement Primitives in Robotics: A Tutorial Survey": docs/papers/2021/2102.03861/metadata.yml
+          - Wheeled Robots:
+            - Minimum Jerk Trajectory Generation for Differential Wheeled Mobile Robots: docs/papers/2013/2013.palamakumbura.minimum_jerk_trajectory_generation/metadata.yml
+            - TEB: docs/papers/2017/2017.rosmann.kinodynamic_trajectory_optimization_and/metadata.yml
+          - Quadrotors:
+            - Minimum Snap Trajectory Generation and Control for Quadrotors: docs/papers/2011/2011.mellinger.minimum_snap_trajectory_generation/metadata.yml
+            - Quadrocopter Trajectory Generation and Control: docs/papers/2011/2011.hehn.quadrocopter_trajectory_generation_and/metadata.yml
+            - "Aggressive flight of fixed-wing and quadrotor aircraft in dense indoor environments": docs/papers/2015/2015.bry.aggressive_flight_of_fixed/metadata.yml
+            - A Computationally Efficient Motion Primitive for Quadrocopter Trajectory Generation: docs/papers/2015/2015.mueller.a_computationally_efficient_motion/metadata.yml
+            - Polynomial Trajectory Planning for Aggressive Quadrotor Flight in Dense Indoor Environments: docs/papers/2016/2016.richter.polynomial_trajectory_planning_for/metadata.yml
+            - "Robust and Efficient Quadrotor Trajectory Generation for Fast Autonomous Flight": docs/papers/2019/2019.zhou.robust_and_efficient_quadrotor/metadata.yml
+            - "Autonomous Flight in Unknown Indoor Environments": docs/papers/2009/2009.bachrach.autonomous_flight_in_unknown/metadata.yml
+            - RANGE: docs/papers/2011/2011.bachrach.rangerobust_autonomous_navigation_in/metadata.yml
+            - "Trajectory Generation and Control for Precise Aggressive Maneuvers with Quadrotors": docs/papers/2012/2012.mellinger.trajectory_generation_and_control/metadata.yml
+            - "Efficient Trajectory Planning for High Speed Flight in Unknown Environments": docs/papers/2019/2019.ryll.efficient_trajectory_planning_for/metadata.yml
+            - "Comparison of Optimization-Based Methods for Energy-Optimal Quadrotor Motion Planning": docs/papers/2023/2304.14062/metadata.yml
+        - Trajectory Optimization:
+          - Model Predictive Sampling-Based Control:
+            - Cross-Entropy Motion Planning (CEM):
+              - Cross-Entropy Motion Planning: docs/papers/2012/2012.kobilarov.cross_entropy_motion_planning/metadata.yml
+            - Model Predictive Path Integral Control (MPPI):
+              - IT-MPC: docs/papers/2017/1707.02342/metadata.yml
+              - MPPI: docs/papers/2017/2017.williams.model_predictive_path_integral/metadata.yml
+              - "Model Predictive Path Integral Control using Covariance Variable Importance Sampling": docs/papers/2015/1509.01149/metadata.yml
+              - "Model Predictive Path Integral Control: Theoretical Foundations and Applications to Autonomous Driving (Grady Williams PhD Dissertation)": docs/papers/2019/2019.williams.model_predictive_path_integral/metadata.yml
+              - Tsallis VI-SOC: docs/papers/2021/2104.00241/metadata.yml
+              - C-Uniform MPPI: docs/papers/2024/2409.12266/metadata.yml
+              - CU-MPPI: docs/papers/2025/2503.05819/metadata.yml
+              - Biased-MPPI: docs/papers/2024/2401.09241/metadata.yml
+              - Low-pass MPPI: docs/papers/2025/2503.11717/metadata.yml
+              - TC-MPPI: docs/papers/2025/2025.lee.time_correlated_model_predictive/metadata.yml
+              - VIMPPI: docs/papers/2025/2505.05507/metadata.yml
+              - Interaction-Rich MPPI: docs/papers/2025/2025.trevisan.model_predictive_path_integral/metadata.yml
+              - DBaS-Log-MPPI: docs/papers/2025/2504.06437/metadata.yml
+              - Multi-Modal MPPI: docs/papers/2025/2508.21364/metadata.yml
+              - TD-CD-MPPI: docs/papers/2025/2025.crestaz.td_cd_mppi_temporal/metadata.yml
+              - BC-MPPI: docs/papers/2025/2510.00272/metadata.yml
+              - Improving MPPI for High-Inertia Industrial Vehicles: docs/papers/2026/2026.macenski.improving_mppi_for_high/metadata.yml
+              - "Low Frequency Sampling in Model Predictive Path Integral Control": docs/papers/2024/2024.vlahov.low_frequency_sampling_in/metadata.yml
+              - "Path Integral Control in Gaussian Belief Space for Partially Observed Systems": docs/papers/2026/2604.13312/metadata.yml
+              - "PA-MPPI": docs/papers/2025/2509.14978/metadata.yml
+              - "Variance-Reduced Model Predictive Path Integral via Quadratic Model Approximation": docs/papers/2026/2602.03639/metadata.yml
+              - "Dynamic Risk-Aware MPPI for Mobile Robots in Crowds via Efficient Monte Carlo Approximations": docs/papers/2025/2506.21205/metadata.yml
+              - "Model Predictive Path Integral Control as Preconditioned Gradient Descent": docs/papers/2026/2603.24489/metadata.yml
+            - "Recent Advances in Path Integral Control (Survey)": docs/papers/2023/2309.12566/metadata.yml
+            - "Generative Models From and For Sampling-Based MPC: A Bootstrapped Approach For Adaptive Contact-Rich Manipulation": docs/papers/2025/2510.14643/metadata.yml
+            - "Path Integral Particle Filtering for Hybrid Systems via Saltation Matrices": docs/papers/2026/2603.01176/metadata.yml
+            - "Sampling-Based Control via Entropy-Regularized Optimal Transport": docs/papers/2026/2605.02147/metadata.yml
+            - "Uncertainty Guided Exploratory Trajectory Optimization for Sampling-Based Model Predictive Control": docs/papers/2026/2604.12149/metadata.yml
+            - "On Surprising Effects of Risk-Aware Domain Randomization for Contact-Rich Sampling-based Predictive Control": docs/papers/2026/2605.03290/metadata.yml
+            - DROP: docs/papers/2024/2409.14562/metadata.yml
+          - Model Predictive Trees:
+            - MPT: docs/papers/2024/2411.15651/metadata.yml
+            - MPTree: docs/papers/2024/2024.piazza.mptree_a_sampling_based/metadata.yml
+          - Model Predictive Contouring Control (MPCC):
+            - "MPCC (RC Cars)": docs/papers/2015/1711.07300/metadata.yml
+            - "MPCC (Articulated Vehicles)": docs/papers/2025/2604.24064/metadata.yml
+            - "Model predictive contouring control": docs/papers/2010/2010.lam.model_predictive_contouring_control/metadata.yml
+          - "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)":
+            - iLQR:
+              - iLQR: docs/papers/2004/2004.li.iterative_linear_quadratic_regulator/metadata.yml
+              - iLQG: docs/papers/2005/2005.todorov.a_generalized_iterative_lqg/metadata.yml
+              - "iLQR Synthesis & Stabilization": docs/papers/2012/2012.tassa.synthesis_and_stabilization_of/metadata.yml
+              - "Convergent iLQR for Safe Trajectory Planning and Control of Legged Robots": docs/papers/2023/2304.00346/metadata.yml
+            - Differential Dynamic Programming:
+              - DDP: docs/papers/1970/1970.jacobson.differential_dynamic_programming/metadata.yml
+              - Accelerating Second-Order Differential Dynamic Programming for Rigid-Body Systems: docs/papers/2021/2103.03293/metadata.yml
+              - "300 years of optimal control: from the brachystochrone to the maximum principle": docs/papers/1997/1997.sussmann.300_years_of_optimal/metadata.yml
+              - "Manipulator Inverse Kinematic Solutions Based on Vector Formulations and Damped Least-Squares Methods": docs/papers/1986/1986.wampler.manipulator_inverse_kinematic_solutions/metadata.yml
+              - "Optimal control of the double integrator with minimum total variation": docs/papers/2019/1901.00491/metadata.yml
+              - "Relaxing Dynamic Programming": docs/papers/2006/2006.lincoln.relaxing_dynamic_programming/metadata.yml
+              - "Temporal Parallelization of Dynamic Programming and Linear Quadratic Control": docs/papers/2021/2104.03186/metadata.yml
+              - "Time-optimal control of linear time invariant systems between two arbitrary states": docs/papers/2020/2020.romano.time_optimal_control_of/metadata.yml
+              - "Differential dynamic programming and Newton's method for discrete optimal control problems": docs/papers/1984/1984.murray.differential_dynamic_programming_and/metadata.yml
+              - "Efficient Dynamic Programming Implementations of Newton's Method for Unconstrained Optimal Control Problems": docs/papers/1989/1989.dunn.efficient_dynamic_programming_implementations/metadata.yml
+              - "Discovery of the Maximum Principle": docs/papers/1999/1999.gamkrelidze.discovery_of_the_maximum/metadata.yml
+            - Multiple Shooting DDP (MS-DDP):
+              - iLQR-GNMS: docs/papers/2017/1711.11006/metadata.yml
+              - MS-DDP: docs/papers/2020/2020.pellegrini.a_multiple_shooting_differential/metadata.yml
+              - Unified Perspective on MS-DDP: docs/papers/2023/2309.07872/metadata.yml
+              - Convergence Guaranteed MS-DDP: docs/papers/2024/2024.wang.a_convergence_guaranteed_multiple/metadata.yml
+            - Tutorials & Convergence Theory:
+              - iLQR Algorithmic Templates: docs/papers/2022/2207.06362/metadata.yml
+              - "Global & Local Convergence of iLQR/DDP": docs/papers/2022/2204.02322/metadata.yml
+          - Constrained DDP & iLQR:
+            - Constrained LQR: docs/papers/1998/1998.scokaert.constrained_linear_quadratic_regulation/metadata.yml
+            - ALTRO: docs/papers/2019/2019.howell.altro_a_fast_solver/metadata.yml
+            - AL-DDP: docs/papers/2020/2005.00985/metadata.yml
+            - FDDP: docs/papers/2020/2010.00411/metadata.yml
+            - Squash-Box FDDP: docs/papers/2020/2020.marti_saumell.squash_box_feasibility_driven/metadata.yml
+            - AP-DDP: docs/papers/2025/2025.xia.an_adaptive_projection_differential/metadata.yml
+            - FATROP: docs/papers/2023/2303.16746/metadata.yml
+            - "Primal-Dual iLQR": docs/papers/2024/2403.00748/metadata.yml
+            - "Primal-Dual iLQR (GPU)": docs/papers/2025/2506.07823/metadata.yml
+            - Crocoddyl: docs/papers/2019/1909.04947/metadata.yml
+            - CL-SQP: docs/papers/2021/2109.07081/metadata.yml
+            - ProxDDP: docs/papers/2023/2023.jallet.proxddp_proximal_constrained_trajectory/metadata.yml
+            - "Real-time Constrained Trajectory Optimization in Robotics: Theory, Implementation and Applications (Wilson Jallet PhD Dissertation)": docs/papers/2024/2024.jallet.real_time_constrained_trajectory/metadata.yml
+            - Second-Order Constrained DDP: docs/papers/2024/2409.11649/metadata.yml
+            - ALSPG: docs/papers/2025/2506.14865/metadata.yml
+            - GuSTO: docs/papers/2019/1903.00155/metadata.yml
+          - Elastic Smoothing:
+            - CES: docs/papers/2015/1506.01085/metadata.yml
+          - Nonlinear Optimization:
+            - A direct method for trajectory optimization of rigid bodies through contact: docs/papers/2013/2013.posa.a_direct_method_for/metadata.yml
+            - Whole-body motion planning with centroidal dynamics and full kinematics: docs/papers/2014/2014.dai.whole_body_motion_planning/metadata.yml
+            - Optimization and stabilization of trajectories for constrained dynamical systems: docs/papers/2016/2016.posa.optimization_and_stabilization_of/metadata.yml
+            - OBCA: docs/papers/2017/1711.03449/metadata.yml
+            - "Differentiable Collision Avoidance Using Collision Primitives": docs/papers/2022/2204.09352/metadata.yml
+            - EGO-Planner: docs/papers/2020/2008.08835/metadata.yml
+            - TrajOpt: docs/papers/2013/2013.schulman.finding_locally_optimal_collision/metadata.yml
+            - "Global Sampling-Based Trajectory Optimization for Contact-Rich Manipulation via KernelSOS": docs/papers/2026/2604.27175/metadata.yml
+            - "ADMM-based Continuous Trajectory Optimization in Graphs of Convex Sets": docs/papers/2026/2603.11335/metadata.yml
+            - "Dexterous contact-rich manipulation via the contact trust region": docs/papers/2026/2026.suh.dexterous_contact_rich_manipulation/metadata.yml
+            - Is Linear Feedback on Smoothed Dynamics Sufficient for Stabilizing Contact-Rich Plans?: docs/papers/2024/2411.06542/metadata.yml
+            - "Fast and Certifiable Trajectory Optimization": docs/papers/2024/2406.05846/metadata.yml
+            - Hippo: docs/papers/2026/2603.00871/metadata.yml
+            - "Parallel-in-Time Nonlinear Optimal Control via GPU-native Sequential Convex Programming": docs/papers/2026/2603.10711/metadata.yml
+            - "Using Reachable Sets for Trajectory Planning of Automated Vehicles": docs/papers/2021/2021.manzinger.using_reachable_sets_for/metadata.yml
+            - KOMO: docs/papers/2014/1407.0414/metadata.yml
+            - "A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces": docs/papers/2025/2511.14752/metadata.yml
+            - "Risk-Averse Trajectory Optimization via Sample Average Approximation": docs/papers/2023/2307.03167/metadata.yml
+            - "Simultaneous Self-calibration and Navigation Using Trajectory Optimization": docs/papers/2018/2018.preiss.simultaneous_self_calibration_and/metadata.yml
+            - "Real-time Mixed-Integer Quadratic Programming for Vehicle Decision Making and Motion Planning": docs/papers/2023/2308.10069/metadata.yml
+          - Trajectory Optimization on Point Clouds:
+            - "Grasping Trajectory Optimization with Point Clouds": docs/papers/2024/2403.05466/metadata.yml
+          - Trajectory Optimization on Gaussian Splats:
+            - SPLANNING: docs/papers/2024/2409.16915/metadata.yml
+            - FOCI: docs/papers/2025/2505.08510/metadata.yml
+            - Splat-Nav: docs/papers/2024/2403.02751/metadata.yml
+          - Hybrid Approaches:
+            - Sampled Differential Dynamic Programming (SaDDP):
+              - SaDDP: docs/papers/2016/2016.rajamaki.sampled_differential_dynamic_programming/metadata.yml
+              - Regularized SaDDP: docs/papers/2018/2018.rajamaki.regularizing_sampled_differential_dynamic/metadata.yml
+              - PI2-CMA: docs/papers/2012/1206.4621/metadata.yml
+              - PI2-DDP: docs/papers/2019/2019.lefebvre.path_integral_policy_improvement/metadata.yml
+            - "Grad+CEM": docs/papers/2020/2004.08763/metadata.yml
+            - MPPI-IPDDP: docs/papers/2022/2208.02439/metadata.yml
+            - DIAL-MPC: docs/papers/2024/2409.15610/metadata.yml
+          - Learning in Trajectory Optimization:
+            - MISO: docs/papers/2024/2411.02158/metadata.yml
+            - Physics-Driven Data Generation for Contact-Rich Manipulation via Trajectory Optimization: docs/papers/2025/2502.20382/metadata.yml
+            - Probabilistic DDP: docs/papers/2014/2014.pan.probabilistic_differential_dynamic_programming/metadata.yml
+            - DiffuSolve: docs/papers/2025/2025.li.diffusolve_diffusion_based_solver/metadata.yml
+            - "Accelerating trajectory optimization with Sobolev-trained diffusion policies": docs/papers/2026/2604.19011/metadata.yml
+            - Agile Autonomous Driving (End-to-End Imitation): docs/papers/2017/1709.07174/metadata.yml
+            - DeepRacing: docs/papers/2020/2020.weiss.deepracing_a_framework_for/metadata.yml
+            - "Explaining How a Deep Neural Network Trained with End-to-End Learning Steers a Car": docs/papers/2017/1704.07911/metadata.yml
+            - "Learning Complex Neural Network Policies with Trajectory Optimization": docs/papers/2014/2014.levine.learning_complex_neural_network/metadata.yml
+            - "Learning-Aided Warmstart of Model Predictive Control in Uncertain Fast-Changing Traffic": docs/papers/2023/2310.02918/metadata.yml
+            - "Learning to Optimize in Model Predictive Control": docs/papers/2022/2212.02603/metadata.yml
+            - CACTO-BIC: docs/papers/2026/2602.19699/metadata.yml
+            - "Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction": docs/papers/2023/2311.05135/metadata.yml
+            - "Deep Learning Warm Starts for Trajectory Optimization on the International Space Station": docs/papers/2025/2505.05588/metadata.yml
+            - "Transformer-based Model Predictive Control: Trajectory Optimization via Sequence Modeling": docs/papers/2024/2410.23916/metadata.yml
+            - "A Data-Driven Approach to Synthesizing Dynamics-Aware Trajectories for Underactuated Robotic Systems": docs/papers/2023/2307.13782/metadata.yml
+        - Hybrid Approaches:
+          - SBP-Guided MPC: docs/papers/2019/2019.hannigan.sbp_guided_mpc_to/metadata.yml
+          - RRT-MPPI: docs/papers/2023/2301.13143/metadata.yml
+          - SETS: docs/papers/2024/2412.11270/metadata.yml
+      - Speed Planning:
+        - Time-Optimal Path Parameterization (TOPP):
+          - TOPP: docs/papers/1985/1985.bobrow.time_optimal_control_of/metadata.yml
+          - AVP: docs/papers/2014/1411.4045/metadata.yml
+          - TOPP-RA: docs/papers/2017/1707.07239/metadata.yml
+          - "Kinodynamic motion planning": docs/papers/1993/1993.donald.kinodynamic_motion_planning/metadata.yml
+        - Optimization-based Speed Planning:
+          - Path-Velocity Decomposition: docs/papers/1986/1986.kant.toward_efficient_trajectory_planning/metadata.yml
+          - "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach": docs/papers/2009/2009.verscheure.time_optimal_path_tracking/metadata.yml
+          - Minimum-time Speed Optimisation Over a Fixed Path: docs/papers/2013/2013.lipp.minimum_time_speed_optimisation/metadata.yml
+          - Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization: docs/papers/2018/2018.zhang.toward_a_more_complete/metadata.yml
+      - Collision Avoidance:
+        - Velocity Obstacles:
+          - Motion Planning in Dynamic Environments Using Velocity Obstacles: docs/papers/1998/1998.fiorini.motion_planning_in_dynamic/metadata.yml
+          - ClearPath: docs/papers/2009/2009.guy.clearpath_highly_parallel_collision/metadata.yml
+          - "Reciprocal n-Body Collision Avoidance": docs/papers/2011/2011.van_den_berg.reciprocal_n_body_collision/metadata.yml
+          - "Reciprocal Velocity Obstacles for real-time multi-agent navigation": docs/papers/2008/2008.van_den_berg.reciprocal_velocity_obstacles_for/metadata.yml
+      - Feedback Motion Planning:
+        - Funnel Libraries for Real-Time Robust Feedback Motion Planning: docs/papers/2016/1601.04037/metadata.yml
+        - "Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach": docs/papers/2020/2004.01142/metadata.yml
+        - Learning-based Robust Motion Planning with Guaranteed Stability: docs/papers/2021/2102.12668/metadata.yml
+        - Robust feedback motion planning via contraction theory: docs/papers/2023/2023.singh.robust_feedback_motion_planning/metadata.yml
+        - "Smooth Feedback Motion Planning with Reduced Curvature": docs/papers/2026/2604.01614/metadata.yml
+      - Planning Under Uncertainty:
+        - Planning in Belief Space:
+          - Belief Roadmap (BRM):
+            - BRM: docs/papers/2009/2009.prentice.the_belief_roadmap_efficient/metadata.yml
+            - "Planning in Information Space for a Quadrotor Helicopter in a GPS-denied Environment": docs/papers/2008/2008.he.planning_in_information_space/metadata.yml
+            - icLQG: docs/papers/2009/2009.huynh.iclqg_combining_local_and/metadata.yml
+          - Belief Trees:
+            - RRBT: docs/papers/2011/2011.bry.rapidly_exploring_random_belief/metadata.yml
+            - RAPID: docs/papers/2012/1203.3538/metadata.yml
+            - "Efficient Planning under Uncertainty with Macro-actions": docs/papers/2014/1401.3827/metadata.yml
+            - Optimizing Trajectory-Trees in Belief Space: docs/papers/2026/2605.01860/metadata.yml
+        - "Risk Bounded Nonlinear Robot Motion Planning with Integrated Perception & Control": docs/papers/2022/2201.01483/metadata.yml
+        - "Distributionally Robust CVaR-Based Safety Filtering for Motion Planning in Uncertain Environments": docs/papers/2023/2309.08821/metadata.yml
+      - Interaction-aware Planning:
+        - Multipolicy Decision Making (MPDM):
+          - MPDM: docs/papers/2015/2015.cunningham.mpdm_multipolicy_decision_making/metadata.yml
+          - MPDM via changepoint-based behavior prediction: docs/papers/2017/2017.galceran.multipolicy_decision_making_for/metadata.yml
+          - Backprop-MPDM: docs/papers/2018/2018.mehta.backprop_mpdm_faster_risk/metadata.yml
+        - Multimodal Probabilistic Model-Based Planning for Human-Robot Interaction: docs/papers/2017/1710.09483/metadata.yml
+        - Learning Interactive Driving Policies via Data-driven Simulation: docs/papers/2021/2111.12137/metadata.yml
+        - "Tree-structured Policy Planning with Learned Behavior Models": docs/papers/2023/2301.11902/metadata.yml
+        - "Trajectory Tree-Based Pairwise Game for Interactive Decision-Making and Motion Planning in Autonomous Driving": docs/papers/2025/2025.ma.trajectory_tree_based_pairwise/metadata.yml
+      - Machine Learning in Motion Planning:
+        - ALVINN: docs/papers/1988/1988.pomerleau.alvinn_an_autonomous_land/metadata.yml
+        - Motion Planning Through Policy Search: docs/papers/2002/2002.roy.motion_planning_through_policy/metadata.yml
+        - EVORA: docs/papers/2023/2311.06234/metadata.yml
+        - Distance Metric Learning for RRT-Based Motion Planning with Constant-Time Inference: docs/papers/2015/2015.palmieri.distance_metric_learning_for/metadata.yml
+        - RRT-CoLearn: docs/papers/2017/1710.10122/metadata.yml
+        - "Neural RRT*": docs/papers/2020/2020.wang.neural_rrt_learning_based/metadata.yml
+        - "Neural Informed RRT*": docs/papers/2023/2309.14595/metadata.yml
+        - "SIL-RRT*": docs/papers/2024/2411.17293/metadata.yml
+        - "Policy Optimization to Learn Adaptive Motion Primitives in Path Planning With Dynamic Obstacles": docs/papers/2023/2023.angulo.policy_optimization_to_learn/metadata.yml
+        - MAB-RRT: docs/papers/2026/2604.14026/metadata.yml
+        - "Train-Once Plan-Anywhere Kinodynamic Motion Planning via Diffusion Trees": docs/papers/2025/2508.21001/metadata.yml
+        - PRESTO: docs/papers/2024/2409.16012/metadata.yml
+        - DriveIRL: docs/papers/2022/2206.03004/metadata.yml
+        - Lab2Car: docs/papers/2024/2409.09523/metadata.yml
+        - Transitioning from Rule-Based to ML-Powered Motion Planning: docs/papers/2025/2025.hu.technically_speaking_transitioning_from/metadata.yml
+        - DiffusionSeeder: docs/papers/2024/2410.16727/metadata.yml
+        - FlowDrive: docs/papers/2025/2509.21961/metadata.yml
+        - FlowMP: docs/papers/2025/2503.06135/metadata.yml
+        - "Memory of Motion for Warm-starting Trajectory Optimization": docs/papers/2019/1907.01474/metadata.yml
+        - "Parting with Misconceptions about Learning-based Vehicle Motion Planning": docs/papers/2023/2306.07962/metadata.yml
+        - nuPlan: docs/papers/2024/2403.04133/metadata.yml
+        - "Goal-Conditioned Neural ODEs with Guaranteed Safety and Stability for Learning-Based All-Pairs Motion Planning": docs/papers/2026/2604.02821/metadata.yml
+        - NuPlan: docs/papers/2021/2106.11810/metadata.yml
+        - GNN-DIP: docs/papers/2026/2603.12361/metadata.yml
+        - "First Return, Then Explore": docs/papers/2020/2004.12919/metadata.yml
+        - "Accelerating db-A* for Kinodynamic Motion Planning Using Diffusion": docs/papers/2025/2503.05539/metadata.yml
+      - Inverse Kinematics:
+        - "A combined optimization method for solving the inverse kinematics problems of mechanical manipulators": docs/papers/1991/1991.wang.a_combined_optimization_method/metadata.yml
+        - "Resolved Motion Rate Control of Manipulators and Human Prostheses": docs/papers/1969/1969.whitney.resolved_motion_rate_control/metadata.yml
+        - "JAX-IK": docs/papers/2025/2507.00792/metadata.yml
+      - Manipulation & Contact:
+        - Robotic Grasping and Contact: docs/papers/2000/2000.bicchi.robotic_grasping_and_contact/metadata.yml
+        - "EGAD! an Evolved Grasping Analysis Dataset for Diversity and Reproducibility in Robotic Manipulation": docs/papers/2020/2003.01314/metadata.yml
+        - "FORGE: Force-Guided Exploration for Robust Contact-Rich Manipulation under Uncertainty": docs/papers/2024/2408.04587/metadata.yml
+      - Multi-Robot Planning:
+        - Generation of collision-free trajectories for a quadrocopter fleet: docs/papers/2012/2012.augugliaro.generation_of_collision_free/metadata.yml
+        - Goal Assignment and Trajectory Planning: docs/papers/2013/2013.turpin.goal_assignment_and_trajectory/metadata.yml
+        - CAPT: docs/papers/2014/2014.turpin.capt_concurrent_assignment_and/metadata.yml
+        - "Concurrent Goal Assignment and Collision-Free Trajectory Generation for Multiple Aerial Robots": docs/papers/2018/2018.gravell.concurrent_goal_assignment_and/metadata.yml
+        - CanNoN-TaGS: docs/papers/2021/2101.08829/metadata.yml
+        - "Trajectory Planning for Quadrotor Swarms": docs/papers/2018/2018.honig.trajectory_planning_for_quadrotor/metadata.yml
+        - CAT-ORA: docs/papers/2024/2412.00603/metadata.yml
+        - "Agile and cooperative aerial manipulation of a cable-suspended load": docs/papers/2025/2025.sun.agile_and_cooperative_aerial/metadata.yml
+        - Robust Distributed Planar Formation Control for Higher-Order Holonomic and Nonholonomic Agents: docs/papers/2018/1807.11058/metadata.yml
+        - "Safe multi-agent motion planning via filtered reinforcement learning": docs/papers/2022/2022.vinod.safe_multi_agent_motion/metadata.yml
+        - "Downwash-Aware Trajectory Planning for Large Quadrotor Teams": docs/papers/2017/1704.04852/metadata.yml
+        - "Trajectory Design and Control for Aggressive Formation Flight with Quadrotors": docs/papers/2012/2012.turpin.trajectory_design_and_control/metadata.yml
+        - "Crazyswarm: A Large Nano-quadcopter Swarm": docs/papers/2017/2017.preiss.crazyswarm_a_large_nano/metadata.yml
+        - "A Survey on Aerial Swarm Robotics": docs/papers/2018/2018.chung.a_survey_on_aerial/metadata.yml
+        - "Neural Tree Expansion for Multi-Robot Planning in Non-Cooperative Environments": docs/papers/2021/2104.09705/metadata.yml
+      - Surveys & Comparative Studies:
+        - An Empirical Study of Optimal Motion Planning: docs/papers/2014/2014.luo.an_empirical_study_of/metadata.yml
+        - A Survey of Motion Planning and Control Techniques for Self-Driving Urban Vehicles: docs/papers/2016/1604.07446/metadata.yml
+        - "Connected and automated road vehicles: state of the art and future challenges": docs/papers/2020/2020.ersal.connected_and_automated_road/metadata.yml
+        - Sampling-Based Methods for Motion Planning with Constraints: docs/papers/2018/2018.kingston.sampling_based_methods_for/metadata.yml
+        - "Sampling-Based Motion Planning: A Comparative Review": docs/papers/2024/2024.orthey.sampling_based_motion_planning/metadata.yml
+        - Planning and Decision-Making for Autonomous Vehicles: docs/papers/2018/2018.schwarting.planning_and_decision_making/metadata.yml
+        - Asymptotically Optimal Sampling-Based Motion Planning Methods: docs/papers/2020/2009.10484/metadata.yml
+        - Benchmarking Sampling-, Search-, and Optimization-based Approaches for Time-Optimal Kinodynamic Mobile Robot Motion Planning: docs/papers/2022/2022.honig.benchmarking_sampling_search_and/metadata.yml
+        - "Motion Planning for Autonomous Driving: The State of the Art and Future Perspectives": docs/papers/2023/2303.09824/metadata.yml
+        - A Comparative Study of Rapidly-exploring Random Tree Algorithms Applied to Ship Trajectory Planning and Behavior Generation: docs/papers/2024/2403.01194/metadata.yml
+        - "Motion Planning for Robotics: A Review for Sampling-based Planners": docs/papers/2024/2410.19414/metadata.yml
+        - DDP and MPPI on VTOL Aircraft: docs/papers/2022/2022.houghton.path_planning_differential_dynamic/metadata.yml
+        - "A review of path following control strategies for autonomous robotic vehicles: theory, simulations, and experiments": docs/papers/2022/2204.07319/metadata.yml
+        - "Contingency Planning for Safety-Critical Autonomous Vehicles: A Review and Perspectives": docs/papers/2026/2601.14880/metadata.yml
+        - "Deeply Informed Neural Sampling for Robot Motion Planning": docs/papers/2018/1809.10252/metadata.yml
+        - "Learning Sampling Distributions for Robot Motion Planning": docs/papers/2017/1709.05448/metadata.yml
+        - "Motions in Microseconds via Vectorized Sampling-Based Planning": docs/papers/2023/2309.14545/metadata.yml
+        - "On Infusing Reachability-Based Safety Assurance within Planning Frameworks for Human-Robot Vehicle Interactions": docs/papers/2020/2012.03390/metadata.yml
+        - "Recent Developments in Aerial Robotics: A Survey and Prototypes Overview": docs/papers/2017/1711.10085/metadata.yml
+        - "Results of the 2023 CommonRoad Motion Planning Competition for Autonomous Vehicles": docs/papers/2024/2411.06425/metadata.yml
+        - "Scalable Autonomous Vehicle Safety Validation through Dynamic Programming and Scene Decomposition": docs/papers/2020/2004.06801/metadata.yml
+        - "Score-Guided Motion Planning: Learning the Gradient Field of Promising Regions": docs/papers/2026/2026.wang.score_guided_motion_planning/metadata.yml
+        - "Multirotor Aerial Vehicles: Modeling, Estimation, and Control of Quadrotor": docs/papers/2012/2012.mahony.multirotor_aerial_vehicles_modeling/metadata.yml
+        - "The Grand Challenges of Science Robotics": docs/papers/2018/2018.yang.the_grand_challenges_of/metadata.yml
+      - Frameworks & Stack Architectures:
+        - MINERVA: docs/papers/1999/1999.thrun.minerva_a_second_generation/metadata.yml
+        - Rough Terrain Locomotion: docs/papers/2011/2011.zucker.optimization_and_learning_for/metadata.yml
+        - Boss: docs/papers/2008/2008.urmson.autonomous_driving_in_urban/metadata.yml
+        - "A perception-driven autonomous urban vehicle": docs/papers/2008/2008.leonard.a_perceptiondriven_autonomous_urban/metadata.yml
+        - A summary of team MIT's approach to the virtual robotics challenge: docs/papers/2014/2014.tedrake.a_summary_of_team/metadata.yml
+        - Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot: docs/papers/2015/2015.kuindersma.optimization_based_locomotion_planning/metadata.yml
+        - Director: docs/papers/2018/2018.marion.director_a_user_interface/metadata.yml
+        - Jacta: docs/papers/2024/2408.01258/metadata.yml
+        - RAKOMO: docs/papers/2025/2507.19652/metadata.yml
+        - "An integrated system for real-time model predictive control of humanoid robots": docs/papers/2013/2013.erez.an_integrated_system_for/metadata.yml
+        - MJPC: docs/papers/2022/2212.00541/metadata.yml
+        - Judo: docs/papers/2025/2506.17184/metadata.yml
+        - Sumo: docs/papers/2026/2604.08508/metadata.yml
+        - "Whole-Body Model-Predictive Control of Legged Robots with MuJoCo": docs/papers/2025/2503.04613/metadata.yml
+        - SONIC: docs/papers/2025/2511.07820/metadata.yml
+        - "MPPI+IsaacGym": docs/papers/2023/2307.09105/metadata.yml
+        - DiffStack: docs/papers/2022/2212.06437/metadata.yml
+        - FRENETIX: docs/papers/2024/2402.01443/metadata.yml
+        - ROS: docs/papers/2009/2009.quigley.ros_an_open_source/metadata.yml
+        - ROS 2: docs/papers/2022/2022.macenski.robot_operating_system_2/metadata.yml
+        - "Motion Planning and Control for Multi Vehicle Autonomous Racing at High Speeds": docs/papers/2022/2207.11136/metadata.yml
+        - "A Geometric Approach to Three-dimensional Hipped Bipedal Robotic Walking": docs/papers/2007/2007.ames.a_geometric_approach_to/metadata.yml
+        - "Junior: The Stanford Entry in the Urban Challenge": docs/papers/2008/2008.montemerlo.junior_the_stanford_entry/metadata.yml
+        - "Towards Fully Autonomous Driving: Systems and Algorithms": docs/papers/2011/2011.levinson.towards_fully_autonomous_driving/metadata.yml
+    - Control:
+      - Proportional-integral-derivative (PID):
+        - "A Practical Guide to PID Controller Implementation": docs/papers/2026/2604.15918/metadata.yml
+        - "Automatic Tuning and Adaptation for PID Controllers - a Survey": docs/papers/1993/1993.astrom.automatic_tuning_and_adaptation/metadata.yml
+      - Linear Quadratic Regulator (LQR):
+        - LQR Foundations:
+          - Suboptimal Design of Linear Regulator Systems: docs/papers/1967/1967.kleinman.suboptimal_design_of_linear/metadata.yml
+          - Stabilization of Linear Systems: docs/papers/1972/1972.ikeda.stabilization_of_linear_systems/metadata.yml
+          - "On the linear quadratic minimum-time problem": docs/papers/1991/1991.verriest.on_the_linear_quadratic/metadata.yml
+        - Riccati Equations:
+          - The Stabilizing Solution of the Algebraic Riccati Equation: docs/papers/1973/1973.molinari.the_stabilizing_solution_of/metadata.yml
+          - "The Numerical Solution of A'Q+QA=-C": docs/papers/1968/1968.davison.the_numerical_solution_of/metadata.yml
+          - On an Iterative Technique for Riccati Equation Computations: docs/papers/1968/1968.kleinman.on_an_iterative_technique/metadata.yml
+          - An Iterative Technique for the Steady-State Gains: docs/papers/1971/1971.hewer.an_iterative_technique_for/metadata.yml
+          - "A Numerical Algorithm to Solve A^T X A - X = Q": docs/papers/1977/1977.barraud.a_numerical_algorithm_to/metadata.yml
+          - "Inexact Kleinman-Newton Method for Riccati Equations": docs/papers/2009/2009.feitzinger.inexact_kleinmannewton_method_for/metadata.yml
+          - "Solving the linear quadratic regulator problem in the policy space: The Policy Algebraic Riccati Equation": docs/papers/2026/2026.possieri.solving_the_linear_quadratic/metadata.yml
+          - Systematic Control Design by Optimizing a Vector Performance Index: docs/papers/1979/1979.kreisselmeier.systematic_control_design_by/metadata.yml
+        - Multiplicative noise / stochastic system parameters:
+          - Experiments with an Inverted Pendulum Subject to Random Parametric Excitation: docs/papers/1965/1965.bogdanoff.experiments_with_an_inverted/metadata.yml
+          - A Survey of Stability of Stochastic Systems: docs/papers/1969/1969.kozin.a_survey_of_stability/metadata.yml
+          - Optimal Stationary Control of a Linear System with State-Dependent Noise: docs/papers/1967/1967.wonham.optimal_stationary_control_of/metadata.yml
+          - On the Separation Theorem of Stochastic Control: docs/papers/1968/1968.wonham.on_the_separation_theorem/metadata.yml
+          - Optimal Stationary Control of Linear Systems with Control-Dependent Noise: docs/papers/1969/1969.kleinman.optimal_stationary_control_of/metadata.yml
+          - The Optimal Regulator Problem for a Stationary Linear System with State-Dependent Noise: docs/papers/1970/1970.mclane.the_optimal_regulator_problem/metadata.yml
+          - Optimal Stationary Control with State and Control Dependent Noise: docs/papers/1971/1971.haussmann.optimal_stationary_control_with/metadata.yml
+          - Design of Linear Regulators for Nonlinear Stochastic Systems: docs/papers/1975/1975.gustafson.design_of_linear_regulators/metadata.yml
+          - On Optimal Stationary Control of Systems with State-Dependent Noise: docs/papers/1975/1975.rana.on_optimal_stationary_control/metadata.yml
+          - "The Uncertainty Threshold Principle: Fundamental Limitations": docs/papers/1976/1976.athans.the_uncertainty_threshold_principle/metadata.yml
+          - Numerical Solution of the State-Dependent Noise Problem: docs/papers/1976/1976.kleinman.numerical_solution_of_the/metadata.yml
+          - State-Feedback Control of Systems with Multiplicative Noise via LMIs: docs/papers/1995/1995.ghaoui.state_feedback_control_of/metadata.yml
+          - Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control: docs/papers/2001/2001.damm.newtons_method_for_a/metadata.yml
+          - When Multiplicative Noise Stymies Control: docs/papers/2016/1612.03239/metadata.yml
+          - "Robust Control Design for Linear Systems via Multiplicative Noise": docs/papers/2020/2004.08019/metadata.yml
+          - "Sample Complexity of Data-Driven Stochastic LQR with Multiplicative Uncertainty": docs/papers/2020/2005.12167/metadata.yml
+          - "Data-driven distributionally robust LQR with multiplicative noise": docs/papers/2019/1912.09990/metadata.yml
+          - "Stochastic Stability via Robustness of Linear Systems": docs/papers/2021/2021.gravell.stochastic_stability_via_robustness/metadata.yml
+          - "Stochasticity in Feedback Loops: Great Expectations and Guaranteed Ruin": docs/papers/2021/2021.smith.stochasticity_in_feedback_loops/metadata.yml
+          - "Anomaly Detection Under Multiplicative Noise Model Uncertainty": docs/papers/2021/2103.15228/metadata.yml
+          - "Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically": docs/papers/2022/2207.11220/metadata.yml
+          - "Provably Stable Learning Control of Linear Dynamics With Multiplicative Noise": docs/papers/2024/2024.coppens.provably_stable_learning_control/metadata.yml
+          - "Product of Random Stochastic Matrices": docs/papers/2011/1110.1751/metadata.yml
+          - Risk-sensitive LQG: docs/papers/1981/1981.whittle.risk_sensitive_linear_quadratic/metadata.yml
+          - "Optimal Control of LTI Systems over Unreliable Communication Links": docs/papers/2006/2006.imer.optimal_control_of_lti/metadata.yml
+          - "Toward a Scalable Upper Bound for a CVaR-LQ Problem": docs/papers/2021/2103.02136/metadata.yml
+      - Model Predictive Control (MPC):
+        - Receding Horizon Control of Nonlinear Systems: docs/papers/1988/1988.mayne.receding_horizon_control_of/metadata.yml
+        - "Robust model predictive control using tubes": docs/papers/2004/2004.langson.robust_model_predictive_control/metadata.yml
+        - "Data-driven distributionally robust MPC for constrained stochastic systems": docs/papers/2021/2103.03006/metadata.yml
+        - "From linear to nonlinear MPC: bridging the gap via the real-time iteration": docs/papers/2016/2016.gros.from_linear_to_nonlinear/metadata.yml
+        - "Robust multi-rate predictive control using multi-step prediction models learned from data": docs/papers/2021/2102.08302/metadata.yml
+        - "Learning multi-step prediction models for receding horizon control": docs/papers/2018/2018.terzi.learning_multi_step_prediction/metadata.yml
+        - "Learning with Imperfect Models: When Multi-step Prediction Mitigates Compounding Error": docs/papers/2025/2504.01766/metadata.yml
+        - "On multi-step prediction models for receding horizon control": docs/papers/2018/1802.09767/metadata.yml
+        - "Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition": docs/papers/2021/2021.svec.model_predictive_control_of/metadata.yml
+        - Data-Driven and Learning-Based MPC:
+          - DeePC: docs/papers/2018/1811.05890/metadata.yml
+          - "Model predictive control based on ARX models": docs/papers/2010/2010.kon.model_predictive_control_based/metadata.yml
+          - "Learning-based predictive control for linear systems: a unitary approach": docs/papers/2018/1810.12584/metadata.yml
+          - "KPC: Learning-Based Model Predictive Control with Deterministic Guarantees": docs/papers/2020/2011.11303/metadata.yml
+          - "Exponential stability of data-driven nonlinear MPC based on input/output models": docs/papers/2026/2603.16808/metadata.yml
+          - "Soft projections for robust data-driven control": docs/papers/2026/2604.00900/metadata.yml
+          - "Stochastic Data-Driven Predictive Control: Regularization, Estimation, and Constraint Tightening": docs/papers/2023/2312.02758/metadata.yml
+        - Robust and Stochastic MPC:
+          - "Closed-loop analysis of linear stochastic MPC with risk-averse constraints": docs/papers/2026/2604.11183/metadata.yml
+          - Dynamic Tube MPC: docs/papers/2019/1907.06553/metadata.yml
+          - Elastic Tube MPC: docs/papers/2016/2016.rakovic.elastic_tube_model_predictive/metadata.yml
+          - "Scenario-based Stochastic MPC for systems with uncertain dynamics": docs/papers/2022/2207.12517/metadata.yml
+          - "Probably Approximately Correct Nonlinear Model Predictive Control (PAC-NMPC)": docs/papers/2022/2210.08092/metadata.yml
+        - MPC Applications and Implementations:
+          - "Intelligent Trajectory Planning for Autonomous Vehicles via Adaptive Model Predictive Control": docs/papers/2025/2025.goncalves.intelligent_trajectory_planning_for/metadata.yml
+          - "Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks": docs/papers/2026/2604.19452/metadata.yml
+      - Robust Control:
+        - Distributed control design for spatially interconnected systems: docs/papers/2003/2003.dandrea.distributed_control_design_for/metadata.yml
+        - LMIs in System and Control Theory: docs/papers/1994/1994.boyd.linear_matrix_inequalities_in/metadata.yml
+        - "LMI Properties and Applications in Systems, Stability, and Control Theory": docs/papers/2019/1903.08599/metadata.yml
+        - Robustness margins for LQG: docs/papers/1978/1978.doyle.guaranteed_margins_for_lqg/metadata.yml
+        - DR-LQG: docs/papers/2025/2505.08370/metadata.yml
+        - "Conformal Robust Control of Linear Systems": docs/papers/2024/2405.16250/metadata.yml
+        - "Probabilistic Robustness in the Gap Metric": docs/papers/2025/2507.10010/metadata.yml
+        - On the Input-Output Stability of Time-Varying Nonlinear Feedback Systems: docs/papers/1966/1966.zames.on_the_input_output/metadata.yml
+        - Bilateral Control of Teleoperators with Time Delay: docs/papers/1989/1989.anderson.bilateral_control_of_teleoperators/metadata.yml
+        - State-Space Solutions to Standard H2 and H-inf Control Problems: docs/papers/1989/1989.doyle.state_space_solutions_to/metadata.yml
+        - "LQG Control with an H-infinity Performance Bound: A Riccati Equation Approach": docs/papers/1989/1989.bernstein.lqg_control_with_an/metadata.yml
+        - On the Robustness of LQ Regulators for Discrete-Time Systems: docs/papers/1992/1992.neto.on_the_robustness_of/metadata.yml
+        - "A Method to Teach the Parameterization of All Stabilizing Controllers": docs/papers/2011/2011.kucera.a_method_to_teach/metadata.yml
+        - "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality": docs/papers/2026/2603.04843/metadata.yml
+        - "System analysis via integral quadratic constraints": docs/papers/1997/1997.megretski.system_analysis_via_integral/metadata.yml
+        - Contraction L1-Adaptive Control using Gaussian Processes: docs/papers/2020/2009.03864/metadata.yml
+        - Stability and control of a quadrocopter despite the complete loss of one, two, or three propellers: docs/papers/2014/2014.mueller.stability_and_control_of/metadata.yml
+        - "Exponential Stability Analysis via Integral Quadratic Constraints": docs/papers/2017/1706.01337/metadata.yml
+        - "On Topological Properties of the Set of Stabilizing Feedback Gains": docs/papers/2019/1904.08451/metadata.yml
+        - "Regeneration Theory": docs/papers/1932/1932.nyquist.regeneration_theory/metadata.yml
+        - "Stabilized Feedback Amplifiers*": docs/papers/1934/1934.black.stabilized_feedback_amplifiers/metadata.yml
+        - "Relations between Attenuation and Phase in Feedback Amplifier Design": docs/papers/1940/1940.bode.relations_between_attenuation_and/metadata.yml
+        - "A Linear Matrix Inequality Approach to H∞ Control": docs/papers/1994/1994.gahinet.a_linear_matrix_inequality/metadata.yml
+        - "Nonlinear Control Synthesis by Convex Optimization": docs/papers/2004/2004.prajna.nonlinear_control_synthesis_by/metadata.yml
+        - "On Exponential Synchronization of Kuramoto Oscillators": docs/papers/2009/2009.chopra.on_exponential_synchronization_of/metadata.yml
+        - "Quadratic Invariance Is Necessary and Sufficient for Convexity": docs/papers/2011/2011.lessard.quadratic_invariance_is_necessary/metadata.yml
+      - Perception-Based Control:
+        - Integrated Perception and Control at High Speed: docs/papers/2020/2020.florence.integrated_perception_and_control/metadata.yml
+        - "Robust Guarantees for Perception-Based Control": docs/papers/2020/2020.dean.robust_guarantees_for_perception/metadata.yml
+        - "Certainty Equivalent Perception-Based Control": docs/papers/2021/2021.dean.certainty_equivalent_perception_based/metadata.yml
+      - Control-Plant Co-Design:
+        - Gradient-Based Plant-Controller Co-Design: docs/papers/2015/2015.wang.a_gradient_based_approach/metadata.yml
+      - Control-Oriented Physical Modeling:
+        - 5-DOF Electrodynamic Maglev State-Space Model: docs/papers/2004/2004.de_boeij.mathematical_model_of_the/metadata.yml
+        - "Control-Oriented Modeling of the Dynamics of Stirling Engine Regenerators": docs/papers/2017/2017.craun.control_oriented_modeling_of/metadata.yml
+      - Control Theory:
+        - La Salle Invariance Principle: docs/papers/1966/1966.la_salle.an_invariance_principle_in/metadata.yml
+        - The Internal Model Principle for Linear Multivariable Regulators: docs/papers/1975/1975.francis.the_internal_model_principle/metadata.yml
+        - Every Good Regulator Theorem: docs/papers/1970/1970.conant.every_good_regulator_of/metadata.yml
+        - "Internal feedback in the cortical perception-action loop enables fast and accurate behavior": docs/papers/2022/2211.05922/metadata.yml
+        - Path-Following or Reference-Tracking: docs/papers/2004/2004.aguiar.path_following_or_reference/metadata.yml
+        - DWPP: docs/papers/2026/2601.15006/metadata.yml
+        - Control for Societal-Scale Challenges: docs/papers/2023/2023.alleyne.control_for_societal_scale/metadata.yml
+        - "A note on persistency of excitation": docs/papers/2005/2005.willems.a_note_on_persistency/metadata.yml
+        - "Respect the Unstable": docs/papers/2003/2003.stein.respect_the_unstable/metadata.yml
+        - "Augmented Lagrangian Methods as Layered Control Architectures": docs/papers/2023/2311.06404/metadata.yml
+        - "Towards a Theory of Control Architecture: A quantitative framework for layered multi-rate control": docs/papers/2024/2401.15185/metadata.yml
+        - "Asymptotic stability equals exponential stability - while you twist your eyes": docs/papers/2024/2411.03277/metadata.yml
+        - Partial Feedback Linearization: docs/papers/1994/1994.spong.partial_feedback_linearization_of/metadata.yml
+        - Theory of Robot Control: docs/papers/1996/1996.wit.theory_of_robot_control/metadata.yml
+        - "Control System Synthesis by Root Locus Method": docs/papers/1950/1950.evans.control_system_synthesis_by/metadata.yml
+        - "On Pole Assignment in Multi-input Controllable Linear Systems": docs/papers/1967/1967.wonham.on_pole_assignment_in/metadata.yml
+        - "Decoupling and Pole Assignment in Linear Multivariable Systems: A Geometric Approach": docs/papers/1970/1970.wonham.decoupling_and_pole_assignment/metadata.yml
+        - "Adaptive Motion Control of Rigid Robots: A Tutorial": docs/papers/1989/1989.ortega.adaptive_motion_control_of/metadata.yml
+      - Control of Networks:
+        - Control Principles of Complex Networks: docs/papers/2015/1508.05384/metadata.yml
+        - Control Profiles of Complex Networks: docs/papers/2014/2014.ruths.control_profiles_of_complex/metadata.yml
+      - Control Lyapunov Functions (CLF):
+        - Stabilization with Relaxed Controls: docs/papers/1983/1983.artstein.stabilization_with_relaxed_controls/metadata.yml
+        - "A Lyapunov-Like Characterization of Asymptotic Controllability": docs/papers/1983/1983.sontag.a_lyapunov_like_characterization/metadata.yml
+        - Sontag's Universal Formula: docs/papers/1991/1991.lin.a_universal_formula_for/metadata.yml
+        - "A 'universal' construction of Artstein's theorem on nonlinear stabilization": docs/papers/1989/1989.sontag.a_universal_construction_of/metadata.yml
+        - "Controllability of Nonlinear Systems": docs/papers/1972/1972.sussmann.controllability_of_nonlinear_systems/metadata.yml
+        - "Continuous Finite-time Stabilization of the Translational and Rotational Double Integrators": docs/papers/1998/1998.bhat.continuous_finite_time_stabilization/metadata.yml
+      - Control Barrier Functions (CBF):
+        - Co-designing Control Barrier Functions and Linear State-Feedback Controllers: docs/papers/2024/2403.11763/metadata.yml
+        - "Convex synthesis and verification of control-Lyapunov and barrier functions with input constraints": docs/papers/2023/2023.dai.convex_synthesis_and_verification/metadata.yml
+        - "A Barrier-Based Scenario Approach to Verifying Safety-Critical Systems": docs/papers/2022/2022.akella.a_barrier_based_scenario/metadata.yml
+        - "Control Barrier Function Based Quadratic Programs for Safety Critical Systems": docs/papers/2017/2017.ames.control_barrier_function_based/metadata.yml
+        - "Control Barrier Functions: Theory and Applications": docs/papers/2019/1903.11199/metadata.yml
+        - "Synthesis and Deployment of Maximal Robust Control Barrier Functions through Adversarial Reinforcement Learning": docs/papers/2026/2604.13192/metadata.yml
+      - Iterative Learning Control:
+        - Optimization-based iterative learning for precise quadrocopter trajectory tracking: docs/papers/2012/2012.schoellig.optimization_based_iterative_learning/metadata.yml
+      - Tracking Control for Wheeled Robots:
+        - Kanayama Tracking Controller: docs/papers/1990/1990.kanayama.a_stable_tracking_control/metadata.yml
+        - Pure Pursuit: docs/papers/1992/1992.coulter.implementation_of_the_pure/metadata.yml
+        - Feedback Control of a Nonholonomic Car-Like Robot: docs/papers/1998/1998.de_luca.feedback_control_of_a/metadata.yml
+      - Vehicle Dynamics:
+        - The Tire-Force Ellipse: docs/papers/2011/2011.brach.the_tire_force_ellipse/metadata.yml
+        - "Kinematic modeling of wheeled mobile robots": docs/papers/1987/1987.muir.kinematic_modeling_of_wheeled/metadata.yml
+        - "On the Kinematics of Wheeled Mobile Robots": docs/papers/1989/1989.alexander.on_the_kinematics_of/metadata.yml
+        - The Magic Formula Tyre Model: docs/papers/1992/1992.pacejka.the_magic_formula_tyre/metadata.yml
+        - "Structural properties and classification of kinematic and dynamic models of wheeled mobile robots": docs/papers/1996/1996.campion.structural_properties_and_classification/metadata.yml
+        - "Kinematic and dynamic vehicle models for autonomous driving control design": docs/papers/2015/2015.kong.kinematic_and_dynamic_vehicle/metadata.yml
+    - Reinforcement Learning:
+      - Foundations:
+        - Neuronlike Adaptive Elements (Actor-Critic, Cart-Pole): docs/papers/1983/1983.barto.neuronlike_adaptive_elements_that/metadata.yml
+        - TD Learning: docs/papers/1988/1988.sutton.learning_to_predict_by/metadata.yml
+        - mellowmax: docs/papers/2016/1612.05628/metadata.yml
+        - "A Gentle Lecture Note on Filtrations in Reinforcement Learning": docs/papers/2020/2008.02622/metadata.yml
+        - "Reinforcement Learning and Control as Probabilistic Inference: Tutorial and Review": docs/papers/2018/1805.00909/metadata.yml
+        - MDPNv1: docs/papers/2015/1512.09075/metadata.yml
+      - Imitation Learning:
+        - DAgger: docs/papers/2010/1011.0686/metadata.yml
+        - "Efficient Reductions for Imitation Learning": docs/papers/2010/2010.ross.efficient_reductions_for_imitation/metadata.yml
+        - Self-Supervised Correspondence in Visuomotor Policy Learning: docs/papers/2019/1909.06933/metadata.yml
+        - TaSIL: docs/papers/2022/2205.14812/metadata.yml
+        - Grasping with Chopsticks: docs/papers/2020/2011.06719/metadata.yml
+        - DROID: docs/papers/2024/2403.12945/metadata.yml
+        - Universal Manipulation Interface: docs/papers/2024/2402.10329/metadata.yml
+        - HRT1: docs/papers/2025/2510.21026/metadata.yml
+        - Robot Fleet Learning via Policy Merging: docs/papers/2023/2310.01362/metadata.yml
+        - "Is Behavior Cloning All You Need?": docs/papers/2024/2407.15007/metadata.yml
+        - Should We Learn Contact-Rich Manipulation Policies from Sampling-Based Planners?: docs/papers/2024/2412.09743/metadata.yml
+        - Pitfalls of Imitation Learning: docs/papers/2025/2503.09722/metadata.yml
+        - "Action Chunking and Exploratory Data Collection Yield Exponential Improvements in Behavior Cloning for Continuous Control": docs/papers/2025/2507.09061/metadata.yml
+        - "A Careful Examination of Large Behavior Models for Multitask Dexterous Manipulation": docs/papers/2025/2507.05331/metadata.yml
+        - "Sample-Efficient Expert Query Control in Active Imitation Learning via Conformal Prediction": docs/papers/2025/2512.00453/metadata.yml
+        - "Do What I Want, Not What I Did: Imitation of Skills by Planning Sequences of Actions": docs/papers/2016/1612.01215/metadata.yml
+        - "Surgical Robot Transformer (SRT): Imitation Learning for Surgical Tasks": docs/papers/2024/2407.12998/metadata.yml
+      - Multi-arm Bandits:
+        - "Finite-time Analysis of the Multiarmed Bandit Problem": docs/papers/2002/2002.auer.finite_time_analysis_of/metadata.yml
+        - "Analysis of Thompson Sampling for the Multi-armed Bandit Problem": docs/papers/2011/1111.1797/metadata.yml
+        - "Thompson Sampling": docs/papers/1933/1933.thompson.on_the_likelihood_that/metadata.yml
+        - "Asymptotic regret lower bound for bandit problems": docs/papers/1985/1985.lai.asymptotically_efficient_adaptive_allocation/metadata.yml
+        - "The Nonstochastic Multiarmed Bandit Problem": docs/papers/2002/2002.auer.the_nonstochastic_multiarmed_bandit/metadata.yml
+        - "Optimal Thompson Sampling Strategies for Support-aware CVaR Bandits": docs/papers/2020/2012.05754/metadata.yml
+        - "Bandit Algorithms Based on Thompson Sampling for Bounded Reward Distributions": docs/papers/2020/2020.riou.bandit_algorithms_based_on/metadata.yml
+      - RL for Linear Systems:
+        - "Data-driven Control and Planning for Uncertain Complex Systems (Gravell PhD Dissertation)": docs/papers/2022/2022.gravell.data_driven_control_and/metadata.yml
+        - Policy Optimization:
+          - Global Convergence of Policy Gradient Methods for LQR: docs/papers/2018/1801.05039/metadata.yml
+          - Derivative-Free Policy Optimization for Linear Risk-Sensitive and Robust Control Design: docs/papers/2021/2101.01041/metadata.yml
+          - "Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient": docs/papers/2019/1905.13547/metadata.yml
+          - "Sparse Optimal Control of Networks with Multiplicative Noise via Policy Gradient": docs/papers/2019/1905.13548/metadata.yml
+          - "Policy Optimization for H2 Linear Control with H-infinity Robustness Guarantee": docs/papers/2019/1910.09496/metadata.yml
+          - Globally Convergent Policy Search over Dynamic Filters for Output Estimation: docs/papers/2022/2202.11659/metadata.yml
+          - "Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators": docs/papers/2023/2303.08431/metadata.yml
+          - LQR through the Lens of First Order Methods: docs/papers/2019/1907.08921/metadata.yml
+          - Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum LQ Games: docs/papers/2019/1906.00729/metadata.yml
+          - "Convergence of Flow-Policy Gradient Learning for Linear Quadratic Regulator Problems": docs/papers/2025/2511.11131/metadata.yml
+          - "On the Optimization Landscape of Observer-based Dynamic Linear Quadratic Control": docs/papers/2026/2604.10635/metadata.yml
+          - "Policy Gradient for LQR with Domain Randomization": docs/papers/2025/2503.24371/metadata.yml
+          - "Second-Order Policy Gradient Methods for the Linear Quadratic Regulator": docs/papers/2025/2511.02095/metadata.yml
+          - "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective": docs/papers/2025/2503.00385/metadata.yml
+          - "A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR": docs/papers/2026/2602.18933/metadata.yml
+          - "Scalar Federated Learning for Linear Quadratic Regulator": docs/papers/2026/2604.05088/metadata.yml
+          - "Analyzing the Variance of Policy Gradient Estimators for the Linear-Quadratic Regulator": docs/papers/2019/1910.01249/metadata.yml
+          - "Model-Based Multi-Agent RL in Zero-Sum Markov Games with Near-Optimal Sample Complexity": docs/papers/2020/2007.07461/metadata.yml
+          - "Optimizing Static Linear Feedback: Gradient Method": docs/papers/2020/2004.09875/metadata.yml
+          - "Data-driven Linear Quadratic Integral Control: A Convex Formulation and Policy Gradient Approach": docs/papers/2026/2604.14905/metadata.yml
+        - Dynamic Programming:
+          - "Policy Iteration for Linear Quadratic Games with Stochastic Parameters": docs/papers/2021/2021.gravell.policy_iteration_for_linear/metadata.yml
+          - "Policy iteration using Q-functions: Linear dynamics with multiplicative noise": docs/papers/2022/2212.01192/metadata.yml
+        - Model-based RL:
+          - Robust exploration in linear quadratic reinforcement learning: docs/papers/2019/1906.01584/metadata.yml
+          - Optimistic robust linear quadratic dual control: docs/papers/2019/1912.13143/metadata.yml
+          - Logarithmic Regret for Online Control: docs/papers/2019/2019.agarwal.logarithmic_regret_for_online/metadata.yml
+          - Regret Bounds for the Adaptive Control of Linear Quadratic Systems: docs/papers/2011/2011.abbasi_yadkori.regret_bounds_for_the/metadata.yml
+          - Learning Without Mixing: docs/papers/2018/1802.08334/metadata.yml
+          - Regret Bounds for Robust Adaptive Control of LQR: docs/papers/2018/1805.09388/metadata.yml
+          - "Regret Bounds for Robust Adaptive Control of the Linear Quadratic Regulator": docs/papers/2018/2018.dean.regret_bounds_for_robust/metadata.yml
+          - "Certainty Equivalence is Efficient for Linear Quadratic Control": docs/papers/2019/1902.07826/metadata.yml
+          - "Domain Randomization is Sample Efficient for Linear Quadratic Control": docs/papers/2025/2502.12310/metadata.yml
+          - "Robust Learning-Based Control via Bootstrapped Multiplicative Noise": docs/papers/2020/2002.10069/metadata.yml
+          - "Robust Data-Driven Output Feedback Control via Bootstrapped Multiplicative Noise": docs/papers/2022/2205.05119/metadata.yml
+          - "Efficient Learning of a Linear Dynamical System with Stability Guarantees": docs/papers/2021/2102.03664/metadata.yml
+          - "Toward Understanding State Representation Learning in MuZero: A Case Study in Linear Quadratic Gaussian Control": docs/papers/2023/2023.tian.toward_understanding_state_representation/metadata.yml
+          - "Cost-Driven Representation Learning for Linear Quadratic Gaussian Control: Part I": docs/papers/2022/2212.14511/metadata.yml
+          - "Cost-Driven Representation Learning for Linear Quadratic Gaussian Control: Part II": docs/papers/2026/2603.07437/metadata.yml
+          - "CLT-Optimal Parameter Error Bounds for Linear System Identification": docs/papers/2026/2604.21270/metadata.yml
+          - The Fragility of Learning LQG Controllers: docs/papers/2026/2604.24442/metadata.yml
+        - "Using Data-Driven Domain Randomization to Transfer Robust Control Policies to Mobile Robots": docs/papers/2019/2019.sheckells.using_data_driven_domain/metadata.yml
+      - Dynamic Programming:
+        - Exact Dynamic Programming:
+          - On the Convergence of Policy Iteration in Stationary Dynamic Programming: docs/papers/1979/1979.puterman.on_the_convergence_of/metadata.yml
+          - Values and Strategies for Infinite Time Linear Quadratic Games: docs/papers/1976/1976.mageirou.values_and_strategies_for/metadata.yml
+          - Quasi Policy Iteration: docs/papers/2023/2311.11166/metadata.yml
+          - "Dynamic Programming Through the Lens of Semismooth Newton-Type Methods": docs/papers/2022/2203.08678/metadata.yml
+        - Approximate Dynamic Programming:
+          - Q-learning: docs/papers/1992/1992.watkins.q_learning/metadata.yml
+          - On-Line Q-Learning Using Connectionist Systems: docs/papers/1994/1994.rummery.on_line_q_learning/metadata.yml
+          - Adaptive Linear Quadratic Control Using Policy Iteration: docs/papers/1994/1994.bradtke.adaptive_linear_quadratic_control/metadata.yml
+          - LSPI: docs/papers/2003/2003.lagoudakis.least_squares_policy_iteration/metadata.yml
+          - "Approximate Policy Iteration: A Survey and Some New Methods": docs/papers/2011/2011.bertsekas.approximate_policy_iteration_a/metadata.yml
+          - Approximate Dynamic Programming via Sum of Squares Programming: docs/papers/2012/1212.1269/metadata.yml
+          - Finite-Time Analysis of Approximate Policy Iteration for LQR: docs/papers/2019/1905.12842/metadata.yml
+          - AMPI: docs/papers/2020/2011.14212/metadata.yml
+          - "Value-Gradient Iteration with Quadratic Approximate Value Functions": docs/papers/2023/2307.07086/metadata.yml
+          - "Sample Complexity of Episodic Fixed-Horizon Reinforcement Learning": docs/papers/2015/1510.08906/metadata.yml
+          - "Data-Efficient Off-Policy Policy Evaluation for Reinforcement Learning": docs/papers/2016/1604.00923/metadata.yml
+          - "When Simple Exploration Is Sample Efficient: Identifying Sufficient Conditions for Random Exploration to Yield PAC RL Algorithms": docs/papers/2018/1805.09045/metadata.yml
+          - "Learning near Optimal Policies with Low Inherent Bellman Error": docs/papers/2020/2003.00153/metadata.yml
+          - "Reinforcement Learning with Misspecified Model Classes": docs/papers/2013/2013.joseph.reinforcement_learning_with_misspecified/metadata.yml
+          - "Universal Off-Policy Evaluation": docs/papers/2021/2104.12820/metadata.yml
+        - Deep Value-Based:
+          - DQN (Playing Atari with Deep RL): docs/papers/2013/1312.5602/metadata.yml
+          - Prioritized Experience Replay: docs/papers/2015/1511.05952/metadata.yml
+          - Double DQN: docs/papers/2015/1509.06461/metadata.yml
+          - Dueling Networks: docs/papers/2015/1511.06581/metadata.yml
+          - Rainbow: docs/papers/2017/1710.02298/metadata.yml
+      - Policy Optimization:
+        - Random Search & Evolution Strategies:
+          - ARS: docs/papers/2018/1803.07055/metadata.yml
+          - Derivative-Free Methods for Policy Optimization: docs/papers/2018/1812.08305/metadata.yml
+          - NEAT: docs/papers/2002/2002.stanley.evolving_neural_networks_through/metadata.yml
+          - HyperNEAT: docs/papers/2009/2009.stanley.a_hypercube_based_encoding/metadata.yml
+          - "Embodied Intelligence via Learning and Evolution": docs/papers/2021/2102.02202/metadata.yml
+          - "Regularized Evolution for Image Classifier Architecture Search": docs/papers/2018/1802.01548/metadata.yml
+        - Policy Gradient:
+          - REINFORCE: docs/papers/1992/1992.williams.simple_statistical_gradient_following/metadata.yml
+          - "Policy Gradient Methods for Reinforcement Learning with Function Approximation": docs/papers/1999/1999.sutton.policy_gradient_methods_for/metadata.yml
+          - Direct Gradient-Based Reinforcement Learning: docs/papers/2000/2000.baxter.direct_gradient_based_reinforcement/metadata.yml
+          - Natural Policy Gradient: docs/papers/2001/2001.kakade.a_natural_policy_gradient/metadata.yml
+          - Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies: docs/papers/2022/2210.04810/metadata.yml
+          - HOOF: docs/papers/2019/1902.06583/metadata.yml
+          - "Evolution Strategies as a Scalable Alternative to Reinforcement Learning": docs/papers/2017/1703.03864/metadata.yml
+          - "How are policy gradient methods affected by the limits of control?": docs/papers/2022/2206.06863/metadata.yml
+          - "On Linear Convergence of Policy Gradient Methods for Finite MDPs": docs/papers/2020/2007.11120/metadata.yml
+          - "On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift": docs/papers/2019/1908.00261/metadata.yml
+          - "On-Policy Distillation of Language Models for Autonomous Vehicle Motion Planning": docs/papers/2026/2604.07944/metadata.yml
+          - "PAGE-PG": docs/papers/2022/2202.00308/metadata.yml
+          - "Stochastic Variance-Reduced Policy Gradient": docs/papers/2018/1806.05618/metadata.yml
+          - An Improved Analysis of Variance-Reduced Policy Gradient and Natural Policy Gradient Methods: docs/papers/2022/2211.07937/metadata.yml
+          - "The Definitive Guide to Policy Gradients in Deep Reinforcement Learning: Theory, Algorithms and Implementations": docs/papers/2024/2401.13662/metadata.yml
+          - "Understanding the Effects of Second-Order Approximations in Natural Policy Gradient Reinforcement Learning": docs/papers/2022/2201.09104/metadata.yml
+          - "Do Differentiable Simulators Give Better Policy Gradients?": docs/papers/2022/2202.00817/metadata.yml
+          - "A Large Deviations Perspective on Policy Gradient Algorithms": docs/papers/2023/2311.07411/metadata.yml
+          - "Stochastic Recursive Momentum for Policy Gradient Methods": docs/papers/2020/2003.04302/metadata.yml
+          - "Guided Cost Learning: Deep Inverse Optimal Control via Policy Optimization": docs/papers/2016/1603.00448/metadata.yml
+          - "Stochastic Variance Reduction Methods for Policy Evaluation": docs/papers/2017/1702.07944/metadata.yml
+          - "Unifying PAC and Regret: Uniform PAC Bounds for Episodic Reinforcement Learning": docs/papers/2017/1703.07710/metadata.yml
+          - "Policy Gradient Methods for Reinforcement Learning with Function Approximation and Action-Dependent Baselines": docs/papers/2017/1706.06643/metadata.yml
+          - "Global Convergence of Policy Gradient Methods to (Almost) Locally Optimal Policies": docs/papers/2019/1906.08383/metadata.yml
+          - "Being Optimistic to Be Conservative: Quickly Learning a CVaR Policy": docs/papers/2019/1911.01546/metadata.yml
+          - "Completely Derandomized Self-Adaptation in Evolution Strategies": docs/papers/2001/2001.hansen.completely_derandomized_self_adaptation/metadata.yml
+          - "Sample Complexity Bounds for Iterative Stochastic Policy Optimization": docs/papers/2015/2015.kobilarov.sample_complexity_bounds_for/metadata.yml
+          - "Energetic Natural Gradient Descent": docs/papers/2016/2016.thomas.energetic_natural_gradient_descent/metadata.yml
+          - "Suboptimal Coverings for Continuous Spaces of Control Tasks": docs/papers/2021/2104.11865/metadata.yml
+          - "Online Policy Optimization in Unknown Nonlinear Systems": docs/papers/2024/2404.13009/metadata.yml
+        - Actor-Critic Methods:
+          - DPG: docs/papers/2014/2014.silver.deterministic_policy_gradient_algorithms/metadata.yml
+          - DDPG: docs/papers/2015/1509.02971/metadata.yml
+          - A3C: docs/papers/2016/1602.01783/metadata.yml
+          - GAE: docs/papers/2015/1506.02438/metadata.yml
+          - ACKTR: docs/papers/2017/1708.05144/metadata.yml
+          - TD3: docs/papers/2018/1802.09477/metadata.yml
+          - SAC: docs/papers/2018/1801.01290/metadata.yml
+          - ACER: docs/papers/2016/1611.01224/metadata.yml
+          - Q-Prop: docs/papers/2016/1611.02247/metadata.yml
+          - Emergence of Locomotion Behaviours in Rich Environments: docs/papers/2017/1707.02286/metadata.yml
+          - FlashSAC: docs/papers/2026/2604.04539/metadata.yml
+          - "Provable Benefits of Actor-Critic Methods for Offline Reinforcement Learning": docs/papers/2021/2108.08812/metadata.yml
+        - Trust Region:
+          - TRPO: docs/papers/2015/1502.05477/metadata.yml
+          - PPO: docs/papers/2017/1707.06347/metadata.yml
+          - QNTRPO: docs/papers/2019/1912.11912/metadata.yml
+          - SPO: docs/papers/2024/2401.16025/metadata.yml
+          - GRPO: docs/papers/2024/2402.03300/metadata.yml
+          - KIPPO: docs/papers/2025/2505.14566/metadata.yml
+          - "Bounded Ratio Reinforcement Learning": docs/papers/2026/2604.18578/metadata.yml
+      - Model-Based RL:
+        - System Identification:
+          - Non-Asymptotic Identification of LTI Systems from a Single Trajectory: docs/papers/2018/1806.05722/metadata.yml
+          - Linear System Identification via EM with Latent Disturbances and Lagrangian Relaxation: docs/papers/2016/1603.09157/metadata.yml
+          - On the smoothness of nonlinear system identification: docs/papers/2019/1905.00820/metadata.yml
+          - Finite Sample Analysis of Stochastic System Identification: docs/papers/2019/1903.09122/metadata.yml
+          - A Tutorial on Concentration Bounds for System Identification: docs/papers/2019/1906.11395/metadata.yml
+          - "Linear System Identification Under Multiplicative Noise from Multiple Trajectory Data": docs/papers/2020/2002.06613/metadata.yml
+          - "Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data": docs/papers/2021/2106.16078/metadata.yml
+          - Subspace Identification:
+            - Subspace Identification for Linear Systems: docs/papers/1996/1996.van_overschee.subspace_identification_for_linear/metadata.yml
+            - N4SID: docs/papers/1994/1994.van_overschee.n4sid_numerical_algorithms_for/metadata.yml
+          - ERA: docs/papers/1985/1985.juang.an_eigensystem_realization_algorithm/metadata.yml
+          - OKID: docs/papers/1993/1993.juang.identification_of_observer_kalman/metadata.yml
+          - Dynamic Mode Decomposition (DMD):
+            - DMD: docs/papers/2008/2008.schmid.dynamic_mode_decomposition_of/metadata.yml
+            - "DMD: Theory and Applications": docs/papers/2013/1312.0041/metadata.yml
+            - "DMD: Theory and Data Reconstruction": docs/papers/2019/1909.10466/metadata.yml
+            - DMD and Its Variants: docs/papers/2022/2022.schmid.dynamic_mode_decomposition_and/metadata.yml
+            - DMDc: docs/papers/2014/1409.6358/metadata.yml
+            - eDMD: docs/papers/2014/1408.4408/metadata.yml
+            - "A Short Introduction to the Koopman Representation of Dynamical Systems": docs/papers/2022/2205.08048/metadata.yml
+            - "Accelerating Sampling-Based Control via Learned Linear Koopman Dynamics": docs/papers/2026/2603.05385/metadata.yml
+            - "Data-driven discovery of Koopman eigenfunctions for control": docs/papers/2017/1707.01146/metadata.yml
+            - "Data-Driven Feedback Linearization using the Koopman Generator": docs/papers/2022/2210.05046/metadata.yml
+            - "Interpreting Reinforcement Learning Model Behavior via Koopman with Control": docs/papers/2026/2603.19968/metadata.yml
+          - Sparse Identification of Nonlinear Dynamics (SINDy):
+            - SINDy: docs/papers/2015/1509.03580/metadata.yml
+            - SINDy with Control: docs/papers/2021/2108.13404/metadata.yml
+            - SINDy-MPC: docs/papers/2017/1711.05501/metadata.yml
+            - SINDy-RL: docs/papers/2024/2403.09110/metadata.yml
+            - PySINDy: docs/papers/2021/2111.08481/metadata.yml
+            - LeARN: docs/papers/2024/2412.12036/metadata.yml
+            - "Nonlinear Systems Identification Using Deep Dynamic Neural Networks": docs/papers/2016/1610.01439/metadata.yml
+          - World Models:
+            - PlaNet: docs/papers/2018/1811.04551/metadata.yml
+            - Dreamer: docs/papers/2019/1912.01603/metadata.yml
+            - Dream to Fly: docs/papers/2025/2501.14377/metadata.yml
+            - Hierarchical Planning with Latent World Models: docs/papers/2026/2604.03208/metadata.yml
+          - "A Tutorial on Solution Properties of State Space Models of Dynamical Systems": docs/papers/2022/2204.06104/metadata.yml
+          - Interactive Bayesian identification of kinematic mechanisms: docs/papers/2014/2014.barragan.interactive_bayesian_identification_of/metadata.yml
+          - "An Information-state based Approach to the Optimal Output Feedback Control of Nonlinear Systems": docs/papers/2021/2107.08086/metadata.yml
+          - "An Introduction to Matrix Concentration Inequalities": docs/papers/2015/1501.01571/metadata.yml            
+          - "Concentration Inequalities for Statistical Inference": docs/papers/2020/2011.02258/metadata.yml
+          - "How Are Learned Perception-Based Controllers Impacted by the Limits of Robust Control?": docs/papers/2021/2104.00827/metadata.yml
+          - "Physics-Informed Machine Learning for Modeling and Control of Dynamical Systems": docs/papers/2023/2306.13867/metadata.yml
+          - "Self-Normalized Processes: Exponential Inequalities, Moment Bounds and Iterated Logarithm Laws": docs/papers/2004/2004.de_la_pena.self_normalized_processes_exponential/metadata.yml
+          - "State space models vs. multi-step predictors in predictive control: Are state space models complicating safe data-driven designs?": docs/papers/2022/2203.15471/metadata.yml
+          - "Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control": docs/papers/2026/2603.23465/metadata.yml
+          - Nonlinear System Identification Nano-drone Benchmark: docs/papers/2025/2512.14450/metadata.yml
+          - ASIA: docs/papers/2026/2605.10480/metadata.yml
+          - "System identification and long-range predictive control of multi-rate systems": docs/papers/1999/1999.li.system_identification_and_long/metadata.yml
+          - "Robust Nonlinear System Identification Using Neural-network Models": docs/papers/1998/1998.lu.robust_nonlinear_system_identification/metadata.yml
+          - "How to Model Your Crazyflie Brushless": docs/papers/2026/2603.05944/metadata.yml
+        - Surveys & Control Connections:
+          - From Self-Tuning Regulators to Reinforcement Learning and Back Again: docs/papers/2019/1906.11392/metadata.yml
+          - "A Tour of Reinforcement Learning: The View from Continuous Control": docs/papers/2018/1806.09460/metadata.yml
+          - "A view on learning robust goal-conditioned value functions: Interplay between RL and MPC": docs/papers/2025/2502.06996/metadata.yml
+          - "Synthesis of Model Predictive Control and Reinforcement Learning: Survey and Classification": docs/papers/2025/2502.02133/metadata.yml
+          - CORL: docs/papers/2012/1206.3231/metadata.yml
+          - "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms": docs/papers/2019/1911.10635/metadata.yml
+        - MPC-RL Hybrids:
+          - "Data-Efficient Reinforcement Learning with Probabilistic Model Predictive Control": docs/papers/2017/1706.06491/metadata.yml
+          - "Information Theoretic Model Predictive Q-Learning": docs/papers/2019/2001.02153/metadata.yml
+          - "Differentiable MPC for End-to-end Planning and Control": docs/papers/2018/1810.13400/metadata.yml
+          - "Actor-Critic Model Predictive Control: Differentiable Optimization meets Reinforcement Learning for Agile Flight": docs/papers/2023/2306.09852/metadata.yml
+          - MPCritic: docs/papers/2025/2504.01086/metadata.yml
+          - Soft MPCritic: docs/papers/2026/2604.01477/metadata.yml
+          - "Policy Optimization for Unknown Systems using Differentiable Model Predictive Control": docs/papers/2025/2511.11308/metadata.yml
+          - TD-MPC: docs/papers/2022/2203.04955/metadata.yml
+          - TD-MPC2: docs/papers/2023/2310.16828/metadata.yml
+          - "Fast Non-Episodic Adaptive Tuning of Robot Controllers with Online Policy Optimization": docs/papers/2025/2507.10914/metadata.yml
+      - Hybrid Approaches:
+        - "Model-Based Value Estimation for Efficient Model-Free Reinforcement Learning": docs/papers/2018/1803.00101/metadata.yml
+        - PLAL: docs/papers/2022/2209.09006/metadata.yml          
+        - Power of Locally Linear Models: docs/papers/2023/2305.09619/metadata.yml
+      - Diffusion & Flow Matching:
+        - Diffusion Policy: docs/papers/2023/2303.04137/metadata.yml
+        - Equivariant Diffusion Policy: docs/papers/2024/2407.01812/metadata.yml
+        - "Planning with Diffusion for Flexible Behavior Synthesis": docs/papers/2022/2205.09991/metadata.yml
+        - "Tree-Guided Diffusion Planner": docs/papers/2025/2508.21800/metadata.yml
+        - Streaming Flow Policy: docs/papers/2025/2505.21851/metadata.yml
+        - OGPO: docs/papers/2026/2605.03065/metadata.yml
+        - "From Demonstrations to Safe Deployment: Path-Consistent Safety Filtering for Diffusion Policies": docs/papers/2025/2511.06385/metadata.yml
+        - "Much Ado About Noising: Dispelling the Myths of Generative Robotic Control": docs/papers/2025/2512.01809/metadata.yml
+      - Inverse Reinforcement Learning & Reward Learning:
+        - "Inverse Optimization: Theory and Applications": docs/papers/2021/2109.03920/metadata.yml
+        - Inverse LQR: docs/papers/2019/2019.zhang.inverse_optimal_control_for/metadata.yml
+        - Inverse Quadratic Optimal Control: docs/papers/2018/1810.12590/metadata.yml
+        - "Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors": docs/papers/2025/2508.07400/metadata.yml
+        - "A Connection between Generative Adversarial Networks, Inverse Reinforcement Learning, and Energy-Based Models": docs/papers/2016/1611.03852/metadata.yml
+        - "Learning Robust Rewards with Adversarial Inverse Reinforcement Learning": docs/papers/2017/1710.11248/metadata.yml
+        - "Apprenticeship Learning via Inverse Reinforcement Learning": docs/papers/2004/2004.abbeel.apprenticeship_learning_via_inverse/metadata.yml
+        - "Maximum Entropy Inverse Reinforcement Learning": docs/papers/2008/2008.ziebart.maximum_entropy_inverse_reinforcement/metadata.yml
+        - "Revisiting Maximum Entropy Inverse Reinforcement Learning: New Perspectives and Algorithms": docs/papers/2020/2012.00889/metadata.yml
+      - Applications of RL:
+        - "Learning Dexterous In-Hand Manipulation": docs/papers/2018/1808.00177/metadata.yml
+        - "Outracing champion Gran Turismo drivers with deep reinforcement learning": docs/papers/2022/2022.wurman.outracing_champion_gran_turismo/metadata.yml
+        - "Spatial planning of urban communities via deep reinforcement learning": docs/papers/2023/2023.zheng.spatial_planning_of_urban/metadata.yml
+        - "Learning Objective Functions for Manipulation": docs/papers/2013/2013.kalakrishnan.learning_objective_functions_for/metadata.yml
+        - Scaling Is All You Need: docs/papers/2023/2312.15122/metadata.yml
+  - Prediction:
+    - Motion Prediction:
+      - Traffic Models:
+        - IDM: docs/papers/2000/2000.treiber.congested_traffic_states_in/metadata.yml
+        - "An adaptive lateral preview driver model": docs/papers/2005/2005.ungoren.an_adaptive_lateral_preview/metadata.yml
+        - "Human-like driving behaviour emerges from a risk-based driver model": docs/papers/2020/2020.kolekar.human_like_driving_behaviour/metadata.yml
+      - Multi-agent & Interaction-aware Prediction:
+        - A Bayesian nonparametric approach to modeling motion patterns: docs/papers/2011/2011.joseph.a_bayesian_nonparametric_approach/metadata.yml
+        - Trajectron++: docs/papers/2020/2001.03093/metadata.yml
+        - Wayformer: docs/papers/2022/2207.05844/metadata.yml
+        - VectorNet: docs/papers/2020/2005.04259/metadata.yml
+        - Learning and Predicting Multimodal Vehicle Action Distributions in a Unified Probabilistic Model Without Labels: docs/papers/2022/2212.07013/metadata.yml
+      - Prediction Horizon:
+        - "Prediction Horizon Requirements for Automated Driving": docs/papers/2024/2402.03893/metadata.yml
+        - "Accelerated Evaluation of Automated Vehicles Safety in Lane Change Scenarios Based on Importance Sampling Techniques": docs/papers/2016/1605.04965/metadata.yml
+      - Surveys:
+        - "Trends in Motion Prediction Toward Deployable and Generalizable Autonomy": docs/papers/2025/2505.09074/metadata.yml
+        - "Motion Forecasting for Autonomous Vehicles": docs/papers/2025/2502.08664/metadata.yml
+        - "Trajectory Prediction for Autonomous Driving": docs/papers/2025/2503.03262/metadata.yml
+        - Deep Learning-based Vehicle Behaviour Prediction: docs/papers/2019/1912.11676/metadata.yml
+        - A Survey on Motion Prediction and Risk Assessment for Intelligent Vehicles: docs/papers/2014/2014.lefevre.a_survey_on_motion/metadata.yml
+        - Action and Trajectory Prediction for Autonomous Driving: docs/papers/2024/2024.calem.action_and_trajectory_prediction/metadata.yml
+        - DriveGPT: docs/papers/2024/2412.14415/metadata.yml
+        - "Forecasting the Past: Gradient-Based Distribution Shift Detection in Trajectory Prediction": docs/papers/2026/2604.12425/metadata.yml
+        - "Task-Relevant Failure Detection for Trajectory Predictors in Autonomous Vehicles": docs/papers/2022/2207.12380/metadata.yml
+        - "Time-aware Motion Planning in Dynamic Environments with Conformal Prediction": docs/papers/2025/2511.18170/metadata.yml
+        - WestWorld: docs/papers/2026/2603.14392/metadata.yml
+        - RDAR: docs/papers/2025/2509.19789/metadata.yml
+      - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: docs/papers/2025/2511.00814/metadata.yml
+    - State Estimation:
+      - Kalman Filter:
+        - Kalman Filter: docs/papers/1960/1960.kalman.a_new_approach_to/metadata.yml
+        - Optimal Adaptive Estimation of Sampled Stochastic Processes: docs/papers/1965/1965.magill.optimal_adaptive_estimation_of/metadata.yml
+        - Adaptive Kalman filter: docs/papers/1970/1970.mehra.on_the_identification_of/metadata.yml
+        - Wasserstein Distributionally Robust Kalman Filtering: docs/papers/2018/1809.08830/metadata.yml
+        - Fitting a Kalman Smoother to Data: docs/papers/2019/1910.08615/metadata.yml
+        - "Recursive State Estimation for a Set-membership Description of Uncertainty": docs/papers/1971/1971.bertsekas.recursive_state_estimation_for/metadata.yml
+        - "Analysis of Recursive Stochastic Algorithms": docs/papers/1977/1977.ljung.analysis_of_recursive_stochastic/metadata.yml
+        - "Parameter Identification for Uncertain Plants Using H∞ Methods": docs/papers/1995/1995.didinsky.parameter_identification_for_uncertain/metadata.yml
+        - "Differential Dynamic Programming for Optimal Estimation": docs/papers/2015/2015.kobilarov.differential_dynamic_programming_for/metadata.yml
+      - Unscented Kalman Filter (UKF):
+        - UKF: docs/papers/1997/1997.julier.new_extension_of_the/metadata.yml
+        - The Unscented Kalman Filter for Nonlinear Estimation: docs/papers/2000/2000.wan.the_unscented_kalman_filter/metadata.yml
+        - The Scaled Unscented Transformation: docs/papers/2002/2002.julier.the_scaled_unscented_transformation/metadata.yml
+      - Particle Filters:
+        - CONDENSATION: docs/papers/1998/1998.isard.condensationconditional_density_propagation_for/metadata.yml
+        - "Particle filters for positioning, navigation, and tracking": docs/papers/2002/2002.gustafsson.particle_filters_for_positioning/metadata.yml
+        - "Marginalized particle filters for mixed linear/nonlinear state-space models": docs/papers/2005/2005.schon.marginalized_particle_filters_for/metadata.yml
+        - "Robust Vehicle Localization in Urban Environments Using Probabilistic Maps": docs/papers/2010/2010.levinson.robust_vehicle_localization_in/metadata.yml
+      - "Mapping & SLAM":
+        - Hydra: docs/papers/2022/2201.13360/metadata.yml
+        - Khronos: docs/papers/2024/2402.13817/metadata.yml
+        - CLIPPER: docs/papers/2020/2011.10202/metadata.yml
+        - CLIPPER+: docs/papers/2024/2402.15464/metadata.yml
+        - OctoMap: docs/papers/2013/2013.hornung.octomap_an_efficient_probabilistic/metadata.yml
+        - "Fast Iterative Alignment of Pose Graphs with Poor Initial Estimates": docs/papers/2006/2006.olson.fast_iterative_alignment_of/metadata.yml
+        - Visual Odometry and Mapping for Autonomous Flight Using an RGB-D Camera: docs/papers/2016/2016.huang.visual_odometry_and_mapping/metadata.yml
+        - Factor Graphs:
+          - "Factor Graphs and the Sum-product Algorithm": docs/papers/2001/2001.kschischang.factor_graphs_and_the/metadata.yml
+          - Factor Graphs: docs/papers/2021/2021.dellaert.factor_graphs_exploiting_structure/metadata.yml
+          - "A Factor Graph Approach to Estimation and Model Predictive Control on Unmanned Aerial Vehicles": docs/papers/2014/2014.ta.a_factor_graph_approach/metadata.yml
+        - "Building Rome with Convex Optimization": docs/papers/2025/2025.han.building_rome_with_convex/metadata.yml
+        - "Learning Occupancy Grid Maps with Forward Sensor Models": docs/papers/2003/2003.thrun.learning_occupancy_grid_maps/metadata.yml
+        - iSAM: docs/papers/2008/2008.kaess.isam_incremental_smoothing_and/metadata.yml
+    - Machine Learning:
+      - Foundations:
+        - Epiplexity: docs/papers/2026/2601.03220/metadata.yml
+        - On the Opportunities and Risks of Foundation Models: docs/papers/2021/2108.07258/metadata.yml
+      - Uncertainty Quantification:
+        - Backward Conformal Prediction: docs/papers/2025/2505.13732/metadata.yml
+      - Datasets:
+        - MNIST: docs/papers/2012/2012.deng.the_mnist_database_of/metadata.yml
+        - The Lost MNIST Digits: docs/papers/2019/2019.yadav.cold_case_the_lost/metadata.yml
+        - MNIST-1D: docs/papers/2020/2011.14439/metadata.yml
+      - Interpretability:
+        - Shapley:
+          - Shapley Value: docs/papers/1953/1953.shapley.a_value_for_n/metadata.yml
+          - SHAP: docs/papers/2017/1705.07874/metadata.yml
+          - TreeSHAP: docs/papers/2018/1802.03888/metadata.yml
+        - "\"Why Should I Trust You?\": Explaining the Predictions of Any Classifier": docs/papers/2016/1602.04938/metadata.yml
+        - "Beyond Sparsity: Tree Regularization of Deep Models for Interpretability": docs/papers/2017/1711.06178/metadata.yml
+        - "Explainable AI: Learning from the Learners": docs/papers/2026/2601.05525/metadata.yml
+        - "Explainable deep learning improves human mental models of self-driving cars": docs/papers/2024/2411.18714/metadata.yml
+        - Grad-CAM: docs/papers/2016/1610.02391/metadata.yml
+        - "Intelligible Models for HealthCare": docs/papers/2015/2015.caruana.intelligible_models_for_healthcare/metadata.yml
+        - "Interpretable machine learning: definitions, methods, and applications": docs/papers/2019/1901.04592/metadata.yml
+        - InterpretML: docs/papers/2019/1909.09223/metadata.yml
+        - SLIM: docs/papers/2015/1502.04269/metadata.yml
+        - "Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey": docs/papers/2020/2006.11371/metadata.yml
+        - "Stop Explaining Black Box Machine Learning Models for High Stakes Decisions and Use Interpretable Models Instead": docs/papers/2018/1811.10154/metadata.yml
+        - "The Mythos of Model Interpretability": docs/papers/2016/1606.03490/metadata.yml
+        - "Towards A Rigorous Science of Interpretable Machine Learning": docs/papers/2017/1702.08608/metadata.yml          
+      - Clustering:
+        - k-means:
+          - k-means: docs/papers/1967/1967.macqueen.some_methods_for_classification/metadata.yml
+          - Lloyd's Algorithm: docs/papers/1982/1982.lloyd.least_squares_quantization_in/metadata.yml
+          - k-means++: docs/papers/2007/2007.arthur.k_means_the_advantages/metadata.yml
+        - Hierarchical Clustering:
+          - Ward's Method: docs/papers/1963/1963.ward.hierarchical_grouping_to_optimize/metadata.yml
+        - Density-based Clustering:
+          - OPTICS: docs/papers/1999/1999.ankerst.optics/metadata.yml
+          - DBSCAN: docs/papers/1996/1996.ester.a_density_based_algorithm/metadata.yml
+          - HDBSCAN: docs/papers/2013/2013.campello.density_based_clustering_based/metadata.yml
+          - Accelerated HDBSCAN: docs/papers/2017/1705.07321/metadata.yml
+          - DenMune: docs/papers/2023/2309.13420/metadata.yml
+        - Spectral Clustering:
+          - Spectral Clustering: docs/papers/2001/2001.ng.on_spectral_clustering_analysis/metadata.yml
+        - Deep Embedding Clustering:
+          - DEC: docs/papers/2015/1511.06335/metadata.yml
+          - DEPICT: docs/papers/2017/1704.06327/metadata.yml
+          - N2D: docs/papers/2019/1908.05968/metadata.yml
+      - Dimensionality Reduction:
+        - DrLIM: docs/papers/2006/2006.hadsell.dimensionality_reduction_by_learning/metadata.yml
+        - t-SNE: docs/papers/2008/2008.van_der_maaten.visualizing_high_dimensional_data/metadata.yml
+        - "Accelerating t-SNE using Tree-Based Algorithms": docs/papers/2014/2014.van_der_maaten.accelerating_t_sne_using/metadata.yml
+        - UMAP: docs/papers/2018/1802.03426/metadata.yml
+        - "Understanding How Dimension Reduction Tools Work: An Empirical Approach to Deciphering t-SNE, UMAP, TriMAP, and PaCMAP for Data Visualization": docs/papers/2020/2012.04456/metadata.yml
+      - Decision Trees:
+        - AID: docs/papers/1963/1963.morgan.problems_in_the_analysis/metadata.yml
+        - CHAID: docs/papers/1980/1980.kass.an_exploratory_technique_for/metadata.yml
+        - CART: docs/papers/1984/1984.breiman.classification_and_regression_trees/metadata.yml
+        - ID3: docs/papers/1986/1986.quinlan.induction_of_decision_trees/metadata.yml
+        - C4.5: docs/papers/1993/1993.quinlan.c4_5_programs_for_machine/metadata.yml
+        - ctree: docs/papers/2006/2006.hothorn.unbiased_recursive_partitioning_a/metadata.yml
+      - Kernel Machines:
+        - SVM: docs/papers/1995/1995.cortes.support_vector_networks/metadata.yml
+        - Random Kitchen Sinks: docs/papers/2008/2008.rahimi.weighted_sums_of_random/metadata.yml
+        - "A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting": docs/papers/1997/1997.freund.a_decision_theoretic_generalization/metadata.yml
+        - "Random Fourier Features for Kernel Ridge Regression: Approximation Bounds and Statistical Guarantees": docs/papers/2018/1804.09893/metadata.yml
+        - "Every Model Learned by Gradient Descent Is Approximately a Kernel Machine": docs/papers/2020/2012.00152/metadata.yml
+      - Ensemble Methods:
+        - Bagging: docs/papers/1996/1996.breiman.bagging_predictors/metadata.yml
+        - Random Forests: docs/papers/2001/2001.breiman.random_forests/metadata.yml
+        - GBM: docs/papers/2001/2001.friedman.greedy_function_approximation_a/metadata.yml
+        - XGBoost: docs/papers/2016/1603.02754/metadata.yml
+        - LightGBM: docs/papers/2017/2017.ke.lightgbm_a_highly_efficient/metadata.yml
+        - CatBoost: docs/papers/2017/1706.09516/metadata.yml
+        - "Finding Influential Training Samples for Gradient Boosted Decision Trees": docs/papers/2018/1802.06640/metadata.yml
+        - "Gradient Boosting Performs Gaussian Process Inference": docs/papers/2022/2206.05608/metadata.yml
+      - Neural Networks:
+        - Perceptron: docs/papers/1958/1958.rosenblatt.the_perceptron_a_probabilistic/metadata.yml
+        - Backpropagation: docs/papers/1986/1986.rumelhart.learning_representations_by_back/metadata.yml
+        - Siamese Neural Network: docs/papers/1993/1993.bromley.signature_verification_using_a/metadata.yml
+        - Gradient-Based Learning Applied to Document Recognition: docs/papers/1998/1998.lecun.gradient_based_learning_applied/metadata.yml
+        - LSTM: docs/papers/1997/1997.hochreiter.long_short_term_memory/metadata.yml
+        - U-Net: docs/papers/2015/1505.04597/metadata.yml
+        - ELU: docs/papers/2015/1511.07289/metadata.yml
+        - Dropout: docs/papers/2014/2014.srivastava.dropout_a_simple_way/metadata.yml
+        - "Understanding deep learning requires rethinking generalization": docs/papers/2016/1611.03530/metadata.yml          
+        - "Reconciling modern machine learning practice and the bias-variance trade-off": docs/papers/2018/1812.11118/metadata.yml
+        - "Deep Double Descent: Where Bigger Models and More Data Hurt": docs/papers/2019/1912.02292/metadata.yml
+        - "Do CIFAR-10 Classifiers Generalize to CIFAR-10?": docs/papers/2018/1806.00451/metadata.yml
+        - Grokking: docs/papers/2022/2201.02177/metadata.yml
+        - "Deep Learning Advancements: Closing the Gap": docs/papers/2019/2019.stipic.deep_learning_advancements_closing/metadata.yml
+      - Natural Language Processing (NLP):
+        - BERTopic: docs/papers/2022/2203.05794/metadata.yml
+      - Large language models (LLM):
+        - Llama 2: docs/papers/2023/2307.09288/metadata.yml
+        - LoRA: docs/papers/2021/2106.09685/metadata.yml
+        - AnglE: docs/papers/2023/2309.12871/metadata.yml
+        - Meta-Harness: docs/papers/2026/2603.28052/metadata.yml
+        - Transformers & Attention-based models:
+          - Attention Is All You Need: docs/papers/2017/1706.03762/metadata.yml
+          - FlashAttention: docs/papers/2022/2205.14135/metadata.yml
+          - "Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation": docs/papers/2014/1406.1078/metadata.yml
+          - "Reducing the Transformer Architecture to a Minimum": docs/papers/2024/2410.13732/metadata.yml
+      - Vision-langugage models (VLM):
+        - CLIP: docs/papers/2021/2103.00020/metadata.yml
+        - DALL-E: docs/papers/2021/2102.12092/metadata.yml
+        - DALL-E 2: docs/papers/2022/2204.06125/metadata.yml
+        - Kimi-VL: docs/papers/2025/2504.07491/metadata.yml     
+      - Vision-language-action Models (VLA):
+        - GR00T N1: docs/papers/2025/2503.14734/metadata.yml
+        - OpenVLA: docs/papers/2024/2406.09246/metadata.yml
+        - Alpamayo-R1: docs/papers/2025/2511.00088/metadata.yml
+        - SAGA: docs/papers/2025/2512.12842/metadata.yml
+        - Large Video Planner: docs/papers/2025/2512.15840/metadata.yml
+        - Orion-Lite: docs/papers/2026/2604.08266/metadata.yml
+        - MolmoAct2: docs/papers/2026/2605.02881/metadata.yml
+        - RLDX-1: docs/papers/2026/2605.03269/metadata.yml             
+      - Diffusion Models:
+        - Denoising Diffusion Probabilistic Models: docs/papers/2020/2006.11239/metadata.yml
+        - Diffusion Forcing: docs/papers/2024/2407.01392/metadata.yml
+        - ChopGrad: docs/papers/2026/2603.17812/metadata.yml
+        - Deblurring via Stochastic Refinement: docs/papers/2021/2112.02475/metadata.yml
+        - "Is Your Conditional Diffusion Model Actually Denoising?": docs/papers/2025/2512.18736/metadata.yml
+        - "Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow": docs/papers/2022/2209.03003/metadata.yml
+        - "Rectified Flow: A Marginal Preserving Approach to Optimal Transport": docs/papers/2022/2209.14577/metadata.yml
+        - "Flow Matching for Generative Modeling": docs/papers/2022/2210.02747/metadata.yml
+        - "Multisample Flow Matching: Straightening Flows with Minibatch Couplings": docs/papers/2023/2304.14772/metadata.yml
+        - "Optimal Flow Matching: Learning Straight Trajectories in Just One Step": docs/papers/2024/2403.13117/metadata.yml
+        - "Mean Flows for One-step Generative Modeling": docs/papers/2025/2505.13447/metadata.yml
+      - State-space Models (SSM):
+        - Spectral State Space Models: docs/papers/2023/2312.06837/metadata.yml          
+      - Generative Models:
+        - "Auto-Encoding Variational Bayes": docs/papers/2013/1312.6114/metadata.yml
+        - "Generative Adversarial Networks": docs/papers/2014/1406.2661/metadata.yml
+        - "Image Generators are Generalist Vision Learners": docs/papers/2026/2604.20329/metadata.yml
+        - "Wasserstein GAN": docs/papers/2017/1701.07875/metadata.yml
+      - Representation Learning:
+        - "A Topology Layer for Machine Learning": docs/papers/2019/1905.12200/metadata.yml
+        - "Distance Metric Learning for Large Margin Nearest Neighbor Classification": docs/papers/2009/2009.weinberger.distance_metric_learning_for/metadata.yml
+        - "A Cookbook of Self-Supervised Learning": docs/papers/2023/2304.12210/metadata.yml
+        - BYOL: docs/papers/2020/2006.07733/metadata.yml
+        - Barlow Twins: docs/papers/2021/2103.03230/metadata.yml
+        - VICReg: docs/papers/2021/2105.04906/metadata.yml
+        - Energy-based Models: docs/papers/2022/2210.05519/metadata.yml
+      - Time Series:
+        - Algorithms:
+          - BOSS: docs/papers/2014/2014.schafer.the_boss_is_concerned/metadata.yml
+          - DTW: docs/papers/1978/1978.sakoe.dynamic_programming_algorithm_optimization/metadata.yml
+          - "Exact indexing of dynamic time warping": docs/papers/2005/2005.keogh.exact_indexing_of_dynamic/metadata.yml
+          - "Gated Transformer Networks for Multivariate Time Series Classification": docs/papers/2021/2103.14438/metadata.yml
+          - "Forecasting at Scale": docs/papers/2018/2018.taylor.forecasting_at_scale/metadata.yml
+          - HierarchicalForecast: docs/papers/2022/2207.03517/metadata.yml
+          - "Time series shapelets": docs/papers/2009/2009.ye.time_series_shapelets/metadata.yml          
+          - Informer: docs/papers/2020/2012.07436/metadata.yml
+          - InceptionTime: docs/papers/2019/1909.04939/metadata.yml
+          - ROCKET: docs/papers/2019/1910.13051/metadata.yml
+          - MINIROCKET: docs/papers/2020/2012.08791/metadata.yml
+          - MultiRocket: docs/papers/2021/2102.00457/metadata.yml
+          - QUANT: docs/papers/2023/2308.00928/metadata.yml
+          - TimeGPT-1: docs/papers/2023/2310.03589/metadata.yml
+          - "This Time Is Different: An Observability Perspective on Time Series Foundation Models": docs/papers/2025/2505.14766/metadata.yml
+        - Surveys and Comparative Studies:
+          - Bake Off Redux: docs/papers/2023/2304.13029/metadata.yml
+          - "Time series classification: nearest neighbor versus deep learning models": docs/papers/2020/2020.jiang.time_series_classification_nearest/metadata.yml
+          - "Time Series Embedding Methods for Classification Tasks: A Review": docs/papers/2025/2501.13392/metadata.yml
+          - "Transformers in Time Series: A Survey": docs/papers/2022/2202.07125/metadata.yml
+        - Explainability:
+          - "Higher-order organization of multivariate time series": docs/papers/2023/2023.santoro.higher_order_organization_of/metadata.yml
+          - "Understanding Any Time Series Classifier with a Subsequence-based Explainer": docs/papers/2023/2023.spinnato.understanding_any_time_series/metadata.yml
+    - Computer Vision:
+      - Edge Detection:
+        - Sobel Operator: docs/papers/2015/2015.sobel.an_isotropic_3x3_image/metadata.yml
+        - Theory of Edge Detection: docs/papers/1980/1980.marr.theory_of_edge_detection/metadata.yml
+        - "A Computational Approach to Edge Detection": docs/papers/1986/1986.canny.a_computational_approach_to/metadata.yml
+      - Object Detection:
+        - A General Framework for Object Detection: docs/papers/1998/1998.papageorgiou.a_general_framework_for/metadata.yml
+        - Viola-Jones Detector: docs/papers/2001/2001.viola.rapid_object_detection_using/metadata.yml
+        - HOG: docs/papers/2005/2005.dalal.histograms_of_oriented_gradients/metadata.yml
+        - YOLO: docs/papers/2015/1506.02640/metadata.yml
+      - "3D Vision & Shape Understanding":
+        - 3D ShapeNets: docs/papers/2014/1406.5670/metadata.yml
+        - Quaternion Based Camera Pose Estimation From Matched Feature Points: docs/papers/2017/1704.02672/metadata.yml
+        - ShapeNet: docs/papers/2015/1512.03012/metadata.yml
+      - Face Recognition:
+        - FaceNet: docs/papers/2015/1503.03832/metadata.yml
+      - "Feature Detection & Description":
+        - SIFT: docs/papers/2004/2004.lowe.distinctive_image_features_from/metadata.yml
+        - SURF: docs/papers/2006/2006.bay.surf_speeded_up_robust/metadata.yml
+        - AprilTag: docs/papers/2011/2011.olson.apriltag_a_robust_and/metadata.yml
+        - AprilTag 2: docs/papers/2016/2016.wang.apriltag_2_efficient_and/metadata.yml
+      - "Image Classification & Recognition":
+        - ImageNet: docs/papers/2012/2012.krizhevsky.imagenet_classification_with_deep/metadata.yml
+        - Inception/GoogLeNet: docs/papers/2014/1409.4842/metadata.yml
+        - VGG: docs/papers/2014/1409.1556/metadata.yml        
+        - ResNet: docs/papers/2015/1512.03385/metadata.yml
+        - ViT: docs/papers/2020/2010.11929/metadata.yml
+        - Swin Transformer: docs/papers/2021/2103.14030/metadata.yml
+        - DINO: docs/papers/2021/2104.14294/metadata.yml
+        - DINOv2: docs/papers/2023/2304.07193/metadata.yml
+        - DINOv3: docs/papers/2025/2508.10104/metadata.yml
+      - Image Quality Assessment:
+        - SSIM: docs/papers/2004/2004.wang.image_quality_assessment_from/metadata.yml
+        - Understanding SSIM: docs/papers/2020/2006.13846/metadata.yml
+        - "A new Image Similarity Metric for a Perceptual and Transparent Geometric and Chromatic Assessment": docs/papers/2026/2601.19680/metadata.yml
+      - "Color & Perception":
+        - "Visual Sensitivities to Color Differences in Daylight": docs/papers/1942/1942.macadam.visual_sensitivities_to_color/metadata.yml
+        - IPT Color Space: docs/papers/1998/1998.ebner.development_and_testing_of/metadata.yml
+        - "Uniform colour spaces based on CIECAM02 colour appearance model": docs/papers/2006/2006.luo.uniform_colour_spaces_based/metadata.yml
+      - "Image Processing & Computational Photography":
+        - "End-to-end Optimized Image Compression": docs/papers/2016/1611.01704/metadata.yml
+        - "Lossy Image Compression with Compressive Autoencoders": docs/papers/2017/1703.00395/metadata.yml
+        - Polyblur: docs/papers/2020/2012.09322/metadata.yml
+        - "Burst photography for high dynamic range and low-light imaging on mobile cameras": docs/papers/2016/2016.hasinoff.burst_photography_for_high/metadata.yml
+        - Nano Banana Pro: docs/papers/2025/2512.15110/metadata.yml
+        - "What Matters in Practical Learned Image Compression": docs/papers/2026/2605.05148/metadata.yml
+      - Video Understanding:
+        - ViViT: docs/papers/2021/2103.15691/metadata.yml
+        - V-JEPA: docs/papers/2024/2404.08471/metadata.yml
+        - V-JEPA 2: docs/papers/2025/2506.09985/metadata.yml
+  - Evaluation:
+    - Simulation:
+      - Driving & Traffic Simulation:
+        - CARLA: docs/papers/2017/1711.03938/metadata.yml
+        - GPUDrive: docs/papers/2024/2408.01584/metadata.yml
+        - VISTA 2.0: docs/papers/2021/2111.12083/metadata.yml
+        - "Causal Composition Diffusion Model for Closed-loop Traffic Generation": docs/papers/2024/2412.17920/metadata.yml
+        - Generating Driving Scenes with Diffusion: docs/papers/2023/2305.18452/metadata.yml
+        - Scenario Diffusion: docs/papers/2023/2311.02738/metadata.yml
+        - Waymo Open Sim Agents Challenge: docs/papers/2023/2305.12032/metadata.yml
+        - Waymax: docs/papers/2023/2310.08710/metadata.yml
+        - NAVSIM: docs/papers/2024/2406.15349/metadata.yml
+        - NAVSIM v2: docs/papers/2025/2506.04218/metadata.yml
+      - Flying Simulation:
+        - QuadSwarm: docs/papers/2023/2306.09537/metadata.yml
+      - Manipulation & Indoor Simulation:
+        - RoboPlayground: docs/papers/2026/2604.05226/metadata.yml
+        - SceneSmith: docs/papers/2026/2602.09153/metadata.yml
+      - KinDER: docs/papers/2026/2604.25788/metadata.yml
+      - MuJoCo Playground: docs/papers/2025/2502.08844/metadata.yml
+      - Orbit: docs/papers/2023/2301.04195/metadata.yml
+    - Benchmarks:
+      - Gym: docs/papers/2016/1606.01540/metadata.yml
+      - Isaac Gym: docs/papers/2021/2108.10470/metadata.yml
+      - controlgym: docs/papers/2023/2311.18736/metadata.yml
+      - HydroGym: docs/papers/2025/2512.17534/metadata.yml
+      - Flow Gym: docs/papers/2025/2512.20642/metadata.yml
+      - Beyond Self-Play and Scale: docs/papers/2026/2605.10034/metadata.yml
+    - Safety, Testing & Verification:
+      - Scalable End-to-End Autonomous Vehicle Testing via Rare-event Simulation: docs/papers/2018/1811.00145/metadata.yml
+      - "A Simple and Efficient Sampling-based Algorithm for General Reachability Analysis": docs/papers/2021/2112.05745/metadata.yml
+      - How Should a Robot Assess Risk?: docs/papers/2017/2017.majumdar.how_should_a_robot/metadata.yml
+      - Formal Specification for Deep Neural Networks: docs/papers/2018/2018.seshia.formal_specification_for_deep/metadata.yml
+      - Challenges in Autonomous Vehicle Testing and Validation: docs/papers/2016/2016.koopman.challenges_in_autonomous_vehicle/metadata.yml
+      - "Driving to Safety: How Many Miles of Driving Would It Take to Demonstrate Autonomous Vehicle Reliability?": docs/papers/2016/2016.kalra.driving_to_safety_how/metadata.yml
+      - "The MIT-Cornell collision and why it happened": docs/papers/2008/2008.fletcher.the_mitcornell_collision_and/metadata.yml
+      - "Methodology for determining maximum injury potential for automated driving system evaluation": docs/papers/2022/2022.kusano.methodology_for_determining_maximum/metadata.yml
+      - "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification": docs/papers/2024/2403.18972/metadata.yml
+      - "Unconventional Roundabouts: Third-Generation Insights from the United States and Europe": docs/papers/2026/2026.brocchini.unconventional_roundabouts_third_generation/metadata.yml
+      - "Safety Evaluation of Motion Plans Using Trajectory Predictors as Forward Reachable Set Estimators": docs/papers/2025/2507.22389/metadata.yml
+      - "IEEE Standard 3079-2022": docs/papers/2022/2022.various.ieee_standard_for_assumptions/metadata.yml
+      - "A new accident model for engineering safer systems": docs/papers/2004/2004.leveson.a_new_accident_model/metadata.yml
+      - "Assume/Guarantee Contracts for Dynamical Systems: Theory and Computational Tools": docs/papers/2020/2012.12657/metadata.yml
+      - "Learning Autonomous Vehicle Safety Concepts from Demonstrations": docs/papers/2022/2210.02761/metadata.yml
+      - "On a Formal Model of Safe and Scalable Self-driving Cars": docs/papers/2017/1708.06374/metadata.yml
+      - "The Field of Safe Motion: Operationalizing Affordances in the Field of Safe Travel Using Reachability Analysis": docs/papers/2026/2604.27168/metadata.yml
+      - "On the validation of complex systems operating in open contexts": docs/papers/2019/1902.10517/metadata.yml
+      - "Testing, Validation, and Verification of Robotic and Autonomous Systems: A Systematic Review": docs/papers/2023/2023.araujo.testing_validation_and_verification/metadata.yml
+      - "Policy Certificates: Towards Accountable Reinforcement Learning": docs/papers/2018/1811.03056/metadata.yml
+      - "Preventing Undesirable Behavior of Intelligent Machines": docs/papers/2019/2019.thomas.preventing_undesirable_behavior_of/metadata.yml
+  - Computing:
+    - Network Science:
+      - Centrality:
+        - PageRank: docs/papers/1998/1998.page.the_pagerank_citation_ranking/metadata.yml
+      - Community Detection:
+        - Louvain Algorithm: docs/papers/2008/0803.0476/metadata.yml
+        - Leiden Algorithm: docs/papers/2018/1810.08473/metadata.yml
+    - Algorithms & Data Structures:
+      - Probabilistic Data Structures:
+        - "Space/time trade-offs in hash coding with allowable errors": docs/papers/1970/1970.bloom.space_time_trade_offs/metadata.yml
+        - HyperLogLog: docs/papers/2007/2007.flajolet.hyperloglog_the_analysis_of/metadata.yml
+        - Cuckoo Filter: docs/papers/2014/2014.fan.cuckoo_filter_practically_better/metadata.yml
+      - Nearest Neighbor Search:
+        - FLANN: docs/papers/2014/2014.muja.scalable_nearest_neighbor_algorithms/metadata.yml
+        - "Accelerating Large-Scale Inference with Anisotropic Vector Quantization": docs/papers/2019/1908.10396/metadata.yml
+        - "Billion-scale similarity search with GPUs": docs/papers/2017/1702.08734/metadata.yml
+        - CLOVER: docs/papers/2025/2025.kamel.clover_a_gpu_native/metadata.yml
+        - "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs": docs/papers/2016/1603.09320/metadata.yml
+        - JZ-Tree: docs/papers/2026/2604.05885/metadata.yml
+        - Neural Nearest Neighbors Networks: docs/papers/2018/1810.12575/metadata.yml
+        - "Product Quantization for Nearest Neighbor Search": docs/papers/2011/2011.jegou.product_quantization_for_nearest/metadata.yml
+        - FAISS: docs/papers/2024/2401.08281/metadata.yml
+      - "Complexity & Approximation":
+        - Complexity of Ten Decision Problems in Continuous Time Dynamical Systems: docs/papers/2012/1210.7420/metadata.yml
+        - "Randomized greedy algorithms for covering problems": docs/papers/2018/2018.gao.randomized_greedy_algorithms_for/metadata.yml
+        - "Reducibility among Combinatorial Problems": docs/papers/1972/1972.karp.reducibility_among_combinatorial_problems/metadata.yml
+      - Parallel Algorithms:
+        - "Fast parallel matrix inversion algorithms": docs/papers/1975/1975.csanky.fast_parallel_matrix_inversion/metadata.yml
+        - "Scans as primitive parallel operations": docs/papers/1989/1989.blelloch.scans_as_primitive_parallel/metadata.yml
+      - Priority Queues:
+        - Fibonacci Heap: docs/papers/1987/1987.fredman.fibonacci_heaps_and_their/metadata.yml
+      - Sorting:
+        - Quicksort: docs/papers/1962/1962.hoare.quicksort/metadata.yml
+        - Heapsort: docs/papers/1964/1964.williams.algorithm_232_heapsort/metadata.yml
+        - Introsort: docs/papers/1997/1997.musser.introspective_sorting_and_selection/metadata.yml
+        - Pattern-defeating Quicksort: docs/papers/2021/2106.05123/metadata.yml
+      - "Trees & Spatial Indexing":
+        - Barnes-Hut algorithm: docs/papers/1986/1986.barnes.a_hierarchical_o_n/metadata.yml
+        - "A dichromatic framework for balanced trees": docs/papers/1978/1978.guibas.a_dichromatic_framework_for/metadata.yml
+        - "Multidimensional binary search trees used for associative searching": docs/papers/1975/1975.bentley.multidimensional_binary_search_trees/metadata.yml
+        - "Organization and maintenance of large ordered indices": docs/papers/1970/1970.bayer.organization_and_maintenance_of/metadata.yml
+        - Quad Trees: docs/papers/1974/1974.finkel.quad_trees_a_data/metadata.yml
+        - SR-tree: docs/papers/1997/1997.katayama.the_sr_tree/metadata.yml
+        - STAR-Tree: docs/papers/2002/2002.procopiuc.star_tree_an_efficient/metadata.yml
+        - Ubiquitous B-Tree: docs/papers/1979/1979.comer.ubiquitous_b_tree/metadata.yml
+        - R-trees: docs/papers/1984/1984.guttman.r_trees/metadata.yml
+    - Software & Programming:
+      - Essays:
+        - The Humble Programmer: docs/papers/1972/1972.dijkstra.the_humble_programmer/metadata.yml
+        - On the Role of Scientific Thought: docs/papers/1974/1974.dijkstra.on_the_role_of/metadata.yml
+        - Why Greatness Cannot Be Planned: docs/papers/2015/2015.stanley.why_greatness_cannot_be/metadata.yml
+      - Art & Practice: programming/art_and_practice.md
+      - Programming Languages:
+        - "C++": programming/cpp.md
+        - Python: programming/python.md
+        - Julia: docs/papers/2017/2017.bezanson.julia_a_fresh_approach/metadata.yml
+        - Interoperability: programming/interoperability.md
+      - Scientific Computing & ML Systems:
+        - Numba: docs/papers/2015/2015.lam.numba/metadata.yml
+        - JAX: docs/papers/2018/2018.frostig.compiling_machine_learning_programs/metadata.yml
+        - frax: docs/papers/2026/2604.04310/metadata.yml
+        - PyTorch: docs/papers/2019/1912.01703/metadata.yml
+        - Ray: docs/papers/2017/1712.05889/metadata.yml
+        - RLlib: docs/papers/2017/1712.09381/metadata.yml
+        - Tune: docs/papers/2018/1807.05118/metadata.yml
+        - DuckDB: docs/papers/2019/2019.raasveldt.duckdb/metadata.yml
+        - Matplotlib: docs/papers/2007/2007.hunter.matplotlib_a_2d_graphics/metadata.yml
+        - "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning": docs/papers/2020/2002.05651/metadata.yml
+      - Trajectory Optimization: programming/trajectory_optimization.md
+      - Message Protocols:
+        - LCM: docs/papers/2010/2010.huang.lcm_lightweight_communications_and/metadata.yml
+    - Computer Graphics:
+      - Subdivision Surfaces:
+        - Catmull-Clark Subdivision Surfaces: docs/papers/1978/1978.catmull.recursively_generated_b_spline/metadata.yml
+      - Geometry Processing:
+        - Marching Cubes: docs/papers/1987/1987.lorensen.marching_cubes_a_high/metadata.yml
+      - Animation & Simulation:
+        - Boids: docs/papers/1987/1987.reynolds.flocks_herds_and_schools/metadata.yml
+      - "Noise & Dithering":
+        - Perlin Noise: docs/papers/1985/1985.perlin.an_image_synthesizer/metadata.yml
+        - Blue Noise Dithering: docs/papers/1988/1988.ulichney.dithering_with_blue_noise/metadata.yml
+        - Forced Random Dithering: docs/papers/1994/1994.purgathofer.forced_random_dithering_improved/metadata.yml
+        - "Scalar Spatiotemporal Blue Noise Masks": docs/papers/2021/2112.09629/metadata.yml
+      - Flow Visualization:
+        - OLIC: docs/papers/1997/1997.wegenkittl.animating_flow_fields_rendering/metadata.yml
+      - 3D Gaussian Splatting:
+        - 3D Gaussian Splatting: docs/papers/2023/2308.04079/metadata.yml
+        - "Matrix-free Second-order Optimization of Gaussian Splats with Residual Sampling": docs/papers/2025/2504.12905/metadata.yml
+      - Neural Rendering:
+        - NeRF: docs/papers/2020/2003.08934/metadata.yml
+  - Misc:
+    - Mathematics:
+      - "Geometry & Tiling":
+        - "An aperiodic monotile": docs/papers/2023/2303.10798/metadata.yml
+        - "A chiral aperiodic monotile": docs/papers/2023/2305.17743/metadata.yml
+        - "A Simple Proof of Thue's Theorem on Circle Packing": docs/papers/2010/1009.4322/metadata.yml          
+        - The Table Theorem: docs/papers/1970/1970.fenn.the_table_theorem/metadata.yml
+      - Topology:
+        - Dyson's Sphere Theorem: docs/papers/1951/1951.dyson.continuous_functions_defined_on/metadata.yml
+      - "Linear Algebra & Signal Processing":
+        - Cooley-Tukey FFT: docs/papers/1965/1965.cooley.an_algorithm_for_the/metadata.yml
+        - Bi-CGSTAB: docs/papers/1992/1992.van_der_vorst.bi_cgstab_a_fast/metadata.yml
+        - "Discovering Transforms: A Tutorial on Circulant Matrices, Circular Convolution, and the Discrete Fourier Transform": docs/papers/2018/1805.05533/metadata.yml
+        - Conjugate Gradient:
+          - Conjugate Gradient: docs/papers/1952/1952.hestenes.methods_of_conjugate_gradients/metadata.yml
+          - "Lanczos minimized-iteration method": docs/papers/1952/1952.lanczos.solution_of_systems_of/metadata.yml
+          - "Solution of Sparse Indefinite Systems of Linear Equations": docs/papers/1975/1975.paige.solution_of_sparse_indefinite/metadata.yml
+          - "Conjugate Gradient Methods for Indefinite Systems": docs/papers/1976/1976.fletcher.conjugate_gradient_methods_for/metadata.yml
+          - GMRES: docs/papers/1986/1986.saad.gmres_a_generalized_minimal/metadata.yml
+          - QMR: docs/papers/1991/1991.freund.qmr_a_quasi_minimal/metadata.yml
+          - "Towards Understanding CG and GMRES through Examples": docs/papers/2024/2024.carson.towards_understanding_cg_and/metadata.yml
+      - "Numerical Methods":
+        - "A family of embedded Runge-Kutta formulae": docs/papers/1980/1980.dormand.a_family_of_embedded/metadata.yml
+      - "Sampling & Quasi-Monte Carlo":
+        - "Neural Low-Discrepancy Sequences": docs/papers/2025/2510.03745/metadata.yml
+      - "Statistics & Probability":
+        - "Mean, What do You Mean?": docs/papers/2016/2016.de_carvalho.mean_what_do_you/metadata.yml
+        - "Optimal Inequalities in Probability Theory: A Convex Optimization Approach": docs/papers/2005/2005.bertsimas.optimal_inequalities_in_probability/metadata.yml
+        - Risk Measures:
+          - Coherent Measures of Risk: docs/papers/1999/1999.artzner.coherent_measures_of_risk/metadata.yml
+          - CVaR: docs/papers/2002/2002.rockafellar.conditional_value_at_risk/metadata.yml
+          - Concentration Bounds for CVaR Estimation: docs/papers/2019/1901.00997/metadata.yml
+    - History:
+      - "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth": docs/papers/1992/1992.kollerstrom.thomas_simpson_and_newtons/metadata.yml
+      - The Stirling Engine of 1816: docs/papers/1816/1816.stirling.the_stirling_engine_of/metadata.yml
+      - Review of Computational Stirling Analysis Methods: docs/papers/2004/2004.dyson.review_of_computational_stirling/metadata.yml
+      - "How the oldest recorded multiple facility location problem was solved": docs/papers/1995/1995.wilamowsky.how_the_oldest_recorded/metadata.yml
+      - "Technological challenges and optimization efforts of the Stirling machine: A review": docs/papers/2018/2018.hachem.technological_challenges_and_optimization/metadata.yml
+    - Evolution:
+      - "Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic Acid": docs/papers/1953/1953.watson.molecular_structure_of_nucleic/metadata.yml
+      - "The Genome Sequence of Drosophila melanogaster": docs/papers/2000/2000.adams.the_genome_sequence_of/metadata.yml
+      - "The Evolutionary Origin of Complex Features": docs/papers/2003/2003.lenski.the_evolutionary_origin_of/metadata.yml
+      - Evolving Virtual Creatures: docs/papers/1994/1994.sims.evolving_virtual_creatures/metadata.yml
+      - Unshackling Evolution: docs/papers/2014/2014.cheney.unshackling_evolution/metadata.yml
+      - "Evolutionary Programming": docs/papers/1966/1966.fogel.artificial_intelligence_through_simulated/metadata.yml
+      - "Adaptation in Natural and Artificial Systems": docs/papers/1992/1992.holland.adaptation_in_natural_and/metadata.yml
+      - "Abandoning Objectives: Evolution through the Search for Novelty Alone": docs/papers/2011/2011.lehman.abandoning_objectives_evolution_through/metadata.yml
+    - Robot Platforms:
+      - Balancing Robots:
+        - Furuta Pendulum: docs/papers/1992/1992.furuta.swing_up_control_of/metadata.yml
+        - Acrobot: docs/papers/1995/1995.spong.the_swing_up_control/metadata.yml
+        - Pendubot: docs/papers/1995/1995.spong.the_pendubot_a_mechatronic/metadata.yml
+        - "Energy Based Control of the Pendubot": docs/papers/2000/2000.fantoni.energy_based_control_of/metadata.yml
+        - "Nonlinear Control of the Reaction Wheel Pendulum": docs/papers/2001/2001.spong.nonlinear_control_of_the/metadata.yml
+        - CartPole (Correct Equations): docs/papers/2007/2007.florian.correct_equations_for_the/metadata.yml
+        - BOBShield: docs/papers/2021/2021.takacs.bobshield_an_open_source/metadata.yml
+        - Cubli: docs/papers/2012/2012.gajamohan.the_cubli_a_cube/metadata.yml
+        - One-Wheel Cubli: docs/papers/2023/2023.hofer.the_one_wheel_cubli/metadata.yml          
+      - Bipeds:
+        - Efficient Bipedal Robots Based on Passive-Dynamic Walkers: docs/papers/2005/2005.collins.efficient_bipedal_robots_based/metadata.yml
+        - Design and Control of a Bipedal Robotic Character: docs/papers/2025/2501.05204/metadata.yml
+        - "Passivity Based Control of the Compass Gait Biped": docs/papers/1999/1999.spong.passivity_based_control_of/metadata.yml
+      - Quadrupeds:
+        - ANYmal: docs/papers/2016/2016.hutter.anymal_a_highly_mobile/metadata.yml
+        - Cheetah 3: docs/papers/2018/2018.bledt.mit_cheetah_3_design/metadata.yml
+        - Mini Cheetah: docs/papers/2019/2019.katz.mini_cheetah_a_platform/metadata.yml
+      - Wheeled Robots:
+        - Duckietown: docs/papers/2017/2017.paull.duckietown_an_open_inexpensive/metadata.yml
+      - Flying Robots:
+        - Flying Inverted Pendulum: docs/papers/2011/2011.hehn.a_flying_inverted_pendulum/metadata.yml
+        - Flying Machine Arena: docs/papers/2014/2014.lupashin.a_platform_for_aerial/metadata.yml
+        - QuadSoft: docs/papers/2026/2604.00496/metadata.yml
+      - Brachiating Robots:
+        - AcroMonk: docs/papers/2023/2305.08373/metadata.yml

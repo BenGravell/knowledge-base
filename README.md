@@ -45,6 +45,12 @@ scripts automatically:
 - `mind_map/copy_assets.py` publishes Mind Map JavaScript and vendor assets.
 - `content_tree/generate_content_tree_data.py` publishes Content Tree browser data.
 
+The Content Tree nav itself is edited in `content_tree.yml`. `mkdocs.yml`
+loads that standalone file through the local `content-tree-nav` plugin.
+Paper entries in `content_tree.yml` should use their literal metadata paths,
+such as `docs/papers/2025/2506.11513/metadata.yml`; the build converts those
+paths to generated `papers/<slug>.md` pages behind the scenes.
+
 ## Streamlit Apps
 
 Generate and edit a `metadata.yml` entry from an arXiv ID:

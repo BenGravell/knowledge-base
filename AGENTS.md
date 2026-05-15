@@ -57,13 +57,14 @@ knowledge-base/
 - Python `>=3.11, <3.14`; managed with **Poetry**
 - MkDocs commands must be run from the `knowledge_base/` subdirectory
 - New knowledge entries go under `knowledge_base/docs/` following the structure of existing files
+- The editable Content Tree nav source lives in `knowledge_base/content_tree.yml`; `mkdocs.yml` injects it through the local `content-tree-nav` plugin
 - Paper URL lists live under `todo/papers/<SOURCE>.md`
 - Source-specific prefill scripts live under `knowledge_base/scripts/prefill/<source>.py`
 - No test suite; verify changes by running `mkdocs build` and checking for warnings
 
 ## Agent Tasks
 
-### Audit and place all missing papers in the MkDocs content tree
+### Audit and place all missing papers in the Content Tree
 
 1. Run the unplaced-paper audit from `knowledge_base/`:
 
@@ -71,9 +72,11 @@ knowledge-base/
    python scripts/list_unplaced_papers.py --neighbors 3
    ```
 
-   This lists every `docs/papers/**/metadata.yml` item whose generated `papers/<ID>.md` page is not under the `Content Tree` nav in `mkdocs.yml`. It also uses `mind_map/embedding_cache.json` to show nearest already-placed neighbors as initial placement hints.
+   This lists every `docs/papers/**/metadata.yml` item whose generated `papers/<ID>.md` page is not under the `Content Tree` nav in `content_tree.yml`. It also uses `mind_map/embedding_cache.json` to show nearest already-placed neighbors as initial placement hints.
 
-2. Insert each missing generated paper page into `knowledge_base/mkdocs.yml` under the closest appropriate content-tree branch.
+2. Insert each missing paper into `knowledge_base/content_tree.yml` under the closest appropriate content-tree branch.
+   - Refer to paper entries with their literal metadata path, e.g. `docs/papers/2025/2506.11513/metadata.yml`.
+   - The site build converts those literal paths to generated MkDocs pages such as `papers/2506_11513.md`.
    - Use embedding nearest neighbors as an initial guess, but not as the final answer.
    - Prefer reusing existing categories whenever they fit.
    - Create new categories only when the abstract/tags make the existing tree a poor conceptual fit.
@@ -97,7 +100,7 @@ knowledge-base/
 
 Collect papers from the location/file given by the user.
 
-Use subsection headers and other contextual clues to determine where each paper belongs in the `nav` hierarchy in `knowledge_base/mkdocs.yml`.
+Use subsection headers and other contextual clues to determine where each paper belongs in the `nav` hierarchy in `knowledge_base/content_tree.yml`.
 
 For each paper, perform the agent task "Generate metadata for a single paper"
 

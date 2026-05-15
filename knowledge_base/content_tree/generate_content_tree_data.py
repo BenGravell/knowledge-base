@@ -2,9 +2,9 @@
 MkDocs gen-files script: publish Content Tree nav data as JavaScript.
 
 Runs automatically during ``mkdocs build`` / ``mkdocs serve`` because it is
-listed under ``gen-files.scripts`` in mkdocs.yml. The source of truth is the
-``Content Tree`` branch in mkdocs.yml; this script converts it into a nested
-JSON object that the landing page can render as a focused browser.
+listed under ``gen-files.scripts`` in mkdocs.yml. The source of truth is
+``content_tree.yml``; this script converts it into a nested JSON object that
+the landing page can render as a focused browser.
 """
 
 from __future__ import annotations
@@ -21,6 +21,8 @@ from urllib.parse import quote
 import mkdocs_gen_files
 import yaml
 
+from knowledge_base.content_tree.nav_source import load_content_tree
+
 
 MKDOCS_YML = "mkdocs.yml"
 METADATA_ROOT = Path("docs/papers")
@@ -30,13 +32,6 @@ UNCATEGORIZED_CATEGORY = "Uncategorized"
 
 def as_list(value: Any) -> list[Any]:
     return value if isinstance(value, list) else []
-
-
-def content_tree(config: dict[str, Any]) -> list[Any]:
-    for item in as_list(config.get("nav")):
-        if isinstance(item, dict) and "Content Tree" in item:
-            return as_list(item["Content Tree"])
-    return []
 
 
 def is_landing_item(label: str, child: Any) -> bool:
@@ -242,7 +237,7 @@ with open(MKDOCS_YML, "r", encoding="utf-8") as f:
     config = yaml.safe_load(f)
 
 ids = IdFactory()
-root_children = build_children(content_tree(config), ["Content Tree"], ids)
+root_children = build_children(as_list(load_content_tree(config)), ["Content Tree"], ids)
 root = {
     "id": "content-tree",
     "label": "Content Tree",

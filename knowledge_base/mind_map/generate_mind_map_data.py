@@ -102,6 +102,8 @@ import numpy as np
 from scipy.spatial import cKDTree
 from sklearn.preprocessing import normalize
 
+from knowledge_base.content_tree.nav_source import load_content_tree
+
 # ---------------------------------------------------------------------------
 # Paths (relative to this script's location: knowledge_base/mind_map/)
 # ---------------------------------------------------------------------------
@@ -491,12 +493,7 @@ TRANSPARENT_NAV_SECTIONS = {"Content Tree"}
 
 def find_content_tree_nav(config: dict) -> object | None:
     """Return the nav subtree under ``Content Tree`` if present."""
-    for item in config.get("nav", []):
-        if not isinstance(item, dict):
-            continue
-        if "Content Tree" in item:
-            return item["Content Tree"]
-    return None
+    return load_content_tree(config)
 
 
 def parse_nav_categories(config: dict) -> dict[str, dict]:

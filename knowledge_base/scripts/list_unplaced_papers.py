@@ -21,6 +21,7 @@ from typing import Any
 import yaml
 
 from knowledge_base.config import KB_DIR
+from knowledge_base.content_tree.nav_source import load_content_tree
 
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
@@ -79,14 +80,6 @@ def collect_papers(metadata_root: Path) -> dict[str, Paper]:
             tags=tags,
         )
     return papers
-
-
-def content_tree(config: dict[str, Any]) -> Any:
-    """Return the nav subtree below the top-level Content Tree section."""
-    for item in as_list(config.get("nav")):
-        if isinstance(item, dict) and "Content Tree" in item:
-            return item["Content Tree"]
-    return []
 
 
 def collect_nav_locations(nav: Any) -> dict[str, list[str]]:
@@ -269,7 +262,7 @@ def main() -> None:
         sys.exit(f"Could not parse MkDocs config: {MKDOCS_YML}")
 
     papers = collect_papers(METADATA_ROOT)
-    nav_locations = collect_nav_locations(content_tree(config))
+    nav_locations = collect_nav_locations(load_content_tree(config))
     missing = [paper for paper_id, paper in sorted(papers.items()) if paper_id not in nav_locations]
     display = missing[: args.max_results] if args.max_results is not None else missing
     embeddings = load_embeddings(EMBEDDING_CACHE) if args.neighbors > 0 else {}
