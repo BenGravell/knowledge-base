@@ -101,36 +101,9 @@ Hand-crafted
 
 ## Analytics
 
-For the 'N items not displayed' make it clicksble to show more.
-
-Paper by year
-Make the bins start on 0 or 5 and end on 4 or 9
-
-Each of the horizontal bars graphs should have the numeric count label placed above the bar (right justified), in line with the string label (left justified)
-
-Flip the papers by year chart so it has horizontal bars. Also style them same as the other charts using the blue green gradient (not red pink). Use the red pink gradient for emphasizing the selected bar when mousing/hovering.
-
-Place the most recent year at the top, oldest year at the bottom.
-
-This is so it is consistent with the other charts and to give more space for bars especially on mobile.
-
-Also put grid lines at the ticks where years are marked. This is to give a visual guide across multiple bars for easier eyeballing quantity comparison.
-
-Rename "Content tree" section to "Categories" and remove the top n selector.
-
-When clicking histogram bar, do not snap the hover tool tip to the top of the chart, put it in a stable constant position at the top of the bar.
-
-Also make it possible to scroll over the bars when using finger touch on mobile site and have the hover tool tip follow
-
-Rename "papers by year" to "items by year"
-
-Perform same rename throughout the page, they are items not papers.
-
-Get rid of title caption about number of items indexed since it is redundant, we already count it as the first big metric.
-
-Rename big metric "papers" to "items"
-
-Get rid of "unique" from the big metric labels for authors and tags, it is obvious from context just like the other metrics do not explicitly say unique.
+Rename "papers by year" to "items by year".
+Rename big metric "papers" to "items".
+Perform same rename throughout the page, they are items not necessarily papers.
 
 ## Timeline
 
@@ -141,15 +114,9 @@ https://pin.it/7kjN4B5KZ
 
 ### Taxonomy guidance
 
-Revise the content tree taxonomy
-
-Use branching factor rule of 3 to 7, with sweet spot at 5.
+Balance or expand tree to fix all issues reported by 
 
 Use clustering algorithm results (hierarchical agg) to help set new categories.
-
-Balance or expand tree
-
-Write a script to list insufficient subcategories.
 
 ## Mind Map
 
@@ -170,6 +137,12 @@ Another way would be to skip lod expansion if node clicked has no child in the n
 https://bengravell.github.io/knowledge-base/mind-map/
 
 Node disks at all levels of detail are a bit small, can bump up diameter probably 2x and look good. Paper level of detail should still enforce minimum disk clearance after the change. Higher level of detail can permit a small amount of overlap between disks.
+
+### Edges style
+
+Edges opacity - autotune
+
+edges still too bright on light mode
 
 ### Rename
 
@@ -212,12 +185,6 @@ Turn the mind map into a generative game like a cave crawler or rogue-like
 Encourage exploration between rooms or lands represented by research items
 
 Collect points for clicking links, answering quiz questions.
-
-### Edges
-
-Edges opacity - autotune
-
-edges still too bright on light mode
 
 ## Explainers
 
