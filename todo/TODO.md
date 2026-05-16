@@ -124,12 +124,6 @@ Hand-crafted
 
 ### UX
 
-#### Rename papers
-
-Rename "papers by year" to "items by year".
-Rename big metric "papers" to "items".
-Perform same rename throughout the page, they are items not necessarily papers.
-
 ## Timeline
 
 ### Design inspiration
@@ -154,19 +148,20 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 
 ### UX
 
+### Sidebar
+
+Add filters for item type (e.g. to exclude surveys)
+
 #### Branches
 
 Make sure every branch goes 3 levels deep to sub category. This is a way to make the existing level of detail work properly in mind map. Otherwise it is unintuitive that when you click a node it might not split up.
 
-### Rename
+## Knowledge Studio (new feature)
 
-Rename "mind map" to "knowledge graph" because mind map is for a different concept that encode hierarchy in a flat way in one big graph
-
-### True Mind Map (new feature)
-
-Create a true mind map that shows the hierarchical relations directly in the graph. Super categories are big nodes and have edges to categories which have edges to subcategories which have edges to papers.
-
-This can be tightly integrated with the content tree page since they share an identical hierarchy. The mind map can be shown on the side / top of the nav tree as a kind of minimap (Gran Turismo style). It should focus on the currently selected branch by zooming and centering on it (not discarding the upper levels of hierarchy, just letting ancestors and other non descendent parts of the tree go off screen).
+Tightly integrate the Mind Map, Timeline, and Content Tree into a single multi-panel studio.
+They share an identical hierarchy.
+The mind map can be shown on the side / top of the nav tree as a kind of minimap (Gran Turismo style).
+It should focus on the currently selected branch by zooming and centering on it (not discarding the upper levels of hierarchy, just letting ancestors and other non descendent parts of the tree go off screen).
 
 Edges in the mind map are not based on the embedding similarity at all, only the hierarchy from the content tree.
 
@@ -176,10 +171,6 @@ Edges in the mind map are not based on the embedding similarity at all, only the
 
 <https://chatgpt.com/share/69d55fa0-e2dc-8332-b847-357e80355305>
 <https://chatgpt.com/share/69d41a6e-df98-8333-bc8f-429f7f8717c3>
-
-### Sidebar
-
-Add filters for item type (e.g. to exclude surveys)
 
 ### Tune the edge threshold
 
@@ -201,10 +192,6 @@ Encourage exploration between rooms or lands represented by research items
 Collect points for clicking links, answering quiz questions.
 
 ## Explainers
-
-<https://bengravell.github.io/knowledge-base/explainers/pid/pid/>
-
-Simulation of cartpole seems unrealistic when cart reaches world borders. It should rebound elastically on collision and not have any weird physical effects on the pole, forces should be transmitted properly.
 
 ## Metadata cleanup
 
