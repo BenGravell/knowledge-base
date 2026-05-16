@@ -6,8 +6,6 @@
 
   const data = window.contentTreeData;
   const searchInput = document.getElementById('ct-search');
-  const stats = document.getElementById('ct-tree-stats');
-  const currentSummary = document.getElementById('ct-current-summary');
   const searchResults = document.getElementById('ct-search-results');
   const breadcrumbs = document.getElementById('ct-breadcrumbs');
   const ancestorChain = document.getElementById('ct-ancestor-chain');
@@ -83,8 +81,6 @@
 
   function render() {
     const node = nodes.get(currentId) || data.root;
-    stats.textContent = plural(data.meta.totalLeaves, 'item') + ' in ' + plural(data.meta.totalBranches, 'branch', 'branches');
-    currentSummary.textContent = '';
     renderBreadcrumbs(node);
     renderAncestorChain(node);
     renderSearch();

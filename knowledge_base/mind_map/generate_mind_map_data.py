@@ -872,9 +872,11 @@ def main() -> None:
         pid = paper_id_from_file(metadata_file, data)
         title = data.get("title", "")
         summary = (data.get("summary") or "").strip()
+        abstract = (data.get("abstract") or "").strip()
         tags = data.get("tags") or []
         authors = data.get("authors") or []
         year = data.get("year")
+        link = (data.get("link") or "").strip()
         embed_text = build_embed_text(data)
 
         cat_info = paper_to_category.get(
@@ -896,6 +898,8 @@ def main() -> None:
             "sub_category": cat_info["sub_category"],
             "tags": tags,
             "summary": summary,
+            "abstract": abstract,
+            "link": link,
             "embed_text": embed_text,
             "hash": content_hash(embed_text),
         })
@@ -1048,6 +1052,8 @@ def main() -> None:
                 "sub_category": p["sub_category"],
                 "tags": p["tags"],
                 "summary": p["summary"],
+                "abstract": p["abstract"],
+                "link": p["link"],
             },
             "position": {
                 "x": round(float(layout_coords[i, 0]), 1),

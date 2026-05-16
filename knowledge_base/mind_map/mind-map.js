@@ -84,9 +84,9 @@
   const PANEL_MAX_FOCUS_WIDTH_RATIO = 0.72;
   const FOCUSED_PAPER_CAMERA_RATIO = 0.32;
   const HIERARCHY_LEVELS = [
-    { id: 'super_category', label: 'Super-category', shortLabel: 'Super', aggregate: true, filter: true },
-    { id: 'category', label: 'Category', shortLabel: 'Category', aggregate: true, filter: true },
-    { id: 'sub_category', label: 'Sub-category', shortLabel: 'Sub', aggregate: true, filter: true },
+    { id: 'super_category', label: 'Super-category', shortLabel: '1', aggregate: true, filter: true },
+    { id: 'category', label: 'Category', shortLabel: '2', aggregate: true, filter: true },
+    { id: 'sub_category', label: 'Sub-category', shortLabel: '3', aggregate: true, filter: true },
     { id: 'paper', label: 'Papers', shortLabel: 'Items', aggregate: false, filter: false },
   ];
   const HIERARCHY_LEVEL_BY_ID = new Map(HIERARCHY_LEVELS.map(level => [level.id, level]));
@@ -1422,6 +1422,7 @@
     pinnedNode = null;
     hoveredNode = null;
     hideTooltip();
+    hidePaperModal();
     syncUrlToPinnedNode();
     refreshView();
     startLevelTransition(transitionNodes);
@@ -1512,6 +1513,7 @@
         pinnedNode = null;
         hoveredNode = null;
         hideTooltip();
+        hidePaperModal();
       } else {
         pinnedNode = node;
         hoveredNode = null;
@@ -1525,6 +1527,7 @@
       pinnedNode = null;
       hoveredNode = null;
       hideTooltip();
+      hidePaperModal();
       syncUrlToPinnedNode();
       refreshView();
     });
@@ -1539,6 +1542,14 @@
    * Tooltip
    * -------------------------------------------------------------------------*/
   const tooltip = document.getElementById('mm-tooltip');
+  const modal = document.getElementById('mm-modal');
+  const modalTitle = document.getElementById('mm-modal-title');
+  const modalBody = document.getElementById('mm-modal-body');
+  const modalClose = document.getElementById('mm-modal-close');
+
+  function mobileViewport() {
+    return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  }
 
   function formatAuthors(authors) {
     const names = Array.isArray(authors) ? authors.filter(Boolean) : [];
@@ -1548,6 +1559,12 @@
 
   function showNodeTooltip(node, pos, pinned) {
     const d = graph.getNodeAttributes(node);
+    if (mobileViewport()) {
+      if (pinned && d.kind === 'paper') showPaperModal(d);
+      else hideTooltip();
+      return;
+    }
+
     if (d.kind === 'aggregate') {
       showAggregateTooltip(d, pos, pinned);
       return;
@@ -1555,13 +1572,13 @@
 
     const authors = formatAuthors(d.authors);
     const tags = (d.tags || []).slice(0, 7).join(' · ');
-    const url = `../papers/${d.id}/`;
+    const actions = paperActionLinks(d, { includeMindMap: false });
     tooltip.innerHTML =
       `<div class="tt-title">${escHtml(d.title)}</div>` +
-      `<a class="tt-link" href="${url}" target="_blank" rel="noopener">Open -&gt;</a>` +
       `<div class="tt-meta">${escHtml(authors)}&nbsp;&nbsp;${d.year || ''}</div>` +
       (tags ? `<div class="tt-tags">${escHtml(tags)}</div>` : '') +
       (d.summary ? `<div class="tt-summary">${escHtml(d.summary)}</div>` : '') +
+      (actions ? `<div class="tt-actions paper-link-pills">${actions}</div>` : '') +
       (!pinned ? `<div class="tt-hint">Click to pin</div>` : `<div class="tt-hint">Click node again to unpin</div>`);
     tooltip.classList.toggle('pinned', pinned);
     placeTooltip(pos);
@@ -1613,6 +1630,80 @@
     tooltip.classList.remove('visible', 'pinned');
   }
 
+  function hidePaperModal() {
+    if (!modal) return;
+    modal.hidden = true;
+    if (modalBody) modalBody.innerHTML = '';
+    if (modalTitle) modalTitle.textContent = 'Paper';
+  }
+
+  function paperDetailUrl(d) {
+    return `../papers/${d.id}/`;
+  }
+
+  function paperContentTreeUrl(d) {
+    return `../content-tree/#paper=${encodeURIComponent(d.id)}`;
+  }
+
+  function paperMindMapUrl(d) {
+    return `#paper=${encodeURIComponent(d.id)}`;
+  }
+
+  function paperActionLink(url, label, variant, external) {
+    if (!url) return '';
+    return `<a class="paper-link-pill paper-link-pill--${escHtml(variant || 'internal')}" href="${escHtml(url)}"` +
+      (external ? ' target="_blank" rel="noopener noreferrer"' : '') +
+      `><span class="paper-link-pill__label">${escHtml(label)}</span></a>`;
+  }
+
+  function paperActionLinks(d, options) {
+    const includeMindMap = !options || options.includeMindMap !== false;
+    return [
+      paperActionLink(d.link, 'Open Document (external)', 'primary', true),
+      paperActionLink(paperDetailUrl(d), 'Open Detail Page', 'internal', false),
+      includeMindMap ? paperActionLink(paperMindMapUrl(d), 'Open in Mind Map', 'internal', false) : '',
+      paperActionLink(paperContentTreeUrl(d), 'Open in Content Tree', 'internal', false),
+    ].join('');
+  }
+
+  function showPaperModal(d) {
+    if (!modal || !modalBody || !modalTitle) return;
+
+    const title = d.title || d.fullLabel || d.label || 'Untitled';
+    const year = d.year || 'Undated';
+    const summary = d.summary || 'No summary recorded yet.';
+    const abstract = d.abstract || 'No abstract recorded yet.';
+    const tags = (d.tags || [])
+      .slice(0, 10)
+      .map(tag => `<span>${escHtml(tag)}</span>`)
+      .join('');
+
+    hideTooltip();
+    modalTitle.textContent = title;
+    modalBody.innerHTML =
+      `<div class="mm-detail-kicker">${escHtml(year)}</div>` +
+      (d.label && d.label !== title ? `<p class="mm-detail-title">${escHtml(d.label)}</p>` : '') +
+      `<div class="mm-modal-section-title">Abstract</div>` +
+      `<p class="mm-abstract">${escHtml(abstract)}</p>` +
+      `<div class="mm-modal-section-title">Summary</div>` +
+      `<p class="mm-summary">${escHtml(summary)}</p>` +
+      (tags ? `<div class="mm-tags">${tags}</div>` : '') +
+      `<div class="mm-detail-actions paper-link-pills">` +
+      paperActionLinks(d, { includeMindMap: true }) +
+      `</div>`;
+    modal.hidden = false;
+    if (modalClose) modalClose.focus({ preventScroll: true });
+  }
+
+  function closePaperModalSelection() {
+    if (!modal || modal.hidden) return;
+    hidePaperModal();
+    pinnedNode = null;
+    hoveredNode = null;
+    syncUrlToPinnedNode();
+    refreshView();
+  }
+
   /* -------------------------------------------------------------------------
    * Filters
    * -------------------------------------------------------------------------*/
@@ -1625,6 +1716,7 @@
     if (pinnedNode && !nodeVisible(pinnedNode)) {
       pinnedNode = null;
       hideTooltip();
+      hidePaperModal();
       syncUrlToPinnedNode();
     }
     refreshView();
@@ -1644,6 +1736,7 @@
       pinnedNode = null;
       hoveredNode = null;
       hideTooltip();
+      hidePaperModal();
       syncUrlToPinnedNode();
       refreshView();
       return;
@@ -1660,6 +1753,7 @@
     pinnedNode = null;
     hoveredNode = null;
     hideTooltip();
+    hidePaperModal();
     syncUrlToPinnedNode();
     updateDetailButtons();
     refreshView();
@@ -2010,6 +2104,7 @@
     pinnedNode = null;
     hoveredNode = null;
     hideTooltip();
+    hidePaperModal();
     refreshView();
     return true;
   }
@@ -2307,6 +2402,8 @@
       const button = document.createElement('button');
       button.type = 'button';
       button.dataset.level = level.id;
+      button.title = level.label;
+      button.setAttribute('aria-label', `Level of detail: ${level.label}`);
       button.setAttribute('aria-pressed', level.id === currentDetailLevel ? 'true' : 'false');
       button.textContent = level.shortLabel || level.label;
       container.appendChild(button);
@@ -2404,6 +2501,16 @@
         refreshView();
       });
     }
+
+    if (modalClose) modalClose.addEventListener('click', closePaperModalSelection);
+    if (modal) {
+      modal.addEventListener('click', event => {
+        if (event.target === modal) closePaperModalSelection();
+      });
+    }
+    window.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && modal && !modal.hidden) closePaperModalSelection();
+    });
 
     const panel = document.getElementById('mm-panel');
     const header = document.getElementById('mm-panel-header');

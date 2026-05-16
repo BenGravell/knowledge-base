@@ -1,15 +1,24 @@
 import html
+import json
 import re
 import yaml
+from collections import defaultdict
 from pathlib import Path
-from urllib.parse import quote, urlparse
+from urllib.parse import quote, unquote, urlparse
 import mkdocs_gen_files
 from jinja2 import Environment
+
+try:
+    import numpy as np
+except Exception:  # pragma: no cover - build fallback for environments without numpy
+    np = None
 
 # Root folder for metadata
 metadata_root = Path("docs/papers")
 template_file = Path("docs/templates/paper_template.md")
 generated_root = Path("papers")
+embedding_cache_file = Path("mind_map/embedding_cache.json")
+related_result_limit = 36
 
 # Read template
 template_text = template_file.read_text()
@@ -17,6 +26,18 @@ template_text = template_file.read_text()
 def slugify(name: str) -> str:
     """Simple slugify: lower case, replace spaces and non-alphanumerics with underscore."""
     return re.sub(r"[^a-zA-Z0-9]+", "_", name.lower()).strip("_")
+
+
+def paper_id_for(metadata_file: Path, data: dict) -> str:
+    if "id" in data:
+        return slugify(data["id"])
+    if metadata_file.stem != "metadata":
+        return slugify(metadata_file.stem)
+    return slugify(metadata_file.parent.name)
+
+
+def normalize_tag_key(tag: str) -> str:
+    return re.sub(r"\s+", " ", clean_scalar(tag)).casefold()
 
 
 def metadata_text_html(text):
@@ -84,6 +105,12 @@ def alternate_link_label(url: str) -> str:
         if len(parts) >= 2:
             return f"GitHub: {parts[0]}/{parts[1]}"
         return "GitHub"
+    if "wikipedia.org" in host:
+        parts = [part for part in path.split("/") if part]
+        if len(parts) >= 2 and parts[0].lower() == "wiki":
+            article = unquote(parts[1]).replace("_", " ")
+            return f"Wikipedia: {article}"
+        return "Wikipedia"
     if "doi.org" in host:
         return "DOI"
     if "arxiv.org" in host:
@@ -101,6 +128,9 @@ def alternate_link_label(url: str) -> str:
     if "openalex.org" in host:
         return "OpenAlex"
     if "huggingface.co" in host:
+        parts = [part for part in path.split("/") if part]
+        if len(parts) >= 2:
+            return f"Hugging Face: {parts[0]}/{parts[1]}"
         return "Hugging Face"
     if "zenodo.org" in host:
         return "Zenodo"
@@ -123,6 +153,22 @@ def make_link(
         "variant": variant,
         "external": external,
     }
+
+
+def build_tag_links(tags: list[str], paper_id: str) -> list[dict[str, str]]:
+    links = []
+    quoted_paper_id = quote(paper_id, safe="")
+    for tag in tags or []:
+        label = clean_scalar(tag)
+        if not label:
+            continue
+        links.append(
+            {
+                "label": label,
+                "url": f"../../tag-search/?paper={quoted_paper_id}&tag={quote(label, safe='')}",
+            }
+        )
+    return links
 
 
 def build_link_sections(data: dict, paper_id: str) -> list[dict]:
@@ -160,25 +206,25 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
             {
                 "title": "Primary",
                 "kind": "primary",
-                "links": [make_link("Paper", primary, link_domain(primary), "primary")],
+                "links": [make_link("Paper", primary, "", "primary")],
             }
         )
 
     standard_links = []
     standard_seen = set()
 
-    def add_standard(label: str, url: str, detail: str) -> None:
+    def add_standard(label: str, url: str) -> None:
         key = normalize_url_key(url)
         if key not in standard_seen:
             standard_seen.add(key)
-            standard_links.append(make_link(label, url, detail, "standard"))
+            standard_links.append(make_link(label, url, "", "standard"))
 
     if arxiv_id:
-        add_standard("arXiv Abstract", f"https://arxiv.org/abs/{arxiv_id}", arxiv_id)
-        add_standard("arXiv PDF", f"https://arxiv.org/pdf/{arxiv_id}", arxiv_id)
-        add_standard("arXiv HTML", f"https://ar5iv.labs.arxiv.org/html/{arxiv_id}", arxiv_id)
+        add_standard(f"arXiv Abstract: {arxiv_id}", f"https://arxiv.org/abs/{arxiv_id}")
+        add_standard(f"arXiv PDF: {arxiv_id}", f"https://arxiv.org/pdf/{arxiv_id}")
+        add_standard(f"arXiv HTML: {arxiv_id}", f"https://ar5iv.labs.arxiv.org/html/{arxiv_id}")
     if doi:
-        add_standard("DOI", f"https://doi.org/{doi}", doi)
+        add_standard(f"DOI: {doi}", f"https://doi.org/{doi}")
 
     if standard_links:
         sections.append({"title": "Standard", "kind": "standard", "links": standard_links})
@@ -192,7 +238,7 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
             continue
         alternate_seen.add(key)
         alternate_links.append(
-            make_link(alternate_link_label(url), url, link_domain(url), "alternate")
+            make_link(alternate_link_label(url), url, "", "alternate")
         )
 
     if alternate_links:
@@ -201,9 +247,131 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
     return sections
 
 
+def paper_record(data: dict, paper_id: str) -> dict:
+    authors = data.get("authors") or []
+    if not isinstance(authors, list):
+        authors = [clean_scalar(authors)] if clean_scalar(authors) else []
+    tags = data.get("tags") or []
+    if not isinstance(tags, list):
+        tags = [clean_scalar(tags)] if clean_scalar(tags) else []
+    return {
+        "id": paper_id,
+        "title": clean_scalar(data.get("title")),
+        "label": clean_scalar(data.get("algorithm")) or clean_scalar(data.get("title")) or paper_id,
+        "authors": [clean_scalar(author) for author in authors if clean_scalar(author)],
+        "year": data.get("year") or "",
+        "tags": [clean_scalar(tag) for tag in tags if clean_scalar(tag)],
+        "summary": clean_scalar(data.get("summary")),
+        "url": f"../papers/{paper_id}/",
+        "contentTreeUrl": f"../content-tree/#paper={quote(paper_id, safe='')}",
+        "mindMapUrl": f"../mind-map/#paper={quote(paper_id, safe='')}",
+    }
+
+
+def load_embedding_cache() -> dict[str, list[float]]:
+    if not embedding_cache_file.exists():
+        return {}
+    try:
+        cache = json.loads(embedding_cache_file.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    papers = cache.get("papers") if isinstance(cache, dict) else None
+    if not isinstance(papers, dict):
+        return {}
+    embeddings = {}
+    for paper_id, entry in papers.items():
+        embedding = entry.get("embedding") if isinstance(entry, dict) else None
+        if isinstance(embedding, list) and embedding:
+            embeddings[str(paper_id)] = embedding
+    return embeddings
+
+
+def build_tag_search_data(records: list[dict]) -> dict:
+    record_by_id = {record["id"]: record for record in records}
+    tag_members: dict[str, list[str]] = defaultdict(list)
+    tag_labels: dict[str, str] = {}
+
+    for record in records:
+        seen = set()
+        for tag in record["tags"]:
+            key = normalize_tag_key(tag)
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            tag_members[key].append(record["id"])
+            tag_labels.setdefault(key, tag)
+
+    embeddings = load_embedding_cache()
+    related: dict[str, list[dict[str, str | float]]] = {}
+
+    if np is not None and embeddings:
+        embedded_ids = [record["id"] for record in records if record["id"] in embeddings]
+        if embedded_ids:
+            matrix = np.asarray([embeddings[paper_id] for paper_id in embedded_ids], dtype=np.float32)
+            norms = np.linalg.norm(matrix, axis=1, keepdims=True)
+            norms[norms == 0] = 1.0
+            matrix = matrix / norms
+            row_for_id = {paper_id: i for i, paper_id in enumerate(embedded_ids)}
+
+            for tag_key, ids in tag_members.items():
+                embedded_tag_ids = [paper_id for paper_id in ids if paper_id in row_for_id]
+                if len(embedded_tag_ids) < 2:
+                    continue
+                rows = np.asarray([row_for_id[paper_id] for paper_id in embedded_tag_ids])
+                sim = matrix[rows] @ matrix[rows].T
+                for local_i, ego_id in enumerate(embedded_tag_ids):
+                    order = np.argsort(-sim[local_i])
+                    items = []
+                    for local_j in order:
+                        other_id = embedded_tag_ids[int(local_j)]
+                        if other_id == ego_id:
+                            continue
+                        items.append(
+                            {
+                                "id": other_id,
+                                "score": round(float(sim[local_i, int(local_j)]), 4),
+                            }
+                        )
+                        if len(items) >= related_result_limit:
+                            break
+                    related[f"{ego_id}::{tag_key}"] = items
+
+    for tag_key, ids in tag_members.items():
+        ordered = sorted(
+            ids,
+            key=lambda paper_id: (
+                -int(record_by_id[paper_id]["year"] or 0)
+                if str(record_by_id[paper_id]["year"]).isdigit()
+                else 0,
+                record_by_id[paper_id]["label"].casefold(),
+            ),
+        )
+        for ego_id in ids:
+            key = f"{ego_id}::{tag_key}"
+            if key in related:
+                continue
+            related[key] = [
+                {"id": paper_id}
+                for paper_id in ordered
+                if paper_id != ego_id
+            ][:related_result_limit]
+
+    return {
+        "papers": record_by_id,
+        "tags": tag_labels,
+        "related": related,
+        "meta": {
+            "resultLimit": related_result_limit,
+            "ranking": "sentence-embedding cosine similarity when available",
+        },
+    }
+
+
 # Set up Jinja2 environment with custom filter
 env = Environment()
 env.filters["metadata_text_html"] = metadata_text_html
+
+paper_records = []
 
 # Iterate over all YAML files
 for metadata_file in metadata_root.rglob("*.yml"):
@@ -212,23 +380,26 @@ for metadata_file in metadata_root.rglob("*.yml"):
     if not isinstance(data, dict):
         continue
 
-    if "id" in data:
-        filename = f"{slugify(data['id'])}.md"
-    elif metadata_file.stem != "metadata":
-        filename = f"{slugify(metadata_file.stem)}.md"
-    else:
-        filename = f"{slugify(metadata_file.parent.name)}.md"
+    paper_id = paper_id_for(metadata_file, data)
+    filename = f"{paper_id}.md"
 
     output_path = generated_root / filename
 
     mkdocs_gen_files.set_edit_path(output_path, metadata_file)
     with mkdocs_gen_files.open(output_path, "w") as f_out:
         template = env.from_string(template_text)
-        paper_id = output_path.stem
         data["link_sections"] = build_link_sections(data, paper_id)
+        data["tag_links"] = build_tag_links(data.get("tags") or [], paper_id)
         f_out.write(template.render(**data))
+
+    paper_records.append(paper_record(data, paper_id))
 
     # # DEBUG: actually write out to real filesystem
     # output_path.parent.mkdir(parents=True, exist_ok=True)
     # with open(output_path, "w") as f_disk:
     #     f_disk.write(template.render(**data))
+
+with mkdocs_gen_files.open("javascripts/tag-search-data.js", "w") as out:
+    out.write("window.tagSearchData = ")
+    out.write(json.dumps(build_tag_search_data(paper_records), indent=2, ensure_ascii=False))
+    out.write(";\n")

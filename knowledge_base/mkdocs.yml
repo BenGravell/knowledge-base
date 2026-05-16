@@ -5,6 +5,9 @@ site_url: https://bengravell.github.io/knowledge-base/
 extra:
   generator: false
 
+not_in_nav: |
+  tag-search.md
+
 plugins:
   - search
   - macros

@@ -27,11 +27,6 @@ hide:
     </div>
   </div>
 
-  <div class="ct-meta-row" aria-live="polite">
-    <span id="ct-tree-stats"></span>
-    <span id="ct-current-summary"></span>
-  </div>
-
   <div id="ct-search-results" class="ct-search-results" hidden></div>
 
   <nav id="ct-breadcrumbs" class="ct-breadcrumbs" aria-label="Content tree path"></nav>
