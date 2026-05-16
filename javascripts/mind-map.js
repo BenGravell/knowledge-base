@@ -105,6 +105,7 @@
   let currentDetailLevel = HIERARCHY_LEVELS[0].id;
   let expandedAggregateNodes = new Set();
   let activeCategories = new Set();
+  let activeItemTypes = new Set();
   let showNodeLabels = true;
   let showEdges = true;
   let currentSearch = '';
@@ -480,6 +481,14 @@
     return filterKey(attrs.category, attrs.sub_category);
   }
 
+  function itemTypeKey(attrs) {
+    return attrs.item_type || attrs.type || 'Unspecified';
+  }
+
+  function itemTypeLabel(type) {
+    return String(type || 'Unspecified');
+  }
+
   function paperSuperCategory(attrs) {
     if (isUncategorizedCategory(attrs.category)) return UNCATEGORIZED_CATEGORY;
     return attrs.super_category ||
@@ -499,6 +508,7 @@
       attrs.category,
       attrs.sub_category,
       attrs.super_category,
+      itemTypeKey(attrs),
       ...(attrs.tags || []),
       attrs.summary,
     ].filter(Boolean).join(' ').toLowerCase();
@@ -534,6 +544,7 @@
       childMap: new Map(),
       leafIds: [],
       filterKeys: new Set(),
+      itemTypes: new Set(),
       searchParts: new Set([label, superCategory, category, subCategory].filter(Boolean)),
       previewTitles: [],
       x: 0,
@@ -556,6 +567,7 @@
     const attrs = paperNode.data;
     group.leafIds.push(attrs.id);
     group.filterKeys.add(nodeKey(attrs));
+    group.itemTypes.add(itemTypeKey(attrs));
     group.searchParts.add(paperSearchText(attrs));
     group.x += Number(paperNode.position.x) || 0;
     group.y += Number(paperNode.position.y) || 0;
@@ -633,6 +645,7 @@
         count,
         leafIds: group.leafIds,
         filterKeys: [...group.filterKeys],
+        itemTypes: [...group.itemTypes],
         previewTitles: group.previewTitles,
         tags: [],
         summary: `${count} ${count === 1 ? 'paper' : 'papers'}`,
@@ -805,11 +818,16 @@
   }
 
   function nodeAllowedByFilters(attrs) {
+    const categoryAllowed = attrs.kind === 'aggregate'
+      ? (attrs.filterKeys || []).some(key => activeCategories.has(key))
+      : activeCategories.has(nodeKey(attrs));
+    if (!categoryAllowed) return false;
+
     if (attrs.kind === 'aggregate') {
-      return (attrs.filterKeys || []).some(key => activeCategories.has(key));
+      return (attrs.itemTypes || []).some(type => activeItemTypes.has(type));
     }
 
-    return activeCategories.has(nodeKey(attrs));
+    return activeItemTypes.has(itemTypeKey(attrs));
   }
 
   function nodeVisibleAt(node, level) {
@@ -881,6 +899,7 @@
         ...attrs,
         kind,
         detailLevel,
+        item_type: itemTypeKey(attrs),
         parentId: attrs.parentId || ancestorIds[previousDetailLevel(detailLevel)] || null,
         ancestorIds,
         filterKeys: attrs.filterKeys || [nodeKey(attrs)],
@@ -1722,6 +1741,16 @@
     refreshView();
   }
 
+  function applyItemTypeFilter() {
+    if (pinnedNode && !nodeVisible(pinnedNode)) {
+      pinnedNode = null;
+      hideTooltip();
+      hidePaperModal();
+      syncUrlToPinnedNode();
+    }
+    refreshView();
+  }
+
   function applySearch(query) {
     currentSearch = query.toLowerCase().trim();
     refreshView();
@@ -2393,6 +2422,47 @@
     });
   }
 
+  function makeTypeItem(type, count) {
+    const label = document.createElement('label');
+    label.className = 'mm-cat-item mm-type-item';
+    label.innerHTML =
+      `<input type="checkbox" checked data-type="${escHtml(type)}">` +
+      `<span class="mm-type-chip">${escHtml(type === 'Unspecified' ? 'None' : type.split(/\s+/).map(part => part[0]).join('').slice(0, 3))}</span>` +
+      `<span class="mm-cat-name">${escHtml(itemTypeLabel(type))}</span>` +
+      `<span class="mm-cat-count">${count}</span>`;
+    label.querySelector('input').addEventListener('change', e => {
+      if (e.target.checked) activeItemTypes.add(type);
+      else activeItemTypes.delete(type);
+      applyItemTypeFilter();
+    });
+    return label;
+  }
+
+  function buildTypeFilters() {
+    const container = document.getElementById('mm-type-filters');
+    if (!container) return;
+
+    const counts = new Map();
+    DATA.nodes.forEach(node => {
+      const type = itemTypeKey(node.data || {});
+      counts.set(type, (counts.get(type) || 0) + 1);
+    });
+
+    const configured = ((DATA.meta || {}).itemTypeOrder || []).filter(type => counts.has(type));
+    const ordered = configured.concat(
+      [...counts.keys()]
+        .filter(type => !configured.includes(type))
+        .sort((a, b) => itemTypeLabel(a).localeCompare(itemTypeLabel(b)))
+    );
+
+    container.innerHTML = '';
+    activeItemTypes.clear();
+    ordered.forEach(type => {
+      activeItemTypes.add(type);
+      container.appendChild(makeTypeItem(type, counts.get(type)));
+    });
+  }
+
   function buildDetailControls() {
     const container = document.getElementById('mm-detail-controls');
     if (!container) return;
@@ -2475,6 +2545,27 @@
       applyCategoryFilter();
     });
 
+    document.getElementById('mm-all-types').addEventListener('click', () => {
+      document.querySelectorAll('#mm-type-filters input[data-type]').forEach(cb => {
+        cb.checked = true;
+        activeItemTypes.add(cb.dataset.type);
+      });
+      applyItemTypeFilter();
+    });
+
+    document.getElementById('mm-no-types').addEventListener('click', () => {
+      document.querySelectorAll('#mm-type-filters input[data-type]').forEach(cb => {
+        cb.checked = false;
+        activeItemTypes.delete(cb.dataset.type);
+      });
+      applyItemTypeFilter();
+    });
+
+    const surveyType = document.querySelector('#mm-type-filters input[data-type="Survey Paper"]');
+    if (surveyType) {
+      surveyType.title = 'Uncheck to exclude surveys';
+    }
+
     document.getElementById('mm-fit-btn').addEventListener('click', () => fitVisible());
 
     buildDetailControls();
@@ -2534,6 +2625,7 @@
    * Bootstrap
    * -------------------------------------------------------------------------*/
   buildCategoryFilters();
+  buildTypeFilters();
   setupControls();
   initSigma();
 
