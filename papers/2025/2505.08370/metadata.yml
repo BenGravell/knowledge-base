@@ -26,6 +26,4 @@ summary: >
   Extends finite-horizon LQG control to distributional model uncertainty using time-local Kullback-Leibler ambiguity sets for process and measurement noise. The paper proves that optimal policies remain linear, gives a convergent iterative best-response computation, and sketches a dynamic-programming approximation for decision-dependent ambiguity sets.
 link: https://arxiv.org/pdf/2505.08370
 links_alt:
-  - https://arxiv.org/abs/2505.08370
-  - https://arxiv.org/html/2505.08370
 audit_status: raw

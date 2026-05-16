@@ -65,8 +65,9 @@
   }
 
   const DATA = mindMapData;
+  const NODE_DIAMETER_SCALE = 2;
   const PAPER_NODE_RADIUS_CLEARANCE_RATIO = 0.30;
-  const PAPER_NODE_RADIUS = 12;
+  const PAPER_NODE_RADIUS_TARGET = 12 * NODE_DIAMETER_SCALE;
   const NODE_LABEL_FONT_SIZE = 11;
   const NODE_LABEL_LINE_HEIGHT_RATIO = 1.1;
   const NODE_LABEL_ZOOM_REFERENCE_RATIO = 1;
@@ -74,7 +75,8 @@
   const NODE_LABEL_ZOOM_SCALE_MIN = 0.68;
   const NODE_LABEL_ZOOM_SCALE_MAX = 1.55;
   const SELECTED_NODE_RADIUS_SCALE = 1;
-  const EDGE_NODE_DIAMETER_RATIO = 0.2;
+  const EDGE_NODE_DIAMETER_RATIO = 0.30;
+  const MIN_EDGE_THICKNESS = 1;
   const LEVEL_TRANSITION_MS = 260;
   const LEVEL_TRANSITION_MAX_SCREEN_TRAVEL = 160;
   const LEVEL_TRANSITION_DRILLDOWN_TRAVEL_RATIO = 0.58;
@@ -101,6 +103,7 @@
   let renderer = null;
   let currentThreshold = DATA.meta.threshold;
   let currentDetailLevel = HIERARCHY_LEVELS[0].id;
+  let expandedAggregateNodes = new Set();
   let activeCategories = new Set();
   let currentSearch = '';
   let pinnedNode = null;
@@ -111,6 +114,9 @@
   let activeLevelTransition = null;
   let focusLabelContext = null;
   let lastLevelTransitionMetrics = null;
+  let cachedPaperNodeRadius = PAPER_NODE_RADIUS_TARGET;
+  let visibleNodeCount = 0;
+  let visibleEdgeCount = 0;
 
   /* -------------------------------------------------------------------------
    * Utility
@@ -349,7 +355,7 @@
   }
 
   function currentNodeRadius() {
-    return PAPER_NODE_RADIUS;
+    return cachedPaperNodeRadius;
   }
 
   function currentCameraRatio() {
@@ -398,9 +404,9 @@
   function aggregateNodeSize(count, level) {
     const n = Math.max(Number(count) || 1, 1);
     const scale = Math.sqrt(n);
-    if (level === 'super_category') return clamp(110 + scale * 7.5, 125, 210);
-    if (level === 'category') return clamp(78 + scale * 5.2, 88, 160);
-    return clamp(56 + scale * 4.3, 68, 130);
+    if (level === 'super_category') return clamp(110 + scale * 7.5, 125, 210) * NODE_DIAMETER_SCALE;
+    if (level === 'category') return clamp(78 + scale * 5.2, 88, 160) * NODE_DIAMETER_SCALE;
+    return clamp(56 + scale * 4.3, 68, 130) * NODE_DIAMETER_SCALE;
   }
 
   function nodeDisplaySize(attrs) {
@@ -418,15 +424,41 @@
     const t = Number.isFinite(numericWeight)
       ? Math.max(0, Math.min((numericWeight - 0.5) / 0.5, 1))
       : 0.5;
+    const referenceRadius = edgeReferenceNodeRadius(attrs);
+    const targetWidth = referenceRadius * 2 * EDGE_NODE_DIAMETER_RATIO;
 
     if (attrs && attrs.kind === 'aggregate') {
-      const countBoost = Math.log1p(Number(attrs.aggregateCount) || 1) * 0.2;
-      return (1.15 + countBoost) * (0.9 + t * 0.28);
+      const countBoost = Math.log1p(Number(attrs.aggregateCount) || 1) * 0.035;
+      return Math.max(targetWidth * (0.88 + t * 0.18 + countBoost), MIN_EDGE_THICKNESS);
     }
 
-    const paperEdgeRadius = Math.min(currentNodeRadius(), 3);
-    const targetWidth = paperEdgeRadius * 2 * EDGE_NODE_DIAMETER_RATIO;
-    return targetWidth * (0.9 + t * 0.2);
+    return Math.max(targetWidth * (0.9 + t * 0.2), MIN_EDGE_THICKNESS);
+  }
+
+  function edgeReferenceNodeRadius(attrs) {
+    if (attrs && graph && attrs.source && attrs.target && graphHasNode(attrs.source) && graphHasNode(attrs.target)) {
+      const source = graph.getNodeAttributes(attrs.source);
+      const target = graph.getNodeAttributes(attrs.target);
+      return (nodeDisplaySize(source) + nodeDisplaySize(target)) / 2;
+    }
+
+    if (attrs && attrs.kind === 'aggregate') {
+      return aggregateNodeSize(1, attrs.detailLevel);
+    }
+
+    return currentNodeRadius();
+  }
+
+  function edgeAlpha(attrs) {
+    const baseAlpha = Math.min(
+      Math.max((attrs.edgeAlpha || 0.2) * theme.edgeAlphaScale, theme.edgeAlphaMin),
+      theme.edgeAlphaMax
+    );
+    const density = visibleNodeCount > 0 ? visibleEdgeCount / visibleNodeCount : 1;
+    const densityScale = clamp(Math.sqrt(2.4 / Math.max(density, 0.25)), 0.42, 1.18);
+    const levelScale = attrs.kind === 'aggregate' ? 1.12 : 1;
+
+    return Math.min(Math.max(baseAlpha * densityScale * levelScale, theme.edgeAlphaMin), theme.edgeAlphaMax);
   }
 
   /* -------------------------------------------------------------------------
@@ -611,58 +643,73 @@
     };
   }
 
-  function buildAggregateEdges(level, groupsByLeafId) {
-    const edgeMap = new Map();
-
-    DATA.edges.forEach(edge => {
-      const attrs = edge.data;
-      const sourceGroup = groupsByLeafId.get(attrs.source);
-      const targetGroup = groupsByLeafId.get(attrs.target);
-      if (!sourceGroup || !targetGroup || sourceGroup === targetGroup) return;
-
-      const sourceId = aggregateNodeId(level, sourceGroup);
-      const targetId = aggregateNodeId(level, targetGroup);
-      const source = sourceId < targetId ? sourceId : targetId;
-      const target = sourceId < targetId ? targetId : sourceId;
-      const key = `${source}||${target}`;
-      const weight = Number(attrs.weight) || 0;
-      let aggregate = edgeMap.get(key);
-
-      if (!aggregate) {
-        aggregate = {
-          source,
-          target,
-          maxWeight: weight,
-          weightSum: 0,
-          count: 0,
-        };
-        edgeMap.set(key, aggregate);
-      }
-
-      aggregate.maxWeight = Math.max(aggregate.maxWeight, weight);
-      aggregate.weightSum += weight;
-      aggregate.count += 1;
-    });
-
+  function edgeAccumulatorToData(edgeMap, idPrefix, edgeAlpha = 0.24) {
     return [...edgeMap.values()]
       .sort((a, b) => `${a.source}${a.target}`.localeCompare(`${b.source}${b.target}`))
       .map((edge, index) => {
         const meanWeight = edge.count ? edge.weightSum / edge.count : edge.maxWeight;
         return {
           data: {
-            id: `agg-edge:${level}:${index}`,
+            id: `${idPrefix}:${index}`,
             kind: 'aggregate',
-            detailLevel: level,
+            detailLevel: 'mixed',
             source: edge.source,
             target: edge.target,
             weight: Math.round(edge.maxWeight * 10000) / 10000,
             meanWeight: Math.round(meanWeight * 10000) / 10000,
             aggregateCount: edge.count,
             undirected: true,
-            edgeAlpha: 0.24,
+            edgeAlpha,
           },
         };
       });
+  }
+
+  function buildMixedAggregateEdges(paperAncestors) {
+    const edgeMap = new Map();
+
+    function displayNodeForPaper(paperId, level) {
+      return level === 'paper'
+        ? paperId
+        : paperAncestors[paperId] && paperAncestors[paperId][level];
+    }
+
+    DATA.edges.forEach(edge => {
+      const attrs = edge.data;
+      const weight = Number(attrs.weight) || 0;
+
+      DETAIL_LEVELS.forEach(sourceLevel => {
+        DETAIL_LEVELS.forEach(targetLevel => {
+          if (sourceLevel === 'paper' && targetLevel === 'paper') return;
+
+          const rawSource = displayNodeForPaper(attrs.source, sourceLevel);
+          const rawTarget = displayNodeForPaper(attrs.target, targetLevel);
+          if (!rawSource || !rawTarget || rawSource === rawTarget) return;
+
+          const source = rawSource < rawTarget ? rawSource : rawTarget;
+          const target = rawSource < rawTarget ? rawTarget : rawSource;
+          const key = `${source}||${target}`;
+          let aggregate = edgeMap.get(key);
+
+          if (!aggregate) {
+            aggregate = {
+              source,
+              target,
+              maxWeight: weight,
+              weightSum: 0,
+              count: 0,
+            };
+            edgeMap.set(key, aggregate);
+          }
+
+          aggregate.maxWeight = Math.max(aggregate.maxWeight, weight);
+          aggregate.weightSum += weight;
+          aggregate.count += 1;
+        });
+      });
+    });
+
+    return edgeAccumulatorToData(edgeMap, 'mixed-agg-edge');
   }
 
   function buildHierarchyData() {
@@ -675,7 +722,6 @@
       category: [],
       sub_category: [],
     };
-    const paperToGroups = new Map();
     const paperAncestors = {};
     const aggregateNodes = [];
     const aggregateEdges = [];
@@ -721,11 +767,6 @@
         accumulateHierarchyGroup(group, paperNode);
       });
 
-      paperToGroups.set(attrs.id, {
-        super_category: superGroup,
-        category: categoryGroup,
-        sub_category: leafGroup,
-      });
       paperAncestors[attrs.id] = {
         super_category: aggregateNodeId('super_category', superGroup),
         category: aggregateNodeId('category', categoryGroup),
@@ -745,18 +786,10 @@
       .filter(level => level.aggregate)
       .forEach(level => {
         const groups = groupsByLevel[level.id] || [];
-        const groupsByLeafId = new Map();
-
-        DATA.nodes.forEach(paperNode => {
-          const paperGroups = paperToGroups.get(paperNode.data.id);
-          if (paperGroups && paperGroups[level.id]) {
-            groupsByLeafId.set(paperNode.data.id, paperGroups[level.id]);
-          }
-        });
-
         groups.forEach(group => aggregateNodes.push(buildAggregateNode(group, level.id)));
-        aggregateEdges.push(...buildAggregateEdges(level.id, groupsByLeafId));
       });
+
+    aggregateEdges.push(...buildMixedAggregateEdges(paperAncestors));
 
     hierarchyData = {
       roots,
@@ -779,7 +812,21 @@
 
   function nodeVisibleAt(node, level) {
     const attrs = graph.getNodeAttributes(node);
-    return attrs.detailLevel === level && nodeAllowedByFilters(attrs);
+    if (!nodeAllowedByFilters(attrs)) return false;
+
+    const baseIndex = DETAIL_LEVELS.indexOf(level);
+    const nodeIndex = DETAIL_LEVELS.indexOf(attrs.detailLevel);
+    if (baseIndex < 0 || nodeIndex < baseIndex) return false;
+
+    for (let i = baseIndex; i < nodeIndex; i += 1) {
+      const ancestorLevel = DETAIL_LEVELS[i];
+      const ancestorId = attrs.detailLevel === ancestorLevel
+        ? node
+        : attrs.ancestorIds && attrs.ancestorIds[ancestorLevel];
+      if (!ancestorId || !expandedAggregateNodes.has(ancestorId)) return false;
+    }
+
+    return !(attrs.kind === 'aggregate' && expandedAggregateNodes.has(node));
   }
 
   function nodeVisible(node) {
@@ -788,8 +835,7 @@
 
   function edgeVisible(edge) {
     const attrs = graph.getEdgeAttributes(edge);
-    return attrs.detailLevel === currentDetailLevel &&
-      attrs.weight >= currentThreshold &&
+    return attrs.weight >= currentThreshold &&
       nodeVisible(graph.source(edge)) &&
       nodeVisible(graph.target(edge));
   }
@@ -860,7 +906,7 @@
         kind,
         detailLevel,
         size: edgeDisplaySize(attrs.weight, { ...attrs, kind, detailLevel }),
-        color: colorWithAlpha(theme.edgeColor, Math.min((attrs.edgeAlpha || 0.2) * theme.edgeAlphaScale, 1)),
+        color: colorWithAlpha(theme.edgeColor, edgeAlpha({ ...attrs, kind, detailLevel })),
         type: 'line',
       };
 
@@ -935,17 +981,14 @@
 
     const highlighted = focus.edges.has(edge);
     const dimmed = focus.active && !highlighted;
-    const baseAlpha = Math.min(
-      Math.max((attrs.edgeAlpha || 0.2) * theme.edgeAlphaScale, theme.edgeAlphaMin),
-      theme.edgeAlphaMax
-    );
+    const baseAlpha = edgeAlpha(attrs);
     const size = edgeDisplaySize(attrs.weight, attrs);
 
     if (dimmed) {
       return {
         ...attrs,
         color: colorWithAlpha(theme.edgeColor, 0.025),
-        size: Math.max(size * 0.35, 0.18),
+        size: Math.max(size * 0.35, MIN_EDGE_THICKNESS),
         zIndex: 0,
       };
     }
@@ -954,7 +997,7 @@
       return {
         ...attrs,
         color: theme.edgeHighlighted,
-        size: size * 1.25,
+        size: Math.max(size * 1.25, MIN_EDGE_THICKNESS),
         zIndex: 2,
       };
     }
@@ -962,7 +1005,7 @@
     return {
       ...attrs,
       color: colorWithAlpha(theme.edgeColor, baseAlpha),
-      size,
+      size: Math.max(size, MIN_EDGE_THICKNESS),
       zIndex: 1,
     };
   }
@@ -1120,6 +1163,8 @@
   }
 
   function refreshView() {
+    cachedPaperNodeRadius = paperNodeRadiusForCurrentView();
+    recomputeVisibleStats();
     recomputeFocus();
     if (renderer) renderer.scheduleRefresh();
     updateStats();
@@ -1324,6 +1369,49 @@
     };
   }
 
+  function prepareBranchExpansionTransition(parentNode, childLevel) {
+    const parentPoint = nodePoint(parentNode);
+    const cameraState = transitionCameraState();
+    const nodes = [];
+
+    graph.forEachNode((node, attrs) => {
+      if (attrs.detailLevel !== childLevel || attrs.parentId !== parentNode) return;
+      if (!nodeAllowedByFilters(attrs)) return;
+
+      const to = homePoint(attrs);
+      nodes.push({
+        node,
+        from: limitTransitionOriginTravel(parentPoint, to, cameraState),
+        to,
+      });
+    });
+
+    return nodes;
+  }
+
+  function expandBranchNode(node) {
+    const attrs = graph.getNodeAttributes(node);
+    const childLevel = attrs.kind === 'aggregate'
+      ? nextDetailLevel(attrs.detailLevel)
+      : null;
+
+    if (!childLevel) return false;
+
+    finishLevelTransition();
+    const transitionNodes = renderer
+      ? prepareBranchExpansionTransition(node, childLevel)
+      : [];
+
+    expandedAggregateNodes.add(node);
+    pinnedNode = null;
+    hoveredNode = null;
+    hideTooltip();
+    syncUrlToPinnedNode();
+    refreshView();
+    startLevelTransition(transitionNodes);
+    return true;
+  }
+
   /* -------------------------------------------------------------------------
    * Initialise Sigma
    * -------------------------------------------------------------------------*/
@@ -1346,7 +1434,7 @@
         labelFont: '"Atkinson Hyperlegible Next", "Segoe UI", sans-serif',
         labelSize: NODE_LABEL_FONT_SIZE,
         itemSizesReference: 'positions',
-        minEdgeThickness: 0.35,
+        minEdgeThickness: MIN_EDGE_THICKNESS,
         zoomToSizeRatioFunction: ratio => Math.max(ratio, 1e-6),
         stagePadding: 30,
         nodeReducer,
@@ -1399,12 +1487,8 @@
     renderer.on('clickNode', payload => {
       const node = payload.node;
       const attrs = graph.getNodeAttributes(node);
-      const nextLevel = attrs.kind === 'aggregate'
-        ? nextDetailLevel(attrs.detailLevel)
-        : null;
 
-      if (nextLevel) {
-        applyDetailLevel(nextLevel);
+      if (attrs.kind === 'aggregate' && expandBranchNode(node)) {
         return;
       }
 
@@ -1481,7 +1565,7 @@
       `<div class="tt-title">${escHtml(d.fullLabel || d.title)}</div>` +
       `<div class="tt-meta">${escHtml(level)} group&nbsp;&nbsp;${d.count || 0} items</div>` +
       (titles ? `<ul class="tt-list">${titles}</ul>` : '') +
-      (nextLabel ? `<div class="tt-hint">Click to reveal ${escHtml(nextLabel)}</div>` : '') +
+      (nextLabel ? `<div class="tt-hint">Click to expand into ${escHtml(nextLabel)}</div>` : '') +
       (!nextLabel && !pinned ? `<div class="tt-hint">Click to pin</div>` : '') +
       (!nextLabel && pinned ? `<div class="tt-hint">Click node again to unpin</div>` : '');
     tooltip.classList.toggle('pinned', pinned);
@@ -1536,7 +1620,18 @@
   }
 
   function applyDetailLevel(level) {
-    if (!DETAIL_LEVELS.includes(level) || currentDetailLevel === level) return;
+    if (!DETAIL_LEVELS.includes(level)) return;
+    if (currentDetailLevel === level) {
+      if (!expandedAggregateNodes.size) return;
+      finishLevelTransition();
+      expandedAggregateNodes.clear();
+      pinnedNode = null;
+      hoveredNode = null;
+      hideTooltip();
+      syncUrlToPinnedNode();
+      refreshView();
+      return;
+    }
     const previousLevel = currentDetailLevel;
 
     finishLevelTransition();
@@ -1545,6 +1640,7 @@
       : [];
 
     currentDetailLevel = level;
+    expandedAggregateNodes.clear();
     pinnedNode = null;
     hoveredNode = null;
     hideTooltip();
@@ -1557,21 +1653,46 @@
   /* -------------------------------------------------------------------------
    * Stats
    * -------------------------------------------------------------------------*/
+  function paperNodeRadiusForCurrentView() {
+    if (!graph || currentDetailLevel !== 'paper') return PAPER_NODE_RADIUS_TARGET;
+
+    const minDistance = minimumVisiblePaperGraphDistance();
+    if (!Number.isFinite(minDistance) || minDistance <= 0) return PAPER_NODE_RADIUS_TARGET;
+
+    return Math.min(
+      PAPER_NODE_RADIUS_TARGET,
+      minDistance / (2 * (1 + PAPER_NODE_RADIUS_CLEARANCE_RATIO))
+    );
+  }
+
+  function recomputeVisibleStats() {
+    let nodes = 0;
+    let edges = 0;
+
+    if (!graph) {
+      visibleNodeCount = nodes;
+      visibleEdgeCount = edges;
+      return;
+    }
+
+    graph.forEachNode(node => {
+      if (nodeVisible(node)) nodes += 1;
+    });
+    graph.forEachEdge(edge => {
+      if (edgeVisible(edge)) edges += 1;
+    });
+
+    visibleNodeCount = nodes;
+    visibleEdgeCount = edges;
+  }
+
   function updateStats() {
     if (!graph) return;
 
-    let vn = 0;
-    let ve = 0;
+    recomputeVisibleStats();
 
-    graph.forEachNode(node => {
-      if (nodeVisible(node)) vn += 1;
-    });
-    graph.forEachEdge(edge => {
-      if (edgeVisible(edge)) ve += 1;
-    });
-
-    document.getElementById('mm-node-count').textContent = vn;
-    document.getElementById('mm-edge-count').textContent = ve;
+    document.getElementById('mm-node-count').textContent = visibleNodeCount;
+    document.getElementById('mm-edge-count').textContent = visibleEdgeCount;
     const levelLabel = document.getElementById('mm-level-label');
     if (levelLabel) levelLabel.textContent = detailLevelLabel(currentDetailLevel, true);
   }
@@ -1718,6 +1839,30 @@
     const points = [];
     graph.forEachNode((node, attrs) => {
       if (!nodeVisible(node)) return;
+      points.push({ x: attrs.x, y: attrs.y });
+    });
+
+    let minDistance = Infinity;
+    for (let i = 0; i < points.length; i += 1) {
+      const a = points[i];
+      for (let j = i + 1; j < points.length; j += 1) {
+        const b = points[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < minDistance) minDistance = d;
+      }
+    }
+
+    return minDistance;
+  }
+
+  function minimumVisiblePaperGraphDistance() {
+    if (!graph) return Infinity;
+
+    const points = [];
+    graph.forEachNode((node, attrs) => {
+      if (attrs.kind !== 'paper' || !nodeVisible(node)) return;
       points.push({ x: attrs.x, y: attrs.y });
     });
 
@@ -1963,6 +2108,7 @@
     if (attrs.kind !== 'paper') return false;
 
     currentDetailLevel = 'paper';
+    expandedAggregateNodes.clear();
     activeCategories.add(nodeKey(attrs));
     pinnedNode = paperId;
     hoveredNode = null;
@@ -2271,12 +2417,17 @@
     setDetailLevel: level => applyDetailLevel(level),
     metrics: () => ({
       nodeGraphRadius: currentNodeRadius(),
+      nodeGraphRadiusTarget: PAPER_NODE_RADIUS_TARGET,
       nodeScreenRadius: renderer && typeof renderer.scaleSize === 'function'
         ? renderer.scaleSize(currentNodeRadius())
         : currentNodeRadius(),
       minimumVisibleGraphDistance: minimumVisibleGraphDistance(),
       minimumVisibleScreenDistance: minimumVisibleScreenDistance(),
       clearanceRatio: PAPER_NODE_RADIUS_CLEARANCE_RATIO,
+      edgeNodeDiameterRatio: EDGE_NODE_DIAMETER_RATIO,
+      minEdgeThickness: MIN_EDGE_THICKNESS,
+      visibleNodeCount,
+      visibleEdgeCount,
       lastLevelTransition: lastLevelTransitionMetrics,
     }),
   };

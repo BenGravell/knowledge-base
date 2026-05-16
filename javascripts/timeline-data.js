@@ -45,11 +45,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Gradient Descent (Cauchy)"
       ],
@@ -207,11 +209,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Gradient Descent (Curry)"
       ],
@@ -242,11 +246,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Newton's Method",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
         "Newton's Method",
         "Regularized Newton Method",
         "Levenberg-Marquardt"
@@ -305,11 +312,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Stochastic Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Stochastic Optimization",
         "A Stochastic Approximation Method"
       ],
@@ -420,12 +428,12 @@ window.timelineData = {
       "source": "Nature",
       "type": "Journal Paper",
       "superCategory": "Foundations",
-      "category": "Evolution",
+      "category": "Biology",
       "subCategory": "Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic Acid",
       "path": [
         "Content Tree",
         "Foundations",
-        "Evolution",
+        "Biology",
         "Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic Acid"
       ],
       "tags": [],
@@ -479,11 +487,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Assignment Problems",
+      "subCategory": "Combinatorial Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Combinatorial Optimization",
         "Assignment Problems",
         "Hungarian algorithm"
       ],
@@ -512,11 +521,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Convex Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
         "Frank-Wolfe Algorithm"
@@ -539,11 +549,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Assignment Problems",
+      "subCategory": "Combinatorial Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Combinatorial Optimization",
         "Assignment Problems",
         "Munkres algorithm"
       ],
@@ -603,11 +614,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Graph Search",
+      "subCategory": "Combinatorial Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Combinatorial Optimization",
         "Graph Search",
         "Bellman-Ford algorithm"
       ],
@@ -635,11 +647,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Minimax & Game Theory",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Minimax & Game Theory",
         "On General Minimax Theorems"
       ],
@@ -693,11 +706,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Graph Search",
+      "subCategory": "Combinatorial Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Combinatorial Optimization",
         "Graph Search",
         "Dijkstra's algorithm"
       ],
@@ -719,11 +733,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "Zeroth-Order Methods",
         "Direct Search & Pattern Search",
         "Rosenbrock's Method"
@@ -833,11 +849,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Steepest Ascent for Optimal Programming"
       ],
@@ -892,11 +910,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Polyak-Łojasiewicz inequality"
       ],
@@ -979,11 +999,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Polyak momentum"
       ],
@@ -1005,11 +1027,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "Zeroth-Order Methods",
         "Direct Search & Pattern Search",
         "Powell's Method"
@@ -1204,11 +1228,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Armijo Rule"
       ],
@@ -1243,11 +1269,13 @@ window.timelineData = {
       "type": "Other",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "Zeroth-Order Methods",
         "Evolutionary Algorithms",
         "Evolutionary Programming"
@@ -1544,11 +1572,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Convergence Conditions for Ascent Methods"
       ],
@@ -1886,11 +1916,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Convergence Conditions for Ascent Methods. II: Some Corrections"
       ],
@@ -2083,7 +2115,7 @@ window.timelineData = {
     },
     {
       "id": "1973_astrom_on_self_tuning_regulators",
-      "label": "On Self-Tuning Regulators",
+      "label": "Self-Tuning Regulators",
       "title": "On Self-Tuning Regulators",
       "authors": [
         "Karl Johan Astrom",
@@ -2094,14 +2126,15 @@ window.timelineData = {
       "source": "Automatica",
       "type": "Journal Paper",
       "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Controller Autotuning",
+      "category": "Reinforcement Learning",
+      "subCategory": "RL for Linear Systems",
       "path": [
         "Content Tree",
         "Decision-making",
-        "Optimization",
-        "Controller Autotuning",
-        "On Self-Tuning Regulators"
+        "Reinforcement Learning",
+        "RL for Linear Systems",
+        "Model-based RL",
+        "Self-Tuning Regulators"
       ],
       "tags": [],
       "summary": "",
@@ -2121,11 +2154,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Newton's Method",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
         "Newton's Method",
         "A Note on the Convergence of Newton's Method"
       ],
@@ -2439,11 +2475,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "On the Goldstein-Levitin-Polyak Gradient Projection Method"
       ],
@@ -3143,11 +3181,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Halley's Method and High-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "High-order Methods",
         "Halley's Method and High-Order Methods",
         "Multivariate Halley method"
       ],
@@ -3331,11 +3372,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Minimax & Game Theory",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Minimax & Game Theory",
         "Distributed Asynchronous Deterministic and Stochastic Gradient Optimization Algorithms"
       ],
@@ -3595,11 +3637,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Assignment Problems",
+      "subCategory": "Combinatorial Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Combinatorial Optimization",
         "Assignment Problems",
         "Jonker-Volgenant algorithm"
       ],
@@ -3743,11 +3786,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Assignment Problems",
+      "subCategory": "Combinatorial Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Combinatorial Optimization",
         "Assignment Problems",
         "Auction Algorithm"
       ],
@@ -3769,11 +3813,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Minimax & Game Theory",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Minimax & Game Theory",
         "Elementary Proof for Sion's Minimax Theorem"
       ],
@@ -4080,11 +4125,12 @@ window.timelineData = {
       "type": "Technical Report",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Automatic Differentiation",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Automatic Differentiation",
         "On Automatic Differentiation"
       ],
@@ -4301,11 +4347,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Quasi-Newton Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
         "Quasi-Newton Methods",
         "DFP"
       ],
@@ -4520,37 +4569,33 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1992_laporte_the_traveling_salesman_problem"
     },
     {
-      "id": "1992_kollerstrom_thomas_simpson_and_newtons",
-      "label": "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth",
-      "title": "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth",
+      "id": "1992_holland_adaptation_in_natural_and",
+      "label": "Adaptation in Natural and Artificial Systems",
+      "title": "Adaptation in Natural and Artificial Systems",
       "authors": [
-        "Nick Kollerstrom"
+        "John H. Holland"
       ],
-      "authorShort": "Kollerstrom",
+      "authorShort": "Holland",
       "year": 1992,
-      "source": "The British Journal for the History of Science",
-      "type": "Journal Paper",
+      "source": "",
+      "type": "Other",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Newton's Method",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
-        "Newton's Method",
-        "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth"
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "Adaptation in Natural and Artificial Systems"
       ],
-      "tags": [
-        "History of mathematics",
-        "Newton's method",
-        "Thomas Simpson",
-        "Root finding",
-        "Attribution",
-        "Numerical methods"
-      ],
-      "summary": "Argues that the iterative root-finding method commonly known as \"Newton's method\" was invented and published by Thomas Simpson in 1740, not by Isaac Newton. Newton's 1669 manuscript De analysi contains a different, non-iterative procedure; the modern method's misattribution to Newton is traced as an \"enduring myth\" and a curious historical transposition.",
-      "url": "../papers/1992_kollerstrom_thomas_simpson_and_newtons/",
-      "mindMapUrl": "../mind-map/#paper=1992_kollerstrom_thomas_simpson_and_newtons"
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1992_holland_adaptation_in_natural_and/",
+      "mindMapUrl": "../mind-map/#paper=1992_holland_adaptation_in_natural_and"
     },
     {
       "id": "1992_eckstein_on_the_douglasrachford_splitting",
@@ -4566,11 +4611,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Proximal Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "Proximal Methods",
         "On the Douglas-Rachford Splitting Method and the Proximal Point Algorithm for Maximal Monotone Operators"
       ],
@@ -4580,31 +4627,40 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1992_eckstein_on_the_douglasrachford_splitting"
     },
     {
-      "id": "1992_holland_adaptation_in_natural_and",
-      "label": "Adaptation in Natural and Artificial Systems",
-      "title": "Adaptation in Natural and Artificial Systems",
+      "id": "1992_kollerstrom_thomas_simpson_and_newtons",
+      "label": "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth",
+      "title": "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth",
       "authors": [
-        "John H. Holland"
+        "Nick Kollerstrom"
       ],
-      "authorShort": "Holland",
+      "authorShort": "Kollerstrom",
       "year": 1992,
-      "source": "",
-      "type": "Other",
+      "source": "The British Journal for the History of Science",
+      "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
-        "Zeroth-Order Methods",
-        "Evolutionary Algorithms",
-        "Adaptation in Natural and Artificial Systems"
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
+        "Newton's Method",
+        "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth"
       ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1992_holland_adaptation_in_natural_and/",
-      "mindMapUrl": "../mind-map/#paper=1992_holland_adaptation_in_natural_and"
+      "tags": [
+        "History of mathematics",
+        "Newton's method",
+        "Thomas Simpson",
+        "Root finding",
+        "Attribution",
+        "Numerical methods"
+      ],
+      "summary": "Argues that the iterative root-finding method commonly known as \"Newton's method\" was invented and published by Thomas Simpson in 1740, not by Isaac Newton. Newton's 1669 manuscript De analysi contains a different, non-iterative procedure; the modern method's misattribution to Newton is traced as an \"enduring myth\" and a curious historical transposition.",
+      "url": "../papers/1992_kollerstrom_thomas_simpson_and_newtons/",
+      "mindMapUrl": "../mind-map/#paper=1992_kollerstrom_thomas_simpson_and_newtons"
     },
     {
       "id": "1992_watkins_q_learning",
@@ -4758,11 +4814,12 @@ window.timelineData = {
       "type": "Technical Report",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Assignment Problems",
+      "subCategory": "Combinatorial Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Combinatorial Optimization",
         "Assignment Problems",
         "QuickMatch"
       ],
@@ -5034,32 +5091,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1994_boyd_linear_matrix_inequalities_in"
     },
     {
-      "id": "1994_pearlmutter_fast_exact_multiplication_by",
-      "label": "Fast Exact Multiplication by the Hessian",
-      "title": "Fast Exact Multiplication by the Hessian",
-      "authors": [
-        "Barak A. Pearlmutter"
-      ],
-      "authorShort": "Pearlmutter",
-      "year": 1994,
-      "source": "Neural Computation",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Automatic Differentiation",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Automatic Differentiation",
-        "Fast Exact Multiplication by the Hessian"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1994_pearlmutter_fast_exact_multiplication_by/",
-      "mindMapUrl": "../mind-map/#paper=1994_pearlmutter_fast_exact_multiplication_by"
-    },
-    {
       "id": "1994_sims_evolving_virtual_creatures",
       "label": "Evolving Virtual Creatures",
       "title": "Evolving Virtual Creatures",
@@ -5072,11 +5103,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "Zeroth-Order Methods",
         "Evolutionary Algorithms",
         "Evolving Virtual Creatures"
@@ -5085,6 +5118,33 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/1994_sims_evolving_virtual_creatures/",
       "mindMapUrl": "../mind-map/#paper=1994_sims_evolving_virtual_creatures"
+    },
+    {
+      "id": "1994_pearlmutter_fast_exact_multiplication_by",
+      "label": "Fast Exact Multiplication by the Hessian",
+      "title": "Fast Exact Multiplication by the Hessian",
+      "authors": [
+        "Barak A. Pearlmutter"
+      ],
+      "authorShort": "Pearlmutter",
+      "year": 1994,
+      "source": "Neural Computation",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Automatic Differentiation",
+        "Fast Exact Multiplication by the Hessian"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1994_pearlmutter_fast_exact_multiplication_by/",
+      "mindMapUrl": "../mind-map/#paper=1994_pearlmutter_fast_exact_multiplication_by"
     },
     {
       "id": "1994_bradtke_adaptive_linear_quadratic_control",
@@ -5260,11 +5320,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "Zeroth-Order Methods",
         "Evolutionary Algorithms",
         "Particle Swarm Optimization"
@@ -5691,33 +5753,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1997_megretski_system_analysis_via_integral"
     },
     {
-      "id": "1997_gutierrez_new_recurrence_relations_for",
-      "label": "New recurrence relations for Chebyshev method",
-      "title": "New Recurrence Relations for Chebyshev Method",
-      "authors": [
-        "J.M. Gutiérrez",
-        "M.A. Hernández"
-      ],
-      "authorShort": "Gutiérrez, Hernández",
-      "year": 1997,
-      "source": "Applied Mathematics Letters",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Halley's Method and High-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Halley's Method and High-Order Methods",
-        "New recurrence relations for Chebyshev method"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1997_gutierrez_new_recurrence_relations_for/",
-      "mindMapUrl": "../mind-map/#paper=1997_gutierrez_new_recurrence_relations_for"
-    },
-    {
       "id": "1997_storn_differential_evolution_a_simple",
       "label": "Differential Evolution",
       "title": "Differential Evolution - A Simple and Efficient Heuristic for Global Optimization over Continuous Spaces",
@@ -5731,11 +5766,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "Zeroth-Order Methods",
         "Evolutionary Algorithms",
         "Differential Evolution"
@@ -5752,6 +5789,36 @@ window.timelineData = {
       "summary": "Introduces Differential Evolution, a population-based global optimizer that mutates candidate vectors by scaled differences between other candidates and then applies crossover and selection. Its practical appeal comes from a small number of control parameters, simple implementation, and strong performance on continuous black-box optimization problems.",
       "url": "../papers/1997_storn_differential_evolution_a_simple/",
       "mindMapUrl": "../mind-map/#paper=1997_storn_differential_evolution_a_simple"
+    },
+    {
+      "id": "1997_gutierrez_new_recurrence_relations_for",
+      "label": "New recurrence relations for Chebyshev method",
+      "title": "New Recurrence Relations for Chebyshev Method",
+      "authors": [
+        "J.M. Gutiérrez",
+        "M.A. Hernández"
+      ],
+      "authorShort": "Gutiérrez, Hernández",
+      "year": 1997,
+      "source": "Applied Mathematics Letters",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "High-order Methods",
+        "Halley's Method and High-Order Methods",
+        "New recurrence relations for Chebyshev method"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1997_gutierrez_new_recurrence_relations_for/",
+      "mindMapUrl": "../mind-map/#paper=1997_gutierrez_new_recurrence_relations_for"
     },
     {
       "id": "1997_sussmann_the_markov_dubins_problem",
@@ -6134,11 +6201,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Implementation of the Simultaneous Perturbation Algorithm for Stochastic Optimization"
       ],
@@ -6807,11 +6876,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Automatic Differentiation",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Automatic Differentiation",
         "Gradient-Based Optimization of Hyperparameters"
       ],
@@ -7200,12 +7270,12 @@ window.timelineData = {
       "source": "Science",
       "type": "Journal Paper",
       "superCategory": "Foundations",
-      "category": "Evolution",
+      "category": "Biology",
       "subCategory": "The Genome Sequence of Drosophila melanogaster",
       "path": [
         "Content Tree",
         "Foundations",
-        "Evolution",
+        "Biology",
         "The Genome Sequence of Drosophila melanogaster"
       ],
       "tags": [],
@@ -7312,6 +7382,36 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2001_damm_newtons_method_for_a"
     },
     {
+      "id": "2001_hansen_completely_derandomized_self_adaptation",
+      "label": "CMA-ES",
+      "title": "Completely Derandomized Self-Adaptation in Evolution Strategies",
+      "authors": [
+        "Nikolaus Hansen",
+        "Andreas Ostermeier"
+      ],
+      "authorShort": "Hansen, Ostermeier",
+      "year": 2001,
+      "source": "Evolutionary Computation",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "CMA-ES"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2001_hansen_completely_derandomized_self_adaptation/",
+      "mindMapUrl": "../mind-map/#paper=2001_hansen_completely_derandomized_self_adaptation"
+    },
+    {
       "id": "2001_nedic_incremental_subgradient_methods_for",
       "label": "Incremental Subgradient Methods for Nondifferentiable Optimization",
       "title": "Incremental Subgradient Methods for Nondifferentiable Optimization",
@@ -7325,11 +7425,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Incremental Subgradient Methods for Nondifferentiable Optimization"
       ],
@@ -7352,11 +7454,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Halley's Method and High-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "High-order Methods",
         "Halley's Method and High-Order Methods",
         "Super-Halley method"
       ],
@@ -7364,34 +7469,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2001_gutierrez_an_acceleration_of_newtons/",
       "mindMapUrl": "../mind-map/#paper=2001_gutierrez_an_acceleration_of_newtons"
-    },
-    {
-      "id": "2001_hansen_completely_derandomized_self_adaptation",
-      "label": "CMA-ES",
-      "title": "Completely Derandomized Self-Adaptation in Evolution Strategies",
-      "authors": [
-        "Nikolaus Hansen",
-        "Andreas Ostermeier"
-      ],
-      "authorShort": "Hansen, Ostermeier",
-      "year": 2001,
-      "source": "Evolutionary Computation",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Evolutionary Algorithms",
-        "CMA-ES"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2001_hansen_completely_derandomized_self_adaptation/",
-      "mindMapUrl": "../mind-map/#paper=2001_hansen_completely_derandomized_self_adaptation"
     },
     {
       "id": "2001_nagy_trajectory_generation_for_car",
@@ -7680,6 +7757,43 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2001_kschischang_factor_graphs_and_the"
     },
     {
+      "id": "2002_stanley_evolving_neural_networks_through",
+      "label": "NEAT",
+      "title": "Evolving Neural Networks through Augmenting Topologies",
+      "authors": [
+        "Kenneth O. Stanley",
+        "Risto Miikkulainen"
+      ],
+      "authorShort": "Stanley, Miikkulainen",
+      "year": 2002,
+      "source": "Evolutionary Computation",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "NEAT"
+      ],
+      "tags": [
+        "NEAT",
+        "Neuroevolution",
+        "Evolution strategies",
+        "Reinforcement learning",
+        "Genetic algorithms",
+        "Topology search"
+      ],
+      "summary": "Introduces NEAT, which evolves both neural-network weights and topology by protecting innovations through speciation and growing complexity incrementally. It is a foundational neuroevolution algorithm and a clear example of evolution optimizing structure, not just parameters.",
+      "url": "../papers/2002_stanley_evolving_neural_networks_through/",
+      "mindMapUrl": "../mind-map/#paper=2002_stanley_evolving_neural_networks_through"
+    },
+    {
       "id": "2002_prajna_introducing_sostools_a_general",
       "label": "SOSTOOLS",
       "title": "Introducing SOSTOOLS: A General Purpose Sum of Squares Programming Solver",
@@ -7715,41 +7829,6 @@ window.timelineData = {
       "summary": "Presents SOSTOOLS, one of the early widely used parsers for modeling sum-of-squares programs in MATLAB and dispatching them to semidefinite programming solvers. The paper matters as a software bridge between SOS theory and practical control, verification, and polynomial optimization workflows.",
       "url": "../papers/2002_prajna_introducing_sostools_a_general/",
       "mindMapUrl": "../mind-map/#paper=2002_prajna_introducing_sostools_a_general"
-    },
-    {
-      "id": "2002_stanley_evolving_neural_networks_through",
-      "label": "NEAT",
-      "title": "Evolving Neural Networks through Augmenting Topologies",
-      "authors": [
-        "Kenneth O. Stanley",
-        "Risto Miikkulainen"
-      ],
-      "authorShort": "Stanley, Miikkulainen",
-      "year": 2002,
-      "source": "Evolutionary Computation",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Evolutionary Algorithms",
-        "NEAT"
-      ],
-      "tags": [
-        "NEAT",
-        "Neuroevolution",
-        "Evolution strategies",
-        "Reinforcement learning",
-        "Genetic algorithms",
-        "Topology search"
-      ],
-      "summary": "Introduces NEAT, which evolves both neural-network weights and topology by protecting innovations through speciation and growing complexity incrementally. It is a foundational neuroevolution algorithm and a clear example of evolution optimizing structure, not just parameters.",
-      "url": "../papers/2002_stanley_evolving_neural_networks_through/",
-      "mindMapUrl": "../mind-map/#paper=2002_stanley_evolving_neural_networks_through"
     },
     {
       "id": "2002_roy_motion_planning_through_policy",
@@ -8072,11 +8151,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Convex Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
         "Semidefinite Programming Relaxations for Semialgebraic Problems"
@@ -8085,6 +8165,38 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2003_parrilo_semidefinite_programming_relaxations_for/",
       "mindMapUrl": "../mind-map/#paper=2003_parrilo_semidefinite_programming_relaxations_for"
+    },
+    {
+      "id": "2003_lenski_the_evolutionary_origin_of",
+      "label": "The Evolutionary Origin of Complex Features",
+      "title": "The Evolutionary Origin of Complex Features",
+      "authors": [
+        "Richard E. Lenski",
+        "Charles Ofria",
+        "Robert T. Pennock",
+        "Christoph Adami"
+      ],
+      "authorShort": "Lenski, Ofria, Pennock",
+      "year": 2003,
+      "source": "Nature",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "The Evolutionary Origin of Complex Features"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2003_lenski_the_evolutionary_origin_of/",
+      "mindMapUrl": "../mind-map/#paper=2003_lenski_the_evolutionary_origin_of"
     },
     {
       "id": "2003_lagoudakis_least_squares_policy_iteration",
@@ -8120,34 +8232,6 @@ window.timelineData = {
       "summary": "Introduces LSPI (Least-Squares Policy Iteration), combining approximate policy iteration with LSTD value estimation under linear function approximation. Enables offline, model-free, off-policy reinforcement learning with efficient data reuse across policy updates. Widely cited as a foundation for batch RL methods.",
       "url": "../papers/2003_lagoudakis_least_squares_policy_iteration/",
       "mindMapUrl": "../mind-map/#paper=2003_lagoudakis_least_squares_policy_iteration"
-    },
-    {
-      "id": "2003_lenski_the_evolutionary_origin_of",
-      "label": "The Evolutionary Origin of Complex Features",
-      "title": "The Evolutionary Origin of Complex Features",
-      "authors": [
-        "Richard E. Lenski",
-        "Charles Ofria",
-        "Robert T. Pennock",
-        "Christoph Adami"
-      ],
-      "authorShort": "Lenski, Ofria, Pennock",
-      "year": 2003,
-      "source": "Nature",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Evolution",
-      "subCategory": "The Evolutionary Origin of Complex Features",
-      "path": [
-        "Content Tree",
-        "Foundations",
-        "Evolution",
-        "The Evolutionary Origin of Complex Features"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2003_lenski_the_evolutionary_origin_of/",
-      "mindMapUrl": "../mind-map/#paper=2003_lenski_the_evolutionary_origin_of"
     },
     {
       "id": "2003_thrun_learning_occupancy_grid_maps",
@@ -8317,11 +8401,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Midpoint Newton Method",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "High-order Methods",
         "Midpoint Newton Method",
         "Midpoint Newton Method, cubic convergence analysis"
       ],
@@ -8783,11 +8870,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Convex Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Convex Optimization",
         "Applications in Probability Theory",
         "Optimal Inequalities in Probability Theory: A Convex Optimization Approach"
@@ -9029,11 +9117,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Newton's Method",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
         "Newton's Method",
         "Regularized Newton Method",
         "Cubic regularized Newton"
@@ -9273,35 +9364,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2006_olson_fast_iterative_alignment_of"
     },
     {
-      "id": "0706_4138",
-      "label": "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization",
-      "title": "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization",
-      "authors": [
-        "Benjamin Recht",
-        "Maryam Fazel",
-        "Pablo A. Parrilo"
-      ],
-      "authorShort": "Recht, Fazel, Parrilo",
-      "year": 2007,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Convex Optimization",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/0706_4138/",
-      "mindMapUrl": "../mind-map/#paper=0706_4138"
-    },
-    {
       "id": "0711_1612",
       "label": "Enhancing Sparsity by Reweighted L1 Minimization",
       "title": "Enhancing Sparsity by Reweighted L1 Minimization",
@@ -9316,11 +9378,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Stochastic Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Stochastic Optimization",
         "Enhancing Sparsity by Reweighted L1 Minimization"
       ],
@@ -9328,6 +9391,36 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/0711_1612/",
       "mindMapUrl": "../mind-map/#paper=0711_1612"
+    },
+    {
+      "id": "0706_4138",
+      "label": "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization",
+      "title": "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization",
+      "authors": [
+        "Benjamin Recht",
+        "Maryam Fazel",
+        "Pablo A. Parrilo"
+      ],
+      "authorShort": "Recht, Fazel, Parrilo",
+      "year": 2007,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "General Convex Optimization",
+        "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/0706_4138/",
+      "mindMapUrl": "../mind-map/#paper=0706_4138"
     },
     {
       "id": "0712_2887",
@@ -9591,11 +9684,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Halley's Method and High-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "High-order Methods",
         "Halley's Method and High-Order Methods",
         "Generalized Halley method"
       ],
@@ -10226,11 +10322,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Convex Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
         "A Convex Polynomial That Is Not sos-convex"
@@ -10239,63 +10336,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/0903_1287/",
       "mindMapUrl": "../mind-map/#paper=0903_1287"
-    },
-    {
-      "id": "2009_chandrasekaran_sparse_and_low_rank",
-      "label": "Sparse and Low-rank Matrix Decompositions",
-      "title": "Sparse and Low-rank Matrix Decompositions",
-      "authors": [
-        "Venkat Chandrasekaran",
-        "Sujay Sanghavi",
-        "Pablo A. Parrilo",
-        "Alan S. Willsky"
-      ],
-      "authorShort": "Chandrasekaran, Sanghavi, Parrilo",
-      "year": 2009,
-      "source": "2009 47th Annual Allerton Conference on Communication, Control, and Computing (Allerton)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Convex Optimization",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "Sparse and Low-rank Matrix Decompositions"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2009_chandrasekaran_sparse_and_low_rank/",
-      "mindMapUrl": "../mind-map/#paper=2009_chandrasekaran_sparse_and_low_rank"
-    },
-    {
-      "id": "2009_nedic_subgradient_methods_for_saddle",
-      "label": "Subgradient Methods for Saddle-Point Problems",
-      "title": "Subgradient Methods for Saddle-Point Problems",
-      "authors": [
-        "A. Nedić",
-        "A. Ozdaglar"
-      ],
-      "authorShort": "Nedić, Ozdaglar",
-      "year": 2009,
-      "source": "Journal of Optimization Theory and Applications",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Minimax & Game Theory",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Minimax & Game Theory",
-        "Subgradient Methods for Saddle-Point Problems"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2009_nedic_subgradient_methods_for_saddle/",
-      "mindMapUrl": "../mind-map/#paper=2009_nedic_subgradient_methods_for_saddle"
     },
     {
       "id": "2009_beck_a_fast_iterative_shrinkage",
@@ -10311,11 +10351,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Proximal Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "Proximal Methods",
         "FISTA"
       ],
@@ -10346,11 +10388,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "Zeroth-Order Methods",
         "Evolutionary Algorithms",
         "HyperNEAT"
@@ -10359,6 +10403,65 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2009_stanley_a_hypercube_based_encoding/",
       "mindMapUrl": "../mind-map/#paper=2009_stanley_a_hypercube_based_encoding"
+    },
+    {
+      "id": "2009_chandrasekaran_sparse_and_low_rank",
+      "label": "Sparse and Low-rank Matrix Decompositions",
+      "title": "Sparse and Low-rank Matrix Decompositions",
+      "authors": [
+        "Venkat Chandrasekaran",
+        "Sujay Sanghavi",
+        "Pablo A. Parrilo",
+        "Alan S. Willsky"
+      ],
+      "authorShort": "Chandrasekaran, Sanghavi, Parrilo",
+      "year": 2009,
+      "source": "2009 47th Annual Allerton Conference on Communication, Control, and Computing (Allerton)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "General Convex Optimization",
+        "Sparse and Low-rank Matrix Decompositions"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2009_chandrasekaran_sparse_and_low_rank/",
+      "mindMapUrl": "../mind-map/#paper=2009_chandrasekaran_sparse_and_low_rank"
+    },
+    {
+      "id": "2009_nedic_subgradient_methods_for_saddle",
+      "label": "Subgradient Methods for Saddle-Point Problems",
+      "title": "Subgradient Methods for Saddle-Point Problems",
+      "authors": [
+        "A. Nedić",
+        "A. Ozdaglar"
+      ],
+      "authorShort": "Nedić, Ozdaglar",
+      "year": 2009,
+      "source": "Journal of Optimization Theory and Applications",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Minimax & Game Theory",
+        "Subgradient Methods for Saddle-Point Problems"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2009_nedic_subgradient_methods_for_saddle/",
+      "mindMapUrl": "../mind-map/#paper=2009_nedic_subgradient_methods_for_saddle"
     },
     {
       "id": "2009_quigley_ros_an_open_source",
@@ -10849,11 +10952,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Convex Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
         "The Convex Geometry of Linear Inverse Problems"
@@ -11271,39 +11375,34 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2011_brach_the_tire_force_ellipse"
     },
     {
-      "id": "2011_mangasarian_probability_of_unique_integer",
-      "label": "Probability of Unique Integer Solution to a System of Linear Equations",
-      "title": "Probability of Unique Integer Solution to a System of Linear Equations",
+      "id": "2011_lehman_abandoning_objectives_evolution_through",
+      "label": "Abandoning Objectives: Evolution through the Search for Novelty Alone",
+      "title": "Abandoning Objectives: Evolution through the Search for Novelty Alone",
       "authors": [
-        "O. L. Mangasarian",
-        "Benjamin Recht"
+        "Joel Lehman",
+        "Kenneth O. Stanley"
       ],
-      "authorShort": "Mangasarian, Recht",
+      "authorShort": "Lehman, Stanley",
       "year": 2011,
-      "source": "European Journal of Operational Research",
+      "source": "Evolutionary Computation",
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Convex Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
-        "Convex Optimization",
-        "Linear Programming",
-        "Probability of Unique Integer Solution to a System of Linear Equations"
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "Abandoning Objectives: Evolution through the Search for Novelty Alone"
       ],
-      "tags": [
-        "Integer programming",
-        "Linear programming",
-        "Unique solution",
-        "Binary systems",
-        "Optimization theory",
-        "Random matrices"
-      ],
-      "summary": "Analyzes when a binary solution to an underdetermined linear system is uniquely recoverable through a linear-programming reformulation. The result is a sharp-ish phase transition around m greater than n/2 for typical random instances.",
-      "url": "../papers/2011_mangasarian_probability_of_unique_integer/",
-      "mindMapUrl": "../mind-map/#paper=2011_mangasarian_probability_of_unique_integer"
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2011_lehman_abandoning_objectives_evolution_through/",
+      "mindMapUrl": "../mind-map/#paper=2011_lehman_abandoning_objectives_evolution_through"
     },
     {
       "id": "1106_0665",
@@ -11319,11 +11418,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Stochastic Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Stochastic Optimization",
         "Infinite-Horizon Policy-Gradient Estimation"
       ],
@@ -11333,32 +11433,40 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1106_0665"
     },
     {
-      "id": "2011_lehman_abandoning_objectives_evolution_through",
-      "label": "Abandoning Objectives: Evolution through the Search for Novelty Alone",
-      "title": "Abandoning Objectives: Evolution through the Search for Novelty Alone",
+      "id": "2011_mangasarian_probability_of_unique_integer",
+      "label": "Probability of Unique Integer Solution to a System of Linear Equations",
+      "title": "Probability of Unique Integer Solution to a System of Linear Equations",
       "authors": [
-        "Joel Lehman",
-        "Kenneth O. Stanley"
+        "O. L. Mangasarian",
+        "Benjamin Recht"
       ],
-      "authorShort": "Lehman, Stanley",
+      "authorShort": "Mangasarian, Recht",
       "year": 2011,
-      "source": "Evolutionary Computation",
+      "source": "European Journal of Operational Research",
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
-        "Zeroth-Order Methods",
-        "Evolutionary Algorithms",
-        "Abandoning Objectives: Evolution through the Search for Novelty Alone"
+        "Continuous Optimization",
+        "Convex Optimization",
+        "Linear Programming",
+        "Probability of Unique Integer Solution to a System of Linear Equations"
       ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2011_lehman_abandoning_objectives_evolution_through/",
-      "mindMapUrl": "../mind-map/#paper=2011_lehman_abandoning_objectives_evolution_through"
+      "tags": [
+        "Integer programming",
+        "Linear programming",
+        "Unique solution",
+        "Binary systems",
+        "Optimization theory",
+        "Random matrices"
+      ],
+      "summary": "Analyzes when a binary solution to an underdetermined linear system is uniquely recoverable through a linear-programming reformulation. The result is a sharp-ish phase transition around m greater than n/2 for typical random instances.",
+      "url": "../papers/2011_mangasarian_probability_of_unique_integer/",
+      "mindMapUrl": "../mind-map/#paper=2011_mangasarian_probability_of_unique_integer"
     },
     {
       "id": "2011_zucker_optimization_and_learning_for",
@@ -12004,11 +12112,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Convex Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Convex Optimization",
         "Online Convex Optimization",
         "No-Regret Algorithms for Unconstrained Online Convex Optimization"
@@ -12031,11 +12140,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Stochastic Gradient Descent Tricks"
       ],
@@ -12604,11 +12715,12 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Stochastic Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Stochastic Optimization",
         "Accelerating Stochastic Gradient Descent using Predictive Variance Reduction"
       ],
@@ -13419,35 +13531,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2014_mueller_stability_and_control_of"
     },
     {
-      "id": "2014_trimpe_a_self_tuning_lqr",
-      "label": "A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum",
-      "title": "A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum",
-      "authors": [
-        "Sebastian Trimpe",
-        "Alexander Millane",
-        "Simon Doessegger",
-        "Raffaello D'Andrea"
-      ],
-      "authorShort": "Trimpe, Millane, Doessegger",
-      "year": 2014,
-      "source": "IFAC Proceedings Volumes",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Controller Autotuning",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Controller Autotuning",
-        "A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2014_trimpe_a_self_tuning_lqr/",
-      "mindMapUrl": "../mind-map/#paper=2014_trimpe_a_self_tuning_lqr"
-    },
-    {
       "id": "1412_6980",
       "label": "Adam",
       "title": "Adam: A Method for Stochastic Optimization",
@@ -13461,11 +13544,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Adam"
       ],
@@ -13489,11 +13574,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Analysis and Design of Optimization Algorithms via IQC"
       ],
@@ -13501,6 +13588,35 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/1408_3595/",
       "mindMapUrl": "../mind-map/#paper=1408_3595"
+    },
+    {
+      "id": "2014_wiesemann_distributionally_robust_convex_optimization",
+      "label": "Distributionally Robust Convex Optimization",
+      "title": "Distributionally Robust Convex Optimization",
+      "authors": [
+        "Wolfram Wiesemann",
+        "Daniel Kuhn",
+        "Melvyn Sim"
+      ],
+      "authorShort": "Wiesemann, Kuhn, Sim",
+      "year": 2014,
+      "source": "Operations Research",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Robust Optimization",
+        "Distributionally Robust Convex Optimization"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2014_wiesemann_distributionally_robust_convex_optimization/",
+      "mindMapUrl": "../mind-map/#paper=2014_wiesemann_distributionally_robust_convex_optimization"
     },
     {
       "id": "2014_parikh_proximal_algorithms",
@@ -13516,11 +13632,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Proximal Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "Proximal Methods",
         "Proximal Algorithms"
       ],
@@ -13543,11 +13661,14 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Quasi-Newton Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
         "Quasi-Newton Methods",
         "RES"
       ],
@@ -13557,32 +13678,68 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1401_7625"
     },
     {
-      "id": "2014_wiesemann_distributionally_robust_convex_optimization",
-      "label": "Distributionally Robust Convex Optimization",
-      "title": "Distributionally Robust Convex Optimization",
+      "id": "1407_3501",
+      "label": "Robots That Can Adapt like Animals",
+      "title": "Robots That Can Adapt like Animals",
       "authors": [
-        "Wolfram Wiesemann",
-        "Daniel Kuhn",
-        "Melvyn Sim"
+        "Antoine Cully",
+        "Jeff Clune",
+        "Danesh Tarapore",
+        "Jean-Baptiste Mouret"
       ],
-      "authorShort": "Wiesemann, Kuhn, Sim",
+      "authorShort": "Cully, Clune, Tarapore",
       "year": 2014,
-      "source": "Operations Research",
-      "type": "Journal Paper",
+      "source": "",
+      "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Robust Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
-        "Robust Optimization",
-        "Distributionally Robust Convex Optimization"
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "Robots That Can Adapt like Animals"
       ],
       "tags": [],
       "summary": "",
-      "url": "../papers/2014_wiesemann_distributionally_robust_convex_optimization/",
-      "mindMapUrl": "../mind-map/#paper=2014_wiesemann_distributionally_robust_convex_optimization"
+      "url": "../papers/1407_3501/",
+      "mindMapUrl": "../mind-map/#paper=1407_3501"
+    },
+    {
+      "id": "2014_cheney_unshackling_evolution",
+      "label": "Unshackling Evolution",
+      "title": "Unshackling Evolution",
+      "authors": [
+        "Nick Cheney",
+        "Robert MacCurdy",
+        "Jeff Clune",
+        "Hod Lipson"
+      ],
+      "authorShort": "Cheney, MacCurdy, Clune",
+      "year": 2014,
+      "source": "ACM SIGEVOlution",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "Unshackling Evolution"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2014_cheney_unshackling_evolution/",
+      "mindMapUrl": "../mind-map/#paper=2014_cheney_unshackling_evolution"
     },
     {
       "id": "1401_3436",
@@ -13621,66 +13778,6 @@ window.timelineData = {
       "summary": "Surveys online planning methods for POMDPs, emphasizing lookahead search from the current belief state as a practical alternative to computing a full offline policy. It compares online algorithms and heuristic search variants empirically, highlighting how local planning and value-function bounds can make larger partially observable problems more tractable.",
       "url": "../papers/1401_3436/",
       "mindMapUrl": "../mind-map/#paper=1401_3436"
-    },
-    {
-      "id": "1407_3501",
-      "label": "Robots That Can Adapt like Animals",
-      "title": "Robots That Can Adapt like Animals",
-      "authors": [
-        "Antoine Cully",
-        "Jeff Clune",
-        "Danesh Tarapore",
-        "Jean-Baptiste Mouret"
-      ],
-      "authorShort": "Cully, Clune, Tarapore",
-      "year": 2014,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Evolutionary Algorithms",
-        "Robots That Can Adapt like Animals"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1407_3501/",
-      "mindMapUrl": "../mind-map/#paper=1407_3501"
-    },
-    {
-      "id": "2014_cheney_unshackling_evolution",
-      "label": "Unshackling Evolution",
-      "title": "Unshackling Evolution",
-      "authors": [
-        "Nick Cheney",
-        "Robert MacCurdy",
-        "Jeff Clune",
-        "Hod Lipson"
-      ],
-      "authorShort": "Cheney, MacCurdy, Clune",
-      "year": 2014,
-      "source": "ACM SIGEVOlution",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Evolutionary Algorithms",
-        "Unshackling Evolution"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2014_cheney_unshackling_evolution/",
-      "mindMapUrl": "../mind-map/#paper=2014_cheney_unshackling_evolution"
     },
     {
       "id": "2014_tedrake_a_summary_of_team",
@@ -14392,6 +14489,36 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2014_silver_deterministic_policy_gradient_algorithms"
     },
     {
+      "id": "2014_trimpe_a_self_tuning_lqr",
+      "label": "A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum",
+      "title": "A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum",
+      "authors": [
+        "Sebastian Trimpe",
+        "Alexander Millane",
+        "Simon Doessegger",
+        "Raffaello D'Andrea"
+      ],
+      "authorShort": "Trimpe, Millane, Doessegger",
+      "year": 2014,
+      "source": "IFAC Proceedings Volumes",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "RL for Linear Systems",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "RL for Linear Systems",
+        "Model-based RL",
+        "A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2014_trimpe_a_self_tuning_lqr/",
+      "mindMapUrl": "../mind-map/#paper=2014_trimpe_a_self_tuning_lqr"
+    },
+    {
       "id": "2014_lupashin_a_platform_for_aerial",
       "label": "Flying Machine Arena",
       "title": "A Platform for Aerial Robotics Research and Demonstration: The Flying Machine Arena",
@@ -14892,63 +15019,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2015_kong_kinematic_and_dynamic_vehicle"
     },
     {
-      "id": "1502_05767",
-      "label": "Automatic differentiation in machine learning: a survey",
-      "title": "Automatic Differentiation in Machine Learning: A Survey",
-      "authors": [
-        "Atilim Gunes Baydin",
-        "Barak A. Pearlmutter",
-        "Alexey Andreyevich Radul",
-        "Jeffrey Mark Siskind"
-      ],
-      "authorShort": "Baydin, Pearlmutter, Radul",
-      "year": 2015,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Automatic Differentiation",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Automatic Differentiation",
-        "Automatic differentiation in machine learning: a survey"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1502_05767/",
-      "mindMapUrl": "../mind-map/#paper=1502_05767"
-    },
-    {
-      "id": "1502_03492",
-      "label": "Gradient-based Hyperparameter Optimization through Reversible Learning",
-      "title": "Gradient-based Hyperparameter Optimization through Reversible Learning",
-      "authors": [
-        "Dougal Maclaurin",
-        "David Duvenaud",
-        "Ryan P. Adams"
-      ],
-      "authorShort": "Maclaurin, Duvenaud, Adams",
-      "year": 2015,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Automatic Differentiation",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Automatic Differentiation",
-        "Gradient-based Hyperparameter Optimization through Reversible Learning"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1502_03492/",
-      "mindMapUrl": "../mind-map/#paper=1502_03492"
-    },
-    {
       "id": "1503_01243",
       "label": "A Differential Equation for Modeling Nesterov's Accelerated Gradient Method",
       "title": "A Differential Equation for Modeling Nesterov's Accelerated Gradient Method: Theory and Insights",
@@ -14963,11 +15033,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "A Differential Equation for Modeling Nesterov's Accelerated Gradient Method"
       ],
@@ -14975,87 +15047,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/1503_01243/",
       "mindMapUrl": "../mind-map/#paper=1503_01243"
-    },
-    {
-      "id": "1502_04759",
-      "label": "Coordinate Descent Algorithms",
-      "title": "Coordinate Descent Algorithms",
-      "authors": [
-        "Stephen J. Wright"
-      ],
-      "authorShort": "Wright",
-      "year": 2015,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "First-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "First-Order Methods",
-        "Coordinate Descent Algorithms"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1502_04759/",
-      "mindMapUrl": "../mind-map/#paper=1502_04759"
-    },
-    {
-      "id": "1503_07222",
-      "label": "Exponential Convergence Bounds Using Integral Quadratic Constraints",
-      "title": "Exponential Convergence Bounds Using Integral Quadratic Constraints",
-      "authors": [
-        "Ross Boczar",
-        "Laurent Lessard",
-        "Benjamin Recht"
-      ],
-      "authorShort": "Boczar, Lessard, Recht",
-      "year": 2015,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "First-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "First-Order Methods",
-        "Exponential Convergence Bounds Using Integral Quadratic Constraints"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1503_07222/",
-      "mindMapUrl": "../mind-map/#paper=1503_07222"
-    },
-    {
-      "id": "1503_05671",
-      "label": "Optimizing Neural Networks with Kronecker-factored Approximate Curvature",
-      "title": "Optimizing Neural Networks with Kronecker-factored Approximate Curvature",
-      "authors": [
-        "James Martens",
-        "Roger Grosse"
-      ],
-      "authorShort": "Martens, Grosse",
-      "year": 2015,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "First-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "First-Order Methods",
-        "Optimizing Neural Networks with Kronecker-factored Approximate Curvature"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1503_05671/",
-      "mindMapUrl": "../mind-map/#paper=1503_05671"
     },
     {
       "id": "1502_02009",
@@ -15074,11 +15065,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Proximal Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "Proximal Methods",
         "A General Analysis of the Convergence of ADMM"
       ],
@@ -15088,30 +15081,90 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1502_02009"
     },
     {
-      "id": "1507_01030",
-      "label": "Incremental Gradient, Subgradient, and Proximal Methods for Convex Optimization: A Survey",
-      "title": "Incremental Gradient, Subgradient, and Proximal Methods for Convex Optimization: A Survey",
+      "id": "1507_08752",
+      "label": "An Optimal Algorithm for Bandit and Zero-Order Convex Optimization with Two-Point Feedback",
+      "title": "An Optimal Algorithm for Bandit and Zero-Order Convex Optimization with Two-Point Feedback",
       "authors": [
-        "Dimitri P. Bertsekas"
+        "Ohad Shamir"
       ],
-      "authorShort": "Bertsekas",
+      "authorShort": "Shamir",
       "year": 2015,
       "source": "",
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Proximal Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
-        "Proximal Methods",
-        "Incremental Gradient, Subgradient, and Proximal Methods for Convex Optimization: A Survey"
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "An Optimal Algorithm for Bandit and Zero-Order Convex Optimization with Two-Point Feedback"
       ],
       "tags": [],
       "summary": "",
-      "url": "../papers/1507_01030/",
-      "mindMapUrl": "../mind-map/#paper=1507_01030"
+      "url": "../papers/1507_08752/",
+      "mindMapUrl": "../mind-map/#paper=1507_08752"
+    },
+    {
+      "id": "1502_05767",
+      "label": "Automatic differentiation in machine learning: a survey",
+      "title": "Automatic Differentiation in Machine Learning: A Survey",
+      "authors": [
+        "Atilim Gunes Baydin",
+        "Barak A. Pearlmutter",
+        "Alexey Andreyevich Radul",
+        "Jeffrey Mark Siskind"
+      ],
+      "authorShort": "Baydin, Pearlmutter, Radul",
+      "year": 2015,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Automatic Differentiation",
+        "Automatic differentiation in machine learning: a survey"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1502_05767/",
+      "mindMapUrl": "../mind-map/#paper=1502_05767"
+    },
+    {
+      "id": "1502_04759",
+      "label": "Coordinate Descent Algorithms",
+      "title": "Coordinate Descent Algorithms",
+      "authors": [
+        "Stephen J. Wright"
+      ],
+      "authorShort": "Wright",
+      "year": 2015,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Coordinate Descent Algorithms"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1502_04759/",
+      "mindMapUrl": "../mind-map/#paper=1502_04759"
     },
     {
       "id": "1505_05116",
@@ -15127,11 +15180,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Robust Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Robust Optimization",
         "Data-driven Distributionally Robust Optimization Using the Wasserstein Metric: Performance Guarantees and Tractable Reformulations"
       ],
@@ -15139,6 +15193,209 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/1505_05116/",
       "mindMapUrl": "../mind-map/#paper=1505_05116"
+    },
+    {
+      "id": "1503_07222",
+      "label": "Exponential Convergence Bounds Using Integral Quadratic Constraints",
+      "title": "Exponential Convergence Bounds Using Integral Quadratic Constraints",
+      "authors": [
+        "Ross Boczar",
+        "Laurent Lessard",
+        "Benjamin Recht"
+      ],
+      "authorShort": "Boczar, Lessard, Recht",
+      "year": 2015,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Exponential Convergence Bounds Using Integral Quadratic Constraints"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1503_07222/",
+      "mindMapUrl": "../mind-map/#paper=1503_07222"
+    },
+    {
+      "id": "1502_03492",
+      "label": "Gradient-based Hyperparameter Optimization through Reversible Learning",
+      "title": "Gradient-based Hyperparameter Optimization through Reversible Learning",
+      "authors": [
+        "Dougal Maclaurin",
+        "David Duvenaud",
+        "Ryan P. Adams"
+      ],
+      "authorShort": "Maclaurin, Duvenaud, Adams",
+      "year": 2015,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Automatic Differentiation",
+        "Gradient-based Hyperparameter Optimization through Reversible Learning"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1502_03492/",
+      "mindMapUrl": "../mind-map/#paper=1502_03492"
+    },
+    {
+      "id": "1504_04909",
+      "label": "Illuminating Search Spaces by Mapping Elites",
+      "title": "Illuminating Search Spaces by Mapping Elites",
+      "authors": [
+        "Jean-Baptiste Mouret",
+        "Jeff Clune"
+      ],
+      "authorShort": "Mouret, Clune",
+      "year": 2015,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "Illuminating Search Spaces by Mapping Elites"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1504_04909/",
+      "mindMapUrl": "../mind-map/#paper=1504_04909"
+    },
+    {
+      "id": "1507_01030",
+      "label": "Incremental Gradient, Subgradient, and Proximal Methods for Convex Optimization: A Survey",
+      "title": "Incremental Gradient, Subgradient, and Proximal Methods for Convex Optimization: A Survey",
+      "authors": [
+        "Dimitri P. Bertsekas"
+      ],
+      "authorShort": "Bertsekas",
+      "year": 2015,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Proximal Methods",
+        "Incremental Gradient, Subgradient, and Proximal Methods for Convex Optimization: A Survey"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1507_01030/",
+      "mindMapUrl": "../mind-map/#paper=1507_01030"
+    },
+    {
+      "id": "1503_05671",
+      "label": "Optimizing Neural Networks with Kronecker-factored Approximate Curvature",
+      "title": "Optimizing Neural Networks with Kronecker-factored Approximate Curvature",
+      "authors": [
+        "James Martens",
+        "Roger Grosse"
+      ],
+      "authorShort": "Martens, Grosse",
+      "year": 2015,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Optimizing Neural Networks with Kronecker-factored Approximate Curvature"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1503_05671/",
+      "mindMapUrl": "../mind-map/#paper=1503_05671"
+    },
+    {
+      "id": "2015_nesterov_random_gradient_free_minimization",
+      "label": "Random Gradient-Free Minimization of Convex Functions",
+      "title": "Random Gradient-Free Minimization of Convex Functions",
+      "authors": [
+        "Yurii Nesterov",
+        "Vladimir Spokoiny"
+      ],
+      "authorShort": "Nesterov, Spokoiny",
+      "year": 2015,
+      "source": "Foundations of Computational Mathematics",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Random Gradient-Free Minimization of Convex Functions"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2015_nesterov_random_gradient_free_minimization/",
+      "mindMapUrl": "../mind-map/#paper=2015_nesterov_random_gradient_free_minimization"
+    },
+    {
+      "id": "2015_yuan_recent_advances_in_trust",
+      "label": "Recent advances in trust region algorithms",
+      "title": "Recent Advances in Trust Region Algorithms",
+      "authors": [
+        "Ya-xiang Yuan"
+      ],
+      "authorShort": "Yuan",
+      "year": 2015,
+      "source": "Mathematical Programming",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Trust Region Methods",
+        "Recent advances in trust region algorithms"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2015_yuan_recent_advances_in_trust/",
+      "mindMapUrl": "../mind-map/#paper=2015_yuan_recent_advances_in_trust"
     },
     {
       "id": "1510_08560",
@@ -15155,11 +15412,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Stochastic Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Stochastic Optimization",
         "Why Random Reshuffling Beats Stochastic Gradient Descent"
       ],
@@ -15167,113 +15425,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/1510_08560/",
       "mindMapUrl": "../mind-map/#paper=1510_08560"
-    },
-    {
-      "id": "2015_yuan_recent_advances_in_trust",
-      "label": "Recent advances in trust region algorithms",
-      "title": "Recent Advances in Trust Region Algorithms",
-      "authors": [
-        "Ya-xiang Yuan"
-      ],
-      "authorShort": "Yuan",
-      "year": 2015,
-      "source": "Mathematical Programming",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Trust Region Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Trust Region Methods",
-        "Recent advances in trust region algorithms"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2015_yuan_recent_advances_in_trust/",
-      "mindMapUrl": "../mind-map/#paper=2015_yuan_recent_advances_in_trust"
-    },
-    {
-      "id": "1507_08752",
-      "label": "An Optimal Algorithm for Bandit and Zero-Order Convex Optimization with Two-Point Feedback",
-      "title": "An Optimal Algorithm for Bandit and Zero-Order Convex Optimization with Two-Point Feedback",
-      "authors": [
-        "Ohad Shamir"
-      ],
-      "authorShort": "Shamir",
-      "year": 2015,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "An Optimal Algorithm for Bandit and Zero-Order Convex Optimization with Two-Point Feedback"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1507_08752/",
-      "mindMapUrl": "../mind-map/#paper=1507_08752"
-    },
-    {
-      "id": "1504_04909",
-      "label": "Illuminating Search Spaces by Mapping Elites",
-      "title": "Illuminating Search Spaces by Mapping Elites",
-      "authors": [
-        "Jean-Baptiste Mouret",
-        "Jeff Clune"
-      ],
-      "authorShort": "Mouret, Clune",
-      "year": 2015,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Evolutionary Algorithms",
-        "Illuminating Search Spaces by Mapping Elites"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1504_04909/",
-      "mindMapUrl": "../mind-map/#paper=1504_04909"
-    },
-    {
-      "id": "2015_nesterov_random_gradient_free_minimization",
-      "label": "Random Gradient-Free Minimization of Convex Functions",
-      "title": "Random Gradient-Free Minimization of Convex Functions",
-      "authors": [
-        "Yurii Nesterov",
-        "Vladimir Spokoiny"
-      ],
-      "authorShort": "Nesterov, Spokoiny",
-      "year": 2015,
-      "source": "Foundations of Computational Mathematics",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Random Gradient-Free Minimization of Convex Functions"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2015_nesterov_random_gradient_free_minimization/",
-      "mindMapUrl": "../mind-map/#paper=2015_nesterov_random_gradient_free_minimization"
     },
     {
       "id": "2015_kuindersma_optimization_based_locomotion_planning",
@@ -16504,6 +16655,34 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2016_gros_from_linear_to_nonlinear"
     },
     {
+      "id": "1609_04747",
+      "label": "An overview of gradient descent optimization algorithms",
+      "title": "An Overview of Gradient Descent Optimization Algorithms",
+      "authors": [
+        "Sebastian Ruder"
+      ],
+      "authorShort": "Ruder",
+      "year": 2016,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "An overview of gradient descent optimization algorithms"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1609_04747/",
+      "mindMapUrl": "../mind-map/#paper=1609_04747"
+    },
+    {
       "id": "1606_05225",
       "label": "Geometric Median in Nearly Linear Time",
       "title": "Geometric Median in Nearly Linear Time",
@@ -16520,11 +16699,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Convex Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
         "Geometric Median in Nearly Linear Time"
@@ -16533,32 +16713,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/1606_05225/",
       "mindMapUrl": "../mind-map/#paper=1606_05225"
-    },
-    {
-      "id": "1609_04747",
-      "label": "An overview of gradient descent optimization algorithms",
-      "title": "An Overview of Gradient Descent Optimization Algorithms",
-      "authors": [
-        "Sebastian Ruder"
-      ],
-      "authorShort": "Ruder",
-      "year": 2016,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "First-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "First-Order Methods",
-        "An overview of gradient descent optimization algorithms"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1609_04747/",
-      "mindMapUrl": "../mind-map/#paper=1609_04747"
     },
     {
       "id": "1602_04915",
@@ -16576,11 +16730,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Gradient Descent Converges to Minimizers"
       ],
@@ -16602,11 +16758,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Katyusha"
       ],
@@ -16630,11 +16788,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Linear Convergence of Gradient and Proximal-Gradient Methods Under the Polyak-Łojasiewicz Condition"
       ],
@@ -16642,6 +16802,35 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2016_karimi_linear_convergence_of_gradient/",
       "mindMapUrl": "../mind-map/#paper=2016_karimi_linear_convergence_of_gradient"
+    },
+    {
+      "id": "1604_00772",
+      "label": "The CMA Evolution Strategy: A Tutorial",
+      "title": "The CMA Evolution Strategy: A Tutorial",
+      "authors": [
+        "Nikolaus Hansen"
+      ],
+      "authorShort": "Hansen",
+      "year": 2016,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "The CMA Evolution Strategy: A Tutorial"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1604_00772/",
+      "mindMapUrl": "../mind-map/#paper=1604_00772"
     },
     {
       "id": "1603_00943",
@@ -16731,33 +16920,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/1609_03285/",
       "mindMapUrl": "../mind-map/#paper=1609_03285"
-    },
-    {
-      "id": "1604_00772",
-      "label": "The CMA Evolution Strategy: A Tutorial",
-      "title": "The CMA Evolution Strategy: A Tutorial",
-      "authors": [
-        "Nikolaus Hansen"
-      ],
-      "authorShort": "Hansen",
-      "year": 2016,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Evolutionary Algorithms",
-        "The CMA Evolution Strategy: A Tutorial"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1604_00772/",
-      "mindMapUrl": "../mind-map/#paper=1604_00772"
     },
     {
       "id": "1601_04037",
@@ -17955,63 +18117,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1706_01337"
     },
     {
-      "id": "1703_00443",
-      "label": "OptNet",
-      "title": "OptNet: Differentiable Optimization as a Layer in Neural Networks",
-      "authors": [
-        "Brandon Amos",
-        "J. Zico Kolter"
-      ],
-      "authorShort": "Amos, Kolter",
-      "year": 2017,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Convex Optimization",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "OptNet"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1703_00443/",
-      "mindMapUrl": "../mind-map/#paper=1703_00443"
-    },
-    {
-      "id": "1705_00812",
-      "label": "Semidefinite Approximations of the Matrix Logarithm",
-      "title": "Semidefinite Approximations of the Matrix Logarithm",
-      "authors": [
-        "Hamza Fawzi",
-        "James Saunderson",
-        "Pablo A. Parrilo"
-      ],
-      "authorShort": "Fawzi, Saunderson, Parrilo",
-      "year": 2017,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Convex Optimization",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "Semidefinite Approximations of the Matrix Logarithm"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1705_00812/",
-      "mindMapUrl": "../mind-map/#paper=1705_00812"
-    },
-    {
       "id": "1710_04753",
       "label": "A Robust Accelerated Optimization Algorithm for Strongly Convex Functions",
       "title": "A Robust Accelerated Optimization Algorithm for Strongly Convex Functions",
@@ -18027,11 +18132,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "A Robust Accelerated Optimization Algorithm for Strongly Convex Functions"
       ],
@@ -18039,6 +18146,36 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/1710_04753/",
       "mindMapUrl": "../mind-map/#paper=1710_04753"
+    },
+    {
+      "id": "1710_10571",
+      "label": "Certifying Some Distributional Robustness with Principled Adversarial Training",
+      "title": "Certifying Some Distributional Robustness with Principled Adversarial Training",
+      "authors": [
+        "Aman Sinha",
+        "Hongseok Namkoong",
+        "Riccardo Volpi",
+        "John Duchi"
+      ],
+      "authorShort": "Sinha, Namkoong, Volpi",
+      "year": 2017,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Robust Optimization",
+        "Certifying Some Distributional Robustness with Principled Adversarial Training"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1710_10571/",
+      "mindMapUrl": "../mind-map/#paper=1710_10571"
     },
     {
       "id": "1703_01670",
@@ -18054,11 +18191,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Control Interpretations for First-Order Optimization Methods"
       ],
@@ -18081,11 +18220,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Decoupled Weight Decay Regularization"
       ],
@@ -18108,11 +18249,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Dissipativity Theory for Nesterov's Accelerated Method"
       ],
@@ -18138,11 +18281,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "How to Escape Saddle Points Efficiently"
       ],
@@ -18150,6 +18295,65 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/1703_00887/",
       "mindMapUrl": "../mind-map/#paper=1703_00887"
+    },
+    {
+      "id": "1703_00443",
+      "label": "OptNet",
+      "title": "OptNet: Differentiable Optimization as a Layer in Neural Networks",
+      "authors": [
+        "Brandon Amos",
+        "J. Zico Kolter"
+      ],
+      "authorShort": "Amos, Kolter",
+      "year": 2017,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "General Convex Optimization",
+        "OptNet"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1703_00443/",
+      "mindMapUrl": "../mind-map/#paper=1703_00443"
+    },
+    {
+      "id": "1708_09251",
+      "label": "Quality and Diversity Optimization: A Unifying Modular Framework",
+      "title": "Quality and Diversity Optimization: A Unifying Modular Framework",
+      "authors": [
+        "Antoine Cully",
+        "Yiannis Demiris"
+      ],
+      "authorShort": "Cully, Demiris",
+      "year": 2017,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "Quality and Diversity Optimization: A Unifying Modular Framework"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1708_09251/",
+      "mindMapUrl": "../mind-map/#paper=1708_09251"
     },
     {
       "id": "1703_00102",
@@ -18167,11 +18371,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "SARAH"
       ],
@@ -18179,6 +18385,36 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/1703_00102/",
       "mindMapUrl": "../mind-map/#paper=1703_00102"
+    },
+    {
+      "id": "1705_00812",
+      "label": "Semidefinite Approximations of the Matrix Logarithm",
+      "title": "Semidefinite Approximations of the Matrix Logarithm",
+      "authors": [
+        "Hamza Fawzi",
+        "James Saunderson",
+        "Pablo A. Parrilo"
+      ],
+      "authorShort": "Fawzi, Saunderson, Parrilo",
+      "year": 2017,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "General Convex Optimization",
+        "Semidefinite Approximations of the Matrix Logarithm"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1705_00812/",
+      "mindMapUrl": "../mind-map/#paper=1705_00812"
     },
     {
       "id": "2017_gurbuzbalaban_when_cyclic_coordinate_descent",
@@ -18196,11 +18432,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "When Cyclic Coordinate Descent Outperforms Randomized Coordinate Descent"
       ],
@@ -18208,35 +18446,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2017_gurbuzbalaban_when_cyclic_coordinate_descent/",
       "mindMapUrl": "../mind-map/#paper=2017_gurbuzbalaban_when_cyclic_coordinate_descent"
-    },
-    {
-      "id": "1710_10571",
-      "label": "Certifying Some Distributional Robustness with Principled Adversarial Training",
-      "title": "Certifying Some Distributional Robustness with Principled Adversarial Training",
-      "authors": [
-        "Aman Sinha",
-        "Hongseok Namkoong",
-        "Riccardo Volpi",
-        "John Duchi"
-      ],
-      "authorShort": "Sinha, Namkoong, Volpi",
-      "year": 2017,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Robust Optimization",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Robust Optimization",
-        "Certifying Some Distributional Robustness with Principled Adversarial Training"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1710_10571/",
-      "mindMapUrl": "../mind-map/#paper=1710_10571"
     },
     {
       "id": "1709_04494",
@@ -18310,34 +18519,6 @@ window.timelineData = {
       "summary": "Introduces OSQP, a general-purpose convex quadratic programming solver built around an ADMM-style operator splitting that repeatedly solves a quasi-definite linear system with reusable structure. The paper is especially useful for embedded and repeated-solve settings because it combines robustness to semidefinite objectives and dependent constraints with warm starts, factorization caching, optional division-free iterations, infeasibility detection, and a compact open-source C implementation.",
       "url": "../papers/1711_08013/",
       "mindMapUrl": "../mind-map/#paper=1711_08013"
-    },
-    {
-      "id": "1708_09251",
-      "label": "Quality and Diversity Optimization: A Unifying Modular Framework",
-      "title": "Quality and Diversity Optimization: A Unifying Modular Framework",
-      "authors": [
-        "Antoine Cully",
-        "Yiannis Demiris"
-      ],
-      "authorShort": "Cully, Demiris",
-      "year": 2017,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Evolutionary Algorithms",
-        "Quality and Diversity Optimization: A Unifying Modular Framework"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1708_09251/",
-      "mindMapUrl": "../mind-map/#paper=1708_09251"
     },
     {
       "id": "2017_galceran_multipolicy_decision_making_for",
@@ -20100,6 +20281,35 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1802_09767"
     },
     {
+      "id": "1806_06655",
+      "label": "Beyond Convexity - Contraction and Global Convergence of Gradient Descent",
+      "title": "Beyond Convexity -- Contraction and Global Convergence of Gradient Descent",
+      "authors": [
+        "Patrick M. Wensing",
+        "Jean-Jacques E. Slotine"
+      ],
+      "authorShort": "Wensing, Slotine",
+      "year": 2018,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Beyond Convexity - Contraction and Global Convergence of Gradient Descent"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1806_06655/",
+      "mindMapUrl": "../mind-map/#paper=1806_06655"
+    },
+    {
       "id": "1802_04367",
       "label": "Computational Optimal Transport: Complexity by Accelerated Gradient Descent Is Better than by Sinkhorn's Algorithm",
       "title": "Computational Optimal Transport: Complexity by Accelerated Gradient Descent Is Better than by Sinkhorn's Algorithm",
@@ -20114,11 +20324,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Convex Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
         "Computational Optimal Transport: Complexity by Accelerated Gradient Descent Is Better than by Sinkhorn's Algorithm"
@@ -20129,31 +20340,65 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1802_04367"
     },
     {
-      "id": "1806_06655",
-      "label": "Beyond Convexity - Contraction and Global Convergence of Gradient Descent",
-      "title": "Beyond Convexity -- Contraction and Global Convergence of Gradient Descent",
+      "id": "1806_05865",
+      "label": "Data-Efficient Design Exploration through Surrogate-Assisted Illumination",
+      "title": "Data-Efficient Design Exploration through Surrogate-Assisted Illumination",
       "authors": [
-        "Patrick M. Wensing",
-        "Jean-Jacques E. Slotine"
+        "Adam Gaier",
+        "Alexander Asteroth",
+        "Jean-Baptiste Mouret"
       ],
-      "authorShort": "Wensing, Slotine",
+      "authorShort": "Gaier, Asteroth, Mouret",
       "year": 2018,
       "source": "",
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
-        "First-Order Methods",
-        "Beyond Convexity - Contraction and Global Convergence of Gradient Descent"
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "Data-Efficient Design Exploration through Surrogate-Assisted Illumination"
       ],
       "tags": [],
       "summary": "",
-      "url": "../papers/1806_06655/",
-      "mindMapUrl": "../mind-map/#paper=1806_06655"
+      "url": "../papers/1806_05865/",
+      "mindMapUrl": "../mind-map/#paper=1806_05865"
+    },
+    {
+      "id": "1804_03906",
+      "label": "Discovering the Elite Hypervolume by Leveraging Interspecies Correlation",
+      "title": "Discovering the Elite Hypervolume by Leveraging Interspecies Correlation",
+      "authors": [
+        "Vassilis Vassiliades",
+        "Jean-Baptiste Mouret"
+      ],
+      "authorShort": "Vassiliades, Mouret",
+      "year": 2018,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "Discovering the Elite Hypervolume by Leveraging Interspecies Correlation"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1804_03906/",
+      "mindMapUrl": "../mind-map/#paper=1804_03906"
     },
     {
       "id": "1810_02054",
@@ -20171,11 +20416,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Gradient Descent Provably Optimizes Over-parameterized Neural Networks"
       ],
@@ -20199,11 +20446,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Lyapunov Functions for First-Order Methods: Tight Automated Convergence Guarantees"
       ],
@@ -20227,11 +20476,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "On Symplectic Optimization"
       ],
@@ -20255,11 +20506,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization"
       ],
@@ -20267,6 +20520,38 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2018_arora_on_the_optimization_of/",
       "mindMapUrl": "../mind-map/#paper=2018_arora_on_the_optimization_of"
+    },
+    {
+      "id": "1802_01548",
+      "label": "Regularized Evolution for Image Classifier Architecture Search",
+      "title": "Regularized Evolution for Image Classifier Architecture Search",
+      "authors": [
+        "Esteban Real",
+        "Alok Aggarwal",
+        "Yanping Huang",
+        "Quoc V Le"
+      ],
+      "authorShort": "Real, Aggarwal, Huang",
+      "year": 2018,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "Regularized Evolution for Image Classifier Architecture Search"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1802_01548/",
+      "mindMapUrl": "../mind-map/#paper=1802_01548"
     },
     {
       "id": "2018_van_scoy_the_fastest_known_globally",
@@ -20283,11 +20568,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "The Fastest Known Globally Convergent First-Order Method for Minimizing Strongly Convex Functions"
       ],
@@ -20311,11 +20598,12 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Stochastic Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Stochastic Optimization",
         "When Does SGD Escape Local Minima?"
       ],
@@ -20329,6 +20617,39 @@ window.timelineData = {
       "summary": "Provides a theoretical explanation for why SGD escapes sharp local minima, reframing SGD as optimizing a smoothed (convolved) version of the loss. The one-point convexity condition identified is broad enough to encompass neural network loss surfaces, bridging the gap between theory and practical SGD success.",
       "url": "../papers/1802_06175/",
       "mindMapUrl": "../mind-map/#paper=1802_06175"
+    },
+    {
+      "id": "1805_10367",
+      "label": "Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization",
+      "title": "Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization",
+      "authors": [
+        "Sijia Liu",
+        "Bhavya Kailkhura",
+        "Pin-Yu Chen",
+        "Paishun Ting",
+        "Shiyu Chang",
+        "Lisa Amini"
+      ],
+      "authorShort": "Liu, Kailkhura, Chen",
+      "year": 2018,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1805_10367/",
+      "mindMapUrl": "../mind-map/#paper=1805_10367"
     },
     {
       "id": "2018_andersson_casadi_a_software_framework",
@@ -20360,124 +20681,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2018_andersson_casadi_a_software_framework/",
       "mindMapUrl": "../mind-map/#paper=2018_andersson_casadi_a_software_framework"
-    },
-    {
-      "id": "1806_05865",
-      "label": "Data-Efficient Design Exploration through Surrogate-Assisted Illumination",
-      "title": "Data-Efficient Design Exploration through Surrogate-Assisted Illumination",
-      "authors": [
-        "Adam Gaier",
-        "Alexander Asteroth",
-        "Jean-Baptiste Mouret"
-      ],
-      "authorShort": "Gaier, Asteroth, Mouret",
-      "year": 2018,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Evolutionary Algorithms",
-        "Data-Efficient Design Exploration through Surrogate-Assisted Illumination"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1806_05865/",
-      "mindMapUrl": "../mind-map/#paper=1806_05865"
-    },
-    {
-      "id": "1804_03906",
-      "label": "Discovering the Elite Hypervolume by Leveraging Interspecies Correlation",
-      "title": "Discovering the Elite Hypervolume by Leveraging Interspecies Correlation",
-      "authors": [
-        "Vassilis Vassiliades",
-        "Jean-Baptiste Mouret"
-      ],
-      "authorShort": "Vassiliades, Mouret",
-      "year": 2018,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Evolutionary Algorithms",
-        "Discovering the Elite Hypervolume by Leveraging Interspecies Correlation"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1804_03906/",
-      "mindMapUrl": "../mind-map/#paper=1804_03906"
-    },
-    {
-      "id": "1802_01548",
-      "label": "Regularized Evolution for Image Classifier Architecture Search",
-      "title": "Regularized Evolution for Image Classifier Architecture Search",
-      "authors": [
-        "Esteban Real",
-        "Alok Aggarwal",
-        "Yanping Huang",
-        "Quoc V Le"
-      ],
-      "authorShort": "Real, Aggarwal, Huang",
-      "year": 2018,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Evolutionary Algorithms",
-        "Regularized Evolution for Image Classifier Architecture Search"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1802_01548/",
-      "mindMapUrl": "../mind-map/#paper=1802_01548"
-    },
-    {
-      "id": "1805_10367",
-      "label": "Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization",
-      "title": "Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization",
-      "authors": [
-        "Sijia Liu",
-        "Bhavya Kailkhura",
-        "Pin-Yu Chen",
-        "Paishun Ting",
-        "Shiyu Chang",
-        "Lisa Amini"
-      ],
-      "authorShort": "Liu, Kailkhura, Chen",
-      "year": 2018,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1805_10367/",
-      "mindMapUrl": "../mind-map/#paper=1805_10367"
     },
     {
       "id": "2018_marion_director_a_user_interface",
@@ -22471,6 +22674,73 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1904_08451"
     },
     {
+      "id": "2019_yang_a_survey_of_distributed",
+      "label": "A survey of distributed optimization",
+      "title": "A Survey of Distributed Optimization",
+      "authors": [
+        "Tao Yang",
+        "Xinlei Yi",
+        "Junfeng Wu",
+        "Ye Yuan",
+        "Di Wu",
+        "Ziyang Meng",
+        "Yiguang Hong",
+        "Hong Wang",
+        "Zongli Lin",
+        "Karl H. Johansson"
+      ],
+      "authorShort": "Yang, Yi, Wu",
+      "year": 2019,
+      "source": "Annual Reviews in Control",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Minimax & Game Theory",
+        "A survey of distributed optimization"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2019_yang_a_survey_of_distributed/",
+      "mindMapUrl": "../mind-map/#paper=2019_yang_a_survey_of_distributed"
+    },
+    {
+      "id": "2019_gaier_are_quality_diversity_algorithms",
+      "label": "Are Quality Diversity Algorithms Better at Generating Stepping Stones than Objective-based Search?",
+      "title": "Are Quality Diversity Algorithms Better at Generating Stepping Stones than Objective-based Search?",
+      "authors": [
+        "Adam Gaier",
+        "Alexander Asteroth",
+        "Jean-Baptiste Mouret"
+      ],
+      "authorShort": "Gaier, Asteroth, Mouret",
+      "year": 2019,
+      "source": "Proceedings of the Genetic and Evolutionary Computation Conference Companion",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "Are Quality Diversity Algorithms Better at Generating Stepping Stones than Objective-based Search?"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2019_gaier_are_quality_diversity_algorithms/",
+      "mindMapUrl": "../mind-map/#paper=2019_gaier_are_quality_diversity_algorithms"
+    },
+    {
       "id": "1903_04100",
       "label": "Conformal Symplectic and Relativistic Optimization",
       "title": "Conformal Symplectic and Relativistic Optimization",
@@ -22486,11 +22756,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Conformal Symplectic and Relativistic Optimization"
       ],
@@ -22507,6 +22779,67 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1903_04100"
     },
     {
+      "id": "1911_06317",
+      "label": "Gradientless Descent",
+      "title": "Gradientless Descent: High-Dimensional Zeroth-Order Optimization",
+      "authors": [
+        "Daniel Golovin",
+        "John Karro",
+        "Greg Kochanski",
+        "Chansoo Lee",
+        "Xingyou Song",
+        "Qiuyi Zhang"
+      ],
+      "authorShort": "Golovin, Karro, Kochanski",
+      "year": 2019,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Gradientless Descent"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1911_06317/",
+      "mindMapUrl": "../mind-map/#paper=1911_06317"
+    },
+    {
+      "id": "1910_13204",
+      "label": "Minimal Variance Sampling in Stochastic Gradient Boosting",
+      "title": "Minimal Variance Sampling in Stochastic Gradient Boosting",
+      "authors": [
+        "Bulat Ibragimov",
+        "Gleb Gusev"
+      ],
+      "authorShort": "Ibragimov, Gusev",
+      "year": 2019,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Stochastic Optimization",
+        "Minimal Variance Sampling in Stochastic Gradient Boosting"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/1910_13204/",
+      "mindMapUrl": "../mind-map/#paper=1910_13204"
+    },
+    {
       "id": "1905_10018",
       "label": "Momentum-Based Variance Reduction in Non-Convex SGD",
       "title": "Momentum-Based Variance Reduction in Non-Convex SGD",
@@ -22520,11 +22853,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Momentum-Based Variance Reduction in Non-Convex SGD"
       ],
@@ -22548,11 +22883,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "On the Convergence of Adam and Beyond"
       ],
@@ -22579,11 +22916,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Painless Stochastic Gradient: Interpolation, Line-Search, and Convergence Rates"
       ],
@@ -22606,11 +22945,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Revisiting the Polyak step size"
       ],
@@ -22618,68 +22959,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/1905_00313/",
       "mindMapUrl": "../mind-map/#paper=1905_00313"
-    },
-    {
-      "id": "2019_yang_a_survey_of_distributed",
-      "label": "A survey of distributed optimization",
-      "title": "A Survey of Distributed Optimization",
-      "authors": [
-        "Tao Yang",
-        "Xinlei Yi",
-        "Junfeng Wu",
-        "Ye Yuan",
-        "Di Wu",
-        "Ziyang Meng",
-        "Yiguang Hong",
-        "Hong Wang",
-        "Zongli Lin",
-        "Karl H. Johansson"
-      ],
-      "authorShort": "Yang, Yi, Wu",
-      "year": 2019,
-      "source": "Annual Reviews in Control",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Minimax & Game Theory",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Minimax & Game Theory",
-        "A survey of distributed optimization"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2019_yang_a_survey_of_distributed/",
-      "mindMapUrl": "../mind-map/#paper=2019_yang_a_survey_of_distributed"
-    },
-    {
-      "id": "1910_13204",
-      "label": "Minimal Variance Sampling in Stochastic Gradient Boosting",
-      "title": "Minimal Variance Sampling in Stochastic Gradient Boosting",
-      "authors": [
-        "Bulat Ibragimov",
-        "Gleb Gusev"
-      ],
-      "authorShort": "Ibragimov, Gusev",
-      "year": 2019,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Stochastic Optimization",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Stochastic Optimization",
-        "Minimal Variance Sampling in Stochastic Gradient Boosting"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1910_13204/",
-      "mindMapUrl": "../mind-map/#paper=1910_13204"
     },
     {
       "id": "1912_05686",
@@ -22756,66 +23035,6 @@ window.timelineData = {
       "summary": "Introduces Optuna as a define-by-run hyperparameter optimization framework that lets users construct dynamic search spaces in ordinary Python code. The paper emphasizes practical system design: search and pruning algorithms, simple single-machine use, and scalable distributed execution.",
       "url": "../papers/1907_10902/",
       "mindMapUrl": "../mind-map/#paper=1907_10902"
-    },
-    {
-      "id": "2019_gaier_are_quality_diversity_algorithms",
-      "label": "Are Quality Diversity Algorithms Better at Generating Stepping Stones than Objective-based Search?",
-      "title": "Are Quality Diversity Algorithms Better at Generating Stepping Stones than Objective-based Search?",
-      "authors": [
-        "Adam Gaier",
-        "Alexander Asteroth",
-        "Jean-Baptiste Mouret"
-      ],
-      "authorShort": "Gaier, Asteroth, Mouret",
-      "year": 2019,
-      "source": "Proceedings of the Genetic and Evolutionary Computation Conference Companion",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Evolutionary Algorithms",
-        "Are Quality Diversity Algorithms Better at Generating Stepping Stones than Objective-based Search?"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2019_gaier_are_quality_diversity_algorithms/",
-      "mindMapUrl": "../mind-map/#paper=2019_gaier_are_quality_diversity_algorithms"
-    },
-    {
-      "id": "1911_06317",
-      "label": "Gradientless Descent",
-      "title": "Gradientless Descent: High-Dimensional Zeroth-Order Optimization",
-      "authors": [
-        "Daniel Golovin",
-        "John Karro",
-        "Greg Kochanski",
-        "Chansoo Lee",
-        "Xingyou Song",
-        "Qiuyi Zhang"
-      ],
-      "authorShort": "Golovin, Karro, Kochanski",
-      "year": 2019,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Gradientless Descent"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/1911_06317/",
-      "mindMapUrl": "../mind-map/#paper=1911_06317"
     },
     {
       "id": "1907_01474",
@@ -24802,11 +25021,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "A Simple Convergence Proof of Adam and Adagrad"
       ],
@@ -24833,11 +25054,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Adaptive Gradient Methods Converge Faster with Over-Parameterization (but you should do a line-search)"
       ],
@@ -24863,11 +25086,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Catapult mechanism"
       ],
@@ -24875,67 +25100,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2003_02218/",
       "mindMapUrl": "../mind-map/#paper=2003_02218"
-    },
-    {
-      "id": "2012_06188",
-      "label": "Recent Theoretical Advances in Non-Convex Optimization",
-      "title": "Recent Theoretical Advances in Non-Convex Optimization",
-      "authors": [
-        "Marina Danilova",
-        "Pavel Dvurechensky",
-        "Alexander Gasnikov",
-        "Eduard Gorbunov",
-        "Sergey Guminov",
-        "Dmitry Kamzolov",
-        "Innokentiy Shibaev"
-      ],
-      "authorShort": "Danilova, Dvurechensky, Gasnikov",
-      "year": 2020,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "First-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "First-Order Methods",
-        "Recent Theoretical Advances in Non-Convex Optimization"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2012_06188/",
-      "mindMapUrl": "../mind-map/#paper=2012_06188"
-    },
-    {
-      "id": "2010_01412",
-      "label": "Sharpness-Aware Minimization for Efficiently Improving Generalization",
-      "title": "Sharpness-Aware Minimization for Efficiently Improving Generalization",
-      "authors": [
-        "Pierre Foret",
-        "Ariel Kleiner",
-        "Hossein Mobahi",
-        "Behnam Neyshabur"
-      ],
-      "authorShort": "Foret, Kleiner, Mobahi",
-      "year": 2020,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "First-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "First-Order Methods",
-        "Sharpness-Aware Minimization for Efficiently Improving Generalization"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2010_01412/",
-      "mindMapUrl": "../mind-map/#paper=2010_01412"
     },
     {
       "id": "2002_08809",
@@ -24952,11 +25116,14 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Quasi-Newton Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
         "Quasi-Newton Methods",
         "DDPNOpt"
       ],
@@ -24981,11 +25148,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Stochastic Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Stochastic Optimization",
         "PAGE"
       ],
@@ -24993,6 +25161,71 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2008_10898/",
       "mindMapUrl": "../mind-map/#paper=2008_10898"
+    },
+    {
+      "id": "2012_06188",
+      "label": "Recent Theoretical Advances in Non-Convex Optimization",
+      "title": "Recent Theoretical Advances in Non-Convex Optimization",
+      "authors": [
+        "Marina Danilova",
+        "Pavel Dvurechensky",
+        "Alexander Gasnikov",
+        "Eduard Gorbunov",
+        "Sergey Guminov",
+        "Dmitry Kamzolov",
+        "Innokentiy Shibaev"
+      ],
+      "authorShort": "Danilova, Dvurechensky, Gasnikov",
+      "year": 2020,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Recent Theoretical Advances in Non-Convex Optimization"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2012_06188/",
+      "mindMapUrl": "../mind-map/#paper=2012_06188"
+    },
+    {
+      "id": "2010_01412",
+      "label": "Sharpness-Aware Minimization for Efficiently Improving Generalization",
+      "title": "Sharpness-Aware Minimization for Efficiently Improving Generalization",
+      "authors": [
+        "Pierre Foret",
+        "Ariel Kleiner",
+        "Hossein Mobahi",
+        "Behnam Neyshabur"
+      ],
+      "authorShort": "Foret, Kleiner, Mobahi",
+      "year": 2020,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Sharpness-Aware Minimization for Efficiently Improving Generalization"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2010_01412/",
+      "mindMapUrl": "../mind-map/#paper=2010_01412"
     },
     {
       "id": "2004_01142",
@@ -26639,6 +26872,61 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2011_10202"
     },
     {
+      "id": "2103_10698",
+      "label": "AutoTune",
+      "title": "AutoTune: Controller Tuning for High-Speed Flight",
+      "authors": [
+        "Antonio Loquercio",
+        "Alessandro Saviolo",
+        "Davide Scaramuzza"
+      ],
+      "authorShort": "Loquercio, Saviolo, Scaramuzza",
+      "year": 2021,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Controller Autotuning",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Control",
+        "Controller Autotuning",
+        "AutoTune"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2103_10698/",
+      "mindMapUrl": "../mind-map/#paper=2103_10698"
+    },
+    {
+      "id": "2106_10516",
+      "label": "DiffLoop",
+      "title": "DiffLoop: Tuning PID Controllers by Differentiating through the Feedback Loop",
+      "authors": [
+        "Athindran Ramesh Kumar",
+        "Peter J. Ramadge"
+      ],
+      "authorShort": "Kumar, Ramadge",
+      "year": 2021,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Controller Autotuning",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Control",
+        "Controller Autotuning",
+        "DiffLoop"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2106_10516/",
+      "mindMapUrl": "../mind-map/#paper=2106_10516"
+    },
+    {
       "id": "2103_15228",
       "label": "Anomaly Detection Under Multiplicative Noise Model Uncertainty",
       "title": "Anomaly Detection under Multiplicative Noise Model Uncertainty",
@@ -26902,59 +27190,98 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2021_dean_certainty_equivalent_perception_based"
     },
     {
-      "id": "2103_10698",
-      "label": "AutoTune",
-      "title": "AutoTune: Controller Tuning for High-Speed Flight",
+      "id": "2101_04413",
+      "label": "A Regularized Limited Memory BFGS method for Large-Scale Unconstrained Optimization and its Efficient Implementations",
+      "title": "A Regularized Limited Memory BFGS Method for Large-Scale Unconstrained Optimization and Its Efficient Implementations",
       "authors": [
-        "Antonio Loquercio",
-        "Alessandro Saviolo",
-        "Davide Scaramuzza"
+        "Hardik Tankaria",
+        "Shinji Sugimoto",
+        "Nobuo Yamashita"
       ],
-      "authorShort": "Loquercio, Saviolo, Scaramuzza",
+      "authorShort": "Tankaria, Sugimoto, Yamashita",
       "year": 2021,
       "source": "",
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Controller Autotuning",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
-        "Controller Autotuning",
-        "AutoTune"
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
+        "Quasi-Newton Methods",
+        "A Regularized Limited Memory BFGS method for Large-Scale Unconstrained Optimization and its Efficient Implementations"
       ],
       "tags": [],
       "summary": "",
-      "url": "../papers/2103_10698/",
-      "mindMapUrl": "../mind-map/#paper=2103_10698"
+      "url": "../papers/2101_04413/",
+      "mindMapUrl": "../mind-map/#paper=2101_04413"
     },
     {
-      "id": "2106_10516",
-      "label": "DiffLoop",
-      "title": "DiffLoop: Tuning PID Controllers by Differentiating through the Feedback Loop",
+      "id": "2105_04684",
+      "label": "An Automatic System to Detect Equivalence between Iterative Algorithms",
+      "title": "An Automatic System to Detect Equivalence between Iterative Algorithms",
       "authors": [
-        "Athindran Ramesh Kumar",
-        "Peter J. Ramadge"
+        "Shipu Zhao",
+        "Laurent Lessard",
+        "Madeleine Udell"
       ],
-      "authorShort": "Kumar, Ramadge",
+      "authorShort": "Zhao, Lessard, Udell",
       "year": 2021,
       "source": "",
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Controller Autotuning",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
-        "Controller Autotuning",
-        "DiffLoop"
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
+        "Newton's Method",
+        "An Automatic System to Detect Equivalence between Iterative Algorithms"
       ],
       "tags": [],
       "summary": "",
-      "url": "../papers/2106_10516/",
-      "mindMapUrl": "../mind-map/#paper=2106_10516"
+      "url": "../papers/2105_04684/",
+      "mindMapUrl": "../mind-map/#paper=2105_04684"
+    },
+    {
+      "id": "2102_02202",
+      "label": "Embodied Intelligence via Learning and Evolution",
+      "title": "Embodied Intelligence via Learning and Evolution",
+      "authors": [
+        "Agrim Gupta",
+        "Silvio Savarese",
+        "Surya Ganguli",
+        "Li Fei-Fei"
+      ],
+      "authorShort": "Gupta, Savarese, Ganguli",
+      "year": 2021,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "Embodied Intelligence via Learning and Evolution"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2102_02202/",
+      "mindMapUrl": "../mind-map/#paper=2102_02202"
     },
     {
       "id": "2103_00065",
@@ -26973,11 +27300,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability"
       ],
@@ -26985,33 +27314,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2103_00065/",
       "mindMapUrl": "../mind-map/#paper=2103_00065"
-    },
-    {
-      "id": "2109_05059",
-      "label": "The Speed-Robustness Trade-Off for First-Order Methods with Additive Gradient Noise",
-      "title": "The Speed-Robustness Trade-Off for First-Order Methods with Additive Gradient Noise",
-      "authors": [
-        "Bryan Van Scoy",
-        "Laurent Lessard"
-      ],
-      "authorShort": "Scoy, Lessard",
-      "year": 2021,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "First-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "First-Order Methods",
-        "The Speed-Robustness Trade-Off for First-Order Methods with Additive Gradient Noise"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2109_05059/",
-      "mindMapUrl": "../mind-map/#paper=2109_05059"
     },
     {
       "id": "2102_09468",
@@ -27029,11 +27331,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Minimax & Game Theory",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Minimax & Game Theory",
         "Near-optimal Local Convergence of Alternating Gradient Descent-Ascent for Minimax Optimization"
       ],
@@ -27041,34 +27344,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2102_09468/",
       "mindMapUrl": "../mind-map/#paper=2102_09468"
-    },
-    {
-      "id": "2105_04684",
-      "label": "An Automatic System to Detect Equivalence between Iterative Algorithms",
-      "title": "An Automatic System to Detect Equivalence between Iterative Algorithms",
-      "authors": [
-        "Shipu Zhao",
-        "Laurent Lessard",
-        "Madeleine Udell"
-      ],
-      "authorShort": "Zhao, Lessard, Udell",
-      "year": 2021,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Newton's Method",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Newton's Method",
-        "An Automatic System to Detect Equivalence between Iterative Algorithms"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2105_04684/",
-      "mindMapUrl": "../mind-map/#paper=2105_04684"
     },
     {
       "id": "2112_02089",
@@ -27083,11 +27358,14 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Newton's Method",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
         "Newton's Method",
         "Regularized Newton Method",
         "Regularized Newton Method"
@@ -27096,6 +27374,36 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2112_02089/",
       "mindMapUrl": "../mind-map/#paper=2112_02089"
+    },
+    {
+      "id": "2103_05478",
+      "label": "Small errors in random zeroth-order optimization are imaginary",
+      "title": "Small Errors in Random Zeroth-order Optimization Are Imaginary",
+      "authors": [
+        "Wouter Jongeneel",
+        "Man-Chung Yue",
+        "Daniel Kuhn"
+      ],
+      "authorShort": "Jongeneel, Yue, Kuhn",
+      "year": 2021,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Small errors in random zeroth-order optimization are imaginary"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2103_05478/",
+      "mindMapUrl": "../mind-map/#paper=2103_05478"
     },
     {
       "id": "2021_nesterov_superfast_second_order_methods",
@@ -27110,11 +27418,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Newton's Method",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
         "Newton's Method",
         "Superfast Second-Order Methods for Unconstrained Convex Optimization"
       ],
@@ -27124,32 +27435,33 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2021_nesterov_superfast_second_order_methods"
     },
     {
-      "id": "2101_04413",
-      "label": "A Regularized Limited Memory BFGS method for Large-Scale Unconstrained Optimization and its Efficient Implementations",
-      "title": "A Regularized Limited Memory BFGS Method for Large-Scale Unconstrained Optimization and Its Efficient Implementations",
+      "id": "2109_05059",
+      "label": "The Speed-Robustness Trade-Off for First-Order Methods with Additive Gradient Noise",
+      "title": "The Speed-Robustness Trade-Off for First-Order Methods with Additive Gradient Noise",
       "authors": [
-        "Hardik Tankaria",
-        "Shinji Sugimoto",
-        "Nobuo Yamashita"
+        "Bryan Van Scoy",
+        "Laurent Lessard"
       ],
-      "authorShort": "Tankaria, Sugimoto, Yamashita",
+      "authorShort": "Scoy, Lessard",
       "year": 2021,
       "source": "",
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Quasi-Newton Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
-        "Quasi-Newton Methods",
-        "A Regularized Limited Memory BFGS method for Large-Scale Unconstrained Optimization and its Efficient Implementations"
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "The Speed-Robustness Trade-Off for First-Order Methods with Additive Gradient Noise"
       ],
       "tags": [],
       "summary": "",
-      "url": "../papers/2101_04413/",
-      "mindMapUrl": "../mind-map/#paper=2101_04413"
+      "url": "../papers/2109_05059/",
+      "mindMapUrl": "../mind-map/#paper=2109_05059"
     },
     {
       "id": "2104_10201",
@@ -27233,64 +27545,6 @@ window.timelineData = {
       "summary": "Introduces Nevergrad as an open-source platform for black-box and derivative-free optimization, collecting optimizers, benchmark tooling, and practical interfaces in one package. The article is less a theoretical algorithm paper than a software reference for experimentation across noisy, parallel, discrete, continuous, structured, and multiobjective optimization settings.",
       "url": "../papers/2021_bennet_nevergrad_black_box_optimization/",
       "mindMapUrl": "../mind-map/#paper=2021_bennet_nevergrad_black_box_optimization"
-    },
-    {
-      "id": "2102_02202",
-      "label": "Embodied Intelligence via Learning and Evolution",
-      "title": "Embodied Intelligence via Learning and Evolution",
-      "authors": [
-        "Agrim Gupta",
-        "Silvio Savarese",
-        "Surya Ganguli",
-        "Li Fei-Fei"
-      ],
-      "authorShort": "Gupta, Savarese, Ganguli",
-      "year": 2021,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Evolutionary Algorithms",
-        "Embodied Intelligence via Learning and Evolution"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2102_02202/",
-      "mindMapUrl": "../mind-map/#paper=2102_02202"
-    },
-    {
-      "id": "2103_05478",
-      "label": "Small errors in random zeroth-order optimization are imaginary",
-      "title": "Small Errors in Random Zeroth-order Optimization Are Imaginary",
-      "authors": [
-        "Wouter Jongeneel",
-        "Man-Chung Yue",
-        "Daniel Kuhn"
-      ],
-      "authorShort": "Jongeneel, Yue, Kuhn",
-      "year": 2021,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Small errors in random zeroth-order optimization are imaginary"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2103_05478/",
-      "mindMapUrl": "../mind-map/#paper=2103_05478"
     },
     {
       "id": "2102_12668",
@@ -29031,6 +29285,68 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2211_05922"
     },
     {
+      "id": "2209_10021",
+      "label": "DiffTune",
+      "title": "DiffTune: Auto-Tuning through Auto-Differentiation",
+      "authors": [
+        "Sheng Cheng",
+        "Minkyung Kim",
+        "Lin Song",
+        "Chengyu Yang",
+        "Yiquan Jin",
+        "Shenlong Wang",
+        "Naira Hovakimyan"
+      ],
+      "authorShort": "Cheng, Kim, Song",
+      "year": 2022,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Controller Autotuning",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Control",
+        "Controller Autotuning",
+        "DiffTune"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2209_10021/",
+      "mindMapUrl": "../mind-map/#paper=2209_10021"
+    },
+    {
+      "id": "2212_03194",
+      "label": "DiffTune+",
+      "title": "DiffTune+: Hyperparameter-Free Auto-Tuning Using Auto-Differentiation",
+      "authors": [
+        "Sheng Cheng",
+        "Lin Song",
+        "Minkyung Kim",
+        "Shenlong Wang",
+        "Naira Hovakimyan"
+      ],
+      "authorShort": "Cheng, Song, Kim",
+      "year": 2022,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Controller Autotuning",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Control",
+        "Controller Autotuning",
+        "DiffTune+"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2212_03194/",
+      "mindMapUrl": "../mind-map/#paper=2212_03194"
+    },
+    {
       "id": "2207_11220",
       "label": "Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically",
       "title": "Stochastic Algebraic Riccati Equations Are Almost as Easy as Deterministic Ones Theoretically",
@@ -29116,95 +29432,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2207_12517"
     },
     {
-      "id": "2209_10021",
-      "label": "DiffTune",
-      "title": "DiffTune: Auto-Tuning through Auto-Differentiation",
-      "authors": [
-        "Sheng Cheng",
-        "Minkyung Kim",
-        "Lin Song",
-        "Chengyu Yang",
-        "Yiquan Jin",
-        "Shenlong Wang",
-        "Naira Hovakimyan"
-      ],
-      "authorShort": "Cheng, Kim, Song",
-      "year": 2022,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Controller Autotuning",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Controller Autotuning",
-        "DiffTune"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2209_10021/",
-      "mindMapUrl": "../mind-map/#paper=2209_10021"
-    },
-    {
-      "id": "2212_03194",
-      "label": "DiffTune+",
-      "title": "DiffTune+: Hyperparameter-Free Auto-Tuning Using Auto-Differentiation",
-      "authors": [
-        "Sheng Cheng",
-        "Lin Song",
-        "Minkyung Kim",
-        "Shenlong Wang",
-        "Naira Hovakimyan"
-      ],
-      "authorShort": "Cheng, Song, Kim",
-      "year": 2022,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Controller Autotuning",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Controller Autotuning",
-        "DiffTune+"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2212_03194/",
-      "mindMapUrl": "../mind-map/#paper=2212_03194"
-    },
-    {
-      "id": "2205_05653",
-      "label": "The First Optimal Algorithm for Smooth and Strongly-Convex-Strongly-Concave Minimax Optimization",
-      "title": "The First Optimal Algorithm for Smooth and Strongly-Convex-Strongly-Concave Minimax Optimization",
-      "authors": [
-        "Dmitry Kovalev",
-        "Alexander Gasnikov"
-      ],
-      "authorShort": "Kovalev, Gasnikov",
-      "year": 2022,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Minimax & Game Theory",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Minimax & Game Theory",
-        "The First Optimal Algorithm for Smooth and Strongly-Convex-Strongly-Concave Minimax Optimization"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2205_05653/",
-      "mindMapUrl": "../mind-map/#paper=2205_05653"
-    },
-    {
       "id": "2211_00140",
       "label": "A Damped Newton Method Achieves Global O(1/k^2) and Local Quadratic Convergence Rate",
       "title": "A Damped Newton Method Achieves Global O(1/k^2) and Local Quadratic Convergence Rate",
@@ -29222,11 +29449,14 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Newton's Method",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
         "Newton's Method",
         "Regularized Newton Method",
         "A Damped Newton Method Achieves Global O(1/k^2) and Local Quadratic Convergence Rate"
@@ -29237,33 +29467,32 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2211_00140"
     },
     {
-      "id": "2208_05888",
-      "label": "Super-Universal Regularized Newton Method",
-      "title": "Super-Universal Regularized Newton Method",
+      "id": "2205_02160",
+      "label": "Making SGD Parameter-Free",
+      "title": "Making SGD Parameter-Free",
       "authors": [
-        "Nikita Doikov",
-        "Konstantin Mishchenko",
-        "Yurii Nesterov"
+        "Yair Carmon",
+        "Oliver Hinder"
       ],
-      "authorShort": "Doikov, Mishchenko, Nesterov",
+      "authorShort": "Carmon, Hinder",
       "year": 2022,
       "source": "",
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Newton's Method",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
-        "Newton's Method",
-        "Regularized Newton Method",
-        "Super-Universal Regularized Newton Method"
+        "Continuous Optimization",
+        "Stochastic Optimization",
+        "Making SGD Parameter-Free"
       ],
       "tags": [],
       "summary": "",
-      "url": "../papers/2208_05888/",
-      "mindMapUrl": "../mind-map/#paper=2208_05888"
+      "url": "../papers/2205_02160/",
+      "mindMapUrl": "../mind-map/#paper=2205_02160"
     },
     {
       "id": "2207_10820",
@@ -29281,11 +29510,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Robust Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Robust Optimization",
         "Mean Robust Optimization"
       ],
@@ -29295,31 +29525,94 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2207_10820"
     },
     {
-      "id": "2205_02160",
-      "label": "Making SGD Parameter-Free",
-      "title": "Making SGD Parameter-Free",
+      "id": "2208_05888",
+      "label": "Super-Universal Regularized Newton Method",
+      "title": "Super-Universal Regularized Newton Method",
       "authors": [
-        "Yair Carmon",
-        "Oliver Hinder"
+        "Nikita Doikov",
+        "Konstantin Mishchenko",
+        "Yurii Nesterov"
       ],
-      "authorShort": "Carmon, Hinder",
+      "authorShort": "Doikov, Mishchenko, Nesterov",
       "year": 2022,
       "source": "",
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Stochastic Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
-        "Stochastic Optimization",
-        "Making SGD Parameter-Free"
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
+        "Newton's Method",
+        "Regularized Newton Method",
+        "Super-Universal Regularized Newton Method"
       ],
       "tags": [],
       "summary": "",
-      "url": "../papers/2205_02160/",
-      "mindMapUrl": "../mind-map/#paper=2205_02160"
+      "url": "../papers/2208_05888/",
+      "mindMapUrl": "../mind-map/#paper=2208_05888"
+    },
+    {
+      "id": "2205_05653",
+      "label": "The First Optimal Algorithm for Smooth and Strongly-Convex-Strongly-Concave Minimax Optimization",
+      "title": "The First Optimal Algorithm for Smooth and Strongly-Convex-Strongly-Concave Minimax Optimization",
+      "authors": [
+        "Dmitry Kovalev",
+        "Alexander Gasnikov"
+      ],
+      "authorShort": "Kovalev, Gasnikov",
+      "year": 2022,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Minimax & Game Theory",
+        "The First Optimal Algorithm for Smooth and Strongly-Convex-Strongly-Concave Minimax Optimization"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2205_05653/",
+      "mindMapUrl": "../mind-map/#paper=2205_05653"
+    },
+    {
+      "id": "2202_04612",
+      "label": "Zeroth-Order Randomized Subspace Newton Methods",
+      "title": "Zeroth-Order Randomized Subspace Newton Methods",
+      "authors": [
+        "Erik Berglund",
+        "Sarit Khirirat",
+        "Xiaoyu Wang"
+      ],
+      "authorShort": "Berglund, Khirirat, Wang",
+      "year": 2022,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Zeroth-Order Randomized Subspace Newton Methods"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2202_04612/",
+      "mindMapUrl": "../mind-map/#paper=2202_04612"
     },
     {
       "id": "2203_11419",
@@ -29423,34 +29716,6 @@ window.timelineData = {
       "summary": "Introduces PyHopper, a lightweight Python platform for hyperparameter optimization centered on a single robust Markov-chain Monte Carlo search algorithm. The paper emphasizes ease of integration, scalability to very high-dimensional hyperparameter spaces, and practical utilities that reduce the setup burden for ML experiments.",
       "url": "../papers/2210_04728/",
       "mindMapUrl": "../mind-map/#paper=2210_04728"
-    },
-    {
-      "id": "2202_04612",
-      "label": "Zeroth-Order Randomized Subspace Newton Methods",
-      "title": "Zeroth-Order Randomized Subspace Newton Methods",
-      "authors": [
-        "Erik Berglund",
-        "Sarit Khirirat",
-        "Xiaoyu Wang"
-      ],
-      "authorShort": "Berglund, Khirirat, Wang",
-      "year": 2022,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Zeroth-Order Randomized Subspace Newton Methods"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2202_04612/",
-      "mindMapUrl": "../mind-map/#paper=2202_04612"
     },
     {
       "id": "2212_06437",
@@ -31956,34 +32221,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2312_02758"
     },
     {
-      "id": "2309_10675",
-      "label": "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means",
-      "title": "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means",
-      "authors": [
-        "Mitchell Tong Harris",
-        "Pablo A. Parrilo"
-      ],
-      "authorShort": "Harris, Parrilo",
-      "year": 2023,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Convex Optimization",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2309_10675/",
-      "mindMapUrl": "../mind-map/#paper=2309_10675"
-    },
-    {
       "id": "2309_07879",
       "label": "Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule",
       "title": "Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule",
@@ -31997,11 +32234,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"
       ],
@@ -32024,11 +32263,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"
       ],
@@ -32036,6 +32277,39 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2309_16530/",
       "mindMapUrl": "../mind-map/#paper=2309_16530"
+    },
+    {
+      "id": "2311_11489",
+      "label": "Beyond Nonconvexity: A Universal Trust-Region Method with New Analyses",
+      "title": "Beyond Nonconvexity: A Universal Trust-Region Method with New Analyses",
+      "authors": [
+        "Yuntian Jiang",
+        "Chang He",
+        "Chuwen Zhang",
+        "Dongdong Ge",
+        "Bo Jiang",
+        "Yinyu Ye"
+      ],
+      "authorShort": "Jiang, He, Zhang",
+      "year": 2023,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Trust Region Methods",
+        "Beyond Nonconvexity: A Universal Trust-Region Method with New Analyses"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2311_11489/",
+      "mindMapUrl": "../mind-map/#paper=2311_11489"
     },
     {
       "id": "2023_ivgi_dog_is_sgds_best",
@@ -32052,11 +32326,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "DoG is SGD's Best Friend"
       ],
@@ -32080,11 +32356,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Efficient Numerical Algorithm for Large-Scale Damped Natural Gradient Descent"
       ],
@@ -32092,6 +32370,35 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2310_17556/",
       "mindMapUrl": "../mind-map/#paper=2310_17556"
+    },
+    {
+      "id": "2309_10675",
+      "label": "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means",
+      "title": "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means",
+      "authors": [
+        "Mitchell Tong Harris",
+        "Pablo A. Parrilo"
+      ],
+      "authorShort": "Harris, Parrilo",
+      "year": 2023,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "General Convex Optimization",
+        "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2309_10675/",
+      "mindMapUrl": "../mind-map/#paper=2309_10675"
     },
     {
       "id": "2023_cothren_perception_based_sampled_data",
@@ -32109,11 +32416,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Perception-Based Sampled-Data Optimization of Dynamical Systems"
       ],
@@ -32162,37 +32471,6 @@ window.timelineData = {
       "summary": "Compares Bayesian-optimization-oriented ML tools with classical derivative-free optimizers under limited evaluation budgets. The study updates earlier benchmarking work by testing both COCO/BBOB functions and direct policy search in OpenAI Gym, showing that BO methods are strong at small budgets but can be overtaken by other black-box optimizers as budgets grow.",
       "url": "../papers/2310_00077/",
       "mindMapUrl": "../mind-map/#paper=2310_00077"
-    },
-    {
-      "id": "2311_11489",
-      "label": "Beyond Nonconvexity: A Universal Trust-Region Method with New Analyses",
-      "title": "Beyond Nonconvexity: A Universal Trust-Region Method with New Analyses",
-      "authors": [
-        "Yuntian Jiang",
-        "Chang He",
-        "Chuwen Zhang",
-        "Dongdong Ge",
-        "Bo Jiang",
-        "Yinyu Ye"
-      ],
-      "authorShort": "Jiang, He, Zhang",
-      "year": 2023,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Trust Region Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Trust Region Methods",
-        "Beyond Nonconvexity: A Universal Trust-Region Method with New Analyses"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2311_11489/",
-      "mindMapUrl": "../mind-map/#paper=2311_11489"
     },
     {
       "id": "2023_singh_robust_feedback_motion_planning",
@@ -34705,33 +34983,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2405_16250"
     },
     {
-      "id": "2403_14606",
-      "label": "The Elements of Differentiable Programming",
-      "title": "The Elements of Differentiable Programming",
-      "authors": [
-        "Mathieu Blondel",
-        "Vincent Roulet"
-      ],
-      "authorShort": "Blondel, Roulet",
-      "year": 2024,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Automatic Differentiation",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Automatic Differentiation",
-        "The Elements of Differentiable Programming"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2403_14606/",
-      "mindMapUrl": "../mind-map/#paper=2403_14606"
-    },
-    {
       "id": "2406_16793",
       "label": "Adam-mini",
       "title": "Adam-mini: Use Fewer Learning Rates to Gain More",
@@ -34752,11 +35003,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "First-Order Methods",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "First-Order Methods",
         "Adam-mini"
       ],
@@ -34782,11 +35035,14 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Newton's Method",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
         "Newton's Method",
         "OPTAMI"
       ],
@@ -34794,6 +35050,97 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2410_04083/",
       "mindMapUrl": "../mind-map/#paper=2410_04083"
+    },
+    {
+      "id": "2024_suggala_second_order_methods_for",
+      "label": "Second Order Methods for Bandit Optimization and Control",
+      "title": "Second Order Methods for Bandit Optimization and Control",
+      "authors": [
+        "Arun Suggala",
+        "Y Jennifer Sun",
+        "Praneeth Netrapalli",
+        "Elad Hazan"
+      ],
+      "authorShort": "Suggala, Sun, Netrapalli",
+      "year": 2024,
+      "source": "The Thirty Seventh Annual Conference on Learning Theory",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Second Order Methods for Bandit Optimization and Control"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2024_suggala_second_order_methods_for/",
+      "mindMapUrl": "../mind-map/#paper=2024_suggala_second_order_methods_for"
+    },
+    {
+      "id": "2406_19617",
+      "label": "Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity",
+      "title": "Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity",
+      "authors": [
+        "Qian Yu",
+        "Yining Wang",
+        "Baihe Huang",
+        "Qi Lei",
+        "Jason D. Lee"
+      ],
+      "authorShort": "Yu, Wang, Huang",
+      "year": 2024,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2406_19617/",
+      "mindMapUrl": "../mind-map/#paper=2406_19617"
+    },
+    {
+      "id": "2403_14606",
+      "label": "The Elements of Differentiable Programming",
+      "title": "The Elements of Differentiable Programming",
+      "authors": [
+        "Mathieu Blondel",
+        "Vincent Roulet"
+      ],
+      "authorShort": "Blondel, Roulet",
+      "year": 2024,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Automatic Differentiation",
+        "The Elements of Differentiable Programming"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2403_14606/",
+      "mindMapUrl": "../mind-map/#paper=2403_14606"
     },
     {
       "id": "2405_12762",
@@ -34943,65 +35290,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2024_salzmann_learning_for_casadi_data/",
       "mindMapUrl": "../mind-map/#paper=2024_salzmann_learning_for_casadi_data"
-    },
-    {
-      "id": "2024_suggala_second_order_methods_for",
-      "label": "Second Order Methods for Bandit Optimization and Control",
-      "title": "Second Order Methods for Bandit Optimization and Control",
-      "authors": [
-        "Arun Suggala",
-        "Y Jennifer Sun",
-        "Praneeth Netrapalli",
-        "Elad Hazan"
-      ],
-      "authorShort": "Suggala, Sun, Netrapalli",
-      "year": 2024,
-      "source": "The Thirty Seventh Annual Conference on Learning Theory",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Second Order Methods for Bandit Optimization and Control"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2024_suggala_second_order_methods_for/",
-      "mindMapUrl": "../mind-map/#paper=2024_suggala_second_order_methods_for"
-    },
-    {
-      "id": "2406_19617",
-      "label": "Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity",
-      "title": "Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity",
-      "authors": [
-        "Qian Yu",
-        "Yining Wang",
-        "Baihe Huang",
-        "Qi Lei",
-        "Jason D. Lee"
-      ],
-      "authorShort": "Yu, Wang, Huang",
-      "year": 2024,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2406_19617/",
-      "mindMapUrl": "../mind-map/#paper=2406_19617"
     },
     {
       "id": "2402_01443",
@@ -38178,182 +38466,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2507_10010"
     },
     {
-      "id": "2506_11513",
-      "label": "Automatic Generation of Explicit Quadratic Programming Solvers",
-      "title": "Automatic Generation of Explicit Quadratic Programming Solvers",
-      "authors": [
-        "Maximilian Schaller",
-        "Daniel Arnström",
-        "Alberto Bemporad",
-        "Stephen Boyd"
-      ],
-      "authorShort": "Schaller, Arnström, Bemporad",
-      "year": 2025,
-      "source": "Robotics: Science and Systems (RSS)",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Convex Optimization",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Convex Optimization",
-        "Quadratic Programming",
-        "Automatic Generation of Explicit Quadratic Programming Solvers"
-      ],
-      "tags": [
-        "Quadratic programming",
-        "CVX",
-        "CVXPY",
-        "CVXPYgen"
-      ],
-      "summary": "Generates C++ code that solves explicit MPC problems. Super fast runtime for moderate size problems. Alternative to (implicit) quadratic program solvers.",
-      "url": "../papers/2506_11513/",
-      "mindMapUrl": "../mind-map/#paper=2506_11513"
-    },
-    {
-      "id": "2506_04183",
-      "label": "Learning Parametric Convex Functions",
-      "title": "Learning Parametric Convex Functions",
-      "authors": [
-        "Maximilian Schaller",
-        "Alberto Bemporad",
-        "Stephen Boyd"
-      ],
-      "authorShort": "Schaller, Bemporad, Boyd",
-      "year": 2025,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Convex Optimization",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "Learning Parametric Convex Functions"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2506_04183/",
-      "mindMapUrl": "../mind-map/#paper=2506_04183"
-    },
-    {
-      "id": "2508_10480",
-      "label": "PInet",
-      "title": "PInet: Optimizing Hard-constrained Neural Networks with Orthogonal Projection Layers",
-      "authors": [
-        "Panagiotis D. Grontas",
-        "Antonio Terpin",
-        "Efe C. Balta",
-        "Raffaello D'Andrea",
-        "John Lygeros"
-      ],
-      "authorShort": "Grontas, Terpin, Balta",
-      "year": 2025,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Convex Optimization",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "PInet"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2508_10480/",
-      "mindMapUrl": "../mind-map/#paper=2508_10480"
-    },
-    {
-      "id": "2511_02015",
-      "label": "Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control",
-      "title": "Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control",
-      "authors": [
-        "Jace Aldrich",
-        "Odest Chadwicke Jenkins"
-      ],
-      "authorShort": "Aldrich, Jenkins",
-      "year": 2025,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "First-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "First-Order Methods",
-        "Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2511_02015/",
-      "mindMapUrl": "../mind-map/#paper=2511_02015"
-    },
-    {
-      "id": "2506_01168",
-      "label": "The Fastest Known First-Order Method for Minimizing Twice Continuously Differentiable Smooth Strongly Convex Functions",
-      "title": "The Fastest Known First-Order Method for Minimizing Twice Continuously Differentiable Smooth Strongly Convex Functions",
-      "authors": [
-        "Bryan Van Scoy",
-        "Laurent Lessard"
-      ],
-      "authorShort": "Scoy, Lessard",
-      "year": 2025,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "First-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "First-Order Methods",
-        "The Fastest Known First-Order Method for Minimizing Twice Continuously Differentiable Smooth Strongly Convex Functions"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2506_01168/",
-      "mindMapUrl": "../mind-map/#paper=2506_01168"
-    },
-    {
-      "id": "2502_06545",
-      "label": "Universal Sequence Preconditioning",
-      "title": "Universal Sequence Preconditioning",
-      "authors": [
-        "Annie Marsden",
-        "Elad Hazan"
-      ],
-      "authorShort": "Marsden, Hazan",
-      "year": 2025,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "First-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "First-Order Methods",
-        "Universal Sequence Preconditioning"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2502_06545/",
-      "mindMapUrl": "../mind-map/#paper=2502_06545"
-    },
-    {
       "id": "2502_04799",
       "label": "A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees",
       "title": "A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees",
@@ -38371,11 +38483,14 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Newton's Method",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
         "Newton's Method",
         "Regularized Newton Method",
         "A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees"
@@ -38399,11 +38514,14 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Newton's Method",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
         "Newton's Method",
         "Algebraic Characterization of Equivalence between Oracle-based Iterative Algorithms"
       ],
@@ -38411,6 +38529,73 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2501_04972/",
       "mindMapUrl": "../mind-map/#paper=2501_04972"
+    },
+    {
+      "id": "2506_22087",
+      "label": "An Introduction to Zero-Order Optimization Techniques for Robotics",
+      "title": "An Introduction to Zero-Order Optimization Techniques for Robotics",
+      "authors": [
+        "Armand Jordana",
+        "Jianghan Zhang",
+        "Joseph Amigo",
+        "Ludovic Righetti"
+      ],
+      "authorShort": "Jordana, Zhang, Amigo",
+      "year": 2025,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "An Introduction to Zero-Order Optimization Techniques for Robotics"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2506_22087/",
+      "mindMapUrl": "../mind-map/#paper=2506_22087"
+    },
+    {
+      "id": "2506_11513",
+      "label": "Automatic Generation of Explicit Quadratic Programming Solvers",
+      "title": "Automatic Generation of Explicit Quadratic Programming Solvers",
+      "authors": [
+        "Maximilian Schaller",
+        "Daniel Arnström",
+        "Alberto Bemporad",
+        "Stephen Boyd"
+      ],
+      "authorShort": "Schaller, Arnström, Bemporad",
+      "year": 2025,
+      "source": "Robotics: Science and Systems (RSS)",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "Quadratic Programming",
+        "Automatic Generation of Explicit Quadratic Programming Solvers"
+      ],
+      "tags": [
+        "Quadratic programming",
+        "CVX",
+        "CVXPY",
+        "CVXPYgen"
+      ],
+      "summary": "Generates C++ code that solves explicit MPC problems. Super fast runtime for moderate size problems. Alternative to (implicit) quadratic program solvers.",
+      "url": "../papers/2506_11513/",
+      "mindMapUrl": "../mind-map/#paper=2506_11513"
     },
     {
       "id": "2025_yamakawa_convergence_analysis_of_a",
@@ -38426,11 +38611,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Newton's Method",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
         "Newton's Method",
         "Regularized Newton Method",
         "Convergence analysis of a regularized Newton method with generalized regularization terms for unconstrained convex optimization problems"
@@ -38439,34 +38627,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2025_yamakawa_convergence_analysis_of_a/",
       "mindMapUrl": "../mind-map/#paper=2025_yamakawa_convergence_analysis_of_a"
-    },
-    {
-      "id": "2511_10622",
-      "label": "Verification of Sequential Convex Programming for Parametric Non-convex Optimization",
-      "title": "Verification of Sequential Convex Programming for Parametric Non-convex Optimization",
-      "authors": [
-        "Rajiv Sambharya",
-        "Nikolai Matni",
-        "George Pappas"
-      ],
-      "authorShort": "Sambharya, Matni, Pappas",
-      "year": 2025,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Newton's Method",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Newton's Method",
-        "Verification of Sequential Convex Programming for Parametric Non-convex Optimization"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2511_10622/",
-      "mindMapUrl": "../mind-map/#paper=2511_10622"
     },
     {
       "id": "2025_cederberg_disciplined_nonlinear_programming",
@@ -38484,11 +38644,13 @@ window.timelineData = {
       "type": "Preprint",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Nonlinear Programming",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "Nonlinear Programming",
         "Disciplined Nonlinear Programming"
       ],
@@ -38520,11 +38682,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Nonlinear Programming",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
         "Nonlinear Programming",
         "Global Solutions to Non-Convex Functional Constrained Problems with Hidden Convexity"
       ],
@@ -38532,6 +38696,68 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2511_10626/",
       "mindMapUrl": "../mind-map/#paper=2511_10626"
+    },
+    {
+      "id": "2506_04183",
+      "label": "Learning Parametric Convex Functions",
+      "title": "Learning Parametric Convex Functions",
+      "authors": [
+        "Maximilian Schaller",
+        "Alberto Bemporad",
+        "Stephen Boyd"
+      ],
+      "authorShort": "Schaller, Bemporad, Boyd",
+      "year": 2025,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "General Convex Optimization",
+        "Learning Parametric Convex Functions"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2506_04183/",
+      "mindMapUrl": "../mind-map/#paper=2506_04183"
+    },
+    {
+      "id": "2508_10480",
+      "label": "PInet",
+      "title": "PInet: Optimizing Hard-constrained Neural Networks with Orthogonal Projection Layers",
+      "authors": [
+        "Panagiotis D. Grontas",
+        "Antonio Terpin",
+        "Efe C. Balta",
+        "Raffaello D'Andrea",
+        "John Lygeros"
+      ],
+      "authorShort": "Grontas, Terpin, Balta",
+      "year": 2025,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "General Convex Optimization",
+        "PInet"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2508_10480/",
+      "mindMapUrl": "../mind-map/#paper=2508_10480"
     },
     {
       "id": "2507_02131",
@@ -38549,11 +38775,12 @@ window.timelineData = {
       "type": "Preprint",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Stochastic Optimization",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Stochastic Optimization",
         "SGD Input-to-State Stability"
       ],
@@ -38568,6 +38795,157 @@ window.timelineData = {
       "summary": "Establishes small-disturbance input-to-state stability (ISS) for perturbed gradient descent under a generalized nonlinear Polyak-Lojasiewicz condition. Shows that LQR policy gradient and natural policy gradient algorithms inherit this robustness, connecting systems-theory stability notions to modern RL convergence analysis.",
       "url": "../papers/2507_02131/",
       "mindMapUrl": "../mind-map/#paper=2507_02131"
+    },
+    {
+      "id": "2511_02015",
+      "label": "Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control",
+      "title": "Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control",
+      "authors": [
+        "Jace Aldrich",
+        "Odest Chadwicke Jenkins"
+      ],
+      "authorShort": "Aldrich, Jenkins",
+      "year": 2025,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2511_02015/",
+      "mindMapUrl": "../mind-map/#paper=2511_02015"
+    },
+    {
+      "id": "2506_01168",
+      "label": "The Fastest Known First-Order Method for Minimizing Twice Continuously Differentiable Smooth Strongly Convex Functions",
+      "title": "The Fastest Known First-Order Method for Minimizing Twice Continuously Differentiable Smooth Strongly Convex Functions",
+      "authors": [
+        "Bryan Van Scoy",
+        "Laurent Lessard"
+      ],
+      "authorShort": "Scoy, Lessard",
+      "year": 2025,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "The Fastest Known First-Order Method for Minimizing Twice Continuously Differentiable Smooth Strongly Convex Functions"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2506_01168/",
+      "mindMapUrl": "../mind-map/#paper=2506_01168"
+    },
+    {
+      "id": "2502_06545",
+      "label": "Universal Sequence Preconditioning",
+      "title": "Universal Sequence Preconditioning",
+      "authors": [
+        "Annie Marsden",
+        "Elad Hazan"
+      ],
+      "authorShort": "Marsden, Hazan",
+      "year": 2025,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Universal Sequence Preconditioning"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2502_06545/",
+      "mindMapUrl": "../mind-map/#paper=2502_06545"
+    },
+    {
+      "id": "2511_10622",
+      "label": "Verification of Sequential Convex Programming for Parametric Non-convex Optimization",
+      "title": "Verification of Sequential Convex Programming for Parametric Non-convex Optimization",
+      "authors": [
+        "Rajiv Sambharya",
+        "Nikolai Matni",
+        "George Pappas"
+      ],
+      "authorShort": "Sambharya, Matni, Pappas",
+      "year": 2025,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
+        "Newton's Method",
+        "Verification of Sequential Convex Programming for Parametric Non-convex Optimization"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2511_10622/",
+      "mindMapUrl": "../mind-map/#paper=2511_10622"
+    },
+    {
+      "id": "2506_05454",
+      "label": "Zeroth-Order Optimization Finds Flat Minima",
+      "title": "Zeroth-Order Optimization Finds Flat Minima",
+      "authors": [
+        "Liang Zhang",
+        "Bingcong Li",
+        "Kiran Koshy Thekumparampil",
+        "Sewoong Oh",
+        "Michael Muehlebach",
+        "Niao He"
+      ],
+      "authorShort": "Zhang, Li, Thekumparampil",
+      "year": 2025,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Zeroth-Order Optimization Finds Flat Minima"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2506_05454/",
+      "mindMapUrl": "../mind-map/#paper=2506_05454"
     },
     {
       "id": "2507_22538",
@@ -38598,66 +38976,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2507_22538/",
       "mindMapUrl": "../mind-map/#paper=2507_22538"
-    },
-    {
-      "id": "2506_22087",
-      "label": "An Introduction to Zero-Order Optimization Techniques for Robotics",
-      "title": "An Introduction to Zero-Order Optimization Techniques for Robotics",
-      "authors": [
-        "Armand Jordana",
-        "Jianghan Zhang",
-        "Joseph Amigo",
-        "Ludovic Righetti"
-      ],
-      "authorShort": "Jordana, Zhang, Amigo",
-      "year": 2025,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "An Introduction to Zero-Order Optimization Techniques for Robotics"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2506_22087/",
-      "mindMapUrl": "../mind-map/#paper=2506_22087"
-    },
-    {
-      "id": "2506_05454",
-      "label": "Zeroth-Order Optimization Finds Flat Minima",
-      "title": "Zeroth-Order Optimization Finds Flat Minima",
-      "authors": [
-        "Liang Zhang",
-        "Bingcong Li",
-        "Kiran Koshy Thekumparampil",
-        "Sewoong Oh",
-        "Michael Muehlebach",
-        "Niao He"
-      ],
-      "authorShort": "Zhang, Li, Thekumparampil",
-      "year": 2025,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Zeroth-Order Optimization Finds Flat Minima"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2506_05454/",
-      "mindMapUrl": "../mind-map/#paper=2506_05454"
     },
     {
       "id": "2506_17184",
@@ -42594,6 +42912,63 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2603_04843"
     },
     {
+      "id": "2604_23613",
+      "label": "High-Probability Guarantees for Random Zeroth-Order (Stochastic) Gradient Descent",
+      "title": "High-Probability Guarantees for Random Zeroth-Order (Stochastic) Gradient Descent",
+      "authors": [
+        "Haishan Ye"
+      ],
+      "authorShort": "Ye",
+      "year": 2026,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "High-Probability Guarantees for Random Zeroth-Order (Stochastic) Gradient Descent"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2604_23613/",
+      "mindMapUrl": "../mind-map/#paper=2604_23613"
+    },
+    {
+      "id": "2603_14197",
+      "label": "On Globally Optimal Stochastic Policy Gradient Methods for Domain Randomized LQR Synthesis",
+      "title": "On Globally Optimal Stochastic Policy Gradient Methods for Domain Randomized LQR Synthesis",
+      "authors": [
+        "Alex Nguyen-Le",
+        "Nikolai Matni"
+      ],
+      "authorShort": "Nguyen-Le, Matni",
+      "year": 2026,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "On Globally Optimal Stochastic Policy Gradient Methods for Domain Randomized LQR Synthesis"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2603_14197/",
+      "mindMapUrl": "../mind-map/#paper=2603_14197"
+    },
+    {
       "id": "2603_08824",
       "label": "SoftJAX & SoftTorch",
       "title": "SoftJAX & SoftTorch: Empowering Automatic Differentiation Libraries with Informative Gradients",
@@ -42611,11 +42986,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Automatic Differentiation",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
         "Automatic Differentiation",
         "SoftJAX & SoftTorch"
       ],
@@ -42623,33 +42999,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2603_08824/",
       "mindMapUrl": "../mind-map/#paper=2603_08824"
-    },
-    {
-      "id": "2603_14197",
-      "label": "On Globally Optimal Stochastic Policy Gradient Methods for Domain Randomized LQR Synthesis",
-      "title": "On Globally Optimal Stochastic Policy Gradient Methods for Domain Randomized LQR Synthesis",
-      "authors": [
-        "Alex Nguyen-Le",
-        "Nikolai Matni"
-      ],
-      "authorShort": "Nguyen-Le, Matni",
-      "year": 2026,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "First-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "First-Order Methods",
-        "On Globally Optimal Stochastic Policy Gradient Methods for Domain Randomized LQR Synthesis"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2603_14197/",
-      "mindMapUrl": "../mind-map/#paper=2603_14197"
     },
     {
       "id": "2601_06096",
@@ -42664,11 +43013,14 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Newton's Method",
+      "subCategory": "Continuous Optimization",
       "path": [
         "Content Tree",
         "Decision-making",
         "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
         "Newton's Method",
         "The Hessian of tall-skinny networks is easy to invert"
       ],
@@ -42676,6 +43028,39 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2601_06096/",
       "mindMapUrl": "../mind-map/#paper=2601_06096"
+    },
+    {
+      "id": "2604_14669",
+      "label": "Zeroth-Order Optimization at the Edge of Stability",
+      "title": "Zeroth-Order Optimization at the Edge of Stability",
+      "authors": [
+        "Minhak Song",
+        "Liang Zhang",
+        "Bingcong Li",
+        "Niao He",
+        "Michael Muehlebach",
+        "Sewoong Oh"
+      ],
+      "authorShort": "Song, Zhang, Li",
+      "year": 2026,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Zeroth-Order Optimization at the Edge of Stability"
+      ],
+      "tags": [],
+      "summary": "",
+      "url": "../papers/2604_14669/",
+      "mindMapUrl": "../mind-map/#paper=2604_14669"
     },
     {
       "id": "2605_01614",
@@ -42733,63 +43118,6 @@ window.timelineData = {
       "summary": "",
       "url": "../papers/2604_23951/",
       "mindMapUrl": "../mind-map/#paper=2604_23951"
-    },
-    {
-      "id": "2604_23613",
-      "label": "High-Probability Guarantees for Random Zeroth-Order (Stochastic) Gradient Descent",
-      "title": "High-Probability Guarantees for Random Zeroth-Order (Stochastic) Gradient Descent",
-      "authors": [
-        "Haishan Ye"
-      ],
-      "authorShort": "Ye",
-      "year": 2026,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "High-Probability Guarantees for Random Zeroth-Order (Stochastic) Gradient Descent"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2604_23613/",
-      "mindMapUrl": "../mind-map/#paper=2604_23613"
-    },
-    {
-      "id": "2604_14669",
-      "label": "Zeroth-Order Optimization at the Edge of Stability",
-      "title": "Zeroth-Order Optimization at the Edge of Stability",
-      "authors": [
-        "Minhak Song",
-        "Liang Zhang",
-        "Bingcong Li",
-        "Niao He",
-        "Michael Muehlebach",
-        "Sewoong Oh"
-      ],
-      "authorShort": "Song, Zhang, Li",
-      "year": 2026,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Zeroth-Order Methods",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Zeroth-Order Methods",
-        "Zeroth-Order Optimization at the Edge of Stability"
-      ],
-      "tags": [],
-      "summary": "",
-      "url": "../papers/2604_14669/",
-      "mindMapUrl": "../mind-map/#paper=2604_14669"
     },
     {
       "id": "2604_01614",
@@ -45240,7 +45568,7 @@ window.timelineData = {
       "Algorithms & Data Structures",
       "Network Science",
       "History",
-      "Evolution"
+      "Biology"
     ],
     "categorySuperCategory": {
       "Optimization": "Decision-making",
@@ -45261,29 +45589,13 @@ window.timelineData = {
       "Algorithms & Data Structures": "Foundations",
       "Network Science": "Foundations",
       "History": "Foundations",
-      "Evolution": "Foundations"
+      "Biology": "Foundations"
     },
     "subCategoryOrder": {
       "Optimization": [
-        "Convex Optimization",
-        "Nonlinear Programming",
-        "Zeroth-Order Methods",
-        "First-Order Methods",
-        "Quasi-Newton Methods",
-        "Newton's Method",
-        "Trust Region Methods",
-        "Midpoint Newton Method",
-        "Halley's Method and High-Order Methods",
-        "Proximal Methods",
-        "Stochastic Optimization",
-        "Robust Optimization",
-        "Minimax & Game Theory",
+        "Continuous Optimization",
         "Combinatorial Optimization",
-        "Assignment Problems",
-        "Graph Search",
-        "Toolboxes & Solvers",
-        "Automatic Differentiation",
-        "Controller Autotuning"
+        "Toolboxes & Solvers"
       ],
       "Planning": [
         "Path Planning",
@@ -45313,6 +45625,7 @@ window.timelineData = {
         "Control Lyapunov Functions (CLF)",
         "Control Barrier Functions (CBF)",
         "Iterative Learning Control",
+        "Controller Autotuning",
         "Tracking Control for Wheeled Robots",
         "Vehicle Dynamics"
       ],

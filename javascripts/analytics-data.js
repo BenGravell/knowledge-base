@@ -27069,7 +27069,7 @@ window.analyticsData = {
   "superCategories": [
     {
       "label": "Decision-making",
-      "count": 984
+      "count": 985
     },
     {
       "label": "Prediction & Perception",
@@ -27077,7 +27077,7 @@ window.analyticsData = {
     },
     {
       "label": "Foundations",
-      "count": 76
+      "count": 75
     },
     {
       "label": "Evaluation",
@@ -27091,11 +27091,11 @@ window.analyticsData = {
     },
     {
       "label": "Reinforcement Learning",
-      "count": 236
+      "count": 238
     },
     {
       "label": "Optimization",
-      "count": 216
+      "count": 211
     },
     {
       "label": "Machine Learning",
@@ -27103,7 +27103,7 @@ window.analyticsData = {
     },
     {
       "label": "Control",
-      "count": 138
+      "count": 142
     },
     {
       "label": "Computer Vision",
@@ -27154,12 +27154,12 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Evolution",
+      "label": "Network Science",
       "count": 3
     },
     {
-      "label": "Network Science",
-      "count": 3
+      "label": "Biology",
+      "count": 2
     }
   ],
   "auditStatuses": [
