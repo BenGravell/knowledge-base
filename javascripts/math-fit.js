@@ -33,12 +33,28 @@
 
         var parent = container.parentElement;
         var content = container.closest(".md-content__inner") || container.closest(".md-typeset");
+        var containerRect = container.getBoundingClientRect();
         var widths = [window.innerWidth];
+        if (containerRect.width) {
+          widths.push(containerRect.width);
+        }
         if (parent && parent.clientWidth) {
           widths.push(parent.clientWidth);
         }
+        if (parent) {
+          var parentRect = parent.getBoundingClientRect();
+          if (parentRect.width) {
+            widths.push(parentRect.width);
+          }
+        }
         if (content && content.clientWidth) {
           widths.push(content.clientWidth);
+        }
+        if (content) {
+          var contentRect = content.getBoundingClientRect();
+          if (contentRect.width) {
+            widths.push(contentRect.width);
+          }
         }
         var availableWidth = Math.min.apply(Math, widths);
         var mathRect = math.getBoundingClientRect();

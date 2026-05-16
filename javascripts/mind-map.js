@@ -84,10 +84,10 @@
   const PANEL_MAX_FOCUS_WIDTH_RATIO = 0.72;
   const FOCUSED_PAPER_CAMERA_RATIO = 0.32;
   const HIERARCHY_LEVELS = [
-    { id: 'super_category', label: 'Super-category', shortLabel: 'Super-category', aggregate: true, filter: true },
+    { id: 'super_category', label: 'Super-category', shortLabel: 'Super', aggregate: true, filter: true },
     { id: 'category', label: 'Category', shortLabel: 'Category', aggregate: true, filter: true },
-    { id: 'sub_category', label: 'Sub-category', shortLabel: 'Sub-category', aggregate: true, filter: true },
-    { id: 'paper', label: 'Papers', shortLabel: 'Papers', aggregate: false, filter: false },
+    { id: 'sub_category', label: 'Sub-category', shortLabel: 'Sub', aggregate: true, filter: true },
+    { id: 'paper', label: 'Papers', shortLabel: 'Items', aggregate: false, filter: false },
   ];
   const HIERARCHY_LEVEL_BY_ID = new Map(HIERARCHY_LEVELS.map(level => [level.id, level]));
   const DETAIL_LEVELS = HIERARCHY_LEVELS.map(level => level.id);
@@ -105,6 +105,8 @@
   let currentDetailLevel = HIERARCHY_LEVELS[0].id;
   let expandedAggregateNodes = new Set();
   let activeCategories = new Set();
+  let showNodeLabels = true;
+  let showEdges = true;
   let currentSearch = '';
   let pinnedNode = null;
   let hoveredNode = null;
@@ -834,6 +836,8 @@
   }
 
   function edgeVisible(edge) {
+    if (!showEdges) return false;
+
     const attrs = graph.getEdgeAttributes(edge);
     return attrs.weight >= currentThreshold &&
       nodeVisible(graph.source(edge)) &&
@@ -926,6 +930,7 @@
     if (!nodeVisible(node)) return { ...attrs, hidden: true };
 
     const size = nodeDisplaySize(attrs);
+    const baseZIndex = detailLevelZIndex(attrs.detailLevel);
     const highlighted = focus.nodes.has(node);
     const primaryFocus = highlighted && (
       node === pinnedNode ||
@@ -933,26 +938,31 @@
       focus.mode === 'search'
     );
     const muted = focus.active && !primaryFocus;
-    const forceLabel = levelAlwaysShowsLabels(attrs) ||
-      node === pinnedNode ||
-      node === hoveredNode;
+    const focusLabel = node === pinnedNode ||
+      node === hoveredNode ||
+      (focus.mode === 'search' && highlighted);
+    const forceLabel = (showNodeLabels && levelAlwaysShowsLabels(attrs)) ||
+      focusLabel;
+    const label = (showNodeLabels || focusLabel) ? attrs.label : '';
 
     if (muted) {
       const mutedColor = highlighted ? theme.nodeMutedRelated : theme.nodeMuted;
       return {
         ...attrs,
+        label,
         size,
         color: mutedColor,
         labelColor: theme.mutedLabel,
         labelOutlineColor: colorWithAlpha(mutedColor, 0.55),
         forceLabel,
-        zIndex: highlighted ? 1 : 0,
+        zIndex: baseZIndex + (highlighted ? 20 : 0),
       };
     }
 
     if (primaryFocus) {
       return {
         ...attrs,
+        label,
         size: size * SELECTED_NODE_RADIUS_SCALE,
         color: attrs.baseColor,
         labelColor: theme.selectedLabel,
@@ -960,19 +970,20 @@
         ringColor: theme.selectedRing,
         highlighted: true,
         forceLabel,
-        zIndex: 3,
+        zIndex: baseZIndex + 40,
       };
     }
 
     return {
       ...attrs,
+      label,
       size,
       color: attrs.baseColor,
       labelColor: '#ffffff',
       labelOutlineColor: attrs.baseColor,
       highlighted: false,
       forceLabel,
-      zIndex: 1,
+      zIndex: baseZIndex,
     };
   }
 
@@ -1180,6 +1191,11 @@
   function previousDetailLevel(level) {
     const index = DETAIL_LEVELS.indexOf(level);
     return index > 0 ? DETAIL_LEVELS[index - 1] : null;
+  }
+
+  function detailLevelZIndex(level) {
+    const index = DETAIL_LEVELS.indexOf(level);
+    return index >= 0 ? (index + 1) * 10 : 0;
   }
 
   function detailLevelDirection(fromLevel, toLevel) {
@@ -2305,6 +2321,18 @@
     });
   }
 
+  function updateVisibilityButtons() {
+    const labelsToggle = document.getElementById('mm-labels-toggle');
+    const edgesToggle = document.getElementById('mm-edges-toggle');
+
+    if (labelsToggle) {
+      labelsToggle.setAttribute('aria-pressed', showNodeLabels ? 'true' : 'false');
+    }
+    if (edgesToggle) {
+      edgesToggle.setAttribute('aria-pressed', showEdges ? 'true' : 'false');
+    }
+  }
+
   /* -------------------------------------------------------------------------
    * Wire up controls
    * -------------------------------------------------------------------------*/
@@ -2357,6 +2385,25 @@
       button.addEventListener('click', () => applyDetailLevel(button.dataset.level));
     });
     updateDetailButtons();
+    updateVisibilityButtons();
+
+    const labelsToggle = document.getElementById('mm-labels-toggle');
+    if (labelsToggle) {
+      labelsToggle.addEventListener('click', () => {
+        showNodeLabels = !showNodeLabels;
+        updateVisibilityButtons();
+        if (renderer) renderer.scheduleRefresh();
+      });
+    }
+
+    const edgesToggle = document.getElementById('mm-edges-toggle');
+    if (edgesToggle) {
+      edgesToggle.addEventListener('click', () => {
+        showEdges = !showEdges;
+        updateVisibilityButtons();
+        refreshView();
+      });
+    }
 
     const panel = document.getElementById('mm-panel');
     const header = document.getElementById('mm-panel-header');
@@ -2415,6 +2462,18 @@
     fit: fitVisible,
     detailLevel: () => currentDetailLevel,
     setDetailLevel: level => applyDetailLevel(level),
+    labelsVisible: () => showNodeLabels,
+    edgesVisible: () => showEdges,
+    setLabelsVisible: visible => {
+      showNodeLabels = Boolean(visible);
+      updateVisibilityButtons();
+      if (renderer) renderer.scheduleRefresh();
+    },
+    setEdgesVisible: visible => {
+      showEdges = Boolean(visible);
+      updateVisibilityButtons();
+      refreshView();
+    },
     metrics: () => ({
       nodeGraphRadius: currentNodeRadius(),
       nodeGraphRadiusTarget: PAPER_NODE_RADIUS_TARGET,

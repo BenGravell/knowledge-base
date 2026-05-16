@@ -13,139 +13,588 @@ window.analyticsData = {
   },
   "years": [
     {
-      "label": "Pre-1940",
-      "start": 1816,
-      "end": 1939,
-      "width": 10,
-      "count": 5
+      "label": "1800-1849",
+      "start": 1800,
+      "end": 1849,
+      "width": 50,
+      "count": 2,
+      "region": "Pre-1950"
     },
     {
-      "label": "1940-1944",
-      "start": 1940,
-      "end": 1944,
-      "width": 10,
-      "count": 4
+      "label": "1850-1899",
+      "start": 1850,
+      "end": 1899,
+      "width": 50,
+      "count": 0,
+      "region": "Pre-1950"
     },
     {
-      "label": "1945-1949",
-      "start": 1945,
+      "label": "1900-1949",
+      "start": 1900,
       "end": 1949,
-      "width": 5,
-      "count": 0
+      "width": 50,
+      "count": 7,
+      "region": "Pre-1950"
     },
     {
-      "label": "1950-1954",
+      "label": "1950-1959",
       "start": 1950,
-      "end": 1954,
-      "width": 5,
-      "count": 7
-    },
-    {
-      "label": "1955-1959",
-      "start": 1955,
       "end": 1959,
-      "width": 5,
-      "count": 8
+      "width": 10,
+      "count": 15,
+      "region": "1950-1999"
     },
     {
-      "label": "1960-1964",
+      "label": "1960-1969",
       "start": 1960,
-      "end": 1964,
-      "width": 5,
-      "count": 12
-    },
-    {
-      "label": "1965-1969",
-      "start": 1965,
       "end": 1969,
-      "width": 5,
-      "count": 18
+      "width": 10,
+      "count": 30,
+      "region": "1950-1999"
     },
     {
-      "label": "1970-1974",
+      "label": "1970-1979",
       "start": 1970,
-      "end": 1974,
-      "width": 5,
-      "count": 21
-    },
-    {
-      "label": "1975-1979",
-      "start": 1975,
       "end": 1979,
-      "width": 5,
-      "count": 20
+      "width": 10,
+      "count": 41,
+      "region": "1950-1999"
     },
     {
-      "label": "1980-1984",
+      "label": "1980-1989",
       "start": 1980,
-      "end": 1984,
-      "width": 5,
-      "count": 12
-    },
-    {
-      "label": "1985-1989",
-      "start": 1985,
       "end": 1989,
-      "width": 5,
-      "count": 35
+      "width": 10,
+      "count": 47,
+      "region": "1950-1999"
     },
     {
-      "label": "1990-1994",
+      "label": "1990-1999",
       "start": 1990,
-      "end": 1994,
-      "width": 5,
-      "count": 35
-    },
-    {
-      "label": "1995-1999",
-      "start": 1995,
       "end": 1999,
-      "width": 5,
-      "count": 50
+      "width": 10,
+      "count": 85,
+      "region": "1950-1999"
     },
     {
       "label": "2000-2004",
       "start": 2000,
       "end": 2004,
       "width": 5,
-      "count": 56
+      "count": 56,
+      "region": "2000-present"
     },
     {
       "label": "2005-2009",
       "start": 2005,
       "end": 2009,
       "width": 5,
-      "count": 63
+      "count": 63,
+      "region": "2000-present"
     },
     {
       "label": "2010-2014",
       "start": 2010,
       "end": 2014,
       "width": 5,
-      "count": 126
+      "count": 126,
+      "region": "2000-present"
     },
     {
       "label": "2015-2019",
       "start": 2015,
       "end": 2019,
       "width": 5,
-      "count": 313
+      "count": 313,
+      "region": "2000-present"
     },
     {
       "label": "2020-2024",
       "start": 2020,
       "end": 2024,
       "width": 5,
-      "count": 383
+      "count": 383,
+      "region": "2000-present"
     },
     {
       "label": "2025-2029",
       "start": 2025,
       "end": 2029,
       "width": 5,
-      "count": 208
+      "count": 208,
+      "region": "2000-present"
     }
   ],
+  "yearBins": {
+    "coarse": [
+      {
+        "label": "1800-1849",
+        "start": 1800,
+        "end": 1849,
+        "width": 50,
+        "count": 2,
+        "region": "Pre-1950"
+      },
+      {
+        "label": "1850-1899",
+        "start": 1850,
+        "end": 1899,
+        "width": 50,
+        "count": 0,
+        "region": "Pre-1950"
+      },
+      {
+        "label": "1900-1949",
+        "start": 1900,
+        "end": 1949,
+        "width": 50,
+        "count": 7,
+        "region": "Pre-1950"
+      },
+      {
+        "label": "1950-1959",
+        "start": 1950,
+        "end": 1959,
+        "width": 10,
+        "count": 15,
+        "region": "1950-1999"
+      },
+      {
+        "label": "1960-1969",
+        "start": 1960,
+        "end": 1969,
+        "width": 10,
+        "count": 30,
+        "region": "1950-1999"
+      },
+      {
+        "label": "1970-1979",
+        "start": 1970,
+        "end": 1979,
+        "width": 10,
+        "count": 41,
+        "region": "1950-1999"
+      },
+      {
+        "label": "1980-1989",
+        "start": 1980,
+        "end": 1989,
+        "width": 10,
+        "count": 47,
+        "region": "1950-1999"
+      },
+      {
+        "label": "1990-1999",
+        "start": 1990,
+        "end": 1999,
+        "width": 10,
+        "count": 85,
+        "region": "1950-1999"
+      },
+      {
+        "label": "2000-2004",
+        "start": 2000,
+        "end": 2004,
+        "width": 5,
+        "count": 56,
+        "region": "2000-present"
+      },
+      {
+        "label": "2005-2009",
+        "start": 2005,
+        "end": 2009,
+        "width": 5,
+        "count": 63,
+        "region": "2000-present"
+      },
+      {
+        "label": "2010-2014",
+        "start": 2010,
+        "end": 2014,
+        "width": 5,
+        "count": 126,
+        "region": "2000-present"
+      },
+      {
+        "label": "2015-2019",
+        "start": 2015,
+        "end": 2019,
+        "width": 5,
+        "count": 313,
+        "region": "2000-present"
+      },
+      {
+        "label": "2020-2024",
+        "start": 2020,
+        "end": 2024,
+        "width": 5,
+        "count": 383,
+        "region": "2000-present"
+      },
+      {
+        "label": "2025-2029",
+        "start": 2025,
+        "end": 2029,
+        "width": 5,
+        "count": 208,
+        "region": "2000-present"
+      }
+    ],
+    "fine": [
+      {
+        "label": "1800-1849",
+        "start": 1800,
+        "end": 1849,
+        "width": 50,
+        "count": 2,
+        "region": "Pre-1900"
+      },
+      {
+        "label": "1850-1899",
+        "start": 1850,
+        "end": 1899,
+        "width": 50,
+        "count": 0,
+        "region": "Pre-1900"
+      },
+      {
+        "label": "1900-1909",
+        "start": 1900,
+        "end": 1909,
+        "width": 10,
+        "count": 0,
+        "region": "1900-1949"
+      },
+      {
+        "label": "1910-1919",
+        "start": 1910,
+        "end": 1919,
+        "width": 10,
+        "count": 0,
+        "region": "1900-1949"
+      },
+      {
+        "label": "1920-1929",
+        "start": 1920,
+        "end": 1929,
+        "width": 10,
+        "count": 0,
+        "region": "1900-1949"
+      },
+      {
+        "label": "1930-1939",
+        "start": 1930,
+        "end": 1939,
+        "width": 10,
+        "count": 3,
+        "region": "1900-1949"
+      },
+      {
+        "label": "1940-1949",
+        "start": 1940,
+        "end": 1949,
+        "width": 10,
+        "count": 4,
+        "region": "1900-1949"
+      },
+      {
+        "label": "1950-1954",
+        "start": 1950,
+        "end": 1954,
+        "width": 5,
+        "count": 7,
+        "region": "1950-1999"
+      },
+      {
+        "label": "1955-1959",
+        "start": 1955,
+        "end": 1959,
+        "width": 5,
+        "count": 8,
+        "region": "1950-1999"
+      },
+      {
+        "label": "1960-1964",
+        "start": 1960,
+        "end": 1964,
+        "width": 5,
+        "count": 12,
+        "region": "1950-1999"
+      },
+      {
+        "label": "1965-1969",
+        "start": 1965,
+        "end": 1969,
+        "width": 5,
+        "count": 18,
+        "region": "1950-1999"
+      },
+      {
+        "label": "1970-1974",
+        "start": 1970,
+        "end": 1974,
+        "width": 5,
+        "count": 21,
+        "region": "1950-1999"
+      },
+      {
+        "label": "1975-1979",
+        "start": 1975,
+        "end": 1979,
+        "width": 5,
+        "count": 20,
+        "region": "1950-1999"
+      },
+      {
+        "label": "1980-1984",
+        "start": 1980,
+        "end": 1984,
+        "width": 5,
+        "count": 12,
+        "region": "1950-1999"
+      },
+      {
+        "label": "1985-1989",
+        "start": 1985,
+        "end": 1989,
+        "width": 5,
+        "count": 35,
+        "region": "1950-1999"
+      },
+      {
+        "label": "1990-1994",
+        "start": 1990,
+        "end": 1994,
+        "width": 5,
+        "count": 35,
+        "region": "1950-1999"
+      },
+      {
+        "label": "1995-1999",
+        "start": 1995,
+        "end": 1999,
+        "width": 5,
+        "count": 50,
+        "region": "1950-1999"
+      },
+      {
+        "label": "2000",
+        "start": 2000,
+        "end": 2000,
+        "width": 1,
+        "count": 9,
+        "region": "2000-present"
+      },
+      {
+        "label": "2001",
+        "start": 2001,
+        "end": 2001,
+        "width": 1,
+        "count": 13,
+        "region": "2000-present"
+      },
+      {
+        "label": "2002",
+        "start": 2002,
+        "end": 2002,
+        "width": 1,
+        "count": 10,
+        "region": "2000-present"
+      },
+      {
+        "label": "2003",
+        "start": 2003,
+        "end": 2003,
+        "width": 1,
+        "count": 6,
+        "region": "2000-present"
+      },
+      {
+        "label": "2004",
+        "start": 2004,
+        "end": 2004,
+        "width": 1,
+        "count": 18,
+        "region": "2000-present"
+      },
+      {
+        "label": "2005",
+        "start": 2005,
+        "end": 2005,
+        "width": 1,
+        "count": 8,
+        "region": "2000-present"
+      },
+      {
+        "label": "2006",
+        "start": 2006,
+        "end": 2006,
+        "width": 1,
+        "count": 9,
+        "region": "2000-present"
+      },
+      {
+        "label": "2007",
+        "start": 2007,
+        "end": 2007,
+        "width": 1,
+        "count": 10,
+        "region": "2000-present"
+      },
+      {
+        "label": "2008",
+        "start": 2008,
+        "end": 2008,
+        "width": 1,
+        "count": 15,
+        "region": "2000-present"
+      },
+      {
+        "label": "2009",
+        "start": 2009,
+        "end": 2009,
+        "width": 1,
+        "count": 21,
+        "region": "2000-present"
+      },
+      {
+        "label": "2010",
+        "start": 2010,
+        "end": 2010,
+        "width": 1,
+        "count": 12,
+        "region": "2000-present"
+      },
+      {
+        "label": "2011",
+        "start": 2011,
+        "end": 2011,
+        "width": 1,
+        "count": 26,
+        "region": "2000-present"
+      },
+      {
+        "label": "2012",
+        "start": 2012,
+        "end": 2012,
+        "width": 1,
+        "count": 20,
+        "region": "2000-present"
+      },
+      {
+        "label": "2013",
+        "start": 2013,
+        "end": 2013,
+        "width": 1,
+        "count": 23,
+        "region": "2000-present"
+      },
+      {
+        "label": "2014",
+        "start": 2014,
+        "end": 2014,
+        "width": 1,
+        "count": 45,
+        "region": "2000-present"
+      },
+      {
+        "label": "2015",
+        "start": 2015,
+        "end": 2015,
+        "width": 1,
+        "count": 53,
+        "region": "2000-present"
+      },
+      {
+        "label": "2016",
+        "start": 2016,
+        "end": 2016,
+        "width": 1,
+        "count": 47,
+        "region": "2000-present"
+      },
+      {
+        "label": "2017",
+        "start": 2017,
+        "end": 2017,
+        "width": 1,
+        "count": 66,
+        "region": "2000-present"
+      },
+      {
+        "label": "2018",
+        "start": 2018,
+        "end": 2018,
+        "width": 1,
+        "count": 75,
+        "region": "2000-present"
+      },
+      {
+        "label": "2019",
+        "start": 2019,
+        "end": 2019,
+        "width": 1,
+        "count": 72,
+        "region": "2000-present"
+      },
+      {
+        "label": "2020",
+        "start": 2020,
+        "end": 2020,
+        "width": 1,
+        "count": 65,
+        "region": "2000-present"
+      },
+      {
+        "label": "2021",
+        "start": 2021,
+        "end": 2021,
+        "width": 1,
+        "count": 67,
+        "region": "2000-present"
+      },
+      {
+        "label": "2022",
+        "start": 2022,
+        "end": 2022,
+        "width": 1,
+        "count": 81,
+        "region": "2000-present"
+      },
+      {
+        "label": "2023",
+        "start": 2023,
+        "end": 2023,
+        "width": 1,
+        "count": 80,
+        "region": "2000-present"
+      },
+      {
+        "label": "2024",
+        "start": 2024,
+        "end": 2024,
+        "width": 1,
+        "count": 90,
+        "region": "2000-present"
+      },
+      {
+        "label": "2025",
+        "start": 2025,
+        "end": 2025,
+        "width": 1,
+        "count": 117,
+        "region": "2000-present"
+      },
+      {
+        "label": "2026",
+        "start": 2026,
+        "end": 2026,
+        "width": 1,
+        "count": 91,
+        "region": "2000-present"
+      }
+    ]
+  },
   "authors": [
     {
       "label": "Russ Tedrake",
@@ -27072,7 +27521,7 @@ window.analyticsData = {
       "count": 985
     },
     {
-      "label": "Prediction & Perception",
+      "label": "World Modeling",
       "count": 242
     },
     {
