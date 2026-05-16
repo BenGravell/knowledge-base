@@ -132,7 +132,7 @@
       : '';
 
     return [
-      '<li class="' + escAttr(classes) + '" style="--ct-depth:' + depth + '">',
+      '<li class="' + escAttr(classes) + '" style="--ct-depth:' + depth + ';--ct-indent:' + (depth * 0.42).toFixed(2) + 'rem">',
       '<button type="button" class="ct-tree-button" data-ct-select="' + escAttr(treeNode.id) + '"' + branchExpandedAttr(hasChildren, isExpanded) + '>',
       '<span class="ct-tree-rail" aria-hidden="true"><span class="ct-tree-dot"></span></span>',
       '<span class="ct-tree-copy">',
@@ -163,7 +163,7 @@
     const mindMapUrl = paper.mindMapUrl || mindMapUrlFromSource(node.source);
     const actions = [
       detailUrl
-        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(detailUrl) + '"><span class="paper-link-pill__label">Open detail page</span></a>'
+        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(detailUrl) + '"><span class="paper-link-pill__label">Open Detail Page</span></a>'
         : '',
       mindMapUrl
         ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(mindMapUrl) + '"><span class="paper-link-pill__label">Open in Mind Map</span></a>'

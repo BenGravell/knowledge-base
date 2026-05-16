@@ -1,13 +1,5 @@
 # TODO
 
-
-top header search bar broken, when clicking in and searching everything is grayed out and pressing enter just exits the search box returning to page. eg.g. from http://127.0.0.1:8000/knowledge-base/papers/1606_05225/
-
-
-
-
-
-
 ## Ingest
 
 Perform agent task
@@ -136,32 +128,15 @@ Hand-crafted
 
 ### UX
 
-Level-of-detail buttons should all have equal width and use entire width of container, distributed evenly.
-
 ### Design inspiration
 
 <https://pin.it/7kjN4B5KZ>
 
 ## Tag Search
 
-http://127.0.0.1:8000/knowledge-base/tag-search/?paper=1509_03580&tag=System%20identification
-
-Pills need to have a shading and border, same as the analogous pill links on other pages like Mind Map and Content Tree.
-
-
 ## Content Tree
 
 ### UX
-
-Need some very small amount of indent or other indication about the depth of children, it is too flat right now.
-
-Need to distinguish leaf nodes (papers) from branches, maybe use a different shading and/or color for leaves.
-
-Pill for "Open detail page" rename as "Open Detail Page" with title case.
-
-
-
-
 
 ### Targeted edits
 
@@ -176,12 +151,6 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 ## Mind Map
 
 ### UX
-
-On initial state/load the "show/hide" button should read "Hide Settings" and not just "Hide"
-
-### Sidebar
-
-Add filters for item type (e.g. to exclude surveys)
 
 #### Branches
 

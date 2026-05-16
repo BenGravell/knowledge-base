@@ -325,6 +325,11 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   flex-direction: column;
   gap: 3px;
 }
+#mm-type-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
 .mm-cat-item {
   display: flex;
   align-items: center;
@@ -338,6 +343,17 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   height: 10px;
   border-radius: 50%;
   flex-shrink: 0;
+}
+.mm-type-chip {
+  min-width: 2.7rem;
+  padding: 1px 5px;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 999px;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
 }
 .mm-cat-name {
   flex: 1;
@@ -635,7 +651,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   <!-- Panel header: always visible, overlays app corner to survive panel collapse -->
   <div id="mm-panel-header">
     <h3>Mind Map</h3>
-    <button id="mm-panel-hide-btn">Hide</button>
+    <button id="mm-panel-hide-btn">Hide Settings</button>
   </div>
 
   <!-- Panel body: collapses to width:0 on hide -->
@@ -679,6 +695,15 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
           <button id="mm-no-cats">None</button>
         </div>
         <div id="mm-category-filters"></div>
+      </div>
+
+      <div class="mm-section">
+        <span class="mm-section-label">Item Types</span>
+        <div class="mm-cat-links">
+          <button id="mm-all-types">All</button>
+          <button id="mm-no-types">None</button>
+        </div>
+        <div id="mm-type-filters"></div>
       </div>
 
       <div id="mm-stats">

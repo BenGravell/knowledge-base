@@ -876,6 +876,7 @@ def main() -> None:
         tags = data.get("tags") or []
         authors = data.get("authors") or []
         year = data.get("year")
+        item_type = (data.get("type") or "Unspecified").strip()
         link = (data.get("link") or "").strip()
         embed_text = build_embed_text(data)
 
@@ -893,6 +894,7 @@ def main() -> None:
             "label": make_label(data),
             "authors": [last_name(a) for a in authors[:3]],
             "year": year,
+            "item_type": item_type,
             "super_category": cat_info["super_category"],
             "category": cat_info["category"],
             "sub_category": cat_info["sub_category"],
@@ -1047,6 +1049,7 @@ def main() -> None:
                 "title": p["title"],
                 "authors": p["authors"],
                 "year": p["year"],
+                "item_type": p["item_type"],
                 "super_category": p["super_category"],
                 "category": p["category"],
                 "sub_category": p["sub_category"],
@@ -1121,6 +1124,7 @@ def main() -> None:
             "max_edge_candidates_per_node": MAX_EDGE_CANDIDATES_PER_NODE,
             "total_papers": len(papers),
             "total_edges": len(edges),
+            "itemTypeOrder": sorted({p["item_type"] for p in papers}),
             "superCategoryOrder": nav_order["superCategories"],
             "categoryOrder": nav_order["categories"],
             "categorySuperCategory": nav_order["categorySuperCategory"],
