@@ -39293,7 +39293,7 @@
   <span class="md-ellipsis">
     
   
-    World Modeling
+    Prediction & Perception
   
 
     
@@ -39309,7 +39309,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    World Modeling
+    Prediction & Perception
   
 
           </label>
@@ -58217,6 +58217,7 @@
   var l = 0.5;    // pole half-length (m)
   var g = 9.81;   // gravity (m/s²)
   var DT = 1 / 60; // simulation timestep (s) — one per animation frame
+  var WALL_RESTITUTION = 1.0; // 1.0 = elastic wall collision
 
   // ── Disturbance noise defaults (driven by sliders at runtime) ─────────────
   var NOISE_HF_DEFAULT   = 0.5;   // white noise std-dev (N)
@@ -58308,6 +58309,36 @@
     });
   }
 
+  function reflectOvershoot(x, lo, hi) {
+    while (x < lo || x > hi) {
+      x = x < lo ? lo + (lo - x) : hi - (x - hi);
+    }
+    return x;
+  }
+
+  function resolveWallCollision(s) {
+    var x = s[0], xd = s[1], th = s[2], thd = s[3];
+    var hitLeft  = x < X_MIN && xd < 0;
+    var hitRight = x > X_MAX && xd > 0;
+    if (!hitLeft && !hitRight) {
+      if (x < X_MIN || x > X_MAX) s[0] = clamp(x, X_MIN, X_MAX);
+      return s;
+    }
+
+    var cosT = Math.cos(th);
+    var h00 = M + m;
+    var h01 = m * l * cosT;
+    var h11 = (4 / 3) * m * l * l;
+    var det = h00 * h11 - h01 * h01;
+    var targetXd = -WALL_RESTITUTION * xd;
+    var impulse = (targetXd - xd) / (h11 / det);
+
+    s[0] = reflectOvershoot(x, X_MIN, X_MAX);
+    s[1] = targetXd;
+    s[3] = thd - (h01 / det) * impulse;
+    return s;
+  }
+
   // ── PID controllers ────────────────────────────────────────────────────────
   // Angle PID: θ > 0 (leans right) → F > 0 (push right to catch pole)
   // Position PID: x > 0 → F > 0 (push SAME direction: tips pole toward origin,
@@ -58360,6 +58391,7 @@
     var F = clamp(lastPidForce + lfNoise + lastHfNoise, -15, 15);
     lastForce = F;
     state = rk4(state, F);
+    state = resolveWallCollision(state);
     time += DT;
     if (Math.abs(state[2]) > Math.PI / 2) fallen = true;
     return F;
@@ -58372,6 +58404,11 @@
   var WHEEL_R  = 10;
   var POLE_PX  = 120;   // pole length in pixels  (l = 0.5 m → 120 px/m scale)
   var SCALE    = POLE_PX / l;  // pixels per metre
+  var TRACK_MARGIN = 20;
+  var CART_CENTER_MIN_PX = TRACK_MARGIN + CART_W / 2;
+  var CART_CENTER_MAX_PX = SIM_W - TRACK_MARGIN - CART_W / 2;
+  var X_MIN = (CART_CENTER_MIN_PX - SIM_W / 2) / SCALE;
+  var X_MAX = (CART_CENTER_MAX_PX - SIM_W / 2) / SCALE;
 
   // Detect dark scheme via Material theme attribute
   function isDark() {
@@ -58395,19 +58432,18 @@
     ctx.fillRect(0, 0, W, H);
 
     var x  = state[0], th = state[2];
-    // Cart x in pixels, clamped so it doesn't vanish off screen
-    var cartX = clamp(W / 2 + x * SCALE, CART_W * 0.6, W - CART_W * 0.6);
+    var cartX = clamp(W / 2 + x * SCALE, CART_CENTER_MIN_PX, CART_CENTER_MAX_PX);
 
     // ── Track ──────────────────────────────────────────────────────────────
     ctx.beginPath();
     ctx.strokeStyle = fg();
     ctx.lineWidth = 2;
-    ctx.moveTo(20, TRACK_Y + CART_H / 2 + WHEEL_R);
-    ctx.lineTo(W - 20, TRACK_Y + CART_H / 2 + WHEEL_R);
+    ctx.moveTo(TRACK_MARGIN, TRACK_Y + CART_H / 2 + WHEEL_R);
+    ctx.lineTo(W - TRACK_MARGIN, TRACK_Y + CART_H / 2 + WHEEL_R);
     ctx.stroke();
 
     // Track end bumpers
-    [20, W - 20].forEach(function(bx) {
+    [TRACK_MARGIN, W - TRACK_MARGIN].forEach(function(bx) {
       ctx.beginPath();
       ctx.strokeStyle = fg();
       ctx.lineWidth = 3;

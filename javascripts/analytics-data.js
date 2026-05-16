@@ -27521,7 +27521,7 @@ window.analyticsData = {
       "count": 985
     },
     {
-      "label": "World Modeling",
+      "label": "Prediction & Perception",
       "count": 242
     },
     {

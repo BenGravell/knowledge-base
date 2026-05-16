@@ -39305,7 +39305,7 @@
   <span class="md-ellipsis">
     
   
-    World Modeling
+    Prediction & Perception
   
 
     
@@ -39321,7 +39321,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    World Modeling
+    Prediction & Perception
   
 
           </label>
@@ -57893,6 +57893,13 @@
   --mm-muted-label:        #475569;
   --mm-selected-ring:      #d9a316;
   --mm-selected-label:     #111111;
+  --mm-blue:               #2367b3;
+  --mm-teal:               #13877f;
+  --mm-rose:               #bb3974;
+  --mm-gold:               #ad6b16;
+  --mm-border:             color-mix(in srgb, var(--md-default-fg-color) 15%, transparent);
+  --mm-soft-border:        color-mix(in srgb, var(--md-default-fg-color) 9%, transparent);
+  --mm-panel:              color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
 }
 [data-md-color-scheme="default"] {
   --mm-edge-color:         #242424;
@@ -57905,6 +57912,13 @@
   --mm-muted-label:        #475569;
   --mm-selected-ring:      #d9a316;
   --mm-selected-label:     #111111;
+  --mm-blue:               #2367b3;
+  --mm-teal:               #13877f;
+  --mm-rose:               #bb3974;
+  --mm-gold:               #ad6b16;
+  --mm-border:             color-mix(in srgb, var(--md-default-fg-color) 15%, transparent);
+  --mm-soft-border:        color-mix(in srgb, var(--md-default-fg-color) 9%, transparent);
+  --mm-panel:              color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
 }
 [data-md-color-scheme="slate"] {
   --mm-edge-color:         #8a8a8a;
@@ -57917,6 +57931,13 @@
   --mm-muted-label:        #c8d0d8;
   --mm-selected-ring:      #f1c232;
   --mm-selected-label:     #111111;
+  --mm-blue:               #58a6ff;
+  --mm-teal:               #25b8ad;
+  --mm-rose:               #ff6aa8;
+  --mm-gold:               #f0a33e;
+  --mm-border:             color-mix(in srgb, var(--md-default-fg-color) 18%, transparent);
+  --mm-soft-border:        color-mix(in srgb, var(--md-default-fg-color) 11%, transparent);
+  --mm-panel:              color-mix(in srgb, var(--md-code-bg-color) 82%, #050910);
 }
 
 /* ── Remove MkDocs Material layout constraints for full-screen canvas ─────── */
@@ -58323,9 +58344,122 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .tt-meta    { font-size: 0.73rem; color: var(--md-default-fg-color--light); margin-bottom: 2px; }
 .tt-tags    { font-size: 0.7rem;  color: var(--md-primary-fg-color--light); margin: 5px 0; line-height: 1.5; }
 .tt-summary { font-size: 0.73rem; color: var(--md-default-fg-color--light); margin-top: 6px; line-height: 1.45; }
+.tt-actions { margin-top: 0.62rem; }
 .tt-hint    { font-size: 0.68rem; color: var(--md-default-fg-color--lighter); margin-top: 8px; font-style: italic; }
 .tt-list    { margin: 7px 0 0; padding-left: 1rem; color: var(--md-default-fg-color--light); font-size: 0.72rem; line-height: 1.35; }
 .tt-list li { margin-bottom: 3px; }
+
+/* ── Mobile modal: same paper-detail pattern as Timeline ─────────────────── */
+.mm-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: color-mix(in srgb, #000 48%, transparent);
+  backdrop-filter: blur(3px);
+}
+.mm-modal[hidden] { display: none; }
+.mm-modal-card {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  width: min(48rem, calc(100vw - 1.2rem));
+  max-height: min(82vh, 48rem);
+  border: 1px solid var(--mm-border);
+  border-radius: 8px;
+  background: var(--md-default-bg-color);
+  box-shadow: 0 22px 60px color-mix(in srgb, #000 34%, transparent);
+  overflow: hidden;
+}
+.mm-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.82rem 0.95rem;
+  border-bottom: 1px solid var(--mm-border);
+  background: var(--mm-panel);
+}
+.mm-modal-head h2 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+.mm-modal-close {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--mm-border);
+  border-radius: 999px;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  font: inherit;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.mm-modal-close:hover {
+  border-color: var(--mm-blue);
+  background: color-mix(in srgb, var(--mm-blue) 8%, transparent);
+}
+.mm-modal-body {
+  min-height: 0;
+  overflow: auto;
+  padding: 0.9rem 0.95rem 1rem;
+  scrollbar-width: thin;
+}
+.mm-modal-body p {
+  margin: 0.55rem 0 0;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.mm-detail-kicker {
+  margin-bottom: 0.25rem;
+  color: var(--mm-gold);
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+.mm-detail-title,
+.mm-summary,
+.mm-abstract {
+  color: var(--md-default-fg-color) !important;
+}
+.mm-detail-title { font-weight: 700; }
+.mm-modal-section-title {
+  margin: 0.9rem 0 0.25rem;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.mm-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.28rem;
+  margin-top: 0.72rem;
+}
+.mm-tags span {
+  padding: 0.16rem 0.42rem;
+  border: 1px solid var(--mm-soft-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--mm-teal) 8%, transparent);
+  color: var(--md-default-fg-color--light);
+  font-size: 0.68rem;
+}
+.mm-detail-actions {
+  --paper-link-internal-blue: var(--mm-blue);
+  --paper-link-internal-green: var(--mm-teal);
+  --paper-link-external-rose: var(--mm-rose);
+  --paper-link-external-orange: var(--mm-gold);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+  margin-top: 0.9rem;
+}
 
 @media (max-width: 700px) {
   #mm-app {
@@ -58354,6 +58488,11 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   .tt-tags    { font-size: 0.76rem; line-height: 1.45; }
   .tt-summary { font-size: 0.78rem; line-height: 1.48; }
   .tt-hint    { font-size: 0.72rem; }
+  .mm-modal { padding: 0.55rem; }
+  .mm-modal-card {
+    width: calc(100vw - 1.1rem);
+    max-height: 88vh;
+  }
 }
 </style>
 
@@ -58428,6 +58567,16 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
   <!-- Tooltip (positioned by JS) -->
   <div id="mm-tooltip"></div>
+
+  <div id="mm-modal" class="mm-modal" hidden>
+    <article class="mm-modal-card" role="dialog" aria-modal="true" aria-labelledby="mm-modal-title">
+      <header class="mm-modal-head">
+        <h2 id="mm-modal-title">Paper</h2>
+        <button id="mm-modal-close" class="mm-modal-close" type="button" aria-label="Close paper details">&times;</button>
+      </header>
+      <div id="mm-modal-body" class="mm-modal-body"></div>
+    </article>
+  </div>
 
   <!-- Sigma canvas -->
   <div id="mm-graph"></div>
