@@ -24,7 +24,5 @@ summary: >
   Introduces a conformal prediction variant that begins from constraints on prediction-set size and then adapts the miscoverage level needed to preserve computable coverage guarantees. The paper combines post-hoc validity via e-values with a leave-one-out estimator, targeting settings where large conformal sets are practically unusable.
 link: https://arxiv.org/pdf/2505.13732
 links_alt:
-  - https://arxiv.org/abs/2505.13732
-  - https://arxiv.org/html/2505.13732
   - https://github.com/GauthierE/backward-cp
 audit_status: raw
