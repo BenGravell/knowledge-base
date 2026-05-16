@@ -2,6 +2,9 @@ site_name: Knowledge Base
 
 site_url: https://bengravell.github.io/knowledge-base/
 
+extra:
+  generator: false
+
 plugins:
   - search
   - macros
@@ -61,6 +64,7 @@ extra_css:
 extra_javascript:
   - javascripts/mathjax.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+  - javascripts/math-fit.js
   - javascripts/header-link.js
 
 markdown_extensions:
@@ -103,4 +107,5 @@ nav:
     - Python: programming/python.md
     - Interoperability: programming/interoperability.md
     - Trajectory Optimization: programming/trajectory_optimization.md
+  - Credits: credits.md
   - Portfolio: https://bengravell.github.io/portfolio/

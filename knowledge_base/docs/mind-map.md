@@ -9,10 +9,10 @@ hide:
 /* ── Derived vars: transparency adjustments on MkDocs palette tokens ─────── */
 :root {
   --mm-edge-color:         #242424;
-  --mm-edge-highlighted:   rgba(78, 78, 78, 0.72);
-  --mm-edge-alpha-scale:   1.10;
-  --mm-edge-alpha-min:     0.14;
-  --mm-edge-alpha-max:     0.34;
+  --mm-edge-highlighted:   rgba(78, 78, 78, 0.64);
+  --mm-edge-alpha-scale:   0.48;
+  --mm-edge-alpha-min:     0.035;
+  --mm-edge-alpha-max:     0.12;
   --mm-node-muted:         #a3adb8;
   --mm-node-muted-related: #7f8b97;
   --mm-muted-label:        #475569;
@@ -21,10 +21,10 @@ hide:
 }
 [data-md-color-scheme="default"] {
   --mm-edge-color:         #242424;
-  --mm-edge-highlighted:   rgba(78, 78, 78, 0.72);
-  --mm-edge-alpha-scale:   1.10;
-  --mm-edge-alpha-min:     0.14;
-  --mm-edge-alpha-max:     0.34;
+  --mm-edge-highlighted:   rgba(78, 78, 78, 0.64);
+  --mm-edge-alpha-scale:   0.48;
+  --mm-edge-alpha-min:     0.035;
+  --mm-edge-alpha-max:     0.12;
   --mm-node-muted:         #a3adb8;
   --mm-node-muted-related: #7f8b97;
   --mm-muted-label:        #475569;

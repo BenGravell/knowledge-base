@@ -2,7 +2,7 @@ import html
 import re
 import yaml
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import quote, urlparse
 import mkdocs_gen_files
 from jinja2 import Environment
 
@@ -109,20 +109,51 @@ def alternate_link_label(url: str) -> str:
     return host or url
 
 
-def make_link(label: str, url: str, detail: str = "", variant: str = "secondary") -> dict[str, str]:
+def make_link(
+    label: str,
+    url: str,
+    detail: str = "",
+    variant: str = "secondary",
+    external: bool = True,
+) -> dict[str, str | bool]:
     return {
         "label": label,
         "url": url,
         "detail": detail,
         "variant": variant,
+        "external": external,
     }
 
 
-def build_link_sections(data: dict) -> list[dict]:
+def build_link_sections(data: dict, paper_id: str) -> list[dict]:
     primary = clean_scalar(data.get("link"))
     arxiv_id = clean_arxiv_id(data.get("arxiv_id"))
     doi = clean_doi(data.get("doi"))
     sections = []
+    quoted_paper_id = quote(paper_id, safe="")
+
+    sections.append(
+        {
+            "title": "Knowledge Base",
+            "kind": "internal",
+            "links": [
+                make_link(
+                    "Open in Content Tree",
+                    f"../../content-tree/#paper={quoted_paper_id}",
+                    "",
+                    "internal",
+                    False,
+                ),
+                make_link(
+                    "Open in Mind Map",
+                    f"../../mind-map/#paper={quoted_paper_id}",
+                    "",
+                    "internal",
+                    False,
+                ),
+            ],
+        }
+    )
 
     if primary:
         sections.append(
@@ -145,7 +176,7 @@ def build_link_sections(data: dict) -> list[dict]:
     if arxiv_id:
         add_standard("arXiv Abstract", f"https://arxiv.org/abs/{arxiv_id}", arxiv_id)
         add_standard("arXiv PDF", f"https://arxiv.org/pdf/{arxiv_id}", arxiv_id)
-        add_standard("arXiv HTML", f"https://arxiv.org/html/{arxiv_id}", arxiv_id)
+        add_standard("arXiv HTML", f"https://ar5iv.labs.arxiv.org/html/{arxiv_id}", arxiv_id)
     if doi:
         add_standard("DOI", f"https://doi.org/{doi}", doi)
 
@@ -193,7 +224,8 @@ for metadata_file in metadata_root.rglob("*.yml"):
     mkdocs_gen_files.set_edit_path(output_path, metadata_file)
     with mkdocs_gen_files.open(output_path, "w") as f_out:
         template = env.from_string(template_text)
-        data["link_sections"] = build_link_sections(data)
+        paper_id = output_path.stem
+        data["link_sections"] = build_link_sections(data, paper_id)
         f_out.write(template.render(**data))
 
     # # DEBUG: actually write out to real filesystem

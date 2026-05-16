@@ -20,14 +20,12 @@ hide:
     </p>
   </div>
 
-  <form id="ct-search-form" class="ct-search-panel">
+  <div class="ct-search-panel">
     <div class="ct-search-field">
-      <label for="ct-search">Find a topic or paper</label>
+      <label for="ct-search">Search</label>
       <input id="ct-search" type="search" autocomplete="off" placeholder="Search titles, branches, or paths">
     </div>
-    <button id="ct-search-submit" type="submit">Go</button>
-    <button id="ct-root-btn" type="button">Root</button>
-  </form>
+  </div>
 
   <div class="ct-meta-row" aria-live="polite">
     <span id="ct-tree-stats"></span>

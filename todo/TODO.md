@@ -7,6 +7,22 @@ Perform agent task
 for
 todo/papers_misc/001_autonomous_driving_and_av_01.md
 
+## ConLab scrape
+
+<https://labs.utdallas.edu/conlab/>
+
+Pull content for portfolio
+
+### Original research
+
+<https://labs.utdallas.edu/conlab/learning-robust-control-for-lqr-systems-with-multiplicative-noise-via-policy-gradient/>
+<https://labs.utdallas.edu/conlab/robust-learning-based-control-via-bootstrapped-multiplicative-noise/>
+<https://labs.utdallas.edu/conlab/risk-averse-rrt-planning-with-nonlinear-steering-and-tracking-controllers-for-nonlinear-robotic-systems-under-uncertainty/>
+
+### Resources
+
+<https://labs.utdallas.edu/conlab/resources/>
+
 ## Site
 
 Use git-filter-repo. It is the modern, reliable way to remove a path from all reachable Git history.
@@ -15,16 +31,16 @@ Important caveat: this rewrites commit hashes. Everyone else should stop pushing
 
 Recommended flow:
 
-# From somewhere outside your working repo
+### From somewhere outside your working repo
 
 git clone --mirror <git@github.com>:USER/REPO.git knowledge-base-clean.git
 cd knowledge-base-clean.git
 
-# Install if needed
+### Install if needed
 
-# pipx install git-filter-repo
-
-# or: brew install git-filter-repo
+pipx install git-filter-repo
+or:
+brew install git-filter-repo
 
 git filter-repo --path knowledge_base/site/ --invert-paths
 
@@ -45,32 +61,37 @@ No output means the path is gone from reachable local history.
 
 One more reality check: “completely” means removed from refs you control. Old clones, forks, PR refs, and GitHub’s internal unreachable-object cache may still retain it for a while. If this was just build-output cleanup, that’s fine. If it contained secrets, rotate them and contact GitHub Support to purge cached objects.
 
+## Quality of life
+
+### Create a one-click site regen script
+
+Should call:
+
+- audit metadata
+- embedding regen
+- mkdocs build
+
+Take an argument -g or --github to use gh-deploy mkdocs
+
+Set up an automation orchestration script to invest from paper funnel, run prefill, ask ai for preliminary metadata fixup using audit script, generate mind map data, place papers in content tree
+
+### Get mkdocs rebuilds faster
+
+Incremental? other stuff / caching?
+
+Back by a DuckDB database?
+
 ## Paper Detail Pages
 
-Paper details
+### Links
 
-- Add DOI link
-- Add Google Scholar link
-- Add <https://www.connectedpapers.com/> link
+- Google Scholar link
+- <https://www.connectedpapers.com/>
   - ex. <https://www.connectedpapers.com/main/4326d7e9933c77ff9dc53056c62ef6712d90c633/Sampling%20based-algorithms-for-optimal-motion-planning/graph>
-
-Add links for each paper to app.
-
-- Google Scholar
 - <https://openalex.org/>
 - <https://openknowledgemaps.org/>
 - <https://www.researchrabbit.ai/>
 - <https://incitefulmed.com/academic/>
-
-Link direct to pdf instead of abstract for arxiv papers.
-
-<https://arxiv.org/pdf/2210.01744>
-
-Provide HTML link for paper Explorer.
-
-<https://ar5iv.org/abs/2210.01744>
-
-<https://ar5iv.labs.arxiv.org/html/2210.01744>
 
 Try to render arXiv in the app window natively as much as possible (using HTML when available)
 
@@ -101,16 +122,27 @@ Hand-crafted
 
 ## Analytics
 
+### UX
+
+#### Rename papers
+
 Rename "papers by year" to "items by year".
 Rename big metric "papers" to "items".
 Perform same rename throughout the page, they are items not necessarily papers.
 
 ## Timeline
 
-Design inspiration:
-https://pin.it/7kjN4B5KZ
+### Design inspiration
+
+<https://pin.it/7kjN4B5KZ>
 
 ## Content Tree
+
+### UX
+
+### Targeted edits
+
+Prediction horizon section has mjscategorized lane change scenarios item. Reorganize and remove prediction horizon,  move to safety/eval?
 
 ### Taxonomy guidance
 
@@ -122,27 +154,9 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 
 ### UX
 
-Revise the UX behavior.
-
-Keep level of detail as it is - it should set the global level of detail/aggregation.
-
-When clicking a branch node, it should show the children of the node (the branch disappears and is replaced by its children, one level of detail deeper) but keep the rest of the graph the same.
+#### Branches
 
 Make sure every branch goes 3 levels deep to sub category. This is a way to make the existing level of detail work properly in mind map. Otherwise it is unintuitive that when you click a node it might not split up.
-
-Another way would be to skip lod expansion if node clicked has no child in the next overall lod
-
-### Nodes style
-
-https://bengravell.github.io/knowledge-base/mind-map/
-
-Node disks at all levels of detail are a bit small, can bump up diameter probably 2x and look good. Paper level of detail should still enforce minimum disk clearance after the change. Higher level of detail can permit a small amount of overlap between disks.
-
-### Edges style
-
-Edges opacity - autotune
-
-edges still too bright on light mode
 
 ### Rename
 
@@ -188,25 +202,29 @@ Collect points for clicking links, answering quiz questions.
 
 ## Explainers
 
-https://bengravell.github.io/knowledge-base/explainers/polyak_lojasiewicz/
-
-Force equations to fit to container width, using scaling to achieve it. On mobile site with narrow width it induces a horizontal scroll bar which is undesirable.
-
-https://bengravell.github.io/knowledge-base/explainers/pid/pid/
-
-Bullet list for Ben Recht blog posts are not indenting properly.
+<https://bengravell.github.io/knowledge-base/explainers/pid/pid/>
 
 Simulation of cartpole seems unrealistic when cart reaches world borders. It should rebound elastically on collision and not have any weird physical effects on the pole, forces should be transmitted properly.
 
 ## Metadata cleanup
 
-Arxiv prefill script should strip off version number from url if present before fetching data.
+### scripts
+
+Write audit script to check for identical content tree key label and algorithm field in metadata. Flag violations with both sides for manual resolution.
+
+Write audit script to check for multiple metadata items claiming the same algorithm. Flag violations for manual resolution.
+
+#### dollar sign / math
 
 Add checked in audit for dollar signs in abstract
 
-https://bengravell.github.io/knowledge-base/papers/2015_nesterov_random_gradient_free_minimization_of/?h=spokoiny
+<https://bengravell.github.io/knowledge-base/papers/2015_nesterov_random_gradient_free_minimization_of/?h=spokoiny>
 
 Fix math notation, make plain text readable.
+
+### prefill
+
+Arxiv prefill script should strip off version number from url if present before fetching data.
 
 ## normalization and de-duplication
 
@@ -246,43 +264,6 @@ add other URIs besides DOI since not all papers have DOI e.g. dissertations, arx
 
 - Autogenerate the key for papers
   - policy: use algorithm if non-null, else use the paper name
-
-
-## Quality of life
-
-### Get mkdocs rebuilds faster
-
-Incremental? other stuff / caching?
-
-Back by a DuckDB database?
-
-### Create a one-click site regen script
-
-Should call:
-
-- audit metadata
-- embedding regen
-- mkdocs build
-
-Take an argument -g or --github to use gh-deploy mkdocs
-
-Set up an automation orchestration script to invest from paper funnel, run prefill, ask ai for preliminary metadata fixup using audit script, generate mind map data, place papers in content tree
-
-## ConLab scrape
-
-<https://labs.utdallas.edu/conlab/>
-
-Pull content for portfolio
-
-### Original research
-
-<https://labs.utdallas.edu/conlab/learning-robust-control-for-lqr-systems-with-multiplicative-noise-via-policy-gradient/>
-<https://labs.utdallas.edu/conlab/robust-learning-based-control-via-bootstrapped-multiplicative-noise/>
-<https://labs.utdallas.edu/conlab/risk-averse-rrt-planning-with-nonlinear-steering-and-tracking-controllers-for-nonlinear-robotic-systems-under-uncertainty/>
-
-### Resources
-
-<https://labs.utdallas.edu/conlab/resources/>
 
 ## Metrics
 

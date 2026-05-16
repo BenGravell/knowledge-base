@@ -37,7 +37,7 @@
     <h3>{{ section.title | e }}</h3>
     <div class="paper-link-pills">
 {% for item in section.links %}
-      <a class="paper-link-pill paper-link-pill--{{ item.variant | e }}" href="{{ item.url | e }}" target="_blank" rel="noopener noreferrer">
+      <a class="paper-link-pill paper-link-pill--{{ item.variant | e }}" href="{{ item.url | e }}"{% if item.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
         <span class="paper-link-pill__label">{{ item.label | e }}</span>
 {% if item.detail %}
         <span class="paper-link-pill__detail">{{ item.detail | e }}</span>

@@ -19,6 +19,31 @@
   }
 }
 
+/* Display math is scaled by docs/javascripts/math-fit.js when it would otherwise
+   overflow narrow viewports. Keep the fitted block inside the content column. */
+.md-typeset .arithmatex {
+  max-width: 100%;
+}
+
+.md-typeset .arithmatex mjx-container[display="true"].arithmatex--fit {
+  box-sizing: border-box;
+}
+
+.md-typeset li > ul,
+.md-typeset li > ol {
+  margin-top: 0.35em;
+  margin-bottom: 0.35em;
+  padding-inline-start: 1.25rem;
+}
+
+.md-typeset li > ul {
+  list-style-type: circle;
+}
+
+.md-typeset li > ul ul {
+  list-style-type: square;
+}
+
 /* ── Portfolio nav link: frosted-glass pill button ─────────────────────── */
 
 /* Separator above the Portfolio item */
@@ -65,80 +90,65 @@ a.md-nav__link[href*="portfolio"]:hover {
   border-color: rgba(30, 136, 229, 0.38);
 }
 
-/* Icon badge — open_in_new SVG, pillbox background layered beneath */
+/* External-link icon */
 a.md-nav__link[href*="portfolio"]::after {
   content: "";
   display: inline-block;
   width: 1em;
   height: 1em;
   flex-shrink: 0;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
   background:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3C/svg%3E")
-    center / 70% no-repeat,
-    rgba(255, 255, 255, 0.18);
+    center / contain no-repeat;
 }
 
 [data-md-color-scheme="default"] a.md-nav__link[href*="portfolio"]::after {
-  border-color: rgba(30, 136, 229, 0.28);
   background:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231e88e5' d='M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3C/svg%3E")
-    center / 70% no-repeat,
-    rgba(30, 136, 229, 0.13);
+    center / contain no-repeat;
 }
 
-/* App pages use the MkDocs sidebar as a compact cross-app switcher. */
-body:has(#mm-app),
-body:has(#tl-app),
-body:has(#an-app),
-body:has(#ct-app) {
-  --md-sidebar-width: 8.8rem;
-}
-
-body:has(#ct-app) {
+/* Use one stable primary-sidebar rhythm on every page. */
+body {
   --md-sidebar-width: 10.2rem;
 }
 
 @media screen and (min-width: 76.25em) {
-  body:has(#mm-app) .md-sidebar--primary,
-  body:has(#tl-app) .md-sidebar--primary,
-  body:has(#an-app) .md-sidebar--primary,
-  body:has(#ct-app) .md-sidebar--primary {
+  .md-sidebar--primary {
     width: var(--md-sidebar-width);
   }
 
-  body:has(#mm-app) .md-sidebar--primary .md-sidebar__scrollwrap,
-  body:has(#tl-app) .md-sidebar--primary .md-sidebar__scrollwrap,
-  body:has(#an-app) .md-sidebar--primary .md-sidebar__scrollwrap,
-  body:has(#ct-app) .md-sidebar--primary .md-sidebar__scrollwrap {
+  .md-sidebar--primary .md-sidebar__scrollwrap {
     width: var(--md-sidebar-width);
     scrollbar-width: thin;
   }
 
-  body:has(#mm-app) .md-sidebar--primary .md-nav__title,
-  body:has(#tl-app) .md-sidebar--primary .md-nav__title,
-  body:has(#an-app) .md-sidebar--primary .md-nav__title,
-  body:has(#ct-app) .md-sidebar--primary .md-nav__title {
+  .md-sidebar--primary .md-nav__title {
     padding: 0.72rem 0.65rem;
     font-size: 0.74rem;
   }
 
-  body:has(#mm-app) .md-sidebar--primary .md-nav__link,
-  body:has(#tl-app) .md-sidebar--primary .md-nav__link,
-  body:has(#an-app) .md-sidebar--primary .md-nav__link,
-  body:has(#ct-app) .md-sidebar--primary .md-nav__link {
+  .md-sidebar--primary .md-nav__link {
     margin-top: 0.16rem;
     padding: 0.42rem 0.65rem;
     font-size: 0.74rem;
     line-height: 1.28;
   }
 
-  body:has(#mm-app) .md-sidebar--primary .md-nav__icon,
-  body:has(#tl-app) .md-sidebar--primary .md-nav__icon,
-  body:has(#an-app) .md-sidebar--primary .md-nav__icon,
-  body:has(#ct-app) .md-sidebar--primary .md-nav__icon {
+  .md-sidebar--primary .md-nav__icon {
     margin-inline-end: 0.12rem;
+  }
+
+  .md-nav--primary > .md-nav__list > .md-nav__item--active > .md-nav--secondary {
+    display: none;
+  }
+
+  .md-nav--primary > .md-nav__list > .md-nav__item--active > label.md-nav__link[for="__toc"] {
+    display: none;
+  }
+
+  .md-nav--primary > .md-nav__list > .md-nav__item--active.md-nav__item--nested > .md-nav {
+    display: none;
   }
 }
 
@@ -375,7 +385,7 @@ body:has(#ct-app)
 
 .ct-search-panel {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.65rem;
   align-items: end;
   padding: 0.85rem;
@@ -419,42 +429,11 @@ body:has(#ct-app)
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--ct-cyan) 10%, transparent);
 }
 
-.ct-search-panel button,
 .ct-breadcrumbs button,
 .ct-tree-button,
 .ct-result {
   border-radius: 8px;
   font: inherit;
-}
-
-.ct-search-panel button {
-  min-height: 2.45rem;
-  padding: 0.5rem 0.85rem;
-  border: 1px solid color-mix(in srgb, var(--ct-teal) 82%, #000000);
-  background:
-    linear-gradient(135deg, var(--ct-teal), color-mix(in srgb, var(--ct-cyan) 72%, var(--ct-teal)));
-  color: #ffffff;
-  cursor: pointer;
-  text-decoration: none;
-  transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
-}
-
-.ct-search-panel button:hover {
-  color: #ffffff;
-  filter: saturate(1.08);
-  transform: translateY(-1px);
-  box-shadow: 0 7px 16px color-mix(in srgb, var(--ct-teal) 26%, transparent);
-}
-
-#ct-root-btn {
-  border-color: var(--ct-border);
-  background: var(--md-default-bg-color);
-  color: var(--md-default-fg-color);
-}
-
-#ct-root-btn:hover {
-  color: var(--md-default-fg-color);
-  box-shadow: 0 7px 16px color-mix(in srgb, #000000 9%, transparent);
 }
 
 .ct-meta-row {
@@ -705,6 +684,7 @@ body:has(#ct-app)
   border-color: transparent;
   background:
     linear-gradient(135deg, var(--ct-teal), var(--ct-cyan) 58%, var(--ct-rose));
+  background-clip: padding-box;
   color: #ffffff;
   transform: translateX(0.18rem) scale(1.02);
   box-shadow:
@@ -781,46 +761,6 @@ body:has(#ct-app)
   gap: 0.45rem;
 }
 
-.ct-paper-link {
-  display: inline-flex;
-  min-height: 2rem;
-  align-items: center;
-  gap: 0.42rem;
-  padding: 0.28rem 0.58rem;
-  border: 1px solid color-mix(in srgb, var(--ct-cyan) 42%, transparent);
-  border-radius: 8px;
-  color: var(--md-typeset-a-color);
-  font-size: 0.74rem;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.ct-paper-link::after {
-  content: "\2197";
-  display: inline-grid;
-  width: 1.32rem;
-  height: 1rem;
-  place-items: center;
-  border: 1px solid color-mix(in srgb, var(--ct-cyan) 34%, transparent);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--ct-cyan) 9%, transparent);
-  color: var(--ct-cyan);
-  font-size: 0.66rem;
-  line-height: 1;
-  transform: translateY(-0.02rem);
-}
-
-.ct-paper-link:hover {
-  border-color: var(--ct-cyan);
-  background: color-mix(in srgb, var(--ct-cyan) 8%, transparent);
-  color: var(--md-typeset-a-color);
-}
-
-.ct-paper-link:hover::after {
-  border-color: color-mix(in srgb, var(--ct-cyan) 70%, transparent);
-  background: color-mix(in srgb, var(--ct-cyan) 15%, transparent);
-}
-
 .ct-kind {
   color: var(--md-default-fg-color--light);
   font-size: 0.7rem;
@@ -872,10 +812,6 @@ body:has(#ct-app)
     grid-template-columns: 1fr;
   }
 
-  .ct-search-panel button {
-    width: 100%;
-  }
-
   .ct-chain {
     padding: 0.64rem 0.45rem;
   }
@@ -883,10 +819,26 @@ body:has(#ct-app)
 
 /* Paper detail links */
 
+.paper-link-stack,
+.ct-paper-actions {
+  --paper-link-internal-blue: #2276c9;
+  --paper-link-internal-green: #12877f;
+  --paper-link-external-rose: #c33d80;
+  --paper-link-external-orange: #b66d18;
+}
+
 .paper-link-stack {
   display: grid;
   gap: 0.78rem;
   margin: 0.35rem 0 1.1rem;
+}
+
+[data-md-color-scheme="slate"] .paper-link-stack,
+[data-md-color-scheme="slate"] .ct-paper-actions {
+  --paper-link-internal-blue: #58a6ff;
+  --paper-link-internal-green: #25b8ad;
+  --paper-link-external-rose: #ff6aa8;
+  --paper-link-external-orange: #f0a33e;
 }
 
 .paper-link-section {
@@ -899,7 +851,18 @@ body:has(#ct-app)
 }
 
 .paper-link-section--primary {
-  border-color: color-mix(in srgb, #2276c9 42%, transparent);
+  border-color: color-mix(in srgb, var(--paper-link-external-rose) 38%, transparent);
+  background: color-mix(in srgb, var(--paper-link-external-orange) 4%, var(--md-default-bg-color));
+}
+
+.paper-link-section--internal {
+  border-color: color-mix(in srgb, var(--paper-link-internal-blue) 42%, transparent);
+  background: color-mix(in srgb, var(--paper-link-internal-green) 5%, var(--md-default-bg-color));
+}
+
+.paper-link-section--standard,
+.paper-link-section--alternate {
+  border-color: color-mix(in srgb, var(--paper-link-external-orange) 28%, transparent);
   background: var(--md-default-bg-color);
 }
 
@@ -927,10 +890,10 @@ body:has(#ct-app)
   min-height: 2.15rem;
   gap: 0.42rem;
   padding: 0.34rem 0.58rem 0.34rem 0.68rem;
-  border: 1px solid color-mix(in srgb, #2276c9 38%, transparent);
+  border: 1px solid color-mix(in srgb, var(--paper-link-external-rose) 38%, transparent);
   border-radius: 999px;
-  background: color-mix(in srgb, #2276c9 7%, var(--md-default-bg-color));
-  color: var(--md-typeset-a-color);
+  background: color-mix(in srgb, var(--paper-link-external-rose) 7%, var(--md-default-bg-color));
+  color: var(--paper-link-external-rose);
   font-size: 0.76rem;
   font-weight: 800;
   line-height: 1.2;
@@ -955,18 +918,23 @@ body:has(#ct-app)
 }
 
 .paper-link-pill:hover {
-  border-color: #2276c9;
-  background: color-mix(in srgb, #2276c9 12%, var(--md-default-bg-color));
-  color: var(--md-typeset-a-color);
+  border-color: var(--paper-link-external-rose);
+  background: color-mix(in srgb, var(--paper-link-external-rose) 12%, var(--md-default-bg-color));
+  color: var(--paper-link-external-rose);
   transform: translateY(-1px);
 }
 
+.md-typeset a.paper-link-pill--standard,
+.md-typeset a.paper-link-pill--standard:visited {
+  color: var(--paper-link-external-rose);
+}
+
 .paper-link-pill--primary {
-  border-color: color-mix(in srgb, #12877f 68%, transparent);
+  border-color: color-mix(in srgb, var(--paper-link-external-rose) 68%, transparent);
   background:
-    linear-gradient(135deg, #12877f, color-mix(in srgb, #2276c9 72%, #12877f));
+    linear-gradient(135deg, var(--paper-link-external-rose), color-mix(in srgb, var(--paper-link-external-orange) 84%, var(--paper-link-external-rose)));
   color: #ffffff;
-  box-shadow: 0 8px 18px color-mix(in srgb, #12877f 20%, transparent);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--paper-link-external-rose) 20%, transparent);
 }
 
 .md-typeset a.paper-link-pill--primary,
@@ -975,9 +943,9 @@ body:has(#ct-app)
 }
 
 .paper-link-pill--primary:hover {
-  border-color: color-mix(in srgb, #12877f 88%, #ffffff);
+  border-color: color-mix(in srgb, var(--paper-link-external-orange) 80%, #ffffff);
   background:
-    linear-gradient(135deg, color-mix(in srgb, #12877f 92%, #ffffff), color-mix(in srgb, #2276c9 76%, #12877f));
+    linear-gradient(135deg, color-mix(in srgb, var(--paper-link-external-rose) 90%, #ffffff), color-mix(in srgb, var(--paper-link-external-orange) 86%, var(--paper-link-external-rose)));
   color: #ffffff;
 }
 
@@ -997,8 +965,47 @@ body:has(#ct-app)
 }
 
 .paper-link-pill--alternate {
-  border-color: color-mix(in srgb, #b66d18 38%, transparent);
-  background: color-mix(in srgb, #b66d18 7%, var(--md-default-bg-color));
+  border-color: color-mix(in srgb, var(--paper-link-external-orange) 46%, transparent);
+  background: color-mix(in srgb, var(--paper-link-external-orange) 8%, var(--md-default-bg-color));
+  color: var(--paper-link-external-orange);
+}
+
+.md-typeset a.paper-link-pill--alternate,
+.md-typeset a.paper-link-pill--alternate:visited {
+  color: var(--paper-link-external-orange);
+}
+
+.paper-link-pill--alternate:hover {
+  border-color: var(--paper-link-external-orange);
+  background: color-mix(in srgb, var(--paper-link-external-orange) 13%, var(--md-default-bg-color));
+  color: var(--paper-link-external-orange);
+}
+
+.paper-link-pill--internal {
+  border-color: color-mix(in srgb, var(--paper-link-internal-green) 50%, transparent);
+  background: color-mix(in srgb, var(--paper-link-internal-blue) 8%, var(--md-default-bg-color));
+  color: var(--paper-link-internal-blue);
+}
+
+.md-typeset a.paper-link-pill--internal,
+.md-typeset a.paper-link-pill--internal:visited {
+  color: var(--paper-link-internal-blue);
+}
+
+.paper-link-pill--internal:hover {
+  border-color: var(--paper-link-internal-green);
+  background: color-mix(in srgb, var(--paper-link-internal-green) 12%, var(--md-default-bg-color));
+  color: var(--paper-link-internal-green);
+}
+
+.md-typeset a.paper-link-pill--alternate:hover,
+.md-typeset a.paper-link-pill--alternate:focus-visible {
+  color: var(--paper-link-external-orange);
+}
+
+.md-typeset a.paper-link-pill--internal:hover,
+.md-typeset a.paper-link-pill--internal:focus-visible {
+  color: var(--paper-link-internal-green);
 }
 
 .paper-link-pill__label,

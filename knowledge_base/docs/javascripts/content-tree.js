@@ -5,9 +5,7 @@
   if (!app) return;
 
   const data = window.contentTreeData;
-  const form = document.getElementById('ct-search-form');
   const searchInput = document.getElementById('ct-search');
-  const rootButton = document.getElementById('ct-root-btn');
   const stats = document.getElementById('ct-tree-stats');
   const currentSummary = document.getElementById('ct-current-summary');
   const searchResults = document.getElementById('ct-search-results');
@@ -20,12 +18,14 @@
   }
 
   const nodes = new Map();
+  const paperNodes = new Map();
   const searchableNodes = [];
   let currentId = data.root.id;
   let lastMatches = [];
 
   hydrate(data.root, null);
-  currentId = nodes.has(readHashId()) ? readHashId() : data.root.id;
+  const initialId = readHashId();
+  currentId = initialId && nodes.has(initialId) ? initialId : data.root.id;
   render();
 
   app.addEventListener('click', function (event) {
@@ -35,23 +35,8 @@
     selectNode(target.getAttribute('data-ct-select'));
   });
 
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    const match = lastMatches[0] || getMatches(searchInput.value)[0];
-    if (match) selectNode(match.id);
-  });
-
   searchInput.addEventListener('input', function () {
     renderSearch();
-  });
-
-  rootButton.addEventListener('click', function () {
-    searchInput.value = '';
-    if (currentId === data.root.id) {
-      render();
-    } else {
-      selectNode(data.root.id);
-    }
   });
 
   window.addEventListener('popstate', function () {
@@ -70,6 +55,10 @@
     node.pathNodes = parent ? parent.pathNodes.concat(node) : [node];
     node.searchText = normalized([node.label, node.path.join(' '), node.source || '', authors, paper.year || ''].join(' '));
     nodes.set(node.id, node);
+    if (node.kind === 'paper') {
+      const paperId = paper.id || paperIdFromSource(node.source);
+      if (paperId) paperNodes.set(String(paperId), node.id);
+    }
     searchableNodes.push(node);
     node.children.forEach(function (child) {
       hydrate(child, node);
@@ -77,10 +66,17 @@
   }
 
   function selectNode(id) {
-    if (!nodes.has(id) || id === currentId) return;
-    currentId = id;
+    const node = nodes.get(id);
+    if (!node) return;
+    if (id === currentId) {
+      if (node.kind !== 'branch') return;
+      currentId = node.parent ? node.parent.id : data.root.id;
+    } else {
+      currentId = id;
+    }
+
     const url = new URL(window.location.href);
-    url.hash = 'ct=' + encodeURIComponent(id);
+    url.hash = 'ct=' + encodeURIComponent(currentId);
     window.history.pushState(null, '', url);
     render();
   }
@@ -99,7 +95,7 @@
     breadcrumbs.innerHTML = node.pathNodes.map(function (pathNode, index) {
       const separator = index === 0 ? '' : '<span class="ct-crumb-separator">/</span>';
       const current = pathNode.id === node.id ? ' aria-current="page"' : '';
-      return separator + '<button type="button" data-ct-select="' + escAttr(pathNode.id) + '"' + current + '>' + esc(pathNode.label) + '</button>';
+      return separator + '<button type="button" data-ct-select="' + escAttr(pathNode.id) + '"' + current + '>' + esc(pathDisplayLabel(pathNode, index)) + '</button>';
     }).join('');
   }
 
@@ -119,7 +115,8 @@
     const isAncestor = pathIds.has(treeNode.id) && !isCurrent;
     const isParent = Boolean(currentNode.parent && treeNode.id === currentNode.parent.id);
     const isSuccessor = Boolean(treeNode.parent && treeNode.parent.id === currentNode.id);
-    const isExpanded = treeNode.children.length > 0 && pathIds.has(treeNode.id);
+    const hasChildren = treeNode.children.length > 0;
+    const isExpanded = hasChildren && pathIds.has(treeNode.id);
     const isMuted = !isCurrent && !isAncestor && !isParent && !isSuccessor;
     const details = isCurrent ? renderCurrentNodeDetails(treeNode) : '';
     const classes = [
@@ -140,7 +137,7 @@
 
     return [
       '<li class="' + escAttr(classes) + '" style="--ct-depth:' + depth + '">',
-      '<button type="button" class="ct-tree-button" data-ct-select="' + escAttr(treeNode.id) + '">',
+      '<button type="button" class="ct-tree-button" data-ct-select="' + escAttr(treeNode.id) + '"' + branchExpandedAttr(hasChildren, isExpanded) + '>',
       '<span class="ct-tree-rail" aria-hidden="true"><span class="ct-tree-dot"></span></span>',
       '<span class="ct-tree-copy">',
       '<span class="ct-tree-label">' + esc(treeNode.label) + '</span>',
@@ -159,6 +156,10 @@
     return '<a class="ct-tree-open-link" href="' + escAttr(node.url) + '">Open page</a>';
   }
 
+  function branchExpandedAttr(hasChildren, isExpanded) {
+    return hasChildren ? ' aria-expanded="' + (isExpanded ? 'true' : 'false') + '"' : '';
+  }
+
   function renderPaperDetails(node) {
     const paper = node.paper || {};
     const abstract = paper.abstract || 'No abstract recorded yet.';
@@ -166,17 +167,17 @@
     const mindMapUrl = paper.mindMapUrl || mindMapUrlFromSource(node.source);
     const actions = [
       detailUrl
-        ? '<a class="ct-paper-link" href="' + escAttr(detailUrl) + '" target="_blank" rel="noopener noreferrer" aria-label="Open detail page in a new tab">Open detail page</a>'
+        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(detailUrl) + '"><span class="paper-link-pill__label">Open detail page</span></a>'
         : '',
       mindMapUrl
-        ? '<a class="ct-paper-link" href="' + escAttr(mindMapUrl) + '" target="_blank" rel="noopener noreferrer" aria-label="Open in mind map in a new tab">Open in mind map</a>'
+        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(mindMapUrl) + '"><span class="paper-link-pill__label">Open in Mind Map</span></a>'
         : '',
     ].filter(Boolean).join('');
 
     return [
       '<div class="ct-paper-details">',
       '<p class="ct-paper-abstract">' + esc(abstract) + '</p>',
-      actions ? '<div class="ct-paper-actions">' + actions + '</div>' : '',
+      actions ? '<div class="ct-paper-actions paper-link-pills">' + actions + '</div>' : '',
       '</div>',
     ].join('');
   }
@@ -184,6 +185,11 @@
   function mindMapUrlFromSource(source) {
     const match = String(source || '').match(/^papers\/(.+)\.md$/);
     return match ? '../mind-map/#paper=' + encodeURIComponent(match[1]) : '';
+  }
+
+  function paperIdFromSource(source) {
+    const match = String(source || '').match(/^papers\/(.+)\.md$/);
+    return match ? match[1] : '';
   }
 
   function renderSearch() {
@@ -210,7 +216,7 @@
           '<button type="button" class="ct-result" data-ct-select="' + escAttr(node.id) + '">',
           '<span class="ct-kind">' + esc(kindLabel(node)) + '</span>',
           '<strong>' + esc(node.label) + '</strong>',
-          '<span>' + esc(node.path.join(' / ')) + '</span>',
+          '<span>' + esc(displayPath(node.path).join(' / ')) + '</span>',
           '</button>',
         ].join('');
       }).join(''),
@@ -244,12 +250,17 @@
 
   function readHashId() {
     const hash = window.location.hash.slice(1);
-    if (!hash.startsWith('ct=')) return null;
     try {
-      return decodeURIComponent(hash.slice(3));
+      const params = new URLSearchParams(hash);
+      const nodeId = params.get('ct');
+      if (nodeId) return nodeId;
+
+      const paperId = params.get('paper');
+      if (paperId && paperNodes.has(paperId)) return paperNodes.get(paperId);
     } catch (error) {
       return null;
     }
+    return null;
   }
 
   function nodeSummary(node) {
@@ -280,6 +291,16 @@
     if (node.kind === 'paper') return 'Paper';
     if (node.kind === 'page') return 'Page';
     return 'Link';
+  }
+
+  function pathDisplayLabel(pathNode, index) {
+    return index === 0 && pathNode.id === data.root.id ? 'Root' : pathNode.label;
+  }
+
+  function displayPath(path) {
+    return path.map(function (label, index) {
+      return index === 0 && label === data.root.label ? 'Root' : label;
+    });
   }
 
   function plural(count, singular, pluralLabel) {

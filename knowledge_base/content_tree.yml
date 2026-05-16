@@ -49,6 +49,7 @@
               - "The CMA Evolution Strategy: A Tutorial": docs/papers/2016/1604.00772/metadata.yml
               - NEAT: docs/papers/2002/2002.stanley.evolving_neural_networks_through/metadata.yml
               - HyperNEAT: docs/papers/2009/2009.stanley.a_hypercube_based_encoding/metadata.yml
+              - "The Evolutionary Origin of Complex Features": docs/papers/2003/2003.lenski.the_evolutionary_origin_of/metadata.yml
               - Unshackling Evolution: docs/papers/2014/2014.cheney.unshackling_evolution/metadata.yml
               - "Abandoning Objectives: Evolution through the Search for Novelty Alone": docs/papers/2011/2011.lehman.abandoning_objectives_evolution_through/metadata.yml
               - "Robots That Can Adapt like Animals": docs/papers/2014/1407.3501/metadata.yml
@@ -1631,7 +1632,6 @@
       - Review of Computational Stirling Analysis Methods: docs/papers/2004/2004.dyson.review_of_computational_stirling/metadata.yml
       - "How the oldest recorded multiple facility location problem was solved": docs/papers/1995/1995.wilamowsky.how_the_oldest_recorded/metadata.yml
       - "Technological challenges and optimization efforts of the Stirling machine: A review": docs/papers/2018/2018.hachem.technological_challenges_and_optimization/metadata.yml
-    - Evolution:
+    - Biology:
       - "Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic Acid": docs/papers/1953/1953.watson.molecular_structure_of_nucleic/metadata.yml
       - "The Genome Sequence of Drosophila melanogaster": docs/papers/2000/2000.adams.the_genome_sequence_of/metadata.yml
-      - "The Evolutionary Origin of Complex Features": docs/papers/2003/2003.lenski.the_evolutionary_origin_of/metadata.yml

@@ -65,8 +65,9 @@
   }
 
   const DATA = mindMapData;
+  const NODE_DIAMETER_SCALE = 2;
   const PAPER_NODE_RADIUS_CLEARANCE_RATIO = 0.30;
-  const PAPER_NODE_RADIUS = 12;
+  const PAPER_NODE_RADIUS_TARGET = 12 * NODE_DIAMETER_SCALE;
   const NODE_LABEL_FONT_SIZE = 11;
   const NODE_LABEL_LINE_HEIGHT_RATIO = 1.1;
   const NODE_LABEL_ZOOM_REFERENCE_RATIO = 1;
@@ -74,7 +75,8 @@
   const NODE_LABEL_ZOOM_SCALE_MIN = 0.68;
   const NODE_LABEL_ZOOM_SCALE_MAX = 1.55;
   const SELECTED_NODE_RADIUS_SCALE = 1;
-  const EDGE_NODE_DIAMETER_RATIO = 0.2;
+  const EDGE_NODE_DIAMETER_RATIO = 0.30;
+  const MIN_EDGE_THICKNESS = 1;
   const LEVEL_TRANSITION_MS = 260;
   const LEVEL_TRANSITION_MAX_SCREEN_TRAVEL = 160;
   const LEVEL_TRANSITION_DRILLDOWN_TRAVEL_RATIO = 0.58;
@@ -112,6 +114,9 @@
   let activeLevelTransition = null;
   let focusLabelContext = null;
   let lastLevelTransitionMetrics = null;
+  let cachedPaperNodeRadius = PAPER_NODE_RADIUS_TARGET;
+  let visibleNodeCount = 0;
+  let visibleEdgeCount = 0;
 
   /* -------------------------------------------------------------------------
    * Utility
@@ -350,7 +355,7 @@
   }
 
   function currentNodeRadius() {
-    return PAPER_NODE_RADIUS;
+    return cachedPaperNodeRadius;
   }
 
   function currentCameraRatio() {
@@ -399,9 +404,9 @@
   function aggregateNodeSize(count, level) {
     const n = Math.max(Number(count) || 1, 1);
     const scale = Math.sqrt(n);
-    if (level === 'super_category') return clamp(110 + scale * 7.5, 125, 210);
-    if (level === 'category') return clamp(78 + scale * 5.2, 88, 160);
-    return clamp(56 + scale * 4.3, 68, 130);
+    if (level === 'super_category') return clamp(110 + scale * 7.5, 125, 210) * NODE_DIAMETER_SCALE;
+    if (level === 'category') return clamp(78 + scale * 5.2, 88, 160) * NODE_DIAMETER_SCALE;
+    return clamp(56 + scale * 4.3, 68, 130) * NODE_DIAMETER_SCALE;
   }
 
   function nodeDisplaySize(attrs) {
@@ -419,15 +424,41 @@
     const t = Number.isFinite(numericWeight)
       ? Math.max(0, Math.min((numericWeight - 0.5) / 0.5, 1))
       : 0.5;
+    const referenceRadius = edgeReferenceNodeRadius(attrs);
+    const targetWidth = referenceRadius * 2 * EDGE_NODE_DIAMETER_RATIO;
 
     if (attrs && attrs.kind === 'aggregate') {
-      const countBoost = Math.log1p(Number(attrs.aggregateCount) || 1) * 0.2;
-      return (1.15 + countBoost) * (0.9 + t * 0.28);
+      const countBoost = Math.log1p(Number(attrs.aggregateCount) || 1) * 0.035;
+      return Math.max(targetWidth * (0.88 + t * 0.18 + countBoost), MIN_EDGE_THICKNESS);
     }
 
-    const paperEdgeRadius = Math.min(currentNodeRadius(), 3);
-    const targetWidth = paperEdgeRadius * 2 * EDGE_NODE_DIAMETER_RATIO;
-    return targetWidth * (0.9 + t * 0.2);
+    return Math.max(targetWidth * (0.9 + t * 0.2), MIN_EDGE_THICKNESS);
+  }
+
+  function edgeReferenceNodeRadius(attrs) {
+    if (attrs && graph && attrs.source && attrs.target && graphHasNode(attrs.source) && graphHasNode(attrs.target)) {
+      const source = graph.getNodeAttributes(attrs.source);
+      const target = graph.getNodeAttributes(attrs.target);
+      return (nodeDisplaySize(source) + nodeDisplaySize(target)) / 2;
+    }
+
+    if (attrs && attrs.kind === 'aggregate') {
+      return aggregateNodeSize(1, attrs.detailLevel);
+    }
+
+    return currentNodeRadius();
+  }
+
+  function edgeAlpha(attrs) {
+    const baseAlpha = Math.min(
+      Math.max((attrs.edgeAlpha || 0.2) * theme.edgeAlphaScale, theme.edgeAlphaMin),
+      theme.edgeAlphaMax
+    );
+    const density = visibleNodeCount > 0 ? visibleEdgeCount / visibleNodeCount : 1;
+    const densityScale = clamp(Math.sqrt(2.4 / Math.max(density, 0.25)), 0.42, 1.18);
+    const levelScale = attrs.kind === 'aggregate' ? 1.12 : 1;
+
+    return Math.min(Math.max(baseAlpha * densityScale * levelScale, theme.edgeAlphaMin), theme.edgeAlphaMax);
   }
 
   /* -------------------------------------------------------------------------
@@ -875,7 +906,7 @@
         kind,
         detailLevel,
         size: edgeDisplaySize(attrs.weight, { ...attrs, kind, detailLevel }),
-        color: colorWithAlpha(theme.edgeColor, Math.min((attrs.edgeAlpha || 0.2) * theme.edgeAlphaScale, 1)),
+        color: colorWithAlpha(theme.edgeColor, edgeAlpha({ ...attrs, kind, detailLevel })),
         type: 'line',
       };
 
@@ -950,17 +981,14 @@
 
     const highlighted = focus.edges.has(edge);
     const dimmed = focus.active && !highlighted;
-    const baseAlpha = Math.min(
-      Math.max((attrs.edgeAlpha || 0.2) * theme.edgeAlphaScale, theme.edgeAlphaMin),
-      theme.edgeAlphaMax
-    );
+    const baseAlpha = edgeAlpha(attrs);
     const size = edgeDisplaySize(attrs.weight, attrs);
 
     if (dimmed) {
       return {
         ...attrs,
         color: colorWithAlpha(theme.edgeColor, 0.025),
-        size: Math.max(size * 0.35, 0.18),
+        size: Math.max(size * 0.35, MIN_EDGE_THICKNESS),
         zIndex: 0,
       };
     }
@@ -969,7 +997,7 @@
       return {
         ...attrs,
         color: theme.edgeHighlighted,
-        size: size * 1.25,
+        size: Math.max(size * 1.25, MIN_EDGE_THICKNESS),
         zIndex: 2,
       };
     }
@@ -977,7 +1005,7 @@
     return {
       ...attrs,
       color: colorWithAlpha(theme.edgeColor, baseAlpha),
-      size,
+      size: Math.max(size, MIN_EDGE_THICKNESS),
       zIndex: 1,
     };
   }
@@ -1135,6 +1163,8 @@
   }
 
   function refreshView() {
+    cachedPaperNodeRadius = paperNodeRadiusForCurrentView();
+    recomputeVisibleStats();
     recomputeFocus();
     if (renderer) renderer.scheduleRefresh();
     updateStats();
@@ -1404,7 +1434,7 @@
         labelFont: '"Atkinson Hyperlegible Next", "Segoe UI", sans-serif',
         labelSize: NODE_LABEL_FONT_SIZE,
         itemSizesReference: 'positions',
-        minEdgeThickness: 0.35,
+        minEdgeThickness: MIN_EDGE_THICKNESS,
         zoomToSizeRatioFunction: ratio => Math.max(ratio, 1e-6),
         stagePadding: 30,
         nodeReducer,
@@ -1623,21 +1653,46 @@
   /* -------------------------------------------------------------------------
    * Stats
    * -------------------------------------------------------------------------*/
+  function paperNodeRadiusForCurrentView() {
+    if (!graph || currentDetailLevel !== 'paper') return PAPER_NODE_RADIUS_TARGET;
+
+    const minDistance = minimumVisiblePaperGraphDistance();
+    if (!Number.isFinite(minDistance) || minDistance <= 0) return PAPER_NODE_RADIUS_TARGET;
+
+    return Math.min(
+      PAPER_NODE_RADIUS_TARGET,
+      minDistance / (2 * (1 + PAPER_NODE_RADIUS_CLEARANCE_RATIO))
+    );
+  }
+
+  function recomputeVisibleStats() {
+    let nodes = 0;
+    let edges = 0;
+
+    if (!graph) {
+      visibleNodeCount = nodes;
+      visibleEdgeCount = edges;
+      return;
+    }
+
+    graph.forEachNode(node => {
+      if (nodeVisible(node)) nodes += 1;
+    });
+    graph.forEachEdge(edge => {
+      if (edgeVisible(edge)) edges += 1;
+    });
+
+    visibleNodeCount = nodes;
+    visibleEdgeCount = edges;
+  }
+
   function updateStats() {
     if (!graph) return;
 
-    let vn = 0;
-    let ve = 0;
+    recomputeVisibleStats();
 
-    graph.forEachNode(node => {
-      if (nodeVisible(node)) vn += 1;
-    });
-    graph.forEachEdge(edge => {
-      if (edgeVisible(edge)) ve += 1;
-    });
-
-    document.getElementById('mm-node-count').textContent = vn;
-    document.getElementById('mm-edge-count').textContent = ve;
+    document.getElementById('mm-node-count').textContent = visibleNodeCount;
+    document.getElementById('mm-edge-count').textContent = visibleEdgeCount;
     const levelLabel = document.getElementById('mm-level-label');
     if (levelLabel) levelLabel.textContent = detailLevelLabel(currentDetailLevel, true);
   }
@@ -1784,6 +1839,30 @@
     const points = [];
     graph.forEachNode((node, attrs) => {
       if (!nodeVisible(node)) return;
+      points.push({ x: attrs.x, y: attrs.y });
+    });
+
+    let minDistance = Infinity;
+    for (let i = 0; i < points.length; i += 1) {
+      const a = points[i];
+      for (let j = i + 1; j < points.length; j += 1) {
+        const b = points[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < minDistance) minDistance = d;
+      }
+    }
+
+    return minDistance;
+  }
+
+  function minimumVisiblePaperGraphDistance() {
+    if (!graph) return Infinity;
+
+    const points = [];
+    graph.forEachNode((node, attrs) => {
+      if (attrs.kind !== 'paper' || !nodeVisible(node)) return;
       points.push({ x: attrs.x, y: attrs.y });
     });
 
@@ -2338,12 +2417,17 @@
     setDetailLevel: level => applyDetailLevel(level),
     metrics: () => ({
       nodeGraphRadius: currentNodeRadius(),
+      nodeGraphRadiusTarget: PAPER_NODE_RADIUS_TARGET,
       nodeScreenRadius: renderer && typeof renderer.scaleSize === 'function'
         ? renderer.scaleSize(currentNodeRadius())
         : currentNodeRadius(),
       minimumVisibleGraphDistance: minimumVisibleGraphDistance(),
       minimumVisibleScreenDistance: minimumVisibleScreenDistance(),
       clearanceRatio: PAPER_NODE_RADIUS_CLEARANCE_RATIO,
+      edgeNodeDiameterRatio: EDGE_NODE_DIAMETER_RATIO,
+      minEdgeThickness: MIN_EDGE_THICKNESS,
+      visibleNodeCount,
+      visibleEdgeCount,
       lastLevelTransition: lastLevelTransitionMetrics,
     }),
   };
