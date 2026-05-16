@@ -29,6 +29,13 @@
   box-sizing: border-box;
 }
 
+@media (max-width: 640px) {
+  .md-typeset .arithmatex mjx-container[display="true"] {
+    font-size: min(112.2%, 3.35vw) !important;
+    overflow-x: hidden !important;
+  }
+}
+
 .md-typeset li > ul,
 .md-typeset li > ol {
   margin-top: 0.35em;
