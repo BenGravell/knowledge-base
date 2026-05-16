@@ -243,13 +243,6 @@
         - "Gradient-based Hyperparameter Optimization through Reversible Learning": docs/papers/2015/1502.03492/metadata.yml
         - "SoftJAX & SoftTorch": docs/papers/2026/2603.08824/metadata.yml
         - "The Elements of Differentiable Programming": docs/papers/2024/2403.14606/metadata.yml
-      - Controller Autotuning:
-        - "On Self-Tuning Regulators": docs/papers/1973/1973.astrom.on_self_tuning_regulators/metadata.yml
-        - A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum: docs/papers/2014/2014.trimpe.a_self_tuning_lqr/metadata.yml          
-        - AutoTune: docs/papers/2021/2103.10698/metadata.yml
-        - DiffLoop: docs/papers/2021/2106.10516/metadata.yml
-        - DiffTune: docs/papers/2022/2209.10021/metadata.yml
-        - DiffTune+: docs/papers/2022/2212.03194/metadata.yml
     - Planning:
       - Path Planning:
         - Geometric Planning:
@@ -862,6 +855,11 @@
         - "Synthesis and Deployment of Maximal Robust Control Barrier Functions through Adversarial Reinforcement Learning": docs/papers/2026/2604.13192/metadata.yml
       - Iterative Learning Control:
         - Optimization-based iterative learning for precise quadrocopter trajectory tracking: docs/papers/2012/2012.schoellig.optimization_based_iterative_learning/metadata.yml
+      - Controller Autotuning:
+        - AutoTune: docs/papers/2021/2103.10698/metadata.yml
+        - DiffLoop: docs/papers/2021/2106.10516/metadata.yml
+        - DiffTune: docs/papers/2022/2209.10021/metadata.yml
+        - DiffTune+: docs/papers/2022/2212.03194/metadata.yml
       - Tracking Control for Wheeled Robots:
         - Kanayama Tracking Controller: docs/papers/1990/1990.kanayama.a_stable_tracking_control/metadata.yml
         - Pure Pursuit: docs/papers/1992/1992.coulter.implementation_of_the_pure/metadata.yml
@@ -935,6 +933,8 @@
           - "Policy Iteration for Linear Quadratic Games with Stochastic Parameters": docs/papers/2021/2021.gravell.policy_iteration_for_linear/metadata.yml
           - "Policy iteration using Q-functions: Linear dynamics with multiplicative noise": docs/papers/2022/2212.01192/metadata.yml
         - Model-based RL:
+          - Self-Tuning Regulators: docs/papers/1973/1973.astrom.on_self_tuning_regulators/metadata.yml
+          - A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum: docs/papers/2014/2014.trimpe.a_self_tuning_lqr/metadata.yml        
           - Robust exploration in linear quadratic reinforcement learning: docs/papers/2019/1906.01584/metadata.yml
           - Optimistic robust linear quadratic dual control: docs/papers/2019/1912.13143/metadata.yml
           - Logarithmic Regret for Online Control: docs/papers/2019/2019.agarwal.logarithmic_regret_for_online/metadata.yml
