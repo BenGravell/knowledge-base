@@ -28,7 +28,6 @@
    the menu. */
 .md-main {
   position: relative;
-  z-index: var(--kb-z-page);
 }
 
 body:has(#ct-app) .md-content__inner,
@@ -49,23 +48,22 @@ body:has(#mm-app) .md-content__inner {
   z-index: var(--kb-z-site-scrim) !important;
 }
 
-.md-sidebar,
-.md-sidebar__scrollwrap,
-.md-nav--primary {
+.md-sidebar--primary,
+.md-sidebar--primary .md-sidebar__scrollwrap,
+.md-sidebar--primary .md-nav--primary {
   z-index: var(--kb-z-site-drawer) !important;
 }
 
-.md-search {
+#__search:checked ~ .md-header .md-search {
   z-index: var(--kb-z-site-search) !important;
 }
 
-.md-search__overlay {
-  z-index: 1 !important;
+#__search:checked ~ .md-header .md-search__overlay {
+  z-index: 0 !important;
 }
 
-.md-search__inner {
-  position: relative;
-  z-index: 2;
+#__search:checked ~ .md-header .md-search__inner {
+  z-index: 1;
 }
 
 body:has(#knowledge-base) .md-sidebar--secondary,
