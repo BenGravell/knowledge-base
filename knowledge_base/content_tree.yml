@@ -2,204 +2,216 @@
   - content-tree/index.md
   - Decision-making:
     - Optimization:
-      - Convex Optimization:
-        - Linear Programming:
-          - Probability of Unique Integer Solution to a System of Linear Equations: docs/papers/2011/2011.mangasarian.probability_of_unique_integer/metadata.yml
-        - Quadratic Programming:
-          - Automatic Generation of Explicit Quadratic Programming Solvers: docs/papers/2025/2506.11513/metadata.yml
-        - General Convex Optimization:            
-          - Frank-Wolfe Algorithm: docs/papers/1956/1956.frank.an_algorithm_for_quadratic/metadata.yml
-          - Learning Parametric Convex Functions: docs/papers/2025/2506.04183/metadata.yml
-          - Geometric Median in Nearly Linear Time: docs/papers/2016/1606.05225/metadata.yml
-          - PInet: docs/papers/2025/2508.10480/metadata.yml
-          - "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization": docs/papers/2007/0706.4138/metadata.yml
-          - "A Convex Polynomial That Is Not sos-convex": docs/papers/2009/0903.1287/metadata.yml
-          - "The Convex Geometry of Linear Inverse Problems": docs/papers/2010/1012.0621/metadata.yml
-          - OptNet: docs/papers/2017/1703.00443/metadata.yml
-          - "Semidefinite Approximations of the Matrix Logarithm": docs/papers/2017/1705.00812/metadata.yml
-          - "Computational Optimal Transport: Complexity by Accelerated Gradient Descent Is Better than by Sinkhorn's Algorithm": docs/papers/2018/1802.04367/metadata.yml
-          - "Semidefinite Programming Relaxations for Semialgebraic Problems": docs/papers/2003/2003.parrilo.semidefinite_programming_relaxations_for/metadata.yml
-          - "Sparse and Low-rank Matrix Decompositions": docs/papers/2009/2009.chandrasekaran.sparse_and_low_rank/metadata.yml
-          - "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means": docs/papers/2023/2309.10675/metadata.yml
-        - Online Convex Optimization:
-          - "No-Regret Algorithms for Unconstrained Online Convex Optimization": docs/papers/2012/1211.2260/metadata.yml
-        - Applications in Probability Theory:
-          - "Optimal Inequalities in Probability Theory: A Convex Optimization Approach": docs/papers/2005/2005.bertsimas.optimal_inequalities_in_probability/metadata.yml
-      - Nonlinear Programming:
-        - Disciplined Nonlinear Programming: docs/papers/2025/2025.cederberg.disciplined_nonlinear_programming/metadata.yml
-        - "Global Solutions to Non-Convex Functional Constrained Problems with Hidden Convexity": docs/papers/2025/2511.10626/metadata.yml
-      - Zeroth-Order Methods:
-        - Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization: docs/papers/2018/1805.10367/metadata.yml
-        - Gradientless Descent: docs/papers/2019/1911.06317/metadata.yml
-        - "An Introduction to Zero-Order Optimization Techniques for Robotics": docs/papers/2025/2506.22087/metadata.yml
-        - "An Optimal Algorithm for Bandit and Zero-Order Convex Optimization with Two-Point Feedback": docs/papers/2015/1507.08752/metadata.yml
-        - "Random Gradient-Free Minimization of Convex Functions": docs/papers/2015/2015.nesterov.random_gradient_free_minimization/metadata.yml
-        - Direct Search & Pattern Search:
-          - Rosenbrock's Method: docs/papers/1960/1960.rosenbrock.an_automatic_method_for/metadata.yml
-          - Powell's Method: docs/papers/1964/1964.powell.an_efficient_method_for/metadata.yml
-        - Evolutionary Algorithms:
-          - "Evolutionary Programming": docs/papers/1966/1966.fogel.artificial_intelligence_through_simulated/metadata.yml
-          - "Adaptation in Natural and Artificial Systems": docs/papers/1992/1992.holland.adaptation_in_natural_and/metadata.yml
-          - Evolving Virtual Creatures: docs/papers/1994/1994.sims.evolving_virtual_creatures/metadata.yml
-          - Particle Swarm Optimization: docs/papers/1995/1995.kennedy.particle_swarm_optimization/metadata.yml
-          - Differential Evolution: docs/papers/1997/1997.storn.differential_evolution_a_simple/metadata.yml
-          - CMA-ES: docs/papers/2001/2001.hansen.completely_derandomized_self_adaptation/metadata.yml
-          - "The CMA Evolution Strategy: A Tutorial": docs/papers/2016/1604.00772/metadata.yml
-          - NEAT: docs/papers/2002/2002.stanley.evolving_neural_networks_through/metadata.yml
-          - HyperNEAT: docs/papers/2009/2009.stanley.a_hypercube_based_encoding/metadata.yml
-          - Unshackling Evolution: docs/papers/2014/2014.cheney.unshackling_evolution/metadata.yml
-          - "Abandoning Objectives: Evolution through the Search for Novelty Alone": docs/papers/2011/2011.lehman.abandoning_objectives_evolution_through/metadata.yml
-          - "Robots That Can Adapt like Animals": docs/papers/2014/1407.3501/metadata.yml
-          - "Regularized Evolution for Image Classifier Architecture Search": docs/papers/2018/1802.01548/metadata.yml
-          - "Illuminating Search Spaces by Mapping Elites": docs/papers/2015/1504.04909/metadata.yml
-          - "Quality and Diversity Optimization: A Unifying Modular Framework": docs/papers/2017/1708.09251/metadata.yml
-          - "Discovering the Elite Hypervolume by Leveraging Interspecies Correlation": docs/papers/2018/1804.03906/metadata.yml
-          - "Data-Efficient Design Exploration through Surrogate-Assisted Illumination": docs/papers/2018/1806.05865/metadata.yml
-          - "Are Quality Diversity Algorithms Better at Generating Stepping Stones than Objective-based Search?": docs/papers/2019/2019.gaier.are_quality_diversity_algorithms/metadata.yml
-          - "Embodied Intelligence via Learning and Evolution": docs/papers/2021/2102.02202/metadata.yml
-        - "Second Order Methods for Bandit Optimization and Control": docs/papers/2024/2024.suggala.second_order_methods_for/metadata.yml
-        - "Small errors in random zeroth-order optimization are imaginary": docs/papers/2021/2103.05478/metadata.yml
-        - "Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity": docs/papers/2024/2406.19617/metadata.yml
-        - "Zeroth-Order Optimization at the Edge of Stability": docs/papers/2026/2604.14669/metadata.yml
-        - "Zeroth-Order Optimization Finds Flat Minima": docs/papers/2025/2506.05454/metadata.yml
-        - "Zeroth-Order Randomized Subspace Newton Methods": docs/papers/2022/2202.04612/metadata.yml
-        - "High-Probability Guarantees for Random Zeroth-Order (Stochastic) Gradient Descent": docs/papers/2026/2604.23613/metadata.yml
-      - First-Order Methods:
-        - Gradient Descent (Cauchy): docs/papers/1847/1847.cauchy.methode_generale_pour_la/metadata.yml
-        - Gradient Descent (Curry): docs/papers/1944/1944.curry.the_method_of_steepest/metadata.yml
-        - Polyak-Łojasiewicz inequality: docs/papers/1963/1963.polyak.gradient_methods_for_the/metadata.yml
-        - Polyak momentum: docs/papers/1964/1964.polyak.some_methods_of_speeding/metadata.yml
-        - "A Differential Equation for Modeling Nesterov's Accelerated Gradient Method": docs/papers/2015/1503.01243/metadata.yml
-        - Adam: docs/papers/2014/1412.6980/metadata.yml
-        - "A Simple Convergence Proof of Adam and Adagrad": docs/papers/2020/2003.02395/metadata.yml
-        - Adam-mini: docs/papers/2024/2406.16793/metadata.yml
-        - Coordinate Descent Algorithms: docs/papers/2015/1502.04759/metadata.yml
-        - Analysis and Design of Optimization Algorithms via IQC: docs/papers/2014/1408.3595/metadata.yml
-        - On Symplectic Optimization: docs/papers/2018/1802.03653/metadata.yml
-        - Conformal Symplectic and Relativistic Optimization: docs/papers/2019/1903.04100/metadata.yml
-        - Gradient Descent Converges to Minimizers: docs/papers/2016/1602.04915/metadata.yml
-        - How to Escape Saddle Points Efficiently: docs/papers/2017/1703.00887/metadata.yml
-        - Steepest Ascent for Optimal Programming: docs/papers/1962/1962.bryson.a_steepest_ascent_method/metadata.yml
-        - Armijo Rule: docs/papers/1966/1966.armijo.minimization_of_functions_having/metadata.yml
-        - "Adaptive Gradient Methods Converge Faster with Over-Parameterization (but you should do a line-search)": docs/papers/2020/2006.06835/metadata.yml
-        - "An overview of gradient descent optimization algorithms": docs/papers/2016/1609.04747/metadata.yml
-        - "Beyond Convexity - Contraction and Global Convergence of Gradient Descent": docs/papers/2018/1806.06655/metadata.yml
-        - "Convergence Conditions for Ascent Methods": docs/papers/1969/1969.wolfe.convergence_conditions_for_ascent/metadata.yml
-        - "Convergence Conditions for Ascent Methods. II: Some Corrections": docs/papers/1971/1971.wolfe.convergence_conditions_for_ascent/metadata.yml
-        - "Decoupled Weight Decay Regularization": docs/papers/2017/1711.05101/metadata.yml
-        - "DoG is SGD's Best Friend": docs/papers/2023/2023.ivgi.dog_is_sgds_best/metadata.yml
-        - "Efficient Numerical Algorithm for Large-Scale Damped Natural Gradient Descent": docs/papers/2023/2310.17556/metadata.yml
-        - "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability": docs/papers/2021/2103.00065/metadata.yml
-        - "Gradient Descent Provably Optimizes Over-parameterized Neural Networks": docs/papers/2018/1810.02054/metadata.yml
-        - "Katyusha": docs/papers/2016/1603.05953/metadata.yml
-        - "Linear Convergence of Gradient and Proximal-Gradient Methods Under the Polyak-Łojasiewicz Condition": docs/papers/2016/2016.karimi.linear_convergence_of_gradient/metadata.yml
-        - "Momentum-Based Variance Reduction in Non-Convex SGD": docs/papers/2019/1905.10018/metadata.yml
-        - "On Globally Optimal Stochastic Policy Gradient Methods for Domain Randomized LQR Synthesis": docs/papers/2026/2603.14197/metadata.yml
-        - "On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization": docs/papers/2018/2018.arora.on_the_optimization_of/metadata.yml
-        - "On the Convergence of Adam and Beyond": docs/papers/2019/1904.09237/metadata.yml
-        - "Optimizing Neural Networks with Kronecker-factored Approximate Curvature": docs/papers/2015/1503.05671/metadata.yml
-        - "Painless Stochastic Gradient: Interpolation, Line-Search, and Convergence Rates": docs/papers/2019/1905.09997/metadata.yml
-        - "Perception-Based Sampled-Data Optimization of Dynamical Systems": docs/papers/2023/2023.cothren.perception_based_sampled_data/metadata.yml
-        - "Revisiting the Polyak step size": docs/papers/2019/1905.00313/metadata.yml
-        - SARAH: docs/papers/2017/1703.00102/metadata.yml
-        - "Sharpness-Aware Minimization for Efficiently Improving Generalization": docs/papers/2020/2010.01412/metadata.yml
-        - "Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control": docs/papers/2025/2511.02015/metadata.yml
-        - "Stochastic Gradient Descent Tricks": docs/papers/2012/2012.bottou.stochastic_gradient_descent_tricks/metadata.yml
-        - Catapult mechanism: docs/papers/2020/2003.02218/metadata.yml
-        - "The Fastest Known Globally Convergent First-Order Method for Minimizing Strongly Convex Functions": docs/papers/2018/2018.van_scoy.the_fastest_known_globally/metadata.yml
-        - "Universal Sequence Preconditioning": docs/papers/2025/2502.06545/metadata.yml
-        - "Exponential Convergence Bounds Using Integral Quadratic Constraints": docs/papers/2015/1503.07222/metadata.yml
-        - "Control Interpretations for First-Order Optimization Methods": docs/papers/2017/1703.01670/metadata.yml
-        - "Dissipativity Theory for Nesterov's Accelerated Method": docs/papers/2017/1706.04381/metadata.yml
-        - "A Robust Accelerated Optimization Algorithm for Strongly Convex Functions": docs/papers/2017/1710.04753/metadata.yml
-        - "Lyapunov Functions for First-Order Methods: Tight Automated Convergence Guarantees": docs/papers/2018/1803.06073/metadata.yml
-        - "On the Goldstein-Levitin-Polyak Gradient Projection Method": docs/papers/1976/1976.bertsekas.on_the_goldstein_levitin/metadata.yml
-        - "Implementation of the Simultaneous Perturbation Algorithm for Stochastic Optimization": docs/papers/1998/1998.spall.implementation_of_the_simultaneous/metadata.yml
-        - "Incremental Subgradient Methods for Nondifferentiable Optimization": docs/papers/2001/2001.nedic.incremental_subgradient_methods_for/metadata.yml
-        - "Recent Theoretical Advances in Non-Convex Optimization": docs/papers/2020/2012.06188/metadata.yml
-        - "When Cyclic Coordinate Descent Outperforms Randomized Coordinate Descent": docs/papers/2017/2017.gurbuzbalaban.when_cyclic_coordinate_descent/metadata.yml
-        - "The Speed-Robustness Trade-Off for First-Order Methods with Additive Gradient Noise": docs/papers/2021/2109.05059/metadata.yml
-        - "Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule": docs/papers/2023/2309.07879/metadata.yml
-        - "Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization": docs/papers/2023/2309.16530/metadata.yml
-        - "The Fastest Known First-Order Method for Minimizing Twice Continuously Differentiable Smooth Strongly Convex Functions": docs/papers/2025/2506.01168/metadata.yml
-      - Quasi-Newton Methods:
-        - DFP: docs/papers/1991/1991.davidon.variable_metric_method_for/metadata.yml
-        - "A Regularized Limited Memory BFGS method for Large-Scale Unconstrained Optimization and its Efficient Implementations": docs/papers/2021/2101.04413/metadata.yml
-        - RES: docs/papers/2014/1401.7625/metadata.yml
-        - DDPNOpt: docs/papers/2020/2002.08809/metadata.yml
-      - Newton's Method:
-        - "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth": docs/papers/1992/1992.kollerstrom.thomas_simpson_and_newtons/metadata.yml
-        - A Note on the Convergence of Newton's Method: docs/papers/1974/1974.rall.a_note_on_the/metadata.yml          
-        - OPTAMI: docs/papers/2024/2410.04083/metadata.yml
-        - "Superfast Second-Order Methods for Unconstrained Convex Optimization": docs/papers/2021/2021.nesterov.superfast_second_order_methods/metadata.yml
-        - "The Hessian of tall-skinny networks is easy to invert": docs/papers/2026/2601.06096/metadata.yml
-        - "Verification of Sequential Convex Programming for Parametric Non-convex Optimization": docs/papers/2025/2511.10622/metadata.yml
-        - Regularized Newton Method:
-          - Levenberg-Marquardt: docs/papers/1944/1944.levenberg.a_method_for_the/metadata.yml
-          - Cubic regularized Newton: docs/papers/2006/2006.nesterov.cubic_regularization_of_newton/metadata.yml
-          - Regularized Newton Method: docs/papers/2021/2112.02089/metadata.yml
-          - Super-Universal Regularized Newton Method: docs/papers/2022/2208.05888/metadata.yml
-          - "A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees": docs/papers/2025/2502.04799/metadata.yml
-          - "Convergence analysis of a regularized Newton method with generalized regularization terms for unconstrained convex optimization problems": docs/papers/2025/2025.yamakawa.convergence_analysis_of_a/metadata.yml
-          - "A Damped Newton Method Achieves Global O(1/k^2) and Local Quadratic Convergence Rate": docs/papers/2022/2211.00140/metadata.yml
-        - "An Automatic System to Detect Equivalence between Iterative Algorithms": docs/papers/2021/2105.04684/metadata.yml
-        - "Algebraic Characterization of Equivalence between Oracle-based Iterative Algorithms": docs/papers/2025/2501.04972/metadata.yml
-      - Trust Region Methods:          
-        - "Recent advances in trust region algorithms": docs/papers/2015/2015.yuan.recent_advances_in_trust/metadata.yml
-        - "Beyond Nonconvexity: A Universal Trust-Region Method with New Analyses": docs/papers/2023/2311.11489/metadata.yml
-      - Midpoint Newton Method:
-        - "Midpoint Newton Method, cubic convergence analysis": docs/papers/2004/2004.homeier.a_modified_newton_method/metadata.yml
-      - Halley's Method and High-Order Methods:
-        - Multivariate Halley method: docs/papers/1985/1985.cuyt.computational_implementation_of_the/metadata.yml
-        - Super-Halley method: docs/papers/2001/2001.gutierrez.an_acceleration_of_newtons/metadata.yml
-        - Generalized Halley method: docs/papers/2008/2008.albeanu.on_the_generalized_halley/metadata.yml
-        - New recurrence relations for Chebyshev method: docs/papers/1997/1997.gutierrez.new_recurrence_relations_for/metadata.yml
-      - Proximal Methods:
-        - FISTA: docs/papers/2009/2009.beck.a_fast_iterative_shrinkage/metadata.yml
-        - Proximal Algorithms: docs/papers/2014/2014.parikh.proximal_algorithms/metadata.yml          
-        - "A General Analysis of the Convergence of ADMM": docs/papers/2015/1502.02009/metadata.yml
-        - "Incremental Gradient, Subgradient, and Proximal Methods for Convex Optimization: A Survey": docs/papers/2015/1507.01030/metadata.yml
-        - "On the Douglas-Rachford Splitting Method and the Proximal Point Algorithm for Maximal Monotone Operators": docs/papers/1992/1992.eckstein.on_the_douglasrachford_splitting/metadata.yml
-      - Stochastic Optimization:
-        - Enhancing Sparsity by Reweighted L1 Minimization: docs/papers/2007/0711.1612/metadata.yml
-        - When Does SGD Escape Local Minima?: docs/papers/2018/1802.06175/metadata.yml
-        - SGD Input-to-State Stability: docs/papers/2025/2507.02131/metadata.yml
-        - "Infinite-Horizon Policy-Gradient Estimation": docs/papers/2011/1106.0665/metadata.yml
-        - "A Stochastic Approximation Method": docs/papers/1951/1951.robbins.a_stochastic_approximation_method/metadata.yml
-        - "Accelerating Stochastic Gradient Descent using Predictive Variance Reduction": docs/papers/2013/2013.johnson.accelerating_stochastic_gradient_descent/metadata.yml
-        - "Making SGD Parameter-Free": docs/papers/2022/2205.02160/metadata.yml
-        - "Why Random Reshuffling Beats Stochastic Gradient Descent": docs/papers/2015/1510.08560/metadata.yml
-        - "Minimal Variance Sampling in Stochastic Gradient Boosting": docs/papers/2019/1910.13204/metadata.yml
-        - PAGE: docs/papers/2020/2008.10898/metadata.yml
-      - Robust Optimization:
-        - Mean Robust Optimization: docs/papers/2022/2207.10820/metadata.yml          
-        - "Data-driven Distributionally Robust Optimization Using the Wasserstein Metric: Performance Guarantees and Tractable Reformulations": docs/papers/2015/1505.05116/metadata.yml
-        - "Certifying Some Distributional Robustness with Principled Adversarial Training": docs/papers/2017/1710.10571/metadata.yml
-        - "Distributionally Robust Convex Optimization": docs/papers/2014/2014.wiesemann.distributionally_robust_convex_optimization/metadata.yml
-      - Minimax & Game Theory:
-        - On General Minimax Theorems: docs/papers/1958/1958.sion.on_general_minimax_theorems/metadata.yml
-        - "Elementary Proof for Sion's Minimax Theorem": docs/papers/1988/1988.komiya.elementary_proof_for_sions/metadata.yml
-        - Subgradient Methods for Saddle-Point Problems: docs/papers/2009/2009.nedic.subgradient_methods_for_saddle/metadata.yml
-        - "A survey of distributed optimization": docs/papers/2019/2019.yang.a_survey_of_distributed/metadata.yml
-        - "Distributed Asynchronous Deterministic and Stochastic Gradient Optimization Algorithms": docs/papers/1986/1986.tsitsiklis.distributed_asynchronous_deterministic_and/metadata.yml
-        - "Near-optimal Local Convergence of Alternating Gradient Descent-Ascent for Minimax Optimization": docs/papers/2021/2102.09468/metadata.yml
-        - "The First Optimal Algorithm for Smooth and Strongly-Convex-Strongly-Concave Minimax Optimization": docs/papers/2022/2205.05653/metadata.yml
+      - Continuous Optimization:
+        - Convex Optimization:
+          - Linear Programming:
+            - Probability of Unique Integer Solution to a System of Linear Equations: docs/papers/2011/2011.mangasarian.probability_of_unique_integer/metadata.yml
+          - Quadratic Programming:
+            - Automatic Generation of Explicit Quadratic Programming Solvers: docs/papers/2025/2506.11513/metadata.yml
+          - General Convex Optimization:
+            - Frank-Wolfe Algorithm: docs/papers/1956/1956.frank.an_algorithm_for_quadratic/metadata.yml
+            - Learning Parametric Convex Functions: docs/papers/2025/2506.04183/metadata.yml
+            - Geometric Median in Nearly Linear Time: docs/papers/2016/1606.05225/metadata.yml
+            - PInet: docs/papers/2025/2508.10480/metadata.yml
+            - "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization": docs/papers/2007/0706.4138/metadata.yml
+            - "A Convex Polynomial That Is Not sos-convex": docs/papers/2009/0903.1287/metadata.yml
+            - "The Convex Geometry of Linear Inverse Problems": docs/papers/2010/1012.0621/metadata.yml
+            - OptNet: docs/papers/2017/1703.00443/metadata.yml
+            - "Semidefinite Approximations of the Matrix Logarithm": docs/papers/2017/1705.00812/metadata.yml
+            - "Computational Optimal Transport: Complexity by Accelerated Gradient Descent Is Better than by Sinkhorn's Algorithm": docs/papers/2018/1802.04367/metadata.yml
+            - "Semidefinite Programming Relaxations for Semialgebraic Problems": docs/papers/2003/2003.parrilo.semidefinite_programming_relaxations_for/metadata.yml
+            - "Sparse and Low-rank Matrix Decompositions": docs/papers/2009/2009.chandrasekaran.sparse_and_low_rank/metadata.yml
+            - "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means": docs/papers/2023/2309.10675/metadata.yml
+          - Online Convex Optimization:
+            - "No-Regret Algorithms for Unconstrained Online Convex Optimization": docs/papers/2012/1211.2260/metadata.yml
+          - Applications in Probability Theory:
+            - "Optimal Inequalities in Probability Theory: A Convex Optimization Approach": docs/papers/2005/2005.bertsimas.optimal_inequalities_in_probability/metadata.yml
+        - Nonlinear Optimization:
+          - Nonlinear Programming:
+            - Disciplined Nonlinear Programming: docs/papers/2025/2025.cederberg.disciplined_nonlinear_programming/metadata.yml
+            - "Global Solutions to Non-Convex Functional Constrained Problems with Hidden Convexity": docs/papers/2025/2511.10626/metadata.yml
+          - Zeroth-Order Methods:
+            - Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization: docs/papers/2018/1805.10367/metadata.yml
+            - Gradientless Descent: docs/papers/2019/1911.06317/metadata.yml
+            - "An Introduction to Zero-Order Optimization Techniques for Robotics": docs/papers/2025/2506.22087/metadata.yml
+            - "An Optimal Algorithm for Bandit and Zero-Order Convex Optimization with Two-Point Feedback": docs/papers/2015/1507.08752/metadata.yml
+            - "Random Gradient-Free Minimization of Convex Functions": docs/papers/2015/2015.nesterov.random_gradient_free_minimization/metadata.yml
+            - Direct Search & Pattern Search:
+              - Rosenbrock's Method: docs/papers/1960/1960.rosenbrock.an_automatic_method_for/metadata.yml
+              - Powell's Method: docs/papers/1964/1964.powell.an_efficient_method_for/metadata.yml
+            - Evolutionary Algorithms:
+              - "Evolutionary Programming": docs/papers/1966/1966.fogel.artificial_intelligence_through_simulated/metadata.yml
+              - "Adaptation in Natural and Artificial Systems": docs/papers/1992/1992.holland.adaptation_in_natural_and/metadata.yml
+              - Evolving Virtual Creatures: docs/papers/1994/1994.sims.evolving_virtual_creatures/metadata.yml
+              - Particle Swarm Optimization: docs/papers/1995/1995.kennedy.particle_swarm_optimization/metadata.yml
+              - Differential Evolution: docs/papers/1997/1997.storn.differential_evolution_a_simple/metadata.yml
+              - CMA-ES: docs/papers/2001/2001.hansen.completely_derandomized_self_adaptation/metadata.yml
+              - "The CMA Evolution Strategy: A Tutorial": docs/papers/2016/1604.00772/metadata.yml
+              - NEAT: docs/papers/2002/2002.stanley.evolving_neural_networks_through/metadata.yml
+              - HyperNEAT: docs/papers/2009/2009.stanley.a_hypercube_based_encoding/metadata.yml
+              - Unshackling Evolution: docs/papers/2014/2014.cheney.unshackling_evolution/metadata.yml
+              - "Abandoning Objectives: Evolution through the Search for Novelty Alone": docs/papers/2011/2011.lehman.abandoning_objectives_evolution_through/metadata.yml
+              - "Robots That Can Adapt like Animals": docs/papers/2014/1407.3501/metadata.yml
+              - "Regularized Evolution for Image Classifier Architecture Search": docs/papers/2018/1802.01548/metadata.yml
+              - "Illuminating Search Spaces by Mapping Elites": docs/papers/2015/1504.04909/metadata.yml
+              - "Quality and Diversity Optimization: A Unifying Modular Framework": docs/papers/2017/1708.09251/metadata.yml
+              - "Discovering the Elite Hypervolume by Leveraging Interspecies Correlation": docs/papers/2018/1804.03906/metadata.yml
+              - "Data-Efficient Design Exploration through Surrogate-Assisted Illumination": docs/papers/2018/1806.05865/metadata.yml
+              - "Are Quality Diversity Algorithms Better at Generating Stepping Stones than Objective-based Search?": docs/papers/2019/2019.gaier.are_quality_diversity_algorithms/metadata.yml
+              - "Embodied Intelligence via Learning and Evolution": docs/papers/2021/2102.02202/metadata.yml
+            - "Second Order Methods for Bandit Optimization and Control": docs/papers/2024/2024.suggala.second_order_methods_for/metadata.yml
+            - "Small errors in random zeroth-order optimization are imaginary": docs/papers/2021/2103.05478/metadata.yml
+            - "Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity": docs/papers/2024/2406.19617/metadata.yml
+            - "Zeroth-Order Optimization at the Edge of Stability": docs/papers/2026/2604.14669/metadata.yml
+            - "Zeroth-Order Optimization Finds Flat Minima": docs/papers/2025/2506.05454/metadata.yml
+            - "Zeroth-Order Randomized Subspace Newton Methods": docs/papers/2022/2202.04612/metadata.yml
+            - "High-Probability Guarantees for Random Zeroth-Order (Stochastic) Gradient Descent": docs/papers/2026/2604.23613/metadata.yml
+          - First-Order Methods:
+            - Gradient Descent (Cauchy): docs/papers/1847/1847.cauchy.methode_generale_pour_la/metadata.yml
+            - Gradient Descent (Curry): docs/papers/1944/1944.curry.the_method_of_steepest/metadata.yml
+            - Polyak-Łojasiewicz inequality: docs/papers/1963/1963.polyak.gradient_methods_for_the/metadata.yml
+            - Polyak momentum: docs/papers/1964/1964.polyak.some_methods_of_speeding/metadata.yml
+            - "A Differential Equation for Modeling Nesterov's Accelerated Gradient Method": docs/papers/2015/1503.01243/metadata.yml
+            - Adam: docs/papers/2014/1412.6980/metadata.yml
+            - "A Simple Convergence Proof of Adam and Adagrad": docs/papers/2020/2003.02395/metadata.yml
+            - Adam-mini: docs/papers/2024/2406.16793/metadata.yml
+            - Coordinate Descent Algorithms: docs/papers/2015/1502.04759/metadata.yml
+            - Analysis and Design of Optimization Algorithms via IQC: docs/papers/2014/1408.3595/metadata.yml
+            - On Symplectic Optimization: docs/papers/2018/1802.03653/metadata.yml
+            - Conformal Symplectic and Relativistic Optimization: docs/papers/2019/1903.04100/metadata.yml
+            - Gradient Descent Converges to Minimizers: docs/papers/2016/1602.04915/metadata.yml
+            - How to Escape Saddle Points Efficiently: docs/papers/2017/1703.00887/metadata.yml
+            - Steepest Ascent for Optimal Programming: docs/papers/1962/1962.bryson.a_steepest_ascent_method/metadata.yml
+            - Armijo Rule: docs/papers/1966/1966.armijo.minimization_of_functions_having/metadata.yml
+            - "Adaptive Gradient Methods Converge Faster with Over-Parameterization (but you should do a line-search)": docs/papers/2020/2006.06835/metadata.yml
+            - "An overview of gradient descent optimization algorithms": docs/papers/2016/1609.04747/metadata.yml
+            - "Beyond Convexity - Contraction and Global Convergence of Gradient Descent": docs/papers/2018/1806.06655/metadata.yml
+            - "Convergence Conditions for Ascent Methods": docs/papers/1969/1969.wolfe.convergence_conditions_for_ascent/metadata.yml
+            - "Convergence Conditions for Ascent Methods. II: Some Corrections": docs/papers/1971/1971.wolfe.convergence_conditions_for_ascent/metadata.yml
+            - "Decoupled Weight Decay Regularization": docs/papers/2017/1711.05101/metadata.yml
+            - "DoG is SGD's Best Friend": docs/papers/2023/2023.ivgi.dog_is_sgds_best/metadata.yml
+            - "Efficient Numerical Algorithm for Large-Scale Damped Natural Gradient Descent": docs/papers/2023/2310.17556/metadata.yml
+            - "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability": docs/papers/2021/2103.00065/metadata.yml
+            - "Gradient Descent Provably Optimizes Over-parameterized Neural Networks": docs/papers/2018/1810.02054/metadata.yml
+            - "Katyusha": docs/papers/2016/1603.05953/metadata.yml
+            - "Linear Convergence of Gradient and Proximal-Gradient Methods Under the Polyak-Łojasiewicz Condition": docs/papers/2016/2016.karimi.linear_convergence_of_gradient/metadata.yml
+            - "Momentum-Based Variance Reduction in Non-Convex SGD": docs/papers/2019/1905.10018/metadata.yml
+            - "On Globally Optimal Stochastic Policy Gradient Methods for Domain Randomized LQR Synthesis": docs/papers/2026/2603.14197/metadata.yml
+            - "On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization": docs/papers/2018/2018.arora.on_the_optimization_of/metadata.yml
+            - "On the Convergence of Adam and Beyond": docs/papers/2019/1904.09237/metadata.yml
+            - "Optimizing Neural Networks with Kronecker-factored Approximate Curvature": docs/papers/2015/1503.05671/metadata.yml
+            - "Painless Stochastic Gradient: Interpolation, Line-Search, and Convergence Rates": docs/papers/2019/1905.09997/metadata.yml
+            - "Perception-Based Sampled-Data Optimization of Dynamical Systems": docs/papers/2023/2023.cothren.perception_based_sampled_data/metadata.yml
+            - "Revisiting the Polyak step size": docs/papers/2019/1905.00313/metadata.yml
+            - SARAH: docs/papers/2017/1703.00102/metadata.yml
+            - "Sharpness-Aware Minimization for Efficiently Improving Generalization": docs/papers/2020/2010.01412/metadata.yml
+            - "Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control": docs/papers/2025/2511.02015/metadata.yml
+            - "Stochastic Gradient Descent Tricks": docs/papers/2012/2012.bottou.stochastic_gradient_descent_tricks/metadata.yml
+            - Catapult mechanism: docs/papers/2020/2003.02218/metadata.yml
+            - "The Fastest Known Globally Convergent First-Order Method for Minimizing Strongly Convex Functions": docs/papers/2018/2018.van_scoy.the_fastest_known_globally/metadata.yml
+            - "Universal Sequence Preconditioning": docs/papers/2025/2502.06545/metadata.yml
+            - "Exponential Convergence Bounds Using Integral Quadratic Constraints": docs/papers/2015/1503.07222/metadata.yml
+            - "Control Interpretations for First-Order Optimization Methods": docs/papers/2017/1703.01670/metadata.yml
+            - "Dissipativity Theory for Nesterov's Accelerated Method": docs/papers/2017/1706.04381/metadata.yml
+            - "A Robust Accelerated Optimization Algorithm for Strongly Convex Functions": docs/papers/2017/1710.04753/metadata.yml
+            - "Lyapunov Functions for First-Order Methods: Tight Automated Convergence Guarantees": docs/papers/2018/1803.06073/metadata.yml
+            - "On the Goldstein-Levitin-Polyak Gradient Projection Method": docs/papers/1976/1976.bertsekas.on_the_goldstein_levitin/metadata.yml
+            - "Implementation of the Simultaneous Perturbation Algorithm for Stochastic Optimization": docs/papers/1998/1998.spall.implementation_of_the_simultaneous/metadata.yml
+            - "Incremental Subgradient Methods for Nondifferentiable Optimization": docs/papers/2001/2001.nedic.incremental_subgradient_methods_for/metadata.yml
+            - "Recent Theoretical Advances in Non-Convex Optimization": docs/papers/2020/2012.06188/metadata.yml
+            - "When Cyclic Coordinate Descent Outperforms Randomized Coordinate Descent": docs/papers/2017/2017.gurbuzbalaban.when_cyclic_coordinate_descent/metadata.yml
+            - "The Speed-Robustness Trade-Off for First-Order Methods with Additive Gradient Noise": docs/papers/2021/2109.05059/metadata.yml
+            - "Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule": docs/papers/2023/2309.07879/metadata.yml
+            - "Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization": docs/papers/2023/2309.16530/metadata.yml
+            - "The Fastest Known First-Order Method for Minimizing Twice Continuously Differentiable Smooth Strongly Convex Functions": docs/papers/2025/2506.01168/metadata.yml
+          - Second-order Methods:
+            - Quasi-Newton Methods:
+              - DFP: docs/papers/1991/1991.davidon.variable_metric_method_for/metadata.yml
+              - "A Regularized Limited Memory BFGS method for Large-Scale Unconstrained Optimization and its Efficient Implementations": docs/papers/2021/2101.04413/metadata.yml
+              - RES: docs/papers/2014/1401.7625/metadata.yml
+              - DDPNOpt: docs/papers/2020/2002.08809/metadata.yml
+            - Newton's Method:
+              - "Thomas Simpson and 'Newton's Method of Approximation': An Enduring Myth": docs/papers/1992/1992.kollerstrom.thomas_simpson_and_newtons/metadata.yml
+              - A Note on the Convergence of Newton's Method: docs/papers/1974/1974.rall.a_note_on_the/metadata.yml
+              - OPTAMI: docs/papers/2024/2410.04083/metadata.yml
+              - "Superfast Second-Order Methods for Unconstrained Convex Optimization": docs/papers/2021/2021.nesterov.superfast_second_order_methods/metadata.yml
+              - "The Hessian of tall-skinny networks is easy to invert": docs/papers/2026/2601.06096/metadata.yml
+              - "Verification of Sequential Convex Programming for Parametric Non-convex Optimization": docs/papers/2025/2511.10622/metadata.yml
+              - Regularized Newton Method:
+                - Levenberg-Marquardt: docs/papers/1944/1944.levenberg.a_method_for_the/metadata.yml
+                - Cubic regularized Newton: docs/papers/2006/2006.nesterov.cubic_regularization_of_newton/metadata.yml
+                - Regularized Newton Method: docs/papers/2021/2112.02089/metadata.yml
+                - Super-Universal Regularized Newton Method: docs/papers/2022/2208.05888/metadata.yml
+                - "A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees": docs/papers/2025/2502.04799/metadata.yml
+                - "Convergence analysis of a regularized Newton method with generalized regularization terms for unconstrained convex optimization problems": docs/papers/2025/2025.yamakawa.convergence_analysis_of_a/metadata.yml
+                - "A Damped Newton Method Achieves Global O(1/k^2) and Local Quadratic Convergence Rate": docs/papers/2022/2211.00140/metadata.yml
+              - "An Automatic System to Detect Equivalence between Iterative Algorithms": docs/papers/2021/2105.04684/metadata.yml
+              - "Algebraic Characterization of Equivalence between Oracle-based Iterative Algorithms": docs/papers/2025/2501.04972/metadata.yml
+          - High-order Methods:
+            - Midpoint Newton Method:
+              - "Midpoint Newton Method, cubic convergence analysis": docs/papers/2004/2004.homeier.a_modified_newton_method/metadata.yml
+            - Halley's Method and High-Order Methods:
+              - Multivariate Halley method: docs/papers/1985/1985.cuyt.computational_implementation_of_the/metadata.yml
+              - Super-Halley method: docs/papers/2001/2001.gutierrez.an_acceleration_of_newtons/metadata.yml
+              - Generalized Halley method: docs/papers/2008/2008.albeanu.on_the_generalized_halley/metadata.yml
+              - New recurrence relations for Chebyshev method: docs/papers/1997/1997.gutierrez.new_recurrence_relations_for/metadata.yml
+          - Trust Region Methods:
+            - "Recent advances in trust region algorithms": docs/papers/2015/2015.yuan.recent_advances_in_trust/metadata.yml
+            - "Beyond Nonconvexity: A Universal Trust-Region Method with New Analyses": docs/papers/2023/2311.11489/metadata.yml
+          - Proximal Methods:
+            - FISTA: docs/papers/2009/2009.beck.a_fast_iterative_shrinkage/metadata.yml
+            - Proximal Algorithms: docs/papers/2014/2014.parikh.proximal_algorithms/metadata.yml
+            - "A General Analysis of the Convergence of ADMM": docs/papers/2015/1502.02009/metadata.yml
+            - "Incremental Gradient, Subgradient, and Proximal Methods for Convex Optimization: A Survey": docs/papers/2015/1507.01030/metadata.yml
+            - "On the Douglas-Rachford Splitting Method and the Proximal Point Algorithm for Maximal Monotone Operators": docs/papers/1992/1992.eckstein.on_the_douglasrachford_splitting/metadata.yml
+        - Stochastic Optimization:
+          - Enhancing Sparsity by Reweighted L1 Minimization: docs/papers/2007/0711.1612/metadata.yml
+          - When Does SGD Escape Local Minima?: docs/papers/2018/1802.06175/metadata.yml
+          - SGD Input-to-State Stability: docs/papers/2025/2507.02131/metadata.yml
+          - "Infinite-Horizon Policy-Gradient Estimation": docs/papers/2011/1106.0665/metadata.yml
+          - "A Stochastic Approximation Method": docs/papers/1951/1951.robbins.a_stochastic_approximation_method/metadata.yml
+          - "Accelerating Stochastic Gradient Descent using Predictive Variance Reduction": docs/papers/2013/2013.johnson.accelerating_stochastic_gradient_descent/metadata.yml
+          - "Making SGD Parameter-Free": docs/papers/2022/2205.02160/metadata.yml
+          - "Why Random Reshuffling Beats Stochastic Gradient Descent": docs/papers/2015/1510.08560/metadata.yml
+          - "Minimal Variance Sampling in Stochastic Gradient Boosting": docs/papers/2019/1910.13204/metadata.yml
+          - PAGE: docs/papers/2020/2008.10898/metadata.yml
+        - Robust Optimization:
+          - Mean Robust Optimization: docs/papers/2022/2207.10820/metadata.yml
+          - "Data-driven Distributionally Robust Optimization Using the Wasserstein Metric: Performance Guarantees and Tractable Reformulations": docs/papers/2015/1505.05116/metadata.yml
+          - "Certifying Some Distributional Robustness with Principled Adversarial Training": docs/papers/2017/1710.10571/metadata.yml
+          - "Distributionally Robust Convex Optimization": docs/papers/2014/2014.wiesemann.distributionally_robust_convex_optimization/metadata.yml
+        - Minimax & Game Theory:
+          - On General Minimax Theorems: docs/papers/1958/1958.sion.on_general_minimax_theorems/metadata.yml
+          - "Elementary Proof for Sion's Minimax Theorem": docs/papers/1988/1988.komiya.elementary_proof_for_sions/metadata.yml
+          - Subgradient Methods for Saddle-Point Problems: docs/papers/2009/2009.nedic.subgradient_methods_for_saddle/metadata.yml
+          - "A survey of distributed optimization": docs/papers/2019/2019.yang.a_survey_of_distributed/metadata.yml
+          - "Distributed Asynchronous Deterministic and Stochastic Gradient Optimization Algorithms": docs/papers/1986/1986.tsitsiklis.distributed_asynchronous_deterministic_and/metadata.yml
+          - "Near-optimal Local Convergence of Alternating Gradient Descent-Ascent for Minimax Optimization": docs/papers/2021/2102.09468/metadata.yml
+          - "The First Optimal Algorithm for Smooth and Strongly-Convex-Strongly-Concave Minimax Optimization": docs/papers/2022/2205.05653/metadata.yml
+        - Automatic Differentiation:
+          - On Automatic Differentiation: docs/papers/1989/1989.griewank.on_automatic_differentiation/metadata.yml
+          - "Automatic differentiation in machine learning: a survey": docs/papers/2015/1502.05767/metadata.yml
+          - Fast Exact Multiplication by the Hessian: docs/papers/1994/1994.pearlmutter.fast_exact_multiplication_by/metadata.yml
+          - Gradient-Based Optimization of Hyperparameters: docs/papers/2000/2000.bengio.gradient_based_optimization_of/metadata.yml
+          - "Gradient-based Hyperparameter Optimization through Reversible Learning": docs/papers/2015/1502.03492/metadata.yml
+          - "SoftJAX & SoftTorch": docs/papers/2026/2603.08824/metadata.yml
+          - "The Elements of Differentiable Programming": docs/papers/2024/2403.14606/metadata.yml
       - Combinatorial Optimization:
         - Held-Karp Dynamic Programming: docs/papers/1961/1961.held.a_dynamic_programming_approach/metadata.yml
         - "Dynamic Programming Treatment of the Travelling Salesman Problem": docs/papers/1962/1962.bellman.dynamic_programming_treatment_of/metadata.yml
         - "The traveling salesman problem: An overview of exact and approximate algorithms": docs/papers/1992/1992.laporte.the_traveling_salesman_problem/metadata.yml
-      - Assignment Problems:
-        - Hungarian algorithm: docs/papers/1955/1955.kuhn.the_hungarian_method_for/metadata.yml
-        - Munkres algorithm: docs/papers/1957/1957.munkres.algorithms_for_the_assignment/metadata.yml
-        - Jonker-Volgenant algorithm: docs/papers/1987/1987.jonker.a_shortest_augmenting_path/metadata.yml
-        - Auction Algorithm: docs/papers/1988/1988.bertsekas.the_auction_algorithm_a/metadata.yml
-        - QuickMatch: docs/papers/1993/1993.orlin.quickmatch_a_very_fast/metadata.yml          
-      - Graph Search:
-        - Dijkstra's algorithm: docs/papers/1959/1959.dijkstra.a_note_on_two/metadata.yml
-        - Bellman-Ford algorithm: docs/papers/1958/1958.bellman.on_a_routing_problem/metadata.yml
+        - Assignment Problems:
+          - Hungarian algorithm: docs/papers/1955/1955.kuhn.the_hungarian_method_for/metadata.yml
+          - Munkres algorithm: docs/papers/1957/1957.munkres.algorithms_for_the_assignment/metadata.yml
+          - Jonker-Volgenant algorithm: docs/papers/1987/1987.jonker.a_shortest_augmenting_path/metadata.yml
+          - Auction Algorithm: docs/papers/1988/1988.bertsekas.the_auction_algorithm_a/metadata.yml
+          - QuickMatch: docs/papers/1993/1993.orlin.quickmatch_a_very_fast/metadata.yml
+        - Graph Search:
+          - Dijkstra's algorithm: docs/papers/1959/1959.dijkstra.a_note_on_two/metadata.yml
+          - Bellman-Ford algorithm: docs/papers/1958/1958.bellman.on_a_routing_problem/metadata.yml
       - Toolboxes & Solvers:
         - Convex Optimization:
-          - Disciplined Convex Programming: docs/papers/2006/2006.grant.disciplined_convex_programming/metadata.yml            
+          - Disciplined Convex Programming: docs/papers/2006/2006.grant.disciplined_convex_programming/metadata.yml
           - Graph Implementations: docs/papers/2008/2008.grant.graph_implementations_for_nonsmooth/metadata.yml
           - CVXPY: docs/papers/2016/1603.00943/metadata.yml
           - CVXPYgen: docs/papers/2022/2203.11419/metadata.yml
@@ -216,7 +228,7 @@
           - CuClarabel: docs/papers/2024/2412.19027/metadata.yml
           - "Presolving for GPU-Accelerated First-Order LP Solvers": docs/papers/2026/2604.23951/metadata.yml
           - "Approximation of the Joint Spectral Radius Using Sum of Squares": docs/papers/2007/0712.2887/metadata.yml
-          - "Conic Optimization via Operator Splitting and Homogeneous Self-Dual Embedding": docs/papers/2013/1312.3039/metadata.yml            
+          - "Conic Optimization via Operator Splitting and Homogeneous Self-Dual Embedding": docs/papers/2013/1312.3039/metadata.yml
         - Nonlinear Optimization:
           - YALMIP: docs/papers/2004/2004.lofberg.yalmip_a_toolbox_for/metadata.yml
           - CasADi: docs/papers/2018/2018.andersson.casadi_a_software_framework/metadata.yml
@@ -234,15 +246,7 @@
           - Optuna: docs/papers/2019/1907.10902/metadata.yml
           - Nevergrad: docs/papers/2021/2021.bennet.nevergrad_black_box_optimization/metadata.yml
           - PyHopper: docs/papers/2022/2210.04728/metadata.yml
-          - "Optimizing with Low Budgets": docs/papers/2023/2310.00077/metadata.yml            
-      - Automatic Differentiation:
-        - On Automatic Differentiation: docs/papers/1989/1989.griewank.on_automatic_differentiation/metadata.yml
-        - "Automatic differentiation in machine learning: a survey": docs/papers/2015/1502.05767/metadata.yml
-        - Fast Exact Multiplication by the Hessian: docs/papers/1994/1994.pearlmutter.fast_exact_multiplication_by/metadata.yml
-        - Gradient-Based Optimization of Hyperparameters: docs/papers/2000/2000.bengio.gradient_based_optimization_of/metadata.yml
-        - "Gradient-based Hyperparameter Optimization through Reversible Learning": docs/papers/2015/1502.03492/metadata.yml
-        - "SoftJAX & SoftTorch": docs/papers/2026/2603.08824/metadata.yml
-        - "The Elements of Differentiable Programming": docs/papers/2024/2403.14606/metadata.yml
+          - "Optimizing with Low Budgets": docs/papers/2023/2310.00077/metadata.yml
     - Planning:
       - Path Planning:
         - Geometric Planning:
