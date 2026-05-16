@@ -84,7 +84,7 @@
   function render() {
     const node = nodes.get(currentId) || data.root;
     stats.textContent = plural(data.meta.totalLeaves, 'item') + ' in ' + plural(data.meta.totalBranches, 'branch', 'branches');
-    currentSummary.textContent = nodeSummary(node);
+    currentSummary.textContent = '';
     renderBreadcrumbs(node);
     renderAncestorChain(node);
     renderSearch();

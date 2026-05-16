@@ -67,13 +67,14 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 /* ── App shell ────────────────────────────────────────────────────────────── */
 #mm-app {
   --mm-panel-header-h: 46px;
+  --mm-panel-w: min(400px, calc(100vw - 16px));
   position: relative;
   isolation: isolate;
   z-index: 0;
   display: flex;
   flex-direction: row;
   width:  100%;
-  height: calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 36px));
+  height: calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px));
   overflow: hidden;
   background: var(--md-default-bg-color);
   font-family: "Atkinson Hyperlegible Next", "Segoe UI", sans-serif;
@@ -117,7 +118,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   top: 0;
   left: 0;
   z-index: 5;
-  width: min(400px, 100vw);
+  width: var(--mm-panel-w);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -157,7 +158,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   left: 0;
   top: var(--mm-panel-header-h);
   height: calc(100% - var(--mm-panel-header-h));
-  width: min(400px, 100vw);
+  width: var(--mm-panel-w);
   z-index: 4;
   background: color-mix(in srgb, var(--md-code-bg-color) 94%, transparent);
   border-right: 1px solid var(--md-default-fg-color--lighter);
@@ -181,12 +182,18 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   gap: 0.85rem;
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
+  min-width: 0;
+  box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: var(--md-default-fg-color--lighter) transparent;
 }
 
 /* ── Panel sections ───────────────────────────────────────────────────────── */
-.mm-section {}
+.mm-section {
+  min-width: 0;
+  max-width: 100%;
+}
 .mm-section-label {
   display: block;
   font-size: 0.68rem;
@@ -231,14 +238,27 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   accent-color: var(--md-accent-fg-color);
 }
 
-/* Detail level */
-.mm-detail-controls {
+/* Detail level and visibility toggles */
+.mm-detail-controls,
+.mm-visibility-controls {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 4px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
-.mm-detail-controls button {
+.mm-detail-controls {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.mm-visibility-controls {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.mm-detail-controls button,
+.mm-visibility-controls button {
   min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   background: var(--md-default-fg-color--lightest);
   border: 1px solid var(--md-default-fg-color--lighter);
   color: var(--md-default-fg-color--light);
@@ -247,12 +267,15 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   cursor: pointer;
   font-size: 0.72rem;
   line-height: 1.1;
+  white-space: nowrap;
 }
-.mm-detail-controls button:hover {
+.mm-detail-controls button:hover,
+.mm-visibility-controls button:hover {
   color: var(--md-default-fg-color);
   border-color: var(--md-default-fg-color--light);
 }
-.mm-detail-controls button.active {
+.mm-detail-controls button.active,
+.mm-visibility-controls button[aria-pressed="true"] {
   background: color-mix(in srgb, var(--md-accent-fg-color) 16%, var(--md-default-bg-color));
   border-color: var(--md-accent-fg-color);
   color: var(--md-default-fg-color);
@@ -430,10 +453,24 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .tt-list li { margin-bottom: 3px; }
 
 @media (max-width: 700px) {
+  #mm-app {
+    --mm-panel-w: calc(100vw - 48px);
+  }
+
+  #mm-panel-header,
+  #mm-panel {
+    left: 8px;
+  }
+
+  .mm-detail-controls,
+  .mm-visibility-controls {
+    width: calc(100vw - 88px);
+  }
+
   #mm-tooltip {
     width: calc(100vw - 24px);
     max-width: calc(100vw - 24px);
-    max-height: min(70vh, calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 36px) - 24px));
+    max-height: min(70vh, calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - 24px));
     padding: 12px 14px;
   }
   .tt-title   { font-size: 0.9rem; line-height: 1.35; }
@@ -473,6 +510,14 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
       <div class="mm-section">
         <span class="mm-section-label">Level-of-detail</span>
         <div id="mm-detail-controls" class="mm-detail-controls"></div>
+      </div>
+
+      <div class="mm-section">
+        <span class="mm-section-label">Visibility</span>
+        <div class="mm-visibility-controls">
+          <button id="mm-labels-toggle" type="button" aria-pressed="true">Node Labels</button>
+          <button id="mm-edges-toggle" type="button" aria-pressed="true">Edges</button>
+        </div>
       </div>
 
       <div class="mm-section">
@@ -527,7 +572,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     var header = document.querySelector('.md-header');
     var footer = document.querySelector('.md-footer');
     var hh = header ? header.getBoundingClientRect().height : 56;
-    var fh = footer ? footer.getBoundingClientRect().height : 36;
+    var fh = footer ? footer.getBoundingClientRect().height : 0;
     document.documentElement.style.setProperty('--mm-header-h', hh + 'px');
     document.documentElement.style.setProperty('--mm-footer-h', fh + 'px');
   }
