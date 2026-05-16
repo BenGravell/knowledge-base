@@ -101,6 +101,7 @@
   let renderer = null;
   let currentThreshold = DATA.meta.threshold;
   let currentDetailLevel = HIERARCHY_LEVELS[0].id;
+  let expandedAggregateNodes = new Set();
   let activeCategories = new Set();
   let currentSearch = '';
   let pinnedNode = null;
@@ -611,58 +612,73 @@
     };
   }
 
-  function buildAggregateEdges(level, groupsByLeafId) {
-    const edgeMap = new Map();
-
-    DATA.edges.forEach(edge => {
-      const attrs = edge.data;
-      const sourceGroup = groupsByLeafId.get(attrs.source);
-      const targetGroup = groupsByLeafId.get(attrs.target);
-      if (!sourceGroup || !targetGroup || sourceGroup === targetGroup) return;
-
-      const sourceId = aggregateNodeId(level, sourceGroup);
-      const targetId = aggregateNodeId(level, targetGroup);
-      const source = sourceId < targetId ? sourceId : targetId;
-      const target = sourceId < targetId ? targetId : sourceId;
-      const key = `${source}||${target}`;
-      const weight = Number(attrs.weight) || 0;
-      let aggregate = edgeMap.get(key);
-
-      if (!aggregate) {
-        aggregate = {
-          source,
-          target,
-          maxWeight: weight,
-          weightSum: 0,
-          count: 0,
-        };
-        edgeMap.set(key, aggregate);
-      }
-
-      aggregate.maxWeight = Math.max(aggregate.maxWeight, weight);
-      aggregate.weightSum += weight;
-      aggregate.count += 1;
-    });
-
+  function edgeAccumulatorToData(edgeMap, idPrefix, edgeAlpha = 0.24) {
     return [...edgeMap.values()]
       .sort((a, b) => `${a.source}${a.target}`.localeCompare(`${b.source}${b.target}`))
       .map((edge, index) => {
         const meanWeight = edge.count ? edge.weightSum / edge.count : edge.maxWeight;
         return {
           data: {
-            id: `agg-edge:${level}:${index}`,
+            id: `${idPrefix}:${index}`,
             kind: 'aggregate',
-            detailLevel: level,
+            detailLevel: 'mixed',
             source: edge.source,
             target: edge.target,
             weight: Math.round(edge.maxWeight * 10000) / 10000,
             meanWeight: Math.round(meanWeight * 10000) / 10000,
             aggregateCount: edge.count,
             undirected: true,
-            edgeAlpha: 0.24,
+            edgeAlpha,
           },
         };
       });
+  }
+
+  function buildMixedAggregateEdges(paperAncestors) {
+    const edgeMap = new Map();
+
+    function displayNodeForPaper(paperId, level) {
+      return level === 'paper'
+        ? paperId
+        : paperAncestors[paperId] && paperAncestors[paperId][level];
+    }
+
+    DATA.edges.forEach(edge => {
+      const attrs = edge.data;
+      const weight = Number(attrs.weight) || 0;
+
+      DETAIL_LEVELS.forEach(sourceLevel => {
+        DETAIL_LEVELS.forEach(targetLevel => {
+          if (sourceLevel === 'paper' && targetLevel === 'paper') return;
+
+          const rawSource = displayNodeForPaper(attrs.source, sourceLevel);
+          const rawTarget = displayNodeForPaper(attrs.target, targetLevel);
+          if (!rawSource || !rawTarget || rawSource === rawTarget) return;
+
+          const source = rawSource < rawTarget ? rawSource : rawTarget;
+          const target = rawSource < rawTarget ? rawTarget : rawSource;
+          const key = `${source}||${target}`;
+          let aggregate = edgeMap.get(key);
+
+          if (!aggregate) {
+            aggregate = {
+              source,
+              target,
+              maxWeight: weight,
+              weightSum: 0,
+              count: 0,
+            };
+            edgeMap.set(key, aggregate);
+          }
+
+          aggregate.maxWeight = Math.max(aggregate.maxWeight, weight);
+          aggregate.weightSum += weight;
+          aggregate.count += 1;
+        });
+      });
+    });
+
+    return edgeAccumulatorToData(edgeMap, 'mixed-agg-edge');
   }
 
   function buildHierarchyData() {
@@ -675,7 +691,6 @@
       category: [],
       sub_category: [],
     };
-    const paperToGroups = new Map();
     const paperAncestors = {};
     const aggregateNodes = [];
     const aggregateEdges = [];
@@ -721,11 +736,6 @@
         accumulateHierarchyGroup(group, paperNode);
       });
 
-      paperToGroups.set(attrs.id, {
-        super_category: superGroup,
-        category: categoryGroup,
-        sub_category: leafGroup,
-      });
       paperAncestors[attrs.id] = {
         super_category: aggregateNodeId('super_category', superGroup),
         category: aggregateNodeId('category', categoryGroup),
@@ -745,18 +755,10 @@
       .filter(level => level.aggregate)
       .forEach(level => {
         const groups = groupsByLevel[level.id] || [];
-        const groupsByLeafId = new Map();
-
-        DATA.nodes.forEach(paperNode => {
-          const paperGroups = paperToGroups.get(paperNode.data.id);
-          if (paperGroups && paperGroups[level.id]) {
-            groupsByLeafId.set(paperNode.data.id, paperGroups[level.id]);
-          }
-        });
-
         groups.forEach(group => aggregateNodes.push(buildAggregateNode(group, level.id)));
-        aggregateEdges.push(...buildAggregateEdges(level.id, groupsByLeafId));
       });
+
+    aggregateEdges.push(...buildMixedAggregateEdges(paperAncestors));
 
     hierarchyData = {
       roots,
@@ -779,7 +781,21 @@
 
   function nodeVisibleAt(node, level) {
     const attrs = graph.getNodeAttributes(node);
-    return attrs.detailLevel === level && nodeAllowedByFilters(attrs);
+    if (!nodeAllowedByFilters(attrs)) return false;
+
+    const baseIndex = DETAIL_LEVELS.indexOf(level);
+    const nodeIndex = DETAIL_LEVELS.indexOf(attrs.detailLevel);
+    if (baseIndex < 0 || nodeIndex < baseIndex) return false;
+
+    for (let i = baseIndex; i < nodeIndex; i += 1) {
+      const ancestorLevel = DETAIL_LEVELS[i];
+      const ancestorId = attrs.detailLevel === ancestorLevel
+        ? node
+        : attrs.ancestorIds && attrs.ancestorIds[ancestorLevel];
+      if (!ancestorId || !expandedAggregateNodes.has(ancestorId)) return false;
+    }
+
+    return !(attrs.kind === 'aggregate' && expandedAggregateNodes.has(node));
   }
 
   function nodeVisible(node) {
@@ -788,8 +804,7 @@
 
   function edgeVisible(edge) {
     const attrs = graph.getEdgeAttributes(edge);
-    return attrs.detailLevel === currentDetailLevel &&
-      attrs.weight >= currentThreshold &&
+    return attrs.weight >= currentThreshold &&
       nodeVisible(graph.source(edge)) &&
       nodeVisible(graph.target(edge));
   }
@@ -1324,6 +1339,49 @@
     };
   }
 
+  function prepareBranchExpansionTransition(parentNode, childLevel) {
+    const parentPoint = nodePoint(parentNode);
+    const cameraState = transitionCameraState();
+    const nodes = [];
+
+    graph.forEachNode((node, attrs) => {
+      if (attrs.detailLevel !== childLevel || attrs.parentId !== parentNode) return;
+      if (!nodeAllowedByFilters(attrs)) return;
+
+      const to = homePoint(attrs);
+      nodes.push({
+        node,
+        from: limitTransitionOriginTravel(parentPoint, to, cameraState),
+        to,
+      });
+    });
+
+    return nodes;
+  }
+
+  function expandBranchNode(node) {
+    const attrs = graph.getNodeAttributes(node);
+    const childLevel = attrs.kind === 'aggregate'
+      ? nextDetailLevel(attrs.detailLevel)
+      : null;
+
+    if (!childLevel) return false;
+
+    finishLevelTransition();
+    const transitionNodes = renderer
+      ? prepareBranchExpansionTransition(node, childLevel)
+      : [];
+
+    expandedAggregateNodes.add(node);
+    pinnedNode = null;
+    hoveredNode = null;
+    hideTooltip();
+    syncUrlToPinnedNode();
+    refreshView();
+    startLevelTransition(transitionNodes);
+    return true;
+  }
+
   /* -------------------------------------------------------------------------
    * Initialise Sigma
    * -------------------------------------------------------------------------*/
@@ -1399,12 +1457,8 @@
     renderer.on('clickNode', payload => {
       const node = payload.node;
       const attrs = graph.getNodeAttributes(node);
-      const nextLevel = attrs.kind === 'aggregate'
-        ? nextDetailLevel(attrs.detailLevel)
-        : null;
 
-      if (nextLevel) {
-        applyDetailLevel(nextLevel);
+      if (attrs.kind === 'aggregate' && expandBranchNode(node)) {
         return;
       }
 
@@ -1481,7 +1535,7 @@
       `<div class="tt-title">${escHtml(d.fullLabel || d.title)}</div>` +
       `<div class="tt-meta">${escHtml(level)} group&nbsp;&nbsp;${d.count || 0} items</div>` +
       (titles ? `<ul class="tt-list">${titles}</ul>` : '') +
-      (nextLabel ? `<div class="tt-hint">Click to reveal ${escHtml(nextLabel)}</div>` : '') +
+      (nextLabel ? `<div class="tt-hint">Click to expand into ${escHtml(nextLabel)}</div>` : '') +
       (!nextLabel && !pinned ? `<div class="tt-hint">Click to pin</div>` : '') +
       (!nextLabel && pinned ? `<div class="tt-hint">Click node again to unpin</div>` : '');
     tooltip.classList.toggle('pinned', pinned);
@@ -1536,7 +1590,18 @@
   }
 
   function applyDetailLevel(level) {
-    if (!DETAIL_LEVELS.includes(level) || currentDetailLevel === level) return;
+    if (!DETAIL_LEVELS.includes(level)) return;
+    if (currentDetailLevel === level) {
+      if (!expandedAggregateNodes.size) return;
+      finishLevelTransition();
+      expandedAggregateNodes.clear();
+      pinnedNode = null;
+      hoveredNode = null;
+      hideTooltip();
+      syncUrlToPinnedNode();
+      refreshView();
+      return;
+    }
     const previousLevel = currentDetailLevel;
 
     finishLevelTransition();
@@ -1545,6 +1610,7 @@
       : [];
 
     currentDetailLevel = level;
+    expandedAggregateNodes.clear();
     pinnedNode = null;
     hoveredNode = null;
     hideTooltip();
@@ -1963,6 +2029,7 @@
     if (attrs.kind !== 'paper') return false;
 
     currentDetailLevel = 'paper';
+    expandedAggregateNodes.clear();
     activeCategories.add(nodeKey(attrs));
     pinnedNode = paperId;
     hoveredNode = null;
