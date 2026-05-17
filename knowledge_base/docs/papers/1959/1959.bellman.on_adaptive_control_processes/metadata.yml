@@ -1,20 +1,24 @@
-title: On Adaptive Control Processes
-algorithm:
+title: "On Adaptive Control Processes"
+algorithm: Adaptive Dynamic Programming
 authors:
-  - R. Bellman
-  - R. Kalaba
+  - Richard Bellman
+  - Robert Kalaba
 year: 1959
-source: Semantic Scholar
-type: Other
+source: IRE Transactions on Automatic Control
+type: Journal Paper
 doi: 10.1109/TAC.1959.1104847
 arxiv_id:
 tags:
+  - Adaptive control
+  - Dynamic programming
+  - Stochastic control
+  - Sequential decision making
   - Control theory
-abstract: ''
+abstract:
 summary: >
-  This entry records On Adaptive Control Processes and its contribution in control theory.
-link: https://www.semanticscholar.org/paper/2203f539aff403ac3c9c775d696a60c1418754d6
+  Bellman and Kalaba frame adaptive control as a dynamic programming problem in which control policies must account for learning and uncertainty during operation. The paper is an early bridge between optimal control, sequential decision processes, and adaptive control, and helped set the vocabulary later used in stochastic and learning-based control.
+link: https://doi.org/10.1109/TAC.1959.1104847
 links_alt:
+  - http://ieeexplore.ieee.org/document/1104847/
   - https://www.semanticscholar.org/paper/On-adaptive-control-processes-Bellman-Kalaba/2203f539aff403ac3c9c775d696a60c1418754d6
-  - https://doi.org/10.1109/TAC.1959.1104847
 audit_status: raw
