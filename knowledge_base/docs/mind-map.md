@@ -226,13 +226,18 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 
 /* Search */
+.mm-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 #mm-search {
   width: 100%;
   box-sizing: border-box;
   background: var(--md-default-fg-color--lightest);
   border: 1px solid var(--md-default-fg-color--lighter);
   color: var(--md-default-fg-color);
-  padding: 6px 10px;
+  padding: 6px 2rem 6px 10px;
   border-radius: 7px;
   font-size: 0.82rem;
   outline: none;
@@ -242,6 +247,26 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   border-color: var(--md-accent-fg-color);
   background: var(--md-default-fg-color--lightest);
 }
+#mm-search-clear {
+  position: absolute;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--md-default-fg-color--light);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+#mm-search-clear:hover {
+  background: var(--md-default-fg-color--lightest);
+  color: var(--md-default-fg-color);
+}
+#mm-search-clear[hidden] { display: none; }
 
 /* Threshold */
 .mm-threshold-row {
@@ -685,7 +710,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
       <div class="mm-section">
         <span class="mm-section-label">Search</span>
-        <input id="mm-search" type="text" placeholder="Title, tag or keyword…">
+        <div class="mm-search-wrap">
+          <input id="mm-search" type="text" placeholder="Title, tag or keyword…">
+          <button id="mm-search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
+        </div>
       </div>
 
       <div class="mm-section">
@@ -710,6 +738,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
         <span id="mm-level-label">Super</span> ·
         <span id="mm-node-count">…</span> items &nbsp;·&nbsp;
         <span id="mm-edge-count">…</span> connections
+        <span id="mm-search-count" hidden></span>
       </div>
 
     </div>

@@ -1133,7 +1133,7 @@ def main() -> None:
     }
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    js = f"const mindMapData = {json.dumps(graph_data, indent=2, ensure_ascii=False)};\n"
+    js = f"const mindMapData={json.dumps(graph_data, ensure_ascii=False, separators=(',', ':'))};\n"
     with open(args.output, "w", encoding="utf-8") as f:
         f.write(js)
 
