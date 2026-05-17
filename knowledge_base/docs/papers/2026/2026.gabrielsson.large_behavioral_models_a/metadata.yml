@@ -1,0 +1,19 @@
+title: "Large Behavioral Models: A Foundation Model Paradigm for Human Actions"
+algorithm:
+authors:
+  - Rickard Brüel Gabrielsson
+year: 2026
+source: Unbox AI Research Blog
+type: Preprint
+doi:
+arxiv_id:
+tags:
+  - Foundation models
+abstract: >
+  We introduce Large Behavioral Models (LBMs)—foundation models trained on chronological sequences of human actions. BehaviorGPT, a frontier LBM, delivers double-digit sales uplift for retailers and payment companies.
+summary: >
+  This paper contributes to foundation models; its abstract emphasizes We introduce Large Behavioral Models (LBMs)—foundation models trained on chronological sequences of human actions. BehaviorGPT, a frontier LBM, delivers double-digit sales uplift for retailers and payment companies.
+link: https://research.unboxai.com/large-behavioral-models.pdf
+links_alt:
+  - https://research.unboxai.com/large-behavioral-models.html
+audit_status: raw

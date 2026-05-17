@@ -1,0 +1,21 @@
+title: Identification for Long-range Predictive Control
+algorithm:
+authors:
+  - D.S. Shook
+  - C. Mohtadi
+  - S.L. Shah
+year: 1991
+source: IEE Proceedings D Control Theory and Applications
+type: Journal Paper
+doi: 10.1049/ip-d.1991.0010
+arxiv_id:
+tags:
+  - Control theory
+abstract: >
+  The current generation of adaptive predictive controllers uses a standard single-step-ahead estimator with multi-step-ahead predictors. In order to obtain satisfactory results in applications, data are bandpass filtered before being used in the estimator. This paper demonstrates that the use of a standard RLS estimator with no data filtering frequently results in unstable closed loops if the parameters are used in a multi-step-ahead control scheme. A multi-step-ahead cost is introduced for parameter estimation as a dual of the control law. It is shown that the method is superior to the standard scheme. The frequency response properties of this estimator indicate that prefiltering of the data prevalent among the reported successful applications of the predictive controller is a natural outcome of this choice of the cost for the estimator scheme. The paper provides some useful guidelines for the choice of order and time constants of these filters.
+summary: >
+  This paper contributes to control theory; its abstract emphasizes The current generation of adaptive predictive controllers uses a standard single-step-ahead estimator with multi-step-ahead predictors. In order to obtain satisfactory results in applications, data are bandpass filtered .
+link: https://doi.org/10.1049/ip-d.1991.0010
+links_alt:
+  - https://digital-library.theiet.org/doi/abs/10.1049/ip-d.1991.0010
+audit_status: raw

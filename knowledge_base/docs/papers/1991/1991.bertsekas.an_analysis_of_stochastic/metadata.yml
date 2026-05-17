@@ -1,0 +1,20 @@
+title: An Analysis of Stochastic Shortest Path Problems
+algorithm:
+authors:
+  - Dimitri P. Bertsekas
+  - John N. Tsitsiklis
+year: 1991
+source: Mathematics of Operations Research
+type: Journal Paper
+doi: 10.1287/moor.16.3.580
+arxiv_id:
+tags:
+  - Statistics
+abstract: >
+  We consider a stochastic version of the classical shortest path problem whereby for each node of a graph, we must choose a probability distribution over the set of successor nodes so as to reach a certain destination node with minimum expected cost. The costs of transition between successive nodes can be positive as well as negative. We prove natural generalizations of the standard results for the deterministic shortest path problem, and we extend the corresponding theory for undiscounted finite state Markovian decision problems by removing the usual restriction that costs are either all nonnegative or all nonpositive.
+summary: >
+  This paper contributes to statistics; its abstract emphasizes We consider a stochastic version of the classical shortest path problem whereby for each node of a graph, we must choose a probability distribution over the set of successor nodes so as to reach a certain destination nod.
+link: https://doi.org/10.1287/moor.16.3.580
+links_alt:
+  - https://pubsonline.informs.org/doi/abs/10.1287/moor.16.3.580
+audit_status: raw

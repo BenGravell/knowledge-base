@@ -1,0 +1,21 @@
+title: >
+  BehaviorGPT at Work: A Foundation Model for Workforce Actions & Dynamics through Large Behavioral Modeling
+algorithm:
+authors:
+  - Rickard Brüel Gabrielsson
+  - Vasudev Gupta
+year: 2025
+source: Unbox AI Research Blog
+type: Preprint
+doi:
+arxiv_id:
+tags:
+  - Foundation models
+abstract: >
+  We applied language modeling techniques to detailed workforce behavioral data, creating BehaviorGPT-v2: a foundation model treating employee behaviors as a language to predict future actions and outcomes.
+summary: >
+  This paper contributes to foundation models; its abstract emphasizes We applied language modeling techniques to detailed workforce behavioral data, creating BehaviorGPT-v2: a foundation model treating employee behaviors as a language to predict future actions and outcomes.
+link: https://research.unboxai.com/behaviorgpt-foundation-model-workforce.pdf
+links_alt:
+  - https://research.unboxai.com/behaviorgpt-foundation-model-workforce.html
+audit_status: raw

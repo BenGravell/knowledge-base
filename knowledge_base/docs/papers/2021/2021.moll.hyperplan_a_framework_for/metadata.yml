@@ -1,0 +1,24 @@
+title: >
+  Hyperplan: A Framework for Motion Planning Algorithm Selection and Parameter Optimization
+algorithm:
+authors:
+  - Mark Moll
+  - Constantinos Chamzas
+  - Zachary Kingston
+  - Lydia E. Kavraki
+year: 2021
+source: 2021 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+type: Conference Paper
+doi: 10.1109/IROS51168.2021.9636651
+arxiv_id:
+tags:
+  - Robotics
+  - Motion planning
+abstract: >
+  Over the years, many motion planning algorithms have been proposed. It is often unclear which algorithm might be best suited for a particular class of problems. The problem is compounded by the fact that algorithm performance can be highly dependent on parameter settings. This paper shows that hyperparameter optimization is an effective tool in both algorithm selection and parameter tuning over a given set of motion planning problems. We present different loss functions for optimization that capture different notions of optimality. The approach is evaluated on a broad range of scenes using two different manipulators, a Fetch and a Baxter. We show that optimized planning algorithm performance significantly improves upon baseline performance and generalizes broadly in the sense that performance improvements carry over to problems that are very different from the ones considered during optimization.
+summary: >
+  This paper contributes to robotics, motion planning; its abstract emphasizes Over the years, many motion planning algorithms have been proposed. It is often unclear which algorithm might be best suited for a particular class of problems. The problem is compounded by the fact that algorithm perfor.
+link: https://doi.org/10.1109/IROS51168.2021.9636651
+links_alt:
+  - https://www.kavrakilab.org/publications/moll2021hyperplan.html
+audit_status: raw

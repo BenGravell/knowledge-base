@@ -1,0 +1,21 @@
+title: >
+  A Foundation Model for Consumption, Transactions, and Actions: The Inception of BehaviorGPT
+algorithm:
+authors:
+  - Rickard Brüel Gabrielsson
+year: 2025
+source: Unbox AI Research Blog
+type: Preprint
+doi:
+arxiv_id:
+tags:
+  - Foundation models
+abstract: >
+  We applied language modeling to rich grocery consumption data to build BehaviorGPT-v1, treating user consumption history as a language to predict future events.
+summary: >
+  This paper contributes to foundation models; its abstract emphasizes We applied language modeling to rich grocery consumption data to build BehaviorGPT-v1, treating user consumption history as a language to predict future events.
+link: >
+  https://research.unboxai.com/foundation-model-for-consumption-transactions-and-actions.pdf
+links_alt:
+  - https://research.unboxai.com/foundation-model-for-consumption-transactions-and-actions.html
+audit_status: raw

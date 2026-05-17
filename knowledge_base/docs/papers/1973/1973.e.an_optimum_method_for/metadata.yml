@@ -1,0 +1,19 @@
+title: An Optimum Method for Two-level Rendition for Continuous Tone Pictures
+algorithm: Bayer Ordered Dithering
+authors:
+  - B. E. Bayer
+year: 1973
+source: Proc. of IEEE Int'l Communication Conf., 1973
+type: Journal Paper
+doi:
+arxiv_id:
+tags:
+  - Dithering
+  - Image processing
+  - Bayer
+abstract: ''
+summary: >
+  This entry records An Optimum Method for Two-level Rendition for Continuous Tone Pictures and its contribution in research paper.
+link: https://cir.nii.ac.jp/crid/1573105975705169408?lang=en
+links_alt:
+audit_status: raw

@@ -1,0 +1,21 @@
+title: Automatic Online Calibration of Cameras and Lasers
+algorithm:
+authors:
+  - Jesse Levinson
+  - Sebastian Thrun
+year: 2013
+source: 'Robotics: Science and Systems IX'
+type: Conference Paper
+doi: 10.15607/rss.2013.ix.029
+arxiv_id:
+tags:
+  - Autonomous driving
+  - Motion planning
+abstract: >
+  The combined use of 3D scanning lasers with 2D cameras has become increasingly popular in mobile robotics, as the sparse depth measurements of the former augment the dense color information of the latter. Sensor fusion requires precise 6-DOF transforms between the sensors, but hand-measuring these values is tedious and inaccurate. In addition, autonomous robots can be rendered inoperable if their sensors' calibrations change over time. Yet previously published camera-laser calibration algorithms are offline only, requiring significant amounts of data and/or specific calibration targets; they are thus unable to correct calibration errors that occur during live operation.
+summary: >
+  This paper contributes to autonomous driving, motion planning; its abstract emphasizes The combined use of 3D scanning lasers with 2D cameras has become increasingly popular in mobile robotics, as the sparse depth measurements of the former augment the dense color information of the latter. Sensor fusion r.
+link: http://driving.stanford.edu/papers/RSS2013.pdf
+links_alt:
+  - https://doi.org/10.15607/rss.2013.ix.029
+audit_status: raw

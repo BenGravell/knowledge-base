@@ -1,0 +1,20 @@
+title: "BehaviorGPT for Visual Art: A Foundation Model for Aesthetics"
+algorithm:
+authors:
+  - Rickard Brüel Gabrielsson
+  - Vasudev Gupta
+year: 2025
+source: Unbox AI Research Blog
+type: Preprint
+doi:
+arxiv_id:
+tags:
+  - Foundation models
+abstract: >
+  We introduce BehaviorGPT-v3, the first behavioral foundation model for visual art and aesthetics. Trained on 215 billion human interactions across major art and design platforms.
+summary: >
+  This paper contributes to foundation models; its abstract emphasizes We introduce BehaviorGPT-v3, the first behavioral foundation model for visual art and aesthetics. Trained on 215 billion human interactions across major art and design platforms.
+link: https://research.unboxai.com/behaviorgpt-visual-art-and-aesthetics.pdf
+links_alt:
+  - https://research.unboxai.com/behaviorgpt-visual-art-and-aesthetics.html
+audit_status: raw

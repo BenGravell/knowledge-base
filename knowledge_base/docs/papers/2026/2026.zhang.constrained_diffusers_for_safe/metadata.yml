@@ -1,0 +1,22 @@
+title: Constrained Diffusers for Safe Planning and Control
+algorithm:
+authors:
+  - Jichen Zhang
+  - Liqun Zhao
+  - Antonis Papachristodoulou
+  - Jack Umenberger
+year: 2026
+source: Advances in Neural Information Processing Systems
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+  - Research paper
+abstract: ''
+summary: >
+  This entry records Constrained Diffusers for Safe Planning and Control and its contribution in research paper.
+link: >
+  https://proceedings.neurips.cc/paper_files/paper/2025/file/31fb284a0aaaad837d2930a610cd5e50-Paper-Conference.pdf
+links_alt:
+  - https://proceedings.neurips.cc/paper_files/paper/2025/hash/31fb284a0aaaad837d2930a610cd5e50-Abstract-Conference.html
+audit_status: raw

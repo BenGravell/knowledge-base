@@ -1,0 +1,23 @@
+title: Optimal Sampling-based Planning for Linear-quadratic Kinodynamic Systems
+algorithm:
+authors:
+  - Gustavo Goretkin
+  - Alejandro Perez
+  - Robert Platt
+  - George Konidaris
+year: 2013
+source: 2013 IEEE International Conference on Robotics and Automation
+type: Conference Paper
+doi: 10.1109/icra.2013.6630907
+arxiv_id:
+tags:
+  - Robotics
+  - Motion planning
+abstract: >
+  We propose a new method for applying RRT* to kinodynamic motion planning problems by using finite-horizon linear quadratic regulation (LQR) to measure cost and to extend the tree. First, we introduce the method in the context of arbitrary affine dynamical systems with quadratic costs. For these systems, the algorithm is shown to converge to optimal solutions almost surely. Second, we extend the algorithm to non-linear systems with non-quadratic costs, and demonstrate its performance experimentally.
+summary: >
+  This paper contributes to robotics, motion planning; its abstract emphasizes We propose a new method for applying RRT* to kinodynamic motion planning problems by using finite-horizon linear quadratic regulation (LQR) to measure cost and to extend the tree. First, we introduce the method in the co.
+link: https://lis.csail.mit.edu/pubs/goretkin-icra13.pdf
+links_alt:
+  - https://doi.org/10.1109/icra.2013.6630907
+audit_status: raw

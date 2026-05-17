@@ -1,0 +1,19 @@
+title: A Regularized Newton Method without Line Search for Unconstrained Optimization
+algorithm:
+authors:
+  - Kenji Ueda
+  - Nobuo Yamashita
+year: 2014
+source: Computational Optimization and Applications
+type: Journal Paper
+doi: 10.1007/s10589-014-9656-x
+arxiv_id:
+tags:
+  - Mathematics
+abstract: ''
+summary: >
+  This entry records A Regularized Newton Method Without Line Search for Unconstrained Optimization and its contribution in mathematics.
+link: https://www.amp.i.kyoto-u.ac.jp/tecrep/ps_file/2009/2009-007.pdf
+links_alt:
+  - https://doi.org/10.1007/s10589-014-9656-x
+audit_status: raw
