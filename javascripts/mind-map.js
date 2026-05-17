@@ -120,6 +120,7 @@
   let cachedPaperNodeRadius = PAPER_NODE_RADIUS_TARGET;
   let visibleNodeCount = 0;
   let visibleEdgeCount = 0;
+  let searchMatchCount = 0;
 
   /* -------------------------------------------------------------------------
    * Utility
@@ -1174,6 +1175,7 @@
       if (nodeVisible(node) && nodeMatchesSearch(attrs)) nodes.add(node);
     });
 
+    searchMatchCount = nodes.size;
     focus = {
       active: currentSearch.length > 0,
       nodes,
@@ -1192,9 +1194,20 @@
     }
   }
 
+  function countSearchMatches() {
+    if (!graph || !currentSearch) return 0;
+
+    let matches = 0;
+    graph.forEachNode((node, attrs) => {
+      if (nodeVisible(node) && nodeMatchesSearch(attrs)) matches += 1;
+    });
+    return matches;
+  }
+
   function refreshView() {
     cachedPaperNodeRadius = paperNodeRadiusForCurrentView();
     recomputeVisibleStats();
+    searchMatchCount = countSearchMatches();
     recomputeFocus();
     if (renderer) renderer.scheduleRefresh();
     updateStats();
@@ -1834,6 +1847,13 @@
     document.getElementById('mm-edge-count').textContent = visibleEdgeCount;
     const levelLabel = document.getElementById('mm-level-label');
     if (levelLabel) levelLabel.textContent = detailLevelLabel(currentDetailLevel, true);
+    const searchCount = document.getElementById('mm-search-count');
+    if (searchCount) {
+      searchCount.hidden = !currentSearch;
+      searchCount.textContent = currentSearch
+        ? ` · ${searchMatchCount} ${searchMatchCount === 1 ? 'match' : 'matches'}`
+        : '';
+    }
   }
 
   /* -------------------------------------------------------------------------
@@ -1972,6 +1992,43 @@
     return finalBBoxes(bboxes);
   }
 
+  function minimumPointDistance(points) {
+    if (!Array.isArray(points) || points.length < 2) return Infinity;
+
+    const sorted = points
+      .filter(p => Number.isFinite(p.x) && Number.isFinite(p.y))
+      .sort((a, b) => a.x - b.x || a.y - b.y);
+
+    if (sorted.length < 2) return Infinity;
+
+    let minDistSq = Infinity;
+    let left = 0;
+
+    for (let i = 0; i < sorted.length; i += 1) {
+      const p = sorted[i];
+      const currentMin = Number.isFinite(minDistSq) ? Math.sqrt(minDistSq) : Infinity;
+
+      while (left < i && Number.isFinite(currentMin) && p.x - sorted[left].x > currentMin) {
+        left += 1;
+      }
+
+      for (let j = left; j < i; j += 1) {
+        const q = sorted[j];
+        const dy = p.y - q.y;
+        if (dy * dy >= minDistSq) continue;
+
+        const dx = p.x - q.x;
+        const distSq = dx * dx + dy * dy;
+        if (distSq < minDistSq) {
+          if (distSq === 0) return 0;
+          minDistSq = distSq;
+        }
+      }
+    }
+
+    return Number.isFinite(minDistSq) ? Math.sqrt(minDistSq) : Infinity;
+  }
+
   function minimumVisibleGraphDistance() {
     if (!graph) return Infinity;
 
@@ -1981,19 +2038,7 @@
       points.push({ x: attrs.x, y: attrs.y });
     });
 
-    let minDistance = Infinity;
-    for (let i = 0; i < points.length; i += 1) {
-      const a = points[i];
-      for (let j = i + 1; j < points.length; j += 1) {
-        const b = points[j];
-        const dx = a.x - b.x;
-        const dy = a.y - b.y;
-        const d = Math.sqrt(dx * dx + dy * dy);
-        if (d < minDistance) minDistance = d;
-      }
-    }
-
-    return minDistance;
+    return minimumPointDistance(points);
   }
 
   function minimumVisiblePaperGraphDistance() {
@@ -2005,19 +2050,7 @@
       points.push({ x: attrs.x, y: attrs.y });
     });
 
-    let minDistance = Infinity;
-    for (let i = 0; i < points.length; i += 1) {
-      const a = points[i];
-      for (let j = i + 1; j < points.length; j += 1) {
-        const b = points[j];
-        const dx = a.x - b.x;
-        const dy = a.y - b.y;
-        const d = Math.sqrt(dx * dx + dy * dy);
-        if (d < minDistance) minDistance = d;
-      }
-    }
-
-    return minDistance;
+    return minimumPointDistance(points);
   }
 
   function minimumVisibleScreenDistance(cameraState) {
@@ -2033,19 +2066,7 @@
       points.push(p);
     });
 
-    let minDistance = Infinity;
-    for (let i = 0; i < points.length; i += 1) {
-      const a = points[i];
-      for (let j = i + 1; j < points.length; j += 1) {
-        const b = points[j];
-        const dx = a.x - b.x;
-        const dy = a.y - b.y;
-        const d = Math.sqrt(dx * dx + dy * dy);
-        if (d < minDistance) minDistance = d;
-      }
-    }
-
-    return minDistance;
+    return minimumPointDistance(points);
   }
 
   function fitVisible(duration) {
@@ -2506,20 +2527,50 @@
   function setupControls() {
     const slider = document.getElementById('mm-threshold-slider');
     const label = document.getElementById('mm-threshold-val');
+    let thresholdRaf = null;
+    let pendingThreshold = currentThreshold;
     slider.value = Math.round(currentThreshold * 100);
     label.textContent = currentThreshold.toFixed(2);
     slider.addEventListener('input', e => {
       const t = parseInt(e.target.value, 10) / 100;
       label.textContent = t.toFixed(2);
-      applyThreshold(t);
+      pendingThreshold = t;
+      if (thresholdRaf !== null) return;
+
+      thresholdRaf = window.requestAnimationFrame(() => {
+        thresholdRaf = null;
+        applyThreshold(pendingThreshold);
+      });
     });
 
     const search = document.getElementById('mm-search');
+    const clearSearch = document.getElementById('mm-search-clear');
     let debounce;
+    function updateSearchClearButton() {
+      if (clearSearch) clearSearch.hidden = !search.value;
+    }
     search.addEventListener('input', e => {
       clearTimeout(debounce);
+      updateSearchClearButton();
       debounce = setTimeout(() => applySearch(e.target.value), 180);
     });
+    search.addEventListener('keydown', e => {
+      if (e.key !== 'Escape' || !search.value) return;
+      clearTimeout(debounce);
+      search.value = '';
+      updateSearchClearButton();
+      applySearch('');
+    });
+    if (clearSearch) {
+      clearSearch.addEventListener('click', () => {
+        clearTimeout(debounce);
+        search.value = '';
+        updateSearchClearButton();
+        applySearch('');
+        search.focus();
+      });
+    }
+    updateSearchClearButton();
 
     document.getElementById('mm-all-cats').addEventListener('click', () => {
       document.querySelectorAll('#mm-category-filters input[data-cat]').forEach(cb => {
