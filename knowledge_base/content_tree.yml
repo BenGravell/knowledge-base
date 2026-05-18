@@ -970,10 +970,10 @@
             - Derivative-Free Methods for Policy Optimization: docs/papers/2018/1812.08305/metadata.yml
           - Policy Gradient:
             - REINFORCE: docs/papers/1992/1992.williams.simple_statistical_gradient_following/metadata.yml
-            - "Policy Gradient Methods for Reinforcement Learning with Function Approximation": docs/papers/1999/1999.sutton.policy_gradient_methods_for/metadata.yml
+            - Policy Gradient with Function Approximation: docs/papers/1999/1999.sutton.policy_gradient_methods_for/metadata.yml
             - Direct Gradient-Based Reinforcement Learning: docs/papers/2000/2000.baxter.direct_gradient_based_reinforcement/metadata.yml
             - Natural Policy Gradient: docs/papers/2001/2001.kakade.a_natural_policy_gradient/metadata.yml
-            - "Natural Policy Gradient as Doubly Smoothed Policy Iteration: A Bellman-Operator Framework": docs/papers/2026/2605.10671/metadata.yml
+            - Natural Policy Gradient as Doubly Smoothed Policy Iteration: docs/papers/2026/2605.10671/metadata.yml
             - Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies: docs/papers/2022/2210.04810/metadata.yml
             - HOOF: docs/papers/2019/1902.06583/metadata.yml
             - "Evolution Strategies as a Scalable Alternative to Reinforcement Learning": docs/papers/2017/1703.03864/metadata.yml
@@ -981,7 +981,7 @@
             - "On Linear Convergence of Policy Gradient Methods for Finite MDPs": docs/papers/2020/2007.11120/metadata.yml
             - "On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift": docs/papers/2019/1908.00261/metadata.yml
             - "On-Policy Distillation of Language Models for Autonomous Vehicle Motion Planning": docs/papers/2026/2604.07944/metadata.yml
-            - "PAGE-PG": docs/papers/2022/2202.00308/metadata.yml
+            - PAGE-PG: docs/papers/2022/2202.00308/metadata.yml
             - "Stochastic Variance-Reduced Policy Gradient": docs/papers/2018/1806.05618/metadata.yml
             - An Improved Analysis of Variance-Reduced Policy Gradient and Natural Policy Gradient Methods: docs/papers/2022/2211.07937/metadata.yml
             - "The Definitive Guide to Policy Gradients in Deep Reinforcement Learning: Theory, Algorithms and Implementations": docs/papers/2024/2401.13662/metadata.yml
@@ -989,7 +989,6 @@
             - "Do Differentiable Simulators Give Better Policy Gradients?": docs/papers/2022/2202.00817/metadata.yml
             - "A Large Deviations Perspective on Policy Gradient Algorithms": docs/papers/2023/2311.07411/metadata.yml
             - "Stochastic Recursive Momentum for Policy Gradient Methods": docs/papers/2020/2003.04302/metadata.yml
-            - "Guided Cost Learning: Deep Inverse Optimal Control via Policy Optimization": docs/papers/2016/1603.00448/metadata.yml
             - "Stochastic Variance Reduction Methods for Policy Evaluation": docs/papers/2017/1702.07944/metadata.yml
             - "Unifying PAC and Regret: Uniform PAC Bounds for Episodic Reinforcement Learning": docs/papers/2017/1703.07710/metadata.yml
             - "Policy Gradient Methods for Reinforcement Learning with Function Approximation and Action-Dependent Baselines": docs/papers/2017/1706.06643/metadata.yml
@@ -1159,6 +1158,7 @@
         - "Inverse Optimization: Theory and Applications": docs/papers/2021/2109.03920/metadata.yml
         - Inverse LQR: docs/papers/2019/2019.zhang.inverse_optimal_control_for/metadata.yml
         - Inverse Quadratic Optimal Control: docs/papers/2018/1810.12590/metadata.yml
+        - "Guided Cost Learning: Deep Inverse Optimal Control via Policy Optimization": docs/papers/2016/1603.00448/metadata.yml
         - "Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors": docs/papers/2025/2508.07400/metadata.yml
         - "A Connection between Generative Adversarial Networks, Inverse Reinforcement Learning, and Energy-Based Models": docs/papers/2016/1611.03852/metadata.yml
         - "Learning Robust Rewards with Adversarial Inverse Reinforcement Learning": docs/papers/2017/1710.11248/metadata.yml
