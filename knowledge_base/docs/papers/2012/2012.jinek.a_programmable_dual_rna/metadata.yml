@@ -1,0 +1,32 @@
+title: "A Programmable Dual-RNA-Guided DNA Endonuclease in Adaptive Bacterial Immunity"
+algorithm: CRISPR-Cas9
+authors:
+  - Martin Jinek
+  - Krzysztof Chylinski
+  - Ines Fonfara
+  - Michael Hauer
+  - Jennifer A. Doudna
+  - Emmanuelle Charpentier
+year: 2012
+source: Science
+type: Journal Paper
+doi: 10.1126/science.1225829
+arxiv_id:
+tags:
+  - CRISPR-Cas9
+  - Genome editing
+  - RNA-guided nuclease
+  - Adaptive immunity
+  - Molecular biology
+  - Genetic engineering
+  - Programmable biology
+abstract: >
+  Clustered regularly interspaced short palindromic repeats (CRISPR)/CRISPR-associated (Cas) systems provide bacteria and archaea with adaptive immunity against viruses and plasmids by using CRISPR RNAs (crRNAs) to guide the silencing of invading nucleic acids. We show here that in a subset of these systems, the mature crRNA that is base-paired to trans-activating crRNA (tracrRNA) forms a two-RNA structure that directs the CRISPR-associated protein Cas9 to introduce double-stranded (ds) breaks in target DNA. At sites complementary to the crRNA-guide sequence, the Cas9 HNH nuclease domain cleaves the complementary strand, whereas the Cas9 RuvC-like domain cleaves the noncomplementary strand. The dual-tracrRNA:crRNA, when engineered as a single RNA chimera, also directs sequence-specific Cas9 dsDNA cleavage. Our study reveals a family of endonucleases that use dual-RNAs for site-specific DNA cleavage and highlights the potential to exploit the system for RNA-programmable genome editing.
+summary: >
+  Defines Cas9 as a programmable RNA-guided DNA endonuclease and shows that a single engineered guide RNA can target sequence-specific double-strand breaks.
+link: https://www.science.org/doi/10.1126/science.1225829
+links_alt:
+  - https://doi.org/10.1126/science.1225829
+  - https://pmc.ncbi.nlm.nih.gov/articles/PMC6286148/
+  - https://pubmed.ncbi.nlm.nih.gov/22745249/
+audit_status: raw

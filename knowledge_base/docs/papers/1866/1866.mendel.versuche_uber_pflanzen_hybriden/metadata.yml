@@ -1,0 +1,26 @@
+title: "Versuche Über Pflanzen-Hybriden"
+algorithm: Mendelian Inheritance
+authors:
+  - Gregor Mendel
+year: 1866
+source: Verhandlungen des Naturforschenden Vereines in Brunn
+type: Journal Paper
+doi: 10.5962/bhl.title.61004
+arxiv_id:
+tags:
+  - Genetics
+  - Mendelian inheritance
+  - Heredity
+  - Segregation
+  - Dominance
+  - Hybridization
+  - Variation
+  - Evolutionary algorithms
+abstract: ''
+summary: >
+  Establishes the particulate inheritance model through controlled pea-plant crosses, showing that traits segregate and recombine according to regular statistical patterns. It supplies the genotype-level mechanism that later made biological evolution and genotype-based evolutionary algorithms mathematically crisp.
+link: https://www.biodiversitylibrary.org/bibliography/61004
+links_alt:
+  - https://doi.org/10.5962/bhl.title.61004
+  - http://www.mendelweb.org/Mendel.html
+audit_status: raw

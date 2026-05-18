@@ -1,5 +1,5 @@
 title: Motions in Microseconds via Vectorized Sampling-Based Planning
-algorithm:
+algorithm: VAMP
 authors:
   - Wil Thomason
   - Zachary Kingston

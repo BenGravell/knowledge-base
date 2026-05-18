@@ -1,5 +1,5 @@
 title: A Dichromatic Framework for Balanced Trees
-algorithm:
+algorithm: Red-black Tree
 authors:
   - Leo J. Guibas
   - Robert Sedgewick

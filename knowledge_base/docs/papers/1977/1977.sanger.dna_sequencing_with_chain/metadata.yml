@@ -1,0 +1,28 @@
+title: "DNA Sequencing with Chain-Terminating Inhibitors"
+algorithm: DNA Sequencing
+authors:
+  - Frederick Sanger
+  - Steven Nicklen
+  - Alan R. Coulson
+year: 1977
+source: Proceedings of the National Academy of Sciences
+type: Journal Paper
+doi: 10.1073/pnas.74.12.5463
+arxiv_id:
+tags:
+  - DNA sequencing
+  - Sanger sequencing
+  - Chain termination
+  - Genomics
+  - Molecular biology
+  - Genetic information
+  - Genome analysis
+abstract: >
+  A new method for determining nucleotide sequences in DNA is described. It is similar to the "plus and minus" method [Sanger, F. & Coulson, A. R. (1975) J. Mol. Biol. 94, 441-448] but makes use of the 2',3'-dideoxy and arabinonucleoside analogues of the normal deoxynucleoside triphosphates, which act as specific chain-terminating inhibitors of DNA polymerase. The technique has been applied to the DNA of bacteriophage phiX174 and is more rapid and more accurate than either the plus or the minus method.
+summary: >
+  Introduces the dideoxy chain-termination method for reading DNA sequence, turning hereditary material into data that could be inspected, compared, and eventually scaled to whole genomes. It is a key bridge from abstract genetic variation to measured genotype space.
+link: https://www.pnas.org/doi/10.1073/pnas.74.12.5463
+links_alt:
+  - https://doi.org/10.1073/pnas.74.12.5463
+  - https://pmc.ncbi.nlm.nih.gov/articles/PMC431765/
+audit_status: raw

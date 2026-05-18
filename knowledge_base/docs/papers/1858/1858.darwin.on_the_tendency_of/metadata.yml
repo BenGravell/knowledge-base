@@ -1,0 +1,26 @@
+title: "On the Tendency of Species to Form Varieties; and on the Perpetuation of Varieties and Species by Natural Means of Selection"
+algorithm: Natural Selection
+authors:
+  - Charles Darwin
+  - Alfred Russel Wallace
+year: 1858
+source: Journal of the Proceedings of the Linnean Society of London.
+type: Journal Paper
+doi: 10.1111/j.1096-3642.1858.tb02500.x
+arxiv_id:
+tags:
+  - Evolution
+  - Natural selection
+  - Heritable variation
+  - Adaptation
+  - Speciation
+  - Evolutionary theory
+  - Evolutionary algorithms
+abstract: ''
+summary: >
+  Presents the joint Darwin-Wallace announcement of evolution by natural selection: heritable variation, struggle for existence, and differential survival can accumulate adaptations and produce new species.
+link: https://academic.oup.com/zoolinnean/article/3/9/45/2645875
+links_alt:
+  - https://doi.org/10.1111/j.1096-3642.1858.tb02500.x
+  - https://www.linnean.org/news/2018/07/01/1st-july-2018-160th-anniversary-of-the-presentation-of-on-the-tendency-of-species-to-form-varieties
+audit_status: raw
