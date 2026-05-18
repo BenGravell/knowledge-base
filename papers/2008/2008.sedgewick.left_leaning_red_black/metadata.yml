@@ -1,0 +1,26 @@
+title: "Left-Leaning Red-Black Trees"
+algorithm: Left-Leaning Red-Black Tree
+authors:
+  - Robert Sedgewick
+year: 2008
+source: Princeton University
+type: Technical Report
+doi:
+arxiv_id:
+tags:
+  - Balanced search trees
+  - Red-black trees
+  - Left-leaning red-black trees
+  - Symbol tables
+  - Data structures
+  - Algorithms
+  - Deletion algorithms
+abstract: >
+  The red-black tree model for implementing balanced search trees, introduced by Guibas and Sedgewick thirty years ago, is now found throughout our computational infrastructure. Red-black trees are described in standard textbooks and are the underlying data structure for symbol-table implementations within C++, Java, Python, BSD Unix, and many other modern systems. However, many of these implementations have sacrificed some of the original design goals (primarily in order to develop an effective implementation of the delete operation, which was incompletely specified in the original paper), so a new look is worthwhile. In this paper, we describe a new variant of red-black trees that meets many of the original design goals and leads to substantially simpler code for insert/delete, less than one-fourth as much code as in implementations in common use.
+summary: >
+  Sedgewick presents left-leaning red-black trees, a red-black representation that forces 3-nodes to lean left and uses recursive rotations on the way back up the tree. The payoff is much shorter insertion and deletion code while preserving logarithmic search behavior and the ordered-symbol-table operations that make balanced trees useful.
+link: https://sedgewick.io/wp-content/themes/sedgewick/papers/2008LLRB.pdf
+links_alt:
+  - https://www.semanticscholar.org/paper/4ba2ce0bf04ef8145eceeca3f53cc8c3b7c02fcb
+  - https://pdfs.semanticscholar.org/80d8/531ce3c7ad5dbf18e659addb71ed3539f395.pdf
+audit_status: raw

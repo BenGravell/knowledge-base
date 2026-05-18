@@ -12,12 +12,13 @@ window.timelineData = {
       "source": "Letters Patent No. 4081",
       "type": "Other",
       "superCategory": "Foundations",
-      "category": "History",
-      "subCategory": "The Stirling Engine of 1816",
+      "category": "Engineering Systems",
+      "subCategory": "Stirling Engines",
       "path": [
         "Content Tree",
         "Foundations",
-        "History",
+        "Engineering Systems",
+        "Stirling Engines",
         "The Stirling Engine of 1816"
       ],
       "tags": [
@@ -92,7 +93,7 @@ window.timelineData = {
         "Regeneration Theory"
       ],
       "tags": [],
-      "abstract": "Abstract The following is an explanation of the circumstances which led the author to write his 1932 paper on the “Regeneration Theory.”",
+      "abstract": "The following is an explanation of the circumstances which led the author to write his 1932 paper on the “Regeneration Theory.”",
       "summary": "",
       "url": "../papers/1932_nyquist_regeneration_theory/",
       "contentTreeUrl": "../content-tree/#paper=1932_nyquist_regeneration_theory",
@@ -730,6 +731,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Architectures",
         "Perceptron"
       ],
       "tags": [],
@@ -738,6 +740,41 @@ window.timelineData = {
       "url": "../papers/1958_rosenblatt_the_perceptron_a_probabilistic/",
       "contentTreeUrl": "../content-tree/#paper=1958_rosenblatt_the_perceptron_a_probabilistic",
       "mindMapUrl": "../mind-map/#paper=1958_rosenblatt_the_perceptron_a_probabilistic"
+    },
+    {
+      "id": "1959_bellman_on_adaptive_control_processes",
+      "label": "On Adaptive Control Processes",
+      "title": "On Adaptive Control Processes",
+      "authors": [
+        "Richard Bellman",
+        "Robert Kalaba"
+      ],
+      "authorShort": "Bellman, Kalaba",
+      "year": 1959,
+      "source": "IRE Transactions on Automatic Control",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Control Theory",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Control",
+        "Control Theory",
+        "On Adaptive Control Processes"
+      ],
+      "tags": [
+        "Adaptive control",
+        "Dynamic programming",
+        "Stochastic control",
+        "Sequential decision making",
+        "Control theory"
+      ],
+      "abstract": "",
+      "summary": "Bellman and Kalaba frame adaptive control as a dynamic programming problem in which control policies must account for learning and uncertainty during operation. The paper is an early bridge between optimal control, sequential decision processes, and adaptive control, and helped set the vocabulary later used in stochastic and learning-based control.",
+      "url": "../papers/1959_bellman_on_adaptive_control_processes/",
+      "contentTreeUrl": "../content-tree/#paper=1959_bellman_on_adaptive_control_processes",
+      "mindMapUrl": "../mind-map/#paper=1959_bellman_on_adaptive_control_processes"
     },
     {
       "id": "1959_dijkstra_a_note_on_two",
@@ -1010,7 +1047,7 @@ window.timelineData = {
         "Ward's Method"
       ],
       "tags": [],
-      "abstract": "Abstract A procedure for forming hierarchical groups of mutually exclusive subsets, each of which has members that are maximally similar with respect to specified characteristics, is suggested for use in large-scale (n > 100) studies when a precise optimal solution for a specified number of groups is not practical. Given n sets, this procedure permits their reduction to n − 1 mutually exclusive sets by considering the union of all possible n(n − 1)/2 pairs and selecting a union having a maximal value for the functional relation, or objective function, that reflects the criterion chosen by the investigator. By repeating this process until only one group remains, the complete hierarchical structure and a quantitative estimate of the loss associated with each stage in the grouping can be obtained. A general flowchart helpful in computer programming and a numerical example are included.",
+      "abstract": "A procedure for forming hierarchical groups of mutually exclusive subsets, each of which has members that are maximally similar with respect to specified characteristics, is suggested for use in large-scale (n > 100) studies when a precise optimal solution for a specified number of groups is not practical. Given n sets, this procedure permits their reduction to n − 1 mutually exclusive sets by considering the union of all possible n(n − 1)/2 pairs and selecting a union having a maximal value for the functional relation, or objective function, that reflects the criterion chosen by the investigator. By repeating this process until only one group remains, the complete hierarchical structure and a quantitative estimate of the loss associated with each stage in the grouping can be obtained. A general flowchart helpful in computer programming and a numerical example are included.",
       "summary": "",
       "url": "../papers/1963_ward_hierarchical_grouping_to_optimize/",
       "contentTreeUrl": "../content-tree/#paper=1963_ward_hierarchical_grouping_to_optimize",
@@ -1204,6 +1241,7 @@ window.timelineData = {
         "Foundations",
         "Mathematics",
         "Linear Algebra & Signal Processing",
+        "Fourier Transforms",
         "Cooley-Tukey FFT"
       ],
       "tags": [],
@@ -2055,7 +2093,7 @@ window.timelineData = {
         "Convergence Conditions for Ascent Methods. II: Some Corrections"
       ],
       "tags": [],
-      "abstract": "Some corrections and amplifications are appended to 'Convergence conditions for ascent methods' (1969).",
+      "abstract": "Some corrections and amplifications are appended to Convergence conditions for ascent methods, this Review, 11 (1969), pp. 226-235.",
       "summary": "Corrections to 'Convergence Conditions for Ascent Methods' (https://epubs.siam.org/doi/10.1137/1011036).",
       "url": "../papers/1971_wolfe_convergence_conditions_for_ascent/",
       "contentTreeUrl": "../content-tree/#paper=1971_wolfe_convergence_conditions_for_ascent",
@@ -2284,6 +2322,41 @@ window.timelineData = {
       "url": "../papers/1973_astrom_on_self_tuning_regulators/",
       "contentTreeUrl": "../content-tree/#paper=1973_astrom_on_self_tuning_regulators",
       "mindMapUrl": "../mind-map/#paper=1973_astrom_on_self_tuning_regulators"
+    },
+    {
+      "id": "1973_e_an_optimum_method_for",
+      "label": "An Optimum Method for Two-level Rendition for Continuous Tone Pictures",
+      "title": "An Optimum Method for Two-Level Rendition of Continuous-Tone Pictures",
+      "authors": [
+        "Bryce E. Bayer"
+      ],
+      "authorShort": "Bayer",
+      "year": 1973,
+      "source": "IEEE International Conference on Communications",
+      "type": "Conference Paper",
+      "superCategory": "Evaluation",
+      "category": "Computer Graphics",
+      "subCategory": "Noise & Dithering",
+      "path": [
+        "Content Tree",
+        "Evaluation",
+        "Computer Graphics",
+        "Noise & Dithering",
+        "An Optimum Method for Two-level Rendition for Continuous Tone Pictures"
+      ],
+      "tags": [
+        "Ordered dithering",
+        "Digital halftoning",
+        "Dither matrices",
+        "Image processing",
+        "Computer graphics",
+        "Bilevel rendering"
+      ],
+      "abstract": "",
+      "summary": "Bayer introduces the ordered dithering construction now associated with Bayer matrices, giving a deterministic way to render continuous-tone images on bilevel devices. The work became a foundational reference for digital halftoning because it turns tone reproduction into a spatial threshold-pattern design problem rather than a purely local quantization rule.",
+      "url": "../papers/1973_e_an_optimum_method_for/",
+      "contentTreeUrl": "../content-tree/#paper=1973_e_an_optimum_method_for",
+      "mindMapUrl": "../mind-map/#paper=1973_e_an_optimum_method_for"
     },
     {
       "id": "1974_rall_a_note_on_the",
@@ -3017,7 +3090,7 @@ window.timelineData = {
         "A family of embedded Runge-Kutta formulae"
       ],
       "tags": [],
-      "abstract": "Abstract A family of embedded Runge-Kutta formulae RK5 (4) are derived. From these are presented formulae which have (a) 'small' principal truncation terms in the fifth order and (b) extended regions of absolute stability.",
+      "abstract": "A family of embedded Runge-Kutta formulae RK5 (4) are derived. From these are presented formulae which have (a) 'small' principal truncation terms in the fifth order and (b) extended regions of absolute stability.",
       "summary": "",
       "url": "../papers/1980_dormand_a_family_of_embedded/",
       "contentTreeUrl": "../content-tree/#paper=1980_dormand_a_family_of_embedded",
@@ -3281,6 +3354,45 @@ window.timelineData = {
       "url": "../papers/1983_barto_neuronlike_adaptive_elements_that/",
       "contentTreeUrl": "../content-tree/#paper=1983_barto_neuronlike_adaptive_elements_that",
       "mindMapUrl": "../mind-map/#paper=1983_barto_neuronlike_adaptive_elements_that"
+    },
+    {
+      "id": "1984_knott_on_the_optimal_mapping",
+      "label": "On the Optimal Mapping of Distributions",
+      "title": "On the Optimal Mapping of Distributions",
+      "authors": [
+        "Martin Knott",
+        "C. S. Smith"
+      ],
+      "authorShort": "Knott, Smith",
+      "year": 1984,
+      "source": "Journal of Optimization Theory and Applications",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Problem Classes",
+        "Optimal Transport",
+        "On the Optimal Mapping of Distributions"
+      ],
+      "tags": [
+        "Optimal transport",
+        "Distribution theory",
+        "Couplings",
+        "Wasserstein distance",
+        "Quadratic cost",
+        "Convex optimization"
+      ],
+      "abstract": "We consider the problem of mapping X->Y, where X and Y have given distributions, so as to minimize the expected value of |X-Y|^2. This is equivalent to finding the joint distribution of the random variable (X, Y), with specified marginal distributions for X and Y, such that the expected value of |X-Y|^2 is minimized. We give a sufficient condition for the minimizing joint distribution and supply numerical results for two special cases.",
+      "summary": "Knott and Smith study the quadratic-cost Monge problem as a question about constructing a joint distribution with prescribed marginals. The paper is an early optimal transport reference that anticipates later Wasserstein-map formulations by emphasizing sufficient optimality conditions and numerical examples for distribution mappings.",
+      "url": "../papers/1984_knott_on_the_optimal_mapping/",
+      "contentTreeUrl": "../content-tree/#paper=1984_knott_on_the_optimal_mapping",
+      "mindMapUrl": "../mind-map/#paper=1984_knott_on_the_optimal_mapping"
     },
     {
       "id": "1984_murray_differential_dynamic_programming_and",
@@ -3829,6 +3941,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Training Algorithms",
         "Backpropagation"
       ],
       "tags": [],
@@ -3861,7 +3974,7 @@ window.timelineData = {
         "Kinematic modeling of wheeled mobile robots"
       ],
       "tags": [],
-      "abstract": "AbstractWe formulate the kinematic equations of motion of wheeled mobile robots incorporating conventional, omnidirectional, and ball wheels.1 We extend the kinematic modeling of stationary manipulators to accommodate such special characteristics of wheeled mobile robots as multiple closed‐link chains, higher‐pair contact points between a wheel and a surface, and unactuated and unsensed wheel degrees of freedom. We apply the Sheth‐Uicker convention to assign coordinate axes and develop a matrix coordinate transformation algebra to derive the equations of motion. We introduce a wheel Jacobian matrix to relate the motions of each wheel to the motions of the robot. We then combine the individual wheel equations to obtain the composite robot equation of motion. We interpret the properties of the composite robot equation to characterize the mobility of a wheeled mobile robot according to a mobility characterization tree. Similarly, we apply actuation and sensing characterization trees to delineate the robot motions producible by the wheel actuators and discernible by the wheel sensors, respectively. We calculate the sensed forward and actuated inverse solutions and interpret the physical conditions which guarantee their existence. To illustrate the development, we formulate and interpret the kinematic equations of motion of Uranus, a wheeled mobile robot being constructed in the CMU Mobile Robot Laboratory.",
+      "abstract": "We formulate the kinematic equations of motion of wheeled mobile robots incorporating conventional, omnidirectional, and ball wheels.1 We extend the kinematic modeling of stationary manipulators to accommodate such special characteristics of wheeled mobile robots as multiple closed‐link chains, higher‐pair contact points between a wheel and a surface, and unactuated and unsensed wheel degrees of freedom. We apply the Sheth‐Uicker convention to assign coordinate axes and develop a matrix coordinate transformation algebra to derive the equations of motion. We introduce a wheel Jacobian matrix to relate the motions of each wheel to the motions of the robot. We then combine the individual wheel equations to obtain the composite robot equation of motion. We interpret the properties of the composite robot equation to characterize the mobility of a wheeled mobile robot according to a mobility characterization tree. Similarly, we apply actuation and sensing characterization trees to delineate the robot motions producible by the wheel actuators and discernible by the wheel sensors, respectively. We calculate the sensed forward and actuated inverse solutions and interpret the physical conditions which guarantee their existence. To illustrate the development, we formulate and interpret the kinematic equations of motion of Uranus, a wheeled mobile robot being constructed in the CMU Mobile Robot Laboratory.",
       "summary": "",
       "url": "../papers/1987_muir_kinematic_modeling_of_wheeled/",
       "contentTreeUrl": "../content-tree/#paper=1987_muir_kinematic_modeling_of_wheeled",
@@ -4627,6 +4740,38 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1991_verriest_on_the_linear_quadratic"
     },
     {
+      "id": "1991_shook_identification_for_long_range",
+      "label": "Identification for Long-range Predictive Control",
+      "title": "Identification for Long-range Predictive Control",
+      "authors": [
+        "D.S. Shook",
+        "C. Mohtadi",
+        "S.L. Shah"
+      ],
+      "authorShort": "Shook, Mohtadi, Shah",
+      "year": 1991,
+      "source": "IEE Proceedings D (Control Theory and Applications)",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Model Predictive Control (MPC)",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Control",
+        "Model Predictive Control (MPC)",
+        "Identification for Long-range Predictive Control"
+      ],
+      "tags": [
+        "Control theory"
+      ],
+      "abstract": "The current generation of adaptive predictive controllers uses a standard single-step-ahead estimator with multi-step-ahead predictors. In order to obtain satisfactory results in applications, data are bandpass filtered before being used in the estimator. This paper demonstrates that the use of a standard RLS estimator with no data filtering frequently results in unstable closed loops if the parameters are used in a multi-step-ahead control scheme. A multi-step-ahead cost is introduced for parameter estimation as a dual of the control law. It is shown that the method is superior to the standard scheme. The frequency response properties of this estimator indicate that prefiltering of the data prevalent among the reported successful applications of the predictive controller is a natural outcome of this choice of the cost for the estimator scheme. The paper provides some useful guidelines for the choice of order and time constants of these filters.",
+      "summary": "Examines why adaptive predictive controllers that combine single-step parameter estimation with multi-step prediction can become unstable without the bandpass filtering often used in practice. The paper introduces a multi-step-ahead identification cost aligned with the controller objective, showing how this estimator naturally produces the frequency-response behavior that earlier applications achieved through ad hoc prefiltering.",
+      "url": "../papers/1991_shook_identification_for_long_range/",
+      "contentTreeUrl": "../content-tree/#paper=1991_shook_identification_for_long_range",
+      "mindMapUrl": "../mind-map/#paper=1991_shook_identification_for_long_range"
+    },
+    {
       "id": "1991_davidon_variable_metric_method_for",
       "label": "DFP",
       "title": "Variable Metric Method for Minimization",
@@ -4732,6 +4877,38 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1991_lin_a_fast_algorithm_for"
     },
     {
+      "id": "1991_bertsekas_an_analysis_of_stochastic",
+      "label": "An Analysis of Stochastic Shortest Path Problems",
+      "title": "An Analysis of Stochastic Shortest Path Problems",
+      "authors": [
+        "Dimitri P. Bertsekas",
+        "John N. Tsitsiklis"
+      ],
+      "authorShort": "Bertsekas, Tsitsiklis",
+      "year": 1991,
+      "source": "Mathematics of Operations Research",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Dynamic Programming",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Dynamic Programming",
+        "Exact Dynamic Programming",
+        "An Analysis of Stochastic Shortest Path Problems"
+      ],
+      "tags": [
+        "Statistics"
+      ],
+      "abstract": "We consider a stochastic version of the classical shortest path problem whereby for each node of a graph, we must choose a probability distribution over the set of successor nodes so as to reach a certain destination node with minimum expected cost. The costs of transition between successive nodes can be positive as well as negative. We prove natural generalizations of the standard results for the deterministic shortest path problem, and we extend the corresponding theory for undiscounted finite state Markovian decision problems by removing the usual restriction that costs are either all nonnegative or all nonpositive.",
+      "summary": "Analysis of stochastic shortest path problems as undiscounted finite-state Markov decision problems with a destination state and potentially mixed-sign transition costs. The paper generalizes deterministic shortest-path theory and relaxes common sign restrictions from earlier undiscounted MDP analyses, making it a foundational reference for proper policies, termination, and dynamic programming in stochastic path problems.",
+      "url": "../papers/1991_bertsekas_an_analysis_of_stochastic/",
+      "contentTreeUrl": "../content-tree/#paper=1991_bertsekas_an_analysis_of_stochastic",
+      "mindMapUrl": "../mind-map/#paper=1991_bertsekas_an_analysis_of_stochastic"
+    },
+    {
       "id": "1991_freund_qmr_a_quasi_minimal",
       "label": "QMR",
       "title": "QMR: A Quasi-minimal Residual Method for Non-Hermitian Linear Systems",
@@ -4822,7 +4999,7 @@ window.timelineData = {
     {
       "id": "1992_pacejka_the_magic_formula_tyre",
       "label": "The Magic Formula Tyre Model",
-      "title": "THE MAGIC FORMULA TYRE MODEL",
+      "title": "The Magic Formula Tyre Model",
       "authors": [
         "Hans B. Pacejka",
         "Egbert Bakker"
@@ -4842,7 +5019,7 @@ window.timelineData = {
         "The Magic Formula Tyre Model"
       ],
       "tags": [],
-      "abstract": "Abstract An account is given of the latest version 3 of the Magic Formula tyre model. The model provides a set of mathematical formulae from which the forces and moment acting from road to tyre can be calculated at longitudinal, lateral and camber slip conditions, which may occur simultaneously. The model aims at an accurate description of measured steady-state tyre behaviour. The coefficients of the basic formula represent typifying quantities of the tyre characteristic. By selecting proper values, the characteristics for either side force, aligning torque or fore and aft force can be obtained. The new version of the model contains physically based formulations to avoid the introduction of correction factors. Double-sided, possibly non-symmetric pure slip curves are employed as the basis for combined slip calculations. Suggestions are given to estimate the driving part of the longitudinal slip curve and to represent the characteristic at rolling backwards.",
+      "abstract": "An account is given of the latest version 3 of the Magic Formula tyre model. The model provides a set of mathematical formulae from which the forces and moment acting from road to tyre can be calculated at longitudinal, lateral and camber slip conditions, which may occur simultaneously. The model aims at an accurate description of measured steady-state tyre behaviour. The coefficients of the basic formula represent typifying quantities of the tyre characteristic. By selecting proper values, the characteristics for either side force, aligning torque or fore and aft force can be obtained. The new version of the model contains physically based formulations to avoid the introduction of correction factors. Double-sided, possibly non-symmetric pure slip curves are employed as the basis for combined slip calculations. Suggestions are given to estimate the driving part of the longitudinal slip curve and to represent the characteristic at rolling backwards.",
       "summary": "",
       "url": "../papers/1992_pacejka_the_magic_formula_tyre/",
       "contentTreeUrl": "../content-tree/#paper=1992_pacejka_the_magic_formula_tyre",
@@ -4937,6 +5114,38 @@ window.timelineData = {
       "url": "../papers/1992_eckstein_on_the_douglasrachford_splitting/",
       "contentTreeUrl": "../content-tree/#paper=1992_eckstein_on_the_douglasrachford_splitting",
       "mindMapUrl": "../mind-map/#paper=1992_eckstein_on_the_douglasrachford_splitting"
+    },
+    {
+      "id": "1992_nocedal_theory_of_algorithms_for",
+      "label": "Theory of Algorithms for Unconstrained Optimization",
+      "title": "Theory of Algorithms for Unconstrained Optimization",
+      "authors": [
+        "Jorge Nocedal"
+      ],
+      "authorShort": "Nocedal",
+      "year": 1992,
+      "source": "Acta Numerica",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Nonlinear Programming",
+        "Theory of Algorithms for Unconstrained Optimization"
+      ],
+      "tags": [
+        "Optimization"
+      ],
+      "abstract": "A few months ago, while preparing a lecture to an audience that included engineers and numerical analysts, I asked myself the question: from the point of view of a user of nonlinear optimization routines, how interesting and practical is the body of theoretical analysis developed in this field? To make the question a bit more precise, I decided to select the best optimization methods known to date - those methods that deserve to be in a subroutine library - and for each method ask: what do we know about the behaviour of this method, as implemented in practice? To make my task more tractable, I decided to consider only algorithms for unconstrained optimization.",
+      "summary": "Nocedal surveys the practical theoretical understanding of major algorithms for unconstrained nonlinear optimization, focusing on methods credible enough for numerical software libraries. The article frames convergence theory around implemented behavior, especially line-search, trust-region, conjugate-gradient, and quasi-Newton methods.",
+      "url": "../papers/1992_nocedal_theory_of_algorithms_for/",
+      "contentTreeUrl": "../content-tree/#paper=1992_nocedal_theory_of_algorithms_for",
+      "mindMapUrl": "../mind-map/#paper=1992_nocedal_theory_of_algorithms_for"
     },
     {
       "id": "1992_kollerstrom_thomas_simpson_and_newtons",
@@ -5084,6 +5293,7 @@ window.timelineData = {
         "Foundations",
         "Mathematics",
         "Linear Algebra & Signal Processing",
+        "Conjugate Gradient",
         "Bi-CGSTAB"
       ],
       "tags": [],
@@ -5270,6 +5480,39 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1993_juang_identification_of_observer_kalman"
     },
     {
+      "id": "1993_afanasieva_the_characteristics_of_the",
+      "label": "The Characteristics of the RBMK Core",
+      "title": "The Characteristics of the RBMK Core",
+      "authors": [
+        "Anna A. Afanasieva",
+        "Evgeniy V. Burlakov",
+        "Alexander V. Krayushkin",
+        "Andre V. Kubarev"
+      ],
+      "authorShort": "Afanasieva, Burlakov, Krayushkin",
+      "year": 1993,
+      "source": "Nuclear Technology",
+      "type": "Journal Paper",
+      "superCategory": "Foundations",
+      "category": "Engineering Systems",
+      "subCategory": "Nuclear Reactors",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Engineering Systems",
+        "Nuclear Reactors",
+        "The Characteristics of the RBMK Core"
+      ],
+      "tags": [
+        "Research paper"
+      ],
+      "abstract": "When the causes of the accident at Chernobyl Unit 4 on April 26, 1986, were studied, particular attention was given to the positive void reactivity coefficient and the dynamic characteristics of the shutdown system. The role of these factors in the development of the accident is discussed. The physical nature of the void reactivity coefficient is considered.Safety measures added to the remaining RBMK-type reactors are described. These measures include installation of 80 stationary neutron absorbers in the core to decrease the void reactivity coefficient as well as modification of the absorber rods. The results of reactor parameter measurements after these measures were implemented are presented. The calculation methods are outlined, and the changes in the neutron physics characteristics after the Chernobyl accident are described. The measures taken to improve the safety of RBMK reactors preclude the possibility of another accident of the Chernobyl type. Possible further improvements in the operation of an RBMK reactor are discussed.",
+      "summary": "Review of RBMK core characteristics in light of the Chernobyl Unit 4 accident, focusing on the positive void reactivity coefficient and shutdown-system dynamics. The paper explains the physical origin of the void coefficient, describes post-accident safety modifications such as additional stationary absorbers and control-rod changes, and reports resulting reactor-parameter measurements and neutron-physics changes.",
+      "url": "../papers/1993_afanasieva_the_characteristics_of_the/",
+      "contentTreeUrl": "../content-tree/#paper=1993_afanasieva_the_characteristics_of_the",
+      "mindMapUrl": "../mind-map/#paper=1993_afanasieva_the_characteristics_of_the"
+    },
+    {
       "id": "1993_quinlan_c4_5_programs_for_machine",
       "label": "C4.5",
       "title": "C4.5: Programs for Machine Learning",
@@ -5327,6 +5570,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Architectures",
         "Siamese Neural Network"
       ],
       "tags": [],
@@ -5395,7 +5639,7 @@ window.timelineData = {
         "A Linear Matrix Inequality Approach to H∞ Control"
       ],
       "tags": [],
-      "abstract": "AbstractThe continuous‐ and discrete‐timeH∞control problems are solved via elementary manipulations on linear matrix inequalities (LMI). Two interesting new features emerge through this approach: solvability conditions valid for both regular and singular problems, and an LMI‐based parametrization of allH∞‐suboptimal controllers, including reduced‐order controllers.The solvability conditions involve Riccati inequalities rather than the usual indefinite Riccati equations. Alternatively, these conditions can be expressed as a system of three LMIs. Efficient convex optimization techniques are available to solve this system. Moreover, its solutions parametrize the set ofH∞controllers and bear important connections with the controller order and the closed‐loop Lyapunov functions.Thanks to such connections, the LMI‐based characterization ofH∞controllers opens new perspectives for the refinement ofH∞design. Applications to cancellation‐free design and controller order reduction are discussed and illustrated by examples.",
+      "abstract": "The continuous- and discrete-time H∞ control problems are solved via elementary manipulations on linear matrix inequalities (LMI). Two interesting new features emerge through this approach: solvability conditions valid for both regular and singular problems, and an LMI-based parametrization of all H∞-suboptimal controllers, including reduced-order controllers.The solvability conditions involve Riccati inequalities rather than the usual indefinite Riccati equations. Alternatively, these conditions can be expressed as a system of three LMIs. Efficient convex optimization techniques are available to solve this system. Moreover, its solutions parametrize the set of H∞ controllers and bear important connections with the controller order and the closed-loop Lyapunov functions. Thanks to such connections, the LMI-based characterization of H∞ controllers opens new perspectives for the refinement of H∞ design. Applications to cancellation-free design and controller order reduction are discussed and illustrated by examples.",
       "summary": "",
       "url": "../papers/1994_gahinet_a_linear_matrix_inequality/",
       "contentTreeUrl": "../content-tree/#paper=1994_gahinet_a_linear_matrix_inequality",
@@ -5431,6 +5675,44 @@ window.timelineData = {
       "url": "../papers/1994_boyd_linear_matrix_inequalities_in/",
       "contentTreeUrl": "../content-tree/#paper=1994_boyd_linear_matrix_inequalities_in",
       "mindMapUrl": "../mind-map/#paper=1994_boyd_linear_matrix_inequalities_in"
+    },
+    {
+      "id": "1994_de_wit_nonlinear_control_design_for",
+      "label": "Nonlinear Control Design for Mobile Robots",
+      "title": "Nonlinear Control Design for Mobile Robots",
+      "authors": [
+        "C. Canudas de Wit",
+        "H. Khennouf",
+        "C. Samson",
+        "O. J. Sordalen"
+      ],
+      "authorShort": "Wit, Khennouf, Samson",
+      "year": 1994,
+      "source": "Recent Trends in Mobile Robots",
+      "type": "Other",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Tracking Control for Wheeled Robots",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Control",
+        "Tracking Control for Wheeled Robots",
+        "Nonlinear Control Design for Mobile Robots"
+      ],
+      "tags": [
+        "Mobile robots",
+        "Nonlinear control",
+        "Nonholonomic systems",
+        "Tracking control",
+        "Wheeled robots",
+        "Robotics"
+      ],
+      "abstract": "",
+      "summary": "This chapter collects nonlinear control designs for wheeled mobile robots, with emphasis on the kinematic constraints and tracking or stabilization behavior that make nonholonomic vehicles different from fully actuated systems. It is a useful historical reference for the control laws and modeling assumptions that recur in later mobile-robot tracking literature.",
+      "url": "../papers/1994_de_wit_nonlinear_control_design_for/",
+      "contentTreeUrl": "../content-tree/#paper=1994_de_wit_nonlinear_control_design_for",
+      "mindMapUrl": "../mind-map/#paper=1994_de_wit_nonlinear_control_design_for"
     },
     {
       "id": "1994_sims_evolving_virtual_creatures",
@@ -5663,6 +5945,39 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1995_ghaoui_state_feedback_control_of"
     },
     {
+      "id": "1995_wilamowsky_how_the_oldest_recorded",
+      "label": "How the oldest recorded multiple facility location problem was solved",
+      "title": "How the Oldest Recorded Multiple Facility Location Problem Was Solved",
+      "authors": [
+        "Yonah Wilamowsky",
+        "Sheldon Epstein",
+        "Bernard Dickman"
+      ],
+      "authorShort": "Wilamowsky, Epstein, Dickman",
+      "year": 1995,
+      "source": "Location Science",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Problem Classes",
+        "Facility Location",
+        "How the oldest recorded multiple facility location problem was solved"
+      ],
+      "tags": [],
+      "abstract": "During the Israelites' wanderings in the Sinai Desert, the Lord instructed them that upon settling their new homeland they were to set aside three cities of refuge for unintentional murderers (i.e. the murder is committed without intent). Although the Bible states the purpose of these cities, the Lord did not specify their exact locations. After the Israelites conquered the land, the Bible lists the three cities that Joshua selected. No rationale for Joshua's selections is given. In this paper we apply multiple facility location methodology to the city of refuge problem, and show that using an appropriate objective function and population distribution, Joshua's selections were optimal.",
+      "summary": "",
+      "url": "../papers/1995_wilamowsky_how_the_oldest_recorded/",
+      "contentTreeUrl": "../content-tree/#paper=1995_wilamowsky_how_the_oldest_recorded",
+      "mindMapUrl": "../mind-map/#paper=1995_wilamowsky_how_the_oldest_recorded"
+    },
+    {
       "id": "1995_kennedy_particle_swarm_optimization",
       "label": "Particle Swarm Optimization",
       "title": "Particle Swarm Optimization",
@@ -5772,35 +6087,6 @@ window.timelineData = {
       "url": "../papers/1995_spong_the_pendubot_a_mechatronic/",
       "contentTreeUrl": "../content-tree/#paper=1995_spong_the_pendubot_a_mechatronic",
       "mindMapUrl": "../mind-map/#paper=1995_spong_the_pendubot_a_mechatronic"
-    },
-    {
-      "id": "1995_wilamowsky_how_the_oldest_recorded",
-      "label": "How the oldest recorded multiple facility location problem was solved",
-      "title": "How the Oldest Recorded Multiple Facility Location Problem Was Solved",
-      "authors": [
-        "Yonah Wilamowsky",
-        "Sheldon Epstein",
-        "Bernard Dickman"
-      ],
-      "authorShort": "Wilamowsky, Epstein, Dickman",
-      "year": 1995,
-      "source": "Location Science",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "History",
-      "subCategory": "How the oldest recorded multiple facility location problem was solved",
-      "path": [
-        "Content Tree",
-        "Foundations",
-        "History",
-        "How the oldest recorded multiple facility location problem was solved"
-      ],
-      "tags": [],
-      "abstract": "During the Israelites' wanderings in the Sinai Desert, the Lord instructed them that upon settling their new homeland they were to set aside three cities of refuge for unintentional murderers (i.e. the murder is committed without intent). Although the Bible states the purpose of these cities, the Lord did not specify their exact locations. After the Israelites conquered the land, the Bible lists the three cities that Joshua selected. No rationale for Joshua's selections is given. In this paper we apply multiple facility location methodology to the city of refuge problem, and show that using an appropriate objective function and population distribution, Joshua's selections were optimal.",
-      "summary": "",
-      "url": "../papers/1995_wilamowsky_how_the_oldest_recorded/",
-      "contentTreeUrl": "../content-tree/#paper=1995_wilamowsky_how_the_oldest_recorded",
-      "mindMapUrl": "../mind-map/#paper=1995_wilamowsky_how_the_oldest_recorded"
     },
     {
       "id": "1995_cortes_support_vector_networks",
@@ -6496,6 +6782,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Architectures",
         "LSTM"
       ],
       "tags": [],
@@ -6932,6 +7219,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Architectures",
         "Gradient-Based Learning Applied to Document Recognition"
       ],
       "tags": [
@@ -7047,7 +7335,7 @@ window.timelineData = {
         "A Fast and Robust GJK Implementation for Collision Detection of Convex Objects"
       ],
       "tags": [],
-      "abstract": "Abstract This paper presents an implementation of the Gilbert-Johnson-Keerthi algorithm for comput ing the distance between convex objects, that has improved performance, robustness, and versatility over earlier implementations. The algorithm presented here is especially suitable for use in collision detection of objects modeled using various types of geometric primitives, such as boxes, cones, and spheres, and their images under affine transformation.",
+      "abstract": "This paper presents an implementation of the Gilbert-Johnson-Keerthi algorithm for computing the distance between convex objects, that has improved performance, robustness, and versatility over earlier implementations. The algorithm presented here is especially suitable for use in collision detection of objects modeled using various types of geometric primitives, such as boxes, cones, and spheres, and their images under affine transformation.",
       "summary": "",
       "url": "../papers/1999_van_den_bergen_a_fast_and_robust/",
       "contentTreeUrl": "../content-tree/#paper=1999_van_den_bergen_a_fast_and_robust",
@@ -9319,12 +9607,13 @@ window.timelineData = {
       "source": "Second International Energy Conversion Engineering Conference",
       "type": "Technical Report",
       "superCategory": "Foundations",
-      "category": "History",
-      "subCategory": "Review of Computational Stirling Analysis Methods",
+      "category": "Engineering Systems",
+      "subCategory": "Stirling Engines",
       "path": [
         "Content Tree",
         "Foundations",
-        "History",
+        "Engineering Systems",
+        "Stirling Engines",
         "Review of Computational Stirling Analysis Methods"
       ],
       "tags": [],
@@ -9620,7 +9909,7 @@ window.timelineData = {
         "An adaptive lateral preview driver model"
       ],
       "tags": [],
-      "abstract": "Abstract Successful modelling and simulation of driver behaviour is important for the current industrial thrust of computer-based vehicle development. The main contribution of this paper is the development of an adaptive lateral preview human driver model. This driver model template has a few parameters that can be adjusted to simulate steering actions of human drivers with different driving styles. In other words, this model template can be used in the design process of vehicles and active safety systems to assess their performance under average drivers as well as atypical drivers. We assume that the drivers, regardless of their style, have driven the vehicle long enough to establish an accurate internal model of the vehicle. The proposed driver model is developed using the adaptive predictive control (APC) framework. Three key features are included in the APC framework: use of preview information, internal model identification and weight adjustment to simulate different driving styles. The driver uses predicted vehicle information in a future window to determine the optimal steering action. A tunable parameter is defined to assign relative importance of lateral displacement and yaw error in the cost function to be optimized. The model is tuned to fit three representative drivers obtained from driving simulator data taken from 22 human drivers.",
+      "abstract": "Successful modelling and simulation of driver behaviour is important for the current industrial thrust of computer-based vehicle development. The main contribution of this paper is the development of an adaptive lateral preview human driver model. This driver model template has a few parameters that can be adjusted to simulate steering actions of human drivers with different driving styles. In other words, this model template can be used in the design process of vehicles and active safety systems to assess their performance under average drivers as well as atypical drivers. We assume that the drivers, regardless of their style, have driven the vehicle long enough to establish an accurate internal model of the vehicle. The proposed driver model is developed using the adaptive predictive control (APC) framework. Three key features are included in the APC framework: use of preview information, internal model identification and weight adjustment to simulate different driving styles. The driver uses predicted vehicle information in a future window to determine the optimal steering action. A tunable parameter is defined to assign relative importance of lateral displacement and yaw error in the cost function to be optimized. The model is tuned to fit three representative drivers obtained from driving simulator data taken from 22 human drivers.",
       "summary": "",
       "url": "../papers/2005_ungoren_an_adaptive_lateral_preview/",
       "contentTreeUrl": "../content-tree/#paper=2005_ungoren_an_adaptive_lateral_preview",
@@ -9814,7 +10103,7 @@ window.timelineData = {
         "Uniform colour spaces based on CIECAM02 colour appearance model"
       ],
       "tags": [],
-      "abstract": "AbstractCan a single colour model be used for all colorimetric applications? This article intends to answer that question. Colour appearance models have been developed to predict colour appearance under different viewing conditions. They are also capable of evaluating colour differences because of their embedded uniform colour spaces. This article first tests the performance of the CIE 2002 colour appearance model, CIECAM02, in predicting three types of colour discrimination data sets: large- and small-magnitude colour differences under daylight illuminants and small-magnitude colour differences under illuminant A. The results showed that CIECAM02 gave reasonable performance compared with the best available formulae and uniform colour spaces. It was further extended to give accurate predictions to all types of colour discrimination data. The results were very encouraging in that the CIECAM02 extensions performed second best among all the colour models tested and only slightly poorer than the models that were developed to fit a particular data set. One extension derived to fit all types of data can predict well for colour differences having a large range of difference magnitudes.",
+      "abstract": "Can a single colour model be used for all colorimetric applications? This article intends to answer that question. Colour appearance models have been developed to predict colour appearance under different viewing conditions. They are also capable of evaluating colour differences because of their embedded uniform colour spaces. This article first tests the performance of the CIE 2002 colour appearance model, CIECAM02, in predicting three types of colour discrimination data sets: large- and small-magnitude colour differences under daylight illuminants and small-magnitude colour differences under illuminant A. The results showed that CIECAM02 gave reasonable performance compared with the best available formulae and uniform colour spaces. It was further extended to give accurate predictions to all types of colour discrimination data. The results were very encouraging in that the CIECAM02 extensions performed second best among all the colour models tested and only slightly poorer than the models that were developed to fit a particular data set. One extension derived to fit all types of data can predict well for colour differences having a large range of difference magnitudes.",
       "summary": "",
       "url": "../papers/2006_luo_uniform_colour_spaces_based/",
       "contentTreeUrl": "../content-tree/#paper=2006_luo_uniform_colour_spaces_based",
@@ -9962,6 +10251,40 @@ window.timelineData = {
       "url": "../papers/2006_olson_fast_iterative_alignment_of/",
       "contentTreeUrl": "../content-tree/#paper=2006_olson_fast_iterative_alignment_of",
       "mindMapUrl": "../mind-map/#paper=2006_olson_fast_iterative_alignment_of"
+    },
+    {
+      "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+      "label": "Autonomous Automobile Trajectory Tracking for Off-road Driving",
+      "title": "Autonomous Automobile Trajectory Tracking for Off-road Driving: Controller Design, Experimental Validation and Racing",
+      "authors": [
+        "Gabriel M. Hoffmann",
+        "Claire J. Tomlin",
+        "Michael Montemerlo",
+        "Sebastian Thrun"
+      ],
+      "authorShort": "Hoffmann, Tomlin, Montemerlo",
+      "year": 2007,
+      "source": "2007 American Control Conference",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Tracking Control for Wheeled Robots",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Control",
+        "Tracking Control for Wheeled Robots",
+        "Autonomous Automobile Trajectory Tracking for Off-road Driving"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Motion planning"
+      ],
+      "abstract": "This paper presents a nonlinear control law for an automobile to autonomously track a trajectory, provided in real-time, on rapidly varying, off-road terrain. Existing methods can suffer from a lack of global stability, a lack of tracking accuracy, or a dependence on smooth road surfaces, any one of which could lead to the loss of the vehicle in autonomous off-road driving. This work treats automobile trajectory tracking in a new manner, by considering the orientation of the front wheels - not the vehicle's body - with respect to the desired trajectory, enabling collocated control of the system. A steering control law is designed using the kinematic equations of motion, for which global asymptotic stability is proven. This control law is then augmented to handle the dynamics of pneumatic tires and of the servo-actuated steering wheel. To control vehicle speed, the brake and throttle are actuated by a switching proportional integral (PI) controller. The complete control system consumes a negligible fraction of a computer's resources. It was implemented on a Volkswagen Touareg, \"Stanley\", the Stanford Racing Team's entry in the DARPA Grand Challenge 2005, a 132 mi autonomous off-road race. Experimental results from Stanley demonstrate the ability of the controller to track trajectories between obstacles, over steep and wavy terrain, through deep mud puddles, and along cliff edges, with a typical root mean square (RMS) crosstrack error of under 0.1 m. In the DARPA National Qualification Event 2005, Stanley was the only vehicle out of 40 competitors to not hit an obstacle or miss a gate, and in the DARPA Grand Challenge 2005 Stanley had the fastest course completion time.",
+      "summary": "Trajectory-tracking controller used on Stanley for autonomous off-road driving. The paper derives a globally asymptotically stable steering law around front-wheel orientation, augments it for tire and steering-servo dynamics, pairs it with a switching PI speed controller, and validates the result over hundreds of miles including the 2005 DARPA Grand Challenge.",
+      "url": "../papers/2007_hoffmann_autonomous_automobile_trajectory_tracking/",
+      "contentTreeUrl": "../content-tree/#paper=2007_hoffmann_autonomous_automobile_trajectory_tracking",
+      "mindMapUrl": "../mind-map/#paper=2007_hoffmann_autonomous_automobile_trajectory_tracking"
     },
     {
       "id": "0711_1612",
@@ -10416,7 +10739,7 @@ window.timelineData = {
         "A perception-driven autonomous urban vehicle"
       ],
       "tags": [],
-      "abstract": "AbstractThis paper describes the architecture and implementation of an autonomous passenger vehicle designed to navigate using locally perceived information in preference to potentially inaccurate or incomplete map data. The vehicle architecture was designed to handle the original DARPA Urban Challenge requirements of perceiving and navigating a road network with segments defined by sparse waypoints. The vehicle implementation includes many heterogeneous sensors with significant communications and computation bandwidth to capture and process high‐resolution, high‐rate sensor data. The output of the comprehensive environmental sensing subsystem is fed into a kinodynamic motion planning algorithm to generate all vehicle motion. The requirements of driving in lanes, three‐point turns, parking, and maneuvering through obstacle fields are all generated with a unified planner. A key aspect of the planner is its use of closed‐loop simulation in a rapidly exploring randomized trees algorithm, which can randomly explore the space while efficiently generating smooth trajectories in a dynamic and uncertain environment. The overall system was realized through the creation of a powerful new suite of software tools for message passing, logging, and visualization. These innovations provide a strong platform for future research in autonomous driving in global positioning system–denied and highly dynamic environments with poor a priori information. © 2008 Wiley Periodicals, Inc.",
+      "abstract": "This paper describes the architecture and implementation of an autonomous passenger vehicle designed to navigate using locally perceived information in preference to potentially inaccurate or incomplete map data. The vehicle architecture was designed to handle the original DARPA Urban Challenge requirements of perceiving and navigating a road network with segments defined by sparse waypoints. The vehicle implementation includes many heterogeneous sensors with significant communications and computation bandwidth to capture and process high‐resolution, high‐rate sensor data. The output of the comprehensive environmental sensing subsystem is fed into a kinodynamic motion planning algorithm to generate all vehicle motion. The requirements of driving in lanes, three‐point turns, parking, and maneuvering through obstacle fields are all generated with a unified planner. A key aspect of the planner is its use of closed‐loop simulation in a rapidly exploring randomized trees algorithm, which can randomly explore the space while efficiently generating smooth trajectories in a dynamic and uncertain environment. The overall system was realized through the creation of a powerful new suite of software tools for message passing, logging, and visualization. These innovations provide a strong platform for future research in autonomous driving in global positioning system–denied and highly dynamic environments with poor a priori information. © 2008 Wiley Periodicals, Inc.",
       "summary": "",
       "url": "../papers/2008_leonard_a_perceptiondriven_autonomous_urban/",
       "contentTreeUrl": "../content-tree/#paper=2008_leonard_a_perceptiondriven_autonomous_urban",
@@ -10544,7 +10867,7 @@ window.timelineData = {
         "Junior: The Stanford Entry in the Urban Challenge"
       ],
       "tags": [],
-      "abstract": "AbstractThis article presents the architecture of Junior, a robotic vehicle capable of navigating urban environments autonomously. In doing so, the vehicle is able to select its own routes, perceive and interact with other traffic, and execute various urban driving skills including lane changes, U‐turns, parking, and merging into moving traffic. The vehicle successfully finished and won second place in the DARPA Urban Challenge, a robot competition organized by the U.S. Government. © 2008 Wiley Periodicals, Inc.",
+      "abstract": "This article presents the architecture of Junior, a robotic vehicle capable of navigating urban environments autonomously. In doing so, the vehicle is able to select its own routes, perceive and interact with other traffic, and execute various urban driving skills including lane changes, U‐turns, parking, and merging into moving traffic. The vehicle successfully finished and won second place in the DARPA Urban Challenge, a robot competition organized by the U.S. Government. © 2008 Wiley Periodicals, Inc.",
       "summary": "",
       "url": "../papers/2008_montemerlo_junior_the_stanford_entry/",
       "contentTreeUrl": "../content-tree/#paper=2008_montemerlo_junior_the_stanford_entry",
@@ -10721,9 +11044,41 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2008_schmid_dynamic_mode_decomposition_of"
     },
     {
+      "id": "2008_takayama_beyond_dirty_dangerous_and",
+      "label": "Beyond Dirty, Dangerous and Dull",
+      "title": "Beyond dirty, dangerous and dull: what everyday people think robots should do",
+      "authors": [
+        "Leila Takayama",
+        "Wendy Ju",
+        "Clifford Nass"
+      ],
+      "authorShort": "Takayama, Ju, Nass",
+      "year": 2008,
+      "source": "Proceedings of the 3rd ACM/IEEE international conference on Human robot interaction",
+      "type": "Conference Paper",
+      "superCategory": "Evaluation",
+      "category": "Safety, Testing & Verification",
+      "subCategory": "Beyond Dirty, Dangerous and Dull",
+      "path": [
+        "Content Tree",
+        "Evaluation",
+        "Safety, Testing & Verification",
+        "Beyond Dirty, Dangerous and Dull"
+      ],
+      "tags": [
+        "Robotics",
+        "Motion planning"
+      ],
+      "abstract": "We present a study of people's attitudes toward robot workers, identifying the characteristics of occupations for which people believe robots are qualified and desired. We deployed a web-based public-opinion survey that asked respondents (n=250) about their attitudes regarding robots' suitability for a variety of jobs (n=812) from the U.S. Department of Labor's O*NET occupational information database. We found that public opinion favors robots for jobs that require memorization, keen perceptual abilities, and service-orientation. People are preferred for occupations that require artistry, evaluation, judgment and diplomacy. In addition, we found that people will feel more positively toward robots doing jobs with people rather than in place of people.",
+      "summary": "Web survey over O*NET occupations to study what kinds of work ordinary respondents think robots should do. The paper pushes beyond the usual \"dirty, dangerous, and dull\" framing by showing that people favor robots for work involving memorization, perception, and service orientation, while preferring humans for work involving artistry, judgment, evaluation, and diplomacy.",
+      "url": "../papers/2008_takayama_beyond_dirty_dangerous_and/",
+      "contentTreeUrl": "../content-tree/#paper=2008_takayama_beyond_dirty_dangerous_and",
+      "mindMapUrl": "../mind-map/#paper=2008_takayama_beyond_dirty_dangerous_and"
+    },
+    {
       "id": "2008_fletcher_the_mitcornell_collision_and",
       "label": "The MIT-Cornell collision and why it happened",
-      "title": "The MIT–Cornell Collision and Why It Happened",
+      "title": "The MIT-Cornell Collision and Why It Happened",
       "authors": [
         "Luke Fletcher",
         "Seth Teller",
@@ -10752,11 +11107,47 @@ window.timelineData = {
         "The MIT-Cornell collision and why it happened"
       ],
       "tags": [],
-      "abstract": "AbstractMidway through the 2007 DARPA Urban Challenge, MIT's robot “Talos” and Team Cornell's robot “Skynet” collided in a low‐speed accident. This accident was one of the first collisions between full‐sized autonomous road vehicles. Fortunately, both vehicles went on to finish the race and the collision was thoroughly documented in the vehicle logs. This collaborative study between MIT and Cornell traces the confluence of events that preceded the collision and examines its root causes. A summary of robot–robot interactions during the race is presented. The logs from both vehicles are used to show the gulf between robot and human‐driver behavior at close vehicle proximities. Contributing factors are shown to be (1) difficulties in sensor data association leading to an inability to detect slow‐moving vehicles and phantom obstacles, (2) failure to anticipate vehicle intent, and (3) an overemphasis on lane constraints versus vehicle proximity in motion planning. Finally, we discuss approaches that could address these issues in future systems, such as intervehicle communication, vehicle detection, and prioritized motion planning. © 2008 Wiley Periodicals, Inc.",
+      "abstract": "Midway through the 2007 DARPA Urban Challenge, MIT's robot “Talos” and Team Cornell's robot “Skynet” collided in a low‐speed accident. This accident was one of the first collisions between full‐sized autonomous road vehicles. Fortunately, both vehicles went on to finish the race and the collision was thoroughly documented in the vehicle logs. This collaborative study between MIT and Cornell traces the confluence of events that preceded the collision and examines its root causes. A summary of robot–robot interactions during the race is presented. The logs from both vehicles are used to show the gulf between robot and human‐driver behavior at close vehicle proximities. Contributing factors are shown to be (1) difficulties in sensor data association leading to an inability to detect slow‐moving vehicles and phantom obstacles, (2) failure to anticipate vehicle intent, and (3) an overemphasis on lane constraints versus vehicle proximity in motion planning. Finally, we discuss approaches that could address these issues in future systems, such as intervehicle communication, vehicle detection, and prioritized motion planning. © 2008 Wiley Periodicals, Inc.",
       "summary": "",
       "url": "../papers/2008_fletcher_the_mitcornell_collision_and/",
       "contentTreeUrl": "../content-tree/#paper=2008_fletcher_the_mitcornell_collision_and",
       "mindMapUrl": "../mind-map/#paper=2008_fletcher_the_mitcornell_collision_and"
+    },
+    {
+      "id": "2008_sedgewick_left_leaning_red_black",
+      "label": "Left-Leaning Red-Black Trees",
+      "title": "Left-Leaning Red-Black Trees",
+      "authors": [
+        "Robert Sedgewick"
+      ],
+      "authorShort": "Sedgewick",
+      "year": 2008,
+      "source": "Princeton University",
+      "type": "Technical Report",
+      "superCategory": "Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Search Trees",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Algorithms & Data Structures",
+        "Search Trees",
+        "Left-Leaning Red-Black Trees"
+      ],
+      "tags": [
+        "Balanced search trees",
+        "Red-black trees",
+        "Left-leaning red-black trees",
+        "Symbol tables",
+        "Data structures",
+        "Algorithms",
+        "Deletion algorithms"
+      ],
+      "abstract": "The red-black tree model for implementing balanced search trees, introduced by Guibas and Sedgewick thirty years ago, is now found throughout our computational infrastructure. Red-black trees are described in standard textbooks and are the underlying data structure for symbol-table implementations within C++, Java, Python, BSD Unix, and many other modern systems. However, many of these implementations have sacrificed some of the original design goals (primarily in order to develop an effective implementation of the delete operation, which was incompletely specified in the original paper), so a new look is worthwhile. In this paper, we describe a new variant of red-black trees that meets many of the original design goals and leads to substantially simpler code for insert/delete, less than one-fourth as much code as in implementations in common use.",
+      "summary": "Sedgewick presents left-leaning red-black trees, a red-black representation that forces 3-nodes to lean left and uses recursive rotations on the way back up the tree. The payoff is much shorter insertion and deletion code while preserving logarithmic search behavior and the ordered-symbol-table operations that make balanced trees useful.",
+      "url": "../papers/2008_sedgewick_left_leaning_red_black/",
+      "contentTreeUrl": "../content-tree/#paper=2008_sedgewick_left_leaning_red_black",
+      "mindMapUrl": "../mind-map/#paper=2008_sedgewick_left_leaning_red_black"
     },
     {
       "id": "0803_0476",
@@ -11572,7 +11963,7 @@ window.timelineData = {
     },
     {
       "id": "2009_ye_time_series_shapelets",
-      "label": "Time series shapelets",
+      "label": "Time Series Shapelets",
       "title": "Time Series Shapelets",
       "authors": [
         "Lexiang Ye",
@@ -11591,7 +11982,7 @@ window.timelineData = {
         "Machine Learning",
         "Time Series",
         "Algorithms",
-        "Time series shapelets"
+        "Time Series Shapelets"
       ],
       "tags": [],
       "abstract": "Classification of time series has been attracting great interest over the past decade. Recent empirical evidence has strongly suggested that the simple nearest neighbor algorithm is very difficult to beat for most time series problems. While this may be considered good news, given the simplicity of implementing the nearest neighbor algorithm, there are some negative consequences of this. First, the nearest neighbor algorithm requires storing and searching the entire dataset, resulting in a time and space complexity that limits its applicability, especially on resource-limited sensors. Second, beyond mere classification accuracy, we often wish to gain some insight into the data.",
@@ -11695,6 +12086,40 @@ window.timelineData = {
       "url": "../papers/2010_dolgov_path_planning_for_autonomous/",
       "contentTreeUrl": "../content-tree/#paper=2010_dolgov_path_planning_for_autonomous",
       "mindMapUrl": "../mind-map/#paper=2010_dolgov_path_planning_for_autonomous"
+    },
+    {
+      "id": "2010_he_puma_planning_under_uncertainty",
+      "label": "PUMA",
+      "title": "PUMA: Planning under Uncertainty with Macro-Actions",
+      "authors": [
+        "Ruijie He",
+        "Emma Brunskill",
+        "Nicholas Roy"
+      ],
+      "authorShort": "He, Brunskill, Roy",
+      "year": 2010,
+      "source": "Proceedings of the AAAI Conference on Artificial Intelligence",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Planning Under Uncertainty",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Planning",
+        "Planning Under Uncertainty",
+        "Planning in Belief Space",
+        "Belief Trees",
+        "PUMA"
+      ],
+      "tags": [
+        "Research paper"
+      ],
+      "abstract": "Planning in large, partially observable domains is challenging, especially when a long-horizon lookahead is necessary to obtain a good policy. Traditional POMDP planners that plan a different potential action for each future observation can be prohibitively expensive when planning many steps ahead. An efficient solution for planning far into the future in fully observable domains is to use temporally-extended sequences of actions, or \"macro-actions.\" In this paper, we present a POMDP algorithm for planning under uncertainty with macro-actions (PUMA) that automatically constructs and evaluates open-loop macro-actions within forward-search planning, where the planner branches on observations only at the end of each macro-action. Additionally, we show how to incrementally refine the plan over time, resulting in an anytime algorithm that provably converges to an epsilon-optimal policy. In experiments on several large POMDP problems which require a long horizon lookahead, PUMA outperforms existing state-of-the art solvers.",
+      "summary": "An online POMDP planner that uses automatically generated open-loop macro-actions to look farther ahead under partial observability. The method reduces forward-search branching by conditioning only at macro-action boundaries, then incrementally refines macro-actions into shorter decisions so the planner remains anytime and converges toward epsilon-optimal behavior.",
+      "url": "../papers/2010_he_puma_planning_under_uncertainty/",
+      "contentTreeUrl": "../content-tree/#paper=2010_he_puma_planning_under_uncertainty",
+      "mindMapUrl": "../mind-map/#paper=2010_he_puma_planning_under_uncertainty"
     },
     {
       "id": "2010_glassman_a_quadratic_regulator_based",
@@ -12564,7 +12989,7 @@ window.timelineData = {
     {
       "id": "2011_bachrach_rangerobust_autonomous_navigation_in",
       "label": "RANGE",
-      "title": "RANGE–Robust Autonomous Navigation in GPS‐denied Environments",
+      "title": "RANGE: Robust Autonomous Navigation in GPS-denied Environments",
       "authors": [
         "Abraham Bachrach",
         "Samuel Prentice",
@@ -12588,11 +13013,44 @@ window.timelineData = {
         "RANGE"
       ],
       "tags": [],
-      "abstract": "AbstractThis paper addresses the problem of autonomous navigation of a micro air vehicle (MAV) in GPS‐denied environments. We present experimental validation and analysis for our system that enables a quadrotor helicopter, equipped with a laser range finder sensor, to autonomously explore and map unstructured and unknown environments. The key challenge for enabling GPS‐denied flight of a MAV is that the system must be able to estimate its position and velocity by sensing unknown environmental structure with sufficient accuracy and low enough latency to stably control the vehicle. Our solution overcomes this challenge in the face of MAV payload limitations imposed on sensing, computational, and communication resources. We first analyze the requirements to achieve fully autonomous quadrotor helicopter flight in GPS‐denied areas, highlighting the differences between ground and air robots that make it difficult to use algorithms developed for ground robots. We report on experiments that validate our solutions to key challenges, namely a multilevel sensing and control hierarchy that incorporates a high‐speed laser scan‐matching algorithm, data fusion filter, high‐level simultaneous localization and mapping, and a goal‐directed exploration module. These experiments illustrate the quadrotor helicopter's ability to accurately and autonomously navigate in a number of large‐scale unknown environments, both indoors and in the urban canyon. The system was further validated in the field by our winning entry in the 2009 International Aerial Robotics Competition, which required the quadrotor to autonomously enter a hazardous unknown environment through a window, explore the indoor structure without GPS, and search for a visual target. © 2011 Wiley Periodicals, Inc.",
+      "abstract": "This paper addresses the problem of autonomous navigation of a micro air vehicle (MAV) in GPS-denied environments. We present experimental validation and analysis for our system that enables a quadrotor helicopter, equipped with a laser range finder sensor, to autonomously explore and map unstructured and unknown environments. The key challenge for enabling GPS-denied flight of a MAV is that the system must be able to estimate its position and velocity by sensing unknown environmental structure with sufficient accuracy and low enough latency to stably control the vehicle. Our solution overcomes this challenge in the face of MAV payload limitations imposed on sensing, computational, and communication resources. We first analyze the requirements to achieve fully autonomous quadrotor helicopter flight in GPS-denied areas, highlighting the differences between ground and air robots that make it difficult to use algorithms developed for ground robots. We report on experiments that validate our solutions to key challenges, namely a multilevel sensing and control hierarchy that incorporates a high-speed laser scan-matching algorithm, data fusion filter, high-level simultaneous localization and mapping, and a goal-directed exploration module. These experiments illustrate the quadrotor helicopter's ability to accurately and autonomously navigate in a number of large-scale unknown environments, both indoors and in the urban canyon. The system was further validated in the field by our winning entry in the 2009 International Aerial Robotics Competition, which required the quadrotor to autonomously enter a hazardous unknown environment through a window, explore the indoor structure without GPS, and search for a visual target. © 2011 Wiley Periodicals, Inc.",
       "summary": "",
       "url": "../papers/2011_bachrach_rangerobust_autonomous_navigation_in/",
       "contentTreeUrl": "../content-tree/#paper=2011_bachrach_rangerobust_autonomous_navigation_in",
       "mindMapUrl": "../mind-map/#paper=2011_bachrach_rangerobust_autonomous_navigation_in"
+    },
+    {
+      "id": "2011_phillips_sipp_safe_interval_path",
+      "label": "SIPP",
+      "title": "SIPP: Safe Interval Path Planning for Dynamic Environments",
+      "authors": [
+        "Mike Phillips",
+        "Maxim Likhachev"
+      ],
+      "authorShort": "Phillips, Likhachev",
+      "year": 2011,
+      "source": "2011 IEEE International Conference on Robotics and Automation",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Trajectory Planning",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Planning",
+        "Trajectory Planning",
+        "Kinodynamic Planning",
+        "Safe Interval Planning",
+        "SIPP"
+      ],
+      "tags": [
+        "Graph search"
+      ],
+      "abstract": "Robotic path planning in static environments is a thoroughly studied problem that can typically be solved very efficiently. However, planning in the presence of dynamic obstacles is still computationally challenging because it requires adding time as an additional dimension to the search-space explored by the planner. In order to avoid the increase in the dimensionality of the planning problem, most real-time approaches to path planning treat dynamic obstacles as static and constantly re-plan as dynamic obstacles move. Although gaining efficiency, these approaches sacrifice optimality and even completeness. In this paper, we develop a planner that builds on the observation that while the number of safe timesteps in any configuration may be unbounded, the number of safe time intervals in a configuration is finite and generally very small. A safe interval is a time period for a configuration with no collisions and if it were extended one timestep in either direction, it would then be in collision. The planner exploits this observation and constructs a search-space with states defined by their configuration and safe interval, resulting in a graph that generally only has a few states per configuration. On the theoretical side, we show that our planner can provide the same optimality and completeness guarantees as planning with time as an additional dimension. On the experimental side, in simulation tests with up to 200 dynamic obstacles, we show that our planner is significantly faster, making it feasible to use in real-time on robots operating in large dynamic environments. We also ran several real robot trials on the PR2, a mobile manipulation platform.",
+      "summary": "Introduces safe intervals as a compact way to reason about time in dynamic path-planning environments. SIPP searches states defined by configuration and collision-free time interval rather than by every timestep, preserving completeness and optimality guarantees while producing much faster plans in simulations with many moving obstacles and in PR2 robot trials.",
+      "url": "../papers/2011_phillips_sipp_safe_interval_path/",
+      "contentTreeUrl": "../content-tree/#paper=2011_phillips_sipp_safe_interval_path",
+      "mindMapUrl": "../mind-map/#paper=2011_phillips_sipp_safe_interval_path"
     },
     {
       "id": "2011_van_den_berg_reciprocal_n_body_collision",
@@ -14065,6 +14523,42 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2013_jeon_optimal_motion_planning_with"
     },
     {
+      "id": "2013_goretkin_optimal_sampling_based_planning",
+      "label": "Optimal Sampling-based Planning for Linear-quadratic Kinodynamic Systems",
+      "title": "Optimal Sampling-based Planning for Linear-quadratic Kinodynamic Systems",
+      "authors": [
+        "Gustavo Goretkin",
+        "Alejandro Perez",
+        "Robert Platt",
+        "George Konidaris"
+      ],
+      "authorShort": "Goretkin, Perez, Platt",
+      "year": 2013,
+      "source": "2013 IEEE International Conference on Robotics and Automation",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Trajectory Planning",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Planning",
+        "Trajectory Planning",
+        "Kinodynamic Planning",
+        "Rapidly Exploring Random Trees (RRT)",
+        "Optimal Sampling-based Planning for Linear-quadratic Kinodynamic Systems"
+      ],
+      "tags": [
+        "Robotics",
+        "Motion planning"
+      ],
+      "abstract": "We propose a new method for applying RRT* to kinodynamic motion planning problems by using finite-horizon linear quadratic regulation (LQR) to measure cost and to extend the tree. First, we introduce the method in the context of arbitrary affine dynamical systems with quadratic costs. For these systems, the algorithm is shown to converge to optimal solutions almost surely. Second, we extend the algorithm to non-linear systems with non-quadratic costs, and demonstrate its performance experimentally.",
+      "summary": "Adapts RRT* to kinodynamic planning by using finite-horizon LQR as both the cost metric and steering method in state-time space. The paper proves almost-sure convergence to optimal solutions for affine dynamics with quadratic costs, then extends the method by local linearization to nonlinear systems and demonstrates it on constrained examples such as pendulum swing-up.",
+      "url": "../papers/2013_goretkin_optimal_sampling_based_planning/",
+      "contentTreeUrl": "../content-tree/#paper=2013_goretkin_optimal_sampling_based_planning",
+      "mindMapUrl": "../mind-map/#paper=2013_goretkin_optimal_sampling_based_planning"
+    },
+    {
       "id": "2013_schulman_finding_locally_optimal_collision",
       "label": "TrajOpt",
       "title": "Finding Locally Optimal, Collision-Free Trajectories with Sequential Convex Optimization",
@@ -14299,6 +14793,38 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1312_6114"
     },
     {
+      "id": "2013_levinson_automatic_online_calibration_of",
+      "label": "Automatic Online Calibration of Cameras and Lasers",
+      "title": "Automatic Online Calibration of Cameras and Lasers",
+      "authors": [
+        "Jesse Levinson",
+        "Sebastian Thrun"
+      ],
+      "authorShort": "Levinson, Thrun",
+      "year": 2013,
+      "source": "Robotics: Science and Systems IX",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "State Estimation",
+      "subCategory": "Mapping & SLAM",
+      "path": [
+        "Content Tree",
+        "Prediction & Perception",
+        "State Estimation",
+        "Mapping & SLAM",
+        "Automatic Online Calibration of Cameras and Lasers"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Motion planning"
+      ],
+      "abstract": "The combined use of 3D scanning lasers with 2D cameras has become increasingly popular in mobile robotics, as the sparse depth measurements of the former augment the dense color information of the latter. Sensor fusion requires precise 6-DOF transforms between the sensors, but hand-measuring these values is tedious and inaccurate. In addition, autonomous robots can be rendered inoperable if their sensors' calibrations change over time. Yet previously published camera-laser calibration algorithms are offline only, requiring significant amounts of data and/or specific calibration targets; they are thus unable to correct calibration errors that occur during live operation.",
+      "summary": "Extends camera-laser calibration from offline batch processing to online monitoring and correction in arbitrary scenes. The paper contributes a probabilistic detector for sudden extrinsic miscalibration and a real-time optimizer for gradual drift, showing in vehicle experiments that small rotation and translation errors can be detected quickly and rotational drift can be tracked during operation.",
+      "url": "../papers/2013_levinson_automatic_online_calibration_of/",
+      "contentTreeUrl": "../content-tree/#paper=2013_levinson_automatic_online_calibration_of",
+      "mindMapUrl": "../mind-map/#paper=2013_levinson_automatic_online_calibration_of"
+    },
+    {
       "id": "2013_hornung_octomap_an_efficient_probabilistic",
       "label": "OctoMap",
       "title": "OctoMap: An Efficient Probabilistic 3D Mapping Framework Based on Octrees",
@@ -14387,6 +14913,46 @@ window.timelineData = {
       "url": "../papers/2014_mueller_stability_and_control_of/",
       "contentTreeUrl": "../content-tree/#paper=2014_mueller_stability_and_control_of",
       "mindMapUrl": "../mind-map/#paper=2014_mueller_stability_and_control_of"
+    },
+    {
+      "id": "2014_ueda_a_regularized_newton_method",
+      "label": "A Regularized Newton Method without Line Search for Unconstrained Optimization",
+      "title": "A Regularized Newton Method without Line Search for Unconstrained Optimization",
+      "authors": [
+        "Kenji Ueda",
+        "Nobuo Yamashita"
+      ],
+      "authorShort": "Ueda, Yamashita",
+      "year": 2014,
+      "source": "Computational Optimization and Applications",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
+        "Newton's Method",
+        "Regularized Newton Method",
+        "A Regularized Newton Method without Line Search for Unconstrained Optimization"
+      ],
+      "tags": [
+        "Regularized Newton methods",
+        "Second-order optimization",
+        "Unconstrained optimization",
+        "Global convergence",
+        "Superlinear convergence",
+        "Complexity bounds"
+      ],
+      "abstract": "In this paper, we propose a regularized Newton method without line search. The proposed method controls a regularization parameter instead of a step size in order to guarantee the global convergence. We show that the proposed algorithm has the following convergence properties. (a) The proposed algorithm has global convergence under appropriate conditions. (b) It has superlinear rate of convergence under the local error bound condition. (c) An upper bound of the number of iterations required to obtain an approximate solution x satisfying ||grad f(x)|| <= epsilon is O(epsilon^{-2}), where f is the objective function and epsilon is a given positive constant.",
+      "summary": "Ueda and Yamashita replace line-search step-size control with adaptation of a regularization parameter in Newton's method. The analysis gives global convergence, superlinear local convergence under an error-bound condition, and an iteration complexity bound for reaching a first-order approximate solution.",
+      "url": "../papers/2014_ueda_a_regularized_newton_method/",
+      "contentTreeUrl": "../content-tree/#paper=2014_ueda_a_regularized_newton_method",
+      "mindMapUrl": "../mind-map/#paper=2014_ueda_a_regularized_newton_method"
     },
     {
       "id": "1412_6980",
@@ -14851,7 +15417,7 @@ window.timelineData = {
     },
     {
       "id": "1401_3827",
-      "label": "Efficient Planning under Uncertainty with Macro-actions",
+      "label": "PBD",
       "title": "Efficient Planning under Uncertainty with Macro-actions",
       "authors": [
         "Ruijie He",
@@ -14872,7 +15438,7 @@ window.timelineData = {
         "Planning Under Uncertainty",
         "Planning in Belief Space",
         "Belief Trees",
-        "Efficient Planning under Uncertainty with Macro-actions"
+        "PBD"
       ],
       "tags": [],
       "abstract": "Deciding how to act in partially observable environments remains an active area of research. Identifying good sequences of decisions is particularly challenging when good control performance requires planning multiple steps into the future in domains with many states. Towards addressing this challenge, we present an online, forward-search algorithm called the Posterior Belief Distribution (PBD). PBD leverages a novel method for calculating the posterior distribution over beliefs that result after a sequence of actions is taken, given the set of observation sequences that could be received during this process. This method allows us to efficiently evaluate the expected reward of a sequence of primitive actions, which we refer to as macro-actions. We present a formal analysis of our approach, and examine its performance on two very large simulation experiments: scientific exploration and a target monitoring domain. We also demonstrate our algorithm being used to control a real robotic helicopter in a target monitoring experiment, which suggests that our approach has practical potential for planning in real-world, large partially observable domains where a multi-step lookahead is required to achieve good performance.",
@@ -15764,6 +16330,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Regularization",
         "Dropout"
       ],
       "tags": [],
@@ -16403,6 +16970,41 @@ window.timelineData = {
       "url": "../papers/1510_08560/",
       "contentTreeUrl": "../content-tree/#paper=1510_08560",
       "mindMapUrl": "../mind-map/#paper=1510_08560"
+    },
+    {
+      "id": "2015_bergstra_hyperopt_a_python_library",
+      "label": "Hyperopt",
+      "title": "Hyperopt: A Python Library for Model Selection and Hyperparameter Optimization",
+      "authors": [
+        "James Bergstra",
+        "Brent Komer",
+        "Chris Eliasmith",
+        "Dan Yamins",
+        "David D Cox"
+      ],
+      "authorShort": "Bergstra, Komer, Eliasmith",
+      "year": 2015,
+      "source": "Computational Science & Discovery",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Toolboxes & Solvers",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Black-Box Optimization",
+        "Hyperopt"
+      ],
+      "tags": [
+        "Research paper"
+      ],
+      "abstract": "Sequential model-based optimization (also known as Bayesian optimization) is one of the most efficient methods (per function evaluation) of function minimization. This efficiency makes it appropriate for optimizing the hyperparameters of machine learning algorithms that are slow to train. The Hyperopt library provides algorithms and parallelization infrastructure for performing hyperparameter optimization (model selection) in Python. This paper presents an introductory tutorial on the usage of the Hyperopt library, including the description of search spaces, minimization (in serial and parallel), and the analysis of the results collected in the course of minimization. This paper also gives an overview of Hyperopt-Sklearn, a software project that provides automatic algorithm configuration of the Scikit-learn machine learning library. Following Auto-Weka, we take the view that the choice of classifier and even the choice of preprocessing module can be taken together to represent a single large hyperparameter optimization problem. We use Hyperopt to define a search space that encompasses many standard components (e.g. SVM, RF, KNN, PCA, TFIDF) and common patterns of composing them together. We demonstrate, using search algorithms in Hyperopt and standard benchmarking data sets (MNIST, 20-newsgroups, convex shapes), that searching this space is practical and effective. In particular, we improve on best-known scores for the model space for both MNIST and convex shapes. The paper closes with some discussion of ongoing and future work.",
+      "summary": "A practical Python framework for sequential model-based hyperparameter optimization, with a search-space language, a common minimization interface, random search, TPE, and support for asynchronous parallel evaluations through MongoDB. The paper is both a tutorial and a design statement: it treats hyperparameter tuning as a reproducible optimization problem and explains why conditional, mixed discrete-continuous search spaces are central for machine-learning model selection.",
+      "url": "../papers/2015_bergstra_hyperopt_a_python_library/",
+      "contentTreeUrl": "../content-tree/#paper=2015_bergstra_hyperopt_a_python_library",
+      "mindMapUrl": "../mind-map/#paper=2015_bergstra_hyperopt_a_python_library"
     },
     {
       "id": "2015_kuindersma_optimization_based_locomotion_planning",
@@ -17546,6 +18148,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Activation Functions",
         "ELU"
       ],
       "tags": [],
@@ -17576,6 +18179,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Architectures",
         "U-Net"
       ],
       "tags": [],
@@ -17763,8 +18367,9 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
+        "Nonlinear Optimization",
+        "Problem Classes",
+        "Facility Location",
         "Geometric Median in Nearly Linear Time"
       ],
       "tags": [],
@@ -19098,6 +19703,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Theory & Empirical Observations",
         "Understanding deep learning requires rethinking generalization"
       ],
       "tags": [],
@@ -21616,13 +22222,14 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
+        "Nonlinear Optimization",
+        "Problem Classes",
+        "Optimal Transport",
         "Computational Optimal Transport: Complexity by Accelerated Gradient Descent Is Better than by Sinkhorn's Algorithm"
       ],
       "tags": [],
       "abstract": "We analyze two algorithms for approximating the general optimal transport (OT) distance between two discrete distributions of size $n$, up to accuracy $\\varepsilon$. For the first algorithm, which is based on the celebrated Sinkhorn's algorithm, we prove the complexity bound $\\widetilde{O}\\left({n^2/\\varepsilon^2}\\right)$ arithmetic operations. For the second one, which is based on our novel Adaptive Primal-Dual Accelerated Gradient Descent (APDAGD) algorithm, we prove the complexity bound $\\widetilde{O}\\left(\\min\\left\\{n^{9/4}/\\varepsilon, n^{2}/\\varepsilon^2 \\right\\}\\right)$ arithmetic operations. Both bounds have better dependence on $\\varepsilon$ than the state-of-the-art result given by $\\widetilde{O}\\left({n^2/\\varepsilon^3}\\right)$. Our second algorithm not only has better dependence on $\\varepsilon$ in the complexity bound, but also is not specific to entropic regularization and can solve the OT problem with different regularizers.",
-      "summary": "",
+      "summary": "Sharpens the complexity story for discrete optimal transport by analyzing both Sinkhorn-based entropic regularization and an adaptive primal-dual accelerated gradient method. The paper is useful as a computational OT reference because it gives improved dependence on the target accuracy and highlights that the accelerated approach can support regularizers beyond entropy, including cases where the transport plan's sparsity matters.",
       "url": "../papers/1802_04367/",
       "contentTreeUrl": "../content-tree/#paper=1802_04367",
       "mindMapUrl": "../mind-map/#paper=1802_04367"
@@ -22222,7 +22829,7 @@ window.timelineData = {
         "G2 Hermite Interpolation with Clothoids"
       ],
       "tags": [],
-      "abstract": "Abstract The G 2 Hermite Interpolation Problem with clothoid curves requires to find the interpolating clothoid that matches initial and final positions, tangents and curvatures, also known as G 2 Hermite data. In the paper we prove that this problem does not always admit solution with only one clothoid segment, nor with two, as some counterexamples show. The general fitting scheme herein proposed requires three arcs determined via the solution of a nonlinear system of 8 equations in 10 unknowns. We discuss how it is possible to recast this system to 2 equations and how to efficiently solve it by means of the Newton method. The choice of the clothoid is crucial because it exhibits the curvature which is linear with the arc length, an important property in many applications ranging from path planning for autonomous vehicles, road design, manufacturing and graphics. The algorithm is tested on a fine hypercube of all possible configurations of angles and curvatures. It always converges and in the worst case it requires 5 standard Newton iterations.",
+      "abstract": "The G2 Hermite Interpolation Problem with clothoid curves requires to find the interpolating clothoid that matches initial and final positions, tangents and curvatures, also known as G2 Hermite data. In the paper we prove that this problem does not always admit solution with only one clothoid segment, nor with two, as some counterexamples show. The general fitting scheme herein proposed requires three arcs determined via the solution of a nonlinear system of 8 equations in 10 unknowns. We discuss how it is possible to recast this system to 2 equations and how to efficiently solve it by means of the Newton method. The choice of the clothoid is crucial because it exhibits the curvature which is linear with the arc length, an important property in many applications ranging from path planning for autonomous vehicles, road design, manufacturing and graphics. The algorithm is tested on a fine hypercube of all possible configurations of angles and curvatures. It always converges and in the worst case it requires 5 standard Newton iterations.",
       "summary": "",
       "url": "../papers/2018_bertolazzi_on_the_g2_hermite/",
       "contentTreeUrl": "../content-tree/#paper=2018_bertolazzi_on_the_g2_hermite",
@@ -23496,16 +24103,17 @@ window.timelineData = {
       "source": "Energy Conversion and Management",
       "type": "Journal Paper",
       "superCategory": "Foundations",
-      "category": "History",
-      "subCategory": "Technological challenges and optimization efforts of the Stirling machine: A review",
+      "category": "Engineering Systems",
+      "subCategory": "Stirling Engines",
       "path": [
         "Content Tree",
         "Foundations",
-        "History",
+        "Engineering Systems",
+        "Stirling Engines",
         "Technological challenges and optimization efforts of the Stirling machine: A review"
       ],
       "tags": [],
-      "abstract": "Abstract The Stirling engines are being carried out worldwide, used for divers’ application such as solar generator, micro cogeneration and cryogenic uses. The present paper is an over view of Stirling technologies researches. Several possibilities of resolving technical challenges encountered when manufacturing or using Stirling machines will be discussed. The most appropriate models and optimizations strategies are reported. Stirling engine performances are derived as function of geometric parameters (swept volumes, dead volumes, heat exchange areas, compression ratio…) for several working conditions (speed, mean pressure, temperature difference and working fluid). The effect of each parameter on the Stirling performances when using numerical and/or experimental approaches are presented. It is concluded that multi-objective optimizations methods are useful for predicting geometric and working parameters that corresponding to the optimal performances of the Stirling engine.",
+      "abstract": "The Stirling engines are being carried out worldwide, used for divers’ application such as solar generator, micro cogeneration and cryogenic uses. The present paper is an over view of Stirling technologies researches. Several possibilities of resolving technical challenges encountered when manufacturing or using Stirling machines will be discussed. The most appropriate models and optimizations strategies are reported. Stirling engine performances are derived as function of geometric parameters (swept volumes, dead volumes, heat exchange areas, compression ratio…) for several working conditions (speed, mean pressure, temperature difference and working fluid). The effect of each parameter on the Stirling performances when using numerical and/or experimental approaches are presented. It is concluded that multi-objective optimizations methods are useful for predicting geometric and working parameters that corresponding to the optimal performances of the Stirling engine.",
       "summary": "",
       "url": "../papers/2018_hachem_technological_challenges_and_optimization/",
       "contentTreeUrl": "../content-tree/#paper=2018_hachem_technological_challenges_and_optimization",
@@ -23530,6 +24138,7 @@ window.timelineData = {
         "Foundations",
         "Mathematics",
         "Linear Algebra & Signal Processing",
+        "Fourier Transforms",
         "Discovering Transforms: A Tutorial on Circulant Matrices, Circular Convolution, and the Discrete Fourier Transform"
       ],
       "tags": [],
@@ -23825,6 +24434,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Theory & Empirical Observations",
         "Do CIFAR-10 Classifiers Generalize to CIFAR-10?"
       ],
       "tags": [],
@@ -23854,6 +24464,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Architectures",
         "Neural Nearest Neighbors Networks"
       ],
       "tags": [],
@@ -23885,6 +24496,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Theory & Empirical Observations",
         "Reconciling modern machine learning practice and the bias-variance trade-off"
       ],
       "tags": [],
@@ -24141,7 +24753,7 @@ window.timelineData = {
         "A survey of distributed optimization"
       ],
       "tags": [],
-      "abstract": "Abstract In distributed optimization of multi-agent systems, agents cooperate to minimize a global function which is a sum of local objective functions. Motivated by applications including power systems, sensor networks, smart buildings, and smart manufacturing, various distributed optimization algorithms have been developed. In these algorithms, each agent performs local computation based on its own information and information received from its neighboring agents through the underlying communication network, so that the optimization problem can be solved in a distributed manner. This survey paper aims to offer a detailed overview of existing distributed optimization algorithms and their applications in power systems. More specifically, we first review discrete-time and continuous-time distributed optimization algorithms for undirected graphs. We then discuss how to extend these algorithms in various directions to handle more realistic scenarios. Finally, we focus on the application of distributed optimization in the optimal coordination of distributed energy resources.",
+      "abstract": "In distributed optimization of multi-agent systems, agents cooperate to minimize a global function which is a sum of local objective functions. Motivated by applications including power systems, sensor networks, smart buildings, and smart manufacturing, various distributed optimization algorithms have been developed. In these algorithms, each agent performs local computation based on its own information and information received from its neighboring agents through the underlying communication network, so that the optimization problem can be solved in a distributed manner. This survey paper aims to offer a detailed overview of existing distributed optimization algorithms and their applications in power systems. More specifically, we first review discrete-time and continuous-time distributed optimization algorithms for undirected graphs. We then discuss how to extend these algorithms in various directions to handle more realistic scenarios. Finally, we focus on the application of distributed optimization in the optimal coordination of distributed energy resources.",
       "summary": "",
       "url": "../papers/2019_yang_a_survey_of_distributed/",
       "contentTreeUrl": "../content-tree/#paper=2019_yang_a_survey_of_distributed",
@@ -25957,6 +26569,36 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1901_00997"
     },
     {
+      "id": "2019_wainwright_high_dimensional_statistics",
+      "label": "High-dimensional Statistics",
+      "title": "High-dimensional Statistics",
+      "authors": [
+        "Martin J. Wainwright"
+      ],
+      "authorShort": "Wainwright",
+      "year": 2019,
+      "source": "cambridge.org",
+      "type": "Other",
+      "superCategory": "Foundations",
+      "category": "Mathematics",
+      "subCategory": "Statistics & Probability",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Mathematics",
+        "Statistics & Probability",
+        "High-dimensional Statistics"
+      ],
+      "tags": [
+        "Statistics"
+      ],
+      "abstract": "Recent years have witnessed an explosion in the volume and variety of data collected in all scientific disciplines and industrial settings. Such massive data sets present a number of challenges to researchers in statistics and machine learning. This book provides a self-contained introduction to the area of high-dimensional statistics, aimed at the first-year graduate level. It includes chapters that are focused on core methodology and theory - including tail bounds, concentration inequalities, uniform laws and empirical process, and random matrices - as well as chapters devoted to in-depth exploration of particular model classes - including sparse linear models, matrix models with rank constraints, graphical models, and various types of non-parametric models. With hundreds of worked examples and exercises, this text is intended both for courses and for self-study by graduate students and researchers in statistics, machine learning, and related fields who must understand, apply, and adapt modern statistical methods suited to large-scale data.",
+      "summary": "Wainwright provides a graduate-level, non-asymptotic treatment of high-dimensional statistics, connecting probability tools such as concentration inequalities and random matrix bounds to statistical model classes such as sparse regression, low-rank matrix models, graphical models, and nonparametric estimation.",
+      "url": "../papers/2019_wainwright_high_dimensional_statistics/",
+      "contentTreeUrl": "../content-tree/#paper=2019_wainwright_high_dimensional_statistics",
+      "mindMapUrl": "../mind-map/#paper=2019_wainwright_high_dimensional_statistics"
+    },
+    {
       "id": "2019_raasveldt_duckdb",
       "label": "DuckDB",
       "title": "DuckDB",
@@ -26181,6 +26823,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Theory & Empirical Observations",
         "Deep Double Descent: Where Bigger Models and More Data Hurt"
       ],
       "tags": [],
@@ -26212,6 +26855,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Theory & Empirical Observations",
         "Deep Learning Advancements: Closing the Gap"
       ],
       "tags": [],
@@ -26656,40 +27300,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2006_06835"
     },
     {
-      "id": "2003_02218",
-      "label": "Catapult mechanism",
-      "title": "The Large Learning Rate Phase of Deep Learning: The Catapult Mechanism",
-      "authors": [
-        "Aitor Lewkowycz",
-        "Yasaman Bahri",
-        "Ethan Dyer",
-        "Jascha Sohl-Dickstein",
-        "Guy Gur-Ari"
-      ],
-      "authorShort": "Lewkowycz, Bahri, Dyer",
-      "year": 2020,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Nonlinear Optimization",
-        "First-Order Methods",
-        "Catapult mechanism"
-      ],
-      "tags": [],
-      "abstract": "The choice of initial learning rate can have a profound effect on the performance of deep networks. We present a class of neural networks with solvable training dynamics, and confirm their predictions empirically in practical deep learning settings. The networks exhibit sharply distinct behaviors at small and large learning rates. The two regimes are separated by a phase transition. In the small learning rate phase, training can be understood using the existing theory of infinitely wide neural networks. At large learning rates the model captures qualitatively distinct phenomena, including the convergence of gradient descent dynamics to flatter minima. One key prediction of our model is a narrow range of large, stable learning rates. We find good agreement between our model's predictions and training dynamics in realistic deep learning settings. Furthermore, we find that the optimal performance in such settings is often found in the large learning rate phase. We believe our results shed light on characteristics of models trained at different learning rates. In particular, they fill a gap between existing wide neural network theory, and the nonlinear, large learning rate, training dynamics relevant to practice.",
-      "summary": "",
-      "url": "../papers/2003_02218/",
-      "contentTreeUrl": "../content-tree/#paper=2003_02218",
-      "mindMapUrl": "../mind-map/#paper=2003_02218"
-    },
-    {
       "id": "2002_08809",
       "label": "DDPNOpt",
       "title": "DDPNOpt: Differential Dynamic Programming Neural Optimizer",
@@ -27085,7 +27695,7 @@ window.timelineData = {
         "Connected and automated road vehicles: state of the art and future challenges"
       ],
       "tags": [],
-      "abstract": "ABSTRACT The state of the art of modelling, control, and optimisation is discussed for automated road vehicles that may utilise wireless vehicle-to-everything (V2X) connectivity. The appropriate tools to address safety and energy efficiency are described and the effects on traffic dynamics are highlighted. Finally, the economical and societal impacts of the deployment of connected and automated vehicles are discussed.",
+      "abstract": "The state of the art of modelling, control, and optimisation is discussed for automated road vehicles that may utilise wireless vehicle-to-everything (V2X) connectivity. The appropriate tools to address safety and energy efficiency are described and the effects on traffic dynamics are highlighted. Finally, the economical and societal impacts of the deployment of connected and automated vehicles are discussed.",
       "summary": "",
       "url": "../papers/2020_ersal_connected_and_automated_road/",
       "contentTreeUrl": "../content-tree/#paper=2020_ersal_connected_and_automated_road",
@@ -27475,7 +28085,7 @@ window.timelineData = {
         "Time-optimal control of linear time invariant systems between two arbitrary states"
       ],
       "tags": [],
-      "abstract": "Abstract New results are presented for the problem of minimum-time control of a general linear time-invariant normal system evolving from an arbitrary initial state to an arbitrary final state (no-rest to no-rest problem), subjected to bound controls. In particular, it is demonstrated that the above problem is equivalent to an associated minimum-time control problem of transferring the same system from a particular initial state to the state-space origin (no-rest to rest problem), where that particular initial state is related to the boundary states of the original problem through a transformation of the state-space onto itself. If the optimal control history that transfers the system from an arbitrary initial state to the origin is known, either analytically or numerically, then the new results provide a method to solve the problem of minimum-time control between two arbitrary states and moreover, to find all of the extremal controlled trajectories. A criterion of existence is also given for the solution of the minimum-time control between two arbitrary states. Finally, the analytic solution is presented for the minimum-time control of the double integrator between arbitrary states. That solution provides a significant example of applying the new results.",
+      "abstract": "New results are presented for the problem of minimum-time control of a general linear time-invariant normal system evolving from an arbitrary initial state to an arbitrary final state (no-rest to no-rest problem), subjected to bound controls. In particular, it is demonstrated that the above problem is equivalent to an associated minimum-time control problem of transferring the same system from a particular initial state to the state-space origin (no-rest to rest problem), where that particular initial state is related to the boundary states of the original problem through a transformation of the state-space onto itself. If the optimal control history that transfers the system from an arbitrary initial state to the origin is known, either analytically or numerically, then the new results provide a method to solve the problem of minimum-time control between two arbitrary states and moreover, to find all of the extremal controlled trajectories. A criterion of existence is also given for the solution of the minimum-time control between two arbitrary states. Finally, the analytic solution is presented for the minimum-time control of the double integrator between arbitrary states. That solution provides a significant example of applying the new results.",
       "summary": "",
       "url": "../papers/2020_romano_time_optimal_control_of/",
       "contentTreeUrl": "../content-tree/#paper=2020_romano_time_optimal_control_of",
@@ -28013,6 +28623,35 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2012_12657"
     },
     {
+      "id": "2020_cole_vaporwave_aesthetics_internet_nostalgia",
+      "label": "Vaporwave Aesthetics: Internet Nostalgia and the Utopian Impulse",
+      "title": "Vaporwave Aesthetics: Internet Nostalgia and the Utopian Impulse",
+      "authors": [
+        "Ross Cole"
+      ],
+      "authorShort": "Cole",
+      "year": 2020,
+      "source": "repository.cam.ac.uk",
+      "type": "Other",
+      "superCategory": "Foundations",
+      "category": "Humanities & Culture",
+      "subCategory": "Vaporwave Aesthetics: Internet Nostalgia and the Utopian Impulse",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Humanities & Culture",
+        "Vaporwave Aesthetics: Internet Nostalgia and the Utopian Impulse"
+      ],
+      "tags": [
+        "Research paper"
+      ],
+      "abstract": "Vaporwave is a term that emerged during the early 2010s to describe a hip, wraithlike nexus of videos, memes, and experimental music on the Internet. This article traces vaporwave's aesthetic back to the work of Daniel Lopatin and on through its deeply ambivalent relationship with consumer electronics and the mediascape of the 1980s. Vaporwave enjoys toying with a virtual, dehumanized utopia in which utopianism is dead, even as it defamiliarizes and rehabilitates the objects and disorientating non-places of postmodernity. The genre ultimately exemplifies what Svetlana Boym calls the “off-modern” - a form of critical reflection predicated on nostalgia.",
+      "summary": "Traces vaporwave from Daniel Lopatin's eccojams through its internet-native mixture of slowed pop samples, obsolete media, mall imagery, consumer electronics, and early-Web visual culture. The article reads vaporwave as an \"off-modern\" form of nostalgia: not simply anti-capitalist critique or escapism, but a defamiliarizing reuse of postmodern consumer objects that carries a sideways, dreamlike utopian impulse.",
+      "url": "../papers/2020_cole_vaporwave_aesthetics_internet_nostalgia/",
+      "contentTreeUrl": "../content-tree/#paper=2020_cole_vaporwave_aesthetics_internet_nostalgia",
+      "mindMapUrl": "../mind-map/#paper=2020_cole_vaporwave_aesthetics_internet_nostalgia"
+    },
+    {
       "id": "2002_05651",
       "label": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
       "title": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
@@ -28293,6 +28932,39 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2012_00152"
     },
     {
+      "id": "2003_02218",
+      "label": "Catapult Mechanism",
+      "title": "The Large Learning Rate Phase of Deep Learning: The Catapult Mechanism",
+      "authors": [
+        "Aitor Lewkowycz",
+        "Yasaman Bahri",
+        "Ethan Dyer",
+        "Jascha Sohl-Dickstein",
+        "Guy Gur-Ari"
+      ],
+      "authorShort": "Lewkowycz, Bahri, Dyer",
+      "year": 2020,
+      "source": "",
+      "type": "",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Neural Networks",
+      "path": [
+        "Content Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Neural Networks",
+        "Theory & Empirical Observations",
+        "Catapult Mechanism"
+      ],
+      "tags": [],
+      "abstract": "The choice of initial learning rate can have a profound effect on the performance of deep networks. We present a class of neural networks with solvable training dynamics, and confirm their predictions empirically in practical deep learning settings. The networks exhibit sharply distinct behaviors at small and large learning rates. The two regimes are separated by a phase transition. In the small learning rate phase, training can be understood using the existing theory of infinitely wide neural networks. At large learning rates the model captures qualitatively distinct phenomena, including the convergence of gradient descent dynamics to flatter minima. One key prediction of our model is a narrow range of large, stable learning rates. We find good agreement between our model's predictions and training dynamics in realistic deep learning settings. Furthermore, we find that the optimal performance in such settings is often found in the large learning rate phase. We believe our results shed light on characteristics of models trained at different learning rates. In particular, they fill a gap between existing wide neural network theory, and the nonlinear, large learning rate, training dynamics relevant to practice.",
+      "summary": "",
+      "url": "../papers/2003_02218/",
+      "contentTreeUrl": "../content-tree/#paper=2003_02218",
+      "mindMapUrl": "../mind-map/#paper=2003_02218"
+    },
+    {
       "id": "2006_07733",
       "label": "BYOL",
       "title": "Bootstrap Your Own Latent: A New Approach to Self-Supervised Learning",
@@ -28535,7 +29207,7 @@ window.timelineData = {
         "Human-like driving behaviour emerges from a risk-based driver model"
       ],
       "tags": [],
-      "abstract": "AbstractCurrent driving behaviour models are designed for specific scenarios, such as curve driving, obstacle avoidance, car-following, or overtaking. However, humans can drive in diverse scenarios. Can we find an underlying principle from which driving behaviour in different scenarios emerges? We propose the Driver’s Risk Field (DRF), a two-dimensional field that represents the driver’s belief about the probability of an event occurring. The DRF, when multiplied with the consequence of the event, provides an estimate of the driver’s perceived risk. Through human-in-the-loop and computer simulations, we show that human-like driving behaviour emerges when the DRF is coupled to a controller that maintains the perceived risk below a threshold-level. The DRF model predictions concur with driving behaviour reported in literature for seven different scenarios (curve radii, lane widths, obstacle avoidance, roadside furniture, car-following, overtaking, oncoming traffic). We conclude that our generalizable DRF model is scientifically satisfying and has applications in automated vehicles.",
+      "abstract": "Current driving behaviour models are designed for specific scenarios, such as curve driving, obstacle avoidance, car-following, or overtaking. However, humans can drive in diverse scenarios. Can we find an underlying principle from which driving behaviour in different scenarios emerges? We propose the Driver’s Risk Field (DRF), a two-dimensional field that represents the driver’s belief about the probability of an event occurring. The DRF, when multiplied with the consequence of the event, provides an estimate of the driver’s perceived risk. Through human-in-the-loop and computer simulations, we show that human-like driving behaviour emerges when the DRF is coupled to a controller that maintains the perceived risk below a threshold-level. The DRF model predictions concur with driving behaviour reported in literature for seven different scenarios (curve radii, lane widths, obstacle avoidance, roadside furniture, car-following, overtaking, oncoming traffic). We conclude that our generalizable DRF model is scientifically satisfying and has applications in automated vehicles.",
       "summary": "",
       "url": "../papers/2020_kolekar_human_like_driving_behaviour/",
       "contentTreeUrl": "../content-tree/#paper=2020_kolekar_human_like_driving_behaviour",
@@ -28570,65 +29242,6 @@ window.timelineData = {
       "url": "../papers/2011_10202/",
       "contentTreeUrl": "../content-tree/#paper=2011_10202",
       "mindMapUrl": "../mind-map/#paper=2011_10202"
-    },
-    {
-      "id": "2103_10698",
-      "label": "AutoTune",
-      "title": "AutoTune: Controller Tuning for High-Speed Flight",
-      "authors": [
-        "Antonio Loquercio",
-        "Alessandro Saviolo",
-        "Davide Scaramuzza"
-      ],
-      "authorShort": "Loquercio, Saviolo, Scaramuzza",
-      "year": 2021,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "Controller Autotuning",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Control",
-        "Controller Autotuning",
-        "AutoTune"
-      ],
-      "tags": [],
-      "abstract": "Due to noisy actuation and external disturbances, tuning controllers for high-speed flight is very challenging. In this paper, we ask the following questions: How sensitive are controllers to tuning when tracking high-speed maneuvers? What algorithms can we use to automatically tune them? To answer the first question, we study the relationship between parameters and performance and find out that the faster the maneuver, the more sensitive a controller becomes to its parameters. To answer the second question, we review existing methods for controller tuning and discover that prior works often perform poorly on the task of high-speed flight. Therefore, we propose AutoTune, a sampling-based tuning algorithm specifically tailored to high-speed flight. In contrast to previous work, our algorithm does not assume any prior knowledge of the drone or its optimization function and can deal with the multi-modal characteristics of the parameters' optimization space. We thoroughly evaluate AutoTune both in simulation and in the physical world. In our experiments, we outperform existing tuning algorithms by up to 90% in trajectory completion. The resulting controllers are tested in the AirSim Game of Drones competition, where we outperform the winner by up to 25% in lap-time. Finally, we show that AutoTune improves tracking error when flying a physical platform with respect to parameters tuned by a human expert.",
-      "summary": "",
-      "url": "../papers/2103_10698/",
-      "contentTreeUrl": "../content-tree/#paper=2103_10698",
-      "mindMapUrl": "../mind-map/#paper=2103_10698"
-    },
-    {
-      "id": "2106_10516",
-      "label": "DiffLoop",
-      "title": "DiffLoop: Tuning PID Controllers by Differentiating through the Feedback Loop",
-      "authors": [
-        "Athindran Ramesh Kumar",
-        "Peter J. Ramadge"
-      ],
-      "authorShort": "Kumar, Ramadge",
-      "year": 2021,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "Controller Autotuning",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Control",
-        "Controller Autotuning",
-        "DiffLoop"
-      ],
-      "tags": [],
-      "abstract": "Since most industrial control applications use PID controllers, PID tuning and anti-windup measures are significant problems. This paper investigates tuning the feedback gains of a PID controller via back-calculation and automatic differentiation tools. In particular, we episodically use a cost function to generate gradients and perform gradient descent to improve controller performance. We provide a theoretical framework for analyzing this non-convex optimization and establish a relationship between back-calculation and disturbance feedback policies. We include numerical experiments on linear systems with actuator saturation to show the efficacy of this approach.",
-      "summary": "",
-      "url": "../papers/2106_10516/",
-      "contentTreeUrl": "../content-tree/#paper=2106_10516",
-      "mindMapUrl": "../mind-map/#paper=2106_10516"
     },
     {
       "id": "2103_15228",
@@ -29164,7 +29777,7 @@ window.timelineData = {
         "Superfast Second-Order Methods for Unconstrained Convex Optimization"
       ],
       "tags": [],
-      "abstract": "AbstractIn this paper, we present new second-order methods with convergence rate $$O\\left( k^{-4}\\right) $$ O k - 4 , where k is the iteration counter. This is faster than the existing lower bound for this type of schemes (Agarwal and Hazan in Proceedings of the 31st conference on learning theory, PMLR, pp. 774–792, 2018; Arjevani and Shiff in Math Program 178(1–2):327–360, 2019), which is $$O\\left( k^{-7/2} \\right) $$ O k - 7 / 2 . Our progress can be explained by a finer specification of the problem class. The main idea of this approach consists in implementation of the third-order scheme from Nesterov (Math Program 186:157–183, 2021) using the second-order oracle. At each iteration of our method, we solve a nontrivial auxiliary problem by a linearly convergent scheme based on the relative non-degeneracy condition (Bauschke et al. in Math Oper Res 42:330–348, 2016; Lu et al. in SIOPT 28(1):333–354, 2018). During this process, the Hessian of the objective function is computed once, and the gradient is computed $$O\\left( \\ln {1 \\over \\epsilon }\\right) $$ O ln 1 ϵ times, where $$\\epsilon $$ ϵ is the desired accuracy of the solution for our problem.",
+      "abstract": "In this paper, we present new second-order methods with convergence rate $$O\\left( k^{-4}\\right) $$ O k - 4 , where k is the iteration counter. This is faster than the existing lower bound for this type of schemes (Agarwal and Hazan in Proceedings of the 31st conference on learning theory, PMLR, pp. 774–792, 2018; Arjevani and Shiff in Math Program 178(1–2):327–360, 2019), which is $$O\\left( k^{-7/2} \\right) $$ O k - 7 / 2 . Our progress can be explained by a finer specification of the problem class. The main idea of this approach consists in implementation of the third-order scheme from Nesterov (Math Program 186:157–183, 2021) using the second-order oracle. At each iteration of our method, we solve a nontrivial auxiliary problem by a linearly convergent scheme based on the relative non-degeneracy condition (Bauschke et al. in Math Oper Res 42:330–348, 2016; Lu et al. in SIOPT 28(1):333–354, 2018). During this process, the Hessian of the objective function is computed once, and the gradient is computed $$O\\left( \\ln {1 \\over \\epsilon }\\right) $$ O ln 1 ϵ times, where $$\\epsilon $$ ϵ is the desired accuracy of the solution for our problem.",
       "summary": "",
       "url": "../papers/2021_nesterov_superfast_second_order_methods/",
       "contentTreeUrl": "../content-tree/#paper=2021_nesterov_superfast_second_order_methods",
@@ -29200,6 +29813,38 @@ window.timelineData = {
       "url": "../papers/2109_05059/",
       "contentTreeUrl": "../content-tree/#paper=2109_05059",
       "mindMapUrl": "../mind-map/#paper=2109_05059"
+    },
+    {
+      "id": "2103_10698",
+      "label": "AutoTune",
+      "title": "AutoTune: Controller Tuning for High-Speed Flight",
+      "authors": [
+        "Antonio Loquercio",
+        "Alessandro Saviolo",
+        "Davide Scaramuzza"
+      ],
+      "authorShort": "Loquercio, Saviolo, Scaramuzza",
+      "year": 2021,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Toolboxes & Solvers",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Black-Box Optimization",
+        "Planner / Controller Autotuning",
+        "AutoTune"
+      ],
+      "tags": [],
+      "abstract": "Due to noisy actuation and external disturbances, tuning controllers for high-speed flight is very challenging. In this paper, we ask the following questions: How sensitive are controllers to tuning when tracking high-speed maneuvers? What algorithms can we use to automatically tune them? To answer the first question, we study the relationship between parameters and performance and find out that the faster the maneuver, the more sensitive a controller becomes to its parameters. To answer the second question, we review existing methods for controller tuning and discover that prior works often perform poorly on the task of high-speed flight. Therefore, we propose AutoTune, a sampling-based tuning algorithm specifically tailored to high-speed flight. In contrast to previous work, our algorithm does not assume any prior knowledge of the drone or its optimization function and can deal with the multi-modal characteristics of the parameters' optimization space. We thoroughly evaluate AutoTune both in simulation and in the physical world. In our experiments, we outperform existing tuning algorithms by up to 90% in trajectory completion. The resulting controllers are tested in the AirSim Game of Drones competition, where we outperform the winner by up to 25% in lap-time. Finally, we show that AutoTune improves tracking error when flying a physical platform with respect to parameters tuned by a human expert.",
+      "summary": "",
+      "url": "../papers/2103_10698/",
+      "contentTreeUrl": "../content-tree/#paper=2103_10698",
+      "mindMapUrl": "../mind-map/#paper=2103_10698"
     },
     {
       "id": "2104_10201",
@@ -29245,6 +29890,73 @@ window.timelineData = {
       "url": "../papers/2104_10201/",
       "contentTreeUrl": "../content-tree/#paper=2104_10201",
       "mindMapUrl": "../mind-map/#paper=2104_10201"
+    },
+    {
+      "id": "2106_10516",
+      "label": "DiffLoop",
+      "title": "DiffLoop: Tuning PID Controllers by Differentiating through the Feedback Loop",
+      "authors": [
+        "Athindran Ramesh Kumar",
+        "Peter J. Ramadge"
+      ],
+      "authorShort": "Kumar, Ramadge",
+      "year": 2021,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Toolboxes & Solvers",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Black-Box Optimization",
+        "Planner / Controller Autotuning",
+        "DiffLoop"
+      ],
+      "tags": [],
+      "abstract": "Since most industrial control applications use PID controllers, PID tuning and anti-windup measures are significant problems. This paper investigates tuning the feedback gains of a PID controller via back-calculation and automatic differentiation tools. In particular, we episodically use a cost function to generate gradients and perform gradient descent to improve controller performance. We provide a theoretical framework for analyzing this non-convex optimization and establish a relationship between back-calculation and disturbance feedback policies. We include numerical experiments on linear systems with actuator saturation to show the efficacy of this approach.",
+      "summary": "",
+      "url": "../papers/2106_10516/",
+      "contentTreeUrl": "../content-tree/#paper=2106_10516",
+      "mindMapUrl": "../mind-map/#paper=2106_10516"
+    },
+    {
+      "id": "2021_moll_hyperplan_a_framework_for",
+      "label": "Hyperplan",
+      "title": "Hyperplan: A Framework for Motion Planning Algorithm Selection and Parameter Optimization",
+      "authors": [
+        "Mark Moll",
+        "Constantinos Chamzas",
+        "Zachary Kingston",
+        "Lydia E. Kavraki"
+      ],
+      "authorShort": "Moll, Chamzas, Kingston",
+      "year": 2021,
+      "source": "2021 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Toolboxes & Solvers",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Black-Box Optimization",
+        "Planner / Controller Autotuning",
+        "Hyperplan"
+      ],
+      "tags": [
+        "Robotics",
+        "Motion planning"
+      ],
+      "abstract": "Over the years, many motion planning algorithms have been proposed. It is often unclear which algorithm might be best suited for a particular class of problems. The problem is compounded by the fact that algorithm performance can be highly dependent on parameter settings. This paper shows that hyperparameter optimization is an effective tool in both algorithm selection and parameter tuning over a given set of motion planning problems. We present different loss functions for optimization that capture different notions of optimality. The approach is evaluated on a broad range of scenes using two different manipulators, a Fetch and a Baxter. We show that optimized planning algorithm performance significantly improves upon baseline performance and generalizes broadly in the sense that performance improvements carry over to problems that are very different from the ones considered during optimization.",
+      "summary": "Formulates motion-planning algorithm selection and parameter tuning as a hyperparameter optimization problem over planners, planner parameters, robots, and problem classes. HyperPlan contributes loss-function designs for planning speed and path quality, and its Fetch and Baxter experiments show that optimized planner configurations can outperform defaults and often generalize beyond the exact scenes used for tuning.",
+      "url": "../papers/2021_moll_hyperplan_a_framework_for/",
+      "contentTreeUrl": "../content-tree/#paper=2021_moll_hyperplan_a_framework_for",
+      "mindMapUrl": "../mind-map/#paper=2021_moll_hyperplan_a_framework_for"
     },
     {
       "id": "2021_bennet_nevergrad_black_box_optimization",
@@ -30294,6 +31006,45 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2021_gravell_policy_iteration_for_linear"
     },
     {
+      "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+      "label": "Stabilizing Dynamical Systems via Policy Gradient Methods",
+      "title": "Stabilizing Dynamical Systems via Policy Gradient Methods",
+      "authors": [
+        "Juan C. Perdomo",
+        "Jack Umenberger",
+        "Max Simchowitz"
+      ],
+      "authorShort": "Perdomo, Umenberger, Simchowitz",
+      "year": 2021,
+      "source": "Advances in Neural Information Processing Systems",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "RL for Linear Systems",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "RL for Linear Systems",
+        "Policy Optimization",
+        "Stabilizing Dynamical Systems via Policy Gradient Methods"
+      ],
+      "tags": [
+        "Policy gradient",
+        "Stabilization",
+        "Dynamical systems",
+        "Linear quadratic regulator",
+        "Model-free control",
+        "Reinforcement learning",
+        "Nonlinear systems"
+      ],
+      "abstract": "Stabilizing an unknown control system is one of the most fundamental problems in control systems engineering. In this paper, we provide a simple, model-free algorithm for stabilizing fully observed dynamical systems. While model-free methods have become increasingly popular in practice due to their simplicity and flexibility, stabilization via direct policy search has received surprisingly little attention. Our algorithm proceeds by solving a series of discounted LQR problems, where the discount factor is gradually increased. We prove that this method efficiently recovers a stabilizing controller for linear systems, and for smooth, nonlinear systems within a neighborhood of their equilibria. Our approach overcomes a significant limitation of prior work, namely the need for a pre-given stabilizing control policy. We empirically evaluate the effectiveness of our approach on common control benchmarks.",
+      "summary": "Perdomo, Umenberger, and Simchowitz show that direct policy search can be used to find stabilizing controllers without starting from an already-stabilizing policy. The method follows a continuation path through discounted LQR problems, increasing the discount factor until it recovers a stabilizing controller for linear systems and locally for smooth nonlinear systems.",
+      "url": "../papers/2021_perdomo_stabilizing_dynamical_systems_via/",
+      "contentTreeUrl": "../content-tree/#paper=2021_perdomo_stabilizing_dynamical_systems_via",
+      "mindMapUrl": "../mind-map/#paper=2021_perdomo_stabilizing_dynamical_systems_via"
+    },
+    {
       "id": "2108_10470",
       "label": "Isaac Gym",
       "title": "Isaac Gym: High Performance GPU-Based Physics Simulation for Robot Learning",
@@ -30498,6 +31249,64 @@ window.timelineData = {
       "url": "../papers/2106_05123/",
       "contentTreeUrl": "../content-tree/#paper=2106_05123",
       "mindMapUrl": "../mind-map/#paper=2106_05123"
+    },
+    {
+      "id": "2021_lindsay_disaster_theory",
+      "label": "Disaster Theory",
+      "title": "Disaster Theory",
+      "authors": [
+        "Stuart Lindsay"
+      ],
+      "authorShort": "Lindsay",
+      "year": 2021,
+      "source": "English Language Notes",
+      "type": "Journal Paper",
+      "superCategory": "Foundations",
+      "category": "Humanities & Culture",
+      "subCategory": "Disaster Theory",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Humanities & Culture",
+        "Disaster Theory"
+      ],
+      "tags": [
+        "Research paper"
+      ],
+      "abstract": "The online community of vaporwave music is a cultural development that emerged in the 2010s and therefore fully within the ideological sphere of postindustrialism. Consisting of slowed-down samples from pop songs and advertising jingles from the 1980s and 1990s stitched together with original synthesizer pieces that resemble those used in horror-film scores, vaporwave is an undead, artificial soundscape that floats somewhere between music and sound. Its fake nostalgia for an alternative yet ossified past aims to confront our contemporary social paralysis in the face of postmillennial economic failure and political crisis. This article examines gothic elements of the vaporwave music phenomenon to analyze how vaporwave expresses sociopolitical traumas of late capitalism. Derridean notions of hauntology articulate the individual’s self-isolation and objectification under the neoliberal homogenization of culture in vaporwave artist Begotten’s contributions to the hushwave subgenre of the scene (2018–19). Vaporwave’s cyclical and uncanny sounds embody the spectral haunting of Marx in capitalism’s repetitive pronunciation of victory over its vanquished, communist foe in Sunsetcorp’s 2009 single “nobody here” and the manifestations of American political trauma after 9/11 in Cat System Corporation’s signalwave album, News at 11 (2016).",
+      "summary": "Interprets vaporwave as a hauntological and gothic expression of late-capitalist trauma. The article focuses on how slowed samples, advertising fragments, horror-like synth textures, and subgenres such as hushwave and signalwave turn fake nostalgia into a way of staging postindustrial paralysis, neoliberal isolation, and political aftershocks such as the spectral repetition of Cold War triumphalism and 9/11 media memory.",
+      "url": "../papers/2021_lindsay_disaster_theory/",
+      "contentTreeUrl": "../content-tree/#paper=2021_lindsay_disaster_theory",
+      "mindMapUrl": "../mind-map/#paper=2021_lindsay_disaster_theory"
+    },
+    {
+      "id": "2021_morrissey_metamodernism_and_vaporwave_a",
+      "label": "Metamodernism and Vaporwave: A Study of Web 2.0 Aesthetic Culture",
+      "title": "Metamodernism and Vaporwave: A Study of Web 2.0 Aesthetic Culture",
+      "authors": [
+        "Nicholas Morrissey"
+      ],
+      "authorShort": "Morrissey",
+      "year": 2021,
+      "source": "Nota Bene: Canadian Undergraduate Journal of Musicology",
+      "type": "Journal Paper",
+      "superCategory": "Foundations",
+      "category": "Humanities & Culture",
+      "subCategory": "Metamodernism and Vaporwave: A Study of Web 2.0 Aesthetic Culture",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Humanities & Culture",
+        "Metamodernism and Vaporwave: A Study of Web 2.0 Aesthetic Culture"
+      ],
+      "tags": [
+        "Research paper"
+      ],
+      "abstract": "With the advent of Web 2.0, new forms of cultural and aesthetic texts, including memes and user generated content (UGC), have become increasingly popular worldwide as streaming and social media services have become more ubiquitous. In order to acknowledge the relevance and importance of these texts in academia and art, this paper conducts a three-part analysis of Vaporwave—a unique multimedia style that originated within Web 2.0—through the lens of a new cultural philosophy known as metamodernism. Relying upon a breadth of cultural theory and first-hand observations, this paper questions the extent to which Vaporwave is interested in metamodernist constructs and asks whether or not the genre can be classed as a metamodernist text, noting the dichotomy and extrapolation of nostalgia promoted by the genre and the unique instrumentality it offers to its consumers both visually and sonically. This paper ultimately theorizes that online culture will continue to play an important role in cultural production, aesthetic mediation, and even personal expression as media becomes more integrated into our systems of meaning.",
+      "summary": "Analyzes vaporwave as Web 2.0 aesthetic culture through metamodernist theory, asking whether the genre oscillates between sincerity and irony, nostalgia and critique, and image and lived experience. The paper concludes that vaporwave remains strongly rooted in postmodern simulacra and reflexive commentary, but it also differs from older postmodern work by treating simulated and internet-mediated nostalgia as personally meaningful rather than merely empty.",
+      "url": "../papers/2021_morrissey_metamodernism_and_vaporwave_a/",
+      "contentTreeUrl": "../content-tree/#paper=2021_morrissey_metamodernism_and_vaporwave_a",
+      "mindMapUrl": "../mind-map/#paper=2021_morrissey_metamodernism_and_vaporwave_a"
     },
     {
       "id": "2104_14294",
@@ -31123,72 +31932,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2211_05922"
     },
     {
-      "id": "2209_10021",
-      "label": "DiffTune",
-      "title": "DiffTune: Auto-Tuning through Auto-Differentiation",
-      "authors": [
-        "Sheng Cheng",
-        "Minkyung Kim",
-        "Lin Song",
-        "Chengyu Yang",
-        "Yiquan Jin",
-        "Shenlong Wang",
-        "Naira Hovakimyan"
-      ],
-      "authorShort": "Cheng, Kim, Song",
-      "year": 2022,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "Controller Autotuning",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Control",
-        "Controller Autotuning",
-        "DiffTune"
-      ],
-      "tags": [],
-      "abstract": "The performance of robots in high-level tasks depends on the quality of their lower-level controller, which requires fine-tuning. However, the intrinsically nonlinear dynamics and controllers make tuning a challenging task when it is done by hand. In this paper, we present DiffTune, a novel, gradient-based automatic tuning framework. We formulate the controller tuning as a parameter optimization problem. Our method unrolls the dynamical system and controller as a computational graph and updates the controller parameters through gradient-based optimization. The gradient is obtained using sensitivity propagation, which is the only method for gradient computation when tuning for a physical system instead of its simulated counterpart. Furthermore, we use $\\mathcal{L}_1$ adaptive control to compensate for the uncertainties (that unavoidably exist in a physical system) such that the gradient is not biased by the unmodelled uncertainties. We validate the DiffTune on a Dubin's car and a quadrotor in challenging simulation environments. In comparison with state-of-the-art auto-tuning methods, DiffTune achieves the best performance in a more efficient manner owing to its effective usage of the first-order information of the system. Experiments on tuning a nonlinear controller for quadrotor show promising results, where DiffTune achieves 3.5x tracking error reduction on an aggressive trajectory in only 10 trials over a 12-dimensional controller parameter space.",
-      "summary": "",
-      "url": "../papers/2209_10021/",
-      "contentTreeUrl": "../content-tree/#paper=2209_10021",
-      "mindMapUrl": "../mind-map/#paper=2209_10021"
-    },
-    {
-      "id": "2212_03194",
-      "label": "DiffTune+",
-      "title": "DiffTune+: Hyperparameter-Free Auto-Tuning Using Auto-Differentiation",
-      "authors": [
-        "Sheng Cheng",
-        "Lin Song",
-        "Minkyung Kim",
-        "Shenlong Wang",
-        "Naira Hovakimyan"
-      ],
-      "authorShort": "Cheng, Song, Kim",
-      "year": 2022,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "Controller Autotuning",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Control",
-        "Controller Autotuning",
-        "DiffTune+"
-      ],
-      "tags": [],
-      "abstract": "Controller tuning is a vital step to ensure the controller delivers its designed performance. DiffTune has been proposed as an automatic tuning method that unrolls the dynamical system and controller into a computational graph and uses auto-differentiation to obtain the gradient for the controller's parameter update. However, DiffTune uses the vanilla gradient descent to iteratively update the parameter, in which the performance largely depends on the choice of the learning rate (as a hyperparameter). In this paper, we propose to use hyperparameter-free methods to update the controller parameters. We find the optimal parameter update by maximizing the loss reduction, where a predicted loss based on the approximated state and control is used for the maximization. Two methods are proposed to optimally update the parameters and are compared with related variants in simulations on a Dubin's car and a quadrotor. Simulation experiments show that the proposed first-order method outperforms the hyperparameter-based methods and is more robust than the second-order hyperparameter-free methods.",
-      "summary": "",
-      "url": "../papers/2212_03194/",
-      "contentTreeUrl": "../content-tree/#paper=2212_03194",
-      "mindMapUrl": "../mind-map/#paper=2212_03194"
-    },
-    {
       "id": "2207_11220",
       "label": "Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically",
       "title": "Stochastic Algebraic Riccati Equations Are Almost as Easy as Deterministic Ones Theoretically",
@@ -31507,6 +32250,76 @@ window.timelineData = {
       "url": "../papers/2203_11419/",
       "contentTreeUrl": "../content-tree/#paper=2203_11419",
       "mindMapUrl": "../mind-map/#paper=2203_11419"
+    },
+    {
+      "id": "2209_10021",
+      "label": "DiffTune",
+      "title": "DiffTune: Auto-Tuning through Auto-Differentiation",
+      "authors": [
+        "Sheng Cheng",
+        "Minkyung Kim",
+        "Lin Song",
+        "Chengyu Yang",
+        "Yiquan Jin",
+        "Shenlong Wang",
+        "Naira Hovakimyan"
+      ],
+      "authorShort": "Cheng, Kim, Song",
+      "year": 2022,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Toolboxes & Solvers",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Black-Box Optimization",
+        "Planner / Controller Autotuning",
+        "DiffTune"
+      ],
+      "tags": [],
+      "abstract": "The performance of robots in high-level tasks depends on the quality of their lower-level controller, which requires fine-tuning. However, the intrinsically nonlinear dynamics and controllers make tuning a challenging task when it is done by hand. In this paper, we present DiffTune, a novel, gradient-based automatic tuning framework. We formulate the controller tuning as a parameter optimization problem. Our method unrolls the dynamical system and controller as a computational graph and updates the controller parameters through gradient-based optimization. The gradient is obtained using sensitivity propagation, which is the only method for gradient computation when tuning for a physical system instead of its simulated counterpart. Furthermore, we use $\\mathcal{L}_1$ adaptive control to compensate for the uncertainties (that unavoidably exist in a physical system) such that the gradient is not biased by the unmodelled uncertainties. We validate the DiffTune on a Dubin's car and a quadrotor in challenging simulation environments. In comparison with state-of-the-art auto-tuning methods, DiffTune achieves the best performance in a more efficient manner owing to its effective usage of the first-order information of the system. Experiments on tuning a nonlinear controller for quadrotor show promising results, where DiffTune achieves 3.5x tracking error reduction on an aggressive trajectory in only 10 trials over a 12-dimensional controller parameter space.",
+      "summary": "",
+      "url": "../papers/2209_10021/",
+      "contentTreeUrl": "../content-tree/#paper=2209_10021",
+      "mindMapUrl": "../mind-map/#paper=2209_10021"
+    },
+    {
+      "id": "2212_03194",
+      "label": "DiffTune+",
+      "title": "DiffTune+: Hyperparameter-Free Auto-Tuning Using Auto-Differentiation",
+      "authors": [
+        "Sheng Cheng",
+        "Lin Song",
+        "Minkyung Kim",
+        "Shenlong Wang",
+        "Naira Hovakimyan"
+      ],
+      "authorShort": "Cheng, Song, Kim",
+      "year": 2022,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Toolboxes & Solvers",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Black-Box Optimization",
+        "Planner / Controller Autotuning",
+        "DiffTune+"
+      ],
+      "tags": [],
+      "abstract": "Controller tuning is a vital step to ensure the controller delivers its designed performance. DiffTune has been proposed as an automatic tuning method that unrolls the dynamical system and controller into a computational graph and uses auto-differentiation to obtain the gradient for the controller's parameter update. However, DiffTune uses the vanilla gradient descent to iteratively update the parameter, in which the performance largely depends on the choice of the learning rate (as a hyperparameter). In this paper, we propose to use hyperparameter-free methods to update the controller parameters. We find the optimal parameter update by maximizing the loss reduction, where a predicted loss based on the approximated state and control is used for the maximization. Two methods are proposed to optimally update the parameters and are compared with related variants in simulations on a Dubin's car and a quadrotor. Simulation experiments show that the proposed first-order method outperforms the hyperparameter-based methods and is more robust than the second-order hyperparameter-free methods.",
+      "summary": "",
+      "url": "../papers/2212_03194/",
+      "contentTreeUrl": "../content-tree/#paper=2212_03194",
+      "mindMapUrl": "../mind-map/#paper=2212_03194"
     },
     {
       "id": "2210_05015",
@@ -33233,6 +34046,39 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2205_05119"
     },
     {
+      "id": "2022_wolfe_spatiotemporal_blue_noise_masks",
+      "label": "Spatiotemporal Blue Noise Masks",
+      "title": "Spatiotemporal Blue Noise Masks",
+      "authors": [
+        "Alan Wolfe",
+        "Nathan Morrical",
+        "Tomas Akenine-Möller",
+        "Ravi Ramamoorthi"
+      ],
+      "authorShort": "Wolfe, Morrical, Akenine-Möller",
+      "year": 2022,
+      "source": "diglib.eg.org",
+      "type": "Other",
+      "superCategory": "Evaluation",
+      "category": "Computer Graphics",
+      "subCategory": "Noise & Dithering",
+      "path": [
+        "Content Tree",
+        "Evaluation",
+        "Computer Graphics",
+        "Noise & Dithering",
+        "Spatiotemporal Blue Noise Masks"
+      ],
+      "tags": [
+        "Computer vision"
+      ],
+      "abstract": "Blue noise error patterns are well suited to human perception, and when applied to stochastic rendering techniques, blue noise masks can minimize unwanted low-frequency noise in the final image. Current methods of applying different blue noise masks to each rendered frame result in either white noise frequency spectra temporally, and thus poor convergence and stability, or lower quality spatially. We propose novel blue noise masks that retain high quality blue noise spatially, yet when animated produce values at each pixel that are well distributed over time. To do so, we create scalar valued masks by modifying the energy function of the void and cluster algorithm. To create uniform and nonuniform vector valued masks, we make the same modifications to the blue-noise dithered sampling algorithm. These masks exhibit blue noise frequency spectra in both the spatial and temporal domains, resulting in visually pleasing error patterns, rapid convergence speeds, and increased stability when filtered temporally. Since masks can be initialized with arbitrary sample sets, these improvements can be used on a large variety of problems, both uniformly and importance sampled. We demonstrate these improvements in volumetric rendering, ambient occlusion, and stochastic convolution. By extending spatial blue noise to spatiotemporal blue noise, we overcome the convergence limitations of prior blue noise works, enabling new applications for blue noise distributions. Usable masks and source code can be found at https://github.com/NVIDIAGameWorks/SpatiotemporalBlueNoiseSDK.",
+      "summary": "Extends blue-noise masks from purely spatial distributions to spatiotemporal masks suitable for animated stochastic rendering. Their algorithms modify void-and-cluster and blue-noise dithered sampling objectives to produce scalar and vector masks with blue-noise spectra in both space and time, improving temporal filtering stability and convergence in examples such as volumetric rendering, ambient occlusion, and stochastic convolution.",
+      "url": "../papers/2022_wolfe_spatiotemporal_blue_noise_masks/",
+      "contentTreeUrl": "../content-tree/#paper=2022_wolfe_spatiotemporal_blue_noise_masks",
+      "mindMapUrl": "../mind-map/#paper=2022_wolfe_spatiotemporal_blue_noise_masks"
+    },
+    {
       "id": "2022_various_ieee_standard_for_assumptions",
       "label": "IEEE Standard 3079-2022",
       "title": "IEEE Standard for Assumptions in Safety-Related Models for Automated Driving Systems",
@@ -33325,6 +34171,39 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2022_kusano_methodology_for_determining_maximum"
     },
     {
+      "id": "2022_schmid_why_and_how_savitzkygolay",
+      "label": "Why and How Savitzky-Golay Filters Should Be Replaced",
+      "title": "Why and How Savitzky-Golay Filters Should Be Replaced",
+      "authors": [
+        "Michael Schmid",
+        "David Rath",
+        "Ulrike Diebold"
+      ],
+      "authorShort": "Schmid, Rath, Diebold",
+      "year": 2022,
+      "source": "ACS Measurement Science Au",
+      "type": "Journal Paper",
+      "superCategory": "Foundations",
+      "category": "Mathematics",
+      "subCategory": "Linear Algebra & Signal Processing",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Mathematics",
+        "Linear Algebra & Signal Processing",
+        "Signal Filtering and Smoothing",
+        "Why and How Savitzky-Golay Filters Should Be Replaced"
+      ],
+      "tags": [
+        "Research paper"
+      ],
+      "abstract": "Savitzky-Golay (SG) filtering, based on local least-squares fitting of the data by polynomials, is a popular method for smoothing data and calculations of derivatives of noisy data. At frequencies above the cutoff, SG filters have poor noise suppression; this unnecessarily reduces the signal-to-noise ratio, especially when calculating derivatives of the data. In addition, SG filtering near the boundaries of the data range is prone to artifacts, which are especially strong when using SG filters for calculating derivatives of the data. We show how these disadvantages can be avoided while keeping the advantageous properties of SG filters. We present two classes of finite impulse response (FIR) filters with substantially improved frequency response: (i) SG filters with fitting weights in the shape of a window function and (ii) convolution kernels based on the sinc function with a Gaussian-like window function and additional corrections for improving the frequency response in the passband (modified sinc kernel). Compared with standard SG filters, the only price to pay for the improvement is a moderate increase in the kernel size. Smoothing at the boundaries of the data can be improved with a non-FIR method, the Whittaker-Henderson smoother, or by linear extrapolation of the data, followed by convolution with a modified sinc kernel, and we show that the latter is preferable in most cases. We provide computer programs and equations for the smoothing parameters of these smoothers when used as plug-in replacements for SG filters and describe how to choose smoothing parameters to preserve peak heights in spectra.",
+      "summary": "Explains why standard Savitzky-Golay filters preserve peak shapes but suppress high-frequency noise poorly, especially when derivatives or boundary regions are involved. They compare weighted Savitzky-Golay filters, modified sinc kernels, and Whittaker-Henderson smoothing, concluding that modified sinc kernels with linear extrapolation are often the strongest drop-in replacement because they reduce stopband noise and boundary artifacts while keeping useful passband behavior.",
+      "url": "../papers/2022_schmid_why_and_how_savitzkygolay/",
+      "contentTreeUrl": "../content-tree/#paper=2022_schmid_why_and_how_savitzkygolay",
+      "mindMapUrl": "../mind-map/#paper=2022_schmid_why_and_how_savitzkygolay"
+    },
+    {
       "id": "2210_02747",
       "label": "Flow Matching for Generative Modeling",
       "title": "Flow Matching for Generative Modeling",
@@ -33347,6 +34226,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Diffusion Models",
+        "Flow Matching",
         "Flow Matching for Generative Modeling"
       ],
       "tags": [],
@@ -33377,6 +34257,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Diffusion Models",
+        "Flow Matching",
         "Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow"
       ],
       "tags": [],
@@ -33405,6 +34286,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Diffusion Models",
+        "Flow Matching",
         "Rectified Flow: A Marginal Preserving Approach to Optimal Transport"
       ],
       "tags": [],
@@ -33622,6 +34504,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Neural Networks",
+        "Theory & Empirical Observations",
         "Grokking"
       ],
       "tags": [],
@@ -33656,6 +34539,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Representation Learning",
+        "Energy-based Models",
         "Energy-based Models"
       ],
       "tags": [],
@@ -35836,6 +36720,37 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2311_07411"
     },
     {
+      "id": "2023_yuan_stochastic_second_order_methods",
+      "label": "Stochastic Second Order Methods and Finite Time Analysis of Policy Gradient Methods",
+      "title": "Stochastic Second Order Methods and Finite Time Analysis of Policy Gradient Methods",
+      "authors": [
+        "Rui Yuan"
+      ],
+      "authorShort": "Yuan",
+      "year": 2023,
+      "source": "theses.hal.science",
+      "type": "Other",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Policy Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Policy Optimization",
+        "Trust Region",
+        "Stochastic Second Order Methods and Finite Time Analysis of Policy Gradient Methods"
+      ],
+      "tags": [
+        "Research paper"
+      ],
+      "abstract": "To solve large scale machine learning problems, first-order methods such as stochastic gradient descent and ADAM are the methods of choice because of their low cost per iteration. The issue with first order methods is that they can require extensive parameter tuning, and/or knowledge of the parameters of the problem. There is now a concerted effort to develop efficient stochastic second order methods to solve large scale machine learning problems. The motivation is that they require less parameter tuning and converge for wider variety of models and datasets. In the first part of the thesis, we presented a principled approach for designing stochastic Newton methods for solving both nonlinear equations and optimization problems in an efficient manner. Our approach has two steps. First, we can re-write the nonlinear equations or the optimization problem as desired nonlinear equations. Second, we apply new stochastic second order methods to solve this system of nonlinear equations. Through our general approach, we showcase many specific new second-order algorithms that can solve the large machine learning problems efficiently without requiring knowledge of the problem nor parameter tuning. In the second part of the thesis, we then focus on optimization algorithms applied in a specific domain: reinforcement learning (RL). This part is independent to the first part of the thesis. To achieve such high performance of RL problems, policy gradient (PG) and its variant, natural policy gradient (NPG), are the foundations of the several state of the art algorithms (e.g., TRPO and PPO) used in deep RL. In spite of the empirical success of RL and PG methods, a solid theoretical understanding of even the “vanilla” PG has long been elusive. By leveraging the RL structure of the problem together with modern optimization proof techniques, we derive new finite time analysis of both PG and NPG. Through our analysis, we also bring new insights to the methods with better hyperparameter choices.",
+      "summary": "",
+      "url": "../papers/2023_yuan_stochastic_second_order_methods/",
+      "contentTreeUrl": "../content-tree/#paper=2023_yuan_stochastic_second_order_methods",
+      "mindMapUrl": "../mind-map/#paper=2023_yuan_stochastic_second_order_methods"
+    },
+    {
       "id": "2303_08431",
       "label": "Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators",
       "title": "Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators",
@@ -36462,6 +37377,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Diffusion Models",
+        "Flow Matching",
         "Multisample Flow Matching: Straightening Flows with Minibatch Couplings"
       ],
       "tags": [],
@@ -39904,6 +40820,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Diffusion Models",
+        "Flow Matching",
         "Optimal Flow Matching: Learning Straight Trajectories in Just One Step"
       ],
       "tags": [],
@@ -40339,6 +41256,38 @@ window.timelineData = {
       "url": "../papers/2410_13732/",
       "contentTreeUrl": "../content-tree/#paper=2410_13732",
       "mindMapUrl": "../mind-map/#paper=2410_13732"
+    },
+    {
+      "id": "2024_dawid_introduction_to_latent_variable",
+      "label": "Introduction to Latent Variable Energy-Based Models: A Path Toward Autonomous Machine Intelligence",
+      "title": "Introduction to Latent Variable Energy-Based Models: A Path Toward Autonomous Machine Intelligence",
+      "authors": [
+        "Anna Dawid",
+        "Yann LeCun"
+      ],
+      "authorShort": "Dawid, LeCun",
+      "year": 2024,
+      "source": "Journal of Statistical Mechanics: Theory and Experiment",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Representation Learning",
+      "path": [
+        "Content Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Representation Learning",
+        "Energy-based Models",
+        "Introduction to Latent Variable Energy-Based Models: A Path Toward Autonomous Machine Intelligence"
+      ],
+      "tags": [
+        "Research paper"
+      ],
+      "abstract": "Current automated systems have crucial limitations that need to be addressed before artificial intelligence can reach human-like levels and bring new technological revolutions. Among others, our societies still lack level-5 self-driving cars, domestic robots, and virtual assistants that learn reliable world models, reason, and plan complex action sequences. In these notes, we summarize the main ideas behind the architecture of autonomous intelligence of the future proposed by Yann LeCun. In particular, we introduce energy-based and latent variable models and combine their advantages in the building block of LeCun’s proposal, that is, in the hierarchical joint-embedding predictive architecture.",
+      "summary": "Dawid and LeCun turn LeCun's autonomous machine intelligence proposal into lecture-note form, introducing energy-based models, latent variables, and their role in self-supervised predictive world models. The paper argues that JEPAs and hierarchical JEPAs can make predictions in representation space, handle uncertainty with latent variables, and support multiscale planning more naturally than purely supervised, reinforcement-learning, or high-dimensional probabilistic approaches.",
+      "url": "../papers/2024_dawid_introduction_to_latent_variable/",
+      "contentTreeUrl": "../content-tree/#paper=2024_dawid_introduction_to_latent_variable",
+      "mindMapUrl": "../mind-map/#paper=2024_dawid_introduction_to_latent_variable"
     },
     {
       "id": "2406_09246",
@@ -41086,40 +42035,6 @@ window.timelineData = {
       "url": "../papers/2506_04183/",
       "contentTreeUrl": "../content-tree/#paper=2506_04183",
       "mindMapUrl": "../mind-map/#paper=2506_04183"
-    },
-    {
-      "id": "2508_10480",
-      "label": "PInet",
-      "title": "PInet: Optimizing Hard-constrained Neural Networks with Orthogonal Projection Layers",
-      "authors": [
-        "Panagiotis D. Grontas",
-        "Antonio Terpin",
-        "Efe C. Balta",
-        "Raffaello D'Andrea",
-        "John Lygeros"
-      ],
-      "authorShort": "Grontas, Terpin, Balta",
-      "year": 2025,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "PInet"
-      ],
-      "tags": [],
-      "abstract": "We introduce an output layer for neural networks that ensures satisfaction of convex constraints. Our approach, Πnet, leverages operator splitting for rapid and reliable projections in the forward pass, and the implicit function theorem for backpropagation. We deploy Πnet as a feasible-by-design optimization proxy for parametric constrained optimization problems and obtain modest-accuracy solutions faster than traditional solvers when solving a single problem, and significantly faster for a batch of problems. We surpass state-of-the-art learning approaches by orders of magnitude in terms of training time, solution quality, and robustness to hyperparameter tuning, while maintaining similar inference times. Finally, we tackle multi-vehicle motion planning with non-convex trajectory preferences and provide Πnet as a GPU-ready package implemented in JAX.",
-      "summary": "",
-      "url": "../papers/2508_10480/",
-      "contentTreeUrl": "../content-tree/#paper=2508_10480",
-      "mindMapUrl": "../mind-map/#paper=2508_10480"
     },
     {
       "id": "2507_02131",
@@ -44371,6 +45286,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Machine Learning",
         "Diffusion Models",
+        "Flow Matching",
         "Mean Flows for One-step Generative Modeling"
       ],
       "tags": [],
@@ -44379,6 +45295,134 @@ window.timelineData = {
       "url": "../papers/2505_13447/",
       "contentTreeUrl": "../content-tree/#paper=2505_13447",
       "mindMapUrl": "../mind-map/#paper=2505_13447"
+    },
+    {
+      "id": "2025_gabrielsson_a_foundation_model_for",
+      "label": "BehaviorGPT-v1",
+      "title": "A Foundation Model for Consumption, Transactions, and Actions: The Inception of BehaviorGPT",
+      "authors": [
+        "Rickard Brüel Gabrielsson"
+      ],
+      "authorShort": "Gabrielsson",
+      "year": 2025,
+      "source": "Unbox AI Research Blog",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Large Behavioral Models (LBM)",
+      "path": [
+        "Content Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Large Behavioral Models (LBM)",
+        "BehaviorGPT",
+        "BehaviorGPT-v1"
+      ],
+      "tags": [
+        "Foundation models"
+      ],
+      "abstract": "We applied language modeling to rich grocery consumption data to build BehaviorGPT-v1, treating user consumption history as a language to predict future events.",
+      "summary": "Introduces BehaviorGPT-v1 as a Transformer foundation model for grocery consumption, treating purchase histories, searches, clicks, and other retail events as token sequences. The paper frames consumption as a behavioral language, reports large recommendation and conversion gains over production baselines, and positions the model as a foundation for retail search, recommendations, assortment planning, fraud detection, and transaction intelligence.",
+      "url": "../papers/2025_gabrielsson_a_foundation_model_for/",
+      "contentTreeUrl": "../content-tree/#paper=2025_gabrielsson_a_foundation_model_for",
+      "mindMapUrl": "../mind-map/#paper=2025_gabrielsson_a_foundation_model_for"
+    },
+    {
+      "id": "2025_gabrielsson_behaviorgpt_at_work_a",
+      "label": "BehaviorGPT-v2",
+      "title": "BehaviorGPT at Work: A Foundation Model for Workforce Actions & Dynamics through Large Behavioral Modeling",
+      "authors": [
+        "Rickard Brüel Gabrielsson",
+        "Vasudev Gupta"
+      ],
+      "authorShort": "Gabrielsson, Gupta",
+      "year": 2025,
+      "source": "Unbox AI Research Blog",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Large Behavioral Models (LBM)",
+      "path": [
+        "Content Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Large Behavioral Models (LBM)",
+        "BehaviorGPT",
+        "BehaviorGPT-v2"
+      ],
+      "tags": [
+        "Foundation models"
+      ],
+      "abstract": "We applied language modeling techniques to detailed workforce behavioral data, creating BehaviorGPT-v2: a foundation model treating employee behaviors as a language to predict future actions and outcomes.",
+      "summary": "Extends BehaviorGPT to workforce data by modeling employee-employer interactions as chronological sequences of behavioral tokens. The paper trains a Transformer on millions of workplace events, reports strong attrition-prediction performance, and argues that logged actions such as schedules, breaks, and productive hours can reveal organizational dynamics more reliably than surveys or top-down analytics, while also noting the ethical sensitivity of employee behavior modeling.",
+      "url": "../papers/2025_gabrielsson_behaviorgpt_at_work_a/",
+      "contentTreeUrl": "../content-tree/#paper=2025_gabrielsson_behaviorgpt_at_work_a",
+      "mindMapUrl": "../mind-map/#paper=2025_gabrielsson_behaviorgpt_at_work_a"
+    },
+    {
+      "id": "2025_gabrielsson_behaviorgpt_for_visual_art",
+      "label": "BehaviorGPT-v3",
+      "title": "BehaviorGPT for Visual Art: A Foundation Model for Aesthetics",
+      "authors": [
+        "Rickard Brüel Gabrielsson",
+        "Vasudev Gupta"
+      ],
+      "authorShort": "Gabrielsson, Gupta",
+      "year": 2025,
+      "source": "Unbox AI Research Blog",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Large Behavioral Models (LBM)",
+      "path": [
+        "Content Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Large Behavioral Models (LBM)",
+        "BehaviorGPT",
+        "BehaviorGPT-v3"
+      ],
+      "tags": [
+        "Foundation models"
+      ],
+      "abstract": "We introduce BehaviorGPT-v3, the first behavioral foundation model for visual art and aesthetics. Trained on 215 billion human interactions across major art and design platforms.",
+      "summary": "Presents BehaviorGPT-v3 as a behavior-first foundation model for visual art and aesthetics, trained on large-scale sequences of user interactions rather than only pixels or text-image pairs. The paper argues that aesthetic meaning depends heavily on user context and intent, and reports improvements in search, recommendation, dynamic categorization, SEO, assortment optimization, personalization, navigation, and motif generation.",
+      "url": "../papers/2025_gabrielsson_behaviorgpt_for_visual_art/",
+      "contentTreeUrl": "../content-tree/#paper=2025_gabrielsson_behaviorgpt_for_visual_art",
+      "mindMapUrl": "../mind-map/#paper=2025_gabrielsson_behaviorgpt_for_visual_art"
+    },
+    {
+      "id": "2508_10480",
+      "label": "PInet",
+      "title": "PInet: Optimizing Hard-constrained Neural Networks with Orthogonal Projection Layers",
+      "authors": [
+        "Panagiotis D. Grontas",
+        "Antonio Terpin",
+        "Efe C. Balta",
+        "Raffaello D'Andrea",
+        "John Lygeros"
+      ],
+      "authorShort": "Grontas, Terpin, Balta",
+      "year": 2025,
+      "source": "",
+      "type": "",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Neural Networks",
+      "path": [
+        "Content Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "PInet"
+      ],
+      "tags": [],
+      "abstract": "We introduce an output layer for neural networks that ensures satisfaction of convex constraints. Our approach, Πnet, leverages operator splitting for rapid and reliable projections in the forward pass, and the implicit function theorem for backpropagation. We deploy Πnet as a feasible-by-design optimization proxy for parametric constrained optimization problems and obtain modest-accuracy solutions faster than traditional solvers when solving a single problem, and significantly faster for a batch of problems. We surpass state-of-the-art learning approaches by orders of magnitude in terms of training time, solution quality, and robustness to hyperparameter tuning, while maintaining similar inference times. Finally, we tackle multi-vehicle motion planning with non-convex trajectory preferences and provide Πnet as a GPU-ready package implemented in JAX.",
+      "summary": "",
+      "url": "../papers/2508_10480/",
+      "contentTreeUrl": "../content-tree/#paper=2508_10480",
+      "mindMapUrl": "../mind-map/#paper=2508_10480"
     },
     {
       "id": "2505_14766",
@@ -46760,6 +47804,45 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2602_03639"
     },
     {
+      "id": "2026_zhang_constrained_diffusers_for_safe",
+      "label": "Constrained Diffusers for Safe Planning and Control",
+      "title": "Constrained Diffusers for Safe Planning and Control",
+      "authors": [
+        "Jichen Zhang",
+        "Liqun Zhao",
+        "Antonis Papachristodoulou",
+        "Jack Umenberger"
+      ],
+      "authorShort": "Zhang, Zhao, Papachristodoulou",
+      "year": 2026,
+      "source": "Advances in Neural Information Processing Systems",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Diffusion & Flow Matching",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Diffusion & Flow Matching",
+        "Constrained Diffusers for Safe Planning and Control"
+      ],
+      "tags": [
+        "Diffusion models",
+        "Safe planning",
+        "Constrained optimization",
+        "Control barrier functions",
+        "Receding horizon control",
+        "Robotics",
+        "Planning and control"
+      ],
+      "abstract": "Diffusion models have shown remarkable potential in planning and control tasks due to their ability to represent multimodal distributions over actions and trajectories. However, ensuring safety under constraints remains a critical challenge for diffusion models. This paper proposes Constrained Diffusers, a novel framework that incorporates constraints into pre-trained diffusion models without retraining or architectural modifications. Inspired by constrained optimization, we apply a constrained Langevin sampling mechanism for the reverse diffusion process that jointly optimizes the trajectory and realizes constraint satisfaction through three iterative algorithms: projected method, primal-dual method and augmented Lagrangian approaches. In addition, we incorporate discrete control barrier functions as constraints for constrained diffusers to guarantee safety in online implementation. Experiments in Maze2D, locomotion, and pybullet ball running tasks demonstrate that our proposed methods achieve constraint satisfaction with less computation time, and are competitive to existing methods in environments with static and time-varying constraints.",
+      "summary": "Zhang, Zhao, Papachristodoulou, and Umenberger adapt pretrained diffusion planners to constrained planning and control by modifying the reverse sampling process rather than retraining the model. Constrained Diffusers use projected, primal-dual, and augmented-Lagrangian sampling updates, and the paper connects those updates with discrete control barrier functions for receding-horizon safety.",
+      "url": "../papers/2026_zhang_constrained_diffusers_for_safe/",
+      "contentTreeUrl": "../content-tree/#paper=2026_zhang_constrained_diffusers_for_safe",
+      "mindMapUrl": "../mind-map/#paper=2026_zhang_constrained_diffusers_for_safe"
+    },
+    {
       "id": "2605_03065",
       "label": "OGPO",
       "title": "OGPO: Sample Efficient Full-Finetuning of Generative Control Policies",
@@ -47919,6 +49002,36 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2601_05525"
     },
     {
+      "id": "2026_gabrielsson_large_behavioral_models_a",
+      "label": "Large Behavioral Models",
+      "title": "Large Behavioral Models: A Foundation Model Paradigm for Human Actions",
+      "authors": [
+        "Rickard Brüel Gabrielsson"
+      ],
+      "authorShort": "Gabrielsson",
+      "year": 2026,
+      "source": "Unbox AI Research Blog",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Large Behavioral Models (LBM)",
+      "path": [
+        "Content Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Large Behavioral Models (LBM)",
+        "Large Behavioral Models"
+      ],
+      "tags": [
+        "Foundation models"
+      ],
+      "abstract": "We introduce Large Behavioral Models (LBMs)—foundation models trained on chronological sequences of human actions. BehaviorGPT, a frontier LBM, delivers double-digit sales uplift for retailers and payment companies.",
+      "summary": "Defines Large Behavioral Models as foundation models that learn meaning from chronological sequences of human actions, transactions, and interaction logs rather than from static text or image co-occurrence alone. The paper positions BehaviorGPT as an example of this paradigm, arguing that behavior data provides a complementary and often orthogonal source of intelligence for enterprise tasks such as retail, payments, app usage, and workforce management.",
+      "url": "../papers/2026_gabrielsson_large_behavioral_models_a/",
+      "contentTreeUrl": "../content-tree/#paper=2026_gabrielsson_large_behavioral_models_a",
+      "mindMapUrl": "../mind-map/#paper=2026_gabrielsson_large_behavioral_models_a"
+    },
+    {
       "id": "2603_28052",
       "label": "Meta-Harness",
       "title": "Meta-Harness: End-to-End Optimization of Model Harnesses",
@@ -48319,8 +49432,9 @@ window.timelineData = {
       "Software & Programming",
       "Algorithms & Data Structures",
       "Network Science",
-      "History",
-      "Biology"
+      "Engineering Systems",
+      "Biology",
+      "Humanities & Culture"
     ],
     "categorySuperCategory": {
       "Optimization": "Decision-making",
@@ -48340,8 +49454,9 @@ window.timelineData = {
       "Software & Programming": "Foundations",
       "Algorithms & Data Structures": "Foundations",
       "Network Science": "Foundations",
-      "History": "Foundations",
-      "Biology": "Foundations"
+      "Engineering Systems": "Foundations",
+      "Biology": "Foundations",
+      "Humanities & Culture": "Foundations"
     },
     "subCategoryOrder": {
       "Optimization": [
@@ -48377,7 +49492,6 @@ window.timelineData = {
         "Control Lyapunov Functions (CLF)",
         "Control Barrier Functions (CBF)",
         "Iterative Learning Control",
-        "Controller Autotuning",
         "Tracking Control for Wheeled Robots",
         "Vehicle Dynamics"
       ],
@@ -48433,6 +49547,7 @@ window.timelineData = {
         "Large language models (LLM)",
         "Vision-langugage models (VLM)",
         "Vision-language-action Models (VLA)",
+        "Large Behavioral Models (LBM)",
         "Diffusion Models",
         "State-space Models (SSM)",
         "Generative Models",
@@ -48474,6 +49589,7 @@ window.timelineData = {
         "Message Protocols"
       ],
       "Algorithms & Data Structures": [
+        "Search Trees",
         "Probabilistic Data Structures",
         "Nearest Neighbor Search",
         "Complexity & Approximation",
@@ -48485,10 +49601,14 @@ window.timelineData = {
       "Network Science": [
         "Centrality",
         "Community Detection"
+      ],
+      "Engineering Systems": [
+        "Stirling Engines",
+        "Nuclear Reactors"
       ]
     },
-    "totalPapers": 1376,
-    "plottedPapers": 1376,
+    "totalPapers": 1408,
+    "plottedPapers": 1408,
     "undatedPapers": 0,
     "minYear": 1816,
     "maxYear": 2026,
@@ -48511,8 +49631,8 @@ window.timelineData = {
         "label": "1955-1959",
         "start": 1955,
         "end": 1959,
-        "width": 7.339154053656161,
-        "count": 8
+        "width": 7.54105363488805,
+        "count": 9
       },
       {
         "label": "1960-1964",
@@ -48532,8 +49652,8 @@ window.timelineData = {
         "label": "1970-1974",
         "start": 1970,
         "end": 1974,
-        "width": 9.484733465060756,
-        "count": 21
+        "width": 9.622468951560588,
+        "count": 22
       },
       {
         "label": "1975-1979",
@@ -48546,8 +49666,8 @@ window.timelineData = {
         "label": "1980-1984",
         "start": 1980,
         "end": 1984,
-        "width": 8.095718801446232,
-        "count": 12
+        "width": 8.267310531054875,
+        "count": 13
       },
       {
         "label": "1985-1989",
@@ -48560,8 +49680,8 @@ window.timelineData = {
         "label": "1990-1994",
         "start": 1990,
         "end": 1994,
-        "width": 11.231820974379634,
-        "count": 35
+        "width": 11.785128803420683,
+        "count": 40
       },
       {
         "label": "1995-1999",
@@ -48623,15 +49743,15 @@ window.timelineData = {
         "label": "2007",
         "start": 2007,
         "end": 2007,
-        "width": 3.7335586469335036,
-        "count": 10
+        "width": 3.9180856842923473,
+        "count": 11
       },
       {
         "label": "2008",
         "start": 2008,
         "end": 2008,
-        "width": 4.594987810273402,
-        "count": 15
+        "width": 4.905282265781135,
+        "count": 17
       },
       {
         "label": "2009",
@@ -48644,15 +49764,15 @@ window.timelineData = {
         "label": "2010",
         "start": 2010,
         "end": 2010,
-        "width": 4.095718801446233,
-        "count": 12
+        "width": 4.267310531054875,
+        "count": 13
       },
       {
         "label": "2011",
         "start": 2011,
         "end": 2011,
-        "width": 6.150161469471369,
-        "count": 26
+        "width": 6.276932218484061,
+        "count": 27
       },
       {
         "label": "2012",
@@ -48665,22 +49785,22 @@ window.timelineData = {
         "label": "2013",
         "start": 2013,
         "end": 2013,
-        "width": 5.757733394189387,
-        "count": 23
+        "width": 6.021448464739192,
+        "count": 25
       },
       {
         "label": "2014",
         "start": 2014,
         "end": 2014,
-        "width": 8.312042372714846,
-        "count": 45
+        "width": 8.414635369881891,
+        "count": 46
       },
       {
         "label": "2015",
         "start": 2015,
         "end": 2015,
-        "width": 9.109986159927244,
-        "count": 53
+        "width": 9.206331926641003,
+        "count": 54
       },
       {
         "label": "2016",
@@ -48707,57 +49827,57 @@ window.timelineData = {
         "label": "2019",
         "start": 2019,
         "end": 2019,
-        "width": 10.837352104956791,
-        "count": 72
+        "width": 10.923027337100057,
+        "count": 73
       },
       {
         "label": "2020",
         "start": 2020,
         "end": 2020,
-        "width": 10.224219393396819,
-        "count": 65
+        "width": 10.313315621586785,
+        "count": 66
       },
       {
         "label": "2021",
         "start": 2021,
         "end": 2021,
-        "width": 10.401892474789587,
-        "count": 67
+        "width": 10.751217081897797,
+        "count": 71
       },
       {
         "label": "2022",
         "start": 2022,
         "end": 2022,
-        "width": 11.592874621408363,
-        "count": 81
+        "width": 11.756293115303295,
+        "count": 83
       },
       {
         "label": "2023",
         "start": 2023,
         "end": 2023,
-        "width": 11.510583738477791,
-        "count": 80
+        "width": 11.592874621408363,
+        "count": 81
       },
       {
         "label": "2024",
         "start": 2024,
         "end": 2024,
-        "width": 12.3167010689171,
-        "count": 90
+        "width": 12.39536907827174,
+        "count": 91
       },
       {
         "label": "2025",
         "start": 2025,
         "end": 2025,
-        "width": 14.337117991720003,
-        "count": 117
+        "width": 14.549933259161131,
+        "count": 120
       },
       {
         "label": "2026",
         "start": 2026,
         "end": 2026,
-        "width": 12.39536907827174,
-        "count": 91
+        "width": 12.551715728198987,
+        "count": 93
       }
     ],
     "uncategorizedCategory": "Uncategorized"

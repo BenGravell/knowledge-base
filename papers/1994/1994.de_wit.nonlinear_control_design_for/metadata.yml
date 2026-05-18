@@ -1,0 +1,27 @@
+title: "Nonlinear Control Design for Mobile Robots"
+algorithm: Nonlinear Control for Nonholonomic Mobile Robots
+authors:
+  - C. Canudas de Wit
+  - H. Khennouf
+  - C. Samson
+  - O. J. Sordalen
+year: 1994
+source: Recent Trends in Mobile Robots
+type: Other
+doi: 10.1142/9789814354301_0005
+arxiv_id:
+tags:
+  - Mobile robots
+  - Nonlinear control
+  - Nonholonomic systems
+  - Tracking control
+  - Wheeled robots
+  - Robotics
+abstract:
+summary: >
+  This chapter collects nonlinear control designs for wheeled mobile robots, with emphasis on the kinematic constraints and tracking or stabilization behavior that make nonholonomic vehicles different from fully actuated systems. It is a useful historical reference for the control laws and modeling assumptions that recur in later mobile-robot tracking literature.
+link: https://doi.org/10.1142/9789814354301_0005
+links_alt:
+  - https://www-sop.inria.fr/arobas/publications/publi/ckss93-eng.html
+  - https://www.worldscientific.com/doi/10.1142/9789814354301_0005?srsltid=AfmBOorfRXd3Yh6d7ZHNXIKaBdTlx33jR8YleEoVR1F8Fx8LTjGdNrB9
+audit_status: raw

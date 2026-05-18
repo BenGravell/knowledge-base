@@ -59,6 +59,28 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=1984_breiman_classification_and_regression_trees",
       "mindMapUrl": "../mind-map/#paper=1984_breiman_classification_and_regression_trees"
     },
+    "1984_knott_on_the_optimal_mapping": {
+      "id": "1984_knott_on_the_optimal_mapping",
+      "title": "On the Optimal Mapping of Distributions",
+      "label": "Optimal Distribution Mapping",
+      "authors": [
+        "Martin Knott",
+        "C. S. Smith"
+      ],
+      "year": 1984,
+      "tags": [
+        "Optimal transport",
+        "Distribution theory",
+        "Couplings",
+        "Wasserstein distance",
+        "Quadratic cost",
+        "Convex optimization"
+      ],
+      "summary": "Knott and Smith study the quadratic-cost Monge problem as a question about constructing a joint distribution with prescribed marginals. The paper is an early optimal transport reference that anticipates later Wasserstein-map formulations by emphasizing sufficient optimality conditions and numerical examples for distribution mappings.",
+      "url": "../papers/1984_knott_on_the_optimal_mapping/",
+      "contentTreeUrl": "../content-tree/#paper=1984_knott_on_the_optimal_mapping",
+      "mindMapUrl": "../mind-map/#paper=1984_knott_on_the_optimal_mapping"
+    },
     "1984_murray_differential_dynamic_programming_and": {
       "id": "1984_murray_differential_dynamic_programming_and",
       "title": "Differential Dynamic Programming and Newton's Method for Discrete Optimal Control Problems",
@@ -87,6 +109,27 @@ window.tagSearchData = {
       "url": "../papers/1959_dijkstra_a_note_on_two/",
       "contentTreeUrl": "../content-tree/#paper=1959_dijkstra_a_note_on_two",
       "mindMapUrl": "../mind-map/#paper=1959_dijkstra_a_note_on_two"
+    },
+    "1959_bellman_on_adaptive_control_processes": {
+      "id": "1959_bellman_on_adaptive_control_processes",
+      "title": "On Adaptive Control Processes",
+      "label": "On Adaptive Control Processes",
+      "authors": [
+        "Richard Bellman",
+        "Robert Kalaba"
+      ],
+      "year": 1959,
+      "tags": [
+        "Adaptive control",
+        "Dynamic programming",
+        "Stochastic control",
+        "Sequential decision making",
+        "Control theory"
+      ],
+      "summary": "Bellman and Kalaba frame adaptive control as a dynamic programming problem in which control policies must account for learning and uncertainty during operation. The paper is an early bridge between optimal control, sequential decision processes, and adaptive control, and helped set the vocabulary later used in stochastic and learning-based control.",
+      "url": "../papers/1959_bellman_on_adaptive_control_processes/",
+      "contentTreeUrl": "../content-tree/#paper=1959_bellman_on_adaptive_control_processes",
+      "mindMapUrl": "../mind-map/#paper=1959_bellman_on_adaptive_control_processes"
     },
     "1999_ankerst_optics": {
       "id": "1999_ankerst_optics",
@@ -240,7 +283,7 @@ window.tagSearchData = {
     "1999_van_den_bergen_a_fast_and_robust": {
       "id": "1999_van_den_bergen_a_fast_and_robust",
       "title": "A Fast and Robust GJK Implementation for Collision Detection of Convex Objects",
-      "label": "GJK",
+      "label": "Fast and Robust GJK",
       "authors": [
         "Gino Van den Bergen"
       ],
@@ -476,7 +519,7 @@ window.tagSearchData = {
     "1606_05225": {
       "id": "1606_05225",
       "title": "Geometric Median in Nearly Linear Time",
-      "label": "Geometric Median",
+      "label": "Geometric Median in Nearly Linear Time",
       "authors": [
         "Michael B. Cohen",
         "Yin Tat Lee",
@@ -1678,6 +1721,22 @@ window.tagSearchData = {
       "url": "../papers/2020_romano_time_optimal_control_of/",
       "contentTreeUrl": "../content-tree/#paper=2020_romano_time_optimal_control_of",
       "mindMapUrl": "../mind-map/#paper=2020_romano_time_optimal_control_of"
+    },
+    "2020_cole_vaporwave_aesthetics_internet_nostalgia": {
+      "id": "2020_cole_vaporwave_aesthetics_internet_nostalgia",
+      "title": "Vaporwave Aesthetics: Internet Nostalgia and the Utopian Impulse",
+      "label": "Vaporwave Aesthetics: Internet Nostalgia and the Utopian Impulse",
+      "authors": [
+        "Ross Cole"
+      ],
+      "year": 2020,
+      "tags": [
+        "Research paper"
+      ],
+      "summary": "Traces vaporwave from Daniel Lopatin's eccojams through its internet-native mixture of slowed pop samples, obsolete media, mall imagery, consumer electronics, and early-Web visual culture. The article reads vaporwave as an \"off-modern\" form of nostalgia: not simply anti-capitalist critique or escapism, but a defamiliarizing reuse of postmodern consumer objects that carries a sideways, dreamlike utopian impulse.",
+      "url": "../papers/2020_cole_vaporwave_aesthetics_internet_nostalgia/",
+      "contentTreeUrl": "../content-tree/#paper=2020_cole_vaporwave_aesthetics_internet_nostalgia",
+      "mindMapUrl": "../mind-map/#paper=2020_cole_vaporwave_aesthetics_internet_nostalgia"
     },
     "2011_06719": {
       "id": "2011_06719",
@@ -4258,6 +4317,22 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2019_thomas_preventing_undesirable_behavior_of",
       "mindMapUrl": "../mind-map/#paper=2019_thomas_preventing_undesirable_behavior_of"
     },
+    "2019_wainwright_high_dimensional_statistics": {
+      "id": "2019_wainwright_high_dimensional_statistics",
+      "title": "High-dimensional Statistics",
+      "label": "High-dimensional Statistics",
+      "authors": [
+        "Martin J. Wainwright"
+      ],
+      "year": 2019,
+      "tags": [
+        "Statistics"
+      ],
+      "summary": "Wainwright provides a graduate-level, non-asymptotic treatment of high-dimensional statistics, connecting probability tools such as concentration inequalities and random matrix bounds to statistical model classes such as sparse regression, low-rank matrix models, graphical models, and nonparametric estimation.",
+      "url": "../papers/2019_wainwright_high_dimensional_statistics/",
+      "contentTreeUrl": "../content-tree/#paper=2019_wainwright_high_dimensional_statistics",
+      "mindMapUrl": "../mind-map/#paper=2019_wainwright_high_dimensional_statistics"
+    },
     "1901_04592": {
       "id": "1901_04592",
       "title": "Interpretable Machine Learning: Definitions, Methods, and Applications",
@@ -6226,6 +6301,22 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2508_10480",
       "mindMapUrl": "../mind-map/#paper=2508_10480"
     },
+    "2025_gabrielsson_a_foundation_model_for": {
+      "id": "2025_gabrielsson_a_foundation_model_for",
+      "title": "A Foundation Model for Consumption, Transactions, and Actions: The Inception of BehaviorGPT",
+      "label": "BehaviorGPT-v1",
+      "authors": [
+        "Rickard Brüel Gabrielsson"
+      ],
+      "year": 2025,
+      "tags": [
+        "Foundation models"
+      ],
+      "summary": "Introduces BehaviorGPT-v1 as a Transformer foundation model for grocery consumption, treating purchase histories, searches, clicks, and other retail events as token sequences. The paper frames consumption as a behavioral language, reports large recommendation and conversion gains over production baselines, and positions the model as a foundation for retail search, recommendations, assortment planning, fraud detection, and transaction intelligence.",
+      "url": "../papers/2025_gabrielsson_a_foundation_model_for/",
+      "contentTreeUrl": "../content-tree/#paper=2025_gabrielsson_a_foundation_model_for",
+      "mindMapUrl": "../mind-map/#paper=2025_gabrielsson_a_foundation_model_for"
+    },
     "2512_15840": {
       "id": "2512_15840",
       "title": "Large Video Planner Enables Generalizable Robot Control",
@@ -7823,6 +7914,23 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2502_06996",
       "mindMapUrl": "../mind-map/#paper=2502_06996"
     },
+    "2025_gabrielsson_behaviorgpt_for_visual_art": {
+      "id": "2025_gabrielsson_behaviorgpt_for_visual_art",
+      "title": "BehaviorGPT for Visual Art: A Foundation Model for Aesthetics",
+      "label": "BehaviorGPT-v3",
+      "authors": [
+        "Rickard Brüel Gabrielsson",
+        "Vasudev Gupta"
+      ],
+      "year": 2025,
+      "tags": [
+        "Foundation models"
+      ],
+      "summary": "Presents BehaviorGPT-v3 as a behavior-first foundation model for visual art and aesthetics, trained on large-scale sequences of user interactions rather than only pixels or text-image pairs. The paper argues that aesthetic meaning depends heavily on user context and intent, and reports improvements in search, recommendation, dynamic categorization, SEO, assortment optimization, personalization, navigation, and motif generation.",
+      "url": "../papers/2025_gabrielsson_behaviorgpt_for_visual_art/",
+      "contentTreeUrl": "../content-tree/#paper=2025_gabrielsson_behaviorgpt_for_visual_art",
+      "mindMapUrl": "../mind-map/#paper=2025_gabrielsson_behaviorgpt_for_visual_art"
+    },
     "2510_14643": {
       "id": "2510_14643",
       "title": "Generative Models from and for Sampling-Based MPC: A Bootstrapped Approach for Adaptive Contact-Rich Manipulation",
@@ -8171,6 +8279,23 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2025_lee_time_correlated_model_predictive",
       "mindMapUrl": "../mind-map/#paper=2025_lee_time_correlated_model_predictive"
     },
+    "2025_gabrielsson_behaviorgpt_at_work_a": {
+      "id": "2025_gabrielsson_behaviorgpt_at_work_a",
+      "title": "BehaviorGPT at Work: A Foundation Model for Workforce Actions & Dynamics through Large Behavioral Modeling",
+      "label": "BehaviorGPT-v2",
+      "authors": [
+        "Rickard Brüel Gabrielsson",
+        "Vasudev Gupta"
+      ],
+      "year": 2025,
+      "tags": [
+        "Foundation models"
+      ],
+      "summary": "Extends BehaviorGPT to workforce data by modeling employee-employer interactions as chronological sequences of behavioral tokens. The paper trains a Transformer on millions of workplace events, reports strong attrition-prediction performance, and argues that logged actions such as schedules, breaks, and productive hours can reveal organizational dynamics more reliably than surveys or top-down analytics, while also noting the ethical sensitivity of employee behavior modeling.",
+      "url": "../papers/2025_gabrielsson_behaviorgpt_at_work_a/",
+      "contentTreeUrl": "../content-tree/#paper=2025_gabrielsson_behaviorgpt_at_work_a",
+      "mindMapUrl": "../mind-map/#paper=2025_gabrielsson_behaviorgpt_at_work_a"
+    },
     "2512_20642": {
       "id": "2512_20642",
       "title": "Flow Gym: A Framework for the Development, Benchmarking, Training, and Deployment of Flow-field Quantification Methods",
@@ -8266,6 +8391,26 @@ window.tagSearchData = {
       "url": "../papers/1502_04269/",
       "contentTreeUrl": "../content-tree/#paper=1502_04269",
       "mindMapUrl": "../mind-map/#paper=1502_04269"
+    },
+    "2015_bergstra_hyperopt_a_python_library": {
+      "id": "2015_bergstra_hyperopt_a_python_library",
+      "title": "Hyperopt: A Python Library for Model Selection and Hyperparameter Optimization",
+      "label": "Hyperopt",
+      "authors": [
+        "James Bergstra",
+        "Brent Komer",
+        "Chris Eliasmith",
+        "Dan Yamins",
+        "David D Cox"
+      ],
+      "year": 2015,
+      "tags": [
+        "Research paper"
+      ],
+      "summary": "A practical Python framework for sequential model-based hyperparameter optimization, with a search-space language, a common minimization interface, random search, TPE, and support for asynchronous parallel evaluations through MongoDB. The paper is both a tutorial and a design statement: it treats hyperparameter tuning as a reproducible optimization problem and explains why conditional, mixed discrete-continuous search spaces are central for machine-learning model selection.",
+      "url": "../papers/2015_bergstra_hyperopt_a_python_library/",
+      "contentTreeUrl": "../content-tree/#paper=2015_bergstra_hyperopt_a_python_library",
+      "mindMapUrl": "../mind-map/#paper=2015_bergstra_hyperopt_a_python_library"
     },
     "2015_wang_a_gradient_based_approach": {
       "id": "2015_wang_a_gradient_based_approach",
@@ -9581,6 +9726,24 @@ window.tagSearchData = {
       "url": "../papers/2010_lam_model_predictive_contouring_control/",
       "contentTreeUrl": "../content-tree/#paper=2010_lam_model_predictive_contouring_control",
       "mindMapUrl": "../mind-map/#paper=2010_lam_model_predictive_contouring_control"
+    },
+    "2010_he_puma_planning_under_uncertainty": {
+      "id": "2010_he_puma_planning_under_uncertainty",
+      "title": "PUMA: Planning under Uncertainty with Macro-Actions",
+      "label": "PUMA: Planning under Uncertainty with Macro-Actions",
+      "authors": [
+        "Ruijie He",
+        "Emma Brunskill",
+        "Nicholas Roy"
+      ],
+      "year": 2010,
+      "tags": [
+        "Research paper"
+      ],
+      "summary": "An online POMDP planner that uses automatically generated open-loop macro-actions to look farther ahead under partial observability. The method reduces forward-search branching by conditioning only at macro-action boundaries, then incrementally refines macro-actions into shorter decisions so the planner remains anytime and converges toward epsilon-optimal behavior.",
+      "url": "../papers/2010_he_puma_planning_under_uncertainty/",
+      "contentTreeUrl": "../content-tree/#paper=2010_he_puma_planning_under_uncertainty",
+      "mindMapUrl": "../mind-map/#paper=2010_he_puma_planning_under_uncertainty"
     },
     "2010_kon_model_predictive_control_based": {
       "id": "2010_kon_model_predictive_control_based",
@@ -10993,6 +11156,26 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2104_03186",
       "mindMapUrl": "../mind-map/#paper=2104_03186"
     },
+    "2021_moll_hyperplan_a_framework_for": {
+      "id": "2021_moll_hyperplan_a_framework_for",
+      "title": "Hyperplan: A Framework for Motion Planning Algorithm Selection and Parameter Optimization",
+      "label": "Hyperplan: A Framework for Motion Planning Algorithm Selection and Parameter Optimization",
+      "authors": [
+        "Mark Moll",
+        "Constantinos Chamzas",
+        "Zachary Kingston",
+        "Lydia E. Kavraki"
+      ],
+      "year": 2021,
+      "tags": [
+        "Robotics",
+        "Motion planning"
+      ],
+      "summary": "Formulates motion-planning algorithm selection and parameter tuning as a hyperparameter optimization problem over planners, planner parameters, robots, and problem classes. HyperPlan contributes loss-function designs for planning speed and path quality, and its Fetch and Baxter experiments show that optimized planner configurations can outperform defaults and often generalize beyond the exact scenes used for tuning.",
+      "url": "../papers/2021_moll_hyperplan_a_framework_for/",
+      "contentTreeUrl": "../content-tree/#paper=2021_moll_hyperplan_a_framework_for",
+      "mindMapUrl": "../mind-map/#paper=2021_moll_hyperplan_a_framework_for"
+    },
     "2106_05123": {
       "id": "2106_05123",
       "title": "Pattern-defeating Quicksort",
@@ -11154,6 +11337,30 @@ window.tagSearchData = {
       "url": "../papers/2104_11865/",
       "contentTreeUrl": "../content-tree/#paper=2104_11865",
       "mindMapUrl": "../mind-map/#paper=2104_11865"
+    },
+    "2021_perdomo_stabilizing_dynamical_systems_via": {
+      "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+      "title": "Stabilizing Dynamical Systems via Policy Gradient Methods",
+      "label": "Discounted LQR Policy Gradient",
+      "authors": [
+        "Juan C. Perdomo",
+        "Jack Umenberger",
+        "Max Simchowitz"
+      ],
+      "year": 2021,
+      "tags": [
+        "Policy gradient",
+        "Stabilization",
+        "Dynamical systems",
+        "Linear quadratic regulator",
+        "Model-free control",
+        "Reinforcement learning",
+        "Nonlinear systems"
+      ],
+      "summary": "Perdomo, Umenberger, and Simchowitz show that direct policy search can be used to find stabilizing controllers without starting from an already-stabilizing policy. The method follows a continuation path through discounted LQR problems, increasing the discount factor until it recovers a stabilizing controller for linear systems and locally for smooth nonlinear systems.",
+      "url": "../papers/2021_perdomo_stabilizing_dynamical_systems_via/",
+      "contentTreeUrl": "../content-tree/#paper=2021_perdomo_stabilizing_dynamical_systems_via",
+      "mindMapUrl": "../mind-map/#paper=2021_perdomo_stabilizing_dynamical_systems_via"
     },
     "2112_09629": {
       "id": "2112_09629",
@@ -11538,6 +11745,22 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2103_15691",
       "mindMapUrl": "../mind-map/#paper=2103_15691"
     },
+    "2021_morrissey_metamodernism_and_vaporwave_a": {
+      "id": "2021_morrissey_metamodernism_and_vaporwave_a",
+      "title": "Metamodernism and Vaporwave: A Study of Web 2.0 Aesthetic Culture",
+      "label": "Metamodernism and Vaporwave: A Study of Web 2.0 Aesthetic Culture",
+      "authors": [
+        "Nicholas Morrissey"
+      ],
+      "year": 2021,
+      "tags": [
+        "Research paper"
+      ],
+      "summary": "Analyzes vaporwave as Web 2.0 aesthetic culture through metamodernist theory, asking whether the genre oscillates between sincerity and irony, nostalgia and critique, and image and lived experience. The paper concludes that vaporwave remains strongly rooted in postmodern simulacra and reflexive commentary, but it also differs from older postmodern work by treating simulated and internet-mediated nostalgia as personally meaningful rather than merely empty.",
+      "url": "../papers/2021_morrissey_metamodernism_and_vaporwave_a/",
+      "contentTreeUrl": "../content-tree/#paper=2021_morrissey_metamodernism_and_vaporwave_a",
+      "mindMapUrl": "../mind-map/#paper=2021_morrissey_metamodernism_and_vaporwave_a"
+    },
     "2111_12083": {
       "id": "2111_12083",
       "title": "VISTA 2.0: An Open, Data-driven Simulator for Multimodal Sensing and Policy Learning for Autonomous Vehicles",
@@ -11750,6 +11973,22 @@ window.tagSearchData = {
       "url": "../papers/2104_00241/",
       "contentTreeUrl": "../content-tree/#paper=2104_00241",
       "mindMapUrl": "../mind-map/#paper=2104_00241"
+    },
+    "2021_lindsay_disaster_theory": {
+      "id": "2021_lindsay_disaster_theory",
+      "title": "Disaster Theory",
+      "label": "Disaster Theory",
+      "authors": [
+        "Stuart Lindsay"
+      ],
+      "year": 2021,
+      "tags": [
+        "Research paper"
+      ],
+      "summary": "Interprets vaporwave as a hauntological and gothic expression of late-capitalist trauma. The article focuses on how slowed samples, advertising fragments, horror-like synth textures, and subgenres such as hushwave and signalwave turn fake nostalgia into a way of staging postindustrial paralysis, neoliberal isolation, and political aftershocks such as the spectral repetition of Cold War triumphalism and 9/11 media memory.",
+      "url": "../papers/2021_lindsay_disaster_theory/",
+      "contentTreeUrl": "../content-tree/#paper=2021_lindsay_disaster_theory",
+      "mindMapUrl": "../mind-map/#paper=2021_lindsay_disaster_theory"
     },
     "2108_07258": {
       "id": "2108_07258",
@@ -14120,6 +14359,28 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=1404_2334",
       "mindMapUrl": "../mind-map/#paper=1404_2334"
     },
+    "2014_ueda_a_regularized_newton_method": {
+      "id": "2014_ueda_a_regularized_newton_method",
+      "title": "A Regularized Newton Method without Line Search for Unconstrained Optimization",
+      "label": "Regularized Newton Method",
+      "authors": [
+        "Kenji Ueda",
+        "Nobuo Yamashita"
+      ],
+      "year": 2014,
+      "tags": [
+        "Regularized Newton methods",
+        "Second-order optimization",
+        "Unconstrained optimization",
+        "Global convergence",
+        "Superlinear convergence",
+        "Complexity bounds"
+      ],
+      "summary": "Ueda and Yamashita replace line-search step-size control with adaptation of a regularization parameter in Newton's method. The analysis gives global convergence, superlinear local convergence under an error-bound condition, and an iteration complexity bound for reaching a first-order approximate solution.",
+      "url": "../papers/2014_ueda_a_regularized_newton_method/",
+      "contentTreeUrl": "../content-tree/#paper=2014_ueda_a_regularized_newton_method",
+      "mindMapUrl": "../mind-map/#paper=2014_ueda_a_regularized_newton_method"
+    },
     "1405_5848": {
       "id": "1405_5848",
       "title": "Batch Informed Trees (BIT*): Sampling-based Optimal Planning via the Heuristically Guided Search of Implicit Random Geometric Graphs",
@@ -14777,6 +15038,24 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=1997_sussmann_the_markov_dubins_problem",
       "mindMapUrl": "../mind-map/#paper=1997_sussmann_the_markov_dubins_problem"
     },
+    "1991_shook_identification_for_long_range": {
+      "id": "1991_shook_identification_for_long_range",
+      "title": "Identification for Long-range Predictive Control",
+      "label": "Identification for Long-range Predictive Control",
+      "authors": [
+        "D.S. Shook",
+        "C. Mohtadi",
+        "S.L. Shah"
+      ],
+      "year": 1991,
+      "tags": [
+        "Control theory"
+      ],
+      "summary": "Examines why adaptive predictive controllers that combine single-step parameter estimation with multi-step prediction can become unstable without the bandpass filtering often used in practice. The paper introduces a multi-step-ahead identification cost aligned with the controller objective, showing how this estimator naturally produces the frequency-response behavior that earlier applications achieved through ad hoc prefiltering.",
+      "url": "../papers/1991_shook_identification_for_long_range/",
+      "contentTreeUrl": "../content-tree/#paper=1991_shook_identification_for_long_range",
+      "mindMapUrl": "../mind-map/#paper=1991_shook_identification_for_long_range"
+    },
     "1991_wang_a_combined_optimization_method": {
       "id": "1991_wang_a_combined_optimization_method",
       "title": "A Combined Optimization Method for Solving the Inverse Kinematics Problems of Mechanical Manipulators",
@@ -14865,6 +15144,23 @@ window.tagSearchData = {
       "url": "../papers/1991_verriest_on_the_linear_quadratic/",
       "contentTreeUrl": "../content-tree/#paper=1991_verriest_on_the_linear_quadratic",
       "mindMapUrl": "../mind-map/#paper=1991_verriest_on_the_linear_quadratic"
+    },
+    "1991_bertsekas_an_analysis_of_stochastic": {
+      "id": "1991_bertsekas_an_analysis_of_stochastic",
+      "title": "An Analysis of Stochastic Shortest Path Problems",
+      "label": "An Analysis of Stochastic Shortest Path Problems",
+      "authors": [
+        "Dimitri P. Bertsekas",
+        "John N. Tsitsiklis"
+      ],
+      "year": 1991,
+      "tags": [
+        "Statistics"
+      ],
+      "summary": "Analysis of stochastic shortest path problems as undiscounted finite-state Markov decision problems with a destination state and potentially mixed-sign transition costs. The paper generalizes deterministic shortest-path theory and relaxes common sign restrictions from earlier undiscounted MDP analyses, making it a foundational reference for proper policies, termination, and dynamic programming in stochastic path problems.",
+      "url": "../papers/1991_bertsekas_an_analysis_of_stochastic/",
+      "contentTreeUrl": "../content-tree/#paper=1991_bertsekas_an_analysis_of_stochastic",
+      "mindMapUrl": "../mind-map/#paper=1991_bertsekas_an_analysis_of_stochastic"
     },
     "1991_davidon_variable_metric_method_for": {
       "id": "1991_davidon_variable_metric_method_for",
@@ -15148,6 +15444,26 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2007_yershova_improving_motion_planning_algorithms",
       "mindMapUrl": "../mind-map/#paper=2007_yershova_improving_motion_planning_algorithms"
     },
+    "2007_hoffmann_autonomous_automobile_trajectory_tracking": {
+      "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+      "title": "Autonomous Automobile Trajectory Tracking for Off-road Driving: Controller Design, Experimental Validation and Racing",
+      "label": "Autonomous Automobile Trajectory Tracking for Off-road Driving: Controller Design, Experimental Validation and Racing",
+      "authors": [
+        "Gabriel M. Hoffmann",
+        "Claire J. Tomlin",
+        "Michael Montemerlo",
+        "Sebastian Thrun"
+      ],
+      "year": 2007,
+      "tags": [
+        "Autonomous driving",
+        "Motion planning"
+      ],
+      "summary": "Trajectory-tracking controller used on Stanley for autonomous off-road driving. The paper derives a globally asymptotically stable steering law around front-wheel orientation, augments it for tire and steering-servo dynamics, pairs it with a switching PI speed controller, and validates the result over hundreds of miles including the 2005 DARPA Grand Challenge.",
+      "url": "../papers/2007_hoffmann_autonomous_automobile_trajectory_tracking/",
+      "contentTreeUrl": "../content-tree/#paper=2007_hoffmann_autonomous_automobile_trajectory_tracking",
+      "mindMapUrl": "../mind-map/#paper=2007_hoffmann_autonomous_automobile_trajectory_tracking"
+    },
     "2007_hunter_matplotlib_a_2d_graphics": {
       "id": "2007_hunter_matplotlib_a_2d_graphics",
       "title": "Matplotlib: A 2D Graphics Environment",
@@ -15360,6 +15676,25 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=1993_orlin_quickmatch_a_very_fast",
       "mindMapUrl": "../mind-map/#paper=1993_orlin_quickmatch_a_very_fast"
     },
+    "1993_afanasieva_the_characteristics_of_the": {
+      "id": "1993_afanasieva_the_characteristics_of_the",
+      "title": "The Characteristics of the RBMK Core",
+      "label": "The Characteristics of the RBMK Core",
+      "authors": [
+        "Anna A. Afanasieva",
+        "Evgeniy V. Burlakov",
+        "Alexander V. Krayushkin",
+        "Andre V. Kubarev"
+      ],
+      "year": 1993,
+      "tags": [
+        "Research paper"
+      ],
+      "summary": "Review of RBMK core characteristics in light of the Chernobyl Unit 4 accident, focusing on the positive void reactivity coefficient and shutdown-system dynamics. The paper explains the physical origin of the void coefficient, describes post-accident safety modifications such as additional stationary absorbers and control-rod changes, and reports resulting reactor-parameter measurements and neutron-physics changes.",
+      "url": "../papers/1993_afanasieva_the_characteristics_of_the/",
+      "contentTreeUrl": "../content-tree/#paper=1993_afanasieva_the_characteristics_of_the",
+      "mindMapUrl": "../mind-map/#paper=1993_afanasieva_the_characteristics_of_the"
+    },
     "1993_donald_kinodynamic_motion_planning": {
       "id": "1993_donald_kinodynamic_motion_planning",
       "title": "Kinodynamic Motion Planning",
@@ -15502,6 +15837,30 @@ window.tagSearchData = {
       "url": "../papers/1994_rummery_on_line_q_learning/",
       "contentTreeUrl": "../content-tree/#paper=1994_rummery_on_line_q_learning",
       "mindMapUrl": "../mind-map/#paper=1994_rummery_on_line_q_learning"
+    },
+    "1994_de_wit_nonlinear_control_design_for": {
+      "id": "1994_de_wit_nonlinear_control_design_for",
+      "title": "Nonlinear Control Design for Mobile Robots",
+      "label": "Nonlinear Control for Nonholonomic Mobile Robots",
+      "authors": [
+        "C. Canudas de Wit",
+        "H. Khennouf",
+        "C. Samson",
+        "O. J. Sordalen"
+      ],
+      "year": 1994,
+      "tags": [
+        "Mobile robots",
+        "Nonlinear control",
+        "Nonholonomic systems",
+        "Tracking control",
+        "Wheeled robots",
+        "Robotics"
+      ],
+      "summary": "This chapter collects nonlinear control designs for wheeled mobile robots, with emphasis on the kinematic constraints and tracking or stabilization behavior that make nonholonomic vehicles different from fully actuated systems. It is a useful historical reference for the control laws and modeling assumptions that recur in later mobile-robot tracking literature.",
+      "url": "../papers/1994_de_wit_nonlinear_control_design_for/",
+      "contentTreeUrl": "../content-tree/#paper=1994_de_wit_nonlinear_control_design_for",
+      "mindMapUrl": "../mind-map/#paper=1994_de_wit_nonlinear_control_design_for"
     },
     "1994_purgathofer_forced_random_dithering_improved": {
       "id": "1994_purgathofer_forced_random_dithering_improved",
@@ -17795,6 +18154,23 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2402_03893",
       "mindMapUrl": "../mind-map/#paper=2402_03893"
     },
+    "2024_dawid_introduction_to_latent_variable": {
+      "id": "2024_dawid_introduction_to_latent_variable",
+      "title": "Introduction to Latent Variable Energy-Based Models: A Path Toward Autonomous Machine Intelligence",
+      "label": "Introduction to Latent Variable Energy-Based Models: A Path Toward Autonomous Machine Intelligence",
+      "authors": [
+        "Anna Dawid",
+        "Yann LeCun"
+      ],
+      "year": 2024,
+      "tags": [
+        "Research paper"
+      ],
+      "summary": "Dawid and LeCun turn LeCun's autonomous machine intelligence proposal into lecture-note form, introducing energy-based models, latent variables, and their role in self-supervised predictive world models. The paper argues that JEPAs and hierarchical JEPAs can make predictions in representation space, handle uncertainty with latent variables, and support multiscale planning more naturally than purely supervised, reinforcement-learning, or high-dimensional probabilistic approaches.",
+      "url": "../papers/2024_dawid_introduction_to_latent_variable/",
+      "contentTreeUrl": "../content-tree/#paper=2024_dawid_introduction_to_latent_variable",
+      "mindMapUrl": "../mind-map/#paper=2024_dawid_introduction_to_latent_variable"
+    },
     "2406_16793": {
       "id": "2406_16793",
       "title": "Adam-mini: Use Fewer Learning Rates to Gain More",
@@ -18058,6 +18434,24 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2013_chu_code_generation_for_embedded",
       "mindMapUrl": "../mind-map/#paper=2013_chu_code_generation_for_embedded"
     },
+    "2013_levinson_automatic_online_calibration_of": {
+      "id": "2013_levinson_automatic_online_calibration_of",
+      "title": "Automatic Online Calibration of Cameras and Lasers",
+      "label": "Automatic Online Calibration of Cameras and Lasers",
+      "authors": [
+        "Jesse Levinson",
+        "Sebastian Thrun"
+      ],
+      "year": 2013,
+      "tags": [
+        "Autonomous driving",
+        "Motion planning"
+      ],
+      "summary": "Extends camera-laser calibration from offline batch processing to online monitoring and correction in arbitrary scenes. The paper contributes a probabilistic detector for sudden extrinsic miscalibration and a real-time optimizer for gradual drift, showing in vehicle experiments that small rotation and translation errors can be detected quickly and rotational drift can be tracked during operation.",
+      "url": "../papers/2013_levinson_automatic_online_calibration_of/",
+      "contentTreeUrl": "../content-tree/#paper=2013_levinson_automatic_online_calibration_of",
+      "mindMapUrl": "../mind-map/#paper=2013_levinson_automatic_online_calibration_of"
+    },
     "1312_0041": {
       "id": "1312_0041",
       "title": "On Dynamic Mode Decomposition: Theory and Applications",
@@ -18133,6 +18527,26 @@ window.tagSearchData = {
       "url": "../papers/1312_6114/",
       "contentTreeUrl": "../content-tree/#paper=1312_6114",
       "mindMapUrl": "../mind-map/#paper=1312_6114"
+    },
+    "2013_goretkin_optimal_sampling_based_planning": {
+      "id": "2013_goretkin_optimal_sampling_based_planning",
+      "title": "Optimal Sampling-based Planning for Linear-quadratic Kinodynamic Systems",
+      "label": "Optimal Sampling-based Planning for Linear-quadratic Kinodynamic Systems",
+      "authors": [
+        "Gustavo Goretkin",
+        "Alejandro Perez",
+        "Robert Platt",
+        "George Konidaris"
+      ],
+      "year": 2013,
+      "tags": [
+        "Robotics",
+        "Motion planning"
+      ],
+      "summary": "Adapts RRT* to kinodynamic planning by using finite-horizon LQR as both the cost metric and steering method in state-time space. The paper proves almost-sure convergence to optimal solutions for affine dynamics with quadratic costs, then extends the method by local linearization to nonlinear systems and demonstrates it on constrained examples such as pendulum swing-up.",
+      "url": "../papers/2013_goretkin_optimal_sampling_based_planning/",
+      "contentTreeUrl": "../content-tree/#paper=2013_goretkin_optimal_sampling_based_planning",
+      "mindMapUrl": "../mind-map/#paper=2013_goretkin_optimal_sampling_based_planning"
     },
     "1305_6644": {
       "id": "1305_6644",
@@ -18969,6 +19383,22 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2603_16059",
       "mindMapUrl": "../mind-map/#paper=2603_16059"
     },
+    "2026_gabrielsson_large_behavioral_models_a": {
+      "id": "2026_gabrielsson_large_behavioral_models_a",
+      "title": "Large Behavioral Models: A Foundation Model Paradigm for Human Actions",
+      "label": "Large Behavioral Models: A Foundation Model Paradigm for Human Actions",
+      "authors": [
+        "Rickard Brüel Gabrielsson"
+      ],
+      "year": 2026,
+      "tags": [
+        "Foundation models"
+      ],
+      "summary": "Defines Large Behavioral Models as foundation models that learn meaning from chronological sequences of human actions, transactions, and interaction logs rather than from static text or image co-occurrence alone. The paper positions BehaviorGPT as an example of this paradigm, arguing that behavior data provides a complementary and often orthogonal source of intelligence for enterprise tasks such as retail, payments, app usage, and workforce management.",
+      "url": "../papers/2026_gabrielsson_large_behavioral_models_a/",
+      "contentTreeUrl": "../content-tree/#paper=2026_gabrielsson_large_behavioral_models_a",
+      "mindMapUrl": "../mind-map/#paper=2026_gabrielsson_large_behavioral_models_a"
+    },
     "2603_00871": {
       "id": "2603_00871",
       "title": "Hippo: High-performance Interior-Point and Projection-based Solver for Generic Constrained Trajectory Optimization",
@@ -19772,6 +20202,31 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2604_25788",
       "mindMapUrl": "../mind-map/#paper=2604_25788"
     },
+    "2026_zhang_constrained_diffusers_for_safe": {
+      "id": "2026_zhang_constrained_diffusers_for_safe",
+      "title": "Constrained Diffusers for Safe Planning and Control",
+      "label": "Constrained Diffusers",
+      "authors": [
+        "Jichen Zhang",
+        "Liqun Zhao",
+        "Antonis Papachristodoulou",
+        "Jack Umenberger"
+      ],
+      "year": 2026,
+      "tags": [
+        "Diffusion models",
+        "Safe planning",
+        "Constrained optimization",
+        "Control barrier functions",
+        "Receding horizon control",
+        "Robotics",
+        "Planning and control"
+      ],
+      "summary": "Zhang, Zhao, Papachristodoulou, and Umenberger adapt pretrained diffusion planners to constrained planning and control by modifying the reverse sampling process rather than retraining the model. Constrained Diffusers use projected, primal-dual, and augmented-Lagrangian sampling updates, and the paper connects those updates with discrete control barrier functions for receding-horizon safety.",
+      "url": "../papers/2026_zhang_constrained_diffusers_for_safe/",
+      "contentTreeUrl": "../content-tree/#paper=2026_zhang_constrained_diffusers_for_safe",
+      "mindMapUrl": "../mind-map/#paper=2026_zhang_constrained_diffusers_for_safe"
+    },
     "2604_14905": {
       "id": "2604_14905",
       "title": "Data-driven Linear Quadratic Integral Control: A Convex Formulation and Policy Gradient Approach",
@@ -20188,6 +20643,27 @@ window.tagSearchData = {
       "url": "../papers/2603_16808/",
       "contentTreeUrl": "../content-tree/#paper=2603_16808",
       "mindMapUrl": "../mind-map/#paper=2603_16808"
+    },
+    "1973_e_an_optimum_method_for": {
+      "id": "1973_e_an_optimum_method_for",
+      "title": "An Optimum Method for Two-Level Rendition of Continuous-Tone Pictures",
+      "label": "Bayer Ordered Dithering",
+      "authors": [
+        "Bryce E. Bayer"
+      ],
+      "year": 1973,
+      "tags": [
+        "Ordered dithering",
+        "Digital halftoning",
+        "Dither matrices",
+        "Image processing",
+        "Computer graphics",
+        "Bilevel rendering"
+      ],
+      "summary": "Bayer introduces the ordered dithering construction now associated with Bayer matrices, giving a deterministic way to render continuous-tone images on bilevel devices. The work became a foundational reference for digital halftoning because it turns tone reproduction into a spatial threshold-pattern design problem rather than a purely local quantization rule.",
+      "url": "../papers/1973_e_an_optimum_method_for/",
+      "contentTreeUrl": "../content-tree/#paper=1973_e_an_optimum_method_for",
+      "mindMapUrl": "../mind-map/#paper=1973_e_an_optimum_method_for"
     },
     "1973_molinari_the_stabilizing_solution_of": {
       "id": "1973_molinari_the_stabilizing_solution_of",
@@ -20755,6 +21231,23 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2011_van_den_berg_reciprocal_n_body_collision",
       "mindMapUrl": "../mind-map/#paper=2011_van_den_berg_reciprocal_n_body_collision"
     },
+    "2011_phillips_sipp_safe_interval_path": {
+      "id": "2011_phillips_sipp_safe_interval_path",
+      "title": "SIPP: Safe Interval Path Planning for Dynamic Environments",
+      "label": "SIPP",
+      "authors": [
+        "Mike Phillips",
+        "Maxim Likhachev"
+      ],
+      "year": 2011,
+      "tags": [
+        "Graph search"
+      ],
+      "summary": "Introduces safe intervals as a compact way to reason about time in dynamic path-planning environments. SIPP searches states defined by configuration and collision-free time interval rather than by every timestep, preserving completeness and optimality guarantees while producing much faster plans in simulations with many moving obstacles and in PR2 robot trials.",
+      "url": "../papers/2011_phillips_sipp_safe_interval_path/",
+      "contentTreeUrl": "../content-tree/#paper=2011_phillips_sipp_safe_interval_path",
+      "mindMapUrl": "../mind-map/#paper=2011_phillips_sipp_safe_interval_path"
+    },
     "2011_levinson_towards_fully_autonomous_driving": {
       "id": "2011_levinson_towards_fully_autonomous_driving",
       "title": "Towards Fully Autonomous Driving: Systems and Algorithms",
@@ -20938,8 +21431,8 @@ window.tagSearchData = {
     },
     "2011_bachrach_rangerobust_autonomous_navigation_in": {
       "id": "2011_bachrach_rangerobust_autonomous_navigation_in",
-      "title": "RANGE–Robust Autonomous Navigation in GPS‐denied Environments",
-      "label": "RANGE–Robust Autonomous Navigation in GPS‐denied Environments",
+      "title": "RANGE: Robust Autonomous Navigation in GPS-denied Environments",
+      "label": "RANGE",
       "authors": [
         "Abraham Bachrach",
         "Samuel Prentice",
@@ -22565,7 +23058,7 @@ window.tagSearchData = {
       ],
       "year": 2018,
       "tags": [],
-      "summary": "",
+      "summary": "Sharpens the complexity story for discrete optimal transport by analyzing both Sinkhorn-based entropic regularization and an adaptive primal-dual accelerated gradient method. The paper is useful as a computational OT reference because it gives improved dependence on the target accuracy and highlights that the accelerated approach can support regularizers beyond entropy, including cases where the transport plan's sparsity matters.",
       "url": "../papers/1802_04367/",
       "contentTreeUrl": "../content-tree/#paper=1802_04367",
       "mindMapUrl": "../mind-map/#paper=1802_04367"
@@ -22902,6 +23395,22 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=1960_rosenbrock_an_automatic_method_for",
       "mindMapUrl": "../mind-map/#paper=1960_rosenbrock_an_automatic_method_for"
     },
+    "1992_nocedal_theory_of_algorithms_for": {
+      "id": "1992_nocedal_theory_of_algorithms_for",
+      "title": "Theory of Algorithms for Unconstrained Optimization",
+      "label": "Theory of Algorithms for Unconstrained Optimization",
+      "authors": [
+        "Jorge Nocedal"
+      ],
+      "year": 1992,
+      "tags": [
+        "Optimization"
+      ],
+      "summary": "Nocedal surveys the practical theoretical understanding of major algorithms for unconstrained nonlinear optimization, focusing on methods credible enough for numerical software libraries. The article frames convergence theory around implemented behavior, especially line-search, trust-region, conjugate-gradient, and quasi-Newton methods.",
+      "url": "../papers/1992_nocedal_theory_of_algorithms_for/",
+      "contentTreeUrl": "../content-tree/#paper=1992_nocedal_theory_of_algorithms_for",
+      "mindMapUrl": "../mind-map/#paper=1992_nocedal_theory_of_algorithms_for"
+    },
     "1992_neto_on_the_robustness_of": {
       "id": "1992_neto_on_the_robustness_of",
       "title": "On the Robustness of LQ Regulators for Discrete-time Systems",
@@ -23041,8 +23550,8 @@ window.tagSearchData = {
     },
     "1992_pacejka_the_magic_formula_tyre": {
       "id": "1992_pacejka_the_magic_formula_tyre",
-      "title": "THE MAGIC FORMULA TYRE MODEL",
-      "label": "THE MAGIC FORMULA TYRE MODEL",
+      "title": "The Magic Formula Tyre Model",
+      "label": "Magic Formula Tyre Model",
       "authors": [
         "Hans B. Pacejka",
         "Egbert Bakker"
@@ -24325,6 +24834,24 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2207_10820",
       "mindMapUrl": "../mind-map/#paper=2207_10820"
     },
+    "2022_schmid_why_and_how_savitzkygolay": {
+      "id": "2022_schmid_why_and_how_savitzkygolay",
+      "title": "Why and How Savitzky-Golay Filters Should Be Replaced",
+      "label": "Why and How Savitzky-Golay Filters Should Be Replaced",
+      "authors": [
+        "Michael Schmid",
+        "David Rath",
+        "Ulrike Diebold"
+      ],
+      "year": 2022,
+      "tags": [
+        "Research paper"
+      ],
+      "summary": "Explains why standard Savitzky-Golay filters preserve peak shapes but suppress high-frequency noise poorly, especially when derivatives or boundary regions are involved. They compare weighted Savitzky-Golay filters, modified sinc kernels, and Whittaker-Henderson smoothing, concluding that modified sinc kernels with linear extrapolation are often the strongest drop-in replacement because they reduce stopband noise and boundary artifacts while keeping useful passband behavior.",
+      "url": "../papers/2022_schmid_why_and_how_savitzkygolay/",
+      "contentTreeUrl": "../content-tree/#paper=2022_schmid_why_and_how_savitzkygolay",
+      "mindMapUrl": "../mind-map/#paper=2022_schmid_why_and_how_savitzkygolay"
+    },
     "2201_02177": {
       "id": "2201_02177",
       "title": "Grokking: Generalization beyond Overfitting on Small Algorithmic Datasets",
@@ -24786,6 +25313,25 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2212_01192",
       "mindMapUrl": "../mind-map/#paper=2212_01192"
     },
+    "2022_wolfe_spatiotemporal_blue_noise_masks": {
+      "id": "2022_wolfe_spatiotemporal_blue_noise_masks",
+      "title": "Spatiotemporal Blue Noise Masks",
+      "label": "Spatiotemporal Blue Noise Masks",
+      "authors": [
+        "Alan Wolfe",
+        "Nathan Morrical",
+        "Tomas Akenine-Möller",
+        "Ravi Ramamoorthi"
+      ],
+      "year": 2022,
+      "tags": [
+        "Computer vision"
+      ],
+      "summary": "Extends blue-noise masks from purely spatial distributions to spatiotemporal masks suitable for animated stochastic rendering. Their algorithms modify void-and-cluster and blue-noise dithered sampling objectives to produce scalar and vector masks with blue-noise spectra in both space and time, improving temporal filtering stability and convergence in examples such as volumetric rendering, ambient occlusion, and stochastic convolution.",
+      "url": "../papers/2022_wolfe_spatiotemporal_blue_noise_masks/",
+      "contentTreeUrl": "../content-tree/#paper=2022_wolfe_spatiotemporal_blue_noise_masks",
+      "mindMapUrl": "../mind-map/#paper=2022_wolfe_spatiotemporal_blue_noise_masks"
+    },
     "2208_05888": {
       "id": "2208_05888",
       "title": "Super-Universal Regularized Newton Method",
@@ -25108,6 +25654,25 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2008_leonard_a_perceptiondriven_autonomous_urban",
       "mindMapUrl": "../mind-map/#paper=2008_leonard_a_perceptiondriven_autonomous_urban"
     },
+    "2008_takayama_beyond_dirty_dangerous_and": {
+      "id": "2008_takayama_beyond_dirty_dangerous_and",
+      "title": "Beyond dirty, dangerous and dull: what everyday people think robots should do",
+      "label": "Beyond dirty, dangerous and dull: what everyday people think robots should do",
+      "authors": [
+        "Leila Takayama",
+        "Wendy Ju",
+        "Clifford Nass"
+      ],
+      "year": 2008,
+      "tags": [
+        "Robotics",
+        "Motion planning"
+      ],
+      "summary": "Web survey over O*NET occupations to study what kinds of work ordinary respondents think robots should do. The paper pushes beyond the usual \"dirty, dangerous, and dull\" framing by showing that people favor robots for work involving memorization, perception, and service orientation, while preferring humans for work involving artistry, judgment, evaluation, and diplomacy.",
+      "url": "../papers/2008_takayama_beyond_dirty_dangerous_and/",
+      "contentTreeUrl": "../content-tree/#paper=2008_takayama_beyond_dirty_dangerous_and",
+      "mindMapUrl": "../mind-map/#paper=2008_takayama_beyond_dirty_dangerous_and"
+    },
     "2008_rickert_balancing_exploration_and_exploitation": {
       "id": "2008_rickert_balancing_exploration_and_exploitation",
       "title": "Balancing Exploration and Exploitation in Motion Planning",
@@ -25155,8 +25720,8 @@ window.tagSearchData = {
     },
     "2008_fletcher_the_mitcornell_collision_and": {
       "id": "2008_fletcher_the_mitcornell_collision_and",
-      "title": "The MIT–Cornell Collision and Why It Happened",
-      "label": "The MIT–Cornell Collision and Why It Happened",
+      "title": "The MIT-Cornell Collision and Why It Happened",
+      "label": "The MIT-Cornell Collision and Why It Happened",
       "authors": [
         "Luke Fletcher",
         "Seth Teller",
@@ -25280,6 +25845,28 @@ window.tagSearchData = {
       "url": "../papers/2008_he_planning_in_information_space/",
       "contentTreeUrl": "../content-tree/#paper=2008_he_planning_in_information_space",
       "mindMapUrl": "../mind-map/#paper=2008_he_planning_in_information_space"
+    },
+    "2008_sedgewick_left_leaning_red_black": {
+      "id": "2008_sedgewick_left_leaning_red_black",
+      "title": "Left-Leaning Red-Black Trees",
+      "label": "Left-Leaning Red-Black Tree",
+      "authors": [
+        "Robert Sedgewick"
+      ],
+      "year": 2008,
+      "tags": [
+        "Balanced search trees",
+        "Red-black trees",
+        "Left-leaning red-black trees",
+        "Symbol tables",
+        "Data structures",
+        "Algorithms",
+        "Deletion algorithms"
+      ],
+      "summary": "Sedgewick presents left-leaning red-black trees, a red-black representation that forces 3-nodes to lean left and uses recursive rotations on the way back up the tree. The payoff is much shorter insertion and deletion code while preserving logarithmic search behavior and the ordered-symbol-table operations that make balanced trees useful.",
+      "url": "../papers/2008_sedgewick_left_leaning_red_black/",
+      "contentTreeUrl": "../content-tree/#paper=2008_sedgewick_left_leaning_red_black",
+      "mindMapUrl": "../mind-map/#paper=2008_sedgewick_left_leaning_red_black"
     },
     "2008_ziebart_maximum_entropy_inverse_reinforcement": {
       "id": "2008_ziebart_maximum_entropy_inverse_reinforcement",
@@ -27255,6 +27842,22 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2311_11489",
       "mindMapUrl": "../mind-map/#paper=2311_11489"
     },
+    "2023_yuan_stochastic_second_order_methods": {
+      "id": "2023_yuan_stochastic_second_order_methods",
+      "title": "Stochastic Second Order Methods and Finite Time Analysis of Policy Gradient Methods",
+      "label": "Stochastic Second Order Methods and Finite Time Analysis of Policy Gradient Methods",
+      "authors": [
+        "Rui Yuan"
+      ],
+      "year": 2023,
+      "tags": [
+        "Research paper"
+      ],
+      "summary": "",
+      "url": "../papers/2023_yuan_stochastic_second_order_methods/",
+      "contentTreeUrl": "../content-tree/#paper=2023_yuan_stochastic_second_order_methods",
+      "mindMapUrl": "../mind-map/#paper=2023_yuan_stochastic_second_order_methods"
+    },
     "2023_dai_convex_synthesis_and_verification": {
       "id": "2023_dai_convex_synthesis_and_verification",
       "title": "Convex Synthesis and Verification of Control-Lyapunov and Barrier Functions with Input Constraints",
@@ -27736,7 +28339,7 @@ window.tagSearchData = {
     "2006_luo_uniform_colour_spaces_based": {
       "id": "2006_luo_uniform_colour_spaces_based",
       "title": "Uniform Colour Spaces Based on CIECAM02 Colour Appearance Model",
-      "label": "Uniform Colour Spaces Based on CIECAM02 Colour Appearance Model",
+      "label": "CIECAM02",
       "authors": [
         "M. Ronnier Luo",
         "Guihua Cui",
@@ -27763,6 +28366,17 @@ window.tagSearchData = {
     "binary splitting": "Binary splitting",
     "pruning": "Pruning",
     "statistical learning": "Statistical learning",
+    "optimal transport": "Optimal transport",
+    "distribution theory": "Distribution theory",
+    "couplings": "Couplings",
+    "wasserstein distance": "Wasserstein distance",
+    "quadratic cost": "Quadratic cost",
+    "convex optimization": "Convex optimization",
+    "adaptive control": "Adaptive control",
+    "dynamic programming": "Dynamic programming",
+    "stochastic control": "Stochastic control",
+    "sequential decision making": "Sequential decision making",
+    "control theory": "Control theory",
     "motion planning": "Motion planning",
     "kinodynamic planning": "Kinodynamic planning",
     "trajectory planning": "Trajectory planning",
@@ -27861,14 +28475,13 @@ window.tagSearchData = {
     "squash-box": "Squash-Box",
     "feasibility driven differential dynamic programming": "Feasibility driven differential dynamic programming",
     "fddp": "FDDP",
-    "adaptive control": "Adaptive control",
     "model-based": "Model-based",
     "system identification": "System identification",
     "stochastic parameters": "Stochastic parameters",
     "bootstrap": "Bootstrap",
     "regret": "Regret",
+    "research paper": "Research paper",
     "policy iteration": "Policy iteration",
-    "dynamic programming": "Dynamic programming",
     "approximate dynamic programming": "Approximate dynamic programming",
     "newton method": "Newton method",
     "midpoint method": "Midpoint method",
@@ -27965,7 +28578,6 @@ window.tagSearchData = {
     "gmt*": "GMT*",
     "fmt*": "FMT*",
     "quadratic programming": "Quadratic programming",
-    "convex optimization": "Convex optimization",
     "operator splitting": "Operator splitting",
     "admm": "ADMM",
     "first-order optimization": "First-order optimization",
@@ -28017,6 +28629,7 @@ window.tagSearchData = {
     "gaussian processes": "Gaussian processes",
     "molecular graphs": "Molecular graphs",
     "adaptive experimentation": "Adaptive experimentation",
+    "statistics": "Statistics",
     "motion prediction": "Motion prediction",
     "vehicle behavior prediction": "Vehicle behavior prediction",
     "intention prediction": "Intention prediction",
@@ -28090,6 +28703,7 @@ window.tagSearchData = {
     "streaming flow policy": "Streaming flow policy",
     "projection methods": "Projection methods",
     "real-time": "Real-time",
+    "foundation models": "Foundation models",
     "vision-language-action model": "Vision-language-action model",
     "vision-language-action models": "Vision-language-action models",
     "diffusion policies": "Diffusion policies",
@@ -28105,7 +28719,6 @@ window.tagSearchData = {
     "video question answering": "Video question answering",
     "action-conditioned prediction": "Action-conditioned prediction",
     "zero-shot robotics": "Zero-shot robotics",
-    "foundation models": "Foundation models",
     "simt": "SIMT",
     "cuda": "CUDA",
     "collision checking": "Collision checking",
@@ -28230,7 +28843,6 @@ window.tagSearchData = {
     "thermodynamics": "Thermodynamics",
     "engineering history": "Engineering history",
     "patents": "Patents",
-    "stochastic control": "Stochastic control",
     "linearization": "Linearization",
     "lqr design": "LQR design",
     "stabilization": "Stabilization",
@@ -28337,7 +28949,6 @@ window.tagSearchData = {
     "reference trajectory": "Reference trajectory",
     "safe planning": "Safe planning",
     "risk-averse": "Risk-averse",
-    "control theory": "Control theory",
     "dynamic game": "Dynamic game",
     "linear quadratic games": "Linear quadratic games",
     "algebraic riccati equation": "Algebraic Riccati equation",
@@ -28377,6 +28988,8 @@ window.tagSearchData = {
     "perturbation": "Perturbation",
     "convex": "Convex",
     "polytope": "Polytope",
+    "dynamical systems": "Dynamical systems",
+    "model-free control": "Model-free control",
     "graphs of convex sets": "Graphs of convex sets",
     "convex set": "Convex set",
     "mixed-integer programming": "Mixed-integer programming",
@@ -28516,7 +29129,6 @@ window.tagSearchData = {
     "online planning": "Online planning",
     "heuristic search": "Heuristic search",
     "belief-state planning": "Belief-state planning",
-    "sequential decision making": "Sequential decision making",
     "planning under uncertainty": "Planning under uncertainty",
     "risk assessment": "Risk assessment",
     "intelligent vehicles": "Intelligent vehicles",
@@ -28541,7 +29153,6 @@ window.tagSearchData = {
     "constraints": "Constraints",
     "deterministic policy": "Deterministic policy",
     "continuous action spaces": "Continuous action spaces",
-    "model-free control": "Model-free control",
     "cuckoo filter": "Cuckoo filter",
     "bloom filter": "Bloom filter",
     "approximate membership": "Approximate membership",
@@ -28549,6 +29160,10 @@ window.tagSearchData = {
     "hashing": "Hashing",
     "networking": "Networking",
     "informed set": "Informed set",
+    "regularized newton methods": "Regularized Newton methods",
+    "second-order optimization": "Second-order optimization",
+    "superlinear convergence": "Superlinear convergence",
+    "complexity bounds": "Complexity bounds",
     "random geometric graphs": "Random geometric graphs",
     "probabilistic differential dynamic programming": "Probabilistic differential dynamic programming",
     "pddp": "PDDP",
@@ -28651,6 +29266,7 @@ window.tagSearchData = {
     "riccati equations": "Riccati equations",
     "qr decomposition": "QR decomposition",
     "singular value decomposition": "Singular value decomposition",
+    "wheeled robots": "Wheeled robots",
     "ordered dithering": "Ordered dithering",
     "halftoning": "Halftoning",
     "threshold matrix generation": "Threshold matrix generation",
@@ -28696,7 +29312,6 @@ window.tagSearchData = {
     "monte carlo tree search": "Monte Carlo Tree Search",
     "mcts": "MCTS",
     "spectral methods": "Spectral methods",
-    "dynamical systems": "Dynamical systems",
     "mdp": "MDP",
     "primal-dual": "Primal-dual",
     "proximal ddp": "Proximal DDP",
@@ -28780,6 +29395,12 @@ window.tagSearchData = {
     "nav2": "Nav2",
     "acceleration constraints": "Acceleration constraints",
     "industrial robots": "Industrial robots",
+    "receding horizon control": "Receding horizon control",
+    "planning and control": "Planning and control",
+    "digital halftoning": "Digital halftoning",
+    "dither matrices": "Dither matrices",
+    "image processing": "Image processing",
+    "bilevel rendering": "Bilevel rendering",
     "stabilizing solution": "Stabilizing solution",
     "existence conditions": "Existence conditions",
     "cooperative games": "Cooperative games",
@@ -28971,6 +29592,13 @@ window.tagSearchData = {
     "visualization": "Visualization",
     "manifold learning": "Manifold learning",
     "stochastic neighbor embedding": "Stochastic neighbor embedding",
+    "balanced search trees": "Balanced search trees",
+    "red-black trees": "Red-black trees",
+    "left-leaning red-black trees": "Left-leaning red-black trees",
+    "symbol tables": "Symbol tables",
+    "data structures": "Data structures",
+    "algorithms": "Algorithms",
+    "deletion algorithms": "Deletion algorithms",
     "algebraic topology": "Algebraic topology",
     "borsuk-ulam theorem": "Borsuk-Ulam theorem",
     "sphere theorems": "Sphere theorems",
@@ -29699,6 +30327,1668 @@ window.tagSearchData = {
         "score": 0.7899
       }
     ],
+    "1984_knott_on_the_optimal_mapping::convex optimization": [
+      {
+        "id": "2101_11565",
+        "score": 0.7206
+      },
+      {
+        "id": "1711_08013",
+        "score": 0.6753
+      },
+      {
+        "id": "2504_18978",
+        "score": 0.6599
+      },
+      {
+        "id": "2013_chu_code_generation_for_embedded",
+        "score": 0.6564
+      },
+      {
+        "id": "2205_04422",
+        "score": 0.6545
+      },
+      {
+        "id": "2009_verscheure_time_optimal_path_tracking",
+        "score": 0.6408
+      },
+      {
+        "id": "2013_lipp_minimum_time_speed_optimisation",
+        "score": 0.6376
+      },
+      {
+        "id": "2006_grant_disciplined_convex_programming",
+        "score": 0.6367
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.633
+      },
+      {
+        "id": "2018_zhang_toward_a_more_complete",
+        "score": 0.6307
+      },
+      {
+        "id": "1506_01085",
+        "score": 0.6033
+      },
+      {
+        "id": "2009_beck_a_fast_iterative_shrinkage",
+        "score": 0.596
+      }
+    ],
+    "1711_08013::convex optimization": [
+      {
+        "id": "2013_chu_code_generation_for_embedded",
+        "score": 0.8194
+      },
+      {
+        "id": "2006_grant_disciplined_convex_programming",
+        "score": 0.7397
+      },
+      {
+        "id": "2504_18978",
+        "score": 0.7322
+      },
+      {
+        "id": "2101_11565",
+        "score": 0.7174
+      },
+      {
+        "id": "2009_verscheure_time_optimal_path_tracking",
+        "score": 0.7128
+      },
+      {
+        "id": "2205_04422",
+        "score": 0.712
+      },
+      {
+        "id": "2018_zhang_toward_a_more_complete",
+        "score": 0.7092
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.6888
+      },
+      {
+        "id": "1506_01085",
+        "score": 0.6858
+      },
+      {
+        "id": "1984_knott_on_the_optimal_mapping",
+        "score": 0.6753
+      },
+      {
+        "id": "2013_lipp_minimum_time_speed_optimisation",
+        "score": 0.661
+      },
+      {
+        "id": "2009_beck_a_fast_iterative_shrinkage",
+        "score": 0.6572
+      }
+    ],
+    "2504_18978::convex optimization": [
+      {
+        "id": "2205_04422",
+        "score": 0.9109
+      },
+      {
+        "id": "1506_01085",
+        "score": 0.8678
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.8532
+      },
+      {
+        "id": "2009_verscheure_time_optimal_path_tracking",
+        "score": 0.8417
+      },
+      {
+        "id": "2013_lipp_minimum_time_speed_optimisation",
+        "score": 0.8345
+      },
+      {
+        "id": "2101_11565",
+        "score": 0.8307
+      },
+      {
+        "id": "2018_zhang_toward_a_more_complete",
+        "score": 0.8237
+      },
+      {
+        "id": "2013_chu_code_generation_for_embedded",
+        "score": 0.7399
+      },
+      {
+        "id": "1711_08013",
+        "score": 0.7322
+      },
+      {
+        "id": "2006_grant_disciplined_convex_programming",
+        "score": 0.6787
+      },
+      {
+        "id": "1984_knott_on_the_optimal_mapping",
+        "score": 0.6599
+      },
+      {
+        "id": "2009_beck_a_fast_iterative_shrinkage",
+        "score": 0.6166
+      }
+    ],
+    "1506_01085::convex optimization": [
+      {
+        "id": "2504_18978",
+        "score": 0.8678
+      },
+      {
+        "id": "2205_04422",
+        "score": 0.8643
+      },
+      {
+        "id": "2018_zhang_toward_a_more_complete",
+        "score": 0.854
+      },
+      {
+        "id": "2013_lipp_minimum_time_speed_optimisation",
+        "score": 0.834
+      },
+      {
+        "id": "2009_verscheure_time_optimal_path_tracking",
+        "score": 0.8164
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.8106
+      },
+      {
+        "id": "2101_11565",
+        "score": 0.7889
+      },
+      {
+        "id": "2013_chu_code_generation_for_embedded",
+        "score": 0.7093
+      },
+      {
+        "id": "1711_08013",
+        "score": 0.6858
+      },
+      {
+        "id": "2006_grant_disciplined_convex_programming",
+        "score": 0.6665
+      },
+      {
+        "id": "2009_beck_a_fast_iterative_shrinkage",
+        "score": 0.6034
+      },
+      {
+        "id": "1984_knott_on_the_optimal_mapping",
+        "score": 0.6033
+      }
+    ],
+    "2101_11565::convex optimization": [
+      {
+        "id": "2205_04422",
+        "score": 0.8666
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.8352
+      },
+      {
+        "id": "2504_18978",
+        "score": 0.8307
+      },
+      {
+        "id": "1506_01085",
+        "score": 0.7889
+      },
+      {
+        "id": "2013_lipp_minimum_time_speed_optimisation",
+        "score": 0.7876
+      },
+      {
+        "id": "2018_zhang_toward_a_more_complete",
+        "score": 0.785
+      },
+      {
+        "id": "2009_verscheure_time_optimal_path_tracking",
+        "score": 0.772
+      },
+      {
+        "id": "2006_grant_disciplined_convex_programming",
+        "score": 0.7258
+      },
+      {
+        "id": "2013_chu_code_generation_for_embedded",
+        "score": 0.7241
+      },
+      {
+        "id": "1984_knott_on_the_optimal_mapping",
+        "score": 0.7206
+      },
+      {
+        "id": "1711_08013",
+        "score": 0.7174
+      },
+      {
+        "id": "2009_beck_a_fast_iterative_shrinkage",
+        "score": 0.592
+      }
+    ],
+    "2013_lipp_minimum_time_speed_optimisation::convex optimization": [
+      {
+        "id": "2018_zhang_toward_a_more_complete",
+        "score": 0.859
+      },
+      {
+        "id": "2504_18978",
+        "score": 0.8345
+      },
+      {
+        "id": "1506_01085",
+        "score": 0.834
+      },
+      {
+        "id": "2009_verscheure_time_optimal_path_tracking",
+        "score": 0.8256
+      },
+      {
+        "id": "2205_04422",
+        "score": 0.8057
+      },
+      {
+        "id": "2101_11565",
+        "score": 0.7876
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.775
+      },
+      {
+        "id": "2013_chu_code_generation_for_embedded",
+        "score": 0.6975
+      },
+      {
+        "id": "1711_08013",
+        "score": 0.661
+      },
+      {
+        "id": "2006_grant_disciplined_convex_programming",
+        "score": 0.6485
+      },
+      {
+        "id": "1984_knott_on_the_optimal_mapping",
+        "score": 0.6376
+      },
+      {
+        "id": "2009_beck_a_fast_iterative_shrinkage",
+        "score": 0.5674
+      }
+    ],
+    "2013_chu_code_generation_for_embedded::convex optimization": [
+      {
+        "id": "1711_08013",
+        "score": 0.8194
+      },
+      {
+        "id": "2006_grant_disciplined_convex_programming",
+        "score": 0.7845
+      },
+      {
+        "id": "2009_verscheure_time_optimal_path_tracking",
+        "score": 0.7457
+      },
+      {
+        "id": "2504_18978",
+        "score": 0.7399
+      },
+      {
+        "id": "2205_04422",
+        "score": 0.7332
+      },
+      {
+        "id": "2018_zhang_toward_a_more_complete",
+        "score": 0.7253
+      },
+      {
+        "id": "2101_11565",
+        "score": 0.7241
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.7114
+      },
+      {
+        "id": "1506_01085",
+        "score": 0.7093
+      },
+      {
+        "id": "2013_lipp_minimum_time_speed_optimisation",
+        "score": 0.6975
+      },
+      {
+        "id": "1984_knott_on_the_optimal_mapping",
+        "score": 0.6564
+      },
+      {
+        "id": "2009_beck_a_fast_iterative_shrinkage",
+        "score": 0.6436
+      }
+    ],
+    "2009_beck_a_fast_iterative_shrinkage::convex optimization": [
+      {
+        "id": "1711_08013",
+        "score": 0.6572
+      },
+      {
+        "id": "2013_chu_code_generation_for_embedded",
+        "score": 0.6436
+      },
+      {
+        "id": "2504_18978",
+        "score": 0.6166
+      },
+      {
+        "id": "2006_grant_disciplined_convex_programming",
+        "score": 0.61
+      },
+      {
+        "id": "1506_01085",
+        "score": 0.6034
+      },
+      {
+        "id": "1984_knott_on_the_optimal_mapping",
+        "score": 0.596
+      },
+      {
+        "id": "2101_11565",
+        "score": 0.592
+      },
+      {
+        "id": "2009_verscheure_time_optimal_path_tracking",
+        "score": 0.5812
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.5754
+      },
+      {
+        "id": "2018_zhang_toward_a_more_complete",
+        "score": 0.5707
+      },
+      {
+        "id": "2205_04422",
+        "score": 0.5676
+      },
+      {
+        "id": "2013_lipp_minimum_time_speed_optimisation",
+        "score": 0.5674
+      }
+    ],
+    "2009_verscheure_time_optimal_path_tracking::convex optimization": [
+      {
+        "id": "2504_18978",
+        "score": 0.8417
+      },
+      {
+        "id": "2205_04422",
+        "score": 0.8322
+      },
+      {
+        "id": "2013_lipp_minimum_time_speed_optimisation",
+        "score": 0.8256
+      },
+      {
+        "id": "1506_01085",
+        "score": 0.8164
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.7968
+      },
+      {
+        "id": "2018_zhang_toward_a_more_complete",
+        "score": 0.7789
+      },
+      {
+        "id": "2101_11565",
+        "score": 0.772
+      },
+      {
+        "id": "2013_chu_code_generation_for_embedded",
+        "score": 0.7457
+      },
+      {
+        "id": "1711_08013",
+        "score": 0.7128
+      },
+      {
+        "id": "2006_grant_disciplined_convex_programming",
+        "score": 0.6798
+      },
+      {
+        "id": "1984_knott_on_the_optimal_mapping",
+        "score": 0.6408
+      },
+      {
+        "id": "2009_beck_a_fast_iterative_shrinkage",
+        "score": 0.5812
+      }
+    ],
+    "2018_zhang_toward_a_more_complete::convex optimization": [
+      {
+        "id": "2013_lipp_minimum_time_speed_optimisation",
+        "score": 0.859
+      },
+      {
+        "id": "1506_01085",
+        "score": 0.854
+      },
+      {
+        "id": "2205_04422",
+        "score": 0.8263
+      },
+      {
+        "id": "2504_18978",
+        "score": 0.8237
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.7922
+      },
+      {
+        "id": "2101_11565",
+        "score": 0.785
+      },
+      {
+        "id": "2009_verscheure_time_optimal_path_tracking",
+        "score": 0.7789
+      },
+      {
+        "id": "2013_chu_code_generation_for_embedded",
+        "score": 0.7253
+      },
+      {
+        "id": "1711_08013",
+        "score": 0.7092
+      },
+      {
+        "id": "2006_grant_disciplined_convex_programming",
+        "score": 0.6769
+      },
+      {
+        "id": "1984_knott_on_the_optimal_mapping",
+        "score": 0.6307
+      },
+      {
+        "id": "2009_beck_a_fast_iterative_shrinkage",
+        "score": 0.5707
+      }
+    ],
+    "2205_04422::convex optimization": [
+      {
+        "id": "2504_18978",
+        "score": 0.9109
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.8794
+      },
+      {
+        "id": "2101_11565",
+        "score": 0.8666
+      },
+      {
+        "id": "1506_01085",
+        "score": 0.8643
+      },
+      {
+        "id": "2009_verscheure_time_optimal_path_tracking",
+        "score": 0.8322
+      },
+      {
+        "id": "2018_zhang_toward_a_more_complete",
+        "score": 0.8263
+      },
+      {
+        "id": "2013_lipp_minimum_time_speed_optimisation",
+        "score": 0.8057
+      },
+      {
+        "id": "2013_chu_code_generation_for_embedded",
+        "score": 0.7332
+      },
+      {
+        "id": "1711_08013",
+        "score": 0.712
+      },
+      {
+        "id": "2006_grant_disciplined_convex_programming",
+        "score": 0.6777
+      },
+      {
+        "id": "1984_knott_on_the_optimal_mapping",
+        "score": 0.6545
+      },
+      {
+        "id": "2009_beck_a_fast_iterative_shrinkage",
+        "score": 0.5676
+      }
+    ],
+    "2305_01072::convex optimization": [
+      {
+        "id": "2205_04422",
+        "score": 0.8794
+      },
+      {
+        "id": "2504_18978",
+        "score": 0.8532
+      },
+      {
+        "id": "2101_11565",
+        "score": 0.8352
+      },
+      {
+        "id": "1506_01085",
+        "score": 0.8106
+      },
+      {
+        "id": "2009_verscheure_time_optimal_path_tracking",
+        "score": 0.7968
+      },
+      {
+        "id": "2018_zhang_toward_a_more_complete",
+        "score": 0.7922
+      },
+      {
+        "id": "2013_lipp_minimum_time_speed_optimisation",
+        "score": 0.775
+      },
+      {
+        "id": "2013_chu_code_generation_for_embedded",
+        "score": 0.7114
+      },
+      {
+        "id": "1711_08013",
+        "score": 0.6888
+      },
+      {
+        "id": "2006_grant_disciplined_convex_programming",
+        "score": 0.6507
+      },
+      {
+        "id": "1984_knott_on_the_optimal_mapping",
+        "score": 0.633
+      },
+      {
+        "id": "2009_beck_a_fast_iterative_shrinkage",
+        "score": 0.5754
+      }
+    ],
+    "2006_grant_disciplined_convex_programming::convex optimization": [
+      {
+        "id": "2013_chu_code_generation_for_embedded",
+        "score": 0.7845
+      },
+      {
+        "id": "1711_08013",
+        "score": 0.7397
+      },
+      {
+        "id": "2101_11565",
+        "score": 0.7258
+      },
+      {
+        "id": "2009_verscheure_time_optimal_path_tracking",
+        "score": 0.6798
+      },
+      {
+        "id": "2504_18978",
+        "score": 0.6787
+      },
+      {
+        "id": "2205_04422",
+        "score": 0.6777
+      },
+      {
+        "id": "2018_zhang_toward_a_more_complete",
+        "score": 0.6769
+      },
+      {
+        "id": "1506_01085",
+        "score": 0.6665
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.6507
+      },
+      {
+        "id": "2013_lipp_minimum_time_speed_optimisation",
+        "score": 0.6485
+      },
+      {
+        "id": "1984_knott_on_the_optimal_mapping",
+        "score": 0.6367
+      },
+      {
+        "id": "2009_beck_a_fast_iterative_shrinkage",
+        "score": 0.61
+      }
+    ],
+    "1959_bellman_on_adaptive_control_processes::adaptive control": [
+      {
+        "id": "1983_barto_neuronlike_adaptive_elements_that",
+        "score": 0.7413
+      },
+      {
+        "id": "2011_abbasi_yadkori_regret_bounds_for_the",
+        "score": 0.7395
+      },
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness",
+        "score": 0.7348
+      },
+      {
+        "id": "2002_10069",
+        "score": 0.7212
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.72
+      },
+      {
+        "id": "2205_05119",
+        "score": 0.6658
+      }
+    ],
+    "2002_10069::adaptive control": [
+      {
+        "id": "2205_05119",
+        "score": 0.9276
+      },
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness",
+        "score": 0.8737
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.8399
+      },
+      {
+        "id": "2011_abbasi_yadkori_regret_bounds_for_the",
+        "score": 0.8183
+      },
+      {
+        "id": "1983_barto_neuronlike_adaptive_elements_that",
+        "score": 0.7339
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.7212
+      }
+    ],
+    "2021_gravell_stochastic_stability_via_robustness::adaptive control": [
+      {
+        "id": "2002_10069",
+        "score": 0.8737
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.8534
+      },
+      {
+        "id": "2205_05119",
+        "score": 0.8446
+      },
+      {
+        "id": "2011_abbasi_yadkori_regret_bounds_for_the",
+        "score": 0.797
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.7348
+      },
+      {
+        "id": "1983_barto_neuronlike_adaptive_elements_that",
+        "score": 0.7209
+      }
+    ],
+    "1983_barto_neuronlike_adaptive_elements_that::adaptive control": [
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.7413
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.7375
+      },
+      {
+        "id": "2002_10069",
+        "score": 0.7339
+      },
+      {
+        "id": "2011_abbasi_yadkori_regret_bounds_for_the",
+        "score": 0.7238
+      },
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness",
+        "score": 0.7209
+      },
+      {
+        "id": "2205_05119",
+        "score": 0.6724
+      }
+    ],
+    "2011_abbasi_yadkori_regret_bounds_for_the::adaptive control": [
+      {
+        "id": "2002_10069",
+        "score": 0.8183
+      },
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness",
+        "score": 0.797
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.7855
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.7395
+      },
+      {
+        "id": "2205_05119",
+        "score": 0.7355
+      },
+      {
+        "id": "1983_barto_neuronlike_adaptive_elements_that",
+        "score": 0.7238
+      }
+    ],
+    "2205_05119::adaptive control": [
+      {
+        "id": "2002_10069",
+        "score": 0.9276
+      },
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness",
+        "score": 0.8446
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.8091
+      },
+      {
+        "id": "2011_abbasi_yadkori_regret_bounds_for_the",
+        "score": 0.7355
+      },
+      {
+        "id": "1983_barto_neuronlike_adaptive_elements_that",
+        "score": 0.6724
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.6658
+      }
+    ],
+    "2022_gravell_data_driven_control_and::adaptive control": [
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness",
+        "score": 0.8534
+      },
+      {
+        "id": "2002_10069",
+        "score": 0.8399
+      },
+      {
+        "id": "2205_05119",
+        "score": 0.8091
+      },
+      {
+        "id": "2011_abbasi_yadkori_regret_bounds_for_the",
+        "score": 0.7855
+      },
+      {
+        "id": "1983_barto_neuronlike_adaptive_elements_that",
+        "score": 0.7375
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.72
+      }
+    ],
+    "1959_bellman_on_adaptive_control_processes::dynamic programming": [
+      {
+        "id": "1979_puterman_on_the_convergence_of",
+        "score": 0.7356
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.7262
+      },
+      {
+        "id": "1970_jacobson_differential_dynamic_programming",
+        "score": 0.7197
+      },
+      {
+        "id": "2011_14212",
+        "score": 0.7188
+      },
+      {
+        "id": "2505_08370",
+        "score": 0.6794
+      },
+      {
+        "id": "1958_bellman_on_a_routing_problem",
+        "score": 0.6353
+      },
+      {
+        "id": "1204_6453",
+        "score": 0.6214
+      },
+      {
+        "id": "1306_3532",
+        "score": 0.6169
+      }
+    ],
+    "2011_14212::dynamic programming": [
+      {
+        "id": "1979_puterman_on_the_convergence_of",
+        "score": 0.8742
+      },
+      {
+        "id": "1970_jacobson_differential_dynamic_programming",
+        "score": 0.7764
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.7258
+      },
+      {
+        "id": "2505_08370",
+        "score": 0.7209
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.7188
+      },
+      {
+        "id": "1306_3532",
+        "score": 0.7148
+      },
+      {
+        "id": "1204_6453",
+        "score": 0.7041
+      },
+      {
+        "id": "1958_bellman_on_a_routing_problem",
+        "score": 0.6255
+      }
+    ],
+    "2505_08370::dynamic programming": [
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.7903
+      },
+      {
+        "id": "1970_jacobson_differential_dynamic_programming",
+        "score": 0.7451
+      },
+      {
+        "id": "2011_14212",
+        "score": 0.7209
+      },
+      {
+        "id": "1979_puterman_on_the_convergence_of",
+        "score": 0.7113
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.6794
+      },
+      {
+        "id": "1204_6453",
+        "score": 0.6613
+      },
+      {
+        "id": "1306_3532",
+        "score": 0.6606
+      },
+      {
+        "id": "1958_bellman_on_a_routing_problem",
+        "score": 0.5418
+      }
+    ],
+    "1970_mclane_the_optimal_regulator_problem::dynamic programming": [
+      {
+        "id": "2505_08370",
+        "score": 0.7903
+      },
+      {
+        "id": "1970_jacobson_differential_dynamic_programming",
+        "score": 0.7758
+      },
+      {
+        "id": "1979_puterman_on_the_convergence_of",
+        "score": 0.7456
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.7262
+      },
+      {
+        "id": "2011_14212",
+        "score": 0.7258
+      },
+      {
+        "id": "1204_6453",
+        "score": 0.6476
+      },
+      {
+        "id": "1306_3532",
+        "score": 0.6267
+      },
+      {
+        "id": "1958_bellman_on_a_routing_problem",
+        "score": 0.6255
+      }
+    ],
+    "1970_jacobson_differential_dynamic_programming::dynamic programming": [
+      {
+        "id": "1979_puterman_on_the_convergence_of",
+        "score": 0.7835
+      },
+      {
+        "id": "2011_14212",
+        "score": 0.7764
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.7758
+      },
+      {
+        "id": "1306_3532",
+        "score": 0.7541
+      },
+      {
+        "id": "2505_08370",
+        "score": 0.7451
+      },
+      {
+        "id": "1204_6453",
+        "score": 0.7246
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.7197
+      },
+      {
+        "id": "1958_bellman_on_a_routing_problem",
+        "score": 0.6888
+      }
+    ],
+    "1958_bellman_on_a_routing_problem::dynamic programming": [
+      {
+        "id": "1970_jacobson_differential_dynamic_programming",
+        "score": 0.6888
+      },
+      {
+        "id": "1204_6453",
+        "score": 0.6801
+      },
+      {
+        "id": "1979_puterman_on_the_convergence_of",
+        "score": 0.6682
+      },
+      {
+        "id": "1306_3532",
+        "score": 0.6594
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.6353
+      },
+      {
+        "id": "2011_14212",
+        "score": 0.6255
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.6255
+      },
+      {
+        "id": "2505_08370",
+        "score": 0.5418
+      }
+    ],
+    "1979_puterman_on_the_convergence_of::dynamic programming": [
+      {
+        "id": "2011_14212",
+        "score": 0.8742
+      },
+      {
+        "id": "1970_jacobson_differential_dynamic_programming",
+        "score": 0.7835
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.7456
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.7356
+      },
+      {
+        "id": "1306_3532",
+        "score": 0.7349
+      },
+      {
+        "id": "1204_6453",
+        "score": 0.7247
+      },
+      {
+        "id": "2505_08370",
+        "score": 0.7113
+      },
+      {
+        "id": "1958_bellman_on_a_routing_problem",
+        "score": 0.6682
+      }
+    ],
+    "1204_6453::dynamic programming": [
+      {
+        "id": "1306_3532",
+        "score": 0.8807
+      },
+      {
+        "id": "1979_puterman_on_the_convergence_of",
+        "score": 0.7247
+      },
+      {
+        "id": "1970_jacobson_differential_dynamic_programming",
+        "score": 0.7246
+      },
+      {
+        "id": "2011_14212",
+        "score": 0.7041
+      },
+      {
+        "id": "1958_bellman_on_a_routing_problem",
+        "score": 0.6801
+      },
+      {
+        "id": "2505_08370",
+        "score": 0.6613
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.6476
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.6214
+      }
+    ],
+    "1306_3532::dynamic programming": [
+      {
+        "id": "1204_6453",
+        "score": 0.8807
+      },
+      {
+        "id": "1970_jacobson_differential_dynamic_programming",
+        "score": 0.7541
+      },
+      {
+        "id": "1979_puterman_on_the_convergence_of",
+        "score": 0.7349
+      },
+      {
+        "id": "2011_14212",
+        "score": 0.7148
+      },
+      {
+        "id": "2505_08370",
+        "score": 0.6606
+      },
+      {
+        "id": "1958_bellman_on_a_routing_problem",
+        "score": 0.6594
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.6267
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.6169
+      }
+    ],
+    "1959_bellman_on_adaptive_control_processes::stochastic control": [
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.7262
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.72
+      },
+      {
+        "id": "1968_wonham_on_the_separation_theorem",
+        "score": 0.7117
+      },
+      {
+        "id": "1960_kalman_a_new_approach_to",
+        "score": 0.6847
+      },
+      {
+        "id": "1971_haussmann_optimal_stationary_control_with",
+        "score": 0.6834
+      },
+      {
+        "id": "1975_gustafson_design_of_linear_regulators",
+        "score": 0.6827
+      },
+      {
+        "id": "1967_wonham_optimal_stationary_control_of",
+        "score": 0.677
+      },
+      {
+        "id": "2001_damm_newtons_method_for_a",
+        "score": 0.6594
+      },
+      {
+        "id": "1965_bogdanoff_experiments_with_an_inverted",
+        "score": 0.6384
+      }
+    ],
+    "1975_gustafson_design_of_linear_regulators::stochastic control": [
+      {
+        "id": "1967_wonham_optimal_stationary_control_of",
+        "score": 0.8825
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.874
+      },
+      {
+        "id": "1971_haussmann_optimal_stationary_control_with",
+        "score": 0.8545
+      },
+      {
+        "id": "1968_wonham_on_the_separation_theorem",
+        "score": 0.851
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.8334
+      },
+      {
+        "id": "1960_kalman_a_new_approach_to",
+        "score": 0.8158
+      },
+      {
+        "id": "2001_damm_newtons_method_for_a",
+        "score": 0.797
+      },
+      {
+        "id": "1965_bogdanoff_experiments_with_an_inverted",
+        "score": 0.7597
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.6827
+      }
+    ],
+    "1970_mclane_the_optimal_regulator_problem::stochastic control": [
+      {
+        "id": "1971_haussmann_optimal_stationary_control_with",
+        "score": 0.9297
+      },
+      {
+        "id": "1967_wonham_optimal_stationary_control_of",
+        "score": 0.9207
+      },
+      {
+        "id": "1975_gustafson_design_of_linear_regulators",
+        "score": 0.874
+      },
+      {
+        "id": "1968_wonham_on_the_separation_theorem",
+        "score": 0.8467
+      },
+      {
+        "id": "1960_kalman_a_new_approach_to",
+        "score": 0.8234
+      },
+      {
+        "id": "2001_damm_newtons_method_for_a",
+        "score": 0.7859
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.7831
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.7262
+      },
+      {
+        "id": "1965_bogdanoff_experiments_with_an_inverted",
+        "score": 0.7173
+      }
+    ],
+    "1968_wonham_on_the_separation_theorem::stochastic control": [
+      {
+        "id": "1967_wonham_optimal_stationary_control_of",
+        "score": 0.8697
+      },
+      {
+        "id": "1975_gustafson_design_of_linear_regulators",
+        "score": 0.851
+      },
+      {
+        "id": "1971_haussmann_optimal_stationary_control_with",
+        "score": 0.8509
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.8467
+      },
+      {
+        "id": "1960_kalman_a_new_approach_to",
+        "score": 0.8311
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.7646
+      },
+      {
+        "id": "2001_damm_newtons_method_for_a",
+        "score": 0.7624
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.7117
+      },
+      {
+        "id": "1965_bogdanoff_experiments_with_an_inverted",
+        "score": 0.6765
+      }
+    ],
+    "1971_haussmann_optimal_stationary_control_with::stochastic control": [
+      {
+        "id": "1967_wonham_optimal_stationary_control_of",
+        "score": 0.9402
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.9297
+      },
+      {
+        "id": "1975_gustafson_design_of_linear_regulators",
+        "score": 0.8545
+      },
+      {
+        "id": "1968_wonham_on_the_separation_theorem",
+        "score": 0.8509
+      },
+      {
+        "id": "1960_kalman_a_new_approach_to",
+        "score": 0.8143
+      },
+      {
+        "id": "2001_damm_newtons_method_for_a",
+        "score": 0.769
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.736
+      },
+      {
+        "id": "1965_bogdanoff_experiments_with_an_inverted",
+        "score": 0.6942
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.6834
+      }
+    ],
+    "1967_wonham_optimal_stationary_control_of::stochastic control": [
+      {
+        "id": "1971_haussmann_optimal_stationary_control_with",
+        "score": 0.9402
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.9207
+      },
+      {
+        "id": "1975_gustafson_design_of_linear_regulators",
+        "score": 0.8825
+      },
+      {
+        "id": "1968_wonham_on_the_separation_theorem",
+        "score": 0.8697
+      },
+      {
+        "id": "1960_kalman_a_new_approach_to",
+        "score": 0.8463
+      },
+      {
+        "id": "2001_damm_newtons_method_for_a",
+        "score": 0.8036
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.7714
+      },
+      {
+        "id": "1965_bogdanoff_experiments_with_an_inverted",
+        "score": 0.7361
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.677
+      }
+    ],
+    "2001_damm_newtons_method_for_a::stochastic control": [
+      {
+        "id": "1967_wonham_optimal_stationary_control_of",
+        "score": 0.8036
+      },
+      {
+        "id": "1975_gustafson_design_of_linear_regulators",
+        "score": 0.797
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.7859
+      },
+      {
+        "id": "1971_haussmann_optimal_stationary_control_with",
+        "score": 0.769
+      },
+      {
+        "id": "1968_wonham_on_the_separation_theorem",
+        "score": 0.7624
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.7546
+      },
+      {
+        "id": "1960_kalman_a_new_approach_to",
+        "score": 0.7452
+      },
+      {
+        "id": "1965_bogdanoff_experiments_with_an_inverted",
+        "score": 0.6908
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.6594
+      }
+    ],
+    "1965_bogdanoff_experiments_with_an_inverted::stochastic control": [
+      {
+        "id": "1975_gustafson_design_of_linear_regulators",
+        "score": 0.7597
+      },
+      {
+        "id": "1967_wonham_optimal_stationary_control_of",
+        "score": 0.7361
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.7173
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.7075
+      },
+      {
+        "id": "1971_haussmann_optimal_stationary_control_with",
+        "score": 0.6942
+      },
+      {
+        "id": "2001_damm_newtons_method_for_a",
+        "score": 0.6908
+      },
+      {
+        "id": "1968_wonham_on_the_separation_theorem",
+        "score": 0.6765
+      },
+      {
+        "id": "1960_kalman_a_new_approach_to",
+        "score": 0.6689
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.6384
+      }
+    ],
+    "1960_kalman_a_new_approach_to::stochastic control": [
+      {
+        "id": "1967_wonham_optimal_stationary_control_of",
+        "score": 0.8463
+      },
+      {
+        "id": "1968_wonham_on_the_separation_theorem",
+        "score": 0.8311
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.8234
+      },
+      {
+        "id": "1975_gustafson_design_of_linear_regulators",
+        "score": 0.8158
+      },
+      {
+        "id": "1971_haussmann_optimal_stationary_control_with",
+        "score": 0.8143
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.7647
+      },
+      {
+        "id": "2001_damm_newtons_method_for_a",
+        "score": 0.7452
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.6847
+      },
+      {
+        "id": "1965_bogdanoff_experiments_with_an_inverted",
+        "score": 0.6689
+      }
+    ],
+    "2022_gravell_data_driven_control_and::stochastic control": [
+      {
+        "id": "1975_gustafson_design_of_linear_regulators",
+        "score": 0.8334
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.7831
+      },
+      {
+        "id": "1967_wonham_optimal_stationary_control_of",
+        "score": 0.7714
+      },
+      {
+        "id": "1960_kalman_a_new_approach_to",
+        "score": 0.7647
+      },
+      {
+        "id": "1968_wonham_on_the_separation_theorem",
+        "score": 0.7646
+      },
+      {
+        "id": "2001_damm_newtons_method_for_a",
+        "score": 0.7546
+      },
+      {
+        "id": "1971_haussmann_optimal_stationary_control_with",
+        "score": 0.736
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.72
+      },
+      {
+        "id": "1965_bogdanoff_experiments_with_an_inverted",
+        "score": 0.7075
+      }
+    ],
+    "1959_bellman_on_adaptive_control_processes::sequential decision making": [
+      {
+        "id": "1401_3436",
+        "score": 0.6656
+      }
+    ],
+    "1401_3436::sequential decision making": [
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.6656
+      }
+    ],
+    "1959_bellman_on_adaptive_control_processes::control theory": [
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness",
+        "score": 0.7348
+      },
+      {
+        "id": "2021_gravell_policy_iteration_for_linear",
+        "score": 0.7157
+      },
+      {
+        "id": "1991_shook_identification_for_long_range",
+        "score": 0.7035
+      },
+      {
+        "id": "2004_lofberg_yalmip_a_toolbox_for",
+        "score": 0.6923
+      },
+      {
+        "id": "2004_aguiar_path_following_or_reference",
+        "score": 0.6577
+      }
+    ],
+    "2021_gravell_policy_iteration_for_linear::control theory": [
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness",
+        "score": 0.8395
+      },
+      {
+        "id": "2004_lofberg_yalmip_a_toolbox_for",
+        "score": 0.7236
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.7157
+      },
+      {
+        "id": "1991_shook_identification_for_long_range",
+        "score": 0.7015
+      },
+      {
+        "id": "2004_aguiar_path_following_or_reference",
+        "score": 0.667
+      }
+    ],
+    "2021_gravell_stochastic_stability_via_robustness::control theory": [
+      {
+        "id": "2021_gravell_policy_iteration_for_linear",
+        "score": 0.8395
+      },
+      {
+        "id": "1991_shook_identification_for_long_range",
+        "score": 0.7482
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.7348
+      },
+      {
+        "id": "2004_lofberg_yalmip_a_toolbox_for",
+        "score": 0.727
+      },
+      {
+        "id": "2004_aguiar_path_following_or_reference",
+        "score": 0.6879
+      }
+    ],
+    "2004_aguiar_path_following_or_reference::control theory": [
+      {
+        "id": "1991_shook_identification_for_long_range",
+        "score": 0.7055
+      },
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness",
+        "score": 0.6879
+      },
+      {
+        "id": "2021_gravell_policy_iteration_for_linear",
+        "score": 0.667
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.6577
+      },
+      {
+        "id": "2004_lofberg_yalmip_a_toolbox_for",
+        "score": 0.6559
+      }
+    ],
+    "2004_lofberg_yalmip_a_toolbox_for::control theory": [
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness",
+        "score": 0.727
+      },
+      {
+        "id": "2021_gravell_policy_iteration_for_linear",
+        "score": 0.7236
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.6923
+      },
+      {
+        "id": "1991_shook_identification_for_long_range",
+        "score": 0.6888
+      },
+      {
+        "id": "2004_aguiar_path_following_or_reference",
+        "score": 0.6559
+      }
+    ],
+    "1991_shook_identification_for_long_range::control theory": [
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness",
+        "score": 0.7482
+      },
+      {
+        "id": "2004_aguiar_path_following_or_reference",
+        "score": 0.7055
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes",
+        "score": 0.7035
+      },
+      {
+        "id": "2021_gravell_policy_iteration_for_linear",
+        "score": 0.7015
+      },
+      {
+        "id": "2004_lofberg_yalmip_a_toolbox_for",
+        "score": 0.6888
+      }
+    ],
     "1999_lavalle_randomized_kinodynamic_planning::motion planning": [
       {
         "id": "1998_lavalle_rapidly_exploring_random_trees",
@@ -29707,6 +31997,10 @@ window.tagSearchData = {
       {
         "id": "1710_10122",
         "score": 0.904
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8902
       },
       {
         "id": "2002_hsu_randomized_kinodynamic_motion_planning",
@@ -29839,10 +32133,6 @@ window.tagSearchData = {
       {
         "id": "2018_gravell_concurrent_goal_assignment_and",
         "score": 0.7868
-      },
-      {
-        "id": "2007_geraerts_creating_high_quality_paths",
-        "score": 0.7859
       }
     ],
     "1999_larsen_fast_proximity_queries_with::motion planning": [
@@ -29935,6 +32225,10 @@ window.tagSearchData = {
         "score": 0.7258
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7247
+      },
+      {
         "id": "2004_phillips_guided_expansive_spaces_trees",
         "score": 0.7215
       },
@@ -29985,10 +32279,6 @@ window.tagSearchData = {
       {
         "id": "2018_kingston_sampling_based_methods_for",
         "score": 0.7068
-      },
-      {
-        "id": "1105_1186",
-        "score": 0.7044
       }
     ],
     "2016_otte_rrtx_asymptotically_optimal_single::motion planning": [
@@ -30097,6 +32387,10 @@ window.tagSearchData = {
         "score": 0.8218
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8196
+      },
+      {
         "id": "2305_01072",
         "score": 0.8143
       },
@@ -30121,20 +32415,16 @@ window.tagSearchData = {
         "score": 0.7966
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7963
+      },
+      {
         "id": "2007_geraerts_creating_high_quality_paths",
         "score": 0.7933
       },
       {
         "id": "1997_hsu_path_planning_in_expansive",
         "score": 0.7916
-      },
-      {
-        "id": "2008_rickert_balancing_exploration_and_exploitation",
-        "score": 0.791
-      },
-      {
-        "id": "2205_04422",
-        "score": 0.7848
       }
     ],
     "1604_07446::motion planning": [
@@ -30157,6 +32447,10 @@ window.tagSearchData = {
       {
         "id": "2402_01443",
         "score": 0.8151
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.8112
       },
       {
         "id": "2410_19414",
@@ -30201,6 +32495,10 @@ window.tagSearchData = {
       {
         "id": "2022_gravell_data_driven_control_and",
         "score": 0.7794
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7788
       },
       {
         "id": "2205_04422",
@@ -30273,14 +32571,6 @@ window.tagSearchData = {
       {
         "id": "2015_janson_deterministic_sampling_based_motion",
         "score": 0.7521
-      },
-      {
-        "id": "2015_palmieri_distance_metric_learning_for",
-        "score": 0.7518
-      },
-      {
-        "id": "2004_phillips_guided_expansive_spaces_trees",
-        "score": 0.7482
       }
     ],
     "2016_choudhury_regionally_accelerated_batch_informed::motion planning": [
@@ -30397,6 +32687,10 @@ window.tagSearchData = {
         "score": 0.7683
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7672
+      },
+      {
         "id": "2503_06757",
         "score": 0.7593
       },
@@ -30423,10 +32717,6 @@ window.tagSearchData = {
       {
         "id": "2002_roy_motion_planning_through_policy",
         "score": 0.7472
-      },
-      {
-        "id": "2015_palmieri_distance_metric_learning_for",
-        "score": 0.746
       }
     ],
     "2020_mashayekhi_informed_rrt_connect_an::motion planning": [
@@ -30535,6 +32825,10 @@ window.tagSearchData = {
         "score": 0.7974
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7931
+      },
+      {
         "id": "2412_11270",
         "score": 0.7916
       },
@@ -30567,12 +32861,8 @@ window.tagSearchData = {
         "score": 0.7658
       },
       {
-        "id": "2012_kobilarov_cross_entropy_motion_planning",
-        "score": 0.7625
-      },
-      {
-        "id": "2602_02846",
-        "score": 0.7598
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.764
       }
     ],
     "2009_10484::motion planning": [
@@ -30641,6 +32931,10 @@ window.tagSearchData = {
         "score": 0.828
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8215
+      },
+      {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
         "score": 0.8203
       },
@@ -30659,6 +32953,10 @@ window.tagSearchData = {
       {
         "id": "2020_mashayekhi_informed_rrt_connect_an",
         "score": 0.815
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8148
       },
       {
         "id": "2002_roy_motion_planning_through_policy",
@@ -30711,14 +33009,6 @@ window.tagSearchData = {
       {
         "id": "2024_piazza_mptree_a_sampling_based",
         "score": 0.7903
-      },
-      {
-        "id": "2504_18978",
-        "score": 0.789
-      },
-      {
-        "id": "2021_li_sliding_window_informed_rrt",
-        "score": 0.7877
       }
     ],
     "2000_kuffner_rrt_connect_an_efficient::motion planning": [
@@ -30811,6 +33101,10 @@ window.tagSearchData = {
         "score": 0.8253
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8236
+      },
+      {
         "id": "2305_01072",
         "score": 0.8213
       },
@@ -30861,10 +33155,6 @@ window.tagSearchData = {
       {
         "id": "2508_05027",
         "score": 0.7951
-      },
-      {
-        "id": "2009_ratliff_chomp_gradient_optimization_techniques",
-        "score": 0.7889
       }
     ],
     "2000_piazzi_quintic_g2_splines_for::motion planning": [
@@ -30879,6 +33169,10 @@ window.tagSearchData = {
       {
         "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
         "score": 0.8017
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7992
       },
       {
         "id": "1604_07446",
@@ -30903,6 +33197,10 @@ window.tagSearchData = {
       {
         "id": "2025_trevisan_model_predictive_path_integral",
         "score": 0.7577
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7569
       },
       {
         "id": "2014_luo_an_empirical_study_of",
@@ -30947,6 +33245,10 @@ window.tagSearchData = {
       {
         "id": "2009_10484",
         "score": 0.7338
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7312
       },
       {
         "id": "2206_03004",
@@ -30999,18 +33301,6 @@ window.tagSearchData = {
       {
         "id": "2018_kingston_sampling_based_methods_for",
         "score": 0.7192
-      },
-      {
-        "id": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
-        "score": 0.719
-      },
-      {
-        "id": "2410_19414",
-        "score": 0.7186
-      },
-      {
-        "id": "2007_geraerts_creating_high_quality_paths",
-        "score": 0.7176
       }
     ],
     "1710_10122::motion planning": [
@@ -31021,6 +33311,10 @@ window.tagSearchData = {
       {
         "id": "1998_lavalle_rapidly_exploring_random_trees",
         "score": 0.899
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8966
       },
       {
         "id": "2015_palmieri_distance_metric_learning_for",
@@ -31131,6 +33425,10 @@ window.tagSearchData = {
         "score": 0.7997
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7873
+      },
+      {
         "id": "2013_luna_anytime_solution_optimization_for",
         "score": 0.7871
       },
@@ -31149,14 +33447,6 @@ window.tagSearchData = {
       {
         "id": "2009_10484",
         "score": 0.7833
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7807
-      },
-      {
-        "id": "2018_kingston_sampling_based_methods_for",
-        "score": 0.7797
       }
     ],
     "1710_09483::motion planning": [
@@ -31269,6 +33559,10 @@ window.tagSearchData = {
         "score": 0.715
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7148
+      },
+      {
         "id": "2009_10484",
         "score": 0.7131
       },
@@ -31289,20 +33583,16 @@ window.tagSearchData = {
         "score": 0.7063
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7063
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.7062
+      },
+      {
         "id": "1306_3532",
         "score": 0.7049
-      },
-      {
-        "id": "2015_klemm_rrt_connect_faster_asymptotically",
-        "score": 0.7031
-      },
-      {
-        "id": "2016_otte_rrtx_asymptotically_optimal_single",
-        "score": 0.7021
-      },
-      {
-        "id": "2307_09105",
-        "score": 0.7018
       }
     ],
     "2017_rosmann_kinodynamic_trajectory_optimization_and::motion planning": [
@@ -31337,6 +33627,14 @@ window.tagSearchData = {
       {
         "id": "1999_lavalle_randomized_kinodynamic_planning",
         "score": 0.7828
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7812
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7772
       },
       {
         "id": "2024_piazza_mptree_a_sampling_based",
@@ -31381,6 +33679,10 @@ window.tagSearchData = {
       {
         "id": "2412_11270",
         "score": 0.7606
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7592
       },
       {
         "id": "2305_01072",
@@ -31437,18 +33739,6 @@ window.tagSearchData = {
       {
         "id": "2009_ratliff_chomp_gradient_optimization_techniques",
         "score": 0.7397
-      },
-      {
-        "id": "2016_otte_rrtx_asymptotically_optimal_single",
-        "score": 0.7392
-      },
-      {
-        "id": "2015_klemm_rrt_connect_faster_asymptotically",
-        "score": 0.7386
-      },
-      {
-        "id": "1998_lavalle_rapidly_exploring_random_trees",
-        "score": 0.7374
       }
     ],
     "1705_02403::motion planning": [
@@ -31589,12 +33879,12 @@ window.tagSearchData = {
         "score": 0.7464
       },
       {
-        "id": "2409_16012",
-        "score": 0.7455
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7458
       },
       {
-        "id": "2004_phillips_guided_expansive_spaces_trees",
-        "score": 0.7454
+        "id": "2409_16012",
+        "score": 0.7455
       }
     ],
     "1909_09688::motion planning": [
@@ -31651,6 +33941,10 @@ window.tagSearchData = {
         "score": 0.8396
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8395
+      },
+      {
         "id": "2021_li_sliding_window_informed_rrt",
         "score": 0.8373
       },
@@ -31699,6 +33993,10 @@ window.tagSearchData = {
         "score": 0.7873
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7853
+      },
+      {
         "id": "2602_02846",
         "score": 0.7821
       },
@@ -31733,14 +34031,6 @@ window.tagSearchData = {
       {
         "id": "2305_01072",
         "score": 0.7647
-      },
-      {
-        "id": "2007_geraerts_creating_high_quality_paths",
-        "score": 0.7646
-      },
-      {
-        "id": "2024_piazza_mptree_a_sampling_based",
-        "score": 0.7601
       }
     ],
     "2502_09556::motion planning": [
@@ -31885,8 +34175,8 @@ window.tagSearchData = {
         "score": 0.7531
       },
       {
-        "id": "2002_roy_motion_planning_through_policy",
-        "score": 0.7509
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7516
       }
     ],
     "2505_10542::motion planning": [
@@ -31951,6 +34241,10 @@ window.tagSearchData = {
         "score": 0.8135
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8134
+      },
+      {
         "id": "2021_li_sliding_window_informed_rrt",
         "score": 0.8123
       },
@@ -31999,6 +34293,10 @@ window.tagSearchData = {
         "score": 0.7765
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7763
+      },
+      {
         "id": "1705_02403",
         "score": 0.7762
       },
@@ -32025,14 +34323,6 @@ window.tagSearchData = {
       {
         "id": "1997_hsu_path_planning_in_expansive",
         "score": 0.7566
-      },
-      {
-        "id": "2009_ratliff_chomp_gradient_optimization_techniques",
-        "score": 0.7539
-      },
-      {
-        "id": "2310_17274",
-        "score": 0.7535
       }
     ],
     "2503_06757::motion planning": [
@@ -32149,6 +34439,10 @@ window.tagSearchData = {
         "score": 0.78
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7797
+      },
+      {
         "id": "2015_palmieri_distance_metric_learning_for",
         "score": 0.7781
       },
@@ -32175,10 +34469,6 @@ window.tagSearchData = {
       {
         "id": "2013_luna_anytime_solution_optimization_for",
         "score": 0.7646
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7593
       }
     ],
     "2025_hu_technically_speaking_transitioning_from::motion planning": [
@@ -32245,6 +34535,10 @@ window.tagSearchData = {
       {
         "id": "2409_16012",
         "score": 0.7497
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7459
       },
       {
         "id": "2411_15651",
@@ -32321,10 +34615,6 @@ window.tagSearchData = {
       {
         "id": "2020_mashayekhi_informed_rrt_connect_an",
         "score": 0.7156
-      },
-      {
-        "id": "1404_2334",
-        "score": 0.7146
       }
     ],
     "2504_18978::motion planning": [
@@ -32365,6 +34655,10 @@ window.tagSearchData = {
         "score": 0.8026
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7991
+      },
+      {
         "id": "2002_hsu_randomized_kinodynamic_motion_planning",
         "score": 0.7945
       },
@@ -32403,6 +34697,10 @@ window.tagSearchData = {
       {
         "id": "2410_19414",
         "score": 0.7833
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7831
       },
       {
         "id": "2000_kuffner_rrt_connect_an_efficient",
@@ -32463,14 +34761,6 @@ window.tagSearchData = {
       {
         "id": "2508_05027",
         "score": 0.7694
-      },
-      {
-        "id": "1404_2334",
-        "score": 0.768
-      },
-      {
-        "id": "2409_09523",
-        "score": 0.7673
       }
     ],
     "2508_05027::motion planning": [
@@ -32509,6 +34799,10 @@ window.tagSearchData = {
       {
         "id": "2018_gravell_concurrent_goal_assignment_and",
         "score": 0.7818
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7809
       },
       {
         "id": "2015_janson_deterministic_sampling_based_motion",
@@ -32613,10 +34907,6 @@ window.tagSearchData = {
       {
         "id": "2018_kingston_sampling_based_methods_for",
         "score": 0.7477
-      },
-      {
-        "id": "2024_piazza_mptree_a_sampling_based",
-        "score": 0.7473
       }
     ],
     "2025_trevisan_model_predictive_path_integral::motion planning": [
@@ -32761,8 +35051,8 @@ window.tagSearchData = {
         "score": 0.7327
       },
       {
-        "id": "1405_5848",
-        "score": 0.7313
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7315
       }
     ],
     "2015_palmieri_distance_metric_learning_for::motion planning": [
@@ -32773,6 +35063,10 @@ window.tagSearchData = {
       {
         "id": "2011_karaman_anytime_motion_planning_using",
         "score": 0.829
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8257
       },
       {
         "id": "1998_lavalle_rapidly_exploring_random_trees",
@@ -32801,6 +35095,10 @@ window.tagSearchData = {
       {
         "id": "2002_hsu_randomized_kinodynamic_motion_planning",
         "score": 0.8053
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8051
       },
       {
         "id": "2000_kuffner_rrt_connect_an_efficient",
@@ -32901,14 +35199,6 @@ window.tagSearchData = {
       {
         "id": "1204_6453",
         "score": 0.7646
-      },
-      {
-        "id": "2009_10484",
-        "score": 0.7621
-      },
-      {
-        "id": "2205_04422",
-        "score": 0.7611
       }
     ],
     "2015_janson_deterministic_sampling_based_motion::motion planning": [
@@ -33025,6 +35315,10 @@ window.tagSearchData = {
         "score": 0.8274
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8267
+      },
+      {
         "id": "2412_11270",
         "score": 0.8256
       },
@@ -33037,6 +35331,10 @@ window.tagSearchData = {
         "score": 0.8179
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8166
+      },
+      {
         "id": "1997_hsu_path_planning_in_expansive",
         "score": 0.8161
       },
@@ -33047,14 +35345,6 @@ window.tagSearchData = {
       {
         "id": "2007_geraerts_creating_high_quality_paths",
         "score": 0.8029
-      },
-      {
-        "id": "2307_09105",
-        "score": 0.8014
-      },
-      {
-        "id": "2502_09556",
-        "score": 0.8002
       }
     ],
     "2015_klemm_rrt_connect_faster_asymptotically::motion planning": [
@@ -33163,6 +35453,10 @@ window.tagSearchData = {
         "score": 0.8107
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8086
+      },
+      {
         "id": "2412_11270",
         "score": 0.806
       },
@@ -33183,6 +35477,10 @@ window.tagSearchData = {
         "score": 0.7981
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.798
+      },
+      {
         "id": "2504_18978",
         "score": 0.7897
       },
@@ -33193,14 +35491,6 @@ window.tagSearchData = {
       {
         "id": "2602_02846",
         "score": 0.7883
-      },
-      {
-        "id": "1997_hsu_path_planning_in_expansive",
-        "score": 0.785
-      },
-      {
-        "id": "2007_geraerts_creating_high_quality_paths",
-        "score": 0.776
       }
     ],
     "1998_lavalle_rapidly_exploring_random_trees::motion planning": [
@@ -33293,6 +35583,10 @@ window.tagSearchData = {
         "score": 0.8346
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8324
+      },
+      {
         "id": "2412_11270",
         "score": 0.83
       },
@@ -33343,10 +35637,6 @@ window.tagSearchData = {
       {
         "id": "2305_01072",
         "score": 0.7969
-      },
-      {
-        "id": "2018_kingston_sampling_based_methods_for",
-        "score": 0.795
       }
     ],
     "1998_fiorini_motion_planning_in_dynamic::motion planning": [
@@ -33411,6 +35701,10 @@ window.tagSearchData = {
         "score": 0.7675
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7664
+      },
+      {
         "id": "2004_phillips_guided_expansive_spaces_trees",
         "score": 0.7637
       },
@@ -33425,6 +35719,10 @@ window.tagSearchData = {
       {
         "id": "1306_3532",
         "score": 0.7599
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7571
       },
       {
         "id": "2007_geraerts_creating_high_quality_paths",
@@ -33485,14 +35783,6 @@ window.tagSearchData = {
       {
         "id": "2008_rickert_balancing_exploration_and_exploitation",
         "score": 0.7426
-      },
-      {
-        "id": "2409_09523",
-        "score": 0.7424
-      },
-      {
-        "id": "1999_larsen_fast_proximity_queries_with",
-        "score": 0.7413
       }
     ],
     "2021_li_sliding_window_informed_rrt::motion planning": [
@@ -33565,6 +35855,10 @@ window.tagSearchData = {
         "score": 0.8165
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8135
+      },
+      {
         "id": "2505_10542",
         "score": 0.8123
       },
@@ -33617,6 +35911,10 @@ window.tagSearchData = {
         "score": 0.7776
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7764
+      },
+      {
         "id": "2014_luo_an_empirical_study_of",
         "score": 0.7745
       },
@@ -33631,14 +35929,152 @@ window.tagSearchData = {
       {
         "id": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "score": 0.766
+      }
+    ],
+    "2021_moll_hyperplan_a_framework_for::motion planning": [
+      {
+        "id": "2014_luo_an_empirical_study_of",
+        "score": 0.8487
+      },
+      {
+        "id": "2410_19414",
+        "score": 0.8453
       },
       {
         "id": "2002_roy_motion_planning_through_policy",
-        "score": 0.7652
+        "score": 0.8428
       },
       {
-        "id": "2012_kobilarov_cross_entropy_motion_planning",
-        "score": 0.7624
+        "id": "2205_04422",
+        "score": 0.8277
+      },
+      {
+        "id": "2009_10484",
+        "score": 0.8215
+      },
+      {
+        "id": "2013_luna_anytime_solution_optimization_for",
+        "score": 0.8192
+      },
+      {
+        "id": "2412_11270",
+        "score": 0.8179
+      },
+      {
+        "id": "2015_janson_deterministic_sampling_based_motion",
+        "score": 0.8166
+      },
+      {
+        "id": "1404_2334",
+        "score": 0.811
+      },
+      {
+        "id": "2002_hsu_randomized_kinodynamic_motion_planning",
+        "score": 0.81
+      },
+      {
+        "id": "2602_02846",
+        "score": 0.8079
+      },
+      {
+        "id": "2009_ratliff_chomp_gradient_optimization_techniques",
+        "score": 0.8079
+      },
+      {
+        "id": "2015_palmieri_distance_metric_learning_for",
+        "score": 0.8051
+      },
+      {
+        "id": "2004_phillips_guided_expansive_spaces_trees",
+        "score": 0.804
+      },
+      {
+        "id": "2011_karaman_anytime_motion_planning_using",
+        "score": 0.8015
+      },
+      {
+        "id": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
+        "score": 0.8011
+      },
+      {
+        "id": "2007_geraerts_creating_high_quality_paths",
+        "score": 0.8004
+      },
+      {
+        "id": "1306_3532",
+        "score": 0.7996
+      },
+      {
+        "id": "2411_17902",
+        "score": 0.7992
+      },
+      {
+        "id": "2504_18978",
+        "score": 0.7991
+      },
+      {
+        "id": "2015_klemm_rrt_connect_faster_asymptotically",
+        "score": 0.798
+      },
+      {
+        "id": "1405_5848",
+        "score": 0.7968
+      },
+      {
+        "id": "2016_otte_rrtx_asymptotically_optimal_single",
+        "score": 0.7963
+      },
+      {
+        "id": "1105_1186",
+        "score": 0.7948
+      },
+      {
+        "id": "2409_16012",
+        "score": 0.7943
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.7939
+      },
+      {
+        "id": "2008_rickert_balancing_exploration_and_exploitation",
+        "score": 0.793
+      },
+      {
+        "id": "2411_15651",
+        "score": 0.7921
+      },
+      {
+        "id": "2018_kingston_sampling_based_methods_for",
+        "score": 0.7918
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7888
+      },
+      {
+        "id": "2000_kuffner_rrt_connect_an_efficient",
+        "score": 0.7883
+      },
+      {
+        "id": "1710_10122",
+        "score": 0.7873
+      },
+      {
+        "id": "2409_09523",
+        "score": 0.7855
+      },
+      {
+        "id": "1909_09688",
+        "score": 0.7853
+      },
+      {
+        "id": "1999_lavalle_randomized_kinodynamic_planning",
+        "score": 0.7835
+      },
+      {
+        "id": "2024_piazza_mptree_a_sampling_based",
+        "score": 0.7816
       }
     ],
     "2101_11565::motion planning": [
@@ -33711,6 +36147,10 @@ window.tagSearchData = {
         "score": 0.7491
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7418
+      },
+      {
         "id": "1909_09688",
         "score": 0.7391
       },
@@ -33781,10 +36221,6 @@ window.tagSearchData = {
       {
         "id": "2020_mashayekhi_informed_rrt_connect_an",
         "score": 0.7186
-      },
-      {
-        "id": "1604_07446",
-        "score": 0.7158
       }
     ],
     "2101_08829::motion planning": [
@@ -33831,6 +36267,10 @@ window.tagSearchData = {
       {
         "id": "2002_roy_motion_planning_through_policy",
         "score": 0.7578
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7545
       },
       {
         "id": "2504_18978",
@@ -33927,10 +36367,6 @@ window.tagSearchData = {
       {
         "id": "2008_rickert_balancing_exploration_and_exploitation",
         "score": 0.7261
-      },
-      {
-        "id": "1404_2334",
-        "score": 0.7253
       }
     ],
     "2004_phillips_guided_expansive_spaces_trees::motion planning": [
@@ -33975,6 +36411,10 @@ window.tagSearchData = {
         "score": 0.8063
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.804
+      },
+      {
         "id": "2011_karaman_anytime_motion_planning_using",
         "score": 0.7984
       },
@@ -33993,6 +36433,10 @@ window.tagSearchData = {
       {
         "id": "2305_01072",
         "score": 0.7911
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7907
       },
       {
         "id": "2002_hsu_randomized_kinodynamic_motion_planning",
@@ -34069,14 +36513,6 @@ window.tagSearchData = {
       {
         "id": "1105_1186",
         "score": 0.7651
-      },
-      {
-        "id": "2602_02846",
-        "score": 0.7648
-      },
-      {
-        "id": "2015_janson_deterministic_sampling_based_motion",
-        "score": 0.7647
       }
     ],
     "2002_hsu_randomized_kinodynamic_motion_planning::motion planning": [
@@ -34137,6 +36573,10 @@ window.tagSearchData = {
         "score": 0.8251
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8245
+      },
+      {
         "id": "2305_01072",
         "score": 0.8243
       },
@@ -34167,6 +36607,10 @@ window.tagSearchData = {
       {
         "id": "2412_11270",
         "score": 0.8119
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.81
       },
       {
         "id": "2018_kingston_sampling_based_methods_for",
@@ -34215,20 +36659,16 @@ window.tagSearchData = {
       {
         "id": "2504_18978",
         "score": 0.7945
-      },
-      {
-        "id": "2018_gravell_concurrent_goal_assignment_and",
-        "score": 0.7942
-      },
-      {
-        "id": "1997_hsu_path_planning_in_expansive",
-        "score": 0.7934
       }
     ],
     "2002_roy_motion_planning_through_policy::motion planning": [
       {
         "id": "2412_11270",
         "score": 0.8478
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8428
       },
       {
         "id": "2002_hsu_randomized_kinodynamic_motion_planning",
@@ -34303,6 +36743,10 @@ window.tagSearchData = {
         "score": 0.7966
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.796
+      },
+      {
         "id": "1998_lavalle_rapidly_exploring_random_trees",
         "score": 0.7946
       },
@@ -34361,14 +36805,6 @@ window.tagSearchData = {
       {
         "id": "2602_02846",
         "score": 0.7769
-      },
-      {
-        "id": "2411_17902",
-        "score": 0.7731
-      },
-      {
-        "id": "2024_piazza_mptree_a_sampling_based",
-        "score": 0.7711
       }
     ],
     "2012_kobilarov_cross_entropy_motion_planning::motion planning": [
@@ -34477,6 +36913,14 @@ window.tagSearchData = {
         "score": 0.7711
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7659
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7657
+      },
+      {
         "id": "2022_gravell_data_driven_control_and",
         "score": 0.7651
       },
@@ -34507,14 +36951,6 @@ window.tagSearchData = {
       {
         "id": "2009_ratliff_chomp_gradient_optimization_techniques",
         "score": 0.7504
-      },
-      {
-        "id": "1604_07446",
-        "score": 0.7468
-      },
-      {
-        "id": "2024_piazza_mptree_a_sampling_based",
-        "score": 0.7468
       }
     ],
     "1204_6453::motion planning": [
@@ -34611,6 +37047,10 @@ window.tagSearchData = {
         "score": 0.8176
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8154
+      },
+      {
         "id": "2024_piazza_mptree_a_sampling_based",
         "score": 0.8081
       },
@@ -34657,10 +37097,6 @@ window.tagSearchData = {
       {
         "id": "1705_02403",
         "score": 0.7791
-      },
-      {
-        "id": "2101_11565",
-        "score": 0.7774
       }
     ],
     "2014_pham_trajectory_planning::motion planning": [
@@ -34721,6 +37157,10 @@ window.tagSearchData = {
         "score": 0.7158
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7153
+      },
+      {
         "id": "1604_07446",
         "score": 0.7143
       },
@@ -34731,6 +37171,10 @@ window.tagSearchData = {
       {
         "id": "2013_luna_anytime_solution_optimization_for",
         "score": 0.7104
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7092
       },
       {
         "id": "2508_05027",
@@ -34799,14 +37243,6 @@ window.tagSearchData = {
       {
         "id": "2024_piazza_mptree_a_sampling_based",
         "score": 0.6867
-      },
-      {
-        "id": "2409_09523",
-        "score": 0.6856
-      },
-      {
-        "id": "2402_01443",
-        "score": 0.6822
       }
     ],
     "2014_luo_an_empirical_study_of::motion planning": [
@@ -34821,6 +37257,10 @@ window.tagSearchData = {
       {
         "id": "2015_janson_deterministic_sampling_based_motion",
         "score": 0.8603
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8487
       },
       {
         "id": "1105_1186",
@@ -34873,6 +37313,10 @@ window.tagSearchData = {
       {
         "id": "2504_18978",
         "score": 0.8138
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.812
       },
       {
         "id": "2305_01072",
@@ -34945,14 +37389,6 @@ window.tagSearchData = {
       {
         "id": "2004_phillips_guided_expansive_spaces_trees",
         "score": 0.7952
-      },
-      {
-        "id": "2409_09523",
-        "score": 0.7935
-      },
-      {
-        "id": "2015_palmieri_distance_metric_learning_for",
-        "score": 0.7927
       }
     ],
     "1404_2334::motion planning": [
@@ -35057,6 +37493,10 @@ window.tagSearchData = {
         "score": 0.8315
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8288
+      },
+      {
         "id": "2014_luo_an_empirical_study_of",
         "score": 0.8256
       },
@@ -35081,6 +37521,10 @@ window.tagSearchData = {
         "score": 0.8127
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.811
+      },
+      {
         "id": "2015_palmieri_distance_metric_learning_for",
         "score": 0.8095
       },
@@ -35091,14 +37535,6 @@ window.tagSearchData = {
       {
         "id": "2305_01072",
         "score": 0.8046
-      },
-      {
-        "id": "2018_kingston_sampling_based_methods_for",
-        "score": 0.8012
-      },
-      {
-        "id": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
-        "score": 0.7996
       }
     ],
     "1405_5848::motion planning": [
@@ -35239,12 +37675,12 @@ window.tagSearchData = {
         "score": 0.7974
       },
       {
-        "id": "2018_kingston_sampling_based_methods_for",
-        "score": 0.7953
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7968
       },
       {
-        "id": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
-        "score": 0.791
+        "id": "2018_kingston_sampling_based_methods_for",
+        "score": 0.7953
       }
     ],
     "1997_hsu_path_planning_in_expansive::motion planning": [
@@ -35381,16 +37817,16 @@ window.tagSearchData = {
         "score": 0.7566
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7555
+      },
+      {
         "id": "2503_06757",
         "score": 0.7488
       },
       {
         "id": "2007_geraerts_creating_high_quality_paths",
         "score": 0.7471
-      },
-      {
-        "id": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
-        "score": 0.7434
       }
     ],
     "1991_lin_a_fast_algorithm_for::motion planning": [
@@ -35503,6 +37939,10 @@ window.tagSearchData = {
         "score": 0.7221
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7216
+      },
+      {
         "id": "2021_li_sliding_window_informed_rrt",
         "score": 0.7205
       },
@@ -35533,10 +37973,6 @@ window.tagSearchData = {
       {
         "id": "2002_roy_motion_planning_through_policy",
         "score": 0.7106
-      },
-      {
-        "id": "2412_11270",
-        "score": 0.7085
       }
     ],
     "2007_geraerts_creating_high_quality_paths::motion planning": [
@@ -35579,6 +38015,10 @@ window.tagSearchData = {
       {
         "id": "2014_luo_an_empirical_study_of",
         "score": 0.8006
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8004
       },
       {
         "id": "1998_lavalle_rapidly_exploring_random_trees",
@@ -35679,10 +38119,152 @@ window.tagSearchData = {
       {
         "id": "2020_mashayekhi_informed_rrt_connect_an",
         "score": 0.7562
+      }
+    ],
+    "2007_hoffmann_autonomous_automobile_trajectory_tracking::motion planning": [
+      {
+        "id": "1604_07446",
+        "score": 0.8112
       },
       {
-        "id": "2502_09556",
-        "score": 0.7531
+        "id": "2000_piazzi_quintic_g2_splines_for",
+        "score": 0.7992
+      },
+      {
+        "id": "2409_09523",
+        "score": 0.7905
+      },
+      {
+        "id": "2303_09824",
+        "score": 0.783
+      },
+      {
+        "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
+        "score": 0.7772
+      },
+      {
+        "id": "2206_03004",
+        "score": 0.7727
+      },
+      {
+        "id": "2024_piazza_mptree_a_sampling_based",
+        "score": 0.7606
+      },
+      {
+        "id": "2402_01443",
+        "score": 0.7602
+      },
+      {
+        "id": "2018_schwarting_planning_and_decision_making",
+        "score": 0.7431
+      },
+      {
+        "id": "2212_06437",
+        "score": 0.7394
+      },
+      {
+        "id": "2205_04422",
+        "score": 0.7371
+      },
+      {
+        "id": "2011_karaman_anytime_motion_planning_using",
+        "score": 0.7331
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.729
+      },
+      {
+        "id": "2002_hsu_randomized_kinodynamic_motion_planning",
+        "score": 0.7242
+      },
+      {
+        "id": "1998_fiorini_motion_planning_in_dynamic",
+        "score": 0.7234
+      },
+      {
+        "id": "1999_lavalle_randomized_kinodynamic_planning",
+        "score": 0.7224
+      },
+      {
+        "id": "2015_palmieri_distance_metric_learning_for",
+        "score": 0.7154
+      },
+      {
+        "id": "2025_hu_technically_speaking_transitioning_from",
+        "score": 0.7147
+      },
+      {
+        "id": "2504_18978",
+        "score": 0.7074
+      },
+      {
+        "id": "2025_trevisan_model_predictive_path_integral",
+        "score": 0.7069
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7027
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.7021
+      },
+      {
+        "id": "2018_gravell_concurrent_goal_assignment_and",
+        "score": 0.6995
+      },
+      {
+        "id": "2411_15651",
+        "score": 0.6987
+      },
+      {
+        "id": "2014_luo_an_empirical_study_of",
+        "score": 0.6958
+      },
+      {
+        "id": "1710_10122",
+        "score": 0.693
+      },
+      {
+        "id": "2101_08829",
+        "score": 0.6909
+      },
+      {
+        "id": "2505_10542",
+        "score": 0.6889
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.6885
+      },
+      {
+        "id": "2307_09105",
+        "score": 0.6883
+      },
+      {
+        "id": "2021_li_sliding_window_informed_rrt",
+        "score": 0.6865
+      },
+      {
+        "id": "2015_klemm_rrt_connect_faster_asymptotically",
+        "score": 0.6862
+      },
+      {
+        "id": "2014_pham_trajectory_planning",
+        "score": 0.684
+      },
+      {
+        "id": "2409_16012",
+        "score": 0.6836
+      },
+      {
+        "id": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
+        "score": 0.6829
+      },
+      {
+        "id": "2410_19414",
+        "score": 0.681
       }
     ],
     "2409_06807::motion planning": [
@@ -35779,6 +38361,10 @@ window.tagSearchData = {
         "score": 0.7461
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7441
+      },
+      {
         "id": "1404_2334",
         "score": 0.7437
       },
@@ -35793,6 +38379,10 @@ window.tagSearchData = {
       {
         "id": "2411_15651",
         "score": 0.7401
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7389
       },
       {
         "id": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
@@ -35821,14 +38411,6 @@ window.tagSearchData = {
       {
         "id": "2205_04422",
         "score": 0.7273
-      },
-      {
-        "id": "1204_6453",
-        "score": 0.7271
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7261
       }
     ],
     "2410_19414::motion planning": [
@@ -35867,6 +38449,10 @@ window.tagSearchData = {
       {
         "id": "1405_5848",
         "score": 0.8481
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8453
       },
       {
         "id": "2602_02846",
@@ -35933,6 +38519,10 @@ window.tagSearchData = {
         "score": 0.818
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8179
+      },
+      {
         "id": "2307_09105",
         "score": 0.8175
       },
@@ -35967,14 +38557,6 @@ window.tagSearchData = {
       {
         "id": "1997_hsu_path_planning_in_expansive",
         "score": 0.8096
-      },
-      {
-        "id": "2409_16012",
-        "score": 0.8085
-      },
-      {
-        "id": "1604_07446",
-        "score": 0.8082
       }
     ],
     "2409_09523::motion planning": [
@@ -36043,6 +38625,10 @@ window.tagSearchData = {
         "score": 0.7935
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7905
+      },
+      {
         "id": "2015_palmieri_distance_metric_learning_for",
         "score": 0.7901
       },
@@ -36061,6 +38647,10 @@ window.tagSearchData = {
       {
         "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
         "score": 0.7864
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7855
       },
       {
         "id": "2305_01072",
@@ -36113,14 +38703,6 @@ window.tagSearchData = {
       {
         "id": "2503_06757",
         "score": 0.7571
-      },
-      {
-        "id": "2505_10542",
-        "score": 0.7531
-      },
-      {
-        "id": "1999_lavalle_randomized_kinodynamic_planning",
-        "score": 0.753
       }
     ],
     "2402_01443::motion planning": [
@@ -36205,6 +38787,10 @@ window.tagSearchData = {
         "score": 0.7603
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7602
+      },
+      {
         "id": "2409_06807",
         "score": 0.7595
       },
@@ -36253,20 +38839,16 @@ window.tagSearchData = {
         "score": 0.7433
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7431
+      },
+      {
         "id": "2000_kuffner_rrt_connect_an_efficient",
         "score": 0.7427
       },
       {
         "id": "1105_1186",
         "score": 0.7419
-      },
-      {
-        "id": "2013_luna_anytime_solution_optimization_for",
-        "score": 0.7411
-      },
-      {
-        "id": "1998_fiorini_motion_planning_in_dynamic",
-        "score": 0.7401
       }
     ],
     "2411_17902::motion planning": [
@@ -36375,6 +38957,10 @@ window.tagSearchData = {
         "score": 0.7997
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7992
+      },
+      {
         "id": "1705_02403",
         "score": 0.7962
       },
@@ -36409,10 +38995,6 @@ window.tagSearchData = {
       {
         "id": "2002_hsu_randomized_kinodynamic_motion_planning",
         "score": 0.78
-      },
-      {
-        "id": "2310_17274",
-        "score": 0.7787
       }
     ],
     "2412_11270::motion planning": [
@@ -36459,6 +39041,10 @@ window.tagSearchData = {
       {
         "id": "1999_lavalle_randomized_kinodynamic_planning",
         "score": 0.822
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8179
       },
       {
         "id": "1105_1186",
@@ -36521,6 +39107,10 @@ window.tagSearchData = {
         "score": 0.7936
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7928
+      },
+      {
         "id": "2504_18978",
         "score": 0.7916
       },
@@ -36551,14 +39141,6 @@ window.tagSearchData = {
       {
         "id": "2409_16012",
         "score": 0.7819
-      },
-      {
-        "id": "1705_02403",
-        "score": 0.7819
-      },
-      {
-        "id": "2013_luna_anytime_solution_optimization_for",
-        "score": 0.7817
       }
     ],
     "2411_15651::motion planning": [
@@ -36635,6 +39217,10 @@ window.tagSearchData = {
         "score": 0.8139
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8074
+      },
+      {
         "id": "2008_rickert_balancing_exploration_and_exploitation",
         "score": 0.8068
       },
@@ -36683,6 +39269,10 @@ window.tagSearchData = {
         "score": 0.7922
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7921
+      },
+      {
         "id": "2015_palmieri_distance_metric_learning_for",
         "score": 0.7919
       },
@@ -36697,14 +39287,6 @@ window.tagSearchData = {
       {
         "id": "2409_09523",
         "score": 0.7884
-      },
-      {
-        "id": "2025_trevisan_model_predictive_path_integral",
-        "score": 0.787
-      },
-      {
-        "id": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
-        "score": 0.786
       }
     ],
     "2409_16012::motion planning": [
@@ -36739,6 +39321,10 @@ window.tagSearchData = {
       {
         "id": "2004_phillips_guided_expansive_spaces_trees",
         "score": 0.7963
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7943
       },
       {
         "id": "2009_ratliff_chomp_gradient_optimization_techniques",
@@ -36847,10 +39433,6 @@ window.tagSearchData = {
       {
         "id": "2015_klemm_rrt_connect_faster_asymptotically",
         "score": 0.7666
-      },
-      {
-        "id": "2503_06757",
-        "score": 0.7662
       }
     ],
     "2024_piazza_mptree_a_sampling_based::motion planning": [
@@ -37077,6 +39659,10 @@ window.tagSearchData = {
         "score": 0.8201
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8192
+      },
+      {
         "id": "1909_09688",
         "score": 0.8187
       },
@@ -37137,12 +39723,8 @@ window.tagSearchData = {
         "score": 0.7942
       },
       {
-        "id": "2009_ratliff_chomp_gradient_optimization_techniques",
-        "score": 0.7918
-      },
-      {
-        "id": "1997_hsu_path_planning_in_expansive",
-        "score": 0.7904
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7937
       }
     ],
     "1306_3532::motion planning": [
@@ -37271,6 +39853,10 @@ window.tagSearchData = {
         "score": 0.8066
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8033
+      },
+      {
         "id": "2009_ratliff_chomp_gradient_optimization_techniques",
         "score": 0.8026
       },
@@ -37283,12 +39869,300 @@ window.tagSearchData = {
         "score": 0.8001
       },
       {
-        "id": "2503_06757",
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7996
+      }
+    ],
+    "2013_levinson_automatic_online_calibration_of::motion planning": [
+      {
+        "id": "2303_09824",
+        "score": 0.7182
+      },
+      {
+        "id": "2018_schwarting_planning_and_decision_making",
+        "score": 0.7133
+      },
+      {
+        "id": "1604_07446",
+        "score": 0.7065
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7021
+      },
+      {
+        "id": "2409_09523",
+        "score": 0.6975
+      },
+      {
+        "id": "2025_hu_technically_speaking_transitioning_from",
+        "score": 0.6898
+      },
+      {
+        "id": "2011_karaman_anytime_motion_planning_using",
+        "score": 0.6846
+      },
+      {
+        "id": "2410_19414",
+        "score": 0.6817
+      },
+      {
+        "id": "2000_piazzi_quintic_g2_splines_for",
+        "score": 0.6807
+      },
+      {
+        "id": "2212_06437",
+        "score": 0.6763
+      },
+      {
+        "id": "1710_09483",
+        "score": 0.675
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.6748
+      },
+      {
+        "id": "2025_trevisan_model_predictive_path_integral",
+        "score": 0.6731
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.6724
+      },
+      {
+        "id": "2024_piazza_mptree_a_sampling_based",
+        "score": 0.6721
+      },
+      {
+        "id": "2002_hsu_randomized_kinodynamic_motion_planning",
+        "score": 0.6705
+      },
+      {
+        "id": "2015_palmieri_distance_metric_learning_for",
+        "score": 0.6671
+      },
+      {
+        "id": "2205_04422",
+        "score": 0.6668
+      },
+      {
+        "id": "2412_11270",
+        "score": 0.6659
+      },
+      {
+        "id": "2018_gravell_concurrent_goal_assignment_and",
+        "score": 0.6635
+      },
+      {
+        "id": "2411_15651",
+        "score": 0.6623
+      },
+      {
+        "id": "2402_01443",
+        "score": 0.6617
+      },
+      {
+        "id": "2002_roy_motion_planning_through_policy",
+        "score": 0.6572
+      },
+      {
+        "id": "1991_lin_a_fast_algorithm_for",
+        "score": 0.6567
+      },
+      {
+        "id": "1405_5848",
+        "score": 0.653
+      },
+      {
+        "id": "2101_08829",
+        "score": 0.6525
+      },
+      {
+        "id": "2015_janson_deterministic_sampling_based_motion",
+        "score": 0.6525
+      },
+      {
+        "id": "2411_17902",
+        "score": 0.6516
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.6516
+      },
+      {
+        "id": "2206_03004",
+        "score": 0.651
+      },
+      {
+        "id": "2007_geraerts_creating_high_quality_paths",
+        "score": 0.6508
+      },
+      {
+        "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
+        "score": 0.6505
+      },
+      {
+        "id": "2009_10484",
+        "score": 0.6501
+      },
+      {
+        "id": "2014_luo_an_empirical_study_of",
+        "score": 0.6499
+      },
+      {
+        "id": "2016_otte_rrtx_asymptotically_optimal_single",
+        "score": 0.6486
+      },
+      {
+        "id": "2305_01072",
+        "score": 0.6456
+      }
+    ],
+    "2013_goretkin_optimal_sampling_based_planning::motion planning": [
+      {
+        "id": "1710_10122",
+        "score": 0.8966
+      },
+      {
+        "id": "1999_lavalle_randomized_kinodynamic_planning",
+        "score": 0.8902
+      },
+      {
+        "id": "1909_09688",
+        "score": 0.8395
+      },
+      {
+        "id": "1998_lavalle_rapidly_exploring_random_trees",
+        "score": 0.8324
+      },
+      {
+        "id": "1404_2334",
+        "score": 0.8288
+      },
+      {
+        "id": "2011_karaman_anytime_motion_planning_using",
+        "score": 0.8278
+      },
+      {
+        "id": "2015_janson_deterministic_sampling_based_motion",
+        "score": 0.8267
+      },
+      {
+        "id": "2015_palmieri_distance_metric_learning_for",
+        "score": 0.8257
+      },
+      {
+        "id": "2002_hsu_randomized_kinodynamic_motion_planning",
+        "score": 0.8245
+      },
+      {
+        "id": "2000_kuffner_rrt_connect_an_efficient",
+        "score": 0.8236
+      },
+      {
+        "id": "1105_1186",
+        "score": 0.8222
+      },
+      {
+        "id": "2016_otte_rrtx_asymptotically_optimal_single",
+        "score": 0.8196
+      },
+      {
+        "id": "2410_19414",
+        "score": 0.8179
+      },
+      {
+        "id": "1204_6453",
+        "score": 0.8154
+      },
+      {
+        "id": "2009_10484",
+        "score": 0.8148
+      },
+      {
+        "id": "2021_li_sliding_window_informed_rrt",
+        "score": 0.8135
+      },
+      {
+        "id": "2505_10542",
+        "score": 0.8134
+      },
+      {
+        "id": "2014_luo_an_empirical_study_of",
+        "score": 0.812
+      },
+      {
+        "id": "2015_klemm_rrt_connect_faster_asymptotically",
+        "score": 0.8086
+      },
+      {
+        "id": "2411_15651",
+        "score": 0.8074
+      },
+      {
+        "id": "1306_3532",
+        "score": 0.8033
+      },
+      {
+        "id": "2018_kingston_sampling_based_methods_for",
         "score": 0.7989
       },
       {
+        "id": "2602_02846",
+        "score": 0.7976
+      },
+      {
+        "id": "2002_roy_motion_planning_through_policy",
+        "score": 0.796
+      },
+      {
+        "id": "2013_luna_anytime_solution_optimization_for",
+        "score": 0.7937
+      },
+      {
+        "id": "2020_mashayekhi_informed_rrt_connect_an",
+        "score": 0.7931
+      },
+      {
+        "id": "2412_11270",
+        "score": 0.7928
+      },
+      {
         "id": "2004_phillips_guided_expansive_spaces_trees",
-        "score": 0.7932
+        "score": 0.7907
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7888
+      },
+      {
+        "id": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
+        "score": 0.7878
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.786
+      },
+      {
+        "id": "2504_18978",
+        "score": 0.7831
+      },
+      {
+        "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
+        "score": 0.7812
+      },
+      {
+        "id": "2024_piazza_mptree_a_sampling_based",
+        "score": 0.7811
+      },
+      {
+        "id": "2205_04422",
+        "score": 0.7807
+      },
+      {
+        "id": "2503_06757",
+        "score": 0.7797
       }
     ],
     "2602_02846::motion planning": [
@@ -37365,6 +40239,10 @@ window.tagSearchData = {
         "score": 0.8092
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8079
+      },
+      {
         "id": "2014_luo_an_empirical_study_of",
         "score": 0.8076
       },
@@ -37379,6 +40257,10 @@ window.tagSearchData = {
       {
         "id": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "score": 0.7999
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7976
       },
       {
         "id": "1404_2334",
@@ -37427,20 +40309,16 @@ window.tagSearchData = {
       {
         "id": "2505_10542",
         "score": 0.7833
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7832
-      },
-      {
-        "id": "2411_15651",
-        "score": 0.7822
       }
     ],
     "2009_ratliff_chomp_gradient_optimization_techniques::motion planning": [
       {
         "id": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
         "score": 0.8503
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8079
       },
       {
         "id": "2504_18978",
@@ -37563,6 +40441,10 @@ window.tagSearchData = {
         "score": 0.7628
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7581
+      },
+      {
         "id": "2307_09105",
         "score": 0.758
       },
@@ -37573,14 +40455,6 @@ window.tagSearchData = {
       {
         "id": "2503_06757",
         "score": 0.7558
-      },
-      {
-        "id": "2502_09556",
-        "score": 0.7556
-      },
-      {
-        "id": "2505_10542",
-        "score": 0.7539
       }
     ],
     "2011_kalakrishnan_stomp_stochastic_trajectory_optimization::motion planning": [
@@ -37619,6 +40493,10 @@ window.tagSearchData = {
       {
         "id": "2002_hsu_randomized_kinodynamic_motion_planning",
         "score": 0.8066
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8011
       },
       {
         "id": "2602_02846",
@@ -37663,6 +40541,10 @@ window.tagSearchData = {
       {
         "id": "2504_18978",
         "score": 0.788
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7878
       },
       {
         "id": "2412_11270",
@@ -37719,14 +40601,6 @@ window.tagSearchData = {
       {
         "id": "2024_piazza_mptree_a_sampling_based",
         "score": 0.7723
-      },
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.7718
-      },
-      {
-        "id": "2015_palmieri_distance_metric_learning_for",
-        "score": 0.7707
       }
     ],
     "2011_karaman_anytime_motion_planning_using::motion planning": [
@@ -37839,6 +40713,10 @@ window.tagSearchData = {
         "score": 0.828
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8278
+      },
+      {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
         "score": 0.8091
       },
@@ -37855,6 +40733,10 @@ window.tagSearchData = {
         "score": 0.8043
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8015
+      },
+      {
         "id": "2004_phillips_guided_expansive_spaces_trees",
         "score": 0.7984
       },
@@ -37865,14 +40747,6 @@ window.tagSearchData = {
       {
         "id": "2012_kobilarov_cross_entropy_motion_planning",
         "score": 0.7946
-      },
-      {
-        "id": "2002_roy_motion_planning_through_policy",
-        "score": 0.7931
-      },
-      {
-        "id": "2008_rickert_balancing_exploration_and_exploitation",
-        "score": 0.7884
       }
     ],
     "1105_1186::motion planning": [
@@ -37977,6 +40851,10 @@ window.tagSearchData = {
         "score": 0.8251
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8222
+      },
+      {
         "id": "2024_piazza_mptree_a_sampling_based",
         "score": 0.8209
       },
@@ -38015,10 +40893,6 @@ window.tagSearchData = {
       {
         "id": "2007_geraerts_creating_high_quality_paths",
         "score": 0.7974
-      },
-      {
-        "id": "2008_rickert_balancing_exploration_and_exploitation",
-        "score": 0.7866
       }
     ],
     "2018_gravell_concurrent_goal_assignment_and::motion planning": [
@@ -38069,6 +40943,10 @@ window.tagSearchData = {
       {
         "id": "2002_roy_motion_planning_through_policy",
         "score": 0.7654
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.765
       },
       {
         "id": "2504_18978",
@@ -38161,10 +41039,6 @@ window.tagSearchData = {
       {
         "id": "2008_rickert_balancing_exploration_and_exploitation",
         "score": 0.7351
-      },
-      {
-        "id": "2503_06757",
-        "score": 0.7343
       }
     ],
     "2018_kingston_sampling_based_methods_for::motion planning": [
@@ -38209,6 +41083,10 @@ window.tagSearchData = {
         "score": 0.8012
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7989
+      },
+      {
         "id": "1204_6453",
         "score": 0.7985
       },
@@ -38223,6 +41101,10 @@ window.tagSearchData = {
       {
         "id": "2024_piazza_mptree_a_sampling_based",
         "score": 0.792
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7918
       },
       {
         "id": "1306_3532",
@@ -38303,14 +41185,6 @@ window.tagSearchData = {
       {
         "id": "2411_17902",
         "score": 0.7618
-      },
-      {
-        "id": "2015_klemm_rrt_connect_faster_asymptotically",
-        "score": 0.7587
-      },
-      {
-        "id": "2305_01072",
-        "score": 0.7586
       }
     ],
     "2018_schwarting_planning_and_decision_making::motion planning": [
@@ -38411,8 +41285,16 @@ window.tagSearchData = {
         "score": 0.7517
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7474
+      },
+      {
         "id": "1404_2334",
         "score": 0.744
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7431
       },
       {
         "id": "2101_08829",
@@ -38449,14 +41331,6 @@ window.tagSearchData = {
       {
         "id": "1998_lavalle_rapidly_exploring_random_trees",
         "score": 0.7255
-      },
-      {
-        "id": "2409_16012",
-        "score": 0.7254
-      },
-      {
-        "id": "2008_rickert_balancing_exploration_and_exploitation",
-        "score": 0.7251
       }
     ],
     "2205_04422::motion planning": [
@@ -38475,6 +41349,10 @@ window.tagSearchData = {
       {
         "id": "2002_hsu_randomized_kinodynamic_motion_planning",
         "score": 0.8349
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8277
       },
       {
         "id": "2014_luo_an_empirical_study_of",
@@ -38599,10 +41477,6 @@ window.tagSearchData = {
       {
         "id": "2411_17902",
         "score": 0.7816
-      },
-      {
-        "id": "2310_17274",
-        "score": 0.7808
       }
     ],
     "2022_gravell_data_driven_control_and::motion planning": [
@@ -38629,6 +41503,10 @@ window.tagSearchData = {
       {
         "id": "1710_09483",
         "score": 0.7886
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.786
       },
       {
         "id": "2002_hsu_randomized_kinodynamic_motion_planning",
@@ -38699,6 +41577,10 @@ window.tagSearchData = {
         "score": 0.7611
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7609
+      },
+      {
         "id": "2212_06437",
         "score": 0.7599
       },
@@ -38741,14 +41623,6 @@ window.tagSearchData = {
       {
         "id": "1306_3532",
         "score": 0.7351
-      },
-      {
-        "id": "2409_16012",
-        "score": 0.7336
-      },
-      {
-        "id": "2402_01443",
-        "score": 0.7303
       }
     ],
     "2206_03004::motion planning": [
@@ -38791,6 +41665,10 @@ window.tagSearchData = {
       {
         "id": "2212_06437",
         "score": 0.7733
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7727
       },
       {
         "id": "2015_palmieri_distance_metric_learning_for",
@@ -38891,10 +41769,6 @@ window.tagSearchData = {
       {
         "id": "2411_17902",
         "score": 0.717
-      },
-      {
-        "id": "2020_mashayekhi_informed_rrt_connect_an",
-        "score": 0.7089
       }
     ],
     "2212_06437::motion planning": [
@@ -38943,8 +41817,16 @@ window.tagSearchData = {
         "score": 0.7477
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7457
+      },
+      {
         "id": "2409_16012",
         "score": 0.7443
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7394
       },
       {
         "id": "2015_palmieri_distance_metric_learning_for",
@@ -39033,14 +41915,152 @@ window.tagSearchData = {
       {
         "id": "1998_fiorini_motion_planning_in_dynamic",
         "score": 0.7147
+      }
+    ],
+    "2008_takayama_beyond_dirty_dangerous_and::motion planning": [
+      {
+        "id": "2410_19414",
+        "score": 0.721
       },
       {
-        "id": "2504_18978",
-        "score": 0.7143
+        "id": "1710_09483",
+        "score": 0.7062
       },
       {
-        "id": "2009_ratliff_chomp_gradient_optimization_techniques",
-        "score": 0.7136
+        "id": "2409_09523",
+        "score": 0.6929
+      },
+      {
+        "id": "2018_schwarting_planning_and_decision_making",
+        "score": 0.6872
+      },
+      {
+        "id": "2018_kingston_sampling_based_methods_for",
+        "score": 0.6767
+      },
+      {
+        "id": "2014_luo_an_empirical_study_of",
+        "score": 0.6763
+      },
+      {
+        "id": "2303_09824",
+        "score": 0.6681
+      },
+      {
+        "id": "1604_07446",
+        "score": 0.6681
+      },
+      {
+        "id": "2002_roy_motion_planning_through_policy",
+        "score": 0.6657
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.6578
+      },
+      {
+        "id": "2025_hu_technically_speaking_transitioning_from",
+        "score": 0.6525
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.6459
+      },
+      {
+        "id": "2009_10484",
+        "score": 0.6432
+      },
+      {
+        "id": "2011_karaman_anytime_motion_planning_using",
+        "score": 0.6422
+      },
+      {
+        "id": "2002_hsu_randomized_kinodynamic_motion_planning",
+        "score": 0.6415
+      },
+      {
+        "id": "2412_11270",
+        "score": 0.6414
+      },
+      {
+        "id": "2018_gravell_concurrent_goal_assignment_and",
+        "score": 0.6398
+      },
+      {
+        "id": "2206_03004",
+        "score": 0.6388
+      },
+      {
+        "id": "2008_rickert_balancing_exploration_and_exploitation",
+        "score": 0.6354
+      },
+      {
+        "id": "2012_kobilarov_cross_entropy_motion_planning",
+        "score": 0.6314
+      },
+      {
+        "id": "2000_kuffner_rrt_connect_an_efficient",
+        "score": 0.631
+      },
+      {
+        "id": "2409_16012",
+        "score": 0.6302
+      },
+      {
+        "id": "2015_palmieri_distance_metric_learning_for",
+        "score": 0.6277
+      },
+      {
+        "id": "2212_06437",
+        "score": 0.626
+      },
+      {
+        "id": "2015_janson_deterministic_sampling_based_motion",
+        "score": 0.6252
+      },
+      {
+        "id": "2007_geraerts_creating_high_quality_paths",
+        "score": 0.6225
+      },
+      {
+        "id": "1997_hsu_path_planning_in_expansive",
+        "score": 0.6216
+      },
+      {
+        "id": "1405_5848",
+        "score": 0.62
+      },
+      {
+        "id": "2014_pham_trajectory_planning",
+        "score": 0.6196
+      },
+      {
+        "id": "2101_08829",
+        "score": 0.6193
+      },
+      {
+        "id": "2025_trevisan_model_predictive_path_integral",
+        "score": 0.6183
+      },
+      {
+        "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
+        "score": 0.6161
+      },
+      {
+        "id": "1998_lavalle_rapidly_exploring_random_trees",
+        "score": 0.6159
+      },
+      {
+        "id": "2508_05027",
+        "score": 0.6159
+      },
+      {
+        "id": "2310_17274",
+        "score": 0.6142
+      },
+      {
+        "id": "2505_10542",
+        "score": 0.614
       }
     ],
     "2008_rickert_balancing_exploration_and_exploitation::motion planning": [
@@ -39094,6 +42114,10 @@ window.tagSearchData = {
       },
       {
         "id": "1306_3532",
+        "score": 0.793
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
         "score": 0.793
       },
       {
@@ -39183,10 +42207,6 @@ window.tagSearchData = {
       {
         "id": "2015_klemm_rrt_connect_faster_asymptotically",
         "score": 0.758
-      },
-      {
-        "id": "1710_10122",
-        "score": 0.7576
       }
     ],
     "2310_17274::motion planning": [
@@ -39263,6 +42283,10 @@ window.tagSearchData = {
         "score": 0.7533
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7525
+      },
+      {
         "id": "1306_3532",
         "score": 0.7459
       },
@@ -39323,16 +42347,12 @@ window.tagSearchData = {
         "score": 0.7274
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7235
+      },
+      {
         "id": "2016_otte_rrtx_asymptotically_optimal_single",
         "score": 0.7227
-      },
-      {
-        "id": "1998_lavalle_rapidly_exploring_random_trees",
-        "score": 0.7224
-      },
-      {
-        "id": "2101_08829",
-        "score": 0.7201
       }
     ],
     "2305_01072::motion planning": [
@@ -39437,6 +42457,10 @@ window.tagSearchData = {
         "score": 0.7943
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7939
+      },
+      {
         "id": "1204_6453",
         "score": 0.7926
       },
@@ -39475,10 +42499,6 @@ window.tagSearchData = {
       {
         "id": "2409_09523",
         "score": 0.7819
-      },
-      {
-        "id": "2411_15651",
-        "score": 0.7816
       }
     ],
     "2307_09105::motion planning": [
@@ -39547,6 +42567,10 @@ window.tagSearchData = {
         "score": 0.7735
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7727
+      },
+      {
         "id": "2018_kingston_sampling_based_methods_for",
         "score": 0.7695
       },
@@ -39577,6 +42601,10 @@ window.tagSearchData = {
       {
         "id": "2412_11270",
         "score": 0.7592
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7589
       },
       {
         "id": "2409_09523",
@@ -39617,14 +42645,6 @@ window.tagSearchData = {
       {
         "id": "1998_lavalle_rapidly_exploring_random_trees",
         "score": 0.7491
-      },
-      {
-        "id": "2000_kuffner_rrt_connect_an_efficient",
-        "score": 0.7486
-      },
-      {
-        "id": "2016_otte_rrtx_asymptotically_optimal_single",
-        "score": 0.7436
       }
     ],
     "2303_09824::motion planning": [
@@ -39671,6 +42691,10 @@ window.tagSearchData = {
       {
         "id": "2025_trevisan_model_predictive_path_integral",
         "score": 0.7855
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.783
       },
       {
         "id": "2000_piazzi_quintic_g2_splines_for",
@@ -39721,6 +42745,10 @@ window.tagSearchData = {
         "score": 0.7541
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7499
+      },
+      {
         "id": "2002_hsu_randomized_kinodynamic_motion_planning",
         "score": 0.7479
       },
@@ -39763,14 +42791,6 @@ window.tagSearchData = {
       {
         "id": "1405_5848",
         "score": 0.7332
-      },
-      {
-        "id": "1710_10122",
-        "score": 0.7327
-      },
-      {
-        "id": "2004_phillips_guided_expansive_spaces_trees",
-        "score": 0.7318
       }
     ],
     "1999_lavalle_randomized_kinodynamic_planning::kinodynamic planning": [
@@ -49147,6 +52167,10 @@ window.tagSearchData = {
         "score": 0.865
       },
       {
+        "id": "2011_phillips_sipp_safe_interval_path",
+        "score": 0.8314
+      },
+      {
         "id": "2305_01072",
         "score": 0.8143
       },
@@ -49175,6 +52199,10 @@ window.tagSearchData = {
       {
         "id": "2305_01072",
         "score": 0.7717
+      },
+      {
+        "id": "2011_phillips_sipp_safe_interval_path",
+        "score": 0.7581
       },
       {
         "id": "1996_kavraki_probabilistic_roadmaps_for_path",
@@ -49213,6 +52241,10 @@ window.tagSearchData = {
       {
         "id": "2305_01072",
         "score": 0.8352
+      },
+      {
+        "id": "2011_phillips_sipp_safe_interval_path",
+        "score": 0.7831
       },
       {
         "id": "1204_6453",
@@ -49269,6 +52301,10 @@ window.tagSearchData = {
         "score": 0.7501
       },
       {
+        "id": "2011_phillips_sipp_safe_interval_path",
+        "score": 0.7439
+      },
+      {
         "id": "1204_6453",
         "score": 0.7424
       },
@@ -49301,6 +52337,10 @@ window.tagSearchData = {
       {
         "id": "1996_kavraki_probabilistic_roadmaps_for_path",
         "score": 0.6857
+      },
+      {
+        "id": "2011_phillips_sipp_safe_interval_path",
+        "score": 0.6827
       },
       {
         "id": "1204_6453",
@@ -49349,6 +52389,10 @@ window.tagSearchData = {
         "score": 0.7774
       },
       {
+        "id": "2011_phillips_sipp_safe_interval_path",
+        "score": 0.777
+      },
+      {
         "id": "2004_botea_near_optimal_hierarchical_path",
         "score": 0.7424
       },
@@ -49383,6 +52427,10 @@ window.tagSearchData = {
         "score": 0.8142
       },
       {
+        "id": "2011_phillips_sipp_safe_interval_path",
+        "score": 0.8068
+      },
+      {
         "id": "2101_11565",
         "score": 0.7634
       },
@@ -49400,6 +52448,10 @@ window.tagSearchData = {
       }
     ],
     "1996_kavraki_probabilistic_roadmaps_for_path::graph search": [
+      {
+        "id": "2011_phillips_sipp_safe_interval_path",
+        "score": 0.8216
+      },
       {
         "id": "1405_5848",
         "score": 0.821
@@ -49459,6 +52511,10 @@ window.tagSearchData = {
         "score": 0.8098
       },
       {
+        "id": "2011_phillips_sipp_safe_interval_path",
+        "score": 0.7813
+      },
+      {
         "id": "2101_11565",
         "score": 0.7684
       },
@@ -49475,7 +52531,53 @@ window.tagSearchData = {
         "score": 0.6594
       }
     ],
+    "2011_phillips_sipp_safe_interval_path::graph search": [
+      {
+        "id": "2305_01072",
+        "score": 0.8711
+      },
+      {
+        "id": "2016_otte_rrtx_asymptotically_optimal_single",
+        "score": 0.8314
+      },
+      {
+        "id": "1996_kavraki_probabilistic_roadmaps_for_path",
+        "score": 0.8216
+      },
+      {
+        "id": "1405_5848",
+        "score": 0.8068
+      },
+      {
+        "id": "2101_11565",
+        "score": 0.7831
+      },
+      {
+        "id": "1306_3532",
+        "score": 0.7813
+      },
+      {
+        "id": "1204_6453",
+        "score": 0.777
+      },
+      {
+        "id": "1604_07446",
+        "score": 0.7581
+      },
+      {
+        "id": "2004_botea_near_optimal_hierarchical_path",
+        "score": 0.7439
+      },
+      {
+        "id": "1958_bellman_on_a_routing_problem",
+        "score": 0.6827
+      }
+    ],
     "2305_01072::graph search": [
+      {
+        "id": "2011_phillips_sipp_safe_interval_path",
+        "score": 0.8711
+      },
       {
         "id": "2101_11565",
         "score": 0.8352
@@ -49591,6 +52693,10 @@ window.tagSearchData = {
         "score": 0.6767
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.6719
+      },
+      {
         "id": "1206_4621",
         "score": 0.6719
       },
@@ -49675,6 +52781,10 @@ window.tagSearchData = {
       {
         "id": "2021_gravell_policy_iteration_for_linear",
         "score": 0.8141
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.783
       },
       {
         "id": "2305_09619",
@@ -49807,6 +52917,10 @@ window.tagSearchData = {
         "score": 0.8444
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8366
+      },
+      {
         "id": "2305_09619",
         "score": 0.8281
       },
@@ -49935,6 +53049,10 @@ window.tagSearchData = {
       {
         "id": "1979_puterman_on_the_convergence_of",
         "score": 0.8453
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8424
       },
       {
         "id": "1707_06347",
@@ -50111,6 +53229,10 @@ window.tagSearchData = {
         "score": 0.7638
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7582
+      },
+      {
         "id": "2003_lagoudakis_least_squares_policy_iteration",
         "score": 0.7562
       },
@@ -50215,6 +53337,10 @@ window.tagSearchData = {
       {
         "id": "2014_silver_deterministic_policy_gradient_algorithms",
         "score": 0.8307
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8216
       },
       {
         "id": "2011_14212",
@@ -50341,6 +53467,10 @@ window.tagSearchData = {
       {
         "id": "2021_gravell_policy_iteration_for_linear",
         "score": 0.8696
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8625
       },
       {
         "id": "2305_09619",
@@ -50497,6 +53627,10 @@ window.tagSearchData = {
         "score": 0.7503
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7497
+      },
+      {
         "id": "2209_09006",
         "score": 0.7491
       },
@@ -50651,6 +53785,10 @@ window.tagSearchData = {
         "score": 0.7305
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7271
+      },
+      {
         "id": "1206_4621",
         "score": 0.7268
       },
@@ -50751,6 +53889,10 @@ window.tagSearchData = {
       {
         "id": "2209_09006",
         "score": 0.8047
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7973
       },
       {
         "id": "1905_13547",
@@ -50923,6 +54065,10 @@ window.tagSearchData = {
         "score": 0.7141
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7088
+      },
+      {
         "id": "1902_06583",
         "score": 0.6978
       },
@@ -51057,6 +54203,10 @@ window.tagSearchData = {
         "score": 0.6927
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.6912
+      },
+      {
         "id": "2001_kakade_a_natural_policy_gradient",
         "score": 0.6882
       },
@@ -51149,6 +54299,10 @@ window.tagSearchData = {
       {
         "id": "1803_07055",
         "score": 0.8099
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8091
       },
       {
         "id": "2014_silver_deterministic_policy_gradient_algorithms",
@@ -51281,6 +54435,10 @@ window.tagSearchData = {
         "score": 0.8444
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8375
+      },
+      {
         "id": "1979_puterman_on_the_convergence_of",
         "score": 0.8373
       },
@@ -51401,7 +54559,149 @@ window.tagSearchData = {
         "score": 0.6184
       }
     ],
+    "2021_perdomo_stabilizing_dynamical_systems_via::reinforcement learning": [
+      {
+        "id": "1905_13547",
+        "score": 0.8625
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.8522
+      },
+      {
+        "id": "1803_07055",
+        "score": 0.8452
+      },
+      {
+        "id": "2000_baxter_direct_gradient_based_reinforcement",
+        "score": 0.8424
+      },
+      {
+        "id": "2305_09619",
+        "score": 0.8401
+      },
+      {
+        "id": "2021_gravell_policy_iteration_for_linear",
+        "score": 0.8375
+      },
+      {
+        "id": "2011_14212",
+        "score": 0.8366
+      },
+      {
+        "id": "2014_silver_deterministic_policy_gradient_algorithms",
+        "score": 0.8283
+      },
+      {
+        "id": "2011_abbasi_yadkori_regret_bounds_for_the",
+        "score": 0.823
+      },
+      {
+        "id": "1707_06347",
+        "score": 0.8216
+      },
+      {
+        "id": "2003_lagoudakis_least_squares_policy_iteration",
+        "score": 0.8199
+      },
+      {
+        "id": "2209_09006",
+        "score": 0.8176
+      },
+      {
+        "id": "1502_05477",
+        "score": 0.8091
+      },
+      {
+        "id": "1979_puterman_on_the_convergence_of",
+        "score": 0.8083
+      },
+      {
+        "id": "1912_11912",
+        "score": 0.7973
+      },
+      {
+        "id": "2403_09110",
+        "score": 0.7844
+      },
+      {
+        "id": "2002_10069",
+        "score": 0.783
+      },
+      {
+        "id": "2401_16025",
+        "score": 0.7823
+      },
+      {
+        "id": "1983_barto_neuronlike_adaptive_elements_that",
+        "score": 0.7821
+      },
+      {
+        "id": "2001_kakade_a_natural_policy_gradient",
+        "score": 0.7692
+      },
+      {
+        "id": "1801_01290",
+        "score": 0.7669
+      },
+      {
+        "id": "1206_4621",
+        "score": 0.7659
+      },
+      {
+        "id": "2007_florian_correct_equations_for_the",
+        "score": 0.7651
+      },
+      {
+        "id": "1709_07174",
+        "score": 0.7582
+      },
+      {
+        "id": "1902_06583",
+        "score": 0.7497
+      },
+      {
+        "id": "1811_04551",
+        "score": 0.7493
+      },
+      {
+        "id": "1912_01603",
+        "score": 0.7271
+      },
+      {
+        "id": "2310_00077",
+        "score": 0.7163
+      },
+      {
+        "id": "2511_07820",
+        "score": 0.7088
+      },
+      {
+        "id": "2402_03300",
+        "score": 0.6924
+      },
+      {
+        "id": "2025_hu_technically_speaking_transitioning_from",
+        "score": 0.6912
+      },
+      {
+        "id": "2002_stanley_evolving_neural_networks_through",
+        "score": 0.6761
+      },
+      {
+        "id": "1606_01540",
+        "score": 0.6719
+      },
+      {
+        "id": "2024_calem_action_and_trajectory_prediction",
+        "score": 0.6687
+      }
+    ],
     "1983_barto_neuronlike_adaptive_elements_that::reinforcement learning": [
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7821
+      },
       {
         "id": "2007_florian_correct_equations_for_the",
         "score": 0.765
@@ -51553,6 +54853,10 @@ window.tagSearchData = {
         "score": 0.6786
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.6761
+      },
+      {
         "id": "1502_05477",
         "score": 0.6758
       },
@@ -51685,6 +54989,10 @@ window.tagSearchData = {
       {
         "id": "2014_silver_deterministic_policy_gradient_algorithms",
         "score": 0.8175
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8083
       },
       {
         "id": "2001_kakade_a_natural_policy_gradient",
@@ -51853,6 +55161,10 @@ window.tagSearchData = {
         "score": 0.7663
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7659
+      },
+      {
         "id": "2305_09619",
         "score": 0.7638
       },
@@ -51945,6 +55257,10 @@ window.tagSearchData = {
       {
         "id": "1707_06347",
         "score": 0.8307
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8283
       },
       {
         "id": "2001_kakade_a_natural_policy_gradient",
@@ -52081,6 +55397,10 @@ window.tagSearchData = {
         "score": 0.8225
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8199
+      },
+      {
         "id": "2021_gravell_policy_iteration_for_linear",
         "score": 0.8142
       },
@@ -52206,6 +55526,10 @@ window.tagSearchData = {
       }
     ],
     "2007_florian_correct_equations_for_the::reinforcement learning": [
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7651
+      },
       {
         "id": "1983_barto_neuronlike_adaptive_elements_that",
         "score": 0.765
@@ -52413,6 +55737,10 @@ window.tagSearchData = {
         "score": 0.6771
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.6687
+      },
+      {
         "id": "1912_11912",
         "score": 0.6685
       },
@@ -52493,6 +55821,10 @@ window.tagSearchData = {
       {
         "id": "1803_07055",
         "score": 0.7891
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7823
       },
       {
         "id": "2003_lagoudakis_least_squares_policy_iteration",
@@ -52697,6 +56029,10 @@ window.tagSearchData = {
         "score": 0.6933
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.6924
+      },
+      {
         "id": "1206_4621",
         "score": 0.6869
       },
@@ -52753,6 +56089,10 @@ window.tagSearchData = {
       {
         "id": "1709_07174",
         "score": 0.792
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7844
       },
       {
         "id": "1912_01603",
@@ -52883,6 +56223,10 @@ window.tagSearchData = {
       {
         "id": "2021_gravell_policy_iteration_for_linear",
         "score": 0.8322
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.823
       },
       {
         "id": "2002_10069",
@@ -53051,6 +56395,10 @@ window.tagSearchData = {
         "score": 0.7707
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7692
+      },
+      {
         "id": "2021_gravell_policy_iteration_for_linear",
         "score": 0.7688
       },
@@ -53185,6 +56533,10 @@ window.tagSearchData = {
         "score": 0.7524
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7493
+      },
+      {
         "id": "1707_06347",
         "score": 0.7461
       },
@@ -53307,6 +56659,10 @@ window.tagSearchData = {
         "score": 0.7683
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7669
+      },
+      {
         "id": "2022_gravell_data_driven_control_and",
         "score": 0.7668
       },
@@ -53412,6 +56768,10 @@ window.tagSearchData = {
       }
     ],
     "1803_07055::reinforcement learning": [
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8452
+      },
       {
         "id": "1707_06347",
         "score": 0.8209
@@ -53567,6 +56927,10 @@ window.tagSearchData = {
         "score": 0.8179
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8176
+      },
+      {
         "id": "2000_baxter_direct_gradient_based_reinforcement",
         "score": 0.8109
       },
@@ -53687,6 +57051,10 @@ window.tagSearchData = {
       {
         "id": "2021_gravell_policy_iteration_for_linear",
         "score": 0.8575
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8522
       },
       {
         "id": "2002_10069",
@@ -53821,6 +57189,10 @@ window.tagSearchData = {
       {
         "id": "2209_09006",
         "score": 0.8413
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8401
       },
       {
         "id": "2022_gravell_data_driven_control_and",
@@ -53979,6 +57351,10 @@ window.tagSearchData = {
       {
         "id": "1206_4621",
         "score": 0.7196
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7163
       },
       {
         "id": "2014_silver_deterministic_policy_gradient_algorithms",
@@ -71953,6 +75329,10 @@ window.tagSearchData = {
         "score": 0.8042
       },
       {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.8003
+      },
+      {
         "id": "2303_16746",
         "score": 0.7932
       },
@@ -71989,6 +75369,10 @@ window.tagSearchData = {
       {
         "id": "2019_howell_altro_a_fast_solver",
         "score": 0.7734
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7701
       },
       {
         "id": "2506_14865",
@@ -72033,6 +75417,10 @@ window.tagSearchData = {
         "score": 0.7713
       },
       {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7691
+      },
+      {
         "id": "1998_scokaert_constrained_linear_quadratic_regulation",
         "score": 0.6972
       }
@@ -72061,6 +75449,10 @@ window.tagSearchData = {
       {
         "id": "2025_xia_an_adaptive_projection_differential",
         "score": 0.7864
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7744
       },
       {
         "id": "2020_marti_saumell_squash_box_feasibility_driven",
@@ -72095,6 +75487,10 @@ window.tagSearchData = {
       {
         "id": "2025_xia_an_adaptive_projection_differential",
         "score": 0.7921
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7895
       },
       {
         "id": "2409_11649",
@@ -72147,6 +75543,10 @@ window.tagSearchData = {
         "score": 0.7531
       },
       {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7238
+      },
+      {
         "id": "1998_scokaert_constrained_linear_quadratic_regulation",
         "score": 0.714
       }
@@ -72179,6 +75579,10 @@ window.tagSearchData = {
       {
         "id": "2025_xia_an_adaptive_projection_differential",
         "score": 0.714
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.6994
       },
       {
         "id": "2010_00411",
@@ -72225,6 +75629,52 @@ window.tagSearchData = {
       {
         "id": "1998_scokaert_constrained_linear_quadratic_regulation",
         "score": 0.7858
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7483
+      }
+    ],
+    "2026_zhang_constrained_diffusers_for_safe::constrained optimization": [
+      {
+        "id": "2005_00985",
+        "score": 0.8003
+      },
+      {
+        "id": "2506_14865",
+        "score": 0.7895
+      },
+      {
+        "id": "2023_jallet_proxddp_proximal_constrained_trajectory",
+        "score": 0.7878
+      },
+      {
+        "id": "2019_howell_altro_a_fast_solver",
+        "score": 0.7744
+      },
+      {
+        "id": "2020_marti_saumell_squash_box_feasibility_driven",
+        "score": 0.7701
+      },
+      {
+        "id": "2010_00411",
+        "score": 0.7691
+      },
+      {
+        "id": "2409_11649",
+        "score": 0.7483
+      },
+      {
+        "id": "2303_16746",
+        "score": 0.7285
+      },
+      {
+        "id": "2025_xia_an_adaptive_projection_differential",
+        "score": 0.7238
+      },
+      {
+        "id": "1998_scokaert_constrained_linear_quadratic_regulation",
+        "score": 0.6994
       }
     ],
     "2303_16746::constrained optimization": [
@@ -72263,6 +75713,10 @@ window.tagSearchData = {
       {
         "id": "1998_scokaert_constrained_linear_quadratic_regulation",
         "score": 0.7383
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7285
       }
     ],
     "2023_jallet_proxddp_proximal_constrained_trajectory::constrained optimization": [
@@ -72297,6 +75751,10 @@ window.tagSearchData = {
       {
         "id": "2506_14865",
         "score": 0.8238
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7878
       },
       {
         "id": "1998_scokaert_constrained_linear_quadratic_regulation",
@@ -72587,6 +76045,10 @@ window.tagSearchData = {
       {
         "id": "1980_marr_theory_of_edge_detection",
         "score": 0.6287
+      },
+      {
+        "id": "2022_wolfe_spatiotemporal_blue_noise_masks",
+        "score": 0.5602
       }
     ],
     "2508_10104::computer vision": [
@@ -72629,6 +76091,10 @@ window.tagSearchData = {
       {
         "id": "1980_marr_theory_of_edge_detection",
         "score": 0.6754
+      },
+      {
+        "id": "2022_wolfe_spatiotemporal_blue_noise_masks",
+        "score": 0.6521
       }
     ],
     "1980_marr_theory_of_edge_detection::computer vision": [
@@ -72655,6 +76121,10 @@ window.tagSearchData = {
       {
         "id": "2103_03230",
         "score": 0.6716
+      },
+      {
+        "id": "2022_wolfe_spatiotemporal_blue_noise_masks",
+        "score": 0.6694
       },
       {
         "id": "2105_04906",
@@ -72713,6 +76183,10 @@ window.tagSearchData = {
       {
         "id": "2603_17812",
         "score": 0.6778
+      },
+      {
+        "id": "2022_wolfe_spatiotemporal_blue_noise_masks",
+        "score": 0.6355
       }
     ],
     "2103_03230::computer vision": [
@@ -72755,6 +76229,10 @@ window.tagSearchData = {
       {
         "id": "1980_marr_theory_of_edge_detection",
         "score": 0.6716
+      },
+      {
+        "id": "2022_wolfe_spatiotemporal_blue_noise_masks",
+        "score": 0.5988
       }
     ],
     "2105_04906::computer vision": [
@@ -72797,6 +76275,10 @@ window.tagSearchData = {
       {
         "id": "1980_marr_theory_of_edge_detection",
         "score": 0.6443
+      },
+      {
+        "id": "2022_wolfe_spatiotemporal_blue_noise_masks",
+        "score": 0.6201
       }
     ],
     "2014_muja_scalable_nearest_neighbor_algorithms::computer vision": [
@@ -72839,6 +76321,10 @@ window.tagSearchData = {
       {
         "id": "1980_marr_theory_of_edge_detection",
         "score": 0.6259
+      },
+      {
+        "id": "2022_wolfe_spatiotemporal_blue_noise_masks",
+        "score": 0.6046
       }
     ],
     "2404_08471::computer vision": [
@@ -72879,6 +76365,10 @@ window.tagSearchData = {
         "score": 0.6939
       },
       {
+        "id": "2022_wolfe_spatiotemporal_blue_noise_masks",
+        "score": 0.6456
+      },
+      {
         "id": "1980_marr_theory_of_edge_detection",
         "score": 0.6373
       }
@@ -72895,6 +76385,10 @@ window.tagSearchData = {
       {
         "id": "2105_04906",
         "score": 0.755
+      },
+      {
+        "id": "2022_wolfe_spatiotemporal_blue_noise_masks",
+        "score": 0.7349
       },
       {
         "id": "2103_03230",
@@ -72965,6 +76459,56 @@ window.tagSearchData = {
       {
         "id": "2006_07733",
         "score": 0.6791
+      },
+      {
+        "id": "2022_wolfe_spatiotemporal_blue_noise_masks",
+        "score": 0.6178
+      }
+    ],
+    "2022_wolfe_spatiotemporal_blue_noise_masks::computer vision": [
+      {
+        "id": "2603_17812",
+        "score": 0.7349
+      },
+      {
+        "id": "1980_marr_theory_of_edge_detection",
+        "score": 0.6694
+      },
+      {
+        "id": "2508_10104",
+        "score": 0.6521
+      },
+      {
+        "id": "2404_08471",
+        "score": 0.6456
+      },
+      {
+        "id": "1998_papageorgiou_a_general_framework_for",
+        "score": 0.6355
+      },
+      {
+        "id": "2105_04906",
+        "score": 0.6201
+      },
+      {
+        "id": "2001_viola_rapid_object_detection_using",
+        "score": 0.6178
+      },
+      {
+        "id": "2005_dalal_histograms_of_oriented_gradients",
+        "score": 0.6177
+      },
+      {
+        "id": "2014_muja_scalable_nearest_neighbor_algorithms",
+        "score": 0.6046
+      },
+      {
+        "id": "2103_03230",
+        "score": 0.5988
+      },
+      {
+        "id": "2006_07733",
+        "score": 0.5602
       }
     ],
     "2005_dalal_histograms_of_oriented_gradients::computer vision": [
@@ -73007,6 +76551,10 @@ window.tagSearchData = {
       {
         "id": "1980_marr_theory_of_edge_detection",
         "score": 0.6735
+      },
+      {
+        "id": "2022_wolfe_spatiotemporal_blue_noise_masks",
+        "score": 0.6177
       }
     ],
     "2006_07733::non-contrastive learning": [
@@ -77361,138 +80909,6 @@ window.tagSearchData = {
         "score": 0.8369
       }
     ],
-    "2002_10069::adaptive control": [
-      {
-        "id": "2205_05119",
-        "score": 0.9276
-      },
-      {
-        "id": "2021_gravell_stochastic_stability_via_robustness",
-        "score": 0.8737
-      },
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.8399
-      },
-      {
-        "id": "2011_abbasi_yadkori_regret_bounds_for_the",
-        "score": 0.8183
-      },
-      {
-        "id": "1983_barto_neuronlike_adaptive_elements_that",
-        "score": 0.7339
-      }
-    ],
-    "2021_gravell_stochastic_stability_via_robustness::adaptive control": [
-      {
-        "id": "2002_10069",
-        "score": 0.8737
-      },
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.8534
-      },
-      {
-        "id": "2205_05119",
-        "score": 0.8446
-      },
-      {
-        "id": "2011_abbasi_yadkori_regret_bounds_for_the",
-        "score": 0.797
-      },
-      {
-        "id": "1983_barto_neuronlike_adaptive_elements_that",
-        "score": 0.7209
-      }
-    ],
-    "1983_barto_neuronlike_adaptive_elements_that::adaptive control": [
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.7375
-      },
-      {
-        "id": "2002_10069",
-        "score": 0.7339
-      },
-      {
-        "id": "2011_abbasi_yadkori_regret_bounds_for_the",
-        "score": 0.7238
-      },
-      {
-        "id": "2021_gravell_stochastic_stability_via_robustness",
-        "score": 0.7209
-      },
-      {
-        "id": "2205_05119",
-        "score": 0.6724
-      }
-    ],
-    "2011_abbasi_yadkori_regret_bounds_for_the::adaptive control": [
-      {
-        "id": "2002_10069",
-        "score": 0.8183
-      },
-      {
-        "id": "2021_gravell_stochastic_stability_via_robustness",
-        "score": 0.797
-      },
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.7855
-      },
-      {
-        "id": "2205_05119",
-        "score": 0.7355
-      },
-      {
-        "id": "1983_barto_neuronlike_adaptive_elements_that",
-        "score": 0.7238
-      }
-    ],
-    "2205_05119::adaptive control": [
-      {
-        "id": "2002_10069",
-        "score": 0.9276
-      },
-      {
-        "id": "2021_gravell_stochastic_stability_via_robustness",
-        "score": 0.8446
-      },
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.8091
-      },
-      {
-        "id": "2011_abbasi_yadkori_regret_bounds_for_the",
-        "score": 0.7355
-      },
-      {
-        "id": "1983_barto_neuronlike_adaptive_elements_that",
-        "score": 0.6724
-      }
-    ],
-    "2022_gravell_data_driven_control_and::adaptive control": [
-      {
-        "id": "2021_gravell_stochastic_stability_via_robustness",
-        "score": 0.8534
-      },
-      {
-        "id": "2002_10069",
-        "score": 0.8399
-      },
-      {
-        "id": "2205_05119",
-        "score": 0.8091
-      },
-      {
-        "id": "2011_abbasi_yadkori_regret_bounds_for_the",
-        "score": 0.7855
-      },
-      {
-        "id": "1983_barto_neuronlike_adaptive_elements_that",
-        "score": 0.7375
-      }
-    ],
     "2002_10069::model-based": [
       {
         "id": "2021_gravell_stochastic_stability_via_robustness",
@@ -78519,6 +81935,312 @@ window.tagSearchData = {
         "score": 0.588
       }
     ],
+    "2020_cole_vaporwave_aesthetics_internet_nostalgia::research paper": [
+      {
+        "id": "2021_morrissey_metamodernism_and_vaporwave_a",
+        "score": 0.8801
+      },
+      {
+        "id": "2021_lindsay_disaster_theory",
+        "score": 0.8448
+      },
+      {
+        "id": "2024_dawid_introduction_to_latent_variable",
+        "score": 0.5061
+      },
+      {
+        "id": "2015_bergstra_hyperopt_a_python_library",
+        "score": 0.4534
+      },
+      {
+        "id": "2010_he_puma_planning_under_uncertainty",
+        "score": 0.4355
+      },
+      {
+        "id": "2022_schmid_why_and_how_savitzkygolay",
+        "score": 0.4337
+      },
+      {
+        "id": "2023_yuan_stochastic_second_order_methods",
+        "score": 0.4237
+      },
+      {
+        "id": "1993_afanasieva_the_characteristics_of_the",
+        "score": 0.4166
+      }
+    ],
+    "2015_bergstra_hyperopt_a_python_library::research paper": [
+      {
+        "id": "2023_yuan_stochastic_second_order_methods",
+        "score": 0.7024
+      },
+      {
+        "id": "2024_dawid_introduction_to_latent_variable",
+        "score": 0.6815
+      },
+      {
+        "id": "2010_he_puma_planning_under_uncertainty",
+        "score": 0.6587
+      },
+      {
+        "id": "2022_schmid_why_and_how_savitzkygolay",
+        "score": 0.6022
+      },
+      {
+        "id": "1993_afanasieva_the_characteristics_of_the",
+        "score": 0.536
+      },
+      {
+        "id": "2021_morrissey_metamodernism_and_vaporwave_a",
+        "score": 0.5002
+      },
+      {
+        "id": "2020_cole_vaporwave_aesthetics_internet_nostalgia",
+        "score": 0.4534
+      },
+      {
+        "id": "2021_lindsay_disaster_theory",
+        "score": 0.448
+      }
+    ],
+    "2010_he_puma_planning_under_uncertainty::research paper": [
+      {
+        "id": "2023_yuan_stochastic_second_order_methods",
+        "score": 0.732
+      },
+      {
+        "id": "2024_dawid_introduction_to_latent_variable",
+        "score": 0.7265
+      },
+      {
+        "id": "2015_bergstra_hyperopt_a_python_library",
+        "score": 0.6587
+      },
+      {
+        "id": "1993_afanasieva_the_characteristics_of_the",
+        "score": 0.4764
+      },
+      {
+        "id": "2021_morrissey_metamodernism_and_vaporwave_a",
+        "score": 0.4683
+      },
+      {
+        "id": "2022_schmid_why_and_how_savitzkygolay",
+        "score": 0.445
+      },
+      {
+        "id": "2021_lindsay_disaster_theory",
+        "score": 0.4388
+      },
+      {
+        "id": "2020_cole_vaporwave_aesthetics_internet_nostalgia",
+        "score": 0.4355
+      }
+    ],
+    "2021_morrissey_metamodernism_and_vaporwave_a::research paper": [
+      {
+        "id": "2020_cole_vaporwave_aesthetics_internet_nostalgia",
+        "score": 0.8801
+      },
+      {
+        "id": "2021_lindsay_disaster_theory",
+        "score": 0.8196
+      },
+      {
+        "id": "2024_dawid_introduction_to_latent_variable",
+        "score": 0.548
+      },
+      {
+        "id": "2015_bergstra_hyperopt_a_python_library",
+        "score": 0.5002
+      },
+      {
+        "id": "2023_yuan_stochastic_second_order_methods",
+        "score": 0.4901
+      },
+      {
+        "id": "2010_he_puma_planning_under_uncertainty",
+        "score": 0.4683
+      },
+      {
+        "id": "1993_afanasieva_the_characteristics_of_the",
+        "score": 0.4673
+      },
+      {
+        "id": "2022_schmid_why_and_how_savitzkygolay",
+        "score": 0.4468
+      }
+    ],
+    "2021_lindsay_disaster_theory::research paper": [
+      {
+        "id": "2020_cole_vaporwave_aesthetics_internet_nostalgia",
+        "score": 0.8448
+      },
+      {
+        "id": "2021_morrissey_metamodernism_and_vaporwave_a",
+        "score": 0.8196
+      },
+      {
+        "id": "2024_dawid_introduction_to_latent_variable",
+        "score": 0.5017
+      },
+      {
+        "id": "1993_afanasieva_the_characteristics_of_the",
+        "score": 0.4868
+      },
+      {
+        "id": "2023_yuan_stochastic_second_order_methods",
+        "score": 0.4617
+      },
+      {
+        "id": "2022_schmid_why_and_how_savitzkygolay",
+        "score": 0.4615
+      },
+      {
+        "id": "2015_bergstra_hyperopt_a_python_library",
+        "score": 0.448
+      },
+      {
+        "id": "2010_he_puma_planning_under_uncertainty",
+        "score": 0.4388
+      }
+    ],
+    "1993_afanasieva_the_characteristics_of_the::research paper": [
+      {
+        "id": "2015_bergstra_hyperopt_a_python_library",
+        "score": 0.536
+      },
+      {
+        "id": "2022_schmid_why_and_how_savitzkygolay",
+        "score": 0.515
+      },
+      {
+        "id": "2021_lindsay_disaster_theory",
+        "score": 0.4868
+      },
+      {
+        "id": "2024_dawid_introduction_to_latent_variable",
+        "score": 0.479
+      },
+      {
+        "id": "2010_he_puma_planning_under_uncertainty",
+        "score": 0.4764
+      },
+      {
+        "id": "2023_yuan_stochastic_second_order_methods",
+        "score": 0.4715
+      },
+      {
+        "id": "2021_morrissey_metamodernism_and_vaporwave_a",
+        "score": 0.4673
+      },
+      {
+        "id": "2020_cole_vaporwave_aesthetics_internet_nostalgia",
+        "score": 0.4166
+      }
+    ],
+    "2024_dawid_introduction_to_latent_variable::research paper": [
+      {
+        "id": "2023_yuan_stochastic_second_order_methods",
+        "score": 0.7291
+      },
+      {
+        "id": "2010_he_puma_planning_under_uncertainty",
+        "score": 0.7265
+      },
+      {
+        "id": "2015_bergstra_hyperopt_a_python_library",
+        "score": 0.6815
+      },
+      {
+        "id": "2021_morrissey_metamodernism_and_vaporwave_a",
+        "score": 0.548
+      },
+      {
+        "id": "2020_cole_vaporwave_aesthetics_internet_nostalgia",
+        "score": 0.5061
+      },
+      {
+        "id": "2021_lindsay_disaster_theory",
+        "score": 0.5017
+      },
+      {
+        "id": "2022_schmid_why_and_how_savitzkygolay",
+        "score": 0.4942
+      },
+      {
+        "id": "1993_afanasieva_the_characteristics_of_the",
+        "score": 0.479
+      }
+    ],
+    "2022_schmid_why_and_how_savitzkygolay::research paper": [
+      {
+        "id": "2015_bergstra_hyperopt_a_python_library",
+        "score": 0.6022
+      },
+      {
+        "id": "2023_yuan_stochastic_second_order_methods",
+        "score": 0.5465
+      },
+      {
+        "id": "1993_afanasieva_the_characteristics_of_the",
+        "score": 0.515
+      },
+      {
+        "id": "2024_dawid_introduction_to_latent_variable",
+        "score": 0.4942
+      },
+      {
+        "id": "2021_lindsay_disaster_theory",
+        "score": 0.4615
+      },
+      {
+        "id": "2021_morrissey_metamodernism_and_vaporwave_a",
+        "score": 0.4468
+      },
+      {
+        "id": "2010_he_puma_planning_under_uncertainty",
+        "score": 0.445
+      },
+      {
+        "id": "2020_cole_vaporwave_aesthetics_internet_nostalgia",
+        "score": 0.4337
+      }
+    ],
+    "2023_yuan_stochastic_second_order_methods::research paper": [
+      {
+        "id": "2010_he_puma_planning_under_uncertainty",
+        "score": 0.732
+      },
+      {
+        "id": "2024_dawid_introduction_to_latent_variable",
+        "score": 0.7291
+      },
+      {
+        "id": "2015_bergstra_hyperopt_a_python_library",
+        "score": 0.7024
+      },
+      {
+        "id": "2022_schmid_why_and_how_savitzkygolay",
+        "score": 0.5465
+      },
+      {
+        "id": "2021_morrissey_metamodernism_and_vaporwave_a",
+        "score": 0.4901
+      },
+      {
+        "id": "1993_afanasieva_the_characteristics_of_the",
+        "score": 0.4715
+      },
+      {
+        "id": "2021_lindsay_disaster_theory",
+        "score": 0.4617
+      },
+      {
+        "id": "2020_cole_vaporwave_aesthetics_internet_nostalgia",
+        "score": 0.4237
+      }
+    ],
     "2011_14212::policy iteration": [
       {
         "id": "1979_puterman_on_the_convergence_of",
@@ -78549,250 +82271,14 @@ window.tagSearchData = {
         "score": 0.8001
       }
     ],
-    "2011_14212::dynamic programming": [
-      {
-        "id": "1979_puterman_on_the_convergence_of",
-        "score": 0.8742
-      },
-      {
-        "id": "1970_jacobson_differential_dynamic_programming",
-        "score": 0.7764
-      },
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.7258
-      },
-      {
-        "id": "2505_08370",
-        "score": 0.7209
-      },
-      {
-        "id": "1306_3532",
-        "score": 0.7148
-      },
-      {
-        "id": "1204_6453",
-        "score": 0.7041
-      },
-      {
-        "id": "1958_bellman_on_a_routing_problem",
-        "score": 0.6255
-      }
-    ],
-    "2505_08370::dynamic programming": [
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.7903
-      },
-      {
-        "id": "1970_jacobson_differential_dynamic_programming",
-        "score": 0.7451
-      },
-      {
-        "id": "2011_14212",
-        "score": 0.7209
-      },
-      {
-        "id": "1979_puterman_on_the_convergence_of",
-        "score": 0.7113
-      },
-      {
-        "id": "1204_6453",
-        "score": 0.6613
-      },
-      {
-        "id": "1306_3532",
-        "score": 0.6606
-      },
-      {
-        "id": "1958_bellman_on_a_routing_problem",
-        "score": 0.5418
-      }
-    ],
-    "1970_mclane_the_optimal_regulator_problem::dynamic programming": [
-      {
-        "id": "2505_08370",
-        "score": 0.7903
-      },
-      {
-        "id": "1970_jacobson_differential_dynamic_programming",
-        "score": 0.7758
-      },
-      {
-        "id": "1979_puterman_on_the_convergence_of",
-        "score": 0.7456
-      },
-      {
-        "id": "2011_14212",
-        "score": 0.7258
-      },
-      {
-        "id": "1204_6453",
-        "score": 0.6476
-      },
-      {
-        "id": "1306_3532",
-        "score": 0.6267
-      },
-      {
-        "id": "1958_bellman_on_a_routing_problem",
-        "score": 0.6255
-      }
-    ],
-    "1970_jacobson_differential_dynamic_programming::dynamic programming": [
-      {
-        "id": "1979_puterman_on_the_convergence_of",
-        "score": 0.7835
-      },
-      {
-        "id": "2011_14212",
-        "score": 0.7764
-      },
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.7758
-      },
-      {
-        "id": "1306_3532",
-        "score": 0.7541
-      },
-      {
-        "id": "2505_08370",
-        "score": 0.7451
-      },
-      {
-        "id": "1204_6453",
-        "score": 0.7246
-      },
-      {
-        "id": "1958_bellman_on_a_routing_problem",
-        "score": 0.6888
-      }
-    ],
-    "1958_bellman_on_a_routing_problem::dynamic programming": [
-      {
-        "id": "1970_jacobson_differential_dynamic_programming",
-        "score": 0.6888
-      },
-      {
-        "id": "1204_6453",
-        "score": 0.6801
-      },
-      {
-        "id": "1979_puterman_on_the_convergence_of",
-        "score": 0.6682
-      },
-      {
-        "id": "1306_3532",
-        "score": 0.6594
-      },
-      {
-        "id": "2011_14212",
-        "score": 0.6255
-      },
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.6255
-      },
-      {
-        "id": "2505_08370",
-        "score": 0.5418
-      }
-    ],
-    "1979_puterman_on_the_convergence_of::dynamic programming": [
-      {
-        "id": "2011_14212",
-        "score": 0.8742
-      },
-      {
-        "id": "1970_jacobson_differential_dynamic_programming",
-        "score": 0.7835
-      },
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.7456
-      },
-      {
-        "id": "1306_3532",
-        "score": 0.7349
-      },
-      {
-        "id": "1204_6453",
-        "score": 0.7247
-      },
-      {
-        "id": "2505_08370",
-        "score": 0.7113
-      },
-      {
-        "id": "1958_bellman_on_a_routing_problem",
-        "score": 0.6682
-      }
-    ],
-    "1204_6453::dynamic programming": [
-      {
-        "id": "1306_3532",
-        "score": 0.8807
-      },
-      {
-        "id": "1979_puterman_on_the_convergence_of",
-        "score": 0.7247
-      },
-      {
-        "id": "1970_jacobson_differential_dynamic_programming",
-        "score": 0.7246
-      },
-      {
-        "id": "2011_14212",
-        "score": 0.7041
-      },
-      {
-        "id": "1958_bellman_on_a_routing_problem",
-        "score": 0.6801
-      },
-      {
-        "id": "2505_08370",
-        "score": 0.6613
-      },
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.6476
-      }
-    ],
-    "1306_3532::dynamic programming": [
-      {
-        "id": "1204_6453",
-        "score": 0.8807
-      },
-      {
-        "id": "1970_jacobson_differential_dynamic_programming",
-        "score": 0.7541
-      },
-      {
-        "id": "1979_puterman_on_the_convergence_of",
-        "score": 0.7349
-      },
-      {
-        "id": "2011_14212",
-        "score": 0.7148
-      },
-      {
-        "id": "2505_08370",
-        "score": 0.6606
-      },
-      {
-        "id": "1958_bellman_on_a_routing_problem",
-        "score": 0.6594
-      },
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.6267
-      }
-    ],
     "2011_14212::linear quadratic regulator": [
       {
         "id": "2021_gravell_policy_iteration_for_linear",
         "score": 0.8444
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8366
       },
       {
         "id": "1905_13547",
@@ -78831,6 +82317,10 @@ window.tagSearchData = {
       {
         "id": "2021_gravell_policy_iteration_for_linear",
         "score": 0.8696
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8625
       },
       {
         "id": "1975_gustafson_design_of_linear_regulators",
@@ -78891,6 +82381,10 @@ window.tagSearchData = {
         "score": 0.7622
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7571
+      },
+      {
         "id": "2103_05572",
         "score": 0.7493
       },
@@ -78933,6 +82427,10 @@ window.tagSearchData = {
         "score": 0.764
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7585
+      },
+      {
         "id": "1973_molinari_the_stabilizing_solution_of",
         "score": 0.7447
       },
@@ -78967,6 +82465,10 @@ window.tagSearchData = {
         "score": 0.7717
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7605
+      },
+      {
         "id": "2011_abbasi_yadkori_regret_bounds_for_the",
         "score": 0.7441
       },
@@ -78991,6 +82493,10 @@ window.tagSearchData = {
       {
         "id": "2021_gravell_policy_iteration_for_linear",
         "score": 0.7889
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7729
       },
       {
         "id": "2011_abbasi_yadkori_regret_bounds_for_the",
@@ -79027,6 +82533,10 @@ window.tagSearchData = {
         "score": 0.8444
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8375
+      },
+      {
         "id": "2011_abbasi_yadkori_regret_bounds_for_the",
         "score": 0.8322
       },
@@ -79055,6 +82565,48 @@ window.tagSearchData = {
         "score": 0.7058
       }
     ],
+    "2021_perdomo_stabilizing_dynamical_systems_via::linear quadratic regulator": [
+      {
+        "id": "1905_13547",
+        "score": 0.8625
+      },
+      {
+        "id": "2021_gravell_policy_iteration_for_linear",
+        "score": 0.8375
+      },
+      {
+        "id": "2011_14212",
+        "score": 0.8366
+      },
+      {
+        "id": "2011_abbasi_yadkori_regret_bounds_for_the",
+        "score": 0.823
+      },
+      {
+        "id": "2103_05572",
+        "score": 0.7729
+      },
+      {
+        "id": "1970_mclane_the_optimal_regulator_problem",
+        "score": 0.7605
+      },
+      {
+        "id": "1975_gustafson_design_of_linear_regulators",
+        "score": 0.7585
+      },
+      {
+        "id": "2019_zhang_inverse_optimal_control_for",
+        "score": 0.7571
+      },
+      {
+        "id": "1967_kleinman_suboptimal_design_of_linear",
+        "score": 0.7491
+      },
+      {
+        "id": "1973_molinari_the_stabilizing_solution_of",
+        "score": 0.728
+      }
+    ],
     "1967_kleinman_suboptimal_design_of_linear::linear quadratic regulator": [
       {
         "id": "1970_mclane_the_optimal_regulator_problem",
@@ -79075,6 +82627,10 @@ window.tagSearchData = {
       {
         "id": "1973_molinari_the_stabilizing_solution_of",
         "score": 0.7496
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7491
       },
       {
         "id": "2011_abbasi_yadkori_regret_bounds_for_the",
@@ -79111,6 +82667,10 @@ window.tagSearchData = {
         "score": 0.7447
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.728
+      },
+      {
         "id": "1905_13547",
         "score": 0.7088
       },
@@ -79139,6 +82699,10 @@ window.tagSearchData = {
       {
         "id": "2021_gravell_policy_iteration_for_linear",
         "score": 0.8322
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.823
       },
       {
         "id": "2019_zhang_inverse_optimal_control_for",
@@ -79211,6 +82775,14 @@ window.tagSearchData = {
         "score": 0.9036
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8215
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8148
+      },
+      {
         "id": "2411_15651",
         "score": 0.7911
       },
@@ -79221,6 +82793,10 @@ window.tagSearchData = {
       {
         "id": "2307_09105",
         "score": 0.7669
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.766
       },
       {
         "id": "2101_08829",
@@ -79239,12 +82815,20 @@ window.tagSearchData = {
         "score": 0.6712
       },
       {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6699
+      },
+      {
         "id": "1995_spong_the_swing_up_control",
         "score": 0.6675
       },
       {
         "id": "2503_14734",
         "score": 0.6454
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.6432
       },
       {
         "id": "1995_spong_the_pendubot_a_mechatronic",
@@ -79261,8 +82845,16 @@ window.tagSearchData = {
         "score": 0.8491
       },
       {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7605
+      },
+      {
         "id": "2307_09105",
         "score": 0.7474
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7464
       },
       {
         "id": "2212_00541",
@@ -79275,6 +82867,10 @@ window.tagSearchData = {
       {
         "id": "2024_jallet_real_time_constrained_trajectory",
         "score": 0.7328
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7208
       },
       {
         "id": "2103_05572",
@@ -79297,12 +82893,20 @@ window.tagSearchData = {
         "score": 0.6681
       },
       {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.663
+      },
+      {
         "id": "2101_08829",
         "score": 0.6619
       },
       {
         "id": "1994_spong_partial_feedback_linearization_of",
         "score": 0.6488
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6022
       }
     ],
     "2503_14734::robotics": [
@@ -79311,8 +82915,16 @@ window.tagSearchData = {
         "score": 0.8491
       },
       {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.754
+      },
+      {
         "id": "2024_jallet_real_time_constrained_trajectory",
         "score": 0.7188
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7174
       },
       {
         "id": "2212_00541",
@@ -79323,12 +82935,20 @@ window.tagSearchData = {
         "score": 0.7112
       },
       {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.698
+      },
+      {
         "id": "2103_05572",
         "score": 0.6977
       },
       {
         "id": "2307_09105",
         "score": 0.6883
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.6875
       },
       {
         "id": "1995_spong_the_swing_up_control",
@@ -79353,6 +82973,10 @@ window.tagSearchData = {
       {
         "id": "1994_spong_partial_feedback_linearization_of",
         "score": 0.6324
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.5992
       }
     ],
     "1995_spong_the_pendubot_a_mechatronic::robotics": [
@@ -79367,6 +82991,14 @@ window.tagSearchData = {
       {
         "id": "2024_jallet_real_time_constrained_trajectory",
         "score": 0.7347
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6946
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.6921
       },
       {
         "id": "2212_00541",
@@ -79391,6 +83023,18 @@ window.tagSearchData = {
       {
         "id": "2307_09105",
         "score": 0.6559
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.6529
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.6482
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.6468
       },
       {
         "id": "2009_10484",
@@ -79415,12 +83059,24 @@ window.tagSearchData = {
         "score": 0.7766
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7446
+      },
+      {
         "id": "2024_jallet_real_time_constrained_trajectory",
         "score": 0.7432
       },
       {
         "id": "2103_05572",
         "score": 0.703
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.689
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6873
       },
       {
         "id": "2101_08829",
@@ -79453,9 +83109,25 @@ window.tagSearchData = {
       {
         "id": "2411_15651",
         "score": 0.6452
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.6394
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.6042
       }
     ],
     "2103_05572::robotics": [
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8592
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.797
+      },
       {
         "id": "2411_15651",
         "score": 0.786
@@ -79473,12 +83145,20 @@ window.tagSearchData = {
         "score": 0.7647
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.763
+      },
+      {
         "id": "2307_09105",
         "score": 0.7572
       },
       {
         "id": "2009_10484",
         "score": 0.7532
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.7314
       },
       {
         "id": "2101_08829",
@@ -79503,6 +83183,80 @@ window.tagSearchData = {
       {
         "id": "1995_spong_the_pendubot_a_mechatronic",
         "score": 0.6794
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.6414
+      }
+    ],
+    "2021_moll_hyperplan_a_framework_for::robotics": [
+      {
+        "id": "2410_19414",
+        "score": 0.8453
+      },
+      {
+        "id": "2009_10484",
+        "score": 0.8215
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7931
+      },
+      {
+        "id": "2411_15651",
+        "score": 0.7921
+      },
+      {
+        "id": "2024_jallet_real_time_constrained_trajectory",
+        "score": 0.792
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7888
+      },
+      {
+        "id": "2103_05572",
+        "score": 0.763
+      },
+      {
+        "id": "2307_09105",
+        "score": 0.7589
+      },
+      {
+        "id": "2101_08829",
+        "score": 0.7545
+      },
+      {
+        "id": "2511_07820",
+        "score": 0.7464
+      },
+      {
+        "id": "2212_00541",
+        "score": 0.7259
+      },
+      {
+        "id": "2503_14734",
+        "score": 0.7174
+      },
+      {
+        "id": "1995_spong_the_swing_up_control",
+        "score": 0.689
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6654
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.6578
+      },
+      {
+        "id": "1994_spong_partial_feedback_linearization_of",
+        "score": 0.6519
+      },
+      {
+        "id": "1995_spong_the_pendubot_a_mechatronic",
+        "score": 0.6468
       }
     ],
     "2101_08829::robotics": [
@@ -79515,12 +83269,24 @@ window.tagSearchData = {
         "score": 0.7612
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7545
+      },
+      {
         "id": "2024_jallet_real_time_constrained_trajectory",
         "score": 0.75
       },
       {
         "id": "2411_15651",
         "score": 0.7462
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7303
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7229
       },
       {
         "id": "2103_05572",
@@ -79539,6 +83305,10 @@ window.tagSearchData = {
         "score": 0.6822
       },
       {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6634
+      },
+      {
         "id": "2511_07820",
         "score": 0.6619
       },
@@ -79553,6 +83323,80 @@ window.tagSearchData = {
       {
         "id": "1995_spong_the_pendubot_a_mechatronic",
         "score": 0.6256
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.6193
+      }
+    ],
+    "1994_de_wit_nonlinear_control_design_for::robotics": [
+      {
+        "id": "2103_05572",
+        "score": 0.7314
+      },
+      {
+        "id": "1994_spong_partial_feedback_linearization_of",
+        "score": 0.7226
+      },
+      {
+        "id": "2024_jallet_real_time_constrained_trajectory",
+        "score": 0.7069
+      },
+      {
+        "id": "1995_spong_the_pendubot_a_mechatronic",
+        "score": 0.6946
+      },
+      {
+        "id": "1995_spong_the_swing_up_control",
+        "score": 0.6873
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.6796
+      },
+      {
+        "id": "2009_10484",
+        "score": 0.6699
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.6654
+      },
+      {
+        "id": "2101_08829",
+        "score": 0.6634
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.6614
+      },
+      {
+        "id": "2410_19414",
+        "score": 0.6565
+      },
+      {
+        "id": "2411_15651",
+        "score": 0.638
+      },
+      {
+        "id": "2212_00541",
+        "score": 0.6245
+      },
+      {
+        "id": "2307_09105",
+        "score": 0.6198
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.6033
+      },
+      {
+        "id": "2511_07820",
+        "score": 0.6022
+      },
+      {
+        "id": "2503_14734",
+        "score": 0.5992
       }
     ],
     "1994_spong_partial_feedback_linearization_of::robotics": [
@@ -79569,8 +83413,24 @@ window.tagSearchData = {
         "score": 0.7382
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7234
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.7226
+      },
+      {
         "id": "2103_05572",
         "score": 0.7019
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.6553
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.6519
       },
       {
         "id": "2511_07820",
@@ -79603,6 +83463,10 @@ window.tagSearchData = {
       {
         "id": "2411_15651",
         "score": 0.605
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.5821
       }
     ],
     "2410_19414::robotics": [
@@ -79611,12 +83475,24 @@ window.tagSearchData = {
         "score": 0.9036
       },
       {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.8453
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8179
+      },
+      {
         "id": "2307_09105",
         "score": 0.8175
       },
       {
         "id": "2411_15651",
         "score": 0.8175
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.8122
       },
       {
         "id": "2024_jallet_real_time_constrained_trajectory",
@@ -79639,6 +83515,10 @@ window.tagSearchData = {
         "score": 0.737
       },
       {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.721
+      },
+      {
         "id": "2503_14734",
         "score": 0.7112
       },
@@ -79651,14 +83531,30 @@ window.tagSearchData = {
         "score": 0.6813
       },
       {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6565
+      },
+      {
         "id": "1994_spong_partial_feedback_linearization_of",
         "score": 0.6465
       }
     ],
     "2024_jallet_real_time_constrained_trajectory::robotics": [
       {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.8022
+      },
+      {
         "id": "2212_00541",
         "score": 0.7984
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7939
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.792
       },
       {
         "id": "2410_19414",
@@ -79703,6 +83599,14 @@ window.tagSearchData = {
       {
         "id": "2503_14734",
         "score": 0.7188
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.7069
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.6497
       }
     ],
     "2411_15651::robotics": [
@@ -79711,8 +83615,20 @@ window.tagSearchData = {
         "score": 0.8175
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.8074
+      },
+      {
         "id": "2307_09105",
         "score": 0.8008
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7982
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7921
       },
       {
         "id": "2009_10484",
@@ -79747,12 +83663,160 @@ window.tagSearchData = {
         "score": 0.6452
       },
       {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.638
+      },
+      {
         "id": "1995_spong_the_pendubot_a_mechatronic",
         "score": 0.6127
       },
       {
         "id": "1994_spong_partial_feedback_linearization_of",
         "score": 0.605
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.604
+      }
+    ],
+    "2013_goretkin_optimal_sampling_based_planning::robotics": [
+      {
+        "id": "2103_05572",
+        "score": 0.8592
+      },
+      {
+        "id": "2410_19414",
+        "score": 0.8179
+      },
+      {
+        "id": "2009_10484",
+        "score": 0.8148
+      },
+      {
+        "id": "2411_15651",
+        "score": 0.8074
+      },
+      {
+        "id": "2024_jallet_real_time_constrained_trajectory",
+        "score": 0.7939
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7888
+      },
+      {
+        "id": "2212_00541",
+        "score": 0.7806
+      },
+      {
+        "id": "2307_09105",
+        "score": 0.7727
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7633
+      },
+      {
+        "id": "1995_spong_the_swing_up_control",
+        "score": 0.7446
+      },
+      {
+        "id": "1994_spong_partial_feedback_linearization_of",
+        "score": 0.7234
+      },
+      {
+        "id": "2101_08829",
+        "score": 0.7229
+      },
+      {
+        "id": "2511_07820",
+        "score": 0.7208
+      },
+      {
+        "id": "1995_spong_the_pendubot_a_mechatronic",
+        "score": 0.6921
+      },
+      {
+        "id": "2503_14734",
+        "score": 0.6875
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6796
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.6033
+      }
+    ],
+    "2026_zhang_constrained_diffusers_for_safe::robotics": [
+      {
+        "id": "2410_19414",
+        "score": 0.8122
+      },
+      {
+        "id": "2024_jallet_real_time_constrained_trajectory",
+        "score": 0.8022
+      },
+      {
+        "id": "2411_15651",
+        "score": 0.7982
+      },
+      {
+        "id": "2103_05572",
+        "score": 0.797
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7931
+      },
+      {
+        "id": "2307_09105",
+        "score": 0.7787
+      },
+      {
+        "id": "2212_00541",
+        "score": 0.7693
+      },
+      {
+        "id": "2009_10484",
+        "score": 0.766
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7633
+      },
+      {
+        "id": "2511_07820",
+        "score": 0.7605
+      },
+      {
+        "id": "2503_14734",
+        "score": 0.754
+      },
+      {
+        "id": "2101_08829",
+        "score": 0.7303
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6614
+      },
+      {
+        "id": "1994_spong_partial_feedback_linearization_of",
+        "score": 0.6553
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.6524
+      },
+      {
+        "id": "1995_spong_the_pendubot_a_mechatronic",
+        "score": 0.6482
+      },
+      {
+        "id": "1995_spong_the_swing_up_control",
+        "score": 0.6394
       }
     ],
     "2212_00541::robotics": [
@@ -79769,8 +83833,16 @@ window.tagSearchData = {
         "score": 0.7889
       },
       {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7806
+      },
+      {
         "id": "2411_15651",
         "score": 0.7804
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7693
       },
       {
         "id": "2103_05572",
@@ -79783,6 +83855,10 @@ window.tagSearchData = {
       {
         "id": "2511_07820",
         "score": 0.7408
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7259
       },
       {
         "id": "2503_14734",
@@ -79803,6 +83879,84 @@ window.tagSearchData = {
       {
         "id": "1994_spong_partial_feedback_linearization_of",
         "score": 0.6448
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.6278
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6245
+      }
+    ],
+    "2008_takayama_beyond_dirty_dangerous_and::robotics": [
+      {
+        "id": "2410_19414",
+        "score": 0.721
+      },
+      {
+        "id": "2503_14734",
+        "score": 0.698
+      },
+      {
+        "id": "2511_07820",
+        "score": 0.663
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.6578
+      },
+      {
+        "id": "1995_spong_the_pendubot_a_mechatronic",
+        "score": 0.6529
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.6524
+      },
+      {
+        "id": "2024_jallet_real_time_constrained_trajectory",
+        "score": 0.6497
+      },
+      {
+        "id": "2009_10484",
+        "score": 0.6432
+      },
+      {
+        "id": "2103_05572",
+        "score": 0.6414
+      },
+      {
+        "id": "2212_00541",
+        "score": 0.6278
+      },
+      {
+        "id": "2101_08829",
+        "score": 0.6193
+      },
+      {
+        "id": "1995_spong_the_swing_up_control",
+        "score": 0.6042
+      },
+      {
+        "id": "2411_15651",
+        "score": 0.604
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.6033
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6033
+      },
+      {
+        "id": "2307_09105",
+        "score": 0.5841
+      },
+      {
+        "id": "1994_spong_partial_feedback_linearization_of",
+        "score": 0.5821
       }
     ],
     "2307_09105::robotics": [
@@ -79823,8 +83977,20 @@ window.tagSearchData = {
         "score": 0.78
       },
       {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7787
+      },
+      {
+        "id": "2013_goretkin_optimal_sampling_based_planning",
+        "score": 0.7727
+      },
+      {
         "id": "2009_10484",
         "score": 0.7669
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7589
       },
       {
         "id": "2103_05572",
@@ -79853,6 +84019,14 @@ window.tagSearchData = {
       {
         "id": "1994_spong_partial_feedback_linearization_of",
         "score": 0.643
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6198
+      },
+      {
+        "id": "2008_takayama_beyond_dirty_dangerous_and",
+        "score": 0.5841
       }
     ],
     "2009_10484::robot motion planning": [
@@ -81129,6 +85303,10 @@ window.tagSearchData = {
       {
         "id": "1997_scheuer_continuous_curvature_path_planning",
         "score": 0.8119
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.7249
       }
     ],
     "2004_fraichard_from_reeds_and_shepps::nonholonomic systems": [
@@ -81143,6 +85321,10 @@ window.tagSearchData = {
       {
         "id": "2000_piazzi_quintic_g2_splines_for",
         "score": 0.815
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6893
       }
     ],
     "1997_scheuer_continuous_curvature_path_planning::nonholonomic systems": [
@@ -81157,6 +85339,28 @@ window.tagSearchData = {
       {
         "id": "2000_piazzi_quintic_g2_splines_for",
         "score": 0.8119
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.7199
+      }
+    ],
+    "1994_de_wit_nonlinear_control_design_for::nonholonomic systems": [
+      {
+        "id": "2000_piazzi_quintic_g2_splines_for",
+        "score": 0.7249
+      },
+      {
+        "id": "1997_scheuer_continuous_curvature_path_planning",
+        "score": 0.7199
+      },
+      {
+        "id": "2001_nagy_trajectory_generation_for_car",
+        "score": 0.7138
+      },
+      {
+        "id": "2004_fraichard_from_reeds_and_shepps",
+        "score": 0.6893
       }
     ],
     "2001_nagy_trajectory_generation_for_car::nonholonomic systems": [
@@ -81171,6 +85375,10 @@ window.tagSearchData = {
       {
         "id": "1997_scheuer_continuous_curvature_path_planning",
         "score": 0.8542
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.7138
       }
     ],
     "2000_piazzi_quintic_g2_splines_for::differential flatness": [
@@ -81689,6 +85897,10 @@ window.tagSearchData = {
         "score": 0.7844
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7844
+      },
+      {
         "id": "2207_05844",
         "score": 0.7778
       },
@@ -81723,6 +85935,10 @@ window.tagSearchData = {
       {
         "id": "2604_24064",
         "score": 0.729
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.7165
       }
     ],
     "2017_rosmann_kinodynamic_trajectory_optimization_and::autonomous driving": [
@@ -81737,6 +85953,10 @@ window.tagSearchData = {
       {
         "id": "2409_09523",
         "score": 0.7864
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7772
       },
       {
         "id": "2024_piazza_mptree_a_sampling_based",
@@ -81809,6 +86029,10 @@ window.tagSearchData = {
       {
         "id": "2111_12083",
         "score": 0.6595
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.6505
       }
     ],
     "2017_williams_model_predictive_path_integral::autonomous driving": [
@@ -81885,6 +86109,10 @@ window.tagSearchData = {
         "score": 0.7293
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7265
+      },
+      {
         "id": "2008_urmson_autonomous_driving_in_urban",
         "score": 0.7259
       },
@@ -81895,6 +86123,10 @@ window.tagSearchData = {
       {
         "id": "1912_11676",
         "score": 0.6791
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.6545
       }
     ],
     "1912_11676::autonomous driving": [
@@ -81963,6 +86195,10 @@ window.tagSearchData = {
         "score": 0.7376
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7126
+      },
+      {
         "id": "2019_williams_model_predictive_path_integral",
         "score": 0.6937
       },
@@ -81981,6 +86217,10 @@ window.tagSearchData = {
       {
         "id": "2604_24064",
         "score": 0.6787
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.6556
       }
     ],
     "2019_williams_model_predictive_path_integral::autonomous driving": [
@@ -82019,6 +86259,10 @@ window.tagSearchData = {
       {
         "id": "2402_01443",
         "score": 0.7711
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7682
       },
       {
         "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
@@ -82067,6 +86311,10 @@ window.tagSearchData = {
       {
         "id": "1912_11676",
         "score": 0.6937
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.6855
       }
     ],
     "2503_03262::autonomous driving": [
@@ -82119,6 +86367,10 @@ window.tagSearchData = {
         "score": 0.793
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7901
+      },
+      {
         "id": "1709_07174",
         "score": 0.7901
       },
@@ -82153,6 +86405,10 @@ window.tagSearchData = {
       {
         "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
         "score": 0.7502
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.7163
       }
     ],
     "2025_hu_technically_speaking_transitioning_from::autonomous driving": [
@@ -82233,18 +86489,30 @@ window.tagSearchData = {
         "score": 0.7291
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7147
+      },
+      {
         "id": "2604_24064",
         "score": 0.7125
       },
       {
         "id": "1801_08995",
         "score": 0.6955
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.6898
       }
     ],
     "2604_24064::autonomous driving": [
       {
         "id": "1801_08995",
         "score": 0.8019
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.801
       },
       {
         "id": "2019_williams_model_predictive_path_integral",
@@ -82321,6 +86589,10 @@ window.tagSearchData = {
       {
         "id": "2111_12137",
         "score": 0.6667
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.6662
       },
       {
         "id": "2024_calem_action_and_trajectory_prediction",
@@ -82401,8 +86673,16 @@ window.tagSearchData = {
         "score": 0.7564
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7404
+      },
+      {
         "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
         "score": 0.74
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.7316
       },
       {
         "id": "1801_08995",
@@ -82475,12 +86755,20 @@ window.tagSearchData = {
         "score": 0.7474
       },
       {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.7403
+      },
+      {
         "id": "2017_williams_model_predictive_path_integral",
         "score": 0.7373
       },
       {
         "id": "2019_williams_model_predictive_path_integral",
         "score": 0.7286
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7115
       },
       {
         "id": "2018_zhang_toward_a_more_complete",
@@ -82573,6 +86861,10 @@ window.tagSearchData = {
         "score": 0.7203
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7032
+      },
+      {
         "id": "1801_08995",
         "score": 0.6919
       },
@@ -82583,6 +86875,104 @@ window.tagSearchData = {
       {
         "id": "2604_24064",
         "score": 0.6667
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.6494
+      }
+    ],
+    "2007_hoffmann_autonomous_automobile_trajectory_tracking::autonomous driving": [
+      {
+        "id": "1801_08995",
+        "score": 0.8021
+      },
+      {
+        "id": "2604_24064",
+        "score": 0.801
+      },
+      {
+        "id": "2409_09523",
+        "score": 0.7905
+      },
+      {
+        "id": "2503_03262",
+        "score": 0.7901
+      },
+      {
+        "id": "2008_urmson_autonomous_driving_in_urban",
+        "score": 0.7865
+      },
+      {
+        "id": "1709_07174",
+        "score": 0.7844
+      },
+      {
+        "id": "2303_09824",
+        "score": 0.783
+      },
+      {
+        "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
+        "score": 0.7772
+      },
+      {
+        "id": "2206_03004",
+        "score": 0.7727
+      },
+      {
+        "id": "2018_zhang_toward_a_more_complete",
+        "score": 0.7691
+      },
+      {
+        "id": "2019_williams_model_predictive_path_integral",
+        "score": 0.7682
+      },
+      {
+        "id": "2024_piazza_mptree_a_sampling_based",
+        "score": 0.7606
+      },
+      {
+        "id": "2402_01443",
+        "score": 0.7602
+      },
+      {
+        "id": "2505_09074",
+        "score": 0.7404
+      },
+      {
+        "id": "2212_06437",
+        "score": 0.7394
+      },
+      {
+        "id": "2017_williams_model_predictive_path_integral",
+        "score": 0.7265
+      },
+      {
+        "id": "2025_hu_technically_speaking_transitioning_from",
+        "score": 0.7147
+      },
+      {
+        "id": "1912_11676",
+        "score": 0.7126
+      },
+      {
+        "id": "2111_12083",
+        "score": 0.7115
+      },
+      {
+        "id": "2111_12137",
+        "score": 0.7032
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.7021
+      },
+      {
+        "id": "2024_calem_action_and_trajectory_prediction",
+        "score": 0.6938
+      },
+      {
+        "id": "2207_05844",
+        "score": 0.6791
       }
     ],
     "2024_calem_action_and_trajectory_prediction::autonomous driving": [
@@ -82663,12 +87053,20 @@ window.tagSearchData = {
         "score": 0.7105
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.6938
+      },
+      {
         "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
         "score": 0.6907
       },
       {
         "id": "2604_24064",
         "score": 0.6471
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.628
       }
     ],
     "2409_09523::autonomous driving": [
@@ -82733,6 +87131,10 @@ window.tagSearchData = {
         "score": 0.8099
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7905
+      },
+      {
         "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
         "score": 0.7864
       },
@@ -82755,6 +87157,10 @@ window.tagSearchData = {
       {
         "id": "2604_24064",
         "score": 0.73
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.6975
       }
     ],
     "2402_01443::autonomous driving": [
@@ -82819,6 +87225,10 @@ window.tagSearchData = {
         "score": 0.7625
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7602
+      },
+      {
         "id": "2111_12083",
         "score": 0.7523
       },
@@ -82841,6 +87251,10 @@ window.tagSearchData = {
       {
         "id": "2111_12137",
         "score": 0.7322
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.6617
       }
     ],
     "2024_piazza_mptree_a_sampling_based::autonomous driving": [
@@ -82917,6 +87331,10 @@ window.tagSearchData = {
         "score": 0.7622
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7606
+      },
+      {
         "id": "2024_calem_action_and_trajectory_prediction",
         "score": 0.7543
       },
@@ -82927,9 +87345,111 @@ window.tagSearchData = {
       {
         "id": "1912_11676",
         "score": 0.7376
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.6721
+      }
+    ],
+    "2013_levinson_automatic_online_calibration_of::autonomous driving": [
+      {
+        "id": "2111_12083",
+        "score": 0.7403
+      },
+      {
+        "id": "2505_09074",
+        "score": 0.7316
+      },
+      {
+        "id": "2008_urmson_autonomous_driving_in_urban",
+        "score": 0.7241
+      },
+      {
+        "id": "2303_09824",
+        "score": 0.7182
+      },
+      {
+        "id": "1709_07174",
+        "score": 0.7165
+      },
+      {
+        "id": "2503_03262",
+        "score": 0.7163
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7021
+      },
+      {
+        "id": "2409_09523",
+        "score": 0.6975
+      },
+      {
+        "id": "2025_hu_technically_speaking_transitioning_from",
+        "score": 0.6898
+      },
+      {
+        "id": "2019_williams_model_predictive_path_integral",
+        "score": 0.6855
+      },
+      {
+        "id": "2212_06437",
+        "score": 0.6763
+      },
+      {
+        "id": "2024_piazza_mptree_a_sampling_based",
+        "score": 0.6721
+      },
+      {
+        "id": "1801_08995",
+        "score": 0.6699
+      },
+      {
+        "id": "2604_24064",
+        "score": 0.6662
+      },
+      {
+        "id": "2018_zhang_toward_a_more_complete",
+        "score": 0.6653
+      },
+      {
+        "id": "2402_01443",
+        "score": 0.6617
+      },
+      {
+        "id": "1912_11676",
+        "score": 0.6556
+      },
+      {
+        "id": "2017_williams_model_predictive_path_integral",
+        "score": 0.6545
+      },
+      {
+        "id": "2206_03004",
+        "score": 0.651
+      },
+      {
+        "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
+        "score": 0.6505
+      },
+      {
+        "id": "2111_12137",
+        "score": 0.6494
+      },
+      {
+        "id": "2207_05844",
+        "score": 0.6486
+      },
+      {
+        "id": "2024_calem_action_and_trajectory_prediction",
+        "score": 0.628
       }
     ],
     "1801_08995::autonomous driving": [
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.8021
+      },
       {
         "id": "2604_24064",
         "score": 0.8019
@@ -83013,6 +87533,10 @@ window.tagSearchData = {
       {
         "id": "2111_12083",
         "score": 0.6712
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.6699
       }
     ],
     "2018_zhang_toward_a_more_complete::autonomous driving": [
@@ -83051,6 +87575,10 @@ window.tagSearchData = {
       {
         "id": "2019_williams_model_predictive_path_integral",
         "score": 0.7754
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7691
       },
       {
         "id": "2505_09074",
@@ -83099,6 +87627,10 @@ window.tagSearchData = {
       {
         "id": "2111_12083",
         "score": 0.711
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.6653
       }
     ],
     "2207_05844::autonomous driving": [
@@ -83183,8 +87715,16 @@ window.tagSearchData = {
         "score": 0.6867
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.6791
+      },
+      {
         "id": "2604_24064",
         "score": 0.6763
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.6486
       }
     ],
     "2206_03004::autonomous driving": [
@@ -83253,6 +87793,10 @@ window.tagSearchData = {
         "score": 0.7733
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7727
+      },
+      {
         "id": "2019_williams_model_predictive_path_integral",
         "score": 0.7423
       },
@@ -83271,6 +87815,10 @@ window.tagSearchData = {
       {
         "id": "2604_24064",
         "score": 0.707
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.651
       }
     ],
     "2212_06437::autonomous driving": [
@@ -83347,6 +87895,10 @@ window.tagSearchData = {
         "score": 0.7506
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7394
+      },
+      {
         "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
         "score": 0.7262
       },
@@ -83357,6 +87909,10 @@ window.tagSearchData = {
       {
         "id": "2604_24064",
         "score": 0.713
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.6763
       }
     ],
     "2008_urmson_autonomous_driving_in_urban::autonomous driving": [
@@ -83379,6 +87935,10 @@ window.tagSearchData = {
       {
         "id": "2206_03004",
         "score": 0.794
+      },
+      {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.7865
       },
       {
         "id": "2111_12083",
@@ -83435,6 +87995,10 @@ window.tagSearchData = {
       {
         "id": "2017_williams_model_predictive_path_integral",
         "score": 0.7259
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.7241
       },
       {
         "id": "1801_08995",
@@ -83515,6 +88079,10 @@ window.tagSearchData = {
         "score": 0.7924
       },
       {
+        "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
+        "score": 0.783
+      },
+      {
         "id": "2017_williams_model_predictive_path_integral",
         "score": 0.7787
       },
@@ -83529,6 +88097,10 @@ window.tagSearchData = {
       {
         "id": "2604_24064",
         "score": 0.7704
+      },
+      {
+        "id": "2013_levinson_automatic_online_calibration_of",
+        "score": 0.7182
       }
     ],
     "1709_07174::ddp": [
@@ -87241,558 +91813,6 @@ window.tagSearchData = {
         "score": 0.821
       }
     ],
-    "1711_08013::convex optimization": [
-      {
-        "id": "2013_chu_code_generation_for_embedded",
-        "score": 0.8194
-      },
-      {
-        "id": "2006_grant_disciplined_convex_programming",
-        "score": 0.7397
-      },
-      {
-        "id": "2504_18978",
-        "score": 0.7322
-      },
-      {
-        "id": "2101_11565",
-        "score": 0.7174
-      },
-      {
-        "id": "2009_verscheure_time_optimal_path_tracking",
-        "score": 0.7128
-      },
-      {
-        "id": "2205_04422",
-        "score": 0.712
-      },
-      {
-        "id": "2018_zhang_toward_a_more_complete",
-        "score": 0.7092
-      },
-      {
-        "id": "2305_01072",
-        "score": 0.6888
-      },
-      {
-        "id": "1506_01085",
-        "score": 0.6858
-      },
-      {
-        "id": "2013_lipp_minimum_time_speed_optimisation",
-        "score": 0.661
-      },
-      {
-        "id": "2009_beck_a_fast_iterative_shrinkage",
-        "score": 0.6572
-      }
-    ],
-    "2504_18978::convex optimization": [
-      {
-        "id": "2205_04422",
-        "score": 0.9109
-      },
-      {
-        "id": "1506_01085",
-        "score": 0.8678
-      },
-      {
-        "id": "2305_01072",
-        "score": 0.8532
-      },
-      {
-        "id": "2009_verscheure_time_optimal_path_tracking",
-        "score": 0.8417
-      },
-      {
-        "id": "2013_lipp_minimum_time_speed_optimisation",
-        "score": 0.8345
-      },
-      {
-        "id": "2101_11565",
-        "score": 0.8307
-      },
-      {
-        "id": "2018_zhang_toward_a_more_complete",
-        "score": 0.8237
-      },
-      {
-        "id": "2013_chu_code_generation_for_embedded",
-        "score": 0.7399
-      },
-      {
-        "id": "1711_08013",
-        "score": 0.7322
-      },
-      {
-        "id": "2006_grant_disciplined_convex_programming",
-        "score": 0.6787
-      },
-      {
-        "id": "2009_beck_a_fast_iterative_shrinkage",
-        "score": 0.6166
-      }
-    ],
-    "1506_01085::convex optimization": [
-      {
-        "id": "2504_18978",
-        "score": 0.8678
-      },
-      {
-        "id": "2205_04422",
-        "score": 0.8643
-      },
-      {
-        "id": "2018_zhang_toward_a_more_complete",
-        "score": 0.854
-      },
-      {
-        "id": "2013_lipp_minimum_time_speed_optimisation",
-        "score": 0.834
-      },
-      {
-        "id": "2009_verscheure_time_optimal_path_tracking",
-        "score": 0.8164
-      },
-      {
-        "id": "2305_01072",
-        "score": 0.8106
-      },
-      {
-        "id": "2101_11565",
-        "score": 0.7889
-      },
-      {
-        "id": "2013_chu_code_generation_for_embedded",
-        "score": 0.7093
-      },
-      {
-        "id": "1711_08013",
-        "score": 0.6858
-      },
-      {
-        "id": "2006_grant_disciplined_convex_programming",
-        "score": 0.6665
-      },
-      {
-        "id": "2009_beck_a_fast_iterative_shrinkage",
-        "score": 0.6034
-      }
-    ],
-    "2101_11565::convex optimization": [
-      {
-        "id": "2205_04422",
-        "score": 0.8666
-      },
-      {
-        "id": "2305_01072",
-        "score": 0.8352
-      },
-      {
-        "id": "2504_18978",
-        "score": 0.8307
-      },
-      {
-        "id": "1506_01085",
-        "score": 0.7889
-      },
-      {
-        "id": "2013_lipp_minimum_time_speed_optimisation",
-        "score": 0.7876
-      },
-      {
-        "id": "2018_zhang_toward_a_more_complete",
-        "score": 0.785
-      },
-      {
-        "id": "2009_verscheure_time_optimal_path_tracking",
-        "score": 0.772
-      },
-      {
-        "id": "2006_grant_disciplined_convex_programming",
-        "score": 0.7258
-      },
-      {
-        "id": "2013_chu_code_generation_for_embedded",
-        "score": 0.7241
-      },
-      {
-        "id": "1711_08013",
-        "score": 0.7174
-      },
-      {
-        "id": "2009_beck_a_fast_iterative_shrinkage",
-        "score": 0.592
-      }
-    ],
-    "2013_lipp_minimum_time_speed_optimisation::convex optimization": [
-      {
-        "id": "2018_zhang_toward_a_more_complete",
-        "score": 0.859
-      },
-      {
-        "id": "2504_18978",
-        "score": 0.8345
-      },
-      {
-        "id": "1506_01085",
-        "score": 0.834
-      },
-      {
-        "id": "2009_verscheure_time_optimal_path_tracking",
-        "score": 0.8256
-      },
-      {
-        "id": "2205_04422",
-        "score": 0.8057
-      },
-      {
-        "id": "2101_11565",
-        "score": 0.7876
-      },
-      {
-        "id": "2305_01072",
-        "score": 0.775
-      },
-      {
-        "id": "2013_chu_code_generation_for_embedded",
-        "score": 0.6975
-      },
-      {
-        "id": "1711_08013",
-        "score": 0.661
-      },
-      {
-        "id": "2006_grant_disciplined_convex_programming",
-        "score": 0.6485
-      },
-      {
-        "id": "2009_beck_a_fast_iterative_shrinkage",
-        "score": 0.5674
-      }
-    ],
-    "2013_chu_code_generation_for_embedded::convex optimization": [
-      {
-        "id": "1711_08013",
-        "score": 0.8194
-      },
-      {
-        "id": "2006_grant_disciplined_convex_programming",
-        "score": 0.7845
-      },
-      {
-        "id": "2009_verscheure_time_optimal_path_tracking",
-        "score": 0.7457
-      },
-      {
-        "id": "2504_18978",
-        "score": 0.7399
-      },
-      {
-        "id": "2205_04422",
-        "score": 0.7332
-      },
-      {
-        "id": "2018_zhang_toward_a_more_complete",
-        "score": 0.7253
-      },
-      {
-        "id": "2101_11565",
-        "score": 0.7241
-      },
-      {
-        "id": "2305_01072",
-        "score": 0.7114
-      },
-      {
-        "id": "1506_01085",
-        "score": 0.7093
-      },
-      {
-        "id": "2013_lipp_minimum_time_speed_optimisation",
-        "score": 0.6975
-      },
-      {
-        "id": "2009_beck_a_fast_iterative_shrinkage",
-        "score": 0.6436
-      }
-    ],
-    "2009_beck_a_fast_iterative_shrinkage::convex optimization": [
-      {
-        "id": "1711_08013",
-        "score": 0.6572
-      },
-      {
-        "id": "2013_chu_code_generation_for_embedded",
-        "score": 0.6436
-      },
-      {
-        "id": "2504_18978",
-        "score": 0.6166
-      },
-      {
-        "id": "2006_grant_disciplined_convex_programming",
-        "score": 0.61
-      },
-      {
-        "id": "1506_01085",
-        "score": 0.6034
-      },
-      {
-        "id": "2101_11565",
-        "score": 0.592
-      },
-      {
-        "id": "2009_verscheure_time_optimal_path_tracking",
-        "score": 0.5812
-      },
-      {
-        "id": "2305_01072",
-        "score": 0.5754
-      },
-      {
-        "id": "2018_zhang_toward_a_more_complete",
-        "score": 0.5707
-      },
-      {
-        "id": "2205_04422",
-        "score": 0.5676
-      },
-      {
-        "id": "2013_lipp_minimum_time_speed_optimisation",
-        "score": 0.5674
-      }
-    ],
-    "2009_verscheure_time_optimal_path_tracking::convex optimization": [
-      {
-        "id": "2504_18978",
-        "score": 0.8417
-      },
-      {
-        "id": "2205_04422",
-        "score": 0.8322
-      },
-      {
-        "id": "2013_lipp_minimum_time_speed_optimisation",
-        "score": 0.8256
-      },
-      {
-        "id": "1506_01085",
-        "score": 0.8164
-      },
-      {
-        "id": "2305_01072",
-        "score": 0.7968
-      },
-      {
-        "id": "2018_zhang_toward_a_more_complete",
-        "score": 0.7789
-      },
-      {
-        "id": "2101_11565",
-        "score": 0.772
-      },
-      {
-        "id": "2013_chu_code_generation_for_embedded",
-        "score": 0.7457
-      },
-      {
-        "id": "1711_08013",
-        "score": 0.7128
-      },
-      {
-        "id": "2006_grant_disciplined_convex_programming",
-        "score": 0.6798
-      },
-      {
-        "id": "2009_beck_a_fast_iterative_shrinkage",
-        "score": 0.5812
-      }
-    ],
-    "2018_zhang_toward_a_more_complete::convex optimization": [
-      {
-        "id": "2013_lipp_minimum_time_speed_optimisation",
-        "score": 0.859
-      },
-      {
-        "id": "1506_01085",
-        "score": 0.854
-      },
-      {
-        "id": "2205_04422",
-        "score": 0.8263
-      },
-      {
-        "id": "2504_18978",
-        "score": 0.8237
-      },
-      {
-        "id": "2305_01072",
-        "score": 0.7922
-      },
-      {
-        "id": "2101_11565",
-        "score": 0.785
-      },
-      {
-        "id": "2009_verscheure_time_optimal_path_tracking",
-        "score": 0.7789
-      },
-      {
-        "id": "2013_chu_code_generation_for_embedded",
-        "score": 0.7253
-      },
-      {
-        "id": "1711_08013",
-        "score": 0.7092
-      },
-      {
-        "id": "2006_grant_disciplined_convex_programming",
-        "score": 0.6769
-      },
-      {
-        "id": "2009_beck_a_fast_iterative_shrinkage",
-        "score": 0.5707
-      }
-    ],
-    "2205_04422::convex optimization": [
-      {
-        "id": "2504_18978",
-        "score": 0.9109
-      },
-      {
-        "id": "2305_01072",
-        "score": 0.8794
-      },
-      {
-        "id": "2101_11565",
-        "score": 0.8666
-      },
-      {
-        "id": "1506_01085",
-        "score": 0.8643
-      },
-      {
-        "id": "2009_verscheure_time_optimal_path_tracking",
-        "score": 0.8322
-      },
-      {
-        "id": "2018_zhang_toward_a_more_complete",
-        "score": 0.8263
-      },
-      {
-        "id": "2013_lipp_minimum_time_speed_optimisation",
-        "score": 0.8057
-      },
-      {
-        "id": "2013_chu_code_generation_for_embedded",
-        "score": 0.7332
-      },
-      {
-        "id": "1711_08013",
-        "score": 0.712
-      },
-      {
-        "id": "2006_grant_disciplined_convex_programming",
-        "score": 0.6777
-      },
-      {
-        "id": "2009_beck_a_fast_iterative_shrinkage",
-        "score": 0.5676
-      }
-    ],
-    "2305_01072::convex optimization": [
-      {
-        "id": "2205_04422",
-        "score": 0.8794
-      },
-      {
-        "id": "2504_18978",
-        "score": 0.8532
-      },
-      {
-        "id": "2101_11565",
-        "score": 0.8352
-      },
-      {
-        "id": "1506_01085",
-        "score": 0.8106
-      },
-      {
-        "id": "2009_verscheure_time_optimal_path_tracking",
-        "score": 0.7968
-      },
-      {
-        "id": "2018_zhang_toward_a_more_complete",
-        "score": 0.7922
-      },
-      {
-        "id": "2013_lipp_minimum_time_speed_optimisation",
-        "score": 0.775
-      },
-      {
-        "id": "2013_chu_code_generation_for_embedded",
-        "score": 0.7114
-      },
-      {
-        "id": "1711_08013",
-        "score": 0.6888
-      },
-      {
-        "id": "2006_grant_disciplined_convex_programming",
-        "score": 0.6507
-      },
-      {
-        "id": "2009_beck_a_fast_iterative_shrinkage",
-        "score": 0.5754
-      }
-    ],
-    "2006_grant_disciplined_convex_programming::convex optimization": [
-      {
-        "id": "2013_chu_code_generation_for_embedded",
-        "score": 0.7845
-      },
-      {
-        "id": "1711_08013",
-        "score": 0.7397
-      },
-      {
-        "id": "2101_11565",
-        "score": 0.7258
-      },
-      {
-        "id": "2009_verscheure_time_optimal_path_tracking",
-        "score": 0.6798
-      },
-      {
-        "id": "2504_18978",
-        "score": 0.6787
-      },
-      {
-        "id": "2205_04422",
-        "score": 0.6777
-      },
-      {
-        "id": "2018_zhang_toward_a_more_complete",
-        "score": 0.6769
-      },
-      {
-        "id": "1506_01085",
-        "score": 0.6665
-      },
-      {
-        "id": "2305_01072",
-        "score": 0.6507
-      },
-      {
-        "id": "2013_lipp_minimum_time_speed_optimisation",
-        "score": 0.6485
-      },
-      {
-        "id": "2009_beck_a_fast_iterative_shrinkage",
-        "score": 0.61
-      }
-    ],
     "1711_08013::embedded optimization": [
       {
         "id": "2013_chu_code_generation_for_embedded",
@@ -88805,6 +92825,10 @@ window.tagSearchData = {
     ],
     "1905_13547::policy gradient": [
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8625
+      },
+      {
         "id": "2507_02131",
         "score": 0.8481
       },
@@ -88823,6 +92847,10 @@ window.tagSearchData = {
         "score": 0.8481
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8284
+      },
+      {
         "id": "2014_silver_deterministic_policy_gradient_algorithms",
         "score": 0.7545
       },
@@ -88831,7 +92859,29 @@ window.tagSearchData = {
         "score": 0.7255
       }
     ],
+    "2021_perdomo_stabilizing_dynamical_systems_via::policy gradient": [
+      {
+        "id": "1905_13547",
+        "score": 0.8625
+      },
+      {
+        "id": "2507_02131",
+        "score": 0.8284
+      },
+      {
+        "id": "2014_silver_deterministic_policy_gradient_algorithms",
+        "score": 0.8283
+      },
+      {
+        "id": "2001_kakade_a_natural_policy_gradient",
+        "score": 0.7692
+      }
+    ],
     "2014_silver_deterministic_policy_gradient_algorithms::policy gradient": [
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8283
+      },
       {
         "id": "2001_kakade_a_natural_policy_gradient",
         "score": 0.8232
@@ -88853,6 +92903,10 @@ window.tagSearchData = {
       {
         "id": "1905_13547",
         "score": 0.7736
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7692
       },
       {
         "id": "2507_02131",
@@ -88925,6 +92979,18 @@ window.tagSearchData = {
       {
         "id": "1905_13547",
         "score": 0.7202
+      }
+    ],
+    "1905_13547::global convergence": [
+      {
+        "id": "2014_ueda_a_regularized_newton_method",
+        "score": 0.6758
+      }
+    ],
+    "2014_ueda_a_regularized_newton_method::global convergence": [
+      {
+        "id": "1905_13547",
+        "score": 0.6758
       }
     ],
     "1902_06583::hyperparameter optimization": [
@@ -89125,6 +93191,18 @@ window.tagSearchData = {
       {
         "id": "1912_05686",
         "score": 0.8205
+      }
+    ],
+    "2019_wainwright_high_dimensional_statistics::statistics": [
+      {
+        "id": "1991_bertsekas_an_analysis_of_stochastic",
+        "score": 0.598
+      }
+    ],
+    "1991_bertsekas_an_analysis_of_stochastic::statistics": [
+      {
+        "id": "2019_wainwright_high_dimensional_statistics",
+        "score": 0.598
       }
     ],
     "1912_11676::motion prediction": [
@@ -89633,6 +93711,10 @@ window.tagSearchData = {
     ],
     "1903_04100::optimization": [
       {
+        "id": "1992_nocedal_theory_of_algorithms_for",
+        "score": 0.7278
+      },
+      {
         "id": "1847_cauchy_methode_generale_pour_la",
         "score": 0.712
       },
@@ -89675,6 +93757,10 @@ window.tagSearchData = {
         "score": 0.6265
       },
       {
+        "id": "1992_nocedal_theory_of_algorithms_for",
+        "score": 0.6255
+      },
+      {
         "id": "1903_04100",
         "score": 0.6106
       },
@@ -89692,6 +93778,10 @@ window.tagSearchData = {
       }
     ],
     "1506_01085::optimization": [
+      {
+        "id": "1992_nocedal_theory_of_algorithms_for",
+        "score": 0.6963
+      },
       {
         "id": "1903_04100",
         "score": 0.6791
@@ -89727,6 +93817,10 @@ window.tagSearchData = {
         "score": 0.7159
       },
       {
+        "id": "1992_nocedal_theory_of_algorithms_for",
+        "score": 0.711
+      },
+      {
         "id": "2004_lofberg_yalmip_a_toolbox_for",
         "score": 0.6917
       },
@@ -89752,6 +93846,10 @@ window.tagSearchData = {
       }
     ],
     "2004_lofberg_yalmip_a_toolbox_for::optimization": [
+      {
+        "id": "1992_nocedal_theory_of_algorithms_for",
+        "score": 0.7383
+      },
       {
         "id": "1989_griewank_on_automatic_differentiation",
         "score": 0.6917
@@ -89787,6 +93885,10 @@ window.tagSearchData = {
         "score": 0.9015
       },
       {
+        "id": "1992_nocedal_theory_of_algorithms_for",
+        "score": 0.6752
+      },
+      {
         "id": "2004_lofberg_yalmip_a_toolbox_for",
         "score": 0.6679
       },
@@ -89812,6 +93914,10 @@ window.tagSearchData = {
       }
     ],
     "1847_cauchy_methode_generale_pour_la::optimization": [
+      {
+        "id": "1992_nocedal_theory_of_algorithms_for",
+        "score": 0.7558
+      },
       {
         "id": "1989_griewank_on_automatic_differentiation",
         "score": 0.7159
@@ -89843,6 +93949,10 @@ window.tagSearchData = {
     ],
     "1991_davidon_variable_metric_method_for::optimization": [
       {
+        "id": "1992_nocedal_theory_of_algorithms_for",
+        "score": 0.6998
+      },
+      {
         "id": "1847_cauchy_methode_generale_pour_la",
         "score": 0.6689
       },
@@ -89869,6 +93979,40 @@ window.tagSearchData = {
       {
         "id": "1988_komiya_elementary_proof_for_sions",
         "score": 0.5777
+      }
+    ],
+    "1992_nocedal_theory_of_algorithms_for::optimization": [
+      {
+        "id": "1847_cauchy_methode_generale_pour_la",
+        "score": 0.7558
+      },
+      {
+        "id": "2004_lofberg_yalmip_a_toolbox_for",
+        "score": 0.7383
+      },
+      {
+        "id": "1903_04100",
+        "score": 0.7278
+      },
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.711
+      },
+      {
+        "id": "1991_davidon_variable_metric_method_for",
+        "score": 0.6998
+      },
+      {
+        "id": "1506_01085",
+        "score": 0.6963
+      },
+      {
+        "id": "1958_sion_on_general_minimax_theorems",
+        "score": 0.6752
+      },
+      {
+        "id": "1988_komiya_elementary_proof_for_sions",
+        "score": 0.6255
       }
     ],
     "2019_zhang_inverse_optimal_control_for::inverse optimal control": [
@@ -89939,6 +94083,10 @@ window.tagSearchData = {
     ],
     "1988_mayne_receding_horizon_control_of::nonlinear systems": [
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7409
+      },
+      {
         "id": "2103_05572",
         "score": 0.7281
       },
@@ -89969,6 +94117,10 @@ window.tagSearchData = {
         "score": 0.8141
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7585
+      },
+      {
         "id": "1988_mayne_receding_horizon_control_of",
         "score": 0.7201
       },
@@ -89995,12 +94147,42 @@ window.tagSearchData = {
         "score": 0.7805
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7729
+      },
+      {
         "id": "1988_mayne_receding_horizon_control_of",
         "score": 0.7281
       },
       {
         "id": "1408_4408",
         "score": 0.6459
+      }
+    ],
+    "2021_perdomo_stabilizing_dynamical_systems_via::nonlinear systems": [
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.8522
+      },
+      {
+        "id": "2412_11270",
+        "score": 0.7975
+      },
+      {
+        "id": "2103_05572",
+        "score": 0.7729
+      },
+      {
+        "id": "1975_gustafson_design_of_linear_regulators",
+        "score": 0.7585
+      },
+      {
+        "id": "1988_mayne_receding_horizon_control_of",
+        "score": 0.7409
+      },
+      {
+        "id": "1408_4408",
+        "score": 0.7011
       }
     ],
     "1408_4408::nonlinear systems": [
@@ -90017,6 +94199,10 @@ window.tagSearchData = {
         "score": 0.7028
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7011
+      },
+      {
         "id": "1988_mayne_receding_horizon_control_of",
         "score": 0.659
       },
@@ -90029,6 +94215,10 @@ window.tagSearchData = {
       {
         "id": "2022_gravell_data_driven_control_and",
         "score": 0.8084
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7975
       },
       {
         "id": "2103_05572",
@@ -90048,6 +94238,10 @@ window.tagSearchData = {
       }
     ],
     "2022_gravell_data_driven_control_and::nonlinear systems": [
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8522
+      },
       {
         "id": "2103_05572",
         "score": 0.8447
@@ -90447,11 +94641,19 @@ window.tagSearchData = {
         "score": 0.8821
       },
       {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7952
+      },
+      {
         "id": "2409_16012",
         "score": 0.7554
       }
     ],
     "2409_16012::diffusion models": [
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.8174
+      },
       {
         "id": "2303_04137",
         "score": 0.7746
@@ -90461,10 +94663,28 @@ window.tagSearchData = {
         "score": 0.7554
       }
     ],
+    "2026_zhang_constrained_diffusers_for_safe::diffusion models": [
+      {
+        "id": "2303_04137",
+        "score": 0.8281
+      },
+      {
+        "id": "2409_16012",
+        "score": 0.8174
+      },
+      {
+        "id": "2505_21851",
+        "score": 0.7952
+      }
+    ],
     "2303_04137::diffusion models": [
       {
         "id": "2505_21851",
         "score": 0.8821
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.8281
       },
       {
         "id": "2409_16012",
@@ -90705,6 +94925,96 @@ window.tagSearchData = {
       {
         "id": "1506_01085",
         "score": 0.5732
+      }
+    ],
+    "2025_gabrielsson_a_foundation_model_for::foundation models": [
+      {
+        "id": "2026_gabrielsson_large_behavioral_models_a",
+        "score": 0.867
+      },
+      {
+        "id": "2025_gabrielsson_behaviorgpt_at_work_a",
+        "score": 0.8579
+      },
+      {
+        "id": "2025_gabrielsson_behaviorgpt_for_visual_art",
+        "score": 0.7904
+      },
+      {
+        "id": "2506_09985",
+        "score": 0.6416
+      }
+    ],
+    "2506_09985::foundation models": [
+      {
+        "id": "2025_gabrielsson_behaviorgpt_for_visual_art",
+        "score": 0.6786
+      },
+      {
+        "id": "2025_gabrielsson_behaviorgpt_at_work_a",
+        "score": 0.672
+      },
+      {
+        "id": "2026_gabrielsson_large_behavioral_models_a",
+        "score": 0.6665
+      },
+      {
+        "id": "2025_gabrielsson_a_foundation_model_for",
+        "score": 0.6416
+      }
+    ],
+    "2025_gabrielsson_behaviorgpt_for_visual_art::foundation models": [
+      {
+        "id": "2025_gabrielsson_behaviorgpt_at_work_a",
+        "score": 0.8102
+      },
+      {
+        "id": "2026_gabrielsson_large_behavioral_models_a",
+        "score": 0.8001
+      },
+      {
+        "id": "2025_gabrielsson_a_foundation_model_for",
+        "score": 0.7904
+      },
+      {
+        "id": "2506_09985",
+        "score": 0.6786
+      }
+    ],
+    "2025_gabrielsson_behaviorgpt_at_work_a::foundation models": [
+      {
+        "id": "2026_gabrielsson_large_behavioral_models_a",
+        "score": 0.8818
+      },
+      {
+        "id": "2025_gabrielsson_a_foundation_model_for",
+        "score": 0.8579
+      },
+      {
+        "id": "2025_gabrielsson_behaviorgpt_for_visual_art",
+        "score": 0.8102
+      },
+      {
+        "id": "2506_09985",
+        "score": 0.672
+      }
+    ],
+    "2026_gabrielsson_large_behavioral_models_a::foundation models": [
+      {
+        "id": "2025_gabrielsson_behaviorgpt_at_work_a",
+        "score": 0.8818
+      },
+      {
+        "id": "2025_gabrielsson_a_foundation_model_for",
+        "score": 0.867
+      },
+      {
+        "id": "2025_gabrielsson_behaviorgpt_for_visual_art",
+        "score": 0.8001
+      },
+      {
+        "id": "2506_09985",
+        "score": 0.6665
       }
     ],
     "2501_05204::animation": [
@@ -92335,6 +96645,10 @@ window.tagSearchData = {
         "score": 0.7144
       },
       {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6946
+      },
+      {
         "id": "2004_li_iterative_linear_quadratic_regulator",
         "score": 0.689
       },
@@ -92393,6 +96707,10 @@ window.tagSearchData = {
         "score": 0.6884
       },
       {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6873
+      },
+      {
         "id": "2207_06362",
         "score": 0.6838
       },
@@ -92439,6 +96757,10 @@ window.tagSearchData = {
         "score": 0.689
       },
       {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6868
+      },
+      {
         "id": "1983_artstein_stabilization_with_relaxed_controls",
         "score": 0.6821
       },
@@ -92467,6 +96789,10 @@ window.tagSearchData = {
       {
         "id": "2012_tassa_synthesis_and_stabilization_of",
         "score": 0.7031
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.7004
       },
       {
         "id": "2207_06362",
@@ -92529,6 +96855,10 @@ window.tagSearchData = {
       {
         "id": "1991_lin_a_universal_formula_for",
         "score": 0.6863
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6847
       }
     ],
     "1991_lin_a_universal_formula_for::nonlinear control": [
@@ -92569,8 +96899,58 @@ window.tagSearchData = {
         "score": 0.6698
       },
       {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6694
+      },
+      {
         "id": "1995_spong_the_pendubot_a_mechatronic",
         "score": 0.634
+      }
+    ],
+    "1994_de_wit_nonlinear_control_design_for::nonlinear control": [
+      {
+        "id": "1994_spong_partial_feedback_linearization_of",
+        "score": 0.7226
+      },
+      {
+        "id": "1983_artstein_stabilization_with_relaxed_controls",
+        "score": 0.7004
+      },
+      {
+        "id": "1995_spong_the_pendubot_a_mechatronic",
+        "score": 0.6946
+      },
+      {
+        "id": "1995_spong_the_swing_up_control",
+        "score": 0.6873
+      },
+      {
+        "id": "2004_li_iterative_linear_quadratic_regulator",
+        "score": 0.6868
+      },
+      {
+        "id": "2012_tassa_synthesis_and_stabilization_of",
+        "score": 0.6847
+      },
+      {
+        "id": "2207_06362",
+        "score": 0.6803
+      },
+      {
+        "id": "2204_02322",
+        "score": 0.6704
+      },
+      {
+        "id": "1991_lin_a_universal_formula_for",
+        "score": 0.6694
+      },
+      {
+        "id": "2305_09619",
+        "score": 0.6635
+      },
+      {
+        "id": "2005_todorov_a_generalized_iterative_lqg",
+        "score": 0.6555
       }
     ],
     "1994_spong_partial_feedback_linearization_of::nonlinear control": [
@@ -92593,6 +96973,10 @@ window.tagSearchData = {
       {
         "id": "2005_todorov_a_generalized_iterative_lqg",
         "score": 0.7236
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.7226
       },
       {
         "id": "1983_artstein_stabilization_with_relaxed_controls",
@@ -92653,6 +97037,10 @@ window.tagSearchData = {
         "score": 0.6937
       },
       {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6704
+      },
+      {
         "id": "1995_spong_the_pendubot_a_mechatronic",
         "score": 0.6523
       }
@@ -92693,6 +97081,10 @@ window.tagSearchData = {
       {
         "id": "1991_lin_a_universal_formula_for",
         "score": 0.6805
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6803
       },
       {
         "id": "1995_spong_the_pendubot_a_mechatronic",
@@ -92739,6 +97131,10 @@ window.tagSearchData = {
       {
         "id": "1995_spong_the_pendubot_a_mechatronic",
         "score": 0.6725
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6555
       }
     ],
     "2305_09619::nonlinear control": [
@@ -92777,6 +97173,10 @@ window.tagSearchData = {
       {
         "id": "1995_spong_the_swing_up_control",
         "score": 0.6724
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6635
       },
       {
         "id": "1995_spong_the_pendubot_a_mechatronic",
@@ -92851,312 +97251,6 @@ window.tagSearchData = {
         "score": 0.8541
       }
     ],
-    "1975_gustafson_design_of_linear_regulators::stochastic control": [
-      {
-        "id": "1967_wonham_optimal_stationary_control_of",
-        "score": 0.8825
-      },
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.874
-      },
-      {
-        "id": "1971_haussmann_optimal_stationary_control_with",
-        "score": 0.8545
-      },
-      {
-        "id": "1968_wonham_on_the_separation_theorem",
-        "score": 0.851
-      },
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.8334
-      },
-      {
-        "id": "1960_kalman_a_new_approach_to",
-        "score": 0.8158
-      },
-      {
-        "id": "2001_damm_newtons_method_for_a",
-        "score": 0.797
-      },
-      {
-        "id": "1965_bogdanoff_experiments_with_an_inverted",
-        "score": 0.7597
-      }
-    ],
-    "1970_mclane_the_optimal_regulator_problem::stochastic control": [
-      {
-        "id": "1971_haussmann_optimal_stationary_control_with",
-        "score": 0.9297
-      },
-      {
-        "id": "1967_wonham_optimal_stationary_control_of",
-        "score": 0.9207
-      },
-      {
-        "id": "1975_gustafson_design_of_linear_regulators",
-        "score": 0.874
-      },
-      {
-        "id": "1968_wonham_on_the_separation_theorem",
-        "score": 0.8467
-      },
-      {
-        "id": "1960_kalman_a_new_approach_to",
-        "score": 0.8234
-      },
-      {
-        "id": "2001_damm_newtons_method_for_a",
-        "score": 0.7859
-      },
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.7831
-      },
-      {
-        "id": "1965_bogdanoff_experiments_with_an_inverted",
-        "score": 0.7173
-      }
-    ],
-    "1968_wonham_on_the_separation_theorem::stochastic control": [
-      {
-        "id": "1967_wonham_optimal_stationary_control_of",
-        "score": 0.8697
-      },
-      {
-        "id": "1975_gustafson_design_of_linear_regulators",
-        "score": 0.851
-      },
-      {
-        "id": "1971_haussmann_optimal_stationary_control_with",
-        "score": 0.8509
-      },
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.8467
-      },
-      {
-        "id": "1960_kalman_a_new_approach_to",
-        "score": 0.8311
-      },
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.7646
-      },
-      {
-        "id": "2001_damm_newtons_method_for_a",
-        "score": 0.7624
-      },
-      {
-        "id": "1965_bogdanoff_experiments_with_an_inverted",
-        "score": 0.6765
-      }
-    ],
-    "1971_haussmann_optimal_stationary_control_with::stochastic control": [
-      {
-        "id": "1967_wonham_optimal_stationary_control_of",
-        "score": 0.9402
-      },
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.9297
-      },
-      {
-        "id": "1975_gustafson_design_of_linear_regulators",
-        "score": 0.8545
-      },
-      {
-        "id": "1968_wonham_on_the_separation_theorem",
-        "score": 0.8509
-      },
-      {
-        "id": "1960_kalman_a_new_approach_to",
-        "score": 0.8143
-      },
-      {
-        "id": "2001_damm_newtons_method_for_a",
-        "score": 0.769
-      },
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.736
-      },
-      {
-        "id": "1965_bogdanoff_experiments_with_an_inverted",
-        "score": 0.6942
-      }
-    ],
-    "1967_wonham_optimal_stationary_control_of::stochastic control": [
-      {
-        "id": "1971_haussmann_optimal_stationary_control_with",
-        "score": 0.9402
-      },
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.9207
-      },
-      {
-        "id": "1975_gustafson_design_of_linear_regulators",
-        "score": 0.8825
-      },
-      {
-        "id": "1968_wonham_on_the_separation_theorem",
-        "score": 0.8697
-      },
-      {
-        "id": "1960_kalman_a_new_approach_to",
-        "score": 0.8463
-      },
-      {
-        "id": "2001_damm_newtons_method_for_a",
-        "score": 0.8036
-      },
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.7714
-      },
-      {
-        "id": "1965_bogdanoff_experiments_with_an_inverted",
-        "score": 0.7361
-      }
-    ],
-    "2001_damm_newtons_method_for_a::stochastic control": [
-      {
-        "id": "1967_wonham_optimal_stationary_control_of",
-        "score": 0.8036
-      },
-      {
-        "id": "1975_gustafson_design_of_linear_regulators",
-        "score": 0.797
-      },
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.7859
-      },
-      {
-        "id": "1971_haussmann_optimal_stationary_control_with",
-        "score": 0.769
-      },
-      {
-        "id": "1968_wonham_on_the_separation_theorem",
-        "score": 0.7624
-      },
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.7546
-      },
-      {
-        "id": "1960_kalman_a_new_approach_to",
-        "score": 0.7452
-      },
-      {
-        "id": "1965_bogdanoff_experiments_with_an_inverted",
-        "score": 0.6908
-      }
-    ],
-    "1965_bogdanoff_experiments_with_an_inverted::stochastic control": [
-      {
-        "id": "1975_gustafson_design_of_linear_regulators",
-        "score": 0.7597
-      },
-      {
-        "id": "1967_wonham_optimal_stationary_control_of",
-        "score": 0.7361
-      },
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.7173
-      },
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.7075
-      },
-      {
-        "id": "1971_haussmann_optimal_stationary_control_with",
-        "score": 0.6942
-      },
-      {
-        "id": "2001_damm_newtons_method_for_a",
-        "score": 0.6908
-      },
-      {
-        "id": "1968_wonham_on_the_separation_theorem",
-        "score": 0.6765
-      },
-      {
-        "id": "1960_kalman_a_new_approach_to",
-        "score": 0.6689
-      }
-    ],
-    "1960_kalman_a_new_approach_to::stochastic control": [
-      {
-        "id": "1967_wonham_optimal_stationary_control_of",
-        "score": 0.8463
-      },
-      {
-        "id": "1968_wonham_on_the_separation_theorem",
-        "score": 0.8311
-      },
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.8234
-      },
-      {
-        "id": "1975_gustafson_design_of_linear_regulators",
-        "score": 0.8158
-      },
-      {
-        "id": "1971_haussmann_optimal_stationary_control_with",
-        "score": 0.8143
-      },
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.7647
-      },
-      {
-        "id": "2001_damm_newtons_method_for_a",
-        "score": 0.7452
-      },
-      {
-        "id": "1965_bogdanoff_experiments_with_an_inverted",
-        "score": 0.6689
-      }
-    ],
-    "2022_gravell_data_driven_control_and::stochastic control": [
-      {
-        "id": "1975_gustafson_design_of_linear_regulators",
-        "score": 0.8334
-      },
-      {
-        "id": "1970_mclane_the_optimal_regulator_problem",
-        "score": 0.7831
-      },
-      {
-        "id": "1967_wonham_optimal_stationary_control_of",
-        "score": 0.7714
-      },
-      {
-        "id": "1960_kalman_a_new_approach_to",
-        "score": 0.7647
-      },
-      {
-        "id": "1968_wonham_on_the_separation_theorem",
-        "score": 0.7646
-      },
-      {
-        "id": "2001_damm_newtons_method_for_a",
-        "score": 0.7546
-      },
-      {
-        "id": "1971_haussmann_optimal_stationary_control_with",
-        "score": 0.736
-      },
-      {
-        "id": "1965_bogdanoff_experiments_with_an_inverted",
-        "score": 0.7075
-      }
-    ],
     "1972_ikeda_stabilization_of_linear_systems::stabilization": [
       {
         "id": "1983_artstein_stabilization_with_relaxed_controls",
@@ -93167,8 +97261,30 @@ window.tagSearchData = {
         "score": 0.7483
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7293
+      },
+      {
         "id": "2012_tassa_synthesis_and_stabilization_of",
         "score": 0.6852
+      }
+    ],
+    "2021_perdomo_stabilizing_dynamical_systems_via::stabilization": [
+      {
+        "id": "2012_tassa_synthesis_and_stabilization_of",
+        "score": 0.7983
+      },
+      {
+        "id": "1983_artstein_stabilization_with_relaxed_controls",
+        "score": 0.7536
+      },
+      {
+        "id": "1991_lin_a_universal_formula_for",
+        "score": 0.7436
+      },
+      {
+        "id": "1972_ikeda_stabilization_of_linear_systems",
+        "score": 0.7293
       }
     ],
     "1983_artstein_stabilization_with_relaxed_controls::stabilization": [
@@ -93181,11 +97297,19 @@ window.tagSearchData = {
         "score": 0.7916
       },
       {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7536
+      },
+      {
         "id": "2012_tassa_synthesis_and_stabilization_of",
         "score": 0.7031
       }
     ],
     "2012_tassa_synthesis_and_stabilization_of::stabilization": [
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7983
+      },
       {
         "id": "1983_artstein_stabilization_with_relaxed_controls",
         "score": 0.7031
@@ -93207,6 +97331,10 @@ window.tagSearchData = {
       {
         "id": "1972_ikeda_stabilization_of_linear_systems",
         "score": 0.7483
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7436
       },
       {
         "id": "2012_tassa_synthesis_and_stabilization_of",
@@ -93455,12 +97583,30 @@ window.tagSearchData = {
     ],
     "1966_armijo_minimization_of_functions_having::unconstrained optimization": [
       {
+        "id": "2014_ueda_a_regularized_newton_method",
+        "score": 0.8031
+      },
+      {
         "id": "1964_powell_an_efficient_method_for",
         "score": 0.7911
       },
       {
         "id": "1991_davidon_variable_metric_method_for",
         "score": 0.7122
+      }
+    ],
+    "2014_ueda_a_regularized_newton_method::unconstrained optimization": [
+      {
+        "id": "1966_armijo_minimization_of_functions_having",
+        "score": 0.8031
+      },
+      {
+        "id": "1964_powell_an_efficient_method_for",
+        "score": 0.7756
+      },
+      {
+        "id": "1991_davidon_variable_metric_method_for",
+        "score": 0.7015
       }
     ],
     "1991_davidon_variable_metric_method_for::unconstrained optimization": [
@@ -93471,12 +97617,20 @@ window.tagSearchData = {
       {
         "id": "1966_armijo_minimization_of_functions_having",
         "score": 0.7122
+      },
+      {
+        "id": "2014_ueda_a_regularized_newton_method",
+        "score": 0.7015
       }
     ],
     "1964_powell_an_efficient_method_for::unconstrained optimization": [
       {
         "id": "1966_armijo_minimization_of_functions_having",
         "score": 0.7911
+      },
+      {
+        "id": "2014_ueda_a_regularized_newton_method",
+        "score": 0.7756
       },
       {
         "id": "1991_davidon_variable_metric_method_for",
@@ -93795,72 +97949,46 @@ window.tagSearchData = {
         "score": 0.6628
       }
     ],
+    "2103_05572::tracking control": [
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.7314
+      }
+    ],
+    "1994_de_wit_nonlinear_control_design_for::tracking control": [
+      {
+        "id": "2103_05572",
+        "score": 0.7314
+      }
+    ],
     "2103_05572::safe planning": [
       {
         "id": "2022_gravell_data_driven_control_and",
         "score": 0.8447
+      },
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.797
+      }
+    ],
+    "2026_zhang_constrained_diffusers_for_safe::safe planning": [
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.8062
+      },
+      {
+        "id": "2103_05572",
+        "score": 0.797
       }
     ],
     "2022_gravell_data_driven_control_and::safe planning": [
       {
         "id": "2103_05572",
         "score": 0.8447
-      }
-    ],
-    "2021_gravell_policy_iteration_for_linear::control theory": [
-      {
-        "id": "2021_gravell_stochastic_stability_via_robustness",
-        "score": 0.8395
       },
       {
-        "id": "2004_lofberg_yalmip_a_toolbox_for",
-        "score": 0.7236
-      },
-      {
-        "id": "2004_aguiar_path_following_or_reference",
-        "score": 0.667
-      }
-    ],
-    "2021_gravell_stochastic_stability_via_robustness::control theory": [
-      {
-        "id": "2021_gravell_policy_iteration_for_linear",
-        "score": 0.8395
-      },
-      {
-        "id": "2004_lofberg_yalmip_a_toolbox_for",
-        "score": 0.727
-      },
-      {
-        "id": "2004_aguiar_path_following_or_reference",
-        "score": 0.6879
-      }
-    ],
-    "2004_aguiar_path_following_or_reference::control theory": [
-      {
-        "id": "2021_gravell_stochastic_stability_via_robustness",
-        "score": 0.6879
-      },
-      {
-        "id": "2021_gravell_policy_iteration_for_linear",
-        "score": 0.667
-      },
-      {
-        "id": "2004_lofberg_yalmip_a_toolbox_for",
-        "score": 0.6559
-      }
-    ],
-    "2004_lofberg_yalmip_a_toolbox_for::control theory": [
-      {
-        "id": "2021_gravell_stochastic_stability_via_robustness",
-        "score": 0.727
-      },
-      {
-        "id": "2021_gravell_policy_iteration_for_linear",
-        "score": 0.7236
-      },
-      {
-        "id": "2004_aguiar_path_following_or_reference",
-        "score": 0.6559
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.8062
       }
     ],
     "2021_gravell_policy_iteration_for_linear::algebraic riccati equation": [
@@ -94223,6 +98351,66 @@ window.tagSearchData = {
       {
         "id": "2021_gravell_stochastic_stability_via_robustness",
         "score": 0.6247
+      }
+    ],
+    "2021_perdomo_stabilizing_dynamical_systems_via::dynamical systems": [
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.8522
+      },
+      {
+        "id": "2412_11270",
+        "score": 0.7975
+      }
+    ],
+    "2412_11270::dynamical systems": [
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.8084
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7975
+      }
+    ],
+    "2022_gravell_data_driven_control_and::dynamical systems": [
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8522
+      },
+      {
+        "id": "2412_11270",
+        "score": 0.8084
+      }
+    ],
+    "2021_perdomo_stabilizing_dynamical_systems_via::model-free control": [
+      {
+        "id": "2014_silver_deterministic_policy_gradient_algorithms",
+        "score": 0.8283
+      },
+      {
+        "id": "2003_lagoudakis_least_squares_policy_iteration",
+        "score": 0.8199
+      }
+    ],
+    "2014_silver_deterministic_policy_gradient_algorithms::model-free control": [
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8283
+      },
+      {
+        "id": "2003_lagoudakis_least_squares_policy_iteration",
+        "score": 0.7857
+      }
+    ],
+    "2003_lagoudakis_least_squares_policy_iteration::model-free control": [
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8199
+      },
+      {
+        "id": "2014_silver_deterministic_policy_gradient_algorithms",
+        "score": 0.7857
       }
     ],
     "2101_11565::mixed-integer programming": [
@@ -94769,6 +98957,10 @@ window.tagSearchData = {
       {
         "id": "2013_palamakumbura_minimum_jerk_trajectory_generation",
         "score": 0.6972
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6722
       }
     ],
     "1993_quinlan_elastic_bands_connecting_path::mobile robots": [
@@ -94783,9 +98975,35 @@ window.tagSearchData = {
       {
         "id": "2013_palamakumbura_minimum_jerk_trajectory_generation",
         "score": 0.6779
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.6586
+      }
+    ],
+    "1994_de_wit_nonlinear_control_design_for::mobile robots": [
+      {
+        "id": "2013_palamakumbura_minimum_jerk_trajectory_generation",
+        "score": 0.7796
+      },
+      {
+        "id": "2022_honig_benchmarking_sampling_search_and",
+        "score": 0.7031
+      },
+      {
+        "id": "1985_khatib_real_time_obstacle_avoidance",
+        "score": 0.6722
+      },
+      {
+        "id": "1993_quinlan_elastic_bands_connecting_path",
+        "score": 0.6586
       }
     ],
     "2013_palamakumbura_minimum_jerk_trajectory_generation::mobile robots": [
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.7796
+      },
       {
         "id": "2022_honig_benchmarking_sampling_search_and",
         "score": 0.7671
@@ -94807,6 +99025,10 @@ window.tagSearchData = {
       {
         "id": "1985_khatib_real_time_obstacle_avoidance",
         "score": 0.7408
+      },
+      {
+        "id": "1994_de_wit_nonlinear_control_design_for",
+        "score": 0.7031
       },
       {
         "id": "1993_quinlan_elastic_bands_connecting_path",
@@ -94999,18 +99221,6 @@ window.tagSearchData = {
         "score": 0.671
       }
     ],
-    "2014_silver_deterministic_policy_gradient_algorithms::model-free control": [
-      {
-        "id": "2003_lagoudakis_least_squares_policy_iteration",
-        "score": 0.7857
-      }
-    ],
-    "2003_lagoudakis_least_squares_policy_iteration::model-free control": [
-      {
-        "id": "2014_silver_deterministic_policy_gradient_algorithms",
-        "score": 0.7857
-      }
-    ],
     "2014_fan_cuckoo_filter_practically_better::probabilistic data structures": [
       {
         "id": "2007_flajolet_hyperloglog_the_analysis_of",
@@ -95055,6 +99265,10 @@ window.tagSearchData = {
       {
         "id": "1997_wegenkittl_animating_flow_fields_rendering",
         "score": 0.6299
+      },
+      {
+        "id": "1973_e_an_optimum_method_for",
+        "score": 0.5682
       }
     ],
     "1987_reynolds_flocks_herds_and_schools::computer graphics": [
@@ -95065,9 +99279,17 @@ window.tagSearchData = {
       {
         "id": "1997_wegenkittl_animating_flow_fields_rendering",
         "score": 0.5959
+      },
+      {
+        "id": "1973_e_an_optimum_method_for",
+        "score": 0.5016
       }
     ],
     "1997_wegenkittl_animating_flow_fields_rendering::computer graphics": [
+      {
+        "id": "1973_e_an_optimum_method_for",
+        "score": 0.6788
+      },
       {
         "id": "1978_catmull_recursively_generated_b_spline",
         "score": 0.6299
@@ -95075,6 +99297,20 @@ window.tagSearchData = {
       {
         "id": "1987_reynolds_flocks_herds_and_schools",
         "score": 0.5959
+      }
+    ],
+    "1973_e_an_optimum_method_for::computer graphics": [
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering",
+        "score": 0.6788
+      },
+      {
+        "id": "1978_catmull_recursively_generated_b_spline",
+        "score": 0.5682
+      },
+      {
+        "id": "1987_reynolds_flocks_herds_and_schools",
+        "score": 0.5016
       }
     ],
     "1997_hsu_path_planning_in_expansive::configuration space": [
@@ -95339,6 +99575,18 @@ window.tagSearchData = {
         "score": 0.6979
       }
     ],
+    "1994_purgathofer_forced_random_dithering_improved::ordered dithering": [
+      {
+        "id": "1973_e_an_optimum_method_for",
+        "score": 0.8251
+      }
+    ],
+    "1973_e_an_optimum_method_for::ordered dithering": [
+      {
+        "id": "1994_purgathofer_forced_random_dithering_improved",
+        "score": 0.8251
+      }
+    ],
     "2411_11833::robot manipulation": [
       {
         "id": "2310_17274",
@@ -95375,6 +99623,18 @@ window.tagSearchData = {
         "score": 0.7949
       }
     ],
+    "2403_11763::control barrier functions": [
+      {
+        "id": "2026_zhang_constrained_diffusers_for_safe",
+        "score": 0.7354
+      }
+    ],
+    "2026_zhang_constrained_diffusers_for_safe::control barrier functions": [
+      {
+        "id": "2403_11763",
+        "score": 0.7354
+      }
+    ],
     "2412_11270::monte carlo tree search": [
       {
         "id": "2411_15651",
@@ -95385,18 +99645,6 @@ window.tagSearchData = {
       {
         "id": "2412_11270",
         "score": 0.8815
-      }
-    ],
-    "2412_11270::dynamical systems": [
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.8084
-      }
-    ],
-    "2022_gravell_data_driven_control_and::dynamical systems": [
-      {
-        "id": "2412_11270",
-        "score": 0.8084
       }
     ],
     "2412_11270::mdp": [
@@ -95994,6 +100242,11 @@ window.tagSearchData = {
     "1955_kuhn_the_hungarian_method_for::operations research": [],
     "1984_breiman_classification_and_regression_trees::cart": [],
     "1984_breiman_classification_and_regression_trees::binary splitting": [],
+    "1984_knott_on_the_optimal_mapping::optimal transport": [],
+    "1984_knott_on_the_optimal_mapping::distribution theory": [],
+    "1984_knott_on_the_optimal_mapping::couplings": [],
+    "1984_knott_on_the_optimal_mapping::wasserstein distance": [],
+    "1984_knott_on_the_optimal_mapping::quadratic cost": [],
     "1999_thrun_minerva_a_second_generation::minerva": [],
     "1999_thrun_minerva_a_second_generation::museum robot": [],
     "1999_thrun_minerva_a_second_generation::human-robot interaction": [],
@@ -96104,7 +100357,6 @@ window.tagSearchData = {
     "2017_paull_duckietown_an_open_inexpensive::open-source hardware": [],
     "2017_paull_duckietown_an_open_inexpensive::duckietown": [],
     "1905_13547::non-convex": [],
-    "1905_13547::global convergence": [],
     "1902_06583::hoof": [],
     "1902_06583::meta-learning": [],
     "1902_06583::importance sampling": [],
@@ -96167,7 +100419,6 @@ window.tagSearchData = {
     "2506_09985::video question answering": [],
     "2506_09985::action-conditioned prediction": [],
     "2506_09985::zero-shot robotics": [],
-    "2506_09985::foundation models": [],
     "2503_06757::simt": [],
     "2503_06757::collision checking": [],
     "2503_06757::prrtc": [],
@@ -96335,7 +100586,6 @@ window.tagSearchData = {
     "2104_10201::machine learning benchmarks": [],
     "2104_10201::neurips challenge": [],
     "2104_10201::competition analysis": [],
-    "2103_05572::tracking control": [],
     "2103_05572::reference trajectory": [],
     "2103_05572::risk-averse": [],
     "2021_gravell_policy_iteration_for_linear::dynamic game": [],
@@ -96469,7 +100719,6 @@ window.tagSearchData = {
     "1847_cauchy_methode_generale_pour_la::systems of equations": [],
     "1401_3436::online planning": [],
     "1401_3436::belief-state planning": [],
-    "1401_3436::sequential decision making": [],
     "1401_3436::planning under uncertainty": [],
     "2014_lefevre_a_survey_on_motion::risk assessment": [],
     "2014_lefevre_a_survey_on_motion::physics-based prediction": [],
@@ -96494,6 +100743,10 @@ window.tagSearchData = {
     "2014_fan_cuckoo_filter_practically_better::approximate membership": [],
     "2014_fan_cuckoo_filter_practically_better::networking": [],
     "1404_2334::informed set": [],
+    "2014_ueda_a_regularized_newton_method::regularized newton methods": [],
+    "2014_ueda_a_regularized_newton_method::second-order optimization": [],
+    "2014_ueda_a_regularized_newton_method::superlinear convergence": [],
+    "2014_ueda_a_regularized_newton_method::complexity bounds": [],
     "1405_5848::random geometric graphs": [],
     "2014_pan_probabilistic_differential_dynamic_programming::probabilistic differential dynamic programming": [],
     "2014_pan_probabilistic_differential_dynamic_programming::pddp": [],
@@ -96581,7 +100834,7 @@ window.tagSearchData = {
     "1994_van_overschee_n4sid_numerical_algorithms_for::riccati equations": [],
     "1994_van_overschee_n4sid_numerical_algorithms_for::qr decomposition": [],
     "1994_van_overschee_n4sid_numerical_algorithms_for::singular value decomposition": [],
-    "1994_purgathofer_forced_random_dithering_improved::ordered dithering": [],
+    "1994_de_wit_nonlinear_control_design_for::wheeled robots": [],
     "1994_purgathofer_forced_random_dithering_improved::halftoning": [],
     "1994_purgathofer_forced_random_dithering_improved::threshold matrix generation": [],
     "1994_purgathofer_forced_random_dithering_improved::blue-noise dithering": [],
@@ -96616,7 +100869,6 @@ window.tagSearchData = {
     "2024_niu_quintic_bezier_curve_and::optimal path": [],
     "2411_17902::fcit*": [],
     "2411_17902::hardware acceleration": [],
-    "2403_11763::control barrier functions": [],
     "2403_11763::sum-of-squares programming": [],
     "2403_11763::input constraints": [],
     "2401_09241::ancillary controller": [],
@@ -96688,6 +100940,12 @@ window.tagSearchData = {
     "2026_macenski_improving_mppi_for_high::nav2": [],
     "2026_macenski_improving_mppi_for_high::acceleration constraints": [],
     "2026_macenski_improving_mppi_for_high::industrial robots": [],
+    "2026_zhang_constrained_diffusers_for_safe::receding horizon control": [],
+    "2026_zhang_constrained_diffusers_for_safe::planning and control": [],
+    "1973_e_an_optimum_method_for::digital halftoning": [],
+    "1973_e_an_optimum_method_for::dither matrices": [],
+    "1973_e_an_optimum_method_for::image processing": [],
+    "1973_e_an_optimum_method_for::bilevel rendering": [],
     "1973_molinari_the_stabilizing_solution_of::stabilizing solution": [],
     "1973_molinari_the_stabilizing_solution_of::existence conditions": [],
     "1953_shapley_a_value_for_n::cooperative games": [],
@@ -96862,6 +101120,13 @@ window.tagSearchData = {
     "2008_van_der_maaten_visualizing_high_dimensional_data::visualization": [],
     "2008_van_der_maaten_visualizing_high_dimensional_data::manifold learning": [],
     "2008_van_der_maaten_visualizing_high_dimensional_data::stochastic neighbor embedding": [],
+    "2008_sedgewick_left_leaning_red_black::balanced search trees": [],
+    "2008_sedgewick_left_leaning_red_black::red-black trees": [],
+    "2008_sedgewick_left_leaning_red_black::left-leaning red-black trees": [],
+    "2008_sedgewick_left_leaning_red_black::symbol tables": [],
+    "2008_sedgewick_left_leaning_red_black::data structures": [],
+    "2008_sedgewick_left_leaning_red_black::algorithms": [],
+    "2008_sedgewick_left_leaning_red_black::deletion algorithms": [],
     "1951_dyson_continuous_functions_defined_on::algebraic topology": [],
     "1951_dyson_continuous_functions_defined_on::borsuk-ulam theorem": [],
     "1951_dyson_continuous_functions_defined_on::sphere theorems": [],

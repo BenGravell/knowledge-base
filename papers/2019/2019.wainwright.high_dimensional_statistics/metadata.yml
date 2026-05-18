@@ -1,0 +1,20 @@
+title: High-dimensional Statistics
+algorithm:
+authors:
+  - Martin J. Wainwright
+year: 2019
+source: cambridge.org
+type: Other
+doi: 10.1017/9781108627771
+arxiv_id:
+tags:
+  - Statistics
+abstract: >
+  Recent years have witnessed an explosion in the volume and variety of data collected in all scientific disciplines and industrial settings. Such massive data sets present a number of challenges to researchers in statistics and machine learning. This book provides a self-contained introduction to the area of high-dimensional statistics, aimed at the first-year graduate level. It includes chapters that are focused on core methodology and theory - including tail bounds, concentration inequalities, uniform laws and empirical process, and random matrices - as well as chapters devoted to in-depth exploration of particular model classes - including sparse linear models, matrix models with rank constraints, graphical models, and various types of non-parametric models. With hundreds of worked examples and exercises, this text is intended both for courses and for self-study by graduate students and researchers in statistics, machine learning, and related fields who must understand, apply, and adapt modern statistical methods suited to large-scale data.
+summary: >
+  Wainwright provides a graduate-level, non-asymptotic treatment of high-dimensional statistics, connecting probability tools such as concentration inequalities and random matrix bounds to statistical model classes such as sparse regression, low-rank matrix models, graphical models, and nonparametric estimation.
+link: >
+  https://www.cambridge.org/core/books/highdimensional-statistics/8A91ECEEC38F46DAB53E9FF8757C7A4E
+links_alt:
+  - https://doi.org/10.1017/9781108627771
+audit_status: raw
