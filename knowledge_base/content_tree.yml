@@ -726,127 +726,14 @@
         - "Motion Planning and Control for Multi Vehicle Autonomous Racing at High Speeds": docs/papers/2022/2207.11136/metadata.yml
         - "A Geometric Approach to Three-dimensional Hipped Bipedal Robotic Walking": docs/papers/2007/2007.ames.a_geometric_approach_to/metadata.yml
     - Control:
-      - Proportional-integral-derivative (PID):
-        - "A Practical Guide to PID Controller Implementation": docs/papers/2026/2604.15918/metadata.yml
-        - "Automatic Tuning and Adaptation for PID Controllers - a Survey": docs/papers/1993/1993.astrom.automatic_tuning_and_adaptation/metadata.yml
-      - Linear Quadratic Regulator (LQR):
-        - LQR Foundations:
-          - Suboptimal Design of Linear Regulator Systems: docs/papers/1967/1967.kleinman.suboptimal_design_of_linear/metadata.yml
-          - Stabilization of Linear Systems: docs/papers/1972/1972.ikeda.stabilization_of_linear_systems/metadata.yml
-          - "On the linear quadratic minimum-time problem": docs/papers/1991/1991.verriest.on_the_linear_quadratic/metadata.yml
-        - Riccati Equations:
-          - The Stabilizing Solution of the Algebraic Riccati Equation: docs/papers/1973/1973.molinari.the_stabilizing_solution_of/metadata.yml
-          - "The Numerical Solution of A'Q+QA=-C": docs/papers/1968/1968.davison.the_numerical_solution_of/metadata.yml
-          - On an Iterative Technique for Riccati Equation Computations: docs/papers/1968/1968.kleinman.on_an_iterative_technique/metadata.yml
-          - An Iterative Technique for the Steady-State Gains: docs/papers/1971/1971.hewer.an_iterative_technique_for/metadata.yml
-          - "A Numerical Algorithm to Solve A^T X A - X = Q": docs/papers/1977/1977.barraud.a_numerical_algorithm_to/metadata.yml
-          - "Inexact Kleinman-Newton Method for Riccati Equations": docs/papers/2009/2009.feitzinger.inexact_kleinmannewton_method_for/metadata.yml
-          - "Solving the linear quadratic regulator problem in the policy space: The Policy Algebraic Riccati Equation": docs/papers/2026/2026.possieri.solving_the_linear_quadratic/metadata.yml
-          - Systematic Control Design by Optimizing a Vector Performance Index: docs/papers/1979/1979.kreisselmeier.systematic_control_design_by/metadata.yml
-        - Multiplicative noise / stochastic system parameters:
-          - Experiments with an Inverted Pendulum Subject to Random Parametric Excitation: docs/papers/1965/1965.bogdanoff.experiments_with_an_inverted/metadata.yml
-          - A Survey of Stability of Stochastic Systems: docs/papers/1969/1969.kozin.a_survey_of_stability/metadata.yml
-          - Optimal Stationary Control of a Linear System with State-Dependent Noise: docs/papers/1967/1967.wonham.optimal_stationary_control_of/metadata.yml
-          - On the Separation Theorem of Stochastic Control: docs/papers/1968/1968.wonham.on_the_separation_theorem/metadata.yml
-          - Optimal Stationary Control of Linear Systems with Control-Dependent Noise: docs/papers/1969/1969.kleinman.optimal_stationary_control_of/metadata.yml
-          - The Optimal Regulator Problem for a Stationary Linear System with State-Dependent Noise: docs/papers/1970/1970.mclane.the_optimal_regulator_problem/metadata.yml
-          - Optimal Stationary Control with State and Control Dependent Noise: docs/papers/1971/1971.haussmann.optimal_stationary_control_with/metadata.yml
-          - Design of Linear Regulators for Nonlinear Stochastic Systems: docs/papers/1975/1975.gustafson.design_of_linear_regulators/metadata.yml
-          - On Optimal Stationary Control of Systems with State-Dependent Noise: docs/papers/1975/1975.rana.on_optimal_stationary_control/metadata.yml
-          - "The Uncertainty Threshold Principle: Fundamental Limitations": docs/papers/1976/1976.athans.the_uncertainty_threshold_principle/metadata.yml
-          - Numerical Solution of the State-Dependent Noise Problem: docs/papers/1976/1976.kleinman.numerical_solution_of_the/metadata.yml
-          - State-Feedback Control of Systems with Multiplicative Noise via LMIs: docs/papers/1995/1995.ghaoui.state_feedback_control_of/metadata.yml
-          - Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control: docs/papers/2001/2001.damm.newtons_method_for_a/metadata.yml
-          - When Multiplicative Noise Stymies Control: docs/papers/2016/1612.03239/metadata.yml
-          - "Robust Control Design for Linear Systems via Multiplicative Noise": docs/papers/2020/2004.08019/metadata.yml
-          - "Sample Complexity of Data-Driven Stochastic LQR with Multiplicative Uncertainty": docs/papers/2020/2005.12167/metadata.yml
-          - "Data-driven distributionally robust LQR with multiplicative noise": docs/papers/2019/1912.09990/metadata.yml
-          - "Stochastic Stability via Robustness of Linear Systems": docs/papers/2021/2021.gravell.stochastic_stability_via_robustness/metadata.yml
-          - "Stochasticity in Feedback Loops: Great Expectations and Guaranteed Ruin": docs/papers/2021/2021.smith.stochasticity_in_feedback_loops/metadata.yml
-          - "Anomaly Detection Under Multiplicative Noise Model Uncertainty": docs/papers/2021/2103.15228/metadata.yml
-          - "Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically": docs/papers/2022/2207.11220/metadata.yml
-          - "Provably Stable Learning Control of Linear Dynamics With Multiplicative Noise": docs/papers/2024/2024.coppens.provably_stable_learning_control/metadata.yml
-          - "Product of Random Stochastic Matrices": docs/papers/2011/1110.1751/metadata.yml
-          - Risk-sensitive LQG: docs/papers/1981/1981.whittle.risk_sensitive_linear_quadratic/metadata.yml
-          - "Optimal Control of LTI Systems over Unreliable Communication Links": docs/papers/2006/2006.imer.optimal_control_of_lti/metadata.yml
-          - "Toward a Scalable Upper Bound for a CVaR-LQ Problem": docs/papers/2021/2103.02136/metadata.yml
-      - Model Predictive Control (MPC):
-        - Receding Horizon Control of Nonlinear Systems: docs/papers/1988/1988.mayne.receding_horizon_control_of/metadata.yml
-        - "Robust model predictive control using tubes": docs/papers/2004/2004.langson.robust_model_predictive_control/metadata.yml
-        - "Data-driven distributionally robust MPC for constrained stochastic systems": docs/papers/2021/2103.03006/metadata.yml
-        - "From linear to nonlinear MPC: bridging the gap via the real-time iteration": docs/papers/2016/2016.gros.from_linear_to_nonlinear/metadata.yml
-        - "Robust multi-rate predictive control using multi-step prediction models learned from data": docs/papers/2021/2102.08302/metadata.yml
-        - Identification for Long-range Predictive Control: docs/papers/1991/1991.shook.identification_for_long_range/metadata.yml
-        - "Learning multi-step prediction models for receding horizon control": docs/papers/2018/2018.terzi.learning_multi_step_prediction/metadata.yml
-        - "Learning with Imperfect Models: When Multi-step Prediction Mitigates Compounding Error": docs/papers/2025/2504.01766/metadata.yml
-        - "On multi-step prediction models for receding horizon control": docs/papers/2018/1802.09767/metadata.yml
-        - "Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition": docs/papers/2021/2021.svec.model_predictive_control_of/metadata.yml
-        - Data-Driven and Learning-Based MPC:
-          - DeePC: docs/papers/2018/1811.05890/metadata.yml
-          - "Model predictive control based on ARX models": docs/papers/2010/2010.kon.model_predictive_control_based/metadata.yml
-          - "Learning-based predictive control for linear systems: a unitary approach": docs/papers/2018/1810.12584/metadata.yml
-          - "KPC: Learning-Based Model Predictive Control with Deterministic Guarantees": docs/papers/2020/2011.11303/metadata.yml
-          - "Exponential stability of data-driven nonlinear MPC based on input/output models": docs/papers/2026/2603.16808/metadata.yml
-          - "Soft projections for robust data-driven control": docs/papers/2026/2604.00900/metadata.yml
-          - "Stochastic Data-Driven Predictive Control: Regularization, Estimation, and Constraint Tightening": docs/papers/2023/2312.02758/metadata.yml
-          - "Distributionally Robust Data-Driven Predictive Control for Stochastic LTI Systems": docs/papers/2026/2605.07589/metadata.yml
-        - Robust and Stochastic MPC:
-          - "Closed-loop analysis of linear stochastic MPC with risk-averse constraints": docs/papers/2026/2604.11183/metadata.yml
-          - Dynamic Tube MPC: docs/papers/2019/1907.06553/metadata.yml
-          - Elastic Tube MPC: docs/papers/2016/2016.rakovic.elastic_tube_model_predictive/metadata.yml
-          - "Scenario-based Stochastic MPC for systems with uncertain dynamics": docs/papers/2022/2207.12517/metadata.yml
-          - "Probably Approximately Correct Nonlinear Model Predictive Control (PAC-NMPC)": docs/papers/2022/2210.08092/metadata.yml
-          - "Interactive Trajectory Planning with Learning-based Distributionally Robust Model Predictive Control and Markov Systems": docs/papers/2026/2605.07768/metadata.yml
-        - MPC Applications and Implementations:
-          - "Intelligent Trajectory Planning for Autonomous Vehicles via Adaptive Model Predictive Control": docs/papers/2025/2025.goncalves.intelligent_trajectory_planning_for/metadata.yml
-          - "Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks": docs/papers/2026/2604.19452/metadata.yml
-      - Robust Control:
-        - Distributed control design for spatially interconnected systems: docs/papers/2003/2003.dandrea.distributed_control_design_for/metadata.yml
-        - LMIs in System and Control Theory: docs/papers/1994/1994.boyd.linear_matrix_inequalities_in/metadata.yml
-        - "LMI Properties and Applications in Systems, Stability, and Control Theory": docs/papers/2019/1903.08599/metadata.yml
-        - Robustness margins for LQG: docs/papers/1978/1978.doyle.guaranteed_margins_for_lqg/metadata.yml
-        - DR-LQG: docs/papers/2025/2505.08370/metadata.yml
-        - "Conformal Robust Control of Linear Systems": docs/papers/2024/2405.16250/metadata.yml
-        - "Probabilistic Robustness in the Gap Metric": docs/papers/2025/2507.10010/metadata.yml
-        - On the Input-Output Stability of Time-Varying Nonlinear Feedback Systems: docs/papers/1966/1966.zames.on_the_input_output/metadata.yml
-        - Bilateral Control of Teleoperators with Time Delay: docs/papers/1989/1989.anderson.bilateral_control_of_teleoperators/metadata.yml
-        - State-Space Solutions to Standard H2 and H-inf Control Problems: docs/papers/1989/1989.doyle.state_space_solutions_to/metadata.yml
-        - "LQG Control with an H-infinity Performance Bound: A Riccati Equation Approach": docs/papers/1989/1989.bernstein.lqg_control_with_an/metadata.yml
-        - On the Robustness of LQ Regulators for Discrete-Time Systems: docs/papers/1992/1992.neto.on_the_robustness_of/metadata.yml
-        - "A Method to Teach the Parameterization of All Stabilizing Controllers": docs/papers/2011/2011.kucera.a_method_to_teach/metadata.yml
-        - "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality": docs/papers/2026/2603.04843/metadata.yml
-        - "System analysis via integral quadratic constraints": docs/papers/1997/1997.megretski.system_analysis_via_integral/metadata.yml
-        - Contraction L1-Adaptive Control using Gaussian Processes: docs/papers/2020/2009.03864/metadata.yml
-        - Stability and control of a quadrocopter despite the complete loss of one, two, or three propellers: docs/papers/2014/2014.mueller.stability_and_control_of/metadata.yml
-        - "Exponential Stability Analysis via Integral Quadratic Constraints": docs/papers/2017/1706.01337/metadata.yml
-        - "On Topological Properties of the Set of Stabilizing Feedback Gains": docs/papers/2019/1904.08451/metadata.yml
-        - "Regeneration Theory": docs/papers/1932/1932.nyquist.regeneration_theory/metadata.yml
-        - "Stabilized Feedback Amplifiers*": docs/papers/1934/1934.black.stabilized_feedback_amplifiers/metadata.yml
-        - "Relations between Attenuation and Phase in Feedback Amplifier Design": docs/papers/1940/1940.bode.relations_between_attenuation_and/metadata.yml
-        - "A Linear Matrix Inequality Approach to H∞ Control": docs/papers/1994/1994.gahinet.a_linear_matrix_inequality/metadata.yml
-        - "Nonlinear Control Synthesis by Convex Optimization": docs/papers/2004/2004.prajna.nonlinear_control_synthesis_by/metadata.yml
-        - "On Exponential Synchronization of Kuramoto Oscillators": docs/papers/2009/2009.chopra.on_exponential_synchronization_of/metadata.yml
-        - "Quadratic Invariance Is Necessary and Sufficient for Convexity": docs/papers/2011/2011.lessard.quadratic_invariance_is_necessary/metadata.yml
-      - Perception-Based Control:
-        - Integrated Perception and Control at High Speed: docs/papers/2020/2020.florence.integrated_perception_and_control/metadata.yml
-        - "Robust Guarantees for Perception-Based Control": docs/papers/2020/2020.dean.robust_guarantees_for_perception/metadata.yml
-        - "Certainty Equivalent Perception-Based Control": docs/papers/2021/2021.dean.certainty_equivalent_perception_based/metadata.yml
-      - Control-Plant Co-Design:
-        - Gradient-Based Plant-Controller Co-Design: docs/papers/2015/2015.wang.a_gradient_based_approach/metadata.yml
-      - Control-Oriented Physical Modeling:
-        - 5-DOF Electrodynamic Maglev State-Space Model: docs/papers/2004/2004.de_boeij.mathematical_model_of_the/metadata.yml
-        - "Control-Oriented Modeling of the Dynamics of Stirling Engine Regenerators": docs/papers/2017/2017.craun.control_oriented_modeling_of/metadata.yml
-      - Control Theory:
+      - Theory:
         - On Adaptive Control Processes: docs/papers/1959/1959.bellman.on_adaptive_control_processes/metadata.yml
         - La Salle Invariance Principle: docs/papers/1966/1966.la_salle.an_invariance_principle_in/metadata.yml
-        - The Internal Model Principle for Linear Multivariable Regulators: docs/papers/1975/1975.francis.the_internal_model_principle/metadata.yml
         - Every Good Regulator Theorem: docs/papers/1970/1970.conant.every_good_regulator_of/metadata.yml
+        - The Internal Model Principle for Linear Multivariable Regulators: docs/papers/1975/1975.francis.the_internal_model_principle/metadata.yml
         - Respect the Unstable: docs/papers/2003/2003.stein.respect_the_unstable/metadata.yml
-        - "Internal feedback in the cortical perception-action loop enables fast and accurate behavior": docs/papers/2022/2211.05922/metadata.yml
-        - "Control System Synthesis by Root Locus Method": docs/papers/1950/1950.evans.control_system_synthesis_by/metadata.yml
-        - "On Pole Assignment in Multi-input Controllable Linear Systems": docs/papers/1967/1967.wonham.on_pole_assignment_in/metadata.yml
-        - "Decoupling and Pole Assignment in Linear Multivariable Systems: A Geometric Approach": docs/papers/1970/1970.wonham.decoupling_and_pole_assignment/metadata.yml
         - Partial Feedback Linearization: docs/papers/1994/1994.spong.partial_feedback_linearization_of/metadata.yml
+        - "Internal feedback in the cortical perception-action loop enables fast and accurate behavior": docs/papers/2022/2211.05922/metadata.yml
         - "A note on persistency of excitation": docs/papers/2005/2005.willems.a_note_on_persistency/metadata.yml
         - Path-Following or Reference-Tracking: docs/papers/2004/2004.aguiar.path_following_or_reference/metadata.yml
         - DWPP: docs/papers/2026/2601.15006/metadata.yml
@@ -854,40 +741,160 @@
         - "Augmented Lagrangian Methods as Layered Control Architectures": docs/papers/2023/2311.06404/metadata.yml
         - "Towards a Theory of Control Architecture: A quantitative framework for layered multi-rate control": docs/papers/2024/2401.15185/metadata.yml
         - "Asymptotic stability equals exponential stability - while you twist your eyes": docs/papers/2024/2411.03277/metadata.yml
+      - Frequency and Laplace-Domain Methods:
+        - "Control System Synthesis by Root Locus Method": docs/papers/1950/1950.evans.control_system_synthesis_by/metadata.yml
+        - Proportional-integral-derivative (PID):
+          - "Automatic Tuning and Adaptation for PID Controllers - a Survey": docs/papers/1993/1993.astrom.automatic_tuning_and_adaptation/metadata.yml
+          - "A Practical Guide to PID Controller Implementation": docs/papers/2026/2604.15918/metadata.yml
+      - State-space Methods:
+        - Pole Placement:
+          - "On Pole Assignment in Multi-input Controllable Linear Systems": docs/papers/1967/1967.wonham.on_pole_assignment_in/metadata.yml
+          - "Decoupling and Pole Assignment in Linear Multivariable Systems: A Geometric Approach": docs/papers/1970/1970.wonham.decoupling_and_pole_assignment/metadata.yml
+        - Linear Quadratic Regulator (LQR):
+          - Foundations:
+            - Suboptimal Design of Linear Regulator Systems: docs/papers/1967/1967.kleinman.suboptimal_design_of_linear/metadata.yml
+            - Stabilization of Linear Systems: docs/papers/1972/1972.ikeda.stabilization_of_linear_systems/metadata.yml
+            - "On the linear quadratic minimum-time problem": docs/papers/1991/1991.verriest.on_the_linear_quadratic/metadata.yml
+          - Riccati Equations:
+            - The Stabilizing Solution of the Algebraic Riccati Equation: docs/papers/1973/1973.molinari.the_stabilizing_solution_of/metadata.yml
+            - "The Numerical Solution of A'Q+QA=-C": docs/papers/1968/1968.davison.the_numerical_solution_of/metadata.yml
+            - On an Iterative Technique for Riccati Equation Computations: docs/papers/1968/1968.kleinman.on_an_iterative_technique/metadata.yml
+            - An Iterative Technique for the Steady-State Gains: docs/papers/1971/1971.hewer.an_iterative_technique_for/metadata.yml
+            - "A Numerical Algorithm to Solve A^T X A - X = Q": docs/papers/1977/1977.barraud.a_numerical_algorithm_to/metadata.yml
+            - "Inexact Kleinman-Newton Method for Riccati Equations": docs/papers/2009/2009.feitzinger.inexact_kleinmannewton_method_for/metadata.yml
+            - "Solving the linear quadratic regulator problem in the policy space: The Policy Algebraic Riccati Equation": docs/papers/2026/2026.possieri.solving_the_linear_quadratic/metadata.yml
+            - Systematic Control Design by Optimizing a Vector Performance Index: docs/papers/1979/1979.kreisselmeier.systematic_control_design_by/metadata.yml
+          - Multiplicative noise / stochastic system parameters:
+            - Experiments with an Inverted Pendulum Subject to Random Parametric Excitation: docs/papers/1965/1965.bogdanoff.experiments_with_an_inverted/metadata.yml
+            - A Survey of Stability of Stochastic Systems: docs/papers/1969/1969.kozin.a_survey_of_stability/metadata.yml
+            - Optimal Stationary Control of a Linear System with State-Dependent Noise: docs/papers/1967/1967.wonham.optimal_stationary_control_of/metadata.yml
+            - On the Separation Theorem of Stochastic Control: docs/papers/1968/1968.wonham.on_the_separation_theorem/metadata.yml
+            - Optimal Stationary Control of Linear Systems with Control-Dependent Noise: docs/papers/1969/1969.kleinman.optimal_stationary_control_of/metadata.yml
+            - The Optimal Regulator Problem for a Stationary Linear System with State-Dependent Noise: docs/papers/1970/1970.mclane.the_optimal_regulator_problem/metadata.yml
+            - Optimal Stationary Control with State and Control Dependent Noise: docs/papers/1971/1971.haussmann.optimal_stationary_control_with/metadata.yml
+            - Design of Linear Regulators for Nonlinear Stochastic Systems: docs/papers/1975/1975.gustafson.design_of_linear_regulators/metadata.yml
+            - On Optimal Stationary Control of Systems with State-Dependent Noise: docs/papers/1975/1975.rana.on_optimal_stationary_control/metadata.yml
+            - "The Uncertainty Threshold Principle: Fundamental Limitations": docs/papers/1976/1976.athans.the_uncertainty_threshold_principle/metadata.yml
+            - Numerical Solution of the State-Dependent Noise Problem: docs/papers/1976/1976.kleinman.numerical_solution_of_the/metadata.yml
+            - State-Feedback Control of Systems with Multiplicative Noise via LMIs: docs/papers/1995/1995.ghaoui.state_feedback_control_of/metadata.yml
+            - Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control: docs/papers/2001/2001.damm.newtons_method_for_a/metadata.yml
+            - When Multiplicative Noise Stymies Control: docs/papers/2016/1612.03239/metadata.yml
+            - "Robust Control Design for Linear Systems via Multiplicative Noise": docs/papers/2020/2004.08019/metadata.yml
+            - "Sample Complexity of Data-Driven Stochastic LQR with Multiplicative Uncertainty": docs/papers/2020/2005.12167/metadata.yml
+            - "Data-driven distributionally robust LQR with multiplicative noise": docs/papers/2019/1912.09990/metadata.yml
+            - "Stochastic Stability via Robustness of Linear Systems": docs/papers/2021/2021.gravell.stochastic_stability_via_robustness/metadata.yml
+            - "Stochasticity in Feedback Loops: Great Expectations and Guaranteed Ruin": docs/papers/2021/2021.smith.stochasticity_in_feedback_loops/metadata.yml
+            - "Anomaly Detection Under Multiplicative Noise Model Uncertainty": docs/papers/2021/2103.15228/metadata.yml
+            - "Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically": docs/papers/2022/2207.11220/metadata.yml
+            - "Provably Stable Learning Control of Linear Dynamics With Multiplicative Noise": docs/papers/2024/2024.coppens.provably_stable_learning_control/metadata.yml
+            - "Product of Random Stochastic Matrices": docs/papers/2011/1110.1751/metadata.yml
+            - Risk-sensitive LQG: docs/papers/1981/1981.whittle.risk_sensitive_linear_quadratic/metadata.yml
+            - "Optimal Control of LTI Systems over Unreliable Communication Links": docs/papers/2006/2006.imer.optimal_control_of_lti/metadata.yml
+            - "Toward a Scalable Upper Bound for a CVaR-LQ Problem": docs/papers/2021/2103.02136/metadata.yml
+        - Model Predictive Control (MPC):
+          - Receding Horizon Control of Nonlinear Systems: docs/papers/1988/1988.mayne.receding_horizon_control_of/metadata.yml
+          - "Robust model predictive control using tubes": docs/papers/2004/2004.langson.robust_model_predictive_control/metadata.yml
+          - "Data-driven distributionally robust MPC for constrained stochastic systems": docs/papers/2021/2103.03006/metadata.yml
+          - "From linear to nonlinear MPC: bridging the gap via the real-time iteration": docs/papers/2016/2016.gros.from_linear_to_nonlinear/metadata.yml
+          - "Robust multi-rate predictive control using multi-step prediction models learned from data": docs/papers/2021/2102.08302/metadata.yml
+          - Identification for Long-range Predictive Control: docs/papers/1991/1991.shook.identification_for_long_range/metadata.yml
+          - "Learning multi-step prediction models for receding horizon control": docs/papers/2018/2018.terzi.learning_multi_step_prediction/metadata.yml
+          - "Learning with Imperfect Models: When Multi-step Prediction Mitigates Compounding Error": docs/papers/2025/2504.01766/metadata.yml
+          - "On multi-step prediction models for receding horizon control": docs/papers/2018/1802.09767/metadata.yml
+          - "Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition": docs/papers/2021/2021.svec.model_predictive_control_of/metadata.yml
+          - Data-Driven and Learning-Based MPC:
+            - DeePC: docs/papers/2018/1811.05890/metadata.yml
+            - "Model predictive control based on ARX models": docs/papers/2010/2010.kon.model_predictive_control_based/metadata.yml
+            - "Learning-based predictive control for linear systems: a unitary approach": docs/papers/2018/1810.12584/metadata.yml
+            - "KPC: Learning-Based Model Predictive Control with Deterministic Guarantees": docs/papers/2020/2011.11303/metadata.yml
+            - "Exponential stability of data-driven nonlinear MPC based on input/output models": docs/papers/2026/2603.16808/metadata.yml
+            - "Soft projections for robust data-driven control": docs/papers/2026/2604.00900/metadata.yml
+            - "Stochastic Data-Driven Predictive Control: Regularization, Estimation, and Constraint Tightening": docs/papers/2023/2312.02758/metadata.yml
+            - "Distributionally Robust Data-Driven Predictive Control for Stochastic LTI Systems": docs/papers/2026/2605.07589/metadata.yml
+          - Robust and Stochastic MPC:
+            - "Closed-loop analysis of linear stochastic MPC with risk-averse constraints": docs/papers/2026/2604.11183/metadata.yml
+            - Dynamic Tube MPC: docs/papers/2019/1907.06553/metadata.yml
+            - Elastic Tube MPC: docs/papers/2016/2016.rakovic.elastic_tube_model_predictive/metadata.yml
+            - "Scenario-based Stochastic MPC for systems with uncertain dynamics": docs/papers/2022/2207.12517/metadata.yml
+            - "Probably Approximately Correct Nonlinear Model Predictive Control (PAC-NMPC)": docs/papers/2022/2210.08092/metadata.yml
+            - "Interactive Trajectory Planning with Learning-based Distributionally Robust Model Predictive Control and Markov Systems": docs/papers/2026/2605.07768/metadata.yml
+          - MPC Applications and Implementations:
+            - "Intelligent Trajectory Planning for Autonomous Vehicles via Adaptive Model Predictive Control": docs/papers/2025/2025.goncalves.intelligent_trajectory_planning_for/metadata.yml
+            - "Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks": docs/papers/2026/2604.19452/metadata.yml
+      - Robust & Safety-Critical Control:
+        - Robust Control:
+          - Distributed control design for spatially interconnected systems: docs/papers/2003/2003.dandrea.distributed_control_design_for/metadata.yml
+          - LMIs in System and Control Theory: docs/papers/1994/1994.boyd.linear_matrix_inequalities_in/metadata.yml
+          - "LMI Properties and Applications in Systems, Stability, and Control Theory": docs/papers/2019/1903.08599/metadata.yml
+          - Robustness margins for LQG: docs/papers/1978/1978.doyle.guaranteed_margins_for_lqg/metadata.yml
+          - DR-LQG: docs/papers/2025/2505.08370/metadata.yml
+          - "Conformal Robust Control of Linear Systems": docs/papers/2024/2405.16250/metadata.yml
+          - "Probabilistic Robustness in the Gap Metric": docs/papers/2025/2507.10010/metadata.yml
+          - On the Input-Output Stability of Time-Varying Nonlinear Feedback Systems: docs/papers/1966/1966.zames.on_the_input_output/metadata.yml
+          - Bilateral Control of Teleoperators with Time Delay: docs/papers/1989/1989.anderson.bilateral_control_of_teleoperators/metadata.yml
+          - State-Space Solutions to Standard H2 and H-inf Control Problems: docs/papers/1989/1989.doyle.state_space_solutions_to/metadata.yml
+          - "LQG Control with an H-infinity Performance Bound: A Riccati Equation Approach": docs/papers/1989/1989.bernstein.lqg_control_with_an/metadata.yml
+          - On the Robustness of LQ Regulators for Discrete-Time Systems: docs/papers/1992/1992.neto.on_the_robustness_of/metadata.yml
+          - "A Method to Teach the Parameterization of All Stabilizing Controllers": docs/papers/2011/2011.kucera.a_method_to_teach/metadata.yml
+          - "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality": docs/papers/2026/2603.04843/metadata.yml
+          - "System analysis via integral quadratic constraints": docs/papers/1997/1997.megretski.system_analysis_via_integral/metadata.yml
+          - Contraction L1-Adaptive Control using Gaussian Processes: docs/papers/2020/2009.03864/metadata.yml
+          - Stability and control of a quadrocopter despite the complete loss of one, two, or three propellers: docs/papers/2014/2014.mueller.stability_and_control_of/metadata.yml
+          - "Exponential Stability Analysis via Integral Quadratic Constraints": docs/papers/2017/1706.01337/metadata.yml
+          - "On Topological Properties of the Set of Stabilizing Feedback Gains": docs/papers/2019/1904.08451/metadata.yml
+          - "Regeneration Theory": docs/papers/1932/1932.nyquist.regeneration_theory/metadata.yml
+          - "Stabilized Feedback Amplifiers*": docs/papers/1934/1934.black.stabilized_feedback_amplifiers/metadata.yml
+          - "Relations between Attenuation and Phase in Feedback Amplifier Design": docs/papers/1940/1940.bode.relations_between_attenuation_and/metadata.yml
+          - "A Linear Matrix Inequality Approach to H∞ Control": docs/papers/1994/1994.gahinet.a_linear_matrix_inequality/metadata.yml
+          - "Nonlinear Control Synthesis by Convex Optimization": docs/papers/2004/2004.prajna.nonlinear_control_synthesis_by/metadata.yml
+          - "On Exponential Synchronization of Kuramoto Oscillators": docs/papers/2009/2009.chopra.on_exponential_synchronization_of/metadata.yml
+          - "Quadratic Invariance Is Necessary and Sufficient for Convexity": docs/papers/2011/2011.lessard.quadratic_invariance_is_necessary/metadata.yml
+        - Control Lyapunov Functions (CLF):
+          - Stabilization with Relaxed Controls: docs/papers/1983/1983.artstein.stabilization_with_relaxed_controls/metadata.yml
+          - "A Lyapunov-Like Characterization of Asymptotic Controllability": docs/papers/1983/1983.sontag.a_lyapunov_like_characterization/metadata.yml
+          - Sontag's Universal Formula: docs/papers/1991/1991.lin.a_universal_formula_for/metadata.yml
+          - "A 'universal' construction of Artstein's theorem on nonlinear stabilization": docs/papers/1989/1989.sontag.a_universal_construction_of/metadata.yml
+          - "Controllability of Nonlinear Systems": docs/papers/1972/1972.sussmann.controllability_of_nonlinear_systems/metadata.yml
+          - "Continuous Finite-time Stabilization of the Translational and Rotational Double Integrators": docs/papers/1998/1998.bhat.continuous_finite_time_stabilization/metadata.yml
+        - Control Barrier Functions (CBF):
+          - Co-designing Control Barrier Functions and Linear State-Feedback Controllers: docs/papers/2024/2403.11763/metadata.yml
+          - "Convex synthesis and verification of control-Lyapunov and barrier functions with input constraints": docs/papers/2023/2023.dai.convex_synthesis_and_verification/metadata.yml
+          - "A Barrier-Based Scenario Approach to Verifying Safety-Critical Systems": docs/papers/2022/2022.akella.a_barrier_based_scenario/metadata.yml
+          - "Control Barrier Function Based Quadratic Programs for Safety Critical Systems": docs/papers/2017/2017.ames.control_barrier_function_based/metadata.yml
+          - "Control Barrier Functions: Theory and Applications": docs/papers/2019/1903.11199/metadata.yml
+          - "Synthesis and Deployment of Maximal Robust Control Barrier Functions through Adversarial Reinforcement Learning": docs/papers/2026/2604.13192/metadata.yml
+      - Distributed & Networked Control:
+        - Control of Networks:
+          - Control Principles of Complex Networks: docs/papers/2015/1508.05384/metadata.yml
+          - Control Profiles of Complex Networks: docs/papers/2014/2014.ruths.control_profiles_of_complex/metadata.yml
+      - Robot Control:
         - Theory of Robot Control: docs/papers/1996/1996.wit.theory_of_robot_control/metadata.yml
         - "Adaptive Motion Control of Rigid Robots: A Tutorial": docs/papers/1989/1989.ortega.adaptive_motion_control_of/metadata.yml
-      - Control of Networks:
-        - Control Principles of Complex Networks: docs/papers/2015/1508.05384/metadata.yml
-        - Control Profiles of Complex Networks: docs/papers/2014/2014.ruths.control_profiles_of_complex/metadata.yml
-      - Control Lyapunov Functions (CLF):
-        - Stabilization with Relaxed Controls: docs/papers/1983/1983.artstein.stabilization_with_relaxed_controls/metadata.yml
-        - "A Lyapunov-Like Characterization of Asymptotic Controllability": docs/papers/1983/1983.sontag.a_lyapunov_like_characterization/metadata.yml
-        - Sontag's Universal Formula: docs/papers/1991/1991.lin.a_universal_formula_for/metadata.yml
-        - "A 'universal' construction of Artstein's theorem on nonlinear stabilization": docs/papers/1989/1989.sontag.a_universal_construction_of/metadata.yml
-        - "Controllability of Nonlinear Systems": docs/papers/1972/1972.sussmann.controllability_of_nonlinear_systems/metadata.yml
-        - "Continuous Finite-time Stabilization of the Translational and Rotational Double Integrators": docs/papers/1998/1998.bhat.continuous_finite_time_stabilization/metadata.yml
-      - Control Barrier Functions (CBF):
-        - Co-designing Control Barrier Functions and Linear State-Feedback Controllers: docs/papers/2024/2403.11763/metadata.yml
-        - "Convex synthesis and verification of control-Lyapunov and barrier functions with input constraints": docs/papers/2023/2023.dai.convex_synthesis_and_verification/metadata.yml
-        - "A Barrier-Based Scenario Approach to Verifying Safety-Critical Systems": docs/papers/2022/2022.akella.a_barrier_based_scenario/metadata.yml
-        - "Control Barrier Function Based Quadratic Programs for Safety Critical Systems": docs/papers/2017/2017.ames.control_barrier_function_based/metadata.yml
-        - "Control Barrier Functions: Theory and Applications": docs/papers/2019/1903.11199/metadata.yml
-        - "Synthesis and Deployment of Maximal Robust Control Barrier Functions through Adversarial Reinforcement Learning": docs/papers/2026/2604.13192/metadata.yml
-      - Iterative Learning Control:
-        - Optimization-based iterative learning for precise quadrocopter trajectory tracking: docs/papers/2012/2012.schoellig.optimization_based_iterative_learning/metadata.yml
-      - Tracking Control for Wheeled Robots:
-        - Kanayama Tracking Controller: docs/papers/1990/1990.kanayama.a_stable_tracking_control/metadata.yml
-        - Pure Pursuit: docs/papers/1992/1992.coulter.implementation_of_the_pure/metadata.yml
-        - Feedback Control of a Nonholonomic Car-Like Robot: docs/papers/1998/1998.de_luca.feedback_control_of_a/metadata.yml
-        - Nonlinear Control Design for Mobile Robots: docs/papers/1994/1994.de_wit.nonlinear_control_design_for/metadata.yml
-        - "Autonomous Automobile Trajectory Tracking for Off-road Driving": docs/papers/2007/2007.hoffmann.autonomous_automobile_trajectory_tracking/metadata.yml
-      - Vehicle Dynamics:
-        - The Tire-Force Ellipse: docs/papers/2011/2011.brach.the_tire_force_ellipse/metadata.yml
-        - "Kinematic modeling of wheeled mobile robots": docs/papers/1987/1987.muir.kinematic_modeling_of_wheeled/metadata.yml
-        - "On the Kinematics of Wheeled Mobile Robots": docs/papers/1989/1989.alexander.on_the_kinematics_of/metadata.yml
-        - The Magic Formula Tyre Model: docs/papers/1992/1992.pacejka.the_magic_formula_tyre/metadata.yml
-        - "Structural properties and classification of kinematic and dynamic models of wheeled mobile robots": docs/papers/1996/1996.campion.structural_properties_and_classification/metadata.yml
-        - "Kinematic and dynamic vehicle models for autonomous driving control design": docs/papers/2015/2015.kong.kinematic_and_dynamic_vehicle/metadata.yml
+        - Tracking Control for Wheeled Robots:
+          - Kanayama Tracking Controller: docs/papers/1990/1990.kanayama.a_stable_tracking_control/metadata.yml
+          - Pure Pursuit: docs/papers/1992/1992.coulter.implementation_of_the_pure/metadata.yml
+          - Feedback Control of a Nonholonomic Car-Like Robot: docs/papers/1998/1998.de_luca.feedback_control_of_a/metadata.yml
+          - Nonlinear Control Design for Mobile Robots: docs/papers/1994/1994.de_wit.nonlinear_control_design_for/metadata.yml
+          - Autonomous Automobile Trajectory Tracking for Off-road Driving: docs/papers/2007/2007.hoffmann.autonomous_automobile_trajectory_tracking/metadata.yml
+        - Tracking Control for Aerial Robots:
+          - Optimization-based iterative learning for precise quadrocopter trajectory tracking: docs/papers/2012/2012.schoellig.optimization_based_iterative_learning/metadata.yml
+        - Perception-Based Control:
+          - Integrated Perception and Control at High Speed: docs/papers/2020/2020.florence.integrated_perception_and_control/metadata.yml
+          - "Robust Guarantees for Perception-Based Control": docs/papers/2020/2020.dean.robust_guarantees_for_perception/metadata.yml
+          - "Certainty Equivalent Perception-Based Control": docs/papers/2021/2021.dean.certainty_equivalent_perception_based/metadata.yml
+      - System Modeling & Co-Design:
+        - Control-Oriented Physical Modeling:
+          - 5-DOF Electrodynamic Maglev State-Space Model: docs/papers/2004/2004.de_boeij.mathematical_model_of_the/metadata.yml
+          - "Control-Oriented Modeling of the Dynamics of Stirling Engine Regenerators": docs/papers/2017/2017.craun.control_oriented_modeling_of/metadata.yml
+        - Vehicle Dynamics:
+          - The Tire-Force Ellipse: docs/papers/2011/2011.brach.the_tire_force_ellipse/metadata.yml
+          - "Kinematic modeling of wheeled mobile robots": docs/papers/1987/1987.muir.kinematic_modeling_of_wheeled/metadata.yml
+          - "On the Kinematics of Wheeled Mobile Robots": docs/papers/1989/1989.alexander.on_the_kinematics_of/metadata.yml
+          - The Magic Formula Tyre Model: docs/papers/1992/1992.pacejka.the_magic_formula_tyre/metadata.yml
+          - "Structural properties and classification of kinematic and dynamic models of wheeled mobile robots": docs/papers/1996/1996.campion.structural_properties_and_classification/metadata.yml
+          - "Kinematic and dynamic vehicle models for autonomous driving control design": docs/papers/2015/2015.kong.kinematic_and_dynamic_vehicle/metadata.yml
+        - Control-Plant Co-Design:
+          - Gradient-Based Plant-Controller Co-Design: docs/papers/2015/2015.wang.a_gradient_based_approach/metadata.yml
     - Reinforcement Learning:
       - Foundations:
         - Neuronlike Adaptive Elements (Actor-Critic, Cart-Pole): docs/papers/1983/1983.barto.neuronlike_adaptive_elements_that/metadata.yml
