@@ -1,5 +1,117 @@
 # TODO
 
+## Ingest
+
+### Localization and mapping
+
+https://arxiv.org/abs/2401.06323
+https://arxiv.org/abs/2201.13360
+https://arxiv.org/abs/1910.02490
+https://journals.sagepub.com/doi/10.1177/0278364906065387
+https://link.springer.com/article/10.1023/A:1008854305733
+https://journals.sagepub.com/doi/10.1177/0278364911430419
+https://link.springer.com/chapter/10.1007/978-3-642-17452-0_10
+https://journals.sagepub.com/doi/10.1177/0278364906072768
+https://dl.acm.org/doi/10.1561/2300000043
+
+### Structure from motion
+
+https://www.nature.com/articles/293133a0
+https://link.springer.com/article/10.1007/BF00129684
+https://ieeexplore.ieee.org/document/601246
+https://ieeexplore.ieee.org/document/1288525
+https://dl.acm.org/doi/10.1145/1141911.1141964
+https://dl.acm.org/doi/10.1145/2001269.2001293
+https://link.springer.com/chapter/10.1007/978-3-642-15561-1_27
+https://ieeexplore.ieee.org/document/6599068
+https://ieeexplore.ieee.org/document/7780814
+https://arxiv.org/abs/2407.20219
+https://ieeexplore.ieee.org/document/990963
+
+### Loudspeaker Design
+
+https://aes2.org/publications/elibrary-page/?id=2173
+https://aes2.org/publications/elibrary-page/?id=2163
+https://aes2.org/publications/elibrary-page/?id=2066
+https://aes2.org/publications/elibrary-page/?id=2022
+https://aes2.org/publications/elibrary-page/?id=1959
+https://aes2.org/publications/elibrary-page/?id=1951
+https://aes2.org/publications/elibrary-page/?id=2760
+https://aes2.org/publications/elibrary-page/?id=2739
+https://aes2.org/publications/elibrary-page/?id=2731
+https://aes2.org/publications/elibrary-page/?id=3105
+https://aes2.org/publications/elibrary-page/?id=5163
+https://aes2.org/publications/elibrary-page/?id=6078
+https://aes2.org/publications/elibrary-page/?id=7043
+https://aes2.org/publications/elibrary-page/?id=6999
+https://aes2.org/publications/elibrary-page/?id=12794
+
+### Optical flow
+
+https://people.csail.mit.edu/bkph/papers/Optical_Flow_OPT_ENG.pdf
+https://www.ri.cmu.edu/pub_files/pub3/lucas_bruce_d_1981_2/lucas_bruce_d_1981_2.pdf
+https://www.cs.toronto.edu/~black/papers/cviu.63.1.1996.pdf
+https://www.mia.uni-saarland.de/Publications/brox-eccv04-of.pdf
+https://cs.brown.edu/people/dqsun/pubs/cvpr_2010_flow.pdf
+https://files.is.tue.mpg.de/black/papers/SunIJCV2013.pdf
+https://hal.inria.fr/hal-01142656/document
+https://arxiv.org/abs/1504.06852
+https://arxiv.org/abs/1612.01925
+https://arxiv.org/abs/1611.00850
+https://arxiv.org/abs/1709.02371
+https://arxiv.org/abs/1805.07036
+https://arxiv.org/abs/2003.12039
+https://arxiv.org/abs/2104.02409
+https://arxiv.org/abs/2111.13680
+https://arxiv.org/abs/2203.16194
+
+### Image Super Resolution
+
+https://arxiv.org/abs/2501.02976
+https://arxiv.org/abs/2308.14469
+https://arxiv.org/abs/2401.13627
+https://arxiv.org/abs/2307.12348
+https://arxiv.org/abs/2305.07015
+https://arxiv.org/abs/2104.07636
+https://arxiv.org/abs/2205.04437
+https://arxiv.org/abs/2309.05239
+https://arxiv.org/abs/2108.10257
+https://arxiv.org/abs/1609.05158
+https://arxiv.org/abs/1511.04587
+https://arxiv.org/abs/1608.00367
+https://arxiv.org/abs/1501.00092
+
+### Nesterov Fast Gradient Method
+
+https://link.springer.com/article/10.1007/s10107-012-0629-5
+
+### Conformal prediction
+
+https://dl.acm.org/doi/10.5555/645528.657641
+https://www.tandfonline.com/doi/full/10.1080/01621459.2012.751873
+https://arxiv.org/abs/1209.2673
+https://arxiv.org/abs/2107.07511
+https://arxiv.org/abs/2411.11824
+https://arxiv.org/abs/2503.19068
+
+### Scenario based optimization
+
+https://link.springer.com/article/10.1007/s10107-003-0499-y
+https://ieeexplore.ieee.org/document/1632303
+https://www.sciencedirect.com/science/article/abs/pii/S1367578821000791
+
+### ICP
+
+https://en.wikipedia.org/wiki/Iterative_closest_point
+
+https://www.sciencedirect.com/science/article/abs/pii/026288569290066C?via%3Dihub
+https://ieeexplore.ieee.org/document/121791
+https://dl.acm.org/doi/10.1561/2300000035
+
+### vaporwave
+
+Move vaporwave stuff to another place outside knowledge base, too irrelevant
+
 ## ConLab scrape
 
 <https://labs.utdallas.edu/conlab/>
@@ -121,6 +233,13 @@ Hand-crafted
 
 ### UX
 
+Remove the caption
+1376 papers across 4 super-category streams
+
+Remove all references to super and sub category 
+
+Zoom controls should be distributed across the full contianer width, same as the lod buttons. Replace the Reset text with a universlly understood reset icon. Distribute the zoom control buttons evenly.
+
 ### Design inspiration
 
 <https://pin.it/7kjN4B5KZ>
@@ -130,6 +249,35 @@ Hand-crafted
 ## Content Tree
 
 ### UX
+
+### Redesign
+
+Need a redesign of the entire ux flow for mobile.
+Can we use a different more compact and intuitive tree representation?
+
+Fix the vertical leader lines.
+No subtle right shift on selection or hover because that looks ugly, dot not centered on leader lines.
+
+No indent, it takes up to much space on mobile.
+
+Use smaller font for mobile.
+
+### Menu
+
+Put the title and search into a foldable settings menu. Re use the same style as we use for Timeline page.
+
+Add similar controls such as filtering by year and source type.
+
+### Focused display
+
+At any given time only show the following:
+Ego branch/node
+Ancestors (parents up all the way to root)
+Siblings (children of the parent)
+Children (only direct children of ego, no further descendents)
+
+This strategy ensures number of items displayed is no more than:
+Tree max depth + branching factor + branching factor + 1
 
 ### Targeted edits
 
@@ -143,11 +291,43 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 
 ## Mind Map
 
+### Edges
+
+
+Edges look terrible. 
+
+Too bright in dark mode.
+
+Edges look like they are white and hence go invisible in dark mode.
+
+
 ### UX
+
+1. Setting bar should use full width of page in mobile site.
+2. Tooltip goes too far up and gets covered,occluded especially on mobile.
+3. Settings should expand down / contract up on show/hide action, same as for timeline and content tree page.
+
+When using search function in settings menu the node labels are displayed behind the node disks instead of in front of them. The node labels should always always always be displayed on top of node disks.
+
+
+Include more levels of detail in the settings until we get to the point where no more lods are required i.e. max depth present in tree is represented in lods.
+
+Expanding any branch node should not suddenly explode into 100 paper items.
+
 
 #### Branches
 
 Make sure every branch goes 3 levels deep to sub category. This is a way to make the existing level of detail work properly in mind map. Otherwise it is unintuitive that when you click a node it might not split up.
+
+## Site UX
+
+Standardize the color palette used across the repo.
+Use only a few standard solid colors and gradient definitions.
+Use the same color and style for all instances of link pillboxes that refer to 
+Internal sites (one color): Mind Map, Content Tree, Timeline, Detail Page.
+External sites (another color)
+
+Use the existing visual language used for link sections in paper detail pages.
 
 ## Knowledge Studio (new feature)
 
@@ -188,7 +368,13 @@ Collect points for clicking links, answering quiz questions.
 
 ## Metadata cleanup
 
-### scripts
+### Scripts
+
+Add audit check for "Team" and other non individual human names in the author list.
+Positive example
+https://bengravell.github.io/knowledge-base/papers/2507_05331/
+
+Write a soft audit script that checks for high embedding dissimilarity of items belonging to the same category in the content tree. This is to assist me with making good categories 
 
 Write audit script to check for identical content tree key label and algorithm field in metadata. Flag violations with both sides for manual resolution.
 
