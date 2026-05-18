@@ -1,4 +1,4 @@
-title: Beyond Dirty, Dangerous and Dull
+title: "Beyond dirty, dangerous and dull: what everyday people think robots should do"
 algorithm:
 authors:
   - Leila Takayama
@@ -15,9 +15,7 @@ tags:
   - Motion planning
 abstract: >
   We present a study of people's attitudes toward robot workers, identifying the characteristics of occupations for which people believe robots are qualified and desired. We deployed a web-based public-opinion survey that asked respondents (n=250) about their attitudes regarding robots' suitability for a variety of jobs (n=812) from the U.S. Department of Labor's O*NET occupational information database. We found that public opinion favors robots for jobs that require memorization, keen perceptual abilities, and service-orientation. People are preferred for occupations that require artistry, evaluation, judgment and diplomacy. In addition, we found that people will feel more positively toward robots doing jobs with people rather than in place of people.
-summary: >
-  This paper contributes to robotics, motion planning; its abstract emphasizes We present a study of people's attitudes toward robot workers, identifying the characteristics of occupations for which people believe robots are qualified and desired. We deployed a web-based public-opinion survey that .
-link: https://doi.org/10.1145/1349822.1349827
+summary:
+link: https://dl.acm.org/doi/10.1145/1349822.1349827
 links_alt:
-  - https://rai-inst.com/resources/blog/dull-dirty-dangerous-redefining-undesirable-work-for-robotics/
 audit_status: raw
