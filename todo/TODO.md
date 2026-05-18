@@ -234,11 +234,11 @@ Hand-crafted
 ### UX
 
 Remove the caption
-1376 papers across 4 super-category streams
+"1376 papers across 4 super-category streams"
 
-Remove all references to super and sub category 
+Remove all references to super and sub category.
 
-Zoom controls should be distributed across the full contianer width, same as the lod buttons. Replace the Reset text with a universlly understood reset icon. Distribute the zoom control buttons evenly.
+Zoom controls should be distributed across the full contianer width, same as the lod buttons. Replace the Reset text with a universally understood reset icon. Distribute the zoom control buttons evenly.
 
 ### Design inspiration
 
