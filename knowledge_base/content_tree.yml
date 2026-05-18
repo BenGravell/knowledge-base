@@ -1416,9 +1416,9 @@
       - Large Behavioral Models (LBM):
         - Large Behavioral Models: docs/papers/2026/2026.gabrielsson.large_behavioral_models_a/metadata.yml
         - BehaviorGPT:
-          - BehaviorGPT: docs/papers/2025/2025.gabrielsson.a_foundation_model_for/metadata.yml
-          - BehaviorGPT at Work: docs/papers/2025/2025.gabrielsson.behaviorgpt_at_work_a/metadata.yml
-          - BehaviorGPT for Visual Art: docs/papers/2025/2025.gabrielsson.behaviorgpt_for_visual_art/metadata.yml
+          - BehaviorGPT-v1: docs/papers/2025/2025.gabrielsson.a_foundation_model_for/metadata.yml
+          - BehaviorGPT-v2: docs/papers/2025/2025.gabrielsson.behaviorgpt_at_work_a/metadata.yml
+          - BehaviorGPT-v3: docs/papers/2025/2025.gabrielsson.behaviorgpt_for_visual_art/metadata.yml
       - Diffusion Models:
         - Denoising Diffusion Probabilistic Models: docs/papers/2020/2006.11239/metadata.yml
         - Diffusion Forcing: docs/papers/2024/2407.01392/metadata.yml
