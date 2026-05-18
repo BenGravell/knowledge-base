@@ -2,6 +2,7 @@ import os
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
+from urllib.parse import quote, unquote, urlparse
 
 import requests
 import yaml
@@ -11,6 +12,11 @@ from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS
 PAPERS_DIR = Path("docs/papers")
 ARXIV_API = "https://export.arxiv.org/api/query"
 ARXIV_NS = "http://www.w3.org/2005/Atom"
+_ARXIV_NEW_RE = re.compile(r"^(?P<yy>\d{2})(?P<mm>\d{2})\.\d{4,5}(?:v\d+)?$")
+_ARXIV_OLD_RE = re.compile(
+    r"^[A-Za-z][A-Za-z0-9-]*(?:\.[A-Z]{2})?/"
+    r"(?P<yy>\d{2})(?P<mm>\d{2})\d{3}(?:v\d+)?$"
+)
 # arXiv asks automated clients to identify themselves and stay contactable.
 # https://info.arxiv.org/help/api/tou.html
 ARXIV_CONTACT_EMAIL = os.environ.get("ARXIV_CONTACT_EMAIL", "bjgravell@gmail.com").strip()
@@ -24,9 +30,62 @@ ARXIV_HEADERS = {
 }
 
 
+def normalize_arxiv_id(arxiv_id: str | None) -> str:
+    """Return a bare arXiv ID from an ID, arXiv URL, or ``arXiv:`` token."""
+    text = str(arxiv_id or "").strip()
+    text = re.sub(r"^arxiv:\s*", "", text, flags=re.IGNORECASE).strip()
+    if not text:
+        return ""
+
+    parsed = urlparse(text)
+    host = parsed.netloc.lower().removeprefix("www.")
+    if parsed.scheme and host:
+        parts = [unquote(part) for part in parsed.path.strip("/").split("/") if part]
+        if host == "arxiv.org" and parts[:1] and parts[0].lower() in {"abs", "pdf", "html"}:
+            text = "/".join(parts[1:])
+        elif host == "ar5iv.labs.arxiv.org" and parts[:1] and parts[0].lower() == "html":
+            text = "/".join(parts[1:])
+        else:
+            text = parsed.path.strip("/")
+
+    text = text.strip().strip("<>()[]").rstrip("/")
+    if text.lower().endswith(".pdf"):
+        text = text[:-4]
+    return text
+
+
+def arxiv_year_from_id(arxiv_id: str | None) -> int:
+    """Infer publication year from new- or old-style arXiv IDs when possible."""
+    arxiv_id = normalize_arxiv_id(arxiv_id)
+    match = _ARXIV_NEW_RE.match(arxiv_id) or _ARXIV_OLD_RE.match(arxiv_id)
+    if not match:
+        return 0
+
+    yy = int(match.group("yy"))
+    mm = int(match.group("mm"))
+    if not 1 <= mm <= 12:
+        return 0
+    return 1900 + yy if yy >= 91 else 2000 + yy
+
+
+def arxiv_abs_url(arxiv_id: str | None) -> str:
+    encoded = quote(normalize_arxiv_id(arxiv_id), safe="/")
+    return f"https://arxiv.org/abs/{encoded}"
+
+
+def arxiv_pdf_url(arxiv_id: str | None) -> str:
+    encoded = quote(normalize_arxiv_id(arxiv_id), safe="/")
+    return f"https://arxiv.org/pdf/{encoded}"
+
+
+def arxiv_html_url(arxiv_id: str | None) -> str:
+    encoded = quote(normalize_arxiv_id(arxiv_id), safe="/")
+    return f"https://ar5iv.labs.arxiv.org/html/{encoded}"
+
+
 def fetch_arxiv(arxiv_id: str) -> dict:
     """Fetch basic metadata from the arXiv Atom API and return a dict."""
-    arxiv_id = arxiv_id.strip()
+    arxiv_id = normalize_arxiv_id(arxiv_id)
     r = requests.get(
         ARXIV_API,
         params={"id_list": arxiv_id, "max_results": 1},
@@ -47,7 +106,7 @@ def fetch_arxiv(arxiv_id: str) -> dict:
     title = re.sub(r"\s+", " ", text("title"))
     abstract = re.sub(r"\s+", " ", text("summary"))
     published = text("published")  # e.g. "2024-03-16T00:00:00Z"
-    year = int(published[:4]) if published else 0
+    year = int(published[:4]) if published else arxiv_year_from_id(arxiv_id)
 
     authors = []
     for a in entry.findall(f"{{{ARXIV_NS}}}author"):
@@ -61,7 +120,7 @@ def fetch_arxiv(arxiv_id: str) -> dict:
         "year": year,
         "abstract": abstract,
         "arxiv_id": arxiv_id,
-        "link": f"https://arxiv.org/pdf/{arxiv_id}",
+        "link": arxiv_pdf_url(arxiv_id),
     }
 
 
@@ -72,6 +131,7 @@ def build_metadata(fields: dict) -> dict:
 
     links_alt_raw: str = fields.get("links_alt_raw", "")
     links_alt = [ln.strip() for ln in links_alt_raw.splitlines() if ln.strip()]
+    arxiv_id = normalize_arxiv_id(fields.get("arxiv_id"))
 
     return {
         "title": fields["title"],
@@ -81,7 +141,7 @@ def build_metadata(fields: dict) -> dict:
         "source": fields.get("source") or None,
         "type": fields.get("type", ""),
         "doi": fields.get("doi") or None,
-        "arxiv_id": fields.get("arxiv_id") or None,
+        "arxiv_id": arxiv_id or None,
         "tags": tags,
         "abstract": fields.get("abstract", ""),
         "summary": fields.get("summary", ""),
@@ -117,6 +177,7 @@ def metadata_to_yaml(metadata: dict) -> str:
 
 
 def target_path(arxiv_id: str, year: int) -> Path:
+    arxiv_id = normalize_arxiv_id(arxiv_id)
     return PAPERS_DIR / str(year) / arxiv_id / "metadata.yml"
 
 

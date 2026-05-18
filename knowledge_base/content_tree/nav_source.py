@@ -4,9 +4,10 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Any
-import re
 
 import yaml
+
+from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 
 KB_DIR = Path(__file__).resolve().parents[1]
@@ -18,22 +19,12 @@ def as_list(value: Any) -> list[Any]:
     return value if isinstance(value, list) else []
 
 
-def slugify(name: str) -> str:
-    """Match the generated paper page naming logic in ``generate_papers.py``."""
-    return re.sub(r"[^a-zA-Z0-9]+", "_", str(name).lower()).strip("_")
-
-
 def paper_id_from_metadata_file(metadata_file: Path) -> str:
     with metadata_file.open("r", encoding="utf-8") as f:
         data = yaml.safe_load(f) or {}
     if not isinstance(data, dict):
         data = {}
-
-    if "id" in data:
-        return slugify(data["id"])
-    if metadata_file.stem != "metadata":
-        return slugify(metadata_file.stem)
-    return slugify(metadata_file.parent.name)
+    return paper_id_from_metadata(metadata_file, data, METADATA_ROOT)
 
 
 def metadata_source_path(source: str, base_dir: Path = KB_DIR) -> Path | None:

@@ -12,7 +12,6 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -22,6 +21,7 @@ import yaml
 
 from knowledge_base.config import KB_DIR
 from knowledge_base.content_tree.nav_source import load_content_tree
+from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
@@ -39,18 +39,9 @@ class Paper:
     tags: tuple[str, ...]
 
 
-def slugify(name: str) -> str:
-    """Match the generated paper URL logic in knowledge_base/generate_papers.py."""
-    return re.sub(r"[^a-zA-Z0-9]+", "_", name.lower()).strip("_")
-
-
 def paper_id_from_file(metadata_file: Path, data: dict[str, Any]) -> str:
     """Return the generated paper ID used by MkDocs gen-files."""
-    if "id" in data:
-        return slugify(str(data["id"]))
-    if metadata_file.stem != "metadata":
-        return slugify(metadata_file.stem)
-    return slugify(metadata_file.parent.name)
+    return paper_id_from_metadata(metadata_file, data, METADATA_ROOT)
 
 
 def as_list(value: Any) -> list[Any]:

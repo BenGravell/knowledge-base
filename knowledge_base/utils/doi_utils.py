@@ -14,7 +14,7 @@ from urllib.parse import quote
 import requests
 import yaml
 
-from knowledge_base.utils.arxiv_utils import metadata_to_yaml
+from knowledge_base.utils.arxiv_utils import metadata_to_yaml, normalize_arxiv_id
 from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS
 
 PAPERS_DIR = Path(__file__).parent.parent / "docs" / "papers"
@@ -438,6 +438,7 @@ def build_doi_index(papers_dir: Path | None = None) -> dict[str, Path]:
 def find_existing_by_arxiv_id(arxiv_id: str, papers_dir: Path | None = None) -> Path | None:
     """Return the path to an existing metadata.yml for *arxiv_id*, or None."""
     base = papers_dir if papers_dir is not None else PAPERS_DIR
+    arxiv_id = normalize_arxiv_id(arxiv_id)
     matches = list(base.glob(f"*/{arxiv_id}/metadata.yml"))
     return matches[0] if matches else None
 

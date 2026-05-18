@@ -7,6 +7,13 @@ from pathlib import Path
 from urllib.parse import quote, unquote, urlparse
 import mkdocs_gen_files
 from jinja2 import Environment
+from knowledge_base.utils.arxiv_utils import (
+    arxiv_abs_url,
+    arxiv_html_url,
+    arxiv_pdf_url,
+    normalize_arxiv_id,
+)
+from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 try:
     import numpy as np
@@ -23,17 +30,8 @@ related_result_limit = 36
 # Read template
 template_text = template_file.read_text()
 
-def slugify(name: str) -> str:
-    """Simple slugify: lower case, replace spaces and non-alphanumerics with underscore."""
-    return re.sub(r"[^a-zA-Z0-9]+", "_", name.lower()).strip("_")
-
-
 def paper_id_for(metadata_file: Path, data: dict) -> str:
-    if "id" in data:
-        return slugify(data["id"])
-    if metadata_file.stem != "metadata":
-        return slugify(metadata_file.stem)
-    return slugify(metadata_file.parent.name)
+    return paper_id_from_metadata(metadata_file, data, metadata_root)
 
 
 def normalize_tag_key(tag: str) -> str:
@@ -83,9 +81,7 @@ def clean_doi(doi: str | None) -> str:
 
 
 def clean_arxiv_id(arxiv_id: str | None) -> str:
-    text = clean_scalar(arxiv_id)
-    text = re.sub(r"^arxiv:\s*", "", text, flags=re.IGNORECASE)
-    return text
+    return normalize_arxiv_id(arxiv_id)
 
 
 def link_domain(url: str) -> str:
@@ -220,9 +216,9 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
             standard_links.append(make_link(label, url, "", "standard"))
 
     if arxiv_id:
-        add_standard(f"arXiv Abstract: {arxiv_id}", f"https://arxiv.org/abs/{arxiv_id}")
-        add_standard(f"arXiv PDF: {arxiv_id}", f"https://arxiv.org/pdf/{arxiv_id}")
-        add_standard(f"arXiv HTML: {arxiv_id}", f"https://ar5iv.labs.arxiv.org/html/{arxiv_id}")
+        add_standard(f"arXiv Abstract: {arxiv_id}", arxiv_abs_url(arxiv_id))
+        add_standard(f"arXiv PDF: {arxiv_id}", arxiv_pdf_url(arxiv_id))
+        add_standard(f"arXiv HTML: {arxiv_id}", arxiv_html_url(arxiv_id))
     if doi:
         add_standard(f"DOI: {doi}", f"https://doi.org/{doi}")
 

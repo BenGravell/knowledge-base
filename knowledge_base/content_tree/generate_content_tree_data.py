@@ -21,6 +21,7 @@ import mkdocs_gen_files
 import yaml
 
 from knowledge_base.content_tree.nav_source import load_content_tree
+from knowledge_base.utils.paper_ids import paper_id_from_metadata as generated_paper_id
 
 
 MKDOCS_YML = "mkdocs.yml"
@@ -43,10 +44,6 @@ def is_landing_item(label: str, child: Any) -> bool:
 def slugify_id(text: str) -> str:
     slug = re.sub(r"[^a-zA-Z0-9]+", "-", text.lower()).strip("-")
     return slug or "node"
-
-
-def slugify_page(name: str) -> str:
-    return re.sub(r"[^a-zA-Z0-9]+", "_", name.lower()).strip("_")
 
 
 class IdFactory:
@@ -83,11 +80,7 @@ def link_kind(source: str) -> str:
 
 
 def paper_id_from_metadata(metadata_file: Path, data: dict[str, Any]) -> str:
-    if "id" in data:
-        return slugify_page(str(data["id"]))
-    if metadata_file.stem != "metadata":
-        return slugify_page(metadata_file.stem)
-    return slugify_page(metadata_file.parent.name)
+    return generated_paper_id(metadata_file, data, METADATA_ROOT)
 
 
 def clean_text(value: Any) -> str:

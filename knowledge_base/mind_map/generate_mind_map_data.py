@@ -103,6 +103,7 @@ from scipy.spatial import cKDTree
 from sklearn.preprocessing import normalize
 
 from knowledge_base.content_tree.nav_source import load_content_tree
+from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 # ---------------------------------------------------------------------------
 # Paths (relative to this script's location: knowledge_base/mind_map/)
@@ -128,11 +129,6 @@ DEFAULT_UMAP_SCALE = 1500.0  # Base UMAP coordinate extent; formerly 1000 px.
 # ---------------------------------------------------------------------------
 # Helper utilities
 # ---------------------------------------------------------------------------
-
-def slugify(name: str) -> str:
-    """Lowercase, collapse any run of non-alphanumeric chars to underscore."""
-    return re.sub(r"[^a-zA-Z0-9]+", "_", name.lower()).strip("_")
-
 
 def last_name(author: str) -> str:
     """Extract the last name from an author string."""
@@ -163,11 +159,7 @@ def make_label(data: dict) -> str:
 
 def paper_id_from_file(metadata_file: Path, data: dict) -> str:
     """Reproduce the ID logic used by generate_papers.py."""
-    if "id" in data:
-        return slugify(data["id"])
-    if metadata_file.stem != "metadata":
-        return slugify(metadata_file.stem)
-    return slugify(metadata_file.parent.name)
+    return paper_id_from_metadata(metadata_file, data, METADATA_ROOT)
 
 
 def content_hash(text: str) -> str:

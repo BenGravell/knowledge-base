@@ -23,6 +23,7 @@ import requests
 from knowledge_base.utils.arxiv_utils import (
     build_metadata,
     fetch_arxiv,
+    normalize_arxiv_id,
     target_path,
     write_metadata,
 )
@@ -30,7 +31,11 @@ from knowledge_base.utils.prefill_template import HaltPrefill, PrefillScript, RE
 from knowledge_base.utils.doi_utils import find_existing_by_arxiv_id
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ARXIV.md"
-ARXIV_ID_RE = re.compile(r"arxiv\.org/(?:abs|pdf)/([^\s/?#]+)")
+ARXIV_URL_RE = re.compile(
+    r"https?://(?:www\.)?(?:arxiv\.org|ar5iv\.labs\.arxiv\.org)/"
+    r"(?:abs|pdf|html)/([^\s?#\])>]+)",
+    flags=re.IGNORECASE,
+)
 
 # Duration in seconds between successful requests.
 # arXiv asks clients to make no more than one request every 3 seconds and
@@ -50,9 +55,9 @@ def extract_ids(path: Path) -> list[str]:
         line = line.strip()
         if not line or line.startswith("#"):
             continue
-        m = ARXIV_ID_RE.search(line)
+        m = ARXIV_URL_RE.search(line)
         arxiv_id = m.group(1) if m else line
-        arxiv_id = arxiv_id.rstrip("/")
+        arxiv_id = normalize_arxiv_id(arxiv_id)
         if arxiv_id and arxiv_id not in seen:
             seen.add(arxiv_id)
             ids.append(arxiv_id)
