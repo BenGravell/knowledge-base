@@ -15,7 +15,8 @@ tags:
   - Motion planning
 abstract: >
   We present a study of people's attitudes toward robot workers, identifying the characteristics of occupations for which people believe robots are qualified and desired. We deployed a web-based public-opinion survey that asked respondents (n=250) about their attitudes regarding robots' suitability for a variety of jobs (n=812) from the U.S. Department of Labor's O*NET occupational information database. We found that public opinion favors robots for jobs that require memorization, keen perceptual abilities, and service-orientation. People are preferred for occupations that require artistry, evaluation, judgment and diplomacy. In addition, we found that people will feel more positively toward robots doing jobs with people rather than in place of people.
-summary:
+summary: >
+  Web survey over O*NET occupations to study what kinds of work ordinary respondents think robots should do. The paper pushes beyond the usual "dirty, dangerous, and dull" framing by showing that people favor robots for work involving memorization, perception, and service orientation, while preferring humans for work involving artistry, judgment, evaluation, and diplomacy.
 link: https://dl.acm.org/doi/10.1145/1349822.1349827
 links_alt:
 audit_status: raw
