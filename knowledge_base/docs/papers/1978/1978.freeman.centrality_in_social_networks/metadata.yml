@@ -1,0 +1,27 @@
+title: "Centrality in Social Networks: Conceptual Clarification"
+algorithm: "Degree, Closeness, and Betweenness Centrality"
+authors:
+  - Linton C. Freeman
+year: 1978
+source: Social Networks
+type: Journal Paper
+doi: 10.1016/0378-8733(78)90021-7
+arxiv_id:
+tags:
+  - Network centrality
+  - Degree centrality
+  - Closeness centrality
+  - Betweenness centrality
+  - Centralization
+  - Social networks
+  - Graph theory
+  - Structural analysis
+abstract: >
+  The intuitive background for measures of structural centrality in social networks is reviewed and existing measures are evaluated in terms of their consistency with intuitions and their interpretability. Three distinct intuitive conceptions of centrality are uncovered and existing measures are refined to embody these conceptions. Three measures are developed for each concept, one absolute and one relative measure of the centrality of positions in a network, and one reflecting the degree of centralization of the entire network. The implications of these measures for the experimental study of small groups is examined.
+summary: >
+  Separates the overloaded notion of network centrality into three enduring concepts: activity through direct ties, independence through short distances, and control through positions on shortest paths. The paper made degree, closeness, betweenness, and graph-level centralization into a coherent vocabulary for social network analysis.
+link: https://www.albany.edu/~ravi/pdfs/freeman_1978.pdf
+links_alt:
+  - https://doi.org/10.1016/0378-8733(78)90021-7
+  - https://www.sciencedirect.com/science/article/pii/0378873378900217
+audit_status: raw

@@ -1,0 +1,30 @@
+title: "Maps of Random Walks on Complex Networks Reveal Community Structure"
+algorithm: "Infomap"
+authors:
+  - Martin Rosvall
+  - Carl T. Bergstrom
+year: 2007
+source: Proceedings of the National Academy of Sciences of the United States of America
+type: Journal Paper
+doi: 10.1073/pnas.0706851105
+arxiv_id: "0707.0609"
+tags:
+  - Community detection
+  - Infomap
+  - Map equation
+  - Random walks
+  - Information theory
+  - Flow-based clustering
+  - Directed networks
+  - Weighted networks
+  - Network science
+abstract: >
+  To comprehend the multipartite organization of large-scale biological and social systems, we introduce a new information theoretic approach that reveals community structure in weighted and directed networks. The method decomposes a network into modules by optimally compressing a description of information flows on the network. The result is a map that both simplifies and highlights the regularities in the structure and their relationships. We illustrate the method by making a map of scientific communication as captured in the citation patterns of more than 6000 journals. We discover a multicentric organization with fields that vary dramatically in size and degree of integration into the network of science. Along the backbone of the network -- including physics, chemistry, molecular biology, and medicine -- information flows bidirectionally, but the map reveals a directional pattern of citation from the applied fields to the basic sciences.
+summary: >
+  Introduces the map equation and Infomap, framing community detection as compression of random-walk flows on a network. This shifted part of the field from purely density- or modularity-based partitions toward flow-based communities, especially useful for directed and weighted networks.
+link: https://arxiv.org/pdf/0707.0609
+links_alt:
+  - https://doi.org/10.1073/pnas.0706851105
+  - https://www.pnas.org/doi/10.1073/pnas.0706851105
+  - https://www.mapequation.org/
+audit_status: partial

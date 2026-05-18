@@ -1,0 +1,31 @@
+title: "Uncovering the Overlapping Community Structure of Complex Networks in Nature and Society"
+algorithm: "Clique Percolation Method"
+authors:
+  - Gergely Palla
+  - Imre Derenyi
+  - Illes Farkas
+  - Tamas Vicsek
+year: 2005
+source: Nature
+type: Journal Paper
+doi: 10.1038/nature03607
+arxiv_id: "physics/0506133"
+tags:
+  - Community detection
+  - Clique percolation
+  - Overlapping communities
+  - Complex networks
+  - Social networks
+  - Biological networks
+  - Network science
+  - Graph clustering
+abstract: >
+  Many complex systems in nature and society can be described in terms of networks capturing the intricate web of connections among the units they are made of. A key question is how to interpret the global organization of such networks as the coexistence of their structural subunits (communities) associated with more highly interconnected parts. Identifying these a priori unknown building blocks (such as functionally related proteins, industrial sectors and groups of people) is crucial to the understanding of the structural and functional properties of networks. The existing deterministic methods used for large networks find separated communities, whereas most of the actual networks are made of highly overlapping cohesive groups of nodes. Here we introduce an approach to analysing the main statistical features of the interwoven sets of overlapping communities that makes a step towards uncovering the modular structure of complex systems. After defining a set of new characteristic quantities for the statistics of communities, we apply an efficient technique for exploring overlapping communities on a large scale. We find that overlaps are significant, and the distributions we introduce reveal universal features of networks. Our studies of collaboration, word-association and protein interaction graphs show that the web of communities has non-trivial correlations and specific scaling properties.
+summary: >
+  Introduces the clique percolation method for detecting overlapping communities, treating communities as chains of adjacent cliques rather than disjoint partitions. The paper is a landmark for networks where nodes naturally participate in multiple groups, such as collaboration and protein interaction networks.
+link: https://arxiv.org/pdf/physics/0506133
+links_alt:
+  - https://doi.org/10.1038/nature03607
+  - https://www.nature.com/articles/nature03607
+  - https://cfinder.org/
+audit_status: partial

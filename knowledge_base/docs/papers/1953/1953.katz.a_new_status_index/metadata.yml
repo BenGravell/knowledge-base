@@ -1,0 +1,28 @@
+title: "A New Status Index Derived from Sociometric Analysis"
+algorithm: "Katz Centrality"
+authors:
+  - Leo Katz
+year: 1953
+source: Psychometrika
+type: Journal Paper
+doi: 10.1007/BF02289026
+arxiv_id:
+tags:
+  - Network centrality
+  - Katz centrality
+  - Status index
+  - Sociometric analysis
+  - Attenuated walks
+  - Matrix methods
+  - Social networks
+  - Influence measurement
+abstract: >
+  For the purpose of evaluating status in a manner free from the deficiencies of popularity contest procedures, this paper presents a new method of computation which takes into account who chooses as well as how many choose. It is necessary to introduce, in this connection, the concept of attenuation in influence transmitted through intermediaries.
+summary: >
+  Introduces a status measure that counts not only direct choices in a sociometric network but also longer chains of choices, attenuated by path length. The paper is a compact origin point for Katz centrality and for the broader idea that influence can be modeled through weighted walks in a graph rather than only immediate degree.
+link: https://www.cs.cornell.edu/courses/cs6241/2019sp/readings/Katz-1953-status.pdf
+links_alt:
+  - https://doi.org/10.1007/BF02289026
+  - http://link.springer.com/content/pdf/10.1007/BF02289026.pdf
+  - https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0033312300049000
+audit_status: raw

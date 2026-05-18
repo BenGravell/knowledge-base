@@ -1,0 +1,29 @@
+title: "Near Linear Time Algorithm to Detect Community Structures in Large-Scale Networks"
+algorithm: "Label Propagation Algorithm"
+authors:
+  - Usha Nandini Raghavan
+  - Reka Albert
+  - Soundar Kumara
+year: 2007
+source: Physical Review E
+type: Journal Paper
+doi: 10.1103/PhysRevE.76.036106
+arxiv_id: "0709.2938"
+tags:
+  - Community detection
+  - Label propagation
+  - Near-linear algorithms
+  - Large-scale graphs
+  - Graph clustering
+  - Network science
+  - Social networks
+  - Biological networks
+abstract: >
+  Community detection and analysis is an important methodology for understanding the organization of various real-world networks and has applications in problems as diverse as consensus formation in social communities or the identification of functional modules in biochemical networks. Currently used algorithms that identify the community structures in large-scale real-world networks require a priori information such as the number and sizes of communities or are computationally expensive. In this paper we investigate a simple label propagation algorithm that uses the network structure alone as its guide and requires neither optimization of a pre-defined objective function nor prior information about the communities. In our algorithm every node is initialized with a unique label and at every step each node adopts the label that most of its neighbors currently have. In this iterative process densely connected groups of nodes form a consensus on a unique label to form communities. We validate the algorithm by applying it to networks whose community structures are known. We also demonstrate that the algorithm takes an almost linear time and hence it is computationally less expensive than what was possible so far.
+summary: >
+  Introduces label propagation, a simple iterative method where nodes adopt the most common label among their neighbors until labels stabilize into communities. Its importance is practical: it avoids an explicit objective function and brought community detection close to linear time for large networks.
+link: https://arxiv.org/pdf/0709.2938
+links_alt:
+  - https://doi.org/10.1103/PhysRevE.76.036106
+  - https://journals.aps.org/pre/abstract/10.1103/PhysRevE.76.036106
+audit_status: partial

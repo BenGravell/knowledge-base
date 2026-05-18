@@ -1,0 +1,29 @@
+title: "Finding Community Structure in Very Large Networks"
+algorithm: "CNM Fast Greedy Modularity"
+authors:
+  - Aaron Clauset
+  - Mark E. J. Newman
+  - Cristopher Moore
+year: 2004
+source: Physical Review E
+type: Journal Paper
+doi: 10.1103/PhysRevE.70.066111
+arxiv_id: "cond-mat/0408187"
+tags:
+  - Community detection
+  - CNM algorithm
+  - Fast greedy modularity
+  - Modularity optimization
+  - Hierarchical clustering
+  - Agglomerative clustering
+  - Large-scale graphs
+  - Network science
+abstract: >
+  The discovery and analysis of community structure in networks is a topic of considerable recent interest within the physics community, but most methods proposed so far are unsuitable for very large networks because of their computational cost. Here we present a hierarchical agglomeration algorithm for detecting community structure which is faster than many competing algorithms: its running time on a network with n vertices and m edges is O(m d log n) where d is the depth of the dendrogram describing the community structure. Many real-world networks are sparse and hierarchical, with m ~ n and d ~ log n, in which case our algorithm runs in essentially linear time, O(n log^2 n). As an example of the application of this algorithm we use it to analyze a network of items for sale on the web-site of a large online retailer, items in the network being linked if they are frequently purchased by the same buyer. The network has more than 400,000 vertices and 2 million edges. We show that our algorithm can extract meaningful communities from this network, revealing large-scale patterns present in the purchasing habits of customers.
+summary: >
+  Introduces the CNM fast greedy algorithm, an agglomerative method that efficiently optimizes modularity and produces a community dendrogram. The paper was important because it moved modularity-based community detection toward networks with hundreds of thousands of nodes.
+link: https://arxiv.org/pdf/cond-mat/0408187
+links_alt:
+  - https://doi.org/10.1103/PhysRevE.70.066111
+  - https://journals.aps.org/pre/abstract/10.1103/PhysRevE.70.066111
+audit_status: partial
