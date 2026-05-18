@@ -1679,6 +1679,9 @@
         - "Randomized greedy algorithms for covering problems": docs/papers/2018/2018.gao.randomized_greedy_algorithms_for/metadata.yml
         - "Reducibility among Combinatorial Problems": docs/papers/1972/1972.karp.reducibility_among_combinatorial_problems/metadata.yml
     - Network Science:
+      - Small-World and Scale-Free Networks:
+        - Watts-Strogatz Model: docs/papers/1998/1998.watts.collective_dynamics_of_small/metadata.yml
+        - Barabasi-Albert Model: docs/papers/1999/cond-mat/9910332/metadata.yml
       - Centrality:
         - Katz Centrality: docs/papers/1953/1953.katz.a_new_status_index/metadata.yml
         - "Degree, Closeness, and Betweenness Centrality": docs/papers/1978/1978.freeman.centrality_in_social_networks/metadata.yml

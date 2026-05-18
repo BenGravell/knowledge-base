@@ -1,0 +1,33 @@
+title: "Collective Dynamics of Small-World Networks"
+algorithm: "Watts-Strogatz Model"
+authors:
+  - Duncan J. Watts
+  - Steven H. Strogatz
+year: 1998
+source: Nature
+type: Journal Paper
+doi: 10.1038/30918
+arxiv_id:
+tags:
+  - Small-world networks
+  - Watts-Strogatz model
+  - Complex networks
+  - Random graphs
+  - Network topology
+  - Clustering coefficient
+  - Characteristic path length
+  - Dynamical systems
+  - Synchronization
+  - Epidemic spreading
+  - Social networks
+  - Biological networks
+abstract: >
+  Networks of coupled dynamical systems have been used to model biological oscillators, Josephson junction arrays, excitable media, neural networks, spatial games, genetic control networks and many other self-organizing systems. Ordinarily, the connection topology is assumed to be either completely regular or completely random. But many biological, technological and social networks lie somewhere between these two extremes. Here we explore simple models of networks that can be tuned through this middle ground: regular networks 'rewired' to introduce increasing amounts of disorder. We find that these systems can be highly clustered, like regular lattices, yet have small characteristic path lengths, like random graphs. We call them 'small-world' networks, by analogy with the small-world phenomenon (popularly known as six degrees of separation). The neural network of the worm Caenorhabditis elegans, the power grid of the western United States, and the collaboration graph of film actors are shown to be small-world networks. Models of dynamical systems with small-world coupling display enhanced signal-propagation speed, computational power, and synchronizability. In particular, infectious diseases spread more easily in small-world networks than in regular lattices.
+summary: >
+  Introduces the Watts-Strogatz small-world network model, showing that a small amount of random rewiring can combine high local clustering with short global path lengths. The paper made small-world structure a central concept in network science and connected graph topology to synchronization, spreading, and computation in coupled dynamical systems.
+link: https://static.squarespace.com/static/5436e695e4b07f1e91b30155/t/54452561e4b08d9eb2170909/1413817697054/collective-dynamics-of-small-world-networks.pdf
+links_alt:
+  - https://www.nature.com/articles/30918
+  - https://doi.org/10.1038/30918
+  - http://www.nature.com/articles/30918.pdf
+audit_status: partial
