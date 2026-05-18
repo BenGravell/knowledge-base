@@ -1197,6 +1197,7 @@
         - "Building Rome with Convex Optimization": docs/papers/2025/2025.han.building_rome_with_convex/metadata.yml
         - "Learning Occupancy Grid Maps with Forward Sensor Models": docs/papers/2003/2003.thrun.learning_occupancy_grid_maps/metadata.yml
         - iSAM: docs/papers/2008/2008.kaess.isam_incremental_smoothing_and/metadata.yml
+        - Quaternion Based Camera Pose Estimation From Matched Feature Points: docs/papers/2017/1704.02672/metadata.yml
     - Motion Prediction:
       - Traffic Models:
         - IDM: docs/papers/2000/2000.treiber.congested_traffic_states_in/metadata.yml
@@ -1226,55 +1227,57 @@
         - RDAR: docs/papers/2025/2509.19789/metadata.yml
       - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: docs/papers/2025/2511.00814/metadata.yml
     - Computer Vision:
-      - Edge Detection:
-        - Sobel Operator: docs/papers/2015/2015.sobel.an_isotropic_3x3_image/metadata.yml
-        - Theory of Edge Detection: docs/papers/1980/1980.marr.theory_of_edge_detection/metadata.yml
-        - "A Computational Approach to Edge Detection": docs/papers/1986/1986.canny.a_computational_approach_to/metadata.yml
-      - Object Detection:
-        - A General Framework for Object Detection: docs/papers/1998/1998.papageorgiou.a_general_framework_for/metadata.yml
-        - Viola-Jones Detector: docs/papers/2001/2001.viola.rapid_object_detection_using/metadata.yml
-        - HOG: docs/papers/2005/2005.dalal.histograms_of_oriented_gradients/metadata.yml
-        - YOLO: docs/papers/2015/1506.02640/metadata.yml
-      - "3D Vision & Shape Understanding":
-        - 3D ShapeNets: docs/papers/2014/1406.5670/metadata.yml
-        - Quaternion Based Camera Pose Estimation From Matched Feature Points: docs/papers/2017/1704.02672/metadata.yml
-        - ShapeNet: docs/papers/2015/1512.03012/metadata.yml
-      - Face Recognition:
-        - FaceNet: docs/papers/2015/1503.03832/metadata.yml
-      - "Feature Detection & Description":
-        - SIFT: docs/papers/2004/2004.lowe.distinctive_image_features_from/metadata.yml
-        - SURF: docs/papers/2006/2006.bay.surf_speeded_up_robust/metadata.yml
-        - AprilTag: docs/papers/2011/2011.olson.apriltag_a_robust_and/metadata.yml
-        - AprilTag 2: docs/papers/2016/2016.wang.apriltag_2_efficient_and/metadata.yml
-      - "Image Classification & Recognition":
-        - ImageNet: docs/papers/2012/2012.krizhevsky.imagenet_classification_with_deep/metadata.yml
-        - Inception/GoogLeNet: docs/papers/2014/1409.4842/metadata.yml
-        - VGG: docs/papers/2014/1409.1556/metadata.yml        
-        - ResNet: docs/papers/2015/1512.03385/metadata.yml
-        - ViT: docs/papers/2020/2010.11929/metadata.yml
-        - Swin Transformer: docs/papers/2021/2103.14030/metadata.yml
-        - DINO: docs/papers/2021/2104.14294/metadata.yml
-        - DINOv2: docs/papers/2023/2304.07193/metadata.yml
-        - DINOv3: docs/papers/2025/2508.10104/metadata.yml
-      - Image Quality Assessment:
-        - SSIM: docs/papers/2004/2004.wang.image_quality_assessment_from/metadata.yml
-        - Understanding SSIM: docs/papers/2020/2006.13846/metadata.yml
-        - "A new Image Similarity Metric for a Perceptual and Transparent Geometric and Chromatic Assessment": docs/papers/2026/2601.19680/metadata.yml
-      - "Color & Perception":
-        - "Visual Sensitivities to Color Differences in Daylight": docs/papers/1942/1942.macadam.visual_sensitivities_to_color/metadata.yml
-        - IPT Color Space: docs/papers/1998/1998.ebner.development_and_testing_of/metadata.yml
-        - "Uniform colour spaces based on CIECAM02 colour appearance model": docs/papers/2006/2006.luo.uniform_colour_spaces_based/metadata.yml
-      - "Image Processing & Computational Photography":
-        - "End-to-end Optimized Image Compression": docs/papers/2016/1611.01704/metadata.yml
-        - "Lossy Image Compression with Compressive Autoencoders": docs/papers/2017/1703.00395/metadata.yml
+      - Low-level & Geometric Vision:
+        - Edge Detection:
+          - Sobel Operator: docs/papers/2015/2015.sobel.an_isotropic_3x3_image/metadata.yml
+          - Theory of Edge Detection: docs/papers/1980/1980.marr.theory_of_edge_detection/metadata.yml
+          - "A Computational Approach to Edge Detection": docs/papers/1986/1986.canny.a_computational_approach_to/metadata.yml
+        - Feature Detection & Description:
+          - SIFT: docs/papers/2004/2004.lowe.distinctive_image_features_from/metadata.yml
+          - SURF: docs/papers/2006/2006.bay.surf_speeded_up_robust/metadata.yml
+          - AprilTag: docs/papers/2011/2011.olson.apriltag_a_robust_and/metadata.yml
+          - AprilTag 2: docs/papers/2016/2016.wang.apriltag_2_efficient_and/metadata.yml
+        - 3D Vision & Shape Understanding:
+          - 3D ShapeNets: docs/papers/2014/1406.5670/metadata.yml
+          - ShapeNet: docs/papers/2015/1512.03012/metadata.yml
+      - Recognition & Understanding:
+        - Object Detection:
+          - A General Framework for Object Detection: docs/papers/1998/1998.papageorgiou.a_general_framework_for/metadata.yml
+          - Viola-Jones Detector: docs/papers/2001/2001.viola.rapid_object_detection_using/metadata.yml
+          - HOG: docs/papers/2005/2005.dalal.histograms_of_oriented_gradients/metadata.yml
+          - YOLO: docs/papers/2015/1506.02640/metadata.yml
+        - Face Recognition:
+          - FaceNet: docs/papers/2015/1503.03832/metadata.yml
+        - Image Classification & Recognition:
+          - ImageNet: docs/papers/2012/2012.krizhevsky.imagenet_classification_with_deep/metadata.yml
+          - Inception/GoogLeNet: docs/papers/2014/1409.4842/metadata.yml
+          - VGG: docs/papers/2014/1409.1556/metadata.yml
+          - ResNet: docs/papers/2015/1512.03385/metadata.yml
+          - ViT: docs/papers/2020/2010.11929/metadata.yml
+          - Swin Transformer: docs/papers/2021/2103.14030/metadata.yml
+          - DINO: docs/papers/2021/2104.14294/metadata.yml
+          - DINOv2: docs/papers/2023/2304.07193/metadata.yml
+          - DINOv3: docs/papers/2025/2508.10104/metadata.yml
+        - Video Understanding:
+          - ViViT: docs/papers/2021/2103.15691/metadata.yml
+          - V-JEPA: docs/papers/2024/2404.08471/metadata.yml
+          - V-JEPA 2: docs/papers/2025/2506.09985/metadata.yml
+      - Image Compression:
+          - "End-to-end Optimized Image Compression": docs/papers/2016/1611.01704/metadata.yml
+          - "Lossy Image Compression with Compressive Autoencoders": docs/papers/2017/1703.00395/metadata.yml
+          - "What Matters in Practical Learned Image Compression": docs/papers/2026/2605.05148/metadata.yml
+      - Image Processing & Computational Photography:
         - Polyblur: docs/papers/2020/2012.09322/metadata.yml
         - "Burst photography for high dynamic range and low-light imaging on mobile cameras": docs/papers/2016/2016.hasinoff.burst_photography_for_high/metadata.yml
-        - Nano Banana Pro: docs/papers/2025/2512.15110/metadata.yml
-        - "What Matters in Practical Learned Image Compression": docs/papers/2026/2605.05148/metadata.yml
-      - Video Understanding:
-        - ViViT: docs/papers/2021/2103.15691/metadata.yml
-        - V-JEPA: docs/papers/2024/2404.08471/metadata.yml
-        - V-JEPA 2: docs/papers/2025/2506.09985/metadata.yml
+      - Image Assessment:
+        - Metrics:
+          - SSIM: docs/papers/2004/2004.wang.image_quality_assessment_from/metadata.yml
+          - Understanding SSIM: docs/papers/2020/2006.13846/metadata.yml
+          - "A new Image Similarity Metric for a Perceptual and Transparent Geometric and Chromatic Assessment": docs/papers/2026/2601.19680/metadata.yml
+        - Color:
+          - "Visual Sensitivities to Color Differences in Daylight": docs/papers/1942/1942.macadam.visual_sensitivities_to_color/metadata.yml
+          - IPT Color Space: docs/papers/1998/1998.ebner.development_and_testing_of/metadata.yml
+          - "Uniform colour spaces based on CIECAM02 colour appearance model": docs/papers/2006/2006.luo.uniform_colour_spaces_based/metadata.yml
     - Machine Learning:
       - Foundations, Data & Reliability:
         - Foundations:
@@ -1460,10 +1463,11 @@
             - BehaviorGPT-v3: docs/papers/2025/2025.gabrielsson.behaviorgpt_for_visual_art/metadata.yml
       - Generative Modeling:
         - Generative Models:
-          - "Auto-Encoding Variational Bayes": docs/papers/2013/1312.6114/metadata.yml
-          - "Generative Adversarial Networks": docs/papers/2014/1406.2661/metadata.yml
-          - "Image Generators are Generalist Vision Learners": docs/papers/2026/2604.20329/metadata.yml
+          - Auto-Encoding Variational Bayes: docs/papers/2013/1312.6114/metadata.yml
+          - GAN: docs/papers/2014/1406.2661/metadata.yml
           - Wasserstein GAN: docs/papers/2017/1701.07875/metadata.yml
+          - Nano Banana Pro: docs/papers/2025/2512.15110/metadata.yml
+          - Vision Banana: docs/papers/2026/2604.20329/metadata.yml
         - Diffusion Models:
           - Denoising Diffusion Probabilistic Models: docs/papers/2020/2006.11239/metadata.yml
           - Diffusion Forcing: docs/papers/2024/2407.01392/metadata.yml
@@ -1525,7 +1529,7 @@
       - HydroGym: docs/papers/2025/2512.17534/metadata.yml
       - Flow Gym: docs/papers/2025/2512.20642/metadata.yml
       - Beyond Self-Play and Scale: docs/papers/2026/2605.10034/metadata.yml
-    - Safety, Testing, Verification & Validation:
+    - Safety, Testing, Verification & Validation (V&V):
       - Driving & Autonomous Vehicles:
         - Road Design:
           - "Unconventional Roundabouts: Third-Generation Insights from the United States and Europe": docs/papers/2026/2026.brocchini.unconventional_roundabouts_third_generation/metadata.yml
@@ -1540,9 +1544,6 @@
           - "Scalable Autonomous Vehicle Safety Validation through Dynamic Programming and Scene Decomposition": docs/papers/2020/2004.06801/metadata.yml
         - Standards:
           - "IEEE Standard 3079-2022": docs/papers/2022/2022.various.ieee_standard_for_assumptions/metadata.yml
-        - Risk-aware Robotics:
-          - How Should a Robot Assess Risk?: docs/papers/2017/2017.majumdar.how_should_a_robot/metadata.yml
-          - "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification": docs/papers/2024/2403.18972/metadata.yml
         - Formal Methods:
           - "On a Formal Model of Safe and Scalable Self-driving Cars": docs/papers/2017/1708.06374/metadata.yml
           - Formal Specification for Deep Neural Networks: docs/papers/2018/2018.seshia.formal_specification_for_deep/metadata.yml
@@ -1551,6 +1552,9 @@
           - "The Field of Safe Motion: Operationalizing Affordances in the Field of Safe Travel Using Reachability Analysis": docs/papers/2026/2604.27168/metadata.yml
         - Learning Methods:
           - "Learning Autonomous Vehicle Safety Concepts from Demonstrations": docs/papers/2022/2210.02761/metadata.yml
+      - Risk-aware Robotics:
+          - How Should a Robot Assess Risk?: docs/papers/2017/2017.majumdar.how_should_a_robot/metadata.yml
+          - "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification": docs/papers/2024/2403.18972/metadata.yml
       - General Automated Systems:
         - "Assume/Guarantee Contracts for Dynamical Systems: Theory and Computational Tools": docs/papers/2020/2012.12657/metadata.yml
         - "On the validation of complex systems operating in open contexts": docs/papers/2019/1902.10517/metadata.yml
