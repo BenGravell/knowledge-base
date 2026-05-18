@@ -18,3 +18,5 @@ https://www.semanticscholar.org/paper/Concerning-nonnegative-matrices-and-doubly
 https://www.jstor.org/stable/2238545
 https://arxiv.org/abs/1910.12430
 https://arxiv.org/pdf/2603.04284
+https://dl.acm.org/doi/abs/10.5555/3022473.3022494
+https://arxiv.org/abs/2602.04746

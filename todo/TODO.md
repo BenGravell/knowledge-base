@@ -1,12 +1,5 @@
 # TODO
 
-## Ingest
-
-Perform agent task
-"### Generate metadata for a group of papers"
-for
-todo/papers_misc/001_autonomous_driving_and_av_01.md
-
 ## ConLab scrape
 
 <https://labs.utdallas.edu/conlab/>
@@ -201,6 +194,14 @@ Write audit script to check for identical content tree key label and algorithm f
 
 Write audit script to check for multiple metadata items claiming the same algorithm. Flag violations for manual resolution.
 
+add check to audit script for the word 'abstract' actually appearing in the abstract field text
+
+add checks for weird characters in abstract, title, author fields
+
+add check for likely mis-spellings
+
+add check for likely unnecessary space and hyphens in middle of words (typical from OCR generated abstracts)
+
 #### dollar sign / math
 
 Add checked in audit for dollar signs in abstract
@@ -213,7 +214,7 @@ Fix math notation, make plain text readable.
 
 Arxiv prefill script should strip off version number from url if present before fetching data.
 
-## normalization and de-duplication
+### normalization and de-duplication
 
 Normalized authors to remove differently spelled duplicates. Align them to a central database of unique authors in the repo.
 
