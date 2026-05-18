@@ -1640,12 +1640,13 @@
       - Message Protocols:
         - LCM: docs/papers/2010/2010.huang.lcm_lightweight_communications_and/metadata.yml
     - Algorithms & Data Structures:
-      - Search Trees:
-        - Left-Leaning Red-Black Trees: docs/papers/2008/2008.sedgewick.left_leaning_red_black/metadata.yml
-      - Probabilistic Data Structures:
-        - "Space/time trade-offs in hash coding with allowable errors": docs/papers/1970/1970.bloom.space_time_trade_offs/metadata.yml
-        - HyperLogLog: docs/papers/2007/2007.flajolet.hyperloglog_the_analysis_of/metadata.yml
-        - Cuckoo Filter: docs/papers/2014/2014.fan.cuckoo_filter_practically_better/metadata.yml
+      - Sorting:
+        - Quicksort: docs/papers/1962/1962.hoare.quicksort/metadata.yml
+        - Heapsort: docs/papers/1964/1964.williams.algorithm_232_heapsort/metadata.yml
+        - Introsort: docs/papers/1997/1997.musser.introspective_sorting_and_selection/metadata.yml
+        - Pattern-defeating Quicksort: docs/papers/2021/2106.05123/metadata.yml
+      - Priority Queues:
+        - Fibonacci Heap: docs/papers/1987/1987.fredman.fibonacci_heaps_and_their/metadata.yml
       - Nearest Neighbor Search:
         - FLANN: docs/papers/2014/2014.muja.scalable_nearest_neighbor_algorithms/metadata.yml
         - "Accelerating Large-Scale Inference with Anisotropic Vector Quantization": docs/papers/2019/1908.10396/metadata.yml
@@ -1655,34 +1656,41 @@
         - JZ-Tree: docs/papers/2026/2604.05885/metadata.yml
         - "Product Quantization for Nearest Neighbor Search": docs/papers/2011/2011.jegou.product_quantization_for_nearest/metadata.yml
         - FAISS: docs/papers/2024/2401.08281/metadata.yml
-      - Complexity & Approximation:
-        - Complexity of Ten Decision Problems in Continuous Time Dynamical Systems: docs/papers/2012/1210.7420/metadata.yml
-        - "Randomized greedy algorithms for covering problems": docs/papers/2018/2018.gao.randomized_greedy_algorithms_for/metadata.yml
-        - "Reducibility among Combinatorial Problems": docs/papers/1972/1972.karp.reducibility_among_combinatorial_problems/metadata.yml
-      - Parallel Algorithms:
-        - "Fast parallel matrix inversion algorithms": docs/papers/1975/1975.csanky.fast_parallel_matrix_inversion/metadata.yml
-        - "Scans as primitive parallel operations": docs/papers/1989/1989.blelloch.scans_as_primitive_parallel/metadata.yml
-      - Priority Queues:
-        - Fibonacci Heap: docs/papers/1987/1987.fredman.fibonacci_heaps_and_their/metadata.yml
-      - Sorting:
-        - Quicksort: docs/papers/1962/1962.hoare.quicksort/metadata.yml
-        - Heapsort: docs/papers/1964/1964.williams.algorithm_232_heapsort/metadata.yml
-        - Introsort: docs/papers/1997/1997.musser.introspective_sorting_and_selection/metadata.yml
-        - Pattern-defeating Quicksort: docs/papers/2021/2106.05123/metadata.yml
       - Trees & Spatial Indexing:
         - B-tree: docs/papers/1970/1970.bayer.organization_and_maintenance_of/metadata.yml
         - Ubiquitous B-Tree: docs/papers/1979/1979.comer.ubiquitous_b_tree/metadata.yml
         - Quad Trees: docs/papers/1974/1974.finkel.quad_trees_a_data/metadata.yml
         - k-d Tree: docs/papers/1975/1975.bentley.multidimensional_binary_search_trees/metadata.yml
         - Red-black Tree: docs/papers/1978/1978.guibas.a_dichromatic_framework_for/metadata.yml
+        - Left-Leaning Red-Black Tree: docs/papers/2008/2008.sedgewick.left_leaning_red_black/metadata.yml
         - SR-tree: docs/papers/1997/1997.katayama.the_sr_tree/metadata.yml
         - STAR-Tree: docs/papers/2002/2002.procopiuc.star_tree_an_efficient/metadata.yml
         - R-trees: docs/papers/1984/1984.guttman.r_trees/metadata.yml
         - Barnes-Hut algorithm: docs/papers/1986/1986.barnes.a_hierarchical_o_n/metadata.yml
+      - Probabilistic Data Structures:
+        - Bloom Filter: docs/papers/1970/1970.bloom.space_time_trade_offs/metadata.yml
+        - HyperLogLog: docs/papers/2007/2007.flajolet.hyperloglog_the_analysis_of/metadata.yml
+        - Cuckoo Filter: docs/papers/2014/2014.fan.cuckoo_filter_practically_better/metadata.yml
+      - Parallel Algorithms:
+        - "Fast parallel matrix inversion algorithms": docs/papers/1975/1975.csanky.fast_parallel_matrix_inversion/metadata.yml
+        - "Scans as primitive parallel operations": docs/papers/1989/1989.blelloch.scans_as_primitive_parallel/metadata.yml
+      - Complexity & Approximation:
+        - Complexity of Ten Decision Problems in Continuous Time Dynamical Systems: docs/papers/2012/1210.7420/metadata.yml
+        - "Randomized greedy algorithms for covering problems": docs/papers/2018/2018.gao.randomized_greedy_algorithms_for/metadata.yml
+        - "Reducibility among Combinatorial Problems": docs/papers/1972/1972.karp.reducibility_among_combinatorial_problems/metadata.yml
     - Network Science:
       - Centrality:
+        - Katz Centrality: docs/papers/1953/1953.katz.a_new_status_index/metadata.yml
+        - "Degree, Closeness, and Betweenness Centrality": docs/papers/1978/1978.freeman.centrality_in_social_networks/metadata.yml
+        - Bonacich Power Centrality: docs/papers/1987/1987.bonacich.power_and_centrality_a/metadata.yml
         - PageRank: docs/papers/1998/1998.page.the_pagerank_citation_ranking/metadata.yml
+        - HITS: docs/papers/1999/1999.kleinberg.authoritative_sources_in_a/metadata.yml
       - Community Detection:
+        - Girvan-Newman Algorithm: docs/papers/2001/cond-mat/0112110/metadata.yml
+        - CNM Fast Greedy Modularity: docs/papers/2004/cond-mat/0408187/metadata.yml
+        - Clique Percolation Method: docs/papers/2005/physics/0506133/metadata.yml
+        - Label Propagation Algorithm: docs/papers/2007/0709.2938/metadata.yml
+        - Infomap: docs/papers/2007/0707.0609/metadata.yml
         - Louvain Algorithm: docs/papers/2008/0803.0476/metadata.yml
         - Leiden Algorithm: docs/papers/2018/1810.08473/metadata.yml
     - Engineering Systems:
