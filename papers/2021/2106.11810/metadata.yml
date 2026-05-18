@@ -1,5 +1,5 @@
-title: "NuPlan: A Closed-loop ML-based Planning Benchmark for Autonomous Vehicles"
-algorithm: "NuPlan"
+title: "nuPlan: A Closed-loop ML-based Planning Benchmark for Autonomous Vehicles"
+algorithm: nuPlan
 authors:
   - Holger Caesar
   - Juraj Kabzan

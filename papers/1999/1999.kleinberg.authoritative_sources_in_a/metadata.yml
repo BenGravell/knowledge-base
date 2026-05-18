@@ -1,0 +1,28 @@
+title: "Authoritative Sources in a Hyperlinked Environment"
+algorithm: HITS
+authors:
+  - Jon M. Kleinberg
+year: 1999
+source: Journal of the ACM
+type: Journal Paper
+doi: 10.1145/324133.324140
+arxiv_id:
+tags:
+  - Link analysis
+  - HITS
+  - Hub score
+  - Authority score
+  - Eigenvector centrality
+  - Web graph
+  - Search engines
+  - Information retrieval
+  - Network centrality
+abstract: >
+  The network structure of a hyperlinked environment can be a rich source of information about the content of the environment, provided we have effective means for understanding it. We develop a set of algorithmic tools for extracting information from the link structures of such environments, and report on experiments that demonstrate their effectiveness in a variety of contexts on the World Wide Web. The central issue we address within our framework is the distillation of broad search topics, through the discovery of "authoritative" information sources on such topics. We propose and test an algorithmic formulation of the notion of authority, based on the relationship between a set of relevant authoritative pages and the set of "hub pages" that join them together in the link structure. Our formulation has connections to the eigenvectors of certain matrices associated with the link graph; these connections in turn motivate additional heuristics for link-based analysis.
+summary: >
+  Introduces HITS, which assigns mutually reinforcing hub and authority scores to pages in a hyperlink graph. The method became a foundational link-analysis centrality technique alongside PageRank, especially for separating nodes that point to good resources from nodes that are themselves treated as authoritative.
+link: https://www.cs.cornell.edu/info/people/kleinber/auth.pdf
+links_alt:
+  - https://doi.org/10.1145/324133.324140
+  - https://dl.acm.org/doi/10.1145/324133.324140
+audit_status: raw

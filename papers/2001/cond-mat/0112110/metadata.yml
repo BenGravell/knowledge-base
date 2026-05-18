@@ -1,0 +1,29 @@
+title: "Community Structure in Social and Biological Networks"
+algorithm: "Girvan-Newman Algorithm"
+authors:
+  - Michelle Girvan
+  - Mark E. J. Newman
+year: 2001
+source: Proceedings of the National Academy of Sciences of the United States of America
+type: Journal Paper
+doi: 10.1073/pnas.122653799
+arxiv_id: "cond-mat/0112110"
+tags:
+  - Community detection
+  - Girvan-Newman algorithm
+  - Edge betweenness
+  - Divisive clustering
+  - Social networks
+  - Biological networks
+  - Network science
+  - Graph clustering
+  - Hierarchical clustering
+abstract: >
+  A number of recent studies have focused on the statistical properties of networked systems such as social networks and the World-Wide Web. Researchers have concentrated particularly on a few properties which seem to be common to many networks: the small-world property, power-law degree distributions, and network transitivity. In this paper, we highlight another property which is found in many networks, the property of community structure, in which network nodes are joined together in tightly-knit groups between which there are only looser connections. We propose a new method for detecting such communities, built around the idea of using centrality indices to find community boundaries. We test our method on computer generated and real-world graphs whose community structure is already known, and find that it detects this known structure with high sensitivity and reliability. We also apply the method to two networks whose community structure is not well-known--a collaboration network and a food web--and find that it detects significant and informative community divisions in both cases.
+summary: >
+  Introduces a divisive community detection method based on repeatedly removing edges with high edge betweenness. The paper helped make community structure a central network science problem and established a benchmark algorithm for finding boundaries between densely connected groups.
+link: https://arxiv.org/pdf/cond-mat/0112110
+links_alt:
+  - https://doi.org/10.1073/pnas.122653799
+  - https://www.pnas.org/doi/10.1073/pnas.122653799
+audit_status: partial

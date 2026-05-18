@@ -1,0 +1,27 @@
+title: "Power and Centrality: A Family of Measures"
+algorithm: "Bonacich Power Centrality"
+authors:
+  - Phillip Bonacich
+year: 1987
+source: American Journal of Sociology
+type: Journal Paper
+doi: 10.1086/228631
+arxiv_id:
+tags:
+  - Network centrality
+  - Bonacich centrality
+  - Power centrality
+  - Eigenvector centrality
+  - Social networks
+  - Exchange networks
+  - Status measurement
+  - Structural power
+abstract: >
+  Although network centrality is generally assumed to produce power, recent research shows that this is not the case in exchange networks. This paper proposes a generalization of the concept of centrality that accounts for both the usual positive relationship between power and centrality and Cook et al.'s recent exceptional results.
+summary: >
+  Introduces a parameterized family of centrality measures that can treat connections to well-connected actors as either advantageous or disadvantageous, depending on the network process being modeled. This makes the paper a core reference for power centrality and for distinguishing access-based centrality from bargaining or dependency-based power.
+link: https://doi.org/10.1086/228631
+links_alt:
+  - https://www.jstor.org/stable/2780000
+  - http://www.journals.uchicago.edu/doi/pdf/10.1086/228631
+audit_status: raw

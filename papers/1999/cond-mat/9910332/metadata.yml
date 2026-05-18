@@ -1,0 +1,31 @@
+title: "Emergence of Scaling in Random Networks"
+algorithm: "Barabasi-Albert Model"
+authors:
+  - Albert-Laszlo Barabasi
+  - Reka Albert
+year: 1999
+source: Science
+type: Journal Paper
+doi: 10.1126/science.286.5439.509
+arxiv_id: "cond-mat/9910332"
+tags:
+  - Scale-free networks
+  - Barabasi-Albert model
+  - Preferential attachment
+  - Network growth
+  - Power-law degree distribution
+  - Complex networks
+  - Random graphs
+  - Self-organization
+  - World Wide Web
+  - Genetic networks
+abstract: >
+  Systems as diverse as genetic networks or the world wide web are best described as networks with complex topology. A common property of many large networks is that the vertex connectivities follow a scale-free power-law distribution. This feature is found to be a consequence of the two generic mechanisms that networks expand continuously by the addition of new vertices, and new vertices attach preferentially to already well connected sites. A model based on these two ingredients reproduces the observed stationary scale-free distributions, indicating that the development of large networks is governed by robust self-organizing phenomena that go beyond the particulars of the individual systems.
+summary: >
+  Introduces the Barabasi-Albert model, explaining scale-free degree distributions through network growth and preferential attachment. The paper helped establish power-law degree structure as a major organizing idea in complex networks and gave a compact generative mechanism for hub formation in systems such as the Web and biological networks.
+link: https://arxiv.org/pdf/cond-mat/9910332
+links_alt:
+  - https://arxiv.org/abs/cond-mat/9910332
+  - https://doi.org/10.1126/science.286.5439.509
+  - https://www.science.org/doi/10.1126/science.286.5439.509
+audit_status: partial

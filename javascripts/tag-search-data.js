@@ -280,6 +280,30 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=1999_thrun_minerva_a_second_generation",
       "mindMapUrl": "../mind-map/#paper=1999_thrun_minerva_a_second_generation"
     },
+    "1999_kleinberg_authoritative_sources_in_a": {
+      "id": "1999_kleinberg_authoritative_sources_in_a",
+      "title": "Authoritative Sources in a Hyperlinked Environment",
+      "label": "HITS",
+      "authors": [
+        "Jon M. Kleinberg"
+      ],
+      "year": 1999,
+      "tags": [
+        "Link analysis",
+        "HITS",
+        "Hub score",
+        "Authority score",
+        "Eigenvector centrality",
+        "Web graph",
+        "Search engines",
+        "Information retrieval",
+        "Network centrality"
+      ],
+      "summary": "Introduces HITS, which assigns mutually reinforcing hub and authority scores to pages in a hyperlink graph. The method became a foundational link-analysis centrality technique alongside PageRank, especially for separating nodes that point to good resources from nodes that are themselves treated as authoritative.",
+      "url": "../papers/1999_kleinberg_authoritative_sources_in_a/",
+      "contentTreeUrl": "../content-tree/#paper=1999_kleinberg_authoritative_sources_in_a",
+      "mindMapUrl": "../mind-map/#paper=1999_kleinberg_authoritative_sources_in_a"
+    },
     "1999_van_den_bergen_a_fast_and_robust": {
       "id": "1999_van_den_bergen_a_fast_and_robust",
       "title": "A Fast and Robust GJK Implementation for Collision Detection of Convex Objects",
@@ -317,6 +341,32 @@ window.tagSearchData = {
       "url": "../papers/1999_larsen_fast_proximity_queries_with/",
       "contentTreeUrl": "../content-tree/#paper=1999_larsen_fast_proximity_queries_with",
       "mindMapUrl": "../mind-map/#paper=1999_larsen_fast_proximity_queries_with"
+    },
+    "cond_mat_9910332": {
+      "id": "cond_mat_9910332",
+      "title": "Emergence of Scaling in Random Networks",
+      "label": "Barabasi-Albert Model",
+      "authors": [
+        "Albert-Laszlo Barabasi",
+        "Reka Albert"
+      ],
+      "year": 1999,
+      "tags": [
+        "Scale-free networks",
+        "Barabasi-Albert model",
+        "Preferential attachment",
+        "Network growth",
+        "Power-law degree distribution",
+        "Complex networks",
+        "Random graphs",
+        "Self-organization",
+        "World Wide Web",
+        "Genetic networks"
+      ],
+      "summary": "Introduces the Barabasi-Albert model, explaining scale-free degree distributions through network growth and preferential attachment. The paper helped establish power-law degree structure as a major organizing idea in complex networks and gave a compact generative mechanism for hub formation in systems such as the Web and biological networks.",
+      "url": "../papers/cond_mat_9910332/",
+      "contentTreeUrl": "../content-tree/#paper=cond_mat_9910332",
+      "mindMapUrl": "../mind-map/#paper=cond_mat_9910332"
     },
     "2016_otte_rrtx_asymptotically_optimal_single": {
       "id": "2016_otte_rrtx_asymptotically_optimal_single",
@@ -1182,6 +1232,29 @@ window.tagSearchData = {
       "url": "../papers/1611_02247/",
       "contentTreeUrl": "../content-tree/#paper=1611_02247",
       "mindMapUrl": "../mind-map/#paper=1611_02247"
+    },
+    "1866_mendel_versuche_uber_pflanzen_hybriden": {
+      "id": "1866_mendel_versuche_uber_pflanzen_hybriden",
+      "title": "Versuche Über Pflanzen-Hybriden",
+      "label": "Mendelian Inheritance",
+      "authors": [
+        "Gregor Mendel"
+      ],
+      "year": 1866,
+      "tags": [
+        "Genetics",
+        "Mendelian inheritance",
+        "Heredity",
+        "Segregation",
+        "Dominance",
+        "Hybridization",
+        "Variation",
+        "Evolutionary algorithms"
+      ],
+      "summary": "Establishes the particulate inheritance model through controlled pea-plant crosses, showing that traits segregate and recombine according to regular statistical patterns. It supplies the genotype-level mechanism that later made biological evolution and genotype-based evolutionary algorithms mathematically crisp.",
+      "url": "../papers/1866_mendel_versuche_uber_pflanzen_hybriden/",
+      "contentTreeUrl": "../content-tree/#paper=1866_mendel_versuche_uber_pflanzen_hybriden",
+      "mindMapUrl": "../mind-map/#paper=1866_mendel_versuche_uber_pflanzen_hybriden"
     },
     "2005_00985": {
       "id": "2005_00985",
@@ -9977,6 +10050,34 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=1998_ebner_development_and_testing_of",
       "mindMapUrl": "../mind-map/#paper=1998_ebner_development_and_testing_of"
     },
+    "1998_watts_collective_dynamics_of_small": {
+      "id": "1998_watts_collective_dynamics_of_small",
+      "title": "Collective Dynamics of Small-World Networks",
+      "label": "Watts-Strogatz Model",
+      "authors": [
+        "Duncan J. Watts",
+        "Steven H. Strogatz"
+      ],
+      "year": 1998,
+      "tags": [
+        "Small-world networks",
+        "Watts-Strogatz model",
+        "Complex networks",
+        "Random graphs",
+        "Network topology",
+        "Clustering coefficient",
+        "Characteristic path length",
+        "Dynamical systems",
+        "Synchronization",
+        "Epidemic spreading",
+        "Social networks",
+        "Biological networks"
+      ],
+      "summary": "Introduces the Watts-Strogatz small-world network model, showing that a small amount of random rewiring can combine high local clustering with short global path lengths. The paper made small-world structure a central concept in network science and connected graph topology to synchronization, spreading, and computation in coupled dynamical systems.",
+      "url": "../papers/1998_watts_collective_dynamics_of_small/",
+      "contentTreeUrl": "../content-tree/#paper=1998_watts_collective_dynamics_of_small",
+      "mindMapUrl": "../mind-map/#paper=1998_watts_collective_dynamics_of_small"
+    },
     "1998_de_luca_feedback_control_of_a": {
       "id": "1998_de_luca_feedback_control_of_a",
       "title": "Feedback Control of a Nonholonomic Car-like Robot",
@@ -10440,6 +10541,30 @@ window.tagSearchData = {
       "url": "../papers/1977_ljung_analysis_of_recursive_stochastic/",
       "contentTreeUrl": "../content-tree/#paper=1977_ljung_analysis_of_recursive_stochastic",
       "mindMapUrl": "../mind-map/#paper=1977_ljung_analysis_of_recursive_stochastic"
+    },
+    "1977_sanger_dna_sequencing_with_chain": {
+      "id": "1977_sanger_dna_sequencing_with_chain",
+      "title": "DNA Sequencing with Chain-Terminating Inhibitors",
+      "label": "DNA Sequencing",
+      "authors": [
+        "Frederick Sanger",
+        "Steven Nicklen",
+        "Alan R. Coulson"
+      ],
+      "year": 1977,
+      "tags": [
+        "DNA sequencing",
+        "Sanger sequencing",
+        "Chain termination",
+        "Genomics",
+        "Molecular biology",
+        "Genetic information",
+        "Genome analysis"
+      ],
+      "summary": "Introduces the dideoxy chain-termination method for reading DNA sequence, turning hereditary material into data that could be inspected, compared, and eventually scaled to whole genomes. It is a key bridge from abstract genetic variation to measured genotype space.",
+      "url": "../papers/1977_sanger_dna_sequencing_with_chain/",
+      "contentTreeUrl": "../content-tree/#paper=1977_sanger_dna_sequencing_with_chain",
+      "mindMapUrl": "../mind-map/#paper=1977_sanger_dna_sequencing_with_chain"
     },
     "1977_barraud_a_numerical_algorithm_to": {
       "id": "1977_barraud_a_numerical_algorithm_to",
@@ -11932,8 +12057,8 @@ window.tagSearchData = {
     },
     "2106_11810": {
       "id": "2106_11810",
-      "title": "NuPlan: A Closed-loop ML-based Planning Benchmark for Autonomous Vehicles",
-      "label": "NuPlan",
+      "title": "nuPlan: A Closed-loop ML-based Planning Benchmark for Autonomous Vehicles",
+      "label": "nuPlan",
       "authors": [
         "Holger Caesar",
         "Juraj Kabzan",
@@ -12669,6 +12794,31 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2004_wang_image_quality_assessment_from",
       "mindMapUrl": "../mind-map/#paper=2004_wang_image_quality_assessment_from"
     },
+    "cond_mat_0408187": {
+      "id": "cond_mat_0408187",
+      "title": "Finding Community Structure in Very Large Networks",
+      "label": "CNM Fast Greedy Modularity",
+      "authors": [
+        "Aaron Clauset",
+        "Mark E. J. Newman",
+        "Cristopher Moore"
+      ],
+      "year": 2004,
+      "tags": [
+        "Community detection",
+        "CNM algorithm",
+        "Fast greedy modularity",
+        "Modularity optimization",
+        "Hierarchical clustering",
+        "Agglomerative clustering",
+        "Large-scale graphs",
+        "Network science"
+      ],
+      "summary": "Introduces the CNM fast greedy algorithm, an agglomerative method that efficiently optimizes modularity and produces a community dendrogram. The paper was important because it moved modularity-based community detection toward networks with hundreds of thousands of nodes.",
+      "url": "../papers/cond_mat_0408187/",
+      "contentTreeUrl": "../content-tree/#paper=cond_mat_0408187",
+      "mindMapUrl": "../mind-map/#paper=cond_mat_0408187"
+    },
     "1983_barto_neuronlike_adaptive_elements_that": {
       "id": "1983_barto_neuronlike_adaptive_elements_that",
       "title": "Neuronlike Adaptive Elements That Can Solve Difficult Learning Control Problems",
@@ -13100,13 +13250,13 @@ window.tagSearchData = {
     "1979_comer_ubiquitous_b_tree": {
       "id": "1979_comer_ubiquitous_b_tree",
       "title": "Ubiquitous B-Tree",
-      "label": "B-tree",
+      "label": "Ubiquitous B-tree",
       "authors": [
         "Douglas Comer"
       ],
       "year": 1979,
       "tags": [],
-      "summary": "",
+      "summary": "Helped make B-trees a go-to data structure for database management systems and file systems. It made the concept accessible and explained the advantages, contributing to B-trees becoming a standard choice for many storage systems.",
       "url": "../papers/1979_comer_ubiquitous_b_tree/",
       "contentTreeUrl": "../content-tree/#paper=1979_comer_ubiquitous_b_tree",
       "mindMapUrl": "../mind-map/#paper=1979_comer_ubiquitous_b_tree"
@@ -13276,6 +13426,33 @@ window.tagSearchData = {
       "url": "../papers/1956_frank_an_algorithm_for_quadratic/",
       "contentTreeUrl": "../content-tree/#paper=1956_frank_an_algorithm_for_quadratic",
       "mindMapUrl": "../mind-map/#paper=1956_frank_an_algorithm_for_quadratic"
+    },
+    "2012_jinek_a_programmable_dual_rna": {
+      "id": "2012_jinek_a_programmable_dual_rna",
+      "title": "A Programmable Dual-RNA-Guided DNA Endonuclease in Adaptive Bacterial Immunity",
+      "label": "CRISPR-Cas9",
+      "authors": [
+        "Martin Jinek",
+        "Krzysztof Chylinski",
+        "Ines Fonfara",
+        "Michael Hauer",
+        "Jennifer A. Doudna",
+        "Emmanuelle Charpentier"
+      ],
+      "year": 2012,
+      "tags": [
+        "CRISPR-Cas9",
+        "Genome editing",
+        "RNA-guided nuclease",
+        "Adaptive immunity",
+        "Molecular biology",
+        "Genetic engineering",
+        "Programmable biology"
+      ],
+      "summary": "Defines Cas9 as a programmable RNA-guided DNA endonuclease and shows that a single engineered guide RNA can target sequence-specific double-strand breaks.",
+      "url": "../papers/2012_jinek_a_programmable_dual_rna/",
+      "contentTreeUrl": "../content-tree/#paper=2012_jinek_a_programmable_dual_rna",
+      "mindMapUrl": "../mind-map/#paper=2012_jinek_a_programmable_dual_rna"
     },
     "2012_schoellig_optimization_based_iterative_learning": {
       "id": "2012_schoellig_optimization_based_iterative_learning",
@@ -14668,7 +14845,7 @@ window.tagSearchData = {
     "1978_guibas_a_dichromatic_framework_for": {
       "id": "1978_guibas_a_dichromatic_framework_for",
       "title": "A Dichromatic Framework for Balanced Trees",
-      "label": "A Dichromatic Framework for Balanced Trees",
+      "label": "Red-black Tree",
       "authors": [
         "Leo J. Guibas",
         "Robert Sedgewick"
@@ -14718,6 +14895,29 @@ window.tagSearchData = {
       "url": "../papers/1978_doyle_guaranteed_margins_for_lqg/",
       "contentTreeUrl": "../content-tree/#paper=1978_doyle_guaranteed_margins_for_lqg",
       "mindMapUrl": "../mind-map/#paper=1978_doyle_guaranteed_margins_for_lqg"
+    },
+    "1978_freeman_centrality_in_social_networks": {
+      "id": "1978_freeman_centrality_in_social_networks",
+      "title": "Centrality in Social Networks: Conceptual Clarification",
+      "label": "Degree, Closeness, and Betweenness Centrality",
+      "authors": [
+        "Linton C. Freeman"
+      ],
+      "year": 1978,
+      "tags": [
+        "Network centrality",
+        "Degree centrality",
+        "Closeness centrality",
+        "Betweenness centrality",
+        "Centralization",
+        "Social networks",
+        "Graph theory",
+        "Structural analysis"
+      ],
+      "summary": "Separates the overloaded notion of network centrality into three enduring concepts: activity through direct ties, independence through short distances, and control through positions on shortest paths. The paper made degree, closeness, betweenness, and graph-level centralization into a coherent vocabulary for social network analysis.",
+      "url": "../papers/1978_freeman_centrality_in_social_networks/",
+      "contentTreeUrl": "../content-tree/#paper=1978_freeman_centrality_in_social_networks",
+      "mindMapUrl": "../mind-map/#paper=1978_freeman_centrality_in_social_networks"
     },
     "1987_lorensen_marching_cubes_a_high": {
       "id": "1987_lorensen_marching_cubes_a_high",
@@ -14800,6 +15000,52 @@ window.tagSearchData = {
       "url": "../papers/1987_jonker_a_shortest_augmenting_path/",
       "contentTreeUrl": "../content-tree/#paper=1987_jonker_a_shortest_augmenting_path",
       "mindMapUrl": "../mind-map/#paper=1987_jonker_a_shortest_augmenting_path"
+    },
+    "1987_bonacich_power_and_centrality_a": {
+      "id": "1987_bonacich_power_and_centrality_a",
+      "title": "Power and Centrality: A Family of Measures",
+      "label": "Bonacich Power Centrality",
+      "authors": [
+        "Phillip Bonacich"
+      ],
+      "year": 1987,
+      "tags": [
+        "Network centrality",
+        "Bonacich centrality",
+        "Power centrality",
+        "Eigenvector centrality",
+        "Social networks",
+        "Exchange networks",
+        "Status measurement",
+        "Structural power"
+      ],
+      "summary": "Introduces a parameterized family of centrality measures that can treat connections to well-connected actors as either advantageous or disadvantageous, depending on the network process being modeled. This makes the paper a core reference for power centrality and for distinguishing access-based centrality from bargaining or dependency-based power.",
+      "url": "../papers/1987_bonacich_power_and_centrality_a/",
+      "contentTreeUrl": "../content-tree/#paper=1987_bonacich_power_and_centrality_a",
+      "mindMapUrl": "../mind-map/#paper=1987_bonacich_power_and_centrality_a"
+    },
+    "1858_darwin_on_the_tendency_of": {
+      "id": "1858_darwin_on_the_tendency_of",
+      "title": "On the Tendency of Species to Form Varieties; and on the Perpetuation of Varieties and Species by Natural Means of Selection",
+      "label": "Natural Selection",
+      "authors": [
+        "Charles Darwin",
+        "Alfred Russel Wallace"
+      ],
+      "year": 1858,
+      "tags": [
+        "Evolution",
+        "Natural selection",
+        "Heritable variation",
+        "Adaptation",
+        "Speciation",
+        "Evolutionary theory",
+        "Evolutionary algorithms"
+      ],
+      "summary": "Presents the joint Darwin-Wallace announcement of evolution by natural selection: heritable variation, struggle for existence, and differential survival can accumulate adaptations and produce new species.",
+      "url": "../papers/1858_darwin_on_the_tendency_of/",
+      "contentTreeUrl": "../content-tree/#paper=1858_darwin_on_the_tendency_of",
+      "mindMapUrl": "../mind-map/#paper=1858_darwin_on_the_tendency_of"
     },
     "1997_hochreiter_long_short_term_memory": {
       "id": "1997_hochreiter_long_short_term_memory",
@@ -15409,6 +15655,31 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=0711_1612",
       "mindMapUrl": "../mind-map/#paper=0711_1612"
     },
+    "0709_2938": {
+      "id": "0709_2938",
+      "title": "Near Linear Time Algorithm to Detect Community Structures in Large-Scale Networks",
+      "label": "Label Propagation Algorithm",
+      "authors": [
+        "Usha Nandini Raghavan",
+        "Reka Albert",
+        "Soundar Kumara"
+      ],
+      "year": 2007,
+      "tags": [
+        "Community detection",
+        "Label propagation",
+        "Near-linear algorithms",
+        "Large-scale graphs",
+        "Graph clustering",
+        "Network science",
+        "Social networks",
+        "Biological networks"
+      ],
+      "summary": "Introduces label propagation, a simple iterative method where nodes adopt the most common label among their neighbors until labels stabilize into communities. Its importance is practical: it avoids an explicit objective function and brought community detection close to linear time for large networks.",
+      "url": "../papers/0709_2938/",
+      "contentTreeUrl": "../content-tree/#paper=0709_2938",
+      "mindMapUrl": "../mind-map/#paper=0709_2938"
+    },
     "2007_geraerts_creating_high_quality_paths": {
       "id": "2007_geraerts_creating_high_quality_paths",
       "title": "Creating High-quality Paths for Motion Planning",
@@ -15443,6 +15714,31 @@ window.tagSearchData = {
       "url": "../papers/2007_yershova_improving_motion_planning_algorithms/",
       "contentTreeUrl": "../content-tree/#paper=2007_yershova_improving_motion_planning_algorithms",
       "mindMapUrl": "../mind-map/#paper=2007_yershova_improving_motion_planning_algorithms"
+    },
+    "0707_0609": {
+      "id": "0707_0609",
+      "title": "Maps of Random Walks on Complex Networks Reveal Community Structure",
+      "label": "Infomap",
+      "authors": [
+        "Martin Rosvall",
+        "Carl T. Bergstrom"
+      ],
+      "year": 2007,
+      "tags": [
+        "Community detection",
+        "Infomap",
+        "Map equation",
+        "Random walks",
+        "Information theory",
+        "Flow-based clustering",
+        "Directed networks",
+        "Weighted networks",
+        "Network science"
+      ],
+      "summary": "Introduces the map equation and Infomap, framing community detection as compression of random-walk flows on a network. This shifted part of the field from purely density- or modularity-based partitions toward flow-based communities, especially useful for directed and weighted networks.",
+      "url": "../papers/0707_0609/",
+      "contentTreeUrl": "../content-tree/#paper=0707_0609",
+      "mindMapUrl": "../mind-map/#paper=0707_0609"
     },
     "2007_hoffmann_autonomous_automobile_trajectory_tracking": {
       "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
@@ -18356,6 +18652,38 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2013_lipp_minimum_time_speed_optimisation",
       "mindMapUrl": "../mind-map/#paper=2013_lipp_minimum_time_speed_optimisation"
     },
+    "2013_le_cong_multiplex_genome_engineering_using": {
+      "id": "2013_le_cong_multiplex_genome_engineering_using",
+      "title": "Multiplex Genome Engineering Using CRISPR/Cas Systems",
+      "label": "CRISPR-Cas9 Genome Editing",
+      "authors": [
+        "Le Cong",
+        "F. Ann Ran",
+        "David Cox",
+        "Shuailiang Lin",
+        "Robert Barretto",
+        "Naomi Habib",
+        "Patrick D. Hsu",
+        "Xuebing Wu",
+        "Wenyan Jiang",
+        "Luciano A. Marraffini",
+        "Feng Zhang"
+      ],
+      "year": 2013,
+      "tags": [
+        "CRISPR-Cas9",
+        "Genome editing",
+        "Multiplex editing",
+        "Mammalian cells",
+        "Genetic engineering",
+        "Guide RNA",
+        "Homology-directed repair"
+      ],
+      "summary": "Adapts CRISPR-Cas9 into a practical mammalian genome-engineering system, including endogenous editing, nickase-mediated repair, and multiplex guide arrays.",
+      "url": "../papers/2013_le_cong_multiplex_genome_engineering_using/",
+      "contentTreeUrl": "../content-tree/#paper=2013_le_cong_multiplex_genome_engineering_using",
+      "mindMapUrl": "../mind-map/#paper=2013_le_cong_multiplex_genome_engineering_using"
+    },
     "2013_luna_anytime_solution_optimization_for": {
       "id": "2013_luna_anytime_solution_optimization_for",
       "title": "Anytime Solution Optimization for Sampling-Based Motion Planning",
@@ -20142,7 +20470,7 @@ window.tagSearchData = {
     "2604_20329": {
       "id": "2604_20329",
       "title": "Image Generators Are Generalist Vision Learners",
-      "label": "Image Generators Are Generalist Vision Learners",
+      "label": "Vision Banana",
       "authors": [
         "Valentin Gabeur",
         "Shangbang Long",
@@ -20700,6 +21028,29 @@ window.tagSearchData = {
       "url": "../papers/1973_astrom_on_self_tuning_regulators/",
       "contentTreeUrl": "../content-tree/#paper=1973_astrom_on_self_tuning_regulators",
       "mindMapUrl": "../mind-map/#paper=1973_astrom_on_self_tuning_regulators"
+    },
+    "1953_katz_a_new_status_index": {
+      "id": "1953_katz_a_new_status_index",
+      "title": "A New Status Index Derived from Sociometric Analysis",
+      "label": "Katz Centrality",
+      "authors": [
+        "Leo Katz"
+      ],
+      "year": 1953,
+      "tags": [
+        "Network centrality",
+        "Katz centrality",
+        "Status index",
+        "Sociometric analysis",
+        "Attenuated walks",
+        "Matrix methods",
+        "Social networks",
+        "Influence measurement"
+      ],
+      "summary": "Introduces a status measure that counts not only direct choices in a sociometric network but also longer chains of choices, attenuated by path length. The paper is a compact origin point for Katz centrality and for the broader idea that influence can be modeled through weighted walks in a graph rather than only immediate degree.",
+      "url": "../papers/1953_katz_a_new_status_index/",
+      "contentTreeUrl": "../content-tree/#paper=1953_katz_a_new_status_index",
+      "mindMapUrl": "../mind-map/#paper=1953_katz_a_new_status_index"
     },
     "1953_watson_molecular_structure_of_nucleic": {
       "id": "1953_watson_molecular_structure_of_nucleic",
@@ -21712,6 +22063,29 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2001_breiman_random_forests",
       "mindMapUrl": "../mind-map/#paper=2001_breiman_random_forests"
     },
+    "2001_consortium_initial_sequencing_and_analysis": {
+      "id": "2001_consortium_initial_sequencing_and_analysis",
+      "title": "Initial Sequencing and Analysis of the Human Genome",
+      "label": "Human Genome Project",
+      "authors": [
+        "International Human Genome Sequencing Consortium"
+      ],
+      "year": 2001,
+      "tags": [
+        "Human genome",
+        "Genome sequencing",
+        "Genomics",
+        "Comparative genomics",
+        "Genetic variation",
+        "Genome annotation",
+        "Bioinformatics",
+        "Evolutionary biology"
+      ],
+      "summary": "Reports the public Human Genome Project draft sequence and an initial computational analysis of genes, repeats, variation, and comparative signals.",
+      "url": "../papers/2001_consortium_initial_sequencing_and_analysis/",
+      "contentTreeUrl": "../content-tree/#paper=2001_consortium_initial_sequencing_and_analysis",
+      "mindMapUrl": "../mind-map/#paper=2001_consortium_initial_sequencing_and_analysis"
+    },
     "2001_viola_rapid_object_detection_using": {
       "id": "2001_viola_rapid_object_detection_using",
       "title": "Rapid Object Detection Using a Boosted Cascade of Simple Features",
@@ -21892,6 +22266,31 @@ window.tagSearchData = {
       "url": "../papers/2001_spong_nonlinear_control_of_the/",
       "contentTreeUrl": "../content-tree/#paper=2001_spong_nonlinear_control_of_the",
       "mindMapUrl": "../mind-map/#paper=2001_spong_nonlinear_control_of_the"
+    },
+    "cond_mat_0112110": {
+      "id": "cond_mat_0112110",
+      "title": "Community Structure in Social and Biological Networks",
+      "label": "Girvan-Newman Algorithm",
+      "authors": [
+        "Michelle Girvan",
+        "Mark E. J. Newman"
+      ],
+      "year": 2001,
+      "tags": [
+        "Community detection",
+        "Girvan-Newman algorithm",
+        "Edge betweenness",
+        "Divisive clustering",
+        "Social networks",
+        "Biological networks",
+        "Network science",
+        "Graph clustering",
+        "Hierarchical clustering"
+      ],
+      "summary": "Introduces a divisive community detection method based on repeatedly removing edges with high edge betweenness. The paper helped make community structure a central network science problem and established a benchmark algorithm for finding boundaries between densely connected groups.",
+      "url": "../papers/cond_mat_0112110/",
+      "contentTreeUrl": "../content-tree/#paper=cond_mat_0112110",
+      "mindMapUrl": "../mind-map/#paper=cond_mat_0112110"
     },
     "1806_05618": {
       "id": "1806_05618",
@@ -25000,7 +25399,7 @@ window.tagSearchData = {
     "2022_various_ieee_standard_for_assumptions": {
       "id": "2022_various_ieee_standard_for_assumptions",
       "title": "IEEE Standard for Assumptions in Safety-Related Models for Automated Driving Systems",
-      "label": "IEEE Std 3079-2022 (ADS Safety Assumptions)",
+      "label": "IEEE Standard 3079-2022 (ADS Safety Assumptions)",
       "authors": [
         "Various"
       ],
@@ -26121,6 +26520,30 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=1944_levenberg_a_method_for_the",
       "mindMapUrl": "../mind-map/#paper=1944_levenberg_a_method_for_the"
     },
+    "1944_avery_studies_on_the_chemical": {
+      "id": "1944_avery_studies_on_the_chemical",
+      "title": "Studies on the Chemical Nature of the Substance Inducing Transformation of Pneumococcal Types",
+      "label": "DNA Transforming Principle",
+      "authors": [
+        "Oswald T. Avery",
+        "Colin M. MacLeod",
+        "Maclyn McCarty"
+      ],
+      "year": 1944,
+      "tags": [
+        "Molecular genetics",
+        "DNA",
+        "Heredity",
+        "Transformation",
+        "Pneumococcus",
+        "Genotype",
+        "Genetic information"
+      ],
+      "summary": "Identifies DNA-rich material as the transforming substance that can transmit a heritable bacterial phenotype, overturning protein-centered expectations about heredity.",
+      "url": "../papers/1944_avery_studies_on_the_chemical/",
+      "contentTreeUrl": "../content-tree/#paper=1944_avery_studies_on_the_chemical",
+      "mindMapUrl": "../mind-map/#paper=1944_avery_studies_on_the_chemical"
+    },
     "1944_curry_the_method_of_steepest": {
       "id": "1944_curry_the_method_of_steepest",
       "title": "The Method of Steepest Descent for Non-Linear Minimization Problems",
@@ -26288,6 +26711,32 @@ window.tagSearchData = {
       "url": "../papers/2005_dalal_histograms_of_oriented_gradients/",
       "contentTreeUrl": "../content-tree/#paper=2005_dalal_histograms_of_oriented_gradients",
       "mindMapUrl": "../mind-map/#paper=2005_dalal_histograms_of_oriented_gradients"
+    },
+    "physics_0506133": {
+      "id": "physics_0506133",
+      "title": "Uncovering the Overlapping Community Structure of Complex Networks in Nature and Society",
+      "label": "Clique Percolation Method",
+      "authors": [
+        "Gergely Palla",
+        "Imre Derenyi",
+        "Illes Farkas",
+        "Tamas Vicsek"
+      ],
+      "year": 2005,
+      "tags": [
+        "Community detection",
+        "Clique percolation",
+        "Overlapping communities",
+        "Complex networks",
+        "Social networks",
+        "Biological networks",
+        "Network science",
+        "Graph clustering"
+      ],
+      "summary": "Introduces the clique percolation method for detecting overlapping communities, treating communities as chains of adjacent cliques rather than disjoint partitions. The paper is a landmark for networks where nodes naturally participate in multiple groups, such as collaboration and protein interaction networks.",
+      "url": "../papers/physics_0506133/",
+      "contentTreeUrl": "../content-tree/#paper=physics_0506133",
+      "mindMapUrl": "../mind-map/#paper=physics_0506133"
     },
     "2307_15818": {
       "id": "2307_15818",
@@ -26715,7 +27164,7 @@ window.tagSearchData = {
     "2309_14545": {
       "id": "2309_14545",
       "title": "Motions in Microseconds via Vectorized Sampling-Based Planning",
-      "label": "Motions in Microseconds via Vectorized Sampling-Based Planning",
+      "label": "VAMP",
       "authors": [
         "Wil Thomason",
         "Zachary Kingston",
@@ -28257,6 +28706,29 @@ window.tagSearchData = {
       "contentTreeUrl": "../content-tree/#paper=2006_bay_surf_speeded_up_robust",
       "mindMapUrl": "../mind-map/#paper=2006_bay_surf_speeded_up_robust"
     },
+    "2006_takahashi_induction_of_pluripotent_stem": {
+      "id": "2006_takahashi_induction_of_pluripotent_stem",
+      "title": "Induction of Pluripotent Stem Cells from Mouse Embryonic and Adult Fibroblast Cultures by Defined Factors",
+      "label": "Induced Pluripotent Stem Cells",
+      "authors": [
+        "Kazutoshi Takahashi",
+        "Shinya Yamanaka"
+      ],
+      "year": 2006,
+      "tags": [
+        "Stem cells",
+        "Cell reprogramming",
+        "Induced pluripotent stem cells",
+        "Yamanaka factors",
+        "Developmental biology",
+        "Gene regulation",
+        "Cellular plasticity"
+      ],
+      "summary": "Shows that a small set of transcription factors can reprogram differentiated mouse fibroblasts into induced pluripotent stem cells. The result is less central to evolutionary algorithms than heredity or sequencing, but it is a sharp example of biological state-space control by compact genetic-regulatory interventions.",
+      "url": "../papers/2006_takahashi_induction_of_pluripotent_stem/",
+      "contentTreeUrl": "../content-tree/#paper=2006_takahashi_induction_of_pluripotent_stem",
+      "mindMapUrl": "../mind-map/#paper=2006_takahashi_induction_of_pluripotent_stem"
+    },
     "2006_nesterov_cubic_regularization_of_newton": {
       "id": "2006_nesterov_cubic_regularization_of_newton",
       "title": "Cubic Regularization of Newton Method and Its Global Performance",
@@ -28389,11 +28861,30 @@ window.tagSearchData = {
     "autonomous navigation": "Autonomous navigation",
     "learning robot systems": "Learning robot systems",
     "probabilistic robotics": "Probabilistic robotics",
+    "link analysis": "Link analysis",
+    "hits": "HITS",
+    "hub score": "Hub score",
+    "authority score": "Authority score",
+    "eigenvector centrality": "Eigenvector centrality",
+    "web graph": "Web graph",
+    "search engines": "Search engines",
+    "information retrieval": "Information retrieval",
+    "network centrality": "Network centrality",
     "collision detection": "Collision detection",
     "distance computation": "Distance computation",
     "swept sphere volumes": "Swept sphere volumes",
     "bounding volume hierarchies": "Bounding volume hierarchies",
     "computational geometry": "Computational geometry",
+    "scale-free networks": "Scale-free networks",
+    "barabasi-albert model": "Barabasi-Albert model",
+    "preferential attachment": "Preferential attachment",
+    "network growth": "Network growth",
+    "power-law degree distribution": "Power-law degree distribution",
+    "complex networks": "Complex networks",
+    "random graphs": "Random graphs",
+    "self-organization": "Self-organization",
+    "world wide web": "World Wide Web",
+    "genetic networks": "Genetic networks",
     "sampling-based planning": "Sampling-based planning",
     "asymptotic optimality": "Asymptotic optimality",
     "dynamic environments": "Dynamic environments",
@@ -28448,6 +28939,14 @@ window.tagSearchData = {
     "bit*": "BIT*",
     "hybrid planning": "Hybrid planning",
     "local optimization": "Local optimization",
+    "genetics": "Genetics",
+    "mendelian inheritance": "Mendelian inheritance",
+    "heredity": "Heredity",
+    "segregation": "Segregation",
+    "dominance": "Dominance",
+    "hybridization": "Hybridization",
+    "variation": "Variation",
+    "evolutionary algorithms": "Evolutionary algorithms",
     "constrained optimization": "Constrained optimization",
     "augmented lagrangian": "Augmented Lagrangian",
     "self-supervised learning": "Self-supervised learning",
@@ -28871,22 +29370,28 @@ window.tagSearchData = {
     "handwriting recognition": "Handwriting recognition",
     "gradient-based learning": "Gradient-based learning",
     "graph transformer networks": "Graph transformer networks",
+    "small-world networks": "Small-world networks",
+    "watts-strogatz model": "Watts-Strogatz model",
+    "network topology": "Network topology",
+    "clustering coefficient": "Clustering coefficient",
+    "characteristic path length": "Characteristic path length",
+    "dynamical systems": "Dynamical systems",
+    "synchronization": "Synchronization",
+    "epidemic spreading": "Epidemic spreading",
+    "social networks": "Social networks",
+    "biological networks": "Biological networks",
     "object detection": "object detection",
     "wavelet features": "wavelet features",
     "support vector machine": "support vector machine",
     "svm": "SVM",
     "face detection": "face detection",
     "pedestrian detection": "pedestrian detection",
-    "link analysis": "Link analysis",
     "web search": "Web search",
     "graph centrality": "Graph centrality",
-    "eigenvector centrality": "Eigenvector centrality",
     "random walk": "Random walk",
     "markov chain": "Markov chain",
-    "information retrieval": "Information retrieval",
     "citation ranking": "Citation ranking",
     "ranking algorithms": "Ranking algorithms",
-    "web graph": "Web graph",
     "rapidly-exploring random trees": "Rapidly-exploring random trees",
     "velocity obstacles": "Velocity obstacles",
     "robot navigation": "Robot navigation",
@@ -28914,6 +29419,13 @@ window.tagSearchData = {
     "certainty equivalence": "Certainty equivalence",
     "kalman filter": "Kalman filter",
     "lqg control": "LQG control",
+    "dna sequencing": "DNA sequencing",
+    "sanger sequencing": "Sanger sequencing",
+    "chain termination": "Chain termination",
+    "genomics": "Genomics",
+    "molecular biology": "Molecular biology",
+    "genetic information": "Genetic information",
+    "genome analysis": "Genome analysis",
     "automatic differentiation": "Automatic differentiation",
     "algorithmic differentiation": "Algorithmic differentiation",
     "derivatives": "Derivatives",
@@ -28988,7 +29500,6 @@ window.tagSearchData = {
     "perturbation": "Perturbation",
     "convex": "Convex",
     "polytope": "Polytope",
-    "dynamical systems": "Dynamical systems",
     "model-free control": "Model-free control",
     "graphs of convex sets": "Graphs of convex sets",
     "convex set": "Convex set",
@@ -29066,6 +29577,14 @@ window.tagSearchData = {
     "probability theory": "Probability theory",
     "supermartingales": "Supermartingales",
     "sequential analysis": "Sequential analysis",
+    "community detection": "Community detection",
+    "cnm algorithm": "CNM algorithm",
+    "fast greedy modularity": "Fast greedy modularity",
+    "modularity optimization": "Modularity optimization",
+    "hierarchical clustering": "Hierarchical clustering",
+    "agglomerative clustering": "Agglomerative clustering",
+    "large-scale graphs": "Large-scale graphs",
+    "network science": "Network science",
     "actor-critic": "Actor-critic",
     "cart-pole": "Cart-pole",
     "neural networks": "Neural networks",
@@ -29114,6 +29633,12 @@ window.tagSearchData = {
     "aid": "AID",
     "survey data analysis": "Survey data analysis",
     "interaction detection": "Interaction detection",
+    "crispr-cas9": "CRISPR-Cas9",
+    "genome editing": "Genome editing",
+    "rna-guided nuclease": "RNA-guided nuclease",
+    "adaptive immunity": "Adaptive immunity",
+    "genetic engineering": "Genetic engineering",
+    "programmable biology": "Programmable biology",
     "covariance matrix adaptation": "Covariance matrix adaptation",
     "exploration noise": "Exploration noise",
     "rrt#": "RRT#",
@@ -29190,12 +29715,29 @@ window.tagSearchData = {
     "geometric modeling": "Geometric modeling",
     "meshes": "Meshes",
     "linear quadratic gaussian (lqg)": "Linear Quadratic Gaussian (LQG)",
+    "degree centrality": "Degree centrality",
+    "closeness centrality": "Closeness centrality",
+    "betweenness centrality": "Betweenness centrality",
+    "centralization": "Centralization",
+    "graph theory": "Graph theory",
+    "structural analysis": "Structural analysis",
     "boids": "Boids",
     "flocking": "Flocking",
     "behavioral animation": "Behavioral animation",
     "multi-agent simulation": "Multi-agent simulation",
     "particle systems": "Particle systems",
     "distributed control": "Distributed control",
+    "bonacich centrality": "Bonacich centrality",
+    "power centrality": "Power centrality",
+    "exchange networks": "Exchange networks",
+    "status measurement": "Status measurement",
+    "structural power": "Structural power",
+    "evolution": "Evolution",
+    "natural selection": "Natural selection",
+    "heritable variation": "Heritable variation",
+    "adaptation": "Adaptation",
+    "speciation": "Speciation",
+    "evolutionary theory": "Evolutionary theory",
     "expansive configuration spaces": "Expansive configuration spaces",
     "configuration space": "Configuration space",
     "unscented kalman filter": "Unscented Kalman filter",
@@ -29243,6 +29785,15 @@ window.tagSearchData = {
     "probabilistic roadmap": "Probabilistic roadmap",
     "suboptimal control": "Suboptimal control",
     "computational constraints": "Computational constraints",
+    "label propagation": "Label propagation",
+    "near-linear algorithms": "Near-linear algorithms",
+    "graph clustering": "Graph clustering",
+    "infomap": "Infomap",
+    "map equation": "Map equation",
+    "random walks": "Random walks",
+    "flow-based clustering": "Flow-based clustering",
+    "directed networks": "Directed networks",
+    "weighted networks": "Weighted networks",
     "cardinality estimation": "Cardinality estimation",
     "streaming algorithms": "Streaming algorithms",
     "hyperloglog": "HyperLogLog",
@@ -29358,6 +29909,10 @@ window.tagSearchData = {
     "multi-robot planning": "Multi-robot planning",
     "uav swarms": "UAV swarms",
     "minimum time": "Minimum time",
+    "multiplex editing": "Multiplex editing",
+    "mammalian cells": "Mammalian cells",
+    "guide rna": "Guide RNA",
+    "homology-directed repair": "Homology-directed repair",
     "fast marching tree": "Fast marching tree",
     "fmt": "FMT",
     "fast marching method": "Fast marching method",
@@ -29403,6 +29958,12 @@ window.tagSearchData = {
     "bilevel rendering": "Bilevel rendering",
     "stabilizing solution": "Stabilizing solution",
     "existence conditions": "Existence conditions",
+    "katz centrality": "Katz centrality",
+    "status index": "Status index",
+    "sociometric analysis": "Sociometric analysis",
+    "attenuated walks": "Attenuated walks",
+    "matrix methods": "Matrix methods",
+    "influence measurement": "Influence measurement",
     "cooperative games": "Cooperative games",
     "shapley value": "Shapley value",
     "fair allocation": "Fair allocation",
@@ -29447,6 +30008,13 @@ window.tagSearchData = {
     "random forests": "Random forests",
     "feature randomization": "Feature randomization",
     "regression": "Regression",
+    "human genome": "Human genome",
+    "genome sequencing": "Genome sequencing",
+    "comparative genomics": "Comparative genomics",
+    "genetic variation": "Genetic variation",
+    "genome annotation": "Genome annotation",
+    "bioinformatics": "Bioinformatics",
+    "evolutionary biology": "Evolutionary biology",
     "adaboost": "AdaBoost",
     "integral image": "integral image",
     "cascade classifier": "cascade classifier",
@@ -29460,6 +30028,9 @@ window.tagSearchData = {
     "function approximation": "Function approximation",
     "treeboost": "TreeBoost",
     "fisher information matrix": "Fisher information matrix",
+    "girvan-newman algorithm": "Girvan-Newman algorithm",
+    "edge betweenness": "Edge betweenness",
+    "divisive clustering": "Divisive clustering",
     "formal methods": "Formal methods",
     "neural network verification": "Neural network verification",
     "specifications": "Specifications",
@@ -29578,14 +30149,7 @@ window.tagSearchData = {
     "halley's method": "Halley's method",
     "iterative methods": "Iterative methods",
     "generalized inverse": "Generalized inverse",
-    "community detection": "Community detection",
     "louvain method": "Louvain method",
-    "modularity optimization": "Modularity optimization",
-    "graph clustering": "Graph clustering",
-    "network science": "Network science",
-    "complex networks": "Complex networks",
-    "hierarchical clustering": "Hierarchical clustering",
-    "large-scale graphs": "Large-scale graphs",
     "heuristic optimization": "Heuristic optimization",
     "t-sne": "t-SNE",
     "dimensionality reduction": "Dimensionality reduction",
@@ -29614,6 +30178,11 @@ window.tagSearchData = {
     "gauss-newton method": "Gauss-Newton method",
     "trust-region methods": "Trust-region methods",
     "optimization history": "Optimization history",
+    "molecular genetics": "Molecular genetics",
+    "dna": "DNA",
+    "transformation": "Transformation",
+    "pneumococcus": "Pneumococcus",
+    "genotype": "Genotype",
     "nonlinear minimization": "Nonlinear minimization",
     "line search": "Line search",
     "iterative linear quadratic gaussian": "Iterative linear quadratic Gaussian",
@@ -29623,6 +30192,8 @@ window.tagSearchData = {
     "histogram of oriented gradients": "histogram of oriented gradients",
     "hog": "HOG",
     "feature descriptor": "feature descriptor",
+    "clique percolation": "Clique percolation",
+    "overlapping communities": "Overlapping communities",
     "linear models": "Linear models",
     "low-budget optimization": "Low-budget optimization",
     "bbob": "BBOB",
@@ -29659,6 +30230,13 @@ window.tagSearchData = {
     "unbiased variable selection": "Unbiased variable selection",
     "statistical testing": "Statistical testing",
     "recursive partitioning": "Recursive partitioning",
+    "stem cells": "Stem cells",
+    "cell reprogramming": "Cell reprogramming",
+    "induced pluripotent stem cells": "Induced pluripotent stem cells",
+    "yamanaka factors": "Yamanaka factors",
+    "developmental biology": "Developmental biology",
+    "gene regulation": "Gene regulation",
+    "cellular plasticity": "Cellular plasticity",
     "metric learning": "Metric learning",
     "contrastive loss": "Contrastive loss",
     "siamese networks": "Siamese networks",
@@ -46507,6 +47085,146 @@ window.tagSearchData = {
         "score": 0.6749
       }
     ],
+    "1999_kleinberg_authoritative_sources_in_a::link analysis": [
+      {
+        "id": "1998_page_the_pagerank_citation_ranking",
+        "score": 0.8782
+      }
+    ],
+    "1998_page_the_pagerank_citation_ranking::link analysis": [
+      {
+        "id": "1999_kleinberg_authoritative_sources_in_a",
+        "score": 0.8782
+      }
+    ],
+    "1999_kleinberg_authoritative_sources_in_a::eigenvector centrality": [
+      {
+        "id": "1998_page_the_pagerank_citation_ranking",
+        "score": 0.8782
+      },
+      {
+        "id": "1987_bonacich_power_and_centrality_a",
+        "score": 0.7698
+      }
+    ],
+    "1998_page_the_pagerank_citation_ranking::eigenvector centrality": [
+      {
+        "id": "1999_kleinberg_authoritative_sources_in_a",
+        "score": 0.8782
+      },
+      {
+        "id": "1987_bonacich_power_and_centrality_a",
+        "score": 0.7517
+      }
+    ],
+    "1987_bonacich_power_and_centrality_a::eigenvector centrality": [
+      {
+        "id": "1999_kleinberg_authoritative_sources_in_a",
+        "score": 0.7698
+      },
+      {
+        "id": "1998_page_the_pagerank_citation_ranking",
+        "score": 0.7517
+      }
+    ],
+    "1999_kleinberg_authoritative_sources_in_a::web graph": [
+      {
+        "id": "1998_page_the_pagerank_citation_ranking",
+        "score": 0.8782
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.6711
+      }
+    ],
+    "1998_page_the_pagerank_citation_ranking::web graph": [
+      {
+        "id": "1999_kleinberg_authoritative_sources_in_a",
+        "score": 0.8782
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.7087
+      }
+    ],
+    "0803_0476::web graph": [
+      {
+        "id": "1998_page_the_pagerank_citation_ranking",
+        "score": 0.7087
+      },
+      {
+        "id": "1999_kleinberg_authoritative_sources_in_a",
+        "score": 0.6711
+      }
+    ],
+    "1999_kleinberg_authoritative_sources_in_a::information retrieval": [
+      {
+        "id": "1998_page_the_pagerank_citation_ranking",
+        "score": 0.8782
+      }
+    ],
+    "1998_page_the_pagerank_citation_ranking::information retrieval": [
+      {
+        "id": "1999_kleinberg_authoritative_sources_in_a",
+        "score": 0.8782
+      }
+    ],
+    "1999_kleinberg_authoritative_sources_in_a::network centrality": [
+      {
+        "id": "1978_freeman_centrality_in_social_networks",
+        "score": 0.805
+      },
+      {
+        "id": "1987_bonacich_power_and_centrality_a",
+        "score": 0.7698
+      },
+      {
+        "id": "1953_katz_a_new_status_index",
+        "score": 0.7356
+      }
+    ],
+    "1978_freeman_centrality_in_social_networks::network centrality": [
+      {
+        "id": "1987_bonacich_power_and_centrality_a",
+        "score": 0.8705
+      },
+      {
+        "id": "1953_katz_a_new_status_index",
+        "score": 0.8076
+      },
+      {
+        "id": "1999_kleinberg_authoritative_sources_in_a",
+        "score": 0.805
+      }
+    ],
+    "1987_bonacich_power_and_centrality_a::network centrality": [
+      {
+        "id": "1978_freeman_centrality_in_social_networks",
+        "score": 0.8705
+      },
+      {
+        "id": "1953_katz_a_new_status_index",
+        "score": 0.7994
+      },
+      {
+        "id": "1999_kleinberg_authoritative_sources_in_a",
+        "score": 0.7698
+      }
+    ],
+    "1953_katz_a_new_status_index::network centrality": [
+      {
+        "id": "1978_freeman_centrality_in_social_networks",
+        "score": 0.8076
+      },
+      {
+        "id": "1987_bonacich_power_and_centrality_a",
+        "score": 0.7994
+      },
+      {
+        "id": "1999_kleinberg_authoritative_sources_in_a",
+        "score": 0.7356
+      }
+    ],
     "1999_larsen_fast_proximity_queries_with::collision detection": [
       {
         "id": "1991_lin_a_fast_algorithm_for",
@@ -46529,6 +47247,74 @@ window.tagSearchData = {
       {
         "id": "1999_larsen_fast_proximity_queries_with",
         "score": 0.8503
+      }
+    ],
+    "cond_mat_9910332::complex networks": [
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.8004
+      },
+      {
+        "id": "physics_0506133",
+        "score": 0.7834
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.693
+      }
+    ],
+    "1998_watts_collective_dynamics_of_small::complex networks": [
+      {
+        "id": "physics_0506133",
+        "score": 0.807
+      },
+      {
+        "id": "cond_mat_9910332",
+        "score": 0.8004
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.6903
+      }
+    ],
+    "0803_0476::complex networks": [
+      {
+        "id": "physics_0506133",
+        "score": 0.8123
+      },
+      {
+        "id": "cond_mat_9910332",
+        "score": 0.693
+      },
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.6903
+      }
+    ],
+    "physics_0506133::complex networks": [
+      {
+        "id": "0803_0476",
+        "score": 0.8123
+      },
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.807
+      },
+      {
+        "id": "cond_mat_9910332",
+        "score": 0.7834
+      }
+    ],
+    "cond_mat_9910332::random graphs": [
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.8004
+      }
+    ],
+    "1998_watts_collective_dynamics_of_small::random graphs": [
+      {
+        "id": "cond_mat_9910332",
+        "score": 0.8004
       }
     ],
     "2016_otte_rrtx_asymptotically_optimal_single::sampling-based planning": [
@@ -75299,6 +76085,30 @@ window.tagSearchData = {
         "score": 0.7731
       }
     ],
+    "1866_mendel_versuche_uber_pflanzen_hybriden::heredity": [
+      {
+        "id": "1944_avery_studies_on_the_chemical",
+        "score": 0.593
+      }
+    ],
+    "1944_avery_studies_on_the_chemical::heredity": [
+      {
+        "id": "1866_mendel_versuche_uber_pflanzen_hybriden",
+        "score": 0.593
+      }
+    ],
+    "1866_mendel_versuche_uber_pflanzen_hybriden::evolutionary algorithms": [
+      {
+        "id": "1858_darwin_on_the_tendency_of",
+        "score": 0.7722
+      }
+    ],
+    "1858_darwin_on_the_tendency_of::evolutionary algorithms": [
+      {
+        "id": "1866_mendel_versuche_uber_pflanzen_hybriden",
+        "score": 0.7722
+      }
+    ],
     "2005_00985::constrained optimization": [
       {
         "id": "2409_11649",
@@ -97389,6 +98199,300 @@ window.tagSearchData = {
         "score": 0.7985
       }
     ],
+    "1998_watts_collective_dynamics_of_small::dynamical systems": [
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.6424
+      },
+      {
+        "id": "2412_11270",
+        "score": 0.6372
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.6129
+      }
+    ],
+    "2021_perdomo_stabilizing_dynamical_systems_via::dynamical systems": [
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.8522
+      },
+      {
+        "id": "2412_11270",
+        "score": 0.7975
+      },
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.6129
+      }
+    ],
+    "2412_11270::dynamical systems": [
+      {
+        "id": "2022_gravell_data_driven_control_and",
+        "score": 0.8084
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.7975
+      },
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.6372
+      }
+    ],
+    "2022_gravell_data_driven_control_and::dynamical systems": [
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
+        "score": 0.8522
+      },
+      {
+        "id": "2412_11270",
+        "score": 0.8084
+      },
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.6424
+      }
+    ],
+    "1998_watts_collective_dynamics_of_small::social networks": [
+      {
+        "id": "physics_0506133",
+        "score": 0.807
+      },
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.7952
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.7806
+      },
+      {
+        "id": "1978_freeman_centrality_in_social_networks",
+        "score": 0.7322
+      },
+      {
+        "id": "1987_bonacich_power_and_centrality_a",
+        "score": 0.7009
+      },
+      {
+        "id": "1953_katz_a_new_status_index",
+        "score": 0.6411
+      }
+    ],
+    "1978_freeman_centrality_in_social_networks::social networks": [
+      {
+        "id": "1987_bonacich_power_and_centrality_a",
+        "score": 0.8705
+      },
+      {
+        "id": "1953_katz_a_new_status_index",
+        "score": 0.8076
+      },
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8045
+      },
+      {
+        "id": "physics_0506133",
+        "score": 0.7814
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.7572
+      },
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.7322
+      }
+    ],
+    "1987_bonacich_power_and_centrality_a::social networks": [
+      {
+        "id": "1978_freeman_centrality_in_social_networks",
+        "score": 0.8705
+      },
+      {
+        "id": "1953_katz_a_new_status_index",
+        "score": 0.7994
+      },
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.7405
+      },
+      {
+        "id": "physics_0506133",
+        "score": 0.7315
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.7044
+      },
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.7009
+      }
+    ],
+    "0709_2938::social networks": [
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.87
+      },
+      {
+        "id": "physics_0506133",
+        "score": 0.8472
+      },
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.7806
+      },
+      {
+        "id": "1978_freeman_centrality_in_social_networks",
+        "score": 0.7572
+      },
+      {
+        "id": "1987_bonacich_power_and_centrality_a",
+        "score": 0.7044
+      },
+      {
+        "id": "1953_katz_a_new_status_index",
+        "score": 0.6678
+      }
+    ],
+    "1953_katz_a_new_status_index::social networks": [
+      {
+        "id": "1978_freeman_centrality_in_social_networks",
+        "score": 0.8076
+      },
+      {
+        "id": "1987_bonacich_power_and_centrality_a",
+        "score": 0.7994
+      },
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.7017
+      },
+      {
+        "id": "physics_0506133",
+        "score": 0.6807
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.6678
+      },
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.6411
+      }
+    ],
+    "cond_mat_0112110::social networks": [
+      {
+        "id": "physics_0506133",
+        "score": 0.8856
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.87
+      },
+      {
+        "id": "1978_freeman_centrality_in_social_networks",
+        "score": 0.8045
+      },
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.7952
+      },
+      {
+        "id": "1987_bonacich_power_and_centrality_a",
+        "score": 0.7405
+      },
+      {
+        "id": "1953_katz_a_new_status_index",
+        "score": 0.7017
+      }
+    ],
+    "physics_0506133::social networks": [
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8856
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.8472
+      },
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.807
+      },
+      {
+        "id": "1978_freeman_centrality_in_social_networks",
+        "score": 0.7814
+      },
+      {
+        "id": "1987_bonacich_power_and_centrality_a",
+        "score": 0.7315
+      },
+      {
+        "id": "1953_katz_a_new_status_index",
+        "score": 0.6807
+      }
+    ],
+    "1998_watts_collective_dynamics_of_small::biological networks": [
+      {
+        "id": "physics_0506133",
+        "score": 0.807
+      },
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.7952
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.7806
+      }
+    ],
+    "0709_2938::biological networks": [
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.87
+      },
+      {
+        "id": "physics_0506133",
+        "score": 0.8472
+      },
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.7806
+      }
+    ],
+    "cond_mat_0112110::biological networks": [
+      {
+        "id": "physics_0506133",
+        "score": 0.8856
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.87
+      },
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.7952
+      }
+    ],
+    "physics_0506133::biological networks": [
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8856
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.8472
+      },
+      {
+        "id": "1998_watts_collective_dynamics_of_small",
+        "score": 0.807
+      }
+    ],
     "1998_papageorgiou_a_general_framework_for::object detection": [
       {
         "id": "2005_dalal_histograms_of_oriented_gradients",
@@ -97453,18 +98557,6 @@ window.tagSearchData = {
       {
         "id": "1998_papageorgiou_a_general_framework_for",
         "score": 0.8536
-      }
-    ],
-    "1998_page_the_pagerank_citation_ranking::web graph": [
-      {
-        "id": "0803_0476",
-        "score": 0.7087
-      }
-    ],
-    "0803_0476::web graph": [
-      {
-        "id": "1998_page_the_pagerank_citation_ranking",
-        "score": 0.7087
       }
     ],
     "1998_lavalle_rapidly_exploring_random_trees::rapidly-exploring random trees": [
@@ -97781,6 +98873,42 @@ window.tagSearchData = {
         "score": 0.7376
       }
     ],
+    "1977_sanger_dna_sequencing_with_chain::genomics": [
+      {
+        "id": "2001_consortium_initial_sequencing_and_analysis",
+        "score": 0.688
+      }
+    ],
+    "2001_consortium_initial_sequencing_and_analysis::genomics": [
+      {
+        "id": "1977_sanger_dna_sequencing_with_chain",
+        "score": 0.688
+      }
+    ],
+    "1977_sanger_dna_sequencing_with_chain::molecular biology": [
+      {
+        "id": "2012_jinek_a_programmable_dual_rna",
+        "score": 0.6289
+      }
+    ],
+    "2012_jinek_a_programmable_dual_rna::molecular biology": [
+      {
+        "id": "1977_sanger_dna_sequencing_with_chain",
+        "score": 0.6289
+      }
+    ],
+    "1977_sanger_dna_sequencing_with_chain::genetic information": [
+      {
+        "id": "1944_avery_studies_on_the_chemical",
+        "score": 0.643
+      }
+    ],
+    "1944_avery_studies_on_the_chemical::genetic information": [
+      {
+        "id": "1977_sanger_dna_sequencing_with_chain",
+        "score": 0.643
+      }
+    ],
     "1989_griewank_on_automatic_differentiation::automatic differentiation": [
       {
         "id": "2018_frostig_compiling_machine_learning_programs",
@@ -97791,6 +98919,18 @@ window.tagSearchData = {
       {
         "id": "1989_griewank_on_automatic_differentiation",
         "score": 0.6995
+      }
+    ],
+    "1986_quinlan_induction_of_decision_trees::information theory": [
+      {
+        "id": "0707_0609",
+        "score": 0.5809
+      }
+    ],
+    "0707_0609::information theory": [
+      {
+        "id": "1986_quinlan_induction_of_decision_trees",
+        "score": 0.5809
       }
     ],
     "2111_08481::python": [
@@ -98353,36 +99493,6 @@ window.tagSearchData = {
         "score": 0.6247
       }
     ],
-    "2021_perdomo_stabilizing_dynamical_systems_via::dynamical systems": [
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.8522
-      },
-      {
-        "id": "2412_11270",
-        "score": 0.7975
-      }
-    ],
-    "2412_11270::dynamical systems": [
-      {
-        "id": "2022_gravell_data_driven_control_and",
-        "score": 0.8084
-      },
-      {
-        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
-        "score": 0.7975
-      }
-    ],
-    "2022_gravell_data_driven_control_and::dynamical systems": [
-      {
-        "id": "2021_perdomo_stabilizing_dynamical_systems_via",
-        "score": 0.8522
-      },
-      {
-        "id": "2412_11270",
-        "score": 0.8084
-      }
-    ],
     "2021_perdomo_stabilizing_dynamical_systems_via::model-free control": [
       {
         "id": "2014_silver_deterministic_policy_gradient_algorithms",
@@ -98713,6 +99823,342 @@ window.tagSearchData = {
       {
         "id": "2004_de_boeij_mathematical_model_of_the",
         "score": 0.591
+      }
+    ],
+    "cond_mat_0408187::community detection": [
+      {
+        "id": "0803_0476",
+        "score": 0.8739
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.8522
+      },
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8362
+      },
+      {
+        "id": "physics_0506133",
+        "score": 0.8322
+      },
+      {
+        "id": "0707_0609",
+        "score": 0.7927
+      }
+    ],
+    "0709_2938::community detection": [
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.87
+      },
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.8522
+      },
+      {
+        "id": "physics_0506133",
+        "score": 0.8472
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.8334
+      },
+      {
+        "id": "0707_0609",
+        "score": 0.8259
+      }
+    ],
+    "0707_0609::community detection": [
+      {
+        "id": "physics_0506133",
+        "score": 0.8507
+      },
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8449
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.8259
+      },
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.7927
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.7687
+      }
+    ],
+    "cond_mat_0112110::community detection": [
+      {
+        "id": "physics_0506133",
+        "score": 0.8856
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.87
+      },
+      {
+        "id": "0707_0609",
+        "score": 0.8449
+      },
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.8362
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.8125
+      }
+    ],
+    "0803_0476::community detection": [
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.8739
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.8334
+      },
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8125
+      },
+      {
+        "id": "physics_0506133",
+        "score": 0.8123
+      },
+      {
+        "id": "0707_0609",
+        "score": 0.7687
+      }
+    ],
+    "physics_0506133::community detection": [
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8856
+      },
+      {
+        "id": "0707_0609",
+        "score": 0.8507
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.8472
+      },
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.8322
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.8123
+      }
+    ],
+    "cond_mat_0408187::modularity optimization": [
+      {
+        "id": "0803_0476",
+        "score": 0.8739
+      }
+    ],
+    "0803_0476::modularity optimization": [
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.8739
+      }
+    ],
+    "cond_mat_0408187::hierarchical clustering": [
+      {
+        "id": "0803_0476",
+        "score": 0.8739
+      },
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8362
+      }
+    ],
+    "cond_mat_0112110::hierarchical clustering": [
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.8362
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.8125
+      }
+    ],
+    "0803_0476::hierarchical clustering": [
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.8739
+      },
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8125
+      }
+    ],
+    "cond_mat_0408187::large-scale graphs": [
+      {
+        "id": "0803_0476",
+        "score": 0.8739
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.8522
+      }
+    ],
+    "0709_2938::large-scale graphs": [
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.8522
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.8334
+      }
+    ],
+    "0803_0476::large-scale graphs": [
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.8739
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.8334
+      }
+    ],
+    "cond_mat_0408187::network science": [
+      {
+        "id": "0803_0476",
+        "score": 0.8739
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.8522
+      },
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8362
+      },
+      {
+        "id": "physics_0506133",
+        "score": 0.8322
+      },
+      {
+        "id": "0707_0609",
+        "score": 0.7927
+      }
+    ],
+    "0709_2938::network science": [
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.87
+      },
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.8522
+      },
+      {
+        "id": "physics_0506133",
+        "score": 0.8472
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.8334
+      },
+      {
+        "id": "0707_0609",
+        "score": 0.8259
+      }
+    ],
+    "0707_0609::network science": [
+      {
+        "id": "physics_0506133",
+        "score": 0.8507
+      },
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8449
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.8259
+      },
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.7927
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.7687
+      }
+    ],
+    "cond_mat_0112110::network science": [
+      {
+        "id": "physics_0506133",
+        "score": 0.8856
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.87
+      },
+      {
+        "id": "0707_0609",
+        "score": 0.8449
+      },
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.8362
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.8125
+      }
+    ],
+    "0803_0476::network science": [
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.8739
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.8334
+      },
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8125
+      },
+      {
+        "id": "physics_0506133",
+        "score": 0.8123
+      },
+      {
+        "id": "0707_0609",
+        "score": 0.7687
+      }
+    ],
+    "physics_0506133::network science": [
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8856
+      },
+      {
+        "id": "0707_0609",
+        "score": 0.8507
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.8472
+      },
+      {
+        "id": "cond_mat_0408187",
+        "score": 0.8322
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.8123
       }
     ],
     "1983_barto_neuronlike_adaptive_elements_that::actor-critic": [
@@ -99069,6 +100515,42 @@ window.tagSearchData = {
       {
         "id": "1971_haussmann_optimal_stationary_control_with",
         "score": 0.7651
+      }
+    ],
+    "2012_jinek_a_programmable_dual_rna::crispr-cas9": [
+      {
+        "id": "2013_le_cong_multiplex_genome_engineering_using",
+        "score": 0.8375
+      }
+    ],
+    "2013_le_cong_multiplex_genome_engineering_using::crispr-cas9": [
+      {
+        "id": "2012_jinek_a_programmable_dual_rna",
+        "score": 0.8375
+      }
+    ],
+    "2012_jinek_a_programmable_dual_rna::genome editing": [
+      {
+        "id": "2013_le_cong_multiplex_genome_engineering_using",
+        "score": 0.8375
+      }
+    ],
+    "2013_le_cong_multiplex_genome_engineering_using::genome editing": [
+      {
+        "id": "2012_jinek_a_programmable_dual_rna",
+        "score": 0.8375
+      }
+    ],
+    "2012_jinek_a_programmable_dual_rna::genetic engineering": [
+      {
+        "id": "2013_le_cong_multiplex_genome_engineering_using",
+        "score": 0.8375
+      }
+    ],
+    "2013_le_cong_multiplex_genome_engineering_using::genetic engineering": [
+      {
+        "id": "2012_jinek_a_programmable_dual_rna",
+        "score": 0.8375
       }
     ],
     "1205_5088::double integrator": [
@@ -99561,6 +101043,62 @@ window.tagSearchData = {
       {
         "id": "1996_kavraki_probabilistic_roadmaps_for_path",
         "score": 0.6229
+      }
+    ],
+    "0709_2938::graph clustering": [
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.87
+      },
+      {
+        "id": "physics_0506133",
+        "score": 0.8472
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.8334
+      }
+    ],
+    "cond_mat_0112110::graph clustering": [
+      {
+        "id": "physics_0506133",
+        "score": 0.8856
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.87
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.8125
+      }
+    ],
+    "0803_0476::graph clustering": [
+      {
+        "id": "0709_2938",
+        "score": 0.8334
+      },
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8125
+      },
+      {
+        "id": "physics_0506133",
+        "score": 0.8123
+      }
+    ],
+    "physics_0506133::graph clustering": [
+      {
+        "id": "cond_mat_0112110",
+        "score": 0.8856
+      },
+      {
+        "id": "0709_2938",
+        "score": 0.8472
+      },
+      {
+        "id": "0803_0476",
+        "score": 0.8123
       }
     ],
     "2007_florian_correct_equations_for_the::inverted pendulum": [
@@ -100253,9 +101791,21 @@ window.tagSearchData = {
     "1999_thrun_minerva_a_second_generation::autonomous navigation": [],
     "1999_thrun_minerva_a_second_generation::learning robot systems": [],
     "1999_thrun_minerva_a_second_generation::probabilistic robotics": [],
+    "1999_kleinberg_authoritative_sources_in_a::hits": [],
+    "1999_kleinberg_authoritative_sources_in_a::hub score": [],
+    "1999_kleinberg_authoritative_sources_in_a::authority score": [],
+    "1999_kleinberg_authoritative_sources_in_a::search engines": [],
     "1999_larsen_fast_proximity_queries_with::distance computation": [],
     "1999_larsen_fast_proximity_queries_with::swept sphere volumes": [],
     "1999_larsen_fast_proximity_queries_with::bounding volume hierarchies": [],
+    "cond_mat_9910332::scale-free networks": [],
+    "cond_mat_9910332::barabasi-albert model": [],
+    "cond_mat_9910332::preferential attachment": [],
+    "cond_mat_9910332::network growth": [],
+    "cond_mat_9910332::power-law degree distribution": [],
+    "cond_mat_9910332::self-organization": [],
+    "cond_mat_9910332::world wide web": [],
+    "cond_mat_9910332::genetic networks": [],
     "2016_otte_rrtx_asymptotically_optimal_single::rrtx": [],
     "1606_01540::simulation environments": [],
     "1606_01540::research infrastructure": [],
@@ -100280,6 +101830,12 @@ window.tagSearchData = {
     "1604_07446::variational methods": [],
     "2016_choudhury_regionally_accelerated_batch_informed::rabit*": [],
     "2016_choudhury_regionally_accelerated_batch_informed::local optimization": [],
+    "1866_mendel_versuche_uber_pflanzen_hybriden::genetics": [],
+    "1866_mendel_versuche_uber_pflanzen_hybriden::mendelian inheritance": [],
+    "1866_mendel_versuche_uber_pflanzen_hybriden::segregation": [],
+    "1866_mendel_versuche_uber_pflanzen_hybriden::dominance": [],
+    "1866_mendel_versuche_uber_pflanzen_hybriden::hybridization": [],
+    "1866_mendel_versuche_uber_pflanzen_hybriden::variation": [],
     "2006_07733::byol": [],
     "2006_07733::bootstrap learning": [],
     "2006_07733::momentum target network": [],
@@ -100531,15 +102087,19 @@ window.tagSearchData = {
     "1998_lecun_gradient_based_learning_applied::handwriting recognition": [],
     "1998_lecun_gradient_based_learning_applied::gradient-based learning": [],
     "1998_lecun_gradient_based_learning_applied::graph transformer networks": [],
+    "1998_watts_collective_dynamics_of_small::small-world networks": [],
+    "1998_watts_collective_dynamics_of_small::watts-strogatz model": [],
+    "1998_watts_collective_dynamics_of_small::network topology": [],
+    "1998_watts_collective_dynamics_of_small::clustering coefficient": [],
+    "1998_watts_collective_dynamics_of_small::characteristic path length": [],
+    "1998_watts_collective_dynamics_of_small::synchronization": [],
+    "1998_watts_collective_dynamics_of_small::epidemic spreading": [],
     "1998_papageorgiou_a_general_framework_for::wavelet features": [],
     "1998_papageorgiou_a_general_framework_for::support vector machine": [],
-    "1998_page_the_pagerank_citation_ranking::link analysis": [],
     "1998_page_the_pagerank_citation_ranking::web search": [],
     "1998_page_the_pagerank_citation_ranking::graph centrality": [],
-    "1998_page_the_pagerank_citation_ranking::eigenvector centrality": [],
     "1998_page_the_pagerank_citation_ranking::random walk": [],
     "1998_page_the_pagerank_citation_ranking::markov chain": [],
-    "1998_page_the_pagerank_citation_ranking::information retrieval": [],
     "1998_page_the_pagerank_citation_ranking::citation ranking": [],
     "1998_page_the_pagerank_citation_ranking::ranking algorithms": [],
     "1998_fiorini_motion_planning_in_dynamic::velocity obstacles": [],
@@ -100559,6 +102119,10 @@ window.tagSearchData = {
     "1966_armijo_minimization_of_functions_having::lipschitz gradients": [],
     "1968_wonham_on_the_separation_theorem::separation theorem": [],
     "1968_wonham_on_the_separation_theorem::certainty equivalence": [],
+    "1977_sanger_dna_sequencing_with_chain::dna sequencing": [],
+    "1977_sanger_dna_sequencing_with_chain::sanger sequencing": [],
+    "1977_sanger_dna_sequencing_with_chain::chain termination": [],
+    "1977_sanger_dna_sequencing_with_chain::genome analysis": [],
     "1989_griewank_on_automatic_differentiation::algorithmic differentiation": [],
     "1989_griewank_on_automatic_differentiation::derivatives": [],
     "1989_griewank_on_automatic_differentiation::scientific computing": [],
@@ -100571,7 +102135,6 @@ window.tagSearchData = {
     "1989_anderson_bilateral_control_of_teleoperators::teleoperators": [],
     "1989_anderson_bilateral_control_of_teleoperators::haptic control": [],
     "1986_quinlan_induction_of_decision_trees::id3": [],
-    "1986_quinlan_induction_of_decision_trees::information theory": [],
     "1986_quinlan_induction_of_decision_trees::inductive learning": [],
     "1986_barnes_a_hierarchical_o_n::n-body simulation": [],
     "1986_barnes_a_hierarchical_o_n::barnes-hut algorithm": [],
@@ -100674,6 +102237,9 @@ window.tagSearchData = {
     "2004_de_la_pena_self_normalized_processes_exponential::probability theory": [],
     "2004_de_la_pena_self_normalized_processes_exponential::supermartingales": [],
     "2004_de_la_pena_self_normalized_processes_exponential::sequential analysis": [],
+    "cond_mat_0408187::cnm algorithm": [],
+    "cond_mat_0408187::fast greedy modularity": [],
+    "cond_mat_0408187::agglomerative clustering": [],
     "1983_artstein_stabilization_with_relaxed_controls::relaxed controls": [],
     "1958_sion_on_general_minimax_theorems::convexity": [],
     "1958_sion_on_general_minimax_theorems::fixed-point theory": [],
@@ -100707,6 +102273,9 @@ window.tagSearchData = {
     "1963_morgan_problems_in_the_analysis::aid": [],
     "1963_morgan_problems_in_the_analysis::survey data analysis": [],
     "1963_morgan_problems_in_the_analysis::interaction detection": [],
+    "2012_jinek_a_programmable_dual_rna::rna-guided nuclease": [],
+    "2012_jinek_a_programmable_dual_rna::adaptive immunity": [],
+    "2012_jinek_a_programmable_dual_rna::programmable biology": [],
     "1206_4621::covariance matrix adaptation": [],
     "1206_4621::exploration noise": [],
     "1204_6453::rrt#": [],
@@ -100771,12 +102340,29 @@ window.tagSearchData = {
     "1978_catmull_recursively_generated_b_spline::geometric modeling": [],
     "1978_catmull_recursively_generated_b_spline::meshes": [],
     "1978_doyle_guaranteed_margins_for_lqg::linear quadratic gaussian (lqg)": [],
+    "1978_freeman_centrality_in_social_networks::degree centrality": [],
+    "1978_freeman_centrality_in_social_networks::closeness centrality": [],
+    "1978_freeman_centrality_in_social_networks::betweenness centrality": [],
+    "1978_freeman_centrality_in_social_networks::centralization": [],
+    "1978_freeman_centrality_in_social_networks::graph theory": [],
+    "1978_freeman_centrality_in_social_networks::structural analysis": [],
     "1987_reynolds_flocks_herds_and_schools::boids": [],
     "1987_reynolds_flocks_herds_and_schools::flocking": [],
     "1987_reynolds_flocks_herds_and_schools::behavioral animation": [],
     "1987_reynolds_flocks_herds_and_schools::multi-agent simulation": [],
     "1987_reynolds_flocks_herds_and_schools::particle systems": [],
     "1987_reynolds_flocks_herds_and_schools::distributed control": [],
+    "1987_bonacich_power_and_centrality_a::bonacich centrality": [],
+    "1987_bonacich_power_and_centrality_a::power centrality": [],
+    "1987_bonacich_power_and_centrality_a::exchange networks": [],
+    "1987_bonacich_power_and_centrality_a::status measurement": [],
+    "1987_bonacich_power_and_centrality_a::structural power": [],
+    "1858_darwin_on_the_tendency_of::evolution": [],
+    "1858_darwin_on_the_tendency_of::natural selection": [],
+    "1858_darwin_on_the_tendency_of::heritable variation": [],
+    "1858_darwin_on_the_tendency_of::adaptation": [],
+    "1858_darwin_on_the_tendency_of::speciation": [],
+    "1858_darwin_on_the_tendency_of::evolutionary theory": [],
     "1997_hsu_path_planning_in_expansive::expansive configuration spaces": [],
     "1997_julier_new_extension_of_the::unscented kalman filter": [],
     "1997_julier_new_extension_of_the::nonlinear estimation": [],
@@ -100812,6 +102398,14 @@ window.tagSearchData = {
     "1996_kavraki_probabilistic_roadmaps_for_path::probabilistic roadmap": [],
     "1967_kleinman_suboptimal_design_of_linear::suboptimal control": [],
     "1967_kleinman_suboptimal_design_of_linear::computational constraints": [],
+    "0709_2938::label propagation": [],
+    "0709_2938::near-linear algorithms": [],
+    "0707_0609::infomap": [],
+    "0707_0609::map equation": [],
+    "0707_0609::random walks": [],
+    "0707_0609::flow-based clustering": [],
+    "0707_0609::directed networks": [],
+    "0707_0609::weighted networks": [],
     "2007_flajolet_hyperloglog_the_analysis_of::cardinality estimation": [],
     "2007_flajolet_hyperloglog_the_analysis_of::streaming algorithms": [],
     "2007_flajolet_hyperloglog_the_analysis_of::hyperloglog": [],
@@ -100910,6 +102504,10 @@ window.tagSearchData = {
     "2024_wang_a_convergence_guaranteed_multiple::convergence guarantees": [],
     "2013_turpin_goal_assignment_and_trajectory::uav swarms": [],
     "2013_lipp_minimum_time_speed_optimisation::minimum time": [],
+    "2013_le_cong_multiplex_genome_engineering_using::multiplex editing": [],
+    "2013_le_cong_multiplex_genome_engineering_using::mammalian cells": [],
+    "2013_le_cong_multiplex_genome_engineering_using::guide rna": [],
+    "2013_le_cong_multiplex_genome_engineering_using::homology-directed repair": [],
     "1306_3532::fast marching tree": [],
     "1306_3532::fmt": [],
     "1306_3532::fast marching method": [],
@@ -100948,6 +102546,12 @@ window.tagSearchData = {
     "1973_e_an_optimum_method_for::bilevel rendering": [],
     "1973_molinari_the_stabilizing_solution_of::stabilizing solution": [],
     "1973_molinari_the_stabilizing_solution_of::existence conditions": [],
+    "1953_katz_a_new_status_index::katz centrality": [],
+    "1953_katz_a_new_status_index::status index": [],
+    "1953_katz_a_new_status_index::sociometric analysis": [],
+    "1953_katz_a_new_status_index::attenuated walks": [],
+    "1953_katz_a_new_status_index::matrix methods": [],
+    "1953_katz_a_new_status_index::influence measurement": [],
     "1953_shapley_a_value_for_n::cooperative games": [],
     "1953_shapley_a_value_for_n::shapley value": [],
     "1953_shapley_a_value_for_n::fair allocation": [],
@@ -100987,6 +102591,13 @@ window.tagSearchData = {
     "2011_mangasarian_probability_of_unique_integer::random matrices": [],
     "2001_breiman_random_forests::feature randomization": [],
     "2001_breiman_random_forests::regression": [],
+    "2001_consortium_initial_sequencing_and_analysis::human genome": [],
+    "2001_consortium_initial_sequencing_and_analysis::genome sequencing": [],
+    "2001_consortium_initial_sequencing_and_analysis::comparative genomics": [],
+    "2001_consortium_initial_sequencing_and_analysis::genetic variation": [],
+    "2001_consortium_initial_sequencing_and_analysis::genome annotation": [],
+    "2001_consortium_initial_sequencing_and_analysis::bioinformatics": [],
+    "2001_consortium_initial_sequencing_and_analysis::evolutionary biology": [],
     "2001_viola_rapid_object_detection_using::adaboost": [],
     "2001_viola_rapid_object_detection_using::integral image": [],
     "2001_viola_rapid_object_detection_using::cascade classifier": [],
@@ -100997,6 +102608,9 @@ window.tagSearchData = {
     "2001_friedman_greedy_function_approximation_a::boosting": [],
     "2001_friedman_greedy_function_approximation_a::treeboost": [],
     "2001_kakade_a_natural_policy_gradient::fisher information matrix": [],
+    "cond_mat_0112110::girvan-newman algorithm": [],
+    "cond_mat_0112110::edge betweenness": [],
+    "cond_mat_0112110::divisive clustering": [],
     "2018_seshia_formal_specification_for_deep::formal methods": [],
     "2018_seshia_formal_specification_for_deep::neural network verification": [],
     "2018_seshia_formal_specification_for_deep::specifications": [],
@@ -101107,14 +102721,7 @@ window.tagSearchData = {
     "2008_albeanu_on_the_generalized_halley::halley's method": [],
     "2008_albeanu_on_the_generalized_halley::iterative methods": [],
     "2008_albeanu_on_the_generalized_halley::generalized inverse": [],
-    "0803_0476::community detection": [],
     "0803_0476::louvain method": [],
-    "0803_0476::modularity optimization": [],
-    "0803_0476::graph clustering": [],
-    "0803_0476::network science": [],
-    "0803_0476::complex networks": [],
-    "0803_0476::hierarchical clustering": [],
-    "0803_0476::large-scale graphs": [],
     "0803_0476::heuristic optimization": [],
     "2008_van_der_maaten_visualizing_high_dimensional_data::t-sne": [],
     "2008_van_der_maaten_visualizing_high_dimensional_data::visualization": [],
@@ -101140,6 +102747,11 @@ window.tagSearchData = {
     "1944_levenberg_a_method_for_the::damped least squares": [],
     "1944_levenberg_a_method_for_the::gauss-newton method": [],
     "1944_levenberg_a_method_for_the::trust-region methods": [],
+    "1944_avery_studies_on_the_chemical::molecular genetics": [],
+    "1944_avery_studies_on_the_chemical::dna": [],
+    "1944_avery_studies_on_the_chemical::transformation": [],
+    "1944_avery_studies_on_the_chemical::pneumococcus": [],
+    "1944_avery_studies_on_the_chemical::genotype": [],
     "1944_curry_the_method_of_steepest::nonlinear minimization": [],
     "1944_curry_the_method_of_steepest::line search": [],
     "2005_todorov_a_generalized_iterative_lqg::iterative linear quadratic gaussian": [],
@@ -101149,6 +102761,8 @@ window.tagSearchData = {
     "2005_dalal_histograms_of_oriented_gradients::histogram of oriented gradients": [],
     "2005_dalal_histograms_of_oriented_gradients::hog": [],
     "2005_dalal_histograms_of_oriented_gradients::feature descriptor": [],
+    "physics_0506133::clique percolation": [],
+    "physics_0506133::overlapping communities": [],
     "2305_09619::linear models": [],
     "2310_00077::low-budget optimization": [],
     "2310_00077::bbob": [],
@@ -101185,6 +102799,13 @@ window.tagSearchData = {
     "2006_hothorn_unbiased_recursive_partitioning_a::unbiased variable selection": [],
     "2006_hothorn_unbiased_recursive_partitioning_a::statistical testing": [],
     "2006_hothorn_unbiased_recursive_partitioning_a::recursive partitioning": [],
+    "2006_takahashi_induction_of_pluripotent_stem::stem cells": [],
+    "2006_takahashi_induction_of_pluripotent_stem::cell reprogramming": [],
+    "2006_takahashi_induction_of_pluripotent_stem::induced pluripotent stem cells": [],
+    "2006_takahashi_induction_of_pluripotent_stem::yamanaka factors": [],
+    "2006_takahashi_induction_of_pluripotent_stem::developmental biology": [],
+    "2006_takahashi_induction_of_pluripotent_stem::gene regulation": [],
+    "2006_takahashi_induction_of_pluripotent_stem::cellular plasticity": [],
     "2006_hadsell_dimensionality_reduction_by_learning::metric learning": [],
     "2006_hadsell_dimensionality_reduction_by_learning::contrastive loss": [],
     "2006_hadsell_dimensionality_reduction_by_learning::siamese networks": [],

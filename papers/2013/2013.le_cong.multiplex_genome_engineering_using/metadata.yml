@@ -1,0 +1,37 @@
+title: "Multiplex Genome Engineering Using CRISPR/Cas Systems"
+algorithm: CRISPR-Cas9 Genome Editing
+authors:
+  - Le Cong
+  - F. Ann Ran
+  - David Cox
+  - Shuailiang Lin
+  - Robert Barretto
+  - Naomi Habib
+  - Patrick D. Hsu
+  - Xuebing Wu
+  - Wenyan Jiang
+  - Luciano A. Marraffini
+  - Feng Zhang
+year: 2013
+source: Science
+type: Journal Paper
+doi: 10.1126/science.1231143
+arxiv_id:
+tags:
+  - CRISPR-Cas9
+  - Genome editing
+  - Multiplex editing
+  - Mammalian cells
+  - Genetic engineering
+  - Guide RNA
+  - Homology-directed repair
+abstract: >
+  Functional elucidation of causal genetic variants and elements requires precise genome editing technologies. The type II prokaryotic CRISPR (clustered regularly interspaced short palindromic repeats)/Cas adaptive immune system has been shown to facilitate RNA-guided site-specific DNA cleavage. We engineered two different type II CRISPR/Cas systems and demonstrate that Cas9 nucleases can be directed by short RNAs to induce precise cleavage at endogenous genomic loci in human and mouse cells. Cas9 can also be converted into a nicking enzyme to facilitate homology-directed repair with minimal mutagenic activity. Lastly, multiple guide sequences can be encoded into a single CRISPR array to enable simultaneous editing of several sites within the mammalian genome, demonstrating easy programmability and wide applicability of the RNA-guided nuclease technology.
+summary: >
+  Adapts CRISPR-Cas9 into a practical mammalian genome-engineering system, including endogenous editing, nickase-mediated repair, and multiplex guide arrays.
+link: https://www.science.org/doi/10.1126/science.1231143
+links_alt:
+  - https://doi.org/10.1126/science.1231143
+  - https://pmc.ncbi.nlm.nih.gov/articles/PMC3795411/
+  - https://pubmed.ncbi.nlm.nih.gov/23287718/
+audit_status: raw
