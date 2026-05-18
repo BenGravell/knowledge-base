@@ -1425,12 +1425,13 @@
         - ChopGrad: docs/papers/2026/2603.17812/metadata.yml
         - Deblurring via Stochastic Refinement: docs/papers/2021/2112.02475/metadata.yml
         - "Is Your Conditional Diffusion Model Actually Denoising?": docs/papers/2025/2512.18736/metadata.yml
-        - "Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow": docs/papers/2022/2209.03003/metadata.yml
-        - "Rectified Flow: A Marginal Preserving Approach to Optimal Transport": docs/papers/2022/2209.14577/metadata.yml
-        - "Flow Matching for Generative Modeling": docs/papers/2022/2210.02747/metadata.yml
-        - "Multisample Flow Matching: Straightening Flows with Minibatch Couplings": docs/papers/2023/2304.14772/metadata.yml
-        - "Optimal Flow Matching: Learning Straight Trajectories in Just One Step": docs/papers/2024/2403.13117/metadata.yml
-        - "Mean Flows for One-step Generative Modeling": docs/papers/2025/2505.13447/metadata.yml
+        - Flow Matching:
+          - "Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow": docs/papers/2022/2209.03003/metadata.yml
+          - "Rectified Flow: A Marginal Preserving Approach to Optimal Transport": docs/papers/2022/2209.14577/metadata.yml
+          - "Flow Matching for Generative Modeling": docs/papers/2022/2210.02747/metadata.yml
+          - "Multisample Flow Matching: Straightening Flows with Minibatch Couplings": docs/papers/2023/2304.14772/metadata.yml
+          - "Optimal Flow Matching: Learning Straight Trajectories in Just One Step": docs/papers/2024/2403.13117/metadata.yml
+          - "Mean Flows for One-step Generative Modeling": docs/papers/2025/2505.13447/metadata.yml
       - State-space Models (SSM):
         - Spectral State Space Models: docs/papers/2023/2312.06837/metadata.yml          
       - Generative Models:
