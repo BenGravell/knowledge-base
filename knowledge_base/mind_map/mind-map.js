@@ -77,21 +77,20 @@
   const SELECTED_NODE_RADIUS_SCALE = 1;
   const EDGE_NODE_DIAMETER_RATIO = 0.30;
   const MIN_EDGE_THICKNESS = 1;
+  const MAX_DIRECT_BRANCH_PAPER_EXPANSION = 40;
   const LEVEL_TRANSITION_MS = 260;
   const LEVEL_TRANSITION_MAX_SCREEN_TRAVEL = 160;
   const LEVEL_TRANSITION_DRILLDOWN_TRAVEL_RATIO = 0.58;
   const VIEWPORT_PADDING = 30;
   const PANEL_MAX_FOCUS_WIDTH_RATIO = 0.72;
   const FOCUSED_PAPER_CAMERA_RATIO = 0.32;
-  const HIERARCHY_LEVELS = [
-    { id: 'super_category', label: 'Super-category', shortLabel: '1', aggregate: true, filter: true },
-    { id: 'category', label: 'Category', shortLabel: '2', aggregate: true, filter: true },
-    { id: 'sub_category', label: 'Sub-category', shortLabel: '3', aggregate: true, filter: true },
-    { id: 'paper', label: 'Papers', shortLabel: 'Items', aggregate: false, filter: false },
-  ];
+  const LEGACY_BRANCH_LEVEL_IDS = ['super_category', 'category', 'sub_category'];
+  const HIERARCHY_LEVELS = buildHierarchyLevels();
   const HIERARCHY_LEVEL_BY_ID = new Map(HIERARCHY_LEVELS.map(level => [level.id, level]));
   const DETAIL_LEVELS = HIERARCHY_LEVELS.map(level => level.id);
-  const ALWAYS_LABELED_DETAIL_LEVELS = new Set(['super_category', 'category']);
+  const ALWAYS_LABELED_DETAIL_LEVELS = new Set(
+    HIERARCHY_LEVELS.filter(level => level.aggregate && level.pathIndex < 2).map(level => level.id)
+  );
   const AGGREGATE_LEVELS = new Set(
     HIERARCHY_LEVELS.filter(level => level.aggregate).map(level => level.id)
   );
@@ -397,7 +396,39 @@
       id: levelId,
       label: String(levelId || ''),
       shortLabel: String(levelId || ''),
+      pathIndex: DETAIL_LEVELS.indexOf(levelId),
     };
+  }
+
+  function buildHierarchyLevels() {
+    const configuredDepth = Number((DATA.meta || {}).maxBranchDepth);
+    const dataDepth = Math.max(
+      0,
+      ...DATA.nodes.map(node => paperNavPath(node.data || {}).length)
+    );
+    const maxDepth = Math.max(3, configuredDepth || 0, dataDepth);
+    const branchLevels = [];
+
+    for (let i = 0; i < maxDepth; i += 1) {
+      branchLevels.push({
+        id: LEGACY_BRANCH_LEVEL_IDS[i] || `branch_${i + 1}`,
+        label: `Level ${i + 1}`,
+        shortLabel: String(i + 1),
+        aggregate: true,
+        filter: true,
+        pathIndex: i,
+      });
+    }
+
+    branchLevels.push({
+      id: 'paper',
+      label: 'Papers',
+      shortLabel: 'Items',
+      aggregate: false,
+      filter: false,
+      pathIndex: maxDepth,
+    });
+    return branchLevels;
   }
 
   function detailLevelLabel(levelId, short = false) {
@@ -408,9 +439,10 @@
   function aggregateNodeSize(count, level) {
     const n = Math.max(Number(count) || 1, 1);
     const scale = Math.sqrt(n);
-    if (level === 'super_category') return clamp(110 + scale * 7.5, 125, 210) * NODE_DIAMETER_SCALE;
-    if (level === 'category') return clamp(78 + scale * 5.2, 88, 160) * NODE_DIAMETER_SCALE;
-    return clamp(56 + scale * 4.3, 68, 130) * NODE_DIAMETER_SCALE;
+    const index = Math.max(hierarchyLevel(level).pathIndex || 0, 0);
+    if (index === 0) return clamp(110 + scale * 7.5, 125, 210) * NODE_DIAMETER_SCALE;
+    if (index === 1) return clamp(78 + scale * 5.2, 88, 160) * NODE_DIAMETER_SCALE;
+    return clamp(56 + scale * Math.max(2.9, 4.3 - index * 0.35), 62, 130) * NODE_DIAMETER_SCALE;
   }
 
   function nodeDisplaySize(attrs) {
@@ -498,6 +530,38 @@
       UNCATEGORIZED_CATEGORY;
   }
 
+  function paperNavPath(attrs) {
+    const rawPath = Array.isArray(attrs.nav_path)
+      ? attrs.nav_path
+      : [paperSuperCategory(attrs), attrs.category, attrs.sub_category].filter(Boolean);
+    const path = rawPath.map(part => String(part || '').trim()).filter(Boolean);
+    if (path.length) return path;
+    return [UNCATEGORIZED_CATEGORY];
+  }
+
+  function paddedPaperNavPath(attrs) {
+    const path = paperNavPath(attrs);
+    const branchDepth = AGGREGATE_LEVELS.size;
+    const fallback = path[path.length - 1] || UNCATEGORIZED_CATEGORY;
+
+    while (path.length < branchDepth) {
+      path.push(fallback);
+    }
+
+    return path.slice(0, branchDepth);
+  }
+
+  function branchColorForPath(path, index) {
+    const superCategory = path[0] || UNCATEGORIZED_CATEGORY;
+    const category = path[1] || superCategory;
+    const label = path[index] || category;
+
+    if (isUncategorizedCategory(category)) return '#000000';
+    if (index === 0) return superCategoryColor(superCategory);
+    if (index === 1) return nodeColor(category);
+    return nodeColor(category, label);
+  }
+
   function groupId(level, parts) {
     return `agg:${level}:${parts.map(part => String(part || UNCATEGORIZED_CATEGORY)).join('::')}`;
   }
@@ -525,12 +589,15 @@
     superCategory,
     category,
     subCategory,
+    path = [],
+    pathIndex = 0,
     color,
     parent = null,
     isCategoryLeaf = false,
   }) {
-    const pathParts = [superCategory, category, subCategory || (isCategoryLeaf ? category : null)]
-      .filter(Boolean);
+    const pathParts = path.length
+      ? path
+      : [superCategory, category, subCategory || (isCategoryLeaf ? category : null)].filter(Boolean);
     return {
       key: `${level}:${pathParts.join('::')}`,
       level,
@@ -538,6 +605,8 @@
       superCategory,
       category,
       subCategory,
+      path,
+      pathIndex,
       color,
       parent,
       isCategoryLeaf,
@@ -576,13 +645,20 @@
   }
 
   function hierarchySortKey(group) {
-    if (group.level === 'super_category') {
+    const pathOrder = ((DATA.meta || {}).navPathOrder || [])
+      .map(path => Array.isArray(path) ? path.join('::') : '')
+      .filter(Boolean);
+    const pathKey = (group.path || []).join('::');
+    const pathIndex = pathOrder.indexOf(pathKey);
+    if (pathIndex >= 0) return [pathIndex, group.label];
+
+    if ((group.pathIndex || 0) === 0) {
       const order = superCategoryOrder();
       const index = order.indexOf(group.label);
       return [index < 0 ? Number.MAX_SAFE_INTEGER : index, group.label];
     }
 
-    if (group.level === 'category') {
+    if ((group.pathIndex || 0) === 1) {
       const order = categoryOrder();
       const index = order.indexOf(group.category);
       return [index < 0 ? Number.MAX_SAFE_INTEGER : index, group.label];
@@ -642,6 +718,7 @@
         super_category: group.superCategory,
         category: group.category,
         sub_category: group.subCategory,
+        nav_path: group.path,
         color: group.color,
         count,
         leafIds: group.leafIds,
@@ -733,61 +810,43 @@
 
     const roots = [];
     const rootMap = new Map();
-    const groupsByLevel = {
-      super_category: [],
-      category: [],
-      sub_category: [],
-    };
+    const branchLevels = HIERARCHY_LEVELS.filter(level => level.aggregate);
+    const groupsByLevel = Object.fromEntries(branchLevels.map(level => [level.id, []]));
     const paperAncestors = {};
     const aggregateNodes = [];
     const aggregateEdges = [];
 
     DATA.nodes.forEach(paperNode => {
       const attrs = paperNode.data;
-      const superCategory = paperSuperCategory(attrs);
-      const category = attrs.category || superCategory || UNCATEGORIZED_CATEGORY;
-      const subCategory = attrs.sub_category || null;
+      const path = paddedPaperNavPath(attrs);
+      const superCategory = path[0] || paperSuperCategory(attrs);
+      const category = path[1] || attrs.category || superCategory || UNCATEGORIZED_CATEGORY;
+      const subCategory = path[2] || attrs.sub_category || null;
+      let parent = null;
+      const ancestors = {};
 
-      const superGroup = ensureHierarchyChild(null, superCategory, {
-        rootMap,
-        roots,
-        level: 'super_category',
-        label: superCategory,
-        superCategory,
-        category: null,
-        subCategory: null,
-        color: isUncategorizedCategory(category) ? '#000000' : superCategoryColor(superCategory),
-      });
-
-      const categoryGroup = ensureHierarchyChild(superGroup, category, {
-        level: 'category',
-        label: category,
-        superCategory,
-        category,
-        subCategory: null,
-        color: nodeColor(category),
-      });
-
-      const leafKey = subCategory || `__category_leaf__:${category}`;
-      const leafGroup = ensureHierarchyChild(categoryGroup, leafKey, {
-        level: 'sub_category',
-        label: subCategory || category,
-        superCategory,
-        category,
-        subCategory,
-        color: nodeColor(category, subCategory),
-        isCategoryLeaf: !subCategory,
-      });
-
-      [superGroup, categoryGroup, leafGroup].forEach(group => {
+      branchLevels.forEach((level, index) => {
+        const label = path[index] || path[path.length - 1] || UNCATEGORIZED_CATEGORY;
+        const pathPrefix = path.slice(0, index + 1);
+        const group = ensureHierarchyChild(parent, label, {
+          rootMap,
+          roots,
+          level: level.id,
+          label,
+          superCategory,
+          category,
+          subCategory: index >= 2 ? label : subCategory,
+          path: pathPrefix,
+          pathIndex: index,
+          color: branchColorForPath(path, index),
+          isCategoryLeaf: index >= paperNavPath(attrs).length,
+        });
         accumulateHierarchyGroup(group, paperNode);
+        ancestors[level.id] = aggregateNodeId(level.id, group);
+        parent = group;
       });
 
-      paperAncestors[attrs.id] = {
-        super_category: aggregateNodeId('super_category', superGroup),
-        category: aggregateNodeId('category', categoryGroup),
-        sub_category: aggregateNodeId('sub_category', leafGroup),
-      };
+      paperAncestors[attrs.id] = ancestors;
     });
 
     sortHierarchyGroups(roots);
@@ -1116,11 +1175,15 @@
     focusLabelContext.clearRect(0, 0, dims.width, dims.height);
   }
 
-  function focusedLabelNodes() {
+  function labelOverlayNodes() {
     const nodes = [];
 
-    [pinnedNode, hoveredNode].forEach(node => {
-      if (!node || nodes.includes(node) || !graphHasNode(node) || !nodeVisible(node)) return;
+    graph.forEachNode((node, attrs) => {
+      if (!nodeVisible(node)) return;
+      const display = renderer && typeof renderer.getNodeDisplayData === 'function'
+        ? renderer.getNodeDisplayData(node)
+        : null;
+      if (!display || display.hidden || !display.label) return;
       nodes.push(node);
     });
 
@@ -1131,7 +1194,7 @@
     if (!focusLabelContext || !renderer || !graph) return;
 
     clearFocusLabelOverlay();
-    focusedLabelNodes().forEach(node => {
+    labelOverlayNodes().forEach(node => {
       const attrs = graph.getNodeAttributes(node);
       const display = renderer.getNodeDisplayData(node);
       if (!display || display.hidden) return;
@@ -1444,6 +1507,9 @@
       : null;
 
     if (!childLevel) return false;
+    if (childLevel === 'paper' && Number(attrs.count) > MAX_DIRECT_BRANCH_PAPER_EXPANSION) {
+      return false;
+    }
 
     finishLevelTransition();
     const transitionNodes = renderer
@@ -1474,7 +1540,7 @@
         zIndex: true,
         enableEdgeEvents: false,
         hideEdgesOnMove: true,
-        renderLabels: true,
+        renderLabels: false,
         renderEdgeLabels: false,
         enableCameraRotation: false,
         labelRenderedSizeThreshold: 0,
@@ -1625,12 +1691,15 @@
     const nextLabel = DETAIL_LEVELS[nextIndex]
       ? detailLevelLabel(DETAIL_LEVELS[nextIndex])
       : null;
+    const directPaperOverflow = DETAIL_LEVELS[nextIndex] === 'paper' &&
+      Number(d.count) > MAX_DIRECT_BRANCH_PAPER_EXPANSION;
 
     tooltip.innerHTML =
       `<div class="tt-title">${escHtml(d.fullLabel || d.title)}</div>` +
       `<div class="tt-meta">${escHtml(level)} group&nbsp;&nbsp;${d.count || 0} items</div>` +
       (titles ? `<ul class="tt-list">${titles}</ul>` : '') +
-      (nextLabel ? `<div class="tt-hint">Click to expand into ${escHtml(nextLabel)}</div>` : '') +
+      (nextLabel && !directPaperOverflow ? `<div class="tt-hint">Click to expand into ${escHtml(nextLabel)}</div>` : '') +
+      (directPaperOverflow ? `<div class="tt-hint">Use search, filters, or Items LOD to inspect papers.</div>` : '') +
       (!nextLabel && !pinned ? `<div class="tt-hint">Click to pin</div>` : '') +
       (!nextLabel && pinned ? `<div class="tt-hint">Click node again to unpin</div>` : '');
     tooltip.classList.toggle('pinned', pinned);
@@ -1640,6 +1709,11 @@
   function placeTooltip(pos) {
     const MARGIN = 12;
     const graphRect = graphContainer.getBoundingClientRect();
+    const rootStyle = getComputedStyle(document.documentElement);
+    const headerHeight = parseFloat(rootStyle.getPropertyValue('--mm-header-h')) || 0;
+    const footerHeight = parseFloat(rootStyle.getPropertyValue('--mm-footer-h')) || 0;
+    const minY = Math.max(MARGIN, headerHeight + MARGIN);
+    const maxY = Math.max(minY, window.innerHeight - footerHeight - MARGIN);
 
     tooltip.classList.add('visible');
     const W = tooltip.offsetWidth;
@@ -1649,10 +1723,10 @@
     let y = graphRect.top + pos.y + MARGIN;
 
     if (x + W + MARGIN > window.innerWidth) x = graphRect.left + pos.x - W - MARGIN;
-    if (y + H + MARGIN > window.innerHeight) y = graphRect.top + pos.y - H - MARGIN;
+    if (y + H + MARGIN > maxY) y = graphRect.top + pos.y - H - MARGIN;
 
     x = Math.max(MARGIN, Math.min(x, window.innerWidth - W - MARGIN));
-    y = Math.max(MARGIN, Math.min(y, window.innerHeight - H - MARGIN));
+    y = Math.max(minY, Math.min(y, maxY - H));
 
     tooltip.style.left = `${x}px`;
     tooltip.style.top = `${y}px`;
@@ -2417,7 +2491,7 @@
   }
 
   function renderFilterNode(group, onChildChange = null) {
-    if (group.level === 'sub_category') {
+    if (!group.children.length) {
       return renderFilterLeaf(group, onChildChange);
     }
 

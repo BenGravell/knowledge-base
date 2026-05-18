@@ -18,10 +18,10 @@ hide:
   --mm-muted-label:        #475569;
   --mm-selected-ring:      #d9a316;
   --mm-selected-label:     #111111;
-  --mm-blue:               #2367b3;
-  --mm-teal:               #13877f;
-  --mm-rose:               #bb3974;
-  --mm-gold:               #ad6b16;
+  --mm-blue:               var(--kb-color-blue);
+  --mm-teal:               var(--kb-color-teal);
+  --mm-rose:               var(--kb-color-rose);
+  --mm-gold:               var(--kb-color-gold);
   --mm-border:             color-mix(in srgb, var(--md-default-fg-color) 15%, transparent);
   --mm-soft-border:        color-mix(in srgb, var(--md-default-fg-color) 9%, transparent);
   --mm-panel:              color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
@@ -37,29 +37,29 @@ hide:
   --mm-muted-label:        #475569;
   --mm-selected-ring:      #d9a316;
   --mm-selected-label:     #111111;
-  --mm-blue:               #2367b3;
-  --mm-teal:               #13877f;
-  --mm-rose:               #bb3974;
-  --mm-gold:               #ad6b16;
+  --mm-blue:               var(--kb-color-blue);
+  --mm-teal:               var(--kb-color-teal);
+  --mm-rose:               var(--kb-color-rose);
+  --mm-gold:               var(--kb-color-gold);
   --mm-border:             color-mix(in srgb, var(--md-default-fg-color) 15%, transparent);
   --mm-soft-border:        color-mix(in srgb, var(--md-default-fg-color) 9%, transparent);
   --mm-panel:              color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
 }
 [data-md-color-scheme="slate"] {
-  --mm-edge-color:         #8a8a8a;
-  --mm-edge-highlighted:   rgba(178, 178, 178, 0.56);
-  --mm-edge-alpha-scale:   0.14;
-  --mm-edge-alpha-min:     0.012;
-  --mm-edge-alpha-max:     0.045;
+  --mm-edge-color:         #566579;
+  --mm-edge-highlighted:   rgba(118, 146, 178, 0.46);
+  --mm-edge-alpha-scale:   0.20;
+  --mm-edge-alpha-min:     0.014;
+  --mm-edge-alpha-max:     0.060;
   --mm-node-muted:         #66717d;
   --mm-node-muted-related: #8b96a2;
   --mm-muted-label:        #c8d0d8;
   --mm-selected-ring:      #f1c232;
   --mm-selected-label:     #111111;
-  --mm-blue:               #58a6ff;
-  --mm-teal:               #25b8ad;
-  --mm-rose:               #ff6aa8;
-  --mm-gold:               #f0a33e;
+  --mm-blue:               var(--kb-color-blue);
+  --mm-teal:               var(--kb-color-teal);
+  --mm-rose:               var(--kb-color-rose);
+  --mm-gold:               var(--kb-color-gold);
   --mm-border:             color-mix(in srgb, var(--md-default-fg-color) 18%, transparent);
   --mm-soft-border:        color-mix(in srgb, var(--md-default-fg-color) 11%, transparent);
   --mm-panel:              color-mix(in srgb, var(--md-code-bg-color) 82%, #050910);
@@ -133,7 +133,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 /* ── Control panel ────────────────────────────────────────────────────────── */
 
 /* Header: always visible, absolutely positioned over the app so it survives
-   the panel collapsing to width:0. Clicking it toggles the panel body. */
+   the panel collapsing upward. Clicking it toggles the panel body. */
 #mm-panel-header {
   position: absolute;
   top: 0;
@@ -189,11 +189,13 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: width 0.25s ease;
+  transition: height 0.25s ease, opacity 0.18s ease, border-color 0.18s ease;
 }
 #mm-panel.body-collapsed {
-  width: 0;
-  border-right: none;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  border-color: transparent;
 }
 
 #mm-panel-body {
@@ -294,7 +296,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   box-sizing: border-box;
 }
 .mm-detail-controls {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(2.35rem, 1fr));
 }
 .mm-visibility-controls {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -617,10 +619,6 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   font-size: 0.68rem;
 }
 .mm-detail-actions {
-  --paper-link-internal-blue: var(--mm-blue);
-  --paper-link-internal-green: var(--mm-teal);
-  --paper-link-external-rose: var(--mm-rose);
-  --paper-link-external-orange: var(--mm-gold);
   display: flex;
   flex-wrap: wrap;
   gap: 0.42rem;
@@ -629,17 +627,17 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 @media (max-width: 700px) {
   #mm-app {
-    --mm-panel-w: calc(100vw - 48px);
+    --mm-panel-w: 100%;
   }
 
   #mm-panel-header,
   #mm-panel {
-    left: 8px;
+    left: 0;
   }
 
   .mm-detail-controls,
   .mm-visibility-controls {
-    width: calc(100vw - 88px);
+    width: 100%;
   }
 
   #mm-tooltip {
@@ -679,7 +677,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     <button id="mm-panel-hide-btn">Hide Settings</button>
   </div>
 
-  <!-- Panel body: collapses to width:0 on hide -->
+  <!-- Panel body: collapses upward on hide -->
   <div id="mm-panel">
     <div id="mm-panel-body">
 
@@ -735,7 +733,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
       </div>
 
       <div id="mm-stats">
-        <span id="mm-level-label">Super</span> ·
+        <span id="mm-level-label">1</span> ·
         <span id="mm-node-count">…</span> items &nbsp;·&nbsp;
         <span id="mm-edge-count">…</span> connections
         <span id="mm-search-count" hidden></span>

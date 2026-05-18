@@ -1,5 +1,15 @@
 # TODO
 
+## Taxonomy
+
+Run e.g.
+
+```sh
+python scripts/list_branching_factor_violations.py --max-depth 3 --max-results 5
+```
+
+and resolve all issues.
+
 ## Ingest
 
 ### Localization and mapping
@@ -233,13 +243,6 @@ Hand-crafted
 
 ### UX
 
-Remove the caption
-"1376 papers across 4 super-category streams"
-
-Remove all references to super and sub category.
-
-Zoom controls should be distributed across the full contianer width, same as the lod buttons. Replace the Reset text with a universally understood reset icon. Distribute the zoom control buttons evenly.
-
 ### Design inspiration
 
 <https://pin.it/7kjN4B5KZ>
@@ -249,35 +252,6 @@ Zoom controls should be distributed across the full contianer width, same as the
 ## Content Tree
 
 ### UX
-
-### Redesign
-
-Need a redesign of the entire ux flow for mobile.
-Can we use a different more compact and intuitive tree representation?
-
-Fix the vertical leader lines.
-No subtle right shift on selection or hover because that looks ugly, dot not centered on leader lines.
-
-No indent, it takes up to much space on mobile.
-
-Use smaller font for mobile.
-
-### Menu
-
-Put the title and search into a foldable settings menu. Re use the same style as we use for Timeline page.
-
-Add similar controls such as filtering by year and source type.
-
-### Focused display
-
-At any given time only show the following:
-Ego branch/node
-Ancestors (parents up all the way to root)
-Siblings (children of the parent)
-Children (only direct children of ego, no further descendents)
-
-This strategy ensures number of items displayed is no more than:
-Tree max depth + branching factor + branching factor + 1
 
 ### Targeted edits
 
@@ -291,43 +265,7 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 
 ## Mind Map
 
-### Edges
-
-
-Edges look terrible. 
-
-Too bright in dark mode.
-
-Edges look like they are white and hence go invisible in dark mode.
-
-
 ### UX
-
-1. Setting bar should use full width of page in mobile site.
-2. Tooltip goes too far up and gets covered,occluded especially on mobile.
-3. Settings should expand down / contract up on show/hide action, same as for timeline and content tree page.
-
-When using search function in settings menu the node labels are displayed behind the node disks instead of in front of them. The node labels should always always always be displayed on top of node disks.
-
-
-Include more levels of detail in the settings until we get to the point where no more lods are required i.e. max depth present in tree is represented in lods.
-
-Expanding any branch node should not suddenly explode into 100 paper items.
-
-
-#### Branches
-
-Make sure every branch goes 3 levels deep to sub category. This is a way to make the existing level of detail work properly in mind map. Otherwise it is unintuitive that when you click a node it might not split up.
-
-## Site UX
-
-Standardize the color palette used across the repo.
-Use only a few standard solid colors and gradient definitions.
-Use the same color and style for all instances of link pillboxes that refer to 
-Internal sites (one color): Mind Map, Content Tree, Timeline, Detail Page.
-External sites (another color)
-
-Use the existing visual language used for link sections in paper detail pages.
 
 ## Knowledge Studio (new feature)
 

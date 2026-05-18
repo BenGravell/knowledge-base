@@ -491,7 +491,8 @@ def find_content_tree_nav(config: dict) -> object | None:
 def parse_nav_categories(config: dict) -> dict[str, dict]:
     """
     Recursively walk the mkdocs ``Content Tree`` nav and record each paper's
-    super-category, category, and optional sub-category.
+    full content-tree branch path, plus legacy category fields used by the
+    existing mind-map filters and colour palette.
 
     The first branch level under ``Content Tree`` is the super-category level:
 
@@ -506,50 +507,44 @@ def parse_nav_categories(config: dict) -> dict[str, dict]:
             "super_category": str | None,
             "category": str,
             "sub_category": str | None,
+            "nav_path": [str, ...],
         }
-
-    ``sub_category`` is set for direct child branches under every category.
     """
     mapping: dict[str, dict] = {}
 
-    def walk(
-        node: object,
-        super_category: str | None = None,
-        category: str | None = None,
-        sub_category: str | None = None,
-    ) -> None:
+    def category_info_from_path(path: list[str]) -> dict:
+        super_category = path[0] if len(path) > 0 else None
+        category = path[1] if len(path) > 1 else super_category or UNCATEGORIZED_CATEGORY
+        sub_category = path[2] if len(path) > 2 else None
+        return {
+            "super_category": super_category,
+            "category": category,
+            "sub_category": sub_category,
+            "nav_path": path,
+        }
+
+    def walk(node: object, path: list[str] | None = None) -> None:
+        path = path or []
         if isinstance(node, str):
             if node.startswith("papers/") and node.endswith(".md"):
                 pid = node[len("papers/"):-len(".md")]
                 if pid not in mapping:          # first occurrence wins
-                    mapping[pid] = {
-                        "super_category": super_category,
-                        "category": category or super_category or UNCATEGORIZED_CATEGORY,
-                        "sub_category": sub_category,
-                    }
+                    mapping[pid] = category_info_from_path(path)
         elif isinstance(node, list):
             for item in node:
-                walk(item, super_category, category, sub_category)
+                walk(item, path)
         elif isinstance(node, dict):
             for key, value in node.items():
                 if isinstance(value, str):
-                    walk(value, super_category, category, sub_category)
-                elif super_category is None and category is None:
-                    if key in TRANSPARENT_NAV_SECTIONS:
-                        walk(value, None, None, None)
-                    else:
-                        walk(value, key, None, None)
-                elif category is None:
-                    walk(value, super_category, key, None)
-                elif sub_category is None:
-                    # Direct child branches under any category become sub-categories.
-                    walk(value, super_category, category, key)
+                    walk(value, path)
+                elif key in TRANSPARENT_NAV_SECTIONS and not path:
+                    walk(value, path)
                 else:
-                    walk(value, super_category, category, sub_category)
+                    walk(value, [*path, key])
 
     content_tree = find_content_tree_nav(config)
     if content_tree is not None:
-        walk(content_tree, None, None, None)
+        walk(content_tree)
 
     return mapping
 
@@ -565,12 +560,16 @@ def parse_nav_category_order(config: dict) -> dict:
             "categories": [str, ...],
             "categorySuperCategory": {"<category>": "<super-category>" | None, ...},
             "subCategoryOrder": {"<category>": [str, ...], ...},
+            "navPathOrder": [["<branch>", ...], ...],
+            "maxBranchDepth": int,
         }
     """
     super_categories: list[str] = []
     categories: list[str] = []
     category_super_category: dict[str, str | None] = {}
     sub_category_order: dict[str, list[str]] = {}
+    nav_path_order: list[list[str]] = []
+    seen_nav_paths: set[tuple[str, ...]] = set()
 
     def add_super_category(name: str) -> None:
         if name not in super_categories:
@@ -581,44 +580,49 @@ def parse_nav_category_order(config: dict) -> dict:
             categories.append(name)
         category_super_category.setdefault(name, super_category)
 
-    def walk(
-        node: object,
-        super_category: str | None = None,
-        category: str | None = None,
-        depth_under_category: int = 0,
-    ) -> None:
+    def add_nav_path(path: list[str]) -> None:
+        key = tuple(path)
+        if path and key not in seen_nav_paths:
+            seen_nav_paths.add(key)
+            nav_path_order.append(path)
+
+    def walk(node: object, path: list[str] | None = None) -> None:
+        path = path or []
         if isinstance(node, list):
             for item in node:
-                walk(item, super_category, category, depth_under_category)
+                walk(item, path)
         elif isinstance(node, dict):
             for key, value in node.items():
                 if isinstance(value, str):
                     continue
-                if super_category is None and category is None:
-                    if key in TRANSPARENT_NAV_SECTIONS:
-                        walk(value, None, None, 0)
-                    else:
-                        add_super_category(key)
-                        walk(value, key, None, 0)
-                elif category is None:
-                    add_category(key, super_category)
-                    walk(value, super_category, key, 0)
+                if key in TRANSPARENT_NAV_SECTIONS and not path:
+                    walk(value, path)
+                    continue
+
+                next_path = [*path, key]
+                add_nav_path(next_path)
+                if len(next_path) == 1:
+                    add_super_category(key)
+                elif len(next_path) == 2:
+                    add_category(key, next_path[0])
                 else:
-                    if depth_under_category == 0:
-                        sub_category_order.setdefault(category, [])
-                        if key not in sub_category_order[category]:
-                            sub_category_order[category].append(key)
-                    walk(value, super_category, category, depth_under_category + 1)
+                    category = next_path[1]
+                    sub_category_order.setdefault(category, [])
+                    if len(next_path) == 3 and key not in sub_category_order[category]:
+                        sub_category_order[category].append(key)
+                walk(value, next_path)
 
     content_tree = find_content_tree_nav(config)
     if content_tree is not None:
-        walk(content_tree, None, None, 0)
+        walk(content_tree)
 
     return {
         "superCategories": super_categories,
         "categories": categories,
         "categorySuperCategory": category_super_category,
         "subCategoryOrder": sub_category_order,
+        "navPathOrder": nav_path_order,
+        "maxBranchDepth": max((len(path) for path in nav_path_order), default=0),
     }
 
 
@@ -878,6 +882,7 @@ def main() -> None:
                 "super_category": None,
                 "category": UNCATEGORIZED_CATEGORY,
                 "sub_category": None,
+                "nav_path": [UNCATEGORIZED_CATEGORY],
             },
         )
         papers.append({
@@ -890,6 +895,7 @@ def main() -> None:
             "super_category": cat_info["super_category"],
             "category": cat_info["category"],
             "sub_category": cat_info["sub_category"],
+            "nav_path": cat_info.get("nav_path") or [cat_info["category"]],
             "tags": tags,
             "summary": summary,
             "abstract": abstract,
@@ -1045,6 +1051,7 @@ def main() -> None:
                 "super_category": p["super_category"],
                 "category": p["category"],
                 "sub_category": p["sub_category"],
+                "nav_path": p["nav_path"],
                 "tags": p["tags"],
                 "summary": p["summary"],
                 "abstract": p["abstract"],
@@ -1121,6 +1128,8 @@ def main() -> None:
             "categoryOrder": nav_order["categories"],
             "categorySuperCategory": nav_order["categorySuperCategory"],
             "subCategoryOrder": nav_order["subCategoryOrder"],
+            "navPathOrder": nav_order["navPathOrder"],
+            "maxBranchDepth": nav_order["maxBranchDepth"],
         },
     }
 
