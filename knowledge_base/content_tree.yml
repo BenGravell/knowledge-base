@@ -261,8 +261,8 @@
             - DiffTune+: docs/papers/2022/2212.03194/metadata.yml
             - Hyperplan: docs/papers/2021/2021.moll.hyperplan_a_framework_for/metadata.yml
     - Planning:
-      - Path Planning:
-        - Geometric Planning:
+      - Geometric Planning:
+        - Path Planning:
           - Fundamentals:
             - "Spatial Planning: A Configuration Space Approach": docs/papers/1983/1983.lozano_perez.spatial_planning_a_configuration/metadata.yml
           - Potential Fields:
@@ -274,7 +274,7 @@
             - HPA*: docs/papers/2004/2004.botea.near_optimal_hierarchical_path/metadata.yml
             - LPA*: docs/papers/2004/2004.koenig.lifelong_planning_a/metadata.yml
             - "Path Planning for Autonomous Vehicles in Unknown Semi-structured Environments": docs/papers/2010/2010.dolgov.path_planning_for_autonomous/metadata.yml
-            - Smac Planner: docs/papers/2026/2026.macenski.cost_aware_kinematically_feasible/metadata.yml              
+            - Smac Planner: docs/papers/2026/2026.macenski.cost_aware_kinematically_feasible/metadata.yml
           - Probabilistic Roadmap (PRM):
             - PRM: docs/papers/1996/1996.kavraki.probabilistic_roadmaps_for_path/metadata.yml
             - Deterministic Sampling-Based Motion Planning: docs/papers/2015/2015.janson.deterministic_sampling_based_motion/metadata.yml
@@ -282,13 +282,13 @@
             - "Enhancing Sampling-based Planning with a Library of Paths": docs/papers/2025/2510.12962/metadata.yml
             - "Generating Diverse Trajectories Using Roadmap Search and Sampling-Based Motion Planning": docs/papers/2026/2026.plaku.generating_diverse_trajectories_using/metadata.yml
           - Rapidly Exploring Random Trees (RRT):
-            - RRT: docs/papers/1998/1998.lavalle.rapidly_exploring_random_trees/metadata.yml              
+            - RRT: docs/papers/1998/1998.lavalle.rapidly_exploring_random_trees/metadata.yml
             - RRT-Connect: docs/papers/2000/2000.kuffner.rrt_connect_an_efficient/metadata.yml
             - EET: docs/papers/2008/2008.rickert.balancing_exploration_and_exploitation/metadata.yml
             - RRT*: docs/papers/2011/1105.1186/metadata.yml
             - RRT* theory correction: docs/papers/2019/1909.09688/metadata.yml
             - Anytime RRT*: docs/papers/2011/2011.karaman.anytime_motion_planning_using/metadata.yml
-            - "BT+RRT*": docs/papers/2011/2011.perez.asymptotically_optimal_path_planning/metadata.yml              
+            - "BT+RRT*": docs/papers/2011/2011.perez.asymptotically_optimal_path_planning/metadata.yml
             - RRT*-Connect: docs/papers/2015/2015.klemm.rrt_connect_faster_asymptotically/metadata.yml
             - RRT#: docs/papers/2012/1204.6453/metadata.yml
             - FMT*: docs/papers/2013/1306.3532/metadata.yml
@@ -356,7 +356,7 @@
         - Path Optimization:
           - Path Shortcutting:
             - Creating High-quality Paths for Motion Planning: docs/papers/2007/2007.geraerts.creating_high_quality_paths/metadata.yml
-            - Anytime Solution Optimization for Sampling-Based Motion Planning: docs/papers/2013/2013.luna.anytime_solution_optimization_for/metadata.yml              
+            - Anytime Solution Optimization for Sampling-Based Motion Planning: docs/papers/2013/2013.luna.anytime_solution_optimization_for/metadata.yml
             - Benchmarking Shortcutting Techniques for Multi-Robot-Arm Motion Planning: docs/papers/2025/2508.05027/metadata.yml
           - Path Smoothing:
             - CCMA: docs/papers/2023/2023.steinecker.a_simple_and_model/metadata.yml
@@ -366,8 +366,8 @@
             - CHOMP: docs/papers/2009/2009.ratliff.chomp_gradient_optimization_techniques/metadata.yml
           - Sample-based Path Optimization:
             - STOMP: docs/papers/2011/2011.kalakrishnan.stomp_stochastic_trajectory_optimization/metadata.yml
-      - Trajectory Planning:
-        - Kinodynamic Planning:
+      - Kinodynamic Planning:
+        - Trajectory Planning:
           - Trajectory Planning: docs/papers/2014/2014.pham.trajectory_planning/metadata.yml
           - Rapidly Exploring Random Trees (RRT):
             - Kinodynamic RRT: docs/papers/1999/1999.lavalle.randomized_kinodynamic_planning/metadata.yml
@@ -375,7 +375,7 @@
             - Kinodynamic RRT*: docs/papers/2010/2010.karaman.optimal_kinodynamic_motion_planning/metadata.yml
             - Linear Kinodynamic RRT*: docs/papers/2012/1205.5088/metadata.yml
             - AQR-RRT: docs/papers/2010/2010.glassman.a_quadratic_regulator_based/metadata.yml
-            - LQR-trees: docs/papers/2010/2010.tedrake.lqr_trees_feedback_motion/metadata.yml              
+            - LQR-trees: docs/papers/2010/2010.tedrake.lqr_trees_feedback_motion/metadata.yml
             - LQR-RRT*: docs/papers/2012/2012.perez.lqr_rrt_optimal_sampling/metadata.yml
             - Optimal Sampling-based Planning for Linear-quadratic Kinodynamic Systems: docs/papers/2013/2013.goretkin.optimal_sampling_based_planning/metadata.yml
             - Reachability-guided sampling for planning under differential constraints: docs/papers/2009/2009.shkolnik.reachability_guided_sampling_for/metadata.yml
@@ -388,7 +388,7 @@
             - FDSPC: docs/papers/2024/2405.03281/metadata.yml
             - TB-RRT: docs/papers/2014/2014.sintov.time_based_rrt_algorithm/metadata.yml
             - "A novel RRT extend function for efficient and smooth mobile robot motion planning": docs/papers/2014/2014.palmieri.a_novel_rrt_extend/metadata.yml
-            - DR-RRT: docs/papers/2018/2018.summers.distributionally_robust_sampling_based/metadata.yml              
+            - DR-RRT: docs/papers/2018/2018.summers.distributionally_robust_sampling_based/metadata.yml
             - RANS-RRT*: docs/papers/2021/2103.05572/metadata.yml
             - R3T: docs/papers/2020/2020.wu.r3t_rapidly_exploring_random/metadata.yml
             - "Efficient Nearest-Neighbor Search for Dynamical Systems with Nonholonomic Constraints": docs/papers/2017/1709.07610/metadata.yml
@@ -396,7 +396,7 @@
             - "Optimal motion planning with the half-car dynamical model for autonomous high-speed driving": docs/papers/2013/2013.jeon.optimal_motion_planning_with/metadata.yml
             - "Randomized Kinodynamic Motion Planning with Moving Obstacles": docs/papers/2002/2002.hsu.randomized_kinodynamic_motion_planning/metadata.yml
             - "Search-based Motion Planning for Quadrotors using Linear Quadratic Minimum Time Control": docs/papers/2017/1709.05401/metadata.yml
-            - StaGE: docs/papers/2026/2603.06773/metadata.yml        
+            - StaGE: docs/papers/2026/2603.06773/metadata.yml
           - Expansive Space Trees (EST):
             - EST: docs/papers/1997/1997.hsu.path_planning_in_expansive/metadata.yml
             - Guided EST: docs/papers/2004/2004.phillips.guided_expansive_spaces_trees/metadata.yml
@@ -578,57 +578,58 @@
             - "Deep Learning Warm Starts for Trajectory Optimization on the International Space Station": docs/papers/2025/2505.05588/metadata.yml
             - "Transformer-based Model Predictive Control: Trajectory Optimization via Sequence Modeling": docs/papers/2024/2410.23916/metadata.yml
             - "A Data-Driven Approach to Synthesizing Dynamics-Aware Trajectories for Underactuated Robotic Systems": docs/papers/2023/2307.13782/metadata.yml
+        - Speed Planning:
+          - Time-Optimal Path Parameterization (TOPP):
+            - TOPP: docs/papers/1985/1985.bobrow.time_optimal_control_of/metadata.yml
+            - AVP: docs/papers/2014/1411.4045/metadata.yml
+            - TOPP-RA: docs/papers/2017/1707.07239/metadata.yml
+            - "Kinodynamic motion planning": docs/papers/1993/1993.donald.kinodynamic_motion_planning/metadata.yml
+          - Optimization-based Speed Planning:
+            - Path-Velocity Decomposition: docs/papers/1986/1986.kant.toward_efficient_trajectory_planning/metadata.yml
+            - "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach": docs/papers/2009/2009.verscheure.time_optimal_path_tracking/metadata.yml
+            - Minimum-time Speed Optimisation Over a Fixed Path: docs/papers/2013/2013.lipp.minimum_time_speed_optimisation/metadata.yml
+            - Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization: docs/papers/2018/2018.zhang.toward_a_more_complete/metadata.yml
         - Hybrid Approaches:
           - SBP-Guided MPC: docs/papers/2019/2019.hannigan.sbp_guided_mpc_to/metadata.yml
           - RRT-MPPI: docs/papers/2023/2301.13143/metadata.yml
           - SETS: docs/papers/2024/2412.11270/metadata.yml
-      - Speed Planning:
-        - Time-Optimal Path Parameterization (TOPP):
-          - TOPP: docs/papers/1985/1985.bobrow.time_optimal_control_of/metadata.yml
-          - AVP: docs/papers/2014/1411.4045/metadata.yml
-          - TOPP-RA: docs/papers/2017/1707.07239/metadata.yml
-          - "Kinodynamic motion planning": docs/papers/1993/1993.donald.kinodynamic_motion_planning/metadata.yml
-        - Optimization-based Speed Planning:
-          - Path-Velocity Decomposition: docs/papers/1986/1986.kant.toward_efficient_trajectory_planning/metadata.yml
-          - "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach": docs/papers/2009/2009.verscheure.time_optimal_path_tracking/metadata.yml
-          - Minimum-time Speed Optimisation Over a Fixed Path: docs/papers/2013/2013.lipp.minimum_time_speed_optimisation/metadata.yml
-          - Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization: docs/papers/2018/2018.zhang.toward_a_more_complete/metadata.yml
-      - Velocity Obstacles:
-        - Velocity Obstacles: docs/papers/1998/1998.fiorini.motion_planning_in_dynamic/metadata.yml
-        - RVO: docs/papers/2008/2008.van_den_berg.reciprocal_velocity_obstacles_for/metadata.yml
-        - ClearPath: docs/papers/2009/2009.guy.clearpath_highly_parallel_collision/metadata.yml
-        - ORCA: docs/papers/2011/2011.van_den_berg.reciprocal_n_body_collision/metadata.yml        
-      - Feedback Motion Planning:
-        - Funnel Libraries for Real-Time Robust Feedback Motion Planning: docs/papers/2016/1601.04037/metadata.yml
-        - "Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach": docs/papers/2020/2004.01142/metadata.yml
-        - Learning-based Robust Motion Planning with Guaranteed Stability: docs/papers/2021/2102.12668/metadata.yml
-        - Robust feedback motion planning via contraction theory: docs/papers/2023/2023.singh.robust_feedback_motion_planning/metadata.yml
-        - "Smooth Feedback Motion Planning with Reduced Curvature": docs/papers/2026/2604.01614/metadata.yml
-      - Planning Under Uncertainty:
-        - Planning in Belief Space:
-          - Belief Roadmap (BRM):
-            - BRM: docs/papers/2009/2009.prentice.the_belief_roadmap_efficient/metadata.yml
-            - "Planning in Information Space for a Quadrotor Helicopter in a GPS-denied Environment": docs/papers/2008/2008.he.planning_in_information_space/metadata.yml
-            - icLQG: docs/papers/2009/2009.huynh.iclqg_combining_local_and/metadata.yml
-          - Belief Trees:
-            - RRBT: docs/papers/2011/2011.bry.rapidly_exploring_random_belief/metadata.yml
-            - RAPID: docs/papers/2012/1203.3538/metadata.yml
-            - PUMA: docs/papers/2010/2010.he.puma_planning_under_uncertainty/metadata.yml
-            - PBD: docs/papers/2014/1401.3827/metadata.yml
-            - BBT: docs/papers/2021/2110.00173/metadata.yml
-            - Optimizing Trajectory-Trees in Belief Space: docs/papers/2026/2605.01860/metadata.yml
-        - "Risk Bounded Nonlinear Robot Motion Planning with Integrated Perception & Control": docs/papers/2022/2201.01483/metadata.yml
-        - "Distributionally Robust CVaR-Based Safety Filtering for Motion Planning in Uncertain Environments": docs/papers/2023/2309.08821/metadata.yml
-      - Interaction-aware Planning:
-        - Multipolicy Decision Making (MPDM):
-          - MPDM: docs/papers/2015/2015.cunningham.mpdm_multipolicy_decision_making/metadata.yml
-          - MPDM via changepoint-based behavior prediction: docs/papers/2017/2017.galceran.multipolicy_decision_making_for/metadata.yml
-          - Backprop-MPDM: docs/papers/2018/2018.mehta.backprop_mpdm_faster_risk/metadata.yml
-        - Multimodal Probabilistic Model-Based Planning for Human-Robot Interaction: docs/papers/2017/1710.09483/metadata.yml
-        - Learning Interactive Driving Policies via Data-driven Simulation: docs/papers/2021/2111.12137/metadata.yml
-        - "Tree-structured Policy Planning with Learned Behavior Models": docs/papers/2023/2301.11902/metadata.yml
-        - "Trajectory Tree-Based Pairwise Game for Interactive Decision-Making and Motion Planning in Autonomous Driving": docs/papers/2025/2025.ma.trajectory_tree_based_pairwise/metadata.yml
-      - Machine Learning in Motion Planning:
+      - Planning in Changing Environments:
+        - Feedback Motion Planning:
+          - Funnel Libraries for Real-Time Robust Feedback Motion Planning: docs/papers/2016/1601.04037/metadata.yml
+          - "Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach": docs/papers/2020/2004.01142/metadata.yml
+          - Learning-based Robust Motion Planning with Guaranteed Stability: docs/papers/2021/2102.12668/metadata.yml
+          - Robust feedback motion planning via contraction theory: docs/papers/2023/2023.singh.robust_feedback_motion_planning/metadata.yml
+          - "Smooth Feedback Motion Planning with Reduced Curvature": docs/papers/2026/2604.01614/metadata.yml
+        - Planning Under Uncertainty:
+          - Planning in Belief Space:
+            - Belief Roadmap (BRM):
+              - BRM: docs/papers/2009/2009.prentice.the_belief_roadmap_efficient/metadata.yml
+              - "Planning in Information Space for a Quadrotor Helicopter in a GPS-denied Environment": docs/papers/2008/2008.he.planning_in_information_space/metadata.yml
+              - icLQG: docs/papers/2009/2009.huynh.iclqg_combining_local_and/metadata.yml
+            - Belief Trees:
+              - RRBT: docs/papers/2011/2011.bry.rapidly_exploring_random_belief/metadata.yml
+              - RAPID: docs/papers/2012/1203.3538/metadata.yml
+              - PUMA: docs/papers/2010/2010.he.puma_planning_under_uncertainty/metadata.yml
+              - PBD: docs/papers/2014/1401.3827/metadata.yml
+              - BBT: docs/papers/2021/2110.00173/metadata.yml
+              - Optimizing Trajectory-Trees in Belief Space: docs/papers/2026/2605.01860/metadata.yml
+          - "Risk Bounded Nonlinear Robot Motion Planning with Integrated Perception & Control": docs/papers/2022/2201.01483/metadata.yml
+          - "Distributionally Robust CVaR-Based Safety Filtering for Motion Planning in Uncertain Environments": docs/papers/2023/2309.08821/metadata.yml
+        - Velocity Obstacles:
+          - Velocity Obstacles: docs/papers/1998/1998.fiorini.motion_planning_in_dynamic/metadata.yml
+          - RVO: docs/papers/2008/2008.van_den_berg.reciprocal_velocity_obstacles_for/metadata.yml
+          - ClearPath: docs/papers/2009/2009.guy.clearpath_highly_parallel_collision/metadata.yml
+          - ORCA: docs/papers/2011/2011.van_den_berg.reciprocal_n_body_collision/metadata.yml
+        - Interaction-aware Planning:
+          - Multipolicy Decision Making (MPDM):
+            - MPDM: docs/papers/2015/2015.cunningham.mpdm_multipolicy_decision_making/metadata.yml
+            - MPDM via changepoint-based behavior prediction: docs/papers/2017/2017.galceran.multipolicy_decision_making_for/metadata.yml
+            - Backprop-MPDM: docs/papers/2018/2018.mehta.backprop_mpdm_faster_risk/metadata.yml
+          - Multimodal Probabilistic Model-Based Planning for Human-Robot Interaction: docs/papers/2017/1710.09483/metadata.yml
+          - Learning Interactive Driving Policies via Data-driven Simulation: docs/papers/2021/2111.12137/metadata.yml
+          - "Tree-structured Policy Planning with Learned Behavior Models": docs/papers/2023/2301.11902/metadata.yml
+          - "Trajectory Tree-Based Pairwise Game for Interactive Decision-Making and Motion Planning in Autonomous Driving": docs/papers/2025/2025.ma.trajectory_tree_based_pairwise/metadata.yml
+      - Learning-Based Motion Planning:
         - ALVINN: docs/papers/1988/1988.pomerleau.alvinn_an_autonomous_land/metadata.yml
         - Motion Planning Through Policy Search: docs/papers/2002/2002.roy.motion_planning_through_policy/metadata.yml
         - EVORA: docs/papers/2023/2311.06234/metadata.yml
@@ -649,82 +650,85 @@
         - FlowMP: docs/papers/2025/2503.06135/metadata.yml
         - "Memory of Motion for Warm-starting Trajectory Optimization": docs/papers/2019/1907.01474/metadata.yml
         - "Parting with Misconceptions about Learning-based Vehicle Motion Planning": docs/papers/2023/2306.07962/metadata.yml
-        - nuPlan: docs/papers/2024/2403.04133/metadata.yml
         - "Goal-Conditioned Neural ODEs with Guaranteed Safety and Stability for Learning-Based All-Pairs Motion Planning": docs/papers/2026/2604.02821/metadata.yml
-        - NuPlan: docs/papers/2021/2106.11810/metadata.yml
         - GNN-DIP: docs/papers/2026/2603.12361/metadata.yml
         - "First Return, Then Explore": docs/papers/2020/2004.12919/metadata.yml
         - "Accelerating db-A* for Kinodynamic Motion Planning Using Diffusion": docs/papers/2025/2503.05539/metadata.yml
         - "Deeply Informed Neural Sampling for Robot Motion Planning": docs/papers/2018/1809.10252/metadata.yml
         - "Learning Sampling Distributions for Robot Motion Planning": docs/papers/2017/1709.05448/metadata.yml
         - "Score-Guided Motion Planning: Learning the Gradient Field of Promising Regions": docs/papers/2026/2026.wang.score_guided_motion_planning/metadata.yml
-      - Inverse Kinematics:
-        - "A combined optimization method for solving the inverse kinematics problems of mechanical manipulators": docs/papers/1991/1991.wang.a_combined_optimization_method/metadata.yml
-        - "Resolved Motion Rate Control of Manipulators and Human Prostheses": docs/papers/1969/1969.whitney.resolved_motion_rate_control/metadata.yml
-        - "JAX-IK": docs/papers/2025/2507.00792/metadata.yml
-      - Manipulation & Contact:
-        - Robotic Grasping and Contact: docs/papers/2000/2000.bicchi.robotic_grasping_and_contact/metadata.yml
-        - "EGAD! an Evolved Grasping Analysis Dataset for Diversity and Reproducibility in Robotic Manipulation": docs/papers/2020/2003.01314/metadata.yml
-        - "FORGE: Force-Guided Exploration for Robust Contact-Rich Manipulation under Uncertainty": docs/papers/2024/2408.04587/metadata.yml
-      - Multi-Robot Planning:
-        - Generation of collision-free trajectories for a quadrocopter fleet: docs/papers/2012/2012.augugliaro.generation_of_collision_free/metadata.yml
-        - Goal Assignment and Trajectory Planning: docs/papers/2013/2013.turpin.goal_assignment_and_trajectory/metadata.yml
-        - CAPT: docs/papers/2014/2014.turpin.capt_concurrent_assignment_and/metadata.yml
-        - "Concurrent Goal Assignment and Collision-Free Trajectory Generation for Multiple Aerial Robots": docs/papers/2018/2018.gravell.concurrent_goal_assignment_and/metadata.yml
-        - CanNoN-TaGS: docs/papers/2021/2101.08829/metadata.yml
-        - "Trajectory Planning for Quadrotor Swarms": docs/papers/2018/2018.honig.trajectory_planning_for_quadrotor/metadata.yml
-        - CAT-ORA: docs/papers/2024/2412.00603/metadata.yml
-        - "Agile and cooperative aerial manipulation of a cable-suspended load": docs/papers/2025/2025.sun.agile_and_cooperative_aerial/metadata.yml
-        - Robust Distributed Planar Formation Control for Higher-Order Holonomic and Nonholonomic Agents: docs/papers/2018/1807.11058/metadata.yml
-        - "Safe multi-agent motion planning via filtered reinforcement learning": docs/papers/2022/2022.vinod.safe_multi_agent_motion/metadata.yml
-        - "Downwash-Aware Trajectory Planning for Large Quadrotor Teams": docs/papers/2017/1704.04852/metadata.yml
-        - "Trajectory Design and Control for Aggressive Formation Flight with Quadrotors": docs/papers/2012/2012.turpin.trajectory_design_and_control/metadata.yml
-        - "Crazyswarm: A Large Nano-quadcopter Swarm": docs/papers/2017/2017.preiss.crazyswarm_a_large_nano/metadata.yml
-        - "A Survey on Aerial Swarm Robotics": docs/papers/2018/2018.chung.a_survey_on_aerial/metadata.yml
-        - "Neural Tree Expansion for Multi-Robot Planning in Non-Cooperative Environments": docs/papers/2021/2104.09705/metadata.yml    
-      - Reachability:
-        - "A Simple and Efficient Sampling-based Algorithm for General Reachability Analysis": docs/papers/2021/2112.05745/metadata.yml
-        - "On Infusing Reachability-Based Safety Assurance within Planning Frameworks for Human-Robot Vehicle Interactions": docs/papers/2020/2012.03390/metadata.yml
-      - Surveys & Comparative Studies:
-        - An Empirical Study of Optimal Motion Planning: docs/papers/2014/2014.luo.an_empirical_study_of/metadata.yml
-        - A Survey of Motion Planning and Control Techniques for Self-Driving Urban Vehicles: docs/papers/2016/1604.07446/metadata.yml
-        - Sampling-Based Methods for Motion Planning with Constraints: docs/papers/2018/2018.kingston.sampling_based_methods_for/metadata.yml
-        - "Sampling-Based Motion Planning: A Comparative Review": docs/papers/2024/2024.orthey.sampling_based_motion_planning/metadata.yml
-        - Planning and Decision-Making for Autonomous Vehicles: docs/papers/2018/2018.schwarting.planning_and_decision_making/metadata.yml
-        - Asymptotically Optimal Sampling-Based Motion Planning Methods: docs/papers/2020/2009.10484/metadata.yml
-        - Benchmarking Sampling-, Search-, and Optimization-based Approaches for Time-Optimal Kinodynamic Mobile Robot Motion Planning: docs/papers/2022/2022.honig.benchmarking_sampling_search_and/metadata.yml
-        - "Motion Planning for Autonomous Driving: The State of the Art and Future Perspectives": docs/papers/2023/2303.09824/metadata.yml
-        - A Comparative Study of Rapidly-exploring Random Tree Algorithms Applied to Ship Trajectory Planning and Behavior Generation: docs/papers/2024/2403.01194/metadata.yml
-        - "Motion Planning for Robotics: A Review for Sampling-based Planners": docs/papers/2024/2410.19414/metadata.yml
-        - DDP and MPPI on VTOL Aircraft: docs/papers/2022/2022.houghton.path_planning_differential_dynamic/metadata.yml
-        - "A review of path following control strategies for autonomous robotic vehicles: theory, simulations, and experiments": docs/papers/2022/2204.07319/metadata.yml
-        - "Contingency Planning for Safety-Critical Autonomous Vehicles: A Review and Perspectives": docs/papers/2026/2601.14880/metadata.yml
-        - "Results of the 2023 CommonRoad Motion Planning Competition for Autonomous Vehicles": docs/papers/2024/2411.06425/metadata.yml
-      - Frameworks & Stack Architectures:
-        - MINERVA: docs/papers/1999/1999.thrun.minerva_a_second_generation/metadata.yml
-        - Rough Terrain Locomotion: docs/papers/2011/2011.zucker.optimization_and_learning_for/metadata.yml
-        - "Junior: The Stanford Entry in the Urban Challenge": docs/papers/2008/2008.montemerlo.junior_the_stanford_entry/metadata.yml
-        - "Towards Fully Autonomous Driving: Systems and Algorithms": docs/papers/2011/2011.levinson.towards_fully_autonomous_driving/metadata.yml
-        - Boss: docs/papers/2008/2008.urmson.autonomous_driving_in_urban/metadata.yml
-        - "A perception-driven autonomous urban vehicle": docs/papers/2008/2008.leonard.a_perceptiondriven_autonomous_urban/metadata.yml
-        - A summary of team MIT's approach to the virtual robotics challenge: docs/papers/2014/2014.tedrake.a_summary_of_team/metadata.yml
-        - Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot: docs/papers/2015/2015.kuindersma.optimization_based_locomotion_planning/metadata.yml
-        - Director: docs/papers/2018/2018.marion.director_a_user_interface/metadata.yml
-        - Jacta: docs/papers/2024/2408.01258/metadata.yml
-        - RAKOMO: docs/papers/2025/2507.19652/metadata.yml
-        - "An integrated system for real-time model predictive control of humanoid robots": docs/papers/2013/2013.erez.an_integrated_system_for/metadata.yml
-        - MJPC: docs/papers/2022/2212.00541/metadata.yml
-        - Judo: docs/papers/2025/2506.17184/metadata.yml
-        - Sumo: docs/papers/2026/2604.08508/metadata.yml
-        - "Whole-Body Model-Predictive Control of Legged Robots with MuJoCo": docs/papers/2025/2503.04613/metadata.yml
-        - SONIC: docs/papers/2025/2511.07820/metadata.yml
-        - "MPPI+IsaacGym": docs/papers/2023/2307.09105/metadata.yml
-        - DiffStack: docs/papers/2022/2212.06437/metadata.yml
-        - FRENETIX: docs/papers/2024/2402.01443/metadata.yml
-        - ROS: docs/papers/2009/2009.quigley.ros_an_open_source/metadata.yml
-        - ROS 2: docs/papers/2022/2022.macenski.robot_operating_system_2/metadata.yml
-        - "Motion Planning and Control for Multi Vehicle Autonomous Racing at High Speeds": docs/papers/2022/2207.11136/metadata.yml
-        - "A Geometric Approach to Three-dimensional Hipped Bipedal Robotic Walking": docs/papers/2007/2007.ames.a_geometric_approach_to/metadata.yml
+      - Planning for Robots:
+        - Inverse Kinematics:
+          - "A combined optimization method for solving the inverse kinematics problems of mechanical manipulators": docs/papers/1991/1991.wang.a_combined_optimization_method/metadata.yml
+          - "Resolved Motion Rate Control of Manipulators and Human Prostheses": docs/papers/1969/1969.whitney.resolved_motion_rate_control/metadata.yml
+          - "JAX-IK": docs/papers/2025/2507.00792/metadata.yml
+        - Manipulation & Contact:
+          - Robotic Grasping and Contact: docs/papers/2000/2000.bicchi.robotic_grasping_and_contact/metadata.yml
+          - "EGAD! an Evolved Grasping Analysis Dataset for Diversity and Reproducibility in Robotic Manipulation": docs/papers/2020/2003.01314/metadata.yml
+          - "FORGE: Force-Guided Exploration for Robust Contact-Rich Manipulation under Uncertainty": docs/papers/2024/2408.04587/metadata.yml
+        - Reachability:
+          - "A Simple and Efficient Sampling-based Algorithm for General Reachability Analysis": docs/papers/2021/2112.05745/metadata.yml
+          - "On Infusing Reachability-Based Safety Assurance within Planning Frameworks for Human-Robot Vehicle Interactions": docs/papers/2020/2012.03390/metadata.yml
+        - Multi-Robot Planning:
+          - Generation of collision-free trajectories for a quadrocopter fleet: docs/papers/2012/2012.augugliaro.generation_of_collision_free/metadata.yml
+          - Goal Assignment and Trajectory Planning: docs/papers/2013/2013.turpin.goal_assignment_and_trajectory/metadata.yml
+          - CAPT: docs/papers/2014/2014.turpin.capt_concurrent_assignment_and/metadata.yml
+          - "Concurrent Goal Assignment and Collision-Free Trajectory Generation for Multiple Aerial Robots": docs/papers/2018/2018.gravell.concurrent_goal_assignment_and/metadata.yml
+          - CanNoN-TaGS: docs/papers/2021/2101.08829/metadata.yml
+          - "Trajectory Planning for Quadrotor Swarms": docs/papers/2018/2018.honig.trajectory_planning_for_quadrotor/metadata.yml
+          - CAT-ORA: docs/papers/2024/2412.00603/metadata.yml
+          - "Agile and cooperative aerial manipulation of a cable-suspended load": docs/papers/2025/2025.sun.agile_and_cooperative_aerial/metadata.yml
+          - Robust Distributed Planar Formation Control for Higher-Order Holonomic and Nonholonomic Agents: docs/papers/2018/1807.11058/metadata.yml
+          - "Safe multi-agent motion planning via filtered reinforcement learning": docs/papers/2022/2022.vinod.safe_multi_agent_motion/metadata.yml
+          - "Downwash-Aware Trajectory Planning for Large Quadrotor Teams": docs/papers/2017/1704.04852/metadata.yml
+          - "Trajectory Design and Control for Aggressive Formation Flight with Quadrotors": docs/papers/2012/2012.turpin.trajectory_design_and_control/metadata.yml
+          - "Crazyswarm: A Large Nano-quadcopter Swarm": docs/papers/2017/2017.preiss.crazyswarm_a_large_nano/metadata.yml
+          - "A Survey on Aerial Swarm Robotics": docs/papers/2018/2018.chung.a_survey_on_aerial/metadata.yml
+          - "Neural Tree Expansion for Multi-Robot Planning in Non-Cooperative Environments": docs/papers/2021/2104.09705/metadata.yml
+      - Surveys, Benchmarks & Frameworks:
+        - Surveys & Comparative Studies:
+          - An Empirical Study of Optimal Motion Planning: docs/papers/2014/2014.luo.an_empirical_study_of/metadata.yml
+          - A Survey of Motion Planning and Control Techniques for Self-Driving Urban Vehicles: docs/papers/2016/1604.07446/metadata.yml
+          - Sampling-Based Methods for Motion Planning with Constraints: docs/papers/2018/2018.kingston.sampling_based_methods_for/metadata.yml
+          - "Sampling-Based Motion Planning: A Comparative Review": docs/papers/2024/2024.orthey.sampling_based_motion_planning/metadata.yml
+          - Planning and Decision-Making for Autonomous Vehicles: docs/papers/2018/2018.schwarting.planning_and_decision_making/metadata.yml
+          - Asymptotically Optimal Sampling-Based Motion Planning Methods: docs/papers/2020/2009.10484/metadata.yml
+          - "Motion Planning for Autonomous Driving: The State of the Art and Future Perspectives": docs/papers/2023/2303.09824/metadata.yml
+          - A Comparative Study of Rapidly-exploring Random Tree Algorithms Applied to Ship Trajectory Planning and Behavior Generation: docs/papers/2024/2403.01194/metadata.yml
+          - "Motion Planning for Robotics: A Review for Sampling-based Planners": docs/papers/2024/2410.19414/metadata.yml
+          - DDP and MPPI on VTOL Aircraft: docs/papers/2022/2022.houghton.path_planning_differential_dynamic/metadata.yml
+          - "A review of path following control strategies for autonomous robotic vehicles: theory, simulations, and experiments": docs/papers/2022/2204.07319/metadata.yml
+          - "Contingency Planning for Safety-Critical Autonomous Vehicles: A Review and Perspectives": docs/papers/2026/2601.14880/metadata.yml
+          - "Results of the 2023 CommonRoad Motion Planning Competition for Autonomous Vehicles": docs/papers/2024/2411.06425/metadata.yml
+        - Benchmarks:
+          - nuPlan (2021): docs/papers/2021/2106.11810/metadata.yml
+          - nuPlan (2024): docs/papers/2024/2403.04133/metadata.yml
+          - Benchmarking Sampling-, Search-, and Optimization-based Approaches for Time-Optimal Kinodynamic Mobile Robot Motion Planning: docs/papers/2022/2022.honig.benchmarking_sampling_search_and/metadata.yml
+        - Frameworks & Stack Architectures:
+          - MINERVA: docs/papers/1999/1999.thrun.minerva_a_second_generation/metadata.yml
+          - Rough Terrain Locomotion: docs/papers/2011/2011.zucker.optimization_and_learning_for/metadata.yml
+          - "Junior: The Stanford Entry in the Urban Challenge": docs/papers/2008/2008.montemerlo.junior_the_stanford_entry/metadata.yml
+          - "Towards Fully Autonomous Driving: Systems and Algorithms": docs/papers/2011/2011.levinson.towards_fully_autonomous_driving/metadata.yml
+          - Boss: docs/papers/2008/2008.urmson.autonomous_driving_in_urban/metadata.yml
+          - "A perception-driven autonomous urban vehicle": docs/papers/2008/2008.leonard.a_perceptiondriven_autonomous_urban/metadata.yml
+          - A summary of team MIT's approach to the virtual robotics challenge: docs/papers/2014/2014.tedrake.a_summary_of_team/metadata.yml
+          - Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot: docs/papers/2015/2015.kuindersma.optimization_based_locomotion_planning/metadata.yml
+          - Director: docs/papers/2018/2018.marion.director_a_user_interface/metadata.yml
+          - Jacta: docs/papers/2024/2408.01258/metadata.yml
+          - RAKOMO: docs/papers/2025/2507.19652/metadata.yml
+          - "An integrated system for real-time model predictive control of humanoid robots": docs/papers/2013/2013.erez.an_integrated_system_for/metadata.yml
+          - MJPC: docs/papers/2022/2212.00541/metadata.yml
+          - Judo: docs/papers/2025/2506.17184/metadata.yml
+          - Sumo: docs/papers/2026/2604.08508/metadata.yml
+          - "Whole-Body Model-Predictive Control of Legged Robots with MuJoCo": docs/papers/2025/2503.04613/metadata.yml
+          - SONIC: docs/papers/2025/2511.07820/metadata.yml
+          - "MPPI+IsaacGym": docs/papers/2023/2307.09105/metadata.yml
+          - DiffStack: docs/papers/2022/2212.06437/metadata.yml
+          - FRENETIX: docs/papers/2024/2402.01443/metadata.yml
+          - ROS: docs/papers/2009/2009.quigley.ros_an_open_source/metadata.yml
+          - ROS 2: docs/papers/2022/2022.macenski.robot_operating_system_2/metadata.yml
+          - "Motion Planning and Control for Multi Vehicle Autonomous Racing at High Speeds": docs/papers/2022/2207.11136/metadata.yml
+          - "A Geometric Approach to Three-dimensional Hipped Bipedal Robotic Walking": docs/papers/2007/2007.ames.a_geometric_approach_to/metadata.yml
     - Control:
       - Theory:
         - On Adaptive Control Processes: docs/papers/1959/1959.bellman.on_adaptive_control_processes/metadata.yml
@@ -959,7 +963,7 @@
           - "Policy iteration using Q-functions: Linear dynamics with multiplicative noise": docs/papers/2022/2212.01192/metadata.yml
         - Model-based RL:
           - Self-Tuning Regulators: docs/papers/1973/1973.astrom.on_self_tuning_regulators/metadata.yml
-          - A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum: docs/papers/2014/2014.trimpe.a_self_tuning_lqr/metadata.yml        
+          - A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum: docs/papers/2014/2014.trimpe.a_self_tuning_lqr/metadata.yml
           - Robust exploration in linear quadratic reinforcement learning: docs/papers/2019/1906.01584/metadata.yml
           - Optimistic robust linear quadratic dual control: docs/papers/2019/1912.13143/metadata.yml
           - Logarithmic Regret for Online Control: docs/papers/2019/2019.agarwal.logarithmic_regret_for_online/metadata.yml
@@ -1106,7 +1110,7 @@
           - "A Tutorial on Solution Properties of State Space Models of Dynamical Systems": docs/papers/2022/2204.06104/metadata.yml
           - Interactive Bayesian identification of kinematic mechanisms: docs/papers/2014/2014.barragan.interactive_bayesian_identification_of/metadata.yml
           - "An Information-state based Approach to the Optimal Output Feedback Control of Nonlinear Systems": docs/papers/2021/2107.08086/metadata.yml
-          - "An Introduction to Matrix Concentration Inequalities": docs/papers/2015/1501.01571/metadata.yml            
+          - "An Introduction to Matrix Concentration Inequalities": docs/papers/2015/1501.01571/metadata.yml
           - "Concentration Inequalities for Statistical Inference": docs/papers/2020/2011.02258/metadata.yml
           - "How Are Learned Perception-Based Controllers Impacted by the Limits of Robust Control?": docs/papers/2021/2104.00827/metadata.yml
           - "Physics-Informed Machine Learning for Modeling and Control of Dynamical Systems": docs/papers/2023/2306.13867/metadata.yml
@@ -1138,7 +1142,7 @@
           - "Fast Non-Episodic Adaptive Tuning of Robot Controllers with Online Policy Optimization": docs/papers/2025/2507.10914/metadata.yml
       - Hybrid Approaches:
         - "Model-Based Value Estimation for Efficient Model-Free Reinforcement Learning": docs/papers/2018/1803.00101/metadata.yml
-        - PLAL: docs/papers/2022/2209.09006/metadata.yml          
+        - PLAL: docs/papers/2022/2209.09006/metadata.yml
         - Power of Locally Linear Models: docs/papers/2023/2305.09619/metadata.yml
       - Diffusion & Flow Matching:
         - Diffusion Policy: docs/papers/2023/2303.04137/metadata.yml
@@ -1290,7 +1294,7 @@
         - Foundations:
           - Epiplexity: docs/papers/2026/2601.03220/metadata.yml
           - On the Opportunities and Risks of Foundation Models: docs/papers/2021/2108.07258/metadata.yml
-        - Datasets:          
+        - Datasets:
           - MNIST: docs/papers/2012/2012.deng.the_mnist_database_of/metadata.yml
           - The Lost MNIST Digits: docs/papers/2019/2019.yadav.cold_case_the_lost/metadata.yml
           - MNIST-1D: docs/papers/2020/2011.14439/metadata.yml
@@ -1595,16 +1599,16 @@
         - Flying Machine Arena: docs/papers/2014/2014.lupashin.a_platform_for_aerial/metadata.yml
         - QuadSoft: docs/papers/2026/2604.00496/metadata.yml
       - Brachiating Robots:
-        - AcroMonk: docs/papers/2023/2305.08373/metadata.yml    
+        - AcroMonk: docs/papers/2023/2305.08373/metadata.yml
   - Foundations:
     - Mathematics:
       - Geometry & Tiling:
         - "An aperiodic monotile": docs/papers/2023/2303.10798/metadata.yml
         - "A chiral aperiodic monotile": docs/papers/2023/2305.17743/metadata.yml
-        - "A Simple Proof of Thue's Theorem on Circle Packing": docs/papers/2010/1009.4322/metadata.yml          
+        - "A Simple Proof of Thue's Theorem on Circle Packing": docs/papers/2010/1009.4322/metadata.yml
       - Table Theorems:
         - Dyson's Sphere Theorem: docs/papers/1951/1951.dyson.continuous_functions_defined_on/metadata.yml
-        - The Table Theorem: docs/papers/1970/1970.fenn.the_table_theorem/metadata.yml        
+        - The Table Theorem: docs/papers/1970/1970.fenn.the_table_theorem/metadata.yml
       - Linear Algebra & Signal Processing:
         - Fourier Transforms:
           - Cooley-Tukey FFT: docs/papers/1965/1965.cooley.an_algorithm_for_the/metadata.yml
