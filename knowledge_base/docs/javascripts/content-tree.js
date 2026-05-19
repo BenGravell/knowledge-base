@@ -9,12 +9,12 @@
   const settingsToggle = document.getElementById('ct-settings-toggle');
   const settingsState = document.getElementById('ct-settings-state');
   const searchInput = document.getElementById('ct-search');
-  const sourceTypeSelect = document.getElementById('ct-source-type');
+  const sourceTypeButtons = document.getElementById('ct-source-type');
+  const sourceTypeSummary = document.getElementById('ct-source-type-summary');
   const yearStartInput = document.getElementById('ct-year-start');
   const yearEndInput = document.getElementById('ct-year-end');
   const resetButton = document.getElementById('ct-reset');
   const searchResults = document.getElementById('ct-search-results');
-  const breadcrumbs = document.getElementById('ct-breadcrumbs');
   const ancestorChain = document.getElementById('ct-ancestor-chain');
 
   if (!data || !data.root) {
@@ -32,7 +32,7 @@
     query: '',
     yearStart: null,
     yearEnd: null,
-    sourceType: '',
+    sourceTypes: new Set(),
   };
 
   hydrate(data.root, null);
@@ -79,9 +79,19 @@
   if (yearStartInput) yearStartInput.addEventListener('change', syncYearInputs);
   if (yearEndInput) yearEndInput.addEventListener('change', syncYearInputs);
 
-  if (sourceTypeSelect) {
-    sourceTypeSelect.addEventListener('change', function () {
-      state.sourceType = sourceTypeSelect.value;
+  if (sourceTypeButtons) {
+    sourceTypeButtons.addEventListener('click', function (event) {
+      const button = event.target.closest('[data-ct-source-type]');
+      if (!button || !sourceTypeButtons.contains(button)) return;
+      const type = button.getAttribute('data-ct-source-type') || '';
+      if (!type) {
+        state.sourceTypes.clear();
+      } else if (state.sourceTypes.has(type)) {
+        state.sourceTypes.delete(type);
+      } else {
+        state.sourceTypes.add(type);
+      }
+      updateFilterControls();
       render();
     });
   }
@@ -91,7 +101,7 @@
       state.query = '';
       state.yearStart = minYear;
       state.yearEnd = maxYear;
-      state.sourceType = '';
+      state.sourceTypes.clear();
       if (searchInput) searchInput.value = '';
       updateFilterControls();
       render();
@@ -125,10 +135,13 @@
   }
 
   function initControls() {
-    if (sourceTypeSelect) {
-      sourceTypeSelect.innerHTML = '<option value="">All source types</option>' + sourceTypes.map(function (type) {
-        return '<option value="' + escAttr(type) + '">' + esc(type) + '</option>';
-      }).join('');
+    if (sourceTypeButtons) {
+      sourceTypeButtons.innerHTML = [
+        '<button type="button" class="ct-source-type-button ct-source-type-button--all" data-ct-source-type="" aria-pressed="true">All source types</button>',
+        sourceTypes.map(function (type) {
+          return '<button type="button" class="ct-source-type-button" data-ct-source-type="' + escAttr(type) + '" aria-pressed="false">' + esc(type) + '</button>';
+        }).join(''),
+      ].join('');
     }
     if (yearStartInput && Number.isInteger(minYear)) {
       yearStartInput.min = minYear;
@@ -147,7 +160,14 @@
   function updateFilterControls() {
     if (yearStartInput) yearStartInput.value = Number.isInteger(state.yearStart) ? state.yearStart : '';
     if (yearEndInput) yearEndInput.value = Number.isInteger(state.yearEnd) ? state.yearEnd : '';
-    if (sourceTypeSelect) sourceTypeSelect.value = state.sourceType;
+    if (sourceTypeButtons) {
+      sourceTypeButtons.querySelectorAll('[data-ct-source-type]').forEach(function (button) {
+        const type = button.getAttribute('data-ct-source-type') || '';
+        const selected = type ? state.sourceTypes.has(type) : !sourceFilterActive();
+        button.setAttribute('aria-pressed', String(selected));
+      });
+    }
+    if (sourceTypeSummary) sourceTypeSummary.textContent = sourceTypeSummaryText();
   }
 
   function syncYearInputs() {
@@ -176,19 +196,10 @@
   function render() {
     const node = nodes.get(currentId) || data.root;
     filterMemo = new Map();
-    renderBreadcrumbs(node);
     renderFocusedTree(node);
     renderSearch();
     updateSettingsState();
     centerCurrentTreeNode(node);
-  }
-
-  function renderBreadcrumbs(node) {
-    breadcrumbs.innerHTML = node.pathNodes.map(function (pathNode, index) {
-      const separator = index === 0 ? '' : '<span class="ct-crumb-separator">/</span>';
-      const current = pathNode.id === node.id ? ' aria-current="page"' : '';
-      return separator + '<button type="button" data-ct-select="' + escAttr(pathNode.id) + '"' + current + '>' + esc(pathDisplayLabel(pathNode, index)) + '</button>';
-    }).join('');
   }
 
   function renderFocusedTree(node) {
@@ -200,25 +211,28 @@
     const children = visibleChildren(node);
     const html = [
       '<div class="ct-focus-stack">',
-      ancestors.length ? renderNodeSection('Path', ancestors, 'path', node) : '',
-      renderNodeSection('Selected', [node], 'ego', node),
-      parent ? renderNodeSection('Sibling Choices', siblings, 'siblings', node) : '',
-      renderNodeSection('Direct Children', children, 'children', node),
+      ancestors.length ? renderNodeSection('Ancestors', ancestors, 'path', node) : '',
+      parent ? renderNodeSection('Siblings', siblings, 'siblings', node) : '',
+      renderNodeSection('', [node], 'ego', node, { hideHeader: true }),
+      node.children.length ? renderNodeSection('Children', children, 'children', node) : '',
       '</div>',
     ].filter(Boolean).join('');
     ancestorChain.innerHTML = html;
   }
 
-  function renderNodeSection(title, rows, sectionKind, currentNode) {
+  function renderNodeSection(title, rows, sectionKind, currentNode, options) {
+    const hideHeader = Boolean(options && options.hideHeader);
     const empty = sectionKind === 'children'
-      ? 'No direct children match the current filters.'
+      ? 'No children match the current filters.'
       : 'No matching siblings.';
     return [
       '<section class="ct-focus-section ct-focus-section--' + escAttr(sectionKind) + '">',
-      '<div class="ct-focus-section-head">',
-      '<h2>' + esc(title) + '</h2>',
-      '<span>' + esc(plural(rows.length, 'item')) + '</span>',
-      '</div>',
+      hideHeader ? '' : [
+        '<div class="ct-focus-section-head">',
+        '<h2>' + esc(title) + '</h2>',
+        '<span>' + esc(plural(rows.length, 'item')) + '</span>',
+        '</div>',
+      ].join(''),
       rows.length
         ? '<ul class="ct-tree-list">' + rows.map(function (row, index) {
           return renderTreeNode(row, currentNode, sectionKind, index, rows.length);
@@ -253,7 +267,7 @@
       '<button type="button" class="ct-tree-button" data-ct-select="' + escAttr(treeNode.id) + '"' + branchHintAttr(hasChildren) + '>',
       '<span class="ct-tree-rail" aria-hidden="true"><span class="ct-tree-dot"></span></span>',
       '<span class="ct-tree-copy">',
-      '<span class="ct-tree-label">' + esc(treeNode.label) + '</span>',
+      '<span class="ct-tree-label">' + esc(treeNodeDisplayLabel(treeNode)) + '</span>',
       '<span class="ct-tree-meta">' + esc(treeNodeMeta(treeNode, visibleLeafCount)) + '</span>',
       '</span>',
       '</button>',
@@ -323,10 +337,10 @@
     if (!matchesQuery) return false;
 
     if (node.kind !== 'paper') {
-      return !state.sourceType && !yearFilterActive();
+      return !sourceFilterActive() && !yearFilterActive();
     }
 
-    if (state.sourceType && paperType(node) !== state.sourceType) return false;
+    if (sourceFilterActive() && !state.sourceTypes.has(paperType(node))) return false;
     if (yearFilterActive()) {
       const year = paperYear(node);
       if (!Number.isInteger(year)) return false;
@@ -409,15 +423,18 @@
 
   function updateSettingsState() {
     if (!settingsState || !settings) return;
-    settingsState.textContent = settings.classList.contains('is-collapsed') ? 'Show Settings' : filterStatus();
+    settingsState.textContent = settings.classList.contains('is-collapsed') ? 'Show Settings' : 'Hide Settings';
   }
 
-  function filterStatus() {
-    const count = filteredLeafCount(data.root);
-    const parts = [plural(count, 'matching item')];
-    if (state.sourceType) parts.push(state.sourceType);
-    if (yearFilterActive()) parts.push(state.yearStart + '-' + state.yearEnd);
-    return parts.join(' / ');
+  function sourceFilterActive() {
+    return state.sourceTypes.size > 0;
+  }
+
+  function sourceTypeSummaryText() {
+    if (!sourceFilterActive()) return 'All source types';
+    const selected = Array.from(state.sourceTypes).sort(function (a, b) { return a.localeCompare(b); });
+    if (selected.length === 1) return selected[0];
+    return selected.length + ' source types';
   }
 
   function yearFilterActive() {
@@ -459,6 +476,10 @@
     return kindLabel(node);
   }
 
+  function treeNodeDisplayLabel(node) {
+    return node.id === data.root.id ? 'Root' : node.label;
+  }
+
   function paperCitationMeta(node) {
     const paper = node.paper || {};
     const authors = Array.isArray(paper.authors) ? paper.authors.filter(Boolean) : [];
@@ -473,10 +494,6 @@
     if (node.kind === 'paper') return 'Paper';
     if (node.kind === 'page') return 'Page';
     return 'Link';
-  }
-
-  function pathDisplayLabel(pathNode, index) {
-    return index === 0 && pathNode.id === data.root.id ? 'Root' : pathNode.label;
   }
 
   function displayPath(path) {

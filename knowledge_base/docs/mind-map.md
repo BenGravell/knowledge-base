@@ -296,7 +296,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   box-sizing: border-box;
 }
 .mm-detail-controls {
-  grid-template-columns: repeat(auto-fit, minmax(2.35rem, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 .mm-visibility-controls {
   grid-template-columns: repeat(2, minmax(0, 1fr));

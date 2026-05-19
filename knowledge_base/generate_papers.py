@@ -202,7 +202,7 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
             {
                 "title": "Primary",
                 "kind": "primary",
-                "links": [make_link("Paper", primary, "", "primary")],
+                "links": [make_link("Document", primary, "", "primary")],
             }
         )
 
