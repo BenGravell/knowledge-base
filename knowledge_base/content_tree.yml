@@ -64,6 +64,7 @@
               - "Discovering the Elite Hypervolume by Leveraging Interspecies Correlation": docs/papers/2018/1804.03906/metadata.yml
               - "Data-Efficient Design Exploration through Surrogate-Assisted Illumination": docs/papers/2018/1806.05865/metadata.yml
               - "Are Quality Diversity Algorithms Better at Generating Stepping Stones than Objective-based Search?": docs/papers/2019/2019.gaier.are_quality_diversity_algorithms/metadata.yml
+              - Go-Explore: docs/papers/2020/2004.12919/metadata.yml
               - "Embodied Intelligence via Learning and Evolution": docs/papers/2021/2102.02202/metadata.yml
             - "Second Order Methods for Bandit Optimization and Control": docs/papers/2024/2024.suggala.second_order_methods_for/metadata.yml
             - "Small errors in random zeroth-order optimization are imaginary": docs/papers/2021/2103.05478/metadata.yml
@@ -630,33 +631,39 @@
           - "Tree-structured Policy Planning with Learned Behavior Models": docs/papers/2023/2301.11902/metadata.yml
           - "Trajectory Tree-Based Pairwise Game for Interactive Decision-Making and Motion Planning in Autonomous Driving": docs/papers/2025/2025.ma.trajectory_tree_based_pairwise/metadata.yml
       - Learning-Based Motion Planning:
-        - ALVINN: docs/papers/1988/1988.pomerleau.alvinn_an_autonomous_land/metadata.yml
+        - Learned Sampling:
+          - "Learning Sampling Distributions for Robot Motion Planning": docs/papers/2017/1709.05448/metadata.yml
+          - "Deeply Informed Neural Sampling for Robot Motion Planning": docs/papers/2018/1809.10252/metadata.yml
+          - "Neural RRT*": docs/papers/2020/2020.wang.neural_rrt_learning_based/metadata.yml
+          - "Neural Informed RRT*": docs/papers/2023/2309.14595/metadata.yml
+          - "SIL-RRT*": docs/papers/2024/2411.17293/metadata.yml
+          - Diffusion Trees: docs/papers/2025/2508.21001/metadata.yml
+          - MAB-RRT: docs/papers/2026/2604.14026/metadata.yml
+        - Learned Corridor Selection:
+          - GNN-DIP: docs/papers/2026/2603.12361/metadata.yml
+        - Learned Costs:
+          - Distance Metric Learning for RRT-Based Motion Planning with Constant-Time Inference: docs/papers/2015/2015.palmieri.distance_metric_learning_for/metadata.yml
+          - DriveIRL: docs/papers/2022/2206.03004/metadata.yml
+          - "Score-Guided Motion Planning: Learning the Gradient Field of Promising Regions": docs/papers/2026/2026.wang.score_guided_motion_planning/metadata.yml
+        - Learned Environmental Conditions:
+          - EVORA: docs/papers/2023/2311.06234/metadata.yml
+        - Learned Steering:
+          - RRT-CoLearn: docs/papers/2017/1710.10122/metadata.yml
+          - "Memory of Motion for Warm-starting Trajectory Optimization": docs/papers/2019/1907.01474/metadata.yml
+          - "Policy Optimization to Learn Adaptive Motion Primitives in Path Planning With Dynamic Obstacles": docs/papers/2023/2023.angulo.policy_optimization_to_learn/metadata.yml
+          - "Goal-Conditioned Neural ODEs with Guaranteed Safety and Stability for Learning-Based All-Pairs Motion Planning": docs/papers/2026/2604.02821/metadata.yml
+          - Diffusion:
+            - PRESTO: docs/papers/2024/2409.16012/metadata.yml
+            - DiffusionSeeder: docs/papers/2024/2410.16727/metadata.yml
+            - "Accelerating db-A* for Kinodynamic Motion Planning Using Diffusion": docs/papers/2025/2503.05539/metadata.yml
+          - Flow Matching:
+            - FlowDrive: docs/papers/2025/2509.21961/metadata.yml
+            - FlowMP: docs/papers/2025/2503.06135/metadata.yml
+        - Frameworks:
+          - Lab2Car: docs/papers/2024/2409.09523/metadata.yml
+          - Transitioning from Rule-Based to ML-Powered Motion Planning: docs/papers/2025/2025.hu.technically_speaking_transitioning_from/metadata.yml        
+          - "Parting with Misconceptions about Learning-based Vehicle Motion Planning": docs/papers/2023/2306.07962/metadata.yml
         - Motion Planning Through Policy Search: docs/papers/2002/2002.roy.motion_planning_through_policy/metadata.yml
-        - EVORA: docs/papers/2023/2311.06234/metadata.yml
-        - Distance Metric Learning for RRT-Based Motion Planning with Constant-Time Inference: docs/papers/2015/2015.palmieri.distance_metric_learning_for/metadata.yml
-        - RRT-CoLearn: docs/papers/2017/1710.10122/metadata.yml
-        - "Neural RRT*": docs/papers/2020/2020.wang.neural_rrt_learning_based/metadata.yml
-        - "Neural Informed RRT*": docs/papers/2023/2309.14595/metadata.yml
-        - "SIL-RRT*": docs/papers/2024/2411.17293/metadata.yml
-        - "Policy Optimization to Learn Adaptive Motion Primitives in Path Planning With Dynamic Obstacles": docs/papers/2023/2023.angulo.policy_optimization_to_learn/metadata.yml
-        - MAB-RRT: docs/papers/2026/2604.14026/metadata.yml
-        - "Train-Once Plan-Anywhere Kinodynamic Motion Planning via Diffusion Trees": docs/papers/2025/2508.21001/metadata.yml
-        - PRESTO: docs/papers/2024/2409.16012/metadata.yml
-        - DriveIRL: docs/papers/2022/2206.03004/metadata.yml
-        - Lab2Car: docs/papers/2024/2409.09523/metadata.yml
-        - Transitioning from Rule-Based to ML-Powered Motion Planning: docs/papers/2025/2025.hu.technically_speaking_transitioning_from/metadata.yml
-        - DiffusionSeeder: docs/papers/2024/2410.16727/metadata.yml
-        - FlowDrive: docs/papers/2025/2509.21961/metadata.yml
-        - FlowMP: docs/papers/2025/2503.06135/metadata.yml
-        - "Memory of Motion for Warm-starting Trajectory Optimization": docs/papers/2019/1907.01474/metadata.yml
-        - "Parting with Misconceptions about Learning-based Vehicle Motion Planning": docs/papers/2023/2306.07962/metadata.yml
-        - "Goal-Conditioned Neural ODEs with Guaranteed Safety and Stability for Learning-Based All-Pairs Motion Planning": docs/papers/2026/2604.02821/metadata.yml
-        - GNN-DIP: docs/papers/2026/2603.12361/metadata.yml
-        - "First Return, Then Explore": docs/papers/2020/2004.12919/metadata.yml
-        - "Accelerating db-A* for Kinodynamic Motion Planning Using Diffusion": docs/papers/2025/2503.05539/metadata.yml
-        - "Deeply Informed Neural Sampling for Robot Motion Planning": docs/papers/2018/1809.10252/metadata.yml
-        - "Learning Sampling Distributions for Robot Motion Planning": docs/papers/2017/1709.05448/metadata.yml
-        - "Score-Guided Motion Planning: Learning the Gradient Field of Promising Regions": docs/papers/2026/2026.wang.score_guided_motion_planning/metadata.yml
       - Planning for Robots:
         - Inverse Kinematics:
           - "A combined optimization method for solving the inverse kinematics problems of mechanical manipulators": docs/papers/1991/1991.wang.a_combined_optimization_method/metadata.yml
@@ -704,16 +711,8 @@
           - nuPlan (2021): docs/papers/2021/2106.11810/metadata.yml
           - nuPlan (2024): docs/papers/2024/2403.04133/metadata.yml
           - Benchmarking Sampling-, Search-, and Optimization-based Approaches for Time-Optimal Kinodynamic Mobile Robot Motion Planning: docs/papers/2022/2022.honig.benchmarking_sampling_search_and/metadata.yml
-        - Frameworks & Stack Architectures:
-          - MINERVA: docs/papers/1999/1999.thrun.minerva_a_second_generation/metadata.yml
+        - Frameworks:
           - Rough Terrain Locomotion: docs/papers/2011/2011.zucker.optimization_and_learning_for/metadata.yml
-          - "Junior: The Stanford Entry in the Urban Challenge": docs/papers/2008/2008.montemerlo.junior_the_stanford_entry/metadata.yml
-          - "Towards Fully Autonomous Driving: Systems and Algorithms": docs/papers/2011/2011.levinson.towards_fully_autonomous_driving/metadata.yml
-          - Boss: docs/papers/2008/2008.urmson.autonomous_driving_in_urban/metadata.yml
-          - "A perception-driven autonomous urban vehicle": docs/papers/2008/2008.leonard.a_perceptiondriven_autonomous_urban/metadata.yml
-          - A summary of team MIT's approach to the virtual robotics challenge: docs/papers/2014/2014.tedrake.a_summary_of_team/metadata.yml
-          - Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot: docs/papers/2015/2015.kuindersma.optimization_based_locomotion_planning/metadata.yml
-          - Director: docs/papers/2018/2018.marion.director_a_user_interface/metadata.yml
           - Jacta: docs/papers/2024/2408.01258/metadata.yml
           - RAKOMO: docs/papers/2025/2507.19652/metadata.yml
           - "An integrated system for real-time model predictive control of humanoid robots": docs/papers/2013/2013.erez.an_integrated_system_for/metadata.yml
@@ -1049,7 +1048,7 @@
               - Double DQN: docs/papers/2015/1509.06461/metadata.yml
               - Dueling Networks: docs/papers/2015/1511.06581/metadata.yml
               - Rainbow: docs/papers/2017/1710.02298/metadata.yml
-        - Model-Based RL:
+        - Model-based RL:
           - System Identification:
             - Non-Asymptotic Identification of LTI Systems from a Single Trajectory: docs/papers/2018/1806.05722/metadata.yml
             - Linear System Identification via EM with Latent Disturbances and Lagrangian Relaxation: docs/papers/2016/1603.09157/metadata.yml
@@ -1713,11 +1712,24 @@
         - Louvain Algorithm: docs/papers/2008/0803.0476/metadata.yml
         - Leiden Algorithm: docs/papers/2018/1810.08473/metadata.yml
     - Engineering Systems:
-      - Automated Systems:
-        - "Connected and automated road vehicles: state of the art and future challenges": docs/papers/2020/2020.ersal.connected_and_automated_road/metadata.yml
-        - "Recent Developments in Aerial Robotics: A Survey and Prototypes Overview": docs/papers/2017/1711.10085/metadata.yml
+      - Robots:
         - "The Grand Challenges of Science Robotics": docs/papers/2018/2018.yang.the_grand_challenges_of/metadata.yml
-        - "Multirotor Aerial Vehicles: Modeling, Estimation, and Control of Quadrotor": docs/papers/2012/2012.mahony.multirotor_aerial_vehicles_modeling/metadata.yml
+        - Driving Robots:
+          - ALVINN: docs/papers/1988/1988.pomerleau.alvinn_an_autonomous_land/metadata.yml
+          - "Junior: The Stanford Entry in the Urban Challenge": docs/papers/2008/2008.montemerlo.junior_the_stanford_entry/metadata.yml
+          - "Towards Fully Autonomous Driving: Systems and Algorithms": docs/papers/2011/2011.levinson.towards_fully_autonomous_driving/metadata.yml
+          - Boss: docs/papers/2008/2008.urmson.autonomous_driving_in_urban/metadata.yml
+          - "A perception-driven autonomous urban vehicle": docs/papers/2008/2008.leonard.a_perceptiondriven_autonomous_urban/metadata.yml
+          - "Connected and automated road vehicles: state of the art and future challenges": docs/papers/2020/2020.ersal.connected_and_automated_road/metadata.yml
+        - Wheeled Robots:
+          - MINERVA: docs/papers/1999/1999.thrun.minerva_a_second_generation/metadata.yml
+        - Walking Robots:
+          - A summary of team MIT's approach to the virtual robotics challenge: docs/papers/2014/2014.tedrake.a_summary_of_team/metadata.yml
+          - Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot: docs/papers/2015/2015.kuindersma.optimization_based_locomotion_planning/metadata.yml
+          - Director: docs/papers/2018/2018.marion.director_a_user_interface/metadata.yml
+        - Flying Robots:
+          - "Recent Developments in Aerial Robotics: A Survey and Prototypes Overview": docs/papers/2017/1711.10085/metadata.yml
+          - "Multirotor Aerial Vehicles: Modeling, Estimation, and Control of Quadrotor": docs/papers/2012/2012.mahony.multirotor_aerial_vehicles_modeling/metadata.yml
       - Stirling Engines:
         - The Stirling Engine of 1816: docs/papers/1816/1816.stirling.the_stirling_engine_of/metadata.yml
         - Review of Computational Stirling Analysis Methods: docs/papers/2004/2004.dyson.review_of_computational_stirling/metadata.yml
