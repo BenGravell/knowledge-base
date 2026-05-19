@@ -63436,7 +63436,7 @@
   <h1>Index</h1>
 
 <div id="ct-app" class="ct-page">
-  <section id="ct-settings" class="ct-settings" aria-label="Content Tree settings">
+  <section id="ct-settings" class="ct-settings is-collapsed" aria-label="Content Tree settings">
     <div class="ct-settings-header">
       <div class="ct-settings-title">
         <span>Content Tree</span>
@@ -63446,8 +63446,8 @@
           </summary>
         </details>
       </div>
-      <button id="ct-settings-toggle" class="ct-settings-toggle" type="button" aria-expanded="true" aria-controls="ct-settings-body">
-        <span id="ct-settings-state">Hide Settings</span>
+      <button id="ct-settings-toggle" class="ct-settings-toggle" type="button" aria-expanded="false" aria-controls="ct-settings-body">
+        <span id="ct-settings-state">Show Settings</span>
       </button>
       <p id="ct-note-body" class="ct-note-body">
         This content tree is my personal interpretation of how to organize these items in a hierarchical way.
@@ -63470,14 +63470,28 @@
           <input id="ct-year-end" type="number" inputmode="numeric" aria-label="End year">
         </div>
       </div>
-      <div class="ct-control-group ct-source-type-control">
-        <label for="ct-source-type">Source Type</label>
-        <details id="ct-source-type-widget" class="ct-source-type-widget">
-          <summary>
-            <span id="ct-source-type-summary">All source types</span>
-          </summary>
-          <div id="ct-source-type" class="ct-source-type-buttons" role="group" aria-label="Source type"></div>
-        </details>
+      <div class="ct-control-group ct-item-type-control">
+        <label for="ct-item-type-trigger">Item Types</label>
+        <button id="ct-item-type-trigger" class="ct-item-type-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="ct-item-type-dialog">
+          <span id="ct-item-type-summary">All item types</span>
+        </button>
+        <dialog id="ct-item-type-dialog" class="ct-item-type-dialog" aria-labelledby="ct-item-type-title">
+          <div class="ct-item-type-panel">
+            <div class="ct-item-type-head">
+              <h2 id="ct-item-type-title">Item Types</h2>
+              <button id="ct-item-type-close" class="ct-item-type-close" type="button" aria-label="Close item types filter">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.41L10.59 13.41 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.3l6.3 6.29 6.3-6.29z"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="ct-item-type-actions">
+              <button id="ct-all-types" type="button">All</button>
+              <button id="ct-no-types" type="button">None</button>
+            </div>
+            <div id="ct-item-type" class="ct-item-type-buttons" role="group" aria-label="Item types"></div>
+          </div>
+        </dialog>
       </div>
       <div class="ct-control-group ct-reset-control">
         <button id="ct-reset" type="button">Reset All</button>

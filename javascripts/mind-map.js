@@ -70,6 +70,8 @@
   const PAPER_NODE_RADIUS_TARGET = 12 * NODE_DIAMETER_SCALE;
   const NODE_LABEL_FONT_SIZE = 11;
   const NODE_LABEL_LINE_HEIGHT_RATIO = 1.1;
+  const NODE_LABEL_MAX_LINE_CHARS = 15;
+  const NODE_LABEL_MAX_LINES = 4;
   const NODE_LABEL_ZOOM_REFERENCE_RATIO = 1;
   const NODE_LABEL_ZOOM_EXPONENT = 0.22;
   const NODE_LABEL_ZOOM_SCALE_MIN = 0.68;
@@ -77,6 +79,8 @@
   const SELECTED_NODE_RADIUS_SCALE = 1;
   const EDGE_NODE_DIAMETER_RATIO = 0.30;
   const MIN_EDGE_THICKNESS = 1;
+  const DEFAULT_RELEVANCE_SIMILARITY = 0.78;
+  const DEFAULT_RELEVANCE_TREE_DISTANCE = 4;
   const MAX_ANIMATED_TRANSITION_NODES = 90;
   const LEVEL_TRANSITION_MS = 260;
   const LEVEL_TRANSITION_MAX_SCREEN_TRAVEL = 160;
@@ -85,6 +89,14 @@
   const PANEL_MAX_FOCUS_WIDTH_RATIO = 0.72;
   const FOCUSED_PAPER_CAMERA_RATIO = 0.32;
   const LEGACY_BRANCH_LEVEL_IDS = ['super_category', 'category', 'sub_category'];
+  const categorySuperCategoryLookup = new Map();
+  const categoryOrderCache = { value: null };
+  const superCategoryOrderCache = { value: null };
+  const navPathOrderIndex = new Map(
+    ((DATA.meta || {}).navPathOrder || [])
+      .map((path, index) => [Array.isArray(path) ? path.join('::') : '', index])
+      .filter(([path]) => path)
+  );
   const HIERARCHY_LEVELS = buildHierarchyLevels();
   const HIERARCHY_LEVEL_BY_ID = new Map(HIERARCHY_LEVELS.map(level => [level.id, level]));
   const DETAIL_LEVELS = HIERARCHY_LEVELS.map(level => level.id);
@@ -103,14 +115,28 @@
   let expandedAggregateNodes = new Set();
   let activeCategories = new Set();
   let activeItemTypes = new Set();
+  let typeFilterOptions = [];
+  let relevanceFilter = {
+    enabled: false,
+    semantic: true,
+    taxonomy: true,
+    mode: 'and',
+    similarity: DEFAULT_RELEVANCE_SIMILARITY,
+    treeProximity: null,
+  };
   let showNodeLabels = true;
   let showEdges = true;
   let currentSearch = '';
   let pinnedNode = null;
   let hoveredNode = null;
+  let hoverTooltipNode = null;
   let focus = { active: false, nodes: new Set(), edges: new Set(), mode: null };
   let theme = readTheme();
   let hierarchyData = null;
+  let maxTreeDistanceCache = null;
+  let relevanceEvaluationCache = null;
+  let relevanceMetricsByEgo = new Map();
+  let relevanceRefreshFrame = null;
   let activeLevelTransition = null;
   let topLabelContext = null;
   let lastLevelTransitionMetrics = null;
@@ -189,16 +215,27 @@
   }
 
   function categorySuperCategory(category) {
+    if (categorySuperCategoryLookup.has(category)) {
+      return categorySuperCategoryLookup.get(category);
+    }
+
     const explicit = ((DATA.meta || {}).categorySuperCategory || {})[category];
-    if (explicit) return explicit;
+    if (explicit) {
+      categorySuperCategoryLookup.set(category, explicit);
+      return explicit;
+    }
 
     const node = DATA.nodes.find(n =>
       n.data.category === category && n.data.super_category
     );
-    return node ? node.data.super_category : null;
+    const superCategory = node ? node.data.super_category : null;
+    categorySuperCategoryLookup.set(category, superCategory);
+    return superCategory;
   }
 
   function categoryOrder() {
+    if (categoryOrderCache.value) return categoryOrderCache.value;
+
     const configured = (DATA.meta || {}).categoryOrder || [];
     const dataCategories = new Set(DATA.nodes.map(n => n.data.category).filter(Boolean));
     const ordered = configured.filter(cat => dataCategories.has(cat));
@@ -209,10 +246,13 @@
         if (!ordered.includes(cat)) ordered.push(cat);
       });
 
+    categoryOrderCache.value = ordered;
     return ordered;
   }
 
   function superCategoryOrder() {
+    if (superCategoryOrderCache.value) return superCategoryOrderCache.value;
+
     const ordered = [...((DATA.meta || {}).superCategoryOrder || [])];
 
     categoryOrder().forEach(cat => {
@@ -230,6 +270,7 @@
       }
     });
 
+    superCategoryOrderCache.value = ordered;
     return ordered;
   }
 
@@ -457,9 +498,12 @@
   }
 
   function nodeDisplaySize(attrs) {
-    return attrs.kind === 'aggregate'
-      ? aggregateNodeSize(attrs.count, attrs.detailLevel)
-      : currentNodeRadius();
+    if (attrs.kind === 'aggregate') {
+      return Number.isFinite(attrs.staticSize)
+        ? attrs.staticSize
+        : aggregateNodeSize(attrs.count, attrs.detailLevel);
+    }
+    return currentNodeRadius();
   }
 
   function edgeDisplaySize(weight, attrs) {
@@ -479,17 +523,20 @@
   }
 
   function edgeReferenceNodeRadius(attrs) {
+    if (!attrs || attrs.kind !== 'aggregate') return currentNodeRadius();
+
+    if (Number.isFinite(attrs.referenceNodeRadius)) {
+      return attrs.referenceNodeRadius;
+    }
+
     if (attrs && graph && attrs.source && attrs.target && graphHasNode(attrs.source) && graphHasNode(attrs.target)) {
       const source = graph.getNodeAttributes(attrs.source);
       const target = graph.getNodeAttributes(attrs.target);
-      return (nodeDisplaySize(source) + nodeDisplaySize(target)) / 2;
+      attrs.referenceNodeRadius = (nodeDisplaySize(source) + nodeDisplaySize(target)) / 2;
+      return attrs.referenceNodeRadius;
     }
 
-    if (attrs && attrs.kind === 'aggregate') {
-      return aggregateNodeSize(1, attrs.detailLevel);
-    }
-
-    return currentNodeRadius();
+    return aggregateNodeSize(1, attrs.detailLevel);
   }
 
   function edgeAlpha(attrs) {
@@ -498,31 +545,79 @@
       theme.edgeAlphaMax
     );
     const density = visibleNodeCount > 0 ? visibleEdgeCount / visibleNodeCount : 1;
-    const densityScale = clamp(Math.sqrt(2.4 / Math.max(density, 0.25)), 0.42, 1.18);
+    const densityScale = clamp(Math.sqrt(2.8 / Math.max(density, 0.25)), 0.82, 1.12);
     const levelScale = attrs.kind === 'aggregate' ? 1.12 : 1;
 
     return Math.min(Math.max(baseAlpha * densityScale * levelScale, theme.edgeAlphaMin), theme.edgeAlphaMax);
   }
 
   /* -------------------------------------------------------------------------
-   * Format node label: split "Author [et al.] YEAR" onto two lines so the
-   * text fits squarer over the circular node.
+   * Format node label: keep lines narrow so long labels stay compact around
+   * node disks and participate more cleanly in Sigma's label deconfliction.
    * -------------------------------------------------------------------------*/
+  function wrapLabelLine(line, maxChars) {
+    const words = String(line || '').trim().split(/\s+/).filter(Boolean);
+    const lines = [];
+    let current = '';
+
+    words.forEach(word => {
+      if (!current) {
+        current = word;
+      } else if ((current.length + 1 + word.length) <= maxChars) {
+        current += ` ${word}`;
+      } else {
+        lines.push(current);
+        current = word;
+      }
+    });
+
+    if (current) lines.push(current);
+    return lines.length ? lines : [''];
+  }
+
+  function limitLabelLines(lines) {
+    if (lines.length <= NODE_LABEL_MAX_LINES) return lines;
+
+    const limited = lines.slice(0, NODE_LABEL_MAX_LINES);
+    const last = limited[limited.length - 1];
+    limited[limited.length - 1] = last.length > NODE_LABEL_MAX_LINE_CHARS - 1
+      ? `${last.slice(0, Math.max(1, NODE_LABEL_MAX_LINE_CHARS - 1))}...`
+      : `${last}...`;
+    return limited;
+  }
+
   function formatLabel(label) {
-    const m = String(label || '').match(/^(.+?)\s+(\d{4})$/);
-    return m ? `${m[1]}\n${m[2]}` : String(label || '');
+    const text = String(label || '').trim();
+    const m = text.match(/^(.+?)\s+(\d{4})$/);
+    const base = m ? m[1] : text;
+    const lines = wrapLabelLine(base, NODE_LABEL_MAX_LINE_CHARS);
+    if (m) lines.push(m[2]);
+    return limitLabelLines(lines).join('\n');
   }
 
   function filterKey(category, subCategory) {
     return subCategory ? `${category}::${subCategory}` : category;
   }
 
+  function navPathFilterKey(path) {
+    return `path:${JSON.stringify((path || []).map(part => String(part || '')))}`;
+  }
+
+  function paperFilterKey(attrs) {
+    if (attrs._mmFilterKey) return attrs._mmFilterKey;
+    if (attrs.filterKey) return attrs.filterKey;
+    attrs._mmFilterKey = navPathFilterKey(paperNavPath(attrs));
+    return attrs._mmFilterKey;
+  }
+
   function nodeKey(attrs) {
-    return filterKey(attrs.category, attrs.sub_category);
+    return attrs._mmFilterKey || attrs.filterKey || paperFilterKey(attrs);
   }
 
   function itemTypeKey(attrs) {
-    return attrs.item_type || attrs.type || 'Unspecified';
+    if (attrs._mmItemType) return attrs._mmItemType;
+    attrs._mmItemType = attrs.item_type || attrs.type || 'Unspecified';
+    return attrs._mmItemType;
   }
 
   function itemTypeLabel(type) {
@@ -538,24 +633,197 @@
   }
 
   function paperNavPath(attrs) {
+    if (attrs._mmNavPath) return attrs._mmNavPath;
+
     const rawPath = Array.isArray(attrs.nav_path)
       ? attrs.nav_path
       : [paperSuperCategory(attrs), attrs.category, attrs.sub_category].filter(Boolean);
     const path = rawPath.map(part => String(part || '').trim()).filter(Boolean);
-    if (path.length) return path;
-    return [UNCATEGORIZED_CATEGORY];
+    attrs._mmNavPath = path.length ? path : [UNCATEGORIZED_CATEGORY];
+    return attrs._mmNavPath;
   }
 
   function paddedPaperNavPath(attrs) {
+    if (attrs._mmPaddedNavPath) return attrs._mmPaddedNavPath.slice();
+
     const path = paperNavPath(attrs);
     const branchDepth = AGGREGATE_LEVELS.size;
     const fallback = path[path.length - 1] || UNCATEGORIZED_CATEGORY;
+    const padded = path.slice();
 
-    while (path.length < branchDepth) {
-      path.push(fallback);
+    while (padded.length < branchDepth) {
+      padded.push(fallback);
     }
 
-    return path.slice(0, branchDepth);
+    attrs._mmPaddedNavPath = padded.slice(0, branchDepth);
+    return attrs._mmPaddedNavPath.slice();
+  }
+
+  const paperDataById = new Map(DATA.nodes.map(node => [node.data.id, node.data]));
+  const similarityData = DATA.similarity || {};
+  const similarityScale = Number(similarityData.scale || (DATA.meta || {}).similarityScale || 1);
+  const similarityIdIndex = new Map((similarityData.ids || []).map((id, index) => [id, index]));
+
+  function paperData(paperId) {
+    return paperDataById.get(paperId) || null;
+  }
+
+  function commonPrefixLength(a, b) {
+    const limit = Math.min(a.length, b.length);
+    let i = 0;
+    while (i < limit && a[i] === b[i]) i += 1;
+    return i;
+  }
+
+  function treeDistanceBetween(aId, bId) {
+    if (aId === bId) return 0;
+    const a = paperData(aId);
+    const b = paperData(bId);
+    if (!a || !b) return Infinity;
+
+    const aPath = paperNavPath(a);
+    const bPath = paperNavPath(b);
+    const common = commonPrefixLength(aPath, bPath);
+    return (aPath.length - common) + (bPath.length - common);
+  }
+
+  function similarityBetween(aId, bId) {
+    if (aId === bId) return 1;
+    const aIndex = similarityIdIndex.get(aId);
+    const bIndex = similarityIdIndex.get(bId);
+    const rows = similarityData.rows || [];
+    if (aIndex === undefined || bIndex === undefined || !rows[aIndex]) return null;
+
+    const raw = rows[aIndex][bIndex];
+    const numeric = Number(raw);
+    if (!Number.isFinite(numeric)) return null;
+    return similarityScale ? numeric / similarityScale : numeric;
+  }
+
+  function maxTreeDistance() {
+    if (maxTreeDistanceCache === null) {
+      const depth = Math.max(
+        1,
+        ...DATA.nodes.map(node => paperNavPath(node.data || {}).length)
+      );
+      maxTreeDistanceCache = depth * 2;
+    }
+    return maxTreeDistanceCache;
+  }
+
+  function defaultTreeProximity() {
+    return Math.max(0, maxTreeDistance() - DEFAULT_RELEVANCE_TREE_DISTANCE);
+  }
+
+  function selectedRelevanceEgo() {
+    const paperId = paperIdForNode(pinnedNode);
+    return paperId && paperData(paperId) ? paperId : null;
+  }
+
+  function relevanceFilterActive() {
+    return relevanceFilter.enabled && Boolean(selectedRelevanceEgo());
+  }
+
+  function relevanceTreeThreshold() {
+    return Number.isFinite(relevanceFilter.treeProximity)
+      ? relevanceFilter.treeProximity
+      : defaultTreeProximity();
+  }
+
+  function relevanceEvaluationKey(egoId, treeThreshold) {
+    if (!relevanceFilter.enabled || !egoId) return 'off';
+
+    return [
+      egoId,
+      relevanceFilter.semantic ? 1 : 0,
+      relevanceFilter.taxonomy ? 1 : 0,
+      relevanceFilter.mode,
+      relevanceFilter.similarity,
+      treeThreshold,
+    ].join('|');
+  }
+
+  function relevanceMetricsForEgo(egoId) {
+    if (relevanceMetricsByEgo.has(egoId)) {
+      return relevanceMetricsByEgo.get(egoId);
+    }
+
+    const maxDistance = maxTreeDistance();
+    const metrics = DATA.nodes.map(node => {
+      const paperId = node.data.id;
+      const distance = treeDistanceBetween(egoId, paperId);
+      return {
+        paperId,
+        semantic: similarityBetween(egoId, paperId) ?? -1,
+        treeProximity: Number.isFinite(distance) ? maxDistance - distance : -Infinity,
+      };
+    });
+
+    relevanceMetricsByEgo.set(egoId, metrics);
+    return metrics;
+  }
+
+  function metricAllowedByRelevance(metric, egoId, treeThreshold) {
+    if (metric.paperId === egoId) return true;
+
+    const semanticEnabled = relevanceFilter.semantic;
+    const taxonomyEnabled = relevanceFilter.taxonomy;
+    if (!semanticEnabled && !taxonomyEnabled) return true;
+
+    const semanticPass = !semanticEnabled || metric.semantic >= relevanceFilter.similarity;
+    const taxonomyPass = !taxonomyEnabled || metric.treeProximity >= treeThreshold;
+
+    return relevanceFilter.mode === 'or'
+      ? semanticPass || taxonomyPass
+      : semanticPass && taxonomyPass;
+  }
+
+  function relevanceEvaluation() {
+    const egoId = selectedRelevanceEgo();
+    if (!relevanceFilter.enabled || !egoId) {
+      return {
+        active: false,
+        allowedPaperIds: null,
+        count: DATA.nodes.length,
+      };
+    }
+
+    const treeThreshold = relevanceTreeThreshold();
+    const key = relevanceEvaluationKey(egoId, treeThreshold);
+    if (relevanceEvaluationCache && relevanceEvaluationCache.key === key) {
+      return relevanceEvaluationCache;
+    }
+
+    const allowedPaperIds = new Set();
+    relevanceMetricsForEgo(egoId).forEach(metric => {
+      if (metricAllowedByRelevance(metric, egoId, treeThreshold)) {
+        allowedPaperIds.add(metric.paperId);
+      }
+    });
+
+    relevanceEvaluationCache = {
+      key,
+      active: true,
+      allowedPaperIds,
+      count: allowedPaperIds.size,
+    };
+    return relevanceEvaluationCache;
+  }
+
+  function paperAllowedByRelevance(paperId) {
+    const evaluation = relevanceEvaluation();
+    return !evaluation.active || evaluation.allowedPaperIds.has(paperId);
+  }
+
+  function nodeAllowedByRelevance(attrs) {
+    if (!relevanceFilterActive()) return true;
+    const evaluation = relevanceEvaluation();
+    if (!evaluation.active) return true;
+
+    if (attrs.kind === 'aggregate') {
+      return (attrs.leafIds || []).some(paperId => evaluation.allowedPaperIds.has(paperId));
+    }
+    return evaluation.allowedPaperIds.has(attrs.id);
   }
 
   function branchColorForPath(path, index) {
@@ -574,7 +842,8 @@
   }
 
   function paperSearchText(attrs) {
-    return [
+    if (attrs._mmSearchText) return attrs._mmSearchText;
+    attrs._mmSearchText = [
       attrs.title,
       attrs.label,
       attrs.category,
@@ -584,6 +853,7 @@
       ...(attrs.tags || []),
       attrs.summary,
     ].filter(Boolean).join(' ').toLowerCase();
+    return attrs._mmSearchText;
   }
 
   function aggregateLabel(label, count) {
@@ -652,11 +922,8 @@
   }
 
   function hierarchySortKey(group) {
-    const pathOrder = ((DATA.meta || {}).navPathOrder || [])
-      .map(path => Array.isArray(path) ? path.join('::') : '')
-      .filter(Boolean);
     const pathKey = (group.path || []).join('::');
-    const pathIndex = pathOrder.indexOf(pathKey);
+    const pathIndex = navPathOrderIndex.has(pathKey) ? navPathOrderIndex.get(pathKey) : -1;
     if (pathIndex >= 0) return [pathIndex, group.label];
 
     if ((group.pathIndex || 0) === 0) {
@@ -883,9 +1150,10 @@
   }
 
   function nodeAllowedByFilters(attrs) {
-    const categoryAllowed = attrs.kind === 'aggregate'
-      ? (attrs.filterKeys || []).some(key => activeCategories.has(key))
-      : activeCategories.has(nodeKey(attrs));
+    if (!nodeAllowedByRelevance(attrs)) return false;
+
+    const filterKeys = attrs.filterKeys || [nodeKey(attrs)];
+    const categoryAllowed = filterKeys.some(key => activeCategories.has(key));
     if (!categoryAllowed) return false;
 
     if (attrs.kind === 'aggregate') {
@@ -966,6 +1234,9 @@
       const kind = attrs.kind || 'paper';
       const detailLevel = attrs.detailLevel || 'paper';
       const color = attrs.color || nodeColor(attrs.category, attrs.sub_category);
+      const staticSize = kind === 'aggregate'
+        ? aggregateNodeSize(attrs.count, detailLevel)
+        : null;
       const x = n.position.x;
       const y = n.position.y;
       const ancestorIds = attrs.ancestorIds || hierarchy.paperAncestors[attrs.id] || {};
@@ -983,7 +1254,8 @@
         y,
         homeX: x,
         homeY: y,
-        size: nodeDisplaySize({ ...attrs, kind, detailLevel }),
+        staticSize,
+        size: kind === 'aggregate' ? staticSize : currentNodeRadius(),
         color,
         baseColor: color,
         label: formatLabel(attrs.label),
@@ -1095,7 +1367,7 @@
     if (dimmed) {
       return {
         ...attrs,
-        color: colorWithAlpha(theme.edgeColor, 0.025),
+        color: colorWithAlpha(theme.edgeColor, Math.max(theme.edgeAlphaMin * 0.7, 0.018)),
         size: Math.max(size * 0.35, MIN_EDGE_THICKNESS),
         zIndex: 0,
       };
@@ -1340,6 +1612,7 @@
     recomputeFocus();
     if (renderer) renderer.scheduleRefresh();
     updateStats();
+    updateRelevancePanel();
   }
 
   function nextDetailLevel(level) {
@@ -1596,6 +1869,7 @@
     expandedAggregateNodes.add(node);
     pinnedNode = null;
     hoveredNode = null;
+    hideHoverTooltip();
     hideTooltip();
     hidePaperModal();
     syncUrlToPinnedNode();
@@ -1648,6 +1922,7 @@
     }
 
     setupTopLabelOverlay();
+    renderer.on('afterRender', updateActiveTooltipPositions);
     hideLoading();
     setupGraphEvents();
     setupCameraEvents();
@@ -1658,20 +1933,30 @@
   }
 
   function setupCameraEvents() {
-    // Paper disks are expressed in graph coordinates, so camera movement should
-    // not mutate node radii.
+    const camera = renderer && typeof renderer.getCamera === 'function'
+      ? renderer.getCamera()
+      : null;
+    if (camera && typeof camera.on === 'function') {
+      camera.on('updated', updateActiveTooltipPositions);
+    }
   }
 
   function setupGraphEvents() {
     renderer.on('enterNode', payload => {
-      if (pinnedNode) return;
+      if (pinnedNode) {
+        if (payload.node !== pinnedNode) showHoverTooltip(payload.node);
+        return;
+      }
       hoveredNode = payload.node;
-      showNodeTooltip(payload.node, eventPosition(payload), false);
+      showNodeTooltip(payload.node, nodeTooltipPosition(payload.node) || eventPosition(payload), false);
       refreshView();
     });
 
     renderer.on('leaveNode', () => {
-      if (pinnedNode) return;
+      if (pinnedNode) {
+        hideHoverTooltip();
+        return;
+      }
       hoveredNode = null;
       hideTooltip();
       refreshView();
@@ -1688,12 +1973,14 @@
       if (pinnedNode === node) {
         pinnedNode = null;
         hoveredNode = null;
+        hideHoverTooltip();
         hideTooltip();
         hidePaperModal();
       } else {
         pinnedNode = node;
         hoveredNode = null;
-        showNodeTooltip(node, eventPosition(payload), true);
+        hideHoverTooltip();
+        showNodeTooltip(node, nodeTooltipPosition(node) || eventPosition(payload), true);
       }
       syncUrlToPinnedNode();
       refreshView();
@@ -1702,6 +1989,7 @@
     renderer.on('clickStage', () => {
       pinnedNode = null;
       hoveredNode = null;
+      hideHoverTooltip();
       hideTooltip();
       hidePaperModal();
       syncUrlToPinnedNode();
@@ -1718,6 +2006,7 @@
    * Tooltip
    * -------------------------------------------------------------------------*/
   const tooltip = document.getElementById('mm-tooltip');
+  const hoverTooltip = document.getElementById('mm-hover-tooltip');
   const modal = document.getElementById('mm-modal');
   const modalTitle = document.getElementById('mm-modal-title');
   const modalBody = document.getElementById('mm-modal-body');
@@ -1733,6 +2022,32 @@
     return names.length > 1 ? `${names[0]} et al.` : names[0];
   }
 
+  function nodeTooltipPosition(node) {
+    if (!renderer || !graphHasNode(node)) return null;
+
+    const attrs = graph.getNodeAttributes(node);
+    const display = typeof renderer.getNodeDisplayData === 'function'
+      ? renderer.getNodeDisplayData(node)
+      : null;
+    const point = renderer.graphToViewport({ x: attrs.x, y: attrs.y });
+    const rawSize = display && Number.isFinite(display.size)
+      ? display.size
+      : nodeDisplaySize(attrs);
+    const size = typeof renderer.scaleSize === 'function'
+      ? renderer.scaleSize(rawSize)
+      : rawSize;
+
+    return {
+      x: point.x,
+      y: point.y - Math.max(size, 0),
+      placement: 'node-top',
+    };
+  }
+
+  function nodeTooltipLabel(d) {
+    return d.fullLabel || d.title || String(d.label || '').replace(/\s*\n\s*/g, ' ') || d.id || 'Untitled';
+  }
+
   function showNodeTooltip(node, pos, pinned) {
     const d = graph.getNodeAttributes(node);
     if (mobileViewport()) {
@@ -1746,6 +2061,7 @@
       return;
     }
 
+    const anchor = nodeTooltipPosition(node) || pos;
     const authors = formatAuthors(d.authors);
     const tags = (d.tags || []).slice(0, 7).join(' · ');
     const actions = paperActionLinks(d, { includeMindMap: false });
@@ -1757,7 +2073,7 @@
       (actions ? `<div class="tt-actions paper-link-pills">${actions}</div>` : '') +
       (!pinned ? `<div class="tt-hint">Click to pin</div>` : `<div class="tt-hint">Click node again to unpin</div>`);
     tooltip.classList.toggle('pinned', pinned);
-    placeTooltip(pos);
+    placeTooltip(anchor);
   }
 
   function showAggregateTooltip(d, pos, pinned) {
@@ -1781,34 +2097,77 @@
     placeTooltip(pos);
   }
 
-  function placeTooltip(pos) {
+  function showHoverTooltip(node) {
+    if (!hoverTooltip || mobileViewport() || !graphHasNode(node) || !nodeVisible(node)) return;
+
+    const d = graph.getNodeAttributes(node);
+    const pos = nodeTooltipPosition(node);
+    if (!pos) return;
+    const label = nodeTooltipLabel(d);
+    const subtitle = d.kind === 'paper' && d.title && d.title !== label
+      ? d.title
+      : '';
+    const meta = d.kind === 'aggregate'
+      ? `${detailLevelLabel(d.detailLevel)} group · ${d.count || 0} items`
+      : [formatAuthors(d.authors), d.year].filter(Boolean).join('  ');
+
+    hoverTooltipNode = node;
+    hoverTooltip.innerHTML =
+      `<div class="tt-mini-title">${escHtml(label)}</div>` +
+      (subtitle ? `<div class="tt-mini-subtitle">${escHtml(subtitle)}</div>` : '') +
+      (meta ? `<div class="tt-mini-meta">${escHtml(meta)}</div>` : '');
+    hoverTooltip.classList.add('visible');
+    placeTooltip(pos, { element: hoverTooltip });
+  }
+
+  function hideHoverTooltip() {
+    hoverTooltipNode = null;
+    if (hoverTooltip) hoverTooltip.classList.remove('visible');
+  }
+
+  function updateActiveTooltipPositions() {
+    if (pinnedNode && tooltip && tooltip.classList.contains('visible')) {
+      const pos = nodeTooltipPosition(pinnedNode);
+      if (pos) placeTooltip(pos);
+    }
+
+    if (hoverTooltipNode && hoverTooltip && hoverTooltip.classList.contains('visible')) {
+      if (!pinnedNode || !graphHasNode(hoverTooltipNode) || !nodeVisible(hoverTooltipNode)) {
+        hideHoverTooltip();
+        return;
+      }
+      const pos = nodeTooltipPosition(hoverTooltipNode);
+      if (pos) placeTooltip(pos, { element: hoverTooltip });
+    }
+  }
+
+  function placeTooltip(pos, options = {}) {
+    const el = options.element || tooltip;
+    if (!el || !pos) return;
+
     const MARGIN = 12;
     const graphRect = graphContainer.getBoundingClientRect();
-    const rootStyle = getComputedStyle(document.documentElement);
-    const headerHeight = parseFloat(rootStyle.getPropertyValue('--mm-header-h')) || 0;
-    const footerHeight = parseFloat(rootStyle.getPropertyValue('--mm-footer-h')) || 0;
-    const minY = Math.max(MARGIN, headerHeight + MARGIN);
-    const maxY = Math.max(minY, window.innerHeight - footerHeight - MARGIN);
 
-    tooltip.classList.add('visible');
-    const W = tooltip.offsetWidth;
-    const H = tooltip.offsetHeight;
+    el.classList.add('visible');
+    const W = el.offsetWidth;
+    const H = el.offsetHeight;
 
     const anchorX = graphRect.left + pos.x;
     const anchorY = graphRect.top + pos.y;
-    const avoidRects = tooltipAvoidRects();
-    const leftReserved = avoidRects.reduce((reserved, rect) => {
-      const touchesLeft = rect.left <= MARGIN;
-      const spansUsableHeight = rect.bottom - rect.top > (maxY - minY) * 0.5;
-      return touchesLeft && spansUsableHeight ? Math.max(reserved, rect.right + MARGIN) : reserved;
-    }, MARGIN);
-
-    const minX = Math.min(leftReserved, Math.max(MARGIN, window.innerWidth - W - MARGIN));
-    const maxX = Math.max(minX, window.innerWidth - W - MARGIN);
-    const minTop = minY;
-    const maxTop = Math.max(minTop, maxY - H);
+    const bounds = tooltipGraphViewportRect(MARGIN);
+    const avoidRects = tooltipAvoidRects(bounds);
+    const minX = Math.min(bounds.left, Math.max(bounds.left, bounds.right - W));
+    const maxX = Math.max(minX, bounds.right - W);
+    const minTop = Math.min(bounds.top, Math.max(bounds.top, bounds.bottom - H));
+    const maxTop = Math.max(minTop, bounds.bottom - H);
     const clampX = value => Math.max(minX, Math.min(value, maxX));
     const clampY = value => Math.max(minTop, Math.min(value, maxTop));
+
+    if (pos.placement === 'node-top') {
+      el.style.left = `${clampX(anchorX - W / 2)}px`;
+      el.style.top = `${clampY(anchorY - H - MARGIN)}px`;
+      return;
+    }
 
     const rawCandidates = [
       { x: anchorX + MARGIN, y: anchorY + MARGIN },
@@ -1834,29 +2193,108 @@
     let x = best ? best.x : clampX(anchorX + MARGIN);
     let y = best ? best.y : clampY(anchorY + MARGIN);
 
-    tooltip.style.left = `${x}px`;
-    tooltip.style.top = `${y}px`;
+    el.style.left = `${x}px`;
+    el.style.top = `${y}px`;
   }
 
-  function tooltipAvoidRects() {
-    return [
-      document.getElementById('mm-panel-header'),
-      document.getElementById('mm-panel'),
-    ]
-      .map(el => {
-        if (!el || el.hidden) return null;
-        const style = getComputedStyle(el);
-        if (style.display === 'none' || style.visibility === 'hidden' || style.pointerEvents === 'none') return null;
-        const rect = el.getBoundingClientRect();
-        if (rect.width <= 0 || rect.height <= 0) return null;
-        return {
-          left: rect.left,
-          right: rect.right,
-          top: rect.top,
-          bottom: rect.bottom,
-        };
-      })
+  function visibleElementRect(el) {
+    if (!el || el.hidden) return null;
+    const style = getComputedStyle(el);
+    if (style.display === 'none' || style.visibility === 'hidden' || style.pointerEvents === 'none') return null;
+    const rect = el.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return null;
+    return {
+      left: rect.left,
+      right: rect.right,
+      top: rect.top,
+      bottom: rect.bottom,
+      width: rect.width,
+      height: rect.height,
+    };
+  }
+
+  function tooltipBoundaryRects() {
+    const selectors = [
+      '#mm-panel-header',
+      '#mm-panel',
+      '.md-header',
+      '.md-tabs',
+      '.md-sidebar--primary',
+      '.md-sidebar--secondary',
+    ];
+    const elements = new Set();
+    selectors.forEach(selector => {
+      document.querySelectorAll(selector).forEach(el => elements.add(el));
+    });
+
+    return [...elements]
+      .map(visibleElementRect)
       .filter(Boolean);
+  }
+
+  function rectOverlap(a, b) {
+    return {
+      x: Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)),
+      y: Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top)),
+    };
+  }
+
+  function tooltipGraphViewportRect(margin) {
+    const graphRect = graphContainer.getBoundingClientRect();
+    const rootStyle = getComputedStyle(document.documentElement);
+    const headerHeight = parseFloat(rootStyle.getPropertyValue('--mm-header-h')) || 0;
+    const footerHeight = parseFloat(rootStyle.getPropertyValue('--mm-footer-h')) || 0;
+    const rect = {
+      left: Math.max(margin, graphRect.left + margin),
+      right: Math.min(window.innerWidth - margin, graphRect.right - margin),
+      top: Math.max(margin, headerHeight + margin, graphRect.top + margin),
+      bottom: Math.min(window.innerHeight - footerHeight - margin, graphRect.bottom - margin),
+    };
+
+    tooltipBoundaryRects().forEach(blocker => {
+      const overlap = rectOverlap(rect, blocker);
+      const width = Math.max(1, rect.right - rect.left);
+      const height = Math.max(1, rect.bottom - rect.top);
+
+      if (overlap.y > 0 && blocker.height > height * 0.25) {
+        if (blocker.left <= rect.left + 1 && blocker.right > rect.left) {
+          rect.left = Math.max(rect.left, blocker.right + margin);
+        }
+        if (blocker.right >= rect.right - 1 && blocker.left < rect.right) {
+          rect.right = Math.min(rect.right, blocker.left - margin);
+        }
+      }
+
+      if (overlap.x > 0 && blocker.width > width * 0.35) {
+        if (blocker.top <= rect.top + 1 && blocker.bottom > rect.top) {
+          rect.top = Math.max(rect.top, blocker.bottom + margin);
+        }
+        if (blocker.bottom >= rect.bottom - 1 && blocker.top < rect.bottom) {
+          rect.bottom = Math.min(rect.bottom, blocker.top - margin);
+        }
+      }
+    });
+
+    if (rect.right <= rect.left) {
+      rect.left = Math.max(margin, graphRect.left + margin);
+      rect.right = Math.max(rect.left + 1, Math.min(window.innerWidth - margin, graphRect.right - margin));
+    }
+    if (rect.bottom <= rect.top) {
+      rect.top = Math.max(margin, headerHeight + margin, graphRect.top + margin);
+      rect.bottom = Math.max(rect.top + 1, Math.min(window.innerHeight - footerHeight - margin, graphRect.bottom - margin));
+    }
+
+    return rect;
+  }
+
+  function tooltipAvoidRects(bounds) {
+    const canvasBounds = bounds || tooltipGraphViewportRect(12);
+    return [
+      ...tooltipBoundaryRects(),
+    ].filter(rect => {
+      const overlap = rectOverlap(canvasBounds, rect);
+      return overlap.x > 0 && overlap.y > 0;
+    });
   }
 
   function tooltipCollisionArea(left, top, width, height, rects) {
@@ -1941,6 +2379,7 @@
     hidePaperModal();
     pinnedNode = null;
     hoveredNode = null;
+    hideHoverTooltip();
     syncUrlToPinnedNode();
     refreshView();
   }
@@ -1956,6 +2395,7 @@
   function applyCategoryFilter() {
     if (pinnedNode && !nodeVisible(pinnedNode)) {
       pinnedNode = null;
+      hideHoverTooltip();
       hideTooltip();
       hidePaperModal();
       syncUrlToPinnedNode();
@@ -1966,6 +2406,7 @@
   function applyItemTypeFilter() {
     if (pinnedNode && !nodeVisible(pinnedNode)) {
       pinnedNode = null;
+      hideHoverTooltip();
       hideTooltip();
       hidePaperModal();
       syncUrlToPinnedNode();
@@ -1978,6 +2419,15 @@
     refreshView();
   }
 
+  function applyRelevanceFilter() {
+    if (relevanceRefreshFrame !== null) return;
+
+    relevanceRefreshFrame = window.requestAnimationFrame(() => {
+      relevanceRefreshFrame = null;
+      refreshView();
+    });
+  }
+
   function applyDetailLevel(level) {
     if (!DETAIL_LEVELS.includes(level)) return;
     if (currentDetailLevel === level) {
@@ -1986,6 +2436,7 @@
       expandedAggregateNodes.clear();
       pinnedNode = null;
       hoveredNode = null;
+      hideHoverTooltip();
       hideTooltip();
       hidePaperModal();
       syncUrlToPinnedNode();
@@ -2003,6 +2454,7 @@
     expandedAggregateNodes.clear();
     pinnedNode = null;
     hoveredNode = null;
+    hideHoverTooltip();
     hideTooltip();
     hidePaperModal();
     syncUrlToPinnedNode();
@@ -2039,6 +2491,40 @@
       searchCount.textContent = currentSearch
         ? ` · ${searchMatchCount} ${searchMatchCount === 1 ? 'match' : 'matches'}`
         : '';
+    }
+    const relevanceCount = document.getElementById('mm-relevance-count');
+    if (relevanceCount) {
+      const egoId = selectedRelevanceEgo();
+      relevanceCount.hidden = !relevanceFilter.enabled || !egoId;
+      relevanceCount.textContent = relevanceFilter.enabled && egoId
+        ? ` · ${relevantPaperCount()} relevant`
+        : '';
+    }
+  }
+
+  function relevantPaperCount() {
+    return relevanceEvaluation().count;
+  }
+
+  function updateRelevancePanel() {
+    const panel = document.getElementById('mm-relevance-panel');
+    if (!panel) return;
+
+    const egoId = selectedRelevanceEgo();
+    panel.hidden = !egoId;
+    if (!egoId) return;
+
+    const ego = paperData(egoId) || {};
+    const title = document.getElementById('mm-relevance-ego');
+    const count = document.getElementById('mm-relevance-match-count');
+    const status = document.getElementById('mm-relevance-status');
+
+    if (title) title.textContent = ego.title || ego.label || egoId;
+    if (count) count.textContent = `${relevantPaperCount()} / ${DATA.nodes.length}`;
+    if (status) {
+      status.textContent = relevanceFilter.enabled
+        ? `${relevanceFilter.mode.toUpperCase()} filter active`
+        : 'Filter off';
     }
   }
 
@@ -2370,6 +2856,7 @@
 
     pinnedNode = null;
     hoveredNode = null;
+    hideHoverTooltip();
     hideTooltip();
     hidePaperModal();
     refreshView();
@@ -2473,9 +2960,7 @@
 
   function showFocusedPaperTooltip(node) {
     if (!renderer || !graphHasNode(node)) return;
-    const attrs = graph.getNodeAttributes(node);
-    const pos = renderer.graphToViewport({ x: attrs.x, y: attrs.y });
-    showNodeTooltip(node, pos, true);
+    showNodeTooltip(node, nodeTooltipPosition(node), true);
   }
 
   function focusPaperFromHash() {
@@ -2490,6 +2975,7 @@
     activeCategories.add(nodeKey(attrs));
     pinnedNode = paperId;
     hoveredNode = null;
+    hideHoverTooltip();
     updateDetailButtons();
     refreshView();
     focusCameraOnNode(paperId, 320);
@@ -2625,7 +3111,7 @@
       applyCategoryFilter();
     });
 
-    group.children.forEach(child => {
+    (group.filterChildren || group.children).forEach(child => {
       itemsEl.appendChild(renderFilterNode(child, syncThisGroup));
     });
 
@@ -2634,15 +3120,15 @@
   }
 
   function renderFilterNode(group, onChildChange = null) {
-    if (!group.children.length) {
+    const realChildren = group.children.filter(child => !child.isCategoryLeaf);
+
+    if (!realChildren.length) {
       return renderFilterLeaf(group, onChildChange);
     }
 
+    group.filterChildren = group.children;
+
     if (group.level === 'category') {
-      const onlyCategoryLeaf = group.children.length === 1 && group.children[0].isCategoryLeaf;
-      if (onlyCategoryLeaf) {
-        return renderFilterLeaf(group.children[0], onChildChange, group.label, group.color);
-      }
       return renderFilterGroup(group, false, 'mm-cat-group', onChildChange);
     }
 
@@ -2661,19 +3147,106 @@
   }
 
   function makeTypeItem(type, count) {
-    const label = document.createElement('label');
-    label.className = 'mm-cat-item mm-type-item';
-    label.innerHTML =
-      `<input type="checkbox" checked data-type="${escHtml(type)}">` +
-      `<span class="mm-type-chip">${escHtml(type === 'Unspecified' ? 'None' : type.split(/\s+/).map(part => part[0]).join('').slice(0, 3))}</span>` +
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'mm-cat-item mm-type-item';
+    button.dataset.type = type;
+    button.setAttribute('aria-pressed', 'true');
+    button.innerHTML =
+      `<span class="mm-type-chip">${escHtml(itemTypeAbbreviation(type))}</span>` +
       `<span class="mm-cat-name">${escHtml(itemTypeLabel(type))}</span>` +
       `<span class="mm-cat-count">${count}</span>`;
-    label.querySelector('input').addEventListener('change', e => {
-      if (e.target.checked) activeItemTypes.add(type);
-      else activeItemTypes.delete(type);
+    button.addEventListener('click', () => {
+      if (activeItemTypes.has(type)) activeItemTypes.delete(type);
+      else activeItemTypes.add(type);
+      syncTypeFilterControls();
       applyItemTypeFilter();
     });
-    return label;
+    return button;
+  }
+
+  function itemTypeAbbreviation(type) {
+    if (type === 'Unspecified') return 'None';
+    const parts = String(type || '')
+      .split(/[\s/&+-]+/)
+      .map(part => part.trim())
+      .filter(Boolean);
+    if (!parts.length) return 'NA';
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return parts.slice(0, 2).map(part => part[0]).join('').toUpperCase();
+  }
+
+  function selectedItemTypes() {
+    return [...activeItemTypes].sort((a, b) => itemTypeLabel(a).localeCompare(itemTypeLabel(b)));
+  }
+
+  function itemTypeSummaryText() {
+    const selected = selectedItemTypes();
+    if (selected.length === 0) return 'No item types';
+    if (selected.length === typeFilterOptions.length) return 'All item types';
+    if (selected.length === 1) return itemTypeLabel(selected[0]);
+    return `${selected.length} item types`;
+  }
+
+  function typeFilterButtons() {
+    return [...document.querySelectorAll('#mm-type-filters button[data-type]')];
+  }
+
+  function syncTypeFilterButton(button) {
+    const selected = activeItemTypes.has(button.dataset.type);
+    button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+    button.classList.toggle('is-selected', selected);
+  }
+
+  function syncTypeFilterControls() {
+    typeFilterButtons().forEach(syncTypeFilterButton);
+
+    const summary = document.getElementById('mm-type-summary');
+    if (summary) summary.textContent = itemTypeSummaryText();
+  }
+
+  function setAllItemTypes(selected) {
+    const buttons = typeFilterButtons();
+    const types = buttons.length
+      ? buttons.map(button => button.dataset.type)
+      : typeFilterOptions;
+
+    activeItemTypes.clear();
+    if (selected) types.forEach(type => activeItemTypes.add(type));
+    syncTypeFilterControls();
+    applyItemTypeFilter();
+  }
+
+  function openTypeDialog() {
+    const dialog = document.getElementById('mm-type-dialog');
+    const trigger = document.getElementById('mm-type-trigger');
+    if (!dialog) return;
+    if (!dialog.open) {
+      if (typeof dialog.showModal === 'function') dialog.showModal();
+      else dialog.setAttribute('open', '');
+    }
+    if (trigger) trigger.setAttribute('aria-expanded', 'true');
+    window.requestAnimationFrame(() => {
+      const selected = document.querySelector('#mm-type-filters button[aria-pressed="true"]');
+      const first = document.querySelector('#mm-type-filters button[data-type]');
+      const close = document.getElementById('mm-type-close');
+      (selected || first || close || dialog).focus();
+    });
+  }
+
+  function closeTypeDialog() {
+    const dialog = document.getElementById('mm-type-dialog');
+    const trigger = document.getElementById('mm-type-trigger');
+    if (!dialog || !dialog.open) return;
+    if (typeof dialog.close === 'function') {
+      dialog.close();
+    } else {
+      dialog.removeAttribute('open');
+      if (trigger) {
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.focus();
+      }
+    }
   }
 
   function buildTypeFilters() {
@@ -2695,10 +3268,12 @@
 
     container.innerHTML = '';
     activeItemTypes.clear();
+    typeFilterOptions = ordered.slice();
     ordered.forEach(type => {
       activeItemTypes.add(type);
       container.appendChild(makeTypeItem(type, counts.get(type)));
     });
+    syncTypeFilterControls();
   }
 
   function buildDetailControls() {
@@ -2736,6 +3311,81 @@
     if (edgesToggle) {
       edgesToggle.setAttribute('aria-pressed', showEdges ? 'true' : 'false');
     }
+  }
+
+  function syncRelevanceControlValues() {
+    const enabled = document.getElementById('mm-relevance-enabled');
+    const semantic = document.getElementById('mm-relevance-semantic');
+    const taxonomy = document.getElementById('mm-relevance-taxonomy');
+    const mode = document.getElementById('mm-relevance-mode');
+    const simSlider = document.getElementById('mm-relevance-similarity');
+    const simVal = document.getElementById('mm-relevance-similarity-val');
+    const treeSlider = document.getElementById('mm-relevance-distance');
+    const treeVal = document.getElementById('mm-relevance-distance-val');
+
+    if (!enabled || !semantic || !taxonomy || !mode || !simSlider || !treeSlider) return;
+
+    const maxDistance = maxTreeDistance();
+    treeSlider.max = String(maxDistance);
+    if (!Number.isFinite(relevanceFilter.treeProximity)) {
+      relevanceFilter.treeProximity = defaultTreeProximity();
+    }
+    relevanceFilter.treeProximity = Math.min(
+      Math.max(0, relevanceFilter.treeProximity),
+      maxDistance
+    );
+
+    enabled.checked = relevanceFilter.enabled;
+    semantic.checked = relevanceFilter.semantic;
+    taxonomy.checked = relevanceFilter.taxonomy;
+    mode.value = relevanceFilter.mode;
+    simSlider.value = String(Math.round(relevanceFilter.similarity * 100));
+    treeSlider.value = String(relevanceFilter.treeProximity);
+    if (simVal) simVal.textContent = relevanceFilter.similarity.toFixed(2);
+    if (treeVal) treeVal.textContent = String(relevanceFilter.treeProximity);
+    updateRelevancePanel();
+  }
+
+  function setupRelevanceControls() {
+    const enabled = document.getElementById('mm-relevance-enabled');
+    const semantic = document.getElementById('mm-relevance-semantic');
+    const taxonomy = document.getElementById('mm-relevance-taxonomy');
+    const mode = document.getElementById('mm-relevance-mode');
+    const simSlider = document.getElementById('mm-relevance-similarity');
+    const simVal = document.getElementById('mm-relevance-similarity-val');
+    const treeSlider = document.getElementById('mm-relevance-distance');
+    const treeVal = document.getElementById('mm-relevance-distance-val');
+
+    if (!enabled || !semantic || !taxonomy || !mode || !simSlider || !treeSlider) return;
+
+    enabled.addEventListener('change', () => {
+      relevanceFilter.enabled = enabled.checked;
+      applyRelevanceFilter();
+    });
+    semantic.addEventListener('change', () => {
+      relevanceFilter.semantic = semantic.checked;
+      applyRelevanceFilter();
+    });
+    taxonomy.addEventListener('change', () => {
+      relevanceFilter.taxonomy = taxonomy.checked;
+      applyRelevanceFilter();
+    });
+    mode.addEventListener('change', () => {
+      relevanceFilter.mode = mode.value === 'or' ? 'or' : 'and';
+      applyRelevanceFilter();
+    });
+    simSlider.addEventListener('input', () => {
+      relevanceFilter.similarity = parseInt(simSlider.value, 10) / 100;
+      if (simVal) simVal.textContent = relevanceFilter.similarity.toFixed(2);
+      applyRelevanceFilter();
+    });
+    treeSlider.addEventListener('input', () => {
+      relevanceFilter.treeProximity = parseInt(treeSlider.value, 10);
+      if (treeVal) treeVal.textContent = String(relevanceFilter.treeProximity);
+      applyRelevanceFilter();
+    });
+
+    syncRelevanceControlValues();
   }
 
   /* -------------------------------------------------------------------------
@@ -2813,25 +3463,37 @@
       applyCategoryFilter();
     });
 
-    document.getElementById('mm-all-types').addEventListener('click', () => {
-      document.querySelectorAll('#mm-type-filters input[data-type]').forEach(cb => {
-        cb.checked = true;
-        activeItemTypes.add(cb.dataset.type);
+    const typeTrigger = document.getElementById('mm-type-trigger');
+    const typeDialog = document.getElementById('mm-type-dialog');
+    const typeClose = document.getElementById('mm-type-close');
+
+    if (typeTrigger && typeDialog) {
+      typeTrigger.addEventListener('click', openTypeDialog);
+    }
+    if (typeClose) typeClose.addEventListener('click', closeTypeDialog);
+    if (typeDialog) {
+      typeDialog.addEventListener('click', event => {
+        if (event.target === typeDialog) closeTypeDialog();
       });
-      applyItemTypeFilter();
+      typeDialog.addEventListener('close', () => {
+        if (typeTrigger) {
+          typeTrigger.setAttribute('aria-expanded', 'false');
+          typeTrigger.focus();
+        }
+      });
+    }
+
+    document.getElementById('mm-all-types').addEventListener('click', () => {
+      setAllItemTypes(true);
     });
 
     document.getElementById('mm-no-types').addEventListener('click', () => {
-      document.querySelectorAll('#mm-type-filters input[data-type]').forEach(cb => {
-        cb.checked = false;
-        activeItemTypes.delete(cb.dataset.type);
-      });
-      applyItemTypeFilter();
+      setAllItemTypes(false);
     });
 
-    const surveyType = document.querySelector('#mm-type-filters input[data-type="Survey Paper"]');
+    const surveyType = document.querySelector('#mm-type-filters button[data-type="Survey Paper"]');
     if (surveyType) {
-      surveyType.title = 'Uncheck to exclude surveys';
+      surveyType.title = 'Toggle to exclude surveys';
     }
 
     document.getElementById('mm-fit-btn').addEventListener('click', () => fitVisible());
@@ -2842,6 +3504,7 @@
     });
     updateDetailButtons();
     updateVisibilityButtons();
+    setupRelevanceControls();
 
     const labelsToggle = document.getElementById('mm-labels-toggle');
     if (labelsToggle) {
@@ -2931,6 +3594,12 @@
     setDetailLevel: level => applyDetailLevel(level),
     labelsVisible: () => showNodeLabels,
     edgesVisible: () => showEdges,
+    relevanceFilter: () => ({ ...relevanceFilter, active: relevanceFilterActive() }),
+    setRelevanceFilter: patch => {
+      relevanceFilter = { ...relevanceFilter, ...(patch || {}) };
+      syncRelevanceControlValues();
+      refreshView();
+    },
     setLabelsVisible: visible => {
       showNodeLabels = Boolean(visible);
       updateVisibilityButtons();

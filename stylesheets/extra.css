@@ -345,10 +345,13 @@ body:has(#ct-app) .md-content {
   --ct-rose: var(--kb-color-rose);
   --ct-gold: var(--kb-color-gold);
   --ct-green: var(--kb-color-green);
-  --ct-selected-teal: #09645f;
-  --ct-selected-cyan: #14558f;
-  --ct-selected-rose: #8f285f;
-  --ct-selected-gold: #75500a;
+  --ct-selected-teal: #9edfd9;
+  --ct-selected-cyan: #a9d6ff;
+  --ct-selected-rose: #f3a6c8;
+  --ct-selected-gold: #efd184;
+  --ct-selected-text: #111827;
+  --ct-selected-dot: #111827;
+  --ct-selected-inset: color-mix(in srgb, #ffffff 42%, transparent);
   --ct-border: color-mix(in srgb, var(--md-default-fg-color) 16%, transparent);
   --ct-soft-border: color-mix(in srgb, var(--md-default-fg-color) 9%, transparent);
   --ct-panel: color-mix(in srgb, var(--md-code-bg-color) 68%, var(--md-default-bg-color));
@@ -360,6 +363,13 @@ body:has(#ct-app) .md-content {
   --ct-subtle-grey-border: #8d96a3;
   --ct-subtle-grey-text: #22272e;
   --ct-shadow: 0 12px 30px color-mix(in srgb, #000000 14%, transparent);
+  --kb-type-border: var(--ct-border);
+  --kb-type-soft-border: var(--ct-soft-border);
+  --kb-type-panel-strong: var(--ct-panel-strong);
+  --kb-type-accent: var(--ct-cyan);
+  --kb-type-modal-top: calc(var(--md-header-height, 2.8rem) + 0.75rem);
+  --kb-type-modal-bottom: 0.75rem;
+  --kb-type-row-min: 2.35rem;
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
@@ -379,6 +389,13 @@ body:has(#ct-app) .md-content {
 }
 
 [data-md-color-scheme="slate"] .ct-page {
+  --ct-selected-teal: #09645f;
+  --ct-selected-cyan: #14558f;
+  --ct-selected-rose: #8f285f;
+  --ct-selected-gold: #75500a;
+  --ct-selected-text: #ffffff;
+  --ct-selected-dot: #ffffff;
+  --ct-selected-inset: color-mix(in srgb, #000000 18%, transparent);
   --ct-panel: color-mix(in srgb, var(--md-code-bg-color) 82%, #050910);
   --ct-panel-strong: color-mix(in srgb, var(--ct-cyan) 18%, var(--md-default-bg-color));
   --ct-subtle-grey-surface: #626d7a;
@@ -468,7 +485,7 @@ body:has(#ct-app) .md-content {
   flex: 0 0 auto;
 }
 
-.ct-source-type-control {
+.ct-item-type-control {
   flex: 0 1 15rem;
   min-width: 13rem;
 }
@@ -620,25 +637,15 @@ body:has(#ct-app) .md-content {
 }
 
 .ct-control-group input,
-.ct-source-type-button {
+.kb-type-option {
   padding: 0.42rem 0.56rem;
 }
 
-.ct-source-type-widget {
+.ct-item-type-control {
   position: relative;
-  width: 100%;
-  max-width: 18rem;
 }
 
-.md-typeset details.ct-source-type-widget {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-}
-
-.md-typeset details.ct-source-type-widget > summary {
+.ct-item-type-trigger {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 0.7rem;
@@ -646,6 +653,7 @@ body:has(#ct-app) .md-content {
   gap: 0.62rem;
   box-sizing: border-box;
   width: 100%;
+  max-width: 18rem;
   min-height: 2.35rem;
   margin: 0;
   padding: 0.48rem 0.74rem;
@@ -660,27 +668,14 @@ body:has(#ct-app) .md-content {
   list-style: none;
 }
 
-.md-typeset details.ct-source-type-widget > summary span {
+.ct-item-type-trigger span {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.md-typeset details.ct-source-type-widget > summary::-webkit-details-marker {
-  display: none;
-}
-
-.md-typeset details.ct-source-type-widget > summary::marker {
-  content: "";
-}
-
-.md-typeset details.ct-source-type-widget > summary::before {
-  display: none !important;
-  content: none !important;
-}
-
-.md-typeset details.ct-source-type-widget > summary::after {
+.ct-item-type-trigger::after {
   content: "";
   width: 0.48rem;
   height: 0.48rem;
@@ -690,71 +685,197 @@ body:has(#ct-app) .md-content {
   transition: transform 0.16s ease;
 }
 
-.md-typeset details.ct-source-type-widget[open] > summary {
+.ct-item-type-trigger[aria-expanded="true"] {
   border-color: color-mix(in srgb, var(--ct-cyan) 48%, transparent);
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--ct-cyan) 10%, transparent);
 }
 
-.md-typeset details.ct-source-type-widget[open] > summary::after {
+.ct-item-type-trigger[aria-expanded="true"]::after {
   transform: rotate(225deg) translate(-0.08rem, -0.08rem);
 }
 
-.ct-source-type-buttons {
-  position: static;
+.ct-item-type-dialog {
+  position: fixed;
+  inset-inline: 0;
+  top: var(--kb-type-modal-top);
+  bottom: var(--kb-type-modal-bottom);
+  width: min(25rem, calc(100vw - 2rem));
+  height: auto;
+  max-height: calc(100vh - var(--md-header-height, 2.8rem) - 1.5rem);
+  max-height: calc(100dvh - var(--md-header-height, 2.8rem) - 1.5rem);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--ct-border);
+  border-radius: 8px;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  box-shadow: 0 24px 60px color-mix(in srgb, #000000 28%, transparent);
+}
+
+.ct-item-type-dialog::backdrop {
+  background: color-mix(in srgb, #000000 38%, transparent);
+}
+
+.ct-item-type-panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  max-height: inherit;
+  overflow: hidden;
+}
+
+.ct-item-type-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.72rem 0.82rem;
+  border-bottom: 1px solid var(--ct-border);
+  background: color-mix(in srgb, var(--md-code-bg-color) 74%, var(--md-default-bg-color));
+}
+
+.ct-item-type-head h2 {
+  margin: 0;
+  color: var(--md-default-fg-color);
+  font-size: 0.86rem;
+  font-weight: 850;
+  letter-spacing: 0;
+}
+
+.ct-item-type-close {
+  display: grid;
+  place-items: center;
+  width: 2.05rem;
+  height: 2.05rem;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--md-default-fg-color) 12%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--md-default-fg-color) 7%, var(--md-default-bg-color));
+  color: var(--md-default-fg-color);
+  cursor: pointer;
+  transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease, transform 0.16s ease;
+}
+
+.ct-item-type-close svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: currentColor;
+  pointer-events: none;
+}
+
+.ct-item-type-close:hover {
+  border-color: color-mix(in srgb, var(--ct-cyan) 42%, transparent);
+  background: color-mix(in srgb, var(--ct-cyan) 14%, var(--md-default-bg-color));
+  color: var(--md-default-fg-color);
+  transform: scale(1.04);
+}
+
+.ct-item-type-buttons {
   z-index: var(--kb-z-app-local-overlay);
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.32rem;
   width: 100%;
-  max-height: min(24rem, 60vh);
   box-sizing: border-box;
-  margin-top: 0.38rem;
-  padding: 0.48rem;
-  border: 1px solid var(--ct-border);
-  border-radius: 8px;
-  background: var(--md-default-bg-color);
-  box-shadow: var(--ct-shadow);
+  max-height: calc(100vh - var(--md-header-height, 2.8rem) - 10.2rem);
+  max-height: calc(100dvh - var(--md-header-height, 2.8rem) - 10.2rem);
+  padding: 0.68rem;
   overflow: auto;
 }
 
-.ct-source-type-button {
-  min-height: 2.15rem;
+.ct-item-type-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.68rem 0.68rem 0.62rem;
+  border-bottom: 1px solid var(--ct-soft-border);
+}
+
+.ct-item-type-actions button {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.42rem 0.82rem;
   border: 1px solid var(--ct-border);
   border-radius: 8px;
   background: var(--md-default-bg-color);
   color: var(--md-default-fg-color);
   cursor: pointer;
   font: inherit;
-  font-size: 0.74rem;
+  font-size: 0.76rem;
   font-weight: 800;
+}
+
+.ct-item-type-actions button:hover,
+.ct-item-type-actions button[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--ct-cyan) 48%, transparent);
+  background: color-mix(in srgb, var(--ct-cyan) 10%, var(--md-default-bg-color));
+}
+
+/* Shared Timeline-style item type selector option. */
+.kb-type-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  align-items: center;
+  width: 100%;
+  min-height: var(--kb-type-row-min, 2.35rem);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--md-default-fg-color);
+  cursor: pointer;
+  font: inherit;
   line-height: 1.2;
+  text-align: left;
   transition: border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease, color 0.16s ease;
 }
 
-.ct-source-type-button--all {
-  margin-bottom: 0.18rem;
-  border-color: color-mix(in srgb, var(--ct-gold) 52%, transparent);
-  background: color-mix(in srgb, var(--ct-gold) 10%, var(--md-default-bg-color));
-  color: var(--md-default-fg-color);
+.kb-type-option:hover,
+.kb-type-option[aria-pressed="true"] {
+  border-color: var(--kb-type-border, color-mix(in srgb, var(--md-default-fg-color) 15%, transparent));
+  background: var(--kb-type-panel-strong, color-mix(in srgb, var(--md-primary-fg-color) 10%, var(--md-default-bg-color)));
 }
 
-.ct-source-type-button:hover {
-  border-color: color-mix(in srgb, var(--ct-cyan) 42%, transparent);
-  background: color-mix(in srgb, var(--ct-cyan) 8%, transparent);
+.kb-type-chip {
+  display: grid;
+  place-items: center;
+  min-width: 2.7rem;
+  min-height: 1.32rem;
+  padding: 0.1rem 0.32rem;
+  border: 1px solid var(--kb-type-soft-border, color-mix(in srgb, var(--md-default-fg-color) 9%, transparent));
+  border-radius: 999px;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color--light);
+  font-size: 0.62rem;
+  font-weight: 800;
+  line-height: 1.25;
+  text-align: center;
 }
 
-.ct-source-type-button[aria-pressed="true"] {
-  border-color: color-mix(in srgb, var(--ct-cyan) 58%, transparent);
-  background: color-mix(in srgb, var(--ct-cyan) 14%, var(--md-default-bg-color));
+.kb-type-option[aria-pressed="true"] .kb-type-chip {
+  border-color: color-mix(in srgb, var(--kb-type-accent, var(--md-primary-fg-color)) 48%, transparent);
   color: var(--md-typeset-a-color);
-  box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--ct-cyan) 42%, transparent);
 }
 
-.ct-source-type-button--all[aria-pressed="true"] {
-  border-color: var(--ct-gold);
-  background: color-mix(in srgb, var(--ct-gold) 18%, var(--md-default-bg-color));
+.kb-type-name {
+  min-width: 0;
+  overflow: hidden;
   color: var(--md-default-fg-color);
-  box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--ct-gold) 54%, transparent);
+  font-size: 0.78rem;
+  font-weight: 780;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kb-type-count {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.kb-type-option--all {
+  margin-bottom: 0.18rem;
 }
 
 .ct-year-control > div {
@@ -786,8 +907,10 @@ body:has(#ct-app) .md-content {
 
 .ct-search-field input:focus,
 .ct-control-group input:focus,
-.md-typeset details.ct-source-type-widget > summary:focus-visible,
-.ct-source-type-button:focus-visible {
+.ct-item-type-trigger:focus-visible,
+.kb-type-option:focus-visible,
+.ct-item-type-actions button:focus-visible,
+.ct-item-type-close:focus-visible {
   border-color: var(--ct-cyan);
   outline: 2px solid color-mix(in srgb, var(--ct-cyan) 24%, transparent);
   outline-offset: 1px;
@@ -1068,15 +1191,15 @@ body:has(#ct-app) .md-content {
   background-size: 180% 180%, 170% 170%, 160% 160%, 220% 220%;
   background-position: 18% 24%, 82% 22%, 20% 82%, 0% 50%;
   background-clip: padding-box;
-  color: #ffffff;
+  color: var(--ct-selected-text);
   box-shadow:
     0 8px 18px color-mix(in srgb, var(--ct-cyan) 30%, transparent),
-    inset 0 -2px 0 color-mix(in srgb, #000000 18%, transparent);
+    inset 0 -2px 0 var(--ct-selected-inset);
 }
 
 .ct-tree-node.is-current > .ct-tree-button .ct-tree-meta,
 .ct-tree-node.is-current > .ct-tree-button .ct-tree-label {
-  color: #ffffff;
+  color: var(--ct-selected-text);
 }
 
 .ct-tree-node.is-ancestor > .ct-tree-button .ct-tree-dot,
@@ -1093,8 +1216,8 @@ body:has(#ct-app) .md-content {
 .ct-tree-node.is-current > .ct-tree-button .ct-tree-dot {
   width: 0.95rem;
   height: 0.95rem;
-  border-color: #ffffff;
-  background: #ffffff;
+  border-color: var(--ct-selected-dot);
+  background: var(--ct-selected-dot);
   box-shadow:
     0 0 0 3px color-mix(in srgb, var(--ct-cyan) 28%, transparent),
     0 0 14px color-mix(in srgb, var(--ct-cyan) 54%, transparent);
@@ -1224,7 +1347,7 @@ body:has(#ct-app) .md-content {
 
   .ct-search-field,
   .ct-control-group,
-  .ct-source-type-control {
+  .ct-item-type-control {
     min-width: 0;
     width: 100%;
   }

@@ -9,8 +9,13 @@
   const settingsToggle = document.getElementById('ct-settings-toggle');
   const settingsState = document.getElementById('ct-settings-state');
   const searchInput = document.getElementById('ct-search');
-  const sourceTypeButtons = document.getElementById('ct-source-type');
-  const sourceTypeSummary = document.getElementById('ct-source-type-summary');
+  const itemTypeTrigger = document.getElementById('ct-item-type-trigger');
+  const itemTypeDialog = document.getElementById('ct-item-type-dialog');
+  const itemTypeClose = document.getElementById('ct-item-type-close');
+  const itemTypeButtons = document.getElementById('ct-item-type');
+  const itemTypeAllButton = document.getElementById('ct-all-types');
+  const itemTypeNoneButton = document.getElementById('ct-no-types');
+  const itemTypeSummary = document.getElementById('ct-item-type-summary');
   const yearStartInput = document.getElementById('ct-year-start');
   const yearEndInput = document.getElementById('ct-year-end');
   const resetButton = document.getElementById('ct-reset');
@@ -32,7 +37,8 @@
     query: '',
     yearStart: null,
     yearEnd: null,
-    sourceTypes: new Set(),
+    itemTypes: new Set(),
+    noItemTypes: false,
   };
 
   hydrate(data.root, null);
@@ -41,10 +47,19 @@
     .filter(Number.isInteger);
   const minYear = paperYears.length ? Math.min.apply(null, paperYears) : null;
   const maxYear = paperYears.length ? Math.max.apply(null, paperYears) : null;
-  const sourceTypes = Array.from(new Set(searchableNodes
+  const itemTypes = Array.from(new Set(searchableNodes
     .filter(function (node) { return node.kind === 'paper'; })
     .map(function (node) { return paperType(node); })
     .filter(Boolean))).sort(function (a, b) { return a.localeCompare(b); });
+  const itemTypeCounts = itemTypes.reduce(function (counts, type) {
+    counts.set(type, 0);
+    return counts;
+  }, new Map());
+  searchableNodes.forEach(function (node) {
+    if (node.kind !== 'paper') return;
+    const type = paperType(node);
+    itemTypeCounts.set(type, (itemTypeCounts.get(type) || 0) + 1);
+  });
 
   state.yearStart = minYear;
   state.yearEnd = maxYear;
@@ -79,18 +94,62 @@
   if (yearStartInput) yearStartInput.addEventListener('change', syncYearInputs);
   if (yearEndInput) yearEndInput.addEventListener('change', syncYearInputs);
 
-  if (sourceTypeButtons) {
-    sourceTypeButtons.addEventListener('click', function (event) {
-      const button = event.target.closest('[data-ct-source-type]');
-      if (!button || !sourceTypeButtons.contains(button)) return;
-      const type = button.getAttribute('data-ct-source-type') || '';
-      if (!type) {
-        state.sourceTypes.clear();
-      } else if (state.sourceTypes.has(type)) {
-        state.sourceTypes.delete(type);
-      } else {
-        state.sourceTypes.add(type);
+  if (itemTypeTrigger && itemTypeDialog) {
+    itemTypeTrigger.addEventListener('click', function () {
+      openItemTypeDialog();
+    });
+  }
+
+  if (itemTypeClose) {
+    itemTypeClose.addEventListener('click', closeItemTypeDialog);
+  }
+
+  if (itemTypeDialog) {
+    itemTypeDialog.addEventListener('click', function (event) {
+      if (event.target === itemTypeDialog) closeItemTypeDialog();
+    });
+    itemTypeDialog.addEventListener('close', function () {
+      if (itemTypeTrigger) {
+        itemTypeTrigger.setAttribute('aria-expanded', 'false');
+        itemTypeTrigger.focus();
       }
+    });
+  }
+
+  if (itemTypeButtons) {
+    itemTypeButtons.addEventListener('click', function (event) {
+      const button = event.target.closest('[data-ct-item-type]');
+      if (!button || !itemTypeButtons.contains(button)) return;
+      const type = button.getAttribute('data-ct-item-type') || '';
+
+      if (allItemTypesSelected()) {
+        state.itemTypes = new Set(itemTypes.filter(function (candidate) { return candidate !== type; }));
+        state.noItemTypes = state.itemTypes.size === 0;
+      } else if (state.itemTypes.has(type)) {
+        state.itemTypes.delete(type);
+        state.noItemTypes = state.itemTypes.size === 0;
+      } else {
+        state.noItemTypes = false;
+        state.itemTypes.add(type);
+      }
+      updateFilterControls();
+      render();
+    });
+  }
+
+  if (itemTypeAllButton) {
+    itemTypeAllButton.addEventListener('click', function () {
+      state.itemTypes.clear();
+      state.noItemTypes = false;
+      updateFilterControls();
+      render();
+    });
+  }
+
+  if (itemTypeNoneButton) {
+    itemTypeNoneButton.addEventListener('click', function () {
+      state.itemTypes.clear();
+      state.noItemTypes = true;
       updateFilterControls();
       render();
     });
@@ -101,7 +160,8 @@
       state.query = '';
       state.yearStart = minYear;
       state.yearEnd = maxYear;
-      state.sourceTypes.clear();
+      state.itemTypes.clear();
+      state.noItemTypes = false;
       if (searchInput) searchInput.value = '';
       updateFilterControls();
       render();
@@ -135,13 +195,10 @@
   }
 
   function initControls() {
-    if (sourceTypeButtons) {
-      sourceTypeButtons.innerHTML = [
-        '<button type="button" class="ct-source-type-button ct-source-type-button--all" data-ct-source-type="" aria-pressed="true">All source types</button>',
-        sourceTypes.map(function (type) {
-          return '<button type="button" class="ct-source-type-button" data-ct-source-type="' + escAttr(type) + '" aria-pressed="false">' + esc(type) + '</button>';
-        }).join(''),
-      ].join('');
+    if (itemTypeButtons) {
+      itemTypeButtons.innerHTML = itemTypes.map(function (type) {
+        return renderItemTypeButton(type, type, itemTypeCounts.get(type) || 0, itemTypeAbbreviation(type));
+      }).join('');
     }
     if (yearStartInput && Number.isInteger(minYear)) {
       yearStartInput.min = minYear;
@@ -157,17 +214,70 @@
     updateSettingsState();
   }
 
+  function renderItemTypeButton(type, label, count, abbr) {
+    return [
+      '<button type="button" class="kb-type-option" data-ct-item-type="' + escAttr(type) + '" aria-pressed="false">',
+      '<span class="kb-type-chip">' + esc(abbr) + '</span>',
+      '<span class="kb-type-name">' + esc(label) + '</span>',
+      '<span class="kb-type-count">' + esc(count) + '</span>',
+      '</button>',
+    ].join('');
+  }
+
+  function itemTypeAbbreviation(type) {
+    if (type === 'Unspecified') return 'None';
+    const parts = String(type || '')
+      .split(/[\s/&+-]+/)
+      .map(function (part) { return part.trim(); })
+      .filter(Boolean);
+    if (!parts.length) return 'NA';
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return parts.slice(0, 2).map(function (part) { return part[0]; }).join('').toUpperCase();
+  }
+
+  function openItemTypeDialog() {
+    if (!itemTypeDialog) return;
+    if (!itemTypeDialog.open) {
+      if (typeof itemTypeDialog.showModal === 'function') {
+        itemTypeDialog.showModal();
+      } else {
+        itemTypeDialog.setAttribute('open', '');
+      }
+    }
+    if (itemTypeTrigger) itemTypeTrigger.setAttribute('aria-expanded', 'true');
+    window.requestAnimationFrame(function () {
+      const selected = itemTypeDialog.querySelector('[aria-pressed="true"]');
+      const first = itemTypeDialog.querySelector('[data-ct-item-type], .ct-item-type-actions button');
+      (selected || first || itemTypeClose || itemTypeDialog).focus();
+    });
+  }
+
+  function closeItemTypeDialog() {
+    if (!itemTypeDialog || !itemTypeDialog.open) return;
+    if (typeof itemTypeDialog.close === 'function') {
+      itemTypeDialog.close();
+    } else {
+      itemTypeDialog.removeAttribute('open');
+      if (itemTypeTrigger) {
+        itemTypeTrigger.setAttribute('aria-expanded', 'false');
+        itemTypeTrigger.focus();
+      }
+    }
+  }
+
   function updateFilterControls() {
     if (yearStartInput) yearStartInput.value = Number.isInteger(state.yearStart) ? state.yearStart : '';
     if (yearEndInput) yearEndInput.value = Number.isInteger(state.yearEnd) ? state.yearEnd : '';
-    if (sourceTypeButtons) {
-      sourceTypeButtons.querySelectorAll('[data-ct-source-type]').forEach(function (button) {
-        const type = button.getAttribute('data-ct-source-type') || '';
-        const selected = type ? state.sourceTypes.has(type) : !sourceFilterActive();
+    if (itemTypeAllButton) itemTypeAllButton.setAttribute('aria-pressed', String(!state.noItemTypes && !state.itemTypes.size));
+    if (itemTypeNoneButton) itemTypeNoneButton.setAttribute('aria-pressed', String(state.noItemTypes));
+    if (itemTypeButtons) {
+      itemTypeButtons.querySelectorAll('[data-ct-item-type]').forEach(function (button) {
+        const type = button.getAttribute('data-ct-item-type') || '';
+        const selected = !state.noItemTypes && (!state.itemTypes.size || state.itemTypes.has(type));
         button.setAttribute('aria-pressed', String(selected));
       });
     }
-    if (sourceTypeSummary) sourceTypeSummary.textContent = sourceTypeSummaryText();
+    if (itemTypeSummary) itemTypeSummary.textContent = itemTypeSummaryText();
   }
 
   function syncYearInputs() {
@@ -337,10 +447,11 @@
     if (!matchesQuery) return false;
 
     if (node.kind !== 'paper') {
-      return !sourceFilterActive() && !yearFilterActive();
+      return !itemTypeFilterActive() && !yearFilterActive();
     }
 
-    if (sourceFilterActive() && !state.sourceTypes.has(paperType(node))) return false;
+    if (state.noItemTypes) return false;
+    if (state.itemTypes.size && !state.itemTypes.has(paperType(node))) return false;
     if (yearFilterActive()) {
       const year = paperYear(node);
       if (!Number.isInteger(year)) return false;
@@ -426,15 +537,20 @@
     settingsState.textContent = settings.classList.contains('is-collapsed') ? 'Show Settings' : 'Hide Settings';
   }
 
-  function sourceFilterActive() {
-    return state.sourceTypes.size > 0;
+  function itemTypeFilterActive() {
+    return state.noItemTypes || state.itemTypes.size > 0;
   }
 
-  function sourceTypeSummaryText() {
-    if (!sourceFilterActive()) return 'All source types';
-    const selected = Array.from(state.sourceTypes).sort(function (a, b) { return a.localeCompare(b); });
+  function allItemTypesSelected() {
+    return !state.noItemTypes && state.itemTypes.size === 0;
+  }
+
+  function itemTypeSummaryText() {
+    if (state.noItemTypes) return 'No item types';
+    if (!itemTypeFilterActive()) return 'All item types';
+    const selected = Array.from(state.itemTypes).sort(function (a, b) { return a.localeCompare(b); });
     if (selected.length === 1) return selected[0];
-    return selected.length + ' source types';
+    return selected.length + ' item types';
   }
 
   function yearFilterActive() {
