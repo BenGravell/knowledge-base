@@ -520,7 +520,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 /* ── Mobile modal: same paper-detail pattern as Timeline ─────────────────── */
 .mm-modal {
   position: fixed;
-  inset: 0;
+  inset: var(--mm-header-h, 56px) 0 var(--mm-footer-h, 0px) 0;
   z-index: 80;
   display: grid;
   place-items: center;
@@ -533,7 +533,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   width: min(48rem, calc(100vw - 1.2rem));
-  max-height: min(82vh, 48rem);
+  max-height: min(82vh, calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - 2rem), 48rem);
+  max-height: min(82vh, calc(100dvh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - 2rem), 48rem);
   border: 1px solid var(--mm-border);
   border-radius: 8px;
   background: var(--md-default-bg-color);
@@ -655,7 +656,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   .mm-modal { padding: 0.55rem; }
   .mm-modal-card {
     width: calc(100vw - 1.1rem);
-    max-height: 88vh;
+    max-height: min(88vh, calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - 1.1rem));
+    max-height: min(88vh, calc(100dvh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - 1.1rem));
   }
 }
 </style>

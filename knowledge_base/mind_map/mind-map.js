@@ -517,8 +517,16 @@
     return subCategory ? `${category}::${subCategory}` : category;
   }
 
+  function navPathFilterKey(path) {
+    return `path:${JSON.stringify((path || []).map(part => String(part || '')))}`;
+  }
+
+  function paperFilterKey(attrs) {
+    return navPathFilterKey(paperNavPath(attrs));
+  }
+
   function nodeKey(attrs) {
-    return filterKey(attrs.category, attrs.sub_category);
+    return paperFilterKey(attrs);
   }
 
   function itemTypeKey(attrs) {
@@ -2625,7 +2633,7 @@
       applyCategoryFilter();
     });
 
-    group.children.forEach(child => {
+    (group.filterChildren || group.children).forEach(child => {
       itemsEl.appendChild(renderFilterNode(child, syncThisGroup));
     });
 
@@ -2634,15 +2642,15 @@
   }
 
   function renderFilterNode(group, onChildChange = null) {
-    if (!group.children.length) {
+    const realChildren = group.children.filter(child => !child.isCategoryLeaf);
+
+    if (!realChildren.length) {
       return renderFilterLeaf(group, onChildChange);
     }
 
+    group.filterChildren = group.children;
+
     if (group.level === 'category') {
-      const onlyCategoryLeaf = group.children.length === 1 && group.children[0].isCategoryLeaf;
-      if (onlyCategoryLeaf) {
-        return renderFilterLeaf(group.children[0], onChildChange, group.label, group.color);
-      }
       return renderFilterGroup(group, false, 'mm-cat-group', onChildChange);
     }
 

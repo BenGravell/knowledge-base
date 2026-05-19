@@ -340,6 +340,30 @@ JS_CHECKS = r"""
     const items = group.querySelector(':scope > .mm-cat-group-items');
     return items && getComputedStyle(items).display === 'none';
   }), 'sidebar super-category groups start collapsed');
+  const groupDirectName = group =>
+    group.querySelector(':scope > .mm-cat-group-header .mm-cat-group-name') &&
+    group.querySelector(':scope > .mm-cat-group-header .mm-cat-group-name').textContent.trim();
+  const directFilterChildNames = group => {
+    const items = group.querySelector(':scope > .mm-cat-group-items');
+    if (!items) return [];
+    return [...items.children].map(child => {
+      if (child.matches('label.mm-cat-item')) {
+        const name = child.querySelector('.mm-cat-name');
+        return name && name.textContent.trim();
+      }
+      if (child.matches('.mm-cat-group')) return groupDirectName(child);
+      return '';
+    }).filter(Boolean);
+  };
+  const repeatedOnlyGroups = [...document.querySelectorAll('#mm-category-filters .mm-cat-group')]
+    .filter(group => {
+      const name = groupDirectName(group);
+      const childNames = directFilterChildNames(group);
+      return name && childNames.length === 1 && childNames[0] === name;
+    });
+  assert(repeatedOnlyGroups.length === 0,
+    'category selector omits synthetic repeated one-child levels',
+    repeatedOnlyGroups.map(groupDirectName).join(', '));
 
   const camera = renderer.getCamera();
   const originalAngle = camera.getState().angle;
@@ -411,6 +435,36 @@ JS_CHECKS = r"""
   assert(paperTransition && paperTransition.maxScreenTravel <= paperTransition.maxAllowedScreenTravel + 1,
     'paper drill-down caps node travel to prevent explosive transitions',
     JSON.stringify(paperTransition));
+
+  const learnedSamplingLeaf = [...document.querySelectorAll('#mm-category-filters label.mm-cat-item')]
+    .find(label => {
+      const name = label.querySelector('.mm-cat-name');
+      const count = label.querySelector('.mm-cat-count');
+      return name && count &&
+        name.textContent.trim() === 'Learned Sampling' &&
+        count.textContent.trim() === '7';
+    });
+  assert(Boolean(learnedSamplingLeaf),
+    'category selector exposes Learned Sampling as a single exact leaf');
+  if (learnedSamplingLeaf) {
+    document.getElementById('mm-no-cats').click();
+    await sleep(100);
+    const input = learnedSamplingLeaf.querySelector('input[data-cat]');
+    input.checked = true;
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+    await sleep(180);
+    renderer.refresh();
+    await sleep(60);
+    const learnedSamplingNodes = visibleNodes();
+    assert(learnedSamplingNodes.length === 7 &&
+      learnedSamplingNodes.every(id => graph.getNodeAttribute(id, 'kind') === 'paper'),
+      'selecting deep Learned Sampling leaf shows only that exact branch',
+      learnedSamplingNodes.length);
+    document.getElementById('mm-all-cats').click();
+    await sleep(120);
+    renderer.refresh();
+    await sleep(60);
+  }
 
   nodes = visibleNodes();
   edges = visibleEdges();
@@ -539,6 +593,25 @@ JS_CHECKS = r"""
   assert(hashParams().get('paper') === target,
     'paper hash remains canonical after focusing',
     window.location.hash);
+  if (window.matchMedia('(max-width: 700px)').matches) {
+    const modal = document.getElementById('mm-modal');
+    const modalCard = modal && modal.querySelector('.mm-modal-card');
+    const header = document.querySelector('.md-header');
+    const footer = document.querySelector('.md-footer');
+    const cardRect = modalCard && modalCard.getBoundingClientRect();
+    const headerBottom = header ? header.getBoundingClientRect().bottom : 0;
+    const footerTop = footer && getComputedStyle(footer).display !== 'none'
+      ? footer.getBoundingClientRect().top
+      : window.innerHeight;
+    assert(modal && modal.hidden === false && cardRect,
+      'mobile paper hash opens the paper-detail modal');
+    assert(cardRect && cardRect.top >= headerBottom - 1,
+      'mobile paper-detail modal stays below the site header',
+      cardRect && JSON.stringify({ cardTop: cardRect.top, headerBottom }));
+    assert(cardRect && cardRect.bottom <= footerTop + 1,
+      'mobile paper-detail modal stays above the site footer',
+      cardRect && JSON.stringify({ cardBottom: cardRect.bottom, footerTop }));
+  }
   assert(camera.getState().ratio >= 0.24 && camera.getState().ratio <= 0.42,
     'paper hash uses a moderate zoom level',
     camera.getState().ratio);
