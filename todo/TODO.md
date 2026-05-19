@@ -198,6 +198,34 @@ Back by a DuckDB database?
 
 ## Paper Detail Pages
 
+### UX
+
+https://bengravell.github.io/knowledge-base/papers/1509_03580/?h=sindy
+
+1. Call it 'Document' instead of 'Paper'
+
+2. Use blue for site internal links, orange for primary external link, pink for alternate external links.
+
+3. Text inside pink pills can run off the side of the container. Make the container expand vertically to fit the text, using elegant reaable text breaks. Verify on mobile screen size.
+
+### UX
+
+https://bengravell.github.io/knowledge-base/content-tree/#ct=content-tree-prediction-perception-machine-learning-deep-learning
+
+1. Move the dot farther from the left edge so there is more breathing room and so that when selected the expanded dot does not clip past the container boundary, it should still have margin.
+
+2. Add a "breathing" marbling shifting effect to the colorful gradient used for the selected box. Use design and style tricks from the modern web dev and ux professionals, ensure it is visually appealing, not too intense, and ensure performance in web browser. 😀
+
+### UX
+
+https://bengravell.github.io/knowledge-base/content-tree/
+
+1. Put the info icon (i) next to "Content Tree" again.
+2. Make the "source" selector a multiselector group of buttons.
+3. Rename "Path" to "Ancestors"
+4. Remove the "Selected" label and its count (which is always one, hence useless)
+5. Settings header needs to say "hide settings" when in the open state.
+
 ### Links
 
 - Google Scholar link
@@ -239,9 +267,18 @@ Hand-crafted
 
 ### UX
 
+1. Remove "n authors counted across author lists" caption
+2. Use responsive height for the labels of each item in the bar charts so that they do not clip with ellipsis (especially on mobile)
+
 ## Timeline
 
 ### UX
+
+1. Year ticks are held in a floating container that tends to detach visually from the graph when scrolling up and down. It looks weird and bad.
+
+2. Year ticks are not lining up exactly with the graph grid lines as they should.
+
+3. On mobile I want the main stream graphs to be fit vertically to the screen/page height and not induce a vertical scroll bar in the outer page (will still need a vertical scroll in the graph container itself. 
 
 ### Design inspiration
 
@@ -249,9 +286,17 @@ Hand-crafted
 
 ## Tag Search
 
+### UX
+
 ## Content Tree
 
 ### UX
+
+1. Place siblings above ego. Children should always be directly below ego. This is to reduce jumping and churn when swiping and clicking on mobile especially
+2. Rename "Sibling choices" to just "Siblings"
+3. Rename "direct children" to just "Children"
+4. Do not display "no direct children" box when a leaf node (item) is selected.
+5. Vertical line leader should still draw on top of leaf node boxes (pink ones)
 
 ### Targeted edits
 

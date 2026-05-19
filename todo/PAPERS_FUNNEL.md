@@ -146,3 +146,6 @@ https://dl.acm.org/doi/10.1145/1276377.1276478
 https://ieeexplore.ieee.org/document/5979949
 https://arxiv.org/abs/1812.01537
 https://link.springer.com/chapter/10.1007/3-540-44480-7_21
+https://arxiv.org/abs/2511.14881
+https://dl.acm.org/doi/10.1145/3077136.3080789
+https://arxiv.org/abs/2604.06222
