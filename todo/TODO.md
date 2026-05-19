@@ -281,6 +281,15 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 
 ## Mind Map
 
+### New Feature - node-centric similarity filtering
+
+When having a node item selected, show another mini-menu to enable filtering out all items from the graph that do not have high enough relevancy. Expose relevancy filters in two ways:
+
+1. Semantic similarity via the embeddings (filter away items having similarity with ego less than threshold)
+2. Taxonomical similarity via the content tree (filter away items that are far away on the tree, using a graph theoretic measure of distance in the tree)
+
+Also expose a toggle for And/Or of the two sub-filters.
+
 ### UX
 
 ## Knowledge Studio (new feature)
