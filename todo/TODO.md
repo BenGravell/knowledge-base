@@ -8,6 +8,7 @@ Mind Map
 
 1. Remove the LoD number from the bottom-most display in the settings Menu
 2. Use white text color for selected node label (not black) - this is so we have better visual continuity before/after click
+3. Give up on displaying edges, they are too hard to parse visually and do not provide value. Also bump up the default number of edges written in generate_mind_map_data.py from 10 to 50. We will rely on node positional proximity and the selected node filter for exploring similar items, instead of edge presence. Then we can also get rid of the edge visibility and similarity threshold UX elements in the settings menu.
 
 Tag Search
 When clicking a tag from the search match result list, keep the selected tag pegged at the top. Also when clicking a tag, do not clear the search bar, keep whatever is in there.

@@ -125,6 +125,9 @@ DEFAULT_OUTPUT = MIND_MAP_DIR / "mind-map-data.js"
 DEFAULT_THRESHOLD = 0.75   # Minimum cosine similarity to draw an edge
 MAX_EDGE_CANDIDATES_PER_NODE = 10  # Per-node pruning cap before the undirected union
 DEFAULT_UMAP_SCALE = 1500.0  # Base UMAP coordinate extent; formerly 1000 px.
+SIMILARITY_EXPORT_SCALE = 1000  # Store cosine similarities as compact rounded integers.
+EDGE_DENSITY_CELL_SIZE = 105.0  # Layout-space grid used to precompute edge pileups.
+EDGE_DENSITY_MAX_SAMPLES = 48
 
 # ---------------------------------------------------------------------------
 # Helper utilities
@@ -212,6 +215,98 @@ def umap_cache_key(
     h.update(embeddings.tobytes())
     h.update(json.dumps(umap_params, sort_keys=True).encode("utf-8"))
     return h.hexdigest()[:24]
+
+
+def edge_sample_cells(
+    start: tuple[float, float],
+    end: tuple[float, float],
+    *,
+    cell_size: float = EDGE_DENSITY_CELL_SIZE,
+    max_samples: int = EDGE_DENSITY_MAX_SAMPLES,
+) -> set[tuple[int, int]]:
+    """Return grid cells touched by a straight edge in the static layout."""
+    x0, y0 = start
+    x1, y1 = end
+    length = math.hypot(x1 - x0, y1 - y0)
+    samples = min(max(int(math.ceil(length / (cell_size * 0.55))), 4), max_samples)
+    cells: set[tuple[int, int]] = set()
+
+    for k in range(samples + 1):
+        t = k / samples
+        x = x0 + (x1 - x0) * t
+        y = y0 + (y1 - y0) * t
+        cells.add((math.floor(x / cell_size), math.floor(y / cell_size)))
+
+    return cells
+
+
+def percentile(values: list[int], q: float) -> float:
+    """Small dependency-free percentile helper for edge density summaries."""
+    if not values:
+        return 1.0
+    ordered = sorted(values)
+    index = min(max(int(round((len(ordered) - 1) * q)), 0), len(ordered) - 1)
+    return float(ordered[index])
+
+
+def annotate_edge_visibility(edges: list[dict], nodes: list[dict]) -> None:
+    """Bake static edge pileup and alpha hints into each edge.
+
+    Node positions are fixed after generation, so the expensive question of
+    "how many edges stack through this patch of the map?" can be answered once
+    here.  The browser then only applies theme-specific contrast scaling.
+    """
+    positions = {
+        node["data"]["id"]: (
+            float(node["position"]["x"]),
+            float(node["position"]["y"]),
+        )
+        for node in nodes
+    }
+    edge_cells: list[set[tuple[int, int]]] = []
+    occupancy: dict[tuple[int, int], int] = {}
+
+    for edge in edges:
+        attrs = edge["data"]
+        source = positions.get(attrs["source"])
+        target = positions.get(attrs["target"])
+        cells = edge_sample_cells(source, target) if source and target else set()
+        edge_cells.append(cells)
+        for cell in cells:
+            occupancy[cell] = occupancy.get(cell, 0) + 1
+
+    degree: dict[str, int] = {}
+    for edge in edges:
+        attrs = edge["data"]
+        degree[attrs["source"]] = degree.get(attrs["source"], 0) + 1
+        degree[attrs["target"]] = degree.get(attrs["target"], 0) + 1
+
+    density_scores = [
+        percentile([occupancy[cell] for cell in cells], 0.75) if cells else 1.0
+        for cells in edge_cells
+    ]
+    max_density = max(density_scores, default=1.0)
+    max_degree = max(degree.values(), default=1)
+
+    for edge, local_density in zip(edges, density_scores):
+        attrs = edge["data"]
+        endpoint_degree = max(
+            degree.get(attrs["source"], 1),
+            degree.get(attrs["target"], 1),
+        )
+        density_t = (
+            math.log1p(max(local_density - 1.0, 0.0)) / math.log1p(max_density - 1.0)
+            if max_density > 1.0 else 0.0
+        )
+        degree_t = (
+            math.log(endpoint_degree) / math.log(max_degree)
+            if max_degree > 1 else 0.0
+        )
+
+        alpha = 0.34 - 0.18 * density_t - 0.07 * degree_t
+        attrs["edgeDensity"] = round(local_density, 2)
+        attrs["edgePileup"] = round(density_t, 3)
+        attrs["edgeAlpha"] = round(max(0.075, min(alpha, 0.34)), 3)
 
 
 # ---------------------------------------------------------------------------
@@ -1038,6 +1133,11 @@ def main() -> None:
 
     sim = cosine_similarity_matrix(embeddings)
     n = len(papers)
+    similarity_rows = np.clip(
+        np.rint(sim * SIMILARITY_EXPORT_SCALE),
+        -SIMILARITY_EXPORT_SCALE,
+        SIMILARITY_EXPORT_SCALE,
+    ).astype(np.int16)
 
     nodes = [
         {
@@ -1103,24 +1203,22 @@ def main() -> None:
             }
         })
 
-    # Bake per-edge opacity based on node degree (high-degree hubs → more transparent)
-    degree: dict[str, int] = {}
-    for e in edges:
-        degree[e["data"]["source"]] = degree.get(e["data"]["source"], 0) + 1
-        degree[e["data"]["target"]] = degree.get(e["data"]["target"], 0) + 1
-    max_deg = max(degree.values(), default=1)
-    for e in edges:
-        d = max(degree.get(e["data"]["source"], 1), degree.get(e["data"]["target"], 1))
-        t = math.log(d) / math.log(max_deg) if max_deg > 1 else 0.0
-        e["data"]["edgeAlpha"] = round(0.50 - t * (0.50 - 0.06), 3)
+    annotate_edge_visibility(edges, nodes)
 
     graph_data = {
         "nodes": nodes,
         "edges": edges,
+        "similarity": {
+            "scale": SIMILARITY_EXPORT_SCALE,
+            "ids": [p["id"] for p in papers],
+            "rows": similarity_rows.tolist(),
+        },
         "meta": {
             "model": model_name,
             "threshold": args.threshold,
             "max_edge_candidates_per_node": MAX_EDGE_CANDIDATES_PER_NODE,
+            "edgeDensityCellSize": EDGE_DENSITY_CELL_SIZE,
+            "similarityScale": SIMILARITY_EXPORT_SCALE,
             "total_papers": len(papers),
             "total_edges": len(edges),
             "itemTypeOrder": sorted({p["item_type"] for p in papers}),

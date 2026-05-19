@@ -65,12 +65,9 @@
           '<form class="tag-search-form" role="search">' +
             '<label for="tag-search-input">Search Tags</label>' +
             '<div class="tag-search-input-row">' +
-              `<input id="tag-search-input" type="search" autocomplete="off" list="tag-search-options" value="${escAttr(initialQuery)}">` +
+              `<input id="tag-search-input" type="search" autocomplete="off" value="${escAttr(initialQuery)}">` +
               '<button type="submit">Search</button>' +
             '</div>' +
-            '<datalist id="tag-search-options">' +
-              tagOrder.map(tag => `<option value="${escAttr(tag.label)}"></option>`).join('') +
-            '</datalist>' +
           '</form>' +
           '<div class="tag-search-panel-head">' +
             '<span>Tags</span>' +
@@ -130,6 +127,14 @@
       visibleTags = tagOrder.filter(tag =>
         terms.every(term => tag.searchText.includes(term))
       );
+      const selectedIndex = visibleTags.findIndex(tag => tag.key === selectedTagKey);
+      if (selectedIndex > 0) {
+        visibleTags = [
+          visibleTags[selectedIndex],
+          ...visibleTags.slice(0, selectedIndex),
+          ...visibleTags.slice(selectedIndex + 1),
+        ];
+      }
       const visible = visibleTags.slice(0, 96);
       tagList.innerHTML = visible.length
         ? visible.map(tag => (
@@ -149,9 +154,9 @@
       const tag = tagIndex.get(tagKey);
       if (!tag) return;
       selectedTagKey = tag.key;
-      input.value = '';
-      renderSelection(tag, '');
-      renderTagList('');
+      input.value = tag.label;
+      renderSelection(tag, tag.label);
+      renderTagList(tag.label);
       if (updateUrl) {
         const nextUrl = new URL(window.location.href);
         nextUrl.search = '';

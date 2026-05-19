@@ -8,11 +8,11 @@ hide:
 <style>
 /* ── Derived vars: transparency adjustments on MkDocs palette tokens ─────── */
 :root {
-  --mm-edge-color:         #242424;
-  --mm-edge-highlighted:   rgba(78, 78, 78, 0.64);
-  --mm-edge-alpha-scale:   0.48;
-  --mm-edge-alpha-min:     0.035;
-  --mm-edge-alpha-max:     0.12;
+  --mm-edge-color:         #243142;
+  --mm-edge-highlighted:   rgba(36, 49, 66, 0.72);
+  --mm-edge-alpha-scale:   0.65;
+  --mm-edge-alpha-min:     0.050;
+  --mm-edge-alpha-max:     0.200;
   --mm-node-muted:         #a3adb8;
   --mm-node-muted-related: #7f8b97;
   --mm-muted-label:        #475569;
@@ -27,11 +27,11 @@ hide:
   --mm-panel:              color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
 }
 [data-md-color-scheme="default"] {
-  --mm-edge-color:         #242424;
-  --mm-edge-highlighted:   rgba(78, 78, 78, 0.64);
-  --mm-edge-alpha-scale:   0.48;
-  --mm-edge-alpha-min:     0.035;
-  --mm-edge-alpha-max:     0.12;
+  --mm-edge-color:         #243142;
+  --mm-edge-highlighted:   rgba(36, 49, 66, 0.72);
+  --mm-edge-alpha-scale:   0.65;
+  --mm-edge-alpha-min:     0.050;
+  --mm-edge-alpha-max:     0.200;
   --mm-node-muted:         #a3adb8;
   --mm-node-muted-related: #7f8b97;
   --mm-muted-label:        #475569;
@@ -46,11 +46,11 @@ hide:
   --mm-panel:              color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
 }
 [data-md-color-scheme="slate"] {
-  --mm-edge-color:         #566579;
-  --mm-edge-highlighted:   rgba(118, 146, 178, 0.46);
-  --mm-edge-alpha-scale:   0.20;
-  --mm-edge-alpha-min:     0.014;
-  --mm-edge-alpha-max:     0.060;
+  --mm-edge-color:         #9aa8b8;
+  --mm-edge-highlighted:   rgba(156, 176, 198, 0.54);
+  --mm-edge-alpha-scale:   0.42;
+  --mm-edge-alpha-min:     0.022;
+  --mm-edge-alpha-max:     0.110;
   --mm-node-muted:         #66717d;
   --mm-node-muted-related: #8b96a2;
   --mm-muted-label:        #c8d0d8;
@@ -87,13 +87,12 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 /* ── App shell ────────────────────────────────────────────────────────────── */
 #mm-app {
-  --mm-panel-header-h: 46px;
-  --mm-panel-w: min(400px, calc(100vw - 16px));
+  --mm-ribbon-max-h: min(38vh, 28rem);
   position: relative;
   isolation: isolate;
   z-index: 0;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width:  100%;
   height: calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px));
   overflow: hidden;
@@ -103,9 +102,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 /* ── Sigma canvas ─────────────────────────────────────────────────────────── */
 #mm-graph {
-  flex: 1;
+  flex: 1 1 auto;
   min-width: 0;
-  height: 100%;
+  min-height: 0;
+  height: auto;
 }
 
 /* ── Loading overlay ──────────────────────────────────────────────────────── */
@@ -130,24 +130,23 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 @keyframes mm-spin { to { transform: rotate(360deg); } }
 
-/* ── Control panel ────────────────────────────────────────────────────────── */
-
-/* Header: always visible, absolutely positioned over the app so it survives
-   the panel collapsing upward. Clicking it toggles the panel body. */
+/* ── Settings ribbon ──────────────────────────────────────────────────────── */
 #mm-panel-header {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   z-index: 5;
-  width: var(--mm-panel-w);
+  flex: 0 0 auto;
+  width: 100%;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.65rem 1rem;
-  gap: 0.5rem;
+  min-height: 2.65rem;
+  padding: 0.62rem 0.85rem;
+  gap: 0.75rem;
   background: color-mix(in srgb, var(--md-code-bg-color) 94%, transparent);
-  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  border: 1px solid var(--mm-border);
+  border-left: 0;
+  border-right: 0;
   backdrop-filter: blur(14px);
   cursor: pointer;
   user-select: none;
@@ -156,7 +155,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 #mm-panel-header h3 {
   margin: 0;
   font-size: 0.88rem;
-  font-weight: 600;
+  font-weight: 850;
   color: var(--md-default-fg-color);
   white-space: nowrap;
 }
@@ -173,39 +172,39 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   pointer-events: none;
 }
 
-/* Panel overlays the canvas so #mm-graph is always full-width and never moves */
 #mm-panel {
-  position: absolute;
-  left: 0;
-  top: var(--mm-panel-header-h);
-  height: calc(100% - var(--mm-panel-header-h));
-  width: var(--mm-panel-w);
+  position: relative;
+  flex: 0 0 auto;
+  width: 100%;
+  max-height: var(--mm-ribbon-max-h);
   z-index: 4;
   background: color-mix(in srgb, var(--md-code-bg-color) 94%, transparent);
-  border-right: 1px solid var(--md-default-fg-color--lighter);
+  border-bottom: 1px solid var(--mm-border);
   backdrop-filter: blur(14px);
   color: var(--md-default-fg-color);
   font-size: 0.82rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: height 0.25s ease, opacity 0.18s ease, border-color 0.18s ease;
+  transition: max-height 0.25s ease, opacity 0.18s ease, border-color 0.18s ease;
 }
 #mm-panel.body-collapsed {
-  height: 0;
+  max-height: 0;
   opacity: 0;
   pointer-events: none;
   border-color: transparent;
 }
 
 #mm-panel-body {
-  padding: 1.05rem 1rem 0.8rem;
+  padding: 0.85rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.65rem;
   flex: 1;
+  max-height: var(--mm-ribbon-max-h);
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: clip;
   min-width: 0;
   box-sizing: border-box;
   scrollbar-width: thin;
@@ -216,6 +215,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .mm-section {
   min-width: 0;
   max-width: 100%;
+  flex: 1 1 12rem;
 }
 .mm-section-label {
   display: block;
@@ -225,6 +225,27 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   color: var(--md-default-fg-color--light);
   font-weight: 600;
   margin-bottom: 5px;
+}
+.mm-section--actions {
+  flex: 0 0 7rem;
+}
+.mm-section--detail {
+  flex: 1 1 17rem;
+}
+.mm-section--visibility {
+  flex: 0 1 13rem;
+}
+.mm-section--threshold {
+  flex: 1 1 14rem;
+}
+.mm-section--search {
+  flex: 2 1 18rem;
+}
+.mm-section--categories {
+  flex: 2 1 28rem;
+}
+.mm-section--types {
+  flex: 1 1 13rem;
 }
 
 /* Search */
@@ -282,6 +303,107 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   color: var(--md-primary-fg-color);
 }
 #mm-threshold-slider {
+  width: 100%;
+  accent-color: var(--md-accent-fg-color);
+}
+
+/* Selected-node relevance filter */
+.mm-relevance-panel {
+  flex: 1 1 100%;
+  padding: 0.72rem;
+  border: 1px solid var(--mm-soft-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--md-default-bg-color) 42%, transparent);
+}
+.mm-relevance-panel[hidden] { display: none; }
+.mm-relevance-panel[hidden] + .mm-settings-separator { display: none; }
+.mm-settings-separator {
+  display: none;
+  flex: 1 1 100%;
+  height: 1px;
+  background: var(--mm-soft-border);
+}
+.mm-relevance-head,
+.mm-relevance-options,
+.mm-filter-row,
+.mm-relevance-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.mm-relevance-ego {
+  margin: 0.42rem 0 0.5rem;
+  color: var(--md-default-fg-color);
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.mm-switch,
+.mm-filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+.mm-switch input,
+.mm-filter-toggle input {
+  margin: 0;
+  accent-color: var(--md-accent-fg-color);
+}
+.mm-relevance-options {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 0.5rem;
+}
+.mm-relevance-options select {
+  margin-left: auto;
+  min-height: 1.45rem;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 6px;
+  background: var(--md-default-fg-color--lightest);
+  color: var(--md-default-fg-color);
+  font-size: 0.72rem;
+}
+.mm-filter-toggle {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0.55rem;
+  width: 100%;
+}
+.mm-filter-toggle + .mm-filter-toggle { margin-top: 0.42rem; }
+.mm-filter-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.55rem;
+  padding-right: 0.22rem;
+}
+.mm-filter-check input[type="checkbox"] {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: 0 0 auto;
+}
+.mm-filter-body {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+.mm-filter-row,
+.mm-relevance-foot {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.7rem;
+}
+.mm-filter-row span:last-child,
+.mm-relevance-foot span:last-child {
+  color: var(--md-primary-fg-color);
+  font-variant-numeric: tabular-nums;
+}
+#mm-relevance-similarity,
+#mm-relevance-distance {
   width: 100%;
   accent-color: var(--md-accent-fg-color);
 }
@@ -348,14 +470,165 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .mm-cat-links button:hover { color: var(--md-default-fg-color); border-color: var(--md-default-fg-color--light); }
 
 #mm-category-filters {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 3px 0.7rem;
+  max-height: 11rem;
+  overflow: auto;
+  padding-right: 0.25rem;
+  scrollbar-width: thin;
 }
 #mm-type-filters {
   display: flex;
   flex-direction: column;
   gap: 3px;
+}
+.mm-type-trigger {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 0.7rem;
+  align-items: center;
+  gap: 0.62rem;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 2.35rem;
+  margin: 0;
+  padding: 0.48rem 0.74rem;
+  border: 1px solid var(--mm-border);
+  border-radius: 8px;
+  background: var(--md-default-fg-color--lightest);
+  color: var(--md-default-fg-color);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.mm-type-trigger span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mm-type-trigger::after {
+  content: "";
+  width: 0.48rem;
+  height: 0.48rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-0.12rem);
+  transition: transform 0.16s ease;
+}
+.mm-type-trigger[aria-expanded="true"] {
+  border-color: var(--md-accent-fg-color);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-accent-fg-color) 12%, transparent);
+}
+.mm-type-trigger[aria-expanded="true"]::after {
+  transform: rotate(225deg) translate(-0.08rem, -0.08rem);
+}
+.mm-type-dialog {
+  position: fixed;
+  inset-inline: 0;
+  top: calc(var(--mm-header-h, 56px) + 0.75rem);
+  bottom: calc(var(--mm-footer-h, 0px) + 0.75rem);
+  width: min(25rem, calc(100vw - 2rem));
+  height: auto;
+  max-height: calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - 1.5rem);
+  max-height: calc(100dvh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - 1.5rem);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--mm-border);
+  border-radius: 8px;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  box-shadow: 0 24px 60px color-mix(in srgb, #000000 30%, transparent);
+}
+.mm-type-dialog::backdrop {
+  background: color-mix(in srgb, #000000 38%, transparent);
+}
+.mm-type-panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  max-height: inherit;
+  overflow: hidden;
+}
+.mm-type-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.72rem 0.82rem;
+  border-bottom: 1px solid var(--mm-border);
+  background: color-mix(in srgb, var(--md-code-bg-color) 74%, var(--md-default-bg-color));
+}
+.mm-type-head h2 {
+  margin: 0;
+  color: var(--md-default-fg-color);
+  font-size: 0.86rem;
+  font-weight: 850;
+  letter-spacing: 0;
+}
+.mm-type-close {
+  display: grid;
+  place-items: center;
+  width: 2.05rem;
+  height: 2.05rem;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--md-default-fg-color) 12%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--md-default-fg-color) 7%, var(--md-default-bg-color));
+  color: var(--md-default-fg-color);
+  cursor: pointer;
+  transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease, transform 0.16s ease;
+}
+.mm-type-close svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: currentColor;
+  pointer-events: none;
+}
+.mm-type-close:hover {
+  border-color: var(--md-accent-fg-color);
+  background: color-mix(in srgb, var(--md-accent-fg-color) 14%, var(--md-default-bg-color));
+  color: var(--md-default-fg-color);
+  transform: scale(1.04);
+}
+.mm-type-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.32rem;
+  width: 100%;
+  box-sizing: border-box;
+  max-height: calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - 8.2rem);
+  max-height: calc(100dvh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - 8.2rem);
+  padding: 0.68rem;
+  overflow: auto;
+}
+.mm-type-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.68rem 0.68rem 0.62rem;
+  border-bottom: 1px solid var(--mm-soft-border);
+}
+.mm-type-actions button {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.42rem 0.82rem;
+  border: 1px solid var(--mm-border);
+  border-radius: 8px;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+.mm-type-actions button:hover {
+  border-color: var(--md-accent-fg-color);
+  background: color-mix(in srgb, var(--md-accent-fg-color) 8%, transparent);
 }
 .mm-cat-item {
   display: flex;
@@ -365,6 +638,28 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   padding: 2px 0;
 }
 .mm-cat-item:hover .mm-cat-name { color: var(--md-default-fg-color); }
+.mm-type-item {
+  width: 100%;
+  min-height: 2.35rem;
+  box-sizing: border-box;
+  padding: 0.34rem 0.48rem;
+  border: 1px solid var(--mm-soft-border);
+  border-radius: 8px;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  font: inherit;
+  line-height: 1.25;
+  text-align: left;
+}
+.mm-type-item:hover {
+  border-color: var(--md-accent-fg-color);
+  background: color-mix(in srgb, var(--md-accent-fg-color) 7%, transparent);
+}
+.mm-type-item[aria-pressed="true"],
+.mm-type-item.is-selected {
+  border-color: color-mix(in srgb, var(--md-accent-fg-color) 58%, transparent);
+  background: color-mix(in srgb, var(--md-accent-fg-color) 13%, var(--md-default-bg-color));
+}
 .mm-cat-dot {
   width: 10px;
   height: 10px;
@@ -372,7 +667,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   flex-shrink: 0;
 }
 .mm-type-chip {
+  display: grid;
+  place-items: center;
   min-width: 2.7rem;
+  min-height: 1.32rem;
   padding: 1px 5px;
   border: 1px solid var(--md-default-fg-color--lighter);
   border-radius: 999px;
@@ -381,6 +679,11 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   font-weight: 700;
   line-height: 1.25;
   text-align: center;
+}
+.mm-type-item[aria-pressed="true"] .mm-type-chip,
+.mm-type-item.is-selected .mm-type-chip {
+  border-color: var(--md-accent-fg-color);
+  color: var(--md-default-fg-color);
 }
 .mm-cat-name {
   flex: 1;
@@ -395,6 +698,15 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   accent-color: var(--md-accent-fg-color);
   margin: 0;
   flex-shrink: 0;
+}
+.mm-type-trigger:focus-visible,
+.mm-type-item:focus-visible,
+.mm-type-close:focus-visible,
+.mm-type-actions button:focus-visible {
+  border-color: var(--md-accent-fg-color);
+  outline: 2px solid color-mix(in srgb, var(--md-accent-fg-color) 24%, transparent);
+  outline-offset: 1px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-accent-fg-color) 10%, transparent);
 }
 
 /* Category group (collapsible, for categories with sub-categories) */
@@ -462,6 +774,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .mm-actions {
   display: flex;
   gap: 0.4rem;
+  min-height: 2.35rem;
 }
 .mm-actions button {
   flex: 1;
@@ -486,7 +799,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 
 /* ── Tooltip ──────────────────────────────────────────────────────────────── */
-#mm-tooltip {
+#mm-tooltip,
+#mm-hover-tooltip {
   position: fixed;
   z-index: 7;
   display: none;
@@ -495,15 +809,27 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   border-radius: 10px;
   padding: 11px 14px;
   box-sizing: border-box;
-  max-width: min(34rem, calc(100vw - 24px));
-  max-height: 65vh;
   overflow-y: hidden;
   pointer-events: none;
   backdrop-filter: blur(10px);
   box-shadow: var(--md-shadow-z2);
   font-family: "Atkinson Hyperlegible Next", "Segoe UI", sans-serif;
 }
+#mm-tooltip {
+  max-width: min(34rem, calc(100vw - 24px));
+  max-height: 65vh;
+}
+#mm-hover-tooltip {
+  z-index: 8;
+  max-width: min(18rem, calc(100vw - 24px));
+  max-height: 40vh;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--md-code-bg-color) 96%, transparent);
+  box-shadow: 0 8px 22px color-mix(in srgb, #000 18%, transparent);
+}
 #mm-tooltip.visible { display: block; }
+#mm-hover-tooltip.visible { display: block; }
 #mm-tooltip.pinned  { pointer-events: auto; border-color: var(--md-accent-fg-color--transparent); overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--md-default-fg-color--lighter) transparent; }
 
 .tt-title   { font-size: 0.83rem; font-weight: 600; color: var(--md-default-fg-color); line-height: 1.35; margin-bottom: 4px; }
@@ -516,6 +842,9 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .tt-hint    { font-size: 0.68rem; color: var(--md-default-fg-color--lighter); margin-top: 8px; font-style: italic; }
 .tt-list    { margin: 7px 0 0; padding-left: 1rem; color: var(--md-default-fg-color--light); font-size: 0.72rem; line-height: 1.35; }
 .tt-list li { margin-bottom: 3px; }
+.tt-mini-title { font-size: 0.76rem; font-weight: 700; color: var(--md-default-fg-color); line-height: 1.25; }
+.tt-mini-subtitle { font-size: 0.69rem; color: var(--md-default-fg-color--light); line-height: 1.25; margin-top: 3px; }
+.tt-mini-meta  { font-size: 0.68rem; color: var(--md-default-fg-color--light); line-height: 1.25; margin-top: 2px; }
 
 /* ── Mobile modal: same paper-detail pattern as Timeline ─────────────────── */
 .mm-modal {
@@ -628,12 +957,13 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 @media (max-width: 700px) {
   #mm-app {
-    --mm-panel-w: 100%;
+    --mm-ribbon-max-h: min(58vh, 34rem);
   }
 
-  #mm-panel-header,
-  #mm-panel {
-    left: 0;
+  #mm-panel-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
   }
 
   .mm-detail-controls,
@@ -673,26 +1003,73 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     Loading…
   </div>
 
-  <!-- Panel header: always visible, overlays app corner to survive panel collapse -->
-  <div id="mm-panel-header">
+  <!-- Settings ribbon header: always visible above the graph -->
+  <div id="mm-panel-header" title="Show Settings">
     <h3>Mind Map</h3>
-    <button id="mm-panel-hide-btn">Hide Settings</button>
+    <button id="mm-panel-hide-btn">Show Settings</button>
   </div>
 
-  <!-- Panel body: collapses upward on hide -->
-  <div id="mm-panel">
+  <!-- Settings ribbon body: collapses upward on hide -->
+  <div id="mm-panel" class="body-collapsed">
     <div id="mm-panel-body">
 
-      <div class="mm-section mm-actions">
+      <div id="mm-relevance-panel" class="mm-section mm-relevance-panel" hidden>
+        <div class="mm-relevance-head">
+          <span class="mm-section-label" style="margin:0">Selected-node filter</span>
+          <label class="mm-switch">
+            <input id="mm-relevance-enabled" type="checkbox">
+            <span>Enable</span>
+          </label>
+        </div>
+        <div id="mm-relevance-ego" class="mm-relevance-ego"></div>
+        <div class="mm-relevance-options">
+          <select id="mm-relevance-mode" aria-label="Combine selected-node filters">
+            <option value="and">And</option>
+            <option value="or">Or</option>
+          </select>
+        </div>
+        <label class="mm-filter-toggle">
+          <span class="mm-filter-check">
+            <input id="mm-relevance-semantic" type="checkbox" checked>
+          </span>
+          <span class="mm-filter-body">
+            <span class="mm-filter-row">
+              <span>Semantic similarity</span>
+              <span id="mm-relevance-similarity-val">0.78</span>
+            </span>
+            <input id="mm-relevance-similarity" type="range" min="50" max="95" step="1" value="78">
+          </span>
+        </label>
+        <label class="mm-filter-toggle">
+          <span class="mm-filter-check">
+            <input id="mm-relevance-taxonomy" type="checkbox" checked>
+          </span>
+          <span class="mm-filter-body">
+            <span class="mm-filter-row">
+              <span>Tree proximity</span>
+              <span id="mm-relevance-distance-val">4</span>
+            </span>
+            <input id="mm-relevance-distance" type="range" min="0" max="12" step="1" value="4">
+          </span>
+        </label>
+        <div class="mm-relevance-foot">
+          <span id="mm-relevance-status">Filter off</span>
+          <span id="mm-relevance-match-count">…</span>
+        </div>
+      </div>
+
+      <div class="mm-settings-separator" aria-hidden="true"></div>
+
+      <div class="mm-section mm-section--actions mm-actions">
         <button id="mm-fit-btn">Fit view</button>
       </div>
 
-      <div class="mm-section">
+      <div class="mm-section mm-section--detail">
         <span class="mm-section-label">Level-of-detail</span>
         <div id="mm-detail-controls" class="mm-detail-controls"></div>
       </div>
 
-      <div class="mm-section">
+      <div class="mm-section mm-section--visibility">
         <span class="mm-section-label">Visibility</span>
         <div class="mm-visibility-controls">
           <button id="mm-labels-toggle" type="button" aria-pressed="true">Node Labels</button>
@@ -700,7 +1077,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
         </div>
       </div>
 
-      <div class="mm-section">
+      <div class="mm-section mm-section--threshold">
         <div class="mm-threshold-row">
           <span class="mm-section-label" style="margin:0">Similarity threshold</span>
           <span id="mm-threshold-val">0.77</span>
@@ -708,7 +1085,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
         <input id="mm-threshold-slider" type="range" min="75" max="99" step="1">
       </div>
 
-      <div class="mm-section">
+      <div class="mm-section mm-section--search">
         <span class="mm-section-label">Search</span>
         <div class="mm-search-wrap">
           <input id="mm-search" type="text" placeholder="Title, tag or keyword…">
@@ -716,7 +1093,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
         </div>
       </div>
 
-      <div class="mm-section">
+      <div class="mm-section mm-section--categories">
         <span class="mm-section-label">Categories</span>
         <div class="mm-cat-links">
           <button id="mm-all-cats">All</button>
@@ -725,13 +1102,28 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
         <div id="mm-category-filters"></div>
       </div>
 
-      <div class="mm-section">
+      <div class="mm-section mm-section--types">
         <span class="mm-section-label">Item Types</span>
-        <div class="mm-cat-links">
-          <button id="mm-all-types">All</button>
-          <button id="mm-no-types">None</button>
-        </div>
-        <div id="mm-type-filters"></div>
+        <button id="mm-type-trigger" class="mm-type-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="mm-type-dialog">
+          <span id="mm-type-summary">All item types</span>
+        </button>
+        <dialog id="mm-type-dialog" class="mm-type-dialog" aria-labelledby="mm-type-title">
+          <div class="mm-type-panel">
+            <div class="mm-type-head">
+              <h2 id="mm-type-title">Item Types</h2>
+              <button id="mm-type-close" class="mm-type-close" type="button" aria-label="Close item types filter">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.41L10.59 13.41 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.3l6.3 6.29 6.3-6.29z"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="mm-type-actions">
+              <button id="mm-all-types" type="button">All</button>
+              <button id="mm-no-types" type="button">None</button>
+            </div>
+            <div id="mm-type-filters" class="mm-type-list" role="group" aria-label="Item types"></div>
+          </div>
+        </dialog>
       </div>
 
       <div id="mm-stats">
@@ -739,6 +1131,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
         <span id="mm-node-count">…</span> items &nbsp;·&nbsp;
         <span id="mm-edge-count">…</span> connections
         <span id="mm-search-count" hidden></span>
+        <span id="mm-relevance-count" hidden></span>
       </div>
 
     </div>
@@ -746,6 +1139,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
   <!-- Tooltip (positioned by JS) -->
   <div id="mm-tooltip"></div>
+  <div id="mm-hover-tooltip"></div>
 
   <div id="mm-modal" class="mm-modal" hidden>
     <article class="mm-modal-card" role="dialog" aria-modal="true" aria-labelledby="mm-modal-title">
