@@ -1,5 +1,17 @@
 # TODO
 
+## UX
+
+1. Have Timeline, Content Tree, Tag Search, Analytics all use the same main width within the page (leaving good margin on left side to nav menu and right side to page border - use the Timeline page's margin setting)
+
+Mind Map
+
+1. Remove the LoD number from the bottom-most display in the settings Menu
+2. Use white text color for selected node label (not black) - this is so we have better visual continuity before/after click
+
+Tag Search
+When clicking a tag from the search match result list, keep the selected tag pegged at the top. Also when clicking a tag, do not clear the search bar, keep whatever is in there.
+
 ## Taxonomy
 
 Run e.g.
@@ -14,109 +26,109 @@ and resolve all issues.
 
 ### Localization and mapping
 
-https://arxiv.org/abs/2401.06323
-https://arxiv.org/abs/2201.13360
-https://arxiv.org/abs/1910.02490
-https://journals.sagepub.com/doi/10.1177/0278364906065387
-https://link.springer.com/article/10.1023/A:1008854305733
-https://journals.sagepub.com/doi/10.1177/0278364911430419
-https://link.springer.com/chapter/10.1007/978-3-642-17452-0_10
-https://journals.sagepub.com/doi/10.1177/0278364906072768
-https://dl.acm.org/doi/10.1561/2300000043
+<https://arxiv.org/abs/2401.06323>
+<https://arxiv.org/abs/2201.13360>
+<https://arxiv.org/abs/1910.02490>
+<https://journals.sagepub.com/doi/10.1177/0278364906065387>
+<https://link.springer.com/article/10.1023/A:1008854305733>
+<https://journals.sagepub.com/doi/10.1177/0278364911430419>
+<https://link.springer.com/chapter/10.1007/978-3-642-17452-0_10>
+<https://journals.sagepub.com/doi/10.1177/0278364906072768>
+<https://dl.acm.org/doi/10.1561/2300000043>
 
 ### Structure from motion
 
-https://www.nature.com/articles/293133a0
-https://link.springer.com/article/10.1007/BF00129684
-https://ieeexplore.ieee.org/document/601246
-https://ieeexplore.ieee.org/document/1288525
-https://dl.acm.org/doi/10.1145/1141911.1141964
-https://dl.acm.org/doi/10.1145/2001269.2001293
-https://link.springer.com/chapter/10.1007/978-3-642-15561-1_27
-https://ieeexplore.ieee.org/document/6599068
-https://ieeexplore.ieee.org/document/7780814
-https://arxiv.org/abs/2407.20219
-https://ieeexplore.ieee.org/document/990963
+<https://www.nature.com/articles/293133a0>
+<https://link.springer.com/article/10.1007/BF00129684>
+<https://ieeexplore.ieee.org/document/601246>
+<https://ieeexplore.ieee.org/document/1288525>
+<https://dl.acm.org/doi/10.1145/1141911.1141964>
+<https://dl.acm.org/doi/10.1145/2001269.2001293>
+<https://link.springer.com/chapter/10.1007/978-3-642-15561-1_27>
+<https://ieeexplore.ieee.org/document/6599068>
+<https://ieeexplore.ieee.org/document/7780814>
+<https://arxiv.org/abs/2407.20219>
+<https://ieeexplore.ieee.org/document/990963>
 
 ### Loudspeaker Design
 
-https://aes2.org/publications/elibrary-page/?id=2173
-https://aes2.org/publications/elibrary-page/?id=2163
-https://aes2.org/publications/elibrary-page/?id=2066
-https://aes2.org/publications/elibrary-page/?id=2022
-https://aes2.org/publications/elibrary-page/?id=1959
-https://aes2.org/publications/elibrary-page/?id=1951
-https://aes2.org/publications/elibrary-page/?id=2760
-https://aes2.org/publications/elibrary-page/?id=2739
-https://aes2.org/publications/elibrary-page/?id=2731
-https://aes2.org/publications/elibrary-page/?id=3105
-https://aes2.org/publications/elibrary-page/?id=5163
-https://aes2.org/publications/elibrary-page/?id=6078
-https://aes2.org/publications/elibrary-page/?id=7043
-https://aes2.org/publications/elibrary-page/?id=6999
-https://aes2.org/publications/elibrary-page/?id=12794
+<https://aes2.org/publications/elibrary-page/?id=2173>
+<https://aes2.org/publications/elibrary-page/?id=2163>
+<https://aes2.org/publications/elibrary-page/?id=2066>
+<https://aes2.org/publications/elibrary-page/?id=2022>
+<https://aes2.org/publications/elibrary-page/?id=1959>
+<https://aes2.org/publications/elibrary-page/?id=1951>
+<https://aes2.org/publications/elibrary-page/?id=2760>
+<https://aes2.org/publications/elibrary-page/?id=2739>
+<https://aes2.org/publications/elibrary-page/?id=2731>
+<https://aes2.org/publications/elibrary-page/?id=3105>
+<https://aes2.org/publications/elibrary-page/?id=5163>
+<https://aes2.org/publications/elibrary-page/?id=6078>
+<https://aes2.org/publications/elibrary-page/?id=7043>
+<https://aes2.org/publications/elibrary-page/?id=6999>
+<https://aes2.org/publications/elibrary-page/?id=12794>
 
 ### Optical flow
 
-https://people.csail.mit.edu/bkph/papers/Optical_Flow_OPT_ENG.pdf
-https://www.ri.cmu.edu/pub_files/pub3/lucas_bruce_d_1981_2/lucas_bruce_d_1981_2.pdf
-https://www.cs.toronto.edu/~black/papers/cviu.63.1.1996.pdf
-https://www.mia.uni-saarland.de/Publications/brox-eccv04-of.pdf
-https://cs.brown.edu/people/dqsun/pubs/cvpr_2010_flow.pdf
-https://files.is.tue.mpg.de/black/papers/SunIJCV2013.pdf
-https://hal.inria.fr/hal-01142656/document
-https://arxiv.org/abs/1504.06852
-https://arxiv.org/abs/1612.01925
-https://arxiv.org/abs/1611.00850
-https://arxiv.org/abs/1709.02371
-https://arxiv.org/abs/1805.07036
-https://arxiv.org/abs/2003.12039
-https://arxiv.org/abs/2104.02409
-https://arxiv.org/abs/2111.13680
-https://arxiv.org/abs/2203.16194
+<https://people.csail.mit.edu/bkph/papers/Optical_Flow_OPT_ENG.pdf>
+<https://www.ri.cmu.edu/pub_files/pub3/lucas_bruce_d_1981_2/lucas_bruce_d_1981_2.pdf>
+<https://www.cs.toronto.edu/~black/papers/cviu.63.1.1996.pdf>
+<https://www.mia.uni-saarland.de/Publications/brox-eccv04-of.pdf>
+<https://cs.brown.edu/people/dqsun/pubs/cvpr_2010_flow.pdf>
+<https://files.is.tue.mpg.de/black/papers/SunIJCV2013.pdf>
+<https://hal.inria.fr/hal-01142656/document>
+<https://arxiv.org/abs/1504.06852>
+<https://arxiv.org/abs/1612.01925>
+<https://arxiv.org/abs/1611.00850>
+<https://arxiv.org/abs/1709.02371>
+<https://arxiv.org/abs/1805.07036>
+<https://arxiv.org/abs/2003.12039>
+<https://arxiv.org/abs/2104.02409>
+<https://arxiv.org/abs/2111.13680>
+<https://arxiv.org/abs/2203.16194>
 
 ### Image Super Resolution
 
-https://arxiv.org/abs/2501.02976
-https://arxiv.org/abs/2308.14469
-https://arxiv.org/abs/2401.13627
-https://arxiv.org/abs/2307.12348
-https://arxiv.org/abs/2305.07015
-https://arxiv.org/abs/2104.07636
-https://arxiv.org/abs/2205.04437
-https://arxiv.org/abs/2309.05239
-https://arxiv.org/abs/2108.10257
-https://arxiv.org/abs/1609.05158
-https://arxiv.org/abs/1511.04587
-https://arxiv.org/abs/1608.00367
-https://arxiv.org/abs/1501.00092
+<https://arxiv.org/abs/2501.02976>
+<https://arxiv.org/abs/2308.14469>
+<https://arxiv.org/abs/2401.13627>
+<https://arxiv.org/abs/2307.12348>
+<https://arxiv.org/abs/2305.07015>
+<https://arxiv.org/abs/2104.07636>
+<https://arxiv.org/abs/2205.04437>
+<https://arxiv.org/abs/2309.05239>
+<https://arxiv.org/abs/2108.10257>
+<https://arxiv.org/abs/1609.05158>
+<https://arxiv.org/abs/1511.04587>
+<https://arxiv.org/abs/1608.00367>
+<https://arxiv.org/abs/1501.00092>
 
 ### Nesterov Fast Gradient Method
 
-https://link.springer.com/article/10.1007/s10107-012-0629-5
+<https://link.springer.com/article/10.1007/s10107-012-0629-5>
 
 ### Conformal prediction
 
-https://dl.acm.org/doi/10.5555/645528.657641
-https://www.tandfonline.com/doi/full/10.1080/01621459.2012.751873
-https://arxiv.org/abs/1209.2673
-https://arxiv.org/abs/2107.07511
-https://arxiv.org/abs/2411.11824
-https://arxiv.org/abs/2503.19068
+<https://dl.acm.org/doi/10.5555/645528.657641>
+<https://www.tandfonline.com/doi/full/10.1080/01621459.2012.751873>
+<https://arxiv.org/abs/1209.2673>
+<https://arxiv.org/abs/2107.07511>
+<https://arxiv.org/abs/2411.11824>
+<https://arxiv.org/abs/2503.19068>
 
 ### Scenario based optimization
 
-https://link.springer.com/article/10.1007/s10107-003-0499-y
-https://ieeexplore.ieee.org/document/1632303
-https://www.sciencedirect.com/science/article/abs/pii/S1367578821000791
+<https://link.springer.com/article/10.1007/s10107-003-0499-y>
+<https://ieeexplore.ieee.org/document/1632303>
+<https://www.sciencedirect.com/science/article/abs/pii/S1367578821000791>
 
 ### ICP
 
-https://en.wikipedia.org/wiki/Iterative_closest_point
+<https://en.wikipedia.org/wiki/Iterative_closest_point>
 
-https://www.sciencedirect.com/science/article/abs/pii/026288569290066C?via%3Dihub
-https://ieeexplore.ieee.org/document/121791
-https://dl.acm.org/doi/10.1561/2300000035
+<https://www.sciencedirect.com/science/article/abs/pii/026288569290066C?via%3Dihub>
+<https://ieeexplore.ieee.org/document/121791>
+<https://dl.acm.org/doi/10.1561/2300000035>
 
 ### vaporwave
 
@@ -314,9 +326,9 @@ Collect points for clicking links, answering quiz questions.
 
 Add audit check for "Team" and other non individual human names in the author list.
 Positive example
-https://bengravell.github.io/knowledge-base/papers/2507_05331/
+<https://bengravell.github.io/knowledge-base/papers/2507_05331/>
 
-Write a soft audit script that checks for high embedding dissimilarity of items belonging to the same category in the content tree. This is to assist me with making good categories 
+Write a soft audit script that checks for high embedding dissimilarity of items belonging to the same category in the content tree. This is to assist me with making good categories
 
 Write audit script to check for identical content tree key label and algorithm field in metadata. Flag violations with both sides for manual resolution.
 
