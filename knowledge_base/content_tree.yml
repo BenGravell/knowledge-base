@@ -477,10 +477,6 @@
           - Model Predictive Trees:
             - MPT: docs/papers/2024/2411.15651/metadata.yml
             - MPTree: docs/papers/2024/2024.piazza.mptree_a_sampling_based/metadata.yml
-          - Model Predictive Contouring Control (MPCC):
-            - "MPCC (RC Cars)": docs/papers/2015/1711.07300/metadata.yml
-            - "MPCC (Articulated Vehicles)": docs/papers/2025/2604.24064/metadata.yml
-            - "Model predictive contouring control": docs/papers/2010/2010.lam.model_predictive_contouring_control/metadata.yml
           - "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)":
             - iLQR:
               - iLQR: docs/papers/2004/2004.li.iterative_linear_quadratic_regulator/metadata.yml
@@ -591,6 +587,7 @@
             - Minimum-time Speed Optimisation Over a Fixed Path: docs/papers/2013/2013.lipp.minimum_time_speed_optimisation/metadata.yml
             - Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization: docs/papers/2018/2018.zhang.toward_a_more_complete/metadata.yml
         - Hybrid Approaches:
+          - Motion Planning Through Policy Search: docs/papers/2002/2002.roy.motion_planning_through_policy/metadata.yml
           - SBP-Guided MPC: docs/papers/2019/2019.hannigan.sbp_guided_mpc_to/metadata.yml
           - RRT-MPPI: docs/papers/2023/2301.13143/metadata.yml
           - SETS: docs/papers/2024/2412.11270/metadata.yml
@@ -663,7 +660,6 @@
           - Lab2Car: docs/papers/2024/2409.09523/metadata.yml
           - Transitioning from Rule-Based to ML-Powered Motion Planning: docs/papers/2025/2025.hu.technically_speaking_transitioning_from/metadata.yml        
           - "Parting with Misconceptions about Learning-based Vehicle Motion Planning": docs/papers/2023/2306.07962/metadata.yml
-        - Motion Planning Through Policy Search: docs/papers/2002/2002.roy.motion_planning_through_policy/metadata.yml
       - Planning for Robots:
         - Inverse Kinematics:
           - "A combined optimization method for solving the inverse kinematics problems of mechanical manipulators": docs/papers/1991/1991.wang.a_combined_optimization_method/metadata.yml
@@ -805,6 +801,10 @@
           - "Learning with Imperfect Models: When Multi-step Prediction Mitigates Compounding Error": docs/papers/2025/2504.01766/metadata.yml
           - "On multi-step prediction models for receding horizon control": docs/papers/2018/1802.09767/metadata.yml
           - "Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition": docs/papers/2021/2021.svec.model_predictive_control_of/metadata.yml
+          - Model Predictive Contouring Control (MPCC):
+            - MPCC: docs/papers/2010/2010.lam.model_predictive_contouring_control/metadata.yml
+            - "MPCC (RC Cars)": docs/papers/2015/1711.07300/metadata.yml
+            - "MPCC (Articulated Vehicles)": docs/papers/2025/2604.24064/metadata.yml
           - Data-Driven and Learning-Based MPC:
             - DeePC: docs/papers/2018/1811.05890/metadata.yml
             - "Model predictive control based on ARX models": docs/papers/2010/2010.kon.model_predictive_control_based/metadata.yml
