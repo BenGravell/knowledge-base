@@ -3919,7 +3919,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "ERA"
       ],
@@ -4551,34 +4551,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1988_gilbert_a_fast_procedure_for"
     },
     {
-      "id": "1988_pomerleau_alvinn_an_autonomous_land",
-      "label": "ALVINN",
-      "title": "ALVINN: An Autonomous Land Vehicle in a Neural Network",
-      "authors": [
-        "Dean Pomerleau"
-      ],
-      "authorShort": "Pomerleau",
-      "year": 1988,
-      "source": "Advances in Neural Information Processing Systems",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Learning-Based Motion Planning",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Learning-Based Motion Planning",
-        "ALVINN"
-      ],
-      "tags": [],
-      "abstract": "ALVINN (Autonomous Land Vehicle In a Neural Network) is a 3-layer back-propagation network designed for the task of road following. Currently ALVINN takes images from a camera and a laser range finder as input and produces as output the direction the vehicle should travel in order to follow the road. Training has been conducted using simulated road images. Successful tests on the Carnegie Mellon autonomous navigation test vehicle indicate that the network can effectively follow real roads under certain field conditions. The representation developed to perfOIm the task differs dramatically when the networlc is trained under various conditions, suggesting the possibility of a novel adaptive autonomous navigation system capable of tailoring its processing to the conditions at hand. INTRODUCTION Autonomous navigation has been a difficult problem for traditional vision and robotic techniques, primarily because of the noise and variability associated with real world scenes. Autonomous navigation systems based on traditional image processing and pattern recognition techniques often perform well under certain conditions but have problems with others. Part of the difficulty stems from the fact that the processing performed by these systems remains fixed across various driving situations. Artificial neural networks have displayed promising performance and flexibility in other domains characterized by high degrees of noise and variability, such as handwritten character recognition [Jackel et al., 1988] [Pawlicki et al., 1988] and speech recognition [Waibel et al., 1988]. ALVINN (Autonomous Land Vehicle In a Neural Network) is a connectionist approach to the navigational task of road following. Specifically, ALVINN is an artifici",
-      "summary": "",
-      "url": "../papers/1988_pomerleau_alvinn_an_autonomous_land/",
-      "contentTreeUrl": "../content-tree/#paper=1988_pomerleau_alvinn_an_autonomous_land",
-      "mindMapUrl": "../mind-map/#paper=1988_pomerleau_alvinn_an_autonomous_land"
-    },
-    {
       "id": "1988_sutton_learning_to_predict_by",
       "label": "TD Learning",
       "title": "Learning to Predict by the Methods of Temporal Differences",
@@ -4633,6 +4605,35 @@ window.timelineData = {
       "url": "../papers/1988_ulichney_dithering_with_blue_noise/",
       "contentTreeUrl": "../content-tree/#paper=1988_ulichney_dithering_with_blue_noise",
       "mindMapUrl": "../mind-map/#paper=1988_ulichney_dithering_with_blue_noise"
+    },
+    {
+      "id": "1988_pomerleau_alvinn_an_autonomous_land",
+      "label": "ALVINN",
+      "title": "ALVINN: An Autonomous Land Vehicle in a Neural Network",
+      "authors": [
+        "Dean Pomerleau"
+      ],
+      "authorShort": "Pomerleau",
+      "year": 1988,
+      "source": "Advances in Neural Information Processing Systems",
+      "type": "Conference Paper",
+      "superCategory": "Foundations",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Engineering Systems",
+        "Robots",
+        "Driving Robots",
+        "ALVINN"
+      ],
+      "tags": [],
+      "abstract": "ALVINN (Autonomous Land Vehicle In a Neural Network) is a 3-layer back-propagation network designed for the task of road following. Currently ALVINN takes images from a camera and a laser range finder as input and produces as output the direction the vehicle should travel in order to follow the road. Training has been conducted using simulated road images. Successful tests on the Carnegie Mellon autonomous navigation test vehicle indicate that the network can effectively follow real roads under certain field conditions. The representation developed to perfOIm the task differs dramatically when the networlc is trained under various conditions, suggesting the possibility of a novel adaptive autonomous navigation system capable of tailoring its processing to the conditions at hand. INTRODUCTION Autonomous navigation has been a difficult problem for traditional vision and robotic techniques, primarily because of the noise and variability associated with real world scenes. Autonomous navigation systems based on traditional image processing and pattern recognition techniques often perform well under certain conditions but have problems with others. Part of the difficulty stems from the fact that the processing performed by these systems remains fixed across various driving situations. Artificial neural networks have displayed promising performance and flexibility in other domains characterized by high degrees of noise and variability, such as handwritten character recognition [Jackel et al., 1988] [Pawlicki et al., 1988] and speech recognition [Waibel et al., 1988]. ALVINN (Autonomous Land Vehicle In a Neural Network) is a connectionist approach to the navigational task of road following. Specifically, ALVINN is an artifici",
+      "summary": "",
+      "url": "../papers/1988_pomerleau_alvinn_an_autonomous_land/",
+      "contentTreeUrl": "../content-tree/#paper=1988_pomerleau_alvinn_an_autonomous_land",
+      "mindMapUrl": "../mind-map/#paper=1988_pomerleau_alvinn_an_autonomous_land"
     },
     {
       "id": "1989_ortega_adaptive_motion_control_of",
@@ -5794,7 +5795,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "OKID"
       ],
@@ -6164,7 +6165,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Subspace Identification",
         "N4SID"
@@ -6642,7 +6643,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Subspace Identification",
         "Subspace Identification for Linear Systems"
@@ -7431,7 +7432,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Robust Nonlinear System Identification Using Neural-network Models"
       ],
@@ -7803,53 +7804,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1999_lavalle_randomized_kinodynamic_planning"
     },
     {
-      "id": "1999_thrun_minerva_a_second_generation",
-      "label": "MINERVA",
-      "title": "MINERVA: A Second-Generation Museum Tour-Guide Robot",
-      "authors": [
-        "Sebastian Thrun",
-        "Maren Bennewitz",
-        "Wolfram Burgard",
-        "Armin B. Cremers",
-        "Frank Dellaert",
-        "Dieter Fox",
-        "Dirk Haehnel",
-        "Charles Rosenberg",
-        "Nicholas Roy",
-        "Jamieson Schulte",
-        "Dirk Schulz"
-      ],
-      "authorShort": "Thrun, Bennewitz, Burgard",
-      "year": 1999,
-      "source": "IEEE International Conference on Robotics and Automation",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Surveys, Benchmarks & Frameworks",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
-        "MINERVA"
-      ],
-      "tags": [
-        "MINERVA",
-        "Museum robot",
-        "Mobile robotics",
-        "Human-robot interaction",
-        "Autonomous navigation",
-        "Learning robot systems",
-        "Probabilistic robotics"
-      ],
-      "abstract": "This paper describes an interactive tour-guide robot, which was successfully exhibited in a Smithsonian museum. During its two weeks of operation, the robot interacted with thousands of people, traversing more than 44 km at speeds of up to 163 cm/sec. Our approach specifically addresses issues such as safe navigation in unmodified and dynamic environments, and short-term human-robot interaction. It uses learning pervasively at all levels of the software architecture.",
-      "summary": "Describes MINERVA, a deployed museum tour-guide robot that combined mapping, localization, planning, interaction, web telepresence, and learning in a real public environment. The paper is a useful case study in integrated mobile robot architecture under heavy human interaction and unmodified-environment constraints.",
-      "url": "../papers/1999_thrun_minerva_a_second_generation/",
-      "contentTreeUrl": "../content-tree/#paper=1999_thrun_minerva_a_second_generation",
-      "mindMapUrl": "../mind-map/#paper=1999_thrun_minerva_a_second_generation"
-    },
-    {
       "id": "1999_sutton_policy_gradient_methods_for",
       "label": "Policy Gradient with Function Approximation",
       "title": "Policy Gradient Methods for Reinforcement Learning with Function Approximation",
@@ -7904,7 +7858,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "System identification and long-range predictive control of multi-rate systems"
       ],
@@ -7942,6 +7896,53 @@ window.timelineData = {
       "url": "../papers/1999_spong_passivity_based_control_of/",
       "contentTreeUrl": "../content-tree/#paper=1999_spong_passivity_based_control_of",
       "mindMapUrl": "../mind-map/#paper=1999_spong_passivity_based_control_of"
+    },
+    {
+      "id": "1999_thrun_minerva_a_second_generation",
+      "label": "MINERVA",
+      "title": "MINERVA: A Second-Generation Museum Tour-Guide Robot",
+      "authors": [
+        "Sebastian Thrun",
+        "Maren Bennewitz",
+        "Wolfram Burgard",
+        "Armin B. Cremers",
+        "Frank Dellaert",
+        "Dieter Fox",
+        "Dirk Haehnel",
+        "Charles Rosenberg",
+        "Nicholas Roy",
+        "Jamieson Schulte",
+        "Dirk Schulz"
+      ],
+      "authorShort": "Thrun, Bennewitz, Burgard",
+      "year": 1999,
+      "source": "IEEE International Conference on Robotics and Automation",
+      "type": "Conference Paper",
+      "superCategory": "Foundations",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Engineering Systems",
+        "Robots",
+        "Wheeled Robots",
+        "MINERVA"
+      ],
+      "tags": [
+        "MINERVA",
+        "Museum robot",
+        "Mobile robotics",
+        "Human-robot interaction",
+        "Autonomous navigation",
+        "Learning robot systems",
+        "Probabilistic robotics"
+      ],
+      "abstract": "This paper describes an interactive tour-guide robot, which was successfully exhibited in a Smithsonian museum. During its two weeks of operation, the robot interacted with thousands of people, traversing more than 44 km at speeds of up to 163 cm/sec. Our approach specifically addresses issues such as safe navigation in unmodified and dynamic environments, and short-term human-robot interaction. It uses learning pervasively at all levels of the software architecture.",
+      "summary": "Describes MINERVA, a deployed museum tour-guide robot that combined mapping, localization, planning, interaction, web telepresence, and learning in a real public environment. The paper is a useful case study in integrated mobile robot architecture under heavy human interaction and unmodified-environment constraints.",
+      "url": "../papers/1999_thrun_minerva_a_second_generation/",
+      "contentTreeUrl": "../content-tree/#paper=1999_thrun_minerva_a_second_generation",
+      "mindMapUrl": "../mind-map/#paper=1999_thrun_minerva_a_second_generation"
     },
     {
       "id": "1999_artzner_coherent_measures_of_risk",
@@ -9187,6 +9188,44 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2002_prajna_introducing_sostools_a_general"
     },
     {
+      "id": "2002_roy_motion_planning_through_policy",
+      "label": "Motion Planning Through Policy Search",
+      "title": "Motion Planning through Policy Search",
+      "authors": [
+        "Nicholas Roy",
+        "Sebastian Thrun"
+      ],
+      "authorShort": "Roy, Thrun",
+      "year": 2002,
+      "source": "IEEE/RSJ International Conference on Intelligent Robots and Systems",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Kinodynamic Planning",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Hybrid Approaches",
+        "Motion Planning Through Policy Search"
+      ],
+      "tags": [
+        "Motion planning",
+        "Policy search",
+        "Mobile robotics",
+        "Kinodynamic planning",
+        "Value functions",
+        "Gradient ascent",
+        "Learning in planning"
+      ],
+      "abstract": "We propose a motion planning algorithm for performing policy search in the full pose and velocity space of a mobile robot. By comparison, existing techniques optimize high-level plans, but fail to optimize the low-level motion controls. We use policy search in a high dimensional control space to find plans that lead to measurably better motion planning. Our experimental results suggest that our approach leads to superior robot motion than many existing techniques.",
+      "summary": "Uses policy search to refine mobile robot plans directly in a higher-dimensional state/control space rather than stopping at a coarse geometric path. The method seeds a waypoint/controller representation from a value-function plan, then improves it with gradient ascent to obtain smoother and less conservative robot motion.",
+      "url": "../papers/2002_roy_motion_planning_through_policy/",
+      "contentTreeUrl": "../content-tree/#paper=2002_roy_motion_planning_through_policy",
+      "mindMapUrl": "../mind-map/#paper=2002_roy_motion_planning_through_policy"
+    },
+    {
       "id": "2002_hsu_randomized_kinodynamic_motion_planning",
       "label": "Randomized Kinodynamic Motion Planning with Moving Obstacles",
       "title": "Randomized Kinodynamic Motion Planning with Moving Obstacles",
@@ -9225,43 +9264,6 @@ window.timelineData = {
       "url": "../papers/2002_hsu_randomized_kinodynamic_motion_planning/",
       "contentTreeUrl": "../content-tree/#paper=2002_hsu_randomized_kinodynamic_motion_planning",
       "mindMapUrl": "../mind-map/#paper=2002_hsu_randomized_kinodynamic_motion_planning"
-    },
-    {
-      "id": "2002_roy_motion_planning_through_policy",
-      "label": "Motion Planning Through Policy Search",
-      "title": "Motion Planning through Policy Search",
-      "authors": [
-        "Nicholas Roy",
-        "Sebastian Thrun"
-      ],
-      "authorShort": "Roy, Thrun",
-      "year": 2002,
-      "source": "IEEE/RSJ International Conference on Intelligent Robots and Systems",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Learning-Based Motion Planning",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Learning-Based Motion Planning",
-        "Motion Planning Through Policy Search"
-      ],
-      "tags": [
-        "Motion planning",
-        "Policy search",
-        "Mobile robotics",
-        "Kinodynamic planning",
-        "Value functions",
-        "Gradient ascent",
-        "Learning in planning"
-      ],
-      "abstract": "We propose a motion planning algorithm for performing policy search in the full pose and velocity space of a mobile robot. By comparison, existing techniques optimize high-level plans, but fail to optimize the low-level motion controls. We use policy search in a high dimensional control space to find plans that lead to measurably better motion planning. Our experimental results suggest that our approach leads to superior robot motion than many existing techniques.",
-      "summary": "Uses policy search to refine mobile robot plans directly in a higher-dimensional state/control space rather than stopping at a coarse geometric path. The method seeds a waypoint/controller representation from a value-function plan, then improves it with gradient ascent to obtain smoother and less conservative robot motion.",
-      "url": "../papers/2002_roy_motion_planning_through_policy/",
-      "contentTreeUrl": "../content-tree/#paper=2002_roy_motion_planning_through_policy",
-      "mindMapUrl": "../mind-map/#paper=2002_roy_motion_planning_through_policy"
     },
     {
       "id": "2002_auer_finite_time_analysis_of",
@@ -10119,7 +10121,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Self-Normalized Processes: Exponential Inequalities, Moment Bounds and Iterated Logarithm Laws"
       ],
@@ -11167,7 +11169,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "A Geometric Approach to Three-dimensional Hipped Bipedal Robotic Walking"
       ],
       "tags": [],
@@ -11574,192 +11576,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2008_van_den_berg_reciprocal_velocity_obstacles_for"
     },
     {
-      "id": "2008_leonard_a_perceptiondriven_autonomous_urban",
-      "label": "A perception-driven autonomous urban vehicle",
-      "title": "A Perception‐driven Autonomous Urban Vehicle",
-      "authors": [
-        "John Leonard",
-        "Jonathan How",
-        "Seth Teller",
-        "Mitch Berger",
-        "Stefan Campbell",
-        "Gaston Fiore",
-        "Luke Fletcher",
-        "Emilio Frazzoli",
-        "Albert Huang",
-        "Sertac Karaman",
-        "Olivier Koch",
-        "Yoshiaki Kuwata",
-        "David Moore",
-        "Edwin Olson",
-        "Steve Peters",
-        "Justin Teo",
-        "Robert Truax",
-        "Matthew Walter",
-        "David Barrett",
-        "Alexander Epstein",
-        "Keoni Maheloni",
-        "Katy Moyer",
-        "Troy Jones",
-        "Ryan Buckley",
-        "Matthew Antone",
-        "Robert Galejs",
-        "Siddhartha Krishnamurthy",
-        "Jonathan Williams"
-      ],
-      "authorShort": "Leonard, How, Teller",
-      "year": 2008,
-      "source": "Journal of Field Robotics",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Surveys, Benchmarks & Frameworks",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
-        "A perception-driven autonomous urban vehicle"
-      ],
-      "tags": [],
-      "abstract": "This paper describes the architecture and implementation of an autonomous passenger vehicle designed to navigate using locally perceived information in preference to potentially inaccurate or incomplete map data. The vehicle architecture was designed to handle the original DARPA Urban Challenge requirements of perceiving and navigating a road network with segments defined by sparse waypoints. The vehicle implementation includes many heterogeneous sensors with significant communications and computation bandwidth to capture and process high‐resolution, high‐rate sensor data. The output of the comprehensive environmental sensing subsystem is fed into a kinodynamic motion planning algorithm to generate all vehicle motion. The requirements of driving in lanes, three‐point turns, parking, and maneuvering through obstacle fields are all generated with a unified planner. A key aspect of the planner is its use of closed‐loop simulation in a rapidly exploring randomized trees algorithm, which can randomly explore the space while efficiently generating smooth trajectories in a dynamic and uncertain environment. The overall system was realized through the creation of a powerful new suite of software tools for message passing, logging, and visualization. These innovations provide a strong platform for future research in autonomous driving in global positioning system–denied and highly dynamic environments with poor a priori information. © 2008 Wiley Periodicals, Inc.",
-      "summary": "",
-      "url": "../papers/2008_leonard_a_perceptiondriven_autonomous_urban/",
-      "contentTreeUrl": "../content-tree/#paper=2008_leonard_a_perceptiondriven_autonomous_urban",
-      "mindMapUrl": "../mind-map/#paper=2008_leonard_a_perceptiondriven_autonomous_urban"
-    },
-    {
-      "id": "2008_urmson_autonomous_driving_in_urban",
-      "label": "Boss",
-      "title": "Autonomous Driving in Urban Environments: Boss and the Urban Challenge",
-      "authors": [
-        "Chris Urmson",
-        "Joshua Anhalt",
-        "Drew Bagnell",
-        "Christopher Baker",
-        "Robert Bittner",
-        "M. N. Clark",
-        "John Dolan",
-        "Dave Duggins",
-        "Tugrul Galatali",
-        "Chris Geyer",
-        "Michele Gittleman",
-        "Sam Harbaugh",
-        "Martial Hebert",
-        "Thomas M. Howard",
-        "Sascha Kolski",
-        "Alonzo Kelly",
-        "Maxim Likhachev",
-        "Matt McNaughton",
-        "Nick Miller",
-        "Kevin Peterson",
-        "Brian Pilnick",
-        "Raj Rajkumar",
-        "Paul Rybski",
-        "Bryan Salesky",
-        "Young-Woo Seo",
-        "Sanjiv Singh",
-        "Jarrod Snider",
-        "Anthony Stentz",
-        "William “Red” Whittaker",
-        "Ziv Wolkowicki",
-        "Jason Ziglar",
-        "Hong Bae",
-        "Thomas Brown",
-        "Daniel Demitrish",
-        "Bakhtiar Litkouhi",
-        "Jim Nickolaou",
-        "Varsha Sadekar",
-        "Wende Zhang",
-        "Joshua Struble",
-        "Michael Taylor",
-        "Michael Darms",
-        "Dave Ferguson"
-      ],
-      "authorShort": "Urmson, Anhalt, Bagnell",
-      "year": 2008,
-      "source": "Journal of Field Robotics",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Surveys, Benchmarks & Frameworks",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
-        "Boss"
-      ],
-      "tags": [
-        "Autonomous driving",
-        "Urban driving",
-        "DARPA Urban Challenge",
-        "Behavior planning",
-        "Sensor fusion",
-        "Autonomous vehicles"
-      ],
-      "abstract": "Boss is an autonomous vehicle that uses on-board sensors (global positioning system - lasers, radars, and cameras) to track other vehicles, detect static obstacles, and localize itself relative to a road model. A three-layer planning system combines mission, behavioral, and motion planning to drive in urban environments. The mission planning layer considers which street to take to achieve a mission goal. The behavioral layer determines when to change lanes and precedence at intersections and performs error recovery maneuvers. The motion planning layer selects actions to avoid obstacles while making progress toward local goals. The system was developed from the ground up to address the requirements of the DARPA Urban Challenge using a spiral system development process with a heavy emphasis on regular, regressive system testing. During the National Qualification Event and the 85-km Urban Challenge Final Event, Boss demonstrated some of its capabilities, qualifying first and winning the challenge.",
-      "summary": "Describes Boss, the CMU autonomous vehicle that won the 2007 DARPA Urban Challenge. Presents the full software stack for urban driving including perception, behavior planning, and motion planning components that operate in complex traffic scenarios with other vehicles and pedestrians.",
-      "url": "../papers/2008_urmson_autonomous_driving_in_urban/",
-      "contentTreeUrl": "../content-tree/#paper=2008_urmson_autonomous_driving_in_urban",
-      "mindMapUrl": "../mind-map/#paper=2008_urmson_autonomous_driving_in_urban"
-    },
-    {
-      "id": "2008_montemerlo_junior_the_stanford_entry",
-      "label": "Junior: The Stanford Entry in the Urban Challenge",
-      "title": "Junior: The Stanford Entry in the Urban Challenge",
-      "authors": [
-        "Michael Montemerlo",
-        "Jan Becker",
-        "Suhrid Bhat",
-        "Hendrik Dahlkamp",
-        "Dmitri Dolgov",
-        "Scott Ettinger",
-        "Dirk Haehnel",
-        "Tim Hilden",
-        "Gabe Hoffmann",
-        "Burkhard Huhnke",
-        "Doug Johnston",
-        "Stefan Klumpp",
-        "Dirk Langer",
-        "Anthony Levandowski",
-        "Jesse Levinson",
-        "Julien Marcil",
-        "David Orenstein",
-        "Johannes Paefgen",
-        "Isaac Penny",
-        "Anna Petrovskaya",
-        "Mike Pflueger",
-        "Ganymed Stanek",
-        "David Stavens",
-        "Antone Vogt",
-        "Sebastian Thrun"
-      ],
-      "authorShort": "Montemerlo, Becker, Bhat",
-      "year": 2008,
-      "source": "Journal of Field Robotics",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Surveys, Benchmarks & Frameworks",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
-        "Junior: The Stanford Entry in the Urban Challenge"
-      ],
-      "tags": [],
-      "abstract": "This article presents the architecture of Junior, a robotic vehicle capable of navigating urban environments autonomously. In doing so, the vehicle is able to select its own routes, perceive and interact with other traffic, and execute various urban driving skills including lane changes, U‐turns, parking, and merging into moving traffic. The vehicle successfully finished and won second place in the DARPA Urban Challenge, a robot competition organized by the U.S. Government. © 2008 Wiley Periodicals, Inc.",
-      "summary": "",
-      "url": "../papers/2008_montemerlo_junior_the_stanford_entry/",
-      "contentTreeUrl": "../content-tree/#paper=2008_montemerlo_junior_the_stanford_entry",
-      "mindMapUrl": "../mind-map/#paper=2008_montemerlo_junior_the_stanford_entry"
-    },
-    {
       "id": "2008_ziebart_maximum_entropy_inverse_reinforcement",
       "label": "Maximum Entropy Inverse Reinforcement Learning",
       "title": "Maximum Entropy Inverse Reinforcement Learning",
@@ -11810,7 +11626,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Dynamic Mode Decomposition (DMD)",
         "DMD"
@@ -11937,6 +11753,192 @@ window.timelineData = {
       "url": "../papers/2008_sedgewick_left_leaning_red_black/",
       "contentTreeUrl": "../content-tree/#paper=2008_sedgewick_left_leaning_red_black",
       "mindMapUrl": "../mind-map/#paper=2008_sedgewick_left_leaning_red_black"
+    },
+    {
+      "id": "2008_leonard_a_perceptiondriven_autonomous_urban",
+      "label": "A perception-driven autonomous urban vehicle",
+      "title": "A Perception‐driven Autonomous Urban Vehicle",
+      "authors": [
+        "John Leonard",
+        "Jonathan How",
+        "Seth Teller",
+        "Mitch Berger",
+        "Stefan Campbell",
+        "Gaston Fiore",
+        "Luke Fletcher",
+        "Emilio Frazzoli",
+        "Albert Huang",
+        "Sertac Karaman",
+        "Olivier Koch",
+        "Yoshiaki Kuwata",
+        "David Moore",
+        "Edwin Olson",
+        "Steve Peters",
+        "Justin Teo",
+        "Robert Truax",
+        "Matthew Walter",
+        "David Barrett",
+        "Alexander Epstein",
+        "Keoni Maheloni",
+        "Katy Moyer",
+        "Troy Jones",
+        "Ryan Buckley",
+        "Matthew Antone",
+        "Robert Galejs",
+        "Siddhartha Krishnamurthy",
+        "Jonathan Williams"
+      ],
+      "authorShort": "Leonard, How, Teller",
+      "year": 2008,
+      "source": "Journal of Field Robotics",
+      "type": "Journal Paper",
+      "superCategory": "Foundations",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Engineering Systems",
+        "Robots",
+        "Driving Robots",
+        "A perception-driven autonomous urban vehicle"
+      ],
+      "tags": [],
+      "abstract": "This paper describes the architecture and implementation of an autonomous passenger vehicle designed to navigate using locally perceived information in preference to potentially inaccurate or incomplete map data. The vehicle architecture was designed to handle the original DARPA Urban Challenge requirements of perceiving and navigating a road network with segments defined by sparse waypoints. The vehicle implementation includes many heterogeneous sensors with significant communications and computation bandwidth to capture and process high‐resolution, high‐rate sensor data. The output of the comprehensive environmental sensing subsystem is fed into a kinodynamic motion planning algorithm to generate all vehicle motion. The requirements of driving in lanes, three‐point turns, parking, and maneuvering through obstacle fields are all generated with a unified planner. A key aspect of the planner is its use of closed‐loop simulation in a rapidly exploring randomized trees algorithm, which can randomly explore the space while efficiently generating smooth trajectories in a dynamic and uncertain environment. The overall system was realized through the creation of a powerful new suite of software tools for message passing, logging, and visualization. These innovations provide a strong platform for future research in autonomous driving in global positioning system–denied and highly dynamic environments with poor a priori information. © 2008 Wiley Periodicals, Inc.",
+      "summary": "",
+      "url": "../papers/2008_leonard_a_perceptiondriven_autonomous_urban/",
+      "contentTreeUrl": "../content-tree/#paper=2008_leonard_a_perceptiondriven_autonomous_urban",
+      "mindMapUrl": "../mind-map/#paper=2008_leonard_a_perceptiondriven_autonomous_urban"
+    },
+    {
+      "id": "2008_urmson_autonomous_driving_in_urban",
+      "label": "Boss",
+      "title": "Autonomous Driving in Urban Environments: Boss and the Urban Challenge",
+      "authors": [
+        "Chris Urmson",
+        "Joshua Anhalt",
+        "Drew Bagnell",
+        "Christopher Baker",
+        "Robert Bittner",
+        "M. N. Clark",
+        "John Dolan",
+        "Dave Duggins",
+        "Tugrul Galatali",
+        "Chris Geyer",
+        "Michele Gittleman",
+        "Sam Harbaugh",
+        "Martial Hebert",
+        "Thomas M. Howard",
+        "Sascha Kolski",
+        "Alonzo Kelly",
+        "Maxim Likhachev",
+        "Matt McNaughton",
+        "Nick Miller",
+        "Kevin Peterson",
+        "Brian Pilnick",
+        "Raj Rajkumar",
+        "Paul Rybski",
+        "Bryan Salesky",
+        "Young-Woo Seo",
+        "Sanjiv Singh",
+        "Jarrod Snider",
+        "Anthony Stentz",
+        "William “Red” Whittaker",
+        "Ziv Wolkowicki",
+        "Jason Ziglar",
+        "Hong Bae",
+        "Thomas Brown",
+        "Daniel Demitrish",
+        "Bakhtiar Litkouhi",
+        "Jim Nickolaou",
+        "Varsha Sadekar",
+        "Wende Zhang",
+        "Joshua Struble",
+        "Michael Taylor",
+        "Michael Darms",
+        "Dave Ferguson"
+      ],
+      "authorShort": "Urmson, Anhalt, Bagnell",
+      "year": 2008,
+      "source": "Journal of Field Robotics",
+      "type": "Journal Paper",
+      "superCategory": "Foundations",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Engineering Systems",
+        "Robots",
+        "Driving Robots",
+        "Boss"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Urban driving",
+        "DARPA Urban Challenge",
+        "Behavior planning",
+        "Sensor fusion",
+        "Autonomous vehicles"
+      ],
+      "abstract": "Boss is an autonomous vehicle that uses on-board sensors (global positioning system - lasers, radars, and cameras) to track other vehicles, detect static obstacles, and localize itself relative to a road model. A three-layer planning system combines mission, behavioral, and motion planning to drive in urban environments. The mission planning layer considers which street to take to achieve a mission goal. The behavioral layer determines when to change lanes and precedence at intersections and performs error recovery maneuvers. The motion planning layer selects actions to avoid obstacles while making progress toward local goals. The system was developed from the ground up to address the requirements of the DARPA Urban Challenge using a spiral system development process with a heavy emphasis on regular, regressive system testing. During the National Qualification Event and the 85-km Urban Challenge Final Event, Boss demonstrated some of its capabilities, qualifying first and winning the challenge.",
+      "summary": "Describes Boss, the CMU autonomous vehicle that won the 2007 DARPA Urban Challenge. Presents the full software stack for urban driving including perception, behavior planning, and motion planning components that operate in complex traffic scenarios with other vehicles and pedestrians.",
+      "url": "../papers/2008_urmson_autonomous_driving_in_urban/",
+      "contentTreeUrl": "../content-tree/#paper=2008_urmson_autonomous_driving_in_urban",
+      "mindMapUrl": "../mind-map/#paper=2008_urmson_autonomous_driving_in_urban"
+    },
+    {
+      "id": "2008_montemerlo_junior_the_stanford_entry",
+      "label": "Junior: The Stanford Entry in the Urban Challenge",
+      "title": "Junior: The Stanford Entry in the Urban Challenge",
+      "authors": [
+        "Michael Montemerlo",
+        "Jan Becker",
+        "Suhrid Bhat",
+        "Hendrik Dahlkamp",
+        "Dmitri Dolgov",
+        "Scott Ettinger",
+        "Dirk Haehnel",
+        "Tim Hilden",
+        "Gabe Hoffmann",
+        "Burkhard Huhnke",
+        "Doug Johnston",
+        "Stefan Klumpp",
+        "Dirk Langer",
+        "Anthony Levandowski",
+        "Jesse Levinson",
+        "Julien Marcil",
+        "David Orenstein",
+        "Johannes Paefgen",
+        "Isaac Penny",
+        "Anna Petrovskaya",
+        "Mike Pflueger",
+        "Ganymed Stanek",
+        "David Stavens",
+        "Antone Vogt",
+        "Sebastian Thrun"
+      ],
+      "authorShort": "Montemerlo, Becker, Bhat",
+      "year": 2008,
+      "source": "Journal of Field Robotics",
+      "type": "Journal Paper",
+      "superCategory": "Foundations",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Engineering Systems",
+        "Robots",
+        "Driving Robots",
+        "Junior: The Stanford Entry in the Urban Challenge"
+      ],
+      "tags": [],
+      "abstract": "This article presents the architecture of Junior, a robotic vehicle capable of navigating urban environments autonomously. In doing so, the vehicle is able to select its own routes, perceive and interact with other traffic, and execute various urban driving skills including lane changes, U‐turns, parking, and merging into moving traffic. The vehicle successfully finished and won second place in the DARPA Urban Challenge, a robot competition organized by the U.S. Government. © 2008 Wiley Periodicals, Inc.",
+      "summary": "",
+      "url": "../papers/2008_montemerlo_junior_the_stanford_entry/",
+      "contentTreeUrl": "../content-tree/#paper=2008_montemerlo_junior_the_stanford_entry",
+      "mindMapUrl": "../mind-map/#paper=2008_montemerlo_junior_the_stanford_entry"
     },
     {
       "id": "0803_0476",
@@ -12713,7 +12715,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "ROS"
       ],
       "tags": [
@@ -12821,6 +12823,38 @@ window.timelineData = {
       "url": "../papers/2010_kon_model_predictive_control_based/",
       "contentTreeUrl": "../content-tree/#paper=2010_kon_model_predictive_control_based",
       "mindMapUrl": "../mind-map/#paper=2010_kon_model_predictive_control_based"
+    },
+    {
+      "id": "2010_lam_model_predictive_contouring_control",
+      "label": "MPCC",
+      "title": "Model Predictive Contouring Control",
+      "authors": [
+        "Denise Lam",
+        "Chris Manzie",
+        "Malcolm Good"
+      ],
+      "authorShort": "Lam, Manzie, Good",
+      "year": 2010,
+      "source": "49th IEEE Conference on Decision and Control (CDC)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "State-space Methods",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Model Predictive Contouring Control (MPCC)",
+        "MPCC"
+      ],
+      "tags": [],
+      "abstract": "Biaxial contouring systems involve competing control objectives of maximising accuracy while minimising traversal time. In this paper, a model predictive controller for contouring systems is proposed where the control inputs are determined by minimising a cost function which reflects the trade-off between these competing objectives, subject to state and actuator constraints. To facilitate real-time implementation, a linear time-varying approach is proposed, and stability is guaranteed by introducing an additional contraction constraint. Simulation results for an XY table system demonstrate the effectiveness of the proposed contouring control scheme.",
+      "summary": "",
+      "url": "../papers/2010_lam_model_predictive_contouring_control/",
+      "contentTreeUrl": "../content-tree/#paper=2010_lam_model_predictive_contouring_control",
+      "mindMapUrl": "../mind-map/#paper=2010_lam_model_predictive_contouring_control"
     },
     {
       "id": "1012_0621",
@@ -12987,38 +13021,6 @@ window.timelineData = {
       "url": "../papers/2010_tedrake_lqr_trees_feedback_motion/",
       "contentTreeUrl": "../content-tree/#paper=2010_tedrake_lqr_trees_feedback_motion",
       "mindMapUrl": "../mind-map/#paper=2010_tedrake_lqr_trees_feedback_motion"
-    },
-    {
-      "id": "2010_lam_model_predictive_contouring_control",
-      "label": "Model predictive contouring control",
-      "title": "Model Predictive Contouring Control",
-      "authors": [
-        "Denise Lam",
-        "Chris Manzie",
-        "Malcolm Good"
-      ],
-      "authorShort": "Lam, Manzie, Good",
-      "year": 2010,
-      "source": "49th IEEE Conference on Decision and Control (CDC)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Kinodynamic Planning",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Kinodynamic Planning",
-        "Trajectory Optimization",
-        "Model Predictive Contouring Control (MPCC)",
-        "Model predictive contouring control"
-      ],
-      "tags": [],
-      "abstract": "Biaxial contouring systems involve competing control objectives of maximising accuracy while minimising traversal time. In this paper, a model predictive controller for contouring systems is proposed where the control inputs are determined by minimising a cost function which reflects the trade-off between these competing objectives, subject to state and actuator constraints. To facilitate real-time implementation, a linear time-varying approach is proposed, and stability is guaranteed by introducing an additional contraction constraint. Simulation results for an XY table system demonstrate the effectiveness of the proposed contouring control scheme.",
-      "summary": "",
-      "url": "../papers/2010_lam_model_predictive_contouring_control/",
-      "contentTreeUrl": "../content-tree/#paper=2010_lam_model_predictive_contouring_control",
-      "mindMapUrl": "../mind-map/#paper=2010_lam_model_predictive_contouring_control"
     },
     {
       "id": "2010_he_puma_planning_under_uncertainty",
@@ -13833,7 +13835,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "Rough Terrain Locomotion"
       ],
       "tags": [
@@ -13850,50 +13852,6 @@ window.timelineData = {
       "url": "../papers/2011_zucker_optimization_and_learning_for/",
       "contentTreeUrl": "../content-tree/#paper=2011_zucker_optimization_and_learning_for",
       "mindMapUrl": "../mind-map/#paper=2011_zucker_optimization_and_learning_for"
-    },
-    {
-      "id": "2011_levinson_towards_fully_autonomous_driving",
-      "label": "Towards Fully Autonomous Driving: Systems and Algorithms",
-      "title": "Towards Fully Autonomous Driving: Systems and Algorithms",
-      "authors": [
-        "Jesse Levinson",
-        "Jake Askeland",
-        "Jan Becker",
-        "Jennifer Dolson",
-        "David Held",
-        "Soeren Kammel",
-        "J. Zico Kolter",
-        "Dirk Langer",
-        "Oliver Pink",
-        "Vaughan Pratt",
-        "Michael Sokolsky",
-        "Ganymed Stanek",
-        "David Stavens",
-        "Alex Teichman",
-        "Moritz Werling",
-        "Sebastian Thrun"
-      ],
-      "authorShort": "Levinson, Askeland, Becker",
-      "year": 2011,
-      "source": "2011 IEEE Intelligent Vehicles Symposium (IV)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Surveys, Benchmarks & Frameworks",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
-        "Towards Fully Autonomous Driving: Systems and Algorithms"
-      ],
-      "tags": [],
-      "abstract": "In order to achieve autonomous operation of a vehicle in urban situations with unpredictable traffic, several realtime systems must interoperate, including environment perception, localization, planning, and control. In addition, a robust vehicle platform with appropriate sensors, computational hardware, networking, and software infrastructure is essential. We previously published an overview of Junior, Stanford's entry in the 2007 DARPA Urban Challenge. This race was a closed-course competition which, while historic and inciting much progress in the field, was not fully representative of the situations that exist in the real world. In this paper, we present a summary of our recent research towards the goal of enabling safe and robust autonomous operation in more realistic situations. First, a trio of unsupervised algorithms automatically calibrates our 64-beam rotating LIDAR with accuracy superior to tedious hand measurements. We then generate high-resolution maps of the environment which are subsequently used for online localization with centimeter accuracy. Improved perception and recognition algorithms now enable Junior to track and classify obstacles as cyclists, pedestrians, and vehicles; traffic lights are detected as well. A new planning system uses this incoming data to generate thousands of candidate trajectories per second, choosing the optimal path dynamically. The improved controller continuously selects throttle, brake, and steering actuations that maximize comfort and minimize trajectory error. All of these algorithms work in sun or rain and during the day or night. With these systems operating together, Junior has successfully logged hundreds of miles of autonomous operation in a variety of real-life conditions.",
-      "summary": "",
-      "url": "../papers/2011_levinson_towards_fully_autonomous_driving/",
-      "contentTreeUrl": "../content-tree/#paper=2011_levinson_towards_fully_autonomous_driving",
-      "mindMapUrl": "../mind-map/#paper=2011_levinson_towards_fully_autonomous_driving"
     },
     {
       "id": "2011_abbasi_yadkori_regret_bounds_for_the",
@@ -14049,6 +14007,50 @@ window.timelineData = {
       "url": "../papers/2011_jegou_product_quantization_for_nearest/",
       "contentTreeUrl": "../content-tree/#paper=2011_jegou_product_quantization_for_nearest",
       "mindMapUrl": "../mind-map/#paper=2011_jegou_product_quantization_for_nearest"
+    },
+    {
+      "id": "2011_levinson_towards_fully_autonomous_driving",
+      "label": "Towards Fully Autonomous Driving: Systems and Algorithms",
+      "title": "Towards Fully Autonomous Driving: Systems and Algorithms",
+      "authors": [
+        "Jesse Levinson",
+        "Jake Askeland",
+        "Jan Becker",
+        "Jennifer Dolson",
+        "David Held",
+        "Soeren Kammel",
+        "J. Zico Kolter",
+        "Dirk Langer",
+        "Oliver Pink",
+        "Vaughan Pratt",
+        "Michael Sokolsky",
+        "Ganymed Stanek",
+        "David Stavens",
+        "Alex Teichman",
+        "Moritz Werling",
+        "Sebastian Thrun"
+      ],
+      "authorShort": "Levinson, Askeland, Becker",
+      "year": 2011,
+      "source": "2011 IEEE Intelligent Vehicles Symposium (IV)",
+      "type": "Conference Paper",
+      "superCategory": "Foundations",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Engineering Systems",
+        "Robots",
+        "Driving Robots",
+        "Towards Fully Autonomous Driving: Systems and Algorithms"
+      ],
+      "tags": [],
+      "abstract": "In order to achieve autonomous operation of a vehicle in urban situations with unpredictable traffic, several realtime systems must interoperate, including environment perception, localization, planning, and control. In addition, a robust vehicle platform with appropriate sensors, computational hardware, networking, and software infrastructure is essential. We previously published an overview of Junior, Stanford's entry in the 2007 DARPA Urban Challenge. This race was a closed-course competition which, while historic and inciting much progress in the field, was not fully representative of the situations that exist in the real world. In this paper, we present a summary of our recent research towards the goal of enabling safe and robust autonomous operation in more realistic situations. First, a trio of unsupervised algorithms automatically calibrates our 64-beam rotating LIDAR with accuracy superior to tedious hand measurements. We then generate high-resolution maps of the environment which are subsequently used for online localization with centimeter accuracy. Improved perception and recognition algorithms now enable Junior to track and classify obstacles as cyclists, pedestrians, and vehicles; traffic lights are detected as well. A new planning system uses this incoming data to generate thousands of candidate trajectories per second, choosing the optimal path dynamically. The improved controller continuously selects throttle, brake, and steering actuations that maximize comfort and minimize trajectory error. All of these algorithms work in sun or rain and during the day or night. With these systems operating together, Junior has successfully logged hundreds of miles of autonomous operation in a variety of real-life conditions.",
+      "summary": "",
+      "url": "../papers/2011_levinson_towards_fully_autonomous_driving/",
+      "contentTreeUrl": "../content-tree/#paper=2011_levinson_towards_fully_autonomous_driving",
+      "mindMapUrl": "../mind-map/#paper=2011_levinson_towards_fully_autonomous_driving"
     },
     {
       "id": "2011_olson_apriltag_a_robust_and",
@@ -14627,7 +14629,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "Surveys & Control Connections",
         "CORL"
       ],
@@ -14755,12 +14757,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Foundations",
       "category": "Engineering Systems",
-      "subCategory": "Automated Systems",
+      "subCategory": "Robots",
       "path": [
         "Content Tree",
         "Foundations",
         "Engineering Systems",
-        "Automated Systems",
+        "Robots",
+        "Flying Robots",
         "Multirotor Aerial Vehicles: Modeling, Estimation, and Control of Quadrotor"
       ],
       "tags": [],
@@ -15449,7 +15452,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "An integrated system for real-time model predictive control of humanoid robots"
       ],
       "tags": [],
@@ -15513,7 +15516,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Dynamic Mode Decomposition (DMD)",
         "DMD: Theory and Applications"
@@ -16657,60 +16660,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1401_3827"
     },
     {
-      "id": "2014_tedrake_a_summary_of_team",
-      "label": "A summary of team MIT's approach to the virtual robotics challenge",
-      "title": "A Summary of Team MIT's Approach to the Virtual Robotics Challenge",
-      "authors": [
-        "R. Tedrake",
-        "M. Fallon",
-        "S. Karumanchi",
-        "S. Kuindersma",
-        "M. Antone",
-        "T. Schneider",
-        "T. Howard",
-        "M. Walter",
-        "H. Dai",
-        "R. Deits",
-        "M. Fleder",
-        "D. Fourie",
-        "R. Hammoud",
-        "S. Hemachandra",
-        "P. Ilardi",
-        "C. Perez-D'Arpino",
-        "S. Pillai",
-        "A. Valenzuela",
-        "C. Cantu",
-        "C. Dolan",
-        "I. Evans",
-        "S. Jorgensen",
-        "J. Kristeller",
-        "J. A. Shah",
-        "K. Iagnemma",
-        "S. Teller"
-      ],
-      "authorShort": "Tedrake, Fallon, Karumanchi",
-      "year": 2014,
-      "source": "2014 IEEE International Conference on Robotics and Automation (ICRA)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Surveys, Benchmarks & Frameworks",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
-        "A summary of team MIT's approach to the virtual robotics challenge"
-      ],
-      "tags": [],
-      "abstract": "The paper describes the system developed by researchers from MIT for the Defense Advanced Research Projects Agency's (DARPA) Virtual Robotics Challenge (VRC), held in June 2013. The VRC was the first competition in the DARPA Robotics Challenge (DRC), a program that aims to “develop ground robotic capabilities to execute complex tasks in dangerous, degraded, human-engineered environments”. The VRC required teams to guide a model of Boston Dynamics' humanoid robot, Atlas, through driving, walking, and manipulation tasks in simulation. Team MIT's user interface, the Viewer, provided the operator with a unified representation of all available information. A 3D rendering of the robot depicted its most recently estimated body state with respect to the surrounding environment, represented by point clouds and texture-mapped meshes as sensed by on-board LIDAR and fused over time.",
-      "summary": "",
-      "url": "../papers/2014_tedrake_a_summary_of_team/",
-      "contentTreeUrl": "../content-tree/#paper=2014_tedrake_a_summary_of_team",
-      "mindMapUrl": "../mind-map/#paper=2014_tedrake_a_summary_of_team"
-    },
-    {
       "id": "2014_luo_an_empirical_study_of",
       "label": "An Empirical Study of Optimal Motion Planning",
       "title": "An Empirical Study of Optimal Motion Planning",
@@ -16800,7 +16749,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Dynamic Mode Decomposition (DMD)",
         "DMDc"
@@ -16881,7 +16830,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Dynamic Mode Decomposition (DMD)",
         "eDMD"
@@ -16920,7 +16869,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Interactive Bayesian identification of kinematic mechanisms"
       ],
@@ -17038,6 +16987,60 @@ window.timelineData = {
       "url": "../papers/2014_fan_cuckoo_filter_practically_better/",
       "contentTreeUrl": "../content-tree/#paper=2014_fan_cuckoo_filter_practically_better",
       "mindMapUrl": "../mind-map/#paper=2014_fan_cuckoo_filter_practically_better"
+    },
+    {
+      "id": "2014_tedrake_a_summary_of_team",
+      "label": "A summary of team MIT's approach to the virtual robotics challenge",
+      "title": "A Summary of Team MIT's Approach to the Virtual Robotics Challenge",
+      "authors": [
+        "R. Tedrake",
+        "M. Fallon",
+        "S. Karumanchi",
+        "S. Kuindersma",
+        "M. Antone",
+        "T. Schneider",
+        "T. Howard",
+        "M. Walter",
+        "H. Dai",
+        "R. Deits",
+        "M. Fleder",
+        "D. Fourie",
+        "R. Hammoud",
+        "S. Hemachandra",
+        "P. Ilardi",
+        "C. Perez-D'Arpino",
+        "S. Pillai",
+        "A. Valenzuela",
+        "C. Cantu",
+        "C. Dolan",
+        "I. Evans",
+        "S. Jorgensen",
+        "J. Kristeller",
+        "J. A. Shah",
+        "K. Iagnemma",
+        "S. Teller"
+      ],
+      "authorShort": "Tedrake, Fallon, Karumanchi",
+      "year": 2014,
+      "source": "2014 IEEE International Conference on Robotics and Automation (ICRA)",
+      "type": "Conference Paper",
+      "superCategory": "Foundations",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Engineering Systems",
+        "Robots",
+        "Walking Robots",
+        "A summary of team MIT's approach to the virtual robotics challenge"
+      ],
+      "tags": [],
+      "abstract": "The paper describes the system developed by researchers from MIT for the Defense Advanced Research Projects Agency's (DARPA) Virtual Robotics Challenge (VRC), held in June 2013. The VRC was the first competition in the DARPA Robotics Challenge (DRC), a program that aims to “develop ground robotic capabilities to execute complex tasks in dangerous, degraded, human-engineered environments”. The VRC required teams to guide a model of Boston Dynamics' humanoid robot, Atlas, through driving, walking, and manipulation tasks in simulation. Team MIT's user interface, the Viewer, provided the operator with a unified representation of all available information. A 3D rendering of the robot depicted its most recently estimated body state with respect to the surrounding environment, represented by point clouds and texture-mapped meshes as sensed by on-board LIDAR and fused over time.",
+      "summary": "",
+      "url": "../papers/2014_tedrake_a_summary_of_team/",
+      "contentTreeUrl": "../content-tree/#paper=2014_tedrake_a_summary_of_team",
+      "mindMapUrl": "../mind-map/#paper=2014_tedrake_a_summary_of_team"
     },
     {
       "id": "1406_5670",
@@ -17404,6 +17407,46 @@ window.timelineData = {
       "url": "../papers/1508_05384/",
       "contentTreeUrl": "../content-tree/#paper=1508_05384",
       "mindMapUrl": "../mind-map/#paper=1508_05384"
+    },
+    {
+      "id": "1711_07300",
+      "label": "MPCC (RC Cars)",
+      "title": "Optimization-Based Autonomous Racing of 1: 43 Scale RC Cars",
+      "authors": [
+        "Alexander Liniger",
+        "Alexander Domahidi",
+        "Manfred Morari"
+      ],
+      "authorShort": "Liniger, Domahidi, Morari",
+      "year": 2015,
+      "source": "Optimal Control Applications and Methods",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "State-space Methods",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Model Predictive Contouring Control (MPCC)",
+        "MPCC (RC Cars)"
+      ],
+      "tags": [
+        "Model predictive control",
+        "Contouring control",
+        "Autonomous racing",
+        "Path planning",
+        "Real-time optimization",
+        "RC cars",
+        "MPCC"
+      ],
+      "abstract": "This paper describes autonomous racing of RC race cars based on mathematical optimization. Using a dynamical model of the vehicle, control inputs are computed by receding horizon based controllers, where the objective is to maximize progress on the track subject to the requirement of staying on the track and avoiding opponents. Two different control formulations are presented. The first controller employs a two-level structure, consisting of a path planner and a nonlinear model predictive controller (NMPC) for tracking. The second controller combines both tasks in one nonlinear optimization problem (NLP) following the ideas of contouring control. Linear time varying models obtained by linearization are used to build local approximations of the control NLPs in the form of convex quadratic programs (QPs) at each sampling time. The resulting QPs have a typical MPC structure and can be solved in the range of milliseconds by recent structure exploiting solvers, which is key to the real-time feasibility of the overall control scheme. Obstacle avoidance is incorporated by means of a high-level corridor planner based on dynamic programming, which generates convex constraints for the controllers according to the current position of opponents and the track layout. The control performance is investigated experimentally using 1:43 scale RC race cars, driven at speeds of more than 3 m/s and in operating regions with saturated rear tire forces (drifting). The algorithms run at 50 Hz sampling rate on embedded computing platforms, demonstrating the real-time feasibility and high performance of optimization-based approaches for autonomous racing.",
+      "summary": "Foundational paper for Model Predictive Contouring Control (MPCC) in vehicle racing, introducing the idea of maximizing progress along a reference path as an MPC objective. Demonstrates real-time performance on 1:43 scale RC cars at drifting speeds, and coined the contouring-control formulation widely adopted in subsequent autonomous racing and AV trajectory planning work.",
+      "url": "../papers/1711_07300/",
+      "contentTreeUrl": "../content-tree/#paper=1711_07300",
+      "mindMapUrl": "../mind-map/#paper=1711_07300"
     },
     {
       "id": "2015_wang_a_gradient_based_approach",
@@ -18250,46 +18293,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1509_01149"
     },
     {
-      "id": "1711_07300",
-      "label": "MPCC (RC Cars)",
-      "title": "Optimization-Based Autonomous Racing of 1: 43 Scale RC Cars",
-      "authors": [
-        "Alexander Liniger",
-        "Alexander Domahidi",
-        "Manfred Morari"
-      ],
-      "authorShort": "Liniger, Domahidi, Morari",
-      "year": 2015,
-      "source": "Optimal Control Applications and Methods",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Kinodynamic Planning",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Kinodynamic Planning",
-        "Trajectory Optimization",
-        "Model Predictive Contouring Control (MPCC)",
-        "MPCC (RC Cars)"
-      ],
-      "tags": [
-        "Model predictive control",
-        "Contouring control",
-        "Autonomous racing",
-        "Path planning",
-        "Real-time optimization",
-        "RC cars",
-        "MPCC"
-      ],
-      "abstract": "This paper describes autonomous racing of RC race cars based on mathematical optimization. Using a dynamical model of the vehicle, control inputs are computed by receding horizon based controllers, where the objective is to maximize progress on the track subject to the requirement of staying on the track and avoiding opponents. Two different control formulations are presented. The first controller employs a two-level structure, consisting of a path planner and a nonlinear model predictive controller (NMPC) for tracking. The second controller combines both tasks in one nonlinear optimization problem (NLP) following the ideas of contouring control. Linear time varying models obtained by linearization are used to build local approximations of the control NLPs in the form of convex quadratic programs (QPs) at each sampling time. The resulting QPs have a typical MPC structure and can be solved in the range of milliseconds by recent structure exploiting solvers, which is key to the real-time feasibility of the overall control scheme. Obstacle avoidance is incorporated by means of a high-level corridor planner based on dynamic programming, which generates convex constraints for the controllers according to the current position of opponents and the track layout. The control performance is investigated experimentally using 1:43 scale RC race cars, driven at speeds of more than 3 m/s and in operating regions with saturated rear tire forces (drifting). The algorithms run at 50 Hz sampling rate on embedded computing platforms, demonstrating the real-time feasibility and high performance of optimization-based approaches for autonomous racing.",
-      "summary": "Foundational paper for Model Predictive Contouring Control (MPCC) in vehicle racing, introducing the idea of maximizing progress along a reference path as an MPC objective. Demonstrates real-time performance on 1:43 scale RC cars at drifting speeds, and coined the contouring-control formulation widely adopted in subsequent autonomous racing and AV trajectory planning work.",
-      "url": "../papers/1711_07300/",
-      "contentTreeUrl": "../content-tree/#paper=1711_07300",
-      "mindMapUrl": "../mind-map/#paper=1711_07300"
-    },
-    {
       "id": "2015_palmieri_distance_metric_learning_for",
       "label": "Distance Metric Learning for RRT-Based Motion Planning with Constant-Time Inference",
       "title": "Distance Metric Learning for RRT-Based Motion Planning with Constant-Time Inference",
@@ -18309,6 +18312,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Costs",
         "Distance Metric Learning for RRT-Based Motion Planning with Constant-Time Inference"
       ],
       "tags": [
@@ -18361,43 +18365,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2015_cunningham_mpdm_multipolicy_decision_making"
     },
     {
-      "id": "2015_kuindersma_optimization_based_locomotion_planning",
-      "label": "Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot",
-      "title": "Optimization-based Locomotion Planning, Estimation, and Control Design for the Atlas Humanoid Robot",
-      "authors": [
-        "Scott Kuindersma",
-        "Robin Deits",
-        "Maurice Fallon",
-        "Andrés Valenzuela",
-        "Hongkai Dai",
-        "Frank Permenter",
-        "Twan Koolen",
-        "Pat Marion",
-        "Russ Tedrake"
-      ],
-      "authorShort": "Kuindersma, Deits, Fallon",
-      "year": 2015,
-      "source": "Autonomous Robots",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Surveys, Benchmarks & Frameworks",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
-        "Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot"
-      ],
-      "tags": [],
-      "abstract": "This paper describes a collection of optimization algorithms for achieving dynamic planning, control, and state estimation for a bipedal robot designed to operate reliably in complex environments. To make challenging locomotion tasks tractable, we describe several novel applications of convex, mixed-integer, and sparse nonlinear optimization to problems ranging from footstep placement to whole-body planning and control. We also present a state estimator formulation that, when combined with our walking controller, permits highly precise execution of extended walking plans over non-flat terrain. We describe our complete system integration and experiments carried out on Atlas, a full-size hydraulic humanoid robot built by Boston Dynamics, Inc.",
-      "summary": "",
-      "url": "../papers/2015_kuindersma_optimization_based_locomotion_planning/",
-      "contentTreeUrl": "../content-tree/#paper=2015_kuindersma_optimization_based_locomotion_planning",
-      "mindMapUrl": "../mind-map/#paper=2015_kuindersma_optimization_based_locomotion_planning"
-    },
-    {
       "id": "1512_09075",
       "label": "MDPNv1",
       "title": "A Notation for Markov Decision Processes",
@@ -18445,7 +18412,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "An Introduction to Matrix Concentration Inequalities"
       ],
@@ -18712,7 +18679,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Sparse Identification of Nonlinear Dynamics (SINDy)",
         "SINDy"
@@ -18768,6 +18735,43 @@ window.timelineData = {
       "url": "../papers/1502_05477/",
       "contentTreeUrl": "../content-tree/#paper=1502_05477",
       "mindMapUrl": "../mind-map/#paper=1502_05477"
+    },
+    {
+      "id": "2015_kuindersma_optimization_based_locomotion_planning",
+      "label": "Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot",
+      "title": "Optimization-based Locomotion Planning, Estimation, and Control Design for the Atlas Humanoid Robot",
+      "authors": [
+        "Scott Kuindersma",
+        "Robin Deits",
+        "Maurice Fallon",
+        "Andrés Valenzuela",
+        "Hongkai Dai",
+        "Frank Permenter",
+        "Twan Koolen",
+        "Pat Marion",
+        "Russ Tedrake"
+      ],
+      "authorShort": "Kuindersma, Deits, Fallon",
+      "year": 2015,
+      "source": "Autonomous Robots",
+      "type": "Journal Paper",
+      "superCategory": "Foundations",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Engineering Systems",
+        "Robots",
+        "Walking Robots",
+        "Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot"
+      ],
+      "tags": [],
+      "abstract": "This paper describes a collection of optimization algorithms for achieving dynamic planning, control, and state estimation for a bipedal robot designed to operate reliably in complex environments. To make challenging locomotion tasks tractable, we describe several novel applications of convex, mixed-integer, and sparse nonlinear optimization to problems ranging from footstep placement to whole-body planning and control. We also present a state estimator formulation that, when combined with our walking controller, permits highly precise execution of extended walking plans over non-flat terrain. We describe our complete system integration and experiments carried out on Atlas, a full-size hydraulic humanoid robot built by Boston Dynamics, Inc.",
+      "summary": "",
+      "url": "../papers/2015_kuindersma_optimization_based_locomotion_planning/",
+      "contentTreeUrl": "../content-tree/#paper=2015_kuindersma_optimization_based_locomotion_planning",
+      "mindMapUrl": "../mind-map/#paper=2015_kuindersma_optimization_based_locomotion_planning"
     },
     {
       "id": "2015_stanley_why_greatness_cannot_be",
@@ -20161,7 +20165,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Linear System Identification via EM with Latent Disturbances and Lagrangian Relaxation"
       ],
@@ -20194,7 +20198,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Sparse Identification of Nonlinear Dynamics (SINDy)",
         "Nonlinear Systems Identification Using Deep Dynamic Neural Networks"
@@ -21766,6 +21770,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Sampling",
         "Learning Sampling Distributions for Robot Motion Planning"
       ],
       "tags": [],
@@ -21797,6 +21802,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Steering",
         "RRT-CoLearn"
       ],
       "tags": [
@@ -22034,7 +22040,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Dynamic Mode Decomposition (DMD)",
         "Data-driven discovery of Koopman eigenfunctions for control"
@@ -22066,7 +22072,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "MPC-RL Hybrids",
         "Data-Efficient Reinforcement Learning with Probabilistic Model Predictive Control"
       ],
@@ -22283,7 +22289,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Sparse Identification of Nonlinear Dynamics (SINDy)",
         "SINDy-MPC"
@@ -22573,12 +22579,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Foundations",
       "category": "Engineering Systems",
-      "subCategory": "Automated Systems",
+      "subCategory": "Robots",
       "path": [
         "Content Tree",
         "Foundations",
         "Engineering Systems",
-        "Automated Systems",
+        "Robots",
+        "Flying Robots",
         "Recent Developments in Aerial Robotics: A Survey and Prototypes Overview"
       ],
       "tags": [],
@@ -24003,6 +24010,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Sampling",
         "Deeply Informed Neural Sampling for Robot Motion Planning"
       ],
       "tags": [],
@@ -24181,47 +24189,6 @@ window.timelineData = {
       "url": "../papers/2018_mehta_backprop_mpdm_faster_risk/",
       "contentTreeUrl": "../content-tree/#paper=2018_mehta_backprop_mpdm_faster_risk",
       "mindMapUrl": "../mind-map/#paper=2018_mehta_backprop_mpdm_faster_risk"
-    },
-    {
-      "id": "2018_marion_director_a_user_interface",
-      "label": "Director",
-      "title": "Director: A User Interface Designed for Robot Operation with Shared Autonomy",
-      "authors": [
-        "Pat Marion",
-        "Maurice Fallon",
-        "Robin Deits",
-        "Andrés Valenzuela",
-        "Claudia Pérez D’Arpino",
-        "Greg Izatt",
-        "Lucas Manuelli",
-        "Matt Antone",
-        "Hongkai Dai",
-        "Twan Koolen",
-        "John Carter",
-        "Scott Kuindersma",
-        "Russ Tedrake"
-      ],
-      "authorShort": "Marion, Fallon, Deits",
-      "year": 2018,
-      "source": "Springer Tracts in Advanced Robotics",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Surveys, Benchmarks & Frameworks",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
-        "Director"
-      ],
-      "tags": [],
-      "abstract": "Operating a high degree of freedom mobile manipulator, such as a humanoid, in a field scenario requires constant situational awareness, capable perception modules, and effective mechanisms for interactive motion planning and control. A well-designed operator interface presents the operator with enough context to quickly carry out a mission and the flexibility to handle unforeseen operating scenarios robustly. By contrast, an unintuitive user interface can increase the risk of catastrophic operator error by overwhelming the user with unnecessary information. With these principles in mind, we present the philosophy and design decisions behind Director —the open-source user interface developed by Team MIT to pilot the Atlas robot in the DARPA Robotics Challenge (DRC). At the heart of Director is an integrated task execution system that specifies sequences of actions needed to achieve a substantive task, such as drilling a wall or climbing a staircase. These task sequences, developed a priori , make online queries to automated perception and planning algorithms with outputs that can be reviewed by the operator and executed by our whole-body controller. Our use of Director at the DRC resulted in efficient high-level task operation while being fully competitive with approaches focusing on teleoperation by highly-trained operators. We discuss the primary interface elements that comprise the Director and provide analysis of its successful use at the DRC.",
-      "summary": "",
-      "url": "../papers/2018_marion_director_a_user_interface/",
-      "contentTreeUrl": "../content-tree/#paper=2018_marion_director_a_user_interface",
-      "mindMapUrl": "../mind-map/#paper=2018_marion_director_a_user_interface"
     },
     {
       "id": "2018_schwarting_planning_and_decision_making",
@@ -24552,7 +24519,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "Surveys & Control Connections",
         "A Tour of Reinforcement Learning: The View from Continuous Control"
       ],
@@ -24661,7 +24628,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "MPC-RL Hybrids",
         "Differentiable MPC for End-to-end Planning and Control"
       ],
@@ -24726,7 +24693,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Non-Asymptotic Identification of LTI Systems from a Single Trajectory"
       ],
@@ -24762,7 +24729,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "World Models",
         "PlaNet"
@@ -25093,6 +25060,47 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2018_gao_randomized_greedy_algorithms_for"
     },
     {
+      "id": "2018_marion_director_a_user_interface",
+      "label": "Director",
+      "title": "Director: A User Interface Designed for Robot Operation with Shared Autonomy",
+      "authors": [
+        "Pat Marion",
+        "Maurice Fallon",
+        "Robin Deits",
+        "Andrés Valenzuela",
+        "Claudia Pérez D’Arpino",
+        "Greg Izatt",
+        "Lucas Manuelli",
+        "Matt Antone",
+        "Hongkai Dai",
+        "Twan Koolen",
+        "John Carter",
+        "Scott Kuindersma",
+        "Russ Tedrake"
+      ],
+      "authorShort": "Marion, Fallon, Deits",
+      "year": 2018,
+      "source": "Springer Tracts in Advanced Robotics",
+      "type": "Conference Paper",
+      "superCategory": "Foundations",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Engineering Systems",
+        "Robots",
+        "Walking Robots",
+        "Director"
+      ],
+      "tags": [],
+      "abstract": "Operating a high degree of freedom mobile manipulator, such as a humanoid, in a field scenario requires constant situational awareness, capable perception modules, and effective mechanisms for interactive motion planning and control. A well-designed operator interface presents the operator with enough context to quickly carry out a mission and the flexibility to handle unforeseen operating scenarios robustly. By contrast, an unintuitive user interface can increase the risk of catastrophic operator error by overwhelming the user with unnecessary information. With these principles in mind, we present the philosophy and design decisions behind Director —the open-source user interface developed by Team MIT to pilot the Atlas robot in the DARPA Robotics Challenge (DRC). At the heart of Director is an integrated task execution system that specifies sequences of actions needed to achieve a substantive task, such as drilling a wall or climbing a staircase. These task sequences, developed a priori , make online queries to automated perception and planning algorithms with outputs that can be reviewed by the operator and executed by our whole-body controller. Our use of Director at the DRC resulted in efficient high-level task operation while being fully competitive with approaches focusing on teleoperation by highly-trained operators. We discuss the primary interface elements that comprise the Director and provide analysis of its successful use at the DRC.",
+      "summary": "",
+      "url": "../papers/2018_marion_director_a_user_interface/",
+      "contentTreeUrl": "../content-tree/#paper=2018_marion_director_a_user_interface",
+      "mindMapUrl": "../mind-map/#paper=2018_marion_director_a_user_interface"
+    },
+    {
       "id": "2018_yang_the_grand_challenges_of",
       "label": "The Grand Challenges of Science Robotics",
       "title": "The Grand Challenges of Science Robotics",
@@ -25121,12 +25129,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Foundations",
       "category": "Engineering Systems",
-      "subCategory": "Automated Systems",
+      "subCategory": "Robots",
       "path": [
         "Content Tree",
         "Foundations",
         "Engineering Systems",
-        "Automated Systems",
+        "Robots",
         "The Grand Challenges of Science Robotics"
       ],
       "tags": [],
@@ -26564,6 +26572,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Steering",
         "Memory of Motion for Warm-starting Trajectory Optimization"
       ],
       "tags": [],
@@ -26995,7 +27004,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "A Tutorial on Concentration Bounds for System Identification"
       ],
@@ -27060,7 +27069,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Dynamic Mode Decomposition (DMD)",
         "DMD: Theory and Data Reconstruction"
@@ -27099,7 +27108,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "World Models",
         "Dreamer"
@@ -27138,7 +27147,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Finite Sample Analysis of Stochastic System Identification"
       ],
@@ -27203,7 +27212,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "Surveys & Control Connections",
         "From Self-Tuning Regulators to Reinforcement Learning and Back Again"
       ],
@@ -27310,7 +27319,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "MPC-RL Hybrids",
         "Information Theoretic Model Predictive Q-Learning"
       ],
@@ -27342,7 +27351,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "Surveys & Control Connections",
         "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms"
       ],
@@ -27376,7 +27385,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "On the smoothness of nonlinear system identification"
       ],
@@ -28427,6 +28436,41 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2002_08809"
     },
     {
+      "id": "2004_12919",
+      "label": "Go-Explore",
+      "title": "First Return, Then Explore",
+      "authors": [
+        "Adrien Ecoffet",
+        "Joost Huizinga",
+        "Joel Lehman",
+        "Kenneth O. Stanley",
+        "Jeff Clune"
+      ],
+      "authorShort": "Ecoffet, Huizinga, Lehman",
+      "year": 2020,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms",
+        "Go-Explore"
+      ],
+      "tags": [],
+      "abstract": "The promise of reinforcement learning is to solve complex sequential decision problems autonomously by specifying a high-level reward function only. However, reinforcement learning algorithms struggle when, as is often the case, simple and intuitive rewards provide sparse and deceptive feedback. Avoiding these pitfalls requires thoroughly exploring the environment, but creating algorithms that can do so remains one of the central challenges of the field. We hypothesise that the main impediment to effective exploration originates from algorithms forgetting how to reach previously visited states (\"detachment\") and from failing to first return to a state before exploring from it (\"derailment\"). We introduce Go-Explore, a family of algorithms that addresses these two challenges directly through the simple principles of explicitly remembering promising states and first returning to such states before intentionally exploring. Go-Explore solves all heretofore unsolved Atari games and surpasses the state of the art on all hard-exploration games, with orders of magnitude improvements on the grand challenges Montezuma's Revenge and Pitfall. We also demonstrate the practical potential of Go-Explore on a sparse-reward pick-and-place robotics task. Additionally, we show that adding a goal-conditioned policy can further improve Go-Explore's exploration efficiency and enable it to handle stochasticity throughout training. The substantial performance gains from Go-Explore suggest that the simple principles of remembering states, returning to them, and exploring from them are a powerful and general approach to exploration, an insight that may prove critical to the creation of truly intelligent learning agents.",
+      "summary": "",
+      "url": "../papers/2004_12919/",
+      "contentTreeUrl": "../content-tree/#paper=2004_12919",
+      "mindMapUrl": "../mind-map/#paper=2004_12919"
+    },
+    {
       "id": "2008_10898",
       "label": "PAGE",
       "title": "PAGE: A Simple and Optimal Probabilistic Gradient Estimator for Nonconvex Optimization",
@@ -28927,38 +28971,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2020_romano_time_optimal_control_of"
     },
     {
-      "id": "2004_12919",
-      "label": "First Return, Then Explore",
-      "title": "First Return, Then Explore",
-      "authors": [
-        "Adrien Ecoffet",
-        "Joost Huizinga",
-        "Joel Lehman",
-        "Kenneth O. Stanley",
-        "Jeff Clune"
-      ],
-      "authorShort": "Ecoffet, Huizinga, Lehman",
-      "year": 2020,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Learning-Based Motion Planning",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Learning-Based Motion Planning",
-        "First Return, Then Explore"
-      ],
-      "tags": [],
-      "abstract": "The promise of reinforcement learning is to solve complex sequential decision problems autonomously by specifying a high-level reward function only. However, reinforcement learning algorithms struggle when, as is often the case, simple and intuitive rewards provide sparse and deceptive feedback. Avoiding these pitfalls requires thoroughly exploring the environment, but creating algorithms that can do so remains one of the central challenges of the field. We hypothesise that the main impediment to effective exploration originates from algorithms forgetting how to reach previously visited states (\"detachment\") and from failing to first return to a state before exploring from it (\"derailment\"). We introduce Go-Explore, a family of algorithms that addresses these two challenges directly through the simple principles of explicitly remembering promising states and first returning to such states before intentionally exploring. Go-Explore solves all heretofore unsolved Atari games and surpasses the state of the art on all hard-exploration games, with orders of magnitude improvements on the grand challenges Montezuma's Revenge and Pitfall. We also demonstrate the practical potential of Go-Explore on a sparse-reward pick-and-place robotics task. Additionally, we show that adding a goal-conditioned policy can further improve Go-Explore's exploration efficiency and enable it to handle stochasticity throughout training. The substantial performance gains from Go-Explore suggest that the simple principles of remembering states, returning to them, and exploring from them are a powerful and general approach to exploration, an insight that may prove critical to the creation of truly intelligent learning agents.",
-      "summary": "",
-      "url": "../papers/2004_12919/",
-      "contentTreeUrl": "../content-tree/#paper=2004_12919",
-      "mindMapUrl": "../mind-map/#paper=2004_12919"
-    },
-    {
       "id": "2020_wang_neural_rrt_learning_based",
       "label": "Neural RRT*",
       "title": "Neural RRT*: Learning-Based Optimal Path Planning",
@@ -28981,6 +28993,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Sampling",
         "Neural RRT*"
       ],
       "tags": [],
@@ -29411,7 +29424,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Concentration Inequalities for Statistical Inference"
       ],
@@ -29511,7 +29524,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Linear System Identification Under Multiplicative Noise from Multiple Trajectory Data"
       ],
@@ -29714,12 +29727,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Foundations",
       "category": "Engineering Systems",
-      "subCategory": "Automated Systems",
+      "subCategory": "Robots",
       "path": [
         "Content Tree",
         "Foundations",
         "Engineering Systems",
-        "Automated Systems",
+        "Robots",
+        "Driving Robots",
         "Connected and automated road vehicles: state of the art and future challenges"
       ],
       "tags": [],
@@ -31935,7 +31949,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "An Information-state based Approach to the Optimal Output Feedback Control of Nonlinear Systems"
       ],
@@ -31968,7 +31982,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "How Are Learned Perception-Based Controllers Impacted by the Limits of Robust Control?"
       ],
@@ -32002,7 +32016,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data"
       ],
@@ -32092,7 +32106,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Sparse Identification of Nonlinear Dynamics (SINDy)",
         "PySINDy"
@@ -32133,7 +32147,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Sparse Identification of Nonlinear Dynamics (SINDy)",
         "SINDy with Control"
@@ -34024,6 +34038,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Costs",
         "DriveIRL"
       ],
       "tags": [
@@ -34249,7 +34264,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "DiffStack"
       ],
       "tags": [
@@ -34290,7 +34305,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "MJPC"
       ],
       "tags": [
@@ -34334,7 +34349,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "Motion Planning and Control for Multi Vehicle Autonomous Racing at High Speeds"
       ],
       "tags": [],
@@ -34367,7 +34382,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "ROS 2"
       ],
       "tags": [],
@@ -34643,7 +34658,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Dynamic Mode Decomposition (DMD)",
         "A Short Introduction to the Koopman Representation of Dynamical Systems"
@@ -34674,7 +34689,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "A Tutorial on Solution Properties of State Space Models of Dynamical Systems"
       ],
@@ -34739,7 +34754,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Dynamic Mode Decomposition (DMD)",
         "Data-Driven Feedback Linearization using the Koopman Generator"
@@ -34770,7 +34785,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Dynamic Mode Decomposition (DMD)",
         "DMD and Its Variants"
@@ -35088,7 +35103,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "State space models vs. multi-step predictors in predictive control: Are state space models complicating safe data-driven designs?"
       ],
@@ -35152,7 +35167,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "MPC-RL Hybrids",
         "TD-MPC"
       ],
@@ -37264,6 +37279,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Environmental Conditions",
         "EVORA"
       ],
       "tags": [],
@@ -37295,6 +37311,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Sampling",
         "Neural Informed RRT*"
       ],
       "tags": [],
@@ -37326,6 +37343,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Frameworks",
         "Parting with Misconceptions about Learning-based Vehicle Motion Planning"
       ],
       "tags": [],
@@ -37356,6 +37374,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Steering",
         "Policy Optimization to Learn Adaptive Motion Primitives in Path Planning With Dynamic Obstacles"
       ],
       "tags": [],
@@ -37532,7 +37551,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "MPPI+IsaacGym"
       ],
       "tags": [
@@ -37735,7 +37754,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "MPC-RL Hybrids",
         "Actor-Critic Model Predictive Control: Differentiable Optimization meets Reinforcement Learning for Agile Flight"
       ],
@@ -37822,7 +37841,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Physics-Informed Machine Learning for Modeling and Control of Dynamical Systems"
       ],
@@ -37991,7 +38010,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "MPC-RL Hybrids",
         "TD-MPC2"
       ],
@@ -40781,6 +40800,8 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Steering",
+        "Diffusion",
         "DiffusionSeeder"
       ],
       "tags": [],
@@ -40813,6 +40834,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Frameworks",
         "Lab2Car"
       ],
       "tags": [
@@ -40853,6 +40875,8 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Steering",
+        "Diffusion",
         "PRESTO"
       ],
       "tags": [
@@ -40889,6 +40913,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Sampling",
         "SIL-RRT*"
       ],
       "tags": [],
@@ -41034,7 +41059,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "FRENETIX"
       ],
       "tags": [
@@ -41079,7 +41104,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "Jacta"
       ],
       "tags": [],
@@ -41498,7 +41523,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Sparse Identification of Nonlinear Dynamics (SINDy)",
         "LeARN"
@@ -41603,7 +41628,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Sparse Identification of Nonlinear Dynamics (SINDy)",
         "SINDy-RL"
@@ -43033,6 +43058,48 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2504_01766"
     },
     {
+      "id": "2604_24064",
+      "label": "MPCC (Articulated Vehicles)",
+      "title": "Trajectory Planning for an Articulated Commercial Vehicle Using Model Predictive Contouring Control",
+      "authors": [
+        "A. J. Aertssen",
+        "R. G. M. Huisman",
+        "I. J. M. Besselink",
+        "J. Elfring",
+        "M. J. G. van de Molengraft"
+      ],
+      "authorShort": "Aertssen, Huisman, Besselink",
+      "year": 2025,
+      "source": "IEEE International Conference on Intelligent Transportation Systems",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "State-space Methods",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Model Predictive Contouring Control (MPCC)",
+        "MPCC (Articulated Vehicles)"
+      ],
+      "tags": [
+        "Model predictive contouring control",
+        "Articulated vehicles",
+        "Tractor-semitrailer",
+        "Trajectory planning",
+        "MPCC",
+        "Autonomous driving",
+        "Road boundary constraints"
+      ],
+      "abstract": "This paper presents a trajectory planning method for articulated commercial vehicles, specifically tractor-semitrailers, based on Model Predictive Contouring Control (MPCC). Although MPCC has proven effective for passenger cars, it is generally ill-suited for tractor-semitrailers. These vehicles are significantly larger, the semitrailer follows a different path than the tractor, and reversing maneuvers are unstable and prone to jackknifing. Furthermore, practical driving scenarios often require scenario-dependent prioritization of different vehicle \"anchor points\", e.g., prioritizing the semitrailer position during docking or the tractor position when parking to charge. Therefore, we extend MPCC to enable scenario-dependent weighting of these anchor points and incorporate explicit road-boundary constraints for the front and rear tractor axles and the semitrailer axle, thereby ensuring that all considered wheels remain within the drivable area. The simulation results demonstrate the successful navigation of a representative logistic scenario in both forward and reverse direction. Furthermore, the influence of the optimization parameters on the trajectories is analyzed, providing insights into controlling the vehicle behavior. Finally, first tests using a full-scale prototype vehicle show the practical applicability of the approach.",
+      "summary": "Extends MPCC to tractor-semitrailer vehicles by adding scenario-dependent anchor-point weighting and explicit road-boundary constraints for all axles. Validates forward and reverse navigation including docking and parking-to-charge, with full-scale prototype tests.",
+      "url": "../papers/2604_24064/",
+      "contentTreeUrl": "../content-tree/#paper=2604_24064",
+      "mindMapUrl": "../mind-map/#paper=2604_24064"
+    },
+    {
       "id": "2502_04799",
       "label": "A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees",
       "title": "A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees",
@@ -44395,48 +44462,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2503_11717"
     },
     {
-      "id": "2604_24064",
-      "label": "MPCC (Articulated Vehicles)",
-      "title": "Trajectory Planning for an Articulated Commercial Vehicle Using Model Predictive Contouring Control",
-      "authors": [
-        "A. J. Aertssen",
-        "R. G. M. Huisman",
-        "I. J. M. Besselink",
-        "J. Elfring",
-        "M. J. G. van de Molengraft"
-      ],
-      "authorShort": "Aertssen, Huisman, Besselink",
-      "year": 2025,
-      "source": "IEEE International Conference on Intelligent Transportation Systems",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Kinodynamic Planning",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Kinodynamic Planning",
-        "Trajectory Optimization",
-        "Model Predictive Contouring Control (MPCC)",
-        "MPCC (Articulated Vehicles)"
-      ],
-      "tags": [
-        "Model predictive contouring control",
-        "Articulated vehicles",
-        "Tractor-semitrailer",
-        "Trajectory planning",
-        "MPCC",
-        "Autonomous driving",
-        "Road boundary constraints"
-      ],
-      "abstract": "This paper presents a trajectory planning method for articulated commercial vehicles, specifically tractor-semitrailers, based on Model Predictive Contouring Control (MPCC). Although MPCC has proven effective for passenger cars, it is generally ill-suited for tractor-semitrailers. These vehicles are significantly larger, the semitrailer follows a different path than the tractor, and reversing maneuvers are unstable and prone to jackknifing. Furthermore, practical driving scenarios often require scenario-dependent prioritization of different vehicle \"anchor points\", e.g., prioritizing the semitrailer position during docking or the tractor position when parking to charge. Therefore, we extend MPCC to enable scenario-dependent weighting of these anchor points and incorporate explicit road-boundary constraints for the front and rear tractor axles and the semitrailer axle, thereby ensuring that all considered wheels remain within the drivable area. The simulation results demonstrate the successful navigation of a representative logistic scenario in both forward and reverse direction. Furthermore, the influence of the optimization parameters on the trajectories is analyzed, providing insights into controlling the vehicle behavior. Finally, first tests using a full-scale prototype vehicle show the practical applicability of the approach.",
-      "summary": "Extends MPCC to tractor-semitrailer vehicles by adding scenario-dependent anchor-point weighting and explicit road-boundary constraints for all axles. Validates forward and reverse navigation including docking and parking-to-charge, with full-scale prototype tests.",
-      "url": "../papers/2604_24064/",
-      "contentTreeUrl": "../content-tree/#paper=2604_24064",
-      "mindMapUrl": "../mind-map/#paper=2604_24064"
-    },
-    {
       "id": "2508_21364",
       "label": "Multi-Modal MPPI",
       "title": "Multi-Modal Model Predictive Path Integral Control for Collision Avoidance",
@@ -44771,6 +44796,8 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Steering",
+        "Diffusion",
         "Accelerating db-A* for Kinodynamic Motion Planning Using Diffusion"
       ],
       "tags": [],
@@ -44779,6 +44806,37 @@ window.timelineData = {
       "url": "../papers/2503_05539/",
       "contentTreeUrl": "../content-tree/#paper=2503_05539",
       "mindMapUrl": "../mind-map/#paper=2503_05539"
+    },
+    {
+      "id": "2508_21001",
+      "label": "Diffusion Trees",
+      "title": "Train-Once Plan-Anywhere Kinodynamic Motion Planning via Diffusion Trees",
+      "authors": [
+        "Yaniv Hassidof",
+        "Tom Jurgenson",
+        "Kiril Solovey"
+      ],
+      "authorShort": "Hassidof, Jurgenson, Solovey",
+      "year": 2025,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Learning-Based Motion Planning",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Learned Sampling",
+        "Diffusion Trees"
+      ],
+      "tags": [],
+      "abstract": "Kinodynamic motion planning is concerned with computing collision-free trajectories while abiding by the robot's dynamic constraints. This critical problem is often tackled using sampling-based planners (SBPs) that explore the robot's high-dimensional state space by constructing a search tree via action propagations. Although SBPs can offer global guarantees on completeness and solution quality, their performance is often hindered by slow exploration due to uninformed action sampling. Learning-based approaches can yield significantly faster runtimes, yet they fail to generalize to out-of-distribution (OOD) scenarios and lack critical guarantees, e.g., safety, thus limiting their deployment on physical robots. We present Diffusion Tree (DiTree): a provably-generalizable framework leveraging diffusion policies (DPs) as informed samplers to efficiently guide state-space search within SBPs. DiTree combines DP's ability to model complex distributions of expert trajectories, conditioned on local observations, with the completeness of SBPs to yield provably-safe solutions within a few action propagation iterations for complex dynamical systems. We demonstrate DiTree's power with an implementation combining the popular RRT planner with a DP action sampler trained on a single environment. In comprehensive evaluations on OOD scenarios, DiTree achieves on average a 30% higher success rate compared to standalone DP or SBPs, on a dynamic car and Mujoco's ant robot settings (for the latter, SBPs fail completely). Beyond simulation, real-world car experiments confirm DiTree's applicability, demonstrating superior trajectory quality and robustness even under severe sim-to-real gaps. Project webpage: https://sites.google.com/view/ditree.",
+      "summary": "",
+      "url": "../papers/2508_21001/",
+      "contentTreeUrl": "../content-tree/#paper=2508_21001",
+      "mindMapUrl": "../mind-map/#paper=2508_21001"
     },
     {
       "id": "2509_21961",
@@ -44802,6 +44860,8 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Steering",
+        "Flow Matching",
         "FlowDrive"
       ],
       "tags": [],
@@ -44835,6 +44895,8 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Steering",
+        "Flow Matching",
         "FlowMP"
       ],
       "tags": [],
@@ -44843,36 +44905,6 @@ window.timelineData = {
       "url": "../papers/2503_06135/",
       "contentTreeUrl": "../content-tree/#paper=2503_06135",
       "mindMapUrl": "../mind-map/#paper=2503_06135"
-    },
-    {
-      "id": "2508_21001",
-      "label": "Train-Once Plan-Anywhere Kinodynamic Motion Planning via Diffusion Trees",
-      "title": "Train-Once Plan-Anywhere Kinodynamic Motion Planning via Diffusion Trees",
-      "authors": [
-        "Yaniv Hassidof",
-        "Tom Jurgenson",
-        "Kiril Solovey"
-      ],
-      "authorShort": "Hassidof, Jurgenson, Solovey",
-      "year": 2025,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Learning-Based Motion Planning",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Planning",
-        "Learning-Based Motion Planning",
-        "Train-Once Plan-Anywhere Kinodynamic Motion Planning via Diffusion Trees"
-      ],
-      "tags": [],
-      "abstract": "Kinodynamic motion planning is concerned with computing collision-free trajectories while abiding by the robot's dynamic constraints. This critical problem is often tackled using sampling-based planners (SBPs) that explore the robot's high-dimensional state space by constructing a search tree via action propagations. Although SBPs can offer global guarantees on completeness and solution quality, their performance is often hindered by slow exploration due to uninformed action sampling. Learning-based approaches can yield significantly faster runtimes, yet they fail to generalize to out-of-distribution (OOD) scenarios and lack critical guarantees, e.g., safety, thus limiting their deployment on physical robots. We present Diffusion Tree (DiTree): a provably-generalizable framework leveraging diffusion policies (DPs) as informed samplers to efficiently guide state-space search within SBPs. DiTree combines DP's ability to model complex distributions of expert trajectories, conditioned on local observations, with the completeness of SBPs to yield provably-safe solutions within a few action propagation iterations for complex dynamical systems. We demonstrate DiTree's power with an implementation combining the popular RRT planner with a DP action sampler trained on a single environment. In comprehensive evaluations on OOD scenarios, DiTree achieves on average a 30% higher success rate compared to standalone DP or SBPs, on a dynamic car and Mujoco's ant robot settings (for the latter, SBPs fail completely). Beyond simulation, real-world car experiments confirm DiTree's applicability, demonstrating superior trajectory quality and robustness even under severe sim-to-real gaps. Project webpage: https://sites.google.com/view/ditree.",
-      "summary": "",
-      "url": "../papers/2508_21001/",
-      "contentTreeUrl": "../content-tree/#paper=2508_21001",
-      "mindMapUrl": "../mind-map/#paper=2508_21001"
     },
     {
       "id": "2025_hu_technically_speaking_transitioning_from",
@@ -44893,6 +44925,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Frameworks",
         "Transitioning from Rule-Based to ML-Powered Motion Planning"
       ],
       "tags": [
@@ -45027,7 +45060,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "Judo"
       ],
       "tags": [
@@ -45069,7 +45102,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "RAKOMO"
       ],
       "tags": [],
@@ -45123,7 +45156,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "SONIC"
       ],
       "tags": [
@@ -45171,7 +45204,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "Whole-Body Model-Predictive Control of Legged Robots with MuJoCo"
       ],
       "tags": [],
@@ -45500,7 +45533,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "Surveys & Control Connections",
         "A view on learning robust goal-conditioned value functions: Interplay between RL and MPC"
       ],
@@ -45567,7 +45600,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "World Models",
         "Dream to Fly"
@@ -45610,7 +45643,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "MPC-RL Hybrids",
         "Fast Non-Episodic Adaptive Tuning of Robot Controllers with Online Policy Optimization"
       ],
@@ -45742,7 +45775,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "MPC-RL Hybrids",
         "MPCritic"
       ],
@@ -45816,7 +45849,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Nonlinear System Identification Nano-drone Benchmark"
       ],
@@ -45885,7 +45918,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "MPC-RL Hybrids",
         "Policy Optimization for Unknown Systems using Differentiable Model Predictive Control"
       ],
@@ -45995,7 +46028,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "Surveys & Control Connections",
         "Synthesis of Model Predictive Control and Reinforcement Learning: Survey and Classification"
       ],
@@ -48892,6 +48925,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Corridor Selection",
         "GNN-DIP"
       ],
       "tags": [],
@@ -48922,6 +48956,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Steering",
         "Goal-Conditioned Neural ODEs with Guaranteed Safety and Stability for Learning-Based All-Pairs Motion Planning"
       ],
       "tags": [],
@@ -48952,6 +48987,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Sampling",
         "MAB-RRT"
       ],
       "tags": [],
@@ -48983,6 +49019,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Learning-Based Motion Planning",
+        "Learned Costs",
         "Score-Guided Motion Planning: Learning the Gradient Field of Promising Regions"
       ],
       "tags": [],
@@ -49124,7 +49161,7 @@ window.timelineData = {
         "Decision-making",
         "Planning",
         "Surveys, Benchmarks & Frameworks",
-        "Frameworks & Stack Architectures",
+        "Frameworks",
         "Sumo"
       ],
       "tags": [],
@@ -49381,7 +49418,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Dynamic Mode Decomposition (DMD)",
         "Accelerating Sampling-Based Control via Learned Linear Koopman Dynamics"
@@ -49413,7 +49450,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "ASIA"
       ],
@@ -49572,7 +49609,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "World Models",
         "Hierarchical Planning with Latent World Models"
@@ -49606,7 +49643,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "How to Model Your Crazyflie Brushless"
       ],
@@ -49636,7 +49673,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Dynamic Mode Decomposition (DMD)",
         "Interpreting Reinforcement Learning Model Behavior via Koopman with Control"
@@ -49778,7 +49815,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "MPC-RL Hybrids",
         "Soft MPCritic"
       ],
@@ -49811,7 +49848,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Model-Based RL",
+        "Model-based RL",
         "System Identification",
         "Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control"
       ],
@@ -50929,7 +50966,7 @@ window.timelineData = {
         "Community Detection"
       ],
       "Engineering Systems": [
-        "Automated Systems",
+        "Robots",
         "Stirling Engines",
         "Nuclear Reactors"
       ],

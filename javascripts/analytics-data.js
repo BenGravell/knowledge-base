@@ -28518,7 +28518,7 @@ window.analyticsData = {
   "superCategories": [
     {
       "label": "Decision-making",
-      "count": 996
+      "count": 987
     },
     {
       "label": "Prediction & Perception",
@@ -28526,7 +28526,7 @@ window.analyticsData = {
     },
     {
       "label": "Foundations",
-      "count": 104
+      "count": 113
     },
     {
       "label": "Evaluation",
@@ -28536,7 +28536,7 @@ window.analyticsData = {
   "categories": [
     {
       "label": "Planning",
-      "count": 393
+      "count": 380
     },
     {
       "label": "Reinforcement Learning",
@@ -28544,7 +28544,7 @@ window.analyticsData = {
     },
     {
       "label": "Optimization",
-      "count": 219
+      "count": 220
     },
     {
       "label": "Machine Learning",
@@ -28552,7 +28552,7 @@ window.analyticsData = {
     },
     {
       "label": "Control",
-      "count": 142
+      "count": 145
     },
     {
       "label": "Computer Vision",
@@ -28583,6 +28583,10 @@ window.analyticsData = {
       "count": 20
     },
     {
+      "label": "Engineering Systems",
+      "count": 17
+    },
+    {
       "label": "Simulation",
       "count": 17
     },
@@ -28601,10 +28605,6 @@ window.analyticsData = {
     {
       "label": "Biology",
       "count": 10
-    },
-    {
-      "label": "Engineering Systems",
-      "count": 8
     },
     {
       "label": "Benchmarks",

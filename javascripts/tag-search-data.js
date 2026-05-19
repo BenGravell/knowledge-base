@@ -2305,7 +2305,7 @@ window.tagSearchData = {
     "2004_12919": {
       "id": "2004_12919",
       "title": "First Return, Then Explore",
-      "label": "First Return, Then Explore",
+      "label": "Go-Explore",
       "authors": [
         "Adrien Ecoffet",
         "Joost Huizinga",

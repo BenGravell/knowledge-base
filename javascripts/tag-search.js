@@ -58,17 +58,8 @@
       ? initialMatch.key
       : (!requestedTag && tagOrder[0] ? tagOrder[0].key : '');
     const initialQuery = initialMatch ? initialMatch.label : rawTag;
-    const tagNoun = tagOrder.length === 1 ? 'tag' : 'tags';
 
     app.innerHTML =
-      '<section class="tag-search-hero tag-search-hero--browser">' +
-        '<div>' +
-          '<span class="tag-search-kicker">Tag Search</span>' +
-          '<h1>Browse Papers by Tag</h1>' +
-          `<p>${tagOrder.length} ${tagNoun} across ${papers.length} papers.</p>` +
-        '</div>' +
-        `<div class="tag-search-count"><strong>${papers.length}</strong><span>papers</span></div>` +
-      '</section>' +
       '<section class="tag-search-browser">' +
         '<aside class="tag-search-panel">' +
           '<form class="tag-search-form" role="search">' +
@@ -158,9 +149,9 @@
       const tag = tagIndex.get(tagKey);
       if (!tag) return;
       selectedTagKey = tag.key;
-      input.value = tag.label;
+      input.value = '';
       renderSelection(tag, '');
-      renderTagList(tag.label);
+      renderTagList('');
       if (updateUrl) {
         const nextUrl = new URL(window.location.href);
         nextUrl.search = '';
