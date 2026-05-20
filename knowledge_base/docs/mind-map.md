@@ -75,8 +75,12 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 /* ── App shell ────────────────────────────────────────────────────────────── */
 #mm-app {
-  --mm-ribbon-max-h: min(38vh, 28rem);
+  --mm-ribbon-max-h: min(46vh, 31rem);
   --mm-ribbon-header-h: 2.65rem;
+  --mm-modifier-accent: var(--mm-blue);
+  --mm-filter-accent: var(--mm-gold);
+  --mm-modifier-bg: color-mix(in srgb, var(--mm-blue) 18%, var(--md-default-bg-color));
+  --mm-filter-bg: color-mix(in srgb, var(--mm-gold) 18%, var(--md-default-bg-color));
   position: relative;
   isolation: isolate;
   z-index: 0;
@@ -175,6 +179,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   background: color-mix(in srgb, var(--md-code-bg-color) 94%, transparent);
   border-bottom: 1px solid var(--mm-border);
   backdrop-filter: blur(14px);
+  box-shadow: 0 20px 44px color-mix(in srgb, #000000 18%, transparent);
   color: var(--md-default-fg-color);
   font-size: 0.82rem;
   overflow: hidden;
@@ -191,10 +196,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 #mm-panel-body {
   padding: 0.85rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  gap: 0.65rem;
+  display: block;
   flex: 1;
   max-height: var(--mm-ribbon-max-h);
   overflow-y: auto;
@@ -209,7 +211,6 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .mm-section {
   min-width: 0;
   max-width: 100%;
-  flex: 1 1 12rem;
 }
 .mm-section-label {
   display: block;
@@ -239,6 +240,86 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   flex: 1 1 13rem;
 }
 
+/* Bento settings layout */
+.mm-bento {
+  display: grid;
+  grid-template-columns: minmax(22rem, 1.04fr) minmax(24rem, 1fr);
+  gap: 0.68rem;
+  align-items: stretch;
+}
+.mm-bento-group {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0.42rem;
+}
+.mm-bento-title {
+  margin: 0;
+  color: var(--md-default-fg-color);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+.mm-bento-group--modifiers .mm-bento-title { color: var(--mm-modifier-accent); }
+.mm-bento-group--filters .mm-bento-title { color: var(--mm-filter-accent); }
+.mm-bento-grid {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  gap: 0.58rem;
+}
+.mm-bento-grid--modifiers {
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  grid-template-rows: auto minmax(5.8rem, 1fr);
+}
+.mm-bento-grid--filters {
+  grid-template-columns: minmax(0, 1.55fr) minmax(11rem, 0.95fr);
+  grid-template-rows: auto minmax(8.5rem, 1fr);
+}
+.mm-bento-tile {
+  min-width: 0;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: 0.68rem;
+  border: 1px solid var(--mm-soft-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.mm-bento-group--modifiers .mm-bento-tile {
+  background: var(--mm-modifier-bg);
+  border-color: color-mix(in srgb, var(--mm-modifier-accent) 24%, transparent);
+}
+.mm-bento-group--filters .mm-bento-tile,
+.mm-bento-count {
+  background: var(--mm-filter-bg);
+  border-color: color-mix(in srgb, var(--mm-filter-accent) 28%, transparent);
+}
+.mm-bento-tile--wide {
+  grid-column: 1 / -1;
+}
+.mm-bento-tile--categories {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+.mm-bento-tile--types {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+.mm-bento-tile-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  min-width: 0;
+}
+.mm-bento-tile-head .mm-section-label {
+  margin: 0 0 5px;
+}
+.mm-bento-tile-head .mm-cat-links {
+  margin-bottom: 5px;
+  flex: 0 0 auto;
+}
+
 /* Search */
 .mm-search-wrap {
   position: relative;
@@ -251,7 +332,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   background: var(--md-default-fg-color--lightest);
   border: 1px solid var(--md-default-fg-color--lighter);
   color: var(--md-default-fg-color);
-  padding: 6px 2rem 6px 10px;
+  min-height: 2.42rem;
+  padding: 7px 2rem 7px 10px;
   border-radius: 7px;
   font-size: 0.82rem;
   outline: none;
@@ -407,6 +489,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   background: var(--md-default-fg-color--lightest);
   border: 1px solid var(--md-default-fg-color--lighter);
   color: var(--md-default-fg-color--light);
+  min-height: 2.35rem;
   padding: 5px 4px;
   border-radius: 6px;
   cursor: pointer;
@@ -448,7 +531,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   gap: 3px 0.7rem;
-  max-height: 11rem;
+  max-height: none;
+  min-height: 0;
   overflow: auto;
   padding-right: 0.25rem;
   scrollbar-width: thin;
@@ -466,7 +550,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   gap: 0.62rem;
   box-sizing: border-box;
   width: 100%;
-  min-height: 2.35rem;
+  height: 100%;
+  min-height: 6.2rem;
   margin: 0;
   padding: 0.48rem 0.74rem;
   border: 1px solid var(--mm-border);
@@ -478,6 +563,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   font-size: 0.78rem;
   font-weight: 700;
   line-height: 1.25;
+  align-self: stretch;
 }
 .mm-type-trigger span {
   min-width: 0;
@@ -749,14 +835,15 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .mm-actions {
   display: flex;
   gap: 0.4rem;
-  min-height: 2.35rem;
+  min-height: 100%;
 }
 .mm-actions button {
   flex: 1;
   background: var(--md-default-fg-color--lightest);
   border: 1px solid var(--md-default-fg-color--lighter);
   color: var(--md-default-fg-color--light);
-  padding: 5px 0;
+  min-height: 5rem;
+  padding: 0.6rem;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.78rem;
@@ -766,11 +853,23 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 /* Stats */
 #mm-stats {
+  justify-self: end;
+  width: min(23rem, 100%);
+  box-sizing: border-box;
+  margin-top: 0.62rem;
+  padding: 0.62rem 0.84rem;
+  border: 1px solid var(--mm-filter-accent);
+  border-radius: 8px;
+  color: var(--md-default-fg-color);
+  font-size: 0.78rem;
+  font-weight: 750;
   text-align: center;
-  color: var(--md-default-fg-color--lighter);
-  font-size: 0.72rem;
-  border-top: 1px solid var(--md-default-fg-color--lightest);
-  padding-top: 0.5rem;
+  font-variant-numeric: tabular-nums;
+}
+.mm-count-frac {
+  color: var(--md-default-fg-color);
+  font-size: 1rem;
+  font-weight: 900;
 }
 
 /* ── Tooltip ──────────────────────────────────────────────────────────────── */
@@ -932,13 +1031,32 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 @media (max-width: 700px) {
   #mm-app {
-    --mm-ribbon-max-h: min(58vh, 34rem);
+    --mm-ribbon-max-h: min(64vh, 38rem);
   }
 
   #mm-panel-body {
     display: grid;
     grid-template-columns: 1fr;
     align-items: stretch;
+  }
+
+  .mm-bento {
+    grid-template-columns: 1fr;
+  }
+
+  .mm-bento-grid--modifiers,
+  .mm-bento-grid--filters {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+
+  .mm-bento-tile--wide {
+    grid-column: auto;
+  }
+
+  #mm-stats {
+    justify-self: stretch;
+    width: 100%;
   }
 
   .mm-detail-controls,
@@ -1035,67 +1153,81 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
       <div class="mm-settings-separator" aria-hidden="true"></div>
 
-      <div class="mm-section mm-section--actions mm-actions">
-        <button id="mm-fit-btn">Fit view</button>
-      </div>
-
-      <div class="mm-section mm-section--detail">
-        <span class="mm-section-label">Level-of-detail</span>
-        <div id="mm-detail-controls" class="mm-detail-controls"></div>
-      </div>
-
-      <div class="mm-section mm-section--visibility">
-        <span class="mm-section-label">Visibility</span>
-        <div class="mm-visibility-controls">
-          <button id="mm-labels-toggle" type="button" aria-pressed="true">Node Labels</button>
-        </div>
-      </div>
-
-      <div class="mm-section mm-section--search">
-        <span class="mm-section-label">Search</span>
-        <div class="mm-search-wrap">
-          <input id="mm-search" type="text" placeholder="Title, tag or keyword…">
-          <button id="mm-search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
-        </div>
-      </div>
-
-      <div class="mm-section mm-section--categories">
-        <span class="mm-section-label">Categories</span>
-        <div class="mm-cat-links">
-          <button id="mm-all-cats">All</button>
-          <button id="mm-no-cats">None</button>
-        </div>
-        <div id="mm-category-filters"></div>
-      </div>
-
-      <div class="mm-section mm-section--types">
-        <span class="mm-section-label">Item Types</span>
-        <button id="mm-type-trigger" class="mm-type-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="mm-type-dialog">
-          <span id="mm-type-summary">All item types</span>
-        </button>
-        <dialog id="mm-type-dialog" class="mm-type-dialog" aria-labelledby="mm-type-title">
-          <div class="mm-type-panel">
-            <div class="mm-type-head">
-              <h2 id="mm-type-title">Item Types</h2>
-              <button id="mm-type-close" class="mm-type-close" type="button" aria-label="Close item types filter">
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.41L10.59 13.41 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.3l6.3 6.29 6.3-6.29z"></path>
-                </svg>
-              </button>
+      <div class="mm-bento">
+        <section class="mm-bento-group mm-bento-group--modifiers" aria-labelledby="mm-modifiers-title">
+          <h4 id="mm-modifiers-title" class="mm-bento-title">Modifiers</h4>
+          <div class="mm-bento-grid mm-bento-grid--modifiers">
+            <div class="mm-section mm-section--detail mm-bento-tile mm-bento-tile--wide">
+              <span class="mm-section-label">Level of Detail</span>
+              <div id="mm-detail-controls" class="mm-detail-controls"></div>
             </div>
-            <div class="mm-type-actions">
-              <button id="mm-all-types" type="button">All</button>
-              <button id="mm-no-types" type="button">None</button>
+
+            <div class="mm-section mm-section--actions mm-actions mm-bento-tile mm-bento-tile--button">
+              <button id="mm-fit-btn">Fit View</button>
             </div>
-            <div id="mm-type-filters" class="mm-type-list" role="group" aria-label="Item types"></div>
+
+            <div class="mm-section mm-section--visibility mm-bento-tile">
+              <span class="mm-section-label">Visibility</span>
+              <div class="mm-visibility-controls">
+                <button id="mm-labels-toggle" type="button" aria-pressed="true">Node Labels</button>
+              </div>
+            </div>
           </div>
-        </dialog>
-      </div>
+        </section>
 
-      <div id="mm-stats">
-        <span id="mm-node-count">…</span> items
-        <span id="mm-search-count" hidden></span>
-        <span id="mm-relevance-count" hidden></span>
+        <section class="mm-bento-group mm-bento-group--filters" aria-labelledby="mm-filters-title">
+          <h4 id="mm-filters-title" class="mm-bento-title">Filters</h4>
+          <div class="mm-bento-grid mm-bento-grid--filters">
+            <div class="mm-section mm-section--search mm-bento-tile mm-bento-tile--wide">
+              <span class="mm-section-label">Search</span>
+              <div class="mm-search-wrap">
+                <input id="mm-search" type="text" placeholder="Search for items…">
+                <button id="mm-search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
+              </div>
+            </div>
+
+            <div class="mm-section mm-section--categories mm-bento-tile mm-bento-tile--categories">
+              <div class="mm-bento-tile-head">
+                <span class="mm-section-label">Categories</span>
+                <div class="mm-cat-links">
+                  <button id="mm-all-cats">All</button>
+                  <button id="mm-no-cats">None</button>
+                </div>
+              </div>
+              <div id="mm-category-filters"></div>
+            </div>
+
+            <div class="mm-section mm-section--types mm-bento-tile mm-bento-tile--types">
+              <span class="mm-section-label">Item Types</span>
+              <button id="mm-type-trigger" class="mm-type-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="mm-type-dialog">
+                <span id="mm-type-summary">All item types</span>
+              </button>
+              <dialog id="mm-type-dialog" class="mm-type-dialog" aria-labelledby="mm-type-title">
+                <div class="mm-type-panel">
+                  <div class="mm-type-head">
+                    <h2 id="mm-type-title">Item Types</h2>
+                    <button id="mm-type-close" class="mm-type-close" type="button" aria-label="Close item types filter">
+                      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.41L10.59 13.41 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.3l6.3 6.29 6.3-6.29z"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="mm-type-actions">
+                    <button id="mm-all-types" type="button">All</button>
+                    <button id="mm-no-types" type="button">None</button>
+                  </div>
+                  <div id="mm-type-filters" class="mm-type-list" role="group" aria-label="Item types"></div>
+                </div>
+              </dialog>
+            </div>
+          </div>
+
+          <div id="mm-stats" class="mm-bento-count">
+            <span class="mm-count-frac"><span id="mm-node-count">…</span> / <span id="mm-total-count">…</span></span> items
+            <span id="mm-search-count" hidden></span>
+            <span id="mm-relevance-count" hidden></span>
+          </div>
+        </section>
       </div>
 
     </div>

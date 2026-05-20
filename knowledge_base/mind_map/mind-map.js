@@ -2299,17 +2299,44 @@
     const dy = pos.y - point.y;
     const radius = Math.max(nodeScreenRadius(node), 6) + 6;
     const distance = Math.sqrt(dx * dx + dy * dy);
-    if (distance > radius) return null;
+    const diskHit = distance <= radius;
+    const labelExtents = nodeLabelVisible(node) ? labelTextHalfExtents(attrs) : { width: 0, height: 0 };
+    const labelPad = 6;
+    const labelWidth = labelExtents.width + labelPad;
+    const labelHeight = labelExtents.height + labelPad;
+    const labelHit = labelWidth > 0 &&
+      Math.abs(dx) <= labelWidth &&
+      Math.abs(dy) <= labelHeight;
+
+    if (!diskHit && !labelHit) return null;
+
+    const normalizedX = labelWidth > 0 ? Math.abs(dx) / labelWidth : Infinity;
+    const normalizedY = labelHeight > 0 ? Math.abs(dy) / labelHeight : Infinity;
 
     return {
       node,
       attrs,
       distance,
       radius,
-      distanceRatio: radius ? distance / radius : Infinity,
+      diskHit,
+      labelHit,
+      distanceRatio: diskHit
+        ? (radius ? distance / radius : Infinity)
+        : Math.max(normalizedX, normalizedY) + 1,
       levelIndex: DETAIL_LEVELS.indexOf(attrs.detailLevel),
       screenSize: nodeScreenRadius(node),
     };
+  }
+
+  function nodeLabelVisible(node) {
+    if (!renderer || typeof renderer.getNodeDisplayData !== 'function') return false;
+
+    const display = renderer.getNodeDisplayData(node);
+    if (!display || !String(display.label || '').trim()) return false;
+    if (display.forceLabel) return true;
+
+    if (typeof renderer.getNodeDisplayedLabels !== 'function') return false;
+    return renderer.getNodeDisplayedLabels().has(node);
   }
 
   function bestPointerHit(pos) {
@@ -2822,12 +2849,23 @@
   function updateStats() {
     if (!graph) return;
 
-    document.getElementById('mm-node-count').textContent = visibleNodeCount;
+    const totalCount = DATA.nodes.length;
+    const filteredCount = DATA.nodes.reduce((count, node) => {
+      const attrs = node.data || {};
+      if (!nodeAllowedByFilters(attrs)) return count;
+      if (currentSearch && !nodeMatchesSearch(attrs)) return count;
+      return count + 1;
+    }, 0);
+    const nodeCount = document.getElementById('mm-node-count');
+    const totalNodeCount = document.getElementById('mm-total-count');
+    if (nodeCount) nodeCount.textContent = filteredCount;
+    if (totalNodeCount) totalNodeCount.textContent = totalCount;
+
     const searchCount = document.getElementById('mm-search-count');
     if (searchCount) {
       searchCount.hidden = !currentSearch;
       searchCount.textContent = currentSearch
-        ? ` · ${searchMatchCount} ${searchMatchCount === 1 ? 'match' : 'matches'}`
+        ? ` · ${filteredCount} ${filteredCount === 1 ? 'match' : 'matches'}`
         : '';
     }
     const relevanceCount = document.getElementById('mm-relevance-count');
@@ -3382,6 +3420,9 @@
 
     if (panelBounds && panelBounds.left <= pad && panelBounds.width < dims.width * PANEL_MAX_FOCUS_WIDTH_RATIO) {
       rect.left = Math.max(rect.left, Math.min(panelBounds.right + pad, dims.width - pad));
+    }
+    if (panelBounds && panelBounds.top <= pad && panelBounds.height < dims.height * PANEL_MAX_FOCUS_WIDTH_RATIO) {
+      rect.top = Math.max(rect.top, Math.min(panelBounds.bottom + pad, dims.height - pad));
     }
 
     const headerBounds = overlayBounds(document.getElementById('mm-panel-header'), graphRect, dims);
