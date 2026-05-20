@@ -192,6 +192,17 @@ One more reality check: “completely” means removed from refs you control. Ol
 
 ### Scripts
 
+#### arxiv check
+
+Add script /skill to check for arXiv version of papers.
+
+Leverage these facts:
+1. arXiv only started in 1991, so papers dated year 1990 and earlier cannot possibly have a valid arxiv version
+2. Papers already having an arxiv ID do not need a search, we already found it.
+3. Sometimes a paper's reprint version has a different name than the officially published version.
+
+#### audit checks
+
 Add audit check for "Team" and other non individual human names in the author list.
 Positive example
 <https://bengravell.github.io/knowledge-base/papers/2507_05331/>
