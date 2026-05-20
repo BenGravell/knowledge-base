@@ -1010,7 +1010,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
           <span class="mm-filter-body">
             <span class="mm-filter-row">
               <span>Semantic similarity</span>
-              <span id="mm-relevance-similarity-val">0.79</span>
+              <span id="mm-relevance-similarity-val">0.25</span>
             </span>
             <input id="mm-relevance-similarity" type="range" min="0" max="100" step="1" value="25">
           </span>
@@ -1022,7 +1022,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
           <span class="mm-filter-body">
             <span class="mm-filter-row">
               <span>Tree proximity</span>
-              <span id="mm-relevance-distance-val">0.79</span>
+              <span id="mm-relevance-distance-val">0.25</span>
             </span>
             <input id="mm-relevance-distance" type="range" min="0" max="100" step="1" value="25">
           </span>

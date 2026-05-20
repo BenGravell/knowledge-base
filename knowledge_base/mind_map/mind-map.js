@@ -755,6 +755,10 @@
     return relevanceSliderPositionToThreshold(parseInt(value, 10) / 100);
   }
 
+  function relevanceSliderValueLabel(value) {
+    return (parseInt(value, 10) / 100).toFixed(2);
+  }
+
   function selectedRelevanceEgo() {
     const paperId = paperIdForNode(pinnedNode);
     return paperId && paperData(paperId) ? paperId : null;
@@ -1881,6 +1885,17 @@
     if (!node || hoverClickNode === node) hoverClickNode = null;
   }
 
+  function visibleNodeIds() {
+    if (visibleNodes) return [...visibleNodes].filter(node => graphHasNode(node));
+
+    const nodes = [];
+    if (!graph) return nodes;
+    graph.forEachNode(node => {
+      if (nodeVisible(node)) nodes.push(node);
+    });
+    return nodes;
+  }
+
   function nodePoint(node) {
     const attrs = graph.getNodeAttributes(node);
     return {
@@ -2275,15 +2290,44 @@
       : rawSize;
   }
 
-  function pointerWithinNode(node, pos) {
-    if (!renderer || !graphHasNode(node) || !nodeVisible(node) || !pos) return false;
+  function nodePointerHit(node, pos) {
+    if (!renderer || !graphHasNode(node) || !nodeVisible(node) || !pos) return null;
 
     const attrs = graph.getNodeAttributes(node);
     const point = renderer.graphToViewport({ x: attrs.x, y: attrs.y });
     const dx = pos.x - point.x;
     const dy = pos.y - point.y;
     const radius = Math.max(nodeScreenRadius(node), 6) + 6;
-    return dx * dx + dy * dy <= radius * radius;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    if (distance > radius) return null;
+
+    return {
+      node,
+      attrs,
+      distance,
+      radius,
+      distanceRatio: radius ? distance / radius : Infinity,
+      levelIndex: DETAIL_LEVELS.indexOf(attrs.detailLevel),
+      screenSize: nodeScreenRadius(node),
+    };
+  }
+
+  function bestPointerHit(pos) {
+    if (!renderer || !graph || !pos) return null;
+
+    const hits = visibleNodeIds()
+      .map(node => nodePointerHit(node, pos))
+      .filter(Boolean);
+    if (!hits.length) return null;
+
+    hits.sort((a, b) => (
+      b.levelIndex - a.levelIndex ||
+      a.distanceRatio - b.distanceRatio ||
+      a.screenSize - b.screenSize ||
+      a.distance - b.distance
+    ));
+
+    return hits[0].node;
   }
 
   function clickTargetNode(payload) {
@@ -2295,8 +2339,8 @@
       : null;
     const pos = eventPosition(payload);
 
-    if (hovered && pointerWithinNode(hovered, pos)) return hovered;
-    return clicked;
+    if (hovered && nodePointerHit(hovered, pos)) return hovered;
+    return bestPointerHit(pos) || clicked;
   }
 
   /* -------------------------------------------------------------------------
@@ -3803,8 +3847,8 @@
     mode.value = relevanceFilter.mode;
     simSlider.value = relevanceThresholdToSliderValue(relevanceFilter.similarity);
     treeSlider.value = relevanceThresholdToSliderValue(relevanceFilter.treeProximity);
-    if (simVal) simVal.textContent = relevanceFilter.similarity.toFixed(2);
-    if (treeVal) treeVal.textContent = relevanceFilter.treeProximity.toFixed(2);
+    if (simVal) simVal.textContent = relevanceSliderValueLabel(simSlider.value);
+    if (treeVal) treeVal.textContent = relevanceSliderValueLabel(treeSlider.value);
     updateRelevancePanel();
   }
 
@@ -3838,12 +3882,12 @@
     });
     simSlider.addEventListener('input', () => {
       relevanceFilter.similarity = relevanceSliderValueToThreshold(simSlider.value);
-      if (simVal) simVal.textContent = relevanceFilter.similarity.toFixed(2);
+      if (simVal) simVal.textContent = relevanceSliderValueLabel(simSlider.value);
       applyRelevanceFilter();
     });
     treeSlider.addEventListener('input', () => {
       relevanceFilter.treeProximity = relevanceSliderValueToThreshold(treeSlider.value);
-      if (treeVal) treeVal.textContent = relevanceFilter.treeProximity.toFixed(2);
+      if (treeVal) treeVal.textContent = relevanceSliderValueLabel(treeSlider.value);
       applyRelevanceFilter();
     });
 

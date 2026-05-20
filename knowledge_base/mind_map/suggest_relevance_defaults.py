@@ -586,7 +586,7 @@ def main() -> None:
     print()
     print("Recommended defaults")
     print(f"  shared threshold:    {best.threshold:.2f}")
-    print(f"  slider position:     {threshold_to_slider_position(best.threshold):.0%}")
+    print(f"  displayed slider:    {threshold_to_slider_position(best.threshold):.2f}")
     print(f"  semantic similarity: {best.threshold:.2f}")
     print(f"  tree proximity:      {best.threshold:.2f}")
     print(

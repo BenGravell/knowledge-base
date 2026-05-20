@@ -352,9 +352,11 @@ body:has(#ct-app) .md-content {
   --ct-selected-text: #111827;
   --ct-selected-dot-border: color-mix(in srgb, #ffffff 84%, transparent);
   --ct-selected-dot-fill:
-    radial-gradient(circle at 30% 22%, #ffffff 0 8%, transparent 22%),
-    radial-gradient(circle at 68% 72%, color-mix(in srgb, #ffffff 34%, transparent) 0 7%, transparent 21%),
-    conic-gradient(from 225deg, #ff1fd2, #7b2cff 15%, #0069ff 30%, #00d8ff 45%, #00ff8a 60%, #ffe600 74%, #ff7a00 88%, #ff1fd2);
+    radial-gradient(circle at 28% 26%, color-mix(in srgb, #ff2edb 86%, transparent) 0 18%, transparent 42%),
+    radial-gradient(circle at 72% 28%, color-mix(in srgb, #00cfff 84%, transparent) 0 16%, transparent 42%),
+    radial-gradient(circle at 72% 76%, color-mix(in srgb, #ff8a00 82%, transparent) 0 18%, transparent 46%),
+    radial-gradient(circle at 24% 74%, color-mix(in srgb, #00f08a 78%, transparent) 0 16%, transparent 44%),
+    conic-gradient(from 215deg, #ff1fd2, #7b2cff 18%, #0069ff 34%, #00d8ff 48%, #00ff8a 62%, #ffe600 76%, #ff7a00 90%, #ff1fd2);
   --ct-selected-inset: color-mix(in srgb, #ffffff 42%, transparent);
   --ct-border: color-mix(in srgb, var(--md-default-fg-color) 16%, transparent);
   --ct-soft-border: color-mix(in srgb, var(--md-default-fg-color) 9%, transparent);
@@ -1224,8 +1226,8 @@ body:has(#ct-app) .md-content {
   height: 0.95rem;
   border-color: var(--ct-selected-dot-border);
   background: var(--ct-selected-dot-fill);
-  background-size: 145% 145%, 120% 120%, 100% 100%;
-  background-position: 24% 18%, 76% 82%, center;
+  background-size: 150% 150%, 145% 145%, 148% 148%, 142% 142%, 100% 100%;
+  background-position: 18% 20%, 86% 20%, 82% 84%, 16% 82%, center;
   box-shadow:
     0 0 0 3px color-mix(in srgb, var(--ct-cyan) 28%, transparent),
     0 0 14px color-mix(in srgb, var(--ct-cyan) 54%, transparent);
