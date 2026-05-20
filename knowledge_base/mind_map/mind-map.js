@@ -2085,18 +2085,57 @@
     };
   }
 
-  function prepareBranchExpansionTransition(parentNode, childLevel) {
-    const parentPoint = nodePoint(parentNode);
-    const cameraState = transitionCameraState();
-    const nodes = [];
+  function eligibleExpansionChildren(parentNode, childLevel = null) {
     const children = childNodesByParent.get(parentNode) || [];
 
-    children.forEach(node => {
-      if (!graphHasNode(node)) return;
+    return children.filter(node => {
+      if (!graphHasNode(node)) return false;
       const attrs = graph.getNodeAttributes(node);
-      if (attrs.detailLevel !== childLevel || attrs.parentId !== parentNode) return;
-      if (!nodeAllowedByFilters(attrs)) return;
+      if (childLevel && attrs.detailLevel !== childLevel) return false;
+      if (attrs.parentId !== parentNode) return false;
+      return nodeAllowedByFilters(attrs);
+    });
+  }
 
+  function sameVisibleAggregateLabel(a, b) {
+    const labelA = String(a.fullLabel || a.title || a.label || '').trim();
+    const labelB = String(b.fullLabel || b.title || b.label || '').trim();
+    return labelA && labelA === labelB;
+  }
+
+  function aggregateExpansionChain(node) {
+    const chain = [node];
+    let cursor = node;
+
+    while (graphHasNode(cursor)) {
+      const attrs = graph.getNodeAttributes(cursor);
+      const childLevel = attrs.kind === 'aggregate'
+        ? nextDetailLevel(attrs.detailLevel)
+        : null;
+      if (!childLevel || childLevel === 'paper') break;
+
+      const children = eligibleExpansionChildren(cursor, childLevel);
+      if (children.length !== 1) break;
+
+      const child = children[0];
+      const childAttrs = graph.getNodeAttributes(child);
+      if (childAttrs.kind !== 'aggregate' || !sameVisibleAggregateLabel(attrs, childAttrs)) break;
+
+      chain.push(child);
+      cursor = child;
+    }
+
+    return chain;
+  }
+
+  function prepareBranchExpansionTransition(parentNode, childLevel, originNode = parentNode) {
+    const parentPoint = nodePoint(originNode);
+    const cameraState = transitionCameraState();
+    const nodes = [];
+    const children = eligibleExpansionChildren(parentNode, childLevel);
+
+    children.forEach(node => {
+      const attrs = graph.getNodeAttributes(node);
       const to = homePoint(attrs);
       nodes.push({
         node,
@@ -2110,19 +2149,26 @@
 
   function expandBranchNode(node) {
     const attrs = graph.getNodeAttributes(node);
-    const childLevel = attrs.kind === 'aggregate'
-      ? nextDetailLevel(attrs.detailLevel)
+    const chain = attrs.kind === 'aggregate'
+      ? aggregateExpansionChain(node)
+      : [];
+    const terminalNode = chain[chain.length - 1] || node;
+    const terminalAttrs = graphHasNode(terminalNode)
+      ? graph.getNodeAttributes(terminalNode)
+      : null;
+    const childLevel = terminalAttrs && terminalAttrs.kind === 'aggregate'
+      ? nextDetailLevel(terminalAttrs.detailLevel)
       : null;
 
     if (!childLevel) return false;
 
     finishLevelTransition();
     let transitionNodes = renderer
-      ? prepareBranchExpansionTransition(node, childLevel)
+      ? prepareBranchExpansionTransition(terminalNode, childLevel, node)
       : [];
     if (transitionNodes.length > MAX_ANIMATED_TRANSITION_NODES) transitionNodes = [];
 
-    expandedAggregateNodes.add(node);
+    chain.forEach(expandedNode => expandedAggregateNodes.add(expandedNode));
     pinnedNode = null;
     setSelectedNodeFilterEnabled(false);
     hoveredNode = null;
@@ -2179,6 +2225,7 @@
     renderer.on('afterRender', updateActiveTooltipPositions);
     hideLoading();
     setupGraphEvents();
+    setupGraphDomEvents();
     setupCameraEvents();
     refreshView();
     window.setTimeout(() => {
@@ -2232,16 +2279,26 @@
         return;
       }
 
-      pinnedNode = null;
-      setSelectedNodeFilterEnabled(false);
-      hoveredNode = null;
-      clearHoverClickNode();
-      hideHoverTooltip();
-      hideTooltip();
-      hidePaperModal();
-      syncUrlToPinnedNode();
-      refreshView();
+      clearGraphSelection();
     });
+  }
+
+  function setupGraphDomEvents() {
+    graphContainer.addEventListener('click', event => {
+      if (!renderer || !graph || event.defaultPrevented || event.button !== 0) return;
+
+      const pos = domEventPosition(event);
+      const node = clickTargetNode({ event: pos });
+
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      if (node) {
+        activateNode(node, { event: pos });
+      } else {
+        clearGraphSelection();
+      }
+    }, true);
   }
 
   function activateNode(node, payload) {
@@ -2269,9 +2326,29 @@
     refreshView();
   }
 
+  function clearGraphSelection() {
+    pinnedNode = null;
+    setSelectedNodeFilterEnabled(false);
+    hoveredNode = null;
+    clearHoverClickNode();
+    hideHoverTooltip();
+    hideTooltip();
+    hidePaperModal();
+    syncUrlToPinnedNode();
+    refreshView();
+  }
+
   function eventPosition(payload) {
     if (payload && payload.event) return { x: payload.event.x, y: payload.event.y };
     return { x: graphContainer.clientWidth / 2, y: graphContainer.clientHeight / 2 };
+  }
+
+  function domEventPosition(event) {
+    const rect = graphContainer.getBoundingClientRect();
+    return {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    };
   }
 
   function nodeScreenRadius(node) {
@@ -2320,6 +2397,7 @@
       radius,
       diskHit,
       labelHit,
+      labelPriority: labelHit ? nodeLabelDrawIndex(node) : -1,
       distanceRatio: diskHit
         ? (radius ? distance / radius : Infinity)
         : Math.max(normalizedX, normalizedY) + 1,
@@ -2339,6 +2417,11 @@
     return renderer.getNodeDisplayedLabels().has(node);
   }
 
+  function nodeLabelDrawIndex(node) {
+    if (!renderer || typeof renderer.getNodeDisplayedLabels !== 'function') return -1;
+    return [...renderer.getNodeDisplayedLabels()].indexOf(node);
+  }
+
   function bestPointerHit(pos) {
     if (!renderer || !graph || !pos) return null;
 
@@ -2348,6 +2431,8 @@
     if (!hits.length) return null;
 
     hits.sort((a, b) => (
+      Number(b.diskHit) - Number(a.diskHit) ||
+      b.labelPriority - a.labelPriority ||
       b.levelIndex - a.levelIndex ||
       a.distanceRatio - b.distanceRatio ||
       a.screenSize - b.screenSize ||
