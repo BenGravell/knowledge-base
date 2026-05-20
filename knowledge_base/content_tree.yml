@@ -732,23 +732,25 @@
           - "A Geometric Approach to Three-dimensional Hipped Bipedal Robotic Walking": docs/papers/2007/2007.ames.a_geometric_approach_to/metadata.yml
     - Control:
       - Theory:
-        - On Adaptive Control Processes: docs/papers/1959/1959.bellman.on_adaptive_control_processes/metadata.yml
-        - La Salle Invariance Principle: docs/papers/1966/1966.la_salle.an_invariance_principle_in/metadata.yml
-        - Every Good Regulator Theorem: docs/papers/1970/1970.conant.every_good_regulator_of/metadata.yml
-        - The Internal Model Principle for Linear Multivariable Regulators: docs/papers/1975/1975.francis.the_internal_model_principle/metadata.yml
-        - Respect the Unstable: docs/papers/2003/2003.stein.respect_the_unstable/metadata.yml
-        - Partial Feedback Linearization: docs/papers/1994/1994.spong.partial_feedback_linearization_of/metadata.yml
-        - Complexity of Ten Decision Problems in Continuous Time Dynamical Systems: docs/papers/2012/1210.7420/metadata.yml
-        - "Internal feedback in the cortical perception-action loop enables fast and accurate behavior": docs/papers/2022/2211.05922/metadata.yml
-        - "A note on persistency of excitation": docs/papers/2005/2005.willems.a_note_on_persistency/metadata.yml
-        - Path-Following or Reference-Tracking: docs/papers/2004/2004.aguiar.path_following_or_reference/metadata.yml
-        - DWPP: docs/papers/2026/2601.15006/metadata.yml
+        - Stability:
+          - La Salle Invariance Principle: docs/papers/1966/1966.la_salle.an_invariance_principle_in/metadata.yml
+          - Respect the Unstable: docs/papers/2003/2003.stein.respect_the_unstable/metadata.yml
+          - "Asymptotic stability equals exponential stability - while you twist your eyes": docs/papers/2024/2411.03277/metadata.yml
+        - Internal Modeling:
+          - Every Good Regulator Theorem: docs/papers/1970/1970.conant.every_good_regulator_of/metadata.yml
+          - The Internal Model Principle for Linear Multivariable Regulators: docs/papers/1975/1975.francis.the_internal_model_principle/metadata.yml
+        - Adaptive Control:
+          - On Adaptive Control Processes: docs/papers/1959/1959.bellman.on_adaptive_control_processes/metadata.yml
+        - Architectures:
+          - "Augmented Lagrangian Methods as Layered Control Architectures": docs/papers/2023/2311.06404/metadata.yml
+          - "Towards a Theory of Control Architecture: A quantitative framework for layered multi-rate control": docs/papers/2024/2401.15185/metadata.yml
+        - Complexity & Hardness:
+          - Complexity of Ten Decision Problems in Continuous Time Dynamical Systems: docs/papers/2012/1210.7420/metadata.yml
+        - Biological Systems:
+          - "Internal feedback in the cortical perception-action loop enables fast and accurate behavior": docs/papers/2022/2211.05922/metadata.yml
         - Control for Societal-Scale Challenges: docs/papers/2023/2023.alleyne.control_for_societal_scale/metadata.yml
-        - "Augmented Lagrangian Methods as Layered Control Architectures": docs/papers/2023/2311.06404/metadata.yml
-        - "Towards a Theory of Control Architecture: A quantitative framework for layered multi-rate control": docs/papers/2024/2401.15185/metadata.yml
-        - "Asymptotic stability equals exponential stability - while you twist your eyes": docs/papers/2024/2411.03277/metadata.yml
       - Frequency and Laplace-Domain Methods:
-        - "Control System Synthesis by Root Locus Method": docs/papers/1950/1950.evans.control_system_synthesis_by/metadata.yml
+        - Control System Synthesis by Root Locus Method: docs/papers/1950/1950.evans.control_system_synthesis_by/metadata.yml
         - Proportional-integral-derivative (PID):
           - "Automatic Tuning and Adaptation for PID Controllers - a Survey": docs/papers/1993/1993.astrom.automatic_tuning_and_adaptation/metadata.yml
           - "A Practical Guide to PID Controller Implementation": docs/papers/2026/2604.15918/metadata.yml
@@ -813,7 +815,9 @@
             - "MPCC (RC Cars)": docs/papers/2015/1711.07300/metadata.yml
             - "MPCC (Articulated Vehicles)": docs/papers/2025/2604.24064/metadata.yml
           - Data-Driven and Learning-Based MPC:
-            - DeePC: docs/papers/2018/1811.05890/metadata.yml
+            - Data-driven Control:
+              - Willems' Fundamental Lemma: docs/papers/2005/2005.willems.a_note_on_persistency/metadata.yml
+              - DeePC: docs/papers/2018/1811.05890/metadata.yml
             - "Model predictive control based on ARX models": docs/papers/2010/2010.kon.model_predictive_control_based/metadata.yml
             - "Learning-based predictive control for linear systems: a unitary approach": docs/papers/2018/1810.12584/metadata.yml
             - "KPC: Learning-Based Model Predictive Control with Deterministic Guarantees": docs/papers/2020/2011.11303/metadata.yml
@@ -831,6 +835,9 @@
           - MPC Applications and Implementations:
             - "Intelligent Trajectory Planning for Autonomous Vehicles via Adaptive Model Predictive Control": docs/papers/2025/2025.goncalves.intelligent_trajectory_planning_for/metadata.yml
             - "Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks": docs/papers/2026/2604.19452/metadata.yml
+        - Nonlinear Control Design:
+          - Feedback Linearization:
+            - Partial Feedback Linearization: docs/papers/1994/1994.spong.partial_feedback_linearization_of/metadata.yml
       - Robust & Safety-Critical Control:
         - Robust Control:
           - Distributed control design for spatially interconnected systems: docs/papers/2003/2003.dandrea.distributed_control_design_for/metadata.yml
@@ -880,14 +887,18 @@
       - Robot Control:
         - Theory of Robot Control: docs/papers/1996/1996.wit.theory_of_robot_control/metadata.yml
         - "Adaptive Motion Control of Rigid Robots: A Tutorial": docs/papers/1989/1989.ortega.adaptive_motion_control_of/metadata.yml
-        - Tracking Control for Wheeled Robots:
-          - Kanayama Tracking Controller: docs/papers/1990/1990.kanayama.a_stable_tracking_control/metadata.yml
-          - Pure Pursuit: docs/papers/1992/1992.coulter.implementation_of_the_pure/metadata.yml
-          - Feedback Control of a Nonholonomic Car-Like Robot: docs/papers/1998/1998.de_luca.feedback_control_of_a/metadata.yml
-          - Nonlinear Control Design for Mobile Robots: docs/papers/1994/1994.de_wit.nonlinear_control_design_for/metadata.yml
-          - Autonomous Automobile Trajectory Tracking for Off-road Driving: docs/papers/2007/2007.hoffmann.autonomous_automobile_trajectory_tracking/metadata.yml
-        - Tracking Control for Aerial Robots:
-          - Optimization-based iterative learning for precise quadrocopter trajectory tracking: docs/papers/2012/2012.schoellig.optimization_based_iterative_learning/metadata.yml
+        - Tracking control:
+          - Path-Following or Reference-Tracking: docs/papers/2004/2004.aguiar.path_following_or_reference/metadata.yml
+          - Tracking Control for Wheeled Robots:
+            - Pure Pursuit:
+              - Pure Pursuit: docs/papers/1992/1992.coulter.implementation_of_the_pure/metadata.yml
+              - DWPP: docs/papers/2026/2601.15006/metadata.yml
+            - Kanayama Tracking Controller: docs/papers/1990/1990.kanayama.a_stable_tracking_control/metadata.yml
+            - Nonlinear Control Design for Mobile Robots: docs/papers/1994/1994.de_wit.nonlinear_control_design_for/metadata.yml
+            - Feedback Control of a Nonholonomic Car-Like Robot: docs/papers/1998/1998.de_luca.feedback_control_of_a/metadata.yml
+            - Autonomous Automobile Trajectory Tracking for Off-road Driving: docs/papers/2007/2007.hoffmann.autonomous_automobile_trajectory_tracking/metadata.yml
+          - Tracking Control for Aerial Robots:
+            - Optimization-based iterative learning for precise quadrocopter trajectory tracking: docs/papers/2012/2012.schoellig.optimization_based_iterative_learning/metadata.yml
         - Perception-Based Control:
           - Integrated Perception and Control at High Speed: docs/papers/2020/2020.florence.integrated_perception_and_control/metadata.yml
           - "Robust Guarantees for Perception-Based Control": docs/papers/2020/2020.dean.robust_guarantees_for_perception/metadata.yml
@@ -1188,7 +1199,7 @@
         - "Recursive State Estimation for a Set-membership Description of Uncertainty": docs/papers/1971/1971.bertsekas.recursive_state_estimation_for/metadata.yml
         - "Analysis of Recursive Stochastic Algorithms": docs/papers/1977/1977.ljung.analysis_of_recursive_stochastic/metadata.yml
         - "Parameter Identification for Uncertain Plants Using H∞ Methods": docs/papers/1995/1995.didinsky.parameter_identification_for_uncertain/metadata.yml
-        - "Differential Dynamic Programming for Optimal Estimation": docs/papers/2015/2015.kobilarov.differential_dynamic_programming_for/metadata.yml
+        - Differential Dynamic Programming for Optimal Estimation: docs/papers/2015/2015.kobilarov.differential_dynamic_programming_for/metadata.yml
       - Unscented Kalman Filter (UKF):
         - UKF: docs/papers/1997/1997.julier.new_extension_of_the/metadata.yml
         - The Unscented Kalman Filter for Nonlinear Estimation: docs/papers/2000/2000.wan.the_unscented_kalman_filter/metadata.yml
@@ -1197,25 +1208,32 @@
         - CONDENSATION: docs/papers/1998/1998.isard.condensationconditional_density_propagation_for/metadata.yml
         - "Particle filters for positioning, navigation, and tracking": docs/papers/2002/2002.gustafsson.particle_filters_for_positioning/metadata.yml
         - "Marginalized particle filters for mixed linear/nonlinear state-space models": docs/papers/2005/2005.schon.marginalized_particle_filters_for/metadata.yml
-        - "Robust Vehicle Localization in Urban Environments Using Probabilistic Maps": docs/papers/2010/2010.levinson.robust_vehicle_localization_in/metadata.yml
         - "Path Integral Particle Filtering for Hybrid Systems via Saltation Matrices": docs/papers/2026/2603.01176/metadata.yml
-      - Mapping & SLAM:
-        - Hydra: docs/papers/2022/2201.13360/metadata.yml
-        - Khronos: docs/papers/2024/2402.13817/metadata.yml
-        - CLIPPER: docs/papers/2020/2011.10202/metadata.yml
-        - CLIPPER+: docs/papers/2024/2402.15464/metadata.yml
-        - OctoMap: docs/papers/2013/2013.hornung.octomap_an_efficient_probabilistic/metadata.yml
-        - "Fast Iterative Alignment of Pose Graphs with Poor Initial Estimates": docs/papers/2006/2006.olson.fast_iterative_alignment_of/metadata.yml
-        - Automatic Online Calibration of Cameras and Lasers: docs/papers/2013/2013.levinson.automatic_online_calibration_of/metadata.yml
-        - Visual Odometry and Mapping for Autonomous Flight Using an RGB-D Camera: docs/papers/2016/2016.huang.visual_odometry_and_mapping/metadata.yml
+      - Localization & Mapping:
         - Factor Graphs:
-          - "Factor Graphs and the Sum-product Algorithm": docs/papers/2001/2001.kschischang.factor_graphs_and_the/metadata.yml
+          - Factor Graphs and the Sum-product Algorithm: docs/papers/2001/2001.kschischang.factor_graphs_and_the/metadata.yml
           - Factor Graphs: docs/papers/2021/2021.dellaert.factor_graphs_exploiting_structure/metadata.yml
-          - "A Factor Graph Approach to Estimation and Model Predictive Control on Unmanned Aerial Vehicles": docs/papers/2014/2014.ta.a_factor_graph_approach/metadata.yml
-        - Building Rome with Convex Optimization: docs/papers/2025/2025.han.building_rome_with_convex/metadata.yml
-        - Learning Occupancy Grid Maps with Forward Sensor Models: docs/papers/2003/2003.thrun.learning_occupancy_grid_maps/metadata.yml
-        - iSAM: docs/papers/2008/2008.kaess.isam_incremental_smoothing_and/metadata.yml
-        - Quaternion Based Camera Pose Estimation From Matched Feature Points: docs/papers/2017/1704.02672/metadata.yml
+          - A Factor Graph Approach to Estimation and Model Predictive Control on Unmanned Aerial Vehicles: docs/papers/2014/2014.ta.a_factor_graph_approach/metadata.yml
+        - Map-Based Localization:
+          - Robust Vehicle Localization in Urban Environments Using Probabilistic Maps: docs/papers/2010/2010.levinson.robust_vehicle_localization_in/metadata.yml
+        - Dense Mapping:
+          - Learning Occupancy Grid Maps with Forward Sensor Models: docs/papers/2003/2003.thrun.learning_occupancy_grid_maps/metadata.yml
+          - OctoMap: docs/papers/2013/2013.hornung.octomap_an_efficient_probabilistic/metadata.yml
+        - Graph-Based SLAM & Smoothing:
+          - Fast Iterative Alignment of Pose Graphs with Poor Initial Estimates: docs/papers/2006/2006.olson.fast_iterative_alignment_of/metadata.yml
+          - iSAM: docs/papers/2008/2008.kaess.isam_incremental_smoothing_and/metadata.yml
+        - Metric-Semantic SLAM:
+          - Hydra: docs/papers/2022/2201.13360/metadata.yml
+          - Khronos: docs/papers/2024/2402.13817/metadata.yml
+        - Point Cloud Registration:
+          - CLIPPER: docs/papers/2020/2011.10202/metadata.yml
+          - CLIPPER+: docs/papers/2024/2402.15464/metadata.yml
+        - Visual Odometry & Structure from Motion:
+          - Visual Odometry and Mapping for Autonomous Flight Using an RGB-D Camera: docs/papers/2016/2016.huang.visual_odometry_and_mapping/metadata.yml
+          - Quaternion Based Camera Pose Estimation From Matched Feature Points: docs/papers/2017/1704.02672/metadata.yml
+          - Building Rome with Convex Optimization: docs/papers/2025/2025.han.building_rome_with_convex/metadata.yml
+        - Sensor Calibration:
+          - Automatic Online Calibration of Cameras and Lasers: docs/papers/2013/2013.levinson.automatic_online_calibration_of/metadata.yml
     - Motion Prediction:
       - Driver Models:
         - IDM: docs/papers/2000/2000.treiber.congested_traffic_states_in/metadata.yml
@@ -1229,19 +1247,18 @@
         - Learning and Predicting Multimodal Vehicle Action Distributions in a Unified Probabilistic Model Without Labels: docs/papers/2022/2212.07013/metadata.yml
         - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: docs/papers/2025/2511.00814/metadata.yml
       - Prediction Requirements:
-        - "Prediction Horizon Requirements for Automated Driving": docs/papers/2024/2402.03893/metadata.yml
+        - Prediction Horizon Requirements for Automated Driving: docs/papers/2024/2402.03893/metadata.yml
       - Surveys:
-        - "Trends in Motion Prediction Toward Deployable and Generalizable Autonomy": docs/papers/2025/2505.09074/metadata.yml
-        - "Motion Forecasting for Autonomous Vehicles": docs/papers/2025/2502.08664/metadata.yml
-        - "Trajectory Prediction for Autonomous Driving": docs/papers/2025/2503.03262/metadata.yml
-        - Deep Learning-based Vehicle Behaviour Prediction: docs/papers/2019/1912.11676/metadata.yml
-        - A Survey on Motion Prediction and Risk Assessment for Intelligent Vehicles: docs/papers/2014/2014.lefevre.a_survey_on_motion/metadata.yml
-        - Action and Trajectory Prediction for Autonomous Driving: docs/papers/2024/2024.calem.action_and_trajectory_prediction/metadata.yml
-        - DriveGPT: docs/papers/2024/2412.14415/metadata.yml
-        - "Forecasting the Past: Gradient-Based Distribution Shift Detection in Trajectory Prediction": docs/papers/2026/2604.12425/metadata.yml
-        - "Task-Relevant Failure Detection for Trajectory Predictors in Autonomous Vehicles": docs/papers/2022/2207.12380/metadata.yml
+        - Automated Driving:
+          - A Survey on Motion Prediction and Risk Assessment for Intelligent Vehicles: docs/papers/2014/2014.lefevre.a_survey_on_motion/metadata.yml
+          - Deep Learning-based Vehicle Behaviour Prediction: docs/papers/2019/1912.11676/metadata.yml
+          - Trends in Motion Prediction Toward Deployable and Generalizable Autonomy: docs/papers/2025/2505.09074/metadata.yml
+          - Motion Forecasting for Autonomous Vehicles: docs/papers/2025/2502.08664/metadata.yml
+          - Trajectory Prediction for Autonomous Driving: docs/papers/2025/2503.03262/metadata.yml
+          - Action and Trajectory Prediction for Autonomous Driving: docs/papers/2024/2024.calem.action_and_trajectory_prediction/metadata.yml
+          - "Forecasting the Past: Gradient-Based Distribution Shift Detection in Trajectory Prediction": docs/papers/2026/2604.12425/metadata.yml
+          - Task-Relevant Failure Detection for Trajectory Predictors in Autonomous Vehicles: docs/papers/2022/2207.12380/metadata.yml
         - WestWorld: docs/papers/2026/2603.14392/metadata.yml
-        - RDAR: docs/papers/2025/2509.19789/metadata.yml
     - Computer Vision:
       - Low-level & Geometric Vision:
         - Edge Detection:
@@ -1472,6 +1489,8 @@
           - MolmoAct2: docs/papers/2026/2605.02881/metadata.yml
           - RLDX-1: docs/papers/2026/2605.03269/metadata.yml
         - Large Behavioral Models (LBM):
+          - DriveGPT: docs/papers/2024/2412.14415/metadata.yml
+          - RDAR: docs/papers/2025/2509.19789/metadata.yml
           - Large Behavioral Models: docs/papers/2026/2026.gabrielsson.large_behavioral_models_a/metadata.yml
           - BehaviorGPT:
             - BehaviorGPT-v1: docs/papers/2025/2025.gabrielsson.a_foundation_model_for/metadata.yml
@@ -1606,6 +1625,8 @@
         - QuadSoft: docs/papers/2026/2604.00496/metadata.yml
       - Brachiating Robots:
         - AcroMonk: docs/papers/2023/2305.08373/metadata.yml
+    - Environmental Impacts:
+          - "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning": docs/papers/2020/2002.05651/metadata.yml
   - Foundations:
     - Mathematics:
       - Geometry & Tiling:
@@ -1646,20 +1667,24 @@
         - The Humble Programmer: docs/papers/1972/1972.dijkstra.the_humble_programmer/metadata.yml
         - On the Role of Scientific Thought: docs/papers/1974/1974.dijkstra.on_the_role_of/metadata.yml
         - Why Greatness Cannot Be Planned: docs/papers/2015/2015.stanley.why_greatness_cannot_be/metadata.yml
-      - Scientific Computing & ML Systems:
+      - Scientific Computing:
         - Julia: docs/papers/2017/2017.bezanson.julia_a_fresh_approach/metadata.yml
         - Numba: docs/papers/2015/2015.lam.numba/metadata.yml
-        - JAX: docs/papers/2018/2018.frostig.compiling_machine_learning_programs/metadata.yml
-        - frax: docs/papers/2026/2604.04310/metadata.yml
+      - Machine learning:
+        - JAX Ecosystem:
+          - JAX: docs/papers/2018/2018.frostig.compiling_machine_learning_programs/metadata.yml
+          - frax: docs/papers/2026/2604.04310/metadata.yml
         - PyTorch: docs/papers/2019/1912.01703/metadata.yml
-        - Ray: docs/papers/2017/1712.05889/metadata.yml
-        - RLlib: docs/papers/2017/1712.09381/metadata.yml
-        - Tune: docs/papers/2018/1807.05118/metadata.yml
+        - Ray Ecosystem:
+          - Ray: docs/papers/2017/1712.05889/metadata.yml
+          - RLlib: docs/papers/2017/1712.09381/metadata.yml
+          - Tune: docs/papers/2018/1807.05118/metadata.yml
+      - Databases:
         - DuckDB: docs/papers/2019/2019.raasveldt.duckdb/metadata.yml
-        - Matplotlib: docs/papers/2007/2007.hunter.matplotlib_a_2d_graphics/metadata.yml
-        - "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning": docs/papers/2020/2002.05651/metadata.yml
       - Message Protocols:
         - LCM: docs/papers/2010/2010.huang.lcm_lightweight_communications_and/metadata.yml
+      - Visualization & Plotting:
+        - Matplotlib: docs/papers/2007/2007.hunter.matplotlib_a_2d_graphics/metadata.yml
     - Algorithms & Data Structures:
       - Sorting:
         - Quicksort: docs/papers/1962/1962.hoare.quicksort/metadata.yml
