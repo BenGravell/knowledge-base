@@ -204,9 +204,14 @@
           - "SoftJAX & SoftTorch": docs/papers/2026/2603.08824/metadata.yml
           - "The Elements of Differentiable Programming": docs/papers/2024/2403.14606/metadata.yml
       - Combinatorial Optimization:
-        - Held-Karp Dynamic Programming: docs/papers/1961/1961.held.a_dynamic_programming_approach/metadata.yml
-        - "Dynamic Programming Treatment of the Travelling Salesman Problem": docs/papers/1962/1962.bellman.dynamic_programming_treatment_of/metadata.yml
-        - "The traveling salesman problem: An overview of exact and approximate algorithms": docs/papers/1992/1992.laporte.the_traveling_salesman_problem/metadata.yml
+        - Complexity Theory:
+          - "Reducibility among Combinatorial Problems": docs/papers/1972/1972.karp.reducibility_among_combinatorial_problems/metadata.yml
+        - Covering Problems:
+          - Randomized Greedy Algorithms for Covering Problems: docs/papers/2018/2018.gao.randomized_greedy_algorithms_for/metadata.yml
+        - Traveling Salesman Problems:
+          - Held-Karp Dynamic Programming: docs/papers/1961/1961.held.a_dynamic_programming_approach/metadata.yml
+          - "Dynamic Programming Treatment of the Travelling Salesman Problem": docs/papers/1962/1962.bellman.dynamic_programming_treatment_of/metadata.yml
+          - "The traveling salesman problem: An overview of exact and approximate algorithms": docs/papers/1992/1992.laporte.the_traveling_salesman_problem/metadata.yml
         - Assignment Problems:
           - Hungarian algorithm: docs/papers/1955/1955.kuhn.the_hungarian_method_for/metadata.yml
           - Munkres algorithm: docs/papers/1957/1957.munkres.algorithms_for_the_assignment/metadata.yml
@@ -732,6 +737,7 @@
         - The Internal Model Principle for Linear Multivariable Regulators: docs/papers/1975/1975.francis.the_internal_model_principle/metadata.yml
         - Respect the Unstable: docs/papers/2003/2003.stein.respect_the_unstable/metadata.yml
         - Partial Feedback Linearization: docs/papers/1994/1994.spong.partial_feedback_linearization_of/metadata.yml
+        - Complexity of Ten Decision Problems in Continuous Time Dynamical Systems: docs/papers/2012/1210.7420/metadata.yml
         - "Internal feedback in the cortical perception-action loop enables fast and accurate behavior": docs/papers/2022/2211.05922/metadata.yml
         - "A note on persistency of excitation": docs/papers/2005/2005.willems.a_note_on_persistency/metadata.yml
         - Path-Following or Reference-Tracking: docs/papers/2004/2004.aguiar.path_following_or_reference/metadata.yml
@@ -1688,11 +1694,7 @@
         - Cuckoo Filter: docs/papers/2014/2014.fan.cuckoo_filter_practically_better/metadata.yml
       - Parallel Algorithms:
         - "Fast parallel matrix inversion algorithms": docs/papers/1975/1975.csanky.fast_parallel_matrix_inversion/metadata.yml
-        - "Scans as primitive parallel operations": docs/papers/1989/1989.blelloch.scans_as_primitive_parallel/metadata.yml
-      - Complexity & Approximation:
-        - Complexity of Ten Decision Problems in Continuous Time Dynamical Systems: docs/papers/2012/1210.7420/metadata.yml
-        - "Randomized greedy algorithms for covering problems": docs/papers/2018/2018.gao.randomized_greedy_algorithms_for/metadata.yml
-        - "Reducibility among Combinatorial Problems": docs/papers/1972/1972.karp.reducibility_among_combinatorial_problems/metadata.yml
+        - "Scans as primitive parallel operations": docs/papers/1989/1989.blelloch.scans_as_primitive_parallel/metadata.yml        
     - Network Science:
       - Small-World and Scale-Free Networks:
         - Watts-Strogatz Model: docs/papers/1998/1998.watts.collective_dynamics_of_small/metadata.yml
