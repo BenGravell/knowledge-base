@@ -28526,11 +28526,11 @@ window.analyticsData = {
     },
     {
       "label": "Foundations",
-      "count": 110
+      "count": 109
     },
     {
       "label": "Evaluation",
-      "count": 78
+      "count": 79
     }
   ],
   "categories": [
@@ -28548,7 +28548,7 @@ window.analyticsData = {
     },
     {
       "label": "Machine Learning",
-      "count": 158
+      "count": 160
     },
     {
       "label": "Control",
@@ -28575,12 +28575,12 @@ window.analyticsData = {
       "count": 23
     },
     {
-      "label": "Motion Prediction",
-      "count": 21
-    },
-    {
       "label": "Robot Platforms",
       "count": 20
+    },
+    {
+      "label": "Motion Prediction",
+      "count": 19
     },
     {
       "label": "Engineering Systems",
@@ -28591,11 +28591,11 @@ window.analyticsData = {
       "count": 17
     },
     {
-      "label": "Software & Programming",
-      "count": 15
+      "label": "Network Science",
+      "count": 14
     },
     {
-      "label": "Network Science",
+      "label": "Software & Programming",
       "count": 14
     },
     {
@@ -28613,6 +28613,10 @@ window.analyticsData = {
     {
       "label": "Humanities & Culture",
       "count": 3
+    },
+    {
+      "label": "Environmental Impacts",
+      "count": 1
     }
   ],
   "auditStatuses": [

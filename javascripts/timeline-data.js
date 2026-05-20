@@ -917,6 +917,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Theory",
+        "Adaptive Control",
         "On Adaptive Control Processes"
       ],
       "tags": [
@@ -1488,6 +1489,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Theory",
+        "Stability",
         "La Salle Invariance Principle"
       ],
       "tags": [],
@@ -2018,6 +2020,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Theory",
+        "Internal Modeling",
         "Every Good Regulator Theorem"
       ],
       "tags": [],
@@ -2728,6 +2731,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Theory",
+        "Internal Modeling",
         "The Internal Model Principle for Linear Multivariable Regulators"
       ],
       "tags": [],
@@ -4944,6 +4948,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Robot Control",
+        "Tracking control",
         "Tracking Control for Wheeled Robots",
         "Kanayama Tracking Controller"
       ],
@@ -5286,7 +5291,9 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Robot Control",
+        "Tracking control",
         "Tracking Control for Wheeled Robots",
+        "Pure Pursuit",
         "Pure Pursuit"
       ],
       "tags": [],
@@ -5942,6 +5949,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Robot Control",
+        "Tracking control",
         "Tracking Control for Wheeled Robots",
         "Nonlinear Control Design for Mobile Robots"
       ],
@@ -6034,12 +6042,14 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "Theory",
+      "subCategory": "State-space Methods",
       "path": [
         "Content Tree",
         "Decision-making",
         "Control",
-        "Theory",
+        "State-space Methods",
+        "Nonlinear Control Design",
+        "Feedback Linearization",
         "Partial Feedback Linearization"
       ],
       "tags": [
@@ -7204,6 +7214,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Robot Control",
+        "Tracking control",
         "Tracking Control for Wheeled Robots",
         "Feedback Control of a Nonholonomic Car-Like Robot"
       ],
@@ -9097,12 +9108,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
         "Factor Graphs",
         "Factor Graphs and the Sum-product Algorithm"
       ],
@@ -9501,6 +9512,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Theory",
+        "Stability",
         "Respect the Unstable"
       ],
       "tags": [
@@ -9636,12 +9648,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
+        "Dense Mapping",
         "Learning Occupancy Grid Maps with Forward Sensor Models"
       ],
       "tags": [],
@@ -9650,6 +9663,45 @@ window.timelineData = {
       "url": "../papers/2003_thrun_learning_occupancy_grid_maps/",
       "contentTreeUrl": "../content-tree/#paper=2003_thrun_learning_occupancy_grid_maps",
       "mindMapUrl": "../mind-map/#paper=2003_thrun_learning_occupancy_grid_maps"
+    },
+    {
+      "id": "2004_aguiar_path_following_or_reference",
+      "label": "Path-Following or Reference-Tracking",
+      "title": "Path-Following or Reference-Tracking? an Answer Relaxing the Limits to Performance",
+      "authors": [
+        "A. Pedro Aguiar",
+        "Dragan B. Dacic",
+        "Joao P. Hespanha",
+        "Petar Kokotovic"
+      ],
+      "authorShort": "Aguiar, Dacic, Hespanha",
+      "year": 2004,
+      "source": "IFAC Symposium on Intelligent Autonomous Vehicles (IAV)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Robot Control",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Control",
+        "Robot Control",
+        "Tracking control",
+        "Path-Following or Reference-Tracking"
+      ],
+      "tags": [
+        "Path following",
+        "Reference tracking",
+        "Nonminimum phase systems",
+        "Zero dynamics",
+        "Control theory",
+        "Performance limits"
+      ],
+      "abstract": "In path-following the control objective is to force the output to follow a geometric path without a timing law assigned to it. We highlight a fundamental difference between the path-following and the standard reference-tracking by demonstrating that performance limitation due to unstable zero-dynamics can be removed in the path-following problem.",
+      "summary": "Clarifies why geometric path following can avoid performance limits that constrain time-indexed reference tracking for nonminimum-phase systems. The core insight is that choosing the timing law gives the controller extra freedom to stabilize troublesome zero dynamics.",
+      "url": "../papers/2004_aguiar_path_following_or_reference/",
+      "contentTreeUrl": "../content-tree/#paper=2004_aguiar_path_following_or_reference",
+      "mindMapUrl": "../mind-map/#paper=2004_aguiar_path_following_or_reference"
     },
     {
       "id": "2004_prajna_nonlinear_control_synthesis_by",
@@ -9752,44 +9804,6 @@ window.timelineData = {
       "url": "../papers/2004_de_boeij_mathematical_model_of_the/",
       "contentTreeUrl": "../content-tree/#paper=2004_de_boeij_mathematical_model_of_the",
       "mindMapUrl": "../mind-map/#paper=2004_de_boeij_mathematical_model_of_the"
-    },
-    {
-      "id": "2004_aguiar_path_following_or_reference",
-      "label": "Path-Following or Reference-Tracking",
-      "title": "Path-Following or Reference-Tracking? an Answer Relaxing the Limits to Performance",
-      "authors": [
-        "A. Pedro Aguiar",
-        "Dragan B. Dacic",
-        "Joao P. Hespanha",
-        "Petar Kokotovic"
-      ],
-      "authorShort": "Aguiar, Dacic, Hespanha",
-      "year": 2004,
-      "source": "IFAC Symposium on Intelligent Autonomous Vehicles (IAV)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "Theory",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Control",
-        "Theory",
-        "Path-Following or Reference-Tracking"
-      ],
-      "tags": [
-        "Path following",
-        "Reference tracking",
-        "Nonminimum phase systems",
-        "Zero dynamics",
-        "Control theory",
-        "Performance limits"
-      ],
-      "abstract": "In path-following the control objective is to force the output to follow a geometric path without a timing law assigned to it. We highlight a fundamental difference between the path-following and the standard reference-tracking by demonstrating that performance limitation due to unstable zero-dynamics can be removed in the path-following problem.",
-      "summary": "Clarifies why geometric path following can avoid performance limits that constrain time-indexed reference tracking for nonminimum-phase systems. The core insight is that choosing the timing law gives the controller extra freedom to stabilize troublesome zero dynamics.",
-      "url": "../papers/2004_aguiar_path_following_or_reference/",
-      "contentTreeUrl": "../content-tree/#paper=2004_aguiar_path_following_or_reference",
-      "mindMapUrl": "../mind-map/#paper=2004_aguiar_path_following_or_reference"
     },
     {
       "id": "2004_homeier_a_modified_newton_method",
@@ -10305,7 +10319,7 @@ window.timelineData = {
     },
     {
       "id": "2005_willems_a_note_on_persistency",
-      "label": "A note on persistency of excitation",
+      "label": "Willems' Fundamental Lemma",
       "title": "A Note on Persistency of Excitation",
       "authors": [
         "Jan C. Willems",
@@ -10319,13 +10333,16 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "Theory",
+      "subCategory": "State-space Methods",
       "path": [
         "Content Tree",
         "Decision-making",
         "Control",
-        "Theory",
-        "A note on persistency of excitation"
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Data-Driven and Learning-Based MPC",
+        "Data-driven Control",
+        "Willems' Fundamental Lemma"
       ],
       "tags": [],
       "abstract": "We prove that if a component of the response signal of a controllable linear time-invariant system is persistently exciting of sufficiently high order, then the windows of the signal span the full system behavior. This is then applied to obtain conditions under which the state trajectory of a state representation spans the whole state space. The related question of when the matrix formed from a state sequence has linearly independent rows from the matrix formed from an input sequence and a finite number of its shifts is of central importance in subspace system identification.",
@@ -10933,12 +10950,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
+        "Graph-Based SLAM & Smoothing",
         "Fast Iterative Alignment of Pose Graphs with Poor Initial Estimates"
       ],
       "tags": [
@@ -10979,6 +10997,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Robot Control",
+        "Tracking control",
         "Tracking Control for Wheeled Robots",
         "Autonomous Automobile Trajectory Tracking for Off-road Driving"
       ],
@@ -11346,12 +11365,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Foundations",
       "category": "Software & Programming",
-      "subCategory": "Scientific Computing & ML Systems",
+      "subCategory": "Visualization & Plotting",
       "path": [
         "Content Tree",
         "Foundations",
         "Software & Programming",
-        "Scientific Computing & ML Systems",
+        "Visualization & Plotting",
         "Matplotlib"
       ],
       "tags": [],
@@ -12075,12 +12094,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
+        "Graph-Based SLAM & Smoothing",
         "iSAM"
       ],
       "tags": [],
@@ -13195,12 +13215,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Particle Filter",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Particle Filter",
+        "Localization & Mapping",
+        "Map-Based Localization",
         "Robust Vehicle Localization in Urban Environments Using Probabilistic Maps"
       ],
       "tags": [],
@@ -14137,6 +14158,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Robot Control",
+        "Tracking control",
         "Tracking Control for Aerial Robots",
         "Optimization-based iterative learning for precise quadrocopter trajectory tracking"
       ],
@@ -14168,6 +14190,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Theory",
+        "Complexity & Hardness",
         "Complexity of Ten Decision Problems in Continuous Time Dynamical Systems"
       ],
       "tags": [],
@@ -15731,12 +15754,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
+        "Sensor Calibration",
         "Automatic Online Calibration of Cameras and Lasers"
       ],
       "tags": [
@@ -15766,12 +15790,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
+        "Dense Mapping",
         "OctoMap"
       ],
       "tags": [],
@@ -17334,6 +17359,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Motion Prediction",
         "Surveys",
+        "Automated Driving",
         "A Survey on Motion Prediction and Risk Assessment for Intelligent Vehicles"
       ],
       "tags": [
@@ -17366,12 +17392,12 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
         "Factor Graphs",
         "A Factor Graph Approach to Estimation and Model Predictive Control on Unmanned Aerial Vehicles"
       ],
@@ -18821,12 +18847,12 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Foundations",
       "category": "Software & Programming",
-      "subCategory": "Scientific Computing & ML Systems",
+      "subCategory": "Scientific Computing",
       "path": [
         "Content Tree",
         "Foundations",
         "Software & Programming",
-        "Scientific Computing & ML Systems",
+        "Scientific Computing",
         "Numba"
       ],
       "tags": [],
@@ -20762,12 +20788,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
+        "Visual Odometry & Structure from Motion",
         "Visual Odometry and Mapping for Autonomous Flight Using an RGB-D Camera"
       ],
       "tags": [],
@@ -22601,37 +22628,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1711_10085"
     },
     {
-      "id": "2017_bezanson_julia_a_fresh_approach",
-      "label": "Julia",
-      "title": "Julia: A Fresh Approach to Numerical Computing",
-      "authors": [
-        "Jeff Bezanson",
-        "Alan Edelman",
-        "Stefan Karpinski",
-        "Viral B. Shah"
-      ],
-      "authorShort": "Bezanson, Edelman, Karpinski",
-      "year": 2017,
-      "source": "SIAM Review",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Software & Programming",
-      "subCategory": "Scientific Computing & ML Systems",
-      "path": [
-        "Content Tree",
-        "Foundations",
-        "Software & Programming",
-        "Scientific Computing & ML Systems",
-        "Julia"
-      ],
-      "tags": [],
-      "abstract": "Bridging cultures that have often been distant, Julia combines expertise from the diverse fields of computer science and computational science to create a new approach to numerical computing. Julia is designed to be easy and fast and questions notions generally held to be “laws of nature\" by practitioners of numerical computing: \\beginlist \\item High-level dynamic programs have to be slow. \\item One must prototype in one language and then rewrite in another language for speed or deployment. \\item There are parts of a system appropriate for the programmer, and other parts that are best left untouched as they have been built by the experts. \\endlist We introduce the Julia programming language and its design---a dance between specialization and abstraction. Specialization allows for custom treatment. Multiple dispatch, a technique from computer science, picks the right algorithm for the right circumstance. Abstraction, which is what good computation is really about, recognizes what remains the same after differences are stripped away. Abstractions in mathematics are captured as code through another technique from computer science, generic programming. Julia shows that one can achieve machine performance without sacrificing human convenience.",
-      "summary": "",
-      "url": "../papers/2017_bezanson_julia_a_fresh_approach/",
-      "contentTreeUrl": "../content-tree/#paper=2017_bezanson_julia_a_fresh_approach",
-      "mindMapUrl": "../mind-map/#paper=2017_bezanson_julia_a_fresh_approach"
-    },
-    {
       "id": "1712_05889",
       "label": "Ray",
       "title": "Ray: A Distributed Framework for Emerging AI Applications",
@@ -22654,12 +22650,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Foundations",
       "category": "Software & Programming",
-      "subCategory": "Scientific Computing & ML Systems",
+      "subCategory": "Machine learning",
       "path": [
         "Content Tree",
         "Foundations",
         "Software & Programming",
-        "Scientific Computing & ML Systems",
+        "Machine learning",
+        "Ray Ecosystem",
         "Ray"
       ],
       "tags": [],
@@ -22690,12 +22687,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Foundations",
       "category": "Software & Programming",
-      "subCategory": "Scientific Computing & ML Systems",
+      "subCategory": "Machine learning",
       "path": [
         "Content Tree",
         "Foundations",
         "Software & Programming",
-        "Scientific Computing & ML Systems",
+        "Machine learning",
+        "Ray Ecosystem",
         "RLlib"
       ],
       "tags": [],
@@ -22704,6 +22702,37 @@ window.timelineData = {
       "url": "../papers/1712_09381/",
       "contentTreeUrl": "../content-tree/#paper=1712_09381",
       "mindMapUrl": "../mind-map/#paper=1712_09381"
+    },
+    {
+      "id": "2017_bezanson_julia_a_fresh_approach",
+      "label": "Julia",
+      "title": "Julia: A Fresh Approach to Numerical Computing",
+      "authors": [
+        "Jeff Bezanson",
+        "Alan Edelman",
+        "Stefan Karpinski",
+        "Viral B. Shah"
+      ],
+      "authorShort": "Bezanson, Edelman, Karpinski",
+      "year": 2017,
+      "source": "SIAM Review",
+      "type": "Journal Paper",
+      "superCategory": "Foundations",
+      "category": "Software & Programming",
+      "subCategory": "Scientific Computing",
+      "path": [
+        "Content Tree",
+        "Foundations",
+        "Software & Programming",
+        "Scientific Computing",
+        "Julia"
+      ],
+      "tags": [],
+      "abstract": "Bridging cultures that have often been distant, Julia combines expertise from the diverse fields of computer science and computational science to create a new approach to numerical computing. Julia is designed to be easy and fast and questions notions generally held to be “laws of nature\" by practitioners of numerical computing: \\beginlist \\item High-level dynamic programs have to be slow. \\item One must prototype in one language and then rewrite in another language for speed or deployment. \\item There are parts of a system appropriate for the programmer, and other parts that are best left untouched as they have been built by the experts. \\endlist We introduce the Julia programming language and its design---a dance between specialization and abstraction. Specialization allows for custom treatment. Multiple dispatch, a technique from computer science, picks the right algorithm for the right circumstance. Abstraction, which is what good computation is really about, recognizes what remains the same after differences are stripped away. Abstractions in mathematics are captured as code through another technique from computer science, generic programming. Julia shows that one can achieve machine performance without sacrificing human convenience.",
+      "summary": "",
+      "url": "../papers/2017_bezanson_julia_a_fresh_approach/",
+      "contentTreeUrl": "../content-tree/#paper=2017_bezanson_julia_a_fresh_approach",
+      "mindMapUrl": "../mind-map/#paper=2017_bezanson_julia_a_fresh_approach"
     },
     {
       "id": "1703_00395",
@@ -23061,12 +23090,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
+        "Visual Odometry & Structure from Motion",
         "Quaternion Based Camera Pose Estimation From Matched Feature Points"
       ],
       "tags": [],
@@ -23099,6 +23129,7 @@ window.timelineData = {
         "State-space Methods",
         "Model Predictive Control (MPC)",
         "Data-Driven and Learning-Based MPC",
+        "Data-driven Control",
         "DeePC"
       ],
       "tags": [],
@@ -25255,12 +25286,13 @@ window.timelineData = {
       "type": "Workshop Paper",
       "superCategory": "Foundations",
       "category": "Software & Programming",
-      "subCategory": "Scientific Computing & ML Systems",
+      "subCategory": "Machine learning",
       "path": [
         "Content Tree",
         "Foundations",
         "Software & Programming",
-        "Scientific Computing & ML Systems",
+        "Machine learning",
+        "JAX Ecosystem",
         "JAX"
       ],
       "tags": [
@@ -25297,12 +25329,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Foundations",
       "category": "Software & Programming",
-      "subCategory": "Scientific Computing & ML Systems",
+      "subCategory": "Machine learning",
       "path": [
         "Content Tree",
         "Foundations",
         "Software & Programming",
-        "Scientific Computing & ML Systems",
+        "Machine learning",
+        "Ray Ecosystem",
         "Tune"
       ],
       "tags": [],
@@ -27706,12 +27739,12 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Foundations",
       "category": "Software & Programming",
-      "subCategory": "Scientific Computing & ML Systems",
+      "subCategory": "Databases",
       "path": [
         "Content Tree",
         "Foundations",
         "Software & Programming",
-        "Scientific Computing & ML Systems",
+        "Databases",
         "DuckDB"
       ],
       "tags": [],
@@ -27754,12 +27787,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Foundations",
       "category": "Software & Programming",
-      "subCategory": "Scientific Computing & ML Systems",
+      "subCategory": "Machine learning",
       "path": [
         "Content Tree",
         "Foundations",
         "Software & Programming",
-        "Scientific Computing & ML Systems",
+        "Machine learning",
         "PyTorch"
       ],
       "tags": [],
@@ -28093,6 +28126,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Motion Prediction",
         "Surveys",
+        "Automated Driving",
         "Deep Learning-based Vehicle Behaviour Prediction"
       ],
       "tags": [
@@ -29652,6 +29686,38 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2003_08934"
     },
     {
+      "id": "2002_05651",
+      "label": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
+      "title": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
+      "authors": [
+        "Peter Henderson",
+        "Jieru Hu",
+        "Joshua Romoff",
+        "Emma Brunskill",
+        "Dan Jurafsky",
+        "Joelle Pineau"
+      ],
+      "authorShort": "Henderson, Hu, Romoff",
+      "year": 2020,
+      "source": "",
+      "type": "",
+      "superCategory": "Evaluation",
+      "category": "Environmental Impacts",
+      "subCategory": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
+      "path": [
+        "Content Tree",
+        "Evaluation",
+        "Environmental Impacts",
+        "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning"
+      ],
+      "tags": [],
+      "abstract": "Accurate reporting of energy and carbon usage is essential for understanding the potential climate impacts of machine learning research. We introduce a framework that makes this easier by providing a simple interface for tracking realtime energy consumption and carbon emissions, as well as generating standardized online appendices. Utilizing this framework, we create a leaderboard for energy efficient reinforcement learning algorithms to incentivize responsible research in this area as an example for other areas of machine learning. Finally, based on case studies using our framework, we propose strategies for mitigation of carbon emissions and reduction of energy consumption. By making accounting easier, we hope to further the sustainable development of machine learning experiments and spur more research into energy efficient algorithms.",
+      "summary": "",
+      "url": "../papers/2002_05651/",
+      "contentTreeUrl": "../content-tree/#paper=2002_05651",
+      "mindMapUrl": "../mind-map/#paper=2002_05651"
+    },
+    {
       "id": "2004_06801",
       "label": "Scalable Autonomous Vehicle Safety Validation through Dynamic Programming and Scene Decomposition",
       "title": "Scalable Autonomous Vehicle Safety Validation through Dynamic Programming and Scene Decomposition",
@@ -29777,39 +29843,6 @@ window.timelineData = {
       "url": "../papers/2020_cole_vaporwave_aesthetics_internet_nostalgia/",
       "contentTreeUrl": "../content-tree/#paper=2020_cole_vaporwave_aesthetics_internet_nostalgia",
       "mindMapUrl": "../mind-map/#paper=2020_cole_vaporwave_aesthetics_internet_nostalgia"
-    },
-    {
-      "id": "2002_05651",
-      "label": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
-      "title": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
-      "authors": [
-        "Peter Henderson",
-        "Jieru Hu",
-        "Joshua Romoff",
-        "Emma Brunskill",
-        "Dan Jurafsky",
-        "Joelle Pineau"
-      ],
-      "authorShort": "Henderson, Hu, Romoff",
-      "year": 2020,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Software & Programming",
-      "subCategory": "Scientific Computing & ML Systems",
-      "path": [
-        "Content Tree",
-        "Foundations",
-        "Software & Programming",
-        "Scientific Computing & ML Systems",
-        "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning"
-      ],
-      "tags": [],
-      "abstract": "Accurate reporting of energy and carbon usage is essential for understanding the potential climate impacts of machine learning research. We introduce a framework that makes this easier by providing a simple interface for tracking realtime energy consumption and carbon emissions, as well as generating standardized online appendices. Utilizing this framework, we create a leaderboard for energy efficient reinforcement learning algorithms to incentivize responsible research in this area as an example for other areas of machine learning. Finally, based on case studies using our framework, we propose strategies for mitigation of carbon emissions and reduction of energy consumption. By making accounting easier, we hope to further the sustainable development of machine learning experiments and spur more research into energy efficient algorithms.",
-      "summary": "",
-      "url": "../papers/2002_05651/",
-      "contentTreeUrl": "../content-tree/#paper=2002_05651",
-      "mindMapUrl": "../mind-map/#paper=2002_05651"
     },
     {
       "id": "2006_13846",
@@ -30367,12 +30400,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
+        "Point Cloud Registration",
         "CLIPPER"
       ],
       "tags": [],
@@ -33030,12 +33064,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
         "Factor Graphs",
         "Factor Graphs"
       ],
@@ -33192,6 +33226,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Theory",
+        "Biological Systems",
         "Internal feedback in the cortical perception-action loop enables fast and accurate behavior"
       ],
       "tags": [],
@@ -36046,6 +36081,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Motion Prediction",
         "Surveys",
+        "Automated Driving",
         "Task-Relevant Failure Detection for Trajectory Predictors in Autonomous Vehicles"
       ],
       "tags": [],
@@ -36070,12 +36106,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
+        "Metric-Semantic SLAM",
         "Hydra"
       ],
       "tags": [],
@@ -36168,6 +36205,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Theory",
+        "Architectures",
         "Augmented Lagrangian Methods as Layered Control Architectures"
       ],
       "tags": [],
@@ -39288,6 +39326,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Theory",
+        "Stability",
         "Asymptotic stability equals exponential stability - while you twist your eyes"
       ],
       "tags": [],
@@ -39318,6 +39357,7 @@ window.timelineData = {
         "Decision-making",
         "Control",
         "Theory",
+        "Architectures",
         "Towards a Theory of Control Architecture: A quantitative framework for layered multi-rate control"
       ],
       "tags": [],
@@ -42588,6 +42628,50 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2410_13732"
     },
     {
+      "id": "2412_14415",
+      "label": "DriveGPT",
+      "title": "DriveGPT: Scaling Autoregressive Behavior Models for Driving",
+      "authors": [
+        "Xin Huang",
+        "Eric M. Wolff",
+        "Paul Vernaza",
+        "Tung Phan-Minh",
+        "Hongge Chen",
+        "David S. Hayden",
+        "Mark Edmonds",
+        "Brian Pierce",
+        "Xinxin Chen",
+        "Pratik Elias Jacob",
+        "Xiaobai Chen",
+        "Chingiz Tairbekov",
+        "Pratik Agarwal",
+        "Tianshi Gao",
+        "Yuning Chai",
+        "Siddhartha Srinivasa"
+      ],
+      "authorShort": "Huang, Wolff, Vernaza",
+      "year": 2024,
+      "source": "",
+      "type": "",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Multimodal & Embodied Models",
+      "path": [
+        "Content Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Multimodal & Embodied Models",
+        "Large Behavioral Models (LBM)",
+        "DriveGPT"
+      ],
+      "tags": [],
+      "abstract": "We present DriveGPT, a scalable behavior model for autonomous driving. We model driving as a sequential decision-making task, and learn a transformer model to predict future agent states as tokens in an autoregressive fashion. We scale up our model parameters and training data by multiple orders of magnitude, enabling us to explore the scaling properties in terms of dataset size, model parameters, and compute. We evaluate DriveGPT across different scales in a planning task, through both quantitative metrics and qualitative examples, including closed-loop driving in complex real-world scenarios. In a separate prediction task, DriveGPT outperforms state-of-the-art baselines and exhibits improved performance by pretraining on a large-scale dataset, further validating the benefits of data scaling.",
+      "summary": "",
+      "url": "../papers/2412_14415/",
+      "contentTreeUrl": "../content-tree/#paper=2412_14415",
+      "mindMapUrl": "../mind-map/#paper=2412_14415"
+    },
+    {
       "id": "2406_09246",
       "label": "OpenVLA",
       "title": "OpenVLA: An Open-Source Vision-Language-Action Model",
@@ -42807,6 +42891,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Motion Prediction",
         "Surveys",
+        "Automated Driving",
         "Action and Trajectory Prediction for Autonomous Driving"
       ],
       "tags": [
@@ -42826,49 +42911,6 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2024_calem_action_and_trajectory_prediction"
     },
     {
-      "id": "2412_14415",
-      "label": "DriveGPT",
-      "title": "DriveGPT: Scaling Autoregressive Behavior Models for Driving",
-      "authors": [
-        "Xin Huang",
-        "Eric M. Wolff",
-        "Paul Vernaza",
-        "Tung Phan-Minh",
-        "Hongge Chen",
-        "David S. Hayden",
-        "Mark Edmonds",
-        "Brian Pierce",
-        "Xinxin Chen",
-        "Pratik Elias Jacob",
-        "Xiaobai Chen",
-        "Chingiz Tairbekov",
-        "Pratik Agarwal",
-        "Tianshi Gao",
-        "Yuning Chai",
-        "Siddhartha Srinivasa"
-      ],
-      "authorShort": "Huang, Wolff, Vernaza",
-      "year": 2024,
-      "source": "",
-      "type": "",
-      "superCategory": "Prediction & Perception",
-      "category": "Motion Prediction",
-      "subCategory": "Surveys",
-      "path": [
-        "Content Tree",
-        "Prediction & Perception",
-        "Motion Prediction",
-        "Surveys",
-        "DriveGPT"
-      ],
-      "tags": [],
-      "abstract": "We present DriveGPT, a scalable behavior model for autonomous driving. We model driving as a sequential decision-making task, and learn a transformer model to predict future agent states as tokens in an autoregressive fashion. We scale up our model parameters and training data by multiple orders of magnitude, enabling us to explore the scaling properties in terms of dataset size, model parameters, and compute. We evaluate DriveGPT across different scales in a planning task, through both quantitative metrics and qualitative examples, including closed-loop driving in complex real-world scenarios. In a separate prediction task, DriveGPT outperforms state-of-the-art baselines and exhibits improved performance by pretraining on a large-scale dataset, further validating the benefits of data scaling.",
-      "summary": "",
-      "url": "../papers/2412_14415/",
-      "contentTreeUrl": "../content-tree/#paper=2412_14415",
-      "mindMapUrl": "../mind-map/#paper=2412_14415"
-    },
-    {
       "id": "2402_15464",
       "label": "CLIPPER+",
       "title": "CLIPPER+: A Fast Maximal Clique Algorithm for Robust Global Registration",
@@ -42882,12 +42924,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
+        "Point Cloud Registration",
         "CLIPPER+"
       ],
       "tags": [],
@@ -42913,12 +42956,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
+        "Metric-Semantic SLAM",
         "Khronos"
       ],
       "tags": [],
@@ -47304,6 +47348,39 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2504_16054"
     },
     {
+      "id": "2509_19789",
+      "label": "RDAR",
+      "title": "RDAR: Reward-Driven Agent Relevance Estimation for Autonomous Driving",
+      "authors": [
+        "Carlo Bosio",
+        "Greg Woelki",
+        "Noureldin Hendy",
+        "Nicholas Roy",
+        "Byungsoo Kim"
+      ],
+      "authorShort": "Bosio, Woelki, Hendy",
+      "year": 2025,
+      "source": "",
+      "type": "",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Multimodal & Embodied Models",
+      "path": [
+        "Content Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Multimodal & Embodied Models",
+        "Large Behavioral Models (LBM)",
+        "RDAR"
+      ],
+      "tags": [],
+      "abstract": "Human drivers focus only on a handful of agents at any one time. On the other hand, autonomous driving systems process complex scenes with numerous agents, regardless of whether they are pedestrians on a crosswalk or vehicles parked on the side of the road. While attention mechanisms offer an implicit way to reduce the input to the elements that affect decisions, existing attention mechanisms for capturing agent interactions are quadratic, and generally computationally expensive. We propose RDAR, a strategy to learn per-agent relevance - how much each agent influences the behavior of the controlled vehicle - by identifying which agents can be excluded from the input to a pre-trained behavior model. We formulate the masking procedure as a Markov Decision Process where the action consists of a binary mask indicating agent selection. We evaluate RDAR on a large-scale driving dataset, and demonstrate its ability to learn an accurate numerical measure of relevance by achieving comparable driving performance, in terms of overall progress, safety and performance, while processing significantly fewer agents compared to a state of the art behavior model.",
+      "summary": "",
+      "url": "../papers/2509_19789/",
+      "contentTreeUrl": "../content-tree/#paper=2509_19789",
+      "mindMapUrl": "../mind-map/#paper=2509_19789"
+    },
+    {
       "id": "2512_12842",
       "label": "SAGA",
       "title": "SAGA: Open-World Mobile Manipulation via Structured Affordance Grounding",
@@ -47396,6 +47473,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Motion Prediction",
         "Surveys",
+        "Automated Driving",
         "Motion Forecasting for Autonomous Vehicles"
       ],
       "tags": [
@@ -47409,38 +47487,6 @@ window.timelineData = {
       "url": "../papers/2502_08664/",
       "contentTreeUrl": "../content-tree/#paper=2502_08664",
       "mindMapUrl": "../mind-map/#paper=2502_08664"
-    },
-    {
-      "id": "2509_19789",
-      "label": "RDAR",
-      "title": "RDAR: Reward-Driven Agent Relevance Estimation for Autonomous Driving",
-      "authors": [
-        "Carlo Bosio",
-        "Greg Woelki",
-        "Noureldin Hendy",
-        "Nicholas Roy",
-        "Byungsoo Kim"
-      ],
-      "authorShort": "Bosio, Woelki, Hendy",
-      "year": 2025,
-      "source": "",
-      "type": "",
-      "superCategory": "Prediction & Perception",
-      "category": "Motion Prediction",
-      "subCategory": "Surveys",
-      "path": [
-        "Content Tree",
-        "Prediction & Perception",
-        "Motion Prediction",
-        "Surveys",
-        "RDAR"
-      ],
-      "tags": [],
-      "abstract": "Human drivers focus only on a handful of agents at any one time. On the other hand, autonomous driving systems process complex scenes with numerous agents, regardless of whether they are pedestrians on a crosswalk or vehicles parked on the side of the road. While attention mechanisms offer an implicit way to reduce the input to the elements that affect decisions, existing attention mechanisms for capturing agent interactions are quadratic, and generally computationally expensive. We propose RDAR, a strategy to learn per-agent relevance -- how much each agent influences the behavior of the controlled vehicle -- by identifying which agents can be excluded from the input to a pre-trained behavior model. We formulate the masking procedure as a Markov Decision Process where the action consists of a binary mask indicating agent selection. We evaluate RDAR on a large-scale driving dataset, and demonstrate its ability to learn an accurate numerical measure of relevance by achieving comparable driving performance, in terms of overall progress, safety and performance, while processing significantly fewer agents compared to a state of the art behavior model.",
-      "summary": "",
-      "url": "../papers/2509_19789/",
-      "contentTreeUrl": "../content-tree/#paper=2509_19789",
-      "mindMapUrl": "../mind-map/#paper=2509_19789"
     },
     {
       "id": "2503_03262",
@@ -47470,6 +47516,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Motion Prediction",
         "Surveys",
+        "Automated Driving",
         "Trajectory Prediction for Autonomous Driving"
       ],
       "tags": [
@@ -47518,6 +47565,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Motion Prediction",
         "Surveys",
+        "Automated Driving",
         "Trends in Motion Prediction Toward Deployable and Generalizable Autonomy"
       ],
       "tags": [
@@ -47548,12 +47596,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Mapping & SLAM",
+      "subCategory": "Localization & Mapping",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Mapping & SLAM",
+        "Localization & Mapping",
+        "Visual Odometry & Structure from Motion",
         "Building Rome with Convex Optimization"
       ],
       "tags": [],
@@ -47595,6 +47644,38 @@ window.timelineData = {
       "url": "../papers/2604_15918/",
       "contentTreeUrl": "../content-tree/#paper=2604_15918",
       "mindMapUrl": "../mind-map/#paper=2604_15918"
+    },
+    {
+      "id": "2601_15006",
+      "label": "DWPP",
+      "title": "DWPP: Dynamic Window Pure Pursuit Considering Velocity and Acceleration Constraints",
+      "authors": [
+        "Fumiya Ohnishi",
+        "Masaki Takahashi"
+      ],
+      "authorShort": "Ohnishi, Takahashi",
+      "year": 2026,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Robot Control",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Control",
+        "Robot Control",
+        "Tracking control",
+        "Tracking Control for Wheeled Robots",
+        "Pure Pursuit",
+        "DWPP"
+      ],
+      "tags": [],
+      "abstract": "Pure pursuit and its variants are widely used for mobile robot path tracking owing to their simplicity and computational efficiency. However, many conventional approaches do not explicitly account for velocity and acceleration constraints, resulting in discrepancies between commanded and actual velocities that result in overshoot and degraded tracking performance. To address this problem, this paper proposes dynamic window pure pursuit (DWPP), which fundamentally reformulates the command velocity computation process to explicitly incorporate velocity and acceleration constraints. Specifically, DWPP formulates command velocity computation in the velocity space (the $v$-$ω$ plane) and selects the command velocity as the point within the dynamic window that is closest to the line $ω= κv$. Experimental results demonstrate that DWPP avoids constraint-violating commands and achieves superior path-tracking accuracy compared with conventional pure pursuit methods. The proposed method has been integrated into the official Nav2 repository and is publicly available (https://github.com/ros-navigation/navigation2).",
+      "summary": "",
+      "url": "../papers/2601_15006/",
+      "contentTreeUrl": "../content-tree/#paper=2601_15006",
+      "mindMapUrl": "../mind-map/#paper=2601_15006"
     },
     {
       "id": "2603_04843",
@@ -47886,35 +47967,6 @@ window.timelineData = {
       "url": "../papers/2026_possieri_solving_the_linear_quadratic/",
       "contentTreeUrl": "../content-tree/#paper=2026_possieri_solving_the_linear_quadratic",
       "mindMapUrl": "../mind-map/#paper=2026_possieri_solving_the_linear_quadratic"
-    },
-    {
-      "id": "2601_15006",
-      "label": "DWPP",
-      "title": "DWPP: Dynamic Window Pure Pursuit Considering Velocity and Acceleration Constraints",
-      "authors": [
-        "Fumiya Ohnishi",
-        "Masaki Takahashi"
-      ],
-      "authorShort": "Ohnishi, Takahashi",
-      "year": 2026,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "Theory",
-      "path": [
-        "Content Tree",
-        "Decision-making",
-        "Control",
-        "Theory",
-        "DWPP"
-      ],
-      "tags": [],
-      "abstract": "Pure pursuit and its variants are widely used for mobile robot path tracking owing to their simplicity and computational efficiency. However, many conventional approaches do not explicitly account for velocity and acceleration constraints, resulting in discrepancies between commanded and actual velocities that result in overshoot and degraded tracking performance. To address this problem, this paper proposes dynamic window pure pursuit (DWPP), which fundamentally reformulates the command velocity computation process to explicitly incorporate velocity and acceleration constraints. Specifically, DWPP formulates command velocity computation in the velocity space (the $v$-$ω$ plane) and selects the command velocity as the point within the dynamic window that is closest to the line $ω= κv$. Experimental results demonstrate that DWPP avoids constraint-violating commands and achieves superior path-tracking accuracy compared with conventional pure pursuit methods. The proposed method has been integrated into the official Nav2 repository and is publicly available (https://github.com/ros-navigation/navigation2).",
-      "summary": "",
-      "url": "../papers/2601_15006/",
-      "contentTreeUrl": "../content-tree/#paper=2601_15006",
-      "mindMapUrl": "../mind-map/#paper=2601_15006"
     },
     {
       "id": "2604_23613",
@@ -50151,12 +50203,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Foundations",
       "category": "Software & Programming",
-      "subCategory": "Scientific Computing & ML Systems",
+      "subCategory": "Machine learning",
       "path": [
         "Content Tree",
         "Foundations",
         "Software & Programming",
-        "Scientific Computing & ML Systems",
+        "Machine learning",
+        "JAX Ecosystem",
         "frax"
       ],
       "tags": [],
@@ -50734,6 +50787,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Motion Prediction",
         "Surveys",
+        "Automated Driving",
         "Forecasting the Past: Gradient-Based Distribution Shift Detection in Trajectory Prediction"
       ],
       "tags": [],
@@ -50833,6 +50887,7 @@ window.timelineData = {
       "Benchmarks",
       "Safety, Testing, Verification & Validation (V&V)",
       "Robot Platforms",
+      "Environmental Impacts",
       "Mathematics",
       "Software & Programming",
       "Algorithms & Data Structures",
@@ -50855,6 +50910,7 @@ window.timelineData = {
       "Benchmarks": "Evaluation",
       "Safety, Testing, Verification & Validation (V&V)": "Evaluation",
       "Robot Platforms": "Evaluation",
+      "Environmental Impacts": "Evaluation",
       "Mathematics": "Foundations",
       "Software & Programming": "Foundations",
       "Algorithms & Data Structures": "Foundations",
@@ -50898,7 +50954,7 @@ window.timelineData = {
         "Kalman Filter",
         "Unscented Kalman Filter (UKF)",
         "Particle Filter",
-        "Mapping & SLAM"
+        "Localization & Mapping"
       ],
       "Motion Prediction": [
         "Driver Models",
@@ -50957,8 +51013,11 @@ window.timelineData = {
       ],
       "Software & Programming": [
         "Essays",
-        "Scientific Computing & ML Systems",
-        "Message Protocols"
+        "Scientific Computing",
+        "Machine learning",
+        "Databases",
+        "Message Protocols",
+        "Visualization & Plotting"
       ],
       "Algorithms & Data Structures": [
         "Sorting",

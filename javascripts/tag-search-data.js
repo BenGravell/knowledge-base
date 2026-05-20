@@ -26600,7 +26600,7 @@ window.tagSearchData = {
     "2005_willems_a_note_on_persistency": {
       "id": "2005_willems_a_note_on_persistency",
       "title": "A Note on Persistency of Excitation",
-      "label": "A Note on Persistency of Excitation",
+      "label": "Willems' Fundamental Lemma",
       "authors": [
         "Jan C. Willems",
         "Paolo Rapisarda",
