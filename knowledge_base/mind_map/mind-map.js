@@ -104,9 +104,15 @@
   const NODE_LABEL_ZOOM_EXPONENT = 0.22;
   const NODE_LABEL_ZOOM_SCALE_MIN = 0.68;
   const NODE_LABEL_ZOOM_SCALE_MAX = 1.55;
+  const NODE_BORDER_WIDTH_RATIO = 0.08;
+  const BORDERED_NODE_TYPE = 'bordered';
   const SELECTED_NODE_RADIUS_SCALE = 1;
-  const DEFAULT_RELEVANCE_SIMILARITY = 0.67;
-  const DEFAULT_RELEVANCE_TREE_DISTANCE = 2;
+  const DEFAULT_RELEVANCE_SIMILARITY = 0.79;
+  const DEFAULT_RELEVANCE_TREE_PROXIMITY = 0.79;
+  const RELEVANCE_SLIDER_EXPANDED_THRESHOLD = 0.70;
+  const RELEVANCE_SLIDER_EXPANDED_POSITION = 0.20;
+  const RELEVANCE_SLIDER_EXPONENT = Math.log(1 - RELEVANCE_SLIDER_EXPANDED_THRESHOLD) /
+    Math.log(1 - RELEVANCE_SLIDER_EXPANDED_POSITION);
   const MAX_ANIMATED_TRANSITION_NODES = 90;
   const LEVEL_TRANSITION_MS = 260;
   const LEVEL_TRANSITION_MAX_SCREEN_TRAVEL = 160;
@@ -158,11 +164,13 @@
   let currentSearch = '';
   let pinnedNode = null;
   let hoveredNode = null;
+  let hoverClickNode = null;
   let hoverTooltipNode = null;
   let focus = { active: false, nodes: new Set(), mode: null };
   let theme = readTheme();
   let hierarchyData = null;
   let maxTreeDistanceCache = null;
+  let treeProximityScaleCache = null;
   let relevanceEvaluationCache = null;
   let relevanceMetricsByEgo = new Map();
   let relevanceRefreshFrame = null;
@@ -329,10 +337,13 @@
   function readTheme() {
     const cs = getComputedStyle(document.body);
     const v = name => cs.getPropertyValue(name).trim();
+    const colorScheme = currentColorScheme();
     return {
-      colorScheme: currentColorScheme(),
+      colorScheme,
       nodeMuted: normalizedCssColor(v('--mm-node-muted')) || '#8A949E',
       nodeMutedRelated: normalizedCssColor(v('--mm-node-muted-related')) || '#737D88',
+      nodeBorder: normalizedCssColor(v('--mm-node-border')) ||
+        (colorScheme === 'dark' ? '#242B35' : '#E1E7EE'),
       selectedRing: normalizedCssColor(v('--mm-selected-ring')) || '#D9A316',
     };
   }
@@ -698,8 +709,50 @@
     return maxTreeDistanceCache;
   }
 
+  function treeProximityScale() {
+    if (treeProximityScaleCache) return treeProximityScaleCache;
+
+    const configured = (DATA.meta || {}).treeProximity || {};
+    const configuredScale = Array.isArray(configured.scale)
+      ? configured.scale.map(value => Number(value)).filter(value => Number.isFinite(value))
+      : [];
+
+    treeProximityScaleCache = configuredScale.length
+      ? configuredScale
+      : Array.from({ length: maxTreeDistance() + 1 }, (_, distance) => (
+        maxTreeDistance() ? 1 - distance / maxTreeDistance() : 1
+      ));
+    return treeProximityScaleCache;
+  }
+
+  function treeProximityForDistance(distance) {
+    if (!Number.isFinite(distance)) return -Infinity;
+    const scale = treeProximityScale();
+    const index = Math.max(0, Math.min(scale.length - 1, Math.round(distance)));
+    return scale[index];
+  }
+
   function defaultTreeProximity() {
-    return Math.max(0, maxTreeDistance() - DEFAULT_RELEVANCE_TREE_DISTANCE);
+    return DEFAULT_RELEVANCE_TREE_PROXIMITY;
+  }
+
+  function relevanceSliderPositionToThreshold(position) {
+    const clamped = clamp(Number(position) || 0, 0, 1);
+    return 1 - Math.pow(1 - clamped, RELEVANCE_SLIDER_EXPONENT);
+  }
+
+  function relevanceThresholdToSliderPosition(threshold) {
+    const clamped = clamp(Number(threshold) || 0, 0, 1);
+    if (clamped >= 1) return 1;
+    return 1 - Math.pow(1 - clamped, 1 / RELEVANCE_SLIDER_EXPONENT);
+  }
+
+  function relevanceThresholdToSliderValue(threshold) {
+    return String(Math.round(relevanceThresholdToSliderPosition(threshold) * 100));
+  }
+
+  function relevanceSliderValueToThreshold(value) {
+    return relevanceSliderPositionToThreshold(parseInt(value, 10) / 100);
   }
 
   function selectedRelevanceEgo() {
@@ -743,14 +796,13 @@
       return relevanceMetricsByEgo.get(egoId);
     }
 
-    const maxDistance = maxTreeDistance();
     const metrics = DATA.nodes.map(node => {
       const paperId = node.data.id;
       const distance = treeDistanceBetween(egoId, paperId);
       return {
         paperId,
         semantic: similarityBetween(egoId, paperId) ?? -1,
-        treeProximity: Number.isFinite(distance) ? maxDistance - distance : -Infinity,
+        treeProximity: treeProximityForDistance(distance),
       };
     });
 
@@ -1483,7 +1535,9 @@
         homeY: y,
         staticSize,
         size: kind === 'aggregate' ? staticSize : currentNodeRadius(),
+        type: borderedNodeProgramSupported() ? BORDERED_NODE_TYPE : 'circle',
         color,
+        borderColor: theme.nodeBorder,
         baseColor: color,
         staticBaseColor: color,
         label: formatLabel(attrs.label),
@@ -1533,6 +1587,7 @@
         label,
         size,
         color: mutedColor,
+        borderColor: theme.nodeBorder,
         labelColor: accessibleNodeLabelColor(mutedColor),
         labelOutlineColor: colorWithAlpha(mutedColor, 0.55),
         forceLabel,
@@ -1546,6 +1601,7 @@
         label,
         size: size * SELECTED_NODE_RADIUS_SCALE,
         color: attrs.baseColor,
+        borderColor: theme.nodeBorder,
         labelColor: accessibleNodeLabelColor(attrs.baseColor),
         labelOutlineColor: theme.selectedRing,
         ringColor: theme.selectedRing,
@@ -1560,6 +1616,7 @@
       label,
       size,
       color: attrs.baseColor,
+      borderColor: theme.nodeBorder,
       labelColor: accessibleNodeLabelColor(attrs.baseColor),
       labelOutlineColor: attrs.baseColor,
       highlighted: false,
@@ -1612,6 +1669,35 @@
 
   function drawNodeLabelNoop() {
     // Sigma still runs its label-grid selection; the top overlay does the draw.
+  }
+
+  function borderedNodeProgramSupported() {
+    return Boolean(
+      window.Sigma &&
+      window.Sigma.rendering &&
+      typeof window.Sigma.rendering.createNodeBorderProgram === 'function'
+    );
+  }
+
+  function nodeProgramClasses() {
+    if (!borderedNodeProgramSupported()) return {};
+
+    return {
+      [BORDERED_NODE_TYPE]: window.Sigma.rendering.createNodeBorderProgram({
+        borders: [
+          {
+            size: { value: NODE_BORDER_WIDTH_RATIO },
+            color: { attribute: 'borderColor', defaultValue: theme.nodeBorder },
+          },
+          {
+            size: { fill: true },
+            color: { attribute: 'color' },
+          },
+        ],
+        drawHover: drawNodeHover,
+        drawLabel: drawNodeLabelNoop,
+      }),
+    };
   }
 
   function setupTopLabelOverlay() {
@@ -1789,6 +1875,10 @@
 
   function graphHasNode(node) {
     return graph && typeof graph.hasNode === 'function' && graph.hasNode(node);
+  }
+
+  function clearHoverClickNode(node = null) {
+    if (!node || hoverClickNode === node) hoverClickNode = null;
   }
 
   function nodePoint(node) {
@@ -2021,6 +2111,7 @@
     pinnedNode = null;
     setSelectedNodeFilterEnabled(false);
     hoveredNode = null;
+    clearHoverClickNode(node);
     hideHoverTooltip();
     hideTooltip();
     hidePaperModal();
@@ -2052,6 +2143,7 @@
         itemSizesReference: 'positions',
         zoomToSizeRatioFunction: ratio => Math.max(ratio, 1e-6),
         stagePadding: 30,
+        nodeProgramClasses: nodeProgramClasses(),
         nodeReducer,
         defaultDrawNodeLabel: drawNodeLabelNoop,
         defaultDrawNodeHover: drawNodeHover,
@@ -2090,6 +2182,7 @@
 
   function setupGraphEvents() {
     renderer.on('enterNode', payload => {
+      hoverClickNode = payload.node;
       if (pinnedNode) {
         if (payload.node !== pinnedNode) showHoverTooltip(payload.node);
         return;
@@ -2100,6 +2193,7 @@
     });
 
     renderer.on('leaveNode', () => {
+      clearHoverClickNode();
       if (pinnedNode) {
         hideHoverTooltip();
         return;
@@ -2110,35 +2204,23 @@
     });
 
     renderer.on('clickNode', payload => {
-      const node = payload.node;
-      const attrs = graph.getNodeAttributes(node);
+      const node = clickTargetNode(payload);
+      if (!node) return;
 
-      if (attrs.kind === 'aggregate' && expandBranchNode(node)) {
+      activateNode(node, payload);
+    });
+
+    renderer.on('clickStage', payload => {
+      const node = clickTargetNode(payload);
+      if (node) {
+        activateNode(node, payload);
         return;
       }
 
-      if (pinnedNode === node) {
-        pinnedNode = null;
-        setSelectedNodeFilterEnabled(false);
-        hoveredNode = null;
-        hideHoverTooltip();
-        hideTooltip();
-        hidePaperModal();
-      } else {
-        pinnedNode = node;
-        setSelectedNodeFilterEnabled(attrs.kind === 'paper');
-        hoveredNode = null;
-        hideHoverTooltip();
-        showNodeTooltip(node, nodeTooltipPosition(node) || eventPosition(payload), true);
-      }
-      syncUrlToPinnedNode();
-      refreshView();
-    });
-
-    renderer.on('clickStage', () => {
       pinnedNode = null;
       setSelectedNodeFilterEnabled(false);
       hoveredNode = null;
+      clearHoverClickNode();
       hideHoverTooltip();
       hideTooltip();
       hidePaperModal();
@@ -2147,9 +2229,74 @@
     });
   }
 
+  function activateNode(node, payload) {
+    const attrs = graph.getNodeAttributes(node);
+
+    if (attrs.kind === 'aggregate' && expandBranchNode(node)) {
+      return;
+    }
+
+    if (pinnedNode === node) {
+      pinnedNode = null;
+      setSelectedNodeFilterEnabled(false);
+      hoveredNode = null;
+      hideHoverTooltip();
+      hideTooltip();
+      hidePaperModal();
+    } else {
+      pinnedNode = node;
+      setSelectedNodeFilterEnabled(attrs.kind === 'paper');
+      hoveredNode = null;
+      hideHoverTooltip();
+      showNodeTooltip(node, nodeTooltipPosition(node) || eventPosition(payload), true);
+    }
+    syncUrlToPinnedNode();
+    refreshView();
+  }
+
   function eventPosition(payload) {
     if (payload && payload.event) return { x: payload.event.x, y: payload.event.y };
     return { x: graphContainer.clientWidth / 2, y: graphContainer.clientHeight / 2 };
+  }
+
+  function nodeScreenRadius(node) {
+    if (!renderer || !graphHasNode(node)) return 0;
+
+    const attrs = graph.getNodeAttributes(node);
+    const display = typeof renderer.getNodeDisplayData === 'function'
+      ? renderer.getNodeDisplayData(node)
+      : null;
+    const rawSize = display && Number.isFinite(display.size)
+      ? display.size
+      : nodeDisplaySize(attrs);
+
+    return typeof renderer.scaleSize === 'function'
+      ? renderer.scaleSize(rawSize)
+      : rawSize;
+  }
+
+  function pointerWithinNode(node, pos) {
+    if (!renderer || !graphHasNode(node) || !nodeVisible(node) || !pos) return false;
+
+    const attrs = graph.getNodeAttributes(node);
+    const point = renderer.graphToViewport({ x: attrs.x, y: attrs.y });
+    const dx = pos.x - point.x;
+    const dy = pos.y - point.y;
+    const radius = Math.max(nodeScreenRadius(node), 6) + 6;
+    return dx * dx + dy * dy <= radius * radius;
+  }
+
+  function clickTargetNode(payload) {
+    const clicked = payload && payload.node && graphHasNode(payload.node)
+      ? payload.node
+      : null;
+    const hovered = hoverClickNode && graphHasNode(hoverClickNode)
+      ? hoverClickNode
+      : null;
+    const pos = eventPosition(payload);
+
+    if (hovered && pointerWithinNode(hovered, pos)) return hovered;
+    return clicked;
   }
 
   /* -------------------------------------------------------------------------
@@ -3636,24 +3783,28 @@
 
     if (!enabled || !semantic || !taxonomy || !mode || !simSlider || !treeSlider) return;
 
-    const maxDistance = maxTreeDistance();
-    treeSlider.max = String(maxDistance);
+    simSlider.min = '0';
+    simSlider.max = '100';
+    simSlider.step = '1';
+    treeSlider.min = '0';
+    treeSlider.max = '100';
+    treeSlider.step = '1';
     if (!Number.isFinite(relevanceFilter.treeProximity)) {
       relevanceFilter.treeProximity = defaultTreeProximity();
     }
     relevanceFilter.treeProximity = Math.min(
       Math.max(0, relevanceFilter.treeProximity),
-      maxDistance
+      1
     );
 
     enabled.checked = relevanceFilter.enabled;
     semantic.checked = relevanceFilter.semantic;
     taxonomy.checked = relevanceFilter.taxonomy;
     mode.value = relevanceFilter.mode;
-    simSlider.value = String(Math.round(relevanceFilter.similarity * 100));
-    treeSlider.value = String(relevanceFilter.treeProximity);
+    simSlider.value = relevanceThresholdToSliderValue(relevanceFilter.similarity);
+    treeSlider.value = relevanceThresholdToSliderValue(relevanceFilter.treeProximity);
     if (simVal) simVal.textContent = relevanceFilter.similarity.toFixed(2);
-    if (treeVal) treeVal.textContent = String(relevanceFilter.treeProximity);
+    if (treeVal) treeVal.textContent = relevanceFilter.treeProximity.toFixed(2);
     updateRelevancePanel();
   }
 
@@ -3686,13 +3837,13 @@
       applyRelevanceFilter();
     });
     simSlider.addEventListener('input', () => {
-      relevanceFilter.similarity = parseInt(simSlider.value, 10) / 100;
+      relevanceFilter.similarity = relevanceSliderValueToThreshold(simSlider.value);
       if (simVal) simVal.textContent = relevanceFilter.similarity.toFixed(2);
       applyRelevanceFilter();
     });
     treeSlider.addEventListener('input', () => {
-      relevanceFilter.treeProximity = parseInt(treeSlider.value, 10);
-      if (treeVal) treeVal.textContent = String(relevanceFilter.treeProximity);
+      relevanceFilter.treeProximity = relevanceSliderValueToThreshold(treeSlider.value);
+      if (treeVal) treeVal.textContent = relevanceFilter.treeProximity.toFixed(2);
       applyRelevanceFilter();
     });
 

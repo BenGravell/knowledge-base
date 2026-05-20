@@ -350,7 +350,11 @@ body:has(#ct-app) .md-content {
   --ct-selected-rose: #f3a6c8;
   --ct-selected-gold: #efd184;
   --ct-selected-text: #111827;
-  --ct-selected-dot: #111827;
+  --ct-selected-dot-border: color-mix(in srgb, #ffffff 84%, transparent);
+  --ct-selected-dot-fill:
+    radial-gradient(circle at 30% 22%, #ffffff 0 8%, transparent 22%),
+    radial-gradient(circle at 68% 72%, color-mix(in srgb, #ffffff 34%, transparent) 0 7%, transparent 21%),
+    conic-gradient(from 225deg, #ff1fd2, #7b2cff 15%, #0069ff 30%, #00d8ff 45%, #00ff8a 60%, #ffe600 74%, #ff7a00 88%, #ff1fd2);
   --ct-selected-inset: color-mix(in srgb, #ffffff 42%, transparent);
   --ct-border: color-mix(in srgb, var(--md-default-fg-color) 16%, transparent);
   --ct-soft-border: color-mix(in srgb, var(--md-default-fg-color) 9%, transparent);
@@ -394,7 +398,8 @@ body:has(#ct-app) .md-content {
   --ct-selected-rose: #8f285f;
   --ct-selected-gold: #75500a;
   --ct-selected-text: #ffffff;
-  --ct-selected-dot: #ffffff;
+  --ct-selected-dot-border: #ffffff;
+  --ct-selected-dot-fill: #ffffff;
   --ct-selected-inset: color-mix(in srgb, #000000 18%, transparent);
   --ct-panel: color-mix(in srgb, var(--md-code-bg-color) 82%, #050910);
   --ct-panel-strong: color-mix(in srgb, var(--ct-cyan) 18%, var(--md-default-bg-color));
@@ -1088,7 +1093,6 @@ body:has(#ct-app) .md-content {
 
 .ct-tree-button {
   position: relative;
-  z-index: 1;
   display: grid;
   grid-template-columns: calc(var(--ct-rail-center) * 2) minmax(0, 1fr);
   gap: 0.45rem;
@@ -1184,7 +1188,6 @@ body:has(#ct-app) .md-content {
 }
 
 .ct-tree-node.is-current > .ct-tree-button {
-  z-index: 3;
   border-color: transparent;
   background:
     radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--ct-selected-gold) 28%, transparent) 0 10%, transparent 24%),
@@ -1219,8 +1222,10 @@ body:has(#ct-app) .md-content {
 .ct-tree-node.is-current > .ct-tree-button .ct-tree-dot {
   width: 0.95rem;
   height: 0.95rem;
-  border-color: var(--ct-selected-dot);
-  background: var(--ct-selected-dot);
+  border-color: var(--ct-selected-dot-border);
+  background: var(--ct-selected-dot-fill);
+  background-size: 145% 145%, 120% 120%, 100% 100%;
+  background-position: 24% 18%, 76% 82%, center;
   box-shadow:
     0 0 0 3px color-mix(in srgb, var(--ct-cyan) 28%, transparent),
     0 0 14px color-mix(in srgb, var(--ct-cyan) 54%, transparent);

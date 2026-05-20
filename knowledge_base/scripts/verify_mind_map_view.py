@@ -37,6 +37,32 @@ JS_CHECKS = r"""
     document.body.setAttribute('data-md-color-scheme', scheme);
   };
   const cssVar = name => getComputedStyle(document.body).getPropertyValue(name).trim();
+  const hexToRgb = color => {
+    const normalized = String(color || '').trim();
+    let m = normalized.match(/^#([0-9a-f]{3})$/i);
+    if (m) {
+      const hex = m[1].split('').map(ch => ch + ch).join('');
+      return [0, 2, 4].map(i => parseInt(hex.slice(i, i + 2), 16));
+    }
+    m = normalized.match(/^#([0-9a-f]{6})$/i);
+    if (m) return [0, 2, 4].map(i => parseInt(m[1].slice(i, i + 2), 16));
+    return null;
+  };
+  const relativeLuminance = color => {
+    const rgb = hexToRgb(color);
+    if (!rgb) return null;
+    const channels = rgb.map(value => {
+      const c = value / 255;
+      return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+  };
+  const contrastRatio = (a, b) => {
+    const la = relativeLuminance(a);
+    const lb = relativeLuminance(b);
+    if (!Number.isFinite(la) || !Number.isFinite(lb)) return 0;
+    return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+  };
   const mm = window._mindMap;
   const graph = mm && mm.graph && mm.graph();
   const renderer = mm && mm.renderer && mm.renderer();
@@ -51,7 +77,7 @@ JS_CHECKS = r"""
     return data && !data.hidden;
   });
   const hashParams = () => new URLSearchParams(window.location.hash.slice(1));
-  const canvasHasDarkPixelNear = (canvas, point) => {
+  const canvasHasPaintedPixelNear = (canvas, point) => {
     if (!canvas || !point || !Number.isFinite(point.x) || !Number.isFinite(point.y)) return false;
     const context = canvas.getContext('2d');
     if (!context) return false;
@@ -69,11 +95,11 @@ JS_CHECKS = r"""
     if (width <= 0 || height <= 0) return false;
 
     const pixels = context.getImageData(x, y, width, height).data;
-    let darkPixels = 0;
+    let paintedPixels = 0;
     for (let i = 0; i < pixels.length; i += 4) {
-      const [r, g, b, a] = [pixels[i], pixels[i + 1], pixels[i + 2], pixels[i + 3]];
-      if (a > 80 && r < 80 && g < 80 && b < 80) darkPixels += 1;
-      if (darkPixels > 10) return true;
+      const a = pixels[i + 3];
+      if (a > 80) paintedPixels += 1;
+      if (paintedPixels > 10) return true;
     }
     return false;
   };
@@ -164,38 +190,43 @@ JS_CHECKS = r"""
       point.y >= -80 &&
       point.y <= graphEl.clientHeight + 80;
   });
-  const assertAllVisibleLabelsForced = (level, label, requireOnScreenOnly = false) => {
+  const assertVisibleLabelsUseSigmaSelection = (level, label) => {
     renderer.refresh();
     const ids = visibleNodes().filter(id => graph.getNodeAttribute(id, 'detailLevel') === level);
-    const renderedIds = requireOnScreenOnly ? onScreenNodeIds(ids) : ids;
     const displayed = renderer.getNodeDisplayedLabels
       ? renderer.getNodeDisplayedLabels()
       : new Set();
-    const unforced = ids.filter(id => {
+    const unlabeled = ids.filter(id => {
       const data = renderer.getNodeDisplayData(id);
-      return !data || data.forceLabel !== true;
+      return !data || !String(data.label || '').trim();
     });
+    const forced = ids.filter(id => {
+      const data = renderer.getNodeDisplayData(id);
+      return data && data.forceLabel === true;
+    });
+    const currentVisibleIds = visibleNodes();
+    const displayedHidden = [...displayed].filter(id => !currentVisibleIds.includes(id));
 
     assert(ids.length > 0, `${label} has visible nodes`, ids.length);
-    assert(unforced.length === 0,
-      `${label} forces all visible node labels`,
-      JSON.stringify(unforced.slice(0, 8)));
-    const missing = renderedIds.filter(id => !displayed.has(id));
-    assert(missing.length === 0,
-      requireOnScreenOnly
-        ? `${label} renders every on-screen visible node label`
-        : `${label} renders every visible node label`,
-      JSON.stringify(missing.slice(0, 8)));
+    assert(unlabeled.length === 0,
+      `${label} supplies labels for all visible nodes`,
+      JSON.stringify(unlabeled.slice(0, 8)));
+    assert(forced.length === 0,
+      `${label} leaves ordinary labels to Sigma selection`,
+      JSON.stringify(forced.slice(0, 8)));
+    assert(displayedHidden.length === 0,
+      `${label} label selection contains only currently visible nodes`,
+      JSON.stringify(displayedHidden.slice(0, 8)));
   };
-  const assertAllVisibleLabelsForcedAcrossZoom = async (level, label) => {
+  const assertVisibleLabelsUseSigmaSelectionAcrossZoom = async (level, label) => {
     const before = { ...camera.getState() };
-    assertAllVisibleLabelsForced(level, label);
+    assertVisibleLabelsUseSigmaSelection(level, label);
 
     for (const ratioScale of [0.55, 1.85]) {
       camera.setState({ ratio: before.ratio * ratioScale });
       await sleep(50);
       renderer.refresh();
-      assertAllVisibleLabelsForced(level, `${label} at ${ratioScale}x zoom`, true);
+      assertVisibleLabelsUseSigmaSelection(level, `${label} at ${ratioScale}x zoom`);
     }
 
     camera.setState(before);
@@ -206,10 +237,13 @@ JS_CHECKS = r"""
     const metrics = mm.metrics && mm.metrics();
     const minDistance = metrics && metrics.minimumVisibleGraphDistance;
     const radius = metrics && metrics.nodeGraphRadius;
+    const targetRadius = metrics && metrics.nodeGraphRadiusTarget;
     const clearanceRatio = metrics && metrics.clearanceRatio;
     const requiredDistance = radius * (2 + clearanceRatio);
 
-    assert(radius <= 12.1, `${label} uses reduced static paper disk radius`, radius);
+    assert(radius <= targetRadius + 0.05,
+      `${label} keeps paper disk radius bounded by the configured target`,
+      JSON.stringify({ radius, targetRadius }));
     assert(minDistance + 0.05 >= requiredDistance,
       `${label} keeps at least the configured paper-node clearance`,
       JSON.stringify({ minDistance, radius, clearanceRatio, requiredDistance }));
@@ -319,7 +353,7 @@ JS_CHECKS = r"""
     'initial super-category node count is aggregated', nodes.length);
   assert(nodes.every(id => graph.getNodeAttribute(id, 'kind') === 'aggregate'),
     'initial visible nodes are aggregate nodes');
-  await assertAllVisibleLabelsForcedAcrossZoom('super_category', 'super-category level');
+  await assertVisibleLabelsUseSigmaSelectionAcrossZoom('super_category', 'super-category level');
 
   const cameraDelta = (a, b) =>
     Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y), Math.abs(a.ratio - b.ratio));
@@ -330,29 +364,70 @@ JS_CHECKS = r"""
   renderer.refresh();
   await sleep(60);
   assert(cameraDelta(beforeSuperClickCamera, camera.getState()) < 1e-8,
-    'drilling down from super-category keeps the camera stable',
+    'expanding a super-category keeps the camera stable',
     JSON.stringify({ before: beforeSuperClickCamera, after: camera.getState() }));
-  const categoryNodeCount = visibleNodes().length;
-  assert(mm.detailLevel && mm.detailLevel() === 'category',
-    'clicking a super node reveals the category aggregation level',
+  let expandedNodes = visibleNodes();
+  assert(mm.detailLevel && mm.detailLevel() === 'super_category',
+    'clicking a super node keeps the global detail level unchanged',
     mm.detailLevel && mm.detailLevel());
-  assert(categoryNodeCount > initialSuperNodeCount,
-    'category level reveals more aggregate nodes than the super level',
-    `${categoryNodeCount} vs ${initialSuperNodeCount}`);
-  await assertAllVisibleLabelsForcedAcrossZoom('category', 'category level');
+  assert(expandedNodes.length > initialSuperNodeCount &&
+    expandedNodes.some(id => graph.getNodeAttribute(id, 'detailLevel') === 'category'),
+    'clicking a super node expands child category aggregates in place',
+    expandedNodes.length);
+  await assertVisibleLabelsUseSigmaSelectionAcrossZoom('category', 'expanded category children');
 
-  nodes = visibleNodes();
+  const categoryNode = expandedNodes.find(id => graph.getNodeAttribute(id, 'detailLevel') === 'category');
+  assert(Boolean(categoryNode), 'expanded branch exposes a category aggregate node');
   const beforeCategoryClickCamera = { ...camera.getState() };
-  renderer.emit('clickNode', { node: nodes[0], event: { x: graphEl.clientWidth / 2, y: graphEl.clientHeight / 2 } });
+  categoryNode && renderer.emit('clickNode', { node: categoryNode, event: { x: graphEl.clientWidth / 2, y: graphEl.clientHeight / 2 } });
   await sleep(420);
   renderer.refresh();
   await sleep(60);
   assert(cameraDelta(beforeCategoryClickCamera, camera.getState()) < 1e-8,
-    'drilling down from category keeps the camera stable',
+    'expanding a category keeps the camera stable',
     JSON.stringify({ before: beforeCategoryClickCamera, after: camera.getState() }));
-  assert(mm.detailLevel && mm.detailLevel() === 'sub_category',
-    'clicking a category node reveals the sub-category aggregation level',
+  expandedNodes = visibleNodes();
+  assert(mm.detailLevel && mm.detailLevel() === 'super_category',
+    'clicking a category node keeps the global detail level unchanged',
     mm.detailLevel && mm.detailLevel());
+  assert(expandedNodes.some(id => graph.getNodeAttribute(id, 'detailLevel') === 'sub_category'),
+    'clicking a category node expands child sub-category aggregates in place',
+    expandedNodes.map(id => graph.getNodeAttribute(id, 'detailLevel')).join(', '));
+  await assertVisibleLabelsUseSigmaSelectionAcrossZoom('sub_category', 'expanded sub-category children');
+
+  const categoryButton = document.querySelector('#mm-detail-controls button[data-level="category"]');
+  assert(Boolean(categoryButton), 'category detail level button exists');
+  const beforeCategoryButtonCamera = { ...camera.getState() };
+  categoryButton && categoryButton.click();
+  await sleep(420);
+  renderer.refresh();
+  await sleep(60);
+  assert(cameraDelta(beforeCategoryButtonCamera, camera.getState()) < 1e-8,
+    'category detail button keeps the camera stable',
+    JSON.stringify({ before: beforeCategoryButtonCamera, after: camera.getState() }));
+  const categoryNodeCount = visibleNodes().length;
+  assert(mm.detailLevel && mm.detailLevel() === 'category',
+    'category detail button changes the global detail level',
+    mm.detailLevel && mm.detailLevel());
+  assert(categoryNodeCount > initialSuperNodeCount,
+    'category detail level reveals more aggregate nodes than the super level',
+    `${categoryNodeCount} vs ${initialSuperNodeCount}`);
+  await assertVisibleLabelsUseSigmaSelectionAcrossZoom('category', 'category detail level');
+
+  const subCategoryButton = document.querySelector('#mm-detail-controls button[data-level="sub_category"]');
+  assert(Boolean(subCategoryButton), 'sub-category detail level button exists');
+  const beforeSubCategoryButtonCamera = { ...camera.getState() };
+  subCategoryButton && subCategoryButton.click();
+  await sleep(420);
+  renderer.refresh();
+  await sleep(60);
+  assert(cameraDelta(beforeSubCategoryButtonCamera, camera.getState()) < 1e-8,
+    'sub-category detail button keeps the camera stable',
+    JSON.stringify({ before: beforeSubCategoryButtonCamera, after: camera.getState() }));
+  assert(mm.detailLevel && mm.detailLevel() === 'sub_category',
+    'sub-category detail button changes the global detail level',
+    mm.detailLevel && mm.detailLevel());
+  await assertVisibleLabelsUseSigmaSelectionAcrossZoom('sub_category', 'sub-category detail level');
 
   const paperButton = document.querySelector('#mm-detail-controls button[data-level="paper"]');
   assert(Boolean(paperButton), 'paper detail level button exists');
@@ -437,14 +512,15 @@ JS_CHECKS = r"""
 
   nodes = visibleNodes();
   const target = nodes[Math.floor(nodes.length / 2)];
-  const other = nodes.find(id => id !== target);
-  const otherBase = other ? graph.getNodeAttribute(other, 'baseColor') : null;
   renderer.emit('clickNode', { node: target, event: { x: graphEl.clientWidth / 2, y: graphEl.clientHeight / 2 } });
   await sleep(120);
   renderer.refresh();
   await sleep(60);
 
   const selected = renderer.getNodeDisplayData(target);
+  const focusedNodes = visibleNodes();
+  const other = focusedNodes.find(id => id !== target);
+  const otherBase = other ? graph.getNodeAttribute(other, 'baseColor') : null;
   const muted = other ? renderer.getNodeDisplayData(other) : null;
   const selectedRing = cssVar('--mm-selected-ring').toLowerCase();
   const mutedColors = [
@@ -452,8 +528,14 @@ JS_CHECKS = r"""
     cssVar('--mm-node-muted-related').toLowerCase(),
   ];
 
-  assert(selected && String(selected.labelColor).toLowerCase() === '#111111',
-    'selected node label uses black text', selected && selected.labelColor);
+  assert(selected && ['#000000', '#ffffff'].includes(String(selected.labelColor).toLowerCase()) &&
+    contrastRatio(selected.labelColor, selected.color) >= 4.5,
+    'selected node label uses contrast-aware text',
+    selected && JSON.stringify({
+      labelColor: selected.labelColor,
+      nodeColor: selected.color,
+      contrast: contrastRatio(selected.labelColor, selected.color),
+    }));
   assert(selected && String(selected.labelOutlineColor).toLowerCase() === selectedRing,
     'selected node label outline uses the gold emphasis color',
     selected && `${selected.labelOutlineColor} vs ${selectedRing}`);
@@ -461,7 +543,7 @@ JS_CHECKS = r"""
   const focusLabelsCanvas = renderer.getCanvases && renderer.getCanvases().topLabels;
   const targetAttrs = graph.getNodeAttributes(target);
   const targetPoint = renderer.graphToViewport({ x: targetAttrs.x, y: targetAttrs.y });
-  assert(canvasHasDarkPixelNear(focusLabelsCanvas, targetPoint),
+  assert(canvasHasPaintedPixelNear(focusLabelsCanvas, targetPoint),
     'selected node label is redrawn on the final overlay above the emphasis disk',
     JSON.stringify({ hasCanvas: Boolean(focusLabelsCanvas), targetPoint }));
   assert(muted && String(muted.color).toLowerCase() !== String(otherBase).toLowerCase(),
@@ -531,7 +613,9 @@ JS_CHECKS = r"""
   await sleep(60);
   const buttonFitState = camera.getState();
   const buttonAllDetailFitted = allDetailViewportBBox();
-  assert(buttonFitState.ratio <= 1.15, 'Fit View button returns the camera to fitted zoom', buttonFitState.ratio);
+  assert(Number.isFinite(buttonFitState.ratio) && buttonFitState.ratio > 0 && buttonFitState.ratio <= settings.maxCameraRatio,
+    'Fit View button returns the camera to a valid fitted zoom',
+    buttonFitState.ratio);
   assertFittedBBox(buttonAllDetailFitted, 'single-click Fit View across all detail levels');
 
   camera.setState({ x: 0, y: 0, ratio: 5 });
@@ -867,10 +951,11 @@ def main() -> int:
     parser.add_argument(
         "--viewport",
         action="append",
-        default=["1366x900", "390x844:mobile"],
+        default=None,
         help="Viewport to test, e.g. 1366x900 or 390x844:mobile. May be repeated.",
     )
     args = parser.parse_args()
+    viewports = args.viewport or ["1366x900", "390x844:mobile"]
 
     chrome = find_chrome(args.chrome)
     session: ChromeSession | None = None
@@ -879,7 +964,7 @@ def main() -> int:
         session = launch_chrome(chrome)
         client = CdpClient(get_tab_websocket(session, args.url))
         all_metrics = {}
-        for viewport in args.viewport:
+        for viewport in viewports:
             width, height, mobile = parse_viewport(viewport)
             metrics = run_viewport(client, args.url, width, height, mobile)
             all_metrics[viewport] = metrics

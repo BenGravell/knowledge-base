@@ -10,6 +10,7 @@ hide:
 :root {
   --mm-node-muted:         #a3adb8;
   --mm-node-muted-related: #7f8b97;
+  --mm-node-border:        #e1e7ee;
   --mm-muted-label:        #475569;
   --mm-selected-ring:      #005ab5;
   --mm-selected-label:     #111111;
@@ -24,6 +25,7 @@ hide:
 [data-md-color-scheme="default"] {
   --mm-node-muted:         #a3adb8;
   --mm-node-muted-related: #7f8b97;
+  --mm-node-border:        #e1e7ee;
   --mm-muted-label:        #475569;
   --mm-selected-ring:      #005ab5;
   --mm-selected-label:     #111111;
@@ -38,6 +40,7 @@ hide:
 [data-md-color-scheme="slate"] {
   --mm-node-muted:         #66717d;
   --mm-node-muted-related: #8b96a2;
+  --mm-node-border:        #242b35;
   --mm-muted-label:        #c8d0d8;
   --mm-selected-ring:      #f1c232;
   --mm-selected-label:     #111111;
@@ -1007,9 +1010,9 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
           <span class="mm-filter-body">
             <span class="mm-filter-row">
               <span>Semantic similarity</span>
-              <span id="mm-relevance-similarity-val">0.67</span>
+              <span id="mm-relevance-similarity-val">0.79</span>
             </span>
-            <input id="mm-relevance-similarity" type="range" min="50" max="95" step="1" value="67">
+            <input id="mm-relevance-similarity" type="range" min="0" max="100" step="1" value="25">
           </span>
         </label>
         <label class="mm-filter-toggle">
@@ -1019,9 +1022,9 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
           <span class="mm-filter-body">
             <span class="mm-filter-row">
               <span>Tree proximity</span>
-              <span id="mm-relevance-distance-val">12</span>
+              <span id="mm-relevance-distance-val">0.79</span>
             </span>
-            <input id="mm-relevance-distance" type="range" min="0" max="14" step="1" value="12">
+            <input id="mm-relevance-distance" type="range" min="0" max="100" step="1" value="25">
           </span>
         </label>
         <div class="mm-relevance-foot">

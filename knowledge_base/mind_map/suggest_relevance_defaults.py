@@ -7,8 +7,10 @@ The browser filter keeps a paper when both enabled criteria pass:
   tree proximity      >= tree proximity slider value
 
 Tree proximity mirrors ``mind-map.js``: the content-tree distance between
-two papers is converted to ``max_tree_distance - distance`` so that larger
-values mean "closer in the tree".
+two papers is mapped through a learned monotone lookup table.  The lookup
+table quantile-matches the empirical tree-distance distribution to the
+empirical semantic-similarity distribution, so tree proximity and semantic
+similarity both live on a comparable 0..1 scale.
 
 Usage:
     python mind_map/suggest_relevance_defaults.py
@@ -32,8 +34,8 @@ except ImportError:  # pragma: no cover - the script has a pure-Python fallback.
 
 
 DATA_FILE = Path(__file__).with_name("mind-map-data.js")
-SEMANTIC_MIN = 0.50
-SEMANTIC_MAX = 0.95
+SEMANTIC_MIN = 0.0
+SEMANTIC_MAX = 1.0
 SEMANTIC_STEP = 0.01
 CENTER_WEIGHT = 5.0
 PRIMARY_MIN_NEIGHBORS = 3
@@ -42,13 +44,15 @@ FALLBACK_MIN_NEIGHBORS = 1
 FALLBACK_COVERAGE = 0.99
 SOFT_MAX_P95 = 50
 SOFT_MAX_P99 = 90
+SLIDER_EXPANDED_THRESHOLD = 0.70
+SLIDER_EXPANDED_POSITION = 0.20
+SLIDER_EXPONENT = math.log(1 - SLIDER_EXPANDED_THRESHOLD) / math.log(1 - SLIDER_EXPANDED_POSITION)
 UNCATEGORIZED_CATEGORY = "Uncategorized"
 
 
 @dataclass(frozen=True)
 class Candidate:
-    semantic: float
-    tree_proximity: int
+    threshold: float
     p01_neighbors: float
     p05_neighbors: float
     median_count: float
@@ -190,33 +194,112 @@ def build_similarity_array(data: dict[str, Any], ids: list[str]) -> "np.ndarray"
     return matrix
 
 
-def build_tree_proximity_matrix(paths: list[tuple[str, ...]], max_tree_distance: int) -> list[list[int]]:
+def build_tree_distance_matrix(paths: list[tuple[str, ...]]) -> list[list[int]]:
     return [
-        [max_tree_distance - tree_distance(ego_path, paper_path) for paper_path in paths]
+        [tree_distance(ego_path, paper_path) for paper_path in paths]
         for ego_path in paths
     ]
 
 
+def learn_tree_proximity_scale(
+    semantic_values: list[float],
+    tree_distances: list[int],
+    max_tree_distance: int,
+) -> list[float]:
+    values = sorted(min(max(value, 0.0), 1.0) for value in semantic_values if math.isfinite(value))
+    distance_counts = [0] * (max_tree_distance + 1)
+    for distance in tree_distances:
+        if 0 <= distance <= max_tree_distance:
+            distance_counts[distance] += 1
+
+    if not values or not any(distance_counts):
+        return [
+            1 - distance / max_tree_distance if max_tree_distance else 1.0
+            for distance in range(max_tree_distance + 1)
+        ]
+
+    total = sum(distance_counts)
+    scale = [0.0] * (max_tree_distance + 1)
+    closer_count = 0
+    for distance, count in enumerate(distance_counts):
+        midpoint = closer_count + count / 2
+        quantile = 1 - midpoint / total
+        scale[distance] = min(max(percentile(values, quantile), 0.0), 1.0)
+        closer_count += count
+
+    scale[0] = 1.0
+    for distance in range(1, len(scale)):
+        scale[distance] = min(scale[distance], scale[distance - 1])
+    return scale
+
+
+def kl_divergence(
+    reference_values: list[float],
+    candidate_values: list[float],
+    *,
+    bins: int = 101,
+    epsilon: float = 1e-12,
+) -> float:
+    def histogram(values: list[float]) -> list[int]:
+        counts = [0] * bins
+        for value in values:
+            if not math.isfinite(value):
+                continue
+            clipped = min(max(value, 0.0), 1.0)
+            index = min(int(clipped * bins), bins - 1)
+            counts[index] += 1
+        return counts
+
+    reference = histogram(reference_values)
+    candidate = histogram(candidate_values)
+
+    reference_total = sum(reference) + epsilon * bins
+    candidate_total = sum(candidate) + epsilon * bins
+    total = 0.0
+    for ref_count, cand_count in zip(reference, candidate):
+        p = (ref_count + epsilon) / reference_total
+        q = (cand_count + epsilon) / candidate_total
+        total += p * math.log(p / q)
+    return total
+
+
+def precomputed_tree_proximity_scale(data: dict[str, Any]) -> list[float] | None:
+    tree_meta = (data.get("meta") or {}).get("treeProximity") or {}
+    raw_scale = tree_meta.get("scale")
+    if not isinstance(raw_scale, list) or not raw_scale:
+        return None
+
+    scale: list[float] = []
+    for value in raw_scale:
+        try:
+            numeric = float(value)
+        except (TypeError, ValueError):
+            return None
+        if not math.isfinite(numeric):
+            return None
+        scale.append(min(max(numeric, 0.0), 1.0))
+
+    return scale
+
+
 def match_counts(
     similarity_matrix: list[list[float]],
-    tree_matrix: list[list[int]],
-    semantic_threshold: float,
-    tree_threshold: int,
+    tree_proximity_matrix: list[list[float]],
+    threshold: float,
 ) -> list[int]:
     counts = []
-    for similarities, proximities in zip(similarity_matrix, tree_matrix):
+    for similarities, proximities in zip(similarity_matrix, tree_proximity_matrix):
         count = sum(
             1
             for similarity, proximity in zip(similarities, proximities)
-            if similarity >= semantic_threshold and proximity >= tree_threshold
+            if similarity >= threshold and proximity >= threshold
         )
         counts.append(count)
     return counts
 
 
 def score_candidate(
-    semantic: float,
-    tree_proximity: int,
+    threshold: float,
     counts: list[int],
     *,
     primary_min_neighbors: int,
@@ -227,7 +310,6 @@ def score_candidate(
     soft_max_p99: int,
     semantic_min: float,
     semantic_max: float,
-    max_tree_distance: int,
     center_weight: float,
 ) -> Candidate:
     sorted_counts = sorted(counts)
@@ -241,12 +323,7 @@ def score_candidate(
 
     semantic_mid = (semantic_min + semantic_max) / 2
     semantic_half_range = max((semantic_max - semantic_min) / 2, 1e-9)
-    tree_mid = max_tree_distance / 2
-    tree_half_range = max(max_tree_distance / 2, 1)
-    centeredness = (
-        ((semantic - semantic_mid) / semantic_half_range) ** 2
-        + ((tree_proximity - tree_mid) / tree_half_range) ** 2
-    )
+    centeredness = ((threshold - semantic_mid) / semantic_half_range) ** 2
 
     lower_tail_deficit = (
         max(0, primary_min_neighbors - p05_neighbors)
@@ -262,8 +339,7 @@ def score_candidate(
         + centeredness * center_weight
     )
     return Candidate(
-        semantic=semantic,
-        tree_proximity=tree_proximity,
+        threshold=threshold,
         p01_neighbors=p01_neighbors,
         p05_neighbors=p05_neighbors,
         median_count=median_count,
@@ -292,71 +368,87 @@ def suggest_defaults(
     semantic_max: float,
     semantic_step: float,
     center_weight: float,
-) -> tuple[Candidate, list[Candidate], int, int]:
+) -> tuple[Candidate, list[Candidate], int, int, list[float], float]:
     nodes = [node for node in data.get("nodes", []) if isinstance(node.get("data"), dict)]
     ids = [str(node["data"].get("id")) for node in nodes if node["data"].get("id")]
     data_by_id = {str(node["data"].get("id")): node["data"] for node in nodes if node["data"].get("id")}
     paths = [paper_nav_path(data_by_id[paper_id]) for paper_id in ids]
     max_tree_distance = max(1, max(len(path) for path in paths) * 2)
-
-    tree_matrix = build_tree_proximity_matrix(paths, max_tree_distance)
+    tree_distance_matrix = build_tree_distance_matrix(paths)
+    precomputed_scale = precomputed_tree_proximity_scale(data)
 
     candidates = []
-    semantic_values = semantic_thresholds(semantic_min, semantic_max, semantic_step)
+    thresholds = semantic_thresholds(semantic_min, semantic_max, semantic_step)
 
     if np is not None:
         similarity_array = build_similarity_array(data, ids)
-        tree_array = np.array(tree_matrix)
-        paper_indexes = np.repeat(np.arange(len(ids)), len(ids))
-        semantic_bins = np.floor(similarity_array * 100 + 1e-9).astype(int).clip(0, 100)
-        tree_bins = tree_array.astype(int).clip(0, max_tree_distance)
-        histogram = np.zeros((len(ids), 101, max_tree_distance + 1), dtype=np.int32)
-        np.add.at(
-            histogram,
-            (paper_indexes, semantic_bins.ravel(), tree_bins.ravel()),
-            1,
-        )
-        match_count_cube = (
-            histogram[:, ::-1, ::-1]
-            .cumsum(axis=1)
-            .cumsum(axis=2)[:, ::-1, ::-1]
+        tree_distance_array = np.array(tree_distance_matrix, dtype=int)
+        valid = np.isfinite(similarity_array) & (similarity_array >= 0)
+        semantic_values = similarity_array[valid].clip(0, 1).tolist()
+        if precomputed_scale:
+            tree_scale = precomputed_scale
+        else:
+            tree_distances = tree_distance_array[valid].astype(int).tolist()
+            tree_scale = learn_tree_proximity_scale(semantic_values, tree_distances, max_tree_distance)
+        tree_indexes = np.clip(tree_distance_array, 0, len(tree_scale) - 1)
+        tree_proximity_array = np.take(np.array(tree_scale), tree_indexes)
+        tree_kl = kl_divergence(
+            semantic_values,
+            tree_proximity_array[valid].tolist(),
         )
     else:
         similarity_matrix = build_similarity_matrix(data, ids)
-        match_count_cube = None
+        semantic_values = []
+        tree_distances = []
+        for similarities, distances in zip(similarity_matrix, tree_distance_matrix):
+            for similarity, distance in zip(similarities, distances):
+                if math.isfinite(similarity) and similarity >= 0:
+                    semantic_values.append(min(max(similarity, 0.0), 1.0))
+                    tree_distances.append(distance)
+        tree_scale = precomputed_scale or learn_tree_proximity_scale(
+            semantic_values,
+            tree_distances,
+            max_tree_distance,
+        )
+        tree_proximity_matrix = [
+            [tree_scale[min(max(distance, 0), len(tree_scale) - 1)] for distance in distances]
+            for distances in tree_distance_matrix
+        ]
+        tree_kl = kl_divergence(
+            semantic_values,
+            [value for row in tree_proximity_matrix for value in row],
+        )
 
-    for semantic in semantic_values:
-        for tree_proximity in range(0, max_tree_distance + 1):
-            if match_count_cube is not None:
-                semantic_bin = round(semantic * 100)
-                counts = match_count_cube[:, semantic_bin, tree_proximity].tolist()
-            else:
-                counts = match_counts(
-                    similarity_matrix,
-                    tree_matrix,
-                    semantic,
-                    tree_proximity,
-                )
-            candidates.append(
-                score_candidate(
-                    semantic,
-                    tree_proximity,
-                    counts,
-                    primary_min_neighbors=primary_min_neighbors,
-                    primary_coverage=primary_coverage,
-                    fallback_min_neighbors=fallback_min_neighbors,
-                    fallback_coverage=fallback_coverage,
-                    soft_max_p95=soft_max_p95,
-                    soft_max_p99=soft_max_p99,
-                    semantic_min=semantic_min,
-                    semantic_max=semantic_max,
-                    max_tree_distance=max_tree_distance,
-                    center_weight=center_weight,
-                )
+    for threshold in thresholds:
+        if np is not None:
+            counts = (
+                (similarity_array >= threshold)
+                & (tree_proximity_array >= threshold)
+            ).sum(axis=1).astype(int).tolist()
+        else:
+            counts = match_counts(
+                similarity_matrix,
+                tree_proximity_matrix,
+                threshold,
             )
+        candidates.append(
+            score_candidate(
+                threshold,
+                counts,
+                primary_min_neighbors=primary_min_neighbors,
+                primary_coverage=primary_coverage,
+                fallback_min_neighbors=fallback_min_neighbors,
+                fallback_coverage=fallback_coverage,
+                soft_max_p95=soft_max_p95,
+                soft_max_p99=soft_max_p99,
+                semantic_min=semantic_min,
+                semantic_max=semantic_max,
+                center_weight=center_weight,
+            )
+        )
 
     candidates.sort(key=lambda candidate: candidate.score)
-    return candidates[0], candidates, len(ids), max_tree_distance
+    return candidates[0], candidates, len(ids), max_tree_distance, tree_scale, tree_kl
 
 
 def format_count(value: float) -> str:
@@ -366,18 +458,22 @@ def format_count(value: float) -> str:
     return f"{value:.1f}"
 
 
-def print_candidates(candidates: list[Candidate], max_tree_distance: int) -> None:
+def threshold_to_slider_position(threshold: float) -> float:
+    threshold = min(max(float(threshold), 0.0), 1.0)
+    if threshold >= 1:
+        return 1.0
+    return 1 - ((1 - threshold) ** (1 / SLIDER_EXPONENT))
+
+
+def print_candidates(candidates: list[Candidate]) -> None:
     print(
-        "rank  semantic  tree_prox  js_tree_distance  "
+        "rank  threshold  "
         "p01_nbr  p05_nbr  median  p95  p99  mean   min-max  broad  score"
     )
     for index, candidate in enumerate(candidates, start=1):
-        js_tree_distance = max_tree_distance - candidate.tree_proximity
         print(
             f"{index:>4}  "
-            f"{candidate.semantic:>8.2f}  "
-            f"{candidate.tree_proximity:>9}  "
-            f"{js_tree_distance:>16}  "
+            f"{candidate.threshold:>9.2f}  "
             f"{format_count(candidate.p01_neighbors):>7}  "
             f"{format_count(candidate.p05_neighbors):>7}  "
             f"{format_count(candidate.median_count):>6}  "
@@ -445,7 +541,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     data = load_data(args.data)
-    best, candidates, paper_count, max_tree_distance = suggest_defaults(
+    best, candidates, paper_count, max_tree_distance, tree_scale, tree_kl = suggest_defaults(
         data,
         primary_min_neighbors=args.primary_min_neighbors,
         primary_coverage=args.primary_coverage,
@@ -475,13 +571,24 @@ def main() -> None:
         "Soft upper targets: "
         f"p95 <= {args.soft_max_p95}, p99 <= {args.soft_max_p99}"
     )
-    print(f"Semantic slider range: {args.semantic_min:.2f}-{args.semantic_max:.2f}")
-    print(f"Tree proximity slider range: 0-{max_tree_distance}")
+    print(f"Shared threshold range: {args.semantic_min:.2f}-{args.semantic_max:.2f}")
+    print(
+        "Slider curve: "
+        f"{SLIDER_EXPANDED_POSITION:.0%} position maps to "
+        f"{SLIDER_EXPANDED_THRESHOLD:.2f} threshold"
+    )
+    print(f"Raw tree distance range: 0-{max_tree_distance}")
+    print(
+        "Learned tree proximity: "
+        + ", ".join(f"d{distance}={value:.2f}" for distance, value in enumerate(tree_scale))
+    )
+    print(f"Tree-proximity KL divergence vs semantic distribution: {tree_kl:.4f}")
     print()
     print("Recommended defaults")
-    print(f"  semantic similarity: {best.semantic:.2f}")
-    print(f"  tree proximity:      {best.tree_proximity}")
-    print(f"  JS tree distance:    {max_tree_distance - best.tree_proximity}")
+    print(f"  shared threshold:    {best.threshold:.2f}")
+    print(f"  slider position:     {threshold_to_slider_position(best.threshold):.0%}")
+    print(f"  semantic similarity: {best.threshold:.2f}")
+    print(f"  tree proximity:      {best.threshold:.2f}")
     print(
         "  expected matches:    "
         f"median {format_count(best.median_count)}, "
@@ -494,7 +601,7 @@ def main() -> None:
         f"p05 {format_count(best.p05_neighbors)}"
     )
     print()
-    print_candidates(candidates[: max(args.top, 0)], max_tree_distance)
+    print_candidates(candidates[: max(args.top, 0)])
 
 
 if __name__ == "__main__":

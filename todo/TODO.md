@@ -188,6 +188,79 @@ No output means the path is gone from reachable local history.
 
 One more reality check: “completely” means removed from refs you control. Old clones, forks, PR refs, and GitHub’s internal unreachable-object cache may still retain it for a while. If this was just build-output cleanup, that’s fine. If it contained secrets, rotate them and contact GitHub Support to purge cached objects.
 
+## Metadata cleanup
+
+### Scripts
+
+Add audit check for "Team" and other non individual human names in the author list.
+Positive example
+<https://bengravell.github.io/knowledge-base/papers/2507_05331/>
+
+Write a soft audit script that checks for high embedding dissimilarity of items belonging to the same category in the content tree. This is to assist me with making good categories
+
+Write audit script to check for identical content tree key label and algorithm field in metadata. Flag violations with both sides for manual resolution.
+
+Write audit script to check for multiple metadata items claiming the same algorithm. Flag violations for manual resolution.
+
+add check to audit script for the word 'abstract' actually appearing in the abstract field text
+
+add checks for weird characters in abstract, title, author fields
+
+add check for likely mis-spellings
+
+add check for likely unnecessary space and hyphens in middle of words (typical from OCR generated abstracts)
+
+#### dollar sign / math
+
+Add checked in audit for dollar signs in abstract
+
+<https://bengravell.github.io/knowledge-base/papers/2015_nesterov_random_gradient_free_minimization_of/?h=spokoiny>
+
+Fix math notation, make plain text readable.
+
+### prefill
+
+Arxiv prefill script should strip off version number from url if present before fetching data.
+
+### normalization and de-duplication
+
+Normalized authors to remove differently spelled duplicates. Align them to a central database of unique authors in the repo.
+
+Eliminate initials in the author names for first and last name (middle initial ok and preferred).
+
+Do same for source field (venues).
+
+Create scripts for automatically creating the databases the first time, and for auditong and suggesting fix based on pattern matching
+
+Audit the algorithm field.
+It should only use an abbreviation representing a concrete algorithm if it was the first paper to propose thr algorithm. If it merely analyzes an existing algorithm, then it should be a phrase like "Adam convergence analysis"
+
+### Add validation on mkdocs.yml
+
+- ensure every linked doc actually exists
+- ensure every paper in the docs source has a reference in mkdocs.yml (no dead data)
+
+- Ensure every tail branch in tree has more than one leaf node / item. Use sparse tail branches to guide exploration
+
+### Schema
+
+Define the schema in a single source of truth doc.
+
+- use pydantic?
+- human-readable
+
+- revise the metadata schema:
+  - notes: handwritten note from myself
+  - algorithms: list instead of single entry
+  - links: single list instead of primary + alt. maybe also include a specifier to indicate if the link leads to an open-able pdf or not
+
+clarify distinction between year of first publication (typically arxiv preprint) and year of official publication
+
+add other URIs besides DOI since not all papers have DOI e.g. dissertations, arxiv papers, PLMR and JMLR
+
+- Autogenerate the key for papers
+  - policy: use algorithm if non-null, else use the paper name
+
 ## Quality of life
 
 ### Create a one-click site regen script
@@ -286,7 +359,7 @@ They share an identical hierarchy.
 The mind map can be shown on the side / top of the nav tree as a kind of minimap (Gran Turismo style).
 It should focus on the currently selected branch by zooming and centering on it (not discarding the upper levels of hierarchy, just letting ancestors and other non descendent parts of the tree go off screen).
 
-### Ideas
+## Ideas
 
 <https://www.litmaps.com/about/us>
 
@@ -301,82 +374,7 @@ Encourage exploration between rooms or lands represented by research items
 
 Collect points for clicking links, answering quiz questions.
 
-## Explainers
-
-## Metadata cleanup
-
-### Scripts
-
-Add audit check for "Team" and other non individual human names in the author list.
-Positive example
-<https://bengravell.github.io/knowledge-base/papers/2507_05331/>
-
-Write a soft audit script that checks for high embedding dissimilarity of items belonging to the same category in the content tree. This is to assist me with making good categories
-
-Write audit script to check for identical content tree key label and algorithm field in metadata. Flag violations with both sides for manual resolution.
-
-Write audit script to check for multiple metadata items claiming the same algorithm. Flag violations for manual resolution.
-
-add check to audit script for the word 'abstract' actually appearing in the abstract field text
-
-add checks for weird characters in abstract, title, author fields
-
-add check for likely mis-spellings
-
-add check for likely unnecessary space and hyphens in middle of words (typical from OCR generated abstracts)
-
-#### dollar sign / math
-
-Add checked in audit for dollar signs in abstract
-
-<https://bengravell.github.io/knowledge-base/papers/2015_nesterov_random_gradient_free_minimization_of/?h=spokoiny>
-
-Fix math notation, make plain text readable.
-
-### prefill
-
-Arxiv prefill script should strip off version number from url if present before fetching data.
-
-### normalization and de-duplication
-
-Normalized authors to remove differently spelled duplicates. Align them to a central database of unique authors in the repo.
-
-Eliminate initials in the author names for first and last name (middle initial ok and preferred).
-
-Do same for source field (venues).
-
-Create scripts for automatically creating the databases the first time, and for auditong and suggesting fix based on pattern matching
-
-Audit the algorithm field.
-It should only use an abbreviation representing a concrete algorithm if it was the first paper to propose thr algorithm. If it merely analyzes an existing algorithm, then it should be a phrase like "Adam convergence analysis"
-
-### Add validation on mkdocs.yml
-
-- ensure every linked doc actually exists
-- ensure every paper in the docs source has a reference in mkdocs.yml (no dead data)
-
-- Ensure every tail branch in tree has more than one leaf node / item. Use sparse tail branches to guide exploration
-
-### Schema
-
-Define the schema in a single source of truth doc.
-
-- use pydantic?
-- human-readable
-
-- revise the metadata schema:
-  - notes: handwritten note from myself
-  - algorithms: list instead of single entry
-  - links: single list instead of primary + alt. maybe also include a specifier to indicate if the link leads to an open-able pdf or not
-
-clarify distinction between year of first publication (typically arxiv preprint) and year of official publication
-
-add other URIs besides DOI since not all papers have DOI e.g. dissertations, arxiv papers, PLMR and JMLR
-
-- Autogenerate the key for papers
-  - policy: use algorithm if non-null, else use the paper name
-
-## Metrics
+### Metrics
 
 Add scores/metrics:
 Subjective importance
@@ -384,7 +382,7 @@ Novelty
 Impact
 Coolness
 
-## Relations
+### Relations
 
 - "generalizes": Ego paper provides some kind of result (algorithm, technique, proof, etc.) for which the result in the related paper is a special case, i.e. obtained by instantiating the general result with more specificity (e.g. parameters, mathematical space, problem regime, concepts, etc.)
 - "criticizes": Ego paper asserts a claim that the result in the related paper is deficient in some way. Often this is found in the introductory literature review section. Ego paper is not obligated to improve on or resolve the criticisms (although many do).
@@ -404,12 +402,12 @@ Coolness
 “uses idea”
 “contradicts”
 
-### Use-cases, features enabled
+#### Use-cases, features enabled
 
 “Show me all planning methods derived from DDP”
 “Find shortest conceptual path between RRT and MPPI”
 
-## Quiz questions
+### Quiz questions
 
 - phrase them like "knowledge checks"
 - include content like concepts, experimental results, connections to other papers (differentials between papers to show incremental progress)
