@@ -1199,7 +1199,7 @@
         - "Marginalized particle filters for mixed linear/nonlinear state-space models": docs/papers/2005/2005.schon.marginalized_particle_filters_for/metadata.yml
         - "Robust Vehicle Localization in Urban Environments Using Probabilistic Maps": docs/papers/2010/2010.levinson.robust_vehicle_localization_in/metadata.yml
         - "Path Integral Particle Filtering for Hybrid Systems via Saltation Matrices": docs/papers/2026/2603.01176/metadata.yml
-      - "Mapping & SLAM":
+      - Mapping & SLAM:
         - Hydra: docs/papers/2022/2201.13360/metadata.yml
         - Khronos: docs/papers/2024/2402.13817/metadata.yml
         - CLIPPER: docs/papers/2020/2011.10202/metadata.yml
@@ -1212,12 +1212,12 @@
           - "Factor Graphs and the Sum-product Algorithm": docs/papers/2001/2001.kschischang.factor_graphs_and_the/metadata.yml
           - Factor Graphs: docs/papers/2021/2021.dellaert.factor_graphs_exploiting_structure/metadata.yml
           - "A Factor Graph Approach to Estimation and Model Predictive Control on Unmanned Aerial Vehicles": docs/papers/2014/2014.ta.a_factor_graph_approach/metadata.yml
-        - "Building Rome with Convex Optimization": docs/papers/2025/2025.han.building_rome_with_convex/metadata.yml
-        - "Learning Occupancy Grid Maps with Forward Sensor Models": docs/papers/2003/2003.thrun.learning_occupancy_grid_maps/metadata.yml
+        - Building Rome with Convex Optimization: docs/papers/2025/2025.han.building_rome_with_convex/metadata.yml
+        - Learning Occupancy Grid Maps with Forward Sensor Models: docs/papers/2003/2003.thrun.learning_occupancy_grid_maps/metadata.yml
         - iSAM: docs/papers/2008/2008.kaess.isam_incremental_smoothing_and/metadata.yml
         - Quaternion Based Camera Pose Estimation From Matched Feature Points: docs/papers/2017/1704.02672/metadata.yml
     - Motion Prediction:
-      - Traffic Models:
+      - Driver Models:
         - IDM: docs/papers/2000/2000.treiber.congested_traffic_states_in/metadata.yml
         - "An adaptive lateral preview driver model": docs/papers/2005/2005.ungoren.an_adaptive_lateral_preview/metadata.yml
         - "Human-like driving behaviour emerges from a risk-based driver model": docs/papers/2020/2020.kolekar.human_like_driving_behaviour/metadata.yml
@@ -1227,9 +1227,9 @@
         - Wayformer: docs/papers/2022/2207.05844/metadata.yml
         - VectorNet: docs/papers/2020/2005.04259/metadata.yml
         - Learning and Predicting Multimodal Vehicle Action Distributions in a Unified Probabilistic Model Without Labels: docs/papers/2022/2212.07013/metadata.yml
-      - Prediction Horizon:
+        - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: docs/papers/2025/2511.00814/metadata.yml
+      - Prediction Requirements:
         - "Prediction Horizon Requirements for Automated Driving": docs/papers/2024/2402.03893/metadata.yml
-        - "Accelerated Evaluation of Automated Vehicles Safety in Lane Change Scenarios Based on Importance Sampling Techniques": docs/papers/2016/1605.04965/metadata.yml
       - Surveys:
         - "Trends in Motion Prediction Toward Deployable and Generalizable Autonomy": docs/papers/2025/2505.09074/metadata.yml
         - "Motion Forecasting for Autonomous Vehicles": docs/papers/2025/2502.08664/metadata.yml
@@ -1242,7 +1242,6 @@
         - "Task-Relevant Failure Detection for Trajectory Predictors in Autonomous Vehicles": docs/papers/2022/2207.12380/metadata.yml
         - WestWorld: docs/papers/2026/2603.14392/metadata.yml
         - RDAR: docs/papers/2025/2509.19789/metadata.yml
-      - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: docs/papers/2025/2511.00814/metadata.yml
     - Computer Vision:
       - Low-level & Geometric Vision:
         - Edge Detection:
@@ -1559,6 +1558,7 @@
           - Challenges in Autonomous Vehicle Testing and Validation: docs/papers/2016/2016.koopman.challenges_in_autonomous_vehicle/metadata.yml
           - "Driving to Safety: How Many Miles of Driving Would It Take to Demonstrate Autonomous Vehicle Reliability?": docs/papers/2016/2016.kalra.driving_to_safety_how/metadata.yml
           - "Scalable Autonomous Vehicle Safety Validation through Dynamic Programming and Scene Decomposition": docs/papers/2020/2004.06801/metadata.yml
+          - "Accelerated Evaluation of Automated Vehicles Safety in Lane Change Scenarios Based on Importance Sampling Techniques": docs/papers/2016/1605.04965/metadata.yml
         - Standards:
           - "IEEE Standard 3079-2022": docs/papers/2022/2022.various.ieee_standard_for_assumptions/metadata.yml
         - Formal Methods:
