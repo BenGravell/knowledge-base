@@ -250,18 +250,9 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .mm-bento-group {
   min-width: 0;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   gap: 0.42rem;
 }
-.mm-bento-title {
-  margin: 0;
-  color: var(--md-default-fg-color);
-  font-size: 0.78rem;
-  font-weight: 900;
-  letter-spacing: 0;
-}
-.mm-bento-group--modifiers .mm-bento-title { color: var(--mm-modifier-accent); }
-.mm-bento-group--filters .mm-bento-title { color: var(--mm-filter-accent); }
 .mm-bento-grid {
   min-width: 0;
   min-height: 0;
@@ -497,6 +488,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   line-height: 1.1;
   white-space: nowrap;
 }
+.mm-detail-controls button {
+  display: grid;
+  place-items: center;
+}
 .mm-detail-controls button:hover,
 .mm-visibility-controls button:hover {
   color: var(--md-default-fg-color);
@@ -508,6 +503,48 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   border-color: var(--md-accent-fg-color);
   color: var(--md-default-fg-color);
   font-weight: 600;
+}
+.mm-detail-icon {
+  position: relative;
+  display: grid;
+  width: 1.45rem;
+  height: 1.45rem;
+  color: currentColor;
+}
+.mm-detail-dot {
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 18%, transparent);
+}
+.mm-detail-icon--die {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  align-items: center;
+  justify-items: center;
+}
+.mm-detail-icon--die-1 .mm-detail-dot:nth-child(1) { grid-area: 2 / 2; }
+.mm-detail-icon--die-2 .mm-detail-dot:nth-child(1) { grid-area: 2 / 1; }
+.mm-detail-icon--die-2 .mm-detail-dot:nth-child(2) { grid-area: 2 / 3; }
+.mm-detail-icon--die-3 .mm-detail-dot:nth-child(1) { grid-area: 1 / 2; }
+.mm-detail-icon--die-3 .mm-detail-dot:nth-child(2) { grid-area: 3 / 1; }
+.mm-detail-icon--die-3 .mm-detail-dot:nth-child(3) { grid-area: 3 / 3; }
+.mm-detail-icon--die-4 .mm-detail-dot:nth-child(1) { grid-area: 1 / 1; }
+.mm-detail-icon--die-4 .mm-detail-dot:nth-child(2) { grid-area: 1 / 3; }
+.mm-detail-icon--die-4 .mm-detail-dot:nth-child(3) { grid-area: 3 / 1; }
+.mm-detail-icon--die-4 .mm-detail-dot:nth-child(4) { grid-area: 3 / 3; }
+.mm-detail-icon--items {
+  width: 1.72rem;
+  height: 1.72rem;
+}
+.mm-detail-icon--items svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  pointer-events: none;
 }
 
 /* Categories */
@@ -853,8 +890,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 /* Stats */
 #mm-stats {
-  justify-self: end;
-  width: min(23rem, 100%);
+  justify-self: stretch;
+  width: 100%;
   box-sizing: border-box;
   margin-top: 0.62rem;
   padding: 0.62rem 0.84rem;
@@ -1154,8 +1191,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
       <div class="mm-settings-separator" aria-hidden="true"></div>
 
       <div class="mm-bento">
-        <section class="mm-bento-group mm-bento-group--modifiers" aria-labelledby="mm-modifiers-title">
-          <h4 id="mm-modifiers-title" class="mm-bento-title">Modifiers</h4>
+        <section class="mm-bento-group mm-bento-group--modifiers" aria-label="Modifiers">
           <div class="mm-bento-grid mm-bento-grid--modifiers">
             <div class="mm-section mm-section--detail mm-bento-tile mm-bento-tile--wide">
               <span class="mm-section-label">Level of Detail</span>
@@ -1175,8 +1211,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
           </div>
         </section>
 
-        <section class="mm-bento-group mm-bento-group--filters" aria-labelledby="mm-filters-title">
-          <h4 id="mm-filters-title" class="mm-bento-title">Filters</h4>
+        <section class="mm-bento-group mm-bento-group--filters" aria-label="Filters">
           <div class="mm-bento-grid mm-bento-grid--filters">
             <div class="mm-section mm-section--search mm-bento-tile mm-bento-tile--wide">
               <span class="mm-section-label">Search</span>

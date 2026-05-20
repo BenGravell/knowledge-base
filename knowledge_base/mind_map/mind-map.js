@@ -573,10 +573,10 @@
     return lines.length ? lines : [''];
   }
 
-  function limitLabelLines(lines) {
-    if (lines.length <= NODE_LABEL_MAX_LINES) return lines;
+  function limitLabelLines(lines, maxLines = NODE_LABEL_MAX_LINES) {
+    if (lines.length <= maxLines) return lines;
 
-    const limited = lines.slice(0, NODE_LABEL_MAX_LINES);
+    const limited = lines.slice(0, maxLines);
     const last = limited[limited.length - 1];
     limited[limited.length - 1] = last.length > NODE_LABEL_MAX_LINE_CHARS - 1
       ? `${last.slice(0, Math.max(1, NODE_LABEL_MAX_LINE_CHARS - 1))}...`
@@ -586,11 +586,26 @@
 
   function formatLabel(label) {
     const text = String(label || '').trim();
-    const m = text.match(/^(.+?)\s+(\d{4})$/);
-    const base = m ? m[1] : text;
-    const lines = wrapLabelLine(base, NODE_LABEL_MAX_LINE_CHARS);
-    if (m) lines.push(m[2]);
-    return limitLabelLines(lines).join('\n');
+    const explicitLines = text.split(/\n+/).map(line => line.trim()).filter(Boolean);
+    let suffixLine = null;
+    let base = text;
+
+    if (explicitLines.length > 1 && /^\d+$/.test(explicitLines[explicitLines.length - 1])) {
+      suffixLine = explicitLines.pop();
+      base = explicitLines.join(' ');
+    } else {
+      const m = text.match(/^(.+?)\s+(\d{4})$/);
+      if (m) {
+        base = m[1];
+        suffixLine = m[2];
+      }
+    }
+
+    if (!suffixLine) return limitLabelLines(wrapLabelLine(base, NODE_LABEL_MAX_LINE_CHARS)).join('\n');
+
+    const bodyLines = wrapLabelLine(base, NODE_LABEL_MAX_LINE_CHARS);
+    const limitedBody = limitLabelLines(bodyLines, NODE_LABEL_MAX_LINES - 1);
+    return limitedBody.concat(suffixLine).join('\n');
   }
 
   function filterKey(category, subCategory) {
@@ -3487,6 +3502,16 @@
     return { left, right, top, bottom, width: right - left, height: bottom - top };
   }
 
+  function applyTopOverlayOcclusion(rect, bounds, dims, pad, maxHeightRatio = PANEL_MAX_FOCUS_WIDTH_RATIO) {
+    if (!bounds || bounds.height >= dims.height * maxHeightRatio) return;
+
+    const centerX = (rect.left + rect.right) / 2;
+    const centerUnderOverlay = centerX >= bounds.left && centerX <= bounds.right;
+    if (!centerUnderOverlay || bounds.bottom <= rect.top) return;
+
+    rect.top = Math.max(rect.top, Math.min(bounds.bottom + pad, dims.height - pad));
+  }
+
   function usableCanvasRect(pad = VIEWPORT_PADDING) {
     const dims = renderer.getDimensions();
     const graphRect = graphContainer.getBoundingClientRect();
@@ -3506,18 +3531,10 @@
     if (panelBounds && panelBounds.left <= pad && panelBounds.width < dims.width * PANEL_MAX_FOCUS_WIDTH_RATIO) {
       rect.left = Math.max(rect.left, Math.min(panelBounds.right + pad, dims.width - pad));
     }
-    if (panelBounds && panelBounds.top <= pad && panelBounds.height < dims.height * PANEL_MAX_FOCUS_WIDTH_RATIO) {
-      rect.top = Math.max(rect.top, Math.min(panelBounds.bottom + pad, dims.height - pad));
-    }
+    applyTopOverlayOcclusion(rect, panelBounds, dims, pad);
 
     const headerBounds = overlayBounds(document.getElementById('mm-panel-header'), graphRect, dims);
-    if (headerBounds) {
-      const centerX = (rect.left + rect.right) / 2;
-      const centerUnderHeader = centerX >= headerBounds.left && centerX <= headerBounds.right;
-      if (centerUnderHeader && headerBounds.height < dims.height * 0.5) {
-        rect.top = Math.max(rect.top, Math.min(headerBounds.bottom + pad, dims.height - pad));
-      }
-    }
+    applyTopOverlayOcclusion(rect, headerBounds, dims, pad, 0.5);
 
     if (rect.right <= rect.left) {
       rect.left = Math.min(pad, dims.width / 2);
@@ -3908,6 +3925,26 @@
     syncTypeFilterControls();
   }
 
+  function detailLevelIconMarkup(level) {
+    const isItemLevel = level.id === 'paper' || !level.aggregate;
+    if (isItemLevel) {
+      return '<span class="mm-detail-icon mm-detail-icon--items" aria-hidden="true">' +
+        '<svg viewBox="0 0 24 24" focusable="false">' +
+        '<path d="M10 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12-8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-4 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm4-4c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-4-4c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-4-4c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>' +
+        '</svg>' +
+        '</span>';
+    }
+
+    const dotCount = Math.min(Math.max((Number(level.pathIndex) || 0) + 1, 1), 4);
+    return `<span class="mm-detail-icon mm-detail-icon--die mm-detail-icon--die-${dotCount}" aria-hidden="true">` +
+      Array.from({ length: dotCount }, () => '<span class="mm-detail-dot"></span>').join('') +
+      '</span>';
+  }
+
+  function detailControlLabel(level) {
+    return (level.id === 'paper' || !level.aggregate) ? 'Items' : level.label;
+  }
+
   function buildDetailControls() {
     const container = document.getElementById('mm-detail-controls');
     if (!container) return;
@@ -3915,12 +3952,13 @@
     container.innerHTML = '';
     DETAIL_CONTROL_LEVELS.forEach(level => {
       const button = document.createElement('button');
+      const label = detailControlLabel(level);
       button.type = 'button';
       button.dataset.level = level.id;
-      button.title = level.label;
-      button.setAttribute('aria-label', `Level of detail: ${level.label}`);
+      button.title = label;
+      button.setAttribute('aria-label', `Level of detail: ${label}`);
       button.setAttribute('aria-pressed', level.id === currentDetailLevel ? 'true' : 'false');
-      button.textContent = level.shortLabel || level.label;
+      button.innerHTML = detailLevelIconMarkup(level);
       container.appendChild(button);
     });
   }
