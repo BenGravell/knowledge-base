@@ -22,9 +22,8 @@ MIND_MAP_DIR = Path(__file__).resolve().parent
 
 PLACEHOLDER_DATA = (
     "const mindMapData = {"
-    'nodes:[], edges:[], meta:{'
-    'model:"none", threshold:0.75, top_k:5, '
-    'total_papers:0, total_edges:0'
+    'nodes:[], similarity:{scale:1, ids:[], rows:[]}, meta:{'
+    'model:"none", total_papers:0'
     "}};\n"
 )
 

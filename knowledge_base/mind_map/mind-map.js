@@ -13,27 +13,52 @@
   /* -------------------------------------------------------------------------
    * Hierarchy-aware category colours.
    *
-   * Black is reserved for uncategorized papers only. Categorized papers derive
+   * Black is reserved for uncategorized papers only. Static tree controls derive
    * their colour from the content-tree hierarchy:
    *   super-category -> distinct hue family
    *   sibling category -> slight hue/lightness variation
    *   sub-category -> smaller variation around its category
+   *
+   * Rendered nodes are recoloured dynamically from a fixed high-distinction
+   * palette based on the broadest branch split among the currently visible
+   * papers.
    * -------------------------------------------------------------------------*/
   const UNCATEGORIZED_CATEGORY = 'Uncategorized';
   const UNCATEGORIZED_CATEGORIES = new Set([UNCATEGORIZED_CATEGORY, 'Other']);
 
-  const SUPER_CATEGORY_PALETTE = [
-    { h: 213, s: 76, l: 42 },
-    { h: 152, s: 70, l: 35 },
-    { h:  31, s: 82, l: 43 },
-    { h: 271, s: 62, l: 44 },
-    { h: 334, s: 58, l: 44 },
-    { h:  12, s: 72, l: 42 },
-    { h: 188, s: 72, l: 36 },
-  ];
-  const categoryHslCache = new Map();
-  const categoryColorCache = new Map();
-  const subCategoryColorCache = new Map();
+  const WCAG_NORMAL_TEXT_CONTRAST = 4.5;
+  const NODE_LABEL_LIGHT = '#FFFFFF';
+  const NODE_LABEL_DARK = '#000000';
+  const VISIBILITY_BRANCH_PALETTES = {
+    light: [
+      '#005AB5',
+      '#A52A00',
+      '#00735C',
+      '#8F3B76',
+      '#8A5A00',
+      '#006A8E',
+      '#5E3C99',
+      '#6B4E16',
+      '#005F73',
+      '#9B2226',
+      '#3A6B15',
+      '#7B3294',
+    ],
+    dark: [
+      '#6BB6FF',
+      '#FF9B5C',
+      '#5FE0B5',
+      '#F39BD4',
+      '#F6C85F',
+      '#8EDAEF',
+      '#C6A4FF',
+      '#D6B46D',
+      '#7CD9D0',
+      '#FF8A94',
+      '#A7D96D',
+      '#D6A0F7',
+    ],
+  };
 
   /* -------------------------------------------------------------------------
    * Guard: dependencies and data must be present
@@ -77,8 +102,6 @@
   const NODE_LABEL_ZOOM_SCALE_MIN = 0.68;
   const NODE_LABEL_ZOOM_SCALE_MAX = 1.55;
   const SELECTED_NODE_RADIUS_SCALE = 1;
-  const EDGE_NODE_DIAMETER_RATIO = 0.30;
-  const MIN_EDGE_THICKNESS = 1;
   const DEFAULT_RELEVANCE_SIMILARITY = 0.78;
   const DEFAULT_RELEVANCE_TREE_DISTANCE = 4;
   const MAX_ANIMATED_TRANSITION_NODES = 90;
@@ -92,10 +115,13 @@
   const categorySuperCategoryLookup = new Map();
   const categoryOrderCache = { value: null };
   const superCategoryOrderCache = { value: null };
+  const stableBranchLabelCache = new Map();
+  const NAV_PATH_ORDER = ((DATA.meta || {}).navPathOrder || [])
+    .filter(path => Array.isArray(path))
+    .map(path => path.map(part => String(part || '').trim()).filter(Boolean))
+    .filter(path => path.length);
   const navPathOrderIndex = new Map(
-    ((DATA.meta || {}).navPathOrder || [])
-      .map((path, index) => [Array.isArray(path) ? path.join('::') : '', index])
-      .filter(([path]) => path)
+    NAV_PATH_ORDER.map((path, index) => [path.join('::'), index])
   );
   const HIERARCHY_LEVELS = buildHierarchyLevels();
   const HIERARCHY_LEVEL_BY_ID = new Map(HIERARCHY_LEVELS.map(level => [level.id, level]));
@@ -110,7 +136,6 @@
    * -------------------------------------------------------------------------*/
   let graph = null;
   let renderer = null;
-  let currentThreshold = DATA.meta.threshold;
   let currentDetailLevel = HIERARCHY_LEVELS[0].id;
   let expandedAggregateNodes = new Set();
   let activeCategories = new Set();
@@ -125,12 +150,11 @@
     treeProximity: null,
   };
   let showNodeLabels = true;
-  let showEdges = true;
   let currentSearch = '';
   let pinnedNode = null;
   let hoveredNode = null;
   let hoverTooltipNode = null;
-  let focus = { active: false, nodes: new Set(), edges: new Set(), mode: null };
+  let focus = { active: false, nodes: new Set(), mode: null };
   let theme = readTheme();
   let hierarchyData = null;
   let maxTreeDistanceCache = null;
@@ -142,11 +166,10 @@
   let lastLevelTransitionMetrics = null;
   let cachedPaperNodeRadius = PAPER_NODE_RADIUS_TARGET;
   let visibleNodes = null;
-  let visibleEdges = null;
   let childNodesByParent = new Map();
   let visibleNodeCount = 0;
-  let visibleEdgeCount = 0;
   let searchMatchCount = 0;
+  let visibilityColorContext = null;
 
   /* -------------------------------------------------------------------------
    * Utility
@@ -156,62 +179,8 @@
     if (el) el.style.display = 'none';
   }
 
-  function nodeColor(category, subCategory) {
-    if (isUncategorizedCategory(category)) return '#000000';
-
-    if (subCategory) {
-      const key = `${category}::${subCategory}`;
-      if (!subCategoryColorCache.has(key)) {
-        subCategoryColorCache.set(key, hslToHex(subCategoryHsl(category, subCategory)));
-      }
-      return subCategoryColorCache.get(key);
-    }
-
-    if (!categoryColorCache.has(category)) {
-      categoryColorCache.set(category, hslToHex(categoryHsl(category)));
-    }
-    return categoryColorCache.get(category);
-  }
-
   function isUncategorizedCategory(category) {
     return !category || UNCATEGORIZED_CATEGORIES.has(category);
-  }
-
-  function categoryHsl(category) {
-    if (categoryHslCache.has(category)) return categoryHslCache.get(category);
-
-    const superCategory = categorySuperCategory(category) || category;
-    const base = superCategoryHsl(superCategory);
-    const siblings = categoriesForSuper(superCategory, category);
-    const index = Math.max(siblings.indexOf(category), 0);
-    const center = (siblings.length - 1) / 2;
-    const hueStep = siblings.length > 1 ? Math.min(7, 18 / (siblings.length - 1)) : 0;
-    const hsl = {
-      h: normalizeHue(base.h + (index - center) * hueStep),
-      s: clamp(base.s + (index % 2 === 0 ? 2 : -2), 48, 86),
-      l: clamp(base.l + (index - center) * 2.2, 32, 58),
-    };
-
-    categoryHslCache.set(category, hsl);
-    return hsl;
-  }
-
-  function subCategoryHsl(category, subCategory) {
-    const base = categoryHsl(category);
-    const subCategoryOrder = (DATA.meta || {}).subCategoryOrder || {};
-    const ordered = (subCategoryOrder[category] || []).filter(Boolean);
-    const siblings = ordered.includes(subCategory)
-      ? ordered
-      : ordered.concat(subCategory).sort((a, b) => a.localeCompare(b));
-    const index = Math.max(siblings.indexOf(subCategory), 0);
-    const center = (siblings.length - 1) / 2;
-    const hueStep = siblings.length > 1 ? Math.min(4, 14 / (siblings.length - 1)) : 0;
-
-    return {
-      h: normalizeHue(base.h + (index - center) * hueStep),
-      s: clamp(base.s + (index % 2 === 0 ? 3 : -3), 45, 88),
-      l: clamp(base.l + (index - center) * 1.5 + (index % 2 === 0 ? 1 : -1), 32, 60),
-    };
   }
 
   function categorySuperCategory(category) {
@@ -274,95 +243,91 @@
     return ordered;
   }
 
-  function superCategoryHsl(superCategory) {
-    const order = superCategoryOrder();
-    const index = Math.max(order.indexOf(superCategory), 0);
-    const paletteIndex = index % SUPER_CATEGORY_PALETTE.length;
-    const cycle = Math.floor(index / SUPER_CATEGORY_PALETTE.length);
-    const base = SUPER_CATEGORY_PALETTE[paletteIndex];
-
-    return {
-      h: normalizeHue(base.h + cycle * 19),
-      s: base.s,
-      l: base.l,
-    };
-  }
-
-  function superCategoryColor(superCategory) {
-    return hslToHex(superCategoryHsl(superCategory));
-  }
-
-  function categoriesForSuper(superCategory, currentCategory) {
-    const siblings = categoryOrder().filter(cat =>
-      (categorySuperCategory(cat) || cat) === superCategory
-    );
-
-    if (!siblings.includes(currentCategory)) siblings.push(currentCategory);
-    return siblings;
-  }
-
   function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
   }
 
-  function normalizeHue(hue) {
-    return ((hue % 360) + 360) % 360;
-  }
-
-  function hslToHex({ h, s, l }) {
-    const hue = normalizeHue(h) / 360;
-    const sat = clamp(s, 0, 100) / 100;
-    const light = clamp(l, 0, 100) / 100;
-
-    if (sat === 0) {
-      const gray = Math.round(light * 255);
-      return rgbToHex(gray, gray, gray);
+  function hexToRgb(hexColor) {
+    const color = normalizedCssColor(hexColor);
+    let m;
+    if ((m = String(color || '').match(/^#([0-9a-f]{3})$/i))) {
+      const hex = m[1].split('').map(ch => ch + ch).join('');
+      return {
+        r: parseInt(hex.slice(0, 2), 16),
+        g: parseInt(hex.slice(2, 4), 16),
+        b: parseInt(hex.slice(4, 6), 16),
+      };
     }
-
-    const q = light < 0.5
-      ? light * (1 + sat)
-      : light + sat - light * sat;
-    const p = 2 * light - q;
-    const r = hueToRgb(p, q, hue + 1 / 3);
-    const g = hueToRgb(p, q, hue);
-    const b = hueToRgb(p, q, hue - 1 / 3);
-
-    return rgbToHex(
-      Math.round(r * 255),
-      Math.round(g * 255),
-      Math.round(b * 255)
-    );
+    if ((m = String(color || '').match(/^#([0-9a-f]{6})$/i))) {
+      const hex = m[1];
+      return {
+        r: parseInt(hex.slice(0, 2), 16),
+        g: parseInt(hex.slice(2, 4), 16),
+        b: parseInt(hex.slice(4, 6), 16),
+      };
+    }
+    return null;
   }
 
-  function hueToRgb(p, q, t) {
-    let next = t;
-    if (next < 0) next += 1;
-    if (next > 1) next -= 1;
-    if (next < 1 / 6) return p + (q - p) * 6 * next;
-    if (next < 1 / 2) return q;
-    if (next < 2 / 3) return p + (q - p) * (2 / 3 - next) * 6;
-    return p;
+  function linearizedSrgb(channel) {
+    const c = clamp(channel, 0, 255) / 255;
+    return c <= 0.03928
+      ? c / 12.92
+      : Math.pow((c + 0.055) / 1.055, 2.4);
   }
 
-  function rgbToHex(r, g, b) {
-    const toHex = value => value.toString(16).padStart(2, '0').toUpperCase();
-    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+  function relativeLuminance(color) {
+    const rgb = hexToRgb(color);
+    if (!rgb) return null;
+
+    return 0.2126 * linearizedSrgb(rgb.r) +
+      0.7152 * linearizedSrgb(rgb.g) +
+      0.0722 * linearizedSrgb(rgb.b);
+  }
+
+  function contrastRatio(a, b) {
+    const la = relativeLuminance(a);
+    const lb = relativeLuminance(b);
+    if (la === null || lb === null) return 1;
+
+    const lighter = Math.max(la, lb);
+    const darker = Math.min(la, lb);
+    return (lighter + 0.05) / (darker + 0.05);
+  }
+
+  function accessibleNodeLabelColor(nodeColorValue) {
+    const lightContrast = contrastRatio(nodeColorValue, NODE_LABEL_LIGHT);
+    const darkContrast = contrastRatio(nodeColorValue, NODE_LABEL_DARK);
+    const best = lightContrast >= darkContrast ? NODE_LABEL_LIGHT : NODE_LABEL_DARK;
+    const bestContrast = Math.max(lightContrast, darkContrast);
+
+    if (bestContrast >= WCAG_NORMAL_TEXT_CONTRAST) return best;
+    return theme && theme.colorScheme === 'dark' ? NODE_LABEL_LIGHT : NODE_LABEL_DARK;
+  }
+
+  function currentColorScheme() {
+    const explicit = (
+      document.body && document.body.getAttribute('data-md-color-scheme')
+    ) || document.documentElement.getAttribute('data-md-color-scheme');
+    if (explicit === 'slate') return 'dark';
+    if (explicit === 'default') return 'light';
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    return 'light';
+  }
+
+  function currentVisibilityPalette() {
+    return VISIBILITY_BRANCH_PALETTES[currentColorScheme()] || VISIBILITY_BRANCH_PALETTES.light;
   }
 
   function readTheme() {
     const cs = getComputedStyle(document.body);
     const v = name => cs.getPropertyValue(name).trim();
-    const alphaScale = parseFloat(v('--mm-edge-alpha-scale')) || 1;
     return {
-      edgeColor: v('--mm-edge-color') || '#333333',
-      edgeHighlighted: normalizedCssColor(v('--mm-edge-highlighted')) || '#D9A316',
-      edgeAlphaScale: alphaScale,
-      edgeAlphaMin: parseFloat(v('--mm-edge-alpha-min')) || 0,
-      edgeAlphaMax: parseFloat(v('--mm-edge-alpha-max')) || 0.22,
+      colorScheme: currentColorScheme(),
       nodeMuted: normalizedCssColor(v('--mm-node-muted')) || '#8A949E',
       nodeMutedRelated: normalizedCssColor(v('--mm-node-muted-related')) || '#737D88',
-      mutedLabel: normalizedCssColor(v('--mm-muted-label')) || '#4B5563',
-      selectedLabel: normalizedCssColor(v('--mm-selected-label')) || '#111111',
       selectedRing: normalizedCssColor(v('--mm-selected-ring')) || '#D9A316',
     };
   }
@@ -504,51 +469,6 @@
         : aggregateNodeSize(attrs.count, attrs.detailLevel);
     }
     return currentNodeRadius();
-  }
-
-  function edgeDisplaySize(weight, attrs) {
-    const numericWeight = Number(weight);
-    const t = Number.isFinite(numericWeight)
-      ? Math.max(0, Math.min((numericWeight - 0.5) / 0.5, 1))
-      : 0.5;
-    const referenceRadius = edgeReferenceNodeRadius(attrs);
-    const targetWidth = referenceRadius * 2 * EDGE_NODE_DIAMETER_RATIO;
-
-    if (attrs && attrs.kind === 'aggregate') {
-      const countBoost = Math.log1p(Number(attrs.aggregateCount) || 1) * 0.035;
-      return Math.max(targetWidth * (0.88 + t * 0.18 + countBoost), MIN_EDGE_THICKNESS);
-    }
-
-    return Math.max(targetWidth * (0.9 + t * 0.2), MIN_EDGE_THICKNESS);
-  }
-
-  function edgeReferenceNodeRadius(attrs) {
-    if (!attrs || attrs.kind !== 'aggregate') return currentNodeRadius();
-
-    if (Number.isFinite(attrs.referenceNodeRadius)) {
-      return attrs.referenceNodeRadius;
-    }
-
-    if (attrs && graph && attrs.source && attrs.target && graphHasNode(attrs.source) && graphHasNode(attrs.target)) {
-      const source = graph.getNodeAttributes(attrs.source);
-      const target = graph.getNodeAttributes(attrs.target);
-      attrs.referenceNodeRadius = (nodeDisplaySize(source) + nodeDisplaySize(target)) / 2;
-      return attrs.referenceNodeRadius;
-    }
-
-    return aggregateNodeSize(1, attrs.detailLevel);
-  }
-
-  function edgeAlpha(attrs) {
-    const baseAlpha = Math.min(
-      Math.max((attrs.edgeAlpha || 0.2) * theme.edgeAlphaScale, theme.edgeAlphaMin),
-      theme.edgeAlphaMax
-    );
-    const density = visibleNodeCount > 0 ? visibleEdgeCount / visibleNodeCount : 1;
-    const densityScale = clamp(Math.sqrt(2.8 / Math.max(density, 0.25)), 0.82, 1.12);
-    const levelScale = attrs.kind === 'aggregate' ? 1.12 : 1;
-
-    return Math.min(Math.max(baseAlpha * densityScale * levelScale, theme.edgeAlphaMin), theme.edgeAlphaMax);
   }
 
   /* -------------------------------------------------------------------------
@@ -724,6 +644,14 @@
     return relevanceFilter.enabled && Boolean(selectedRelevanceEgo());
   }
 
+  function setSelectedNodeFilterEnabled(enabled) {
+    const nextEnabled = Boolean(enabled);
+    if (relevanceFilter.enabled === nextEnabled) return;
+
+    relevanceFilter.enabled = nextEnabled;
+    syncRelevanceControlValues();
+  }
+
   function relevanceTreeThreshold() {
     return Number.isFinite(relevanceFilter.treeProximity)
       ? relevanceFilter.treeProximity
@@ -815,6 +743,12 @@
     return !evaluation.active || evaluation.allowedPaperIds.has(paperId);
   }
 
+  function paperAllowedByCurrentFilters(attrs) {
+    if (!attrs || !paperAllowedByRelevance(attrs.id)) return false;
+    if (!activeCategories.has(nodeKey(attrs))) return false;
+    return activeItemTypes.has(itemTypeKey(attrs));
+  }
+
   function nodeAllowedByRelevance(attrs) {
     if (!relevanceFilterActive()) return true;
     const evaluation = relevanceEvaluation();
@@ -826,15 +760,218 @@
     return evaluation.allowedPaperIds.has(attrs.id);
   }
 
-  function branchColorForPath(path, index) {
-    const superCategory = path[0] || UNCATEGORIZED_CATEGORY;
-    const category = path[1] || superCategory;
-    const label = path[index] || category;
+  function visiblePaperPathsForColoring() {
+    const paperIds = new Set();
 
+    if (!graph || !visibleNodes) return [];
+
+    visibleNodes.forEach(node => {
+      const attrs = graph.getNodeAttributes(node);
+      if (attrs.kind === 'paper') {
+        if (paperAllowedByCurrentFilters(attrs)) paperIds.add(attrs.id);
+        return;
+      }
+
+      (attrs.leafIds || []).forEach(paperId => {
+        const paper = paperData(paperId);
+        if (paperAllowedByCurrentFilters(paper)) paperIds.add(paperId);
+      });
+    });
+
+    return [...paperIds]
+      .map(paperId => paperData(paperId))
+      .filter(Boolean)
+      .map(attrs => paperNavPath(attrs));
+  }
+
+  function commonPathPrefix(paths) {
+    if (!paths.length) return [];
+
+    const prefix = [];
+    const limit = Math.min(...paths.map(path => path.length));
+    for (let i = 0; i < limit; i += 1) {
+      const value = paths[0][i];
+      if (!paths.every(path => path[i] === value)) break;
+      prefix.push(value);
+    }
+    return prefix;
+  }
+
+  function pathBranchLabel(path, depth) {
+    if (!path || !path.length) return UNCATEGORIZED_CATEGORY;
+    if (depth < path.length) return path[depth] || UNCATEGORIZED_CATEGORY;
+    return path[path.length - 1] || UNCATEGORIZED_CATEGORY;
+  }
+
+  function branchOrder(path) {
+    const key = (path || []).join('::');
+    return navPathOrderIndex.has(key)
+      ? navPathOrderIndex.get(key)
+      : Number.MAX_SAFE_INTEGER;
+  }
+
+  function orderedVisibleBranchLabels(paths, depth, prefix) {
+    const branches = new Map();
+
+    paths.forEach(path => {
+      const label = pathBranchLabel(path, depth);
+      if (!label) return;
+
+      const branchPath = depth < path.length
+        ? path.slice(0, depth + 1)
+        : (prefix || []).concat(label);
+      const order = branchOrder(branchPath);
+      const existing = branches.get(label);
+      if (!existing || order < existing.order) {
+        branches.set(label, { label, order });
+      }
+    });
+
+    return [...branches.values()]
+      .sort((a, b) => a.order - b.order || a.label.localeCompare(b.label))
+      .map(branch => branch.label);
+  }
+
+  function pathStartsWith(path, prefix) {
+    return prefix.every((part, index) => path[index] === part);
+  }
+
+  function stableBranchLabelsForParent(depth, parentPrefix) {
+    const cacheKey = `${depth}:${(parentPrefix || []).join('::')}`;
+    if (stableBranchLabelCache.has(cacheKey)) {
+      return stableBranchLabelCache.get(cacheKey).slice();
+    }
+
+    const branches = new Map();
+
+    function addPath(path, orderHint = Number.MAX_SAFE_INTEGER) {
+      if (!Array.isArray(path) || path.length <= depth) return;
+      if (!pathStartsWith(path, parentPrefix)) return;
+
+      const label = pathBranchLabel(path, depth);
+      if (!label) return;
+
+      const branchPath = path.slice(0, depth + 1);
+      const order = Math.min(branchOrder(branchPath), orderHint);
+      const existing = branches.get(label);
+      if (!existing || order < existing.order) {
+        branches.set(label, { label, order });
+      }
+    }
+
+    NAV_PATH_ORDER.forEach((path, index) => addPath(path, index));
+    DATA.nodes.forEach(node => addPath(paperNavPath(node.data || {})));
+
+    const labels = [...branches.values()]
+      .sort((a, b) => a.order - b.order || a.label.localeCompare(b.label))
+      .map(branch => branch.label);
+    stableBranchLabelCache.set(cacheKey, labels);
+    return labels.slice();
+  }
+
+  function orderedStableBranchLabels(paths, depth, prefix) {
+    const parentPrefix = (prefix || []).slice(0, depth);
+    const visibleLabels = new Set(orderedVisibleBranchLabels(paths, depth, prefix));
+    const labels = stableBranchLabelsForParent(depth, parentPrefix);
+
+    visibleLabels.forEach(label => {
+      if (!labels.includes(label)) labels.push(label);
+    });
+
+    return labels;
+  }
+
+  function stableColorForPath(rawPath, preferredDepth = null) {
+    const path = (Array.isArray(rawPath) ? rawPath : [])
+      .map(part => String(part || '').trim())
+      .filter(Boolean);
+    if (!path.length) return '#000000';
+
+    const category = path[1] || path[0];
     if (isUncategorizedCategory(category)) return '#000000';
-    if (index === 0) return superCategoryColor(superCategory);
-    if (index === 1) return nodeColor(category);
-    return nodeColor(category, label);
+
+    const maxDepth = path.length - 1;
+    const depth = Number.isFinite(preferredDepth)
+      ? clamp(Math.floor(preferredDepth), 0, maxDepth)
+      : maxDepth;
+    const labels = orderedStableBranchLabels([path], depth, path.slice(0, depth));
+    const label = pathBranchLabel(path, depth);
+    const index = Math.max(labels.indexOf(label), 0);
+    const palette = currentVisibilityPalette();
+
+    return palette[index % palette.length];
+  }
+
+  function visibilityColorDepth(paths, commonPrefix) {
+    const maxDepth = Math.max(0, ...paths.map(path => path.length));
+
+    for (let depth = commonPrefix.length; depth < maxDepth; depth += 1) {
+      if (orderedVisibleBranchLabels(paths, depth, commonPrefix).length > 1) {
+        return depth;
+      }
+    }
+
+    return Math.max(0, Math.min(commonPrefix.length, maxDepth) - 1);
+  }
+
+  function buildVisibilityColorContext() {
+    const paths = visiblePaperPathsForColoring();
+    if (!paths.length) {
+      return {
+        depth: 0,
+        prefix: [],
+        colorByLabel: new Map(),
+      };
+    }
+
+    const prefix = commonPathPrefix(paths);
+    const depth = visibilityColorDepth(paths, prefix);
+    const labels = orderedStableBranchLabels(paths, depth, prefix);
+    const colorByLabel = new Map();
+    const palette = currentVisibilityPalette();
+
+    labels.forEach((label, index) => {
+      colorByLabel.set(label, palette[index % palette.length]);
+    });
+
+    return { depth, prefix, colorByLabel };
+  }
+
+  function nodePathForColor(attrs) {
+    return attrs.kind === 'aggregate'
+      ? paperNavPath(attrs)
+      : paperNavPath(attrs);
+  }
+
+  function fallbackNodeColor(attrs) {
+    return stableColorForPath(nodePathForColor(attrs));
+  }
+
+  function visibilityColorForNode(attrs) {
+    const path = nodePathForColor(attrs);
+    const category = path[1] || attrs.category || path[0];
+    if (isUncategorizedCategory(category)) return '#000000';
+    if (!visibilityColorContext) return fallbackNodeColor(attrs);
+
+    const label = pathBranchLabel(path, visibilityColorContext.depth);
+    return visibilityColorContext.colorByLabel.get(label) ||
+      stableColorForPath(path, visibilityColorContext.depth);
+  }
+
+  function recomputeVisibilityColors() {
+    if (!graph) return;
+
+    visibilityColorContext = buildVisibilityColorContext();
+    graph.forEachNode((node, attrs) => {
+      const color = visibilityColorForNode(attrs);
+      graph.setNodeAttribute(node, 'baseColor', color);
+      graph.setNodeAttribute(node, 'color', color);
+      graph.setNodeAttribute(node, 'labelOutlineColor', color);
+    });
+  }
+
+  function branchColorForPath(path, index) {
+    return stableColorForPath(path, index);
   }
 
   function groupId(level, parts) {
@@ -1010,73 +1147,6 @@
     };
   }
 
-  function edgeAccumulatorToData(edgeMap, idPrefix, detailLevel, edgeAlpha = 0.24) {
-    return [...edgeMap.values()]
-      .sort((a, b) => `${a.source}${a.target}`.localeCompare(`${b.source}${b.target}`))
-      .map((edge, index) => {
-        const meanWeight = edge.count ? edge.weightSum / edge.count : edge.maxWeight;
-        return {
-          data: {
-            id: `${idPrefix}:${index}`,
-            kind: 'aggregate',
-            detailLevel,
-            source: edge.source,
-            target: edge.target,
-            weight: Math.round(edge.maxWeight * 10000) / 10000,
-            meanWeight: Math.round(meanWeight * 10000) / 10000,
-            aggregateCount: edge.count,
-            undirected: true,
-            edgeAlpha,
-          },
-        };
-      });
-  }
-
-  function accumulateAggregateEdge(edgeMap, source, target, weight) {
-    if (!source || !target || source === target) return;
-
-    const orderedSource = source < target ? source : target;
-    const orderedTarget = source < target ? target : source;
-    const key = `${orderedSource}||${orderedTarget}`;
-    let aggregate = edgeMap.get(key);
-
-    if (!aggregate) {
-      aggregate = {
-        source: orderedSource,
-        target: orderedTarget,
-        maxWeight: weight,
-        weightSum: 0,
-        count: 0,
-      };
-      edgeMap.set(key, aggregate);
-    }
-
-    aggregate.maxWeight = Math.max(aggregate.maxWeight, weight);
-    aggregate.weightSum += weight;
-    aggregate.count += 1;
-  }
-
-  function buildLevelAggregateEdges(paperAncestors) {
-    const edges = [];
-
-    HIERARCHY_LEVELS
-      .filter(level => level.aggregate)
-      .forEach(level => {
-        const edgeMap = new Map();
-
-        DATA.edges.forEach(edge => {
-          const attrs = edge.data;
-          const source = paperAncestors[attrs.source] && paperAncestors[attrs.source][level.id];
-          const target = paperAncestors[attrs.target] && paperAncestors[attrs.target][level.id];
-          accumulateAggregateEdge(edgeMap, source, target, Number(attrs.weight) || 0);
-        });
-
-        edges.push(...edgeAccumulatorToData(edgeMap, `agg-edge:${level.id}`, level.id));
-      });
-
-    return edges;
-  }
-
   function buildHierarchyData() {
     if (hierarchyData) return hierarchyData;
 
@@ -1086,7 +1156,6 @@
     const groupsByLevel = Object.fromEntries(branchLevels.map(level => [level.id, []]));
     const paperAncestors = {};
     const aggregateNodes = [];
-    const aggregateEdges = [];
 
     DATA.nodes.forEach(paperNode => {
       const attrs = paperNode.data;
@@ -1136,15 +1205,12 @@
         groups.forEach(group => aggregateNodes.push(buildAggregateNode(group, level.id)));
       });
 
-    aggregateEdges.push(...buildLevelAggregateEdges(paperAncestors));
-
     hierarchyData = {
       roots,
       levels: HIERARCHY_LEVELS,
       groupsByLevel,
       paperAncestors,
       nodes: aggregateNodes,
-      edges: aggregateEdges,
     };
     return hierarchyData;
   }
@@ -1186,23 +1252,6 @@
     return visibleNodes ? visibleNodes.has(node) : nodeVisibleAt(node, currentDetailLevel);
   }
 
-  function rawEdgeVisible(edge) {
-    if (!showEdges) return false;
-
-    const attrs = graph.getEdgeAttributes(edge);
-    if (attrs.weight < currentThreshold) return false;
-
-    const source = graph.source(edge);
-    const target = graph.target(edge);
-    return visibleNodes
-      ? visibleNodes.has(source) && visibleNodes.has(target)
-      : nodeVisibleAt(source, currentDetailLevel) && nodeVisibleAt(target, currentDetailLevel);
-  }
-
-  function edgeVisible(edge) {
-    return visibleEdges ? visibleEdges.has(edge) : rawEdgeVisible(edge);
-  }
-
   function nodeMatchesSearch(attrs) {
     if (!currentSearch) return false;
     if (attrs.searchText) return attrs.searchText.includes(currentSearch);
@@ -1220,7 +1269,7 @@
   }
 
   /* -------------------------------------------------------------------------
-   * Build the Graphology graph. Sigma renders directly from node/edge attrs.
+   * Build the Graphology graph. Sigma renders directly from node attrs.
    * -------------------------------------------------------------------------*/
   function buildGraph() {
     const g = window.graphology.UndirectedGraph ?
@@ -1233,7 +1282,7 @@
       const attrs = n.data;
       const kind = attrs.kind || 'paper';
       const detailLevel = attrs.detailLevel || 'paper';
-      const color = attrs.color || nodeColor(attrs.category, attrs.sub_category);
+      const color = attrs.color || stableColorForPath(paperNavPath(attrs));
       const staticSize = kind === 'aggregate'
         ? aggregateNodeSize(attrs.count, detailLevel)
         : null;
@@ -1258,10 +1307,11 @@
         size: kind === 'aggregate' ? staticSize : currentNodeRadius(),
         color,
         baseColor: color,
+        staticBaseColor: color,
         label: formatLabel(attrs.label),
         fullLabel: attrs.fullLabel || attrs.label,
         count: attrs.count || 1,
-        labelColor: '#ffffff',
+        labelColor: accessibleNodeLabelColor(color),
         labelOutlineColor: color,
         forceLabel: false,
       });
@@ -1270,25 +1320,6 @@
         if (!childIndex.has(parentId)) childIndex.set(parentId, []);
         childIndex.get(parentId).push(attrs.id);
       }
-    });
-
-    DATA.edges.concat(hierarchy.edges).forEach(e => {
-      const attrs = e.data;
-      const kind = attrs.kind || 'paper';
-      const detailLevel = attrs.detailLevel || 'paper';
-      const edgeAttrs = {
-        ...attrs,
-        kind,
-        detailLevel,
-        size: edgeDisplaySize(attrs.weight, { ...attrs, kind, detailLevel }),
-        color: colorWithAlpha(theme.edgeColor, edgeAlpha({ ...attrs, kind, detailLevel })),
-        type: 'line',
-      };
-
-      if (typeof g.addUndirectedEdgeWithKey !== 'function') {
-        throw new Error('Mind map graph must support undirected edges.');
-      }
-      g.addUndirectedEdgeWithKey(attrs.id, attrs.source, attrs.target, edgeAttrs);
     });
 
     childNodesByParent = childIndex;
@@ -1321,7 +1352,7 @@
         label,
         size,
         color: mutedColor,
-        labelColor: theme.mutedLabel,
+        labelColor: accessibleNodeLabelColor(mutedColor),
         labelOutlineColor: colorWithAlpha(mutedColor, 0.55),
         forceLabel,
         zIndex: baseZIndex + (highlighted ? 20 : 0),
@@ -1334,7 +1365,7 @@
         label,
         size: size * SELECTED_NODE_RADIUS_SCALE,
         color: attrs.baseColor,
-        labelColor: theme.selectedLabel,
+        labelColor: accessibleNodeLabelColor(attrs.baseColor),
         labelOutlineColor: theme.selectedRing,
         ringColor: theme.selectedRing,
         highlighted: true,
@@ -1348,45 +1379,11 @@
       label,
       size,
       color: attrs.baseColor,
-      labelColor: '#ffffff',
+      labelColor: accessibleNodeLabelColor(attrs.baseColor),
       labelOutlineColor: attrs.baseColor,
       highlighted: false,
       forceLabel,
       zIndex: baseZIndex,
-    };
-  }
-
-  function edgeReducer(edge, attrs) {
-    if (!edgeVisible(edge)) return { ...attrs, hidden: true };
-
-    const highlighted = focus.edges.has(edge);
-    const dimmed = focus.active && !highlighted;
-    const baseAlpha = edgeAlpha(attrs);
-    const size = edgeDisplaySize(attrs.weight, attrs);
-
-    if (dimmed) {
-      return {
-        ...attrs,
-        color: colorWithAlpha(theme.edgeColor, Math.max(theme.edgeAlphaMin * 0.7, 0.018)),
-        size: Math.max(size * 0.35, MIN_EDGE_THICKNESS),
-        zIndex: 0,
-      };
-    }
-
-    if (highlighted) {
-      return {
-        ...attrs,
-        color: theme.edgeHighlighted,
-        size: Math.max(size * 1.25, MIN_EDGE_THICKNESS),
-        zIndex: 2,
-      };
-    }
-
-    return {
-      ...attrs,
-      color: colorWithAlpha(theme.edgeColor, baseAlpha),
-      size: Math.max(size, MIN_EDGE_THICKNESS),
-      zIndex: 1,
     };
   }
 
@@ -1519,17 +1516,8 @@
    * -------------------------------------------------------------------------*/
   function setNeighborhoodFocus(node, mode) {
     const nodes = new Set([node]);
-    const edges = new Set();
 
-    graph.forEachNeighbor(node, neighbor => {
-      if (nodeVisible(neighbor)) nodes.add(neighbor);
-    });
-
-    graph.forEachEdge(node, edge => {
-      if (edgeVisible(edge)) edges.add(edge);
-    });
-
-    focus = { active: true, nodes, edges, mode };
+    focus = { active: true, nodes, mode };
   }
 
   function applySearchFocus() {
@@ -1549,7 +1537,6 @@
     focus = {
       active: currentSearch.length > 0,
       nodes,
-      edges: new Set(),
       mode: currentSearch.length > 0 ? 'search' : null,
     };
   }
@@ -1576,25 +1563,6 @@
     searchMatchCount = matches;
   }
 
-  function recomputeVisibleEdges() {
-    const edges = new Set();
-
-    if (!graph || !showEdges) {
-      visibleEdges = edges;
-      visibleEdgeCount = 0;
-      return;
-    }
-
-    graph.forEachEdge((edge, attrs) => {
-      if (attrs.weight < currentThreshold) return;
-      if (!visibleNodes.has(graph.source(edge)) || !visibleNodes.has(graph.target(edge))) return;
-      edges.add(edge);
-    });
-
-    visibleEdges = edges;
-    visibleEdgeCount = edges.size;
-  }
-
   function recomputeFocus() {
     if (pinnedNode) {
       setNeighborhoodFocus(pinnedNode, 'pinned');
@@ -1608,7 +1576,7 @@
   function refreshView() {
     recomputeVisibleNodes();
     cachedPaperNodeRadius = paperNodeRadiusForCurrentView();
-    recomputeVisibleEdges();
+    recomputeVisibilityColors();
     recomputeFocus();
     if (renderer) renderer.scheduleRefresh();
     updateStats();
@@ -1868,6 +1836,7 @@
 
     expandedAggregateNodes.add(node);
     pinnedNode = null;
+    setSelectedNodeFilterEnabled(false);
     hoveredNode = null;
     hideHoverTooltip();
     hideTooltip();
@@ -1889,11 +1858,8 @@
         minCameraRatio: 0.04,
         maxCameraRatio: 6,
         zIndex: true,
-        enableEdgeEvents: false,
-        hideEdgesOnMove: true,
         hideLabelsOnMove: false,
         renderLabels: true,
-        renderEdgeLabels: false,
         enableCameraRotation: false,
         labelRenderedSizeThreshold: 14,
         labelDensity: 0.08,
@@ -1901,11 +1867,9 @@
         labelFont: '"Atkinson Hyperlegible Next", "Segoe UI", sans-serif',
         labelSize: NODE_LABEL_FONT_SIZE,
         itemSizesReference: 'positions',
-        minEdgeThickness: MIN_EDGE_THICKNESS,
         zoomToSizeRatioFunction: ratio => Math.max(ratio, 1e-6),
         stagePadding: 30,
         nodeReducer,
-        edgeReducer,
         defaultDrawNodeLabel: drawNodeLabelNoop,
         defaultDrawNodeHover: drawNodeHover,
       });
@@ -1972,12 +1936,14 @@
 
       if (pinnedNode === node) {
         pinnedNode = null;
+        setSelectedNodeFilterEnabled(false);
         hoveredNode = null;
         hideHoverTooltip();
         hideTooltip();
         hidePaperModal();
       } else {
         pinnedNode = node;
+        setSelectedNodeFilterEnabled(attrs.kind === 'paper');
         hoveredNode = null;
         hideHoverTooltip();
         showNodeTooltip(node, nodeTooltipPosition(node) || eventPosition(payload), true);
@@ -1988,6 +1954,7 @@
 
     renderer.on('clickStage', () => {
       pinnedNode = null;
+      setSelectedNodeFilterEnabled(false);
       hoveredNode = null;
       hideHoverTooltip();
       hideTooltip();
@@ -2378,6 +2345,7 @@
     if (!modal || modal.hidden) return;
     hidePaperModal();
     pinnedNode = null;
+    setSelectedNodeFilterEnabled(false);
     hoveredNode = null;
     hideHoverTooltip();
     syncUrlToPinnedNode();
@@ -2387,14 +2355,10 @@
   /* -------------------------------------------------------------------------
    * Filters
    * -------------------------------------------------------------------------*/
-  function applyThreshold(t) {
-    currentThreshold = t;
-    refreshView();
-  }
-
   function applyCategoryFilter() {
     if (pinnedNode && !nodeVisible(pinnedNode)) {
       pinnedNode = null;
+      setSelectedNodeFilterEnabled(false);
       hideHoverTooltip();
       hideTooltip();
       hidePaperModal();
@@ -2406,6 +2370,7 @@
   function applyItemTypeFilter() {
     if (pinnedNode && !nodeVisible(pinnedNode)) {
       pinnedNode = null;
+      setSelectedNodeFilterEnabled(false);
       hideHoverTooltip();
       hideTooltip();
       hidePaperModal();
@@ -2435,6 +2400,7 @@
       finishLevelTransition();
       expandedAggregateNodes.clear();
       pinnedNode = null;
+      setSelectedNodeFilterEnabled(false);
       hoveredNode = null;
       hideHoverTooltip();
       hideTooltip();
@@ -2453,6 +2419,7 @@
     currentDetailLevel = level;
     expandedAggregateNodes.clear();
     pinnedNode = null;
+    setSelectedNodeFilterEnabled(false);
     hoveredNode = null;
     hideHoverTooltip();
     hideTooltip();
@@ -2482,9 +2449,6 @@
     if (!graph) return;
 
     document.getElementById('mm-node-count').textContent = visibleNodeCount;
-    document.getElementById('mm-edge-count').textContent = visibleEdgeCount;
-    const levelLabel = document.getElementById('mm-level-label');
-    if (levelLabel) levelLabel.textContent = detailLevelLabel(currentDetailLevel, true);
     const searchCount = document.getElementById('mm-search-count');
     if (searchCount) {
       searchCount.hidden = !currentSearch;
@@ -2855,6 +2819,7 @@
     if (!paperIdForNode(pinnedNode)) return false;
 
     pinnedNode = null;
+    setSelectedNodeFilterEnabled(false);
     hoveredNode = null;
     hideHoverTooltip();
     hideTooltip();
@@ -3062,6 +3027,15 @@
     groupCb.checked = childCbs.length > 0 && checkedCount === childCbs.length;
   }
 
+  function syncRenderedCategoryGroups() {
+    document.querySelectorAll('#mm-category-filters .mm-cat-group').forEach(groupEl => {
+      const header = groupEl.firstElementChild;
+      const itemsEl = header ? header.nextElementSibling : null;
+      const groupCb = header ? header.querySelector('.mm-cat-group-cb') : null;
+      if (groupCb && itemsEl) syncGroupCheckbox(groupCb, itemsEl);
+    });
+  }
+
   function setLeafCheckbox(cb, checked) {
     cb.checked = checked;
     if (checked) activeCategories.add(cb.dataset.cat);
@@ -3135,15 +3109,24 @@
     return renderFilterGroup(group, false, 'mm-cat-group mm-super-group', onChildChange);
   }
 
-  function buildCategoryFilters() {
+  function buildCategoryFilters(selectedKeys = null) {
     const container = document.getElementById('mm-category-filters');
     const model = buildHierarchyData();
+    const restoredSelection = selectedKeys instanceof Set ? selectedKeys : null;
     container.innerHTML = '';
     activeCategories.clear();
 
     model.roots.forEach(root => {
       container.appendChild(renderFilterNode(root));
     });
+
+    if (restoredSelection) {
+      activeCategories.clear();
+      container.querySelectorAll('input[data-cat]').forEach(cb => {
+        setLeafCheckbox(cb, restoredSelection.has(cb.dataset.cat));
+      });
+      syncRenderedCategoryGroups();
+    }
   }
 
   function makeTypeItem(type, count) {
@@ -3303,13 +3286,9 @@
 
   function updateVisibilityButtons() {
     const labelsToggle = document.getElementById('mm-labels-toggle');
-    const edgesToggle = document.getElementById('mm-edges-toggle');
 
     if (labelsToggle) {
       labelsToggle.setAttribute('aria-pressed', showNodeLabels ? 'true' : 'false');
-    }
-    if (edgesToggle) {
-      edgesToggle.setAttribute('aria-pressed', showEdges ? 'true' : 'false');
     }
   }
 
@@ -3392,24 +3371,6 @@
    * Wire up controls
    * -------------------------------------------------------------------------*/
   function setupControls() {
-    const slider = document.getElementById('mm-threshold-slider');
-    const label = document.getElementById('mm-threshold-val');
-    let thresholdRaf = null;
-    let pendingThreshold = currentThreshold;
-    slider.value = Math.round(currentThreshold * 100);
-    label.textContent = currentThreshold.toFixed(2);
-    slider.addEventListener('input', e => {
-      const t = parseInt(e.target.value, 10) / 100;
-      label.textContent = t.toFixed(2);
-      pendingThreshold = t;
-      if (thresholdRaf !== null) return;
-
-      thresholdRaf = window.requestAnimationFrame(() => {
-        thresholdRaf = null;
-        applyThreshold(pendingThreshold);
-      });
-    });
-
     const search = document.getElementById('mm-search');
     const clearSearch = document.getElementById('mm-search-clear');
     let debounce;
@@ -3515,15 +3476,6 @@
       });
     }
 
-    const edgesToggle = document.getElementById('mm-edges-toggle');
-    if (edgesToggle) {
-      edgesToggle.addEventListener('click', () => {
-        showEdges = !showEdges;
-        updateVisibilityButtons();
-        refreshView();
-      });
-    }
-
     if (modalClose) modalClose.addEventListener('click', closePaperModalSelection);
     if (modal) {
       modal.addEventListener('click', event => {
@@ -3562,6 +3514,10 @@
 
   const themeObserver = new MutationObserver(() => {
     theme = readTheme();
+    const selectedCategories = new Set(activeCategories);
+    hierarchyData = null;
+    buildCategoryFilters(selectedCategories);
+    if (graph) recomputeVisibilityColors();
     if (renderer) renderer.refresh();
   });
   themeObserver.observe(document.documentElement, {
@@ -3593,8 +3549,14 @@
     detailLevel: () => currentDetailLevel,
     setDetailLevel: level => applyDetailLevel(level),
     labelsVisible: () => showNodeLabels,
-    edgesVisible: () => showEdges,
     relevanceFilter: () => ({ ...relevanceFilter, active: relevanceFilterActive() }),
+    colorContext: () => visibilityColorContext ? {
+      colorScheme: theme.colorScheme,
+      depth: visibilityColorContext.depth,
+      prefix: visibilityColorContext.prefix.slice(),
+      labels: [...visibilityColorContext.colorByLabel.keys()],
+      colors: [...visibilityColorContext.colorByLabel.entries()],
+    } : null,
     setRelevanceFilter: patch => {
       relevanceFilter = { ...relevanceFilter, ...(patch || {}) };
       syncRelevanceControlValues();
@@ -3605,11 +3567,6 @@
       updateVisibilityButtons();
       if (renderer) renderer.scheduleRefresh();
     },
-    setEdgesVisible: visible => {
-      showEdges = Boolean(visible);
-      updateVisibilityButtons();
-      refreshView();
-    },
     metrics: () => ({
       nodeGraphRadius: currentNodeRadius(),
       nodeGraphRadiusTarget: PAPER_NODE_RADIUS_TARGET,
@@ -3619,10 +3576,7 @@
       minimumVisibleGraphDistance: minimumVisibleGraphDistance(),
       minimumVisibleScreenDistance: minimumVisibleScreenDistance(),
       clearanceRatio: PAPER_NODE_RADIUS_CLEARANCE_RATIO,
-      edgeNodeDiameterRatio: EDGE_NODE_DIAMETER_RATIO,
-      minEdgeThickness: MIN_EDGE_THICKNESS,
       visibleNodeCount,
-      visibleEdgeCount,
       lastLevelTransition: lastLevelTransitionMetrics,
     }),
   };

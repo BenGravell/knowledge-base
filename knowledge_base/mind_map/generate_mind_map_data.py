@@ -58,9 +58,6 @@ Choose a specific backend explicitly:
     python generate_mind_map_data.py --backend voyage
     python generate_mind_map_data.py --backend fastembed
 
-Custom similarity threshold:
-    python knowledge_base/mind_map/generate_mind_map_data.py --threshold 0.82
-
 Custom paths:
     python knowledge_base/mind_map/generate_mind_map_data.py \\
         --cache knowledge_base/mind_map/my_cache.json \\
@@ -90,7 +87,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import math
 import os
 import re
 import sys
@@ -118,16 +114,8 @@ MKDOCS_YML   = KB_DIR / "mkdocs.yml"
 DEFAULT_CACHE  = MIND_MAP_DIR / "embedding_cache.json"
 DEFAULT_OUTPUT = MIND_MAP_DIR / "mind-map-data.js"
 
-# ---------------------------------------------------------------------------
-# Graph construction parameters
-# ---------------------------------------------------------------------------
-
-DEFAULT_THRESHOLD = 0.75   # Minimum cosine similarity to draw an edge
-MAX_EDGE_CANDIDATES_PER_NODE = 10  # Per-node pruning cap before the undirected union
 DEFAULT_UMAP_SCALE = 1500.0  # Base UMAP coordinate extent; formerly 1000 px.
 SIMILARITY_EXPORT_SCALE = 1000  # Store cosine similarities as compact rounded integers.
-EDGE_DENSITY_CELL_SIZE = 105.0  # Layout-space grid used to precompute edge pileups.
-EDGE_DENSITY_MAX_SAMPLES = 48
 
 # ---------------------------------------------------------------------------
 # Helper utilities
@@ -215,98 +203,6 @@ def umap_cache_key(
     h.update(embeddings.tobytes())
     h.update(json.dumps(umap_params, sort_keys=True).encode("utf-8"))
     return h.hexdigest()[:24]
-
-
-def edge_sample_cells(
-    start: tuple[float, float],
-    end: tuple[float, float],
-    *,
-    cell_size: float = EDGE_DENSITY_CELL_SIZE,
-    max_samples: int = EDGE_DENSITY_MAX_SAMPLES,
-) -> set[tuple[int, int]]:
-    """Return grid cells touched by a straight edge in the static layout."""
-    x0, y0 = start
-    x1, y1 = end
-    length = math.hypot(x1 - x0, y1 - y0)
-    samples = min(max(int(math.ceil(length / (cell_size * 0.55))), 4), max_samples)
-    cells: set[tuple[int, int]] = set()
-
-    for k in range(samples + 1):
-        t = k / samples
-        x = x0 + (x1 - x0) * t
-        y = y0 + (y1 - y0) * t
-        cells.add((math.floor(x / cell_size), math.floor(y / cell_size)))
-
-    return cells
-
-
-def percentile(values: list[int], q: float) -> float:
-    """Small dependency-free percentile helper for edge density summaries."""
-    if not values:
-        return 1.0
-    ordered = sorted(values)
-    index = min(max(int(round((len(ordered) - 1) * q)), 0), len(ordered) - 1)
-    return float(ordered[index])
-
-
-def annotate_edge_visibility(edges: list[dict], nodes: list[dict]) -> None:
-    """Bake static edge pileup and alpha hints into each edge.
-
-    Node positions are fixed after generation, so the expensive question of
-    "how many edges stack through this patch of the map?" can be answered once
-    here.  The browser then only applies theme-specific contrast scaling.
-    """
-    positions = {
-        node["data"]["id"]: (
-            float(node["position"]["x"]),
-            float(node["position"]["y"]),
-        )
-        for node in nodes
-    }
-    edge_cells: list[set[tuple[int, int]]] = []
-    occupancy: dict[tuple[int, int], int] = {}
-
-    for edge in edges:
-        attrs = edge["data"]
-        source = positions.get(attrs["source"])
-        target = positions.get(attrs["target"])
-        cells = edge_sample_cells(source, target) if source and target else set()
-        edge_cells.append(cells)
-        for cell in cells:
-            occupancy[cell] = occupancy.get(cell, 0) + 1
-
-    degree: dict[str, int] = {}
-    for edge in edges:
-        attrs = edge["data"]
-        degree[attrs["source"]] = degree.get(attrs["source"], 0) + 1
-        degree[attrs["target"]] = degree.get(attrs["target"], 0) + 1
-
-    density_scores = [
-        percentile([occupancy[cell] for cell in cells], 0.75) if cells else 1.0
-        for cells in edge_cells
-    ]
-    max_density = max(density_scores, default=1.0)
-    max_degree = max(degree.values(), default=1)
-
-    for edge, local_density in zip(edges, density_scores):
-        attrs = edge["data"]
-        endpoint_degree = max(
-            degree.get(attrs["source"], 1),
-            degree.get(attrs["target"], 1),
-        )
-        density_t = (
-            math.log1p(max(local_density - 1.0, 0.0)) / math.log1p(max_density - 1.0)
-            if max_density > 1.0 else 0.0
-        )
-        degree_t = (
-            math.log(endpoint_degree) / math.log(max_degree)
-            if max_degree > 1 else 0.0
-        )
-
-        alpha = 0.34 - 0.18 * density_t - 0.07 * degree_t
-        attrs["edgeDensity"] = round(local_density, 2)
-        attrs["edgePileup"] = round(density_t, 3)
-        attrs["edgeAlpha"] = round(max(0.075, min(alpha, 0.34)), 3)
 
 
 # ---------------------------------------------------------------------------
@@ -917,13 +813,6 @@ def main() -> None:
         help="Ignore the embedding cache and re-embed every paper.",
     )
     parser.add_argument(
-        "--threshold",
-        type=float,
-        default=DEFAULT_THRESHOLD,
-        metavar="T",
-        help=f"Minimum cosine similarity to draw an edge (default: {DEFAULT_THRESHOLD}).",
-    )
-    parser.add_argument(
         "--cache",
         type=Path,
         default=DEFAULT_CACHE,
@@ -1128,11 +1017,10 @@ def main() -> None:
 
         print(f"    Force coords: {layout_coords.shape}  range x=[{layout_coords[:,0].min():.0f}, {layout_coords[:,0].max():.0f}]  y=[{layout_coords[:,1].min():.0f}, {layout_coords[:,1].max():.0f}]")
 
-    # ---- build graph -------------------------------------------------------
-    print("\n[7/7] Building graph and writing output…")
+    # ---- build browser data -----------------------------------------------
+    print("\n[7/7] Building map data and writing output…")
 
     sim = cosine_similarity_matrix(embeddings)
-    n = len(papers)
     similarity_rows = np.clip(
         np.rint(sim * SIMILARITY_EXPORT_SCALE),
         -SIMILARITY_EXPORT_SCALE,
@@ -1165,49 +1053,8 @@ def main() -> None:
         for i, p in enumerate(papers)
     ]
 
-    edge_candidates: dict[tuple[int, int], float] = {}
-
-    for i in range(n):
-        row = sim[i].copy()
-        row[i] = -1.0  # exclude self-similarity
-
-        # Candidates: only edges whose similarity meets the threshold.
-        above = set(int(j) for j in np.where(row >= args.threshold)[0])
-
-        strongest = sorted(
-            (
-                (float(sim[i, j]), j)
-                for j in above
-                if j != i
-            ),
-            reverse=True,
-        )[:MAX_EDGE_CANDIDATES_PER_NODE]
-
-        for sim_val, j in strongest:
-            # The cap above is a per-node pruning strategy only.  The output
-            # graph remains undirected: if either endpoint selects this pair,
-            # emit one canonical edge between them.
-            key = (min(i, j), max(i, j))
-            edge_candidates[key] = max(edge_candidates.get(key, 0.0), sim_val)
-
-    edges: list[dict] = []
-    for (i, j), sim_val in sorted(edge_candidates.items()):
-        id_i, id_j = papers[i]["id"], papers[j]["id"]
-        edges.append({
-            "data": {
-                "id": f"e{len(edges)}",
-                "source": id_i,
-                "target": id_j,
-                "weight": round(sim_val, 4),
-                "undirected": True,
-            }
-        })
-
-    annotate_edge_visibility(edges, nodes)
-
     graph_data = {
         "nodes": nodes,
-        "edges": edges,
         "similarity": {
             "scale": SIMILARITY_EXPORT_SCALE,
             "ids": [p["id"] for p in papers],
@@ -1215,12 +1062,8 @@ def main() -> None:
         },
         "meta": {
             "model": model_name,
-            "threshold": args.threshold,
-            "max_edge_candidates_per_node": MAX_EDGE_CANDIDATES_PER_NODE,
-            "edgeDensityCellSize": EDGE_DENSITY_CELL_SIZE,
             "similarityScale": SIMILARITY_EXPORT_SCALE,
             "total_papers": len(papers),
-            "total_edges": len(edges),
             "itemTypeOrder": sorted({p["item_type"] for p in papers}),
             "superCategoryOrder": nav_order["superCategories"],
             "categoryOrder": nav_order["categories"],
@@ -1237,11 +1080,7 @@ def main() -> None:
         f.write(js)
 
     print(f"    Nodes : {len(nodes)}")
-    print(
-        f"    Edges : {len(edges)}  "
-        f"(threshold={args.threshold}, "
-        f"max_edge_candidates_per_node={MAX_EDGE_CANDIDATES_PER_NODE})"
-    )
+    print("    Similarity matrix: exported")
     print(f"    Output: {args.output}")
     print("\nDone!")
 

@@ -1122,6 +1122,8 @@ body:has(#ct-app) .md-content {
 }
 
 .ct-tree-dot {
+  position: relative;
+  z-index: 3;
   width: 0.58rem;
   height: 0.58rem;
   border: 2px solid var(--ct-muted-line);
@@ -1182,6 +1184,7 @@ body:has(#ct-app) .md-content {
 }
 
 .ct-tree-node.is-current > .ct-tree-button {
+  z-index: 3;
   border-color: transparent;
   background:
     radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--ct-selected-gold) 28%, transparent) 0 10%, transparent 24%),
@@ -1224,6 +1227,8 @@ body:has(#ct-app) .md-content {
 }
 
 .ct-tree-open-link {
+  position: relative;
+  z-index: 3;
   display: inline-flex;
   width: fit-content;
   margin: 0.28rem 0 0.28rem 1.95rem;
@@ -1243,6 +1248,8 @@ body:has(#ct-app) .md-content {
 }
 
 .ct-paper-details {
+  position: relative;
+  z-index: 3;
   display: grid;
   gap: 0.62rem;
   margin: 0.35rem 0 0.65rem 1.95rem;

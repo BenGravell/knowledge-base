@@ -8,15 +8,10 @@ hide:
 <style>
 /* ── Derived vars: transparency adjustments on MkDocs palette tokens ─────── */
 :root {
-  --mm-edge-color:         #243142;
-  --mm-edge-highlighted:   rgba(36, 49, 66, 0.72);
-  --mm-edge-alpha-scale:   0.65;
-  --mm-edge-alpha-min:     0.050;
-  --mm-edge-alpha-max:     0.200;
   --mm-node-muted:         #a3adb8;
   --mm-node-muted-related: #7f8b97;
   --mm-muted-label:        #475569;
-  --mm-selected-ring:      #d9a316;
+  --mm-selected-ring:      #005ab5;
   --mm-selected-label:     #111111;
   --mm-blue:               var(--kb-color-blue);
   --mm-teal:               var(--kb-color-teal);
@@ -27,15 +22,10 @@ hide:
   --mm-panel:              color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
 }
 [data-md-color-scheme="default"] {
-  --mm-edge-color:         #243142;
-  --mm-edge-highlighted:   rgba(36, 49, 66, 0.72);
-  --mm-edge-alpha-scale:   0.65;
-  --mm-edge-alpha-min:     0.050;
-  --mm-edge-alpha-max:     0.200;
   --mm-node-muted:         #a3adb8;
   --mm-node-muted-related: #7f8b97;
   --mm-muted-label:        #475569;
-  --mm-selected-ring:      #d9a316;
+  --mm-selected-ring:      #005ab5;
   --mm-selected-label:     #111111;
   --mm-blue:               var(--kb-color-blue);
   --mm-teal:               var(--kb-color-teal);
@@ -46,11 +36,6 @@ hide:
   --mm-panel:              color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
 }
 [data-md-color-scheme="slate"] {
-  --mm-edge-color:         #9aa8b8;
-  --mm-edge-highlighted:   rgba(156, 176, 198, 0.54);
-  --mm-edge-alpha-scale:   0.42;
-  --mm-edge-alpha-min:     0.022;
-  --mm-edge-alpha-max:     0.110;
   --mm-node-muted:         #66717d;
   --mm-node-muted-related: #8b96a2;
   --mm-muted-label:        #c8d0d8;
@@ -233,10 +218,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   flex: 1 1 17rem;
 }
 .mm-section--visibility {
-  flex: 0 1 13rem;
-}
-.mm-section--threshold {
-  flex: 1 1 14rem;
+  flex: 0 1 9rem;
 }
 .mm-section--search {
   flex: 2 1 18rem;
@@ -290,22 +272,6 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   color: var(--md-default-fg-color);
 }
 #mm-search-clear[hidden] { display: none; }
-
-/* Threshold */
-.mm-threshold-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 4px;
-}
-#mm-threshold-val {
-  font-variant-numeric: tabular-nums;
-  color: var(--md-primary-fg-color);
-}
-#mm-threshold-slider {
-  width: 100%;
-  accent-color: var(--md-accent-fg-color);
-}
 
 /* Selected-node relevance filter */
 .mm-relevance-panel {
@@ -1073,16 +1039,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
         <span class="mm-section-label">Visibility</span>
         <div class="mm-visibility-controls">
           <button id="mm-labels-toggle" type="button" aria-pressed="true">Node Labels</button>
-          <button id="mm-edges-toggle" type="button" aria-pressed="true">Edges</button>
         </div>
-      </div>
-
-      <div class="mm-section mm-section--threshold">
-        <div class="mm-threshold-row">
-          <span class="mm-section-label" style="margin:0">Similarity threshold</span>
-          <span id="mm-threshold-val">0.77</span>
-        </div>
-        <input id="mm-threshold-slider" type="range" min="75" max="99" step="1">
       </div>
 
       <div class="mm-section mm-section--search">
@@ -1127,9 +1084,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
       </div>
 
       <div id="mm-stats">
-        <span id="mm-level-label">1</span> ·
-        <span id="mm-node-count">…</span> items &nbsp;·&nbsp;
-        <span id="mm-edge-count">…</span> connections
+        <span id="mm-node-count">…</span> items
         <span id="mm-search-count" hidden></span>
         <span id="mm-relevance-count" hidden></span>
       </div>

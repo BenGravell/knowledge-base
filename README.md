@@ -132,7 +132,7 @@ python scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
 
 ## Mind Map
 
-The Mind Map embeds paper core content, computes semantic similarity edges, and renders the resulting graph with [Sigma.js](https://www.sigmajs.org/) and [Graphology](https://graphology.github.io/).
+The Mind Map embeds paper core content, computes semantic similarity and positions, and renders the resulting node map with [Sigma.js](https://www.sigmajs.org/) and [Graphology](https://graphology.github.io/).
 
 Regenerate embeddings and graph data:
 
@@ -146,11 +146,10 @@ Useful variants:
 python mind_map/generate_mind_map_data.py --force
 python mind_map/generate_mind_map_data.py --backend fastembed
 python mind_map/generate_mind_map_data.py --backend voyage
-python mind_map/generate_mind_map_data.py --threshold 0.82
 python mind_map/generate_mind_map_data.py --skip-force-layout
 ```
 
-Preview the graph quickly with Plotly:
+Preview the layout quickly with Plotly:
 
 ```bash
 python mind_map/preview_mind_map.py

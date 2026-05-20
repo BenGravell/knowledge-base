@@ -32,63 +32,6 @@ JS_CHECKS = r"""
   const assert = (condition, message, detail) => {
     if (!condition) failures.push(detail ? `${message}: ${detail}` : message);
   };
-  const colorIsWhite = color => {
-    const c = String(color || '').trim().toLowerCase();
-    return c === 'white' || c === '#fff' || c === '#ffffff' ||
-      /^rgba?\(\s*255\s*,\s*255\s*,\s*255(?:\s*,\s*(?:1(?:\.0)?|0?\.\d+))?\s*\)$/.test(c);
-  };
-  const colorChannels = color => {
-    const c = String(color || '').trim();
-    let match = c.match(/^#([0-9a-f]{3})$/i);
-    if (match) {
-      return match[1].split('').map(ch => parseInt(ch + ch, 16)).concat(1);
-    }
-    match = c.match(/^#([0-9a-f]{6})$/i);
-    if (match) {
-      const hex = match[1];
-      return [
-        parseInt(hex.slice(0, 2), 16),
-        parseInt(hex.slice(2, 4), 16),
-        parseInt(hex.slice(4, 6), 16),
-        1,
-      ];
-    }
-    match = c.match(/^rgba?\(([^)]+)\)$/i);
-    if (match) {
-      const parts = match[1].split(',').map(part => Number(part.trim()));
-      if (parts.length >= 3 && parts.slice(0, 3).every(Number.isFinite)) {
-        return parts.slice(0, 3).concat(Number.isFinite(parts[3]) ? parts[3] : 1);
-      }
-    }
-    return null;
-  };
-  const colorIsNeutralGrey = color => {
-    const channels = colorChannels(color);
-    if (!channels) return false;
-    const [r, g, b] = channels;
-    return Math.max(r, g, b) - Math.min(r, g, b) <= 1;
-  };
-  const colorAlpha = color => {
-    const channels = colorChannels(color);
-    return channels ? channels[3] : 0;
-  };
-  const edgeAlphaStats = edgeIds => {
-    const alphas = edgeIds
-      .map(id => renderer.getEdgeDisplayData(id))
-      .filter(Boolean)
-      .map(edge => colorAlpha(edge.color))
-      .filter(Number.isFinite)
-      .sort((a, b) => a - b);
-    const pick = p => alphas[Math.min(alphas.length - 1, Math.max(0, Math.floor((alphas.length - 1) * p)))] || 0;
-    return {
-      min: alphas[0] || 0,
-      p10: pick(0.10),
-      median: pick(0.50),
-      p90: pick(0.90),
-      max: alphas[alphas.length - 1] || 0,
-      count: alphas.length,
-    };
-  };
   const setScheme = scheme => {
     document.documentElement.setAttribute('data-md-color-scheme', scheme);
     document.body.setAttribute('data-md-color-scheme', scheme);
@@ -105,10 +48,6 @@ JS_CHECKS = r"""
 
   const visibleNodes = () => graph.nodes().filter(id => {
     const data = renderer.getNodeDisplayData(id);
-    return data && !data.hidden;
-  });
-  const visibleEdges = () => graph.edges().filter(id => {
-    const data = renderer.getEdgeDisplayData(id);
     return data && !data.hidden;
   });
   const hashParams = () => new URLSearchParams(window.location.hash.slice(1));
@@ -322,10 +261,11 @@ JS_CHECKS = r"""
 
   const settings = renderer.getSettings();
   assert(settings.enableCameraRotation === false, 'camera rotation setting is disabled');
-  assert(settings.enableEdgeEvents === false, 'edge hover/click events are disabled');
-  assert(settings.minEdgeThickness <= 0.5, 'minimum edge thickness is subdued', settings.minEdgeThickness);
   assert(settings.itemSizesReference === 'positions',
     'node sizes are interpreted in graph coordinates', settings.itemSizesReference);
+  assert(graph.edges().length === 0, 'mind map graph is node-only', graph.edges().length);
+  assert(!document.getElementById('mm-edges-toggle'), 'edge visibility control is absent');
+  assert(!document.getElementById('mm-threshold-slider'), 'edge threshold control is absent');
 
   const superGroups = [...document.querySelectorAll('#mm-category-filters > .mm-super-group')];
   assert(superGroups.length >= 2, 'sidebar has top-level super-category groups', superGroups.length);
@@ -373,7 +313,6 @@ JS_CHECKS = r"""
 
   const initialLevel = mm.detailLevel && mm.detailLevel();
   let nodes = visibleNodes();
-  let edges = visibleEdges();
   const initialSuperNodeCount = nodes.length;
   assert(initialLevel === 'super_category', 'mind map starts at the super-category detail level', initialLevel);
   assert(nodes.length >= 2 && nodes.length <= 20,
@@ -467,9 +406,7 @@ JS_CHECKS = r"""
   }
 
   nodes = visibleNodes();
-  edges = visibleEdges();
   assert(nodes.length > 20, 'visible node count is plausible', nodes.length);
-  assert(edges.length > 20, 'visible edge count is plausible', edges.length);
   assertPaperNodeClearance('paper detail level');
   const paperRadiusBeforeZoom = mm.metrics && mm.metrics().nodeGraphRadius;
   const paperNodeBeforeZoom = nodes[0] && renderer.getNodeDisplayData(nodes[0]);
@@ -492,46 +429,6 @@ JS_CHECKS = r"""
   camera.setState(paperCameraBeforeZoom);
   await sleep(50);
   renderer.refresh();
-
-  setScheme('default');
-  await sleep(90);
-  renderer.refresh();
-  await sleep(50);
-  edges = visibleEdges();
-  const defaultEdge = edges.length ? renderer.getEdgeDisplayData(edges[0]) : null;
-  const defaultEdgeAlphaStats = edgeAlphaStats(edges);
-  assert(!colorIsWhite(cssVar('--mm-edge-color')), 'default theme edge variable is not white', cssVar('--mm-edge-color'));
-  assert(colorIsNeutralGrey(cssVar('--mm-edge-color')),
-    'default theme edge variable is true neutral grey', cssVar('--mm-edge-color'));
-  assert(colorIsNeutralGrey(cssVar('--mm-edge-highlighted')),
-    'default highlighted edge variable is true neutral grey', cssVar('--mm-edge-highlighted'));
-  assert(defaultEdge && !colorIsWhite(defaultEdge.color), 'default rendered edge is not white', defaultEdge && defaultEdge.color);
-  assert(defaultEdge && colorIsNeutralGrey(defaultEdge.color),
-    'default rendered edge is true neutral grey', defaultEdge && defaultEdge.color);
-  assert(defaultEdgeAlphaStats.min >= 0.13,
-    'default rendered edges have a visible opacity floor', JSON.stringify(defaultEdgeAlphaStats));
-  assert(defaultEdgeAlphaStats.median >= 0.14,
-    'default rendered edges have visible median opacity', JSON.stringify(defaultEdgeAlphaStats));
-  assert(defaultEdge && defaultEdge.size <= 1.25, 'default rendered edge width is restrained', defaultEdge && defaultEdge.size);
-
-  setScheme('slate');
-  await sleep(90);
-  renderer.refresh();
-  await sleep(50);
-  const slateEdge = edges.length ? renderer.getEdgeDisplayData(edges[0]) : null;
-  const slateEdgeAlphaStats = edgeAlphaStats(edges);
-  assert(!colorIsWhite(cssVar('--mm-edge-color')), 'slate theme edge variable is not pure white', cssVar('--mm-edge-color'));
-  assert(colorIsNeutralGrey(cssVar('--mm-edge-color')),
-    'slate theme edge variable is true neutral grey', cssVar('--mm-edge-color'));
-  assert(colorIsNeutralGrey(cssVar('--mm-edge-highlighted')),
-    'slate highlighted edge variable is true neutral grey', cssVar('--mm-edge-highlighted'));
-  assert(slateEdge && !colorIsWhite(slateEdge.color), 'slate rendered edge is not pure white', slateEdge && slateEdge.color);
-  assert(slateEdge && colorIsNeutralGrey(slateEdge.color),
-    'slate rendered edge is true neutral grey', slateEdge && slateEdge.color);
-  assert(slateEdgeAlphaStats.median <= 0.032,
-    'slate rendered edges stay quiet at median opacity', JSON.stringify(slateEdgeAlphaStats));
-  assert(slateEdgeAlphaStats.max <= 0.05,
-    'slate rendered edges stay subdued at the high end', JSON.stringify(slateEdgeAlphaStats));
 
   setScheme('default');
   await sleep(90);
@@ -649,11 +546,6 @@ JS_CHECKS = r"""
     failures,
     metrics: {
       nodes: nodes.length,
-      edges: edges.length,
-      defaultEdge,
-      defaultEdgeAlphaStats,
-      slateEdge,
-      slateEdgeAlphaStats,
       fitted,
       allDetailFitted,
       buttonAllDetailFitted,
@@ -991,7 +883,7 @@ def main() -> int:
             fitted = metrics.get("fitted", {})
             print(
                 f"PASS {viewport}: "
-                f"{metrics.get('nodes')} nodes, {metrics.get('edges')} edges, "
+                f"{metrics.get('nodes')} nodes, "
                 f"fit bbox x=[{fitted.get('minX'):.1f}, {fitted.get('maxX'):.1f}] "
                 f"y=[{fitted.get('minY'):.1f}, {fitted.get('maxY'):.1f}]"
             )

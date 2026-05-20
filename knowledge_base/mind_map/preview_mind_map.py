@@ -1,7 +1,7 @@
 """
-Fast mind-map graph preview using Plotly.
+Fast mind-map layout preview using Plotly.
 
-Parses mind-map-data.js, builds an interactive scatter/network graph,
+Parses mind-map-data.js, builds an interactive node scatter plot,
 writes a self-contained HTML file, and opens it in the browser.
 
 Usage:
@@ -36,8 +36,6 @@ SUPER_CATEGORY_PALETTE = [
     {"h": 188, "s": 72, "l": 36},
 ]
 NODE_MARKER_DIAMETER = 7
-EDGE_NODE_DIAMETER_RATIO = 0.2
-EDGE_LINE_WIDTH = NODE_MARKER_DIAMETER * EDGE_NODE_DIAMETER_RATIO
 
 
 def load_data() -> dict:
@@ -216,34 +214,7 @@ def build_figure(data: dict):
         sys.exit("plotly not installed — run: pip install plotly")
 
     nodes = data["nodes"]
-    edges = data["edges"]
-
-    # Position lookup: id -> (x, y)  — position is a sibling of data, not nested inside it
-    pos = {
-        n["data"]["id"]: (n["position"]["x"], n["position"]["y"])
-        for n in nodes
-    }
-
-    # Single edge trace — all edges as one scatter with None separators (fastest)
-    ex, ey = [], []
-    for e in edges:
-        src, tgt = e["data"]["source"], e["data"]["target"]
-        if src in pos and tgt in pos:
-            x0, y0 = pos[src]
-            x1, y1 = pos[tgt]
-            ex += [x0, x1, None]
-            ey += [y0, y1, None]
-
-    traces = [
-        go.Scatter(
-            x=ex,
-            y=ey,
-            mode="lines",
-            line=dict(width=EDGE_LINE_WIDTH, color="rgba(180,180,200,0.15)"),
-            hoverinfo="none",
-            showlegend=False,
-        )
-    ]
+    traces = []
 
     # One node scatter per category/sub-category so the legend is useful and
     # click-to-hide works while matching the Sigma colour palette.
@@ -295,13 +266,12 @@ def build_figure(data: dict):
 
     meta = data.get("meta", {})
     n_nodes = len(nodes)
-    n_edges = len(edges)
     model = meta.get("model", "")
 
     fig = go.Figure(traces)
     fig.update_layout(
         title=dict(
-            text=f"Knowledge Base Mind Map — {n_nodes} papers · {n_edges} edges · {model}",
+            text=f"Knowledge Base Mind Map — {n_nodes} papers · {model}",
             font=dict(size=13, color="#8b949e"),
             x=0.5,
             xanchor="center",
@@ -341,9 +311,9 @@ def main():
 
     print(f"Parsing {DATA_FILE.name} …")
     data = load_data()
-    n_nodes, n_edges = len(data["nodes"]), len(data["edges"])
+    n_nodes = len(data["nodes"])
 
-    print(f"Building Plotly graph ({n_nodes} nodes, {n_edges} edges) …")
+    print(f"Building Plotly layout preview ({n_nodes} nodes) …")
     fig = build_figure(data)
 
     if args.out:
