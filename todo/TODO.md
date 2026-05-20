@@ -2,16 +2,7 @@
 
 ## UX
 
-1. Have Timeline, Content Tree, Tag Search, Analytics all use the same main width within the page (leaving good margin on left side to nav menu and right side to page border - use the Timeline page's margin setting)
-
-Mind Map
-
-1. Remove the LoD number from the bottom-most display in the settings Menu
-2. Use white text color for selected node label (not black) - this is so we have better visual continuity before/after click
-3. Give up on displaying edges, they are too hard to parse visually and do not provide value. Also bump up the default number of edges written in generate_mind_map_data.py from 10 to 50. We will rely on node positional proximity and the selected node filter for exploring similar items, instead of edge presence. Then we can also get rid of the edge visibility and similarity threshold UX elements in the settings menu.
-
-Tag Search
-When clicking a tag from the search match result list, keep the selected tag pegged at the top. Also when clicking a tag, do not clear the search bar, keep whatever is in there.
+Have Timeline, Content Tree, Tag Search, Analytics all use the same main width within the page (leaving good margin on left side to nav menu and right side to page border - use the Timeline page's margin setting)
 
 ## Taxonomy
 
@@ -25,7 +16,7 @@ and resolve all issues.
 
 ## Ingest
 
-## Real time iteration mpc
+### Real time iteration mpc
 
 https://epubs.siam.org/doi/10.1137/S0363012902400713
 https://ieeexplore.ieee.org/document/8550541
@@ -290,16 +281,11 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 
 ## Mind Map
 
-### New Feature - node-centric similarity filtering
-
-When having a node item selected, show another mini-menu to enable filtering out all items from the graph that do not have high enough relevancy. Expose relevancy filters in two ways:
-
-1. Semantic similarity via the embeddings (filter away items having similarity with ego less than threshold)
-2. Taxonomical similarity via the content tree (filter away items that are far away on the tree, using a graph theoretic measure of distance in the tree)
-
-Also expose a toggle for And/Or of the two sub-filters.
-
 ### UX
+
+1. Fit view is not working. Needs to fit all nodes and labels inside the usable canvas area, including a bit of margin around the outside.
+
+2. Low level of detail big disks tend to get pulled together closer compared to the hull of the lowest level item points they contain, which causes the fitted view at high lod to be too small and induces user to zoom out as high lod is expanded. Revise the aggregation node placement so that the contained items are not far flung outside. Better to bias low lod big nodes farther away from the barycenters.
 
 ## Knowledge Studio (new feature)
 
