@@ -961,7 +961,7 @@ window.tagSearchData = {
     "1605_04965": {
       "id": "1605_04965",
       "title": "Accelerated Evaluation of Automated Vehicles Safety in Lane Change Scenarios Based on Importance Sampling Techniques",
-      "label": "Importance Sampling",
+      "label": "Accelerated Evaluation of Automated Vehicles Safety in Lane Change Scenarios Based on Importance Sampling Techniques",
       "authors": [
         "Ding Zhao",
         "Henry Lam",

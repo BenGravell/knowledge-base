@@ -28518,25 +28518,25 @@ window.analyticsData = {
   "superCategories": [
     {
       "label": "Decision-making",
-      "count": 987
+      "count": 991
     },
     {
       "label": "Prediction & Perception",
-      "count": 250
+      "count": 248
     },
     {
       "label": "Foundations",
-      "count": 113
+      "count": 110
     },
     {
       "label": "Evaluation",
-      "count": 77
+      "count": 78
     }
   ],
   "categories": [
     {
       "label": "Planning",
-      "count": 380
+      "count": 381
     },
     {
       "label": "Reinforcement Learning",
@@ -28544,7 +28544,7 @@ window.analyticsData = {
     },
     {
       "label": "Optimization",
-      "count": 220
+      "count": 222
     },
     {
       "label": "Machine Learning",
@@ -28552,7 +28552,7 @@ window.analyticsData = {
     },
     {
       "label": "Control",
-      "count": 145
+      "count": 146
     },
     {
       "label": "Computer Vision",
@@ -28564,19 +28564,19 @@ window.analyticsData = {
     },
     {
       "label": "Algorithms & Data Structures",
-      "count": 31
+      "count": 28
     },
     {
       "label": "Mathematics",
       "count": 23
     },
     {
-      "label": "Motion Prediction",
+      "label": "Safety, Testing, Verification & Validation (V&V)",
       "count": 23
     },
     {
-      "label": "Safety, Testing, Verification & Validation (V&V)",
-      "count": 22
+      "label": "Motion Prediction",
+      "count": 21
     },
     {
       "label": "Robot Platforms",

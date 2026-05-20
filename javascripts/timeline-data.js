@@ -1047,6 +1047,7 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Combinatorial Optimization",
+        "Traveling Salesman Problems",
         "Held-Karp Dynamic Programming"
       ],
       "tags": [],
@@ -1075,6 +1076,7 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Combinatorial Optimization",
+        "Traveling Salesman Problems",
         "Dynamic Programming Treatment of the Travelling Salesman Problem"
       ],
       "tags": [],
@@ -2382,14 +2384,15 @@ window.timelineData = {
       "year": 1972,
       "source": "Complexity of Computer Computations",
       "type": "Conference Paper",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Complexity & Approximation",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Combinatorial Optimization",
       "path": [
         "Content Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Complexity & Approximation",
+        "Decision-making",
+        "Optimization",
+        "Combinatorial Optimization",
+        "Complexity Theory",
         "Reducibility among Combinatorial Problems"
       ],
       "tags": [],
@@ -4629,7 +4632,7 @@ window.timelineData = {
         "ALVINN"
       ],
       "tags": [],
-      "abstract": "ALVINN (Autonomous Land Vehicle In a Neural Network) is a 3-layer back-propagation network designed for the task of road following. Currently ALVINN takes images from a camera and a laser range finder as input and produces as output the direction the vehicle should travel in order to follow the road. Training has been conducted using simulated road images. Successful tests on the Carnegie Mellon autonomous navigation test vehicle indicate that the network can effectively follow real roads under certain field conditions. The representation developed to perfOIm the task differs dramatically when the networlc is trained under various conditions, suggesting the possibility of a novel adaptive autonomous navigation system capable of tailoring its processing to the conditions at hand. INTRODUCTION Autonomous navigation has been a difficult problem for traditional vision and robotic techniques, primarily because of the noise and variability associated with real world scenes. Autonomous navigation systems based on traditional image processing and pattern recognition techniques often perform well under certain conditions but have problems with others. Part of the difficulty stems from the fact that the processing performed by these systems remains fixed across various driving situations. Artificial neural networks have displayed promising performance and flexibility in other domains characterized by high degrees of noise and variability, such as handwritten character recognition [Jackel et al., 1988] [Pawlicki et al., 1988] and speech recognition [Waibel et al., 1988]. ALVINN (Autonomous Land Vehicle In a Neural Network) is a connectionist approach to the navigational task of road following. Specifically, ALVINN is an artifici",
+      "abstract": "ALVINN (Autonomous Land Vehicle In a Neural Network) is a 3-layer back-propagation network designed for the task of road following. Currently ALVINN takes images from a camera and a laser range finder as input and produces as output the direction the vehicle should travel in order to follow the road. Training has been conducted using simulated road images. Successful tests on the Carnegie Mellon autonomous navigation test vehicle indicate that the network can effectively follow real roads under certain field conditions. The representation developed to perform the task differs dramatically when the network is trained under various conditions, suggesting the possibility of a novel adaptive autonomous navigation system capable of tailoring its processing to the conditions at hand.",
       "summary": "",
       "url": "../papers/1988_pomerleau_alvinn_an_autonomous_land/",
       "contentTreeUrl": "../content-tree/#paper=1988_pomerleau_alvinn_an_autonomous_land",
@@ -5373,6 +5376,7 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Combinatorial Optimization",
+        "Traveling Salesman Problems",
         "The traveling salesman problem: An overview of exact and approximate algorithms"
       ],
       "tags": [],
@@ -8539,12 +8543,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Prediction & Perception",
       "category": "Motion Prediction",
-      "subCategory": "Traffic Models",
+      "subCategory": "Driver Models",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "Motion Prediction",
-        "Traffic Models",
+        "Driver Models",
         "IDM"
       ],
       "tags": [
@@ -10559,12 +10563,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Prediction & Perception",
       "category": "Motion Prediction",
-      "subCategory": "Traffic Models",
+      "subCategory": "Driver Models",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "Motion Prediction",
-        "Traffic Models",
+        "Driver Models",
         "An adaptive lateral preview driver model"
       ],
       "tags": [],
@@ -14144,6 +14148,36 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2012_schoellig_optimization_based_iterative_learning"
     },
     {
+      "id": "1210_7420",
+      "label": "Complexity of Ten Decision Problems in Continuous Time Dynamical Systems",
+      "title": "Complexity of Ten Decision Problems in Continuous Time Dynamical Systems",
+      "authors": [
+        "Amir Ali Ahmadi",
+        "Anirudha Majumdar",
+        "Russ Tedrake"
+      ],
+      "authorShort": "Ahmadi, Majumdar, Tedrake",
+      "year": 2012,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Theory",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Control",
+        "Theory",
+        "Complexity of Ten Decision Problems in Continuous Time Dynamical Systems"
+      ],
+      "tags": [],
+      "abstract": "We show that for continuous time dynamical systems described by polynomial differential equations of modest degree (typically equal to three), the following decision problems which arise in numerous areas of systems and control theory cannot have a polynomial time (or even pseudo-polynomial time) algorithm unless P=NP: local attractivity of an equilibrium point, stability of an equilibrium point in the sense of Lyapunov, boundedness of trajectories, convergence of all trajectories in a ball to a given equilibrium point, existence of a quadratic Lyapunov function, invariance of a ball, invariance of a quartic semialgebraic set under linear dynamics, local collision avoidance, and existence of a stabilizing control law. We also extend our earlier NP-hardness proof of testing local asymptotic stability for polynomial vector fields to the case of trigonometric differential equations of degree four.",
+      "summary": "",
+      "url": "../papers/1210_7420/",
+      "contentTreeUrl": "../content-tree/#paper=1210_7420",
+      "mindMapUrl": "../mind-map/#paper=1210_7420"
+    },
+    {
       "id": "1211_2260",
       "label": "No-Regret Algorithms for Unconstrained Online Convex Optimization",
       "title": "No-Regret Algorithms for Unconstrained Online Convex Optimization",
@@ -14670,36 +14704,6 @@ window.timelineData = {
       "url": "../papers/2012_gajamohan_the_cubli_a_cube/",
       "contentTreeUrl": "../content-tree/#paper=2012_gajamohan_the_cubli_a_cube",
       "mindMapUrl": "../mind-map/#paper=2012_gajamohan_the_cubli_a_cube"
-    },
-    {
-      "id": "1210_7420",
-      "label": "Complexity of Ten Decision Problems in Continuous Time Dynamical Systems",
-      "title": "Complexity of Ten Decision Problems in Continuous Time Dynamical Systems",
-      "authors": [
-        "Amir Ali Ahmadi",
-        "Anirudha Majumdar",
-        "Russ Tedrake"
-      ],
-      "authorShort": "Ahmadi, Majumdar, Tedrake",
-      "year": 2012,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Complexity & Approximation",
-      "path": [
-        "Content Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Complexity & Approximation",
-        "Complexity of Ten Decision Problems in Continuous Time Dynamical Systems"
-      ],
-      "tags": [],
-      "abstract": "We show that for continuous time dynamical systems described by polynomial differential equations of modest degree (typically equal to three), the following decision problems which arise in numerous areas of systems and control theory cannot have a polynomial time (or even pseudo-polynomial time) algorithm unless P=NP: local attractivity of an equilibrium point, stability of an equilibrium point in the sense of Lyapunov, boundedness of trajectories, convergence of all trajectories in a ball to a given equilibrium point, existence of a quadratic Lyapunov function, invariance of a ball, invariance of a quartic semialgebraic set under linear dynamics, local collision avoidance, and existence of a stabilizing control law. We also extend our earlier NP-hardness proof of testing local asymptotic stability for polynomial vector fields to the case of trigonometric differential equations of degree four.",
-      "summary": "",
-      "url": "../papers/1210_7420/",
-      "contentTreeUrl": "../content-tree/#paper=1210_7420",
-      "mindMapUrl": "../mind-map/#paper=1210_7420"
     },
     {
       "id": "2012_jinek_a_programmable_dual_rna",
@@ -20327,6 +20331,41 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2016_hutter_anymal_a_highly_mobile"
     },
     {
+      "id": "1605_04965",
+      "label": "Accelerated Evaluation of Automated Vehicles Safety in Lane Change Scenarios Based on Importance Sampling Techniques",
+      "title": "Accelerated Evaluation of Automated Vehicles Safety in Lane Change Scenarios Based on Importance Sampling Techniques",
+      "authors": [
+        "Ding Zhao",
+        "Henry Lam",
+        "Huei Peng",
+        "Shan Bao",
+        "David J. LeBlanc",
+        "Kazutoshi Nobukawa",
+        "Christopher S. Pan"
+      ],
+      "authorShort": "Zhao, Lam, Peng",
+      "year": 2016,
+      "source": "",
+      "type": "",
+      "superCategory": "Evaluation",
+      "category": "Safety, Testing, Verification & Validation (V&V)",
+      "subCategory": "Driving & Autonomous Vehicles",
+      "path": [
+        "Content Tree",
+        "Evaluation",
+        "Safety, Testing, Verification & Validation (V&V)",
+        "Driving & Autonomous Vehicles",
+        "Autonomy Testing",
+        "Accelerated Evaluation of Automated Vehicles Safety in Lane Change Scenarios Based on Importance Sampling Techniques"
+      ],
+      "tags": [],
+      "abstract": "Automated vehicles (AVs) must be evaluated thoroughly before their release and deployment. A widely-used evaluation approach is the Naturalistic-Field Operational Test (N-FOT), which tests prototype vehicles directly on the public roads. Due to the low exposure to safety-critical scenarios, N-FOTs are time-consuming and expensive to conduct. In this paper, we propose an accelerated evaluation approach for AVs. The results can be used to generate motions of the primary other vehicles to accelerate the verification of AVs in simulations and controlled experiments. Frontal collision due to unsafe cut-ins is the target crash type of this paper. Human-controlled vehicles making unsafe lane changes are modeled as the primary disturbance to AVs based on data collected by the University of Michigan Safety Pilot Model Deployment Program. The cut-in scenarios are generated based on skewed statistics of collected human driver behaviors, which generate risky testing scenarios while preserving the statistical information so that the safety benefits of AVs in non-accelerated cases can be accurately estimated. The Cross Entropy method is used to recursively search for the optimal skewing parameters. The frequencies of occurrence of conflicts, crashes and injuries are estimated for a modeled automated vehicle, and the achieved accelerated rate is around 2,000 to 20,000. In other words, in the accelerated simulations, driving for 1,000 miles will expose the AV with challenging scenarios that will take about 2 to 20 million miles of real-world driving to encounter. This technique thus has the potential to reduce greatly the development and validation time for AVs.",
+      "summary": "",
+      "url": "../papers/1605_04965/",
+      "contentTreeUrl": "../content-tree/#paper=1605_04965",
+      "mindMapUrl": "../mind-map/#paper=1605_04965"
+    },
+    {
       "id": "2016_koopman_challenges_in_autonomous_vehicle",
       "label": "Challenges in Autonomous Vehicle Testing and Validation",
       "title": "Challenges in Autonomous Vehicle Testing and Validation",
@@ -20703,40 +20742,6 @@ window.timelineData = {
       "url": "../papers/1606_03490/",
       "contentTreeUrl": "../content-tree/#paper=1606_03490",
       "mindMapUrl": "../mind-map/#paper=1606_03490"
-    },
-    {
-      "id": "1605_04965",
-      "label": "Accelerated Evaluation of Automated Vehicles Safety in Lane Change Scenarios Based on Importance Sampling Techniques",
-      "title": "Accelerated Evaluation of Automated Vehicles Safety in Lane Change Scenarios Based on Importance Sampling Techniques",
-      "authors": [
-        "Ding Zhao",
-        "Henry Lam",
-        "Huei Peng",
-        "Shan Bao",
-        "David J. LeBlanc",
-        "Kazutoshi Nobukawa",
-        "Christopher S. Pan"
-      ],
-      "authorShort": "Zhao, Lam, Peng",
-      "year": 2016,
-      "source": "",
-      "type": "",
-      "superCategory": "Prediction & Perception",
-      "category": "Motion Prediction",
-      "subCategory": "Prediction Horizon",
-      "path": [
-        "Content Tree",
-        "Prediction & Perception",
-        "Motion Prediction",
-        "Prediction Horizon",
-        "Accelerated Evaluation of Automated Vehicles Safety in Lane Change Scenarios Based on Importance Sampling Techniques"
-      ],
-      "tags": [],
-      "abstract": "Automated vehicles (AVs) must be evaluated thoroughly before their release and deployment. A widely-used evaluation approach is the Naturalistic-Field Operational Test (N-FOT), which tests prototype vehicles directly on the public roads. Due to the low exposure to safety-critical scenarios, N-FOTs are time-consuming and expensive to conduct. In this paper, we propose an accelerated evaluation approach for AVs. The results can be used to generate motions of the primary other vehicles to accelerate the verification of AVs in simulations and controlled experiments. Frontal collision due to unsafe cut-ins is the target crash type of this paper. Human-controlled vehicles making unsafe lane changes are modeled as the primary disturbance to AVs based on data collected by the University of Michigan Safety Pilot Model Deployment Program. The cut-in scenarios are generated based on skewed statistics of collected human driver behaviors, which generate risky testing scenarios while preserving the statistical information so that the safety benefits of AVs in non-accelerated cases can be accurately estimated. The Cross Entropy method is used to recursively search for the optimal skewing parameters. The frequencies of occurrence of conflicts, crashes and injuries are estimated for a modeled automated vehicle, and the achieved accelerated rate is around 2,000 to 20,000. In other words, in the accelerated simulations, driving for 1,000 miles will expose the AV with challenging scenarios that will take about 2 to 20 million miles of real-world driving to encounter. This technique thus has the potential to reduce greatly the development and validation time for AVs.",
-      "summary": "",
-      "url": "../papers/1605_04965/",
-      "contentTreeUrl": "../content-tree/#paper=1605_04965",
-      "mindMapUrl": "../mind-map/#paper=1605_04965"
     },
     {
       "id": "2016_huang_visual_odometry_and_mapping",
@@ -23201,6 +23206,38 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=1802_09767"
     },
     {
+      "id": "2018_gao_randomized_greedy_algorithms_for",
+      "label": "Randomized Greedy Algorithms for Covering Problems",
+      "title": "Randomized Greedy Algorithms for Covering Problems",
+      "authors": [
+        "Wanru Gao",
+        "Tobias Friedrich",
+        "Frank Neumann",
+        "Christian Hercher"
+      ],
+      "authorShort": "Gao, Friedrich, Neumann",
+      "year": 2018,
+      "source": "Proceedings of the Genetic and Evolutionary Computation Conference",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Combinatorial Optimization",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Optimization",
+        "Combinatorial Optimization",
+        "Covering Problems",
+        "Randomized Greedy Algorithms for Covering Problems"
+      ],
+      "tags": [],
+      "abstract": "Greedy algorithms provide a fast and often also effective solution to many combinatorial optimization problems. However, it is well known that they sometimes lead to low quality solutions on certain instances. In this paper, we explore the use of randomness in greedy algorithms for the minimum vertex cover and dominating set problem and compare the resulting performance against their deterministic counterpart. Our algorithms are based on a parameter y which allows to explore the spectrum between uniform and deterministic greedy selection in the steps of the algorithm and our theoretical and experimental investigations point out the benefits of incorporating randomness into greedy algorithms for the two considered combinatorial optimization problems.",
+      "summary": "",
+      "url": "../papers/2018_gao_randomized_greedy_algorithms_for/",
+      "contentTreeUrl": "../content-tree/#paper=2018_gao_randomized_greedy_algorithms_for",
+      "mindMapUrl": "../mind-map/#paper=2018_gao_randomized_greedy_algorithms_for"
+    },
+    {
       "id": "1806_06655",
       "label": "Beyond Convexity - Contraction and Global Convergence of Gradient Descent",
       "title": "Beyond Convexity -- Contraction and Global Convergence of Gradient Descent",
@@ -25027,37 +25064,6 @@ window.timelineData = {
       "url": "../papers/1811_03056/",
       "contentTreeUrl": "../content-tree/#paper=1811_03056",
       "mindMapUrl": "../mind-map/#paper=1811_03056"
-    },
-    {
-      "id": "2018_gao_randomized_greedy_algorithms_for",
-      "label": "Randomized greedy algorithms for covering problems",
-      "title": "Randomized Greedy Algorithms for Covering Problems",
-      "authors": [
-        "Wanru Gao",
-        "Tobias Friedrich",
-        "Frank Neumann",
-        "Christian Hercher"
-      ],
-      "authorShort": "Gao, Friedrich, Neumann",
-      "year": 2018,
-      "source": "Proceedings of the Genetic and Evolutionary Computation Conference",
-      "type": "Conference Paper",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Complexity & Approximation",
-      "path": [
-        "Content Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Complexity & Approximation",
-        "Randomized greedy algorithms for covering problems"
-      ],
-      "tags": [],
-      "abstract": "Greedy algorithms provide a fast and often also effective solution to many combinatorial optimization problems. However, it is well known that they sometimes lead to low quality solutions on certain instances. In this paper, we explore the use of randomness in greedy algorithms for the minimum vertex cover and dominating set problem and compare the resulting performance against their deterministic counterpart. Our algorithms are based on a parameter y which allows to explore the spectrum between uniform and deterministic greedy selection in the steps of the algorithm and our theoretical and experimental investigations point out the benefits of incorporating randomness into greedy algorithms for the two considered combinatorial optimization problems.",
-      "summary": "",
-      "url": "../papers/2018_gao_randomized_greedy_algorithms_for/",
-      "contentTreeUrl": "../content-tree/#paper=2018_gao_randomized_greedy_algorithms_for",
-      "mindMapUrl": "../mind-map/#paper=2018_gao_randomized_greedy_algorithms_for"
     },
     {
       "id": "2018_marion_director_a_user_interface",
@@ -27585,7 +27591,7 @@ window.timelineData = {
         "Preventing Undesirable Behavior of Intelligent Machines"
       ],
       "tags": [],
-      "abstract": "Making well-behaved algorithms Machine learning algorithms are being used in an ever-increasing number of applications, and many of these applications affect quality of life. Yet such algorithms often exhibit undesirable behavior, from various types of bias to causing financial loss or delaying medical diagnoses. In standard machine learning approaches, the burden of avoiding this harmful behavior is placed on the user of the algorithm, who most often is not a computer scientist. Thomas et al. introduce a general framework for algorithm design in which this burden is shifted from the user to the designer of the algorithm. The researchers illustrate the benefits of their approach using examples in gender fairness and diabetes management. Science , this issue p. 999",
+      "abstract": "Intelligent machines using machine learning algorithms are ubiquitous, ranging from simple data analysis and pattern recognition tools to complex systems that achieve superhuman performance on various tasks. Ensuring that they do not exhibit undesirable behavior-that they do not, for example, cause harm to humans-is therefore a pressing problem. We propose a general and flexible framework for designing machine learning algorithms. This framework simplifies the problem of specifying and regulating undesirable behavior. To show the viability of this framework, we used it to create machine learning algorithms that precluded the dangerous behavior caused by standard machine learning algorithms in our experiments. Our framework for designing machine learning algorithms simplifies the safe and responsible application of machine learning.",
       "summary": "",
       "url": "../papers/2019_thomas_preventing_undesirable_behavior_of/",
       "contentTreeUrl": "../content-tree/#paper=2019_thomas_preventing_undesirable_behavior_of",
@@ -30244,6 +30250,36 @@ window.timelineData = {
       "mindMapUrl": "../mind-map/#paper=2020_jiang_time_series_classification_nearest"
     },
     {
+      "id": "2020_kolekar_human_like_driving_behaviour",
+      "label": "Human-like driving behaviour emerges from a risk-based driver model",
+      "title": "Human-like Driving Behaviour Emerges from a Risk-based Driver Model",
+      "authors": [
+        "Sarvesh Kolekar",
+        "Joost de Winter",
+        "David Abbink"
+      ],
+      "authorShort": "Kolekar, Winter, Abbink",
+      "year": 2020,
+      "source": "Nature Communications",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Motion Prediction",
+      "subCategory": "Driver Models",
+      "path": [
+        "Content Tree",
+        "Prediction & Perception",
+        "Motion Prediction",
+        "Driver Models",
+        "Human-like driving behaviour emerges from a risk-based driver model"
+      ],
+      "tags": [],
+      "abstract": "Current driving behaviour models are designed for specific scenarios, such as curve driving, obstacle avoidance, car-following, or overtaking. However, humans can drive in diverse scenarios. Can we find an underlying principle from which driving behaviour in different scenarios emerges? We propose the Driver’s Risk Field (DRF), a two-dimensional field that represents the driver’s belief about the probability of an event occurring. The DRF, when multiplied with the consequence of the event, provides an estimate of the driver’s perceived risk. Through human-in-the-loop and computer simulations, we show that human-like driving behaviour emerges when the DRF is coupled to a controller that maintains the perceived risk below a threshold-level. The DRF model predictions concur with driving behaviour reported in literature for seven different scenarios (curve radii, lane widths, obstacle avoidance, roadside furniture, car-following, overtaking, oncoming traffic). We conclude that our generalizable DRF model is scientifically satisfying and has applications in automated vehicles.",
+      "summary": "",
+      "url": "../papers/2020_kolekar_human_like_driving_behaviour/",
+      "contentTreeUrl": "../content-tree/#paper=2020_kolekar_human_like_driving_behaviour",
+      "mindMapUrl": "../mind-map/#paper=2020_kolekar_human_like_driving_behaviour"
+    },
+    {
       "id": "2001_03093",
       "label": "Trajectron++",
       "title": "Trajectron++: Dynamically-Feasible Trajectory Forecasting with Heterogeneous Data",
@@ -30315,36 +30351,6 @@ window.timelineData = {
       "url": "../papers/2005_04259/",
       "contentTreeUrl": "../content-tree/#paper=2005_04259",
       "mindMapUrl": "../mind-map/#paper=2005_04259"
-    },
-    {
-      "id": "2020_kolekar_human_like_driving_behaviour",
-      "label": "Human-like driving behaviour emerges from a risk-based driver model",
-      "title": "Human-like Driving Behaviour Emerges from a Risk-based Driver Model",
-      "authors": [
-        "Sarvesh Kolekar",
-        "Joost de Winter",
-        "David Abbink"
-      ],
-      "authorShort": "Kolekar, Winter, Abbink",
-      "year": 2020,
-      "source": "Nature Communications",
-      "type": "Journal Paper",
-      "superCategory": "Prediction & Perception",
-      "category": "Motion Prediction",
-      "subCategory": "Traffic Models",
-      "path": [
-        "Content Tree",
-        "Prediction & Perception",
-        "Motion Prediction",
-        "Traffic Models",
-        "Human-like driving behaviour emerges from a risk-based driver model"
-      ],
-      "tags": [],
-      "abstract": "Current driving behaviour models are designed for specific scenarios, such as curve driving, obstacle avoidance, car-following, or overtaking. However, humans can drive in diverse scenarios. Can we find an underlying principle from which driving behaviour in different scenarios emerges? We propose the Driver’s Risk Field (DRF), a two-dimensional field that represents the driver’s belief about the probability of an event occurring. The DRF, when multiplied with the consequence of the event, provides an estimate of the driver’s perceived risk. Through human-in-the-loop and computer simulations, we show that human-like driving behaviour emerges when the DRF is coupled to a controller that maintains the perceived risk below a threshold-level. The DRF model predictions concur with driving behaviour reported in literature for seven different scenarios (curve radii, lane widths, obstacle avoidance, roadside furniture, car-following, overtaking, oncoming traffic). We conclude that our generalizable DRF model is scientifically satisfying and has applications in automated vehicles.",
-      "summary": "",
-      "url": "../papers/2020_kolekar_human_like_driving_behaviour/",
-      "contentTreeUrl": "../content-tree/#paper=2020_kolekar_human_like_driving_behaviour",
-      "mindMapUrl": "../mind-map/#paper=2020_kolekar_human_like_driving_behaviour"
     },
     {
       "id": "2011_10202",
@@ -42760,12 +42766,12 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Prediction & Perception",
       "category": "Motion Prediction",
-      "subCategory": "Prediction Horizon",
+      "subCategory": "Prediction Requirements",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "Motion Prediction",
-        "Prediction Horizon",
+        "Prediction Requirements",
         "Prediction Horizon Requirements for Automated Driving"
       ],
       "tags": [
@@ -44732,6 +44738,40 @@ window.timelineData = {
       "url": "../papers/2025_crestaz_td_cd_mppi_temporal/",
       "contentTreeUrl": "../content-tree/#paper=2025_crestaz_td_cd_mppi_temporal",
       "mindMapUrl": "../mind-map/#paper=2025_crestaz_td_cd_mppi_temporal"
+    },
+    {
+      "id": "2511_18170",
+      "label": "Time-aware Motion Planning in Dynamic Environments with Conformal Prediction",
+      "title": "Time-aware Motion Planning in Dynamic Environments with Conformal Prediction",
+      "authors": [
+        "Kaier Liang",
+        "Licheng Luo",
+        "Yixuan Wang",
+        "Mingyu Cai",
+        "Cristian Ioan Vasile"
+      ],
+      "authorShort": "Liang, Luo, Wang",
+      "year": 2025,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Kinodynamic Planning",
+      "path": [
+        "Content Tree",
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Planning",
+        "Safe Interval Planning",
+        "Time-aware Motion Planning in Dynamic Environments with Conformal Prediction"
+      ],
+      "tags": [],
+      "abstract": "Safe navigation in dynamic environments remains challenging due to uncertain obstacle behaviors and the lack of formal prediction guarantees. We propose two motion planning frameworks that leverage conformal prediction (CP): a global planner that integrates Safe Interval Path Planning (SIPP) for uncertainty-aware trajectory generation, and a local planner that performs online reactive planning. The global planner offers distribution-free safety guarantees for long-horizon navigation, while the local planner mitigates inaccuracies in obstacle trajectory predictions through adaptive CP, enabling robust and responsive motion in dynamic environments. To further enhance trajectory feasibility, we introduce an adaptive quantile mechanism in the CP-based uncertainty quantification. Instead of using a fixed confidence level, the quantile is automatically tuned to the optimal value that preserves trajectory feasibility, allowing the planner to adaptively tighten safety margins in regions with higher uncertainty. We validate the proposed framework through numerical experiments conducted in dynamic and cluttered environments. The project page is available at https://time-aware-planning.github.io",
+      "summary": "",
+      "url": "../papers/2511_18170/",
+      "contentTreeUrl": "../content-tree/#paper=2511_18170",
+      "mindMapUrl": "../mind-map/#paper=2511_18170"
     },
     {
       "id": "2505_05507",
@@ -47313,11 +47353,12 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Prediction & Perception",
       "category": "Motion Prediction",
-      "subCategory": "Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning",
+      "subCategory": "Multi-agent & Interaction-aware Prediction",
       "path": [
         "Content Tree",
         "Prediction & Perception",
         "Motion Prediction",
+        "Multi-agent & Interaction-aware Prediction",
         "Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning"
       ],
       "tags": [
@@ -47400,38 +47441,6 @@ window.timelineData = {
       "url": "../papers/2509_19789/",
       "contentTreeUrl": "../content-tree/#paper=2509_19789",
       "mindMapUrl": "../mind-map/#paper=2509_19789"
-    },
-    {
-      "id": "2511_18170",
-      "label": "Time-aware Motion Planning in Dynamic Environments with Conformal Prediction",
-      "title": "Time-aware Motion Planning in Dynamic Environments with Conformal Prediction",
-      "authors": [
-        "Kaier Liang",
-        "Licheng Luo",
-        "Yixuan Wang",
-        "Mingyu Cai",
-        "Cristian Ioan Vasile"
-      ],
-      "authorShort": "Liang, Luo, Wang",
-      "year": 2025,
-      "source": "",
-      "type": "",
-      "superCategory": "Prediction & Perception",
-      "category": "Motion Prediction",
-      "subCategory": "Surveys",
-      "path": [
-        "Content Tree",
-        "Prediction & Perception",
-        "Motion Prediction",
-        "Surveys",
-        "Time-aware Motion Planning in Dynamic Environments with Conformal Prediction"
-      ],
-      "tags": [],
-      "abstract": "Safe navigation in dynamic environments remains challenging due to uncertain obstacle behaviors and the lack of formal prediction guarantees. We propose two motion planning frameworks that leverage conformal prediction (CP): a global planner that integrates Safe Interval Path Planning (SIPP) for uncertainty-aware trajectory generation, and a local planner that performs online reactive planning. The global planner offers distribution-free safety guarantees for long-horizon navigation, while the local planner mitigates inaccuracies in obstacle trajectory predictions through adaptive CP, enabling robust and responsive motion in dynamic environments. To further enhance trajectory feasibility, we introduce an adaptive quantile mechanism in the CP-based uncertainty quantification. Instead of using a fixed confidence level, the quantile is automatically tuned to the optimal value that preserves trajectory feasibility, allowing the planner to adaptively tighten safety margins in regions with higher uncertainty. We validate the proposed framework through numerical experiments conducted in dynamic and cluttered environments. The project page is available at https://time-aware-planning.github.io",
-      "summary": "",
-      "url": "../papers/2511_18170/",
-      "contentTreeUrl": "../content-tree/#paper=2511_18170",
-      "mindMapUrl": "../mind-map/#paper=2511_18170"
     },
     {
       "id": "2503_03262",
@@ -50892,9 +50901,9 @@ window.timelineData = {
         "Mapping & SLAM"
       ],
       "Motion Prediction": [
-        "Traffic Models",
+        "Driver Models",
         "Multi-agent & Interaction-aware Prediction",
-        "Prediction Horizon",
+        "Prediction Requirements",
         "Surveys"
       ],
       "Computer Vision": [
@@ -50957,8 +50966,7 @@ window.timelineData = {
         "Nearest Neighbor Search",
         "Trees & Spatial Indexing",
         "Probabilistic Data Structures",
-        "Parallel Algorithms",
-        "Complexity & Approximation"
+        "Parallel Algorithms"
       ],
       "Network Science": [
         "Small-World and Scale-Free Networks",
