@@ -25,6 +25,14 @@ and resolve all issues.
 
 ## Ingest
 
+## Real time iteration mpc
+
+https://epubs.siam.org/doi/10.1137/S0363012902400713
+https://ieeexplore.ieee.org/document/8550541
+https://ieeexplore.ieee.org/document/9029543
+https://arxiv.org/abs/2508.05396
+
+
 ### Localization and mapping
 
 <https://arxiv.org/abs/2401.06323>
