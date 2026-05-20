@@ -413,6 +413,7 @@
             - AORRTC: docs/papers/2025/2505.10542/metadata.yml
           - Safe Interval Planning:
             - SIPP: docs/papers/2011/2011.phillips.sipp_safe_interval_path/metadata.yml
+            - Time-aware Motion Planning in Dynamic Environments with Conformal Prediction: docs/papers/2025/2511.18170/metadata.yml
           - Discontinuity-bounded Planning:
             - db-A*: docs/papers/2022/2203.11108/metadata.yml
             - iDb-A: docs/papers/2023/2311.03553/metadata.yml
@@ -1239,7 +1240,6 @@
         - DriveGPT: docs/papers/2024/2412.14415/metadata.yml
         - "Forecasting the Past: Gradient-Based Distribution Shift Detection in Trajectory Prediction": docs/papers/2026/2604.12425/metadata.yml
         - "Task-Relevant Failure Detection for Trajectory Predictors in Autonomous Vehicles": docs/papers/2022/2207.12380/metadata.yml
-        - "Time-aware Motion Planning in Dynamic Environments with Conformal Prediction": docs/papers/2025/2511.18170/metadata.yml
         - WestWorld: docs/papers/2026/2603.14392/metadata.yml
         - RDAR: docs/papers/2025/2509.19789/metadata.yml
       - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: docs/papers/2025/2511.00814/metadata.yml
