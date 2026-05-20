@@ -458,7 +458,7 @@ JS_CHECKS = r"""
     'selected node label outline uses the gold emphasis color',
     selected && `${selected.labelOutlineColor} vs ${selectedRing}`);
   assert(selected && selected.highlighted === true, 'selected node is marked for ring rendering');
-  const focusLabelsCanvas = renderer.getCanvases && renderer.getCanvases().focusLabels;
+  const focusLabelsCanvas = renderer.getCanvases && renderer.getCanvases().topLabels;
   const targetAttrs = graph.getNodeAttributes(target);
   const targetPoint = renderer.graphToViewport({ x: targetAttrs.x, y: targetAttrs.y });
   assert(canvasHasDarkPixelNear(focusLabelsCanvas, targetPoint),
@@ -514,11 +514,14 @@ JS_CHECKS = r"""
     camera.getState().ratio);
   assertNodeCenteredInUsableCanvas(target, 'paper hash focus with menu shown');
 
+  const beforePanelToggleCamera = { ...camera.getState() };
   document.getElementById('mm-panel-header').click();
   await sleep(600);
   renderer.refresh();
   await sleep(80);
-  assertNodeCenteredInUsableCanvas(target, 'paper hash focus after hiding the menu');
+  assert(cameraDelta(beforePanelToggleCamera, camera.getState()) < 1e-8,
+    'settings panel toggle keeps the camera stable',
+    JSON.stringify({ before: beforePanelToggleCamera, after: camera.getState() }));
 
   camera.setState({ x: 0, y: 0, ratio: 5 });
   await sleep(30);

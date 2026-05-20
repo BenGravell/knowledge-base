@@ -94,6 +94,9 @@
   const PAPER_NODE_RADIUS_CLEARANCE_RATIO = 0.30;
   const PAPER_NODE_RADIUS_TARGET = 12 * NODE_DIAMETER_SCALE;
   const NODE_LABEL_FONT_SIZE = 11;
+  const NODE_LABEL_FONT_SIZE_MIN = 9;
+  const NODE_LABEL_FONT_SIZE_MAX = 24;
+  const NODE_LABEL_DIAMETER_EXPONENT = 0.34;
   const NODE_LABEL_LINE_HEIGHT_RATIO = 1.1;
   const NODE_LABEL_MAX_LINE_CHARS = 15;
   const NODE_LABEL_MAX_LINES = 4;
@@ -102,12 +105,14 @@
   const NODE_LABEL_ZOOM_SCALE_MIN = 0.68;
   const NODE_LABEL_ZOOM_SCALE_MAX = 1.55;
   const SELECTED_NODE_RADIUS_SCALE = 1;
-  const DEFAULT_RELEVANCE_SIMILARITY = 0.78;
-  const DEFAULT_RELEVANCE_TREE_DISTANCE = 4;
+  const DEFAULT_RELEVANCE_SIMILARITY = 0.67;
+  const DEFAULT_RELEVANCE_TREE_DISTANCE = 2;
   const MAX_ANIMATED_TRANSITION_NODES = 90;
   const LEVEL_TRANSITION_MS = 260;
   const LEVEL_TRANSITION_MAX_SCREEN_TRAVEL = 160;
   const LEVEL_TRANSITION_DRILLDOWN_TRAVEL_RATIO = 0.58;
+  const AGGREGATE_POSITION_OUTER_QUANTILE = 0.84;
+  const AGGREGATE_POSITION_BIAS_BY_LEVEL = [0.68, 0.52, 0.36, 0.24];
   const VIEWPORT_PADDING = 30;
   const PANEL_MAX_FOCUS_WIDTH_RATIO = 0.72;
   const FOCUSED_PAPER_CAMERA_RATIO = 0.32;
@@ -383,17 +388,33 @@
       : NODE_LABEL_ZOOM_REFERENCE_RATIO;
   }
 
-  function currentNodeLabelMetrics() {
-    const zoomScale = clamp(
-      Math.pow(NODE_LABEL_ZOOM_REFERENCE_RATIO / currentCameraRatio(), NODE_LABEL_ZOOM_EXPONENT),
+  function currentNodeLabelZoomScale() {
+    return nodeLabelZoomScaleForRatio(currentCameraRatio());
+  }
+
+  function nodeLabelZoomScaleForRatio(ratio) {
+    const safeRatio = Number.isFinite(ratio) && ratio > 0
+      ? ratio
+      : NODE_LABEL_ZOOM_REFERENCE_RATIO;
+    return clamp(
+      Math.pow(NODE_LABEL_ZOOM_REFERENCE_RATIO / safeRatio, NODE_LABEL_ZOOM_EXPONENT),
       NODE_LABEL_ZOOM_SCALE_MIN,
       NODE_LABEL_ZOOM_SCALE_MAX
     );
-    const fontSize = NODE_LABEL_FONT_SIZE * zoomScale;
+  }
+
+  function currentNodeLabelMetrics(data, zoomScale = currentNodeLabelZoomScale()) {
+    const baseFontSize = Number.isFinite(data.labelFontSize)
+      ? data.labelFontSize
+      : NODE_LABEL_FONT_SIZE;
+    const baseLineHeight = Number.isFinite(data.labelLineHeight)
+      ? data.labelLineHeight
+      : baseFontSize * NODE_LABEL_LINE_HEIGHT_RATIO;
+    const fontSize = baseFontSize * zoomScale;
 
     return {
       fontSize,
-      lineHeight: fontSize * NODE_LABEL_LINE_HEIGHT_RATIO,
+      lineHeight: baseLineHeight * zoomScale,
       outlineWidth: clamp(fontSize * 0.18, 1.25, 3),
     };
   }
@@ -460,6 +481,52 @@
     if (index === 0) return clamp(110 + scale * 7.5, 125, 210) * NODE_DIAMETER_SCALE;
     if (index === 1) return clamp(78 + scale * 5.2, 88, 160) * NODE_DIAMETER_SCALE;
     return clamp(56 + scale * Math.max(2.9, 4.3 - index * 0.35), 62, 130) * NODE_DIAMETER_SCALE;
+  }
+
+  function median(values) {
+    const sorted = values
+      .filter(value => Number.isFinite(value))
+      .sort((a, b) => a - b);
+    if (!sorted.length) return null;
+
+    const mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2
+      ? sorted[mid]
+      : (sorted[mid - 1] + sorted[mid]) / 2;
+  }
+
+  function labelFontSizeForDiskDiameter(diameter) {
+    const referenceDiameter = PAPER_NODE_RADIUS_TARGET * 2;
+    const ratio = Math.max(Number(diameter) || referenceDiameter, 1) / referenceDiameter;
+    return clamp(
+      NODE_LABEL_FONT_SIZE * Math.pow(ratio, NODE_LABEL_DIAMETER_EXPONENT),
+      NODE_LABEL_FONT_SIZE_MIN,
+      NODE_LABEL_FONT_SIZE_MAX
+    );
+  }
+
+  function precomputeNodeLabelMetrics(nodeSpecs) {
+    const diametersByLevel = new Map();
+
+    nodeSpecs.forEach(spec => {
+      const level = spec.detailLevel || 'paper';
+      const radius = Number.isFinite(spec.baseSize) ? spec.baseSize : PAPER_NODE_RADIUS_TARGET;
+      if (!diametersByLevel.has(level)) diametersByLevel.set(level, []);
+      diametersByLevel.get(level).push(radius * 2);
+    });
+
+    const metricsByLevel = new Map();
+    DETAIL_LEVELS.forEach(level => {
+      const diameter = median(diametersByLevel.get(level) || []) || (PAPER_NODE_RADIUS_TARGET * 2);
+      const fontSize = Math.round(labelFontSizeForDiskDiameter(diameter) * 10) / 10;
+      metricsByLevel.set(level, {
+        fontSize,
+        lineHeight: Math.round(fontSize * NODE_LABEL_LINE_HEIGHT_RATIO * 10) / 10,
+        sourceDiskDiameter: Math.round(diameter * 10) / 10,
+      });
+    });
+
+    return metricsByLevel;
   }
 
   function nodeDisplaySize(attrs) {
@@ -1033,6 +1100,9 @@
       previewTitles: [],
       x: 0,
       y: 0,
+      layoutX: null,
+      layoutY: null,
+      leafPoints: [],
     };
   }
 
@@ -1053,9 +1123,102 @@
     group.filterKeys.add(nodeKey(attrs));
     group.itemTypes.add(itemTypeKey(attrs));
     group.searchParts.add(paperSearchText(attrs));
-    group.x += Number(paperNode.position.x) || 0;
-    group.y += Number(paperNode.position.y) || 0;
+    const x = Number(paperNode.position.x) || 0;
+    const y = Number(paperNode.position.y) || 0;
+    group.x += x;
+    group.y += y;
+    group.leafPoints.push({ x, y });
     if (group.previewTitles.length < 4 && attrs.title) group.previewTitles.push(attrs.title);
+  }
+
+  function quantile(values, q) {
+    const sorted = values
+      .filter(value => Number.isFinite(value))
+      .sort((a, b) => a - b);
+    if (!sorted.length) return null;
+    if (sorted.length === 1) return sorted[0];
+
+    const index = clamp(q, 0, 1) * (sorted.length - 1);
+    const lower = Math.floor(index);
+    const upper = Math.ceil(index);
+    const t = index - lower;
+    return sorted[lower] * (1 - t) + sorted[upper] * t;
+  }
+
+  function hierarchyGroupCentroid(group) {
+    const count = group.leafIds.length || 1;
+    return {
+      x: group.x / count,
+      y: group.y / count,
+    };
+  }
+
+  function aggregatePositionBias(group) {
+    const index = Math.max(Number(group.pathIndex) || 0, 0);
+    if (index < AGGREGATE_POSITION_BIAS_BY_LEVEL.length) {
+      return AGGREGATE_POSITION_BIAS_BY_LEVEL[index];
+    }
+    return 0.18;
+  }
+
+  function biasedAggregatePosition(group, referencePoint) {
+    const centroid = hierarchyGroupCentroid(group);
+    const leafPoints = group.leafPoints || [];
+    if (leafPoints.length < 2 || !referencePoint) return centroid;
+
+    const dx = centroid.x - referencePoint.x;
+    const dy = centroid.y - referencePoint.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    if (!Number.isFinite(distance) || distance < 1e-6) return centroid;
+
+    const ux = dx / distance;
+    const uy = dy / distance;
+    const centroidProjection = dx * ux + dy * uy;
+    const outerProjection = quantile(
+      leafPoints.map(point => (point.x - referencePoint.x) * ux + (point.y - referencePoint.y) * uy),
+      AGGREGATE_POSITION_OUTER_QUANTILE
+    );
+
+    if (!Number.isFinite(outerProjection) || outerProjection <= centroidProjection) {
+      return centroid;
+    }
+
+    const bias = aggregatePositionBias(group);
+    const offset = (outerProjection - centroidProjection) * bias;
+    return {
+      x: centroid.x + ux * offset,
+      y: centroid.y + uy * offset,
+    };
+  }
+
+  function computeAggregateLayoutPositions(roots) {
+    const rootTotals = roots.reduce(
+      (acc, group) => {
+        const count = group.leafIds.length || 0;
+        acc.x += group.x;
+        acc.y += group.y;
+        acc.count += count;
+        return acc;
+      },
+      { x: 0, y: 0, count: 0 }
+    );
+    const globalCentroid = rootTotals.count
+      ? { x: rootTotals.x / rootTotals.count, y: rootTotals.y / rootTotals.count }
+      : { x: 0, y: 0 };
+
+    function visit(group, parentCentroid = null) {
+      const referencePoint = parentCentroid || globalCentroid;
+      const position = biasedAggregatePosition(group, referencePoint);
+      const centroid = hierarchyGroupCentroid(group);
+
+      group.layoutX = position.x;
+      group.layoutY = position.y;
+      group.centroidX = centroid.x;
+      group.centroidY = centroid.y;
+      group.children.forEach(child => visit(child, centroid));
+    }
+
+    roots.forEach(root => visit(root));
   }
 
   function hierarchySortKey(group) {
@@ -1141,8 +1304,8 @@
         searchText: [...group.searchParts].join(' ').toLowerCase(),
       },
       position: {
-        x: Math.round((group.x / count) * 10) / 10,
-        y: Math.round((group.y / count) * 10) / 10,
+        x: Math.round((Number.isFinite(group.layoutX) ? group.layoutX : group.x / count) * 10) / 10,
+        y: Math.round((Number.isFinite(group.layoutY) ? group.layoutY : group.y / count) * 10) / 10,
       },
     };
   }
@@ -1191,6 +1354,7 @@
     });
 
     sortHierarchyGroups(roots);
+    computeAggregateLayoutPositions(roots);
 
     function collect(group) {
       if (groupsByLevel[group.level]) groupsByLevel[group.level].push(group);
@@ -1277,15 +1441,29 @@
       new window.graphology.Graph({ type: 'undirected' });
     const hierarchy = buildHierarchyData();
     const childIndex = new Map();
-
-    DATA.nodes.concat(hierarchy.nodes).forEach(n => {
+    const nodeSpecs = DATA.nodes.concat(hierarchy.nodes).map(n => {
       const attrs = n.data;
       const kind = attrs.kind || 'paper';
       const detailLevel = attrs.detailLevel || 'paper';
-      const color = attrs.color || stableColorForPath(paperNavPath(attrs));
       const staticSize = kind === 'aggregate'
         ? aggregateNodeSize(attrs.count, detailLevel)
         : null;
+
+      return {
+        raw: n,
+        attrs,
+        kind,
+        detailLevel,
+        staticSize,
+        baseSize: kind === 'aggregate' ? staticSize : PAPER_NODE_RADIUS_TARGET,
+      };
+    });
+    const labelMetricsByLevel = precomputeNodeLabelMetrics(nodeSpecs);
+
+    nodeSpecs.forEach(spec => {
+      const { raw: n, attrs, kind, detailLevel, staticSize } = spec;
+      const color = attrs.color || stableColorForPath(paperNavPath(attrs));
+      const labelMetrics = labelMetricsByLevel.get(detailLevel) || {};
       const x = n.position.x;
       const y = n.position.y;
       const ancestorIds = attrs.ancestorIds || hierarchy.paperAncestors[attrs.id] || {};
@@ -1310,6 +1488,9 @@
         staticBaseColor: color,
         label: formatLabel(attrs.label),
         fullLabel: attrs.fullLabel || attrs.label,
+        labelFontSize: labelMetrics.fontSize || NODE_LABEL_FONT_SIZE,
+        labelLineHeight: labelMetrics.lineHeight || (NODE_LABEL_FONT_SIZE * NODE_LABEL_LINE_HEIGHT_RATIO),
+        labelSourceDiskDiameter: labelMetrics.sourceDiskDiameter || (PAPER_NODE_RADIUS_TARGET * 2),
         count: attrs.count || 1,
         labelColor: accessibleNodeLabelColor(color),
         labelOutlineColor: color,
@@ -1407,7 +1588,7 @@
     if (!data.label) return;
 
     const lines = String(data.label).split('\n');
-    const { fontSize, lineHeight, outlineWidth } = currentNodeLabelMetrics();
+    const { fontSize, lineHeight, outlineWidth } = currentNodeLabelMetrics(data, data.labelZoomScale);
     const startY = data.y - ((lines.length - 1) * lineHeight) / 2;
 
     context.save();
@@ -1492,6 +1673,7 @@
     if (!topLabelContext || !renderer || !graph) return;
 
     clearTopLabelOverlay();
+    const labelZoomScale = currentNodeLabelZoomScale();
     topLabelOverlayNodes().forEach(node => {
       const attrs = graph.getNodeAttributes(node);
       const display = renderer.getNodeDisplayData(node);
@@ -1507,6 +1689,7 @@
         x: point.x,
         y: point.y,
         size,
+        labelZoomScale,
       });
     });
   }
@@ -2499,11 +2682,12 @@
     return HIERARCHY_LEVEL_BY_ID.has(attrs.detailLevel) && nodeAllowedByFilters(attrs);
   }
 
-  function expandBBoxes(bboxes, rawPoint, framedPoint) {
-    bboxes.rawXmin = Math.min(bboxes.rawXmin, rawPoint.x);
-    bboxes.rawXmax = Math.max(bboxes.rawXmax, rawPoint.x);
-    bboxes.rawYmin = Math.min(bboxes.rawYmin, rawPoint.y);
-    bboxes.rawYmax = Math.max(bboxes.rawYmax, rawPoint.y);
+  function expandBBoxes(bboxes, rawPoint, framedPoint, rawRadius = 0) {
+    const radius = Number.isFinite(rawRadius) ? Math.max(0, rawRadius) : 0;
+    bboxes.rawXmin = Math.min(bboxes.rawXmin, rawPoint.x - radius);
+    bboxes.rawXmax = Math.max(bboxes.rawXmax, rawPoint.x + radius);
+    bboxes.rawYmin = Math.min(bboxes.rawYmin, rawPoint.y - radius);
+    bboxes.rawYmax = Math.max(bboxes.rawYmax, rawPoint.y + radius);
     bboxes.framedXmin = Math.min(bboxes.framedXmin, framedPoint.x);
     bboxes.framedXmax = Math.max(bboxes.framedXmax, framedPoint.x);
     bboxes.framedYmin = Math.min(bboxes.framedYmin, framedPoint.y);
@@ -2574,6 +2758,7 @@
       if (!fitNodeEligible(attrs)) return;
 
       const rawPoint = homePoint(attrs);
+      const rawRadius = nodeDisplaySize(attrs);
       const displayAttrs = renderer && typeof renderer.getNodeDisplayData === 'function'
         ? renderer.getNodeDisplayData(node)
         : null;
@@ -2583,7 +2768,7 @@
           ? displayAttrs
           : attrs;
 
-      expandBBoxes(bboxes, rawPoint, framedPoint);
+      expandBBoxes(bboxes, rawPoint, framedPoint, rawRadius);
     });
 
     return finalBBoxes(bboxes);
@@ -2611,6 +2796,7 @@
     };
 
     const visit = (node, attrs) => {
+      const rawRadius = nodeDisplaySize(attrs);
       const displayAttrs = renderer && typeof renderer.getNodeDisplayData === 'function'
         ? renderer.getNodeDisplayData(node)
         : null;
@@ -2620,7 +2806,7 @@
           ? displayAttrs
           : attrs;
 
-      expandBBoxes(bboxes, attrs, framedPoint);
+      expandBBoxes(bboxes, attrs, framedPoint, rawRadius);
     };
 
     if (visibleNodes) {
@@ -2736,6 +2922,153 @@
     return minimumPointDistance(points);
   }
 
+  function fitNodes() {
+    if (!graph) return [];
+    if (visibleNodes) return [...visibleNodes].filter(node => graphHasNode(node));
+
+    const nodes = [];
+    graph.forEachNode((node) => {
+      if (nodeVisible(node)) nodes.push(node);
+    });
+    return nodes;
+  }
+
+  let fitMeasureContext = null;
+  function labelMeasureContext() {
+    if (fitMeasureContext) return fitMeasureContext;
+    if (typeof document === 'undefined') return null;
+    fitMeasureContext = document.createElement('canvas').getContext('2d');
+    return fitMeasureContext;
+  }
+
+  function nodeViewportRadius(attrs, cameraState, padding) {
+    const radius = nodeDisplaySize(attrs);
+    if (!Number.isFinite(radius) || radius <= 0) return 0;
+
+    const origin = { x: attrs.x, y: attrs.y };
+    const edge = { x: attrs.x + radius, y: attrs.y };
+    const options = { cameraState, padding };
+    const a = renderer.graphToViewport(origin, options);
+    const b = renderer.graphToViewport(edge, options);
+    return Math.abs(b.x - a.x);
+  }
+
+  function labelTextHalfExtents(attrs, cameraState) {
+    const label = showNodeLabels ? attrs.label : '';
+    if (!label) return { width: 0, height: 0 };
+
+    const context = labelMeasureContext();
+    const lines = String(label).split('\n');
+    const zoomScale = nodeLabelZoomScaleForRatio(cameraState && cameraState.ratio);
+    const { fontSize, lineHeight, outlineWidth } = currentNodeLabelMetrics(attrs, zoomScale);
+    let maxWidth = 0;
+
+    if (context) {
+      context.font = `650 ${fontSize}px "Atkinson Hyperlegible Next", "Segoe UI", sans-serif`;
+      lines.forEach(line => {
+        maxWidth = Math.max(maxWidth, context.measureText(line).width);
+      });
+    } else {
+      lines.forEach(line => {
+        maxWidth = Math.max(maxWidth, String(line).length * fontSize * 0.58);
+      });
+    }
+
+    return {
+      width: maxWidth / 2 + outlineWidth + 4,
+      height: ((Math.max(lines.length, 1) - 1) * lineHeight + fontSize) / 2 + outlineWidth + 4,
+    };
+  }
+
+  function screenContentBBox(cameraState, padding) {
+    const nodes = fitNodes();
+    if (!nodes.length) return null;
+
+    const bounds = {
+      left: Infinity,
+      right: -Infinity,
+      top: Infinity,
+      bottom: -Infinity,
+    };
+
+    nodes.forEach(node => {
+      const attrs = graph.getNodeAttributes(node);
+      const point = renderer.graphToViewport({ x: attrs.x, y: attrs.y }, { cameraState, padding });
+      if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) return;
+
+      const nodeRadius = nodeViewportRadius(attrs, cameraState, padding);
+      const labelExtents = labelTextHalfExtents(attrs, cameraState);
+      const halfWidth = Math.max(nodeRadius, labelExtents.width);
+      const halfHeight = Math.max(nodeRadius, labelExtents.height);
+
+      bounds.left = Math.min(bounds.left, point.x - halfWidth);
+      bounds.right = Math.max(bounds.right, point.x + halfWidth);
+      bounds.top = Math.min(bounds.top, point.y - halfHeight);
+      bounds.bottom = Math.max(bounds.bottom, point.y + halfHeight);
+    });
+
+    if (!Number.isFinite(bounds.left)) return null;
+
+    return {
+      ...bounds,
+      width: bounds.right - bounds.left,
+      height: bounds.bottom - bounds.top,
+    };
+  }
+
+  function usableCanvasCenter(usable, dims) {
+    return {
+      x: usable.left < usable.right ? (usable.left + usable.right) / 2 : dims.width / 2,
+      y: usable.top < usable.bottom ? (usable.top + usable.bottom) / 2 : dims.height / 2,
+    };
+  }
+
+  function recenterCameraOnScreenBBox(cameraState, screenBBox, desired, padding) {
+    if (!screenBBox) return cameraState;
+
+    const contentCenter = {
+      x: (screenBBox.left + screenBBox.right) / 2,
+      y: (screenBBox.top + screenBBox.bottom) / 2,
+    };
+    const framedContent = renderer.viewportToFramedGraph(contentCenter, { cameraState, padding });
+    const framedDesired = renderer.viewportToFramedGraph(desired, { cameraState, padding });
+
+    return {
+      ...cameraState,
+      x: cameraState.x + (framedContent.x - framedDesired.x),
+      y: cameraState.y + (framedContent.y - framedDesired.y),
+    };
+  }
+
+  function includeLabelsInFit(cameraState, usable, dims, padding) {
+    let target = { ...cameraState };
+    const desired = usableCanvasCenter(usable, dims);
+    const usableWidth = Math.max(usable.right - usable.left, 1);
+    const usableHeight = Math.max(usable.bottom - usable.top, 1);
+
+    for (let i = 0; i < 4; i += 1) {
+      const bounds = screenContentBBox(target, padding);
+      if (!bounds) return target;
+
+      const scale = Math.max(
+        1,
+        bounds.width / usableWidth,
+        bounds.height / usableHeight
+      );
+
+      if (scale > 1.001) {
+        target = {
+          ...target,
+          ratio: target.ratio * scale * 1.04,
+        };
+      }
+
+      target = recenterCameraOnScreenBBox(target, screenContentBBox(target, padding), desired, padding);
+    }
+
+    return target;
+  }
+
   function fitVisible(duration) {
     if (!renderer || !graph) return;
 
@@ -2751,29 +3084,28 @@
     if (!dims.width || !dims.height) return;
 
     const usable = usableCanvasRect(PAD);
-    const left = usable.left;
-    const right = usable.right;
     const stagePadding = PAD;
-    const desiredX = left < right ? (left + right) / 2 : dims.width / 2;
-    const desiredY = usable.top < usable.bottom ? (usable.top + usable.bottom) / 2 : dims.height / 2;
+    const desired = usableCanvasCenter(usable, dims);
     const bboxCenterX = (bboxes.framed.x[0] + bboxes.framed.x[1]) / 2;
     const bboxCenterY = (bboxes.framed.y[0] + bboxes.framed.y[1]) / 2;
     const baseState = { x: bboxCenterX, y: bboxCenterY, ratio: 1, angle: 0 };
 
     renderer.setCustomBBox(bboxes.raw);
     renderer.setSetting('stagePadding', stagePadding);
+    renderer.refresh();
 
     const framedAtDesiredCenter = renderer.viewportToFramedGraph(
-      { x: desiredX, y: desiredY },
+      desired,
       { cameraState: baseState, padding: stagePadding }
     );
 
-    const target = {
+    let target = {
       x: baseState.x + (bboxCenterX - framedAtDesiredCenter.x),
       y: baseState.y + (bboxCenterY - framedAtDesiredCenter.y),
       ratio: 1,
       angle: 0,
     };
+    target = includeLabelsInFit(target, usable, dims, stagePadding);
 
     if (duration === 0) renderer.getCamera().setState(target);
     else renderer.getCamera().animate(target, { duration: duration || 260 });
@@ -3498,9 +3830,6 @@
       const collapsed = panel.classList.toggle('body-collapsed');
       hideBtn.textContent = collapsed ? 'Show Settings' : 'Hide Settings';
       header.title = collapsed ? 'Show Settings' : 'Hide Settings';
-      window.setTimeout(() => {
-        if (!refocusPinnedPaper(220)) fitVisible();
-      }, 280);
     });
   }
 

@@ -73,11 +73,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 /* ── App shell ────────────────────────────────────────────────────────────── */
 #mm-app {
   --mm-ribbon-max-h: min(38vh, 28rem);
+  --mm-ribbon-header-h: 2.65rem;
   position: relative;
   isolation: isolate;
   z-index: 0;
-  display: flex;
-  flex-direction: column;
   width:  100%;
   height: calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px));
   overflow: hidden;
@@ -87,10 +86,13 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 /* ── Sigma canvas ─────────────────────────────────────────────────────────── */
 #mm-graph {
-  flex: 1 1 auto;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   min-width: 0;
   min-height: 0;
-  height: auto;
+  width: 100%;
+  height: 100%;
 }
 
 /* ── Loading overlay ──────────────────────────────────────────────────────── */
@@ -117,9 +119,11 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 /* ── Settings ribbon ──────────────────────────────────────────────────────── */
 #mm-panel-header {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 5;
-  flex: 0 0 auto;
   width: 100%;
   box-sizing: border-box;
   display: flex;
@@ -158,8 +162,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 
 #mm-panel {
-  position: relative;
-  flex: 0 0 auto;
+  position: absolute;
+  top: var(--mm-ribbon-header-h);
+  left: 0;
+  right: 0;
   width: 100%;
   max-height: var(--mm-ribbon-max-h);
   z-index: 4;
@@ -1001,9 +1007,9 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
           <span class="mm-filter-body">
             <span class="mm-filter-row">
               <span>Semantic similarity</span>
-              <span id="mm-relevance-similarity-val">0.78</span>
+              <span id="mm-relevance-similarity-val">0.67</span>
             </span>
-            <input id="mm-relevance-similarity" type="range" min="50" max="95" step="1" value="78">
+            <input id="mm-relevance-similarity" type="range" min="50" max="95" step="1" value="67">
           </span>
         </label>
         <label class="mm-filter-toggle">
@@ -1013,9 +1019,9 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
           <span class="mm-filter-body">
             <span class="mm-filter-row">
               <span>Tree proximity</span>
-              <span id="mm-relevance-distance-val">4</span>
+              <span id="mm-relevance-distance-val">12</span>
             </span>
-            <input id="mm-relevance-distance" type="range" min="0" max="12" step="1" value="4">
+            <input id="mm-relevance-distance" type="range" min="0" max="14" step="1" value="12">
           </span>
         </label>
         <div class="mm-relevance-foot">
