@@ -269,10 +269,6 @@ Hand-crafted
 
 ### UX
 
-### Targeted edits
-
-Prediction horizon section has mjscategorized lane change scenarios item. Reorganize and remove prediction horizon,  move to safety/eval?
-
 ### Taxonomy guidance
 
 Balance or expand tree to fix all issues reported by python scripts/list_branching_factor_violations.py
@@ -283,10 +279,6 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 
 ### UX
 
-1. Fit view is not working. Needs to fit all nodes and labels inside the usable canvas area, including a bit of margin around the outside.
-
-2. Low level of detail big disks tend to get pulled together closer compared to the hull of the lowest level item points they contain, which causes the fitted view at high lod to be too small and induces user to zoom out as high lod is expanded. Revise the aggregation node placement so that the contained items are not far flung outside. Better to bias low lod big nodes farther away from the barycenters.
-
 ## Knowledge Studio (new feature)
 
 Tightly integrate the Mind Map, Timeline, and Content Tree into a single multi-panel studio.
@@ -294,25 +286,12 @@ They share an identical hierarchy.
 The mind map can be shown on the side / top of the nav tree as a kind of minimap (Gran Turismo style).
 It should focus on the currently selected branch by zooming and centering on it (not discarding the upper levels of hierarchy, just letting ancestors and other non descendent parts of the tree go off screen).
 
-Edges in the mind map are not based on the embedding similarity at all, only the hierarchy from the content tree.
-
 ### Ideas
 
 <https://www.litmaps.com/about/us>
 
 <https://chatgpt.com/share/69d55fa0-e2dc-8332-b847-357e80355305>
 <https://chatgpt.com/share/69d41a6e-df98-8333-bc8f-429f7f8717c3>
-
-### Tune the edge threshold
-
-GRPO should be connected to PPO.
-
-1312.0041 should be connected to the 1985 ERA paper by Juang and Pappa
-Also to Identification of Observer/Kalman Filter Markov Parameters: Theory and Experiments" by Juang, Phan, Horta & Longman, 1993
-
-Tune edge weight threshold or revisit the text fed to embedding model, maybe we need more than the abstract.
-
-Define a reference set of known connected/disconnected items and use that to tune the threshold
 
 ### Creative idea
 
