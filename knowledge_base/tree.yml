@@ -947,28 +947,36 @@
       - Linear Systems:
         - "Data-driven Control and Planning for Uncertain Complex Systems (Gravell PhD Dissertation)": docs/papers/2022/2022.gravell.data_driven_control_and/metadata.yml
         - Policy Optimization:
-          - Global Convergence of Policy Gradient Methods for LQR: docs/papers/2018/1801.05039/metadata.yml
-          - Derivative-Free Policy Optimization for Linear Risk-Sensitive and Robust Control Design: docs/papers/2021/2101.01041/metadata.yml
-          - "Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient": docs/papers/2019/1905.13547/metadata.yml
-          - "Sparse Optimal Control of Networks with Multiplicative Noise via Policy Gradient": docs/papers/2019/1905.13548/metadata.yml
-          - "Policy Optimization for H2 Linear Control with H-infinity Robustness Guarantee": docs/papers/2019/1910.09496/metadata.yml
-          - "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality": docs/papers/2026/2603.04843/metadata.yml
-          - Globally Convergent Policy Search over Dynamic Filters for Output Estimation: docs/papers/2022/2202.11659/metadata.yml
-          - "Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators": docs/papers/2023/2303.08431/metadata.yml
-          - LQR through the Lens of First Order Methods: docs/papers/2019/1907.08921/metadata.yml
-          - Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum LQ Games: docs/papers/2019/1906.00729/metadata.yml
-          - "Convergence of Flow-Policy Gradient Learning for Linear Quadratic Regulator Problems": docs/papers/2025/2511.11131/metadata.yml
-          - "On the Optimization Landscape of Observer-based Dynamic Linear Quadratic Control": docs/papers/2026/2604.10635/metadata.yml
-          - "Policy Gradient for LQR with Domain Randomization": docs/papers/2025/2503.24371/metadata.yml
-          - "Second-Order Policy Gradient Methods for the Linear Quadratic Regulator": docs/papers/2025/2511.02095/metadata.yml
-          - "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective": docs/papers/2025/2503.00385/metadata.yml
-          - Stabilizing Dynamical Systems via Policy Gradient Methods: docs/papers/2021/2021.perdomo.stabilizing_dynamical_systems_via/metadata.yml
-          - "A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR": docs/papers/2026/2602.18933/metadata.yml
-          - "Scalar Federated Learning for Linear Quadratic Regulator": docs/papers/2026/2604.05088/metadata.yml
-          - "Analyzing the Variance of Policy Gradient Estimators for the Linear-Quadratic Regulator": docs/papers/2019/1910.01249/metadata.yml
-          - "Model-Based Multi-Agent RL in Zero-Sum Markov Games with Near-Optimal Sample Complexity": docs/papers/2020/2007.07461/metadata.yml
-          - "Optimizing Static Linear Feedback: Gradient Method": docs/papers/2020/2004.09875/metadata.yml
-          - "Data-driven Linear Quadratic Integral Control: A Convex Formulation and Policy Gradient Approach": docs/papers/2026/2604.14905/metadata.yml
+          - LQR:
+            - Global Convergence of Policy Gradient Methods for LQR: docs/papers/2018/1801.05039/metadata.yml
+            - LQR through the Lens of First Order Methods: docs/papers/2019/1907.08921/metadata.yml
+            - Analyzing the Variance of Policy Gradient Estimators for the Linear-Quadratic Regulator: docs/papers/2019/1910.01249/metadata.yml
+            - Stabilizing Dynamical Systems via Policy Gradient Methods: docs/papers/2021/2021.perdomo.stabilizing_dynamical_systems_via/metadata.yml
+            - Second-Order Policy Gradient Methods for the Linear Quadratic Regulator: docs/papers/2025/2511.02095/metadata.yml
+            - Convergence of Flow-Policy Gradient Learning for Linear Quadratic Regulator Problems: docs/papers/2025/2511.11131/metadata.yml
+            - A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR: docs/papers/2026/2602.18933/metadata.yml
+          - Robust LQ:
+            - Policy Optimization for H2 Linear Control with H-infinity Robustness Guarantee: docs/papers/2019/1910.09496/metadata.yml
+            - Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum LQ Games: docs/papers/2019/1906.00729/metadata.yml
+            - Derivative-Free Policy Optimization for Linear Risk-Sensitive and Robust Control Design: docs/papers/2021/2101.01041/metadata.yml
+            - "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality": docs/papers/2026/2603.04843/metadata.yml
+          - LQR with Multiplicative Noise:
+            - Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient: docs/papers/2019/1905.13547/metadata.yml
+            - Sparse Optimal Control of Networks with Multiplicative Noise via Policy Gradient: docs/papers/2019/1905.13548/metadata.yml
+          - LQR with Domain Randomization:
+            - Policy Gradient for LQR with Domain Randomization: docs/papers/2025/2503.24371/metadata.yml
+          - Multi-task LQR:
+            - "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective": docs/papers/2025/2503.00385/metadata.yml
+          - LQR with Integral Control:
+            - "Data-driven Linear Quadratic Integral Control: A Convex Formulation and Policy Gradient Approach": docs/papers/2026/2604.14905/metadata.yml
+          - Federated LQR:
+            - Scalar Federated Learning for Linear Quadratic Regulator: docs/papers/2026/2604.05088/metadata.yml
+          - Static Output Linear Feedback:
+            - "Optimizing Static Linear Feedback: Gradient Method": docs/papers/2020/2004.09875/metadata.yml
+          - LQG:
+            - On the Optimization Landscape of Observer-based Dynamic Linear Quadratic Control: docs/papers/2026/2604.10635/metadata.yml
+          - Nearly Linear-Quadratic Regulators:
+            - Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators: docs/papers/2023/2303.08431/metadata.yml
         - Dynamic Programming:
           - "Policy Iteration for Linear Quadratic Games with Stochastic Parameters": docs/papers/2021/2021.gravell.policy_iteration_for_linear/metadata.yml
           - "Policy iteration using Q-functions: Linear dynamics with multiplicative noise": docs/papers/2022/2212.01192/metadata.yml
@@ -1148,7 +1156,6 @@
             - "A view on learning robust goal-conditioned value functions: Interplay between RL and MPC": docs/papers/2025/2502.06996/metadata.yml
             - "Synthesis of Model Predictive Control and Reinforcement Learning: Survey and Classification": docs/papers/2025/2502.02133/metadata.yml
             - CORL: docs/papers/2012/1206.3231/metadata.yml
-            - "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms": docs/papers/2019/1911.10635/metadata.yml
           - MPC-RL Hybrids:
             - "Data-Efficient Reinforcement Learning with Probabilistic Model Predictive Control": docs/papers/2017/1706.06491/metadata.yml
             - "Information Theoretic Model Predictive Q-Learning": docs/papers/2019/2001.02153/metadata.yml
@@ -1193,6 +1200,9 @@
           - "Model-Based Value Estimation for Efficient Model-Free Reinforcement Learning": docs/papers/2018/1803.00101/metadata.yml
           - PLAL: docs/papers/2022/2209.09006/metadata.yml
           - Power of Locally Linear Models: docs/papers/2023/2305.09619/metadata.yml
+      - Multi-agent Reinforcement learning:
+        - "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms": docs/papers/2019/1911.10635/metadata.yml
+        - "Model-Based Multi-Agent RL in Zero-Sum Markov Games with Near-Optimal Sample Complexity": docs/papers/2020/2007.07461/metadata.yml
       - Inverse Reinforcement Learning & Reward Learning:
         - Inverse Optimization:
           - "Inverse Optimization: Theory and Applications": docs/papers/2021/2109.03920/metadata.yml
@@ -1236,7 +1246,8 @@
         - Optimal Adaptive Estimation of Sampled Stochastic Processes: docs/papers/1965/1965.magill.optimal_adaptive_estimation_of/metadata.yml
         - Adaptive Kalman filter: docs/papers/1970/1970.mehra.on_the_identification_of/metadata.yml
       - Learning-based State Estimation:
-        - Fitting a Kalman Smoother to Data: docs/papers/2019/1910.08615/metadata.yml        
+        - Fitting a Kalman Smoother to Data: docs/papers/2019/1910.08615/metadata.yml
+        - Globally Convergent Policy Search over Dynamic Filters for Output Estimation: docs/papers/2022/2202.11659/metadata.yml
       - Particle Filter:
         - CONDENSATION: docs/papers/1998/1998.isard.condensationconditional_density_propagation_for/metadata.yml
         - "Particle filters for positioning, navigation, and tracking": docs/papers/2002/2002.gustafsson.particle_filters_for_positioning/metadata.yml
