@@ -11,7 +11,7 @@ python scripts/list_branching_factor_violations.py --max-depth 4 --max-results 3
 Run
 
 ```sh
-python scripts/list_branching_factor_violations.py --max-depth 4 --max-results 3
+python scripts/list_branching_factor_violations.py --max-depth 3 --max-results 3
 ```
 
 ## Ingest
