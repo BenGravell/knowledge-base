@@ -145,30 +145,16 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   background: var(--kb-app-header-bg);
   border: 1px solid var(--mm-border);
   border-radius: 8px;
-  cursor: pointer;
   user-select: none;
   font: inherit;
   text-align: left;
 }
-#mm-panel-header:hover { background: color-mix(in srgb, var(--md-default-fg-color) 6%, transparent); }
 #mm-panel-title {
   margin: 0;
   font-size: 0.88rem;
   font-weight: 850;
   color: var(--md-default-fg-color);
   white-space: nowrap;
-}
-
-#mm-panel-hide-btn {
-  background: none;
-  border: none;
-  color: var(--md-default-fg-color--light);
-  font-size: 0.78rem;
-  padding: 2px 6px;
-  border-radius: 4px;
-  line-height: 1;
-  flex-shrink: 0;
-  pointer-events: none;
 }
 
 #mm-panel {
@@ -1136,10 +1122,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   </div>
 
   <!-- Settings ribbon header: always visible above the graph -->
-  <button id="mm-panel-header" class="kb-app-header kb-app-header--interactive" type="button" title="Show Settings" aria-expanded="false" aria-controls="mm-panel">
+  <div id="mm-panel-header" class="kb-app-header">
     <span id="mm-panel-title" class="kb-app-header-title">Map</span>
-    <span id="mm-panel-hide-btn" class="kb-app-header-action">Show Settings</span>
-  </button>
+    <button id="mm-panel-hide-btn" class="kb-app-header-action" type="button" title="Show Settings" aria-expanded="false" aria-controls="mm-panel">Show Settings</button>
+  </div>
 
   <!-- Settings ribbon body: collapses upward on hide -->
   <div id="mm-panel" class="body-collapsed">

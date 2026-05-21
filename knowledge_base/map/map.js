@@ -64,6 +64,7 @@
    * Guard: dependencies and data must be present
    * -------------------------------------------------------------------------*/
   const graphContainer = document.getElementById('mm-graph');
+  setupSettingsPanelToggle();
 
   if (!graphContainer) {
     hideLoading();
@@ -133,6 +134,8 @@
   const VIEWPORT_PADDING = 30;
   const PANEL_MAX_FOCUS_WIDTH_RATIO = 0.72;
   const FOCUSED_PAPER_CAMERA_RATIO = 0.32;
+  const PAN_CLICK_DRAG_THRESHOLD = 6;
+  const PAN_CLICK_SUPPRESS_MS = 350;
   const LEGACY_BRANCH_LEVEL_IDS = ['super_category', 'category', 'sub_category'];
   const categorySuperCategoryLookup = new Map();
   const categoryOrderCache = { value: null };
@@ -196,6 +199,8 @@
   let visibilityColorContext = null;
   let graphToViewportRatioCache = null;
   let lastCameraRenderRatio = null;
+  let graphPanGesture = null;
+  let suppressGraphClickUntil = 0;
 
   /* -------------------------------------------------------------------------
    * Utility
@@ -2386,6 +2391,8 @@
     });
 
     renderer.on('clickNode', payload => {
+      if (suppressGraphClickAfterPan()) return;
+
       const node = clickTargetNode(payload);
       if (!node) return;
 
@@ -2393,6 +2400,8 @@
     });
 
     renderer.on('clickStage', payload => {
+      if (suppressGraphClickAfterPan()) return;
+
       const node = clickTargetNode(payload);
       if (node) {
         activateNode(node, payload);
@@ -2404,8 +2413,37 @@
   }
 
   function setupGraphDomEvents() {
+    if (window.PointerEvent) {
+      graphContainer.addEventListener('pointerdown', handleGraphPointerStart, true);
+      graphContainer.addEventListener('pointermove', handleGraphPointerMove, true);
+      graphContainer.addEventListener('pointerup', handleGraphPointerEnd, true);
+      graphContainer.addEventListener('pointercancel', clearGraphPanGesture, true);
+      window.addEventListener('pointermove', handleGraphPointerMove, true);
+      window.addEventListener('pointerup', handleGraphPointerEnd, true);
+      window.addEventListener('pointercancel', clearGraphPanGesture, true);
+    } else {
+      graphContainer.addEventListener('mousedown', handleGraphMouseStart, true);
+      graphContainer.addEventListener('mousemove', handleGraphPointerMove, true);
+      graphContainer.addEventListener('mouseup', handleGraphPointerEnd, true);
+      graphContainer.addEventListener('touchstart', handleGraphTouchStart, { capture: true, passive: true });
+      graphContainer.addEventListener('touchmove', handleGraphTouchMove, { capture: true, passive: true });
+      graphContainer.addEventListener('touchend', handleGraphTouchEnd, true);
+      graphContainer.addEventListener('touchcancel', clearGraphPanGesture, true);
+      window.addEventListener('mousemove', handleGraphPointerMove, true);
+      window.addEventListener('mouseup', handleGraphPointerEnd, true);
+      window.addEventListener('touchmove', handleGraphTouchMove, { capture: true, passive: true });
+      window.addEventListener('touchend', handleGraphTouchEnd, true);
+      window.addEventListener('touchcancel', clearGraphPanGesture, true);
+    }
+
     graphContainer.addEventListener('click', event => {
       if (!renderer || !graph || event.defaultPrevented || event.button !== 0) return;
+
+      if (suppressGraphClickAfterPan()) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        return;
+      }
 
       const pos = domEventPosition(event);
       const node = clickTargetNode({ event: pos });
@@ -2419,6 +2457,97 @@
         clearGraphSelection();
       }
     }, true);
+  }
+
+  function startGraphPanGesture(event, point) {
+    if (!point) return;
+    if (event && 'button' in event && event.button !== 0) return;
+    if (event && 'isPrimary' in event && event.isPrimary === false) return;
+
+    graphPanGesture = {
+      pointerId: event && 'pointerId' in event ? event.pointerId : null,
+      startX: point.clientX,
+      startY: point.clientY,
+      moved: false,
+    };
+  }
+
+  function updateGraphPanGesture(event, point) {
+    if (!graphPanGesture || !point) return;
+    if (
+      event &&
+      graphPanGesture.pointerId !== null &&
+      'pointerId' in event &&
+      event.pointerId !== graphPanGesture.pointerId
+    ) {
+      return;
+    }
+
+    const dx = point.clientX - graphPanGesture.startX;
+    const dy = point.clientY - graphPanGesture.startY;
+    if (Math.sqrt(dx * dx + dy * dy) >= PAN_CLICK_DRAG_THRESHOLD) {
+      graphPanGesture.moved = true;
+    }
+  }
+
+  function endGraphPanGesture(event, point) {
+    updateGraphPanGesture(event, point);
+    if (graphPanGesture && graphPanGesture.moved) {
+      suppressGraphClickUntil = Date.now() + PAN_CLICK_SUPPRESS_MS;
+    }
+    clearGraphPanGesture();
+  }
+
+  function clearGraphPanGesture() {
+    graphPanGesture = null;
+  }
+
+  function suppressGraphClickAfterPan() {
+    return Date.now() < suppressGraphClickUntil;
+  }
+
+  function eventClientPoint(event) {
+    if (!event) return null;
+    if (Number.isFinite(event.clientX) && Number.isFinite(event.clientY)) {
+      return { clientX: event.clientX, clientY: event.clientY };
+    }
+    return null;
+  }
+
+  function touchClientPoint(event) {
+    const touch = event && event.changedTouches && event.changedTouches[0];
+    if (!touch) return null;
+    return { clientX: touch.clientX, clientY: touch.clientY };
+  }
+
+  function handleGraphPointerStart(event) {
+    startGraphPanGesture(event, eventClientPoint(event));
+  }
+
+  function handleGraphMouseStart(event) {
+    startGraphPanGesture(event, eventClientPoint(event));
+  }
+
+  function handleGraphTouchStart(event) {
+    const touch = event && event.touches && event.touches[0];
+    startGraphPanGesture(event, touch ? { clientX: touch.clientX, clientY: touch.clientY } : null);
+  }
+
+  function handleGraphPointerMove(event) {
+    updateGraphPanGesture(event, eventClientPoint(event));
+  }
+
+  function handleGraphTouchMove(event) {
+    const touch = event && event.touches && event.touches[0];
+    updateGraphPanGesture(event, touch ? { clientX: touch.clientX, clientY: touch.clientY } : null);
+  }
+
+  function handleGraphPointerEnd(event) {
+    endGraphPanGesture(event, eventClientPoint(event));
+  }
+
+  function handleGraphTouchEnd(event) {
+    endGraphPanGesture(event, touchClientPoint(event));
   }
 
   function activateNode(node, payload) {
@@ -2609,11 +2738,17 @@
     const size = typeof renderer.scaleSize === 'function'
       ? renderer.scaleSize(rawSize)
       : rawSize;
+    const radius = Math.max(Number.isFinite(size) ? size : 0, MIN_NODE_SCREEN_RADIUS);
 
     return {
       x: point.x,
-      y: point.y - Math.max(size, 0),
+      y: point.y - radius,
       placement: 'node-top',
+      nodeDisk: {
+        x: point.x,
+        y: point.y,
+        radius,
+      },
     };
   }
 
@@ -2737,8 +2872,16 @@
     const clampY = value => Math.max(minTop, Math.min(value, maxTop));
 
     if (pos.placement === 'node-top') {
-      el.style.left = `${clampX(anchorX - W / 2)}px`;
-      el.style.top = `${clampY(anchorY - H - MARGIN)}px`;
+      placeNodeAnchoredTooltip(el, pos, {
+        graphRect,
+        bounds,
+        avoidRects,
+        margin: MARGIN,
+        width: W,
+        height: H,
+        clampX,
+        clampY,
+      });
       return;
     }
 
@@ -2765,6 +2908,63 @@
 
     let x = best ? best.x : clampX(anchorX + MARGIN);
     let y = best ? best.y : clampY(anchorY + MARGIN);
+
+    el.style.left = `${x}px`;
+    el.style.top = `${y}px`;
+  }
+
+  function placeNodeAnchoredTooltip(el, pos, options) {
+    const graphRect = options.graphRect;
+    const margin = options.margin;
+    const W = options.width;
+    const H = options.height;
+    const clampX = options.clampX;
+    const clampY = options.clampY;
+    const disk = pos.nodeDisk || null;
+
+    if (!disk) {
+      el.style.left = `${clampX(graphRect.left + pos.x - W / 2)}px`;
+      el.style.top = `${clampY(graphRect.top + pos.y - H - margin)}px`;
+      return;
+    }
+
+    const centerX = graphRect.left + disk.x;
+    const centerY = graphRect.top + disk.y;
+    const radius = Math.max(Number(disk.radius) || 0, MIN_NODE_SCREEN_RADIUS);
+    const gap = margin;
+    const diskRect = {
+      left: centerX - radius,
+      right: centerX + radius,
+      top: centerY - radius,
+      bottom: centerY + radius,
+    };
+    const rawCandidates = [
+      { x: centerX - W / 2, y: centerY - radius - H - gap },
+      { x: centerX + radius + gap, y: centerY - H / 2 },
+      { x: centerX - radius - gap - W, y: centerY - H / 2 },
+      { x: centerX - W / 2, y: centerY + radius + gap },
+      { x: centerX + radius + gap, y: centerY - radius - H - gap },
+      { x: centerX - radius - gap - W, y: centerY - radius - H - gap },
+      { x: centerX + radius + gap, y: centerY + radius + gap },
+      { x: centerX - radius - gap - W, y: centerY + radius + gap },
+    ];
+    const candidates = rawCandidates.map((candidate, index) => ({
+      x: clampX(candidate.x),
+      y: clampY(candidate.y),
+      index,
+    }));
+
+    const best = candidates.reduce((winner, candidate) => {
+      const raw = rawCandidates[candidate.index];
+      const diskOverlap = tooltipCollisionArea(candidate.x, candidate.y, W, H, [diskRect]);
+      const blockerOverlap = tooltipCollisionArea(candidate.x, candidate.y, W, H, options.avoidRects);
+      const displacement = Math.abs(candidate.x - raw.x) + Math.abs(candidate.y - raw.y);
+      const score = diskOverlap * 100000 + blockerOverlap * 1000 + displacement * 4 + candidate.index;
+      return !winner || score < winner.score ? { ...candidate, score } : winner;
+    }, null);
+
+    const x = best ? best.x : clampX(centerX - W / 2);
+    const y = best ? best.y : clampY(centerY - radius - H - gap);
 
     el.style.left = `${x}px`;
     el.style.top = `${y}px`;
@@ -4166,6 +4366,24 @@
   /* -------------------------------------------------------------------------
    * Wire up controls
    * -------------------------------------------------------------------------*/
+  function setupSettingsPanelToggle() {
+    const panel = document.getElementById('mm-panel');
+    const hideBtn = document.getElementById('mm-panel-hide-btn');
+    if (!panel || !hideBtn) return;
+    if (window.matchMedia('(max-width: 700px)').matches) {
+      panel.classList.add('body-collapsed');
+      hideBtn.textContent = 'Show Settings';
+      hideBtn.title = 'Show Settings';
+      hideBtn.setAttribute('aria-expanded', 'false');
+    }
+    hideBtn.addEventListener('click', () => {
+      const collapsed = panel.classList.toggle('body-collapsed');
+      hideBtn.textContent = collapsed ? 'Show Settings' : 'Hide Settings';
+      hideBtn.title = collapsed ? 'Show Settings' : 'Hide Settings';
+      hideBtn.setAttribute('aria-expanded', String(!collapsed));
+    });
+  }
+
   function setupControls() {
     const search = document.getElementById('mm-search');
     const clearSearch = document.getElementById('mm-search-clear');
@@ -4282,21 +4500,6 @@
       if (event.key === 'Escape' && modal && !modal.hidden) closePaperModalSelection();
     });
 
-    const panel = document.getElementById('mm-panel');
-    const header = document.getElementById('mm-panel-header');
-    const hideBtn = document.getElementById('mm-panel-hide-btn');
-    if (window.matchMedia('(max-width: 700px)').matches) {
-      panel.classList.add('body-collapsed');
-      hideBtn.textContent = 'Show Settings';
-      header.title = 'Show Settings';
-      header.setAttribute('aria-expanded', 'false');
-    }
-    header.addEventListener('click', () => {
-      const collapsed = panel.classList.toggle('body-collapsed');
-      hideBtn.textContent = collapsed ? 'Show Settings' : 'Hide Settings';
-      header.title = collapsed ? 'Show Settings' : 'Hide Settings';
-      header.setAttribute('aria-expanded', String(!collapsed));
-    });
   }
 
   /* -------------------------------------------------------------------------

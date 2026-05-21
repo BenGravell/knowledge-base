@@ -65,6 +65,40 @@ body:has(#tag-search-app) .md-content__inner {
   z-index: var(--kb-z-page);
 }
 
+body:has(#ct-app) .md-main__inner,
+body:has(#an-app) .md-main__inner,
+body:has(#tl-app) .md-main__inner,
+body:has(#mm-app) .md-main__inner,
+body:has(#tag-search-app) .md-main__inner {
+  margin-top: 0 !important;
+}
+
+#ct-app,
+#an-app,
+#tl-app,
+#mm-app,
+#tag-search-app {
+  margin-top: var(--kb-app-top-gap) !important;
+}
+
+body:has(#ct-app) .md-content__inner > h1,
+body:has(#an-app) .md-content__inner > h1,
+body:has(#tl-app) .md-content__inner > h1,
+body:has(#mm-app) .md-content__inner > h1,
+body:has(#tag-search-app) .md-content__inner > h1,
+body:has(#ct-app) .md-content__inner::before,
+body:has(#an-app) .md-content__inner::before,
+body:has(#tl-app) .md-content__inner::before,
+body:has(#mm-app) .md-content__inner::before,
+body:has(#tag-search-app) .md-content__inner::before,
+body:has(#ct-app) .md-content__inner::after,
+body:has(#an-app) .md-content__inner::after,
+body:has(#tl-app) .md-content__inner::after,
+body:has(#mm-app) .md-content__inner::after,
+body:has(#tag-search-app) .md-content__inner::after {
+  display: none !important;
+}
+
 .md-header,
 .md-tabs {
   z-index: var(--kb-z-site-header) !important;
@@ -390,12 +424,36 @@ body:has(#tag-search-app) .md-content {
 }
 
 .kb-app-header-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
+  box-sizing: border-box;
+  inline-size: clamp(7.4rem, 18vw, 8.75rem);
+  min-height: 2rem;
+  padding: 0.28rem 0.62rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
   color: var(--md-default-fg-color--light);
+  cursor: pointer;
+  font: inherit;
   font-size: 0.76rem;
   font-weight: 800;
   line-height: 1.2;
+  text-align: center;
   white-space: nowrap;
+}
+
+.kb-app-header-action:hover,
+.kb-app-header-action:focus-visible {
+  background: color-mix(in srgb, var(--md-default-fg-color) 6%, transparent);
+  color: var(--md-default-fg-color);
+}
+
+.kb-app-header-action:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--md-primary-fg-color) 32%, transparent);
+  outline-offset: 2px;
 }
 
 .kb-app-header--static {
@@ -409,18 +467,13 @@ body:has(#tag-search-app) .md-content {
   --ct-rose: var(--kb-color-rose);
   --ct-gold: var(--kb-color-gold);
   --ct-green: var(--kb-color-green);
-  --ct-selected-teal: #9edfd9;
-  --ct-selected-cyan: #a9d6ff;
-  --ct-selected-rose: #f3a6c8;
-  --ct-selected-gold: #efd184;
+  --ct-selected-blue-base: oklch(88% 0.06 252);
+  --ct-selected-blue-cyan: oklch(88% 0.052 222);
+  --ct-selected-blue-violet: oklch(87% 0.052 276);
+  --ct-selected-blue-mint: oklch(88% 0.044 198);
   --ct-selected-text: #111827;
   --ct-selected-dot-border: color-mix(in srgb, #ffffff 84%, transparent);
-  --ct-selected-dot-fill:
-    radial-gradient(circle at 28% 26%, color-mix(in srgb, #ff2edb 86%, transparent) 0 18%, transparent 42%),
-    radial-gradient(circle at 72% 28%, color-mix(in srgb, #00cfff 84%, transparent) 0 16%, transparent 42%),
-    radial-gradient(circle at 72% 76%, color-mix(in srgb, #ff8a00 82%, transparent) 0 18%, transparent 46%),
-    radial-gradient(circle at 24% 74%, color-mix(in srgb, #00f08a 78%, transparent) 0 16%, transparent 44%),
-    conic-gradient(from 215deg, #ff1fd2, #7b2cff 18%, #0069ff 34%, #00d8ff 48%, #00ff8a 62%, #ffe600 76%, #ff7a00 90%, #ff1fd2);
+  --ct-selected-dot-fill: var(--ct-cyan);
   --ct-selected-inset: color-mix(in srgb, #ffffff 42%, transparent);
   --ct-border: color-mix(in srgb, var(--md-default-fg-color) 16%, transparent);
   --ct-soft-border: color-mix(in srgb, var(--md-default-fg-color) 9%, transparent);
@@ -460,13 +513,13 @@ body:has(#tag-search-app) .md-content {
 }
 
 [data-md-color-scheme="slate"] .ct-page {
-  --ct-selected-teal: #09645f;
-  --ct-selected-cyan: #14558f;
-  --ct-selected-rose: #8f285f;
-  --ct-selected-gold: #75500a;
+  --ct-selected-blue-base: oklch(35% 0.074 252);
+  --ct-selected-blue-cyan: oklch(34% 0.064 222);
+  --ct-selected-blue-violet: oklch(34% 0.064 276);
+  --ct-selected-blue-mint: oklch(34% 0.054 198);
   --ct-selected-text: #ffffff;
   --ct-selected-dot-border: #ffffff;
-  --ct-selected-dot-fill: #ffffff;
+  --ct-selected-dot-fill: var(--ct-cyan);
   --ct-selected-inset: color-mix(in srgb, #000000 18%, transparent);
   --ct-panel: color-mix(in srgb, var(--md-code-bg-color) 82%, #050910);
   --ct-panel-strong: color-mix(in srgb, var(--ct-cyan) 18%, var(--md-default-bg-color));
@@ -511,22 +564,7 @@ body:has(#tag-search-app) .md-content {
 }
 
 .ct-settings-toggle {
-  min-height: 2rem;
-  padding: 0.28rem 0.62rem;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--md-default-fg-color--light);
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.76rem;
-  font-weight: 800;
-  text-align: left;
-}
-
-.ct-settings-toggle:hover {
-  background: color-mix(in srgb, var(--md-default-fg-color) 6%, transparent);
-  color: var(--md-default-fg-color);
+  text-align: center;
 }
 
 .ct-settings.is-collapsed .ct-controls {
@@ -1263,10 +1301,10 @@ body:has(#tag-search-app) .md-content {
 .ct-tree-node.is-current > .ct-tree-button {
   border-color: transparent;
   background:
-    radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--ct-selected-gold) 28%, transparent) 0 10%, transparent 24%),
-    radial-gradient(circle at 84% 20%, color-mix(in srgb, var(--ct-selected-rose) 36%, transparent) 0 12%, transparent 30%),
-    radial-gradient(circle at 24% 88%, color-mix(in srgb, var(--ct-selected-teal) 40%, transparent) 0 16%, transparent 36%),
-    linear-gradient(120deg, var(--ct-selected-teal), var(--ct-selected-cyan) 48%, var(--ct-selected-rose));
+    radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--ct-selected-blue-cyan) 34%, transparent) 0 12%, transparent 28%),
+    radial-gradient(circle at 84% 20%, color-mix(in srgb, var(--ct-selected-blue-violet) 38%, transparent) 0 14%, transparent 32%),
+    radial-gradient(circle at 24% 88%, color-mix(in srgb, var(--ct-selected-blue-mint) 36%, transparent) 0 16%, transparent 36%),
+    linear-gradient(120deg, var(--ct-selected-blue-base), var(--ct-selected-blue-cyan) 50%, var(--ct-selected-blue-violet));
   background-size: 180% 180%, 170% 170%, 160% 160%, 220% 220%;
   background-position: 18% 24%, 82% 22%, 20% 82%, 0% 50%;
   background-clip: padding-box;
@@ -1297,8 +1335,8 @@ body:has(#tag-search-app) .md-content {
   height: 0.95rem;
   border-color: var(--ct-selected-dot-border);
   background: var(--ct-selected-dot-fill);
-  background-size: 150% 150%, 145% 145%, 148% 148%, 142% 142%, 100% 100%;
-  background-position: 18% 20%, 86% 20%, 82% 84%, 16% 82%, center;
+  background-size: 100% 100%;
+  background-position: center;
   box-shadow:
     0 0 0 3px color-mix(in srgb, var(--ct-cyan) 28%, transparent),
     0 0 14px color-mix(in srgb, var(--ct-cyan) 54%, transparent);
@@ -1400,8 +1438,8 @@ body:has(#tag-search-app) .md-content {
   }
   50% {
     box-shadow:
-      0 0 0 5px color-mix(in srgb, var(--ct-gold) 22%, transparent),
-      0 0 20px color-mix(in srgb, var(--ct-rose) 44%, transparent);
+      0 0 0 5px color-mix(in srgb, var(--ct-selected-blue-violet) 24%, transparent),
+      0 0 20px color-mix(in srgb, var(--ct-cyan) 42%, transparent);
   }
 }
 
