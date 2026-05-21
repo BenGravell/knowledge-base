@@ -600,10 +600,9 @@
       - Planning in Changing Environments:
         - Feedback Motion Planning:
           - Funnel Libraries for Real-Time Robust Feedback Motion Planning: docs/papers/2016/1601.04037/metadata.yml
-          - "Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach": docs/papers/2020/2004.01142/metadata.yml
           - Learning-based Robust Motion Planning with Guaranteed Stability: docs/papers/2021/2102.12668/metadata.yml
           - Robust feedback motion planning via contraction theory: docs/papers/2023/2023.singh.robust_feedback_motion_planning/metadata.yml
-          - "Smooth Feedback Motion Planning with Reduced Curvature": docs/papers/2026/2604.01614/metadata.yml
+          - Smooth Feedback Motion Planning with Reduced Curvature: docs/papers/2026/2604.01614/metadata.yml
         - Planning Under Uncertainty:
           - Planning in Belief Space:
             - Belief Roadmap (BRM):
@@ -736,21 +735,27 @@
           - La Salle Invariance Principle: docs/papers/1966/1966.la_salle.an_invariance_principle_in/metadata.yml
           - Respect the Unstable: docs/papers/2003/2003.stein.respect_the_unstable/metadata.yml
           - "Asymptotic stability equals exponential stability - while you twist your eyes": docs/papers/2024/2411.03277/metadata.yml
+        - Parameterization of Stabilizing Controllers:
+          - A Method to Teach the Parameterization of All Stabilizing Controllers: docs/papers/2011/2011.kucera.a_method_to_teach/metadata.yml
+          - On Topological Properties of the Set of Stabilizing Feedback Gains: docs/papers/2019/1904.08451/metadata.yml
         - Internal Modeling:
           - Every Good Regulator Theorem: docs/papers/1970/1970.conant.every_good_regulator_of/metadata.yml
           - The Internal Model Principle for Linear Multivariable Regulators: docs/papers/1975/1975.francis.the_internal_model_principle/metadata.yml
-        - Adaptive Control:
-          - On Adaptive Control Processes: docs/papers/1959/1959.bellman.on_adaptive_control_processes/metadata.yml
+        - Linear Matrix Inequalities (LMIs):
+          - LMIs in System and Control Theory: docs/papers/1994/1994.boyd.linear_matrix_inequalities_in/metadata.yml
+          - LMI Properties and Applications in Systems, Stability, and Control Theory: docs/papers/2019/1903.08599/metadata.yml
         - Architectures:
           - "Augmented Lagrangian Methods as Layered Control Architectures": docs/papers/2023/2311.06404/metadata.yml
           - "Towards a Theory of Control Architecture: A quantitative framework for layered multi-rate control": docs/papers/2024/2401.15185/metadata.yml
         - Complexity & Hardness:
           - Complexity of Ten Decision Problems in Continuous Time Dynamical Systems: docs/papers/2012/1210.7420/metadata.yml
         - Biological Systems:
-          - "Internal feedback in the cortical perception-action loop enables fast and accurate behavior": docs/papers/2022/2211.05922/metadata.yml
+          - Internal feedback in the cortical perception-action loop enables fast and accurate behavior: docs/papers/2022/2211.05922/metadata.yml
         - Control for Societal-Scale Challenges: docs/papers/2023/2023.alleyne.control_for_societal_scale/metadata.yml
       - Frequency and Laplace-Domain Methods:
-        - Frequency Response and Loop Shaping:
+        - Classical Feedback Foundations:
+          - Regeneration Theory: docs/papers/1932/1932.nyquist.regeneration_theory/metadata.yml
+          - Stabilized Feedback Amplifiers: docs/papers/1934/1934.black.stabilized_feedback_amplifiers/metadata.yml
           - Relations between Attenuation and Phase in Feedback Amplifier Design: docs/papers/1940/1940.bode.relations_between_attenuation_and/metadata.yml
         - Control System Synthesis by Root Locus Method: docs/papers/1950/1950.evans.control_system_synthesis_by/metadata.yml
         - Proportional-integral-derivative (PID):
@@ -838,34 +843,26 @@
             - "Intelligent Trajectory Planning for Autonomous Vehicles via Adaptive Model Predictive Control": docs/papers/2025/2025.goncalves.intelligent_trajectory_planning_for/metadata.yml
             - "Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks": docs/papers/2026/2604.19452/metadata.yml
         - Nonlinear Control Design:
+          - Nonlinear Control Synthesis by Convex Optimization: docs/papers/2004/2004.prajna.nonlinear_control_synthesis_by/metadata.yml
           - Feedback Linearization:
             - Partial Feedback Linearization: docs/papers/1994/1994.spong.partial_feedback_linearization_of/metadata.yml
       - Robust & Safety-Critical Control:
         - Robust Control:
-          - LMIs in System and Control Theory: docs/papers/1994/1994.boyd.linear_matrix_inequalities_in/metadata.yml
-          - "LMI Properties and Applications in Systems, Stability, and Control Theory": docs/papers/2019/1903.08599/metadata.yml
-          - Robustness margins for LQG: docs/papers/1978/1978.doyle.guaranteed_margins_for_lqg/metadata.yml
-          - DR-LQG: docs/papers/2025/2505.08370/metadata.yml
-          - Conformal Robust Control of Linear Systems: docs/papers/2024/2405.16250/metadata.yml
-          - Probabilistic Robustness in the Gap Metric: docs/papers/2025/2507.10010/metadata.yml
-          - On the Input-Output Stability of Time-Varying Nonlinear Feedback Systems: docs/papers/1966/1966.zames.on_the_input_output/metadata.yml
-          - Bilateral Control of Teleoperators with Time Delay: docs/papers/1989/1989.anderson.bilateral_control_of_teleoperators/metadata.yml
-          - State-Space Solutions to Standard H2 and H-inf Control Problems: docs/papers/1989/1989.doyle.state_space_solutions_to/metadata.yml
-          - "LQG Control with an H-infinity Performance Bound: A Riccati Equation Approach": docs/papers/1989/1989.bernstein.lqg_control_with_an/metadata.yml
-          - On the Robustness of LQ Regulators for Discrete-Time Systems: docs/papers/1992/1992.neto.on_the_robustness_of/metadata.yml
-          - "A Method to Teach the Parameterization of All Stabilizing Controllers": docs/papers/2011/2011.kucera.a_method_to_teach/metadata.yml
-          - "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality": docs/papers/2026/2603.04843/metadata.yml
-          - "System analysis via integral quadratic constraints": docs/papers/1997/1997.megretski.system_analysis_via_integral/metadata.yml
-          - Contraction L1-Adaptive Control using Gaussian Processes: docs/papers/2020/2009.03864/metadata.yml
-          - Stability and control of a quadrocopter despite the complete loss of one, two, or three propellers: docs/papers/2014/2014.mueller.stability_and_control_of/metadata.yml
-          - "Exponential Stability Analysis via Integral Quadratic Constraints": docs/papers/2017/1706.01337/metadata.yml
-          - "On Topological Properties of the Set of Stabilizing Feedback Gains": docs/papers/2019/1904.08451/metadata.yml
-          - "Regeneration Theory": docs/papers/1932/1932.nyquist.regeneration_theory/metadata.yml
-          - "Stabilized Feedback Amplifiers*": docs/papers/1934/1934.black.stabilized_feedback_amplifiers/metadata.yml
-          - "A Linear Matrix Inequality Approach to H∞ Control": docs/papers/1994/1994.gahinet.a_linear_matrix_inequality/metadata.yml
-          - "Nonlinear Control Synthesis by Convex Optimization": docs/papers/2004/2004.prajna.nonlinear_control_synthesis_by/metadata.yml
-          - "On Exponential Synchronization of Kuramoto Oscillators": docs/papers/2009/2009.chopra.on_exponential_synchronization_of/metadata.yml
-          - "Quadratic Invariance Is Necessary and Sufficient for Convexity": docs/papers/2011/2011.lessard.quadratic_invariance_is_necessary/metadata.yml
+          - LQR and LQG Robustness:
+            - Robustness margins for LQG: docs/papers/1978/1978.doyle.guaranteed_margins_for_lqg/metadata.yml
+            - On the Robustness of LQ Regulators for Discrete-Time Systems: docs/papers/1992/1992.neto.on_the_robustness_of/metadata.yml
+            - DR-LQG: docs/papers/2025/2505.08370/metadata.yml          
+          - H2 / H-infinity Synthesis:
+            - State-Space Solutions to Standard H2 and H-inf Control Problems: docs/papers/1989/1989.doyle.state_space_solutions_to/metadata.yml
+            - "LQG Control with an H-infinity Performance Bound: A Riccati Equation Approach": docs/papers/1989/1989.bernstein.lqg_control_with_an/metadata.yml
+            - "A Linear Matrix Inequality Approach to H∞ Control": docs/papers/1994/1994.gahinet.a_linear_matrix_inequality/metadata.yml          
+          - Input-Output Robustness and Integral Quadratic Constraints (IQCs):
+            - On the Input-Output Stability of Time-Varying Nonlinear Feedback Systems: docs/papers/1966/1966.zames.on_the_input_output/metadata.yml
+            - System analysis via integral quadratic constraints: docs/papers/1997/1997.megretski.system_analysis_via_integral/metadata.yml
+            - Exponential Stability Analysis via Integral Quadratic Constraints: docs/papers/2017/1706.01337/metadata.yml
+          - Statistical and Probabilistic Robustness:
+            - Conformal Robust Control of Linear Systems: docs/papers/2024/2405.16250/metadata.yml
+            - Probabilistic Robustness in the Gap Metric: docs/papers/2025/2507.10010/metadata.yml
         - Control Lyapunov Functions (CLF):
           - Stabilization with Relaxed Controls: docs/papers/1983/1983.artstein.stabilization_with_relaxed_controls/metadata.yml
           - "A Lyapunov-Like Characterization of Asymptotic Controllability": docs/papers/1983/1983.sontag.a_lyapunov_like_characterization/metadata.yml
@@ -880,11 +877,22 @@
           - "Control Barrier Function Based Quadratic Programs for Safety Critical Systems": docs/papers/2017/2017.ames.control_barrier_function_based/metadata.yml
           - "Control Barrier Functions: Theory and Applications": docs/papers/2019/1903.11199/metadata.yml
           - "Synthesis and Deployment of Maximal Robust Control Barrier Functions through Adversarial Reinforcement Learning": docs/papers/2026/2604.13192/metadata.yml
+      - Adaptive Control:
+        - On Adaptive Control Processes: docs/papers/1959/1959.bellman.on_adaptive_control_processes/metadata.yml
+        - L1 Adaptive Control:
+          - L1 Adaptive Control Theory: docs/papers/2010/2010.hovakimyan.l1_adaptive_control_theory/metadata.yml
+          - L1 Adaptive Controller for Time-Varying Reference Systems: docs/papers/2010/2010.kharisov.l1_adaptive_controller_for/metadata.yml
+          - CL1: docs/papers/2020/2004.01142/metadata.yml
+          - CL1-GP: docs/papers/2020/2009.03864/metadata.yml
       - Distributed Control:
         - Distributed control design for spatially interconnected systems: docs/papers/2003/2003.dandrea.distributed_control_design_for/metadata.yml
+        - Decentralized Control:
+          - Quadratic Invariance Is Necessary and Sufficient for Convexity: docs/papers/2011/2011.lessard.quadratic_invariance_is_necessary/metadata.yml
         - Control of Networks:
           - Control Profiles of Complex Networks: docs/papers/2014/2014.ruths.control_profiles_of_complex/metadata.yml
           - Control Principles of Complex Networks: docs/papers/2015/1508.05384/metadata.yml
+        - Synchronization:
+          - On Exponential Synchronization of Kuramoto Oscillators: docs/papers/2009/2009.chopra.on_exponential_synchronization_of/metadata.yml
       - Robot Control:
         - Theory of Robot Control: docs/papers/1996/1996.wit.theory_of_robot_control/metadata.yml
         - "Adaptive Motion Control of Rigid Robots: A Tutorial": docs/papers/1989/1989.ortega.adaptive_motion_control_of/metadata.yml
@@ -900,10 +908,13 @@
             - Autonomous Automobile Trajectory Tracking for Off-road Driving: docs/papers/2007/2007.hoffmann.autonomous_automobile_trajectory_tracking/metadata.yml
           - Tracking Control for Aerial Robots:
             - Optimization-based iterative learning for precise quadrocopter trajectory tracking: docs/papers/2012/2012.schoellig.optimization_based_iterative_learning/metadata.yml
+            - Stability and control of a quadrocopter despite the complete loss of one, two, or three propellers: docs/papers/2014/2014.mueller.stability_and_control_of/metadata.yml
         - Perception-Based Control:
           - Integrated Perception and Control at High Speed: docs/papers/2020/2020.florence.integrated_perception_and_control/metadata.yml
           - "Robust Guarantees for Perception-Based Control": docs/papers/2020/2020.dean.robust_guarantees_for_perception/metadata.yml
           - "Certainty Equivalent Perception-Based Control": docs/papers/2021/2021.dean.certainty_equivalent_perception_based/metadata.yml
+        - Teleoperation:
+          - Bilateral Control of Teleoperators with Time Delay: docs/papers/1989/1989.anderson.bilateral_control_of_teleoperators/metadata.yml
       - System Modeling & Co-Design:
         - Control-Oriented Physical Modeling:
           - 5-DOF Electrodynamic Maglev State-Space Model: docs/papers/2004/2004.de_boeij.mathematical_model_of_the/metadata.yml
@@ -941,6 +952,7 @@
           - "Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient": docs/papers/2019/1905.13547/metadata.yml
           - "Sparse Optimal Control of Networks with Multiplicative Noise via Policy Gradient": docs/papers/2019/1905.13548/metadata.yml
           - "Policy Optimization for H2 Linear Control with H-infinity Robustness Guarantee": docs/papers/2019/1910.09496/metadata.yml
+          - "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality": docs/papers/2026/2603.04843/metadata.yml
           - Globally Convergent Policy Search over Dynamic Filters for Output Estimation: docs/papers/2022/2202.11659/metadata.yml
           - "Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators": docs/papers/2023/2303.08431/metadata.yml
           - LQR through the Lens of First Order Methods: docs/papers/2019/1907.08921/metadata.yml
