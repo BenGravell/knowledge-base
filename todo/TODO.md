@@ -16,6 +16,30 @@ and resolve all issues.
 
 ## Ingest
 
+### Behavioral Data-driven Control
+
+https://www.sciencedirect.com/science/article/abs/pii/S0167691116300317
+https://arxiv.org/abs/1906.04679
+https://www.tandfonline.com/doi/full/10.1080/00207170801942170
+https://www.sciencedirect.com/science/article/abs/pii/S0967066113001147
+https://arxiv.org/abs/1903.10723
+https://arxiv.org/pdf/1908.00468
+https://arxiv.org/pdf/2002.01023
+https://arxiv.org/pdf/2503.12489
+https://arxiv.org/pdf/2405.18962
+https://arxiv.org/pdf/1903.06842
+https://arxiv.org/pdf/2005.01082
+
+
+### Informativity Framework for Data-driven Control
+
+https://ieeexplore.ieee.org/document/9992611
+https://arxiv.org/pdf/2006.00870
+https://arxiv.org/pdf/2103.13461
+https://arxiv.org/abs/2302.10488
+https://arxiv.org/pdf/2407.12509
+https://arxiv.org/pdf/2510.00717
+
 ### Real time iteration mpc
 
 https://epubs.siam.org/doi/10.1137/S0363012902400713
