@@ -23,7 +23,7 @@
   const ancestorChain = document.getElementById('ct-ancestor-chain');
 
   if (!data || !data.root) {
-    app.innerHTML = '<p class="ct-error">Content tree data is unavailable. Run <code>mkdocs build</code> to regenerate it.</p>';
+    app.innerHTML = '<p class="ct-error">Tree data is unavailable. Run <code>mkdocs build</code> to regenerate it.</p>';
     return;
   }
 
