@@ -46,7 +46,6 @@ https://ieeexplore.ieee.org/document/8550541
 https://ieeexplore.ieee.org/document/9029543
 https://arxiv.org/abs/2508.05396
 
-
 ### Localization and mapping
 
 <https://arxiv.org/abs/2401.06323>
@@ -398,10 +397,6 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 ### settings size
 For mobile site, tune the settings bar height so that it only covers about half of the screen at the top, so that the bottom half can be used for the node Map canvas.
 
-
-
-
-
 #### bug
 
 I type in settings search bar, but when pinching to zoom on mobile it brings up the virtual keyboard over the mapped canvas and it breaks the interaction usability.
@@ -414,8 +409,6 @@ Include more filters utilizing as many metadata fields as possible.
 - Year range (plus and minus away from year of selected item)
 - Tag (only show other items that have a tag in common)
 - Source (only show other items that have thr same source)
-
-
 
 Global filters
 
@@ -433,12 +426,9 @@ Clean up the settings menu ux layout. Fewer labels? Smaller buttons for single t
 
 ### Data export
 
-
-
 Add an export button to get a json or csv of all currently displayed items
 CSV should include one item per row. Tree ancestry in a column.
 JSON can use tree hierarchy natively.
-
 
 ## Knowledge Studio (new feature)
 
