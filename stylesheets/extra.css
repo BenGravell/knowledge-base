@@ -243,19 +243,19 @@ body {
   }
 }
 
-/* Render Content Tree as a regular top-level sidebar link.
-   The full hierarchy remains in content_tree.yml for data generation. */
+/* Render Tree as a regular top-level sidebar link.
+   The full hierarchy remains in tree.yml for data generation. */
 .md-nav--primary
   > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="content-tree"])
+  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="tree"])
   > .md-nav,
 .md-nav--primary
   > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="content-tree"])
+  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="tree"])
   > .md-nav__toggle,
 .md-nav--primary
   > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="content-tree"])
+  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="tree"])
   > .md-nav__container
   > label.md-nav__link,
 body:has(#ct-app)
@@ -284,7 +284,7 @@ body:has(#ct-app)
   > .md-nav__container,
 .md-nav--primary
   > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="content-tree"])
+  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="tree"])
   > .md-nav__container {
   display: flex;
 }
@@ -297,7 +297,7 @@ body:has(#ct-app)
   > a.md-nav__link,
 .md-nav--primary
   > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="content-tree"])
+  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="tree"])
   > .md-nav__container
   > a.md-nav__link {
   display: flex;
@@ -316,7 +316,7 @@ body:has(#ct-app)
   color: var(--md-typeset-a-color);
 }
 
-/* Content Tree applet */
+/* Tree applet */
 
 body:has(#ct-app) .md-grid,
 body:has(#ct-app) .md-main__inner {

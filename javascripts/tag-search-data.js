@@ -17,8 +17,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the Hungarian algorithm for optimally solving the assignment problem in polynomial time, applying results from König and Egerváry to give a combinatorial method that finds a maximum-weight perfect matching in a bipartite graph.",
       "url": "../papers/1955_kuhn_the_hungarian_method_for/",
-      "contentTreeUrl": "../content-tree/#paper=1955_kuhn_the_hungarian_method_for",
-      "mindMapUrl": "../mind-map/#paper=1955_kuhn_the_hungarian_method_for"
+      "treeUrl": "../tree/#paper=1955_kuhn_the_hungarian_method_for",
+      "mapUrl": "../map/#paper=1955_kuhn_the_hungarian_method_for"
     },
     "1984_guttman_r_trees": {
       "id": "1984_guttman_r_trees",
@@ -31,8 +31,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1984_guttman_r_trees/",
-      "contentTreeUrl": "../content-tree/#paper=1984_guttman_r_trees",
-      "mindMapUrl": "../mind-map/#paper=1984_guttman_r_trees"
+      "treeUrl": "../tree/#paper=1984_guttman_r_trees",
+      "mapUrl": "../map/#paper=1984_guttman_r_trees"
     },
     "1984_breiman_classification_and_regression_trees": {
       "id": "1984_breiman_classification_and_regression_trees",
@@ -56,8 +56,8 @@ window.tagSearchData = {
       ],
       "summary": "The canonical reference for Classification and Regression Trees (CART), introducing binary recursive partitioning with Gini impurity for classification and variance reduction for regression, cross-validation-based pruning, and handling of missing values. Defines the mathematical and algorithmic foundations that underpin most modern tree-based methods including Random Forests and gradient boosting.",
       "url": "../papers/1984_breiman_classification_and_regression_trees/",
-      "contentTreeUrl": "../content-tree/#paper=1984_breiman_classification_and_regression_trees",
-      "mindMapUrl": "../mind-map/#paper=1984_breiman_classification_and_regression_trees"
+      "treeUrl": "../tree/#paper=1984_breiman_classification_and_regression_trees",
+      "mapUrl": "../map/#paper=1984_breiman_classification_and_regression_trees"
     },
     "1984_knott_on_the_optimal_mapping": {
       "id": "1984_knott_on_the_optimal_mapping",
@@ -78,8 +78,8 @@ window.tagSearchData = {
       ],
       "summary": "Knott and Smith study the quadratic-cost Monge problem as a question about constructing a joint distribution with prescribed marginals. The paper is an early optimal transport reference that anticipates later Wasserstein-map formulations by emphasizing sufficient optimality conditions and numerical examples for distribution mappings.",
       "url": "../papers/1984_knott_on_the_optimal_mapping/",
-      "contentTreeUrl": "../content-tree/#paper=1984_knott_on_the_optimal_mapping",
-      "mindMapUrl": "../mind-map/#paper=1984_knott_on_the_optimal_mapping"
+      "treeUrl": "../tree/#paper=1984_knott_on_the_optimal_mapping",
+      "mapUrl": "../map/#paper=1984_knott_on_the_optimal_mapping"
     },
     "1984_murray_differential_dynamic_programming_and": {
       "id": "1984_murray_differential_dynamic_programming_and",
@@ -93,8 +93,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1984_murray_differential_dynamic_programming_and/",
-      "contentTreeUrl": "../content-tree/#paper=1984_murray_differential_dynamic_programming_and",
-      "mindMapUrl": "../mind-map/#paper=1984_murray_differential_dynamic_programming_and"
+      "treeUrl": "../tree/#paper=1984_murray_differential_dynamic_programming_and",
+      "mapUrl": "../map/#paper=1984_murray_differential_dynamic_programming_and"
     },
     "1959_dijkstra_a_note_on_two": {
       "id": "1959_dijkstra_a_note_on_two",
@@ -107,8 +107,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "Dijkstra's 1959 note presents two foundational graph algorithms: a greedy method for finding a minimum spanning tree and, more famously, the shortest-path algorithm now called Dijkstra's algorithm. Its most consequential impact was showing that core network optimization problems could be solved by simple, efficient label-setting/greedy procedures, shaping algorithms for routing, transportation, operations research, compilers, robotics, and countless later graph-search methods.",
       "url": "../papers/1959_dijkstra_a_note_on_two/",
-      "contentTreeUrl": "../content-tree/#paper=1959_dijkstra_a_note_on_two",
-      "mindMapUrl": "../mind-map/#paper=1959_dijkstra_a_note_on_two"
+      "treeUrl": "../tree/#paper=1959_dijkstra_a_note_on_two",
+      "mapUrl": "../map/#paper=1959_dijkstra_a_note_on_two"
     },
     "1959_bellman_on_adaptive_control_processes": {
       "id": "1959_bellman_on_adaptive_control_processes",
@@ -128,8 +128,8 @@ window.tagSearchData = {
       ],
       "summary": "Bellman and Kalaba frame adaptive control as a dynamic programming problem in which control policies must account for learning and uncertainty during operation. The paper is an early bridge between optimal control, sequential decision processes, and adaptive control, and helped set the vocabulary later used in stochastic and learning-based control.",
       "url": "../papers/1959_bellman_on_adaptive_control_processes/",
-      "contentTreeUrl": "../content-tree/#paper=1959_bellman_on_adaptive_control_processes",
-      "mindMapUrl": "../mind-map/#paper=1959_bellman_on_adaptive_control_processes"
+      "treeUrl": "../tree/#paper=1959_bellman_on_adaptive_control_processes",
+      "mapUrl": "../map/#paper=1959_bellman_on_adaptive_control_processes"
     },
     "1999_ankerst_optics": {
       "id": "1999_ankerst_optics",
@@ -145,8 +145,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1999_ankerst_optics/",
-      "contentTreeUrl": "../content-tree/#paper=1999_ankerst_optics",
-      "mindMapUrl": "../mind-map/#paper=1999_ankerst_optics"
+      "treeUrl": "../tree/#paper=1999_ankerst_optics",
+      "mapUrl": "../map/#paper=1999_ankerst_optics"
     },
     "1999_lavalle_randomized_kinodynamic_planning": {
       "id": "1999_lavalle_randomized_kinodynamic_planning",
@@ -166,8 +166,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces RRTs for sampling-based trajectory planning in high-dimensional configuration spaces.",
       "url": "../papers/1999_lavalle_randomized_kinodynamic_planning/",
-      "contentTreeUrl": "../content-tree/#paper=1999_lavalle_randomized_kinodynamic_planning",
-      "mindMapUrl": "../mind-map/#paper=1999_lavalle_randomized_kinodynamic_planning"
+      "treeUrl": "../tree/#paper=1999_lavalle_randomized_kinodynamic_planning",
+      "mapUrl": "../map/#paper=1999_lavalle_randomized_kinodynamic_planning"
     },
     "1999_gamkrelidze_discovery_of_the_maximum": {
       "id": "1999_gamkrelidze_discovery_of_the_maximum",
@@ -180,8 +180,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1999_gamkrelidze_discovery_of_the_maximum/",
-      "contentTreeUrl": "../content-tree/#paper=1999_gamkrelidze_discovery_of_the_maximum",
-      "mindMapUrl": "../mind-map/#paper=1999_gamkrelidze_discovery_of_the_maximum"
+      "treeUrl": "../tree/#paper=1999_gamkrelidze_discovery_of_the_maximum",
+      "mapUrl": "../map/#paper=1999_gamkrelidze_discovery_of_the_maximum"
     },
     "1999_li_system_identification_and_long": {
       "id": "1999_li_system_identification_and_long",
@@ -197,8 +197,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1999_li_system_identification_and_long/",
-      "contentTreeUrl": "../content-tree/#paper=1999_li_system_identification_and_long",
-      "mindMapUrl": "../mind-map/#paper=1999_li_system_identification_and_long"
+      "treeUrl": "../tree/#paper=1999_li_system_identification_and_long",
+      "mapUrl": "../map/#paper=1999_li_system_identification_and_long"
     },
     "1999_spong_passivity_based_control_of": {
       "id": "1999_spong_passivity_based_control_of",
@@ -211,8 +211,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1999_spong_passivity_based_control_of/",
-      "contentTreeUrl": "../content-tree/#paper=1999_spong_passivity_based_control_of",
-      "mindMapUrl": "../mind-map/#paper=1999_spong_passivity_based_control_of"
+      "treeUrl": "../tree/#paper=1999_spong_passivity_based_control_of",
+      "mapUrl": "../map/#paper=1999_spong_passivity_based_control_of"
     },
     "1999_sutton_policy_gradient_methods_for": {
       "id": "1999_sutton_policy_gradient_methods_for",
@@ -228,8 +228,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1999_sutton_policy_gradient_methods_for/",
-      "contentTreeUrl": "../content-tree/#paper=1999_sutton_policy_gradient_methods_for",
-      "mindMapUrl": "../mind-map/#paper=1999_sutton_policy_gradient_methods_for"
+      "treeUrl": "../tree/#paper=1999_sutton_policy_gradient_methods_for",
+      "mapUrl": "../map/#paper=1999_sutton_policy_gradient_methods_for"
     },
     "1999_artzner_coherent_measures_of_risk": {
       "id": "1999_artzner_coherent_measures_of_risk",
@@ -245,8 +245,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1999_artzner_coherent_measures_of_risk/",
-      "contentTreeUrl": "../content-tree/#paper=1999_artzner_coherent_measures_of_risk",
-      "mindMapUrl": "../mind-map/#paper=1999_artzner_coherent_measures_of_risk"
+      "treeUrl": "../tree/#paper=1999_artzner_coherent_measures_of_risk",
+      "mapUrl": "../map/#paper=1999_artzner_coherent_measures_of_risk"
     },
     "1999_thrun_minerva_a_second_generation": {
       "id": "1999_thrun_minerva_a_second_generation",
@@ -277,8 +277,8 @@ window.tagSearchData = {
       ],
       "summary": "Describes MINERVA, a deployed museum tour-guide robot that combined mapping, localization, planning, interaction, web telepresence, and learning in a real public environment. The paper is a useful case study in integrated mobile robot architecture under heavy human interaction and unmodified-environment constraints.",
       "url": "../papers/1999_thrun_minerva_a_second_generation/",
-      "contentTreeUrl": "../content-tree/#paper=1999_thrun_minerva_a_second_generation",
-      "mindMapUrl": "../mind-map/#paper=1999_thrun_minerva_a_second_generation"
+      "treeUrl": "../tree/#paper=1999_thrun_minerva_a_second_generation",
+      "mapUrl": "../map/#paper=1999_thrun_minerva_a_second_generation"
     },
     "1999_kleinberg_authoritative_sources_in_a": {
       "id": "1999_kleinberg_authoritative_sources_in_a",
@@ -301,8 +301,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces HITS, which assigns mutually reinforcing hub and authority scores to pages in a hyperlink graph. The method became a foundational link-analysis centrality technique alongside PageRank, especially for separating nodes that point to good resources from nodes that are themselves treated as authoritative.",
       "url": "../papers/1999_kleinberg_authoritative_sources_in_a/",
-      "contentTreeUrl": "../content-tree/#paper=1999_kleinberg_authoritative_sources_in_a",
-      "mindMapUrl": "../mind-map/#paper=1999_kleinberg_authoritative_sources_in_a"
+      "treeUrl": "../tree/#paper=1999_kleinberg_authoritative_sources_in_a",
+      "mapUrl": "../map/#paper=1999_kleinberg_authoritative_sources_in_a"
     },
     "1999_van_den_bergen_a_fast_and_robust": {
       "id": "1999_van_den_bergen_a_fast_and_robust",
@@ -315,8 +315,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1999_van_den_bergen_a_fast_and_robust/",
-      "contentTreeUrl": "../content-tree/#paper=1999_van_den_bergen_a_fast_and_robust",
-      "mindMapUrl": "../mind-map/#paper=1999_van_den_bergen_a_fast_and_robust"
+      "treeUrl": "../tree/#paper=1999_van_den_bergen_a_fast_and_robust",
+      "mapUrl": "../map/#paper=1999_van_den_bergen_a_fast_and_robust"
     },
     "1999_larsen_fast_proximity_queries_with": {
       "id": "1999_larsen_fast_proximity_queries_with",
@@ -339,8 +339,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces swept-sphere-volume bounding volumes and traversal methods for fast collision and distance queries. The paper is useful as a bridge between geometric collision detection and practical planning/simulation workloads where approximate and exact distances are both needed.",
       "url": "../papers/1999_larsen_fast_proximity_queries_with/",
-      "contentTreeUrl": "../content-tree/#paper=1999_larsen_fast_proximity_queries_with",
-      "mindMapUrl": "../mind-map/#paper=1999_larsen_fast_proximity_queries_with"
+      "treeUrl": "../tree/#paper=1999_larsen_fast_proximity_queries_with",
+      "mapUrl": "../map/#paper=1999_larsen_fast_proximity_queries_with"
     },
     "cond_mat_9910332": {
       "id": "cond_mat_9910332",
@@ -365,8 +365,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the Barabasi-Albert model, explaining scale-free degree distributions through network growth and preferential attachment. The paper helped establish power-law degree structure as a major organizing idea in complex networks and gave a compact generative mechanism for hub formation in systems such as the Web and biological networks.",
       "url": "../papers/cond_mat_9910332/",
-      "contentTreeUrl": "../content-tree/#paper=cond_mat_9910332",
-      "mindMapUrl": "../mind-map/#paper=cond_mat_9910332"
+      "treeUrl": "../tree/#paper=cond_mat_9910332",
+      "mapUrl": "../map/#paper=cond_mat_9910332"
     },
     "2016_otte_rrtx_asymptotically_optimal_single": {
       "id": "2016_otte_rrtx_asymptotically_optimal_single",
@@ -389,8 +389,8 @@ window.tagSearchData = {
       ],
       "summary": "Same asymptotic optimality and probabilistically complete properties as RRT*, but can handle reactions to suddenly-appearing obstacles.",
       "url": "../papers/2016_otte_rrtx_asymptotically_optimal_single/",
-      "contentTreeUrl": "../content-tree/#paper=2016_otte_rrtx_asymptotically_optimal_single",
-      "mindMapUrl": "../mind-map/#paper=2016_otte_rrtx_asymptotically_optimal_single"
+      "treeUrl": "../tree/#paper=2016_otte_rrtx_asymptotically_optimal_single",
+      "mapUrl": "../map/#paper=2016_otte_rrtx_asymptotically_optimal_single"
     },
     "1612_03239": {
       "id": "1612_03239",
@@ -406,8 +406,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1612_03239/",
-      "contentTreeUrl": "../content-tree/#paper=1612_03239",
-      "mindMapUrl": "../mind-map/#paper=1612_03239"
+      "treeUrl": "../tree/#paper=1612_03239",
+      "mapUrl": "../map/#paper=1612_03239"
     },
     "2016_rakovic_elastic_tube_model_predictive": {
       "id": "2016_rakovic_elastic_tube_model_predictive",
@@ -422,8 +422,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2016_rakovic_elastic_tube_model_predictive/",
-      "contentTreeUrl": "../content-tree/#paper=2016_rakovic_elastic_tube_model_predictive",
-      "mindMapUrl": "../mind-map/#paper=2016_rakovic_elastic_tube_model_predictive"
+      "treeUrl": "../tree/#paper=2016_rakovic_elastic_tube_model_predictive",
+      "mapUrl": "../map/#paper=2016_rakovic_elastic_tube_model_predictive"
     },
     "1604_02639": {
       "id": "1604_02639",
@@ -439,8 +439,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1604_02639/",
-      "contentTreeUrl": "../content-tree/#paper=1604_02639",
-      "mindMapUrl": "../mind-map/#paper=1604_02639"
+      "treeUrl": "../tree/#paper=1604_02639",
+      "mapUrl": "../map/#paper=1604_02639"
     },
     "1611_01704": {
       "id": "1611_01704",
@@ -455,8 +455,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1611_01704/",
-      "contentTreeUrl": "../content-tree/#paper=1611_01704",
-      "mindMapUrl": "../mind-map/#paper=1611_01704"
+      "treeUrl": "../tree/#paper=1611_01704",
+      "mapUrl": "../map/#paper=1611_01704"
     },
     "1602_04915": {
       "id": "1602_04915",
@@ -472,8 +472,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1602_04915/",
-      "contentTreeUrl": "../content-tree/#paper=1602_04915",
-      "mindMapUrl": "../mind-map/#paper=1602_04915"
+      "treeUrl": "../tree/#paper=1602_04915",
+      "mapUrl": "../map/#paper=1602_04915"
     },
     "1611_03852": {
       "id": "1611_03852",
@@ -489,8 +489,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1611_03852/",
-      "contentTreeUrl": "../content-tree/#paper=1611_03852",
-      "mindMapUrl": "../mind-map/#paper=1611_03852"
+      "treeUrl": "../tree/#paper=1611_03852",
+      "mapUrl": "../map/#paper=1611_03852"
     },
     "1612_01215": {
       "id": "1612_01215",
@@ -506,8 +506,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1612_01215/",
-      "contentTreeUrl": "../content-tree/#paper=1612_01215",
-      "mindMapUrl": "../mind-map/#paper=1612_01215"
+      "treeUrl": "../tree/#paper=1612_01215",
+      "mapUrl": "../map/#paper=1612_01215"
     },
     "1603_02754": {
       "id": "1603_02754",
@@ -521,8 +521,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1603_02754/",
-      "contentTreeUrl": "../content-tree/#paper=1603_02754",
-      "mindMapUrl": "../mind-map/#paper=1603_02754"
+      "treeUrl": "../tree/#paper=1603_02754",
+      "mapUrl": "../map/#paper=1603_02754"
     },
     "1606_03490": {
       "id": "1606_03490",
@@ -535,8 +535,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1606_03490/",
-      "contentTreeUrl": "../content-tree/#paper=1606_03490",
-      "mindMapUrl": "../mind-map/#paper=1606_03490"
+      "treeUrl": "../tree/#paper=1606_03490",
+      "mapUrl": "../map/#paper=1606_03490"
     },
     "1606_01540": {
       "id": "1606_01540",
@@ -563,8 +563,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces OpenAI Gym as a common interface and benchmark collection for reinforcement learning experiments. Its main contribution is infrastructural: standardizing environments, result sharing, and evaluation workflows so RL algorithms can be compared more consistently.",
       "url": "../papers/1606_01540/",
-      "contentTreeUrl": "../content-tree/#paper=1606_01540",
-      "mindMapUrl": "../mind-map/#paper=1606_01540"
+      "treeUrl": "../tree/#paper=1606_01540",
+      "mapUrl": "../map/#paper=1606_01540"
     },
     "1606_05225": {
       "id": "1606_05225",
@@ -581,8 +581,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1606_05225/",
-      "contentTreeUrl": "../content-tree/#paper=1606_05225",
-      "mindMapUrl": "../mind-map/#paper=1606_05225"
+      "treeUrl": "../tree/#paper=1606_05225",
+      "mapUrl": "../map/#paper=1606_05225"
     },
     "1609_04747": {
       "id": "1609_04747",
@@ -595,8 +595,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1609_04747/",
-      "contentTreeUrl": "../content-tree/#paper=1609_04747",
-      "mindMapUrl": "../mind-map/#paper=1609_04747"
+      "treeUrl": "../tree/#paper=1609_04747",
+      "mapUrl": "../map/#paper=1609_04747"
     },
     "2016_choi_constrained_global_path_optimization": {
       "id": "2016_choi_constrained_global_path_optimization",
@@ -618,8 +618,8 @@ window.tagSearchData = {
       ],
       "summary": "Plans paths for articulated steering vehicles by pre-computing quintic Bezier motion primitives offline, then searching over them with A*, with online gradient-based smoothing. Combines the tractability of A* over discrete motion primitives with the geometric smoothness of Bezier curves for non-holonomic articulated vehicles.",
       "url": "../papers/2016_choi_constrained_global_path_optimization/",
-      "contentTreeUrl": "../content-tree/#paper=2016_choi_constrained_global_path_optimization",
-      "mindMapUrl": "../mind-map/#paper=2016_choi_constrained_global_path_optimization"
+      "treeUrl": "../tree/#paper=2016_choi_constrained_global_path_optimization",
+      "mapUrl": "../map/#paper=2016_choi_constrained_global_path_optimization"
     },
     "2016_gros_from_linear_to_nonlinear": {
       "id": "2016_gros_from_linear_to_nonlinear",
@@ -636,8 +636,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2016_gros_from_linear_to_nonlinear/",
-      "contentTreeUrl": "../content-tree/#paper=2016_gros_from_linear_to_nonlinear",
-      "mindMapUrl": "../mind-map/#paper=2016_gros_from_linear_to_nonlinear"
+      "treeUrl": "../tree/#paper=2016_gros_from_linear_to_nonlinear",
+      "mapUrl": "../map/#paper=2016_gros_from_linear_to_nonlinear"
     },
     "1603_00943": {
       "id": "1603_00943",
@@ -651,8 +651,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1603_00943/",
-      "contentTreeUrl": "../content-tree/#paper=1603_00943",
-      "mindMapUrl": "../mind-map/#paper=1603_00943"
+      "treeUrl": "../tree/#paper=1603_00943",
+      "mapUrl": "../map/#paper=1603_00943"
     },
     "1603_00448": {
       "id": "1603_00448",
@@ -667,8 +667,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1603_00448/",
-      "contentTreeUrl": "../content-tree/#paper=1603_00448",
-      "mindMapUrl": "../mind-map/#paper=1603_00448"
+      "treeUrl": "../tree/#paper=1603_00448",
+      "mapUrl": "../map/#paper=1603_00448"
     },
     "2016_koopman_challenges_in_autonomous_vehicle": {
       "id": "2016_koopman_challenges_in_autonomous_vehicle",
@@ -690,8 +690,8 @@ window.tagSearchData = {
       ],
       "summary": "Frames why conventional V-model validation is strained by fully autonomous vehicles: no fallback driver, difficult requirements, nondeterminism, learning components, and fail-operational needs. The paper is a useful safety-engineering checklist for AV assurance arguments.",
       "url": "../papers/2016_koopman_challenges_in_autonomous_vehicle/",
-      "contentTreeUrl": "../content-tree/#paper=2016_koopman_challenges_in_autonomous_vehicle",
-      "mindMapUrl": "../mind-map/#paper=2016_koopman_challenges_in_autonomous_vehicle"
+      "treeUrl": "../tree/#paper=2016_koopman_challenges_in_autonomous_vehicle",
+      "mapUrl": "../map/#paper=2016_koopman_challenges_in_autonomous_vehicle"
     },
     "2016_de_carvalho_mean_what_do_you": {
       "id": "2016_de_carvalho_mean_what_do_you",
@@ -704,8 +704,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2016_de_carvalho_mean_what_do_you/",
-      "contentTreeUrl": "../content-tree/#paper=2016_de_carvalho_mean_what_do_you",
-      "mindMapUrl": "../mind-map/#paper=2016_de_carvalho_mean_what_do_you"
+      "treeUrl": "../tree/#paper=2016_de_carvalho_mean_what_do_you",
+      "mapUrl": "../map/#paper=2016_de_carvalho_mean_what_do_you"
     },
     "2016_thomas_energetic_natural_gradient_descent": {
       "id": "2016_thomas_energetic_natural_gradient_descent",
@@ -721,8 +721,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2016_thomas_energetic_natural_gradient_descent/",
-      "contentTreeUrl": "../content-tree/#paper=2016_thomas_energetic_natural_gradient_descent",
-      "mindMapUrl": "../mind-map/#paper=2016_thomas_energetic_natural_gradient_descent"
+      "treeUrl": "../tree/#paper=2016_thomas_energetic_natural_gradient_descent",
+      "mapUrl": "../map/#paper=2016_thomas_energetic_natural_gradient_descent"
     },
     "1602_01783": {
       "id": "1602_01783",
@@ -742,8 +742,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1602_01783/",
-      "contentTreeUrl": "../content-tree/#paper=1602_01783",
-      "mindMapUrl": "../mind-map/#paper=1602_01783"
+      "treeUrl": "../tree/#paper=1602_01783",
+      "mapUrl": "../map/#paper=1602_01783"
     },
     "1602_04938": {
       "id": "1602_04938",
@@ -758,8 +758,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1602_04938/",
-      "contentTreeUrl": "../content-tree/#paper=1602_04938",
-      "mindMapUrl": "../mind-map/#paper=1602_04938"
+      "treeUrl": "../tree/#paper=1602_04938",
+      "mapUrl": "../map/#paper=1602_04938"
     },
     "1611_03530": {
       "id": "1611_03530",
@@ -776,8 +776,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1611_03530/",
-      "contentTreeUrl": "../content-tree/#paper=1611_03530",
-      "mindMapUrl": "../mind-map/#paper=1611_03530"
+      "treeUrl": "../tree/#paper=1611_03530",
+      "mapUrl": "../map/#paper=1611_03530"
     },
     "1609_03285": {
       "id": "1609_03285",
@@ -794,8 +794,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1609_03285/",
-      "contentTreeUrl": "../content-tree/#paper=1609_03285",
-      "mindMapUrl": "../mind-map/#paper=1609_03285"
+      "treeUrl": "../tree/#paper=1609_03285",
+      "mapUrl": "../map/#paper=1609_03285"
     },
     "1603_09157": {
       "id": "1603_09157",
@@ -811,8 +811,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1603_09157/",
-      "contentTreeUrl": "../content-tree/#paper=1603_09157",
-      "mindMapUrl": "../mind-map/#paper=1603_09157"
+      "treeUrl": "../tree/#paper=1603_09157",
+      "mapUrl": "../map/#paper=1603_09157"
     },
     "2016_rajamaki_sampled_differential_dynamic_programming": {
       "id": "2016_rajamaki_sampled_differential_dynamic_programming",
@@ -840,8 +840,8 @@ window.tagSearchData = {
       ],
       "summary": "Combines DDP and path integral control by estimating the DDP Hessian via zero-order sampling rather than analytical differentiation, yielding a trajectory optimizer that blends the structure and efficiency of DDP with the robustness and simplicity of sampling-based methods. Think of it as Hessian-Free optimization (using a zero-order oracle to estimate the Hessian c.f. \"Deep Learning via Hessian-free Optimization\" by James Martens, 2010) specialized to trajectory optimization problems.",
       "url": "../papers/2016_rajamaki_sampled_differential_dynamic_programming/",
-      "contentTreeUrl": "../content-tree/#paper=2016_rajamaki_sampled_differential_dynamic_programming",
-      "mindMapUrl": "../mind-map/#paper=2016_rajamaki_sampled_differential_dynamic_programming"
+      "treeUrl": "../tree/#paper=2016_rajamaki_sampled_differential_dynamic_programming",
+      "mapUrl": "../map/#paper=2016_rajamaki_sampled_differential_dynamic_programming"
     },
     "1610_02391": {
       "id": "1610_02391",
@@ -859,8 +859,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1610_02391/",
-      "contentTreeUrl": "../content-tree/#paper=1610_02391",
-      "mindMapUrl": "../mind-map/#paper=1610_02391"
+      "treeUrl": "../tree/#paper=1610_02391",
+      "mapUrl": "../map/#paper=1610_02391"
     },
     "1601_04037": {
       "id": "1601_04037",
@@ -874,8 +874,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1601_04037/",
-      "contentTreeUrl": "../content-tree/#paper=1601_04037",
-      "mindMapUrl": "../mind-map/#paper=1601_04037"
+      "treeUrl": "../tree/#paper=1601_04037",
+      "mapUrl": "../map/#paper=1601_04037"
     },
     "1604_00772": {
       "id": "1604_00772",
@@ -888,8 +888,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1604_00772/",
-      "contentTreeUrl": "../content-tree/#paper=1604_00772",
-      "mindMapUrl": "../mind-map/#paper=1604_00772"
+      "treeUrl": "../tree/#paper=1604_00772",
+      "mapUrl": "../map/#paper=1604_00772"
     },
     "1603_09320": {
       "id": "1603_09320",
@@ -903,8 +903,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1603_09320/",
-      "contentTreeUrl": "../content-tree/#paper=1603_09320",
-      "mindMapUrl": "../mind-map/#paper=1603_09320"
+      "treeUrl": "../tree/#paper=1603_09320",
+      "mapUrl": "../map/#paper=1603_09320"
     },
     "2016_karimi_linear_convergence_of_gradient": {
       "id": "2016_karimi_linear_convergence_of_gradient",
@@ -919,8 +919,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2016_karimi_linear_convergence_of_gradient/",
-      "contentTreeUrl": "../content-tree/#paper=2016_karimi_linear_convergence_of_gradient",
-      "mindMapUrl": "../mind-map/#paper=2016_karimi_linear_convergence_of_gradient"
+      "treeUrl": "../tree/#paper=2016_karimi_linear_convergence_of_gradient",
+      "mapUrl": "../map/#paper=2016_karimi_linear_convergence_of_gradient"
     },
     "1611_01224": {
       "id": "1611_01224",
@@ -939,8 +939,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1611_01224/",
-      "contentTreeUrl": "../content-tree/#paper=1611_01224",
-      "mindMapUrl": "../mind-map/#paper=1611_01224"
+      "treeUrl": "../tree/#paper=1611_01224",
+      "mapUrl": "../map/#paper=1611_01224"
     },
     "2016_posa_optimization_and_stabilization_of": {
       "id": "2016_posa_optimization_and_stabilization_of",
@@ -955,8 +955,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2016_posa_optimization_and_stabilization_of/",
-      "contentTreeUrl": "../content-tree/#paper=2016_posa_optimization_and_stabilization_of",
-      "mindMapUrl": "../mind-map/#paper=2016_posa_optimization_and_stabilization_of"
+      "treeUrl": "../tree/#paper=2016_posa_optimization_and_stabilization_of",
+      "mapUrl": "../map/#paper=2016_posa_optimization_and_stabilization_of"
     },
     "1605_04965": {
       "id": "1605_04965",
@@ -975,8 +975,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1605_04965/",
-      "contentTreeUrl": "../content-tree/#paper=1605_04965",
-      "mindMapUrl": "../mind-map/#paper=1605_04965"
+      "treeUrl": "../tree/#paper=1605_04965",
+      "mapUrl": "../map/#paper=1605_04965"
     },
     "2016_kalra_driving_to_safety_how": {
       "id": "2016_kalra_driving_to_safety_how",
@@ -990,8 +990,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2016_kalra_driving_to_safety_how/",
-      "contentTreeUrl": "../content-tree/#paper=2016_kalra_driving_to_safety_how",
-      "mindMapUrl": "../mind-map/#paper=2016_kalra_driving_to_safety_how"
+      "treeUrl": "../tree/#paper=2016_kalra_driving_to_safety_how",
+      "mapUrl": "../map/#paper=2016_kalra_driving_to_safety_how"
     },
     "1604_07446": {
       "id": "1604_07446",
@@ -1025,8 +1025,8 @@ window.tagSearchData = {
       ],
       "summary": "Surveys motion planning and control algorithms for self-driving urban vehicles, reviewing methods from route planning through behavior and motion planning to feedback control, with comparative analysis of vehicle models, environmental assumptions, and computational demands.",
       "url": "../papers/1604_07446/",
-      "contentTreeUrl": "../content-tree/#paper=1604_07446",
-      "mindMapUrl": "../mind-map/#paper=1604_07446"
+      "treeUrl": "../tree/#paper=1604_07446",
+      "mapUrl": "../map/#paper=1604_07446"
     },
     "2016_choudhury_regionally_accelerated_batch_informed": {
       "id": "2016_choudhury_regionally_accelerated_batch_informed",
@@ -1052,8 +1052,8 @@ window.tagSearchData = {
       ],
       "summary": "RABIT* extends BIT* by hybridizing its global informed search with local gradient-based optimization (e.g. CHOMP). Rather than optimizing every edge, it selectively applies local optimization only to the subset of edges within the current informed set that are most likely to improve the solution, avoiding infeasible edges by finding alternative connections. This preserves asymptotic optimality while significantly accelerating convergence, particularly in problems with difficult-to-sample homotopy classes or narrow passages.",
       "url": "../papers/2016_choudhury_regionally_accelerated_batch_informed/",
-      "contentTreeUrl": "../content-tree/#paper=2016_choudhury_regionally_accelerated_batch_informed",
-      "mindMapUrl": "../mind-map/#paper=2016_choudhury_regionally_accelerated_batch_informed"
+      "treeUrl": "../tree/#paper=2016_choudhury_regionally_accelerated_batch_informed",
+      "mapUrl": "../map/#paper=2016_choudhury_regionally_accelerated_batch_informed"
     },
     "2016_wang_apriltag_2_efficient_and": {
       "id": "2016_wang_apriltag_2_efficient_and",
@@ -1067,8 +1067,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2016_wang_apriltag_2_efficient_and/",
-      "contentTreeUrl": "../content-tree/#paper=2016_wang_apriltag_2_efficient_and",
-      "mindMapUrl": "../mind-map/#paper=2016_wang_apriltag_2_efficient_and"
+      "treeUrl": "../tree/#paper=2016_wang_apriltag_2_efficient_and",
+      "mapUrl": "../map/#paper=2016_wang_apriltag_2_efficient_and"
     },
     "1610_01439": {
       "id": "1610_01439",
@@ -1084,8 +1084,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1610_01439/",
-      "contentTreeUrl": "../content-tree/#paper=1610_01439",
-      "mindMapUrl": "../mind-map/#paper=1610_01439"
+      "treeUrl": "../tree/#paper=1610_01439",
+      "mapUrl": "../map/#paper=1610_01439"
     },
     "1603_05953": {
       "id": "1603_05953",
@@ -1098,8 +1098,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1603_05953/",
-      "contentTreeUrl": "../content-tree/#paper=1603_05953",
-      "mindMapUrl": "../mind-map/#paper=1603_05953"
+      "treeUrl": "../tree/#paper=1603_05953",
+      "mapUrl": "../map/#paper=1603_05953"
     },
     "2016_hasinoff_burst_photography_for_high": {
       "id": "2016_hasinoff_burst_photography_for_high",
@@ -1119,8 +1119,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2016_hasinoff_burst_photography_for_high/",
-      "contentTreeUrl": "../content-tree/#paper=2016_hasinoff_burst_photography_for_high",
-      "mindMapUrl": "../mind-map/#paper=2016_hasinoff_burst_photography_for_high"
+      "treeUrl": "../tree/#paper=2016_hasinoff_burst_photography_for_high",
+      "mapUrl": "../map/#paper=2016_hasinoff_burst_photography_for_high"
     },
     "1612_05628": {
       "id": "1612_05628",
@@ -1134,8 +1134,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "Proposes the mellowmax operator",
       "url": "../papers/1612_05628/",
-      "contentTreeUrl": "../content-tree/#paper=1612_05628",
-      "mindMapUrl": "../mind-map/#paper=1612_05628"
+      "treeUrl": "../tree/#paper=1612_05628",
+      "mapUrl": "../map/#paper=1612_05628"
     },
     "2016_hutter_anymal_a_highly_mobile": {
       "id": "2016_hutter_anymal_a_highly_mobile",
@@ -1161,8 +1161,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2016_hutter_anymal_a_highly_mobile/",
-      "contentTreeUrl": "../content-tree/#paper=2016_hutter_anymal_a_highly_mobile",
-      "mindMapUrl": "../mind-map/#paper=2016_hutter_anymal_a_highly_mobile"
+      "treeUrl": "../tree/#paper=2016_hutter_anymal_a_highly_mobile",
+      "mapUrl": "../map/#paper=2016_hutter_anymal_a_highly_mobile"
     },
     "2016_huang_visual_odometry_and_mapping": {
       "id": "2016_huang_visual_odometry_and_mapping",
@@ -1181,8 +1181,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2016_huang_visual_odometry_and_mapping/",
-      "contentTreeUrl": "../content-tree/#paper=2016_huang_visual_odometry_and_mapping",
-      "mindMapUrl": "../mind-map/#paper=2016_huang_visual_odometry_and_mapping"
+      "treeUrl": "../tree/#paper=2016_huang_visual_odometry_and_mapping",
+      "mapUrl": "../map/#paper=2016_huang_visual_odometry_and_mapping"
     },
     "2016_richter_polynomial_trajectory_planning_for": {
       "id": "2016_richter_polynomial_trajectory_planning_for",
@@ -1197,8 +1197,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2016_richter_polynomial_trajectory_planning_for/",
-      "contentTreeUrl": "../content-tree/#paper=2016_richter_polynomial_trajectory_planning_for",
-      "mindMapUrl": "../mind-map/#paper=2016_richter_polynomial_trajectory_planning_for"
+      "treeUrl": "../tree/#paper=2016_richter_polynomial_trajectory_planning_for",
+      "mapUrl": "../map/#paper=2016_richter_polynomial_trajectory_planning_for"
     },
     "1604_00923": {
       "id": "1604_00923",
@@ -1212,8 +1212,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1604_00923/",
-      "contentTreeUrl": "../content-tree/#paper=1604_00923",
-      "mindMapUrl": "../mind-map/#paper=1604_00923"
+      "treeUrl": "../tree/#paper=1604_00923",
+      "mapUrl": "../map/#paper=1604_00923"
     },
     "1611_02247": {
       "id": "1611_02247",
@@ -1230,8 +1230,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1611_02247/",
-      "contentTreeUrl": "../content-tree/#paper=1611_02247",
-      "mindMapUrl": "../mind-map/#paper=1611_02247"
+      "treeUrl": "../tree/#paper=1611_02247",
+      "mapUrl": "../map/#paper=1611_02247"
     },
     "1866_mendel_versuche_uber_pflanzen_hybriden": {
       "id": "1866_mendel_versuche_uber_pflanzen_hybriden",
@@ -1253,8 +1253,8 @@ window.tagSearchData = {
       ],
       "summary": "Establishes the particulate inheritance model through controlled pea-plant crosses, showing that traits segregate and recombine according to regular statistical patterns. It supplies the genotype-level mechanism that later made biological evolution and genotype-based evolutionary algorithms mathematically crisp.",
       "url": "../papers/1866_mendel_versuche_uber_pflanzen_hybriden/",
-      "contentTreeUrl": "../content-tree/#paper=1866_mendel_versuche_uber_pflanzen_hybriden",
-      "mindMapUrl": "../mind-map/#paper=1866_mendel_versuche_uber_pflanzen_hybriden"
+      "treeUrl": "../tree/#paper=1866_mendel_versuche_uber_pflanzen_hybriden",
+      "mapUrl": "../map/#paper=1866_mendel_versuche_uber_pflanzen_hybriden"
     },
     "2005_00985": {
       "id": "2005_00985",
@@ -1275,8 +1275,8 @@ window.tagSearchData = {
       ],
       "summary": "Revisits constrained DDP with augmented Lagrangian methods, improving constraint handling within the DDP backward-forward pass framework. Contemporary with ALTRO, but from a different group with a different perspective on convergence.",
       "url": "../papers/2005_00985/",
-      "contentTreeUrl": "../content-tree/#paper=2005_00985",
-      "mindMapUrl": "../mind-map/#paper=2005_00985"
+      "treeUrl": "../tree/#paper=2005_00985",
+      "mapUrl": "../map/#paper=2005_00985"
     },
     "2012_03390": {
       "id": "2012_03390",
@@ -1295,8 +1295,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_03390/",
-      "contentTreeUrl": "../content-tree/#paper=2012_03390",
-      "mindMapUrl": "../mind-map/#paper=2012_03390"
+      "treeUrl": "../tree/#paper=2012_03390",
+      "mapUrl": "../map/#paper=2012_03390"
     },
     "2006_07733": {
       "id": "2006_07733",
@@ -1332,8 +1332,8 @@ window.tagSearchData = {
       ],
       "summary": "BYOL shows that strong image representations can be learned without explicit negative pairs by training an online network to predict the representation of a slowly averaged target network under a different augmentation. The paper is a key non-contrastive self-supervised learning result: its empirical strength forced later work to explain why collapse is avoided and made target-network bootstrapping a standard design pattern for vision SSL.",
       "url": "../papers/2006_07733/",
-      "contentTreeUrl": "../content-tree/#paper=2006_07733",
-      "mindMapUrl": "../mind-map/#paper=2006_07733"
+      "treeUrl": "../tree/#paper=2006_07733",
+      "mapUrl": "../map/#paper=2006_07733"
     },
     "2007_07461": {
       "id": "2007_07461",
@@ -1349,8 +1349,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2007_07461/",
-      "contentTreeUrl": "../content-tree/#paper=2007_07461",
-      "mindMapUrl": "../mind-map/#paper=2007_07461"
+      "treeUrl": "../tree/#paper=2007_07461",
+      "mapUrl": "../map/#paper=2007_07461"
     },
     "2002_05651": {
       "id": "2002_05651",
@@ -1368,8 +1368,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2002_05651/",
-      "contentTreeUrl": "../content-tree/#paper=2002_05651",
-      "mindMapUrl": "../mind-map/#paper=2002_05651"
+      "treeUrl": "../tree/#paper=2002_05651",
+      "mapUrl": "../map/#paper=2002_05651"
     },
     "2012_00152": {
       "id": "2012_00152",
@@ -1382,8 +1382,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_00152/",
-      "contentTreeUrl": "../content-tree/#paper=2012_00152",
-      "mindMapUrl": "../mind-map/#paper=2012_00152"
+      "treeUrl": "../tree/#paper=2012_00152",
+      "mapUrl": "../map/#paper=2012_00152"
     },
     "2010_01412": {
       "id": "2010_01412",
@@ -1399,8 +1399,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2010_01412/",
-      "contentTreeUrl": "../content-tree/#paper=2010_01412",
-      "mindMapUrl": "../mind-map/#paper=2010_01412"
+      "treeUrl": "../tree/#paper=2010_01412",
+      "mapUrl": "../map/#paper=2010_01412"
     },
     "2003_00153": {
       "id": "2003_00153",
@@ -1416,8 +1416,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2003_00153/",
-      "contentTreeUrl": "../content-tree/#paper=2003_00153",
-      "mindMapUrl": "../mind-map/#paper=2003_00153"
+      "treeUrl": "../tree/#paper=2003_00153",
+      "mapUrl": "../map/#paper=2003_00153"
     },
     "2012_08791": {
       "id": "2012_08791",
@@ -1432,8 +1432,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_08791/",
-      "contentTreeUrl": "../content-tree/#paper=2012_08791",
-      "mindMapUrl": "../mind-map/#paper=2012_08791"
+      "treeUrl": "../tree/#paper=2012_08791",
+      "mapUrl": "../map/#paper=2012_08791"
     },
     "2008_02622": {
       "id": "2008_02622",
@@ -1446,8 +1446,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2008_02622/",
-      "contentTreeUrl": "../content-tree/#paper=2008_02622",
-      "mindMapUrl": "../mind-map/#paper=2008_02622"
+      "treeUrl": "../tree/#paper=2008_02622",
+      "mapUrl": "../map/#paper=2008_02622"
     },
     "2012_04456": {
       "id": "2012_04456",
@@ -1463,8 +1463,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_04456/",
-      "contentTreeUrl": "../content-tree/#paper=2012_04456",
-      "mindMapUrl": "../mind-map/#paper=2012_04456"
+      "treeUrl": "../tree/#paper=2012_04456",
+      "mapUrl": "../map/#paper=2012_04456"
     },
     "2010_11929": {
       "id": "2010_11929",
@@ -1488,8 +1488,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2010_11929/",
-      "contentTreeUrl": "../content-tree/#paper=2010_11929",
-      "mindMapUrl": "../mind-map/#paper=2010_11929"
+      "treeUrl": "../tree/#paper=2010_11929",
+      "mapUrl": "../map/#paper=2010_11929"
     },
     "2012_09322": {
       "id": "2012_09322",
@@ -1506,8 +1506,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_09322/",
-      "contentTreeUrl": "../content-tree/#paper=2012_09322",
-      "mindMapUrl": "../mind-map/#paper=2012_09322"
+      "treeUrl": "../tree/#paper=2012_09322",
+      "mapUrl": "../map/#paper=2012_09322"
     },
     "2012_06188": {
       "id": "2012_06188",
@@ -1526,8 +1526,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_06188/",
-      "contentTreeUrl": "../content-tree/#paper=2012_06188",
-      "mindMapUrl": "../mind-map/#paper=2012_06188"
+      "treeUrl": "../tree/#paper=2012_06188",
+      "mapUrl": "../map/#paper=2012_06188"
     },
     "2004_01142": {
       "id": "2004_01142",
@@ -1542,8 +1542,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2004_01142/",
-      "contentTreeUrl": "../content-tree/#paper=2004_01142",
-      "mindMapUrl": "../mind-map/#paper=2004_01142"
+      "treeUrl": "../tree/#paper=2004_01142",
+      "mapUrl": "../map/#paper=2004_01142"
     },
     "2002_08809": {
       "id": "2002_08809",
@@ -1558,8 +1558,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2002_08809/",
-      "contentTreeUrl": "../content-tree/#paper=2002_08809",
-      "mindMapUrl": "../mind-map/#paper=2002_08809"
+      "treeUrl": "../tree/#paper=2002_08809",
+      "mapUrl": "../map/#paper=2002_08809"
     },
     "2020_pellegrini_a_multiple_shooting_differential": {
       "id": "2020_pellegrini_a_multiple_shooting_differential",
@@ -1579,8 +1579,8 @@ window.tagSearchData = {
       ],
       "summary": "Develops a rigorous multiple-shooting formulation of DDP with theoretical convergence analysis, establishing connections to classical multiple-shooting methods.",
       "url": "../papers/2020_pellegrini_a_multiple_shooting_differential/",
-      "contentTreeUrl": "../content-tree/#paper=2020_pellegrini_a_multiple_shooting_differential",
-      "mindMapUrl": "../mind-map/#paper=2020_pellegrini_a_multiple_shooting_differential"
+      "treeUrl": "../tree/#paper=2020_pellegrini_a_multiple_shooting_differential",
+      "mapUrl": "../map/#paper=2020_pellegrini_a_multiple_shooting_differential"
     },
     "2004_08019": {
       "id": "2004_08019",
@@ -1601,8 +1601,8 @@ window.tagSearchData = {
       ],
       "summary": "Algorithms for synthesizing robust controllers for linear systems using multiplicative noise as a design-time device. Leverages theoretical results on the equivalence of robustness to structured determinstic and stochastic uncertainties.",
       "url": "../papers/2004_08019/",
-      "contentTreeUrl": "../content-tree/#paper=2004_08019",
-      "mindMapUrl": "../mind-map/#paper=2004_08019"
+      "treeUrl": "../tree/#paper=2004_08019",
+      "mapUrl": "../map/#paper=2004_08019"
     },
     "2020_jiang_time_series_classification_nearest": {
       "id": "2020_jiang_time_series_classification_nearest",
@@ -1615,8 +1615,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2020_jiang_time_series_classification_nearest/",
-      "contentTreeUrl": "../content-tree/#paper=2020_jiang_time_series_classification_nearest",
-      "mindMapUrl": "../mind-map/#paper=2020_jiang_time_series_classification_nearest"
+      "treeUrl": "../tree/#paper=2020_jiang_time_series_classification_nearest",
+      "mapUrl": "../map/#paper=2020_jiang_time_series_classification_nearest"
     },
     "2006_06835": {
       "id": "2006_06835",
@@ -1634,8 +1634,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2006_06835/",
-      "contentTreeUrl": "../content-tree/#paper=2006_06835",
-      "mindMapUrl": "../mind-map/#paper=2006_06835"
+      "treeUrl": "../tree/#paper=2006_06835",
+      "mapUrl": "../map/#paper=2006_06835"
     },
     "2020_mashayekhi_informed_rrt_connect_an": {
       "id": "2020_mashayekhi_informed_rrt_connect_an",
@@ -1660,8 +1660,8 @@ window.tagSearchData = {
       ],
       "summary": "Applies Informed RRT*'s ellipsoidal focused sampling to RRT*-Connect: the planner uses bidirectional tree growth and rewiring (as in RRT*-Connect) to find an initial solution quickly, then restricts subsequent sampling to the prolate hyperspheroid subset that can improve it (as in Informed RRT*). An incremental combination of two existing techniques with no major novel theoretical contribution, but can achieve fewer iterations and lower solution cost than RRT*-Connect alone.",
       "url": "../papers/2020_mashayekhi_informed_rrt_connect_an/",
-      "contentTreeUrl": "../content-tree/#paper=2020_mashayekhi_informed_rrt_connect_an",
-      "mindMapUrl": "../mind-map/#paper=2020_mashayekhi_informed_rrt_connect_an"
+      "treeUrl": "../tree/#paper=2020_mashayekhi_informed_rrt_connect_an",
+      "mapUrl": "../map/#paper=2020_mashayekhi_informed_rrt_connect_an"
     },
     "2006_11239": {
       "id": "2006_11239",
@@ -1676,8 +1676,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2006_11239/",
-      "contentTreeUrl": "../content-tree/#paper=2006_11239",
-      "mindMapUrl": "../mind-map/#paper=2006_11239"
+      "treeUrl": "../tree/#paper=2006_11239",
+      "mapUrl": "../map/#paper=2006_11239"
     },
     "2020_marti_saumell_squash_box_feasibility_driven": {
       "id": "2020_marti_saumell_squash_box_feasibility_driven",
@@ -1701,8 +1701,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents a homotopy method which progressively penalizes control action constraint violations more aggressively in an outer loop, using FDDP in the inner loop solves. Solution converges to the hard-constrained optimal trajectory. Quadratic barrier keeps decision variables (control actions) near the center of the sigmoid squashing functions, i.e. avoids a kind of \"dead gradients\" numerical issue.",
       "url": "../papers/2020_marti_saumell_squash_box_feasibility_driven/",
-      "contentTreeUrl": "../content-tree/#paper=2020_marti_saumell_squash_box_feasibility_driven",
-      "mindMapUrl": "../mind-map/#paper=2020_marti_saumell_squash_box_feasibility_driven"
+      "treeUrl": "../tree/#paper=2020_marti_saumell_squash_box_feasibility_driven",
+      "mapUrl": "../map/#paper=2020_marti_saumell_squash_box_feasibility_driven"
     },
     "2011_14439": {
       "id": "2011_14439",
@@ -1716,8 +1716,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_14439/",
-      "contentTreeUrl": "../content-tree/#paper=2011_14439",
-      "mindMapUrl": "../mind-map/#paper=2011_14439"
+      "treeUrl": "../tree/#paper=2011_14439",
+      "mapUrl": "../map/#paper=2011_14439"
     },
     "2002_10069": {
       "id": "2002_10069",
@@ -1743,8 +1743,8 @@ window.tagSearchData = {
       ],
       "summary": "Assembles a pipeline for automatically designing controllers from data that perform well throughout the data acquisition and system operation timeline. Uncertainty is quantified with a statistical bootstrap and designed against by using a multiplicative noise framework to achieve robustness. The aim is to achieve both good robustness in the low-data short-term transient as well as good performance in the high-data long-term steady state condition.",
       "url": "../papers/2002_10069/",
-      "contentTreeUrl": "../content-tree/#paper=2002_10069",
-      "mindMapUrl": "../mind-map/#paper=2002_10069"
+      "treeUrl": "../tree/#paper=2002_10069",
+      "mapUrl": "../map/#paper=2002_10069"
     },
     "2012_12657": {
       "id": "2012_12657",
@@ -1761,8 +1761,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_12657/",
-      "contentTreeUrl": "../content-tree/#paper=2012_12657",
-      "mindMapUrl": "../mind-map/#paper=2012_12657"
+      "treeUrl": "../tree/#paper=2012_12657",
+      "mapUrl": "../map/#paper=2012_12657"
     },
     "2003_01314": {
       "id": "2003_01314",
@@ -1777,8 +1777,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2003_01314/",
-      "contentTreeUrl": "../content-tree/#paper=2003_01314",
-      "mindMapUrl": "../mind-map/#paper=2003_01314"
+      "treeUrl": "../tree/#paper=2003_01314",
+      "mapUrl": "../map/#paper=2003_01314"
     },
     "2020_romano_time_optimal_control_of": {
       "id": "2020_romano_time_optimal_control_of",
@@ -1792,8 +1792,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2020_romano_time_optimal_control_of/",
-      "contentTreeUrl": "../content-tree/#paper=2020_romano_time_optimal_control_of",
-      "mindMapUrl": "../mind-map/#paper=2020_romano_time_optimal_control_of"
+      "treeUrl": "../tree/#paper=2020_romano_time_optimal_control_of",
+      "mapUrl": "../map/#paper=2020_romano_time_optimal_control_of"
     },
     "2020_cole_vaporwave_aesthetics_internet_nostalgia": {
       "id": "2020_cole_vaporwave_aesthetics_internet_nostalgia",
@@ -1808,8 +1808,8 @@ window.tagSearchData = {
       ],
       "summary": "Traces vaporwave from Daniel Lopatin's eccojams through its internet-native mixture of slowed pop samples, obsolete media, mall imagery, consumer electronics, and early-Web visual culture. The article reads vaporwave as an \"off-modern\" form of nostalgia: not simply anti-capitalist critique or escapism, but a defamiliarizing reuse of postmodern consumer objects that carries a sideways, dreamlike utopian impulse.",
       "url": "../papers/2020_cole_vaporwave_aesthetics_internet_nostalgia/",
-      "contentTreeUrl": "../content-tree/#paper=2020_cole_vaporwave_aesthetics_internet_nostalgia",
-      "mindMapUrl": "../mind-map/#paper=2020_cole_vaporwave_aesthetics_internet_nostalgia"
+      "treeUrl": "../tree/#paper=2020_cole_vaporwave_aesthetics_internet_nostalgia",
+      "mapUrl": "../map/#paper=2020_cole_vaporwave_aesthetics_internet_nostalgia"
     },
     "2011_06719": {
       "id": "2011_06719",
@@ -1826,8 +1826,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_06719/",
-      "contentTreeUrl": "../content-tree/#paper=2011_06719",
-      "mindMapUrl": "../mind-map/#paper=2011_06719"
+      "treeUrl": "../tree/#paper=2011_06719",
+      "mapUrl": "../map/#paper=2011_06719"
     },
     "2012_05754": {
       "id": "2012_05754",
@@ -1843,8 +1843,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_05754/",
-      "contentTreeUrl": "../content-tree/#paper=2012_05754",
-      "mindMapUrl": "../mind-map/#paper=2012_05754"
+      "treeUrl": "../tree/#paper=2012_05754",
+      "mapUrl": "../map/#paper=2012_05754"
     },
     "2003_02395": {
       "id": "2003_02395",
@@ -1860,8 +1860,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2003_02395/",
-      "contentTreeUrl": "../content-tree/#paper=2003_02395",
-      "mindMapUrl": "../mind-map/#paper=2003_02395"
+      "treeUrl": "../tree/#paper=2003_02395",
+      "mapUrl": "../map/#paper=2003_02395"
     },
     "2011_02258": {
       "id": "2011_02258",
@@ -1875,8 +1875,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_02258/",
-      "contentTreeUrl": "../content-tree/#paper=2011_02258",
-      "mindMapUrl": "../mind-map/#paper=2011_02258"
+      "treeUrl": "../tree/#paper=2011_02258",
+      "mapUrl": "../map/#paper=2011_02258"
     },
     "2005_04259": {
       "id": "2005_04259",
@@ -1895,8 +1895,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2005_04259/",
-      "contentTreeUrl": "../content-tree/#paper=2005_04259",
-      "mindMapUrl": "../mind-map/#paper=2005_04259"
+      "treeUrl": "../tree/#paper=2005_04259",
+      "mapUrl": "../map/#paper=2005_04259"
     },
     "2008_10898": {
       "id": "2008_10898",
@@ -1912,8 +1912,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2008_10898/",
-      "contentTreeUrl": "../content-tree/#paper=2008_10898",
-      "mindMapUrl": "../mind-map/#paper=2008_10898"
+      "treeUrl": "../tree/#paper=2008_10898",
+      "mapUrl": "../map/#paper=2008_10898"
     },
     "2011_11303": {
       "id": "2011_11303",
@@ -1929,8 +1929,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_11303/",
-      "contentTreeUrl": "../content-tree/#paper=2011_11303",
-      "mindMapUrl": "../mind-map/#paper=2011_11303"
+      "treeUrl": "../tree/#paper=2011_11303",
+      "mapUrl": "../map/#paper=2011_11303"
     },
     "2003_04302": {
       "id": "2003_04302",
@@ -1946,8 +1946,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2003_04302/",
-      "contentTreeUrl": "../content-tree/#paper=2003_04302",
-      "mindMapUrl": "../mind-map/#paper=2003_04302"
+      "treeUrl": "../tree/#paper=2003_04302",
+      "mapUrl": "../map/#paper=2003_04302"
     },
     "2020_wang_neural_rrt_learning_based": {
       "id": "2020_wang_neural_rrt_learning_based",
@@ -1964,8 +1964,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2020_wang_neural_rrt_learning_based/",
-      "contentTreeUrl": "../content-tree/#paper=2020_wang_neural_rrt_learning_based",
-      "mindMapUrl": "../mind-map/#paper=2020_wang_neural_rrt_learning_based"
+      "treeUrl": "../tree/#paper=2020_wang_neural_rrt_learning_based",
+      "mapUrl": "../map/#paper=2020_wang_neural_rrt_learning_based"
     },
     "2020_wu_r3t_rapidly_exploring_random": {
       "id": "2020_wu_r3t_rapidly_exploring_random",
@@ -1980,8 +1980,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2020_wu_r3t_rapidly_exploring_random/",
-      "contentTreeUrl": "../content-tree/#paper=2020_wu_r3t_rapidly_exploring_random",
-      "mindMapUrl": "../mind-map/#paper=2020_wu_r3t_rapidly_exploring_random"
+      "treeUrl": "../tree/#paper=2020_wu_r3t_rapidly_exploring_random",
+      "mapUrl": "../map/#paper=2020_wu_r3t_rapidly_exploring_random"
     },
     "2020_weiss_deepracing_a_framework_for": {
       "id": "2020_weiss_deepracing_a_framework_for",
@@ -1995,8 +1995,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2020_weiss_deepracing_a_framework_for/",
-      "contentTreeUrl": "../content-tree/#paper=2020_weiss_deepracing_a_framework_for",
-      "mindMapUrl": "../mind-map/#paper=2020_weiss_deepracing_a_framework_for"
+      "treeUrl": "../tree/#paper=2020_weiss_deepracing_a_framework_for",
+      "mapUrl": "../map/#paper=2020_weiss_deepracing_a_framework_for"
     },
     "2012_00889": {
       "id": "2012_00889",
@@ -2011,8 +2011,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_00889/",
-      "contentTreeUrl": "../content-tree/#paper=2012_00889",
-      "mindMapUrl": "../mind-map/#paper=2012_00889"
+      "treeUrl": "../tree/#paper=2012_00889",
+      "mapUrl": "../map/#paper=2012_00889"
     },
     "2006_11371": {
       "id": "2006_11371",
@@ -2026,8 +2026,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2006_11371/",
-      "contentTreeUrl": "../content-tree/#paper=2006_11371",
-      "mindMapUrl": "../mind-map/#paper=2006_11371"
+      "treeUrl": "../tree/#paper=2006_11371",
+      "mapUrl": "../map/#paper=2006_11371"
     },
     "2011_14212": {
       "id": "2011_14212",
@@ -2054,8 +2054,8 @@ window.tagSearchData = {
       ],
       "summary": "By viewing policy iteration as Newton's method for solving MDPs and extending the analogy to the midpoint method, the work shows that policies can be solved for more efficiently, both in the model-known and model-unknown settings.",
       "url": "../papers/2011_14212/",
-      "contentTreeUrl": "../content-tree/#paper=2011_14212",
-      "mindMapUrl": "../mind-map/#paper=2011_14212"
+      "treeUrl": "../tree/#paper=2011_14212",
+      "mapUrl": "../map/#paper=2011_14212"
     },
     "2002_06613": {
       "id": "2002_06613",
@@ -2085,8 +2085,8 @@ window.tagSearchData = {
       ],
       "summary": "Provides asymptotic results on convergence of identified system parameters (dynamics parameters and noise covariances) to true values using a trajectory-averaging least-squares estimation algorithm for linear systems with multiplicative noise. Later extended to non-asymptotic results in 2106.16078.",
       "url": "../papers/2002_06613/",
-      "contentTreeUrl": "../content-tree/#paper=2002_06613",
-      "mindMapUrl": "../mind-map/#paper=2002_06613"
+      "treeUrl": "../tree/#paper=2002_06613",
+      "mapUrl": "../map/#paper=2002_06613"
     },
     "2004_06801": {
       "id": "2004_06801",
@@ -2101,8 +2101,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2004_06801/",
-      "contentTreeUrl": "../content-tree/#paper=2004_06801",
-      "mindMapUrl": "../mind-map/#paper=2004_06801"
+      "treeUrl": "../tree/#paper=2004_06801",
+      "mapUrl": "../map/#paper=2004_06801"
     },
     "2005_12167": {
       "id": "2005_12167",
@@ -2116,8 +2116,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2005_12167/",
-      "contentTreeUrl": "../content-tree/#paper=2005_12167",
-      "mindMapUrl": "../mind-map/#paper=2005_12167"
+      "treeUrl": "../tree/#paper=2005_12167",
+      "mapUrl": "../map/#paper=2005_12167"
     },
     "2020_florence_integrated_perception_and_control": {
       "id": "2020_florence_integrated_perception_and_control",
@@ -2132,8 +2132,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2020_florence_integrated_perception_and_control/",
-      "contentTreeUrl": "../content-tree/#paper=2020_florence_integrated_perception_and_control",
-      "mindMapUrl": "../mind-map/#paper=2020_florence_integrated_perception_and_control"
+      "treeUrl": "../tree/#paper=2020_florence_integrated_perception_and_control",
+      "mapUrl": "../map/#paper=2020_florence_integrated_perception_and_control"
     },
     "2020_kolekar_human_like_driving_behaviour": {
       "id": "2020_kolekar_human_like_driving_behaviour",
@@ -2148,8 +2148,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2020_kolekar_human_like_driving_behaviour/",
-      "contentTreeUrl": "../content-tree/#paper=2020_kolekar_human_like_driving_behaviour",
-      "mindMapUrl": "../mind-map/#paper=2020_kolekar_human_like_driving_behaviour"
+      "treeUrl": "../tree/#paper=2020_kolekar_human_like_driving_behaviour",
+      "mapUrl": "../map/#paper=2020_kolekar_human_like_driving_behaviour"
     },
     "2020_dean_robust_guarantees_for_perception": {
       "id": "2020_dean_robust_guarantees_for_perception",
@@ -2165,8 +2165,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2020_dean_robust_guarantees_for_perception/",
-      "contentTreeUrl": "../content-tree/#paper=2020_dean_robust_guarantees_for_perception",
-      "mindMapUrl": "../mind-map/#paper=2020_dean_robust_guarantees_for_perception"
+      "treeUrl": "../tree/#paper=2020_dean_robust_guarantees_for_perception",
+      "mapUrl": "../map/#paper=2020_dean_robust_guarantees_for_perception"
     },
     "2020_ersal_connected_and_automated_road": {
       "id": "2020_ersal_connected_and_automated_road",
@@ -2185,8 +2185,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2020_ersal_connected_and_automated_road/",
-      "contentTreeUrl": "../content-tree/#paper=2020_ersal_connected_and_automated_road",
-      "mindMapUrl": "../mind-map/#paper=2020_ersal_connected_and_automated_road"
+      "treeUrl": "../tree/#paper=2020_ersal_connected_and_automated_road",
+      "mapUrl": "../map/#paper=2020_ersal_connected_and_automated_road"
     },
     "2010_10726": {
       "id": "2010_10726",
@@ -2200,8 +2200,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2010_10726/",
-      "contentTreeUrl": "../content-tree/#paper=2010_10726",
-      "mindMapUrl": "../mind-map/#paper=2010_10726"
+      "treeUrl": "../tree/#paper=2010_10726",
+      "mapUrl": "../map/#paper=2010_10726"
     },
     "2009_10484": {
       "id": "2009_10484",
@@ -2223,8 +2223,8 @@ window.tagSearchData = {
       ],
       "summary": "",
       "url": "../papers/2009_10484/",
-      "contentTreeUrl": "../content-tree/#paper=2009_10484",
-      "mindMapUrl": "../mind-map/#paper=2009_10484"
+      "treeUrl": "../tree/#paper=2009_10484",
+      "mapUrl": "../map/#paper=2009_10484"
     },
     "2007_11120": {
       "id": "2007_11120",
@@ -2238,8 +2238,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2007_11120/",
-      "contentTreeUrl": "../content-tree/#paper=2007_11120",
-      "mindMapUrl": "../mind-map/#paper=2007_11120"
+      "treeUrl": "../tree/#paper=2007_11120",
+      "mapUrl": "../map/#paper=2007_11120"
     },
     "2001_03093": {
       "id": "2001_03093",
@@ -2263,8 +2263,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends Trajectron with dynamic feasibility constraints and heterogeneous input data (HD maps, agent types), using a CVAE-based graph recurrent network to produce multi-modal trajectory distributions for multiple interacting agents simultaneously.",
       "url": "../papers/2001_03093/",
-      "contentTreeUrl": "../content-tree/#paper=2001_03093",
-      "mindMapUrl": "../mind-map/#paper=2001_03093"
+      "treeUrl": "../tree/#paper=2001_03093",
+      "mapUrl": "../map/#paper=2001_03093"
     },
     "2003_02218": {
       "id": "2003_02218",
@@ -2281,8 +2281,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2003_02218/",
-      "contentTreeUrl": "../content-tree/#paper=2003_02218",
-      "mindMapUrl": "../mind-map/#paper=2003_02218"
+      "treeUrl": "../tree/#paper=2003_02218",
+      "mapUrl": "../map/#paper=2003_02218"
     },
     "2008_08835": {
       "id": "2008_08835",
@@ -2299,8 +2299,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2008_08835/",
-      "contentTreeUrl": "../content-tree/#paper=2008_08835",
-      "mindMapUrl": "../mind-map/#paper=2008_08835"
+      "treeUrl": "../tree/#paper=2008_08835",
+      "mapUrl": "../map/#paper=2008_08835"
     },
     "2004_12919": {
       "id": "2004_12919",
@@ -2317,8 +2317,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2004_12919/",
-      "contentTreeUrl": "../content-tree/#paper=2004_12919",
-      "mindMapUrl": "../mind-map/#paper=2004_12919"
+      "treeUrl": "../tree/#paper=2004_12919",
+      "mapUrl": "../map/#paper=2004_12919"
     },
     "2011_10202": {
       "id": "2011_10202",
@@ -2333,8 +2333,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_10202/",
-      "contentTreeUrl": "../content-tree/#paper=2011_10202",
-      "mindMapUrl": "../mind-map/#paper=2011_10202"
+      "treeUrl": "../tree/#paper=2011_10202",
+      "mapUrl": "../map/#paper=2011_10202"
     },
     "2012_07436": {
       "id": "2012_07436",
@@ -2353,8 +2353,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_07436/",
-      "contentTreeUrl": "../content-tree/#paper=2012_07436",
-      "mindMapUrl": "../mind-map/#paper=2012_07436"
+      "treeUrl": "../tree/#paper=2012_07436",
+      "mapUrl": "../map/#paper=2012_07436"
     },
     "2009_03864": {
       "id": "2009_03864",
@@ -2373,8 +2373,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_03864/",
-      "contentTreeUrl": "../content-tree/#paper=2009_03864",
-      "mindMapUrl": "../mind-map/#paper=2009_03864"
+      "treeUrl": "../tree/#paper=2009_03864",
+      "mapUrl": "../map/#paper=2009_03864"
     },
     "2020_riou_bandit_algorithms_based_on": {
       "id": "2020_riou_bandit_algorithms_based_on",
@@ -2388,8 +2388,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2020_riou_bandit_algorithms_based_on/",
-      "contentTreeUrl": "../content-tree/#paper=2020_riou_bandit_algorithms_based_on",
-      "mindMapUrl": "../mind-map/#paper=2020_riou_bandit_algorithms_based_on"
+      "treeUrl": "../tree/#paper=2020_riou_bandit_algorithms_based_on",
+      "mapUrl": "../map/#paper=2020_riou_bandit_algorithms_based_on"
     },
     "2004_08763": {
       "id": "2004_08763",
@@ -2410,8 +2410,8 @@ window.tagSearchData = {
       ],
       "summary": "Combines CEM-style action sampling with gradient descent refinement. Quite similar in spirit to Sampled DDP (SaDDP), but uses first-order (gradient) refinement instead of second-order (Hessian), and stays closer to vanilla CEM.",
       "url": "../papers/2004_08763/",
-      "contentTreeUrl": "../content-tree/#paper=2004_08763",
-      "mindMapUrl": "../mind-map/#paper=2004_08763"
+      "treeUrl": "../tree/#paper=2004_08763",
+      "mapUrl": "../map/#paper=2004_08763"
     },
     "2004_09875": {
       "id": "2004_09875",
@@ -2425,8 +2425,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2004_09875/",
-      "contentTreeUrl": "../content-tree/#paper=2004_09875",
-      "mindMapUrl": "../mind-map/#paper=2004_09875"
+      "treeUrl": "../tree/#paper=2004_09875",
+      "mapUrl": "../map/#paper=2004_09875"
     },
     "2006_13846": {
       "id": "2006_13846",
@@ -2440,8 +2440,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2006_13846/",
-      "contentTreeUrl": "../content-tree/#paper=2006_13846",
-      "mindMapUrl": "../mind-map/#paper=2006_13846"
+      "treeUrl": "../tree/#paper=2006_13846",
+      "mapUrl": "../map/#paper=2006_13846"
     },
     "2003_08934": {
       "id": "2003_08934",
@@ -2459,8 +2459,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2003_08934/",
-      "contentTreeUrl": "../content-tree/#paper=2003_08934",
-      "mindMapUrl": "../mind-map/#paper=2003_08934"
+      "treeUrl": "../tree/#paper=2003_08934",
+      "mapUrl": "../map/#paper=2003_08934"
     },
     "2010_00411": {
       "id": "2010_00411",
@@ -2485,8 +2485,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces FDDP (Feasibility-Driven DDP) which enforces feasibility at each iteration rather than penalizing infeasibility, overcoming convergence issues in control-limited DDP.",
       "url": "../papers/2010_00411/",
-      "contentTreeUrl": "../content-tree/#paper=2010_00411",
-      "mindMapUrl": "../mind-map/#paper=2010_00411"
+      "treeUrl": "../tree/#paper=2010_00411",
+      "mapUrl": "../map/#paper=2010_00411"
     },
     "2000_baxter_direct_gradient_based_reinforcement": {
       "id": "2000_baxter_direct_gradient_based_reinforcement",
@@ -2508,8 +2508,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents an early direct policy-gradient approach for estimating the gradient of average reward from a single trajectory in controlled POMDPs. The key contribution is to bypass value-function approximation and optimize policy parameters directly, with convergence guarantees tied to the estimator time constant and Markov-chain mixing behavior.",
       "url": "../papers/2000_baxter_direct_gradient_based_reinforcement/",
-      "contentTreeUrl": "../content-tree/#paper=2000_baxter_direct_gradient_based_reinforcement",
-      "mindMapUrl": "../mind-map/#paper=2000_baxter_direct_gradient_based_reinforcement"
+      "treeUrl": "../tree/#paper=2000_baxter_direct_gradient_based_reinforcement",
+      "mapUrl": "../map/#paper=2000_baxter_direct_gradient_based_reinforcement"
     },
     "2000_treiber_congested_traffic_states_in": {
       "id": "2000_treiber_congested_traffic_states_in",
@@ -2531,8 +2531,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the Intelligent Driver Model (IDM), a continuous microscopic car-following model that reproduces congested traffic phases observed on German freeways. IDM became the standard baseline car-following model in autonomous driving simulation and is widely used as a simple, interpretable longitudinal behavior model.",
       "url": "../papers/2000_treiber_congested_traffic_states_in/",
-      "contentTreeUrl": "../content-tree/#paper=2000_treiber_congested_traffic_states_in",
-      "mindMapUrl": "../mind-map/#paper=2000_treiber_congested_traffic_states_in"
+      "treeUrl": "../tree/#paper=2000_treiber_congested_traffic_states_in",
+      "mapUrl": "../map/#paper=2000_treiber_congested_traffic_states_in"
     },
     "2000_bengio_gradient_based_optimization_of": {
       "id": "2000_bengio_gradient_based_optimization_of",
@@ -2545,8 +2545,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2000_bengio_gradient_based_optimization_of/",
-      "contentTreeUrl": "../content-tree/#paper=2000_bengio_gradient_based_optimization_of",
-      "mindMapUrl": "../mind-map/#paper=2000_bengio_gradient_based_optimization_of"
+      "treeUrl": "../tree/#paper=2000_bengio_gradient_based_optimization_of",
+      "mapUrl": "../map/#paper=2000_bengio_gradient_based_optimization_of"
     },
     "2000_bicchi_robotic_grasping_and_contact": {
       "id": "2000_bicchi_robotic_grasping_and_contact",
@@ -2568,8 +2568,8 @@ window.tagSearchData = {
       ],
       "summary": "Reviews classical robotic grasping research with emphasis on contact models, grasp analysis, and the analytical theory behind dexterous manipulation. It is a compact entry point into the pre-deep-learning literature on grasp stability, contact constraints, and robot hand mechanics.",
       "url": "../papers/2000_bicchi_robotic_grasping_and_contact/",
-      "contentTreeUrl": "../content-tree/#paper=2000_bicchi_robotic_grasping_and_contact",
-      "mindMapUrl": "../mind-map/#paper=2000_bicchi_robotic_grasping_and_contact"
+      "treeUrl": "../tree/#paper=2000_bicchi_robotic_grasping_and_contact",
+      "mapUrl": "../map/#paper=2000_bicchi_robotic_grasping_and_contact"
     },
     "2000_adams_the_genome_sequence_of": {
       "id": "2000_adams_the_genome_sequence_of",
@@ -2777,8 +2777,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2000_adams_the_genome_sequence_of/",
-      "contentTreeUrl": "../content-tree/#paper=2000_adams_the_genome_sequence_of",
-      "mindMapUrl": "../mind-map/#paper=2000_adams_the_genome_sequence_of"
+      "treeUrl": "../tree/#paper=2000_adams_the_genome_sequence_of",
+      "mapUrl": "../map/#paper=2000_adams_the_genome_sequence_of"
     },
     "2000_kuffner_rrt_connect_an_efficient": {
       "id": "2000_kuffner_rrt_connect_an_efficient",
@@ -2798,8 +2798,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends RRT with bidirectional search (two trees, one from start and one from goal).",
       "url": "../papers/2000_kuffner_rrt_connect_an_efficient/",
-      "contentTreeUrl": "../content-tree/#paper=2000_kuffner_rrt_connect_an_efficient",
-      "mindMapUrl": "../mind-map/#paper=2000_kuffner_rrt_connect_an_efficient"
+      "treeUrl": "../tree/#paper=2000_kuffner_rrt_connect_an_efficient",
+      "mapUrl": "../map/#paper=2000_kuffner_rrt_connect_an_efficient"
     },
     "2000_wan_the_unscented_kalman_filter": {
       "id": "2000_wan_the_unscented_kalman_filter",
@@ -2813,8 +2813,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2000_wan_the_unscented_kalman_filter/",
-      "contentTreeUrl": "../content-tree/#paper=2000_wan_the_unscented_kalman_filter",
-      "mindMapUrl": "../mind-map/#paper=2000_wan_the_unscented_kalman_filter"
+      "treeUrl": "../tree/#paper=2000_wan_the_unscented_kalman_filter",
+      "mapUrl": "../map/#paper=2000_wan_the_unscented_kalman_filter"
     },
     "2000_piazzi_quintic_g2_splines_for": {
       "id": "2000_piazzi_quintic_g2_splines_for",
@@ -2838,8 +2838,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes a steering method for connecting pairs of states in [x, y, yaw, curvature] state space using paths that are quintic polynomials in x, y position coordinates. This leaves four free tuning parameters eta1, eta2, eta3, eta4, which influence the shape of the paths and can be set according to heuristics or can be explicitly optimized, which is investigated in the companion work by the same authors \"Optimal trajectory planning with quintic G2-splines\".",
       "url": "../papers/2000_piazzi_quintic_g2_splines_for/",
-      "contentTreeUrl": "../content-tree/#paper=2000_piazzi_quintic_g2_splines_for",
-      "mindMapUrl": "../mind-map/#paper=2000_piazzi_quintic_g2_splines_for"
+      "treeUrl": "../tree/#paper=2000_piazzi_quintic_g2_splines_for",
+      "mapUrl": "../map/#paper=2000_piazzi_quintic_g2_splines_for"
     },
     "2000_fantoni_energy_based_control_of": {
       "id": "2000_fantoni_energy_based_control_of",
@@ -2854,8 +2854,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2000_fantoni_energy_based_control_of/",
-      "contentTreeUrl": "../content-tree/#paper=2000_fantoni_energy_based_control_of",
-      "mindMapUrl": "../mind-map/#paper=2000_fantoni_energy_based_control_of"
+      "treeUrl": "../tree/#paper=2000_fantoni_energy_based_control_of",
+      "mapUrl": "../map/#paper=2000_fantoni_energy_based_control_of"
     },
     "1710_10122": {
       "id": "1710_10122",
@@ -2877,8 +2877,8 @@ window.tagSearchData = {
       ],
       "summary": "",
       "url": "../papers/1710_10122/",
-      "contentTreeUrl": "../content-tree/#paper=1710_10122",
-      "mindMapUrl": "../mind-map/#paper=1710_10122"
+      "treeUrl": "../tree/#paper=1710_10122",
+      "mapUrl": "../map/#paper=1710_10122"
     },
     "1711_05501": {
       "id": "1711_05501",
@@ -2893,8 +2893,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1711_05501/",
-      "contentTreeUrl": "../content-tree/#paper=1711_05501",
-      "mindMapUrl": "../mind-map/#paper=1711_05501"
+      "treeUrl": "../tree/#paper=1711_05501",
+      "mapUrl": "../map/#paper=1711_05501"
     },
     "1707_07239": {
       "id": "1707_07239",
@@ -2912,8 +2912,8 @@ window.tagSearchData = {
       ],
       "summary": "Reframes TOPP as a reachability problem, propagating feasible velocity sets via small LPs, so you get the speed of numerical integration and the robustness of convex optimization in one easy-to-implement algorithm. Claims to (at least partially) generalize AVP (1411.4045).",
       "url": "../papers/1707_07239/",
-      "contentTreeUrl": "../content-tree/#paper=1707_07239",
-      "mindMapUrl": "../mind-map/#paper=1707_07239"
+      "treeUrl": "../tree/#paper=1707_07239",
+      "mapUrl": "../map/#paper=1707_07239"
     },
     "2017_majumdar_how_should_a_robot": {
       "id": "2017_majumdar_how_should_a_robot",
@@ -2934,8 +2934,8 @@ window.tagSearchData = {
       ],
       "summary": "Argues that robotic risk measures should be chosen by axioms rather than convenience, highlighting distortion risk metrics as a principled class. It is a useful conceptual anchor for safety-aware planning under uncertainty.",
       "url": "../papers/2017_majumdar_how_should_a_robot/",
-      "contentTreeUrl": "../content-tree/#paper=2017_majumdar_how_should_a_robot",
-      "mindMapUrl": "../mind-map/#paper=2017_majumdar_how_should_a_robot"
+      "treeUrl": "../tree/#paper=2017_majumdar_how_should_a_robot",
+      "mapUrl": "../map/#paper=2017_majumdar_how_should_a_robot"
     },
     "2017_craun_control_oriented_modeling_of": {
       "id": "2017_craun_control_oriented_modeling_of",
@@ -2949,8 +2949,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2017_craun_control_oriented_modeling_of/",
-      "contentTreeUrl": "../content-tree/#paper=2017_craun_control_oriented_modeling_of",
-      "mindMapUrl": "../mind-map/#paper=2017_craun_control_oriented_modeling_of"
+      "treeUrl": "../tree/#paper=2017_craun_control_oriented_modeling_of",
+      "mapUrl": "../map/#paper=2017_craun_control_oriented_modeling_of"
     },
     "2017_preiss_crazyswarm_a_large_nano": {
       "id": "2017_preiss_crazyswarm_a_large_nano",
@@ -2966,8 +2966,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2017_preiss_crazyswarm_a_large_nano/",
-      "contentTreeUrl": "../content-tree/#paper=2017_preiss_crazyswarm_a_large_nano",
-      "mindMapUrl": "../mind-map/#paper=2017_preiss_crazyswarm_a_large_nano"
+      "treeUrl": "../tree/#paper=2017_preiss_crazyswarm_a_large_nano",
+      "mapUrl": "../map/#paper=2017_preiss_crazyswarm_a_large_nano"
     },
     "1710_09483": {
       "id": "1710_09483",
@@ -2991,8 +2991,8 @@ window.tagSearchData = {
       ],
       "summary": "The paper puts together a few cool technologies, such as massively parallel trajectory sampling and evaluation on a GPU, as well as a CVAE neural network trained on actual human driving data for prediction of future driver response at robot inference time.",
       "url": "../papers/1710_09483/",
-      "contentTreeUrl": "../content-tree/#paper=1710_09483",
-      "mindMapUrl": "../mind-map/#paper=1710_09483"
+      "treeUrl": "../tree/#paper=1710_09483",
+      "mapUrl": "../map/#paper=1710_09483"
     },
     "1703_07710": {
       "id": "1703_07710",
@@ -3007,8 +3007,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1703_07710/",
-      "contentTreeUrl": "../content-tree/#paper=1703_07710",
-      "mindMapUrl": "../mind-map/#paper=1703_07710"
+      "treeUrl": "../tree/#paper=1703_07710",
+      "mapUrl": "../map/#paper=1703_07710"
     },
     "1710_04753": {
       "id": "1710_04753",
@@ -3024,8 +3024,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1710_04753/",
-      "contentTreeUrl": "../content-tree/#paper=1710_04753",
-      "mindMapUrl": "../mind-map/#paper=1710_04753"
+      "treeUrl": "../tree/#paper=1710_04753",
+      "mapUrl": "../map/#paper=1710_04753"
     },
     "1709_05401": {
       "id": "1709_05401",
@@ -3041,8 +3041,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1709_05401/",
-      "contentTreeUrl": "../content-tree/#paper=1709_05401",
-      "mindMapUrl": "../mind-map/#paper=1709_05401"
+      "treeUrl": "../tree/#paper=1709_05401",
+      "mapUrl": "../map/#paper=1709_05401"
     },
     "1701_07875": {
       "id": "1701_07875",
@@ -3057,8 +3057,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1701_07875/",
-      "contentTreeUrl": "../content-tree/#paper=1701_07875",
-      "mindMapUrl": "../mind-map/#paper=1701_07875"
+      "treeUrl": "../tree/#paper=1701_07875",
+      "mapUrl": "../map/#paper=1701_07875"
     },
     "1703_00395": {
       "id": "1703_00395",
@@ -3074,8 +3074,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1703_00395/",
-      "contentTreeUrl": "../content-tree/#paper=1703_00395",
-      "mindMapUrl": "../mind-map/#paper=1703_00395"
+      "treeUrl": "../tree/#paper=1703_00395",
+      "mapUrl": "../map/#paper=1703_00395"
     },
     "1704_07911": {
       "id": "1704_07911",
@@ -3094,8 +3094,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1704_07911/",
-      "contentTreeUrl": "../content-tree/#paper=1704_07911",
-      "mindMapUrl": "../mind-map/#paper=1704_07911"
+      "treeUrl": "../tree/#paper=1704_07911",
+      "mapUrl": "../map/#paper=1704_07911"
     },
     "1709_07174": {
       "id": "1709_07174",
@@ -3124,8 +3124,8 @@ window.tagSearchData = {
       ],
       "summary": "Uses a \"traditional\" autonomy stack (trajectory optimization with learned dynamics, Kalman filter state estimation, and an handcrafted cost function) as the expert policy, then trains a neural network to imitate it end-to-end, from pixels to torques. Demonstrates that a full autonomy stack can be \"compressed into\" or \"represented by\" a single neural network. Notably, the trained neural network can be deployed with less expensive compute hardware and a lower fidelty sensor suite than the original autonomy stack.",
       "url": "../papers/1709_07174/",
-      "contentTreeUrl": "../content-tree/#paper=1709_07174",
-      "mindMapUrl": "../mind-map/#paper=1709_07174"
+      "treeUrl": "../tree/#paper=1709_07174",
+      "mapUrl": "../map/#paper=1709_07174"
     },
     "1711_05101": {
       "id": "1711_05101",
@@ -3139,8 +3139,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1711_05101/",
-      "contentTreeUrl": "../content-tree/#paper=1711_05101",
-      "mindMapUrl": "../mind-map/#paper=1711_05101"
+      "treeUrl": "../tree/#paper=1711_05101",
+      "mapUrl": "../map/#paper=1711_05101"
     },
     "1709_04494": {
       "id": "1709_04494",
@@ -3156,8 +3156,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1709_04494/",
-      "contentTreeUrl": "../content-tree/#paper=1709_04494",
-      "mindMapUrl": "../mind-map/#paper=1709_04494"
+      "treeUrl": "../tree/#paper=1709_04494",
+      "mapUrl": "../map/#paper=1709_04494"
     },
     "2017_rosmann_kinodynamic_trajectory_optimization_and": {
       "id": "2017_rosmann_kinodynamic_trajectory_optimization_and",
@@ -3179,8 +3179,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends the Timed Elastic Band (TEB) local planner to handle kinodynamic constraints for car-like (Ackermann-steered) robots. Optimizes trajectories over time-parameterized elastic bands subject to nonholonomic constraints, enabling smooth and feasible path following for vehicles with curvature limitations.",
       "url": "../papers/2017_rosmann_kinodynamic_trajectory_optimization_and/",
-      "contentTreeUrl": "../content-tree/#paper=2017_rosmann_kinodynamic_trajectory_optimization_and",
-      "mindMapUrl": "../mind-map/#paper=2017_rosmann_kinodynamic_trajectory_optimization_and"
+      "treeUrl": "../tree/#paper=2017_rosmann_kinodynamic_trajectory_optimization_and",
+      "mapUrl": "../map/#paper=2017_rosmann_kinodynamic_trajectory_optimization_and"
     },
     "1706_01337": {
       "id": "1706_01337",
@@ -3196,8 +3196,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1706_01337/",
-      "contentTreeUrl": "../content-tree/#paper=1706_01337",
-      "mindMapUrl": "../mind-map/#paper=1706_01337"
+      "treeUrl": "../tree/#paper=1706_01337",
+      "mapUrl": "../map/#paper=1706_01337"
     },
     "2017_gurbuzbalaban_when_cyclic_coordinate_descent": {
       "id": "2017_gurbuzbalaban_when_cyclic_coordinate_descent",
@@ -3213,8 +3213,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2017_gurbuzbalaban_when_cyclic_coordinate_descent/",
-      "contentTreeUrl": "../content-tree/#paper=2017_gurbuzbalaban_when_cyclic_coordinate_descent",
-      "mindMapUrl": "../mind-map/#paper=2017_gurbuzbalaban_when_cyclic_coordinate_descent"
+      "treeUrl": "../tree/#paper=2017_gurbuzbalaban_when_cyclic_coordinate_descent",
+      "mapUrl": "../map/#paper=2017_gurbuzbalaban_when_cyclic_coordinate_descent"
     },
     "1703_00102": {
       "id": "1703_00102",
@@ -3230,8 +3230,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1703_00102/",
-      "contentTreeUrl": "../content-tree/#paper=1703_00102",
-      "mindMapUrl": "../mind-map/#paper=1703_00102"
+      "treeUrl": "../tree/#paper=1703_00102",
+      "mapUrl": "../map/#paper=1703_00102"
     },
     "1712_05889": {
       "id": "1712_05889",
@@ -3254,8 +3254,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1712_05889/",
-      "contentTreeUrl": "../content-tree/#paper=1712_05889",
-      "mindMapUrl": "../mind-map/#paper=1712_05889"
+      "treeUrl": "../tree/#paper=1712_05889",
+      "mapUrl": "../map/#paper=1712_05889"
     },
     "1703_01670": {
       "id": "1703_01670",
@@ -3269,8 +3269,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1703_01670/",
-      "contentTreeUrl": "../content-tree/#paper=1703_01670",
-      "mindMapUrl": "../mind-map/#paper=1703_01670"
+      "treeUrl": "../tree/#paper=1703_01670",
+      "mapUrl": "../map/#paper=1703_01670"
     },
     "2017_ke_lightgbm_a_highly_efficient": {
       "id": "2017_ke_lightgbm_a_highly_efficient",
@@ -3290,8 +3290,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2017_ke_lightgbm_a_highly_efficient/",
-      "contentTreeUrl": "../content-tree/#paper=2017_ke_lightgbm_a_highly_efficient",
-      "mindMapUrl": "../mind-map/#paper=2017_ke_lightgbm_a_highly_efficient"
+      "treeUrl": "../tree/#paper=2017_ke_lightgbm_a_highly_efficient",
+      "mapUrl": "../map/#paper=2017_ke_lightgbm_a_highly_efficient"
     },
     "2017_ames_control_barrier_function_based": {
       "id": "2017_ames_control_barrier_function_based",
@@ -3307,8 +3307,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2017_ames_control_barrier_function_based/",
-      "contentTreeUrl": "../content-tree/#paper=2017_ames_control_barrier_function_based",
-      "mindMapUrl": "../mind-map/#paper=2017_ames_control_barrier_function_based"
+      "treeUrl": "../tree/#paper=2017_ames_control_barrier_function_based",
+      "mapUrl": "../map/#paper=2017_ames_control_barrier_function_based"
     },
     "1705_07874": {
       "id": "1705_07874",
@@ -3329,8 +3329,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces SHAP (SHapley Additive exPlanations), a unified framework for local model explainability grounded in Shapley values from cooperative game theory. Shows that six prior explanation methods are all special cases of SHAP values, and that only SHAP satisfies a desirable set of axioms (local accuracy, missingness, consistency), making it the standard feature-attribution method.",
       "url": "../papers/1705_07874/",
-      "contentTreeUrl": "../content-tree/#paper=1705_07874",
-      "mindMapUrl": "../mind-map/#paper=1705_07874"
+      "treeUrl": "../tree/#paper=1705_07874",
+      "mapUrl": "../map/#paper=1705_07874"
     },
     "1706_06643": {
       "id": "1706_06643",
@@ -3344,8 +3344,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1706_06643/",
-      "contentTreeUrl": "../content-tree/#paper=1706_06643",
-      "mindMapUrl": "../mind-map/#paper=1706_06643"
+      "treeUrl": "../tree/#paper=1706_06643",
+      "mapUrl": "../map/#paper=1706_06643"
     },
     "1709_07610": {
       "id": "1709_07610",
@@ -3361,8 +3361,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1709_07610/",
-      "contentTreeUrl": "../content-tree/#paper=1709_07610",
-      "mindMapUrl": "../mind-map/#paper=1709_07610"
+      "treeUrl": "../tree/#paper=1709_07610",
+      "mapUrl": "../map/#paper=1709_07610"
     },
     "1705_07321": {
       "id": "1705_07321",
@@ -3376,8 +3376,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1705_07321/",
-      "contentTreeUrl": "../content-tree/#paper=1705_07321",
-      "mindMapUrl": "../mind-map/#paper=1705_07321"
+      "treeUrl": "../tree/#paper=1705_07321",
+      "mapUrl": "../map/#paper=1705_07321"
     },
     "2017_williams_model_predictive_path_integral": {
       "id": "2017_williams_model_predictive_path_integral",
@@ -3400,8 +3400,8 @@ window.tagSearchData = {
       ],
       "summary": "Tutorial paper introducing MPPI as a sampling-based model predictive control method, deriving it from path integral control theory and demonstrating a GPU-parallelized implementation for real-time autonomous driving.",
       "url": "../papers/2017_williams_model_predictive_path_integral/",
-      "contentTreeUrl": "../content-tree/#paper=2017_williams_model_predictive_path_integral",
-      "mindMapUrl": "../mind-map/#paper=2017_williams_model_predictive_path_integral"
+      "treeUrl": "../tree/#paper=2017_williams_model_predictive_path_integral",
+      "mapUrl": "../map/#paper=2017_williams_model_predictive_path_integral"
     },
     "1712_09381": {
       "id": "1712_09381",
@@ -3422,8 +3422,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1712_09381/",
-      "contentTreeUrl": "../content-tree/#paper=1712_09381",
-      "mindMapUrl": "../mind-map/#paper=1712_09381"
+      "treeUrl": "../tree/#paper=1712_09381",
+      "mapUrl": "../map/#paper=1712_09381"
     },
     "1705_00812": {
       "id": "1705_00812",
@@ -3438,8 +3438,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1705_00812/",
-      "contentTreeUrl": "../content-tree/#paper=1705_00812",
-      "mindMapUrl": "../mind-map/#paper=1705_00812"
+      "treeUrl": "../tree/#paper=1705_00812",
+      "mapUrl": "../map/#paper=1705_00812"
     },
     "1707_06347": {
       "id": "1707_06347",
@@ -3461,8 +3461,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces PPO, which approximates TRPO's trust region constraint via a clipped surrogate objective. Achieves comparable stability and sample efficiency to TRPO with far lower computational overhead. Became the de facto standard RL algorithm quickly over the next decade after introduction.",
       "url": "../papers/1707_06347/",
-      "contentTreeUrl": "../content-tree/#paper=1707_06347",
-      "mindMapUrl": "../mind-map/#paper=1707_06347"
+      "treeUrl": "../tree/#paper=1707_06347",
+      "mapUrl": "../map/#paper=1707_06347"
     },
     "1705_02403": {
       "id": "1705_02403",
@@ -3487,8 +3487,8 @@ window.tagSearchData = {
       ],
       "summary": "GMT* adapts FMT*'s lazy dynamic-programming tree expansion for massively parallel execution on GPUs by replacing the sequential expansion of the single minimum-cost sample with simultaneous expansion of the entire group of active samples whose cost falls below an increasing threshold. This group approximation introduces a bounded suboptimality constant but eliminates sequential data structures and reduces thread divergence. Achieves ~10 ms planning on desktop GPUs and ~30 ms on embedded GPUs.",
       "url": "../papers/1705_02403/",
-      "contentTreeUrl": "../content-tree/#paper=1705_02403",
-      "mindMapUrl": "../mind-map/#paper=1705_02403"
+      "treeUrl": "../tree/#paper=1705_02403",
+      "mapUrl": "../map/#paper=1705_02403"
     },
     "1709_05448": {
       "id": "1709_05448",
@@ -3503,8 +3503,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1709_05448/",
-      "contentTreeUrl": "../content-tree/#paper=1709_05448",
-      "mindMapUrl": "../mind-map/#paper=1709_05448"
+      "treeUrl": "../tree/#paper=1709_05448",
+      "mapUrl": "../map/#paper=1709_05448"
     },
     "1711_08013": {
       "id": "1711_08013",
@@ -3533,8 +3533,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces OSQP, a general-purpose convex quadratic programming solver built around an ADMM-style operator splitting that repeatedly solves a quasi-definite linear system with reusable structure. The paper is especially useful for embedded and repeated-solve settings because it combines robustness to semidefinite objectives and dependent constraints with warm starts, factorization caching, optional division-free iterations, infeasibility detection, and a compact open-source C implementation.",
       "url": "../papers/1711_08013/",
-      "contentTreeUrl": "../content-tree/#paper=1711_08013",
-      "mindMapUrl": "../mind-map/#paper=1711_08013"
+      "treeUrl": "../tree/#paper=1711_08013",
+      "mapUrl": "../map/#paper=1711_08013"
     },
     "1703_00887": {
       "id": "1703_00887",
@@ -3551,8 +3551,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1703_00887/",
-      "contentTreeUrl": "../content-tree/#paper=1703_00887",
-      "mindMapUrl": "../mind-map/#paper=1703_00887"
+      "treeUrl": "../tree/#paper=1703_00887",
+      "mapUrl": "../map/#paper=1703_00887"
     },
     "1708_06056": {
       "id": "1708_06056",
@@ -3568,8 +3568,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1708_06056/",
-      "contentTreeUrl": "../content-tree/#paper=1708_06056",
-      "mindMapUrl": "../mind-map/#paper=1708_06056"
+      "treeUrl": "../tree/#paper=1708_06056",
+      "mapUrl": "../map/#paper=1708_06056"
     },
     "1708_06374": {
       "id": "1708_06374",
@@ -3584,8 +3584,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1708_06374/",
-      "contentTreeUrl": "../content-tree/#paper=1708_06374",
-      "mindMapUrl": "../mind-map/#paper=1708_06374"
+      "treeUrl": "../tree/#paper=1708_06374",
+      "mapUrl": "../map/#paper=1708_06374"
     },
     "1710_11248": {
       "id": "1710_11248",
@@ -3600,8 +3600,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1710_11248/",
-      "contentTreeUrl": "../content-tree/#paper=1710_11248",
-      "mindMapUrl": "../mind-map/#paper=1710_11248"
+      "treeUrl": "../tree/#paper=1710_11248",
+      "mapUrl": "../map/#paper=1710_11248"
     },
     "1706_03762": {
       "id": "1706_03762",
@@ -3625,8 +3625,8 @@ window.tagSearchData = {
       ],
       "summary": "The paper introduces the Transformer architecture, a novel neural network model based on attention mechanisms, demonstrating state-of-the-art performance on NLP tasks.",
       "url": "../papers/1706_03762/",
-      "contentTreeUrl": "../content-tree/#paper=1706_03762",
-      "mindMapUrl": "../mind-map/#paper=1706_03762"
+      "treeUrl": "../tree/#paper=1706_03762",
+      "mapUrl": "../map/#paper=1706_03762"
     },
     "1707_02286": {
       "id": "1707_02286",
@@ -3650,8 +3650,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1707_02286/",
-      "contentTreeUrl": "../content-tree/#paper=1707_02286",
-      "mindMapUrl": "../mind-map/#paper=1707_02286"
+      "treeUrl": "../tree/#paper=1707_02286",
+      "mapUrl": "../map/#paper=1707_02286"
     },
     "1703_03864": {
       "id": "1703_03864",
@@ -3668,8 +3668,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1703_03864/",
-      "contentTreeUrl": "../content-tree/#paper=1703_03864",
-      "mindMapUrl": "../mind-map/#paper=1703_03864"
+      "treeUrl": "../tree/#paper=1703_03864",
+      "mapUrl": "../map/#paper=1703_03864"
     },
     "1711_03938": {
       "id": "1711_03938",
@@ -3686,8 +3686,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1711_03938/",
-      "contentTreeUrl": "../content-tree/#paper=1711_03938",
-      "mindMapUrl": "../mind-map/#paper=1711_03938"
+      "treeUrl": "../tree/#paper=1711_03938",
+      "mapUrl": "../map/#paper=1711_03938"
     },
     "1702_07944": {
       "id": "1702_07944",
@@ -3704,8 +3704,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1702_07944/",
-      "contentTreeUrl": "../content-tree/#paper=1702_07944",
-      "mindMapUrl": "../mind-map/#paper=1702_07944"
+      "treeUrl": "../tree/#paper=1702_07944",
+      "mapUrl": "../map/#paper=1702_07944"
     },
     "1711_06178": {
       "id": "1711_06178",
@@ -3723,8 +3723,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1711_06178/",
-      "contentTreeUrl": "../content-tree/#paper=1711_06178",
-      "mindMapUrl": "../mind-map/#paper=1711_06178"
+      "treeUrl": "../tree/#paper=1711_06178",
+      "mapUrl": "../map/#paper=1711_06178"
     },
     "1708_09251": {
       "id": "1708_09251",
@@ -3738,8 +3738,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1708_09251/",
-      "contentTreeUrl": "../content-tree/#paper=1708_09251",
-      "mindMapUrl": "../mind-map/#paper=1708_09251"
+      "treeUrl": "../tree/#paper=1708_09251",
+      "mapUrl": "../map/#paper=1708_09251"
     },
     "1702_08734": {
       "id": "1702_08734",
@@ -3754,8 +3754,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1702_08734/",
-      "contentTreeUrl": "../content-tree/#paper=1702_08734",
-      "mindMapUrl": "../mind-map/#paper=1702_08734"
+      "treeUrl": "../tree/#paper=1702_08734",
+      "mapUrl": "../map/#paper=1702_08734"
     },
     "1710_02298": {
       "id": "1710_02298",
@@ -3777,8 +3777,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1710_02298/",
-      "contentTreeUrl": "../content-tree/#paper=1710_02298",
-      "mindMapUrl": "../mind-map/#paper=1710_02298"
+      "treeUrl": "../tree/#paper=1710_02298",
+      "mapUrl": "../map/#paper=1710_02298"
     },
     "1711_11006": {
       "id": "1711_11006",
@@ -3802,8 +3802,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents a unified family of iterative Gauss-Newton multiple-shooting methods for nonlinear optimal control, covering single and multiple shooting variants within a common framework with analysis of convergence and computational tradeoffs.",
       "url": "../papers/1711_11006/",
-      "contentTreeUrl": "../content-tree/#paper=1711_11006",
-      "mindMapUrl": "../mind-map/#paper=1711_11006"
+      "treeUrl": "../tree/#paper=1711_11006",
+      "mapUrl": "../map/#paper=1711_11006"
     },
     "1711_10085": {
       "id": "1711_10085",
@@ -3819,8 +3819,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1711_10085/",
-      "contentTreeUrl": "../content-tree/#paper=1711_10085",
-      "mindMapUrl": "../mind-map/#paper=1711_10085"
+      "treeUrl": "../tree/#paper=1711_10085",
+      "mapUrl": "../map/#paper=1711_10085"
     },
     "1708_05144": {
       "id": "1708_05144",
@@ -3837,8 +3837,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1708_05144/",
-      "contentTreeUrl": "../content-tree/#paper=1708_05144",
-      "mindMapUrl": "../mind-map/#paper=1708_05144"
+      "treeUrl": "../tree/#paper=1708_05144",
+      "mapUrl": "../map/#paper=1708_05144"
     },
     "2017_galceran_multipolicy_decision_making_for": {
       "id": "2017_galceran_multipolicy_decision_making_for",
@@ -3854,8 +3854,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2017_galceran_multipolicy_decision_making_for/",
-      "contentTreeUrl": "../content-tree/#paper=2017_galceran_multipolicy_decision_making_for",
-      "mindMapUrl": "../mind-map/#paper=2017_galceran_multipolicy_decision_making_for"
+      "treeUrl": "../tree/#paper=2017_galceran_multipolicy_decision_making_for",
+      "mapUrl": "../map/#paper=2017_galceran_multipolicy_decision_making_for"
     },
     "1710_10571": {
       "id": "1710_10571",
@@ -3871,8 +3871,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1710_10571/",
-      "contentTreeUrl": "../content-tree/#paper=1710_10571",
-      "mindMapUrl": "../mind-map/#paper=1710_10571"
+      "treeUrl": "../tree/#paper=1710_10571",
+      "mapUrl": "../map/#paper=1710_10571"
     },
     "1711_03449": {
       "id": "1711_03449",
@@ -3893,8 +3893,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents an optimization-based collision avoidance formulation using differentiable signed distance functions. Optimization problems are solved with general nonlinear solver IPOPT. Proposes using A* for warm-starting.",
       "url": "../papers/1711_03449/",
-      "contentTreeUrl": "../content-tree/#paper=1711_03449",
-      "mindMapUrl": "../mind-map/#paper=1711_03449"
+      "treeUrl": "../tree/#paper=1711_03449",
+      "mapUrl": "../map/#paper=1711_03449"
     },
     "2017_paull_duckietown_an_open_inexpensive": {
       "id": "2017_paull_duckietown_an_open_inexpensive",
@@ -3946,8 +3946,8 @@ window.tagSearchData = {
       ],
       "summary": "Paull and collaborators present Duckietown as a deliberately low-cost autonomy platform that combines small camera-only robots, modular city infrastructure, and open teaching materials into a reproducible environment for robotics education and research. The contribution is not a single control algorithm so much as a complete educational robotics ecosystem: it lets students and researchers work on perception, lane following, localization, navigation, and coordination while sharing hardware, software, and course infrastructure across institutions.",
       "url": "../papers/2017_paull_duckietown_an_open_inexpensive/",
-      "contentTreeUrl": "../content-tree/#paper=2017_paull_duckietown_an_open_inexpensive",
-      "mindMapUrl": "../mind-map/#paper=2017_paull_duckietown_an_open_inexpensive"
+      "treeUrl": "../tree/#paper=2017_paull_duckietown_an_open_inexpensive",
+      "mapUrl": "../map/#paper=2017_paull_duckietown_an_open_inexpensive"
     },
     "1704_06327": {
       "id": "1704_06327",
@@ -3964,8 +3964,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1704_06327/",
-      "contentTreeUrl": "../content-tree/#paper=1704_06327",
-      "mindMapUrl": "../mind-map/#paper=1704_06327"
+      "treeUrl": "../tree/#paper=1704_06327",
+      "mapUrl": "../map/#paper=1704_06327"
     },
     "1707_02342": {
       "id": "1707_02342",
@@ -3982,8 +3982,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1707_02342/",
-      "contentTreeUrl": "../content-tree/#paper=1707_02342",
-      "mindMapUrl": "../mind-map/#paper=1707_02342"
+      "treeUrl": "../tree/#paper=1707_02342",
+      "mapUrl": "../map/#paper=1707_02342"
     },
     "1707_01146": {
       "id": "1707_01146",
@@ -3998,8 +3998,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1707_01146/",
-      "contentTreeUrl": "../content-tree/#paper=1707_01146",
-      "mindMapUrl": "../mind-map/#paper=1707_01146"
+      "treeUrl": "../tree/#paper=1707_01146",
+      "mapUrl": "../map/#paper=1707_01146"
     },
     "1706_09516": {
       "id": "1706_09516",
@@ -4016,8 +4016,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1706_09516/",
-      "contentTreeUrl": "../content-tree/#paper=1706_09516",
-      "mindMapUrl": "../mind-map/#paper=1706_09516"
+      "treeUrl": "../tree/#paper=1706_09516",
+      "mapUrl": "../map/#paper=1706_09516"
     },
     "1703_00443": {
       "id": "1703_00443",
@@ -4031,8 +4031,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1703_00443/",
-      "contentTreeUrl": "../content-tree/#paper=1703_00443",
-      "mindMapUrl": "../mind-map/#paper=1703_00443"
+      "treeUrl": "../tree/#paper=1703_00443",
+      "mapUrl": "../map/#paper=1703_00443"
     },
     "1706_06491": {
       "id": "1706_06491",
@@ -4046,8 +4046,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1706_06491/",
-      "contentTreeUrl": "../content-tree/#paper=1706_06491",
-      "mindMapUrl": "../mind-map/#paper=1706_06491"
+      "treeUrl": "../tree/#paper=1706_06491",
+      "mapUrl": "../map/#paper=1706_06491"
     },
     "2017_bezanson_julia_a_fresh_approach": {
       "id": "2017_bezanson_julia_a_fresh_approach",
@@ -4063,8 +4063,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2017_bezanson_julia_a_fresh_approach/",
-      "contentTreeUrl": "../content-tree/#paper=2017_bezanson_julia_a_fresh_approach",
-      "mindMapUrl": "../mind-map/#paper=2017_bezanson_julia_a_fresh_approach"
+      "treeUrl": "../tree/#paper=2017_bezanson_julia_a_fresh_approach",
+      "mapUrl": "../map/#paper=2017_bezanson_julia_a_fresh_approach"
     },
     "1704_04852": {
       "id": "1704_04852",
@@ -4080,8 +4080,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1704_04852/",
-      "contentTreeUrl": "../content-tree/#paper=1704_04852",
-      "mindMapUrl": "../mind-map/#paper=1704_04852"
+      "treeUrl": "../tree/#paper=1704_04852",
+      "mapUrl": "../map/#paper=1704_04852"
     },
     "1706_04381": {
       "id": "1706_04381",
@@ -4095,8 +4095,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1706_04381/",
-      "contentTreeUrl": "../content-tree/#paper=1706_04381",
-      "mindMapUrl": "../mind-map/#paper=1706_04381"
+      "treeUrl": "../tree/#paper=1706_04381",
+      "mapUrl": "../map/#paper=1706_04381"
     },
     "1704_02672": {
       "id": "1704_02672",
@@ -4113,8 +4113,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1704_02672/",
-      "contentTreeUrl": "../content-tree/#paper=1704_02672",
-      "mindMapUrl": "../mind-map/#paper=1704_02672"
+      "treeUrl": "../tree/#paper=1704_02672",
+      "mapUrl": "../map/#paper=1704_02672"
     },
     "1702_08608": {
       "id": "1702_08608",
@@ -4128,8 +4128,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1702_08608/",
-      "contentTreeUrl": "../content-tree/#paper=1702_08608",
-      "mindMapUrl": "../mind-map/#paper=1702_08608"
+      "treeUrl": "../tree/#paper=1702_08608",
+      "mapUrl": "../map/#paper=1702_08608"
     },
     "1905_13547": {
       "id": "1905_13547",
@@ -4159,8 +4159,8 @@ window.tagSearchData = {
       ],
       "summary": "Provides non-asymptotic finite-sample convergence results for policy gradient algorithms applied to the problem of optimal control of linear systems with multiplicative noise when the dynamics and noise covariances are unknown.",
       "url": "../papers/1905_13547/",
-      "contentTreeUrl": "../content-tree/#paper=1905_13547",
-      "mindMapUrl": "../mind-map/#paper=1905_13547"
+      "treeUrl": "../tree/#paper=1905_13547",
+      "mapUrl": "../map/#paper=1905_13547"
     },
     "1905_00820": {
       "id": "1905_00820",
@@ -4177,8 +4177,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1905_00820/",
-      "contentTreeUrl": "../content-tree/#paper=1905_00820",
-      "mindMapUrl": "../mind-map/#paper=1905_00820"
+      "treeUrl": "../tree/#paper=1905_00820",
+      "mapUrl": "../map/#paper=1905_00820"
     },
     "1902_06583": {
       "id": "1902_06583",
@@ -4202,8 +4202,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents HOOF, a one-run hyperparameter tuning method for policy-gradient reinforcement learning. The method uses trajectories already collected by the learner to rank candidate policy updates via importance-weighted one-step improvement estimates, reducing the extra sampling burden of grid search or population-based tuning.",
       "url": "../papers/1902_06583/",
-      "contentTreeUrl": "../content-tree/#paper=1902_06583",
-      "mindMapUrl": "../mind-map/#paper=1902_06583"
+      "treeUrl": "../tree/#paper=1902_06583",
+      "mapUrl": "../map/#paper=1902_06583"
     },
     "1912_01603": {
       "id": "1912_01603",
@@ -4226,8 +4226,8 @@ window.tagSearchData = {
       ],
       "summary": "Build on the predecessor work PlaNet and learns an actor-critic model in place of online planning with the cross entropy method.",
       "url": "../papers/1912_01603/",
-      "contentTreeUrl": "../content-tree/#paper=1912_01603",
-      "mindMapUrl": "../mind-map/#paper=1912_01603"
+      "treeUrl": "../tree/#paper=1912_01603",
+      "mapUrl": "../map/#paper=1912_01603"
     },
     "2019_katz_mini_cheetah_a_platform": {
       "id": "2019_katz_mini_cheetah_a_platform",
@@ -4242,8 +4242,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2019_katz_mini_cheetah_a_platform/",
-      "contentTreeUrl": "../content-tree/#paper=2019_katz_mini_cheetah_a_platform",
-      "mindMapUrl": "../mind-map/#paper=2019_katz_mini_cheetah_a_platform"
+      "treeUrl": "../tree/#paper=2019_katz_mini_cheetah_a_platform",
+      "mapUrl": "../map/#paper=2019_katz_mini_cheetah_a_platform"
     },
     "2019_raasveldt_duckdb": {
       "id": "2019_raasveldt_duckdb",
@@ -4257,8 +4257,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2019_raasveldt_duckdb/",
-      "contentTreeUrl": "../content-tree/#paper=2019_raasveldt_duckdb",
-      "mindMapUrl": "../mind-map/#paper=2019_raasveldt_duckdb"
+      "treeUrl": "../tree/#paper=2019_raasveldt_duckdb",
+      "mapUrl": "../map/#paper=2019_raasveldt_duckdb"
     },
     "1902_07826": {
       "id": "1902_07826",
@@ -4273,8 +4273,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1902_07826/",
-      "contentTreeUrl": "../content-tree/#paper=1902_07826",
-      "mindMapUrl": "../mind-map/#paper=1902_07826"
+      "treeUrl": "../tree/#paper=1902_07826",
+      "mapUrl": "../map/#paper=1902_07826"
     },
     "1902_10517": {
       "id": "1902_10517",
@@ -4290,8 +4290,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1902_10517/",
-      "contentTreeUrl": "../content-tree/#paper=1902_10517",
-      "mindMapUrl": "../mind-map/#paper=1902_10517"
+      "treeUrl": "../tree/#paper=1902_10517",
+      "mapUrl": "../map/#paper=1902_10517"
     },
     "1905_13548": {
       "id": "1905_13548",
@@ -4312,8 +4312,8 @@ window.tagSearchData = {
       ],
       "summary": "Showed that one can use policy gradient to automatically design the placement of sensors and actuators in a controller for linear systems with multiplicative noise. Achieved by encoding the preference for certain kinds of sparsity patterns with sparsity-promoting convex regularizers in the objective function.",
       "url": "../papers/1905_13548/",
-      "contentTreeUrl": "../content-tree/#paper=1905_13548",
-      "mindMapUrl": "../mind-map/#paper=1905_13548"
+      "treeUrl": "../tree/#paper=1905_13548",
+      "mapUrl": "../map/#paper=1905_13548"
     },
     "1912_05686": {
       "id": "1912_05686",
@@ -4335,8 +4335,8 @@ window.tagSearchData = {
       ],
       "summary": "Provides a practical overview of Bayesian hyperparameter optimization using the Ax, BoTorch, and GPyTorch stack. The paper is most useful as a tooling-oriented bridge between Gaussian-process Bayesian optimization concepts and an applied molecular-graph hyperparameter tuning example.",
       "url": "../papers/1912_05686/",
-      "contentTreeUrl": "../content-tree/#paper=1912_05686",
-      "mindMapUrl": "../mind-map/#paper=1912_05686"
+      "treeUrl": "../tree/#paper=1912_05686",
+      "mapUrl": "../map/#paper=1912_05686"
     },
     "1908_00261": {
       "id": "1908_00261",
@@ -4352,8 +4352,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1908_00261/",
-      "contentTreeUrl": "../content-tree/#paper=1908_00261",
-      "mindMapUrl": "../mind-map/#paper=1908_00261"
+      "treeUrl": "../tree/#paper=1908_00261",
+      "mapUrl": "../map/#paper=1908_00261"
     },
     "2019_agarwal_logarithmic_regret_for_online": {
       "id": "2019_agarwal_logarithmic_regret_for_online",
@@ -4368,8 +4368,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2019_agarwal_logarithmic_regret_for_online/",
-      "contentTreeUrl": "../content-tree/#paper=2019_agarwal_logarithmic_regret_for_online",
-      "mindMapUrl": "../mind-map/#paper=2019_agarwal_logarithmic_regret_for_online"
+      "treeUrl": "../tree/#paper=2019_agarwal_logarithmic_regret_for_online",
+      "mapUrl": "../map/#paper=2019_agarwal_logarithmic_regret_for_online"
     },
     "2019_thomas_preventing_undesirable_behavior_of": {
       "id": "2019_thomas_preventing_undesirable_behavior_of",
@@ -4387,8 +4387,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2019_thomas_preventing_undesirable_behavior_of/",
-      "contentTreeUrl": "../content-tree/#paper=2019_thomas_preventing_undesirable_behavior_of",
-      "mindMapUrl": "../mind-map/#paper=2019_thomas_preventing_undesirable_behavior_of"
+      "treeUrl": "../tree/#paper=2019_thomas_preventing_undesirable_behavior_of",
+      "mapUrl": "../map/#paper=2019_thomas_preventing_undesirable_behavior_of"
     },
     "2019_wainwright_high_dimensional_statistics": {
       "id": "2019_wainwright_high_dimensional_statistics",
@@ -4403,8 +4403,8 @@ window.tagSearchData = {
       ],
       "summary": "Wainwright provides a graduate-level, non-asymptotic treatment of high-dimensional statistics, connecting probability tools such as concentration inequalities and random matrix bounds to statistical model classes such as sparse regression, low-rank matrix models, graphical models, and nonparametric estimation.",
       "url": "../papers/2019_wainwright_high_dimensional_statistics/",
-      "contentTreeUrl": "../content-tree/#paper=2019_wainwright_high_dimensional_statistics",
-      "mindMapUrl": "../mind-map/#paper=2019_wainwright_high_dimensional_statistics"
+      "treeUrl": "../tree/#paper=2019_wainwright_high_dimensional_statistics",
+      "mapUrl": "../map/#paper=2019_wainwright_high_dimensional_statistics"
     },
     "1901_04592": {
       "id": "1901_04592",
@@ -4421,8 +4421,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1901_04592/",
-      "contentTreeUrl": "../content-tree/#paper=1901_04592",
-      "mindMapUrl": "../mind-map/#paper=1901_04592"
+      "treeUrl": "../tree/#paper=1901_04592",
+      "mapUrl": "../map/#paper=1901_04592"
     },
     "1912_11676": {
       "id": "1912_11676",
@@ -4448,8 +4448,8 @@ window.tagSearchData = {
       ],
       "summary": "Reviews deep learning approaches for vehicle behavior prediction in autonomous driving, categorizing methods by architecture and prediction output type, with discussion of datasets and evaluation metrics.",
       "url": "../papers/1912_11676/",
-      "contentTreeUrl": "../content-tree/#paper=1912_11676",
-      "mindMapUrl": "../mind-map/#paper=1912_11676"
+      "treeUrl": "../tree/#paper=1912_11676",
+      "mapUrl": "../map/#paper=1912_11676"
     },
     "1906_00729": {
       "id": "1906_00729",
@@ -4464,8 +4464,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1906_00729/",
-      "contentTreeUrl": "../content-tree/#paper=1906_00729",
-      "mindMapUrl": "../mind-map/#paper=1906_00729"
+      "treeUrl": "../tree/#paper=1906_00729",
+      "mapUrl": "../map/#paper=1906_00729"
     },
     "1909_04939": {
       "id": "1909_04939",
@@ -4487,8 +4487,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1909_04939/",
-      "contentTreeUrl": "../content-tree/#paper=1909_04939",
-      "mindMapUrl": "../mind-map/#paper=1909_04939"
+      "treeUrl": "../tree/#paper=1909_04939",
+      "mapUrl": "../map/#paper=1909_04939"
     },
     "2019_lefebvre_path_integral_policy_improvement": {
       "id": "2019_lefebvre_path_integral_policy_improvement",
@@ -4508,8 +4508,8 @@ window.tagSearchData = {
       ],
       "summary": "Integrates path integral policy improvement (PI²) with differential dynamic programming (DDP), using DDP's second-order local model to guide the sampling distribution in a PI-style update.",
       "url": "../papers/2019_lefebvre_path_integral_policy_improvement/",
-      "contentTreeUrl": "../content-tree/#paper=2019_lefebvre_path_integral_policy_improvement",
-      "mindMapUrl": "../mind-map/#paper=2019_lefebvre_path_integral_policy_improvement"
+      "treeUrl": "../tree/#paper=2019_lefebvre_path_integral_policy_improvement",
+      "mapUrl": "../map/#paper=2019_lefebvre_path_integral_policy_improvement"
     },
     "1903_11199": {
       "id": "1903_11199",
@@ -4527,8 +4527,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1903_11199/",
-      "contentTreeUrl": "../content-tree/#paper=1903_11199",
-      "mindMapUrl": "../mind-map/#paper=1903_11199"
+      "treeUrl": "../tree/#paper=1903_11199",
+      "mapUrl": "../map/#paper=1903_11199"
     },
     "1907_10902": {
       "id": "1907_10902",
@@ -4553,8 +4553,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces Optuna as a define-by-run hyperparameter optimization framework that lets users construct dynamic search spaces in ordinary Python code. The paper emphasizes practical system design: search and pruning algorithms, simple single-machine use, and scalable distributed execution.",
       "url": "../papers/1907_10902/",
-      "contentTreeUrl": "../content-tree/#paper=1907_10902",
-      "mindMapUrl": "../mind-map/#paper=1907_10902"
+      "treeUrl": "../tree/#paper=1907_10902",
+      "mapUrl": "../map/#paper=1907_10902"
     },
     "1901_00997": {
       "id": "1901_00997",
@@ -4569,8 +4569,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1901_00997/",
-      "contentTreeUrl": "../content-tree/#paper=1901_00997",
-      "mindMapUrl": "../mind-map/#paper=1901_00997"
+      "treeUrl": "../tree/#paper=1901_00997",
+      "mapUrl": "../map/#paper=1901_00997"
     },
     "1909_09688": {
       "id": "1909_09688",
@@ -4592,8 +4592,8 @@ window.tagSearchData = {
       ],
       "summary": "This paper, from the original authors and friends, corrects some small mistakes in the theory of the asymptotic optimality results and offers new proof techniques.",
       "url": "../papers/1909_09688/",
-      "contentTreeUrl": "../content-tree/#paper=1909_09688",
-      "mindMapUrl": "../mind-map/#paper=1909_09688"
+      "treeUrl": "../tree/#paper=1909_09688",
+      "mapUrl": "../map/#paper=1909_09688"
     },
     "2019_williams_model_predictive_path_integral": {
       "id": "2019_williams_model_predictive_path_integral",
@@ -4613,8 +4613,8 @@ window.tagSearchData = {
       ],
       "summary": "PhD dissertation by Grady Williams at Georgia Tech establishing the theoretical foundations of Model Predictive Path Integral (MPPI) control and demonstrating its application to autonomous vehicle navigation.",
       "url": "../papers/2019_williams_model_predictive_path_integral/",
-      "contentTreeUrl": "../content-tree/#paper=2019_williams_model_predictive_path_integral",
-      "mindMapUrl": "../mind-map/#paper=2019_williams_model_predictive_path_integral"
+      "treeUrl": "../tree/#paper=2019_williams_model_predictive_path_integral",
+      "mapUrl": "../map/#paper=2019_williams_model_predictive_path_integral"
     },
     "1910_01249": {
       "id": "1910_01249",
@@ -4630,8 +4630,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1910_01249/",
-      "contentTreeUrl": "../content-tree/#paper=1910_01249",
-      "mindMapUrl": "../mind-map/#paper=1910_01249"
+      "treeUrl": "../tree/#paper=1910_01249",
+      "mapUrl": "../map/#paper=1910_01249"
     },
     "1909_10466": {
       "id": "1909_10466",
@@ -4651,8 +4651,8 @@ window.tagSearchData = {
       ],
       "summary": "Tutorial and survey that presents theoretical analysis of DMD with a focus on data reconstruction from DMD modes, addressing the relationship between DMD approximations and the underlying dynamics of the system.",
       "url": "../papers/1909_10466/",
-      "contentTreeUrl": "../content-tree/#paper=1909_10466",
-      "mindMapUrl": "../mind-map/#paper=1909_10466"
+      "treeUrl": "../tree/#paper=1909_10466",
+      "mapUrl": "../map/#paper=1909_10466"
     },
     "1905_00313": {
       "id": "1905_00313",
@@ -4666,8 +4666,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1905_00313/",
-      "contentTreeUrl": "../content-tree/#paper=1905_00313",
-      "mindMapUrl": "../mind-map/#paper=1905_00313"
+      "treeUrl": "../tree/#paper=1905_00313",
+      "mapUrl": "../map/#paper=1905_00313"
     },
     "1903_00155": {
       "id": "1903_00155",
@@ -4683,8 +4683,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1903_00155/",
-      "contentTreeUrl": "../content-tree/#paper=1903_00155",
-      "mindMapUrl": "../mind-map/#paper=1903_00155"
+      "treeUrl": "../tree/#paper=1903_00155",
+      "mapUrl": "../map/#paper=1903_00155"
     },
     "1910_09496": {
       "id": "1910_09496",
@@ -4699,8 +4699,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1910_09496/",
-      "contentTreeUrl": "../content-tree/#paper=1910_09496",
-      "mindMapUrl": "../mind-map/#paper=1910_09496"
+      "treeUrl": "../tree/#paper=1910_09496",
+      "mapUrl": "../map/#paper=1910_09496"
     },
     "1912_09990": {
       "id": "1912_09990",
@@ -4715,8 +4715,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1912_09990/",
-      "contentTreeUrl": "../content-tree/#paper=1912_09990",
-      "mindMapUrl": "../mind-map/#paper=1912_09990"
+      "treeUrl": "../tree/#paper=1912_09990",
+      "mapUrl": "../map/#paper=1912_09990"
     },
     "1906_11392": {
       "id": "1906_11392",
@@ -4732,8 +4732,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1906_11392/",
-      "contentTreeUrl": "../content-tree/#paper=1906_11392",
-      "mindMapUrl": "../mind-map/#paper=1906_11392"
+      "treeUrl": "../tree/#paper=1906_11392",
+      "mapUrl": "../map/#paper=1906_11392"
     },
     "1912_13143": {
       "id": "1912_13143",
@@ -4747,8 +4747,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1912_13143/",
-      "contentTreeUrl": "../content-tree/#paper=1912_13143",
-      "mindMapUrl": "../mind-map/#paper=1912_13143"
+      "treeUrl": "../tree/#paper=1912_13143",
+      "mapUrl": "../map/#paper=1912_13143"
     },
     "2019_hannigan_sbp_guided_mpc_to": {
       "id": "2019_hannigan_sbp_guided_mpc_to",
@@ -4775,8 +4775,8 @@ window.tagSearchData = {
       ],
       "summary": "Uses an RRT solution trajectory to warm-start iLQR, preventing the optimizer from getting stuck in local minima and simultaneously refining the crude RRT path into a smoother, more optimal trajectory.",
       "url": "../papers/2019_hannigan_sbp_guided_mpc_to/",
-      "contentTreeUrl": "../content-tree/#paper=2019_hannigan_sbp_guided_mpc_to",
-      "mindMapUrl": "../mind-map/#paper=2019_hannigan_sbp_guided_mpc_to"
+      "treeUrl": "../tree/#paper=2019_hannigan_sbp_guided_mpc_to",
+      "mapUrl": "../map/#paper=2019_hannigan_sbp_guided_mpc_to"
     },
     "1907_06553": {
       "id": "1907_06553",
@@ -4791,8 +4791,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1907_06553/",
-      "contentTreeUrl": "../content-tree/#paper=1907_06553",
-      "mindMapUrl": "../mind-map/#paper=1907_06553"
+      "treeUrl": "../tree/#paper=1907_06553",
+      "mapUrl": "../map/#paper=1907_06553"
     },
     "2019_ryll_efficient_trajectory_planning_for": {
       "id": "2019_ryll_efficient_trajectory_planning_for",
@@ -4808,8 +4808,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2019_ryll_efficient_trajectory_planning_for/",
-      "contentTreeUrl": "../content-tree/#paper=2019_ryll_efficient_trajectory_planning_for",
-      "mindMapUrl": "../mind-map/#paper=2019_ryll_efficient_trajectory_planning_for"
+      "treeUrl": "../tree/#paper=2019_ryll_efficient_trajectory_planning_for",
+      "mapUrl": "../map/#paper=2019_ryll_efficient_trajectory_planning_for"
     },
     "1903_08599": {
       "id": "1903_08599",
@@ -4823,8 +4823,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1903_08599/",
-      "contentTreeUrl": "../content-tree/#paper=1903_08599",
-      "mindMapUrl": "../mind-map/#paper=1903_08599"
+      "treeUrl": "../tree/#paper=1903_08599",
+      "mapUrl": "../map/#paper=1903_08599"
     },
     "1905_10018": {
       "id": "1905_10018",
@@ -4838,8 +4838,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1905_10018/",
-      "contentTreeUrl": "../content-tree/#paper=1905_10018",
-      "mindMapUrl": "../mind-map/#paper=1905_10018"
+      "treeUrl": "../tree/#paper=1905_10018",
+      "mapUrl": "../map/#paper=1905_10018"
     },
     "2001_02153": {
       "id": "2001_02153",
@@ -4855,8 +4855,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2001_02153/",
-      "contentTreeUrl": "../content-tree/#paper=2001_02153",
-      "mindMapUrl": "../mind-map/#paper=2001_02153"
+      "treeUrl": "../tree/#paper=2001_02153",
+      "mapUrl": "../map/#paper=2001_02153"
     },
     "1905_09997": {
       "id": "1905_09997",
@@ -4874,8 +4874,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1905_09997/",
-      "contentTreeUrl": "../content-tree/#paper=1905_09997",
-      "mindMapUrl": "../mind-map/#paper=1905_09997"
+      "treeUrl": "../tree/#paper=1905_09997",
+      "mapUrl": "../map/#paper=1905_09997"
     },
     "1912_02292": {
       "id": "1912_02292",
@@ -4893,8 +4893,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1912_02292/",
-      "contentTreeUrl": "../content-tree/#paper=1912_02292",
-      "mindMapUrl": "../mind-map/#paper=1912_02292"
+      "treeUrl": "../tree/#paper=1912_02292",
+      "mapUrl": "../map/#paper=1912_02292"
     },
     "1901_00491": {
       "id": "1901_00491",
@@ -4907,8 +4907,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1901_00491/",
-      "contentTreeUrl": "../content-tree/#paper=1901_00491",
-      "mindMapUrl": "../mind-map/#paper=1901_00491"
+      "treeUrl": "../tree/#paper=1901_00491",
+      "mapUrl": "../map/#paper=1901_00491"
     },
     "1908_10396": {
       "id": "1908_10396",
@@ -4927,8 +4927,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1908_10396/",
-      "contentTreeUrl": "../content-tree/#paper=1908_10396",
-      "mindMapUrl": "../mind-map/#paper=1908_10396"
+      "treeUrl": "../tree/#paper=1908_10396",
+      "mapUrl": "../map/#paper=1908_10396"
     },
     "2019_howell_altro_a_fast_solver": {
       "id": "2019_howell_altro_a_fast_solver",
@@ -4949,8 +4949,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces ALTRO (Augmented Lagrangian TRajectory Optimizer), combining augmented Lagrangian outer iterations with iLQR inner loops for constrained trajectory optimization, with an active-set constraint handling polishing step for fast convergence near the solution.",
       "url": "../papers/2019_howell_altro_a_fast_solver/",
-      "contentTreeUrl": "../content-tree/#paper=2019_howell_altro_a_fast_solver",
-      "mindMapUrl": "../mind-map/#paper=2019_howell_altro_a_fast_solver"
+      "treeUrl": "../tree/#paper=2019_howell_altro_a_fast_solver",
+      "mapUrl": "../map/#paper=2019_howell_altro_a_fast_solver"
     },
     "1905_12200": {
       "id": "1905_12200",
@@ -4968,8 +4968,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1905_12200/",
-      "contentTreeUrl": "../content-tree/#paper=1905_12200",
-      "mindMapUrl": "../mind-map/#paper=1905_12200"
+      "treeUrl": "../tree/#paper=1905_12200",
+      "mapUrl": "../map/#paper=1905_12200"
     },
     "1911_06317": {
       "id": "1911_06317",
@@ -4987,8 +4987,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1911_06317/",
-      "contentTreeUrl": "../content-tree/#paper=1911_06317",
-      "mindMapUrl": "../mind-map/#paper=1911_06317"
+      "treeUrl": "../tree/#paper=1911_06317",
+      "mapUrl": "../map/#paper=1911_06317"
     },
     "1906_08383": {
       "id": "1906_08383",
@@ -5004,8 +5004,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1906_08383/",
-      "contentTreeUrl": "../content-tree/#paper=1906_08383",
-      "mindMapUrl": "../mind-map/#paper=1906_08383"
+      "treeUrl": "../tree/#paper=1906_08383",
+      "mapUrl": "../map/#paper=1906_08383"
     },
     "1910_13204": {
       "id": "1910_13204",
@@ -5019,8 +5019,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1910_13204/",
-      "contentTreeUrl": "../content-tree/#paper=1910_13204",
-      "mindMapUrl": "../mind-map/#paper=1910_13204"
+      "treeUrl": "../tree/#paper=1910_13204",
+      "mapUrl": "../map/#paper=1910_13204"
     },
     "2019_zhou_robust_and_efficient_quadrotor": {
       "id": "2019_zhou_robust_and_efficient_quadrotor",
@@ -5037,8 +5037,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2019_zhou_robust_and_efficient_quadrotor/",
-      "contentTreeUrl": "../content-tree/#paper=2019_zhou_robust_and_efficient_quadrotor",
-      "mindMapUrl": "../mind-map/#paper=2019_zhou_robust_and_efficient_quadrotor"
+      "treeUrl": "../tree/#paper=2019_zhou_robust_and_efficient_quadrotor",
+      "mapUrl": "../map/#paper=2019_zhou_robust_and_efficient_quadrotor"
     },
     "1909_09223": {
       "id": "1909_09223",
@@ -5054,8 +5054,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1909_09223/",
-      "contentTreeUrl": "../content-tree/#paper=1909_09223",
-      "mindMapUrl": "../mind-map/#paper=1909_09223"
+      "treeUrl": "../tree/#paper=1909_09223",
+      "mapUrl": "../map/#paper=1909_09223"
     },
     "1903_09122": {
       "id": "1903_09122",
@@ -5069,8 +5069,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1903_09122/",
-      "contentTreeUrl": "../content-tree/#paper=1903_09122",
-      "mindMapUrl": "../mind-map/#paper=1903_09122"
+      "treeUrl": "../tree/#paper=1903_09122",
+      "mapUrl": "../map/#paper=1903_09122"
     },
     "2019_sheckells_using_data_driven_domain": {
       "id": "2019_sheckells_using_data_driven_domain",
@@ -5086,8 +5086,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2019_sheckells_using_data_driven_domain/",
-      "contentTreeUrl": "../content-tree/#paper=2019_sheckells_using_data_driven_domain",
-      "mindMapUrl": "../mind-map/#paper=2019_sheckells_using_data_driven_domain"
+      "treeUrl": "../tree/#paper=2019_sheckells_using_data_driven_domain",
+      "mapUrl": "../map/#paper=2019_sheckells_using_data_driven_domain"
     },
     "1906_11395": {
       "id": "1906_11395",
@@ -5101,8 +5101,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1906_11395/",
-      "contentTreeUrl": "../content-tree/#paper=1906_11395",
-      "mindMapUrl": "../mind-map/#paper=1906_11395"
+      "treeUrl": "../tree/#paper=1906_11395",
+      "mapUrl": "../map/#paper=1906_11395"
     },
     "1908_05968": {
       "id": "1908_05968",
@@ -5118,8 +5118,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1908_05968/",
-      "contentTreeUrl": "../content-tree/#paper=1908_05968",
-      "mindMapUrl": "../mind-map/#paper=1908_05968"
+      "treeUrl": "../tree/#paper=1908_05968",
+      "mapUrl": "../map/#paper=1908_05968"
     },
     "1907_08921": {
       "id": "1907_08921",
@@ -5135,8 +5135,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1907_08921/",
-      "contentTreeUrl": "../content-tree/#paper=1907_08921",
-      "mindMapUrl": "../mind-map/#paper=1907_08921"
+      "treeUrl": "../tree/#paper=1907_08921",
+      "mapUrl": "../map/#paper=1907_08921"
     },
     "1903_04100": {
       "id": "1903_04100",
@@ -5159,8 +5159,8 @@ window.tagSearchData = {
       ],
       "summary": "Analyzes momentum-based optimization algorithms (Nesterov, heavy ball) through the lens of structure-preserving discretizations of dissipative Hamiltonian systems. Proposes a novel relativistic optimizer that normalizes momentum, unifying both Nesterov and heavy ball as special limiting cases, with improved stability and no additional computational overhead. Published at NeurIPS 2020.",
       "url": "../papers/1903_04100/",
-      "contentTreeUrl": "../content-tree/#paper=1903_04100",
-      "mindMapUrl": "../mind-map/#paper=1903_04100"
+      "treeUrl": "../tree/#paper=1903_04100",
+      "mapUrl": "../map/#paper=1903_04100"
     },
     "1905_12842": {
       "id": "1905_12842",
@@ -5175,8 +5175,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1905_12842/",
-      "contentTreeUrl": "../content-tree/#paper=1905_12842",
-      "mindMapUrl": "../mind-map/#paper=1905_12842"
+      "treeUrl": "../tree/#paper=1905_12842",
+      "mapUrl": "../map/#paper=1905_12842"
     },
     "2019_zhang_inverse_optimal_control_for": {
       "id": "2019_zhang_inverse_optimal_control_for",
@@ -5199,8 +5199,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends finite-horizon inverse LQR estimation to cases where only noisy output observations are available. The paper gives two estimation routes, using risk minimization when initial states are observed and an EM-style maximum-likelihood formulation when initial states are latent under Gaussian assumptions.",
       "url": "../papers/2019_zhang_inverse_optimal_control_for/",
-      "contentTreeUrl": "../content-tree/#paper=2019_zhang_inverse_optimal_control_for",
-      "mindMapUrl": "../mind-map/#paper=2019_zhang_inverse_optimal_control_for"
+      "treeUrl": "../tree/#paper=2019_zhang_inverse_optimal_control_for",
+      "mapUrl": "../map/#paper=2019_zhang_inverse_optimal_control_for"
     },
     "2019_stipic_deep_learning_advancements_closing": {
       "id": "2019_stipic_deep_learning_advancements_closing",
@@ -5216,8 +5216,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2019_stipic_deep_learning_advancements_closing/",
-      "contentTreeUrl": "../content-tree/#paper=2019_stipic_deep_learning_advancements_closing",
-      "mindMapUrl": "../mind-map/#paper=2019_stipic_deep_learning_advancements_closing"
+      "treeUrl": "../tree/#paper=2019_stipic_deep_learning_advancements_closing",
+      "mapUrl": "../map/#paper=2019_stipic_deep_learning_advancements_closing"
     },
     "2019_gaier_are_quality_diversity_algorithms": {
       "id": "2019_gaier_are_quality_diversity_algorithms",
@@ -5232,8 +5232,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2019_gaier_are_quality_diversity_algorithms/",
-      "contentTreeUrl": "../content-tree/#paper=2019_gaier_are_quality_diversity_algorithms",
-      "mindMapUrl": "../mind-map/#paper=2019_gaier_are_quality_diversity_algorithms"
+      "treeUrl": "../tree/#paper=2019_gaier_are_quality_diversity_algorithms",
+      "mapUrl": "../map/#paper=2019_gaier_are_quality_diversity_algorithms"
     },
     "2019_yang_a_survey_of_distributed": {
       "id": "2019_yang_a_survey_of_distributed",
@@ -5255,8 +5255,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2019_yang_a_survey_of_distributed/",
-      "contentTreeUrl": "../content-tree/#paper=2019_yang_a_survey_of_distributed",
-      "mindMapUrl": "../mind-map/#paper=2019_yang_a_survey_of_distributed"
+      "treeUrl": "../tree/#paper=2019_yang_a_survey_of_distributed",
+      "mapUrl": "../map/#paper=2019_yang_a_survey_of_distributed"
     },
     "1909_04947": {
       "id": "1909_04947",
@@ -5286,8 +5286,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces Crocoddyl, an open-source multi-contact trajectory optimization library built on Feasibility-driven DDP (FDDP). FDDP accepts infeasible initial trajectories and keeps shooting gaps open during early iterations, achieving faster convergence and higher reliability than standard DDP for legged robot tasks.",
       "url": "../papers/1909_04947/",
-      "contentTreeUrl": "../content-tree/#paper=1909_04947",
-      "mindMapUrl": "../mind-map/#paper=1909_04947"
+      "treeUrl": "../tree/#paper=1909_04947",
+      "mapUrl": "../map/#paper=1909_04947"
     },
     "1904_08451": {
       "id": "1904_08451",
@@ -5302,8 +5302,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1904_08451/",
-      "contentTreeUrl": "../content-tree/#paper=1904_08451",
-      "mindMapUrl": "../mind-map/#paper=1904_08451"
+      "treeUrl": "../tree/#paper=1904_08451",
+      "mapUrl": "../map/#paper=1904_08451"
     },
     "1909_06933": {
       "id": "1909_06933",
@@ -5318,8 +5318,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1909_06933/",
-      "contentTreeUrl": "../content-tree/#paper=1909_06933",
-      "mindMapUrl": "../mind-map/#paper=1909_06933"
+      "treeUrl": "../tree/#paper=1909_06933",
+      "mapUrl": "../map/#paper=1909_06933"
     },
     "1910_08615": {
       "id": "1910_08615",
@@ -5333,8 +5333,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1910_08615/",
-      "contentTreeUrl": "../content-tree/#paper=1910_08615",
-      "mindMapUrl": "../mind-map/#paper=1910_08615"
+      "treeUrl": "../tree/#paper=1910_08615",
+      "mapUrl": "../map/#paper=1910_08615"
     },
     "2019_yadav_cold_case_the_lost": {
       "id": "2019_yadav_cold_case_the_lost",
@@ -5348,8 +5348,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2019_yadav_cold_case_the_lost/",
-      "contentTreeUrl": "../content-tree/#paper=2019_yadav_cold_case_the_lost",
-      "mindMapUrl": "../mind-map/#paper=2019_yadav_cold_case_the_lost"
+      "treeUrl": "../tree/#paper=2019_yadav_cold_case_the_lost",
+      "mapUrl": "../map/#paper=2019_yadav_cold_case_the_lost"
     },
     "1912_01703": {
       "id": "1912_01703",
@@ -5382,8 +5382,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1912_01703/",
-      "contentTreeUrl": "../content-tree/#paper=1912_01703",
-      "mindMapUrl": "../mind-map/#paper=1912_01703"
+      "treeUrl": "../tree/#paper=1912_01703",
+      "mapUrl": "../map/#paper=1912_01703"
     },
     "1911_01546": {
       "id": "1911_01546",
@@ -5399,8 +5399,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1911_01546/",
-      "contentTreeUrl": "../content-tree/#paper=1911_01546",
-      "mindMapUrl": "../mind-map/#paper=1911_01546"
+      "treeUrl": "../tree/#paper=1911_01546",
+      "mapUrl": "../map/#paper=1911_01546"
     },
     "1904_09237": {
       "id": "1904_09237",
@@ -5415,8 +5415,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1904_09237/",
-      "contentTreeUrl": "../content-tree/#paper=1904_09237",
-      "mindMapUrl": "../mind-map/#paper=1904_09237"
+      "treeUrl": "../tree/#paper=1904_09237",
+      "mapUrl": "../map/#paper=1904_09237"
     },
     "1907_01474": {
       "id": "1907_01474",
@@ -5432,8 +5432,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1907_01474/",
-      "contentTreeUrl": "../content-tree/#paper=1907_01474",
-      "mindMapUrl": "../mind-map/#paper=1907_01474"
+      "treeUrl": "../tree/#paper=1907_01474",
+      "mapUrl": "../map/#paper=1907_01474"
     },
     "1911_10635": {
       "id": "1911_10635",
@@ -5448,8 +5448,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1911_10635/",
-      "contentTreeUrl": "../content-tree/#paper=1911_10635",
-      "mindMapUrl": "../mind-map/#paper=1911_10635"
+      "treeUrl": "../tree/#paper=1911_10635",
+      "mapUrl": "../map/#paper=1911_10635"
     },
     "1906_01584": {
       "id": "1906_01584",
@@ -5465,8 +5465,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1906_01584/",
-      "contentTreeUrl": "../content-tree/#paper=1906_01584",
-      "mindMapUrl": "../mind-map/#paper=1906_01584"
+      "treeUrl": "../tree/#paper=1906_01584",
+      "mapUrl": "../map/#paper=1906_01584"
     },
     "1910_13051": {
       "id": "1910_13051",
@@ -5481,8 +5481,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1910_13051/",
-      "contentTreeUrl": "../content-tree/#paper=1910_13051",
-      "mindMapUrl": "../mind-map/#paper=1910_13051"
+      "treeUrl": "../tree/#paper=1910_13051",
+      "mapUrl": "../map/#paper=1910_13051"
     },
     "1912_11912": {
       "id": "1912_11912",
@@ -5502,8 +5502,8 @@ window.tagSearchData = {
       ],
       "summary": "Applies a quasi-Newton Hessian approximation within the TRPO trust region framework, achieving better sample efficiency and faster convergence than standard TRPO by making more informed second-order parameter updates.",
       "url": "../papers/1912_11912/",
-      "contentTreeUrl": "../content-tree/#paper=1912_11912",
-      "mindMapUrl": "../mind-map/#paper=1912_11912"
+      "treeUrl": "../tree/#paper=1912_11912",
+      "mapUrl": "../map/#paper=1912_11912"
     },
     "1934_black_stabilized_feedback_amplifiers": {
       "id": "1934_black_stabilized_feedback_amplifiers",
@@ -5516,8 +5516,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1934_black_stabilized_feedback_amplifiers/",
-      "contentTreeUrl": "../content-tree/#paper=1934_black_stabilized_feedback_amplifiers",
-      "mindMapUrl": "../mind-map/#paper=1934_black_stabilized_feedback_amplifiers"
+      "treeUrl": "../tree/#paper=1934_black_stabilized_feedback_amplifiers",
+      "mapUrl": "../map/#paper=1934_black_stabilized_feedback_amplifiers"
     },
     "1981_whittle_risk_sensitive_linear_quadratic": {
       "id": "1981_whittle_risk_sensitive_linear_quadratic",
@@ -5530,8 +5530,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1981_whittle_risk_sensitive_linear_quadratic/",
-      "contentTreeUrl": "../content-tree/#paper=1981_whittle_risk_sensitive_linear_quadratic",
-      "mindMapUrl": "../mind-map/#paper=1981_whittle_risk_sensitive_linear_quadratic"
+      "treeUrl": "../tree/#paper=1981_whittle_risk_sensitive_linear_quadratic",
+      "mapUrl": "../map/#paper=1981_whittle_risk_sensitive_linear_quadratic"
     },
     "1988_pomerleau_alvinn_an_autonomous_land": {
       "id": "1988_pomerleau_alvinn_an_autonomous_land",
@@ -5544,8 +5544,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1988_pomerleau_alvinn_an_autonomous_land/",
-      "contentTreeUrl": "../content-tree/#paper=1988_pomerleau_alvinn_an_autonomous_land",
-      "mindMapUrl": "../mind-map/#paper=1988_pomerleau_alvinn_an_autonomous_land"
+      "treeUrl": "../tree/#paper=1988_pomerleau_alvinn_an_autonomous_land",
+      "mapUrl": "../map/#paper=1988_pomerleau_alvinn_an_autonomous_land"
     },
     "1988_gilbert_a_fast_procedure_for": {
       "id": "1988_gilbert_a_fast_procedure_for",
@@ -5560,8 +5560,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1988_gilbert_a_fast_procedure_for/",
-      "contentTreeUrl": "../content-tree/#paper=1988_gilbert_a_fast_procedure_for",
-      "mindMapUrl": "../mind-map/#paper=1988_gilbert_a_fast_procedure_for"
+      "treeUrl": "../tree/#paper=1988_gilbert_a_fast_procedure_for",
+      "mapUrl": "../map/#paper=1988_gilbert_a_fast_procedure_for"
     },
     "1988_mayne_receding_horizon_control_of": {
       "id": "1988_mayne_receding_horizon_control_of",
@@ -5582,8 +5582,8 @@ window.tagSearchData = {
       ],
       "summary": "Foundational paper establishing that the receding horizon (model predictive) control strategy produces a stable closed-loop system for nonlinear systems, not just linear ones. By sequentially solving finite-horizon open-loop optimal control problems online, the method provides feedback control with a stability guarantee.",
       "url": "../papers/1988_mayne_receding_horizon_control_of/",
-      "contentTreeUrl": "../content-tree/#paper=1988_mayne_receding_horizon_control_of",
-      "mindMapUrl": "../mind-map/#paper=1988_mayne_receding_horizon_control_of"
+      "treeUrl": "../tree/#paper=1988_mayne_receding_horizon_control_of",
+      "mapUrl": "../map/#paper=1988_mayne_receding_horizon_control_of"
     },
     "1988_ulichney_dithering_with_blue_noise": {
       "id": "1988_ulichney_dithering_with_blue_noise",
@@ -5596,8 +5596,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1988_ulichney_dithering_with_blue_noise/",
-      "contentTreeUrl": "../content-tree/#paper=1988_ulichney_dithering_with_blue_noise",
-      "mindMapUrl": "../mind-map/#paper=1988_ulichney_dithering_with_blue_noise"
+      "treeUrl": "../tree/#paper=1988_ulichney_dithering_with_blue_noise",
+      "mapUrl": "../map/#paper=1988_ulichney_dithering_with_blue_noise"
     },
     "1988_komiya_elementary_proof_for_sions": {
       "id": "1988_komiya_elementary_proof_for_sions",
@@ -5616,8 +5616,8 @@ window.tagSearchData = {
       ],
       "summary": "Short, self-contained elementary proof of Sion's minimax theorem using two simple lemmas, avoiding the topological fixed-point arguments used in Sion's original proof.",
       "url": "../papers/1988_komiya_elementary_proof_for_sions/",
-      "contentTreeUrl": "../content-tree/#paper=1988_komiya_elementary_proof_for_sions",
-      "mindMapUrl": "../mind-map/#paper=1988_komiya_elementary_proof_for_sions"
+      "treeUrl": "../tree/#paper=1988_komiya_elementary_proof_for_sions",
+      "mapUrl": "../map/#paper=1988_komiya_elementary_proof_for_sions"
     },
     "1988_sutton_learning_to_predict_by": {
       "id": "1988_sutton_learning_to_predict_by",
@@ -5630,8 +5630,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1988_sutton_learning_to_predict_by/",
-      "contentTreeUrl": "../content-tree/#paper=1988_sutton_learning_to_predict_by",
-      "mindMapUrl": "../mind-map/#paper=1988_sutton_learning_to_predict_by"
+      "treeUrl": "../tree/#paper=1988_sutton_learning_to_predict_by",
+      "mapUrl": "../map/#paper=1988_sutton_learning_to_predict_by"
     },
     "1988_bertsekas_the_auction_algorithm_a": {
       "id": "1988_bertsekas_the_auction_algorithm_a",
@@ -5644,8 +5644,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1988_bertsekas_the_auction_algorithm_a/",
-      "contentTreeUrl": "../content-tree/#paper=1988_bertsekas_the_auction_algorithm_a",
-      "mindMapUrl": "../mind-map/#paper=1988_bertsekas_the_auction_algorithm_a"
+      "treeUrl": "../tree/#paper=1988_bertsekas_the_auction_algorithm_a",
+      "mapUrl": "../map/#paper=1988_bertsekas_the_auction_algorithm_a"
     },
     "2503_05819": {
       "id": "2503_05819",
@@ -5669,8 +5669,8 @@ window.tagSearchData = {
       ],
       "summary": "Extension of C-Uniform trajectory sampling that trains a neural network to approximate the reachable-set-based sampling distribution in an unsupervised manner, achieving similar reachable state coverage as the original method with dramatically faster training time.",
       "url": "../papers/2503_05819/",
-      "contentTreeUrl": "../content-tree/#paper=2503_05819",
-      "mindMapUrl": "../mind-map/#paper=2503_05819"
+      "treeUrl": "../tree/#paper=2503_05819",
+      "mapUrl": "../map/#paper=2503_05819"
     },
     "2512_00453": {
       "id": "2512_00453",
@@ -5685,8 +5685,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2512_00453/",
-      "contentTreeUrl": "../content-tree/#paper=2512_00453",
-      "mindMapUrl": "../mind-map/#paper=2512_00453"
+      "treeUrl": "../tree/#paper=2512_00453",
+      "mapUrl": "../map/#paper=2512_00453"
     },
     "2507_10914": {
       "id": "2507_10914",
@@ -5703,8 +5703,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2507_10914/",
-      "contentTreeUrl": "../content-tree/#paper=2507_10914",
-      "mindMapUrl": "../mind-map/#paper=2507_10914"
+      "treeUrl": "../tree/#paper=2507_10914",
+      "mapUrl": "../map/#paper=2507_10914"
     },
     "2511_07820": {
       "id": "2511_07820",
@@ -5753,8 +5753,8 @@ window.tagSearchData = {
       ],
       "summary": "SONIC argues that motion tracking is a scalable pretraining task for humanoid whole-body control, then demonstrates gains from increasing controller size, motion-capture data volume, and training compute. The system is useful beyond tracking itself: a universal kinematic planner and unified token space let the same policy interface with VR teleoperation, human video, and VLA-style inputs, making motion priors a foundation layer for natural humanoid behavior.",
       "url": "../papers/2511_07820/",
-      "contentTreeUrl": "../content-tree/#paper=2511_07820",
-      "mindMapUrl": "../mind-map/#paper=2511_07820"
+      "treeUrl": "../tree/#paper=2511_07820",
+      "mapUrl": "../map/#paper=2511_07820"
     },
     "2507_22389": {
       "id": "2507_22389",
@@ -5775,8 +5775,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2507_22389/",
-      "contentTreeUrl": "../content-tree/#paper=2507_22389",
-      "mindMapUrl": "../mind-map/#paper=2507_22389"
+      "treeUrl": "../tree/#paper=2507_22389",
+      "mapUrl": "../map/#paper=2507_22389"
     },
     "2507_22538": {
       "id": "2507_22538",
@@ -5792,8 +5792,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2507_22538/",
-      "contentTreeUrl": "../content-tree/#paper=2507_22538",
-      "mindMapUrl": "../mind-map/#paper=2507_22538"
+      "treeUrl": "../tree/#paper=2507_22538",
+      "mapUrl": "../map/#paper=2507_22538"
     },
     "2025_li_diffusolve_diffusion_based_solver": {
       "id": "2025_li_diffusolve_diffusion_based_solver",
@@ -5809,8 +5809,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2025_li_diffusolve_diffusion_based_solver/",
-      "contentTreeUrl": "../content-tree/#paper=2025_li_diffusolve_diffusion_based_solver",
-      "mindMapUrl": "../mind-map/#paper=2025_li_diffusolve_diffusion_based_solver"
+      "treeUrl": "../tree/#paper=2025_li_diffusolve_diffusion_based_solver",
+      "mapUrl": "../map/#paper=2025_li_diffusolve_diffusion_based_solver"
     },
     "2505_06791": {
       "id": "2505_06791",
@@ -5825,8 +5825,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2505_06791/",
-      "contentTreeUrl": "../content-tree/#paper=2505_06791",
-      "mindMapUrl": "../mind-map/#paper=2505_06791"
+      "treeUrl": "../tree/#paper=2505_06791",
+      "mapUrl": "../map/#paper=2505_06791"
     },
     "2507_02131": {
       "id": "2507_02131",
@@ -5849,8 +5849,8 @@ window.tagSearchData = {
       ],
       "summary": "Establishes small-disturbance input-to-state stability (ISS) for perturbed gradient descent under a generalized nonlinear Polyak-Lojasiewicz condition. Shows that LQR policy gradient and natural policy gradient algorithms inherit this robustness, connecting systems-theory stability notions to modern RL convergence analysis.",
       "url": "../papers/2507_02131/",
-      "contentTreeUrl": "../content-tree/#paper=2507_02131",
-      "mindMapUrl": "../mind-map/#paper=2507_02131"
+      "treeUrl": "../tree/#paper=2507_02131",
+      "mapUrl": "../map/#paper=2507_02131"
     },
     "2025_han_building_rome_with_convex": {
       "id": "2025_han_building_rome_with_convex",
@@ -5864,8 +5864,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2025_han_building_rome_with_convex/",
-      "contentTreeUrl": "../content-tree/#paper=2025_han_building_rome_with_convex",
-      "mindMapUrl": "../mind-map/#paper=2025_han_building_rome_with_convex"
+      "treeUrl": "../tree/#paper=2025_han_building_rome_with_convex",
+      "mapUrl": "../map/#paper=2025_han_building_rome_with_convex"
     },
     "2502_06545": {
       "id": "2502_06545",
@@ -5879,8 +5879,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2502_06545/",
-      "contentTreeUrl": "../content-tree/#paper=2502_06545",
-      "mindMapUrl": "../mind-map/#paper=2502_06545"
+      "treeUrl": "../tree/#paper=2502_06545",
+      "mapUrl": "../map/#paper=2502_06545"
     },
     "2503_06135": {
       "id": "2503_06135",
@@ -5898,8 +5898,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2503_06135/",
-      "contentTreeUrl": "../content-tree/#paper=2503_06135",
-      "mindMapUrl": "../mind-map/#paper=2503_06135"
+      "treeUrl": "../tree/#paper=2503_06135",
+      "mapUrl": "../map/#paper=2503_06135"
     },
     "2511_02015": {
       "id": "2511_02015",
@@ -5913,8 +5913,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2511_02015/",
-      "contentTreeUrl": "../content-tree/#paper=2511_02015",
-      "mindMapUrl": "../mind-map/#paper=2511_02015"
+      "treeUrl": "../tree/#paper=2511_02015",
+      "mapUrl": "../map/#paper=2511_02015"
     },
     "2502_08664": {
       "id": "2502_08664",
@@ -5938,8 +5938,8 @@ window.tagSearchData = {
       ],
       "summary": "Comprehensive survey of motion forecasting methods for autonomous vehicles, covering classical physics-based approaches through modern deep learning methods, with discussion of datasets, metrics, and open problems.",
       "url": "../papers/2502_08664/",
-      "contentTreeUrl": "../content-tree/#paper=2502_08664",
-      "mindMapUrl": "../mind-map/#paper=2502_08664"
+      "treeUrl": "../tree/#paper=2502_08664",
+      "mapUrl": "../map/#paper=2502_08664"
     },
     "2506_07823": {
       "id": "2506_07823",
@@ -5965,8 +5965,8 @@ window.tagSearchData = {
       ],
       "summary": "Implements Primal-Dual iLQR on GPU using parallel associative scans, reducing complexity from O(N(n+m)³) to O(log²(n)log(N)) per solve. Achieves up to 700% runtime improvement over acados and Crocoddyl for legged robot MPC, enabling centralized control of 16 robots and direct GPU-based learning-in-the-loop.",
       "url": "../papers/2506_07823/",
-      "contentTreeUrl": "../content-tree/#paper=2506_07823",
-      "mindMapUrl": "../mind-map/#paper=2506_07823"
+      "treeUrl": "../tree/#paper=2506_07823",
+      "mapUrl": "../map/#paper=2506_07823"
     },
     "2502_08844": {
       "id": "2502_08844",
@@ -5991,8 +5991,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2502_08844/",
-      "contentTreeUrl": "../content-tree/#paper=2502_08844",
-      "mindMapUrl": "../mind-map/#paper=2502_08844"
+      "treeUrl": "../tree/#paper=2502_08844",
+      "mapUrl": "../map/#paper=2502_08844"
     },
     "2025_cederberg_disciplined_nonlinear_programming": {
       "id": "2025_cederberg_disciplined_nonlinear_programming",
@@ -6015,8 +6015,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends the disciplined-programming idea beyond convexity by defining grammar and canonicalization rules for nonlinear programs that mix smooth and nonsmooth atoms. The practical value is making NLP modeling more parser-friendly and solver-ready, especially inside CVXPY.",
       "url": "../papers/2025_cederberg_disciplined_nonlinear_programming/",
-      "contentTreeUrl": "../content-tree/#paper=2025_cederberg_disciplined_nonlinear_programming",
-      "mindMapUrl": "../mind-map/#paper=2025_cederberg_disciplined_nonlinear_programming"
+      "treeUrl": "../tree/#paper=2025_cederberg_disciplined_nonlinear_programming",
+      "mapUrl": "../map/#paper=2025_cederberg_disciplined_nonlinear_programming"
     },
     "2025_yamakawa_convergence_analysis_of_a": {
       "id": "2025_yamakawa_convergence_analysis_of_a",
@@ -6030,8 +6030,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2025_yamakawa_convergence_analysis_of_a/",
-      "contentTreeUrl": "../content-tree/#paper=2025_yamakawa_convergence_analysis_of_a",
-      "mindMapUrl": "../mind-map/#paper=2025_yamakawa_convergence_analysis_of_a"
+      "treeUrl": "../tree/#paper=2025_yamakawa_convergence_analysis_of_a",
+      "mapUrl": "../map/#paper=2025_yamakawa_convergence_analysis_of_a"
     },
     "2511_11308": {
       "id": "2511_11308",
@@ -6046,8 +6046,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2511_11308/",
-      "contentTreeUrl": "../content-tree/#paper=2511_11308",
-      "mindMapUrl": "../mind-map/#paper=2511_11308"
+      "treeUrl": "../tree/#paper=2511_11308",
+      "mapUrl": "../map/#paper=2511_11308"
     },
     "2502_09556": {
       "id": "2502_09556",
@@ -6070,8 +6070,8 @@ window.tagSearchData = {
       ],
       "summary": "Basically makes FMT* operable in real-time fashion. Essentially the FMT* version of RT-RRT*.",
       "url": "../papers/2502_09556/",
-      "contentTreeUrl": "../content-tree/#paper=2502_09556",
-      "mindMapUrl": "../mind-map/#paper=2502_09556"
+      "treeUrl": "../tree/#paper=2502_09556",
+      "mapUrl": "../map/#paper=2502_09556"
     },
     "2503_04613": {
       "id": "2503_04613",
@@ -6092,8 +6092,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2503_04613/",
-      "contentTreeUrl": "../content-tree/#paper=2503_04613",
-      "mindMapUrl": "../mind-map/#paper=2503_04613"
+      "treeUrl": "../tree/#paper=2503_04613",
+      "mapUrl": "../map/#paper=2503_04613"
     },
     "2505_10542": {
       "id": "2505_10542",
@@ -6118,8 +6118,8 @@ window.tagSearchData = {
       ],
       "summary": "Applies the AO-x meta-algorithm to RRT-Connect, inheriting its fast initial solution times while adding almost-sure asymptotic optimality. With SIMD acceleration, AORRTC solves difficult high-DoF problems (Panda, Fetch robots) in milliseconds where other almost-surely asymptotically optimal planners failed to find solutions even with seconds of planning time.",
       "url": "../papers/2505_10542/",
-      "contentTreeUrl": "../content-tree/#paper=2505_10542",
-      "mindMapUrl": "../mind-map/#paper=2505_10542"
+      "treeUrl": "../tree/#paper=2505_10542",
+      "mapUrl": "../map/#paper=2505_10542"
     },
     "2504_01086": {
       "id": "2504_01086",
@@ -6134,8 +6134,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2504_01086/",
-      "contentTreeUrl": "../content-tree/#paper=2504_01086",
-      "mindMapUrl": "../mind-map/#paper=2504_01086"
+      "treeUrl": "../tree/#paper=2504_01086",
+      "mapUrl": "../map/#paper=2504_01086"
     },
     "2506_01168": {
       "id": "2506_01168",
@@ -6149,8 +6149,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2506_01168/",
-      "contentTreeUrl": "../content-tree/#paper=2506_01168",
-      "mindMapUrl": "../mind-map/#paper=2506_01168"
+      "treeUrl": "../tree/#paper=2506_01168",
+      "mapUrl": "../map/#paper=2506_01168"
     },
     "2503_03262": {
       "id": "2503_03262",
@@ -6177,8 +6177,8 @@ window.tagSearchData = {
       ],
       "summary": "Reviews progress in trajectory prediction for autonomous driving, systematically discussing limitations of current approaches and outlining promising future research directions.",
       "url": "../papers/2503_03262/",
-      "contentTreeUrl": "../content-tree/#paper=2503_03262",
-      "mindMapUrl": "../mind-map/#paper=2503_03262"
+      "treeUrl": "../tree/#paper=2503_03262",
+      "mapUrl": "../map/#paper=2503_03262"
     },
     "2510_21026": {
       "id": "2510_21026",
@@ -6196,8 +6196,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2510_21026/",
-      "contentTreeUrl": "../content-tree/#paper=2510_21026",
-      "mindMapUrl": "../mind-map/#paper=2510_21026"
+      "treeUrl": "../tree/#paper=2510_21026",
+      "mapUrl": "../map/#paper=2510_21026"
     },
     "2504_12905": {
       "id": "2504_12905",
@@ -6214,8 +6214,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2504_12905/",
-      "contentTreeUrl": "../content-tree/#paper=2504_12905",
-      "mindMapUrl": "../mind-map/#paper=2504_12905"
+      "treeUrl": "../tree/#paper=2504_12905",
+      "mapUrl": "../map/#paper=2504_12905"
     },
     "2512_14450": {
       "id": "2512_14450",
@@ -6233,8 +6233,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2512_14450/",
-      "contentTreeUrl": "../content-tree/#paper=2512_14450",
-      "mindMapUrl": "../mind-map/#paper=2512_14450"
+      "treeUrl": "../tree/#paper=2512_14450",
+      "mapUrl": "../map/#paper=2512_14450"
     },
     "2504_01766": {
       "id": "2504_01766",
@@ -6250,8 +6250,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2504_01766/",
-      "contentTreeUrl": "../content-tree/#paper=2504_01766",
-      "mindMapUrl": "../mind-map/#paper=2504_01766"
+      "treeUrl": "../tree/#paper=2504_01766",
+      "mapUrl": "../map/#paper=2504_01766"
     },
     "2506_04218": {
       "id": "2506_04218",
@@ -6277,8 +6277,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2506_04218/",
-      "contentTreeUrl": "../content-tree/#paper=2506_04218",
-      "mindMapUrl": "../mind-map/#paper=2506_04218"
+      "treeUrl": "../tree/#paper=2506_04218",
+      "mapUrl": "../map/#paper=2506_04218"
     },
     "2505_21851": {
       "id": "2505_21851",
@@ -6303,8 +6303,8 @@ window.tagSearchData = {
       ],
       "summary": "Simplifies flow-matching robot policies by treating the entire action trajectory as a flow trajectory rather than denoising per-timestep, reducing inference overhead while maintaining expressive multimodal action distributions.",
       "url": "../papers/2505_21851/",
-      "contentTreeUrl": "../content-tree/#paper=2505_21851",
-      "mindMapUrl": "../mind-map/#paper=2505_21851"
+      "treeUrl": "../tree/#paper=2505_21851",
+      "mapUrl": "../map/#paper=2505_21851"
     },
     "2502_02133": {
       "id": "2502_02133",
@@ -6325,8 +6325,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2502_02133/",
-      "contentTreeUrl": "../content-tree/#paper=2502_02133",
-      "mindMapUrl": "../mind-map/#paper=2502_02133"
+      "treeUrl": "../tree/#paper=2502_02133",
+      "mapUrl": "../map/#paper=2502_02133"
     },
     "2506_14865": {
       "id": "2506_14865",
@@ -6353,8 +6353,8 @@ window.tagSearchData = {
       ],
       "summary": "Uses geometric projection operations to efficiently handle motion constraints in real-time robot trajectory optimization, avoiding full constraint Jacobian computations and achieving significant speedups over augmented Lagrangian approaches.",
       "url": "../papers/2506_14865/",
-      "contentTreeUrl": "../content-tree/#paper=2506_14865",
-      "mindMapUrl": "../mind-map/#paper=2506_14865"
+      "treeUrl": "../tree/#paper=2506_14865",
+      "mapUrl": "../map/#paper=2506_14865"
     },
     "2508_10480": {
       "id": "2508_10480",
@@ -6371,8 +6371,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2508_10480/",
-      "contentTreeUrl": "../content-tree/#paper=2508_10480",
-      "mindMapUrl": "../mind-map/#paper=2508_10480"
+      "treeUrl": "../tree/#paper=2508_10480",
+      "mapUrl": "../map/#paper=2508_10480"
     },
     "2025_gabrielsson_a_foundation_model_for": {
       "id": "2025_gabrielsson_a_foundation_model_for",
@@ -6387,8 +6387,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces BehaviorGPT-v1 as a Transformer foundation model for grocery consumption, treating purchase histories, searches, clicks, and other retail events as token sequences. The paper frames consumption as a behavioral language, reports large recommendation and conversion gains over production baselines, and positions the model as a foundation for retail search, recommendations, assortment planning, fraud detection, and transaction intelligence.",
       "url": "../papers/2025_gabrielsson_a_foundation_model_for/",
-      "contentTreeUrl": "../content-tree/#paper=2025_gabrielsson_a_foundation_model_for",
-      "mindMapUrl": "../mind-map/#paper=2025_gabrielsson_a_foundation_model_for"
+      "treeUrl": "../tree/#paper=2025_gabrielsson_a_foundation_model_for",
+      "mapUrl": "../map/#paper=2025_gabrielsson_a_foundation_model_for"
     },
     "2512_15840": {
       "id": "2512_15840",
@@ -6412,8 +6412,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2512_15840/",
-      "contentTreeUrl": "../content-tree/#paper=2512_15840",
-      "mindMapUrl": "../mind-map/#paper=2512_15840"
+      "treeUrl": "../tree/#paper=2512_15840",
+      "mapUrl": "../map/#paper=2512_15840"
     },
     "2511_00088": {
       "id": "2511_00088",
@@ -6469,8 +6469,8 @@ window.tagSearchData = {
       ],
       "summary": "A large team of authors from NVIDIA has put together a lot of big pieces in a data and deep model architecture pipeline for training and deploying an end-to-end (E2E) vision-language-action (VLA) model for autonomous driving. It is interesting to see this hard push into end-to-end approaches, which the authors motivate by recent advances in \"reasoning\" abilities gained in large language models which is purported to address the safety gap that arises with E2E models.",
       "url": "../papers/2511_00088/",
-      "contentTreeUrl": "../content-tree/#paper=2511_00088",
-      "mindMapUrl": "../mind-map/#paper=2511_00088"
+      "treeUrl": "../tree/#paper=2511_00088",
+      "mapUrl": "../map/#paper=2511_00088"
     },
     "2510_21074": {
       "id": "2510_21074",
@@ -6488,8 +6488,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2510_21074/",
-      "contentTreeUrl": "../content-tree/#paper=2510_21074",
-      "mindMapUrl": "../mind-map/#paper=2510_21074"
+      "treeUrl": "../tree/#paper=2510_21074",
+      "mapUrl": "../map/#paper=2510_21074"
     },
     "2503_14734": {
       "id": "2503_14734",
@@ -6552,8 +6552,8 @@ window.tagSearchData = {
       ],
       "summary": "GR00T N1 frames humanoid control as a robot foundation-model problem, pairing a vision-language reasoning module with a diffusion-transformer action generator that produces continuous motor commands. Its main contribution is an open VLA model trained from a heterogeneous mix of robot demonstrations, human videos, and synthetic data, showing cross-embodiment simulation gains and real humanoid bimanual manipulation with relatively high data efficiency.",
       "url": "../papers/2503_14734/",
-      "contentTreeUrl": "../content-tree/#paper=2503_14734",
-      "mindMapUrl": "../mind-map/#paper=2503_14734"
+      "treeUrl": "../tree/#paper=2503_14734",
+      "mapUrl": "../map/#paper=2503_14734"
     },
     "2506_05454": {
       "id": "2506_05454",
@@ -6571,8 +6571,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2506_05454/",
-      "contentTreeUrl": "../content-tree/#paper=2506_05454",
-      "mindMapUrl": "../mind-map/#paper=2506_05454"
+      "treeUrl": "../tree/#paper=2506_05454",
+      "mapUrl": "../map/#paper=2506_05454"
     },
     "2025_sun_agile_and_cooperative_aerial": {
       "id": "2025_sun_agile_and_cooperative_aerial",
@@ -6590,8 +6590,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2025_sun_agile_and_cooperative_aerial/",
-      "contentTreeUrl": "../content-tree/#paper=2025_sun_agile_and_cooperative_aerial",
-      "mindMapUrl": "../mind-map/#paper=2025_sun_agile_and_cooperative_aerial"
+      "treeUrl": "../tree/#paper=2025_sun_agile_and_cooperative_aerial",
+      "mapUrl": "../map/#paper=2025_sun_agile_and_cooperative_aerial"
     },
     "2501_05204": {
       "id": "2501_05204",
@@ -6617,8 +6617,8 @@ window.tagSearchData = {
       ],
       "summary": "The Disney Research folks have created a cute small robot with surprisingly lifelike movements controllable from a gamepad. Fun!",
       "url": "../papers/2501_05204/",
-      "contentTreeUrl": "../content-tree/#paper=2501_05204",
-      "mindMapUrl": "../mind-map/#paper=2501_05204"
+      "treeUrl": "../tree/#paper=2501_05204",
+      "mapUrl": "../map/#paper=2501_05204"
     },
     "2506_09985": {
       "id": "2506_09985",
@@ -6670,8 +6670,8 @@ window.tagSearchData = {
       ],
       "summary": "V-JEPA 2 scales the JEPA video objective to internet-scale video and then adapts the learned representation into an action-conditioned latent world model for planning. The paper is important because it connects self-supervised video understanding, video-language alignment, and robot planning in one pipeline, showing that a mostly observation-trained model can support strong video benchmarks and zero-shot image-goal manipulation after limited robot-video post-training.",
       "url": "../papers/2506_09985/",
-      "contentTreeUrl": "../content-tree/#paper=2506_09985",
-      "mindMapUrl": "../mind-map/#paper=2506_09985"
+      "treeUrl": "../tree/#paper=2506_09985",
+      "mapUrl": "../map/#paper=2506_09985"
     },
     "2502_12310": {
       "id": "2502_12310",
@@ -6687,8 +6687,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2502_12310/",
-      "contentTreeUrl": "../content-tree/#paper=2502_12310",
-      "mindMapUrl": "../mind-map/#paper=2502_12310"
+      "treeUrl": "../tree/#paper=2502_12310",
+      "mapUrl": "../map/#paper=2502_12310"
     },
     "2503_06757": {
       "id": "2503_06757",
@@ -6715,8 +6715,8 @@ window.tagSearchData = {
       ],
       "summary": "GPU-accelerated RRT-Connect implementation co-designed for three hierarchical levels of parallelism: concurrent bidirectional tree expansion across GPU thread blocks, SIMT-optimized parallel collision checking within each block, and thread-level forward kinematics.",
       "url": "../papers/2503_06757/",
-      "contentTreeUrl": "../content-tree/#paper=2503_06757",
-      "mindMapUrl": "../mind-map/#paper=2503_06757"
+      "treeUrl": "../tree/#paper=2503_06757",
+      "mapUrl": "../map/#paper=2503_06757"
     },
     "2503_11717": {
       "id": "2503_11717",
@@ -6735,8 +6735,8 @@ window.tagSearchData = {
       ],
       "summary": "Applies a low-pass filter to Gaussian noise before using it as sampled action sequences in MPPI, a heuristic that produces smoother trajectories and can improve exploration quality with minimal computational overhead.",
       "url": "../papers/2503_11717/",
-      "contentTreeUrl": "../content-tree/#paper=2503_11717",
-      "mindMapUrl": "../mind-map/#paper=2503_11717"
+      "treeUrl": "../tree/#paper=2503_11717",
+      "mapUrl": "../map/#paper=2503_11717"
     },
     "2025_xia_an_adaptive_projection_differential": {
       "id": "2025_xia_an_adaptive_projection_differential",
@@ -6756,8 +6756,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes an adaptive projection method within the DDP framework for handling control constraints, using projection operators that adapt based on constraint activity to achieve efficient and convergent constrained trajectory optimization.",
       "url": "../papers/2025_xia_an_adaptive_projection_differential/",
-      "contentTreeUrl": "../content-tree/#paper=2025_xia_an_adaptive_projection_differential",
-      "mindMapUrl": "../mind-map/#paper=2025_xia_an_adaptive_projection_differential"
+      "treeUrl": "../tree/#paper=2025_xia_an_adaptive_projection_differential",
+      "mapUrl": "../map/#paper=2025_xia_an_adaptive_projection_differential"
     },
     "2512_17534": {
       "id": "2512_17534",
@@ -6784,8 +6784,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2512_17534/",
-      "contentTreeUrl": "../content-tree/#paper=2512_17534",
-      "mindMapUrl": "../mind-map/#paper=2512_17534"
+      "treeUrl": "../tree/#paper=2512_17534",
+      "mapUrl": "../map/#paper=2512_17534"
     },
     "2503_00385": {
       "id": "2503_00385",
@@ -6800,8 +6800,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2503_00385/",
-      "contentTreeUrl": "../content-tree/#paper=2503_00385",
-      "mindMapUrl": "../mind-map/#paper=2503_00385"
+      "treeUrl": "../tree/#paper=2503_00385",
+      "mapUrl": "../map/#paper=2503_00385"
     },
     "2508_07400": {
       "id": "2508_07400",
@@ -6816,8 +6816,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2508_07400/",
-      "contentTreeUrl": "../content-tree/#paper=2508_07400",
-      "mindMapUrl": "../mind-map/#paper=2508_07400"
+      "treeUrl": "../tree/#paper=2508_07400",
+      "mapUrl": "../map/#paper=2508_07400"
     },
     "2507_09061": {
       "id": "2507_09061",
@@ -6834,8 +6834,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2507_09061/",
-      "contentTreeUrl": "../content-tree/#paper=2507_09061",
-      "mindMapUrl": "../mind-map/#paper=2507_09061"
+      "treeUrl": "../tree/#paper=2507_09061",
+      "mapUrl": "../map/#paper=2507_09061"
     },
     "2505_13732": {
       "id": "2505_13732",
@@ -6859,8 +6859,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces a conformal prediction variant that begins from constraints on prediction-set size and then adapts the miscoverage level needed to preserve computable coverage guarantees. The paper combines post-hoc validity via e-values with a leave-one-out estimator, targeting settings where large conformal sets are practically unusable.",
       "url": "../papers/2505_13732/",
-      "contentTreeUrl": "../content-tree/#paper=2505_13732",
-      "mindMapUrl": "../mind-map/#paper=2505_13732"
+      "treeUrl": "../tree/#paper=2505_13732",
+      "mapUrl": "../map/#paper=2505_13732"
     },
     "2507_00792": {
       "id": "2507_00792",
@@ -6874,8 +6874,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2507_00792/",
-      "contentTreeUrl": "../content-tree/#paper=2507_00792",
-      "mindMapUrl": "../mind-map/#paper=2507_00792"
+      "treeUrl": "../tree/#paper=2507_00792",
+      "mapUrl": "../map/#paper=2507_00792"
     },
     "2512_15110": {
       "id": "2512_15110",
@@ -6900,8 +6900,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2512_15110/",
-      "contentTreeUrl": "../content-tree/#paper=2512_15110",
-      "mindMapUrl": "../mind-map/#paper=2512_15110"
+      "treeUrl": "../tree/#paper=2512_15110",
+      "mapUrl": "../map/#paper=2512_15110"
     },
     "2501_04972": {
       "id": "2501_04972",
@@ -6915,8 +6915,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2501_04972/",
-      "contentTreeUrl": "../content-tree/#paper=2501_04972",
-      "mindMapUrl": "../mind-map/#paper=2501_04972"
+      "treeUrl": "../tree/#paper=2501_04972",
+      "mapUrl": "../map/#paper=2501_04972"
     },
     "2505_08510": {
       "id": "2505_08510",
@@ -6940,8 +6940,8 @@ window.tagSearchData = {
       ],
       "summary": "FOCI is a trajectory optimization method that operates directly on Gaussian Splat scene representations.",
       "url": "../papers/2505_08510/",
-      "contentTreeUrl": "../content-tree/#paper=2505_08510",
-      "mindMapUrl": "../mind-map/#paper=2505_08510"
+      "treeUrl": "../tree/#paper=2505_08510",
+      "mapUrl": "../map/#paper=2505_08510"
     },
     "2025_ma_trajectory_tree_based_pairwise": {
       "id": "2025_ma_trajectory_tree_based_pairwise",
@@ -6956,8 +6956,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2025_ma_trajectory_tree_based_pairwise/",
-      "contentTreeUrl": "../content-tree/#paper=2025_ma_trajectory_tree_based_pairwise",
-      "mindMapUrl": "../mind-map/#paper=2025_ma_trajectory_tree_based_pairwise"
+      "treeUrl": "../tree/#paper=2025_ma_trajectory_tree_based_pairwise",
+      "mapUrl": "../map/#paper=2025_ma_trajectory_tree_based_pairwise"
     },
     "2508_21800": {
       "id": "2508_21800",
@@ -6972,8 +6972,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2508_21800/",
-      "contentTreeUrl": "../content-tree/#paper=2508_21800",
-      "mindMapUrl": "../mind-map/#paper=2508_21800"
+      "treeUrl": "../tree/#paper=2508_21800",
+      "mapUrl": "../map/#paper=2508_21800"
     },
     "2505_05507": {
       "id": "2505_05507",
@@ -6996,8 +6996,8 @@ window.tagSearchData = {
       ],
       "summary": "Enhances MPPI with variational integration (VI) to accurately simulate the system evolution inside an MPPI over long planning horizons.",
       "url": "../papers/2505_05507/",
-      "contentTreeUrl": "../content-tree/#paper=2505_05507",
-      "mindMapUrl": "../mind-map/#paper=2505_05507"
+      "treeUrl": "../tree/#paper=2505_05507",
+      "mapUrl": "../map/#paper=2505_05507"
     },
     "2506_04183": {
       "id": "2506_04183",
@@ -7012,8 +7012,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2506_04183/",
-      "contentTreeUrl": "../content-tree/#paper=2506_04183",
-      "mindMapUrl": "../mind-map/#paper=2506_04183"
+      "treeUrl": "../tree/#paper=2506_04183",
+      "mapUrl": "../map/#paper=2506_04183"
     },
     "2504_07491": {
       "id": "2504_07491",
@@ -7120,8 +7120,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2504_07491/",
-      "contentTreeUrl": "../content-tree/#paper=2504_07491",
-      "mindMapUrl": "../mind-map/#paper=2504_07491"
+      "treeUrl": "../tree/#paper=2504_07491",
+      "mapUrl": "../map/#paper=2504_07491"
     },
     "2025_hu_technically_speaking_transitioning_from": {
       "id": "2025_hu_technically_speaking_transitioning_from",
@@ -7140,8 +7140,8 @@ window.tagSearchData = {
       ],
       "summary": "Overview of Motional's approach to motion planning: a scene encoder-generator-ranker architecture with joint prediction and planning, closed-loop reinforcement learning training, and data mining for real-world scalability.",
       "url": "../papers/2025_hu_technically_speaking_transitioning_from/",
-      "contentTreeUrl": "../content-tree/#paper=2025_hu_technically_speaking_transitioning_from",
-      "mindMapUrl": "../mind-map/#paper=2025_hu_technically_speaking_transitioning_from"
+      "treeUrl": "../tree/#paper=2025_hu_technically_speaking_transitioning_from",
+      "mapUrl": "../map/#paper=2025_hu_technically_speaking_transitioning_from"
     },
     "2505_08370": {
       "id": "2505_08370",
@@ -7167,8 +7167,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends finite-horizon LQG control to distributional model uncertainty using time-local Kullback-Leibler ambiguity sets for process and measurement noise. The paper proves that optimal policies remain linear, gives a convergent iterative best-response computation, and sketches a dynamic-programming approximation for decision-dependent ambiguity sets.",
       "url": "../papers/2505_08370/",
-      "contentTreeUrl": "../content-tree/#paper=2505_08370",
-      "mindMapUrl": "../mind-map/#paper=2505_08370"
+      "treeUrl": "../tree/#paper=2505_08370",
+      "mapUrl": "../map/#paper=2505_08370"
     },
     "2509_19789": {
       "id": "2509_19789",
@@ -7185,8 +7185,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2509_19789/",
-      "contentTreeUrl": "../content-tree/#paper=2509_19789",
-      "mindMapUrl": "../mind-map/#paper=2509_19789"
+      "treeUrl": "../tree/#paper=2509_19789",
+      "mapUrl": "../map/#paper=2509_19789"
     },
     "2508_21364": {
       "id": "2508_21364",
@@ -7207,8 +7207,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends MPPI to handle multimodal trajectory distributions for collision avoidance, enabling the controller to simultaneously explore multiple qualitatively different trajectory groups (homotopy classes) rather than collapsing to a single mode.",
       "url": "../papers/2508_21364/",
-      "contentTreeUrl": "../content-tree/#paper=2508_21364",
-      "mindMapUrl": "../mind-map/#paper=2508_21364"
+      "treeUrl": "../tree/#paper=2508_21364",
+      "mapUrl": "../map/#paper=2508_21364"
     },
     "2510_22015": {
       "id": "2510_22015",
@@ -7227,8 +7227,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2510_22015/",
-      "contentTreeUrl": "../content-tree/#paper=2510_22015",
-      "mindMapUrl": "../mind-map/#paper=2510_22015"
+      "treeUrl": "../tree/#paper=2510_22015",
+      "mapUrl": "../map/#paper=2510_22015"
     },
     "2504_18978": {
       "id": "2504_18978",
@@ -7252,8 +7252,8 @@ window.tagSearchData = {
       ],
       "summary": "Addresses minimum-time trajectory design through a fixed sequence of convex sets subject to velocity and acceleration constraints - a problem that is natively nonconvex due to the coupling between time scaling and path shape. The proposed biconvex method alternates between two convex subproblems, quickly generating a feasible initial trajectory and iteratively refining it without line-search parameters.",
       "url": "../papers/2504_18978/",
-      "contentTreeUrl": "../content-tree/#paper=2504_18978",
-      "mindMapUrl": "../mind-map/#paper=2504_18978"
+      "treeUrl": "../tree/#paper=2504_18978",
+      "mapUrl": "../map/#paper=2504_18978"
     },
     "2510_03745": {
       "id": "2510_03745",
@@ -7270,8 +7270,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2510_03745/",
-      "contentTreeUrl": "../content-tree/#paper=2510_03745",
-      "mindMapUrl": "../mind-map/#paper=2510_03745"
+      "treeUrl": "../tree/#paper=2510_03745",
+      "mapUrl": "../map/#paper=2510_03745"
     },
     "2512_12842": {
       "id": "2512_12842",
@@ -7289,8 +7289,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2512_12842/",
-      "contentTreeUrl": "../content-tree/#paper=2512_12842",
-      "mindMapUrl": "../mind-map/#paper=2512_12842"
+      "treeUrl": "../tree/#paper=2512_12842",
+      "mapUrl": "../map/#paper=2512_12842"
     },
     "2506_13753": {
       "id": "2506_13753",
@@ -7305,8 +7305,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2506_13753/",
-      "contentTreeUrl": "../content-tree/#paper=2506_13753",
-      "mindMapUrl": "../mind-map/#paper=2506_13753"
+      "treeUrl": "../tree/#paper=2506_13753",
+      "mapUrl": "../map/#paper=2506_13753"
     },
     "2512_18736": {
       "id": "2512_18736",
@@ -7323,8 +7323,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2512_18736/",
-      "contentTreeUrl": "../content-tree/#paper=2512_18736",
-      "mindMapUrl": "../mind-map/#paper=2512_18736"
+      "treeUrl": "../tree/#paper=2512_18736",
+      "mapUrl": "../map/#paper=2512_18736"
     },
     "2508_21001": {
       "id": "2508_21001",
@@ -7339,8 +7339,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2508_21001/",
-      "contentTreeUrl": "../content-tree/#paper=2508_21001",
-      "mindMapUrl": "../mind-map/#paper=2508_21001"
+      "treeUrl": "../tree/#paper=2508_21001",
+      "mapUrl": "../map/#paper=2508_21001"
     },
     "2509_21961": {
       "id": "2509_21961",
@@ -7356,8 +7356,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2509_21961/",
-      "contentTreeUrl": "../content-tree/#paper=2509_21961",
-      "mindMapUrl": "../mind-map/#paper=2509_21961"
+      "treeUrl": "../tree/#paper=2509_21961",
+      "mapUrl": "../map/#paper=2509_21961"
     },
     "2505_05588": {
       "id": "2505_05588",
@@ -7372,8 +7372,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2505_05588/",
-      "contentTreeUrl": "../content-tree/#paper=2505_05588",
-      "mindMapUrl": "../mind-map/#paper=2505_05588"
+      "treeUrl": "../tree/#paper=2505_05588",
+      "mapUrl": "../map/#paper=2505_05588"
     },
     "2512_01809": {
       "id": "2512_01809",
@@ -7396,8 +7396,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2512_01809/",
-      "contentTreeUrl": "../content-tree/#paper=2512_01809",
-      "mindMapUrl": "../mind-map/#paper=2512_01809"
+      "treeUrl": "../tree/#paper=2512_01809",
+      "mapUrl": "../map/#paper=2512_01809"
     },
     "2510_12962": {
       "id": "2510_12962",
@@ -7412,8 +7412,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2510_12962/",
-      "contentTreeUrl": "../content-tree/#paper=2510_12962",
-      "mindMapUrl": "../mind-map/#paper=2510_12962"
+      "treeUrl": "../tree/#paper=2510_12962",
+      "mapUrl": "../map/#paper=2510_12962"
     },
     "2511_14752": {
       "id": "2511_14752",
@@ -7428,8 +7428,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2511_14752/",
-      "contentTreeUrl": "../content-tree/#paper=2511_14752",
-      "mindMapUrl": "../mind-map/#paper=2511_14752"
+      "treeUrl": "../tree/#paper=2511_14752",
+      "mapUrl": "../map/#paper=2511_14752"
     },
     "2510_00272": {
       "id": "2510_00272",
@@ -7452,8 +7452,8 @@ window.tagSearchData = {
       ],
       "summary": "Adds a Bayesian probabilistic layer to MPPI that models constraint satisfaction as a probability distribution, enabling principled soft constraint handling within the MPPI sampling framework.",
       "url": "../papers/2510_00272/",
-      "contentTreeUrl": "../content-tree/#paper=2510_00272",
-      "mindMapUrl": "../mind-map/#paper=2510_00272"
+      "treeUrl": "../tree/#paper=2510_00272",
+      "mapUrl": "../map/#paper=2510_00272"
     },
     "2507_10010": {
       "id": "2507_10010",
@@ -7466,8 +7466,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2507_10010/",
-      "contentTreeUrl": "../content-tree/#paper=2507_10010",
-      "mindMapUrl": "../mind-map/#paper=2507_10010"
+      "treeUrl": "../tree/#paper=2507_10010",
+      "mapUrl": "../map/#paper=2507_10010"
     },
     "2508_05027": {
       "id": "2508_05027",
@@ -7490,8 +7490,8 @@ window.tagSearchData = {
       ],
       "summary": "Systematic benchmark of shortcutting techniques applied to multi-robot-arm motion planning, where high dimensionality and inter-arm collision constraints make path quality improvement especially challenging.",
       "url": "../papers/2508_05027/",
-      "contentTreeUrl": "../content-tree/#paper=2508_05027",
-      "mindMapUrl": "../mind-map/#paper=2508_05027"
+      "treeUrl": "../tree/#paper=2508_05027",
+      "mapUrl": "../map/#paper=2508_05027"
     },
     "2504_16054": {
       "id": "2504_16054",
@@ -7538,8 +7538,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2504_16054/",
-      "contentTreeUrl": "../content-tree/#paper=2504_16054",
-      "mindMapUrl": "../mind-map/#paper=2504_16054"
+      "treeUrl": "../tree/#paper=2504_16054",
+      "mapUrl": "../map/#paper=2504_16054"
     },
     "2511_18170": {
       "id": "2511_18170",
@@ -7556,8 +7556,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2511_18170/",
-      "contentTreeUrl": "../content-tree/#paper=2511_18170",
-      "mindMapUrl": "../mind-map/#paper=2511_18170"
+      "treeUrl": "../tree/#paper=2511_18170",
+      "mapUrl": "../map/#paper=2511_18170"
     },
     "2507_19652": {
       "id": "2507_19652",
@@ -7575,8 +7575,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2507_19652/",
-      "contentTreeUrl": "../content-tree/#paper=2507_19652",
-      "mindMapUrl": "../mind-map/#paper=2507_19652"
+      "treeUrl": "../tree/#paper=2507_19652",
+      "mapUrl": "../map/#paper=2507_19652"
     },
     "2501_13392": {
       "id": "2501_13392",
@@ -7592,8 +7592,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2501_13392/",
-      "contentTreeUrl": "../content-tree/#paper=2501_13392",
-      "mindMapUrl": "../mind-map/#paper=2501_13392"
+      "treeUrl": "../tree/#paper=2501_13392",
+      "mapUrl": "../map/#paper=2501_13392"
     },
     "2507_05331": {
       "id": "2507_05331",
@@ -7687,8 +7687,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2507_05331/",
-      "contentTreeUrl": "../content-tree/#paper=2507_05331",
-      "mindMapUrl": "../mind-map/#paper=2507_05331"
+      "treeUrl": "../tree/#paper=2507_05331",
+      "mapUrl": "../map/#paper=2507_05331"
     },
     "2509_14978": {
       "id": "2509_14978",
@@ -7703,8 +7703,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2509_14978/",
-      "contentTreeUrl": "../content-tree/#paper=2509_14978",
-      "mindMapUrl": "../mind-map/#paper=2509_14978"
+      "treeUrl": "../tree/#paper=2509_14978",
+      "mapUrl": "../map/#paper=2509_14978"
     },
     "2505_14766": {
       "id": "2505_14766",
@@ -7735,8 +7735,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2505_14766/",
-      "contentTreeUrl": "../content-tree/#paper=2505_14766",
-      "mindMapUrl": "../mind-map/#paper=2505_14766"
+      "treeUrl": "../tree/#paper=2505_14766",
+      "mapUrl": "../map/#paper=2505_14766"
     },
     "2503_24371": {
       "id": "2503_24371",
@@ -7752,8 +7752,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2503_24371/",
-      "contentTreeUrl": "../content-tree/#paper=2503_24371",
-      "mindMapUrl": "../mind-map/#paper=2503_24371"
+      "treeUrl": "../tree/#paper=2503_24371",
+      "mapUrl": "../map/#paper=2503_24371"
     },
     "2511_10622": {
       "id": "2511_10622",
@@ -7768,8 +7768,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2511_10622/",
-      "contentTreeUrl": "../content-tree/#paper=2511_10622",
-      "mindMapUrl": "../mind-map/#paper=2511_10622"
+      "treeUrl": "../tree/#paper=2511_10622",
+      "mapUrl": "../map/#paper=2511_10622"
     },
     "2502_04799": {
       "id": "2502_04799",
@@ -7787,8 +7787,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2502_04799/",
-      "contentTreeUrl": "../content-tree/#paper=2502_04799",
-      "mindMapUrl": "../mind-map/#paper=2502_04799"
+      "treeUrl": "../tree/#paper=2502_04799",
+      "mapUrl": "../map/#paper=2502_04799"
     },
     "2511_00814": {
       "id": "2511_00814",
@@ -7807,8 +7807,8 @@ window.tagSearchData = {
       ],
       "summary": "Tackles the problem of data-driven motion prediction by using a special kind of Dynamic Mode Decomposition (DMD), which comes from the Koopman operator theory, to learn a model of the agent motion. The model also produces uncertainty estimates, which is useful for downstream risk-aware planning & control. This paper combines a lot of smaller techniques (Hankel-DMD, Cadzow projection, Singular Value Hard Thresholding (SVHT), etc.) together into a rather intricate bells-and-whistles learner, but that in itself is nice as it provides the reader some clues into those techniques.",
       "url": "../papers/2511_00814/",
-      "contentTreeUrl": "../content-tree/#paper=2511_00814",
-      "mindMapUrl": "../mind-map/#paper=2511_00814"
+      "treeUrl": "../tree/#paper=2511_00814",
+      "mapUrl": "../map/#paper=2511_00814"
     },
     "2025_trevisan_model_predictive_path_integral": {
       "id": "2025_trevisan_model_predictive_path_integral",
@@ -7827,8 +7827,8 @@ window.tagSearchData = {
       ],
       "summary": "Incorporates a trajectory prediction model into MPPI to enable interaction-aware trajectory planning.",
       "url": "../papers/2025_trevisan_model_predictive_path_integral/",
-      "contentTreeUrl": "../content-tree/#paper=2025_trevisan_model_predictive_path_integral",
-      "mindMapUrl": "../mind-map/#paper=2025_trevisan_model_predictive_path_integral"
+      "treeUrl": "../tree/#paper=2025_trevisan_model_predictive_path_integral",
+      "mapUrl": "../map/#paper=2025_trevisan_model_predictive_path_integral"
     },
     "2506_11513": {
       "id": "2506_11513",
@@ -7849,8 +7849,8 @@ window.tagSearchData = {
       ],
       "summary": "Generates C++ code that solves explicit MPC problems. Super fast runtime for moderate size problems. Alternative to (implicit) quadratic program solvers.",
       "url": "../papers/2506_11513/",
-      "contentTreeUrl": "../content-tree/#paper=2506_11513",
-      "mindMapUrl": "../mind-map/#paper=2506_11513"
+      "treeUrl": "../tree/#paper=2506_11513",
+      "mapUrl": "../map/#paper=2506_11513"
     },
     "2503_09722": {
       "id": "2503_09722",
@@ -7871,8 +7871,8 @@ window.tagSearchData = {
       ],
       "summary": "Provides theoretical analysis explaining why action chunking and high-capacity policy representations (Transformers, Diffusion Policy) outperform smooth or low-capacity representations in behavior cloning with continuous actions.",
       "url": "../papers/2503_09722/",
-      "contentTreeUrl": "../content-tree/#paper=2503_09722",
-      "mindMapUrl": "../mind-map/#paper=2503_09722"
+      "treeUrl": "../tree/#paper=2503_09722",
+      "mapUrl": "../map/#paper=2503_09722"
     },
     "2025_crestaz_td_cd_mppi_temporal": {
       "id": "2025_crestaz_td_cd_mppi_temporal",
@@ -7895,8 +7895,8 @@ window.tagSearchData = {
       ],
       "summary": "TD-CD-MPPI enables the use of reduced control horizons by using a learned terminal value function to approximate long-term returns.",
       "url": "../papers/2025_crestaz_td_cd_mppi_temporal/",
-      "contentTreeUrl": "../content-tree/#paper=2025_crestaz_td_cd_mppi_temporal",
-      "mindMapUrl": "../mind-map/#paper=2025_crestaz_td_cd_mppi_temporal"
+      "treeUrl": "../tree/#paper=2025_crestaz_td_cd_mppi_temporal",
+      "mapUrl": "../map/#paper=2025_crestaz_td_cd_mppi_temporal"
     },
     "2604_24064": {
       "id": "2604_24064",
@@ -7921,8 +7921,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends MPCC to tractor-semitrailer vehicles by adding scenario-dependent anchor-point weighting and explicit road-boundary constraints for all axles. Validates forward and reverse navigation including docking and parking-to-charge, with full-scale prototype tests.",
       "url": "../papers/2604_24064/",
-      "contentTreeUrl": "../content-tree/#paper=2604_24064",
-      "mindMapUrl": "../mind-map/#paper=2604_24064"
+      "treeUrl": "../tree/#paper=2604_24064",
+      "mapUrl": "../map/#paper=2604_24064"
     },
     "2506_17184": {
       "id": "2506_17184",
@@ -7948,8 +7948,8 @@ window.tagSearchData = {
       ],
       "summary": "Judo is an open-source Python package providing standardized implementations of sampling-based MPC algorithms (MPPI, CEM, Predictive Sampling, etc.), benchmark tasks, and an interactive GUI for controller tuning. It uses MuJoCo as its physics backend for real-time performance, and supports asynchronous execution to ease sim-to-hardware transfer. The focus is on tooling and usability rather than novel algorithmic contributions. One interesting thing is that Judo runs 100% on CPU (by necessity rather than choice, as the authors indicate they are waiting for development of mujoco_warp to stabilize to provide GPU-based sim rollouts). If you get a server grade Threadripper CPU with 64 cores/128 threads you can do amazing things and plan/control in < 2ms.",
       "url": "../papers/2506_17184/",
-      "contentTreeUrl": "../content-tree/#paper=2506_17184",
-      "mindMapUrl": "../mind-map/#paper=2506_17184"
+      "treeUrl": "../tree/#paper=2506_17184",
+      "mapUrl": "../map/#paper=2506_17184"
     },
     "2505_13447": {
       "id": "2505_13447",
@@ -7966,8 +7966,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2505_13447/",
-      "contentTreeUrl": "../content-tree/#paper=2505_13447",
-      "mindMapUrl": "../mind-map/#paper=2505_13447"
+      "treeUrl": "../tree/#paper=2505_13447",
+      "mapUrl": "../map/#paper=2505_13447"
     },
     "2502_06996": {
       "id": "2502_06996",
@@ -7984,8 +7984,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2502_06996/",
-      "contentTreeUrl": "../content-tree/#paper=2502_06996",
-      "mindMapUrl": "../mind-map/#paper=2502_06996"
+      "treeUrl": "../tree/#paper=2502_06996",
+      "mapUrl": "../map/#paper=2502_06996"
     },
     "2025_gabrielsson_behaviorgpt_for_visual_art": {
       "id": "2025_gabrielsson_behaviorgpt_for_visual_art",
@@ -8001,8 +8001,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents BehaviorGPT-v3 as a behavior-first foundation model for visual art and aesthetics, trained on large-scale sequences of user interactions rather than only pixels or text-image pairs. The paper argues that aesthetic meaning depends heavily on user context and intent, and reports improvements in search, recommendation, dynamic categorization, SEO, assortment optimization, personalization, navigation, and motif generation.",
       "url": "../papers/2025_gabrielsson_behaviorgpt_for_visual_art/",
-      "contentTreeUrl": "../content-tree/#paper=2025_gabrielsson_behaviorgpt_for_visual_art",
-      "mindMapUrl": "../mind-map/#paper=2025_gabrielsson_behaviorgpt_for_visual_art"
+      "treeUrl": "../tree/#paper=2025_gabrielsson_behaviorgpt_for_visual_art",
+      "mapUrl": "../map/#paper=2025_gabrielsson_behaviorgpt_for_visual_art"
     },
     "2510_14643": {
       "id": "2510_14643",
@@ -8021,8 +8021,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2510_14643/",
-      "contentTreeUrl": "../content-tree/#paper=2510_14643",
-      "mindMapUrl": "../mind-map/#paper=2510_14643"
+      "treeUrl": "../tree/#paper=2510_14643",
+      "mapUrl": "../map/#paper=2510_14643"
     },
     "2506_21205": {
       "id": "2506_21205",
@@ -8039,8 +8039,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2506_21205/",
-      "contentTreeUrl": "../content-tree/#paper=2506_21205",
-      "mindMapUrl": "../mind-map/#paper=2506_21205"
+      "treeUrl": "../tree/#paper=2506_21205",
+      "mapUrl": "../map/#paper=2506_21205"
     },
     "2505_14566": {
       "id": "2505_14566",
@@ -8055,8 +8055,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2505_14566/",
-      "contentTreeUrl": "../content-tree/#paper=2505_14566",
-      "mindMapUrl": "../mind-map/#paper=2505_14566"
+      "treeUrl": "../tree/#paper=2505_14566",
+      "mapUrl": "../map/#paper=2505_14566"
     },
     "2508_10104": {
       "id": "2508_10104",
@@ -8105,8 +8105,8 @@ window.tagSearchData = {
       ],
       "summary": "DINOv3 is a technical report on scaling self-supervised vision pretraining into a family of dense-feature foundation models. Its most distinctive methodological contribution is Gram anchoring, which addresses degradation of dense feature maps during long training, while the system-level contribution is a suite of models and post-hoc adaptations that work across natural images, aerial imagery, dense prediction, and text-aligned zero-shot use without task-specific fine-tuning.",
       "url": "../papers/2508_10104/",
-      "contentTreeUrl": "../content-tree/#paper=2508_10104",
-      "mindMapUrl": "../mind-map/#paper=2508_10104"
+      "treeUrl": "../tree/#paper=2508_10104",
+      "mapUrl": "../map/#paper=2508_10104"
     },
     "2503_05539": {
       "id": "2503_05539",
@@ -8122,8 +8122,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2503_05539/",
-      "contentTreeUrl": "../content-tree/#paper=2503_05539",
-      "mindMapUrl": "../mind-map/#paper=2503_05539"
+      "treeUrl": "../tree/#paper=2503_05539",
+      "mapUrl": "../map/#paper=2503_05539"
     },
     "2503_16164": {
       "id": "2503_16164",
@@ -8137,8 +8137,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2503_16164/",
-      "contentTreeUrl": "../content-tree/#paper=2503_16164",
-      "mindMapUrl": "../mind-map/#paper=2503_16164"
+      "treeUrl": "../tree/#paper=2503_16164",
+      "mapUrl": "../map/#paper=2503_16164"
     },
     "2502_20382": {
       "id": "2502_20382",
@@ -8158,8 +8158,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2502_20382/",
-      "contentTreeUrl": "../content-tree/#paper=2502_20382",
-      "mindMapUrl": "../mind-map/#paper=2502_20382"
+      "treeUrl": "../tree/#paper=2502_20382",
+      "mapUrl": "../map/#paper=2502_20382"
     },
     "2511_06385": {
       "id": "2511_06385",
@@ -8177,8 +8177,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2511_06385/",
-      "contentTreeUrl": "../content-tree/#paper=2511_06385",
-      "mindMapUrl": "../mind-map/#paper=2511_06385"
+      "treeUrl": "../tree/#paper=2511_06385",
+      "mapUrl": "../map/#paper=2511_06385"
     },
     "2025_goncalves_intelligent_trajectory_planning_for": {
       "id": "2025_goncalves_intelligent_trajectory_planning_for",
@@ -8193,8 +8193,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2025_goncalves_intelligent_trajectory_planning_for/",
-      "contentTreeUrl": "../content-tree/#paper=2025_goncalves_intelligent_trajectory_planning_for",
-      "mindMapUrl": "../mind-map/#paper=2025_goncalves_intelligent_trajectory_planning_for"
+      "treeUrl": "../tree/#paper=2025_goncalves_intelligent_trajectory_planning_for",
+      "mapUrl": "../map/#paper=2025_goncalves_intelligent_trajectory_planning_for"
     },
     "2501_14377": {
       "id": "2501_14377",
@@ -8219,8 +8219,8 @@ window.tagSearchData = {
       ],
       "summary": "Applies DreamerV3 to train a drone-racing policy directly from camera pixels, reducing reliance on hand-crafted intermediate perception or imitation bootstrapping. The key result is that model-based RL can learn visuomotor flight behaviors efficient enough to deploy on real quadrotors through hardware-in-the-loop transfer.",
       "url": "../papers/2501_14377/",
-      "contentTreeUrl": "../content-tree/#paper=2501_14377",
-      "mindMapUrl": "../mind-map/#paper=2501_14377"
+      "treeUrl": "../tree/#paper=2501_14377",
+      "mapUrl": "../map/#paper=2501_14377"
     },
     "2505_09074": {
       "id": "2505_09074",
@@ -8255,8 +8255,8 @@ window.tagSearchData = {
       ],
       "summary": "Surveys the state-of-the-art in motion prediction for autonomous driving with a focus on real-world deployability and generalization, providing a taxonomy of approaches and discussing open challenges for bringing prediction models from research to production.",
       "url": "../papers/2505_09074/",
-      "contentTreeUrl": "../content-tree/#paper=2505_09074",
-      "mindMapUrl": "../mind-map/#paper=2505_09074"
+      "treeUrl": "../tree/#paper=2505_09074",
+      "mapUrl": "../map/#paper=2505_09074"
     },
     "2511_11131": {
       "id": "2511_11131",
@@ -8270,8 +8270,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2511_11131/",
-      "contentTreeUrl": "../content-tree/#paper=2511_11131",
-      "mindMapUrl": "../mind-map/#paper=2511_11131"
+      "treeUrl": "../tree/#paper=2511_11131",
+      "mapUrl": "../map/#paper=2511_11131"
     },
     "2506_22087": {
       "id": "2506_22087",
@@ -8287,8 +8287,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2506_22087/",
-      "contentTreeUrl": "../content-tree/#paper=2506_22087",
-      "mindMapUrl": "../mind-map/#paper=2506_22087"
+      "treeUrl": "../tree/#paper=2506_22087",
+      "mapUrl": "../map/#paper=2506_22087"
     },
     "2511_10626": {
       "id": "2511_10626",
@@ -8304,8 +8304,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2511_10626/",
-      "contentTreeUrl": "../content-tree/#paper=2511_10626",
-      "mindMapUrl": "../mind-map/#paper=2511_10626"
+      "treeUrl": "../tree/#paper=2511_10626",
+      "mapUrl": "../map/#paper=2511_10626"
     },
     "2504_06437": {
       "id": "2504_06437",
@@ -8328,8 +8328,8 @@ window.tagSearchData = {
       ],
       "summary": "Integrates logarithmic barrier states (DBaS) into the dynamics, providing smooth cost shaping that discourages safety constraint violations.",
       "url": "../papers/2504_06437/",
-      "contentTreeUrl": "../content-tree/#paper=2504_06437",
-      "mindMapUrl": "../mind-map/#paper=2504_06437"
+      "treeUrl": "../tree/#paper=2504_06437",
+      "mapUrl": "../map/#paper=2504_06437"
     },
     "2025_lee_time_correlated_model_predictive": {
       "id": "2025_lee_time_correlated_model_predictive",
@@ -8349,8 +8349,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces temporally correlated noise sampling in MPPI to generate smoother action sequences, improving trajectory quality for sampling-based model predictive control of underactuated systems.",
       "url": "../papers/2025_lee_time_correlated_model_predictive/",
-      "contentTreeUrl": "../content-tree/#paper=2025_lee_time_correlated_model_predictive",
-      "mindMapUrl": "../mind-map/#paper=2025_lee_time_correlated_model_predictive"
+      "treeUrl": "../tree/#paper=2025_lee_time_correlated_model_predictive",
+      "mapUrl": "../map/#paper=2025_lee_time_correlated_model_predictive"
     },
     "2025_gabrielsson_behaviorgpt_at_work_a": {
       "id": "2025_gabrielsson_behaviorgpt_at_work_a",
@@ -8366,8 +8366,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends BehaviorGPT to workforce data by modeling employee-employer interactions as chronological sequences of behavioral tokens. The paper trains a Transformer on millions of workplace events, reports strong attrition-prediction performance, and argues that logged actions such as schedules, breaks, and productive hours can reveal organizational dynamics more reliably than surveys or top-down analytics, while also noting the ethical sensitivity of employee behavior modeling.",
       "url": "../papers/2025_gabrielsson_behaviorgpt_at_work_a/",
-      "contentTreeUrl": "../content-tree/#paper=2025_gabrielsson_behaviorgpt_at_work_a",
-      "mindMapUrl": "../mind-map/#paper=2025_gabrielsson_behaviorgpt_at_work_a"
+      "treeUrl": "../tree/#paper=2025_gabrielsson_behaviorgpt_at_work_a",
+      "mapUrl": "../map/#paper=2025_gabrielsson_behaviorgpt_at_work_a"
     },
     "2512_20642": {
       "id": "2512_20642",
@@ -8383,8 +8383,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2512_20642/",
-      "contentTreeUrl": "../content-tree/#paper=2512_20642",
-      "mindMapUrl": "../mind-map/#paper=2512_20642"
+      "treeUrl": "../tree/#paper=2512_20642",
+      "mapUrl": "../map/#paper=2512_20642"
     },
     "2511_02095": {
       "id": "2511_02095",
@@ -8399,8 +8399,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2511_02095/",
-      "contentTreeUrl": "../content-tree/#paper=2511_02095",
-      "mindMapUrl": "../mind-map/#paper=2511_02095"
+      "treeUrl": "../tree/#paper=2511_02095",
+      "mapUrl": "../map/#paper=2511_02095"
     },
     "2025_kamel_clover_a_gpu_native": {
       "id": "2025_kamel_clover_a_gpu_native",
@@ -8415,8 +8415,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2025_kamel_clover_a_gpu_native/",
-      "contentTreeUrl": "../content-tree/#paper=2025_kamel_clover_a_gpu_native",
-      "mindMapUrl": "../mind-map/#paper=2025_kamel_clover_a_gpu_native"
+      "treeUrl": "../tree/#paper=2025_kamel_clover_a_gpu_native",
+      "mapUrl": "../map/#paper=2025_kamel_clover_a_gpu_native"
     },
     "1505_04597": {
       "id": "1505_04597",
@@ -8431,8 +8431,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1505_04597/",
-      "contentTreeUrl": "../content-tree/#paper=1505_04597",
-      "mindMapUrl": "../mind-map/#paper=1505_04597"
+      "treeUrl": "../tree/#paper=1505_04597",
+      "mapUrl": "../map/#paper=1505_04597"
     },
     "1503_03832": {
       "id": "1503_03832",
@@ -8447,8 +8447,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1503_03832/",
-      "contentTreeUrl": "../content-tree/#paper=1503_03832",
-      "mindMapUrl": "../mind-map/#paper=1503_03832"
+      "treeUrl": "../tree/#paper=1503_03832",
+      "mapUrl": "../map/#paper=1503_03832"
     },
     "1502_04269": {
       "id": "1502_04269",
@@ -8462,8 +8462,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1502_04269/",
-      "contentTreeUrl": "../content-tree/#paper=1502_04269",
-      "mindMapUrl": "../mind-map/#paper=1502_04269"
+      "treeUrl": "../tree/#paper=1502_04269",
+      "mapUrl": "../map/#paper=1502_04269"
     },
     "2015_bergstra_hyperopt_a_python_library": {
       "id": "2015_bergstra_hyperopt_a_python_library",
@@ -8482,8 +8482,8 @@ window.tagSearchData = {
       ],
       "summary": "A practical Python framework for sequential model-based hyperparameter optimization, with a search-space language, a common minimization interface, random search, TPE, and support for asynchronous parallel evaluations through MongoDB. The paper is both a tutorial and a design statement: it treats hyperparameter tuning as a reproducible optimization problem and explains why conditional, mixed discrete-continuous search spaces are central for machine-learning model selection.",
       "url": "../papers/2015_bergstra_hyperopt_a_python_library/",
-      "contentTreeUrl": "../content-tree/#paper=2015_bergstra_hyperopt_a_python_library",
-      "mindMapUrl": "../mind-map/#paper=2015_bergstra_hyperopt_a_python_library"
+      "treeUrl": "../tree/#paper=2015_bergstra_hyperopt_a_python_library",
+      "mapUrl": "../map/#paper=2015_bergstra_hyperopt_a_python_library"
     },
     "2015_wang_a_gradient_based_approach": {
       "id": "2015_wang_a_gradient_based_approach",
@@ -8505,8 +8505,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents an iterative gradient method for jointly optimizing a linear plant and controller without requiring the plant parameters to enter affinely. The paper is useful as a control co-design reference because it frames plant structure and feedback synthesis as a coupled optimization problem with convergence and local-minimum checks.",
       "url": "../papers/2015_wang_a_gradient_based_approach/",
-      "contentTreeUrl": "../content-tree/#paper=2015_wang_a_gradient_based_approach",
-      "mindMapUrl": "../mind-map/#paper=2015_wang_a_gradient_based_approach"
+      "treeUrl": "../tree/#paper=2015_wang_a_gradient_based_approach",
+      "mapUrl": "../map/#paper=2015_wang_a_gradient_based_approach"
     },
     "1506_02640": {
       "id": "1506_02640",
@@ -8522,8 +8522,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1506_02640/",
-      "contentTreeUrl": "../content-tree/#paper=1506_02640",
-      "mindMapUrl": "../mind-map/#paper=1506_02640"
+      "treeUrl": "../tree/#paper=1506_02640",
+      "mapUrl": "../map/#paper=1506_02640"
     },
     "1509_06461": {
       "id": "1509_06461",
@@ -8538,8 +8538,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1509_06461/",
-      "contentTreeUrl": "../content-tree/#paper=1509_06461",
-      "mindMapUrl": "../mind-map/#paper=1509_06461"
+      "treeUrl": "../tree/#paper=1509_06461",
+      "mapUrl": "../map/#paper=1509_06461"
     },
     "1510_08906": {
       "id": "1510_08906",
@@ -8553,8 +8553,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1510_08906/",
-      "contentTreeUrl": "../content-tree/#paper=1510_08906",
-      "mindMapUrl": "../mind-map/#paper=1510_08906"
+      "treeUrl": "../tree/#paper=1510_08906",
+      "mapUrl": "../map/#paper=1510_08906"
     },
     "1512_03012": {
       "id": "1512_03012",
@@ -8579,8 +8579,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1512_03012/",
-      "contentTreeUrl": "../content-tree/#paper=1512_03012",
-      "mindMapUrl": "../mind-map/#paper=1512_03012"
+      "treeUrl": "../tree/#paper=1512_03012",
+      "mapUrl": "../map/#paper=1512_03012"
     },
     "1711_07300": {
       "id": "1711_07300",
@@ -8603,8 +8603,8 @@ window.tagSearchData = {
       ],
       "summary": "Foundational paper for Model Predictive Contouring Control (MPCC) in vehicle racing, introducing the idea of maximizing progress along a reference path as an MPC objective. Demonstrates real-time performance on 1:43 scale RC cars at drifting speeds, and coined the contouring-control formulation widely adopted in subsequent autonomous racing and AV trajectory planning work.",
       "url": "../papers/1711_07300/",
-      "contentTreeUrl": "../content-tree/#paper=1711_07300",
-      "mindMapUrl": "../mind-map/#paper=1711_07300"
+      "treeUrl": "../tree/#paper=1711_07300",
+      "mapUrl": "../map/#paper=1711_07300"
     },
     "1506_01085": {
       "id": "1506_01085",
@@ -8636,8 +8636,8 @@ window.tagSearchData = {
       ],
       "summary": "CES takes a reference trajectory as input, then re-plans both the path shape and speed profile within a sequence of obstacle-free \"bubble\" regions along the trajectory using convex programming. This makes it a powerful post-processor, reportedly outperforming traditional path shortcutting heuristics as well as elastic band approaches.",
       "url": "../papers/1506_01085/",
-      "contentTreeUrl": "../content-tree/#paper=1506_01085",
-      "mindMapUrl": "../mind-map/#paper=1506_01085"
+      "treeUrl": "../tree/#paper=1506_01085",
+      "mapUrl": "../map/#paper=1506_01085"
     },
     "1510_08560": {
       "id": "1510_08560",
@@ -8652,8 +8652,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1510_08560/",
-      "contentTreeUrl": "../content-tree/#paper=1510_08560",
-      "mindMapUrl": "../mind-map/#paper=1510_08560"
+      "treeUrl": "../tree/#paper=1510_08560",
+      "mapUrl": "../map/#paper=1510_08560"
     },
     "2015_stanley_why_greatness_cannot_be": {
       "id": "2015_stanley_why_greatness_cannot_be",
@@ -8667,8 +8667,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2015_stanley_why_greatness_cannot_be/",
-      "contentTreeUrl": "../content-tree/#paper=2015_stanley_why_greatness_cannot_be",
-      "mindMapUrl": "../mind-map/#paper=2015_stanley_why_greatness_cannot_be"
+      "treeUrl": "../tree/#paper=2015_stanley_why_greatness_cannot_be",
+      "mapUrl": "../map/#paper=2015_stanley_why_greatness_cannot_be"
     },
     "2015_palmieri_distance_metric_learning_for": {
       "id": "2015_palmieri_distance_metric_learning_for",
@@ -8691,8 +8691,8 @@ window.tagSearchData = {
       ],
       "summary": "Trains a supervised model to approximate the kinodynamic steering distance for RRT-based planners. The motivation is purely for increasing performance in terms of reducing average and worst-case runtime latency; assumes we have a slow-to-compute ground truth perfect steering function used to generate training data. The features are a set of 14 hand-crafted and cheap-to-evaluate metrics, and the labels are a scalar ground truth cost. The learned model is a basis function model (BFM) using quadratic basis functions and trained using Levenberg-Marquadt. The model architecture was selected as the best (in terms of prediction quality and inference runtime latency) out of a ranking comparison against other architectures trained on the same data, including a small neural network, random forest, support vector machine with radial basis function kernel, and locally weighted projection.",
       "url": "../papers/2015_palmieri_distance_metric_learning_for/",
-      "contentTreeUrl": "../content-tree/#paper=2015_palmieri_distance_metric_learning_for",
-      "mindMapUrl": "../mind-map/#paper=2015_palmieri_distance_metric_learning_for"
+      "treeUrl": "../tree/#paper=2015_palmieri_distance_metric_learning_for",
+      "mapUrl": "../map/#paper=2015_palmieri_distance_metric_learning_for"
     },
     "1511_07289": {
       "id": "1511_07289",
@@ -8707,8 +8707,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1511_07289/",
-      "contentTreeUrl": "../content-tree/#paper=1511_07289",
-      "mindMapUrl": "../mind-map/#paper=1511_07289"
+      "treeUrl": "../tree/#paper=1511_07289",
+      "mapUrl": "../map/#paper=1511_07289"
     },
     "1502_05477": {
       "id": "1502_05477",
@@ -8730,8 +8730,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces TRPO, which guarantees monotonic policy improvement by constraining each update to a KL-divergence trust region. Enables stable training on complex continuous control tasks without manual learning rate tuning.",
       "url": "../papers/1502_05477/",
-      "contentTreeUrl": "../content-tree/#paper=1502_05477",
-      "mindMapUrl": "../mind-map/#paper=1502_05477"
+      "treeUrl": "../tree/#paper=1502_05477",
+      "mapUrl": "../map/#paper=1502_05477"
     },
     "1508_05384": {
       "id": "1508_05384",
@@ -8745,8 +8745,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1508_05384/",
-      "contentTreeUrl": "../content-tree/#paper=1508_05384",
-      "mindMapUrl": "../mind-map/#paper=1508_05384"
+      "treeUrl": "../tree/#paper=1508_05384",
+      "mapUrl": "../map/#paper=1508_05384"
     },
     "1505_05116": {
       "id": "1505_05116",
@@ -8760,8 +8760,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1505_05116/",
-      "contentTreeUrl": "../content-tree/#paper=1505_05116",
-      "mindMapUrl": "../mind-map/#paper=1505_05116"
+      "treeUrl": "../tree/#paper=1505_05116",
+      "mapUrl": "../map/#paper=1505_05116"
     },
     "1502_05767": {
       "id": "1502_05767",
@@ -8777,8 +8777,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1502_05767/",
-      "contentTreeUrl": "../content-tree/#paper=1502_05767",
-      "mindMapUrl": "../mind-map/#paper=1502_05767"
+      "treeUrl": "../tree/#paper=1502_05767",
+      "mapUrl": "../map/#paper=1502_05767"
     },
     "1511_06581": {
       "id": "1511_06581",
@@ -8796,8 +8796,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1511_06581/",
-      "contentTreeUrl": "../content-tree/#paper=1511_06581",
-      "mindMapUrl": "../mind-map/#paper=1511_06581"
+      "treeUrl": "../tree/#paper=1511_06581",
+      "mapUrl": "../map/#paper=1511_06581"
     },
     "1506_02438": {
       "id": "1506_02438",
@@ -8814,8 +8814,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1506_02438/",
-      "contentTreeUrl": "../content-tree/#paper=1506_02438",
-      "mindMapUrl": "../mind-map/#paper=1506_02438"
+      "treeUrl": "../tree/#paper=1506_02438",
+      "mapUrl": "../map/#paper=1506_02438"
     },
     "2015_janson_deterministic_sampling_based_motion": {
       "id": "2015_janson_deterministic_sampling_based_motion",
@@ -8838,8 +8838,8 @@ window.tagSearchData = {
       ],
       "summary": "Shows that sampling-based planners can retain optimality guarantees with deterministic low-dispersion sequences, often with better complexity constants and certification properties than iid sampling. It is a useful theoretical bridge between lattice-like planners and PRM/FMT-style algorithms.",
       "url": "../papers/2015_janson_deterministic_sampling_based_motion/",
-      "contentTreeUrl": "../content-tree/#paper=2015_janson_deterministic_sampling_based_motion",
-      "mindMapUrl": "../mind-map/#paper=2015_janson_deterministic_sampling_based_motion"
+      "treeUrl": "../tree/#paper=2015_janson_deterministic_sampling_based_motion",
+      "mapUrl": "../map/#paper=2015_janson_deterministic_sampling_based_motion"
     },
     "2015_lam_numba": {
       "id": "2015_lam_numba",
@@ -8854,8 +8854,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2015_lam_numba/",
-      "contentTreeUrl": "../content-tree/#paper=2015_lam_numba",
-      "mindMapUrl": "../mind-map/#paper=2015_lam_numba"
+      "treeUrl": "../tree/#paper=2015_lam_numba",
+      "mapUrl": "../map/#paper=2015_lam_numba"
     },
     "1501_01571": {
       "id": "1501_01571",
@@ -8868,8 +8868,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1501_01571/",
-      "contentTreeUrl": "../content-tree/#paper=1501_01571",
-      "mindMapUrl": "../mind-map/#paper=1501_01571"
+      "treeUrl": "../tree/#paper=1501_01571",
+      "mapUrl": "../map/#paper=1501_01571"
     },
     "2015_cunningham_mpdm_multipolicy_decision_making": {
       "id": "2015_cunningham_mpdm_multipolicy_decision_making",
@@ -8885,8 +8885,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2015_cunningham_mpdm_multipolicy_decision_making/",
-      "contentTreeUrl": "../content-tree/#paper=2015_cunningham_mpdm_multipolicy_decision_making",
-      "mindMapUrl": "../mind-map/#paper=2015_cunningham_mpdm_multipolicy_decision_making"
+      "treeUrl": "../tree/#paper=2015_cunningham_mpdm_multipolicy_decision_making",
+      "mapUrl": "../map/#paper=2015_cunningham_mpdm_multipolicy_decision_making"
     },
     "1503_07222": {
       "id": "1503_07222",
@@ -8901,8 +8901,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1503_07222/",
-      "contentTreeUrl": "../content-tree/#paper=1503_07222",
-      "mindMapUrl": "../mind-map/#paper=1503_07222"
+      "treeUrl": "../tree/#paper=1503_07222",
+      "mapUrl": "../map/#paper=1503_07222"
     },
     "1512_03385": {
       "id": "1512_03385",
@@ -8918,8 +8918,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1512_03385/",
-      "contentTreeUrl": "../content-tree/#paper=1512_03385",
-      "mindMapUrl": "../mind-map/#paper=1512_03385"
+      "treeUrl": "../tree/#paper=1512_03385",
+      "mapUrl": "../map/#paper=1512_03385"
     },
     "2015_yuan_recent_advances_in_trust": {
       "id": "2015_yuan_recent_advances_in_trust",
@@ -8932,8 +8932,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2015_yuan_recent_advances_in_trust/",
-      "contentTreeUrl": "../content-tree/#paper=2015_yuan_recent_advances_in_trust",
-      "mindMapUrl": "../mind-map/#paper=2015_yuan_recent_advances_in_trust"
+      "treeUrl": "../tree/#paper=2015_yuan_recent_advances_in_trust",
+      "mapUrl": "../map/#paper=2015_yuan_recent_advances_in_trust"
     },
     "2015_klemm_rrt_connect_faster_asymptotically": {
       "id": "2015_klemm_rrt_connect_faster_asymptotically",
@@ -8959,8 +8959,8 @@ window.tagSearchData = {
       ],
       "summary": "RRT*-Connect merges the bidirectional search strategy of RRT-Connect with the asymptotic optimality guarantees of RRT*, growing two trees simultaneously from start and goal and connecting them greedily while rewiring for cost minimization. The result finds initial solutions significantly faster than RRT* while still converging toward the optimal path, combining the speed advantage of bidirectional search with provable optimality guarantees.",
       "url": "../papers/2015_klemm_rrt_connect_faster_asymptotically/",
-      "contentTreeUrl": "../content-tree/#paper=2015_klemm_rrt_connect_faster_asymptotically",
-      "mindMapUrl": "../mind-map/#paper=2015_klemm_rrt_connect_faster_asymptotically"
+      "treeUrl": "../tree/#paper=2015_klemm_rrt_connect_faster_asymptotically",
+      "mapUrl": "../map/#paper=2015_klemm_rrt_connect_faster_asymptotically"
     },
     "1502_02009": {
       "id": "1502_02009",
@@ -8977,8 +8977,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1502_02009/",
-      "contentTreeUrl": "../content-tree/#paper=1502_02009",
-      "mindMapUrl": "../mind-map/#paper=1502_02009"
+      "treeUrl": "../tree/#paper=1502_02009",
+      "mapUrl": "../map/#paper=1502_02009"
     },
     "1507_01030": {
       "id": "1507_01030",
@@ -8991,8 +8991,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1507_01030/",
-      "contentTreeUrl": "../content-tree/#paper=1507_01030",
-      "mindMapUrl": "../mind-map/#paper=1507_01030"
+      "treeUrl": "../tree/#paper=1507_01030",
+      "mapUrl": "../map/#paper=1507_01030"
     },
     "2015_sobel_an_isotropic_3x3_image": {
       "id": "2015_sobel_an_isotropic_3x3_image",
@@ -9006,8 +9006,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2015_sobel_an_isotropic_3x3_image/",
-      "contentTreeUrl": "../content-tree/#paper=2015_sobel_an_isotropic_3x3_image",
-      "mindMapUrl": "../mind-map/#paper=2015_sobel_an_isotropic_3x3_image"
+      "treeUrl": "../tree/#paper=2015_sobel_an_isotropic_3x3_image",
+      "mapUrl": "../map/#paper=2015_sobel_an_isotropic_3x3_image"
     },
     "1511_05259": {
       "id": "1511_05259",
@@ -9028,8 +9028,8 @@ window.tagSearchData = {
       ],
       "summary": "Proves probabilistic completeness for state-based (interpolating) kinodynamic planners under verifiable assumptions. Identifies second-order continuity as the key design requirement. Nice explanation of state-based steering and its beneficial properties as compraed with e.g. randomized action-propagation steering. Contains a great Section 2.3 on the differences between categories of steering functions.",
       "url": "../papers/1511_05259/",
-      "contentTreeUrl": "../content-tree/#paper=1511_05259",
-      "mindMapUrl": "../mind-map/#paper=1511_05259"
+      "treeUrl": "../tree/#paper=1511_05259",
+      "mapUrl": "../map/#paper=1511_05259"
     },
     "1503_01243": {
       "id": "1503_01243",
@@ -9044,8 +9044,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1503_01243/",
-      "contentTreeUrl": "../content-tree/#paper=1503_01243",
-      "mindMapUrl": "../mind-map/#paper=1503_01243"
+      "treeUrl": "../tree/#paper=1503_01243",
+      "mapUrl": "../map/#paper=1503_01243"
     },
     "1509_01149": {
       "id": "1509_01149",
@@ -9060,8 +9060,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "Folds importance sampling into the cost function in order to address the practical issue of infrequent selection of low-cost trajectories under naive sampling of actions on the uncontrolled system, which is a known drawback of MPPI. Also discusses implementation of MPPI on a GPU for massively parallel sampling. Includes a clear description of MPPI in Algorithm 1.",
       "url": "../papers/1509_01149/",
-      "contentTreeUrl": "../content-tree/#paper=1509_01149",
-      "mindMapUrl": "../mind-map/#paper=1509_01149"
+      "treeUrl": "../tree/#paper=1509_01149",
+      "mapUrl": "../map/#paper=1509_01149"
     },
     "2015_kobilarov_sample_complexity_bounds_for": {
       "id": "2015_kobilarov_sample_complexity_bounds_for",
@@ -9074,8 +9074,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2015_kobilarov_sample_complexity_bounds_for/",
-      "contentTreeUrl": "../content-tree/#paper=2015_kobilarov_sample_complexity_bounds_for",
-      "mindMapUrl": "../mind-map/#paper=2015_kobilarov_sample_complexity_bounds_for"
+      "treeUrl": "../tree/#paper=2015_kobilarov_sample_complexity_bounds_for",
+      "mapUrl": "../map/#paper=2015_kobilarov_sample_complexity_bounds_for"
     },
     "1504_04909": {
       "id": "1504_04909",
@@ -9089,8 +9089,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1504_04909/",
-      "contentTreeUrl": "../content-tree/#paper=1504_04909",
-      "mindMapUrl": "../mind-map/#paper=1504_04909"
+      "treeUrl": "../tree/#paper=1504_04909",
+      "mapUrl": "../map/#paper=1504_04909"
     },
     "1509_03580": {
       "id": "1509_03580",
@@ -9111,8 +9111,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces SINDy, which applies sparse nonlinear least squares regression over a library of candidate nonlinear functions to identify parsimonious governing equations from trajectory data, recovering interpretable symbolic expressions for nonlinear dynamical systems.",
       "url": "../papers/1509_03580/",
-      "contentTreeUrl": "../content-tree/#paper=1509_03580",
-      "mindMapUrl": "../mind-map/#paper=1509_03580"
+      "treeUrl": "../tree/#paper=1509_03580",
+      "mapUrl": "../map/#paper=1509_03580"
     },
     "2015_kong_kinematic_and_dynamic_vehicle": {
       "id": "2015_kong_kinematic_and_dynamic_vehicle",
@@ -9128,8 +9128,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2015_kong_kinematic_and_dynamic_vehicle/",
-      "contentTreeUrl": "../content-tree/#paper=2015_kong_kinematic_and_dynamic_vehicle",
-      "mindMapUrl": "../mind-map/#paper=2015_kong_kinematic_and_dynamic_vehicle"
+      "treeUrl": "../tree/#paper=2015_kong_kinematic_and_dynamic_vehicle",
+      "mapUrl": "../map/#paper=2015_kong_kinematic_and_dynamic_vehicle"
     },
     "2015_nesterov_random_gradient_free_minimization": {
       "id": "2015_nesterov_random_gradient_free_minimization",
@@ -9143,8 +9143,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2015_nesterov_random_gradient_free_minimization/",
-      "contentTreeUrl": "../content-tree/#paper=2015_nesterov_random_gradient_free_minimization",
-      "mindMapUrl": "../mind-map/#paper=2015_nesterov_random_gradient_free_minimization"
+      "treeUrl": "../tree/#paper=2015_nesterov_random_gradient_free_minimization",
+      "mapUrl": "../map/#paper=2015_nesterov_random_gradient_free_minimization"
     },
     "2015_caruana_intelligible_models_for_healthcare": {
       "id": "2015_caruana_intelligible_models_for_healthcare",
@@ -9162,8 +9162,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2015_caruana_intelligible_models_for_healthcare/",
-      "contentTreeUrl": "../content-tree/#paper=2015_caruana_intelligible_models_for_healthcare",
-      "mindMapUrl": "../mind-map/#paper=2015_caruana_intelligible_models_for_healthcare"
+      "treeUrl": "../tree/#paper=2015_caruana_intelligible_models_for_healthcare",
+      "mapUrl": "../map/#paper=2015_caruana_intelligible_models_for_healthcare"
     },
     "1502_04759": {
       "id": "1502_04759",
@@ -9176,8 +9176,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1502_04759/",
-      "contentTreeUrl": "../content-tree/#paper=1502_04759",
-      "mindMapUrl": "../mind-map/#paper=1502_04759"
+      "treeUrl": "../tree/#paper=1502_04759",
+      "mapUrl": "../map/#paper=1502_04759"
     },
     "1503_05671": {
       "id": "1503_05671",
@@ -9191,8 +9191,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1503_05671/",
-      "contentTreeUrl": "../content-tree/#paper=1503_05671",
-      "mindMapUrl": "../mind-map/#paper=1503_05671"
+      "treeUrl": "../tree/#paper=1503_05671",
+      "mapUrl": "../map/#paper=1503_05671"
     },
     "1511_05952": {
       "id": "1511_05952",
@@ -9208,8 +9208,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1511_05952/",
-      "contentTreeUrl": "../content-tree/#paper=1511_05952",
-      "mindMapUrl": "../mind-map/#paper=1511_05952"
+      "treeUrl": "../tree/#paper=1511_05952",
+      "mapUrl": "../map/#paper=1511_05952"
     },
     "2015_mueller_a_computationally_efficient_motion": {
       "id": "2015_mueller_a_computationally_efficient_motion",
@@ -9224,8 +9224,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2015_mueller_a_computationally_efficient_motion/",
-      "contentTreeUrl": "../content-tree/#paper=2015_mueller_a_computationally_efficient_motion",
-      "mindMapUrl": "../mind-map/#paper=2015_mueller_a_computationally_efficient_motion"
+      "treeUrl": "../tree/#paper=2015_mueller_a_computationally_efficient_motion",
+      "mapUrl": "../map/#paper=2015_mueller_a_computationally_efficient_motion"
     },
     "2015_kuindersma_optimization_based_locomotion_planning": {
       "id": "2015_kuindersma_optimization_based_locomotion_planning",
@@ -9246,8 +9246,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2015_kuindersma_optimization_based_locomotion_planning/",
-      "contentTreeUrl": "../content-tree/#paper=2015_kuindersma_optimization_based_locomotion_planning",
-      "mindMapUrl": "../mind-map/#paper=2015_kuindersma_optimization_based_locomotion_planning"
+      "treeUrl": "../tree/#paper=2015_kuindersma_optimization_based_locomotion_planning",
+      "mapUrl": "../map/#paper=2015_kuindersma_optimization_based_locomotion_planning"
     },
     "1511_06335": {
       "id": "1511_06335",
@@ -9262,8 +9262,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1511_06335/",
-      "contentTreeUrl": "../content-tree/#paper=1511_06335",
-      "mindMapUrl": "../mind-map/#paper=1511_06335"
+      "treeUrl": "../tree/#paper=1511_06335",
+      "mapUrl": "../map/#paper=1511_06335"
     },
     "1509_02971": {
       "id": "1509_02971",
@@ -9283,8 +9283,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1509_02971/",
-      "contentTreeUrl": "../content-tree/#paper=1509_02971",
-      "mindMapUrl": "../mind-map/#paper=1509_02971"
+      "treeUrl": "../tree/#paper=1509_02971",
+      "mapUrl": "../map/#paper=1509_02971"
     },
     "2015_bry_aggressive_flight_of_fixed": {
       "id": "2015_bry_aggressive_flight_of_fixed",
@@ -9300,8 +9300,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2015_bry_aggressive_flight_of_fixed/",
-      "contentTreeUrl": "../content-tree/#paper=2015_bry_aggressive_flight_of_fixed",
-      "mindMapUrl": "../mind-map/#paper=2015_bry_aggressive_flight_of_fixed"
+      "treeUrl": "../tree/#paper=2015_bry_aggressive_flight_of_fixed",
+      "mapUrl": "../map/#paper=2015_bry_aggressive_flight_of_fixed"
     },
     "1512_09075": {
       "id": "1512_09075",
@@ -9315,8 +9315,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1512_09075/",
-      "contentTreeUrl": "../content-tree/#paper=1512_09075",
-      "mindMapUrl": "../mind-map/#paper=1512_09075"
+      "treeUrl": "../tree/#paper=1512_09075",
+      "mapUrl": "../map/#paper=1512_09075"
     },
     "1502_03492": {
       "id": "1502_03492",
@@ -9331,8 +9331,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1502_03492/",
-      "contentTreeUrl": "../content-tree/#paper=1502_03492",
-      "mindMapUrl": "../mind-map/#paper=1502_03492"
+      "treeUrl": "../tree/#paper=1502_03492",
+      "mapUrl": "../map/#paper=1502_03492"
     },
     "1505_04098": {
       "id": "1505_04098",
@@ -9350,8 +9350,8 @@ window.tagSearchData = {
       ],
       "summary": "AO-x meta-algorithm turns any feasible kinodynamic planner into an asymptotically optimal planner by lifting planning into a state-cost space.",
       "url": "../papers/1505_04098/",
-      "contentTreeUrl": "../content-tree/#paper=1505_04098",
-      "mindMapUrl": "../mind-map/#paper=1505_04098"
+      "treeUrl": "../tree/#paper=1505_04098",
+      "mapUrl": "../map/#paper=1505_04098"
     },
     "1507_08752": {
       "id": "1507_08752",
@@ -9364,8 +9364,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1507_08752/",
-      "contentTreeUrl": "../content-tree/#paper=1507_08752",
-      "mindMapUrl": "../mind-map/#paper=1507_08752"
+      "treeUrl": "../tree/#paper=1507_08752",
+      "mapUrl": "../map/#paper=1507_08752"
     },
     "2015_kobilarov_differential_dynamic_programming_for": {
       "id": "2015_kobilarov_differential_dynamic_programming_for",
@@ -9380,8 +9380,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2015_kobilarov_differential_dynamic_programming_for/",
-      "contentTreeUrl": "../content-tree/#paper=2015_kobilarov_differential_dynamic_programming_for",
-      "mindMapUrl": "../mind-map/#paper=2015_kobilarov_differential_dynamic_programming_for"
+      "treeUrl": "../tree/#paper=2015_kobilarov_differential_dynamic_programming_for",
+      "mapUrl": "../map/#paper=2015_kobilarov_differential_dynamic_programming_for"
     },
     "1995_didinsky_parameter_identification_for_uncertain": {
       "id": "1995_didinsky_parameter_identification_for_uncertain",
@@ -9396,8 +9396,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1995_didinsky_parameter_identification_for_uncertain/",
-      "contentTreeUrl": "../content-tree/#paper=1995_didinsky_parameter_identification_for_uncertain",
-      "mindMapUrl": "../mind-map/#paper=1995_didinsky_parameter_identification_for_uncertain"
+      "treeUrl": "../tree/#paper=1995_didinsky_parameter_identification_for_uncertain",
+      "mapUrl": "../map/#paper=1995_didinsky_parameter_identification_for_uncertain"
     },
     "1995_ghaoui_state_feedback_control_of": {
       "id": "1995_ghaoui_state_feedback_control_of",
@@ -9410,8 +9410,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1995_ghaoui_state_feedback_control_of/",
-      "contentTreeUrl": "../content-tree/#paper=1995_ghaoui_state_feedback_control_of",
-      "mindMapUrl": "../mind-map/#paper=1995_ghaoui_state_feedback_control_of"
+      "treeUrl": "../tree/#paper=1995_ghaoui_state_feedback_control_of",
+      "mapUrl": "../map/#paper=1995_ghaoui_state_feedback_control_of"
     },
     "1995_spong_the_pendubot_a_mechatronic": {
       "id": "1995_spong_the_pendubot_a_mechatronic",
@@ -9432,8 +9432,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the Pendubot as a compact two-link, one-actuator robotic benchmark for demonstrating nonlinear dynamics, underactuation, and control design. The paper is useful historically because it frames the device as both an education platform and a repeatable research system alongside the Acrobot and Furuta pendulum.",
       "url": "../papers/1995_spong_the_pendubot_a_mechatronic/",
-      "contentTreeUrl": "../content-tree/#paper=1995_spong_the_pendubot_a_mechatronic",
-      "mindMapUrl": "../mind-map/#paper=1995_spong_the_pendubot_a_mechatronic"
+      "treeUrl": "../tree/#paper=1995_spong_the_pendubot_a_mechatronic",
+      "mapUrl": "../map/#paper=1995_spong_the_pendubot_a_mechatronic"
     },
     "1995_wilamowsky_how_the_oldest_recorded": {
       "id": "1995_wilamowsky_how_the_oldest_recorded",
@@ -9448,8 +9448,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1995_wilamowsky_how_the_oldest_recorded/",
-      "contentTreeUrl": "../content-tree/#paper=1995_wilamowsky_how_the_oldest_recorded",
-      "mindMapUrl": "../mind-map/#paper=1995_wilamowsky_how_the_oldest_recorded"
+      "treeUrl": "../tree/#paper=1995_wilamowsky_how_the_oldest_recorded",
+      "mapUrl": "../map/#paper=1995_wilamowsky_how_the_oldest_recorded"
     },
     "1995_kennedy_particle_swarm_optimization": {
       "id": "1995_kennedy_particle_swarm_optimization",
@@ -9471,8 +9471,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces Particle Swarm Optimization, a population-based optimizer inspired by simplified social and flocking behavior. The paper establishes the particle position and velocity update metaphor and positions PSO as an alternative to genetic algorithms for nonlinear function optimization and neural-network training.",
       "url": "../papers/1995_kennedy_particle_swarm_optimization/",
-      "contentTreeUrl": "../content-tree/#paper=1995_kennedy_particle_swarm_optimization",
-      "mindMapUrl": "../mind-map/#paper=1995_kennedy_particle_swarm_optimization"
+      "treeUrl": "../tree/#paper=1995_kennedy_particle_swarm_optimization",
+      "mapUrl": "../map/#paper=1995_kennedy_particle_swarm_optimization"
     },
     "1995_cortes_support_vector_networks": {
       "id": "1995_cortes_support_vector_networks",
@@ -9486,8 +9486,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1995_cortes_support_vector_networks/",
-      "contentTreeUrl": "../content-tree/#paper=1995_cortes_support_vector_networks",
-      "mindMapUrl": "../mind-map/#paper=1995_cortes_support_vector_networks"
+      "treeUrl": "../tree/#paper=1995_cortes_support_vector_networks",
+      "mapUrl": "../map/#paper=1995_cortes_support_vector_networks"
     },
     "1995_spong_the_swing_up_control": {
       "id": "1995_spong_the_swing_up_control",
@@ -9507,8 +9507,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the Acrobot (a two-link robot arm with one passive joint) as a benchmark for underactuated control and presents an energy-based swing-up strategy that pumps energy to bring the arm from hanging to the inverted position, after which a linear stabilizer takes over. Popularized the Acrobot as a canonical underactuated control problem.",
       "url": "../papers/1995_spong_the_swing_up_control/",
-      "contentTreeUrl": "../content-tree/#paper=1995_spong_the_swing_up_control",
-      "mindMapUrl": "../mind-map/#paper=1995_spong_the_swing_up_control"
+      "treeUrl": "../tree/#paper=1995_spong_the_swing_up_control",
+      "mapUrl": "../map/#paper=1995_spong_the_swing_up_control"
     },
     "1816_stirling_the_stirling_engine_of": {
       "id": "1816_stirling_the_stirling_engine_of",
@@ -9528,8 +9528,8 @@ window.tagSearchData = {
       ],
       "summary": "A historical source on Robert Stirling original hot-air engine and regenerator patent. The important idea is the closed-cycle heat engine with an economiser/regenerator, a concept that later became foundational to Stirling engine design.",
       "url": "../papers/1816_stirling_the_stirling_engine_of/",
-      "contentTreeUrl": "../content-tree/#paper=1816_stirling_the_stirling_engine_of",
-      "mindMapUrl": "../mind-map/#paper=1816_stirling_the_stirling_engine_of"
+      "treeUrl": "../tree/#paper=1816_stirling_the_stirling_engine_of",
+      "mapUrl": "../map/#paper=1816_stirling_the_stirling_engine_of"
     },
     "1940_bode_relations_between_attenuation_and": {
       "id": "1940_bode_relations_between_attenuation_and",
@@ -9542,8 +9542,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1940_bode_relations_between_attenuation_and/",
-      "contentTreeUrl": "../content-tree/#paper=1940_bode_relations_between_attenuation_and",
-      "mindMapUrl": "../mind-map/#paper=1940_bode_relations_between_attenuation_and"
+      "treeUrl": "../tree/#paper=1940_bode_relations_between_attenuation_and",
+      "mapUrl": "../map/#paper=1940_bode_relations_between_attenuation_and"
     },
     "1975_paige_solution_of_sparse_indefinite": {
       "id": "1975_paige_solution_of_sparse_indefinite",
@@ -9557,8 +9557,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1975_paige_solution_of_sparse_indefinite/",
-      "contentTreeUrl": "../content-tree/#paper=1975_paige_solution_of_sparse_indefinite",
-      "mindMapUrl": "../mind-map/#paper=1975_paige_solution_of_sparse_indefinite"
+      "treeUrl": "../tree/#paper=1975_paige_solution_of_sparse_indefinite",
+      "mapUrl": "../map/#paper=1975_paige_solution_of_sparse_indefinite"
     },
     "1975_francis_the_internal_model_principle": {
       "id": "1975_francis_the_internal_model_principle",
@@ -9572,8 +9572,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1975_francis_the_internal_model_principle/",
-      "contentTreeUrl": "../content-tree/#paper=1975_francis_the_internal_model_principle",
-      "mindMapUrl": "../mind-map/#paper=1975_francis_the_internal_model_principle"
+      "treeUrl": "../tree/#paper=1975_francis_the_internal_model_principle",
+      "mapUrl": "../map/#paper=1975_francis_the_internal_model_principle"
     },
     "1975_bentley_multidimensional_binary_search_trees": {
       "id": "1975_bentley_multidimensional_binary_search_trees",
@@ -9586,8 +9586,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1975_bentley_multidimensional_binary_search_trees/",
-      "contentTreeUrl": "../content-tree/#paper=1975_bentley_multidimensional_binary_search_trees",
-      "mindMapUrl": "../mind-map/#paper=1975_bentley_multidimensional_binary_search_trees"
+      "treeUrl": "../tree/#paper=1975_bentley_multidimensional_binary_search_trees",
+      "mapUrl": "../map/#paper=1975_bentley_multidimensional_binary_search_trees"
     },
     "1975_gustafson_design_of_linear_regulators": {
       "id": "1975_gustafson_design_of_linear_regulators",
@@ -9608,8 +9608,8 @@ window.tagSearchData = {
       ],
       "summary": "Develops a methodology for designing linear regulators for nonlinear stochastic systems by linearizing about a nominal trajectory and applying LQR synthesis to the resulting linear stochastic model. One of the earliest works identifying key aspects in the design and motivation of optimal control for linear systems with multiplicative noise, including the observation that second-order noise terms show up as state- and input- multiplicative noise, and that the Certainty-Equivalence Principle and the Separation Theorem do not hold in this multiplicative noise setting. These ideas were picked up again by later authors such as Todorov (“A generalized iterative LQG method for locally-optimal feedback control of constrained nonlinear stochastic systems” ACC 2005) and Gravell (\"Data-driven Control and Planning for Uncertain Complex Systems\" UTD 2022).",
       "url": "../papers/1975_gustafson_design_of_linear_regulators/",
-      "contentTreeUrl": "../content-tree/#paper=1975_gustafson_design_of_linear_regulators",
-      "mindMapUrl": "../mind-map/#paper=1975_gustafson_design_of_linear_regulators"
+      "treeUrl": "../tree/#paper=1975_gustafson_design_of_linear_regulators",
+      "mapUrl": "../map/#paper=1975_gustafson_design_of_linear_regulators"
     },
     "1975_csanky_fast_parallel_matrix_inversion": {
       "id": "1975_csanky_fast_parallel_matrix_inversion",
@@ -9622,8 +9622,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1975_csanky_fast_parallel_matrix_inversion/",
-      "contentTreeUrl": "../content-tree/#paper=1975_csanky_fast_parallel_matrix_inversion",
-      "mindMapUrl": "../mind-map/#paper=1975_csanky_fast_parallel_matrix_inversion"
+      "treeUrl": "../tree/#paper=1975_csanky_fast_parallel_matrix_inversion",
+      "mapUrl": "../map/#paper=1975_csanky_fast_parallel_matrix_inversion"
     },
     "1975_rana_on_optimal_stationary_control": {
       "id": "1975_rana_on_optimal_stationary_control",
@@ -9637,8 +9637,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1975_rana_on_optimal_stationary_control/",
-      "contentTreeUrl": "../content-tree/#paper=1975_rana_on_optimal_stationary_control",
-      "mindMapUrl": "../mind-map/#paper=1975_rana_on_optimal_stationary_control"
+      "treeUrl": "../tree/#paper=1975_rana_on_optimal_stationary_control",
+      "mapUrl": "../map/#paper=1975_rana_on_optimal_stationary_control"
     },
     "1972_sussmann_controllability_of_nonlinear_systems": {
       "id": "1972_sussmann_controllability_of_nonlinear_systems",
@@ -9652,8 +9652,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1972_sussmann_controllability_of_nonlinear_systems/",
-      "contentTreeUrl": "../content-tree/#paper=1972_sussmann_controllability_of_nonlinear_systems",
-      "mindMapUrl": "../mind-map/#paper=1972_sussmann_controllability_of_nonlinear_systems"
+      "treeUrl": "../tree/#paper=1972_sussmann_controllability_of_nonlinear_systems",
+      "mapUrl": "../map/#paper=1972_sussmann_controllability_of_nonlinear_systems"
     },
     "1972_karp_reducibility_among_combinatorial_problems": {
       "id": "1972_karp_reducibility_among_combinatorial_problems",
@@ -9666,8 +9666,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1972_karp_reducibility_among_combinatorial_problems/",
-      "contentTreeUrl": "../content-tree/#paper=1972_karp_reducibility_among_combinatorial_problems",
-      "mindMapUrl": "../mind-map/#paper=1972_karp_reducibility_among_combinatorial_problems"
+      "treeUrl": "../tree/#paper=1972_karp_reducibility_among_combinatorial_problems",
+      "mapUrl": "../map/#paper=1972_karp_reducibility_among_combinatorial_problems"
     },
     "1972_ikeda_stabilization_of_linear_systems": {
       "id": "1972_ikeda_stabilization_of_linear_systems",
@@ -9689,8 +9689,8 @@ window.tagSearchData = {
       ],
       "summary": "Studies stabilization of linear time-invariant systems via state feedback, providing conditions under which a system can be stabilized and characterizing the achievable closed-loop spectra. Connects controllability theory to stabilizability and eigenvalue assignment.",
       "url": "../papers/1972_ikeda_stabilization_of_linear_systems/",
-      "contentTreeUrl": "../content-tree/#paper=1972_ikeda_stabilization_of_linear_systems",
-      "mindMapUrl": "../mind-map/#paper=1972_ikeda_stabilization_of_linear_systems"
+      "treeUrl": "../tree/#paper=1972_ikeda_stabilization_of_linear_systems",
+      "mapUrl": "../map/#paper=1972_ikeda_stabilization_of_linear_systems"
     },
     "1972_dijkstra_the_humble_programmer": {
       "id": "1972_dijkstra_the_humble_programmer",
@@ -9709,8 +9709,8 @@ window.tagSearchData = {
       ],
       "summary": "Dijkstra argues that the programmer's job is an intellectual challenge of the highest order, and that genuine mastery requires humility about the limits of human reasoning. He advocates structured programming and formal correctness arguments as the only reliable path to trustworthy software.",
       "url": "../papers/1972_dijkstra_the_humble_programmer/",
-      "contentTreeUrl": "../content-tree/#paper=1972_dijkstra_the_humble_programmer",
-      "mindMapUrl": "../mind-map/#paper=1972_dijkstra_the_humble_programmer"
+      "treeUrl": "../tree/#paper=1972_dijkstra_the_humble_programmer",
+      "mapUrl": "../map/#paper=1972_dijkstra_the_humble_programmer"
     },
     "1980_marr_theory_of_edge_detection": {
       "id": "1980_marr_theory_of_edge_detection",
@@ -9731,8 +9731,8 @@ window.tagSearchData = {
       ],
       "summary": "Formulates the classic Marr-Hildreth model of edge detection: smooth at multiple scales, apply the Laplacian of Gaussian, and detect zero crossings. It links computational vision, psychophysics, and a proposed neural implementation of early visual processing.",
       "url": "../papers/1980_marr_theory_of_edge_detection/",
-      "contentTreeUrl": "../content-tree/#paper=1980_marr_theory_of_edge_detection",
-      "mindMapUrl": "../mind-map/#paper=1980_marr_theory_of_edge_detection"
+      "treeUrl": "../tree/#paper=1980_marr_theory_of_edge_detection",
+      "mapUrl": "../map/#paper=1980_marr_theory_of_edge_detection"
     },
     "1980_dormand_a_family_of_embedded": {
       "id": "1980_dormand_a_family_of_embedded",
@@ -9746,8 +9746,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1980_dormand_a_family_of_embedded/",
-      "contentTreeUrl": "../content-tree/#paper=1980_dormand_a_family_of_embedded",
-      "mindMapUrl": "../mind-map/#paper=1980_dormand_a_family_of_embedded"
+      "treeUrl": "../tree/#paper=1980_dormand_a_family_of_embedded",
+      "mapUrl": "../map/#paper=1980_dormand_a_family_of_embedded"
     },
     "1980_kass_an_exploratory_technique_for": {
       "id": "1980_kass_an_exploratory_technique_for",
@@ -9767,8 +9767,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces CHAID (Chi-square Automatic Interaction Detection), a multi-way decision tree algorithm for categorical outcomes that uses chi-square tests to select split variables and allows more than two branches per node. CHAID pioneered statistical significance testing as the split criterion, addressing AID's bias toward high-cardinality variables.",
       "url": "../papers/1980_kass_an_exploratory_technique_for/",
-      "contentTreeUrl": "../content-tree/#paper=1980_kass_an_exploratory_technique_for",
-      "mindMapUrl": "../mind-map/#paper=1980_kass_an_exploratory_technique_for"
+      "treeUrl": "../tree/#paper=1980_kass_an_exploratory_technique_for",
+      "mapUrl": "../map/#paper=1980_kass_an_exploratory_technique_for"
     },
     "1950_evans_control_system_synthesis_by": {
       "id": "1950_evans_control_system_synthesis_by",
@@ -9781,8 +9781,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1950_evans_control_system_synthesis_by/",
-      "contentTreeUrl": "../content-tree/#paper=1950_evans_control_system_synthesis_by",
-      "mindMapUrl": "../mind-map/#paper=1950_evans_control_system_synthesis_by"
+      "treeUrl": "../tree/#paper=1950_evans_control_system_synthesis_by",
+      "mapUrl": "../map/#paper=1950_evans_control_system_synthesis_by"
     },
     "2010_lam_model_predictive_contouring_control": {
       "id": "2010_lam_model_predictive_contouring_control",
@@ -9797,8 +9797,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2010_lam_model_predictive_contouring_control/",
-      "contentTreeUrl": "../content-tree/#paper=2010_lam_model_predictive_contouring_control",
-      "mindMapUrl": "../mind-map/#paper=2010_lam_model_predictive_contouring_control"
+      "treeUrl": "../tree/#paper=2010_lam_model_predictive_contouring_control",
+      "mapUrl": "../map/#paper=2010_lam_model_predictive_contouring_control"
     },
     "2010_he_puma_planning_under_uncertainty": {
       "id": "2010_he_puma_planning_under_uncertainty",
@@ -9815,8 +9815,8 @@ window.tagSearchData = {
       ],
       "summary": "An online POMDP planner that uses automatically generated open-loop macro-actions to look farther ahead under partial observability. The method reduces forward-search branching by conditioning only at macro-action boundaries, then incrementally refines macro-actions into shorter decisions so the planner remains anytime and converges toward epsilon-optimal behavior.",
       "url": "../papers/2010_he_puma_planning_under_uncertainty/",
-      "contentTreeUrl": "../content-tree/#paper=2010_he_puma_planning_under_uncertainty",
-      "mindMapUrl": "../mind-map/#paper=2010_he_puma_planning_under_uncertainty"
+      "treeUrl": "../tree/#paper=2010_he_puma_planning_under_uncertainty",
+      "mapUrl": "../map/#paper=2010_he_puma_planning_under_uncertainty"
     },
     "2010_kon_model_predictive_control_based": {
       "id": "2010_kon_model_predictive_control_based",
@@ -9830,8 +9830,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2010_kon_model_predictive_control_based/",
-      "contentTreeUrl": "../content-tree/#paper=2010_kon_model_predictive_control_based",
-      "mindMapUrl": "../mind-map/#paper=2010_kon_model_predictive_control_based"
+      "treeUrl": "../tree/#paper=2010_kon_model_predictive_control_based",
+      "mapUrl": "../map/#paper=2010_kon_model_predictive_control_based"
     },
     "2010_karaman_optimal_kinodynamic_motion_planning": {
       "id": "2010_karaman_optimal_kinodynamic_motion_planning",
@@ -9850,8 +9850,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends RRT* to kinodynamic systems with differential constraints, providing sufficient conditions for asymptotic optimality.",
       "url": "../papers/2010_karaman_optimal_kinodynamic_motion_planning/",
-      "contentTreeUrl": "../content-tree/#paper=2010_karaman_optimal_kinodynamic_motion_planning",
-      "mindMapUrl": "../mind-map/#paper=2010_karaman_optimal_kinodynamic_motion_planning"
+      "treeUrl": "../tree/#paper=2010_karaman_optimal_kinodynamic_motion_planning",
+      "mapUrl": "../map/#paper=2010_karaman_optimal_kinodynamic_motion_planning"
     },
     "1009_4322": {
       "id": "1009_4322",
@@ -9865,8 +9865,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1009_4322/",
-      "contentTreeUrl": "../content-tree/#paper=1009_4322",
-      "mindMapUrl": "../mind-map/#paper=1009_4322"
+      "treeUrl": "../tree/#paper=1009_4322",
+      "mapUrl": "../map/#paper=1009_4322"
     },
     "2010_huang_lcm_lightweight_communications_and": {
       "id": "2010_huang_lcm_lightweight_communications_and",
@@ -9881,8 +9881,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2010_huang_lcm_lightweight_communications_and/",
-      "contentTreeUrl": "../content-tree/#paper=2010_huang_lcm_lightweight_communications_and",
-      "mindMapUrl": "../mind-map/#paper=2010_huang_lcm_lightweight_communications_and"
+      "treeUrl": "../tree/#paper=2010_huang_lcm_lightweight_communications_and",
+      "mapUrl": "../map/#paper=2010_huang_lcm_lightweight_communications_and"
     },
     "2010_levinson_robust_vehicle_localization_in": {
       "id": "2010_levinson_robust_vehicle_localization_in",
@@ -9896,8 +9896,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2010_levinson_robust_vehicle_localization_in/",
-      "contentTreeUrl": "../content-tree/#paper=2010_levinson_robust_vehicle_localization_in",
-      "mindMapUrl": "../mind-map/#paper=2010_levinson_robust_vehicle_localization_in"
+      "treeUrl": "../tree/#paper=2010_levinson_robust_vehicle_localization_in",
+      "mapUrl": "../map/#paper=2010_levinson_robust_vehicle_localization_in"
     },
     "1012_0621": {
       "id": "1012_0621",
@@ -9913,8 +9913,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1012_0621/",
-      "contentTreeUrl": "../content-tree/#paper=1012_0621",
-      "mindMapUrl": "../mind-map/#paper=1012_0621"
+      "treeUrl": "../tree/#paper=1012_0621",
+      "mapUrl": "../map/#paper=1012_0621"
     },
     "2010_tedrake_lqr_trees_feedback_motion": {
       "id": "2010_tedrake_lqr_trees_feedback_motion",
@@ -9930,8 +9930,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2010_tedrake_lqr_trees_feedback_motion/",
-      "contentTreeUrl": "../content-tree/#paper=2010_tedrake_lqr_trees_feedback_motion",
-      "mindMapUrl": "../mind-map/#paper=2010_tedrake_lqr_trees_feedback_motion"
+      "treeUrl": "../tree/#paper=2010_tedrake_lqr_trees_feedback_motion",
+      "mapUrl": "../map/#paper=2010_tedrake_lqr_trees_feedback_motion"
     },
     "2010_dolgov_path_planning_for_autonomous": {
       "id": "2010_dolgov_path_planning_for_autonomous",
@@ -9947,8 +9947,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2010_dolgov_path_planning_for_autonomous/",
-      "contentTreeUrl": "../content-tree/#paper=2010_dolgov_path_planning_for_autonomous",
-      "mindMapUrl": "../mind-map/#paper=2010_dolgov_path_planning_for_autonomous"
+      "treeUrl": "../tree/#paper=2010_dolgov_path_planning_for_autonomous",
+      "mapUrl": "../map/#paper=2010_dolgov_path_planning_for_autonomous"
     },
     "2010_glassman_a_quadratic_regulator_based": {
       "id": "2010_glassman_a_quadratic_regulator_based",
@@ -9962,8 +9962,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2010_glassman_a_quadratic_regulator_based/",
-      "contentTreeUrl": "../content-tree/#paper=2010_glassman_a_quadratic_regulator_based",
-      "mindMapUrl": "../mind-map/#paper=2010_glassman_a_quadratic_regulator_based"
+      "treeUrl": "../tree/#paper=2010_glassman_a_quadratic_regulator_based",
+      "mapUrl": "../map/#paper=2010_glassman_a_quadratic_regulator_based"
     },
     "2010_ross_efficient_reductions_for_imitation": {
       "id": "2010_ross_efficient_reductions_for_imitation",
@@ -9977,8 +9977,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2010_ross_efficient_reductions_for_imitation/",
-      "contentTreeUrl": "../content-tree/#paper=2010_ross_efficient_reductions_for_imitation",
-      "mindMapUrl": "../mind-map/#paper=2010_ross_efficient_reductions_for_imitation"
+      "treeUrl": "../tree/#paper=2010_ross_efficient_reductions_for_imitation",
+      "mapUrl": "../map/#paper=2010_ross_efficient_reductions_for_imitation"
     },
     "1011_0686": {
       "id": "1011_0686",
@@ -9993,8 +9993,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1011_0686/",
-      "contentTreeUrl": "../content-tree/#paper=1011_0686",
-      "mindMapUrl": "../mind-map/#paper=1011_0686"
+      "treeUrl": "../tree/#paper=1011_0686",
+      "mapUrl": "../map/#paper=1011_0686"
     },
     "1998_lecun_gradient_based_learning_applied": {
       "id": "1998_lecun_gradient_based_learning_applied",
@@ -10017,8 +10017,8 @@ window.tagSearchData = {
       ],
       "summary": "The canonical LeNet paper shows that convolutional neural networks can learn directly from pixel inputs for document recognition, and extends the idea to globally trainable document-processing pipelines via Graph Transformer Networks. It is one of the clearest early demonstrations that learned features can replace hand-engineered recognition pipelines.",
       "url": "../papers/1998_lecun_gradient_based_learning_applied/",
-      "contentTreeUrl": "../content-tree/#paper=1998_lecun_gradient_based_learning_applied",
-      "mindMapUrl": "../mind-map/#paper=1998_lecun_gradient_based_learning_applied"
+      "treeUrl": "../tree/#paper=1998_lecun_gradient_based_learning_applied",
+      "mapUrl": "../map/#paper=1998_lecun_gradient_based_learning_applied"
     },
     "1998_lu_robust_nonlinear_system_identification": {
       "id": "1998_lu_robust_nonlinear_system_identification",
@@ -10032,8 +10032,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1998_lu_robust_nonlinear_system_identification/",
-      "contentTreeUrl": "../content-tree/#paper=1998_lu_robust_nonlinear_system_identification",
-      "mindMapUrl": "../mind-map/#paper=1998_lu_robust_nonlinear_system_identification"
+      "treeUrl": "../tree/#paper=1998_lu_robust_nonlinear_system_identification",
+      "mapUrl": "../map/#paper=1998_lu_robust_nonlinear_system_identification"
     },
     "1998_ebner_development_and_testing_of": {
       "id": "1998_ebner_development_and_testing_of",
@@ -10047,8 +10047,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1998_ebner_development_and_testing_of/",
-      "contentTreeUrl": "../content-tree/#paper=1998_ebner_development_and_testing_of",
-      "mindMapUrl": "../mind-map/#paper=1998_ebner_development_and_testing_of"
+      "treeUrl": "../tree/#paper=1998_ebner_development_and_testing_of",
+      "mapUrl": "../map/#paper=1998_ebner_development_and_testing_of"
     },
     "1998_watts_collective_dynamics_of_small": {
       "id": "1998_watts_collective_dynamics_of_small",
@@ -10075,8 +10075,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the Watts-Strogatz small-world network model, showing that a small amount of random rewiring can combine high local clustering with short global path lengths. The paper made small-world structure a central concept in network science and connected graph topology to synchronization, spreading, and computation in coupled dynamical systems.",
       "url": "../papers/1998_watts_collective_dynamics_of_small/",
-      "contentTreeUrl": "../content-tree/#paper=1998_watts_collective_dynamics_of_small",
-      "mindMapUrl": "../mind-map/#paper=1998_watts_collective_dynamics_of_small"
+      "treeUrl": "../tree/#paper=1998_watts_collective_dynamics_of_small",
+      "mapUrl": "../map/#paper=1998_watts_collective_dynamics_of_small"
     },
     "1998_de_luca_feedback_control_of_a": {
       "id": "1998_de_luca_feedback_control_of_a",
@@ -10091,8 +10091,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1998_de_luca_feedback_control_of_a/",
-      "contentTreeUrl": "../content-tree/#paper=1998_de_luca_feedback_control_of_a",
-      "mindMapUrl": "../mind-map/#paper=1998_de_luca_feedback_control_of_a"
+      "treeUrl": "../tree/#paper=1998_de_luca_feedback_control_of_a",
+      "mapUrl": "../map/#paper=1998_de_luca_feedback_control_of_a"
     },
     "1998_spall_implementation_of_the_simultaneous": {
       "id": "1998_spall_implementation_of_the_simultaneous",
@@ -10105,8 +10105,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1998_spall_implementation_of_the_simultaneous/",
-      "contentTreeUrl": "../content-tree/#paper=1998_spall_implementation_of_the_simultaneous",
-      "mindMapUrl": "../mind-map/#paper=1998_spall_implementation_of_the_simultaneous"
+      "treeUrl": "../tree/#paper=1998_spall_implementation_of_the_simultaneous",
+      "mapUrl": "../map/#paper=1998_spall_implementation_of_the_simultaneous"
     },
     "1998_papageorgiou_a_general_framework_for": {
       "id": "1998_papageorgiou_a_general_framework_for",
@@ -10129,8 +10129,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces a trainable object detection framework using wavelet feature representations and SVM classification, demonstrated on faces and pedestrians. An influential precursor to the HOG-SVM and cascade detector pipelines that established the learn-from-examples paradigm for visual object detection.",
       "url": "../papers/1998_papageorgiou_a_general_framework_for/",
-      "contentTreeUrl": "../content-tree/#paper=1998_papageorgiou_a_general_framework_for",
-      "mindMapUrl": "../mind-map/#paper=1998_papageorgiou_a_general_framework_for"
+      "treeUrl": "../tree/#paper=1998_papageorgiou_a_general_framework_for",
+      "mapUrl": "../map/#paper=1998_papageorgiou_a_general_framework_for"
     },
     "1998_polymenakos_implementation_of_efficient_algorithms": {
       "id": "1998_polymenakos_implementation_of_efficient_algorithms",
@@ -10145,8 +10145,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1998_polymenakos_implementation_of_efficient_algorithms/",
-      "contentTreeUrl": "../content-tree/#paper=1998_polymenakos_implementation_of_efficient_algorithms",
-      "mindMapUrl": "../mind-map/#paper=1998_polymenakos_implementation_of_efficient_algorithms"
+      "treeUrl": "../tree/#paper=1998_polymenakos_implementation_of_efficient_algorithms",
+      "mapUrl": "../map/#paper=1998_polymenakos_implementation_of_efficient_algorithms"
     },
     "1998_isard_condensationconditional_density_propagation_for": {
       "id": "1998_isard_condensationconditional_density_propagation_for",
@@ -10160,8 +10160,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1998_isard_condensationconditional_density_propagation_for/",
-      "contentTreeUrl": "../content-tree/#paper=1998_isard_condensationconditional_density_propagation_for",
-      "mindMapUrl": "../mind-map/#paper=1998_isard_condensationconditional_density_propagation_for"
+      "treeUrl": "../tree/#paper=1998_isard_condensationconditional_density_propagation_for",
+      "mapUrl": "../map/#paper=1998_isard_condensationconditional_density_propagation_for"
     },
     "1998_page_the_pagerank_citation_ranking": {
       "id": "1998_page_the_pagerank_citation_ranking",
@@ -10188,8 +10188,8 @@ window.tagSearchData = {
       ],
       "summary": "This technical report introduces PageRank, a link-analysis ranking method that scores web pages by the stationary behavior of an idealized random surfer on the web graph. Its main contribution is to turn hyperlink structure into a scalable global importance signal for search and navigation, making it one of the canonical bridges between eigenvector-style centrality, Markov chains, and web-scale information retrieval.",
       "url": "../papers/1998_page_the_pagerank_citation_ranking/",
-      "contentTreeUrl": "../content-tree/#paper=1998_page_the_pagerank_citation_ranking",
-      "mindMapUrl": "../mind-map/#paper=1998_page_the_pagerank_citation_ranking"
+      "treeUrl": "../tree/#paper=1998_page_the_pagerank_citation_ranking",
+      "mapUrl": "../map/#paper=1998_page_the_pagerank_citation_ranking"
     },
     "1998_bhat_continuous_finite_time_stabilization": {
       "id": "1998_bhat_continuous_finite_time_stabilization",
@@ -10203,8 +10203,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1998_bhat_continuous_finite_time_stabilization/",
-      "contentTreeUrl": "../content-tree/#paper=1998_bhat_continuous_finite_time_stabilization",
-      "mindMapUrl": "../mind-map/#paper=1998_bhat_continuous_finite_time_stabilization"
+      "treeUrl": "../tree/#paper=1998_bhat_continuous_finite_time_stabilization",
+      "mapUrl": "../map/#paper=1998_bhat_continuous_finite_time_stabilization"
     },
     "1998_lavalle_rapidly_exploring_random_trees": {
       "id": "1998_lavalle_rapidly_exploring_random_trees",
@@ -10223,8 +10223,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces RRTs for sampling-based motion planning in high-dimensional configuration spaces.",
       "url": "../papers/1998_lavalle_rapidly_exploring_random_trees/",
-      "contentTreeUrl": "../content-tree/#paper=1998_lavalle_rapidly_exploring_random_trees",
-      "mindMapUrl": "../mind-map/#paper=1998_lavalle_rapidly_exploring_random_trees"
+      "treeUrl": "../tree/#paper=1998_lavalle_rapidly_exploring_random_trees",
+      "mapUrl": "../map/#paper=1998_lavalle_rapidly_exploring_random_trees"
     },
     "1998_fiorini_motion_planning_in_dynamic": {
       "id": "1998_fiorini_motion_planning_in_dynamic",
@@ -10245,8 +10245,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the velocity obstacle (VO) concept: a set of velocities in velocity space that would lead to collision with a moving obstacle. The robot plans collision-free motion by selecting velocities outside all VOs, filtered through its acceleration limits. The foundational paper for VO-based collision avoidance, spawning the RVO and ORCA family of methods.",
       "url": "../papers/1998_fiorini_motion_planning_in_dynamic/",
-      "contentTreeUrl": "../content-tree/#paper=1998_fiorini_motion_planning_in_dynamic",
-      "mindMapUrl": "../mind-map/#paper=1998_fiorini_motion_planning_in_dynamic"
+      "treeUrl": "../tree/#paper=1998_fiorini_motion_planning_in_dynamic",
+      "mapUrl": "../map/#paper=1998_fiorini_motion_planning_in_dynamic"
     },
     "1998_scokaert_constrained_linear_quadratic_regulation": {
       "id": "1998_scokaert_constrained_linear_quadratic_regulation",
@@ -10266,8 +10266,8 @@ window.tagSearchData = {
       ],
       "summary": "Formulates constrained LQR as a finite-horizon QP, establishes closed-loop stability under receding-horizon implementation, and characterizes the relationship between the constrained optimal cost and unconstrained LQR performance.",
       "url": "../papers/1998_scokaert_constrained_linear_quadratic_regulation/",
-      "contentTreeUrl": "../content-tree/#paper=1998_scokaert_constrained_linear_quadratic_regulation",
-      "mindMapUrl": "../mind-map/#paper=1998_scokaert_constrained_linear_quadratic_regulation"
+      "treeUrl": "../tree/#paper=1998_scokaert_constrained_linear_quadratic_regulation",
+      "mapUrl": "../map/#paper=1998_scokaert_constrained_linear_quadratic_regulation"
     },
     "1966_fogel_artificial_intelligence_through_simulated": {
       "id": "1966_fogel_artificial_intelligence_through_simulated",
@@ -10293,8 +10293,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces evolutionary programming as an artificial intelligence method that treats intelligence as adaptive behavior produced by simulated evolution. The book develops populations of finite-state predictor machines, mutates their transition structures, and selects them by predictive performance, establishing one of the founding branches of evolutionary computation alongside later genetic algorithms and evolution strategies.",
       "url": "../papers/1966_fogel_artificial_intelligence_through_simulated/",
-      "contentTreeUrl": "../content-tree/#paper=1966_fogel_artificial_intelligence_through_simulated",
-      "mindMapUrl": "../mind-map/#paper=1966_fogel_artificial_intelligence_through_simulated"
+      "treeUrl": "../tree/#paper=1966_fogel_artificial_intelligence_through_simulated",
+      "mapUrl": "../map/#paper=1966_fogel_artificial_intelligence_through_simulated"
     },
     "1966_la_salle_an_invariance_principle_in": {
       "id": "1966_la_salle_an_invariance_principle_in",
@@ -10307,8 +10307,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1966_la_salle_an_invariance_principle_in/",
-      "contentTreeUrl": "../content-tree/#paper=1966_la_salle_an_invariance_principle_in",
-      "mindMapUrl": "../mind-map/#paper=1966_la_salle_an_invariance_principle_in"
+      "treeUrl": "../tree/#paper=1966_la_salle_an_invariance_principle_in",
+      "mapUrl": "../map/#paper=1966_la_salle_an_invariance_principle_in"
     },
     "1966_armijo_minimization_of_functions_having": {
       "id": "1966_armijo_minimization_of_functions_having",
@@ -10332,8 +10332,8 @@ window.tagSearchData = {
       ],
       "summary": "Proves convergence of steepest descent for continuously differentiable functions with Lipschitz continuous gradients under level-set conditions, and introduces a modified steepest descent procedure with an adaptive variable step size. The sufficient-decrease step selection in the modified method became known as the Armijo rule, a foundational ingredient in backtracking line search and modern smooth optimization algorithms.",
       "url": "../papers/1966_armijo_minimization_of_functions_having/",
-      "contentTreeUrl": "../content-tree/#paper=1966_armijo_minimization_of_functions_having",
-      "mindMapUrl": "../mind-map/#paper=1966_armijo_minimization_of_functions_having"
+      "treeUrl": "../tree/#paper=1966_armijo_minimization_of_functions_having",
+      "mapUrl": "../map/#paper=1966_armijo_minimization_of_functions_having"
     },
     "1966_zames_on_the_input_output": {
       "id": "1966_zames_on_the_input_output",
@@ -10346,8 +10346,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1966_zames_on_the_input_output/",
-      "contentTreeUrl": "../content-tree/#paper=1966_zames_on_the_input_output",
-      "mindMapUrl": "../mind-map/#paper=1966_zames_on_the_input_output"
+      "treeUrl": "../tree/#paper=1966_zames_on_the_input_output",
+      "mapUrl": "../map/#paper=1966_zames_on_the_input_output"
     },
     "1970_conant_every_good_regulator_of": {
       "id": "1970_conant_every_good_regulator_of",
@@ -10361,8 +10361,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1970_conant_every_good_regulator_of/",
-      "contentTreeUrl": "../content-tree/#paper=1970_conant_every_good_regulator_of",
-      "mindMapUrl": "../mind-map/#paper=1970_conant_every_good_regulator_of"
+      "treeUrl": "../tree/#paper=1970_conant_every_good_regulator_of",
+      "mapUrl": "../map/#paper=1970_conant_every_good_regulator_of"
     },
     "1970_wonham_decoupling_and_pole_assignment": {
       "id": "1970_wonham_decoupling_and_pole_assignment",
@@ -10376,8 +10376,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1970_wonham_decoupling_and_pole_assignment/",
-      "contentTreeUrl": "../content-tree/#paper=1970_wonham_decoupling_and_pole_assignment",
-      "mindMapUrl": "../mind-map/#paper=1970_wonham_decoupling_and_pole_assignment"
+      "treeUrl": "../tree/#paper=1970_wonham_decoupling_and_pole_assignment",
+      "mapUrl": "../map/#paper=1970_wonham_decoupling_and_pole_assignment"
     },
     "1970_bloom_space_time_trade_offs": {
       "id": "1970_bloom_space_time_trade_offs",
@@ -10390,8 +10390,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1970_bloom_space_time_trade_offs/",
-      "contentTreeUrl": "../content-tree/#paper=1970_bloom_space_time_trade_offs",
-      "mindMapUrl": "../mind-map/#paper=1970_bloom_space_time_trade_offs"
+      "treeUrl": "../tree/#paper=1970_bloom_space_time_trade_offs",
+      "mapUrl": "../map/#paper=1970_bloom_space_time_trade_offs"
     },
     "1970_fenn_the_table_theorem": {
       "id": "1970_fenn_the_table_theorem",
@@ -10404,8 +10404,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "Proves the square-table theorem for a continuous nonnegative \"hill\" f: R^2 -> R that is zero outside a compact convex disk D: for any prescribed square side length, there is a square with center in D on whose four vertices f takes a single value. Later accounts describe this as the problem of balancing a square table on a hill, and follow-up work shows that the convex support condition is essential while several natural strengthenings, such as using only translations or replacing the square by most other polygons, fail.",
       "url": "../papers/1970_fenn_the_table_theorem/",
-      "contentTreeUrl": "../content-tree/#paper=1970_fenn_the_table_theorem",
-      "mindMapUrl": "../mind-map/#paper=1970_fenn_the_table_theorem"
+      "treeUrl": "../tree/#paper=1970_fenn_the_table_theorem",
+      "mapUrl": "../map/#paper=1970_fenn_the_table_theorem"
     },
     "1970_bayer_organization_and_maintenance_of": {
       "id": "1970_bayer_organization_and_maintenance_of",
@@ -10419,8 +10419,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1970_bayer_organization_and_maintenance_of/",
-      "contentTreeUrl": "../content-tree/#paper=1970_bayer_organization_and_maintenance_of",
-      "mindMapUrl": "../mind-map/#paper=1970_bayer_organization_and_maintenance_of"
+      "treeUrl": "../tree/#paper=1970_bayer_organization_and_maintenance_of",
+      "mapUrl": "../map/#paper=1970_bayer_organization_and_maintenance_of"
     },
     "1970_mehra_on_the_identification_of": {
       "id": "1970_mehra_on_the_identification_of",
@@ -10433,8 +10433,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1970_mehra_on_the_identification_of/",
-      "contentTreeUrl": "../content-tree/#paper=1970_mehra_on_the_identification_of",
-      "mindMapUrl": "../mind-map/#paper=1970_mehra_on_the_identification_of"
+      "treeUrl": "../tree/#paper=1970_mehra_on_the_identification_of",
+      "mapUrl": "../map/#paper=1970_mehra_on_the_identification_of"
     },
     "1970_mclane_the_optimal_regulator_problem": {
       "id": "1970_mclane_the_optimal_regulator_problem",
@@ -10454,8 +10454,8 @@ window.tagSearchData = {
       ],
       "summary": "Solves the infinite-horizon LQR problem for linear systems driven by state-dependent (multiplicative) noise, using Bellman's dynamic programming and Lyapunov analysis to establish optimality, existence, and stability conditions. An early concrete treatment of stochastic optimal control with multiplicative noise.",
       "url": "../papers/1970_mclane_the_optimal_regulator_problem/",
-      "contentTreeUrl": "../content-tree/#paper=1970_mclane_the_optimal_regulator_problem",
-      "mindMapUrl": "../mind-map/#paper=1970_mclane_the_optimal_regulator_problem"
+      "treeUrl": "../tree/#paper=1970_mclane_the_optimal_regulator_problem",
+      "mapUrl": "../map/#paper=1970_mclane_the_optimal_regulator_problem"
     },
     "1970_jacobson_differential_dynamic_programming": {
       "id": "1970_jacobson_differential_dynamic_programming",
@@ -10475,8 +10475,8 @@ window.tagSearchData = {
       ],
       "summary": "Foundational text introducing Differential Dynamic Programming (DDP), a trajectory optimization method that uses second-order Taylor expansions of the value function within a dynamic programming framework for efficient nonlinear optimal control.",
       "url": "../papers/1970_jacobson_differential_dynamic_programming/",
-      "contentTreeUrl": "../content-tree/#paper=1970_jacobson_differential_dynamic_programming",
-      "mindMapUrl": "../mind-map/#paper=1970_jacobson_differential_dynamic_programming"
+      "treeUrl": "../tree/#paper=1970_jacobson_differential_dynamic_programming",
+      "mapUrl": "../map/#paper=1970_jacobson_differential_dynamic_programming"
     },
     "1968_kleinman_on_an_iterative_technique": {
       "id": "1968_kleinman_on_an_iterative_technique",
@@ -10489,8 +10489,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "An efficient algorithm for designing the continuous-time linear quadratic regulator / solving the continuous-time algebraic Riccati equation is proposed and proven to be globally convergent with a quadratic rate. It was later shown that Kleinman's algorithm is an instance of the dynamic programming technique of policy iteration, which itself is an application of Newton's method to the Bellman equation.",
       "url": "../papers/1968_kleinman_on_an_iterative_technique/",
-      "contentTreeUrl": "../content-tree/#paper=1968_kleinman_on_an_iterative_technique",
-      "mindMapUrl": "../mind-map/#paper=1968_kleinman_on_an_iterative_technique"
+      "treeUrl": "../tree/#paper=1968_kleinman_on_an_iterative_technique",
+      "mapUrl": "../map/#paper=1968_kleinman_on_an_iterative_technique"
     },
     "1968_wonham_on_the_separation_theorem": {
       "id": "1968_wonham_on_the_separation_theorem",
@@ -10510,8 +10510,8 @@ window.tagSearchData = {
       ],
       "summary": "Proves the separation theorem for linear-Gaussian stochastic control: the optimal policy decomposes into a Kalman filter for state estimation and an LQR feedback law computed as if the state were known. Establishes the theoretical foundation for LQG control and certainty-equivalence principles.",
       "url": "../papers/1968_wonham_on_the_separation_theorem/",
-      "contentTreeUrl": "../content-tree/#paper=1968_wonham_on_the_separation_theorem",
-      "mindMapUrl": "../mind-map/#paper=1968_wonham_on_the_separation_theorem"
+      "treeUrl": "../tree/#paper=1968_wonham_on_the_separation_theorem",
+      "mapUrl": "../map/#paper=1968_wonham_on_the_separation_theorem"
     },
     "1968_davison_the_numerical_solution_of": {
       "id": "1968_davison_the_numerical_solution_of",
@@ -10525,8 +10525,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1968_davison_the_numerical_solution_of/",
-      "contentTreeUrl": "../content-tree/#paper=1968_davison_the_numerical_solution_of",
-      "mindMapUrl": "../mind-map/#paper=1968_davison_the_numerical_solution_of"
+      "treeUrl": "../tree/#paper=1968_davison_the_numerical_solution_of",
+      "mapUrl": "../map/#paper=1968_davison_the_numerical_solution_of"
     },
     "1977_ljung_analysis_of_recursive_stochastic": {
       "id": "1977_ljung_analysis_of_recursive_stochastic",
@@ -10539,8 +10539,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1977_ljung_analysis_of_recursive_stochastic/",
-      "contentTreeUrl": "../content-tree/#paper=1977_ljung_analysis_of_recursive_stochastic",
-      "mindMapUrl": "../mind-map/#paper=1977_ljung_analysis_of_recursive_stochastic"
+      "treeUrl": "../tree/#paper=1977_ljung_analysis_of_recursive_stochastic",
+      "mapUrl": "../map/#paper=1977_ljung_analysis_of_recursive_stochastic"
     },
     "1977_sanger_dna_sequencing_with_chain": {
       "id": "1977_sanger_dna_sequencing_with_chain",
@@ -10563,8 +10563,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the dideoxy chain-termination method for reading DNA sequence, turning hereditary material into data that could be inspected, compared, and eventually scaled to whole genomes. It is a key bridge from abstract genetic variation to measured genotype space.",
       "url": "../papers/1977_sanger_dna_sequencing_with_chain/",
-      "contentTreeUrl": "../content-tree/#paper=1977_sanger_dna_sequencing_with_chain",
-      "mindMapUrl": "../mind-map/#paper=1977_sanger_dna_sequencing_with_chain"
+      "treeUrl": "../tree/#paper=1977_sanger_dna_sequencing_with_chain",
+      "mapUrl": "../map/#paper=1977_sanger_dna_sequencing_with_chain"
     },
     "1977_barraud_a_numerical_algorithm_to": {
       "id": "1977_barraud_a_numerical_algorithm_to",
@@ -10577,8 +10577,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1977_barraud_a_numerical_algorithm_to/",
-      "contentTreeUrl": "../content-tree/#paper=1977_barraud_a_numerical_algorithm_to",
-      "mindMapUrl": "../mind-map/#paper=1977_barraud_a_numerical_algorithm_to"
+      "treeUrl": "../tree/#paper=1977_barraud_a_numerical_algorithm_to",
+      "mapUrl": "../map/#paper=1977_barraud_a_numerical_algorithm_to"
     },
     "1989_dunn_efficient_dynamic_programming_implementations": {
       "id": "1989_dunn_efficient_dynamic_programming_implementations",
@@ -10592,8 +10592,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1989_dunn_efficient_dynamic_programming_implementations/",
-      "contentTreeUrl": "../content-tree/#paper=1989_dunn_efficient_dynamic_programming_implementations",
-      "mindMapUrl": "../mind-map/#paper=1989_dunn_efficient_dynamic_programming_implementations"
+      "treeUrl": "../tree/#paper=1989_dunn_efficient_dynamic_programming_implementations",
+      "mapUrl": "../map/#paper=1989_dunn_efficient_dynamic_programming_implementations"
     },
     "1989_ortega_adaptive_motion_control_of": {
       "id": "1989_ortega_adaptive_motion_control_of",
@@ -10607,8 +10607,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1989_ortega_adaptive_motion_control_of/",
-      "contentTreeUrl": "../content-tree/#paper=1989_ortega_adaptive_motion_control_of",
-      "mindMapUrl": "../mind-map/#paper=1989_ortega_adaptive_motion_control_of"
+      "treeUrl": "../tree/#paper=1989_ortega_adaptive_motion_control_of",
+      "mapUrl": "../map/#paper=1989_ortega_adaptive_motion_control_of"
     },
     "1989_sontag_a_universal_construction_of": {
       "id": "1989_sontag_a_universal_construction_of",
@@ -10621,8 +10621,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1989_sontag_a_universal_construction_of/",
-      "contentTreeUrl": "../content-tree/#paper=1989_sontag_a_universal_construction_of",
-      "mindMapUrl": "../mind-map/#paper=1989_sontag_a_universal_construction_of"
+      "treeUrl": "../tree/#paper=1989_sontag_a_universal_construction_of",
+      "mapUrl": "../map/#paper=1989_sontag_a_universal_construction_of"
     },
     "1989_blelloch_scans_as_primitive_parallel": {
       "id": "1989_blelloch_scans_as_primitive_parallel",
@@ -10635,8 +10635,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1989_blelloch_scans_as_primitive_parallel/",
-      "contentTreeUrl": "../content-tree/#paper=1989_blelloch_scans_as_primitive_parallel",
-      "mindMapUrl": "../mind-map/#paper=1989_blelloch_scans_as_primitive_parallel"
+      "treeUrl": "../tree/#paper=1989_blelloch_scans_as_primitive_parallel",
+      "mapUrl": "../map/#paper=1989_blelloch_scans_as_primitive_parallel"
     },
     "1989_griewank_on_automatic_differentiation": {
       "id": "1989_griewank_on_automatic_differentiation",
@@ -10656,8 +10656,8 @@ window.tagSearchData = {
       ],
       "summary": "Surveys automatic differentiation as a systematic way to compute exact derivatives of programs by propagating derivative information through elementary operations. The report helped frame AD as a practical computational tool for optimization, sensitivity analysis, and scientific computing.",
       "url": "../papers/1989_griewank_on_automatic_differentiation/",
-      "contentTreeUrl": "../content-tree/#paper=1989_griewank_on_automatic_differentiation",
-      "mindMapUrl": "../mind-map/#paper=1989_griewank_on_automatic_differentiation"
+      "treeUrl": "../tree/#paper=1989_griewank_on_automatic_differentiation",
+      "mapUrl": "../map/#paper=1989_griewank_on_automatic_differentiation"
     },
     "1989_doyle_state_space_solutions_to": {
       "id": "1989_doyle_state_space_solutions_to",
@@ -10673,8 +10673,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1989_doyle_state_space_solutions_to/",
-      "contentTreeUrl": "../content-tree/#paper=1989_doyle_state_space_solutions_to",
-      "mindMapUrl": "../mind-map/#paper=1989_doyle_state_space_solutions_to"
+      "treeUrl": "../tree/#paper=1989_doyle_state_space_solutions_to",
+      "mapUrl": "../map/#paper=1989_doyle_state_space_solutions_to"
     },
     "1989_alexander_on_the_kinematics_of": {
       "id": "1989_alexander_on_the_kinematics_of",
@@ -10688,8 +10688,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1989_alexander_on_the_kinematics_of/",
-      "contentTreeUrl": "../content-tree/#paper=1989_alexander_on_the_kinematics_of",
-      "mindMapUrl": "../mind-map/#paper=1989_alexander_on_the_kinematics_of"
+      "treeUrl": "../tree/#paper=1989_alexander_on_the_kinematics_of",
+      "mapUrl": "../map/#paper=1989_alexander_on_the_kinematics_of"
     },
     "1989_anderson_bilateral_control_of_teleoperators": {
       "id": "1989_anderson_bilateral_control_of_teleoperators",
@@ -10711,8 +10711,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the passivity/scattering-theory viewpoint that makes bilateral force-reflecting teleoperation robust to communication delay. The core insight is to reshape the master-slave communication channel so that delay behaves like a passive transmission line rather than an energy-generating feedback element.",
       "url": "../papers/1989_anderson_bilateral_control_of_teleoperators/",
-      "contentTreeUrl": "../content-tree/#paper=1989_anderson_bilateral_control_of_teleoperators",
-      "mindMapUrl": "../mind-map/#paper=1989_anderson_bilateral_control_of_teleoperators"
+      "treeUrl": "../tree/#paper=1989_anderson_bilateral_control_of_teleoperators",
+      "mapUrl": "../map/#paper=1989_anderson_bilateral_control_of_teleoperators"
     },
     "1989_bernstein_lqg_control_with_an": {
       "id": "1989_bernstein_lqg_control_with_an",
@@ -10726,8 +10726,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1989_bernstein_lqg_control_with_an/",
-      "contentTreeUrl": "../content-tree/#paper=1989_bernstein_lqg_control_with_an",
-      "mindMapUrl": "../mind-map/#paper=1989_bernstein_lqg_control_with_an"
+      "treeUrl": "../tree/#paper=1989_bernstein_lqg_control_with_an",
+      "mapUrl": "../map/#paper=1989_bernstein_lqg_control_with_an"
     },
     "1952_hestenes_methods_of_conjugate_gradients": {
       "id": "1952_hestenes_methods_of_conjugate_gradients",
@@ -10741,8 +10741,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1952_hestenes_methods_of_conjugate_gradients/",
-      "contentTreeUrl": "../content-tree/#paper=1952_hestenes_methods_of_conjugate_gradients",
-      "mindMapUrl": "../mind-map/#paper=1952_hestenes_methods_of_conjugate_gradients"
+      "treeUrl": "../tree/#paper=1952_hestenes_methods_of_conjugate_gradients",
+      "mapUrl": "../map/#paper=1952_hestenes_methods_of_conjugate_gradients"
     },
     "1952_lanczos_solution_of_systems_of": {
       "id": "1952_lanczos_solution_of_systems_of",
@@ -10755,8 +10755,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "Seminal early formulation of Lanczos minimized-iteration method for solving linear systems, providing a bridge between direct elimination, conjugate gradient, and later Krylov subspace-based solvers.",
       "url": "../papers/1952_lanczos_solution_of_systems_of/",
-      "contentTreeUrl": "../content-tree/#paper=1952_lanczos_solution_of_systems_of",
-      "mindMapUrl": "../mind-map/#paper=1952_lanczos_solution_of_systems_of"
+      "treeUrl": "../tree/#paper=1952_lanczos_solution_of_systems_of",
+      "mapUrl": "../map/#paper=1952_lanczos_solution_of_systems_of"
     },
     "1986_saad_gmres_a_generalized_minimal": {
       "id": "1986_saad_gmres_a_generalized_minimal",
@@ -10770,8 +10770,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1986_saad_gmres_a_generalized_minimal/",
-      "contentTreeUrl": "../content-tree/#paper=1986_saad_gmres_a_generalized_minimal",
-      "mindMapUrl": "../mind-map/#paper=1986_saad_gmres_a_generalized_minimal"
+      "treeUrl": "../tree/#paper=1986_saad_gmres_a_generalized_minimal",
+      "mapUrl": "../map/#paper=1986_saad_gmres_a_generalized_minimal"
     },
     "1986_kant_toward_efficient_trajectory_planning": {
       "id": "1986_kant_toward_efficient_trajectory_planning",
@@ -10785,8 +10785,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1986_kant_toward_efficient_trajectory_planning/",
-      "contentTreeUrl": "../content-tree/#paper=1986_kant_toward_efficient_trajectory_planning",
-      "mindMapUrl": "../mind-map/#paper=1986_kant_toward_efficient_trajectory_planning"
+      "treeUrl": "../tree/#paper=1986_kant_toward_efficient_trajectory_planning",
+      "mapUrl": "../map/#paper=1986_kant_toward_efficient_trajectory_planning"
     },
     "1986_tsitsiklis_distributed_asynchronous_deterministic_and": {
       "id": "1986_tsitsiklis_distributed_asynchronous_deterministic_and",
@@ -10801,8 +10801,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1986_tsitsiklis_distributed_asynchronous_deterministic_and/",
-      "contentTreeUrl": "../content-tree/#paper=1986_tsitsiklis_distributed_asynchronous_deterministic_and",
-      "mindMapUrl": "../mind-map/#paper=1986_tsitsiklis_distributed_asynchronous_deterministic_and"
+      "treeUrl": "../tree/#paper=1986_tsitsiklis_distributed_asynchronous_deterministic_and",
+      "mapUrl": "../map/#paper=1986_tsitsiklis_distributed_asynchronous_deterministic_and"
     },
     "1986_quinlan_induction_of_decision_trees": {
       "id": "1986_quinlan_induction_of_decision_trees",
@@ -10822,8 +10822,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces ID3, a decision tree induction algorithm using information gain (entropy reduction) as the splitting criterion. ID3 popularized top-down inductive learning of decision trees and directly motivated C4.5, CART, and the broader field of tree-based machine learning.",
       "url": "../papers/1986_quinlan_induction_of_decision_trees/",
-      "contentTreeUrl": "../content-tree/#paper=1986_quinlan_induction_of_decision_trees",
-      "mindMapUrl": "../mind-map/#paper=1986_quinlan_induction_of_decision_trees"
+      "treeUrl": "../tree/#paper=1986_quinlan_induction_of_decision_trees",
+      "mapUrl": "../map/#paper=1986_quinlan_induction_of_decision_trees"
     },
     "1986_canny_a_computational_approach_to": {
       "id": "1986_canny_a_computational_approach_to",
@@ -10836,8 +10836,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1986_canny_a_computational_approach_to/",
-      "contentTreeUrl": "../content-tree/#paper=1986_canny_a_computational_approach_to",
-      "mindMapUrl": "../mind-map/#paper=1986_canny_a_computational_approach_to"
+      "treeUrl": "../tree/#paper=1986_canny_a_computational_approach_to",
+      "mapUrl": "../map/#paper=1986_canny_a_computational_approach_to"
     },
     "1986_barnes_a_hierarchical_o_n": {
       "id": "1986_barnes_a_hierarchical_o_n",
@@ -10862,8 +10862,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the Barnes-Hut tree code for approximating long-range N-body forces in O(N log N) time by recursively partitioning space into cubic cells and replacing sufficiently distant particle groups with aggregate cell interactions. The paper made hierarchical spatial trees a standard tool for gravitational simulation and later influenced fast approximate interaction methods in visualization, molecular simulation, and machine learning.",
       "url": "../papers/1986_barnes_a_hierarchical_o_n/",
-      "contentTreeUrl": "../content-tree/#paper=1986_barnes_a_hierarchical_o_n",
-      "mindMapUrl": "../mind-map/#paper=1986_barnes_a_hierarchical_o_n"
+      "treeUrl": "../tree/#paper=1986_barnes_a_hierarchical_o_n",
+      "mapUrl": "../map/#paper=1986_barnes_a_hierarchical_o_n"
     },
     "1986_wampler_manipulator_inverse_kinematic_solutions": {
       "id": "1986_wampler_manipulator_inverse_kinematic_solutions",
@@ -10876,8 +10876,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1986_wampler_manipulator_inverse_kinematic_solutions/",
-      "contentTreeUrl": "../content-tree/#paper=1986_wampler_manipulator_inverse_kinematic_solutions",
-      "mindMapUrl": "../mind-map/#paper=1986_wampler_manipulator_inverse_kinematic_solutions"
+      "treeUrl": "../tree/#paper=1986_wampler_manipulator_inverse_kinematic_solutions",
+      "mapUrl": "../map/#paper=1986_wampler_manipulator_inverse_kinematic_solutions"
     },
     "1986_rumelhart_learning_representations_by_back": {
       "id": "1986_rumelhart_learning_representations_by_back",
@@ -10892,8 +10892,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1986_rumelhart_learning_representations_by_back/",
-      "contentTreeUrl": "../content-tree/#paper=1986_rumelhart_learning_representations_by_back",
-      "mindMapUrl": "../mind-map/#paper=1986_rumelhart_learning_representations_by_back"
+      "treeUrl": "../tree/#paper=1986_rumelhart_learning_representations_by_back",
+      "mapUrl": "../map/#paper=1986_rumelhart_learning_representations_by_back"
     },
     "2105_04684": {
       "id": "2105_04684",
@@ -10908,8 +10908,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2105_04684/",
-      "contentTreeUrl": "../content-tree/#paper=2105_04684",
-      "mindMapUrl": "../mind-map/#paper=2105_04684"
+      "treeUrl": "../tree/#paper=2105_04684",
+      "mapUrl": "../map/#paper=2105_04684"
     },
     "2111_08481": {
       "id": "2111_08481",
@@ -10939,8 +10939,8 @@ window.tagSearchData = {
       ],
       "summary": "Comprehensive Python package implementing SINDy with support for multiple sparse regression algorithms, customizable feature libraries, etc.",
       "url": "../papers/2111_08481/",
-      "contentTreeUrl": "../content-tree/#paper=2111_08481",
-      "mindMapUrl": "../mind-map/#paper=2111_08481"
+      "treeUrl": "../tree/#paper=2111_08481",
+      "mapUrl": "../map/#paper=2111_08481"
     },
     "2104_10201": {
       "id": "2104_10201",
@@ -10968,8 +10968,8 @@ window.tagSearchData = {
       ],
       "summary": "Analyzes the NeurIPS black-box optimization challenge for machine-learning hyperparameter tuning and finds that Bayesian optimization and related black-box optimizers substantially outperform default-package baselines and random search on held-out objectives. The paper is valuable less for a new optimizer than for its benchmark design and empirical evidence about optimizer selection under realistic tuning constraints.",
       "url": "../papers/2104_10201/",
-      "contentTreeUrl": "../content-tree/#paper=2104_10201",
-      "mindMapUrl": "../mind-map/#paper=2104_10201"
+      "treeUrl": "../tree/#paper=2104_10201",
+      "mapUrl": "../map/#paper=2104_10201"
     },
     "2108_10470": {
       "id": "2108_10470",
@@ -10992,8 +10992,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2108_10470/",
-      "contentTreeUrl": "../content-tree/#paper=2108_10470",
-      "mindMapUrl": "../mind-map/#paper=2108_10470"
+      "treeUrl": "../tree/#paper=2108_10470",
+      "mapUrl": "../map/#paper=2108_10470"
     },
     "2102_09468": {
       "id": "2102_09468",
@@ -11009,8 +11009,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2102_09468/",
-      "contentTreeUrl": "../content-tree/#paper=2102_09468",
-      "mindMapUrl": "../mind-map/#paper=2102_09468"
+      "treeUrl": "../tree/#paper=2102_09468",
+      "mapUrl": "../map/#paper=2102_09468"
     },
     "2109_03920": {
       "id": "2109_03920",
@@ -11025,8 +11025,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2109_03920/",
-      "contentTreeUrl": "../content-tree/#paper=2109_03920",
-      "mindMapUrl": "../mind-map/#paper=2109_03920"
+      "treeUrl": "../tree/#paper=2109_03920",
+      "mapUrl": "../map/#paper=2109_03920"
     },
     "2107_08086": {
       "id": "2107_08086",
@@ -11043,8 +11043,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2107_08086/",
-      "contentTreeUrl": "../content-tree/#paper=2107_08086",
-      "mindMapUrl": "../mind-map/#paper=2107_08086"
+      "treeUrl": "../tree/#paper=2107_08086",
+      "mapUrl": "../map/#paper=2107_08086"
     },
     "2103_14030": {
       "id": "2103_14030",
@@ -11064,8 +11064,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2103_14030/",
-      "contentTreeUrl": "../content-tree/#paper=2103_14030",
-      "mindMapUrl": "../mind-map/#paper=2103_14030"
+      "treeUrl": "../tree/#paper=2103_14030",
+      "mapUrl": "../map/#paper=2103_14030"
     },
     "2103_05572": {
       "id": "2103_05572",
@@ -11094,8 +11094,8 @@ window.tagSearchData = {
       ],
       "summary": "Assembles a motion planning and control architecture that focuses on mitigating the effect of stochastic disturbances by modeling and accounting for it explicitly in both the planner and the controller, performing uncertainty propagation between the planner-controller interface to ensure alignment numerically. Trajectory optimization using a generic nonlinear programming solver is used as the local steering function inside the RRT, which gives high quality trajectories, but is very expensive at runtime. Useful empirical comparison between vanilla LQR, the multiplicative-noise-as-robustified-LQR-design methodology described in 2004.08019, and full high-powered NMPC tracking control in a more realistic and sophisticated post-perception stack.",
       "url": "../papers/2103_05572/",
-      "contentTreeUrl": "../content-tree/#paper=2103_05572",
-      "mindMapUrl": "../mind-map/#paper=2103_05572"
+      "treeUrl": "../tree/#paper=2103_05572",
+      "mapUrl": "../map/#paper=2103_05572"
     },
     "2104_09705": {
       "id": "2104_09705",
@@ -11111,8 +11111,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2104_09705/",
-      "contentTreeUrl": "../content-tree/#paper=2104_09705",
-      "mindMapUrl": "../mind-map/#paper=2104_09705"
+      "treeUrl": "../tree/#paper=2104_09705",
+      "mapUrl": "../map/#paper=2104_09705"
     },
     "2103_02136": {
       "id": "2103_02136",
@@ -11126,8 +11126,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2103_02136/",
-      "contentTreeUrl": "../content-tree/#paper=2103_02136",
-      "mindMapUrl": "../mind-map/#paper=2103_02136"
+      "treeUrl": "../tree/#paper=2103_02136",
+      "mapUrl": "../map/#paper=2103_02136"
     },
     "2021_gravell_policy_iteration_for_linear": {
       "id": "2021_gravell_policy_iteration_for_linear",
@@ -11166,8 +11166,8 @@ window.tagSearchData = {
       ],
       "summary": "Develops a polcy iteration algorithm for a state-feedback (fully observed) problem setting with linear dynamics, multiplicative noise (stochastic parameters), and adversarial disturbances. Nice compact notation for rather complicated Riccati equations, useful as a reference.",
       "url": "../papers/2021_gravell_policy_iteration_for_linear/",
-      "contentTreeUrl": "../content-tree/#paper=2021_gravell_policy_iteration_for_linear",
-      "mindMapUrl": "../mind-map/#paper=2021_gravell_policy_iteration_for_linear"
+      "treeUrl": "../tree/#paper=2021_gravell_policy_iteration_for_linear",
+      "mapUrl": "../map/#paper=2021_gravell_policy_iteration_for_linear"
     },
     "2021_manzinger_using_reachable_sets_for": {
       "id": "2021_manzinger_using_reachable_sets_for",
@@ -11182,8 +11182,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2021_manzinger_using_reachable_sets_for/",
-      "contentTreeUrl": "../content-tree/#paper=2021_manzinger_using_reachable_sets_for",
-      "mindMapUrl": "../mind-map/#paper=2021_manzinger_using_reachable_sets_for"
+      "treeUrl": "../tree/#paper=2021_manzinger_using_reachable_sets_for",
+      "mapUrl": "../map/#paper=2021_manzinger_using_reachable_sets_for"
     },
     "2021_li_sliding_window_informed_rrt": {
       "id": "2021_li_sliding_window_informed_rrt",
@@ -11208,8 +11208,8 @@ window.tagSearchData = {
       ],
       "summary": "SWIRRT* addresses the degradation of Informed RRT* in large environments where the ellipsoidal sampling region covers most of the state space. Instead of sampling from a single ellipsoid spanning start to goal, it applies a sliding-window approach that focuses successive local ellipsoids along the current path, accelerating post-initial-solution optimization and improving path smoothness.",
       "url": "../papers/2021_li_sliding_window_informed_rrt/",
-      "contentTreeUrl": "../content-tree/#paper=2021_li_sliding_window_informed_rrt",
-      "mindMapUrl": "../mind-map/#paper=2021_li_sliding_window_informed_rrt"
+      "treeUrl": "../tree/#paper=2021_li_sliding_window_informed_rrt",
+      "mapUrl": "../map/#paper=2021_li_sliding_window_informed_rrt"
     },
     "2106_16078": {
       "id": "2106_16078",
@@ -11243,8 +11243,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends the asymptotic results of 2002.06613 to rigorous non-asymptotic finite-sample results, using basically the same system identification / parameter estimation algorithm.",
       "url": "../papers/2106_16078/",
-      "contentTreeUrl": "../content-tree/#paper=2106_16078",
-      "mindMapUrl": "../mind-map/#paper=2106_16078"
+      "treeUrl": "../tree/#paper=2106_16078",
+      "mapUrl": "../map/#paper=2106_16078"
     },
     "2103_14438": {
       "id": "2103_14438",
@@ -11263,8 +11263,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2103_14438/",
-      "contentTreeUrl": "../content-tree/#paper=2103_14438",
-      "mindMapUrl": "../mind-map/#paper=2103_14438"
+      "treeUrl": "../tree/#paper=2103_14438",
+      "mapUrl": "../map/#paper=2103_14438"
     },
     "2104_03186": {
       "id": "2104_03186",
@@ -11278,8 +11278,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2104_03186/",
-      "contentTreeUrl": "../content-tree/#paper=2104_03186",
-      "mindMapUrl": "../mind-map/#paper=2104_03186"
+      "treeUrl": "../tree/#paper=2104_03186",
+      "mapUrl": "../map/#paper=2104_03186"
     },
     "2021_moll_hyperplan_a_framework_for": {
       "id": "2021_moll_hyperplan_a_framework_for",
@@ -11298,8 +11298,8 @@ window.tagSearchData = {
       ],
       "summary": "Formulates motion-planning algorithm selection and parameter tuning as a hyperparameter optimization problem over planners, planner parameters, robots, and problem classes. HyperPlan contributes loss-function designs for planning speed and path quality, and its Fetch and Baxter experiments show that optimized planner configurations can outperform defaults and often generalize beyond the exact scenes used for tuning.",
       "url": "../papers/2021_moll_hyperplan_a_framework_for/",
-      "contentTreeUrl": "../content-tree/#paper=2021_moll_hyperplan_a_framework_for",
-      "mindMapUrl": "../mind-map/#paper=2021_moll_hyperplan_a_framework_for"
+      "treeUrl": "../tree/#paper=2021_moll_hyperplan_a_framework_for",
+      "mapUrl": "../map/#paper=2021_moll_hyperplan_a_framework_for"
     },
     "2106_05123": {
       "id": "2106_05123",
@@ -11312,8 +11312,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2106_05123/",
-      "contentTreeUrl": "../content-tree/#paper=2106_05123",
-      "mindMapUrl": "../mind-map/#paper=2106_05123"
+      "treeUrl": "../tree/#paper=2106_05123",
+      "mapUrl": "../map/#paper=2106_05123"
     },
     "2103_03230": {
       "id": "2103_03230",
@@ -11340,8 +11340,8 @@ window.tagSearchData = {
       ],
       "summary": "Barlow Twins proposes a simple self-supervised objective that aligns representations of two augmented views while pushing the batch cross-correlation matrix toward the identity, making invariance and redundancy reduction explicit in one loss. Its significance is that it avoids collapse without negative samples, stop-gradient asymmetry, a momentum encoder, or unusually large batches, while highlighting high-dimensional embeddings as a useful regime for non-contrastive SSL.",
       "url": "../papers/2103_03230/",
-      "contentTreeUrl": "../content-tree/#paper=2103_03230",
-      "mindMapUrl": "../mind-map/#paper=2103_03230"
+      "treeUrl": "../tree/#paper=2103_03230",
+      "mapUrl": "../map/#paper=2103_03230"
     },
     "2106_09685": {
       "id": "2106_09685",
@@ -11361,8 +11361,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2106_09685/",
-      "contentTreeUrl": "../content-tree/#paper=2106_09685",
-      "mindMapUrl": "../mind-map/#paper=2106_09685"
+      "treeUrl": "../tree/#paper=2106_09685",
+      "mapUrl": "../map/#paper=2106_09685"
     },
     "2103_10698": {
       "id": "2103_10698",
@@ -11377,8 +11377,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2103_10698/",
-      "contentTreeUrl": "../content-tree/#paper=2103_10698",
-      "mindMapUrl": "../mind-map/#paper=2103_10698"
+      "treeUrl": "../tree/#paper=2103_10698",
+      "mapUrl": "../map/#paper=2103_10698"
     },
     "2102_00457": {
       "id": "2102_00457",
@@ -11394,8 +11394,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2102_00457/",
-      "contentTreeUrl": "../content-tree/#paper=2102_00457",
-      "mindMapUrl": "../mind-map/#paper=2102_00457"
+      "treeUrl": "../tree/#paper=2102_00457",
+      "mapUrl": "../map/#paper=2102_00457"
     },
     "2112_05745": {
       "id": "2112_05745",
@@ -11411,8 +11411,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2112_05745/",
-      "contentTreeUrl": "../content-tree/#paper=2112_05745",
-      "mindMapUrl": "../mind-map/#paper=2112_05745"
+      "treeUrl": "../tree/#paper=2112_05745",
+      "mapUrl": "../map/#paper=2112_05745"
     },
     "2021_gravell_stochastic_stability_via_robustness": {
       "id": "2021_gravell_stochastic_stability_via_robustness",
@@ -11445,8 +11445,8 @@ window.tagSearchData = {
       ],
       "summary": "Algorithms for synthesizing mean-square stabilizing controllers for linear systems with multiplicative noise using robustness to static system parameter errors as a design-time device. Leverages theoretical results on the equivalence of robustness to structured determinstic and stochastic uncertainties.",
       "url": "../papers/2021_gravell_stochastic_stability_via_robustness/",
-      "contentTreeUrl": "../content-tree/#paper=2021_gravell_stochastic_stability_via_robustness",
-      "mindMapUrl": "../mind-map/#paper=2021_gravell_stochastic_stability_via_robustness"
+      "treeUrl": "../tree/#paper=2021_gravell_stochastic_stability_via_robustness",
+      "mapUrl": "../map/#paper=2021_gravell_stochastic_stability_via_robustness"
     },
     "2104_11865": {
       "id": "2104_11865",
@@ -11460,8 +11460,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2104_11865/",
-      "contentTreeUrl": "../content-tree/#paper=2104_11865",
-      "mindMapUrl": "../mind-map/#paper=2104_11865"
+      "treeUrl": "../tree/#paper=2104_11865",
+      "mapUrl": "../map/#paper=2104_11865"
     },
     "2021_perdomo_stabilizing_dynamical_systems_via": {
       "id": "2021_perdomo_stabilizing_dynamical_systems_via",
@@ -11484,8 +11484,8 @@ window.tagSearchData = {
       ],
       "summary": "Perdomo, Umenberger, and Simchowitz show that direct policy search can be used to find stabilizing controllers without starting from an already-stabilizing policy. The method follows a continuation path through discounted LQR problems, increasing the discount factor until it recovers a stabilizing controller for linear systems and locally for smooth nonlinear systems.",
       "url": "../papers/2021_perdomo_stabilizing_dynamical_systems_via/",
-      "contentTreeUrl": "../content-tree/#paper=2021_perdomo_stabilizing_dynamical_systems_via",
-      "mindMapUrl": "../mind-map/#paper=2021_perdomo_stabilizing_dynamical_systems_via"
+      "treeUrl": "../tree/#paper=2021_perdomo_stabilizing_dynamical_systems_via",
+      "mapUrl": "../map/#paper=2021_perdomo_stabilizing_dynamical_systems_via"
     },
     "2112_09629": {
       "id": "2112_09629",
@@ -11501,8 +11501,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2112_09629/",
-      "contentTreeUrl": "../content-tree/#paper=2112_09629",
-      "mindMapUrl": "../mind-map/#paper=2112_09629"
+      "treeUrl": "../tree/#paper=2112_09629",
+      "mapUrl": "../map/#paper=2112_09629"
     },
     "2102_12668": {
       "id": "2102_12668",
@@ -11516,8 +11516,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2102_12668/",
-      "contentTreeUrl": "../content-tree/#paper=2102_12668",
-      "mindMapUrl": "../mind-map/#paper=2102_12668"
+      "treeUrl": "../tree/#paper=2102_12668",
+      "mapUrl": "../map/#paper=2102_12668"
     },
     "2108_13404": {
       "id": "2108_13404",
@@ -11540,8 +11540,8 @@ window.tagSearchData = {
       ],
       "summary": "Tutorial demonstrating how to extend SINDy to systems with exogenous control inputs (SINDy-C), covering library selection, ensemble methods for robustness, and applications to controlled nonlinear dynamical systems.",
       "url": "../papers/2108_13404/",
-      "contentTreeUrl": "../content-tree/#paper=2108_13404",
-      "mindMapUrl": "../mind-map/#paper=2108_13404"
+      "treeUrl": "../tree/#paper=2108_13404",
+      "mapUrl": "../map/#paper=2108_13404"
     },
     "2101_11565": {
       "id": "2101_11565",
@@ -11568,8 +11568,8 @@ window.tagSearchData = {
       ],
       "summary": "Each graph vertex is associated with a convex set and edge lengths are convex functions of the endpoints' positions. The key contribution is a strong mixed-integer convex program (MICP) formulation based on perspective operators that yields a tight relaxation, enabling globally optimal paths in large graphs and high-dimensional spaces. Forms the theoretical foundation for GCS-based motion planning.",
       "url": "../papers/2101_11565/",
-      "contentTreeUrl": "../content-tree/#paper=2101_11565",
-      "mindMapUrl": "../mind-map/#paper=2101_11565"
+      "treeUrl": "../tree/#paper=2101_11565",
+      "mapUrl": "../map/#paper=2101_11565"
     },
     "2104_00827": {
       "id": "2104_00827",
@@ -11585,8 +11585,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2104_00827/",
-      "contentTreeUrl": "../content-tree/#paper=2104_00827",
-      "mindMapUrl": "../mind-map/#paper=2104_00827"
+      "treeUrl": "../tree/#paper=2104_00827",
+      "mapUrl": "../map/#paper=2104_00827"
     },
     "2103_03293": {
       "id": "2103_03293",
@@ -11606,8 +11606,8 @@ window.tagSearchData = {
       ],
       "summary": "Shows how to efficiently evaluate the second-order dynamics derivatives required by full DDP for rigid-body systems via recursive algorithms. This can make full DDP computationally competitive with or faster than iLQR. Also provides a clear derivation of DDP.",
       "url": "../papers/2103_03293/",
-      "contentTreeUrl": "../content-tree/#paper=2103_03293",
-      "mindMapUrl": "../mind-map/#paper=2103_03293"
+      "treeUrl": "../tree/#paper=2103_03293",
+      "mapUrl": "../map/#paper=2103_03293"
     },
     "2101_08829": {
       "id": "2101_08829",
@@ -11642,8 +11642,8 @@ window.tagSearchData = {
       ],
       "summary": "Follow-up to earlier work \"Concurrent Goal Assignment and Collision-Free Trajectory Generation for Multiple Aerial Robots\" that makes fewer unrealistic assumptions (e.g. no instant altitude teleporting, kinodynamic constraints). Cool demo showing scaling up to swarms with 1000 agents for making arbitrary formation patterns like words and letters.",
       "url": "../papers/2101_08829/",
-      "contentTreeUrl": "../content-tree/#paper=2101_08829",
-      "mindMapUrl": "../mind-map/#paper=2101_08829"
+      "treeUrl": "../tree/#paper=2101_08829",
+      "mapUrl": "../map/#paper=2101_08829"
     },
     "2112_02089": {
       "id": "2112_02089",
@@ -11656,8 +11656,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2112_02089/",
-      "contentTreeUrl": "../content-tree/#paper=2112_02089",
-      "mindMapUrl": "../mind-map/#paper=2112_02089"
+      "treeUrl": "../tree/#paper=2112_02089",
+      "mapUrl": "../map/#paper=2112_02089"
     },
     "2109_07081": {
       "id": "2109_07081",
@@ -11678,8 +11678,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces closed-loop dynamic SQP, which integrates feedback gain computation within the SQP iteration structure, improving robustness and convergence for trajectory optimization compared to open-loop sequential approaches.",
       "url": "../papers/2109_07081/",
-      "contentTreeUrl": "../content-tree/#paper=2109_07081",
-      "mindMapUrl": "../mind-map/#paper=2109_07081"
+      "treeUrl": "../tree/#paper=2109_07081",
+      "mapUrl": "../map/#paper=2109_07081"
     },
     "2102_03664": {
       "id": "2102_03664",
@@ -11694,8 +11694,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2102_03664/",
-      "contentTreeUrl": "../content-tree/#paper=2102_03664",
-      "mindMapUrl": "../mind-map/#paper=2102_03664"
+      "treeUrl": "../tree/#paper=2102_03664",
+      "mapUrl": "../map/#paper=2102_03664"
     },
     "2101_01041": {
       "id": "2101_01041",
@@ -11711,8 +11711,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2101_01041/",
-      "contentTreeUrl": "../content-tree/#paper=2101_01041",
-      "mindMapUrl": "../mind-map/#paper=2101_01041"
+      "treeUrl": "../tree/#paper=2101_01041",
+      "mapUrl": "../map/#paper=2101_01041"
     },
     "2103_03006": {
       "id": "2103_03006",
@@ -11726,8 +11726,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2103_03006/",
-      "contentTreeUrl": "../content-tree/#paper=2103_03006",
-      "mindMapUrl": "../mind-map/#paper=2103_03006"
+      "treeUrl": "../tree/#paper=2103_03006",
+      "mapUrl": "../map/#paper=2103_03006"
     },
     "2102_12092": {
       "id": "2102_12092",
@@ -11747,8 +11747,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2102_12092/",
-      "contentTreeUrl": "../content-tree/#paper=2102_12092",
-      "mindMapUrl": "../mind-map/#paper=2102_12092"
+      "treeUrl": "../tree/#paper=2102_12092",
+      "mapUrl": "../map/#paper=2102_12092"
     },
     "2104_12820": {
       "id": "2104_12820",
@@ -11766,8 +11766,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2104_12820/",
-      "contentTreeUrl": "../content-tree/#paper=2104_12820",
-      "mindMapUrl": "../mind-map/#paper=2104_12820"
+      "treeUrl": "../tree/#paper=2104_12820",
+      "mapUrl": "../map/#paper=2104_12820"
     },
     "2103_15228": {
       "id": "2103_15228",
@@ -11802,8 +11802,8 @@ window.tagSearchData = {
       ],
       "summary": "Uses the multiplicative-noise control design framework in order to control an uncertain system using output measurement feedback and monitor for excessive output residuals (anomaly detection).",
       "url": "../papers/2103_15228/",
-      "contentTreeUrl": "../content-tree/#paper=2103_15228",
-      "mindMapUrl": "../mind-map/#paper=2103_15228"
+      "treeUrl": "../tree/#paper=2103_15228",
+      "mapUrl": "../map/#paper=2103_15228"
     },
     "2021_nesterov_superfast_second_order_methods": {
       "id": "2021_nesterov_superfast_second_order_methods",
@@ -11816,8 +11816,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2021_nesterov_superfast_second_order_methods/",
-      "contentTreeUrl": "../content-tree/#paper=2021_nesterov_superfast_second_order_methods",
-      "mindMapUrl": "../mind-map/#paper=2021_nesterov_superfast_second_order_methods"
+      "treeUrl": "../tree/#paper=2021_nesterov_superfast_second_order_methods",
+      "mapUrl": "../map/#paper=2021_nesterov_superfast_second_order_methods"
     },
     "2102_08302": {
       "id": "2102_08302",
@@ -11833,8 +11833,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2102_08302/",
-      "contentTreeUrl": "../content-tree/#paper=2102_08302",
-      "mindMapUrl": "../mind-map/#paper=2102_08302"
+      "treeUrl": "../tree/#paper=2102_08302",
+      "mapUrl": "../map/#paper=2102_08302"
     },
     "2021_dean_certainty_equivalent_perception_based": {
       "id": "2021_dean_certainty_equivalent_perception_based",
@@ -11848,8 +11848,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2021_dean_certainty_equivalent_perception_based/",
-      "contentTreeUrl": "../content-tree/#paper=2021_dean_certainty_equivalent_perception_based",
-      "mindMapUrl": "../mind-map/#paper=2021_dean_certainty_equivalent_perception_based"
+      "treeUrl": "../tree/#paper=2021_dean_certainty_equivalent_perception_based",
+      "mapUrl": "../map/#paper=2021_dean_certainty_equivalent_perception_based"
     },
     "2103_15691": {
       "id": "2103_15691",
@@ -11867,8 +11867,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2103_15691/",
-      "contentTreeUrl": "../content-tree/#paper=2103_15691",
-      "mindMapUrl": "../mind-map/#paper=2103_15691"
+      "treeUrl": "../tree/#paper=2103_15691",
+      "mapUrl": "../map/#paper=2103_15691"
     },
     "2021_morrissey_metamodernism_and_vaporwave_a": {
       "id": "2021_morrissey_metamodernism_and_vaporwave_a",
@@ -11883,8 +11883,8 @@ window.tagSearchData = {
       ],
       "summary": "Analyzes vaporwave as Web 2.0 aesthetic culture through metamodernist theory, asking whether the genre oscillates between sincerity and irony, nostalgia and critique, and image and lived experience. The paper concludes that vaporwave remains strongly rooted in postmodern simulacra and reflexive commentary, but it also differs from older postmodern work by treating simulated and internet-mediated nostalgia as personally meaningful rather than merely empty.",
       "url": "../papers/2021_morrissey_metamodernism_and_vaporwave_a/",
-      "contentTreeUrl": "../content-tree/#paper=2021_morrissey_metamodernism_and_vaporwave_a",
-      "mindMapUrl": "../mind-map/#paper=2021_morrissey_metamodernism_and_vaporwave_a"
+      "treeUrl": "../tree/#paper=2021_morrissey_metamodernism_and_vaporwave_a",
+      "mapUrl": "../map/#paper=2021_morrissey_metamodernism_and_vaporwave_a"
     },
     "2111_12083": {
       "id": "2111_12083",
@@ -11912,8 +11912,8 @@ window.tagSearchData = {
       ],
       "summary": "VISTA 2.0 is an open-source, data-driven simulator from MIT that synthesizes novel viewpoints from real-world data across RGB cameras, 3D LiDAR, and event-based cameras; policies trained in it transfer directly to a full-scale autonomous vehicle without domain randomization.",
       "url": "../papers/2111_12083/",
-      "contentTreeUrl": "../content-tree/#paper=2111_12083",
-      "mindMapUrl": "../mind-map/#paper=2111_12083"
+      "treeUrl": "../tree/#paper=2111_12083",
+      "mapUrl": "../map/#paper=2111_12083"
     },
     "2021_svec_model_predictive_control_of": {
       "id": "2021_svec_model_predictive_control_of",
@@ -11928,8 +11928,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2021_svec_model_predictive_control_of/",
-      "contentTreeUrl": "../content-tree/#paper=2021_svec_model_predictive_control_of",
-      "mindMapUrl": "../mind-map/#paper=2021_svec_model_predictive_control_of"
+      "treeUrl": "../tree/#paper=2021_svec_model_predictive_control_of",
+      "mapUrl": "../map/#paper=2021_svec_model_predictive_control_of"
     },
     "2108_08812": {
       "id": "2108_08812",
@@ -11944,8 +11944,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2108_08812/",
-      "contentTreeUrl": "../content-tree/#paper=2108_08812",
-      "mindMapUrl": "../mind-map/#paper=2108_08812"
+      "treeUrl": "../tree/#paper=2108_08812",
+      "mapUrl": "../map/#paper=2108_08812"
     },
     "2102_02202": {
       "id": "2102_02202",
@@ -11961,8 +11961,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2102_02202/",
-      "contentTreeUrl": "../content-tree/#paper=2102_02202",
-      "mindMapUrl": "../mind-map/#paper=2102_02202"
+      "treeUrl": "../tree/#paper=2102_02202",
+      "mapUrl": "../map/#paper=2102_02202"
     },
     "2021_takacs_bobshield_an_open_source": {
       "id": "2021_takacs_bobshield_an_open_source",
@@ -11984,8 +11984,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2021_takacs_bobshield_an_open_source/",
-      "contentTreeUrl": "../content-tree/#paper=2021_takacs_bobshield_an_open_source",
-      "mindMapUrl": "../mind-map/#paper=2021_takacs_bobshield_an_open_source"
+      "treeUrl": "../tree/#paper=2021_takacs_bobshield_an_open_source",
+      "mapUrl": "../map/#paper=2021_takacs_bobshield_an_open_source"
     },
     "2105_04906": {
       "id": "2105_04906",
@@ -12010,8 +12010,8 @@ window.tagSearchData = {
       ],
       "summary": "VICReg decomposes non-contrastive representation learning into three explicit pressures: make paired augmentations agree, keep each embedding dimension's variance above a floor, and reduce covariance between dimensions. The variance term makes collapse prevention direct rather than architectural, and the paper usefully separates invariance, information preservation, and redundancy reduction into interpretable regularizers that can also stabilize other SSL methods.",
       "url": "../papers/2105_04906/",
-      "contentTreeUrl": "../content-tree/#paper=2105_04906",
-      "mindMapUrl": "../mind-map/#paper=2105_04906"
+      "treeUrl": "../tree/#paper=2105_04906",
+      "mapUrl": "../map/#paper=2105_04906"
     },
     "2103_05478": {
       "id": "2103_05478",
@@ -12026,8 +12026,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2103_05478/",
-      "contentTreeUrl": "../content-tree/#paper=2103_05478",
-      "mindMapUrl": "../mind-map/#paper=2103_05478"
+      "treeUrl": "../tree/#paper=2103_05478",
+      "mapUrl": "../map/#paper=2103_05478"
     },
     "2111_12137": {
       "id": "2111_12137",
@@ -12052,8 +12052,8 @@ window.tagSearchData = {
       ],
       "summary": "Companion paper to VISTA 2.0 that extends data-driven simulation to multi-agent scenarios by inpainting other vehicles into real-world footage, enabling interactive driving policy learning that transfers directly to a full-scale autonomous vehicle.",
       "url": "../papers/2111_12137/",
-      "contentTreeUrl": "../content-tree/#paper=2111_12137",
-      "mindMapUrl": "../mind-map/#paper=2111_12137"
+      "treeUrl": "../tree/#paper=2111_12137",
+      "mapUrl": "../map/#paper=2111_12137"
     },
     "2106_11810": {
       "id": "2106_11810",
@@ -12074,8 +12074,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2106_11810/",
-      "contentTreeUrl": "../content-tree/#paper=2106_11810",
-      "mindMapUrl": "../mind-map/#paper=2106_11810"
+      "treeUrl": "../tree/#paper=2106_11810",
+      "mapUrl": "../map/#paper=2106_11810"
     },
     "2104_00241": {
       "id": "2104_00241",
@@ -12096,8 +12096,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends variational inference MPC by replacing KL divergence with Tsallis divergence, yielding a broader family of sampling-based controllers that recovers MPPI as a special case and can better handle multimodal cost landscapes.",
       "url": "../papers/2104_00241/",
-      "contentTreeUrl": "../content-tree/#paper=2104_00241",
-      "mindMapUrl": "../mind-map/#paper=2104_00241"
+      "treeUrl": "../tree/#paper=2104_00241",
+      "mapUrl": "../map/#paper=2104_00241"
     },
     "2021_lindsay_disaster_theory": {
       "id": "2021_lindsay_disaster_theory",
@@ -12112,8 +12112,8 @@ window.tagSearchData = {
       ],
       "summary": "Interprets vaporwave as a hauntological and gothic expression of late-capitalist trauma. The article focuses on how slowed samples, advertising fragments, horror-like synth textures, and subgenres such as hushwave and signalwave turn fake nostalgia into a way of staging postindustrial paralysis, neoliberal isolation, and political aftershocks such as the spectral repetition of Cold War triumphalism and 9/11 media memory.",
       "url": "../papers/2021_lindsay_disaster_theory/",
-      "contentTreeUrl": "../content-tree/#paper=2021_lindsay_disaster_theory",
-      "mindMapUrl": "../mind-map/#paper=2021_lindsay_disaster_theory"
+      "treeUrl": "../tree/#paper=2021_lindsay_disaster_theory",
+      "mapUrl": "../map/#paper=2021_lindsay_disaster_theory"
     },
     "2108_07258": {
       "id": "2108_07258",
@@ -12239,8 +12239,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2108_07258/",
-      "contentTreeUrl": "../content-tree/#paper=2108_07258",
-      "mindMapUrl": "../mind-map/#paper=2108_07258"
+      "treeUrl": "../tree/#paper=2108_07258",
+      "mapUrl": "../map/#paper=2108_07258"
     },
     "2021_dellaert_factor_graphs_exploiting_structure": {
       "id": "2021_dellaert_factor_graphs_exploiting_structure",
@@ -12253,8 +12253,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2021_dellaert_factor_graphs_exploiting_structure/",
-      "contentTreeUrl": "../content-tree/#paper=2021_dellaert_factor_graphs_exploiting_structure",
-      "mindMapUrl": "../mind-map/#paper=2021_dellaert_factor_graphs_exploiting_structure"
+      "treeUrl": "../tree/#paper=2021_dellaert_factor_graphs_exploiting_structure",
+      "mapUrl": "../map/#paper=2021_dellaert_factor_graphs_exploiting_structure"
     },
     "2104_14294": {
       "id": "2104_14294",
@@ -12273,8 +12273,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2104_14294/",
-      "contentTreeUrl": "../content-tree/#paper=2104_14294",
-      "mindMapUrl": "../mind-map/#paper=2104_14294"
+      "treeUrl": "../tree/#paper=2104_14294",
+      "mapUrl": "../map/#paper=2104_14294"
     },
     "2109_05059": {
       "id": "2109_05059",
@@ -12288,8 +12288,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2109_05059/",
-      "contentTreeUrl": "../content-tree/#paper=2109_05059",
-      "mindMapUrl": "../mind-map/#paper=2109_05059"
+      "treeUrl": "../tree/#paper=2109_05059",
+      "mapUrl": "../map/#paper=2109_05059"
     },
     "2106_10516": {
       "id": "2106_10516",
@@ -12303,8 +12303,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2106_10516/",
-      "contentTreeUrl": "../content-tree/#paper=2106_10516",
-      "mindMapUrl": "../mind-map/#paper=2106_10516"
+      "treeUrl": "../tree/#paper=2106_10516",
+      "mapUrl": "../map/#paper=2106_10516"
     },
     "2101_04413": {
       "id": "2101_04413",
@@ -12319,8 +12319,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2101_04413/",
-      "contentTreeUrl": "../content-tree/#paper=2101_04413",
-      "mindMapUrl": "../mind-map/#paper=2101_04413"
+      "treeUrl": "../tree/#paper=2101_04413",
+      "mapUrl": "../map/#paper=2101_04413"
     },
     "2021_bennet_nevergrad_black_box_optimization": {
       "id": "2021_bennet_nevergrad_black_box_optimization",
@@ -12346,8 +12346,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces Nevergrad as an open-source platform for black-box and derivative-free optimization, collecting optimizers, benchmark tooling, and practical interfaces in one package. The article is less a theoretical algorithm paper than a software reference for experimentation across noisy, parallel, discrete, continuous, structured, and multiobjective optimization settings.",
       "url": "../papers/2021_bennet_nevergrad_black_box_optimization/",
-      "contentTreeUrl": "../content-tree/#paper=2021_bennet_nevergrad_black_box_optimization",
-      "mindMapUrl": "../mind-map/#paper=2021_bennet_nevergrad_black_box_optimization"
+      "treeUrl": "../tree/#paper=2021_bennet_nevergrad_black_box_optimization",
+      "mapUrl": "../map/#paper=2021_bennet_nevergrad_black_box_optimization"
     },
     "2110_00173": {
       "id": "2110_00173",
@@ -12361,8 +12361,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2110_00173/",
-      "contentTreeUrl": "../content-tree/#paper=2110_00173",
-      "mindMapUrl": "../mind-map/#paper=2110_00173"
+      "treeUrl": "../tree/#paper=2110_00173",
+      "mapUrl": "../map/#paper=2110_00173"
     },
     "2103_00020": {
       "id": "2103_00020",
@@ -12386,8 +12386,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2103_00020/",
-      "contentTreeUrl": "../content-tree/#paper=2103_00020",
-      "mindMapUrl": "../mind-map/#paper=2103_00020"
+      "treeUrl": "../tree/#paper=2103_00020",
+      "mapUrl": "../map/#paper=2103_00020"
     },
     "2021_smith_stochasticity_in_feedback_loops": {
       "id": "2021_smith_stochasticity_in_feedback_loops",
@@ -12401,8 +12401,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2021_smith_stochasticity_in_feedback_loops/",
-      "contentTreeUrl": "../content-tree/#paper=2021_smith_stochasticity_in_feedback_loops",
-      "mindMapUrl": "../mind-map/#paper=2021_smith_stochasticity_in_feedback_loops"
+      "treeUrl": "../tree/#paper=2021_smith_stochasticity_in_feedback_loops",
+      "mapUrl": "../map/#paper=2021_smith_stochasticity_in_feedback_loops"
     },
     "2112_02475": {
       "id": "2112_02475",
@@ -12420,8 +12420,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2112_02475/",
-      "contentTreeUrl": "../content-tree/#paper=2112_02475",
-      "mindMapUrl": "../mind-map/#paper=2112_02475"
+      "treeUrl": "../tree/#paper=2112_02475",
+      "mapUrl": "../map/#paper=2112_02475"
     },
     "2103_00065": {
       "id": "2103_00065",
@@ -12438,8 +12438,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2103_00065/",
-      "contentTreeUrl": "../content-tree/#paper=2103_00065",
-      "mindMapUrl": "../mind-map/#paper=2103_00065"
+      "treeUrl": "../tree/#paper=2103_00065",
+      "mapUrl": "../map/#paper=2103_00065"
     },
     "2102_03861": {
       "id": "2102_03861",
@@ -12455,8 +12455,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2102_03861/",
-      "contentTreeUrl": "../content-tree/#paper=2102_03861",
-      "mindMapUrl": "../mind-map/#paper=2102_03861"
+      "treeUrl": "../tree/#paper=2102_03861",
+      "mapUrl": "../map/#paper=2102_03861"
     },
     "2004_homeier_a_modified_newton_method": {
       "id": "2004_homeier_a_modified_newton_method",
@@ -12469,8 +12469,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2004_homeier_a_modified_newton_method/",
-      "contentTreeUrl": "../content-tree/#paper=2004_homeier_a_modified_newton_method",
-      "mindMapUrl": "../mind-map/#paper=2004_homeier_a_modified_newton_method"
+      "treeUrl": "../tree/#paper=2004_homeier_a_modified_newton_method",
+      "mapUrl": "../map/#paper=2004_homeier_a_modified_newton_method"
     },
     "2004_botea_near_optimal_hierarchical_path": {
       "id": "2004_botea_near_optimal_hierarchical_path",
@@ -12492,8 +12492,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces HPA* (Hierarchical Pathfinding A*), which pre-computes cluster-level abstractions to reduce A* search cost dramatically. Achieves up to 10× speedup with paths within 1% of optimal, making it practical for real-time game AI and large grid environments.",
       "url": "../papers/2004_botea_near_optimal_hierarchical_path/",
-      "contentTreeUrl": "../content-tree/#paper=2004_botea_near_optimal_hierarchical_path",
-      "mindMapUrl": "../mind-map/#paper=2004_botea_near_optimal_hierarchical_path"
+      "treeUrl": "../tree/#paper=2004_botea_near_optimal_hierarchical_path",
+      "mapUrl": "../map/#paper=2004_botea_near_optimal_hierarchical_path"
     },
     "2004_dyson_review_of_computational_stirling": {
       "id": "2004_dyson_review_of_computational_stirling",
@@ -12508,8 +12508,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2004_dyson_review_of_computational_stirling/",
-      "contentTreeUrl": "../content-tree/#paper=2004_dyson_review_of_computational_stirling",
-      "mindMapUrl": "../mind-map/#paper=2004_dyson_review_of_computational_stirling"
+      "treeUrl": "../tree/#paper=2004_dyson_review_of_computational_stirling",
+      "mapUrl": "../map/#paper=2004_dyson_review_of_computational_stirling"
     },
     "2004_aguiar_path_following_or_reference": {
       "id": "2004_aguiar_path_following_or_reference",
@@ -12532,8 +12532,8 @@ window.tagSearchData = {
       ],
       "summary": "Clarifies why geometric path following can avoid performance limits that constrain time-indexed reference tracking for nonminimum-phase systems. The core insight is that choosing the timing law gives the controller extra freedom to stabilize troublesome zero dynamics.",
       "url": "../papers/2004_aguiar_path_following_or_reference/",
-      "contentTreeUrl": "../content-tree/#paper=2004_aguiar_path_following_or_reference",
-      "mindMapUrl": "../mind-map/#paper=2004_aguiar_path_following_or_reference"
+      "treeUrl": "../tree/#paper=2004_aguiar_path_following_or_reference",
+      "mapUrl": "../map/#paper=2004_aguiar_path_following_or_reference"
     },
     "2004_koenig_lifelong_planning_a": {
       "id": "2004_koenig_lifelong_planning_a",
@@ -12548,8 +12548,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2004_koenig_lifelong_planning_a/",
-      "contentTreeUrl": "../content-tree/#paper=2004_koenig_lifelong_planning_a",
-      "mindMapUrl": "../mind-map/#paper=2004_koenig_lifelong_planning_a"
+      "treeUrl": "../tree/#paper=2004_koenig_lifelong_planning_a",
+      "mapUrl": "../map/#paper=2004_koenig_lifelong_planning_a"
     },
     "2004_fraichard_from_reeds_and_shepps": {
       "id": "2004_fraichard_from_reeds_and_shepps",
@@ -12568,8 +12568,8 @@ window.tagSearchData = {
       ],
       "summary": "CC Steer is a steering algorithm for car-like vehicles that produces paths composed of line segments, circular arcs, and clothoid arcs with continuous curvature and bounded curvature derivative.",
       "url": "../papers/2004_fraichard_from_reeds_and_shepps/",
-      "contentTreeUrl": "../content-tree/#paper=2004_fraichard_from_reeds_and_shepps",
-      "mindMapUrl": "../mind-map/#paper=2004_fraichard_from_reeds_and_shepps"
+      "treeUrl": "../tree/#paper=2004_fraichard_from_reeds_and_shepps",
+      "mapUrl": "../map/#paper=2004_fraichard_from_reeds_and_shepps"
     },
     "2004_lowe_distinctive_image_features_from": {
       "id": "2004_lowe_distinctive_image_features_from",
@@ -12582,8 +12582,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2004_lowe_distinctive_image_features_from/",
-      "contentTreeUrl": "../content-tree/#paper=2004_lowe_distinctive_image_features_from",
-      "mindMapUrl": "../mind-map/#paper=2004_lowe_distinctive_image_features_from"
+      "treeUrl": "../tree/#paper=2004_lowe_distinctive_image_features_from",
+      "mapUrl": "../map/#paper=2004_lowe_distinctive_image_features_from"
     },
     "2004_lofberg_yalmip_a_toolbox_for": {
       "id": "2004_lofberg_yalmip_a_toolbox_for",
@@ -12603,8 +12603,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces YALMIP, a free MATLAB toolbox providing a unified high-level syntax for modeling and solving optimization problems (LP, QP, SDP, and more) by interfacing with external solvers. Became a de facto standard tool for rapid prototyping of optimization-based controllers and control-oriented SDP research.",
       "url": "../papers/2004_lofberg_yalmip_a_toolbox_for/",
-      "contentTreeUrl": "../content-tree/#paper=2004_lofberg_yalmip_a_toolbox_for",
-      "mindMapUrl": "../mind-map/#paper=2004_lofberg_yalmip_a_toolbox_for"
+      "treeUrl": "../tree/#paper=2004_lofberg_yalmip_a_toolbox_for",
+      "mapUrl": "../map/#paper=2004_lofberg_yalmip_a_toolbox_for"
     },
     "2004_de_boeij_mathematical_model_of_the": {
       "id": "2004_de_boeij_mathematical_model_of_the",
@@ -12627,8 +12627,8 @@ window.tagSearchData = {
       ],
       "summary": "Develops a five-degree-of-freedom state-space model for the sled dynamics of a passively levitated electrodynamic maglev system. The model connects coil-magnet geometry and flux-current-force interactions to a parameterized form that is useful for system identification and later robust feedback-control design.",
       "url": "../papers/2004_de_boeij_mathematical_model_of_the/",
-      "contentTreeUrl": "../content-tree/#paper=2004_de_boeij_mathematical_model_of_the",
-      "mindMapUrl": "../mind-map/#paper=2004_de_boeij_mathematical_model_of_the"
+      "treeUrl": "../tree/#paper=2004_de_boeij_mathematical_model_of_the",
+      "mapUrl": "../map/#paper=2004_de_boeij_mathematical_model_of_the"
     },
     "2004_leveson_a_new_accident_model": {
       "id": "2004_leveson_a_new_accident_model",
@@ -12641,8 +12641,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2004_leveson_a_new_accident_model/",
-      "contentTreeUrl": "../content-tree/#paper=2004_leveson_a_new_accident_model",
-      "mindMapUrl": "../mind-map/#paper=2004_leveson_a_new_accident_model"
+      "treeUrl": "../tree/#paper=2004_leveson_a_new_accident_model",
+      "mapUrl": "../map/#paper=2004_leveson_a_new_accident_model"
     },
     "2004_abbeel_apprenticeship_learning_via_inverse": {
       "id": "2004_abbeel_apprenticeship_learning_via_inverse",
@@ -12656,8 +12656,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2004_abbeel_apprenticeship_learning_via_inverse/",
-      "contentTreeUrl": "../content-tree/#paper=2004_abbeel_apprenticeship_learning_via_inverse",
-      "mindMapUrl": "../mind-map/#paper=2004_abbeel_apprenticeship_learning_via_inverse"
+      "treeUrl": "../tree/#paper=2004_abbeel_apprenticeship_learning_via_inverse",
+      "mapUrl": "../map/#paper=2004_abbeel_apprenticeship_learning_via_inverse"
     },
     "2004_prajna_nonlinear_control_synthesis_by": {
       "id": "2004_prajna_nonlinear_control_synthesis_by",
@@ -12672,8 +12672,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2004_prajna_nonlinear_control_synthesis_by/",
-      "contentTreeUrl": "../content-tree/#paper=2004_prajna_nonlinear_control_synthesis_by",
-      "mindMapUrl": "../mind-map/#paper=2004_prajna_nonlinear_control_synthesis_by"
+      "treeUrl": "../tree/#paper=2004_prajna_nonlinear_control_synthesis_by",
+      "mapUrl": "../map/#paper=2004_prajna_nonlinear_control_synthesis_by"
     },
     "2004_phillips_guided_expansive_spaces_trees": {
       "id": "2004_phillips_guided_expansive_spaces_trees",
@@ -12695,8 +12695,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends the EST motion planner with a cost-biased node-selection weighting (Guided EST) so tree expansion favours lower-cost, straighter paths through kinodynamically-constrained spaces, and pairs it with Path Gradient Descent for local path refinement.",
       "url": "../papers/2004_phillips_guided_expansive_spaces_trees/",
-      "contentTreeUrl": "../content-tree/#paper=2004_phillips_guided_expansive_spaces_trees",
-      "mindMapUrl": "../mind-map/#paper=2004_phillips_guided_expansive_spaces_trees"
+      "treeUrl": "../tree/#paper=2004_phillips_guided_expansive_spaces_trees",
+      "mapUrl": "../map/#paper=2004_phillips_guided_expansive_spaces_trees"
     },
     "2004_langson_robust_model_predictive_control": {
       "id": "2004_langson_robust_model_predictive_control",
@@ -12712,8 +12712,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2004_langson_robust_model_predictive_control/",
-      "contentTreeUrl": "../content-tree/#paper=2004_langson_robust_model_predictive_control",
-      "mindMapUrl": "../mind-map/#paper=2004_langson_robust_model_predictive_control"
+      "treeUrl": "../tree/#paper=2004_langson_robust_model_predictive_control",
+      "mapUrl": "../map/#paper=2004_langson_robust_model_predictive_control"
     },
     "2004_li_iterative_linear_quadratic_regulator": {
       "id": "2004_li_iterative_linear_quadratic_regulator",
@@ -12734,8 +12734,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces iLQR, applying iterative linearization around the current nominal trajectory to reduce nonlinear trajectory optimization to a sequence of LQR problems, enabling efficient second-order trajectory optimization for nonlinear systems.",
       "url": "../papers/2004_li_iterative_linear_quadratic_regulator/",
-      "contentTreeUrl": "../content-tree/#paper=2004_li_iterative_linear_quadratic_regulator",
-      "mindMapUrl": "../mind-map/#paper=2004_li_iterative_linear_quadratic_regulator"
+      "treeUrl": "../tree/#paper=2004_li_iterative_linear_quadratic_regulator",
+      "mapUrl": "../map/#paper=2004_li_iterative_linear_quadratic_regulator"
     },
     "2004_lamiraux_kinodynamic_motion_planning_connecting": {
       "id": "2004_lamiraux_kinodynamic_motion_planning_connecting",
@@ -12750,8 +12750,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2004_lamiraux_kinodynamic_motion_planning_connecting/",
-      "contentTreeUrl": "../content-tree/#paper=2004_lamiraux_kinodynamic_motion_planning_connecting",
-      "mindMapUrl": "../mind-map/#paper=2004_lamiraux_kinodynamic_motion_planning_connecting"
+      "treeUrl": "../tree/#paper=2004_lamiraux_kinodynamic_motion_planning_connecting",
+      "mapUrl": "../map/#paper=2004_lamiraux_kinodynamic_motion_planning_connecting"
     },
     "2004_de_la_pena_self_normalized_processes_exponential": {
       "id": "2004_de_la_pena_self_normalized_processes_exponential",
@@ -12774,8 +12774,8 @@ window.tagSearchData = {
       ],
       "summary": "Derives exponential inequalities and moment bounds for self-normalized random variables and martingales, with a focus on laws of the iterated logarithm. The central device is an exponential supermartingale Y_t(λ) built from a process A_t and its self-normalizer B_t; when Y_t(λ) ≤ 1 in expectation or is a supermartingale, tight tail and moment bounds follow. The paper also establishes a bounded LIL for general adapted sequences centered at truncated conditional expectations.",
       "url": "../papers/2004_de_la_pena_self_normalized_processes_exponential/",
-      "contentTreeUrl": "../content-tree/#paper=2004_de_la_pena_self_normalized_processes_exponential",
-      "mindMapUrl": "../mind-map/#paper=2004_de_la_pena_self_normalized_processes_exponential"
+      "treeUrl": "../tree/#paper=2004_de_la_pena_self_normalized_processes_exponential",
+      "mapUrl": "../map/#paper=2004_de_la_pena_self_normalized_processes_exponential"
     },
     "2004_wang_image_quality_assessment_from": {
       "id": "2004_wang_image_quality_assessment_from",
@@ -12791,8 +12791,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2004_wang_image_quality_assessment_from/",
-      "contentTreeUrl": "../content-tree/#paper=2004_wang_image_quality_assessment_from",
-      "mindMapUrl": "../mind-map/#paper=2004_wang_image_quality_assessment_from"
+      "treeUrl": "../tree/#paper=2004_wang_image_quality_assessment_from",
+      "mapUrl": "../map/#paper=2004_wang_image_quality_assessment_from"
     },
     "cond_mat_0408187": {
       "id": "cond_mat_0408187",
@@ -12816,8 +12816,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the CNM fast greedy algorithm, an agglomerative method that efficiently optimizes modularity and produces a community dendrogram. The paper was important because it moved modularity-based community detection toward networks with hundreds of thousands of nodes.",
       "url": "../papers/cond_mat_0408187/",
-      "contentTreeUrl": "../content-tree/#paper=cond_mat_0408187",
-      "mindMapUrl": "../mind-map/#paper=cond_mat_0408187"
+      "treeUrl": "../tree/#paper=cond_mat_0408187",
+      "mapUrl": "../map/#paper=cond_mat_0408187"
     },
     "1983_barto_neuronlike_adaptive_elements_that": {
       "id": "1983_barto_neuronlike_adaptive_elements_that",
@@ -12839,8 +12839,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduced the actor-critic architecture using two neuronlike elements (ASE and ACE) to solve the cart-pole balancing task, one of the earliest demonstrations of reinforcement learning for continuous control. The ASE/ACE split directly foreshadows modern actor-critic algorithms, and the cart-pole problem became a standard RL benchmark.",
       "url": "../papers/1983_barto_neuronlike_adaptive_elements_that/",
-      "contentTreeUrl": "../content-tree/#paper=1983_barto_neuronlike_adaptive_elements_that",
-      "mindMapUrl": "../mind-map/#paper=1983_barto_neuronlike_adaptive_elements_that"
+      "treeUrl": "../tree/#paper=1983_barto_neuronlike_adaptive_elements_that",
+      "mapUrl": "../map/#paper=1983_barto_neuronlike_adaptive_elements_that"
     },
     "1983_lozano_perez_spatial_planning_a_configuration": {
       "id": "1983_lozano_perez_spatial_planning_a_configuration",
@@ -12853,8 +12853,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1983_lozano_perez_spatial_planning_a_configuration/",
-      "contentTreeUrl": "../content-tree/#paper=1983_lozano_perez_spatial_planning_a_configuration",
-      "mindMapUrl": "../mind-map/#paper=1983_lozano_perez_spatial_planning_a_configuration"
+      "treeUrl": "../tree/#paper=1983_lozano_perez_spatial_planning_a_configuration",
+      "mapUrl": "../map/#paper=1983_lozano_perez_spatial_planning_a_configuration"
     },
     "1983_artstein_stabilization_with_relaxed_controls": {
       "id": "1983_artstein_stabilization_with_relaxed_controls",
@@ -12874,8 +12874,8 @@ window.tagSearchData = {
       ],
       "summary": "Establishes the relaxed-control stabilization result now associated with Artstein theorem, connecting stabilizability and control-Lyapunov-type conditions to feedback construction. It is a foundational reference behind later universal CLF feedback formulas.",
       "url": "../papers/1983_artstein_stabilization_with_relaxed_controls/",
-      "contentTreeUrl": "../content-tree/#paper=1983_artstein_stabilization_with_relaxed_controls",
-      "mindMapUrl": "../mind-map/#paper=1983_artstein_stabilization_with_relaxed_controls"
+      "treeUrl": "../tree/#paper=1983_artstein_stabilization_with_relaxed_controls",
+      "mapUrl": "../map/#paper=1983_artstein_stabilization_with_relaxed_controls"
     },
     "1983_sontag_a_lyapunov_like_characterization": {
       "id": "1983_sontag_a_lyapunov_like_characterization",
@@ -12888,8 +12888,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1983_sontag_a_lyapunov_like_characterization/",
-      "contentTreeUrl": "../content-tree/#paper=1983_sontag_a_lyapunov_like_characterization",
-      "mindMapUrl": "../mind-map/#paper=1983_sontag_a_lyapunov_like_characterization"
+      "treeUrl": "../tree/#paper=1983_sontag_a_lyapunov_like_characterization",
+      "mapUrl": "../map/#paper=1983_sontag_a_lyapunov_like_characterization"
     },
     "1958_sion_on_general_minimax_theorems": {
       "id": "1958_sion_on_general_minimax_theorems",
@@ -12908,8 +12908,8 @@ window.tagSearchData = {
       ],
       "summary": "Proves a generalization of von Neumann's minimax theorem to quasi-convex/quasi-concave functions on compact convex sets in topological vector spaces, without requiring the sets to be finite-dimensional. The Sion minimax theorem is a foundational result in game theory and saddle-point optimization.",
       "url": "../papers/1958_sion_on_general_minimax_theorems/",
-      "contentTreeUrl": "../content-tree/#paper=1958_sion_on_general_minimax_theorems",
-      "mindMapUrl": "../mind-map/#paper=1958_sion_on_general_minimax_theorems"
+      "treeUrl": "../tree/#paper=1958_sion_on_general_minimax_theorems",
+      "mapUrl": "../map/#paper=1958_sion_on_general_minimax_theorems"
     },
     "1958_bellman_on_a_routing_problem": {
       "id": "1958_bellman_on_a_routing_problem",
@@ -12928,8 +12928,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the Bellman-Ford shortest-path algorithm using dynamic programming, handling graphs with negative-weight edges and detecting negative cycles. Foundational to modern network routing and graph search.",
       "url": "../papers/1958_bellman_on_a_routing_problem/",
-      "contentTreeUrl": "../content-tree/#paper=1958_bellman_on_a_routing_problem",
-      "mindMapUrl": "../mind-map/#paper=1958_bellman_on_a_routing_problem"
+      "treeUrl": "../tree/#paper=1958_bellman_on_a_routing_problem",
+      "mapUrl": "../map/#paper=1958_bellman_on_a_routing_problem"
     },
     "1958_rosenblatt_the_perceptron_a_probabilistic": {
       "id": "1958_rosenblatt_the_perceptron_a_probabilistic",
@@ -12942,8 +12942,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1958_rosenblatt_the_perceptron_a_probabilistic/",
-      "contentTreeUrl": "../content-tree/#paper=1958_rosenblatt_the_perceptron_a_probabilistic",
-      "mindMapUrl": "../mind-map/#paper=1958_rosenblatt_the_perceptron_a_probabilistic"
+      "treeUrl": "../tree/#paper=1958_rosenblatt_the_perceptron_a_probabilistic",
+      "mapUrl": "../map/#paper=1958_rosenblatt_the_perceptron_a_probabilistic"
     },
     "1985_lai_asymptotically_efficient_adaptive_allocation": {
       "id": "1985_lai_asymptotically_efficient_adaptive_allocation",
@@ -12957,8 +12957,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1985_lai_asymptotically_efficient_adaptive_allocation/",
-      "contentTreeUrl": "../content-tree/#paper=1985_lai_asymptotically_efficient_adaptive_allocation",
-      "mindMapUrl": "../mind-map/#paper=1985_lai_asymptotically_efficient_adaptive_allocation"
+      "treeUrl": "../tree/#paper=1985_lai_asymptotically_efficient_adaptive_allocation",
+      "mapUrl": "../map/#paper=1985_lai_asymptotically_efficient_adaptive_allocation"
     },
     "1985_perlin_an_image_synthesizer": {
       "id": "1985_perlin_an_image_synthesizer",
@@ -12971,8 +12971,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1985_perlin_an_image_synthesizer/",
-      "contentTreeUrl": "../content-tree/#paper=1985_perlin_an_image_synthesizer",
-      "mindMapUrl": "../mind-map/#paper=1985_perlin_an_image_synthesizer"
+      "treeUrl": "../tree/#paper=1985_perlin_an_image_synthesizer",
+      "mapUrl": "../map/#paper=1985_perlin_an_image_synthesizer"
     },
     "1985_cuyt_computational_implementation_of_the": {
       "id": "1985_cuyt_computational_implementation_of_the",
@@ -12986,8 +12986,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1985_cuyt_computational_implementation_of_the/",
-      "contentTreeUrl": "../content-tree/#paper=1985_cuyt_computational_implementation_of_the",
-      "mindMapUrl": "../mind-map/#paper=1985_cuyt_computational_implementation_of_the"
+      "treeUrl": "../tree/#paper=1985_cuyt_computational_implementation_of_the",
+      "mapUrl": "../map/#paper=1985_cuyt_computational_implementation_of_the"
     },
     "1985_bobrow_time_optimal_control_of": {
       "id": "1985_bobrow_time_optimal_control_of",
@@ -13008,8 +13008,8 @@ window.tagSearchData = {
       ],
       "summary": "Seminal paper establishing the time-optimal path parameterization (TOPP) problem: given a specified geometric path and actuator torque limits, finds the minimum-time traversal by solving for bang-bang optimal torques in the velocity-position phase plane.",
       "url": "../papers/1985_bobrow_time_optimal_control_of/",
-      "contentTreeUrl": "../content-tree/#paper=1985_bobrow_time_optimal_control_of",
-      "mindMapUrl": "../mind-map/#paper=1985_bobrow_time_optimal_control_of"
+      "treeUrl": "../tree/#paper=1985_bobrow_time_optimal_control_of",
+      "mapUrl": "../map/#paper=1985_bobrow_time_optimal_control_of"
     },
     "1985_juang_an_eigensystem_realization_algorithm": {
       "id": "1985_juang_an_eigensystem_realization_algorithm",
@@ -13031,8 +13031,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces ERA, which extracts modal parameters (natural frequencies, damping ratios, mode shapes) from free-decay or impulse response data via eigendecomposition of a Hankel matrix, enabling reduced-order model construction for structural dynamics.",
       "url": "../papers/1985_juang_an_eigensystem_realization_algorithm/",
-      "contentTreeUrl": "../content-tree/#paper=1985_juang_an_eigensystem_realization_algorithm",
-      "mindMapUrl": "../mind-map/#paper=1985_juang_an_eigensystem_realization_algorithm"
+      "treeUrl": "../tree/#paper=1985_juang_an_eigensystem_realization_algorithm",
+      "mapUrl": "../map/#paper=1985_juang_an_eigensystem_realization_algorithm"
     },
     "1985_khatib_real_time_obstacle_avoidance": {
       "id": "1985_khatib_real_time_obstacle_avoidance",
@@ -13053,8 +13053,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the Artificial Potential Field (APF) method for real-time obstacle avoidance, where repulsive potentials push the robot away from obstacles and an attractive potential pulls it toward the goal. Extended to robotic manipulators via an operational-space formulation. Highly influential classical result; subsequent work addressed the local-minima problem inherent to gradient-descent on a potential surface.",
       "url": "../papers/1985_khatib_real_time_obstacle_avoidance/",
-      "contentTreeUrl": "../content-tree/#paper=1985_khatib_real_time_obstacle_avoidance",
-      "mindMapUrl": "../mind-map/#paper=1985_khatib_real_time_obstacle_avoidance"
+      "treeUrl": "../tree/#paper=1985_khatib_real_time_obstacle_avoidance",
+      "mapUrl": "../map/#paper=1985_khatib_real_time_obstacle_avoidance"
     },
     "2002_prajna_introducing_sostools_a_general": {
       "id": "2002_prajna_introducing_sostools_a_general",
@@ -13077,8 +13077,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents SOSTOOLS, one of the early widely used parsers for modeling sum-of-squares programs in MATLAB and dispatching them to semidefinite programming solvers. The paper matters as a software bridge between SOS theory and practical control, verification, and polynomial optimization workflows.",
       "url": "../papers/2002_prajna_introducing_sostools_a_general/",
-      "contentTreeUrl": "../content-tree/#paper=2002_prajna_introducing_sostools_a_general",
-      "mindMapUrl": "../mind-map/#paper=2002_prajna_introducing_sostools_a_general"
+      "treeUrl": "../tree/#paper=2002_prajna_introducing_sostools_a_general",
+      "mapUrl": "../map/#paper=2002_prajna_introducing_sostools_a_general"
     },
     "2002_stanley_evolving_neural_networks_through": {
       "id": "2002_stanley_evolving_neural_networks_through",
@@ -13099,8 +13099,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces NEAT, which evolves both neural-network weights and topology by protecting innovations through speciation and growing complexity incrementally. It is a foundational neuroevolution algorithm and a clear example of evolution optimizing structure, not just parameters.",
       "url": "../papers/2002_stanley_evolving_neural_networks_through/",
-      "contentTreeUrl": "../content-tree/#paper=2002_stanley_evolving_neural_networks_through",
-      "mindMapUrl": "../mind-map/#paper=2002_stanley_evolving_neural_networks_through"
+      "treeUrl": "../tree/#paper=2002_stanley_evolving_neural_networks_through",
+      "mapUrl": "../map/#paper=2002_stanley_evolving_neural_networks_through"
     },
     "2002_procopiuc_star_tree_an_efficient": {
       "id": "2002_procopiuc_star_tree_an_efficient",
@@ -13115,8 +13115,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2002_procopiuc_star_tree_an_efficient/",
-      "contentTreeUrl": "../content-tree/#paper=2002_procopiuc_star_tree_an_efficient",
-      "mindMapUrl": "../mind-map/#paper=2002_procopiuc_star_tree_an_efficient"
+      "treeUrl": "../tree/#paper=2002_procopiuc_star_tree_an_efficient",
+      "mapUrl": "../map/#paper=2002_procopiuc_star_tree_an_efficient"
     },
     "2002_auer_the_nonstochastic_multiarmed_bandit": {
       "id": "2002_auer_the_nonstochastic_multiarmed_bandit",
@@ -13132,8 +13132,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2002_auer_the_nonstochastic_multiarmed_bandit/",
-      "contentTreeUrl": "../content-tree/#paper=2002_auer_the_nonstochastic_multiarmed_bandit",
-      "mindMapUrl": "../mind-map/#paper=2002_auer_the_nonstochastic_multiarmed_bandit"
+      "treeUrl": "../tree/#paper=2002_auer_the_nonstochastic_multiarmed_bandit",
+      "mapUrl": "../map/#paper=2002_auer_the_nonstochastic_multiarmed_bandit"
     },
     "2002_julier_the_scaled_unscented_transformation": {
       "id": "2002_julier_the_scaled_unscented_transformation",
@@ -13146,8 +13146,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2002_julier_the_scaled_unscented_transformation/",
-      "contentTreeUrl": "../content-tree/#paper=2002_julier_the_scaled_unscented_transformation",
-      "mindMapUrl": "../mind-map/#paper=2002_julier_the_scaled_unscented_transformation"
+      "treeUrl": "../tree/#paper=2002_julier_the_scaled_unscented_transformation",
+      "mapUrl": "../map/#paper=2002_julier_the_scaled_unscented_transformation"
     },
     "2002_hsu_randomized_kinodynamic_motion_planning": {
       "id": "2002_hsu_randomized_kinodynamic_motion_planning",
@@ -13170,8 +13170,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents a randomized kinodynamic planner that samples state-time space by drawing random controls and integrating equations of motion, building a probabilistic roadmap of milestones connected by short admissible trajectories. Extended PRM-style randomized planning into dynamic environments and helped establish the now-standard idea that avoiding dynamic obstacles is fundamentally a spacetime planning problem.",
       "url": "../papers/2002_hsu_randomized_kinodynamic_motion_planning/",
-      "contentTreeUrl": "../content-tree/#paper=2002_hsu_randomized_kinodynamic_motion_planning",
-      "mindMapUrl": "../mind-map/#paper=2002_hsu_randomized_kinodynamic_motion_planning"
+      "treeUrl": "../tree/#paper=2002_hsu_randomized_kinodynamic_motion_planning",
+      "mapUrl": "../map/#paper=2002_hsu_randomized_kinodynamic_motion_planning"
     },
     "2002_gustafsson_particle_filters_for_positioning": {
       "id": "2002_gustafsson_particle_filters_for_positioning",
@@ -13190,8 +13190,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2002_gustafsson_particle_filters_for_positioning/",
-      "contentTreeUrl": "../content-tree/#paper=2002_gustafsson_particle_filters_for_positioning",
-      "mindMapUrl": "../mind-map/#paper=2002_gustafsson_particle_filters_for_positioning"
+      "treeUrl": "../tree/#paper=2002_gustafsson_particle_filters_for_positioning",
+      "mapUrl": "../map/#paper=2002_gustafsson_particle_filters_for_positioning"
     },
     "2002_rockafellar_conditional_value_at_risk": {
       "id": "2002_rockafellar_conditional_value_at_risk",
@@ -13205,8 +13205,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2002_rockafellar_conditional_value_at_risk/",
-      "contentTreeUrl": "../content-tree/#paper=2002_rockafellar_conditional_value_at_risk",
-      "mindMapUrl": "../mind-map/#paper=2002_rockafellar_conditional_value_at_risk"
+      "treeUrl": "../tree/#paper=2002_rockafellar_conditional_value_at_risk",
+      "mapUrl": "../map/#paper=2002_rockafellar_conditional_value_at_risk"
     },
     "2002_roy_motion_planning_through_policy": {
       "id": "2002_roy_motion_planning_through_policy",
@@ -13228,8 +13228,8 @@ window.tagSearchData = {
       ],
       "summary": "Uses policy search to refine mobile robot plans directly in a higher-dimensional state/control space rather than stopping at a coarse geometric path. The method seeds a waypoint/controller representation from a value-function plan, then improves it with gradient ascent to obtain smoother and less conservative robot motion.",
       "url": "../papers/2002_roy_motion_planning_through_policy/",
-      "contentTreeUrl": "../content-tree/#paper=2002_roy_motion_planning_through_policy",
-      "mindMapUrl": "../mind-map/#paper=2002_roy_motion_planning_through_policy"
+      "treeUrl": "../tree/#paper=2002_roy_motion_planning_through_policy",
+      "mapUrl": "../map/#paper=2002_roy_motion_planning_through_policy"
     },
     "2002_auer_finite_time_analysis_of": {
       "id": "2002_auer_finite_time_analysis_of",
@@ -13244,8 +13244,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2002_auer_finite_time_analysis_of/",
-      "contentTreeUrl": "../content-tree/#paper=2002_auer_finite_time_analysis_of",
-      "mindMapUrl": "../mind-map/#paper=2002_auer_finite_time_analysis_of"
+      "treeUrl": "../tree/#paper=2002_auer_finite_time_analysis_of",
+      "mapUrl": "../map/#paper=2002_auer_finite_time_analysis_of"
     },
     "1979_comer_ubiquitous_b_tree": {
       "id": "1979_comer_ubiquitous_b_tree",
@@ -13258,8 +13258,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "Helped make B-trees a go-to data structure for database management systems and file systems. It made the concept accessible and explained the advantages, contributing to B-trees becoming a standard choice for many storage systems.",
       "url": "../papers/1979_comer_ubiquitous_b_tree/",
-      "contentTreeUrl": "../content-tree/#paper=1979_comer_ubiquitous_b_tree",
-      "mindMapUrl": "../mind-map/#paper=1979_comer_ubiquitous_b_tree"
+      "treeUrl": "../tree/#paper=1979_comer_ubiquitous_b_tree",
+      "mapUrl": "../map/#paper=1979_comer_ubiquitous_b_tree"
     },
     "1979_kreisselmeier_systematic_control_design_by": {
       "id": "1979_kreisselmeier_systematic_control_design_by",
@@ -13273,8 +13273,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "Presents an iterative controller-tuning procedure that treats multiple design specifications as components of a vector performance index, choosing free controller parameters so that each iteration systematically improves the design. The method is notable for avoiding explicit nonlinear-programming constraints, reducing the design step to unconstrained minimization while still supporting many simultaneous performance requirements.",
       "url": "../papers/1979_kreisselmeier_systematic_control_design_by/",
-      "contentTreeUrl": "../content-tree/#paper=1979_kreisselmeier_systematic_control_design_by",
-      "mindMapUrl": "../mind-map/#paper=1979_kreisselmeier_systematic_control_design_by"
+      "treeUrl": "../tree/#paper=1979_kreisselmeier_systematic_control_design_by",
+      "mapUrl": "../map/#paper=1979_kreisselmeier_systematic_control_design_by"
     },
     "1979_puterman_on_the_convergence_of": {
       "id": "1979_puterman_on_the_convergence_of",
@@ -13295,8 +13295,8 @@ window.tagSearchData = {
       ],
       "summary": "Proves that policy iteration in stationary dynamic programming is equivalent to Newton-Kantorovich iteration on the Bellman operator, yielding superlinear (quadratic) convergence rates. Provides error bounds for finite-state MDPs and establishes a foundational connection between policy iteration and Newton-type numerical methods.",
       "url": "../papers/1979_puterman_on_the_convergence_of/",
-      "contentTreeUrl": "../content-tree/#paper=1979_puterman_on_the_convergence_of",
-      "mindMapUrl": "../mind-map/#paper=1979_puterman_on_the_convergence_of"
+      "treeUrl": "../tree/#paper=1979_puterman_on_the_convergence_of",
+      "mapUrl": "../map/#paper=1979_puterman_on_the_convergence_of"
     },
     "1971_bertsekas_recursive_state_estimation_for": {
       "id": "1971_bertsekas_recursive_state_estimation_for",
@@ -13310,8 +13310,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1971_bertsekas_recursive_state_estimation_for/",
-      "contentTreeUrl": "../content-tree/#paper=1971_bertsekas_recursive_state_estimation_for",
-      "mindMapUrl": "../mind-map/#paper=1971_bertsekas_recursive_state_estimation_for"
+      "treeUrl": "../tree/#paper=1971_bertsekas_recursive_state_estimation_for",
+      "mapUrl": "../map/#paper=1971_bertsekas_recursive_state_estimation_for"
     },
     "1971_haussmann_optimal_stationary_control_with": {
       "id": "1971_haussmann_optimal_stationary_control_with",
@@ -13331,8 +13331,8 @@ window.tagSearchData = {
       ],
       "summary": "Generalizes stochastic LQR to linear systems where noise depends on both the state and the control input, deriving modified Riccati equations for the optimal stationary feedback law. Extends the results of Wonham (1967) to the control-dependent noise case.",
       "url": "../papers/1971_haussmann_optimal_stationary_control_with/",
-      "contentTreeUrl": "../content-tree/#paper=1971_haussmann_optimal_stationary_control_with",
-      "mindMapUrl": "../mind-map/#paper=1971_haussmann_optimal_stationary_control_with"
+      "treeUrl": "../tree/#paper=1971_haussmann_optimal_stationary_control_with",
+      "mapUrl": "../map/#paper=1971_haussmann_optimal_stationary_control_with"
     },
     "1971_hewer_an_iterative_technique_for": {
       "id": "1971_hewer_an_iterative_technique_for",
@@ -13345,8 +13345,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "An efficient algorithm for designing the discrete-time linear quadratic regulator / solving the discrete-time algebraic Riccati equation is proposed and proven to be globally convergent with a quadratic rate. It was later shown that Hewer's algorithm is an instance of the dynamic programming technique of policy iteration, which itself is an application of Newton's method to the Bellman equation.",
       "url": "../papers/1971_hewer_an_iterative_technique_for/",
-      "contentTreeUrl": "../content-tree/#paper=1971_hewer_an_iterative_technique_for",
-      "mindMapUrl": "../mind-map/#paper=1971_hewer_an_iterative_technique_for"
+      "treeUrl": "../tree/#paper=1971_hewer_an_iterative_technique_for",
+      "mapUrl": "../map/#paper=1971_hewer_an_iterative_technique_for"
     },
     "1971_wolfe_convergence_conditions_for_ascent": {
       "id": "1971_wolfe_convergence_conditions_for_ascent",
@@ -13359,8 +13359,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "Corrections to 'Convergence Conditions for Ascent Methods' (https://epubs.siam.org/doi/10.1137/1011036).",
       "url": "../papers/1971_wolfe_convergence_conditions_for_ascent/",
-      "contentTreeUrl": "../content-tree/#paper=1971_wolfe_convergence_conditions_for_ascent",
-      "mindMapUrl": "../mind-map/#paper=1971_wolfe_convergence_conditions_for_ascent"
+      "treeUrl": "../tree/#paper=1971_wolfe_convergence_conditions_for_ascent",
+      "mapUrl": "../map/#paper=1971_wolfe_convergence_conditions_for_ascent"
     },
     "1963_polyak_gradient_methods_for_the": {
       "id": "1963_polyak_gradient_methods_for_the",
@@ -13373,8 +13373,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "Historically important because it introduced what is now called the Polyak-Lojasiewicz (PL) or gradient-domination condition: the objective gap is controlled by the squared gradient norm, so a small gradient certifies near-optimality and gradient descent can converge linearly without strong convexity. This idea became a central bridge from classical optimization to modern machine learning: Karimi et al. (2016) showed that the PL inequality gives simple linear-convergence analyses for least squares, logistic regression, coordinate descent, stochastic and variance-reduced methods, proximal-gradient methods, SVMs, and L1-regularized problems, while Fazel et al. (2018) used the same gradient-domination viewpoint to explain why policy gradient methods can globally optimize the nonconvex LQR objective.\"",
       "url": "../papers/1963_polyak_gradient_methods_for_the/",
-      "contentTreeUrl": "../content-tree/#paper=1963_polyak_gradient_methods_for_the",
-      "mindMapUrl": "../mind-map/#paper=1963_polyak_gradient_methods_for_the"
+      "treeUrl": "../tree/#paper=1963_polyak_gradient_methods_for_the",
+      "mapUrl": "../map/#paper=1963_polyak_gradient_methods_for_the"
     },
     "1963_morgan_problems_in_the_analysis": {
       "id": "1963_morgan_problems_in_the_analysis",
@@ -13395,8 +13395,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces AID (Automatic Interaction Detection), the first regression-tree algorithm, which recursively partitions survey data into binary groups to maximize variance reduction. Though designed for survey analysis, it established the recursive partitioning framework later refined into CART, CHAID, ID3, and all modern decision tree methods.",
       "url": "../papers/1963_morgan_problems_in_the_analysis/",
-      "contentTreeUrl": "../content-tree/#paper=1963_morgan_problems_in_the_analysis",
-      "mindMapUrl": "../mind-map/#paper=1963_morgan_problems_in_the_analysis"
+      "treeUrl": "../tree/#paper=1963_morgan_problems_in_the_analysis",
+      "mapUrl": "../map/#paper=1963_morgan_problems_in_the_analysis"
     },
     "1963_ward_hierarchical_grouping_to_optimize": {
       "id": "1963_ward_hierarchical_grouping_to_optimize",
@@ -13409,8 +13409,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1963_ward_hierarchical_grouping_to_optimize/",
-      "contentTreeUrl": "../content-tree/#paper=1963_ward_hierarchical_grouping_to_optimize",
-      "mindMapUrl": "../mind-map/#paper=1963_ward_hierarchical_grouping_to_optimize"
+      "treeUrl": "../tree/#paper=1963_ward_hierarchical_grouping_to_optimize",
+      "mapUrl": "../map/#paper=1963_ward_hierarchical_grouping_to_optimize"
     },
     "1956_frank_an_algorithm_for_quadratic": {
       "id": "1956_frank_an_algorithm_for_quadratic",
@@ -13424,8 +13424,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1956_frank_an_algorithm_for_quadratic/",
-      "contentTreeUrl": "../content-tree/#paper=1956_frank_an_algorithm_for_quadratic",
-      "mindMapUrl": "../mind-map/#paper=1956_frank_an_algorithm_for_quadratic"
+      "treeUrl": "../tree/#paper=1956_frank_an_algorithm_for_quadratic",
+      "mapUrl": "../map/#paper=1956_frank_an_algorithm_for_quadratic"
     },
     "2012_jinek_a_programmable_dual_rna": {
       "id": "2012_jinek_a_programmable_dual_rna",
@@ -13451,8 +13451,8 @@ window.tagSearchData = {
       ],
       "summary": "Defines Cas9 as a programmable RNA-guided DNA endonuclease and shows that a single engineered guide RNA can target sequence-specific double-strand breaks.",
       "url": "../papers/2012_jinek_a_programmable_dual_rna/",
-      "contentTreeUrl": "../content-tree/#paper=2012_jinek_a_programmable_dual_rna",
-      "mindMapUrl": "../mind-map/#paper=2012_jinek_a_programmable_dual_rna"
+      "treeUrl": "../tree/#paper=2012_jinek_a_programmable_dual_rna",
+      "mapUrl": "../map/#paper=2012_jinek_a_programmable_dual_rna"
     },
     "2012_schoellig_optimization_based_iterative_learning": {
       "id": "2012_schoellig_optimization_based_iterative_learning",
@@ -13467,8 +13467,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_schoellig_optimization_based_iterative_learning/",
-      "contentTreeUrl": "../content-tree/#paper=2012_schoellig_optimization_based_iterative_learning",
-      "mindMapUrl": "../mind-map/#paper=2012_schoellig_optimization_based_iterative_learning"
+      "treeUrl": "../tree/#paper=2012_schoellig_optimization_based_iterative_learning",
+      "mapUrl": "../map/#paper=2012_schoellig_optimization_based_iterative_learning"
     },
     "2012_mellinger_trajectory_generation_and_control": {
       "id": "2012_mellinger_trajectory_generation_and_control",
@@ -13483,8 +13483,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_mellinger_trajectory_generation_and_control/",
-      "contentTreeUrl": "../content-tree/#paper=2012_mellinger_trajectory_generation_and_control",
-      "mindMapUrl": "../mind-map/#paper=2012_mellinger_trajectory_generation_and_control"
+      "treeUrl": "../tree/#paper=2012_mellinger_trajectory_generation_and_control",
+      "mapUrl": "../map/#paper=2012_mellinger_trajectory_generation_and_control"
     },
     "2012_deng_the_mnist_database_of": {
       "id": "2012_deng_the_mnist_database_of",
@@ -13497,8 +13497,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_deng_the_mnist_database_of/",
-      "contentTreeUrl": "../content-tree/#paper=2012_deng_the_mnist_database_of",
-      "mindMapUrl": "../mind-map/#paper=2012_deng_the_mnist_database_of"
+      "treeUrl": "../tree/#paper=2012_deng_the_mnist_database_of",
+      "mapUrl": "../map/#paper=2012_deng_the_mnist_database_of"
     },
     "1206_3231": {
       "id": "1206_3231",
@@ -13515,8 +13515,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1206_3231/",
-      "contentTreeUrl": "../content-tree/#paper=1206_3231",
-      "mindMapUrl": "../mind-map/#paper=1206_3231"
+      "treeUrl": "../tree/#paper=1206_3231",
+      "mapUrl": "../map/#paper=1206_3231"
     },
     "1210_7420": {
       "id": "1210_7420",
@@ -13531,8 +13531,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1210_7420/",
-      "contentTreeUrl": "../content-tree/#paper=1210_7420",
-      "mindMapUrl": "../mind-map/#paper=1210_7420"
+      "treeUrl": "../tree/#paper=1210_7420",
+      "mapUrl": "../map/#paper=1210_7420"
     },
     "2012_bottou_stochastic_gradient_descent_tricks": {
       "id": "2012_bottou_stochastic_gradient_descent_tricks",
@@ -13545,8 +13545,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_bottou_stochastic_gradient_descent_tricks/",
-      "contentTreeUrl": "../content-tree/#paper=2012_bottou_stochastic_gradient_descent_tricks",
-      "mindMapUrl": "../mind-map/#paper=2012_bottou_stochastic_gradient_descent_tricks"
+      "treeUrl": "../tree/#paper=2012_bottou_stochastic_gradient_descent_tricks",
+      "mapUrl": "../map/#paper=2012_bottou_stochastic_gradient_descent_tricks"
     },
     "2012_kobilarov_cross_entropy_motion_planning": {
       "id": "2012_kobilarov_cross_entropy_motion_planning",
@@ -13565,8 +13565,8 @@ window.tagSearchData = {
       ],
       "summary": "Applies the cross-entropy method (CEM) to motion planning, framing trajectory search as a distribution estimation problem where elite samples iteratively refine a sampling distribution toward low-cost trajectories.",
       "url": "../papers/2012_kobilarov_cross_entropy_motion_planning/",
-      "contentTreeUrl": "../content-tree/#paper=2012_kobilarov_cross_entropy_motion_planning",
-      "mindMapUrl": "../mind-map/#paper=2012_kobilarov_cross_entropy_motion_planning"
+      "treeUrl": "../tree/#paper=2012_kobilarov_cross_entropy_motion_planning",
+      "mapUrl": "../map/#paper=2012_kobilarov_cross_entropy_motion_planning"
     },
     "2012_mahony_multirotor_aerial_vehicles_modeling": {
       "id": "2012_mahony_multirotor_aerial_vehicles_modeling",
@@ -13581,8 +13581,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_mahony_multirotor_aerial_vehicles_modeling/",
-      "contentTreeUrl": "../content-tree/#paper=2012_mahony_multirotor_aerial_vehicles_modeling",
-      "mindMapUrl": "../mind-map/#paper=2012_mahony_multirotor_aerial_vehicles_modeling"
+      "treeUrl": "../tree/#paper=2012_mahony_multirotor_aerial_vehicles_modeling",
+      "mapUrl": "../map/#paper=2012_mahony_multirotor_aerial_vehicles_modeling"
     },
     "2012_perez_lqr_rrt_optimal_sampling": {
       "id": "2012_perez_lqr_rrt_optimal_sampling",
@@ -13605,8 +13605,8 @@ window.tagSearchData = {
       ],
       "summary": "Uses a linear-quadratic approximation for both the steering function and the cost-to-go extension heuristic in RRT*, automatically deriving these heuristics by locally linearizing system dynamics.",
       "url": "../papers/2012_perez_lqr_rrt_optimal_sampling/",
-      "contentTreeUrl": "../content-tree/#paper=2012_perez_lqr_rrt_optimal_sampling",
-      "mindMapUrl": "../mind-map/#paper=2012_perez_lqr_rrt_optimal_sampling"
+      "treeUrl": "../tree/#paper=2012_perez_lqr_rrt_optimal_sampling",
+      "mapUrl": "../map/#paper=2012_perez_lqr_rrt_optimal_sampling"
     },
     "1206_4621": {
       "id": "1206_4621",
@@ -13627,8 +13627,8 @@ window.tagSearchData = {
       ],
       "summary": "Shows that PI2, CEM, and CMA-ES all share the concept of probability-weighted averaging for parameter updates, unifying them into a common family. Derives PI2-CMA, which inherits PI2's stochastic optimal control foundations while automatically adapting the exploration noise covariance, eliminating the need to manually tune exploration magnitude.",
       "url": "../papers/1206_4621/",
-      "contentTreeUrl": "../content-tree/#paper=1206_4621",
-      "mindMapUrl": "../mind-map/#paper=1206_4621"
+      "treeUrl": "../tree/#paper=1206_4621",
+      "mapUrl": "../map/#paper=1206_4621"
     },
     "2012_krizhevsky_imagenet_classification_with_deep": {
       "id": "2012_krizhevsky_imagenet_classification_with_deep",
@@ -13643,8 +13643,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_krizhevsky_imagenet_classification_with_deep/",
-      "contentTreeUrl": "../content-tree/#paper=2012_krizhevsky_imagenet_classification_with_deep",
-      "mindMapUrl": "../mind-map/#paper=2012_krizhevsky_imagenet_classification_with_deep"
+      "treeUrl": "../tree/#paper=2012_krizhevsky_imagenet_classification_with_deep",
+      "mapUrl": "../map/#paper=2012_krizhevsky_imagenet_classification_with_deep"
     },
     "1204_6453": {
       "id": "1204_6453",
@@ -13671,8 +13671,8 @@ window.tagSearchData = {
       ],
       "summary": "RRT# is based on RRG, just like RRT*, but is aimed at obtaining faster convergence to the optimal cost compared to RRT* by maintaining better estimates of nodal costs. There is also some interesting commentary in Section 5 of the arXiv preprint where the authors discuss the \"relevant region\" as an elliptic region which could be \"used to implement more intelligent sampling strategies\"; it would seem this idea was picked up on and formalized by Gammell et al. in the \"Informed RRT*\" (https://arxiv.org/pdf/1404.2334) paper.",
       "url": "../papers/1204_6453/",
-      "contentTreeUrl": "../content-tree/#paper=1204_6453",
-      "mindMapUrl": "../mind-map/#paper=1204_6453"
+      "treeUrl": "../tree/#paper=1204_6453",
+      "mapUrl": "../map/#paper=1204_6453"
     },
     "2012_gajamohan_the_cubli_a_cube": {
       "id": "2012_gajamohan_the_cubli_a_cube",
@@ -13688,8 +13688,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_gajamohan_the_cubli_a_cube/",
-      "contentTreeUrl": "../content-tree/#paper=2012_gajamohan_the_cubli_a_cube",
-      "mindMapUrl": "../mind-map/#paper=2012_gajamohan_the_cubli_a_cube"
+      "treeUrl": "../tree/#paper=2012_gajamohan_the_cubli_a_cube",
+      "mapUrl": "../map/#paper=2012_gajamohan_the_cubli_a_cube"
     },
     "1211_2260": {
       "id": "1211_2260",
@@ -13703,8 +13703,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1211_2260/",
-      "contentTreeUrl": "../content-tree/#paper=1211_2260",
-      "mindMapUrl": "../mind-map/#paper=1211_2260"
+      "treeUrl": "../tree/#paper=1211_2260",
+      "mapUrl": "../map/#paper=1211_2260"
     },
     "1203_3538": {
       "id": "1203_3538",
@@ -13718,8 +13718,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1203_3538/",
-      "contentTreeUrl": "../content-tree/#paper=1203_3538",
-      "mindMapUrl": "../mind-map/#paper=1203_3538"
+      "treeUrl": "../tree/#paper=1203_3538",
+      "mapUrl": "../map/#paper=1203_3538"
     },
     "1212_1269": {
       "id": "1212_1269",
@@ -13737,8 +13737,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1212_1269/",
-      "contentTreeUrl": "../content-tree/#paper=1212_1269",
-      "mindMapUrl": "../mind-map/#paper=1212_1269"
+      "treeUrl": "../tree/#paper=1212_1269",
+      "mapUrl": "../map/#paper=1212_1269"
     },
     "1205_5088": {
       "id": "1205_5088",
@@ -13758,8 +13758,8 @@ window.tagSearchData = {
       ],
       "summary": "Uses a fixed-final-state-free-final-time controller that exactly and optimally connects any pair of states in RRT*, where cost trades off trajectory duration against control effort. Dynamics are restricted to linear (or linearized) systems.",
       "url": "../papers/1205_5088/",
-      "contentTreeUrl": "../content-tree/#paper=1205_5088",
-      "mindMapUrl": "../mind-map/#paper=1205_5088"
+      "treeUrl": "../tree/#paper=1205_5088",
+      "mapUrl": "../map/#paper=1205_5088"
     },
     "2012_augugliaro_generation_of_collision_free": {
       "id": "2012_augugliaro_generation_of_collision_free",
@@ -13774,8 +13774,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_augugliaro_generation_of_collision_free/",
-      "contentTreeUrl": "../content-tree/#paper=2012_augugliaro_generation_of_collision_free",
-      "mindMapUrl": "../mind-map/#paper=2012_augugliaro_generation_of_collision_free"
+      "treeUrl": "../tree/#paper=2012_augugliaro_generation_of_collision_free",
+      "mapUrl": "../map/#paper=2012_augugliaro_generation_of_collision_free"
     },
     "2012_tassa_synthesis_and_stabilization_of": {
       "id": "2012_tassa_synthesis_and_stabilization_of",
@@ -13801,8 +13801,8 @@ window.tagSearchData = {
       ],
       "summary": "Refines iLQR with key algorithmic improvements now standard in modern implementations: state Hessian regularization, improved feedforward gain line search, and adaptive regularization scheduling. Clearer presentation than the original Li & Todorov paper.",
       "url": "../papers/2012_tassa_synthesis_and_stabilization_of/",
-      "contentTreeUrl": "../content-tree/#paper=2012_tassa_synthesis_and_stabilization_of",
-      "mindMapUrl": "../mind-map/#paper=2012_tassa_synthesis_and_stabilization_of"
+      "treeUrl": "../tree/#paper=2012_tassa_synthesis_and_stabilization_of",
+      "mapUrl": "../map/#paper=2012_tassa_synthesis_and_stabilization_of"
     },
     "2012_turpin_trajectory_design_and_control": {
       "id": "2012_turpin_trajectory_design_and_control",
@@ -13817,8 +13817,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2012_turpin_trajectory_design_and_control/",
-      "contentTreeUrl": "../content-tree/#paper=2012_turpin_trajectory_design_and_control",
-      "mindMapUrl": "../mind-map/#paper=2012_turpin_trajectory_design_and_control"
+      "treeUrl": "../tree/#paper=2012_turpin_trajectory_design_and_control",
+      "mapUrl": "../map/#paper=2012_turpin_trajectory_design_and_control"
     },
     "1847_cauchy_methode_generale_pour_la": {
       "id": "1847_cauchy_methode_generale_pour_la",
@@ -13837,8 +13837,8 @@ window.tagSearchData = {
       ],
       "summary": "Cauchy's classic note is an early source for the method now recognized as gradient descent or steepest descent, proposing iterative progress guided by derivatives for solving simultaneous equations. It is primarily useful as historical context for first-order optimization.",
       "url": "../papers/1847_cauchy_methode_generale_pour_la/",
-      "contentTreeUrl": "../content-tree/#paper=1847_cauchy_methode_generale_pour_la",
-      "mindMapUrl": "../mind-map/#paper=1847_cauchy_methode_generale_pour_la"
+      "treeUrl": "../tree/#paper=1847_cauchy_methode_generale_pour_la",
+      "mapUrl": "../map/#paper=1847_cauchy_methode_generale_pour_la"
     },
     "1406_5670": {
       "id": "1406_5670",
@@ -13857,8 +13857,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1406_5670/",
-      "contentTreeUrl": "../content-tree/#paper=1406_5670",
-      "mindMapUrl": "../mind-map/#paper=1406_5670"
+      "treeUrl": "../tree/#paper=1406_5670",
+      "mapUrl": "../map/#paper=1406_5670"
     },
     "1401_3436": {
       "id": "1401_3436",
@@ -13882,8 +13882,8 @@ window.tagSearchData = {
       ],
       "summary": "Surveys online planning methods for POMDPs, emphasizing lookahead search from the current belief state as a practical alternative to computing a full offline policy. It compares online algorithms and heuristic search variants empirically, highlighting how local planning and value-function bounds can make larger partially observable problems more tractable.",
       "url": "../papers/1401_3436/",
-      "contentTreeUrl": "../content-tree/#paper=1401_3436",
-      "mindMapUrl": "../mind-map/#paper=1401_3436"
+      "treeUrl": "../tree/#paper=1401_3436",
+      "mapUrl": "../map/#paper=1401_3436"
     },
     "2014_mueller_stability_and_control_of": {
       "id": "2014_mueller_stability_and_control_of",
@@ -13897,8 +13897,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_mueller_stability_and_control_of/",
-      "contentTreeUrl": "../content-tree/#paper=2014_mueller_stability_and_control_of",
-      "mindMapUrl": "../mind-map/#paper=2014_mueller_stability_and_control_of"
+      "treeUrl": "../tree/#paper=2014_mueller_stability_and_control_of",
+      "mapUrl": "../map/#paper=2014_mueller_stability_and_control_of"
     },
     "1405_7421": {
       "id": "1405_7421",
@@ -13913,8 +13913,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1405_7421/",
-      "contentTreeUrl": "../content-tree/#paper=1405_7421",
-      "mindMapUrl": "../mind-map/#paper=1405_7421"
+      "treeUrl": "../tree/#paper=1405_7421",
+      "mapUrl": "../map/#paper=1405_7421"
     },
     "2014_cheney_unshackling_evolution": {
       "id": "2014_cheney_unshackling_evolution",
@@ -13930,8 +13930,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_cheney_unshackling_evolution/",
-      "contentTreeUrl": "../content-tree/#paper=2014_cheney_unshackling_evolution",
-      "mindMapUrl": "../mind-map/#paper=2014_cheney_unshackling_evolution"
+      "treeUrl": "../tree/#paper=2014_cheney_unshackling_evolution",
+      "mapUrl": "../map/#paper=2014_cheney_unshackling_evolution"
     },
     "1401_3827": {
       "id": "1401_3827",
@@ -13946,8 +13946,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1401_3827/",
-      "contentTreeUrl": "../content-tree/#paper=1401_3827",
-      "mindMapUrl": "../mind-map/#paper=1401_3827"
+      "treeUrl": "../tree/#paper=1401_3827",
+      "mapUrl": "../map/#paper=1401_3827"
     },
     "1406_2661": {
       "id": "1406_2661",
@@ -13967,8 +13967,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1406_2661/",
-      "contentTreeUrl": "../content-tree/#paper=1406_2661",
-      "mindMapUrl": "../mind-map/#paper=1406_2661"
+      "treeUrl": "../tree/#paper=1406_2661",
+      "mapUrl": "../map/#paper=1406_2661"
     },
     "2014_lefevre_a_survey_on_motion": {
       "id": "2014_lefevre_a_survey_on_motion",
@@ -13991,8 +13991,8 @@ window.tagSearchData = {
       ],
       "summary": "Surveys motion prediction and risk assessment methods for intelligent vehicles, organizing approaches into three categories - physics-based, maneuver-based, and interaction-aware - and reviewing how predicted trajectories are used to compute collision risk for safety applications.",
       "url": "../papers/2014_lefevre_a_survey_on_motion/",
-      "contentTreeUrl": "../content-tree/#paper=2014_lefevre_a_survey_on_motion",
-      "mindMapUrl": "../mind-map/#paper=2014_lefevre_a_survey_on_motion"
+      "treeUrl": "../tree/#paper=2014_lefevre_a_survey_on_motion",
+      "mapUrl": "../map/#paper=2014_lefevre_a_survey_on_motion"
     },
     "1409_4842": {
       "id": "1409_4842",
@@ -14013,8 +14013,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1409_4842/",
-      "contentTreeUrl": "../content-tree/#paper=1409_4842",
-      "mindMapUrl": "../mind-map/#paper=1409_4842"
+      "treeUrl": "../tree/#paper=1409_4842",
+      "mapUrl": "../map/#paper=1409_4842"
     },
     "1408_3595": {
       "id": "1408_3595",
@@ -14029,8 +14029,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1408_3595/",
-      "contentTreeUrl": "../content-tree/#paper=1408_3595",
-      "mindMapUrl": "../mind-map/#paper=1408_3595"
+      "treeUrl": "../tree/#paper=1408_3595",
+      "mapUrl": "../map/#paper=1408_3595"
     },
     "2014_sintov_time_based_rrt_algorithm": {
       "id": "2014_sintov_time_based_rrt_algorithm",
@@ -14044,8 +14044,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_sintov_time_based_rrt_algorithm/",
-      "contentTreeUrl": "../content-tree/#paper=2014_sintov_time_based_rrt_algorithm",
-      "mindMapUrl": "../mind-map/#paper=2014_sintov_time_based_rrt_algorithm"
+      "treeUrl": "../tree/#paper=2014_sintov_time_based_rrt_algorithm",
+      "mapUrl": "../map/#paper=2014_sintov_time_based_rrt_algorithm"
     },
     "1406_1078": {
       "id": "1406_1078",
@@ -14064,8 +14064,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1406_1078/",
-      "contentTreeUrl": "../content-tree/#paper=1406_1078",
-      "mindMapUrl": "../mind-map/#paper=1406_1078"
+      "treeUrl": "../tree/#paper=1406_1078",
+      "mapUrl": "../map/#paper=1406_1078"
     },
     "2014_tedrake_a_summary_of_team": {
       "id": "2014_tedrake_a_summary_of_team",
@@ -14103,8 +14103,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_tedrake_a_summary_of_team/",
-      "contentTreeUrl": "../content-tree/#paper=2014_tedrake_a_summary_of_team",
-      "mindMapUrl": "../mind-map/#paper=2014_tedrake_a_summary_of_team"
+      "treeUrl": "../tree/#paper=2014_tedrake_a_summary_of_team",
+      "mapUrl": "../map/#paper=2014_tedrake_a_summary_of_team"
     },
     "1409_6358": {
       "id": "1409_6358",
@@ -14125,8 +14125,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends DMD to systems with exogenous control inputs, enabling separate identification of the state transition matrix and control influence matrix from input-output data, making DMD applicable to controlled dynamical systems.",
       "url": "../papers/1409_6358/",
-      "contentTreeUrl": "../content-tree/#paper=1409_6358",
-      "mindMapUrl": "../mind-map/#paper=1409_6358"
+      "treeUrl": "../tree/#paper=1409_6358",
+      "mapUrl": "../map/#paper=1409_6358"
     },
     "1408_4408": {
       "id": "1408_4408",
@@ -14147,8 +14147,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends DMD to nonlinear systems by lifting states into a function space (RKHS), yielding a data-driven approximation of the infinite-dimensional Koopman operator and enabling nonlinear system analysis via linear tools.",
       "url": "../papers/1408_4408/",
-      "contentTreeUrl": "../content-tree/#paper=1408_4408",
-      "mindMapUrl": "../mind-map/#paper=1408_4408"
+      "treeUrl": "../tree/#paper=1408_4408",
+      "mapUrl": "../map/#paper=1408_4408"
     },
     "2014_schafer_the_boss_is_concerned": {
       "id": "2014_schafer_the_boss_is_concerned",
@@ -14161,8 +14161,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_schafer_the_boss_is_concerned/",
-      "contentTreeUrl": "../content-tree/#paper=2014_schafer_the_boss_is_concerned",
-      "mindMapUrl": "../mind-map/#paper=2014_schafer_the_boss_is_concerned"
+      "treeUrl": "../tree/#paper=2014_schafer_the_boss_is_concerned",
+      "mapUrl": "../map/#paper=2014_schafer_the_boss_is_concerned"
     },
     "2014_trimpe_a_self_tuning_lqr": {
       "id": "2014_trimpe_a_self_tuning_lqr",
@@ -14178,8 +14178,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_trimpe_a_self_tuning_lqr/",
-      "contentTreeUrl": "../content-tree/#paper=2014_trimpe_a_self_tuning_lqr",
-      "mindMapUrl": "../mind-map/#paper=2014_trimpe_a_self_tuning_lqr"
+      "treeUrl": "../tree/#paper=2014_trimpe_a_self_tuning_lqr",
+      "mapUrl": "../map/#paper=2014_trimpe_a_self_tuning_lqr"
     },
     "2014_muja_scalable_nearest_neighbor_algorithms": {
       "id": "2014_muja_scalable_nearest_neighbor_algorithms",
@@ -14201,8 +14201,8 @@ window.tagSearchData = {
       ],
       "summary": "Unifies several approximate nearest-neighbor search strategies behind an automatic configuration procedure and releases them through FLANN. The practical lesson is that no single ANN index dominates; data-dependent algorithm selection matters.",
       "url": "../papers/2014_muja_scalable_nearest_neighbor_algorithms/",
-      "contentTreeUrl": "../content-tree/#paper=2014_muja_scalable_nearest_neighbor_algorithms",
-      "mindMapUrl": "../mind-map/#paper=2014_muja_scalable_nearest_neighbor_algorithms"
+      "treeUrl": "../tree/#paper=2014_muja_scalable_nearest_neighbor_algorithms",
+      "mapUrl": "../map/#paper=2014_muja_scalable_nearest_neighbor_algorithms"
     },
     "1409_1556": {
       "id": "1409_1556",
@@ -14216,8 +14216,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1409_1556/",
-      "contentTreeUrl": "../content-tree/#paper=1409_1556",
-      "mindMapUrl": "../mind-map/#paper=1409_1556"
+      "treeUrl": "../tree/#paper=1409_1556",
+      "mapUrl": "../map/#paper=1409_1556"
     },
     "1407_2896": {
       "id": "1407_2896",
@@ -14238,8 +14238,8 @@ window.tagSearchData = {
       ],
       "summary": "SST is a kinodynamic planner that requires no 2-point BVP solver or steering function, instead relying solely on forward propagation of control actions while maintaining a sparse sample set for computational efficiency.",
       "url": "../papers/1407_2896/",
-      "contentTreeUrl": "../content-tree/#paper=1407_2896",
-      "mindMapUrl": "../mind-map/#paper=1407_2896"
+      "treeUrl": "../tree/#paper=1407_2896",
+      "mapUrl": "../map/#paper=1407_2896"
     },
     "2014_barragan_interactive_bayesian_identification_of": {
       "id": "2014_barragan_interactive_bayesian_identification_of",
@@ -14254,8 +14254,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_barragan_interactive_bayesian_identification_of/",
-      "contentTreeUrl": "../content-tree/#paper=2014_barragan_interactive_bayesian_identification_of",
-      "mindMapUrl": "../mind-map/#paper=2014_barragan_interactive_bayesian_identification_of"
+      "treeUrl": "../tree/#paper=2014_barragan_interactive_bayesian_identification_of",
+      "mapUrl": "../map/#paper=2014_barragan_interactive_bayesian_identification_of"
     },
     "2014_wiesemann_distributionally_robust_convex_optimization": {
       "id": "2014_wiesemann_distributionally_robust_convex_optimization",
@@ -14270,8 +14270,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_wiesemann_distributionally_robust_convex_optimization/",
-      "contentTreeUrl": "../content-tree/#paper=2014_wiesemann_distributionally_robust_convex_optimization",
-      "mindMapUrl": "../mind-map/#paper=2014_wiesemann_distributionally_robust_convex_optimization"
+      "treeUrl": "../tree/#paper=2014_wiesemann_distributionally_robust_convex_optimization",
+      "mapUrl": "../map/#paper=2014_wiesemann_distributionally_robust_convex_optimization"
     },
     "1407_3501": {
       "id": "1407_3501",
@@ -14287,8 +14287,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1407_3501/",
-      "contentTreeUrl": "../content-tree/#paper=1407_3501",
-      "mindMapUrl": "../mind-map/#paper=1407_3501"
+      "treeUrl": "../tree/#paper=1407_3501",
+      "mapUrl": "../map/#paper=1407_3501"
     },
     "2014_pham_trajectory_planning": {
       "id": "2014_pham_trajectory_planning",
@@ -14308,8 +14308,8 @@ window.tagSearchData = {
       ],
       "summary": "A compact handbook chapter on trajectory planning for industrial manipulators, spanning constraint handling, path-to-trajectory conversion, and objectives such as time and energy. It is useful as a taxonomy and orientation source rather than a new algorithm paper.",
       "url": "../papers/2014_pham_trajectory_planning/",
-      "contentTreeUrl": "../content-tree/#paper=2014_pham_trajectory_planning",
-      "mindMapUrl": "../mind-map/#paper=2014_pham_trajectory_planning"
+      "treeUrl": "../tree/#paper=2014_pham_trajectory_planning",
+      "mapUrl": "../map/#paper=2014_pham_trajectory_planning"
     },
     "2014_luo_an_empirical_study_of": {
       "id": "2014_luo_an_empirical_study_of",
@@ -14330,8 +14330,8 @@ window.tagSearchData = {
       ],
       "summary": "Benchmarks several categories of optimal motion planners (sampling-based, grid-based, and trajectory optimization) on synthetic problems varying in dimensionality, number of homotopy classes, and passage geometry, providing empirical guidance on planner selection.",
       "url": "../papers/2014_luo_an_empirical_study_of/",
-      "contentTreeUrl": "../content-tree/#paper=2014_luo_an_empirical_study_of",
-      "mindMapUrl": "../mind-map/#paper=2014_luo_an_empirical_study_of"
+      "treeUrl": "../tree/#paper=2014_luo_an_empirical_study_of",
+      "mapUrl": "../map/#paper=2014_luo_an_empirical_study_of"
     },
     "2014_dai_whole_body_motion_planning": {
       "id": "2014_dai_whole_body_motion_planning",
@@ -14346,8 +14346,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_dai_whole_body_motion_planning/",
-      "contentTreeUrl": "../content-tree/#paper=2014_dai_whole_body_motion_planning",
-      "mindMapUrl": "../mind-map/#paper=2014_dai_whole_body_motion_planning"
+      "treeUrl": "../tree/#paper=2014_dai_whole_body_motion_planning",
+      "mapUrl": "../map/#paper=2014_dai_whole_body_motion_planning"
     },
     "2014_lupashin_a_platform_for_aerial": {
       "id": "2014_lupashin_a_platform_for_aerial",
@@ -14365,8 +14365,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_lupashin_a_platform_for_aerial/",
-      "contentTreeUrl": "../content-tree/#paper=2014_lupashin_a_platform_for_aerial",
-      "mindMapUrl": "../mind-map/#paper=2014_lupashin_a_platform_for_aerial"
+      "treeUrl": "../tree/#paper=2014_lupashin_a_platform_for_aerial",
+      "mapUrl": "../map/#paper=2014_lupashin_a_platform_for_aerial"
     },
     "2014_silver_deterministic_policy_gradient_algorithms": {
       "id": "2014_silver_deterministic_policy_gradient_algorithms",
@@ -14391,8 +14391,8 @@ window.tagSearchData = {
       ],
       "summary": "Derives a deterministic policy gradient (DPG) theorem for model-free RL with continuous action spaces, showing that the deterministic policy gradient equals the expected gradient of the action-value function and is computable without integrating over actions. Introduces compatible function approximation and off-policy actor-critic algorithms, forming the theoretical foundation for DDPG and related methods.",
       "url": "../papers/2014_silver_deterministic_policy_gradient_algorithms/",
-      "contentTreeUrl": "../content-tree/#paper=2014_silver_deterministic_policy_gradient_algorithms",
-      "mindMapUrl": "../mind-map/#paper=2014_silver_deterministic_policy_gradient_algorithms"
+      "treeUrl": "../tree/#paper=2014_silver_deterministic_policy_gradient_algorithms",
+      "mapUrl": "../map/#paper=2014_silver_deterministic_policy_gradient_algorithms"
     },
     "1412_6980": {
       "id": "1412_6980",
@@ -14406,8 +14406,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1412_6980/",
-      "contentTreeUrl": "../content-tree/#paper=1412_6980",
-      "mindMapUrl": "../mind-map/#paper=1412_6980"
+      "treeUrl": "../tree/#paper=1412_6980",
+      "mapUrl": "../map/#paper=1412_6980"
     },
     "2014_srivastava_dropout_a_simple_way": {
       "id": "2014_srivastava_dropout_a_simple_way",
@@ -14424,8 +14424,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_srivastava_dropout_a_simple_way/",
-      "contentTreeUrl": "../content-tree/#paper=2014_srivastava_dropout_a_simple_way",
-      "mindMapUrl": "../mind-map/#paper=2014_srivastava_dropout_a_simple_way"
+      "treeUrl": "../tree/#paper=2014_srivastava_dropout_a_simple_way",
+      "mapUrl": "../map/#paper=2014_srivastava_dropout_a_simple_way"
     },
     "2014_fan_cuckoo_filter_practically_better": {
       "id": "2014_fan_cuckoo_filter_practically_better",
@@ -14448,8 +14448,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces cuckoo filters as a deletion-friendly approximate membership structure that can beat Bloom filters at practical false-positive rates. The paper is useful because it turns cuckoo hashing into a compact fingerprint table with strong lookup and update performance.",
       "url": "../papers/2014_fan_cuckoo_filter_practically_better/",
-      "contentTreeUrl": "../content-tree/#paper=2014_fan_cuckoo_filter_practically_better",
-      "mindMapUrl": "../mind-map/#paper=2014_fan_cuckoo_filter_practically_better"
+      "treeUrl": "../tree/#paper=2014_fan_cuckoo_filter_practically_better",
+      "mapUrl": "../map/#paper=2014_fan_cuckoo_filter_practically_better"
     },
     "1409_8112": {
       "id": "1409_8112",
@@ -14464,8 +14464,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1409_8112/",
-      "contentTreeUrl": "../content-tree/#paper=1409_8112",
-      "mindMapUrl": "../mind-map/#paper=1409_8112"
+      "treeUrl": "../tree/#paper=1409_8112",
+      "mapUrl": "../map/#paper=1409_8112"
     },
     "2014_ruths_control_profiles_of_complex": {
       "id": "2014_ruths_control_profiles_of_complex",
@@ -14479,8 +14479,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_ruths_control_profiles_of_complex/",
-      "contentTreeUrl": "../content-tree/#paper=2014_ruths_control_profiles_of_complex",
-      "mindMapUrl": "../mind-map/#paper=2014_ruths_control_profiles_of_complex"
+      "treeUrl": "../tree/#paper=2014_ruths_control_profiles_of_complex",
+      "mapUrl": "../map/#paper=2014_ruths_control_profiles_of_complex"
     },
     "2014_turpin_capt_concurrent_assignment_and": {
       "id": "2014_turpin_capt_concurrent_assignment_and",
@@ -14495,8 +14495,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_turpin_capt_concurrent_assignment_and/",
-      "contentTreeUrl": "../content-tree/#paper=2014_turpin_capt_concurrent_assignment_and",
-      "mindMapUrl": "../mind-map/#paper=2014_turpin_capt_concurrent_assignment_and"
+      "treeUrl": "../tree/#paper=2014_turpin_capt_concurrent_assignment_and",
+      "mapUrl": "../map/#paper=2014_turpin_capt_concurrent_assignment_and"
     },
     "2014_van_der_maaten_accelerating_t_sne_using": {
       "id": "2014_van_der_maaten_accelerating_t_sne_using",
@@ -14509,8 +14509,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_van_der_maaten_accelerating_t_sne_using/",
-      "contentTreeUrl": "../content-tree/#paper=2014_van_der_maaten_accelerating_t_sne_using",
-      "mindMapUrl": "../mind-map/#paper=2014_van_der_maaten_accelerating_t_sne_using"
+      "treeUrl": "../tree/#paper=2014_van_der_maaten_accelerating_t_sne_using",
+      "mapUrl": "../map/#paper=2014_van_der_maaten_accelerating_t_sne_using"
     },
     "1404_2334": {
       "id": "1404_2334",
@@ -14533,8 +14533,8 @@ window.tagSearchData = {
       ],
       "summary": "Informed RRT* accelerates convergence of RRT* by restricting sampling to the prolate hyperspheroid (ellipsoidal) subset of the state space that can possibly improve the current best solution, rather than sampling the entire domain. This focused sampling preserves RRT*'s probabilistic completeness and asymptotic optimality guarantees while significantly improving convergence rate and final solution quality, especially in high-dimensional spaces or large environments. However, the ellipsoidal region is only valid for path planning where the cost is the Euclidean path length; for other costs or kindodynamic planning the informed set has some other geometry that is not generally known to be computable in closed form.",
       "url": "../papers/1404_2334/",
-      "contentTreeUrl": "../content-tree/#paper=1404_2334",
-      "mindMapUrl": "../mind-map/#paper=1404_2334"
+      "treeUrl": "../tree/#paper=1404_2334",
+      "mapUrl": "../map/#paper=1404_2334"
     },
     "2014_ueda_a_regularized_newton_method": {
       "id": "2014_ueda_a_regularized_newton_method",
@@ -14555,8 +14555,8 @@ window.tagSearchData = {
       ],
       "summary": "Ueda and Yamashita replace line-search step-size control with adaptation of a regularization parameter in Newton's method. The analysis gives global convergence, superlinear local convergence under an error-bound condition, and an iteration complexity bound for reaching a first-order approximate solution.",
       "url": "../papers/2014_ueda_a_regularized_newton_method/",
-      "contentTreeUrl": "../content-tree/#paper=2014_ueda_a_regularized_newton_method",
-      "mindMapUrl": "../mind-map/#paper=2014_ueda_a_regularized_newton_method"
+      "treeUrl": "../tree/#paper=2014_ueda_a_regularized_newton_method",
+      "mapUrl": "../map/#paper=2014_ueda_a_regularized_newton_method"
     },
     "1405_5848": {
       "id": "1405_5848",
@@ -14580,8 +14580,8 @@ window.tagSearchData = {
       ],
       "summary": "BIT* unifies graph- and sampling-based planning by treating a batch of random samples as an implicit random geometric graph (RGG) and searching it with an A*/LPA*-style ordered search focused on the informed ellipsoidal subset of states that can improve the current solution. Successive batches of increasing density are searched while reusing prior information, yielding a probabilistically complete, asymptotically optimal anytime planner that converges substantially faster than RRT* and FMT*, especially in high-dimensional spaces.",
       "url": "../papers/1405_5848/",
-      "contentTreeUrl": "../content-tree/#paper=1405_5848",
-      "mindMapUrl": "../mind-map/#paper=1405_5848"
+      "treeUrl": "../tree/#paper=1405_5848",
+      "mapUrl": "../map/#paper=1405_5848"
     },
     "1407_0414": {
       "id": "1407_0414",
@@ -14594,8 +14594,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1407_0414/",
-      "contentTreeUrl": "../content-tree/#paper=1407_0414",
-      "mindMapUrl": "../mind-map/#paper=1407_0414"
+      "treeUrl": "../tree/#paper=1407_0414",
+      "mapUrl": "../map/#paper=1407_0414"
     },
     "2014_palmieri_a_novel_rrt_extend": {
       "id": "2014_palmieri_a_novel_rrt_extend",
@@ -14609,8 +14609,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_palmieri_a_novel_rrt_extend/",
-      "contentTreeUrl": "../content-tree/#paper=2014_palmieri_a_novel_rrt_extend",
-      "mindMapUrl": "../mind-map/#paper=2014_palmieri_a_novel_rrt_extend"
+      "treeUrl": "../tree/#paper=2014_palmieri_a_novel_rrt_extend",
+      "mapUrl": "../map/#paper=2014_palmieri_a_novel_rrt_extend"
     },
     "1401_7625": {
       "id": "1401_7625",
@@ -14624,8 +14624,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1401_7625/",
-      "contentTreeUrl": "../content-tree/#paper=1401_7625",
-      "mindMapUrl": "../mind-map/#paper=1401_7625"
+      "treeUrl": "../tree/#paper=1401_7625",
+      "mapUrl": "../map/#paper=1401_7625"
     },
     "2014_levine_learning_complex_neural_network": {
       "id": "2014_levine_learning_complex_neural_network",
@@ -14639,8 +14639,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_levine_learning_complex_neural_network/",
-      "contentTreeUrl": "../content-tree/#paper=2014_levine_learning_complex_neural_network",
-      "mindMapUrl": "../mind-map/#paper=2014_levine_learning_complex_neural_network"
+      "treeUrl": "../tree/#paper=2014_levine_learning_complex_neural_network",
+      "mapUrl": "../map/#paper=2014_levine_learning_complex_neural_network"
     },
     "2014_ta_a_factor_graph_approach": {
       "id": "2014_ta_a_factor_graph_approach",
@@ -14655,8 +14655,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_ta_a_factor_graph_approach/",
-      "contentTreeUrl": "../content-tree/#paper=2014_ta_a_factor_graph_approach",
-      "mindMapUrl": "../mind-map/#paper=2014_ta_a_factor_graph_approach"
+      "treeUrl": "../tree/#paper=2014_ta_a_factor_graph_approach",
+      "mapUrl": "../map/#paper=2014_ta_a_factor_graph_approach"
     },
     "2014_parikh_proximal_algorithms": {
       "id": "2014_parikh_proximal_algorithms",
@@ -14670,8 +14670,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2014_parikh_proximal_algorithms/",
-      "contentTreeUrl": "../content-tree/#paper=2014_parikh_proximal_algorithms",
-      "mindMapUrl": "../mind-map/#paper=2014_parikh_proximal_algorithms"
+      "treeUrl": "../tree/#paper=2014_parikh_proximal_algorithms",
+      "mapUrl": "../map/#paper=2014_parikh_proximal_algorithms"
     },
     "2014_pan_probabilistic_differential_dynamic_programming": {
       "id": "2014_pan_probabilistic_differential_dynamic_programming",
@@ -14694,8 +14694,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends DDP to handle probabilistic dynamics models, propagating uncertainty through the backward and forward passes to produce trajectories that are robust to model uncertainty and compatible with learned probabilistic dynamics.",
       "url": "../papers/2014_pan_probabilistic_differential_dynamic_programming/",
-      "contentTreeUrl": "../content-tree/#paper=2014_pan_probabilistic_differential_dynamic_programming",
-      "mindMapUrl": "../mind-map/#paper=2014_pan_probabilistic_differential_dynamic_programming"
+      "treeUrl": "../tree/#paper=2014_pan_probabilistic_differential_dynamic_programming",
+      "mapUrl": "../map/#paper=2014_pan_probabilistic_differential_dynamic_programming"
     },
     "1411_4045": {
       "id": "1411_4045",
@@ -14717,8 +14717,8 @@ window.tagSearchData = {
       ],
       "summary": "Starting point is quasi-static (velocity ~= 0) path planning. Then augments state space with velocity and uses propagation of velocity using kinodynamics to determine the reachable set (admissible interval) of velocity, and includes that in the connection check for new nodes. Builds on the foundational TOPP velocity planner (Bobrow 1985, DOI: 10.1177/027836498500400301). AVP is modularly (re)usable in many sampling-based planners; the authors give a concrete instantiation and numerical experiments with AVP-RRT.",
       "url": "../papers/1411_4045/",
-      "contentTreeUrl": "../content-tree/#paper=1411_4045",
-      "mindMapUrl": "../mind-map/#paper=1411_4045"
+      "treeUrl": "../tree/#paper=1411_4045",
+      "mapUrl": "../map/#paper=1411_4045"
     },
     "2003_lagoudakis_least_squares_policy_iteration": {
       "id": "2003_lagoudakis_least_squares_policy_iteration",
@@ -14739,8 +14739,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces LSPI (Least-Squares Policy Iteration), combining approximate policy iteration with LSTD value estimation under linear function approximation. Enables offline, model-free, off-policy reinforcement learning with efficient data reuse across policy updates. Widely cited as a foundation for batch RL methods.",
       "url": "../papers/2003_lagoudakis_least_squares_policy_iteration/",
-      "contentTreeUrl": "../content-tree/#paper=2003_lagoudakis_least_squares_policy_iteration",
-      "mindMapUrl": "../mind-map/#paper=2003_lagoudakis_least_squares_policy_iteration"
+      "treeUrl": "../tree/#paper=2003_lagoudakis_least_squares_policy_iteration",
+      "mapUrl": "../map/#paper=2003_lagoudakis_least_squares_policy_iteration"
     },
     "2003_dandrea_distributed_control_design_for": {
       "id": "2003_dandrea_distributed_control_design_for",
@@ -14754,8 +14754,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2003_dandrea_distributed_control_design_for/",
-      "contentTreeUrl": "../content-tree/#paper=2003_dandrea_distributed_control_design_for",
-      "mindMapUrl": "../mind-map/#paper=2003_dandrea_distributed_control_design_for"
+      "treeUrl": "../tree/#paper=2003_dandrea_distributed_control_design_for",
+      "mapUrl": "../map/#paper=2003_dandrea_distributed_control_design_for"
     },
     "2003_stein_respect_the_unstable": {
       "id": "2003_stein_respect_the_unstable",
@@ -14779,8 +14779,8 @@ window.tagSearchData = {
       ],
       "summary": "Recasts unstable feedback-control design as a practical safety problem governed by unavoidable sensitivity and saturation trade-offs, using the Bode sensitivity integral as a memorable \"conservation law\" for control. The article connects these limits to high-consequence examples including inverted pendulums, unstable aircraft, and Chernobyl, arguing that engineers must teach and check fundamental limitations before trusting sophisticated synthesis tools.",
       "url": "../papers/2003_stein_respect_the_unstable/",
-      "contentTreeUrl": "../content-tree/#paper=2003_stein_respect_the_unstable",
-      "mindMapUrl": "../mind-map/#paper=2003_stein_respect_the_unstable"
+      "treeUrl": "../tree/#paper=2003_stein_respect_the_unstable",
+      "mapUrl": "../map/#paper=2003_stein_respect_the_unstable"
     },
     "2003_parrilo_semidefinite_programming_relaxations_for": {
       "id": "2003_parrilo_semidefinite_programming_relaxations_for",
@@ -14793,8 +14793,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2003_parrilo_semidefinite_programming_relaxations_for/",
-      "contentTreeUrl": "../content-tree/#paper=2003_parrilo_semidefinite_programming_relaxations_for",
-      "mindMapUrl": "../mind-map/#paper=2003_parrilo_semidefinite_programming_relaxations_for"
+      "treeUrl": "../tree/#paper=2003_parrilo_semidefinite_programming_relaxations_for",
+      "mapUrl": "../map/#paper=2003_parrilo_semidefinite_programming_relaxations_for"
     },
     "2003_thrun_learning_occupancy_grid_maps": {
       "id": "2003_thrun_learning_occupancy_grid_maps",
@@ -14807,8 +14807,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2003_thrun_learning_occupancy_grid_maps/",
-      "contentTreeUrl": "../content-tree/#paper=2003_thrun_learning_occupancy_grid_maps",
-      "mindMapUrl": "../mind-map/#paper=2003_thrun_learning_occupancy_grid_maps"
+      "treeUrl": "../tree/#paper=2003_thrun_learning_occupancy_grid_maps",
+      "mapUrl": "../map/#paper=2003_thrun_learning_occupancy_grid_maps"
     },
     "2003_lenski_the_evolutionary_origin_of": {
       "id": "2003_lenski_the_evolutionary_origin_of",
@@ -14824,8 +14824,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2003_lenski_the_evolutionary_origin_of/",
-      "contentTreeUrl": "../content-tree/#paper=2003_lenski_the_evolutionary_origin_of",
-      "mindMapUrl": "../mind-map/#paper=2003_lenski_the_evolutionary_origin_of"
+      "treeUrl": "../tree/#paper=2003_lenski_the_evolutionary_origin_of",
+      "mapUrl": "../map/#paper=2003_lenski_the_evolutionary_origin_of"
     },
     "1978_sakoe_dynamic_programming_algorithm_optimization": {
       "id": "1978_sakoe_dynamic_programming_algorithm_optimization",
@@ -14839,8 +14839,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1978_sakoe_dynamic_programming_algorithm_optimization/",
-      "contentTreeUrl": "../content-tree/#paper=1978_sakoe_dynamic_programming_algorithm_optimization",
-      "mindMapUrl": "../mind-map/#paper=1978_sakoe_dynamic_programming_algorithm_optimization"
+      "treeUrl": "../tree/#paper=1978_sakoe_dynamic_programming_algorithm_optimization",
+      "mapUrl": "../map/#paper=1978_sakoe_dynamic_programming_algorithm_optimization"
     },
     "1978_guibas_a_dichromatic_framework_for": {
       "id": "1978_guibas_a_dichromatic_framework_for",
@@ -14854,8 +14854,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1978_guibas_a_dichromatic_framework_for/",
-      "contentTreeUrl": "../content-tree/#paper=1978_guibas_a_dichromatic_framework_for",
-      "mindMapUrl": "../mind-map/#paper=1978_guibas_a_dichromatic_framework_for"
+      "treeUrl": "../tree/#paper=1978_guibas_a_dichromatic_framework_for",
+      "mapUrl": "../map/#paper=1978_guibas_a_dichromatic_framework_for"
     },
     "1978_catmull_recursively_generated_b_spline": {
       "id": "1978_catmull_recursively_generated_b_spline",
@@ -14876,8 +14876,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces Catmull-Clark subdivision, generalizing bicubic B-spline subdivision to arbitrary-topology meshes. This became a core surface representation in computer graphics and animation because it gives smooth limit surfaces from polygonal control meshes.",
       "url": "../papers/1978_catmull_recursively_generated_b_spline/",
-      "contentTreeUrl": "../content-tree/#paper=1978_catmull_recursively_generated_b_spline",
-      "mindMapUrl": "../mind-map/#paper=1978_catmull_recursively_generated_b_spline"
+      "treeUrl": "../tree/#paper=1978_catmull_recursively_generated_b_spline",
+      "mapUrl": "../map/#paper=1978_catmull_recursively_generated_b_spline"
     },
     "1978_doyle_guaranteed_margins_for_lqg": {
       "id": "1978_doyle_guaranteed_margins_for_lqg",
@@ -14893,8 +14893,8 @@ window.tagSearchData = {
       ],
       "summary": "Seminal paper demonstrating that there are no guaranteed robustness margins for linear quadratic Gaussian (LQG) controllers i.e. an optimal linear dynamic output feedback controller composed of a linear quadratic regulator (LQR) and a Kalman filter. This was proven by counterexample using a very simple linear system with two states, one control input, one disturbance input, and one output. This is in stark contrast to the simpler state feedback LQR setting, for which there are 60 degree phase and 6 dB gain margins. This paper is known for having the shortest abstract in the history of IEEE Transactions on Automatic Control, at just three words.",
       "url": "../papers/1978_doyle_guaranteed_margins_for_lqg/",
-      "contentTreeUrl": "../content-tree/#paper=1978_doyle_guaranteed_margins_for_lqg",
-      "mindMapUrl": "../mind-map/#paper=1978_doyle_guaranteed_margins_for_lqg"
+      "treeUrl": "../tree/#paper=1978_doyle_guaranteed_margins_for_lqg",
+      "mapUrl": "../map/#paper=1978_doyle_guaranteed_margins_for_lqg"
     },
     "1978_freeman_centrality_in_social_networks": {
       "id": "1978_freeman_centrality_in_social_networks",
@@ -14916,8 +14916,8 @@ window.tagSearchData = {
       ],
       "summary": "Separates the overloaded notion of network centrality into three enduring concepts: activity through direct ties, independence through short distances, and control through positions on shortest paths. The paper made degree, closeness, betweenness, and graph-level centralization into a coherent vocabulary for social network analysis.",
       "url": "../papers/1978_freeman_centrality_in_social_networks/",
-      "contentTreeUrl": "../content-tree/#paper=1978_freeman_centrality_in_social_networks",
-      "mindMapUrl": "../mind-map/#paper=1978_freeman_centrality_in_social_networks"
+      "treeUrl": "../tree/#paper=1978_freeman_centrality_in_social_networks",
+      "mapUrl": "../map/#paper=1978_freeman_centrality_in_social_networks"
     },
     "1987_lorensen_marching_cubes_a_high": {
       "id": "1987_lorensen_marching_cubes_a_high",
@@ -14931,8 +14931,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1987_lorensen_marching_cubes_a_high/",
-      "contentTreeUrl": "../content-tree/#paper=1987_lorensen_marching_cubes_a_high",
-      "mindMapUrl": "../mind-map/#paper=1987_lorensen_marching_cubes_a_high"
+      "treeUrl": "../tree/#paper=1987_lorensen_marching_cubes_a_high",
+      "mapUrl": "../map/#paper=1987_lorensen_marching_cubes_a_high"
     },
     "1987_muir_kinematic_modeling_of_wheeled": {
       "id": "1987_muir_kinematic_modeling_of_wheeled",
@@ -14946,8 +14946,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1987_muir_kinematic_modeling_of_wheeled/",
-      "contentTreeUrl": "../content-tree/#paper=1987_muir_kinematic_modeling_of_wheeled",
-      "mindMapUrl": "../mind-map/#paper=1987_muir_kinematic_modeling_of_wheeled"
+      "treeUrl": "../tree/#paper=1987_muir_kinematic_modeling_of_wheeled",
+      "mapUrl": "../map/#paper=1987_muir_kinematic_modeling_of_wheeled"
     },
     "1987_fredman_fibonacci_heaps_and_their": {
       "id": "1987_fredman_fibonacci_heaps_and_their",
@@ -14961,8 +14961,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1987_fredman_fibonacci_heaps_and_their/",
-      "contentTreeUrl": "../content-tree/#paper=1987_fredman_fibonacci_heaps_and_their",
-      "mindMapUrl": "../mind-map/#paper=1987_fredman_fibonacci_heaps_and_their"
+      "treeUrl": "../tree/#paper=1987_fredman_fibonacci_heaps_and_their",
+      "mapUrl": "../map/#paper=1987_fredman_fibonacci_heaps_and_their"
     },
     "1987_reynolds_flocks_herds_and_schools": {
       "id": "1987_reynolds_flocks_herds_and_schools",
@@ -14983,8 +14983,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the boids model, a local-rule simulation of flocking in which each actor steers from its own perception rather than from a centralized script. The paper became a core reference for emergent multi-agent motion, behavioral animation, and decentralized swarm simulation.",
       "url": "../papers/1987_reynolds_flocks_herds_and_schools/",
-      "contentTreeUrl": "../content-tree/#paper=1987_reynolds_flocks_herds_and_schools",
-      "mindMapUrl": "../mind-map/#paper=1987_reynolds_flocks_herds_and_schools"
+      "treeUrl": "../tree/#paper=1987_reynolds_flocks_herds_and_schools",
+      "mapUrl": "../map/#paper=1987_reynolds_flocks_herds_and_schools"
     },
     "1987_jonker_a_shortest_augmenting_path": {
       "id": "1987_jonker_a_shortest_augmenting_path",
@@ -14998,8 +14998,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1987_jonker_a_shortest_augmenting_path/",
-      "contentTreeUrl": "../content-tree/#paper=1987_jonker_a_shortest_augmenting_path",
-      "mindMapUrl": "../mind-map/#paper=1987_jonker_a_shortest_augmenting_path"
+      "treeUrl": "../tree/#paper=1987_jonker_a_shortest_augmenting_path",
+      "mapUrl": "../map/#paper=1987_jonker_a_shortest_augmenting_path"
     },
     "1987_bonacich_power_and_centrality_a": {
       "id": "1987_bonacich_power_and_centrality_a",
@@ -15021,8 +15021,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces a parameterized family of centrality measures that can treat connections to well-connected actors as either advantageous or disadvantageous, depending on the network process being modeled. This makes the paper a core reference for power centrality and for distinguishing access-based centrality from bargaining or dependency-based power.",
       "url": "../papers/1987_bonacich_power_and_centrality_a/",
-      "contentTreeUrl": "../content-tree/#paper=1987_bonacich_power_and_centrality_a",
-      "mindMapUrl": "../mind-map/#paper=1987_bonacich_power_and_centrality_a"
+      "treeUrl": "../tree/#paper=1987_bonacich_power_and_centrality_a",
+      "mapUrl": "../map/#paper=1987_bonacich_power_and_centrality_a"
     },
     "1858_darwin_on_the_tendency_of": {
       "id": "1858_darwin_on_the_tendency_of",
@@ -15044,8 +15044,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents the joint Darwin-Wallace announcement of evolution by natural selection: heritable variation, struggle for existence, and differential survival can accumulate adaptations and produce new species.",
       "url": "../papers/1858_darwin_on_the_tendency_of/",
-      "contentTreeUrl": "../content-tree/#paper=1858_darwin_on_the_tendency_of",
-      "mindMapUrl": "../mind-map/#paper=1858_darwin_on_the_tendency_of"
+      "treeUrl": "../tree/#paper=1858_darwin_on_the_tendency_of",
+      "mapUrl": "../map/#paper=1858_darwin_on_the_tendency_of"
     },
     "1997_hochreiter_long_short_term_memory": {
       "id": "1997_hochreiter_long_short_term_memory",
@@ -15059,8 +15059,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1997_hochreiter_long_short_term_memory/",
-      "contentTreeUrl": "../content-tree/#paper=1997_hochreiter_long_short_term_memory",
-      "mindMapUrl": "../mind-map/#paper=1997_hochreiter_long_short_term_memory"
+      "treeUrl": "../tree/#paper=1997_hochreiter_long_short_term_memory",
+      "mapUrl": "../map/#paper=1997_hochreiter_long_short_term_memory"
     },
     "1997_hsu_path_planning_in_expansive": {
       "id": "1997_hsu_path_planning_in_expansive",
@@ -15081,8 +15081,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the Expansive Space Trees (EST) algorithm and the notion of \"expansive\" configuration spaces, characterizing when randomized sampling-based planners can efficiently capture connectivity. EST explores the configuration space by biasing sampling toward less explored regions, a complementary approach to RRT's goal-biased exploration.",
       "url": "../papers/1997_hsu_path_planning_in_expansive/",
-      "contentTreeUrl": "../content-tree/#paper=1997_hsu_path_planning_in_expansive",
-      "mindMapUrl": "../mind-map/#paper=1997_hsu_path_planning_in_expansive"
+      "treeUrl": "../tree/#paper=1997_hsu_path_planning_in_expansive",
+      "mapUrl": "../map/#paper=1997_hsu_path_planning_in_expansive"
     },
     "1997_julier_new_extension_of_the": {
       "id": "1997_julier_new_extension_of_the",
@@ -15103,8 +15103,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the Unscented Kalman Filter (UKF), which propagates a small set of deterministically chosen sigma points through the nonlinear dynamics to capture mean and covariance to third order. Outperforms the Extended Kalman Filter (EKF) for most nonlinear estimation problems without requiring Jacobian computations. The original UKF paper.",
       "url": "../papers/1997_julier_new_extension_of_the/",
-      "contentTreeUrl": "../content-tree/#paper=1997_julier_new_extension_of_the",
-      "mindMapUrl": "../mind-map/#paper=1997_julier_new_extension_of_the"
+      "treeUrl": "../tree/#paper=1997_julier_new_extension_of_the",
+      "mapUrl": "../map/#paper=1997_julier_new_extension_of_the"
     },
     "1997_freund_a_decision_theoretic_generalization": {
       "id": "1997_freund_a_decision_theoretic_generalization",
@@ -15118,8 +15118,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1997_freund_a_decision_theoretic_generalization/",
-      "contentTreeUrl": "../content-tree/#paper=1997_freund_a_decision_theoretic_generalization",
-      "mindMapUrl": "../mind-map/#paper=1997_freund_a_decision_theoretic_generalization"
+      "treeUrl": "../tree/#paper=1997_freund_a_decision_theoretic_generalization",
+      "mapUrl": "../map/#paper=1997_freund_a_decision_theoretic_generalization"
     },
     "1997_scheuer_continuous_curvature_path_planning": {
       "id": "1997_scheuer_continuous_curvature_path_planning",
@@ -15139,8 +15139,8 @@ window.tagSearchData = {
       ],
       "summary": "Simple Continuous Curvature (SSC) paths are composed of line segments, maximum-curvature circular arcs, and clothoid arcs, which guarantee both continuous curvature and bounded curvature derivative for car-like vehicles.",
       "url": "../papers/1997_scheuer_continuous_curvature_path_planning/",
-      "contentTreeUrl": "../content-tree/#paper=1997_scheuer_continuous_curvature_path_planning",
-      "mindMapUrl": "../mind-map/#paper=1997_scheuer_continuous_curvature_path_planning"
+      "treeUrl": "../tree/#paper=1997_scheuer_continuous_curvature_path_planning",
+      "mapUrl": "../map/#paper=1997_scheuer_continuous_curvature_path_planning"
     },
     "1997_gutierrez_new_recurrence_relations_for": {
       "id": "1997_gutierrez_new_recurrence_relations_for",
@@ -15154,8 +15154,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1997_gutierrez_new_recurrence_relations_for/",
-      "contentTreeUrl": "../content-tree/#paper=1997_gutierrez_new_recurrence_relations_for",
-      "mindMapUrl": "../mind-map/#paper=1997_gutierrez_new_recurrence_relations_for"
+      "treeUrl": "../tree/#paper=1997_gutierrez_new_recurrence_relations_for",
+      "mapUrl": "../map/#paper=1997_gutierrez_new_recurrence_relations_for"
     },
     "1997_megretski_system_analysis_via_integral": {
       "id": "1997_megretski_system_analysis_via_integral",
@@ -15169,8 +15169,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1997_megretski_system_analysis_via_integral/",
-      "contentTreeUrl": "../content-tree/#paper=1997_megretski_system_analysis_via_integral",
-      "mindMapUrl": "../mind-map/#paper=1997_megretski_system_analysis_via_integral"
+      "treeUrl": "../tree/#paper=1997_megretski_system_analysis_via_integral",
+      "mapUrl": "../map/#paper=1997_megretski_system_analysis_via_integral"
     },
     "1997_wegenkittl_animating_flow_fields_rendering": {
       "id": "1997_wegenkittl_animating_flow_fields_rendering",
@@ -15192,8 +15192,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends the standard Line Integral Convolution (LIC) visualization technique to encode both flow direction and orientation in a single image, using a sparse input texture and an asymmetric ramp convolution kernel. The resulting Oriented LIC (OLIC) also supports animation of flow fields by reusing precomputed pixel traces.",
       "url": "../papers/1997_wegenkittl_animating_flow_fields_rendering/",
-      "contentTreeUrl": "../content-tree/#paper=1997_wegenkittl_animating_flow_fields_rendering",
-      "mindMapUrl": "../mind-map/#paper=1997_wegenkittl_animating_flow_fields_rendering"
+      "treeUrl": "../tree/#paper=1997_wegenkittl_animating_flow_fields_rendering",
+      "mapUrl": "../map/#paper=1997_wegenkittl_animating_flow_fields_rendering"
     },
     "1997_musser_introspective_sorting_and_selection": {
       "id": "1997_musser_introspective_sorting_and_selection",
@@ -15206,8 +15206,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1997_musser_introspective_sorting_and_selection/",
-      "contentTreeUrl": "../content-tree/#paper=1997_musser_introspective_sorting_and_selection",
-      "mindMapUrl": "../mind-map/#paper=1997_musser_introspective_sorting_and_selection"
+      "treeUrl": "../tree/#paper=1997_musser_introspective_sorting_and_selection",
+      "mapUrl": "../map/#paper=1997_musser_introspective_sorting_and_selection"
     },
     "1997_sussmann_300_years_of_optimal": {
       "id": "1997_sussmann_300_years_of_optimal",
@@ -15221,8 +15221,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1997_sussmann_300_years_of_optimal/",
-      "contentTreeUrl": "../content-tree/#paper=1997_sussmann_300_years_of_optimal",
-      "mindMapUrl": "../mind-map/#paper=1997_sussmann_300_years_of_optimal"
+      "treeUrl": "../tree/#paper=1997_sussmann_300_years_of_optimal",
+      "mapUrl": "../map/#paper=1997_sussmann_300_years_of_optimal"
     },
     "1997_storn_differential_evolution_a_simple": {
       "id": "1997_storn_differential_evolution_a_simple",
@@ -15244,8 +15244,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces Differential Evolution, a population-based global optimizer that mutates candidate vectors by scaled differences between other candidates and then applies crossover and selection. Its practical appeal comes from a small number of control parameters, simple implementation, and strong performance on continuous black-box optimization problems.",
       "url": "../papers/1997_storn_differential_evolution_a_simple/",
-      "contentTreeUrl": "../content-tree/#paper=1997_storn_differential_evolution_a_simple",
-      "mindMapUrl": "../mind-map/#paper=1997_storn_differential_evolution_a_simple"
+      "treeUrl": "../tree/#paper=1997_storn_differential_evolution_a_simple",
+      "mapUrl": "../map/#paper=1997_storn_differential_evolution_a_simple"
     },
     "1997_katayama_the_sr_tree": {
       "id": "1997_katayama_the_sr_tree",
@@ -15259,8 +15259,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1997_katayama_the_sr_tree/",
-      "contentTreeUrl": "../content-tree/#paper=1997_katayama_the_sr_tree",
-      "mindMapUrl": "../mind-map/#paper=1997_katayama_the_sr_tree"
+      "treeUrl": "../tree/#paper=1997_katayama_the_sr_tree",
+      "mapUrl": "../map/#paper=1997_katayama_the_sr_tree"
     },
     "1997_sussmann_the_markov_dubins_problem": {
       "id": "1997_sussmann_the_markov_dubins_problem",
@@ -15281,8 +15281,8 @@ window.tagSearchData = {
       ],
       "summary": "Studies a second-order variant of the Markov-Dubins minimum-length path problem where angular acceleration is the control rather than angular velocity, finding that optimal trajectories exclude bang-bang/singular junctions but may exhibit the Fuller phenomenon of infinite control chattering in Pontryagin extremals.",
       "url": "../papers/1997_sussmann_the_markov_dubins_problem/",
-      "contentTreeUrl": "../content-tree/#paper=1997_sussmann_the_markov_dubins_problem",
-      "mindMapUrl": "../mind-map/#paper=1997_sussmann_the_markov_dubins_problem"
+      "treeUrl": "../tree/#paper=1997_sussmann_the_markov_dubins_problem",
+      "mapUrl": "../map/#paper=1997_sussmann_the_markov_dubins_problem"
     },
     "1991_shook_identification_for_long_range": {
       "id": "1991_shook_identification_for_long_range",
@@ -15299,8 +15299,8 @@ window.tagSearchData = {
       ],
       "summary": "Examines why adaptive predictive controllers that combine single-step parameter estimation with multi-step prediction can become unstable without the bandpass filtering often used in practice. The paper introduces a multi-step-ahead identification cost aligned with the controller objective, showing how this estimator naturally produces the frequency-response behavior that earlier applications achieved through ad hoc prefiltering.",
       "url": "../papers/1991_shook_identification_for_long_range/",
-      "contentTreeUrl": "../content-tree/#paper=1991_shook_identification_for_long_range",
-      "mindMapUrl": "../mind-map/#paper=1991_shook_identification_for_long_range"
+      "treeUrl": "../tree/#paper=1991_shook_identification_for_long_range",
+      "mapUrl": "../map/#paper=1991_shook_identification_for_long_range"
     },
     "1991_wang_a_combined_optimization_method": {
       "id": "1991_wang_a_combined_optimization_method",
@@ -15314,8 +15314,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1991_wang_a_combined_optimization_method/",
-      "contentTreeUrl": "../content-tree/#paper=1991_wang_a_combined_optimization_method",
-      "mindMapUrl": "../mind-map/#paper=1991_wang_a_combined_optimization_method"
+      "treeUrl": "../tree/#paper=1991_wang_a_combined_optimization_method",
+      "mapUrl": "../map/#paper=1991_wang_a_combined_optimization_method"
     },
     "1991_lin_a_fast_algorithm_for": {
       "id": "1991_lin_a_fast_algorithm_for",
@@ -15336,8 +15336,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents an incremental closest-feature method for distance queries between convex polyhedra, exploiting temporal coherence so repeated distance computations can often be updated in near-constant time. The idea became a practical primitive for collision checking and motion-planning systems.",
       "url": "../papers/1991_lin_a_fast_algorithm_for/",
-      "contentTreeUrl": "../content-tree/#paper=1991_lin_a_fast_algorithm_for",
-      "mindMapUrl": "../mind-map/#paper=1991_lin_a_fast_algorithm_for"
+      "treeUrl": "../tree/#paper=1991_lin_a_fast_algorithm_for",
+      "mapUrl": "../map/#paper=1991_lin_a_fast_algorithm_for"
     },
     "1991_lin_a_universal_formula_for": {
       "id": "1991_lin_a_universal_formula_for",
@@ -15358,8 +15358,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends Sontag-style universal control-Lyapunov feedback to bounded controls, giving an explicit stabilizing formula under a known CLF. It sits next to Artstein theorem as a constructive bridge from CLF existence to feedback design.",
       "url": "../papers/1991_lin_a_universal_formula_for/",
-      "contentTreeUrl": "../content-tree/#paper=1991_lin_a_universal_formula_for",
-      "mindMapUrl": "../mind-map/#paper=1991_lin_a_universal_formula_for"
+      "treeUrl": "../tree/#paper=1991_lin_a_universal_formula_for",
+      "mapUrl": "../map/#paper=1991_lin_a_universal_formula_for"
     },
     "1991_freund_qmr_a_quasi_minimal": {
       "id": "1991_freund_qmr_a_quasi_minimal",
@@ -15373,8 +15373,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1991_freund_qmr_a_quasi_minimal/",
-      "contentTreeUrl": "../content-tree/#paper=1991_freund_qmr_a_quasi_minimal",
-      "mindMapUrl": "../mind-map/#paper=1991_freund_qmr_a_quasi_minimal"
+      "treeUrl": "../tree/#paper=1991_freund_qmr_a_quasi_minimal",
+      "mapUrl": "../map/#paper=1991_freund_qmr_a_quasi_minimal"
     },
     "1991_verriest_on_the_linear_quadratic": {
       "id": "1991_verriest_on_the_linear_quadratic",
@@ -15388,8 +15388,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1991_verriest_on_the_linear_quadratic/",
-      "contentTreeUrl": "../content-tree/#paper=1991_verriest_on_the_linear_quadratic",
-      "mindMapUrl": "../mind-map/#paper=1991_verriest_on_the_linear_quadratic"
+      "treeUrl": "../tree/#paper=1991_verriest_on_the_linear_quadratic",
+      "mapUrl": "../map/#paper=1991_verriest_on_the_linear_quadratic"
     },
     "1991_bertsekas_an_analysis_of_stochastic": {
       "id": "1991_bertsekas_an_analysis_of_stochastic",
@@ -15405,8 +15405,8 @@ window.tagSearchData = {
       ],
       "summary": "Analysis of stochastic shortest path problems as undiscounted finite-state Markov decision problems with a destination state and potentially mixed-sign transition costs. The paper generalizes deterministic shortest-path theory and relaxes common sign restrictions from earlier undiscounted MDP analyses, making it a foundational reference for proper policies, termination, and dynamic programming in stochastic path problems.",
       "url": "../papers/1991_bertsekas_an_analysis_of_stochastic/",
-      "contentTreeUrl": "../content-tree/#paper=1991_bertsekas_an_analysis_of_stochastic",
-      "mindMapUrl": "../mind-map/#paper=1991_bertsekas_an_analysis_of_stochastic"
+      "treeUrl": "../tree/#paper=1991_bertsekas_an_analysis_of_stochastic",
+      "mapUrl": "../map/#paper=1991_bertsekas_an_analysis_of_stochastic"
     },
     "1991_davidon_variable_metric_method_for": {
       "id": "1991_davidon_variable_metric_method_for",
@@ -15426,8 +15426,8 @@ window.tagSearchData = {
       ],
       "summary": "The foundational Davidon-Fletcher-Powell (DFP) quasi-Newton method, originally circulated as an Argonne National Laboratory technical report in 1959 and published formally in SIAM Journal on Optimization in 1991. DFP was the first practical quasi-Newton update formula, building a positive-definite Hessian approximation from gradient differences; it was later superseded by the closely related BFGS update.",
       "url": "../papers/1991_davidon_variable_metric_method_for/",
-      "contentTreeUrl": "../content-tree/#paper=1991_davidon_variable_metric_method_for",
-      "mindMapUrl": "../mind-map/#paper=1991_davidon_variable_metric_method_for"
+      "treeUrl": "../tree/#paper=1991_davidon_variable_metric_method_for",
+      "mapUrl": "../map/#paper=1991_davidon_variable_metric_method_for"
     },
     "1996_ester_a_density_based_algorithm": {
       "id": "1996_ester_a_density_based_algorithm",
@@ -15454,8 +15454,8 @@ window.tagSearchData = {
       ],
       "summary": "This paper introduces DBSCAN, a density-based clustering algorithm that grows clusters from core points with sufficiently many neighbors inside an epsilon radius and labels sparse points as noise. Its central contribution is a practical alternative to centroid-based clustering for spatial data: it can recover arbitrary-shaped clusters, does not require the number of clusters in advance, and scales efficiently when neighborhood queries are supported by spatial indexes.",
       "url": "../papers/1996_ester_a_density_based_algorithm/",
-      "contentTreeUrl": "../content-tree/#paper=1996_ester_a_density_based_algorithm",
-      "mindMapUrl": "../mind-map/#paper=1996_ester_a_density_based_algorithm"
+      "treeUrl": "../tree/#paper=1996_ester_a_density_based_algorithm",
+      "mapUrl": "../map/#paper=1996_ester_a_density_based_algorithm"
     },
     "1996_van_overschee_subspace_identification_for_linear": {
       "id": "1996_van_overschee_subspace_identification_for_linear",
@@ -15475,8 +15475,8 @@ window.tagSearchData = {
       ],
       "summary": "Reference textbook covering the theory, numerical implementation, and applications of subspace identification methods (N4SID, MOESP, CVA) for identifying linear state-space models from input-output data.",
       "url": "../papers/1996_van_overschee_subspace_identification_for_linear/",
-      "contentTreeUrl": "../content-tree/#paper=1996_van_overschee_subspace_identification_for_linear",
-      "mindMapUrl": "../mind-map/#paper=1996_van_overschee_subspace_identification_for_linear"
+      "treeUrl": "../tree/#paper=1996_van_overschee_subspace_identification_for_linear",
+      "mapUrl": "../map/#paper=1996_van_overschee_subspace_identification_for_linear"
     },
     "1996_breiman_bagging_predictors": {
       "id": "1996_breiman_bagging_predictors",
@@ -15496,8 +15496,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces Bootstrap Aggregating (Bagging), an ensemble technique that trains many predictors on bootstrap resamples and aggregates by voting or averaging. Bagging reduces variance without increasing bias for unstable learners like decision trees, and is the direct predecessor to Random Forests.",
       "url": "../papers/1996_breiman_bagging_predictors/",
-      "contentTreeUrl": "../content-tree/#paper=1996_breiman_bagging_predictors",
-      "mindMapUrl": "../mind-map/#paper=1996_breiman_bagging_predictors"
+      "treeUrl": "../tree/#paper=1996_breiman_bagging_predictors",
+      "mapUrl": "../map/#paper=1996_breiman_bagging_predictors"
     },
     "1996_campion_structural_properties_and_classification": {
       "id": "1996_campion_structural_properties_and_classification",
@@ -15512,8 +15512,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1996_campion_structural_properties_and_classification/",
-      "contentTreeUrl": "../content-tree/#paper=1996_campion_structural_properties_and_classification",
-      "mindMapUrl": "../mind-map/#paper=1996_campion_structural_properties_and_classification"
+      "treeUrl": "../tree/#paper=1996_campion_structural_properties_and_classification",
+      "mapUrl": "../map/#paper=1996_campion_structural_properties_and_classification"
     },
     "1996_kavraki_probabilistic_roadmaps_for_path": {
       "id": "1996_kavraki_probabilistic_roadmaps_for_path",
@@ -15535,8 +15535,8 @@ window.tagSearchData = {
       ],
       "summary": "Seminal paper that introduced PRM.",
       "url": "../papers/1996_kavraki_probabilistic_roadmaps_for_path/",
-      "contentTreeUrl": "../content-tree/#paper=1996_kavraki_probabilistic_roadmaps_for_path",
-      "mindMapUrl": "../mind-map/#paper=1996_kavraki_probabilistic_roadmaps_for_path"
+      "treeUrl": "../tree/#paper=1996_kavraki_probabilistic_roadmaps_for_path",
+      "mapUrl": "../map/#paper=1996_kavraki_probabilistic_roadmaps_for_path"
     },
     "1996_gottschalk_obbtree": {
       "id": "1996_gottschalk_obbtree",
@@ -15551,8 +15551,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1996_gottschalk_obbtree/",
-      "contentTreeUrl": "../content-tree/#paper=1996_gottschalk_obbtree",
-      "mindMapUrl": "../mind-map/#paper=1996_gottschalk_obbtree"
+      "treeUrl": "../tree/#paper=1996_gottschalk_obbtree",
+      "mapUrl": "../map/#paper=1996_gottschalk_obbtree"
     },
     "1996_wit_theory_of_robot_control": {
       "id": "1996_wit_theory_of_robot_control",
@@ -15567,8 +15567,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1996_wit_theory_of_robot_control/",
-      "contentTreeUrl": "../content-tree/#paper=1996_wit_theory_of_robot_control",
-      "mindMapUrl": "../mind-map/#paper=1996_wit_theory_of_robot_control"
+      "treeUrl": "../tree/#paper=1996_wit_theory_of_robot_control",
+      "mapUrl": "../map/#paper=1996_wit_theory_of_robot_control"
     },
     "1967_wonham_optimal_stationary_control_of": {
       "id": "1967_wonham_optimal_stationary_control_of",
@@ -15588,8 +15588,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends LQR to linear systems subject to multiplicative (state-dependent) Gaussian noise, deriving a modified algebraic Riccati equation whose stabilizing solution yields the optimal stationary feedback gain. Establishes existence and uniqueness conditions and lays the groundwork for stochastic LQR theory.",
       "url": "../papers/1967_wonham_optimal_stationary_control_of/",
-      "contentTreeUrl": "../content-tree/#paper=1967_wonham_optimal_stationary_control_of",
-      "mindMapUrl": "../mind-map/#paper=1967_wonham_optimal_stationary_control_of"
+      "treeUrl": "../tree/#paper=1967_wonham_optimal_stationary_control_of",
+      "mapUrl": "../map/#paper=1967_wonham_optimal_stationary_control_of"
     },
     "1967_macqueen_some_methods_for_classification": {
       "id": "1967_macqueen_some_methods_for_classification",
@@ -15602,8 +15602,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1967_macqueen_some_methods_for_classification/",
-      "contentTreeUrl": "../content-tree/#paper=1967_macqueen_some_methods_for_classification",
-      "mindMapUrl": "../mind-map/#paper=1967_macqueen_some_methods_for_classification"
+      "treeUrl": "../tree/#paper=1967_macqueen_some_methods_for_classification",
+      "mapUrl": "../map/#paper=1967_macqueen_some_methods_for_classification"
     },
     "1967_wonham_on_pole_assignment_in": {
       "id": "1967_wonham_on_pole_assignment_in",
@@ -15616,8 +15616,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1967_wonham_on_pole_assignment_in/",
-      "contentTreeUrl": "../content-tree/#paper=1967_wonham_on_pole_assignment_in",
-      "mindMapUrl": "../mind-map/#paper=1967_wonham_on_pole_assignment_in"
+      "treeUrl": "../tree/#paper=1967_wonham_on_pole_assignment_in",
+      "mapUrl": "../map/#paper=1967_wonham_on_pole_assignment_in"
     },
     "1967_kleinman_suboptimal_design_of_linear": {
       "id": "1967_kleinman_suboptimal_design_of_linear",
@@ -15636,8 +15636,8 @@ window.tagSearchData = {
       ],
       "summary": "Develops methods for designing suboptimal linear regulators when computer storage constraints limit the complexity of the feedback law. Studies how to approximate optimal LQR controllers under computational restrictions, with relevance to real-time embedded control systems of the era.",
       "url": "../papers/1967_kleinman_suboptimal_design_of_linear/",
-      "contentTreeUrl": "../content-tree/#paper=1967_kleinman_suboptimal_design_of_linear",
-      "mindMapUrl": "../mind-map/#paper=1967_kleinman_suboptimal_design_of_linear"
+      "treeUrl": "../tree/#paper=1967_kleinman_suboptimal_design_of_linear",
+      "mapUrl": "../map/#paper=1967_kleinman_suboptimal_design_of_linear"
     },
     "0711_1612": {
       "id": "0711_1612",
@@ -15652,8 +15652,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/0711_1612/",
-      "contentTreeUrl": "../content-tree/#paper=0711_1612",
-      "mindMapUrl": "../mind-map/#paper=0711_1612"
+      "treeUrl": "../tree/#paper=0711_1612",
+      "mapUrl": "../map/#paper=0711_1612"
     },
     "0709_2938": {
       "id": "0709_2938",
@@ -15677,8 +15677,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces label propagation, a simple iterative method where nodes adopt the most common label among their neighbors until labels stabilize into communities. Its importance is practical: it avoids an explicit objective function and brought community detection close to linear time for large networks.",
       "url": "../papers/0709_2938/",
-      "contentTreeUrl": "../content-tree/#paper=0709_2938",
-      "mindMapUrl": "../mind-map/#paper=0709_2938"
+      "treeUrl": "../tree/#paper=0709_2938",
+      "mapUrl": "../map/#paper=0709_2938"
     },
     "2007_geraerts_creating_high_quality_paths": {
       "id": "2007_geraerts_creating_high_quality_paths",
@@ -15697,8 +15697,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents path-quality improvement techniques applied as post-processing steps to paths produced by sampling-based planners. One of the clearest early treatments of path shortcutting.",
       "url": "../papers/2007_geraerts_creating_high_quality_paths/",
-      "contentTreeUrl": "../content-tree/#paper=2007_geraerts_creating_high_quality_paths",
-      "mindMapUrl": "../mind-map/#paper=2007_geraerts_creating_high_quality_paths"
+      "treeUrl": "../tree/#paper=2007_geraerts_creating_high_quality_paths",
+      "mapUrl": "../map/#paper=2007_geraerts_creating_high_quality_paths"
     },
     "2007_yershova_improving_motion_planning_algorithms": {
       "id": "2007_yershova_improving_motion_planning_algorithms",
@@ -15712,8 +15712,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2007_yershova_improving_motion_planning_algorithms/",
-      "contentTreeUrl": "../content-tree/#paper=2007_yershova_improving_motion_planning_algorithms",
-      "mindMapUrl": "../mind-map/#paper=2007_yershova_improving_motion_planning_algorithms"
+      "treeUrl": "../tree/#paper=2007_yershova_improving_motion_planning_algorithms",
+      "mapUrl": "../map/#paper=2007_yershova_improving_motion_planning_algorithms"
     },
     "0707_0609": {
       "id": "0707_0609",
@@ -15737,8 +15737,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the map equation and Infomap, framing community detection as compression of random-walk flows on a network. This shifted part of the field from purely density- or modularity-based partitions toward flow-based communities, especially useful for directed and weighted networks.",
       "url": "../papers/0707_0609/",
-      "contentTreeUrl": "../content-tree/#paper=0707_0609",
-      "mindMapUrl": "../mind-map/#paper=0707_0609"
+      "treeUrl": "../tree/#paper=0707_0609",
+      "mapUrl": "../map/#paper=0707_0609"
     },
     "2007_hoffmann_autonomous_automobile_trajectory_tracking": {
       "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
@@ -15757,8 +15757,8 @@ window.tagSearchData = {
       ],
       "summary": "Trajectory-tracking controller used on Stanley for autonomous off-road driving. The paper derives a globally asymptotically stable steering law around front-wheel orientation, augments it for tire and steering-servo dynamics, pairs it with a switching PI speed controller, and validates the result over hundreds of miles including the 2005 DARPA Grand Challenge.",
       "url": "../papers/2007_hoffmann_autonomous_automobile_trajectory_tracking/",
-      "contentTreeUrl": "../content-tree/#paper=2007_hoffmann_autonomous_automobile_trajectory_tracking",
-      "mindMapUrl": "../mind-map/#paper=2007_hoffmann_autonomous_automobile_trajectory_tracking"
+      "treeUrl": "../tree/#paper=2007_hoffmann_autonomous_automobile_trajectory_tracking",
+      "mapUrl": "../map/#paper=2007_hoffmann_autonomous_automobile_trajectory_tracking"
     },
     "2007_hunter_matplotlib_a_2d_graphics": {
       "id": "2007_hunter_matplotlib_a_2d_graphics",
@@ -15771,8 +15771,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python. Matplotlib makes easy things easy and hard things possible. Create publication quality plots. Make interactive figures that can zoom, pan, update. Customize visual style and layout. Export to many file formats. Embed in JupyterLab and Graphical User Interfaces. Use a rich array of third-party packages built on Matplotlib.",
       "url": "../papers/2007_hunter_matplotlib_a_2d_graphics/",
-      "contentTreeUrl": "../content-tree/#paper=2007_hunter_matplotlib_a_2d_graphics",
-      "mindMapUrl": "../mind-map/#paper=2007_hunter_matplotlib_a_2d_graphics"
+      "treeUrl": "../tree/#paper=2007_hunter_matplotlib_a_2d_graphics",
+      "mapUrl": "../map/#paper=2007_hunter_matplotlib_a_2d_graphics"
     },
     "0706_4138": {
       "id": "0706_4138",
@@ -15787,8 +15787,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/0706_4138/",
-      "contentTreeUrl": "../content-tree/#paper=0706_4138",
-      "mindMapUrl": "../mind-map/#paper=0706_4138"
+      "treeUrl": "../tree/#paper=0706_4138",
+      "mapUrl": "../map/#paper=0706_4138"
     },
     "2007_flajolet_hyperloglog_the_analysis_of": {
       "id": "2007_flajolet_hyperloglog_the_analysis_of",
@@ -15811,8 +15811,8 @@ window.tagSearchData = {
       ],
       "summary": "Derives and analyzes HyperLogLog, the now-standard streaming sketch for approximate distinct counting. Its key contribution is a memory-efficient estimator with predictable relative error that composes naturally across distributed streams.",
       "url": "../papers/2007_flajolet_hyperloglog_the_analysis_of/",
-      "contentTreeUrl": "../content-tree/#paper=2007_flajolet_hyperloglog_the_analysis_of",
-      "mindMapUrl": "../mind-map/#paper=2007_flajolet_hyperloglog_the_analysis_of"
+      "treeUrl": "../tree/#paper=2007_flajolet_hyperloglog_the_analysis_of",
+      "mapUrl": "../map/#paper=2007_flajolet_hyperloglog_the_analysis_of"
     },
     "2007_arthur_k_means_the_advantages": {
       "id": "2007_arthur_k_means_the_advantages",
@@ -15834,8 +15834,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces k-means++, a seeding strategy that initializes cluster centers by sampling proportional to squared distance from already-chosen centers (D² sampling). This simple change yields an O(log k) approximation guarantee on the objective — the first provable bound for a practical k-means variant — while also improving empirical speed and accuracy, often dramatically.",
       "url": "../papers/2007_arthur_k_means_the_advantages/",
-      "contentTreeUrl": "../content-tree/#paper=2007_arthur_k_means_the_advantages",
-      "mindMapUrl": "../mind-map/#paper=2007_arthur_k_means_the_advantages"
+      "treeUrl": "../tree/#paper=2007_arthur_k_means_the_advantages",
+      "mapUrl": "../map/#paper=2007_arthur_k_means_the_advantages"
     },
     "0712_2887": {
       "id": "0712_2887",
@@ -15849,8 +15849,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/0712_2887/",
-      "contentTreeUrl": "../content-tree/#paper=0712_2887",
-      "mindMapUrl": "../mind-map/#paper=0712_2887"
+      "treeUrl": "../tree/#paper=0712_2887",
+      "mapUrl": "../map/#paper=0712_2887"
     },
     "2007_florian_correct_equations_for_the": {
       "id": "2007_florian_correct_equations_for_the",
@@ -15869,8 +15869,8 @@ window.tagSearchData = {
       ],
       "summary": "Derives corrected equations of motion for the cart-pole system, fixing errors present in commonly used formulations (notably the one in Barto-Sutton-Anderson 1983 and subsequent RL literature). A frequently cited reference for obtaining physically accurate cart-pole dynamics in simulation.",
       "url": "../papers/2007_florian_correct_equations_for_the/",
-      "contentTreeUrl": "../content-tree/#paper=2007_florian_correct_equations_for_the",
-      "mindMapUrl": "../mind-map/#paper=2007_florian_correct_equations_for_the"
+      "treeUrl": "../tree/#paper=2007_florian_correct_equations_for_the",
+      "mapUrl": "../map/#paper=2007_florian_correct_equations_for_the"
     },
     "2007_ames_a_geometric_approach_to": {
       "id": "2007_ames_a_geometric_approach_to",
@@ -15885,8 +15885,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2007_ames_a_geometric_approach_to/",
-      "contentTreeUrl": "../content-tree/#paper=2007_ames_a_geometric_approach_to",
-      "mindMapUrl": "../mind-map/#paper=2007_ames_a_geometric_approach_to"
+      "treeUrl": "../tree/#paper=2007_ames_a_geometric_approach_to",
+      "mapUrl": "../map/#paper=2007_ames_a_geometric_approach_to"
     },
     "1993_quinlan_c4_5_programs_for_machine": {
       "id": "1993_quinlan_c4_5_programs_for_machine",
@@ -15906,8 +15906,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends the ID3 algorithm into C4.5, adding gain ratio (to correct ID3's bias toward high-cardinality attributes), cost-sensitive learning, handling of continuous attributes, pruning by estimated error rate, and direct handling of missing values. C4.5 was historically one of the most used decision-tree systems and the basis for Weka's J48 classifier.",
       "url": "../papers/1993_quinlan_c4_5_programs_for_machine/",
-      "contentTreeUrl": "../content-tree/#paper=1993_quinlan_c4_5_programs_for_machine",
-      "mindMapUrl": "../mind-map/#paper=1993_quinlan_c4_5_programs_for_machine"
+      "treeUrl": "../tree/#paper=1993_quinlan_c4_5_programs_for_machine",
+      "mapUrl": "../map/#paper=1993_quinlan_c4_5_programs_for_machine"
     },
     "1993_bromley_signature_verification_using_a": {
       "id": "1993_bromley_signature_verification_using_a",
@@ -15924,8 +15924,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1993_bromley_signature_verification_using_a/",
-      "contentTreeUrl": "../content-tree/#paper=1993_bromley_signature_verification_using_a",
-      "mindMapUrl": "../mind-map/#paper=1993_bromley_signature_verification_using_a"
+      "treeUrl": "../tree/#paper=1993_bromley_signature_verification_using_a",
+      "mapUrl": "../map/#paper=1993_bromley_signature_verification_using_a"
     },
     "1993_juang_identification_of_observer_kalman": {
       "id": "1993_juang_identification_of_observer_kalman",
@@ -15948,8 +15948,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces OKID (Observer/Kalman Filter Identification), extending the Eigensystem Realization Algorithm (ERA) to handle arbitrary input-output time series rather than only impulse responses. By identifying Observer Markov Parameters, OKID simultaneously recovers both the state-space model and a Kalman gain from data, making system identification practical in the same setting as DMD and SINDy.",
       "url": "../papers/1993_juang_identification_of_observer_kalman/",
-      "contentTreeUrl": "../content-tree/#paper=1993_juang_identification_of_observer_kalman",
-      "mindMapUrl": "../mind-map/#paper=1993_juang_identification_of_observer_kalman"
+      "treeUrl": "../tree/#paper=1993_juang_identification_of_observer_kalman",
+      "mapUrl": "../map/#paper=1993_juang_identification_of_observer_kalman"
     },
     "1993_orlin_quickmatch_a_very_fast": {
       "id": "1993_orlin_quickmatch_a_very_fast",
@@ -15969,8 +15969,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces QuickMatch, a fast practical algorithm for the linear assignment problem. Designed to exploit problem structure for speed in practice on large-scale assignment instances, complementing theoretically optimal but slow algorithms.",
       "url": "../papers/1993_orlin_quickmatch_a_very_fast/",
-      "contentTreeUrl": "../content-tree/#paper=1993_orlin_quickmatch_a_very_fast",
-      "mindMapUrl": "../mind-map/#paper=1993_orlin_quickmatch_a_very_fast"
+      "treeUrl": "../tree/#paper=1993_orlin_quickmatch_a_very_fast",
+      "mapUrl": "../map/#paper=1993_orlin_quickmatch_a_very_fast"
     },
     "1993_afanasieva_the_characteristics_of_the": {
       "id": "1993_afanasieva_the_characteristics_of_the",
@@ -15988,8 +15988,8 @@ window.tagSearchData = {
       ],
       "summary": "Review of RBMK core characteristics in light of the Chernobyl Unit 4 accident, focusing on the positive void reactivity coefficient and shutdown-system dynamics. The paper explains the physical origin of the void coefficient, describes post-accident safety modifications such as additional stationary absorbers and control-rod changes, and reports resulting reactor-parameter measurements and neutron-physics changes.",
       "url": "../papers/1993_afanasieva_the_characteristics_of_the/",
-      "contentTreeUrl": "../content-tree/#paper=1993_afanasieva_the_characteristics_of_the",
-      "mindMapUrl": "../mind-map/#paper=1993_afanasieva_the_characteristics_of_the"
+      "treeUrl": "../tree/#paper=1993_afanasieva_the_characteristics_of_the",
+      "mapUrl": "../map/#paper=1993_afanasieva_the_characteristics_of_the"
     },
     "1993_donald_kinodynamic_motion_planning": {
       "id": "1993_donald_kinodynamic_motion_planning",
@@ -16005,8 +16005,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1993_donald_kinodynamic_motion_planning/",
-      "contentTreeUrl": "../content-tree/#paper=1993_donald_kinodynamic_motion_planning",
-      "mindMapUrl": "../mind-map/#paper=1993_donald_kinodynamic_motion_planning"
+      "treeUrl": "../tree/#paper=1993_donald_kinodynamic_motion_planning",
+      "mapUrl": "../map/#paper=1993_donald_kinodynamic_motion_planning"
     },
     "1993_quinlan_elastic_bands_connecting_path": {
       "id": "1993_quinlan_elastic_bands_connecting_path",
@@ -16027,8 +16027,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces elastic bands as a path-deformation layer between global planning and reactive control. It is an early and influential way to keep a global plan while continuously smoothing and reshaping it around local sensor updates.",
       "url": "../papers/1993_quinlan_elastic_bands_connecting_path/",
-      "contentTreeUrl": "../content-tree/#paper=1993_quinlan_elastic_bands_connecting_path",
-      "mindMapUrl": "../mind-map/#paper=1993_quinlan_elastic_bands_connecting_path"
+      "treeUrl": "../tree/#paper=1993_quinlan_elastic_bands_connecting_path",
+      "mapUrl": "../map/#paper=1993_quinlan_elastic_bands_connecting_path"
     },
     "1993_astrom_automatic_tuning_and_adaptation": {
       "id": "1993_astrom_automatic_tuning_and_adaptation",
@@ -16044,8 +16044,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1993_astrom_automatic_tuning_and_adaptation/",
-      "contentTreeUrl": "../content-tree/#paper=1993_astrom_automatic_tuning_and_adaptation",
-      "mindMapUrl": "../mind-map/#paper=1993_astrom_automatic_tuning_and_adaptation"
+      "treeUrl": "../tree/#paper=1993_astrom_automatic_tuning_and_adaptation",
+      "mapUrl": "../map/#paper=1993_astrom_automatic_tuning_and_adaptation"
     },
     "1994_pearlmutter_fast_exact_multiplication_by": {
       "id": "1994_pearlmutter_fast_exact_multiplication_by",
@@ -16058,8 +16058,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1994_pearlmutter_fast_exact_multiplication_by/",
-      "contentTreeUrl": "../content-tree/#paper=1994_pearlmutter_fast_exact_multiplication_by",
-      "mindMapUrl": "../mind-map/#paper=1994_pearlmutter_fast_exact_multiplication_by"
+      "treeUrl": "../tree/#paper=1994_pearlmutter_fast_exact_multiplication_by",
+      "mapUrl": "../map/#paper=1994_pearlmutter_fast_exact_multiplication_by"
     },
     "1994_van_overschee_n4sid_numerical_algorithms_for": {
       "id": "1994_van_overschee_n4sid_numerical_algorithms_for",
@@ -16083,8 +16083,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the N4SID algorithm, which identifies linear state-space models from input-output data using projections of block Hankel matrices, providing a numerically robust approach to subspace system identification.",
       "url": "../papers/1994_van_overschee_n4sid_numerical_algorithms_for/",
-      "contentTreeUrl": "../content-tree/#paper=1994_van_overschee_n4sid_numerical_algorithms_for",
-      "mindMapUrl": "../mind-map/#paper=1994_van_overschee_n4sid_numerical_algorithms_for"
+      "treeUrl": "../tree/#paper=1994_van_overschee_n4sid_numerical_algorithms_for",
+      "mapUrl": "../map/#paper=1994_van_overschee_n4sid_numerical_algorithms_for"
     },
     "1994_boyd_linear_matrix_inequalities_in": {
       "id": "1994_boyd_linear_matrix_inequalities_in",
@@ -16100,8 +16100,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1994_boyd_linear_matrix_inequalities_in/",
-      "contentTreeUrl": "../content-tree/#paper=1994_boyd_linear_matrix_inequalities_in",
-      "mindMapUrl": "../mind-map/#paper=1994_boyd_linear_matrix_inequalities_in"
+      "treeUrl": "../tree/#paper=1994_boyd_linear_matrix_inequalities_in",
+      "mapUrl": "../map/#paper=1994_boyd_linear_matrix_inequalities_in"
     },
     "1994_bradtke_adaptive_linear_quadratic_control": {
       "id": "1994_bradtke_adaptive_linear_quadratic_control",
@@ -16116,8 +16116,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1994_bradtke_adaptive_linear_quadratic_control/",
-      "contentTreeUrl": "../content-tree/#paper=1994_bradtke_adaptive_linear_quadratic_control",
-      "mindMapUrl": "../mind-map/#paper=1994_bradtke_adaptive_linear_quadratic_control"
+      "treeUrl": "../tree/#paper=1994_bradtke_adaptive_linear_quadratic_control",
+      "mapUrl": "../map/#paper=1994_bradtke_adaptive_linear_quadratic_control"
     },
     "1994_rummery_on_line_q_learning": {
       "id": "1994_rummery_on_line_q_learning",
@@ -16131,8 +16131,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1994_rummery_on_line_q_learning/",
-      "contentTreeUrl": "../content-tree/#paper=1994_rummery_on_line_q_learning",
-      "mindMapUrl": "../mind-map/#paper=1994_rummery_on_line_q_learning"
+      "treeUrl": "../tree/#paper=1994_rummery_on_line_q_learning",
+      "mapUrl": "../map/#paper=1994_rummery_on_line_q_learning"
     },
     "1994_de_wit_nonlinear_control_design_for": {
       "id": "1994_de_wit_nonlinear_control_design_for",
@@ -16155,8 +16155,8 @@ window.tagSearchData = {
       ],
       "summary": "This chapter collects nonlinear control designs for wheeled mobile robots, with emphasis on the kinematic constraints and tracking or stabilization behavior that make nonholonomic vehicles different from fully actuated systems. It is a useful historical reference for the control laws and modeling assumptions that recur in later mobile-robot tracking literature.",
       "url": "../papers/1994_de_wit_nonlinear_control_design_for/",
-      "contentTreeUrl": "../content-tree/#paper=1994_de_wit_nonlinear_control_design_for",
-      "mindMapUrl": "../mind-map/#paper=1994_de_wit_nonlinear_control_design_for"
+      "treeUrl": "../tree/#paper=1994_de_wit_nonlinear_control_design_for",
+      "mapUrl": "../map/#paper=1994_de_wit_nonlinear_control_design_for"
     },
     "1994_purgathofer_forced_random_dithering_improved": {
       "id": "1994_purgathofer_forced_random_dithering_improved",
@@ -16180,8 +16180,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes forced random dithering, a method for constructing improved threshold matrices for ordered dithering that suppresses low-frequency artifacts while avoiding excessive random noise. By optimizing micro-dot distributions to closely approximate target intensity levels, the technique achieves output quality competitive with stochastic dithering while retaining the computational predictability of ordered dithering.",
       "url": "../papers/1994_purgathofer_forced_random_dithering_improved/",
-      "contentTreeUrl": "../content-tree/#paper=1994_purgathofer_forced_random_dithering_improved",
-      "mindMapUrl": "../mind-map/#paper=1994_purgathofer_forced_random_dithering_improved"
+      "treeUrl": "../tree/#paper=1994_purgathofer_forced_random_dithering_improved",
+      "mapUrl": "../map/#paper=1994_purgathofer_forced_random_dithering_improved"
     },
     "1994_sims_evolving_virtual_creatures": {
       "id": "1994_sims_evolving_virtual_creatures",
@@ -16194,8 +16194,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1994_sims_evolving_virtual_creatures/",
-      "contentTreeUrl": "../content-tree/#paper=1994_sims_evolving_virtual_creatures",
-      "mindMapUrl": "../mind-map/#paper=1994_sims_evolving_virtual_creatures"
+      "treeUrl": "../tree/#paper=1994_sims_evolving_virtual_creatures",
+      "mapUrl": "../map/#paper=1994_sims_evolving_virtual_creatures"
     },
     "1994_spong_partial_feedback_linearization_of": {
       "id": "1994_spong_partial_feedback_linearization_of",
@@ -16216,8 +16216,8 @@ window.tagSearchData = {
       ],
       "summary": "Develops partial feedback linearization for underactuated mechanical systems and highlights when either the active or passive coordinates can be linearized through nonlinear feedback. The paper is especially useful for understanding how inertial coupling and zero dynamics shape controllers for Acrobot-like systems.",
       "url": "../papers/1994_spong_partial_feedback_linearization_of/",
-      "contentTreeUrl": "../content-tree/#paper=1994_spong_partial_feedback_linearization_of",
-      "mindMapUrl": "../mind-map/#paper=1994_spong_partial_feedback_linearization_of"
+      "treeUrl": "../tree/#paper=1994_spong_partial_feedback_linearization_of",
+      "mapUrl": "../map/#paper=1994_spong_partial_feedback_linearization_of"
     },
     "1994_gahinet_a_linear_matrix_inequality": {
       "id": "1994_gahinet_a_linear_matrix_inequality",
@@ -16231,8 +16231,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1994_gahinet_a_linear_matrix_inequality/",
-      "contentTreeUrl": "../content-tree/#paper=1994_gahinet_a_linear_matrix_inequality",
-      "mindMapUrl": "../mind-map/#paper=1994_gahinet_a_linear_matrix_inequality"
+      "treeUrl": "../tree/#paper=1994_gahinet_a_linear_matrix_inequality",
+      "mapUrl": "../map/#paper=1994_gahinet_a_linear_matrix_inequality"
     },
     "2410_12649": {
       "id": "2410_12649",
@@ -16251,8 +16251,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2410_12649/",
-      "contentTreeUrl": "../content-tree/#paper=2410_12649",
-      "mindMapUrl": "../mind-map/#paper=2410_12649"
+      "treeUrl": "../tree/#paper=2410_12649",
+      "mapUrl": "../map/#paper=2410_12649"
     },
     "2409_06807": {
       "id": "2409_06807",
@@ -16274,8 +16274,8 @@ window.tagSearchData = {
       ],
       "summary": "GPU-native kinodynamic sampling-based planner that decomposes the traditionally serial RRT tree-growth process into three massively parallel subroutines. The design aligns with GPU execution hierarchies: independent threads, balanced workloads, low-latency shared memory.",
       "url": "../papers/2409_06807/",
-      "contentTreeUrl": "../content-tree/#paper=2409_06807",
-      "mindMapUrl": "../mind-map/#paper=2409_06807"
+      "treeUrl": "../tree/#paper=2409_06807",
+      "mapUrl": "../map/#paper=2409_06807"
     },
     "2402_15464": {
       "id": "2402_15464",
@@ -16289,8 +16289,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2402_15464/",
-      "contentTreeUrl": "../content-tree/#paper=2402_15464",
-      "mindMapUrl": "../mind-map/#paper=2402_15464"
+      "treeUrl": "../tree/#paper=2402_15464",
+      "mapUrl": "../map/#paper=2402_15464"
     },
     "2401_15185": {
       "id": "2401_15185",
@@ -16305,8 +16305,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2401_15185/",
-      "contentTreeUrl": "../content-tree/#paper=2401_15185",
-      "mindMapUrl": "../mind-map/#paper=2401_15185"
+      "treeUrl": "../tree/#paper=2401_15185",
+      "mapUrl": "../map/#paper=2401_15185"
     },
     "2404_08471": {
       "id": "2404_08471",
@@ -16336,8 +16336,8 @@ window.tagSearchData = {
       ],
       "summary": "V-JEPA tests whether masked feature prediction alone can learn useful video representations, removing common auxiliary signals such as contrastive negatives, text supervision, reconstruction targets, or pretrained image encoders. The result is a video-trained JEPA model whose frozen backbone transfers to both motion-heavy and appearance-heavy tasks, making it a clean example of latent-space prediction as a self-supervised visual objective.",
       "url": "../papers/2404_08471/",
-      "contentTreeUrl": "../content-tree/#paper=2404_08471",
-      "mindMapUrl": "../mind-map/#paper=2404_08471"
+      "treeUrl": "../tree/#paper=2404_08471",
+      "mapUrl": "../map/#paper=2404_08471"
     },
     "2024_calem_action_and_trajectory_prediction": {
       "id": "2024_calem_action_and_trajectory_prediction",
@@ -16359,8 +16359,8 @@ window.tagSearchData = {
       ],
       "summary": "PhD thesis covering action and trajectory prediction methods for autonomous driving.",
       "url": "../papers/2024_calem_action_and_trajectory_prediction/",
-      "contentTreeUrl": "../content-tree/#paper=2024_calem_action_and_trajectory_prediction",
-      "mindMapUrl": "../mind-map/#paper=2024_calem_action_and_trajectory_prediction"
+      "treeUrl": "../tree/#paper=2024_calem_action_and_trajectory_prediction",
+      "mapUrl": "../map/#paper=2024_calem_action_and_trajectory_prediction"
     },
     "2410_24164": {
       "id": "2410_24164",
@@ -16396,8 +16396,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2410_24164/",
-      "contentTreeUrl": "../content-tree/#paper=2410_24164",
-      "mindMapUrl": "../mind-map/#paper=2410_24164"
+      "treeUrl": "../tree/#paper=2410_24164",
+      "mapUrl": "../map/#paper=2410_24164"
     },
     "2401_16025": {
       "id": "2401_16025",
@@ -16421,8 +16421,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes a modified policy gradient loss that achieves better performance than PPO while maintaining simplicity.",
       "url": "../papers/2401_16025/",
-      "contentTreeUrl": "../content-tree/#paper=2401_16025",
-      "mindMapUrl": "../mind-map/#paper=2401_16025"
+      "treeUrl": "../tree/#paper=2401_16025",
+      "mapUrl": "../map/#paper=2401_16025"
     },
     "2024_safaoui_cvxriskopt_a_risk_based": {
       "id": "2024_safaoui_cvxriskopt_a_risk_based",
@@ -16436,8 +16436,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2024_safaoui_cvxriskopt_a_risk_based/",
-      "contentTreeUrl": "../content-tree/#paper=2024_safaoui_cvxriskopt_a_risk_based",
-      "mindMapUrl": "../mind-map/#paper=2024_safaoui_cvxriskopt_a_risk_based"
+      "treeUrl": "../tree/#paper=2024_safaoui_cvxriskopt_a_risk_based",
+      "mapUrl": "../map/#paper=2024_safaoui_cvxriskopt_a_risk_based"
     },
     "2024_vlahov_low_frequency_sampling_in": {
       "id": "2024_vlahov_low_frequency_sampling_in",
@@ -16455,8 +16455,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2024_vlahov_low_frequency_sampling_in/",
-      "contentTreeUrl": "../content-tree/#paper=2024_vlahov_low_frequency_sampling_in",
-      "mindMapUrl": "../mind-map/#paper=2024_vlahov_low_frequency_sampling_in"
+      "treeUrl": "../tree/#paper=2024_vlahov_low_frequency_sampling_in",
+      "mapUrl": "../map/#paper=2024_vlahov_low_frequency_sampling_in"
     },
     "2412_09743": {
       "id": "2412_09743",
@@ -16475,8 +16475,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2412_09743/",
-      "contentTreeUrl": "../content-tree/#paper=2412_09743",
-      "mindMapUrl": "../mind-map/#paper=2412_09743"
+      "treeUrl": "../tree/#paper=2412_09743",
+      "mapUrl": "../map/#paper=2412_09743"
     },
     "2403_13117": {
       "id": "2403_13117",
@@ -16492,8 +16492,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2403_13117/",
-      "contentTreeUrl": "../content-tree/#paper=2403_13117",
-      "mindMapUrl": "../mind-map/#paper=2403_13117"
+      "treeUrl": "../tree/#paper=2403_13117",
+      "mapUrl": "../map/#paper=2403_13117"
     },
     "2412_14415": {
       "id": "2412_14415",
@@ -16521,8 +16521,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2412_14415/",
-      "contentTreeUrl": "../content-tree/#paper=2412_14415",
-      "mindMapUrl": "../mind-map/#paper=2412_14415"
+      "treeUrl": "../tree/#paper=2412_14415",
+      "mapUrl": "../map/#paper=2412_14415"
     },
     "2410_04083": {
       "id": "2410_04083",
@@ -16539,8 +16539,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2410_04083/",
-      "contentTreeUrl": "../content-tree/#paper=2410_04083",
-      "mindMapUrl": "../mind-map/#paper=2410_04083"
+      "treeUrl": "../tree/#paper=2410_04083",
+      "mapUrl": "../map/#paper=2410_04083"
     },
     "2404_13009": {
       "id": "2404_13009",
@@ -16559,8 +16559,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2404_13009/",
-      "contentTreeUrl": "../content-tree/#paper=2404_13009",
-      "mindMapUrl": "../mind-map/#paper=2404_13009"
+      "treeUrl": "../tree/#paper=2404_13009",
+      "mapUrl": "../map/#paper=2404_13009"
     },
     "2411_11833": {
       "id": "2411_11833",
@@ -16589,8 +16589,8 @@ window.tagSearchData = {
       ],
       "summary": "Exploits GPU parallelism to simultaneously evaluate thousands of candidate continuous parameter seeds for a given plan skeleton, then applies differentiable gradient-based optimization to each seed in parallel to satisfy the induced continuous constraint satisfaction problem. This combines the discrete search of classical TAMP with massively parallel differentiable optimization, significantly reducing solve times for long-horizon manipulation tasks in highly constrained settings.",
       "url": "../papers/2411_11833/",
-      "contentTreeUrl": "../content-tree/#paper=2411_11833",
-      "mindMapUrl": "../mind-map/#paper=2411_11833"
+      "treeUrl": "../tree/#paper=2411_11833",
+      "mapUrl": "../map/#paper=2411_11833"
     },
     "2410_19414": {
       "id": "2410_19414",
@@ -16617,8 +16617,8 @@ window.tagSearchData = {
       ],
       "summary": "Reviews ten popular sampling-based motion planners for robotic applications, analyzing their theoretical properties and empirical performance across diverse planning scenarios to highlight ongoing research challenges in the field.",
       "url": "../papers/2410_19414/",
-      "contentTreeUrl": "../content-tree/#paper=2410_19414",
-      "mindMapUrl": "../mind-map/#paper=2410_19414"
+      "treeUrl": "../tree/#paper=2410_19414",
+      "mapUrl": "../map/#paper=2410_19414"
     },
     "2409_09523": {
       "id": "2409_09523",
@@ -16642,8 +16642,8 @@ window.tagSearchData = {
       ],
       "summary": "Optimization-based wrapper that converts any planner's trajectory sketch into a safe, comfortable, dynamically feasible trajectory, enabling rapid real-world testing of experimental ML and classical planners on self-driving vehicles without full safety-stack integration.",
       "url": "../papers/2409_09523/",
-      "contentTreeUrl": "../content-tree/#paper=2409_09523",
-      "mindMapUrl": "../mind-map/#paper=2409_09523"
+      "treeUrl": "../tree/#paper=2409_09523",
+      "mapUrl": "../map/#paper=2409_09523"
     },
     "2401_13662": {
       "id": "2401_13662",
@@ -16656,8 +16656,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2401_13662/",
-      "contentTreeUrl": "../content-tree/#paper=2401_13662",
-      "mindMapUrl": "../mind-map/#paper=2401_13662"
+      "treeUrl": "../tree/#paper=2401_13662",
+      "mapUrl": "../map/#paper=2401_13662"
     },
     "2402_01443": {
       "id": "2402_01443",
@@ -16680,8 +16680,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces FRENETIX, a high-performance and modular motion planning framework for autonomous driving built around Frenet-frame trajectory sampling. Features a Python/C++ implementation with CommonRoad compatibility, achieving real-time performance through parallelized sampling and efficient trajectory evaluation.",
       "url": "../papers/2402_01443/",
-      "contentTreeUrl": "../content-tree/#paper=2402_01443",
-      "mindMapUrl": "../mind-map/#paper=2402_01443"
+      "treeUrl": "../tree/#paper=2402_01443",
+      "mapUrl": "../map/#paper=2402_01443"
     },
     "2403_05466": {
       "id": "2403_05466",
@@ -16698,8 +16698,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2403_05466/",
-      "contentTreeUrl": "../content-tree/#paper=2403_05466",
-      "mindMapUrl": "../mind-map/#paper=2403_05466"
+      "treeUrl": "../tree/#paper=2403_05466",
+      "mapUrl": "../map/#paper=2403_05466"
     },
     "2410_13732": {
       "id": "2410_13732",
@@ -16716,8 +16716,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2410_13732/",
-      "contentTreeUrl": "../content-tree/#paper=2410_13732",
-      "mindMapUrl": "../mind-map/#paper=2410_13732"
+      "treeUrl": "../tree/#paper=2410_13732",
+      "mapUrl": "../map/#paper=2410_13732"
     },
     "2024_niu_quintic_bezier_curve_and": {
       "id": "2024_niu_quintic_bezier_curve_and",
@@ -16741,8 +16741,8 @@ window.tagSearchData = {
       ],
       "summary": "Applies parameterized quintic Bezier transition curves to globally optimal path planning for seismic exploration vehicles, satisfying curvature constraints at survey points in closed form without iterative calculation. The method achieves measurable improvements in operational efficiency and precision over prior approaches.",
       "url": "../papers/2024_niu_quintic_bezier_curve_and/",
-      "contentTreeUrl": "../content-tree/#paper=2024_niu_quintic_bezier_curve_and",
-      "mindMapUrl": "../mind-map/#paper=2024_niu_quintic_bezier_curve_and"
+      "treeUrl": "../tree/#paper=2024_niu_quintic_bezier_curve_and",
+      "mapUrl": "../map/#paper=2024_niu_quintic_bezier_curve_and"
     },
     "2411_17902": {
       "id": "2411_17902",
@@ -16769,8 +16769,8 @@ window.tagSearchData = {
       ],
       "summary": "Use SIMD instructions to evaluate edge costs to every neighbor (hence eliminating expensive nearest neighbor routine) in Informed RRT*. Gives huge empirical computational end-to-end planning time.",
       "url": "../papers/2411_17902/",
-      "contentTreeUrl": "../content-tree/#paper=2411_17902",
-      "mindMapUrl": "../mind-map/#paper=2411_17902"
+      "treeUrl": "../tree/#paper=2411_17902",
+      "mapUrl": "../map/#paper=2411_17902"
     },
     "2403_11763": {
       "id": "2403_11763",
@@ -16793,8 +16793,8 @@ window.tagSearchData = {
       ],
       "summary": "Formulates joint CBF and linear feedback-controller synthesis for linear systems as a semidefinite program, including input constraints and mixed-relative-degree safe sets. The useful idea is treating safe-set certificate design and controller design as one convex co-design problem.",
       "url": "../papers/2403_11763/",
-      "contentTreeUrl": "../content-tree/#paper=2403_11763",
-      "mindMapUrl": "../mind-map/#paper=2403_11763"
+      "treeUrl": "../tree/#paper=2403_11763",
+      "mapUrl": "../map/#paper=2403_11763"
     },
     "2401_09241": {
       "id": "2401_09241",
@@ -16814,8 +16814,8 @@ window.tagSearchData = {
       ],
       "summary": "Biased-MPPI augments the MPPI sampling distribution by biasing it toward trajectories suggested by one or more ancillary controllers (e.g., path-following or optimization-based), improving sample efficiency and trajectory quality while preserving the exploration benefits of random sampling.",
       "url": "../papers/2401_09241/",
-      "contentTreeUrl": "../content-tree/#paper=2401_09241",
-      "mindMapUrl": "../mind-map/#paper=2401_09241"
+      "treeUrl": "../tree/#paper=2401_09241",
+      "mapUrl": "../map/#paper=2401_09241"
     },
     "2024_suggala_second_order_methods_for": {
       "id": "2024_suggala_second_order_methods_for",
@@ -16831,8 +16831,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2024_suggala_second_order_methods_for/",
-      "contentTreeUrl": "../content-tree/#paper=2024_suggala_second_order_methods_for",
-      "mindMapUrl": "../mind-map/#paper=2024_suggala_second_order_methods_for"
+      "treeUrl": "../tree/#paper=2024_suggala_second_order_methods_for",
+      "mapUrl": "../map/#paper=2024_suggala_second_order_methods_for"
     },
     "2403_02751": {
       "id": "2403_02751",
@@ -16853,8 +16853,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2403_02751/",
-      "contentTreeUrl": "../content-tree/#paper=2403_02751",
-      "mindMapUrl": "../mind-map/#paper=2403_02751"
+      "treeUrl": "../tree/#paper=2403_02751",
+      "mapUrl": "../map/#paper=2403_02751"
     },
     "2412_19027": {
       "id": "2412_19027",
@@ -16871,8 +16871,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2412_19027/",
-      "contentTreeUrl": "../content-tree/#paper=2412_19027",
-      "mindMapUrl": "../mind-map/#paper=2412_19027"
+      "treeUrl": "../tree/#paper=2412_19027",
+      "mapUrl": "../map/#paper=2412_19027"
     },
     "2411_17293": {
       "id": "2411_17293",
@@ -16886,8 +16886,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2411_17293/",
-      "contentTreeUrl": "../content-tree/#paper=2411_17293",
-      "mindMapUrl": "../mind-map/#paper=2411_17293"
+      "treeUrl": "../tree/#paper=2411_17293",
+      "mapUrl": "../map/#paper=2411_17293"
     },
     "2412_11270": {
       "id": "2412_11270",
@@ -16913,8 +16913,8 @@ window.tagSearchData = {
       ],
       "summary": "Bridges Monte Carlo Tree Search and continuous physical dynamics by using the spectrum of locally linearized systems to build a low-complexity discrete model.",
       "url": "../papers/2412_11270/",
-      "contentTreeUrl": "../content-tree/#paper=2412_11270",
-      "mindMapUrl": "../mind-map/#paper=2412_11270"
+      "treeUrl": "../tree/#paper=2412_11270",
+      "mapUrl": "../map/#paper=2412_11270"
     },
     "2406_15349": {
       "id": "2406_15349",
@@ -16938,8 +16938,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2406_15349/",
-      "contentTreeUrl": "../content-tree/#paper=2406_15349",
-      "mindMapUrl": "../mind-map/#paper=2406_15349"
+      "treeUrl": "../tree/#paper=2406_15349",
+      "mapUrl": "../map/#paper=2406_15349"
     },
     "2024_jallet_real_time_constrained_trajectory": {
       "id": "2024_jallet_real_time_constrained_trajectory",
@@ -16969,8 +16969,8 @@ window.tagSearchData = {
       ],
       "summary": "PhD dissertation by Wilson Jallet covering the ProxDDP algorithm and the Aligator library. Good discussion on recent works in constrained DDP e.g. ALTRO, primal-dual iLQR, etc.",
       "url": "../papers/2024_jallet_real_time_constrained_trajectory/",
-      "contentTreeUrl": "../content-tree/#paper=2024_jallet_real_time_constrained_trajectory",
-      "mindMapUrl": "../mind-map/#paper=2024_jallet_real_time_constrained_trajectory"
+      "treeUrl": "../tree/#paper=2024_jallet_real_time_constrained_trajectory",
+      "mapUrl": "../map/#paper=2024_jallet_real_time_constrained_trajectory"
     },
     "2411_06542": {
       "id": "2411_06542",
@@ -16990,8 +16990,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2411_06542/",
-      "contentTreeUrl": "../content-tree/#paper=2411_06542",
-      "mindMapUrl": "../mind-map/#paper=2411_06542"
+      "treeUrl": "../tree/#paper=2411_06542",
+      "mapUrl": "../map/#paper=2411_06542"
     },
     "2411_03277": {
       "id": "2411_03277",
@@ -17004,8 +17004,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2411_03277/",
-      "contentTreeUrl": "../content-tree/#paper=2411_03277",
-      "mindMapUrl": "../mind-map/#paper=2411_03277"
+      "treeUrl": "../tree/#paper=2411_03277",
+      "mapUrl": "../map/#paper=2411_03277"
     },
     "2411_06425": {
       "id": "2411_06425",
@@ -17021,8 +17021,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2411_06425/",
-      "contentTreeUrl": "../content-tree/#paper=2411_06425",
-      "mindMapUrl": "../mind-map/#paper=2411_06425"
+      "treeUrl": "../tree/#paper=2411_06425",
+      "mapUrl": "../map/#paper=2411_06425"
     },
     "2410_23916": {
       "id": "2410_23916",
@@ -17040,8 +17040,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2410_23916/",
-      "contentTreeUrl": "../content-tree/#paper=2410_23916",
-      "mindMapUrl": "../mind-map/#paper=2410_23916"
+      "treeUrl": "../tree/#paper=2410_23916",
+      "mapUrl": "../map/#paper=2410_23916"
     },
     "2403_00748": {
       "id": "2403_00748",
@@ -17061,8 +17061,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces Primal-Dual iLQR, incorporating both primal and dual (Lagrange multiplier) variable updates within the iLQR backward/forward pass, enabling trajectory optimization with favorable convergence properties. The technique is restricted to problems without arbitrary state and control constraints; only kinodynamic constraints are handled.",
       "url": "../papers/2403_00748/",
-      "contentTreeUrl": "../content-tree/#paper=2403_00748",
-      "mindMapUrl": "../mind-map/#paper=2403_00748"
+      "treeUrl": "../tree/#paper=2403_00748",
+      "mapUrl": "../map/#paper=2403_00748"
     },
     "2409_14562": {
       "id": "2409_14562",
@@ -17078,8 +17078,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2409_14562/",
-      "contentTreeUrl": "../content-tree/#paper=2409_14562",
-      "mindMapUrl": "../mind-map/#paper=2409_14562"
+      "treeUrl": "../tree/#paper=2409_14562",
+      "mapUrl": "../map/#paper=2409_14562"
     },
     "2401_08281": {
       "id": "2401_08281",
@@ -17100,8 +17100,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2401_08281/",
-      "contentTreeUrl": "../content-tree/#paper=2401_08281",
-      "mindMapUrl": "../mind-map/#paper=2401_08281"
+      "treeUrl": "../tree/#paper=2401_08281",
+      "mapUrl": "../map/#paper=2401_08281"
     },
     "2403_10745": {
       "id": "2403_10745",
@@ -17125,8 +17125,8 @@ window.tagSearchData = {
       ],
       "summary": "Combines short motion primitives (allowing bounded discontinuities) with the RRT exploration strategy, iteratively repairing discontinuities via trajectory optimization. Finds solutions up to 10X faster than prior methods across a benchmark of 30 problems.",
       "url": "../papers/2403_10745/",
-      "contentTreeUrl": "../content-tree/#paper=2403_10745",
-      "mindMapUrl": "../mind-map/#paper=2403_10745"
+      "treeUrl": "../tree/#paper=2403_10745",
+      "mapUrl": "../map/#paper=2403_10745"
     },
     "2409_16915": {
       "id": "2409_16915",
@@ -17151,8 +17151,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes trajectory optimization directly within a Normalized Gaussian Splat (NGS) scene representation, treating Gaussian density as a risk measure to enable risk-aware collision avoidance without requiring explicit geometric extraction.",
       "url": "../papers/2409_16915/",
-      "contentTreeUrl": "../content-tree/#paper=2409_16915",
-      "mindMapUrl": "../mind-map/#paper=2409_16915"
+      "treeUrl": "../tree/#paper=2409_16915",
+      "mapUrl": "../map/#paper=2409_16915"
     },
     "2403_12945": {
       "id": "2403_12945",
@@ -17265,8 +17265,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2403_12945/",
-      "contentTreeUrl": "../content-tree/#paper=2403_12945",
-      "mindMapUrl": "../mind-map/#paper=2403_12945"
+      "treeUrl": "../tree/#paper=2403_12945",
+      "mapUrl": "../map/#paper=2403_12945"
     },
     "2409_15610": {
       "id": "2409_15610",
@@ -17290,8 +17290,8 @@ window.tagSearchData = {
       ],
       "summary": "Takes a perspective of treating MPPI as a single step of a denoising diffusion process, and generalizes this process to a multi-step diffusion-style annealing process. DIAL-MPC starts optimizing the control sequence with smooth but inaccurate objectives and gradually shifts to more accurate local objectives.",
       "url": "../papers/2409_15610/",
-      "contentTreeUrl": "../content-tree/#paper=2409_15610",
-      "mindMapUrl": "../mind-map/#paper=2409_15610"
+      "treeUrl": "../tree/#paper=2409_15610",
+      "mapUrl": "../map/#paper=2409_15610"
     },
     "2406_09246": {
       "id": "2406_09246",
@@ -17321,8 +17321,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2406_09246/",
-      "contentTreeUrl": "../content-tree/#paper=2406_09246",
-      "mindMapUrl": "../mind-map/#paper=2406_09246"
+      "treeUrl": "../tree/#paper=2406_09246",
+      "mapUrl": "../map/#paper=2406_09246"
     },
     "2406_05846": {
       "id": "2406_05846",
@@ -17339,8 +17339,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2406_05846/",
-      "contentTreeUrl": "../content-tree/#paper=2406_05846",
-      "mindMapUrl": "../mind-map/#paper=2406_05846"
+      "treeUrl": "../tree/#paper=2406_05846",
+      "mapUrl": "../map/#paper=2406_05846"
     },
     "2403_14606": {
       "id": "2403_14606",
@@ -17354,8 +17354,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2403_14606/",
-      "contentTreeUrl": "../content-tree/#paper=2403_14606",
-      "mindMapUrl": "../mind-map/#paper=2403_14606"
+      "treeUrl": "../tree/#paper=2403_14606",
+      "mapUrl": "../map/#paper=2403_14606"
     },
     "2408_04587": {
       "id": "2408_04587",
@@ -17377,8 +17377,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2408_04587/",
-      "contentTreeUrl": "../content-tree/#paper=2408_04587",
-      "mindMapUrl": "../mind-map/#paper=2408_04587"
+      "treeUrl": "../tree/#paper=2408_04587",
+      "mapUrl": "../map/#paper=2408_04587"
     },
     "2407_01812": {
       "id": "2407_01812",
@@ -17400,8 +17400,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2407_01812/",
-      "contentTreeUrl": "../content-tree/#paper=2407_01812",
-      "mindMapUrl": "../mind-map/#paper=2407_01812"
+      "treeUrl": "../tree/#paper=2407_01812",
+      "mapUrl": "../map/#paper=2407_01812"
     },
     "2403_04133": {
       "id": "2403_04133",
@@ -17424,8 +17424,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2403_04133/",
-      "contentTreeUrl": "../content-tree/#paper=2403_04133",
-      "mindMapUrl": "../mind-map/#paper=2403_04133"
+      "treeUrl": "../tree/#paper=2403_04133",
+      "mapUrl": "../map/#paper=2403_04133"
     },
     "2408_01258": {
       "id": "2408_01258",
@@ -17447,8 +17447,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2408_01258/",
-      "contentTreeUrl": "../content-tree/#paper=2408_01258",
-      "mindMapUrl": "../mind-map/#paper=2408_01258"
+      "treeUrl": "../tree/#paper=2408_01258",
+      "mapUrl": "../map/#paper=2408_01258"
     },
     "2411_15651": {
       "id": "2411_15651",
@@ -17472,8 +17472,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes reusing the entire optimal subtree (not just the best trajectory) across receding horizon planning steps, enabling simultaneous refinement toward better solutions and away from worse ones.",
       "url": "../papers/2411_15651/",
-      "contentTreeUrl": "../content-tree/#paper=2411_15651",
-      "mindMapUrl": "../mind-map/#paper=2411_15651"
+      "treeUrl": "../tree/#paper=2411_15651",
+      "mapUrl": "../map/#paper=2411_15651"
     },
     "2402_03300": {
       "id": "2402_03300",
@@ -17502,8 +17502,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces GRPO (Group Relative Policy Optimization), a memory-efficient RL variant that replaces the PPO critic with group-relative reward normalization. Historically this caused a big buzz in the Machine Learning world because it was used to train DeepSeek R1, an open weights LLM from China that performed nearly as well as leading closed weights LLMs from the USA. Nevertheless, GRPO is very similar to the REINFORCE policy gradient algorithm, c.f. [A vision researcher's guide to some RL stuff: PPO & GRPO - Yuge (Jimmy) Shi](https://yugeten.github.io/posts/2025/01/ppogrpo/)",
       "url": "../papers/2402_03300/",
-      "contentTreeUrl": "../content-tree/#paper=2402_03300",
-      "mindMapUrl": "../mind-map/#paper=2402_03300"
+      "treeUrl": "../tree/#paper=2402_03300",
+      "mapUrl": "../map/#paper=2402_03300"
     },
     "2409_19543": {
       "id": "2409_19543",
@@ -17522,8 +17522,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2409_19543/",
-      "contentTreeUrl": "../content-tree/#paper=2409_19543",
-      "mindMapUrl": "../mind-map/#paper=2409_19543"
+      "treeUrl": "../tree/#paper=2409_19543",
+      "mapUrl": "../map/#paper=2409_19543"
     },
     "2409_11649": {
       "id": "2409_11649",
@@ -17544,8 +17544,8 @@ window.tagSearchData = {
       ],
       "summary": "Comparative study over the variations of differential dynamic programming for constrained trajectory optimization problems, including interior-point, augmented Lagrangian, primal-dual, and sequential quadratic programming techniques.",
       "url": "../papers/2409_11649/",
-      "contentTreeUrl": "../content-tree/#paper=2409_11649",
-      "mindMapUrl": "../mind-map/#paper=2409_11649"
+      "treeUrl": "../tree/#paper=2409_11649",
+      "mapUrl": "../map/#paper=2409_11649"
     },
     "2402_10329": {
       "id": "2402_10329",
@@ -17565,8 +17565,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2402_10329/",
-      "contentTreeUrl": "../content-tree/#paper=2402_10329",
-      "mindMapUrl": "../mind-map/#paper=2402_10329"
+      "treeUrl": "../tree/#paper=2402_10329",
+      "mapUrl": "../map/#paper=2402_10329"
     },
     "2412_17920": {
       "id": "2412_17920",
@@ -17587,8 +17587,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2412_17920/",
-      "contentTreeUrl": "../content-tree/#paper=2412_17920",
-      "mindMapUrl": "../mind-map/#paper=2412_17920"
+      "treeUrl": "../tree/#paper=2412_17920",
+      "mapUrl": "../map/#paper=2412_17920"
     },
     "2403_01194": {
       "id": "2403_01194",
@@ -17612,8 +17612,8 @@ window.tagSearchData = {
       ],
       "summary": "Compares variations of RRT in an application domain for marine ship navigation. The dynamic model is basically the same as for car-like vehicles.",
       "url": "../papers/2403_01194/",
-      "contentTreeUrl": "../content-tree/#paper=2403_01194",
-      "mindMapUrl": "../mind-map/#paper=2403_01194"
+      "treeUrl": "../tree/#paper=2403_01194",
+      "mapUrl": "../map/#paper=2403_01194"
     },
     "2405_03281": {
       "id": "2405_03281",
@@ -17636,8 +17636,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes FDSPC, a global path planner that directly produces G2 smooth paths via continuous curvature integration. It essentially uses a goal-directed heuristic for selecting (otherwise unspecified) yaw angles at sampled positions, rather than attempting to connect (x, y, yaw) boundary poses directly.",
       "url": "../papers/2405_03281/",
-      "contentTreeUrl": "../content-tree/#paper=2405_03281",
-      "mindMapUrl": "../mind-map/#paper=2405_03281"
+      "treeUrl": "../tree/#paper=2405_03281",
+      "mapUrl": "../map/#paper=2405_03281"
     },
     "2405_12762": {
       "id": "2405_12762",
@@ -17651,8 +17651,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2405_12762/",
-      "contentTreeUrl": "../content-tree/#paper=2405_12762",
-      "mindMapUrl": "../mind-map/#paper=2405_12762"
+      "treeUrl": "../tree/#paper=2405_12762",
+      "mapUrl": "../map/#paper=2405_12762"
     },
     "2411_18714": {
       "id": "2411_18714",
@@ -17673,8 +17673,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2411_18714/",
-      "contentTreeUrl": "../content-tree/#paper=2411_18714",
-      "mindMapUrl": "../mind-map/#paper=2411_18714"
+      "treeUrl": "../tree/#paper=2411_18714",
+      "mapUrl": "../map/#paper=2411_18714"
     },
     "2409_12266": {
       "id": "2409_12266",
@@ -17696,8 +17696,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes a C-Uniform action sampling distribution based on the dynamically reachable sets of the controlled system, enabling far more efficient exploration of trajectory space compared to naive Gaussian sampling, especially for tight obstacle avoidance. Offline training takes ~4 hours for a 3-state unicycle model, but runtime cost matches naive sampling.",
       "url": "../papers/2409_12266/",
-      "contentTreeUrl": "../content-tree/#paper=2409_12266",
-      "mindMapUrl": "../mind-map/#paper=2409_12266"
+      "treeUrl": "../tree/#paper=2409_12266",
+      "mapUrl": "../map/#paper=2409_12266"
     },
     "2024_orthey_sampling_based_motion_planning": {
       "id": "2024_orthey_sampling_based_motion_planning",
@@ -17712,8 +17712,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2024_orthey_sampling_based_motion_planning/",
-      "contentTreeUrl": "../content-tree/#paper=2024_orthey_sampling_based_motion_planning",
-      "mindMapUrl": "../mind-map/#paper=2024_orthey_sampling_based_motion_planning"
+      "treeUrl": "../tree/#paper=2024_orthey_sampling_based_motion_planning",
+      "mapUrl": "../map/#paper=2024_orthey_sampling_based_motion_planning"
     },
     "2402_13817": {
       "id": "2402_13817",
@@ -17729,8 +17729,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2402_13817/",
-      "contentTreeUrl": "../content-tree/#paper=2402_13817",
-      "mindMapUrl": "../mind-map/#paper=2402_13817"
+      "treeUrl": "../tree/#paper=2402_13817",
+      "mapUrl": "../map/#paper=2402_13817"
     },
     "2408_01584": {
       "id": "2408_01584",
@@ -17747,8 +17747,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2408_01584/",
-      "contentTreeUrl": "../content-tree/#paper=2408_01584",
-      "mindMapUrl": "../mind-map/#paper=2408_01584"
+      "treeUrl": "../tree/#paper=2408_01584",
+      "mapUrl": "../map/#paper=2408_01584"
     },
     "2409_16012": {
       "id": "2409_16012",
@@ -17773,8 +17773,8 @@ window.tagSearchData = {
       ],
       "summary": "",
       "url": "../papers/2409_16012/",
-      "contentTreeUrl": "../content-tree/#paper=2409_16012",
-      "mindMapUrl": "../mind-map/#paper=2409_16012"
+      "treeUrl": "../tree/#paper=2409_16012",
+      "mapUrl": "../map/#paper=2409_16012"
     },
     "2024_coppens_provably_stable_learning_control": {
       "id": "2024_coppens_provably_stable_learning_control",
@@ -17788,8 +17788,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2024_coppens_provably_stable_learning_control/",
-      "contentTreeUrl": "../content-tree/#paper=2024_coppens_provably_stable_learning_control",
-      "mindMapUrl": "../mind-map/#paper=2024_coppens_provably_stable_learning_control"
+      "treeUrl": "../tree/#paper=2024_coppens_provably_stable_learning_control",
+      "mapUrl": "../map/#paper=2024_coppens_provably_stable_learning_control"
     },
     "2407_01392": {
       "id": "2407_01392",
@@ -17807,8 +17807,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2407_01392/",
-      "contentTreeUrl": "../content-tree/#paper=2407_01392",
-      "mindMapUrl": "../mind-map/#paper=2407_01392"
+      "treeUrl": "../tree/#paper=2407_01392",
+      "mapUrl": "../map/#paper=2407_01392"
     },
     "2406_02807": {
       "id": "2406_02807",
@@ -17824,8 +17824,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2406_02807/",
-      "contentTreeUrl": "../content-tree/#paper=2406_02807",
-      "mindMapUrl": "../mind-map/#paper=2406_02807"
+      "treeUrl": "../tree/#paper=2406_02807",
+      "mapUrl": "../map/#paper=2406_02807"
     },
     "2408_09662": {
       "id": "2408_09662",
@@ -17842,8 +17842,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2408_09662/",
-      "contentTreeUrl": "../content-tree/#paper=2408_09662",
-      "mindMapUrl": "../mind-map/#paper=2408_09662"
+      "treeUrl": "../tree/#paper=2408_09662",
+      "mapUrl": "../map/#paper=2408_09662"
     },
     "2410_16727": {
       "id": "2410_16727",
@@ -17861,8 +17861,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2410_16727/",
-      "contentTreeUrl": "../content-tree/#paper=2410_16727",
-      "mindMapUrl": "../mind-map/#paper=2410_16727"
+      "treeUrl": "../tree/#paper=2410_16727",
+      "mapUrl": "../map/#paper=2410_16727"
     },
     "2403_18972": {
       "id": "2403_18972",
@@ -17890,8 +17890,8 @@ window.tagSearchData = {
       ],
       "summary": "",
       "url": "../papers/2403_18972/",
-      "contentTreeUrl": "../content-tree/#paper=2403_18972",
-      "mindMapUrl": "../mind-map/#paper=2403_18972"
+      "treeUrl": "../tree/#paper=2403_18972",
+      "mapUrl": "../map/#paper=2403_18972"
     },
     "2408_00118": {
       "id": "2408_00118",
@@ -18100,8 +18100,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2408_00118/",
-      "contentTreeUrl": "../content-tree/#paper=2408_00118",
-      "mindMapUrl": "../mind-map/#paper=2408_00118"
+      "treeUrl": "../tree/#paper=2408_00118",
+      "mapUrl": "../map/#paper=2408_00118"
     },
     "2403_09110": {
       "id": "2403_09110",
@@ -18123,8 +18123,8 @@ window.tagSearchData = {
       ],
       "summary": "Combines SINDy with model-based RL: a SINDy surrogate world model replaces the environment for policy training, yielding interpretable dynamics models and improved sample efficiency compared to black-box neural network surrogates.",
       "url": "../papers/2403_09110/",
-      "contentTreeUrl": "../content-tree/#paper=2403_09110",
-      "mindMapUrl": "../mind-map/#paper=2403_09110"
+      "treeUrl": "../tree/#paper=2403_09110",
+      "mapUrl": "../map/#paper=2403_09110"
     },
     "2024_carson_towards_understanding_cg_and": {
       "id": "2024_carson_towards_understanding_cg_and",
@@ -18139,8 +18139,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2024_carson_towards_understanding_cg_and/",
-      "contentTreeUrl": "../content-tree/#paper=2024_carson_towards_understanding_cg_and",
-      "mindMapUrl": "../mind-map/#paper=2024_carson_towards_understanding_cg_and"
+      "treeUrl": "../tree/#paper=2024_carson_towards_understanding_cg_and",
+      "mapUrl": "../map/#paper=2024_carson_towards_understanding_cg_and"
     },
     "2411_02158": {
       "id": "2411_02158",
@@ -18164,8 +18164,8 @@ window.tagSearchData = {
       ],
       "summary": "Learns a generative model that produces multiple diverse initial solutions for optimization problems, enabling warm-started solvers to explore different basins of attraction and improve the probability of finding high-quality global optima.",
       "url": "../papers/2411_02158/",
-      "contentTreeUrl": "../content-tree/#paper=2411_02158",
-      "mindMapUrl": "../mind-map/#paper=2411_02158"
+      "treeUrl": "../tree/#paper=2411_02158",
+      "mapUrl": "../map/#paper=2411_02158"
     },
     "2024_salzmann_learning_for_casadi_data": {
       "id": "2024_salzmann_learning_for_casadi_data",
@@ -18182,8 +18182,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2024_salzmann_learning_for_casadi_data/",
-      "contentTreeUrl": "../content-tree/#paper=2024_salzmann_learning_for_casadi_data",
-      "mindMapUrl": "../mind-map/#paper=2024_salzmann_learning_for_casadi_data"
+      "treeUrl": "../tree/#paper=2024_salzmann_learning_for_casadi_data",
+      "mapUrl": "../map/#paper=2024_salzmann_learning_for_casadi_data"
     },
     "2403_08295": {
       "id": "2403_08295",
@@ -18302,8 +18302,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2403_08295/",
-      "contentTreeUrl": "../content-tree/#paper=2403_08295",
-      "mindMapUrl": "../mind-map/#paper=2403_08295"
+      "treeUrl": "../tree/#paper=2403_08295",
+      "mapUrl": "../map/#paper=2403_08295"
     },
     "2407_15007": {
       "id": "2407_15007",
@@ -18318,8 +18318,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2407_15007/",
-      "contentTreeUrl": "../content-tree/#paper=2407_15007",
-      "mindMapUrl": "../mind-map/#paper=2407_15007"
+      "treeUrl": "../tree/#paper=2407_15007",
+      "mapUrl": "../map/#paper=2407_15007"
     },
     "2405_16250": {
       "id": "2405_16250",
@@ -18334,8 +18334,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2405_16250/",
-      "contentTreeUrl": "../content-tree/#paper=2405_16250",
-      "mindMapUrl": "../mind-map/#paper=2405_16250"
+      "treeUrl": "../tree/#paper=2405_16250",
+      "mapUrl": "../map/#paper=2405_16250"
     },
     "2407_07726": {
       "id": "2407_07726",
@@ -18382,8 +18382,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2407_07726/",
-      "contentTreeUrl": "../content-tree/#paper=2407_07726",
-      "mindMapUrl": "../mind-map/#paper=2407_07726"
+      "treeUrl": "../tree/#paper=2407_07726",
+      "mapUrl": "../map/#paper=2407_07726"
     },
     "2407_08848": {
       "id": "2407_08848",
@@ -18400,8 +18400,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2407_08848/",
-      "contentTreeUrl": "../content-tree/#paper=2407_08848",
-      "mindMapUrl": "../mind-map/#paper=2407_08848"
+      "treeUrl": "../tree/#paper=2407_08848",
+      "mapUrl": "../map/#paper=2407_08848"
     },
     "2412_00603": {
       "id": "2412_00603",
@@ -18421,8 +18421,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2412_00603/",
-      "contentTreeUrl": "../content-tree/#paper=2412_00603",
-      "mindMapUrl": "../mind-map/#paper=2412_00603"
+      "treeUrl": "../tree/#paper=2412_00603",
+      "mapUrl": "../map/#paper=2412_00603"
     },
     "2402_03893": {
       "id": "2402_03893",
@@ -18447,8 +18447,8 @@ window.tagSearchData = {
       ],
       "summary": "Analyzes how the required prediction horizon for autonomous driving depends on the competing objectives of safety, comfort, and efficiency, providing a framework for selecting appropriate prediction horizons for different driving scenarios and speed profiles.",
       "url": "../papers/2402_03893/",
-      "contentTreeUrl": "../content-tree/#paper=2402_03893",
-      "mindMapUrl": "../mind-map/#paper=2402_03893"
+      "treeUrl": "../tree/#paper=2402_03893",
+      "mapUrl": "../map/#paper=2402_03893"
     },
     "2024_dawid_introduction_to_latent_variable": {
       "id": "2024_dawid_introduction_to_latent_variable",
@@ -18464,8 +18464,8 @@ window.tagSearchData = {
       ],
       "summary": "Dawid and LeCun turn LeCun's autonomous machine intelligence proposal into lecture-note form, introducing energy-based models, latent variables, and their role in self-supervised predictive world models. The paper argues that JEPAs and hierarchical JEPAs can make predictions in representation space, handle uncertainty with latent variables, and support multiscale planning more naturally than purely supervised, reinforcement-learning, or high-dimensional probabilistic approaches.",
       "url": "../papers/2024_dawid_introduction_to_latent_variable/",
-      "contentTreeUrl": "../content-tree/#paper=2024_dawid_introduction_to_latent_variable",
-      "mindMapUrl": "../mind-map/#paper=2024_dawid_introduction_to_latent_variable"
+      "treeUrl": "../tree/#paper=2024_dawid_introduction_to_latent_variable",
+      "mapUrl": "../map/#paper=2024_dawid_introduction_to_latent_variable"
     },
     "2406_16793": {
       "id": "2406_16793",
@@ -18486,8 +18486,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2406_16793/",
-      "contentTreeUrl": "../content-tree/#paper=2406_16793",
-      "mindMapUrl": "../mind-map/#paper=2406_16793"
+      "treeUrl": "../tree/#paper=2406_16793",
+      "mapUrl": "../map/#paper=2406_16793"
     },
     "2407_12998": {
       "id": "2407_12998",
@@ -18506,8 +18506,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2407_12998/",
-      "contentTreeUrl": "../content-tree/#paper=2407_12998",
-      "mindMapUrl": "../mind-map/#paper=2407_12998"
+      "treeUrl": "../tree/#paper=2407_12998",
+      "mapUrl": "../map/#paper=2407_12998"
     },
     "2024_piazza_mptree_a_sampling_based": {
       "id": "2024_piazza_mptree_a_sampling_based",
@@ -18531,8 +18531,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes MPTree, a sampling-based motion planner that builds a tree of pre-computed Motion Primitives using a semi-structured RRT variant. Rejection of trajectories violating collision or dynamic constraints does not destroy sample efficiency, at least in the autonomous driving setting tested.",
       "url": "../papers/2024_piazza_mptree_a_sampling_based/",
-      "contentTreeUrl": "../content-tree/#paper=2024_piazza_mptree_a_sampling_based",
-      "mindMapUrl": "../mind-map/#paper=2024_piazza_mptree_a_sampling_based"
+      "treeUrl": "../tree/#paper=2024_piazza_mptree_a_sampling_based",
+      "mapUrl": "../map/#paper=2024_piazza_mptree_a_sampling_based"
     },
     "2406_19617": {
       "id": "2406_19617",
@@ -18549,8 +18549,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2406_19617/",
-      "contentTreeUrl": "../content-tree/#paper=2406_19617",
-      "mindMapUrl": "../mind-map/#paper=2406_19617"
+      "treeUrl": "../tree/#paper=2406_19617",
+      "mapUrl": "../map/#paper=2406_19617"
     },
     "2412_12036": {
       "id": "2412_12036",
@@ -18564,8 +18564,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2412_12036/",
-      "contentTreeUrl": "../content-tree/#paper=2412_12036",
-      "mindMapUrl": "../mind-map/#paper=2412_12036"
+      "treeUrl": "../tree/#paper=2412_12036",
+      "mapUrl": "../map/#paper=2412_12036"
     },
     "2024_wang_a_convergence_guaranteed_multiple": {
       "id": "2024_wang_a_convergence_guaranteed_multiple",
@@ -18588,8 +18588,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes a multiple-shooting DDP method with formal convergence guarantees obtained by using a state augmentation strategy.",
       "url": "../papers/2024_wang_a_convergence_guaranteed_multiple/",
-      "contentTreeUrl": "../content-tree/#paper=2024_wang_a_convergence_guaranteed_multiple",
-      "mindMapUrl": "../mind-map/#paper=2024_wang_a_convergence_guaranteed_multiple"
+      "treeUrl": "../tree/#paper=2024_wang_a_convergence_guaranteed_multiple",
+      "mapUrl": "../map/#paper=2024_wang_a_convergence_guaranteed_multiple"
     },
     "1933_thompson_on_the_likelihood_that": {
       "id": "1933_thompson_on_the_likelihood_that",
@@ -18602,8 +18602,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1933_thompson_on_the_likelihood_that/",
-      "contentTreeUrl": "../content-tree/#paper=1933_thompson_on_the_likelihood_that",
-      "mindMapUrl": "../mind-map/#paper=1933_thompson_on_the_likelihood_that"
+      "treeUrl": "../tree/#paper=1933_thompson_on_the_likelihood_that",
+      "mapUrl": "../map/#paper=1933_thompson_on_the_likelihood_that"
     },
     "2013_turpin_goal_assignment_and_trajectory": {
       "id": "2013_turpin_goal_assignment_and_trajectory",
@@ -18629,8 +18629,8 @@ window.tagSearchData = {
       ],
       "summary": "Addresses the combined goal assignment and collision-free trajectory planning problem for large teams of interchangeable quadrotor aerial robots. Exploits symmetry of quadrotor dynamics to show that optimal assignment and trajectory generation can be solved efficiently and independently, enabling scalable planning for tens to hundreds of UAVs.",
       "url": "../papers/2013_turpin_goal_assignment_and_trajectory/",
-      "contentTreeUrl": "../content-tree/#paper=2013_turpin_goal_assignment_and_trajectory",
-      "mindMapUrl": "../mind-map/#paper=2013_turpin_goal_assignment_and_trajectory"
+      "treeUrl": "../tree/#paper=2013_turpin_goal_assignment_and_trajectory",
+      "mapUrl": "../map/#paper=2013_turpin_goal_assignment_and_trajectory"
     },
     "2013_lipp_minimum_time_speed_optimisation": {
       "id": "2013_lipp_minimum_time_speed_optimisation",
@@ -18649,8 +18649,8 @@ window.tagSearchData = {
       ],
       "summary": "Formulates minimum-time speed planning along a fixed geometric path as a convex optimization problem.",
       "url": "../papers/2013_lipp_minimum_time_speed_optimisation/",
-      "contentTreeUrl": "../content-tree/#paper=2013_lipp_minimum_time_speed_optimisation",
-      "mindMapUrl": "../mind-map/#paper=2013_lipp_minimum_time_speed_optimisation"
+      "treeUrl": "../tree/#paper=2013_lipp_minimum_time_speed_optimisation",
+      "mapUrl": "../map/#paper=2013_lipp_minimum_time_speed_optimisation"
     },
     "2013_le_cong_multiplex_genome_engineering_using": {
       "id": "2013_le_cong_multiplex_genome_engineering_using",
@@ -18681,8 +18681,8 @@ window.tagSearchData = {
       ],
       "summary": "Adapts CRISPR-Cas9 into a practical mammalian genome-engineering system, including endogenous editing, nickase-mediated repair, and multiplex guide arrays.",
       "url": "../papers/2013_le_cong_multiplex_genome_engineering_using/",
-      "contentTreeUrl": "../content-tree/#paper=2013_le_cong_multiplex_genome_engineering_using",
-      "mindMapUrl": "../mind-map/#paper=2013_le_cong_multiplex_genome_engineering_using"
+      "treeUrl": "../tree/#paper=2013_le_cong_multiplex_genome_engineering_using",
+      "mapUrl": "../map/#paper=2013_le_cong_multiplex_genome_engineering_using"
     },
     "2013_luna_anytime_solution_optimization_for": {
       "id": "2013_luna_anytime_solution_optimization_for",
@@ -18705,8 +18705,8 @@ window.tagSearchData = {
       ],
       "summary": "Anytime algorithm that progressively improves path quality after an initial solution is found, combining random shortcutting with path hybridization. Algorithm 1 gives a particularly clear presentation of the shortcutting procedure.",
       "url": "../papers/2013_luna_anytime_solution_optimization_for/",
-      "contentTreeUrl": "../content-tree/#paper=2013_luna_anytime_solution_optimization_for",
-      "mindMapUrl": "../mind-map/#paper=2013_luna_anytime_solution_optimization_for"
+      "treeUrl": "../tree/#paper=2013_luna_anytime_solution_optimization_for",
+      "mapUrl": "../map/#paper=2013_luna_anytime_solution_optimization_for"
     },
     "1306_3532": {
       "id": "1306_3532",
@@ -18735,8 +18735,8 @@ window.tagSearchData = {
       ],
       "summary": "FMT* operates on a fundamentally different mechanism than RRT*, yet still achieves asymptotic optimality. FMT* can be faster than RRT* in certain planning regimes, and it is more amenable to parallelization (c.f. Group Marching Tree).",
       "url": "../papers/1306_3532/",
-      "contentTreeUrl": "../content-tree/#paper=1306_3532",
-      "mindMapUrl": "../mind-map/#paper=1306_3532"
+      "treeUrl": "../tree/#paper=1306_3532",
+      "mapUrl": "../map/#paper=1306_3532"
     },
     "2013_chu_code_generation_for_embedded": {
       "id": "2013_chu_code_generation_for_embedded",
@@ -18759,8 +18759,8 @@ window.tagSearchData = {
       ],
       "summary": "Shows how high-level convex models can be compiled into lightweight parameter-mapping code for embedded SOCPs. The main idea is to separate easy-to-verify generated code from a reusable conic solver, making embedded convex optimization more practical.",
       "url": "../papers/2013_chu_code_generation_for_embedded/",
-      "contentTreeUrl": "../content-tree/#paper=2013_chu_code_generation_for_embedded",
-      "mindMapUrl": "../mind-map/#paper=2013_chu_code_generation_for_embedded"
+      "treeUrl": "../tree/#paper=2013_chu_code_generation_for_embedded",
+      "mapUrl": "../map/#paper=2013_chu_code_generation_for_embedded"
     },
     "2013_levinson_automatic_online_calibration_of": {
       "id": "2013_levinson_automatic_online_calibration_of",
@@ -18777,8 +18777,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends camera-laser calibration from offline batch processing to online monitoring and correction in arbitrary scenes. The paper contributes a probabilistic detector for sudden extrinsic miscalibration and a real-time optimizer for gradual drift, showing in vehicle experiments that small rotation and translation errors can be detected quickly and rotational drift can be tracked during operation.",
       "url": "../papers/2013_levinson_automatic_online_calibration_of/",
-      "contentTreeUrl": "../content-tree/#paper=2013_levinson_automatic_online_calibration_of",
-      "mindMapUrl": "../mind-map/#paper=2013_levinson_automatic_online_calibration_of"
+      "treeUrl": "../tree/#paper=2013_levinson_automatic_online_calibration_of",
+      "mapUrl": "../map/#paper=2013_levinson_automatic_online_calibration_of"
     },
     "1312_0041": {
       "id": "1312_0041",
@@ -18801,8 +18801,8 @@ window.tagSearchData = {
       ],
       "summary": "Provides rigorous theoretical foundations for DMD, introduces the exact DMD formulation with improved numerical accuracy, and analyzes convergence properties and connections to Koopman spectral analysis.",
       "url": "../papers/1312_0041/",
-      "contentTreeUrl": "../content-tree/#paper=1312_0041",
-      "mindMapUrl": "../mind-map/#paper=1312_0041"
+      "treeUrl": "../tree/#paper=1312_0041",
+      "mapUrl": "../map/#paper=1312_0041"
     },
     "2013_schulman_finding_locally_optimal_collision": {
       "id": "2013_schulman_finding_locally_optimal_collision",
@@ -18820,8 +18820,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2013_schulman_finding_locally_optimal_collision/",
-      "contentTreeUrl": "../content-tree/#paper=2013_schulman_finding_locally_optimal_collision",
-      "mindMapUrl": "../mind-map/#paper=2013_schulman_finding_locally_optimal_collision"
+      "treeUrl": "../tree/#paper=2013_schulman_finding_locally_optimal_collision",
+      "mapUrl": "../map/#paper=2013_schulman_finding_locally_optimal_collision"
     },
     "2013_joseph_reinforcement_learning_with_misspecified": {
       "id": "2013_joseph_reinforcement_learning_with_misspecified",
@@ -18838,8 +18838,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2013_joseph_reinforcement_learning_with_misspecified/",
-      "contentTreeUrl": "../content-tree/#paper=2013_joseph_reinforcement_learning_with_misspecified",
-      "mindMapUrl": "../mind-map/#paper=2013_joseph_reinforcement_learning_with_misspecified"
+      "treeUrl": "../tree/#paper=2013_joseph_reinforcement_learning_with_misspecified",
+      "mapUrl": "../map/#paper=2013_joseph_reinforcement_learning_with_misspecified"
     },
     "1312_6114": {
       "id": "1312_6114",
@@ -18853,8 +18853,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1312_6114/",
-      "contentTreeUrl": "../content-tree/#paper=1312_6114",
-      "mindMapUrl": "../mind-map/#paper=1312_6114"
+      "treeUrl": "../tree/#paper=1312_6114",
+      "mapUrl": "../map/#paper=1312_6114"
     },
     "2013_goretkin_optimal_sampling_based_planning": {
       "id": "2013_goretkin_optimal_sampling_based_planning",
@@ -18873,8 +18873,8 @@ window.tagSearchData = {
       ],
       "summary": "Adapts RRT* to kinodynamic planning by using finite-horizon LQR as both the cost metric and steering method in state-time space. The paper proves almost-sure convergence to optimal solutions for affine dynamics with quadratic costs, then extends the method by local linearization to nonlinear systems and demonstrates it on constrained examples such as pendulum swing-up.",
       "url": "../papers/2013_goretkin_optimal_sampling_based_planning/",
-      "contentTreeUrl": "../content-tree/#paper=2013_goretkin_optimal_sampling_based_planning",
-      "mindMapUrl": "../mind-map/#paper=2013_goretkin_optimal_sampling_based_planning"
+      "treeUrl": "../tree/#paper=2013_goretkin_optimal_sampling_based_planning",
+      "mapUrl": "../map/#paper=2013_goretkin_optimal_sampling_based_planning"
     },
     "1305_6644": {
       "id": "1305_6644",
@@ -18888,8 +18888,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1305_6644/",
-      "contentTreeUrl": "../content-tree/#paper=1305_6644",
-      "mindMapUrl": "../mind-map/#paper=1305_6644"
+      "treeUrl": "../tree/#paper=1305_6644",
+      "mapUrl": "../map/#paper=1305_6644"
     },
     "2013_hornung_octomap_an_efficient_probabilistic": {
       "id": "2013_hornung_octomap_an_efficient_probabilistic",
@@ -18906,8 +18906,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2013_hornung_octomap_an_efficient_probabilistic/",
-      "contentTreeUrl": "../content-tree/#paper=2013_hornung_octomap_an_efficient_probabilistic",
-      "mindMapUrl": "../mind-map/#paper=2013_hornung_octomap_an_efficient_probabilistic"
+      "treeUrl": "../tree/#paper=2013_hornung_octomap_an_efficient_probabilistic",
+      "mapUrl": "../map/#paper=2013_hornung_octomap_an_efficient_probabilistic"
     },
     "2013_jeon_optimal_motion_planning_with": {
       "id": "2013_jeon_optimal_motion_planning_with",
@@ -18926,8 +18926,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2013_jeon_optimal_motion_planning_with/",
-      "contentTreeUrl": "../content-tree/#paper=2013_jeon_optimal_motion_planning_with",
-      "mindMapUrl": "../mind-map/#paper=2013_jeon_optimal_motion_planning_with"
+      "treeUrl": "../tree/#paper=2013_jeon_optimal_motion_planning_with",
+      "mapUrl": "../map/#paper=2013_jeon_optimal_motion_planning_with"
     },
     "2013_posa_a_direct_method_for": {
       "id": "2013_posa_a_direct_method_for",
@@ -18942,8 +18942,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2013_posa_a_direct_method_for/",
-      "contentTreeUrl": "../content-tree/#paper=2013_posa_a_direct_method_for",
-      "mindMapUrl": "../mind-map/#paper=2013_posa_a_direct_method_for"
+      "treeUrl": "../tree/#paper=2013_posa_a_direct_method_for",
+      "mapUrl": "../map/#paper=2013_posa_a_direct_method_for"
     },
     "2013_campello_density_based_clustering_based": {
       "id": "2013_campello_density_based_clustering_based",
@@ -18958,8 +18958,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2013_campello_density_based_clustering_based/",
-      "contentTreeUrl": "../content-tree/#paper=2013_campello_density_based_clustering_based",
-      "mindMapUrl": "../mind-map/#paper=2013_campello_density_based_clustering_based"
+      "treeUrl": "../tree/#paper=2013_campello_density_based_clustering_based",
+      "mapUrl": "../map/#paper=2013_campello_density_based_clustering_based"
     },
     "1312_3039": {
       "id": "1312_3039",
@@ -18975,8 +18975,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1312_3039/",
-      "contentTreeUrl": "../content-tree/#paper=1312_3039",
-      "mindMapUrl": "../mind-map/#paper=1312_3039"
+      "treeUrl": "../tree/#paper=1312_3039",
+      "mapUrl": "../map/#paper=1312_3039"
     },
     "1312_5602": {
       "id": "1312_5602",
@@ -18995,8 +18995,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1312_5602/",
-      "contentTreeUrl": "../content-tree/#paper=1312_5602",
-      "mindMapUrl": "../mind-map/#paper=1312_5602"
+      "treeUrl": "../tree/#paper=1312_5602",
+      "mapUrl": "../map/#paper=1312_5602"
     },
     "2013_kalakrishnan_learning_objective_functions_for": {
       "id": "2013_kalakrishnan_learning_objective_functions_for",
@@ -19012,8 +19012,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2013_kalakrishnan_learning_objective_functions_for/",
-      "contentTreeUrl": "../content-tree/#paper=2013_kalakrishnan_learning_objective_functions_for",
-      "mindMapUrl": "../mind-map/#paper=2013_kalakrishnan_learning_objective_functions_for"
+      "treeUrl": "../tree/#paper=2013_kalakrishnan_learning_objective_functions_for",
+      "mapUrl": "../map/#paper=2013_kalakrishnan_learning_objective_functions_for"
     },
     "2013_yang_spline_based_rrt_path": {
       "id": "2013_yang_spline_based_rrt_path",
@@ -19039,8 +19039,8 @@ window.tagSearchData = {
       ],
       "summary": "",
       "url": "../papers/2013_yang_spline_based_rrt_path/",
-      "contentTreeUrl": "../content-tree/#paper=2013_yang_spline_based_rrt_path",
-      "mindMapUrl": "../mind-map/#paper=2013_yang_spline_based_rrt_path"
+      "treeUrl": "../tree/#paper=2013_yang_spline_based_rrt_path",
+      "mapUrl": "../map/#paper=2013_yang_spline_based_rrt_path"
     },
     "2013_palamakumbura_minimum_jerk_trajectory_generation": {
       "id": "2013_palamakumbura_minimum_jerk_trajectory_generation",
@@ -19061,8 +19061,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes a minimum jerk trajectory generation method for differential wheeled mobile robots, based on solving a finite-dimensional unconstrained nonlinear optimization problem.",
       "url": "../papers/2013_palamakumbura_minimum_jerk_trajectory_generation/",
-      "contentTreeUrl": "../content-tree/#paper=2013_palamakumbura_minimum_jerk_trajectory_generation",
-      "mindMapUrl": "../mind-map/#paper=2013_palamakumbura_minimum_jerk_trajectory_generation"
+      "treeUrl": "../tree/#paper=2013_palamakumbura_minimum_jerk_trajectory_generation",
+      "mapUrl": "../map/#paper=2013_palamakumbura_minimum_jerk_trajectory_generation"
     },
     "2013_domahidi_ecos_an_socp_solver": {
       "id": "2013_domahidi_ecos_an_socp_solver",
@@ -19084,8 +19084,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces ECOS, a compact embedded SOCP solver built around a fixed-order sparse LDL factorization and primal-dual interior-point method. It is influential because it made conic optimization more viable on small and real-time systems.",
       "url": "../papers/2013_domahidi_ecos_an_socp_solver/",
-      "contentTreeUrl": "../content-tree/#paper=2013_domahidi_ecos_an_socp_solver",
-      "mindMapUrl": "../mind-map/#paper=2013_domahidi_ecos_an_socp_solver"
+      "treeUrl": "../tree/#paper=2013_domahidi_ecos_an_socp_solver",
+      "mapUrl": "../map/#paper=2013_domahidi_ecos_an_socp_solver"
     },
     "2013_johnson_accelerating_stochastic_gradient_descent": {
       "id": "2013_johnson_accelerating_stochastic_gradient_descent",
@@ -19099,8 +19099,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2013_johnson_accelerating_stochastic_gradient_descent/",
-      "contentTreeUrl": "../content-tree/#paper=2013_johnson_accelerating_stochastic_gradient_descent",
-      "mindMapUrl": "../mind-map/#paper=2013_johnson_accelerating_stochastic_gradient_descent"
+      "treeUrl": "../tree/#paper=2013_johnson_accelerating_stochastic_gradient_descent",
+      "mapUrl": "../map/#paper=2013_johnson_accelerating_stochastic_gradient_descent"
     },
     "2013_erez_an_integrated_system_for": {
       "id": "2013_erez_an_integrated_system_for",
@@ -19118,8 +19118,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2013_erez_an_integrated_system_for/",
-      "contentTreeUrl": "../content-tree/#paper=2013_erez_an_integrated_system_for",
-      "mindMapUrl": "../mind-map/#paper=2013_erez_an_integrated_system_for"
+      "treeUrl": "../tree/#paper=2013_erez_an_integrated_system_for",
+      "mapUrl": "../map/#paper=2013_erez_an_integrated_system_for"
     },
     "1301_1942": {
       "id": "1301_1942",
@@ -19144,8 +19144,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces REMBO, a Bayesian optimization method that searches a random low-dimensional embedding of a very high-dimensional input space. The key contribution is showing that Gaussian-process Bayesian optimization can remain effective in billion-dimensional spaces when the objective has low intrinsic dimensionality, with both theory and solver-configuration experiments supporting the claim.",
       "url": "../papers/1301_1942/",
-      "contentTreeUrl": "../content-tree/#paper=1301_1942",
-      "mindMapUrl": "../mind-map/#paper=1301_1942"
+      "treeUrl": "../tree/#paper=1301_1942",
+      "mapUrl": "../map/#paper=1301_1942"
     },
     "1942_macadam_visual_sensitivities_to_color": {
       "id": "1942_macadam_visual_sensitivities_to_color",
@@ -19158,8 +19158,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1942_macadam_visual_sensitivities_to_color/",
-      "contentTreeUrl": "../content-tree/#paper=1942_macadam_visual_sensitivities_to_color",
-      "mindMapUrl": "../mind-map/#paper=1942_macadam_visual_sensitivities_to_color"
+      "treeUrl": "../tree/#paper=1942_macadam_visual_sensitivities_to_color",
+      "mapUrl": "../map/#paper=1942_macadam_visual_sensitivities_to_color"
     },
     "2604_07944": {
       "id": "2604_07944",
@@ -19175,8 +19175,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_07944/",
-      "contentTreeUrl": "../content-tree/#paper=2604_07944",
-      "mindMapUrl": "../mind-map/#paper=2604_07944"
+      "treeUrl": "../tree/#paper=2604_07944",
+      "mapUrl": "../map/#paper=2604_07944"
     },
     "2605_10034": {
       "id": "2605_10034",
@@ -19198,8 +19198,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2605_10034/",
-      "contentTreeUrl": "../content-tree/#paper=2605_10034",
-      "mindMapUrl": "../mind-map/#paper=2605_10034"
+      "treeUrl": "../tree/#paper=2605_10034",
+      "mapUrl": "../map/#paper=2605_10034"
     },
     "2604_12149": {
       "id": "2604_12149",
@@ -19215,8 +19215,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_12149/",
-      "contentTreeUrl": "../content-tree/#paper=2604_12149",
-      "mindMapUrl": "../mind-map/#paper=2604_12149"
+      "treeUrl": "../tree/#paper=2604_12149",
+      "mapUrl": "../map/#paper=2604_12149"
     },
     "2604_04310": {
       "id": "2604_04310",
@@ -19230,8 +19230,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_04310/",
-      "contentTreeUrl": "../content-tree/#paper=2604_04310",
-      "mindMapUrl": "../mind-map/#paper=2604_04310"
+      "treeUrl": "../tree/#paper=2604_04310",
+      "mapUrl": "../map/#paper=2604_04310"
     },
     "2603_07437": {
       "id": "2603_07437",
@@ -19247,8 +19247,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_07437/",
-      "contentTreeUrl": "../content-tree/#paper=2603_07437",
-      "mindMapUrl": "../mind-map/#paper=2603_07437"
+      "treeUrl": "../tree/#paper=2603_07437",
+      "mapUrl": "../map/#paper=2603_07437"
     },
     "2604_14026": {
       "id": "2604_14026",
@@ -19263,8 +19263,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_14026/",
-      "contentTreeUrl": "../content-tree/#paper=2604_14026",
-      "mindMapUrl": "../mind-map/#paper=2604_14026"
+      "treeUrl": "../tree/#paper=2604_14026",
+      "mapUrl": "../map/#paper=2604_14026"
     },
     "2604_15918": {
       "id": "2604_15918",
@@ -19281,8 +19281,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_15918/",
-      "contentTreeUrl": "../content-tree/#paper=2604_15918",
-      "mindMapUrl": "../mind-map/#paper=2604_15918"
+      "treeUrl": "../tree/#paper=2604_15918",
+      "mapUrl": "../map/#paper=2604_15918"
     },
     "2605_07768": {
       "id": "2605_07768",
@@ -19298,8 +19298,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2605_07768/",
-      "contentTreeUrl": "../content-tree/#paper=2605_07768",
-      "mindMapUrl": "../mind-map/#paper=2605_07768"
+      "treeUrl": "../tree/#paper=2605_07768",
+      "mapUrl": "../map/#paper=2605_07768"
     },
     "2601_14880": {
       "id": "2601_14880",
@@ -19318,8 +19318,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2601_14880/",
-      "contentTreeUrl": "../content-tree/#paper=2601_14880",
-      "mindMapUrl": "../mind-map/#paper=2601_14880"
+      "treeUrl": "../tree/#paper=2601_14880",
+      "mapUrl": "../map/#paper=2601_14880"
     },
     "2601_06096": {
       "id": "2601_06096",
@@ -19332,8 +19332,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2601_06096/",
-      "contentTreeUrl": "../content-tree/#paper=2601_06096",
-      "mindMapUrl": "../mind-map/#paper=2601_06096"
+      "treeUrl": "../tree/#paper=2601_06096",
+      "mapUrl": "../map/#paper=2601_06096"
     },
     "2604_23951": {
       "id": "2604_23951",
@@ -19347,8 +19347,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_23951/",
-      "contentTreeUrl": "../content-tree/#paper=2604_23951",
-      "mindMapUrl": "../mind-map/#paper=2604_23951"
+      "treeUrl": "../tree/#paper=2604_23951",
+      "mapUrl": "../map/#paper=2604_23951"
     },
     "2604_23613": {
       "id": "2604_23613",
@@ -19361,8 +19361,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_23613/",
-      "contentTreeUrl": "../content-tree/#paper=2604_23613",
-      "mindMapUrl": "../mind-map/#paper=2604_23613"
+      "treeUrl": "../tree/#paper=2604_23613",
+      "mapUrl": "../map/#paper=2604_23613"
     },
     "2603_19968": {
       "id": "2603_19968",
@@ -19375,8 +19375,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_19968/",
-      "contentTreeUrl": "../content-tree/#paper=2603_19968",
-      "mindMapUrl": "../mind-map/#paper=2603_19968"
+      "treeUrl": "../tree/#paper=2603_19968",
+      "mapUrl": "../map/#paper=2603_19968"
     },
     "2604_12425": {
       "id": "2604_12425",
@@ -19391,8 +19391,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_12425/",
-      "contentTreeUrl": "../content-tree/#paper=2604_12425",
-      "mindMapUrl": "../mind-map/#paper=2604_12425"
+      "treeUrl": "../tree/#paper=2604_12425",
+      "mapUrl": "../map/#paper=2604_12425"
     },
     "2604_21270": {
       "id": "2604_21270",
@@ -19406,8 +19406,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_21270/",
-      "contentTreeUrl": "../content-tree/#paper=2604_21270",
-      "mindMapUrl": "../mind-map/#paper=2604_21270"
+      "treeUrl": "../tree/#paper=2604_21270",
+      "mapUrl": "../map/#paper=2604_21270"
     },
     "2602_15922": {
       "id": "2602_15922",
@@ -19455,8 +19455,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2602_15922/",
-      "contentTreeUrl": "../content-tree/#paper=2602_15922",
-      "mindMapUrl": "../mind-map/#paper=2602_15922"
+      "treeUrl": "../tree/#paper=2602_15922",
+      "mapUrl": "../map/#paper=2602_15922"
     },
     "2603_08824": {
       "id": "2603_08824",
@@ -19474,8 +19474,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_08824/",
-      "contentTreeUrl": "../content-tree/#paper=2603_08824",
-      "mindMapUrl": "../mind-map/#paper=2603_08824"
+      "treeUrl": "../tree/#paper=2603_08824",
+      "mapUrl": "../map/#paper=2603_08824"
     },
     "2604_14669": {
       "id": "2604_14669",
@@ -19493,8 +19493,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_14669/",
-      "contentTreeUrl": "../content-tree/#paper=2604_14669",
-      "mindMapUrl": "../mind-map/#paper=2604_14669"
+      "treeUrl": "../tree/#paper=2604_14669",
+      "mapUrl": "../map/#paper=2604_14669"
     },
     "2602_19699": {
       "id": "2602_19699",
@@ -19510,8 +19510,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2602_19699/",
-      "contentTreeUrl": "../content-tree/#paper=2602_19699",
-      "mindMapUrl": "../mind-map/#paper=2602_19699"
+      "treeUrl": "../tree/#paper=2602_19699",
+      "mapUrl": "../map/#paper=2602_19699"
     },
     "2604_00496": {
       "id": "2604_00496",
@@ -19527,8 +19527,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_00496/",
-      "contentTreeUrl": "../content-tree/#paper=2604_00496",
-      "mindMapUrl": "../mind-map/#paper=2604_00496"
+      "treeUrl": "../tree/#paper=2604_00496",
+      "mapUrl": "../map/#paper=2604_00496"
     },
     "2604_27168": {
       "id": "2604_27168",
@@ -19543,8 +19543,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_27168/",
-      "contentTreeUrl": "../content-tree/#paper=2604_27168",
-      "mindMapUrl": "../mind-map/#paper=2604_27168"
+      "treeUrl": "../tree/#paper=2604_27168",
+      "mapUrl": "../map/#paper=2604_27168"
     },
     "2603_05385": {
       "id": "2603_05385",
@@ -19560,8 +19560,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_05385/",
-      "contentTreeUrl": "../content-tree/#paper=2603_05385",
-      "mindMapUrl": "../mind-map/#paper=2603_05385"
+      "treeUrl": "../tree/#paper=2603_05385",
+      "mapUrl": "../map/#paper=2603_05385"
     },
     "2604_02821": {
       "id": "2604_02821",
@@ -19576,8 +19576,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_02821/",
-      "contentTreeUrl": "../content-tree/#paper=2604_02821",
-      "mindMapUrl": "../mind-map/#paper=2604_02821"
+      "treeUrl": "../tree/#paper=2604_02821",
+      "mapUrl": "../map/#paper=2604_02821"
     },
     "2603_11335": {
       "id": "2603_11335",
@@ -19593,8 +19593,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_11335/",
-      "contentTreeUrl": "../content-tree/#paper=2603_11335",
-      "mindMapUrl": "../mind-map/#paper=2603_11335"
+      "treeUrl": "../tree/#paper=2603_11335",
+      "mapUrl": "../map/#paper=2603_11335"
     },
     "2604_13192": {
       "id": "2604_13192",
@@ -19610,8 +19610,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_13192/",
-      "contentTreeUrl": "../content-tree/#paper=2604_13192",
-      "mindMapUrl": "../mind-map/#paper=2604_13192"
+      "treeUrl": "../tree/#paper=2604_13192",
+      "mapUrl": "../map/#paper=2604_13192"
     },
     "2603_17812": {
       "id": "2603_17812",
@@ -19642,8 +19642,8 @@ window.tagSearchData = {
       ],
       "summary": "ChopGrad makes pixel-domain fine-tuning practical for recurrent latent video diffusion decoders by truncating gradient flow to local temporal windows while still using the recurrent state for global consistency. The paper combines a locality argument for why distant frame gradients can be ignored with experiments across video super-resolution, inpainting, neural-rendering enhancement, and controlled driving-video generation, turning a linear-in-length memory bottleneck into an approximately constant-memory training procedure.",
       "url": "../papers/2603_17812/",
-      "contentTreeUrl": "../content-tree/#paper=2603_17812",
-      "mindMapUrl": "../mind-map/#paper=2603_17812"
+      "treeUrl": "../tree/#paper=2603_17812",
+      "mapUrl": "../map/#paper=2603_17812"
     },
     "2602_02846": {
       "id": "2602_02846",
@@ -19667,8 +19667,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends Kino-PAX with asymptotic near-optimal guarantees by focusing each GPU thread block's computation on the most promising nodes within local neighborhoods for propagation and refinement.",
       "url": "../papers/2602_02846/",
-      "contentTreeUrl": "../content-tree/#paper=2602_02846",
-      "mindMapUrl": "../mind-map/#paper=2602_02846"
+      "treeUrl": "../tree/#paper=2602_02846",
+      "mapUrl": "../map/#paper=2602_02846"
     },
     "2604_05088": {
       "id": "2604_05088",
@@ -19683,8 +19683,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_05088/",
-      "contentTreeUrl": "../content-tree/#paper=2604_05088",
-      "mindMapUrl": "../mind-map/#paper=2604_05088"
+      "treeUrl": "../tree/#paper=2604_05088",
+      "mapUrl": "../map/#paper=2604_05088"
     },
     "2603_16059": {
       "id": "2603_16059",
@@ -19708,8 +19708,8 @@ window.tagSearchData = {
       ],
       "summary": "Exploits differential flatness to obtain closed-form analytical BVP solutions in a flat output space. Planning is done in the flat space (concatenation of flat outputs and several time derivatives thereof). Kinodynamic constraints and collision checking can be done very efficiently/quickly by using SIMD instructions on CPU. Closely related to the linear-systems approach of Webb & van den Berg (1205.5088) but extended to the broader class of differentially flat systems.",
       "url": "../papers/2603_16059/",
-      "contentTreeUrl": "../content-tree/#paper=2603_16059",
-      "mindMapUrl": "../mind-map/#paper=2603_16059"
+      "treeUrl": "../tree/#paper=2603_16059",
+      "mapUrl": "../map/#paper=2603_16059"
     },
     "2026_gabrielsson_large_behavioral_models_a": {
       "id": "2026_gabrielsson_large_behavioral_models_a",
@@ -19724,8 +19724,8 @@ window.tagSearchData = {
       ],
       "summary": "Defines Large Behavioral Models as foundation models that learn meaning from chronological sequences of human actions, transactions, and interaction logs rather than from static text or image co-occurrence alone. The paper positions BehaviorGPT as an example of this paradigm, arguing that behavior data provides a complementary and often orthogonal source of intelligence for enterprise tasks such as retail, payments, app usage, and workforce management.",
       "url": "../papers/2026_gabrielsson_large_behavioral_models_a/",
-      "contentTreeUrl": "../content-tree/#paper=2026_gabrielsson_large_behavioral_models_a",
-      "mindMapUrl": "../mind-map/#paper=2026_gabrielsson_large_behavioral_models_a"
+      "treeUrl": "../tree/#paper=2026_gabrielsson_large_behavioral_models_a",
+      "mapUrl": "../map/#paper=2026_gabrielsson_large_behavioral_models_a"
     },
     "2603_00871": {
       "id": "2603_00871",
@@ -19740,8 +19740,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_00871/",
-      "contentTreeUrl": "../content-tree/#paper=2603_00871",
-      "mindMapUrl": "../mind-map/#paper=2603_00871"
+      "treeUrl": "../tree/#paper=2603_00871",
+      "mapUrl": "../map/#paper=2603_00871"
     },
     "2605_02147": {
       "id": "2605_02147",
@@ -19756,8 +19756,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2605_02147/",
-      "contentTreeUrl": "../content-tree/#paper=2605_02147",
-      "mindMapUrl": "../mind-map/#paper=2605_02147"
+      "treeUrl": "../tree/#paper=2605_02147",
+      "mapUrl": "../map/#paper=2605_02147"
     },
     "2026_plaku_generating_diverse_trajectories_using": {
       "id": "2026_plaku_generating_diverse_trajectories_using",
@@ -19772,8 +19772,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2026_plaku_generating_diverse_trajectories_using/",
-      "contentTreeUrl": "../content-tree/#paper=2026_plaku_generating_diverse_trajectories_using",
-      "mindMapUrl": "../mind-map/#paper=2026_plaku_generating_diverse_trajectories_using"
+      "treeUrl": "../tree/#paper=2026_plaku_generating_diverse_trajectories_using",
+      "mapUrl": "../map/#paper=2026_plaku_generating_diverse_trajectories_using"
     },
     "2601_03220": {
       "id": "2601_03220",
@@ -19791,8 +19791,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2601_03220/",
-      "contentTreeUrl": "../content-tree/#paper=2601_03220",
-      "mindMapUrl": "../mind-map/#paper=2601_03220"
+      "treeUrl": "../tree/#paper=2601_03220",
+      "mapUrl": "../map/#paper=2601_03220"
     },
     "2603_10711": {
       "id": "2603_10711",
@@ -19808,8 +19808,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_10711/",
-      "contentTreeUrl": "../content-tree/#paper=2603_10711",
-      "mindMapUrl": "../mind-map/#paper=2603_10711"
+      "treeUrl": "../tree/#paper=2603_10711",
+      "mapUrl": "../map/#paper=2603_10711"
     },
     "2601_15006": {
       "id": "2601_15006",
@@ -19823,8 +19823,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2601_15006/",
-      "contentTreeUrl": "../content-tree/#paper=2601_15006",
-      "mindMapUrl": "../mind-map/#paper=2601_15006"
+      "treeUrl": "../tree/#paper=2601_15006",
+      "mapUrl": "../map/#paper=2601_15006"
     },
     "2604_01477": {
       "id": "2604_01477",
@@ -19839,8 +19839,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_01477/",
-      "contentTreeUrl": "../content-tree/#paper=2604_01477",
-      "mindMapUrl": "../mind-map/#paper=2604_01477"
+      "treeUrl": "../tree/#paper=2604_01477",
+      "mapUrl": "../map/#paper=2604_01477"
     },
     "2026_macenski_improving_mppi_for_high": {
       "id": "2026_macenski_improving_mppi_for_high",
@@ -19860,8 +19860,8 @@ window.tagSearchData = {
       ],
       "summary": "Engineering post dissecting why Nav2 MPPI struggled with low acceleration limits on heavy robots, especially the distinction between control velocities and rollout state velocities. The useful contribution is a concrete diagnosis of inter-iteration feasibility and timing mismatches between model_dt and the controller period.",
       "url": "../papers/2026_macenski_improving_mppi_for_high/",
-      "contentTreeUrl": "../content-tree/#paper=2026_macenski_improving_mppi_for_high",
-      "mindMapUrl": "../mind-map/#paper=2026_macenski_improving_mppi_for_high"
+      "treeUrl": "../tree/#paper=2026_macenski_improving_mppi_for_high",
+      "mapUrl": "../map/#paper=2026_macenski_improving_mppi_for_high"
     },
     "2603_23465": {
       "id": "2603_23465",
@@ -19877,8 +19877,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_23465/",
-      "contentTreeUrl": "../content-tree/#paper=2603_23465",
-      "mindMapUrl": "../mind-map/#paper=2603_23465"
+      "treeUrl": "../tree/#paper=2603_23465",
+      "mapUrl": "../map/#paper=2603_23465"
     },
     "2604_19452": {
       "id": "2604_19452",
@@ -19894,8 +19894,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_19452/",
-      "contentTreeUrl": "../content-tree/#paper=2604_19452",
-      "mindMapUrl": "../mind-map/#paper=2604_19452"
+      "treeUrl": "../tree/#paper=2604_19452",
+      "mapUrl": "../map/#paper=2604_19452"
     },
     "2604_05885": {
       "id": "2604_05885",
@@ -19912,8 +19912,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_05885/",
-      "contentTreeUrl": "../content-tree/#paper=2604_05885",
-      "mindMapUrl": "../mind-map/#paper=2604_05885"
+      "treeUrl": "../tree/#paper=2604_05885",
+      "mapUrl": "../map/#paper=2604_05885"
     },
     "2605_10480": {
       "id": "2605_10480",
@@ -19927,8 +19927,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2605_10480/",
-      "contentTreeUrl": "../content-tree/#paper=2605_10480",
-      "mindMapUrl": "../mind-map/#paper=2605_10480"
+      "treeUrl": "../tree/#paper=2605_10480",
+      "mapUrl": "../map/#paper=2605_10480"
     },
     "2604_03208": {
       "id": "2604_03208",
@@ -19951,8 +19951,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_03208/",
-      "contentTreeUrl": "../content-tree/#paper=2604_03208",
-      "mindMapUrl": "../mind-map/#paper=2604_03208"
+      "treeUrl": "../tree/#paper=2604_03208",
+      "mapUrl": "../map/#paper=2604_03208"
     },
     "2026_brocchini_unconventional_roundabouts_third_generation": {
       "id": "2026_brocchini_unconventional_roundabouts_third_generation",
@@ -19972,8 +19972,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2026_brocchini_unconventional_roundabouts_third_generation/",
-      "contentTreeUrl": "../content-tree/#paper=2026_brocchini_unconventional_roundabouts_third_generation",
-      "mindMapUrl": "../mind-map/#paper=2026_brocchini_unconventional_roundabouts_third_generation"
+      "treeUrl": "../tree/#paper=2026_brocchini_unconventional_roundabouts_third_generation",
+      "mapUrl": "../map/#paper=2026_brocchini_unconventional_roundabouts_third_generation"
     },
     "2605_03269": {
       "id": "2605_03269",
@@ -20053,8 +20053,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2605_03269/",
-      "contentTreeUrl": "../content-tree/#paper=2605_03269",
-      "mindMapUrl": "../mind-map/#paper=2605_03269"
+      "treeUrl": "../tree/#paper=2605_03269",
+      "mapUrl": "../map/#paper=2605_03269"
     },
     "2602_00992": {
       "id": "2602_00992",
@@ -20068,8 +20068,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2602_00992/",
-      "contentTreeUrl": "../content-tree/#paper=2602_00992",
-      "mindMapUrl": "../mind-map/#paper=2602_00992"
+      "treeUrl": "../tree/#paper=2602_00992",
+      "mapUrl": "../map/#paper=2602_00992"
     },
     "2026_suh_dexterous_contact_rich_manipulation": {
       "id": "2026_suh_dexterous_contact_rich_manipulation",
@@ -20085,8 +20085,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2026_suh_dexterous_contact_rich_manipulation/",
-      "contentTreeUrl": "../content-tree/#paper=2026_suh_dexterous_contact_rich_manipulation",
-      "mindMapUrl": "../mind-map/#paper=2026_suh_dexterous_contact_rich_manipulation"
+      "treeUrl": "../tree/#paper=2026_suh_dexterous_contact_rich_manipulation",
+      "mapUrl": "../map/#paper=2026_suh_dexterous_contact_rich_manipulation"
     },
     "2605_05148": {
       "id": "2605_05148",
@@ -20106,8 +20106,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2605_05148/",
-      "contentTreeUrl": "../content-tree/#paper=2605_05148",
-      "mindMapUrl": "../mind-map/#paper=2605_05148"
+      "treeUrl": "../tree/#paper=2605_05148",
+      "mapUrl": "../map/#paper=2605_05148"
     },
     "2602_18933": {
       "id": "2602_18933",
@@ -20123,8 +20123,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2602_18933/",
-      "contentTreeUrl": "../content-tree/#paper=2602_18933",
-      "mindMapUrl": "../mind-map/#paper=2602_18933"
+      "treeUrl": "../tree/#paper=2602_18933",
+      "mapUrl": "../map/#paper=2602_18933"
     },
     "2605_03065": {
       "id": "2605_03065",
@@ -20153,8 +20153,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2605_03065/",
-      "contentTreeUrl": "../content-tree/#paper=2605_03065",
-      "mindMapUrl": "../mind-map/#paper=2605_03065"
+      "treeUrl": "../tree/#paper=2605_03065",
+      "mapUrl": "../map/#paper=2605_03065"
     },
     "2604_13312": {
       "id": "2604_13312",
@@ -20168,8 +20168,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_13312/",
-      "contentTreeUrl": "../content-tree/#paper=2604_13312",
-      "mindMapUrl": "../mind-map/#paper=2604_13312"
+      "treeUrl": "../tree/#paper=2604_13312",
+      "mapUrl": "../map/#paper=2604_13312"
     },
     "2604_05226": {
       "id": "2604_05226",
@@ -20187,8 +20187,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_05226/",
-      "contentTreeUrl": "../content-tree/#paper=2604_05226",
-      "mindMapUrl": "../mind-map/#paper=2604_05226"
+      "treeUrl": "../tree/#paper=2604_05226",
+      "mapUrl": "../map/#paper=2604_05226"
     },
     "2604_24442": {
       "id": "2604_24442",
@@ -20205,8 +20205,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_24442/",
-      "contentTreeUrl": "../content-tree/#paper=2604_24442",
-      "mindMapUrl": "../mind-map/#paper=2604_24442"
+      "treeUrl": "../tree/#paper=2604_24442",
+      "mapUrl": "../map/#paper=2604_24442"
     },
     "2602_09153": {
       "id": "2602_09153",
@@ -20223,8 +20223,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2602_09153/",
-      "contentTreeUrl": "../content-tree/#paper=2602_09153",
-      "mindMapUrl": "../mind-map/#paper=2602_09153"
+      "treeUrl": "../tree/#paper=2602_09153",
+      "mapUrl": "../map/#paper=2602_09153"
     },
     "2603_05944": {
       "id": "2603_05944",
@@ -20240,8 +20240,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_05944/",
-      "contentTreeUrl": "../content-tree/#paper=2603_05944",
-      "mindMapUrl": "../mind-map/#paper=2603_05944"
+      "treeUrl": "../tree/#paper=2603_05944",
+      "mapUrl": "../map/#paper=2603_05944"
     },
     "2603_28052": {
       "id": "2603_28052",
@@ -20259,8 +20259,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_28052/",
-      "contentTreeUrl": "../content-tree/#paper=2603_28052",
-      "mindMapUrl": "../mind-map/#paper=2603_28052"
+      "treeUrl": "../tree/#paper=2603_28052",
+      "mapUrl": "../map/#paper=2603_28052"
     },
     "2605_10671": {
       "id": "2605_10671",
@@ -20274,8 +20274,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2605_10671/",
-      "contentTreeUrl": "../content-tree/#paper=2605_10671",
-      "mindMapUrl": "../mind-map/#paper=2605_10671"
+      "treeUrl": "../tree/#paper=2605_10671",
+      "mapUrl": "../map/#paper=2605_10671"
     },
     "2603_04843": {
       "id": "2603_04843",
@@ -20291,8 +20291,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_04843/",
-      "contentTreeUrl": "../content-tree/#paper=2603_04843",
-      "mindMapUrl": "../mind-map/#paper=2603_04843"
+      "treeUrl": "../tree/#paper=2603_04843",
+      "mapUrl": "../map/#paper=2603_04843"
     },
     "2603_12361": {
       "id": "2603_12361",
@@ -20308,8 +20308,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_12361/",
-      "contentTreeUrl": "../content-tree/#paper=2603_12361",
-      "mindMapUrl": "../mind-map/#paper=2603_12361"
+      "treeUrl": "../tree/#paper=2603_12361",
+      "mapUrl": "../map/#paper=2603_12361"
     },
     "2604_00900": {
       "id": "2604_00900",
@@ -20324,8 +20324,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_00900/",
-      "contentTreeUrl": "../content-tree/#paper=2604_00900",
-      "mindMapUrl": "../mind-map/#paper=2604_00900"
+      "treeUrl": "../tree/#paper=2604_00900",
+      "mapUrl": "../map/#paper=2604_00900"
     },
     "2605_09939": {
       "id": "2605_09939",
@@ -20340,8 +20340,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2605_09939/",
-      "contentTreeUrl": "../content-tree/#paper=2605_09939",
-      "mindMapUrl": "../mind-map/#paper=2605_09939"
+      "treeUrl": "../tree/#paper=2605_09939",
+      "mapUrl": "../map/#paper=2605_09939"
     },
     "2026_macenski_cost_aware_kinematically_feasible": {
       "id": "2026_macenski_cost_aware_kinematically_feasible",
@@ -20357,8 +20357,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2026_macenski_cost_aware_kinematically_feasible/",
-      "contentTreeUrl": "../content-tree/#paper=2026_macenski_cost_aware_kinematically_feasible",
-      "mindMapUrl": "../mind-map/#paper=2026_macenski_cost_aware_kinematically_feasible"
+      "treeUrl": "../tree/#paper=2026_macenski_cost_aware_kinematically_feasible",
+      "mapUrl": "../map/#paper=2026_macenski_cost_aware_kinematically_feasible"
     },
     "2604_27175": {
       "id": "2604_27175",
@@ -20372,8 +20372,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_27175/",
-      "contentTreeUrl": "../content-tree/#paper=2604_27175",
-      "mindMapUrl": "../mind-map/#paper=2604_27175"
+      "treeUrl": "../tree/#paper=2604_27175",
+      "mapUrl": "../map/#paper=2604_27175"
     },
     "2601_19680": {
       "id": "2601_19680",
@@ -20391,8 +20391,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2601_19680/",
-      "contentTreeUrl": "../content-tree/#paper=2601_19680",
-      "mindMapUrl": "../mind-map/#paper=2601_19680"
+      "treeUrl": "../tree/#paper=2601_19680",
+      "mapUrl": "../map/#paper=2601_19680"
     },
     "2604_13323": {
       "id": "2604_13323",
@@ -20409,8 +20409,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_13323/",
-      "contentTreeUrl": "../content-tree/#paper=2604_13323",
-      "mindMapUrl": "../mind-map/#paper=2604_13323"
+      "treeUrl": "../tree/#paper=2604_13323",
+      "mapUrl": "../map/#paper=2604_13323"
     },
     "2604_08266": {
       "id": "2604_08266",
@@ -20425,8 +20425,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_08266/",
-      "contentTreeUrl": "../content-tree/#paper=2604_08266",
-      "mindMapUrl": "../mind-map/#paper=2604_08266"
+      "treeUrl": "../tree/#paper=2604_08266",
+      "mapUrl": "../map/#paper=2604_08266"
     },
     "2603_01176": {
       "id": "2603_01176",
@@ -20443,8 +20443,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_01176/",
-      "contentTreeUrl": "../content-tree/#paper=2603_01176",
-      "mindMapUrl": "../mind-map/#paper=2603_01176"
+      "treeUrl": "../tree/#paper=2603_01176",
+      "mapUrl": "../map/#paper=2603_01176"
     },
     "2604_10635": {
       "id": "2604_10635",
@@ -20464,8 +20464,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_10635/",
-      "contentTreeUrl": "../content-tree/#paper=2604_10635",
-      "mindMapUrl": "../mind-map/#paper=2604_10635"
+      "treeUrl": "../tree/#paper=2604_10635",
+      "mapUrl": "../map/#paper=2604_10635"
     },
     "2604_20329": {
       "id": "2604_20329",
@@ -20502,8 +20502,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_20329/",
-      "contentTreeUrl": "../content-tree/#paper=2604_20329",
-      "mindMapUrl": "../mind-map/#paper=2604_20329"
+      "treeUrl": "../tree/#paper=2604_20329",
+      "mapUrl": "../map/#paper=2604_20329"
     },
     "2604_25788": {
       "id": "2604_25788",
@@ -20527,8 +20527,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_25788/",
-      "contentTreeUrl": "../content-tree/#paper=2604_25788",
-      "mindMapUrl": "../mind-map/#paper=2604_25788"
+      "treeUrl": "../tree/#paper=2604_25788",
+      "mapUrl": "../map/#paper=2604_25788"
     },
     "2026_zhang_constrained_diffusers_for_safe": {
       "id": "2026_zhang_constrained_diffusers_for_safe",
@@ -20552,8 +20552,8 @@ window.tagSearchData = {
       ],
       "summary": "Zhang, Zhao, Papachristodoulou, and Umenberger adapt pretrained diffusion planners to constrained planning and control by modifying the reverse sampling process rather than retraining the model. Constrained Diffusers use projected, primal-dual, and augmented-Lagrangian sampling updates, and the paper connects those updates with discrete control barrier functions for receding-horizon safety.",
       "url": "../papers/2026_zhang_constrained_diffusers_for_safe/",
-      "contentTreeUrl": "../content-tree/#paper=2026_zhang_constrained_diffusers_for_safe",
-      "mindMapUrl": "../mind-map/#paper=2026_zhang_constrained_diffusers_for_safe"
+      "treeUrl": "../tree/#paper=2026_zhang_constrained_diffusers_for_safe",
+      "mapUrl": "../map/#paper=2026_zhang_constrained_diffusers_for_safe"
     },
     "2604_14905": {
       "id": "2604_14905",
@@ -20568,8 +20568,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_14905/",
-      "contentTreeUrl": "../content-tree/#paper=2604_14905",
-      "mindMapUrl": "../mind-map/#paper=2604_14905"
+      "treeUrl": "../tree/#paper=2604_14905",
+      "mapUrl": "../map/#paper=2604_14905"
     },
     "2601_05525": {
       "id": "2601_05525",
@@ -20584,8 +20584,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2601_05525/",
-      "contentTreeUrl": "../content-tree/#paper=2601_05525",
-      "mindMapUrl": "../mind-map/#paper=2601_05525"
+      "treeUrl": "../tree/#paper=2601_05525",
+      "mapUrl": "../map/#paper=2601_05525"
     },
     "2603_24489": {
       "id": "2603_24489",
@@ -20600,8 +20600,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_24489/",
-      "contentTreeUrl": "../content-tree/#paper=2603_24489",
-      "mindMapUrl": "../mind-map/#paper=2603_24489"
+      "treeUrl": "../tree/#paper=2603_24489",
+      "mapUrl": "../map/#paper=2603_24489"
     },
     "2605_07589": {
       "id": "2605_07589",
@@ -20615,8 +20615,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2605_07589/",
-      "contentTreeUrl": "../content-tree/#paper=2605_07589",
-      "mindMapUrl": "../mind-map/#paper=2605_07589"
+      "treeUrl": "../tree/#paper=2605_07589",
+      "mapUrl": "../map/#paper=2605_07589"
     },
     "2605_03290": {
       "id": "2605_03290",
@@ -20632,8 +20632,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2605_03290/",
-      "contentTreeUrl": "../content-tree/#paper=2605_03290",
-      "mindMapUrl": "../mind-map/#paper=2605_03290"
+      "treeUrl": "../tree/#paper=2605_03290",
+      "mapUrl": "../map/#paper=2605_03290"
     },
     "2604_06406": {
       "id": "2604_06406",
@@ -20647,8 +20647,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_06406/",
-      "contentTreeUrl": "../content-tree/#paper=2604_06406",
-      "mindMapUrl": "../mind-map/#paper=2604_06406"
+      "treeUrl": "../tree/#paper=2604_06406",
+      "mapUrl": "../map/#paper=2604_06406"
     },
     "2602_03639": {
       "id": "2602_03639",
@@ -20665,8 +20665,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2602_03639/",
-      "contentTreeUrl": "../content-tree/#paper=2602_03639",
-      "mindMapUrl": "../mind-map/#paper=2602_03639"
+      "treeUrl": "../tree/#paper=2602_03639",
+      "mapUrl": "../map/#paper=2602_03639"
     },
     "2026_possieri_solving_the_linear_quadratic": {
       "id": "2026_possieri_solving_the_linear_quadratic",
@@ -20680,8 +20680,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2026_possieri_solving_the_linear_quadratic/",
-      "contentTreeUrl": "../content-tree/#paper=2026_possieri_solving_the_linear_quadratic",
-      "mindMapUrl": "../mind-map/#paper=2026_possieri_solving_the_linear_quadratic"
+      "treeUrl": "../tree/#paper=2026_possieri_solving_the_linear_quadratic",
+      "mapUrl": "../map/#paper=2026_possieri_solving_the_linear_quadratic"
     },
     "2605_01614": {
       "id": "2605_01614",
@@ -20696,8 +20696,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2605_01614/",
-      "contentTreeUrl": "../content-tree/#paper=2605_01614",
-      "mindMapUrl": "../mind-map/#paper=2605_01614"
+      "treeUrl": "../tree/#paper=2605_01614",
+      "mapUrl": "../map/#paper=2605_01614"
     },
     "2603_14392": {
       "id": "2603_14392",
@@ -20718,8 +20718,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_14392/",
-      "contentTreeUrl": "../content-tree/#paper=2603_14392",
-      "mindMapUrl": "../mind-map/#paper=2603_14392"
+      "treeUrl": "../tree/#paper=2603_14392",
+      "mapUrl": "../map/#paper=2603_14392"
     },
     "2604_04539": {
       "id": "2604_04539",
@@ -20744,8 +20744,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_04539/",
-      "contentTreeUrl": "../content-tree/#paper=2604_04539",
-      "mindMapUrl": "../mind-map/#paper=2604_04539"
+      "treeUrl": "../tree/#paper=2604_04539",
+      "mapUrl": "../map/#paper=2604_04539"
     },
     "2605_01860": {
       "id": "2605_01860",
@@ -20759,8 +20759,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2605_01860/",
-      "contentTreeUrl": "../content-tree/#paper=2605_01860",
-      "mindMapUrl": "../mind-map/#paper=2605_01860"
+      "treeUrl": "../tree/#paper=2605_01860",
+      "mapUrl": "../map/#paper=2605_01860"
     },
     "2603_06773": {
       "id": "2603_06773",
@@ -20777,8 +20777,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_06773/",
-      "contentTreeUrl": "../content-tree/#paper=2603_06773",
-      "mindMapUrl": "../mind-map/#paper=2603_06773"
+      "treeUrl": "../tree/#paper=2603_06773",
+      "mapUrl": "../map/#paper=2603_06773"
     },
     "2604_18578": {
       "id": "2604_18578",
@@ -20798,8 +20798,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_18578/",
-      "contentTreeUrl": "../content-tree/#paper=2604_18578",
-      "mindMapUrl": "../mind-map/#paper=2604_18578"
+      "treeUrl": "../tree/#paper=2604_18578",
+      "mapUrl": "../map/#paper=2604_18578"
     },
     "2604_01614": {
       "id": "2604_01614",
@@ -20813,8 +20813,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_01614/",
-      "contentTreeUrl": "../content-tree/#paper=2604_01614",
-      "mindMapUrl": "../mind-map/#paper=2604_01614"
+      "treeUrl": "../tree/#paper=2604_01614",
+      "mapUrl": "../map/#paper=2604_01614"
     },
     "2603_14197": {
       "id": "2603_14197",
@@ -20828,8 +20828,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_14197/",
-      "contentTreeUrl": "../content-tree/#paper=2603_14197",
-      "mindMapUrl": "../mind-map/#paper=2603_14197"
+      "treeUrl": "../tree/#paper=2603_14197",
+      "mapUrl": "../map/#paper=2603_14197"
     },
     "2026_wang_score_guided_motion_planning": {
       "id": "2026_wang_score_guided_motion_planning",
@@ -20845,8 +20845,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2026_wang_score_guided_motion_planning/",
-      "contentTreeUrl": "../content-tree/#paper=2026_wang_score_guided_motion_planning",
-      "mindMapUrl": "../mind-map/#paper=2026_wang_score_guided_motion_planning"
+      "treeUrl": "../tree/#paper=2026_wang_score_guided_motion_planning",
+      "mapUrl": "../map/#paper=2026_wang_score_guided_motion_planning"
     },
     "2604_08508": {
       "id": "2604_08508",
@@ -20875,8 +20875,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_08508/",
-      "contentTreeUrl": "../content-tree/#paper=2604_08508",
-      "mindMapUrl": "../mind-map/#paper=2604_08508"
+      "treeUrl": "../tree/#paper=2604_08508",
+      "mapUrl": "../map/#paper=2604_08508"
     },
     "2604_11183": {
       "id": "2604_11183",
@@ -20893,8 +20893,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_11183/",
-      "contentTreeUrl": "../content-tree/#paper=2604_11183",
-      "mindMapUrl": "../mind-map/#paper=2604_11183"
+      "treeUrl": "../tree/#paper=2604_11183",
+      "mapUrl": "../map/#paper=2604_11183"
     },
     "2604_19011": {
       "id": "2604_19011",
@@ -20910,8 +20910,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2604_19011/",
-      "contentTreeUrl": "../content-tree/#paper=2604_19011",
-      "mindMapUrl": "../mind-map/#paper=2604_19011"
+      "treeUrl": "../tree/#paper=2604_19011",
+      "mapUrl": "../map/#paper=2604_19011"
     },
     "2605_02881": {
       "id": "2605_02881",
@@ -20952,8 +20952,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2605_02881/",
-      "contentTreeUrl": "../content-tree/#paper=2605_02881",
-      "mindMapUrl": "../mind-map/#paper=2605_02881"
+      "treeUrl": "../tree/#paper=2605_02881",
+      "mapUrl": "../map/#paper=2605_02881"
     },
     "2603_16808": {
       "id": "2603_16808",
@@ -20969,8 +20969,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2603_16808/",
-      "contentTreeUrl": "../content-tree/#paper=2603_16808",
-      "mindMapUrl": "../mind-map/#paper=2603_16808"
+      "treeUrl": "../tree/#paper=2603_16808",
+      "mapUrl": "../map/#paper=2603_16808"
     },
     "1973_e_an_optimum_method_for": {
       "id": "1973_e_an_optimum_method_for",
@@ -20990,8 +20990,8 @@ window.tagSearchData = {
       ],
       "summary": "Bayer introduces the ordered dithering construction now associated with Bayer matrices, giving a deterministic way to render continuous-tone images on bilevel devices. The work became a foundational reference for digital halftoning because it turns tone reproduction into a spatial threshold-pattern design problem rather than a purely local quantization rule.",
       "url": "../papers/1973_e_an_optimum_method_for/",
-      "contentTreeUrl": "../content-tree/#paper=1973_e_an_optimum_method_for",
-      "mindMapUrl": "../mind-map/#paper=1973_e_an_optimum_method_for"
+      "treeUrl": "../tree/#paper=1973_e_an_optimum_method_for",
+      "mapUrl": "../map/#paper=1973_e_an_optimum_method_for"
     },
     "1973_molinari_the_stabilizing_solution_of": {
       "id": "1973_molinari_the_stabilizing_solution_of",
@@ -21011,8 +21011,8 @@ window.tagSearchData = {
       ],
       "summary": "Characterizes the stabilizing solution of the algebraic Riccati equation arising in LQR design, establishing necessary and sufficient conditions for its existence and uniqueness. A key reference for the theoretical foundations of Riccati-based optimal control synthesis.",
       "url": "../papers/1973_molinari_the_stabilizing_solution_of/",
-      "contentTreeUrl": "../content-tree/#paper=1973_molinari_the_stabilizing_solution_of",
-      "mindMapUrl": "../mind-map/#paper=1973_molinari_the_stabilizing_solution_of"
+      "treeUrl": "../tree/#paper=1973_molinari_the_stabilizing_solution_of",
+      "mapUrl": "../map/#paper=1973_molinari_the_stabilizing_solution_of"
     },
     "1973_astrom_on_self_tuning_regulators": {
       "id": "1973_astrom_on_self_tuning_regulators",
@@ -21026,8 +21026,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1973_astrom_on_self_tuning_regulators/",
-      "contentTreeUrl": "../content-tree/#paper=1973_astrom_on_self_tuning_regulators",
-      "mindMapUrl": "../mind-map/#paper=1973_astrom_on_self_tuning_regulators"
+      "treeUrl": "../tree/#paper=1973_astrom_on_self_tuning_regulators",
+      "mapUrl": "../map/#paper=1973_astrom_on_self_tuning_regulators"
     },
     "1953_katz_a_new_status_index": {
       "id": "1953_katz_a_new_status_index",
@@ -21049,8 +21049,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces a status measure that counts not only direct choices in a sociometric network but also longer chains of choices, attenuated by path length. The paper is a compact origin point for Katz centrality and for the broader idea that influence can be modeled through weighted walks in a graph rather than only immediate degree.",
       "url": "../papers/1953_katz_a_new_status_index/",
-      "contentTreeUrl": "../content-tree/#paper=1953_katz_a_new_status_index",
-      "mindMapUrl": "../mind-map/#paper=1953_katz_a_new_status_index"
+      "treeUrl": "../tree/#paper=1953_katz_a_new_status_index",
+      "mapUrl": "../map/#paper=1953_katz_a_new_status_index"
     },
     "1953_watson_molecular_structure_of_nucleic": {
       "id": "1953_watson_molecular_structure_of_nucleic",
@@ -21064,8 +21064,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "The determination in 1953 of the structure of deoxyribonucleic acid (DNA), with its two entwined helices and paired organic bases, was a tour de force in X-ray crystallography. But more significantly, it also opened the way for a deeper understanding of perhaps the most important biological process. In the words of Watson and Crick: \"It has not escaped our notice that the specific pairing that we have postulated immediately suggests a possible copying mechanism for the genetic material.\"",
       "url": "../papers/1953_watson_molecular_structure_of_nucleic/",
-      "contentTreeUrl": "../content-tree/#paper=1953_watson_molecular_structure_of_nucleic",
-      "mindMapUrl": "../mind-map/#paper=1953_watson_molecular_structure_of_nucleic"
+      "treeUrl": "../tree/#paper=1953_watson_molecular_structure_of_nucleic",
+      "mapUrl": "../map/#paper=1953_watson_molecular_structure_of_nucleic"
     },
     "1953_shapley_a_value_for_n": {
       "id": "1953_shapley_a_value_for_n",
@@ -21084,8 +21084,8 @@ window.tagSearchData = {
       ],
       "summary": "Defines the Shapley Value, a unique allocation rule for cooperative n-player games derived from four axioms: efficiency, symmetry, the null player property, and additivity. The Shapley value assigns each player a fair share of the total coalition value based on their marginal contributions across all possible orderings. It became the mathematical foundation for SHAP feature attribution in machine learning.",
       "url": "../papers/1953_shapley_a_value_for_n/",
-      "contentTreeUrl": "../content-tree/#paper=1953_shapley_a_value_for_n",
-      "mindMapUrl": "../mind-map/#paper=1953_shapley_a_value_for_n"
+      "treeUrl": "../tree/#paper=1953_shapley_a_value_for_n",
+      "mapUrl": "../map/#paper=1953_shapley_a_value_for_n"
     },
     "2009_chandrasekaran_sparse_and_low_rank": {
       "id": "2009_chandrasekaran_sparse_and_low_rank",
@@ -21101,8 +21101,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_chandrasekaran_sparse_and_low_rank/",
-      "contentTreeUrl": "../content-tree/#paper=2009_chandrasekaran_sparse_and_low_rank",
-      "mindMapUrl": "../mind-map/#paper=2009_chandrasekaran_sparse_and_low_rank"
+      "treeUrl": "../tree/#paper=2009_chandrasekaran_sparse_and_low_rank",
+      "mapUrl": "../map/#paper=2009_chandrasekaran_sparse_and_low_rank"
     },
     "2009_feitzinger_inexact_kleinmannewton_method_for": {
       "id": "2009_feitzinger_inexact_kleinmannewton_method_for",
@@ -21117,8 +21117,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_feitzinger_inexact_kleinmannewton_method_for/",
-      "contentTreeUrl": "../content-tree/#paper=2009_feitzinger_inexact_kleinmannewton_method_for",
-      "mindMapUrl": "../mind-map/#paper=2009_feitzinger_inexact_kleinmannewton_method_for"
+      "treeUrl": "../tree/#paper=2009_feitzinger_inexact_kleinmannewton_method_for",
+      "mapUrl": "../map/#paper=2009_feitzinger_inexact_kleinmannewton_method_for"
     },
     "2009_schulz_bezier_clipping_is_quadratically": {
       "id": "2009_schulz_bezier_clipping_is_quadratically",
@@ -21131,8 +21131,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_schulz_bezier_clipping_is_quadratically/",
-      "contentTreeUrl": "../content-tree/#paper=2009_schulz_bezier_clipping_is_quadratically",
-      "mindMapUrl": "../mind-map/#paper=2009_schulz_bezier_clipping_is_quadratically"
+      "treeUrl": "../tree/#paper=2009_schulz_bezier_clipping_is_quadratically",
+      "mapUrl": "../map/#paper=2009_schulz_bezier_clipping_is_quadratically"
     },
     "2009_shkolnik_reachability_guided_sampling_for": {
       "id": "2009_shkolnik_reachability_guided_sampling_for",
@@ -21147,8 +21147,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_shkolnik_reachability_guided_sampling_for/",
-      "contentTreeUrl": "../content-tree/#paper=2009_shkolnik_reachability_guided_sampling_for",
-      "mindMapUrl": "../mind-map/#paper=2009_shkolnik_reachability_guided_sampling_for"
+      "treeUrl": "../tree/#paper=2009_shkolnik_reachability_guided_sampling_for",
+      "mapUrl": "../map/#paper=2009_shkolnik_reachability_guided_sampling_for"
     },
     "2009_weinberger_distance_metric_learning_for": {
       "id": "2009_weinberger_distance_metric_learning_for",
@@ -21162,8 +21162,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_weinberger_distance_metric_learning_for/",
-      "contentTreeUrl": "../content-tree/#paper=2009_weinberger_distance_metric_learning_for",
-      "mindMapUrl": "../mind-map/#paper=2009_weinberger_distance_metric_learning_for"
+      "treeUrl": "../tree/#paper=2009_weinberger_distance_metric_learning_for",
+      "mapUrl": "../map/#paper=2009_weinberger_distance_metric_learning_for"
     },
     "2009_lindemann_simple_and_efficient_algorithms": {
       "id": "2009_lindemann_simple_and_efficient_algorithms",
@@ -21177,8 +21177,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_lindemann_simple_and_efficient_algorithms/",
-      "contentTreeUrl": "../content-tree/#paper=2009_lindemann_simple_and_efficient_algorithms",
-      "mindMapUrl": "../mind-map/#paper=2009_lindemann_simple_and_efficient_algorithms"
+      "treeUrl": "../tree/#paper=2009_lindemann_simple_and_efficient_algorithms",
+      "mapUrl": "../map/#paper=2009_lindemann_simple_and_efficient_algorithms"
     },
     "2009_huynh_iclqg_combining_local_and": {
       "id": "2009_huynh_iclqg_combining_local_and",
@@ -21192,8 +21192,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_huynh_iclqg_combining_local_and/",
-      "contentTreeUrl": "../content-tree/#paper=2009_huynh_iclqg_combining_local_and",
-      "mindMapUrl": "../mind-map/#paper=2009_huynh_iclqg_combining_local_and"
+      "treeUrl": "../tree/#paper=2009_huynh_iclqg_combining_local_and",
+      "mapUrl": "../map/#paper=2009_huynh_iclqg_combining_local_and"
     },
     "2009_kuwata_real_time_motion_planning": {
       "id": "2009_kuwata_real_time_motion_planning",
@@ -21211,8 +21211,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_kuwata_real_time_motion_planning/",
-      "contentTreeUrl": "../content-tree/#paper=2009_kuwata_real_time_motion_planning",
-      "mindMapUrl": "../mind-map/#paper=2009_kuwata_real_time_motion_planning"
+      "treeUrl": "../tree/#paper=2009_kuwata_real_time_motion_planning",
+      "mapUrl": "../map/#paper=2009_kuwata_real_time_motion_planning"
     },
     "2009_prentice_the_belief_roadmap_efficient": {
       "id": "2009_prentice_the_belief_roadmap_efficient",
@@ -21226,8 +21226,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_prentice_the_belief_roadmap_efficient/",
-      "contentTreeUrl": "../content-tree/#paper=2009_prentice_the_belief_roadmap_efficient",
-      "mindMapUrl": "../mind-map/#paper=2009_prentice_the_belief_roadmap_efficient"
+      "treeUrl": "../tree/#paper=2009_prentice_the_belief_roadmap_efficient",
+      "mapUrl": "../map/#paper=2009_prentice_the_belief_roadmap_efficient"
     },
     "2009_quigley_ros_an_open_source": {
       "id": "2009_quigley_ros_an_open_source",
@@ -21255,8 +21255,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces ROS as a robotics middleware rather than a traditional OS, emphasizing peer-to-peer communication, tools, language neutrality, and open-source integration. It became the dominant software substrate for academic and applied robotics.",
       "url": "../papers/2009_quigley_ros_an_open_source/",
-      "contentTreeUrl": "../content-tree/#paper=2009_quigley_ros_an_open_source",
-      "mindMapUrl": "../mind-map/#paper=2009_quigley_ros_an_open_source"
+      "treeUrl": "../tree/#paper=2009_quigley_ros_an_open_source",
+      "mapUrl": "../map/#paper=2009_quigley_ros_an_open_source"
     },
     "2009_ratliff_chomp_gradient_optimization_techniques": {
       "id": "2009_ratliff_chomp_gradient_optimization_techniques",
@@ -21281,8 +21281,8 @@ window.tagSearchData = {
       ],
       "summary": "CHOMP formulates path optimization as minimizing an objective with terms for obstacle cost and path smoothness, then applies a covariant gradient descent (a special type of preconditioned gradient descent closely related to natural gradient descent) that exploits the special structure of the objective for fast convergence. Widely used via its MoveIt/ROS implementation.",
       "url": "../papers/2009_ratliff_chomp_gradient_optimization_techniques/",
-      "contentTreeUrl": "../content-tree/#paper=2009_ratliff_chomp_gradient_optimization_techniques",
-      "mindMapUrl": "../mind-map/#paper=2009_ratliff_chomp_gradient_optimization_techniques"
+      "treeUrl": "../tree/#paper=2009_ratliff_chomp_gradient_optimization_techniques",
+      "mapUrl": "../map/#paper=2009_ratliff_chomp_gradient_optimization_techniques"
     },
     "2009_shkolnik_path_planning_in_1000": {
       "id": "2009_shkolnik_path_planning_in_1000",
@@ -21296,8 +21296,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_shkolnik_path_planning_in_1000/",
-      "contentTreeUrl": "../content-tree/#paper=2009_shkolnik_path_planning_in_1000",
-      "mindMapUrl": "../mind-map/#paper=2009_shkolnik_path_planning_in_1000"
+      "treeUrl": "../tree/#paper=2009_shkolnik_path_planning_in_1000",
+      "mapUrl": "../map/#paper=2009_shkolnik_path_planning_in_1000"
     },
     "2009_beck_a_fast_iterative_shrinkage": {
       "id": "2009_beck_a_fast_iterative_shrinkage",
@@ -21318,8 +21318,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces FISTA (Fast Iterative Shrinkage-Thresholding Algorithm), an accelerated proximal gradient method achieving O(1/k²) convergence rate for composite convex minimization with a Lipschitz-smooth term and a proximal-friendly nonsmooth term such as L1 regularization. Extends ISTA with Nesterov-style momentum and became a foundational algorithm for sparse signal recovery and regularized optimization.",
       "url": "../papers/2009_beck_a_fast_iterative_shrinkage/",
-      "contentTreeUrl": "../content-tree/#paper=2009_beck_a_fast_iterative_shrinkage",
-      "mindMapUrl": "../mind-map/#paper=2009_beck_a_fast_iterative_shrinkage"
+      "treeUrl": "../tree/#paper=2009_beck_a_fast_iterative_shrinkage",
+      "mapUrl": "../map/#paper=2009_beck_a_fast_iterative_shrinkage"
     },
     "2009_ye_time_series_shapelets": {
       "id": "2009_ye_time_series_shapelets",
@@ -21333,8 +21333,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_ye_time_series_shapelets/",
-      "contentTreeUrl": "../content-tree/#paper=2009_ye_time_series_shapelets",
-      "mindMapUrl": "../mind-map/#paper=2009_ye_time_series_shapelets"
+      "treeUrl": "../tree/#paper=2009_ye_time_series_shapelets",
+      "mapUrl": "../map/#paper=2009_ye_time_series_shapelets"
     },
     "2009_stanley_a_hypercube_based_encoding": {
       "id": "2009_stanley_a_hypercube_based_encoding",
@@ -21349,8 +21349,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_stanley_a_hypercube_based_encoding/",
-      "contentTreeUrl": "../content-tree/#paper=2009_stanley_a_hypercube_based_encoding",
-      "mindMapUrl": "../mind-map/#paper=2009_stanley_a_hypercube_based_encoding"
+      "treeUrl": "../tree/#paper=2009_stanley_a_hypercube_based_encoding",
+      "mapUrl": "../map/#paper=2009_stanley_a_hypercube_based_encoding"
     },
     "2009_guy_clearpath_highly_parallel_collision": {
       "id": "2009_guy_clearpath_highly_parallel_collision",
@@ -21369,8 +21369,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_guy_clearpath_highly_parallel_collision/",
-      "contentTreeUrl": "../content-tree/#paper=2009_guy_clearpath_highly_parallel_collision",
-      "mindMapUrl": "../mind-map/#paper=2009_guy_clearpath_highly_parallel_collision"
+      "treeUrl": "../tree/#paper=2009_guy_clearpath_highly_parallel_collision",
+      "mapUrl": "../map/#paper=2009_guy_clearpath_highly_parallel_collision"
     },
     "2009_verscheure_time_optimal_path_tracking": {
       "id": "2009_verscheure_time_optimal_path_tracking",
@@ -21396,8 +21396,8 @@ window.tagSearchData = {
       ],
       "summary": "Demonstrates how to write down a large optimal control problem (OCP) for time-optimal path tracking for a robotic manipulator, considering many constraints and the dynamics related to such systems. The resulting OCP is a convex second-order cone program, which can be solved with a variety of generic solvers. The value of the paper mostly comes from just the handwritten transcription of the OCP.",
       "url": "../papers/2009_verscheure_time_optimal_path_tracking/",
-      "contentTreeUrl": "../content-tree/#paper=2009_verscheure_time_optimal_path_tracking",
-      "mindMapUrl": "../mind-map/#paper=2009_verscheure_time_optimal_path_tracking"
+      "treeUrl": "../tree/#paper=2009_verscheure_time_optimal_path_tracking",
+      "mapUrl": "../map/#paper=2009_verscheure_time_optimal_path_tracking"
     },
     "2009_chopra_on_exponential_synchronization_of": {
       "id": "2009_chopra_on_exponential_synchronization_of",
@@ -21411,8 +21411,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_chopra_on_exponential_synchronization_of/",
-      "contentTreeUrl": "../content-tree/#paper=2009_chopra_on_exponential_synchronization_of",
-      "mindMapUrl": "../mind-map/#paper=2009_chopra_on_exponential_synchronization_of"
+      "treeUrl": "../tree/#paper=2009_chopra_on_exponential_synchronization_of",
+      "mapUrl": "../map/#paper=2009_chopra_on_exponential_synchronization_of"
     },
     "2009_nedic_subgradient_methods_for_saddle": {
       "id": "2009_nedic_subgradient_methods_for_saddle",
@@ -21426,8 +21426,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_nedic_subgradient_methods_for_saddle/",
-      "contentTreeUrl": "../content-tree/#paper=2009_nedic_subgradient_methods_for_saddle",
-      "mindMapUrl": "../mind-map/#paper=2009_nedic_subgradient_methods_for_saddle"
+      "treeUrl": "../tree/#paper=2009_nedic_subgradient_methods_for_saddle",
+      "mapUrl": "../map/#paper=2009_nedic_subgradient_methods_for_saddle"
     },
     "0903_1287": {
       "id": "0903_1287",
@@ -21441,8 +21441,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/0903_1287/",
-      "contentTreeUrl": "../content-tree/#paper=0903_1287",
-      "mindMapUrl": "../mind-map/#paper=0903_1287"
+      "treeUrl": "../tree/#paper=0903_1287",
+      "mapUrl": "../map/#paper=0903_1287"
     },
     "2009_bachrach_autonomous_flight_in_unknown": {
       "id": "2009_bachrach_autonomous_flight_in_unknown",
@@ -21457,8 +21457,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2009_bachrach_autonomous_flight_in_unknown/",
-      "contentTreeUrl": "../content-tree/#paper=2009_bachrach_autonomous_flight_in_unknown",
-      "mindMapUrl": "../mind-map/#paper=2009_bachrach_autonomous_flight_in_unknown"
+      "treeUrl": "../tree/#paper=2009_bachrach_autonomous_flight_in_unknown",
+      "mapUrl": "../map/#paper=2009_bachrach_autonomous_flight_in_unknown"
     },
     "1969_kozin_a_survey_of_stability": {
       "id": "1969_kozin_a_survey_of_stability",
@@ -21471,8 +21471,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1969_kozin_a_survey_of_stability/",
-      "contentTreeUrl": "../content-tree/#paper=1969_kozin_a_survey_of_stability",
-      "mindMapUrl": "../mind-map/#paper=1969_kozin_a_survey_of_stability"
+      "treeUrl": "../tree/#paper=1969_kozin_a_survey_of_stability",
+      "mapUrl": "../map/#paper=1969_kozin_a_survey_of_stability"
     },
     "1969_kleinman_optimal_stationary_control_of": {
       "id": "1969_kleinman_optimal_stationary_control_of",
@@ -21485,8 +21485,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1969_kleinman_optimal_stationary_control_of/",
-      "contentTreeUrl": "../content-tree/#paper=1969_kleinman_optimal_stationary_control_of",
-      "mindMapUrl": "../mind-map/#paper=1969_kleinman_optimal_stationary_control_of"
+      "treeUrl": "../tree/#paper=1969_kleinman_optimal_stationary_control_of",
+      "mapUrl": "../map/#paper=1969_kleinman_optimal_stationary_control_of"
     },
     "1969_whitney_resolved_motion_rate_control": {
       "id": "1969_whitney_resolved_motion_rate_control",
@@ -21499,8 +21499,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1969_whitney_resolved_motion_rate_control/",
-      "contentTreeUrl": "../content-tree/#paper=1969_whitney_resolved_motion_rate_control",
-      "mindMapUrl": "../mind-map/#paper=1969_whitney_resolved_motion_rate_control"
+      "treeUrl": "../tree/#paper=1969_whitney_resolved_motion_rate_control",
+      "mapUrl": "../map/#paper=1969_whitney_resolved_motion_rate_control"
     },
     "1969_wolfe_convergence_conditions_for_ascent": {
       "id": "1969_wolfe_convergence_conditions_for_ascent",
@@ -21513,8 +21513,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1969_wolfe_convergence_conditions_for_ascent/",
-      "contentTreeUrl": "../content-tree/#paper=1969_wolfe_convergence_conditions_for_ascent",
-      "mindMapUrl": "../mind-map/#paper=1969_wolfe_convergence_conditions_for_ascent"
+      "treeUrl": "../tree/#paper=1969_wolfe_convergence_conditions_for_ascent",
+      "mapUrl": "../map/#paper=1969_wolfe_convergence_conditions_for_ascent"
     },
     "2011_joseph_a_bayesian_nonparametric_approach": {
       "id": "2011_joseph_a_bayesian_nonparametric_approach",
@@ -21530,8 +21530,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_joseph_a_bayesian_nonparametric_approach/",
-      "contentTreeUrl": "../content-tree/#paper=2011_joseph_a_bayesian_nonparametric_approach",
-      "mindMapUrl": "../mind-map/#paper=2011_joseph_a_bayesian_nonparametric_approach"
+      "treeUrl": "../tree/#paper=2011_joseph_a_bayesian_nonparametric_approach",
+      "mapUrl": "../map/#paper=2011_joseph_a_bayesian_nonparametric_approach"
     },
     "2011_jegou_product_quantization_for_nearest": {
       "id": "2011_jegou_product_quantization_for_nearest",
@@ -21546,8 +21546,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_jegou_product_quantization_for_nearest/",
-      "contentTreeUrl": "../content-tree/#paper=2011_jegou_product_quantization_for_nearest",
-      "mindMapUrl": "../mind-map/#paper=2011_jegou_product_quantization_for_nearest"
+      "treeUrl": "../tree/#paper=2011_jegou_product_quantization_for_nearest",
+      "mapUrl": "../map/#paper=2011_jegou_product_quantization_for_nearest"
     },
     "2011_pan_collision_free_and_curvature": {
       "id": "2011_pan_collision_free_and_curvature",
@@ -21562,8 +21562,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_pan_collision_free_and_curvature/",
-      "contentTreeUrl": "../content-tree/#paper=2011_pan_collision_free_and_curvature",
-      "mindMapUrl": "../mind-map/#paper=2011_pan_collision_free_and_curvature"
+      "treeUrl": "../tree/#paper=2011_pan_collision_free_and_curvature",
+      "mapUrl": "../map/#paper=2011_pan_collision_free_and_curvature"
     },
     "2011_van_den_berg_reciprocal_n_body_collision": {
       "id": "2011_van_den_berg_reciprocal_n_body_collision",
@@ -21579,8 +21579,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_van_den_berg_reciprocal_n_body_collision/",
-      "contentTreeUrl": "../content-tree/#paper=2011_van_den_berg_reciprocal_n_body_collision",
-      "mindMapUrl": "../mind-map/#paper=2011_van_den_berg_reciprocal_n_body_collision"
+      "treeUrl": "../tree/#paper=2011_van_den_berg_reciprocal_n_body_collision",
+      "mapUrl": "../map/#paper=2011_van_den_berg_reciprocal_n_body_collision"
     },
     "2011_phillips_sipp_safe_interval_path": {
       "id": "2011_phillips_sipp_safe_interval_path",
@@ -21596,8 +21596,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces safe intervals as a compact way to reason about time in dynamic path-planning environments. SIPP searches states defined by configuration and collision-free time interval rather than by every timestep, preserving completeness and optimality guarantees while producing much faster plans in simulations with many moving obstacles and in PR2 robot trials.",
       "url": "../papers/2011_phillips_sipp_safe_interval_path/",
-      "contentTreeUrl": "../content-tree/#paper=2011_phillips_sipp_safe_interval_path",
-      "mindMapUrl": "../mind-map/#paper=2011_phillips_sipp_safe_interval_path"
+      "treeUrl": "../tree/#paper=2011_phillips_sipp_safe_interval_path",
+      "mapUrl": "../map/#paper=2011_phillips_sipp_safe_interval_path"
     },
     "2011_levinson_towards_fully_autonomous_driving": {
       "id": "2011_levinson_towards_fully_autonomous_driving",
@@ -21625,8 +21625,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_levinson_towards_fully_autonomous_driving/",
-      "contentTreeUrl": "../content-tree/#paper=2011_levinson_towards_fully_autonomous_driving",
-      "mindMapUrl": "../mind-map/#paper=2011_levinson_towards_fully_autonomous_driving"
+      "treeUrl": "../tree/#paper=2011_levinson_towards_fully_autonomous_driving",
+      "mapUrl": "../map/#paper=2011_levinson_towards_fully_autonomous_driving"
     },
     "2011_hehn_quadrocopter_trajectory_generation_and": {
       "id": "2011_hehn_quadrocopter_trajectory_generation_and",
@@ -21640,8 +21640,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_hehn_quadrocopter_trajectory_generation_and/",
-      "contentTreeUrl": "../content-tree/#paper=2011_hehn_quadrocopter_trajectory_generation_and",
-      "mindMapUrl": "../mind-map/#paper=2011_hehn_quadrocopter_trajectory_generation_and"
+      "treeUrl": "../tree/#paper=2011_hehn_quadrocopter_trajectory_generation_and",
+      "mapUrl": "../map/#paper=2011_hehn_quadrocopter_trajectory_generation_and"
     },
     "2011_hehn_a_flying_inverted_pendulum": {
       "id": "2011_hehn_a_flying_inverted_pendulum",
@@ -21655,8 +21655,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_hehn_a_flying_inverted_pendulum/",
-      "contentTreeUrl": "../content-tree/#paper=2011_hehn_a_flying_inverted_pendulum",
-      "mindMapUrl": "../mind-map/#paper=2011_hehn_a_flying_inverted_pendulum"
+      "treeUrl": "../tree/#paper=2011_hehn_a_flying_inverted_pendulum",
+      "mapUrl": "../map/#paper=2011_hehn_a_flying_inverted_pendulum"
     },
     "2011_bertsekas_approximate_policy_iteration_a": {
       "id": "2011_bertsekas_approximate_policy_iteration_a",
@@ -21669,8 +21669,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_bertsekas_approximate_policy_iteration_a/",
-      "contentTreeUrl": "../content-tree/#paper=2011_bertsekas_approximate_policy_iteration_a",
-      "mindMapUrl": "../mind-map/#paper=2011_bertsekas_approximate_policy_iteration_a"
+      "treeUrl": "../tree/#paper=2011_bertsekas_approximate_policy_iteration_a",
+      "mapUrl": "../map/#paper=2011_bertsekas_approximate_policy_iteration_a"
     },
     "2011_zucker_optimization_and_learning_for": {
       "id": "2011_zucker_optimization_and_learning_for",
@@ -21697,8 +21697,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes a hierarchical optimization framework for quadruped locomotion over rough terrain, combining anytime footstep planning with dynamic body motion optimization. Uses inverse optimal control to learn cost functions from demonstrations and real-time re-planning for robustness, demonstrated on the LittleDog robot.",
       "url": "../papers/2011_zucker_optimization_and_learning_for/",
-      "contentTreeUrl": "../content-tree/#paper=2011_zucker_optimization_and_learning_for",
-      "mindMapUrl": "../mind-map/#paper=2011_zucker_optimization_and_learning_for"
+      "treeUrl": "../tree/#paper=2011_zucker_optimization_and_learning_for",
+      "mapUrl": "../map/#paper=2011_zucker_optimization_and_learning_for"
     },
     "1111_1797": {
       "id": "1111_1797",
@@ -21712,8 +21712,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1111_1797/",
-      "contentTreeUrl": "../content-tree/#paper=1111_1797",
-      "mindMapUrl": "../mind-map/#paper=1111_1797"
+      "treeUrl": "../tree/#paper=1111_1797",
+      "mapUrl": "../map/#paper=1111_1797"
     },
     "1110_1751": {
       "id": "1110_1751",
@@ -21727,8 +21727,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1110_1751/",
-      "contentTreeUrl": "../content-tree/#paper=1110_1751",
-      "mindMapUrl": "../mind-map/#paper=1110_1751"
+      "treeUrl": "../tree/#paper=1110_1751",
+      "mapUrl": "../map/#paper=1110_1751"
     },
     "2011_olson_apriltag_a_robust_and": {
       "id": "2011_olson_apriltag_a_robust_and",
@@ -21741,8 +21741,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_olson_apriltag_a_robust_and/",
-      "contentTreeUrl": "../content-tree/#paper=2011_olson_apriltag_a_robust_and",
-      "mindMapUrl": "../mind-map/#paper=2011_olson_apriltag_a_robust_and"
+      "treeUrl": "../tree/#paper=2011_olson_apriltag_a_robust_and",
+      "mapUrl": "../map/#paper=2011_olson_apriltag_a_robust_and"
     },
     "2011_abbasi_yadkori_regret_bounds_for_the": {
       "id": "2011_abbasi_yadkori_regret_bounds_for_the",
@@ -21763,8 +21763,8 @@ window.tagSearchData = {
       ],
       "summary": "Derives O(sqrt(T)) regret bounds for adaptive control of unknown linear-quadratic systems without forced exploration, using a control law that leverages the Optimism in the Face of Uncertainty (OFU) principle, with a confidence set around the estimated model parameters. Establishes the first regret bound for the LQ control problem and connects online learning to adaptive control theory.",
       "url": "../papers/2011_abbasi_yadkori_regret_bounds_for_the/",
-      "contentTreeUrl": "../content-tree/#paper=2011_abbasi_yadkori_regret_bounds_for_the",
-      "mindMapUrl": "../mind-map/#paper=2011_abbasi_yadkori_regret_bounds_for_the"
+      "treeUrl": "../tree/#paper=2011_abbasi_yadkori_regret_bounds_for_the",
+      "mapUrl": "../map/#paper=2011_abbasi_yadkori_regret_bounds_for_the"
     },
     "2011_kucera_a_method_to_teach": {
       "id": "2011_kucera_a_method_to_teach",
@@ -21777,8 +21777,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_kucera_a_method_to_teach/",
-      "contentTreeUrl": "../content-tree/#paper=2011_kucera_a_method_to_teach",
-      "mindMapUrl": "../mind-map/#paper=2011_kucera_a_method_to_teach"
+      "treeUrl": "../tree/#paper=2011_kucera_a_method_to_teach",
+      "mapUrl": "../map/#paper=2011_kucera_a_method_to_teach"
     },
     "2011_bachrach_rangerobust_autonomous_navigation_in": {
       "id": "2011_bachrach_rangerobust_autonomous_navigation_in",
@@ -21794,8 +21794,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_bachrach_rangerobust_autonomous_navigation_in/",
-      "contentTreeUrl": "../content-tree/#paper=2011_bachrach_rangerobust_autonomous_navigation_in",
-      "mindMapUrl": "../mind-map/#paper=2011_bachrach_rangerobust_autonomous_navigation_in"
+      "treeUrl": "../tree/#paper=2011_bachrach_rangerobust_autonomous_navigation_in",
+      "mapUrl": "../map/#paper=2011_bachrach_rangerobust_autonomous_navigation_in"
     },
     "2011_perez_asymptotically_optimal_path_planning": {
       "id": "2011_perez_asymptotically_optimal_path_planning",
@@ -21813,8 +21813,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_perez_asymptotically_optimal_path_planning/",
-      "contentTreeUrl": "../content-tree/#paper=2011_perez_asymptotically_optimal_path_planning",
-      "mindMapUrl": "../mind-map/#paper=2011_perez_asymptotically_optimal_path_planning"
+      "treeUrl": "../tree/#paper=2011_perez_asymptotically_optimal_path_planning",
+      "mapUrl": "../map/#paper=2011_perez_asymptotically_optimal_path_planning"
     },
     "2011_kalakrishnan_stomp_stochastic_trajectory_optimization": {
       "id": "2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
@@ -21839,8 +21839,8 @@ window.tagSearchData = {
       ],
       "summary": "STOMP improves a trajectory by rolling out a large batch of noisy samples and computing a weighted average (based on a Boltzmann distribution i.e. exponentiated negative with a temperature parameter) over their costs. Effectively a path-space analogue of MPPI. Does not require cost gradients. Noise helps STOMP jiggle out of local minima that CHOMP can get stuck in, a similar mechanism and phenomenon as in general stochastic/perturbed gradient descent (c.f. \"How to Escape Saddle Points Efficiently\" by Jin et al, 2017 https://proceedings.mlr.press/v70/jin17a.html).",
       "url": "../papers/2011_kalakrishnan_stomp_stochastic_trajectory_optimization/",
-      "contentTreeUrl": "../content-tree/#paper=2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
-      "mindMapUrl": "../mind-map/#paper=2011_kalakrishnan_stomp_stochastic_trajectory_optimization"
+      "treeUrl": "../tree/#paper=2011_kalakrishnan_stomp_stochastic_trajectory_optimization",
+      "mapUrl": "../map/#paper=2011_kalakrishnan_stomp_stochastic_trajectory_optimization"
     },
     "2011_brach_the_tire_force_ellipse": {
       "id": "2011_brach_the_tire_force_ellipse",
@@ -21861,8 +21861,8 @@ window.tagSearchData = {
       ],
       "summary": "Examines the popular friction-ellipse abstraction against simple and measured tire-force behavior. The paper is a useful caution that the ellipse is a qualitative force-limit picture, not a faithful model of nonlinear combined-slip tire dynamics.",
       "url": "../papers/2011_brach_the_tire_force_ellipse/",
-      "contentTreeUrl": "../content-tree/#paper=2011_brach_the_tire_force_ellipse",
-      "mindMapUrl": "../mind-map/#paper=2011_brach_the_tire_force_ellipse"
+      "treeUrl": "../tree/#paper=2011_brach_the_tire_force_ellipse",
+      "mapUrl": "../map/#paper=2011_brach_the_tire_force_ellipse"
     },
     "2011_karaman_anytime_motion_planning_using": {
       "id": "2011_karaman_anytime_motion_planning_using",
@@ -21885,8 +21885,8 @@ window.tagSearchData = {
       ],
       "summary": "This was a companion to the original RRT* paper, and introduced key innovations for anytime motion planning including the \"committed trajectory\" and a \"branch-and-bound\" technique for periodically pruning obviously suboptimal nodes from the tree.",
       "url": "../papers/2011_karaman_anytime_motion_planning_using/",
-      "contentTreeUrl": "../content-tree/#paper=2011_karaman_anytime_motion_planning_using",
-      "mindMapUrl": "../mind-map/#paper=2011_karaman_anytime_motion_planning_using"
+      "treeUrl": "../tree/#paper=2011_karaman_anytime_motion_planning_using",
+      "mapUrl": "../map/#paper=2011_karaman_anytime_motion_planning_using"
     },
     "2011_mangasarian_probability_of_unique_integer": {
       "id": "2011_mangasarian_probability_of_unique_integer",
@@ -21907,8 +21907,8 @@ window.tagSearchData = {
       ],
       "summary": "Analyzes when a binary solution to an underdetermined linear system is uniquely recoverable through a linear-programming reformulation. The result is a sharp-ish phase transition around m greater than n/2 for typical random instances.",
       "url": "../papers/2011_mangasarian_probability_of_unique_integer/",
-      "contentTreeUrl": "../content-tree/#paper=2011_mangasarian_probability_of_unique_integer",
-      "mindMapUrl": "../mind-map/#paper=2011_mangasarian_probability_of_unique_integer"
+      "treeUrl": "../tree/#paper=2011_mangasarian_probability_of_unique_integer",
+      "mapUrl": "../map/#paper=2011_mangasarian_probability_of_unique_integer"
     },
     "1105_1186": {
       "id": "1105_1186",
@@ -21927,8 +21927,8 @@ window.tagSearchData = {
       ],
       "summary": "The main contribution of the paper is the introduction of new algorithms, namely, PRM* and RRT*, which are provably asymptotically optimal, i.e., such that the cost of the returned solution converges almost surely to the optimum. Moreover, it is shown that the computational complexity of the new algorithms is within a constant factor of that of their probabilistically complete (but not asymptotically optimal) counterparts.",
       "url": "../papers/1105_1186/",
-      "contentTreeUrl": "../content-tree/#paper=1105_1186",
-      "mindMapUrl": "../mind-map/#paper=1105_1186"
+      "treeUrl": "../tree/#paper=1105_1186",
+      "mapUrl": "../map/#paper=1105_1186"
     },
     "2011_lehman_abandoning_objectives_evolution_through": {
       "id": "2011_lehman_abandoning_objectives_evolution_through",
@@ -21942,8 +21942,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_lehman_abandoning_objectives_evolution_through/",
-      "contentTreeUrl": "../content-tree/#paper=2011_lehman_abandoning_objectives_evolution_through",
-      "mindMapUrl": "../mind-map/#paper=2011_lehman_abandoning_objectives_evolution_through"
+      "treeUrl": "../tree/#paper=2011_lehman_abandoning_objectives_evolution_through",
+      "mapUrl": "../map/#paper=2011_lehman_abandoning_objectives_evolution_through"
     },
     "1106_0665": {
       "id": "1106_0665",
@@ -21957,8 +21957,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1106_0665/",
-      "contentTreeUrl": "../content-tree/#paper=1106_0665",
-      "mindMapUrl": "../mind-map/#paper=1106_0665"
+      "treeUrl": "../tree/#paper=1106_0665",
+      "mapUrl": "../map/#paper=1106_0665"
     },
     "2011_bry_rapidly_exploring_random_belief": {
       "id": "2011_bry_rapidly_exploring_random_belief",
@@ -21972,8 +21972,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_bry_rapidly_exploring_random_belief/",
-      "contentTreeUrl": "../content-tree/#paper=2011_bry_rapidly_exploring_random_belief",
-      "mindMapUrl": "../mind-map/#paper=2011_bry_rapidly_exploring_random_belief"
+      "treeUrl": "../tree/#paper=2011_bry_rapidly_exploring_random_belief",
+      "mapUrl": "../map/#paper=2011_bry_rapidly_exploring_random_belief"
     },
     "2011_lessard_quadratic_invariance_is_necessary": {
       "id": "2011_lessard_quadratic_invariance_is_necessary",
@@ -21987,8 +21987,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_lessard_quadratic_invariance_is_necessary/",
-      "contentTreeUrl": "../content-tree/#paper=2011_lessard_quadratic_invariance_is_necessary",
-      "mindMapUrl": "../mind-map/#paper=2011_lessard_quadratic_invariance_is_necessary"
+      "treeUrl": "../tree/#paper=2011_lessard_quadratic_invariance_is_necessary",
+      "mapUrl": "../map/#paper=2011_lessard_quadratic_invariance_is_necessary"
     },
     "2011_mellinger_minimum_snap_trajectory_generation": {
       "id": "2011_mellinger_minimum_snap_trajectory_generation",
@@ -22002,8 +22002,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2011_mellinger_minimum_snap_trajectory_generation/",
-      "contentTreeUrl": "../content-tree/#paper=2011_mellinger_minimum_snap_trajectory_generation",
-      "mindMapUrl": "../mind-map/#paper=2011_mellinger_minimum_snap_trajectory_generation"
+      "treeUrl": "../tree/#paper=2011_mellinger_minimum_snap_trajectory_generation",
+      "mapUrl": "../map/#paper=2011_mellinger_minimum_snap_trajectory_generation"
     },
     "2001_kschischang_factor_graphs_and_the": {
       "id": "2001_kschischang_factor_graphs_and_the",
@@ -22018,8 +22018,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2001_kschischang_factor_graphs_and_the/",
-      "contentTreeUrl": "../content-tree/#paper=2001_kschischang_factor_graphs_and_the",
-      "mindMapUrl": "../mind-map/#paper=2001_kschischang_factor_graphs_and_the"
+      "treeUrl": "../tree/#paper=2001_kschischang_factor_graphs_and_the",
+      "mapUrl": "../map/#paper=2001_kschischang_factor_graphs_and_the"
     },
     "2001_nagy_trajectory_generation_for_car": {
       "id": "2001_nagy_trajectory_generation_for_car",
@@ -22038,8 +22038,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes a steering method for connecting boundary conditions in (x, y, yaw, curvature) state space with a curve having curvature which is a cubic polynomial of arc length, generalizing simple clothoids. The method for computing the curvature polynomial coefficients is based on an iterative procedure (essentially equivalent to Newton's method) with an informative heuristic initial guess and a residual based on the deviation from the target end state.",
       "url": "../papers/2001_nagy_trajectory_generation_for_car/",
-      "contentTreeUrl": "../content-tree/#paper=2001_nagy_trajectory_generation_for_car",
-      "mindMapUrl": "../mind-map/#paper=2001_nagy_trajectory_generation_for_car"
+      "treeUrl": "../tree/#paper=2001_nagy_trajectory_generation_for_car",
+      "mapUrl": "../map/#paper=2001_nagy_trajectory_generation_for_car"
     },
     "2001_breiman_random_forests": {
       "id": "2001_breiman_random_forests",
@@ -22060,8 +22060,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces Random Forests: an ensemble method that decorrelates bagged trees by selecting a random subset of features at each split. The random feature selection dramatically reduces between-tree correlation while preserving strength, yielding an ensemble that is more accurate and robust to noise than Adaboost while requiring no hyperparameter tuning beyond the number of trees.",
       "url": "../papers/2001_breiman_random_forests/",
-      "contentTreeUrl": "../content-tree/#paper=2001_breiman_random_forests",
-      "mindMapUrl": "../mind-map/#paper=2001_breiman_random_forests"
+      "treeUrl": "../tree/#paper=2001_breiman_random_forests",
+      "mapUrl": "../map/#paper=2001_breiman_random_forests"
     },
     "2001_consortium_initial_sequencing_and_analysis": {
       "id": "2001_consortium_initial_sequencing_and_analysis",
@@ -22083,8 +22083,8 @@ window.tagSearchData = {
       ],
       "summary": "Reports the public Human Genome Project draft sequence and an initial computational analysis of genes, repeats, variation, and comparative signals.",
       "url": "../papers/2001_consortium_initial_sequencing_and_analysis/",
-      "contentTreeUrl": "../content-tree/#paper=2001_consortium_initial_sequencing_and_analysis",
-      "mindMapUrl": "../mind-map/#paper=2001_consortium_initial_sequencing_and_analysis"
+      "treeUrl": "../tree/#paper=2001_consortium_initial_sequencing_and_analysis",
+      "mapUrl": "../map/#paper=2001_consortium_initial_sequencing_and_analysis"
     },
     "2001_viola_rapid_object_detection_using": {
       "id": "2001_viola_rapid_object_detection_using",
@@ -22106,8 +22106,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the Viola-Jones real-time face detector with three key contributions: the integral image for O(1) Haar-like feature computation, AdaBoost for selecting a small discriminative feature set, and a cascaded classifier that rapidly rejects background regions. Ran at 15 fps and was the dominant face detection algorithm for a decade.",
       "url": "../papers/2001_viola_rapid_object_detection_using/",
-      "contentTreeUrl": "../content-tree/#paper=2001_viola_rapid_object_detection_using",
-      "mindMapUrl": "../mind-map/#paper=2001_viola_rapid_object_detection_using"
+      "treeUrl": "../tree/#paper=2001_viola_rapid_object_detection_using",
+      "mapUrl": "../map/#paper=2001_viola_rapid_object_detection_using"
     },
     "2001_damm_newtons_method_for_a": {
       "id": "2001_damm_newtons_method_for_a",
@@ -22129,8 +22129,8 @@ window.tagSearchData = {
       ],
       "summary": "Develops a unified analytical framework for a family of rational matrix equations generalizing both the CARE and DARE, arising in stochastic H-infinity control. Shows that Newton's method converges from any stabilizing initial point by exploiting the fact that the derivative of the generalized Riccati operator is a generalized Lyapunov operator, combined with resolvent positivity arguments.",
       "url": "../papers/2001_damm_newtons_method_for_a/",
-      "contentTreeUrl": "../content-tree/#paper=2001_damm_newtons_method_for_a",
-      "mindMapUrl": "../mind-map/#paper=2001_damm_newtons_method_for_a"
+      "treeUrl": "../tree/#paper=2001_damm_newtons_method_for_a",
+      "mapUrl": "../map/#paper=2001_damm_newtons_method_for_a"
     },
     "2001_koenig_incremental_a": {
       "id": "2001_koenig_incremental_a",
@@ -22144,8 +22144,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2001_koenig_incremental_a/",
-      "contentTreeUrl": "../content-tree/#paper=2001_koenig_incremental_a",
-      "mindMapUrl": "../mind-map/#paper=2001_koenig_incremental_a"
+      "treeUrl": "../tree/#paper=2001_koenig_incremental_a",
+      "mapUrl": "../map/#paper=2001_koenig_incremental_a"
     },
     "2001_friedman_greedy_function_approximation_a": {
       "id": "2001_friedman_greedy_function_approximation_a",
@@ -22166,8 +22166,8 @@ window.tagSearchData = {
       ],
       "summary": "Derives gradient boosted trees from first principles as steepest-descent optimization in function space, unifying boosting with numerical optimization. Introduces the TreeBoost algorithm and specific gradient update rules for regression and classification, forming the basis for XGBoost, LightGBM, CatBoost, and all modern gradient boosting libraries.",
       "url": "../papers/2001_friedman_greedy_function_approximation_a/",
-      "contentTreeUrl": "../content-tree/#paper=2001_friedman_greedy_function_approximation_a",
-      "mindMapUrl": "../mind-map/#paper=2001_friedman_greedy_function_approximation_a"
+      "treeUrl": "../tree/#paper=2001_friedman_greedy_function_approximation_a",
+      "mapUrl": "../map/#paper=2001_friedman_greedy_function_approximation_a"
     },
     "2001_kakade_a_natural_policy_gradient": {
       "id": "2001_kakade_a_natural_policy_gradient",
@@ -22187,8 +22187,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes using the natural gradient (Fisher information metric) for policy optimization in RL, showing it moves toward policy-iteration greedy actions rather than merely better actions. Motivated and formalized the use of the natural gradient in RL, directly inspiring later work on TRPO and NPG-based algorithms.",
       "url": "../papers/2001_kakade_a_natural_policy_gradient/",
-      "contentTreeUrl": "../content-tree/#paper=2001_kakade_a_natural_policy_gradient",
-      "mindMapUrl": "../mind-map/#paper=2001_kakade_a_natural_policy_gradient"
+      "treeUrl": "../tree/#paper=2001_kakade_a_natural_policy_gradient",
+      "mapUrl": "../map/#paper=2001_kakade_a_natural_policy_gradient"
     },
     "2001_gutierrez_an_acceleration_of_newtons": {
       "id": "2001_gutierrez_an_acceleration_of_newtons",
@@ -22202,8 +22202,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2001_gutierrez_an_acceleration_of_newtons/",
-      "contentTreeUrl": "../content-tree/#paper=2001_gutierrez_an_acceleration_of_newtons",
-      "mindMapUrl": "../mind-map/#paper=2001_gutierrez_an_acceleration_of_newtons"
+      "treeUrl": "../tree/#paper=2001_gutierrez_an_acceleration_of_newtons",
+      "mapUrl": "../map/#paper=2001_gutierrez_an_acceleration_of_newtons"
     },
     "2001_nedic_incremental_subgradient_methods_for": {
       "id": "2001_nedic_incremental_subgradient_methods_for",
@@ -22217,8 +22217,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2001_nedic_incremental_subgradient_methods_for/",
-      "contentTreeUrl": "../content-tree/#paper=2001_nedic_incremental_subgradient_methods_for",
-      "mindMapUrl": "../mind-map/#paper=2001_nedic_incremental_subgradient_methods_for"
+      "treeUrl": "../tree/#paper=2001_nedic_incremental_subgradient_methods_for",
+      "mapUrl": "../map/#paper=2001_nedic_incremental_subgradient_methods_for"
     },
     "2001_ng_on_spectral_clustering_analysis": {
       "id": "2001_ng_on_spectral_clustering_analysis",
@@ -22233,8 +22233,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2001_ng_on_spectral_clustering_analysis/",
-      "contentTreeUrl": "../content-tree/#paper=2001_ng_on_spectral_clustering_analysis",
-      "mindMapUrl": "../mind-map/#paper=2001_ng_on_spectral_clustering_analysis"
+      "treeUrl": "../tree/#paper=2001_ng_on_spectral_clustering_analysis",
+      "mapUrl": "../map/#paper=2001_ng_on_spectral_clustering_analysis"
     },
     "2001_hansen_completely_derandomized_self_adaptation": {
       "id": "2001_hansen_completely_derandomized_self_adaptation",
@@ -22248,8 +22248,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2001_hansen_completely_derandomized_self_adaptation/",
-      "contentTreeUrl": "../content-tree/#paper=2001_hansen_completely_derandomized_self_adaptation",
-      "mindMapUrl": "../mind-map/#paper=2001_hansen_completely_derandomized_self_adaptation"
+      "treeUrl": "../tree/#paper=2001_hansen_completely_derandomized_self_adaptation",
+      "mapUrl": "../map/#paper=2001_hansen_completely_derandomized_self_adaptation"
     },
     "2001_spong_nonlinear_control_of_the": {
       "id": "2001_spong_nonlinear_control_of_the",
@@ -22264,8 +22264,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2001_spong_nonlinear_control_of_the/",
-      "contentTreeUrl": "../content-tree/#paper=2001_spong_nonlinear_control_of_the",
-      "mindMapUrl": "../mind-map/#paper=2001_spong_nonlinear_control_of_the"
+      "treeUrl": "../tree/#paper=2001_spong_nonlinear_control_of_the",
+      "mapUrl": "../map/#paper=2001_spong_nonlinear_control_of_the"
     },
     "cond_mat_0112110": {
       "id": "cond_mat_0112110",
@@ -22289,8 +22289,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces a divisive community detection method based on repeatedly removing edges with high edge betweenness. The paper helped make community structure a central network science problem and established a benchmark algorithm for finding boundaries between densely connected groups.",
       "url": "../papers/cond_mat_0112110/",
-      "contentTreeUrl": "../content-tree/#paper=cond_mat_0112110",
-      "mindMapUrl": "../mind-map/#paper=cond_mat_0112110"
+      "treeUrl": "../tree/#paper=cond_mat_0112110",
+      "mapUrl": "../map/#paper=cond_mat_0112110"
     },
     "1806_05618": {
       "id": "1806_05618",
@@ -22307,8 +22307,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1806_05618/",
-      "contentTreeUrl": "../content-tree/#paper=1806_05618",
-      "mindMapUrl": "../mind-map/#paper=1806_05618"
+      "treeUrl": "../tree/#paper=1806_05618",
+      "mapUrl": "../map/#paper=1806_05618"
     },
     "2018_seshia_formal_specification_for_deep": {
       "id": "2018_seshia_formal_specification_for_deep",
@@ -22336,8 +22336,8 @@ window.tagSearchData = {
       ],
       "summary": "Surveys what it means to specify properties of deep neural networks for verification, moving the discussion beyond solver mechanics to the quality of the property being checked. It is useful for thinking about robustness, safety envelopes, and environment assumptions in learning-enabled systems.",
       "url": "../papers/2018_seshia_formal_specification_for_deep/",
-      "contentTreeUrl": "../content-tree/#paper=2018_seshia_formal_specification_for_deep",
-      "mindMapUrl": "../mind-map/#paper=2018_seshia_formal_specification_for_deep"
+      "treeUrl": "../tree/#paper=2018_seshia_formal_specification_for_deep",
+      "mapUrl": "../map/#paper=2018_seshia_formal_specification_for_deep"
     },
     "2018_arora_on_the_optimization_of": {
       "id": "2018_arora_on_the_optimization_of",
@@ -22352,8 +22352,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_arora_on_the_optimization_of/",
-      "contentTreeUrl": "../content-tree/#paper=2018_arora_on_the_optimization_of",
-      "mindMapUrl": "../mind-map/#paper=2018_arora_on_the_optimization_of"
+      "treeUrl": "../tree/#paper=2018_arora_on_the_optimization_of",
+      "mapUrl": "../map/#paper=2018_arora_on_the_optimization_of"
     },
     "1805_05533": {
       "id": "1805_05533",
@@ -22366,8 +22366,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1805_05533/",
-      "contentTreeUrl": "../content-tree/#paper=1805_05533",
-      "mindMapUrl": "../mind-map/#paper=1805_05533"
+      "treeUrl": "../tree/#paper=1805_05533",
+      "mapUrl": "../map/#paper=1805_05533"
     },
     "1810_12590": {
       "id": "1810_12590",
@@ -22382,8 +22382,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1810_12590/",
-      "contentTreeUrl": "../content-tree/#paper=1810_12590",
-      "mindMapUrl": "../mind-map/#paper=1810_12590"
+      "treeUrl": "../tree/#paper=1810_12590",
+      "mapUrl": "../map/#paper=1810_12590"
     },
     "2018_frostig_compiling_machine_learning_programs": {
       "id": "2018_frostig_compiling_machine_learning_programs",
@@ -22407,8 +22407,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces JAX as a high-level tracing compiler that combines NumPy-style Python, Autograd-compatible transformations, and XLA code generation. Its central contribution is making automatic differentiation, JIT compilation, and accelerator execution composable enough for research workflows.",
       "url": "../papers/2018_frostig_compiling_machine_learning_programs/",
-      "contentTreeUrl": "../content-tree/#paper=2018_frostig_compiling_machine_learning_programs",
-      "mindMapUrl": "../mind-map/#paper=2018_frostig_compiling_machine_learning_programs"
+      "treeUrl": "../tree/#paper=2018_frostig_compiling_machine_learning_programs",
+      "mapUrl": "../map/#paper=2018_frostig_compiling_machine_learning_programs"
     },
     "1803_06073": {
       "id": "1803_06073",
@@ -22423,8 +22423,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1803_06073/",
-      "contentTreeUrl": "../content-tree/#paper=1803_06073",
-      "mindMapUrl": "../mind-map/#paper=1803_06073"
+      "treeUrl": "../tree/#paper=1803_06073",
+      "mapUrl": "../map/#paper=1803_06073"
     },
     "1804_03906": {
       "id": "1804_03906",
@@ -22438,8 +22438,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1804_03906/",
-      "contentTreeUrl": "../content-tree/#paper=1804_03906",
-      "mindMapUrl": "../mind-map/#paper=1804_03906"
+      "treeUrl": "../tree/#paper=1804_03906",
+      "mapUrl": "../map/#paper=1804_03906"
     },
     "1806_05722": {
       "id": "1806_05722",
@@ -22453,8 +22453,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1806_05722/",
-      "contentTreeUrl": "../content-tree/#paper=1806_05722",
-      "mindMapUrl": "../mind-map/#paper=1806_05722"
+      "treeUrl": "../tree/#paper=1806_05722",
+      "mapUrl": "../map/#paper=1806_05722"
     },
     "1811_04551": {
       "id": "1811_04551",
@@ -22481,8 +22481,8 @@ window.tagSearchData = {
       ],
       "summary": "One of the earlier papers describing a successful approach using a deep-learned predictive world model from image inputs.",
       "url": "../papers/1811_04551/",
-      "contentTreeUrl": "../content-tree/#paper=1811_04551",
-      "mindMapUrl": "../mind-map/#paper=1811_04551"
+      "treeUrl": "../tree/#paper=1811_04551",
+      "mapUrl": "../map/#paper=1811_04551"
     },
     "2018_marion_director_a_user_interface": {
       "id": "2018_marion_director_a_user_interface",
@@ -22507,8 +22507,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_marion_director_a_user_interface/",
-      "contentTreeUrl": "../content-tree/#paper=2018_marion_director_a_user_interface",
-      "mindMapUrl": "../mind-map/#paper=2018_marion_director_a_user_interface"
+      "treeUrl": "../tree/#paper=2018_marion_director_a_user_interface",
+      "mapUrl": "../map/#paper=2018_marion_director_a_user_interface"
     },
     "1801_08995": {
       "id": "1801_08995",
@@ -22534,8 +22534,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes sharpness-continuous (G3) path primitives composed of cubic curvature curves, circular arcs, and straight lines. Closely related to and builds upon ”Trajectory generation for car-like robots using cubic curvature polynomials” by Nagy and Kelly (2001) and ”From Reeds and Shepp's to continuous-curvature paths” by Fraichard and Scheuer (2004).",
       "url": "../papers/1801_08995/",
-      "contentTreeUrl": "../content-tree/#paper=1801_08995",
-      "mindMapUrl": "../mind-map/#paper=1801_08995"
+      "treeUrl": "../tree/#paper=1801_08995",
+      "mapUrl": "../map/#paper=1801_08995"
     },
     "1807_11058": {
       "id": "1807_11058",
@@ -22551,8 +22551,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1807_11058/",
-      "contentTreeUrl": "../content-tree/#paper=1807_11058",
-      "mindMapUrl": "../mind-map/#paper=1807_11058"
+      "treeUrl": "../tree/#paper=1807_11058",
+      "mapUrl": "../map/#paper=1807_11058"
     },
     "1801_01290": {
       "id": "1801_01290",
@@ -22576,8 +22576,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes Soft Actor-Critic (SAC), an off-policy actor-critic algorithm that augments the standard RL objective with an entropy term, simultaneously maximizing reward and policy entropy. The resulting algorithm is sample-efficient, stable across random seeds, and avoids the brittle convergence of competing methods.",
       "url": "../papers/1801_01290/",
-      "contentTreeUrl": "../content-tree/#paper=1801_01290",
-      "mindMapUrl": "../mind-map/#paper=1801_01290"
+      "treeUrl": "../tree/#paper=1801_01290",
+      "mapUrl": "../map/#paper=1801_01290"
     },
     "2018_gravell_concurrent_goal_assignment_and": {
       "id": "2018_gravell_concurrent_goal_assignment_and",
@@ -22601,8 +22601,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents heuristics for planning motions and goal assignments for large-scale fleets of cylinder-shaped flying robots. Uses several simplifying assumptions and design choices, such as constant-velocity straight-line trajectories, and the ability to instantaneously \"teleport\" between altitudes in a 2.5D spatial arrangement.",
       "url": "../papers/2018_gravell_concurrent_goal_assignment_and/",
-      "contentTreeUrl": "../content-tree/#paper=2018_gravell_concurrent_goal_assignment_and",
-      "mindMapUrl": "../mind-map/#paper=2018_gravell_concurrent_goal_assignment_and"
+      "treeUrl": "../tree/#paper=2018_gravell_concurrent_goal_assignment_and",
+      "mapUrl": "../map/#paper=2018_gravell_concurrent_goal_assignment_and"
     },
     "1801_05039": {
       "id": "1801_05039",
@@ -22618,8 +22618,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1801_05039/",
-      "contentTreeUrl": "../content-tree/#paper=1801_05039",
-      "mindMapUrl": "../mind-map/#paper=1801_05039"
+      "treeUrl": "../tree/#paper=1801_05039",
+      "mapUrl": "../map/#paper=1801_05039"
     },
     "2018_andersson_casadi_a_software_framework": {
       "id": "2018_andersson_casadi_a_software_framework",
@@ -22636,8 +22636,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_andersson_casadi_a_software_framework/",
-      "contentTreeUrl": "../content-tree/#paper=2018_andersson_casadi_a_software_framework",
-      "mindMapUrl": "../mind-map/#paper=2018_andersson_casadi_a_software_framework"
+      "treeUrl": "../tree/#paper=2018_andersson_casadi_a_software_framework",
+      "mapUrl": "../map/#paper=2018_andersson_casadi_a_software_framework"
     },
     "2018_taylor_forecasting_at_scale": {
       "id": "2018_taylor_forecasting_at_scale",
@@ -22651,8 +22651,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_taylor_forecasting_at_scale/",
-      "contentTreeUrl": "../content-tree/#paper=2018_taylor_forecasting_at_scale",
-      "mindMapUrl": "../mind-map/#paper=2018_taylor_forecasting_at_scale"
+      "treeUrl": "../tree/#paper=2018_taylor_forecasting_at_scale",
+      "mapUrl": "../map/#paper=2018_taylor_forecasting_at_scale"
     },
     "2018_mehta_backprop_mpdm_faster_risk": {
       "id": "2018_mehta_backprop_mpdm_faster_risk",
@@ -22667,8 +22667,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_mehta_backprop_mpdm_faster_risk/",
-      "contentTreeUrl": "../content-tree/#paper=2018_mehta_backprop_mpdm_faster_risk",
-      "mindMapUrl": "../mind-map/#paper=2018_mehta_backprop_mpdm_faster_risk"
+      "treeUrl": "../tree/#paper=2018_mehta_backprop_mpdm_faster_risk",
+      "mapUrl": "../map/#paper=2018_mehta_backprop_mpdm_faster_risk"
     },
     "2018_dean_regret_bounds_for_robust": {
       "id": "2018_dean_regret_bounds_for_robust",
@@ -22685,8 +22685,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_dean_regret_bounds_for_robust/",
-      "contentTreeUrl": "../content-tree/#paper=2018_dean_regret_bounds_for_robust",
-      "mindMapUrl": "../mind-map/#paper=2018_dean_regret_bounds_for_robust"
+      "treeUrl": "../tree/#paper=2018_dean_regret_bounds_for_robust",
+      "mapUrl": "../map/#paper=2018_dean_regret_bounds_for_robust"
     },
     "1812_08305": {
       "id": "1812_08305",
@@ -22704,8 +22704,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1812_08305/",
-      "contentTreeUrl": "../content-tree/#paper=1812_08305",
-      "mindMapUrl": "../mind-map/#paper=1812_08305"
+      "treeUrl": "../tree/#paper=1812_08305",
+      "mapUrl": "../map/#paper=1812_08305"
     },
     "1811_03056": {
       "id": "1811_03056",
@@ -22721,8 +22721,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1811_03056/",
-      "contentTreeUrl": "../content-tree/#paper=1811_03056",
-      "mindMapUrl": "../mind-map/#paper=1811_03056"
+      "treeUrl": "../tree/#paper=1811_03056",
+      "mapUrl": "../map/#paper=1811_03056"
     },
     "1802_01548": {
       "id": "1802_01548",
@@ -22738,8 +22738,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1802_01548/",
-      "contentTreeUrl": "../content-tree/#paper=1802_01548",
-      "mindMapUrl": "../mind-map/#paper=1802_01548"
+      "treeUrl": "../tree/#paper=1802_01548",
+      "mapUrl": "../map/#paper=1802_01548"
     },
     "1805_00909": {
       "id": "1805_00909",
@@ -22752,8 +22752,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1805_00909/",
-      "contentTreeUrl": "../content-tree/#paper=1805_00909",
-      "mindMapUrl": "../mind-map/#paper=1805_00909"
+      "treeUrl": "../tree/#paper=1805_00909",
+      "mapUrl": "../map/#paper=1805_00909"
     },
     "1802_08334": {
       "id": "1802_08334",
@@ -22770,8 +22770,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1802_08334/",
-      "contentTreeUrl": "../content-tree/#paper=1802_08334",
-      "mindMapUrl": "../mind-map/#paper=1802_08334"
+      "treeUrl": "../tree/#paper=1802_08334",
+      "mapUrl": "../map/#paper=1802_08334"
     },
     "1808_00177": {
       "id": "1808_00177",
@@ -22800,8 +22800,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1808_00177/",
-      "contentTreeUrl": "../content-tree/#paper=1808_00177",
-      "mindMapUrl": "../mind-map/#paper=1808_00177"
+      "treeUrl": "../tree/#paper=1808_00177",
+      "mapUrl": "../map/#paper=1808_00177"
     },
     "2018_gao_randomized_greedy_algorithms_for": {
       "id": "2018_gao_randomized_greedy_algorithms_for",
@@ -22817,8 +22817,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_gao_randomized_greedy_algorithms_for/",
-      "contentTreeUrl": "../content-tree/#paper=2018_gao_randomized_greedy_algorithms_for",
-      "mindMapUrl": "../mind-map/#paper=2018_gao_randomized_greedy_algorithms_for"
+      "treeUrl": "../tree/#paper=2018_gao_randomized_greedy_algorithms_for",
+      "mapUrl": "../map/#paper=2018_gao_randomized_greedy_algorithms_for"
     },
     "1802_03426": {
       "id": "1802_03426",
@@ -22833,8 +22833,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1802_03426/",
-      "contentTreeUrl": "../content-tree/#paper=1802_03426",
-      "mindMapUrl": "../mind-map/#paper=1802_03426"
+      "treeUrl": "../tree/#paper=1802_03426",
+      "mapUrl": "../map/#paper=1802_03426"
     },
     "1802_03653": {
       "id": "1802_03653",
@@ -22849,8 +22849,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1802_03653/",
-      "contentTreeUrl": "../content-tree/#paper=1802_03653",
-      "mindMapUrl": "../mind-map/#paper=1802_03653"
+      "treeUrl": "../tree/#paper=1802_03653",
+      "mapUrl": "../map/#paper=1802_03653"
     },
     "1803_00101": {
       "id": "1803_00101",
@@ -22868,8 +22868,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1803_00101/",
-      "contentTreeUrl": "../content-tree/#paper=1803_00101",
-      "mindMapUrl": "../mind-map/#paper=1803_00101"
+      "treeUrl": "../tree/#paper=1803_00101",
+      "mapUrl": "../map/#paper=1803_00101"
     },
     "1806_06655": {
       "id": "1806_06655",
@@ -22883,8 +22883,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1806_06655/",
-      "contentTreeUrl": "../content-tree/#paper=1806_06655",
-      "mindMapUrl": "../mind-map/#paper=1806_06655"
+      "treeUrl": "../tree/#paper=1806_06655",
+      "mapUrl": "../map/#paper=1806_06655"
     },
     "2018_kingston_sampling_based_methods_for": {
       "id": "2018_kingston_sampling_based_methods_for",
@@ -22906,8 +22906,8 @@ window.tagSearchData = {
       ],
       "summary": "Surveys constraint satisfaction techniques for sampling-based motion planning, organizing methods along a spectrum from configuration-space to task-space approaches and covering both configuration sampling and steering primitives for constraint-satisfying motion.",
       "url": "../papers/2018_kingston_sampling_based_methods_for/",
-      "contentTreeUrl": "../content-tree/#paper=2018_kingston_sampling_based_methods_for",
-      "mindMapUrl": "../mind-map/#paper=2018_kingston_sampling_based_methods_for"
+      "treeUrl": "../tree/#paper=2018_kingston_sampling_based_methods_for",
+      "mapUrl": "../map/#paper=2018_kingston_sampling_based_methods_for"
     },
     "1806_05865": {
       "id": "1806_05865",
@@ -22922,8 +22922,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1806_05865/",
-      "contentTreeUrl": "../content-tree/#paper=1806_05865",
-      "mindMapUrl": "../mind-map/#paper=1806_05865"
+      "treeUrl": "../tree/#paper=1806_05865",
+      "mapUrl": "../map/#paper=1806_05865"
     },
     "2018_terzi_learning_multi_step_prediction": {
       "id": "2018_terzi_learning_multi_step_prediction",
@@ -22939,8 +22939,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_terzi_learning_multi_step_prediction/",
-      "contentTreeUrl": "../content-tree/#paper=2018_terzi_learning_multi_step_prediction",
-      "mindMapUrl": "../mind-map/#paper=2018_terzi_learning_multi_step_prediction"
+      "treeUrl": "../tree/#paper=2018_terzi_learning_multi_step_prediction",
+      "mapUrl": "../map/#paper=2018_terzi_learning_multi_step_prediction"
     },
     "1802_06640": {
       "id": "1802_06640",
@@ -22956,8 +22956,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1802_06640/",
-      "contentTreeUrl": "../content-tree/#paper=1802_06640",
-      "mindMapUrl": "../mind-map/#paper=1802_06640"
+      "treeUrl": "../tree/#paper=1802_06640",
+      "mapUrl": "../map/#paper=1802_06640"
     },
     "1810_13400": {
       "id": "1810_13400",
@@ -22974,8 +22974,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1810_13400/",
-      "contentTreeUrl": "../content-tree/#paper=1810_13400",
-      "mindMapUrl": "../mind-map/#paper=1810_13400"
+      "treeUrl": "../tree/#paper=1810_13400",
+      "mapUrl": "../map/#paper=1810_13400"
     },
     "2018_bertolazzi_on_the_g2_hermite": {
       "id": "2018_bertolazzi_on_the_g2_hermite",
@@ -22989,8 +22989,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_bertolazzi_on_the_g2_hermite/",
-      "contentTreeUrl": "../content-tree/#paper=2018_bertolazzi_on_the_g2_hermite",
-      "mindMapUrl": "../mind-map/#paper=2018_bertolazzi_on_the_g2_hermite"
+      "treeUrl": "../tree/#paper=2018_bertolazzi_on_the_g2_hermite",
+      "mapUrl": "../map/#paper=2018_bertolazzi_on_the_g2_hermite"
     },
     "1810_08473": {
       "id": "1810_08473",
@@ -23005,8 +23005,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1810_08473/",
-      "contentTreeUrl": "../content-tree/#paper=1810_08473",
-      "mindMapUrl": "../mind-map/#paper=1810_08473"
+      "treeUrl": "../tree/#paper=1810_08473",
+      "mapUrl": "../map/#paper=1810_08473"
     },
     "1802_06175": {
       "id": "1802_06175",
@@ -23027,8 +23027,8 @@ window.tagSearchData = {
       ],
       "summary": "Provides a theoretical explanation for why SGD escapes sharp local minima, reframing SGD as optimizing a smoothed (convolved) version of the loss. The one-point convexity condition identified is broad enough to encompass neural network loss surfaces, bridging the gap between theory and practical SGD success.",
       "url": "../papers/1802_06175/",
-      "contentTreeUrl": "../content-tree/#paper=1802_06175",
-      "mindMapUrl": "../mind-map/#paper=1802_06175"
+      "treeUrl": "../tree/#paper=1802_06175",
+      "mapUrl": "../map/#paper=1802_06175"
     },
     "1811_05890": {
       "id": "1811_05890",
@@ -23043,8 +23043,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1811_05890/",
-      "contentTreeUrl": "../content-tree/#paper=1811_05890",
-      "mindMapUrl": "../mind-map/#paper=1811_05890"
+      "treeUrl": "../tree/#paper=1811_05890",
+      "mapUrl": "../map/#paper=1811_05890"
     },
     "1804_09893": {
       "id": "1804_09893",
@@ -23062,8 +23062,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1804_09893/",
-      "contentTreeUrl": "../content-tree/#paper=1804_09893",
-      "mindMapUrl": "../mind-map/#paper=1804_09893"
+      "treeUrl": "../tree/#paper=1804_09893",
+      "mapUrl": "../map/#paper=1804_09893"
     },
     "2018_hachem_technological_challenges_and_optimization": {
       "id": "2018_hachem_technological_challenges_and_optimization",
@@ -23079,8 +23079,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_hachem_technological_challenges_and_optimization/",
-      "contentTreeUrl": "../content-tree/#paper=2018_hachem_technological_challenges_and_optimization",
-      "mindMapUrl": "../mind-map/#paper=2018_hachem_technological_challenges_and_optimization"
+      "treeUrl": "../tree/#paper=2018_hachem_technological_challenges_and_optimization",
+      "mapUrl": "../map/#paper=2018_hachem_technological_challenges_and_optimization"
     },
     "2018_van_scoy_the_fastest_known_globally": {
       "id": "2018_van_scoy_the_fastest_known_globally",
@@ -23095,8 +23095,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_van_scoy_the_fastest_known_globally/",
-      "contentTreeUrl": "../content-tree/#paper=2018_van_scoy_the_fastest_known_globally",
-      "mindMapUrl": "../mind-map/#paper=2018_van_scoy_the_fastest_known_globally"
+      "treeUrl": "../tree/#paper=2018_van_scoy_the_fastest_known_globally",
+      "mapUrl": "../map/#paper=2018_van_scoy_the_fastest_known_globally"
     },
     "1805_10367": {
       "id": "1805_10367",
@@ -23114,8 +23114,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1805_10367/",
-      "contentTreeUrl": "../content-tree/#paper=1805_10367",
-      "mindMapUrl": "../mind-map/#paper=1805_10367"
+      "treeUrl": "../tree/#paper=1805_10367",
+      "mapUrl": "../map/#paper=1805_10367"
     },
     "1809_10252": {
       "id": "1809_10252",
@@ -23129,8 +23129,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1809_10252/",
-      "contentTreeUrl": "../content-tree/#paper=1809_10252",
-      "mindMapUrl": "../mind-map/#paper=1809_10252"
+      "treeUrl": "../tree/#paper=1809_10252",
+      "mapUrl": "../map/#paper=1809_10252"
     },
     "1812_11118": {
       "id": "1812_11118",
@@ -23146,8 +23146,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1812_11118/",
-      "contentTreeUrl": "../content-tree/#paper=1812_11118",
-      "mindMapUrl": "../mind-map/#paper=1812_11118"
+      "treeUrl": "../tree/#paper=1812_11118",
+      "mapUrl": "../map/#paper=1812_11118"
     },
     "1802_03888": {
       "id": "1802_03888",
@@ -23171,8 +23171,8 @@ window.tagSearchData = {
       ],
       "summary": "Derives a polynomial-time exact algorithm for computing Shapley values on tree ensembles (TreeSHAP), exploiting the tree structure to avoid exponential enumeration of coalition orderings. Demonstrates that common tree feature importance heuristics are inconsistent, while TreeSHAP is the unique consistent and locally accurate attributor for models like XGBoost and Random Forests.",
       "url": "../papers/1802_03888/",
-      "contentTreeUrl": "../content-tree/#paper=1802_03888",
-      "mindMapUrl": "../mind-map/#paper=1802_03888"
+      "treeUrl": "../tree/#paper=1802_03888",
+      "mapUrl": "../map/#paper=1802_03888"
     },
     "1806_09460": {
       "id": "1806_09460",
@@ -23185,8 +23185,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1806_09460/",
-      "contentTreeUrl": "../content-tree/#paper=1806_09460",
-      "mindMapUrl": "../mind-map/#paper=1806_09460"
+      "treeUrl": "../tree/#paper=1806_09460",
+      "mapUrl": "../map/#paper=1806_09460"
     },
     "2018_zhang_toward_a_more_complete": {
       "id": "2018_zhang_toward_a_more_complete",
@@ -23214,8 +23214,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends convex-optimization-based speed planning to handle a broader set of constraints (comfort, safety, traffic rules) more completely and flexibly than prior approaches, demonstrated on autonomous driving scenarios.",
       "url": "../papers/2018_zhang_toward_a_more_complete/",
-      "contentTreeUrl": "../content-tree/#paper=2018_zhang_toward_a_more_complete",
-      "mindMapUrl": "../mind-map/#paper=2018_zhang_toward_a_more_complete"
+      "treeUrl": "../tree/#paper=2018_zhang_toward_a_more_complete",
+      "mapUrl": "../map/#paper=2018_zhang_toward_a_more_complete"
     },
     "1811_00145": {
       "id": "1811_00145",
@@ -23232,8 +23232,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1811_00145/",
-      "contentTreeUrl": "../content-tree/#paper=1811_00145",
-      "mindMapUrl": "../mind-map/#paper=1811_00145"
+      "treeUrl": "../tree/#paper=1811_00145",
+      "mapUrl": "../map/#paper=1811_00145"
     },
     "2018_honig_trajectory_planning_for_quadrotor": {
       "id": "2018_honig_trajectory_planning_for_quadrotor",
@@ -23250,8 +23250,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_honig_trajectory_planning_for_quadrotor/",
-      "contentTreeUrl": "../content-tree/#paper=2018_honig_trajectory_planning_for_quadrotor",
-      "mindMapUrl": "../mind-map/#paper=2018_honig_trajectory_planning_for_quadrotor"
+      "treeUrl": "../tree/#paper=2018_honig_trajectory_planning_for_quadrotor",
+      "mapUrl": "../map/#paper=2018_honig_trajectory_planning_for_quadrotor"
     },
     "2018_chung_a_survey_on_aerial": {
       "id": "2018_chung_a_survey_on_aerial",
@@ -23268,8 +23268,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_chung_a_survey_on_aerial/",
-      "contentTreeUrl": "../content-tree/#paper=2018_chung_a_survey_on_aerial",
-      "mindMapUrl": "../mind-map/#paper=2018_chung_a_survey_on_aerial"
+      "treeUrl": "../tree/#paper=2018_chung_a_survey_on_aerial",
+      "mapUrl": "../map/#paper=2018_chung_a_survey_on_aerial"
     },
     "1809_08830": {
       "id": "1809_08830",
@@ -23285,8 +23285,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1809_08830/",
-      "contentTreeUrl": "../content-tree/#paper=1809_08830",
-      "mindMapUrl": "../mind-map/#paper=1809_08830"
+      "treeUrl": "../tree/#paper=1809_08830",
+      "mapUrl": "../map/#paper=1809_08830"
     },
     "1802_09767": {
       "id": "1802_09767",
@@ -23302,8 +23302,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1802_09767/",
-      "contentTreeUrl": "../content-tree/#paper=1802_09767",
-      "mindMapUrl": "../mind-map/#paper=1802_09767"
+      "treeUrl": "../tree/#paper=1802_09767",
+      "mapUrl": "../map/#paper=1802_09767"
     },
     "1805_09388": {
       "id": "1805_09388",
@@ -23320,8 +23320,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1805_09388/",
-      "contentTreeUrl": "../content-tree/#paper=1805_09388",
-      "mindMapUrl": "../mind-map/#paper=1805_09388"
+      "treeUrl": "../tree/#paper=1805_09388",
+      "mapUrl": "../map/#paper=1805_09388"
     },
     "2018_preiss_simultaneous_self_calibration_and": {
       "id": "2018_preiss_simultaneous_self_calibration_and",
@@ -23337,8 +23337,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_preiss_simultaneous_self_calibration_and/",
-      "contentTreeUrl": "../content-tree/#paper=2018_preiss_simultaneous_self_calibration_and",
-      "mindMapUrl": "../mind-map/#paper=2018_preiss_simultaneous_self_calibration_and"
+      "treeUrl": "../tree/#paper=2018_preiss_simultaneous_self_calibration_and",
+      "mapUrl": "../map/#paper=2018_preiss_simultaneous_self_calibration_and"
     },
     "1810_12584": {
       "id": "1810_12584",
@@ -23354,8 +23354,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1810_12584/",
-      "contentTreeUrl": "../content-tree/#paper=1810_12584",
-      "mindMapUrl": "../mind-map/#paper=1810_12584"
+      "treeUrl": "../tree/#paper=1810_12584",
+      "mapUrl": "../map/#paper=1810_12584"
     },
     "1803_06843": {
       "id": "1803_06843",
@@ -23369,8 +23369,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1803_06843/",
-      "contentTreeUrl": "../content-tree/#paper=1803_06843",
-      "mindMapUrl": "../mind-map/#paper=1803_06843"
+      "treeUrl": "../tree/#paper=1803_06843",
+      "mapUrl": "../map/#paper=1803_06843"
     },
     "2018_rajamaki_regularizing_sampled_differential_dynamic": {
       "id": "2018_rajamaki_regularizing_sampled_differential_dynamic",
@@ -23390,8 +23390,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends Sampled DDP with regularization strategies to improve numerical stability and convergence, addressing ill-conditioning issues that arise when the sampled Hessian estimates are noisy or rank-deficient.",
       "url": "../papers/2018_rajamaki_regularizing_sampled_differential_dynamic/",
-      "contentTreeUrl": "../content-tree/#paper=2018_rajamaki_regularizing_sampled_differential_dynamic",
-      "mindMapUrl": "../mind-map/#paper=2018_rajamaki_regularizing_sampled_differential_dynamic"
+      "treeUrl": "../tree/#paper=2018_rajamaki_regularizing_sampled_differential_dynamic",
+      "mapUrl": "../map/#paper=2018_rajamaki_regularizing_sampled_differential_dynamic"
     },
     "1811_10154": {
       "id": "1811_10154",
@@ -23404,8 +23404,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1811_10154/",
-      "contentTreeUrl": "../content-tree/#paper=1811_10154",
-      "mindMapUrl": "../mind-map/#paper=1811_10154"
+      "treeUrl": "../tree/#paper=1811_10154",
+      "mapUrl": "../map/#paper=1811_10154"
     },
     "2018_schwarting_planning_and_decision_making": {
       "id": "2018_schwarting_planning_and_decision_making",
@@ -23428,8 +23428,8 @@ window.tagSearchData = {
       ],
       "summary": "Reviews motion planning and decision-making techniques for autonomous vehicles, covering probabilistic prediction of other agents, game-theoretic and learning-based interaction models, and socially-aware planning for urban driving scenarios.",
       "url": "../papers/2018_schwarting_planning_and_decision_making/",
-      "contentTreeUrl": "../content-tree/#paper=2018_schwarting_planning_and_decision_making",
-      "mindMapUrl": "../mind-map/#paper=2018_schwarting_planning_and_decision_making"
+      "treeUrl": "../tree/#paper=2018_schwarting_planning_and_decision_making",
+      "mapUrl": "../map/#paper=2018_schwarting_planning_and_decision_making"
     },
     "1805_09045": {
       "id": "1805_09045",
@@ -23443,8 +23443,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1805_09045/",
-      "contentTreeUrl": "../content-tree/#paper=1805_09045",
-      "mindMapUrl": "../mind-map/#paper=1805_09045"
+      "treeUrl": "../tree/#paper=1805_09045",
+      "mapUrl": "../map/#paper=1805_09045"
     },
     "1802_04367": {
       "id": "1802_04367",
@@ -23459,8 +23459,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "Sharpens the complexity story for discrete optimal transport by analyzing both Sinkhorn-based entropic regularization and an adaptive primal-dual accelerated gradient method. The paper is useful as a computational OT reference because it gives improved dependence on the target accuracy and highlights that the accelerated approach can support regularizers beyond entropy, including cases where the transport plan's sparsity matters.",
       "url": "../papers/1802_04367/",
-      "contentTreeUrl": "../content-tree/#paper=1802_04367",
-      "mindMapUrl": "../mind-map/#paper=1802_04367"
+      "treeUrl": "../tree/#paper=1802_04367",
+      "mapUrl": "../map/#paper=1802_04367"
     },
     "1806_00451": {
       "id": "1806_00451",
@@ -23476,8 +23476,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1806_00451/",
-      "contentTreeUrl": "../content-tree/#paper=1806_00451",
-      "mindMapUrl": "../mind-map/#paper=1806_00451"
+      "treeUrl": "../tree/#paper=1806_00451",
+      "mapUrl": "../map/#paper=1806_00451"
     },
     "2018_summers_distributionally_robust_sampling_based": {
       "id": "2018_summers_distributionally_robust_sampling_based",
@@ -23490,8 +23490,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_summers_distributionally_robust_sampling_based/",
-      "contentTreeUrl": "../content-tree/#paper=2018_summers_distributionally_robust_sampling_based",
-      "mindMapUrl": "../mind-map/#paper=2018_summers_distributionally_robust_sampling_based"
+      "treeUrl": "../tree/#paper=2018_summers_distributionally_robust_sampling_based",
+      "mapUrl": "../map/#paper=2018_summers_distributionally_robust_sampling_based"
     },
     "2018_yang_the_grand_challenges_of": {
       "id": "2018_yang_the_grand_challenges_of",
@@ -23520,8 +23520,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_yang_the_grand_challenges_of/",
-      "contentTreeUrl": "../content-tree/#paper=2018_yang_the_grand_challenges_of",
-      "mindMapUrl": "../mind-map/#paper=2018_yang_the_grand_challenges_of"
+      "treeUrl": "../tree/#paper=2018_yang_the_grand_challenges_of",
+      "mapUrl": "../map/#paper=2018_yang_the_grand_challenges_of"
     },
     "1802_09477": {
       "id": "1802_09477",
@@ -23536,8 +23536,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1802_09477/",
-      "contentTreeUrl": "../content-tree/#paper=1802_09477",
-      "mindMapUrl": "../mind-map/#paper=1802_09477"
+      "treeUrl": "../tree/#paper=1802_09477",
+      "mapUrl": "../map/#paper=1802_09477"
     },
     "1810_02054": {
       "id": "1810_02054",
@@ -23553,8 +23553,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1810_02054/",
-      "contentTreeUrl": "../content-tree/#paper=1810_02054",
-      "mindMapUrl": "../mind-map/#paper=1810_02054"
+      "treeUrl": "../tree/#paper=1810_02054",
+      "mapUrl": "../map/#paper=1810_02054"
     },
     "1807_05118": {
       "id": "1807_05118",
@@ -23572,8 +23572,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1807_05118/",
-      "contentTreeUrl": "../content-tree/#paper=1807_05118",
-      "mindMapUrl": "../mind-map/#paper=1807_05118"
+      "treeUrl": "../tree/#paper=1807_05118",
+      "mapUrl": "../map/#paper=1807_05118"
     },
     "1809_02399": {
       "id": "1809_02399",
@@ -23599,8 +23599,8 @@ window.tagSearchData = {
       ],
       "summary": "Integrates a grid of states and offline precomputed connecting motion primitives into RRT*. Moves the computational burden of trajectory generation to an offline phase, trading runtime efficiency for memory usage and some optimality degradation tied to grid resolution.",
       "url": "../papers/1809_02399/",
-      "contentTreeUrl": "../content-tree/#paper=1809_02399",
-      "mindMapUrl": "../mind-map/#paper=1809_02399"
+      "treeUrl": "../tree/#paper=1809_02399",
+      "mapUrl": "../map/#paper=1809_02399"
     },
     "1803_07055": {
       "id": "1803_07055",
@@ -23623,8 +23623,8 @@ window.tagSearchData = {
       ],
       "summary": "Describes Basic Random Search (BRS) and Augmented Random Search (ARS) and demonstrates that simple random perturbations to the parameters of linear policies with state normalization achieves competitive performance against deep RL on MuJoCo benchmarks. Challenges the necessity of more complicated neural network-backed policy optimization algorithms such as Trust Region Policy Optimization (TRPO), Deep Deterministic Policy Gradient (DDPG), Natural Gradients (NG), Evolution Strategies (ES), Proximal Policy Optimization (PPO), Soft Actor Critic (SAC), Soft Q-Learning (SQL), A2C, and the Cross Entropy Method (CEM).",
       "url": "../papers/1803_07055/",
-      "contentTreeUrl": "../content-tree/#paper=1803_07055",
-      "mindMapUrl": "../mind-map/#paper=1803_07055"
+      "treeUrl": "../tree/#paper=1803_07055",
+      "mapUrl": "../map/#paper=1803_07055"
     },
     "2018_bledt_mit_cheetah_3_design": {
       "id": "2018_bledt_mit_cheetah_3_design",
@@ -23642,8 +23642,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2018_bledt_mit_cheetah_3_design/",
-      "contentTreeUrl": "../content-tree/#paper=2018_bledt_mit_cheetah_3_design",
-      "mindMapUrl": "../mind-map/#paper=2018_bledt_mit_cheetah_3_design"
+      "treeUrl": "../tree/#paper=2018_bledt_mit_cheetah_3_design",
+      "mapUrl": "../map/#paper=2018_bledt_mit_cheetah_3_design"
     },
     "1810_12575": {
       "id": "1810_12575",
@@ -23657,8 +23657,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1810_12575/",
-      "contentTreeUrl": "../content-tree/#paper=1810_12575",
-      "mindMapUrl": "../mind-map/#paper=1810_12575"
+      "treeUrl": "../tree/#paper=1810_12575",
+      "mapUrl": "../map/#paper=1810_12575"
     },
     "1802_09076": {
       "id": "1802_09076",
@@ -23674,8 +23674,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1802_09076/",
-      "contentTreeUrl": "../content-tree/#paper=1802_09076",
-      "mindMapUrl": "../mind-map/#paper=1802_09076"
+      "treeUrl": "../tree/#paper=1802_09076",
+      "mapUrl": "../map/#paper=1802_09076"
     },
     "1809_07051": {
       "id": "1809_07051",
@@ -23692,8 +23692,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1809_07051/",
-      "contentTreeUrl": "../content-tree/#paper=1809_07051",
-      "mindMapUrl": "../mind-map/#paper=1809_07051"
+      "treeUrl": "../tree/#paper=1809_07051",
+      "mapUrl": "../map/#paper=1809_07051"
     },
     "1965_magill_optimal_adaptive_estimation_of": {
       "id": "1965_magill_optimal_adaptive_estimation_of",
@@ -23706,8 +23706,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1965_magill_optimal_adaptive_estimation_of/",
-      "contentTreeUrl": "../content-tree/#paper=1965_magill_optimal_adaptive_estimation_of",
-      "mindMapUrl": "../mind-map/#paper=1965_magill_optimal_adaptive_estimation_of"
+      "treeUrl": "../tree/#paper=1965_magill_optimal_adaptive_estimation_of",
+      "mapUrl": "../map/#paper=1965_magill_optimal_adaptive_estimation_of"
     },
     "1965_bogdanoff_experiments_with_an_inverted": {
       "id": "1965_bogdanoff_experiments_with_an_inverted",
@@ -23727,8 +23727,8 @@ window.tagSearchData = {
       ],
       "summary": "Provides experimental verification that an inverted pendulum can be stabilized by second-order stationary random parametric excitation with a discrete-power spectral density, confirming theoretical stability predictions for stochastically driven unstable linear systems.",
       "url": "../papers/1965_bogdanoff_experiments_with_an_inverted/",
-      "contentTreeUrl": "../content-tree/#paper=1965_bogdanoff_experiments_with_an_inverted",
-      "mindMapUrl": "../mind-map/#paper=1965_bogdanoff_experiments_with_an_inverted"
+      "treeUrl": "../tree/#paper=1965_bogdanoff_experiments_with_an_inverted",
+      "mapUrl": "../map/#paper=1965_bogdanoff_experiments_with_an_inverted"
     },
     "1965_cooley_an_algorithm_for_the": {
       "id": "1965_cooley_an_algorithm_for_the",
@@ -23742,8 +23742,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1965_cooley_an_algorithm_for_the/",
-      "contentTreeUrl": "../content-tree/#paper=1965_cooley_an_algorithm_for_the",
-      "mindMapUrl": "../mind-map/#paper=1965_cooley_an_algorithm_for_the"
+      "treeUrl": "../tree/#paper=1965_cooley_an_algorithm_for_the",
+      "mapUrl": "../map/#paper=1965_cooley_an_algorithm_for_the"
     },
     "1982_lloyd_least_squares_quantization_in": {
       "id": "1982_lloyd_least_squares_quantization_in",
@@ -23756,8 +23756,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1982_lloyd_least_squares_quantization_in/",
-      "contentTreeUrl": "../content-tree/#paper=1982_lloyd_least_squares_quantization_in",
-      "mindMapUrl": "../mind-map/#paper=1982_lloyd_least_squares_quantization_in"
+      "treeUrl": "../tree/#paper=1982_lloyd_least_squares_quantization_in",
+      "mapUrl": "../map/#paper=1982_lloyd_least_squares_quantization_in"
     },
     "1960_kalman_a_new_approach_to": {
       "id": "1960_kalman_a_new_approach_to",
@@ -23777,8 +23777,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the Kalman filter, a recursive algorithm for optimal linear state estimation from noisy measurements. Derives the filter equations via a state-space formulation and shows that the estimation problem is dual to the LQR control problem—arguably the most influential paper in modern control theory and signal processing.",
       "url": "../papers/1960_kalman_a_new_approach_to/",
-      "contentTreeUrl": "../content-tree/#paper=1960_kalman_a_new_approach_to",
-      "mindMapUrl": "../mind-map/#paper=1960_kalman_a_new_approach_to"
+      "treeUrl": "../tree/#paper=1960_kalman_a_new_approach_to",
+      "mapUrl": "../map/#paper=1960_kalman_a_new_approach_to"
     },
     "1960_rosenbrock_an_automatic_method_for": {
       "id": "1960_rosenbrock_an_automatic_method_for",
@@ -23791,8 +23791,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1960_rosenbrock_an_automatic_method_for/",
-      "contentTreeUrl": "../content-tree/#paper=1960_rosenbrock_an_automatic_method_for",
-      "mindMapUrl": "../mind-map/#paper=1960_rosenbrock_an_automatic_method_for"
+      "treeUrl": "../tree/#paper=1960_rosenbrock_an_automatic_method_for",
+      "mapUrl": "../map/#paper=1960_rosenbrock_an_automatic_method_for"
     },
     "1992_nocedal_theory_of_algorithms_for": {
       "id": "1992_nocedal_theory_of_algorithms_for",
@@ -23807,8 +23807,8 @@ window.tagSearchData = {
       ],
       "summary": "Nocedal surveys the practical theoretical understanding of major algorithms for unconstrained nonlinear optimization, focusing on methods credible enough for numerical software libraries. The article frames convergence theory around implemented behavior, especially line-search, trust-region, conjugate-gradient, and quasi-Newton methods.",
       "url": "../papers/1992_nocedal_theory_of_algorithms_for/",
-      "contentTreeUrl": "../content-tree/#paper=1992_nocedal_theory_of_algorithms_for",
-      "mindMapUrl": "../mind-map/#paper=1992_nocedal_theory_of_algorithms_for"
+      "treeUrl": "../tree/#paper=1992_nocedal_theory_of_algorithms_for",
+      "mapUrl": "../map/#paper=1992_nocedal_theory_of_algorithms_for"
     },
     "1992_neto_on_the_robustness_of": {
       "id": "1992_neto_on_the_robustness_of",
@@ -23823,8 +23823,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1992_neto_on_the_robustness_of/",
-      "contentTreeUrl": "../content-tree/#paper=1992_neto_on_the_robustness_of",
-      "mindMapUrl": "../mind-map/#paper=1992_neto_on_the_robustness_of"
+      "treeUrl": "../tree/#paper=1992_neto_on_the_robustness_of",
+      "mapUrl": "../map/#paper=1992_neto_on_the_robustness_of"
     },
     "1992_laporte_the_traveling_salesman_problem": {
       "id": "1992_laporte_the_traveling_salesman_problem",
@@ -23837,8 +23837,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1992_laporte_the_traveling_salesman_problem/",
-      "contentTreeUrl": "../content-tree/#paper=1992_laporte_the_traveling_salesman_problem",
-      "mindMapUrl": "../mind-map/#paper=1992_laporte_the_traveling_salesman_problem"
+      "treeUrl": "../tree/#paper=1992_laporte_the_traveling_salesman_problem",
+      "mapUrl": "../map/#paper=1992_laporte_the_traveling_salesman_problem"
     },
     "1992_coulter_implementation_of_the_pure": {
       "id": "1992_coulter_implementation_of_the_pure",
@@ -23851,8 +23851,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1992_coulter_implementation_of_the_pure/",
-      "contentTreeUrl": "../content-tree/#paper=1992_coulter_implementation_of_the_pure",
-      "mindMapUrl": "../mind-map/#paper=1992_coulter_implementation_of_the_pure"
+      "treeUrl": "../tree/#paper=1992_coulter_implementation_of_the_pure",
+      "mapUrl": "../map/#paper=1992_coulter_implementation_of_the_pure"
     },
     "1992_van_der_vorst_bi_cgstab_a_fast": {
       "id": "1992_van_der_vorst_bi_cgstab_a_fast",
@@ -23865,8 +23865,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1992_van_der_vorst_bi_cgstab_a_fast/",
-      "contentTreeUrl": "../content-tree/#paper=1992_van_der_vorst_bi_cgstab_a_fast",
-      "mindMapUrl": "../mind-map/#paper=1992_van_der_vorst_bi_cgstab_a_fast"
+      "treeUrl": "../tree/#paper=1992_van_der_vorst_bi_cgstab_a_fast",
+      "mapUrl": "../map/#paper=1992_van_der_vorst_bi_cgstab_a_fast"
     },
     "1992_eckstein_on_the_douglasrachford_splitting": {
       "id": "1992_eckstein_on_the_douglasrachford_splitting",
@@ -23880,8 +23880,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1992_eckstein_on_the_douglasrachford_splitting/",
-      "contentTreeUrl": "../content-tree/#paper=1992_eckstein_on_the_douglasrachford_splitting",
-      "mindMapUrl": "../mind-map/#paper=1992_eckstein_on_the_douglasrachford_splitting"
+      "treeUrl": "../tree/#paper=1992_eckstein_on_the_douglasrachford_splitting",
+      "mapUrl": "../map/#paper=1992_eckstein_on_the_douglasrachford_splitting"
     },
     "1992_holland_adaptation_in_natural_and": {
       "id": "1992_holland_adaptation_in_natural_and",
@@ -23894,8 +23894,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1992_holland_adaptation_in_natural_and/",
-      "contentTreeUrl": "../content-tree/#paper=1992_holland_adaptation_in_natural_and",
-      "mindMapUrl": "../mind-map/#paper=1992_holland_adaptation_in_natural_and"
+      "treeUrl": "../tree/#paper=1992_holland_adaptation_in_natural_and",
+      "mapUrl": "../map/#paper=1992_holland_adaptation_in_natural_and"
     },
     "1992_kollerstrom_thomas_simpson_and_newtons": {
       "id": "1992_kollerstrom_thomas_simpson_and_newtons",
@@ -23915,8 +23915,8 @@ window.tagSearchData = {
       ],
       "summary": "Argues that the iterative root-finding method commonly known as \"Newton's method\" was invented and published by Thomas Simpson in 1740, not by Isaac Newton. Newton's 1669 manuscript De analysi contains a different, non-iterative procedure; the modern method's misattribution to Newton is traced as an \"enduring myth\" and a curious historical transposition.",
       "url": "../papers/1992_kollerstrom_thomas_simpson_and_newtons/",
-      "contentTreeUrl": "../content-tree/#paper=1992_kollerstrom_thomas_simpson_and_newtons",
-      "mindMapUrl": "../mind-map/#paper=1992_kollerstrom_thomas_simpson_and_newtons"
+      "treeUrl": "../tree/#paper=1992_kollerstrom_thomas_simpson_and_newtons",
+      "mapUrl": "../map/#paper=1992_kollerstrom_thomas_simpson_and_newtons"
     },
     "1992_williams_simple_statistical_gradient_following": {
       "id": "1992_williams_simple_statistical_gradient_following",
@@ -23929,8 +23929,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1992_williams_simple_statistical_gradient_following/",
-      "contentTreeUrl": "../content-tree/#paper=1992_williams_simple_statistical_gradient_following",
-      "mindMapUrl": "../mind-map/#paper=1992_williams_simple_statistical_gradient_following"
+      "treeUrl": "../tree/#paper=1992_williams_simple_statistical_gradient_following",
+      "mapUrl": "../map/#paper=1992_williams_simple_statistical_gradient_following"
     },
     "1992_watkins_q_learning": {
       "id": "1992_watkins_q_learning",
@@ -23944,8 +23944,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1992_watkins_q_learning/",
-      "contentTreeUrl": "../content-tree/#paper=1992_watkins_q_learning",
-      "mindMapUrl": "../mind-map/#paper=1992_watkins_q_learning"
+      "treeUrl": "../tree/#paper=1992_watkins_q_learning",
+      "mapUrl": "../map/#paper=1992_watkins_q_learning"
     },
     "1992_pacejka_the_magic_formula_tyre": {
       "id": "1992_pacejka_the_magic_formula_tyre",
@@ -23959,8 +23959,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1992_pacejka_the_magic_formula_tyre/",
-      "contentTreeUrl": "../content-tree/#paper=1992_pacejka_the_magic_formula_tyre",
-      "mindMapUrl": "../mind-map/#paper=1992_pacejka_the_magic_formula_tyre"
+      "treeUrl": "../tree/#paper=1992_pacejka_the_magic_formula_tyre",
+      "mapUrl": "../map/#paper=1992_pacejka_the_magic_formula_tyre"
     },
     "1992_furuta_swing_up_control_of": {
       "id": "1992_furuta_swing_up_control_of",
@@ -23975,8 +23975,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1992_furuta_swing_up_control_of/",
-      "contentTreeUrl": "../content-tree/#paper=1992_furuta_swing_up_control_of",
-      "mindMapUrl": "../mind-map/#paper=1992_furuta_swing_up_control_of"
+      "treeUrl": "../tree/#paper=1992_furuta_swing_up_control_of",
+      "mapUrl": "../map/#paper=1992_furuta_swing_up_control_of"
     },
     "1932_nyquist_regeneration_theory": {
       "id": "1932_nyquist_regeneration_theory",
@@ -23989,8 +23989,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1932_nyquist_regeneration_theory/",
-      "contentTreeUrl": "../content-tree/#paper=1932_nyquist_regeneration_theory",
-      "mindMapUrl": "../mind-map/#paper=1932_nyquist_regeneration_theory"
+      "treeUrl": "../tree/#paper=1932_nyquist_regeneration_theory",
+      "mapUrl": "../map/#paper=1932_nyquist_regeneration_theory"
     },
     "2205_14812": {
       "id": "2205_14812",
@@ -24006,8 +24006,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2205_14812/",
-      "contentTreeUrl": "../content-tree/#paper=2205_14812",
-      "mindMapUrl": "../mind-map/#paper=2205_14812"
+      "treeUrl": "../tree/#paper=2205_14812",
+      "mapUrl": "../map/#paper=2205_14812"
     },
     "2201_03163": {
       "id": "2201_03163",
@@ -24030,8 +24030,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends the target tree algorithm - “Model-based decision making with imagination for autonomous parking” by Feng, Chen, Chen, and Zheng (2018) - for autonomous parking by replacing circular/straight path segments with clothoid curves to achieve continuous curvature (G2). Introduces an obstacle-aware cost function for target tree construction to reduce planning time in complex environments. Combined with RRT* and shortest-path selection, yields near-optimal continuous-curvature parking solutions.",
       "url": "../papers/2201_03163/",
-      "contentTreeUrl": "../content-tree/#paper=2201_03163",
-      "mindMapUrl": "../mind-map/#paper=2201_03163"
+      "treeUrl": "../tree/#paper=2201_03163",
+      "mapUrl": "../map/#paper=2201_03163"
     },
     "2210_04728": {
       "id": "2210_04728",
@@ -24057,8 +24057,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces PyHopper, a lightweight Python platform for hyperparameter optimization centered on a single robust Markov-chain Monte Carlo search algorithm. The paper emphasizes ease of integration, scalability to very high-dimensional hyperparameter spaces, and practical utilities that reduce the setup burden for ML experiments.",
       "url": "../papers/2210_04728/",
-      "contentTreeUrl": "../content-tree/#paper=2210_04728",
-      "mindMapUrl": "../mind-map/#paper=2210_04728"
+      "treeUrl": "../tree/#paper=2210_04728",
+      "mapUrl": "../map/#paper=2210_04728"
     },
     "2205_04422": {
       "id": "2205_04422",
@@ -24082,8 +24082,8 @@ window.tagSearchData = {
       ],
       "summary": "Applies the GCS framework to collision-free trajectory optimization by decomposing the free configuration space into convex regions and formulating motion planning as a shortest-path problem in a GCS. Trajectories are parameterized as Bézier curves, enabling compact mixed-integer optimization with constraints on shape, duration, and velocity. A convex relaxation with randomized rounding provides near-global solutions with certified optimality bounds, outperforming both sampling-based and prior trajectory optimization methods.",
       "url": "../papers/2205_04422/",
-      "contentTreeUrl": "../content-tree/#paper=2205_04422",
-      "mindMapUrl": "../mind-map/#paper=2205_04422"
+      "treeUrl": "../tree/#paper=2205_04422",
+      "mapUrl": "../map/#paper=2205_04422"
     },
     "2204_06104": {
       "id": "2204_06104",
@@ -24096,8 +24096,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2204_06104/",
-      "contentTreeUrl": "../content-tree/#paper=2204_06104",
-      "mindMapUrl": "../mind-map/#paper=2204_06104"
+      "treeUrl": "../tree/#paper=2204_06104",
+      "mapUrl": "../map/#paper=2204_06104"
     },
     "2022_akella_a_barrier_based_scenario": {
       "id": "2022_akella_a_barrier_based_scenario",
@@ -24111,8 +24111,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2022_akella_a_barrier_based_scenario/",
-      "contentTreeUrl": "../content-tree/#paper=2022_akella_a_barrier_based_scenario",
-      "mindMapUrl": "../mind-map/#paper=2022_akella_a_barrier_based_scenario"
+      "treeUrl": "../tree/#paper=2022_akella_a_barrier_based_scenario",
+      "mapUrl": "../map/#paper=2022_akella_a_barrier_based_scenario"
     },
     "2206_06863": {
       "id": "2206_06863",
@@ -24128,8 +24128,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2206_06863/",
-      "contentTreeUrl": "../content-tree/#paper=2206_06863",
-      "mindMapUrl": "../mind-map/#paper=2206_06863"
+      "treeUrl": "../tree/#paper=2206_06863",
+      "mapUrl": "../map/#paper=2206_06863"
     },
     "2212_02603": {
       "id": "2212_02603",
@@ -24143,8 +24143,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2212_02603/",
-      "contentTreeUrl": "../content-tree/#paper=2212_02603",
-      "mindMapUrl": "../mind-map/#paper=2212_02603"
+      "treeUrl": "../tree/#paper=2212_02603",
+      "mapUrl": "../map/#paper=2212_02603"
     },
     "2205_08048": {
       "id": "2205_08048",
@@ -24157,8 +24157,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2205_08048/",
-      "contentTreeUrl": "../content-tree/#paper=2205_08048",
-      "mindMapUrl": "../mind-map/#paper=2205_08048"
+      "treeUrl": "../tree/#paper=2205_08048",
+      "mapUrl": "../map/#paper=2205_08048"
     },
     "2210_05046": {
       "id": "2210_05046",
@@ -24173,8 +24173,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2210_05046/",
-      "contentTreeUrl": "../content-tree/#paper=2210_05046",
-      "mindMapUrl": "../mind-map/#paper=2210_05046"
+      "treeUrl": "../tree/#paper=2210_05046",
+      "mapUrl": "../map/#paper=2210_05046"
     },
     "2204_02322": {
       "id": "2204_02322",
@@ -24196,8 +24196,8 @@ window.tagSearchData = {
       ],
       "summary": "Analyzes both global and local convergence properties of iterative LQR/DDP algorithms for discrete-time nonlinear control, providing theoretical convergence guarantees under specific regularity conditions.",
       "url": "../papers/2204_02322/",
-      "contentTreeUrl": "../content-tree/#paper=2204_02322",
-      "mindMapUrl": "../mind-map/#paper=2204_02322"
+      "treeUrl": "../tree/#paper=2204_02322",
+      "mapUrl": "../map/#paper=2204_02322"
     },
     "2203_01751": {
       "id": "2203_01751",
@@ -24214,8 +24214,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2203_01751/",
-      "contentTreeUrl": "../content-tree/#paper=2203_01751",
-      "mindMapUrl": "../mind-map/#paper=2203_01751"
+      "treeUrl": "../tree/#paper=2203_01751",
+      "mapUrl": "../map/#paper=2203_01751"
     },
     "2202_00308": {
       "id": "2202_00308",
@@ -24232,8 +24232,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2202_00308/",
-      "contentTreeUrl": "../content-tree/#paper=2202_00308",
-      "mindMapUrl": "../mind-map/#paper=2202_00308"
+      "treeUrl": "../tree/#paper=2202_00308",
+      "mapUrl": "../map/#paper=2202_00308"
     },
     "2205_09991": {
       "id": "2205_09991",
@@ -24249,8 +24249,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2205_09991/",
-      "contentTreeUrl": "../content-tree/#paper=2205_09991",
-      "mindMapUrl": "../mind-map/#paper=2205_09991"
+      "treeUrl": "../tree/#paper=2205_09991",
+      "mapUrl": "../map/#paper=2205_09991"
     },
     "2210_08092": {
       "id": "2210_08092",
@@ -24265,8 +24265,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2210_08092/",
-      "contentTreeUrl": "../content-tree/#paper=2210_08092",
-      "mindMapUrl": "../mind-map/#paper=2210_08092"
+      "treeUrl": "../tree/#paper=2210_08092",
+      "mapUrl": "../map/#paper=2210_08092"
     },
     "2209_09006": {
       "id": "2209_09006",
@@ -24289,8 +24289,8 @@ window.tagSearchData = {
       ],
       "summary": "Uses an Augmented Lagrangian / ADMM technique to penalize disagreement between a learned policy and a trajectory optimizer during training, combining the accuracy of trajectory optimization with the generalization of learned policies for precise robot control.",
       "url": "../papers/2209_09006/",
-      "contentTreeUrl": "../content-tree/#paper=2209_09006",
-      "mindMapUrl": "../mind-map/#paper=2209_09006"
+      "treeUrl": "../tree/#paper=2209_09006",
+      "mapUrl": "../map/#paper=2209_09006"
     },
     "2212_14511": {
       "id": "2212_14511",
@@ -24306,8 +24306,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2212_14511/",
-      "contentTreeUrl": "../content-tree/#paper=2212_14511",
-      "mindMapUrl": "../mind-map/#paper=2212_14511"
+      "treeUrl": "../tree/#paper=2212_14511",
+      "mapUrl": "../map/#paper=2212_14511"
     },
     "2211_07937": {
       "id": "2211_07937",
@@ -24323,8 +24323,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2211_07937/",
-      "contentTreeUrl": "../content-tree/#paper=2211_07937",
-      "mindMapUrl": "../mind-map/#paper=2211_07937"
+      "treeUrl": "../tree/#paper=2211_07937",
+      "mapUrl": "../map/#paper=2211_07937"
     },
     "2212_07013": {
       "id": "2212_07013",
@@ -24339,8 +24339,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2212_07013/",
-      "contentTreeUrl": "../content-tree/#paper=2212_07013",
-      "mindMapUrl": "../mind-map/#paper=2212_07013"
+      "treeUrl": "../tree/#paper=2212_07013",
+      "mapUrl": "../map/#paper=2212_07013"
     },
     "2204_01691": {
       "id": "2204_01691",
@@ -24397,8 +24397,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2204_01691/",
-      "contentTreeUrl": "../content-tree/#paper=2204_01691",
-      "mindMapUrl": "../mind-map/#paper=2204_01691"
+      "treeUrl": "../tree/#paper=2204_01691",
+      "mapUrl": "../map/#paper=2204_01691"
     },
     "2203_04955": {
       "id": "2203_04955",
@@ -24413,8 +24413,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2203_04955/",
-      "contentTreeUrl": "../content-tree/#paper=2203_04955",
-      "mindMapUrl": "../mind-map/#paper=2203_04955"
+      "treeUrl": "../tree/#paper=2203_04955",
+      "mapUrl": "../map/#paper=2203_04955"
     },
     "2202_04612": {
       "id": "2202_04612",
@@ -24429,8 +24429,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2202_04612/",
-      "contentTreeUrl": "../content-tree/#paper=2202_04612",
-      "mindMapUrl": "../mind-map/#paper=2202_04612"
+      "treeUrl": "../tree/#paper=2202_04612",
+      "mapUrl": "../map/#paper=2202_04612"
     },
     "2207_12380": {
       "id": "2207_12380",
@@ -24447,8 +24447,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2207_12380/",
-      "contentTreeUrl": "../content-tree/#paper=2207_12380",
-      "mindMapUrl": "../mind-map/#paper=2207_12380"
+      "treeUrl": "../tree/#paper=2207_12380",
+      "mapUrl": "../map/#paper=2207_12380"
     },
     "2212_03194": {
       "id": "2212_03194",
@@ -24465,8 +24465,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2212_03194/",
-      "contentTreeUrl": "../content-tree/#paper=2212_03194",
-      "mindMapUrl": "../mind-map/#paper=2212_03194"
+      "treeUrl": "../tree/#paper=2212_03194",
+      "mapUrl": "../map/#paper=2212_03194"
     },
     "2204_06125": {
       "id": "2204_06125",
@@ -24483,8 +24483,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2204_06125/",
-      "contentTreeUrl": "../content-tree/#paper=2204_06125",
-      "mindMapUrl": "../mind-map/#paper=2204_06125"
+      "treeUrl": "../tree/#paper=2204_06125",
+      "mapUrl": "../map/#paper=2204_06125"
     },
     "2207_11136": {
       "id": "2207_11136",
@@ -24505,8 +24505,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2207_11136/",
-      "contentTreeUrl": "../content-tree/#paper=2207_11136",
-      "mindMapUrl": "../mind-map/#paper=2207_11136"
+      "treeUrl": "../tree/#paper=2207_11136",
+      "mapUrl": "../map/#paper=2207_11136"
     },
     "2209_10021": {
       "id": "2209_10021",
@@ -24525,8 +24525,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2209_10021/",
-      "contentTreeUrl": "../content-tree/#paper=2209_10021",
-      "mindMapUrl": "../mind-map/#paper=2209_10021"
+      "treeUrl": "../tree/#paper=2209_10021",
+      "mapUrl": "../map/#paper=2209_10021"
     },
     "2211_05922": {
       "id": "2211_05922",
@@ -24542,8 +24542,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2211_05922/",
-      "contentTreeUrl": "../content-tree/#paper=2211_05922",
-      "mindMapUrl": "../mind-map/#paper=2211_05922"
+      "treeUrl": "../tree/#paper=2211_05922",
+      "mapUrl": "../map/#paper=2211_05922"
     },
     "2022_kusano_methodology_for_determining_maximum": {
       "id": "2022_kusano_methodology_for_determining_maximum",
@@ -24557,8 +24557,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2022_kusano_methodology_for_determining_maximum/",
-      "contentTreeUrl": "../content-tree/#paper=2022_kusano_methodology_for_determining_maximum",
-      "mindMapUrl": "../mind-map/#paper=2022_kusano_methodology_for_determining_maximum"
+      "treeUrl": "../tree/#paper=2022_kusano_methodology_for_determining_maximum",
+      "mapUrl": "../map/#paper=2022_kusano_methodology_for_determining_maximum"
     },
     "2205_05119": {
       "id": "2205_05119",
@@ -24593,8 +24593,8 @@ window.tagSearchData = {
       ],
       "summary": "Assembles a pipeline for adaptive control that uses a statistical bootstrap to estimate uncertainties in system parameters and a multiplicative-noise device to design a controller that is robust to the size and direction of the estimated uncertainties.",
       "url": "../papers/2205_05119/",
-      "contentTreeUrl": "../content-tree/#paper=2205_05119",
-      "mindMapUrl": "../mind-map/#paper=2205_05119"
+      "treeUrl": "../tree/#paper=2205_05119",
+      "mapUrl": "../map/#paper=2205_05119"
     },
     "2204_02311": {
       "id": "2204_02311",
@@ -24673,8 +24673,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2204_02311/",
-      "contentTreeUrl": "../content-tree/#paper=2204_02311",
-      "mindMapUrl": "../mind-map/#paper=2204_02311"
+      "treeUrl": "../tree/#paper=2204_02311",
+      "mapUrl": "../map/#paper=2204_02311"
     },
     "2204_07319": {
       "id": "2204_07319",
@@ -24695,8 +24695,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2204_07319/",
-      "contentTreeUrl": "../content-tree/#paper=2204_07319",
-      "mindMapUrl": "../mind-map/#paper=2204_07319"
+      "treeUrl": "../tree/#paper=2204_07319",
+      "mapUrl": "../map/#paper=2204_07319"
     },
     "2210_05015": {
       "id": "2210_05015",
@@ -24713,8 +24713,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2210_05015/",
-      "contentTreeUrl": "../content-tree/#paper=2210_05015",
-      "mindMapUrl": "../mind-map/#paper=2210_05015"
+      "treeUrl": "../tree/#paper=2210_05015",
+      "mapUrl": "../map/#paper=2210_05015"
     },
     "2211_00140": {
       "id": "2211_00140",
@@ -24732,8 +24732,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2211_00140/",
-      "contentTreeUrl": "../content-tree/#paper=2211_00140",
-      "mindMapUrl": "../mind-map/#paper=2211_00140"
+      "treeUrl": "../tree/#paper=2211_00140",
+      "mapUrl": "../map/#paper=2211_00140"
     },
     "2205_05653": {
       "id": "2205_05653",
@@ -24747,8 +24747,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2205_05653/",
-      "contentTreeUrl": "../content-tree/#paper=2205_05653",
-      "mindMapUrl": "../mind-map/#paper=2205_05653"
+      "treeUrl": "../tree/#paper=2205_05653",
+      "mapUrl": "../map/#paper=2205_05653"
     },
     "2207_05844": {
       "id": "2207_05844",
@@ -24774,8 +24774,8 @@ window.tagSearchData = {
       ],
       "summary": "Proposes a simple and efficient transformer-based architecture for motion forecasting, showing that a straightforward attention design over scene and agent context can match or surpass more complex architectures on standard benchmarks like Waymo Open Motion Dataset (WOMD).",
       "url": "../papers/2207_05844/",
-      "contentTreeUrl": "../content-tree/#paper=2207_05844",
-      "mindMapUrl": "../mind-map/#paper=2207_05844"
+      "treeUrl": "../tree/#paper=2207_05844",
+      "mapUrl": "../map/#paper=2207_05844"
     },
     "2022_wurman_outracing_champion_gran_turismo": {
       "id": "2022_wurman_outracing_champion_gran_turismo",
@@ -24814,8 +24814,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2022_wurman_outracing_champion_gran_turismo/",
-      "contentTreeUrl": "../content-tree/#paper=2022_wurman_outracing_champion_gran_turismo",
-      "mindMapUrl": "../mind-map/#paper=2022_wurman_outracing_champion_gran_turismo"
+      "treeUrl": "../tree/#paper=2022_wurman_outracing_champion_gran_turismo",
+      "mapUrl": "../map/#paper=2022_wurman_outracing_champion_gran_turismo"
     },
     "2209_03003": {
       "id": "2209_03003",
@@ -24830,8 +24830,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2209_03003/",
-      "contentTreeUrl": "../content-tree/#paper=2209_03003",
-      "mindMapUrl": "../mind-map/#paper=2209_03003"
+      "treeUrl": "../tree/#paper=2209_03003",
+      "mapUrl": "../map/#paper=2209_03003"
     },
     "2204_09352": {
       "id": "2204_09352",
@@ -24848,8 +24848,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2204_09352/",
-      "contentTreeUrl": "../content-tree/#paper=2204_09352",
-      "mindMapUrl": "../mind-map/#paper=2204_09352"
+      "treeUrl": "../tree/#paper=2204_09352",
+      "mapUrl": "../map/#paper=2204_09352"
     },
     "2022_gravell_data_driven_control_and": {
       "id": "2022_gravell_data_driven_control_and",
@@ -24881,8 +24881,8 @@ window.tagSearchData = {
       ],
       "summary": "PhD dissertation covering a wide variety of planning and control techniques, largely centered on the study of linear systems with multiplicative noise. Rigorous formal theoretical results are established, as well as many practical algorithmic contributions.",
       "url": "../papers/2022_gravell_data_driven_control_and/",
-      "contentTreeUrl": "../content-tree/#paper=2022_gravell_data_driven_control_and",
-      "mindMapUrl": "../mind-map/#paper=2022_gravell_data_driven_control_and"
+      "treeUrl": "../tree/#paper=2022_gravell_data_driven_control_and",
+      "mapUrl": "../map/#paper=2022_gravell_data_driven_control_and"
     },
     "2022_schmid_dynamic_mode_decomposition_and": {
       "id": "2022_schmid_dynamic_mode_decomposition_and",
@@ -24901,8 +24901,8 @@ window.tagSearchData = {
       ],
       "summary": "Comprehensive review of DMD from its fluid dynamics origins through current extensions, providing a unified perspective on theoretical foundations and practical applications.",
       "url": "../papers/2022_schmid_dynamic_mode_decomposition_and/",
-      "contentTreeUrl": "../content-tree/#paper=2022_schmid_dynamic_mode_decomposition_and",
-      "mindMapUrl": "../mind-map/#paper=2022_schmid_dynamic_mode_decomposition_and"
+      "treeUrl": "../tree/#paper=2022_schmid_dynamic_mode_decomposition_and",
+      "mapUrl": "../map/#paper=2022_schmid_dynamic_mode_decomposition_and"
     },
     "2210_01744": {
       "id": "2210_01744",
@@ -24924,8 +24924,8 @@ window.tagSearchData = {
       ],
       "summary": "Derives a complete, exact bang-bang time-optimal steering method for synchronized double integrators, using it to boost RRT performance via better BVP solving, improved Voronoi bias metrics, and post-hoc trajectory time-optimization.",
       "url": "../papers/2210_01744/",
-      "contentTreeUrl": "../content-tree/#paper=2210_01744",
-      "mindMapUrl": "../mind-map/#paper=2210_01744"
+      "treeUrl": "../tree/#paper=2210_01744",
+      "mapUrl": "../map/#paper=2210_01744"
     },
     "2205_14135": {
       "id": "2205_14135",
@@ -24942,8 +24942,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2205_14135/",
-      "contentTreeUrl": "../content-tree/#paper=2205_14135",
-      "mindMapUrl": "../mind-map/#paper=2205_14135"
+      "treeUrl": "../tree/#paper=2205_14135",
+      "mapUrl": "../map/#paper=2205_14135"
     },
     "2202_07125": {
       "id": "2202_07125",
@@ -24962,8 +24962,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2202_07125/",
-      "contentTreeUrl": "../content-tree/#paper=2202_07125",
-      "mindMapUrl": "../mind-map/#paper=2202_07125"
+      "treeUrl": "../tree/#paper=2202_07125",
+      "mapUrl": "../map/#paper=2202_07125"
     },
     "2207_03517": {
       "id": "2207_03517",
@@ -24983,8 +24983,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2207_03517/",
-      "contentTreeUrl": "../content-tree/#paper=2207_03517",
-      "mindMapUrl": "../mind-map/#paper=2207_03517"
+      "treeUrl": "../tree/#paper=2207_03517",
+      "mapUrl": "../map/#paper=2207_03517"
     },
     "2205_02160": {
       "id": "2205_02160",
@@ -24998,8 +24998,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2205_02160/",
-      "contentTreeUrl": "../content-tree/#paper=2205_02160",
-      "mindMapUrl": "../mind-map/#paper=2205_02160"
+      "treeUrl": "../tree/#paper=2205_02160",
+      "mapUrl": "../map/#paper=2205_02160"
     },
     "2209_14577": {
       "id": "2209_14577",
@@ -25012,8 +25012,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2209_14577/",
-      "contentTreeUrl": "../content-tree/#paper=2209_14577",
-      "mindMapUrl": "../mind-map/#paper=2209_14577"
+      "treeUrl": "../tree/#paper=2209_14577",
+      "mapUrl": "../map/#paper=2209_14577"
     },
     "2212_00541": {
       "id": "2212_00541",
@@ -25038,8 +25038,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces MJPC, an open-source framework for real-time predictive control built on MuJoCo physics, implementing iLQG, Gradient Descent, and a derivative-free Predictive Sampling baseline. Demonstrates that simple sampling-based methods are competitive with classical trajectory optimizers.",
       "url": "../papers/2212_00541/",
-      "contentTreeUrl": "../content-tree/#paper=2212_00541",
-      "mindMapUrl": "../mind-map/#paper=2212_00541"
+      "treeUrl": "../tree/#paper=2212_00541",
+      "mapUrl": "../map/#paper=2212_00541"
     },
     "2206_03004": {
       "id": "2206_03004",
@@ -25070,8 +25070,8 @@ window.tagSearchData = {
       ],
       "summary": "Inverse Reinforcement Learning-based planner demonstrated on a real self-driving car in dense urban traffic. Trained on large-scale human driving logs. The architecture design is critical to the success of the approach: there is a classical trajectory generator (based on Dubins paths, pre-computed acceleration profiles, and access to a clean road geometry model) capable of generating diverse safe trajectories, a safety filter that removes all trajectory candidates that are not forward recursively safe, and the learned model is only for assigning scores to the safety-filtered trajectory candidates. Includes a useful set of standardized evaluation metrics for learned planners (see Appendix A.5).",
       "url": "../papers/2206_03004/",
-      "contentTreeUrl": "../content-tree/#paper=2206_03004",
-      "mindMapUrl": "../mind-map/#paper=2206_03004"
+      "treeUrl": "../tree/#paper=2206_03004",
+      "mapUrl": "../map/#paper=2206_03004"
     },
     "2022_kumar_sharpness_continuous_path_optimization": {
       "id": "2022_kumar_sharpness_continuous_path_optimization",
@@ -25088,8 +25088,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2022_kumar_sharpness_continuous_path_optimization/",
-      "contentTreeUrl": "../content-tree/#paper=2022_kumar_sharpness_continuous_path_optimization",
-      "mindMapUrl": "../mind-map/#paper=2022_kumar_sharpness_continuous_path_optimization"
+      "treeUrl": "../tree/#paper=2022_kumar_sharpness_continuous_path_optimization",
+      "mapUrl": "../map/#paper=2022_kumar_sharpness_continuous_path_optimization"
     },
     "2210_02747": {
       "id": "2210_02747",
@@ -25106,8 +25106,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2210_02747/",
-      "contentTreeUrl": "../content-tree/#paper=2210_02747",
-      "mindMapUrl": "../mind-map/#paper=2210_02747"
+      "treeUrl": "../tree/#paper=2210_02747",
+      "mapUrl": "../map/#paper=2210_02747"
     },
     "2022_honig_benchmarking_sampling_search_and": {
       "id": "2022_honig_benchmarking_sampling_search_and",
@@ -25130,8 +25130,8 @@ window.tagSearchData = {
       ],
       "summary": "Benchmarks and compares sampling-, search-, and optimization-based planners for time-optimal kinodynamic mobile robot motion planning, providing an empirical evaluation of modern approaches.",
       "url": "../papers/2022_honig_benchmarking_sampling_search_and/",
-      "contentTreeUrl": "../content-tree/#paper=2022_honig_benchmarking_sampling_search_and",
-      "mindMapUrl": "../mind-map/#paper=2022_honig_benchmarking_sampling_search_and"
+      "treeUrl": "../tree/#paper=2022_honig_benchmarking_sampling_search_and",
+      "mapUrl": "../map/#paper=2022_honig_benchmarking_sampling_search_and"
     },
     "2210_04810": {
       "id": "2210_04810",
@@ -25149,8 +25149,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2210_04810/",
-      "contentTreeUrl": "../content-tree/#paper=2210_04810",
-      "mindMapUrl": "../mind-map/#paper=2210_04810"
+      "treeUrl": "../tree/#paper=2210_04810",
+      "mapUrl": "../map/#paper=2210_04810"
     },
     "2212_06817": {
       "id": "2212_06817",
@@ -25213,8 +25213,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2212_06817/",
-      "contentTreeUrl": "../content-tree/#paper=2212_06817",
-      "mindMapUrl": "../mind-map/#paper=2212_06817"
+      "treeUrl": "../tree/#paper=2212_06817",
+      "mapUrl": "../map/#paper=2212_06817"
     },
     "2207_10820": {
       "id": "2207_10820",
@@ -25230,8 +25230,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2207_10820/",
-      "contentTreeUrl": "../content-tree/#paper=2207_10820",
-      "mindMapUrl": "../mind-map/#paper=2207_10820"
+      "treeUrl": "../tree/#paper=2207_10820",
+      "mapUrl": "../map/#paper=2207_10820"
     },
     "2022_schmid_why_and_how_savitzkygolay": {
       "id": "2022_schmid_why_and_how_savitzkygolay",
@@ -25248,8 +25248,8 @@ window.tagSearchData = {
       ],
       "summary": "Explains why standard Savitzky-Golay filters preserve peak shapes but suppress high-frequency noise poorly, especially when derivatives or boundary regions are involved. They compare weighted Savitzky-Golay filters, modified sinc kernels, and Whittaker-Henderson smoothing, concluding that modified sinc kernels with linear extrapolation are often the strongest drop-in replacement because they reduce stopband noise and boundary artifacts while keeping useful passband behavior.",
       "url": "../papers/2022_schmid_why_and_how_savitzkygolay/",
-      "contentTreeUrl": "../content-tree/#paper=2022_schmid_why_and_how_savitzkygolay",
-      "mindMapUrl": "../mind-map/#paper=2022_schmid_why_and_how_savitzkygolay"
+      "treeUrl": "../tree/#paper=2022_schmid_why_and_how_savitzkygolay",
+      "mapUrl": "../map/#paper=2022_schmid_why_and_how_savitzkygolay"
     },
     "2201_02177": {
       "id": "2201_02177",
@@ -25266,8 +25266,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2201_02177/",
-      "contentTreeUrl": "../content-tree/#paper=2201_02177",
-      "mindMapUrl": "../mind-map/#paper=2201_02177"
+      "treeUrl": "../tree/#paper=2201_02177",
+      "mapUrl": "../map/#paper=2201_02177"
     },
     "2206_05608": {
       "id": "2206_05608",
@@ -25282,8 +25282,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2206_05608/",
-      "contentTreeUrl": "../content-tree/#paper=2206_05608",
-      "mindMapUrl": "../mind-map/#paper=2206_05608"
+      "treeUrl": "../tree/#paper=2206_05608",
+      "mapUrl": "../map/#paper=2206_05608"
     },
     "2203_05794": {
       "id": "2203_05794",
@@ -25296,8 +25296,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2203_05794/",
-      "contentTreeUrl": "../content-tree/#paper=2203_05794",
-      "mindMapUrl": "../mind-map/#paper=2203_05794"
+      "treeUrl": "../tree/#paper=2203_05794",
+      "mapUrl": "../map/#paper=2203_05794"
     },
     "2212_06437": {
       "id": "2212_06437",
@@ -25320,8 +25320,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents DiffStack, a fully differentiable and modular autonomous driving stack that combines prediction, planning, and control. By making the entire stack differentiable, it enables end-to-end gradient-based optimization across components, improving performance over non-differentiable modular baselines.",
       "url": "../papers/2212_06437/",
-      "contentTreeUrl": "../content-tree/#paper=2212_06437",
-      "mindMapUrl": "../mind-map/#paper=2212_06437"
+      "treeUrl": "../tree/#paper=2212_06437",
+      "mapUrl": "../map/#paper=2212_06437"
     },
     "2208_02439": {
       "id": "2208_02439",
@@ -25344,8 +25344,8 @@ window.tagSearchData = {
       ],
       "summary": "Hybrid method combining MPPI for global, collision-free trajectory generation with Interior Point DDP (IPDDP) for smooth, dynamically optimal local refinement, leveraging the complementary strengths of sampling and gradient-based trajectory optimization.",
       "url": "../papers/2208_02439/",
-      "contentTreeUrl": "../content-tree/#paper=2208_02439",
-      "mindMapUrl": "../mind-map/#paper=2208_02439"
+      "treeUrl": "../tree/#paper=2208_02439",
+      "mapUrl": "../map/#paper=2208_02439"
     },
     "2203_11108": {
       "id": "2203_11108",
@@ -25360,8 +25360,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2203_11108/",
-      "contentTreeUrl": "../content-tree/#paper=2203_11108",
-      "mindMapUrl": "../mind-map/#paper=2203_11108"
+      "treeUrl": "../tree/#paper=2203_11108",
+      "mapUrl": "../map/#paper=2203_11108"
     },
     "2202_00817": {
       "id": "2202_00817",
@@ -25377,8 +25377,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2202_00817/",
-      "contentTreeUrl": "../content-tree/#paper=2202_00817",
-      "mindMapUrl": "../mind-map/#paper=2202_00817"
+      "treeUrl": "../tree/#paper=2202_00817",
+      "mapUrl": "../map/#paper=2202_00817"
     },
     "2201_13360": {
       "id": "2201_13360",
@@ -25393,8 +25393,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2201_13360/",
-      "contentTreeUrl": "../content-tree/#paper=2201_13360",
-      "mindMapUrl": "../mind-map/#paper=2201_13360"
+      "treeUrl": "../tree/#paper=2201_13360",
+      "mapUrl": "../map/#paper=2201_13360"
     },
     "2022_various_ieee_standard_for_assumptions": {
       "id": "2022_various_ieee_standard_for_assumptions",
@@ -25414,8 +25414,8 @@ window.tagSearchData = {
       ],
       "summary": "IEEE Std 3079-2022 defines the minimum set of assumptions and foreseeable scenarios that must be considered when developing safety-related models for automated driving systems, providing a normative baseline for ADS safety analysis.",
       "url": "../papers/2022_various_ieee_standard_for_assumptions/",
-      "contentTreeUrl": "../content-tree/#paper=2022_various_ieee_standard_for_assumptions",
-      "mindMapUrl": "../mind-map/#paper=2022_various_ieee_standard_for_assumptions"
+      "treeUrl": "../tree/#paper=2022_various_ieee_standard_for_assumptions",
+      "mapUrl": "../map/#paper=2022_various_ieee_standard_for_assumptions"
     },
     "2203_11419": {
       "id": "2203_11419",
@@ -25433,8 +25433,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2203_11419/",
-      "contentTreeUrl": "../content-tree/#paper=2203_11419",
-      "mindMapUrl": "../mind-map/#paper=2203_11419"
+      "treeUrl": "../tree/#paper=2203_11419",
+      "mapUrl": "../map/#paper=2203_11419"
     },
     "2202_11659": {
       "id": "2202_11659",
@@ -25451,8 +25451,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2202_11659/",
-      "contentTreeUrl": "../content-tree/#paper=2202_11659",
-      "mindMapUrl": "../mind-map/#paper=2202_11659"
+      "treeUrl": "../tree/#paper=2202_11659",
+      "mapUrl": "../map/#paper=2202_11659"
     },
     "2201_09104": {
       "id": "2201_09104",
@@ -25467,8 +25467,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2201_09104/",
-      "contentTreeUrl": "../content-tree/#paper=2201_09104",
-      "mindMapUrl": "../mind-map/#paper=2201_09104"
+      "treeUrl": "../tree/#paper=2201_09104",
+      "mapUrl": "../map/#paper=2201_09104"
     },
     "2203_02176": {
       "id": "2203_02176",
@@ -25484,8 +25484,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2203_02176/",
-      "contentTreeUrl": "../content-tree/#paper=2203_02176",
-      "mindMapUrl": "../mind-map/#paper=2203_02176"
+      "treeUrl": "../tree/#paper=2203_02176",
+      "mapUrl": "../map/#paper=2203_02176"
     },
     "2207_11220": {
       "id": "2207_11220",
@@ -25499,8 +25499,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2207_11220/",
-      "contentTreeUrl": "../content-tree/#paper=2207_11220",
-      "mindMapUrl": "../mind-map/#paper=2207_11220"
+      "treeUrl": "../tree/#paper=2207_11220",
+      "mapUrl": "../map/#paper=2207_11220"
     },
     "2210_05519": {
       "id": "2210_05519",
@@ -25519,8 +25519,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2210_05519/",
-      "contentTreeUrl": "../content-tree/#paper=2210_05519",
-      "mindMapUrl": "../mind-map/#paper=2210_05519"
+      "treeUrl": "../tree/#paper=2210_05519",
+      "mapUrl": "../map/#paper=2210_05519"
     },
     "2022_macenski_robot_operating_system_2": {
       "id": "2022_macenski_robot_operating_system_2",
@@ -25537,8 +25537,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2022_macenski_robot_operating_system_2/",
-      "contentTreeUrl": "../content-tree/#paper=2022_macenski_robot_operating_system_2",
-      "mindMapUrl": "../mind-map/#paper=2022_macenski_robot_operating_system_2"
+      "treeUrl": "../tree/#paper=2022_macenski_robot_operating_system_2",
+      "mapUrl": "../map/#paper=2022_macenski_robot_operating_system_2"
     },
     "2201_01483": {
       "id": "2201_01483",
@@ -25556,8 +25556,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2201_01483/",
-      "contentTreeUrl": "../content-tree/#paper=2201_01483",
-      "mindMapUrl": "../mind-map/#paper=2201_01483"
+      "treeUrl": "../tree/#paper=2201_01483",
+      "mapUrl": "../map/#paper=2201_01483"
     },
     "2022_vinod_safe_multi_agent_motion": {
       "id": "2022_vinod_safe_multi_agent_motion",
@@ -25575,8 +25575,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2022_vinod_safe_multi_agent_motion/",
-      "contentTreeUrl": "../content-tree/#paper=2022_vinod_safe_multi_agent_motion",
-      "mindMapUrl": "../mind-map/#paper=2022_vinod_safe_multi_agent_motion"
+      "treeUrl": "../tree/#paper=2022_vinod_safe_multi_agent_motion",
+      "mapUrl": "../map/#paper=2022_vinod_safe_multi_agent_motion"
     },
     "2210_02761": {
       "id": "2210_02761",
@@ -25592,8 +25592,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2210_02761/",
-      "contentTreeUrl": "../content-tree/#paper=2210_02761",
-      "mindMapUrl": "../mind-map/#paper=2210_02761"
+      "treeUrl": "../tree/#paper=2210_02761",
+      "mapUrl": "../map/#paper=2210_02761"
     },
     "2207_12517": {
       "id": "2207_12517",
@@ -25607,8 +25607,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2207_12517/",
-      "contentTreeUrl": "../content-tree/#paper=2207_12517",
-      "mindMapUrl": "../mind-map/#paper=2207_12517"
+      "treeUrl": "../tree/#paper=2207_12517",
+      "mapUrl": "../map/#paper=2207_12517"
     },
     "2207_06362": {
       "id": "2207_06362",
@@ -25630,8 +25630,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents iLQR and its variants as differentiable programming algorithmic templates, enabling systematic derivation, implementation, and differentiation through iLQR solvers using automatic differentiation frameworks.",
       "url": "../papers/2207_06362/",
-      "contentTreeUrl": "../content-tree/#paper=2207_06362",
-      "mindMapUrl": "../mind-map/#paper=2207_06362"
+      "treeUrl": "../tree/#paper=2207_06362",
+      "mapUrl": "../map/#paper=2207_06362"
     },
     "2203_08678": {
       "id": "2203_08678",
@@ -25648,8 +25648,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2203_08678/",
-      "contentTreeUrl": "../content-tree/#paper=2203_08678",
-      "mindMapUrl": "../mind-map/#paper=2203_08678"
+      "treeUrl": "../tree/#paper=2203_08678",
+      "mapUrl": "../map/#paper=2203_08678"
     },
     "2203_15471": {
       "id": "2203_15471",
@@ -25665,8 +25665,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2203_15471/",
-      "contentTreeUrl": "../content-tree/#paper=2203_15471",
-      "mindMapUrl": "../mind-map/#paper=2203_15471"
+      "treeUrl": "../tree/#paper=2203_15471",
+      "mapUrl": "../map/#paper=2203_15471"
     },
     "2022_houghton_path_planning_differential_dynamic": {
       "id": "2022_houghton_path_planning_differential_dynamic",
@@ -25694,8 +25694,8 @@ window.tagSearchData = {
       ],
       "summary": "Comparative study applying DDP and MPPI trajectory optimization methods to path planning for VTOL (urban air mobility) aircraft, benchmarking their performance and practical trade-offs on this application domain.",
       "url": "../papers/2022_houghton_path_planning_differential_dynamic/",
-      "contentTreeUrl": "../content-tree/#paper=2022_houghton_path_planning_differential_dynamic",
-      "mindMapUrl": "../mind-map/#paper=2022_houghton_path_planning_differential_dynamic"
+      "treeUrl": "../tree/#paper=2022_houghton_path_planning_differential_dynamic",
+      "mapUrl": "../map/#paper=2022_houghton_path_planning_differential_dynamic"
     },
     "2212_01192": {
       "id": "2212_01192",
@@ -25709,8 +25709,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2212_01192/",
-      "contentTreeUrl": "../content-tree/#paper=2212_01192",
-      "mindMapUrl": "../mind-map/#paper=2212_01192"
+      "treeUrl": "../tree/#paper=2212_01192",
+      "mapUrl": "../map/#paper=2212_01192"
     },
     "2022_wolfe_spatiotemporal_blue_noise_masks": {
       "id": "2022_wolfe_spatiotemporal_blue_noise_masks",
@@ -25728,8 +25728,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends blue-noise masks from purely spatial distributions to spatiotemporal masks suitable for animated stochastic rendering. Their algorithms modify void-and-cluster and blue-noise dithered sampling objectives to produce scalar and vector masks with blue-noise spectra in both space and time, improving temporal filtering stability and convergence in examples such as volumetric rendering, ambient occlusion, and stochastic convolution.",
       "url": "../papers/2022_wolfe_spatiotemporal_blue_noise_masks/",
-      "contentTreeUrl": "../content-tree/#paper=2022_wolfe_spatiotemporal_blue_noise_masks",
-      "mindMapUrl": "../mind-map/#paper=2022_wolfe_spatiotemporal_blue_noise_masks"
+      "treeUrl": "../tree/#paper=2022_wolfe_spatiotemporal_blue_noise_masks",
+      "mapUrl": "../map/#paper=2022_wolfe_spatiotemporal_blue_noise_masks"
     },
     "2208_05888": {
       "id": "2208_05888",
@@ -25744,8 +25744,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2208_05888/",
-      "contentTreeUrl": "../content-tree/#paper=2208_05888",
-      "mindMapUrl": "../mind-map/#paper=2208_05888"
+      "treeUrl": "../tree/#paper=2208_05888",
+      "mapUrl": "../map/#paper=2208_05888"
     },
     "1974_finkel_quad_trees_a_data": {
       "id": "1974_finkel_quad_trees_a_data",
@@ -25759,8 +25759,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1974_finkel_quad_trees_a_data/",
-      "contentTreeUrl": "../content-tree/#paper=1974_finkel_quad_trees_a_data",
-      "mindMapUrl": "../mind-map/#paper=1974_finkel_quad_trees_a_data"
+      "treeUrl": "../tree/#paper=1974_finkel_quad_trees_a_data",
+      "mapUrl": "../map/#paper=1974_finkel_quad_trees_a_data"
     },
     "1974_dijkstra_on_the_role_of": {
       "id": "1974_dijkstra_on_the_role_of",
@@ -25780,8 +25780,8 @@ window.tagSearchData = {
       ],
       "summary": "Dijkstra coined the phrase \"the separation of concerns\": the deliberate isolation of one aspect of a problem for study in its own right, while setting other aspects temporarily aside. He argues that faithfullly adhering to this principle is a key aspect of organizing code, logic, data, and ideas in an efficient and understandable way (the \"effective ordering of one's thoughts\"). Extremely influential in the field of computer programming and software design.",
       "url": "../papers/1974_dijkstra_on_the_role_of/",
-      "contentTreeUrl": "../content-tree/#paper=1974_dijkstra_on_the_role_of",
-      "mindMapUrl": "../mind-map/#paper=1974_dijkstra_on_the_role_of"
+      "treeUrl": "../tree/#paper=1974_dijkstra_on_the_role_of",
+      "mapUrl": "../map/#paper=1974_dijkstra_on_the_role_of"
     },
     "1974_rall_a_note_on_the": {
       "id": "1974_rall_a_note_on_the",
@@ -25800,8 +25800,8 @@ window.tagSearchData = {
       ],
       "summary": "Provides refined conditions and tighter bounds on the local quadratic convergence of Newton's method for solving nonlinear equations in Banach spaces, extending classical Kantorovich-type analyses.",
       "url": "../papers/1974_rall_a_note_on_the/",
-      "contentTreeUrl": "../content-tree/#paper=1974_rall_a_note_on_the",
-      "mindMapUrl": "../mind-map/#paper=1974_rall_a_note_on_the"
+      "treeUrl": "../tree/#paper=1974_rall_a_note_on_the",
+      "mapUrl": "../map/#paper=1974_rall_a_note_on_the"
     },
     "1961_held_a_dynamic_programming_approach": {
       "id": "1961_held_a_dynamic_programming_approach",
@@ -25815,8 +25815,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1961_held_a_dynamic_programming_approach/",
-      "contentTreeUrl": "../content-tree/#paper=1961_held_a_dynamic_programming_approach",
-      "mindMapUrl": "../mind-map/#paper=1961_held_a_dynamic_programming_approach"
+      "treeUrl": "../tree/#paper=1961_held_a_dynamic_programming_approach",
+      "mapUrl": "../map/#paper=1961_held_a_dynamic_programming_approach"
     },
     "1964_williams_algorithm_232_heapsort": {
       "id": "1964_williams_algorithm_232_heapsort",
@@ -25829,8 +25829,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "Williams introduces heapsort as an array-based sorting procedure built around a binary heap, first arranging the input into a heap and then repeatedly removing the largest element to produce the sorted order. The note is historically important as the original presentation of heapsort: a comparison sort with worst-case O(n log n) running time and in-place operation using only a small amount of auxiliary storage.",
       "url": "../papers/1964_williams_algorithm_232_heapsort/",
-      "contentTreeUrl": "../content-tree/#paper=1964_williams_algorithm_232_heapsort",
-      "mindMapUrl": "../mind-map/#paper=1964_williams_algorithm_232_heapsort"
+      "treeUrl": "../tree/#paper=1964_williams_algorithm_232_heapsort",
+      "mapUrl": "../map/#paper=1964_williams_algorithm_232_heapsort"
     },
     "1964_powell_an_efficient_method_for": {
       "id": "1964_powell_an_efficient_method_for",
@@ -25850,8 +25850,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces Powell's derivative-free conjugate-direction method for unconstrained minimization. The method builds useful search directions from successive one-dimensional minimizations, making it a foundational direct-search optimizer for smooth problems when derivatives are unavailable or inconvenient.",
       "url": "../papers/1964_powell_an_efficient_method_for/",
-      "contentTreeUrl": "../content-tree/#paper=1964_powell_an_efficient_method_for",
-      "mindMapUrl": "../mind-map/#paper=1964_powell_an_efficient_method_for"
+      "treeUrl": "../tree/#paper=1964_powell_an_efficient_method_for",
+      "mapUrl": "../map/#paper=1964_powell_an_efficient_method_for"
     },
     "1964_polyak_some_methods_of_speeding": {
       "id": "1964_polyak_some_methods_of_speeding",
@@ -25864,8 +25864,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1964_polyak_some_methods_of_speeding/",
-      "contentTreeUrl": "../content-tree/#paper=1964_polyak_some_methods_of_speeding",
-      "mindMapUrl": "../mind-map/#paper=1964_polyak_some_methods_of_speeding"
+      "treeUrl": "../tree/#paper=1964_polyak_some_methods_of_speeding",
+      "mapUrl": "../map/#paper=1964_polyak_some_methods_of_speeding"
     },
     "1957_munkres_algorithms_for_the_assignment": {
       "id": "1957_munkres_algorithms_for_the_assignment",
@@ -25884,8 +25884,8 @@ window.tagSearchData = {
       ],
       "summary": "Revisits the Hungarian method for the assignment problem and proves that it runs in polynomial time, giving the algorithm its modern form. Also extends the approach to the transportation problem.",
       "url": "../papers/1957_munkres_algorithms_for_the_assignment/",
-      "contentTreeUrl": "../content-tree/#paper=1957_munkres_algorithms_for_the_assignment",
-      "mindMapUrl": "../mind-map/#paper=1957_munkres_algorithms_for_the_assignment"
+      "treeUrl": "../tree/#paper=1957_munkres_algorithms_for_the_assignment",
+      "mapUrl": "../map/#paper=1957_munkres_algorithms_for_the_assignment"
     },
     "1957_dubins_on_curves_of_minimal": {
       "id": "1957_dubins_on_curves_of_minimal",
@@ -25902,8 +25902,8 @@ window.tagSearchData = {
       ],
       "summary": "Dubins provided analytic formulas for the shortest curve that connects two points in the two-dimensional Euclidean plane (i.e. x-y plane) with a constraint on the curvature of the path and with prescribed initial and terminal tangents to the path, and an assumption that the vehicle traveling the path can only travel forward. Dubins proved using tools from analysis that any such path will consist of maximum curvature and/or straight line segments. In other words, the shortest path will be made by joining circular arcs of maximum curvature and straight lines.",
       "url": "../papers/1957_dubins_on_curves_of_minimal/",
-      "contentTreeUrl": "../content-tree/#paper=1957_dubins_on_curves_of_minimal",
-      "mindMapUrl": "../mind-map/#paper=1957_dubins_on_curves_of_minimal"
+      "treeUrl": "../tree/#paper=1957_dubins_on_curves_of_minimal",
+      "mapUrl": "../map/#paper=1957_dubins_on_curves_of_minimal"
     },
     "2008_grant_graph_implementations_for_nonsmooth": {
       "id": "2008_grant_graph_implementations_for_nonsmooth",
@@ -25925,8 +25925,8 @@ window.tagSearchData = {
       ],
       "summary": "Explains the graph-implementation idea behind disciplined convex programming systems: represent atoms by epigraph or cone-compatible graph forms so nonsmooth convex expressions can be reduced to solver-ready conic form. This is an important conceptual layer between convex analysis and practical modeling tools such as CVX.",
       "url": "../papers/2008_grant_graph_implementations_for_nonsmooth/",
-      "contentTreeUrl": "../content-tree/#paper=2008_grant_graph_implementations_for_nonsmooth",
-      "mindMapUrl": "../mind-map/#paper=2008_grant_graph_implementations_for_nonsmooth"
+      "treeUrl": "../tree/#paper=2008_grant_graph_implementations_for_nonsmooth",
+      "mapUrl": "../map/#paper=2008_grant_graph_implementations_for_nonsmooth"
     },
     "2008_rahimi_weighted_sums_of_random": {
       "id": "2008_rahimi_weighted_sums_of_random",
@@ -25947,8 +25947,8 @@ window.tagSearchData = {
       ],
       "summary": "Shows that randomly-weighted sums of random kitchen-sink basis functions (random Fourier features) can uniformly approximate any target function in a reproducing kernel Hilbert space, replacing costly convex minimization with a randomized learning algorithm. Establishes approximation bounds and demonstrates competitive empirical performance. Companion to the authors' 2007 random features paper.",
       "url": "../papers/2008_rahimi_weighted_sums_of_random/",
-      "contentTreeUrl": "../content-tree/#paper=2008_rahimi_weighted_sums_of_random",
-      "mindMapUrl": "../mind-map/#paper=2008_rahimi_weighted_sums_of_random"
+      "treeUrl": "../tree/#paper=2008_rahimi_weighted_sums_of_random",
+      "mapUrl": "../map/#paper=2008_rahimi_weighted_sums_of_random"
     },
     "2008_urmson_autonomous_driving_in_urban": {
       "id": "2008_urmson_autonomous_driving_in_urban",
@@ -26009,8 +26009,8 @@ window.tagSearchData = {
       ],
       "summary": "Describes Boss, the CMU autonomous vehicle that won the 2007 DARPA Urban Challenge. Presents the full software stack for urban driving including perception, behavior planning, and motion planning components that operate in complex traffic scenarios with other vehicles and pedestrians.",
       "url": "../papers/2008_urmson_autonomous_driving_in_urban/",
-      "contentTreeUrl": "../content-tree/#paper=2008_urmson_autonomous_driving_in_urban",
-      "mindMapUrl": "../mind-map/#paper=2008_urmson_autonomous_driving_in_urban"
+      "treeUrl": "../tree/#paper=2008_urmson_autonomous_driving_in_urban",
+      "mapUrl": "../map/#paper=2008_urmson_autonomous_driving_in_urban"
     },
     "2008_leonard_a_perceptiondriven_autonomous_urban": {
       "id": "2008_leonard_a_perceptiondriven_autonomous_urban",
@@ -26050,8 +26050,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2008_leonard_a_perceptiondriven_autonomous_urban/",
-      "contentTreeUrl": "../content-tree/#paper=2008_leonard_a_perceptiondriven_autonomous_urban",
-      "mindMapUrl": "../mind-map/#paper=2008_leonard_a_perceptiondriven_autonomous_urban"
+      "treeUrl": "../tree/#paper=2008_leonard_a_perceptiondriven_autonomous_urban",
+      "mapUrl": "../map/#paper=2008_leonard_a_perceptiondriven_autonomous_urban"
     },
     "2008_takayama_beyond_dirty_dangerous_and": {
       "id": "2008_takayama_beyond_dirty_dangerous_and",
@@ -26069,8 +26069,8 @@ window.tagSearchData = {
       ],
       "summary": "Web survey over O*NET occupations to study what kinds of work ordinary respondents think robots should do. The paper pushes beyond the usual \"dirty, dangerous, and dull\" framing by showing that people favor robots for work involving memorization, perception, and service orientation, while preferring humans for work involving artistry, judgment, evaluation, and diplomacy.",
       "url": "../papers/2008_takayama_beyond_dirty_dangerous_and/",
-      "contentTreeUrl": "../content-tree/#paper=2008_takayama_beyond_dirty_dangerous_and",
-      "mindMapUrl": "../mind-map/#paper=2008_takayama_beyond_dirty_dangerous_and"
+      "treeUrl": "../tree/#paper=2008_takayama_beyond_dirty_dangerous_and",
+      "mapUrl": "../map/#paper=2008_takayama_beyond_dirty_dangerous_and"
     },
     "2008_rickert_balancing_exploration_and_exploitation": {
       "id": "2008_rickert_balancing_exploration_and_exploitation",
@@ -26092,8 +26092,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces exploring/exploiting trees (EET) which first tries to acquire information about the workspace and exploit it (using a potential-field-like approach), then gradually shifts to exploration only as much as needed to alleviate exploitation failures.",
       "url": "../papers/2008_rickert_balancing_exploration_and_exploitation/",
-      "contentTreeUrl": "../content-tree/#paper=2008_rickert_balancing_exploration_and_exploitation",
-      "mindMapUrl": "../mind-map/#paper=2008_rickert_balancing_exploration_and_exploitation"
+      "treeUrl": "../tree/#paper=2008_rickert_balancing_exploration_and_exploitation",
+      "mapUrl": "../map/#paper=2008_rickert_balancing_exploration_and_exploitation"
     },
     "2008_schmid_dynamic_mode_decomposition_of": {
       "id": "2008_schmid_dynamic_mode_decomposition_of",
@@ -26114,8 +26114,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces Dynamic Mode Decomposition (DMD), a data-driven algorithm for creating dynamic models from numerical simulations and experimental data, decomposing the observed trajectory data into modes each associated with a single frequency and growth/decay rate. Naturally allows for model reduction based on quantitative measures of mode importance. Originally proposed for fluid flow data, but relevant much more broadly to any kind of dynamical system, especially those observable with stochastic noise present and those with many states.",
       "url": "../papers/2008_schmid_dynamic_mode_decomposition_of/",
-      "contentTreeUrl": "../content-tree/#paper=2008_schmid_dynamic_mode_decomposition_of",
-      "mindMapUrl": "../mind-map/#paper=2008_schmid_dynamic_mode_decomposition_of"
+      "treeUrl": "../tree/#paper=2008_schmid_dynamic_mode_decomposition_of",
+      "mapUrl": "../map/#paper=2008_schmid_dynamic_mode_decomposition_of"
     },
     "2008_fletcher_the_mitcornell_collision_and": {
       "id": "2008_fletcher_the_mitcornell_collision_and",
@@ -26139,8 +26139,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2008_fletcher_the_mitcornell_collision_and/",
-      "contentTreeUrl": "../content-tree/#paper=2008_fletcher_the_mitcornell_collision_and",
-      "mindMapUrl": "../mind-map/#paper=2008_fletcher_the_mitcornell_collision_and"
+      "treeUrl": "../tree/#paper=2008_fletcher_the_mitcornell_collision_and",
+      "mapUrl": "../map/#paper=2008_fletcher_the_mitcornell_collision_and"
     },
     "2008_albeanu_on_the_generalized_halley": {
       "id": "2008_albeanu_on_the_generalized_halley",
@@ -26160,8 +26160,8 @@ window.tagSearchData = {
       ],
       "summary": "Studies a generalized form of Halley's method for solving nonlinear equations F(x) = 0 in general spaces, using the generalized inverse approach. Presents Kantorovich-like convergence theorems, quasi-Halley variants, and numerical behavior studies of the iterative scheme.",
       "url": "../papers/2008_albeanu_on_the_generalized_halley/",
-      "contentTreeUrl": "../content-tree/#paper=2008_albeanu_on_the_generalized_halley",
-      "mindMapUrl": "../mind-map/#paper=2008_albeanu_on_the_generalized_halley"
+      "treeUrl": "../tree/#paper=2008_albeanu_on_the_generalized_halley",
+      "mapUrl": "../map/#paper=2008_albeanu_on_the_generalized_halley"
     },
     "2008_kaess_isam_incremental_smoothing_and": {
       "id": "2008_kaess_isam_incremental_smoothing_and",
@@ -26176,8 +26176,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2008_kaess_isam_incremental_smoothing_and/",
-      "contentTreeUrl": "../content-tree/#paper=2008_kaess_isam_incremental_smoothing_and",
-      "mindMapUrl": "../mind-map/#paper=2008_kaess_isam_incremental_smoothing_and"
+      "treeUrl": "../tree/#paper=2008_kaess_isam_incremental_smoothing_and",
+      "mapUrl": "../map/#paper=2008_kaess_isam_incremental_smoothing_and"
     },
     "0803_0476": {
       "id": "0803_0476",
@@ -26204,8 +26204,8 @@ window.tagSearchData = {
       ],
       "summary": "This paper introduces the Louvain method, a fast greedy heuristic for community detection that alternates local modularity-improving node moves with aggregation of discovered communities into a coarser network. Its key contribution is making modularity-based community detection practical on very large graphs while naturally producing a hierarchy of communities across successive aggregation levels.",
       "url": "../papers/0803_0476/",
-      "contentTreeUrl": "../content-tree/#paper=0803_0476",
-      "mindMapUrl": "../mind-map/#paper=0803_0476"
+      "treeUrl": "../tree/#paper=0803_0476",
+      "mapUrl": "../map/#paper=0803_0476"
     },
     "2008_van_der_maaten_visualizing_high_dimensional_data": {
       "id": "2008_van_der_maaten_visualizing_high_dimensional_data",
@@ -26226,8 +26226,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces t-SNE, replacing SNE Gaussian low-dimensional similarities with a heavy-tailed Student-t distribution to reduce crowding and produce visually useful embeddings. It became a default exploratory visualization method for high-dimensional ML data.",
       "url": "../papers/2008_van_der_maaten_visualizing_high_dimensional_data/",
-      "contentTreeUrl": "../content-tree/#paper=2008_van_der_maaten_visualizing_high_dimensional_data",
-      "mindMapUrl": "../mind-map/#paper=2008_van_der_maaten_visualizing_high_dimensional_data"
+      "treeUrl": "../tree/#paper=2008_van_der_maaten_visualizing_high_dimensional_data",
+      "mapUrl": "../map/#paper=2008_van_der_maaten_visualizing_high_dimensional_data"
     },
     "2008_he_planning_in_information_space": {
       "id": "2008_he_planning_in_information_space",
@@ -26242,8 +26242,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2008_he_planning_in_information_space/",
-      "contentTreeUrl": "../content-tree/#paper=2008_he_planning_in_information_space",
-      "mindMapUrl": "../mind-map/#paper=2008_he_planning_in_information_space"
+      "treeUrl": "../tree/#paper=2008_he_planning_in_information_space",
+      "mapUrl": "../map/#paper=2008_he_planning_in_information_space"
     },
     "2008_sedgewick_left_leaning_red_black": {
       "id": "2008_sedgewick_left_leaning_red_black",
@@ -26264,8 +26264,8 @@ window.tagSearchData = {
       ],
       "summary": "Sedgewick presents left-leaning red-black trees, a red-black representation that forces 3-nodes to lean left and uses recursive rotations on the way back up the tree. The payoff is much shorter insertion and deletion code while preserving logarithmic search behavior and the ordered-symbol-table operations that make balanced trees useful.",
       "url": "../papers/2008_sedgewick_left_leaning_red_black/",
-      "contentTreeUrl": "../content-tree/#paper=2008_sedgewick_left_leaning_red_black",
-      "mindMapUrl": "../mind-map/#paper=2008_sedgewick_left_leaning_red_black"
+      "treeUrl": "../tree/#paper=2008_sedgewick_left_leaning_red_black",
+      "mapUrl": "../map/#paper=2008_sedgewick_left_leaning_red_black"
     },
     "2008_ziebart_maximum_entropy_inverse_reinforcement": {
       "id": "2008_ziebart_maximum_entropy_inverse_reinforcement",
@@ -26281,8 +26281,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2008_ziebart_maximum_entropy_inverse_reinforcement/",
-      "contentTreeUrl": "../content-tree/#paper=2008_ziebart_maximum_entropy_inverse_reinforcement",
-      "mindMapUrl": "../mind-map/#paper=2008_ziebart_maximum_entropy_inverse_reinforcement"
+      "treeUrl": "../tree/#paper=2008_ziebart_maximum_entropy_inverse_reinforcement",
+      "mapUrl": "../map/#paper=2008_ziebart_maximum_entropy_inverse_reinforcement"
     },
     "2008_montemerlo_junior_the_stanford_entry": {
       "id": "2008_montemerlo_junior_the_stanford_entry",
@@ -26319,8 +26319,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2008_montemerlo_junior_the_stanford_entry/",
-      "contentTreeUrl": "../content-tree/#paper=2008_montemerlo_junior_the_stanford_entry",
-      "mindMapUrl": "../mind-map/#paper=2008_montemerlo_junior_the_stanford_entry"
+      "treeUrl": "../tree/#paper=2008_montemerlo_junior_the_stanford_entry",
+      "mapUrl": "../map/#paper=2008_montemerlo_junior_the_stanford_entry"
     },
     "2008_van_den_berg_reciprocal_velocity_obstacles_for": {
       "id": "2008_van_den_berg_reciprocal_velocity_obstacles_for",
@@ -26335,8 +26335,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2008_van_den_berg_reciprocal_velocity_obstacles_for/",
-      "contentTreeUrl": "../content-tree/#paper=2008_van_den_berg_reciprocal_velocity_obstacles_for",
-      "mindMapUrl": "../mind-map/#paper=2008_van_den_berg_reciprocal_velocity_obstacles_for"
+      "treeUrl": "../tree/#paper=2008_van_den_berg_reciprocal_velocity_obstacles_for",
+      "mapUrl": "../map/#paper=2008_van_den_berg_reciprocal_velocity_obstacles_for"
     },
     "1976_bertsekas_on_the_goldstein_levitin": {
       "id": "1976_bertsekas_on_the_goldstein_levitin",
@@ -26349,8 +26349,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1976_bertsekas_on_the_goldstein_levitin/",
-      "contentTreeUrl": "../content-tree/#paper=1976_bertsekas_on_the_goldstein_levitin",
-      "mindMapUrl": "../mind-map/#paper=1976_bertsekas_on_the_goldstein_levitin"
+      "treeUrl": "../tree/#paper=1976_bertsekas_on_the_goldstein_levitin",
+      "mapUrl": "../map/#paper=1976_bertsekas_on_the_goldstein_levitin"
     },
     "1976_mageirou_values_and_strategies_for": {
       "id": "1976_mageirou_values_and_strategies_for",
@@ -26363,8 +26363,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1976_mageirou_values_and_strategies_for/",
-      "contentTreeUrl": "../content-tree/#paper=1976_mageirou_values_and_strategies_for",
-      "mindMapUrl": "../mind-map/#paper=1976_mageirou_values_and_strategies_for"
+      "treeUrl": "../tree/#paper=1976_mageirou_values_and_strategies_for",
+      "mapUrl": "../map/#paper=1976_mageirou_values_and_strategies_for"
     },
     "1976_kleinman_numerical_solution_of_the": {
       "id": "1976_kleinman_numerical_solution_of_the",
@@ -26377,8 +26377,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1976_kleinman_numerical_solution_of_the/",
-      "contentTreeUrl": "../content-tree/#paper=1976_kleinman_numerical_solution_of_the",
-      "mindMapUrl": "../mind-map/#paper=1976_kleinman_numerical_solution_of_the"
+      "treeUrl": "../tree/#paper=1976_kleinman_numerical_solution_of_the",
+      "mapUrl": "../map/#paper=1976_kleinman_numerical_solution_of_the"
     },
     "1976_fletcher_conjugate_gradient_methods_for": {
       "id": "1976_fletcher_conjugate_gradient_methods_for",
@@ -26391,8 +26391,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1976_fletcher_conjugate_gradient_methods_for/",
-      "contentTreeUrl": "../content-tree/#paper=1976_fletcher_conjugate_gradient_methods_for",
-      "mindMapUrl": "../mind-map/#paper=1976_fletcher_conjugate_gradient_methods_for"
+      "treeUrl": "../tree/#paper=1976_fletcher_conjugate_gradient_methods_for",
+      "mapUrl": "../map/#paper=1976_fletcher_conjugate_gradient_methods_for"
     },
     "1976_athans_the_uncertainty_threshold_principle": {
       "id": "1976_athans_the_uncertainty_threshold_principle",
@@ -26407,8 +26407,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1976_athans_the_uncertainty_threshold_principle/",
-      "contentTreeUrl": "../content-tree/#paper=1976_athans_the_uncertainty_threshold_principle",
-      "mindMapUrl": "../mind-map/#paper=1976_athans_the_uncertainty_threshold_principle"
+      "treeUrl": "../tree/#paper=1976_athans_the_uncertainty_threshold_principle",
+      "mapUrl": "../map/#paper=1976_athans_the_uncertainty_threshold_principle"
     },
     "1951_robbins_a_stochastic_approximation_method": {
       "id": "1951_robbins_a_stochastic_approximation_method",
@@ -26422,8 +26422,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1951_robbins_a_stochastic_approximation_method/",
-      "contentTreeUrl": "../content-tree/#paper=1951_robbins_a_stochastic_approximation_method",
-      "mindMapUrl": "../mind-map/#paper=1951_robbins_a_stochastic_approximation_method"
+      "treeUrl": "../tree/#paper=1951_robbins_a_stochastic_approximation_method",
+      "mapUrl": "../map/#paper=1951_robbins_a_stochastic_approximation_method"
     },
     "1951_dyson_continuous_functions_defined_on": {
       "id": "1951_dyson_continuous_functions_defined_on",
@@ -26444,8 +26444,8 @@ window.tagSearchData = {
       ],
       "summary": "Dyson proves a Borsuk-Ulam-style theorem for continuous real-valued functions on the 2-sphere: there are four points on the sphere, forming the vertices of a square centered at the sphere's center, at which the function takes the same value. Equivalently, the theorem finds two perpendicular diameters of the sphere whose four endpoints share a common function value. The result sits in the line of Kakutani and Yamabe-Yujobo sphere theorems used in geometric existence problems, and Dyson's proof adapts their topological method through reflection and connectedness arguments rather than giving a constructive way to locate the square. The paper is also historically useful because it identifies the natural higher-dimensional conjecture, equal values on the endpoints of several mutually perpendicular diameters, while leaving that extension to later work by Yang.",
       "url": "../papers/1951_dyson_continuous_functions_defined_on/",
-      "contentTreeUrl": "../content-tree/#paper=1951_dyson_continuous_functions_defined_on",
-      "mindMapUrl": "../mind-map/#paper=1951_dyson_continuous_functions_defined_on"
+      "treeUrl": "../tree/#paper=1951_dyson_continuous_functions_defined_on",
+      "mapUrl": "../map/#paper=1951_dyson_continuous_functions_defined_on"
     },
     "1962_hoare_quicksort": {
       "id": "1962_hoare_quicksort",
@@ -26458,8 +26458,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1962_hoare_quicksort/",
-      "contentTreeUrl": "../content-tree/#paper=1962_hoare_quicksort",
-      "mindMapUrl": "../mind-map/#paper=1962_hoare_quicksort"
+      "treeUrl": "../tree/#paper=1962_hoare_quicksort",
+      "mapUrl": "../map/#paper=1962_hoare_quicksort"
     },
     "1962_bellman_dynamic_programming_treatment_of": {
       "id": "1962_bellman_dynamic_programming_treatment_of",
@@ -26472,8 +26472,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/1962_bellman_dynamic_programming_treatment_of/",
-      "contentTreeUrl": "../content-tree/#paper=1962_bellman_dynamic_programming_treatment_of",
-      "mindMapUrl": "../mind-map/#paper=1962_bellman_dynamic_programming_treatment_of"
+      "treeUrl": "../tree/#paper=1962_bellman_dynamic_programming_treatment_of",
+      "mapUrl": "../map/#paper=1962_bellman_dynamic_programming_treatment_of"
     },
     "1962_bryson_a_steepest_ascent_method": {
       "id": "1962_bryson_a_steepest_ascent_method",
@@ -26494,8 +26494,8 @@ window.tagSearchData = {
       ],
       "summary": "One of the foundational papers on gradient-based trajectory optimization, introducing the use of adjoint-equation integration to compute the steepest-ascent direction for optimal control problems with terminal constraints. The adjoint (co-state) approach is the direct predecessor of modern shooting methods and continuous-time policy gradient algorithms.",
       "url": "../papers/1962_bryson_a_steepest_ascent_method/",
-      "contentTreeUrl": "../content-tree/#paper=1962_bryson_a_steepest_ascent_method",
-      "mindMapUrl": "../mind-map/#paper=1962_bryson_a_steepest_ascent_method"
+      "treeUrl": "../tree/#paper=1962_bryson_a_steepest_ascent_method",
+      "mapUrl": "../map/#paper=1962_bryson_a_steepest_ascent_method"
     },
     "1944_levenberg_a_method_for_the": {
       "id": "1944_levenberg_a_method_for_the",
@@ -26517,8 +26517,8 @@ window.tagSearchData = {
       ],
       "summary": "Levenberg introduces the method of damped least squares for nonlinear least-squares problems, motivated by the failure of the usual linearized Gauss-Newton normal equations when the proposed parameter increments are large enough to invalidate the first-order approximation. The paper modifies the linearized least-squares objective by also penalizing the squared parameter increments, yielding damped normal equations that preserve the symmetry of the standard normal equations while adding positive damping terms to the principal diagonal. Levenberg shows that, away from a stationary point, a damping value can be chosen so that the true sum of squared residuals decreases, and suggests choosing or refining the damping parameter by trial values or graphical search. Historically, this is the foundational Levenberg half of the later Levenberg-Marquardt method: it frames damping as a way to prevent overshooting without second derivatives and gives a geometric interpretation as restricting distance in parameter space.",
       "url": "../papers/1944_levenberg_a_method_for_the/",
-      "contentTreeUrl": "../content-tree/#paper=1944_levenberg_a_method_for_the",
-      "mindMapUrl": "../mind-map/#paper=1944_levenberg_a_method_for_the"
+      "treeUrl": "../tree/#paper=1944_levenberg_a_method_for_the",
+      "mapUrl": "../map/#paper=1944_levenberg_a_method_for_the"
     },
     "1944_avery_studies_on_the_chemical": {
       "id": "1944_avery_studies_on_the_chemical",
@@ -26541,8 +26541,8 @@ window.tagSearchData = {
       ],
       "summary": "Identifies DNA-rich material as the transforming substance that can transmit a heritable bacterial phenotype, overturning protein-centered expectations about heredity.",
       "url": "../papers/1944_avery_studies_on_the_chemical/",
-      "contentTreeUrl": "../content-tree/#paper=1944_avery_studies_on_the_chemical",
-      "mindMapUrl": "../mind-map/#paper=1944_avery_studies_on_the_chemical"
+      "treeUrl": "../tree/#paper=1944_avery_studies_on_the_chemical",
+      "mapUrl": "../map/#paper=1944_avery_studies_on_the_chemical"
     },
     "1944_curry_the_method_of_steepest": {
       "id": "1944_curry_the_method_of_steepest",
@@ -26564,8 +26564,8 @@ window.tagSearchData = {
       ],
       "summary": "Curry gives a practical numerical-computation exposition of Cauchy's method of steepest descent for minimizing nonlinear functions, motivated especially by nonlinear least-squares problems where more standard methods failed in Frankford Arsenal fire-control applications. The note describes the basic iteration of moving along the negative gradient and choosing a step by a one-dimensional search, explains the geometric right-angle behavior of successive exact line-search directions, and sketches conditions under which limit points of the resulting broken-line path are stationary points. Its comparison with Levenberg's contemporaneous method is useful historically: steepest descent avoids second derivatives and normal-equation solves, but the paper already recognizes its sensitivity to scaling and its uncertain practical advantage over more problem-specific least-squares methods.",
       "url": "../papers/1944_curry_the_method_of_steepest/",
-      "contentTreeUrl": "../content-tree/#paper=1944_curry_the_method_of_steepest",
-      "mindMapUrl": "../mind-map/#paper=1944_curry_the_method_of_steepest"
+      "treeUrl": "../tree/#paper=1944_curry_the_method_of_steepest",
+      "mapUrl": "../map/#paper=1944_curry_the_method_of_steepest"
     },
     "2005_keogh_exact_indexing_of_dynamic": {
       "id": "2005_keogh_exact_indexing_of_dynamic",
@@ -26579,8 +26579,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2005_keogh_exact_indexing_of_dynamic/",
-      "contentTreeUrl": "../content-tree/#paper=2005_keogh_exact_indexing_of_dynamic",
-      "mindMapUrl": "../mind-map/#paper=2005_keogh_exact_indexing_of_dynamic"
+      "treeUrl": "../tree/#paper=2005_keogh_exact_indexing_of_dynamic",
+      "mapUrl": "../map/#paper=2005_keogh_exact_indexing_of_dynamic"
     },
     "2005_bertsimas_optimal_inequalities_in_probability": {
       "id": "2005_bertsimas_optimal_inequalities_in_probability",
@@ -26594,8 +26594,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2005_bertsimas_optimal_inequalities_in_probability/",
-      "contentTreeUrl": "../content-tree/#paper=2005_bertsimas_optimal_inequalities_in_probability",
-      "mindMapUrl": "../mind-map/#paper=2005_bertsimas_optimal_inequalities_in_probability"
+      "treeUrl": "../tree/#paper=2005_bertsimas_optimal_inequalities_in_probability",
+      "mapUrl": "../map/#paper=2005_bertsimas_optimal_inequalities_in_probability"
     },
     "2005_willems_a_note_on_persistency": {
       "id": "2005_willems_a_note_on_persistency",
@@ -26611,8 +26611,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2005_willems_a_note_on_persistency/",
-      "contentTreeUrl": "../content-tree/#paper=2005_willems_a_note_on_persistency",
-      "mindMapUrl": "../mind-map/#paper=2005_willems_a_note_on_persistency"
+      "treeUrl": "../tree/#paper=2005_willems_a_note_on_persistency",
+      "mapUrl": "../map/#paper=2005_willems_a_note_on_persistency"
     },
     "2005_schon_marginalized_particle_filters_for": {
       "id": "2005_schon_marginalized_particle_filters_for",
@@ -26627,8 +26627,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2005_schon_marginalized_particle_filters_for/",
-      "contentTreeUrl": "../content-tree/#paper=2005_schon_marginalized_particle_filters_for",
-      "mindMapUrl": "../mind-map/#paper=2005_schon_marginalized_particle_filters_for"
+      "treeUrl": "../tree/#paper=2005_schon_marginalized_particle_filters_for",
+      "mapUrl": "../map/#paper=2005_schon_marginalized_particle_filters_for"
     },
     "2005_todorov_a_generalized_iterative_lqg": {
       "id": "2005_todorov_a_generalized_iterative_lqg",
@@ -26654,8 +26654,8 @@ window.tagSearchData = {
       ],
       "summary": "Extends the earlier iLQR trajectory-optimization framework into an iterative LQG method for nonlinear stochastic systems with control constraints and control-dependent multiplicative noise. The paper shows how a local linear-quadratic approximation can account for noise whose variance depends on the control signal, producing affine feedback policies via modified Riccati-style backward passes and demonstrating the method on constrained pendulum and biomechanical arm-control examples.",
       "url": "../papers/2005_todorov_a_generalized_iterative_lqg/",
-      "contentTreeUrl": "../content-tree/#paper=2005_todorov_a_generalized_iterative_lqg",
-      "mindMapUrl": "../mind-map/#paper=2005_todorov_a_generalized_iterative_lqg"
+      "treeUrl": "../tree/#paper=2005_todorov_a_generalized_iterative_lqg",
+      "mapUrl": "../map/#paper=2005_todorov_a_generalized_iterative_lqg"
     },
     "2005_collins_efficient_bipedal_robots_based": {
       "id": "2005_collins_efficient_bipedal_robots_based",
@@ -26671,8 +26671,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2005_collins_efficient_bipedal_robots_based/",
-      "contentTreeUrl": "../content-tree/#paper=2005_collins_efficient_bipedal_robots_based",
-      "mindMapUrl": "../mind-map/#paper=2005_collins_efficient_bipedal_robots_based"
+      "treeUrl": "../tree/#paper=2005_collins_efficient_bipedal_robots_based",
+      "mapUrl": "../map/#paper=2005_collins_efficient_bipedal_robots_based"
     },
     "2005_ungoren_an_adaptive_lateral_preview": {
       "id": "2005_ungoren_an_adaptive_lateral_preview",
@@ -26686,8 +26686,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2005_ungoren_an_adaptive_lateral_preview/",
-      "contentTreeUrl": "../content-tree/#paper=2005_ungoren_an_adaptive_lateral_preview",
-      "mindMapUrl": "../mind-map/#paper=2005_ungoren_an_adaptive_lateral_preview"
+      "treeUrl": "../tree/#paper=2005_ungoren_an_adaptive_lateral_preview",
+      "mapUrl": "../map/#paper=2005_ungoren_an_adaptive_lateral_preview"
     },
     "2005_dalal_histograms_of_oriented_gradients": {
       "id": "2005_dalal_histograms_of_oriented_gradients",
@@ -26709,8 +26709,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces HOG (Histograms of Oriented Gradients) descriptors: gradient orientation histograms computed in overlapping, contrast-normalized blocks over a dense grid, fed into a linear SVM. Significantly outperformed prior human detection methods, and the HOG+SVM pipeline dominated rigid object detection until the deep learning era.",
       "url": "../papers/2005_dalal_histograms_of_oriented_gradients/",
-      "contentTreeUrl": "../content-tree/#paper=2005_dalal_histograms_of_oriented_gradients",
-      "mindMapUrl": "../mind-map/#paper=2005_dalal_histograms_of_oriented_gradients"
+      "treeUrl": "../tree/#paper=2005_dalal_histograms_of_oriented_gradients",
+      "mapUrl": "../map/#paper=2005_dalal_histograms_of_oriented_gradients"
     },
     "physics_0506133": {
       "id": "physics_0506133",
@@ -26735,8 +26735,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces the clique percolation method for detecting overlapping communities, treating communities as chains of adjacent cliques rather than disjoint partitions. The paper is a landmark for networks where nodes naturally participate in multiple groups, such as collaboration and protein interaction networks.",
       "url": "../papers/physics_0506133/",
-      "contentTreeUrl": "../content-tree/#paper=physics_0506133",
-      "mindMapUrl": "../mind-map/#paper=physics_0506133"
+      "treeUrl": "../tree/#paper=physics_0506133",
+      "mapUrl": "../map/#paper=physics_0506133"
     },
     "2307_15818": {
       "id": "2307_15818",
@@ -26802,8 +26802,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2307_15818/",
-      "contentTreeUrl": "../content-tree/#paper=2307_15818",
-      "mindMapUrl": "../mind-map/#paper=2307_15818"
+      "treeUrl": "../tree/#paper=2307_15818",
+      "mapUrl": "../map/#paper=2307_15818"
     },
     "2307_13782": {
       "id": "2307_13782",
@@ -26821,8 +26821,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2307_13782/",
-      "contentTreeUrl": "../content-tree/#paper=2307_13782",
-      "mindMapUrl": "../mind-map/#paper=2307_13782"
+      "treeUrl": "../tree/#paper=2307_13782",
+      "mapUrl": "../map/#paper=2307_13782"
     },
     "2310_02918": {
       "id": "2310_02918",
@@ -26838,8 +26838,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2310_02918/",
-      "contentTreeUrl": "../content-tree/#paper=2310_02918",
-      "mindMapUrl": "../mind-map/#paper=2310_02918"
+      "treeUrl": "../tree/#paper=2310_02918",
+      "mapUrl": "../map/#paper=2310_02918"
     },
     "2309_13420": {
       "id": "2309_13420",
@@ -26854,8 +26854,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2309_13420/",
-      "contentTreeUrl": "../content-tree/#paper=2309_13420",
-      "mindMapUrl": "../mind-map/#paper=2309_13420"
+      "treeUrl": "../tree/#paper=2309_13420",
+      "mapUrl": "../map/#paper=2309_13420"
     },
     "2306_13867": {
       "id": "2306_13867",
@@ -26880,8 +26880,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2306_13867/",
-      "contentTreeUrl": "../content-tree/#paper=2306_13867",
-      "mindMapUrl": "../mind-map/#paper=2306_13867"
+      "treeUrl": "../tree/#paper=2306_13867",
+      "mapUrl": "../map/#paper=2306_13867"
     },
     "2023_tian_toward_understanding_state_representation": {
       "id": "2023_tian_toward_understanding_state_representation",
@@ -26897,8 +26897,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2023_tian_toward_understanding_state_representation/",
-      "contentTreeUrl": "../content-tree/#paper=2023_tian_toward_understanding_state_representation",
-      "mindMapUrl": "../mind-map/#paper=2023_tian_toward_understanding_state_representation"
+      "treeUrl": "../tree/#paper=2023_tian_toward_understanding_state_representation",
+      "mapUrl": "../map/#paper=2023_tian_toward_understanding_state_representation"
     },
     "2309_07872": {
       "id": "2309_07872",
@@ -26919,8 +26919,8 @@ window.tagSearchData = {
       ],
       "summary": "Provides a unified theoretical framework for multiple-shooting DDP variants, clarifying relationships between existing methods and deriving conditions under which they share convergence guarantees.",
       "url": "../papers/2309_07872/",
-      "contentTreeUrl": "../content-tree/#paper=2309_07872",
-      "mindMapUrl": "../mind-map/#paper=2309_07872"
+      "treeUrl": "../tree/#paper=2309_07872",
+      "mapUrl": "../map/#paper=2309_07872"
     },
     "2305_09619": {
       "id": "2305_09619",
@@ -26945,8 +26945,8 @@ window.tagSearchData = {
       ],
       "summary": "Provides theoretical grounding for why locally linear models learned from data combined with model-based trajectory optimization (iLQR) can achieve sample efficiency for control of nonlinear systems with unknown dynamics.",
       "url": "../papers/2305_09619/",
-      "contentTreeUrl": "../content-tree/#paper=2305_09619",
-      "mindMapUrl": "../mind-map/#paper=2305_09619"
+      "treeUrl": "../tree/#paper=2305_09619",
+      "mapUrl": "../map/#paper=2305_09619"
     },
     "2306_09852": {
       "id": "2306_09852",
@@ -26962,8 +26962,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2306_09852/",
-      "contentTreeUrl": "../content-tree/#paper=2306_09852",
-      "mindMapUrl": "../mind-map/#paper=2306_09852"
+      "treeUrl": "../tree/#paper=2306_09852",
+      "mapUrl": "../map/#paper=2306_09852"
     },
     "2311_02738": {
       "id": "2311_02738",
@@ -26982,8 +26982,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2311_02738/",
-      "contentTreeUrl": "../content-tree/#paper=2311_02738",
-      "mindMapUrl": "../mind-map/#paper=2311_02738"
+      "treeUrl": "../tree/#paper=2311_02738",
+      "mapUrl": "../map/#paper=2311_02738"
     },
     "2023_hofer_the_one_wheel_cubli": {
       "id": "2023_hofer_the_one_wheel_cubli",
@@ -26998,8 +26998,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2023_hofer_the_one_wheel_cubli/",
-      "contentTreeUrl": "../content-tree/#paper=2023_hofer_the_one_wheel_cubli",
-      "mindMapUrl": "../mind-map/#paper=2023_hofer_the_one_wheel_cubli"
+      "treeUrl": "../tree/#paper=2023_hofer_the_one_wheel_cubli",
+      "mapUrl": "../map/#paper=2023_hofer_the_one_wheel_cubli"
     },
     "2304_07193": {
       "id": "2304_07193",
@@ -27037,8 +27037,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2304_07193/",
-      "contentTreeUrl": "../content-tree/#paper=2304_07193",
-      "mindMapUrl": "../mind-map/#paper=2304_07193"
+      "treeUrl": "../tree/#paper=2304_07193",
+      "mapUrl": "../map/#paper=2304_07193"
     },
     "2023_spinnato_understanding_any_time_series": {
       "id": "2023_spinnato_understanding_any_time_series",
@@ -27056,8 +27056,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2023_spinnato_understanding_any_time_series/",
-      "contentTreeUrl": "../content-tree/#paper=2023_spinnato_understanding_any_time_series",
-      "mindMapUrl": "../mind-map/#paper=2023_spinnato_understanding_any_time_series"
+      "treeUrl": "../tree/#paper=2023_spinnato_understanding_any_time_series",
+      "mapUrl": "../map/#paper=2023_spinnato_understanding_any_time_series"
     },
     "2308_10069": {
       "id": "2308_10069",
@@ -27072,8 +27072,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2308_10069/",
-      "contentTreeUrl": "../content-tree/#paper=2308_10069",
-      "mindMapUrl": "../mind-map/#paper=2308_10069"
+      "treeUrl": "../tree/#paper=2308_10069",
+      "mapUrl": "../map/#paper=2308_10069"
     },
     "2310_03589": {
       "id": "2310_03589",
@@ -27088,8 +27088,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2310_03589/",
-      "contentTreeUrl": "../content-tree/#paper=2310_03589",
-      "mindMapUrl": "../mind-map/#paper=2310_03589"
+      "treeUrl": "../tree/#paper=2310_03589",
+      "mapUrl": "../map/#paper=2310_03589"
     },
     "2311_07411": {
       "id": "2311_07411",
@@ -27104,8 +27104,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2311_07411/",
-      "contentTreeUrl": "../content-tree/#paper=2311_07411",
-      "mindMapUrl": "../mind-map/#paper=2311_07411"
+      "treeUrl": "../tree/#paper=2311_07411",
+      "mapUrl": "../map/#paper=2311_07411"
     },
     "2308_00928": {
       "id": "2308_00928",
@@ -27120,8 +27120,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2308_00928/",
-      "contentTreeUrl": "../content-tree/#paper=2308_00928",
-      "mindMapUrl": "../mind-map/#paper=2308_00928"
+      "treeUrl": "../tree/#paper=2308_00928",
+      "mapUrl": "../map/#paper=2308_00928"
     },
     "2023_araujo_testing_validation_and_verification": {
       "id": "2023_araujo_testing_validation_and_verification",
@@ -27136,8 +27136,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2023_araujo_testing_validation_and_verification/",
-      "contentTreeUrl": "../content-tree/#paper=2023_araujo_testing_validation_and_verification",
-      "mindMapUrl": "../mind-map/#paper=2023_araujo_testing_validation_and_verification"
+      "treeUrl": "../tree/#paper=2023_araujo_testing_validation_and_verification",
+      "mapUrl": "../map/#paper=2023_araujo_testing_validation_and_verification"
     },
     "2301_13143": {
       "id": "2301_13143",
@@ -27158,8 +27158,8 @@ window.tagSearchData = {
       ],
       "summary": "Grows an RRT to produce a coarse initial plan, then uses that plan as the mean of the MPPI sampling distribution, combining the global exploration of RRT with the local refinement of MPPI.",
       "url": "../papers/2301_13143/",
-      "contentTreeUrl": "../content-tree/#paper=2301_13143",
-      "mindMapUrl": "../mind-map/#paper=2301_13143"
+      "treeUrl": "../tree/#paper=2301_13143",
+      "mapUrl": "../map/#paper=2301_13143"
     },
     "2309_14545": {
       "id": "2309_14545",
@@ -27174,8 +27174,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2309_14545/",
-      "contentTreeUrl": "../content-tree/#paper=2309_14545",
-      "mindMapUrl": "../mind-map/#paper=2309_14545"
+      "treeUrl": "../tree/#paper=2309_14545",
+      "mapUrl": "../map/#paper=2309_14545"
     },
     "2310_17556": {
       "id": "2310_17556",
@@ -27190,8 +27190,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2310_17556/",
-      "contentTreeUrl": "../content-tree/#paper=2310_17556",
-      "mindMapUrl": "../mind-map/#paper=2310_17556"
+      "treeUrl": "../tree/#paper=2310_17556",
+      "mapUrl": "../map/#paper=2310_17556"
     },
     "2303_15343": {
       "id": "2303_15343",
@@ -27207,8 +27207,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2303_15343/",
-      "contentTreeUrl": "../content-tree/#paper=2303_15343",
-      "mindMapUrl": "../mind-map/#paper=2303_15343"
+      "treeUrl": "../tree/#paper=2303_15343",
+      "mapUrl": "../map/#paper=2303_15343"
     },
     "2301_11902": {
       "id": "2301_11902",
@@ -27225,8 +27225,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2301_11902/",
-      "contentTreeUrl": "../content-tree/#paper=2301_11902",
-      "mindMapUrl": "../mind-map/#paper=2301_11902"
+      "treeUrl": "../tree/#paper=2301_11902",
+      "mapUrl": "../map/#paper=2301_11902"
     },
     "2311_06404": {
       "id": "2311_06404",
@@ -27241,8 +27241,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2311_06404/",
-      "contentTreeUrl": "../content-tree/#paper=2311_06404",
-      "mindMapUrl": "../mind-map/#paper=2311_06404"
+      "treeUrl": "../tree/#paper=2311_06404",
+      "mapUrl": "../map/#paper=2311_06404"
     },
     "2311_06234": {
       "id": "2311_06234",
@@ -27264,8 +27264,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2311_06234/",
-      "contentTreeUrl": "../content-tree/#paper=2311_06234",
-      "mindMapUrl": "../mind-map/#paper=2311_06234"
+      "treeUrl": "../tree/#paper=2311_06234",
+      "mapUrl": "../map/#paper=2311_06234"
     },
     "2307_03167": {
       "id": "2307_03167",
@@ -27280,8 +27280,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2307_03167/",
-      "contentTreeUrl": "../content-tree/#paper=2307_03167",
-      "mindMapUrl": "../mind-map/#paper=2307_03167"
+      "treeUrl": "../tree/#paper=2307_03167",
+      "mapUrl": "../map/#paper=2307_03167"
     },
     "2309_10675": {
       "id": "2309_10675",
@@ -27295,8 +27295,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2309_10675/",
-      "contentTreeUrl": "../content-tree/#paper=2309_10675",
-      "mindMapUrl": "../mind-map/#paper=2309_10675"
+      "treeUrl": "../tree/#paper=2309_10675",
+      "mapUrl": "../map/#paper=2309_10675"
     },
     "2310_00077": {
       "id": "2310_00077",
@@ -27323,8 +27323,8 @@ window.tagSearchData = {
       ],
       "summary": "Compares Bayesian-optimization-oriented ML tools with classical derivative-free optimizers under limited evaluation budgets. The study updates earlier benchmarking work by testing both COCO/BBOB functions and direct policy search in OpenAI Gym, showing that BO methods are strong at small budgets but can be overtaken by other black-box optimizers as budgets grow.",
       "url": "../papers/2310_00077/",
-      "contentTreeUrl": "../content-tree/#paper=2310_00077",
-      "mindMapUrl": "../mind-map/#paper=2310_00077"
+      "treeUrl": "../tree/#paper=2310_00077",
+      "mapUrl": "../map/#paper=2310_00077"
     },
     "2304_00346": {
       "id": "2304_00346",
@@ -27339,8 +27339,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2304_00346/",
-      "contentTreeUrl": "../content-tree/#paper=2304_00346",
-      "mindMapUrl": "../mind-map/#paper=2304_00346"
+      "treeUrl": "../tree/#paper=2304_00346",
+      "mapUrl": "../map/#paper=2304_00346"
     },
     "2023_angulo_policy_optimization_to_learn": {
       "id": "2023_angulo_policy_optimization_to_learn",
@@ -27355,8 +27355,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2023_angulo_policy_optimization_to_learn/",
-      "contentTreeUrl": "../content-tree/#paper=2023_angulo_policy_optimization_to_learn",
-      "mindMapUrl": "../mind-map/#paper=2023_angulo_policy_optimization_to_learn"
+      "treeUrl": "../tree/#paper=2023_angulo_policy_optimization_to_learn",
+      "mapUrl": "../map/#paper=2023_angulo_policy_optimization_to_learn"
     },
     "2303_16746": {
       "id": "2303_16746",
@@ -27380,8 +27380,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents FATROP, a fast OCP solver based on Riccati factorization of the KKT conditions, achieving sub-2ms solve times with C++ code generation via CasADi integration (ships with CasADi ≥3.6.7 which is also accessible from acados).",
       "url": "../papers/2303_16746/",
-      "contentTreeUrl": "../content-tree/#paper=2303_16746",
-      "mindMapUrl": "../mind-map/#paper=2303_16746"
+      "treeUrl": "../tree/#paper=2303_16746",
+      "mapUrl": "../map/#paper=2303_16746"
     },
     "2023_alleyne_control_for_societal_scale": {
       "id": "2023_alleyne_control_for_societal_scale",
@@ -27521,8 +27521,8 @@ window.tagSearchData = {
       ],
       "summary": "A community roadmap for control systems research oriented around large societal challenges such as transportation, energy, health, autonomy, and infrastructure. It is less a single technical contribution than a map of where control theory, automation, and decision-making may matter at scale.",
       "url": "../papers/2023_alleyne_control_for_societal_scale/",
-      "contentTreeUrl": "../content-tree/#paper=2023_alleyne_control_for_societal_scale",
-      "mindMapUrl": "../mind-map/#paper=2023_alleyne_control_for_societal_scale"
+      "treeUrl": "../tree/#paper=2023_alleyne_control_for_societal_scale",
+      "mapUrl": "../map/#paper=2023_alleyne_control_for_societal_scale"
     },
     "2304_14772": {
       "id": "2304_14772",
@@ -27540,8 +27540,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2304_14772/",
-      "contentTreeUrl": "../content-tree/#paper=2304_14772",
-      "mindMapUrl": "../mind-map/#paper=2304_14772"
+      "treeUrl": "../tree/#paper=2304_14772",
+      "mapUrl": "../map/#paper=2304_14772"
     },
     "2312_06837": {
       "id": "2312_06837",
@@ -27557,8 +27557,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2312_06837/",
-      "contentTreeUrl": "../content-tree/#paper=2312_06837",
-      "mindMapUrl": "../mind-map/#paper=2312_06837"
+      "treeUrl": "../tree/#paper=2312_06837",
+      "mapUrl": "../map/#paper=2312_06837"
     },
     "2301_04195": {
       "id": "2301_04195",
@@ -27585,8 +27585,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2301_04195/",
-      "contentTreeUrl": "../content-tree/#paper=2301_04195",
-      "mindMapUrl": "../mind-map/#paper=2301_04195"
+      "treeUrl": "../tree/#paper=2301_04195",
+      "mapUrl": "../map/#paper=2301_04195"
     },
     "2303_03378": {
       "id": "2303_03378",
@@ -27620,8 +27620,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2303_03378/",
-      "contentTreeUrl": "../content-tree/#paper=2303_03378",
-      "mindMapUrl": "../mind-map/#paper=2303_03378"
+      "treeUrl": "../tree/#paper=2303_03378",
+      "mapUrl": "../map/#paper=2303_03378"
     },
     "2023_singh_robust_feedback_motion_planning": {
       "id": "2023_singh_robust_feedback_motion_planning",
@@ -27638,8 +27638,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2023_singh_robust_feedback_motion_planning/",
-      "contentTreeUrl": "../content-tree/#paper=2023_singh_robust_feedback_motion_planning",
-      "mindMapUrl": "../mind-map/#paper=2023_singh_robust_feedback_motion_planning"
+      "treeUrl": "../tree/#paper=2023_singh_robust_feedback_motion_planning",
+      "mapUrl": "../map/#paper=2023_singh_robust_feedback_motion_planning"
     },
     "2310_08710": {
       "id": "2310_08710",
@@ -27673,8 +27673,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2310_08710/",
-      "contentTreeUrl": "../content-tree/#paper=2310_08710",
-      "mindMapUrl": "../mind-map/#paper=2310_08710"
+      "treeUrl": "../tree/#paper=2310_08710",
+      "mapUrl": "../map/#paper=2310_08710"
     },
     "2312_02758": {
       "id": "2312_02758",
@@ -27689,8 +27689,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2312_02758/",
-      "contentTreeUrl": "../content-tree/#paper=2312_02758",
-      "mindMapUrl": "../mind-map/#paper=2312_02758"
+      "treeUrl": "../tree/#paper=2312_02758",
+      "mapUrl": "../map/#paper=2312_02758"
     },
     "2304_14062": {
       "id": "2304_14062",
@@ -27706,8 +27706,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2304_14062/",
-      "contentTreeUrl": "../content-tree/#paper=2304_14062",
-      "mindMapUrl": "../mind-map/#paper=2304_14062"
+      "treeUrl": "../tree/#paper=2304_14062",
+      "mapUrl": "../map/#paper=2304_14062"
     },
     "2309_12566": {
       "id": "2309_12566",
@@ -27730,8 +27730,8 @@ window.tagSearchData = {
       ],
       "summary": "Survey paper reviewing the theoretical foundations and algorithmic advances in path integral control methods for trajectory optimization, covering MPPI variants, variational inference approaches, and connections to stochastic optimal control theory.",
       "url": "../papers/2309_12566/",
-      "contentTreeUrl": "../content-tree/#paper=2309_12566",
-      "mindMapUrl": "../mind-map/#paper=2309_12566"
+      "treeUrl": "../tree/#paper=2309_12566",
+      "mapUrl": "../map/#paper=2309_12566"
     },
     "2307_07086": {
       "id": "2307_07086",
@@ -27745,8 +27745,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2307_07086/",
-      "contentTreeUrl": "../content-tree/#paper=2307_07086",
-      "mindMapUrl": "../mind-map/#paper=2307_07086"
+      "treeUrl": "../tree/#paper=2307_07086",
+      "mapUrl": "../map/#paper=2307_07086"
     },
     "2307_09288": {
       "id": "2307_09288",
@@ -27826,8 +27826,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2307_09288/",
-      "contentTreeUrl": "../content-tree/#paper=2307_09288",
-      "mindMapUrl": "../mind-map/#paper=2307_09288"
+      "treeUrl": "../tree/#paper=2307_09288",
+      "mapUrl": "../map/#paper=2307_09288"
     },
     "2310_16828": {
       "id": "2310_16828",
@@ -27842,8 +27842,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2310_16828/",
-      "contentTreeUrl": "../content-tree/#paper=2310_16828",
-      "mindMapUrl": "../mind-map/#paper=2310_16828"
+      "treeUrl": "../tree/#paper=2310_16828",
+      "mapUrl": "../map/#paper=2310_16828"
     },
     "2023_cothren_perception_based_sampled_data": {
       "id": "2023_cothren_perception_based_sampled_data",
@@ -27859,8 +27859,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2023_cothren_perception_based_sampled_data/",
-      "contentTreeUrl": "../content-tree/#paper=2023_cothren_perception_based_sampled_data",
-      "mindMapUrl": "../mind-map/#paper=2023_cothren_perception_based_sampled_data"
+      "treeUrl": "../tree/#paper=2023_cothren_perception_based_sampled_data",
+      "mapUrl": "../map/#paper=2023_cothren_perception_based_sampled_data"
     },
     "2304_12210": {
       "id": "2304_12210",
@@ -27891,8 +27891,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2304_12210/",
-      "contentTreeUrl": "../content-tree/#paper=2304_12210",
-      "mindMapUrl": "../mind-map/#paper=2304_12210"
+      "treeUrl": "../tree/#paper=2304_12210",
+      "mapUrl": "../map/#paper=2304_12210"
     },
     "2023_ivgi_dog_is_sgds_best": {
       "id": "2023_ivgi_dog_is_sgds_best",
@@ -27907,8 +27907,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2023_ivgi_dog_is_sgds_best/",
-      "contentTreeUrl": "../content-tree/#paper=2023_ivgi_dog_is_sgds_best",
-      "mindMapUrl": "../mind-map/#paper=2023_ivgi_dog_is_sgds_best"
+      "treeUrl": "../tree/#paper=2023_ivgi_dog_is_sgds_best",
+      "mapUrl": "../map/#paper=2023_ivgi_dog_is_sgds_best"
     },
     "2310_17274": {
       "id": "2310_17274",
@@ -27942,8 +27942,8 @@ window.tagSearchData = {
       ],
       "summary": "CUDA-accelerated library for collision-free robot motion generation. Formulates trajectory generation as a global optimization problem solved across thousands of parallel seeds on GPU. Combines L-BFGS with a novel parallel noisy line search and particle-based optimization to produce minimum-jerk, collision-free trajectories within ~50ms. Also includes a parallel geometric planner (~20ms) and a batched IK solver (>7000 queries/s). An earlier version without minimum-jerk optimization was published at ICRA 2023.",
       "url": "../papers/2310_17274/",
-      "contentTreeUrl": "../content-tree/#paper=2310_17274",
-      "mindMapUrl": "../mind-map/#paper=2310_17274"
+      "treeUrl": "../tree/#paper=2310_17274",
+      "mapUrl": "../map/#paper=2310_17274"
     },
     "2306_07962": {
       "id": "2306_07962",
@@ -27959,8 +27959,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2306_07962/",
-      "contentTreeUrl": "../content-tree/#paper=2306_07962",
-      "mindMapUrl": "../mind-map/#paper=2306_07962"
+      "treeUrl": "../tree/#paper=2306_07962",
+      "mapUrl": "../map/#paper=2306_07962"
     },
     "2303_08431": {
       "id": "2303_08431",
@@ -27975,8 +27975,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2303_08431/",
-      "contentTreeUrl": "../content-tree/#paper=2303_08431",
-      "mindMapUrl": "../mind-map/#paper=2303_08431"
+      "treeUrl": "../tree/#paper=2303_08431",
+      "mapUrl": "../map/#paper=2303_08431"
     },
     "2309_12871": {
       "id": "2309_12871",
@@ -27990,8 +27990,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2309_12871/",
-      "contentTreeUrl": "../content-tree/#paper=2309_12871",
-      "mindMapUrl": "../mind-map/#paper=2309_12871"
+      "treeUrl": "../tree/#paper=2309_12871",
+      "mapUrl": "../map/#paper=2309_12871"
     },
     "2305_01072": {
       "id": "2305_01072",
@@ -28015,8 +28015,8 @@ window.tagSearchData = {
       ],
       "summary": "Presents a fast two-phase path planner for environments where the free space is pre-decomposed into a large collection of axis-aligned safe boxes. An offline phase constructs a graph over box intersections. At runtime, a graph shortest-path search finds a polygonal waypoint sequence, then a convex optimal-control problem smooths it into a continuous Bézier trajectory guaranteed collision-free at all times. The decomposition into a cheap graph search followed by small convex programs gives near-real-time performance even with tens of thousands of boxes.",
       "url": "../papers/2305_01072/",
-      "contentTreeUrl": "../content-tree/#paper=2305_01072",
-      "mindMapUrl": "../mind-map/#paper=2305_01072"
+      "treeUrl": "../tree/#paper=2305_01072",
+      "mapUrl": "../map/#paper=2305_01072"
     },
     "2023_santoro_higher_order_organization_of": {
       "id": "2023_santoro_higher_order_organization_of",
@@ -28032,8 +28032,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2023_santoro_higher_order_organization_of/",
-      "contentTreeUrl": "../content-tree/#paper=2023_santoro_higher_order_organization_of",
-      "mindMapUrl": "../mind-map/#paper=2023_santoro_higher_order_organization_of"
+      "treeUrl": "../tree/#paper=2023_santoro_higher_order_organization_of",
+      "mapUrl": "../map/#paper=2023_santoro_higher_order_organization_of"
     },
     "2312_15122": {
       "id": "2312_15122",
@@ -28050,8 +28050,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2312_15122/",
-      "contentTreeUrl": "../content-tree/#paper=2312_15122",
-      "mindMapUrl": "../mind-map/#paper=2312_15122"
+      "treeUrl": "../tree/#paper=2312_15122",
+      "mapUrl": "../map/#paper=2312_15122"
     },
     "2309_14595": {
       "id": "2309_14595",
@@ -28067,8 +28067,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2309_14595/",
-      "contentTreeUrl": "../content-tree/#paper=2309_14595",
-      "mindMapUrl": "../mind-map/#paper=2309_14595"
+      "treeUrl": "../tree/#paper=2309_14595",
+      "mapUrl": "../map/#paper=2309_14595"
     },
     "2305_08373": {
       "id": "2305_08373",
@@ -28087,8 +28087,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2305_08373/",
-      "contentTreeUrl": "../content-tree/#paper=2305_08373",
-      "mindMapUrl": "../mind-map/#paper=2305_08373"
+      "treeUrl": "../tree/#paper=2305_08373",
+      "mapUrl": "../map/#paper=2305_08373"
     },
     "2023_jallet_proxddp_proximal_constrained_trajectory": {
       "id": "2023_jallet_proxddp_proximal_constrained_trajectory",
@@ -28112,8 +28112,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces ProxDDP, using proximal point iterations within a DDP framework to overcome convergence issues often encountered in Augmented Lagrangian DDP methods (e.g., ALTRO), with provable convergence guarantees for constrained trajectory optimization.",
       "url": "../papers/2023_jallet_proxddp_proximal_constrained_trajectory/",
-      "contentTreeUrl": "../content-tree/#paper=2023_jallet_proxddp_proximal_constrained_trajectory",
-      "mindMapUrl": "../mind-map/#paper=2023_jallet_proxddp_proximal_constrained_trajectory"
+      "treeUrl": "../tree/#paper=2023_jallet_proxddp_proximal_constrained_trajectory",
+      "mapUrl": "../map/#paper=2023_jallet_proxddp_proximal_constrained_trajectory"
     },
     "2307_09105": {
       "id": "2307_09105",
@@ -28142,8 +28142,8 @@ window.tagSearchData = {
       ],
       "summary": "Uses IsaacGym as a simulator for forward dynamics propagation within an MPPI framework.",
       "url": "../papers/2307_09105/",
-      "contentTreeUrl": "../content-tree/#paper=2307_09105",
-      "mindMapUrl": "../mind-map/#paper=2307_09105"
+      "treeUrl": "../tree/#paper=2307_09105",
+      "mapUrl": "../map/#paper=2307_09105"
     },
     "2311_05135": {
       "id": "2311_05135",
@@ -28160,8 +28160,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2311_05135/",
-      "contentTreeUrl": "../content-tree/#paper=2311_05135",
-      "mindMapUrl": "../mind-map/#paper=2311_05135"
+      "treeUrl": "../tree/#paper=2311_05135",
+      "mapUrl": "../map/#paper=2311_05135"
     },
     "2308_04079": {
       "id": "2308_04079",
@@ -28186,8 +28186,8 @@ window.tagSearchData = {
       ],
       "summary": "Seminal paper that introduced 3D Gaussian Splatting, a rendering technique that optimizes the pose, shape, transparency, and view-dependent optic properties (modeled with spherical harmonics) of a large collection of 3D Gaussians (ellipsoidal distributions) to reconstruct a ground truth represented by multiple 2D image views (typically collected by taking photos or video from multiple views around an object or scene). The trained Gaussians are rendered via differentiable tile-based rasterization, enabling high-quality novel view synthesis at real-time frame rates.",
       "url": "../papers/2308_04079/",
-      "contentTreeUrl": "../content-tree/#paper=2308_04079",
-      "mindMapUrl": "../mind-map/#paper=2308_04079"
+      "treeUrl": "../tree/#paper=2308_04079",
+      "mapUrl": "../map/#paper=2308_04079"
     },
     "2309_16530": {
       "id": "2309_16530",
@@ -28201,8 +28201,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2309_16530/",
-      "contentTreeUrl": "../content-tree/#paper=2309_16530",
-      "mindMapUrl": "../mind-map/#paper=2309_16530"
+      "treeUrl": "../tree/#paper=2309_16530",
+      "mapUrl": "../map/#paper=2309_16530"
     },
     "2023_steinecker_a_simple_and_model": {
       "id": "2023_steinecker_a_simple_and_model",
@@ -28224,8 +28224,8 @@ window.tagSearchData = {
       ],
       "summary": "CCMA applies an iterative spatial-curvature-corrected moving average to smooth a path without requiring any kinematic model. Takes advantage of special structure and knowledge that the data series represents a spatial path (instead of an arbitrary sequence).",
       "url": "../papers/2023_steinecker_a_simple_and_model/",
-      "contentTreeUrl": "../content-tree/#paper=2023_steinecker_a_simple_and_model",
-      "mindMapUrl": "../mind-map/#paper=2023_steinecker_a_simple_and_model"
+      "treeUrl": "../tree/#paper=2023_steinecker_a_simple_and_model",
+      "mapUrl": "../map/#paper=2023_steinecker_a_simple_and_model"
     },
     "2309_07879": {
       "id": "2309_07879",
@@ -28239,8 +28239,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2309_07879/",
-      "contentTreeUrl": "../content-tree/#paper=2309_07879",
-      "mindMapUrl": "../mind-map/#paper=2309_07879"
+      "treeUrl": "../tree/#paper=2309_07879",
+      "mapUrl": "../map/#paper=2309_07879"
     },
     "2311_11166": {
       "id": "2311_11166",
@@ -28254,8 +28254,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2311_11166/",
-      "contentTreeUrl": "../content-tree/#paper=2311_11166",
-      "mindMapUrl": "../mind-map/#paper=2311_11166"
+      "treeUrl": "../tree/#paper=2311_11166",
+      "mapUrl": "../map/#paper=2311_11166"
     },
     "2309_08821": {
       "id": "2309_08821",
@@ -28269,8 +28269,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2309_08821/",
-      "contentTreeUrl": "../content-tree/#paper=2309_08821",
-      "mindMapUrl": "../mind-map/#paper=2309_08821"
+      "treeUrl": "../tree/#paper=2309_08821",
+      "mapUrl": "../map/#paper=2309_08821"
     },
     "2311_11489": {
       "id": "2311_11489",
@@ -28288,8 +28288,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2311_11489/",
-      "contentTreeUrl": "../content-tree/#paper=2311_11489",
-      "mindMapUrl": "../mind-map/#paper=2311_11489"
+      "treeUrl": "../tree/#paper=2311_11489",
+      "mapUrl": "../map/#paper=2311_11489"
     },
     "2023_yuan_stochastic_second_order_methods": {
       "id": "2023_yuan_stochastic_second_order_methods",
@@ -28304,8 +28304,8 @@ window.tagSearchData = {
       ],
       "summary": "",
       "url": "../papers/2023_yuan_stochastic_second_order_methods/",
-      "contentTreeUrl": "../content-tree/#paper=2023_yuan_stochastic_second_order_methods",
-      "mindMapUrl": "../mind-map/#paper=2023_yuan_stochastic_second_order_methods"
+      "treeUrl": "../tree/#paper=2023_yuan_stochastic_second_order_methods",
+      "mapUrl": "../map/#paper=2023_yuan_stochastic_second_order_methods"
     },
     "2023_dai_convex_synthesis_and_verification": {
       "id": "2023_dai_convex_synthesis_and_verification",
@@ -28319,8 +28319,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2023_dai_convex_synthesis_and_verification/",
-      "contentTreeUrl": "../content-tree/#paper=2023_dai_convex_synthesis_and_verification",
-      "mindMapUrl": "../mind-map/#paper=2023_dai_convex_synthesis_and_verification"
+      "treeUrl": "../tree/#paper=2023_dai_convex_synthesis_and_verification",
+      "mapUrl": "../map/#paper=2023_dai_convex_synthesis_and_verification"
     },
     "2305_18452": {
       "id": "2305_18452",
@@ -28335,8 +28335,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2305_18452/",
-      "contentTreeUrl": "../content-tree/#paper=2305_18452",
-      "mindMapUrl": "../mind-map/#paper=2305_18452"
+      "treeUrl": "../tree/#paper=2305_18452",
+      "mapUrl": "../map/#paper=2305_18452"
     },
     "2303_09824": {
       "id": "2303_09824",
@@ -28367,8 +28367,8 @@ window.tagSearchData = {
       ],
       "summary": "Surveys both pipeline-based and end-to-end motion planning approaches for autonomous driving, analyzing selection, expansion, and optimization in classical methods alongside deep learning training strategies for end-to-end systems, with experimental comparisons and future challenges.",
       "url": "../papers/2303_09824/",
-      "contentTreeUrl": "../content-tree/#paper=2303_09824",
-      "mindMapUrl": "../mind-map/#paper=2303_09824"
+      "treeUrl": "../tree/#paper=2303_09824",
+      "mapUrl": "../map/#paper=2303_09824"
     },
     "2304_13029": {
       "id": "2304_13029",
@@ -28383,8 +28383,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2304_13029/",
-      "contentTreeUrl": "../content-tree/#paper=2304_13029",
-      "mindMapUrl": "../mind-map/#paper=2304_13029"
+      "treeUrl": "../tree/#paper=2304_13029",
+      "mapUrl": "../map/#paper=2304_13029"
     },
     "2311_03553": {
       "id": "2311_03553",
@@ -28400,8 +28400,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2311_03553/",
-      "contentTreeUrl": "../content-tree/#paper=2311_03553",
-      "mindMapUrl": "../mind-map/#paper=2311_03553"
+      "treeUrl": "../tree/#paper=2311_03553",
+      "mapUrl": "../map/#paper=2311_03553"
     },
     "2306_09537": {
       "id": "2306_09537",
@@ -28423,8 +28423,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2306_09537/",
-      "contentTreeUrl": "../content-tree/#paper=2306_09537",
-      "mindMapUrl": "../mind-map/#paper=2306_09537"
+      "treeUrl": "../tree/#paper=2306_09537",
+      "mapUrl": "../map/#paper=2306_09537"
     },
     "2303_04137": {
       "id": "2303_04137",
@@ -28453,8 +28453,8 @@ window.tagSearchData = {
       ],
       "summary": "Models robot visuomotor policy as a denoising diffusion process over action sequences, enabling multimodal and high-dimensional action distributions that outperform regression-based imitation learning methods on dexterous manipulation benchmarks.",
       "url": "../papers/2303_04137/",
-      "contentTreeUrl": "../content-tree/#paper=2303_04137",
-      "mindMapUrl": "../mind-map/#paper=2303_04137"
+      "treeUrl": "../tree/#paper=2303_04137",
+      "mapUrl": "../map/#paper=2303_04137"
     },
     "2303_10798": {
       "id": "2303_10798",
@@ -28470,8 +28470,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2303_10798/",
-      "contentTreeUrl": "../content-tree/#paper=2303_10798",
-      "mindMapUrl": "../mind-map/#paper=2303_10798"
+      "treeUrl": "../tree/#paper=2303_10798",
+      "mapUrl": "../map/#paper=2303_10798"
     },
     "2310_01362": {
       "id": "2310_01362",
@@ -28488,8 +28488,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2310_01362/",
-      "contentTreeUrl": "../content-tree/#paper=2310_01362",
-      "mindMapUrl": "../mind-map/#paper=2310_01362"
+      "treeUrl": "../tree/#paper=2310_01362",
+      "mapUrl": "../map/#paper=2310_01362"
     },
     "2023_zheng_spatial_planning_of_urban": {
       "id": "2023_zheng_spatial_planning_of_urban",
@@ -28507,8 +28507,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2023_zheng_spatial_planning_of_urban/",
-      "contentTreeUrl": "../content-tree/#paper=2023_zheng_spatial_planning_of_urban",
-      "mindMapUrl": "../mind-map/#paper=2023_zheng_spatial_planning_of_urban"
+      "treeUrl": "../tree/#paper=2023_zheng_spatial_planning_of_urban",
+      "mapUrl": "../map/#paper=2023_zheng_spatial_planning_of_urban"
     },
     "2311_18736": {
       "id": "2311_18736",
@@ -28525,8 +28525,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2311_18736/",
-      "contentTreeUrl": "../content-tree/#paper=2311_18736",
-      "mindMapUrl": "../mind-map/#paper=2311_18736"
+      "treeUrl": "../tree/#paper=2311_18736",
+      "mapUrl": "../map/#paper=2311_18736"
     },
     "2305_17743": {
       "id": "2305_17743",
@@ -28542,8 +28542,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2305_17743/",
-      "contentTreeUrl": "../content-tree/#paper=2305_17743",
-      "mindMapUrl": "../mind-map/#paper=2305_17743"
+      "treeUrl": "../tree/#paper=2305_17743",
+      "mapUrl": "../map/#paper=2305_17743"
     },
     "2305_12032": {
       "id": "2305_12032",
@@ -28567,8 +28567,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2305_12032/",
-      "contentTreeUrl": "../content-tree/#paper=2305_12032",
-      "mindMapUrl": "../mind-map/#paper=2305_12032"
+      "treeUrl": "../tree/#paper=2305_12032",
+      "mapUrl": "../map/#paper=2305_12032"
     },
     "2302_11670": {
       "id": "2302_11670",
@@ -28582,8 +28582,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2302_11670/",
-      "contentTreeUrl": "../content-tree/#paper=2302_11670",
-      "mindMapUrl": "../mind-map/#paper=2302_11670"
+      "treeUrl": "../tree/#paper=2302_11670",
+      "mapUrl": "../map/#paper=2302_11670"
     },
     "1990_kanayama_a_stable_tracking_control": {
       "id": "1990_kanayama_a_stable_tracking_control",
@@ -28607,8 +28607,8 @@ window.tagSearchData = {
       ],
       "summary": "Gives a Lyapunov-stable tracking controller for nonholonomic mobile robots that maps a reference pose and reference velocities into target linear and angular velocity commands. The velocity and acceleration limiting scheme makes the method practically relevant for real wheeled robots and helped establish a standard tracking-error model for mobile robot control.",
       "url": "../papers/1990_kanayama_a_stable_tracking_control/",
-      "contentTreeUrl": "../content-tree/#paper=1990_kanayama_a_stable_tracking_control",
-      "mindMapUrl": "../mind-map/#paper=1990_kanayama_a_stable_tracking_control"
+      "treeUrl": "../tree/#paper=1990_kanayama_a_stable_tracking_control",
+      "mapUrl": "../map/#paper=1990_kanayama_a_stable_tracking_control"
     },
     "1990_reeds_optimal_paths_for_a": {
       "id": "1990_reeds_optimal_paths_for_a",
@@ -28626,8 +28626,8 @@ window.tagSearchData = {
       ],
       "summary": "Reeds and Shepp provided analytic formulas for the shortest curve that connects two points in the two-dimensional Euclidean plane (i.e. x-y plane) with a constraint on the curvature of the path and with prescribed initial and terminal tangents to the path, and an assumption that the vehicle traveling the path can travel forward or backward. Reeds and Shepp proved using tools from analysis that any such path will consist of maximum curvature and/or straight line segments, with at most two cusps of the form CCSCC where C is an arc of a circle of the minimal turning radius and S is a line segment.",
       "url": "../papers/1990_reeds_optimal_paths_for_a/",
-      "contentTreeUrl": "../content-tree/#paper=1990_reeds_optimal_paths_for_a",
-      "mindMapUrl": "../mind-map/#paper=1990_reeds_optimal_paths_for_a"
+      "treeUrl": "../tree/#paper=1990_reeds_optimal_paths_for_a",
+      "mapUrl": "../map/#paper=1990_reeds_optimal_paths_for_a"
     },
     "2006_lincoln_relaxing_dynamic_programming": {
       "id": "2006_lincoln_relaxing_dynamic_programming",
@@ -28641,8 +28641,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2006_lincoln_relaxing_dynamic_programming/",
-      "contentTreeUrl": "../content-tree/#paper=2006_lincoln_relaxing_dynamic_programming",
-      "mindMapUrl": "../mind-map/#paper=2006_lincoln_relaxing_dynamic_programming"
+      "treeUrl": "../tree/#paper=2006_lincoln_relaxing_dynamic_programming",
+      "mapUrl": "../map/#paper=2006_lincoln_relaxing_dynamic_programming"
     },
     "2006_hothorn_unbiased_recursive_partitioning_a": {
       "id": "2006_hothorn_unbiased_recursive_partitioning_a",
@@ -28664,8 +28664,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces a conditional inference framework (ctree) for decision trees that uses permutation tests to select split variables, eliminating the selection bias toward high-cardinality or many-split predictors that plagues standard CART. The unbiased variable selection also removes the need for separate pruning, yielding statistically well-calibrated trees.",
       "url": "../papers/2006_hothorn_unbiased_recursive_partitioning_a/",
-      "contentTreeUrl": "../content-tree/#paper=2006_hothorn_unbiased_recursive_partitioning_a",
-      "mindMapUrl": "../mind-map/#paper=2006_hothorn_unbiased_recursive_partitioning_a"
+      "treeUrl": "../tree/#paper=2006_hothorn_unbiased_recursive_partitioning_a",
+      "mapUrl": "../map/#paper=2006_hothorn_unbiased_recursive_partitioning_a"
     },
     "2006_grant_disciplined_convex_programming": {
       "id": "2006_grant_disciplined_convex_programming",
@@ -28687,8 +28687,8 @@ window.tagSearchData = {
       ],
       "summary": "Defines disciplined convex programming: a grammar of convex expressions that lets modeling tools verify convexity and canonicalize problems automatically. This paper is the conceptual foundation for CVX-style modeling systems and later tools such as CVXPY.",
       "url": "../papers/2006_grant_disciplined_convex_programming/",
-      "contentTreeUrl": "../content-tree/#paper=2006_grant_disciplined_convex_programming",
-      "mindMapUrl": "../mind-map/#paper=2006_grant_disciplined_convex_programming"
+      "treeUrl": "../tree/#paper=2006_grant_disciplined_convex_programming",
+      "mapUrl": "../map/#paper=2006_grant_disciplined_convex_programming"
     },
     "2006_bay_surf_speeded_up_robust": {
       "id": "2006_bay_surf_speeded_up_robust",
@@ -28703,8 +28703,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2006_bay_surf_speeded_up_robust/",
-      "contentTreeUrl": "../content-tree/#paper=2006_bay_surf_speeded_up_robust",
-      "mindMapUrl": "../mind-map/#paper=2006_bay_surf_speeded_up_robust"
+      "treeUrl": "../tree/#paper=2006_bay_surf_speeded_up_robust",
+      "mapUrl": "../map/#paper=2006_bay_surf_speeded_up_robust"
     },
     "2006_takahashi_induction_of_pluripotent_stem": {
       "id": "2006_takahashi_induction_of_pluripotent_stem",
@@ -28726,8 +28726,8 @@ window.tagSearchData = {
       ],
       "summary": "Shows that a small set of transcription factors can reprogram differentiated mouse fibroblasts into induced pluripotent stem cells. The result is less central to evolutionary algorithms than heredity or sequencing, but it is a sharp example of biological state-space control by compact genetic-regulatory interventions.",
       "url": "../papers/2006_takahashi_induction_of_pluripotent_stem/",
-      "contentTreeUrl": "../content-tree/#paper=2006_takahashi_induction_of_pluripotent_stem",
-      "mindMapUrl": "../mind-map/#paper=2006_takahashi_induction_of_pluripotent_stem"
+      "treeUrl": "../tree/#paper=2006_takahashi_induction_of_pluripotent_stem",
+      "mapUrl": "../map/#paper=2006_takahashi_induction_of_pluripotent_stem"
     },
     "2006_nesterov_cubic_regularization_of_newton": {
       "id": "2006_nesterov_cubic_regularization_of_newton",
@@ -28741,8 +28741,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2006_nesterov_cubic_regularization_of_newton/",
-      "contentTreeUrl": "../content-tree/#paper=2006_nesterov_cubic_regularization_of_newton",
-      "mindMapUrl": "../mind-map/#paper=2006_nesterov_cubic_regularization_of_newton"
+      "treeUrl": "../tree/#paper=2006_nesterov_cubic_regularization_of_newton",
+      "mapUrl": "../map/#paper=2006_nesterov_cubic_regularization_of_newton"
     },
     "2006_hadsell_dimensionality_reduction_by_learning": {
       "id": "2006_hadsell_dimensionality_reduction_by_learning",
@@ -28764,8 +28764,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces DrLIM and the contrastive-loss training setup for learning invariant embeddings from neighborhood relationships. It is an important ancestor of Siamese metric learning and modern contrastive representation learning.",
       "url": "../papers/2006_hadsell_dimensionality_reduction_by_learning/",
-      "contentTreeUrl": "../content-tree/#paper=2006_hadsell_dimensionality_reduction_by_learning",
-      "mindMapUrl": "../mind-map/#paper=2006_hadsell_dimensionality_reduction_by_learning"
+      "treeUrl": "../tree/#paper=2006_hadsell_dimensionality_reduction_by_learning",
+      "mapUrl": "../map/#paper=2006_hadsell_dimensionality_reduction_by_learning"
     },
     "2006_imer_optimal_control_of_lti": {
       "id": "2006_imer_optimal_control_of_lti",
@@ -28780,8 +28780,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2006_imer_optimal_control_of_lti/",
-      "contentTreeUrl": "../content-tree/#paper=2006_imer_optimal_control_of_lti",
-      "mindMapUrl": "../mind-map/#paper=2006_imer_optimal_control_of_lti"
+      "treeUrl": "../tree/#paper=2006_imer_optimal_control_of_lti",
+      "mapUrl": "../map/#paper=2006_imer_optimal_control_of_lti"
     },
     "2006_olson_fast_iterative_alignment_of": {
       "id": "2006_olson_fast_iterative_alignment_of",
@@ -28805,8 +28805,8 @@ window.tagSearchData = {
       ],
       "summary": "Introduces a fast pose-graph SLAM solver using stochastic gradient descent on a relative-pose state-space representation, achieving robust convergence even from severely degraded odometric initial estimates. The approach is computationally efficient and scales to large environments, and became a foundational reference for graph-based SLAM optimization.",
       "url": "../papers/2006_olson_fast_iterative_alignment_of/",
-      "contentTreeUrl": "../content-tree/#paper=2006_olson_fast_iterative_alignment_of",
-      "mindMapUrl": "../mind-map/#paper=2006_olson_fast_iterative_alignment_of"
+      "treeUrl": "../tree/#paper=2006_olson_fast_iterative_alignment_of",
+      "mapUrl": "../map/#paper=2006_olson_fast_iterative_alignment_of"
     },
     "2006_luo_uniform_colour_spaces_based": {
       "id": "2006_luo_uniform_colour_spaces_based",
@@ -28821,8 +28821,8 @@ window.tagSearchData = {
       "tags": [],
       "summary": "",
       "url": "../papers/2006_luo_uniform_colour_spaces_based/",
-      "contentTreeUrl": "../content-tree/#paper=2006_luo_uniform_colour_spaces_based",
-      "mindMapUrl": "../mind-map/#paper=2006_luo_uniform_colour_spaces_based"
+      "treeUrl": "../tree/#paper=2006_luo_uniform_colour_spaces_based",
+      "mapUrl": "../map/#paper=2006_luo_uniform_colour_spaces_based"
     }
   },
   "tags": {

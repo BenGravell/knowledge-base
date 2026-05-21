@@ -218,8 +218,8 @@
           (tags ? `<div class="tag-search-tags">${tags}</div>` : '') +
           '<div class="paper-link-pills tag-search-actions">' +
             actionLink(paper.url, 'Open Detail Page') +
-            actionLink(paper.mindMapUrl, 'Open in Mind Map') +
-            actionLink(paper.contentTreeUrl, 'Open in Content Tree') +
+            actionLink(paper.mapUrl, 'Open in Map') +
+            actionLink(paper.treeUrl, 'Open in Tree') +
           '</div>' +
         '</div>' +
       '</article>'
