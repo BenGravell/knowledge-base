@@ -1,5 +1,5 @@
 title: "Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs"
-algorithm: "HNSW"
+algorithm: HNSW
 authors:
   - Yu. A. Malkov
   - D. A. Yashunin

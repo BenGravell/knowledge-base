@@ -1,5 +1,5 @@
 title: Optimal Adaptive Estimation of Sampled Stochastic Processes
-algorithm: "Bayesian Adaptive Estimation"
+algorithm:
 authors:
   - D. Magill
 year: 1965

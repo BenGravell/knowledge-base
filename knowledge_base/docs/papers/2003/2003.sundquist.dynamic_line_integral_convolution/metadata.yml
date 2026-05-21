@@ -1,0 +1,29 @@
+title: "Dynamic Line Integral Convolution for Visualizing Streamline Evolution"
+algorithm: DLIC
+authors:
+  - Andreas Sundquist
+year: 2003
+source: IEEE Transactions on Visualization and Computer Graphics
+type: Journal Paper
+doi: 10.1109/TVCG.2003.1207436
+arxiv_id:
+tags:
+  - Line integral convolution
+  - DLIC
+  - Dynamic LIC
+  - Time-dependent vector fields
+  - Streamline evolution
+  - Flow visualization
+  - Vector field visualization
+  - Electromagnetism
+  - Animation coherence
+  - Scientific visualization
+abstract: >
+  The depiction of time-dependent vector fields is a central problem in scientific visualization. This article describes a technique for generating animations of such fields where the motion of the streamlines to be visualized is given by a second "motion" vector field. Each frame of our animation is a Line Integral Convolution of the original vector field with a time-varying input texture. The texture is evolved according to the associated motion vector field via an automatically adjusted set of random particles. We demonstrate this technique with examples from electromagnetism.
+summary: >
+  Introduces Dynamic Line Integral Convolution (DLIC), which animates a changing vector field by evolving the LIC input texture according to a separate field-line motion field. The method is especially useful when the visual task is to see streamline evolution itself, as in electromagnetic field-line animations, rather than only instantaneous flow direction.
+link: https://web.mit.edu/8.02t/www/802TEAL3D/visualizations/resources/DLICArticle.pdf
+links_alt:
+  - https://doi.org/10.1109/TVCG.2003.1207436
+  - https://web.mit.edu/jbelcher/www/DLIC.html
+audit_status: raw

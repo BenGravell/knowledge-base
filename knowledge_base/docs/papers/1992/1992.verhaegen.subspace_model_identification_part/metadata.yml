@@ -1,0 +1,30 @@
+title: "Subspace Model Identification Part 1. The Output-Error State-Space Model Identification Class of Algorithms"
+algorithm: MOESP
+authors:
+  - Michel Verhaegen
+  - Patrick Dewilde
+year: 1992
+source: International Journal of Control
+type: Journal Paper
+doi: 10.1080/00207179208934363
+arxiv_id:
+tags:
+  - System identification
+  - Subspace identification
+  - MOESP
+  - Output-error models
+  - State-space models
+  - Linear systems
+  - MIMO systems
+  - RQ factorization
+  - Singular value decomposition
+  - Realization theory
+abstract: >
+  In this paper, we present two novel algorithms to realize a finite dimensional, linear time-invariant state-space model from input-output data. The algorithms have a number of common features. They are classified as one of the subspace model identification schemes, in that a major part of the identification problem consists of calculating specially structured subspaces of spaces defined by the input-output data. This structure is then exploited in the calculation of a realization. Another common feature is their algorithmic organization: an RQ factorization followed by a singular value decomposition and the solution of an overdetermined set (or sets) of equations. The schemes assume that the underlying system has an output-error structure and that a measurable input sequence is available. The latter characteristic indicates that both schemes are versions of the MIMO Output-Error State Space model identification (MOESP) approach. The first algorithm is denoted in particular as the (elementary MOESP scheme). The subspace approximation step requires, in addition to input-output data, knowledge of a restricted set of Markov parameters. The second algorithm, referred to as the (ordinary MOESP scheme), solely relies on input-output data. A compact implementation is presented of both schemes. Although we restrict our presentation here to error-free input-output data, a framework is set up in an identification context. The identification aspects of the presented realization schemes are treated in the forthcoming Parts 2 and 3.
+summary: >
+  Introduces the MOESP family of subspace system identification algorithms for realizing finite-dimensional linear state-space models from multivariable input-output data. The paper presents elementary and ordinary MOESP schemes organized around RQ factorization, singular value decomposition, and linear least-squares realization steps, establishing a computational template that became a standard alternative to prediction-error and maximum-likelihood identification methods for MIMO systems.
+link: https://doi.org/10.1080/00207179208934363
+links_alt:
+  - https://www.tandfonline.com/doi/abs/10.1080/00207179208934363
+  - https://cir.nii.ac.jp/crid/1361418520260886016
+audit_status: reviewed

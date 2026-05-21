@@ -1571,8 +1571,14 @@
         - Scalar Spatiotemporal Blue Noise Masks: docs/papers/2021/2112.09629/metadata.yml
         - Spatiotemporal Blue Noise Masks: docs/papers/2022/2022.wolfe.spatiotemporal_blue_noise_masks/metadata.yml
         - An Optimum Method for Two-level Rendition for Continuous Tone Pictures: docs/papers/1973/1973.e.an_optimum_method_for/metadata.yml
-      - Line Integral Convolution:
+      - Line Integral Convolution (LIC):
+        - LIC: docs/papers/1993/1993.cabral.imaging_vector_fields_using/metadata.yml
+        - Curvilinear Grid LIC: docs/papers/1995/1995.forssell.using_line_integral_convolution/metadata.yml
+        - Fast LIC: docs/papers/1995/1995.stalling.fast_and_resolution_independent/metadata.yml
         - OLIC: docs/papers/1997/1997.wegenkittl.animating_flow_fields_rendering/metadata.yml
+        - UFLIC: docs/papers/1997/1997.shen.uflic_a_line_integral/metadata.yml
+        - DLIC: docs/papers/2003/2003.sundquist.dynamic_line_integral_convolution/metadata.yml
+        - AUFLIC: docs/papers/2005/2005.liu.accelerated_unsteady_flow_line/metadata.yml
       - 3D Gaussian Splatting (3DGS):
         - 3D Gaussian Splatting: docs/papers/2023/2308.04079/metadata.yml
         - Matrix-free Second-order Optimization of Gaussian Splats with Residual Sampling: docs/papers/2025/2504.12905/metadata.yml
