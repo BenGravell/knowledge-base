@@ -29,6 +29,7 @@ from knowledge_base.utils.arxiv_utils import (
 )
 from knowledge_base.utils.prefill_template import HaltPrefill, PrefillScript, REPO_ROOT
 from knowledge_base.utils.doi_utils import find_existing_by_arxiv_id
+from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ARXIV.md"
 ARXIV_URL_RE = re.compile(
@@ -51,10 +52,7 @@ RETRY_STATUS_CODES = {429, 500, 502, 503, 504}
 def extract_ids(path: Path) -> list[str]:
     seen: set[str] = set()
     ids: list[str] = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line or line.startswith("#"):
-            continue
+    for line in read_url_lines(path):
         m = ARXIV_URL_RE.search(line)
         arxiv_id = m.group(1) if m else line
         arxiv_id = normalize_arxiv_id(arxiv_id)

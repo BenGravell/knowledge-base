@@ -27,6 +27,7 @@ from knowledge_base.utils.doi_utils import (
     scrape_doi_from_html,
 )
 from knowledge_base.utils.prefill_template import DoiPrefillScript, REPO_ROOT
+from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "NATURE.md"
 
@@ -37,14 +38,10 @@ def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
     """Return (original_url, doi) pairs, deduplicated by DOI."""
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line or line.startswith("#"):
-            continue
-        url = line.split()[0]
+    for url in read_url_lines(path):
         m = _NATURE_ARTICLE_RE.search(url)
         if not m:
-            message = f"could not parse Nature article ID from: {line!r}"
+            message = f"could not parse Nature article ID from: {url!r}"
             if on_parse_failure:
                 on_parse_failure(message)
             else:

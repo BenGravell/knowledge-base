@@ -19,12 +19,15 @@ _YEAR_RE = re.compile(r"\b(18|19|20)\d{2}\b")
 
 
 def read_url_lines(path: Path) -> list[str]:
-    """Return non-comment, non-empty URL lines from a paper todo file."""
+    """Return non-comment, non-empty URL tokens from a paper todo file."""
     lines: list[str] = []
     for line in path.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if line and not line.startswith("#"):
-            lines.append(line.split()[0])
+            token = line.split()[0].strip()
+            if token.startswith("<") and token.endswith(">"):
+                token = token[1:-1].strip()
+            lines.append(token)
     return lines
 
 

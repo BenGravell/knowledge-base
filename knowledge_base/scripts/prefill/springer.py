@@ -24,6 +24,7 @@ from knowledge_base.utils.doi_utils import (
     scrape_abstract_from_html,
 )
 from knowledge_base.utils.prefill_template import DoiPrefillScript, REPO_ROOT
+from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "SPRINGER.md"
 
@@ -35,13 +36,10 @@ def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
     """Return (original_url, doi) pairs, deduplicated by DOI."""
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line or line.startswith("#"):
-            continue
-        m = _SPRINGER_DOI_RE.search(line)
+    for url in read_url_lines(path):
+        m = _SPRINGER_DOI_RE.search(url)
         if not m:
-            message = f"could not parse Springer DOI from: {line!r}"
+            message = f"could not parse Springer DOI from: {url!r}"
             if on_parse_failure:
                 on_parse_failure(message)
             else:
@@ -50,7 +48,7 @@ def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
         doi = m.group(1).rstrip("/")
         if doi and doi not in seen:
             seen.add(doi)
-            entries.append((line.split()[0], doi))
+            entries.append((url, doi))
     return entries
 
 

@@ -28,6 +28,7 @@ from knowledge_base.utils.doi_utils import (
     scrape_doi_from_html,
 )
 from knowledge_base.utils.prefill_template import DoiPrefillScript, REPO_ROOT
+from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ELSEVIER.md"
 
@@ -39,10 +40,7 @@ def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
     """Return (url, pii) pairs, deduplicated."""
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line or line.startswith("#"):
-            continue
+    for line in read_url_lines(path):
         m = _SD_PII_RE.search(line)
         if not m:
             message = f"could not parse ScienceDirect PII from: {line!r}"
