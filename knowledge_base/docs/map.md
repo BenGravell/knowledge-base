@@ -48,8 +48,8 @@ hide:
   --mm-teal:               var(--kb-color-teal);
   --mm-rose:               var(--kb-color-rose);
   --mm-gold:               var(--kb-color-gold);
-  --mm-border:             color-mix(in srgb, var(--md-default-fg-color) 18%, transparent);
-  --mm-soft-border:        color-mix(in srgb, var(--md-default-fg-color) 11%, transparent);
+  --mm-border:             color-mix(in srgb, var(--md-default-fg-color) 15%, transparent);
+  --mm-soft-border:        color-mix(in srgb, var(--md-default-fg-color) 9%, transparent);
   --mm-panel:              color-mix(in srgb, var(--md-code-bg-color) 82%, #050910);
 }
 
@@ -83,6 +83,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   --mm-filter-bg: color-mix(in srgb, var(--mm-gold) 18%, var(--md-default-bg-color));
   --kb-app-border: var(--mm-border);
   --kb-app-panel: var(--mm-panel);
+  --kb-app-header-bg: color-mix(in srgb, var(--md-code-bg-color) 82%, var(--kb-app-panel));
   position: relative;
   isolation: isolate;
   z-index: 0;

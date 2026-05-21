@@ -18,6 +18,7 @@ plugins:
 
 theme:
   name: material
+  custom_dir: overrides
   logo: icon.png
   favicon: favicon.png
 

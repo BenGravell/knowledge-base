@@ -11,7 +11,7 @@
   --kb-app-header-height: 2.65rem;
   --kb-app-border: color-mix(in srgb, var(--md-default-fg-color) 15%, transparent);
   --kb-app-panel: color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
-  --kb-app-header-bg: color-mix(in srgb, var(--md-code-bg-color) 82%, transparent);
+  --kb-app-header-bg: color-mix(in srgb, var(--md-code-bg-color) 82%, var(--kb-app-panel));
   --kb-color-blue: #2276c9;
   --kb-color-teal: #12877f;
   --kb-color-rose: #c33d80;
@@ -244,6 +244,40 @@ a.md-nav__link[href*="portfolio"]::after {
 /* Use one stable primary-sidebar rhythm on every page. */
 body {
   --md-sidebar-width: 10.2rem;
+  --kb-nav-icon-slot: 1.22rem;
+  --kb-nav-icon-size: 0.86rem;
+  --kb-nav-icon-gap: 0.34rem;
+}
+
+.md-sidebar--primary .md-nav__link {
+  align-items: center;
+}
+
+.md-sidebar--primary .kb-nav-icon {
+  display: inline-flex;
+  flex: 0 0 var(--kb-nav-icon-slot);
+  inline-size: var(--kb-nav-icon-slot);
+  block-size: var(--kb-nav-icon-size);
+  align-items: center;
+  justify-content: center;
+  margin-inline-end: var(--kb-nav-icon-gap);
+  color: var(--md-default-fg-color--light);
+  opacity: 0.82;
+}
+
+.md-sidebar--primary .kb-nav-icon svg {
+  display: block;
+  inline-size: var(--kb-nav-icon-size);
+  block-size: var(--kb-nav-icon-size);
+  fill: currentcolor;
+}
+
+.md-sidebar--primary .md-nav__link:hover .kb-nav-icon,
+.md-sidebar--primary .md-nav__link--active .kb-nav-icon,
+.md-sidebar--primary .md-nav__item--active > .md-nav__link .kb-nav-icon,
+.md-sidebar--primary .md-nav__item--active > .md-nav__container > .md-nav__link .kb-nav-icon {
+  color: currentcolor;
+  opacity: 1;
 }
 
 @media screen and (min-width: 76.25em) {
@@ -1752,13 +1786,22 @@ body:has(#tag-search-app) .md-content {
 }
 
 .tag-search-app {
-  --tag-search-border: color-mix(in srgb, var(--md-default-fg-color) 13%, transparent);
+  --tag-search-border: color-mix(in srgb, var(--md-default-fg-color) 15%, transparent);
   --tag-search-panel: color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
   --kb-app-border: var(--tag-search-border);
   --kb-app-panel: var(--tag-search-panel);
+  --kb-app-header-bg: color-mix(in srgb, var(--md-code-bg-color) 82%, var(--kb-app-panel));
   display: grid;
   gap: 0.85rem;
   margin-top: var(--kb-app-top-gap);
+}
+
+[data-md-color-scheme="slate"] .tag-search-app {
+  --tag-search-panel: color-mix(in srgb, var(--md-code-bg-color) 82%, #050910);
+}
+
+.tag-search-header.kb-app-header {
+  background: var(--kb-app-header-bg);
 }
 
 .tag-search-hero {
