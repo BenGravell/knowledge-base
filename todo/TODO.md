@@ -341,6 +341,9 @@ Hand-crafted
 
 ### UX
 
+Year tick container is still floating detached from graph, jiggles weirdly on scroll
+
+
 ### Design inspiration
 
 <https://pin.it/7kjN4B5KZ>
@@ -353,6 +356,10 @@ Hand-crafted
 
 ### UX
 
+Make the box holding the selected branch taller on height.
+
+Place the siblings to the right side of the selected branch. The height of the selected branch should be tall enough to span all the siblings. Make sure it still looks good and works on mobile site.
+
 ### Taxonomy guidance
 
 Balance or expand tree to fix all issues reported by python scripts/list_branching_factor_violations.py
@@ -362,6 +369,13 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 ## Map
 
 ### UX
+
+### settings size
+For mobile site, tune the settings bar height so that it only covers about half of the screen at the top, so that the bottom half can be used for the node Map canvas.
+
+
+
+
 
 #### bug
 
@@ -389,6 +403,8 @@ Etc.
 
 
 Tweak the settings ui for the selected node filter section. Checkmarks should not be so big, maybe use a more elegant toggle.
+
+Clean up the settings menu ux layout. Fewer labels? Smaller buttons for single touch buttons like node labels vis, fit view.
 
 ### Data export
 

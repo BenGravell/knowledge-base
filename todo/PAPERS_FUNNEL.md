@@ -342,3 +342,4 @@ https://arxiv.org/pdf/2403.14606?
 https://arxiv.org/pdf/0706.4138
 https://arxiv.org/abs/2511.09925
 https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3792520
+https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4378498
