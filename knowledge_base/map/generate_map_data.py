@@ -227,6 +227,7 @@ def force_layout_postprocess(
     umap_coords: "np.ndarray",
     embeddings: "np.ndarray",
     *,
+    pre_layout_scale: float = 1.0,
     anchor_strength: float = 0.85,
     sim_threshold: float = 0.75,
     sim_candidate_limit: int = 10,
@@ -271,6 +272,10 @@ def force_layout_postprocess(
     anchor_strength:
         Weight of the anchor force pulling nodes back to their UMAP home.
         Higher values preserve UMAP topology more faithfully (range: 0-1).
+    pre_layout_scale:
+        Before simulation, scale UMAP positions outward from their centroid by
+        this factor.  This lets the force and collision passes operate on a
+        roomier starting layout.
     sim_threshold:
         Minimum cosine similarity for a pair to receive an attraction force.
     sim_candidate_limit:
@@ -317,8 +322,11 @@ def force_layout_postprocess(
         print(f"    [force_layout] N={N}, iterations={iterations}, alpha0={initial_alpha}")
 
     emb_norm = normalize(embeddings.astype(np.float32))
-    home = umap_coords.copy().astype(np.float64)
-    pos  = umap_coords.copy().astype(np.float64)
+    home = scale_positions_about_centroid(
+        umap_coords.astype(np.float64),
+        pre_layout_scale,
+    )
+    pos = home.copy()
 
     canvas = np.ptp(pos, axis=0)
     area   = canvas[0] * canvas[1]
@@ -371,6 +379,18 @@ def force_layout_postprocess(
     centroid = pos.mean(axis=0)
     pos = centroid + (pos - centroid) * post_scale
     return pos
+
+
+def scale_positions_about_centroid(coords: "np.ndarray", scale: float) -> "np.ndarray":
+    """Return coordinates scaled outward from their centroid."""
+    numeric_scale = float(scale)
+    if not np.isfinite(numeric_scale) or numeric_scale <= 0:
+        numeric_scale = 1.0
+    if numeric_scale == 1.0:
+        return coords.copy()
+
+    centroid = coords.mean(axis=0)
+    return centroid + (coords - centroid) * numeric_scale
 
 
 def _build_attraction_pairs(
@@ -1159,6 +1179,7 @@ def main() -> None:
     print("\n[6/7] Force-directed layout post-processing…")
 
     force_params = dict(
+        pre_layout_scale=2.0,
         anchor_strength=0.85,
         sim_threshold=0.75,
         sim_candidate_limit=10,
@@ -1169,7 +1190,7 @@ def main() -> None:
         iterations=120,
         initial_alpha=0.3,
         alpha_decay=0.98,
-        post_scale=2.0,
+        post_scale=1.0,
         random_seed=42,
     )
 

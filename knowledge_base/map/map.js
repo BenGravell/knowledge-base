@@ -93,6 +93,17 @@
   const NODE_DIAMETER_SCALE = 2;
   const PAPER_NODE_RADIUS_CLEARANCE_RATIO = 0.30;
   const PAPER_NODE_RADIUS_TARGET = 12 * NODE_DIAMETER_SCALE;
+  const MIN_CAMERA_RATIO = 0.04;
+  const MAX_CAMERA_RATIO = 6;
+  const MAX_ZOOM_LABEL_RATIO = MIN_CAMERA_RATIO * 1.05;
+  const MIN_NODE_SCREEN_DIAMETER = 4;
+  const MIN_NODE_SCREEN_RADIUS = MIN_NODE_SCREEN_DIAMETER / 2;
+  const AGGREGATE_EXTRA_AREA_UNITS_BY_LEVEL = [18, 12, 8, 5, 3];
+  const AGGREGATE_EXTRA_AREA_FALLBACK_UNITS = 2;
+  const AGGREGATE_MIN_RADIUS_RATIO = 1.7;
+  const LABEL_RENDERED_SIZE_THRESHOLD = 13;
+  const LABEL_DENSITY = 0.14;
+  const LABEL_GRID_CELL_SIZE = 96;
   const NODE_LABEL_FONT_SIZE = 11;
   const NODE_LABEL_FONT_SIZE_MIN = 9;
   const NODE_LABEL_FONT_SIZE_MAX = 24;
@@ -183,6 +194,8 @@
   let visibleNodeCount = 0;
   let searchMatchCount = 0;
   let visibilityColorContext = null;
+  let graphToViewportRatioCache = null;
+  let lastCameraRenderRatio = null;
 
   /* -------------------------------------------------------------------------
    * Utility
@@ -399,6 +412,81 @@
       : NODE_LABEL_ZOOM_REFERENCE_RATIO;
   }
 
+  function graphToViewportRatioForCurrentCamera() {
+    if (!renderer || typeof renderer.graphToViewport !== 'function') return null;
+
+    const camera = typeof renderer.getCamera === 'function'
+      ? renderer.getCamera()
+      : null;
+    const cameraState = camera && typeof camera.getState === 'function'
+      ? camera.getState()
+      : null;
+    const dims = typeof renderer.getDimensions === 'function'
+      ? renderer.getDimensions()
+      : { width: 0, height: 0 };
+    const graphDims = typeof renderer.getGraphDimensions === 'function'
+      ? renderer.getGraphDimensions()
+      : { width: 0, height: 0 };
+    const padding = typeof renderer.getSetting === 'function'
+      ? renderer.getSetting('stagePadding')
+      : 0;
+    const ratio = cameraState && Number(cameraState.ratio);
+    const key = [
+      Number.isFinite(ratio) ? ratio : NODE_LABEL_ZOOM_REFERENCE_RATIO,
+      dims.width || 0,
+      dims.height || 0,
+      graphDims.width || 0,
+      graphDims.height || 0,
+      padding || 0,
+    ].join(':');
+
+    if (graphToViewportRatioCache && graphToViewportRatioCache.key === key) {
+      return graphToViewportRatioCache.value;
+    }
+
+    const options = cameraState ? { cameraState, padding } : { padding };
+    const a = renderer.graphToViewport({ x: 0, y: 0 }, options);
+    const b = renderer.graphToViewport({ x: 1, y: 1 }, options);
+    const value = Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y)) / Math.SQRT2;
+
+    graphToViewportRatioCache = {
+      key,
+      value: Number.isFinite(value) && value > 0 ? value : null,
+    };
+    return graphToViewportRatioCache.value;
+  }
+
+  function nodeSizeWithMinimumScreenRadius(size) {
+    const baseSize = Number.isFinite(size) && size > 0 ? size : PAPER_NODE_RADIUS_TARGET;
+    const graphToViewportRatio = graphToViewportRatioForCurrentCamera();
+    if (!Number.isFinite(graphToViewportRatio) || graphToViewportRatio <= 0) return baseSize;
+
+    return Math.max(baseSize, MIN_NODE_SCREEN_RADIUS / graphToViewportRatio);
+  }
+
+  function cameraAtMaximumZoomIn(ratio = currentCameraRatio()) {
+    return Number.isFinite(ratio) && ratio <= MAX_ZOOM_LABEL_RATIO;
+  }
+
+  function detailLevelIndex(level) {
+    return DETAIL_LEVELS.indexOf(level);
+  }
+
+  function isTopDetailLevel(level) {
+    return detailLevelIndex(level) === 0;
+  }
+
+  function isLowestDetailLevel(level) {
+    const index = detailLevelIndex(level);
+    return index >= 0 && index === DETAIL_LEVELS.length - 1;
+  }
+
+  function nodeHasPersistentLabel(attrs) {
+    if (!showNodeLabels || !attrs) return false;
+    if (isTopDetailLevel(attrs.detailLevel)) return true;
+    return isLowestDetailLevel(attrs.detailLevel) && cameraAtMaximumZoomIn();
+  }
+
   function currentNodeLabelZoomScale() {
     return nodeLabelZoomScaleForRatio(currentCameraRatio());
   }
@@ -487,11 +575,14 @@
 
   function aggregateNodeSize(count, level) {
     const n = Math.max(Number(count) || 1, 1);
-    const scale = Math.sqrt(n);
     const index = Math.max(hierarchyLevel(level).pathIndex || 0, 0);
-    if (index === 0) return clamp(110 + scale * 7.5, 125, 210) * NODE_DIAMETER_SCALE;
-    if (index === 1) return clamp(78 + scale * 5.2, 88, 160) * NODE_DIAMETER_SCALE;
-    return clamp(56 + scale * Math.max(2.9, 4.3 - index * 0.35), 62, 130) * NODE_DIAMETER_SCALE;
+    const extraAreaUnits = AGGREGATE_EXTRA_AREA_UNITS_BY_LEVEL[index] ||
+      AGGREGATE_EXTRA_AREA_FALLBACK_UNITS;
+    const equivalentItemCount = n + extraAreaUnits;
+    const radius = PAPER_NODE_RADIUS_TARGET * Math.sqrt(equivalentItemCount);
+    const minRadius = PAPER_NODE_RADIUS_TARGET * AGGREGATE_MIN_RADIUS_RATIO;
+
+    return Math.max(radius, minRadius);
   }
 
   function median(values) {
@@ -1586,7 +1677,7 @@
   function nodeReducer(node, attrs) {
     if (!nodeVisible(node)) return { ...attrs, hidden: true };
 
-    const size = nodeDisplaySize(attrs);
+    const size = nodeSizeWithMinimumScreenRadius(nodeDisplaySize(attrs));
     const baseZIndex = detailLevelZIndex(attrs.detailLevel);
     const highlighted = focus.nodes.has(node);
     const primaryFocus = highlighted && (
@@ -1596,7 +1687,7 @@
     );
     const muted = focus.active && !primaryFocus;
     const focusLabel = node === pinnedNode || node === hoveredNode;
-    const forceLabel = focusLabel;
+    const forceLabel = focusLabel || nodeHasPersistentLabel(attrs);
     const label = (showNodeLabels || focusLabel) ? attrs.label : '';
 
     if (muted) {
@@ -2205,15 +2296,15 @@
 
     try {
       renderer = new window.Sigma(graph, graphContainer, {
-        minCameraRatio: 0.04,
-        maxCameraRatio: 6,
+        minCameraRatio: MIN_CAMERA_RATIO,
+        maxCameraRatio: MAX_CAMERA_RATIO,
         zIndex: true,
         hideLabelsOnMove: false,
         renderLabels: true,
         enableCameraRotation: false,
-        labelRenderedSizeThreshold: 14,
-        labelDensity: 0.08,
-        labelGridCellSize: 120,
+        labelRenderedSizeThreshold: LABEL_RENDERED_SIZE_THRESHOLD,
+        labelDensity: LABEL_DENSITY,
+        labelGridCellSize: LABEL_GRID_CELL_SIZE,
         labelFont: '"Atkinson Hyperlegible Next", "Segoe UI", sans-serif',
         labelSize: NODE_LABEL_FONT_SIZE,
         itemSizesReference: 'positions',
@@ -2253,7 +2344,21 @@
       ? renderer.getCamera()
       : null;
     if (camera && typeof camera.on === 'function') {
-      camera.on('updated', updateActiveTooltipPositions);
+      camera.on('updated', () => {
+        const state = typeof camera.getState === 'function' ? camera.getState() : null;
+        const ratio = state && Number(state.ratio);
+        const ratioChanged = Number.isFinite(ratio) && (
+          lastCameraRenderRatio === null ||
+          Math.abs(ratio - lastCameraRenderRatio) > 1e-5
+        );
+
+        updateActiveTooltipPositions();
+        if (!ratioChanged) return;
+
+        lastCameraRenderRatio = ratio;
+        graphToViewportRatioCache = null;
+        if (renderer) renderer.scheduleRefresh();
+      });
     }
   }
 
