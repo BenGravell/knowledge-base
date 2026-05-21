@@ -1,5 +1,5 @@
 title: "Contraction L1-Adaptive Control Using Gaussian Processes"
-algorithm:
+algorithm: CL1-GP
 authors:
   - Aditya Gahlawat
   - Arun Lakshmanan
