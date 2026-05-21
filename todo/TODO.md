@@ -1,15 +1,11 @@
 # TODO
 
-## UX
-
-Have Timeline, Tree, Tag Search, Analytics all use the same main width within the page (leaving good margin on left side to nav menu and right side to page border - use the Timeline page's margin setting)
-
 ## Taxonomy
 
 Run e.g.
 
 ```sh
-python scripts/list_branching_factor_violations.py --max-depth 3 --max-results 5
+python scripts/list_branching_factor_violations.py --max-depth 3 --max-results 1
 ```
 
 and resolve all issues.
@@ -29,7 +25,6 @@ https://arxiv.org/pdf/2503.12489
 https://arxiv.org/pdf/2405.18962
 https://arxiv.org/pdf/1903.06842
 https://arxiv.org/pdf/2005.01082
-
 
 ### Informativity Framework for Data-driven Control
 

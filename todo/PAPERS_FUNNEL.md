@@ -344,3 +344,14 @@ https://arxiv.org/abs/2511.09925
 https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3792520
 https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4378498
 https://www.sciencedirect.com/science/article/pii/S0005109822003983
+https://arxiv.org/abs/1708.02002
+https://arxiv.org/abs/1507.04888
+https://arxiv.org/abs/1807.00412
+https://arxiv.org/abs/2109.13602
+https://arxiv.org/abs/2101.06679
+https://arxiv.org/abs/1604.07316
+https://arxiv.org/abs/1910.05449
+https://arxiv.org/abs/1903.11027
+https://arxiv.org/abs/1911.02620
+https://arxiv.org/abs/2301.00493
+https://arxiv.org/pdf/1809.10732
