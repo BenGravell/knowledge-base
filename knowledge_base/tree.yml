@@ -962,9 +962,30 @@
           - System Identification:
             - Analysis of Recursive Stochastic Algorithms: docs/papers/1977/1977.ljung.analysis_of_recursive_stochastic/metadata.yml
             - "Parameter Identification for Uncertain Plants Using H∞ Methods": docs/papers/1995/1995.didinsky.parameter_identification_for_uncertain/metadata.yml
-            - Learning Without Mixing: docs/papers/2018/1802.08334/metadata.yml
-            - Efficient Learning of a Linear Dynamical System with Stability Guarantees: docs/papers/2021/2102.03664/metadata.yml
-            - CLT-Optimal Parameter Error Bounds for Linear System Identification: docs/papers/2026/2604.21270/metadata.yml
+            - Subspace Identification:
+              - Subspace Identification for Linear Systems: docs/papers/1996/1996.van_overschee.subspace_identification_for_linear/metadata.yml
+              - MOESP: docs/papers/1992/1992.verhaegen.subspace_model_identification_part/metadata.yml
+              - IV-MOESP: docs/papers/1994/1994.verhaegen.identification_of_the_deterministic/metadata.yml
+              - N4SID: docs/papers/1994/1994.van_overschee.n4sid_numerical_algorithms_for/metadata.yml
+            - Realization-based Methods:
+              - ERA: docs/papers/1985/1985.juang.an_eigensystem_realization_algorithm/metadata.yml
+              - OKID: docs/papers/1993/1993.juang.identification_of_observer_kalman/metadata.yml
+            - Dynamic Mode Decomposition (DMD):
+              - DMD: docs/papers/2008/2008.schmid.dynamic_mode_decomposition_of/metadata.yml
+              - "DMD: Theory and Applications": docs/papers/2013/1312.0041/metadata.yml
+              - "DMD: Theory and Data Reconstruction": docs/papers/2019/1909.10466/metadata.yml
+              - DMD and Its Variants: docs/papers/2022/2022.schmid.dynamic_mode_decomposition_and/metadata.yml
+              - DMDc: docs/papers/2014/1409.6358/metadata.yml
+            - Linear Systems with Additive Noise:
+              - Linear System Identification via EM with Latent Disturbances and Lagrangian Relaxation: docs/papers/2016/1603.09157/metadata.yml
+              - Learning Without Mixing: docs/papers/2018/1802.08334/metadata.yml
+              - Non-Asymptotic Identification of LTI Systems from a Single Trajectory: docs/papers/2018/1806.05722/metadata.yml
+              - Finite Sample Analysis of Stochastic System Identification: docs/papers/2019/1903.09122/metadata.yml
+              - Efficient Learning of a Linear Dynamical System with Stability Guarantees: docs/papers/2021/2102.03664/metadata.yml
+              - CLT-Optimal Parameter Error Bounds for Linear System Identification: docs/papers/2026/2604.21270/metadata.yml
+            - Linear Systems with Multiplicative Noise:
+              - Linear System Identification Under Multiplicative Noise from Multiple Trajectory Data: docs/papers/2020/2002.06613/metadata.yml
+              - Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data: docs/papers/2021/2106.16078/metadata.yml
           - Adaptive Linear Quadratic Control:
             - Self-Tuning Regulators: docs/papers/1973/1973.astrom.on_self_tuning_regulators/metadata.yml
             - A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum: docs/papers/2014/2014.trimpe.a_self_tuning_lqr/metadata.yml
@@ -1047,7 +1068,7 @@
             - Values and Strategies for Infinite Time Linear Quadratic Games: docs/papers/1976/1976.mageirou.values_and_strategies_for/metadata.yml
             - An Analysis of Stochastic Shortest Path Problems: docs/papers/1991/1991.bertsekas.an_analysis_of_stochastic/metadata.yml
             - Quasi Policy Iteration: docs/papers/2023/2311.11166/metadata.yml
-            - "Dynamic Programming Through the Lens of Semismooth Newton-Type Methods": docs/papers/2022/2203.08678/metadata.yml
+            - Dynamic Programming Through the Lens of Semismooth Newton-Type Methods: docs/papers/2022/2203.08678/metadata.yml
           - Approximate Dynamic Programming:
             - Q-learning: docs/papers/1992/1992.watkins.q_learning/metadata.yml
             - On-Line Q-Learning Using Connectionist Systems: docs/papers/1994/1994.rummery.on_line_q_learning/metadata.yml
@@ -1072,24 +1093,8 @@
               - Rainbow: docs/papers/2017/1710.02298/metadata.yml
         - Model-based RL:
           - System Identification:
-            - Non-Asymptotic Identification of LTI Systems from a Single Trajectory: docs/papers/2018/1806.05722/metadata.yml
-            - Linear System Identification via EM with Latent Disturbances and Lagrangian Relaxation: docs/papers/2016/1603.09157/metadata.yml
             - On the smoothness of nonlinear system identification: docs/papers/2019/1905.00820/metadata.yml
-            - Finite Sample Analysis of Stochastic System Identification: docs/papers/2019/1903.09122/metadata.yml
-            - A Tutorial on Concentration Bounds for System Identification: docs/papers/2019/1906.11395/metadata.yml
-            - "Linear System Identification Under Multiplicative Noise from Multiple Trajectory Data": docs/papers/2020/2002.06613/metadata.yml
-            - "Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data": docs/papers/2021/2106.16078/metadata.yml
-            - Subspace Identification:
-              - Subspace Identification for Linear Systems: docs/papers/1996/1996.van_overschee.subspace_identification_for_linear/metadata.yml
-              - N4SID: docs/papers/1994/1994.van_overschee.n4sid_numerical_algorithms_for/metadata.yml
-            - ERA: docs/papers/1985/1985.juang.an_eigensystem_realization_algorithm/metadata.yml
-            - OKID: docs/papers/1993/1993.juang.identification_of_observer_kalman/metadata.yml
-            - Dynamic Mode Decomposition (DMD):
-              - DMD: docs/papers/2008/2008.schmid.dynamic_mode_decomposition_of/metadata.yml
-              - "DMD: Theory and Applications": docs/papers/2013/1312.0041/metadata.yml
-              - "DMD: Theory and Data Reconstruction": docs/papers/2019/1909.10466/metadata.yml
-              - DMD and Its Variants: docs/papers/2022/2022.schmid.dynamic_mode_decomposition_and/metadata.yml
-              - DMDc: docs/papers/2014/1409.6358/metadata.yml
+            - Extended Dynamic Mode Decomposition (eDMD) and Koopman:
               - eDMD: docs/papers/2014/1408.4408/metadata.yml
               - "A Short Introduction to the Koopman Representation of Dynamical Systems": docs/papers/2022/2205.08048/metadata.yml
               - "Accelerating Sampling-Based Control via Learned Linear Koopman Dynamics": docs/papers/2026/2603.05385/metadata.yml
@@ -1112,8 +1117,6 @@
             - "A Tutorial on Solution Properties of State Space Models of Dynamical Systems": docs/papers/2022/2204.06104/metadata.yml
             - Interactive Bayesian identification of kinematic mechanisms: docs/papers/2014/2014.barragan.interactive_bayesian_identification_of/metadata.yml
             - "An Information-state based Approach to the Optimal Output Feedback Control of Nonlinear Systems": docs/papers/2021/2107.08086/metadata.yml
-            - "An Introduction to Matrix Concentration Inequalities": docs/papers/2015/1501.01571/metadata.yml
-            - "Concentration Inequalities for Statistical Inference": docs/papers/2020/2011.02258/metadata.yml
             - "How Are Learned Perception-Based Controllers Impacted by the Limits of Robust Control?": docs/papers/2021/2104.00827/metadata.yml
             - "Physics-Informed Machine Learning for Modeling and Control of Dynamical Systems": docs/papers/2023/2306.13867/metadata.yml
             - "Self-Normalized Processes: Exponential Inequalities, Moment Bounds and Iterated Logarithm Laws": docs/papers/2004/2004.de_la_pena.self_normalized_processes_exponential/metadata.yml
@@ -1568,9 +1571,9 @@
         - Scalar Spatiotemporal Blue Noise Masks: docs/papers/2021/2112.09629/metadata.yml
         - Spatiotemporal Blue Noise Masks: docs/papers/2022/2022.wolfe.spatiotemporal_blue_noise_masks/metadata.yml
         - An Optimum Method for Two-level Rendition for Continuous Tone Pictures: docs/papers/1973/1973.e.an_optimum_method_for/metadata.yml
-      - Flow Visualization:
+      - Line Integral Convolution:
         - OLIC: docs/papers/1997/1997.wegenkittl.animating_flow_fields_rendering/metadata.yml
-      - 3D Gaussian Splatting:
+      - 3D Gaussian Splatting (3DGS):
         - 3D Gaussian Splatting: docs/papers/2023/2308.04079/metadata.yml
         - Matrix-free Second-order Optimization of Gaussian Splats with Residual Sampling: docs/papers/2025/2504.12905/metadata.yml
       - Neural Radiance Fields (NeRF):
@@ -1682,10 +1685,14 @@
       - Statistics & Probability:
         - "Mean, What do You Mean?": docs/papers/2016/2016.de_carvalho.mean_what_do_you/metadata.yml
         - High-dimensional Statistics: docs/papers/2019/2019.wainwright.high_dimensional_statistics/metadata.yml
+        - Concentration Bounds:
+          - An Introduction to Matrix Concentration Inequalities: docs/papers/2015/1501.01571/metadata.yml
+          - Concentration Bounds for CVaR Estimation: docs/papers/2019/1901.00997/metadata.yml
+          - Concentration Inequalities for Statistical Inference: docs/papers/2020/2011.02258/metadata.yml
+          - A Tutorial on Concentration Bounds for System Identification: docs/papers/2019/1906.11395/metadata.yml
         - Risk Measures:
           - Coherent Measures of Risk: docs/papers/1999/1999.artzner.coherent_measures_of_risk/metadata.yml
           - CVaR: docs/papers/2002/2002.rockafellar.conditional_value_at_risk/metadata.yml
-          - Concentration Bounds for CVaR Estimation: docs/papers/2019/1901.00997/metadata.yml
     - Software & Programming:
       - Essays:
         - The Humble Programmer: docs/papers/1972/1972.dijkstra.the_humble_programmer/metadata.yml
@@ -1718,14 +1725,17 @@
       - Priority Queues:
         - Fibonacci Heap: docs/papers/1987/1987.fredman.fibonacci_heaps_and_their/metadata.yml
       - Nearest Neighbor Search:
-        - FLANN: docs/papers/2014/2014.muja.scalable_nearest_neighbor_algorithms/metadata.yml
-        - "Accelerating Large-Scale Inference with Anisotropic Vector Quantization": docs/papers/2019/1908.10396/metadata.yml
-        - "Billion-scale similarity search with GPUs": docs/papers/2017/1702.08734/metadata.yml
-        - CLOVER: docs/papers/2025/2025.kamel.clover_a_gpu_native/metadata.yml
-        - "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs": docs/papers/2016/1603.09320/metadata.yml
-        - JZ-Tree: docs/papers/2026/2604.05885/metadata.yml
-        - "Product Quantization for Nearest Neighbor Search": docs/papers/2011/2011.jegou.product_quantization_for_nearest/metadata.yml
-        - FAISS: docs/papers/2024/2401.08281/metadata.yml
+        - Approximate Nearest Neighbor Search:
+          - FLANN: docs/papers/2014/2014.muja.scalable_nearest_neighbor_algorithms/metadata.yml
+          - HNSW: docs/papers/2016/1603.09320/metadata.yml
+        - Quantization:
+          - Product Quantization for Nearest Neighbor Search: docs/papers/2011/2011.jegou.product_quantization_for_nearest/metadata.yml
+          - Accelerating Large-Scale Inference with Anisotropic Vector Quantization: docs/papers/2019/1908.10396/metadata.yml
+        - Large-scale Vector Search:
+          - Faiss: docs/papers/2017/1702.08734/metadata.yml
+          - Faiss Library: docs/papers/2024/2401.08281/metadata.yml
+          - CLOVER: docs/papers/2025/2025.kamel.clover_a_gpu_native/metadata.yml
+          - JZ-Tree: docs/papers/2026/2604.05885/metadata.yml
       - Trees & Spatial Indexing:
         - Ordered Search Trees:
           - B-tree:
