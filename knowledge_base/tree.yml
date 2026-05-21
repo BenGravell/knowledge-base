@@ -880,10 +880,9 @@
           - "Control Barrier Function Based Quadratic Programs for Safety Critical Systems": docs/papers/2017/2017.ames.control_barrier_function_based/metadata.yml
           - "Control Barrier Functions: Theory and Applications": docs/papers/2019/1903.11199/metadata.yml
           - "Synthesis and Deployment of Maximal Robust Control Barrier Functions through Adversarial Reinforcement Learning": docs/papers/2026/2604.13192/metadata.yml
-      - Distributed & Networked Control:
-        - Control of Networks:
-          - Control Principles of Complex Networks: docs/papers/2015/1508.05384/metadata.yml
-          - Control Profiles of Complex Networks: docs/papers/2014/2014.ruths.control_profiles_of_complex/metadata.yml
+      - Control of Networks:
+        - Control Principles of Complex Networks: docs/papers/2015/1508.05384/metadata.yml
+        - Control Profiles of Complex Networks: docs/papers/2014/2014.ruths.control_profiles_of_complex/metadata.yml
       - Robot Control:
         - Theory of Robot Control: docs/papers/1996/1996.wit.theory_of_robot_control/metadata.yml
         - "Adaptive Motion Control of Rigid Robots: A Tutorial": docs/papers/1989/1989.ortega.adaptive_motion_control_of/metadata.yml
@@ -921,7 +920,7 @@
         - Neuronlike Adaptive Elements (Actor-Critic, Cart-Pole): docs/papers/1983/1983.barto.neuronlike_adaptive_elements_that/metadata.yml
         - TD Learning: docs/papers/1988/1988.sutton.learning_to_predict_by/metadata.yml
         - mellowmax: docs/papers/2016/1612.05628/metadata.yml
-        - "A Gentle Lecture Note on Filtrations in Reinforcement Learning": docs/papers/2020/2008.02622/metadata.yml
+        - A Gentle Lecture Note on Filtrations in Reinforcement Learning: docs/papers/2020/2008.02622/metadata.yml
         - "Reinforcement Learning and Control as Probabilistic Inference: Tutorial and Review": docs/papers/2018/1805.00909/metadata.yml
         - MDPNv1: docs/papers/2015/1512.09075/metadata.yml
       - Multi-arm Bandits:
@@ -960,26 +959,31 @@
           - "Policy Iteration for Linear Quadratic Games with Stochastic Parameters": docs/papers/2021/2021.gravell.policy_iteration_for_linear/metadata.yml
           - "Policy iteration using Q-functions: Linear dynamics with multiplicative noise": docs/papers/2022/2212.01192/metadata.yml
         - Model-based RL:
-          - Self-Tuning Regulators: docs/papers/1973/1973.astrom.on_self_tuning_regulators/metadata.yml
-          - A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum: docs/papers/2014/2014.trimpe.a_self_tuning_lqr/metadata.yml
-          - Robust exploration in linear quadratic reinforcement learning: docs/papers/2019/1906.01584/metadata.yml
-          - Optimistic robust linear quadratic dual control: docs/papers/2019/1912.13143/metadata.yml
-          - Logarithmic Regret for Online Control: docs/papers/2019/2019.agarwal.logarithmic_regret_for_online/metadata.yml
-          - Regret Bounds for the Adaptive Control of Linear Quadratic Systems: docs/papers/2011/2011.abbasi_yadkori.regret_bounds_for_the/metadata.yml
-          - Learning Without Mixing: docs/papers/2018/1802.08334/metadata.yml
-          - Regret Bounds for Robust Adaptive Control of LQR: docs/papers/2018/1805.09388/metadata.yml
-          - "Regret Bounds for Robust Adaptive Control of the Linear Quadratic Regulator": docs/papers/2018/2018.dean.regret_bounds_for_robust/metadata.yml
-          - "Certainty Equivalence is Efficient for Linear Quadratic Control": docs/papers/2019/1902.07826/metadata.yml
-          - "Domain Randomization is Sample Efficient for Linear Quadratic Control": docs/papers/2025/2502.12310/metadata.yml
-          - "Robust Learning-Based Control via Bootstrapped Multiplicative Noise": docs/papers/2020/2002.10069/metadata.yml
-          - "Robust Data-Driven Output Feedback Control via Bootstrapped Multiplicative Noise": docs/papers/2022/2205.05119/metadata.yml
-          - "Efficient Learning of a Linear Dynamical System with Stability Guarantees": docs/papers/2021/2102.03664/metadata.yml
-          - "Toward Understanding State Representation Learning in MuZero: A Case Study in Linear Quadratic Gaussian Control": docs/papers/2023/2023.tian.toward_understanding_state_representation/metadata.yml
-          - "Cost-Driven Representation Learning for Linear Quadratic Gaussian Control: Part I": docs/papers/2022/2212.14511/metadata.yml
-          - "Cost-Driven Representation Learning for Linear Quadratic Gaussian Control: Part II": docs/papers/2026/2603.07437/metadata.yml
-          - "CLT-Optimal Parameter Error Bounds for Linear System Identification": docs/papers/2026/2604.21270/metadata.yml
-          - The Fragility of Learning LQG Controllers: docs/papers/2026/2604.24442/metadata.yml
-        - "Using Data-Driven Domain Randomization to Transfer Robust Control Policies to Mobile Robots": docs/papers/2019/2019.sheckells.using_data_driven_domain/metadata.yml
+          - System Identification:
+            - Analysis of Recursive Stochastic Algorithms: docs/papers/1977/1977.ljung.analysis_of_recursive_stochastic/metadata.yml
+            - "Parameter Identification for Uncertain Plants Using H∞ Methods": docs/papers/1995/1995.didinsky.parameter_identification_for_uncertain/metadata.yml
+            - Learning Without Mixing: docs/papers/2018/1802.08334/metadata.yml
+            - Efficient Learning of a Linear Dynamical System with Stability Guarantees: docs/papers/2021/2102.03664/metadata.yml
+            - CLT-Optimal Parameter Error Bounds for Linear System Identification: docs/papers/2026/2604.21270/metadata.yml
+          - Adaptive Linear Quadratic Control:
+            - Self-Tuning Regulators: docs/papers/1973/1973.astrom.on_self_tuning_regulators/metadata.yml
+            - A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum: docs/papers/2014/2014.trimpe.a_self_tuning_lqr/metadata.yml
+            - Regret Bounds for the Adaptive Control of Linear Quadratic Systems: docs/papers/2011/2011.abbasi_yadkori.regret_bounds_for_the/metadata.yml
+            - Certainty Equivalence is Efficient for Linear Quadratic Control: docs/papers/2019/1902.07826/metadata.yml
+            - Logarithmic Regret for Online Control: docs/papers/2019/2019.agarwal.logarithmic_regret_for_online/metadata.yml
+          - Robust Adaptive Linear Quadratic Control:
+            - Optimistic robust linear quadratic dual control: docs/papers/2019/1912.13143/metadata.yml
+            - Regret Bounds for Robust Adaptive Control of LQR: docs/papers/2018/1805.09388/metadata.yml
+            - Regret Bounds for Robust Adaptive Control of the Linear Quadratic Regulator: docs/papers/2018/2018.dean.regret_bounds_for_robust/metadata.yml
+            - Robust exploration in linear quadratic reinforcement learning: docs/papers/2019/1906.01584/metadata.yml
+            - Robust Learning-Based Control via Bootstrapped Multiplicative Noise: docs/papers/2020/2002.10069/metadata.yml
+            - Robust Data-Driven Output Feedback Control via Bootstrapped Multiplicative Noise: docs/papers/2022/2205.05119/metadata.yml
+            - Domain Randomization is Sample Efficient for Linear Quadratic Control: docs/papers/2025/2502.12310/metadata.yml
+          - LQG:          
+            - "Toward Understanding State Representation Learning in MuZero: A Case Study in Linear Quadratic Gaussian Control": docs/papers/2023/2023.tian.toward_understanding_state_representation/metadata.yml
+            - "Cost-Driven Representation Learning for Linear Quadratic Gaussian Control: Part I": docs/papers/2022/2212.14511/metadata.yml
+            - "Cost-Driven Representation Learning for Linear Quadratic Gaussian Control: Part II": docs/papers/2026/2603.07437/metadata.yml
+            - The Fragility of Learning LQG Controllers: docs/papers/2026/2604.24442/metadata.yml
       - Nonlinear Systems:
         - Policy Optimization:
           - Random Search & Evolution Strategies:
@@ -1099,12 +1103,12 @@
               - SINDy-RL: docs/papers/2024/2403.09110/metadata.yml
               - PySINDy: docs/papers/2021/2111.08481/metadata.yml
               - LeARN: docs/papers/2024/2412.12036/metadata.yml
-              - "Nonlinear Systems Identification Using Deep Dynamic Neural Networks": docs/papers/2016/1610.01439/metadata.yml
             - World Models:
               - PlaNet: docs/papers/2018/1811.04551/metadata.yml
               - Dreamer: docs/papers/2019/1912.01603/metadata.yml
               - Dream to Fly: docs/papers/2025/2501.14377/metadata.yml
               - Hierarchical Planning with Latent World Models: docs/papers/2026/2604.03208/metadata.yml
+            - Nonlinear Systems Identification Using Deep Dynamic Neural Networks: docs/papers/2016/1610.01439/metadata.yml
             - "A Tutorial on Solution Properties of State Space Models of Dynamical Systems": docs/papers/2022/2204.06104/metadata.yml
             - Interactive Bayesian identification of kinematic mechanisms: docs/papers/2014/2014.barragan.interactive_bayesian_identification_of/metadata.yml
             - "An Information-state based Approach to the Optimal Output Feedback Control of Nonlinear Systems": docs/papers/2021/2107.08086/metadata.yml
@@ -1120,6 +1124,7 @@
             - "System identification and long-range predictive control of multi-rate systems": docs/papers/1999/1999.li.system_identification_and_long/metadata.yml
             - "Robust Nonlinear System Identification Using Neural-network Models": docs/papers/1998/1998.lu.robust_nonlinear_system_identification/metadata.yml
             - "How to Model Your Crazyflie Brushless": docs/papers/2026/2603.05944/metadata.yml
+            - "Using Data-Driven Domain Randomization to Transfer Robust Control Policies to Mobile Robots": docs/papers/2019/2019.sheckells.using_data_driven_domain/metadata.yml
           - Surveys & Control Connections:
             - From Self-Tuning Regulators to Reinforcement Learning and Back Again: docs/papers/2019/1906.11392/metadata.yml
             - "A Tour of Reinforcement Learning: The View from Continuous Control": docs/papers/2018/1806.09460/metadata.yml
@@ -1172,38 +1177,49 @@
           - PLAL: docs/papers/2022/2209.09006/metadata.yml
           - Power of Locally Linear Models: docs/papers/2023/2305.09619/metadata.yml
       - Inverse Reinforcement Learning & Reward Learning:
-        - "Inverse Optimization: Theory and Applications": docs/papers/2021/2109.03920/metadata.yml
-        - Inverse LQR: docs/papers/2019/2019.zhang.inverse_optimal_control_for/metadata.yml
-        - Inverse Quadratic Optimal Control: docs/papers/2018/1810.12590/metadata.yml
-        - "Guided Cost Learning: Deep Inverse Optimal Control via Policy Optimization": docs/papers/2016/1603.00448/metadata.yml
-        - "Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors": docs/papers/2025/2508.07400/metadata.yml
-        - "A Connection between Generative Adversarial Networks, Inverse Reinforcement Learning, and Energy-Based Models": docs/papers/2016/1611.03852/metadata.yml
-        - "Learning Robust Rewards with Adversarial Inverse Reinforcement Learning": docs/papers/2017/1710.11248/metadata.yml
-        - "Apprenticeship Learning via Inverse Reinforcement Learning": docs/papers/2004/2004.abbeel.apprenticeship_learning_via_inverse/metadata.yml
-        - "Maximum Entropy Inverse Reinforcement Learning": docs/papers/2008/2008.ziebart.maximum_entropy_inverse_reinforcement/metadata.yml
-        - "Revisiting Maximum Entropy Inverse Reinforcement Learning: New Perspectives and Algorithms": docs/papers/2020/2012.00889/metadata.yml
+        - Inverse Optimization:
+          - "Inverse Optimization: Theory and Applications": docs/papers/2021/2109.03920/metadata.yml
+        - Inverse Optimal Control:
+          - Inverse LQR: docs/papers/2019/2019.zhang.inverse_optimal_control_for/metadata.yml
+          - Inverse Quadratic Optimal Control: docs/papers/2018/1810.12590/metadata.yml
+          - "Guided Cost Learning: Deep Inverse Optimal Control via Policy Optimization": docs/papers/2016/1603.00448/metadata.yml
+        - Inverse Reinforcement Learning:
+          - Max Entropy:
+            - Maximum Entropy Inverse Reinforcement Learning: docs/papers/2008/2008.ziebart.maximum_entropy_inverse_reinforcement/metadata.yml
+            - Revisiting Maximum Entropy Inverse Reinforcement Learning: docs/papers/2020/2012.00889/metadata.yml
+            - Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors: docs/papers/2025/2508.07400/metadata.yml
+          - Adversarial:
+            - A Connection between Generative Adversarial Networks, Inverse Reinforcement Learning, and Energy-Based Models: docs/papers/2016/1611.03852/metadata.yml
+            - Learning Robust Rewards with Adversarial Inverse Reinforcement Learning: docs/papers/2017/1710.11248/metadata.yml
+          - Learning Objective Functions for Manipulation: docs/papers/2013/2013.kalakrishnan.learning_objective_functions_for/metadata.yml
+          - Apprenticeship Learning via Inverse Reinforcement Learning: docs/papers/2004/2004.abbeel.apprenticeship_learning_via_inverse/metadata.yml 
       - Applications:
-        - "Learning Dexterous In-Hand Manipulation": docs/papers/2018/1808.00177/metadata.yml
-        - "Outracing champion Gran Turismo drivers with deep reinforcement learning": docs/papers/2022/2022.wurman.outracing_champion_gran_turismo/metadata.yml
-        - "Spatial planning of urban communities via deep reinforcement learning": docs/papers/2023/2023.zheng.spatial_planning_of_urban/metadata.yml
-        - "Learning Objective Functions for Manipulation": docs/papers/2013/2013.kalakrishnan.learning_objective_functions_for/metadata.yml
-        - Scaling Is All You Need: docs/papers/2023/2312.15122/metadata.yml
+        - Manipulation & Grasping:
+          - Learning Dexterous In-Hand Manipulation: docs/papers/2018/1808.00177/metadata.yml
+        - Driving:
+          - Outracing champion Gran Turismo drivers with deep reinforcement learning: docs/papers/2022/2022.wurman.outracing_champion_gran_turismo/metadata.yml
+          - Scaling Is All You Need: docs/papers/2023/2312.15122/metadata.yml
+        - Urban Planning:
+          - Spatial planning of urban communities via deep reinforcement learning: docs/papers/2023/2023.zheng.spatial_planning_of_urban/metadata.yml
   - Prediction & Perception:
     - State Estimation:
-      - Kalman Filter:
-        - Kalman Filter: docs/papers/1960/1960.kalman.a_new_approach_to/metadata.yml
+      - Optimal State Estimation (Kalman Filters):
+        - Linear Systems:
+          - Kalman Filter: docs/papers/1960/1960.kalman.a_new_approach_to/metadata.yml
+          - Recursive State Estimation for a Set-membership Description of Uncertainty: docs/papers/1971/1971.bertsekas.recursive_state_estimation_for/metadata.yml
+        - Nonlinear Systems:
+          - Differential Dynamic Programming for Optimal Estimation: docs/papers/2015/2015.kobilarov.differential_dynamic_programming_for/metadata.yml
+          - Unscented Kalman Filter (UKF):
+            - UKF: docs/papers/1997/1997.julier.new_extension_of_the/metadata.yml
+            - The Unscented Kalman Filter for Nonlinear Estimation: docs/papers/2000/2000.wan.the_unscented_kalman_filter/metadata.yml
+            - The Scaled Unscented Transformation: docs/papers/2002/2002.julier.the_scaled_unscented_transformation/metadata.yml
+      - Robust State Estimation:
+        - Wasserstein Distributionally Robust Kalman Filtering: docs/papers/2018/1809.08830/metadata.yml
+      - Adaptive State Estimation:
         - Optimal Adaptive Estimation of Sampled Stochastic Processes: docs/papers/1965/1965.magill.optimal_adaptive_estimation_of/metadata.yml
         - Adaptive Kalman filter: docs/papers/1970/1970.mehra.on_the_identification_of/metadata.yml
-        - Wasserstein Distributionally Robust Kalman Filtering: docs/papers/2018/1809.08830/metadata.yml
-        - Fitting a Kalman Smoother to Data: docs/papers/2019/1910.08615/metadata.yml
-        - "Recursive State Estimation for a Set-membership Description of Uncertainty": docs/papers/1971/1971.bertsekas.recursive_state_estimation_for/metadata.yml
-        - "Analysis of Recursive Stochastic Algorithms": docs/papers/1977/1977.ljung.analysis_of_recursive_stochastic/metadata.yml
-        - "Parameter Identification for Uncertain Plants Using H∞ Methods": docs/papers/1995/1995.didinsky.parameter_identification_for_uncertain/metadata.yml
-        - Differential Dynamic Programming for Optimal Estimation: docs/papers/2015/2015.kobilarov.differential_dynamic_programming_for/metadata.yml
-      - Unscented Kalman Filter (UKF):
-        - UKF: docs/papers/1997/1997.julier.new_extension_of_the/metadata.yml
-        - The Unscented Kalman Filter for Nonlinear Estimation: docs/papers/2000/2000.wan.the_unscented_kalman_filter/metadata.yml
-        - The Scaled Unscented Transformation: docs/papers/2002/2002.julier.the_scaled_unscented_transformation/metadata.yml
+      - Learning-based State Estimation:
+        - Fitting a Kalman Smoother to Data: docs/papers/2019/1910.08615/metadata.yml        
       - Particle Filter:
         - CONDENSATION: docs/papers/1998/1998.isard.condensationconditional_density_propagation_for/metadata.yml
         - "Particle filters for positioning, navigation, and tracking": docs/papers/2002/2002.gustafsson.particle_filters_for_positioning/metadata.yml
@@ -1219,12 +1235,13 @@
         - Dense Mapping:
           - Learning Occupancy Grid Maps with Forward Sensor Models: docs/papers/2003/2003.thrun.learning_occupancy_grid_maps/metadata.yml
           - OctoMap: docs/papers/2013/2013.hornung.octomap_an_efficient_probabilistic/metadata.yml
-        - Graph-Based SLAM & Smoothing:
-          - Fast Iterative Alignment of Pose Graphs with Poor Initial Estimates: docs/papers/2006/2006.olson.fast_iterative_alignment_of/metadata.yml
-          - iSAM: docs/papers/2008/2008.kaess.isam_incremental_smoothing_and/metadata.yml
-        - Metric-Semantic SLAM:
-          - Hydra: docs/papers/2022/2201.13360/metadata.yml
-          - Khronos: docs/papers/2024/2402.13817/metadata.yml
+        - Simultaneous Localization and Mapping (SLAM):
+          - Graph-Based SLAM & Smoothing:
+            - Fast Iterative Alignment of Pose Graphs with Poor Initial Estimates: docs/papers/2006/2006.olson.fast_iterative_alignment_of/metadata.yml
+            - iSAM: docs/papers/2008/2008.kaess.isam_incremental_smoothing_and/metadata.yml
+          - Metric-Semantic SLAM:
+            - Hydra: docs/papers/2022/2201.13360/metadata.yml
+            - Khronos: docs/papers/2024/2402.13817/metadata.yml
         - Point Cloud Registration:
           - CLIPPER: docs/papers/2020/2011.10202/metadata.yml
           - CLIPPER+: docs/papers/2024/2402.15464/metadata.yml
@@ -1520,15 +1537,16 @@
     - Simulation:
       - Driving & Traffic Simulation:
         - CARLA: docs/papers/2017/1711.03938/metadata.yml
-        - GPUDrive: docs/papers/2024/2408.01584/metadata.yml
-        - VISTA 2.0: docs/papers/2021/2111.12083/metadata.yml
-        - Causal Composition Diffusion Model for Closed-loop Traffic Generation: docs/papers/2024/2412.17920/metadata.yml
-        - Generating Driving Scenes with Diffusion: docs/papers/2023/2305.18452/metadata.yml
-        - Scenario Diffusion: docs/papers/2023/2311.02738/metadata.yml
-        - Waymo Open Sim Agents Challenge: docs/papers/2023/2305.12032/metadata.yml
-        - Waymax: docs/papers/2023/2310.08710/metadata.yml
-        - NAVSIM: docs/papers/2024/2406.15349/metadata.yml
-        - NAVSIM v2: docs/papers/2025/2506.04218/metadata.yml
+        - Learned Simulation:
+          - VISTA 2.0: docs/papers/2021/2111.12083/metadata.yml
+          - Waymax: docs/papers/2023/2310.08710/metadata.yml
+          - GPUDrive: docs/papers/2024/2408.01584/metadata.yml
+          - NAVSIM: docs/papers/2024/2406.15349/metadata.yml
+          - NAVSIM v2: docs/papers/2025/2506.04218/metadata.yml        
+        - Diffusion-based Generation:
+          - Causal Composition Diffusion Model for Closed-loop Traffic Generation: docs/papers/2024/2412.17920/metadata.yml
+          - Generating Driving Scenes with Diffusion: docs/papers/2023/2305.18452/metadata.yml
+          - Scenario Diffusion: docs/papers/2023/2311.02738/metadata.yml
       - Flying Simulation:
         - Boids: docs/papers/1987/1987.reynolds.flocks_herds_and_schools/metadata.yml
         - QuadSwarm: docs/papers/2023/2306.09537/metadata.yml
@@ -1555,14 +1573,16 @@
       - 3D Gaussian Splatting:
         - 3D Gaussian Splatting: docs/papers/2023/2308.04079/metadata.yml
         - Matrix-free Second-order Optimization of Gaussian Splats with Residual Sampling: docs/papers/2025/2504.12905/metadata.yml
-      - Neural Rendering:
+      - Neural Radiance Fields (NeRF):
         - NeRF: docs/papers/2020/2003.08934/metadata.yml
     - Benchmarks:
-      - Gym: docs/papers/2016/1606.01540/metadata.yml
-      - Isaac Gym: docs/papers/2021/2108.10470/metadata.yml
-      - controlgym: docs/papers/2023/2311.18736/metadata.yml
-      - HydroGym: docs/papers/2025/2512.17534/metadata.yml
-      - Flow Gym: docs/papers/2025/2512.20642/metadata.yml
+      - Gyms:
+        - Gym: docs/papers/2016/1606.01540/metadata.yml
+        - Isaac Gym: docs/papers/2021/2108.10470/metadata.yml
+        - controlgym: docs/papers/2023/2311.18736/metadata.yml
+        - HydroGym: docs/papers/2025/2512.17534/metadata.yml
+        - Flow Gym: docs/papers/2025/2512.20642/metadata.yml
+      - Waymo Open Sim Agents Challenge: docs/papers/2023/2305.12032/metadata.yml
       - Beyond Self-Play and Scale: docs/papers/2026/2605.10034/metadata.yml
     - Safety, Testing, Verification & Validation (V&V):
       - Driving & Autonomous Vehicles:
@@ -1600,15 +1620,19 @@
         - Beyond Dirty, Dangerous and Dull: docs/papers/2008/2008.takayama.beyond_dirty_dangerous_and/metadata.yml
     - Robot Platforms:
       - Balancing Robots:
-        - Furuta Pendulum: docs/papers/1992/1992.furuta.swing_up_control_of/metadata.yml
-        - Acrobot: docs/papers/1995/1995.spong.the_swing_up_control/metadata.yml
-        - Pendubot: docs/papers/1995/1995.spong.the_pendubot_a_mechatronic/metadata.yml
-        - "Energy Based Control of the Pendubot": docs/papers/2000/2000.fantoni.energy_based_control_of/metadata.yml
-        - "Nonlinear Control of the Reaction Wheel Pendulum": docs/papers/2001/2001.spong.nonlinear_control_of_the/metadata.yml
-        - CartPole (Correct Equations): docs/papers/2007/2007.florian.correct_equations_for_the/metadata.yml
-        - BOBShield: docs/papers/2021/2021.takacs.bobshield_an_open_source/metadata.yml
-        - Cubli: docs/papers/2012/2012.gajamohan.the_cubli_a_cube/metadata.yml
-        - One-Wheel Cubli: docs/papers/2023/2023.hofer.the_one_wheel_cubli/metadata.yml
+        - Single-link Inverted Pendulums:
+          - Furuta Pendulum: docs/papers/1992/1992.furuta.swing_up_control_of/metadata.yml
+          - CartPole (Correct Equations): docs/papers/2007/2007.florian.correct_equations_for_the/metadata.yml
+        - Multi-link Inverted Pendulums:
+          - Acrobot: docs/papers/1995/1995.spong.the_swing_up_control/metadata.yml
+          - Pendubot: docs/papers/1995/1995.spong.the_pendubot_a_mechatronic/metadata.yml
+          - "Energy Based Control of the Pendubot": docs/papers/2000/2000.fantoni.energy_based_control_of/metadata.yml
+        - Reaction Wheel Inverted Pendulums:
+          - Nonlinear Control of the Reaction Wheel Pendulum: docs/papers/2001/2001.spong.nonlinear_control_of_the/metadata.yml
+          - Cubli: docs/papers/2012/2012.gajamohan.the_cubli_a_cube/metadata.yml
+          - One-Wheel Cubli: docs/papers/2023/2023.hofer.the_one_wheel_cubli/metadata.yml
+        - Ball-on-beam:
+          - BOBShield: docs/papers/2021/2021.takacs.bobshield_an_open_source/metadata.yml
       - Bipeds:
         - Efficient Bipedal Robots Based on Passive-Dynamic Walkers: docs/papers/2005/2005.collins.efficient_bipedal_robots_based/metadata.yml
         - Design and Control of a Bipedal Robotic Character: docs/papers/2025/2501.05204/metadata.yml
@@ -1703,15 +1727,20 @@
         - "Product Quantization for Nearest Neighbor Search": docs/papers/2011/2011.jegou.product_quantization_for_nearest/metadata.yml
         - FAISS: docs/papers/2024/2401.08281/metadata.yml
       - Trees & Spatial Indexing:
-        - B-tree: docs/papers/1970/1970.bayer.organization_and_maintenance_of/metadata.yml
-        - Ubiquitous B-Tree: docs/papers/1979/1979.comer.ubiquitous_b_tree/metadata.yml
-        - Quad Trees: docs/papers/1974/1974.finkel.quad_trees_a_data/metadata.yml
-        - k-d Tree: docs/papers/1975/1975.bentley.multidimensional_binary_search_trees/metadata.yml
-        - Red-black Tree: docs/papers/1978/1978.guibas.a_dichromatic_framework_for/metadata.yml
-        - Left-Leaning Red-Black Tree: docs/papers/2008/2008.sedgewick.left_leaning_red_black/metadata.yml
-        - SR-tree: docs/papers/1997/1997.katayama.the_sr_tree/metadata.yml
-        - STAR-Tree: docs/papers/2002/2002.procopiuc.star_tree_an_efficient/metadata.yml
-        - R-trees: docs/papers/1984/1984.guttman.r_trees/metadata.yml
+        - Ordered Search Trees:
+          - B-tree:
+            - B-tree: docs/papers/1970/1970.bayer.organization_and_maintenance_of/metadata.yml
+            - Ubiquitous B-Tree: docs/papers/1979/1979.comer.ubiquitous_b_tree/metadata.yml
+          - Red-black Tree:
+            - Red-black Tree: docs/papers/1978/1978.guibas.a_dichromatic_framework_for/metadata.yml
+            - Left-Leaning Red-Black Tree: docs/papers/2008/2008.sedgewick.left_leaning_red_black/metadata.yml
+        - Spatial Partition Trees:
+          - Quad Tree: docs/papers/1974/1974.finkel.quad_trees_a_data/metadata.yml
+          - k-d Tree: docs/papers/1975/1975.bentley.multidimensional_binary_search_trees/metadata.yml
+        - Bounding Volume Trees:
+          - R-tree: docs/papers/1984/1984.guttman.r_trees/metadata.yml
+          - SR-tree: docs/papers/1997/1997.katayama.the_sr_tree/metadata.yml
+          - STAR-Tree: docs/papers/2002/2002.procopiuc.star_tree_an_efficient/metadata.yml
         - Barnes-Hut algorithm: docs/papers/1986/1986.barnes.a_hierarchical_o_n/metadata.yml
       - Probabilistic Data Structures:
         - Bloom Filter: docs/papers/1970/1970.bloom.space_time_trade_offs/metadata.yml
