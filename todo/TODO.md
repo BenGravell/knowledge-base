@@ -247,9 +247,9 @@ add check for likely garbled links like <sub xmlns:mml="http://www.w3.org/1998/M
 
 #### dollar sign / math
 
-Add checked in audit for dollar signs in abstract
-
-<https://bengravell.github.io/knowledge-base/papers/2015_nesterov_random_gradient_free_minimization_of/?h=spokoiny>
+Add checked in audit for dollar signs in abstract.
+example:
+<https://bengravell.github.io/knowledge-base/papers/2015_nesterov_random_gradient_free_minimization/>
 
 Fix math notation, make plain text readable.
 
