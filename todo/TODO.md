@@ -245,6 +245,8 @@ add check for likely mis-spellings
 
 add check for likely unnecessary space and hyphens in middle of words (typical from OCR generated abstracts)
 
+add check for likely garbled links like <sub xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">1</sub>
+
 #### dollar sign / math
 
 Add checked in audit for dollar signs in abstract

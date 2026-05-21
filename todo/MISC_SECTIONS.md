@@ -145,3 +145,7 @@ Clip related to planning & control: https://youtu.be/j0z4FweCy4M?t=4370
 Neural networks serve as learned heuristics for optimal motion planning in action space, guiding search away from local minima. A neural network planner outputs a trajectory distribution that seeds an explicit planner, combining the generalization of learned models with the optimality guarantees of classical planning.
 
 Experiments show the value of strong heuristics for trajectory search: hand-crafted heuristics improve performance over blind search, but learned, AI-based heuristics outperform both.
+
+### Voting Systems
+
+https://gpapasot.github.io/ld-comsoc/
