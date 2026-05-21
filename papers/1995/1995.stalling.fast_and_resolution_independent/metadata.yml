@@ -1,0 +1,30 @@
+title: "Fast and Resolution Independent Line Integral Convolution"
+algorithm: Fast LIC
+authors:
+  - Detlev Stalling
+  - Hans-Christian Hege
+year: 1995
+source: ACM SIGGRAPH
+type: Conference Paper
+doi: 10.1145/218380.218448
+arxiv_id:
+tags:
+  - Line integral convolution
+  - Fast LIC
+  - Flow visualization
+  - Vector field visualization
+  - Resolution independence
+  - Streamline integration
+  - Texture synthesis
+  - Scientific visualization
+  - Computer graphics
+  - Animation
+abstract: >
+  Line Integral Convolution (LIC) is a powerful technique for generating striking images and animations from vector data. Introduced in 1993, the method has rapidly found many application areas, ranging from computer arts to scientific visualization. Based upon locally filtering an input texture along a curved stream line segment in a vector field, it is able to depict directional information at high spatial resolutions. We present a new method for computing LIC images. It employs simple box filter kernels only and minimizes the total number of stream lines to be computed. Thereby it reduces computational costs by an order of magnitude compared to the original algorithm. Our method utilizes fast, error-controlled numerical integrators. Decoupling the characteristic lengths in vector field grid, input texture and output image, it allows computation of filtered images at arbitrary resolution. This feature is of significance in computer animation as well as in scientific visualization, where it can be used to explore vector data by smoothly enlarging structure of details. We also present methods for improved texture animation, again employing box filter kernels only. To obtain an optimal motion effect, spatial decay of correlation between intensities of distant pixels in the output image has to be controlled. This is achieved by blending different phase-shifted box filter animations and by adaptively rescaling the contrast of the output frames.
+summary: >
+  Makes LIC much more practical by separating streamline computation from convolution, reusing long streamline segments, and supporting arbitrary output resolution. The result is an order-of-magnitude speedup over the original algorithm plus cleaner support for zooming and animated LIC textures.
+link: https://paperzz.com/doc/8180821/fast-and-resolution-independent-line-integral-convolution
+links_alt:
+  - https://doi.org/10.1145/218380.218448
+  - https://dblp.org/rec/conf/siggraph/StallingH95
+audit_status: raw

@@ -1,0 +1,29 @@
+title: "L1 Adaptive Controller for Time-Varying Reference Systems in the Presence of Unmodeled Nonlinear Dynamics"
+algorithm: "L1 Adaptive Control"
+authors:
+  - Evgeny Kharisov
+  - Naira Hovakimyan
+  - Jiang Wang
+  - Chengyu Cao
+year: 2010
+source: American Control Conference
+type: Conference Paper
+doi: 10.1109/ACC.2010.5530476
+arxiv_id:
+tags:
+  - Adaptive control
+  - L1 adaptive control
+  - Time-varying reference systems
+  - Nonlinear systems
+  - Unmodeled dynamics
+  - Transient performance
+  - Robust control
+abstract: >
+  This paper presents the L1 adaptive controller for a class of uncertain nonlinear systems in the presence of time and state dependent unknown nonlinearities with unmodeled nonlinear dynamics. The L1 controller achieves performance specifications, defined via a time-varying reference system. We prove that subject to standard regularity assumptions, the L1 adaptive controller ensures uniformly bounded transient and steady-state tracking for system's input and output signals simultaneously. The performance bounds can be systematically improved by increasing the rate of adaptation. Simulations of a nonlinear system, coupled to a Lorenz attractor, verify the theoretical findings.
+summary: >
+  Extends L1 adaptive control to uncertain nonlinear systems whose desired behavior is specified by a time-varying reference system, while allowing unmodeled nonlinear dynamics. The paper is useful as a precursor to later L1-based robust motion-planning work because it formalizes simultaneous transient and steady-state bounds on both input and output tracking, with performance improved through faster adaptation.
+link: https://doi.org/10.1109/ACC.2010.5530476
+links_alt:
+  - https://ieeexplore.ieee.org/document/5530476
+  - http://xplorestaging.ieee.org/ielx5/5512481/5530425/05530476.pdf?arnumber=5530476
+audit_status: raw

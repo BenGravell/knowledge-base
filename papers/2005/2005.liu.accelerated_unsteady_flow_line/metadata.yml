@@ -1,0 +1,29 @@
+title: "Accelerated Unsteady Flow Line Integral Convolution"
+algorithm: AUFLIC
+authors:
+  - Zhanping Liu
+  - Robert J. Moorhead II
+year: 2005
+source: IEEE Transactions on Visualization and Computer Graphics
+type: Journal Paper
+doi: 10.1109/TVCG.2005.21
+arxiv_id:
+tags:
+  - Line integral convolution
+  - AUFLIC
+  - UFLIC
+  - Unsteady flows
+  - Flow visualization
+  - Vector field visualization
+  - Pathline reuse
+  - Animation coherence
+  - Scientific visualization
+  - Computational fluid dynamics
+abstract: >
+  Unsteady flow line integral convolution (UFLIC) is a texture synthesis technique for visualizing unsteady flows with high temporal-spatial coherence. Unfortunately, UFLIC requires considerable time to generate each frame due to the huge amount of pathline integration that is computed for particle value scattering. This paper presents Accelerated UFLIC (AUFLIC) for near interactive (1 frame/second) visualization with 160,000 particles per frame. AUFLIC reuses pathlines in the value scattering process to reduce computationally expensive pathline integration. A flow-driven seeding strategy is employed to distribute seeds such that only a few of them need pathline integration while most seeds are placed along the pathlines advected at earlier times by other seeds upstream and, therefore, the known pathlines can be reused for fast value scattering. To maintain a dense scattering coverage to convey high temporal-spatial coherence while keeping the expense of pathline integration low, a dynamic seeding controller is designed to decide whether to advect, copy, or reuse a pathline. At a negligible memory cost, AUFLIC is 9 times faster than UFLIC with comparable image quality.
+summary: >
+  Accelerates UFLIC by reusing pathlines during value scattering and adding a dynamic seeding controller that decides when to advect, copy, or reuse flow paths. The paper is important as a performance-oriented follow-up that moves coherent unsteady-flow LIC closer to interactive use.
+link: https://pubmed.ncbi.nlm.nih.gov/15747635/
+links_alt:
+  - https://doi.org/10.1109/TVCG.2005.21
+audit_status: raw

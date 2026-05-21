@@ -1532,7 +1532,7 @@ window.tagSearchData = {
     "2004_01142": {
       "id": "2004_01142",
       "title": "Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach",
-      "label": "Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach",
+      "label": "CL1",
       "authors": [
         "Arun Lakshmanan",
         "Aditya Gahlawat",
@@ -2359,7 +2359,7 @@ window.tagSearchData = {
     "2009_03864": {
       "id": "2009_03864",
       "title": "Contraction L1-Adaptive Control Using Gaussian Processes",
-      "label": "Contraction L1-Adaptive Control Using Gaussian Processes",
+      "label": "CL1-GP",
       "authors": [
         "Aditya Gahlawat",
         "Arun Lakshmanan",
@@ -5040,6 +5040,34 @@ window.tagSearchData = {
       "treeUrl": "../tree/#paper=2019_zhou_robust_and_efficient_quadrotor",
       "mapUrl": "../map/#paper=2019_zhou_robust_and_efficient_quadrotor"
     },
+    "1907_10597": {
+      "id": "1907_10597",
+      "title": "Green AI",
+      "label": "Green AI",
+      "authors": [
+        "Roy Schwartz",
+        "Jesse Dodge",
+        "Noah A. Smith",
+        "Oren Etzioni"
+      ],
+      "year": 2019,
+      "tags": [
+        "Green AI",
+        "Sustainable AI",
+        "Machine learning efficiency",
+        "Deep learning",
+        "Carbon footprint",
+        "Computational cost",
+        "Model evaluation",
+        "Energy efficiency",
+        "Research incentives",
+        "AI accessibility"
+      ],
+      "summary": "Schwartz, Dodge, Smith, and Etzioni introduce the Green AI framing, arguing that machine learning research should report and optimize computational efficiency rather than rewarding accuracy at any compute cost. The paper is influential because it gives the community a compact vocabulary for the environmental and equity costs of deep learning, and it helped make compute, energy, and financial cost routine considerations in later AI evaluation and reporting work.",
+      "url": "../papers/1907_10597/",
+      "treeUrl": "../tree/#paper=1907_10597",
+      "mapUrl": "../map/#paper=1907_10597"
+    },
     "1909_09223": {
       "id": "1909_09223",
       "title": "InterpretML: A Unified Framework for Machine Learning Interpretability",
@@ -5507,8 +5535,8 @@ window.tagSearchData = {
     },
     "1934_black_stabilized_feedback_amplifiers": {
       "id": "1934_black_stabilized_feedback_amplifiers",
-      "title": "Stabilized Feedback Amplifiers*",
-      "label": "Stabilized Feedback Amplifiers*",
+      "title": "Stabilized Feedback Amplifiers",
+      "label": "Stabilized Feedback Amplifiers",
       "authors": [
         "H. S. Black"
       ],
@@ -6790,7 +6818,7 @@ window.tagSearchData = {
     "2503_00385": {
       "id": "2503_00385",
       "title": "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective",
-      "label": "LQR",
+      "label": "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective",
       "authors": [
         "Yunian Pan",
         "Tao Li",
@@ -9489,6 +9517,58 @@ window.tagSearchData = {
       "treeUrl": "../tree/#paper=1995_cortes_support_vector_networks",
       "mapUrl": "../map/#paper=1995_cortes_support_vector_networks"
     },
+    "1995_stalling_fast_and_resolution_independent": {
+      "id": "1995_stalling_fast_and_resolution_independent",
+      "title": "Fast and Resolution Independent Line Integral Convolution",
+      "label": "Fast LIC",
+      "authors": [
+        "Detlev Stalling",
+        "Hans-Christian Hege"
+      ],
+      "year": 1995,
+      "tags": [
+        "Line integral convolution",
+        "Fast LIC",
+        "Flow visualization",
+        "Vector field visualization",
+        "Resolution independence",
+        "Streamline integration",
+        "Texture synthesis",
+        "Scientific visualization",
+        "Computer graphics",
+        "Animation"
+      ],
+      "summary": "Makes LIC much more practical by separating streamline computation from convolution, reusing long streamline segments, and supporting arbitrary output resolution. The result is an order-of-magnitude speedup over the original algorithm plus cleaner support for zooming and animated LIC textures.",
+      "url": "../papers/1995_stalling_fast_and_resolution_independent/",
+      "treeUrl": "../tree/#paper=1995_stalling_fast_and_resolution_independent",
+      "mapUrl": "../map/#paper=1995_stalling_fast_and_resolution_independent"
+    },
+    "1995_forssell_using_line_integral_convolution": {
+      "id": "1995_forssell_using_line_integral_convolution",
+      "title": "Using Line Integral Convolution for Flow Visualization: Curvilinear Grids, Variable-Speed Animation, and Unsteady Flows",
+      "label": "Curvilinear Grid LIC",
+      "authors": [
+        "Lisa K. Forssell",
+        "Scott D. Cohen"
+      ],
+      "year": 1995,
+      "tags": [
+        "Line integral convolution",
+        "LIC",
+        "Flow visualization",
+        "Curvilinear grids",
+        "Parametric surfaces",
+        "Variable-speed animation",
+        "Unsteady flows",
+        "Computational fluid dynamics",
+        "Texture mapping",
+        "Scientific visualization"
+      ],
+      "summary": "Generalizes LIC beyond regular Cartesian grids to curvilinear surfaces used in CFD, while also adding variable-speed animation and a route toward unsteady-flow visualization. This paper is the main bridge from the original planar LIC algorithm to practical flow visualization over simulation surfaces and interactive texture-mapped displays.",
+      "url": "../papers/1995_forssell_using_line_integral_convolution/",
+      "treeUrl": "../tree/#paper=1995_forssell_using_line_integral_convolution",
+      "mapUrl": "../map/#paper=1995_forssell_using_line_integral_convolution"
+    },
     "1995_spong_the_swing_up_control": {
       "id": "1995_spong_the_swing_up_control",
       "title": "The Swing up Control Problem for the Acrobot",
@@ -9540,7 +9620,7 @@ window.tagSearchData = {
       ],
       "year": 1940,
       "tags": [],
-      "summary": "",
+      "summary": "Establishes the frequency-domain relationship between attenuation and phase that made feedback amplifier design into a practical loop-shaping discipline. Bode showed that, for causal minimum-phase networks, magnitude and phase are linked rather than independently adjustable, exposing the tradeoffs behind bandwidth, stability margin, noise amplification, and disturbance rejection.",
       "url": "../papers/1940_bode_relations_between_attenuation_and/",
       "treeUrl": "../tree/#paper=1940_bode_relations_between_attenuation_and",
       "mapUrl": "../map/#paper=1940_bode_relations_between_attenuation_and"
@@ -9784,6 +9864,31 @@ window.tagSearchData = {
       "treeUrl": "../tree/#paper=1950_evans_control_system_synthesis_by",
       "mapUrl": "../map/#paper=1950_evans_control_system_synthesis_by"
     },
+    "2010_kharisov_l1_adaptive_controller_for": {
+      "id": "2010_kharisov_l1_adaptive_controller_for",
+      "title": "L1 Adaptive Controller for Time-Varying Reference Systems in the Presence of Unmodeled Nonlinear Dynamics",
+      "label": "L1 Adaptive Control",
+      "authors": [
+        "Evgeny Kharisov",
+        "Naira Hovakimyan",
+        "Jiang Wang",
+        "Chengyu Cao"
+      ],
+      "year": 2010,
+      "tags": [
+        "Adaptive control",
+        "L1 adaptive control",
+        "Time-varying reference systems",
+        "Nonlinear systems",
+        "Unmodeled dynamics",
+        "Transient performance",
+        "Robust control"
+      ],
+      "summary": "Extends L1 adaptive control to uncertain nonlinear systems whose desired behavior is specified by a time-varying reference system, while allowing unmodeled nonlinear dynamics. The paper is useful as a precursor to later L1-based robust motion-planning work because it formalizes simultaneous transient and steady-state bounds on both input and output tracking, with performance improved through faster adaptation.",
+      "url": "../papers/2010_kharisov_l1_adaptive_controller_for/",
+      "treeUrl": "../tree/#paper=2010_kharisov_l1_adaptive_controller_for",
+      "mapUrl": "../map/#paper=2010_kharisov_l1_adaptive_controller_for"
+    },
     "2010_lam_model_predictive_contouring_control": {
       "id": "2010_lam_model_predictive_contouring_control",
       "title": "Model Predictive Contouring Control",
@@ -9949,6 +10054,32 @@ window.tagSearchData = {
       "url": "../papers/2010_dolgov_path_planning_for_autonomous/",
       "treeUrl": "../tree/#paper=2010_dolgov_path_planning_for_autonomous",
       "mapUrl": "../map/#paper=2010_dolgov_path_planning_for_autonomous"
+    },
+    "2010_hovakimyan_l1_adaptive_control_theory": {
+      "id": "2010_hovakimyan_l1_adaptive_control_theory",
+      "title": "L1 Adaptive Control Theory: Guaranteed Robustness with Fast Adaptation",
+      "label": "L1 Adaptive Control",
+      "authors": [
+        "Naira Hovakimyan",
+        "Chengyu Cao"
+      ],
+      "year": 2010,
+      "tags": [
+        "Adaptive control",
+        "L1 adaptive control",
+        "Robust control",
+        "Fast adaptation",
+        "Transient performance",
+        "Matched uncertainties",
+        "Unmatched uncertainties",
+        "Output feedback",
+        "Time-varying reference systems",
+        "Flight testing"
+      ],
+      "summary": "This monograph systematizes L1 adaptive control around the separation of adaptation from robustness. It collects the core state-feedback and output-feedback architectures, covers matched and unmatched uncertainties, treats time-varying reference systems, and connects the theory to flight-test applications, making it a foundational reference for later L1 adaptive control work.",
+      "url": "../papers/2010_hovakimyan_l1_adaptive_control_theory/",
+      "treeUrl": "../tree/#paper=2010_hovakimyan_l1_adaptive_control_theory",
+      "mapUrl": "../map/#paper=2010_hovakimyan_l1_adaptive_control_theory"
     },
     "2010_glassman_a_quadratic_regulator_based": {
       "id": "2010_glassman_a_quadratic_regulator_based",
@@ -11482,7 +11613,7 @@ window.tagSearchData = {
         "Reinforcement learning",
         "Nonlinear systems"
       ],
-      "summary": "Perdomo, Umenberger, and Simchowitz show that direct policy search can be used to find stabilizing controllers without starting from an already-stabilizing policy. The method follows a continuation path through discounted LQR problems, increasing the discount factor until it recovers a stabilizing controller for linear systems and locally for smooth nonlinear systems.",
+      "summary": "Shows that direct policy search can be used to find stabilizing controllers without starting from an already-stabilizing policy. The method follows a continuation path through discounted LQR problems, increasing the discount factor until it recovers a stabilizing controller for linear systems and locally for smooth nonlinear systems.",
       "url": "../papers/2021_perdomo_stabilizing_dynamical_systems_via/",
       "treeUrl": "../tree/#paper=2021_perdomo_stabilizing_dynamical_systems_via",
       "mapUrl": "../map/#paper=2021_perdomo_stabilizing_dynamical_systems_via"
@@ -11570,6 +11701,35 @@ window.tagSearchData = {
       "url": "../papers/2101_11565/",
       "treeUrl": "../tree/#paper=2101_11565",
       "mapUrl": "../map/#paper=2101_11565"
+    },
+    "2112_05131": {
+      "id": "2112_05131",
+      "title": "Plenoxels: Radiance Fields without Neural Networks",
+      "label": "Plenoxels",
+      "authors": [
+        "Sara Fridovich-Keil",
+        "Alex Yu",
+        "Matthew Tancik",
+        "Qinhong Chen",
+        "Benjamin Recht",
+        "Angjoo Kanazawa"
+      ],
+      "year": 2021,
+      "tags": [
+        "Radiance fields",
+        "Novel view synthesis",
+        "Computer graphics",
+        "Computer vision",
+        "Sparse voxel grid",
+        "Spherical harmonics",
+        "Differentiable rendering",
+        "Neural rendering",
+        "NeRF"
+      ],
+      "summary": "Introduces Plenoxels, an explicit sparse voxel radiance-field representation whose density and view-dependent color coefficients can be optimized directly from posed images without an MLP. The paper helped establish that high-quality NeRF-like novel view synthesis could be achieved with direct grid optimization, greatly reducing training time while preserving visual fidelity on standard benchmarks.",
+      "url": "../papers/2112_05131/",
+      "treeUrl": "../tree/#paper=2112_05131",
+      "mapUrl": "../map/#paper=2112_05131"
     },
     "2104_00827": {
       "id": "2104_00827",
@@ -14757,6 +14917,31 @@ window.tagSearchData = {
       "treeUrl": "../tree/#paper=2003_dandrea_distributed_control_design_for",
       "mapUrl": "../map/#paper=2003_dandrea_distributed_control_design_for"
     },
+    "2003_sundquist_dynamic_line_integral_convolution": {
+      "id": "2003_sundquist_dynamic_line_integral_convolution",
+      "title": "Dynamic Line Integral Convolution for Visualizing Streamline Evolution",
+      "label": "DLIC",
+      "authors": [
+        "Andreas Sundquist"
+      ],
+      "year": 2003,
+      "tags": [
+        "Line integral convolution",
+        "DLIC",
+        "Dynamic LIC",
+        "Time-dependent vector fields",
+        "Streamline evolution",
+        "Flow visualization",
+        "Vector field visualization",
+        "Electromagnetism",
+        "Animation coherence",
+        "Scientific visualization"
+      ],
+      "summary": "Introduces Dynamic Line Integral Convolution (DLIC), which animates a changing vector field by evolving the LIC input texture according to a separate field-line motion field. The method is especially useful when the visual task is to see streamline evolution itself, as in electromagnetic field-line animations, rather than only instantaneous flow direction.",
+      "url": "../papers/2003_sundquist_dynamic_line_integral_convolution/",
+      "treeUrl": "../tree/#paper=2003_sundquist_dynamic_line_integral_convolution",
+      "mapUrl": "../map/#paper=2003_sundquist_dynamic_line_integral_convolution"
+    },
     "2003_stein_respect_the_unstable": {
       "id": "2003_stein_respect_the_unstable",
       "title": "Respect the Unstable",
@@ -15223,6 +15408,31 @@ window.tagSearchData = {
       "url": "../papers/1997_sussmann_300_years_of_optimal/",
       "treeUrl": "../tree/#paper=1997_sussmann_300_years_of_optimal",
       "mapUrl": "../map/#paper=1997_sussmann_300_years_of_optimal"
+    },
+    "1997_shen_uflic_a_line_integral": {
+      "id": "1997_shen_uflic_a_line_integral",
+      "title": "UFLIC: A Line Integral Convolution Algorithm for Visualizing Unsteady Flows",
+      "label": "UFLIC",
+      "authors": [
+        "Han-Wei Shen",
+        "David L. Kao"
+      ],
+      "year": 1997,
+      "tags": [
+        "Line integral convolution",
+        "UFLIC",
+        "Unsteady flows",
+        "Flow visualization",
+        "Vector field visualization",
+        "Time-dependent vector fields",
+        "Animation coherence",
+        "Computational fluid dynamics",
+        "Scientific visualization"
+      ],
+      "summary": "Extends LIC to time-dependent flow by adding time-accurate value deposition and a feed-forward mechanism that preserves temporal coherence between animation frames. UFLIC is a key early solution to the problem that independently generated LIC frames flicker and fail to show evolving global flow features.",
+      "url": "../papers/1997_shen_uflic_a_line_integral/",
+      "treeUrl": "../tree/#paper=1997_shen_uflic_a_line_integral",
+      "mapUrl": "../map/#paper=1997_shen_uflic_a_line_integral"
     },
     "1997_storn_differential_evolution_a_simple": {
       "id": "1997_storn_differential_evolution_a_simple",
@@ -15888,6 +16098,30 @@ window.tagSearchData = {
       "treeUrl": "../tree/#paper=2007_ames_a_geometric_approach_to",
       "mapUrl": "../map/#paper=2007_ames_a_geometric_approach_to"
     },
+    "1993_cabral_imaging_vector_fields_using": {
+      "id": "1993_cabral_imaging_vector_fields_using",
+      "title": "Imaging Vector Fields Using Line Integral Convolution",
+      "label": "LIC",
+      "authors": [
+        "Brian Cabral",
+        "Leith Casey Leedom"
+      ],
+      "year": 1993,
+      "tags": [
+        "Line integral convolution",
+        "LIC",
+        "Flow visualization",
+        "Vector field visualization",
+        "Texture synthesis",
+        "Scientific visualization",
+        "Computer graphics",
+        "Image processing"
+      ],
+      "summary": "Introduces Line Integral Convolution (LIC), a dense texture-based method for visualizing vector fields by filtering an input texture along local streamlines. The paper established the basic algorithmic vocabulary for later LIC variants, including curvilinear filtering, periodic motion filtering, and the use of arbitrary textures to show detailed directional structure without relying on manually seeded streamlines or sparse glyphs.",
+      "url": "../papers/1993_cabral_imaging_vector_fields_using/",
+      "treeUrl": "../tree/#paper=1993_cabral_imaging_vector_fields_using",
+      "mapUrl": "../map/#paper=1993_cabral_imaging_vector_fields_using"
+    },
     "1993_quinlan_c4_5_programs_for_machine": {
       "id": "1993_quinlan_c4_5_programs_for_machine",
       "title": "C4.5: Programs for Machine Learning",
@@ -16085,6 +16319,31 @@ window.tagSearchData = {
       "url": "../papers/1994_van_overschee_n4sid_numerical_algorithms_for/",
       "treeUrl": "../tree/#paper=1994_van_overschee_n4sid_numerical_algorithms_for",
       "mapUrl": "../map/#paper=1994_van_overschee_n4sid_numerical_algorithms_for"
+    },
+    "1994_verhaegen_identification_of_the_deterministic": {
+      "id": "1994_verhaegen_identification_of_the_deterministic",
+      "title": "Identification of the Deterministic Part of MIMO State Space Models Given in Innovations Form from Input-Output Data",
+      "label": "IV-MOESP",
+      "authors": [
+        "Michel Verhaegen"
+      ],
+      "year": 1994,
+      "tags": [
+        "System identification",
+        "Subspace identification",
+        "MOESP",
+        "IV-MOESP",
+        "Innovations form",
+        "State-space models",
+        "MIMO systems",
+        "Linear systems",
+        "Stochastic systems",
+        "Instrumental variables"
+      ],
+      "summary": "Extends the MOESP subspace identification line from deterministic output-error realization toward stochastic MIMO systems in innovations form. The paper gives two algorithms for estimating the deterministic state-space dynamics from input-output data corrupted by process and measurement noise, and shows that one method connects directly to instrumental-variable MOESP, clarifying how MOESP-type projections can recover deterministic dynamics in mixed deterministic-stochastic settings.",
+      "url": "../papers/1994_verhaegen_identification_of_the_deterministic/",
+      "treeUrl": "../tree/#paper=1994_verhaegen_identification_of_the_deterministic",
+      "mapUrl": "../map/#paper=1994_verhaegen_identification_of_the_deterministic"
     },
     "1994_boyd_linear_matrix_inequalities_in": {
       "id": "1994_boyd_linear_matrix_inequalities_in",
@@ -17084,7 +17343,7 @@ window.tagSearchData = {
     "2401_08281": {
       "id": "2401_08281",
       "title": "The Faiss Library",
-      "label": "Faiss",
+      "label": "Faiss Library",
       "authors": [
         "Matthijs Douze",
         "Alexandr Guzhva",
@@ -18741,7 +19000,7 @@ window.tagSearchData = {
     "2013_chu_code_generation_for_embedded": {
       "id": "2013_chu_code_generation_for_embedded",
       "title": "Code Generation for Embedded Second-Order Cone Programming",
-      "label": "Embedded SOCP code generation",
+      "label": "ECOS Code Gen",
       "authors": [
         "Eric Chu",
         "Neal Parikh",
@@ -18964,7 +19223,7 @@ window.tagSearchData = {
     "1312_3039": {
       "id": "1312_3039",
       "title": "Conic Optimization via Operator Splitting and Homogeneous Self-Dual Embedding",
-      "label": "Conic Optimization via Operator Splitting and Homogeneous Self-Dual Embedding",
+      "label": "SCS",
       "authors": [
         "Brendan O'Donoghue",
         "Eric Chu",
@@ -23677,6 +23936,32 @@ window.tagSearchData = {
       "treeUrl": "../tree/#paper=1802_09076",
       "mapUrl": "../map/#paper=1802_09076"
     },
+    "2018_belkhir_assessing_ict_global_emissions": {
+      "id": "2018_belkhir_assessing_ict_global_emissions",
+      "title": "Assessing ICT Global Emissions Footprint: Trends to 2040 & Recommendations",
+      "label": "ICT Global Emissions Footprint",
+      "authors": [
+        "Lotfi Belkhir",
+        "Ahmed Elmeligi"
+      ],
+      "year": 2018,
+      "tags": [
+        "ICT sustainability",
+        "Carbon footprint",
+        "Greenhouse gas emissions",
+        "Data centers",
+        "Communication networks",
+        "Consumer electronics",
+        "Smartphone footprint",
+        "Life cycle emissions",
+        "Climate policy",
+        "Sustainable computing"
+      ],
+      "summary": "Belkhir and Elmeligi estimate the global greenhouse gas footprint of the ICT sector across devices, data centers, and communications infrastructure, combining production and operational energy rather than treating digital services as immaterial. The paper is influential because it turns ICT growth into a long-range emissions trajectory, highlights smartphones as a major contributor, and frames mitigation as a mix of renewable energy, policy, management, and business-model changes.",
+      "url": "../papers/2018_belkhir_assessing_ict_global_emissions/",
+      "treeUrl": "../tree/#paper=2018_belkhir_assessing_ict_global_emissions",
+      "mapUrl": "../map/#paper=2018_belkhir_assessing_ict_global_emissions"
+    },
     "1809_07051": {
       "id": "1809_07051",
       "title": "Probabilistic Completeness of RRT for Geometric and Kinodynamic Planning with Forward Propagation",
@@ -23698,7 +23983,7 @@ window.tagSearchData = {
     "1965_magill_optimal_adaptive_estimation_of": {
       "id": "1965_magill_optimal_adaptive_estimation_of",
       "title": "Optimal Adaptive Estimation of Sampled Stochastic Processes",
-      "label": "Bayesian Adaptive Estimation",
+      "label": "Optimal Adaptive Estimation of Sampled Stochastic Processes",
       "authors": [
         "D. Magill"
       ],
@@ -23961,6 +24246,32 @@ window.tagSearchData = {
       "url": "../papers/1992_pacejka_the_magic_formula_tyre/",
       "treeUrl": "../tree/#paper=1992_pacejka_the_magic_formula_tyre",
       "mapUrl": "../map/#paper=1992_pacejka_the_magic_formula_tyre"
+    },
+    "1992_verhaegen_subspace_model_identification_part": {
+      "id": "1992_verhaegen_subspace_model_identification_part",
+      "title": "Subspace Model Identification Part 1. The Output-Error State-Space Model Identification Class of Algorithms",
+      "label": "MOESP",
+      "authors": [
+        "Michel Verhaegen",
+        "Patrick Dewilde"
+      ],
+      "year": 1992,
+      "tags": [
+        "System identification",
+        "Subspace identification",
+        "MOESP",
+        "Output-error models",
+        "State-space models",
+        "Linear systems",
+        "MIMO systems",
+        "RQ factorization",
+        "Singular value decomposition",
+        "Realization theory"
+      ],
+      "summary": "Introduces the MOESP family of subspace system identification algorithms for realizing finite-dimensional linear state-space models from multivariable input-output data. The paper presents elementary and ordinary MOESP schemes organized around RQ factorization, singular value decomposition, and linear least-squares realization steps, establishing a computational template that became a standard alternative to prediction-error and maximum-likelihood identification methods for MIMO systems.",
+      "url": "../papers/1992_verhaegen_subspace_model_identification_part/",
+      "treeUrl": "../tree/#paper=1992_verhaegen_subspace_model_identification_part",
+      "mapUrl": "../map/#paper=1992_verhaegen_subspace_model_identification_part"
     },
     "1992_furuta_swing_up_control_of": {
       "id": "1992_furuta_swing_up_control_of",
@@ -26689,6 +27000,32 @@ window.tagSearchData = {
       "treeUrl": "../tree/#paper=2005_ungoren_an_adaptive_lateral_preview",
       "mapUrl": "../map/#paper=2005_ungoren_an_adaptive_lateral_preview"
     },
+    "2005_liu_accelerated_unsteady_flow_line": {
+      "id": "2005_liu_accelerated_unsteady_flow_line",
+      "title": "Accelerated Unsteady Flow Line Integral Convolution",
+      "label": "AUFLIC",
+      "authors": [
+        "Zhanping Liu",
+        "Robert J. Moorhead II"
+      ],
+      "year": 2005,
+      "tags": [
+        "Line integral convolution",
+        "AUFLIC",
+        "UFLIC",
+        "Unsteady flows",
+        "Flow visualization",
+        "Vector field visualization",
+        "Pathline reuse",
+        "Animation coherence",
+        "Scientific visualization",
+        "Computational fluid dynamics"
+      ],
+      "summary": "Accelerates UFLIC by reusing pathlines during value scattering and adding a dynamic seeding controller that decides when to advect, copy, or reuse flow paths. The paper is important as a performance-oriented follow-up that moves coherent unsteady-flow LIC closer to interactive use.",
+      "url": "../papers/2005_liu_accelerated_unsteady_flow_line/",
+      "treeUrl": "../tree/#paper=2005_liu_accelerated_unsteady_flow_line",
+      "mapUrl": "../map/#paper=2005_liu_accelerated_unsteady_flow_line"
+    },
     "2005_dalal_histograms_of_oriented_gradients": {
       "id": "2005_dalal_histograms_of_oriented_gradients",
       "title": "Histograms of Oriented Gradients for Human Detection",
@@ -29147,6 +29484,15 @@ window.tagSearchData = {
     "mpc": "MPC",
     "local minima": "Local minima",
     "altro": "ALTRO",
+    "green ai": "Green AI",
+    "sustainable ai": "Sustainable AI",
+    "machine learning efficiency": "Machine learning efficiency",
+    "carbon footprint": "Carbon footprint",
+    "computational cost": "Computational cost",
+    "model evaluation": "Model evaluation",
+    "energy efficiency": "Energy efficiency",
+    "research incentives": "Research incentives",
+    "ai accessibility": "AI accessibility",
     "optimization": "Optimization",
     "symplectic geometry": "Symplectic geometry",
     "momentum methods": "Momentum methods",
@@ -29333,6 +29679,22 @@ window.tagSearchData = {
     "metaheuristics": "Metaheuristics",
     "neural network training": "Neural network training",
     "artificial life": "Artificial life",
+    "line integral convolution": "Line integral convolution",
+    "fast lic": "Fast LIC",
+    "flow visualization": "Flow visualization",
+    "vector field visualization": "Vector field visualization",
+    "resolution independence": "Resolution independence",
+    "streamline integration": "Streamline integration",
+    "texture synthesis": "Texture synthesis",
+    "scientific visualization": "Scientific visualization",
+    "computer graphics": "Computer graphics",
+    "lic": "LIC",
+    "curvilinear grids": "Curvilinear grids",
+    "parametric surfaces": "Parametric surfaces",
+    "variable-speed animation": "Variable-speed animation",
+    "unsteady flows": "Unsteady flows",
+    "computational fluid dynamics": "Computational fluid dynamics",
+    "texture mapping": "Texture mapping",
     "acrobot": "Acrobot",
     "swing-up control": "Swing-up control",
     "energy-based control": "Energy-based control",
@@ -29363,7 +29725,16 @@ window.tagSearchData = {
     "categorical data": "Categorical data",
     "chi-square tests": "Chi-square tests",
     "survey analysis": "Survey analysis",
+    "l1 adaptive control": "L1 adaptive control",
+    "time-varying reference systems": "Time-varying reference systems",
+    "unmodeled dynamics": "Unmodeled dynamics",
+    "transient performance": "Transient performance",
     "differential constraints": "Differential constraints",
+    "fast adaptation": "Fast adaptation",
+    "matched uncertainties": "Matched uncertainties",
+    "unmatched uncertainties": "Unmatched uncertainties",
+    "output feedback": "Output feedback",
+    "flight testing": "Flight testing",
     "convolutional neural networks": "Convolutional neural networks",
     "lenet": "LeNet",
     "document recognition": "Document recognition",
@@ -29504,6 +29875,13 @@ window.tagSearchData = {
     "graphs of convex sets": "Graphs of convex sets",
     "convex set": "Convex set",
     "mixed-integer programming": "Mixed-integer programming",
+    "radiance fields": "Radiance fields",
+    "novel view synthesis": "Novel view synthesis",
+    "sparse voxel grid": "Sparse voxel grid",
+    "spherical harmonics": "Spherical harmonics",
+    "differentiable rendering": "Differentiable rendering",
+    "neural rendering": "Neural rendering",
+    "nerf": "NeRF",
     "second-order methods": "Second-order methods",
     "rigid-body dynamics": "Rigid-body dynamics",
     "swarm robotics": "Swarm robotics",
@@ -29700,6 +30078,12 @@ window.tagSearchData = {
     "dynamic motions": "Dynamic motions",
     "value function approximation": "Value function approximation",
     "lspi": "LSPI",
+    "dlic": "DLIC",
+    "dynamic lic": "Dynamic LIC",
+    "time-dependent vector fields": "Time-dependent vector fields",
+    "streamline evolution": "Streamline evolution",
+    "electromagnetism": "Electromagnetism",
+    "animation coherence": "Animation coherence",
     "control limitations": "Control limitations",
     "unstable systems": "Unstable systems",
     "bode sensitivity integral": "Bode sensitivity integral",
@@ -29711,7 +30095,6 @@ window.tagSearchData = {
     "catmull-clark subdivision": "Catmull-Clark subdivision",
     "subdivision surfaces": "Subdivision surfaces",
     "b-splines": "B-splines",
-    "computer graphics": "Computer graphics",
     "geometric modeling": "Geometric modeling",
     "meshes": "Meshes",
     "linear quadratic gaussian (lqg)": "Linear Quadratic Gaussian (LQG)",
@@ -29745,10 +30128,7 @@ window.tagSearchData = {
     "state estimation": "State estimation",
     "sigma points": "Sigma points",
     "ukf": "UKF",
-    "flow visualization": "flow visualization",
-    "vector field visualization": "vector field visualization",
-    "line integral convolution": "line integral convolution",
-    "lic": "LIC",
+    "uflic": "UFLIC",
     "differential evolution": "Differential evolution",
     "global optimization": "Global optimization",
     "continuous optimization": "Continuous optimization",
@@ -29805,6 +30185,7 @@ window.tagSearchData = {
     "competitive analysis": "Competitive analysis",
     "inverted pendulum": "Inverted pendulum",
     "equations of motion": "Equations of motion",
+    "image processing": "Image processing",
     "c4.5": "C4.5",
     "gain ratio": "Gain ratio",
     "observer design": "Observer design",
@@ -29817,6 +30198,11 @@ window.tagSearchData = {
     "riccati equations": "Riccati equations",
     "qr decomposition": "QR decomposition",
     "singular value decomposition": "Singular value decomposition",
+    "moesp": "MOESP",
+    "iv-moesp": "IV-MOESP",
+    "innovations form": "Innovations form",
+    "mimo systems": "MIMO systems",
+    "instrumental variables": "Instrumental variables",
     "wheeled robots": "Wheeled robots",
     "ordered dithering": "Ordered dithering",
     "halftoning": "Halftoning",
@@ -29943,7 +30329,6 @@ window.tagSearchData = {
     "video generation": "Video generation",
     "video super-resolution": "Video super-resolution",
     "video inpainting": "Video inpainting",
-    "neural rendering": "Neural rendering",
     "kino-pax+": "Kino-PAX+",
     "parallelization": "Parallelization",
     "manipulators": "Manipulators",
@@ -29954,7 +30339,6 @@ window.tagSearchData = {
     "planning and control": "Planning and control",
     "digital halftoning": "Digital halftoning",
     "dither matrices": "Dither matrices",
-    "image processing": "Image processing",
     "bilevel rendering": "Bilevel rendering",
     "stabilizing solution": "Stabilizing solution",
     "existence conditions": "Existence conditions",
@@ -30070,6 +30454,15 @@ window.tagSearchData = {
     "grid": "Grid",
     "baseline": "Baseline",
     "evaluation": "Evaluation",
+    "ict sustainability": "ICT sustainability",
+    "greenhouse gas emissions": "Greenhouse gas emissions",
+    "data centers": "Data centers",
+    "communication networks": "Communication networks",
+    "consumer electronics": "Consumer electronics",
+    "smartphone footprint": "Smartphone footprint",
+    "life cycle emissions": "Life cycle emissions",
+    "climate policy": "Climate policy",
+    "sustainable computing": "Sustainable computing",
     "parametric excitation": "Parametric excitation",
     "random vibration": "Random vibration",
     "linear filtering": "Linear filtering",
@@ -30079,6 +30472,9 @@ window.tagSearchData = {
     "thomas simpson": "Thomas Simpson",
     "root finding": "Root finding",
     "attribution": "Attribution",
+    "output-error models": "Output-error models",
+    "rq factorization": "RQ factorization",
+    "realization theory": "Realization theory",
     "parking": "Parking",
     "clothoids": "Clothoids",
     "target tree": "Target tree",
@@ -30189,6 +30585,8 @@ window.tagSearchData = {
     "ilqg": "iLQG",
     "optimal feedback control": "Optimal feedback control",
     "biomechanical control": "Biomechanical control",
+    "auflic": "AUFLIC",
+    "pathline reuse": "Pathline reuse",
     "histogram of oriented gradients": "histogram of oriented gradients",
     "hog": "HOG",
     "feature descriptor": "feature descriptor",
@@ -98049,6 +98447,62 @@ window.tagSearchData = {
         "score": 0.7221
       }
     ],
+    "1978_catmull_recursively_generated_b_spline::computer graphics": [
+      {
+        "id": "1987_reynolds_flocks_herds_and_schools",
+        "score": 0.6313
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering",
+        "score": 0.6299
+      },
+      {
+        "id": "1973_e_an_optimum_method_for",
+        "score": 0.5682
+      }
+    ],
+    "1987_reynolds_flocks_herds_and_schools::computer graphics": [
+      {
+        "id": "1978_catmull_recursively_generated_b_spline",
+        "score": 0.6313
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering",
+        "score": 0.5959
+      },
+      {
+        "id": "1973_e_an_optimum_method_for",
+        "score": 0.5016
+      }
+    ],
+    "1997_wegenkittl_animating_flow_fields_rendering::computer graphics": [
+      {
+        "id": "1973_e_an_optimum_method_for",
+        "score": 0.6788
+      },
+      {
+        "id": "1978_catmull_recursively_generated_b_spline",
+        "score": 0.6299
+      },
+      {
+        "id": "1987_reynolds_flocks_herds_and_schools",
+        "score": 0.5959
+      }
+    ],
+    "1973_e_an_optimum_method_for::computer graphics": [
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering",
+        "score": 0.6788
+      },
+      {
+        "id": "1978_catmull_recursively_generated_b_spline",
+        "score": 0.5682
+      },
+      {
+        "id": "1987_reynolds_flocks_herds_and_schools",
+        "score": 0.5016
+      }
+    ],
     "1995_spong_the_swing_up_control::acrobot": [
       {
         "id": "1994_spong_partial_feedback_linearization_of",
@@ -100739,62 +101193,6 @@ window.tagSearchData = {
         "score": 0.7422
       }
     ],
-    "1978_catmull_recursively_generated_b_spline::computer graphics": [
-      {
-        "id": "1987_reynolds_flocks_herds_and_schools",
-        "score": 0.6313
-      },
-      {
-        "id": "1997_wegenkittl_animating_flow_fields_rendering",
-        "score": 0.6299
-      },
-      {
-        "id": "1973_e_an_optimum_method_for",
-        "score": 0.5682
-      }
-    ],
-    "1987_reynolds_flocks_herds_and_schools::computer graphics": [
-      {
-        "id": "1978_catmull_recursively_generated_b_spline",
-        "score": 0.6313
-      },
-      {
-        "id": "1997_wegenkittl_animating_flow_fields_rendering",
-        "score": 0.5959
-      },
-      {
-        "id": "1973_e_an_optimum_method_for",
-        "score": 0.5016
-      }
-    ],
-    "1997_wegenkittl_animating_flow_fields_rendering::computer graphics": [
-      {
-        "id": "1973_e_an_optimum_method_for",
-        "score": 0.6788
-      },
-      {
-        "id": "1978_catmull_recursively_generated_b_spline",
-        "score": 0.6299
-      },
-      {
-        "id": "1987_reynolds_flocks_herds_and_schools",
-        "score": 0.5959
-      }
-    ],
-    "1973_e_an_optimum_method_for::computer graphics": [
-      {
-        "id": "1997_wegenkittl_animating_flow_fields_rendering",
-        "score": 0.6788
-      },
-      {
-        "id": "1978_catmull_recursively_generated_b_spline",
-        "score": 0.5682
-      },
-      {
-        "id": "1987_reynolds_flocks_herds_and_schools",
-        "score": 0.5016
-      }
-    ],
     "1997_hsu_path_planning_in_expansive::configuration space": [
       {
         "id": "2409_12266",
@@ -101785,6 +102183,58 @@ window.tagSearchData = {
     "1984_knott_on_the_optimal_mapping::couplings": [],
     "1984_knott_on_the_optimal_mapping::wasserstein distance": [],
     "1984_knott_on_the_optimal_mapping::quadratic cost": [],
+    "2010_kharisov_l1_adaptive_controller_for::adaptive control": [
+      {
+        "id": "2022_gravell_data_driven_control_and"
+      },
+      {
+        "id": "2205_05119"
+      },
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness"
+      },
+      {
+        "id": "2002_10069"
+      },
+      {
+        "id": "2011_abbasi_yadkori_regret_bounds_for_the"
+      },
+      {
+        "id": "2010_hovakimyan_l1_adaptive_control_theory"
+      },
+      {
+        "id": "1983_barto_neuronlike_adaptive_elements_that"
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes"
+      }
+    ],
+    "2010_hovakimyan_l1_adaptive_control_theory::adaptive control": [
+      {
+        "id": "2022_gravell_data_driven_control_and"
+      },
+      {
+        "id": "2205_05119"
+      },
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness"
+      },
+      {
+        "id": "2002_10069"
+      },
+      {
+        "id": "2011_abbasi_yadkori_regret_bounds_for_the"
+      },
+      {
+        "id": "2010_kharisov_l1_adaptive_controller_for"
+      },
+      {
+        "id": "1983_barto_neuronlike_adaptive_elements_that"
+      },
+      {
+        "id": "1959_bellman_on_adaptive_control_processes"
+      }
+    ],
     "1999_thrun_minerva_a_second_generation::minerva": [],
     "1999_thrun_minerva_a_second_generation::museum robot": [],
     "1999_thrun_minerva_a_second_generation::human-robot interaction": [],
@@ -101836,13 +102286,311 @@ window.tagSearchData = {
     "1866_mendel_versuche_uber_pflanzen_hybriden::dominance": [],
     "1866_mendel_versuche_uber_pflanzen_hybriden::hybridization": [],
     "1866_mendel_versuche_uber_pflanzen_hybriden::variation": [],
+    "2112_05131::computer vision": [
+      {
+        "id": "2603_17812"
+      },
+      {
+        "id": "2508_10104"
+      },
+      {
+        "id": "2404_08471"
+      },
+      {
+        "id": "2022_wolfe_spatiotemporal_blue_noise_masks"
+      },
+      {
+        "id": "2103_03230"
+      },
+      {
+        "id": "2105_04906"
+      },
+      {
+        "id": "2006_07733"
+      },
+      {
+        "id": "2014_muja_scalable_nearest_neighbor_algorithms"
+      },
+      {
+        "id": "2005_dalal_histograms_of_oriented_gradients"
+      },
+      {
+        "id": "2001_viola_rapid_object_detection_using"
+      },
+      {
+        "id": "1998_papageorgiou_a_general_framework_for"
+      },
+      {
+        "id": "1980_marr_theory_of_edge_detection"
+      }
+    ],
     "2006_07733::byol": [],
     "2006_07733::bootstrap learning": [],
     "2006_07733::momentum target network": [],
     "2020_pellegrini_a_multiple_shooting_differential::spacecraft": [],
+    "2010_kharisov_l1_adaptive_controller_for::robust control": [
+      {
+        "id": "2505_08370"
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and"
+      },
+      {
+        "id": "2205_05119"
+      },
+      {
+        "id": "2021_gravell_policy_iteration_for_linear"
+      },
+      {
+        "id": "2004_08019"
+      },
+      {
+        "id": "2002_10069"
+      },
+      {
+        "id": "2010_hovakimyan_l1_adaptive_control_theory"
+      },
+      {
+        "id": "2004_de_boeij_mathematical_model_of_the"
+      },
+      {
+        "id": "1978_doyle_guaranteed_margins_for_lqg"
+      }
+    ],
+    "2010_hovakimyan_l1_adaptive_control_theory::robust control": [
+      {
+        "id": "2505_08370"
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and"
+      },
+      {
+        "id": "2205_05119"
+      },
+      {
+        "id": "2021_gravell_policy_iteration_for_linear"
+      },
+      {
+        "id": "2004_08019"
+      },
+      {
+        "id": "2002_10069"
+      },
+      {
+        "id": "2010_kharisov_l1_adaptive_controller_for"
+      },
+      {
+        "id": "2004_de_boeij_mathematical_model_of_the"
+      },
+      {
+        "id": "1978_doyle_guaranteed_margins_for_lqg"
+      }
+    ],
+    "1994_verhaegen_identification_of_the_deterministic::linear systems": [
+      {
+        "id": "2403_11763"
+      },
+      {
+        "id": "2021_gravell_policy_iteration_for_linear"
+      },
+      {
+        "id": "2106_16078"
+      },
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness"
+      },
+      {
+        "id": "2011_14212"
+      },
+      {
+        "id": "2002_06613"
+      },
+      {
+        "id": "2004_08019"
+      },
+      {
+        "id": "1905_13547"
+      },
+      {
+        "id": "2015_wang_a_gradient_based_approach"
+      },
+      {
+        "id": "1205_5088"
+      },
+      {
+        "id": "1996_van_overschee_subspace_identification_for_linear"
+      },
+      {
+        "id": "1992_verhaegen_subspace_model_identification_part"
+      },
+      {
+        "id": "1972_ikeda_stabilization_of_linear_systems"
+      },
+      {
+        "id": "1967_wonham_optimal_stationary_control_of"
+      }
+    ],
+    "1992_verhaegen_subspace_model_identification_part::linear systems": [
+      {
+        "id": "2403_11763"
+      },
+      {
+        "id": "2021_gravell_policy_iteration_for_linear"
+      },
+      {
+        "id": "2106_16078"
+      },
+      {
+        "id": "2021_gravell_stochastic_stability_via_robustness"
+      },
+      {
+        "id": "2011_14212"
+      },
+      {
+        "id": "2002_06613"
+      },
+      {
+        "id": "2004_08019"
+      },
+      {
+        "id": "1905_13547"
+      },
+      {
+        "id": "2015_wang_a_gradient_based_approach"
+      },
+      {
+        "id": "1205_5088"
+      },
+      {
+        "id": "1996_van_overschee_subspace_identification_for_linear"
+      },
+      {
+        "id": "1994_verhaegen_identification_of_the_deterministic"
+      },
+      {
+        "id": "1972_ikeda_stabilization_of_linear_systems"
+      },
+      {
+        "id": "1967_wonham_optimal_stationary_control_of"
+      }
+    ],
+    "1994_verhaegen_identification_of_the_deterministic::stochastic systems": [
+      {
+        "id": "2103_15228"
+      },
+      {
+        "id": "2106_16078"
+      },
+      {
+        "id": "2004_08019"
+      },
+      {
+        "id": "1905_13547"
+      }
+    ],
     "2004_08019::uncertainty descriptions": [],
     "2020_marti_saumell_squash_box_feasibility_driven::squash-box": [],
     "2020_marti_saumell_squash_box_feasibility_driven::feasibility driven differential dynamic programming": [],
+    "1994_verhaegen_identification_of_the_deterministic::system identification": [
+      {
+        "id": "2022_gravell_data_driven_control_and"
+      },
+      {
+        "id": "2205_05119"
+      },
+      {
+        "id": "2106_16078"
+      },
+      {
+        "id": "2111_08481"
+      },
+      {
+        "id": "2108_13404"
+      },
+      {
+        "id": "2002_06613"
+      },
+      {
+        "id": "2002_10069"
+      },
+      {
+        "id": "1509_03580"
+      },
+      {
+        "id": "1409_6358"
+      },
+      {
+        "id": "2011_abbasi_yadkori_regret_bounds_for_the"
+      },
+      {
+        "id": "2008_schmid_dynamic_mode_decomposition_of"
+      },
+      {
+        "id": "1996_van_overschee_subspace_identification_for_linear"
+      },
+      {
+        "id": "1994_van_overschee_n4sid_numerical_algorithms_for"
+      },
+      {
+        "id": "1993_juang_identification_of_observer_kalman"
+      },
+      {
+        "id": "1992_verhaegen_subspace_model_identification_part"
+      },
+      {
+        "id": "1985_juang_an_eigensystem_realization_algorithm"
+      }
+    ],
+    "1992_verhaegen_subspace_model_identification_part::system identification": [
+      {
+        "id": "2022_gravell_data_driven_control_and"
+      },
+      {
+        "id": "2205_05119"
+      },
+      {
+        "id": "2106_16078"
+      },
+      {
+        "id": "2111_08481"
+      },
+      {
+        "id": "2108_13404"
+      },
+      {
+        "id": "2002_06613"
+      },
+      {
+        "id": "2002_10069"
+      },
+      {
+        "id": "1509_03580"
+      },
+      {
+        "id": "1409_6358"
+      },
+      {
+        "id": "2011_abbasi_yadkori_regret_bounds_for_the"
+      },
+      {
+        "id": "2008_schmid_dynamic_mode_decomposition_of"
+      },
+      {
+        "id": "1996_van_overschee_subspace_identification_for_linear"
+      },
+      {
+        "id": "1994_verhaegen_identification_of_the_deterministic"
+      },
+      {
+        "id": "1994_van_overschee_n4sid_numerical_algorithms_for"
+      },
+      {
+        "id": "1993_juang_identification_of_observer_kalman"
+      },
+      {
+        "id": "1985_juang_an_eigensystem_realization_algorithm"
+      }
+    ],
     "2002_10069::regret": [],
     "2011_14212::approximate dynamic programming": [],
     "2011_14212::newton method": [],
@@ -101887,6 +102635,26 @@ window.tagSearchData = {
     "2017_majumdar_how_should_a_robot::axiomatic risk": [],
     "1710_09483::interaction-aware": [],
     "1710_09483::human": [],
+    "1907_10597::deep learning": [
+      {
+        "id": "2024_calem_action_and_trajectory_prediction"
+      },
+      {
+        "id": "2303_09824"
+      },
+      {
+        "id": "1912_11676"
+      },
+      {
+        "id": "1912_01603"
+      },
+      {
+        "id": "1709_07174"
+      },
+      {
+        "id": "1706_03762"
+      }
+    ],
     "1709_07174::end-to-end": [],
     "2017_rosmann_kinodynamic_trajectory_optimization_and::timed elastic band": [],
     "2017_rosmann_kinodynamic_trajectory_optimization_and::car-like robots": [],
@@ -101937,6 +102705,24 @@ window.tagSearchData = {
     "1909_10466::data-driven": [],
     "1909_10466::data reconstruction": [],
     "2019_howell_altro_a_fast_solver::altro": [],
+    "1907_10597::green ai": [],
+    "1907_10597::sustainable ai": [],
+    "1907_10597::machine learning efficiency": [],
+    "1907_10597::carbon footprint": [
+      {
+        "id": "2018_belkhir_assessing_ict_global_emissions"
+      }
+    ],
+    "2018_belkhir_assessing_ict_global_emissions::carbon footprint": [
+      {
+        "id": "1907_10597"
+      }
+    ],
+    "1907_10597::computational cost": [],
+    "1907_10597::model evaluation": [],
+    "1907_10597::energy efficiency": [],
+    "1907_10597::research incentives": [],
+    "1907_10597::ai accessibility": [],
     "1903_04100::symplectic geometry": [],
     "1903_04100::momentum methods": [],
     "1903_04100::nesterov acceleration": [],
@@ -101949,6 +102735,29 @@ window.tagSearchData = {
     "2019_zhang_inverse_optimal_control_for::statistical consistency": [],
     "1909_04947::multi-contact": [],
     "1988_mayne_receding_horizon_control_of::receding horizon": [],
+    "2010_kharisov_l1_adaptive_controller_for::nonlinear systems": [
+      {
+        "id": "2412_11270"
+      },
+      {
+        "id": "2022_gravell_data_driven_control_and"
+      },
+      {
+        "id": "2021_perdomo_stabilizing_dynamical_systems_via"
+      },
+      {
+        "id": "2103_05572"
+      },
+      {
+        "id": "1408_4408"
+      },
+      {
+        "id": "1988_mayne_receding_horizon_control_of"
+      },
+      {
+        "id": "1975_gustafson_design_of_linear_regulators"
+      }
+    ],
     "1988_komiya_elementary_proof_for_sions::convex analysis": [],
     "1988_komiya_elementary_proof_for_sions::mathematical proof": [],
     "2503_05819::action sampling distribution": [],
@@ -101970,6 +102779,14 @@ window.tagSearchData = {
     "2503_14734::bimanual manipulation": [],
     "2503_14734::synthetic data": [],
     "2501_05204::disney": [],
+    "1995_stalling_fast_and_resolution_independent::animation": [
+      {
+        "id": "2501_05204"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      }
+    ],
     "2501_05204::mechatronics": [],
     "2506_09985::robotic planning": [],
     "2506_09985::video question answering": [],
@@ -102056,6 +102873,639 @@ window.tagSearchData = {
     "1995_kennedy_particle_swarm_optimization::metaheuristics": [],
     "1995_kennedy_particle_swarm_optimization::neural network training": [],
     "1995_kennedy_particle_swarm_optimization::artificial life": [],
+    "1995_stalling_fast_and_resolution_independent::line integral convolution": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1995_forssell_using_line_integral_convolution::line integral convolution": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "2003_sundquist_dynamic_line_integral_convolution::line integral convolution": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1997_wegenkittl_animating_flow_fields_rendering::line integral convolution": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1997_shen_uflic_a_line_integral::line integral convolution": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1993_cabral_imaging_vector_fields_using::line integral convolution": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      }
+    ],
+    "2005_liu_accelerated_unsteady_flow_line::line integral convolution": [
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1995_stalling_fast_and_resolution_independent::fast lic": [],
+    "1995_stalling_fast_and_resolution_independent::flow visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1995_forssell_using_line_integral_convolution::flow visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "2003_sundquist_dynamic_line_integral_convolution::flow visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1997_wegenkittl_animating_flow_fields_rendering::flow visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1997_shen_uflic_a_line_integral::flow visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1993_cabral_imaging_vector_fields_using::flow visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      }
+    ],
+    "2005_liu_accelerated_unsteady_flow_line::flow visualization": [
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1995_stalling_fast_and_resolution_independent::vector field visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "2003_sundquist_dynamic_line_integral_convolution::vector field visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1997_wegenkittl_animating_flow_fields_rendering::vector field visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1997_shen_uflic_a_line_integral::vector field visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1993_cabral_imaging_vector_fields_using::vector field visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      }
+    ],
+    "2005_liu_accelerated_unsteady_flow_line::vector field visualization": [
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1995_stalling_fast_and_resolution_independent::resolution independence": [],
+    "1995_stalling_fast_and_resolution_independent::streamline integration": [],
+    "1995_stalling_fast_and_resolution_independent::texture synthesis": [
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1993_cabral_imaging_vector_fields_using::texture synthesis": [
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      }
+    ],
+    "1995_stalling_fast_and_resolution_independent::scientific visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1995_forssell_using_line_integral_convolution::scientific visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "2003_sundquist_dynamic_line_integral_convolution::scientific visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1997_shen_uflic_a_line_integral::scientific visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1993_cabral_imaging_vector_fields_using::scientific visualization": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      }
+    ],
+    "2005_liu_accelerated_unsteady_flow_line::scientific visualization": [
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1995_stalling_fast_and_resolution_independent::computer graphics": [
+      {
+        "id": "2112_05131"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      },
+      {
+        "id": "1987_reynolds_flocks_herds_and_schools"
+      },
+      {
+        "id": "1978_catmull_recursively_generated_b_spline"
+      },
+      {
+        "id": "1973_e_an_optimum_method_for"
+      }
+    ],
+    "2112_05131::computer graphics": [
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      },
+      {
+        "id": "1987_reynolds_flocks_herds_and_schools"
+      },
+      {
+        "id": "1978_catmull_recursively_generated_b_spline"
+      },
+      {
+        "id": "1973_e_an_optimum_method_for"
+      }
+    ],
+    "1993_cabral_imaging_vector_fields_using::computer graphics": [
+      {
+        "id": "2112_05131"
+      },
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1995_stalling_fast_and_resolution_independent"
+      },
+      {
+        "id": "1987_reynolds_flocks_herds_and_schools"
+      },
+      {
+        "id": "1978_catmull_recursively_generated_b_spline"
+      },
+      {
+        "id": "1973_e_an_optimum_method_for"
+      }
+    ],
+    "1995_forssell_using_line_integral_convolution::lic": [
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1997_wegenkittl_animating_flow_fields_rendering::lic": [
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      },
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
+    "1993_cabral_imaging_vector_fields_using::lic": [
+      {
+        "id": "1997_wegenkittl_animating_flow_fields_rendering"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      }
+    ],
+    "1995_forssell_using_line_integral_convolution::curvilinear grids": [],
+    "1995_forssell_using_line_integral_convolution::parametric surfaces": [],
+    "1995_forssell_using_line_integral_convolution::variable-speed animation": [],
+    "1995_forssell_using_line_integral_convolution::unsteady flows": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      }
+    ],
+    "1997_shen_uflic_a_line_integral::unsteady flows": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      }
+    ],
+    "2005_liu_accelerated_unsteady_flow_line::unsteady flows": [
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      }
+    ],
+    "1995_forssell_using_line_integral_convolution::computational fluid dynamics": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      }
+    ],
+    "1997_shen_uflic_a_line_integral::computational fluid dynamics": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      }
+    ],
+    "2005_liu_accelerated_unsteady_flow_line::computational fluid dynamics": [
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      },
+      {
+        "id": "1995_forssell_using_line_integral_convolution"
+      }
+    ],
+    "1995_forssell_using_line_integral_convolution::texture mapping": [],
     "1995_spong_the_swing_up_control::swing-up control": [],
     "1995_spong_the_swing_up_control::energy-based control": [],
     "1816_stirling_the_stirling_engine_of::stirling engine": [],
@@ -102080,7 +103530,43 @@ window.tagSearchData = {
     "1980_kass_an_exploratory_technique_for::categorical data": [],
     "1980_kass_an_exploratory_technique_for::chi-square tests": [],
     "1980_kass_an_exploratory_technique_for::survey analysis": [],
+    "2010_kharisov_l1_adaptive_controller_for::l1 adaptive control": [
+      {
+        "id": "2010_hovakimyan_l1_adaptive_control_theory"
+      }
+    ],
+    "2010_hovakimyan_l1_adaptive_control_theory::l1 adaptive control": [
+      {
+        "id": "2010_kharisov_l1_adaptive_controller_for"
+      }
+    ],
+    "2010_kharisov_l1_adaptive_controller_for::time-varying reference systems": [
+      {
+        "id": "2010_hovakimyan_l1_adaptive_control_theory"
+      }
+    ],
+    "2010_hovakimyan_l1_adaptive_control_theory::time-varying reference systems": [
+      {
+        "id": "2010_kharisov_l1_adaptive_controller_for"
+      }
+    ],
+    "2010_kharisov_l1_adaptive_controller_for::unmodeled dynamics": [],
+    "2010_kharisov_l1_adaptive_controller_for::transient performance": [
+      {
+        "id": "2010_hovakimyan_l1_adaptive_control_theory"
+      }
+    ],
+    "2010_hovakimyan_l1_adaptive_control_theory::transient performance": [
+      {
+        "id": "2010_kharisov_l1_adaptive_controller_for"
+      }
+    ],
     "2010_karaman_optimal_kinodynamic_motion_planning::differential constraints": [],
+    "2010_hovakimyan_l1_adaptive_control_theory::fast adaptation": [],
+    "2010_hovakimyan_l1_adaptive_control_theory::matched uncertainties": [],
+    "2010_hovakimyan_l1_adaptive_control_theory::unmatched uncertainties": [],
+    "2010_hovakimyan_l1_adaptive_control_theory::output feedback": [],
+    "2010_hovakimyan_l1_adaptive_control_theory::flight testing": [],
     "1998_lecun_gradient_based_learning_applied::convolutional neural networks": [],
     "1998_lecun_gradient_based_learning_applied::lenet": [],
     "1998_lecun_gradient_based_learning_applied::document recognition": [],
@@ -102180,6 +103666,22 @@ window.tagSearchData = {
     "2021_gravell_stochastic_stability_via_robustness::polytope": [],
     "2101_11565::graphs of convex sets": [],
     "2101_11565::convex set": [],
+    "2112_05131::radiance fields": [],
+    "2112_05131::novel view synthesis": [],
+    "2112_05131::sparse voxel grid": [],
+    "2112_05131::spherical harmonics": [],
+    "2112_05131::differentiable rendering": [],
+    "2112_05131::neural rendering": [
+      {
+        "id": "2603_17812"
+      }
+    ],
+    "2603_17812::neural rendering": [
+      {
+        "id": "2112_05131"
+      }
+    ],
+    "2112_05131::nerf": [],
     "2103_03293::rigid-body dynamics": [],
     "2101_08829::swarm robotics": [],
     "2101_08829::cooperative robotics": [],
@@ -102196,6 +103698,28 @@ window.tagSearchData = {
     "2103_15228::anomaly detection": [],
     "2103_15228::attack detection": [],
     "2103_15228::robust state estimation": [],
+    "1994_verhaegen_identification_of_the_deterministic::state-space models": [
+      {
+        "id": "2103_15228"
+      },
+      {
+        "id": "1993_juang_identification_of_observer_kalman"
+      },
+      {
+        "id": "1992_verhaegen_subspace_model_identification_part"
+      }
+    ],
+    "1992_verhaegen_subspace_model_identification_part::state-space models": [
+      {
+        "id": "2103_15228"
+      },
+      {
+        "id": "1994_verhaegen_identification_of_the_deterministic"
+      },
+      {
+        "id": "1993_juang_identification_of_observer_kalman"
+      }
+    ],
     "2103_15228::kalman filtering": [],
     "2103_15228::robust filtering": [],
     "2103_15228::sensor attacks": [],
@@ -102326,6 +103850,44 @@ window.tagSearchData = {
     "1411_4045::dynamic motions": [],
     "2003_lagoudakis_least_squares_policy_iteration::value function approximation": [],
     "2003_lagoudakis_least_squares_policy_iteration::lspi": [],
+    "2003_sundquist_dynamic_line_integral_convolution::dlic": [],
+    "2003_sundquist_dynamic_line_integral_convolution::dynamic lic": [],
+    "2003_sundquist_dynamic_line_integral_convolution::time-dependent vector fields": [
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      }
+    ],
+    "1997_shen_uflic_a_line_integral::time-dependent vector fields": [
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      }
+    ],
+    "2003_sundquist_dynamic_line_integral_convolution::streamline evolution": [],
+    "2003_sundquist_dynamic_line_integral_convolution::electromagnetism": [],
+    "2003_sundquist_dynamic_line_integral_convolution::animation coherence": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      }
+    ],
+    "1997_shen_uflic_a_line_integral::animation coherence": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      },
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      }
+    ],
+    "2005_liu_accelerated_unsteady_flow_line::animation coherence": [
+      {
+        "id": "2003_sundquist_dynamic_line_integral_convolution"
+      },
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      }
+    ],
     "2003_stein_respect_the_unstable::control limitations": [],
     "2003_stein_respect_the_unstable::unstable systems": [],
     "2003_stein_respect_the_unstable::bode sensitivity integral": [],
@@ -102368,10 +103930,16 @@ window.tagSearchData = {
     "1997_julier_new_extension_of_the::nonlinear estimation": [],
     "1997_julier_new_extension_of_the::sigma points": [],
     "1997_julier_new_extension_of_the::ukf": [],
-    "1997_wegenkittl_animating_flow_fields_rendering::flow visualization": [],
-    "1997_wegenkittl_animating_flow_fields_rendering::vector field visualization": [],
-    "1997_wegenkittl_animating_flow_fields_rendering::line integral convolution": [],
-    "1997_wegenkittl_animating_flow_fields_rendering::lic": [],
+    "1997_shen_uflic_a_line_integral::uflic": [
+      {
+        "id": "2005_liu_accelerated_unsteady_flow_line"
+      }
+    ],
+    "2005_liu_accelerated_unsteady_flow_line::uflic": [
+      {
+        "id": "1997_shen_uflic_a_line_integral"
+      }
+    ],
     "1997_storn_differential_evolution_a_simple::differential evolution": [],
     "1997_storn_differential_evolution_a_simple::global optimization": [],
     "1997_storn_differential_evolution_a_simple::continuous optimization": [],
@@ -102394,6 +103962,40 @@ window.tagSearchData = {
     "1996_ester_a_density_based_algorithm::arbitrary-shape clusters": [],
     "1996_ester_a_density_based_algorithm::data mining": [],
     "1996_ester_a_density_based_algorithm::region query": [],
+    "1994_verhaegen_identification_of_the_deterministic::subspace identification": [
+      {
+        "id": "2205_05119"
+      },
+      {
+        "id": "1996_van_overschee_subspace_identification_for_linear"
+      },
+      {
+        "id": "1994_van_overschee_n4sid_numerical_algorithms_for"
+      },
+      {
+        "id": "1993_juang_identification_of_observer_kalman"
+      },
+      {
+        "id": "1992_verhaegen_subspace_model_identification_part"
+      }
+    ],
+    "1992_verhaegen_subspace_model_identification_part::subspace identification": [
+      {
+        "id": "2205_05119"
+      },
+      {
+        "id": "1996_van_overschee_subspace_identification_for_linear"
+      },
+      {
+        "id": "1994_verhaegen_identification_of_the_deterministic"
+      },
+      {
+        "id": "1994_van_overschee_n4sid_numerical_algorithms_for"
+      },
+      {
+        "id": "1993_juang_identification_of_observer_kalman"
+      }
+    ],
     "1996_breiman_bagging_predictors::variance reduction": [],
     "1996_kavraki_probabilistic_roadmaps_for_path::probabilistic roadmap": [],
     "1967_kleinman_suboptimal_design_of_linear::suboptimal control": [],
@@ -102416,6 +104018,16 @@ window.tagSearchData = {
     "2007_arthur_k_means_the_advantages::approximation algorithms": [],
     "2007_arthur_k_means_the_advantages::competitive analysis": [],
     "2007_florian_correct_equations_for_the::equations of motion": [],
+    "1993_cabral_imaging_vector_fields_using::image processing": [
+      {
+        "id": "1973_e_an_optimum_method_for"
+      }
+    ],
+    "1973_e_an_optimum_method_for::image processing": [
+      {
+        "id": "1993_cabral_imaging_vector_fields_using"
+      }
+    ],
     "1993_quinlan_c4_5_programs_for_machine::c4.5": [],
     "1993_quinlan_c4_5_programs_for_machine::gain ratio": [],
     "1993_juang_identification_of_observer_kalman::observer design": [],
@@ -102427,7 +104039,39 @@ window.tagSearchData = {
     "1994_van_overschee_n4sid_numerical_algorithms_for::n4sid": [],
     "1994_van_overschee_n4sid_numerical_algorithms_for::riccati equations": [],
     "1994_van_overschee_n4sid_numerical_algorithms_for::qr decomposition": [],
-    "1994_van_overschee_n4sid_numerical_algorithms_for::singular value decomposition": [],
+    "1994_van_overschee_n4sid_numerical_algorithms_for::singular value decomposition": [
+      {
+        "id": "1992_verhaegen_subspace_model_identification_part"
+      }
+    ],
+    "1992_verhaegen_subspace_model_identification_part::singular value decomposition": [
+      {
+        "id": "1994_van_overschee_n4sid_numerical_algorithms_for"
+      }
+    ],
+    "1994_verhaegen_identification_of_the_deterministic::moesp": [
+      {
+        "id": "1992_verhaegen_subspace_model_identification_part"
+      }
+    ],
+    "1992_verhaegen_subspace_model_identification_part::moesp": [
+      {
+        "id": "1994_verhaegen_identification_of_the_deterministic"
+      }
+    ],
+    "1994_verhaegen_identification_of_the_deterministic::iv-moesp": [],
+    "1994_verhaegen_identification_of_the_deterministic::innovations form": [],
+    "1994_verhaegen_identification_of_the_deterministic::mimo systems": [
+      {
+        "id": "1992_verhaegen_subspace_model_identification_part"
+      }
+    ],
+    "1992_verhaegen_subspace_model_identification_part::mimo systems": [
+      {
+        "id": "1994_verhaegen_identification_of_the_deterministic"
+      }
+    ],
+    "1994_verhaegen_identification_of_the_deterministic::instrumental variables": [],
     "1994_de_wit_nonlinear_control_design_for::wheeled robots": [],
     "1994_purgathofer_forced_random_dithering_improved::halftoning": [],
     "1994_purgathofer_forced_random_dithering_improved::threshold matrix generation": [],
@@ -102531,7 +104175,6 @@ window.tagSearchData = {
     "2603_17812::video generation": [],
     "2603_17812::video super-resolution": [],
     "2603_17812::video inpainting": [],
-    "2603_17812::neural rendering": [],
     "2602_02846::kino-pax+": [],
     "2603_16059::parallelization": [],
     "2603_16059::manipulators": [],
@@ -102542,7 +104185,6 @@ window.tagSearchData = {
     "2026_zhang_constrained_diffusers_for_safe::planning and control": [],
     "1973_e_an_optimum_method_for::digital halftoning": [],
     "1973_e_an_optimum_method_for::dither matrices": [],
-    "1973_e_an_optimum_method_for::image processing": [],
     "1973_e_an_optimum_method_for::bilevel rendering": [],
     "1973_molinari_the_stabilizing_solution_of::stabilizing solution": [],
     "1973_molinari_the_stabilizing_solution_of::existence conditions": [],
@@ -102647,6 +104289,15 @@ window.tagSearchData = {
     "1809_02399::grid": [],
     "1803_07055::baseline": [],
     "1803_07055::evaluation": [],
+    "2018_belkhir_assessing_ict_global_emissions::ict sustainability": [],
+    "2018_belkhir_assessing_ict_global_emissions::greenhouse gas emissions": [],
+    "2018_belkhir_assessing_ict_global_emissions::data centers": [],
+    "2018_belkhir_assessing_ict_global_emissions::communication networks": [],
+    "2018_belkhir_assessing_ict_global_emissions::consumer electronics": [],
+    "2018_belkhir_assessing_ict_global_emissions::smartphone footprint": [],
+    "2018_belkhir_assessing_ict_global_emissions::life cycle emissions": [],
+    "2018_belkhir_assessing_ict_global_emissions::climate policy": [],
+    "2018_belkhir_assessing_ict_global_emissions::sustainable computing": [],
     "1965_bogdanoff_experiments_with_an_inverted::parametric excitation": [],
     "1965_bogdanoff_experiments_with_an_inverted::random vibration": [],
     "1960_kalman_a_new_approach_to::linear filtering": [],
@@ -102655,6 +104306,9 @@ window.tagSearchData = {
     "1992_kollerstrom_thomas_simpson_and_newtons::history of mathematics": [],
     "1992_kollerstrom_thomas_simpson_and_newtons::thomas simpson": [],
     "1992_kollerstrom_thomas_simpson_and_newtons::attribution": [],
+    "1992_verhaegen_subspace_model_identification_part::output-error models": [],
+    "1992_verhaegen_subspace_model_identification_part::rq factorization": [],
+    "1992_verhaegen_subspace_model_identification_part::realization theory": [],
     "2201_03163::parking": [],
     "2201_03163::clothoids": [],
     "2201_03163::target tree": [],
@@ -102758,6 +104412,8 @@ window.tagSearchData = {
     "2005_todorov_a_generalized_iterative_lqg::ilqg": [],
     "2005_todorov_a_generalized_iterative_lqg::optimal feedback control": [],
     "2005_todorov_a_generalized_iterative_lqg::biomechanical control": [],
+    "2005_liu_accelerated_unsteady_flow_line::auflic": [],
+    "2005_liu_accelerated_unsteady_flow_line::pathline reuse": [],
     "2005_dalal_histograms_of_oriented_gradients::histogram of oriented gradients": [],
     "2005_dalal_histograms_of_oriented_gradients::hog": [],
     "2005_dalal_histograms_of_oriented_gradients::feature descriptor": [],

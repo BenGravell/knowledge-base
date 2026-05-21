@@ -11,12 +11,12 @@ window.timelineData = {
       "year": 1816,
       "source": "Letters Patent No. 4081",
       "type": "Other",
-      "superCategory": "Foundations",
+      "superCategory": "Evaluation",
       "category": "Engineering Systems",
       "subCategory": "Stirling Engines",
       "path": [
         "Tree",
-        "Foundations",
+        "Evaluation",
         "Engineering Systems",
         "Stirling Engines",
         "The Stirling Engine of 1816"
@@ -83,12 +83,12 @@ window.timelineData = {
       "year": 1858,
       "source": "Journal of the Proceedings of the Linnean Society of London.",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Human & Natural Worlds",
       "category": "Biology",
       "subCategory": "Evolution",
       "path": [
         "Tree",
-        "Foundations",
+        "Human & Natural Worlds",
         "Biology",
         "Evolution",
         "Natural Selection"
@@ -119,12 +119,12 @@ window.timelineData = {
       "year": 1866,
       "source": "Verhandlungen des Naturforschenden Vereines in Brunn",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Human & Natural Worlds",
       "category": "Biology",
       "subCategory": "Evolution",
       "path": [
         "Tree",
-        "Foundations",
+        "Human & Natural Worlds",
         "Biology",
         "Evolution",
         "Mendelian Inheritance"
@@ -158,13 +158,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
+      "subCategory": "Frequency and Laplace-Domain Methods",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
+        "Frequency and Laplace-Domain Methods",
+        "Classical Feedback Foundations",
         "Regeneration Theory"
       ],
       "tags": [],
@@ -204,8 +204,8 @@ window.timelineData = {
     },
     {
       "id": "1934_black_stabilized_feedback_amplifiers",
-      "label": "Stabilized Feedback Amplifiers*",
-      "title": "Stabilized Feedback Amplifiers*",
+      "label": "Stabilized Feedback Amplifiers",
+      "title": "Stabilized Feedback Amplifiers",
       "authors": [
         "H. S. Black"
       ],
@@ -215,14 +215,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
+      "subCategory": "Frequency and Laplace-Domain Methods",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
-        "Stabilized Feedback Amplifiers*"
+        "Frequency and Laplace-Domain Methods",
+        "Classical Feedback Foundations",
+        "Stabilized Feedback Amplifiers"
       ],
       "tags": [],
       "abstract": "This paper describes and explains the theory of the feedback principle and then demonstrates how stability of amplification and reduction of modulation products, as well as certain other advantages, follow when stabilized feedback is applied to an amplifier. The underlying principle of design by means of which singing is avoided is next set forth. The paper concludes with some examples of results obtained on amplifiers which have been built employing this new principle.",
@@ -244,18 +244,18 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
+      "subCategory": "Frequency and Laplace-Domain Methods",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
+        "Frequency and Laplace-Domain Methods",
+        "Classical Feedback Foundations",
         "Relations between Attenuation and Phase in Feedback Amplifier Design"
       ],
       "tags": [],
-      "abstract": "THE engineer who embarks upon the design of a feedback amplifier must be a creature of mixed emotions. On the one hand, he can rejoice in the improvements in the characteristics of the structure which feedback promises to secure him. <sup xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">1</sup> On the other hand, he knows that unless he can finally adjust the phase and attenuation characteristics around the feedback loop so the amplifier will not spontaneously burst into uncontrollable singing, none of these advantages can actually be realized. The emotional situation is much like that of an impecunious young man who has impetuously invited the lady of his heart to see a play, unmindful, for the moment, of the limitations of the $2.65 in his pockets. The rapturous comments of the girl on the way to the theater would be very pleasant if they were not shadowed by his private speculation about the cost of the tickets.",
-      "summary": "",
+      "abstract": "The engineer who embarks upon the design of a feedback amplifier must be a creature of mixed emotions. On the one hand, he can rejoice in the improvements in the characteristics of the structure which feedback promises to secure him.1 On the other hand, he knows that unless he can finally adjust the phase and attenuation characteristics around the feedback loop so the amplifier will not spontaneously burst into uncontrollable singing, none of these advantages can actually be realized. The emotional situation is much like that of an impecunious young man who has impetuously invited the lady of his heart to see a play, unmindful, for the moment, of the limitations of the $2.65 in his pockets. The rapturous comments of the girl on the way to the theater would be very pleasant if they were not shadowed by his private speculation about the cost of the tickets.",
+      "summary": "Establishes the frequency-domain relationship between attenuation and phase that made feedback amplifier design into a practical loop-shaping discipline. Bode showed that, for causal minimum-phase networks, magnitude and phase are linked rather than independently adjustable, exposing the tradeoffs behind bandwidth, stability margin, noise amplification, and disturbance rejection.",
       "url": "../papers/1940_bode_relations_between_attenuation_and/",
       "treeUrl": "../tree/#paper=1940_bode_relations_between_attenuation_and",
       "mapUrl": "../map/#paper=1940_bode_relations_between_attenuation_and"
@@ -382,12 +382,12 @@ window.timelineData = {
       "year": 1944,
       "source": "Journal of Experimental Medicine",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Human & Natural Worlds",
       "category": "Biology",
       "subCategory": "DNA",
       "path": [
         "Tree",
-        "Foundations",
+        "Human & Natural Worlds",
         "Biology",
         "DNA",
         "DNA Transforming Principle"
@@ -476,12 +476,12 @@ window.timelineData = {
       "year": 1951,
       "source": "The Annals of Mathematics",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Mathematics",
       "subCategory": "Table Theorems",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Mathematics",
         "Table Theorems",
         "Dyson's Sphere Theorem"
@@ -513,12 +513,12 @@ window.timelineData = {
       "year": 1952,
       "source": "Journal of Research of the National Bureau of Standards",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Mathematics",
       "subCategory": "Linear Algebra & Signal Processing",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Mathematics",
         "Linear Algebra & Signal Processing",
         "Conjugate Gradient",
@@ -542,12 +542,12 @@ window.timelineData = {
       "year": 1952,
       "source": "Journal of Research of the National Bureau of Standards",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Mathematics",
       "subCategory": "Linear Algebra & Signal Processing",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Mathematics",
         "Linear Algebra & Signal Processing",
         "Conjugate Gradient",
@@ -572,12 +572,12 @@ window.timelineData = {
       "year": 1953,
       "source": "Nature",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Human & Natural Worlds",
       "category": "Biology",
       "subCategory": "DNA",
       "path": [
         "Tree",
-        "Foundations",
+        "Human & Natural Worlds",
         "Biology",
         "DNA",
         "DNA Double Helix Structure"
@@ -588,43 +588,6 @@ window.timelineData = {
       "url": "../papers/1953_watson_molecular_structure_of_nucleic/",
       "treeUrl": "../tree/#paper=1953_watson_molecular_structure_of_nucleic",
       "mapUrl": "../map/#paper=1953_watson_molecular_structure_of_nucleic"
-    },
-    {
-      "id": "1953_katz_a_new_status_index",
-      "label": "Katz Centrality",
-      "title": "A New Status Index Derived from Sociometric Analysis",
-      "authors": [
-        "Leo Katz"
-      ],
-      "authorShort": "Katz",
-      "year": 1953,
-      "source": "Psychometrika",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Network Science",
-      "subCategory": "Centrality",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Network Science",
-        "Centrality",
-        "Katz Centrality"
-      ],
-      "tags": [
-        "Network centrality",
-        "Katz centrality",
-        "Status index",
-        "Sociometric analysis",
-        "Attenuated walks",
-        "Matrix methods",
-        "Social networks",
-        "Influence measurement"
-      ],
-      "abstract": "For the purpose of evaluating status in a manner free from the deficiencies of popularity contest procedures, this paper presents a new method of computation which takes into account who chooses as well as how many choose. It is necessary to introduce, in this connection, the concept of attenuation in influence transmitted through intermediaries.",
-      "summary": "Introduces a status measure that counts not only direct choices in a sociometric network but also longer chains of choices, attenuated by path length. The paper is a compact origin point for Katz centrality and for the broader idea that influence can be modeled through weighted walks in a graph rather than only immediate degree.",
-      "url": "../papers/1953_katz_a_new_status_index/",
-      "treeUrl": "../tree/#paper=1953_katz_a_new_status_index",
-      "mapUrl": "../map/#paper=1953_katz_a_new_status_index"
     },
     {
       "id": "1953_shapley_a_value_for_n",
@@ -661,6 +624,43 @@ window.timelineData = {
       "url": "../papers/1953_shapley_a_value_for_n/",
       "treeUrl": "../tree/#paper=1953_shapley_a_value_for_n",
       "mapUrl": "../map/#paper=1953_shapley_a_value_for_n"
+    },
+    {
+      "id": "1953_katz_a_new_status_index",
+      "label": "Katz Centrality",
+      "title": "A New Status Index Derived from Sociometric Analysis",
+      "authors": [
+        "Leo Katz"
+      ],
+      "authorShort": "Katz",
+      "year": 1953,
+      "source": "Psychometrika",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Network Science",
+      "subCategory": "Centrality",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Network Science",
+        "Centrality",
+        "Katz Centrality"
+      ],
+      "tags": [
+        "Network centrality",
+        "Katz centrality",
+        "Status index",
+        "Sociometric analysis",
+        "Attenuated walks",
+        "Matrix methods",
+        "Social networks",
+        "Influence measurement"
+      ],
+      "abstract": "For the purpose of evaluating status in a manner free from the deficiencies of popularity contest procedures, this paper presents a new method of computation which takes into account who chooses as well as how many choose. It is necessary to introduce, in this connection, the concept of attenuation in influence transmitted through intermediaries.",
+      "summary": "Introduces a status measure that counts not only direct choices in a sociometric network but also longer chains of choices, attenuated by path length. The paper is a compact origin point for Katz centrality and for the broader idea that influence can be modeled through weighted walks in a graph rather than only immediate degree.",
+      "url": "../papers/1953_katz_a_new_status_index/",
+      "treeUrl": "../tree/#paper=1953_katz_a_new_status_index",
+      "mapUrl": "../map/#paper=1953_katz_a_new_status_index"
     },
     {
       "id": "1955_kuhn_the_hungarian_method_for",
@@ -911,12 +911,11 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "Theory",
+      "subCategory": "Adaptive Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "Theory",
         "Adaptive Control",
         "On Adaptive Control Processes"
       ],
@@ -1006,12 +1005,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Kalman Filter",
+      "subCategory": "Optimal State Estimation (Kalman Filters)",
       "path": [
         "Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Kalman Filter",
+        "Optimal State Estimation (Kalman Filters)",
+        "Linear Systems",
         "Kalman Filter"
       ],
       "tags": [
@@ -1136,12 +1136,12 @@ window.timelineData = {
       "year": 1962,
       "source": "The Computer Journal",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Algorithms & Data Structures",
       "subCategory": "Sorting",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Algorithms & Data Structures",
         "Sorting",
         "Quicksort"
@@ -1329,12 +1329,12 @@ window.timelineData = {
       "year": 1964,
       "source": "Communications of the ACM",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Algorithms & Data Structures",
       "subCategory": "Sorting",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Algorithms & Data Structures",
         "Sorting",
         "Heapsort"
@@ -1384,36 +1384,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1965_bogdanoff_experiments_with_an_inverted"
     },
     {
-      "id": "1965_cooley_an_algorithm_for_the",
-      "label": "Cooley-Tukey FFT",
-      "title": "An Algorithm for the Machine Calculation of Complex Fourier Series",
-      "authors": [
-        "James W. Cooley",
-        "John W. Tukey"
-      ],
-      "authorShort": "Cooley, Tukey",
-      "year": 1965,
-      "source": "Mathematics of Computation",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Linear Algebra & Signal Processing",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Mathematics",
-        "Linear Algebra & Signal Processing",
-        "Fourier Transforms",
-        "Cooley-Tukey FFT"
-      ],
-      "tags": [],
-      "abstract": "An efficient method for the calculation of the interactions of a 2m factorial experiment was introduced by Yates and is widely known by his name.The generalization to 3m was given by Box et al. [1].Good [2] generalized these methods and gave elegant algorithms for which one class of applications is the calculation of Fourier series.In their full generality, Good's methods are applicable to certain problems in which one must multiply an JV-vector by an JV X N matrix which can be factored into m sparse matrices, where m is proportional to log JV.This results in a procedure requiring a number of operations proportional to JV log JV rather than JV2.These methods are applied here to the calculation of complex Fourier series.They are useful in situations where the number of data points is, or can be chosen to be, a highly composite number.The algorithm is here derived and presented in a rather different form.Attention is given to the choice of JV.It is also shown how special advantage can be obtained in the use of a binary computer with JV = 2m and how the entire calculation can be performed within the array of JV data storage locations used for the given Fourier coefficients.Consider the problem of calculating the complex Fourier series",
-      "summary": "",
-      "url": "../papers/1965_cooley_an_algorithm_for_the/",
-      "treeUrl": "../tree/#paper=1965_cooley_an_algorithm_for_the",
-      "mapUrl": "../map/#paper=1965_cooley_an_algorithm_for_the"
-    },
-    {
       "id": "1965_magill_optimal_adaptive_estimation_of",
       "label": "Optimal Adaptive Estimation of Sampled Stochastic Processes",
       "title": "Optimal Adaptive Estimation of Sampled Stochastic Processes",
@@ -1426,12 +1396,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Kalman Filter",
+      "subCategory": "Adaptive State Estimation",
       "path": [
         "Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Kalman Filter",
+        "Adaptive State Estimation",
         "Optimal Adaptive Estimation of Sampled Stochastic Processes"
       ],
       "tags": [],
@@ -1440,6 +1410,36 @@ window.timelineData = {
       "url": "../papers/1965_magill_optimal_adaptive_estimation_of/",
       "treeUrl": "../tree/#paper=1965_magill_optimal_adaptive_estimation_of",
       "mapUrl": "../map/#paper=1965_magill_optimal_adaptive_estimation_of"
+    },
+    {
+      "id": "1965_cooley_an_algorithm_for_the",
+      "label": "Cooley-Tukey FFT",
+      "title": "An Algorithm for the Machine Calculation of Complex Fourier Series",
+      "authors": [
+        "James W. Cooley",
+        "John W. Tukey"
+      ],
+      "authorShort": "Cooley, Tukey",
+      "year": 1965,
+      "source": "Mathematics of Computation",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Linear Algebra & Signal Processing",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Linear Algebra & Signal Processing",
+        "Fourier Transforms",
+        "Cooley-Tukey FFT"
+      ],
+      "tags": [],
+      "abstract": "An efficient method for the calculation of the interactions of a 2m factorial experiment was introduced by Yates and is widely known by his name.The generalization to 3m was given by Box et al. [1].Good [2] generalized these methods and gave elegant algorithms for which one class of applications is the calculation of Fourier series.In their full generality, Good's methods are applicable to certain problems in which one must multiply an JV-vector by an JV X N matrix which can be factored into m sparse matrices, where m is proportional to log JV.This results in a procedure requiring a number of operations proportional to JV log JV rather than JV2.These methods are applied here to the calculation of complex Fourier series.They are useful in situations where the number of data points is, or can be chosen to be, a highly composite number.The algorithm is here derived and presented in a rather different form.Attention is given to the choice of JV.It is also shown how special advantage can be obtained in the use of a binary computer with JV = 2m and how the entire calculation can be performed within the array of JV data storage locations used for the given Fourier coefficients.Consider the problem of calculating the complex Fourier series",
+      "summary": "",
+      "url": "../papers/1965_cooley_an_algorithm_for_the/",
+      "treeUrl": "../tree/#paper=1965_cooley_an_algorithm_for_the",
+      "mapUrl": "../map/#paper=1965_cooley_an_algorithm_for_the"
     },
     {
       "id": "1966_zames_on_the_input_output",
@@ -1461,6 +1461,7 @@ window.timelineData = {
         "Control",
         "Robust & Safety-Critical Control",
         "Robust Control",
+        "Input-Output Robustness and Integral Quadratic Constraints (IQCs)",
         "On the Input-Output Stability of Time-Varying Nonlinear Feedback Systems"
       ],
       "tags": [],
@@ -2069,6 +2070,34 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1970_jacobson_differential_dynamic_programming"
     },
     {
+      "id": "1970_mehra_on_the_identification_of",
+      "label": "Adaptive Kalman filter",
+      "title": "On the Identification of Variances and Adaptive Kalman Filtering",
+      "authors": [
+        "R. Mehra"
+      ],
+      "authorShort": "Mehra",
+      "year": 1970,
+      "source": "IEEE Transactions on Automatic Control",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "State Estimation",
+      "subCategory": "Adaptive State Estimation",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "State Estimation",
+        "Adaptive State Estimation",
+        "Adaptive Kalman filter"
+      ],
+      "tags": [],
+      "abstract": "A Kalman filter requires an exact knowledge of the process noise covariance matrix <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">Q</tex> and the measurement noise covariance matrix <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">R</tex> . Here we consider the case in which the true values of <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">Q</tex> and <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">R</tex> are unknown. The system is assumed to be constant, and the random inputs are stationary. First, a correlation test is given which checks whether a particular Kalman filter is working optimally or not. If the filter is suboptimal, a technique is given to obtain asymptotically normal, unbiased, and consistent estimates of <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">Q</tex> and <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">R</tex> . This technique works only for the case in which the form of <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">Q</tex> is known and the number of unknown elements in <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">Q</tex> is less than <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">n \\times r</tex> where <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">n</tex> is the dimension of the state vector and <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">r</tex> is the dimension of the measurement vector. For other cases, the optimal steady-state gain K <inf xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">op</inf> is obtained directly by an iterative procedure without identifying <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">Q</tex> . As a corollary, it is shown that the steady-state optimal Kalman filter gain K <inf xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">op</inf> depends only on <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">n \\times r</tex> linear functionals of <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">Q</tex> . The results are first derived for discrete systems. They are then extended to continuous systems. A numerical example is given to show the usefulness of the approach.",
+      "summary": "",
+      "url": "../papers/1970_mehra_on_the_identification_of/",
+      "treeUrl": "../tree/#paper=1970_mehra_on_the_identification_of",
+      "mapUrl": "../map/#paper=1970_mehra_on_the_identification_of"
+    },
+    {
       "id": "1970_bloom_space_time_trade_offs",
       "label": "Bloom Filter",
       "title": "Space/time Trade-offs in Hash Coding with Allowable Errors",
@@ -2079,12 +2108,12 @@ window.timelineData = {
       "year": 1970,
       "source": "Communications of the ACM",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Algorithms & Data Structures",
       "subCategory": "Probabilistic Data Structures",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Algorithms & Data Structures",
         "Probabilistic Data Structures",
         "Bloom Filter"
@@ -2108,14 +2137,16 @@ window.timelineData = {
       "year": 1970,
       "source": "Proceedings of the 1970 ACM SIGFIDET (now SIGMOD) Workshop on Data Description, Access and Control - SIGFIDET '70",
       "type": "Conference Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Algorithms & Data Structures",
       "subCategory": "Trees & Spatial Indexing",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Algorithms & Data Structures",
         "Trees & Spatial Indexing",
+        "Ordered Search Trees",
+        "B-tree",
         "B-tree"
       ],
       "tags": [],
@@ -2136,12 +2167,12 @@ window.timelineData = {
       "year": 1970,
       "source": "Bulletin of the London Mathematical Society",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Mathematics",
       "subCategory": "Table Theorems",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Mathematics",
         "Table Theorems",
         "The Table Theorem"
@@ -2152,34 +2183,6 @@ window.timelineData = {
       "url": "../papers/1970_fenn_the_table_theorem/",
       "treeUrl": "../tree/#paper=1970_fenn_the_table_theorem",
       "mapUrl": "../map/#paper=1970_fenn_the_table_theorem"
-    },
-    {
-      "id": "1970_mehra_on_the_identification_of",
-      "label": "Adaptive Kalman filter",
-      "title": "On the Identification of Variances and Adaptive Kalman Filtering",
-      "authors": [
-        "R. Mehra"
-      ],
-      "authorShort": "Mehra",
-      "year": 1970,
-      "source": "IEEE Transactions on Automatic Control",
-      "type": "Journal Paper",
-      "superCategory": "Prediction & Perception",
-      "category": "State Estimation",
-      "subCategory": "Kalman Filter",
-      "path": [
-        "Tree",
-        "Prediction & Perception",
-        "State Estimation",
-        "Kalman Filter",
-        "Adaptive Kalman filter"
-      ],
-      "tags": [],
-      "abstract": "A Kalman filter requires an exact knowledge of the process noise covariance matrix <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">Q</tex> and the measurement noise covariance matrix <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">R</tex> . Here we consider the case in which the true values of <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">Q</tex> and <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">R</tex> are unknown. The system is assumed to be constant, and the random inputs are stationary. First, a correlation test is given which checks whether a particular Kalman filter is working optimally or not. If the filter is suboptimal, a technique is given to obtain asymptotically normal, unbiased, and consistent estimates of <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">Q</tex> and <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">R</tex> . This technique works only for the case in which the form of <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">Q</tex> is known and the number of unknown elements in <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">Q</tex> is less than <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">n \\times r</tex> where <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">n</tex> is the dimension of the state vector and <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">r</tex> is the dimension of the measurement vector. For other cases, the optimal steady-state gain K <inf xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">op</inf> is obtained directly by an iterative procedure without identifying <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">Q</tex> . As a corollary, it is shown that the steady-state optimal Kalman filter gain K <inf xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">op</inf> depends only on <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">n \\times r</tex> linear functionals of <tex xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">Q</tex> . The results are first derived for discrete systems. They are then extended to continuous systems. A numerical example is given to show the usefulness of the approach.",
-      "summary": "",
-      "url": "../papers/1970_mehra_on_the_identification_of/",
-      "treeUrl": "../tree/#paper=1970_mehra_on_the_identification_of",
-      "mapUrl": "../map/#paper=1970_mehra_on_the_identification_of"
     },
     {
       "id": "1971_hewer_an_iterative_technique_for",
@@ -2292,12 +2295,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Kalman Filter",
+      "subCategory": "Optimal State Estimation (Kalman Filters)",
       "path": [
         "Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Kalman Filter",
+        "Optimal State Estimation (Kalman Filters)",
+        "Linear Systems",
         "Recursive State Estimation for a Set-membership Description of Uncertainty"
       ],
       "tags": [],
@@ -2416,12 +2420,12 @@ window.timelineData = {
       "year": 1972,
       "source": "Communications of the ACM",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Software & Programming",
       "subCategory": "Essays",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Software & Programming",
         "Essays",
         "The Humble Programmer"
@@ -2497,6 +2501,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "Adaptive Linear Quadratic Control",
         "Self-Tuning Regulators"
       ],
       "tags": [],
@@ -2580,7 +2585,7 @@ window.timelineData = {
     },
     {
       "id": "1974_finkel_quad_trees_a_data",
-      "label": "Quad Trees",
+      "label": "Quad Tree",
       "title": "Quad Trees: A Data Structure for Retrieval on Composite Keys",
       "authors": [
         "R. A. Finkel",
@@ -2590,15 +2595,16 @@ window.timelineData = {
       "year": 1974,
       "source": "Acta Informatica",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Algorithms & Data Structures",
       "subCategory": "Trees & Spatial Indexing",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Algorithms & Data Structures",
         "Trees & Spatial Indexing",
-        "Quad Trees"
+        "Spatial Partition Trees",
+        "Quad Tree"
       ],
       "tags": [],
       "abstract": "The quad tree is a data structure appropriate for storing information to be retrieved on composite keys. We discuss the specific case of two-dimensional retrieval, although the structure is easily generalised to arbitrary dimensions. Algorithms are given both for staightforward insertion and for a type of balanced insertion into quad trees. Empirical analyses show that the average time for insertion is logarithmic with the tree size. An algorithm for retrieval within regions is presented along with data from empirical studies which imply that searching is reasonably efficient. We define an optimized tree and present an algorithm to accomplish optimization in n log n time. Searching is guaranteed to be fast in optimized trees. Remaining problems include those of deletion from quad trees and merging of quad trees, which seem to be inherently difficult operations.",
@@ -2618,12 +2624,12 @@ window.timelineData = {
       "year": 1974,
       "source": "Selected Writings on Computing: A Personal Perspective",
       "type": "Other",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Software & Programming",
       "subCategory": "Essays",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Software & Programming",
         "Essays",
         "On the Role of Scientific Thought"
@@ -2752,12 +2758,12 @@ window.timelineData = {
       "year": 1975,
       "source": "16th Annual Symposium on Foundations of Computer Science (sfcs 1975)",
       "type": "Conference Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Algorithms & Data Structures",
       "subCategory": "Parallel Algorithms",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Algorithms & Data Structures",
         "Parallel Algorithms",
         "Fast parallel matrix inversion algorithms"
@@ -2780,14 +2786,15 @@ window.timelineData = {
       "year": 1975,
       "source": "Communications of the ACM",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Algorithms & Data Structures",
       "subCategory": "Trees & Spatial Indexing",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Algorithms & Data Structures",
         "Trees & Spatial Indexing",
+        "Spatial Partition Trees",
         "k-d Tree"
       ],
       "tags": [],
@@ -2809,12 +2816,12 @@ window.timelineData = {
       "year": 1975,
       "source": "SIAM Journal on Numerical Analysis",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Mathematics",
       "subCategory": "Linear Algebra & Signal Processing",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Mathematics",
         "Linear Algebra & Signal Processing",
         "Conjugate Gradient",
@@ -2960,12 +2967,12 @@ window.timelineData = {
       "year": 1976,
       "source": "Semantic Scholar",
       "type": "Other",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Mathematics",
       "subCategory": "Linear Algebra & Signal Processing",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Mathematics",
         "Linear Algebra & Signal Processing",
         "Conjugate Gradient",
@@ -3009,6 +3016,36 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1977_barraud_a_numerical_algorithm_to"
     },
     {
+      "id": "1977_ljung_analysis_of_recursive_stochastic",
+      "label": "Analysis of Recursive Stochastic Algorithms",
+      "title": "Analysis of Recursive Stochastic Algorithms",
+      "authors": [
+        "L. Ljung"
+      ],
+      "authorShort": "Ljung",
+      "year": 1977,
+      "source": "IEEE Transactions on Automatic Control",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Analysis of Recursive Stochastic Algorithms"
+      ],
+      "tags": [],
+      "abstract": "Recursive algorithms where random observations enter are studied in a fairly general framework. An important feature is that the observations my depend on previous \"outputs\" of the algorithm. The considered class of algorithms contains, e.g., stochastic approximation algorithm, recursive identification algorithm, and algorithms for adaptive control of linear systems. It is shown how a deterministic differential equation can be associated with the algorithm. Problems like convergence with probability one, possible convergence points and asymptotic behavior of the algorithm can all be studied in terms of this differential equation. Theorems stating the precise relationships between the differential equation and the algorithm are given as well as examples of applications of the results to problems in identification and adaptive control.",
+      "summary": "",
+      "url": "../papers/1977_ljung_analysis_of_recursive_stochastic/",
+      "treeUrl": "../tree/#paper=1977_ljung_analysis_of_recursive_stochastic",
+      "mapUrl": "../map/#paper=1977_ljung_analysis_of_recursive_stochastic"
+    },
+    {
       "id": "1977_sanger_dna_sequencing_with_chain",
       "label": "DNA Sequencing",
       "title": "DNA Sequencing with Chain-Terminating Inhibitors",
@@ -3021,12 +3058,12 @@ window.timelineData = {
       "year": 1977,
       "source": "Proceedings of the National Academy of Sciences",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Human & Natural Worlds",
       "category": "Biology",
       "subCategory": "DNA",
       "path": [
         "Tree",
-        "Foundations",
+        "Human & Natural Worlds",
         "Biology",
         "DNA",
         "DNA Sequencing"
@@ -3045,34 +3082,6 @@ window.timelineData = {
       "url": "../papers/1977_sanger_dna_sequencing_with_chain/",
       "treeUrl": "../tree/#paper=1977_sanger_dna_sequencing_with_chain",
       "mapUrl": "../map/#paper=1977_sanger_dna_sequencing_with_chain"
-    },
-    {
-      "id": "1977_ljung_analysis_of_recursive_stochastic",
-      "label": "Analysis of Recursive Stochastic Algorithms",
-      "title": "Analysis of Recursive Stochastic Algorithms",
-      "authors": [
-        "L. Ljung"
-      ],
-      "authorShort": "Ljung",
-      "year": 1977,
-      "source": "IEEE Transactions on Automatic Control",
-      "type": "Journal Paper",
-      "superCategory": "Prediction & Perception",
-      "category": "State Estimation",
-      "subCategory": "Kalman Filter",
-      "path": [
-        "Tree",
-        "Prediction & Perception",
-        "State Estimation",
-        "Kalman Filter",
-        "Analysis of Recursive Stochastic Algorithms"
-      ],
-      "tags": [],
-      "abstract": "Recursive algorithms where random observations enter are studied in a fairly general framework. An important feature is that the observations my depend on previous \"outputs\" of the algorithm. The considered class of algorithms contains, e.g., stochastic approximation algorithm, recursive identification algorithm, and algorithms for adaptive control of linear systems. It is shown how a deterministic differential equation can be associated with the algorithm. Problems like convergence with probability one, possible convergence points and asymptotic behavior of the algorithm can all be studied in terms of this differential equation. Theorems stating the precise relationships between the differential equation and the algorithm are given as well as examples of applications of the results to problems in identification and adaptive control.",
-      "summary": "",
-      "url": "../papers/1977_ljung_analysis_of_recursive_stochastic/",
-      "treeUrl": "../tree/#paper=1977_ljung_analysis_of_recursive_stochastic",
-      "mapUrl": "../map/#paper=1977_ljung_analysis_of_recursive_stochastic"
     },
     {
       "id": "1978_doyle_guaranteed_margins_for_lqg",
@@ -3094,6 +3103,7 @@ window.timelineData = {
         "Control",
         "Robust & Safety-Critical Control",
         "Robust Control",
+        "LQR and LQG Robustness",
         "Robustness margins for LQG"
       ],
       "tags": [
@@ -3120,12 +3130,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Evaluation",
       "category": "Computer Graphics",
-      "subCategory": "Subdivision Surfaces",
+      "subCategory": "Surface Rendering",
       "path": [
         "Tree",
         "Evaluation",
         "Computer Graphics",
-        "Subdivision Surfaces",
+        "Surface Rendering",
         "Catmull-Clark Subdivision Surfaces"
       ],
       "tags": [
@@ -3141,72 +3151,6 @@ window.timelineData = {
       "url": "../papers/1978_catmull_recursively_generated_b_spline/",
       "treeUrl": "../tree/#paper=1978_catmull_recursively_generated_b_spline",
       "mapUrl": "../map/#paper=1978_catmull_recursively_generated_b_spline"
-    },
-    {
-      "id": "1978_guibas_a_dichromatic_framework_for",
-      "label": "Red-black Tree",
-      "title": "A Dichromatic Framework for Balanced Trees",
-      "authors": [
-        "Leo J. Guibas",
-        "Robert Sedgewick"
-      ],
-      "authorShort": "Guibas, Sedgewick",
-      "year": 1978,
-      "source": "19th Annual Symposium on Foundations of Computer Science (sfcs 1978)",
-      "type": "Conference Paper",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Trees & Spatial Indexing",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Trees & Spatial Indexing",
-        "Red-black Tree"
-      ],
-      "tags": [],
-      "abstract": "In this paper we present a uniform framework for the implementation and study of balanced tree algorithms. We show how to imbed in this framework the best known balanced tree techniques and then use the framework to develop new algorithms which perform the update and rebalancing in one pass, on the way down towards a leaf. We conclude with a study of performance issues and concurrent updating.",
-      "summary": "",
-      "url": "../papers/1978_guibas_a_dichromatic_framework_for/",
-      "treeUrl": "../tree/#paper=1978_guibas_a_dichromatic_framework_for",
-      "mapUrl": "../map/#paper=1978_guibas_a_dichromatic_framework_for"
-    },
-    {
-      "id": "1978_freeman_centrality_in_social_networks",
-      "label": "Degree, Closeness, and Betweenness Centrality",
-      "title": "Centrality in Social Networks: Conceptual Clarification",
-      "authors": [
-        "Linton C. Freeman"
-      ],
-      "authorShort": "Freeman",
-      "year": 1978,
-      "source": "Social Networks",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Network Science",
-      "subCategory": "Centrality",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Network Science",
-        "Centrality",
-        "Degree, Closeness, and Betweenness Centrality"
-      ],
-      "tags": [
-        "Network centrality",
-        "Degree centrality",
-        "Closeness centrality",
-        "Betweenness centrality",
-        "Centralization",
-        "Social networks",
-        "Graph theory",
-        "Structural analysis"
-      ],
-      "abstract": "The intuitive background for measures of structural centrality in social networks is reviewed and existing measures are evaluated in terms of their consistency with intuitions and their interpretability. Three distinct intuitive conceptions of centrality are uncovered and existing measures are refined to embody these conceptions. Three measures are developed for each concept, one absolute and one relative measure of the centrality of positions in a network, and one reflecting the degree of centralization of the entire network. The implications of these measures for the experimental study of small groups is examined.",
-      "summary": "Separates the overloaded notion of network centrality into three enduring concepts: activity through direct ties, independence through short distances, and control through positions on shortest paths. The paper made degree, closeness, betweenness, and graph-level centralization into a coherent vocabulary for social network analysis.",
-      "url": "../papers/1978_freeman_centrality_in_social_networks/",
-      "treeUrl": "../tree/#paper=1978_freeman_centrality_in_social_networks",
-      "mapUrl": "../map/#paper=1978_freeman_centrality_in_social_networks"
     },
     {
       "id": "1978_sakoe_dynamic_programming_algorithm_optimization",
@@ -3238,6 +3182,74 @@ window.timelineData = {
       "url": "../papers/1978_sakoe_dynamic_programming_algorithm_optimization/",
       "treeUrl": "../tree/#paper=1978_sakoe_dynamic_programming_algorithm_optimization",
       "mapUrl": "../map/#paper=1978_sakoe_dynamic_programming_algorithm_optimization"
+    },
+    {
+      "id": "1978_guibas_a_dichromatic_framework_for",
+      "label": "Red-black Tree",
+      "title": "A Dichromatic Framework for Balanced Trees",
+      "authors": [
+        "Leo J. Guibas",
+        "Robert Sedgewick"
+      ],
+      "authorShort": "Guibas, Sedgewick",
+      "year": 1978,
+      "source": "19th Annual Symposium on Foundations of Computer Science (sfcs 1978)",
+      "type": "Conference Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Trees & Spatial Indexing",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Trees & Spatial Indexing",
+        "Ordered Search Trees",
+        "Red-black Tree",
+        "Red-black Tree"
+      ],
+      "tags": [],
+      "abstract": "In this paper we present a uniform framework for the implementation and study of balanced tree algorithms. We show how to imbed in this framework the best known balanced tree techniques and then use the framework to develop new algorithms which perform the update and rebalancing in one pass, on the way down towards a leaf. We conclude with a study of performance issues and concurrent updating.",
+      "summary": "",
+      "url": "../papers/1978_guibas_a_dichromatic_framework_for/",
+      "treeUrl": "../tree/#paper=1978_guibas_a_dichromatic_framework_for",
+      "mapUrl": "../map/#paper=1978_guibas_a_dichromatic_framework_for"
+    },
+    {
+      "id": "1978_freeman_centrality_in_social_networks",
+      "label": "Degree, Closeness, and Betweenness Centrality",
+      "title": "Centrality in Social Networks: Conceptual Clarification",
+      "authors": [
+        "Linton C. Freeman"
+      ],
+      "authorShort": "Freeman",
+      "year": 1978,
+      "source": "Social Networks",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Network Science",
+      "subCategory": "Centrality",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Network Science",
+        "Centrality",
+        "Degree, Closeness, and Betweenness Centrality"
+      ],
+      "tags": [
+        "Network centrality",
+        "Degree centrality",
+        "Closeness centrality",
+        "Betweenness centrality",
+        "Centralization",
+        "Social networks",
+        "Graph theory",
+        "Structural analysis"
+      ],
+      "abstract": "The intuitive background for measures of structural centrality in social networks is reviewed and existing measures are evaluated in terms of their consistency with intuitions and their interpretability. Three distinct intuitive conceptions of centrality are uncovered and existing measures are refined to embody these conceptions. Three measures are developed for each concept, one absolute and one relative measure of the centrality of positions in a network, and one reflecting the degree of centralization of the entire network. The implications of these measures for the experimental study of small groups is examined.",
+      "summary": "Separates the overloaded notion of network centrality into three enduring concepts: activity through direct ties, independence through short distances, and control through positions on shortest paths. The paper made degree, closeness, betweenness, and graph-level centralization into a coherent vocabulary for social network analysis.",
+      "url": "../papers/1978_freeman_centrality_in_social_networks/",
+      "treeUrl": "../tree/#paper=1978_freeman_centrality_in_social_networks",
+      "mapUrl": "../map/#paper=1978_freeman_centrality_in_social_networks"
     },
     {
       "id": "1979_kreisselmeier_systematic_control_design_by",
@@ -3319,14 +3331,16 @@ window.timelineData = {
       "year": 1979,
       "source": "ACM Computing Surveys",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Algorithms & Data Structures",
       "subCategory": "Trees & Spatial Indexing",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Algorithms & Data Structures",
         "Trees & Spatial Indexing",
+        "Ordered Search Trees",
+        "B-tree",
         "Ubiquitous B-Tree"
       ],
       "tags": [],
@@ -3335,35 +3349,6 @@ window.timelineData = {
       "url": "../papers/1979_comer_ubiquitous_b_tree/",
       "treeUrl": "../tree/#paper=1979_comer_ubiquitous_b_tree",
       "mapUrl": "../map/#paper=1979_comer_ubiquitous_b_tree"
-    },
-    {
-      "id": "1980_dormand_a_family_of_embedded",
-      "label": "A family of embedded Runge-Kutta formulae",
-      "title": "A Family of Embedded Runge-Kutta Formulae",
-      "authors": [
-        "J.R. Dormand",
-        "P.J. Prince"
-      ],
-      "authorShort": "Dormand, Prince",
-      "year": 1980,
-      "source": "Journal of Computational and Applied Mathematics",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Numerical Methods",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Mathematics",
-        "Numerical Methods",
-        "A family of embedded Runge-Kutta formulae"
-      ],
-      "tags": [],
-      "abstract": "A family of embedded Runge-Kutta formulae RK5 (4) are derived. From these are presented formulae which have (a) 'small' principal truncation terms in the fifth order and (b) extended regions of absolute stability.",
-      "summary": "",
-      "url": "../papers/1980_dormand_a_family_of_embedded/",
-      "treeUrl": "../tree/#paper=1980_dormand_a_family_of_embedded",
-      "mapUrl": "../map/#paper=1980_dormand_a_family_of_embedded"
     },
     {
       "id": "1980_marr_theory_of_edge_detection",
@@ -3437,6 +3422,35 @@ window.timelineData = {
       "url": "../papers/1980_kass_an_exploratory_technique_for/",
       "treeUrl": "../tree/#paper=1980_kass_an_exploratory_technique_for",
       "mapUrl": "../map/#paper=1980_kass_an_exploratory_technique_for"
+    },
+    {
+      "id": "1980_dormand_a_family_of_embedded",
+      "label": "A family of embedded Runge-Kutta formulae",
+      "title": "A Family of Embedded Runge-Kutta Formulae",
+      "authors": [
+        "J.R. Dormand",
+        "P.J. Prince"
+      ],
+      "authorShort": "Dormand, Prince",
+      "year": 1980,
+      "source": "Journal of Computational and Applied Mathematics",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Numerical Methods",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Numerical Methods",
+        "A family of embedded Runge-Kutta formulae"
+      ],
+      "tags": [],
+      "abstract": "A family of embedded Runge-Kutta formulae RK5 (4) are derived. From these are presented formulae which have (a) 'small' principal truncation terms in the fifth order and (b) extended regions of absolute stability.",
+      "summary": "",
+      "url": "../papers/1980_dormand_a_family_of_embedded/",
+      "treeUrl": "../tree/#paper=1980_dormand_a_family_of_embedded",
+      "mapUrl": "../map/#paper=1980_dormand_a_family_of_embedded"
     },
     {
       "id": "1981_whittle_risk_sensitive_linear_quadratic",
@@ -3702,34 +3716,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1984_murray_differential_dynamic_programming_and"
     },
     {
-      "id": "1984_guttman_r_trees",
-      "label": "R-trees",
-      "title": "R-trees",
-      "authors": [
-        "Antonin Guttman"
-      ],
-      "authorShort": "Guttman",
-      "year": 1984,
-      "source": "ACM SIGMOD Record",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Trees & Spatial Indexing",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Trees & Spatial Indexing",
-        "R-trees"
-      ],
-      "tags": [],
-      "abstract": "In order to handle spatial data efficiently, as required in computer aided design and geo-data applications, a database system needs an index mechanism that will help it retrieve data items quickly according to their spatial locations However, traditional indexing methods are not well suited to data objects of non-zero size located m multi-dimensional spaces In this paper we describe a dynamic index structure called an R-tree which meets this need, and give algorithms for searching and updating it. We present the results of a series of tests which indicate that the structure performs well, and conclude that it is useful for current database systems in spatial applications",
-      "summary": "",
-      "url": "../papers/1984_guttman_r_trees/",
-      "treeUrl": "../tree/#paper=1984_guttman_r_trees",
-      "mapUrl": "../map/#paper=1984_guttman_r_trees"
-    },
-    {
       "id": "1984_breiman_classification_and_regression_trees",
       "label": "CART",
       "title": "Classification and Regression Trees",
@@ -3768,6 +3754,35 @@ window.timelineData = {
       "url": "../papers/1984_breiman_classification_and_regression_trees/",
       "treeUrl": "../tree/#paper=1984_breiman_classification_and_regression_trees",
       "mapUrl": "../map/#paper=1984_breiman_classification_and_regression_trees"
+    },
+    {
+      "id": "1984_guttman_r_trees",
+      "label": "R-tree",
+      "title": "R-trees",
+      "authors": [
+        "Antonin Guttman"
+      ],
+      "authorShort": "Guttman",
+      "year": 1984,
+      "source": "ACM SIGMOD Record",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Trees & Spatial Indexing",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Trees & Spatial Indexing",
+        "Bounding Volume Trees",
+        "R-tree"
+      ],
+      "tags": [],
+      "abstract": "In order to handle spatial data efficiently, as required in computer aided design and geo-data applications, a database system needs an index mechanism that will help it retrieve data items quickly according to their spatial locations However, traditional indexing methods are not well suited to data objects of non-zero size located m multi-dimensional spaces In this paper we describe a dynamic index structure called an R-tree which meets this need, and give algorithms for searching and updating it. We present the results of a series of tests which indicate that the structure performs well, and conclude that it is useful for current database systems in spatial applications.",
+      "summary": "",
+      "url": "../papers/1984_guttman_r_trees/",
+      "treeUrl": "../tree/#paper=1984_guttman_r_trees",
+      "mapUrl": "../map/#paper=1984_guttman_r_trees"
     },
     {
       "id": "1985_cuyt_computational_implementation_of_the",
@@ -3878,6 +3893,46 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1985_bobrow_time_optimal_control_of"
     },
     {
+      "id": "1985_juang_an_eigensystem_realization_algorithm",
+      "label": "ERA",
+      "title": "An Eigensystem Realization Algorithm for Modal Parameter Identification and Model Reduction",
+      "authors": [
+        "Jer-Nan Juang",
+        "Richard S. Pappa"
+      ],
+      "authorShort": "Juang, Pappa",
+      "year": 1985,
+      "source": "Journal of Guidance, Control, and Dynamics",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Realization-based Methods",
+        "ERA"
+      ],
+      "tags": [
+        "System identification",
+        "Modal analysis",
+        "Model reduction",
+        "Eigensystem realization algorithm",
+        "ERA",
+        "Algorithm",
+        "Structural dynamics"
+      ],
+      "abstract": "A method called the eigensystem realization algorithm is developed for modal parameter identification and model reduction of dynamic systems from test data. A new approach is introduced in conjunction with the singular-value decomposition technique to derive the basic formulation of minimum order realization which is an extended version of the Ho-Kalman algorithm. The basic formulation is then transformed into modal space for modal parameter identification. Two accuracy indicators are developed to quantitatively identify the system and noise modes. For illustration of the algorithm, an example is shown using experimental data from the Galileo spacecraft.",
+      "summary": "Introduces ERA, which extracts modal parameters (natural frequencies, damping ratios, mode shapes) from free-decay or impulse response data via eigendecomposition of a Hankel matrix, enabling reduced-order model construction for structural dynamics.",
+      "url": "../papers/1985_juang_an_eigensystem_realization_algorithm/",
+      "treeUrl": "../tree/#paper=1985_juang_an_eigensystem_realization_algorithm",
+      "mapUrl": "../map/#paper=1985_juang_an_eigensystem_realization_algorithm"
+    },
+    {
       "id": "1985_lai_asymptotically_efficient_adaptive_allocation",
       "label": "Asymptotic regret lower bound for bandit problems",
       "title": "Asymptotically Efficient Adaptive Allocation Rules",
@@ -3905,45 +3960,6 @@ window.timelineData = {
       "url": "../papers/1985_lai_asymptotically_efficient_adaptive_allocation/",
       "treeUrl": "../tree/#paper=1985_lai_asymptotically_efficient_adaptive_allocation",
       "mapUrl": "../map/#paper=1985_lai_asymptotically_efficient_adaptive_allocation"
-    },
-    {
-      "id": "1985_juang_an_eigensystem_realization_algorithm",
-      "label": "ERA",
-      "title": "An Eigensystem Realization Algorithm for Modal Parameter Identification and Model Reduction",
-      "authors": [
-        "Jer-Nan Juang",
-        "Richard S. Pappa"
-      ],
-      "authorShort": "Juang, Pappa",
-      "year": 1985,
-      "source": "Journal of Guidance, Control, and Dynamics",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "ERA"
-      ],
-      "tags": [
-        "System identification",
-        "Modal analysis",
-        "Model reduction",
-        "Eigensystem realization algorithm",
-        "ERA",
-        "Algorithm",
-        "Structural dynamics"
-      ],
-      "abstract": "A method called the eigensystem realization algorithm is developed for modal parameter identification and model reduction of dynamic systems from test data. A new approach is introduced in conjunction with the singular-value decomposition technique to derive the basic formulation of minimum order realization which is an extended version of the Ho-Kalman algorithm. The basic formulation is then transformed into modal space for modal parameter identification. Two accuracy indicators are developed to quantitatively identify the system and noise modes. For illustration of the algorithm, an example is shown using experimental data from the Galileo spacecraft.",
-      "summary": "Introduces ERA, which extracts modal parameters (natural frequencies, damping ratios, mode shapes) from free-decay or impulse response data via eigendecomposition of a Hankel matrix, enabling reduced-order model construction for structural dynamics.",
-      "url": "../papers/1985_juang_an_eigensystem_realization_algorithm/",
-      "treeUrl": "../tree/#paper=1985_juang_an_eigensystem_realization_algorithm",
-      "mapUrl": "../map/#paper=1985_juang_an_eigensystem_realization_algorithm"
     },
     {
       "id": "1985_perlin_an_image_synthesizer",
@@ -3994,7 +4010,7 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Continuous Optimization",
-        "Minimax & Game Theory",
+        "Distributed Optimization",
         "Distributed Asynchronous Deterministic and Stochastic Gradient Optimization Algorithms"
       ],
       "tags": [],
@@ -4065,76 +4081,6 @@ window.timelineData = {
       "url": "../papers/1986_kant_toward_efficient_trajectory_planning/",
       "treeUrl": "../tree/#paper=1986_kant_toward_efficient_trajectory_planning",
       "mapUrl": "../map/#paper=1986_kant_toward_efficient_trajectory_planning"
-    },
-    {
-      "id": "1986_barnes_a_hierarchical_o_n",
-      "label": "Barnes-Hut algorithm",
-      "title": "A Hierarchical O(N Log N) Force-Calculation Algorithm",
-      "authors": [
-        "Josh Barnes",
-        "Piet Hut"
-      ],
-      "authorShort": "Barnes, Hut",
-      "year": 1986,
-      "source": "Nature",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Trees & Spatial Indexing",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Trees & Spatial Indexing",
-        "Barnes-Hut algorithm"
-      ],
-      "tags": [
-        "N-body simulation",
-        "Barnes-Hut algorithm",
-        "Tree codes",
-        "Hierarchical methods",
-        "Long-range interactions",
-        "Gravitational simulation",
-        "Astrophysics",
-        "Octrees",
-        "Approximate force calculation",
-        "Computational complexity"
-      ],
-      "abstract": "Until recently the gravitational N-body problem has been modelled numerically either by direct integration, in which the computation needed increases as N^2, or by an iterative potential method in which the number of operations grows as N log N. Here we describe a novel method of directly calculating the force on N bodies that grows only as N log N. The technique uses a tree-structured hierarchical subdivision of space into cubic cells, each of which is recursively divided into eight subcells whenever more than one particle is found to occupy the same cell. This tree is constructed anew at every time step, avoiding ambiguity and tangling. Advantages over potential-solving codes are: accurate local interactions; freedom from geometrical assumptions and restrictions; and applicability to a wide class of systems, including (proto-)planetary, stellar, galactic and cosmological ones. Advantages over previous hierarchical tree-codes include simplicity and the possibility of rigorous analysis of error. Although we concentrate here on stellar dynamical applications, our techniques of efficiently handling a large number of long-range interactions and concentrating computational effort where most needed have potential applications in other areas of astrophysics as well.",
-      "summary": "Introduces the Barnes-Hut tree code for approximating long-range N-body forces in O(N log N) time by recursively partitioning space into cubic cells and replacing sufficiently distant particle groups with aggregate cell interactions. The paper made hierarchical spatial trees a standard tool for gravitational simulation and later influenced fast approximate interaction methods in visualization, molecular simulation, and machine learning.",
-      "url": "../papers/1986_barnes_a_hierarchical_o_n/",
-      "treeUrl": "../tree/#paper=1986_barnes_a_hierarchical_o_n",
-      "mapUrl": "../map/#paper=1986_barnes_a_hierarchical_o_n"
-    },
-    {
-      "id": "1986_saad_gmres_a_generalized_minimal",
-      "label": "GMRES",
-      "title": "GMRES: A Generalized Minimal Residual Algorithm for Solving Nonsymmetric Linear Systems",
-      "authors": [
-        "Youcef Saad",
-        "Martin H. Schultz"
-      ],
-      "authorShort": "Saad, Schultz",
-      "year": 1986,
-      "source": "SIAM Journal on Scientific and Statistical Computing",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Linear Algebra & Signal Processing",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Mathematics",
-        "Linear Algebra & Signal Processing",
-        "Conjugate Gradient",
-        "GMRES"
-      ],
-      "tags": [],
-      "abstract": "We present an iterative method for solving linear systems, which has the property ofminimizing at every step the norm of the residual vector over a Krylov subspace. The algorithm is derived from the Arnoldi process for constructing an l2-orthogonal basis of Krylov subspaces. It can be considered as a generalization of Paige and Saunders’ MINRES algorithm and is theoretically equivalent to the Generalized Conjugate Residual (GCR) method and to ORTHODIR. The new algorithm presents several advantages over GCR and ORTHODIR.",
-      "summary": "",
-      "url": "../papers/1986_saad_gmres_a_generalized_minimal/",
-      "treeUrl": "../tree/#paper=1986_saad_gmres_a_generalized_minimal",
-      "mapUrl": "../map/#paper=1986_saad_gmres_a_generalized_minimal"
     },
     {
       "id": "1986_canny_a_computational_approach_to",
@@ -4234,6 +4180,76 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1986_rumelhart_learning_representations_by_back"
     },
     {
+      "id": "1986_barnes_a_hierarchical_o_n",
+      "label": "Barnes-Hut algorithm",
+      "title": "A Hierarchical O(N Log N) Force-Calculation Algorithm",
+      "authors": [
+        "Josh Barnes",
+        "Piet Hut"
+      ],
+      "authorShort": "Barnes, Hut",
+      "year": 1986,
+      "source": "Nature",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Trees & Spatial Indexing",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Trees & Spatial Indexing",
+        "Barnes-Hut algorithm"
+      ],
+      "tags": [
+        "N-body simulation",
+        "Barnes-Hut algorithm",
+        "Tree codes",
+        "Hierarchical methods",
+        "Long-range interactions",
+        "Gravitational simulation",
+        "Astrophysics",
+        "Octrees",
+        "Approximate force calculation",
+        "Computational complexity"
+      ],
+      "abstract": "Until recently the gravitational N-body problem has been modelled numerically either by direct integration, in which the computation needed increases as N^2, or by an iterative potential method in which the number of operations grows as N log N. Here we describe a novel method of directly calculating the force on N bodies that grows only as N log N. The technique uses a tree-structured hierarchical subdivision of space into cubic cells, each of which is recursively divided into eight subcells whenever more than one particle is found to occupy the same cell. This tree is constructed anew at every time step, avoiding ambiguity and tangling. Advantages over potential-solving codes are: accurate local interactions; freedom from geometrical assumptions and restrictions; and applicability to a wide class of systems, including (proto-)planetary, stellar, galactic and cosmological ones. Advantages over previous hierarchical tree-codes include simplicity and the possibility of rigorous analysis of error. Although we concentrate here on stellar dynamical applications, our techniques of efficiently handling a large number of long-range interactions and concentrating computational effort where most needed have potential applications in other areas of astrophysics as well.",
+      "summary": "Introduces the Barnes-Hut tree code for approximating long-range N-body forces in O(N log N) time by recursively partitioning space into cubic cells and replacing sufficiently distant particle groups with aggregate cell interactions. The paper made hierarchical spatial trees a standard tool for gravitational simulation and later influenced fast approximate interaction methods in visualization, molecular simulation, and machine learning.",
+      "url": "../papers/1986_barnes_a_hierarchical_o_n/",
+      "treeUrl": "../tree/#paper=1986_barnes_a_hierarchical_o_n",
+      "mapUrl": "../map/#paper=1986_barnes_a_hierarchical_o_n"
+    },
+    {
+      "id": "1986_saad_gmres_a_generalized_minimal",
+      "label": "GMRES",
+      "title": "GMRES: A Generalized Minimal Residual Algorithm for Solving Nonsymmetric Linear Systems",
+      "authors": [
+        "Youcef Saad",
+        "Martin H. Schultz"
+      ],
+      "authorShort": "Saad, Schultz",
+      "year": 1986,
+      "source": "SIAM Journal on Scientific and Statistical Computing",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Linear Algebra & Signal Processing",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Linear Algebra & Signal Processing",
+        "Conjugate Gradient",
+        "GMRES"
+      ],
+      "tags": [],
+      "abstract": "We present an iterative method for solving linear systems, which has the property ofminimizing at every step the norm of the residual vector over a Krylov subspace. The algorithm is derived from the Arnoldi process for constructing an l2-orthogonal basis of Krylov subspaces. It can be considered as a generalization of Paige and Saunders’ MINRES algorithm and is theoretically equivalent to the Generalized Conjugate Residual (GCR) method and to ORTHODIR. The new algorithm presents several advantages over GCR and ORTHODIR.",
+      "summary": "",
+      "url": "../papers/1986_saad_gmres_a_generalized_minimal/",
+      "treeUrl": "../tree/#paper=1986_saad_gmres_a_generalized_minimal",
+      "mapUrl": "../map/#paper=1986_saad_gmres_a_generalized_minimal"
+    },
+    {
       "id": "1987_muir_kinematic_modeling_of_wheeled",
       "label": "Kinematic modeling of wheeled mobile robots",
       "title": "Kinematic Modeling of Wheeled Mobile Robots",
@@ -4307,12 +4323,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Evaluation",
       "category": "Computer Graphics",
-      "subCategory": "Geometry Processing",
+      "subCategory": "Surface Rendering",
       "path": [
         "Tree",
         "Evaluation",
         "Computer Graphics",
-        "Geometry Processing",
+        "Surface Rendering",
         "Marching Cubes"
       ],
       "tags": [],
@@ -4370,12 +4386,12 @@ window.timelineData = {
       "year": 1987,
       "source": "Journal of the ACM",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Algorithms & Data Structures",
       "subCategory": "Priority Queues",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Algorithms & Data Structures",
         "Priority Queues",
         "Fibonacci Heap"
@@ -4398,12 +4414,12 @@ window.timelineData = {
       "year": 1987,
       "source": "American Journal of Sociology",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Network Science",
       "subCategory": "Centrality",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Network Science",
         "Centrality",
         "Bonacich Power Centrality"
@@ -4624,14 +4640,15 @@ window.timelineData = {
       "year": 1988,
       "source": "Advances in Neural Information Processing Systems",
       "type": "Conference Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Evaluation",
       "category": "Engineering Systems",
       "subCategory": "Robots",
       "path": [
         "Tree",
-        "Foundations",
+        "Evaluation",
         "Engineering Systems",
         "Robots",
+        "Mobile Robots",
         "Driving Robots",
         "ALVINN"
       ],
@@ -4672,6 +4689,44 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1989_ortega_adaptive_motion_control_of"
     },
     {
+      "id": "1989_anderson_bilateral_control_of_teleoperators",
+      "label": "Bilateral Control of Teleoperators with Time Delay",
+      "title": "Bilateral Control of Teleoperators with Time Delay",
+      "authors": [
+        "Robert J. Anderson",
+        "Mark W. Spong"
+      ],
+      "authorShort": "Anderson, Spong",
+      "year": 1989,
+      "source": "IEEE Transactions on Automatic Control",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Robot Control",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Robot Control",
+        "Teleoperation",
+        "Bilateral Control of Teleoperators with Time Delay"
+      ],
+      "tags": [
+        "Bilateral teleoperation",
+        "Time delay",
+        "Passivity",
+        "Scattering theory",
+        "Force reflection",
+        "Teleoperators",
+        "Haptic control"
+      ],
+      "abstract": "A control law for teleoperators is presented which overcomes the instability caused by time delay. By using passivity and scattering theory, a criterion is developed which shows why existing bilateral control systems are unstable for certain environments, and why the proposed bilateral control law is stable for any environment and any time delay. The control law has been implemented on a single-axis force-reflecting hand controller, and preliminary results are shown. To keep the presentation clear, a 1-DOF linear time-invariant teleoperator system is discussed. Nevertheless, the results can be extended without loss of generality to an n-DOF nonlinear teleoperation system.",
+      "summary": "Introduces the passivity/scattering-theory viewpoint that makes bilateral force-reflecting teleoperation robust to communication delay. The core insight is to reshape the master-slave communication channel so that delay behaves like a passive transmission line rather than an energy-generating feedback element.",
+      "url": "../papers/1989_anderson_bilateral_control_of_teleoperators/",
+      "treeUrl": "../tree/#paper=1989_anderson_bilateral_control_of_teleoperators",
+      "mapUrl": "../map/#paper=1989_anderson_bilateral_control_of_teleoperators"
+    },
+    {
       "id": "1989_sontag_a_universal_construction_of",
       "label": "A 'universal' construction of Artstein's theorem on nonlinear stabilization",
       "title": "A Universal Construction of Artstein's Theorem on Nonlinear Stabilization",
@@ -4701,44 +4756,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1989_sontag_a_universal_construction_of"
     },
     {
-      "id": "1989_anderson_bilateral_control_of_teleoperators",
-      "label": "Bilateral Control of Teleoperators with Time Delay",
-      "title": "Bilateral Control of Teleoperators with Time Delay",
-      "authors": [
-        "Robert J. Anderson",
-        "Mark W. Spong"
-      ],
-      "authorShort": "Anderson, Spong",
-      "year": 1989,
-      "source": "IEEE Transactions on Automatic Control",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
-        "Bilateral Control of Teleoperators with Time Delay"
-      ],
-      "tags": [
-        "Bilateral teleoperation",
-        "Time delay",
-        "Passivity",
-        "Scattering theory",
-        "Force reflection",
-        "Teleoperators",
-        "Haptic control"
-      ],
-      "abstract": "A control law for teleoperators is presented which overcomes the instability caused by time delay. By using passivity and scattering theory, a criterion is developed which shows why existing bilateral control systems are unstable for certain environments, and why the proposed bilateral control law is stable for any environment and any time delay. The control law has been implemented on a single-axis force-reflecting hand controller, and preliminary results are shown. To keep the presentation clear, a 1-DOF linear time-invariant teleoperator system is discussed. Nevertheless, the results can be extended without loss of generality to an n-DOF nonlinear teleoperation system.",
-      "summary": "Introduces the passivity/scattering-theory viewpoint that makes bilateral force-reflecting teleoperation robust to communication delay. The core insight is to reshape the master-slave communication channel so that delay behaves like a passive transmission line rather than an energy-generating feedback element.",
-      "url": "../papers/1989_anderson_bilateral_control_of_teleoperators/",
-      "treeUrl": "../tree/#paper=1989_anderson_bilateral_control_of_teleoperators",
-      "mapUrl": "../map/#paper=1989_anderson_bilateral_control_of_teleoperators"
-    },
-    {
       "id": "1989_bernstein_lqg_control_with_an",
       "label": "LQG Control with an H-infinity Performance Bound: A Riccati Equation Approach",
       "title": "LQG Control with an H-infinity / Performance Bound: A Riccati Equation Approach",
@@ -4759,6 +4776,7 @@ window.timelineData = {
         "Control",
         "Robust & Safety-Critical Control",
         "Robust Control",
+        "H2 / H-infinity Synthesis",
         "LQG Control with an H-infinity Performance Bound: A Riccati Equation Approach"
       ],
       "tags": [],
@@ -4791,6 +4809,7 @@ window.timelineData = {
         "Control",
         "Robust & Safety-Critical Control",
         "Robust Control",
+        "H2 / H-infinity Synthesis",
         "State-Space Solutions to Standard H2 and H-inf Control Problems"
       ],
       "tags": [],
@@ -4909,12 +4928,12 @@ window.timelineData = {
       "year": 1989,
       "source": "IEEE Transactions on Computers",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Algorithms & Data Structures",
       "subCategory": "Parallel Algorithms",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Algorithms & Data Structures",
         "Parallel Algorithms",
         "Scans as primitive parallel operations"
@@ -5254,12 +5273,12 @@ window.timelineData = {
       "year": 1991,
       "source": "Numerische Mathematik",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Mathematics",
       "subCategory": "Linear Algebra & Signal Processing",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Mathematics",
         "Linear Algebra & Signal Processing",
         "Conjugate Gradient",
@@ -5325,6 +5344,7 @@ window.timelineData = {
         "Control",
         "Robust & Safety-Critical Control",
         "Robust Control",
+        "LQR and LQG Robustness",
         "On the Robustness of LQ Regulators for Discrete-Time Systems"
       ],
       "tags": [],
@@ -5526,6 +5546,49 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1992_kollerstrom_thomas_simpson_and_newtons"
     },
     {
+      "id": "1992_verhaegen_subspace_model_identification_part",
+      "label": "MOESP",
+      "title": "Subspace Model Identification Part 1. The Output-Error State-Space Model Identification Class of Algorithms",
+      "authors": [
+        "Michel Verhaegen",
+        "Patrick Dewilde"
+      ],
+      "authorShort": "Verhaegen, Dewilde",
+      "year": 1992,
+      "source": "International Journal of Control",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Subspace Identification",
+        "MOESP"
+      ],
+      "tags": [
+        "System identification",
+        "Subspace identification",
+        "MOESP",
+        "Output-error models",
+        "State-space models",
+        "Linear systems",
+        "MIMO systems",
+        "RQ factorization",
+        "Singular value decomposition",
+        "Realization theory"
+      ],
+      "abstract": "In this paper, we present two novel algorithms to realize a finite dimensional, linear time-invariant state-space model from input-output data. The algorithms have a number of common features. They are classified as one of the subspace model identification schemes, in that a major part of the identification problem consists of calculating specially structured subspaces of spaces defined by the input-output data. This structure is then exploited in the calculation of a realization. Another common feature is their algorithmic organization: an RQ factorization followed by a singular value decomposition and the solution of an overdetermined set (or sets) of equations. The schemes assume that the underlying system has an output-error structure and that a measurable input sequence is available. The latter characteristic indicates that both schemes are versions of the MIMO Output-Error State Space model identification (MOESP) approach. The first algorithm is denoted in particular as the (elementary MOESP scheme). The subspace approximation step requires, in addition to input-output data, knowledge of a restricted set of Markov parameters. The second algorithm, referred to as the (ordinary MOESP scheme), solely relies on input-output data. A compact implementation is presented of both schemes. Although we restrict our presentation here to error-free input-output data, a framework is set up in an identification context. The identification aspects of the presented realization schemes are treated in the forthcoming Parts 2 and 3.",
+      "summary": "Introduces the MOESP family of subspace system identification algorithms for realizing finite-dimensional linear state-space models from multivariable input-output data. The paper presents elementary and ordinary MOESP schemes organized around RQ factorization, singular value decomposition, and linear least-squares realization steps, establishing a computational template that became a standard alternative to prediction-error and maximum-likelihood identification methods for MIMO systems.",
+      "url": "../papers/1992_verhaegen_subspace_model_identification_part/",
+      "treeUrl": "../tree/#paper=1992_verhaegen_subspace_model_identification_part",
+      "mapUrl": "../map/#paper=1992_verhaegen_subspace_model_identification_part"
+    },
+    {
       "id": "1992_watkins_q_learning",
       "label": "Q-learning",
       "title": "Q-learning",
@@ -5600,13 +5663,15 @@ window.timelineData = {
       "source": "Proceedings of the Institution of Mechanical Engineers, Part I: Journal of Systems and Control Engineering",
       "type": "Journal Paper",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Balancing Robots",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
         "Balancing Robots",
+        "Single-link Inverted Pendulums",
         "Furuta Pendulum"
       ],
       "tags": [],
@@ -5627,12 +5692,12 @@ window.timelineData = {
       "year": 1992,
       "source": "SIAM Journal on Scientific and Statistical Computing",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Quantitative Foundations",
       "category": "Mathematics",
       "subCategory": "Linear Algebra & Signal Processing",
       "path": [
         "Tree",
-        "Foundations",
+        "Quantitative Foundations",
         "Mathematics",
         "Linear Algebra & Signal Processing",
         "Conjugate Gradient",
@@ -5800,14 +5865,15 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
+      "subCategory": "Linear Systems",
       "path": [
         "Tree",
         "Decision-making",
         "Reinforcement Learning",
-        "Nonlinear Systems",
+        "Linear Systems",
         "Model-based RL",
         "System Identification",
+        "Realization-based Methods",
         "OKID"
       ],
       "tags": [
@@ -5825,6 +5891,44 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1993_juang_identification_of_observer_kalman"
     },
     {
+      "id": "1993_cabral_imaging_vector_fields_using",
+      "label": "LIC",
+      "title": "Imaging Vector Fields Using Line Integral Convolution",
+      "authors": [
+        "Brian Cabral",
+        "Leith Casey Leedom"
+      ],
+      "authorShort": "Cabral, Leedom",
+      "year": 1993,
+      "source": "ACM SIGGRAPH Computer Graphics",
+      "type": "Conference Paper",
+      "superCategory": "Evaluation",
+      "category": "Computer Graphics",
+      "subCategory": "Line Integral Convolution (LIC)",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Computer Graphics",
+        "Line Integral Convolution (LIC)",
+        "LIC"
+      ],
+      "tags": [
+        "Line integral convolution",
+        "LIC",
+        "Flow visualization",
+        "Vector field visualization",
+        "Texture synthesis",
+        "Scientific visualization",
+        "Computer graphics",
+        "Image processing"
+      ],
+      "abstract": "Imaging vector fields has applications in science, art, image processing and special effects. An effective new approach is to use linear and curvilinear filtering techniques to locally blur textures along a vector field. This approach builds on several previous texture generation and filtering techniques. It is, however, unique because it is local, one-dimensional and independent of any predefined geometry or texture. The technique is general and capable of imaging arbitrary two- and three-dimensional vector fields. The local one-dimensional nature of the algorithm lends itself to highly parallel and efficient implementations. Furthermore, the curvilinear filter is capable of rendering detail on very intricate vector fields. Combining this technique with other rendering and image processing techniques - like periodic motion filtering - results in richly informative and striking images. The technique can also produce novel special effects.",
+      "summary": "Introduces Line Integral Convolution (LIC), a dense texture-based method for visualizing vector fields by filtering an input texture along local streamlines. The paper established the basic algorithmic vocabulary for later LIC variants, including curvilinear filtering, periodic motion filtering, and the use of arbitrary textures to show detailed directional structure without relying on manually seeded streamlines or sparse glyphs.",
+      "url": "../papers/1993_cabral_imaging_vector_fields_using/",
+      "treeUrl": "../tree/#paper=1993_cabral_imaging_vector_fields_using",
+      "mapUrl": "../map/#paper=1993_cabral_imaging_vector_fields_using"
+    },
+    {
       "id": "1993_afanasieva_the_characteristics_of_the",
       "label": "The Characteristics of the RBMK Core",
       "title": "The Characteristics of the RBMK Core",
@@ -5838,12 +5942,12 @@ window.timelineData = {
       "year": 1993,
       "source": "Nuclear Technology",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Evaluation",
       "category": "Engineering Systems",
       "subCategory": "Nuclear Reactors",
       "path": [
         "Tree",
-        "Foundations",
+        "Evaluation",
         "Engineering Systems",
         "Nuclear Reactors",
         "The Characteristics of the RBMK Core"
@@ -5988,6 +6092,7 @@ window.timelineData = {
         "Control",
         "Robust & Safety-Critical Control",
         "Robust Control",
+        "H2 / H-infinity Synthesis",
         "A Linear Matrix Inequality Approach to H∞ Control"
       ],
       "tags": [],
@@ -5996,38 +6101,6 @@ window.timelineData = {
       "url": "../papers/1994_gahinet_a_linear_matrix_inequality/",
       "treeUrl": "../tree/#paper=1994_gahinet_a_linear_matrix_inequality",
       "mapUrl": "../map/#paper=1994_gahinet_a_linear_matrix_inequality"
-    },
-    {
-      "id": "1994_boyd_linear_matrix_inequalities_in",
-      "label": "LMIs in System and Control Theory",
-      "title": "Linear Matrix Inequalities in System and Control Theory",
-      "authors": [
-        "Stephen Boyd",
-        "Laurent El Ghaoui",
-        "Eric Feron",
-        "Venkataramanan Balakrishnan"
-      ],
-      "authorShort": "Boyd, Ghaoui, Feron",
-      "year": 1994,
-      "source": "",
-      "type": "Other",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
-        "LMIs in System and Control Theory"
-      ],
-      "tags": [],
-      "abstract": "In this book the authors reduce a wide variety of problems arising in system and control theory to a handful of convex and quasiconvex optimization problems that involve linear matrix inequalities. These optimization problems can be solved using recently developed numerical algorithms that not only are polynomial-time but also work very well in practice; the reduction therefore can be considered a solution to the original problems. This book opens up an important new research area in which convex optimization is combined with system and control theory, resulting in the solution of a large number of previously unsolved problems.",
-      "summary": "",
-      "url": "../papers/1994_boyd_linear_matrix_inequalities_in/",
-      "treeUrl": "../tree/#paper=1994_boyd_linear_matrix_inequalities_in",
-      "mapUrl": "../map/#paper=1994_boyd_linear_matrix_inequalities_in"
     },
     {
       "id": "1994_spong_partial_feedback_linearization_of",
@@ -6066,6 +6139,38 @@ window.timelineData = {
       "url": "../papers/1994_spong_partial_feedback_linearization_of/",
       "treeUrl": "../tree/#paper=1994_spong_partial_feedback_linearization_of",
       "mapUrl": "../map/#paper=1994_spong_partial_feedback_linearization_of"
+    },
+    {
+      "id": "1994_boyd_linear_matrix_inequalities_in",
+      "label": "LMIs in System and Control Theory",
+      "title": "Linear Matrix Inequalities in System and Control Theory",
+      "authors": [
+        "Stephen Boyd",
+        "Laurent El Ghaoui",
+        "Eric Feron",
+        "Venkataramanan Balakrishnan"
+      ],
+      "authorShort": "Boyd, Ghaoui, Feron",
+      "year": 1994,
+      "source": "",
+      "type": "Other",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Theory",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Theory",
+        "Linear Matrix Inequalities (LMIs)",
+        "LMIs in System and Control Theory"
+      ],
+      "tags": [],
+      "abstract": "In this book the authors reduce a wide variety of problems arising in system and control theory to a handful of convex and quasiconvex optimization problems that involve linear matrix inequalities. These optimization problems can be solved using recently developed numerical algorithms that not only are polynomial-time but also work very well in practice; the reduction therefore can be considered a solution to the original problems. This book opens up an important new research area in which convex optimization is combined with system and control theory, resulting in the solution of a large number of previously unsolved problems.",
+      "summary": "",
+      "url": "../papers/1994_boyd_linear_matrix_inequalities_in/",
+      "treeUrl": "../tree/#paper=1994_boyd_linear_matrix_inequalities_in",
+      "mapUrl": "../map/#paper=1994_boyd_linear_matrix_inequalities_in"
     },
     {
       "id": "1994_sims_evolving_virtual_creatures",
@@ -6128,6 +6233,90 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1994_pearlmutter_fast_exact_multiplication_by"
     },
     {
+      "id": "1994_verhaegen_identification_of_the_deterministic",
+      "label": "IV-MOESP",
+      "title": "Identification of the Deterministic Part of MIMO State Space Models Given in Innovations Form from Input-Output Data",
+      "authors": [
+        "Michel Verhaegen"
+      ],
+      "authorShort": "Verhaegen",
+      "year": 1994,
+      "source": "Automatica",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Subspace Identification",
+        "IV-MOESP"
+      ],
+      "tags": [
+        "System identification",
+        "Subspace identification",
+        "MOESP",
+        "IV-MOESP",
+        "Innovations form",
+        "State-space models",
+        "MIMO systems",
+        "Linear systems",
+        "Stochastic systems",
+        "Instrumental variables"
+      ],
+      "abstract": "In this paper we describe two algorithms to identify a linear, time-invariant, finite dimensional state space model from input-output data. The system to be identified is assumed to be excited by a measurable input and an unknown process noise and the measurements are disturbed by unknown measurement noise. Both noise sequences are discrete zero-mean white noise. The first algorithm gives consistent estimates only for the case where the input also is zero-mean white noise, while the same result is obtained with the second algorithm without this constraint. For the special case where the input signal is discrete zero-mean white noise, it is explicitly shown that this second algorithm is a special case of the recently developed Multivariable Output-Error State Space (moesp) class of algorithms based on instrumental variables.",
+      "summary": "Extends the MOESP subspace identification line from deterministic output-error realization toward stochastic MIMO systems in innovations form. The paper gives two algorithms for estimating the deterministic state-space dynamics from input-output data corrupted by process and measurement noise, and shows that one method connects directly to instrumental-variable MOESP, clarifying how MOESP-type projections can recover deterministic dynamics in mixed deterministic-stochastic settings.",
+      "url": "../papers/1994_verhaegen_identification_of_the_deterministic/",
+      "treeUrl": "../tree/#paper=1994_verhaegen_identification_of_the_deterministic",
+      "mapUrl": "../map/#paper=1994_verhaegen_identification_of_the_deterministic"
+    },
+    {
+      "id": "1994_van_overschee_n4sid_numerical_algorithms_for",
+      "label": "N4SID",
+      "title": "N4SID: Numerical Algorithms for State Space Subspace System Identification",
+      "authors": [
+        "Peter Van Overschee",
+        "Bart De Moor"
+      ],
+      "authorShort": "Overschee, Moor",
+      "year": 1994,
+      "source": "IFAC World Congress",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Subspace Identification",
+        "N4SID"
+      ],
+      "tags": [
+        "System identification",
+        "Subspace identification",
+        "Subspace methods",
+        "State space models",
+        "N4SID",
+        "Kalman filter",
+        "Riccati equations",
+        "QR decomposition",
+        "Singular value decomposition"
+      ],
+      "abstract": "Recently a great deal of attention has been given to numerical algorithms for subspace state space system identication (N4SID). In this paper, we derive two new N4SID algorithms to identify mixed deterministic-stochastic systems. Both algorithms determine state sequences through the projection of input and output data. These state sequences are shown to be outputs of non-steady state Kalman filter banks. From these it is easy to determine the state space system matrices. The N4SID algorithms are always convergent (non-iterative) and numerically stable since they only make use of QR and Singular Value Decompositions. Both N4SID algorithms are similar, but the second one trades off accuracy for simplicity. These new algorithms are compared with existing subspace algorithms in theory and in practice.",
+      "summary": "Introduces the N4SID algorithm, which identifies linear state-space models from input-output data using projections of block Hankel matrices, providing a numerically robust approach to subspace system identification.",
+      "url": "../papers/1994_van_overschee_n4sid_numerical_algorithms_for/",
+      "treeUrl": "../tree/#paper=1994_van_overschee_n4sid_numerical_algorithms_for",
+      "mapUrl": "../map/#paper=1994_van_overschee_n4sid_numerical_algorithms_for"
+    },
+    {
       "id": "1994_bradtke_adaptive_linear_quadratic_control",
       "label": "Adaptive Linear Quadratic Control Using Policy Iteration",
       "title": "Adaptive Linear Quadratic Control Using Policy Iteration",
@@ -6158,48 +6347,6 @@ window.timelineData = {
       "url": "../papers/1994_bradtke_adaptive_linear_quadratic_control/",
       "treeUrl": "../tree/#paper=1994_bradtke_adaptive_linear_quadratic_control",
       "mapUrl": "../map/#paper=1994_bradtke_adaptive_linear_quadratic_control"
-    },
-    {
-      "id": "1994_van_overschee_n4sid_numerical_algorithms_for",
-      "label": "N4SID",
-      "title": "N4SID: Numerical Algorithms for State Space Subspace System Identification",
-      "authors": [
-        "Peter Van Overschee",
-        "Bart De Moor"
-      ],
-      "authorShort": "Overschee, Moor",
-      "year": 1994,
-      "source": "IFAC World Congress",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "Subspace Identification",
-        "N4SID"
-      ],
-      "tags": [
-        "System identification",
-        "Subspace identification",
-        "Subspace methods",
-        "State space models",
-        "N4SID",
-        "Kalman filter",
-        "Riccati equations",
-        "QR decomposition",
-        "Singular value decomposition"
-      ],
-      "abstract": "Recently a great deal of attention has been given to numerical algorithms for subspace state space system identication (N4SID). In this paper, we derive two new N4SID algorithms to identify mixed deterministic-stochastic systems. Both algorithms determine state sequences through the projection of input and output data. These state sequences are shown to be outputs of non-steady state Kalman filter banks. From these it is easy to determine the state space system matrices. The N4SID algorithms are always convergent (non-iterative) and numerically stable since they only make use of QR and Singular Value Decompositions. Both N4SID algorithms are similar, but the second one trades off accuracy for simplicity. These new algorithms are compared with existing subspace algorithms in theory and in practice.",
-      "summary": "Introduces the N4SID algorithm, which identifies linear state-space models from input-output data using projections of block Hankel matrices, providing a numerically robust approach to subspace system identification.",
-      "url": "../papers/1994_van_overschee_n4sid_numerical_algorithms_for/",
-      "treeUrl": "../tree/#paper=1994_van_overschee_n4sid_numerical_algorithms_for",
-      "mapUrl": "../map/#paper=1994_van_overschee_n4sid_numerical_algorithms_for"
     },
     {
       "id": "1994_rummery_on_line_q_learning",
@@ -6375,6 +6522,118 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1995_kennedy_particle_swarm_optimization"
     },
     {
+      "id": "1995_didinsky_parameter_identification_for_uncertain",
+      "label": "Parameter Identification for Uncertain Plants Using H∞ Methods",
+      "title": "Parameter Identification for Uncertain Plants Using H∞ Methods",
+      "authors": [
+        "Garry Didinsky",
+        "Zigang Pan",
+        "Tamer Başar"
+      ],
+      "authorShort": "Didinsky, Pan, Başar",
+      "year": 1995,
+      "source": "Automatica",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Parameter Identification for Uncertain Plants Using H∞ Methods"
+      ],
+      "tags": [],
+      "abstract": "We demonstrate the effective use of H∞ filtering and cost-to-come methods for parameter identification in (deterministic) uncertain plants that are linear in the unknown parameters, but nonlinear otherwise. The cost-to-come method is an approach that has been used earlier to solve linear and nonlinear H∞ optimal control and filtering problems. It consists of constructing a cost-to-come function, which assists in the design of an 'optimal' observer scheme. The method is used here in the design of a parameter identification scheme for uncertain plants, where measurements on the state of the system are available, but not on its derivative. Two approaches are adopted, in both of which the parameter estimation problem is formulated as an H∞ filtering problem. One of the approaches uses a more standard prefiltering of the past states, input and disturbance signals. The other approach is a novel design method, which leads to a new class of identification schemes. It involves two subproblems: FSDI (full-state-derivative information) problem, where it is assumed that both the state and its derivative are available to the parameter estimator, and NPFSI (noise-perturbed FSI) problem, where the estimator is assumed to measure a noise-perturbed measurement of the state. In the latter problem we use singular perturbation methods to prove asymptotic convergence of the performance of the identifier to that of the unperturbed case, thus providing an asymptotically optimal solution to the FSI (full-state measurement) problem. To illustrate both approaches, several simulation studies on a numerical example are provided.",
+      "summary": "",
+      "url": "../papers/1995_didinsky_parameter_identification_for_uncertain/",
+      "treeUrl": "../tree/#paper=1995_didinsky_parameter_identification_for_uncertain",
+      "mapUrl": "../map/#paper=1995_didinsky_parameter_identification_for_uncertain"
+    },
+    {
+      "id": "1995_forssell_using_line_integral_convolution",
+      "label": "Curvilinear Grid LIC",
+      "title": "Using Line Integral Convolution for Flow Visualization: Curvilinear Grids, Variable-Speed Animation, and Unsteady Flows",
+      "authors": [
+        "Lisa K. Forssell",
+        "Scott D. Cohen"
+      ],
+      "authorShort": "Forssell, Cohen",
+      "year": 1995,
+      "source": "IEEE Transactions on Visualization and Computer Graphics",
+      "type": "Journal Paper",
+      "superCategory": "Evaluation",
+      "category": "Computer Graphics",
+      "subCategory": "Line Integral Convolution (LIC)",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Computer Graphics",
+        "Line Integral Convolution (LIC)",
+        "Curvilinear Grid LIC"
+      ],
+      "tags": [
+        "Line integral convolution",
+        "LIC",
+        "Flow visualization",
+        "Curvilinear grids",
+        "Parametric surfaces",
+        "Variable-speed animation",
+        "Unsteady flows",
+        "Computational fluid dynamics",
+        "Texture mapping",
+        "Scientific visualization"
+      ],
+      "abstract": "Line Integral Convolution (LIC), introduced by Cabral and Leedom in SIGGRAPH '93, is a powerful technique for imaging and animating vector fields. We extend the LIC technique in 3 ways: The existing algorithm is limited to vector fields over a regular Cartesian grid. We extend the algorithm and the animation techniques possible with it to vector fields over curvilinear surfaces, such as those found in computational fluid dynamics simulations. We introduce a technique to visualize vector magnitude as well as vector direction, e.e., variable-speed flow animation. We show how to modify LIC to visualize unsteady (time dependent) flows. Our implementation utilizes texture-mapping hardware to run in real time, which allows our algorithms to be included in interactive applications.",
+      "summary": "Generalizes LIC beyond regular Cartesian grids to curvilinear surfaces used in CFD, while also adding variable-speed animation and a route toward unsteady-flow visualization. This paper is the main bridge from the original planar LIC algorithm to practical flow visualization over simulation surfaces and interactive texture-mapped displays.",
+      "url": "../papers/1995_forssell_using_line_integral_convolution/",
+      "treeUrl": "../tree/#paper=1995_forssell_using_line_integral_convolution",
+      "mapUrl": "../map/#paper=1995_forssell_using_line_integral_convolution"
+    },
+    {
+      "id": "1995_stalling_fast_and_resolution_independent",
+      "label": "Fast LIC",
+      "title": "Fast and Resolution Independent Line Integral Convolution",
+      "authors": [
+        "Detlev Stalling",
+        "Hans-Christian Hege"
+      ],
+      "authorShort": "Stalling, Hege",
+      "year": 1995,
+      "source": "ACM SIGGRAPH",
+      "type": "Conference Paper",
+      "superCategory": "Evaluation",
+      "category": "Computer Graphics",
+      "subCategory": "Line Integral Convolution (LIC)",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Computer Graphics",
+        "Line Integral Convolution (LIC)",
+        "Fast LIC"
+      ],
+      "tags": [
+        "Line integral convolution",
+        "Fast LIC",
+        "Flow visualization",
+        "Vector field visualization",
+        "Resolution independence",
+        "Streamline integration",
+        "Texture synthesis",
+        "Scientific visualization",
+        "Computer graphics",
+        "Animation"
+      ],
+      "abstract": "Line Integral Convolution (LIC) is a powerful technique for generating striking images and animations from vector data. Introduced in 1993, the method has rapidly found many application areas, ranging from computer arts to scientific visualization. Based upon locally filtering an input texture along a curved stream line segment in a vector field, it is able to depict directional information at high spatial resolutions. We present a new method for computing LIC images. It employs simple box filter kernels only and minimizes the total number of stream lines to be computed. Thereby it reduces computational costs by an order of magnitude compared to the original algorithm. Our method utilizes fast, error-controlled numerical integrators. Decoupling the characteristic lengths in vector field grid, input texture and output image, it allows computation of filtered images at arbitrary resolution. This feature is of significance in computer animation as well as in scientific visualization, where it can be used to explore vector data by smoothly enlarging structure of details. We also present methods for improved texture animation, again employing box filter kernels only. To obtain an optimal motion effect, spatial decay of correlation between intensities of distant pixels in the output image has to be controlled. This is achieved by blending different phase-shifted box filter animations and by adaptively rescaling the contrast of the output frames.",
+      "summary": "Makes LIC much more practical by separating streamline computation from convolution, reusing long streamline segments, and supporting arbitrary output resolution. The result is an order-of-magnitude speedup over the original algorithm plus cleaner support for zooming and animated LIC textures.",
+      "url": "../papers/1995_stalling_fast_and_resolution_independent/",
+      "treeUrl": "../tree/#paper=1995_stalling_fast_and_resolution_independent",
+      "mapUrl": "../map/#paper=1995_stalling_fast_and_resolution_independent"
+    },
+    {
       "id": "1995_spong_the_swing_up_control",
       "label": "Acrobot",
       "title": "The Swing up Control Problem for the Acrobot",
@@ -6386,13 +6645,15 @@ window.timelineData = {
       "source": "IEEE Control Systems",
       "type": "Journal Paper",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Balancing Robots",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
         "Balancing Robots",
+        "Multi-link Inverted Pendulums",
         "Acrobot"
       ],
       "tags": [
@@ -6422,13 +6683,15 @@ window.timelineData = {
       "source": "IEEE Conference on Decision and Control",
       "type": "Conference Paper",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Balancing Robots",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
         "Balancing Robots",
+        "Multi-link Inverted Pendulums",
         "Pendubot"
       ],
       "tags": [
@@ -6474,36 +6737,6 @@ window.timelineData = {
       "url": "../papers/1995_cortes_support_vector_networks/",
       "treeUrl": "../tree/#paper=1995_cortes_support_vector_networks",
       "mapUrl": "../map/#paper=1995_cortes_support_vector_networks"
-    },
-    {
-      "id": "1995_didinsky_parameter_identification_for_uncertain",
-      "label": "Parameter Identification for Uncertain Plants Using H∞ Methods",
-      "title": "Parameter Identification for Uncertain Plants Using H∞ Methods",
-      "authors": [
-        "Garry Didinsky",
-        "Zigang Pan",
-        "Tamer Başar"
-      ],
-      "authorShort": "Didinsky, Pan, Başar",
-      "year": 1995,
-      "source": "Automatica",
-      "type": "Journal Paper",
-      "superCategory": "Prediction & Perception",
-      "category": "State Estimation",
-      "subCategory": "Kalman Filter",
-      "path": [
-        "Tree",
-        "Prediction & Perception",
-        "State Estimation",
-        "Kalman Filter",
-        "Parameter Identification for Uncertain Plants Using H∞ Methods"
-      ],
-      "tags": [],
-      "abstract": "We demonstrate the effective use of H∞ filtering and cost-to-come methods for parameter identification in (deterministic) uncertain plants that are linear in the unknown parameters, but nonlinear otherwise. The cost-to-come method is an approach that has been used earlier to solve linear and nonlinear H∞ optimal control and filtering problems. It consists of constructing a cost-to-come function, which assists in the design of an 'optimal' observer scheme. The method is used here in the design of a parameter identification scheme for uncertain plants, where measurements on the state of the system are available, but not on its derivative. Two approaches are adopted, in both of which the parameter estimation problem is formulated as an H∞ filtering problem. One of the approaches uses a more standard prefiltering of the past states, input and disturbance signals. The other approach is a novel design method, which leads to a new class of identification schemes. It involves two subproblems: FSDI (full-state-derivative information) problem, where it is assumed that both the state and its derivative are available to the parameter estimator, and NPFSI (noise-perturbed FSI) problem, where the estimator is assumed to measure a noise-perturbed measurement of the state. In the latter problem we use singular perturbation methods to prove asymptotic convergence of the performance of the identifier to that of the unperturbed case, thus providing an asymptotically optimal solution to the FSI (full-state measurement) problem. To illustrate both approaches, several simulation studies on a numerical example are provided.",
-      "summary": "",
-      "url": "../papers/1995_didinsky_parameter_identification_for_uncertain/",
-      "treeUrl": "../tree/#paper=1995_didinsky_parameter_identification_for_uncertain",
-      "mapUrl": "../map/#paper=1995_didinsky_parameter_identification_for_uncertain"
     },
     {
       "id": "1996_wit_theory_of_robot_control",
@@ -6651,12 +6884,12 @@ window.timelineData = {
       "type": "Book",
       "superCategory": "Decision-making",
       "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
+      "subCategory": "Linear Systems",
       "path": [
         "Tree",
         "Decision-making",
         "Reinforcement Learning",
-        "Nonlinear Systems",
+        "Linear Systems",
         "Model-based RL",
         "System Identification",
         "Subspace Identification",
@@ -6776,6 +7009,7 @@ window.timelineData = {
         "Control",
         "Robust & Safety-Critical Control",
         "Robust Control",
+        "Input-Output Robustness and Integral Quadratic Constraints (IQCs)",
         "System analysis via integral quadratic constraints"
       ],
       "tags": [],
@@ -7017,12 +7251,12 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Evaluation",
       "category": "Computer Graphics",
-      "subCategory": "Flow Visualization",
+      "subCategory": "Line Integral Convolution (LIC)",
       "path": [
         "Tree",
         "Evaluation",
         "Computer Graphics",
-        "Flow Visualization",
+        "Line Integral Convolution (LIC)",
         "OLIC"
       ],
       "tags": [
@@ -7040,61 +7274,43 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1997_wegenkittl_animating_flow_fields_rendering"
     },
     {
-      "id": "1997_musser_introspective_sorting_and_selection",
-      "label": "Introsort",
-      "title": "Introspective Sorting and Selection Algorithms",
+      "id": "1997_shen_uflic_a_line_integral",
+      "label": "UFLIC",
+      "title": "UFLIC: A Line Integral Convolution Algorithm for Visualizing Unsteady Flows",
       "authors": [
-        "DAVID R. MUSSER"
+        "Han-Wei Shen",
+        "David L. Kao"
       ],
-      "authorShort": "MUSSER",
+      "authorShort": "Shen, Kao",
       "year": 1997,
-      "source": "Software: Practice and Experience",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Sorting",
+      "source": "IEEE Visualization",
+      "type": "Conference Paper",
+      "superCategory": "Evaluation",
+      "category": "Computer Graphics",
+      "subCategory": "Line Integral Convolution (LIC)",
       "path": [
         "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Sorting",
-        "Introsort"
+        "Evaluation",
+        "Computer Graphics",
+        "Line Integral Convolution (LIC)",
+        "UFLIC"
       ],
-      "tags": [],
-      "abstract": "Quicksort is the preferred in-place sorting algorithm in many contexts, since its average computing time on uniformly distributed inputs is Θ(N log N), and it is in fact faster than most other sorting algorithms on most inputs. Its drawback is that its worst-case time bound is Θ(N2). Previous attempts to protect against the worst case by improving the way quicksort chooses pivot elements for partitioning have increased the average computing time too much – one might as well use heapsort, which has a Θ(N log N) worst-case time bound, but is on the average 2–5 times slower than quicksort. A similar dilemma exists with selection algorithms (for finding the i-th largest element) based on partitioning. This paper describes a simple solution to this dilemma: limit the depth of partitioning, and for subproblems that exceed the limit switch to another algorithm with a better worst-case bound. Using heapsort as the ‘stopper’ yields a sorting algorithm that is just as fast as quicksort in the average case, but also has an Θ(N log N) worst case time bound. For selection, a hybrid of Hoare's FIND algorithm, which is linear on average but quadratic in the worst case, and the Blum–Floyd–Pratt–Rivest–Tarjan algorithm is as fast as Hoare's algorithm in practice, yet has a linear worst-case time bound. Also discussed are issues of implementing the new algorithms as generic algorithms, and accurately measuring their performance in the framework of the C+:+ Standard Template Library. ©1997 by John Wiley & Sons, Ltd.",
-      "summary": "",
-      "url": "../papers/1997_musser_introspective_sorting_and_selection/",
-      "treeUrl": "../tree/#paper=1997_musser_introspective_sorting_and_selection",
-      "mapUrl": "../map/#paper=1997_musser_introspective_sorting_and_selection"
-    },
-    {
-      "id": "1997_katayama_the_sr_tree",
-      "label": "SR-tree",
-      "title": "The SR-tree",
-      "authors": [
-        "Norio Katayama",
-        "Shin'ichi Satoh"
+      "tags": [
+        "Line integral convolution",
+        "UFLIC",
+        "Unsteady flows",
+        "Flow visualization",
+        "Vector field visualization",
+        "Time-dependent vector fields",
+        "Animation coherence",
+        "Computational fluid dynamics",
+        "Scientific visualization"
       ],
-      "authorShort": "Katayama, Satoh",
-      "year": 1997,
-      "source": "ACM SIGMOD Record",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Trees & Spatial Indexing",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Trees & Spatial Indexing",
-        "SR-tree"
-      ],
-      "tags": [],
-      "abstract": "Recently, similarity queries on feature vectors have been widely used to perform content-based retrieval of images. To apply this technique to large databases, it is required to develop multidimensional index structures supporting nearest neighbor queries efficiently. The SS-tree had been proposed for this purpose and is known to outperform other index structures such as the R*-tree and the K-D-B-tree. One of its most important features is that it employs bounding spheres rather than bounding rectangles for the shape of regions. However, we demonstrate in this paper that bounding spheres occupy much larger volume than bounding rectangles with high-dimensional data and that this reduces search efficiency. To overcome this drawback, we propose a new index structure called the SR-tree (Sphere/Rectangle-tree) which integrates bounding spheres and bounding rectangles. A region of the SR-tree is specified by the intersection of a bounding sphere and a bounding rectangle. Incorporating bounding rectangles permits neighborhoods to be partitioned into smaller regions than the SS-tree and improves the disjointness among regions. This enhances the performance on nearest neighbor queries especially for high-dimensional and non-uniform data which can be practical in actual image/video similarity indexing. We include the performance test results the verify this advantage of the SR-tree and show that the SR-tree outperforms both the SS-tree and the R*-tree.",
-      "summary": "",
-      "url": "../papers/1997_katayama_the_sr_tree/",
-      "treeUrl": "../tree/#paper=1997_katayama_the_sr_tree",
-      "mapUrl": "../map/#paper=1997_katayama_the_sr_tree"
+      "abstract": "This paper presents an algorithm, UFLIC (Unsteady Flow LIC), to visualize vector data in unsteady flow fields. Using the Line Integral Convolution (LIC) as the underlying method, a new convolution algorithm is proposed that can effectively trace the flow's global features over time. The new algorithm consists of a time-accurate value depositing scheme and a successive feed-forward method. The value depositing scheme accurately models the flow advection, and the successive feed-forward method maintains the coherence between animation frames. Our new algorithm can produce time-accurate, highly coherent flow animations to highlight global features in unsteady flow fields. CFD scientists, for the first time, are able to visualize unsteady surface flows using our algorithm.",
+      "summary": "Extends LIC to time-dependent flow by adding time-accurate value deposition and a feed-forward mechanism that preserves temporal coherence between animation frames. UFLIC is a key early solution to the problem that independently generated LIC frames flicker and fail to show evolving global flow features.",
+      "url": "../papers/1997_shen_uflic_a_line_integral/",
+      "treeUrl": "../tree/#paper=1997_shen_uflic_a_line_integral",
+      "mapUrl": "../map/#paper=1997_shen_uflic_a_line_integral"
     },
     {
       "id": "1997_freund_a_decision_theoretic_generalization",
@@ -7171,11 +7387,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Unscented Kalman Filter (UKF)",
+      "subCategory": "Optimal State Estimation (Kalman Filters)",
       "path": [
         "Tree",
         "Prediction & Perception",
         "State Estimation",
+        "Optimal State Estimation (Kalman Filters)",
+        "Nonlinear Systems",
         "Unscented Kalman Filter (UKF)",
         "UKF"
       ],
@@ -7192,6 +7410,64 @@ window.timelineData = {
       "url": "../papers/1997_julier_new_extension_of_the/",
       "treeUrl": "../tree/#paper=1997_julier_new_extension_of_the",
       "mapUrl": "../map/#paper=1997_julier_new_extension_of_the"
+    },
+    {
+      "id": "1997_musser_introspective_sorting_and_selection",
+      "label": "Introsort",
+      "title": "Introspective Sorting and Selection Algorithms",
+      "authors": [
+        "DAVID R. MUSSER"
+      ],
+      "authorShort": "MUSSER",
+      "year": 1997,
+      "source": "Software: Practice and Experience",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Sorting",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Sorting",
+        "Introsort"
+      ],
+      "tags": [],
+      "abstract": "Quicksort is the preferred in-place sorting algorithm in many contexts, since its average computing time on uniformly distributed inputs is Θ(N log N), and it is in fact faster than most other sorting algorithms on most inputs. Its drawback is that its worst-case time bound is Θ(N2). Previous attempts to protect against the worst case by improving the way quicksort chooses pivot elements for partitioning have increased the average computing time too much – one might as well use heapsort, which has a Θ(N log N) worst-case time bound, but is on the average 2–5 times slower than quicksort. A similar dilemma exists with selection algorithms (for finding the i-th largest element) based on partitioning. This paper describes a simple solution to this dilemma: limit the depth of partitioning, and for subproblems that exceed the limit switch to another algorithm with a better worst-case bound. Using heapsort as the ‘stopper’ yields a sorting algorithm that is just as fast as quicksort in the average case, but also has an Θ(N log N) worst case time bound. For selection, a hybrid of Hoare's FIND algorithm, which is linear on average but quadratic in the worst case, and the Blum–Floyd–Pratt–Rivest–Tarjan algorithm is as fast as Hoare's algorithm in practice, yet has a linear worst-case time bound. Also discussed are issues of implementing the new algorithms as generic algorithms, and accurately measuring their performance in the framework of the C+:+ Standard Template Library. ©1997 by John Wiley & Sons, Ltd.",
+      "summary": "",
+      "url": "../papers/1997_musser_introspective_sorting_and_selection/",
+      "treeUrl": "../tree/#paper=1997_musser_introspective_sorting_and_selection",
+      "mapUrl": "../map/#paper=1997_musser_introspective_sorting_and_selection"
+    },
+    {
+      "id": "1997_katayama_the_sr_tree",
+      "label": "SR-tree",
+      "title": "The SR-tree",
+      "authors": [
+        "Norio Katayama",
+        "Shin'ichi Satoh"
+      ],
+      "authorShort": "Katayama, Satoh",
+      "year": 1997,
+      "source": "ACM SIGMOD Record",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Trees & Spatial Indexing",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Trees & Spatial Indexing",
+        "Bounding Volume Trees",
+        "SR-tree"
+      ],
+      "tags": [],
+      "abstract": "Recently, similarity queries on feature vectors have been widely used to perform content-based retrieval of images. To apply this technique to large databases, it is required to develop multidimensional index structures supporting nearest neighbor queries efficiently. The SS-tree had been proposed for this purpose and is known to outperform other index structures such as the R*-tree and the K-D-B-tree. One of its most important features is that it employs bounding spheres rather than bounding rectangles for the shape of regions. However, we demonstrate in this paper that bounding spheres occupy much larger volume than bounding rectangles with high-dimensional data and that this reduces search efficiency. To overcome this drawback, we propose a new index structure called the SR-tree (Sphere/Rectangle-tree) which integrates bounding spheres and bounding rectangles. A region of the SR-tree is specified by the intersection of a bounding sphere and a bounding rectangle. Incorporating bounding rectangles permits neighborhoods to be partitioned into smaller regions than the SS-tree and improves the disjointness among regions. This enhances the performance on nearest neighbor queries especially for high-dimensional and non-uniform data which can be practical in actual image/video similarity indexing. We include the performance test results the verify this advantage of the SR-tree and show that the SR-tree outperforms both the SS-tree and the R*-tree.",
+      "summary": "",
+      "url": "../papers/1997_katayama_the_sr_tree/",
+      "treeUrl": "../tree/#paper=1997_katayama_the_sr_tree",
+      "mapUrl": "../map/#paper=1997_katayama_the_sr_tree"
     },
     {
       "id": "1998_de_luca_feedback_control_of_a",
@@ -7459,90 +7735,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1998_lu_robust_nonlinear_system_identification"
     },
     {
-      "id": "1998_page_the_pagerank_citation_ranking",
-      "label": "PageRank",
-      "title": "The PageRank Citation Ranking: Bringing Order to the Web",
-      "authors": [
-        "Lawrence Page",
-        "Sergey Brin",
-        "Rajeev Motwani",
-        "Terry Winograd"
-      ],
-      "authorShort": "Page, Brin, Motwani",
-      "year": 1998,
-      "source": "Stanford InfoLab",
-      "type": "Technical Report",
-      "superCategory": "Foundations",
-      "category": "Network Science",
-      "subCategory": "Centrality",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Network Science",
-        "Centrality",
-        "PageRank"
-      ],
-      "tags": [
-        "Link analysis",
-        "Web search",
-        "Graph centrality",
-        "Eigenvector centrality",
-        "Random walk",
-        "Markov chain",
-        "Information retrieval",
-        "Citation ranking",
-        "Ranking algorithms",
-        "Web graph"
-      ],
-      "abstract": "The importance of a Web page is an inherently subjective matter, which depends on the readers interests, knowledge and attitudes. But there is still much that can be said objectively about the relative importance of Web pages. This paper describes PageRank, a mathod for rating Web pages objectively and mechanically, effectively measuring the human interest and attention devoted to them. We compare PageRank to an idealized random Web surfer. We show how to efficiently compute PageRank for large numbers of pages. And, we show how to apply PageRank to search and to user navigation.",
-      "summary": "This technical report introduces PageRank, a link-analysis ranking method that scores web pages by the stationary behavior of an idealized random surfer on the web graph. Its main contribution is to turn hyperlink structure into a scalable global importance signal for search and navigation, making it one of the canonical bridges between eigenvector-style centrality, Markov chains, and web-scale information retrieval.",
-      "url": "../papers/1998_page_the_pagerank_citation_ranking/",
-      "treeUrl": "../tree/#paper=1998_page_the_pagerank_citation_ranking",
-      "mapUrl": "../map/#paper=1998_page_the_pagerank_citation_ranking"
-    },
-    {
-      "id": "1998_watts_collective_dynamics_of_small",
-      "label": "Watts-Strogatz Model",
-      "title": "Collective Dynamics of Small-World Networks",
-      "authors": [
-        "Duncan J. Watts",
-        "Steven H. Strogatz"
-      ],
-      "authorShort": "Watts, Strogatz",
-      "year": 1998,
-      "source": "Nature",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Network Science",
-      "subCategory": "Small-World and Scale-Free Networks",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Network Science",
-        "Small-World and Scale-Free Networks",
-        "Watts-Strogatz Model"
-      ],
-      "tags": [
-        "Small-world networks",
-        "Watts-Strogatz model",
-        "Complex networks",
-        "Random graphs",
-        "Network topology",
-        "Clustering coefficient",
-        "Characteristic path length",
-        "Dynamical systems",
-        "Synchronization",
-        "Epidemic spreading",
-        "Social networks",
-        "Biological networks"
-      ],
-      "abstract": "Networks of coupled dynamical systems have been used to model biological oscillators, Josephson junction arrays, excitable media, neural networks, spatial games, genetic control networks and many other self-organizing systems. Ordinarily, the connection topology is assumed to be either completely regular or completely random. But many biological, technological and social networks lie somewhere between these two extremes. Here we explore simple models of networks that can be tuned through this middle ground: regular networks 'rewired' to introduce increasing amounts of disorder. We find that these systems can be highly clustered, like regular lattices, yet have small characteristic path lengths, like random graphs. We call them 'small-world' networks, by analogy with the small-world phenomenon (popularly known as six degrees of separation). The neural network of the worm Caenorhabditis elegans, the power grid of the western United States, and the collaboration graph of film actors are shown to be small-world networks. Models of dynamical systems with small-world coupling display enhanced signal-propagation speed, computational power, and synchronizability. In particular, infectious diseases spread more easily in small-world networks than in regular lattices.",
-      "summary": "Introduces the Watts-Strogatz small-world network model, showing that a small amount of random rewiring can combine high local clustering with short global path lengths. The paper made small-world structure a central concept in network science and connected graph topology to synchronization, spreading, and computation in coupled dynamical systems.",
-      "url": "../papers/1998_watts_collective_dynamics_of_small/",
-      "treeUrl": "../tree/#paper=1998_watts_collective_dynamics_of_small",
-      "mapUrl": "../map/#paper=1998_watts_collective_dynamics_of_small"
-    },
-    {
       "id": "1998_ebner_development_and_testing_of",
       "label": "IPT Color Space",
       "title": "Development and Testing of a Color Space (IPT) with Improved Hue Uniformity",
@@ -7679,6 +7871,90 @@ window.timelineData = {
       "url": "../papers/1998_isard_condensationconditional_density_propagation_for/",
       "treeUrl": "../tree/#paper=1998_isard_condensationconditional_density_propagation_for",
       "mapUrl": "../map/#paper=1998_isard_condensationconditional_density_propagation_for"
+    },
+    {
+      "id": "1998_page_the_pagerank_citation_ranking",
+      "label": "PageRank",
+      "title": "The PageRank Citation Ranking: Bringing Order to the Web",
+      "authors": [
+        "Lawrence Page",
+        "Sergey Brin",
+        "Rajeev Motwani",
+        "Terry Winograd"
+      ],
+      "authorShort": "Page, Brin, Motwani",
+      "year": 1998,
+      "source": "Stanford InfoLab",
+      "type": "Technical Report",
+      "superCategory": "Quantitative Foundations",
+      "category": "Network Science",
+      "subCategory": "Centrality",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Network Science",
+        "Centrality",
+        "PageRank"
+      ],
+      "tags": [
+        "Link analysis",
+        "Web search",
+        "Graph centrality",
+        "Eigenvector centrality",
+        "Random walk",
+        "Markov chain",
+        "Information retrieval",
+        "Citation ranking",
+        "Ranking algorithms",
+        "Web graph"
+      ],
+      "abstract": "The importance of a Web page is an inherently subjective matter, which depends on the readers interests, knowledge and attitudes. But there is still much that can be said objectively about the relative importance of Web pages. This paper describes PageRank, a mathod for rating Web pages objectively and mechanically, effectively measuring the human interest and attention devoted to them. We compare PageRank to an idealized random Web surfer. We show how to efficiently compute PageRank for large numbers of pages. And, we show how to apply PageRank to search and to user navigation.",
+      "summary": "This technical report introduces PageRank, a link-analysis ranking method that scores web pages by the stationary behavior of an idealized random surfer on the web graph. Its main contribution is to turn hyperlink structure into a scalable global importance signal for search and navigation, making it one of the canonical bridges between eigenvector-style centrality, Markov chains, and web-scale information retrieval.",
+      "url": "../papers/1998_page_the_pagerank_citation_ranking/",
+      "treeUrl": "../tree/#paper=1998_page_the_pagerank_citation_ranking",
+      "mapUrl": "../map/#paper=1998_page_the_pagerank_citation_ranking"
+    },
+    {
+      "id": "1998_watts_collective_dynamics_of_small",
+      "label": "Watts-Strogatz Model",
+      "title": "Collective Dynamics of Small-World Networks",
+      "authors": [
+        "Duncan J. Watts",
+        "Steven H. Strogatz"
+      ],
+      "authorShort": "Watts, Strogatz",
+      "year": 1998,
+      "source": "Nature",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Network Science",
+      "subCategory": "Small-World and Scale-Free Networks",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Network Science",
+        "Small-World and Scale-Free Networks",
+        "Watts-Strogatz Model"
+      ],
+      "tags": [
+        "Small-world networks",
+        "Watts-Strogatz model",
+        "Complex networks",
+        "Random graphs",
+        "Network topology",
+        "Clustering coefficient",
+        "Characteristic path length",
+        "Dynamical systems",
+        "Synchronization",
+        "Epidemic spreading",
+        "Social networks",
+        "Biological networks"
+      ],
+      "abstract": "Networks of coupled dynamical systems have been used to model biological oscillators, Josephson junction arrays, excitable media, neural networks, spatial games, genetic control networks and many other self-organizing systems. Ordinarily, the connection topology is assumed to be either completely regular or completely random. But many biological, technological and social networks lie somewhere between these two extremes. Here we explore simple models of networks that can be tuned through this middle ground: regular networks 'rewired' to introduce increasing amounts of disorder. We find that these systems can be highly clustered, like regular lattices, yet have small characteristic path lengths, like random graphs. We call them 'small-world' networks, by analogy with the small-world phenomenon (popularly known as six degrees of separation). The neural network of the worm Caenorhabditis elegans, the power grid of the western United States, and the collaboration graph of film actors are shown to be small-world networks. Models of dynamical systems with small-world coupling display enhanced signal-propagation speed, computational power, and synchronizability. In particular, infectious diseases spread more easily in small-world networks than in regular lattices.",
+      "summary": "Introduces the Watts-Strogatz small-world network model, showing that a small amount of random rewiring can combine high local clustering with short global path lengths. The paper made small-world structure a central concept in network science and connected graph topology to synchronization, spreading, and computation in coupled dynamical systems.",
+      "url": "../papers/1998_watts_collective_dynamics_of_small/",
+      "treeUrl": "../tree/#paper=1998_watts_collective_dynamics_of_small",
+      "mapUrl": "../map/#paper=1998_watts_collective_dynamics_of_small"
     },
     {
       "id": "1999_van_den_bergen_a_fast_and_robust",
@@ -7885,34 +8161,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1999_li_system_identification_and_long"
     },
     {
-      "id": "1999_spong_passivity_based_control_of",
-      "label": "Passivity Based Control of the Compass Gait Biped",
-      "title": "Passivity Based Control of the Compass Gait Biped",
-      "authors": [
-        "Mark W. Spong"
-      ],
-      "authorShort": "Spong",
-      "year": 1999,
-      "source": "IFAC Proceedings Volumes",
-      "type": "Journal Paper",
-      "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Bipeds",
-      "path": [
-        "Tree",
-        "Evaluation",
-        "Robot Platforms",
-        "Bipeds",
-        "Passivity Based Control of the Compass Gait Biped"
-      ],
-      "tags": [],
-      "abstract": "In this paper we discuss the passivity based control of the two-link robot known as the Compass Gait Biped. Starting from a narrow region of initial conditions, the compass gait biped is capable of locomotion down shallow inclines without actuation or feedback control of any kind. We will discuss some feedback control strategies that can exploit these passive dynamics by shaping the energy of the system. Using potential energy shaping we can make the passive limit cycle slope invariant. We also discuss the use of switching control to address the sensitivity to initial conditions and robustness to disturbances.",
-      "summary": "",
-      "url": "../papers/1999_spong_passivity_based_control_of/",
-      "treeUrl": "../tree/#paper=1999_spong_passivity_based_control_of",
-      "mapUrl": "../map/#paper=1999_spong_passivity_based_control_of"
-    },
-    {
       "id": "1999_thrun_minerva_a_second_generation",
       "label": "MINERVA",
       "title": "MINERVA: A Second-Generation Museum Tour-Guide Robot",
@@ -7933,14 +8181,15 @@ window.timelineData = {
       "year": 1999,
       "source": "IEEE International Conference on Robotics and Automation",
       "type": "Conference Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Evaluation",
       "category": "Engineering Systems",
       "subCategory": "Robots",
       "path": [
         "Tree",
-        "Foundations",
+        "Evaluation",
         "Engineering Systems",
         "Robots",
+        "Mobile Robots",
         "Wheeled Robots",
         "MINERVA"
       ],
@@ -7960,114 +8209,35 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1999_thrun_minerva_a_second_generation"
     },
     {
-      "id": "1999_artzner_coherent_measures_of_risk",
-      "label": "Coherent Measures of Risk",
-      "title": "Coherent Measures of Risk",
+      "id": "1999_spong_passivity_based_control_of",
+      "label": "Passivity Based Control of the Compass Gait Biped",
+      "title": "Passivity Based Control of the Compass Gait Biped",
       "authors": [
-        "Philippe Artzner",
-        "Freddy Delbaen",
-        "Jean‐Marc Eber",
-        "David Heath"
+        "Mark W. Spong"
       ],
-      "authorShort": "Artzner, Delbaen, Eber",
+      "authorShort": "Spong",
       "year": 1999,
-      "source": "Mathematical Finance",
+      "source": "IFAC Proceedings Volumes",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Statistics & Probability",
+      "superCategory": "Evaluation",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
-        "Foundations",
-        "Mathematics",
-        "Statistics & Probability",
-        "Risk Measures",
-        "Coherent Measures of Risk"
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Walking Robots",
+        "Bipeds",
+        "Passivity Based Control of the Compass Gait Biped"
       ],
       "tags": [],
-      "abstract": "In this paper we study both market risks and nonmarket risks, without complete markets assumption, and discuss methods of measurement of these risks. We present and justify a set of four desirable properties for measures of risk, and call the measures satisfying these properties “coherent.” We examine the measures of risk provided and the related actions required by SPAN, by the SEC/NASD rules, and by quantile‐based methods. We demonstrate the universality of scenario‐based methods for providing coherent measures. We offer suggestions concerning the SEC method. We also suggest a method to repair the failure of subadditivity of quantile‐based methods.",
+      "abstract": "In this paper we discuss the passivity based control of the two-link robot known as the Compass Gait Biped. Starting from a narrow region of initial conditions, the compass gait biped is capable of locomotion down shallow inclines without actuation or feedback control of any kind. We will discuss some feedback control strategies that can exploit these passive dynamics by shaping the energy of the system. Using potential energy shaping we can make the passive limit cycle slope invariant. We also discuss the use of switching control to address the sensitivity to initial conditions and robustness to disturbances.",
       "summary": "",
-      "url": "../papers/1999_artzner_coherent_measures_of_risk/",
-      "treeUrl": "../tree/#paper=1999_artzner_coherent_measures_of_risk",
-      "mapUrl": "../map/#paper=1999_artzner_coherent_measures_of_risk"
-    },
-    {
-      "id": "1999_kleinberg_authoritative_sources_in_a",
-      "label": "HITS",
-      "title": "Authoritative Sources in a Hyperlinked Environment",
-      "authors": [
-        "Jon M. Kleinberg"
-      ],
-      "authorShort": "Kleinberg",
-      "year": 1999,
-      "source": "Journal of the ACM",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Network Science",
-      "subCategory": "Centrality",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Network Science",
-        "Centrality",
-        "HITS"
-      ],
-      "tags": [
-        "Link analysis",
-        "HITS",
-        "Hub score",
-        "Authority score",
-        "Eigenvector centrality",
-        "Web graph",
-        "Search engines",
-        "Information retrieval",
-        "Network centrality"
-      ],
-      "abstract": "The network structure of a hyperlinked environment can be a rich source of information about the content of the environment, provided we have effective means for understanding it. We develop a set of algorithmic tools for extracting information from the link structures of such environments, and report on experiments that demonstrate their effectiveness in a variety of contexts on the World Wide Web. The central issue we address within our framework is the distillation of broad search topics, through the discovery of \"authoritative\" information sources on such topics. We propose and test an algorithmic formulation of the notion of authority, based on the relationship between a set of relevant authoritative pages and the set of \"hub pages\" that join them together in the link structure. Our formulation has connections to the eigenvectors of certain matrices associated with the link graph; these connections in turn motivate additional heuristics for link-based analysis.",
-      "summary": "Introduces HITS, which assigns mutually reinforcing hub and authority scores to pages in a hyperlink graph. The method became a foundational link-analysis centrality technique alongside PageRank, especially for separating nodes that point to good resources from nodes that are themselves treated as authoritative.",
-      "url": "../papers/1999_kleinberg_authoritative_sources_in_a/",
-      "treeUrl": "../tree/#paper=1999_kleinberg_authoritative_sources_in_a",
-      "mapUrl": "../map/#paper=1999_kleinberg_authoritative_sources_in_a"
-    },
-    {
-      "id": "cond_mat_9910332",
-      "label": "Barabasi-Albert Model",
-      "title": "Emergence of Scaling in Random Networks",
-      "authors": [
-        "Albert-Laszlo Barabasi",
-        "Reka Albert"
-      ],
-      "authorShort": "Barabasi, Albert",
-      "year": 1999,
-      "source": "Science",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Network Science",
-      "subCategory": "Small-World and Scale-Free Networks",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Network Science",
-        "Small-World and Scale-Free Networks",
-        "Barabasi-Albert Model"
-      ],
-      "tags": [
-        "Scale-free networks",
-        "Barabasi-Albert model",
-        "Preferential attachment",
-        "Network growth",
-        "Power-law degree distribution",
-        "Complex networks",
-        "Random graphs",
-        "Self-organization",
-        "World Wide Web",
-        "Genetic networks"
-      ],
-      "abstract": "Systems as diverse as genetic networks or the world wide web are best described as networks with complex topology. A common property of many large networks is that the vertex connectivities follow a scale-free power-law distribution. This feature is found to be a consequence of the two generic mechanisms that networks expand continuously by the addition of new vertices, and new vertices attach preferentially to already well connected sites. A model based on these two ingredients reproduces the observed stationary scale-free distributions, indicating that the development of large networks is governed by robust self-organizing phenomena that go beyond the particulars of the individual systems.",
-      "summary": "Introduces the Barabasi-Albert model, explaining scale-free degree distributions through network growth and preferential attachment. The paper helped establish power-law degree structure as a major organizing idea in complex networks and gave a compact generative mechanism for hub formation in systems such as the Web and biological networks.",
-      "url": "../papers/cond_mat_9910332/",
-      "treeUrl": "../tree/#paper=cond_mat_9910332",
-      "mapUrl": "../map/#paper=cond_mat_9910332"
+      "url": "../papers/1999_spong_passivity_based_control_of/",
+      "treeUrl": "../tree/#paper=1999_spong_passivity_based_control_of",
+      "mapUrl": "../map/#paper=1999_spong_passivity_based_control_of"
     },
     {
       "id": "1999_ankerst_optics",
@@ -8101,6 +8271,116 @@ window.timelineData = {
       "url": "../papers/1999_ankerst_optics/",
       "treeUrl": "../tree/#paper=1999_ankerst_optics",
       "mapUrl": "../map/#paper=1999_ankerst_optics"
+    },
+    {
+      "id": "1999_artzner_coherent_measures_of_risk",
+      "label": "Coherent Measures of Risk",
+      "title": "Coherent Measures of Risk",
+      "authors": [
+        "Philippe Artzner",
+        "Freddy Delbaen",
+        "Jean‐Marc Eber",
+        "David Heath"
+      ],
+      "authorShort": "Artzner, Delbaen, Eber",
+      "year": 1999,
+      "source": "Mathematical Finance",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Statistics & Probability",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Statistics & Probability",
+        "Risk Measures",
+        "Coherent Measures of Risk"
+      ],
+      "tags": [],
+      "abstract": "In this paper we study both market risks and nonmarket risks, without complete markets assumption, and discuss methods of measurement of these risks. We present and justify a set of four desirable properties for measures of risk, and call the measures satisfying these properties “coherent.” We examine the measures of risk provided and the related actions required by SPAN, by the SEC/NASD rules, and by quantile‐based methods. We demonstrate the universality of scenario‐based methods for providing coherent measures. We offer suggestions concerning the SEC method. We also suggest a method to repair the failure of subadditivity of quantile‐based methods.",
+      "summary": "",
+      "url": "../papers/1999_artzner_coherent_measures_of_risk/",
+      "treeUrl": "../tree/#paper=1999_artzner_coherent_measures_of_risk",
+      "mapUrl": "../map/#paper=1999_artzner_coherent_measures_of_risk"
+    },
+    {
+      "id": "1999_kleinberg_authoritative_sources_in_a",
+      "label": "HITS",
+      "title": "Authoritative Sources in a Hyperlinked Environment",
+      "authors": [
+        "Jon M. Kleinberg"
+      ],
+      "authorShort": "Kleinberg",
+      "year": 1999,
+      "source": "Journal of the ACM",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Network Science",
+      "subCategory": "Centrality",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Network Science",
+        "Centrality",
+        "HITS"
+      ],
+      "tags": [
+        "Link analysis",
+        "HITS",
+        "Hub score",
+        "Authority score",
+        "Eigenvector centrality",
+        "Web graph",
+        "Search engines",
+        "Information retrieval",
+        "Network centrality"
+      ],
+      "abstract": "The network structure of a hyperlinked environment can be a rich source of information about the content of the environment, provided we have effective means for understanding it. We develop a set of algorithmic tools for extracting information from the link structures of such environments, and report on experiments that demonstrate their effectiveness in a variety of contexts on the World Wide Web. The central issue we address within our framework is the distillation of broad search topics, through the discovery of \"authoritative\" information sources on such topics. We propose and test an algorithmic formulation of the notion of authority, based on the relationship between a set of relevant authoritative pages and the set of \"hub pages\" that join them together in the link structure. Our formulation has connections to the eigenvectors of certain matrices associated with the link graph; these connections in turn motivate additional heuristics for link-based analysis.",
+      "summary": "Introduces HITS, which assigns mutually reinforcing hub and authority scores to pages in a hyperlink graph. The method became a foundational link-analysis centrality technique alongside PageRank, especially for separating nodes that point to good resources from nodes that are themselves treated as authoritative.",
+      "url": "../papers/1999_kleinberg_authoritative_sources_in_a/",
+      "treeUrl": "../tree/#paper=1999_kleinberg_authoritative_sources_in_a",
+      "mapUrl": "../map/#paper=1999_kleinberg_authoritative_sources_in_a"
+    },
+    {
+      "id": "cond_mat_9910332",
+      "label": "Barabasi-Albert Model",
+      "title": "Emergence of Scaling in Random Networks",
+      "authors": [
+        "Albert-Laszlo Barabasi",
+        "Reka Albert"
+      ],
+      "authorShort": "Barabasi, Albert",
+      "year": 1999,
+      "source": "Science",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Network Science",
+      "subCategory": "Small-World and Scale-Free Networks",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Network Science",
+        "Small-World and Scale-Free Networks",
+        "Barabasi-Albert Model"
+      ],
+      "tags": [
+        "Scale-free networks",
+        "Barabasi-Albert model",
+        "Preferential attachment",
+        "Network growth",
+        "Power-law degree distribution",
+        "Complex networks",
+        "Random graphs",
+        "Self-organization",
+        "World Wide Web",
+        "Genetic networks"
+      ],
+      "abstract": "Systems as diverse as genetic networks or the world wide web are best described as networks with complex topology. A common property of many large networks is that the vertex connectivities follow a scale-free power-law distribution. This feature is found to be a consequence of the two generic mechanisms that networks expand continuously by the addition of new vertices, and new vertices attach preferentially to already well connected sites. A model based on these two ingredients reproduces the observed stationary scale-free distributions, indicating that the development of large networks is governed by robust self-organizing phenomena that go beyond the particulars of the individual systems.",
+      "summary": "Introduces the Barabasi-Albert model, explaining scale-free degree distributions through network growth and preferential attachment. The paper helped establish power-law degree structure as a major organizing idea in complex networks and gave a compact generative mechanism for hub formation in systems such as the Web and biological networks.",
+      "url": "../papers/cond_mat_9910332/",
+      "treeUrl": "../tree/#paper=cond_mat_9910332",
+      "mapUrl": "../map/#paper=cond_mat_9910332"
     },
     {
       "id": "2000_bengio_gradient_based_optimization_of",
@@ -8300,13 +8580,15 @@ window.timelineData = {
       "source": "IEEE Transactions on Automatic Control",
       "type": "Journal Paper",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Balancing Robots",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
         "Balancing Robots",
+        "Multi-link Inverted Pendulums",
         "Energy Based Control of the Pendubot"
       ],
       "tags": [],
@@ -8522,12 +8804,12 @@ window.timelineData = {
       "year": 2000,
       "source": "Science",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Human & Natural Worlds",
       "category": "Biology",
       "subCategory": "DNA",
       "path": [
         "Tree",
-        "Foundations",
+        "Human & Natural Worlds",
         "Biology",
         "DNA",
         "Genome Sequence of Drosophila melanogaster"
@@ -8590,11 +8872,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Unscented Kalman Filter (UKF)",
+      "subCategory": "Optimal State Estimation (Kalman Filters)",
       "path": [
         "Tree",
         "Prediction & Perception",
         "State Estimation",
+        "Optimal State Estimation (Kalman Filters)",
+        "Nonlinear Systems",
         "Unscented Kalman Filter (UKF)",
         "The Unscented Kalman Filter for Nonlinear Estimation"
       ],
@@ -8857,13 +9141,15 @@ window.timelineData = {
       "source": "Automatica",
       "type": "Journal Paper",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Balancing Robots",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
         "Balancing Robots",
+        "Reaction Wheel Inverted Pendulums",
         "Nonlinear Control of the Reaction Wheel Pendulum"
       ],
       "tags": [],
@@ -8884,12 +9170,12 @@ window.timelineData = {
       "year": 2001,
       "source": "Nature",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Human & Natural Worlds",
       "category": "Biology",
       "subCategory": "DNA",
       "path": [
         "Tree",
-        "Foundations",
+        "Human & Natural Worlds",
         "Biology",
         "DNA",
         "Human Genome Project"
@@ -8909,45 +9195,6 @@ window.timelineData = {
       "url": "../papers/2001_consortium_initial_sequencing_and_analysis/",
       "treeUrl": "../tree/#paper=2001_consortium_initial_sequencing_and_analysis",
       "mapUrl": "../map/#paper=2001_consortium_initial_sequencing_and_analysis"
-    },
-    {
-      "id": "cond_mat_0112110",
-      "label": "Girvan-Newman Algorithm",
-      "title": "Community Structure in Social and Biological Networks",
-      "authors": [
-        "Michelle Girvan",
-        "Mark E. J. Newman"
-      ],
-      "authorShort": "Girvan, Newman",
-      "year": 2001,
-      "source": "Proceedings of the National Academy of Sciences of the United States of America",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Network Science",
-      "subCategory": "Community Detection",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Network Science",
-        "Community Detection",
-        "Girvan-Newman Algorithm"
-      ],
-      "tags": [
-        "Community detection",
-        "Girvan-Newman algorithm",
-        "Edge betweenness",
-        "Divisive clustering",
-        "Social networks",
-        "Biological networks",
-        "Network science",
-        "Graph clustering",
-        "Hierarchical clustering"
-      ],
-      "abstract": "A number of recent studies have focused on the statistical properties of networked systems such as social networks and the World-Wide Web. Researchers have concentrated particularly on a few properties which seem to be common to many networks: the small-world property, power-law degree distributions, and network transitivity. In this paper, we highlight another property which is found in many networks, the property of community structure, in which network nodes are joined together in tightly-knit groups between which there are only looser connections. We propose a new method for detecting such communities, built around the idea of using centrality indices to find community boundaries. We test our method on computer generated and real-world graphs whose community structure is already known, and find that it detects this known structure with high sensitivity and reliability. We also apply the method to two networks whose community structure is not well-known--a collaboration network and a food web--and find that it detects significant and informative community divisions in both cases.",
-      "summary": "Introduces a divisive community detection method based on repeatedly removing edges with high edge betweenness. The paper helped make community structure a central network science problem and established a benchmark algorithm for finding boundaries between densely connected groups.",
-      "url": "../papers/cond_mat_0112110/",
-      "treeUrl": "../tree/#paper=cond_mat_0112110",
-      "mapUrl": "../map/#paper=cond_mat_0112110"
     },
     {
       "id": "2001_viola_rapid_object_detection_using",
@@ -9123,6 +9370,45 @@ window.timelineData = {
       "url": "../papers/2001_kschischang_factor_graphs_and_the/",
       "treeUrl": "../tree/#paper=2001_kschischang_factor_graphs_and_the",
       "mapUrl": "../map/#paper=2001_kschischang_factor_graphs_and_the"
+    },
+    {
+      "id": "cond_mat_0112110",
+      "label": "Girvan-Newman Algorithm",
+      "title": "Community Structure in Social and Biological Networks",
+      "authors": [
+        "Michelle Girvan",
+        "Mark E. J. Newman"
+      ],
+      "authorShort": "Girvan, Newman",
+      "year": 2001,
+      "source": "Proceedings of the National Academy of Sciences of the United States of America",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Network Science",
+      "subCategory": "Community Detection",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Network Science",
+        "Community Detection",
+        "Girvan-Newman Algorithm"
+      ],
+      "tags": [
+        "Community detection",
+        "Girvan-Newman algorithm",
+        "Edge betweenness",
+        "Divisive clustering",
+        "Social networks",
+        "Biological networks",
+        "Network science",
+        "Graph clustering",
+        "Hierarchical clustering"
+      ],
+      "abstract": "A number of recent studies have focused on the statistical properties of networked systems such as social networks and the World-Wide Web. Researchers have concentrated particularly on a few properties which seem to be common to many networks: the small-world property, power-law degree distributions, and network transitivity. In this paper, we highlight another property which is found in many networks, the property of community structure, in which network nodes are joined together in tightly-knit groups between which there are only looser connections. We propose a new method for detecting such communities, built around the idea of using centrality indices to find community boundaries. We test our method on computer generated and real-world graphs whose community structure is already known, and find that it detects this known structure with high sensitivity and reliability. We also apply the method to two networks whose community structure is not well-known--a collaboration network and a food web--and find that it detects significant and informative community divisions in both cases.",
+      "summary": "Introduces a divisive community detection method based on repeatedly removing edges with high edge betweenness. The paper helped make community structure a central network science problem and established a benchmark algorithm for finding boundaries between densely connected groups.",
+      "url": "../papers/cond_mat_0112110/",
+      "treeUrl": "../tree/#paper=cond_mat_0112110",
+      "mapUrl": "../map/#paper=cond_mat_0112110"
     },
     {
       "id": "2002_stanley_evolving_neural_networks_through",
@@ -9342,64 +9628,34 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2002_auer_the_nonstochastic_multiarmed_bandit"
     },
     {
-      "id": "2002_procopiuc_star_tree_an_efficient",
-      "label": "STAR-Tree",
-      "title": "STAR-Tree: An Efficient Self-Adjusting Index for Moving Objects",
+      "id": "2002_julier_the_scaled_unscented_transformation",
+      "label": "The Scaled Unscented Transformation",
+      "title": "The Scaled Unscented Transformation",
       "authors": [
-        "Cecilia M. Procopiuc",
-        "Pankaj K. Agarwal",
-        "Sariel Har-Peled"
+        "S. J. Julier"
       ],
-      "authorShort": "Procopiuc, Agarwal, Har-Peled",
+      "authorShort": "Julier",
       "year": 2002,
-      "source": "Lecture Notes in Computer Science",
+      "source": "American Control Conference (ACC)",
       "type": "Conference Paper",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Trees & Spatial Indexing",
+      "superCategory": "Prediction & Perception",
+      "category": "State Estimation",
+      "subCategory": "Optimal State Estimation (Kalman Filters)",
       "path": [
         "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Trees & Spatial Indexing",
-        "STAR-Tree"
+        "Prediction & Perception",
+        "State Estimation",
+        "Optimal State Estimation (Kalman Filters)",
+        "Nonlinear Systems",
+        "Unscented Kalman Filter (UKF)",
+        "The Scaled Unscented Transformation"
       ],
       "tags": [],
-      "abstract": "We present a new technique called STAR-tree, based on R*-tree, for indexing a set of moving points so that various queries, including range queries, time-slice queries, and nearest-neighbor queries, can be answered efficiently. A novel feature of the index is that it is self-adjusting in the sense that it re-organizes itself locally whenever its query performance deteriorates. The index provides tradeoffs between storage and query performance and between time spent in updating the index and in answering queries. We present detailed performance studies and compare our methods with the existing ones under a varying type of data sets and queries. Our experiments show that the index proposed here performs considerably better than the previously known ones.",
+      "abstract": "This paper describes a generalisation of the unscented transformation (UT) which allows sigma points to be scaled to an arbitrary dimension. The UT is a method for predicting means and covariances in nonlinear systems. A set of samples are deterministically chosen which match the mean and covariance of a (not necessarily Gaussian-distributed) probability distribution. These samples can be scaled by an arbitrary constant. The method guarantees that the mean and covariance second order accuracy in mean and covariance, giving the same performance as a second order truncated filter but without the need to calculate any Jacobians or Hessians. The impacts of scaling issues are illustrated by considering conversions from polar to Cartesian coordinates with large angular uncertainties.",
       "summary": "",
-      "url": "../papers/2002_procopiuc_star_tree_an_efficient/",
-      "treeUrl": "../tree/#paper=2002_procopiuc_star_tree_an_efficient",
-      "mapUrl": "../map/#paper=2002_procopiuc_star_tree_an_efficient"
-    },
-    {
-      "id": "2002_rockafellar_conditional_value_at_risk",
-      "label": "CVaR",
-      "title": "Conditional Value-at-risk for General Loss Distributions",
-      "authors": [
-        "R. Tyrrell Rockafellar",
-        "Stanislav Uryasev"
-      ],
-      "authorShort": "Rockafellar, Uryasev",
-      "year": 2002,
-      "source": "Journal of Banking and Finance",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Statistics & Probability",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Mathematics",
-        "Statistics & Probability",
-        "Risk Measures",
-        "CVaR"
-      ],
-      "tags": [],
-      "abstract": "Fundamental properties of conditional value-at-risk (CVaR), as a measure of risk with significant advantages over value-at-risk (VaR), are derived for loss distributions in finance that can involve discreetness. Such distributions are of particular importance in applications because of the prevalence of models based on scenarios and finite sampling. CVaR is able to quantify dangers beyond VaR and moreover it is coherent. It provides optimization short-cuts which, through linear programming techniques, make practical many large-scale calculations that could otherwise be out of reach. The numerical efficiency and stability of such calculations, shown in several case studies, are illustrated further with an example of index tracking.",
-      "summary": "",
-      "url": "../papers/2002_rockafellar_conditional_value_at_risk/",
-      "treeUrl": "../tree/#paper=2002_rockafellar_conditional_value_at_risk",
-      "mapUrl": "../map/#paper=2002_rockafellar_conditional_value_at_risk"
+      "url": "../papers/2002_julier_the_scaled_unscented_transformation/",
+      "treeUrl": "../tree/#paper=2002_julier_the_scaled_unscented_transformation",
+      "mapUrl": "../map/#paper=2002_julier_the_scaled_unscented_transformation"
     },
     {
       "id": "2002_gustafsson_particle_filters_for_positioning",
@@ -9436,32 +9692,65 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2002_gustafsson_particle_filters_for_positioning"
     },
     {
-      "id": "2002_julier_the_scaled_unscented_transformation",
-      "label": "The Scaled Unscented Transformation",
-      "title": "The Scaled Unscented Transformation",
+      "id": "2002_procopiuc_star_tree_an_efficient",
+      "label": "STAR-Tree",
+      "title": "STAR-Tree: An Efficient Self-Adjusting Index for Moving Objects",
       "authors": [
-        "S. J. Julier"
+        "Cecilia M. Procopiuc",
+        "Pankaj K. Agarwal",
+        "Sariel Har-Peled"
       ],
-      "authorShort": "Julier",
+      "authorShort": "Procopiuc, Agarwal, Har-Peled",
       "year": 2002,
-      "source": "American Control Conference (ACC)",
+      "source": "Lecture Notes in Computer Science",
       "type": "Conference Paper",
-      "superCategory": "Prediction & Perception",
-      "category": "State Estimation",
-      "subCategory": "Unscented Kalman Filter (UKF)",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Trees & Spatial Indexing",
       "path": [
         "Tree",
-        "Prediction & Perception",
-        "State Estimation",
-        "Unscented Kalman Filter (UKF)",
-        "The Scaled Unscented Transformation"
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Trees & Spatial Indexing",
+        "Bounding Volume Trees",
+        "STAR-Tree"
       ],
       "tags": [],
-      "abstract": "This paper describes a generalisation of the unscented transformation (UT) which allows sigma points to be scaled to an arbitrary dimension. The UT is a method for predicting means and covariances in nonlinear systems. A set of samples are deterministically chosen which match the mean and covariance of a (not necessarily Gaussian-distributed) probability distribution. These samples can be scaled by an arbitrary constant. The method guarantees that the mean and covariance second order accuracy in mean and covariance, giving the same performance as a second order truncated filter but without the need to calculate any Jacobians or Hessians. The impacts of scaling issues are illustrated by considering conversions from polar to Cartesian coordinates with large angular uncertainties.",
+      "abstract": "We present a new technique called STAR-tree, based on R*-tree, for indexing a set of moving points so that various queries, including range queries, time-slice queries, and nearest-neighbor queries, can be answered efficiently. A novel feature of the index is that it is self-adjusting in the sense that it re-organizes itself locally whenever its query performance deteriorates. The index provides tradeoffs between storage and query performance and between time spent in updating the index and in answering queries. We present detailed performance studies and compare our methods with the existing ones under a varying type of data sets and queries. Our experiments show that the index proposed here performs considerably better than the previously known ones.",
       "summary": "",
-      "url": "../papers/2002_julier_the_scaled_unscented_transformation/",
-      "treeUrl": "../tree/#paper=2002_julier_the_scaled_unscented_transformation",
-      "mapUrl": "../map/#paper=2002_julier_the_scaled_unscented_transformation"
+      "url": "../papers/2002_procopiuc_star_tree_an_efficient/",
+      "treeUrl": "../tree/#paper=2002_procopiuc_star_tree_an_efficient",
+      "mapUrl": "../map/#paper=2002_procopiuc_star_tree_an_efficient"
+    },
+    {
+      "id": "2002_rockafellar_conditional_value_at_risk",
+      "label": "CVaR",
+      "title": "Conditional Value-at-risk for General Loss Distributions",
+      "authors": [
+        "R. Tyrrell Rockafellar",
+        "Stanislav Uryasev"
+      ],
+      "authorShort": "Rockafellar, Uryasev",
+      "year": 2002,
+      "source": "Journal of Banking and Finance",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Statistics & Probability",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Statistics & Probability",
+        "Risk Measures",
+        "CVaR"
+      ],
+      "tags": [],
+      "abstract": "Fundamental properties of conditional value-at-risk (CVaR), as a measure of risk with significant advantages over value-at-risk (VaR), are derived for loss distributions in finance that can involve discreetness. Such distributions are of particular importance in applications because of the prevalence of models based on scenarios and finite sampling. CVaR is able to quantify dangers beyond VaR and moreover it is coherent. It provides optimization short-cuts which, through linear programming techniques, make practical many large-scale calculations that could otherwise be out of reach. The numerical efficiency and stability of such calculations, shown in several case studies, are illustrated further with an example of index tracking.",
+      "summary": "",
+      "url": "../papers/2002_rockafellar_conditional_value_at_risk/",
+      "treeUrl": "../tree/#paper=2002_rockafellar_conditional_value_at_risk",
+      "mapUrl": "../map/#paper=2002_rockafellar_conditional_value_at_risk"
     },
     {
       "id": "2003_dandrea_distributed_control_design_for",
@@ -9477,13 +9766,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
+      "subCategory": "Distributed Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
+        "Distributed Control",
         "Distributed control design for spatially interconnected systems"
       ],
       "tags": [],
@@ -9636,6 +9924,45 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2003_lagoudakis_least_squares_policy_iteration"
     },
     {
+      "id": "2003_sundquist_dynamic_line_integral_convolution",
+      "label": "DLIC",
+      "title": "Dynamic Line Integral Convolution for Visualizing Streamline Evolution",
+      "authors": [
+        "Andreas Sundquist"
+      ],
+      "authorShort": "Sundquist",
+      "year": 2003,
+      "source": "IEEE Transactions on Visualization and Computer Graphics",
+      "type": "Journal Paper",
+      "superCategory": "Evaluation",
+      "category": "Computer Graphics",
+      "subCategory": "Line Integral Convolution (LIC)",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Computer Graphics",
+        "Line Integral Convolution (LIC)",
+        "DLIC"
+      ],
+      "tags": [
+        "Line integral convolution",
+        "DLIC",
+        "Dynamic LIC",
+        "Time-dependent vector fields",
+        "Streamline evolution",
+        "Flow visualization",
+        "Vector field visualization",
+        "Electromagnetism",
+        "Animation coherence",
+        "Scientific visualization"
+      ],
+      "abstract": "The depiction of time-dependent vector fields is a central problem in scientific visualization. This article describes a technique for generating animations of such fields where the motion of the streamlines to be visualized is given by a second \"motion\" vector field. Each frame of our animation is a Line Integral Convolution of the original vector field with a time-varying input texture. The texture is evolved according to the associated motion vector field via an automatically adjusted set of random particles. We demonstrate this technique with examples from electromagnetism.",
+      "summary": "Introduces Dynamic Line Integral Convolution (DLIC), which animates a changing vector field by evolving the LIC input texture according to a separate field-line motion field. The method is especially useful when the visual task is to see streamline evolution itself, as in electromagnetic field-line animations, rather than only instantaneous flow direction.",
+      "url": "../papers/2003_sundquist_dynamic_line_integral_convolution/",
+      "treeUrl": "../tree/#paper=2003_sundquist_dynamic_line_integral_convolution",
+      "mapUrl": "../map/#paper=2003_sundquist_dynamic_line_integral_convolution"
+    },
+    {
       "id": "2003_thrun_learning_occupancy_grid_maps",
       "label": "Learning Occupancy Grid Maps with Forward Sensor Models",
       "title": "Learning Occupancy Grid Maps with Forward Sensor Models",
@@ -9718,13 +10045,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
+      "subCategory": "State-space Methods",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
+        "State-space Methods",
+        "Nonlinear Control Design",
         "Nonlinear Control Synthesis by Convex Optimization"
       ],
       "tags": [],
@@ -10109,6 +10436,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Reinforcement Learning",
         "Apprenticeship Learning via Inverse Reinforcement Learning"
       ],
       "tags": [],
@@ -10159,6 +10487,36 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2004_de_la_pena_self_normalized_processes_exponential"
     },
     {
+      "id": "2004_dyson_review_of_computational_stirling",
+      "label": "Review of Computational Stirling Analysis Methods",
+      "title": "Review of Computational Stirling Analysis Methods",
+      "authors": [
+        "Rodger W. Dyson",
+        "Scott D. Wilson",
+        "Roy C. Tew"
+      ],
+      "authorShort": "Dyson, Wilson, Tew",
+      "year": 2004,
+      "source": "Second International Energy Conversion Engineering Conference",
+      "type": "Technical Report",
+      "superCategory": "Evaluation",
+      "category": "Engineering Systems",
+      "subCategory": "Stirling Engines",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Engineering Systems",
+        "Stirling Engines",
+        "Review of Computational Stirling Analysis Methods"
+      ],
+      "tags": [],
+      "abstract": "Nuclear thermal to electric power conversion carries the promise of longer duration missions and higher scientific data transmission rates back to Earth for both Mars rovers and deep space missions. A free-piston Stirling convertor is a candidate technology that is considered an efficient and reliable power conversion device for such purposes. While already very efficient, it is believed that better Stirling engines can be developed if the losses inherent its current designs could be better understood. However, they are difficult to instrument and so efforts are underway to simulate a complete Stirling engine numerically. This has only recently been attempted and a review of the methods leading up to and including such computational analysis is presented. And finally it is proposed that the quality and depth of Stirling loss understanding may be improved by utilizing the higher fidelity and efficiency of recently developed numerical methods. One such method, the Ultra HI-Fl technique is presented in detail.",
+      "summary": "",
+      "url": "../papers/2004_dyson_review_of_computational_stirling/",
+      "treeUrl": "../tree/#paper=2004_dyson_review_of_computational_stirling",
+      "mapUrl": "../map/#paper=2004_dyson_review_of_computational_stirling"
+    },
+    {
       "id": "2004_leveson_a_new_accident_model",
       "label": "A new accident model for engineering safer systems",
       "title": "A New Accident Model for Engineering Safer Systems",
@@ -10186,75 +10544,6 @@ window.timelineData = {
       "url": "../papers/2004_leveson_a_new_accident_model/",
       "treeUrl": "../tree/#paper=2004_leveson_a_new_accident_model",
       "mapUrl": "../map/#paper=2004_leveson_a_new_accident_model"
-    },
-    {
-      "id": "2004_dyson_review_of_computational_stirling",
-      "label": "Review of Computational Stirling Analysis Methods",
-      "title": "Review of Computational Stirling Analysis Methods",
-      "authors": [
-        "Rodger W. Dyson",
-        "Scott D. Wilson",
-        "Roy C. Tew"
-      ],
-      "authorShort": "Dyson, Wilson, Tew",
-      "year": 2004,
-      "source": "Second International Energy Conversion Engineering Conference",
-      "type": "Technical Report",
-      "superCategory": "Foundations",
-      "category": "Engineering Systems",
-      "subCategory": "Stirling Engines",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Engineering Systems",
-        "Stirling Engines",
-        "Review of Computational Stirling Analysis Methods"
-      ],
-      "tags": [],
-      "abstract": "Nuclear thermal to electric power conversion carries the promise of longer duration missions and higher scientific data transmission rates back to Earth for both Mars rovers and deep space missions. A free-piston Stirling convertor is a candidate technology that is considered an efficient and reliable power conversion device for such purposes. While already very efficient, it is believed that better Stirling engines can be developed if the losses inherent its current designs could be better understood. However, they are difficult to instrument and so efforts are underway to simulate a complete Stirling engine numerically. This has only recently been attempted and a review of the methods leading up to and including such computational analysis is presented. And finally it is proposed that the quality and depth of Stirling loss understanding may be improved by utilizing the higher fidelity and efficiency of recently developed numerical methods. One such method, the Ultra HI-Fl technique is presented in detail.",
-      "summary": "",
-      "url": "../papers/2004_dyson_review_of_computational_stirling/",
-      "treeUrl": "../tree/#paper=2004_dyson_review_of_computational_stirling",
-      "mapUrl": "../map/#paper=2004_dyson_review_of_computational_stirling"
-    },
-    {
-      "id": "cond_mat_0408187",
-      "label": "CNM Fast Greedy Modularity",
-      "title": "Finding Community Structure in Very Large Networks",
-      "authors": [
-        "Aaron Clauset",
-        "Mark E. J. Newman",
-        "Cristopher Moore"
-      ],
-      "authorShort": "Clauset, Newman, Moore",
-      "year": 2004,
-      "source": "Physical Review E",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Network Science",
-      "subCategory": "Community Detection",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Network Science",
-        "Community Detection",
-        "CNM Fast Greedy Modularity"
-      ],
-      "tags": [
-        "Community detection",
-        "CNM algorithm",
-        "Fast greedy modularity",
-        "Modularity optimization",
-        "Hierarchical clustering",
-        "Agglomerative clustering",
-        "Large-scale graphs",
-        "Network science"
-      ],
-      "abstract": "The discovery and analysis of community structure in networks is a topic of considerable recent interest within the physics community, but most methods proposed so far are unsuitable for very large networks because of their computational cost. Here we present a hierarchical agglomeration algorithm for detecting community structure which is faster than many competing algorithms: its running time on a network with n vertices and m edges is O(m d log n) where d is the depth of the dendrogram describing the community structure. Many real-world networks are sparse and hierarchical, with m ~ n and d ~ log n, in which case our algorithm runs in essentially linear time, O(n log^2 n). As an example of the application of this algorithm we use it to analyze a network of items for sale on the web-site of a large online retailer, items in the network being linked if they are frequently purchased by the same buyer. The network has more than 400,000 vertices and 2 million edges. We show that our algorithm can extract meaningful communities from this network, revealing large-scale patterns present in the purchasing habits of customers.",
-      "summary": "Introduces the CNM fast greedy algorithm, an agglomerative method that efficiently optimizes modularity and produces a community dendrogram. The paper was important because it moved modularity-based community detection toward networks with hundreds of thousands of nodes.",
-      "url": "../papers/cond_mat_0408187/",
-      "treeUrl": "../tree/#paper=cond_mat_0408187",
-      "mapUrl": "../map/#paper=cond_mat_0408187"
     },
     {
       "id": "2004_wang_image_quality_assessment_from",
@@ -10316,6 +10605,45 @@ window.timelineData = {
       "url": "../papers/2004_lowe_distinctive_image_features_from/",
       "treeUrl": "../tree/#paper=2004_lowe_distinctive_image_features_from",
       "mapUrl": "../map/#paper=2004_lowe_distinctive_image_features_from"
+    },
+    {
+      "id": "cond_mat_0408187",
+      "label": "CNM Fast Greedy Modularity",
+      "title": "Finding Community Structure in Very Large Networks",
+      "authors": [
+        "Aaron Clauset",
+        "Mark E. J. Newman",
+        "Cristopher Moore"
+      ],
+      "authorShort": "Clauset, Newman, Moore",
+      "year": 2004,
+      "source": "Physical Review E",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Network Science",
+      "subCategory": "Community Detection",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Network Science",
+        "Community Detection",
+        "CNM Fast Greedy Modularity"
+      ],
+      "tags": [
+        "Community detection",
+        "CNM algorithm",
+        "Fast greedy modularity",
+        "Modularity optimization",
+        "Hierarchical clustering",
+        "Agglomerative clustering",
+        "Large-scale graphs",
+        "Network science"
+      ],
+      "abstract": "The discovery and analysis of community structure in networks is a topic of considerable recent interest within the physics community, but most methods proposed so far are unsuitable for very large networks because of their computational cost. Here we present a hierarchical agglomeration algorithm for detecting community structure which is faster than many competing algorithms: its running time on a network with n vertices and m edges is O(m d log n) where d is the depth of the dendrogram describing the community structure. Many real-world networks are sparse and hierarchical, with m ~ n and d ~ log n, in which case our algorithm runs in essentially linear time, O(n log^2 n). As an example of the application of this algorithm we use it to analyze a network of items for sale on the web-site of a large online retailer, items in the network being linked if they are frequently purchased by the same buyer. The network has more than 400,000 vertices and 2 million edges. We show that our algorithm can extract meaningful communities from this network, revealing large-scale patterns present in the purchasing habits of customers.",
+      "summary": "Introduces the CNM fast greedy algorithm, an agglomerative method that efficiently optimizes modularity and produces a community dendrogram. The paper was important because it moved modularity-based community detection toward networks with hundreds of thousands of nodes.",
+      "url": "../papers/cond_mat_0408187/",
+      "treeUrl": "../tree/#paper=cond_mat_0408187",
+      "mapUrl": "../map/#paper=cond_mat_0408187"
     },
     {
       "id": "2005_willems_a_note_on_persistency",
@@ -10427,6 +10755,46 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2005_todorov_a_generalized_iterative_lqg"
     },
     {
+      "id": "2005_liu_accelerated_unsteady_flow_line",
+      "label": "AUFLIC",
+      "title": "Accelerated Unsteady Flow Line Integral Convolution",
+      "authors": [
+        "Zhanping Liu",
+        "Robert J. Moorhead II"
+      ],
+      "authorShort": "Liu, II",
+      "year": 2005,
+      "source": "IEEE Transactions on Visualization and Computer Graphics",
+      "type": "Journal Paper",
+      "superCategory": "Evaluation",
+      "category": "Computer Graphics",
+      "subCategory": "Line Integral Convolution (LIC)",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Computer Graphics",
+        "Line Integral Convolution (LIC)",
+        "AUFLIC"
+      ],
+      "tags": [
+        "Line integral convolution",
+        "AUFLIC",
+        "UFLIC",
+        "Unsteady flows",
+        "Flow visualization",
+        "Vector field visualization",
+        "Pathline reuse",
+        "Animation coherence",
+        "Scientific visualization",
+        "Computational fluid dynamics"
+      ],
+      "abstract": "Unsteady flow line integral convolution (UFLIC) is a texture synthesis technique for visualizing unsteady flows with high temporal-spatial coherence. Unfortunately, UFLIC requires considerable time to generate each frame due to the huge amount of pathline integration that is computed for particle value scattering. This paper presents Accelerated UFLIC (AUFLIC) for near interactive (1 frame/second) visualization with 160,000 particles per frame. AUFLIC reuses pathlines in the value scattering process to reduce computationally expensive pathline integration. A flow-driven seeding strategy is employed to distribute seeds such that only a few of them need pathline integration while most seeds are placed along the pathlines advected at earlier times by other seeds upstream and, therefore, the known pathlines can be reused for fast value scattering. To maintain a dense scattering coverage to convey high temporal-spatial coherence while keeping the expense of pathline integration low, a dynamic seeding controller is designed to decide whether to advect, copy, or reuse a pathline. At a negligible memory cost, AUFLIC is 9 times faster than UFLIC with comparable image quality.",
+      "summary": "Accelerates UFLIC by reusing pathlines during value scattering and adding a dynamic seeding controller that decides when to advect, copy, or reuse flow paths. The paper is important as a performance-oriented follow-up that moves coherent unsteady-flow LIC closer to interactive use.",
+      "url": "../papers/2005_liu_accelerated_unsteady_flow_line/",
+      "treeUrl": "../tree/#paper=2005_liu_accelerated_unsteady_flow_line",
+      "mapUrl": "../map/#paper=2005_liu_accelerated_unsteady_flow_line"
+    },
+    {
       "id": "2005_collins_efficient_bipedal_robots_based",
       "label": "Efficient Bipedal Robots Based on Passive-Dynamic Walkers",
       "title": "Efficient Bipedal Robots Based on Passive-Dynamic Walkers",
@@ -10441,12 +10809,15 @@ window.timelineData = {
       "source": "Science",
       "type": "Journal Paper",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Bipeds",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Walking Robots",
         "Bipeds",
         "Efficient Bipedal Robots Based on Passive-Dynamic Walkers"
       ],
@@ -10456,46 +10827,6 @@ window.timelineData = {
       "url": "../papers/2005_collins_efficient_bipedal_robots_based/",
       "treeUrl": "../tree/#paper=2005_collins_efficient_bipedal_robots_based",
       "mapUrl": "../map/#paper=2005_collins_efficient_bipedal_robots_based"
-    },
-    {
-      "id": "physics_0506133",
-      "label": "Clique Percolation Method",
-      "title": "Uncovering the Overlapping Community Structure of Complex Networks in Nature and Society",
-      "authors": [
-        "Gergely Palla",
-        "Imre Derenyi",
-        "Illes Farkas",
-        "Tamas Vicsek"
-      ],
-      "authorShort": "Palla, Derenyi, Farkas",
-      "year": 2005,
-      "source": "Nature",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Network Science",
-      "subCategory": "Community Detection",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Network Science",
-        "Community Detection",
-        "Clique Percolation Method"
-      ],
-      "tags": [
-        "Community detection",
-        "Clique percolation",
-        "Overlapping communities",
-        "Complex networks",
-        "Social networks",
-        "Biological networks",
-        "Network science",
-        "Graph clustering"
-      ],
-      "abstract": "Many complex systems in nature and society can be described in terms of networks capturing the intricate web of connections among the units they are made of. A key question is how to interpret the global organization of such networks as the coexistence of their structural subunits (communities) associated with more highly interconnected parts. Identifying these a priori unknown building blocks (such as functionally related proteins, industrial sectors and groups of people) is crucial to the understanding of the structural and functional properties of networks. The existing deterministic methods used for large networks find separated communities, whereas most of the actual networks are made of highly overlapping cohesive groups of nodes. Here we introduce an approach to analysing the main statistical features of the interwoven sets of overlapping communities that makes a step towards uncovering the modular structure of complex systems. After defining a set of new characteristic quantities for the statistics of communities, we apply an efficient technique for exploring overlapping communities on a large scale. We find that overlaps are significant, and the distributions we introduce reveal universal features of networks. Our studies of collaboration, word-association and protein interaction graphs show that the web of communities has non-trivial correlations and specific scaling properties.",
-      "summary": "Introduces the clique percolation method for detecting overlapping communities, treating communities as chains of adjacent cliques rather than disjoint partitions. The paper is a landmark for networks where nodes naturally participate in multiple groups, such as collaboration and protein interaction networks.",
-      "url": "../papers/physics_0506133/",
-      "treeUrl": "../tree/#paper=physics_0506133",
-      "mapUrl": "../map/#paper=physics_0506133"
     },
     {
       "id": "2005_dalal_histograms_of_oriented_gradients",
@@ -10626,6 +10957,46 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2005_schon_marginalized_particle_filters_for"
     },
     {
+      "id": "physics_0506133",
+      "label": "Clique Percolation Method",
+      "title": "Uncovering the Overlapping Community Structure of Complex Networks in Nature and Society",
+      "authors": [
+        "Gergely Palla",
+        "Imre Derenyi",
+        "Illes Farkas",
+        "Tamas Vicsek"
+      ],
+      "authorShort": "Palla, Derenyi, Farkas",
+      "year": 2005,
+      "source": "Nature",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Network Science",
+      "subCategory": "Community Detection",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Network Science",
+        "Community Detection",
+        "Clique Percolation Method"
+      ],
+      "tags": [
+        "Community detection",
+        "Clique percolation",
+        "Overlapping communities",
+        "Complex networks",
+        "Social networks",
+        "Biological networks",
+        "Network science",
+        "Graph clustering"
+      ],
+      "abstract": "Many complex systems in nature and society can be described in terms of networks capturing the intricate web of connections among the units they are made of. A key question is how to interpret the global organization of such networks as the coexistence of their structural subunits (communities) associated with more highly interconnected parts. Identifying these a priori unknown building blocks (such as functionally related proteins, industrial sectors and groups of people) is crucial to the understanding of the structural and functional properties of networks. The existing deterministic methods used for large networks find separated communities, whereas most of the actual networks are made of highly overlapping cohesive groups of nodes. Here we introduce an approach to analysing the main statistical features of the interwoven sets of overlapping communities that makes a step towards uncovering the modular structure of complex systems. After defining a set of new characteristic quantities for the statistics of communities, we apply an efficient technique for exploring overlapping communities on a large scale. We find that overlaps are significant, and the distributions we introduce reveal universal features of networks. Our studies of collaboration, word-association and protein interaction graphs show that the web of communities has non-trivial correlations and specific scaling properties.",
+      "summary": "Introduces the clique percolation method for detecting overlapping communities, treating communities as chains of adjacent cliques rather than disjoint partitions. The paper is a landmark for networks where nodes naturally participate in multiple groups, such as collaboration and protein interaction networks.",
+      "url": "../papers/physics_0506133/",
+      "treeUrl": "../tree/#paper=physics_0506133",
+      "mapUrl": "../map/#paper=physics_0506133"
+    },
+    {
       "id": "2006_imer_optimal_control_of_lti",
       "label": "Optimal Control of LTI Systems over Unreliable Communication Links",
       "title": "Optimal Control of LTI Systems over Unreliable Communication Links",
@@ -10712,6 +11083,8 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
+        "CVX Ecosystem",
+        "CVX Base",
         "Disciplined Convex Programming"
       ],
       "tags": [
@@ -10772,12 +11145,12 @@ window.timelineData = {
       "year": 2006,
       "source": "Cell",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Human & Natural Worlds",
       "category": "Biology",
       "subCategory": "Genetic Engineering",
       "path": [
         "Tree",
-        "Foundations",
+        "Human & Natural Worlds",
         "Biology",
         "Genetic Engineering",
         "Induced Pluripotent Stem Cells"
@@ -10956,6 +11329,7 @@ window.timelineData = {
         "Prediction & Perception",
         "State Estimation",
         "Localization & Mapping",
+        "Simultaneous Localization and Mapping (SLAM)",
         "Graph-Based SLAM & Smoothing",
         "Fast Iterative Alignment of Pose Graphs with Poor Initial Estimates"
       ],
@@ -11010,6 +11384,37 @@ window.timelineData = {
       "url": "../papers/2007_hoffmann_autonomous_automobile_trajectory_tracking/",
       "treeUrl": "../tree/#paper=2007_hoffmann_autonomous_automobile_trajectory_tracking",
       "mapUrl": "../map/#paper=2007_hoffmann_autonomous_automobile_trajectory_tracking"
+    },
+    {
+      "id": "0712_2887",
+      "label": "Approximation of the Joint Spectral Radius Using Sum of Squares",
+      "title": "Approximation of the Joint Spectral Radius Using Sum of Squares",
+      "authors": [
+        "Pablo A. Parrilo",
+        "Ali Jadbabaie"
+      ],
+      "authorShort": "Parrilo, Jadbabaie",
+      "year": 2007,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "Sum-of-squares (SOS)",
+        "Approximation of the Joint Spectral Radius Using Sum of Squares"
+      ],
+      "tags": [],
+      "abstract": "We provide an asymptotically tight, computationally efficient approximation of the joint spectral radius of a set of matrices using sum of squares (SOS) programming. The approach is based on a search for an SOS polynomial that proves simultaneous contractibility of a finite set of matrices. We provide a bound on the quality of the approximation that unifies several earlier results and is independent of the number of matrices. Additionally, we present a comparison between our approximation scheme and earlier techniques, including the use of common quadratic Lyapunov functions and a method based on matrix liftings. Theoretical results and numerical investigations show that our approach yields tighter approximations.",
+      "summary": "",
+      "url": "../papers/0712_2887/",
+      "treeUrl": "../tree/#paper=0712_2887",
+      "mapUrl": "../map/#paper=0712_2887"
     },
     {
       "id": "0711_1612",
@@ -11073,36 +11478,6 @@ window.timelineData = {
       "url": "../papers/0706_4138/",
       "treeUrl": "../tree/#paper=0706_4138",
       "mapUrl": "../map/#paper=0706_4138"
-    },
-    {
-      "id": "0712_2887",
-      "label": "Approximation of the Joint Spectral Radius Using Sum of Squares",
-      "title": "Approximation of the Joint Spectral Radius Using Sum of Squares",
-      "authors": [
-        "Pablo A. Parrilo",
-        "Ali Jadbabaie"
-      ],
-      "authorShort": "Parrilo, Jadbabaie",
-      "year": 2007,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Toolboxes & Solvers",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Toolboxes & Solvers",
-        "Convex Optimization",
-        "Approximation of the Joint Spectral Radius Using Sum of Squares"
-      ],
-      "tags": [],
-      "abstract": "We provide an asymptotically tight, computationally efficient approximation of the joint spectral radius of a set of matrices using sum of squares (SOS) programming. The approach is based on a search for an SOS polynomial that proves simultaneous contractibility of a finite set of matrices. We provide a bound on the quality of the approximation that unifies several earlier results and is independent of the number of matrices. Additionally, we present a comparison between our approximation scheme and earlier techniques, including the use of common quadratic Lyapunov functions and a method based on matrix liftings. Theoretical results and numerical investigations show that our approach yields tighter approximations.",
-      "summary": "",
-      "url": "../papers/0712_2887/",
-      "treeUrl": "../tree/#paper=0712_2887",
-      "mapUrl": "../map/#paper=0712_2887"
     },
     {
       "id": "2007_geraerts_creating_high_quality_paths",
@@ -11214,13 +11589,15 @@ window.timelineData = {
       "source": "Center for Cognitive and Neural Studies (Coneural)",
       "type": "Technical Report",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Balancing Robots",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
         "Balancing Robots",
+        "Single-link Inverted Pendulums",
         "CartPole (Correct Equations)"
       ],
       "tags": [
@@ -11235,150 +11612,6 @@ window.timelineData = {
       "url": "../papers/2007_florian_correct_equations_for_the/",
       "treeUrl": "../tree/#paper=2007_florian_correct_equations_for_the",
       "mapUrl": "../map/#paper=2007_florian_correct_equations_for_the"
-    },
-    {
-      "id": "2007_flajolet_hyperloglog_the_analysis_of",
-      "label": "HyperLogLog",
-      "title": "HyperLogLog: The Analysis of a near-Optimal Cardinality Estimation Algorithm",
-      "authors": [
-        "Philippe Flajolet",
-        "Eric Fusy",
-        "Olivier Gandouet",
-        "Frederic Meunier"
-      ],
-      "authorShort": "Flajolet, Fusy, Gandouet",
-      "year": 2007,
-      "source": "Conference on Analysis of Algorithms (AofA)",
-      "type": "Conference Paper",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Probabilistic Data Structures",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Probabilistic Data Structures",
-        "HyperLogLog"
-      ],
-      "tags": [
-        "Cardinality estimation",
-        "Streaming algorithms",
-        "Probabilistic data structures",
-        "HyperLogLog",
-        "Sketching",
-        "Hashing"
-      ],
-      "abstract": "This extended abstract describes and analyses a near-optimal probabilistic algorithm, HyperLogLog, dedicated to estimating the number of distinct elements (the cardinality) of very large data ensembles. Using an auxiliary memory of m units (typically, short bytes), HyperLogLog performs a single pass over the data and produces an estimate of the cardinality such that the relative accuracy (the standard error) is typically about 1.04/sqrt(m). This improves on the best previously known cardinality estimator, LogLog, whose accuracy can be matched by consuming only 64% of the original memory. For instance, the new algorithm makes it possible to estimate cardinalities well beyond 10^9 with a typical accuracy of 2% while using a memory of only 1.5 kilobytes. The algorithm parallelizes optimally and adapts to the sliding window model.",
-      "summary": "Derives and analyzes HyperLogLog, the now-standard streaming sketch for approximate distinct counting. Its key contribution is a memory-efficient estimator with predictable relative error that composes naturally across distributed streams.",
-      "url": "../papers/2007_flajolet_hyperloglog_the_analysis_of/",
-      "treeUrl": "../tree/#paper=2007_flajolet_hyperloglog_the_analysis_of",
-      "mapUrl": "../map/#paper=2007_flajolet_hyperloglog_the_analysis_of"
-    },
-    {
-      "id": "0707_0609",
-      "label": "Infomap",
-      "title": "Maps of Random Walks on Complex Networks Reveal Community Structure",
-      "authors": [
-        "Martin Rosvall",
-        "Carl T. Bergstrom"
-      ],
-      "authorShort": "Rosvall, Bergstrom",
-      "year": 2007,
-      "source": "Proceedings of the National Academy of Sciences of the United States of America",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Network Science",
-      "subCategory": "Community Detection",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Network Science",
-        "Community Detection",
-        "Infomap"
-      ],
-      "tags": [
-        "Community detection",
-        "Infomap",
-        "Map equation",
-        "Random walks",
-        "Information theory",
-        "Flow-based clustering",
-        "Directed networks",
-        "Weighted networks",
-        "Network science"
-      ],
-      "abstract": "To comprehend the multipartite organization of large-scale biological and social systems, we introduce a new information theoretic approach that reveals community structure in weighted and directed networks. The method decomposes a network into modules by optimally compressing a description of information flows on the network. The result is a map that both simplifies and highlights the regularities in the structure and their relationships. We illustrate the method by making a map of scientific communication as captured in the citation patterns of more than 6000 journals. We discover a multicentric organization with fields that vary dramatically in size and degree of integration into the network of science. Along the backbone of the network -- including physics, chemistry, molecular biology, and medicine -- information flows bidirectionally, but the map reveals a directional pattern of citation from the applied fields to the basic sciences.",
-      "summary": "Introduces the map equation and Infomap, framing community detection as compression of random-walk flows on a network. This shifted part of the field from purely density- or modularity-based partitions toward flow-based communities, especially useful for directed and weighted networks.",
-      "url": "../papers/0707_0609/",
-      "treeUrl": "../tree/#paper=0707_0609",
-      "mapUrl": "../map/#paper=0707_0609"
-    },
-    {
-      "id": "0709_2938",
-      "label": "Label Propagation Algorithm",
-      "title": "Near Linear Time Algorithm to Detect Community Structures in Large-Scale Networks",
-      "authors": [
-        "Usha Nandini Raghavan",
-        "Reka Albert",
-        "Soundar Kumara"
-      ],
-      "authorShort": "Raghavan, Albert, Kumara",
-      "year": 2007,
-      "source": "Physical Review E",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Network Science",
-      "subCategory": "Community Detection",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Network Science",
-        "Community Detection",
-        "Label Propagation Algorithm"
-      ],
-      "tags": [
-        "Community detection",
-        "Label propagation",
-        "Near-linear algorithms",
-        "Large-scale graphs",
-        "Graph clustering",
-        "Network science",
-        "Social networks",
-        "Biological networks"
-      ],
-      "abstract": "Community detection and analysis is an important methodology for understanding the organization of various real-world networks and has applications in problems as diverse as consensus formation in social communities or the identification of functional modules in biochemical networks. Currently used algorithms that identify the community structures in large-scale real-world networks require a priori information such as the number and sizes of communities or are computationally expensive. In this paper we investigate a simple label propagation algorithm that uses the network structure alone as its guide and requires neither optimization of a pre-defined objective function nor prior information about the communities. In our algorithm every node is initialized with a unique label and at every step each node adopts the label that most of its neighbors currently have. In this iterative process densely connected groups of nodes form a consensus on a unique label to form communities. We validate the algorithm by applying it to networks whose community structures are known. We also demonstrate that the algorithm takes an almost linear time and hence it is computationally less expensive than what was possible so far.",
-      "summary": "Introduces label propagation, a simple iterative method where nodes adopt the most common label among their neighbors until labels stabilize into communities. Its importance is practical: it avoids an explicit objective function and brought community detection close to linear time for large networks.",
-      "url": "../papers/0709_2938/",
-      "treeUrl": "../tree/#paper=0709_2938",
-      "mapUrl": "../map/#paper=0709_2938"
-    },
-    {
-      "id": "2007_hunter_matplotlib_a_2d_graphics",
-      "label": "Matplotlib",
-      "title": "Matplotlib: A 2D Graphics Environment",
-      "authors": [
-        "John D. Hunter"
-      ],
-      "authorShort": "Hunter",
-      "year": 2007,
-      "source": "Computing in Science & Engineering",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Software & Programming",
-      "subCategory": "Visualization & Plotting",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Software & Programming",
-        "Visualization & Plotting",
-        "Matplotlib"
-      ],
-      "tags": [],
-      "abstract": "Matplotlib is a 2D graphics package used for Python for application development, interactive scripting, and publication-quality image generation across user interfaces and operating systems.",
-      "summary": "Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python. Matplotlib makes easy things easy and hard things possible. Create publication quality plots. Make interactive figures that can zoom, pan, update. Customize visual style and layout. Export to many file formats. Embed in JupyterLab and Graphical User Interfaces. Use a rich array of third-party packages built on Matplotlib.",
-      "url": "../papers/2007_hunter_matplotlib_a_2d_graphics/",
-      "treeUrl": "../tree/#paper=2007_hunter_matplotlib_a_2d_graphics",
-      "mapUrl": "../map/#paper=2007_hunter_matplotlib_a_2d_graphics"
     },
     {
       "id": "2007_arthur_k_means_the_advantages",
@@ -11418,6 +11651,150 @@ window.timelineData = {
       "url": "../papers/2007_arthur_k_means_the_advantages/",
       "treeUrl": "../tree/#paper=2007_arthur_k_means_the_advantages",
       "mapUrl": "../map/#paper=2007_arthur_k_means_the_advantages"
+    },
+    {
+      "id": "2007_flajolet_hyperloglog_the_analysis_of",
+      "label": "HyperLogLog",
+      "title": "HyperLogLog: The Analysis of a near-Optimal Cardinality Estimation Algorithm",
+      "authors": [
+        "Philippe Flajolet",
+        "Eric Fusy",
+        "Olivier Gandouet",
+        "Frederic Meunier"
+      ],
+      "authorShort": "Flajolet, Fusy, Gandouet",
+      "year": 2007,
+      "source": "Conference on Analysis of Algorithms (AofA)",
+      "type": "Conference Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Probabilistic Data Structures",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Probabilistic Data Structures",
+        "HyperLogLog"
+      ],
+      "tags": [
+        "Cardinality estimation",
+        "Streaming algorithms",
+        "Probabilistic data structures",
+        "HyperLogLog",
+        "Sketching",
+        "Hashing"
+      ],
+      "abstract": "This extended abstract describes and analyses a near-optimal probabilistic algorithm, HyperLogLog, dedicated to estimating the number of distinct elements (the cardinality) of very large data ensembles. Using an auxiliary memory of m units (typically, short bytes), HyperLogLog performs a single pass over the data and produces an estimate of the cardinality such that the relative accuracy (the standard error) is typically about 1.04/sqrt(m). This improves on the best previously known cardinality estimator, LogLog, whose accuracy can be matched by consuming only 64% of the original memory. For instance, the new algorithm makes it possible to estimate cardinalities well beyond 10^9 with a typical accuracy of 2% while using a memory of only 1.5 kilobytes. The algorithm parallelizes optimally and adapts to the sliding window model.",
+      "summary": "Derives and analyzes HyperLogLog, the now-standard streaming sketch for approximate distinct counting. Its key contribution is a memory-efficient estimator with predictable relative error that composes naturally across distributed streams.",
+      "url": "../papers/2007_flajolet_hyperloglog_the_analysis_of/",
+      "treeUrl": "../tree/#paper=2007_flajolet_hyperloglog_the_analysis_of",
+      "mapUrl": "../map/#paper=2007_flajolet_hyperloglog_the_analysis_of"
+    },
+    {
+      "id": "0707_0609",
+      "label": "Infomap",
+      "title": "Maps of Random Walks on Complex Networks Reveal Community Structure",
+      "authors": [
+        "Martin Rosvall",
+        "Carl T. Bergstrom"
+      ],
+      "authorShort": "Rosvall, Bergstrom",
+      "year": 2007,
+      "source": "Proceedings of the National Academy of Sciences of the United States of America",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Network Science",
+      "subCategory": "Community Detection",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Network Science",
+        "Community Detection",
+        "Infomap"
+      ],
+      "tags": [
+        "Community detection",
+        "Infomap",
+        "Map equation",
+        "Random walks",
+        "Information theory",
+        "Flow-based clustering",
+        "Directed networks",
+        "Weighted networks",
+        "Network science"
+      ],
+      "abstract": "To comprehend the multipartite organization of large-scale biological and social systems, we introduce a new information theoretic approach that reveals community structure in weighted and directed networks. The method decomposes a network into modules by optimally compressing a description of information flows on the network. The result is a map that both simplifies and highlights the regularities in the structure and their relationships. We illustrate the method by making a map of scientific communication as captured in the citation patterns of more than 6000 journals. We discover a multicentric organization with fields that vary dramatically in size and degree of integration into the network of science. Along the backbone of the network -- including physics, chemistry, molecular biology, and medicine -- information flows bidirectionally, but the map reveals a directional pattern of citation from the applied fields to the basic sciences.",
+      "summary": "Introduces the map equation and Infomap, framing community detection as compression of random-walk flows on a network. This shifted part of the field from purely density- or modularity-based partitions toward flow-based communities, especially useful for directed and weighted networks.",
+      "url": "../papers/0707_0609/",
+      "treeUrl": "../tree/#paper=0707_0609",
+      "mapUrl": "../map/#paper=0707_0609"
+    },
+    {
+      "id": "0709_2938",
+      "label": "Label Propagation Algorithm",
+      "title": "Near Linear Time Algorithm to Detect Community Structures in Large-Scale Networks",
+      "authors": [
+        "Usha Nandini Raghavan",
+        "Reka Albert",
+        "Soundar Kumara"
+      ],
+      "authorShort": "Raghavan, Albert, Kumara",
+      "year": 2007,
+      "source": "Physical Review E",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Network Science",
+      "subCategory": "Community Detection",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Network Science",
+        "Community Detection",
+        "Label Propagation Algorithm"
+      ],
+      "tags": [
+        "Community detection",
+        "Label propagation",
+        "Near-linear algorithms",
+        "Large-scale graphs",
+        "Graph clustering",
+        "Network science",
+        "Social networks",
+        "Biological networks"
+      ],
+      "abstract": "Community detection and analysis is an important methodology for understanding the organization of various real-world networks and has applications in problems as diverse as consensus formation in social communities or the identification of functional modules in biochemical networks. Currently used algorithms that identify the community structures in large-scale real-world networks require a priori information such as the number and sizes of communities or are computationally expensive. In this paper we investigate a simple label propagation algorithm that uses the network structure alone as its guide and requires neither optimization of a pre-defined objective function nor prior information about the communities. In our algorithm every node is initialized with a unique label and at every step each node adopts the label that most of its neighbors currently have. In this iterative process densely connected groups of nodes form a consensus on a unique label to form communities. We validate the algorithm by applying it to networks whose community structures are known. We also demonstrate that the algorithm takes an almost linear time and hence it is computationally less expensive than what was possible so far.",
+      "summary": "Introduces label propagation, a simple iterative method where nodes adopt the most common label among their neighbors until labels stabilize into communities. Its importance is practical: it avoids an explicit objective function and brought community detection close to linear time for large networks.",
+      "url": "../papers/0709_2938/",
+      "treeUrl": "../tree/#paper=0709_2938",
+      "mapUrl": "../map/#paper=0709_2938"
+    },
+    {
+      "id": "2007_hunter_matplotlib_a_2d_graphics",
+      "label": "Matplotlib",
+      "title": "Matplotlib: A 2D Graphics Environment",
+      "authors": [
+        "John D. Hunter"
+      ],
+      "authorShort": "Hunter",
+      "year": 2007,
+      "source": "Computing in Science & Engineering",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Software & Programming",
+      "subCategory": "Visualization & Plotting",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Visualization & Plotting",
+        "Matplotlib"
+      ],
+      "tags": [],
+      "abstract": "Matplotlib is a 2D graphics package used for Python for application development, interactive scripting, and publication-quality image generation across user interfaces and operating systems.",
+      "summary": "Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python. Matplotlib makes easy things easy and hard things possible. Create publication quality plots. Make interactive figures that can zoom, pan, update. Customize visual style and layout. Export to many file formats. Embed in JupyterLab and Graphical User Interfaces. Use a rich array of third-party packages built on Matplotlib.",
+      "url": "../papers/2007_hunter_matplotlib_a_2d_graphics/",
+      "treeUrl": "../tree/#paper=2007_hunter_matplotlib_a_2d_graphics",
+      "mapUrl": "../map/#paper=2007_hunter_matplotlib_a_2d_graphics"
     },
     {
       "id": "2008_albeanu_on_the_generalized_halley",
@@ -11478,6 +11855,8 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
+        "CVX Ecosystem",
+        "CVX Base",
         "Graph Implementations"
       ],
       "tags": [
@@ -11620,6 +11999,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Reinforcement Learning",
+        "Max Entropy",
         "Maximum Entropy Inverse Reinforcement Learning"
       ],
       "tags": [],
@@ -11643,12 +12024,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
+      "subCategory": "Linear Systems",
       "path": [
         "Tree",
         "Decision-making",
         "Reinforcement Learning",
-        "Nonlinear Systems",
+        "Linear Systems",
         "Model-based RL",
         "System Identification",
         "Dynamic Mode Decomposition (DMD)",
@@ -11667,6 +12048,198 @@ window.timelineData = {
       "url": "../papers/2008_schmid_dynamic_mode_decomposition_of/",
       "treeUrl": "../tree/#paper=2008_schmid_dynamic_mode_decomposition_of",
       "mapUrl": "../map/#paper=2008_schmid_dynamic_mode_decomposition_of"
+    },
+    {
+      "id": "2008_leonard_a_perceptiondriven_autonomous_urban",
+      "label": "A perception-driven autonomous urban vehicle",
+      "title": "A Perception‐driven Autonomous Urban Vehicle",
+      "authors": [
+        "John Leonard",
+        "Jonathan How",
+        "Seth Teller",
+        "Mitch Berger",
+        "Stefan Campbell",
+        "Gaston Fiore",
+        "Luke Fletcher",
+        "Emilio Frazzoli",
+        "Albert Huang",
+        "Sertac Karaman",
+        "Olivier Koch",
+        "Yoshiaki Kuwata",
+        "David Moore",
+        "Edwin Olson",
+        "Steve Peters",
+        "Justin Teo",
+        "Robert Truax",
+        "Matthew Walter",
+        "David Barrett",
+        "Alexander Epstein",
+        "Keoni Maheloni",
+        "Katy Moyer",
+        "Troy Jones",
+        "Ryan Buckley",
+        "Matthew Antone",
+        "Robert Galejs",
+        "Siddhartha Krishnamurthy",
+        "Jonathan Williams"
+      ],
+      "authorShort": "Leonard, How, Teller",
+      "year": 2008,
+      "source": "Journal of Field Robotics",
+      "type": "Journal Paper",
+      "superCategory": "Evaluation",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Driving Robots",
+        "DARPA Urban Challenge",
+        "A perception-driven autonomous urban vehicle"
+      ],
+      "tags": [],
+      "abstract": "This paper describes the architecture and implementation of an autonomous passenger vehicle designed to navigate using locally perceived information in preference to potentially inaccurate or incomplete map data. The vehicle architecture was designed to handle the original DARPA Urban Challenge requirements of perceiving and navigating a road network with segments defined by sparse waypoints. The vehicle implementation includes many heterogeneous sensors with significant communications and computation bandwidth to capture and process high‐resolution, high‐rate sensor data. The output of the comprehensive environmental sensing subsystem is fed into a kinodynamic motion planning algorithm to generate all vehicle motion. The requirements of driving in lanes, three‐point turns, parking, and maneuvering through obstacle fields are all generated with a unified planner. A key aspect of the planner is its use of closed‐loop simulation in a rapidly exploring randomized trees algorithm, which can randomly explore the space while efficiently generating smooth trajectories in a dynamic and uncertain environment. The overall system was realized through the creation of a powerful new suite of software tools for message passing, logging, and visualization. These innovations provide a strong platform for future research in autonomous driving in global positioning system–denied and highly dynamic environments with poor a priori information. © 2008 Wiley Periodicals, Inc.",
+      "summary": "",
+      "url": "../papers/2008_leonard_a_perceptiondriven_autonomous_urban/",
+      "treeUrl": "../tree/#paper=2008_leonard_a_perceptiondriven_autonomous_urban",
+      "mapUrl": "../map/#paper=2008_leonard_a_perceptiondriven_autonomous_urban"
+    },
+    {
+      "id": "2008_urmson_autonomous_driving_in_urban",
+      "label": "Boss",
+      "title": "Autonomous Driving in Urban Environments: Boss and the Urban Challenge",
+      "authors": [
+        "Chris Urmson",
+        "Joshua Anhalt",
+        "Drew Bagnell",
+        "Christopher Baker",
+        "Robert Bittner",
+        "M. N. Clark",
+        "John Dolan",
+        "Dave Duggins",
+        "Tugrul Galatali",
+        "Chris Geyer",
+        "Michele Gittleman",
+        "Sam Harbaugh",
+        "Martial Hebert",
+        "Thomas M. Howard",
+        "Sascha Kolski",
+        "Alonzo Kelly",
+        "Maxim Likhachev",
+        "Matt McNaughton",
+        "Nick Miller",
+        "Kevin Peterson",
+        "Brian Pilnick",
+        "Raj Rajkumar",
+        "Paul Rybski",
+        "Bryan Salesky",
+        "Young-Woo Seo",
+        "Sanjiv Singh",
+        "Jarrod Snider",
+        "Anthony Stentz",
+        "William “Red” Whittaker",
+        "Ziv Wolkowicki",
+        "Jason Ziglar",
+        "Hong Bae",
+        "Thomas Brown",
+        "Daniel Demitrish",
+        "Bakhtiar Litkouhi",
+        "Jim Nickolaou",
+        "Varsha Sadekar",
+        "Wende Zhang",
+        "Joshua Struble",
+        "Michael Taylor",
+        "Michael Darms",
+        "Dave Ferguson"
+      ],
+      "authorShort": "Urmson, Anhalt, Bagnell",
+      "year": 2008,
+      "source": "Journal of Field Robotics",
+      "type": "Journal Paper",
+      "superCategory": "Evaluation",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Driving Robots",
+        "DARPA Urban Challenge",
+        "Boss"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Urban driving",
+        "DARPA Urban Challenge",
+        "Behavior planning",
+        "Sensor fusion",
+        "Autonomous vehicles"
+      ],
+      "abstract": "Boss is an autonomous vehicle that uses on-board sensors (global positioning system - lasers, radars, and cameras) to track other vehicles, detect static obstacles, and localize itself relative to a road model. A three-layer planning system combines mission, behavioral, and motion planning to drive in urban environments. The mission planning layer considers which street to take to achieve a mission goal. The behavioral layer determines when to change lanes and precedence at intersections and performs error recovery maneuvers. The motion planning layer selects actions to avoid obstacles while making progress toward local goals. The system was developed from the ground up to address the requirements of the DARPA Urban Challenge using a spiral system development process with a heavy emphasis on regular, regressive system testing. During the National Qualification Event and the 85-km Urban Challenge Final Event, Boss demonstrated some of its capabilities, qualifying first and winning the challenge.",
+      "summary": "Describes Boss, the CMU autonomous vehicle that won the 2007 DARPA Urban Challenge. Presents the full software stack for urban driving including perception, behavior planning, and motion planning components that operate in complex traffic scenarios with other vehicles and pedestrians.",
+      "url": "../papers/2008_urmson_autonomous_driving_in_urban/",
+      "treeUrl": "../tree/#paper=2008_urmson_autonomous_driving_in_urban",
+      "mapUrl": "../map/#paper=2008_urmson_autonomous_driving_in_urban"
+    },
+    {
+      "id": "2008_montemerlo_junior_the_stanford_entry",
+      "label": "Junior",
+      "title": "Junior: The Stanford Entry in the Urban Challenge",
+      "authors": [
+        "Michael Montemerlo",
+        "Jan Becker",
+        "Suhrid Bhat",
+        "Hendrik Dahlkamp",
+        "Dmitri Dolgov",
+        "Scott Ettinger",
+        "Dirk Haehnel",
+        "Tim Hilden",
+        "Gabe Hoffmann",
+        "Burkhard Huhnke",
+        "Doug Johnston",
+        "Stefan Klumpp",
+        "Dirk Langer",
+        "Anthony Levandowski",
+        "Jesse Levinson",
+        "Julien Marcil",
+        "David Orenstein",
+        "Johannes Paefgen",
+        "Isaac Penny",
+        "Anna Petrovskaya",
+        "Mike Pflueger",
+        "Ganymed Stanek",
+        "David Stavens",
+        "Antone Vogt",
+        "Sebastian Thrun"
+      ],
+      "authorShort": "Montemerlo, Becker, Bhat",
+      "year": 2008,
+      "source": "Journal of Field Robotics",
+      "type": "Journal Paper",
+      "superCategory": "Evaluation",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Driving Robots",
+        "DARPA Urban Challenge",
+        "Junior"
+      ],
+      "tags": [],
+      "abstract": "This article presents the architecture of Junior, a robotic vehicle capable of navigating urban environments autonomously. In doing so, the vehicle is able to select its own routes, perceive and interact with other traffic, and execute various urban driving skills including lane changes, U‐turns, parking, and merging into moving traffic. The vehicle successfully finished and won second place in the DARPA Urban Challenge, a robot competition organized by the U.S. Government. © 2008 Wiley Periodicals, Inc.",
+      "summary": "",
+      "url": "../papers/2008_montemerlo_junior_the_stanford_entry/",
+      "treeUrl": "../tree/#paper=2008_montemerlo_junior_the_stanford_entry",
+      "mapUrl": "../map/#paper=2008_montemerlo_junior_the_stanford_entry"
     },
     {
       "id": "2008_fletcher_the_mitcornell_collision_and",
@@ -11740,270 +12313,6 @@ window.timelineData = {
       "url": "../papers/2008_takayama_beyond_dirty_dangerous_and/",
       "treeUrl": "../tree/#paper=2008_takayama_beyond_dirty_dangerous_and",
       "mapUrl": "../map/#paper=2008_takayama_beyond_dirty_dangerous_and"
-    },
-    {
-      "id": "2008_sedgewick_left_leaning_red_black",
-      "label": "Left-Leaning Red-Black Tree",
-      "title": "Left-Leaning Red-Black Trees",
-      "authors": [
-        "Robert Sedgewick"
-      ],
-      "authorShort": "Sedgewick",
-      "year": 2008,
-      "source": "Princeton University",
-      "type": "Technical Report",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Trees & Spatial Indexing",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Trees & Spatial Indexing",
-        "Left-Leaning Red-Black Tree"
-      ],
-      "tags": [
-        "Balanced search trees",
-        "Red-black trees",
-        "Left-leaning red-black trees",
-        "Symbol tables",
-        "Data structures",
-        "Algorithms",
-        "Deletion algorithms"
-      ],
-      "abstract": "The red-black tree model for implementing balanced search trees, introduced by Guibas and Sedgewick thirty years ago, is now found throughout our computational infrastructure. Red-black trees are described in standard textbooks and are the underlying data structure for symbol-table implementations within C++, Java, Python, BSD Unix, and many other modern systems. However, many of these implementations have sacrificed some of the original design goals (primarily in order to develop an effective implementation of the delete operation, which was incompletely specified in the original paper), so a new look is worthwhile. In this paper, we describe a new variant of red-black trees that meets many of the original design goals and leads to substantially simpler code for insert/delete, less than one-fourth as much code as in implementations in common use.",
-      "summary": "Sedgewick presents left-leaning red-black trees, a red-black representation that forces 3-nodes to lean left and uses recursive rotations on the way back up the tree. The payoff is much shorter insertion and deletion code while preserving logarithmic search behavior and the ordered-symbol-table operations that make balanced trees useful.",
-      "url": "../papers/2008_sedgewick_left_leaning_red_black/",
-      "treeUrl": "../tree/#paper=2008_sedgewick_left_leaning_red_black",
-      "mapUrl": "../map/#paper=2008_sedgewick_left_leaning_red_black"
-    },
-    {
-      "id": "2008_leonard_a_perceptiondriven_autonomous_urban",
-      "label": "A perception-driven autonomous urban vehicle",
-      "title": "A Perception‐driven Autonomous Urban Vehicle",
-      "authors": [
-        "John Leonard",
-        "Jonathan How",
-        "Seth Teller",
-        "Mitch Berger",
-        "Stefan Campbell",
-        "Gaston Fiore",
-        "Luke Fletcher",
-        "Emilio Frazzoli",
-        "Albert Huang",
-        "Sertac Karaman",
-        "Olivier Koch",
-        "Yoshiaki Kuwata",
-        "David Moore",
-        "Edwin Olson",
-        "Steve Peters",
-        "Justin Teo",
-        "Robert Truax",
-        "Matthew Walter",
-        "David Barrett",
-        "Alexander Epstein",
-        "Keoni Maheloni",
-        "Katy Moyer",
-        "Troy Jones",
-        "Ryan Buckley",
-        "Matthew Antone",
-        "Robert Galejs",
-        "Siddhartha Krishnamurthy",
-        "Jonathan Williams"
-      ],
-      "authorShort": "Leonard, How, Teller",
-      "year": 2008,
-      "source": "Journal of Field Robotics",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Engineering Systems",
-      "subCategory": "Robots",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Engineering Systems",
-        "Robots",
-        "Driving Robots",
-        "A perception-driven autonomous urban vehicle"
-      ],
-      "tags": [],
-      "abstract": "This paper describes the architecture and implementation of an autonomous passenger vehicle designed to navigate using locally perceived information in preference to potentially inaccurate or incomplete map data. The vehicle architecture was designed to handle the original DARPA Urban Challenge requirements of perceiving and navigating a road network with segments defined by sparse waypoints. The vehicle implementation includes many heterogeneous sensors with significant communications and computation bandwidth to capture and process high‐resolution, high‐rate sensor data. The output of the comprehensive environmental sensing subsystem is fed into a kinodynamic motion planning algorithm to generate all vehicle motion. The requirements of driving in lanes, three‐point turns, parking, and maneuvering through obstacle fields are all generated with a unified planner. A key aspect of the planner is its use of closed‐loop simulation in a rapidly exploring randomized trees algorithm, which can randomly explore the space while efficiently generating smooth trajectories in a dynamic and uncertain environment. The overall system was realized through the creation of a powerful new suite of software tools for message passing, logging, and visualization. These innovations provide a strong platform for future research in autonomous driving in global positioning system–denied and highly dynamic environments with poor a priori information. © 2008 Wiley Periodicals, Inc.",
-      "summary": "",
-      "url": "../papers/2008_leonard_a_perceptiondriven_autonomous_urban/",
-      "treeUrl": "../tree/#paper=2008_leonard_a_perceptiondriven_autonomous_urban",
-      "mapUrl": "../map/#paper=2008_leonard_a_perceptiondriven_autonomous_urban"
-    },
-    {
-      "id": "2008_urmson_autonomous_driving_in_urban",
-      "label": "Boss",
-      "title": "Autonomous Driving in Urban Environments: Boss and the Urban Challenge",
-      "authors": [
-        "Chris Urmson",
-        "Joshua Anhalt",
-        "Drew Bagnell",
-        "Christopher Baker",
-        "Robert Bittner",
-        "M. N. Clark",
-        "John Dolan",
-        "Dave Duggins",
-        "Tugrul Galatali",
-        "Chris Geyer",
-        "Michele Gittleman",
-        "Sam Harbaugh",
-        "Martial Hebert",
-        "Thomas M. Howard",
-        "Sascha Kolski",
-        "Alonzo Kelly",
-        "Maxim Likhachev",
-        "Matt McNaughton",
-        "Nick Miller",
-        "Kevin Peterson",
-        "Brian Pilnick",
-        "Raj Rajkumar",
-        "Paul Rybski",
-        "Bryan Salesky",
-        "Young-Woo Seo",
-        "Sanjiv Singh",
-        "Jarrod Snider",
-        "Anthony Stentz",
-        "William “Red” Whittaker",
-        "Ziv Wolkowicki",
-        "Jason Ziglar",
-        "Hong Bae",
-        "Thomas Brown",
-        "Daniel Demitrish",
-        "Bakhtiar Litkouhi",
-        "Jim Nickolaou",
-        "Varsha Sadekar",
-        "Wende Zhang",
-        "Joshua Struble",
-        "Michael Taylor",
-        "Michael Darms",
-        "Dave Ferguson"
-      ],
-      "authorShort": "Urmson, Anhalt, Bagnell",
-      "year": 2008,
-      "source": "Journal of Field Robotics",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Engineering Systems",
-      "subCategory": "Robots",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Engineering Systems",
-        "Robots",
-        "Driving Robots",
-        "Boss"
-      ],
-      "tags": [
-        "Autonomous driving",
-        "Urban driving",
-        "DARPA Urban Challenge",
-        "Behavior planning",
-        "Sensor fusion",
-        "Autonomous vehicles"
-      ],
-      "abstract": "Boss is an autonomous vehicle that uses on-board sensors (global positioning system - lasers, radars, and cameras) to track other vehicles, detect static obstacles, and localize itself relative to a road model. A three-layer planning system combines mission, behavioral, and motion planning to drive in urban environments. The mission planning layer considers which street to take to achieve a mission goal. The behavioral layer determines when to change lanes and precedence at intersections and performs error recovery maneuvers. The motion planning layer selects actions to avoid obstacles while making progress toward local goals. The system was developed from the ground up to address the requirements of the DARPA Urban Challenge using a spiral system development process with a heavy emphasis on regular, regressive system testing. During the National Qualification Event and the 85-km Urban Challenge Final Event, Boss demonstrated some of its capabilities, qualifying first and winning the challenge.",
-      "summary": "Describes Boss, the CMU autonomous vehicle that won the 2007 DARPA Urban Challenge. Presents the full software stack for urban driving including perception, behavior planning, and motion planning components that operate in complex traffic scenarios with other vehicles and pedestrians.",
-      "url": "../papers/2008_urmson_autonomous_driving_in_urban/",
-      "treeUrl": "../tree/#paper=2008_urmson_autonomous_driving_in_urban",
-      "mapUrl": "../map/#paper=2008_urmson_autonomous_driving_in_urban"
-    },
-    {
-      "id": "2008_montemerlo_junior_the_stanford_entry",
-      "label": "Junior: The Stanford Entry in the Urban Challenge",
-      "title": "Junior: The Stanford Entry in the Urban Challenge",
-      "authors": [
-        "Michael Montemerlo",
-        "Jan Becker",
-        "Suhrid Bhat",
-        "Hendrik Dahlkamp",
-        "Dmitri Dolgov",
-        "Scott Ettinger",
-        "Dirk Haehnel",
-        "Tim Hilden",
-        "Gabe Hoffmann",
-        "Burkhard Huhnke",
-        "Doug Johnston",
-        "Stefan Klumpp",
-        "Dirk Langer",
-        "Anthony Levandowski",
-        "Jesse Levinson",
-        "Julien Marcil",
-        "David Orenstein",
-        "Johannes Paefgen",
-        "Isaac Penny",
-        "Anna Petrovskaya",
-        "Mike Pflueger",
-        "Ganymed Stanek",
-        "David Stavens",
-        "Antone Vogt",
-        "Sebastian Thrun"
-      ],
-      "authorShort": "Montemerlo, Becker, Bhat",
-      "year": 2008,
-      "source": "Journal of Field Robotics",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Engineering Systems",
-      "subCategory": "Robots",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Engineering Systems",
-        "Robots",
-        "Driving Robots",
-        "Junior: The Stanford Entry in the Urban Challenge"
-      ],
-      "tags": [],
-      "abstract": "This article presents the architecture of Junior, a robotic vehicle capable of navigating urban environments autonomously. In doing so, the vehicle is able to select its own routes, perceive and interact with other traffic, and execute various urban driving skills including lane changes, U‐turns, parking, and merging into moving traffic. The vehicle successfully finished and won second place in the DARPA Urban Challenge, a robot competition organized by the U.S. Government. © 2008 Wiley Periodicals, Inc.",
-      "summary": "",
-      "url": "../papers/2008_montemerlo_junior_the_stanford_entry/",
-      "treeUrl": "../tree/#paper=2008_montemerlo_junior_the_stanford_entry",
-      "mapUrl": "../map/#paper=2008_montemerlo_junior_the_stanford_entry"
-    },
-    {
-      "id": "0803_0476",
-      "label": "Louvain Algorithm",
-      "title": "Fast Unfolding of Communities in Large Networks",
-      "authors": [
-        "Vincent D. Blondel",
-        "Jean-Loup Guillaume",
-        "Renaud Lambiotte",
-        "Etienne Lefebvre"
-      ],
-      "authorShort": "Blondel, Guillaume, Lambiotte",
-      "year": 2008,
-      "source": "Journal of Statistical Mechanics: Theory and Experiment",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Network Science",
-      "subCategory": "Community Detection",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Network Science",
-        "Community Detection",
-        "Louvain Algorithm"
-      ],
-      "tags": [
-        "Community detection",
-        "Louvain method",
-        "Modularity optimization",
-        "Graph clustering",
-        "Network science",
-        "Complex networks",
-        "Hierarchical clustering",
-        "Large-scale graphs",
-        "Heuristic optimization",
-        "Web graph"
-      ],
-      "abstract": "We propose a simple method to extract the community structure of large networks. Our method is a heuristic method that is based on modularity optimization. It is shown to outperform all other known community detection method in terms of computation time. Moreover, the quality of the communities detected is very good, as measured by the so-called modularity. This is shown first by identifying language communities in a Belgian mobile phone network of 2.6 million customers and by analyzing a web graph of 118 million nodes and more than one billion links. The accuracy of our algorithm is also verified on ad-hoc modular networks. .",
-      "summary": "This paper introduces the Louvain method, a fast greedy heuristic for community detection that alternates local modularity-improving node moves with aggregation of discovered communities into a coarser network. Its key contribution is making modularity-based community detection practical on very large graphs while naturally producing a hierarchy of communities across successive aggregation levels.",
-      "url": "../papers/0803_0476/",
-      "treeUrl": "../tree/#paper=0803_0476",
-      "mapUrl": "../map/#paper=0803_0476"
     },
     {
       "id": "2008_rahimi_weighted_sums_of_random",
@@ -12100,6 +12409,7 @@ window.timelineData = {
         "Prediction & Perception",
         "State Estimation",
         "Localization & Mapping",
+        "Simultaneous Localization and Mapping (SLAM)",
         "Graph-Based SLAM & Smoothing",
         "iSAM"
       ],
@@ -12109,6 +12419,86 @@ window.timelineData = {
       "url": "../papers/2008_kaess_isam_incremental_smoothing_and/",
       "treeUrl": "../tree/#paper=2008_kaess_isam_incremental_smoothing_and",
       "mapUrl": "../map/#paper=2008_kaess_isam_incremental_smoothing_and"
+    },
+    {
+      "id": "2008_sedgewick_left_leaning_red_black",
+      "label": "Left-Leaning Red-Black Tree",
+      "title": "Left-Leaning Red-Black Trees",
+      "authors": [
+        "Robert Sedgewick"
+      ],
+      "authorShort": "Sedgewick",
+      "year": 2008,
+      "source": "Princeton University",
+      "type": "Technical Report",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Trees & Spatial Indexing",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Trees & Spatial Indexing",
+        "Ordered Search Trees",
+        "Red-black Tree",
+        "Left-Leaning Red-Black Tree"
+      ],
+      "tags": [
+        "Balanced search trees",
+        "Red-black trees",
+        "Left-leaning red-black trees",
+        "Symbol tables",
+        "Data structures",
+        "Algorithms",
+        "Deletion algorithms"
+      ],
+      "abstract": "The red-black tree model for implementing balanced search trees, introduced by Guibas and Sedgewick thirty years ago, is now found throughout our computational infrastructure. Red-black trees are described in standard textbooks and are the underlying data structure for symbol-table implementations within C++, Java, Python, BSD Unix, and many other modern systems. However, many of these implementations have sacrificed some of the original design goals (primarily in order to develop an effective implementation of the delete operation, which was incompletely specified in the original paper), so a new look is worthwhile. In this paper, we describe a new variant of red-black trees that meets many of the original design goals and leads to substantially simpler code for insert/delete, less than one-fourth as much code as in implementations in common use.",
+      "summary": "Sedgewick presents left-leaning red-black trees, a red-black representation that forces 3-nodes to lean left and uses recursive rotations on the way back up the tree. The payoff is much shorter insertion and deletion code while preserving logarithmic search behavior and the ordered-symbol-table operations that make balanced trees useful.",
+      "url": "../papers/2008_sedgewick_left_leaning_red_black/",
+      "treeUrl": "../tree/#paper=2008_sedgewick_left_leaning_red_black",
+      "mapUrl": "../map/#paper=2008_sedgewick_left_leaning_red_black"
+    },
+    {
+      "id": "0803_0476",
+      "label": "Louvain Algorithm",
+      "title": "Fast Unfolding of Communities in Large Networks",
+      "authors": [
+        "Vincent D. Blondel",
+        "Jean-Loup Guillaume",
+        "Renaud Lambiotte",
+        "Etienne Lefebvre"
+      ],
+      "authorShort": "Blondel, Guillaume, Lambiotte",
+      "year": 2008,
+      "source": "Journal of Statistical Mechanics: Theory and Experiment",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Network Science",
+      "subCategory": "Community Detection",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Network Science",
+        "Community Detection",
+        "Louvain Algorithm"
+      ],
+      "tags": [
+        "Community detection",
+        "Louvain method",
+        "Modularity optimization",
+        "Graph clustering",
+        "Network science",
+        "Complex networks",
+        "Hierarchical clustering",
+        "Large-scale graphs",
+        "Heuristic optimization",
+        "Web graph"
+      ],
+      "abstract": "We propose a simple method to extract the community structure of large networks. Our method is a heuristic method that is based on modularity optimization. It is shown to outperform all other known community detection method in terms of computation time. Moreover, the quality of the communities detected is very good, as measured by the so-called modularity. This is shown first by identifying language communities in a Belgian mobile phone network of 2.6 million customers and by analyzing a web graph of 118 million nodes and more than one billion links. The accuracy of our algorithm is also verified on ad-hoc modular networks. .",
+      "summary": "This paper introduces the Louvain method, a fast greedy heuristic for community detection that alternates local modularity-improving node moves with aggregation of discovered communities into a coarser network. Its key contribution is making modularity-based community detection practical on very large graphs while naturally producing a hierarchy of communities across successive aggregation levels.",
+      "url": "../papers/0803_0476/",
+      "treeUrl": "../tree/#paper=0803_0476",
+      "mapUrl": "../map/#paper=0803_0476"
     },
     {
       "id": "2009_chopra_on_exponential_synchronization_of",
@@ -12124,13 +12514,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
+      "subCategory": "Distributed Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
+        "Distributed Control",
+        "Synchronization",
         "On Exponential Synchronization of Kuramoto Oscillators"
       ],
       "tags": [],
@@ -12193,7 +12583,7 @@ window.timelineData = {
         "Optimization",
         "Continuous Optimization",
         "Convex Optimization",
-        "General Convex Optimization",
+        "Sum-of-squares (SOS)",
         "A Convex Polynomial That Is Not sos-convex"
       ],
       "tags": [],
@@ -12818,6 +13208,87 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2009_ye_time_series_shapelets"
     },
     {
+      "id": "2010_hovakimyan_l1_adaptive_control_theory",
+      "label": "L1 Adaptive Control Theory",
+      "title": "L1 Adaptive Control Theory: Guaranteed Robustness with Fast Adaptation",
+      "authors": [
+        "Naira Hovakimyan",
+        "Chengyu Cao"
+      ],
+      "authorShort": "Hovakimyan, Cao",
+      "year": 2010,
+      "source": "Society for Industrial and Applied Mathematics",
+      "type": "Other",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Adaptive Control",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Adaptive Control",
+        "L1 Adaptive Control",
+        "L1 Adaptive Control Theory"
+      ],
+      "tags": [
+        "Adaptive control",
+        "L1 adaptive control",
+        "Robust control",
+        "Fast adaptation",
+        "Transient performance",
+        "Matched uncertainties",
+        "Unmatched uncertainties",
+        "Output feedback",
+        "Time-varying reference systems",
+        "Flight testing"
+      ],
+      "abstract": "This book presents a comprehensive overview of the recently developed L1 adaptive control theory, including detailed proofs of the main results. The key feature of the L1 adaptive control theory is the decoupling of adaptation from robustness. The architectures of L1 adaptive control theory have guaranteed transient performance and robustness in the presence of fast adaptation, without enforcing persistent excitation, applying gain-scheduling, or resorting to high-gain feedback. The book covers detailed proofs of the main results and also presents the flight test results that have used this theory and contains results not yet published in technical journals and conference proceedings. The material is organized into six chapters and concludes with an appendix that summarizes the mathematical results used to support the proofs. Software is available on a supplementary Web page. Audience: L1 Adaptive Control Theory is intended for graduate students; researchers; and aerospace, mechanical, chemical, industrial, and electrical engineers interested in pursuing new directions in research and developing technology at reduced costs. Contents: Foreword; Preface; Chapter 1: Introduction; Chapter 2: State Feedback in the Presence of Matched Uncertainties; Chapter 3: State Feedback in the Presence of Unmatched Uncertainties; Chapter 4: Output Feedback; Chapter 5: L1 Adaptive Controller for Time-Varying Reference Systems; Chapter 6: Applications, Conclusions, and Open Problems; Appendix A: Systems Theory; Appendix B: Projection Operator for Adaptation Laws; Appendix C: Basic Facts on Linear Matrix Inequalities; Bibliography",
+      "summary": "This monograph systematizes L1 adaptive control around the separation of adaptation from robustness. It collects the core state-feedback and output-feedback architectures, covers matched and unmatched uncertainties, treats time-varying reference systems, and connects the theory to flight-test applications, making it a foundational reference for later L1 adaptive control work.",
+      "url": "../papers/2010_hovakimyan_l1_adaptive_control_theory/",
+      "treeUrl": "../tree/#paper=2010_hovakimyan_l1_adaptive_control_theory",
+      "mapUrl": "../map/#paper=2010_hovakimyan_l1_adaptive_control_theory"
+    },
+    {
+      "id": "2010_kharisov_l1_adaptive_controller_for",
+      "label": "L1 Adaptive Controller for Time-Varying Reference Systems",
+      "title": "L1 Adaptive Controller for Time-Varying Reference Systems in the Presence of Unmodeled Nonlinear Dynamics",
+      "authors": [
+        "Evgeny Kharisov",
+        "Naira Hovakimyan",
+        "Jiang Wang",
+        "Chengyu Cao"
+      ],
+      "authorShort": "Kharisov, Hovakimyan, Wang",
+      "year": 2010,
+      "source": "American Control Conference",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Adaptive Control",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Adaptive Control",
+        "L1 Adaptive Control",
+        "L1 Adaptive Controller for Time-Varying Reference Systems"
+      ],
+      "tags": [
+        "Adaptive control",
+        "L1 adaptive control",
+        "Time-varying reference systems",
+        "Nonlinear systems",
+        "Unmodeled dynamics",
+        "Transient performance",
+        "Robust control"
+      ],
+      "abstract": "This paper presents the L1 adaptive controller for a class of uncertain nonlinear systems in the presence of time and state dependent unknown nonlinearities with unmodeled nonlinear dynamics. The L1 controller achieves performance specifications, defined via a time-varying reference system. We prove that subject to standard regularity assumptions, the L1 adaptive controller ensures uniformly bounded transient and steady-state tracking for system's input and output signals simultaneously. The performance bounds can be systematically improved by increasing the rate of adaptation. Simulations of a nonlinear system, coupled to a Lorenz attractor, verify the theoretical findings.",
+      "summary": "Extends L1 adaptive control to uncertain nonlinear systems whose desired behavior is specified by a time-varying reference system, while allowing unmodeled nonlinear dynamics. The paper is useful as a precursor to later L1-based robust motion-planning work because it formalizes simultaneous transient and steady-state bounds on both input and output tracking, with performance improved through faster adaptation.",
+      "url": "../papers/2010_kharisov_l1_adaptive_controller_for/",
+      "treeUrl": "../tree/#paper=2010_kharisov_l1_adaptive_controller_for",
+      "mapUrl": "../map/#paper=2010_kharisov_l1_adaptive_controller_for"
+    },
+    {
       "id": "2010_kon_model_predictive_control_based",
       "label": "Model predictive control based on ARX models",
       "title": "Model Predictive Control Based on ARX Models",
@@ -13143,65 +13614,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2010_ross_efficient_reductions_for_imitation"
     },
     {
-      "id": "1009_4322",
-      "label": "A Simple Proof of Thue's Theorem on Circle Packing",
-      "title": "A Simple Proof of Thue's Theorem on Circle Packing",
-      "authors": [
-        "Hai-Chau Chang",
-        "Lih-Chung Wang"
-      ],
-      "authorShort": "Chang, Wang",
-      "year": 2010,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Geometry & Tiling",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Mathematics",
-        "Geometry & Tiling",
-        "A Simple Proof of Thue's Theorem on Circle Packing"
-      ],
-      "tags": [],
-      "abstract": "A simple proof of Thue theorem on Circle Packing is given. The proof is only based on density analysis of Delaunay triangulation for the set of points that are centers of circles in a saturated circle configuration.",
-      "summary": "",
-      "url": "../papers/1009_4322/",
-      "treeUrl": "../tree/#paper=1009_4322",
-      "mapUrl": "../map/#paper=1009_4322"
-    },
-    {
-      "id": "2010_huang_lcm_lightweight_communications_and",
-      "label": "LCM",
-      "title": "LCM: Lightweight Communications and Marshalling",
-      "authors": [
-        "A S Huang",
-        "E Olson",
-        "D C Moore"
-      ],
-      "authorShort": "Huang, Olson, Moore",
-      "year": 2010,
-      "source": "2010 IEEE/RSJ International Conference on Intelligent Robots and Systems",
-      "type": "Conference Paper",
-      "superCategory": "Foundations",
-      "category": "Software & Programming",
-      "subCategory": "Message Protocols",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Software & Programming",
-        "Message Protocols",
-        "LCM"
-      ],
-      "tags": [],
-      "abstract": "We describe the Lightweight Communications and Marshalling (LCM) library for message passing and data marshalling. The primary goal of LCM is to simplify the development of low-latency message passing systems, especially for real-time robotics research applications. Messages can be transmitted between different processes using LCM's publish/subscribe message-passing system. A platformand language-independent type specification language separates message description from implementation. Message specifications are automatically compiled into language-specific bindings, eliminating the need for users to implement marshalling code while guaranteeing run-time type safety. LCM is notable in providing a real-time deep traffic inspection tool that can decode and display message traffic with minimal user effort and no impact on overall system performance. This and other features emphasize LCM's focus on simplifying both the development and debugging of message passing systems. In this paper, we explain the design of LCM, evaluate its performance, and describe its application to a number of autonomous land, underwater, and aerial robots.",
-      "summary": "",
-      "url": "../papers/2010_huang_lcm_lightweight_communications_and/",
-      "treeUrl": "../tree/#paper=2010_huang_lcm_lightweight_communications_and",
-      "mapUrl": "../map/#paper=2010_huang_lcm_lightweight_communications_and"
-    },
-    {
       "id": "2010_levinson_robust_vehicle_localization_in",
       "label": "Robust Vehicle Localization in Urban Environments Using Probabilistic Maps",
       "title": "Robust Vehicle Localization in Urban Environments Using Probabilistic Maps",
@@ -13232,33 +13644,63 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2010_levinson_robust_vehicle_localization_in"
     },
     {
-      "id": "2011_kucera_a_method_to_teach",
-      "label": "A Method to Teach the Parameterization of All Stabilizing Controllers",
-      "title": "A Method to Teach the Parameterization of All Stabilizing Controllers",
+      "id": "1009_4322",
+      "label": "A Simple Proof of Thue's Theorem on Circle Packing",
+      "title": "A Simple Proof of Thue's Theorem on Circle Packing",
       "authors": [
-        "Vladimir Kučera"
+        "Hai-Chau Chang",
+        "Lih-Chung Wang"
       ],
-      "authorShort": "Kučera",
-      "year": 2011,
-      "source": "IFAC Proceedings Volumes",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
+      "authorShort": "Chang, Wang",
+      "year": 2010,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Geometry & Tiling",
       "path": [
         "Tree",
-        "Decision-making",
-        "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
-        "A Method to Teach the Parameterization of All Stabilizing Controllers"
+        "Quantitative Foundations",
+        "Mathematics",
+        "Geometry & Tiling",
+        "A Simple Proof of Thue's Theorem on Circle Packing"
       ],
       "tags": [],
-      "abstract": "A simple and insightful method to teach the Youla-Kucera parameterization of all controllers that stabilize a given plant is presented. The text is intended for first-year graduate students in engineering. The result is derived first using transfer functions. A state-space representation of all stabilizing controllers then evolves from the transfer function result. Thus, the transfer functions and the state-space techniques are presented as connected approaches rather than isolated alternatives.",
+      "abstract": "A simple proof of Thue theorem on Circle Packing is given. The proof is only based on density analysis of Delaunay triangulation for the set of points that are centers of circles in a saturated circle configuration.",
       "summary": "",
-      "url": "../papers/2011_kucera_a_method_to_teach/",
-      "treeUrl": "../tree/#paper=2011_kucera_a_method_to_teach",
-      "mapUrl": "../map/#paper=2011_kucera_a_method_to_teach"
+      "url": "../papers/1009_4322/",
+      "treeUrl": "../tree/#paper=1009_4322",
+      "mapUrl": "../map/#paper=1009_4322"
+    },
+    {
+      "id": "2010_huang_lcm_lightweight_communications_and",
+      "label": "LCM",
+      "title": "LCM: Lightweight Communications and Marshalling",
+      "authors": [
+        "A S Huang",
+        "E Olson",
+        "D C Moore"
+      ],
+      "authorShort": "Huang, Olson, Moore",
+      "year": 2010,
+      "source": "2010 IEEE/RSJ International Conference on Intelligent Robots and Systems",
+      "type": "Conference Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Software & Programming",
+      "subCategory": "Message Protocols",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Message Protocols",
+        "LCM"
+      ],
+      "tags": [],
+      "abstract": "We describe the Lightweight Communications and Marshalling (LCM) library for message passing and data marshalling. The primary goal of LCM is to simplify the development of low-latency message passing systems, especially for real-time robotics research applications. Messages can be transmitted between different processes using LCM's publish/subscribe message-passing system. A platformand language-independent type specification language separates message description from implementation. Message specifications are automatically compiled into language-specific bindings, eliminating the need for users to implement marshalling code while guaranteeing run-time type safety. LCM is notable in providing a real-time deep traffic inspection tool that can decode and display message traffic with minimal user effort and no impact on overall system performance. This and other features emphasize LCM's focus on simplifying both the development and debugging of message passing systems. In this paper, we explain the design of LCM, evaluate its performance, and describe its application to a number of autonomous land, underwater, and aerial robots.",
+      "summary": "",
+      "url": "../papers/2010_huang_lcm_lightweight_communications_and/",
+      "treeUrl": "../tree/#paper=2010_huang_lcm_lightweight_communications_and",
+      "mapUrl": "../map/#paper=2010_huang_lcm_lightweight_communications_and"
     },
     {
       "id": "2011_lessard_quadratic_invariance_is_necessary",
@@ -13274,17 +13716,17 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
+      "subCategory": "Distributed Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
+        "Distributed Control",
+        "Decentralized Control",
         "Quadratic Invariance Is Necessary and Sufficient for Convexity"
       ],
       "tags": [],
-      "abstract": "In decentralized control problems, a standard approach is to specify the set of allowable decentralized controllers as a closed subspace of linear operators. This then induces a corresponding set of of Youla parameters. Previous work has shown that quadratic invariance of the controller set implies that the the set of Youla parameters is convex. In this short note, we prove the converse. We thereby show that the only decentralized control problems for which the set of Youla parameters is convex are those which are quadratically invariant.",
+      "abstract": "In decentralized control problems, a standard approach is to specify the set of allowable decentralized controllers as a closed subspace of linear operators. This then induces a corresponding set of Youla parameters. Previous work has shown that quadratic invariance of the controller set implies that the the set of Youla parameters is convex. In this short note, we prove the converse. We thereby show that the only decentralized control problems for which the set of Youla parameters is convex are those which are quadratically invariant.",
       "summary": "",
       "url": "../papers/2011_lessard_quadratic_invariance_is_necessary/",
       "treeUrl": "../tree/#paper=2011_lessard_quadratic_invariance_is_necessary",
@@ -13357,6 +13799,35 @@ window.timelineData = {
       "url": "../papers/2011_brach_the_tire_force_ellipse/",
       "treeUrl": "../tree/#paper=2011_brach_the_tire_force_ellipse",
       "mapUrl": "../map/#paper=2011_brach_the_tire_force_ellipse"
+    },
+    {
+      "id": "2011_kucera_a_method_to_teach",
+      "label": "A Method to Teach the Parameterization of All Stabilizing Controllers",
+      "title": "A Method to Teach the Parameterization of All Stabilizing Controllers",
+      "authors": [
+        "Vladimir Kučera"
+      ],
+      "authorShort": "Kučera",
+      "year": 2011,
+      "source": "IFAC Proceedings Volumes",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Theory",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Theory",
+        "Parameterization of Stabilizing Controllers",
+        "A Method to Teach the Parameterization of All Stabilizing Controllers"
+      ],
+      "tags": [],
+      "abstract": "A simple and insightful method to teach the Youla-Kucera parameterization of all controllers that stabilize a given plant is presented. The text is intended for first-year graduate students in engineering. The result is derived first using transfer functions. A state-space representation of all stabilizing controllers then evolves from the transfer function result. Thus, the transfer functions and the state-space techniques are presented as connected approaches rather than isolated alternatives.",
+      "summary": "",
+      "url": "../papers/2011_kucera_a_method_to_teach/",
+      "treeUrl": "../tree/#paper=2011_kucera_a_method_to_teach",
+      "mapUrl": "../map/#paper=2011_kucera_a_method_to_teach"
     },
     {
       "id": "2011_lehman_abandoning_objectives_evolution_through",
@@ -13899,6 +14370,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "Adaptive Linear Quadratic Control",
         "Regret Bounds for the Adaptive Control of Linear Quadratic Systems"
       ],
       "tags": [
@@ -13987,12 +14459,14 @@ window.timelineData = {
       "source": "2011 IEEE International Conference on Robotics and Automation",
       "type": "Conference Paper",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Flying Robots",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
         "Flying Robots",
         "Flying Inverted Pendulum"
       ],
@@ -14002,36 +14476,6 @@ window.timelineData = {
       "url": "../papers/2011_hehn_a_flying_inverted_pendulum/",
       "treeUrl": "../tree/#paper=2011_hehn_a_flying_inverted_pendulum",
       "mapUrl": "../map/#paper=2011_hehn_a_flying_inverted_pendulum"
-    },
-    {
-      "id": "2011_jegou_product_quantization_for_nearest",
-      "label": "Product Quantization for Nearest Neighbor Search",
-      "title": "Product Quantization for Nearest Neighbor Search",
-      "authors": [
-        "H Jégou",
-        "M Douze",
-        "C Schmid"
-      ],
-      "authorShort": "Jégou, Douze, Schmid",
-      "year": 2011,
-      "source": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Nearest Neighbor Search",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Nearest Neighbor Search",
-        "Product Quantization for Nearest Neighbor Search"
-      ],
-      "tags": [],
-      "abstract": "This paper introduces a product quantization-based approach for approximate nearest neighbor search. The idea is to decompose the space into a Cartesian product of low-dimensional subspaces and to quantize each subspace separately. A vector is represented by a short code composed of its subspace quantization indices. The euclidean distance between two vectors can be efficiently estimated from their codes. An asymmetric version increases precision, as it computes the approximate distance between a vector and a code. Experimental results show that our approach searches for nearest neighbors efficiently, in particular in combination with an inverted file system. Results for SIFT and GIST image descriptors show excellent search accuracy, outperforming three state-of-the-art approaches. The scalability of our approach is validated on a data set of two billion vectors.",
-      "summary": "",
-      "url": "../papers/2011_jegou_product_quantization_for_nearest/",
-      "treeUrl": "../tree/#paper=2011_jegou_product_quantization_for_nearest",
-      "mapUrl": "../map/#paper=2011_jegou_product_quantization_for_nearest"
     },
     {
       "id": "2011_levinson_towards_fully_autonomous_driving",
@@ -14059,15 +14503,17 @@ window.timelineData = {
       "year": 2011,
       "source": "2011 IEEE Intelligent Vehicles Symposium (IV)",
       "type": "Conference Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Evaluation",
       "category": "Engineering Systems",
       "subCategory": "Robots",
       "path": [
         "Tree",
-        "Foundations",
+        "Evaluation",
         "Engineering Systems",
         "Robots",
+        "Mobile Robots",
         "Driving Robots",
+        "DARPA Urban Challenge",
         "Towards Fully Autonomous Driving: Systems and Algorithms"
       ],
       "tags": [],
@@ -14136,6 +14582,37 @@ window.timelineData = {
       "url": "../papers/2011_joseph_a_bayesian_nonparametric_approach/",
       "treeUrl": "../tree/#paper=2011_joseph_a_bayesian_nonparametric_approach",
       "mapUrl": "../map/#paper=2011_joseph_a_bayesian_nonparametric_approach"
+    },
+    {
+      "id": "2011_jegou_product_quantization_for_nearest",
+      "label": "Product Quantization for Nearest Neighbor Search",
+      "title": "Product Quantization for Nearest Neighbor Search",
+      "authors": [
+        "H Jégou",
+        "M Douze",
+        "C Schmid"
+      ],
+      "authorShort": "Jégou, Douze, Schmid",
+      "year": 2011,
+      "source": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Nearest Neighbor Search",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Nearest Neighbor Search",
+        "Quantization",
+        "Product Quantization for Nearest Neighbor Search"
+      ],
+      "tags": [],
+      "abstract": "This paper introduces a product quantization-based approach for approximate nearest neighbor search. The idea is to decompose the space into a Cartesian product of low-dimensional subspaces and to quantize each subspace separately. A vector is represented by a short code composed of its subspace quantization indices. The euclidean distance between two vectors can be efficiently estimated from their codes. An asymmetric version increases precision, as it computes the approximate distance between a vector and a code. Experimental results show that our approach searches for nearest neighbors efficiently, in particular in combination with an inverted file system. Results for SIFT and GIST image descriptors show excellent search accuracy, outperforming three state-of-the-art approaches. The scalability of our approach is validated on a data set of two billion vectors.",
+      "summary": "",
+      "url": "../papers/2011_jegou_product_quantization_for_nearest/",
+      "treeUrl": "../tree/#paper=2011_jegou_product_quantization_for_nearest",
+      "mapUrl": "../map/#paper=2011_jegou_product_quantization_for_nearest"
     },
     {
       "id": "2012_schoellig_optimization_based_iterative_learning",
@@ -14712,13 +15189,15 @@ window.timelineData = {
       "source": "2012 IEEE/RSJ International Conference on Intelligent Robots and Systems",
       "type": "Conference Paper",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Balancing Robots",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
         "Balancing Robots",
+        "Reaction Wheel Inverted Pendulums",
         "Cubli"
       ],
       "tags": [],
@@ -14727,6 +15206,39 @@ window.timelineData = {
       "url": "../papers/2012_gajamohan_the_cubli_a_cube/",
       "treeUrl": "../tree/#paper=2012_gajamohan_the_cubli_a_cube",
       "mapUrl": "../map/#paper=2012_gajamohan_the_cubli_a_cube"
+    },
+    {
+      "id": "2012_mahony_multirotor_aerial_vehicles_modeling",
+      "label": "Multirotor Aerial Vehicles: Modeling, Estimation, and Control of Quadrotor",
+      "title": "Multirotor Aerial Vehicles: Modeling, Estimation, and Control of Quadrotor",
+      "authors": [
+        "Robert Mahony",
+        "Vijay Kumar",
+        "Peter Corke"
+      ],
+      "authorShort": "Mahony, Kumar, Corke",
+      "year": 2012,
+      "source": "IEEE Robotics & Automation Magazine",
+      "type": "Journal Paper",
+      "superCategory": "Evaluation",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Flying Robots",
+        "Multirotors",
+        "Multirotor Aerial Vehicles: Modeling, Estimation, and Control of Quadrotor"
+      ],
+      "tags": [],
+      "abstract": "This article provides a tutorial introduction to modeling, estimation, and control formultirotor aerial vehicles that includes the common four-rotor or quadrotor case.",
+      "summary": "",
+      "url": "../papers/2012_mahony_multirotor_aerial_vehicles_modeling/",
+      "treeUrl": "../tree/#paper=2012_mahony_multirotor_aerial_vehicles_modeling",
+      "mapUrl": "../map/#paper=2012_mahony_multirotor_aerial_vehicles_modeling"
     },
     {
       "id": "2012_jinek_a_programmable_dual_rna",
@@ -14744,12 +15256,12 @@ window.timelineData = {
       "year": 2012,
       "source": "Science",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Human & Natural Worlds",
       "category": "Biology",
       "subCategory": "Genetic Engineering",
       "path": [
         "Tree",
-        "Foundations",
+        "Human & Natural Worlds",
         "Biology",
         "Genetic Engineering",
         "CRISPR-Cas9"
@@ -14768,37 +15280,6 @@ window.timelineData = {
       "url": "../papers/2012_jinek_a_programmable_dual_rna/",
       "treeUrl": "../tree/#paper=2012_jinek_a_programmable_dual_rna",
       "mapUrl": "../map/#paper=2012_jinek_a_programmable_dual_rna"
-    },
-    {
-      "id": "2012_mahony_multirotor_aerial_vehicles_modeling",
-      "label": "Multirotor Aerial Vehicles: Modeling, Estimation, and Control of Quadrotor",
-      "title": "Multirotor Aerial Vehicles: Modeling, Estimation, and Control of Quadrotor",
-      "authors": [
-        "Robert Mahony",
-        "Vijay Kumar",
-        "Peter Corke"
-      ],
-      "authorShort": "Mahony, Kumar, Corke",
-      "year": 2012,
-      "source": "IEEE Robotics & Automation Magazine",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Engineering Systems",
-      "subCategory": "Robots",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Engineering Systems",
-        "Robots",
-        "Flying Robots",
-        "Multirotor Aerial Vehicles: Modeling, Estimation, and Control of Quadrotor"
-      ],
-      "tags": [],
-      "abstract": "This article provides a tutorial introduction to modeling, estimation, and control formultirotor aerial vehicles that includes the common four-rotor or quadrotor case.",
-      "summary": "",
-      "url": "../papers/2012_mahony_multirotor_aerial_vehicles_modeling/",
-      "treeUrl": "../tree/#paper=2012_mahony_multirotor_aerial_vehicles_modeling",
-      "mapUrl": "../map/#paper=2012_mahony_multirotor_aerial_vehicles_modeling"
     },
     {
       "id": "2012_krizhevsky_imagenet_classification_with_deep",
@@ -14891,38 +15372,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2013_johnson_accelerating_stochastic_gradient_descent"
     },
     {
-      "id": "1312_3039",
-      "label": "Conic Optimization via Operator Splitting and Homogeneous Self-Dual Embedding",
-      "title": "Conic Optimization via Operator Splitting and Homogeneous Self-Dual Embedding",
-      "authors": [
-        "Brendan O'Donoghue",
-        "Eric Chu",
-        "Neal Parikh",
-        "Stephen Boyd"
-      ],
-      "authorShort": "O'Donoghue, Chu, Parikh",
-      "year": 2013,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Toolboxes & Solvers",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Toolboxes & Solvers",
-        "Convex Optimization",
-        "Conic Optimization via Operator Splitting and Homogeneous Self-Dual Embedding"
-      ],
-      "tags": [],
-      "abstract": "We introduce a first order method for solving very large convex cone programs. The method uses an operator splitting method, the alternating directions method of multipliers, to solve the homogeneous self-dual embedding, an equivalent feasibility problem involving finding a nonzero point in the intersection of a subspace and a cone. This approach has several favorable properties. Compared to interior-point methods, first-order methods scale to very large problems, at the cost of requiring more time to reach very high accuracy. Compared to other first-order methods for cone programs, our approach finds both primal and dual solutions when available or a certificate of infeasibility or unboundedness otherwise, is parameter-free, and the per-iteration cost of the method is the same as applying a splitting method to the primal or dual alone. We discuss efficient implementation of the method in detail, including direct and indirect methods for computing projection onto the subspace, scaling the original problem data, and stopping criteria. We describe an open-source implementation, which handles the usual (symmetric) non-negative, second-order, and semidefinite cones as well as the (non-self-dual) exponential and power cones and their duals. We report numerical results that show speedups over interior-point cone solvers for large problems, and scaling to very large general cone programs.",
-      "summary": "",
-      "url": "../papers/1312_3039/",
-      "treeUrl": "../tree/#paper=1312_3039",
-      "mapUrl": "../map/#paper=1312_3039"
-    },
-    {
       "id": "2013_domahidi_ecos_an_socp_solver",
       "label": "ECOS",
       "title": "ECOS: An SOCP Solver for Embedded Systems",
@@ -14944,6 +15393,8 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
+        "Solvers",
+        "ECOS",
         "ECOS"
       ],
       "tags": [
@@ -14962,7 +15413,7 @@ window.timelineData = {
     },
     {
       "id": "2013_chu_code_generation_for_embedded",
-      "label": "Embedded SOCP Code Generation",
+      "label": "ECOS Code Gen",
       "title": "Code Generation for Embedded Second-Order Cone Programming",
       "authors": [
         "Eric Chu",
@@ -14983,7 +15434,9 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
-        "Embedded SOCP Code Generation"
+        "Solvers",
+        "ECOS",
+        "ECOS Code Gen"
       ],
       "tags": [
         "Second-order cone programming",
@@ -15039,6 +15492,39 @@ window.timelineData = {
       "url": "../papers/1301_1942/",
       "treeUrl": "../tree/#paper=1301_1942",
       "mapUrl": "../map/#paper=1301_1942"
+    },
+    {
+      "id": "1312_3039",
+      "label": "SCS",
+      "title": "Conic Optimization via Operator Splitting and Homogeneous Self-Dual Embedding",
+      "authors": [
+        "Brendan O'Donoghue",
+        "Eric Chu",
+        "Neal Parikh",
+        "Stephen Boyd"
+      ],
+      "authorShort": "O'Donoghue, Chu, Parikh",
+      "year": 2013,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Toolboxes & Solvers",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Convex Optimization",
+        "Solvers",
+        "SCS"
+      ],
+      "tags": [],
+      "abstract": "We introduce a first order method for solving very large convex cone programs. The method uses an operator splitting method, the alternating directions method of multipliers, to solve the homogeneous self-dual embedding, an equivalent feasibility problem involving finding a nonzero point in the intersection of a subspace and a cone. This approach has several favorable properties. Compared to interior-point methods, first-order methods scale to very large problems, at the cost of requiring more time to reach very high accuracy. Compared to other first-order methods for cone programs, our approach finds both primal and dual solutions when available or a certificate of infeasibility or unboundedness otherwise, is parameter-free, and the per-iteration cost of the method is the same as applying a splitting method to the primal or dual alone. We discuss efficient implementation of the method in detail, including direct and indirect methods for computing projection onto the subspace, scaling the original problem data, and stopping criteria. We describe an open-source implementation, which handles the usual (symmetric) non-negative, second-order, and semidefinite cones as well as the (non-self-dual) exponential and power cones and their duals. We report numerical results that show speedups over interior-point cone solvers for large problems, and scaling to very large general cone programs.",
+      "summary": "",
+      "url": "../papers/1312_3039/",
+      "treeUrl": "../tree/#paper=1312_3039",
+      "mapUrl": "../map/#paper=1312_3039"
     },
     {
       "id": "2013_luna_anytime_solution_optimization_for",
@@ -15505,12 +15991,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Reinforcement Learning",
-      "subCategory": "Applications",
+      "subCategory": "Inverse Reinforcement Learning & Reward Learning",
       "path": [
         "Tree",
         "Decision-making",
         "Reinforcement Learning",
-        "Applications",
+        "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Reinforcement Learning",
         "Learning Objective Functions for Manipulation"
       ],
       "tags": [],
@@ -15537,12 +16024,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
+      "subCategory": "Linear Systems",
       "path": [
         "Tree",
         "Decision-making",
         "Reinforcement Learning",
-        "Nonlinear Systems",
+        "Linear Systems",
         "Model-based RL",
         "System Identification",
         "Dynamic Mode Decomposition (DMD)",
@@ -15653,12 +16140,12 @@ window.timelineData = {
       "year": 2013,
       "source": "Science",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Human & Natural Worlds",
       "category": "Biology",
       "subCategory": "Genetic Engineering",
       "path": [
         "Tree",
-        "Foundations",
+        "Human & Natural Worlds",
         "Biology",
         "Genetic Engineering",
         "CRISPR-Cas9 Genome Editing"
@@ -15820,12 +16307,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "Distributed & Networked Control",
+      "subCategory": "Distributed Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "Distributed & Networked Control",
+        "Distributed Control",
         "Control of Networks",
         "Control Profiles of Complex Networks"
       ],
@@ -15850,13 +16337,14 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
+      "subCategory": "Robot Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
+        "Robot Control",
+        "Tracking control",
+        "Tracking Control for Aerial Robots",
         "Stability and control of a quadrocopter despite the complete loss of one, two, or three propellers"
       ],
       "tags": [],
@@ -16748,6 +17236,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "Adaptive Linear Quadratic Control",
         "A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum"
       ],
       "tags": [],
@@ -16772,12 +17261,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
+      "subCategory": "Linear Systems",
       "path": [
         "Tree",
         "Decision-making",
         "Reinforcement Learning",
-        "Nonlinear Systems",
+        "Linear Systems",
         "Model-based RL",
         "System Identification",
         "Dynamic Mode Decomposition (DMD)",
@@ -16861,7 +17350,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Model-based RL",
         "System Identification",
-        "Dynamic Mode Decomposition (DMD)",
+        "Extended Dynamic Mode Decomposition (eDMD) and Koopman",
         "eDMD"
       ],
       "tags": [
@@ -16910,114 +17399,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2014_barragan_interactive_bayesian_identification_of"
     },
     {
-      "id": "2014_lupashin_a_platform_for_aerial",
-      "label": "Flying Machine Arena",
-      "title": "A Platform for Aerial Robotics Research and Demonstration: The Flying Machine Arena",
-      "authors": [
-        "Sergei Lupashin",
-        "Markus Hehn",
-        "Mark W. Mueller",
-        "Angela P. Schoellig",
-        "Michael Sherback",
-        "Raffaello D’Andrea"
-      ],
-      "authorShort": "Lupashin, Hehn, Mueller",
-      "year": 2014,
-      "source": "Mechatronics",
-      "type": "Journal Paper",
-      "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Flying Robots",
-      "path": [
-        "Tree",
-        "Evaluation",
-        "Robot Platforms",
-        "Flying Robots",
-        "Flying Machine Arena"
-      ],
-      "tags": [],
-      "abstract": "The Flying Machine Arena is a platform for experiments and demonstrations with fleets of small flying vehicles. It utilizes a distributed, modular architecture linked by robust communication layers. An estimation and control framework along with built-in system protection components enable prototyping of new control systems concepts and implementation of novel demonstrations. More recently, a mobile version has been featured at several eminent public events. We describe the architecture of the Arena from the viewpoint of system robustness and its capability as a dual-purpose research and demonstration platform.",
-      "summary": "",
-      "url": "../papers/2014_lupashin_a_platform_for_aerial/",
-      "treeUrl": "../tree/#paper=2014_lupashin_a_platform_for_aerial",
-      "mapUrl": "../map/#paper=2014_lupashin_a_platform_for_aerial"
-    },
-    {
-      "id": "2014_muja_scalable_nearest_neighbor_algorithms",
-      "label": "FLANN",
-      "title": "Scalable Nearest Neighbor Algorithms for High Dimensional Data",
-      "authors": [
-        "Marius Muja",
-        "David G. Lowe"
-      ],
-      "authorShort": "Muja, Lowe",
-      "year": 2014,
-      "source": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Nearest Neighbor Search",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Nearest Neighbor Search",
-        "FLANN"
-      ],
-      "tags": [
-        "Nearest neighbor search",
-        "Approximate nearest neighbors",
-        "FLANN",
-        "Randomized kd forest",
-        "K-means tree",
-        "Computer vision",
-        "High-dimensional data"
-      ],
-      "abstract": "For many computer vision and machine learning problems, large training sets are key for good performance. However, the most computationally expensive part of many computer vision and machine learning algorithms consists of finding nearest neighbor matches to high dimensional vectors that represent the training data. We propose new algorithms for approximate nearest neighbor matching and evaluate and compare them with previous algorithms. For matching high dimensional features, we find two algorithms to be the most efficient: the randomized k-d forest and a new algorithm proposed in this paper, the priority search k-means tree. We also propose a new algorithm for matching binary features by searching multiple hierarchical clustering trees and show it outperforms methods typically used in the literature. We show that the optimal nearest neighbor algorithm and its parameters depend on the data set characteristics and describe an automated configuration procedure for finding the best algorithm to search a particular data set. In order to scale to very large data sets that would otherwise not fit in the memory of a single machine, we propose a distributed nearest neighbor matching framework that can be used with any of the algorithms described in the paper. All this research has been released as an open source library called fast library for approximate nearest neighbors (FLANN), which has been incorporated into OpenCV and is now one of the most popular libraries for nearest neighbor matching.",
-      "summary": "Unifies several approximate nearest-neighbor search strategies behind an automatic configuration procedure and releases them through FLANN. The practical lesson is that no single ANN index dominates; data-dependent algorithm selection matters.",
-      "url": "../papers/2014_muja_scalable_nearest_neighbor_algorithms/",
-      "treeUrl": "../tree/#paper=2014_muja_scalable_nearest_neighbor_algorithms",
-      "mapUrl": "../map/#paper=2014_muja_scalable_nearest_neighbor_algorithms"
-    },
-    {
-      "id": "2014_fan_cuckoo_filter_practically_better",
-      "label": "Cuckoo Filter",
-      "title": "Cuckoo Filter: Practically Better than Bloom",
-      "authors": [
-        "Bin Fan",
-        "David G. Andersen",
-        "Michael Kaminsky",
-        "Michael D. Mitzenmacher"
-      ],
-      "authorShort": "Fan, Andersen, Kaminsky",
-      "year": 2014,
-      "source": "ACM International Conference on Emerging Networking Experiments and Technologies (CoNEXT)",
-      "type": "Conference Paper",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Probabilistic Data Structures",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Probabilistic Data Structures",
-        "Cuckoo Filter"
-      ],
-      "tags": [
-        "Cuckoo filter",
-        "Bloom filter",
-        "Approximate membership",
-        "Probabilistic data structures",
-        "Hashing",
-        "Networking"
-      ],
-      "abstract": "In many networking systems, Bloom filters are used for high-speed set membership tests. They permit a small fraction of false positive answers with very good space efficiency. However, they do not permit deletion of items from the set, and previous attempts to extend standard Bloom filters to support deletion all degrade either space or performance. We propose a new data structure called the cuckoo filter that can replace Bloom filters for approximate set membership tests. Cuckoo filters support adding and removing items dynamically while achieving even higher performance than Bloom filters. For applications that store many items and target moderately low false positive rates, cuckoo filters have lower space overhead than space-optimized Bloom filters. Our experimental results also show that cuckoo filters outperform previous data structures that extend Bloom filters to support deletions substantially in both time and space.",
-      "summary": "Introduces cuckoo filters as a deletion-friendly approximate membership structure that can beat Bloom filters at practical false-positive rates. The paper is useful because it turns cuckoo hashing into a compact fingerprint table with strong lookup and update performance.",
-      "url": "../papers/2014_fan_cuckoo_filter_practically_better/",
-      "treeUrl": "../tree/#paper=2014_fan_cuckoo_filter_practically_better",
-      "mapUrl": "../map/#paper=2014_fan_cuckoo_filter_practically_better"
-    },
-    {
       "id": "2014_tedrake_a_summary_of_team",
       "label": "A summary of team MIT's approach to the virtual robotics challenge",
       "title": "A Summary of Team MIT's Approach to the Virtual Robotics Challenge",
@@ -17053,15 +17434,17 @@ window.timelineData = {
       "year": 2014,
       "source": "2014 IEEE International Conference on Robotics and Automation (ICRA)",
       "type": "Conference Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Evaluation",
       "category": "Engineering Systems",
       "subCategory": "Robots",
       "path": [
         "Tree",
-        "Foundations",
+        "Evaluation",
         "Engineering Systems",
         "Robots",
+        "Mobile Robots",
         "Walking Robots",
+        "Bipeds",
         "A summary of team MIT's approach to the virtual robotics challenge"
       ],
       "tags": [],
@@ -17070,6 +17453,41 @@ window.timelineData = {
       "url": "../papers/2014_tedrake_a_summary_of_team/",
       "treeUrl": "../tree/#paper=2014_tedrake_a_summary_of_team",
       "mapUrl": "../map/#paper=2014_tedrake_a_summary_of_team"
+    },
+    {
+      "id": "2014_lupashin_a_platform_for_aerial",
+      "label": "Flying Machine Arena",
+      "title": "A Platform for Aerial Robotics Research and Demonstration: The Flying Machine Arena",
+      "authors": [
+        "Sergei Lupashin",
+        "Markus Hehn",
+        "Mark W. Mueller",
+        "Angela P. Schoellig",
+        "Michael Sherback",
+        "Raffaello D’Andrea"
+      ],
+      "authorShort": "Lupashin, Hehn, Mueller",
+      "year": 2014,
+      "source": "Mechatronics",
+      "type": "Journal Paper",
+      "superCategory": "Evaluation",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Flying Robots",
+        "Flying Machine Arena"
+      ],
+      "tags": [],
+      "abstract": "The Flying Machine Arena is a platform for experiments and demonstrations with fleets of small flying vehicles. It utilizes a distributed, modular architecture linked by robust communication layers. An estimation and control framework along with built-in system protection components enable prototyping of new control systems concepts and implementation of novel demonstrations. More recently, a mobile version has been featured at several eminent public events. We describe the architecture of the Arena from the viewpoint of system robustness and its capability as a dual-purpose research and demonstration platform.",
+      "summary": "",
+      "url": "../papers/2014_lupashin_a_platform_for_aerial/",
+      "treeUrl": "../tree/#paper=2014_lupashin_a_platform_for_aerial",
+      "mapUrl": "../map/#paper=2014_lupashin_a_platform_for_aerial"
     },
     {
       "id": "1406_5670",
@@ -17409,6 +17827,82 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2014_ta_a_factor_graph_approach"
     },
     {
+      "id": "2014_muja_scalable_nearest_neighbor_algorithms",
+      "label": "FLANN",
+      "title": "Scalable Nearest Neighbor Algorithms for High Dimensional Data",
+      "authors": [
+        "Marius Muja",
+        "David G. Lowe"
+      ],
+      "authorShort": "Muja, Lowe",
+      "year": 2014,
+      "source": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Nearest Neighbor Search",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Nearest Neighbor Search",
+        "Approximate Nearest Neighbor Search",
+        "FLANN"
+      ],
+      "tags": [
+        "Nearest neighbor search",
+        "Approximate nearest neighbors",
+        "FLANN",
+        "Randomized kd forest",
+        "K-means tree",
+        "Computer vision",
+        "High-dimensional data"
+      ],
+      "abstract": "For many computer vision and machine learning problems, large training sets are key for good performance. However, the most computationally expensive part of many computer vision and machine learning algorithms consists of finding nearest neighbor matches to high dimensional vectors that represent the training data. We propose new algorithms for approximate nearest neighbor matching and evaluate and compare them with previous algorithms. For matching high dimensional features, we find two algorithms to be the most efficient: the randomized k-d forest and a new algorithm proposed in this paper, the priority search k-means tree. We also propose a new algorithm for matching binary features by searching multiple hierarchical clustering trees and show it outperforms methods typically used in the literature. We show that the optimal nearest neighbor algorithm and its parameters depend on the data set characteristics and describe an automated configuration procedure for finding the best algorithm to search a particular data set. In order to scale to very large data sets that would otherwise not fit in the memory of a single machine, we propose a distributed nearest neighbor matching framework that can be used with any of the algorithms described in the paper. All this research has been released as an open source library called fast library for approximate nearest neighbors (FLANN), which has been incorporated into OpenCV and is now one of the most popular libraries for nearest neighbor matching.",
+      "summary": "Unifies several approximate nearest-neighbor search strategies behind an automatic configuration procedure and releases them through FLANN. The practical lesson is that no single ANN index dominates; data-dependent algorithm selection matters.",
+      "url": "../papers/2014_muja_scalable_nearest_neighbor_algorithms/",
+      "treeUrl": "../tree/#paper=2014_muja_scalable_nearest_neighbor_algorithms",
+      "mapUrl": "../map/#paper=2014_muja_scalable_nearest_neighbor_algorithms"
+    },
+    {
+      "id": "2014_fan_cuckoo_filter_practically_better",
+      "label": "Cuckoo Filter",
+      "title": "Cuckoo Filter: Practically Better than Bloom",
+      "authors": [
+        "Bin Fan",
+        "David G. Andersen",
+        "Michael Kaminsky",
+        "Michael D. Mitzenmacher"
+      ],
+      "authorShort": "Fan, Andersen, Kaminsky",
+      "year": 2014,
+      "source": "ACM International Conference on Emerging Networking Experiments and Technologies (CoNEXT)",
+      "type": "Conference Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Probabilistic Data Structures",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Probabilistic Data Structures",
+        "Cuckoo Filter"
+      ],
+      "tags": [
+        "Cuckoo filter",
+        "Bloom filter",
+        "Approximate membership",
+        "Probabilistic data structures",
+        "Hashing",
+        "Networking"
+      ],
+      "abstract": "In many networking systems, Bloom filters are used for high-speed set membership tests. They permit a small fraction of false positive answers with very good space efficiency. However, they do not permit deletion of items from the set, and previous attempts to extend standard Bloom filters to support deletion all degrade either space or performance. We propose a new data structure called the cuckoo filter that can replace Bloom filters for approximate set membership tests. Cuckoo filters support adding and removing items dynamically while achieving even higher performance than Bloom filters. For applications that store many items and target moderately low false positive rates, cuckoo filters have lower space overhead than space-optimized Bloom filters. Our experimental results also show that cuckoo filters outperform previous data structures that extend Bloom filters to support deletions substantially in both time and space.",
+      "summary": "Introduces cuckoo filters as a deletion-friendly approximate membership structure that can beat Bloom filters at practical false-positive rates. The paper is useful because it turns cuckoo hashing into a compact fingerprint table with strong lookup and update performance.",
+      "url": "../papers/2014_fan_cuckoo_filter_practically_better/",
+      "treeUrl": "../tree/#paper=2014_fan_cuckoo_filter_practically_better",
+      "mapUrl": "../map/#paper=2014_fan_cuckoo_filter_practically_better"
+    },
+    {
       "id": "1508_05384",
       "label": "Control Principles of Complex Networks",
       "title": "Control Principles of Complex Networks",
@@ -17422,12 +17916,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "Distributed & Networked Control",
+      "subCategory": "Distributed Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "Distributed & Networked Control",
+        "Distributed Control",
         "Control of Networks",
         "Control Principles of Complex Networks"
       ],
@@ -18424,36 +18918,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1512_09075"
     },
     {
-      "id": "1501_01571",
-      "label": "An Introduction to Matrix Concentration Inequalities",
-      "title": "An Introduction to Matrix Concentration Inequalities",
-      "authors": [
-        "Joel A. Tropp"
-      ],
-      "authorShort": "Tropp",
-      "year": 2015,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "An Introduction to Matrix Concentration Inequalities"
-      ],
-      "tags": [],
-      "abstract": "In recent years, random matrices have come to play a major role in computational mathematics, but most of the classical areas of random matrix theory remain the province of experts. Over the last decade, with the advent of matrix concentration inequalities, research has advanced to the point where we can conquer many (formerly) challenging problems with a page or two of arithmetic. The aim of this monograph is to describe the most successful methods from this area along with some interesting examples that these techniques can illuminate.",
-      "summary": "",
-      "url": "../papers/1501_01571/",
-      "treeUrl": "../tree/#paper=1501_01571",
-      "mapUrl": "../map/#paper=1501_01571"
-    },
-    {
       "id": "1509_02971",
       "label": "DDPG",
       "title": "Continuous Control with Deep Reinforcement Learning",
@@ -18785,15 +19249,17 @@ window.timelineData = {
       "year": 2015,
       "source": "Autonomous Robots",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Evaluation",
       "category": "Engineering Systems",
       "subCategory": "Robots",
       "path": [
         "Tree",
-        "Foundations",
+        "Evaluation",
         "Engineering Systems",
         "Robots",
+        "Mobile Robots",
         "Walking Robots",
+        "Bipeds",
         "Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot"
       ],
       "tags": [],
@@ -18802,65 +19268,6 @@ window.timelineData = {
       "url": "../papers/2015_kuindersma_optimization_based_locomotion_planning/",
       "treeUrl": "../tree/#paper=2015_kuindersma_optimization_based_locomotion_planning",
       "mapUrl": "../map/#paper=2015_kuindersma_optimization_based_locomotion_planning"
-    },
-    {
-      "id": "2015_stanley_why_greatness_cannot_be",
-      "label": "Why Greatness Cannot Be Planned",
-      "title": "Why Greatness Cannot Be Planned",
-      "authors": [
-        "Kenneth O. Stanley",
-        "Joel Lehman"
-      ],
-      "authorShort": "Stanley, Lehman",
-      "year": 2015,
-      "source": "",
-      "type": "Other",
-      "superCategory": "Foundations",
-      "category": "Software & Programming",
-      "subCategory": "Essays",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Software & Programming",
-        "Essays",
-        "Why Greatness Cannot Be Planned"
-      ],
-      "tags": [],
-      "abstract": "Why does modern life revolve around objectives? From how science is funded, to improving how children are educated - and nearly everything in-between - our society has become obsessed with a seductive illusion: that greatness results from doggedly measuring improvement in the relentless pursuit of an ambitious goal. In Why Greatness Cannot Be Planned, Stanley and Lehman begin with a surprising scientific discovery in artificial intelligence that leads ultimately to the conclusion that the objective obsession has gone too far. They make the case that great achievement can't be bottled up into mechanical metrics; that innovation is not driven by narrowly focused heroic effort; and that we would be wiser (and the outcomes better) if instead we whole-heartedly embraced serendipitous discovery and playful creativity.Controversial at its heart, yet refreshingly provocative, this book challenges readers to consider life without a destination and discovery without a compass.",
-      "summary": "",
-      "url": "../papers/2015_stanley_why_greatness_cannot_be/",
-      "treeUrl": "../tree/#paper=2015_stanley_why_greatness_cannot_be",
-      "mapUrl": "../map/#paper=2015_stanley_why_greatness_cannot_be"
-    },
-    {
-      "id": "2015_lam_numba",
-      "label": "Numba",
-      "title": "Numba",
-      "authors": [
-        "Siu Kwan Lam",
-        "Antoine Pitrou",
-        "Stanley Seibert"
-      ],
-      "authorShort": "Lam, Pitrou, Seibert",
-      "year": 2015,
-      "source": "Proceedings of the Second Workshop on the LLVM Compiler Infrastructure in HPC",
-      "type": "Conference Paper",
-      "superCategory": "Foundations",
-      "category": "Software & Programming",
-      "subCategory": "Scientific Computing",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Software & Programming",
-        "Scientific Computing",
-        "Numba"
-      ],
-      "tags": [],
-      "abstract": "Dynamic, interpreted languages, like Python, are attractive for domain-experts and scientists experimenting with new ideas. However, the performance of the interpreter is often a barrier when scaling to larger data sets. This paper presents a just-in-time compiler for Python that focuses in scientific and array-oriented computing. Starting with the simple syntax of Python, Numba compiles a subset of the language into efficient machine code that is comparable in performance to a traditional compiled language. In addition, we share our experience in building a JIT compiler using LLVM.",
-      "summary": "",
-      "url": "../papers/2015_lam_numba/",
-      "treeUrl": "../tree/#paper=2015_lam_numba",
-      "mapUrl": "../map/#paper=2015_lam_numba"
     },
     {
       "id": "1512_03012",
@@ -19203,12 +19610,13 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Kalman Filter",
+      "subCategory": "Optimal State Estimation (Kalman Filters)",
       "path": [
         "Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Kalman Filter",
+        "Optimal State Estimation (Kalman Filters)",
+        "Nonlinear Systems",
         "Differential Dynamic Programming for Optimal Estimation"
       ],
       "tags": [],
@@ -19217,6 +19625,94 @@ window.timelineData = {
       "url": "../papers/2015_kobilarov_differential_dynamic_programming_for/",
       "treeUrl": "../tree/#paper=2015_kobilarov_differential_dynamic_programming_for",
       "mapUrl": "../map/#paper=2015_kobilarov_differential_dynamic_programming_for"
+    },
+    {
+      "id": "1501_01571",
+      "label": "An Introduction to Matrix Concentration Inequalities",
+      "title": "An Introduction to Matrix Concentration Inequalities",
+      "authors": [
+        "Joel A. Tropp"
+      ],
+      "authorShort": "Tropp",
+      "year": 2015,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Statistics & Probability",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Statistics & Probability",
+        "Concentration Bounds",
+        "An Introduction to Matrix Concentration Inequalities"
+      ],
+      "tags": [],
+      "abstract": "In recent years, random matrices have come to play a major role in computational mathematics, but most of the classical areas of random matrix theory remain the province of experts. Over the last decade, with the advent of matrix concentration inequalities, research has advanced to the point where we can conquer many (formerly) challenging problems with a page or two of arithmetic. The aim of this monograph is to describe the most successful methods from this area along with some interesting examples that these techniques can illuminate.",
+      "summary": "",
+      "url": "../papers/1501_01571/",
+      "treeUrl": "../tree/#paper=1501_01571",
+      "mapUrl": "../map/#paper=1501_01571"
+    },
+    {
+      "id": "2015_stanley_why_greatness_cannot_be",
+      "label": "Why Greatness Cannot Be Planned",
+      "title": "Why Greatness Cannot Be Planned",
+      "authors": [
+        "Kenneth O. Stanley",
+        "Joel Lehman"
+      ],
+      "authorShort": "Stanley, Lehman",
+      "year": 2015,
+      "source": "",
+      "type": "Other",
+      "superCategory": "Quantitative Foundations",
+      "category": "Software & Programming",
+      "subCategory": "Essays",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Essays",
+        "Why Greatness Cannot Be Planned"
+      ],
+      "tags": [],
+      "abstract": "Why does modern life revolve around objectives? From how science is funded, to improving how children are educated - and nearly everything in-between - our society has become obsessed with a seductive illusion: that greatness results from doggedly measuring improvement in the relentless pursuit of an ambitious goal. In Why Greatness Cannot Be Planned, Stanley and Lehman begin with a surprising scientific discovery in artificial intelligence that leads ultimately to the conclusion that the objective obsession has gone too far. They make the case that great achievement can't be bottled up into mechanical metrics; that innovation is not driven by narrowly focused heroic effort; and that we would be wiser (and the outcomes better) if instead we whole-heartedly embraced serendipitous discovery and playful creativity.Controversial at its heart, yet refreshingly provocative, this book challenges readers to consider life without a destination and discovery without a compass.",
+      "summary": "",
+      "url": "../papers/2015_stanley_why_greatness_cannot_be/",
+      "treeUrl": "../tree/#paper=2015_stanley_why_greatness_cannot_be",
+      "mapUrl": "../map/#paper=2015_stanley_why_greatness_cannot_be"
+    },
+    {
+      "id": "2015_lam_numba",
+      "label": "Numba",
+      "title": "Numba",
+      "authors": [
+        "Siu Kwan Lam",
+        "Antoine Pitrou",
+        "Stanley Seibert"
+      ],
+      "authorShort": "Lam, Pitrou, Seibert",
+      "year": 2015,
+      "source": "Proceedings of the Second Workshop on the LLVM Compiler Infrastructure in HPC",
+      "type": "Conference Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Software & Programming",
+      "subCategory": "Scientific Computing",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Scientific Computing",
+        "Numba"
+      ],
+      "tags": [],
+      "abstract": "Dynamic, interpreted languages, like Python, are attractive for domain-experts and scientists experimenting with new ideas. However, the performance of the interpreter is often a barrier when scaling to larger data sets. This paper presents a just-in-time compiler for Python that focuses in scientific and array-oriented computing. Starting with the simple syntax of Python, Numba compiles a subset of the language into efficient machine code that is comparable in performance to a traditional compiled language. In addition, we share our experience in building a JIT compiler using LLVM.",
+      "summary": "",
+      "url": "../papers/2015_lam_numba/",
+      "treeUrl": "../tree/#paper=2015_lam_numba",
+      "mapUrl": "../map/#paper=2015_lam_numba"
     },
     {
       "id": "2016_rakovic_elastic_tube_model_predictive",
@@ -19528,6 +20024,8 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
+        "CVX Ecosystem",
+        "CVX Base",
         "CVXPY"
       ],
       "tags": [],
@@ -19560,6 +20058,8 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
+        "CVX Ecosystem",
+        "CVX Extensions",
         "Disciplined Convex-Concave Programming"
       ],
       "tags": [],
@@ -19593,6 +20093,8 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
+        "CVX Ecosystem",
+        "CVX Extensions",
         "Disciplined Multi-Convex Programming"
       ],
       "tags": [],
@@ -19965,6 +20467,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Reinforcement Learning",
+        "Adversarial",
         "A Connection between Generative Adversarial Networks, Inverse Reinforcement Learning, and Energy-Based Models"
       ],
       "tags": [],
@@ -19995,6 +20499,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Optimal Control",
         "Guided Cost Learning: Deep Inverse Optimal Control via Policy Optimization"
       ],
       "tags": [],
@@ -20003,6 +20508,40 @@ window.timelineData = {
       "url": "../papers/1603_00448/",
       "treeUrl": "../tree/#paper=1603_00448",
       "mapUrl": "../map/#paper=1603_00448"
+    },
+    {
+      "id": "1603_09157",
+      "label": "Linear System Identification via EM with Latent Disturbances and Lagrangian Relaxation",
+      "title": "Linear System Identification via EM with Latent Disturbances and Lagrangian Relaxation",
+      "authors": [
+        "Jack Umenberger",
+        "Johan Wågberg",
+        "Ian R. Manchester",
+        "Thomas B. Schön"
+      ],
+      "authorShort": "Umenberger, Wågberg, Manchester",
+      "year": 2016,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Linear Systems with Additive Noise",
+        "Linear System Identification via EM with Latent Disturbances and Lagrangian Relaxation"
+      ],
+      "tags": [],
+      "abstract": "In the application of the Expectation Maximization algorithm to identification of dynamical systems, internal states are typically chosen as latent variables, for simplicity. In this work, we propose a different choice of latent variables, namely, system disturbances. Such a formulation elegantly handles the problematic case of singular state space models, and is shown, under certain circumstances, to improve the fidelity of bounds on the likelihood, leading to convergence in fewer iterations. To access these benefits we develop a Lagrangian relaxation of the nonconvex optimization problems that arise in the latent disturbances formulation, and proceed via semidefinite programming.",
+      "summary": "",
+      "url": "../papers/1603_09157/",
+      "treeUrl": "../tree/#paper=1603_09157",
+      "mapUrl": "../map/#paper=1603_09157"
     },
     {
       "id": "1602_01783",
@@ -20174,39 +20713,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2016_thomas_energetic_natural_gradient_descent"
     },
     {
-      "id": "1603_09157",
-      "label": "Linear System Identification via EM with Latent Disturbances and Lagrangian Relaxation",
-      "title": "Linear System Identification via EM with Latent Disturbances and Lagrangian Relaxation",
-      "authors": [
-        "Jack Umenberger",
-        "Johan Wågberg",
-        "Ian R. Manchester",
-        "Thomas B. Schön"
-      ],
-      "authorShort": "Umenberger, Wågberg, Manchester",
-      "year": 2016,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "Linear System Identification via EM with Latent Disturbances and Lagrangian Relaxation"
-      ],
-      "tags": [],
-      "abstract": "In the application of the Expectation Maximization algorithm to identification of dynamical systems, internal states are typically chosen as latent variables, for simplicity. In this work, we propose a different choice of latent variables, namely, system disturbances. Such a formulation elegantly handles the problematic case of singular state space models, and is shown, under certain circumstances, to improve the fidelity of bounds on the likelihood, leading to convergence in fewer iterations. To access these benefits we develop a Lagrangian relaxation of the nonconvex optimization problems that arise in the latent disturbances formulation, and proceed via semidefinite programming.",
-      "summary": "",
-      "url": "../papers/1603_09157/",
-      "treeUrl": "../tree/#paper=1603_09157",
-      "mapUrl": "../map/#paper=1603_09157"
-    },
-    {
       "id": "1610_01439",
       "label": "Nonlinear Systems Identification Using Deep Dynamic Neural Networks",
       "title": "Nonlinear Systems Identification Using Deep Dynamic Neural Networks",
@@ -20230,7 +20736,6 @@ window.timelineData = {
         "Nonlinear Systems",
         "Model-based RL",
         "System Identification",
-        "Sparse Identification of Nonlinear Dynamics (SINDy)",
         "Nonlinear Systems Identification Using Deep Dynamic Neural Networks"
       ],
       "tags": [],
@@ -20293,11 +20798,12 @@ window.timelineData = {
       "type": "Technical Report",
       "superCategory": "Evaluation",
       "category": "Benchmarks",
-      "subCategory": "Gym",
+      "subCategory": "Gyms",
       "path": [
         "Tree",
         "Evaluation",
         "Benchmarks",
+        "Gyms",
         "Gym"
       ],
       "tags": [
@@ -20340,12 +20846,15 @@ window.timelineData = {
       "source": "2016 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
       "type": "Conference Paper",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Quadrupeds",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Walking Robots",
         "Quadrupeds",
         "ANYmal"
       ],
@@ -20458,63 +20967,6 @@ window.timelineData = {
       "url": "../papers/2016_kalra_driving_to_safety_how/",
       "treeUrl": "../tree/#paper=2016_kalra_driving_to_safety_how",
       "mapUrl": "../map/#paper=2016_kalra_driving_to_safety_how"
-    },
-    {
-      "id": "1603_09320",
-      "label": "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs",
-      "title": "Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs",
-      "authors": [
-        "Yu. A. Malkov",
-        "D. A. Yashunin"
-      ],
-      "authorShort": "Malkov, Yashunin",
-      "year": 2016,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Nearest Neighbor Search",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Nearest Neighbor Search",
-        "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs"
-      ],
-      "tags": [],
-      "abstract": "We present a new approach for the approximate K-nearest neighbor search based on navigable small world graphs with controllable hierarchy (Hierarchical NSW, HNSW). The proposed solution is fully graph-based, without any need for additional search structures, which are typically used at the coarse search stage of the most proximity graph techniques. Hierarchical NSW incrementally builds a multi-layer structure consisting from hierarchical set of proximity graphs (layers) for nested subsets of the stored elements. The maximum layer in which an element is present is selected randomly with an exponentially decaying probability distribution. This allows producing graphs similar to the previously studied Navigable Small World (NSW) structures while additionally having the links separated by their characteristic distance scales. Starting search from the upper layer together with utilizing the scale separation boosts the performance compared to NSW and allows a logarithmic complexity scaling. Additional employment of a heuristic for selecting proximity graph neighbors significantly increases performance at high recall and in case of highly clustered data. Performance evaluation has demonstrated that the proposed general metric space search index is able to strongly outperform previous opensource state-of-the-art vector-only approaches. Similarity of the algorithm to the skip list structure allows straightforward balanced distributed implementation.",
-      "summary": "",
-      "url": "../papers/1603_09320/",
-      "treeUrl": "../tree/#paper=1603_09320",
-      "mapUrl": "../map/#paper=1603_09320"
-    },
-    {
-      "id": "2016_de_carvalho_mean_what_do_you",
-      "label": "Mean, What do You Mean?",
-      "title": "Mean, What Do You Mean?",
-      "authors": [
-        "Miguel de Carvalho"
-      ],
-      "authorShort": "Carvalho",
-      "year": 2016,
-      "source": "The American Statistician",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Statistics & Probability",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Mathematics",
-        "Statistics & Probability",
-        "Mean, What do You Mean?"
-      ],
-      "tags": [],
-      "abstract": "When teaching statistics we often resort to several notions of mean, such as arithmetic mean, geometric mean, and harmonic mean, and hence the student is often left with the question: The word mean appears in all such concepts, so what is actually a mean? I revisit Kolmogorov's axiomatic view of the mean, which unifies all these concepts of mean, among others. A population counterpart of the notion of regular mean, along with notions of regular variance and standard deviation will also be discussed here as unifying concepts. Some examples are used to illustrate main ideas.",
-      "summary": "",
-      "url": "../papers/2016_de_carvalho_mean_what_do_you/",
-      "treeUrl": "../tree/#paper=2016_de_carvalho_mean_what_do_you",
-      "mapUrl": "../map/#paper=2016_de_carvalho_mean_what_do_you"
     },
     {
       "id": "1611_01704",
@@ -20665,7 +21117,7 @@ window.timelineData = {
         "Machine Learning",
         "Deep Learning",
         "Neural Networks",
-        "Theory & Empirical Observations",
+        "Theory & Science",
         "Understanding deep learning requires rethinking generalization"
       ],
       "tags": [],
@@ -20805,6 +21257,64 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2016_huang_visual_odometry_and_mapping"
     },
     {
+      "id": "1603_09320",
+      "label": "HNSW",
+      "title": "Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs",
+      "authors": [
+        "Yu. A. Malkov",
+        "D. A. Yashunin"
+      ],
+      "authorShort": "Malkov, Yashunin",
+      "year": 2016,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Nearest Neighbor Search",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Nearest Neighbor Search",
+        "Approximate Nearest Neighbor Search",
+        "HNSW"
+      ],
+      "tags": [],
+      "abstract": "We present a new approach for the approximate K-nearest neighbor search based on navigable small world graphs with controllable hierarchy (Hierarchical NSW, HNSW). The proposed solution is fully graph-based, without any need for additional search structures, which are typically used at the coarse search stage of the most proximity graph techniques. Hierarchical NSW incrementally builds a multi-layer structure consisting from hierarchical set of proximity graphs (layers) for nested subsets of the stored elements. The maximum layer in which an element is present is selected randomly with an exponentially decaying probability distribution. This allows producing graphs similar to the previously studied Navigable Small World (NSW) structures while additionally having the links separated by their characteristic distance scales. Starting search from the upper layer together with utilizing the scale separation boosts the performance compared to NSW and allows a logarithmic complexity scaling. Additional employment of a heuristic for selecting proximity graph neighbors significantly increases performance at high recall and in case of highly clustered data. Performance evaluation has demonstrated that the proposed general metric space search index is able to strongly outperform previous opensource state-of-the-art vector-only approaches. Similarity of the algorithm to the skip list structure allows straightforward balanced distributed implementation.",
+      "summary": "",
+      "url": "../papers/1603_09320/",
+      "treeUrl": "../tree/#paper=1603_09320",
+      "mapUrl": "../map/#paper=1603_09320"
+    },
+    {
+      "id": "2016_de_carvalho_mean_what_do_you",
+      "label": "Mean, What do You Mean?",
+      "title": "Mean, What Do You Mean?",
+      "authors": [
+        "Miguel de Carvalho"
+      ],
+      "authorShort": "Carvalho",
+      "year": 2016,
+      "source": "The American Statistician",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Statistics & Probability",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Statistics & Probability",
+        "Mean, What do You Mean?"
+      ],
+      "tags": [],
+      "abstract": "When teaching statistics we often resort to several notions of mean, such as arithmetic mean, geometric mean, and harmonic mean, and hence the student is often left with the question: The word mean appears in all such concepts, so what is actually a mean? I revisit Kolmogorov's axiomatic view of the mean, which unifies all these concepts of mean, among others. A population counterpart of the notion of regular mean, along with notions of regular variance and standard deviation will also be discussed here as unifying concepts. Some examples are used to illustrate main ideas.",
+      "summary": "",
+      "url": "../papers/2016_de_carvalho_mean_what_do_you/",
+      "treeUrl": "../tree/#paper=2016_de_carvalho_mean_what_do_you",
+      "mapUrl": "../map/#paper=2016_de_carvalho_mean_what_do_you"
+    },
+    {
       "id": "2017_ames_control_barrier_function_based",
       "label": "Control Barrier Function Based Quadratic Programs for Safety Critical Systems",
       "title": "Control Barrier Function Based Quadratic Programs for Safety Critical Systems",
@@ -20859,6 +21369,7 @@ window.timelineData = {
         "Control",
         "Robust & Safety-Critical Control",
         "Robust Control",
+        "Input-Output Robustness and Integral Quadratic Constraints (IQCs)",
         "Exponential Stability Analysis via Integral Quadratic Constraints"
       ],
       "tags": [],
@@ -21274,6 +21785,8 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
+        "CVX Ecosystem",
+        "CVX Extensions",
         "A Rewriting System for Convex Optimization Problems"
       ],
       "tags": [],
@@ -21307,6 +21820,7 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
+        "Solvers",
         "OSQP"
       ],
       "tags": [
@@ -22008,6 +22522,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Reinforcement Learning",
+        "Adversarial",
         "Learning Robust Rewards with Adversarial Inverse Reinforcement Learning"
       ],
       "tags": [],
@@ -22074,7 +22590,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Model-based RL",
         "System Identification",
-        "Dynamic Mode Decomposition (DMD)",
+        "Extended Dynamic Mode Decomposition (eDMD) and Koopman",
         "Data-driven discovery of Koopman eigenfunctions for control"
       ],
       "tags": [],
@@ -22440,12 +22956,14 @@ window.timelineData = {
       "source": "IEEE International Conference on Robotics and Automation (ICRA)",
       "type": "Conference Paper",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Wheeled Robots",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
         "Wheeled Robots",
         "Duckietown"
       ],
@@ -22465,6 +22983,39 @@ window.timelineData = {
       "url": "../papers/2017_paull_duckietown_an_open_inexpensive/",
       "treeUrl": "../tree/#paper=2017_paull_duckietown_an_open_inexpensive",
       "mapUrl": "../map/#paper=2017_paull_duckietown_an_open_inexpensive"
+    },
+    {
+      "id": "1711_10085",
+      "label": "Recent Developments in Aerial Robotics: A Survey and Prototypes Overview",
+      "title": "Recent Developments in Aerial Robotics: A Survey and Prototypes Overview",
+      "authors": [
+        "Chun Fui Liew",
+        "Danielle DeLatte",
+        "Naoya Takeishi",
+        "Takehisa Yairi"
+      ],
+      "authorShort": "Liew, DeLatte, Takeishi",
+      "year": 2017,
+      "source": "",
+      "type": "",
+      "superCategory": "Evaluation",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Flying Robots",
+        "Recent Developments in Aerial Robotics: A Survey and Prototypes Overview"
+      ],
+      "tags": [],
+      "abstract": "In recent years, research and development in aerial robotics (i.e., unmanned aerial vehicles, UAVs) has been growing at an unprecedented speed, and there is a need to summarize the background, latest developments, and trends of UAV research. Along with a general overview on the definition, types, categories, and topics of UAV, this work describes a systematic way to identify 1,318 high-quality UAV papers from more than thirty thousand that have been appeared in the top journals and conferences. On top of that, we provide a bird's-eye view of UAV research since 2001 by summarizing various statistical information, such as the year, type, and topic distribution of the UAV papers. We make our survey list public and believe that the list can not only help researchers identify, study, and compare their work, but is also useful for understanding research trends in the field. From our survey results, we find there are many types of UAV, and to the best of our knowledge, no literature has attempted to summarize all types in one place. With our survey list, we explain the types within our survey and outline the recent progress of each. We believe this summary can enhance readers' understanding on the UAVs and inspire researchers to propose new methods and new applications.",
+      "summary": "",
+      "url": "../papers/1711_10085/",
+      "treeUrl": "../tree/#paper=1711_10085",
+      "mapUrl": "../map/#paper=1711_10085"
     },
     {
       "id": "1708_06374",
@@ -22564,175 +23115,6 @@ window.timelineData = {
       "url": "../papers/1711_03938/",
       "treeUrl": "../tree/#paper=1711_03938",
       "mapUrl": "../map/#paper=1711_03938"
-    },
-    {
-      "id": "1702_08734",
-      "label": "Billion-scale similarity search with GPUs",
-      "title": "Billion-scale Similarity Search with GPUs",
-      "authors": [
-        "Jeff Johnson",
-        "Matthijs Douze",
-        "Hervé Jégou"
-      ],
-      "authorShort": "Johnson, Douze, Jégou",
-      "year": 2017,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Nearest Neighbor Search",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Nearest Neighbor Search",
-        "Billion-scale similarity search with GPUs"
-      ],
-      "tags": [],
-      "abstract": "Similarity search finds application in specialized database systems handling complex data such as images or videos, which are typically represented by high-dimensional features and require specific indexing structures. This paper tackles the problem of better utilizing GPUs for this task. While GPUs excel at data-parallel tasks, prior approaches are bottlenecked by algorithms that expose less parallelism, such as k-min selection, or make poor use of the memory hierarchy. We propose a design for k-selection that operates at up to 55% of theoretical peak performance, enabling a nearest neighbor implementation that is 8.5x faster than prior GPU state of the art. We apply it in different similarity search scenarios, by proposing optimized design for brute-force, approximate and compressed-domain search based on product quantization. In all these setups, we outperform the state of the art by large margins. Our implementation enables the construction of a high accuracy k-NN graph on 95 million images from the Yfcc100M dataset in 35 minutes, and of a graph connecting 1 billion vectors in less than 12 hours on 4 Maxwell Titan X GPUs. We have open-sourced our approach for the sake of comparison and reproducibility.",
-      "summary": "",
-      "url": "../papers/1702_08734/",
-      "treeUrl": "../tree/#paper=1702_08734",
-      "mapUrl": "../map/#paper=1702_08734"
-    },
-    {
-      "id": "1711_10085",
-      "label": "Recent Developments in Aerial Robotics: A Survey and Prototypes Overview",
-      "title": "Recent Developments in Aerial Robotics: A Survey and Prototypes Overview",
-      "authors": [
-        "Chun Fui Liew",
-        "Danielle DeLatte",
-        "Naoya Takeishi",
-        "Takehisa Yairi"
-      ],
-      "authorShort": "Liew, DeLatte, Takeishi",
-      "year": 2017,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Engineering Systems",
-      "subCategory": "Robots",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Engineering Systems",
-        "Robots",
-        "Flying Robots",
-        "Recent Developments in Aerial Robotics: A Survey and Prototypes Overview"
-      ],
-      "tags": [],
-      "abstract": "In recent years, research and development in aerial robotics (i.e., unmanned aerial vehicles, UAVs) has been growing at an unprecedented speed, and there is a need to summarize the background, latest developments, and trends of UAV research. Along with a general overview on the definition, types, categories, and topics of UAV, this work describes a systematic way to identify 1,318 high-quality UAV papers from more than thirty thousand that have been appeared in the top journals and conferences. On top of that, we provide a bird's-eye view of UAV research since 2001 by summarizing various statistical information, such as the year, type, and topic distribution of the UAV papers. We make our survey list public and believe that the list can not only help researchers identify, study, and compare their work, but is also useful for understanding research trends in the field. From our survey results, we find there are many types of UAV, and to the best of our knowledge, no literature has attempted to summarize all types in one place. With our survey list, we explain the types within our survey and outline the recent progress of each. We believe this summary can enhance readers' understanding on the UAVs and inspire researchers to propose new methods and new applications.",
-      "summary": "",
-      "url": "../papers/1711_10085/",
-      "treeUrl": "../tree/#paper=1711_10085",
-      "mapUrl": "../map/#paper=1711_10085"
-    },
-    {
-      "id": "1712_05889",
-      "label": "Ray",
-      "title": "Ray: A Distributed Framework for Emerging AI Applications",
-      "authors": [
-        "Philipp Moritz",
-        "Robert Nishihara",
-        "Stephanie Wang",
-        "Alexey Tumanov",
-        "Richard Liaw",
-        "Eric Liang",
-        "Melih Elibol",
-        "Zongheng Yang",
-        "William Paul",
-        "Michael I. Jordan",
-        "Ion Stoica"
-      ],
-      "authorShort": "Moritz, Nishihara, Wang",
-      "year": 2017,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Software & Programming",
-      "subCategory": "Machine learning",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Software & Programming",
-        "Machine learning",
-        "Ray Ecosystem",
-        "Ray"
-      ],
-      "tags": [],
-      "abstract": "The next generation of AI applications will continuously interact with the environment and learn from these interactions. These applications impose new and demanding systems requirements, both in terms of performance and flexibility. In this paper, we consider these requirements and present Ray---a distributed system to address them. Ray implements a unified interface that can express both task-parallel and actor-based computations, supported by a single dynamic execution engine. To meet the performance requirements, Ray employs a distributed scheduler and a distributed and fault-tolerant store to manage the system's control state. In our experiments, we demonstrate scaling beyond 1.8 million tasks per second and better performance than existing specialized systems for several challenging reinforcement learning applications.",
-      "summary": "",
-      "url": "../papers/1712_05889/",
-      "treeUrl": "../tree/#paper=1712_05889",
-      "mapUrl": "../map/#paper=1712_05889"
-    },
-    {
-      "id": "1712_09381",
-      "label": "RLlib",
-      "title": "RLlib: Abstractions for Distributed Reinforcement Learning",
-      "authors": [
-        "Eric Liang",
-        "Richard Liaw",
-        "Philipp Moritz",
-        "Robert Nishihara",
-        "Roy Fox",
-        "Ken Goldberg",
-        "Joseph E. Gonzalez",
-        "Michael I. Jordan",
-        "Ion Stoica"
-      ],
-      "authorShort": "Liang, Liaw, Moritz",
-      "year": 2017,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Software & Programming",
-      "subCategory": "Machine learning",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Software & Programming",
-        "Machine learning",
-        "Ray Ecosystem",
-        "RLlib"
-      ],
-      "tags": [],
-      "abstract": "Reinforcement learning (RL) algorithms involve the deep nesting of highly irregular computation patterns, each of which typically exhibits opportunities for distributed computation. We argue for distributing RL components in a composable way by adapting algorithms for top-down hierarchical control, thereby encapsulating parallelism and resource requirements within short-running compute tasks. We demonstrate the benefits of this principle through RLlib: a library that provides scalable software primitives for RL. These primitives enable a broad range of algorithms to be implemented with high performance, scalability, and substantial code reuse. RLlib is available at https://rllib.io/.",
-      "summary": "",
-      "url": "../papers/1712_09381/",
-      "treeUrl": "../tree/#paper=1712_09381",
-      "mapUrl": "../map/#paper=1712_09381"
-    },
-    {
-      "id": "2017_bezanson_julia_a_fresh_approach",
-      "label": "Julia",
-      "title": "Julia: A Fresh Approach to Numerical Computing",
-      "authors": [
-        "Jeff Bezanson",
-        "Alan Edelman",
-        "Stefan Karpinski",
-        "Viral B. Shah"
-      ],
-      "authorShort": "Bezanson, Edelman, Karpinski",
-      "year": 2017,
-      "source": "SIAM Review",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Software & Programming",
-      "subCategory": "Scientific Computing",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Software & Programming",
-        "Scientific Computing",
-        "Julia"
-      ],
-      "tags": [],
-      "abstract": "Bridging cultures that have often been distant, Julia combines expertise from the diverse fields of computer science and computational science to create a new approach to numerical computing. Julia is designed to be easy and fast and questions notions generally held to be “laws of nature\" by practitioners of numerical computing: \\beginlist \\item High-level dynamic programs have to be slow. \\item One must prototype in one language and then rewrite in another language for speed or deployment. \\item There are parts of a system appropriate for the programmer, and other parts that are best left untouched as they have been built by the experts. \\endlist We introduce the Julia programming language and its design---a dance between specialization and abstraction. Specialization allows for custom treatment. Multiple dispatch, a technique from computer science, picks the right algorithm for the right circumstance. Abstraction, which is what good computation is really about, recognizes what remains the same after differences are stripped away. Abstractions in mathematics are captured as code through another technique from computer science, generic programming. Julia shows that one can achieve machine performance without sacrificing human convenience.",
-      "summary": "",
-      "url": "../papers/2017_bezanson_julia_a_fresh_approach/",
-      "treeUrl": "../tree/#paper=2017_bezanson_julia_a_fresh_approach",
-      "mapUrl": "../map/#paper=2017_bezanson_julia_a_fresh_approach"
     },
     {
       "id": "1703_00395",
@@ -23105,6 +23487,144 @@ window.timelineData = {
       "url": "../papers/1704_02672/",
       "treeUrl": "../tree/#paper=1704_02672",
       "mapUrl": "../map/#paper=1704_02672"
+    },
+    {
+      "id": "1702_08734",
+      "label": "Faiss",
+      "title": "Billion-scale Similarity Search with GPUs",
+      "authors": [
+        "Jeff Johnson",
+        "Matthijs Douze",
+        "Hervé Jégou"
+      ],
+      "authorShort": "Johnson, Douze, Jégou",
+      "year": 2017,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Nearest Neighbor Search",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Nearest Neighbor Search",
+        "Large-scale Vector Search",
+        "Faiss"
+      ],
+      "tags": [],
+      "abstract": "Similarity search finds application in specialized database systems handling complex data such as images or videos, which are typically represented by high-dimensional features and require specific indexing structures. This paper tackles the problem of better utilizing GPUs for this task. While GPUs excel at data-parallel tasks, prior approaches are bottlenecked by algorithms that expose less parallelism, such as k-min selection, or make poor use of the memory hierarchy. We propose a design for k-selection that operates at up to 55% of theoretical peak performance, enabling a nearest neighbor implementation that is 8.5x faster than prior GPU state of the art. We apply it in different similarity search scenarios, by proposing optimized design for brute-force, approximate and compressed-domain search based on product quantization. In all these setups, we outperform the state of the art by large margins. Our implementation enables the construction of a high accuracy k-NN graph on 95 million images from the Yfcc100M dataset in 35 minutes, and of a graph connecting 1 billion vectors in less than 12 hours on 4 Maxwell Titan X GPUs. We have open-sourced our approach for the sake of comparison and reproducibility.",
+      "summary": "",
+      "url": "../papers/1702_08734/",
+      "treeUrl": "../tree/#paper=1702_08734",
+      "mapUrl": "../map/#paper=1702_08734"
+    },
+    {
+      "id": "1712_05889",
+      "label": "Ray",
+      "title": "Ray: A Distributed Framework for Emerging AI Applications",
+      "authors": [
+        "Philipp Moritz",
+        "Robert Nishihara",
+        "Stephanie Wang",
+        "Alexey Tumanov",
+        "Richard Liaw",
+        "Eric Liang",
+        "Melih Elibol",
+        "Zongheng Yang",
+        "William Paul",
+        "Michael I. Jordan",
+        "Ion Stoica"
+      ],
+      "authorShort": "Moritz, Nishihara, Wang",
+      "year": 2017,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Software & Programming",
+      "subCategory": "Machine learning",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Machine learning",
+        "Ray Ecosystem",
+        "Ray"
+      ],
+      "tags": [],
+      "abstract": "The next generation of AI applications will continuously interact with the environment and learn from these interactions. These applications impose new and demanding systems requirements, both in terms of performance and flexibility. In this paper, we consider these requirements and present Ray---a distributed system to address them. Ray implements a unified interface that can express both task-parallel and actor-based computations, supported by a single dynamic execution engine. To meet the performance requirements, Ray employs a distributed scheduler and a distributed and fault-tolerant store to manage the system's control state. In our experiments, we demonstrate scaling beyond 1.8 million tasks per second and better performance than existing specialized systems for several challenging reinforcement learning applications.",
+      "summary": "",
+      "url": "../papers/1712_05889/",
+      "treeUrl": "../tree/#paper=1712_05889",
+      "mapUrl": "../map/#paper=1712_05889"
+    },
+    {
+      "id": "1712_09381",
+      "label": "RLlib",
+      "title": "RLlib: Abstractions for Distributed Reinforcement Learning",
+      "authors": [
+        "Eric Liang",
+        "Richard Liaw",
+        "Philipp Moritz",
+        "Robert Nishihara",
+        "Roy Fox",
+        "Ken Goldberg",
+        "Joseph E. Gonzalez",
+        "Michael I. Jordan",
+        "Ion Stoica"
+      ],
+      "authorShort": "Liang, Liaw, Moritz",
+      "year": 2017,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Software & Programming",
+      "subCategory": "Machine learning",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Machine learning",
+        "Ray Ecosystem",
+        "RLlib"
+      ],
+      "tags": [],
+      "abstract": "Reinforcement learning (RL) algorithms involve the deep nesting of highly irregular computation patterns, each of which typically exhibits opportunities for distributed computation. We argue for distributing RL components in a composable way by adapting algorithms for top-down hierarchical control, thereby encapsulating parallelism and resource requirements within short-running compute tasks. We demonstrate the benefits of this principle through RLlib: a library that provides scalable software primitives for RL. These primitives enable a broad range of algorithms to be implemented with high performance, scalability, and substantial code reuse. RLlib is available at https://rllib.io/.",
+      "summary": "",
+      "url": "../papers/1712_09381/",
+      "treeUrl": "../tree/#paper=1712_09381",
+      "mapUrl": "../map/#paper=1712_09381"
+    },
+    {
+      "id": "2017_bezanson_julia_a_fresh_approach",
+      "label": "Julia",
+      "title": "Julia: A Fresh Approach to Numerical Computing",
+      "authors": [
+        "Jeff Bezanson",
+        "Alan Edelman",
+        "Stefan Karpinski",
+        "Viral B. Shah"
+      ],
+      "authorShort": "Bezanson, Edelman, Karpinski",
+      "year": 2017,
+      "source": "SIAM Review",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Software & Programming",
+      "subCategory": "Scientific Computing",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Scientific Computing",
+        "Julia"
+      ],
+      "tags": [],
+      "abstract": "Bridging cultures that have often been distant, Julia combines expertise from the diverse fields of computer science and computational science to create a new approach to numerical computing. Julia is designed to be easy and fast and questions notions generally held to be “laws of nature\" by practitioners of numerical computing: \\beginlist \\item High-level dynamic programs have to be slow. \\item One must prototype in one language and then rewrite in another language for speed or deployment. \\item There are parts of a system appropriate for the programmer, and other parts that are best left untouched as they have been built by the experts. \\endlist We introduce the Julia programming language and its design---a dance between specialization and abstraction. Specialization allows for custom treatment. Multiple dispatch, a technique from computer science, picks the right algorithm for the right circumstance. Abstraction, which is what good computation is really about, recognizes what remains the same after differences are stripped away. Abstractions in mathematics are captured as code through another technique from computer science, generic programming. Julia shows that one can achieve machine performance without sacrificing human convenience.",
+      "summary": "",
+      "url": "../papers/2017_bezanson_julia_a_fresh_approach/",
+      "treeUrl": "../tree/#paper=2017_bezanson_julia_a_fresh_approach",
+      "mapUrl": "../map/#paper=2017_bezanson_julia_a_fresh_approach"
     },
     {
       "id": "1811_05890",
@@ -24370,6 +24890,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Applications",
+        "Manipulation & Grasping",
         "Learning Dexterous In-Hand Manipulation"
       ],
       "tags": [],
@@ -24428,6 +24949,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Optimal Control",
         "Inverse Quadratic Optimal Control"
       ],
       "tags": [],
@@ -24460,6 +24982,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "LQR",
         "Global Convergence of Policy Gradient Methods for LQR"
       ],
       "tags": [],
@@ -24493,6 +25016,8 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "System Identification",
+        "Linear Systems with Additive Noise",
         "Learning Without Mixing"
       ],
       "tags": [],
@@ -24501,6 +25026,38 @@ window.timelineData = {
       "url": "../papers/1802_08334/",
       "treeUrl": "../tree/#paper=1802_08334",
       "mapUrl": "../map/#paper=1802_08334"
+    },
+    {
+      "id": "1806_05722",
+      "label": "Non-Asymptotic Identification of LTI Systems from a Single Trajectory",
+      "title": "Non-asymptotic Identification of LTI Systems from a Single Trajectory",
+      "authors": [
+        "Samet Oymak",
+        "Necmiye Ozay"
+      ],
+      "authorShort": "Oymak, Ozay",
+      "year": 2018,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Linear Systems with Additive Noise",
+        "Non-Asymptotic Identification of LTI Systems from a Single Trajectory"
+      ],
+      "tags": [],
+      "abstract": "We consider the problem of learning a realization for a linear time-invariant (LTI) dynamical system from input/output data. Given a single input/output trajectory, we provide finite time analysis for learning the system's Markov parameters, from which a balanced realization is obtained using the classical Ho-Kalman algorithm. By proving a stability result for the Ho-Kalman algorithm and combining it with the sample complexity results for Markov parameters, we show how much data is needed to learn a balanced realization of the system up to a desired accuracy with high probability.",
+      "summary": "",
+      "url": "../papers/1806_05722/",
+      "treeUrl": "../tree/#paper=1806_05722",
+      "mapUrl": "../map/#paper=1806_05722"
     },
     {
       "id": "1805_09388",
@@ -24526,6 +25083,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "Robust Adaptive Linear Quadratic Control",
         "Regret Bounds for Robust Adaptive Control of LQR"
       ],
       "tags": [],
@@ -24559,6 +25117,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "Robust Adaptive Linear Quadratic Control",
         "Regret Bounds for Robust Adaptive Control of the Linear Quadratic Regulator"
       ],
       "tags": [],
@@ -24740,37 +25299,6 @@ window.timelineData = {
       "url": "../papers/1803_00101/",
       "treeUrl": "../tree/#paper=1803_00101",
       "mapUrl": "../map/#paper=1803_00101"
-    },
-    {
-      "id": "1806_05722",
-      "label": "Non-Asymptotic Identification of LTI Systems from a Single Trajectory",
-      "title": "Non-asymptotic Identification of LTI Systems from a Single Trajectory",
-      "authors": [
-        "Samet Oymak",
-        "Necmiye Ozay"
-      ],
-      "authorShort": "Oymak, Ozay",
-      "year": 2018,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "Non-Asymptotic Identification of LTI Systems from a Single Trajectory"
-      ],
-      "tags": [],
-      "abstract": "We consider the problem of learning a realization for a linear time-invariant (LTI) dynamical system from input/output data. Given a single input/output trajectory, we provide finite time analysis for learning the system's Markov parameters, from which a balanced realization is obtained using the classical Ho-Kalman algorithm. By proving a stability result for the Ho-Kalman algorithm and combining it with the sample complexity results for Markov parameters, we show how much data is needed to learn a balanced realization of the system up to a desired accuracy with high probability.",
-      "summary": "",
-      "url": "../papers/1806_05722/",
-      "treeUrl": "../tree/#paper=1806_05722",
-      "mapUrl": "../map/#paper=1806_05722"
     },
     {
       "id": "1811_04551",
@@ -24972,12 +25500,15 @@ window.timelineData = {
       "source": "2018 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
       "type": "Conference Paper",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Quadrupeds",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Walking Robots",
         "Quadrupeds",
         "Cheetah 3"
       ],
@@ -24987,6 +25518,124 @@ window.timelineData = {
       "url": "../papers/2018_bledt_mit_cheetah_3_design/",
       "treeUrl": "../tree/#paper=2018_bledt_mit_cheetah_3_design",
       "mapUrl": "../map/#paper=2018_bledt_mit_cheetah_3_design"
+    },
+    {
+      "id": "2018_marion_director_a_user_interface",
+      "label": "Director",
+      "title": "Director: A User Interface Designed for Robot Operation with Shared Autonomy",
+      "authors": [
+        "Pat Marion",
+        "Maurice Fallon",
+        "Robin Deits",
+        "Andrés Valenzuela",
+        "Claudia Pérez D’Arpino",
+        "Greg Izatt",
+        "Lucas Manuelli",
+        "Matt Antone",
+        "Hongkai Dai",
+        "Twan Koolen",
+        "John Carter",
+        "Scott Kuindersma",
+        "Russ Tedrake"
+      ],
+      "authorShort": "Marion, Fallon, Deits",
+      "year": 2018,
+      "source": "Springer Tracts in Advanced Robotics",
+      "type": "Conference Paper",
+      "superCategory": "Evaluation",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Walking Robots",
+        "Bipeds",
+        "Director"
+      ],
+      "tags": [],
+      "abstract": "Operating a high degree of freedom mobile manipulator, such as a humanoid, in a field scenario requires constant situational awareness, capable perception modules, and effective mechanisms for interactive motion planning and control. A well-designed operator interface presents the operator with enough context to quickly carry out a mission and the flexibility to handle unforeseen operating scenarios robustly. By contrast, an unintuitive user interface can increase the risk of catastrophic operator error by overwhelming the user with unnecessary information. With these principles in mind, we present the philosophy and design decisions behind Director —the open-source user interface developed by Team MIT to pilot the Atlas robot in the DARPA Robotics Challenge (DRC). At the heart of Director is an integrated task execution system that specifies sequences of actions needed to achieve a substantive task, such as drilling a wall or climbing a staircase. These task sequences, developed a priori , make online queries to automated perception and planning algorithms with outputs that can be reviewed by the operator and executed by our whole-body controller. Our use of Director at the DRC resulted in efficient high-level task operation while being fully competitive with approaches focusing on teleoperation by highly-trained operators. We discuss the primary interface elements that comprise the Director and provide analysis of its successful use at the DRC.",
+      "summary": "",
+      "url": "../papers/2018_marion_director_a_user_interface/",
+      "treeUrl": "../tree/#paper=2018_marion_director_a_user_interface",
+      "mapUrl": "../map/#paper=2018_marion_director_a_user_interface"
+    },
+    {
+      "id": "2018_yang_the_grand_challenges_of",
+      "label": "The Grand Challenges of Science Robotics",
+      "title": "The Grand Challenges of Science Robotics",
+      "authors": [
+        "Guang-Zhong Yang",
+        "Jim Bellingham",
+        "Pierre E. Dupont",
+        "Peer Fischer",
+        "Luciano Floridi",
+        "Robert Full",
+        "Neil Jacobstein",
+        "Vijay Kumar",
+        "Marcia McNutt",
+        "Robert Merrifield",
+        "Bradley J. Nelson",
+        "Brian Scassellati",
+        "Mariarosaria Taddeo",
+        "Russell Taylor",
+        "Manuela Veloso",
+        "Zhong Lin Wang",
+        "Robert Wood"
+      ],
+      "authorShort": "Yang, Bellingham, Dupont",
+      "year": 2018,
+      "source": "Science Robotics",
+      "type": "Journal Paper",
+      "superCategory": "Evaluation",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "The Grand Challenges of Science Robotics"
+      ],
+      "tags": [],
+      "abstract": "These 10 grand challenges may have major breakthroughs, research, and/or socioeconomic impacts in the next 5 to 10 years.",
+      "summary": "",
+      "url": "../papers/2018_yang_the_grand_challenges_of/",
+      "treeUrl": "../tree/#paper=2018_yang_the_grand_challenges_of",
+      "mapUrl": "../map/#paper=2018_yang_the_grand_challenges_of"
+    },
+    {
+      "id": "2018_hachem_technological_challenges_and_optimization",
+      "label": "Technological challenges and optimization efforts of the Stirling machine: A review",
+      "title": "Technological Challenges and Optimization Efforts of the Stirling Machine: A Review",
+      "authors": [
+        "Houda Hachem",
+        "Ramla Gheith",
+        "Fethi Aloui",
+        "Sassi Ben Nasrallah"
+      ],
+      "authorShort": "Hachem, Gheith, Aloui",
+      "year": 2018,
+      "source": "Energy Conversion and Management",
+      "type": "Journal Paper",
+      "superCategory": "Evaluation",
+      "category": "Engineering Systems",
+      "subCategory": "Stirling Engines",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Engineering Systems",
+        "Stirling Engines",
+        "Technological challenges and optimization efforts of the Stirling machine: A review"
+      ],
+      "tags": [],
+      "abstract": "The Stirling engines are being carried out worldwide, used for divers’ application such as solar generator, micro cogeneration and cryogenic uses. The present paper is an over view of Stirling technologies researches. Several possibilities of resolving technical challenges encountered when manufacturing or using Stirling machines will be discussed. The most appropriate models and optimizations strategies are reported. Stirling engine performances are derived as function of geometric parameters (swept volumes, dead volumes, heat exchange areas, compression ratio…) for several working conditions (speed, mean pressure, temperature difference and working fluid). The effect of each parameter on the Stirling performances when using numerical and/or experimental approaches are presented. It is concluded that multi-objective optimizations methods are useful for predicting geometric and working parameters that corresponding to the optimal performances of the Stirling engine.",
+      "summary": "",
+      "url": "../papers/2018_hachem_technological_challenges_and_optimization/",
+      "treeUrl": "../tree/#paper=2018_hachem_technological_challenges_and_optimization",
+      "mapUrl": "../map/#paper=2018_hachem_technological_challenges_and_optimization"
     },
     {
       "id": "2018_seshia_formal_specification_for_deep",
@@ -25097,253 +25746,43 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1811_03056"
     },
     {
-      "id": "2018_marion_director_a_user_interface",
-      "label": "Director",
-      "title": "Director: A User Interface Designed for Robot Operation with Shared Autonomy",
+      "id": "2018_belkhir_assessing_ict_global_emissions",
+      "label": "ICT Global Emissions Footprint",
+      "title": "Assessing ICT Global Emissions Footprint: Trends to 2040 & Recommendations",
       "authors": [
-        "Pat Marion",
-        "Maurice Fallon",
-        "Robin Deits",
-        "Andrés Valenzuela",
-        "Claudia Pérez D’Arpino",
-        "Greg Izatt",
-        "Lucas Manuelli",
-        "Matt Antone",
-        "Hongkai Dai",
-        "Twan Koolen",
-        "John Carter",
-        "Scott Kuindersma",
-        "Russ Tedrake"
+        "Lotfi Belkhir",
+        "Ahmed Elmeligi"
       ],
-      "authorShort": "Marion, Fallon, Deits",
+      "authorShort": "Belkhir, Elmeligi",
       "year": 2018,
-      "source": "Springer Tracts in Advanced Robotics",
-      "type": "Conference Paper",
-      "superCategory": "Foundations",
-      "category": "Engineering Systems",
-      "subCategory": "Robots",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Engineering Systems",
-        "Robots",
-        "Walking Robots",
-        "Director"
-      ],
-      "tags": [],
-      "abstract": "Operating a high degree of freedom mobile manipulator, such as a humanoid, in a field scenario requires constant situational awareness, capable perception modules, and effective mechanisms for interactive motion planning and control. A well-designed operator interface presents the operator with enough context to quickly carry out a mission and the flexibility to handle unforeseen operating scenarios robustly. By contrast, an unintuitive user interface can increase the risk of catastrophic operator error by overwhelming the user with unnecessary information. With these principles in mind, we present the philosophy and design decisions behind Director —the open-source user interface developed by Team MIT to pilot the Atlas robot in the DARPA Robotics Challenge (DRC). At the heart of Director is an integrated task execution system that specifies sequences of actions needed to achieve a substantive task, such as drilling a wall or climbing a staircase. These task sequences, developed a priori , make online queries to automated perception and planning algorithms with outputs that can be reviewed by the operator and executed by our whole-body controller. Our use of Director at the DRC resulted in efficient high-level task operation while being fully competitive with approaches focusing on teleoperation by highly-trained operators. We discuss the primary interface elements that comprise the Director and provide analysis of its successful use at the DRC.",
-      "summary": "",
-      "url": "../papers/2018_marion_director_a_user_interface/",
-      "treeUrl": "../tree/#paper=2018_marion_director_a_user_interface",
-      "mapUrl": "../map/#paper=2018_marion_director_a_user_interface"
-    },
-    {
-      "id": "2018_yang_the_grand_challenges_of",
-      "label": "The Grand Challenges of Science Robotics",
-      "title": "The Grand Challenges of Science Robotics",
-      "authors": [
-        "Guang-Zhong Yang",
-        "Jim Bellingham",
-        "Pierre E. Dupont",
-        "Peer Fischer",
-        "Luciano Floridi",
-        "Robert Full",
-        "Neil Jacobstein",
-        "Vijay Kumar",
-        "Marcia McNutt",
-        "Robert Merrifield",
-        "Bradley J. Nelson",
-        "Brian Scassellati",
-        "Mariarosaria Taddeo",
-        "Russell Taylor",
-        "Manuela Veloso",
-        "Zhong Lin Wang",
-        "Robert Wood"
-      ],
-      "authorShort": "Yang, Bellingham, Dupont",
-      "year": 2018,
-      "source": "Science Robotics",
+      "source": "Journal of Cleaner Production",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Engineering Systems",
-      "subCategory": "Robots",
+      "superCategory": "Human & Natural Worlds",
+      "category": "Environmental Impacts",
+      "subCategory": "ICT Global Emissions Footprint",
       "path": [
         "Tree",
-        "Foundations",
-        "Engineering Systems",
-        "Robots",
-        "The Grand Challenges of Science Robotics"
-      ],
-      "tags": [],
-      "abstract": "These 10 grand challenges may have major breakthroughs, research, and/or socioeconomic impacts in the next 5 to 10 years.",
-      "summary": "",
-      "url": "../papers/2018_yang_the_grand_challenges_of/",
-      "treeUrl": "../tree/#paper=2018_yang_the_grand_challenges_of",
-      "mapUrl": "../map/#paper=2018_yang_the_grand_challenges_of"
-    },
-    {
-      "id": "2018_hachem_technological_challenges_and_optimization",
-      "label": "Technological challenges and optimization efforts of the Stirling machine: A review",
-      "title": "Technological Challenges and Optimization Efforts of the Stirling Machine: A Review",
-      "authors": [
-        "Houda Hachem",
-        "Ramla Gheith",
-        "Fethi Aloui",
-        "Sassi Ben Nasrallah"
-      ],
-      "authorShort": "Hachem, Gheith, Aloui",
-      "year": 2018,
-      "source": "Energy Conversion and Management",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Engineering Systems",
-      "subCategory": "Stirling Engines",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Engineering Systems",
-        "Stirling Engines",
-        "Technological challenges and optimization efforts of the Stirling machine: A review"
-      ],
-      "tags": [],
-      "abstract": "The Stirling engines are being carried out worldwide, used for divers’ application such as solar generator, micro cogeneration and cryogenic uses. The present paper is an over view of Stirling technologies researches. Several possibilities of resolving technical challenges encountered when manufacturing or using Stirling machines will be discussed. The most appropriate models and optimizations strategies are reported. Stirling engine performances are derived as function of geometric parameters (swept volumes, dead volumes, heat exchange areas, compression ratio…) for several working conditions (speed, mean pressure, temperature difference and working fluid). The effect of each parameter on the Stirling performances when using numerical and/or experimental approaches are presented. It is concluded that multi-objective optimizations methods are useful for predicting geometric and working parameters that corresponding to the optimal performances of the Stirling engine.",
-      "summary": "",
-      "url": "../papers/2018_hachem_technological_challenges_and_optimization/",
-      "treeUrl": "../tree/#paper=2018_hachem_technological_challenges_and_optimization",
-      "mapUrl": "../map/#paper=2018_hachem_technological_challenges_and_optimization"
-    },
-    {
-      "id": "1805_05533",
-      "label": "Discovering Transforms: A Tutorial on Circulant Matrices, Circular Convolution, and the Discrete Fourier Transform",
-      "title": "Discovering Transforms: A Tutorial on Circulant Matrices, Circular Convolution, and the Discrete Fourier Transform",
-      "authors": [
-        "Bassam Bamieh"
-      ],
-      "authorShort": "Bamieh",
-      "year": 2018,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Linear Algebra & Signal Processing",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Mathematics",
-        "Linear Algebra & Signal Processing",
-        "Fourier Transforms",
-        "Discovering Transforms: A Tutorial on Circulant Matrices, Circular Convolution, and the Discrete Fourier Transform"
-      ],
-      "tags": [],
-      "abstract": "How could the Fourier and other transforms be naturally discovered if one didn't know how to postulate them? In the case of the Discrete Fourier Transform (DFT), we show how it arises naturally out of analysis of circulant matrices. In particular, the DFT can be derived as the change of basis that simultaneously diagonalizes all circulant matrices. In this way, the DFT arises naturally from a linear algebra question about a set of matrices. Rather than thinking of the DFT as a signal transform, it is more natural to think of it as a single change of basis that renders an entire set of mutually-commuting matrices into simple, diagonal forms. The DFT can then be \"discovered\" by solving the eigenvalue/eigenvector problem for a special element in that set. A brief outline is given of how this line of thinking can be generalized to families of linear operators, leading to the discovery of the other common Fourier-type transforms, as well as its connections with group representations theory.",
-      "summary": "",
-      "url": "../papers/1805_05533/",
-      "treeUrl": "../tree/#paper=1805_05533",
-      "mapUrl": "../map/#paper=1805_05533"
-    },
-    {
-      "id": "1810_08473",
-      "label": "Leiden Algorithm",
-      "title": "From Louvain to Leiden: Guaranteeing Well-connected Communities",
-      "authors": [
-        "Vincent Traag",
-        "Ludo Waltman",
-        "Nees Jan van Eck"
-      ],
-      "authorShort": "Traag, Waltman, Eck",
-      "year": 2018,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Network Science",
-      "subCategory": "Community Detection",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Network Science",
-        "Community Detection",
-        "Leiden Algorithm"
-      ],
-      "tags": [],
-      "abstract": "Community detection is often used to understand the structure of large and complex networks. One of the most popular algorithms for uncovering community structure is the so-called Louvain algorithm. We show that this algorithm has a major defect that largely went unnoticed until now: the Louvain algorithm may yield arbitrarily badly connected communities. In the worst case, communities may even be disconnected, especially when running the algorithm iteratively. In our experimental analysis, we observe that up to 25% of the communities are badly connected and up to 16% are disconnected. To address this problem, we introduce the Leiden algorithm. We prove that the Leiden algorithm yields communities that are guaranteed to be connected. In addition, we prove that, when the Leiden algorithm is applied iteratively, it converges to a partition in which all subsets of all communities are locally optimally assigned. Furthermore, by relying on a fast local move approach, the Leiden algorithm runs faster than the Louvain algorithm. We demonstrate the performance of the Leiden algorithm for several benchmark and real-world networks. We find that the Leiden algorithm is faster than the Louvain algorithm and uncovers better partitions, in addition to providing explicit guarantees.",
-      "summary": "",
-      "url": "../papers/1810_08473/",
-      "treeUrl": "../tree/#paper=1810_08473",
-      "mapUrl": "../map/#paper=1810_08473"
-    },
-    {
-      "id": "2018_frostig_compiling_machine_learning_programs",
-      "label": "JAX",
-      "title": "Compiling Machine Learning Programs via High-Level Tracing",
-      "authors": [
-        "Roy Frostig",
-        "Matthew James Johnson",
-        "Chris Leary"
-      ],
-      "authorShort": "Frostig, Johnson, Leary",
-      "year": 2018,
-      "source": "Systems for Machine Learning (SysML)",
-      "type": "Workshop Paper",
-      "superCategory": "Foundations",
-      "category": "Software & Programming",
-      "subCategory": "Machine learning",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Software & Programming",
-        "Machine learning",
-        "JAX Ecosystem",
-        "JAX"
+        "Human & Natural Worlds",
+        "Environmental Impacts",
+        "ICT Global Emissions Footprint"
       ],
       "tags": [
-        "JAX",
-        "Automatic differentiation",
-        "JIT compilation",
-        "Tracing",
-        "XLA",
-        "Machine learning systems",
-        "Python",
-        "Accelerators"
+        "ICT sustainability",
+        "Carbon footprint",
+        "Greenhouse gas emissions",
+        "Data centers",
+        "Communication networks",
+        "Consumer electronics",
+        "Smartphone footprint",
+        "Life cycle emissions",
+        "Climate policy",
+        "Sustainable computing"
       ],
-      "abstract": "We describe JAX, a domain-specific tracing JIT compiler for generating high-performance accelerator code from pure Python and Numpy machine learning programs. JAX uses the XLA compiler infrastructure to generate optimized code for the program subroutines that are most favorable for acceleration, and these optimized subroutines can be called and orchestrated by arbitrary Python. Because the system is fully compatible with Autograd, it allows forward- and reverse-mode automatic differentiation of Python functions to arbitrary order. Because JAX supports structured control flow, it can generate code for sophisticated machine learning algorithms while maintaining high performance. We show that by combining JAX with Autograd and Numpy we get an easily programmable and highly performant ML system that targets CPUs, GPUs, and TPUs, capable of scaling to multi-core Cloud TPUs.",
-      "summary": "Introduces JAX as a high-level tracing compiler that combines NumPy-style Python, Autograd-compatible transformations, and XLA code generation. Its central contribution is making automatic differentiation, JIT compilation, and accelerator execution composable enough for research workflows.",
-      "url": "../papers/2018_frostig_compiling_machine_learning_programs/",
-      "treeUrl": "../tree/#paper=2018_frostig_compiling_machine_learning_programs",
-      "mapUrl": "../map/#paper=2018_frostig_compiling_machine_learning_programs"
-    },
-    {
-      "id": "1807_05118",
-      "label": "Tune",
-      "title": "Tune: A Research Platform for Distributed Model Selection and Training",
-      "authors": [
-        "Richard Liaw",
-        "Eric Liang",
-        "Robert Nishihara",
-        "Philipp Moritz",
-        "Joseph E. Gonzalez",
-        "Ion Stoica"
-      ],
-      "authorShort": "Liaw, Liang, Nishihara",
-      "year": 2018,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Software & Programming",
-      "subCategory": "Machine learning",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Software & Programming",
-        "Machine learning",
-        "Ray Ecosystem",
-        "Tune"
-      ],
-      "tags": [],
-      "abstract": "Modern machine learning algorithms are increasingly computationally demanding, requiring specialized hardware and distributed computation to achieve high performance in a reasonable time frame. Many hyperparameter search algorithms have been proposed for improving the efficiency of model selection, however their adaptation to the distributed compute environment is often ad-hoc. We propose Tune, a unified framework for model selection and training that provides a narrow-waist interface between training scripts and search algorithms. We show that this interface meets the requirements for a broad range of hyperparameter search algorithms, allows straightforward scaling of search to large clusters, and simplifies algorithm implementation. We demonstrate the implementation of several state-of-the-art hyperparameter search algorithms in Tune. Tune is available at http://ray.readthedocs.io/en/latest/tune.html.",
-      "summary": "",
-      "url": "../papers/1807_05118/",
-      "treeUrl": "../tree/#paper=1807_05118",
-      "mapUrl": "../map/#paper=1807_05118"
+      "abstract": "In light of the concerted efforts to reduce global greenhouse gas emissions (GHGE) per the so-called Paris Agreement, the Information and Communication Industry (ICT) has received little attention as a significant contributor to GHGE and if anything is often highly praised for enabling efficiencies that help reduce other industry sectors footprint. In this paper, we aim at assessing the global carbon footprint of the overall ICT industry, including the contribution from the main consumer devices, the data centers and communication networks, and compare it with the to the total worldwide GHGE. We conduct a detailed and rigorous analysis of the ICT global carbon footprint, including both the production and the operational energy of ICT devices, as well as the operational energy for the supporting ICT infrastructure. We then compare this contribution to the global 2016-level GHGE. We have found that, if unchecked, ICT GHGE relative contribution could grow from roughly 1-1.6% in 2007 to exceed 14% of the 2016-level worldwide GHGE by 2040, accounting for more than half of the current relative contribution of the whole transportation sector. Our study also highlights the contribution of smart phones and shows that by 2020, the footprint of smart phones alone would surpass the individual contribution of desktops, laptops and displays. Finally, we offer some actionable recommendations on how to mitigate and curb the ICT explosive GHGE footprint, through a combination of renewable energy use, tax policies, managerial actions and alternative business models.",
+      "summary": "Belkhir and Elmeligi estimate the global greenhouse gas footprint of the ICT sector across devices, data centers, and communications infrastructure, combining production and operational energy rather than treating digital services as immaterial. The paper is influential because it turns ICT growth into a long-range emissions trajectory, highlights smartphones as a major contributor, and frames mitigation as a mix of renewable energy, policy, management, and business-model changes.",
+      "url": "../papers/2018_belkhir_assessing_ict_global_emissions/",
+      "treeUrl": "../tree/#paper=2018_belkhir_assessing_ict_global_emissions",
+      "mapUrl": "../map/#paper=2018_belkhir_assessing_ict_global_emissions"
     },
     {
       "id": "1802_06640",
@@ -25465,7 +25904,7 @@ window.timelineData = {
         "Machine Learning",
         "Deep Learning",
         "Neural Networks",
-        "Theory & Empirical Observations",
+        "Theory & Science",
         "Do CIFAR-10 Classifiers Generalize to CIFAR-10?"
       ],
       "tags": [],
@@ -25529,7 +25968,7 @@ window.timelineData = {
         "Machine Learning",
         "Deep Learning",
         "Neural Networks",
-        "Theory & Empirical Observations",
+        "Theory & Science",
         "Reconciling modern machine learning practice and the bias-variance trade-off"
       ],
       "tags": [],
@@ -25656,12 +26095,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Kalman Filter",
+      "subCategory": "Robust State Estimation",
       "path": [
         "Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Kalman Filter",
+        "Robust State Estimation",
         "Wasserstein Distributionally Robust Kalman Filtering"
       ],
       "tags": [],
@@ -25670,6 +26109,139 @@ window.timelineData = {
       "url": "../papers/1809_08830/",
       "treeUrl": "../tree/#paper=1809_08830",
       "mapUrl": "../map/#paper=1809_08830"
+    },
+    {
+      "id": "1805_05533",
+      "label": "Discovering Transforms: A Tutorial on Circulant Matrices, Circular Convolution, and the Discrete Fourier Transform",
+      "title": "Discovering Transforms: A Tutorial on Circulant Matrices, Circular Convolution, and the Discrete Fourier Transform",
+      "authors": [
+        "Bassam Bamieh"
+      ],
+      "authorShort": "Bamieh",
+      "year": 2018,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Linear Algebra & Signal Processing",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Linear Algebra & Signal Processing",
+        "Fourier Transforms",
+        "Discovering Transforms: A Tutorial on Circulant Matrices, Circular Convolution, and the Discrete Fourier Transform"
+      ],
+      "tags": [],
+      "abstract": "How could the Fourier and other transforms be naturally discovered if one didn't know how to postulate them? In the case of the Discrete Fourier Transform (DFT), we show how it arises naturally out of analysis of circulant matrices. In particular, the DFT can be derived as the change of basis that simultaneously diagonalizes all circulant matrices. In this way, the DFT arises naturally from a linear algebra question about a set of matrices. Rather than thinking of the DFT as a signal transform, it is more natural to think of it as a single change of basis that renders an entire set of mutually-commuting matrices into simple, diagonal forms. The DFT can then be \"discovered\" by solving the eigenvalue/eigenvector problem for a special element in that set. A brief outline is given of how this line of thinking can be generalized to families of linear operators, leading to the discovery of the other common Fourier-type transforms, as well as its connections with group representations theory.",
+      "summary": "",
+      "url": "../papers/1805_05533/",
+      "treeUrl": "../tree/#paper=1805_05533",
+      "mapUrl": "../map/#paper=1805_05533"
+    },
+    {
+      "id": "1810_08473",
+      "label": "Leiden Algorithm",
+      "title": "From Louvain to Leiden: Guaranteeing Well-connected Communities",
+      "authors": [
+        "Vincent Traag",
+        "Ludo Waltman",
+        "Nees Jan van Eck"
+      ],
+      "authorShort": "Traag, Waltman, Eck",
+      "year": 2018,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Network Science",
+      "subCategory": "Community Detection",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Network Science",
+        "Community Detection",
+        "Leiden Algorithm"
+      ],
+      "tags": [],
+      "abstract": "Community detection is often used to understand the structure of large and complex networks. One of the most popular algorithms for uncovering community structure is the so-called Louvain algorithm. We show that this algorithm has a major defect that largely went unnoticed until now: the Louvain algorithm may yield arbitrarily badly connected communities. In the worst case, communities may even be disconnected, especially when running the algorithm iteratively. In our experimental analysis, we observe that up to 25% of the communities are badly connected and up to 16% are disconnected. To address this problem, we introduce the Leiden algorithm. We prove that the Leiden algorithm yields communities that are guaranteed to be connected. In addition, we prove that, when the Leiden algorithm is applied iteratively, it converges to a partition in which all subsets of all communities are locally optimally assigned. Furthermore, by relying on a fast local move approach, the Leiden algorithm runs faster than the Louvain algorithm. We demonstrate the performance of the Leiden algorithm for several benchmark and real-world networks. We find that the Leiden algorithm is faster than the Louvain algorithm and uncovers better partitions, in addition to providing explicit guarantees.",
+      "summary": "",
+      "url": "../papers/1810_08473/",
+      "treeUrl": "../tree/#paper=1810_08473",
+      "mapUrl": "../map/#paper=1810_08473"
+    },
+    {
+      "id": "2018_frostig_compiling_machine_learning_programs",
+      "label": "JAX",
+      "title": "Compiling Machine Learning Programs via High-Level Tracing",
+      "authors": [
+        "Roy Frostig",
+        "Matthew James Johnson",
+        "Chris Leary"
+      ],
+      "authorShort": "Frostig, Johnson, Leary",
+      "year": 2018,
+      "source": "Systems for Machine Learning (SysML)",
+      "type": "Workshop Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Software & Programming",
+      "subCategory": "Machine learning",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Machine learning",
+        "JAX Ecosystem",
+        "JAX"
+      ],
+      "tags": [
+        "JAX",
+        "Automatic differentiation",
+        "JIT compilation",
+        "Tracing",
+        "XLA",
+        "Machine learning systems",
+        "Python",
+        "Accelerators"
+      ],
+      "abstract": "We describe JAX, a domain-specific tracing JIT compiler for generating high-performance accelerator code from pure Python and Numpy machine learning programs. JAX uses the XLA compiler infrastructure to generate optimized code for the program subroutines that are most favorable for acceleration, and these optimized subroutines can be called and orchestrated by arbitrary Python. Because the system is fully compatible with Autograd, it allows forward- and reverse-mode automatic differentiation of Python functions to arbitrary order. Because JAX supports structured control flow, it can generate code for sophisticated machine learning algorithms while maintaining high performance. We show that by combining JAX with Autograd and Numpy we get an easily programmable and highly performant ML system that targets CPUs, GPUs, and TPUs, capable of scaling to multi-core Cloud TPUs.",
+      "summary": "Introduces JAX as a high-level tracing compiler that combines NumPy-style Python, Autograd-compatible transformations, and XLA code generation. Its central contribution is making automatic differentiation, JIT compilation, and accelerator execution composable enough for research workflows.",
+      "url": "../papers/2018_frostig_compiling_machine_learning_programs/",
+      "treeUrl": "../tree/#paper=2018_frostig_compiling_machine_learning_programs",
+      "mapUrl": "../map/#paper=2018_frostig_compiling_machine_learning_programs"
+    },
+    {
+      "id": "1807_05118",
+      "label": "Tune",
+      "title": "Tune: A Research Platform for Distributed Model Selection and Training",
+      "authors": [
+        "Richard Liaw",
+        "Eric Liang",
+        "Robert Nishihara",
+        "Philipp Moritz",
+        "Joseph E. Gonzalez",
+        "Ion Stoica"
+      ],
+      "authorShort": "Liaw, Liang, Nishihara",
+      "year": 2018,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Software & Programming",
+      "subCategory": "Machine learning",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Machine learning",
+        "Ray Ecosystem",
+        "Tune"
+      ],
+      "tags": [],
+      "abstract": "Modern machine learning algorithms are increasingly computationally demanding, requiring specialized hardware and distributed computation to achieve high performance in a reasonable time frame. Many hyperparameter search algorithms have been proposed for improving the efficiency of model selection, however their adaptation to the distributed compute environment is often ad-hoc. We propose Tune, a unified framework for model selection and training that provides a narrow-waist interface between training scripts and search algorithms. We show that this interface meets the requirements for a broad range of hyperparameter search algorithms, allows straightforward scaling of search to large clusters, and simplifies algorithm implementation. We demonstrate the implementation of several state-of-the-art hyperparameter search algorithms in Tune. Tune is available at http://ray.readthedocs.io/en/latest/tune.html.",
+      "summary": "",
+      "url": "../papers/1807_05118/",
+      "treeUrl": "../tree/#paper=1807_05118",
+      "mapUrl": "../map/#paper=1807_05118"
     },
     {
       "id": "1903_11199",
@@ -25704,67 +26276,6 @@ window.timelineData = {
       "url": "../papers/1903_11199/",
       "treeUrl": "../tree/#paper=1903_11199",
       "mapUrl": "../map/#paper=1903_11199"
-    },
-    {
-      "id": "1903_08599",
-      "label": "LMI Properties and Applications in Systems, Stability, and Control Theory",
-      "title": "LMI Properties and Applications in Systems, Stability, and Control Theory",
-      "authors": [
-        "Ryan James Caverly",
-        "James Richard Forbes"
-      ],
-      "authorShort": "Caverly, Forbes",
-      "year": 2019,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
-        "LMI Properties and Applications in Systems, Stability, and Control Theory"
-      ],
-      "tags": [],
-      "abstract": "Linear matrix inequalities (LMIs) commonly appear in systems, stability, and control applications. Many analysis and synthesis problems in these areas can be solved as feasibility or optimization problems subject to LMI constraints. Although most well-known LMI properties and manipulation tricks, such as the Schur complement and the congruence transformation, can be found in standard references, many useful LMI properties are scattered throughout the literature. The purpose of this document is to collect and organize properties, tricks, and applications related to LMIs from a number of references together in a single document. In this sense, the document can be thought of as an \"LMI encyclopedia\" or \"LMI cookbook.\" Proofs of the properties presented in this document are not included when they can be found in the cited references in the interest of brevity. Illustrative examples are included whenever necessary to fully explain a certain property. Multiple equivalent forms of LMIs are often presented to give the reader a choice of which form may be best suited for a particular problem at hand. The equivalency of some of the LMIs in this document may be straightforward to more experienced readers, but the authors believe that some readers may benefit from the presentation of multiple equivalent LMIs.",
-      "summary": "",
-      "url": "../papers/1903_08599/",
-      "treeUrl": "../tree/#paper=1903_08599",
-      "mapUrl": "../map/#paper=1903_08599"
-    },
-    {
-      "id": "1904_08451",
-      "label": "On Topological Properties of the Set of Stabilizing Feedback Gains",
-      "title": "On Topological Properties of the Set of Stabilizing Feedback Gains",
-      "authors": [
-        "Jingjing Bu",
-        "Afshin Mesbahi",
-        "Mehran Mesbahi"
-      ],
-      "authorShort": "Bu, Mesbahi, Mesbahi",
-      "year": 2019,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
-        "On Topological Properties of the Set of Stabilizing Feedback Gains"
-      ],
-      "tags": [],
-      "abstract": "This work presents a fairly complete account on various topological and metrical aspects of feedback stabilization for single-input-single-output (SISO) continuous and discrete time linear-time-invariant (LTI) systems. In particular, we prove that the set of stabilizing output feedback gains for a SISO system with n states has at most $\\lceil{\\frac{n}{2}}\\rceil$ connected components. Furthermore, our analysis yields an algorithm for determining intervals of stabilizing gains for general continuous and discrete LIT systems; the proposed algorithm also computes the number of unstable roots in each unstable interval. Along the way, we also make a number of observations on the set of stabilizing state feedback gains for MIMO systems.",
-      "summary": "",
-      "url": "../papers/1904_08451/",
-      "treeUrl": "../tree/#paper=1904_08451",
-      "mapUrl": "../map/#paper=1904_08451"
     },
     {
       "id": "1912_09990",
@@ -25831,6 +26342,67 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1907_06553"
     },
     {
+      "id": "1903_08599",
+      "label": "LMI Properties and Applications in Systems, Stability, and Control Theory",
+      "title": "LMI Properties and Applications in Systems, Stability, and Control Theory",
+      "authors": [
+        "Ryan James Caverly",
+        "James Richard Forbes"
+      ],
+      "authorShort": "Caverly, Forbes",
+      "year": 2019,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Theory",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Theory",
+        "Linear Matrix Inequalities (LMIs)",
+        "LMI Properties and Applications in Systems, Stability, and Control Theory"
+      ],
+      "tags": [],
+      "abstract": "Linear matrix inequalities (LMIs) commonly appear in systems, stability, and control applications. Many analysis and synthesis problems in these areas can be solved as feasibility or optimization problems subject to LMI constraints. Although most well-known LMI properties and manipulation tricks, such as the Schur complement and the congruence transformation, can be found in standard references, many useful LMI properties are scattered throughout the literature. The purpose of this document is to collect and organize properties, tricks, and applications related to LMIs from a number of references together in a single document. In this sense, the document can be thought of as an \"LMI encyclopedia\" or \"LMI cookbook.\" Proofs of the properties presented in this document are not included when they can be found in the cited references in the interest of brevity. Illustrative examples are included whenever necessary to fully explain a certain property. Multiple equivalent forms of LMIs are often presented to give the reader a choice of which form may be best suited for a particular problem at hand. The equivalency of some of the LMIs in this document may be straightforward to more experienced readers, but the authors believe that some readers may benefit from the presentation of multiple equivalent LMIs.",
+      "summary": "",
+      "url": "../papers/1903_08599/",
+      "treeUrl": "../tree/#paper=1903_08599",
+      "mapUrl": "../map/#paper=1903_08599"
+    },
+    {
+      "id": "1904_08451",
+      "label": "On Topological Properties of the Set of Stabilizing Feedback Gains",
+      "title": "On Topological Properties of the Set of Stabilizing Feedback Gains",
+      "authors": [
+        "Jingjing Bu",
+        "Afshin Mesbahi",
+        "Mehran Mesbahi"
+      ],
+      "authorShort": "Bu, Mesbahi, Mesbahi",
+      "year": 2019,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Theory",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Theory",
+        "Parameterization of Stabilizing Controllers",
+        "On Topological Properties of the Set of Stabilizing Feedback Gains"
+      ],
+      "tags": [],
+      "abstract": "This work presents a fairly complete account on various topological and metrical aspects of feedback stabilization for single-input-single-output (SISO) continuous and discrete time linear-time-invariant (LTI) systems. In particular, we prove that the set of stabilizing output feedback gains for a SISO system with n states has at most $\\lceil{\\frac{n}{2}}\\rceil$ connected components. Furthermore, our analysis yields an algorithm for determining intervals of stabilizing gains for general continuous and discrete LIT systems; the proposed algorithm also computes the number of unstable roots in each unstable interval. Along the way, we also make a number of observations on the set of stabilizing state feedback gains for MIMO systems.",
+      "summary": "",
+      "url": "../papers/1904_08451/",
+      "treeUrl": "../tree/#paper=1904_08451",
+      "mapUrl": "../map/#paper=1904_08451"
+    },
+    {
       "id": "2019_yang_a_survey_of_distributed",
       "label": "A survey of distributed optimization",
       "title": "A Survey of Distributed Optimization",
@@ -25858,7 +26430,7 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Continuous Optimization",
-        "Minimax & Game Theory",
+        "Distributed Optimization",
         "A survey of distributed optimization"
       ],
       "tags": [],
@@ -26642,6 +27214,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Optimal Control",
         "Inverse LQR"
       ],
       "tags": [
@@ -26682,6 +27255,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "LQR",
         "Analyzing the Variance of Policy Gradient Estimators for the Linear-Quadratic Regulator"
       ],
       "tags": [],
@@ -26713,6 +27287,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "Adaptive Linear Quadratic Control",
         "Certainty Equivalence is Efficient for Linear Quadratic Control"
       ],
       "tags": [],
@@ -26721,6 +27296,76 @@ window.timelineData = {
       "url": "../papers/1902_07826/",
       "treeUrl": "../tree/#paper=1902_07826",
       "mapUrl": "../map/#paper=1902_07826"
+    },
+    {
+      "id": "1909_10466",
+      "label": "DMD: Theory and Data Reconstruction",
+      "title": "Dynamic Mode Decomposition: Theory and Data Reconstruction",
+      "authors": [
+        "Tim Krake",
+        "Daniel Weiskopf",
+        "Bernhard Eberhardt"
+      ],
+      "authorShort": "Krake, Weiskopf, Eberhardt",
+      "year": 2019,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Dynamic Mode Decomposition (DMD)",
+        "DMD: Theory and Data Reconstruction"
+      ],
+      "tags": [
+        "Dynamic mode decomposition",
+        "DMD",
+        "Data-driven",
+        "Data reconstruction"
+      ],
+      "abstract": "Dynamic Mode Decomposition (DMD) is a data-driven decomposition technique extracting spatio-temporal patterns of time-dependent phenomena. In this paper, we perform a comprehensive theoretical analysis of various variants of DMD. We provide a systematic advancement of these and examine the interrelations. In addition, several results of each variant are proven. Our main result is the exact reconstruction property. To this end, a new modification of scaling factors is presented and a new concept of an error scaling is introduced to guarantee an error-free reconstruction of the data.",
+      "summary": "Tutorial and survey that presents theoretical analysis of DMD with a focus on data reconstruction from DMD modes, addressing the relationship between DMD approximations and the underlying dynamics of the system.",
+      "url": "../papers/1909_10466/",
+      "treeUrl": "../tree/#paper=1909_10466",
+      "mapUrl": "../map/#paper=1909_10466"
+    },
+    {
+      "id": "1903_09122",
+      "label": "Finite Sample Analysis of Stochastic System Identification",
+      "title": "Finite Sample Analysis of Stochastic System Identification",
+      "authors": [
+        "Anastasios Tsiamis",
+        "George J. Pappas"
+      ],
+      "authorShort": "Tsiamis, Pappas",
+      "year": 2019,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Linear Systems with Additive Noise",
+        "Finite Sample Analysis of Stochastic System Identification"
+      ],
+      "tags": [],
+      "abstract": "In this paper, we analyze the finite sample complexity of stochastic system identification using modern tools from machine learning and statistics. An unknown discrete-time linear system evolves over time under Gaussian noise without external inputs. The objective is to recover the system parameters as well as the Kalman filter gain, given a single trajectory of output measurements over a finite horizon of length $N$. Based on a subspace identification algorithm and a finite number of $N$ output samples, we provide non-asymptotic high-probability upper bounds for the system parameter estimation errors. Our analysis uses recent results from random matrix theory, self-normalized martingales and SVD robustness, in order to show that with high probability the estimation errors decrease with a rate of $1/\\sqrt{N}$. Our non-asymptotic bounds not only agree with classical asymptotic results, but are also valid even when the system is marginally stable.",
+      "summary": "",
+      "url": "../papers/1903_09122/",
+      "treeUrl": "../tree/#paper=1903_09122",
+      "mapUrl": "../map/#paper=1903_09122"
     },
     {
       "id": "1905_13547",
@@ -26744,6 +27389,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "LQR with Multiplicative Noise",
         "Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient"
       ],
       "tags": [
@@ -26790,6 +27436,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "Adaptive Linear Quadratic Control",
         "Logarithmic Regret for Online Control"
       ],
       "tags": [],
@@ -26822,6 +27469,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "LQR",
         "LQR through the Lens of First Order Methods"
       ],
       "tags": [],
@@ -26852,6 +27500,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "Robust Adaptive Linear Quadratic Control",
         "Optimistic robust linear quadratic dual control"
       ],
       "tags": [],
@@ -26883,6 +27532,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "Robust LQ",
         "Policy Optimization for H2 Linear Control with H-infinity Robustness Guarantee"
       ],
       "tags": [],
@@ -26914,6 +27564,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "Robust LQ",
         "Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum LQ Games"
       ],
       "tags": [],
@@ -26946,6 +27597,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "Robust Adaptive Linear Quadratic Control",
         "Robust exploration in linear quadratic reinforcement learning"
       ],
       "tags": [],
@@ -26977,6 +27629,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "LQR with Multiplicative Noise",
         "Sparse Optimal Control of Networks with Multiplicative Noise via Policy Gradient"
       ],
       "tags": [
@@ -26993,66 +27646,34 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1905_13548"
     },
     {
-      "id": "2019_sheckells_using_data_driven_domain",
-      "label": "Using Data-Driven Domain Randomization to Transfer Robust Control Policies to Mobile Robots",
-      "title": "Using Data-Driven Domain Randomization to Transfer Robust Control Policies to Mobile Robots",
+      "id": "1911_10635",
+      "label": "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms",
+      "title": "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms",
       "authors": [
-        "Matthew Sheckells",
-        "Gowtham Garimella",
-        "Subhransu Mishra",
-        "Marin Kobilarov"
+        "Kaiqing Zhang",
+        "Zhuoran Yang",
+        "Tamer Başar"
       ],
-      "authorShort": "Sheckells, Garimella, Mishra",
-      "year": 2019,
-      "source": "2019 International Conference on Robotics and Automation (ICRA)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Linear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Linear Systems",
-        "Using Data-Driven Domain Randomization to Transfer Robust Control Policies to Mobile Robots"
-      ],
-      "tags": [],
-      "abstract": "This work develops a technique for using robot motion trajectories to create a high quality stochastic dynamics model that is then leveraged in simulation to train control policies with associated performance guarantees. We demonstrate the idea by collecting dynamics data from a 1/5 scale agile ground vehicle, fitting a stochastic dynamics model, and training a policy in simulation to drive around an oval track at up to 6.5 m/s while avoiding obstacles. We show that the control policy can be transferred back to the real vehicle with little loss in predicted performance. We compare this to an approach that uses a simple analytic car model to train a policy in simulation and show that using a model with stochasticity learned from data leads to higher performance in terms of trajectory tracking accuracy and collision probability. Furthermore, we show empirically that simulation-derived performance guarantees transfer to the actual vehicle when executing a policy optimized using a deep stochastic dynamics model fit to vehicle data.",
-      "summary": "",
-      "url": "../papers/2019_sheckells_using_data_driven_domain/",
-      "treeUrl": "../tree/#paper=2019_sheckells_using_data_driven_domain",
-      "mapUrl": "../map/#paper=2019_sheckells_using_data_driven_domain"
-    },
-    {
-      "id": "1906_11395",
-      "label": "A Tutorial on Concentration Bounds for System Identification",
-      "title": "A Tutorial on Concentration Bounds for System Identification",
-      "authors": [
-        "Nikolai Matni",
-        "Stephen Tu"
-      ],
-      "authorShort": "Matni, Tu",
+      "authorShort": "Zhang, Yang, Başar",
       "year": 2019,
       "source": "",
       "type": "",
       "superCategory": "Decision-making",
       "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
+      "subCategory": "Multi-agent Reinforcement learning",
       "path": [
         "Tree",
         "Decision-making",
         "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "A Tutorial on Concentration Bounds for System Identification"
+        "Multi-agent Reinforcement learning",
+        "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms"
       ],
       "tags": [],
-      "abstract": "We provide a brief tutorial on the use of concentration inequalities as they apply to system identification of state-space parameters of linear time invariant systems, with a focus on the fully observed setting. We draw upon tools from the theories of large-deviations and self-normalized martingales, and provide both data-dependent and independent bounds on the learning rate.",
+      "abstract": "Recent years have witnessed significant advances in reinforcement learning (RL), which has registered great success in solving various sequential decision-making problems in machine learning. Most of the successful RL applications, e.g., the games of Go and Poker, robotics, and autonomous driving, involve the participation of more than one single agent, which naturally fall into the realm of multi-agent RL (MARL), a domain with a relatively long history, and has recently re-emerged due to advances in single-agent RL techniques. Though empirically successful, theoretical foundations for MARL are relatively lacking in the literature. In this chapter, we provide a selective overview of MARL, with focus on algorithms backed by theoretical analysis. More specifically, we review the theoretical results of MARL algorithms mainly within two representative frameworks, Markov/stochastic games and extensive-form games, in accordance with the types of tasks they address, i.e., fully cooperative, fully competitive, and a mix of the two. We also introduce several significant but challenging applications of these algorithms. Orthogonal to the existing reviews on MARL, we highlight several new angles and taxonomies of MARL theory, including learning in extensive-form games, decentralized MARL with networked agents, MARL in the mean-field regime, (non-)convergence of policy-based methods for learning in games, etc. Some of the new angles extrapolate from our own research endeavors and interests. Our overall goal with this chapter is, beyond providing an assessment of the current state of the field on the mark, to identify fruitful future research directions on theoretical studies of MARL. We expect this chapter to serve as continuing stimulus for researchers interested in working on this exciting while challenging topic.",
       "summary": "",
-      "url": "../papers/1906_11395/",
-      "treeUrl": "../tree/#paper=1906_11395",
-      "mapUrl": "../map/#paper=1906_11395"
+      "url": "../papers/1911_10635/",
+      "treeUrl": "../tree/#paper=1911_10635",
+      "mapUrl": "../map/#paper=1911_10635"
     },
     {
       "id": "1911_01546",
@@ -27086,44 +27707,6 @@ window.timelineData = {
       "url": "../papers/1911_01546/",
       "treeUrl": "../tree/#paper=1911_01546",
       "mapUrl": "../map/#paper=1911_01546"
-    },
-    {
-      "id": "1909_10466",
-      "label": "DMD: Theory and Data Reconstruction",
-      "title": "Dynamic Mode Decomposition: Theory and Data Reconstruction",
-      "authors": [
-        "Tim Krake",
-        "Daniel Weiskopf",
-        "Bernhard Eberhardt"
-      ],
-      "authorShort": "Krake, Weiskopf, Eberhardt",
-      "year": 2019,
-      "source": "arXiv",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "Dynamic Mode Decomposition (DMD)",
-        "DMD: Theory and Data Reconstruction"
-      ],
-      "tags": [
-        "Dynamic mode decomposition",
-        "DMD",
-        "Data-driven",
-        "Data reconstruction"
-      ],
-      "abstract": "Dynamic Mode Decomposition (DMD) is a data-driven decomposition technique extracting spatio-temporal patterns of time-dependent phenomena. In this paper, we perform a comprehensive theoretical analysis of various variants of DMD. We provide a systematic advancement of these and examine the interrelations. In addition, several results of each variant are proven. Our main result is the exact reconstruction property. To this end, a new modification of scaling factors is presented and a new concept of an error scaling is introduced to guarantee an error-free reconstruction of the data.",
-      "summary": "Tutorial and survey that presents theoretical analysis of DMD with a focus on data reconstruction from DMD modes, addressing the relationship between DMD approximations and the underlying dynamics of the system.",
-      "url": "../papers/1909_10466/",
-      "treeUrl": "../tree/#paper=1909_10466",
-      "mapUrl": "../map/#paper=1909_10466"
     },
     {
       "id": "1912_01603",
@@ -27165,37 +27748,6 @@ window.timelineData = {
       "url": "../papers/1912_01603/",
       "treeUrl": "../tree/#paper=1912_01603",
       "mapUrl": "../map/#paper=1912_01603"
-    },
-    {
-      "id": "1903_09122",
-      "label": "Finite Sample Analysis of Stochastic System Identification",
-      "title": "Finite Sample Analysis of Stochastic System Identification",
-      "authors": [
-        "Anastasios Tsiamis",
-        "George J. Pappas"
-      ],
-      "authorShort": "Tsiamis, Pappas",
-      "year": 2019,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "Finite Sample Analysis of Stochastic System Identification"
-      ],
-      "tags": [],
-      "abstract": "In this paper, we analyze the finite sample complexity of stochastic system identification using modern tools from machine learning and statistics. An unknown discrete-time linear system evolves over time under Gaussian noise without external inputs. The objective is to recover the system parameters as well as the Kalman filter gain, given a single trajectory of output measurements over a finite horizon of length $N$. Based on a subspace identification algorithm and a finite number of $N$ output samples, we provide non-asymptotic high-probability upper bounds for the system parameter estimation errors. Our analysis uses recent results from random matrix theory, self-normalized martingales and SVD robustness, in order to show that with high probability the estimation errors decrease with a rate of $1/\\sqrt{N}$. Our non-asymptotic bounds not only agree with classical asymptotic results, but are also valid even when the system is marginally stable.",
-      "summary": "",
-      "url": "../papers/1903_09122/",
-      "treeUrl": "../tree/#paper=1903_09122",
-      "mapUrl": "../map/#paper=1903_09122"
     },
     {
       "id": "1905_12842",
@@ -27370,38 +27922,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2001_02153"
     },
     {
-      "id": "1911_10635",
-      "label": "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms",
-      "title": "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms",
-      "authors": [
-        "Kaiqing Zhang",
-        "Zhuoran Yang",
-        "Tamer Başar"
-      ],
-      "authorShort": "Zhang, Yang, Başar",
-      "year": 2019,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "Surveys & Control Connections",
-        "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms"
-      ],
-      "tags": [],
-      "abstract": "Recent years have witnessed significant advances in reinforcement learning (RL), which has registered great success in solving various sequential decision-making problems in machine learning. Most of the successful RL applications, e.g., the games of Go and Poker, robotics, and autonomous driving, involve the participation of more than one single agent, which naturally fall into the realm of multi-agent RL (MARL), a domain with a relatively long history, and has recently re-emerged due to advances in single-agent RL techniques. Though empirically successful, theoretical foundations for MARL are relatively lacking in the literature. In this chapter, we provide a selective overview of MARL, with focus on algorithms backed by theoretical analysis. More specifically, we review the theoretical results of MARL algorithms mainly within two representative frameworks, Markov/stochastic games and extensive-form games, in accordance with the types of tasks they address, i.e., fully cooperative, fully competitive, and a mix of the two. We also introduce several significant but challenging applications of these algorithms. Orthogonal to the existing reviews on MARL, we highlight several new angles and taxonomies of MARL theory, including learning in extensive-form games, decentralized MARL with networked agents, MARL in the mean-field regime, (non-)convergence of policy-based methods for learning in games, etc. Some of the new angles extrapolate from our own research endeavors and interests. Our overall goal with this chapter is, beyond providing an assessment of the current state of the field on the mark, to identify fruitful future research directions on theoretical studies of MARL. We expect this chapter to serve as continuing stimulus for researchers interested in working on this exciting while challenging topic.",
-      "summary": "",
-      "url": "../papers/1911_10635/",
-      "treeUrl": "../tree/#paper=1911_10635",
-      "mapUrl": "../map/#paper=1911_10635"
-    },
-    {
       "id": "1905_00820",
       "label": "On the smoothness of nonlinear system identification",
       "title": "On the Smoothness of Nonlinear System Identification",
@@ -27537,6 +28057,39 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1909_06933"
     },
     {
+      "id": "2019_sheckells_using_data_driven_domain",
+      "label": "Using Data-Driven Domain Randomization to Transfer Robust Control Policies to Mobile Robots",
+      "title": "Using Data-Driven Domain Randomization to Transfer Robust Control Policies to Mobile Robots",
+      "authors": [
+        "Matthew Sheckells",
+        "Gowtham Garimella",
+        "Subhransu Mishra",
+        "Marin Kobilarov"
+      ],
+      "authorShort": "Sheckells, Garimella, Mishra",
+      "year": 2019,
+      "source": "2019 International Conference on Robotics and Automation (ICRA)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Nonlinear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Using Data-Driven Domain Randomization to Transfer Robust Control Policies to Mobile Robots"
+      ],
+      "tags": [],
+      "abstract": "This work develops a technique for using robot motion trajectories to create a high quality stochastic dynamics model that is then leveraged in simulation to train control policies with associated performance guarantees. We demonstrate the idea by collecting dynamics data from a 1/5 scale agile ground vehicle, fitting a stochastic dynamics model, and training a policy in simulation to drive around an oval track at up to 6.5 m/s while avoiding obstacles. We show that the control policy can be transferred back to the real vehicle with little loss in predicted performance. We compare this to an approach that uses a simple analytic car model to train a policy in simulation and show that using a model with stochasticity learned from data leads to higher performance in terms of trajectory tracking accuracy and collision probability. Furthermore, we show empirically that simulation-derived performance guarantees transfer to the actual vehicle when executing a policy optimized using a deep stochastic dynamics model fit to vehicle data.",
+      "summary": "",
+      "url": "../papers/2019_sheckells_using_data_driven_domain/",
+      "treeUrl": "../tree/#paper=2019_sheckells_using_data_driven_domain",
+      "mapUrl": "../map/#paper=2019_sheckells_using_data_driven_domain"
+    },
+    {
       "id": "2019_katz_mini_cheetah_a_platform",
       "label": "Mini Cheetah",
       "title": "Mini Cheetah: A Platform for Pushing the Limits of Dynamic Quadruped Control",
@@ -27550,12 +28103,15 @@ window.timelineData = {
       "source": "2019 International Conference on Robotics and Automation (ICRA)",
       "type": "Conference Paper",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Quadrupeds",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Walking Robots",
         "Quadrupeds",
         "Mini Cheetah"
       ],
@@ -27631,176 +28187,45 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2019_thomas_preventing_undesirable_behavior_of"
     },
     {
-      "id": "1908_10396",
-      "label": "Accelerating Large-Scale Inference with Anisotropic Vector Quantization",
-      "title": "Accelerating Large-Scale Inference with Anisotropic Vector Quantization",
+      "id": "1907_10597",
+      "label": "Green AI",
+      "title": "Green AI",
       "authors": [
-        "Ruiqi Guo",
-        "Philip Sun",
-        "Erik Lindgren",
-        "Quan Geng",
-        "David Simcha",
-        "Felix Chern",
-        "Sanjiv Kumar"
+        "Roy Schwartz",
+        "Jesse Dodge",
+        "Noah A. Smith",
+        "Oren Etzioni"
       ],
-      "authorShort": "Guo, Sun, Lindgren",
+      "authorShort": "Schwartz, Dodge, Smith",
       "year": 2019,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Nearest Neighbor Search",
+      "source": "Communications of the ACM",
+      "type": "Journal Paper",
+      "superCategory": "Human & Natural Worlds",
+      "category": "Environmental Impacts",
+      "subCategory": "Green AI",
       "path": [
         "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Nearest Neighbor Search",
-        "Accelerating Large-Scale Inference with Anisotropic Vector Quantization"
-      ],
-      "tags": [],
-      "abstract": "Quantization based techniques are the current state-of-the-art for scaling maximum inner product search to massive databases. Traditional approaches to quantization aim to minimize the reconstruction error of the database points. Based on the observation that for a given query, the database points that have the largest inner products are more relevant, we develop a family of anisotropic quantization loss functions. Under natural statistical assumptions, we show that quantization with these loss functions leads to a new variant of vector quantization that more greatly penalizes the parallel component of a datapoint's residual relative to its orthogonal component. The proposed approach achieves state-of-the-art results on the public benchmarks available at \\url{ann-benchmarks.com}.",
-      "summary": "",
-      "url": "../papers/1908_10396/",
-      "treeUrl": "../tree/#paper=1908_10396",
-      "mapUrl": "../map/#paper=1908_10396"
-    },
-    {
-      "id": "1901_00997",
-      "label": "Concentration Bounds for CVaR Estimation",
-      "title": "Concentration Bounds for CVaR Estimation: The Cases of Light-tailed and Heavy-tailed Distributions",
-      "authors": [
-        "Prashanth L. A.",
-        "Krishna Jagannathan",
-        "Ravi Kumar Kolla"
-      ],
-      "authorShort": "A., Jagannathan, Kolla",
-      "year": 2019,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Statistics & Probability",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Mathematics",
-        "Statistics & Probability",
-        "Risk Measures",
-        "Concentration Bounds for CVaR Estimation"
-      ],
-      "tags": [],
-      "abstract": "Conditional Value-at-Risk (CVaR) is a widely used risk metric in applications such as finance. We derive concentration bounds for CVaR estimates, considering separately the cases of light-tailed and heavy-tailed distributions. In the light-tailed case, we use a classical CVaR estimator based on the empirical distribution constructed from the samples. For heavy-tailed random variables, we assume a mild `bounded moment' condition, and derive a concentration bound for a truncation-based estimator. Notably, our concentration bounds enjoy an exponential decay in the sample size, for heavy-tailed as well as light-tailed distributions. To demonstrate the applicability of our concentration results, we consider a CVaR optimization problem in a multi-armed bandit setting. Specifically, we address the best CVaR-arm identification problem under a fixed budget. We modify the well-known successive rejects algorithm to incorporate a CVaR-based criterion. Using the CVaR concentration result, we derive an upper-bound on the probability of incorrect identification by the proposed algorithm.",
-      "summary": "",
-      "url": "../papers/1901_00997/",
-      "treeUrl": "../tree/#paper=1901_00997",
-      "mapUrl": "../map/#paper=1901_00997"
-    },
-    {
-      "id": "2019_wainwright_high_dimensional_statistics",
-      "label": "High-dimensional Statistics",
-      "title": "High-dimensional Statistics",
-      "authors": [
-        "Martin J. Wainwright"
-      ],
-      "authorShort": "Wainwright",
-      "year": 2019,
-      "source": "cambridge.org",
-      "type": "Other",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Statistics & Probability",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Mathematics",
-        "Statistics & Probability",
-        "High-dimensional Statistics"
+        "Human & Natural Worlds",
+        "Environmental Impacts",
+        "Green AI"
       ],
       "tags": [
-        "Statistics"
+        "Green AI",
+        "Sustainable AI",
+        "Machine learning efficiency",
+        "Deep learning",
+        "Carbon footprint",
+        "Computational cost",
+        "Model evaluation",
+        "Energy efficiency",
+        "Research incentives",
+        "AI accessibility"
       ],
-      "abstract": "Recent years have witnessed an explosion in the volume and variety of data collected in all scientific disciplines and industrial settings. Such massive data sets present a number of challenges to researchers in statistics and machine learning. This book provides a self-contained introduction to the area of high-dimensional statistics, aimed at the first-year graduate level. It includes chapters that are focused on core methodology and theory - including tail bounds, concentration inequalities, uniform laws and empirical process, and random matrices - as well as chapters devoted to in-depth exploration of particular model classes - including sparse linear models, matrix models with rank constraints, graphical models, and various types of non-parametric models. With hundreds of worked examples and exercises, this text is intended both for courses and for self-study by graduate students and researchers in statistics, machine learning, and related fields who must understand, apply, and adapt modern statistical methods suited to large-scale data.",
-      "summary": "Wainwright provides a graduate-level, non-asymptotic treatment of high-dimensional statistics, connecting probability tools such as concentration inequalities and random matrix bounds to statistical model classes such as sparse regression, low-rank matrix models, graphical models, and nonparametric estimation.",
-      "url": "../papers/2019_wainwright_high_dimensional_statistics/",
-      "treeUrl": "../tree/#paper=2019_wainwright_high_dimensional_statistics",
-      "mapUrl": "../map/#paper=2019_wainwright_high_dimensional_statistics"
-    },
-    {
-      "id": "2019_raasveldt_duckdb",
-      "label": "DuckDB",
-      "title": "DuckDB",
-      "authors": [
-        "Mark Raasveldt",
-        "Hannes Mühleisen"
-      ],
-      "authorShort": "Raasveldt, Mühleisen",
-      "year": 2019,
-      "source": "Proceedings of the 2019 International Conference on Management of Data",
-      "type": "Conference Paper",
-      "superCategory": "Foundations",
-      "category": "Software & Programming",
-      "subCategory": "Databases",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Software & Programming",
-        "Databases",
-        "DuckDB"
-      ],
-      "tags": [],
-      "abstract": "The immense popularity of SQLite shows that there is a need for unobtrusive in-process data management solutions. However, there is no such system yet geared towards analytical workloads. We demonstrate DuckDB, a novel data management system designed to execute analytical SQL queries while embedded in another process. In our demonstration, we pit DuckDB against other data management solutions to showcase its performance in the embedded analytics scenario. DuckDB is available as Open Source software under a permissive license.",
-      "summary": "",
-      "url": "../papers/2019_raasveldt_duckdb/",
-      "treeUrl": "../tree/#paper=2019_raasveldt_duckdb",
-      "mapUrl": "../map/#paper=2019_raasveldt_duckdb"
-    },
-    {
-      "id": "1912_01703",
-      "label": "PyTorch",
-      "title": "PyTorch: An Imperative Style, High-Performance Deep Learning Library",
-      "authors": [
-        "Adam Paszke",
-        "Sam Gross",
-        "Francisco Massa",
-        "Adam Lerer",
-        "James Bradbury",
-        "Gregory Chanan",
-        "Trevor Killeen",
-        "Zeming Lin",
-        "Natalia Gimelshein",
-        "Luca Antiga",
-        "Alban Desmaison",
-        "Andreas Köpf",
-        "Edward Yang",
-        "Zach DeVito",
-        "Martin Raison",
-        "Alykhan Tejani",
-        "Sasank Chilamkurthy",
-        "Benoit Steiner",
-        "Lu Fang",
-        "Junjie Bai",
-        "Soumith Chintala"
-      ],
-      "authorShort": "Paszke, Gross, Massa",
-      "year": 2019,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Software & Programming",
-      "subCategory": "Machine learning",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Software & Programming",
-        "Machine learning",
-        "PyTorch"
-      ],
-      "tags": [],
-      "abstract": "Deep learning frameworks have often focused on either usability or speed, but not both. PyTorch is a machine learning library that shows that these two goals are in fact compatible: it provides an imperative and Pythonic programming style that supports code as a model, makes debugging easy and is consistent with other popular scientific computing libraries, while remaining efficient and supporting hardware accelerators such as GPUs. In this paper, we detail the principles that drove the implementation of PyTorch and how they are reflected in its architecture. We emphasize that every aspect of PyTorch is a regular Python program under the full control of its user. We also explain how the careful and pragmatic implementation of the key components of its runtime enables them to work together to achieve compelling performance. We demonstrate the efficiency of individual subsystems, as well as the overall speed of PyTorch on several common benchmarks.",
-      "summary": "",
-      "url": "../papers/1912_01703/",
-      "treeUrl": "../tree/#paper=1912_01703",
-      "mapUrl": "../map/#paper=1912_01703"
+      "abstract": "The computations required for deep learning research have been doubling every few months, resulting in an estimated 300,000x increase from 2012 to 2018 [2]. These computations have a surprisingly large carbon footprint [38]. Ironically, deep learning was inspired by the human brain, which is remarkably energy efficient. Moreover, the financial cost of the computations can make it difficult for academics, students, and researchers, in particular those from emerging economies, to engage in deep learning research. This position paper advocates a practical solution by making efficiency an evaluation criterion for research alongside accuracy and related measures. In addition, we propose reporting the financial cost or \"price tag\" of developing, training, and running models to provide baselines for the investigation of increasingly efficient methods. Our goal is to make AI both greener and more inclusive---enabling any inspired undergraduate with a laptop to write high-quality research papers.",
+      "summary": "Schwartz, Dodge, Smith, and Etzioni introduce the Green AI framing, arguing that machine learning research should report and optimize computational efficiency rather than rewarding accuracy at any compute cost. The paper is influential because it gives the community a compact vocabulary for the environmental and equity costs of deep learning, and it helped make compute, energy, and financial cost routine considerations in later AI evaluation and reporting work.",
+      "url": "../papers/1907_10597/",
+      "treeUrl": "../tree/#paper=1907_10597",
+      "mapUrl": "../map/#paper=1907_10597"
     },
     {
       "id": "1908_05968",
@@ -27894,7 +28319,7 @@ window.timelineData = {
         "Machine Learning",
         "Deep Learning",
         "Neural Networks",
-        "Theory & Empirical Observations",
+        "Theory & Science",
         "Deep Double Descent: Where Bigger Models and More Data Hurt"
       ],
       "tags": [],
@@ -27927,7 +28352,7 @@ window.timelineData = {
         "Machine Learning",
         "Deep Learning",
         "Neural Networks",
-        "Theory & Empirical Observations",
+        "Theory & Science",
         "Deep Learning Advancements: Closing the Gap"
       ],
       "tags": [],
@@ -28159,12 +28584,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Prediction & Perception",
       "category": "State Estimation",
-      "subCategory": "Kalman Filter",
+      "subCategory": "Learning-based State Estimation",
       "path": [
         "Tree",
         "Prediction & Perception",
         "State Estimation",
-        "Kalman Filter",
+        "Learning-based State Estimation",
         "Fitting a Kalman Smoother to Data"
       ],
       "tags": [],
@@ -28173,6 +28598,275 @@ window.timelineData = {
       "url": "../papers/1910_08615/",
       "treeUrl": "../tree/#paper=1910_08615",
       "mapUrl": "../map/#paper=1910_08615"
+    },
+    {
+      "id": "1908_10396",
+      "label": "Accelerating Large-Scale Inference with Anisotropic Vector Quantization",
+      "title": "Accelerating Large-Scale Inference with Anisotropic Vector Quantization",
+      "authors": [
+        "Ruiqi Guo",
+        "Philip Sun",
+        "Erik Lindgren",
+        "Quan Geng",
+        "David Simcha",
+        "Felix Chern",
+        "Sanjiv Kumar"
+      ],
+      "authorShort": "Guo, Sun, Lindgren",
+      "year": 2019,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Nearest Neighbor Search",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Nearest Neighbor Search",
+        "Quantization",
+        "Accelerating Large-Scale Inference with Anisotropic Vector Quantization"
+      ],
+      "tags": [],
+      "abstract": "Quantization based techniques are the current state-of-the-art for scaling maximum inner product search to massive databases. Traditional approaches to quantization aim to minimize the reconstruction error of the database points. Based on the observation that for a given query, the database points that have the largest inner products are more relevant, we develop a family of anisotropic quantization loss functions. Under natural statistical assumptions, we show that quantization with these loss functions leads to a new variant of vector quantization that more greatly penalizes the parallel component of a datapoint's residual relative to its orthogonal component. The proposed approach achieves state-of-the-art results on the public benchmarks available at \\url{ann-benchmarks.com}.",
+      "summary": "",
+      "url": "../papers/1908_10396/",
+      "treeUrl": "../tree/#paper=1908_10396",
+      "mapUrl": "../map/#paper=1908_10396"
+    },
+    {
+      "id": "1906_11395",
+      "label": "A Tutorial on Concentration Bounds for System Identification",
+      "title": "A Tutorial on Concentration Bounds for System Identification",
+      "authors": [
+        "Nikolai Matni",
+        "Stephen Tu"
+      ],
+      "authorShort": "Matni, Tu",
+      "year": 2019,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Statistics & Probability",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Statistics & Probability",
+        "Concentration Bounds",
+        "A Tutorial on Concentration Bounds for System Identification"
+      ],
+      "tags": [],
+      "abstract": "We provide a brief tutorial on the use of concentration inequalities as they apply to system identification of state-space parameters of linear time invariant systems, with a focus on the fully observed setting. We draw upon tools from the theories of large-deviations and self-normalized martingales, and provide both data-dependent and independent bounds on the learning rate.",
+      "summary": "",
+      "url": "../papers/1906_11395/",
+      "treeUrl": "../tree/#paper=1906_11395",
+      "mapUrl": "../map/#paper=1906_11395"
+    },
+    {
+      "id": "1901_00997",
+      "label": "Concentration Bounds for CVaR Estimation",
+      "title": "Concentration Bounds for CVaR Estimation: The Cases of Light-tailed and Heavy-tailed Distributions",
+      "authors": [
+        "Prashanth L. A.",
+        "Krishna Jagannathan",
+        "Ravi Kumar Kolla"
+      ],
+      "authorShort": "A., Jagannathan, Kolla",
+      "year": 2019,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Statistics & Probability",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Statistics & Probability",
+        "Concentration Bounds",
+        "Concentration Bounds for CVaR Estimation"
+      ],
+      "tags": [],
+      "abstract": "Conditional Value-at-Risk (CVaR) is a widely used risk metric in applications such as finance. We derive concentration bounds for CVaR estimates, considering separately the cases of light-tailed and heavy-tailed distributions. In the light-tailed case, we use a classical CVaR estimator based on the empirical distribution constructed from the samples. For heavy-tailed random variables, we assume a mild `bounded moment' condition, and derive a concentration bound for a truncation-based estimator. Notably, our concentration bounds enjoy an exponential decay in the sample size, for heavy-tailed as well as light-tailed distributions. To demonstrate the applicability of our concentration results, we consider a CVaR optimization problem in a multi-armed bandit setting. Specifically, we address the best CVaR-arm identification problem under a fixed budget. We modify the well-known successive rejects algorithm to incorporate a CVaR-based criterion. Using the CVaR concentration result, we derive an upper-bound on the probability of incorrect identification by the proposed algorithm.",
+      "summary": "",
+      "url": "../papers/1901_00997/",
+      "treeUrl": "../tree/#paper=1901_00997",
+      "mapUrl": "../map/#paper=1901_00997"
+    },
+    {
+      "id": "2019_wainwright_high_dimensional_statistics",
+      "label": "High-dimensional Statistics",
+      "title": "High-dimensional Statistics",
+      "authors": [
+        "Martin J. Wainwright"
+      ],
+      "authorShort": "Wainwright",
+      "year": 2019,
+      "source": "cambridge.org",
+      "type": "Other",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Statistics & Probability",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Statistics & Probability",
+        "High-dimensional Statistics"
+      ],
+      "tags": [
+        "Statistics"
+      ],
+      "abstract": "Recent years have witnessed an explosion in the volume and variety of data collected in all scientific disciplines and industrial settings. Such massive data sets present a number of challenges to researchers in statistics and machine learning. This book provides a self-contained introduction to the area of high-dimensional statistics, aimed at the first-year graduate level. It includes chapters that are focused on core methodology and theory - including tail bounds, concentration inequalities, uniform laws and empirical process, and random matrices - as well as chapters devoted to in-depth exploration of particular model classes - including sparse linear models, matrix models with rank constraints, graphical models, and various types of non-parametric models. With hundreds of worked examples and exercises, this text is intended both for courses and for self-study by graduate students and researchers in statistics, machine learning, and related fields who must understand, apply, and adapt modern statistical methods suited to large-scale data.",
+      "summary": "Wainwright provides a graduate-level, non-asymptotic treatment of high-dimensional statistics, connecting probability tools such as concentration inequalities and random matrix bounds to statistical model classes such as sparse regression, low-rank matrix models, graphical models, and nonparametric estimation.",
+      "url": "../papers/2019_wainwright_high_dimensional_statistics/",
+      "treeUrl": "../tree/#paper=2019_wainwright_high_dimensional_statistics",
+      "mapUrl": "../map/#paper=2019_wainwright_high_dimensional_statistics"
+    },
+    {
+      "id": "2019_raasveldt_duckdb",
+      "label": "DuckDB",
+      "title": "DuckDB",
+      "authors": [
+        "Mark Raasveldt",
+        "Hannes Mühleisen"
+      ],
+      "authorShort": "Raasveldt, Mühleisen",
+      "year": 2019,
+      "source": "Proceedings of the 2019 International Conference on Management of Data",
+      "type": "Conference Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Software & Programming",
+      "subCategory": "Databases",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Databases",
+        "DuckDB"
+      ],
+      "tags": [],
+      "abstract": "The immense popularity of SQLite shows that there is a need for unobtrusive in-process data management solutions. However, there is no such system yet geared towards analytical workloads. We demonstrate DuckDB, a novel data management system designed to execute analytical SQL queries while embedded in another process. In our demonstration, we pit DuckDB against other data management solutions to showcase its performance in the embedded analytics scenario. DuckDB is available as Open Source software under a permissive license.",
+      "summary": "",
+      "url": "../papers/2019_raasveldt_duckdb/",
+      "treeUrl": "../tree/#paper=2019_raasveldt_duckdb",
+      "mapUrl": "../map/#paper=2019_raasveldt_duckdb"
+    },
+    {
+      "id": "1912_01703",
+      "label": "PyTorch",
+      "title": "PyTorch: An Imperative Style, High-Performance Deep Learning Library",
+      "authors": [
+        "Adam Paszke",
+        "Sam Gross",
+        "Francisco Massa",
+        "Adam Lerer",
+        "James Bradbury",
+        "Gregory Chanan",
+        "Trevor Killeen",
+        "Zeming Lin",
+        "Natalia Gimelshein",
+        "Luca Antiga",
+        "Alban Desmaison",
+        "Andreas Köpf",
+        "Edward Yang",
+        "Zach DeVito",
+        "Martin Raison",
+        "Alykhan Tejani",
+        "Sasank Chilamkurthy",
+        "Benoit Steiner",
+        "Lu Fang",
+        "Junjie Bai",
+        "Soumith Chintala"
+      ],
+      "authorShort": "Paszke, Gross, Massa",
+      "year": 2019,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Software & Programming",
+      "subCategory": "Machine learning",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Machine learning",
+        "PyTorch"
+      ],
+      "tags": [],
+      "abstract": "Deep learning frameworks have often focused on either usability or speed, but not both. PyTorch is a machine learning library that shows that these two goals are in fact compatible: it provides an imperative and Pythonic programming style that supports code as a model, makes debugging easy and is consistent with other popular scientific computing libraries, while remaining efficient and supporting hardware accelerators such as GPUs. In this paper, we detail the principles that drove the implementation of PyTorch and how they are reflected in its architecture. We emphasize that every aspect of PyTorch is a regular Python program under the full control of its user. We also explain how the careful and pragmatic implementation of the key components of its runtime enables them to work together to achieve compelling performance. We demonstrate the efficiency of individual subsystems, as well as the overall speed of PyTorch on several common benchmarks.",
+      "summary": "",
+      "url": "../papers/1912_01703/",
+      "treeUrl": "../tree/#paper=1912_01703",
+      "mapUrl": "../map/#paper=1912_01703"
+    },
+    {
+      "id": "2004_01142",
+      "label": "CL1",
+      "title": "Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach",
+      "authors": [
+        "Arun Lakshmanan",
+        "Aditya Gahlawat",
+        "Naira Hovakimyan"
+      ],
+      "authorShort": "Lakshmanan, Gahlawat, Hovakimyan",
+      "year": 2020,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Adaptive Control",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Adaptive Control",
+        "L1 Adaptive Control",
+        "CL1"
+      ],
+      "tags": [],
+      "abstract": "Autonomous robots that are capable of operating safely in the presence of imperfect model knowledge or external disturbances are vital in safety-critical applications. In this paper, we present a planner-agnostic framework to design and certify safe tubes around desired trajectories that the robot is always guaranteed to remain inside of. By leveraging recent results in contraction analysis and $\\mathcal{L}_1$-adaptive control we synthesize an architecture that induces safe tubes for nonlinear systems with state and time-varying uncertainties. We demonstrate with a few illustrative examples how contraction theory-based $\\mathcal{L}_1$-adaptive control can be used in conjunction with traditional motion planning algorithms to obtain provably safe trajectories.",
+      "summary": "",
+      "url": "../papers/2004_01142/",
+      "treeUrl": "../tree/#paper=2004_01142",
+      "mapUrl": "../map/#paper=2004_01142"
+    },
+    {
+      "id": "2009_03864",
+      "label": "CL1-GP",
+      "title": "Contraction L1-Adaptive Control Using Gaussian Processes",
+      "authors": [
+        "Aditya Gahlawat",
+        "Arun Lakshmanan",
+        "Lin Song",
+        "Andrew Patterson",
+        "Zhuohuan Wu",
+        "Naira Hovakimyan",
+        "Evangelos Theodorou"
+      ],
+      "authorShort": "Gahlawat, Lakshmanan, Song",
+      "year": 2020,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Adaptive Control",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Adaptive Control",
+        "L1 Adaptive Control",
+        "CL1-GP"
+      ],
+      "tags": [],
+      "abstract": "We present $\\mathcal{CL}_1$-$\\mathcal{GP}$, a control framework that enables safe simultaneous learning and control for systems subject to uncertainties. The two main constituents are contraction theory-based $\\mathcal{L}_1$ ($\\mathcal{CL}_1$) control and Bayesian learning in the form of Gaussian process (GP) regression. The $\\mathcal{CL}_1$ controller ensures that control objectives are met while providing safety certificates. Furthermore, $\\mathcal{CL}_1$-$\\mathcal{GP}$ incorporates any available data into a GP model of uncertainties, which improves performance and enables the motion planner to achieve optimality safely. This way, the safe operation of the system is always guaranteed, even during the learning transients. We provide a few illustrative examples for the safe learning and control of planar quadrotor systems in a variety of environments.",
+      "summary": "",
+      "url": "../papers/2009_03864/",
+      "treeUrl": "../tree/#paper=2009_03864",
+      "mapUrl": "../map/#paper=2009_03864"
     },
     {
       "id": "2020_florence_integrated_perception_and_control",
@@ -28236,41 +28930,6 @@ window.timelineData = {
       "url": "../papers/2020_dean_robust_guarantees_for_perception/",
       "treeUrl": "../tree/#paper=2020_dean_robust_guarantees_for_perception",
       "mapUrl": "../map/#paper=2020_dean_robust_guarantees_for_perception"
-    },
-    {
-      "id": "2009_03864",
-      "label": "Contraction L1-Adaptive Control using Gaussian Processes",
-      "title": "Contraction L1-Adaptive Control Using Gaussian Processes",
-      "authors": [
-        "Aditya Gahlawat",
-        "Arun Lakshmanan",
-        "Lin Song",
-        "Andrew Patterson",
-        "Zhuohuan Wu",
-        "Naira Hovakimyan",
-        "Evangelos Theodorou"
-      ],
-      "authorShort": "Gahlawat, Lakshmanan, Song",
-      "year": 2020,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
-        "Contraction L1-Adaptive Control using Gaussian Processes"
-      ],
-      "tags": [],
-      "abstract": "We present $\\mathcal{CL}_1$-$\\mathcal{GP}$, a control framework that enables safe simultaneous learning and control for systems subject to uncertainties. The two main constituents are contraction theory-based $\\mathcal{L}_1$ ($\\mathcal{CL}_1$) control and Bayesian learning in the form of Gaussian process (GP) regression. The $\\mathcal{CL}_1$ controller ensures that control objectives are met while providing safety certificates. Furthermore, $\\mathcal{CL}_1$-$\\mathcal{GP}$ incorporates any available data into a GP model of uncertainties, which improves performance and enables the motion planner to achieve optimality safely. This way, the safe operation of the system is always guaranteed, even during the learning transients. We provide a few illustrative examples for the safe learning and control of planar quadrotor systems in a variety of environments.",
-      "summary": "",
-      "url": "../papers/2009_03864/",
-      "treeUrl": "../tree/#paper=2009_03864",
-      "mapUrl": "../map/#paper=2009_03864"
     },
     {
       "id": "2011_11303",
@@ -29110,37 +29769,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2012_03390"
     },
     {
-      "id": "2004_01142",
-      "label": "Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach",
-      "title": "Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach",
-      "authors": [
-        "Arun Lakshmanan",
-        "Aditya Gahlawat",
-        "Naira Hovakimyan"
-      ],
-      "authorShort": "Lakshmanan, Gahlawat, Hovakimyan",
-      "year": 2020,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Planning in Changing Environments",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Planning",
-        "Planning in Changing Environments",
-        "Feedback Motion Planning",
-        "Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach"
-      ],
-      "tags": [],
-      "abstract": "Autonomous robots that are capable of operating safely in the presence of imperfect model knowledge or external disturbances are vital in safety-critical applications. In this paper, we present a planner-agnostic framework to design and certify safe tubes around desired trajectories that the robot is always guaranteed to remain inside of. By leveraging recent results in contraction analysis and $\\mathcal{L}_1$-adaptive control we synthesize an architecture that induces safe tubes for nonlinear systems with state and time-varying uncertainties. We demonstrate with a few illustrative examples how contraction theory-based $\\mathcal{L}_1$-adaptive control can be used in conjunction with traditional motion planning algorithms to obtain provably safe trajectories.",
-      "summary": "",
-      "url": "../papers/2004_01142/",
-      "treeUrl": "../tree/#paper=2004_01142",
-      "mapUrl": "../map/#paper=2004_01142"
-    },
-    {
       "id": "2009_10484",
       "label": "Asymptotically Optimal Sampling-Based Motion Planning Methods",
       "title": "Asymptotically Optimal Sampling-Based Motion Planning Methods",
@@ -29208,7 +29836,7 @@ window.timelineData = {
     },
     {
       "id": "2012_00889",
-      "label": "Revisiting Maximum Entropy Inverse Reinforcement Learning: New Perspectives and Algorithms",
+      "label": "Revisiting Maximum Entropy Inverse Reinforcement Learning",
       "title": "Revisiting Maximum Entropy Inverse Reinforcement Learning: New Perspectives and Algorithms",
       "authors": [
         "Aaron J. Snoswell",
@@ -29227,7 +29855,9 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Inverse Reinforcement Learning & Reward Learning",
-        "Revisiting Maximum Entropy Inverse Reinforcement Learning: New Perspectives and Algorithms"
+        "Inverse Reinforcement Learning",
+        "Max Entropy",
+        "Revisiting Maximum Entropy Inverse Reinforcement Learning"
       ],
       "tags": [],
       "abstract": "We provide new perspectives and inference algorithms for Maximum Entropy (MaxEnt) Inverse Reinforcement Learning (IRL), which provides a principled method to find a most non-committal reward function consistent with given expert demonstrations, among many consistent reward functions. We first present a generalized MaxEnt formulation based on minimizing a KL-divergence instead of maximizing an entropy. This improves the previous heuristic derivation of the MaxEnt IRL model (for stochastic MDPs), allows a unified view of MaxEnt IRL and Relative Entropy IRL, and leads to a model-free learning algorithm for the MaxEnt IRL model. Second, a careful review of existing inference algorithms and implementations showed that they approximately compute the marginals required for learning the model. We provide examples to illustrate this, and present an efficient and exact inference algorithm. Our algorithm can handle variable length demonstrations; in addition, while a basic version takes time quadratic in the maximum demonstration length L, an improved version of this algorithm reduces this to linear using a padding trick. Experiments show that our exact algorithm improves reward learning as compared to the approximate ones. Furthermore, our algorithm scales up to a large, real-world dataset involving driver behaviour forecasting. We provide an optimized implementation compatible with the OpenAI Gym interface. Our new insight and algorithms could possibly lead to further interest and exploration of the original MaxEnt IRL model.",
@@ -29237,19 +29867,20 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2012_00889"
     },
     {
-      "id": "2007_07461",
-      "label": "Model-Based Multi-Agent RL in Zero-Sum Markov Games with Near-Optimal Sample Complexity",
-      "title": "Model-Based Multi-Agent RL in Zero-Sum Markov Games with Near-Optimal Sample Complexity",
+      "id": "2002_06613",
+      "label": "Linear System Identification Under Multiplicative Noise from Multiple Trajectory Data",
+      "title": "Linear System Identification under Multiplicative Noise from Multiple Trajectory Data",
       "authors": [
-        "Kaiqing Zhang",
-        "Sham M. Kakade",
-        "Tamer Başar",
-        "Lin F. Yang"
+        "Yu Xing",
+        "Benjamin Gravell",
+        "Xingkang He",
+        "Karl Henrik Johansson",
+        "Tyler Summers"
       ],
-      "authorShort": "Zhang, Kakade, Başar",
+      "authorShort": "Xing, Gravell, He",
       "year": 2020,
-      "source": "",
-      "type": "",
+      "source": "American Control Conference (ACC)",
+      "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Reinforcement Learning",
       "subCategory": "Linear Systems",
@@ -29258,15 +29889,30 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Linear Systems",
-        "Policy Optimization",
-        "Model-Based Multi-Agent RL in Zero-Sum Markov Games with Near-Optimal Sample Complexity"
+        "Model-based RL",
+        "System Identification",
+        "Linear Systems with Multiplicative Noise",
+        "Linear System Identification Under Multiplicative Noise from Multiple Trajectory Data"
       ],
-      "tags": [],
-      "abstract": "Model-based reinforcement learning (RL), which finds an optimal policy using an empirical model, has long been recognized as one of the corner stones of RL. It is especially suitable for multi-agent RL (MARL), as it naturally decouples the learning and the planning phases, and avoids the non-stationarity problem when all agents are improving their policies simultaneously using samples. Though intuitive and widely-used, the sample complexity of model-based MARL algorithms has not been fully investigated. In this paper, our goal is to address the fundamental question about its sample complexity. We study arguably the most basic MARL setting: two-player discounted zero-sum Markov games, given only access to a generative model. We show that model-based MARL achieves a sample complexity of $\\tilde O(|S||A||B|(1-γ)^{-3}ε^{-2})$ for finding the Nash equilibrium (NE) value up to some $ε$ error, and the $ε$-NE policies with a smooth planning oracle, where $γ$ is the discount factor, and $S,A,B$ denote the state space, and the action spaces for the two agents. We further show that such a sample bound is minimax-optimal (up to logarithmic factors) if the algorithm is reward-agnostic, where the algorithm queries state transition samples without reward knowledge, by establishing a matching lower bound. This is in contrast to the usual reward-aware setting, with a $\\tildeΩ(|S|(|A|+|B|)(1-γ)^{-3}ε^{-2})$ lower bound, where this model-based approach is near-optimal with only a gap on the $|A|,|B|$ dependence. Our results not only demonstrate the sample-efficiency of this basic model-based approach in MARL, but also elaborate on the fundamental tradeoff between its power (easily handling the more challenging reward-agnostic case) and limitation (less adaptive and suboptimal in $|A|,|B|$), particularly arises in the multi-agent context.",
-      "summary": "",
-      "url": "../papers/2007_07461/",
-      "treeUrl": "../tree/#paper=2007_07461",
-      "mapUrl": "../map/#paper=2007_07461"
+      "tags": [
+        "Linear systems",
+        "System identification",
+        "Trajectory data",
+        "Multiplicative Noise",
+        "Multiple trajectories",
+        "Covariance matrix",
+        "Network system",
+        "Least squares",
+        "Optimal control",
+        "Convergence rate",
+        "Recursive",
+        "Algorithm"
+      ],
+      "abstract": "The study of multiplicative noise models has a long history in control theory but is re-emerging in the context of complex networked systems and systems with learning-based control. We consider linear system identification with multiplicative noise from multiple state-input trajectory data. We propose exploratory input signals along with a least-squares algorithm to simultaneously estimate nominal system parameters and multiplicative noise covariance matrices. Identifiability of the covariance structure and asymptotic consistency of the least-squares estimator are demonstrated by analyzing first and second moment dynamics of the system. The results are illustrated by numerical simulations.",
+      "summary": "Provides asymptotic results on convergence of identified system parameters (dynamics parameters and noise covariances) to true values using a trajectory-averaging least-squares estimation algorithm for linear systems with multiplicative noise. Later extended to non-asymptotic results in 2106.16078.",
+      "url": "../papers/2002_06613/",
+      "treeUrl": "../tree/#paper=2002_06613",
+      "mapUrl": "../map/#paper=2002_06613"
     },
     {
       "id": "2004_09875",
@@ -29289,6 +29935,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "Static Output Linear Feedback",
         "Optimizing Static Linear Feedback: Gradient Method"
       ],
       "tags": [],
@@ -29319,6 +29966,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "Robust Adaptive Linear Quadratic Control",
         "Robust Learning-Based Control via Bootstrapped Multiplicative Noise"
       ],
       "tags": [
@@ -29339,6 +29987,37 @@ window.timelineData = {
       "url": "../papers/2002_10069/",
       "treeUrl": "../tree/#paper=2002_10069",
       "mapUrl": "../map/#paper=2002_10069"
+    },
+    {
+      "id": "2007_07461",
+      "label": "Model-Based Multi-Agent RL in Zero-Sum Markov Games with Near-Optimal Sample Complexity",
+      "title": "Model-Based Multi-Agent RL in Zero-Sum Markov Games with Near-Optimal Sample Complexity",
+      "authors": [
+        "Kaiqing Zhang",
+        "Sham M. Kakade",
+        "Tamer Başar",
+        "Lin F. Yang"
+      ],
+      "authorShort": "Zhang, Kakade, Başar",
+      "year": 2020,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Multi-agent Reinforcement learning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Multi-agent Reinforcement learning",
+        "Model-Based Multi-Agent RL in Zero-Sum Markov Games with Near-Optimal Sample Complexity"
+      ],
+      "tags": [],
+      "abstract": "Model-based reinforcement learning (RL), which finds an optimal policy using an empirical model, has long been recognized as one of the corner stones of RL. It is especially suitable for multi-agent RL (MARL), as it naturally decouples the learning and the planning phases, and avoids the non-stationarity problem when all agents are improving their policies simultaneously using samples. Though intuitive and widely-used, the sample complexity of model-based MARL algorithms has not been fully investigated. In this paper, our goal is to address the fundamental question about its sample complexity. We study arguably the most basic MARL setting: two-player discounted zero-sum Markov games, given only access to a generative model. We show that model-based MARL achieves a sample complexity of $\\tilde O(|S||A||B|(1-γ)^{-3}ε^{-2})$ for finding the Nash equilibrium (NE) value up to some $ε$ error, and the $ε$-NE policies with a smooth planning oracle, where $γ$ is the discount factor, and $S,A,B$ denote the state space, and the action spaces for the two agents. We further show that such a sample bound is minimax-optimal (up to logarithmic factors) if the algorithm is reward-agnostic, where the algorithm queries state transition samples without reward knowledge, by establishing a matching lower bound. This is in contrast to the usual reward-aware setting, with a $\\tildeΩ(|S|(|A|+|B|)(1-γ)^{-3}ε^{-2})$ lower bound, where this model-based approach is near-optimal with only a gap on the $|A|,|B|$ dependence. Our results not only demonstrate the sample-efficiency of this basic model-based approach in MARL, but also elaborate on the fundamental tradeoff between its power (easily handling the more challenging reward-agnostic case) and limitation (less adaptive and suboptimal in $|A|,|B|$), particularly arises in the multi-agent context.",
+      "summary": "",
+      "url": "../papers/2007_07461/",
+      "treeUrl": "../tree/#paper=2007_07461",
+      "mapUrl": "../map/#paper=2007_07461"
     },
     {
       "id": "2020_riou_bandit_algorithms_based_on",
@@ -29445,37 +30124,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2011_14212"
     },
     {
-      "id": "2011_02258",
-      "label": "Concentration Inequalities for Statistical Inference",
-      "title": "Concentration Inequalities for Statistical Inference",
-      "authors": [
-        "Huiming Zhang",
-        "Song Xi Chen"
-      ],
-      "authorShort": "Zhang, Chen",
-      "year": 2020,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "Concentration Inequalities for Statistical Inference"
-      ],
-      "tags": [],
-      "abstract": "This paper gives a review of concentration inequalities which are widely employed in non-asymptotical analyses of mathematical statistics in a wide range of settings, from distribution-free to distribution-dependent, from sub-Gaussian to sub-exponential, sub-Gamma, and sub-Weibull random variables, and from the mean to the maximum concentration. This review provides results in these settings with some fresh new results. Given the increasing popularity of high-dimensional data and inference, results in the context of high-dimensional linear and Poisson regressions are also provided. We aim to illustrate the concentration inequalities with known constants and to improve existing bounds with sharper constants.",
-      "summary": "",
-      "url": "../papers/2011_02258/",
-      "treeUrl": "../tree/#paper=2011_02258",
-      "mapUrl": "../map/#paper=2011_02258"
-    },
-    {
       "id": "2011_06719",
       "label": "Grasping with Chopsticks",
       "title": "Grasping with Chopsticks: Combating Covariate Shift in Model-free Imitation Learning for Fine Manipulation",
@@ -29540,53 +30188,6 @@ window.timelineData = {
       "url": "../papers/2003_00153/",
       "treeUrl": "../tree/#paper=2003_00153",
       "mapUrl": "../map/#paper=2003_00153"
-    },
-    {
-      "id": "2002_06613",
-      "label": "Linear System Identification Under Multiplicative Noise from Multiple Trajectory Data",
-      "title": "Linear System Identification under Multiplicative Noise from Multiple Trajectory Data",
-      "authors": [
-        "Yu Xing",
-        "Benjamin Gravell",
-        "Xingkang He",
-        "Karl Henrik Johansson",
-        "Tyler Summers"
-      ],
-      "authorShort": "Xing, Gravell, He",
-      "year": 2020,
-      "source": "American Control Conference (ACC)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "Linear System Identification Under Multiplicative Noise from Multiple Trajectory Data"
-      ],
-      "tags": [
-        "Linear systems",
-        "System identification",
-        "Trajectory data",
-        "Multiplicative Noise",
-        "Multiple trajectories",
-        "Covariance matrix",
-        "Network system",
-        "Least squares",
-        "Optimal control",
-        "Convergence rate",
-        "Recursive",
-        "Algorithm"
-      ],
-      "abstract": "The study of multiplicative noise models has a long history in control theory but is re-emerging in the context of complex networked systems and systems with learning-based control. We consider linear system identification with multiplicative noise from multiple state-input trajectory data. We propose exploratory input signals along with a least-squares algorithm to simultaneously estimate nominal system parameters and multiplicative noise covariance matrices. Identifiability of the covariance structure and asymptotic consistency of the least-squares estimator are demonstrated by analyzing first and second moment dynamics of the system. The results are illustrated by numerical simulations.",
-      "summary": "Provides asymptotic results on convergence of identified system parameters (dynamics parameters and noise covariances) to true values using a trajectory-averaging least-squares estimation algorithm for linear systems with multiplicative noise. Later extended to non-asymptotic results in 2106.16078.",
-      "url": "../papers/2002_06613/",
-      "treeUrl": "../tree/#paper=2002_06613",
-      "mapUrl": "../map/#paper=2002_06613"
     },
     {
       "id": "2007_11120",
@@ -29670,12 +30271,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Evaluation",
       "category": "Computer Graphics",
-      "subCategory": "Neural Rendering",
+      "subCategory": "Radiance Fields",
       "path": [
         "Tree",
         "Evaluation",
         "Computer Graphics",
-        "Neural Rendering",
+        "Radiance Fields",
         "NeRF"
       ],
       "tags": [],
@@ -29686,36 +30287,40 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2003_08934"
     },
     {
-      "id": "2002_05651",
-      "label": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
-      "title": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
+      "id": "2020_ersal_connected_and_automated_road",
+      "label": "Connected and automated road vehicles: state of the art and future challenges",
+      "title": "Connected and Automated Road Vehicles: State of the Art and Future Challenges",
       "authors": [
-        "Peter Henderson",
-        "Jieru Hu",
-        "Joshua Romoff",
-        "Emma Brunskill",
-        "Dan Jurafsky",
-        "Joelle Pineau"
+        "Tulga Ersal",
+        "Ilya Kolmanovsky",
+        "Neda Masoud",
+        "Necmiye Ozay",
+        "Jeffrey Scruggs",
+        "Ram Vasudevan",
+        "Gábor Orosz"
       ],
-      "authorShort": "Henderson, Hu, Romoff",
+      "authorShort": "Ersal, Kolmanovsky, Masoud",
       "year": 2020,
-      "source": "",
-      "type": "",
+      "source": "Vehicle System Dynamics",
+      "type": "Journal Paper",
       "superCategory": "Evaluation",
-      "category": "Environmental Impacts",
-      "subCategory": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Environmental Impacts",
-        "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning"
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Driving Robots",
+        "Connected and automated road vehicles: state of the art and future challenges"
       ],
       "tags": [],
-      "abstract": "Accurate reporting of energy and carbon usage is essential for understanding the potential climate impacts of machine learning research. We introduce a framework that makes this easier by providing a simple interface for tracking realtime energy consumption and carbon emissions, as well as generating standardized online appendices. Utilizing this framework, we create a leaderboard for energy efficient reinforcement learning algorithms to incentivize responsible research in this area as an example for other areas of machine learning. Finally, based on case studies using our framework, we propose strategies for mitigation of carbon emissions and reduction of energy consumption. By making accounting easier, we hope to further the sustainable development of machine learning experiments and spur more research into energy efficient algorithms.",
+      "abstract": "The state of the art of modelling, control, and optimisation is discussed for automated road vehicles that may utilise wireless vehicle-to-everything (V2X) connectivity. The appropriate tools to address safety and energy efficiency are described and the effects on traffic dynamics are highlighted. Finally, the economical and societal impacts of the deployment of connected and automated vehicles are discussed.",
       "summary": "",
-      "url": "../papers/2002_05651/",
-      "treeUrl": "../tree/#paper=2002_05651",
-      "mapUrl": "../map/#paper=2002_05651"
+      "url": "../papers/2020_ersal_connected_and_automated_road/",
+      "treeUrl": "../tree/#paper=2020_ersal_connected_and_automated_road",
+      "mapUrl": "../map/#paper=2020_ersal_connected_and_automated_road"
     },
     {
       "id": "2004_06801",
@@ -29781,39 +30386,36 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2012_12657"
     },
     {
-      "id": "2020_ersal_connected_and_automated_road",
-      "label": "Connected and automated road vehicles: state of the art and future challenges",
-      "title": "Connected and Automated Road Vehicles: State of the Art and Future Challenges",
+      "id": "2002_05651",
+      "label": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
+      "title": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
       "authors": [
-        "Tulga Ersal",
-        "Ilya Kolmanovsky",
-        "Neda Masoud",
-        "Necmiye Ozay",
-        "Jeffrey Scruggs",
-        "Ram Vasudevan",
-        "Gábor Orosz"
+        "Peter Henderson",
+        "Jieru Hu",
+        "Joshua Romoff",
+        "Emma Brunskill",
+        "Dan Jurafsky",
+        "Joelle Pineau"
       ],
-      "authorShort": "Ersal, Kolmanovsky, Masoud",
+      "authorShort": "Henderson, Hu, Romoff",
       "year": 2020,
-      "source": "Vehicle System Dynamics",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Engineering Systems",
-      "subCategory": "Robots",
+      "source": "",
+      "type": "",
+      "superCategory": "Human & Natural Worlds",
+      "category": "Environmental Impacts",
+      "subCategory": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
       "path": [
         "Tree",
-        "Foundations",
-        "Engineering Systems",
-        "Robots",
-        "Driving Robots",
-        "Connected and automated road vehicles: state of the art and future challenges"
+        "Human & Natural Worlds",
+        "Environmental Impacts",
+        "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning"
       ],
       "tags": [],
-      "abstract": "The state of the art of modelling, control, and optimisation is discussed for automated road vehicles that may utilise wireless vehicle-to-everything (V2X) connectivity. The appropriate tools to address safety and energy efficiency are described and the effects on traffic dynamics are highlighted. Finally, the economical and societal impacts of the deployment of connected and automated vehicles are discussed.",
+      "abstract": "Accurate reporting of energy and carbon usage is essential for understanding the potential climate impacts of machine learning research. We introduce a framework that makes this easier by providing a simple interface for tracking realtime energy consumption and carbon emissions, as well as generating standardized online appendices. Utilizing this framework, we create a leaderboard for energy efficient reinforcement learning algorithms to incentivize responsible research in this area as an example for other areas of machine learning. Finally, based on case studies using our framework, we propose strategies for mitigation of carbon emissions and reduction of energy consumption. By making accounting easier, we hope to further the sustainable development of machine learning experiments and spur more research into energy efficient algorithms.",
       "summary": "",
-      "url": "../papers/2020_ersal_connected_and_automated_road/",
-      "treeUrl": "../tree/#paper=2020_ersal_connected_and_automated_road",
-      "mapUrl": "../map/#paper=2020_ersal_connected_and_automated_road"
+      "url": "../papers/2002_05651/",
+      "treeUrl": "../tree/#paper=2002_05651",
+      "mapUrl": "../map/#paper=2002_05651"
     },
     {
       "id": "2020_cole_vaporwave_aesthetics_internet_nostalgia",
@@ -29826,12 +30428,12 @@ window.timelineData = {
       "year": 2020,
       "source": "repository.cam.ac.uk",
       "type": "Other",
-      "superCategory": "Foundations",
+      "superCategory": "Human & Natural Worlds",
       "category": "Humanities & Culture",
       "subCategory": "Vaporwave Aesthetics: Internet Nostalgia and the Utopian Impulse",
       "path": [
         "Tree",
-        "Foundations",
+        "Human & Natural Worlds",
         "Humanities & Culture",
         "Vaporwave Aesthetics: Internet Nostalgia and the Utopian Impulse"
       ],
@@ -30083,7 +30685,7 @@ window.timelineData = {
         "Machine Learning",
         "Deep Learning",
         "Neural Networks",
-        "Theory & Empirical Observations",
+        "Theory & Science",
         "Catapult Mechanism"
       ],
       "tags": [],
@@ -30415,6 +31017,36 @@ window.timelineData = {
       "url": "../papers/2011_10202/",
       "treeUrl": "../tree/#paper=2011_10202",
       "mapUrl": "../map/#paper=2011_10202"
+    },
+    {
+      "id": "2011_02258",
+      "label": "Concentration Inequalities for Statistical Inference",
+      "title": "Concentration Inequalities for Statistical Inference",
+      "authors": [
+        "Huiming Zhang",
+        "Song Xi Chen"
+      ],
+      "authorShort": "Zhang, Chen",
+      "year": 2020,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Statistics & Probability",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Statistics & Probability",
+        "Concentration Bounds",
+        "Concentration Inequalities for Statistical Inference"
+      ],
+      "tags": [],
+      "abstract": "This paper gives a review of concentration inequalities which are widely employed in non-asymptotical analyses of mathematical statistics in a wide range of settings, from distribution-free to distribution-dependent, from sub-Gaussian to sub-exponential, sub-Gamma, and sub-Weibull random variables, and from the mean to the maximum concentration. This review provides results in these settings with some fresh new results. Given the increasing popularity of high-dimensional data and inference, results in the context of high-dimensional linear and Poisson regressions are also provided. We aim to illustrate the concentration inequalities with known constants and to improve existing bounds with sharper constants.",
+      "summary": "",
+      "url": "../papers/2011_02258/",
+      "treeUrl": "../tree/#paper=2011_02258",
+      "mapUrl": "../map/#paper=2011_02258"
     },
     {
       "id": "2021_dean_certainty_equivalent_perception_based",
@@ -31800,6 +32432,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Optimization",
         "Inverse Optimization: Theory and Applications"
       ],
       "tags": [],
@@ -31832,6 +32465,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "Robust LQ",
         "Derivative-Free Policy Optimization for Linear Risk-Sensitive and Robust Control Design"
       ],
       "tags": [],
@@ -31863,6 +32497,8 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "System Identification",
+        "Linear Systems with Additive Noise",
         "Efficient Learning of a Linear Dynamical System with Stability Guarantees"
       ],
       "tags": [],
@@ -31871,6 +32507,58 @@ window.timelineData = {
       "url": "../papers/2102_03664/",
       "treeUrl": "../tree/#paper=2102_03664",
       "mapUrl": "../map/#paper=2102_03664"
+    },
+    {
+      "id": "2106_16078",
+      "label": "Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data",
+      "title": "Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data",
+      "authors": [
+        "Yu Xing",
+        "Benjamin Gravell",
+        "Xingkang He",
+        "Karl Henrik Johansson",
+        "Tyler Summers"
+      ],
+      "authorShort": "Xing, Gravell, He",
+      "year": 2021,
+      "source": "Automatica",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Linear Systems with Multiplicative Noise",
+        "Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data"
+      ],
+      "tags": [
+        "System identification",
+        "Linear systems",
+        "Multiplicative noise",
+        "Stochastic systems",
+        "Multiple trajectory data",
+        "Least-squares estimation",
+        "Covariance estimation",
+        "Identifiability",
+        "Second-moment dynamics",
+        "Asymptotic consistency",
+        "Non-asymptotic",
+        "High-probability",
+        "Sample complexity",
+        "Excitation conditions",
+        "Controllability",
+        "Data-driven control"
+      ],
+      "abstract": "The paper studies identification of linear systems with multiplicative noise from multiple-trajectory data. An algorithm based on the least-squares method and multiple-trajectory data is proposed for joint estimation of the nominal system matrices and the covariance matrix of the multiplicative noise. The algorithm does not need prior knowledge of the noise or stability of the system, but requires only independent inputs with pre-designed first and second moments and relatively small trajectory length. The study of identifiability of the noise covariance matrix shows that there exists an equivalent class of matrices that generate the same second-moment dynamic of system states. It is demonstrated how to obtain the equivalent class based on estimates of the noise covariance. Asymptotic consistency of the algorithm is verified under sufficiently exciting inputs and system controllability conditions. Non-asymptotic performance of the algorithm is also analyzed under the assumption that the system is bounded. The analysis provides high-probability bounds vanishing as the number of trajectories grows to infinity. The results are illustrated by numerical simulations.",
+      "summary": "Extends the asymptotic results of 2002.06613 to rigorous non-asymptotic finite-sample results, using basically the same system identification / parameter estimation algorithm.",
+      "url": "../papers/2106_16078/",
+      "treeUrl": "../tree/#paper=2106_16078",
+      "mapUrl": "../map/#paper=2106_16078"
     },
     {
       "id": "2021_gravell_policy_iteration_for_linear",
@@ -31949,6 +32637,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "LQR",
         "Stabilizing Dynamical Systems via Policy Gradient Methods"
       ],
       "tags": [
@@ -31961,7 +32650,7 @@ window.timelineData = {
         "Nonlinear systems"
       ],
       "abstract": "Stabilizing an unknown control system is one of the most fundamental problems in control systems engineering. In this paper, we provide a simple, model-free algorithm for stabilizing fully observed dynamical systems. While model-free methods have become increasingly popular in practice due to their simplicity and flexibility, stabilization via direct policy search has received surprisingly little attention. Our algorithm proceeds by solving a series of discounted LQR problems, where the discount factor is gradually increased. We prove that this method efficiently recovers a stabilizing controller for linear systems, and for smooth, nonlinear systems within a neighborhood of their equilibria. Our approach overcomes a significant limitation of prior work, namely the need for a pre-given stabilizing control policy. We empirically evaluate the effectiveness of our approach on common control benchmarks.",
-      "summary": "Perdomo, Umenberger, and Simchowitz show that direct policy search can be used to find stabilizing controllers without starting from an already-stabilizing policy. The method follows a continuation path through discounted LQR problems, increasing the discount factor until it recovers a stabilizing controller for linear systems and locally for smooth nonlinear systems.",
+      "summary": "Shows that direct policy search can be used to find stabilizing controllers without starting from an already-stabilizing policy. The method follows a continuation path through discounted LQR problems, increasing the discount factor until it recovers a stabilizing controller for linear systems and locally for smooth nonlinear systems.",
       "url": "../papers/2021_perdomo_stabilizing_dynamical_systems_via/",
       "treeUrl": "../tree/#paper=2021_perdomo_stabilizing_dynamical_systems_via",
       "mapUrl": "../map/#paper=2021_perdomo_stabilizing_dynamical_systems_via"
@@ -32032,57 +32721,6 @@ window.timelineData = {
       "url": "../papers/2104_00827/",
       "treeUrl": "../tree/#paper=2104_00827",
       "mapUrl": "../map/#paper=2104_00827"
-    },
-    {
-      "id": "2106_16078",
-      "label": "Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data",
-      "title": "Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data",
-      "authors": [
-        "Yu Xing",
-        "Benjamin Gravell",
-        "Xingkang He",
-        "Karl Henrik Johansson",
-        "Tyler Summers"
-      ],
-      "authorShort": "Xing, Gravell, He",
-      "year": 2021,
-      "source": "Automatica",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data"
-      ],
-      "tags": [
-        "System identification",
-        "Linear systems",
-        "Multiplicative noise",
-        "Stochastic systems",
-        "Multiple trajectory data",
-        "Least-squares estimation",
-        "Covariance estimation",
-        "Identifiability",
-        "Second-moment dynamics",
-        "Asymptotic consistency",
-        "Non-asymptotic",
-        "High-probability",
-        "Sample complexity",
-        "Excitation conditions",
-        "Controllability",
-        "Data-driven control"
-      ],
-      "abstract": "The paper studies identification of linear systems with multiplicative noise from multiple-trajectory data. An algorithm based on the least-squares method and multiple-trajectory data is proposed for joint estimation of the nominal system matrices and the covariance matrix of the multiplicative noise. The algorithm does not need prior knowledge of the noise or stability of the system, but requires only independent inputs with pre-designed first and second moments and relatively small trajectory length. The study of identifiability of the noise covariance matrix shows that there exists an equivalent class of matrices that generate the same second-moment dynamic of system states. It is demonstrated how to obtain the equivalent class based on estimates of the noise covariance. Asymptotic consistency of the algorithm is verified under sufficiently exciting inputs and system controllability conditions. Non-asymptotic performance of the algorithm is also analyzed under the assumption that the system is bounded. The analysis provides high-probability bounds vanishing as the number of trajectories grows to infinity. The results are illustrated by numerical simulations.",
-      "summary": "Extends the asymptotic results of 2002.06613 to rigorous non-asymptotic finite-sample results, using basically the same system identification / parameter estimation algorithm.",
-      "url": "../papers/2106_16078/",
-      "treeUrl": "../tree/#paper=2106_16078",
-      "mapUrl": "../map/#paper=2106_16078"
     },
     {
       "id": "2108_08812",
@@ -32294,11 +32932,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Evaluation",
       "category": "Benchmarks",
-      "subCategory": "Isaac Gym",
+      "subCategory": "Gyms",
       "path": [
         "Tree",
         "Evaluation",
         "Benchmarks",
+        "Gyms",
         "Isaac Gym"
       ],
       "tags": [],
@@ -32340,6 +32979,49 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2112_09629"
     },
     {
+      "id": "2112_05131",
+      "label": "Plenoxels",
+      "title": "Plenoxels: Radiance Fields without Neural Networks",
+      "authors": [
+        "Sara Fridovich-Keil",
+        "Alex Yu",
+        "Matthew Tancik",
+        "Qinhong Chen",
+        "Benjamin Recht",
+        "Angjoo Kanazawa"
+      ],
+      "authorShort": "Fridovich-Keil, Yu, Tancik",
+      "year": 2021,
+      "source": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "type": "Conference Paper",
+      "superCategory": "Evaluation",
+      "category": "Computer Graphics",
+      "subCategory": "Radiance Fields",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Computer Graphics",
+        "Radiance Fields",
+        "Plenoxels"
+      ],
+      "tags": [
+        "Radiance fields",
+        "Novel view synthesis",
+        "Computer graphics",
+        "Computer vision",
+        "Sparse voxel grid",
+        "Spherical harmonics",
+        "Differentiable rendering",
+        "Neural rendering",
+        "NeRF"
+      ],
+      "abstract": "We introduce Plenoxels (plenoptic voxels), a system for photorealistic view synthesis. Plenoxels represent a scene as a sparse 3D grid with spherical harmonics. This representation can be optimized from calibrated images via gradient methods and regularization without any neural components. On standard, benchmark tasks, Plenoxels are optimized two orders of magnitude faster than Neural Radiance Fields with no loss in visual quality.",
+      "summary": "Introduces Plenoxels, an explicit sparse voxel radiance-field representation whose density and view-dependent color coefficients can be optimized directly from posed images without an MLP. The paper helped establish that high-quality NeRF-like novel view synthesis could be achieved with direct grid optimization, greatly reducing training time while preserving visual fidelity on standard benchmarks.",
+      "url": "../papers/2112_05131/",
+      "treeUrl": "../tree/#paper=2112_05131",
+      "mapUrl": "../map/#paper=2112_05131"
+    },
+    {
       "id": "2021_takacs_bobshield_an_open_source",
       "label": "BOBShield",
       "title": "BOBShield: An Open-Source Miniature “Ball and Beam” Device for Control Engineering Education",
@@ -32360,13 +33042,15 @@ window.timelineData = {
       "source": "2021 IEEE Global Engineering Education Conference (EDUCON)",
       "type": "Conference Paper",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Balancing Robots",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
         "Balancing Robots",
+        "Ball-on-beam",
         "BOBShield"
       ],
       "tags": [],
@@ -32402,6 +33086,7 @@ window.timelineData = {
         "Evaluation",
         "Simulation",
         "Driving & Traffic Simulation",
+        "Learned Simulation",
         "VISTA 2.0"
       ],
       "tags": [
@@ -32420,34 +33105,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2111_12083"
     },
     {
-      "id": "2106_05123",
-      "label": "Pattern-defeating Quicksort",
-      "title": "Pattern-defeating Quicksort",
-      "authors": [
-        "Orson R. L. Peters"
-      ],
-      "authorShort": "Peters",
-      "year": 2021,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Sorting",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Sorting",
-        "Pattern-defeating Quicksort"
-      ],
-      "tags": [],
-      "abstract": "A new solution for the Dutch national flag problem is proposed, requiring no three-way comparisons, which gives quicksort a proper worst-case runtime of $O(nk)$ for inputs with $k$ distinct elements. This is used together with other known and novel techniques to construct a hybrid sort that is never significantly slower than regular quicksort while speeding up drastically for many input distributions.",
-      "summary": "",
-      "url": "../papers/2106_05123/",
-      "treeUrl": "../tree/#paper=2106_05123",
-      "mapUrl": "../map/#paper=2106_05123"
-    },
-    {
       "id": "2021_lindsay_disaster_theory",
       "label": "Disaster Theory",
       "title": "Disaster Theory",
@@ -32458,12 +33115,12 @@ window.timelineData = {
       "year": 2021,
       "source": "English Language Notes",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Human & Natural Worlds",
       "category": "Humanities & Culture",
       "subCategory": "Disaster Theory",
       "path": [
         "Tree",
-        "Foundations",
+        "Human & Natural Worlds",
         "Humanities & Culture",
         "Disaster Theory"
       ],
@@ -32487,12 +33144,12 @@ window.timelineData = {
       "year": 2021,
       "source": "Nota Bene: Canadian Undergraduate Journal of Musicology",
       "type": "Journal Paper",
-      "superCategory": "Foundations",
+      "superCategory": "Human & Natural Worlds",
       "category": "Humanities & Culture",
       "subCategory": "Metamodernism and Vaporwave: A Study of Web 2.0 Aesthetic Culture",
       "path": [
         "Tree",
-        "Foundations",
+        "Human & Natural Worlds",
         "Humanities & Culture",
         "Metamodernism and Vaporwave: A Study of Web 2.0 Aesthetic Culture"
       ],
@@ -33081,6 +33738,34 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2021_dellaert_factor_graphs_exploiting_structure"
     },
     {
+      "id": "2106_05123",
+      "label": "Pattern-defeating Quicksort",
+      "title": "Pattern-defeating Quicksort",
+      "authors": [
+        "Orson R. L. Peters"
+      ],
+      "authorShort": "Peters",
+      "year": 2021,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Sorting",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Sorting",
+        "Pattern-defeating Quicksort"
+      ],
+      "tags": [],
+      "abstract": "A new solution for the Dutch national flag problem is proposed, requiring no three-way comparisons, which gives quicksort a proper worst-case runtime of $O(nk)$ for inputs with $k$ distinct elements. This is used together with other known and novel techniques to construct a hybrid sort that is never significantly slower than regular quicksort while speeding up drastically for many input distributions.",
+      "summary": "",
+      "url": "../papers/2106_05123/",
+      "treeUrl": "../tree/#paper=2106_05123",
+      "mapUrl": "../map/#paper=2106_05123"
+    },
+    {
       "id": "2022_akella_a_barrier_based_scenario",
       "label": "A Barrier-Based Scenario Approach to Verifying Safety-Critical Systems",
       "title": "A Barrier-Based Scenario Approach to Verifying Safety-Critical Systems",
@@ -33456,6 +34141,8 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
+        "CVX Ecosystem",
+        "CVX Base",
         "CVXPYgen"
       ],
       "tags": [],
@@ -34478,6 +35165,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Applications",
+        "Driving",
         "Outracing champion Gran Turismo drivers with deep reinforcement learning"
       ],
       "tags": [],
@@ -34510,6 +35198,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "LQG",
         "Cost-Driven Representation Learning for Linear Quadratic Gaussian Control: Part I"
       ],
       "tags": [],
@@ -34567,20 +35256,16 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2022_gravell_data_driven_control_and"
     },
     {
-      "id": "2202_11659",
-      "label": "Globally Convergent Policy Search over Dynamic Filters for Output Estimation",
-      "title": "Globally Convergent Policy Search over Dynamic Filters for Output Estimation",
+      "id": "2022_schmid_dynamic_mode_decomposition_and",
+      "label": "DMD and Its Variants",
+      "title": "Dynamic Mode Decomposition and Its Variants",
       "authors": [
-        "Jack Umenberger",
-        "Max Simchowitz",
-        "Juan C. Perdomo",
-        "Kaiqing Zhang",
-        "Russ Tedrake"
+        "Peter J. Schmid"
       ],
-      "authorShort": "Umenberger, Simchowitz, Perdomo",
+      "authorShort": "Schmid",
       "year": 2022,
-      "source": "",
-      "type": "",
+      "source": "Annual Review of Fluid Mechanics",
+      "type": "Survey Paper",
       "superCategory": "Decision-making",
       "category": "Reinforcement Learning",
       "subCategory": "Linear Systems",
@@ -34589,15 +35274,23 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Linear Systems",
-        "Policy Optimization",
-        "Globally Convergent Policy Search over Dynamic Filters for Output Estimation"
+        "Model-based RL",
+        "System Identification",
+        "Dynamic Mode Decomposition (DMD)",
+        "DMD and Its Variants"
       ],
-      "tags": [],
-      "abstract": "We introduce the first direct policy search algorithm which provably converges to the globally optimal dynamic filter for the classical problem of predicting the outputs of a linear dynamical system, given noisy, partial observations. Despite the ubiquity of partial observability in practice, theoretical guarantees for direct policy search algorithms, one of the backbones of modern reinforcement learning, have proven difficult to achieve. This is primarily due to the degeneracies which arise when optimizing over filters that maintain internal state. In this paper, we provide a new perspective on this challenging problem based on the notion of informativity, which intuitively requires that all components of a filter's internal state are representative of the true state of the underlying dynamical system. We show that informativity overcomes the aforementioned degeneracy. Specifically, we propose a regularizer which explicitly enforces informativity, and establish that gradient descent on this regularized objective - combined with a \"reconditioning step\" - converges to the globally optimal cost a O(1/T) rate. Our analysis relies on several new results which may be of independent interest, including a new framework for analyzing non-convex gradient descent via convex reformulation, and novel bounds on the solution to linear Lyapunov equations in terms of (our quantitative measure of) informativity.",
-      "summary": "",
-      "url": "../papers/2202_11659/",
-      "treeUrl": "../tree/#paper=2202_11659",
-      "mapUrl": "../map/#paper=2202_11659"
+      "tags": [
+        "Dynamic mode decomposition",
+        "DMD",
+        "Fluid dynamics",
+        "Data-driven methods",
+        "Survey"
+      ],
+      "abstract": "Dynamic mode decomposition (DMD) is a factorization and dimensionality reduction technique for data sequences. In its most common form, it processes high-dimensional sequential measurements, extracts coherent structures, isolates dynamic behavior, and reduces complex evolution processes to their dominant features and essential components. The decomposition is intimately related to Koopman analysis and, since its introduction, has spawned various extensions, generalizations, and improvements. It has been applied to numerical and experimental data sequences taken from simple to complex fluid systems and has also had an impact beyond fluid dynamics in, for example, video surveillance, epidemiology, neurobiology, and financial engineering. This review focuses on the practical aspects of DMD and its variants, as well as on its usage and characteristics as a quantitative tool for the analysis of complex fluid processes.",
+      "summary": "Comprehensive review of DMD from its fluid dynamics origins through current extensions, providing a unified perspective on theoretical foundations and practical applications.",
+      "url": "../papers/2022_schmid_dynamic_mode_decomposition_and/",
+      "treeUrl": "../tree/#paper=2022_schmid_dynamic_mode_decomposition_and",
+      "mapUrl": "../map/#paper=2022_schmid_dynamic_mode_decomposition_and"
     },
     {
       "id": "2212_01192",
@@ -34651,6 +35344,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "Robust Adaptive Linear Quadratic Control",
         "Robust Data-Driven Output Feedback Control via Bootstrapped Multiplicative Noise"
       ],
       "tags": [
@@ -34701,7 +35395,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Model-based RL",
         "System Identification",
-        "Dynamic Mode Decomposition (DMD)",
+        "Extended Dynamic Mode Decomposition (eDMD) and Koopman",
         "A Short Introduction to the Koopman Representation of Dynamical Systems"
       ],
       "tags": [],
@@ -34797,7 +35491,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Model-based RL",
         "System Identification",
-        "Dynamic Mode Decomposition (DMD)",
+        "Extended Dynamic Mode Decomposition (eDMD) and Koopman",
         "Data-Driven Feedback Linearization using the Koopman Generator"
       ],
       "tags": [],
@@ -34806,43 +35500,6 @@ window.timelineData = {
       "url": "../papers/2210_05046/",
       "treeUrl": "../tree/#paper=2210_05046",
       "mapUrl": "../map/#paper=2210_05046"
-    },
-    {
-      "id": "2022_schmid_dynamic_mode_decomposition_and",
-      "label": "DMD and Its Variants",
-      "title": "Dynamic Mode Decomposition and Its Variants",
-      "authors": [
-        "Peter J. Schmid"
-      ],
-      "authorShort": "Schmid",
-      "year": 2022,
-      "source": "Annual Review of Fluid Mechanics",
-      "type": "Survey Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "Dynamic Mode Decomposition (DMD)",
-        "DMD and Its Variants"
-      ],
-      "tags": [
-        "Dynamic mode decomposition",
-        "DMD",
-        "Fluid dynamics",
-        "Data-driven methods",
-        "Survey"
-      ],
-      "abstract": "Dynamic mode decomposition (DMD) is a factorization and dimensionality reduction technique for data sequences. In its most common form, it processes high-dimensional sequential measurements, extracts coherent structures, isolates dynamic behavior, and reduces complex evolution processes to their dominant features and essential components. The decomposition is intimately related to Koopman analysis and, since its introduction, has spawned various extensions, generalizations, and improvements. It has been applied to numerical and experimental data sequences taken from simple to complex fluid systems and has also had an impact beyond fluid dynamics in, for example, video surveillance, epidemiology, neurobiology, and financial engineering. This review focuses on the practical aspects of DMD and its variants, as well as on its usage and characteristics as a quantitative tool for the analysis of complex fluid processes.",
-      "summary": "Comprehensive review of DMD from its fluid dynamics origins through current extensions, providing a unified perspective on theoretical foundations and practical applications.",
-      "url": "../papers/2022_schmid_dynamic_mode_decomposition_and/",
-      "treeUrl": "../tree/#paper=2022_schmid_dynamic_mode_decomposition_and",
-      "mapUrl": "../map/#paper=2022_schmid_dynamic_mode_decomposition_and"
     },
     {
       "id": "2202_00817",
@@ -35418,39 +36075,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2022_kusano_methodology_for_determining_maximum"
     },
     {
-      "id": "2022_schmid_why_and_how_savitzkygolay",
-      "label": "Why and How Savitzky-Golay Filters Should Be Replaced",
-      "title": "Why and How Savitzky-Golay Filters Should Be Replaced",
-      "authors": [
-        "Michael Schmid",
-        "David Rath",
-        "Ulrike Diebold"
-      ],
-      "authorShort": "Schmid, Rath, Diebold",
-      "year": 2022,
-      "source": "ACS Measurement Science Au",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Linear Algebra & Signal Processing",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Mathematics",
-        "Linear Algebra & Signal Processing",
-        "Signal Filtering and Smoothing",
-        "Why and How Savitzky-Golay Filters Should Be Replaced"
-      ],
-      "tags": [
-        "Research paper"
-      ],
-      "abstract": "Savitzky-Golay (SG) filtering, based on local least-squares fitting of the data by polynomials, is a popular method for smoothing data and calculations of derivatives of noisy data. At frequencies above the cutoff, SG filters have poor noise suppression; this unnecessarily reduces the signal-to-noise ratio, especially when calculating derivatives of the data. In addition, SG filtering near the boundaries of the data range is prone to artifacts, which are especially strong when using SG filters for calculating derivatives of the data. We show how these disadvantages can be avoided while keeping the advantageous properties of SG filters. We present two classes of finite impulse response (FIR) filters with substantially improved frequency response: (i) SG filters with fitting weights in the shape of a window function and (ii) convolution kernels based on the sinc function with a Gaussian-like window function and additional corrections for improving the frequency response in the passband (modified sinc kernel). Compared with standard SG filters, the only price to pay for the improvement is a moderate increase in the kernel size. Smoothing at the boundaries of the data can be improved with a non-FIR method, the Whittaker-Henderson smoother, or by linear extrapolation of the data, followed by convolution with a modified sinc kernel, and we show that the latter is preferable in most cases. We provide computer programs and equations for the smoothing parameters of these smoothers when used as plug-in replacements for SG filters and describe how to choose smoothing parameters to preserve peak heights in spectra.",
-      "summary": "Explains why standard Savitzky-Golay filters preserve peak shapes but suppress high-frequency noise poorly, especially when derivatives or boundary regions are involved. They compare weighted Savitzky-Golay filters, modified sinc kernels, and Whittaker-Henderson smoothing, concluding that modified sinc kernels with linear extrapolation are often the strongest drop-in replacement because they reduce stopband noise and boundary artifacts while keeping useful passband behavior.",
-      "url": "../papers/2022_schmid_why_and_how_savitzkygolay/",
-      "treeUrl": "../tree/#paper=2022_schmid_why_and_how_savitzkygolay",
-      "mapUrl": "../map/#paper=2022_schmid_why_and_how_savitzkygolay"
-    },
-    {
       "id": "2206_05608",
       "label": "Gradient Boosting Performs Gaussian Process Inference",
       "title": "Gradient Boosting Performs Gaussian Process Inference",
@@ -35541,7 +36165,7 @@ window.timelineData = {
         "Machine Learning",
         "Deep Learning",
         "Neural Networks",
-        "Theory & Empirical Observations",
+        "Theory & Science",
         "Grokking"
       ],
       "tags": [],
@@ -36092,6 +36716,38 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2207_12380"
     },
     {
+      "id": "2202_11659",
+      "label": "Globally Convergent Policy Search over Dynamic Filters for Output Estimation",
+      "title": "Globally Convergent Policy Search over Dynamic Filters for Output Estimation",
+      "authors": [
+        "Jack Umenberger",
+        "Max Simchowitz",
+        "Juan C. Perdomo",
+        "Kaiqing Zhang",
+        "Russ Tedrake"
+      ],
+      "authorShort": "Umenberger, Simchowitz, Perdomo",
+      "year": 2022,
+      "source": "",
+      "type": "",
+      "superCategory": "Prediction & Perception",
+      "category": "State Estimation",
+      "subCategory": "Learning-based State Estimation",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "State Estimation",
+        "Learning-based State Estimation",
+        "Globally Convergent Policy Search over Dynamic Filters for Output Estimation"
+      ],
+      "tags": [],
+      "abstract": "We introduce the first direct policy search algorithm which provably converges to the globally optimal dynamic filter for the classical problem of predicting the outputs of a linear dynamical system, given noisy, partial observations. Despite the ubiquity of partial observability in practice, theoretical guarantees for direct policy search algorithms, one of the backbones of modern reinforcement learning, have proven difficult to achieve. This is primarily due to the degeneracies which arise when optimizing over filters that maintain internal state. In this paper, we provide a new perspective on this challenging problem based on the notion of informativity, which intuitively requires that all components of a filter's internal state are representative of the true state of the underlying dynamical system. We show that informativity overcomes the aforementioned degeneracy. Specifically, we propose a regularizer which explicitly enforces informativity, and establish that gradient descent on this regularized objective - combined with a \"reconditioning step\" - converges to the globally optimal cost a O(1/T) rate. Our analysis relies on several new results which may be of independent interest, including a new framework for analyzing non-convex gradient descent via convex reformulation, and novel bounds on the solution to linear Lyapunov equations in terms of (our quantitative measure of) informativity.",
+      "summary": "",
+      "url": "../papers/2202_11659/",
+      "treeUrl": "../tree/#paper=2202_11659",
+      "mapUrl": "../map/#paper=2202_11659"
+    },
+    {
       "id": "2201_13360",
       "label": "Hydra",
       "title": "Hydra: A Real-time Spatial Perception System for 3D Scene Graph Construction and Optimization",
@@ -36112,6 +36768,7 @@ window.timelineData = {
         "Prediction & Perception",
         "State Estimation",
         "Localization & Mapping",
+        "Simultaneous Localization and Mapping (SLAM)",
         "Metric-Semantic SLAM",
         "Hydra"
       ],
@@ -36121,6 +36778,39 @@ window.timelineData = {
       "url": "../papers/2201_13360/",
       "treeUrl": "../tree/#paper=2201_13360",
       "mapUrl": "../map/#paper=2201_13360"
+    },
+    {
+      "id": "2022_schmid_why_and_how_savitzkygolay",
+      "label": "Why and How Savitzky-Golay Filters Should Be Replaced",
+      "title": "Why and How Savitzky-Golay Filters Should Be Replaced",
+      "authors": [
+        "Michael Schmid",
+        "David Rath",
+        "Ulrike Diebold"
+      ],
+      "authorShort": "Schmid, Rath, Diebold",
+      "year": 2022,
+      "source": "ACS Measurement Science Au",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Linear Algebra & Signal Processing",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Linear Algebra & Signal Processing",
+        "Signal Filtering and Smoothing",
+        "Why and How Savitzky-Golay Filters Should Be Replaced"
+      ],
+      "tags": [
+        "Research paper"
+      ],
+      "abstract": "Savitzky-Golay (SG) filtering, based on local least-squares fitting of the data by polynomials, is a popular method for smoothing data and calculations of derivatives of noisy data. At frequencies above the cutoff, SG filters have poor noise suppression; this unnecessarily reduces the signal-to-noise ratio, especially when calculating derivatives of the data. In addition, SG filtering near the boundaries of the data range is prone to artifacts, which are especially strong when using SG filters for calculating derivatives of the data. We show how these disadvantages can be avoided while keeping the advantageous properties of SG filters. We present two classes of finite impulse response (FIR) filters with substantially improved frequency response: (i) SG filters with fitting weights in the shape of a window function and (ii) convolution kernels based on the sinc function with a Gaussian-like window function and additional corrections for improving the frequency response in the passband (modified sinc kernel). Compared with standard SG filters, the only price to pay for the improvement is a moderate increase in the kernel size. Smoothing at the boundaries of the data can be improved with a non-FIR method, the Whittaker-Henderson smoother, or by linear extrapolation of the data, followed by convolution with a modified sinc kernel, and we show that the latter is preferable in most cases. We provide computer programs and equations for the smoothing parameters of these smoothers when used as plug-in replacements for SG filters and describe how to choose smoothing parameters to preserve peak heights in spectra.",
+      "summary": "Explains why standard Savitzky-Golay filters preserve peak shapes but suppress high-frequency noise poorly, especially when derivatives or boundary regions are involved. They compare weighted Savitzky-Golay filters, modified sinc kernels, and Whittaker-Henderson smoothing, concluding that modified sinc kernels with linear extrapolation are often the strongest drop-in replacement because they reduce stopband noise and boundary artifacts while keeping useful passband behavior.",
+      "url": "../papers/2022_schmid_why_and_how_savitzkygolay/",
+      "treeUrl": "../tree/#paper=2022_schmid_why_and_how_savitzkygolay",
+      "mapUrl": "../map/#paper=2022_schmid_why_and_how_savitzkygolay"
     },
     {
       "id": "2023_dai_convex_synthesis_and_verification",
@@ -37639,6 +38329,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Applications",
+        "Driving",
         "Scaling Is All You Need"
       ],
       "tags": [],
@@ -37672,6 +38363,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Applications",
+        "Urban Planning",
         "Spatial planning of urban communities via deep reinforcement learning"
       ],
       "tags": [],
@@ -37703,6 +38395,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "Nearly Linear-Quadratic Regulators",
         "Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators"
       ],
       "tags": [],
@@ -37735,6 +38428,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "LQG",
         "Toward Understanding State Representation Learning in MuZero: A Case Study in Linear Quadratic Gaussian Control"
       ],
       "tags": [],
@@ -38113,11 +38807,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Evaluation",
       "category": "Benchmarks",
-      "subCategory": "controlgym",
+      "subCategory": "Gyms",
       "path": [
         "Tree",
         "Evaluation",
         "Benchmarks",
+        "Gyms",
         "controlgym"
       ],
       "tags": [],
@@ -38126,6 +38821,44 @@ window.timelineData = {
       "url": "../papers/2311_18736/",
       "treeUrl": "../tree/#paper=2311_18736",
       "mapUrl": "../map/#paper=2311_18736"
+    },
+    {
+      "id": "2305_12032",
+      "label": "Waymo Open Sim Agents Challenge",
+      "title": "The Waymo Open Sim Agents Challenge",
+      "authors": [
+        "Nico Montali",
+        "John Lambert",
+        "Paul Mougin",
+        "Alex Kuefler",
+        "Nick Rhinehart",
+        "Michelle Li",
+        "Cole Gulino",
+        "Tristan Emrich",
+        "Zoey Yang",
+        "Shimon Whiteson",
+        "Brandyn White",
+        "Dragomir Anguelov"
+      ],
+      "authorShort": "Montali, Lambert, Mougin",
+      "year": 2023,
+      "source": "",
+      "type": "",
+      "superCategory": "Evaluation",
+      "category": "Benchmarks",
+      "subCategory": "Waymo Open Sim Agents Challenge",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Benchmarks",
+        "Waymo Open Sim Agents Challenge"
+      ],
+      "tags": [],
+      "abstract": "Simulation with realistic, interactive agents represents a key task for autonomous vehicle software development. In this work, we introduce the Waymo Open Sim Agents Challenge (WOSAC). WOSAC is the first public challenge to tackle this task and propose corresponding metrics. The goal of the challenge is to stimulate the design of realistic simulators that can be used to evaluate and train a behavior model for autonomous driving. We outline our evaluation methodology, present results for a number of different baseline simulation agent methods, and analyze several submissions to the 2023 competition which ran from March 16, 2023 to May 23, 2023. The WOSAC evaluation server remains open for submissions and we discuss open problems for the task.",
+      "summary": "",
+      "url": "../papers/2305_12032/",
+      "treeUrl": "../tree/#paper=2305_12032",
+      "mapUrl": "../map/#paper=2305_12032"
     },
     {
       "id": "2308_04079",
@@ -38143,12 +38876,12 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Evaluation",
       "category": "Computer Graphics",
-      "subCategory": "3D Gaussian Splatting",
+      "subCategory": "3D Gaussian Splatting (3DGS)",
       "path": [
         "Tree",
         "Evaluation",
         "Computer Graphics",
-        "3D Gaussian Splatting",
+        "3D Gaussian Splatting (3DGS)",
         "3D Gaussian Splatting"
       ],
       "tags": [
@@ -38168,36 +38901,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2308_04079"
     },
     {
-      "id": "2023_hofer_the_one_wheel_cubli",
-      "label": "One-Wheel Cubli",
-      "title": "The One-Wheel Cubli: A 3D Inverted Pendulum That Can Balance with a Single Reaction Wheel",
-      "authors": [
-        "Matthias Hofer",
-        "Michael Muehlebach",
-        "Raffaello D’Andrea"
-      ],
-      "authorShort": "Hofer, Muehlebach, D’Andrea",
-      "year": 2023,
-      "source": "Mechatronics",
-      "type": "Journal Paper",
-      "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Balancing Robots",
-      "path": [
-        "Tree",
-        "Evaluation",
-        "Robot Platforms",
-        "Balancing Robots",
-        "One-Wheel Cubli"
-      ],
-      "tags": [],
-      "abstract": "This article presents a novel 3D inverted pendulum that can balance on one of its corners using only a single reaction wheel. This is achieved by a careful design of the mass moment of inertia in such a way that the inertia along the two principal tilt axes is significantly different. The consequence is a time-scale separation of the underlying tilt dynamics, which renders the system controllable. We show that controllability is maximized when the ratio of the two principal inertia values amounts to the square of the silver ratio and discuss a sensor placement that minimizes variance in our tilt estimates. Both of these aspects lead to a principled design of the system. A model is derived from first-principles and used for delay compensation, state estimation, and to design a linear-quadratic regulator that stabilizes the highly underactuated system in its upright equilibrium. Thereby, the modeling and compensation of cantilever deflections, which arise from the lightweight design, is crucial. The article includes experimental results, which underline the efficacy of the system design and highlight an excellent balancing performance of the proposed feedback controller.",
-      "summary": "",
-      "url": "../papers/2023_hofer_the_one_wheel_cubli/",
-      "treeUrl": "../tree/#paper=2023_hofer_the_one_wheel_cubli",
-      "mapUrl": "../map/#paper=2023_hofer_the_one_wheel_cubli"
-    },
-    {
       "id": "2305_08373",
       "label": "AcroMonk",
       "title": "AcroMonk: A Minimalist Underactuated Brachiating Robot",
@@ -38215,12 +38918,14 @@ window.timelineData = {
       "source": "",
       "type": "",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Brachiating Robots",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
         "Brachiating Robots",
         "AcroMonk"
       ],
@@ -38230,6 +38935,38 @@ window.timelineData = {
       "url": "../papers/2305_08373/",
       "treeUrl": "../tree/#paper=2305_08373",
       "mapUrl": "../map/#paper=2305_08373"
+    },
+    {
+      "id": "2023_hofer_the_one_wheel_cubli",
+      "label": "One-Wheel Cubli",
+      "title": "The One-Wheel Cubli: A 3D Inverted Pendulum That Can Balance with a Single Reaction Wheel",
+      "authors": [
+        "Matthias Hofer",
+        "Michael Muehlebach",
+        "Raffaello D’Andrea"
+      ],
+      "authorShort": "Hofer, Muehlebach, D’Andrea",
+      "year": 2023,
+      "source": "Mechatronics",
+      "type": "Journal Paper",
+      "superCategory": "Evaluation",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Balancing Robots",
+        "Reaction Wheel Inverted Pendulums",
+        "One-Wheel Cubli"
+      ],
+      "tags": [],
+      "abstract": "This article presents a novel 3D inverted pendulum that can balance on one of its corners using only a single reaction wheel. This is achieved by a careful design of the mass moment of inertia in such a way that the inertia along the two principal tilt axes is significantly different. The consequence is a time-scale separation of the underlying tilt dynamics, which renders the system controllable. We show that controllability is maximized when the ratio of the two principal inertia values amounts to the square of the silver ratio and discuss a sensor placement that minimizes variance in our tilt estimates. Both of these aspects lead to a principled design of the system. A model is derived from first-principles and used for delay compensation, state estimation, and to design a linear-quadratic regulator that stabilizes the highly underactuated system in its upright equilibrium. Thereby, the modeling and compensation of cantilever deflections, which arise from the lightweight design, is crucial. The article includes experimental results, which underline the efficacy of the system design and highlight an excellent balancing performance of the proposed feedback controller.",
+      "summary": "",
+      "url": "../papers/2023_hofer_the_one_wheel_cubli/",
+      "treeUrl": "../tree/#paper=2023_hofer_the_one_wheel_cubli",
+      "mapUrl": "../map/#paper=2023_hofer_the_one_wheel_cubli"
     },
     {
       "id": "2023_araujo_testing_validation_and_verification",
@@ -38282,6 +39019,7 @@ window.timelineData = {
         "Evaluation",
         "Simulation",
         "Driving & Traffic Simulation",
+        "Diffusion-based Generation",
         "Generating Driving Scenes with Diffusion"
       ],
       "tags": [],
@@ -38316,6 +39054,7 @@ window.timelineData = {
         "Evaluation",
         "Simulation",
         "Driving & Traffic Simulation",
+        "Diffusion-based Generation",
         "Scenario Diffusion"
       ],
       "tags": [],
@@ -38365,6 +39104,7 @@ window.timelineData = {
         "Evaluation",
         "Simulation",
         "Driving & Traffic Simulation",
+        "Learned Simulation",
         "Waymax"
       ],
       "tags": [],
@@ -38373,45 +39113,6 @@ window.timelineData = {
       "url": "../papers/2310_08710/",
       "treeUrl": "../tree/#paper=2310_08710",
       "mapUrl": "../map/#paper=2310_08710"
-    },
-    {
-      "id": "2305_12032",
-      "label": "Waymo Open Sim Agents Challenge",
-      "title": "The Waymo Open Sim Agents Challenge",
-      "authors": [
-        "Nico Montali",
-        "John Lambert",
-        "Paul Mougin",
-        "Alex Kuefler",
-        "Nick Rhinehart",
-        "Michelle Li",
-        "Cole Gulino",
-        "Tristan Emrich",
-        "Zoey Yang",
-        "Shimon Whiteson",
-        "Brandyn White",
-        "Dragomir Anguelov"
-      ],
-      "authorShort": "Montali, Lambert, Mougin",
-      "year": 2023,
-      "source": "",
-      "type": "",
-      "superCategory": "Evaluation",
-      "category": "Simulation",
-      "subCategory": "Driving & Traffic Simulation",
-      "path": [
-        "Tree",
-        "Evaluation",
-        "Simulation",
-        "Driving & Traffic Simulation",
-        "Waymo Open Sim Agents Challenge"
-      ],
-      "tags": [],
-      "abstract": "Simulation with realistic, interactive agents represents a key task for autonomous vehicle software development. In this work, we introduce the Waymo Open Sim Agents Challenge (WOSAC). WOSAC is the first public challenge to tackle this task and propose corresponding metrics. The goal of the challenge is to stimulate the design of realistic simulators that can be used to evaluate and train a behavior model for autonomous driving. We outline our evaluation methodology, present results for a number of different baseline simulation agent methods, and analyze several submissions to the 2023 competition which ran from March 16, 2023 to May 23, 2023. The WOSAC evaluation server remains open for submissions and we discuss open problems for the task.",
-      "summary": "",
-      "url": "../papers/2305_12032/",
-      "treeUrl": "../tree/#paper=2305_12032",
-      "mapUrl": "../map/#paper=2305_12032"
     },
     {
       "id": "2306_09537",
@@ -38490,68 +39191,6 @@ window.timelineData = {
       "url": "../papers/2301_04195/",
       "treeUrl": "../tree/#paper=2301_04195",
       "mapUrl": "../map/#paper=2301_04195"
-    },
-    {
-      "id": "2305_17743",
-      "label": "A chiral aperiodic monotile",
-      "title": "A Chiral Aperiodic Monotile",
-      "authors": [
-        "David Smith",
-        "Joseph Samuel Myers",
-        "Craig S. Kaplan",
-        "Chaim Goodman-Strauss"
-      ],
-      "authorShort": "Smith, Myers, Kaplan",
-      "year": 2023,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Geometry & Tiling",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Mathematics",
-        "Geometry & Tiling",
-        "A chiral aperiodic monotile"
-      ],
-      "tags": [],
-      "abstract": "The recently discovered \"hat\" aperiodic monotile mixes unreflected and reflected tiles in every tiling it admits, leaving open the question of whether a single shape can tile aperiodically using translations and rotations alone. We show that a close relative of the hat -- the equilateral member of the continuum to which it belongs -- is a weakly chiral aperiodic monotile: it admits only non-periodic tilings if we forbid reflections by fiat. Furthermore, by modifying this polygon's edges we obtain a family of shapes called Spectres that are strictly chiral aperiodic monotiles: they admit only chiral non-periodic tilings based on a hierarchical substitution system.",
-      "summary": "",
-      "url": "../papers/2305_17743/",
-      "treeUrl": "../tree/#paper=2305_17743",
-      "mapUrl": "../map/#paper=2305_17743"
-    },
-    {
-      "id": "2303_10798",
-      "label": "An aperiodic monotile",
-      "title": "An Aperiodic Monotile",
-      "authors": [
-        "David Smith",
-        "Joseph Samuel Myers",
-        "Craig S. Kaplan",
-        "Chaim Goodman-Strauss"
-      ],
-      "authorShort": "Smith, Myers, Kaplan",
-      "year": 2023,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Geometry & Tiling",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Mathematics",
-        "Geometry & Tiling",
-        "An aperiodic monotile"
-      ],
-      "tags": [],
-      "abstract": "A longstanding open problem asks for an aperiodic monotile, also known as an \"einstein\": a shape that admits tilings of the plane, but never periodic tilings. We answer this problem for topological disk tiles by exhibiting a continuum of combinatorially equivalent aperiodic polygons. We first show that a representative example, the \"hat\" polykite, can form clusters called \"metatiles\", for which substitution rules can be defined. Because the metatiles admit tilings of the plane, so too does the hat. We then prove that generic members of our continuum of polygons are aperiodic, through a new kind of geometric incommensurability argument. Separately, we give a combinatorial, computer-assisted proof that the hat must form hierarchical -- and hence aperiodic -- tilings.",
-      "summary": "",
-      "url": "../papers/2303_10798/",
-      "treeUrl": "../tree/#paper=2303_10798",
-      "mapUrl": "../map/#paper=2303_10798"
     },
     {
       "id": "2304_07193",
@@ -39207,6 +39846,68 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2303_15343"
     },
     {
+      "id": "2305_17743",
+      "label": "A chiral aperiodic monotile",
+      "title": "A Chiral Aperiodic Monotile",
+      "authors": [
+        "David Smith",
+        "Joseph Samuel Myers",
+        "Craig S. Kaplan",
+        "Chaim Goodman-Strauss"
+      ],
+      "authorShort": "Smith, Myers, Kaplan",
+      "year": 2023,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Geometry & Tiling",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Geometry & Tiling",
+        "A chiral aperiodic monotile"
+      ],
+      "tags": [],
+      "abstract": "The recently discovered \"hat\" aperiodic monotile mixes unreflected and reflected tiles in every tiling it admits, leaving open the question of whether a single shape can tile aperiodically using translations and rotations alone. We show that a close relative of the hat -- the equilateral member of the continuum to which it belongs -- is a weakly chiral aperiodic monotile: it admits only non-periodic tilings if we forbid reflections by fiat. Furthermore, by modifying this polygon's edges we obtain a family of shapes called Spectres that are strictly chiral aperiodic monotiles: they admit only chiral non-periodic tilings based on a hierarchical substitution system.",
+      "summary": "",
+      "url": "../papers/2305_17743/",
+      "treeUrl": "../tree/#paper=2305_17743",
+      "mapUrl": "../map/#paper=2305_17743"
+    },
+    {
+      "id": "2303_10798",
+      "label": "An aperiodic monotile",
+      "title": "An Aperiodic Monotile",
+      "authors": [
+        "David Smith",
+        "Joseph Samuel Myers",
+        "Craig S. Kaplan",
+        "Chaim Goodman-Strauss"
+      ],
+      "authorShort": "Smith, Myers, Kaplan",
+      "year": 2023,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Geometry & Tiling",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Geometry & Tiling",
+        "An aperiodic monotile"
+      ],
+      "tags": [],
+      "abstract": "A longstanding open problem asks for an aperiodic monotile, also known as an \"einstein\": a shape that admits tilings of the plane, but never periodic tilings. We answer this problem for topological disk tiles by exhibiting a continuum of combinatorially equivalent aperiodic polygons. We first show that a representative example, the \"hat\" polykite, can form clusters called \"metatiles\", for which substitution rules can be defined. Because the metatiles admit tilings of the plane, so too does the hat. We then prove that generic members of our continuum of polygons are aperiodic, through a new kind of geometric incommensurability argument. Separately, we give a combinatorial, computer-assisted proof that the hat must form hierarchical -- and hence aperiodic -- tilings.",
+      "summary": "",
+      "url": "../papers/2303_10798/",
+      "treeUrl": "../tree/#paper=2303_10798",
+      "mapUrl": "../map/#paper=2303_10798"
+    },
+    {
       "id": "2403_11763",
       "label": "Co-designing Control Barrier Functions and Linear State-Feedback Controllers",
       "title": "Convex Co-Design of Control Barrier Functions and State Feedback Controllers for Linear Systems with Input Constraints",
@@ -39267,6 +39968,7 @@ window.timelineData = {
         "Control",
         "Robust & Safety-Critical Control",
         "Robust Control",
+        "Statistical and Probabilistic Robustness",
         "Conformal Robust Control of Linear Systems"
       ],
       "tags": [],
@@ -39558,6 +40260,8 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
+        "Solvers",
+        "Clarabel",
         "Clarabel"
       ],
       "tags": [],
@@ -39591,6 +40295,8 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
+        "Solvers",
+        "Clarabel",
         "CuClarabel"
       ],
       "tags": [],
@@ -39654,6 +40360,8 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
+        "CVX Ecosystem",
+        "CVX Extensions",
         "cvxRiskOpt"
       ],
       "tags": [],
@@ -41904,6 +42612,7 @@ window.timelineData = {
         "Evaluation",
         "Simulation",
         "Driving & Traffic Simulation",
+        "Diffusion-based Generation",
         "Causal Composition Diffusion Model for Closed-loop Traffic Generation"
       ],
       "tags": [],
@@ -41936,6 +42645,7 @@ window.timelineData = {
         "Evaluation",
         "Simulation",
         "Driving & Traffic Simulation",
+        "Learned Simulation",
         "GPUDrive"
       ],
       "tags": [],
@@ -41975,6 +42685,7 @@ window.timelineData = {
         "Evaluation",
         "Simulation",
         "Driving & Traffic Simulation",
+        "Learned Simulation",
         "NAVSIM"
       ],
       "tags": [],
@@ -41983,73 +42694,6 @@ window.timelineData = {
       "url": "../papers/2406_15349/",
       "treeUrl": "../tree/#paper=2406_15349",
       "mapUrl": "../map/#paper=2406_15349"
-    },
-    {
-      "id": "2401_08281",
-      "label": "FAISS",
-      "title": "The Faiss Library",
-      "authors": [
-        "Matthijs Douze",
-        "Alexandr Guzhva",
-        "Chengqi Deng",
-        "Jeff Johnson",
-        "Gergely Szilvasy",
-        "Pierre-Emmanuel Mazaré",
-        "Maria Lomeli",
-        "Lucas Hosseini",
-        "Hervé Jégou"
-      ],
-      "authorShort": "Douze, Guzhva, Deng",
-      "year": 2024,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Nearest Neighbor Search",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Nearest Neighbor Search",
-        "FAISS"
-      ],
-      "tags": [],
-      "abstract": "Vector databases typically manage large collections of embedding vectors. Currently, AI applications are growing rapidly, and so is the number of embeddings that need to be stored and indexed. The Faiss library is dedicated to vector similarity search, a core functionality of vector databases. Faiss is a toolkit of indexing methods and related primitives used to search, cluster, compress and transform vectors. This paper describes the trade-off space of vector search and the design principles of Faiss in terms of structure, approach to optimization and interfacing. We benchmark key features of the library and discuss a few selected applications to highlight its broad applicability.",
-      "summary": "",
-      "url": "../papers/2401_08281/",
-      "treeUrl": "../tree/#paper=2401_08281",
-      "mapUrl": "../map/#paper=2401_08281"
-    },
-    {
-      "id": "2024_carson_towards_understanding_cg_and",
-      "label": "Towards Understanding CG and GMRES through Examples",
-      "title": "Towards Understanding CG and GMRES through Examples",
-      "authors": [
-        "Erin Carson",
-        "Jörg Liesen",
-        "Zdeněk Strakoš"
-      ],
-      "authorShort": "Carson, Liesen, Strakoš",
-      "year": 2024,
-      "source": "Linear Algebra and its Applications",
-      "type": "Journal Paper",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Linear Algebra & Signal Processing",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Mathematics",
-        "Linear Algebra & Signal Processing",
-        "Conjugate Gradient",
-        "Towards Understanding CG and GMRES through Examples"
-      ],
-      "tags": [],
-      "abstract": "When the conjugate gradient (CG) method for solving linear algebraic systems was formulated about 70 years ago by Lanczos, Hestenes, and Stiefel, it was considered an iterative process possessing a mathematical finite termination property. With the deep insight of the original authors, CG was placed into a very rich mathematical context, including links with Gauss quadrature and continued fractions. The optimality property of CG was described via a normalized weighted polynomial least squares approximation to zero. This highly nonlinear problem explains the adaptation of CG iterates to the given data. Karush and Hayes immediately considered CG in infinite dimensional Hilbert spaces and investigated its superlinear convergence. Since then, the view of CG, as well as other Krylov subspace methods developed in the meantime, has changed. Today these methods are considered primarily as computational tools, and their behavior is typically characterized using linear upper bounds, or heuristics based on clustering of eigenvalues. Such simplifications limit the mathematical understanding of Krylov subspace methods, and also negatively affect their practical application. This paper offers a different perspective. Focusing on CG and the generalized minimal residual (GMRES) method, it presents mathematically important as well as practically relevant phenomena that uncover their behavior through a discussion of computed examples. These examples provide an easily accessible approach that enables understanding of the methods, while pointers to more detailed analyses in the literature are given. This approach allows readers to choose the level of depth and thoroughness appropriate for their intentions. Some of the points made in this paper illustrate well known facts. Others challenge mainstream views and explain existing misunderstandings. Several points refer to recent results leading to open problems. We consider CG and GMRES crucially important for the mathematical understanding, further development, and practical applications also of other Krylov subspace methods. The paper additionally addresses the motivation of preconditioning.",
-      "summary": "",
-      "url": "../papers/2024_carson_towards_understanding_cg_and/",
-      "treeUrl": "../tree/#paper=2024_carson_towards_understanding_cg_and",
-      "mapUrl": "../map/#paper=2024_carson_towards_understanding_cg_and"
     },
     {
       "id": "2404_08471",
@@ -42962,6 +43606,7 @@ window.timelineData = {
         "Prediction & Perception",
         "State Estimation",
         "Localization & Mapping",
+        "Simultaneous Localization and Mapping (SLAM)",
         "Metric-Semantic SLAM",
         "Khronos"
       ],
@@ -42971,6 +43616,74 @@ window.timelineData = {
       "url": "../papers/2402_13817/",
       "treeUrl": "../tree/#paper=2402_13817",
       "mapUrl": "../map/#paper=2402_13817"
+    },
+    {
+      "id": "2401_08281",
+      "label": "Faiss Library",
+      "title": "The Faiss Library",
+      "authors": [
+        "Matthijs Douze",
+        "Alexandr Guzhva",
+        "Chengqi Deng",
+        "Jeff Johnson",
+        "Gergely Szilvasy",
+        "Pierre-Emmanuel Mazaré",
+        "Maria Lomeli",
+        "Lucas Hosseini",
+        "Hervé Jégou"
+      ],
+      "authorShort": "Douze, Guzhva, Deng",
+      "year": 2024,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Nearest Neighbor Search",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Nearest Neighbor Search",
+        "Large-scale Vector Search",
+        "Faiss Library"
+      ],
+      "tags": [],
+      "abstract": "Vector databases typically manage large collections of embedding vectors. Currently, AI applications are growing rapidly, and so is the number of embeddings that need to be stored and indexed. The Faiss library is dedicated to vector similarity search, a core functionality of vector databases. Faiss is a toolkit of indexing methods and related primitives used to search, cluster, compress and transform vectors. This paper describes the trade-off space of vector search and the design principles of Faiss in terms of structure, approach to optimization and interfacing. We benchmark key features of the library and discuss a few selected applications to highlight its broad applicability.",
+      "summary": "",
+      "url": "../papers/2401_08281/",
+      "treeUrl": "../tree/#paper=2401_08281",
+      "mapUrl": "../map/#paper=2401_08281"
+    },
+    {
+      "id": "2024_carson_towards_understanding_cg_and",
+      "label": "Towards Understanding CG and GMRES through Examples",
+      "title": "Towards Understanding CG and GMRES through Examples",
+      "authors": [
+        "Erin Carson",
+        "Jörg Liesen",
+        "Zdeněk Strakoš"
+      ],
+      "authorShort": "Carson, Liesen, Strakoš",
+      "year": 2024,
+      "source": "Linear Algebra and its Applications",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Linear Algebra & Signal Processing",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Linear Algebra & Signal Processing",
+        "Conjugate Gradient",
+        "Towards Understanding CG and GMRES through Examples"
+      ],
+      "tags": [],
+      "abstract": "When the conjugate gradient (CG) method for solving linear algebraic systems was formulated about 70 years ago by Lanczos, Hestenes, and Stiefel, it was considered an iterative process possessing a mathematical finite termination property. With the deep insight of the original authors, CG was placed into a very rich mathematical context, including links with Gauss quadrature and continued fractions. The optimality property of CG was described via a normalized weighted polynomial least squares approximation to zero. This highly nonlinear problem explains the adaptation of CG iterates to the given data. Karush and Hayes immediately considered CG in infinite dimensional Hilbert spaces and investigated its superlinear convergence. Since then, the view of CG, as well as other Krylov subspace methods developed in the meantime, has changed. Today these methods are considered primarily as computational tools, and their behavior is typically characterized using linear upper bounds, or heuristics based on clustering of eigenvalues. Such simplifications limit the mathematical understanding of Krylov subspace methods, and also negatively affect their practical application. This paper offers a different perspective. Focusing on CG and the generalized minimal residual (GMRES) method, it presents mathematically important as well as practically relevant phenomena that uncover their behavior through a discussion of computed examples. These examples provide an easily accessible approach that enables understanding of the methods, while pointers to more detailed analyses in the literature are given. This approach allows readers to choose the level of depth and thoroughness appropriate for their intentions. Some of the points made in this paper illustrate well known facts. Others challenge mainstream views and explain existing misunderstandings. Several points refer to recent results leading to open problems. We consider CG and GMRES crucially important for the mathematical understanding, further development, and practical applications also of other Krylov subspace methods. The paper additionally addresses the motivation of preconditioning.",
+      "summary": "",
+      "url": "../papers/2024_carson_towards_understanding_cg_and/",
+      "treeUrl": "../tree/#paper=2024_carson_towards_understanding_cg_and",
+      "mapUrl": "../map/#paper=2024_carson_towards_understanding_cg_and"
     },
     {
       "id": "2505_08370",
@@ -42996,6 +43709,7 @@ window.timelineData = {
         "Control",
         "Robust & Safety-Critical Control",
         "Robust Control",
+        "LQR and LQG Robustness",
         "DR-LQG"
       ],
       "tags": [
@@ -43034,6 +43748,7 @@ window.timelineData = {
         "Control",
         "Robust & Safety-Critical Control",
         "Robust Control",
+        "Statistical and Probabilistic Robustness",
         "Probabilistic Robustness in the Gap Metric"
       ],
       "tags": [],
@@ -45319,6 +46034,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Reinforcement Learning",
+        "Max Entropy",
         "Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors"
       ],
       "tags": [],
@@ -45349,6 +46066,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "LQR",
         "Convergence of Flow-Policy Gradient Learning for Linear Quadratic Regulator Problems"
       ],
       "tags": [],
@@ -45381,6 +46099,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "Robust Adaptive Linear Quadratic Control",
         "Domain Randomization is Sample Efficient for Linear Quadratic Control"
       ],
       "tags": [],
@@ -45412,6 +46131,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "Multi-task LQR",
         "Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective"
       ],
       "tags": [],
@@ -45444,6 +46164,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "LQR with Domain Randomization",
         "Policy Gradient for LQR with Domain Randomization"
       ],
       "tags": [],
@@ -45475,6 +46196,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "LQR",
         "Second-Order Policy Gradient Methods for the Linear Quadratic Regulator"
       ],
       "tags": [],
@@ -46170,11 +46892,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Evaluation",
       "category": "Benchmarks",
-      "subCategory": "Flow Gym",
+      "subCategory": "Gyms",
       "path": [
         "Tree",
         "Evaluation",
         "Benchmarks",
+        "Gyms",
         "Flow Gym"
       ],
       "tags": [],
@@ -46211,11 +46934,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Evaluation",
       "category": "Benchmarks",
-      "subCategory": "HydroGym",
+      "subCategory": "Gyms",
       "path": [
         "Tree",
         "Evaluation",
         "Benchmarks",
+        "Gyms",
         "HydroGym"
       ],
       "tags": [],
@@ -46242,12 +46966,12 @@ window.timelineData = {
       "type": "",
       "superCategory": "Evaluation",
       "category": "Computer Graphics",
-      "subCategory": "3D Gaussian Splatting",
+      "subCategory": "3D Gaussian Splatting (3DGS)",
       "path": [
         "Tree",
         "Evaluation",
         "Computer Graphics",
-        "3D Gaussian Splatting",
+        "3D Gaussian Splatting (3DGS)",
         "Matrix-free Second-order Optimization of Gaussian Splats with Residual Sampling"
       ],
       "tags": [],
@@ -46276,12 +47000,15 @@ window.timelineData = {
       "source": "",
       "type": "Conference Paper",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Bipeds",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Walking Robots",
         "Bipeds",
         "Design and Control of a Bipedal Robotic Character"
       ],
@@ -46367,6 +47094,7 @@ window.timelineData = {
         "Evaluation",
         "Simulation",
         "Driving & Traffic Simulation",
+        "Learned Simulation",
         "NAVSIM v2"
       ],
       "tags": [],
@@ -46414,68 +47142,6 @@ window.timelineData = {
       "url": "../papers/2502_08844/",
       "treeUrl": "../tree/#paper=2502_08844",
       "mapUrl": "../map/#paper=2502_08844"
-    },
-    {
-      "id": "2025_kamel_clover_a_gpu_native",
-      "label": "CLOVER",
-      "title": "CLOVER: A GPU-native, Spatio-graph-based Approach to Exact kNN",
-      "authors": [
-        "Victor Kamel",
-        "Hanxueyu Yan",
-        "Sean Chester"
-      ],
-      "authorShort": "Kamel, Yan, Chester",
-      "year": 2025,
-      "source": "Proceedings of the 39th ACM International Conference on Supercomputing",
-      "type": "Conference Paper",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Nearest Neighbor Search",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Nearest Neighbor Search",
-        "CLOVER"
-      ],
-      "tags": [],
-      "abstract": "Finding the k nearest neighbours (kNN) of every point in a dataset is a key primitive in many GPU applications. Unfortunately, algorithmic techniques for kNN do not translate well to GPUs, require (offline) preprocessing, sacrifice accuracy, or require low query volume. Recently, ray-tracing cores have been proposed to accelerate exact kNN, but it is not well understood how these compare to grid-based methods. This work introduces a novel approach to exact kNN for spatial data that constructs and then traverses a graph from a random voronoi tesselation. On an NVIDIA V100, we answer ten million exact 30-NN queries with no prior preprocessing in 2.71s, about 4 × faster than an optimised grid-based method, 10 × faster than a GPU tree, and 230 × faster than FAISS. Furthermore, we show on an RTX card that RT-core methods are uncompetitive when query volume is high.",
-      "summary": "",
-      "url": "../papers/2025_kamel_clover_a_gpu_native/",
-      "treeUrl": "../tree/#paper=2025_kamel_clover_a_gpu_native",
-      "mapUrl": "../map/#paper=2025_kamel_clover_a_gpu_native"
-    },
-    {
-      "id": "2510_03745",
-      "label": "Neural Low-Discrepancy Sequences",
-      "title": "Neural Low-Discrepancy Sequences",
-      "authors": [
-        "Michael Etienne Van Huffel",
-        "Nathan Kirk",
-        "Makram Chahine",
-        "Daniela Rus",
-        "T. Konstantin Rusch"
-      ],
-      "authorShort": "Huffel, Kirk, Chahine",
-      "year": 2025,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Mathematics",
-      "subCategory": "Sampling & Quasi-Monte Carlo",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Mathematics",
-        "Sampling & Quasi-Monte Carlo",
-        "Neural Low-Discrepancy Sequences"
-      ],
-      "tags": [],
-      "abstract": "Low-discrepancy points are designed to efficiently fill the space in a uniform manner. This uniformity is highly advantageous in many problems in science and engineering, including in numerical integration, computer vision, machine perception, computer graphics, machine learning, and simulation. Whereas most previous low-discrepancy constructions rely on abstract algebra and number theory, Message-Passing Monte Carlo (MPMC) was recently introduced to exploit machine learning methods for generating point sets with lower discrepancy than previously possible. However, MPMC is limited to generating point sets and cannot be extended to low-discrepancy sequences (LDS), i.e., sequences of points in which every prefix has low discrepancy, a property essential for many applications. To address this limitation, we introduce Neural Low-Discrepancy Sequences ($NeuroLDS$), the first machine learning-based framework for generating LDS. Drawing inspiration from classical LDS, we train a neural network to map indices to points such that the resulting sequences exhibit minimal discrepancy across all prefixes. To this end, we deploy a two-stage learning process: supervised approximation of classical constructions followed by unsupervised fine-tuning to minimize prefix discrepancies. We demonstrate that $NeuroLDS$ outperforms all previous LDS constructions by a significant margin with respect to discrepancy measures. Moreover, we demonstrate the effectiveness of $NeuroLDS$ across diverse applications, including numerical integration, robot motion planning, and scientific machine learning. These results highlight the promise and broad significance of Neural Low-Discrepancy Sequences. Our code can be found at https://github.com/camail-official/neuro-lds.",
-      "summary": "",
-      "url": "../papers/2510_03745/",
-      "treeUrl": "../tree/#paper=2510_03745",
-      "mapUrl": "../map/#paper=2510_03745"
     },
     {
       "id": "2508_10104",
@@ -47613,6 +48279,69 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2025_han_building_rome_with_convex"
     },
     {
+      "id": "2025_kamel_clover_a_gpu_native",
+      "label": "CLOVER",
+      "title": "CLOVER: A GPU-native, Spatio-graph-based Approach to Exact kNN",
+      "authors": [
+        "Victor Kamel",
+        "Hanxueyu Yan",
+        "Sean Chester"
+      ],
+      "authorShort": "Kamel, Yan, Chester",
+      "year": 2025,
+      "source": "Proceedings of the 39th ACM International Conference on Supercomputing",
+      "type": "Conference Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Nearest Neighbor Search",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Nearest Neighbor Search",
+        "Large-scale Vector Search",
+        "CLOVER"
+      ],
+      "tags": [],
+      "abstract": "Finding the k nearest neighbours (kNN) of every point in a dataset is a key primitive in many GPU applications. Unfortunately, algorithmic techniques for kNN do not translate well to GPUs, require (offline) preprocessing, sacrifice accuracy, or require low query volume. Recently, ray-tracing cores have been proposed to accelerate exact kNN, but it is not well understood how these compare to grid-based methods. This work introduces a novel approach to exact kNN for spatial data that constructs and then traverses a graph from a random voronoi tesselation. On an NVIDIA V100, we answer ten million exact 30-NN queries with no prior preprocessing in 2.71s, about 4 × faster than an optimised grid-based method, 10 × faster than a GPU tree, and 230 × faster than FAISS. Furthermore, we show on an RTX card that RT-core methods are uncompetitive when query volume is high.",
+      "summary": "",
+      "url": "../papers/2025_kamel_clover_a_gpu_native/",
+      "treeUrl": "../tree/#paper=2025_kamel_clover_a_gpu_native",
+      "mapUrl": "../map/#paper=2025_kamel_clover_a_gpu_native"
+    },
+    {
+      "id": "2510_03745",
+      "label": "Neural Low-Discrepancy Sequences",
+      "title": "Neural Low-Discrepancy Sequences",
+      "authors": [
+        "Michael Etienne Van Huffel",
+        "Nathan Kirk",
+        "Makram Chahine",
+        "Daniela Rus",
+        "T. Konstantin Rusch"
+      ],
+      "authorShort": "Huffel, Kirk, Chahine",
+      "year": 2025,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Sampling & Quasi-Monte Carlo",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Sampling & Quasi-Monte Carlo",
+        "Neural Low-Discrepancy Sequences"
+      ],
+      "tags": [],
+      "abstract": "Low-discrepancy points are designed to efficiently fill the space in a uniform manner. This uniformity is highly advantageous in many problems in science and engineering, including in numerical integration, computer vision, machine perception, computer graphics, machine learning, and simulation. Whereas most previous low-discrepancy constructions rely on abstract algebra and number theory, Message-Passing Monte Carlo (MPMC) was recently introduced to exploit machine learning methods for generating point sets with lower discrepancy than previously possible. However, MPMC is limited to generating point sets and cannot be extended to low-discrepancy sequences (LDS), i.e., sequences of points in which every prefix has low discrepancy, a property essential for many applications. To address this limitation, we introduce Neural Low-Discrepancy Sequences ($NeuroLDS$), the first machine learning-based framework for generating LDS. Drawing inspiration from classical LDS, we train a neural network to map indices to points such that the resulting sequences exhibit minimal discrepancy across all prefixes. To this end, we deploy a two-stage learning process: supervised approximation of classical constructions followed by unsupervised fine-tuning to minimize prefix discrepancies. We demonstrate that $NeuroLDS$ outperforms all previous LDS constructions by a significant margin with respect to discrepancy measures. Moreover, we demonstrate the effectiveness of $NeuroLDS$ across diverse applications, including numerical integration, robot motion planning, and scientific machine learning. These results highlight the promise and broad significance of Neural Low-Discrepancy Sequences. Our code can be found at https://github.com/camail-official/neuro-lds.",
+      "summary": "",
+      "url": "../papers/2510_03745/",
+      "treeUrl": "../tree/#paper=2510_03745",
+      "mapUrl": "../map/#paper=2510_03745"
+    },
+    {
       "id": "2604_15918",
       "label": "A Practical Guide to PID Controller Implementation",
       "title": "A Practical Guide to PID Controller Implementation",
@@ -47676,38 +48405,6 @@ window.timelineData = {
       "url": "../papers/2601_15006/",
       "treeUrl": "../tree/#paper=2601_15006",
       "mapUrl": "../map/#paper=2601_15006"
-    },
-    {
-      "id": "2603_04843",
-      "label": "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality",
-      "title": "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality",
-      "authors": [
-        "Chih-Fan Pai",
-        "Yuto Watanabe",
-        "Yujie Tang",
-        "Yang Zheng"
-      ],
-      "authorShort": "Pai, Watanabe, Tang",
-      "year": 2026,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "Robust & Safety-Critical Control",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Control",
-        "Robust & Safety-Critical Control",
-        "Robust Control",
-        "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality"
-      ],
-      "tags": [],
-      "abstract": "Mixed H2/H-infinity control balances performance and robustness by minimizing an H2 cost bound subject to an H-infinity constraint. However, classical Riccati/LMI solutions offer limited insight into the nonconvex optimization landscape and do not readily scale to large-scale or data-driven settings. In this paper, we revisit mixed H2/H-infinity control from a modern policy optimization viewpoint, including the general two-channel and single-channel cases. One central result is that both cases enjoy a benign nonconvex structure: every stationary point is globally optimal. We characterize the H-infinity-constrained feasible set, which is open, path-connected, with boundary given exactly by policies saturating the H-infinity constraint. We also show that the mixed objective is real analytic in the interior with explicit gradient formulas. Our key analysis builds on an Extended Convex Lifting (ECL) framework that bridges nonconvex policy optimization and convex reformulations. The ECL constructions rely on non-strict Riccati inequalities that allow us to characterize global optimality. These insights reveal hidden convexity in mixed H2/H-infinity control and facilitate the design of scalable policy iteration methods in large-scale settings.",
-      "summary": "",
-      "url": "../papers/2603_04843/",
-      "treeUrl": "../tree/#paper=2603_04843",
-      "mapUrl": "../map/#paper=2603_04843"
     },
     {
       "id": "2604_13192",
@@ -48064,37 +48761,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2603_08824"
     },
     {
-      "id": "2601_06096",
-      "label": "The Hessian of tall-skinny networks is easy to invert",
-      "title": "The Hessian of Tall-skinny Networks Is Easy to Invert",
-      "authors": [
-        "Ali Rahimi"
-      ],
-      "authorShort": "Rahimi",
-      "year": 2026,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Nonlinear Optimization",
-        "Second-order Methods",
-        "Newton's Method",
-        "The Hessian of tall-skinny networks is easy to invert"
-      ],
-      "tags": [],
-      "abstract": "We describe an exact algorithm to solve linear systems of the form $Hx=b$ where $H$ is the Hessian of a deep net. The method computes Hessian-inverse-vector products without storing the Hessian or its inverse. It requires time and storage that scale linearly in the number of layers. This is in contrast to the naive approach of first computing the Hessian, then solving the linear system, which takes storage and time that are respectively quadratic and cubic in the number of layers. The Hessian-inverse-vector product method scales roughly like Pearlmutter's algorithm for computing Hessian-vector products.",
-      "summary": "",
-      "url": "../papers/2601_06096/",
-      "treeUrl": "../tree/#paper=2601_06096",
-      "mapUrl": "../map/#paper=2601_06096"
-    },
-    {
       "id": "2604_14669",
       "label": "Zeroth-Order Optimization at the Edge of Stability",
       "title": "Zeroth-Order Optimization at the Edge of Stability",
@@ -48151,6 +48817,8 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
+        "CVX Ecosystem",
+        "CVX Extensions",
         "CvxCluster"
       ],
       "tags": [],
@@ -48181,6 +48849,7 @@ window.timelineData = {
         "Optimization",
         "Toolboxes & Solvers",
         "Convex Optimization",
+        "Solvers",
         "Presolving for GPU-Accelerated First-Order LP Solvers"
       ],
       "tags": [],
@@ -49255,6 +49924,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "LQR",
         "A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR"
       ],
       "tags": [],
@@ -49285,6 +49955,8 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "System Identification",
+        "Linear Systems with Additive Noise",
         "CLT-Optimal Parameter Error Bounds for Linear System Identification"
       ],
       "tags": [],
@@ -49317,6 +49989,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "LQG",
         "Cost-Driven Representation Learning for Linear Quadratic Gaussian Control: Part II"
       ],
       "tags": [],
@@ -49348,6 +50021,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "LQR with Integral Control",
         "Data-driven Linear Quadratic Integral Control: A Convex Formulation and Policy Gradient Approach"
       ],
       "tags": [],
@@ -49384,6 +50058,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "LQG",
         "On the Optimization Landscape of Observer-based Dynamic Linear Quadratic Control"
       ],
       "tags": [],
@@ -49392,6 +50067,39 @@ window.timelineData = {
       "url": "../papers/2604_10635/",
       "treeUrl": "../tree/#paper=2604_10635",
       "mapUrl": "../map/#paper=2604_10635"
+    },
+    {
+      "id": "2603_04843",
+      "label": "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality",
+      "title": "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality",
+      "authors": [
+        "Chih-Fan Pai",
+        "Yuto Watanabe",
+        "Yujie Tang",
+        "Yang Zheng"
+      ],
+      "authorShort": "Pai, Watanabe, Tang",
+      "year": 2026,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Robust LQ",
+        "Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality"
+      ],
+      "tags": [],
+      "abstract": "Mixed H2/H-infinity control balances performance and robustness by minimizing an H2 cost bound subject to an H-infinity constraint. However, classical Riccati/LMI solutions offer limited insight into the nonconvex optimization landscape and do not readily scale to large-scale or data-driven settings. In this paper, we revisit mixed H2/H-infinity control from a modern policy optimization viewpoint, including the general two-channel and single-channel cases. One central result is that both cases enjoy a benign nonconvex structure: every stationary point is globally optimal. We characterize the H-infinity-constrained feasible set, which is open, path-connected, with boundary given exactly by policies saturating the H-infinity constraint. We also show that the mixed objective is real analytic in the interior with explicit gradient formulas. Our key analysis builds on an Extended Convex Lifting (ECL) framework that bridges nonconvex policy optimization and convex reformulations. The ECL constructions rely on non-strict Riccati inequalities that allow us to characterize global optimality. These insights reveal hidden convexity in mixed H2/H-infinity control and facilitate the design of scalable policy iteration methods in large-scale settings.",
+      "summary": "",
+      "url": "../papers/2603_04843/",
+      "treeUrl": "../tree/#paper=2603_04843",
+      "mapUrl": "../map/#paper=2603_04843"
     },
     {
       "id": "2604_05088",
@@ -49415,6 +50123,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Policy Optimization",
+        "Federated LQR",
         "Scalar Federated Learning for Linear Quadratic Regulator"
       ],
       "tags": [],
@@ -49448,6 +50157,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Linear Systems",
         "Model-based RL",
+        "LQG",
         "The Fragility of Learning LQG Controllers"
       ],
       "tags": [],
@@ -49481,7 +50191,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Model-based RL",
         "System Identification",
-        "Dynamic Mode Decomposition (DMD)",
+        "Extended Dynamic Mode Decomposition (eDMD) and Koopman",
         "Accelerating Sampling-Based Control via Learned Linear Koopman Dynamics"
       ],
       "tags": [],
@@ -49736,7 +50446,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Model-based RL",
         "System Identification",
-        "Dynamic Mode Decomposition (DMD)",
+        "Extended Dynamic Mode Decomposition (eDMD) and Koopman",
         "Interpreting Reinforcement Learning Model Behavior via Koopman with Control"
       ],
       "tags": [],
@@ -49971,13 +50681,16 @@ window.timelineData = {
       "source": "",
       "type": "",
       "superCategory": "Evaluation",
-      "category": "Robot Platforms",
-      "subCategory": "Flying Robots",
+      "category": "Engineering Systems",
+      "subCategory": "Robots",
       "path": [
         "Tree",
         "Evaluation",
-        "Robot Platforms",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
         "Flying Robots",
+        "Multirotors",
         "QuadSoft"
       ],
       "tags": [],
@@ -50158,68 +50871,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2602_09153"
     },
     {
-      "id": "2604_05885",
-      "label": "JZ-Tree",
-      "title": "JZ-Tree: GPU Friendly Neighbour Search and Friends-of-friends with Dual Tree Walks in JAX plus CUDA",
-      "authors": [
-        "Jens Stücker",
-        "Oliver Hahn",
-        "Lukas Winkler",
-        "Adrian Gutierrez Adame",
-        "Thomas Flöss"
-      ],
-      "authorShort": "Stücker, Hahn, Winkler",
-      "year": 2026,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Algorithms & Data Structures",
-      "subCategory": "Nearest Neighbor Search",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Algorithms & Data Structures",
-        "Nearest Neighbor Search",
-        "JZ-Tree"
-      ],
-      "tags": [],
-      "abstract": "Algorithms based on spatial tree traversal are widely regarded as among the most efficient and flexible approaches for many problems in CPU-based high-performance computing (HPC). However, directly transferring these algorithms to GPU architectures often yields substantially smaller performance gains than expected in light of the high computational throughput of modern GPUs. The branching nature of tree algorithms leads to thread divergence and irregular memory access patterns -- both of which may severely limit GPU performance. To address these challenges, we propose a Morton (z-order) 'plane-based tree hierarchy' that is specifically designed for GPU architectures. The resulting flattened data layout enables efficient dual-tree traversal with collaborative execution across thread groups, leading to highly coalesced memory access patterns. Based on this framework we present implementations of two important spatial algorithms -- exact $k$-nearest neighbour search and friends-of-friends (FoF) clustering. For both cases, we observe more than an order-of-magnitude performance improvement over the closest competing GPU libraries for large problem sizes ($N \\gtrsim 10^7$), together with strong scaling to distributed multi-GPU systems. We provide an open-source implementation, 'JZ-Tree' (JAX z-order tree), which serves as a foundation for efficient GPU implementations of a broad class of tree-based algorithms.",
-      "summary": "",
-      "url": "../papers/2604_05885/",
-      "treeUrl": "../tree/#paper=2604_05885",
-      "mapUrl": "../map/#paper=2604_05885"
-    },
-    {
-      "id": "2604_04310",
-      "label": "frax",
-      "title": "frax: Fast Robot Kinematics and Dynamics in JAX",
-      "authors": [
-        "Daniel Morton",
-        "Marco Pavone"
-      ],
-      "authorShort": "Morton, Pavone",
-      "year": 2026,
-      "source": "",
-      "type": "",
-      "superCategory": "Foundations",
-      "category": "Software & Programming",
-      "subCategory": "Machine learning",
-      "path": [
-        "Tree",
-        "Foundations",
-        "Software & Programming",
-        "Machine learning",
-        "JAX Ecosystem",
-        "frax"
-      ],
-      "tags": [],
-      "abstract": "In robot control, planning, and learning, there is a need for rigid-body dynamics libraries that are highly performant, easy to use, and compatible with CPUs and accelerators. While existing libraries often excel at either low-latency CPU execution or high-throughput GPU workloads, few provide a unified framework that targets multiple architectures without compromising performance or ease-of-use. To address this, we introduce frax, a JAX-based library for robot kinematics and dynamics, providing a high-performance, pure-Python interface across CPU, GPU, and TPU. Via a fully-vectorized approach to robot dynamics, frax enables efficient real-time control and parallelization, while supporting automatic differentiation for optimization-based methods. On CPU, frax achieves low-microsecond computation times suitable for kilohertz control rates, outperforming common libraries in Python and approaching optimized C++ implementations. On GPU, the same code scales to thousands of instances, reaching upwards of 100 million dynamics evaluations per second. We validate performance on a Franka Panda manipulator and a Unitree G1 humanoid, and release frax as an open-source library.",
-      "summary": "",
-      "url": "../papers/2604_04310/",
-      "treeUrl": "../tree/#paper=2604_04310",
-      "mapUrl": "../map/#paper=2604_04310"
-    },
-    {
       "id": "2601_19680",
       "label": "A new Image Similarity Metric for a Perceptual and Transparent Geometric and Chromatic Assessment",
       "title": "A New Image Similarity Metric for a Perceptual and Transparent Geometric and Chromatic Assessment",
@@ -50287,6 +50938,36 @@ window.timelineData = {
       "url": "../papers/2605_05148/",
       "treeUrl": "../tree/#paper=2605_05148",
       "mapUrl": "../map/#paper=2605_05148"
+    },
+    {
+      "id": "2601_06096",
+      "label": "The Hessian of tall-skinny networks is easy to invert",
+      "title": "The Hessian of Tall-skinny Networks Is Easy to Invert",
+      "authors": [
+        "Ali Rahimi"
+      ],
+      "authorShort": "Rahimi",
+      "year": 2026,
+      "source": "",
+      "type": "",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Deep Learning",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "The Hessian of tall-skinny networks is easy to invert"
+      ],
+      "tags": [],
+      "abstract": "We describe an exact algorithm to solve linear systems of the form $Hx=b$ where $H$ is the Hessian of a deep net. The method computes Hessian-inverse-vector products without storing the Hessian or its inverse. It requires time and storage that scale linearly in the number of layers. This is in contrast to the naive approach of first computing the Hessian, then solving the linear system, which takes storage and time that are respectively quadratic and cubic in the number of layers. The Hessian-inverse-vector product method scales roughly like Pearlmutter's algorithm for computing Hessian-vector products.",
+      "summary": "",
+      "url": "../papers/2601_06096/",
+      "treeUrl": "../tree/#paper=2601_06096",
+      "mapUrl": "../map/#paper=2601_06096"
     },
     {
       "id": "2601_03220",
@@ -50864,6 +51545,69 @@ window.timelineData = {
       "url": "../papers/2603_01176/",
       "treeUrl": "../tree/#paper=2603_01176",
       "mapUrl": "../map/#paper=2603_01176"
+    },
+    {
+      "id": "2604_05885",
+      "label": "JZ-Tree",
+      "title": "JZ-Tree: GPU Friendly Neighbour Search and Friends-of-friends with Dual Tree Walks in JAX plus CUDA",
+      "authors": [
+        "Jens Stücker",
+        "Oliver Hahn",
+        "Lukas Winkler",
+        "Adrian Gutierrez Adame",
+        "Thomas Flöss"
+      ],
+      "authorShort": "Stücker, Hahn, Winkler",
+      "year": 2026,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Algorithms & Data Structures",
+      "subCategory": "Nearest Neighbor Search",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Nearest Neighbor Search",
+        "Large-scale Vector Search",
+        "JZ-Tree"
+      ],
+      "tags": [],
+      "abstract": "Algorithms based on spatial tree traversal are widely regarded as among the most efficient and flexible approaches for many problems in CPU-based high-performance computing (HPC). However, directly transferring these algorithms to GPU architectures often yields substantially smaller performance gains than expected in light of the high computational throughput of modern GPUs. The branching nature of tree algorithms leads to thread divergence and irregular memory access patterns -- both of which may severely limit GPU performance. To address these challenges, we propose a Morton (z-order) 'plane-based tree hierarchy' that is specifically designed for GPU architectures. The resulting flattened data layout enables efficient dual-tree traversal with collaborative execution across thread groups, leading to highly coalesced memory access patterns. Based on this framework we present implementations of two important spatial algorithms -- exact $k$-nearest neighbour search and friends-of-friends (FoF) clustering. For both cases, we observe more than an order-of-magnitude performance improvement over the closest competing GPU libraries for large problem sizes ($N \\gtrsim 10^7$), together with strong scaling to distributed multi-GPU systems. We provide an open-source implementation, 'JZ-Tree' (JAX z-order tree), which serves as a foundation for efficient GPU implementations of a broad class of tree-based algorithms.",
+      "summary": "",
+      "url": "../papers/2604_05885/",
+      "treeUrl": "../tree/#paper=2604_05885",
+      "mapUrl": "../map/#paper=2604_05885"
+    },
+    {
+      "id": "2604_04310",
+      "label": "frax",
+      "title": "frax: Fast Robot Kinematics and Dynamics in JAX",
+      "authors": [
+        "Daniel Morton",
+        "Marco Pavone"
+      ],
+      "authorShort": "Morton, Pavone",
+      "year": 2026,
+      "source": "",
+      "type": "",
+      "superCategory": "Quantitative Foundations",
+      "category": "Software & Programming",
+      "subCategory": "Machine learning",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Machine learning",
+        "JAX Ecosystem",
+        "frax"
+      ],
+      "tags": [],
+      "abstract": "In robot control, planning, and learning, there is a need for rigid-body dynamics libraries that are highly performant, easy to use, and compatible with CPUs and accelerators. While existing libraries often excel at either low-latency CPU execution or high-throughput GPU workloads, few provide a unified framework that targets multiple architectures without compromising performance or ease-of-use. To address this, we introduce frax, a JAX-based library for robot kinematics and dynamics, providing a high-performance, pure-Python interface across CPU, GPU, and TPU. Via a fully-vectorized approach to robot dynamics, frax enables efficient real-time control and parallelization, while supporting automatic differentiation for optimization-based methods. On CPU, frax achieves low-microsecond computation times suitable for kilohertz control rates, outperforming common libraries in Python and approaching optimized C++ implementations. On GPU, the same code scales to thousands of instances, reaching upwards of 100 million dynamics evaluations per second. We validate performance on a Franka Panda manipulator and a Unitree G1 humanoid, and release frax as an open-source library.",
+      "summary": "",
+      "url": "../papers/2604_04310/",
+      "treeUrl": "../tree/#paper=2604_04310",
+      "mapUrl": "../map/#paper=2604_04310"
     }
   ],
   "meta": {
@@ -50871,7 +51615,8 @@ window.timelineData = {
       "Decision-making",
       "Prediction & Perception",
       "Evaluation",
-      "Foundations"
+      "Quantitative Foundations",
+      "Human & Natural Worlds"
     ],
     "categoryOrder": [
       "Optimization",
@@ -50886,13 +51631,12 @@ window.timelineData = {
       "Computer Graphics",
       "Benchmarks",
       "Safety, Testing, Verification & Validation (V&V)",
-      "Robot Platforms",
-      "Environmental Impacts",
+      "Engineering Systems",
       "Mathematics",
       "Software & Programming",
       "Algorithms & Data Structures",
       "Network Science",
-      "Engineering Systems",
+      "Environmental Impacts",
       "Biology",
       "Humanities & Culture"
     ],
@@ -50909,15 +51653,14 @@ window.timelineData = {
       "Computer Graphics": "Evaluation",
       "Benchmarks": "Evaluation",
       "Safety, Testing, Verification & Validation (V&V)": "Evaluation",
-      "Robot Platforms": "Evaluation",
-      "Environmental Impacts": "Evaluation",
-      "Mathematics": "Foundations",
-      "Software & Programming": "Foundations",
-      "Algorithms & Data Structures": "Foundations",
-      "Network Science": "Foundations",
-      "Engineering Systems": "Foundations",
-      "Biology": "Foundations",
-      "Humanities & Culture": "Foundations"
+      "Engineering Systems": "Evaluation",
+      "Mathematics": "Quantitative Foundations",
+      "Software & Programming": "Quantitative Foundations",
+      "Algorithms & Data Structures": "Quantitative Foundations",
+      "Network Science": "Quantitative Foundations",
+      "Environmental Impacts": "Human & Natural Worlds",
+      "Biology": "Human & Natural Worlds",
+      "Humanities & Culture": "Human & Natural Worlds"
     },
     "subCategoryOrder": {
       "Optimization": [
@@ -50938,7 +51681,8 @@ window.timelineData = {
         "Frequency and Laplace-Domain Methods",
         "State-space Methods",
         "Robust & Safety-Critical Control",
-        "Distributed & Networked Control",
+        "Adaptive Control",
+        "Distributed Control",
         "Robot Control",
         "System Modeling & Co-Design"
       ],
@@ -50947,12 +51691,15 @@ window.timelineData = {
         "Multi-arm Bandits",
         "Linear Systems",
         "Nonlinear Systems",
+        "Multi-agent Reinforcement learning",
         "Inverse Reinforcement Learning & Reward Learning",
         "Applications"
       ],
       "State Estimation": [
-        "Kalman Filter",
-        "Unscented Kalman Filter (UKF)",
+        "Optimal State Estimation (Kalman Filters)",
+        "Robust State Estimation",
+        "Adaptive State Estimation",
+        "Learning-based State Estimation",
         "Particle Filter",
         "Localization & Mapping"
       ],
@@ -50983,25 +51730,24 @@ window.timelineData = {
         "Manipulation & Indoor Simulation"
       ],
       "Computer Graphics": [
-        "Subdivision Surfaces",
-        "Geometry Processing",
         "Noise & Dithering",
-        "Flow Visualization",
-        "3D Gaussian Splatting",
-        "Neural Rendering"
+        "Line Integral Convolution (LIC)",
+        "Surface Rendering",
+        "Radiance Fields",
+        "3D Gaussian Splatting (3DGS)"
+      ],
+      "Benchmarks": [
+        "Gyms"
       ],
       "Safety, Testing, Verification & Validation (V&V)": [
         "Driving & Autonomous Vehicles",
         "Risk-aware Robotics",
         "General Automated Systems"
       ],
-      "Robot Platforms": [
-        "Balancing Robots",
-        "Bipeds",
-        "Quadrupeds",
-        "Wheeled Robots",
-        "Flying Robots",
-        "Brachiating Robots"
+      "Engineering Systems": [
+        "Robots",
+        "Stirling Engines",
+        "Nuclear Reactors"
       ],
       "Mathematics": [
         "Geometry & Tiling",
@@ -51032,19 +51778,14 @@ window.timelineData = {
         "Centrality",
         "Community Detection"
       ],
-      "Engineering Systems": [
-        "Robots",
-        "Stirling Engines",
-        "Nuclear Reactors"
-      ],
       "Biology": [
         "Evolution",
         "DNA",
         "Genetic Engineering"
       ]
     },
-    "totalPapers": 1427,
-    "plottedPapers": 1427,
+    "totalPapers": 1440,
+    "plottedPapers": 1440,
     "undatedPapers": 0,
     "minYear": 1816,
     "maxYear": 2026,
@@ -51116,15 +51857,15 @@ window.timelineData = {
         "label": "1990-1994",
         "start": 1990,
         "end": 1994,
-        "width": 11.785128803420683,
-        "count": 40
+        "width": 12.104157807927887,
+        "count": 43
       },
       {
         "label": "1995-1999",
         "start": 1995,
         "end": 1999,
-        "width": 13.109986159927244,
-        "count": 53
+        "width": 13.396975914952804,
+        "count": 56
       },
       {
         "label": "2000",
@@ -51151,8 +51892,8 @@ window.timelineData = {
         "label": "2003",
         "start": 2003,
         "end": 2003,
-        "width": 2.898713519367774,
-        "count": 6
+        "width": 3.12594397439396,
+        "count": 7
       },
       {
         "label": "2004",
@@ -51165,8 +51906,8 @@ window.timelineData = {
         "label": "2005",
         "start": 2005,
         "end": 2005,
-        "width": 3.5410536348880504,
-        "count": 9
+        "width": 3.7335586469335036,
+        "count": 10
       },
       {
         "label": "2006",
@@ -51200,8 +51941,8 @@ window.timelineData = {
         "label": "2010",
         "start": 2010,
         "end": 2010,
-        "width": 4.267310531054875,
-        "count": 13
+        "width": 4.594987810273402,
+        "count": 15
       },
       {
         "label": "2011",
@@ -51256,15 +51997,15 @@ window.timelineData = {
         "label": "2018",
         "start": 2018,
         "end": 2018,
-        "width": 11.093033302828221,
-        "count": 75
+        "width": 11.177380771884142,
+        "count": 76
       },
       {
         "label": "2019",
         "start": 2019,
         "end": 2019,
-        "width": 10.923027337100057,
-        "count": 73
+        "width": 11.008251568339618,
+        "count": 74
       },
       {
         "label": "2020",
@@ -51277,8 +52018,8 @@ window.timelineData = {
         "label": "2021",
         "start": 2021,
         "end": 2021,
-        "width": 10.751217081897797,
-        "count": 71
+        "width": 10.837352104956791,
+        "count": 72
       },
       {
         "label": "2022",

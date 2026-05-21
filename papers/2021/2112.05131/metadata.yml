@@ -1,0 +1,36 @@
+title: "Plenoxels: Radiance Fields without Neural Networks"
+algorithm: Plenoxels
+authors:
+  - Sara Fridovich-Keil
+  - Alex Yu
+  - Matthew Tancik
+  - Qinhong Chen
+  - Benjamin Recht
+  - Angjoo Kanazawa
+year: 2021
+source: IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+type: Conference Paper
+doi: 10.1109/CVPR52688.2022.00542
+arxiv_id: "2112.05131"
+tags:
+  - Radiance fields
+  - Novel view synthesis
+  - Computer graphics
+  - Computer vision
+  - Sparse voxel grid
+  - Spherical harmonics
+  - Differentiable rendering
+  - Neural rendering
+  - NeRF
+abstract: >
+  We introduce Plenoxels (plenoptic voxels), a system for photorealistic view synthesis. Plenoxels represent a scene as a sparse 3D grid with spherical harmonics. This representation can be optimized from calibrated images via gradient methods and regularization without any neural components. On standard, benchmark tasks, Plenoxels are optimized two orders of magnitude faster than Neural Radiance Fields with no loss in visual quality.
+summary: >
+  Introduces Plenoxels, an explicit sparse voxel radiance-field representation whose density and view-dependent color coefficients can be optimized directly from posed images without an MLP. The paper helped establish that high-quality NeRF-like novel view synthesis could be achieved with direct grid optimization, greatly reducing training time while preserving visual fidelity on standard benchmarks.
+link: https://arxiv.org/pdf/2112.05131
+links_alt:
+  - https://openaccess.thecvf.com/content/CVPR2022/html/Fridovich-Keil_Plenoxels_Radiance_Fields_Without_Neural_Networks_CVPR_2022_paper.html
+  - https://openaccess.thecvf.com/content/CVPR2022/papers/Fridovich-Keil_Plenoxels_Radiance_Fields_Without_Neural_Networks_CVPR_2022_paper.pdf
+  - https://alexyu.net/plenoxels/
+  - https://github.com/sxyu/svox2
+  - https://doi.org/10.1109/CVPR52688.2022.00542
+audit_status: raw

@@ -1,0 +1,30 @@
+title: "Identification of the Deterministic Part of MIMO State Space Models Given in Innovations Form from Input-Output Data"
+algorithm: IV-MOESP
+authors:
+  - Michel Verhaegen
+year: 1994
+source: Automatica
+type: Journal Paper
+doi: 10.1016/0005-1098(94)90229-1
+arxiv_id:
+tags:
+  - System identification
+  - Subspace identification
+  - MOESP
+  - IV-MOESP
+  - Innovations form
+  - State-space models
+  - MIMO systems
+  - Linear systems
+  - Stochastic systems
+  - Instrumental variables
+abstract: >
+  In this paper we describe two algorithms to identify a linear, time-invariant, finite dimensional state space model from input-output data. The system to be identified is assumed to be excited by a measurable input and an unknown process noise and the measurements are disturbed by unknown measurement noise. Both noise sequences are discrete zero-mean white noise. The first algorithm gives consistent estimates only for the case where the input also is zero-mean white noise, while the same result is obtained with the second algorithm without this constraint. For the special case where the input signal is discrete zero-mean white noise, it is explicitly shown that this second algorithm is a special case of the recently developed Multivariable Output-Error State Space (moesp) class of algorithms based on instrumental variables.
+summary: >
+  Extends the MOESP subspace identification line from deterministic output-error realization toward stochastic MIMO systems in innovations form. The paper gives two algorithms for estimating the deterministic state-space dynamics from input-output data corrupted by process and measurement noise, and shows that one method connects directly to instrumental-variable MOESP, clarifying how MOESP-type projections can recover deterministic dynamics in mixed deterministic-stochastic settings.
+link: https://people.duke.edu/~hpgavin/SystemID/References/Verhaegen-Automatica-1994.pdf
+links_alt:
+  - https://doi.org/10.1016/0005-1098(94)90229-1
+  - https://www.sciencedirect.com/science/article/pii/0005109894902291
+  - https://dblp.org/rec/journals/automatica/Verhaegen94
+audit_status: reviewed

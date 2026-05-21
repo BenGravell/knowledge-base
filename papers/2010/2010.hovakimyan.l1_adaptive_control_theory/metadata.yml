@@ -1,0 +1,30 @@
+title: "L1 Adaptive Control Theory: Guaranteed Robustness with Fast Adaptation"
+algorithm: L1 Adaptive Control
+authors:
+  - Naira Hovakimyan
+  - Chengyu Cao
+year: 2010
+source: Society for Industrial and Applied Mathematics
+type: Other
+doi: 10.1137/1.9780898719376
+arxiv_id:
+tags:
+  - Adaptive control
+  - L1 adaptive control
+  - Robust control
+  - Fast adaptation
+  - Transient performance
+  - Matched uncertainties
+  - Unmatched uncertainties
+  - Output feedback
+  - Time-varying reference systems
+  - Flight testing
+abstract: >
+  This book presents a comprehensive overview of the recently developed L1 adaptive control theory, including detailed proofs of the main results. The key feature of the L1 adaptive control theory is the decoupling of adaptation from robustness. The architectures of L1 adaptive control theory have guaranteed transient performance and robustness in the presence of fast adaptation, without enforcing persistent excitation, applying gain-scheduling, or resorting to high-gain feedback. The book covers detailed proofs of the main results and also presents the flight test results that have used this theory and contains results not yet published in technical journals and conference proceedings. The material is organized into six chapters and concludes with an appendix that summarizes the mathematical results used to support the proofs. Software is available on a supplementary Web page. Audience: L1 Adaptive Control Theory is intended for graduate students; researchers; and aerospace, mechanical, chemical, industrial, and electrical engineers interested in pursuing new directions in research and developing technology at reduced costs. Contents: Foreword; Preface; Chapter 1: Introduction; Chapter 2: State Feedback in the Presence of Matched Uncertainties; Chapter 3: State Feedback in the Presence of Unmatched Uncertainties; Chapter 4: Output Feedback; Chapter 5: L1 Adaptive Controller for Time-Varying Reference Systems; Chapter 6: Applications, Conclusions, and Open Problems; Appendix A: Systems Theory; Appendix B: Projection Operator for Adaptation Laws; Appendix C: Basic Facts on Linear Matrix Inequalities; Bibliography
+summary: >
+  This monograph systematizes L1 adaptive control around the separation of adaptation from robustness. It collects the core state-feedback and output-feedback architectures, covers matched and unmatched uncertainties, treats time-varying reference systems, and connects the theory to flight-test applications, making it a foundational reference for later L1 adaptive control work.
+link: https://doi.org/10.1137/1.9780898719376
+links_alt:
+  - https://dl.acm.org/doi/10.5555/1941950
+  - https://epubs.siam.org/doi/book/10.1137/1.9780898719376
+audit_status: raw
