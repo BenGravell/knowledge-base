@@ -141,7 +141,6 @@
               - A Note on the Convergence of Newton's Method: docs/papers/1974/1974.rall.a_note_on_the/metadata.yml
               - OPTAMI: docs/papers/2024/2410.04083/metadata.yml
               - "Superfast Second-Order Methods for Unconstrained Convex Optimization": docs/papers/2021/2021.nesterov.superfast_second_order_methods/metadata.yml
-              - "The Hessian of tall-skinny networks is easy to invert": docs/papers/2026/2601.06096/metadata.yml
               - "Verification of Sequential Convex Programming for Parametric Non-convex Optimization": docs/papers/2025/2511.10622/metadata.yml
               - Regularized Newton Method:
                 - Levenberg-Marquardt: docs/papers/1944/1944.levenberg.a_method_for_the/metadata.yml
@@ -191,10 +190,11 @@
           - On General Minimax Theorems: docs/papers/1958/1958.sion.on_general_minimax_theorems/metadata.yml
           - "Elementary Proof for Sion's Minimax Theorem": docs/papers/1988/1988.komiya.elementary_proof_for_sions/metadata.yml
           - Subgradient Methods for Saddle-Point Problems: docs/papers/2009/2009.nedic.subgradient_methods_for_saddle/metadata.yml
-          - "A survey of distributed optimization": docs/papers/2019/2019.yang.a_survey_of_distributed/metadata.yml
-          - "Distributed Asynchronous Deterministic and Stochastic Gradient Optimization Algorithms": docs/papers/1986/1986.tsitsiklis.distributed_asynchronous_deterministic_and/metadata.yml
           - "Near-optimal Local Convergence of Alternating Gradient Descent-Ascent for Minimax Optimization": docs/papers/2021/2102.09468/metadata.yml
           - "The First Optimal Algorithm for Smooth and Strongly-Convex-Strongly-Concave Minimax Optimization": docs/papers/2022/2205.05653/metadata.yml
+        - Distributed Optimization:
+          - "A survey of distributed optimization": docs/papers/2019/2019.yang.a_survey_of_distributed/metadata.yml
+          - "Distributed Asynchronous Deterministic and Stochastic Gradient Optimization Algorithms": docs/papers/1986/1986.tsitsiklis.distributed_asynchronous_deterministic_and/metadata.yml
         - Automatic Differentiation:
           - On Automatic Differentiation: docs/papers/1989/1989.griewank.on_automatic_differentiation/metadata.yml
           - "Automatic differentiation in machine learning: a survey": docs/papers/2015/1502.05767/metadata.yml
@@ -840,13 +840,12 @@
             - Partial Feedback Linearization: docs/papers/1994/1994.spong.partial_feedback_linearization_of/metadata.yml
       - Robust & Safety-Critical Control:
         - Robust Control:
-          - Distributed control design for spatially interconnected systems: docs/papers/2003/2003.dandrea.distributed_control_design_for/metadata.yml
           - LMIs in System and Control Theory: docs/papers/1994/1994.boyd.linear_matrix_inequalities_in/metadata.yml
           - "LMI Properties and Applications in Systems, Stability, and Control Theory": docs/papers/2019/1903.08599/metadata.yml
           - Robustness margins for LQG: docs/papers/1978/1978.doyle.guaranteed_margins_for_lqg/metadata.yml
           - DR-LQG: docs/papers/2025/2505.08370/metadata.yml
-          - "Conformal Robust Control of Linear Systems": docs/papers/2024/2405.16250/metadata.yml
-          - "Probabilistic Robustness in the Gap Metric": docs/papers/2025/2507.10010/metadata.yml
+          - Conformal Robust Control of Linear Systems: docs/papers/2024/2405.16250/metadata.yml
+          - Probabilistic Robustness in the Gap Metric: docs/papers/2025/2507.10010/metadata.yml
           - On the Input-Output Stability of Time-Varying Nonlinear Feedback Systems: docs/papers/1966/1966.zames.on_the_input_output/metadata.yml
           - Bilateral Control of Teleoperators with Time Delay: docs/papers/1989/1989.anderson.bilateral_control_of_teleoperators/metadata.yml
           - State-Space Solutions to Standard H2 and H-inf Control Problems: docs/papers/1989/1989.doyle.state_space_solutions_to/metadata.yml
@@ -861,7 +860,7 @@
           - "On Topological Properties of the Set of Stabilizing Feedback Gains": docs/papers/2019/1904.08451/metadata.yml
           - "Regeneration Theory": docs/papers/1932/1932.nyquist.regeneration_theory/metadata.yml
           - "Stabilized Feedback Amplifiers*": docs/papers/1934/1934.black.stabilized_feedback_amplifiers/metadata.yml
-          - "Relations between Attenuation and Phase in Feedback Amplifier Design": docs/papers/1940/1940.bode.relations_between_attenuation_and/metadata.yml
+          - Relations between Attenuation and Phase in Feedback Amplifier Design: docs/papers/1940/1940.bode.relations_between_attenuation_and/metadata.yml
           - "A Linear Matrix Inequality Approach to H∞ Control": docs/papers/1994/1994.gahinet.a_linear_matrix_inequality/metadata.yml
           - "Nonlinear Control Synthesis by Convex Optimization": docs/papers/2004/2004.prajna.nonlinear_control_synthesis_by/metadata.yml
           - "On Exponential Synchronization of Kuramoto Oscillators": docs/papers/2009/2009.chopra.on_exponential_synchronization_of/metadata.yml
@@ -880,9 +879,11 @@
           - "Control Barrier Function Based Quadratic Programs for Safety Critical Systems": docs/papers/2017/2017.ames.control_barrier_function_based/metadata.yml
           - "Control Barrier Functions: Theory and Applications": docs/papers/2019/1903.11199/metadata.yml
           - "Synthesis and Deployment of Maximal Robust Control Barrier Functions through Adversarial Reinforcement Learning": docs/papers/2026/2604.13192/metadata.yml
-      - Control of Networks:
-        - Control Principles of Complex Networks: docs/papers/2015/1508.05384/metadata.yml
-        - Control Profiles of Complex Networks: docs/papers/2014/2014.ruths.control_profiles_of_complex/metadata.yml
+      - Distributed Control:
+        - Distributed control design for spatially interconnected systems: docs/papers/2003/2003.dandrea.distributed_control_design_for/metadata.yml
+        - Control of Networks:
+          - Control Profiles of Complex Networks: docs/papers/2014/2014.ruths.control_profiles_of_complex/metadata.yml
+          - Control Principles of Complex Networks: docs/papers/2015/1508.05384/metadata.yml
       - Robot Control:
         - Theory of Robot Control: docs/papers/1996/1996.wit.theory_of_robot_control/metadata.yml
         - "Adaptive Motion Control of Rigid Robots: A Tutorial": docs/papers/1989/1989.ortega.adaptive_motion_control_of/metadata.yml
@@ -1422,9 +1423,10 @@
           - Training Algorithms:
             - Backpropagation: docs/papers/1986/1986.rumelhart.learning_representations_by_back/metadata.yml
             - PInet: docs/papers/2025/2508.10480/metadata.yml
+            - The Hessian of tall-skinny networks is easy to invert: docs/papers/2026/2601.06096/metadata.yml
           - Regularization:
             - Dropout: docs/papers/2014/2014.srivastava.dropout_a_simple_way/metadata.yml
-          - Theory & Empirical Observations:
+          - Theory & Science:
             - "Understanding deep learning requires rethinking generalization": docs/papers/2016/1611.03530/metadata.yml
             - "Reconciling modern machine learning practice and the bias-variance trade-off": docs/papers/2018/1812.11118/metadata.yml
             - "Do CIFAR-10 Classifiers Generalize to CIFAR-10?": docs/papers/2018/1806.00451/metadata.yml
@@ -1433,9 +1435,9 @@
             - Catapult Mechanism: docs/papers/2020/2003.02218/metadata.yml
             - Grokking: docs/papers/2022/2201.02177/metadata.yml
         - Representation Learning:
-          - "A Topology Layer for Machine Learning": docs/papers/2019/1905.12200/metadata.yml
-          - "Distance Metric Learning for Large Margin Nearest Neighbor Classification": docs/papers/2009/2009.weinberger.distance_metric_learning_for/metadata.yml
-          - "A Cookbook of Self-Supervised Learning": docs/papers/2023/2304.12210/metadata.yml
+          - A Topology Layer for Machine Learning: docs/papers/2019/1905.12200/metadata.yml
+          - Distance Metric Learning for Large Margin Nearest Neighbor Classification: docs/papers/2009/2009.weinberger.distance_metric_learning_for/metadata.yml
+          - A Cookbook of Self-Supervised Learning: docs/papers/2023/2304.12210/metadata.yml
           - BYOL: docs/papers/2020/2006.07733/metadata.yml
           - Barlow Twins: docs/papers/2021/2103.03230/metadata.yml
           - VICReg: docs/papers/2021/2105.04906/metadata.yml
@@ -1794,7 +1796,7 @@
         - Barabasi-Albert Model: docs/papers/1999/cond-mat/9910332/metadata.yml
       - Centrality:
         - Katz Centrality: docs/papers/1953/1953.katz.a_new_status_index/metadata.yml
-        - "Degree, Closeness, and Betweenness Centrality": docs/papers/1978/1978.freeman.centrality_in_social_networks/metadata.yml
+        - Degree, Closeness, and Betweenness Centrality: docs/papers/1978/1978.freeman.centrality_in_social_networks/metadata.yml
         - Bonacich Power Centrality: docs/papers/1987/1987.bonacich.power_and_centrality_a/metadata.yml
         - PageRank: docs/papers/1998/1998.page.the_pagerank_citation_ranking/metadata.yml
         - HITS: docs/papers/1999/1999.kleinberg.authoritative_sources_in_a/metadata.yml
