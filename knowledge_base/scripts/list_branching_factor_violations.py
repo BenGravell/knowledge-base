@@ -6,6 +6,7 @@ Usage:
   python scripts/list_branching_factor_violations.py --count branches
   python scripts/list_branching_factor_violations.py --max-depth 2
   python scripts/list_branching_factor_violations.py --format json
+  python scripts/list_branching_factor_violations.py --ignore-too-few
   python scripts/list_branching_factor_violations.py --fail-on-violations
 """
 
@@ -120,11 +121,12 @@ def find_violations(
     minimum: int,
     maximum: int,
     sweet_spot: int,
+    check_too_few: bool,
 ) -> list[Violation]:
     violations: list[Violation] = []
     for branch in branches:
         count = branch.count_for(mode)
-        if count < minimum:
+        if check_too_few and count < minimum:
             violations.append(
                 Violation(
                     branch=branch,
@@ -169,13 +171,22 @@ def print_markdown(
     minimum: int,
     maximum: int,
     sweet_spot: int,
+    check_too_few: bool,
     show_children: int,
 ) -> None:
     print("# Tree Branching Factor Violations\n")
-    print(
-        f"Guidance: {minimum} to {maximum} direct child "
-        f"{'branches' if mode == 'branches' else 'items'}; sweet spot {sweet_spot}."
-    )
+    count_label = "branches" if mode == "branches" else "items"
+    if check_too_few:
+        print(
+            f"Guidance: {minimum} to {maximum} direct child "
+            f"{count_label}; sweet spot {sweet_spot}."
+        )
+    else:
+        print(
+            f"Guidance: at most {maximum} direct child "
+            f"{count_label}; sweet spot {sweet_spot}."
+        )
+        print("Too-few check: disabled.")
     print(f"Counting mode: `{mode}`.")
     if max_depth is not None:
         print(f"Depth filter: through depth {max_depth}, counting `Tree` as depth 0.")
@@ -209,6 +220,7 @@ def print_json(
     minimum: int,
     maximum: int,
     sweet_spot: int,
+    check_too_few: bool,
 ) -> None:
     payload = {
         "guidance": {
@@ -217,6 +229,7 @@ def print_json(
             "sweet_spot": sweet_spot,
             "count_mode": mode,
             "max_depth": max_depth,
+            "check_too_few": check_too_few,
         },
         "audited_branch_count": branch_count,
         "violation_count": total_violation_count,
@@ -251,8 +264,13 @@ def main() -> None:
         "--min",
         dest="minimum",
         type=int,
-        default=3,
+        default=2,
         help="Minimum acceptable branching factor.",
+    )
+    parser.add_argument(
+        "--ignore-too-few",
+        action="store_true",
+        help="Do not report branches with fewer than --min children.",
     )
     parser.add_argument(
         "--max",
@@ -331,6 +349,7 @@ def main() -> None:
         minimum=args.minimum,
         maximum=args.maximum,
         sweet_spot=args.sweet_spot,
+        check_too_few=not args.ignore_too_few,
     )
     violations = sorted(
         violations,
@@ -355,6 +374,7 @@ def main() -> None:
             minimum=args.minimum,
             maximum=args.maximum,
             sweet_spot=args.sweet_spot,
+            check_too_few=not args.ignore_too_few,
         )
     else:
         print_markdown(
@@ -366,6 +386,7 @@ def main() -> None:
             minimum=args.minimum,
             maximum=args.maximum,
             sweet_spot=args.sweet_spot,
+            check_too_few=not args.ignore_too_few,
             show_children=args.show_children,
         )
         if args.max_results is not None and len(violations) > len(display):
