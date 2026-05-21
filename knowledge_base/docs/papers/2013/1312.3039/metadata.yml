@@ -1,5 +1,5 @@
 title: Conic Optimization via Operator Splitting and Homogeneous Self-Dual Embedding
-algorithm:
+algorithm: SCS
 authors:
   - Brendan O'Donoghue
   - Eric Chu

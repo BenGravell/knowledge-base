@@ -12,15 +12,17 @@
             - Frank-Wolfe Algorithm: docs/papers/1956/1956.frank.an_algorithm_for_quadratic/metadata.yml
             - Learning Parametric Convex Functions: docs/papers/2025/2506.04183/metadata.yml
             - "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization": docs/papers/2007/0706.4138/metadata.yml
-            - "A Convex Polynomial That Is Not sos-convex": docs/papers/2009/0903.1287/metadata.yml
             - "The Convex Geometry of Linear Inverse Problems": docs/papers/2010/1012.0621/metadata.yml
             - OptNet: docs/papers/2017/1703.00443/metadata.yml
             - "Semidefinite Approximations of the Matrix Logarithm": docs/papers/2017/1705.00812/metadata.yml
             - "Semidefinite Programming Relaxations for Semialgebraic Problems": docs/papers/2003/2003.parrilo.semidefinite_programming_relaxations_for/metadata.yml
             - "Sparse and Low-rank Matrix Decompositions": docs/papers/2009/2009.chandrasekaran.sparse_and_low_rank/metadata.yml
             - "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means": docs/papers/2023/2309.10675/metadata.yml
+          - Sum-of-squares (SOS):
+            - Approximation of the Joint Spectral Radius Using Sum of Squares: docs/papers/2007/0712.2887/metadata.yml
+            - A Convex Polynomial That Is Not sos-convex: docs/papers/2009/0903.1287/metadata.yml
           - Online Convex Optimization:
-            - "No-Regret Algorithms for Unconstrained Online Convex Optimization": docs/papers/2012/1211.2260/metadata.yml
+            - No-Regret Algorithms for Unconstrained Online Convex Optimization: docs/papers/2012/1211.2260/metadata.yml
           - Applications in Probability Theory:
             - "Optimal Inequalities in Probability Theory: A Convex Optimization Approach": docs/papers/2005/2005.bertsimas.optimal_inequalities_in_probability/metadata.yml
         - Nonlinear Optimization:
@@ -223,24 +225,29 @@
           - Bellman-Ford algorithm: docs/papers/1958/1958.bellman.on_a_routing_problem/metadata.yml
       - Toolboxes & Solvers:
         - Convex Optimization:
-          - Disciplined Convex Programming: docs/papers/2006/2006.grant.disciplined_convex_programming/metadata.yml
-          - Graph Implementations: docs/papers/2008/2008.grant.graph_implementations_for_nonsmooth/metadata.yml
-          - CVXPY: docs/papers/2016/1603.00943/metadata.yml
-          - CVXPYgen: docs/papers/2022/2203.11419/metadata.yml
-          - "Disciplined Convex-Concave Programming": docs/papers/2016/1604.02639/metadata.yml
-          - "Disciplined Multi-Convex Programming": docs/papers/2016/1609.03285/metadata.yml
-          - "A Rewriting System for Convex Optimization Problems": docs/papers/2017/1709.04494/metadata.yml
-          - cvxRiskOpt: docs/papers/2024/2024.safaoui.cvxriskopt_a_risk_based/metadata.yml
+          - CVX Ecosystem:
+            - CVX Base:
+              - Disciplined Convex Programming: docs/papers/2006/2006.grant.disciplined_convex_programming/metadata.yml
+              - Graph Implementations: docs/papers/2008/2008.grant.graph_implementations_for_nonsmooth/metadata.yml
+              - CVXPY: docs/papers/2016/1603.00943/metadata.yml
+              - CVXPYgen: docs/papers/2022/2203.11419/metadata.yml
+            - CVX Extensions:
+              - Disciplined Convex-Concave Programming: docs/papers/2016/1604.02639/metadata.yml
+              - Disciplined Multi-Convex Programming: docs/papers/2016/1609.03285/metadata.yml
+              - A Rewriting System for Convex Optimization Problems: docs/papers/2017/1709.04494/metadata.yml
+              - cvxRiskOpt: docs/papers/2024/2024.safaoui.cvxriskopt_a_risk_based/metadata.yml
+              - CvxCluster: docs/papers/2026/2605.01614/metadata.yml
+          - Solvers:
+            - ECOS:
+              - ECOS: docs/papers/2013/2013.domahidi.ecos_an_socp_solver/metadata.yml
+              - ECOS Code Gen: docs/papers/2013/2013.chu.code_generation_for_embedded/metadata.yml
+            - Clarabel:
+              - Clarabel: docs/papers/2024/2405.12762/metadata.yml
+              - CuClarabel: docs/papers/2024/2412.19027/metadata.yml
+            - SCS: docs/papers/2013/1312.3039/metadata.yml
+            - OSQP: docs/papers/2017/1711.08013/metadata.yml
+            - Presolving for GPU-Accelerated First-Order LP Solvers: docs/papers/2026/2604.23951/metadata.yml
           - SOSTOOLS: docs/papers/2002/2002.prajna.introducing_sostools_a_general/metadata.yml
-          - CvxCluster: docs/papers/2026/2605.01614/metadata.yml
-          - ECOS: docs/papers/2013/2013.domahidi.ecos_an_socp_solver/metadata.yml
-          - Embedded SOCP Code Generation: docs/papers/2013/2013.chu.code_generation_for_embedded/metadata.yml
-          - OSQP: docs/papers/2017/1711.08013/metadata.yml
-          - Clarabel: docs/papers/2024/2405.12762/metadata.yml
-          - CuClarabel: docs/papers/2024/2412.19027/metadata.yml
-          - "Presolving for GPU-Accelerated First-Order LP Solvers": docs/papers/2026/2604.23951/metadata.yml
-          - "Approximation of the Joint Spectral Radius Using Sum of Squares": docs/papers/2007/0712.2887/metadata.yml
-          - "Conic Optimization via Operator Splitting and Homogeneous Self-Dual Embedding": docs/papers/2013/1312.3039/metadata.yml
         - Nonlinear Optimization:
           - YALMIP: docs/papers/2004/2004.lofberg.yalmip_a_toolbox_for/metadata.yml
           - CasADi: docs/papers/2018/2018.andersson.casadi_a_software_framework/metadata.yml
@@ -1169,7 +1176,7 @@
             - "Fast Non-Episodic Adaptive Tuning of Robot Controllers with Online Policy Optimization": docs/papers/2025/2507.10914/metadata.yml
         - Imitation Learning:
           - DAgger: docs/papers/2010/1011.0686/metadata.yml
-          - "Efficient Reductions for Imitation Learning": docs/papers/2010/2010.ross.efficient_reductions_for_imitation/metadata.yml
+          - Efficient Reductions for Imitation Learning: docs/papers/2010/2010.ross.efficient_reductions_for_imitation/metadata.yml
           - Self-Supervised Correspondence in Visuomotor Policy Learning: docs/papers/2019/1909.06933/metadata.yml
           - TaSIL: docs/papers/2022/2205.14812/metadata.yml
           - Grasping with Chopsticks: docs/papers/2020/2011.06719/metadata.yml
@@ -1178,7 +1185,7 @@
           - Universal Manipulation Interface: docs/papers/2024/2402.10329/metadata.yml
           - HRT1: docs/papers/2025/2510.21026/metadata.yml
           - Robot Fleet Learning via Policy Merging: docs/papers/2023/2310.01362/metadata.yml
-          - "Is Behavior Cloning All You Need?": docs/papers/2024/2407.15007/metadata.yml
+          - Is Behavior Cloning All You Need?: docs/papers/2024/2407.15007/metadata.yml
           - Should We Learn Contact-Rich Manipulation Policies from Sampling-Based Planners?: docs/papers/2024/2412.09743/metadata.yml
           - Pitfalls of Imitation Learning: docs/papers/2025/2503.09722/metadata.yml
           - "Action Chunking and Exploratory Data Collection Yield Exponential Improvements in Behavior Cloning for Continuous Control": docs/papers/2025/2507.09061/metadata.yml
