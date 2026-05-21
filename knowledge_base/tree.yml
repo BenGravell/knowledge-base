@@ -750,6 +750,8 @@
           - "Internal feedback in the cortical perception-action loop enables fast and accurate behavior": docs/papers/2022/2211.05922/metadata.yml
         - Control for Societal-Scale Challenges: docs/papers/2023/2023.alleyne.control_for_societal_scale/metadata.yml
       - Frequency and Laplace-Domain Methods:
+        - Frequency Response and Loop Shaping:
+          - Relations between Attenuation and Phase in Feedback Amplifier Design: docs/papers/1940/1940.bode.relations_between_attenuation_and/metadata.yml
         - Control System Synthesis by Root Locus Method: docs/papers/1950/1950.evans.control_system_synthesis_by/metadata.yml
         - Proportional-integral-derivative (PID):
           - "Automatic Tuning and Adaptation for PID Controllers - a Survey": docs/papers/1993/1993.astrom.automatic_tuning_and_adaptation/metadata.yml
@@ -860,7 +862,6 @@
           - "On Topological Properties of the Set of Stabilizing Feedback Gains": docs/papers/2019/1904.08451/metadata.yml
           - "Regeneration Theory": docs/papers/1932/1932.nyquist.regeneration_theory/metadata.yml
           - "Stabilized Feedback Amplifiers*": docs/papers/1934/1934.black.stabilized_feedback_amplifiers/metadata.yml
-          - Relations between Attenuation and Phase in Feedback Amplifier Design: docs/papers/1940/1940.bode.relations_between_attenuation_and/metadata.yml
           - "A Linear Matrix Inequality Approach to H∞ Control": docs/papers/1994/1994.gahinet.a_linear_matrix_inequality/metadata.yml
           - "Nonlinear Control Synthesis by Convex Optimization": docs/papers/2004/2004.prajna.nonlinear_control_synthesis_by/metadata.yml
           - "On Exponential Synchronization of Kuramoto Oscillators": docs/papers/2009/2009.chopra.on_exponential_synchronization_of/metadata.yml
