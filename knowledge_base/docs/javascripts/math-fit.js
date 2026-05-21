@@ -11,6 +11,7 @@
     container.style.removeProperty("height");
     container.style.removeProperty("max-width");
     container.style.removeProperty("overflow-x");
+    container.style.removeProperty("overflow-y");
     container.style.removeProperty("text-align");
     container.style.removeProperty("width");
     container.classList.remove("arithmatex--fit");
@@ -75,8 +76,9 @@
         container.classList.add("arithmatex--fit");
         container.style.width = "100%";
         container.style.maxWidth = "100%";
-        container.style.height = Math.ceil(naturalHeight * scale) + "px";
+        container.style.height = Math.ceil(naturalHeight * scale + 6) + "px";
         container.style.overflowX = "hidden";
+        container.style.overflowY = "hidden";
         container.style.textAlign = "center";
 
         math.style.display = "inline-block";

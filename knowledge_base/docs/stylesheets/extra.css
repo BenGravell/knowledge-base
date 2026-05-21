@@ -117,6 +117,7 @@ body:has(#tag-search-app) .md-header__button[for="__toc"] {
   .md-typeset .arithmatex mjx-container[display="true"] {
     font-size: min(112.2%, 3.35vw) !important;
     overflow-x: hidden !important;
+    overflow-y: hidden !important;
   }
 }
 

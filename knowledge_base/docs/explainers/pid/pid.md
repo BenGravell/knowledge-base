@@ -31,9 +31,9 @@ Simulation controls:
 
 Disturbance settings:
 
-- **HF** sets the amount of high-frequency disturbance
-- **LF** sets the amount of low-frequency disturbance
-- **Tau** sets the time between sign flips of the low-frequency square-wave disturbance in seconds
+- **HF Amt** sets the amount of high-frequency disturbance
+- **LF Amt** sets the amount of low-frequency disturbance
+- **LF τ** sets the time between sign flips of the low-frequency square-wave disturbance in seconds
 
 <div id="pid-demo-root">
 <style>
@@ -82,17 +82,22 @@ Disturbance settings:
 }
 .pid-slider-row {
   display: grid;
-  grid-template-columns: 52px 1fr 48px;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "label value"
+    "slider slider";
   align-items: center;
-  gap: 6px;
+  gap: 3px 10px;
   font-size: 0.87em;
 }
 .pid-slider-row label {
+  grid-area: label;
   font-weight: 600;
   font-family: var(--md-code-font, monospace);
-  text-align: right;
+  text-align: left;
 }
 .pid-slider-row input[type=range] {
+  grid-area: slider;
   width: 100%;
   cursor: pointer;
 }
@@ -105,6 +110,11 @@ Disturbance settings:
   font-size: 0.93em;
   text-align: right;
   min-width: 44px;
+}
+.pid-slider-row > span {
+  grid-area: value;
+  justify-self: end;
+  text-align: right;
 }
 .pid-btn-row {
   display: flex;
@@ -135,6 +145,12 @@ Disturbance settings:
 }
 .pid-sim-btn-row button {
   flex: 1;
+}
+@media (max-width: 700px) {
+  .pid-controls,
+  .pid-top-controls {
+    grid-template-columns: 1fr;
+  }
 }
 .pid-btn-row button,
 .pid-preset-row button,
@@ -172,17 +188,17 @@ Disturbance settings:
   <div class="pid-disturbance-controls">
     <div class="pid-section-label">Disturbance Settings</div>
     <div class="pid-slider-row">
-      <label>HF</label>
+      <label>HF Amt</label>
       <input type="range" class="noise-hf-slider" id="pid-noise-hf" min="0" max="4" step="0.1">
       <span class="pid-val" id="pid-noise-hf-val"></span>
     </div>
     <div class="pid-slider-row">
-      <label>LF</label>
+      <label>LF Amt</label>
       <input type="range" class="noise-lf-slider" id="pid-noise-lf" min="0" max="4" step="0.1">
       <span class="pid-val" id="pid-noise-lf-val"></span>
     </div>
     <div class="pid-slider-row">
-      <label>τ</label>
+      <label>LF τ</label>
       <input type="range" class="noise-lf-slider" id="pid-noise-tau" min="1" max="30" step="1">
       <span style="white-space:nowrap"><span class="pid-val" id="pid-noise-tau-val"></span>s</span>
     </div>
@@ -191,7 +207,7 @@ Disturbance settings:
 
 <div class="pid-controls">
   <div class="pid-section">
-    <div class="pid-section-label">Angle PID Gains</div>
+    <div class="pid-section-label">Angle Gains</div>
     <div class="pid-slider-row">
       <label>K<sub>p</sub></label>
       <input type="range" class="angle-slider" id="pid-kp" min="0" max="100" step="0.5">
@@ -213,7 +229,7 @@ Disturbance settings:
   </div>
 
   <div class="pid-section">
-    <div class="pid-section-label">Position PID Gains</div>
+    <div class="pid-section-label">Position Gains</div>
     <div class="pid-slider-row">
       <label>K<sub>p</sub></label>
       <input type="range" class="pos-slider" id="pid-kpx" min="0" max="15" step="0.1">
