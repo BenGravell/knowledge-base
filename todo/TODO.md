@@ -363,6 +363,42 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 
 ### UX
 
+#### bug
+
+I type in settings search bar, but when pinching to zoom on mobile it brings up the virtual keyboard over the mapped canvas and it breaks the interaction usability.
+
+#### filters
+Selected node filter
+
+Include more filters utilizing as many metadata fields as possible.
+- author match
+- Year range (plus and minus away from year of selected item)
+- Tag (only show other items that have a tag in common)
+- Source (only show other items that have thr same source)
+
+
+
+Global filters
+
+- author 
+- venue
+- tag
+- arxiv available
+- doi available
+Etc.
+
+
+Tweak the settings ui for the selected node filter section. Checkmarks should not be so big, maybe use a more elegant toggle.
+
+### Data export
+
+
+
+Add an export button to get a json or csv of all currently displayed items
+CSV should include one item per row. Tree ancestry in a column.
+JSON can use tree hierarchy natively.
+
+
 ## Knowledge Studio (new feature)
 
 Tightly integrate the Mind Map, Timeline, and Content Tree into a single multi-panel studio.
