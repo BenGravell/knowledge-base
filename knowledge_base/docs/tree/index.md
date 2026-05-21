@@ -5,16 +5,16 @@ hide:
 
 <div id="ct-app" class="ct-page">
   <section id="ct-settings" class="ct-settings is-collapsed" aria-label="Tree settings">
-    <div class="ct-settings-header">
+    <div class="ct-settings-header kb-app-header">
       <div class="ct-settings-title">
-        <span>Tree</span>
+        <span class="kb-app-header-title">Tree</span>
         <details class="ct-note">
           <summary aria-label="About this tree" aria-controls="ct-note-body">
             <span class="ct-note-icon" aria-hidden="true">i</span>
           </summary>
         </details>
       </div>
-      <button id="ct-settings-toggle" class="ct-settings-toggle" type="button" aria-expanded="false" aria-controls="ct-settings-body">
+      <button id="ct-settings-toggle" class="ct-settings-toggle kb-app-header-action" type="button" aria-expanded="false" aria-controls="ct-settings-body">
         <span id="ct-settings-state">Show Settings</span>
       </button>
       <p id="ct-note-body" class="ct-note-body">

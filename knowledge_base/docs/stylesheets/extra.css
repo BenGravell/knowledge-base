@@ -6,6 +6,12 @@
    intentionally framed. */
 :root {
   --kb-page-gutter: clamp(0.8rem, 2vw, 1.8rem);
+  --kb-app-page-gutter: 0.8rem;
+  --kb-app-top-gap: 1rem;
+  --kb-app-header-height: 2.65rem;
+  --kb-app-border: color-mix(in srgb, var(--md-default-fg-color) 15%, transparent);
+  --kb-app-panel: color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
+  --kb-app-header-bg: color-mix(in srgb, var(--md-code-bg-color) 82%, transparent);
   --kb-color-blue: #2276c9;
   --kb-color-teal: #12877f;
   --kb-color-rose: #c33d80;
@@ -31,6 +37,7 @@
   --kb-color-rose: #ff6aa8;
   --kb-color-gold: #f0a33e;
   --kb-color-green: #8fce5a;
+  --kb-app-panel: color-mix(in srgb, var(--md-code-bg-color) 82%, #050910);
 }
 
 .md-footer {
@@ -238,10 +245,13 @@ body {
   .md-nav--primary > .md-nav__list > .md-nav__item--active > label.md-nav__link[for="__toc"] {
     display: none;
   }
+}
 
-  .md-nav--primary > .md-nav__list > .md-nav__item--active.md-nav__item--nested > .md-nav {
-    display: none;
-  }
+.md-sidebar--primary
+  .md-nav__item--active.md-nav__item--nested
+  > .md-nav__toggle:not(:checked)
+  ~ .md-nav {
+  display: none !important;
 }
 
 /* Render Tree as a regular top-level sidebar link.
@@ -317,26 +327,79 @@ body:has(#ct-app)
   color: var(--md-typeset-a-color);
 }
 
-/* Tree applet */
+/* Full-width applet pages */
 
 body:has(#ct-app) .md-grid,
-body:has(#ct-app) .md-main__inner {
+body:has(#tag-search-app) .md-grid,
+body:has(#ct-app) .md-main__inner,
+body:has(#tag-search-app) .md-main__inner {
   max-width: 100% !important;
 }
 
-body:has(#ct-app) .md-content {
+body:has(#ct-app) .md-content,
+body:has(#tag-search-app) .md-content {
   max-width: none !important;
-  padding: 0 var(--kb-page-gutter) !important;
+  padding: 0 var(--kb-app-page-gutter) !important;
 }
 
-.md-content__inner:has(#ct-app) {
-  max-width: min(1280px, calc(100vw - 2rem));
-  margin: 0 auto !important;
+.md-content__inner:has(#ct-app),
+.md-content__inner:has(#tag-search-app) {
+  max-width: 100% !important;
+  margin: 0 !important;
   padding-top: 0 !important;
 }
 
 .md-content__inner:has(#ct-app) > h1:first-child {
   display: none;
+}
+
+.kb-app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--kb-app-header-height);
+  padding: 0.62rem 0.85rem;
+  border: 1px solid var(--kb-app-border);
+  border-radius: 8px;
+  background: var(--kb-app-header-bg);
+  color: var(--md-default-fg-color);
+  font: inherit;
+  text-align: left;
+}
+
+.kb-app-header--interactive {
+  cursor: pointer;
+}
+
+.kb-app-header--interactive:hover {
+  background: color-mix(in srgb, var(--md-default-fg-color) 6%, transparent);
+}
+
+.kb-app-header-title,
+.md-typeset .kb-app-header-title,
+.md-typeset .kb-app-header h1 {
+  min-width: 0;
+  margin: 0;
+  color: var(--md-default-fg-color);
+  font-size: 0.86rem;
+  font-weight: 850;
+  line-height: 1.2;
+}
+
+.kb-app-header-action {
+  flex: 0 0 auto;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.kb-app-header--static {
+  margin-bottom: 0;
 }
 
 .ct-page {
@@ -363,13 +426,14 @@ body:has(#ct-app) .md-content {
   --ct-soft-border: color-mix(in srgb, var(--md-default-fg-color) 9%, transparent);
   --ct-panel: color-mix(in srgb, var(--md-code-bg-color) 68%, var(--md-default-bg-color));
   --ct-panel-strong: color-mix(in srgb, var(--ct-cyan) 12%, var(--md-default-bg-color));
+  --kb-app-border: var(--ct-border);
+  --kb-app-panel: var(--ct-panel);
   --ct-muted-bg: color-mix(in srgb, var(--md-default-fg-color) 4%, transparent);
   --ct-muted-line: color-mix(in srgb, var(--md-default-fg-color) 28%, transparent);
   --ct-subtle-grey-surface: #e4e7eb;
   --ct-subtle-grey-surface-hover: #b8bec8;
   --ct-subtle-grey-border: #8d96a3;
   --ct-subtle-grey-text: #22272e;
-  --ct-shadow: 0 12px 30px color-mix(in srgb, #000000 14%, transparent);
   --kb-type-border: var(--ct-border);
   --kb-type-soft-border: var(--ct-soft-border);
   --kb-type-panel-strong: var(--ct-panel-strong);
@@ -380,7 +444,7 @@ body:has(#ct-app) .md-content {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
-  margin-top: 1rem;
+  margin-top: var(--kb-app-top-gap);
 }
 
 .md-typeset .ct-title-row {
@@ -410,14 +474,12 @@ body:has(#ct-app) .md-content {
   --ct-subtle-grey-surface-hover: #4a5360;
   --ct-subtle-grey-border: #66717f;
   --ct-subtle-grey-text: #f1f4f7;
-  --ct-shadow: 0 14px 34px color-mix(in srgb, #000000 36%, transparent);
 }
 
 .ct-settings {
   border: 1px solid var(--ct-border);
   border-radius: 8px;
   background: var(--ct-panel);
-  box-shadow: 0 8px 22px color-mix(in srgb, #000000 8%, transparent);
   overflow: visible;
 }
 
@@ -430,6 +492,12 @@ body:has(#ct-app) .md-content {
   padding: 0.48rem 0.85rem;
   border-bottom: 1px solid var(--ct-border);
   background: color-mix(in srgb, var(--md-code-bg-color) 82%, transparent);
+}
+
+.ct-settings-header.kb-app-header {
+  border: 0;
+  border-bottom: 1px solid var(--ct-border);
+  border-radius: 8px 8px 0 0;
 }
 
 .ct-settings-title {
@@ -467,6 +535,10 @@ body:has(#ct-app) .md-content {
 
 .ct-settings.is-collapsed .ct-settings-header {
   border-bottom: 0;
+}
+
+.ct-settings.is-collapsed .ct-settings-header.kb-app-header {
+  border-radius: 8px;
 }
 
 .ct-controls {
@@ -612,7 +684,6 @@ body:has(#ct-app) .md-content {
   border: 1px solid var(--ct-border);
   border-radius: 8px;
   background: var(--ct-panel);
-  box-shadow: 0 8px 22px color-mix(in srgb, #000000 9%, transparent);
 }
 
 .ct-search-field label,
@@ -986,7 +1057,6 @@ body:has(#ct-app) .md-content {
   border: 1px solid var(--ct-border);
   border-radius: 8px;
   background: var(--ct-panel);
-  box-shadow: var(--ct-shadow);
 }
 
 #ct-ancestor-chain {
@@ -1346,7 +1416,6 @@ body:has(#ct-app) .md-content {
 
   .ct-page {
     gap: 0.65rem;
-    margin-top: 0.65rem;
   }
 
   .md-typeset .ct-title-row {
@@ -1647,18 +1716,11 @@ body:has(#ct-app) .md-content {
 .tag-search-app {
   --tag-search-border: color-mix(in srgb, var(--md-default-fg-color) 13%, transparent);
   --tag-search-panel: color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
+  --kb-app-border: var(--tag-search-border);
+  --kb-app-panel: var(--tag-search-panel);
   display: grid;
   gap: 0.85rem;
-}
-
-body:has(#tag-search-app) .md-content {
-  max-width: none !important;
-  padding-inline: var(--kb-page-gutter) !important;
-}
-
-.md-content__inner:has(#tag-search-app) {
-  max-width: none;
-  margin-inline: 0 !important;
+  margin-top: var(--kb-app-top-gap);
 }
 
 .tag-search-hero {

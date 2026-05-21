@@ -81,11 +81,14 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   --mm-filter-accent: var(--mm-gold);
   --mm-modifier-bg: color-mix(in srgb, var(--mm-blue) 18%, var(--md-default-bg-color));
   --mm-filter-bg: color-mix(in srgb, var(--mm-gold) 18%, var(--md-default-bg-color));
+  --kb-app-border: var(--mm-border);
+  --kb-app-panel: var(--mm-panel);
   position: relative;
   isolation: isolate;
   z-index: 0;
   width:  100%;
-  height: calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px));
+  height: calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - var(--kb-app-top-gap, 1rem));
+  margin-top: var(--kb-app-top-gap, 1rem);
   overflow: hidden;
   background: var(--md-default-bg-color);
   font-family: "Atkinson Hyperlegible Next", "Segoe UI", sans-serif;
@@ -128,10 +131,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 #mm-panel-header {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
+  left: var(--kb-app-page-gutter, 0.8rem);
+  right: var(--kb-app-page-gutter, 0.8rem);
   z-index: 5;
-  width: 100%;
+  width: auto;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -139,16 +142,16 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   min-height: 2.65rem;
   padding: 0.62rem 0.85rem;
   gap: 0.75rem;
-  background: color-mix(in srgb, var(--md-code-bg-color) 94%, transparent);
+  background: var(--kb-app-header-bg);
   border: 1px solid var(--mm-border);
-  border-left: 0;
-  border-right: 0;
-  backdrop-filter: blur(14px);
+  border-radius: 8px;
   cursor: pointer;
   user-select: none;
+  font: inherit;
+  text-align: left;
 }
 #mm-panel-header:hover { background: color-mix(in srgb, var(--md-default-fg-color) 6%, transparent); }
-#mm-panel-header h3 {
+#mm-panel-title {
   margin: 0;
   font-size: 0.88rem;
   font-weight: 850;
@@ -170,16 +173,15 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 #mm-panel {
   position: absolute;
-  top: var(--mm-ribbon-header-h);
-  left: 0;
-  right: 0;
-  width: 100%;
+  top: calc(var(--mm-ribbon-header-h) + 0.35rem);
+  left: var(--kb-app-page-gutter, 0.8rem);
+  right: var(--kb-app-page-gutter, 0.8rem);
+  width: auto;
   max-height: var(--mm-ribbon-max-h);
   z-index: 4;
-  background: color-mix(in srgb, var(--md-code-bg-color) 94%, transparent);
-  border-bottom: 1px solid var(--mm-border);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 20px 44px color-mix(in srgb, #000000 18%, transparent);
+  background: var(--mm-panel);
+  border: 1px solid var(--mm-border);
+  border-radius: 8px;
   color: var(--md-default-fg-color);
   font-size: 0.82rem;
   overflow: hidden;
@@ -1134,10 +1136,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   </div>
 
   <!-- Settings ribbon header: always visible above the graph -->
-  <div id="mm-panel-header" title="Show Settings">
-    <h3>Map</h3>
-    <button id="mm-panel-hide-btn">Show Settings</button>
-  </div>
+  <button id="mm-panel-header" class="kb-app-header kb-app-header--interactive" type="button" title="Show Settings" aria-expanded="false" aria-controls="mm-panel">
+    <span id="mm-panel-title" class="kb-app-header-title">Map</span>
+    <span id="mm-panel-hide-btn" class="kb-app-header-action">Show Settings</span>
+  </button>
 
   <!-- Settings ribbon body: collapses upward on hide -->
   <div id="mm-panel" class="body-collapsed">

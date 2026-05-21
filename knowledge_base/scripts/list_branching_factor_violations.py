@@ -268,11 +268,6 @@ def main() -> None:
         help="Minimum acceptable branching factor.",
     )
     parser.add_argument(
-        "--ignore-too-few",
-        action="store_true",
-        help="Do not report branches with fewer than --min children.",
-    )
-    parser.add_argument(
         "--max",
         dest="maximum",
         type=int,
@@ -290,6 +285,11 @@ def main() -> None:
         choices=("all", "branches"),
         default="all",
         help="Count all direct children or only direct sub-branches.",
+    )
+    parser.add_argument(
+        "--ignore-too-few",
+        action="store_true",
+        help="Do not report branches with fewer than --min children.",
     )
     parser.add_argument(
         "--format",

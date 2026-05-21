@@ -37,6 +37,7 @@
     const resultLabel = results.length === 1 ? 'paper' : 'papers';
 
     app.innerHTML =
+      appHeader('Tag Search') +
       '<section class="tag-search-hero">' +
         '<div>' +
           '<span class="tag-search-kicker">Tag</span>' +
@@ -60,6 +61,7 @@
     const initialQuery = initialMatch ? initialMatch.label : rawTag;
 
     app.innerHTML =
+      appHeader('Tag Search') +
       '<section class="tag-search-browser">' +
         '<aside class="tag-search-panel">' +
           '<form class="tag-search-form" role="search">' +
@@ -230,6 +232,14 @@
     return url
       ? `<a class="paper-link-pill paper-link-pill--internal" href="${escAttr(url)}"><span class="paper-link-pill__label">${esc(label)}</span></a>`
       : '';
+  }
+
+  function appHeader(title) {
+    return (
+      '<header class="kb-app-header kb-app-header--static tag-search-header">' +
+        `<h1 class="kb-app-header-title">${esc(title)}</h1>` +
+      '</header>'
+    );
   }
 
   function buildTagIndex(papers) {

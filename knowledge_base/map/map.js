@@ -4289,11 +4289,13 @@
       panel.classList.add('body-collapsed');
       hideBtn.textContent = 'Show Settings';
       header.title = 'Show Settings';
+      header.setAttribute('aria-expanded', 'false');
     }
     header.addEventListener('click', () => {
       const collapsed = panel.classList.toggle('body-collapsed');
       hideBtn.textContent = collapsed ? 'Show Settings' : 'Hide Settings';
       header.title = collapsed ? 'Show Settings' : 'Hide Settings';
+      header.setAttribute('aria-expanded', String(!collapsed));
     });
   }
 
