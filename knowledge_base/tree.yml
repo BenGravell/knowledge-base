@@ -1560,10 +1560,6 @@
       - MuJoCo Playground: docs/papers/2025/2502.08844/metadata.yml
       - Orbit: docs/papers/2023/2301.04195/metadata.yml
     - Computer Graphics:
-      - Subdivision Surfaces:
-        - Catmull-Clark Subdivision Surfaces: docs/papers/1978/1978.catmull.recursively_generated_b_spline/metadata.yml
-      - Geometry Processing:
-        - Marching Cubes: docs/papers/1987/1987.lorensen.marching_cubes_a_high/metadata.yml
       - Noise & Dithering:
         - Perlin Noise: docs/papers/1985/1985.perlin.an_image_synthesizer/metadata.yml
         - Blue Noise Dithering: docs/papers/1988/1988.ulichney.dithering_with_blue_noise/metadata.yml
@@ -1579,11 +1575,15 @@
         - UFLIC: docs/papers/1997/1997.shen.uflic_a_line_integral/metadata.yml
         - DLIC: docs/papers/2003/2003.sundquist.dynamic_line_integral_convolution/metadata.yml
         - AUFLIC: docs/papers/2005/2005.liu.accelerated_unsteady_flow_line/metadata.yml
+      - Surface Rendering:
+        - Catmull-Clark Subdivision Surfaces: docs/papers/1978/1978.catmull.recursively_generated_b_spline/metadata.yml
+        - Marching Cubes: docs/papers/1987/1987.lorensen.marching_cubes_a_high/metadata.yml
+      - Radiance Fields:
+        - NeRF: docs/papers/2020/2003.08934/metadata.yml
+        - Plenoxels: docs/papers/2021/2112.05131/metadata.yml
       - 3D Gaussian Splatting (3DGS):
         - 3D Gaussian Splatting: docs/papers/2023/2308.04079/metadata.yml
         - Matrix-free Second-order Optimization of Gaussian Splats with Residual Sampling: docs/papers/2025/2504.12905/metadata.yml
-      - Neural Radiance Fields (NeRF):
-        - NeRF: docs/papers/2020/2003.08934/metadata.yml
     - Benchmarks:
       - Gyms:
         - Gym: docs/papers/2016/1606.01540/metadata.yml
@@ -1627,39 +1627,6 @@
         - "Policy Certificates: Towards Accountable Reinforcement Learning": docs/papers/2018/1811.03056/metadata.yml
         - "Preventing Undesirable Behavior of Intelligent Machines": docs/papers/2019/2019.thomas.preventing_undesirable_behavior_of/metadata.yml
         - Beyond Dirty, Dangerous and Dull: docs/papers/2008/2008.takayama.beyond_dirty_dangerous_and/metadata.yml
-    - Robot Platforms:
-      - Balancing Robots:
-        - Single-link Inverted Pendulums:
-          - Furuta Pendulum: docs/papers/1992/1992.furuta.swing_up_control_of/metadata.yml
-          - CartPole (Correct Equations): docs/papers/2007/2007.florian.correct_equations_for_the/metadata.yml
-        - Multi-link Inverted Pendulums:
-          - Acrobot: docs/papers/1995/1995.spong.the_swing_up_control/metadata.yml
-          - Pendubot: docs/papers/1995/1995.spong.the_pendubot_a_mechatronic/metadata.yml
-          - "Energy Based Control of the Pendubot": docs/papers/2000/2000.fantoni.energy_based_control_of/metadata.yml
-        - Reaction Wheel Inverted Pendulums:
-          - Nonlinear Control of the Reaction Wheel Pendulum: docs/papers/2001/2001.spong.nonlinear_control_of_the/metadata.yml
-          - Cubli: docs/papers/2012/2012.gajamohan.the_cubli_a_cube/metadata.yml
-          - One-Wheel Cubli: docs/papers/2023/2023.hofer.the_one_wheel_cubli/metadata.yml
-        - Ball-on-beam:
-          - BOBShield: docs/papers/2021/2021.takacs.bobshield_an_open_source/metadata.yml
-      - Bipeds:
-        - Efficient Bipedal Robots Based on Passive-Dynamic Walkers: docs/papers/2005/2005.collins.efficient_bipedal_robots_based/metadata.yml
-        - Design and Control of a Bipedal Robotic Character: docs/papers/2025/2501.05204/metadata.yml
-        - Passivity Based Control of the Compass Gait Biped: docs/papers/1999/1999.spong.passivity_based_control_of/metadata.yml
-      - Quadrupeds:
-        - ANYmal: docs/papers/2016/2016.hutter.anymal_a_highly_mobile/metadata.yml
-        - Cheetah 3: docs/papers/2018/2018.bledt.mit_cheetah_3_design/metadata.yml
-        - Mini Cheetah: docs/papers/2019/2019.katz.mini_cheetah_a_platform/metadata.yml
-      - Wheeled Robots:
-        - Duckietown: docs/papers/2017/2017.paull.duckietown_an_open_inexpensive/metadata.yml
-      - Flying Robots:
-        - Flying Inverted Pendulum: docs/papers/2011/2011.hehn.a_flying_inverted_pendulum/metadata.yml
-        - Flying Machine Arena: docs/papers/2014/2014.lupashin.a_platform_for_aerial/metadata.yml
-        - QuadSoft: docs/papers/2026/2604.00496/metadata.yml
-      - Brachiating Robots:
-        - AcroMonk: docs/papers/2023/2305.08373/metadata.yml
-    - Environmental Impacts:
-          - "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning": docs/papers/2020/2002.05651/metadata.yml
   - Foundations:
     - Mathematics:
       - Geometry & Tiling:
@@ -1786,28 +1753,63 @@
     - Engineering Systems:
       - Robots:
         - "The Grand Challenges of Science Robotics": docs/papers/2018/2018.yang.the_grand_challenges_of/metadata.yml
-        - Driving Robots:
-          - ALVINN: docs/papers/1988/1988.pomerleau.alvinn_an_autonomous_land/metadata.yml
-          - "Junior: The Stanford Entry in the Urban Challenge": docs/papers/2008/2008.montemerlo.junior_the_stanford_entry/metadata.yml
-          - "Towards Fully Autonomous Driving: Systems and Algorithms": docs/papers/2011/2011.levinson.towards_fully_autonomous_driving/metadata.yml
-          - Boss: docs/papers/2008/2008.urmson.autonomous_driving_in_urban/metadata.yml
-          - "A perception-driven autonomous urban vehicle": docs/papers/2008/2008.leonard.a_perceptiondriven_autonomous_urban/metadata.yml
-          - "Connected and automated road vehicles: state of the art and future challenges": docs/papers/2020/2020.ersal.connected_and_automated_road/metadata.yml
-        - Wheeled Robots:
-          - MINERVA: docs/papers/1999/1999.thrun.minerva_a_second_generation/metadata.yml
-        - Walking Robots:
-          - A summary of team MIT's approach to the virtual robotics challenge: docs/papers/2014/2014.tedrake.a_summary_of_team/metadata.yml
-          - Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot: docs/papers/2015/2015.kuindersma.optimization_based_locomotion_planning/metadata.yml
-          - Director: docs/papers/2018/2018.marion.director_a_user_interface/metadata.yml
-        - Flying Robots:
-          - "Recent Developments in Aerial Robotics: A Survey and Prototypes Overview": docs/papers/2017/1711.10085/metadata.yml
-          - "Multirotor Aerial Vehicles: Modeling, Estimation, and Control of Quadrotor": docs/papers/2012/2012.mahony.multirotor_aerial_vehicles_modeling/metadata.yml
+        - Balancing Robots:
+          - Single-link Inverted Pendulums:
+            - Furuta Pendulum: docs/papers/1992/1992.furuta.swing_up_control_of/metadata.yml
+            - CartPole (Correct Equations): docs/papers/2007/2007.florian.correct_equations_for_the/metadata.yml
+          - Multi-link Inverted Pendulums:
+            - Acrobot: docs/papers/1995/1995.spong.the_swing_up_control/metadata.yml
+            - Pendubot: docs/papers/1995/1995.spong.the_pendubot_a_mechatronic/metadata.yml
+            - "Energy Based Control of the Pendubot": docs/papers/2000/2000.fantoni.energy_based_control_of/metadata.yml
+          - Reaction Wheel Inverted Pendulums:
+            - Nonlinear Control of the Reaction Wheel Pendulum: docs/papers/2001/2001.spong.nonlinear_control_of_the/metadata.yml
+            - Cubli: docs/papers/2012/2012.gajamohan.the_cubli_a_cube/metadata.yml
+            - One-Wheel Cubli: docs/papers/2023/2023.hofer.the_one_wheel_cubli/metadata.yml
+          - Ball-on-beam:
+            - BOBShield: docs/papers/2021/2021.takacs.bobshield_an_open_source/metadata.yml
+        - Mobile Robots:
+          - Walking Robots:
+            - Bipeds:
+              - Passivity Based Control of the Compass Gait Biped: docs/papers/1999/1999.spong.passivity_based_control_of/metadata.yml
+              - Efficient Bipedal Robots Based on Passive-Dynamic Walkers: docs/papers/2005/2005.collins.efficient_bipedal_robots_based/metadata.yml
+              - A summary of team MIT's approach to the virtual robotics challenge: docs/papers/2014/2014.tedrake.a_summary_of_team/metadata.yml
+              - Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot: docs/papers/2015/2015.kuindersma.optimization_based_locomotion_planning/metadata.yml
+              - Director: docs/papers/2018/2018.marion.director_a_user_interface/metadata.yml
+              - Design and Control of a Bipedal Robotic Character: docs/papers/2025/2501.05204/metadata.yml
+            - Quadrupeds:
+              - ANYmal: docs/papers/2016/2016.hutter.anymal_a_highly_mobile/metadata.yml
+              - Cheetah 3: docs/papers/2018/2018.bledt.mit_cheetah_3_design/metadata.yml
+              - Mini Cheetah: docs/papers/2019/2019.katz.mini_cheetah_a_platform/metadata.yml
+          - Brachiating Robots:
+            - AcroMonk: docs/papers/2023/2305.08373/metadata.yml
+          - Flying Robots:
+            - Flying Inverted Pendulum: docs/papers/2011/2011.hehn.a_flying_inverted_pendulum/metadata.yml
+            - Flying Machine Arena: docs/papers/2014/2014.lupashin.a_platform_for_aerial/metadata.yml
+            - "Recent Developments in Aerial Robotics: A Survey and Prototypes Overview": docs/papers/2017/1711.10085/metadata.yml
+            - Multirotors:
+              - "Multirotor Aerial Vehicles: Modeling, Estimation, and Control of Quadrotor": docs/papers/2012/2012.mahony.multirotor_aerial_vehicles_modeling/metadata.yml
+              - QuadSoft: docs/papers/2026/2604.00496/metadata.yml
+          - Wheeled Robots:
+            - MINERVA: docs/papers/1999/1999.thrun.minerva_a_second_generation/metadata.yml
+            - Duckietown: docs/papers/2017/2017.paull.duckietown_an_open_inexpensive/metadata.yml
+          - Driving Robots:
+            - ALVINN: docs/papers/1988/1988.pomerleau.alvinn_an_autonomous_land/metadata.yml
+            - DARPA Urban Challenge:
+              - Junior: docs/papers/2008/2008.montemerlo.junior_the_stanford_entry/metadata.yml
+              - "Towards Fully Autonomous Driving: Systems and Algorithms": docs/papers/2011/2011.levinson.towards_fully_autonomous_driving/metadata.yml
+              - Boss: docs/papers/2008/2008.urmson.autonomous_driving_in_urban/metadata.yml
+              - "A perception-driven autonomous urban vehicle": docs/papers/2008/2008.leonard.a_perceptiondriven_autonomous_urban/metadata.yml
+            - "Connected and automated road vehicles: state of the art and future challenges": docs/papers/2020/2020.ersal.connected_and_automated_road/metadata.yml
       - Stirling Engines:
         - The Stirling Engine of 1816: docs/papers/1816/1816.stirling.the_stirling_engine_of/metadata.yml
         - Review of Computational Stirling Analysis Methods: docs/papers/2004/2004.dyson.review_of_computational_stirling/metadata.yml
         - "Technological challenges and optimization efforts of the Stirling machine: A review": docs/papers/2018/2018.hachem.technological_challenges_and_optimization/metadata.yml
       - Nuclear Reactors:
         - The Characteristics of the RBMK Core: docs/papers/1993/1993.afanasieva.the_characteristics_of_the/metadata.yml
+    - Environmental Impacts:
+      - ICT Global Emissions Footprint: docs/papers/2018/2018.belkhir.assessing_ict_global_emissions/metadata.yml
+      - Green AI: docs/papers/2019/1907.10597/metadata.yml
+      - Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning: docs/papers/2020/2002.05651/metadata.yml
     - Biology:
       - Evolution:
         - Natural Selection: docs/papers/1858/1858.darwin.on_the_tendency_of/metadata.yml
