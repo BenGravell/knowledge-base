@@ -42,12 +42,12 @@ During `mkdocs serve` and `mkdocs build`, MkDocs runs these Python gen-files
 scripts automatically:
 
 - `generate_papers.py` renders generated paper pages from `docs/papers/**/metadata.yml`.
-- `mind_map/copy_assets.py` publishes Mind Map JavaScript and vendor assets.
-- `content_tree/generate_content_tree_data.py` publishes Content Tree browser data.
+- `map/copy_assets.py` publishes Map JavaScript and vendor assets.
+- `tree/generate_tree_data.py` publishes Tree browser data.
 
-The Content Tree nav itself is edited in `content_tree.yml`. `mkdocs.yml`
-loads that standalone file through the local `content-tree-nav` plugin.
-Paper entries in `content_tree.yml` should use their literal metadata paths,
+The Tree nav itself is edited in `tree.yml`. `mkdocs.yml`
+loads that standalone file through the local `tree-nav` plugin.
+Paper entries in `tree.yml` should use their literal metadata paths,
 such as `docs/papers/2025/2506.11513/metadata.yml`; the build converts those
 paths to generated `papers/<slug>.md` pages behind the scenes.
 
@@ -122,7 +122,7 @@ python scripts/add_audit_status.py --dry-run
 python scripts/add_audit_status.py
 ```
 
-Find generated paper pages that are missing from the `Content Tree` nav:
+Find generated paper pages that are missing from the `Tree` nav:
 
 ```bash
 python scripts/list_unplaced_papers.py --neighbors 3
@@ -130,37 +130,37 @@ python scripts/list_unplaced_papers.py --format paths
 python scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
 ```
 
-## Mind Map
+## Map
 
-The Mind Map embeds paper core content, computes semantic similarity and positions, and renders the resulting node map with [Sigma.js](https://www.sigmajs.org/) and [Graphology](https://graphology.github.io/).
+The Map embeds paper core content, computes semantic similarity and positions, and renders the resulting node map with [Sigma.js](https://www.sigmajs.org/) and [Graphology](https://graphology.github.io/).
 
 Regenerate embeddings and graph data:
 
 ```bash
-python mind_map/generate_mind_map_data.py
+python map/generate_map_data.py
 ```
 
 Useful variants:
 
 ```bash
-python mind_map/generate_mind_map_data.py --force
-python mind_map/generate_mind_map_data.py --backend fastembed
-python mind_map/generate_mind_map_data.py --backend voyage
-python mind_map/generate_mind_map_data.py --skip-force-layout
+python map/generate_map_data.py --force
+python map/generate_map_data.py --backend fastembed
+python map/generate_map_data.py --backend voyage
+python map/generate_map_data.py --skip-force-layout
 ```
 
 Preview the layout quickly with Plotly:
 
 ```bash
-python mind_map/preview_mind_map.py
-python mind_map/preview_mind_map.py --serve
-python mind_map/preview_mind_map.py --out preview.html
+python map/preview_map.py
+python map/preview_map.py --serve
+python map/preview_map.py --out preview.html
 ```
 
-Smoke-test the served MkDocs Mind Map page in headless Chrome:
+Smoke-test the served MkDocs Map page in headless Chrome:
 
 ```bash
-python scripts/verify_mind_map_view.py --url http://127.0.0.1:8000/mind-map/
+python scripts/verify_map_view.py --url http://127.0.0.1:8000/map/
 ```
 
 ## Explainer Helpers
@@ -179,7 +179,7 @@ python docs/explainers/pid/compute_lqr_gains.py
 - `apps/` contains Streamlit apps.
 - `scripts/` contains maintenance, audit, placement, and prefill entrypoints.
 - `scripts/prefill/` contains source-specific paper metadata importers.
-- `mind_map/` contains graph generation, preview, and MkDocs asset publishing.
-- `content_tree/` contains the MkDocs Content Tree data generator.
+- `map/` contains graph generation, preview, and MkDocs asset publishing.
+- `tree/` contains the MkDocs Tree data generator.
 - `docs/explainers/` may contain small helper scripts used by individual explainers.
 - `utils/` contains shared DOI, arXiv, and prefill helpers used by the scripts.

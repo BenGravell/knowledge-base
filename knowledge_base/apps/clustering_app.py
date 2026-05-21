@@ -17,22 +17,22 @@ from sklearn.preprocessing import normalize
 
 APP_DIR = Path(__file__).resolve().parent
 KB_DIR = APP_DIR.parent
-MIND_MAP_DIR = KB_DIR / "mind_map"
-MIND_MAP_DATA = MIND_MAP_DIR / "mind-map-data.js"
-EMBEDDING_CACHE = MIND_MAP_DIR / "embedding_cache.json"
+MAP_DIR = KB_DIR / "map"
+MAP_DATA = MAP_DIR / "map-data.js"
+EMBEDDING_CACHE = MAP_DIR / "embedding_cache.json"
 
 
-def _read_mind_map_json(path: Path) -> dict:
+def _read_map_json(path: Path) -> dict:
     text = path.read_text(encoding="utf-8")
-    match = re.search(r"const\s+mindMapData\s*=\s*(\{.*\})\s*;?\s*$", text, re.S)
+    match = re.search(r"const\s+mapData\s*=\s*(\{.*\})\s*;?\s*$", text, re.S)
     if not match:
-        raise ValueError(f"Could not find `const mindMapData = ...` in {path}")
+        raise ValueError(f"Could not find `const mapData = ...` in {path}")
     return json.loads(match.group(1))
 
 
-@st.cache_data(show_spinner="Loading mind map data...")
-def load_mind_map() -> tuple[pd.DataFrame, np.ndarray, str]:
-    mind_map = _read_mind_map_json(MIND_MAP_DATA)
+@st.cache_data(show_spinner="Loading map data...")
+def load_map() -> tuple[pd.DataFrame, np.ndarray, str]:
+    map_data = _read_map_json(MAP_DATA)
     cache = json.loads(EMBEDDING_CACHE.read_text(encoding="utf-8"))
 
     embedding_by_id = {
@@ -43,7 +43,7 @@ def load_mind_map() -> tuple[pd.DataFrame, np.ndarray, str]:
 
     rows = []
     embeddings = []
-    for node in mind_map.get("nodes", []):
+    for node in map_data.get("nodes", []):
         data = node.get("data", {})
         paper_id = data.get("id")
         embedding = embedding_by_id.get(paper_id)
@@ -76,7 +76,7 @@ def load_mind_map() -> tuple[pd.DataFrame, np.ndarray, str]:
         embeddings.append(embedding)
 
     if not rows:
-        raise ValueError("No mind map nodes could be matched to cached embeddings.")
+        raise ValueError("No map nodes could be matched to cached embeddings.")
 
     df = pd.DataFrame(rows)
     matrix = normalize(np.asarray(embeddings, dtype=np.float32))
@@ -218,13 +218,13 @@ def filter_frame(frame: pd.DataFrame) -> pd.Series:
     return mask
 
 
-st.set_page_config(page_title="Mind Map Clustering", layout="wide")
-st.title("Mind Map Hierarchical Clustering")
+st.set_page_config(page_title="Map Clustering", layout="wide")
+st.title("Map Hierarchical Clustering")
 
 try:
-    base_df, base_embeddings, embedding_model = load_mind_map()
+    base_df, base_embeddings, embedding_model = load_map()
 except Exception as exc:
-    st.error(f"Failed to load mind map data: {exc}")
+    st.error(f"Failed to load map data: {exc}")
     st.stop()
 
 st.sidebar.header("Scope")

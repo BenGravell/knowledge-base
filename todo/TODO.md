@@ -2,7 +2,7 @@
 
 ## UX
 
-Have Timeline, Content Tree, Tag Search, Analytics all use the same main width within the page (leaving good margin on left side to nav menu and right side to page border - use the Timeline page's margin setting)
+Have Timeline, Tree, Tag Search, Analytics all use the same main width within the page (leaving good margin on left side to nav menu and right side to page border - use the Timeline page's margin setting)
 
 ## Taxonomy
 
@@ -207,9 +207,9 @@ Add audit check for "Team" and other non individual human names in the author li
 Positive example
 <https://bengravell.github.io/knowledge-base/papers/2507_05331/>
 
-Write a soft audit script that checks for high embedding dissimilarity of items belonging to the same category in the content tree. This is to assist me with making good categories
+Write a soft audit script that checks for high embedding dissimilarity of items belonging to the same category in the tree. This is to assist me with making good categories
 
-Write audit script to check for identical content tree key label and algorithm field in metadata. Flag violations with both sides for manual resolution.
+Write audit script to check for identical tree key label and algorithm field in metadata. Flag violations with both sides for manual resolution.
 
 Write audit script to check for multiple metadata items claiming the same algorithm. Flag violations for manual resolution.
 
@@ -284,7 +284,7 @@ Should call:
 
 Take an argument -g or --github to use gh-deploy mkdocs
 
-Set up an automation orchestration script to invest from paper funnel, run prefill, ask ai for preliminary metadata fixup using audit script, generate mind map data, place papers in content tree
+Set up an automation orchestration script to invest from paper funnel, run prefill, ask ai for preliminary metadata fixup using audit script, generate map data, place papers in tree
 
 ### Get mkdocs rebuilds faster
 
@@ -314,7 +314,7 @@ Add LLM ideation using a slim local model or call to external API, chat with the
 
 ### Creative Idea: procedurally generated visual image anchor/thumbnail
 
-Use the LLM sentence embedding and map it into a vision-language model embedding space and generate a relevant thumbnail image for the paper. Then we can show the thumbnail in the hover tooltip in mind map, in content tree, etc. everywhere the title string or other unique ID is used we can have the synthetic thumbnail too.
+Use the LLM sentence embedding and map it into a vision-language model embedding space and generate a relevant thumbnail image for the paper. Then we can show the thumbnail in the hover tooltip in map, in tree, etc. everywhere the title string or other unique ID is used we can have the synthetic thumbnail too.
 
 I am a visual learner, I use my eyes for cognition, so this would help me a lot.
 
@@ -322,7 +322,7 @@ I am a visual learner, I use my eyes for cognition, so this would help me a lot.
 
 Add a section with links to most closely related papers, either Top N or similarity threshold cutoff (variable N).
 
-- Leverage the embeddings we already have, should be tied to the Mind Map
+- Leverage the embeddings we already have, should be tied to the Map
 - Make the Top N / cutoff threshold a dynamic slider widget.
 
 ## Reading plans
@@ -349,7 +349,7 @@ Hand-crafted
 
 ### UX
 
-## Content Tree
+## Tree
 
 ### UX
 
@@ -359,7 +359,7 @@ Balance or expand tree to fix all issues reported by python scripts/list_branchi
 
 Use clustering algorithm results (hierarchical agg) to help set new categories.
 
-## Mind Map
+## Map
 
 ### UX
 
@@ -401,9 +401,9 @@ JSON can use tree hierarchy natively.
 
 ## Knowledge Studio (new feature)
 
-Tightly integrate the Mind Map, Timeline, and Content Tree into a single multi-panel studio.
+Tightly integrate the Map, Timeline, and Tree into a single multi-panel studio.
 They share an identical hierarchy.
-The mind map can be shown on the side / top of the nav tree as a kind of minimap (Gran Turismo style).
+The map can be shown on the side / top of the nav tree as a kind of minimap (Gran Turismo style).
 It should focus on the currently selected branch by zooming and centering on it (not discarding the upper levels of hierarchy, just letting ancestors and other non descendent parts of the tree go off screen).
 
 ## Ideas
@@ -415,7 +415,7 @@ It should focus on the currently selected branch by zooming and centering on it 
 
 ### Creative idea
 
-Turn the mind map into a generative game like a cave crawler or rogue-like
+Turn the map into a generative game like a cave crawler or rogue-like
 
 Encourage exploration between rooms or lands represented by research items
 

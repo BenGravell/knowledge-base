@@ -1,4 +1,4 @@
-"""List papers that have metadata but are missing from the MkDocs content tree.
+"""List papers that have metadata but are missing from the MkDocs tree.
 
 Usage:
   python scripts/list_unplaced_papers.py
@@ -20,13 +20,13 @@ from typing import Any
 import yaml
 
 from knowledge_base.config import KB_DIR
-from knowledge_base.content_tree.nav_source import load_content_tree
+from knowledge_base.tree.nav_source import load_tree
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
 MKDOCS_YML = KB_DIR / "mkdocs.yml"
-EMBEDDING_CACHE = KB_DIR / "mind_map" / "embedding_cache.json"
+EMBEDDING_CACHE = KB_DIR / "map" / "embedding_cache.json"
 
 
 @dataclass(frozen=True)
@@ -163,7 +163,7 @@ def print_markdown(
 ) -> None:
     placed_ids = set(nav_locations)
     print(f"# Unplaced Papers\n")
-    print(f"{total_missing} paper(s) have metadata but are missing from the Content Tree.\n")
+    print(f"{total_missing} paper(s) have metadata but are missing from the Tree.\n")
     for paper in missing:
         print(f"- {paper.title} (`{paper.id}`)")
         print(f"  - Metadata: `{relative_to_kb(paper.metadata_path)}`")
@@ -220,7 +220,7 @@ def print_json(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="List metadata-backed papers missing from the MkDocs Content Tree.",
+        description="List metadata-backed papers missing from the MkDocs Tree.",
     )
     parser.add_argument(
         "--format",
@@ -253,7 +253,7 @@ def main() -> None:
         sys.exit(f"Could not parse MkDocs config: {MKDOCS_YML}")
 
     papers = collect_papers(METADATA_ROOT)
-    nav_locations = collect_nav_locations(load_content_tree(config))
+    nav_locations = collect_nav_locations(load_tree(config))
     missing = [paper for paper_id, paper in sorted(papers.items()) if paper_id not in nav_locations]
     display = missing[: args.max_results] if args.max_results is not None else missing
     embeddings = load_embeddings(EMBEDDING_CACHE) if args.neighbors > 0 else {}

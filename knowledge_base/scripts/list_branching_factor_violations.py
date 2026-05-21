@@ -1,5 +1,5 @@
 
-"""List Content Tree branches whose immediate child count is outside guidance.
+"""List Tree branches whose immediate child count is outside guidance.
 
 Usage:
   python scripts/list_branching_factor_violations.py
@@ -23,10 +23,10 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from knowledge_base.content_tree.nav_source import load_content_tree  # noqa: E402
+from knowledge_base.tree.nav_source import load_tree  # noqa: E402
 
 
-LANDING_PAGES = {"content-tree.md", "content-tree/index.md"}
+LANDING_PAGES = {"tree.md", "tree/index.md"}
 CountMode = Literal["all", "branches"]
 
 
@@ -107,9 +107,9 @@ def collect_branches(nav: Any, *, include_root: bool) -> list[Branch]:
 
         return tuple(children)
 
-    root_children = walk(as_list(nav), ("Content Tree",))
+    root_children = walk(as_list(nav), ("Tree",))
     if include_root:
-        branches.append(Branch(path=("Content Tree",), children=root_children))
+        branches.append(Branch(path=("Tree",), children=root_children))
     return branches
 
 
@@ -171,14 +171,14 @@ def print_markdown(
     sweet_spot: int,
     show_children: int,
 ) -> None:
-    print("# Content Tree Branching Factor Violations\n")
+    print("# Tree Branching Factor Violations\n")
     print(
         f"Guidance: {minimum} to {maximum} direct child "
         f"{'branches' if mode == 'branches' else 'items'}; sweet spot {sweet_spot}."
     )
     print(f"Counting mode: `{mode}`.")
     if max_depth is not None:
-        print(f"Depth filter: through depth {max_depth}, counting `Content Tree` as depth 0.")
+        print(f"Depth filter: through depth {max_depth}, counting `Tree` as depth 0.")
     print(f"{total_violation_count} violating branch(es) out of {branch_count} audited.\n")
 
     for reason in ("too many", "too few"):
@@ -243,7 +243,7 @@ def print_json(
 def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
-            "List Content Tree branches whose immediate child count is below "
+            "List Tree branches whose immediate child count is below "
             "or above the taxonomy branching-factor guidance."
         )
     )
@@ -293,7 +293,7 @@ def main() -> None:
         metavar="N",
         help=(
             "Only audit branches through depth N. "
-            "Content Tree is depth 0, top-level categories are depth 1."
+            "Tree is depth 0, top-level categories are depth 1."
         ),
     )
     parser.add_argument(
@@ -306,7 +306,7 @@ def main() -> None:
     parser.add_argument(
         "--exclude-root",
         action="store_true",
-        help="Do not audit the synthetic Content Tree root branch.",
+        help="Do not audit the synthetic Tree root branch.",
     )
     parser.add_argument(
         "--fail-on-violations",
@@ -322,7 +322,7 @@ def main() -> None:
     if args.max_depth is not None and args.max_depth < 0:
         sys.exit("--max-depth must be at least 0.")
 
-    branches = collect_branches(load_content_tree(), include_root=not args.exclude_root)
+    branches = collect_branches(load_tree(), include_root=not args.exclude_root)
     if args.max_depth is not None:
         branches = [branch for branch in branches if len(branch.path) - 1 <= args.max_depth]
     violations = find_violations(

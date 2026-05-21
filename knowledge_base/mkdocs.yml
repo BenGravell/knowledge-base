@@ -8,13 +8,13 @@ extra:
 plugins:
   - search
   - macros
-  - content-tree-nav:
-      source: content_tree.yml
+  - tree-nav:
+      source: tree.yml
   - gen-files:
       scripts:
         - generate_papers.py
-        - mind_map/copy_assets.py
-        - content_tree/generate_content_tree_data.py
+        - map/copy_assets.py
+        - tree/generate_tree_data.py
 
 theme:
   name: material
@@ -81,9 +81,9 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Mind Map: mind-map.md
+  - Map: map.md
   - Timeline: timeline.md
-  - Content Tree: content-tree/index.md
+  - Tree: tree/index.md
   - Tag Search: tag-search.md
   - Analytics: analytics.md
   - Explainers:

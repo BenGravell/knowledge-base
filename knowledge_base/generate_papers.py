@@ -24,7 +24,7 @@ except Exception:  # pragma: no cover - build fallback for environments without 
 metadata_root = Path("docs/papers")
 template_file = Path("docs/templates/paper_template.md")
 generated_root = Path("papers")
-embedding_cache_file = Path("mind_map/embedding_cache.json")
+embedding_cache_file = Path("map/embedding_cache.json")
 related_result_limit = 36
 
 # Read template
@@ -180,15 +180,15 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
             "kind": "internal",
             "links": [
                 make_link(
-                    "Open in Content Tree",
-                    f"../../content-tree/#paper={quoted_paper_id}",
+                    "Open in Tree",
+                    f"../../tree/#paper={quoted_paper_id}",
                     "",
                     "internal",
                     False,
                 ),
                 make_link(
-                    "Open in Mind Map",
-                    f"../../mind-map/#paper={quoted_paper_id}",
+                    "Open in Map",
+                    f"../../map/#paper={quoted_paper_id}",
                     "",
                     "internal",
                     False,
@@ -259,8 +259,8 @@ def paper_record(data: dict, paper_id: str) -> dict:
         "tags": [clean_scalar(tag) for tag in tags if clean_scalar(tag)],
         "summary": clean_scalar(data.get("summary")),
         "url": f"../papers/{paper_id}/",
-        "contentTreeUrl": f"../content-tree/#paper={quote(paper_id, safe='')}",
-        "mindMapUrl": f"../mind-map/#paper={quote(paper_id, safe='')}",
+        "treeUrl": f"../tree/#paper={quote(paper_id, safe='')}",
+        "mapUrl": f"../map/#paper={quote(paper_id, safe='')}",
     }
 
 
