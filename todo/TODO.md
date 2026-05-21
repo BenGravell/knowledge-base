@@ -2,13 +2,17 @@
 
 ## Taxonomy
 
-Run e.g.
+Run
 
 ```sh
-python scripts/list_branching_factor_violations.py --max-depth 3 --max-results 1
+python scripts/list_branching_factor_violations.py --max-depth 4 --max-results 3 --ignore-too-few
 ```
 
-and resolve all issues.
+Run
+
+```sh
+python scripts/list_branching_factor_violations.py --max-depth 4 --max-results 3
+```
 
 ## Ingest
 
