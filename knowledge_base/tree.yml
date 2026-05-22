@@ -664,19 +664,19 @@
           - Diffusion:
             - PRESTO: docs/papers/2024/2409.16012/metadata.yml
             - DiffusionSeeder: docs/papers/2024/2410.16727/metadata.yml
-            - "Accelerating db-A* for Kinodynamic Motion Planning Using Diffusion": docs/papers/2025/2503.05539/metadata.yml
+            - Accelerating db-A* for Kinodynamic Motion Planning Using Diffusion: docs/papers/2025/2503.05539/metadata.yml
           - Flow Matching:
             - FlowDrive: docs/papers/2025/2509.21961/metadata.yml
             - FlowMP: docs/papers/2025/2503.06135/metadata.yml
         - Frameworks:
           - Lab2Car: docs/papers/2024/2409.09523/metadata.yml
           - Transitioning from Rule-Based to ML-Powered Motion Planning: docs/papers/2025/2025.hu.technically_speaking_transitioning_from/metadata.yml        
-          - "Parting with Misconceptions about Learning-based Vehicle Motion Planning": docs/papers/2023/2306.07962/metadata.yml
+          - Parting with Misconceptions about Learning-based Vehicle Motion Planning: docs/papers/2023/2306.07962/metadata.yml
       - Planning for Robots:
         - Inverse Kinematics:
           - "A combined optimization method for solving the inverse kinematics problems of mechanical manipulators": docs/papers/1991/1991.wang.a_combined_optimization_method/metadata.yml
           - "Resolved Motion Rate Control of Manipulators and Human Prostheses": docs/papers/1969/1969.whitney.resolved_motion_rate_control/metadata.yml
-          - "JAX-IK": docs/papers/2025/2507.00792/metadata.yml
+          - JAX-IK: docs/papers/2025/2507.00792/metadata.yml
         - Manipulation & Contact:
           - Robotic Grasping and Contact: docs/papers/2000/2000.bicchi.robotic_grasping_and_contact/metadata.yml
           - "EGAD! an Evolved Grasping Analysis Dataset for Diversity and Reproducibility in Robotic Manipulation": docs/papers/2020/2003.01314/metadata.yml
@@ -698,9 +698,8 @@
           - "Downwash-Aware Trajectory Planning for Large Quadrotor Teams": docs/papers/2017/1704.04852/metadata.yml
           - "Trajectory Design and Control for Aggressive Formation Flight with Quadrotors": docs/papers/2012/2012.turpin.trajectory_design_and_control/metadata.yml
           - "Crazyswarm: A Large Nano-quadcopter Swarm": docs/papers/2017/2017.preiss.crazyswarm_a_large_nano/metadata.yml
-          - "A Survey on Aerial Swarm Robotics": docs/papers/2018/2018.chung.a_survey_on_aerial/metadata.yml
           - "Neural Tree Expansion for Multi-Robot Planning in Non-Cooperative Environments": docs/papers/2021/2104.09705/metadata.yml
-      - Surveys, Benchmarks & Frameworks:
+      - Overviews:
         - Surveys & Comparative Studies:
           - An Empirical Study of Optimal Motion Planning: docs/papers/2014/2014.luo.an_empirical_study_of/metadata.yml
           - A Survey of Motion Planning and Control Techniques for Self-Driving Urban Vehicles: docs/papers/2016/1604.07446/metadata.yml
@@ -714,28 +713,32 @@
           - DDP and MPPI on VTOL Aircraft: docs/papers/2022/2022.houghton.path_planning_differential_dynamic/metadata.yml
           - "A review of path following control strategies for autonomous robotic vehicles: theory, simulations, and experiments": docs/papers/2022/2204.07319/metadata.yml
           - "Contingency Planning for Safety-Critical Autonomous Vehicles: A Review and Perspectives": docs/papers/2026/2601.14880/metadata.yml
-          - "Results of the 2023 CommonRoad Motion Planning Competition for Autonomous Vehicles": docs/papers/2024/2411.06425/metadata.yml
+          - "A Survey on Aerial Swarm Robotics": docs/papers/2018/2018.chung.a_survey_on_aerial/metadata.yml
         - Benchmarks:
           - nuPlan (2021): docs/papers/2021/2106.11810/metadata.yml
           - nuPlan (2024): docs/papers/2024/2403.04133/metadata.yml
           - Benchmarking Sampling-, Search-, and Optimization-based Approaches for Time-Optimal Kinodynamic Mobile Robot Motion Planning: docs/papers/2022/2022.honig.benchmarking_sampling_search_and/metadata.yml
+          - Results of the 2023 CommonRoad Motion Planning Competition for Autonomous Vehicles: docs/papers/2024/2411.06425/metadata.yml
         - Frameworks:
-          - Rough Terrain Locomotion: docs/papers/2011/2011.zucker.optimization_and_learning_for/metadata.yml
-          - Jacta: docs/papers/2024/2408.01258/metadata.yml
-          - RAKOMO: docs/papers/2025/2507.19652/metadata.yml
-          - "An integrated system for real-time model predictive control of humanoid robots": docs/papers/2013/2013.erez.an_integrated_system_for/metadata.yml
-          - MJPC: docs/papers/2022/2212.00541/metadata.yml
-          - Judo: docs/papers/2025/2506.17184/metadata.yml
-          - Sumo: docs/papers/2026/2604.08508/metadata.yml
-          - "Whole-Body Model-Predictive Control of Legged Robots with MuJoCo": docs/papers/2025/2503.04613/metadata.yml
-          - SONIC: docs/papers/2025/2511.07820/metadata.yml
-          - "MPPI+IsaacGym": docs/papers/2023/2307.09105/metadata.yml
-          - DiffStack: docs/papers/2022/2212.06437/metadata.yml
-          - FRENETIX: docs/papers/2024/2402.01443/metadata.yml
-          - ROS: docs/papers/2009/2009.quigley.ros_an_open_source/metadata.yml
-          - ROS 2: docs/papers/2022/2022.macenski.robot_operating_system_2/metadata.yml
-          - "Motion Planning and Control for Multi Vehicle Autonomous Racing at High Speeds": docs/papers/2022/2207.11136/metadata.yml
-          - "A Geometric Approach to Three-dimensional Hipped Bipedal Robotic Walking": docs/papers/2007/2007.ames.a_geometric_approach_to/metadata.yml
+          - Whole-Body Locomotion & Manipulation:
+            - Bipeds:
+              - A Geometric Approach to Three-dimensional Hipped Bipedal Robotic Walking: docs/papers/2007/2007.ames.a_geometric_approach_to/metadata.yml
+              - An integrated system for real-time model predictive control of humanoid robots: docs/papers/2013/2013.erez.an_integrated_system_for/metadata.yml
+              - SONIC: docs/papers/2025/2511.07820/metadata.yml
+            - Quadrupeds:
+              - Optimization and Learning for Rough Terrain Legged Locomotion: docs/papers/2011/2011.zucker.optimization_and_learning_for/metadata.yml
+              - Jacta: docs/papers/2024/2408.01258/metadata.yml
+              - Whole-Body Model-Predictive Control of Legged Robots with MuJoCo: docs/papers/2025/2503.04613/metadata.yml
+              - RAKOMO: docs/papers/2025/2507.19652/metadata.yml
+              - Sumo: docs/papers/2026/2604.08508/metadata.yml
+          - Sampling-Based MPC:
+            - MJPC: docs/papers/2022/2212.00541/metadata.yml
+            - MPPI+IsaacGym: docs/papers/2023/2307.09105/metadata.yml
+            - Judo: docs/papers/2025/2506.17184/metadata.yml
+          - Driving Robots:
+            - DiffStack: docs/papers/2022/2212.06437/metadata.yml
+            - FRENETIX: docs/papers/2024/2402.01443/metadata.yml
+            - Motion Planning and Control for Multi Vehicle Autonomous Racing at High Speeds: docs/papers/2022/2207.11136/metadata.yml
     - Control:
       - Theory:
         - Stability:
@@ -1698,7 +1701,6 @@
               - Efficient Bipedal Robots Based on Passive-Dynamic Walkers: docs/papers/2005/2005.collins.efficient_bipedal_robots_based/metadata.yml
               - A summary of team MIT's approach to the virtual robotics challenge: docs/papers/2014/2014.tedrake.a_summary_of_team/metadata.yml
               - Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot: docs/papers/2015/2015.kuindersma.optimization_based_locomotion_planning/metadata.yml
-              - Director: docs/papers/2018/2018.marion.director_a_user_interface/metadata.yml
               - Design and Control of a Bipedal Robotic Character: docs/papers/2025/2501.05204/metadata.yml
             - Quadrupeds:
               - ANYmal: docs/papers/2016/2016.hutter.anymal_a_highly_mobile/metadata.yml
@@ -1788,8 +1790,14 @@
           - Tune: docs/papers/2018/1807.05118/metadata.yml
       - Databases:
         - DuckDB: docs/papers/2019/2019.raasveldt.duckdb/metadata.yml
-      - Message Protocols:
-        - LCM: docs/papers/2010/2010.huang.lcm_lightweight_communications_and/metadata.yml
+      - Robotics:
+        - ROS Ecosystem:
+          - ROS: docs/papers/2009/2009.quigley.ros_an_open_source/metadata.yml
+          - ROS 2: docs/papers/2022/2022.macenski.robot_operating_system_2/metadata.yml
+        - Message Protocols:
+          - LCM: docs/papers/2010/2010.huang.lcm_lightweight_communications_and/metadata.yml
+        - User Interfaces:
+          - Director: docs/papers/2018/2018.marion.director_a_user_interface/metadata.yml
       - Visualization & Plotting:
         - Matplotlib: docs/papers/2007/2007.hunter.matplotlib_a_2d_graphics/metadata.yml
     - Algorithms & Data Structures:
