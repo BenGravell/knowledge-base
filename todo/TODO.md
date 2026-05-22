@@ -2,13 +2,13 @@
 
 ## Taxonomy
 
-Run
+```sh
+poetry run python scripts/suggest_branch_subgroupings.py --branch "First-Order Methods" --write-tree
+```
 
 ```sh
 python scripts/list_branching_factor_violations.py --max-depth 4 --max-results 3 --ignore-too-few
 ```
-
-Run
 
 ```sh
 python scripts/list_branching_factor_violations.py --max-depth 3 --max-results 3
