@@ -1,6 +1,6 @@
 title: >
   The Fastest Known First-Order Method for Minimizing Twice Continuously Differentiable Smooth Strongly Convex Functions
-algorithm:
+algorithm: C2M
 authors:
   - Bryan Van Scoy
   - Laurent Lessard
