@@ -196,7 +196,7 @@
             - "On the Douglas-Rachford Splitting Method and the Proximal Point Algorithm for Maximal Monotone Operators": docs/papers/1992/1992.eckstein.on_the_douglasrachford_splitting/metadata.yml
         - Neural Network Training Algorithms:
           - Optimization with Curvature Information:
-            - Hessian-free Optimization: docs/papers/2010/2010.martens.deep_learning_via_hessian_free/metadata.yml
+            - Hessian-free Optimization: docs/papers/2010/2010.martens.deep_learning_via_hessian/metadata.yml
             - K-FAC: docs/papers/2015/1503.05671/metadata.yml
           - Overparameterization:
             - "Gradient Descent Provably Optimizes Over-parameterized Neural Networks": docs/papers/2018/1810.02054/metadata.yml
@@ -475,7 +475,7 @@
             - Polynomial Trajectory Planning for Aggressive Quadrotor Flight in Dense Indoor Environments: docs/papers/2016/2016.richter.polynomial_trajectory_planning_for/metadata.yml
             - "Robust and Efficient Quadrotor Trajectory Generation for Fast Autonomous Flight": docs/papers/2019/2019.zhou.robust_and_efficient_quadrotor/metadata.yml
             - "Autonomous Flight in Unknown Indoor Environments": docs/papers/2009/2009.bachrach.autonomous_flight_in_unknown/metadata.yml
-            - RANGE: docs/papers/2011/2011.bachrach.rangerobust_autonomous_navigation_in/metadata.yml
+            - RANGE: docs/papers/2011/2011.bachrach.range_robust_autonomous_navigation/metadata.yml
             - "Trajectory Generation and Control for Precise Aggressive Maneuvers with Quadrotors": docs/papers/2012/2012.mellinger.trajectory_generation_and_control/metadata.yml
             - "Efficient Trajectory Planning for High Speed Flight in Unknown Environments": docs/papers/2019/2019.ryll.efficient_trajectory_planning_for/metadata.yml
             - "Comparison of Optimization-Based Methods for Energy-Optimal Quadrotor Motion Planning": docs/papers/2023/2304.14062/metadata.yml
@@ -1654,7 +1654,7 @@
         - Forced Random Dithering: docs/papers/1994/1994.purgathofer.forced_random_dithering_improved/metadata.yml
         - Scalar Spatiotemporal Blue Noise Masks: docs/papers/2021/2112.09629/metadata.yml
         - Spatiotemporal Blue Noise Masks: docs/papers/2022/2022.wolfe.spatiotemporal_blue_noise_masks/metadata.yml
-        - An Optimum Method for Two-level Rendition for Continuous Tone Pictures: docs/papers/1973/1973.e.an_optimum_method_for/metadata.yml
+        - An Optimum Method for Two-level Rendition for Continuous Tone Pictures: docs/papers/1973/1973.bayer.an_optimum_method_for/metadata.yml
       - Line Integral Convolution (LIC):
         - LIC: docs/papers/1993/1993.cabral.imaging_vector_fields_using/metadata.yml
         - Curvilinear Grid LIC: docs/papers/1995/1995.forssell.using_line_integral_convolution/metadata.yml
@@ -1687,7 +1687,7 @@
           - "Unconventional Roundabouts: Third-Generation Insights from the United States and Europe": docs/papers/2026/2026.brocchini.unconventional_roundabouts_third_generation/metadata.yml
         - Collision and Accident Assessment:
           - "A new accident model for engineering safer systems": docs/papers/2004/2004.leveson.a_new_accident_model/metadata.yml
-          - "The MIT-Cornell collision and why it happened": docs/papers/2008/2008.fletcher.the_mitcornell_collision_and/metadata.yml
+          - "The MIT-Cornell collision and why it happened": docs/papers/2008/2008.fletcher.the_mit_cornell_collision/metadata.yml
           - "Methodology for determining maximum injury potential for automated driving system evaluation": docs/papers/2022/2022.kusano.methodology_for_determining_maximum/metadata.yml
         - Autonomy Testing:
           - Scalable End-to-End Autonomous Vehicle Testing via Rare-event Simulation: docs/papers/2018/1811.00145/metadata.yml
@@ -1784,7 +1784,7 @@
           - Cooley-Tukey FFT: docs/papers/1965/1965.cooley.an_algorithm_for_the/metadata.yml
           - "Discovering Transforms: A Tutorial on Circulant Matrices, Circular Convolution, and the Discrete Fourier Transform": docs/papers/2018/1805.05533/metadata.yml
         - Signal Filtering and Smoothing:
-          - Why and How Savitzky-Golay Filters Should Be Replaced: docs/papers/2022/2022.schmid.why_and_how_savitzkygolay/metadata.yml
+          - Why and How Savitzky-Golay Filters Should Be Replaced: docs/papers/2022/2022.schmid.why_and_how_savitzky/metadata.yml
         - Conjugate Gradient:
           - Conjugate Gradient: docs/papers/1952/1952.hestenes.methods_of_conjugate_gradients/metadata.yml
           - "Lanczos minimized-iteration method": docs/papers/1952/1952.lanczos.solution_of_systems_of/metadata.yml

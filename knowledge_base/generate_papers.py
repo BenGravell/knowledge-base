@@ -26,6 +26,7 @@ template_file = Path("docs/templates/paper_template.md")
 generated_root = Path("papers")
 embedding_cache_file = Path("map/embedding_cache.json")
 related_result_limit = 36
+top_similar_limit = 5
 
 # Read template
 template_text = template_file.read_text()
@@ -82,6 +83,14 @@ def clean_doi(doi: str | None) -> str:
 
 def clean_arxiv_id(arxiv_id: str | None) -> str:
     return normalize_arxiv_id(arxiv_id)
+
+
+def url_quote(value) -> str:
+    return quote(clean_scalar(value), safe="")
+
+
+def url_path_quote(value) -> str:
+    return quote(clean_scalar(value), safe="/")
 
 
 def link_domain(url: str) -> str:
@@ -167,6 +176,13 @@ def build_tag_links(tags: list[str], paper_id: str) -> list[dict[str, str]]:
     return links
 
 
+def as_clean_list(value) -> list[str]:
+    if isinstance(value, list):
+        return [clean_scalar(item) for item in value if clean_scalar(item)]
+    text = clean_scalar(value)
+    return [text] if text else []
+
+
 def build_link_sections(data: dict, paper_id: str) -> list[dict]:
     primary = clean_scalar(data.get("link"))
     arxiv_id = clean_arxiv_id(data.get("arxiv_id"))
@@ -244,24 +260,32 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
 
 
 def paper_record(data: dict, paper_id: str) -> dict:
-    authors = data.get("authors") or []
-    if not isinstance(authors, list):
-        authors = [clean_scalar(authors)] if clean_scalar(authors) else []
-    tags = data.get("tags") or []
-    if not isinstance(tags, list):
-        tags = [clean_scalar(tags)] if clean_scalar(tags) else []
+    authors = as_clean_list(data.get("authors"))
+    tags = as_clean_list(data.get("tags"))
     return {
         "id": paper_id,
         "title": clean_scalar(data.get("title")),
         "label": clean_scalar(data.get("algorithm")) or clean_scalar(data.get("title")) or paper_id,
-        "authors": [clean_scalar(author) for author in authors if clean_scalar(author)],
+        "authors": authors,
         "year": data.get("year") or "",
-        "tags": [clean_scalar(tag) for tag in tags if clean_scalar(tag)],
+        "tags": tags,
         "summary": clean_scalar(data.get("summary")),
         "url": f"../papers/{paper_id}/",
         "treeUrl": f"../tree/#paper={quote(paper_id, safe='')}",
         "mapUrl": f"../map/#paper={quote(paper_id, safe='')}",
     }
+
+
+def paper_byline(record: dict) -> str:
+    authors = as_clean_list(record.get("authors"))
+    author = ""
+    if authors:
+        author = authors[0] + (" et al." if len(authors) > 1 else "")
+    return " / ".join(
+        clean_scalar(value)
+        for value in (author, record.get("year"))
+        if clean_scalar(value)
+    )
 
 
 def load_embedding_cache() -> dict[str, list[float]]:
@@ -280,6 +304,53 @@ def load_embedding_cache() -> dict[str, list[float]]:
         if isinstance(embedding, list) and embedding:
             embeddings[str(paper_id)] = embedding
     return embeddings
+
+
+def build_top_similar_papers(records: list[dict], limit: int = top_similar_limit) -> dict[str, list[dict]]:
+    if np is None:
+        return {}
+
+    embeddings = load_embedding_cache()
+    embedded_ids = [record["id"] for record in records if record["id"] in embeddings]
+    if len(embedded_ids) < 2:
+        return {}
+
+    record_by_id = {record["id"]: record for record in records}
+    matrix = np.asarray([embeddings[paper_id] for paper_id in embedded_ids], dtype=np.float32)
+    norms = np.linalg.norm(matrix, axis=1, keepdims=True)
+    norms[norms == 0] = 1.0
+    matrix = matrix / norms
+    sim = matrix @ matrix.T
+    top_similar: dict[str, list[dict]] = {}
+
+    for i, paper_id in enumerate(embedded_ids):
+        order = np.argsort(-sim[i])
+        items = []
+        for j in order:
+            other_id = embedded_ids[int(j)]
+            if other_id == paper_id:
+                continue
+            record = record_by_id[other_id]
+            items.append(
+                {
+                    "id": other_id,
+                    "title": record.get("title") or record.get("label") or other_id,
+                    "label": record.get("label") or "",
+                    "byline": paper_byline(record),
+                    "summary": clean_scalar(record.get("summary")),
+                    "score": round(float(sim[i, int(j)]), 4),
+                    "score_label": f"{round(float(sim[i, int(j)]) * 100)}% similar",
+                    "url": f"../../papers/{quote(other_id, safe='')}/",
+                    "tree_url": f"../../tree/#paper={quote(other_id, safe='')}",
+                    "map_url": f"../../map/#paper={quote(other_id, safe='')}",
+                }
+            )
+            if len(items) >= limit:
+                break
+        if items:
+            top_similar[paper_id] = items
+
+    return top_similar
 
 
 def build_tag_search_data(records: list[dict]) -> dict:
@@ -366,8 +437,10 @@ def build_tag_search_data(records: list[dict]) -> dict:
 # Set up Jinja2 environment with custom filter
 env = Environment()
 env.filters["metadata_text_html"] = metadata_text_html
+env.filters["url_quote"] = url_quote
+env.filters["url_path_quote"] = url_path_quote
 
-paper_records = []
+paper_entries = []
 
 # Iterate over all YAML files
 for metadata_file in metadata_root.rglob("*.yml"):
@@ -377,18 +450,36 @@ for metadata_file in metadata_root.rglob("*.yml"):
         continue
 
     paper_id = paper_id_for(metadata_file, data)
-    filename = f"{paper_id}.md"
+    for key in ("title", "algorithm", "source", "type", "abstract", "summary", "year"):
+        data[key] = clean_scalar(data.get(key))
+    data["authors"] = as_clean_list(data.get("authors"))
+    data["tags"] = as_clean_list(data.get("tags"))
+    data["doi_clean"] = clean_doi(data.get("doi"))
+    data["arxiv_clean"] = clean_arxiv_id(data.get("arxiv_id"))
+    data["link_sections"] = build_link_sections(data, paper_id)
+    data["tag_links"] = build_tag_links(data["tags"], paper_id)
+    paper_entries.append(
+        {
+            "metadata_file": metadata_file,
+            "paper_id": paper_id,
+            "data": data,
+        }
+    )
 
-    output_path = generated_root / filename
+paper_records = [paper_record(entry["data"], entry["paper_id"]) for entry in paper_entries]
+top_similar_by_id = build_top_similar_papers(paper_records)
 
+# Iterate over prepared papers now that cross-paper similarity is available
+for entry in paper_entries:
+    paper_id = entry["paper_id"]
+    metadata_file = entry["metadata_file"]
+    data = entry["data"]
+    output_path = generated_root / f"{paper_id}.md"
+    data["top_similar_papers"] = top_similar_by_id.get(paper_id, [])
     mkdocs_gen_files.set_edit_path(output_path, metadata_file)
     with mkdocs_gen_files.open(output_path, "w") as f_out:
         template = env.from_string(template_text)
-        data["link_sections"] = build_link_sections(data, paper_id)
-        data["tag_links"] = build_tag_links(data.get("tags") or [], paper_id)
         f_out.write(template.render(**data))
-
-    paper_records.append(paper_record(data, paper_id))
 
     # # DEBUG: actually write out to real filesystem
     # output_path.parent.mkdir(parents=True, exist_ok=True)

@@ -3,6 +3,10 @@
 ## Taxonomy
 
 ```sh
+poetry run python scripts/suggest_branch_subgroupings.py --max-results 1
+```
+
+```sh
 poetry run python scripts/suggest_branch_subgroupings.py --branch "First-Order Methods" --write-tree
 ```
 
