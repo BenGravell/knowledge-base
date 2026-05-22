@@ -60,7 +60,9 @@ knowledge-base/
 - The editable Tree nav source lives in `knowledge_base/tree.yml`; `mkdocs.yml` injects it through the local `tree-nav` plugin
 - Paper URL lists live under `todo/papers/<SOURCE>.md`
 - Source-specific prefill scripts live under `knowledge_base/scripts/prefill/<source>.py`
-- No test suite; verify changes by running `mkdocs build` and checking for warnings
+- No test suite; do not run programmatic tests except for the following conditions:
+  - When UX changes are made:
+    - Verify changes by running `mkdocs build` and checking for warnings.
 
 ## Agent Tasks
 
