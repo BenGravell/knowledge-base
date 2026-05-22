@@ -316,35 +316,38 @@
             - "Efficient high-quality motion planning by fast all-pairs r-nearest-neighbors": docs/papers/2014/1409.8112/metadata.yml
             - "Enhancing Sampling-based Planning with a Library of Paths": docs/papers/2025/2510.12962/metadata.yml
             - "Generating Diverse Trajectories Using Roadmap Search and Sampling-Based Motion Planning": docs/papers/2026/2026.plaku.generating_diverse_trajectories_using/metadata.yml
-          - Rapidly Exploring Random Trees (RRT):
-            - RRT: docs/papers/1998/1998.lavalle.rapidly_exploring_random_trees/metadata.yml
-            - RRT-Connect: docs/papers/2000/2000.kuffner.rrt_connect_an_efficient/metadata.yml
+          - Sampling-based Trees:
+            - Suboptimal:
+              - RRT: docs/papers/1998/1998.lavalle.rapidly_exploring_random_trees/metadata.yml
+              - RRT-Connect: docs/papers/2000/2000.kuffner.rrt_connect_an_efficient/metadata.yml
+            - Asymptotically Optimal:
+              - RRT*:
+                - RRT*: docs/papers/2011/1105.1186/metadata.yml
+                - RRT* theory correction: docs/papers/2019/1909.09688/metadata.yml
+                - Anytime RRT*: docs/papers/2011/2011.karaman.anytime_motion_planning_using/metadata.yml
+                - "BT+RRT*": docs/papers/2011/2011.perez.asymptotically_optimal_path_planning/metadata.yml
+                - RRT*-Connect: docs/papers/2015/2015.klemm.rrt_connect_faster_asymptotically/metadata.yml
+              - RRT#: docs/papers/2012/1204.6453/metadata.yml
+              - FMT*: docs/papers/2013/1306.3532/metadata.yml
+              - Informed RRT*:
+                - Informed RRT*: docs/papers/2014/1404.2334/metadata.yml
+                - BIT*: docs/papers/2014/1405.5848/metadata.yml
+                - RABIT*: docs/papers/2016/2016.choudhury.regionally_accelerated_batch_informed/metadata.yml
+                - Informed RRT*-Connect: docs/papers/2020/2020.mashayekhi.informed_rrt_connect_an/metadata.yml
+                - Sliding Window Informed RRT*: docs/papers/2021/2021.li.sliding_window_informed_rrt/metadata.yml
+                - PI-RRT*: docs/papers/2025/2503.16164/metadata.yml
             - EET: docs/papers/2008/2008.rickert.balancing_exploration_and_exploitation/metadata.yml
-            - RRT*: docs/papers/2011/1105.1186/metadata.yml
-            - RRT* theory correction: docs/papers/2019/1909.09688/metadata.yml
-            - Anytime RRT*: docs/papers/2011/2011.karaman.anytime_motion_planning_using/metadata.yml
-            - "BT+RRT*": docs/papers/2011/2011.perez.asymptotically_optimal_path_planning/metadata.yml
-            - RRT*-Connect: docs/papers/2015/2015.klemm.rrt_connect_faster_asymptotically/metadata.yml
-            - RRT#: docs/papers/2012/1204.6453/metadata.yml
-            - FMT*: docs/papers/2013/1306.3532/metadata.yml
-            - Informed RRT*: docs/papers/2014/1404.2334/metadata.yml
-            - BIT*: docs/papers/2014/1405.5848/metadata.yml
-            - RABIT*: docs/papers/2016/2016.choudhury.regionally_accelerated_batch_informed/metadata.yml
-            - PI-RRT*: docs/papers/2025/2503.16164/metadata.yml
-            - Informed RRT*-Connect: docs/papers/2020/2020.mashayekhi.informed_rrt_connect_an/metadata.yml
-            - Sliding Window Informed RRT*: docs/papers/2021/2021.li.sliding_window_informed_rrt/metadata.yml
-            - VAMP: docs/papers/2023/2309.14545/metadata.yml
-            - FCIT*: docs/papers/2024/2411.17902/metadata.yml
             - Spline-based RRT: docs/papers/2013/2013.yang.spline_based_rrt_path/metadata.yml
             - Continuous-Curvature Target Tree: docs/papers/2022/2201.03163/metadata.yml
-            - BIT*: docs/papers/2023/2302.11670/metadata.yml
             - BITKOMO: docs/papers/2022/2203.01751/metadata.yml
-            - "Improving Motion-Planning Algorithms by Efficient Nearest-Neighbor Searching": docs/papers/2007/2007.yershova.improving_motion_planning_algorithms/metadata.yml
+            - Improving Motion-Planning Algorithms by Efficient Nearest-Neighbor Searching: docs/papers/2007/2007.yershova.improving_motion_planning_algorithms/metadata.yml
             - Edge Nearest Neighbor: docs/papers/2025/2506.13753/metadata.yml
             - "Path planning in 1000+ dimensions using a task-space Voronoi bias": docs/papers/2009/2009.shkolnik.path_planning_in_1000/metadata.yml
             - "Integrating asymptotically-optimal path planning with local optimization": docs/papers/2017/1708.06056/metadata.yml
             - "Geometry-Aware Sampling-Based Motion Planning on Riemannian Manifolds": docs/papers/2026/2602.00992/metadata.yml
-            - ST-RRT*: docs/papers/2022/2203.02176/metadata.yml
+          - Vectorized Planning:
+            - VAMP: docs/papers/2023/2309.14545/metadata.yml
+            - FCIT*: docs/papers/2024/2411.17902/metadata.yml
           - GPU Parallelized Planning:
             - GMT*: docs/papers/2017/1705.02403/metadata.yml
             - Kino-PAX: docs/papers/2024/2409.06807/metadata.yml
@@ -408,13 +411,16 @@
             - Kinodynamic RRT: docs/papers/1999/1999.lavalle.randomized_kinodynamic_planning/metadata.yml
             - CL-RRT: docs/papers/2009/2009.kuwata.real_time_motion_planning/metadata.yml
             - Kinodynamic RRT*: docs/papers/2010/2010.karaman.optimal_kinodynamic_motion_planning/metadata.yml
-            - Linear Kinodynamic RRT*: docs/papers/2012/1205.5088/metadata.yml
-            - AQR-RRT: docs/papers/2010/2010.glassman.a_quadratic_regulator_based/metadata.yml
-            - LQR-trees: docs/papers/2010/2010.tedrake.lqr_trees_feedback_motion/metadata.yml
-            - LQR-RRT*: docs/papers/2012/2012.perez.lqr_rrt_optimal_sampling/metadata.yml
-            - Optimal Sampling-based Planning for Linear-quadratic Kinodynamic Systems: docs/papers/2013/2013.goretkin.optimal_sampling_based_planning/metadata.yml
+
+            - Linearized RRT:
+              - Linear Kinodynamic RRT*: docs/papers/2012/1205.5088/metadata.yml
+              - AQR-RRT: docs/papers/2010/2010.glassman.a_quadratic_regulator_based/metadata.yml
+              - LQR-trees: docs/papers/2010/2010.tedrake.lqr_trees_feedback_motion/metadata.yml
+              - LQR-RRT*: docs/papers/2012/2012.perez.lqr_rrt_optimal_sampling/metadata.yml
+              - Optimal Sampling-based Planning for Linear-quadratic Kinodynamic Systems: docs/papers/2013/2013.goretkin.optimal_sampling_based_planning/metadata.yml
+              - Search-based Motion Planning for Quadrotors using Linear Quadratic Minimum Time Control: docs/papers/2017/1709.05401/metadata.yml
+              - "Optimal Sampling-Based Motion Planning under Differential Constraints: the Drift Case with Linear Affine Dynamics": docs/papers/2014/1405.7421/metadata.yml
             - Reachability-guided sampling for planning under differential constraints: docs/papers/2009/2009.shkolnik.reachability_guided_sampling_for/metadata.yml
-            - "Optimal Sampling-Based Motion Planning under Differential Constraints: the Drift Case with Linear Affine Dynamics": docs/papers/2014/1405.7421/metadata.yml
             - RRT*_MotionPrimitives: docs/papers/2018/1809.02399/metadata.yml
             - BB-RRT: docs/papers/2022/2210.01744/metadata.yml
             - AkinoPDF: docs/papers/2026/2603.16059/metadata.yml
@@ -422,6 +428,7 @@
             - "Probabilistic completeness of RRT for geometric and kinodynamic planning with forward propagation": docs/papers/2018/1809.07051/metadata.yml
             - FDSPC: docs/papers/2024/2405.03281/metadata.yml
             - TB-RRT: docs/papers/2014/2014.sintov.time_based_rrt_algorithm/metadata.yml
+            - ST-RRT*: docs/papers/2022/2203.02176/metadata.yml
             - "A novel RRT extend function for efficient and smooth mobile robot motion planning": docs/papers/2014/2014.palmieri.a_novel_rrt_extend/metadata.yml
             - DR-RRT: docs/papers/2018/2018.summers.distributionally_robust_sampling_based/metadata.yml
             - RANS-RRT*: docs/papers/2021/2103.05572/metadata.yml
@@ -430,7 +437,6 @@
             - "Kinodynamic motion planning: connecting exploration trees using trajectory optimization Methods": docs/papers/2004/2004.lamiraux.kinodynamic_motion_planning_connecting/metadata.yml
             - "Optimal motion planning with the half-car dynamical model for autonomous high-speed driving": docs/papers/2013/2013.jeon.optimal_motion_planning_with/metadata.yml
             - "Randomized Kinodynamic Motion Planning with Moving Obstacles": docs/papers/2002/2002.hsu.randomized_kinodynamic_motion_planning/metadata.yml
-            - "Search-based Motion Planning for Quadrotors using Linear Quadratic Minimum Time Control": docs/papers/2017/1709.05401/metadata.yml
             - StaGE: docs/papers/2026/2603.06773/metadata.yml
           - Expansive Space Trees (EST):
             - EST: docs/papers/1997/1997.hsu.path_planning_in_expansive/metadata.yml
