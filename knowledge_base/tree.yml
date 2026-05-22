@@ -411,7 +411,6 @@
             - Kinodynamic RRT: docs/papers/1999/1999.lavalle.randomized_kinodynamic_planning/metadata.yml
             - CL-RRT: docs/papers/2009/2009.kuwata.real_time_motion_planning/metadata.yml
             - Kinodynamic RRT*: docs/papers/2010/2010.karaman.optimal_kinodynamic_motion_planning/metadata.yml
-
             - Linearized RRT:
               - Linear Kinodynamic RRT*: docs/papers/2012/1205.5088/metadata.yml
               - AQR-RRT: docs/papers/2010/2010.glassman.a_quadratic_regulator_based/metadata.yml
