@@ -1194,6 +1194,8 @@
             - "Surgical Robot Transformer (SRT): Imitation Learning for Surgical Tasks": docs/papers/2024/2407.12998/metadata.yml
             - Universal Manipulation Interface: docs/papers/2024/2402.10329/metadata.yml
             - HRT1: docs/papers/2025/2510.21026/metadata.yml
+          - Language-Grounded Policies:
+            - SayCan: docs/papers/2022/2204.01691/metadata.yml
           - Fleet Learning:
             - Robot Fleet Learning via Policy Merging: docs/papers/2023/2310.01362/metadata.yml
           - Datasets:
@@ -1533,7 +1535,6 @@
           - PaliGemma: docs/papers/2024/2407.07726/metadata.yml
           - Kimi-VL: docs/papers/2025/2504.07491/metadata.yml
         - Vision-language-action Models (VLA):
-          - SayCan: docs/papers/2022/2204.01691/metadata.yml
           - RT-1: docs/papers/2022/2212.06817/metadata.yml
           - RT-2: docs/papers/2023/2307.15818/metadata.yml
           - pi0: docs/papers/2024/2410.24164/metadata.yml
