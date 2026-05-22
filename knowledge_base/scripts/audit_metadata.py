@@ -16,6 +16,7 @@ import yaml
 from rich.console import Console
 
 from knowledge_base.config import AUDIT_STATUS_FIELD, REQUIRED_FIELDS, VALID_AUDIT_STATUSES, VALID_FIELDS, VALID_TYPES
+from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 console = Console(highlight=False)
 err_console = Console(stderr=True, highlight=False)
@@ -929,6 +930,274 @@ def audit_file(
 
 
 # ---------------------------------------------------------------------------
+# Global path audit
+# ---------------------------------------------------------------------------
+
+
+_MAP_DATA_DECL_RE = re.compile(r"^\s*const\s+mapData\s*=\s*(?P<json>.*?);\s*$", re.S)
+
+
+def _format_id_examples(ids: set[str] | list[str], limit: int = 8) -> str:
+    ordered = sorted(ids)
+    examples = ", ".join(ordered[:limit])
+    if len(ordered) > limit:
+        examples += f", ... ({len(ordered)} total)"
+    return examples
+
+
+def _load_json_file(path: Path) -> tuple[object | None, str | None]:
+    try:
+        return json.loads(path.read_text(encoding="utf-8")), None
+    except FileNotFoundError:
+        return None, "Missing file"
+    except json.JSONDecodeError as exc:
+        return None, f"JSON parse error: {exc}"
+    except OSError as exc:
+        return None, f"Could not read file: {exc}"
+
+
+def _load_map_data_js(path: Path) -> tuple[dict | None, str | None]:
+    try:
+        raw = path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return None, "Missing file"
+    except OSError as exc:
+        return None, f"Could not read file: {exc}"
+
+    match = _MAP_DATA_DECL_RE.match(raw)
+    if not match:
+        return None, "Expected JavaScript assignment like 'const mapData={...};'"
+
+    try:
+        data = json.loads(match.group("json"))
+    except json.JSONDecodeError as exc:
+        return None, f"mapData JSON parse error: {exc}"
+    if not isinstance(data, dict):
+        return None, "mapData root is not an object"
+    return data, None
+
+
+def _canonical_metadata_ids(targets: list[Path], kb_root: Path) -> tuple[dict[str, Path], list[Issue]]:
+    metadata_root = kb_root / "docs" / "papers"
+    expected: dict[str, Path] = {}
+    issues: list[Issue] = []
+    collisions: dict[str, list[Path]] = {}
+
+    for path in targets:
+        try:
+            data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        except Exception:
+            continue
+        if not isinstance(data, dict):
+            continue
+
+        paper_id = paper_id_from_metadata(path, data, metadata_root)
+        if paper_id in expected:
+            collisions.setdefault(paper_id, [expected[paper_id]]).append(path)
+        else:
+            expected[paper_id] = path
+
+    for paper_id, paths in sorted(collisions.items()):
+        path_list = ", ".join(str(path) for path in paths)
+        issues.append(
+            Issue(
+                kb_root / "map" / "map-data.js",
+                CHECK_PATH,
+                f"Canonical metadata ID {paper_id!r} is produced by multiple metadata files: {path_list}",
+            )
+        )
+
+    return expected, issues
+
+
+def _audit_id_set(
+    *,
+    path: Path,
+    label: str,
+    actual_ids: set[str],
+    expected_ids: set[str],
+    report_stale: bool,
+) -> list[Issue]:
+    issues: list[Issue] = []
+    missing = expected_ids - actual_ids
+    if missing:
+        issues.append(
+            Issue(
+                path,
+                CHECK_PATH,
+                f"{label} missing {len(missing)} metadata-backed paper ID(s): {_format_id_examples(missing)}",
+                "Regenerate map data, or run --fix after a metadata path change.",
+            )
+        )
+
+    stale = actual_ids - expected_ids
+    if report_stale and stale:
+        issues.append(
+            Issue(
+                path,
+                CHECK_PATH,
+                f"{label} contains {len(stale)} stale paper ID(s) with no metadata.yml: {_format_id_examples(stale)}",
+                "Regenerate map data, or run --fix after a metadata path change.",
+            )
+        )
+    return issues
+
+
+def _duplicate_values(values: list[str]) -> set[str]:
+    seen: set[str] = set()
+    dupes: set[str] = set()
+    for value in values:
+        if value in seen:
+            dupes.add(value)
+        seen.add(value)
+    return dupes
+
+
+def audit_map_data_paths(
+    targets: list[Path],
+    *,
+    kb_root: Path,
+    report_stale: bool,
+) -> list[tuple[Path, list[Issue]]]:
+    expected_by_id, setup_issues = _canonical_metadata_ids(targets, kb_root)
+    expected_ids = set(expected_by_id)
+    grouped: dict[Path, list[Issue]] = {}
+    for issue in setup_issues:
+        grouped.setdefault(issue.path, []).append(issue)
+
+    map_data_path = kb_root / "map" / "map-data.js"
+    map_data, error = _load_map_data_js(map_data_path)
+    if error:
+        grouped.setdefault(map_data_path, []).append(Issue(map_data_path, CHECK_PATH, error))
+    elif map_data is not None:
+        nodes = map_data.get("nodes")
+        if not isinstance(nodes, list):
+            grouped.setdefault(map_data_path, []).append(
+                Issue(map_data_path, CHECK_PATH, "mapData.nodes is not a list")
+            )
+            node_ids: list[str] = []
+        else:
+            node_ids = []
+            bad_nodes = 0
+            for node in nodes:
+                data = node.get("data") if isinstance(node, dict) else None
+                node_id = data.get("id") if isinstance(data, dict) else None
+                if isinstance(node_id, str) and node_id:
+                    node_ids.append(node_id)
+                else:
+                    bad_nodes += 1
+            if bad_nodes:
+                grouped.setdefault(map_data_path, []).append(
+                    Issue(map_data_path, CHECK_PATH, f"mapData.nodes has {bad_nodes} node(s) without data.id")
+                )
+
+        duplicate_node_ids = _duplicate_values(node_ids)
+        if duplicate_node_ids:
+            grouped.setdefault(map_data_path, []).append(
+                Issue(
+                    map_data_path,
+                    CHECK_PATH,
+                    f"mapData.nodes has duplicate paper ID(s): {_format_id_examples(duplicate_node_ids)}",
+                )
+            )
+
+        grouped.setdefault(map_data_path, []).extend(
+            _audit_id_set(
+                path=map_data_path,
+                label="mapData.nodes",
+                actual_ids=set(node_ids),
+                expected_ids=expected_ids,
+                report_stale=report_stale,
+            )
+        )
+
+        similarity = map_data.get("similarity")
+        if not isinstance(similarity, dict):
+            grouped.setdefault(map_data_path, []).append(
+                Issue(map_data_path, CHECK_PATH, "mapData.similarity is not an object")
+            )
+        else:
+            similarity_ids_raw = similarity.get("ids")
+            if not isinstance(similarity_ids_raw, list) or not all(isinstance(item, str) for item in similarity_ids_raw):
+                grouped.setdefault(map_data_path, []).append(
+                    Issue(map_data_path, CHECK_PATH, "mapData.similarity.ids is not a string list")
+                )
+                similarity_ids: list[str] = []
+            else:
+                similarity_ids = similarity_ids_raw
+                grouped.setdefault(map_data_path, []).extend(
+                    _audit_id_set(
+                        path=map_data_path,
+                        label="mapData.similarity.ids",
+                        actual_ids=set(similarity_ids),
+                        expected_ids=expected_ids,
+                        report_stale=report_stale,
+                    )
+                )
+                if node_ids and similarity_ids != node_ids:
+                    grouped.setdefault(map_data_path, []).append(
+                        Issue(
+                            map_data_path,
+                            CHECK_PATH,
+                            "mapData.similarity.ids does not exactly match mapData.nodes order",
+                            "Regenerate map data.",
+                        )
+                    )
+
+            rows = similarity.get("rows")
+            if isinstance(rows, list) and similarity_ids:
+                bad_row_count = len(rows) != len(similarity_ids)
+                bad_row_width = any(not isinstance(row, list) or len(row) != len(similarity_ids) for row in rows)
+                if bad_row_count or bad_row_width:
+                    grouped.setdefault(map_data_path, []).append(
+                        Issue(
+                            map_data_path,
+                            CHECK_PATH,
+                            "mapData.similarity.rows shape does not match similarity.ids",
+                            "Regenerate map data.",
+                        )
+                    )
+
+        meta = map_data.get("meta")
+        if report_stale and isinstance(meta, dict) and meta.get("total_papers") != len(expected_ids):
+            grouped.setdefault(map_data_path, []).append(
+                Issue(
+                    map_data_path,
+                    CHECK_PATH,
+                    f"mapData.meta.total_papers is {meta.get('total_papers')!r}; expected {len(expected_ids)}",
+                    "Regenerate map data.",
+                )
+            )
+
+    cache_path = kb_root / "map" / "embedding_cache.json"
+    cache, error = _load_json_file(cache_path)
+    if error:
+        grouped.setdefault(cache_path, []).append(Issue(cache_path, CHECK_PATH, error))
+    elif isinstance(cache, dict):
+        cached_papers = cache.get("papers")
+        if not isinstance(cached_papers, dict):
+            grouped.setdefault(cache_path, []).append(
+                Issue(cache_path, CHECK_PATH, "embedding_cache.json papers field is not an object")
+            )
+        else:
+            grouped.setdefault(cache_path, []).extend(
+                _audit_id_set(
+                    path=cache_path,
+                    label="embedding_cache.json papers",
+                    actual_ids=set(str(key) for key in cached_papers),
+                    expected_ids=expected_ids,
+                    report_stale=report_stale,
+                )
+            )
+    else:
+        grouped.setdefault(cache_path, []).append(
+            Issue(cache_path, CHECK_PATH, "embedding_cache.json root is not an object")
+        )
+
+    return [(path, issues) for path, issues in grouped.items() if issues]
+
+
+# ---------------------------------------------------------------------------
 # Fix helpers
 # ---------------------------------------------------------------------------
 
@@ -1459,7 +1728,7 @@ Checks performed on each metadata.yml:
   escape    - ERROR if string fields contain HTML/entity escapes like &#39; or &amp;
   type      - ERROR if not a recognised paper type
   status    - ERROR if audit_status is not one of: raw, partial, reviewed
-  path      - ERROR if YEAR/SLUG do not match metadata or expected slug format
+  path      - ERROR if YEAR/SLUG do not match metadata or expected slug format; ERROR if map-data.js or embedding_cache.json IDs are stale, missing, malformed, or inconsistent
   summary   - WARN if missing or empty
   optional  - INFO for each optional field that is not populated
 
@@ -1526,6 +1795,8 @@ Available --check names:
 
     skipped_reviewed_errors = 0
     results: list[tuple[Path, list[Issue]]] = []
+    checked_file_count = len(targets)
+    checked_map_data = selected_checks is None or CHECK_PATH in selected_checks
     for p in targets:
         data, issues = audit_file(p, selected_checks=selected_checks)
         if args.skip_reviewed_errors:
@@ -1533,6 +1804,15 @@ Available --check names:
             skipped_reviewed_errors += skipped_count
         if issues:
             results.append((p, issues))
+    if checked_map_data:
+        checked_file_count += 2
+        results.extend(
+            audit_map_data_paths(
+                targets,
+                kb_root=kb_root,
+                report_stale=not args.file,
+            )
+        )
 
     all_issues = [i for _, issues in results for i in issues]
     n_errors = sum(1 for i in all_issues if i.severity == Severity.ERROR)
@@ -1540,7 +1820,12 @@ Available --check names:
     n_infos = sum(1 for i in all_issues if i.severity == Severity.INFO)
 
     if not all_issues:
-        console.print(f"[green]All {len(targets)} metadata.yml file(s) pass audit.[/]")
+        if checked_map_data:
+            console.print(
+                f"[green]All {len(targets)} metadata.yml file(s) and map data pass audit.[/]"
+            )
+        else:
+            console.print(f"[green]All {len(targets)} metadata.yml file(s) pass audit.[/]")
         if skipped_reviewed_errors:
             console.print(
                 f"[dim]Skipped {skipped_reviewed_errors} error(s) from reviewed metadata.[/]"
@@ -1555,7 +1840,7 @@ Available --check names:
     if n_infos:
         parts.append(f"[bold cyan]{n_infos} info(s)[/]")
     console.print(
-        ", ".join(parts) + f" across {len(results)} / {len(targets)} file(s):\n"
+        ", ".join(parts) + f" across {len(results)} / {checked_file_count} file(s):\n"
     )
     if skipped_reviewed_errors:
         console.print(
@@ -1586,6 +1871,18 @@ Available --check names:
             if args.skip_reviewed_errors:
                 issues, _ = _skip_reviewed_errors(data, issues)
             remaining_errors += sum(1 for i in issues if i.severity == Severity.ERROR)
+        if checked_map_data:
+            map_results = audit_map_data_paths(
+                targets,
+                kb_root=kb_root,
+                report_stale=not args.file,
+            )
+            remaining_errors += sum(
+                1
+                for _, issues in map_results
+                for issue in issues
+                if issue.severity == Severity.ERROR
+            )
         sys.exit(1 if remaining_errors else 0)
 
     sys.exit(1 if n_errors else 0)
