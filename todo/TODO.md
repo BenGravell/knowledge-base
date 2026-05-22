@@ -16,6 +16,13 @@ python scripts/list_branching_factor_violations.py --max-depth 3 --max-results 3
 
 ## Ingest
 
+### HD Mapping and Chamfer Distance for Lane Detection
+
+https://arxiv.org/abs/2107.06307
+https://arxiv.org/abs/2206.08920
+https://arxiv.org/abs/2208.14437
+https://arxiv.org/abs/2503.07168
+
 ### Behavioral Data-driven Control
 
 https://www.sciencedirect.com/science/article/abs/pii/S0167691116300317
@@ -363,10 +370,11 @@ Hand-crafted
 
 ## Timeline
 
+Performance is bad. When clicking hide/show settings it lags another. Also interacting and changing filters causes bad lag spike. Investigate low hanging fruit for performance enhancement as well as deeper structural issues that might be contributing g
+
 ### UX
 
 Year tick container is still floating detached from graph, jiggles weirdly on scroll
-
 
 ### Design inspiration
 
@@ -374,7 +382,15 @@ Year tick container is still floating detached from graph, jiggles weirdly on sc
 
 ## Tag Search
 
+Generalize and make more powerful by enabling search over other metadata fields e.g. author, year, source type, etc.
+
+Rename to Advanced Search
+
+Integrate with the main Search bar provided by mkdocs in a clean and robust way. Dedpulicate functionality and ux as much as possible.
+
 ### UX
+
+Tuck the tag search bar container under an expander (use the same header bar ux element used on other pages). This is to alleviate vertical scrolling on mobile.
 
 ## Tree
 
@@ -393,6 +409,12 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 ## Map
 
 ### UX
+
+### guide regions
+Add some subtle background regions with color shading for deep level of detail so we can have a guide to where we are on the map.
+
+### fix
+Remove redundant "open in map" button from node tooltip
 
 ### settings size
 For mobile site, tune the settings bar height so that it only covers about half of the screen at the top, so that the bottom half can be used for the node Map canvas.
@@ -429,6 +451,21 @@ Clean up the settings menu ux layout. Fewer labels? Smaller buttons for single t
 Add an export button to get a json or csv of all currently displayed items
 CSV should include one item per row. Tree ancestry in a column.
 JSON can use tree hierarchy natively.
+
+## Credits
+
+Sub bullet indent is too wide
+
+## Dissertations page (new feature)
+
+Create a special page (like a corner of a physical library) just for Dissertations and Theses. They belong in their own isolated section because
+
+1. Dissertations usually just wrap several previously published papers together in a nice package, and hence are redundant and less useful for the primary corpus in Knowledge Base.
+2. We want to honor the work of the authors.
+
+For this page, the UX should operate more like a gallery or a bookshelf. Each dissertation should get rendered in a nice card with emphasis placed on the title, author, and year.
+
+Include a link to the Advanced Search page for the selected dissertation's author.
 
 ## Knowledge Studio (new feature)
 
