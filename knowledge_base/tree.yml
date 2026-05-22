@@ -132,10 +132,10 @@
               - Making SGD Parameter-Free: docs/papers/2022/2205.02160/metadata.yml
               - DoG is SGD's Best Friend: docs/papers/2023/2023.ivgi.dog_is_sgds_best/metadata.yml
               - Variance Reduction:
-                - SDCA: TODO
-                - SAG: TODO
+                - SDCA: docs/papers/2012/1209.1873/metadata.yml
+                - SAG: docs/papers/2012/1202.6258/metadata.yml
                 - SVRG: docs/papers/2013/2013.johnson.accelerating_stochastic_gradient_descent/metadata.yml
-                - SAGA: TODO
+                - SAGA: docs/papers/2014/1407.0202/metadata.yml
                 - Katyusha: docs/papers/2016/1603.05953/metadata.yml
                 - SARAH: docs/papers/2017/1703.00102/metadata.yml
                 - Momentum-Based Variance Reduction in Non-Convex SGD: docs/papers/2019/1905.10018/metadata.yml
@@ -153,7 +153,7 @@
               - "Lyapunov Functions for First-Order Methods: Tight Automated Convergence Guarantees": docs/papers/2018/1803.06073/metadata.yml
           - Second-order Methods:
             - Natural Gradient Methods:
-              - Natural Gradient Descent: TODO
+              - Natural Gradient Descent: docs/papers/1998/1998.amari.natural_gradient_works_efficiently/metadata.yml
               - Efficient Numerical Algorithm for Large-Scale Damped Natural Gradient Descent: docs/papers/2023/2310.17556/metadata.yml
             - Quasi-Newton Methods:
               - DFP: docs/papers/1991/1991.davidon.variable_metric_method_for/metadata.yml
@@ -196,7 +196,7 @@
             - "On the Douglas-Rachford Splitting Method and the Proximal Point Algorithm for Maximal Monotone Operators": docs/papers/1992/1992.eckstein.on_the_douglasrachford_splitting/metadata.yml
         - Neural Network Training Algorithms:
           - Optimization with Curvature Information:
-            - Hessian-free Optimization: TODO
+            - Hessian-free Optimization: docs/papers/2010/2010.martens.deep_learning_via_hessian_free/metadata.yml
             - K-FAC: docs/papers/2015/1503.05671/metadata.yml
           - Overparameterization:
             - "Gradient Descent Provably Optimizes Over-parameterized Neural Networks": docs/papers/2018/1810.02054/metadata.yml
