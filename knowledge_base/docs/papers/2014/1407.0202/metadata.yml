@@ -1,4 +1,4 @@
-title: "SAGA: A Fast Incremental Gradient Method With Support for Non-Strongly Convex Composite Objectives"
+title: "SAGA: A Fast Incremental Gradient Method with Support for Non-Strongly Convex Composite Objectives"
 algorithm: SAGA
 authors:
   - Aaron Defazio

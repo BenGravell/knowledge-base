@@ -1,4 +1,4 @@
-title: "A Stochastic Gradient Method With an Exponential Convergence Rate for Finite Training Sets"
+title: "A Stochastic Gradient Method with an Exponential Convergence Rate for Finite Training Sets"
 algorithm: SAG
 authors:
   - Nicolas Le Roux
