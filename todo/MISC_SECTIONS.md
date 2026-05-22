@@ -9,7 +9,7 @@ Tensor methods
 ## SGD variants
 
 AdaGrad
-
+AMSGrad
 RmsProp
 
 ## Least Squares
@@ -41,7 +41,6 @@ https://ieeexplore.ieee.org/document/9575928
 # A* graph search
 
 https://en.wikipedia.org/wiki/A*_search_algorithm
-
 
 # RL
 

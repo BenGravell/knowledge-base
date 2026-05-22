@@ -368,6 +368,8 @@ Hand-crafted
 
 ### UX
 
+Make the Categories expandable all the way down to lowest grouping, but not to league node/item (which is trivial always having one item)
+
 ## Timeline
 
 Performance is bad. When clicking hide/show settings it lags another. Also interacting and changing filters causes bad lag spike. Investigate low hanging fruit for performance enhancement as well as deeper structural issues that might be contributing g
