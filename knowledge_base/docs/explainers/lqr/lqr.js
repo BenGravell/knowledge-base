@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  var root = document.querySelector("[data-lqr-designer]");
+  var root = document.querySelector("[data-lqr]");
   if (!root) {
     return;
   }
@@ -12,18 +12,27 @@
   ];
   var B = [0.02, 0.08];
   var DT = 0.01;
-  var NUM_TIMESTEPS = 100;
+  var PLOT_TIMESTEPS = 100;
+  var PLOT_Y_MIN = -5;
+  var PLOT_Y_MAX = 2;
+  var SETTLING_TIMESTEPS = 5000;
+  var INPUT_PENALTY = 1.0;
+  var SETTLING_BAND = 0.05;
   var EPS = 1e-10;
+  var INITIAL_STATE = [1, 1];
+  var STEADY_STATE = [0, 0];
+  var DEFAULT_PENALTIES = {
+    q1: 2,
+    q2: 2,
+  };
 
   var inputs = {
     q1: document.getElementById("lqr-q1"),
     q2: document.getElementById("lqr-q2"),
-    r: document.getElementById("lqr-r"),
   };
   var outputs = {
     q1: document.getElementById("lqr-q1-value"),
     q2: document.getElementById("lqr-q2-value"),
-    r: document.getElementById("lqr-r-value"),
     status: document.getElementById("lqr-status"),
     gain: document.getElementById("lqr-gain"),
     eigs: document.getElementById("lqr-eigs"),
@@ -36,12 +45,7 @@
   };
   var plot = document.getElementById("lqr-plot");
 
-  var presets = {
-    balanced: [2, 2, 2],
-    fast: [5, 5, 0.7],
-    "cheap-input": [2, 2, 0.2],
-    gentle: [1, 1, 5],
-  };
+  var resetButton = document.getElementById("lqr-reset");
 
   function fmt(value, digits) {
     var places = digits == null ? 3 : digits;
@@ -58,7 +62,6 @@
     return {
       q1: Number(inputs.q1.value),
       q2: Number(inputs.q2.value),
-      r: Number(inputs.r.value),
     };
   }
 
@@ -170,25 +173,50 @@
   }
 
   function simulate(K) {
-    var x = [1, 1];
+    var initialX = INITIAL_STATE.slice();
+    var x = initialX.slice();
     var rows = [];
     var peakInput = 0;
-    var settleTime = null;
 
-    for (var i = 0; i < NUM_TIMESTEPS; i += 1) {
+    for (var i = 0; i < SETTLING_TIMESTEPS; i += 1) {
       var u = K[0] * x[0] + K[1] * x[1];
       rows.push({ t: DT * i, x1: x[0], x2: x[1], u: u });
       peakInput = Math.max(peakInput, Math.abs(u));
-      if (settleTime == null && Math.hypot(x[0], x[1]) < 0.05) {
-        settleTime = DT * i;
-      }
       x = [
         A[0][0] * x[0] + A[0][1] * x[1] + B[0] * u,
         A[1][0] * x[0] + A[1][1] * x[1] + B[1] * u,
       ];
     }
 
-    return { rows: rows, peakInput: peakInput, settleTime: settleTime };
+    var settleTime = computeSettlingTime(rows, initialX);
+    return { rows: rows.slice(0, PLOT_TIMESTEPS), peakInput: peakInput, settleTime: settleTime };
+  }
+
+  function settlingThresholds(initialX, steadyState) {
+    return initialX.map(function (value, index) {
+      return Math.max(Math.abs(value - steadyState[index]) * SETTLING_BAND, EPS);
+    });
+  }
+
+  function computeSettlingTime(rows, initialX) {
+    var thresholds = settlingThresholds(initialX, STEADY_STATE);
+
+    for (var i = 0; i < rows.length; i += 1) {
+      var staysInside = true;
+      for (var j = i; j < rows.length; j += 1) {
+        if (
+          Math.abs(rows[j].x1 - STEADY_STATE[0]) > thresholds[0] ||
+          Math.abs(rows[j].x2 - STEADY_STATE[1]) > thresholds[1]
+        ) {
+          staysInside = false;
+          break;
+        }
+      }
+      if (staysInside) {
+        return rows[i].t;
+      }
+    }
+    return null;
   }
 
   function closedLoopEigenvalues(K) {
@@ -209,16 +237,41 @@
     ];
   }
 
-  function eigsToString(eigs) {
-    return eigs
-      .map(function (eig) {
-        if (typeof eig === "number") {
-          return fmt(eig, 4);
-        }
-        var sign = eig.im >= 0 ? "+" : "-";
-        return fmt(eig.re, 4) + " " + sign + " " + fmt(Math.abs(eig.im), 4) + "i";
-      })
-      .join(", ");
+  function renderEigenvalues(target, eigs) {
+    var table = document.createElement("table");
+    table.className = "lqr-eigen-table";
+
+    eigs.forEach(function (eig) {
+      var value = typeof eig === "number" ? { re: eig, im: 0 } : eig;
+      var tr = document.createElement("tr");
+      var realSign = document.createElement("td");
+      var realMagnitude = document.createElement("td");
+      var imagSign = document.createElement("td");
+      var imagMagnitude = document.createElement("td");
+      var imagUnit = document.createElement("td");
+      var hasImaginaryPart = Math.abs(value.im) >= 1e-12;
+
+      realSign.className = "lqr-eigen-sign";
+      realMagnitude.className = "lqr-eigen-number";
+      imagSign.className = "lqr-eigen-sign";
+      imagMagnitude.className = "lqr-eigen-number";
+      imagUnit.className = "lqr-eigen-unit";
+
+      realSign.textContent = value.re < 0 ? "-" : "";
+      realMagnitude.textContent = fmt(Math.abs(value.re), 4);
+      imagSign.textContent = hasImaginaryPart ? (value.im < 0 ? "-" : "+") : "";
+      imagMagnitude.textContent = hasImaginaryPart ? fmt(Math.abs(value.im), 4) : "";
+      imagUnit.textContent = hasImaginaryPart ? "i" : "";
+
+      tr.appendChild(realSign);
+      tr.appendChild(realMagnitude);
+      tr.appendChild(imagSign);
+      tr.appendChild(imagMagnitude);
+      tr.appendChild(imagUnit);
+      table.appendChild(tr);
+    });
+
+    target.replaceChildren(table);
   }
 
   function getCssVar(name, fallback) {
@@ -243,29 +296,19 @@
       .join(" ");
   }
 
-  function drawPlot(rows) {
+  function drawPlot(rows, settleTime) {
     var width = 900;
     var height = 360;
     var margin = { left: 58, right: 18, top: 18, bottom: 44 };
     var innerW = width - margin.left - margin.right;
     var innerH = height - margin.top - margin.bottom;
-    var values = [];
 
-    rows.forEach(function (row) {
-      values.push(row.x1, row.x2, row.u);
-    });
-    var minY = Math.min.apply(null, values);
-    var maxY = Math.max.apply(null, values);
-    var pad = Math.max(0.15, 0.1 * (maxY - minY));
-    minY -= pad;
-    maxY += pad;
-
-    var maxT = DT * (NUM_TIMESTEPS - 1);
+    var maxT = DT * (PLOT_TIMESTEPS - 1);
     var xScale = function (t) {
       return margin.left + (t / maxT) * innerW;
     };
     var yScale = function (y) {
-      return margin.top + (1 - (y - minY) / (maxY - minY || 1)) * innerH;
+      return margin.top + (1 - (y - PLOT_Y_MIN) / (PLOT_Y_MAX - PLOT_Y_MIN)) * innerH;
     };
 
     while (plot.lastChild) {
@@ -275,19 +318,19 @@
     var title = makeSvgElement("title", { id: "lqr-plot-title" });
     title.textContent = "Closed-loop LQR response";
     var desc = makeSvgElement("desc", { id: "lqr-plot-desc" });
-    desc.textContent = "Line plot of two states and one control input over one second.";
+    desc.textContent = "Line plot of two states and one control input over one second, with dashed guides showing the five-percent settling band and settling time.";
     plot.appendChild(title);
     plot.appendChild(desc);
 
     var bg = makeSvgElement("rect", { x: 0, y: 0, width: width, height: height, fill: getCssVar("--md-default-bg-color", "#ffffff") });
     plot.appendChild(bg);
 
-    for (var yi = 0; yi <= 4; yi += 1) {
-      var value = minY + (yi / 4) * (maxY - minY);
+    for (var value = PLOT_Y_MIN; value <= PLOT_Y_MAX; value += 1) {
       var y = yScale(value);
-      plot.appendChild(makeSvgElement("line", { class: "lqr-grid-line", x1: margin.left, x2: width - margin.right, y1: y, y2: y }));
+      var gridClass = value === 0 ? "lqr-grid-line lqr-grid-line-zero" : "lqr-grid-line";
+      plot.appendChild(makeSvgElement("line", { class: gridClass, x1: margin.left, x2: width - margin.right, y1: y, y2: y }));
       var yLabel = makeSvgElement("text", { class: "lqr-tick-label", x: margin.left - 10, y: y + 4, "text-anchor": "end" });
-      yLabel.textContent = fmt(value, 2);
+      yLabel.textContent = String(value);
       plot.appendChild(yLabel);
     }
 
@@ -298,6 +341,52 @@
       var xLabel = makeSvgElement("text", { class: "lqr-tick-label", x: x, y: height - 18, "text-anchor": "middle" });
       xLabel.textContent = fmt(t, 1);
       plot.appendChild(xLabel);
+    }
+
+    var bandLabelsDrawn = {};
+    settlingThresholds(INITIAL_STATE, STEADY_STATE).forEach(function (threshold, index) {
+      var key = fmt(threshold, 6);
+      if (bandLabelsDrawn[key]) {
+        return;
+      }
+      bandLabelsDrawn[key] = true;
+      [STEADY_STATE[index] + threshold, STEADY_STATE[index] - threshold].forEach(function (value) {
+        var y = yScale(value);
+        plot.appendChild(makeSvgElement("line", {
+          class: "lqr-settling-band",
+          x1: margin.left,
+          x2: width - margin.right,
+          y1: y,
+          y2: y,
+        }));
+      });
+      var bandLabel = makeSvgElement("text", {
+        class: "lqr-settling-band-label",
+        x: width - margin.right - 8,
+        y: yScale(threshold) - 6,
+        "text-anchor": "end",
+      });
+      bandLabel.textContent = "5% settling band";
+      plot.appendChild(bandLabel);
+    });
+
+    if (settleTime != null && settleTime >= 0 && settleTime <= maxT) {
+      var settleX = xScale(settleTime);
+      plot.appendChild(makeSvgElement("line", {
+        class: "lqr-settling-time-line",
+        x1: settleX,
+        x2: settleX,
+        y1: margin.top,
+        y2: height - margin.bottom,
+      }));
+      var settleLabel = makeSvgElement("text", {
+        class: "lqr-settling-time-label",
+        x: settleX,
+        y: height - 2,
+        "text-anchor": "middle",
+      });
+      settleLabel.textContent = fmt(settleTime, 2) + " s";
+      plot.appendChild(settleLabel);
     }
 
     plot.appendChild(makeSvgElement("line", { class: "lqr-axis", x1: margin.left, x2: width - margin.right, y1: height - margin.bottom, y2: height - margin.bottom }));
@@ -346,41 +435,36 @@
     var p = readPenalties();
     outputs.q1.textContent = fmt(p.q1, 1);
     outputs.q2.textContent = fmt(p.q2, 1);
-    outputs.r.textContent = fmt(p.r, 1);
 
     var Q = [
       [p.q1, 0],
       [0, p.q2],
     ];
-    var result = solveDare(Q, p.r);
+    var result = solveDare(Q, INPUT_PENALTY);
     var sim = simulate(result.K);
     var eigs = closedLoopEigenvalues(result.K);
 
     outputs.status.textContent = result.converged ? "Solved in " + result.iterations + " iterations" : "Approximate";
     outputs.gain.textContent = "K = [" + fmt(result.K[0], 4) + ", " + fmt(result.K[1], 4) + "]";
-    outputs.eigs.textContent = eigsToString(eigs);
+    renderEigenvalues(outputs.eigs, eigs);
     outputs.peakInput.textContent = fmt(sim.peakInput, 3);
-    outputs.settleTime.textContent = sim.settleTime == null ? "> " + fmt(DT * NUM_TIMESTEPS, 2) + " s" : fmt(sim.settleTime, 2) + " s";
+    outputs.settleTime.textContent = sim.settleTime == null ? "> " + fmt(DT * SETTLING_TIMESTEPS, 2) + " s" : fmt(sim.settleTime, 2) + " s";
 
     renderMatrix(outputs.matrixA, A);
     renderMatrix(outputs.matrixB, [[B[0]], [B[1]]]);
     renderMatrix(outputs.matrixQ, Q);
-    renderMatrix(outputs.matrixR, [[p.r]]);
-    drawPlot(sim.rows);
+    renderMatrix(outputs.matrixR, [[INPUT_PENALTY]]);
+    drawPlot(sim.rows, sim.settleTime);
   }
 
   Object.keys(inputs).forEach(function (key) {
     inputs[key].addEventListener("input", update);
   });
 
-  root.querySelectorAll("[data-lqr-preset]").forEach(function (button) {
-    button.addEventListener("click", function () {
-      var preset = presets[button.getAttribute("data-lqr-preset")];
-      inputs.q1.value = preset[0];
-      inputs.q2.value = preset[1];
-      inputs.r.value = preset[2];
-      update();
-    });
+  resetButton.addEventListener("click", function () {
+    inputs.q1.value = DEFAULT_PENALTIES.q1;
+    inputs.q2.value = DEFAULT_PENALTIES.q2;
+    update();
   });
 
   var observer = new MutationObserver(update);

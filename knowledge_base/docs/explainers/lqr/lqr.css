@@ -1,4 +1,4 @@
-.lqr-designer {
+.lqr {
   --lqr-blue: #2563eb;
   --lqr-rose: #dc3f7c;
   --lqr-gold: #b7791f;
@@ -9,12 +9,12 @@
   --lqr-muted: var(--md-default-fg-color--light, #64748b);
   display: grid;
   gap: 0.85rem;
-  max-width: 1180px;
-  margin: 1.2rem auto 2rem;
+  max-width: 900px;
+  margin: 1.5em 0 2rem;
   container-type: inline-size;
 }
 
-[data-md-color-scheme="slate"] .lqr-designer {
+[data-md-color-scheme="slate"] .lqr {
   --lqr-blue: #58a6ff;
   --lqr-rose: #ff6d9d;
   --lqr-gold: #f0a33e;
@@ -46,7 +46,7 @@
   margin-bottom: 0.65rem;
 }
 
-.lqr-designer h2 {
+.lqr h2 {
   margin: 0;
   font-size: 1rem;
   line-height: 1.2;
@@ -65,7 +65,7 @@
 
 .lqr-slider-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.8rem;
 }
 
@@ -101,10 +101,6 @@
   accent-color: var(--lqr-rose);
 }
 
-#lqr-r {
-  accent-color: var(--lqr-gold);
-}
-
 .lqr-slider output {
   grid-area: value;
   justify-self: end;
@@ -114,14 +110,14 @@
   text-align: right;
 }
 
-.lqr-preset-row {
+.lqr-action-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
   margin-top: 0.8rem;
 }
 
-.lqr-preset-row button {
+.lqr-action-row button {
   padding: 0.34rem 0.68rem;
   border: 1px solid var(--lqr-border);
   border-radius: 5px;
@@ -132,8 +128,8 @@
   cursor: pointer;
 }
 
-.lqr-preset-row button:hover,
-.lqr-preset-row button:focus-visible {
+.lqr-action-row button:hover,
+.lqr-action-row button:focus-visible {
   border-color: transparent;
   background: var(--md-accent-fg-color, #2563eb);
   color: var(--md-primary-bg-color, #fff);
@@ -206,6 +202,32 @@
   white-space: nowrap;
 }
 
+.lqr-eigen-table {
+  margin: 0;
+  border-collapse: collapse;
+  font: inherit;
+}
+
+.lqr-eigen-table td {
+  padding: 0 0.12rem;
+  border: 0;
+}
+
+.lqr-eigen-sign {
+  width: 0.65rem;
+  text-align: right;
+}
+
+.lqr-eigen-number {
+  min-width: 4.65rem;
+  text-align: right;
+}
+
+.lqr-eigen-unit {
+  width: 0.5rem;
+  padding-left: 0 !important;
+}
+
 .lqr-matrix > div:last-child {
   margin-top: 0.35rem;
   overflow-x: auto;
@@ -235,11 +257,37 @@
   stroke-dasharray: 3 5;
 }
 
+.lqr-grid-line-zero {
+  stroke: color-mix(in srgb, var(--md-default-fg-color) 42%, transparent);
+  stroke-dasharray: none;
+  stroke-width: 1.5;
+}
+
+.lqr-settling-band {
+  stroke: var(--lqr-green);
+  stroke-dasharray: 7 5;
+  stroke-width: 1.5;
+}
+
+.lqr-settling-time-line {
+  stroke: var(--lqr-green);
+  stroke-dasharray: 3 3;
+  stroke-width: 2;
+}
+
 .lqr-axis-label,
-.lqr-tick-label {
+.lqr-tick-label,
+.lqr-settling-band-label,
+.lqr-settling-time-label {
   fill: var(--lqr-muted);
   font-family: var(--md-text-font, system-ui);
   font-size: 12px;
+}
+
+.lqr-settling-band-label,
+.lqr-settling-time-label {
+  fill: var(--lqr-green);
+  font-weight: 700;
 }
 
 .lqr-line {
@@ -286,7 +334,7 @@
     grid-template-columns: 1fr;
   }
 
-  .lqr-preset-row button {
-    flex: 1 1 calc(50% - 0.45rem);
+  .lqr-action-row button {
+    flex: 1 1 auto;
   }
 }

@@ -27,7 +27,7 @@ Tune the gains. Notice how:
 Simulation controls:
 
 - **Reset** will set the cart and pole back to a fixed initial state
-- **Kick** will apply a strong short transient disturbance to the pole
+- **Kick left/right** will apply a strong short transient disturbance to the pole
 
 Disturbance settings:
 
@@ -40,7 +40,7 @@ Disturbance settings:
 #pid-demo-root {
   font-family: inherit;
   max-width: 900px;
-  margin: 1.5em auto;
+  margin: 1.5em 0;
   container-type: inline-size;
   --pid-red:       #dc2626;
   --pid-blue:      var(--md-primary-fg-color, #2563eb);
@@ -163,6 +163,38 @@ Disturbance settings:
 .pid-sim-btn-row button {
   width: 100%;
 }
+.pid-kick-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  width: 100%;
+  min-width: 0;
+}
+.pid-kick-pair button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  white-space: nowrap;
+}
+.pid-kick-pair button:first-child {
+  border-radius: 5px 0 0 5px;
+}
+.pid-kick-pair button:last-child {
+  margin-left: -1px;
+  border-radius: 0 5px 5px 0;
+}
+.pid-kick-icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: 0 0 auto;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
 .pid-btn-row button,
 .pid-preset-row button,
 .pid-sim-btn-row button {
@@ -194,7 +226,32 @@ Disturbance settings:
     <div class="pid-section-label">Simulation Controls</div>
     <div class="pid-sim-btn-row">
       <button id="pid-reset-btn">Reset</button>
-      <button id="pid-disturb-btn">Kick</button>
+      <div class="pid-kick-pair" role="group" aria-label="Kick direction">
+        <button id="pid-kick-left-btn" aria-label="Kick left" title="Kick left">
+          <svg class="pid-kick-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M19 12H5"></path>
+            <path d="m12 5-7 7 7 7"></path>
+          </svg>
+          <svg class="pid-kick-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 4c2.3 1.1 3.8 3.4 3.8 6v5.2c0 1.6 1.3 2.8 2.8 2.8H18"></path>
+            <path d="M7 12h5.8"></path>
+            <path d="M15 18c0 1.7-1.3 3-3 3H8"></path>
+            <path d="M6.5 7.5 9 4"></path>
+          </svg>
+        </button>
+        <button id="pid-kick-right-btn" aria-label="Kick right" title="Kick right">
+          <svg class="pid-kick-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 4c-2.3 1.1-3.8 3.4-3.8 6v5.2c0 1.6-1.3 2.8-2.8 2.8H6"></path>
+            <path d="M17 12h-5.8"></path>
+            <path d="M9 18c0 1.7 1.3 3 3 3h4"></path>
+            <path d="M17.5 7.5 15 4"></path>
+          </svg>
+          <svg class="pid-kick-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
   <div class="pid-disturbance-controls">
@@ -797,9 +854,17 @@ Disturbance settings:
 
   document.getElementById("pid-reset-btn").addEventListener("click", resetAll);
 
-  document.getElementById("pid-disturb-btn").addEventListener("click", function () {
+  function kickPole(direction) {
     if (fallen) return;
-    state[3] += 1.5 * (Math.random() > 0.5 ? 1 : -1);
+    state[3] += 1.5 * direction;
+  }
+
+  document.getElementById("pid-kick-left-btn").addEventListener("click", function () {
+    kickPole(-1);
+  });
+
+  document.getElementById("pid-kick-right-btn").addEventListener("click", function () {
+    kickPole(1);
   });
 
   document.getElementById("pid-zn-btn").addEventListener("click", function () {

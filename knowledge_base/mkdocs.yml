@@ -89,8 +89,8 @@ nav:
   - Analytics: analytics.md
   - Explainers:
     - Planning & Control:
-      - PID: explainers/pid/pid.md
-      - LQR: explainers/lqr.md
+      - PID: explainers/pid/index.md
+      - LQR: explainers/lqr/index.md
       - MPC: explainers/mpc.md
       - MCTS: explainers/mcts.md
       - Differential Flatness: explainers/differential_flatness.md
