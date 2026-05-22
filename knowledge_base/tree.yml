@@ -1173,12 +1173,13 @@
             - "Policy Optimization for Unknown Systems using Differentiable Model Predictive Control": docs/papers/2025/2511.11308/metadata.yml
             - TD-MPC: docs/papers/2022/2203.04955/metadata.yml
             - TD-MPC2: docs/papers/2023/2310.16828/metadata.yml
-            - "Fast Non-Episodic Adaptive Tuning of Robot Controllers with Online Policy Optimization": docs/papers/2025/2507.10914/metadata.yml
+            - "Fast Non-Episodic Adaptive Tuning of Robot Controllers with Online Policy Optimization": docs/papers/2025/2507.10914/metadata.yml          
         - Imitation Learning:
           - Foundations & Reductions:
             - Efficient Reductions for Imitation Learning: docs/papers/2010/2010.ross.efficient_reductions_for_imitation/metadata.yml
             - DAgger: docs/papers/2010/1011.0686/metadata.yml
           - Behavior Cloning:
+            - BC-Z: docs/papers/2022/2202.02005/metadata.yml
             - Is Behavior Cloning All You Need?: docs/papers/2024/2407.15007/metadata.yml
             - TaSIL: docs/papers/2022/2205.14812/metadata.yml
             - Pitfalls of Imitation Learning: docs/papers/2025/2503.09722/metadata.yml
@@ -1196,8 +1197,6 @@
             - HRT1: docs/papers/2025/2510.21026/metadata.yml
           - Language-Grounded Policies:
             - SayCan: docs/papers/2022/2204.01691/metadata.yml
-          - Fleet Learning:
-            - Robot Fleet Learning via Policy Merging: docs/papers/2023/2310.01362/metadata.yml
           - Datasets:
             - DROID: docs/papers/2024/2403.12945/metadata.yml
         - Diffusion & Flow Matching:
@@ -1217,6 +1216,10 @@
       - Multi-agent Reinforcement learning:
         - "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms": docs/papers/2019/1911.10635/metadata.yml
         - "Model-Based Multi-Agent RL in Zero-Sum Markov Games with Near-Optimal Sample Complexity": docs/papers/2020/2007.07461/metadata.yml
+      - Robot Fleet Learning:
+        - Learning Hand-Eye Coordination for Robotic Grasping with Deep Learning and Large-Scale Data Collection: docs/papers/2016/1603.02199/metadata.yml
+        - MT-Opt: docs/papers/2021/2104.08212/metadata.yml
+        - Robot Fleet Learning via Policy Merging: docs/papers/2023/2310.01362/metadata.yml
       - Inverse Reinforcement Learning & Reward Learning:
         - Inverse Optimization:
           - "Inverse Optimization: Theory and Applications": docs/papers/2021/2109.03920/metadata.yml
@@ -1577,6 +1580,9 @@
           - "Multisample Flow Matching: Straightening Flows with Minibatch Couplings": docs/papers/2023/2304.14772/metadata.yml
           - "Optimal Flow Matching: Learning Straight Trajectories in Just One Step": docs/papers/2024/2403.13117/metadata.yml
           - "Mean Flows for One-step Generative Modeling": docs/papers/2025/2505.13447/metadata.yml
+      - Federated Learning:
+        - "Federated Learning: Strategies for Improving Communication Efficiency": docs/papers/2016/1610.05492/metadata.yml
+        - "Federated Learning: Challenges, Methods, and Future Directions": docs/papers/2019/1908.07873/metadata.yml
   - Evaluation:
     - Simulation:
       - Driving & Traffic Simulation:
