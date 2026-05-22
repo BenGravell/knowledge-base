@@ -1,0 +1,19 @@
+title: 'Federated Learning: Challenges, Methods, and Future Directions'
+algorithm:
+authors:
+  - Tian Li
+  - Anit Kumar Sahu
+  - Ameet Talwalkar
+  - Virginia Smith
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1908.07873"
+tags:
+abstract: >
+  Federated learning involves training statistical models over remote devices or siloed data centers, such as mobile phones or hospitals, while keeping data localized. Training in heterogeneous and potentially massive networks introduces novel challenges that require a fundamental departure from standard approaches for large-scale machine learning, distributed optimization, and privacy-preserving data analysis. In this article, we discuss the unique characteristics and challenges of federated learning, provide a broad overview of current approaches, and outline several directions of future work that are relevant to a wide range of research communities.
+summary: ''
+link: https://arxiv.org/pdf/1908.07873
+links_alt:
+audit_status: raw
