@@ -130,17 +130,22 @@ f(x_{k+1}) &\leq f(x_k) + \langle \nabla f(x_k) , x_{k+1} - x_k \rangle + \frac{
 &= f(x_k) + \langle \nabla f(x_k) , -\eta \nabla f(x_k) \rangle + \frac{L}{2}\|- \eta \nabla f(x_k)\|^2 \\
 &= f(x_k) - \eta|\nabla f(x_k)|^2 + \eta^2 \left(\frac{L}{2}\right)\|\nabla f(x_k)\|^2 \\
 &= f(x_k) + \left(-\eta + \eta^2 \left(\frac{L}{2}\right)\right)\|\nabla f(x_k)\|^2 \\
-\to; f(x_{k+1}) - f(x_k) &\leq \left(-\eta + \eta^2 \left(\frac{L}{2}\right)\right)\|\nabla f(x_k)\|^2
 \end{aligned}
 $$
 
-If the stepsize is chosen so that the coefficient on the righthand side is negative, then using the Polyak-Lojasiewicz inequality gives
+Rearranging yields
+
+$$
+f(x_{k+1}) - f(x_k) \leq \left(-\eta + \eta^2 \left(\frac{L}{2}\right)\right)\|\nabla f(x_k)\|^2
+$$
+
+If the stepsize $\eta$ is chosen so that the coefficient on the righthand side $\left(-\eta + \eta^2 \left(\frac{L}{2}\right)\right)$ is negative, then using the Polyak-Lojasiewicz inequality gives
 
 $$
 f(x_{k+1}) - f(x_k) \leq \left(-\eta + \frac{\eta^2 L}{2}\right)\mu\left(f(x_k) - f^*\right)
 $$
 
-The range of permissible stepsizes is $[0, 2/L]$ with the best rate achieved with a stepsize of $1/L$. Under this choice, we obtain
+The range of permissible stepsizes is $\eta \in [0, 2/L]$ with the best rate achieved with a stepsize of $\eta = 1/L$. With this choice, we obtain
 
 $$
 f(x_{k+1}) - f(x_k) \leq -\frac{\mu}{2L}\left(f(x_k) - f^*\right)
@@ -162,12 +167,13 @@ $$
 
 ## Why would control systems researchers care about this?
 
-The Polyak-Lojasiewicz inequality is key to [analysis of convergence of policy gradient for LQR](https://arxiv.org/abs/1801.05039) and [LQR with multiplicative noise](https://arxiv.org/abs/1905.13547).
+The Polyak-Lojasiewicz inequality is key to [analysis of convergence of policy gradient for LQR](https://arxiv.org/abs/1801.05039) and [LQR with multiplicative noise](https://arxiv.org/abs/1905.13547), among many other interesting problems in machine learning, reinforcement learning, and data-driven control.
 
 ## Links
 
 - [Karimi et al. 2016 on arXiv](https://arxiv.org/abs/1608.04636)
 - [Polyak 1963 on ScienceDirect](https://www.sciencedirect.com/science/article/abs/pii/0041555363903823)
+- [Lieven Vandenberghe’s ECE236C Spring 2022 lecture notes on the gradient method](https://www.seas.ucla.edu/~vandenbe/236C/lectures/gradient.pdf)
 
 ## Keywords
 

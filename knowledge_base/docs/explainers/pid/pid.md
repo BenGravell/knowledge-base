@@ -39,7 +39,9 @@ Disturbance settings:
 <style>
 #pid-demo-root {
   font-family: inherit;
-  margin: 1.5em 0;
+  max-width: 900px;
+  margin: 1.5em auto;
+  container-type: inline-size;
   --pid-red:       #dc2626;
   --pid-blue:      var(--md-primary-fg-color, #2563eb);
   --pid-noise-hf:  #f59e0b;
@@ -54,21 +56,43 @@ Disturbance settings:
 #pid-sim-canvas {
   aspect-ratio: 900 / 270;
   border: 1px solid var(--md-default-fg-color--lightest, #e0e0e0);
-  margin-bottom: 6px;
 }
 #pid-plot-canvas {
   aspect-ratio: 900 / 210;
   border: 1px solid var(--md-default-fg-color--lightest, #e0e0e0);
-  margin-bottom: 10px;
 }
-.pid-controls {
+.pid-control-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 20px;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 10px;
+  align-items: stretch;
 }
+@container (min-width: 560px) {
+  .pid-control-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@container (min-width: 860px) {
+  .pid-control-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.pid-top-controls,
+.pid-controls {
+  display: contents;
+}
+.pid-sim-controls,
+.pid-disturbance-controls,
 .pid-section {
   display: grid;
+  align-content: start;
   gap: 5px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--md-default-fg-color--lightest, #dde2ea);
+  border-radius: 8px;
+  background: var(--md-code-bg-color, rgba(0, 0, 0, 0.03));
 }
 .pid-section-label {
   font-weight: 700;
@@ -130,27 +154,14 @@ Disturbance settings:
   flex: 1;
   text-align: center;
 }
-.pid-top-controls {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 20px;
-  margin-bottom: 10px;
-}
-.pid-sim-controls {
-}
 .pid-sim-btn-row {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 6px;
   margin-top: 4px;
 }
 .pid-sim-btn-row button {
-  flex: 1;
-}
-@media (max-width: 700px) {
-  .pid-controls,
-  .pid-top-controls {
-    grid-template-columns: 1fr;
-  }
+  width: 100%;
 }
 .pid-btn-row button,
 .pid-preset-row button,
@@ -177,6 +188,7 @@ Disturbance settings:
 <canvas id="pid-sim-canvas" width="900" height="270"></canvas>
 <canvas id="pid-plot-canvas" width="900" height="210"></canvas>
 
+<div class="pid-control-grid">
 <div class="pid-top-controls">
   <div class="pid-sim-controls">
     <div class="pid-section-label">Simulation Controls</div>
@@ -249,6 +261,7 @@ Disturbance settings:
       <button id="pid-znx-btn">Preset Gains</button>
     </div>
   </div>
+</div>
 </div>
 </div>
 

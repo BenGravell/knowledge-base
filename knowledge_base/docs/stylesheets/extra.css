@@ -114,6 +114,36 @@ body:has(#tag-search-app) .md-content__inner::after {
   z-index: var(--kb-z-site-drawer) !important;
 }
 
+@media screen and (max-width: 76.234375em) {
+  .md-overlay {
+    overscroll-behavior: none;
+  }
+
+  .md-sidebar--primary {
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior: contain;
+  }
+
+  .md-sidebar--primary .md-sidebar__scrollwrap,
+  .md-sidebar--primary .md-sidebar__inner,
+  .md-sidebar--primary .md-nav--primary {
+    min-height: 0;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    overscroll-behavior: contain;
+  }
+
+  .md-sidebar--primary .md-nav__title ~ .md-nav__list {
+    min-height: 0;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 #__search:checked ~ .md-header .md-search {
   z-index: var(--kb-z-site-search) !important;
 }

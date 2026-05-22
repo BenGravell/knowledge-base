@@ -58,7 +58,8 @@
 {% macro render_icon(nav_item, ref) %}
   {% set icon = nav_icon(nav_item, ref) | trim %}
   {% if icon %}
-    <span class="kb-nav-icon md-icon" aria-hidden="true">
+    {# Keep content icons out of Material's md-icon control selectors. #}
+    <span class="kb-nav-icon" aria-hidden="true">
       {% include ".icons/" ~ icon ~ ".svg" %}
     </span>
   {% endif %}
