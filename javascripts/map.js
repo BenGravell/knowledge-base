@@ -3910,6 +3910,7 @@
     expandedAggregateNodes.clear();
     activeCategories.add(nodeKey(attrs));
     pinnedNode = paperId;
+    setSelectedNodeFilterEnabled(true);
     hoveredNode = null;
     hideHoverTooltip();
     updateDetailButtons();

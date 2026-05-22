@@ -18,8 +18,15 @@
   const params = new URLSearchParams(window.location.search);
   const egoId = params.get('paper') || '';
   const rawTag = params.get('tag') || '';
+  const rawAuthor = params.get('author') || '';
+  const rawYear = params.get('year') || '';
   const tagKey = normalizeTag(rawTag);
   const ego = data.papers[egoId];
+
+  if (rawAuthor || rawYear) {
+    renderFacetSearch(rawAuthor, rawYear);
+    return;
+  }
 
   if (ego && tagKey) {
     renderRelatedSearch(ego, tagKey, rawTag);
@@ -27,6 +34,40 @@
   }
 
   renderTagBrowser(tagKey, rawTag);
+
+  function renderFacetSearch(author, year) {
+    const authorKey = normalizeFacet(author);
+    const yearValue = String(year || '').trim();
+    const results = papers
+      .filter(paper => {
+        const authorMatch = !authorKey || (paper.authors || []).some(item => normalizeFacet(item) === authorKey);
+        const yearMatch = !yearValue || String(paper.year || '').trim() === yearValue;
+        return authorMatch && yearMatch;
+      })
+      .sort(comparePapers);
+    const resultLabel = results.length === 1 ? 'paper' : 'papers';
+    const title = author && year
+      ? `${author}, ${year}`
+      : author || year || 'Papers';
+    const kicker = author && year
+      ? 'Author and Year'
+      : author
+        ? 'Author'
+        : 'Year';
+
+    app.innerHTML =
+      appHeader('Paper Search') +
+      '<section class="tag-search-hero">' +
+        '<div>' +
+          `<span class="tag-search-kicker">${esc(kicker)}</span>` +
+          `<h1>${esc(title)}</h1>` +
+        '</div>' +
+        `<div class="tag-search-count"><strong>${results.length}</strong><span>${resultLabel}</span></div>` +
+      '</section>' +
+      (results.length
+        ? `<div class="tag-search-results">${results.map((paper, index) => renderResult({ paper, item: {} }, index)).join('')}</div>`
+        : '<p class="tag-search-empty">No papers currently match this metadata filter.</p>');
+  }
 
   function renderRelatedSearch(ego, tagKey, rawTag) {
     const results = ((data.related && data.related[`${ego.id}::${tagKey}`]) || [])
@@ -288,6 +329,10 @@
 
   function normalizeTag(tag) {
     return String(tag || '').trim().replace(/\s+/g, ' ').toLowerCase();
+  }
+
+  function normalizeFacet(value) {
+    return String(value || '').trim().replace(/\s+/g, ' ').toLowerCase();
   }
 
   function esc(value) {

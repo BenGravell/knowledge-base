@@ -1,0 +1,29 @@
+title: "SAGA: A Fast Incremental Gradient Method with Support for Non-Strongly Convex Composite Objectives"
+algorithm: SAGA
+authors:
+  - Aaron Defazio
+  - Francis Bach
+  - Simon Lacoste-Julien
+year: 2014
+source: Advances in Neural Information Processing Systems
+type: Conference Paper
+doi:
+arxiv_id: "1407.0202"
+tags:
+  - SAGA
+  - Variance reduction
+  - Incremental gradient methods
+  - Finite-sum optimization
+  - Composite optimization
+  - Proximal methods
+  - Non-strongly convex optimization
+abstract: >
+  In this work we introduce a new optimisation method called SAGA in the spirit of SAG, SDCA, MISO and SVRG, a set of recently proposed incremental gradient algorithms with fast linear convergence rates. SAGA improves on the theory behind SAG and SVRG, with better theoretical convergence rates, and has support for composite objectives where a proximal operator is used on the regulariser. Unlike SDCA, SAGA supports non-strongly convex problems directly, and is adaptive to any inherent strong convexity of the problem. We give experimental results showing the effectiveness of our method.
+summary: >
+  Introduces SAGA, an unbiased table-based variance-reduced incremental-gradient method that bridges ideas from SAG, SDCA, and SVRG. Its main contribution is a tighter and more flexible theory covering composite objectives, direct non-strongly-convex use, and automatic adaptation to inherent strong convexity.
+link: https://arxiv.org/pdf/1407.0202
+links_alt:
+  - https://arxiv.org/abs/1407.0202
+  - https://proceedings.neurips.cc/paper_files/paper/2014/hash/937964195d6fb3a55cd7cc578165f058-Abstract.html
+  - https://papers.nips.cc/paper_files/paper/2014/file/937964195d6fb3a55cd7cc578165f058-Paper.pdf
+audit_status: raw

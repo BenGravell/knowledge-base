@@ -1,5 +1,5 @@
 title: A Robust Accelerated Optimization Algorithm for Strongly Convex Functions
-algorithm:
+algorithm: Robust Momentum Method
 authors:
   - Saman Cyrus
   - Bin Hu

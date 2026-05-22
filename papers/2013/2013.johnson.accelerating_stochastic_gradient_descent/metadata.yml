@@ -1,5 +1,5 @@
 title: "Accelerating Stochastic Gradient Descent Using Predictive Variance Reduction"
-algorithm:
+algorithm: SVRG
 authors:
   - Rie Johnson
   - Tong Zhang

@@ -1,5 +1,5 @@
 title: "Implementation of the Simultaneous Perturbation Algorithm for Stochastic Optimization"
-algorithm:
+algorithm: SPSA
 authors:
   - J.C. Spall
 year: 1998

@@ -1,5 +1,5 @@
 title: Minimal Variance Sampling in Stochastic Gradient Boosting
-algorithm:
+algorithm: MVS
 authors:
   - Bulat Ibragimov
   - Gleb Gusev

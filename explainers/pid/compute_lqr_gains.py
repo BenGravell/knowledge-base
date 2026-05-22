@@ -73,7 +73,7 @@ print(f"  Stable: {all(e.real < 0 for e in eigs)}")
 
 print()
 print("=" * 55)
-print("JavaScript constants (paste into pid.md):")
+print("JavaScript constants (paste into index.md):")
 print("=" * 55)
 print(f"  var PRESET_KP   = {round(Kp,  1)};")
 print(f"  var PRESET_KI   = 0.0;")

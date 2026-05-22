@@ -1,6 +1,6 @@
 title: >
   The Fastest Known Globally Convergent First-Order Method for Minimizing Strongly Convex Functions
-algorithm:
+algorithm: Triple Momentum Method
 authors:
   - Bryan Van Scoy
   - Randy A. Freeman
