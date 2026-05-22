@@ -47,6 +47,8 @@
     material/heart-outline
   {% elif title == "portfolio" %}
     material/briefcase-outline
+  {% elif ref.children %}
+    material/folder-outline
   {% elif nav_item.url and nav_item.url is string and nav_item.url.startswith("http") %}
     material/open-in-new
   {% elif nav_item.children %}
@@ -109,7 +111,7 @@
     {% set _ = namespace(index = none) %}
     {% if "navigation.indexes" in features %}
       {% for item in nav_item.children %}
-        {% if item.is_index and _.index is none %}
+        {% if item.is_index and item.title == nav_item.title and _.index is none %}
           {% set _.index = item %}
         {% endif %}
       {% endfor %}
