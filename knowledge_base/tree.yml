@@ -11,6 +11,7 @@
           - General Convex Optimization:
             - Frank-Wolfe Algorithm: docs/papers/1956/1956.frank.an_algorithm_for_quadratic/metadata.yml
             - Learning Parametric Convex Functions: docs/papers/2025/2506.04183/metadata.yml
+            - Reweighted L1 Minimization: docs/papers/2007/0711.1612/metadata.yml
             - "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization": docs/papers/2007/0706.4138/metadata.yml
             - "The Convex Geometry of Linear Inverse Problems": docs/papers/2010/1012.0621/metadata.yml
             - OptNet: docs/papers/2017/1703.00443/metadata.yml
@@ -40,6 +41,7 @@
           - Zeroth-Order Methods:
             - Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization: docs/papers/2018/1805.10367/metadata.yml
             - Gradientless Descent: docs/papers/2019/1911.06317/metadata.yml
+            - SPSA: docs/papers/1998/1998.spall.implementation_of_the_simultaneous/metadata.yml
             - "An Introduction to Zero-Order Optimization Techniques for Robotics": docs/papers/2025/2506.22087/metadata.yml
             - "An Optimal Algorithm for Bandit and Zero-Order Convex Optimization with Two-Point Feedback": docs/papers/2015/1507.08752/metadata.yml
             - "Random Gradient-Free Minimization of Convex Functions": docs/papers/2015/2015.nesterov.random_gradient_free_minimization/metadata.yml
@@ -122,6 +124,8 @@
             - Noisy Gradient Descent:
               - How to Escape Saddle Points Efficiently: docs/papers/2017/1703.00887/metadata.yml
               - The Speed-Robustness Trade-Off for First-Order Methods with Additive Gradient Noise: docs/papers/2021/2109.05059/metadata.yml
+            - Stochastic Approximation:
+              - Robbins-Monro Stochastic Approximation: docs/papers/1951/1951.robbins.a_stochastic_approximation_method/metadata.yml
             - Stochastic Gradient Descent (SGD):
               - Stochastic Gradient Descent Tricks: docs/papers/2012/2012.bottou.stochastic_gradient_descent_tricks/metadata.yml
               - "Painless Stochastic Gradient: Interpolation, Line-Search, and Convergence Rates": docs/papers/2019/1905.09997/metadata.yml
@@ -139,6 +143,7 @@
               - Theory:            
                 - SGD Input-to-State Stability: docs/papers/2025/2507.02131/metadata.yml
                 - When Does SGD Escape Local Minima?: docs/papers/2018/1802.06175/metadata.yml
+                - Why Random Reshuffling Beats Stochastic Gradient Descent: docs/papers/2015/1510.08560/metadata.yml
             - Constrained Optimization:
               - Projected Gradient Descent:
                 - On the Goldstein-Levitin-Polyak Gradient Projection Method: docs/papers/1976/1976.bertsekas.on_the_goldstein_levitin/metadata.yml
@@ -189,13 +194,6 @@
             - "A General Analysis of the Convergence of ADMM": docs/papers/2015/1502.02009/metadata.yml
             - "Incremental Gradient, Subgradient, and Proximal Methods for Convex Optimization: A Survey": docs/papers/2015/1507.01030/metadata.yml
             - "On the Douglas-Rachford Splitting Method and the Proximal Point Algorithm for Maximal Monotone Operators": docs/papers/1992/1992.eckstein.on_the_douglasrachford_splitting/metadata.yml
-        - Stochastic Optimization (TODO):
-          - Enhancing Sparsity by Reweighted L1 Minimization: docs/papers/2007/0711.1612/metadata.yml
-          - Stochastic Approximation: docs/papers/1951/1951.robbins.a_stochastic_approximation_method/metadata.yml
-          - Universal Sequence Preconditioning: docs/papers/2025/2502.06545/metadata.yml
-          - SPSA: docs/papers/1998/1998.spall.implementation_of_the_simultaneous/metadata.yml
-          - Why Random Reshuffling Beats Stochastic Gradient Descent: docs/papers/2015/1510.08560/metadata.yml
-          - Minimal Variance Sampling in Stochastic Gradient Boosting: docs/papers/2019/1910.13204/metadata.yml
         - Neural Network Training Algorithms:
           - Optimization with Curvature Information:
             - Hessian-free Optimization: TODO
@@ -1484,8 +1482,9 @@
           - XGBoost: docs/papers/2016/1603.02754/metadata.yml
           - LightGBM: docs/papers/2017/2017.ke.lightgbm_a_highly_efficient/metadata.yml
           - CatBoost: docs/papers/2017/1706.09516/metadata.yml
-          - "Finding Influential Training Samples for Gradient Boosted Decision Trees": docs/papers/2018/1802.06640/metadata.yml
-          - "Gradient Boosting Performs Gaussian Process Inference": docs/papers/2022/2206.05608/metadata.yml
+          - MVS: docs/papers/2019/1910.13204/metadata.yml
+          - Finding Influential Training Samples for Gradient Boosted Decision Trees: docs/papers/2018/1802.06640/metadata.yml
+          - Gradient Boosting Performs Gaussian Process Inference: docs/papers/2022/2206.05608/metadata.yml
       - Deep Learning:
         - Neural Networks:
           - Architectures:
@@ -1523,6 +1522,7 @@
             - "Introduction to Latent Variable Energy-Based Models: A Path Toward Autonomous Machine Intelligence": docs/papers/2024/2024.dawid.introduction_to_latent_variable/metadata.yml
         - State-space Models (SSM):
           - Spectral State Space Models: docs/papers/2023/2312.06837/metadata.yml
+          - Universal Sequence Preconditioning: docs/papers/2025/2502.06545/metadata.yml
       - Language & Sequence Models:
         - Natural Language Processing (NLP):
           - BERTopic: docs/papers/2022/2203.05794/metadata.yml
