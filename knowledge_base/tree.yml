@@ -1175,24 +1175,29 @@
             - TD-MPC2: docs/papers/2023/2310.16828/metadata.yml
             - "Fast Non-Episodic Adaptive Tuning of Robot Controllers with Online Policy Optimization": docs/papers/2025/2507.10914/metadata.yml
         - Imitation Learning:
-          - DAgger: docs/papers/2010/1011.0686/metadata.yml
-          - Efficient Reductions for Imitation Learning: docs/papers/2010/2010.ross.efficient_reductions_for_imitation/metadata.yml
-          - Self-Supervised Correspondence in Visuomotor Policy Learning: docs/papers/2019/1909.06933/metadata.yml
-          - TaSIL: docs/papers/2022/2205.14812/metadata.yml
-          - Grasping with Chopsticks: docs/papers/2020/2011.06719/metadata.yml
-          - SayCan: docs/papers/2022/2204.01691/metadata.yml
-          - DROID: docs/papers/2024/2403.12945/metadata.yml
-          - Universal Manipulation Interface: docs/papers/2024/2402.10329/metadata.yml
-          - HRT1: docs/papers/2025/2510.21026/metadata.yml
-          - Robot Fleet Learning via Policy Merging: docs/papers/2023/2310.01362/metadata.yml
-          - Is Behavior Cloning All You Need?: docs/papers/2024/2407.15007/metadata.yml
-          - Should We Learn Contact-Rich Manipulation Policies from Sampling-Based Planners?: docs/papers/2024/2412.09743/metadata.yml
-          - Pitfalls of Imitation Learning: docs/papers/2025/2503.09722/metadata.yml
-          - "Action Chunking and Exploratory Data Collection Yield Exponential Improvements in Behavior Cloning for Continuous Control": docs/papers/2025/2507.09061/metadata.yml
-          - "A Careful Examination of Large Behavior Models for Multitask Dexterous Manipulation": docs/papers/2025/2507.05331/metadata.yml
-          - "Sample-Efficient Expert Query Control in Active Imitation Learning via Conformal Prediction": docs/papers/2025/2512.00453/metadata.yml
-          - "Do What I Want, Not What I Did: Imitation of Skills by Planning Sequences of Actions": docs/papers/2016/1612.01215/metadata.yml
-          - "Surgical Robot Transformer (SRT): Imitation Learning for Surgical Tasks": docs/papers/2024/2407.12998/metadata.yml
+          - Foundations & Reductions:
+            - Efficient Reductions for Imitation Learning: docs/papers/2010/2010.ross.efficient_reductions_for_imitation/metadata.yml
+            - DAgger: docs/papers/2010/1011.0686/metadata.yml
+          - Behavior Cloning:
+            - Is Behavior Cloning All You Need?: docs/papers/2024/2407.15007/metadata.yml
+            - TaSIL: docs/papers/2022/2205.14812/metadata.yml
+            - Pitfalls of Imitation Learning: docs/papers/2025/2503.09722/metadata.yml
+            - Action Chunking and Exploratory Data Collection Yield Exponential Improvements in Behavior Cloning for Continuous Control: docs/papers/2025/2507.09061/metadata.yml
+          - Active Imitation Learning:
+            - "Sample-Efficient Expert Query Control in Active Imitation Learning via Conformal Prediction": docs/papers/2025/2512.00453/metadata.yml
+          - Visuomotor & Skill Imitation:
+            - "Do What I Want, Not What I Did: Imitation of Skills by Planning Sequences of Actions": docs/papers/2016/1612.01215/metadata.yml
+            - Self-Supervised Correspondence in Visuomotor Policy Learning: docs/papers/2019/1909.06933/metadata.yml
+          - Robot Manipulation:
+            - Grasping with Chopsticks: docs/papers/2020/2011.06719/metadata.yml
+            - Should We Learn Contact-Rich Manipulation Policies from Sampling-Based Planners?: docs/papers/2024/2412.09743/metadata.yml
+            - "Surgical Robot Transformer (SRT): Imitation Learning for Surgical Tasks": docs/papers/2024/2407.12998/metadata.yml
+            - Universal Manipulation Interface: docs/papers/2024/2402.10329/metadata.yml
+            - HRT1: docs/papers/2025/2510.21026/metadata.yml
+          - Fleet Learning:
+            - Robot Fleet Learning via Policy Merging: docs/papers/2023/2310.01362/metadata.yml
+          - Datasets:
+            - DROID: docs/papers/2024/2403.12945/metadata.yml
         - Diffusion & Flow Matching:
           - Diffusion Policy: docs/papers/2023/2303.04137/metadata.yml
           - Equivariant Diffusion Policy: docs/papers/2024/2407.01812/metadata.yml
@@ -1204,7 +1209,7 @@
           - "Much Ado About Noising: Dispelling the Myths of Generative Robotic Control": docs/papers/2025/2512.01809/metadata.yml
           - Constrained Diffusers for Safe Planning and Control: docs/papers/2026/2026.zhang.constrained_diffusers_for_safe/metadata.yml
         - Hybrid Approaches:
-          - "Model-Based Value Estimation for Efficient Model-Free Reinforcement Learning": docs/papers/2018/1803.00101/metadata.yml
+          - Model-Based Value Estimation for Efficient Model-Free Reinforcement Learning: docs/papers/2018/1803.00101/metadata.yml
           - PLAL: docs/papers/2022/2209.09006/metadata.yml
           - Power of Locally Linear Models: docs/papers/2023/2305.09619/metadata.yml
       - Multi-agent Reinforcement learning:
@@ -1353,7 +1358,7 @@
           - "What Matters in Practical Learned Image Compression": docs/papers/2026/2605.05148/metadata.yml
       - Image Processing & Computational Photography:
         - Polyblur: docs/papers/2020/2012.09322/metadata.yml
-        - "Burst photography for high dynamic range and low-light imaging on mobile cameras": docs/papers/2016/2016.hasinoff.burst_photography_for_high/metadata.yml
+        - Burst photography for high dynamic range and low-light imaging on mobile cameras: docs/papers/2016/2016.hasinoff.burst_photography_for_high/metadata.yml
       - Image Assessment:
         - Metrics:
           - SSIM: docs/papers/2004/2004.wang.image_quality_assessment_from/metadata.yml
@@ -1528,6 +1533,7 @@
           - PaliGemma: docs/papers/2024/2407.07726/metadata.yml
           - Kimi-VL: docs/papers/2025/2504.07491/metadata.yml
         - Vision-language-action Models (VLA):
+          - SayCan: docs/papers/2022/2204.01691/metadata.yml
           - RT-1: docs/papers/2022/2212.06817/metadata.yml
           - RT-2: docs/papers/2023/2307.15818/metadata.yml
           - pi0: docs/papers/2024/2410.24164/metadata.yml
@@ -1544,11 +1550,12 @@
         - Large Behavioral Models (LBM):
           - DriveGPT: docs/papers/2024/2412.14415/metadata.yml
           - RDAR: docs/papers/2025/2509.19789/metadata.yml
-          - Large Behavioral Models: docs/papers/2026/2026.gabrielsson.large_behavioral_models_a/metadata.yml
+          - "A Careful Examination of Large Behavior Models for Multitask Dexterous Manipulation": docs/papers/2025/2507.05331/metadata.yml
           - BehaviorGPT:
             - BehaviorGPT-v1: docs/papers/2025/2025.gabrielsson.a_foundation_model_for/metadata.yml
             - BehaviorGPT-v2: docs/papers/2025/2025.gabrielsson.behaviorgpt_at_work_a/metadata.yml
             - BehaviorGPT-v3: docs/papers/2025/2025.gabrielsson.behaviorgpt_for_visual_art/metadata.yml
+            - Large Behavioral Models: docs/papers/2026/2026.gabrielsson.large_behavioral_models_a/metadata.yml
       - Generative Modeling:
         - Generative Models:
           - Auto-Encoding Variational Bayes: docs/papers/2013/1312.6114/metadata.yml
