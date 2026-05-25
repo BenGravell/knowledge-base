@@ -807,33 +807,6 @@
             - "Inexact Kleinman-Newton Method for Riccati Equations": docs/papers/2009/2009.feitzinger.inexact_kleinmannewton_method_for/metadata.yml
             - "Solving the linear quadratic regulator problem in the policy space: The Policy Algebraic Riccati Equation": docs/papers/2026/2026.possieri.solving_the_linear_quadratic/metadata.yml
             - Systematic Control Design by Optimizing a Vector Performance Index: docs/papers/1979/1979.kreisselmeier.systematic_control_design_by/metadata.yml
-          - Multiplicative noise / stochastic system parameters:
-            - Experiments with an Inverted Pendulum Subject to Random Parametric Excitation: docs/papers/1965/1965.bogdanoff.experiments_with_an_inverted/metadata.yml
-            - A Survey of Stability of Stochastic Systems: docs/papers/1969/1969.kozin.a_survey_of_stability/metadata.yml
-            - Optimal Stationary Control of a Linear System with State-Dependent Noise: docs/papers/1967/1967.wonham.optimal_stationary_control_of/metadata.yml
-            - On the Separation Theorem of Stochastic Control: docs/papers/1968/1968.wonham.on_the_separation_theorem/metadata.yml
-            - Optimal Stationary Control of Linear Systems with Control-Dependent Noise: docs/papers/1969/1969.kleinman.optimal_stationary_control_of/metadata.yml
-            - The Optimal Regulator Problem for a Stationary Linear System with State-Dependent Noise: docs/papers/1970/1970.mclane.the_optimal_regulator_problem/metadata.yml
-            - Optimal Stationary Control with State and Control Dependent Noise: docs/papers/1971/1971.haussmann.optimal_stationary_control_with/metadata.yml
-            - Design of Linear Regulators for Nonlinear Stochastic Systems: docs/papers/1975/1975.gustafson.design_of_linear_regulators/metadata.yml
-            - On Optimal Stationary Control of Systems with State-Dependent Noise: docs/papers/1975/1975.rana.on_optimal_stationary_control/metadata.yml
-            - "The Uncertainty Threshold Principle: Fundamental Limitations": docs/papers/1976/1976.athans.the_uncertainty_threshold_principle/metadata.yml
-            - Numerical Solution of the State-Dependent Noise Problem: docs/papers/1976/1976.kleinman.numerical_solution_of_the/metadata.yml
-            - State-Feedback Control of Systems with Multiplicative Noise via LMIs: docs/papers/1995/1995.ghaoui.state_feedback_control_of/metadata.yml
-            - Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control: docs/papers/2001/2001.damm.newtons_method_for_a/metadata.yml
-            - When Multiplicative Noise Stymies Control: docs/papers/2016/1612.03239/metadata.yml
-            - "Robust Control Design for Linear Systems via Multiplicative Noise": docs/papers/2020/2004.08019/metadata.yml
-            - "Sample Complexity of Data-Driven Stochastic LQR with Multiplicative Uncertainty": docs/papers/2020/2005.12167/metadata.yml
-            - "Data-driven distributionally robust LQR with multiplicative noise": docs/papers/2019/1912.09990/metadata.yml
-            - "Stochastic Stability via Robustness of Linear Systems": docs/papers/2021/2021.gravell.stochastic_stability_via_robustness/metadata.yml
-            - "Stochasticity in Feedback Loops: Great Expectations and Guaranteed Ruin": docs/papers/2021/2021.smith.stochasticity_in_feedback_loops/metadata.yml
-            - "Anomaly Detection Under Multiplicative Noise Model Uncertainty": docs/papers/2021/2103.15228/metadata.yml
-            - "Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically": docs/papers/2022/2207.11220/metadata.yml
-            - "Provably Stable Learning Control of Linear Dynamics With Multiplicative Noise": docs/papers/2024/2024.coppens.provably_stable_learning_control/metadata.yml
-            - "Product of Random Stochastic Matrices": docs/papers/2011/1110.1751/metadata.yml
-            - Risk-sensitive LQG: docs/papers/1981/1981.whittle.risk_sensitive_linear_quadratic/metadata.yml
-            - "Optimal Control of LTI Systems over Unreliable Communication Links": docs/papers/2006/2006.imer.optimal_control_of_lti/metadata.yml
-            - "Toward a Scalable Upper Bound for a CVaR-LQ Problem": docs/papers/2021/2103.02136/metadata.yml
         - Model Predictive Control (MPC):
           - Receding Horizon Control of Nonlinear Systems: docs/papers/1988/1988.mayne.receding_horizon_control_of/metadata.yml
           - "Robust model predictive control using tubes": docs/papers/2004/2004.langson.robust_model_predictive_control/metadata.yml
@@ -872,8 +845,45 @@
             - "Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks": docs/papers/2026/2604.19452/metadata.yml
         - Nonlinear Control Design:
           - Nonlinear Control Synthesis by Convex Optimization: docs/papers/2004/2004.prajna.nonlinear_control_synthesis_by/metadata.yml
-          - Feedback Linearization:
-            - Partial Feedback Linearization: docs/papers/1994/1994.spong.partial_feedback_linearization_of/metadata.yml
+          - Partial Feedback Linearization: docs/papers/1994/1994.spong.partial_feedback_linearization_of/metadata.yml
+      - Stochastic Control:
+        - Multiplicative Noise:
+          - Stochastic Stability:
+            - A Survey of Stability of Stochastic Systems: docs/papers/1969/1969.kozin.a_survey_of_stability/metadata.yml
+            - Product of Random Stochastic Matrices: docs/papers/2011/1110.1751/metadata.yml
+            - Stochasticity in Feedback Loops: docs/papers/2021/2021.smith.stochasticity_in_feedback_loops/metadata.yml
+          - State Feedback:
+            - Optimal Stationary Control of a Linear System with State-Dependent Noise: docs/papers/1967/1967.wonham.optimal_stationary_control_of/metadata.yml
+            - Optimal Stationary Control of Linear Systems with Control-Dependent Noise: docs/papers/1969/1969.kleinman.optimal_stationary_control_of/metadata.yml
+            - The Optimal Regulator Problem for a Stationary Linear System with State-Dependent Noise: docs/papers/1970/1970.mclane.the_optimal_regulator_problem/metadata.yml
+            - On Optimal Stationary Control of Systems with State Dependent Noise: docs/papers/1975/1975.rana.on_optimal_stationary_control/metadata.yml
+            - Optimal Stationary Control with State and Control Dependent Noise: docs/papers/1971/1971.haussmann.optimal_stationary_control_with/metadata.yml
+            - Design of Linear Regulators for Nonlinear Stochastic Systems: docs/papers/1975/1975.gustafson.design_of_linear_regulators/metadata.yml
+            - Riccati Equations:
+              - Numerical Solution of the State-Dependent Noise Problem: docs/papers/1976/1976.kleinman.numerical_solution_of_the/metadata.yml
+              - Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control: docs/papers/2001/2001.damm.newtons_method_for_a/metadata.yml
+              - Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically: docs/papers/2022/2207.11220/metadata.yml
+            - Linear Matrix Inequalities:
+              - State-Feedback Control of Systems with Multiplicative Noise via LMIs: docs/papers/1995/1995.ghaoui.state_feedback_control_of/metadata.yml
+          - Output Feedback:
+            - On the Separation Theorem of Stochastic Control: docs/papers/1968/1968.wonham.on_the_separation_theorem/metadata.yml
+            - When Multiplicative Noise Stymies Control: docs/papers/2016/1612.03239/metadata.yml
+          - Anomaly Detection:
+            - Anomaly Detection Under Multiplicative Noise Model Uncertainty: docs/papers/2021/2103.15228/metadata.yml
+          - Connections with Robust Control:
+            - Robust Control Design for Linear Systems via Multiplicative Noise: docs/papers/2020/2004.08019/metadata.yml
+            - Stochastic Stability via Robustness of Linear Systems: docs/papers/2021/2021.gravell.stochastic_stability_via_robustness/metadata.yml
+          - Learning-based Control:
+            - Data-driven distributionally robust LQR with multiplicative noise: docs/papers/2019/1912.09990/metadata.yml
+            - Sample Complexity of Data-Driven Stochastic LQR with Multiplicative Uncertainty: docs/papers/2020/2005.12167/metadata.yml                     
+            - Provably Stable Learning Control of Linear Dynamics With Multiplicative Noise: docs/papers/2024/2024.coppens.provably_stable_learning_control/metadata.yml
+          - Physical Systems:
+            - Experiments with an Inverted Pendulum Subject to Random Parametric Excitation: docs/papers/1965/1965.bogdanoff.experiments_with_an_inverted/metadata.yml
+        - Control of Uncertain Linear Systems:
+          - The Uncertainty Threshold Principle: docs/papers/1976/1976.athans.the_uncertainty_threshold_principle/metadata.yml
+          - Risk-sensitive LQG: docs/papers/1981/1981.whittle.risk_sensitive_linear_quadratic/metadata.yml
+          - Optimal Control of LTI Systems over Unreliable Communication Links: docs/papers/2006/2006.imer.optimal_control_of_lti/metadata.yml
+          - Toward a Scalable Upper Bound for a CVaR-LQ Problem: docs/papers/2021/2103.02136/metadata.yml
       - Robust & Safety-Critical Control:
         - Robust Control:
           - LQR and LQG Robustness:
@@ -894,7 +904,7 @@
             - Probabilistic Robustness in the Gap Metric: docs/papers/2025/2507.10010/metadata.yml
         - Control Lyapunov Functions (CLF):
           - Stabilization with Relaxed Controls: docs/papers/1983/1983.artstein.stabilization_with_relaxed_controls/metadata.yml
-          - "A Lyapunov-Like Characterization of Asymptotic Controllability": docs/papers/1983/1983.sontag.a_lyapunov_like_characterization/metadata.yml
+          - A Lyapunov-Like Characterization of Asymptotic Controllability: docs/papers/1983/1983.sontag.a_lyapunov_like_characterization/metadata.yml
           - Sontag's Universal Formula: docs/papers/1991/1991.lin.a_universal_formula_for/metadata.yml
           - "A 'universal' construction of Artstein's theorem on nonlinear stabilization": docs/papers/1989/1989.sontag.a_universal_construction_of/metadata.yml
           - "Controllability of Nonlinear Systems": docs/papers/1972/1972.sussmann.controllability_of_nonlinear_systems/metadata.yml
