@@ -399,23 +399,14 @@ Hand-crafted
 
 ## Timeline
 
-Performance is bad. When clicking hide/show settings it lags another. Also interacting and changing filters causes bad lag spike. Investigate low hanging fruit for performance enhancement as well as deeper structural issues that might be contributing g
+Performance is bad. When clicking hide/show settings it lags another. Also interacting and changing filters causes bad lag spike.
+Investigate low hanging fruit for performance enhancement as well as deeper structural issues that might be contributing.
 
 ### UX
 
 ### Design inspiration
 
 <https://pin.it/7kjN4B5KZ>
-
-## Tag Search
-
-Generalize and make more powerful by enabling search over other metadata fields e.g. author, year, source type, etc.
-
-Rename to just Search
-
-Integrate with the Semantic Search and Material main Search bar in a clean and robust way. Dedpulicate functionality and ux as much as possible.
-
-### UX
 
 ## Tree
 
@@ -430,19 +421,6 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 ## Map
 
 ### UX
-
-### guide regions
-Add some subtle background regions with color shading for deep level of detail so we can have a guide to where we are on the map.
-
-### fix
-Remove redundant "open in map" button from node tooltip
-
-### settings size
-For mobile site, tune the settings bar height so that it only covers about half of the screen at the top, so that the bottom half can be used for the node Map canvas.
-
-### draw all nodes on node selection with ghosting
-
-when Selected Node Filter is active, continue drawing the nodes that are currently hidden, but disable all interaction (hover) with them and use a very subtle 'ghost' style, maybe dashed lines, light grey, etc.
 
 #### bug
 

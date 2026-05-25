@@ -10,6 +10,8 @@ hide:
 :root {
   --mm-node-muted:         #a3adb8;
   --mm-node-muted-related: #7f8b97;
+  --mm-node-ghost:         #edf1f5;
+  --mm-node-ghost-border:  #b8c2cc;
   --mm-node-border:        #e1e7ee;
   --mm-muted-label:        #475569;
   --mm-selected-ring:      #005ab5;
@@ -25,6 +27,8 @@ hide:
 [data-md-color-scheme="default"] {
   --mm-node-muted:         #a3adb8;
   --mm-node-muted-related: #7f8b97;
+  --mm-node-ghost:         #edf1f5;
+  --mm-node-ghost-border:  #b8c2cc;
   --mm-node-border:        #e1e7ee;
   --mm-muted-label:        #475569;
   --mm-selected-ring:      #005ab5;
@@ -40,6 +44,8 @@ hide:
 [data-md-color-scheme="slate"] {
   --mm-node-muted:         #66717d;
   --mm-node-muted-related: #8b96a2;
+  --mm-node-ghost:         #222a33;
+  --mm-node-ghost-border:  #56616d;
   --mm-node-border:        #242b35;
   --mm-muted-label:        #c8d0d8;
   --mm-selected-ring:      #f1c232;
@@ -933,6 +939,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 #mm-tooltip.pinned  { pointer-events: auto; border-color: var(--md-accent-fg-color--transparent); overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--md-default-fg-color--lighter) transparent; }
 
 .tt-title   { font-size: 0.83rem; font-weight: 600; color: var(--md-default-fg-color); line-height: 1.35; margin-bottom: 4px; }
+.tt-short-label { font-size: 0.74rem; font-weight: 750; color: var(--md-primary-fg-color); line-height: 1.25; margin: -1px 0 5px; }
 .tt-link    { display: block; font-size: 0.75rem; color: var(--md-typeset-a-color); text-decoration: none; margin-bottom: 7px; }
 .tt-link:hover { color: var(--md-primary-fg-color--dark); text-decoration: underline; }
 .tt-meta    { font-size: 0.73rem; color: var(--md-default-fg-color--light); margin-bottom: 2px; }
@@ -1057,7 +1064,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 @media (max-width: 700px) {
   #mm-app {
-    --mm-ribbon-max-h: min(64vh, 38rem);
+    --mm-ribbon-max-h: calc(50vh - var(--mm-ribbon-header-h) - 0.85rem);
+    --mm-ribbon-max-h: calc(50dvh - var(--mm-ribbon-header-h) - 0.85rem);
   }
 
   #mm-panel-body {
@@ -1097,6 +1105,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     padding: 12px 14px;
   }
   .tt-title   { font-size: 0.9rem; line-height: 1.35; }
+  .tt-short-label { font-size: 0.8rem; }
   .tt-link    { font-size: 0.8rem; }
   .tt-meta    { font-size: 0.78rem; }
   .tt-tags    { font-size: 0.76rem; line-height: 1.45; }

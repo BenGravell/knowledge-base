@@ -360,6 +360,10 @@
       colorScheme,
       nodeMuted: normalizedCssColor(v('--mm-node-muted')) || '#8A949E',
       nodeMutedRelated: normalizedCssColor(v('--mm-node-muted-related')) || '#737D88',
+      nodeGhost: normalizedCssColor(v('--mm-node-ghost')) ||
+        (colorScheme === 'dark' ? '#222A33' : '#EDF1F5'),
+      nodeGhostBorder: normalizedCssColor(v('--mm-node-ghost-border')) ||
+        (colorScheme === 'dark' ? '#56616D' : '#B8C2CC'),
       nodeBorder: normalizedCssColor(v('--mm-node-border')) ||
         (colorScheme === 'dark' ? '#242B35' : '#E1E7EE'),
       selectedRing: normalizedCssColor(v('--mm-selected-ring')) || '#D9A316',
@@ -1548,7 +1552,10 @@
 
   function nodeAllowedByFilters(attrs) {
     if (!nodeAllowedByRelevance(attrs)) return false;
+    return nodeAllowedByBaseFilters(attrs);
+  }
 
+  function nodeAllowedByBaseFilters(attrs) {
     const filterKeys = attrs.filterKeys || [nodeKey(attrs)];
     const categoryAllowed = filterKeys.some(key => activeCategories.has(key));
     if (!categoryAllowed) return false;
@@ -1560,9 +1567,12 @@
     return activeItemTypes.has(itemTypeKey(attrs));
   }
 
-  function nodeVisibleAt(node, level) {
+  function nodeVisibleAt(node, level, options = {}) {
     const attrs = graph.getNodeAttributes(node);
-    if (!nodeAllowedByFilters(attrs)) return false;
+    const allowed = options.ignoreRelevance
+      ? nodeAllowedByBaseFilters(attrs)
+      : nodeAllowedByFilters(attrs);
+    if (!allowed) return false;
 
     const baseIndex = DETAIL_LEVELS.indexOf(level);
     const nodeIndex = DETAIL_LEVELS.indexOf(attrs.detailLevel);
@@ -1581,6 +1591,12 @@
 
   function nodeVisible(node) {
     return visibleNodes ? visibleNodes.has(node) : nodeVisibleAt(node, currentDetailLevel);
+  }
+
+  function nodeGhostVisible(node) {
+    return relevanceFilterActive() &&
+      !nodeVisible(node) &&
+      nodeVisibleAt(node, currentDetailLevel, { ignoreRelevance: true });
   }
 
   function nodeMatchesSearch(attrs) {
@@ -1680,7 +1696,26 @@
    * Sigma reducers: apply filtering, dimming and highlights at render time.
    * -------------------------------------------------------------------------*/
   function nodeReducer(node, attrs) {
-    if (!nodeVisible(node)) return { ...attrs, hidden: true };
+    if (!nodeVisible(node)) {
+      if (nodeGhostVisible(node)) {
+        const size = nodeSizeWithMinimumScreenRadius(nodeDisplaySize(attrs)) * 0.72;
+        return {
+          ...attrs,
+          label: '',
+          size,
+          color: theme.nodeGhost,
+          borderColor: theme.nodeGhost,
+          labelColor: theme.nodeGhostBorder,
+          labelOutlineColor: theme.nodeGhost,
+          highlighted: false,
+          forceLabel: false,
+          ghosted: true,
+          zIndex: Math.max(0, detailLevelZIndex(attrs.detailLevel) - 8),
+        };
+      }
+
+      return { ...attrs, hidden: true };
+    }
 
     const size = nodeSizeWithMinimumScreenRadius(nodeDisplaySize(attrs));
     const baseZIndex = detailLevelZIndex(attrs.detailLevel);
@@ -1741,6 +1776,8 @@
   }
 
   function drawNodeHover(context, data) {
+    if (data.ghosted) return;
+
     const ringColor = data.ringColor || theme.selectedRing;
     const radius = Math.max(data.size + 3.5, 6);
 
@@ -1784,6 +1821,21 @@
 
   function drawNodeLabelNoop() {
     // Sigma still runs its label-grid selection; the top overlay does the draw.
+  }
+
+  function drawGhostNodeDashedBorder(context, data) {
+    const lineWidth = Math.max(1, data.size * NODE_BORDER_WIDTH_RATIO);
+    const radius = Math.max(1, data.size - lineWidth / 2);
+
+    context.save();
+    context.beginPath();
+    context.arc(data.x, data.y, radius, 0, Math.PI * 2);
+    context.setLineDash([Math.max(2, lineWidth * 2.4), Math.max(2, lineWidth * 1.7)]);
+    context.lineWidth = lineWidth;
+    context.strokeStyle = theme.nodeGhostBorder;
+    context.globalAlpha = theme.colorScheme === 'dark' ? 0.58 : 0.72;
+    context.stroke();
+    context.restore();
   }
 
   function borderedNodeProgramSupported() {
@@ -1875,6 +1927,26 @@
 
     clearTopLabelOverlay();
     const labelZoomScale = currentNodeLabelZoomScale();
+    graph.forEachNode(node => {
+      if (!nodeGhostVisible(node)) return;
+
+      const attrs = graph.getNodeAttributes(node);
+      const display = renderer.getNodeDisplayData(node);
+      if (!display || display.hidden) return;
+
+      const point = renderer.graphToViewport({ x: attrs.x, y: attrs.y });
+      const size = typeof renderer.scaleSize === 'function'
+        ? renderer.scaleSize(display.size)
+        : display.size;
+
+      drawGhostNodeDashedBorder(topLabelContext, {
+        ...display,
+        x: point.x,
+        y: point.y,
+        size,
+      });
+    });
+
     topLabelOverlayNodes().forEach(node => {
       const attrs = graph.getNodeAttributes(node);
       const display = renderer.getNodeDisplayData(node);
@@ -2369,13 +2441,30 @@
 
   function setupGraphEvents() {
     renderer.on('enterNode', payload => {
+      if (!nodeVisible(payload.node)) {
+        clearHoverClickNode();
+        hideHoverTooltip();
+        if (!pinnedNode && hoveredNode) {
+          hoveredNode = null;
+          hideTooltip();
+          refreshView();
+        }
+        return;
+      }
+
       hoverClickNode = payload.node;
       if (pinnedNode) {
         if (payload.node !== pinnedNode) showHoverTooltip(payload.node);
         return;
       }
       hoveredNode = payload.node;
-      showNodeTooltip(payload.node, nodeTooltipPosition(payload.node) || eventPosition(payload), false);
+      if (graph.getNodeAttribute(payload.node, 'kind') === 'paper') {
+        hideTooltip();
+        showHoverTooltip(payload.node);
+      } else {
+        hideHoverTooltip();
+        showNodeTooltip(payload.node, nodeTooltipPosition(payload.node) || eventPosition(payload), false);
+      }
       refreshView();
     });
 
@@ -2386,6 +2475,7 @@
         return;
       }
       hoveredNode = null;
+      hideHoverTooltip();
       hideTooltip();
       refreshView();
     });
@@ -2692,7 +2782,7 @@
   }
 
   function clickTargetNode(payload) {
-    const clicked = payload && payload.node && graphHasNode(payload.node)
+    const clicked = payload && payload.node && graphHasNode(payload.node) && nodeVisible(payload.node)
       ? payload.node
       : null;
     const hovered = hoverClickNode && graphHasNode(hoverClickNode)
@@ -2773,8 +2863,10 @@
     const authors = formatAuthors(d.authors);
     const tags = (d.tags || []).slice(0, 7).join(' · ');
     const actions = paperActionLinks(d, { includeMap: false });
+    const shortLabel = String(d.fullLabel || d.label || '').replace(/\s*\n\s*/g, ' ').trim();
     tooltip.innerHTML =
       `<div class="tt-title">${escHtml(d.title)}</div>` +
+      (shortLabel && shortLabel !== d.title ? `<div class="tt-short-label">${escHtml(shortLabel)}</div>` : '') +
       `<div class="tt-meta">${escHtml(authors)}&nbsp;&nbsp;${d.year || ''}</div>` +
       (tags ? `<div class="tt-tags">${escHtml(tags)}</div>` : '') +
       (d.summary ? `<div class="tt-summary">${escHtml(d.summary)}</div>` : '') +
@@ -2840,7 +2932,11 @@
     }
 
     if (hoverTooltipNode && hoverTooltip && hoverTooltip.classList.contains('visible')) {
-      if (!pinnedNode || !graphHasNode(hoverTooltipNode) || !nodeVisible(hoverTooltipNode)) {
+      if (!graphHasNode(hoverTooltipNode) || !nodeVisible(hoverTooltipNode)) {
+        hideHoverTooltip();
+        return;
+      }
+      if (!pinnedNode && hoverTooltipNode !== hoveredNode) {
         hideHoverTooltip();
         return;
       }
@@ -3141,7 +3237,7 @@
       `<p class="mm-summary">${escHtml(summary)}</p>` +
       (tags ? `<div class="mm-tags">${tags}</div>` : '') +
       `<div class="mm-detail-actions paper-link-pills">` +
-      paperActionLinks(d, { includeMap: true }) +
+      paperActionLinks(d, { includeMap: false }) +
       `</div>`;
     modal.hidden = false;
     if (modalClose) modalClose.focus({ preventScroll: true });
