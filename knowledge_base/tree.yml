@@ -472,31 +472,41 @@
             - Cross-Entropy Motion Planning (CEM):
               - Cross-Entropy Motion Planning: docs/papers/2012/2012.kobilarov.cross_entropy_motion_planning/metadata.yml
             - Model Predictive Path Integral Control (MPPI):
-              - IT-MPC: docs/papers/2017/1707.02342/metadata.yml
-              - MPPI: docs/papers/2017/2017.williams.model_predictive_path_integral/metadata.yml
-              - "Model Predictive Path Integral Control using Covariance Variable Importance Sampling": docs/papers/2015/1509.01149/metadata.yml
-              - "Model Predictive Path Integral Control: Theoretical Foundations and Applications to Autonomous Driving (Grady Williams PhD Dissertation)": docs/papers/2019/2019.williams.model_predictive_path_integral/metadata.yml
-              - Tsallis VI-SOC: docs/papers/2021/2104.00241/metadata.yml
-              - C-Uniform MPPI: docs/papers/2024/2409.12266/metadata.yml
-              - CU-MPPI: docs/papers/2025/2503.05819/metadata.yml
-              - Biased-MPPI: docs/papers/2024/2401.09241/metadata.yml
-              - Low-pass MPPI: docs/papers/2025/2503.11717/metadata.yml
-              - TC-MPPI: docs/papers/2025/2025.lee.time_correlated_model_predictive/metadata.yml
-              - VIMPPI: docs/papers/2025/2505.05507/metadata.yml
-              - Interaction-Rich MPPI: docs/papers/2025/2025.trevisan.model_predictive_path_integral/metadata.yml
-              - DBaS-Log-MPPI: docs/papers/2025/2504.06437/metadata.yml
-              - Multi-Modal MPPI: docs/papers/2025/2508.21364/metadata.yml
-              - TD-CD-MPPI: docs/papers/2025/2025.crestaz.td_cd_mppi_temporal/metadata.yml
-              - BC-MPPI: docs/papers/2025/2510.00272/metadata.yml
-              - Improving MPPI for High-Inertia Industrial Vehicles: docs/papers/2026/2026.macenski.improving_mppi_for_high/metadata.yml
-              - "Low Frequency Sampling in Model Predictive Path Integral Control": docs/papers/2024/2024.vlahov.low_frequency_sampling_in/metadata.yml
-              - "Path Integral Control in Gaussian Belief Space for Partially Observed Systems": docs/papers/2026/2604.13312/metadata.yml
-              - PA-MPPI: docs/papers/2025/2509.14978/metadata.yml
-              - "Variance-Reduced Model Predictive Path Integral via Quadratic Model Approximation": docs/papers/2026/2602.03639/metadata.yml
-              - "Dynamic Risk-Aware MPPI for Mobile Robots in Crowds via Efficient Monte Carlo Approximations": docs/papers/2025/2506.21205/metadata.yml
-              - Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control: docs/papers/2025/2511.02015/metadata.yml
-              - "Model Predictive Path Integral Control as Preconditioned Gradient Descent": docs/papers/2026/2603.24489/metadata.yml
-              - "Neural Distance-Guided Path Integral Control for Tractor-Trailer Navigation": docs/papers/2026/2605.09939/metadata.yml
+              - Fundamentals:
+                - Model Predictive Path Integral Control using Covariance Variable Importance Sampling: docs/papers/2015/1509.01149/metadata.yml
+                - IT-MPC: docs/papers/2017/1707.02342/metadata.yml
+                - MPPI (tutorial): docs/papers/2017/2017.williams.model_predictive_path_integral/metadata.yml
+                - "Model Predictive Path Integral Control: Theoretical Foundations and Applications to Autonomous Driving (Grady Williams PhD Dissertation)": docs/papers/2019/2019.williams.model_predictive_path_integral/metadata.yml
+                - Model Predictive Path Integral Control as Preconditioned Gradient Descent: docs/papers/2026/2603.24489/metadata.yml
+              - Sampling Distributions:
+                - Biased-MPPI: docs/papers/2024/2401.09241/metadata.yml
+                - Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control: docs/papers/2025/2511.02015/metadata.yml
+                - Reachability-informed Sampling:
+                  - C-Uniform MPPI: docs/papers/2024/2409.12266/metadata.yml
+                  - CU-MPPI: docs/papers/2025/2503.05819/metadata.yml
+                - Multimodal Sampling:
+                  - Tsallis VI-SOC: docs/papers/2021/2104.00241/metadata.yml
+                  - Multi-Modal MPPI: docs/papers/2025/2508.21364/metadata.yml
+              - Accelerating Integration/Simulation:
+                - VIMPPI: docs/papers/2025/2505.05507/metadata.yml
+              - Action Smoothing:
+                - Low-pass MPPI: docs/papers/2025/2503.11717/metadata.yml
+                - TC-MPPI: docs/papers/2025/2025.lee.time_correlated_model_predictive/metadata.yml
+                - Low Frequency Sampling in Model Predictive Path Integral Control: docs/papers/2024/2024.vlahov.low_frequency_sampling_in/metadata.yml
+              - Variance Reduction:
+                - Variance-Reduced Model Predictive Path Integral via Quadratic Model Approximation: docs/papers/2026/2602.03639/metadata.yml
+              - Interaction-aware & Dynamic Planning:
+                - Interaction-Rich MPPI: docs/papers/2025/2025.trevisan.model_predictive_path_integral/metadata.yml
+                - Dynamic Risk-Aware MPPI for Mobile Robots in Crowds via Efficient Monte Carlo Approximations: docs/papers/2025/2506.21205/metadata.yml
+              - Safety & Uncertainty Handling:
+                - DBaS-Log-MPPI: docs/papers/2025/2504.06437/metadata.yml
+                - PA-MPPI: docs/papers/2025/2509.14978/metadata.yml
+                - BC-MPPI: docs/papers/2025/2510.00272/metadata.yml
+              - Heavy Vehicles:
+                - Improving MPPI for High-Inertia Industrial Vehicles: docs/papers/2026/2026.macenski.improving_mppi_for_high/metadata.yml
+                - Neural Distance-Guided Path Integral Control for Tractor-Trailer Navigation: docs/papers/2026/2605.09939/metadata.yml
+            - Partially Observed Systems:
+              - Path Integral Control in Gaussian Belief Space for Partially Observed Systems: docs/papers/2026/2604.13312/metadata.yml
             - "Recent Advances in Path Integral Control (Survey)": docs/papers/2023/2309.12566/metadata.yml
             - "Generative Models From and For Sampling-Based MPC: A Bootstrapped Approach For Adaptive Contact-Rich Manipulation": docs/papers/2025/2510.14643/metadata.yml
             - "Sampling-Based Control via Entropy-Regularized Optimal Transport": docs/papers/2026/2605.02147/metadata.yml
@@ -506,12 +516,12 @@
           - Model Predictive Trees:
             - MPT: docs/papers/2024/2411.15651/metadata.yml
             - MPTree: docs/papers/2024/2024.piazza.mptree_a_sampling_based/metadata.yml
-          - "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)":
+          - Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP):
             - iLQR:
               - iLQR: docs/papers/2004/2004.li.iterative_linear_quadratic_regulator/metadata.yml
               - iLQG: docs/papers/2005/2005.todorov.a_generalized_iterative_lqg/metadata.yml
-              - "iLQR Synthesis & Stabilization": docs/papers/2012/2012.tassa.synthesis_and_stabilization_of/metadata.yml
-              - "Convergent iLQR for Safe Trajectory Planning and Control of Legged Robots": docs/papers/2023/2304.00346/metadata.yml
+              - iLQR Synthesis & Stabilization: docs/papers/2012/2012.tassa.synthesis_and_stabilization_of/metadata.yml
+              - Convergent iLQR for Safe Trajectory Planning and Control of Legged Robots: docs/papers/2023/2304.00346/metadata.yml
             - Differential Dynamic Programming:
               - DDP: docs/papers/1970/1970.jacobson.differential_dynamic_programming/metadata.yml
               - Accelerating Second-Order Differential Dynamic Programming for Rigid-Body Systems: docs/papers/2021/2103.03293/metadata.yml
@@ -586,9 +596,13 @@
               - PI2-DDP: docs/papers/2019/2019.lefebvre.path_integral_policy_improvement/metadata.yml
             - "Grad+CEM": docs/papers/2020/2004.08763/metadata.yml
             - MPPI-IPDDP: docs/papers/2022/2208.02439/metadata.yml
-            - DIAL-MPC: docs/papers/2024/2409.15610/metadata.yml
           - Learning in Trajectory Optimization:
-            - MISO: docs/papers/2024/2411.02158/metadata.yml
+            - Sampling-based MPC:
+              - DIAL-MPC: docs/papers/2024/2409.15610/metadata.yml
+              - TD-CD-MPPI: docs/papers/2025/2025.crestaz.td_cd_mppi_temporal/metadata.yml
+            - Learning Initial Solutions:
+              - Learning-Aided Warmstart of Model Predictive Control in Uncertain Fast-Changing Traffic: docs/papers/2023/2310.02918/metadata.yml
+              - MISO: docs/papers/2024/2411.02158/metadata.yml
             - Physics-Driven Data Generation for Contact-Rich Manipulation via Trajectory Optimization: docs/papers/2025/2502.20382/metadata.yml
             - Probabilistic DDP: docs/papers/2014/2014.pan.probabilistic_differential_dynamic_programming/metadata.yml
             - DiffuSolve: docs/papers/2025/2025.li.diffusolve_diffusion_based_solver/metadata.yml
@@ -597,7 +611,6 @@
             - DeepRacing: docs/papers/2020/2020.weiss.deepracing_a_framework_for/metadata.yml
             - "Explaining How a Deep Neural Network Trained with End-to-End Learning Steers a Car": docs/papers/2017/1704.07911/metadata.yml
             - "Learning Complex Neural Network Policies with Trajectory Optimization": docs/papers/2014/2014.levine.learning_complex_neural_network/metadata.yml
-            - "Learning-Aided Warmstart of Model Predictive Control in Uncertain Fast-Changing Traffic": docs/papers/2023/2310.02918/metadata.yml
             - "Learning to Optimize in Model Predictive Control": docs/papers/2022/2212.02603/metadata.yml
             - CACTO-BIC: docs/papers/2026/2602.19699/metadata.yml
             - "Improving Computational Efficiency for Powered Descent Guidance via Transformer-based Tight Constraint Prediction": docs/papers/2023/2311.05135/metadata.yml
