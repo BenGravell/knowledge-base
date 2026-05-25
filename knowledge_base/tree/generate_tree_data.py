@@ -20,14 +20,16 @@ from urllib.parse import quote
 import mkdocs_gen_files
 import yaml
 
-from knowledge_base.tree.nav_source import load_tree
+from knowledge_base.tree.nav_source import metadata_source_path, tree_from_config, tree_from_file
 from knowledge_base.utils.paper_ids import paper_id_from_metadata as generated_paper_id
 
 
 MKDOCS_YML = "mkdocs.yml"
+TREE_YML = Path("tree.yml")
 METADATA_ROOT = Path("docs/papers")
 LANDING_PAGES = {"tree.md", "tree/index.md"}
 UNCATEGORIZED_CATEGORY = "Uncategorized"
+YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
 
 
 def as_list(value: Any) -> list[Any]:
@@ -125,16 +127,20 @@ def make_paper_label(data: dict[str, Any]) -> str:
     return clean_text(data.get("title")) or "Untitled"
 
 
+paper_source_by_metadata_path: dict[Path, str] = {}
+
+
 def collect_paper_details() -> dict[str, dict[str, Any]]:
     details: dict[str, dict[str, Any]] = {}
     for metadata_file in sorted(METADATA_ROOT.rglob("*.yml")):
         with open(metadata_file, "r", encoding="utf-8") as f:
-            data = yaml.safe_load(f) or {}
+            data = yaml.load(f, Loader=YAML_LOADER) or {}
         if not isinstance(data, dict):
             continue
 
         paper_id = paper_id_from_metadata(metadata_file, data)
         source = f"papers/{paper_id}.md"
+        paper_source_by_metadata_path[metadata_file.resolve()] = source
         authors = [clean_text(author) for author in as_list(data.get("authors"))]
         authors = [author for author in authors if author]
         details[source] = {
@@ -163,7 +169,17 @@ def collect_paper_details() -> dict[str, dict[str, Any]]:
 paper_details_by_source = collect_paper_details()
 
 
+def normalize_leaf_source(source: str) -> str:
+    metadata_file = metadata_source_path(source, Path.cwd())
+    if metadata_file is None:
+        return source
+    if not metadata_file.exists():
+        raise FileNotFoundError(f"Tree source does not exist: {source}")
+    return paper_source_by_metadata_path.get(metadata_file.resolve(), source)
+
+
 def build_leaf(label: str, source: str, path: list[str], ids: IdFactory) -> dict[str, Any]:
+    source = normalize_leaf_source(source)
     full_path = path + [label]
     node = {
         "id": ids.make(full_path, source),
@@ -226,10 +242,11 @@ def build_children(items: list[Any], path: list[str], ids: IdFactory) -> list[di
 
 
 with open(MKDOCS_YML, "r", encoding="utf-8") as f:
-    config = yaml.safe_load(f)
+    config = yaml.load(f, Loader=YAML_LOADER)
 
 ids = IdFactory()
-root_children = build_children(as_list(load_tree(config)), ["Tree"], ids)
+tree_source = tree_from_file(TREE_YML, normalize=False) if TREE_YML.exists() else tree_from_config(config)
+root_children = build_children(as_list(tree_source), ["Tree"], ids)
 root = {
     "id": "tree",
     "label": "Tree",
@@ -655,7 +672,7 @@ body:has(#an-app) .md-grid,body:has(#an-app) .md-main__inner{max-width:100%!impo
 .an-grid{display:grid;grid-template-columns:1fr;gap:.85rem}.an-card{min-width:0;padding:.82rem;border:1px solid var(--an-border);border-radius:8px;background:var(--an-panel);box-shadow:var(--an-shadow)}.an-card--wide{grid-column:1 / -1}.an-card-head{display:flex;align-items:center;justify-content:space-between;gap:.65rem;margin:0 0 .68rem}.an-card h2{margin:0 0 .68rem;font-size:1rem;line-height:1.2}.an-card-head h2{margin:0}.an-bin-toggle{display:inline-flex;min-height:1.9rem;overflow:hidden;border:1px solid var(--an-border);border-radius:8px;background:var(--md-default-bg-color)}.an-bin-toggle button{min-height:1.9rem;padding:.28rem .55rem;border:0;border-right:1px solid var(--an-soft-border);background:transparent;color:var(--an-ink);font:inherit;font-size:.7rem;font-weight:850;cursor:pointer}.an-bin-toggle button:last-child{border-right:0}.an-bin-toggle button[aria-pressed="true"]{background:color-mix(in srgb,var(--an-blue) 14%,transparent);color:var(--md-typeset-a-color)}.an-bin-toggle button:hover{background:color-mix(in srgb,var(--an-blue) 8%,transparent)}.an-card-limit{display:flex;align-items:center;gap:.35rem;color:var(--an-muted);font-size:.68rem;font-weight:850;text-transform:uppercase;white-space:nowrap}.an-card-limit[hidden]{display:none}.an-card-limit select{box-sizing:border-box;min-height:1.9rem;border:1px solid var(--an-border);border-radius:8px;background:var(--md-default-bg-color);color:var(--an-ink);font:inherit;padding:.22rem .4rem;text-transform:none}.an-card-limit select:focus{border-color:var(--an-blue);outline:2px solid color-mix(in srgb,var(--an-blue) 24%,transparent);outline-offset:1px}.an-card-kicker{margin:-.35rem 0 .68rem;color:var(--an-muted);font-size:.74rem}.an-bars{display:grid;gap:.36rem}.an-bar{display:grid;grid-template-columns:minmax(7.5rem,1fr) minmax(6rem,2.2fr) auto;gap:.52rem;align-items:center;min-height:1.75rem}.an-bar-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.78rem;font-weight:750}.an-bar-track{height:.64rem;overflow:hidden;border-radius:999px;background:color-mix(in srgb,var(--md-default-fg-color) 8%,transparent)}.an-bar-fill{display:block;width:var(--an-w);height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--an-teal),var(--an-blue))}.an-bar-count{color:var(--an-muted);font-size:.74rem;font-weight:800;text-align:right}.an-more{width:100%;margin:.16rem 0 0;padding:.48rem .58rem;border:1px dashed var(--an-border);border-radius:8px;background:color-mix(in srgb,var(--an-blue) 6%,transparent);color:var(--an-muted);font:inherit;font-size:.73rem;font-weight:800;text-align:center;cursor:pointer}.an-more:hover,.an-more:focus-visible{border-color:var(--an-blue);background:color-mix(in srgb,var(--an-blue) 11%,transparent);color:var(--md-typeset-a-color)}.an-more:focus-visible{outline:2px solid color-mix(in srgb,var(--an-blue) 35%,transparent);outline-offset:2px}.an-more-note{margin:.16rem 0 0;color:var(--an-muted);font-size:.72rem;font-weight:750;text-align:center}.an-year-hist{position:relative;display:flex;align-items:end;gap:0;box-sizing:border-box;width:100%;min-height:13rem;overflow:hidden;padding:.45rem .2rem .3rem;border-bottom:1px solid var(--an-border)}.an-year{position:relative;z-index:1;display:grid;align-items:end;flex:var(--an-bin-w) 1 0;min-width:0;height:12rem;outline:none}.an-year i{display:block;height:var(--an-h);min-height:2px;margin:0 1px;border-radius:999px 999px 0 0;background:linear-gradient(180deg,var(--an-rose),var(--an-gold));transition:none}.an-year:focus-visible{outline:2px solid color-mix(in srgb,var(--an-blue) 55%,transparent);outline-offset:2px}.an-year-axis{position:relative;height:1.35rem;color:var(--an-muted);font-size:.72rem;font-weight:800}.an-year-axis-tick{position:absolute;top:0;left:var(--an-x);transform:translateX(-50%);white-space:nowrap}.an-year-axis-tick[data-edge="start"]{transform:translateX(0)}.an-year-axis-tick[data-edge="end"]{transform:translateX(-100%)}.an-year-axis-tick::before{content:"";display:block;width:1px;height:.36rem;margin:0 auto .08rem;background:var(--an-border)}.an-year-tooltip{display:none!important}.an-table-wrap{max-height:34rem;overflow:auto;border:1px solid var(--an-border);border-radius:8px;background:var(--md-default-bg-color);scrollbar-width:thin}.an-table{width:100%;border-collapse:collapse;font-size:.76rem}.an-table th{position:sticky;top:0;z-index:1;background:var(--an-panel);color:var(--an-muted);font-size:.68rem;text-align:left;text-transform:uppercase}.an-table th,.an-table td{padding:.48rem .55rem;border-bottom:1px solid var(--an-soft-border);vertical-align:top}.an-paper-cell{display:grid;gap:.12rem;min-width:14rem}.an-paper-cell a{font-weight:850}.an-paper-cell span{color:var(--an-muted);font-size:.71rem}.an-empty,.an-error{margin:0;color:var(--an-muted)}
 @media (max-width:900px){.an-grid{grid-template-columns:1fr}.an-header{display:grid}.an-bar{grid-template-columns:minmax(0,1fr) minmax(5rem,1.2fr) auto}}@media (max-width:620px){.md-content__inner:has(#an-app){max-width:100%}.an-bar{grid-template-columns:1fr auto}.an-bar-track{grid-column:1 / -1}.an-table th:nth-child(3),.an-table td:nth-child(3){display:none}}
 .an-bar{grid-template-columns:minmax(0,1fr) auto;column-gap:.52rem;row-gap:.18rem;align-items:start}.an-bar-label{grid-column:1;grid-row:1;overflow:visible;overflow-wrap:anywhere;white-space:normal;text-overflow:clip;line-height:1.25}.an-bar-count{grid-column:2;grid-row:1}.an-bar-track{grid-column:1 / -1;grid-row:2}
-.an-year-hist{display:grid;gap:.42rem;min-height:0;overflow:visible;padding:0;border-bottom:0}.an-year{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:.52rem;row-gap:.18rem;align-items:end;height:auto;outline:none;touch-action:pan-y}.an-year[data-region-start="true"]{position:relative;margin-top:.52rem;padding-top:1.05rem}.an-year[data-region-start="true"]::before{content:"";position:absolute;top:.52rem;left:0;right:0;border-top:1px solid color-mix(in srgb,var(--md-default-fg-color) 18%,transparent)}.an-year-label{grid-column:1;grid-row:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.78rem;font-weight:750}.an-year-count{grid-column:2;grid-row:1;color:var(--an-muted);font-size:.74rem;font-weight:800;text-align:right}.an-year-track{grid-column:1 / -1;grid-row:2;height:.64rem;overflow:hidden;border-radius:999px;background:linear-gradient(90deg,transparent calc(25% - .5px),var(--an-soft-border) calc(25% - .5px) calc(25% + .5px),transparent calc(25% + .5px)),linear-gradient(90deg,transparent calc(50% - .5px),var(--an-soft-border) calc(50% - .5px) calc(50% + .5px),transparent calc(50% + .5px)),linear-gradient(90deg,transparent calc(75% - .5px),var(--an-soft-border) calc(75% - .5px) calc(75% + .5px),transparent calc(75% + .5px)),color-mix(in srgb,var(--md-default-fg-color) 8%,transparent)}.an-year i{display:block;width:var(--an-w);height:100%;min-height:0;margin:0;border-radius:inherit;background:linear-gradient(90deg,var(--an-teal),var(--an-blue));transition:none}.an-year-axis{display:none}
+.an-year-hist{display:grid;gap:.42rem;min-height:0;overflow:visible;padding:0;border-bottom:0}.an-year{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:.52rem;row-gap:.18rem;align-items:end;height:auto;outline:none;touch-action:pan-y}.an-year[data-region-start="true"]{position:relative;margin-top:.52rem;padding-top:1.05rem}.an-year[data-region-start="true"]::before{content:"";position:absolute;top:.52rem;left:0;right:0;border-top:1px solid color-mix(in srgb,var(--md-default-fg-color) 18%,transparent)}.an-year-label{grid-column:1;grid-row:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.78rem;font-weight:750}.an-year-count{grid-column:2;grid-row:1;color:var(--an-muted);font-size:.74rem;font-weight:800;text-align:right}.an-year-track{grid-column:1 / -1;grid-row:2;height:.64rem;overflow:hidden;border-radius:999px;background:color-mix(in srgb,var(--md-default-fg-color) 8%,transparent)}.an-year i{display:block;width:var(--an-w);height:100%;min-height:0;margin:0;border-radius:inherit;background:linear-gradient(90deg,var(--an-teal),var(--an-blue));transition:none}.an-year-axis{display:none}
 .an-category-control{display:flex;align-items:center;gap:.45rem}.an-category-control-label{color:var(--an-muted);font-size:.68rem;font-weight:850;text-transform:uppercase;white-space:nowrap}.an-category-level{display:grid;grid-template-columns:repeat(3,1.9rem);gap:4px}.an-category-level button{display:grid;place-items:center;width:1.9rem;height:1.9rem;min-width:1.9rem;min-height:1.9rem;padding:0;border:1px solid var(--an-border);border-radius:6px;background:var(--md-default-bg-color);color:var(--an-muted);cursor:pointer}.an-category-level button:hover{border-color:var(--an-blue);background:color-mix(in srgb,var(--an-blue) 9%,transparent);color:var(--an-ink)}.an-category-level button[aria-pressed="true"]{border-color:var(--an-blue);background:color-mix(in srgb,var(--an-blue) 16%,var(--md-default-bg-color));color:var(--an-ink)}.an-category-level button:focus-visible{outline:2px solid color-mix(in srgb,var(--an-blue) 28%,transparent);outline-offset:1px}.an-die{display:grid;width:1.25rem;height:1.25rem;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);align-items:center;justify-items:center}.an-die-dot{display:block;width:.42rem;height:.42rem;border-radius:999px;background:currentColor}.an-die--1 .an-die-dot:nth-child(1){grid-area:2/2}.an-die--2 .an-die-dot:nth-child(1){grid-area:2/1}.an-die--2 .an-die-dot:nth-child(2){grid-area:2/3}.an-die--3 .an-die-dot:nth-child(1){grid-area:1/2}.an-die--3 .an-die-dot:nth-child(2){grid-area:3/1}.an-die--3 .an-die-dot:nth-child(3){grid-area:3/3}.an-category-tree{display:grid;gap:.3rem}.an-category-row{display:grid;grid-template-columns:minmax(9rem,1.05fr) minmax(8rem,2fr) minmax(2.8rem,auto);gap:.52rem;align-items:center;min-height:1.8rem}.an-category-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--an-ink);font-size:.78rem;font-weight:750;line-height:1.25}.an-category-path{display:block;margin-top:.05rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--an-muted);font-size:.66rem;font-weight:650}.an-category-count{color:var(--an-muted);font-size:.74rem;font-weight:800;text-align:right}.an-category-track{height:.64rem;overflow:hidden;border-radius:999px;background:color-mix(in srgb,var(--md-default-fg-color) 8%,transparent)}.an-category-fill{display:block;width:var(--an-w);height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--an-teal),var(--an-blue))}
 </style>
 

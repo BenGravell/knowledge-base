@@ -2462,7 +2462,11 @@ body:has(#semantic-search-app) .md-content {
 }
 
 .semantic-search-settings-body {
-  grid-template-columns: minmax(16rem, 1.5fr) minmax(12rem, 0.7fr);
+  grid-template-columns: minmax(16rem, 1.5fr) minmax(12rem, 0.7fr) auto;
+}
+
+.semantic-search-settings-body > .tag-search-count {
+  align-self: stretch;
 }
 
 .semantic-search-status-wrap {

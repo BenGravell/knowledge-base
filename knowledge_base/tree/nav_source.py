@@ -13,6 +13,7 @@ from knowledge_base.utils.paper_ids import paper_id_from_metadata
 KB_DIR = Path(__file__).resolve().parents[1]
 METADATA_ROOT = KB_DIR / "docs" / "papers"
 TREE_YML = KB_DIR / "tree.yml"
+YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
 
 
 def as_list(value: Any) -> list[Any]:
@@ -21,7 +22,7 @@ def as_list(value: Any) -> list[Any]:
 
 def paper_id_from_metadata_file(metadata_file: Path) -> str:
     with metadata_file.open("r", encoding="utf-8") as f:
-        data = yaml.safe_load(f) or {}
+        data = yaml.load(f, Loader=YAML_LOADER) or {}
     if not isinstance(data, dict):
         data = {}
     return paper_id_from_metadata(metadata_file, data, METADATA_ROOT)
@@ -80,7 +81,7 @@ def tree_nav_item_from_file(
     normalize: bool = True,
 ) -> dict[str, Any]:
     with path.open("r", encoding="utf-8") as f:
-        data = yaml.safe_load(f) or {}
+        data = yaml.load(f, Loader=YAML_LOADER) or {}
 
     if isinstance(data, list):
         for item in data:

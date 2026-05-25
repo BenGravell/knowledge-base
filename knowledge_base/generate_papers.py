@@ -27,6 +27,7 @@ generated_root = Path("papers")
 embedding_cache_file = Path("map/embedding_cache.json")
 related_result_limit = 36
 top_similar_limit = 5
+YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
 
 # Read template
 template_text = template_file.read_text()
@@ -445,7 +446,7 @@ paper_entries = []
 # Iterate over all YAML files
 for metadata_file in metadata_root.rglob("*.yml"):
     with open(metadata_file, "r", encoding="utf-8") as f:
-        data = yaml.safe_load(f) or {}
+        data = yaml.load(f, Loader=YAML_LOADER) or {}
     if not isinstance(data, dict):
         continue
 
@@ -468,6 +469,7 @@ for metadata_file in metadata_root.rglob("*.yml"):
 
 paper_records = [paper_record(entry["data"], entry["paper_id"]) for entry in paper_entries]
 top_similar_by_id = build_top_similar_papers(paper_records)
+paper_template = env.from_string(template_text)
 
 # Iterate over prepared papers now that cross-paper similarity is available
 for entry in paper_entries:
@@ -478,13 +480,12 @@ for entry in paper_entries:
     data["top_similar_papers"] = top_similar_by_id.get(paper_id, [])
     mkdocs_gen_files.set_edit_path(output_path, metadata_file)
     with mkdocs_gen_files.open(output_path, "w") as f_out:
-        template = env.from_string(template_text)
-        f_out.write(template.render(**data))
+        f_out.write(paper_template.render(**data))
 
     # # DEBUG: actually write out to real filesystem
     # output_path.parent.mkdir(parents=True, exist_ok=True)
     # with open(output_path, "w") as f_disk:
-    #     f_disk.write(template.render(**data))
+    #     f_disk.write(paper_template.render(**data))
 
 with mkdocs_gen_files.open("javascripts/tag-search-data.js", "w") as out:
     out.write("window.tagSearchData = ")

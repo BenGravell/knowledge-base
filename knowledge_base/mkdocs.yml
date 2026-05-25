@@ -5,11 +5,12 @@ site_url: https://bengravell.github.io/knowledge-base/
 extra:
   generator: false
 
+not_in_nav: |
+  papers/**/*.md
+
 plugins:
   - search
   - macros
-  - tree-nav:
-      source: tree.yml
   - gen-files:
       scripts:
         - generate_papers.py

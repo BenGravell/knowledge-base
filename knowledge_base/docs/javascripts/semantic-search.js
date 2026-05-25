@@ -13,14 +13,6 @@
 
   app.innerHTML =
     appHeader('Semantic Search') +
-    '<section class="tag-search-hero semantic-search-hero">' +
-      '<div>' +
-        '<span class="tag-search-kicker">Exploratory Search</span>' +
-        '<h1>Find papers by meaning</h1>' +
-        '<p>Type a phrase, method, problem, or research direction.</p>' +
-      '</div>' +
-      '<div id="semantic-search-count" class="tag-search-count"><strong>0</strong><span>results</span></div>' +
-    '</section>' +
     '<section class="tag-search-settings semantic-search-settings" aria-label="Semantic Search settings">' +
       '<div class="tag-search-settings-body semantic-search-settings-body">' +
         '<form id="semantic-search-form" class="tag-search-form semantic-search-form" role="search">' +
@@ -34,6 +26,7 @@
           '<span class="tag-search-kicker">Status</span>' +
           '<p id="semantic-search-status" class="semantic-search-status">Ready.</p>' +
         '</div>' +
+        '<div id="semantic-search-count" class="tag-search-count"><strong>0</strong><span>results</span></div>' +
       '</div>' +
     '</section>' +
     '<section id="semantic-search-results-panel" class="tag-search-selection semantic-search-results-panel">' +
@@ -129,15 +122,7 @@
       return;
     }
 
-    panel.innerHTML =
-      '<section class="tag-search-selected-head">' +
-        '<div>' +
-          '<span class="tag-search-kicker">Query</span>' +
-          `<h2>${esc(query)}</h2>` +
-        '</div>' +
-        `<div class="tag-search-count"><strong>${results.length}</strong><span>${resultLabel}</span></div>` +
-      '</section>' +
-      `<div class="paper-similar-list semantic-search-result-list">${results.map(renderResult).join('')}</div>`;
+    panel.innerHTML = `<div class="paper-similar-list semantic-search-result-list">${results.map(renderResult).join('')}</div>`;
   }
 
   function renderEmpty(title, message) {
