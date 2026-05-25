@@ -188,6 +188,7 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
     arxiv_id = clean_arxiv_id(data.get("arxiv_id"))
     doi = clean_doi(data.get("doi"))
     sections = []
+    external_links = []
     quoted_paper_id = quote(paper_id, safe="")
 
     sections.append(
@@ -214,13 +215,7 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
     )
 
     if primary:
-        sections.append(
-            {
-                "title": "Primary",
-                "kind": "primary",
-                "links": [make_link("Document", primary, "", "primary")],
-            }
-        )
+        external_links.append(make_link("Document", primary, "", "primary"))
 
     standard_links = []
     standard_seen = set()
@@ -232,14 +227,13 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
             standard_links.append(make_link(label, url, "", "standard"))
 
     if arxiv_id:
-        add_standard(f"arXiv Abstract: {arxiv_id}", arxiv_abs_url(arxiv_id))
-        add_standard(f"arXiv PDF: {arxiv_id}", arxiv_pdf_url(arxiv_id))
-        add_standard(f"arXiv HTML: {arxiv_id}", arxiv_html_url(arxiv_id))
+        add_standard("arXiv Abstract", arxiv_abs_url(arxiv_id))
+        add_standard("arXiv PDF", arxiv_pdf_url(arxiv_id))
+        add_standard("arXiv HTML", arxiv_html_url(arxiv_id))
     if doi:
-        add_standard(f"DOI: {doi}", f"https://doi.org/{doi}")
+        add_standard("DOI", f"https://doi.org/{doi}")
 
-    if standard_links:
-        sections.append({"title": "Standard", "kind": "standard", "links": standard_links})
+    external_links.extend(standard_links)
 
     alternate_links = []
     alternate_seen = {normalize_url_key(primary)} if primary else set()
@@ -253,8 +247,10 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
             make_link(alternate_link_label(url), url, "", "alternate")
         )
 
-    if alternate_links:
-        sections.append({"title": "Alternate", "kind": "alternate", "links": alternate_links})
+    external_links.extend(alternate_links)
+
+    if external_links:
+        sections.append({"title": "External", "kind": "external", "links": external_links})
 
     return sections
 
@@ -331,6 +327,8 @@ def build_top_similar_papers(records: list[dict], limit: int = top_similar_limit
             if other_id == paper_id:
                 continue
             record = record_by_id[other_id]
+            score = float(sim[i, int(j)])
+            score_percent = round(score * 100)
             items.append(
                 {
                     "id": other_id,
@@ -338,8 +336,10 @@ def build_top_similar_papers(records: list[dict], limit: int = top_similar_limit
                     "label": record.get("label") or "",
                     "byline": paper_byline(record),
                     "summary": clean_scalar(record.get("summary")),
-                    "score": round(float(sim[i, int(j)]), 4),
-                    "score_label": f"{round(float(sim[i, int(j)]) * 100)}% similar",
+                    "score": round(score, 4),
+                    "score_percent": score_percent,
+                    "score_gauge_degrees": round(score_percent * 1.8, 1),
+                    "score_label": f"{score_percent}% similar",
                     "url": f"../../papers/{quote(other_id, safe='')}/",
                     "tree_url": f"../../tree/#paper={quote(other_id, safe='')}",
                     "map_url": f"../../map/#paper={quote(other_id, safe='')}",

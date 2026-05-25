@@ -1701,6 +1701,7 @@ body:has(#tag-search-app) .md-content {
   background: var(--md-default-bg-color);
 }
 
+.paper-link-section--external,
 .paper-link-section--primary {
   border-color: color-mix(in srgb, var(--kb-link-external) 34%, transparent);
   background: color-mix(in srgb, var(--kb-link-external) 5%, var(--md-default-bg-color));
@@ -1914,7 +1915,7 @@ body:has(#tag-search-app) .md-content {
 
 .paper-similar-card {
   display: grid;
-  grid-template-columns: 2.1rem minmax(0, 1fr);
+  grid-template-columns: 3.7rem minmax(0, 1fr);
   gap: 0.72rem;
   min-width: 0;
   padding: 0.78rem;
@@ -1924,17 +1925,70 @@ body:has(#tag-search-app) .md-content {
 }
 
 .paper-similar-card__rank {
+  --paper-similar-gauge: 0deg;
+  position: relative;
   display: grid;
-  width: 2.1rem;
-  height: 2.1rem;
-  place-items: center;
+  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  width: 3.7rem;
+  height: 3.7rem;
+  overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--kb-link-internal) 36%, transparent);
   border-radius: 999px;
   background: color-mix(in srgb, var(--kb-link-internal) 8%, var(--md-default-bg-color));
   color: var(--kb-link-internal);
-  font-size: 0.86rem;
-  font-weight: 900;
   line-height: 1;
+}
+
+.paper-similar-card__rank::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: conic-gradient(
+    transparent 0deg 90deg,
+    color-mix(in srgb, var(--kb-link-internal) 18%, transparent) 90deg calc(270deg - var(--paper-similar-gauge)),
+    var(--kb-link-internal) calc(270deg - var(--paper-similar-gauge)) 270deg,
+    transparent 270deg 360deg
+  );
+  mask: radial-gradient(farthest-side, transparent calc(100% - 0.28rem), #000 calc(100% - 0.27rem));
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 0.28rem), #000 calc(100% - 0.27rem));
+  pointer-events: none;
+}
+
+.paper-similar-card__rank::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0.35rem;
+  left: 0.35rem;
+  height: 1px;
+  background: color-mix(in srgb, var(--kb-link-internal) 30%, transparent);
+}
+
+.paper-similar-card__rank-top,
+.paper-similar-card__rank-bottom {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-width: 0;
+  place-items: center;
+  text-align: center;
+}
+
+.paper-similar-card__rank-top {
+  padding-top: 0.14rem;
+  background: color-mix(in srgb, var(--kb-link-internal) 9%, transparent);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.paper-similar-card__rank-bottom {
+  padding: 0.08rem 0.32rem 0.2rem;
+  color: var(--md-default-fg-color);
+  font-size: 0.58rem;
+  font-weight: 850;
+  line-height: 0.95;
+  text-transform: lowercase;
 }
 
 .paper-similar-card__body {
@@ -1945,7 +1999,7 @@ body:has(#tag-search-app) .md-content {
   display: flex;
   flex-wrap: wrap;
   gap: 0.22rem 0.55rem;
-  margin-bottom: 0.16rem;
+  margin-top: 0.22rem;
   color: var(--md-default-fg-color--light);
   font-size: 0.72rem;
   font-weight: 800;
@@ -1987,14 +2041,14 @@ body:has(#tag-search-app) .md-content {
 
 @media (max-width: 640px) {
   .paper-similar-card {
-    grid-template-columns: 1.8rem minmax(0, 1fr);
+    grid-template-columns: 3.35rem minmax(0, 1fr);
     gap: 0.56rem;
     padding: 0.68rem;
   }
 
   .paper-similar-card__rank {
-    width: 1.8rem;
-    height: 1.8rem;
+    width: 3.35rem;
+    height: 3.35rem;
   }
 }
 
@@ -2075,25 +2129,52 @@ body:has(#tag-search-app) .md-content {
   text-transform: uppercase;
 }
 
-.tag-search-browser {
+.tag-search-settings {
   display: grid;
-  grid-template-columns: minmax(14rem, 3fr) minmax(0, 7fr);
-  gap: 0.85rem;
-  align-items: stretch;
-  height: min(42rem, calc(100vh - 9rem));
-  min-height: 28rem;
-}
-
-.tag-search-panel {
-  display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr);
-  gap: 0.65rem;
+  grid-template-rows: auto auto;
+  min-width: 0;
   min-height: 0;
-  padding: 0.78rem;
   border: 1px solid var(--tag-search-border);
   border-radius: 8px;
   background: var(--tag-search-panel);
   overflow: hidden;
+}
+
+.tag-search-settings-header.kb-app-header {
+  border: 0;
+  border-bottom: 1px solid var(--tag-search-border);
+  border-radius: 8px 8px 0 0;
+}
+
+.tag-search-settings.is-collapsed {
+  grid-template-rows: auto;
+}
+
+.tag-search-settings.is-collapsed .tag-search-settings-body {
+  display: none;
+}
+
+.tag-search-settings.is-collapsed .tag-search-settings-header.kb-app-header {
+  border-bottom: 0;
+  border-radius: 8px;
+}
+
+.tag-search-settings-body {
+  display: grid;
+  grid-template-columns: minmax(15rem, 1fr) minmax(0, 2fr);
+  gap: 0.75rem;
+  align-items: start;
+  min-width: 0;
+  padding: 0.78rem;
+  background: var(--tag-search-panel);
+}
+
+.tag-search-selector {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0.5rem;
+  min-width: 0;
+  min-height: 0;
 }
 
 .tag-search-form {
@@ -2169,6 +2250,7 @@ body:has(#tag-search-app) .md-content {
 .tag-search-tag-list {
   display: grid;
   min-height: 0;
+  max-height: min(22rem, 45vh);
   overflow: auto;
   align-content: start;
   gap: 0.36rem;
@@ -2214,14 +2296,15 @@ body:has(#tag-search-app) .md-content {
 
 .tag-search-selection {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  width: 100%;
   min-width: 0;
   min-height: 0;
   padding: 0.78rem;
   border: 1px solid var(--tag-search-border);
   border-radius: 8px;
   background: var(--tag-search-panel);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .tag-search-selection-empty,
@@ -2265,10 +2348,9 @@ body:has(#tag-search-app) .md-content {
 
 .tag-search-selection .tag-search-results {
   min-height: 0;
-  overflow: auto;
+  overflow: visible;
   align-content: start;
-  padding-right: 0.1rem;
-  scrollbar-width: thin;
+  padding-right: 0;
 }
 
 .tag-search-card {
@@ -2369,27 +2451,16 @@ body:has(#tag-search-app) .md-content {
 
 @media (max-width: 640px) {
   .tag-search-hero,
-  .tag-search-card,
-  .tag-search-browser {
+  .tag-search-card {
     grid-template-columns: 1fr;
   }
 
-  .tag-search-browser {
-    height: auto;
-    min-height: 0;
-  }
-
-  .tag-search-panel,
-  .tag-search-selection {
-    min-height: 18rem;
+  .tag-search-settings-body {
+    grid-template-columns: 1fr;
   }
 
   .tag-search-tag-list {
     max-height: 18rem;
-  }
-
-  .tag-search-selection .tag-search-results {
-    max-height: 24rem;
   }
 
   .tag-search-count {

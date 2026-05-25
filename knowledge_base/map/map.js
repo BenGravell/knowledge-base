@@ -1690,7 +1690,7 @@
       node === hoveredNode ||
       focus.mode === 'search'
     );
-    const muted = focus.active && !primaryFocus;
+    const muted = focus.active && focus.mode !== 'hover' && !primaryFocus;
     const focusLabel = node === pinnedNode || node === hoveredNode;
     const forceLabel = focusLabel || nodeHasPersistentLabel(attrs);
     const label = (showNodeLabels || focusLabel) ? attrs.label : '';

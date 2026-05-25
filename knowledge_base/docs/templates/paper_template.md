@@ -94,26 +94,22 @@
 <div class="paper-similar-list">
 {% for paper in top_similar_papers %}
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank">{{ loop.index }}</div>
-    <div class="paper-similar-card__body">
-      <div class="paper-similar-card__meta">
-{% if paper.byline %}
-        <span>{{ paper.byline | e }}</span>
-{% endif %}
-        <span>{{ paper.score_label | e }}</span>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: {{ paper.score_gauge_degrees }}deg;" aria-label="{{ paper.score_label | e }}">
+      <div class="paper-similar-card__rank-top">{{ loop.index }}</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>{{ paper.score_percent | e }}%</span>
       </div>
+    </div>
+    <div class="paper-similar-card__body">
       <h3><a href="{{ paper.url | e }}">{{ paper.title | e }}</a></h3>
 {% if paper.label and paper.label != paper.title %}
       <p class="paper-similar-card__label">{{ paper.label | e }}</p>
 {% endif %}
-{% if paper.summary %}
-      <p class="paper-similar-card__summary">{{ paper.summary | e }}</p>
-{% endif %}
-      <div class="paper-link-pills paper-similar-card__actions">
-        <a class="paper-link-pill paper-link-pill--internal" href="{{ paper.url | e }}"><span class="paper-link-pill__label">Open Detail Page</span></a>
-        <a class="paper-link-pill paper-link-pill--internal" href="{{ paper.map_url | e }}"><span class="paper-link-pill__label">Open in Map</span></a>
-        <a class="paper-link-pill paper-link-pill--internal" href="{{ paper.tree_url | e }}"><span class="paper-link-pill__label">Open in Tree</span></a>
+{% if paper.byline %}
+      <div class="paper-similar-card__meta">
+        <span>{{ paper.byline | e }}</span>
       </div>
+{% endif %}
     </div>
   </article>
 {% endfor %}

@@ -100,11 +100,17 @@
       ? initialMatch.key
       : (!requestedTag && tagOrder[0] ? tagOrder[0].key : '');
     const initialQuery = initialMatch ? initialMatch.label : rawTag;
+    const settingsCollapsed = true;
 
     app.innerHTML =
-      appHeader('Tag Search') +
-      '<section class="tag-search-browser">' +
-        '<aside class="tag-search-panel">' +
+      `<section id="tag-search-settings" class="tag-search-settings${settingsCollapsed ? ' is-collapsed' : ''}" aria-label="Tag Search settings">` +
+        '<div class="tag-search-settings-header kb-app-header">' +
+          '<span class="kb-app-header-title">Tag Search</span>' +
+          `<button id="tag-search-settings-toggle" class="kb-app-header-action" type="button" aria-expanded="${settingsCollapsed ? 'false' : 'true'}" aria-controls="tag-search-settings-body">` +
+            `<span id="tag-search-settings-state">${settingsCollapsed ? 'Show Settings' : 'Hide Settings'}</span>` +
+          '</button>' +
+        '</div>' +
+        '<div id="tag-search-settings-body" class="tag-search-settings-body">' +
           '<form class="tag-search-form" role="search">' +
             '<label for="tag-search-input">Search Tags</label>' +
             '<div class="tag-search-input-row">' +
@@ -112,15 +118,20 @@
               '<button type="submit">Search</button>' +
             '</div>' +
           '</form>' +
-          '<div class="tag-search-panel-head">' +
-            '<span>Tags</span>' +
-            '<strong id="tag-search-visible-count"></strong>' +
+          '<div class="tag-search-selector">' +
+            '<div class="tag-search-panel-head">' +
+              '<span>Tags</span>' +
+              '<strong id="tag-search-visible-count"></strong>' +
+            '</div>' +
+            '<div id="tag-search-tag-list" class="tag-search-tag-list"></div>' +
           '</div>' +
-          '<div id="tag-search-tag-list" class="tag-search-tag-list"></div>' +
-        '</aside>' +
-        '<section id="tag-search-selection" class="tag-search-selection"></section>' +
-      '</section>';
+        '</div>' +
+      '</section>' +
+      '<section id="tag-search-selection" class="tag-search-selection"></section>';
 
+    const settings = app.querySelector('#tag-search-settings');
+    const settingsToggle = app.querySelector('#tag-search-settings-toggle');
+    const settingsState = app.querySelector('#tag-search-settings-state');
     const form = app.querySelector('.tag-search-form');
     const input = app.querySelector('#tag-search-input');
     const tagList = app.querySelector('#tag-search-tag-list');
@@ -161,9 +172,20 @@
       renderSelection(currentTag, currentRawTag);
     });
 
+    settingsToggle.addEventListener('click', () => {
+      const collapsed = settings.classList.toggle('is-collapsed');
+      settingsToggle.setAttribute('aria-expanded', String(!collapsed));
+      updateSettingsState();
+    });
+
     renderTagList(input.value);
     renderSelection(tagIndex.get(selectedTagKey), initialQuery);
     syncTagButtons();
+    updateSettingsState();
+
+    function updateSettingsState() {
+      settingsState.textContent = settings.classList.contains('is-collapsed') ? 'Show Settings' : 'Hide Settings';
+    }
 
     function renderTagList(query) {
       const terms = normalizeTag(query).split(' ').filter(Boolean);

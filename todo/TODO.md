@@ -356,15 +356,6 @@ Back by a DuckDB database?
 
 ### UX
 
-
-1. Lump the Document, standard (arxiv, doi), and alternate links all into one group box called "External" . Keep the colors for the pills to give a subtle distinction between the primary, standard, alternate links.
-
-2. Remove the arxiv ID and doi ID from the pills, just write short arxiv pdf, doi ,etc.
-
-
-3. Remove the Open in Map and Open in Tree pills from the Top 5 most similar papers. Also remove the summary text from the Top 5 most similar papers.
-
-
 ### Links
 
 - Google Scholar link
@@ -406,15 +397,11 @@ Hand-crafted
 
 ### UX
 
-Make the Categories expandable all the way down to lowest grouping, but not to league node/item (which is trivial always having one item)
-
 ## Timeline
 
 Performance is bad. When clicking hide/show settings it lags another. Also interacting and changing filters causes bad lag spike. Investigate low hanging fruit for performance enhancement as well as deeper structural issues that might be contributing g
 
 ### UX
-
-Year tick container is still floating detached from graph, jiggles weirdly on scroll
 
 ### Design inspiration
 
@@ -429,8 +416,6 @@ Rename to Advanced Search
 Integrate with the main Search bar provided by mkdocs in a clean and robust way. Dedpulicate functionality and ux as much as possible.
 
 ### UX
-
-Tuck the tag search bar container under an expander (use the same header bar ux element used on other pages). This is to alleviate vertical scrolling on mobile.
 
 ## Tree
 
