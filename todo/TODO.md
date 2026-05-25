@@ -356,6 +356,15 @@ Back by a DuckDB database?
 
 ### UX
 
+
+1. Lump the Document, standard (arxiv, doi), and alternate links all into one group box called "External" . Keep the colors for the pills to give a subtle distinction between the primary, standard, alternate links.
+
+2. Remove the arxiv ID and doi ID from the pills, just write short arxiv pdf, doi ,etc.
+
+
+3. Remove the Open in Map and Open in Tree pills from the Top 5 most similar papers. Also remove the summary text from the Top 5 most similar papers.
+
+
 ### Links
 
 - Google Scholar link
