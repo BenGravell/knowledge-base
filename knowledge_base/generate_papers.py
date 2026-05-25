@@ -171,7 +171,7 @@ def build_tag_links(tags: list[str], paper_id: str) -> list[dict[str, str]]:
         links.append(
             {
                 "label": label,
-                "url": f"../../tag-search/?paper={quoted_paper_id}&tag={quote(label, safe='')}",
+                "url": f"../../search/?paper={quoted_paper_id}&tag={quote(label, safe='')}",
             }
         )
     return links
@@ -263,8 +263,11 @@ def paper_record(data: dict, paper_id: str) -> dict:
         "id": paper_id,
         "title": clean_scalar(data.get("title")),
         "label": clean_scalar(data.get("algorithm")) or clean_scalar(data.get("title")) or paper_id,
+        "algorithm": clean_scalar(data.get("algorithm")),
         "authors": authors,
         "year": data.get("year") or "",
+        "source": clean_scalar(data.get("source")),
+        "type": clean_scalar(data.get("type")),
         "tags": tags,
         "summary": clean_scalar(data.get("summary")),
         "url": f"../papers/{paper_id}/",
@@ -487,7 +490,9 @@ for entry in paper_entries:
     # with open(output_path, "w") as f_disk:
     #     f_disk.write(paper_template.render(**data))
 
-with mkdocs_gen_files.open("javascripts/tag-search-data.js", "w") as out:
-    out.write("window.tagSearchData = ")
-    out.write(json.dumps(build_tag_search_data(paper_records), indent=2, ensure_ascii=False))
-    out.write(";\n")
+search_data = build_tag_search_data(paper_records)
+for asset_name in ("search-data.js", "tag-search-data.js"):
+    with mkdocs_gen_files.open(f"javascripts/{asset_name}", "w") as out:
+        out.write("window.tagSearchData = ")
+        out.write(json.dumps(search_data, indent=2, ensure_ascii=False))
+        out.write(";\n")

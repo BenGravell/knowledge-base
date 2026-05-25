@@ -85,10 +85,9 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Map: map.md
-  - Timeline: timeline.md
   - Tree: tree/index.md
-  - Tag Search: tag-search.md
-  - Semantic Search: semantic-search.md
+  - Timeline: timeline.md
+  - Search: search.md
   - Analytics: analytics.md
   - Explainers:
     - Planning & Control:

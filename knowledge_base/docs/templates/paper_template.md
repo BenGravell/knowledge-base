@@ -6,7 +6,7 @@
     <div class="paper-meta-card__label">Authors</div>
     <div class="paper-meta-card__value paper-meta-authors">
 {% for author in authors %}
-      <a href="../../tag-search/?author={{ author | url_quote }}">{{ author | e }}</a>{% if not loop.last %}<span>, </span>{% endif %}
+      <a href="../../search/?author={{ author | url_quote }}">{{ author | e }}</a>{% if not loop.last %}<span>, </span>{% endif %}
 {% endfor %}
     </div>
   </div>
@@ -15,10 +15,10 @@
   <div class="paper-meta-card">
     <div class="paper-meta-card__label">Year</div>
     <div class="paper-meta-card__value paper-meta-card__value--large">
-      <a href="../../tag-search/?year={{ year | url_quote }}">{{ year | e }}</a>
+      <a href="../../search/?year={{ year | url_quote }}">{{ year | e }}</a>
     </div>
 {% if type %}
-    <div class="paper-meta-card__detail">{{ type | e }}</div>
+    <div class="paper-meta-card__detail"><a href="../../search/?type={{ type | url_quote }}">{{ type | e }}</a></div>
 {% endif %}
   </div>
 {% endif %}
@@ -31,7 +31,7 @@
 {% if source %}
   <div class="paper-meta-card">
     <div class="paper-meta-card__label">Source</div>
-    <div class="paper-meta-card__value">{{ source | e }}</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source={{ source | url_quote }}">{{ source | e }}</a></div>
   </div>
 {% endif %}
 {% if arxiv_clean or doi_clean %}
