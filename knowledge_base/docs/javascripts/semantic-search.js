@@ -137,7 +137,7 @@
         '</div>' +
         `<div class="tag-search-count"><strong>${results.length}</strong><span>${resultLabel}</span></div>` +
       '</section>' +
-      `<div class="tag-search-results">${results.map(renderResult).join('')}</div>`;
+      `<div class="paper-similar-list semantic-search-result-list">${results.map(renderResult).join('')}</div>`;
   }
 
   function renderEmpty(title, message) {
@@ -163,29 +163,28 @@
 
   function renderResult(row, index) {
     const paper = row.paper || {};
-    const score = Number.isFinite(row.score)
-      ? `<span>${Math.round(row.score * 100)}% match</span>`
-      : '';
-    const tags = (paper.tags || [])
-      .slice(0, 8)
-      .map(tag => `<a href="../tag-search/?tag=${encodeURIComponent(tag)}">${esc(tag)}</a>`)
-      .join('');
+    const scorePercent = Number.isFinite(row.score)
+      ? Math.max(0, Math.min(100, Math.round(row.score * 100)))
+      : 0;
+    const scoreGaugeDegrees = Math.round(scorePercent * 1.8 * 10) / 10;
+    const scoreLabel = `${scorePercent}% match`;
+    const byline = paper.byline || paperYearByline(paper);
     return (
-      '<article class="tag-search-card">' +
-        '<div class="tag-search-rank">' + String(index + 1) + '</div>' +
-        '<div class="tag-search-card-main">' +
-          '<div class="tag-search-meta">' +
-            `<span>${esc(paper.year || 'Undated')}</span>` +
-            score +
+      '<article class="paper-similar-card">' +
+        `<div class="paper-similar-card__rank" style="--paper-similar-gauge: ${scoreGaugeDegrees}deg;" aria-label="${escAttr(scoreLabel)}">` +
+          `<div class="paper-similar-card__rank-top">${String(index + 1)}</div>` +
+          '<div class="paper-similar-card__rank-bottom">' +
+            `<span>${scorePercent}%</span>` +
           '</div>' +
-          `<h2><a href="${escAttr(paper.url || '#')}">${esc(paperTitle(paper))}</a></h2>` +
-          (paper.label && paper.label !== paper.title ? `<p class="tag-search-label">${esc(paper.label)}</p>` : '') +
-          (paper.summary ? `<p class="tag-search-summary">${esc(paper.summary)}</p>` : '') +
-          (tags ? `<div class="tag-search-tags">${tags}</div>` : '') +
-          '<div class="paper-link-pills tag-search-actions">' +
-            actionLink(paper.url, 'Open Detail Page') +
-            actionLink(paper.mapUrl, 'Open in Map') +
-            actionLink(paper.treeUrl, 'Open in Tree') +
+        '</div>' +
+        '<div class="paper-similar-card__body">' +
+          `<h3><a href="${escAttr(paper.url || '#')}">${esc(paperTitle(paper))}</a></h3>` +
+          (paper.label && paper.label !== paper.title ? `<p class="paper-similar-card__label">${esc(paper.label)}</p>` : '') +
+          (byline ? `<div class="paper-similar-card__meta"><span>${esc(byline)}</span></div>` : '') +
+          '<div class="paper-link-pills paper-similar-card__actions">' +
+            actionLink(paper.url, 'Detail') +
+            actionLink(paper.mapUrl, 'Map') +
+            actionLink(paper.treeUrl, 'Tree') +
           '</div>' +
         '</div>' +
       '</article>'
@@ -219,6 +218,10 @@
 
   function paperTitle(paper) {
     return paper.title || paper.label || paper.id || 'Untitled Paper';
+  }
+
+  function paperYearByline(paper) {
+    return paper.year ? String(paper.year) : '';
   }
 
   function esc(value) {

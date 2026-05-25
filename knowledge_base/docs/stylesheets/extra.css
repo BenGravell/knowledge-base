@@ -2487,6 +2487,10 @@ body:has(#semantic-search-app) .md-content {
   min-height: 12rem;
 }
 
+.semantic-search-result-list {
+  margin: 0;
+}
+
 .semantic-search-error p {
   color: var(--kb-color-rose);
 }
