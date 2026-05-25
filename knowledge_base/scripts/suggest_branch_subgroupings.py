@@ -598,31 +598,40 @@ def split_list_mapping_line(line: str) -> tuple[int, str | None, str | None] | N
 
     indent = len(line) - len(stripped)
     body = stripped[2:].rstrip("\n")
-    in_single = False
-    in_double = False
-    escaped = False
+    separator_index: int | None = None
 
-    for index, char in enumerate(body):
-        if escaped:
-            escaped = False
-            continue
-        if in_double and char == "\\":
-            escaped = True
-            continue
-        if char == "'" and not in_double:
-            in_single = not in_single
-            continue
-        if char == '"' and not in_single:
-            in_double = not in_double
-            continue
-        if char == ":" and not in_single and not in_double:
-            raw_label = body[:index].strip()
-            rest = body[index + 1 :].strip()
-            try:
-                loaded_label = yaml.safe_load(raw_label)
-            except yaml.YAMLError:
-                loaded_label = raw_label
-            return indent, str(loaded_label), rest
+    if body.startswith(('"', "'")):
+        quote = body[0]
+        escaped = False
+        index = 1
+        while index < len(body):
+            char = body[index]
+            if quote == '"' and escaped:
+                escaped = False
+            elif quote == '"' and char == "\\":
+                escaped = True
+            elif quote == "'" and char == "'" and index + 1 < len(body) and body[index + 1] == "'":
+                index += 1
+            elif char == quote:
+                following = body[index + 1 :].lstrip()
+                if following.startswith(":"):
+                    separator_index = index + 1 + (len(body[index + 1 :]) - len(following))
+                break
+            index += 1
+    else:
+        for index, char in enumerate(body):
+            if char == ":" and (index + 1 == len(body) or body[index + 1].isspace()):
+                separator_index = index
+                break
+
+    if separator_index is not None:
+        raw_label = body[:separator_index].strip()
+        rest = body[separator_index + 1 :].strip()
+        try:
+            loaded_label = yaml.safe_load(raw_label)
+        except yaml.YAMLError:
+            loaded_label = raw_label
+        return indent, str(loaded_label), rest
 
     return indent, None, body.strip()
 
