@@ -2554,6 +2554,8 @@
     if (event && 'button' in event && event.button !== 0) return;
     if (event && 'isPrimary' in event && event.isPrimary === false) return;
 
+    blurActiveTextInputForGraphGesture();
+
     graphPanGesture = {
       pointerId: event && 'pointerId' in event ? event.pointerId : null,
       startX: point.clientX,
@@ -2594,6 +2596,30 @@
 
   function suppressGraphClickAfterPan() {
     return Date.now() < suppressGraphClickUntil;
+  }
+
+  function blurActiveTextInputForGraphGesture() {
+    const active = document.activeElement;
+    if (!active || active === document.body || active === document.documentElement) return;
+    if (typeof active.matches !== 'function' || typeof active.blur !== 'function') return;
+
+    const editableSelector = [
+      'input[type="email"]',
+      'input[type="number"]',
+      'input[type="password"]',
+      'input[type="search"]',
+      'input[type="tel"]',
+      'input[type="text"]',
+      'input[type="url"]',
+      'input:not([type])',
+      'textarea',
+      '[contenteditable=""]',
+      '[contenteditable="true"]',
+    ].join(',');
+
+    if (!active.matches(editableSelector)) return;
+    if (active.disabled || active.readOnly) return;
+    active.blur();
   }
 
   function eventClientPoint(event) {
