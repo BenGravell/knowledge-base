@@ -94,7 +94,7 @@ nav:
       - MPC: explainers/mpc.md
       - MCTS: explainers/mcts.md
       - Differential Flatness: explainers/differential_flatness.md
-      - AkinoPDF: explainers/akino_pdf.md
+      - FLASK: explainers/flask.md
       - Respect the Unstable: explainers/respect_the_unstable.md
       - Explorations in Dynamics: explainers/explorations_in_dynamics.md
       - Permutation-Invariant Neural Nets for RL: explainers/permutation_invariant_nn_rl.md

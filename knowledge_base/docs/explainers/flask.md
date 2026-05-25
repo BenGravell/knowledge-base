@@ -1,4 +1,4 @@
-# AkinoPDF
+# FLASK
 
 This is my personal write-up of "Ultrafast Sampling-based Kinodynamic Planning via Differential Flatness" by Duong, Ramsey, Kingston, Thomason, Kavraki (2026).
 

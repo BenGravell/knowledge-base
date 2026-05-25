@@ -410,7 +410,7 @@
             - Reachability-guided sampling for planning under differential constraints: docs/papers/2009/2009.shkolnik.reachability_guided_sampling_for/metadata.yml
             - RRT*_MotionPrimitives: docs/papers/2018/1809.02399/metadata.yml
             - BB-RRT: docs/papers/2022/2210.01744/metadata.yml
-            - AkinoPDF: docs/papers/2026/2603.16059/metadata.yml
+            - FLASK: docs/papers/2026/2603.16059/metadata.yml
             - Completeness of Randomized Kinodynamic Planners with State-based Steering: docs/papers/2015/1511.05259/metadata.yml
             - "Probabilistic completeness of RRT for geometric and kinodynamic planning with forward propagation": docs/papers/2018/1809.07051/metadata.yml
             - FDSPC: docs/papers/2024/2405.03281/metadata.yml
