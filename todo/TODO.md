@@ -411,19 +411,15 @@ Performance is bad. When clicking hide/show settings it lags another. Also inter
 
 Generalize and make more powerful by enabling search over other metadata fields e.g. author, year, source type, etc.
 
-Rename to Advanced Search
+Rename to just Search
 
-Integrate with the main Search bar provided by mkdocs in a clean and robust way. Dedpulicate functionality and ux as much as possible.
+Integrate with the Semantic Search and Material main Search bar in a clean and robust way. Dedpulicate functionality and ux as much as possible.
 
 ### UX
 
 ## Tree
 
 ### UX
-
-Make the box holding the selected branch taller on height.
-
-Place the siblings to the right side of the selected branch. The height of the selected branch should be tall enough to span all the siblings. Make sure it still looks good and works on mobile site.
 
 ### Taxonomy guidance
 
@@ -443,6 +439,10 @@ Remove redundant "open in map" button from node tooltip
 
 ### settings size
 For mobile site, tune the settings bar height so that it only covers about half of the screen at the top, so that the bottom half can be used for the node Map canvas.
+
+### draw all nodes on node selection with ghosting
+
+when Selected Node Filter is active, continue drawing the nodes that are currently hidden, but disable all interaction (hover) with them and use a very subtle 'ghost' style, maybe dashed lines, light grey, etc.
 
 #### bug
 

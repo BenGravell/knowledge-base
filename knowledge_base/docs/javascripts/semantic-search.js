@@ -6,6 +6,7 @@
 
   const workerUrl = '../javascripts/semantic-search-worker.js';
   const defaultQuery = new URLSearchParams(window.location.search).get('q') || '';
+  const queryPlaceholder = 'Search for a concept such as "safe motion planning with uncertainty" or "model predictive control for agile robots".';
   let worker = null;
   let ready = false;
   let loading = false;
@@ -18,7 +19,7 @@
         '<form id="semantic-search-form" class="tag-search-form semantic-search-form" role="search">' +
           '<label for="semantic-search-input">Search Phrase</label>' +
           '<div class="tag-search-input-row semantic-search-input-row">' +
-            `<input id="semantic-search-input" type="search" autocomplete="off" value="${escAttr(defaultQuery)}">` +
+            `<input id="semantic-search-input" type="search" autocomplete="off" placeholder="${escAttr(queryPlaceholder)}" value="${escAttr(defaultQuery)}">` +
             '<button type="submit">Search</button>' +
           '</div>' +
         '</form>' +
@@ -29,12 +30,7 @@
         '<div id="semantic-search-count" class="tag-search-count"><strong>0</strong><span>results</span></div>' +
       '</div>' +
     '</section>' +
-    '<section id="semantic-search-results-panel" class="tag-search-selection semantic-search-results-panel">' +
-      '<div class="tag-search-selection-empty">' +
-        '<h2>No Query Yet</h2>' +
-        '<p>Search for a concept such as "safe motion planning with uncertainty" or "model predictive control for agile robots".</p>' +
-      '</div>' +
-    '</section>';
+    '<section id="semantic-search-results-panel" class="tag-search-selection semantic-search-results-panel is-empty"></section>';
 
   const form = app.querySelector('#semantic-search-form');
   const input = app.querySelector('#semantic-search-input');
@@ -50,7 +46,7 @@
   input.addEventListener('keydown', event => {
     if (event.key !== 'Escape' || !input.value) return;
     input.value = '';
-    renderEmpty('No Query Yet', 'Search for a concept such as "safe motion planning with uncertainty" or "model predictive control for agile robots".');
+    renderIdle();
     syncUrl('');
   });
 
@@ -87,7 +83,7 @@
 
   function runQuery(query, updateUrl) {
     if (!query) {
-      renderEmpty('No Query Yet', 'Type a phrase to search by semantic similarity.');
+      renderIdle();
       syncUrl('');
       return;
     }
@@ -106,6 +102,7 @@
   function renderLoading(query) {
     setStatus(ready ? 'Embedding query...' : 'Loading embedding model and vector index...');
     count.innerHTML = '<strong>...</strong><span>searching</span>';
+    panel.classList.remove('is-empty');
     panel.innerHTML =
       '<div class="tag-search-selection-empty">' +
         '<h2>Searching</h2>' +
@@ -122,13 +119,24 @@
       return;
     }
 
+    panel.classList.remove('is-empty');
     panel.innerHTML = `<div class="paper-similar-list semantic-search-result-list">${results.map(renderResult).join('')}</div>`;
+  }
+
+  function renderIdle() {
+    loading = false;
+    lastQuery = '';
+    count.innerHTML = '<strong>0</strong><span>results</span>';
+    setStatus('Ready.');
+    panel.classList.add('is-empty');
+    panel.innerHTML = '';
   }
 
   function renderEmpty(title, message) {
     loading = false;
     count.innerHTML = '<strong>0</strong><span>results</span>';
     setStatus('Ready.');
+    panel.classList.remove('is-empty');
     panel.innerHTML =
       '<div class="tag-search-selection-empty">' +
         `<h2>${esc(title)}</h2>` +
@@ -139,6 +147,7 @@
   function renderError(message) {
     count.innerHTML = '<strong>!</strong><span>error</span>';
     setStatus(message);
+    panel.classList.remove('is-empty');
     panel.innerHTML =
       '<div class="tag-search-selection-empty semantic-search-error">' +
         '<h2>Search Unavailable</h2>' +

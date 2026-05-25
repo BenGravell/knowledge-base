@@ -1182,8 +1182,36 @@ body:has(#semantic-search-app) .md-content {
   gap: 0.72rem;
 }
 
+.ct-focus-core {
+  display: grid;
+  grid-template-columns: minmax(18rem, 3fr) minmax(14rem, 2fr);
+  gap: 0.72rem;
+  align-items: stretch;
+}
+
+.ct-focus-core--root {
+  grid-template-columns: 1fr;
+}
+
 .ct-focus-section {
   min-width: 0;
+}
+
+.ct-focus-section--ego {
+  display: flex;
+  flex-direction: column;
+}
+
+.ct-focus-section--ego .ct-tree-list,
+.ct-focus-section--ego .ct-tree-node {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.ct-focus-section--ego .ct-tree-button {
+  flex: 1 1 auto;
 }
 
 .ct-focus-section-head {
@@ -1385,6 +1413,7 @@ body:has(#semantic-search-app) .md-content {
   background-position: 18% 24%, 82% 22%, 20% 82%, 0% 50%;
   background-clip: padding-box;
   color: var(--ct-selected-text);
+  min-height: clamp(7rem, 18vh, 11rem);
   box-shadow:
     0 8px 18px color-mix(in srgb, var(--ct-cyan) 30%, transparent),
     inset 0 -2px 0 var(--ct-selected-inset);
@@ -1579,6 +1608,11 @@ body:has(#semantic-search-app) .md-content {
     gap: 0.58rem;
   }
 
+  .ct-focus-core {
+    grid-template-columns: 1fr;
+    gap: 0.58rem;
+  }
+
   .ct-focus-section-head {
     margin-bottom: 0.24rem;
   }
@@ -1588,6 +1622,10 @@ body:has(#semantic-search-app) .md-content {
     gap: 0.34rem;
     min-height: 2.35rem;
     padding: 0.34rem 0.46rem 0.34rem 0;
+  }
+
+  .ct-tree-node.is-current > .ct-tree-button {
+    min-height: 4.75rem;
   }
 
   .ct-tree-label {
@@ -2469,6 +2507,11 @@ body:has(#semantic-search-app) .md-content {
   align-self: stretch;
 }
 
+.semantic-search-input-row input::placeholder {
+  color: var(--md-default-fg-color--light);
+  opacity: 0.62;
+}
+
 .semantic-search-status-wrap {
   display: grid;
   align-content: start;
@@ -2489,6 +2532,13 @@ body:has(#semantic-search-app) .md-content {
 
 .semantic-search-results-panel {
   min-height: 12rem;
+}
+
+.semantic-search-results-panel.is-empty {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
 .semantic-search-result-list {
