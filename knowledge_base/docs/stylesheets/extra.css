@@ -59,7 +59,8 @@ body:has(#ct-app) .md-content__inner,
 body:has(#an-app) .md-content__inner,
 body:has(#tl-app) .md-content__inner,
 body:has(#mm-app) .md-content__inner,
-body:has(#tag-search-app) .md-content__inner {
+body:has(#tag-search-app) .md-content__inner,
+body:has(#semantic-search-app) .md-content__inner {
   position: relative;
   isolation: isolate;
   z-index: var(--kb-z-page);
@@ -69,7 +70,8 @@ body:has(#ct-app) .md-main__inner,
 body:has(#an-app) .md-main__inner,
 body:has(#tl-app) .md-main__inner,
 body:has(#mm-app) .md-main__inner,
-body:has(#tag-search-app) .md-main__inner {
+body:has(#tag-search-app) .md-main__inner,
+body:has(#semantic-search-app) .md-main__inner {
   margin-top: 0 !important;
 }
 
@@ -77,7 +79,8 @@ body:has(#tag-search-app) .md-main__inner {
 #an-app,
 #tl-app,
 #mm-app,
-#tag-search-app {
+#tag-search-app,
+#semantic-search-app {
   margin-top: var(--kb-app-top-gap) !important;
 }
 
@@ -86,16 +89,19 @@ body:has(#an-app) .md-content__inner > h1,
 body:has(#tl-app) .md-content__inner > h1,
 body:has(#mm-app) .md-content__inner > h1,
 body:has(#tag-search-app) .md-content__inner > h1,
+body:has(#semantic-search-app) .md-content__inner > h1,
 body:has(#ct-app) .md-content__inner::before,
 body:has(#an-app) .md-content__inner::before,
 body:has(#tl-app) .md-content__inner::before,
 body:has(#mm-app) .md-content__inner::before,
 body:has(#tag-search-app) .md-content__inner::before,
+body:has(#semantic-search-app) .md-content__inner::before,
 body:has(#ct-app) .md-content__inner::after,
 body:has(#an-app) .md-content__inner::after,
 body:has(#tl-app) .md-content__inner::after,
 body:has(#mm-app) .md-content__inner::after,
-body:has(#tag-search-app) .md-content__inner::after {
+body:has(#tag-search-app) .md-content__inner::after,
+body:has(#semantic-search-app) .md-content__inner::after {
   display: none !important;
 }
 
@@ -159,7 +165,9 @@ body:has(#tag-search-app) .md-content__inner::after {
 body:has(#knowledge-base) .md-sidebar--secondary,
 body:has(#knowledge-base) .md-header__button[for="__toc"],
 body:has(#tag-search-app) .md-sidebar--secondary,
-body:has(#tag-search-app) .md-header__button[for="__toc"] {
+body:has(#tag-search-app) .md-header__button[for="__toc"],
+body:has(#semantic-search-app) .md-sidebar--secondary,
+body:has(#semantic-search-app) .md-header__button[for="__toc"] {
   display: none !important;
 }
 
@@ -429,19 +437,23 @@ body:has(#ct-app)
 
 body:has(#ct-app) .md-grid,
 body:has(#tag-search-app) .md-grid,
+body:has(#semantic-search-app) .md-grid,
 body:has(#ct-app) .md-main__inner,
-body:has(#tag-search-app) .md-main__inner {
+body:has(#tag-search-app) .md-main__inner,
+body:has(#semantic-search-app) .md-main__inner {
   max-width: 100% !important;
 }
 
 body:has(#ct-app) .md-content,
-body:has(#tag-search-app) .md-content {
+body:has(#tag-search-app) .md-content,
+body:has(#semantic-search-app) .md-content {
   max-width: none !important;
   padding: 0 var(--kb-app-page-gutter) !important;
 }
 
 .md-content__inner:has(#ct-app),
-.md-content__inner:has(#tag-search-app) {
+.md-content__inner:has(#tag-search-app),
+.md-content__inner:has(#semantic-search-app) {
   max-width: 100% !important;
   margin: 0 !important;
   padding-top: 0 !important;
@@ -2447,6 +2459,36 @@ body:has(#tag-search-app) .md-content {
 
 .tag-search-actions {
   margin-top: 0.62rem;
+}
+
+.semantic-search-settings-body {
+  grid-template-columns: minmax(16rem, 1.5fr) minmax(12rem, 0.7fr);
+}
+
+.semantic-search-status-wrap {
+  display: grid;
+  align-content: start;
+  gap: 0.25rem;
+  min-width: 0;
+  padding: 0.54rem 0.62rem;
+  border: 1px solid var(--tag-search-border);
+  border-radius: 8px;
+  background: var(--md-default-bg-color);
+}
+
+.semantic-search-status {
+  margin: 0;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.semantic-search-results-panel {
+  min-height: 12rem;
+}
+
+.semantic-search-error p {
+  color: var(--kb-color-rose);
 }
 
 @media (max-width: 640px) {

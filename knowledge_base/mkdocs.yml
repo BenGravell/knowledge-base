@@ -14,6 +14,7 @@ plugins:
       scripts:
         - generate_papers.py
         - map/copy_assets.py
+        - semantic_search/copy_assets.py
         - tree/generate_tree_data.py
 
 theme:
@@ -86,6 +87,7 @@ nav:
   - Timeline: timeline.md
   - Tree: tree/index.md
   - Tag Search: tag-search.md
+  - Semantic Search: semantic-search.md
   - Analytics: analytics.md
   - Explainers:
     - Planning & Control:

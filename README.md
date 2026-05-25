@@ -43,6 +43,7 @@ scripts automatically:
 
 - `generate_papers.py` renders generated paper pages from `docs/papers/**/metadata.yml`.
 - `map/copy_assets.py` publishes Map JavaScript and vendor assets.
+- `semantic_search/copy_assets.py` publishes the Semantic Search index and vector table.
 - `tree/generate_tree_data.py` publishes Tree browser data.
 
 The Tree nav itself is edited in `tree.yml`. `mkdocs.yml`
@@ -163,6 +164,20 @@ Smoke-test the served MkDocs Map page in headless Chrome:
 python scripts/verify_map_view.py --url http://127.0.0.1:8000/map/
 ```
 
+## Semantic Search
+
+Semantic Search is a client-side exploratory search page for finding papers by meaning rather than exact keywords. In the UX, open **Semantic Search**, type a phrase such as "safe motion planning with uncertainty" or "diffusion policies for robot manipulation", and the page returns the nearest papers.
+
+Internally, the search page loads a static paper manifest and compact int8 vector table from `semantic_search/`, embeds the user's query in the browser with Transformers.js, normalizes the query vector, and computes cosine-like dot products against all stored paper vectors in a Web Worker. This keeps the site compatible with GitHub Pages: there is no search server, vector database, or API key at runtime.
+
+Regenerate the Semantic Search index after paper metadata changes:
+
+```bash
+python semantic_search/generate_semantic_search_index.py
+```
+
+Semantic Search intentionally uses `sentence-transformers/all-MiniLM-L6-v2` / `Xenova/all-MiniLM-L6-v2` instead of the Map's heavier embedding model. The Map can afford a larger offline model because embeddings are generated ahead of time and only the resulting graph data is served. Semantic Search also needs to embed arbitrary user queries on the client, so the model must be small, fast, and browser-compatible. MiniLM gives a practical first-load and query-time tradeoff while preserving real semantic behavior.
+
 ## Explainer Helpers
 
 Some explainers include small one-off Python helpers alongside the markdown.
@@ -180,6 +195,7 @@ python docs/explainers/pid/compute_lqr_gains.py
 - `scripts/` contains maintenance, audit, placement, and prefill entrypoints.
 - `scripts/prefill/` contains source-specific paper metadata importers.
 - `map/` contains graph generation, preview, and MkDocs asset publishing.
+- `semantic_search/` contains client-side semantic search index generation and MkDocs asset publishing.
 - `tree/` contains the MkDocs Tree data generator.
 - `docs/explainers/` may contain small helper scripts used by individual explainers.
 - `utils/` contains shared DOI, arXiv, and prefill helpers used by the scripts.
