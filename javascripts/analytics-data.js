@@ -29046,11 +29046,11 @@ window.analyticsData = {
   "superCategories": [
     {
       "label": "Decision-making",
-      "count": 994
+      "count": 987
     },
     {
       "label": "Prediction & Perception",
-      "count": 253
+      "count": 260
     },
     {
       "label": "Evaluation",
@@ -29076,11 +29076,11 @@ window.analyticsData = {
     },
     {
       "label": "Optimization",
-      "count": 219
+      "count": 212
     },
     {
       "label": "Machine Learning",
-      "count": 166
+      "count": 173
     },
     {
       "label": "Control",
@@ -29145,6 +29145,3130 @@ window.analyticsData = {
     {
       "label": "Humanities & Culture",
       "count": 3
+    }
+  ],
+  "categoryTree": [
+    {
+      "id": "tree-decision-making",
+      "label": "Decision-making",
+      "count": 987,
+      "children": [
+        {
+          "id": "tree-decision-making-optimization",
+          "label": "Optimization",
+          "count": 212,
+          "children": [
+            {
+              "id": "tree-decision-making-optimization-continuous-optimization",
+              "label": "Continuous Optimization",
+              "count": 163,
+              "children": [
+                {
+                  "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization",
+                  "label": "Convex Optimization",
+                  "count": 16,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-linear-programming",
+                      "label": "Linear Programming",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-quadratic-programming",
+                      "label": "Quadratic Programming",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-general-convex-optimization",
+                      "label": "General Convex Optimization",
+                      "count": 10,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-sum-of-squares-sos",
+                      "label": "Sum-of-squares (SOS)",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-online-convex-optimization",
+                      "label": "Online Convex Optimization",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-applications-in-probability-theory",
+                      "label": "Applications in Probability Theory",
+                      "count": 1,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization",
+                  "label": "Nonlinear Optimization",
+                  "count": 129,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-nonlinear-programming",
+                      "label": "Nonlinear Programming",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-problem-classes",
+                      "label": "Problem Classes",
+                      "count": 4,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-problem-classes-optimal-transport",
+                          "label": "Optimal Transport",
+                          "count": 2,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-problem-classes-facility-location",
+                          "label": "Facility Location",
+                          "count": 2,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-zeroth-order-methods",
+                      "label": "Zeroth-Order Methods",
+                      "count": 35,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-zeroth-order-methods-direct-search-pattern-search",
+                          "label": "Direct Search & Pattern Search",
+                          "count": 2,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-zeroth-order-methods-evolutionary-algorithms",
+                          "label": "Evolutionary Algorithms",
+                          "count": 21,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods",
+                      "label": "First-Order Methods",
+                      "count": 54,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-gradient-descent",
+                          "label": "Gradient descent",
+                          "count": 9,
+                          "children": [
+                            {
+                              "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-gradient-descent-convergence",
+                              "label": "Convergence",
+                              "count": 5,
+                              "children": [
+                                {
+                                  "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-gradient-descent-convergence-polyak-ojasiewicz",
+                                  "label": "Polyak-Łojasiewicz",
+                                  "count": 2,
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-momentum",
+                          "label": "Momentum",
+                          "count": 1,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-acceleration",
+                          "label": "Acceleration",
+                          "count": 7,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-symplectic-optimization",
+                          "label": "Symplectic Optimization",
+                          "count": 2,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-line-search",
+                          "label": "Line Search",
+                          "count": 3,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-adaptive-gradient-methods",
+                          "label": "Adaptive Gradient Methods",
+                          "count": 7,
+                          "children": [
+                            {
+                              "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-adaptive-gradient-methods-adam",
+                              "label": "Adam",
+                              "count": 3,
+                              "children": []
+                            },
+                            {
+                              "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-adaptive-gradient-methods-convergence",
+                              "label": "Convergence",
+                              "count": 2,
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-coordinate-descent",
+                          "label": "Coordinate Descent",
+                          "count": 2,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-subgradient-methods",
+                          "label": "Subgradient Methods",
+                          "count": 1,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-noisy-gradient-descent",
+                          "label": "Noisy Gradient Descent",
+                          "count": 2,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-stochastic-approximation",
+                          "label": "Stochastic Approximation",
+                          "count": 1,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-stochastic-gradient-descent-sgd",
+                          "label": "Stochastic Gradient Descent (SGD)",
+                          "count": 15,
+                          "children": [
+                            {
+                              "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-stochastic-gradient-descent-sgd-variance-reduction",
+                              "label": "Variance Reduction",
+                              "count": 8,
+                              "children": []
+                            },
+                            {
+                              "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-stochastic-gradient-descent-sgd-theory",
+                              "label": "Theory",
+                              "count": 3,
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-constrained-optimization",
+                          "label": "Constrained Optimization",
+                          "count": 1,
+                          "children": [
+                            {
+                              "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-constrained-optimization-projected-gradient-descent",
+                              "label": "Projected Gradient Descent",
+                              "count": 1,
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-control-theoretic-analysis",
+                          "label": "Control-theoretic Analysis",
+                          "count": 3,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-second-order-methods",
+                      "label": "Second-order Methods",
+                      "count": 21,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-second-order-methods-natural-gradient-methods",
+                          "label": "Natural Gradient Methods",
+                          "count": 2,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-second-order-methods-quasi-newton-methods",
+                          "label": "Quasi-Newton Methods",
+                          "count": 4,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-second-order-methods-newton-s-method",
+                          "label": "Newton's Method",
+                          "count": 15,
+                          "children": [
+                            {
+                              "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-second-order-methods-newton-s-method-regularized-newton-method",
+                              "label": "Regularized Newton Method",
+                              "count": 8,
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-high-order-methods",
+                      "label": "High-order Methods",
+                      "count": 5,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-high-order-methods-midpoint-newton-method",
+                          "label": "Midpoint Newton Method",
+                          "count": 1,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-high-order-methods-halley-s-method-and-high-order-methods",
+                          "label": "Halley's Method and High-Order Methods",
+                          "count": 4,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-trust-region-methods",
+                      "label": "Trust Region Methods",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-proximal-methods",
+                      "label": "Proximal Methods",
+                      "count": 5,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-optimization-continuous-optimization-robust-optimization",
+                  "label": "Robust Optimization",
+                  "count": 4,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-optimization-continuous-optimization-minimax-game-theory",
+                  "label": "Minimax & Game Theory",
+                  "count": 5,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-optimization-continuous-optimization-distributed-optimization",
+                  "label": "Distributed Optimization",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-optimization-continuous-optimization-automatic-differentiation",
+                  "label": "Automatic Differentiation",
+                  "count": 7,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-optimization-combinatorial-optimization",
+              "label": "Combinatorial Optimization",
+              "count": 12,
+              "children": [
+                {
+                  "id": "tree-decision-making-optimization-combinatorial-optimization-complexity-theory",
+                  "label": "Complexity Theory",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-optimization-combinatorial-optimization-covering-problems",
+                  "label": "Covering Problems",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-optimization-combinatorial-optimization-traveling-salesman-problems",
+                  "label": "Traveling Salesman Problems",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-optimization-combinatorial-optimization-assignment-problems",
+                  "label": "Assignment Problems",
+                  "count": 5,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-optimization-combinatorial-optimization-graph-search",
+                  "label": "Graph Search",
+                  "count": 2,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-optimization-toolboxes-solvers",
+              "label": "Toolboxes & Solvers",
+              "count": 37,
+              "children": [
+                {
+                  "id": "tree-decision-making-optimization-toolboxes-solvers-convex-optimization",
+                  "label": "Convex Optimization",
+                  "count": 17,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-optimization-toolboxes-solvers-convex-optimization-cvx-ecosystem",
+                      "label": "CVX Ecosystem",
+                      "count": 9,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-optimization-toolboxes-solvers-convex-optimization-cvx-ecosystem-cvx-base",
+                          "label": "CVX Base",
+                          "count": 4,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-toolboxes-solvers-convex-optimization-cvx-ecosystem-cvx-extensions",
+                          "label": "CVX Extensions",
+                          "count": 5,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-toolboxes-solvers-convex-optimization-solvers",
+                      "label": "Solvers",
+                      "count": 7,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-optimization-toolboxes-solvers-convex-optimization-solvers-ecos",
+                          "label": "ECOS",
+                          "count": 2,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-toolboxes-solvers-convex-optimization-solvers-clarabel",
+                          "label": "Clarabel",
+                          "count": 2,
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-optimization-toolboxes-solvers-nonlinear-optimization",
+                  "label": "Nonlinear Optimization",
+                  "count": 4,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-optimization-toolboxes-solvers-markov-decision-processes-mdps",
+                  "label": "Markov Decision Processes (MDPs)",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-optimization-toolboxes-solvers-black-box-optimization",
+                  "label": "Black-Box Optimization",
+                  "count": 13,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-optimization-toolboxes-solvers-black-box-optimization-bayesian-optimization",
+                      "label": "Bayesian Optimization",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-toolboxes-solvers-black-box-optimization-planner-controller-autotuning",
+                      "label": "Planner / Controller Autotuning",
+                      "count": 5,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tree-decision-making-planning",
+          "label": "Planning",
+          "count": 378,
+          "children": [
+            {
+              "id": "tree-decision-making-planning-geometric-planning",
+              "label": "Geometric Planning",
+              "count": 82,
+              "children": [
+                {
+                  "id": "tree-decision-making-planning-geometric-planning-path-planning",
+                  "label": "Path Planning",
+                  "count": 58,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-planning-fundamentals",
+                      "label": "Fundamentals",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-planning-potential-fields",
+                      "label": "Potential Fields",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-planning-graph-search",
+                      "label": "Graph Search",
+                      "count": 6,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-planning-probabilistic-roadmap-prm",
+                      "label": "Probabilistic Roadmap (PRM)",
+                      "count": 5,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-planning-sampling-based-trees",
+                      "label": "Sampling-based Trees",
+                      "count": 24,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-planning-geometric-planning-path-planning-sampling-based-trees-suboptimal",
+                          "label": "Suboptimal",
+                          "count": 2,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-planning-geometric-planning-path-planning-sampling-based-trees-asymptotically-optimal",
+                          "label": "Asymptotically Optimal",
+                          "count": 13,
+                          "children": [
+                            {
+                              "id": "tree-decision-making-planning-geometric-planning-path-planning-sampling-based-trees-asymptotically-optimal-rrt",
+                              "label": "RRT*",
+                              "count": 5,
+                              "children": []
+                            },
+                            {
+                              "id": "tree-decision-making-planning-geometric-planning-path-planning-sampling-based-trees-asymptotically-optimal-informed-rrt",
+                              "label": "Informed RRT*",
+                              "count": 6,
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-planning-vectorized-planning",
+                      "label": "Vectorized Planning",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-planning-gpu-parallelized-planning",
+                      "label": "GPU Parallelized Planning",
+                      "count": 7,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-planning-dynamic-replanning",
+                      "label": "Dynamic Replanning",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-planning-constrained-motion-planning",
+                      "label": "Constrained Motion Planning",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-planning-collision-detection-proximity-queries",
+                      "label": "Collision Detection & Proximity Queries",
+                      "count": 7,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-planning-geometric-planning-path-generation",
+                  "label": "Path Generation",
+                  "count": 16,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-generation-lines-arcs",
+                      "label": "Lines & Arcs",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-generation-clothoids-linear-curvature",
+                      "label": "Clothoids (linear curvature)",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-generation-generalized-clothoids-nonlinear-curvature",
+                      "label": "Generalized Clothoids (nonlinear curvature)",
+                      "count": 5,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-generation-polynomials-splines",
+                      "label": "Polynomials & Splines",
+                      "count": 6,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-planning-geometric-planning-path-optimization",
+                  "label": "Path Optimization",
+                  "count": 8,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-optimization-path-shortcutting",
+                      "label": "Path Shortcutting",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-optimization-path-smoothing",
+                      "label": "Path Smoothing",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-optimization-gradient-based-path-optimization",
+                      "label": "Gradient-based Path Optimization",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-geometric-planning-path-optimization-sample-based-path-optimization",
+                      "label": "Sample-based Path Optimization",
+                      "count": 1,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-planning-kinodynamic-planning",
+              "label": "Kinodynamic Planning",
+              "count": 184,
+              "children": [
+                {
+                  "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-planning",
+                  "label": "Trajectory Planning",
+                  "count": 47,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-planning-rapidly-exploring-random-trees-rrt",
+                      "label": "Rapidly Exploring Random Trees (RRT)",
+                      "count": 28,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-planning-rapidly-exploring-random-trees-rrt-linearized-rrt",
+                          "label": "Linearized RRT",
+                          "count": 7,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-planning-expansive-space-trees-est",
+                      "label": "Expansive Space Trees (EST)",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-planning-stable-sparse-tree-sst",
+                      "label": "Stable Sparse Tree (SST)",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-planning-meta-algorithms",
+                      "label": "Meta Algorithms",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-planning-safe-interval-planning",
+                      "label": "Safe Interval Planning",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-planning-discontinuity-bounded-planning",
+                      "label": "Discontinuity-bounded Planning",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-planning-planning-with-graphs-of-convex-sets-gcs",
+                      "label": "Planning with Graphs of Convex Sets (GCS)",
+                      "count": 9,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-generation",
+                  "label": "Trajectory Generation",
+                  "count": 14,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-generation-wheeled-robots",
+                      "label": "Wheeled Robots",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-generation-quadrotors",
+                      "label": "Quadrotors",
+                      "count": 11,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization",
+                  "label": "Trajectory Optimization",
+                  "count": 119,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control",
+                      "label": "Model Predictive Sampling-Based Control",
+                      "count": 31,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-cross-entropy-motion-planning-cem",
+                          "label": "Cross-Entropy Motion Planning (CEM)",
+                          "count": 1,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi",
+                          "label": "Model Predictive Path Integral Control (MPPI)",
+                          "count": 23,
+                          "children": [
+                            {
+                              "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-fundamentals",
+                              "label": "Fundamentals",
+                              "count": 5,
+                              "children": []
+                            },
+                            {
+                              "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-sampling-distributions",
+                              "label": "Sampling Distributions",
+                              "count": 6,
+                              "children": [
+                                {
+                                  "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-sampling-distributions-reachability-informed-sampling",
+                                  "label": "Reachability-informed Sampling",
+                                  "count": 2,
+                                  "children": []
+                                },
+                                {
+                                  "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-sampling-distributions-multimodal-sampling",
+                                  "label": "Multimodal Sampling",
+                                  "count": 2,
+                                  "children": []
+                                }
+                              ]
+                            },
+                            {
+                              "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-accelerating-integration-simulation",
+                              "label": "Accelerating Integration/Simulation",
+                              "count": 1,
+                              "children": []
+                            },
+                            {
+                              "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-action-smoothing",
+                              "label": "Action Smoothing",
+                              "count": 3,
+                              "children": []
+                            },
+                            {
+                              "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-variance-reduction",
+                              "label": "Variance Reduction",
+                              "count": 1,
+                              "children": []
+                            },
+                            {
+                              "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-interaction-aware-dynamic-planning",
+                              "label": "Interaction-aware & Dynamic Planning",
+                              "count": 2,
+                              "children": []
+                            },
+                            {
+                              "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-safety-uncertainty-handling",
+                              "label": "Safety & Uncertainty Handling",
+                              "count": 3,
+                              "children": []
+                            },
+                            {
+                              "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-heavy-vehicles",
+                              "label": "Heavy Vehicles",
+                              "count": 2,
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-partially-observed-systems",
+                          "label": "Partially Observed Systems",
+                          "count": 1,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-trees",
+                      "label": "Model Predictive Trees",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-iterative-linear-quadratic-regulator-ilqr-differential-dynamic-programming-ddp",
+                      "label": "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)",
+                      "count": 21,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-iterative-linear-quadratic-regulator-ilqr-differential-dynamic-programming-ddp-ilqr",
+                          "label": "iLQR",
+                          "count": 4,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-iterative-linear-quadratic-regulator-ilqr-differential-dynamic-programming-ddp-differential-dynamic-programming",
+                          "label": "Differential Dynamic Programming",
+                          "count": 11,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-iterative-linear-quadratic-regulator-ilqr-differential-dynamic-programming-ddp-multiple-shooting-ddp-ms-ddp",
+                          "label": "Multiple Shooting DDP (MS-DDP)",
+                          "count": 4,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-iterative-linear-quadratic-regulator-ilqr-differential-dynamic-programming-ddp-tutorials-convergence-theory",
+                          "label": "Tutorials & Convergence Theory",
+                          "count": 2,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-constrained-ddp-ilqr",
+                      "label": "Constrained DDP & iLQR",
+                      "count": 16,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-elastic-smoothing",
+                      "label": "Elastic Smoothing",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-nonlinear-optimization",
+                      "label": "Nonlinear Optimization",
+                      "count": 20,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-trajectory-optimization-on-point-clouds",
+                      "label": "Trajectory Optimization on Point Clouds",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-trajectory-optimization-on-gaussian-splats",
+                      "label": "Trajectory Optimization on Gaussian Splats",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-hybrid-approaches",
+                      "label": "Hybrid Approaches",
+                      "count": 6,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-hybrid-approaches-sampled-differential-dynamic-programming-saddp",
+                          "label": "Sampled Differential Dynamic Programming (SaDDP)",
+                          "count": 4,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-learning-in-trajectory-optimization",
+                      "label": "Learning in Trajectory Optimization",
+                      "count": 18,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-learning-in-trajectory-optimization-sampling-based-mpc",
+                          "label": "Sampling-based MPC",
+                          "count": 2,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-learning-in-trajectory-optimization-learning-initial-solutions",
+                          "label": "Learning Initial Solutions",
+                          "count": 2,
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-planning-kinodynamic-planning-hybrid-approaches",
+                  "label": "Hybrid Approaches",
+                  "count": 4,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-planning-speed-planning",
+              "label": "Speed Planning",
+              "count": 8,
+              "children": [
+                {
+                  "id": "tree-decision-making-planning-speed-planning-time-optimal-path-parameterization-topp",
+                  "label": "Time-Optimal Path Parameterization (TOPP)",
+                  "count": 4,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-planning-speed-planning-optimization-based-speed-planning",
+                  "label": "Optimization-based Speed Planning",
+                  "count": 4,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-planning-planning-in-changing-environments",
+              "label": "Planning in Changing Environments",
+              "count": 26,
+              "children": [
+                {
+                  "id": "tree-decision-making-planning-planning-in-changing-environments-feedback-motion-planning",
+                  "label": "Feedback Motion Planning",
+                  "count": 4,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-planning-planning-in-changing-environments-planning-under-uncertainty",
+                  "label": "Planning Under Uncertainty",
+                  "count": 11,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-planning-planning-in-changing-environments-planning-under-uncertainty-planning-in-belief-space",
+                      "label": "Planning in Belief Space",
+                      "count": 9,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-planning-planning-in-changing-environments-planning-under-uncertainty-planning-in-belief-space-belief-roadmap-brm",
+                          "label": "Belief Roadmap (BRM)",
+                          "count": 3,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-planning-planning-in-changing-environments-planning-under-uncertainty-planning-in-belief-space-belief-trees",
+                          "label": "Belief Trees",
+                          "count": 6,
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-planning-planning-in-changing-environments-velocity-obstacles",
+                  "label": "Velocity Obstacles",
+                  "count": 4,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-planning-planning-in-changing-environments-interaction-aware-planning",
+                  "label": "Interaction-aware Planning",
+                  "count": 7,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-planning-planning-in-changing-environments-interaction-aware-planning-multipolicy-decision-making-mpdm",
+                      "label": "Multipolicy Decision Making (MPDM)",
+                      "count": 3,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-planning-learning-based-motion-planning",
+              "label": "Learning-Based Motion Planning",
+              "count": 24,
+              "children": [
+                {
+                  "id": "tree-decision-making-planning-learning-based-motion-planning-learned-sampling",
+                  "label": "Learned Sampling",
+                  "count": 7,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-planning-learning-based-motion-planning-learned-corridor-selection",
+                  "label": "Learned Corridor Selection",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-planning-learning-based-motion-planning-learned-costs",
+                  "label": "Learned Costs",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-planning-learning-based-motion-planning-learned-environmental-conditions",
+                  "label": "Learned Environmental Conditions",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-planning-learning-based-motion-planning-learned-steering",
+                  "label": "Learned Steering",
+                  "count": 9,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-planning-learning-based-motion-planning-learned-steering-diffusion",
+                      "label": "Diffusion",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-learning-based-motion-planning-learned-steering-flow-matching",
+                      "label": "Flow Matching",
+                      "count": 2,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-planning-learning-based-motion-planning-frameworks",
+                  "label": "Frameworks",
+                  "count": 3,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-planning-planning-for-robots",
+              "label": "Planning for Robots",
+              "count": 23,
+              "children": [
+                {
+                  "id": "tree-decision-making-planning-planning-for-robots-inverse-kinematics",
+                  "label": "Inverse Kinematics",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-planning-planning-for-robots-manipulation-contact",
+                  "label": "Manipulation & Contact",
+                  "count": 4,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-planning-planning-for-robots-reachability",
+                  "label": "Reachability",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-planning-planning-for-robots-multi-robot-planning",
+                  "label": "Multi-Robot Planning",
+                  "count": 14,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-planning-overviews",
+              "label": "Overviews",
+              "count": 31,
+              "children": [
+                {
+                  "id": "tree-decision-making-planning-overviews-surveys-comparative-studies",
+                  "label": "Surveys & Comparative Studies",
+                  "count": 13,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-planning-overviews-benchmarks",
+                  "label": "Benchmarks",
+                  "count": 4,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-planning-overviews-frameworks",
+                  "label": "Frameworks",
+                  "count": 14,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-planning-overviews-frameworks-whole-body-locomotion-manipulation",
+                      "label": "Whole-Body Locomotion & Manipulation",
+                      "count": 8,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-planning-overviews-frameworks-whole-body-locomotion-manipulation-bipeds",
+                          "label": "Bipeds",
+                          "count": 3,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-planning-overviews-frameworks-whole-body-locomotion-manipulation-quadrupeds",
+                          "label": "Quadrupeds",
+                          "count": 5,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-planning-overviews-frameworks-sampling-based-mpc",
+                      "label": "Sampling-Based MPC",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-planning-overviews-frameworks-driving-robots",
+                      "label": "Driving Robots",
+                      "count": 3,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tree-decision-making-control",
+          "label": "Control",
+          "count": 150,
+          "children": [
+            {
+              "id": "tree-decision-making-control-theory",
+              "label": "Theory",
+              "count": 15,
+              "children": [
+                {
+                  "id": "tree-decision-making-control-theory-stability",
+                  "label": "Stability",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-theory-parameterization-of-stabilizing-controllers",
+                  "label": "Parameterization of Stabilizing Controllers",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-theory-internal-modeling",
+                  "label": "Internal Modeling",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-theory-linear-matrix-inequalities-lmis",
+                  "label": "Linear Matrix Inequalities (LMIs)",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-theory-architectures",
+                  "label": "Architectures",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-theory-complexity-hardness",
+                  "label": "Complexity & Hardness",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-theory-biological-systems",
+                  "label": "Biological Systems",
+                  "count": 1,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-control-frequency-and-laplace-domain-methods",
+              "label": "Frequency and Laplace-Domain Methods",
+              "count": 6,
+              "children": [
+                {
+                  "id": "tree-decision-making-control-frequency-and-laplace-domain-methods-classical-feedback-foundations",
+                  "label": "Classical Feedback Foundations",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-frequency-and-laplace-domain-methods-proportional-integral-derivative-pid",
+                  "label": "Proportional-integral-derivative (PID)",
+                  "count": 2,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-control-state-space-methods",
+              "label": "State-space Methods",
+              "count": 45,
+              "children": [
+                {
+                  "id": "tree-decision-making-control-state-space-methods-pole-placement",
+                  "label": "Pole Placement",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-state-space-methods-linear-quadratic-regulator-lqr",
+                  "label": "Linear Quadratic Regulator (LQR)",
+                  "count": 11,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-control-state-space-methods-linear-quadratic-regulator-lqr-foundations",
+                      "label": "Foundations",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-control-state-space-methods-linear-quadratic-regulator-lqr-riccati-equations",
+                      "label": "Riccati Equations",
+                      "count": 8,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-control-state-space-methods-model-predictive-control-mpc",
+                  "label": "Model Predictive Control (MPC)",
+                  "count": 30,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-control-state-space-methods-model-predictive-control-mpc-model-predictive-contouring-control-mpcc",
+                      "label": "Model Predictive Contouring Control (MPCC)",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-control-state-space-methods-model-predictive-control-mpc-data-driven-and-learning-based-mpc",
+                      "label": "Data-Driven and Learning-Based MPC",
+                      "count": 9,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-control-state-space-methods-model-predictive-control-mpc-data-driven-and-learning-based-mpc-data-driven-control",
+                          "label": "Data-driven Control",
+                          "count": 2,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-control-state-space-methods-model-predictive-control-mpc-robust-and-stochastic-mpc",
+                      "label": "Robust and Stochastic MPC",
+                      "count": 6,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-control-state-space-methods-model-predictive-control-mpc-mpc-applications-and-implementations",
+                      "label": "MPC Applications and Implementations",
+                      "count": 2,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-control-state-space-methods-nonlinear-control-design",
+                  "label": "Nonlinear Control Design",
+                  "count": 2,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-control-stochastic-control",
+              "label": "Stochastic Control",
+              "count": 26,
+              "children": [
+                {
+                  "id": "tree-decision-making-control-stochastic-control-multiplicative-noise",
+                  "label": "Multiplicative Noise",
+                  "count": 22,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-control-stochastic-control-multiplicative-noise-stochastic-stability",
+                      "label": "Stochastic Stability",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-control-stochastic-control-multiplicative-noise-state-feedback",
+                      "label": "State Feedback",
+                      "count": 10,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-control-stochastic-control-multiplicative-noise-state-feedback-riccati-equations",
+                          "label": "Riccati Equations",
+                          "count": 3,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-control-stochastic-control-multiplicative-noise-state-feedback-linear-matrix-inequalities",
+                          "label": "Linear Matrix Inequalities",
+                          "count": 1,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-control-stochastic-control-multiplicative-noise-output-feedback",
+                      "label": "Output Feedback",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-control-stochastic-control-multiplicative-noise-anomaly-detection",
+                      "label": "Anomaly Detection",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-control-stochastic-control-multiplicative-noise-connections-with-robust-control",
+                      "label": "Connections with Robust Control",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-control-stochastic-control-multiplicative-noise-learning-based-control",
+                      "label": "Learning-based Control",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-control-stochastic-control-multiplicative-noise-physical-systems",
+                      "label": "Physical Systems",
+                      "count": 1,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-control-stochastic-control-control-of-uncertain-linear-systems",
+                  "label": "Control of Uncertain Linear Systems",
+                  "count": 4,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-control-robust-safety-critical-control",
+              "label": "Robust & Safety-Critical Control",
+              "count": 24,
+              "children": [
+                {
+                  "id": "tree-decision-making-control-robust-safety-critical-control-robust-control",
+                  "label": "Robust Control",
+                  "count": 12,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-control-robust-safety-critical-control-robust-control-lqr-and-lqg-robustness",
+                      "label": "LQR and LQG Robustness",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-control-robust-safety-critical-control-robust-control-h2-h-infinity-synthesis",
+                      "label": "H2 / H-infinity Synthesis",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-control-robust-safety-critical-control-robust-control-input-output-robustness-and-integral-quadratic-constraints-iqcs",
+                      "label": "Input-Output Robustness and Integral Quadratic Constraints (IQCs)",
+                      "count": 4,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-control-robust-safety-critical-control-robust-control-statistical-and-probabilistic-robustness",
+                      "label": "Statistical and Probabilistic Robustness",
+                      "count": 2,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-control-robust-safety-critical-control-control-lyapunov-functions-clf",
+                  "label": "Control Lyapunov Functions (CLF)",
+                  "count": 6,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-robust-safety-critical-control-control-barrier-functions-cbf",
+                  "label": "Control Barrier Functions (CBF)",
+                  "count": 6,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-control-adaptive-control",
+              "label": "Adaptive Control",
+              "count": 5,
+              "children": [
+                {
+                  "id": "tree-decision-making-control-adaptive-control-l1-adaptive-control",
+                  "label": "L1 Adaptive Control",
+                  "count": 4,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-control-distributed-control",
+              "label": "Distributed Control",
+              "count": 5,
+              "children": [
+                {
+                  "id": "tree-decision-making-control-distributed-control-decentralized-control",
+                  "label": "Decentralized Control",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-distributed-control-control-of-networks",
+                  "label": "Control of Networks",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-distributed-control-synchronization",
+                  "label": "Synchronization",
+                  "count": 1,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-control-robot-control",
+              "label": "Robot Control",
+              "count": 15,
+              "children": [
+                {
+                  "id": "tree-decision-making-control-robot-control-tracking-control",
+                  "label": "Tracking control",
+                  "count": 9,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-control-robot-control-tracking-control-tracking-control-for-wheeled-robots",
+                      "label": "Tracking Control for Wheeled Robots",
+                      "count": 6,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-control-robot-control-tracking-control-tracking-control-for-wheeled-robots-pure-pursuit",
+                          "label": "Pure Pursuit",
+                          "count": 2,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-control-robot-control-tracking-control-tracking-control-for-aerial-robots",
+                      "label": "Tracking Control for Aerial Robots",
+                      "count": 2,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-control-robot-control-perception-based-control",
+                  "label": "Perception-Based Control",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-robot-control-teleoperation",
+                  "label": "Teleoperation",
+                  "count": 1,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-control-system-modeling-co-design",
+              "label": "System Modeling & Co-Design",
+              "count": 9,
+              "children": [
+                {
+                  "id": "tree-decision-making-control-system-modeling-co-design-control-oriented-physical-modeling",
+                  "label": "Control-Oriented Physical Modeling",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-system-modeling-co-design-vehicle-dynamics",
+                  "label": "Vehicle Dynamics",
+                  "count": 6,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-system-modeling-co-design-control-plant-co-design",
+                  "label": "Control-Plant Co-Design",
+                  "count": 1,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tree-decision-making-reinforcement-learning",
+          "label": "Reinforcement Learning",
+          "count": 247,
+          "children": [
+            {
+              "id": "tree-decision-making-reinforcement-learning-foundations",
+              "label": "Foundations",
+              "count": 6,
+              "children": []
+            },
+            {
+              "id": "tree-decision-making-reinforcement-learning-multi-arm-bandits",
+              "label": "Multi-arm Bandits",
+              "count": 7,
+              "children": []
+            },
+            {
+              "id": "tree-decision-making-reinforcement-learning-linear-systems",
+              "label": "Linear Systems",
+              "count": 62,
+              "children": [
+                {
+                  "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization",
+                  "label": "Policy Optimization",
+                  "count": 22,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-lqr",
+                      "label": "LQR",
+                      "count": 7,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-robust-lq",
+                      "label": "Robust LQ",
+                      "count": 4,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-lqr-with-multiplicative-noise",
+                      "label": "LQR with Multiplicative Noise",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-lqr-with-domain-randomization",
+                      "label": "LQR with Domain Randomization",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-multi-task-lqr",
+                      "label": "Multi-task LQR",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-lqr-with-integral-control",
+                      "label": "LQR with Integral Control",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-federated-lqr",
+                      "label": "Federated LQR",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-static-output-linear-feedback",
+                      "label": "Static Output Linear Feedback",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-lqg",
+                      "label": "LQG",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-nearly-linear-quadratic-regulators",
+                      "label": "Nearly Linear-Quadratic Regulators",
+                      "count": 1,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-reinforcement-learning-linear-systems-dynamic-programming",
+                  "label": "Dynamic Programming",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl",
+                  "label": "Model-based RL",
+                  "count": 37,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification",
+                      "label": "System Identification",
+                      "count": 21,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-subspace-identification",
+                          "label": "Subspace Identification",
+                          "count": 4,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-realization-based-methods",
+                          "label": "Realization-based Methods",
+                          "count": 2,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-dynamic-mode-decomposition-dmd",
+                          "label": "Dynamic Mode Decomposition (DMD)",
+                          "count": 5,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-linear-systems-with-additive-noise",
+                          "label": "Linear Systems with Additive Noise",
+                          "count": 6,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-linear-systems-with-multiplicative-noise",
+                          "label": "Linear Systems with Multiplicative Noise",
+                          "count": 2,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-adaptive-linear-quadratic-control",
+                      "label": "Adaptive Linear Quadratic Control",
+                      "count": 5,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-robust-adaptive-linear-quadratic-control",
+                      "label": "Robust Adaptive Linear Quadratic Control",
+                      "count": 7,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-lqg",
+                      "label": "LQG",
+                      "count": 4,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-reinforcement-learning-nonlinear-systems",
+              "label": "Nonlinear Systems",
+              "count": 152,
+              "children": [
+                {
+                  "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization",
+                  "label": "Policy Optimization",
+                  "count": 50,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-random-search-evolution-strategies",
+                      "label": "Random Search & Evolution Strategies",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient",
+                      "label": "Policy Gradient",
+                      "count": 28,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-vanilla-policy-gradient",
+                          "label": "Vanilla Policy Gradient",
+                          "count": 3,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-natural-policy-gradient",
+                          "label": "Natural Policy Gradient",
+                          "count": 4,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-variance-reduction",
+                          "label": "Variance Reduction",
+                          "count": 3,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-actor-critic-methods",
+                      "label": "Actor-Critic Methods",
+                      "count": 12,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-trust-region",
+                      "label": "Trust Region",
+                      "count": 8,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-dynamic-programming",
+                  "label": "Dynamic Programming",
+                  "count": 26,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-dynamic-programming-exact-dynamic-programming",
+                      "label": "Exact Dynamic Programming",
+                      "count": 5,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-dynamic-programming-approximate-dynamic-programming",
+                      "label": "Approximate Dynamic Programming",
+                      "count": 18,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-dynamic-programming-approximate-dynamic-programming-deep-neural-network-based",
+                          "label": "Deep Neural Network-Based",
+                          "count": 5,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-dynamic-programming-policy-evaluation",
+                      "label": "Policy Evaluation",
+                      "count": 3,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl",
+                  "label": "Model-based RL",
+                  "count": 47,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-system-identification",
+                      "label": "System Identification",
+                      "count": 32,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-system-identification-extended-dynamic-mode-decomposition-edmd-and-koopman",
+                          "label": "Extended Dynamic Mode Decomposition (eDMD) and Koopman",
+                          "count": 6,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-system-identification-sparse-identification-of-nonlinear-dynamics-sindy",
+                          "label": "Sparse Identification of Nonlinear Dynamics (SINDy)",
+                          "count": 6,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-system-identification-world-models",
+                          "label": "World Models",
+                          "count": 4,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-surveys-control-connections",
+                      "label": "Surveys & Control Connections",
+                      "count": 5,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-mpc-rl-hybrids",
+                      "label": "MPC-RL Hybrids",
+                      "count": 10,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning",
+                  "label": "Imitation Learning",
+                  "count": 17,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning-foundations-reductions",
+                      "label": "Foundations & Reductions",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning-behavior-cloning",
+                      "label": "Behavior Cloning",
+                      "count": 5,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning-active-imitation-learning",
+                      "label": "Active Imitation Learning",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning-visuomotor-skill-imitation",
+                      "label": "Visuomotor & Skill Imitation",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning-robot-manipulation",
+                      "label": "Robot Manipulation",
+                      "count": 5,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning-language-grounded-policies",
+                      "label": "Language-Grounded Policies",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning-datasets",
+                      "label": "Datasets",
+                      "count": 1,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-diffusion-flow-matching",
+                  "label": "Diffusion & Flow Matching",
+                  "count": 9,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-hybrid-approaches",
+                  "label": "Hybrid Approaches",
+                  "count": 3,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-reinforcement-learning-multi-agent-reinforcement-learning",
+              "label": "Multi-agent Reinforcement learning",
+              "count": 2,
+              "children": []
+            },
+            {
+              "id": "tree-decision-making-reinforcement-learning-robot-fleet-learning",
+              "label": "Robot Fleet Learning",
+              "count": 3,
+              "children": []
+            },
+            {
+              "id": "tree-decision-making-reinforcement-learning-inverse-reinforcement-learning-reward-learning",
+              "label": "Inverse Reinforcement Learning & Reward Learning",
+              "count": 11,
+              "children": [
+                {
+                  "id": "tree-decision-making-reinforcement-learning-inverse-reinforcement-learning-reward-learning-inverse-optimization",
+                  "label": "Inverse Optimization",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-reinforcement-learning-inverse-reinforcement-learning-reward-learning-inverse-optimal-control",
+                  "label": "Inverse Optimal Control",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-reinforcement-learning-inverse-reinforcement-learning-reward-learning-inverse-reinforcement-learning",
+                  "label": "Inverse Reinforcement Learning",
+                  "count": 7,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-inverse-reinforcement-learning-reward-learning-inverse-reinforcement-learning-max-entropy",
+                      "label": "Max Entropy",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-inverse-reinforcement-learning-reward-learning-inverse-reinforcement-learning-adversarial",
+                      "label": "Adversarial",
+                      "count": 2,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "tree-decision-making-reinforcement-learning-applications",
+              "label": "Applications",
+              "count": 4,
+              "children": [
+                {
+                  "id": "tree-decision-making-reinforcement-learning-applications-manipulation-grasping",
+                  "label": "Manipulation & Grasping",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-reinforcement-learning-applications-driving",
+                  "label": "Driving",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-decision-making-reinforcement-learning-applications-urban-planning",
+                  "label": "Urban Planning",
+                  "count": 1,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tree-prediction-perception",
+      "label": "Prediction & Perception",
+      "count": 260,
+      "children": [
+        {
+          "id": "tree-prediction-perception-state-estimation",
+          "label": "State Estimation",
+          "count": 31,
+          "children": [
+            {
+              "id": "tree-prediction-perception-state-estimation-optimal-state-estimation-kalman-filters",
+              "label": "Optimal State Estimation (Kalman Filters)",
+              "count": 6,
+              "children": [
+                {
+                  "id": "tree-prediction-perception-state-estimation-optimal-state-estimation-kalman-filters-linear-systems",
+                  "label": "Linear Systems",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-state-estimation-optimal-state-estimation-kalman-filters-nonlinear-systems",
+                  "label": "Nonlinear Systems",
+                  "count": 4,
+                  "children": [
+                    {
+                      "id": "tree-prediction-perception-state-estimation-optimal-state-estimation-kalman-filters-nonlinear-systems-unscented-kalman-filter-ukf",
+                      "label": "Unscented Kalman Filter (UKF)",
+                      "count": 3,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "tree-prediction-perception-state-estimation-robust-state-estimation",
+              "label": "Robust State Estimation",
+              "count": 1,
+              "children": []
+            },
+            {
+              "id": "tree-prediction-perception-state-estimation-adaptive-state-estimation",
+              "label": "Adaptive State Estimation",
+              "count": 2,
+              "children": []
+            },
+            {
+              "id": "tree-prediction-perception-state-estimation-learning-based-state-estimation",
+              "label": "Learning-based State Estimation",
+              "count": 2,
+              "children": []
+            },
+            {
+              "id": "tree-prediction-perception-state-estimation-particle-filter",
+              "label": "Particle Filter",
+              "count": 4,
+              "children": []
+            },
+            {
+              "id": "tree-prediction-perception-state-estimation-localization-mapping",
+              "label": "Localization & Mapping",
+              "count": 16,
+              "children": [
+                {
+                  "id": "tree-prediction-perception-state-estimation-localization-mapping-factor-graphs",
+                  "label": "Factor Graphs",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-state-estimation-localization-mapping-map-based-localization",
+                  "label": "Map-Based Localization",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-state-estimation-localization-mapping-dense-mapping",
+                  "label": "Dense Mapping",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-state-estimation-localization-mapping-simultaneous-localization-and-mapping-slam",
+                  "label": "Simultaneous Localization and Mapping (SLAM)",
+                  "count": 4,
+                  "children": [
+                    {
+                      "id": "tree-prediction-perception-state-estimation-localization-mapping-simultaneous-localization-and-mapping-slam-graph-based-slam-smoothing",
+                      "label": "Graph-Based SLAM & Smoothing",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-prediction-perception-state-estimation-localization-mapping-simultaneous-localization-and-mapping-slam-metric-semantic-slam",
+                      "label": "Metric-Semantic SLAM",
+                      "count": 2,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-prediction-perception-state-estimation-localization-mapping-point-cloud-registration",
+                  "label": "Point Cloud Registration",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-state-estimation-localization-mapping-visual-odometry-structure-from-motion",
+                  "label": "Visual Odometry & Structure from Motion",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-state-estimation-localization-mapping-sensor-calibration",
+                  "label": "Sensor Calibration",
+                  "count": 1,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tree-prediction-perception-motion-prediction",
+          "label": "Motion Prediction",
+          "count": 19,
+          "children": [
+            {
+              "id": "tree-prediction-perception-motion-prediction-driver-models",
+              "label": "Driver Models",
+              "count": 3,
+              "children": []
+            },
+            {
+              "id": "tree-prediction-perception-motion-prediction-multi-agent-interaction-aware-prediction",
+              "label": "Multi-agent & Interaction-aware Prediction",
+              "count": 6,
+              "children": []
+            },
+            {
+              "id": "tree-prediction-perception-motion-prediction-prediction-requirements",
+              "label": "Prediction Requirements",
+              "count": 1,
+              "children": []
+            },
+            {
+              "id": "tree-prediction-perception-motion-prediction-surveys",
+              "label": "Surveys",
+              "count": 9,
+              "children": [
+                {
+                  "id": "tree-prediction-perception-motion-prediction-surveys-automated-driving",
+                  "label": "Automated Driving",
+                  "count": 8,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tree-prediction-perception-computer-vision",
+          "label": "Computer Vision",
+          "count": 37,
+          "children": [
+            {
+              "id": "tree-prediction-perception-computer-vision-low-level-geometric-vision",
+              "label": "Low-level & Geometric Vision",
+              "count": 9,
+              "children": [
+                {
+                  "id": "tree-prediction-perception-computer-vision-low-level-geometric-vision-edge-detection",
+                  "label": "Edge Detection",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-computer-vision-low-level-geometric-vision-feature-detection-description",
+                  "label": "Feature Detection & Description",
+                  "count": 4,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-computer-vision-low-level-geometric-vision-3d-vision-shape-understanding",
+                  "label": "3D Vision & Shape Understanding",
+                  "count": 2,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-prediction-perception-computer-vision-recognition-understanding",
+              "label": "Recognition & Understanding",
+              "count": 17,
+              "children": [
+                {
+                  "id": "tree-prediction-perception-computer-vision-recognition-understanding-object-detection",
+                  "label": "Object Detection",
+                  "count": 4,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-computer-vision-recognition-understanding-face-recognition",
+                  "label": "Face Recognition",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-computer-vision-recognition-understanding-image-classification-recognition",
+                  "label": "Image Classification & Recognition",
+                  "count": 9,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-computer-vision-recognition-understanding-video-understanding",
+                  "label": "Video Understanding",
+                  "count": 3,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-prediction-perception-computer-vision-image-compression",
+              "label": "Image Compression",
+              "count": 3,
+              "children": []
+            },
+            {
+              "id": "tree-prediction-perception-computer-vision-image-processing-computational-photography",
+              "label": "Image Processing & Computational Photography",
+              "count": 2,
+              "children": []
+            },
+            {
+              "id": "tree-prediction-perception-computer-vision-image-assessment",
+              "label": "Image Assessment",
+              "count": 6,
+              "children": [
+                {
+                  "id": "tree-prediction-perception-computer-vision-image-assessment-metrics",
+                  "label": "Metrics",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-computer-vision-image-assessment-color",
+                  "label": "Color",
+                  "count": 3,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tree-prediction-perception-machine-learning",
+          "label": "Machine Learning",
+          "count": 173,
+          "children": [
+            {
+              "id": "tree-prediction-perception-machine-learning-foundations-data-reliability",
+              "label": "Foundations, Data & Reliability",
+              "count": 22,
+              "children": [
+                {
+                  "id": "tree-prediction-perception-machine-learning-foundations-data-reliability-foundations",
+                  "label": "Foundations",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-foundations-data-reliability-datasets",
+                  "label": "Datasets",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-foundations-data-reliability-uncertainty-quantification",
+                  "label": "Uncertainty Quantification",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-foundations-data-reliability-interpretability",
+                  "label": "Interpretability",
+                  "count": 16,
+                  "children": [
+                    {
+                      "id": "tree-prediction-perception-machine-learning-foundations-data-reliability-interpretability-shapley",
+                      "label": "Shapley",
+                      "count": 3,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "tree-prediction-perception-machine-learning-classical-statistical-learning",
+              "label": "Classical & Statistical Learning",
+              "count": 38,
+              "children": [
+                {
+                  "id": "tree-prediction-perception-machine-learning-classical-statistical-learning-clustering",
+                  "label": "Clustering",
+                  "count": 13,
+                  "children": [
+                    {
+                      "id": "tree-prediction-perception-machine-learning-classical-statistical-learning-clustering-k-means",
+                      "label": "k-means",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-prediction-perception-machine-learning-classical-statistical-learning-clustering-hierarchical-clustering",
+                      "label": "Hierarchical Clustering",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-prediction-perception-machine-learning-classical-statistical-learning-clustering-density-based-clustering",
+                      "label": "Density-based Clustering",
+                      "count": 5,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-prediction-perception-machine-learning-classical-statistical-learning-clustering-spectral-clustering",
+                      "label": "Spectral Clustering",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-prediction-perception-machine-learning-classical-statistical-learning-clustering-deep-embedding-clustering",
+                      "label": "Deep Embedding Clustering",
+                      "count": 3,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-classical-statistical-learning-dimensionality-reduction",
+                  "label": "Dimensionality Reduction",
+                  "count": 5,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-classical-statistical-learning-decision-trees",
+                  "label": "Decision Trees",
+                  "count": 6,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-classical-statistical-learning-kernel-machines",
+                  "label": "Kernel Machines",
+                  "count": 5,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-classical-statistical-learning-ensemble-methods",
+                  "label": "Ensemble Methods",
+                  "count": 9,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-prediction-perception-machine-learning-deep-learning",
+              "label": "Deep Learning",
+              "count": 35,
+              "children": [
+                {
+                  "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks",
+                  "label": "Neural Networks",
+                  "count": 25,
+                  "children": [
+                    {
+                      "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-architectures",
+                      "label": "Architectures",
+                      "count": 6,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-activation-functions",
+                      "label": "Activation Functions",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-training-algorithms",
+                      "label": "Training Algorithms",
+                      "count": 11,
+                      "children": [
+                        {
+                          "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-training-algorithms-backpropagation",
+                          "label": "Backpropagation",
+                          "count": 1,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-training-algorithms-optimization-with-curvature-information",
+                          "label": "Optimization with Curvature Information",
+                          "count": 3,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-training-algorithms-optimization-with-constraints",
+                          "label": "Optimization with constraints",
+                          "count": 1,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-training-algorithms-regularization",
+                          "label": "Regularization",
+                          "count": 1,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-training-algorithms-overparameterization",
+                          "label": "Overparameterization",
+                          "count": 3,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-training-algorithms-edge-of-stability",
+                          "label": "Edge of Stability",
+                          "count": 2,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-theory-science",
+                      "label": "Theory & Science",
+                      "count": 7,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-deep-learning-representation-learning",
+                  "label": "Representation Learning",
+                  "count": 8,
+                  "children": [
+                    {
+                      "id": "tree-prediction-perception-machine-learning-deep-learning-representation-learning-energy-based-models",
+                      "label": "Energy-based Models",
+                      "count": 2,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-deep-learning-state-space-models-ssm",
+                  "label": "State-space Models (SSM)",
+                  "count": 2,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-prediction-perception-machine-learning-language-sequence-models",
+              "label": "Language & Sequence Models",
+              "count": 33,
+              "children": [
+                {
+                  "id": "tree-prediction-perception-machine-learning-language-sequence-models-natural-language-processing-nlp",
+                  "label": "Natural Language Processing (NLP)",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-language-sequence-models-large-language-models-llm",
+                  "label": "Large language models (LLM)",
+                  "count": 11,
+                  "children": [
+                    {
+                      "id": "tree-prediction-perception-machine-learning-language-sequence-models-large-language-models-llm-transformers-attention-based-models",
+                      "label": "Transformers & Attention-based models",
+                      "count": 4,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-language-sequence-models-time-series",
+                  "label": "Time Series",
+                  "count": 21,
+                  "children": [
+                    {
+                      "id": "tree-prediction-perception-machine-learning-language-sequence-models-time-series-algorithms",
+                      "label": "Algorithms",
+                      "count": 15,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-prediction-perception-machine-learning-language-sequence-models-time-series-surveys-and-comparative-studies",
+                      "label": "Surveys and Comparative Studies",
+                      "count": 4,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-prediction-perception-machine-learning-language-sequence-models-time-series-explainability",
+                      "label": "Explainability",
+                      "count": 2,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models",
+              "label": "Multimodal & Embodied Models",
+              "count": 27,
+              "children": [
+                {
+                  "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models-vision-langugage-models-vlm",
+                  "label": "Vision-langugage models (VLM)",
+                  "count": 7,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models-vision-language-action-models-vla",
+                  "label": "Vision-language-action Models (VLA)",
+                  "count": 13,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models-large-behavioral-models-lbm",
+                  "label": "Large Behavioral Models (LBM)",
+                  "count": 7,
+                  "children": [
+                    {
+                      "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models-large-behavioral-models-lbm-behaviorgpt",
+                      "label": "BehaviorGPT",
+                      "count": 4,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "tree-prediction-perception-machine-learning-generative-modeling",
+              "label": "Generative Modeling",
+              "count": 16,
+              "children": [
+                {
+                  "id": "tree-prediction-perception-machine-learning-generative-modeling-generative-models",
+                  "label": "Generative Models",
+                  "count": 5,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-generative-modeling-diffusion-models",
+                  "label": "Diffusion Models",
+                  "count": 5,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-machine-learning-generative-modeling-flow-matching",
+                  "label": "Flow Matching",
+                  "count": 6,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-prediction-perception-machine-learning-federated-learning",
+              "label": "Federated Learning",
+              "count": 2,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tree-evaluation",
+      "label": "Evaluation",
+      "count": 101,
+      "children": [
+        {
+          "id": "tree-evaluation-simulation",
+          "label": "Simulation",
+          "count": 16,
+          "children": [
+            {
+              "id": "tree-evaluation-simulation-driving-traffic-simulation",
+              "label": "Driving & Traffic Simulation",
+              "count": 9,
+              "children": [
+                {
+                  "id": "tree-evaluation-simulation-driving-traffic-simulation-learned-simulation",
+                  "label": "Learned Simulation",
+                  "count": 5,
+                  "children": []
+                },
+                {
+                  "id": "tree-evaluation-simulation-driving-traffic-simulation-diffusion-based-generation",
+                  "label": "Diffusion-based Generation",
+                  "count": 3,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-evaluation-simulation-flying-simulation",
+              "label": "Flying Simulation",
+              "count": 2,
+              "children": []
+            },
+            {
+              "id": "tree-evaluation-simulation-manipulation-indoor-simulation",
+              "label": "Manipulation & Indoor Simulation",
+              "count": 2,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "tree-evaluation-computer-graphics",
+          "label": "Computer Graphics",
+          "count": 19,
+          "children": [
+            {
+              "id": "tree-evaluation-computer-graphics-noise-dithering",
+              "label": "Noise & Dithering",
+              "count": 6,
+              "children": []
+            },
+            {
+              "id": "tree-evaluation-computer-graphics-line-integral-convolution-lic",
+              "label": "Line Integral Convolution (LIC)",
+              "count": 7,
+              "children": []
+            },
+            {
+              "id": "tree-evaluation-computer-graphics-surface-rendering",
+              "label": "Surface Rendering",
+              "count": 2,
+              "children": []
+            },
+            {
+              "id": "tree-evaluation-computer-graphics-radiance-fields",
+              "label": "Radiance Fields",
+              "count": 2,
+              "children": []
+            },
+            {
+              "id": "tree-evaluation-computer-graphics-3d-gaussian-splatting-3dgs",
+              "label": "3D Gaussian Splatting (3DGS)",
+              "count": 2,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "tree-evaluation-benchmarks",
+          "label": "Benchmarks",
+          "count": 7,
+          "children": [
+            {
+              "id": "tree-evaluation-benchmarks-gyms",
+              "label": "Gyms",
+              "count": 5,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "tree-evaluation-safety-testing-verification-validation-v-v",
+          "label": "Safety, Testing, Verification & Validation (V&V)",
+          "count": 23,
+          "children": [
+            {
+              "id": "tree-evaluation-safety-testing-verification-validation-v-v-driving-autonomous-vehicles",
+              "label": "Driving & Autonomous Vehicles",
+              "count": 15,
+              "children": [
+                {
+                  "id": "tree-evaluation-safety-testing-verification-validation-v-v-driving-autonomous-vehicles-road-design",
+                  "label": "Road Design",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-evaluation-safety-testing-verification-validation-v-v-driving-autonomous-vehicles-collision-and-accident-assessment",
+                  "label": "Collision and Accident Assessment",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-evaluation-safety-testing-verification-validation-v-v-driving-autonomous-vehicles-autonomy-testing",
+                  "label": "Autonomy Testing",
+                  "count": 5,
+                  "children": []
+                },
+                {
+                  "id": "tree-evaluation-safety-testing-verification-validation-v-v-driving-autonomous-vehicles-standards",
+                  "label": "Standards",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-evaluation-safety-testing-verification-validation-v-v-driving-autonomous-vehicles-formal-methods",
+                  "label": "Formal Methods",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-evaluation-safety-testing-verification-validation-v-v-driving-autonomous-vehicles-reachability",
+                  "label": "Reachability",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-evaluation-safety-testing-verification-validation-v-v-driving-autonomous-vehicles-learning-methods",
+                  "label": "Learning Methods",
+                  "count": 1,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-evaluation-safety-testing-verification-validation-v-v-risk-aware-robotics",
+              "label": "Risk-aware Robotics",
+              "count": 2,
+              "children": []
+            },
+            {
+              "id": "tree-evaluation-safety-testing-verification-validation-v-v-general-automated-systems",
+              "label": "General Automated Systems",
+              "count": 6,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "tree-evaluation-engineering-systems",
+          "label": "Engineering Systems",
+          "count": 36,
+          "children": [
+            {
+              "id": "tree-evaluation-engineering-systems-robots",
+              "label": "Robots",
+              "count": 32,
+              "children": [
+                {
+                  "id": "tree-evaluation-engineering-systems-robots-balancing-robots",
+                  "label": "Balancing Robots",
+                  "count": 9,
+                  "children": [
+                    {
+                      "id": "tree-evaluation-engineering-systems-robots-balancing-robots-single-link-inverted-pendulums",
+                      "label": "Single-link Inverted Pendulums",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-evaluation-engineering-systems-robots-balancing-robots-multi-link-inverted-pendulums",
+                      "label": "Multi-link Inverted Pendulums",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-evaluation-engineering-systems-robots-balancing-robots-reaction-wheel-inverted-pendulums",
+                      "label": "Reaction Wheel Inverted Pendulums",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-evaluation-engineering-systems-robots-balancing-robots-ball-on-beam",
+                      "label": "Ball-on-beam",
+                      "count": 1,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-evaluation-engineering-systems-robots-mobile-robots",
+                  "label": "Mobile Robots",
+                  "count": 22,
+                  "children": [
+                    {
+                      "id": "tree-evaluation-engineering-systems-robots-mobile-robots-walking-robots",
+                      "label": "Walking Robots",
+                      "count": 8,
+                      "children": [
+                        {
+                          "id": "tree-evaluation-engineering-systems-robots-mobile-robots-walking-robots-bipeds",
+                          "label": "Bipeds",
+                          "count": 5,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-evaluation-engineering-systems-robots-mobile-robots-walking-robots-quadrupeds",
+                          "label": "Quadrupeds",
+                          "count": 3,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-evaluation-engineering-systems-robots-mobile-robots-brachiating-robots",
+                      "label": "Brachiating Robots",
+                      "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-evaluation-engineering-systems-robots-mobile-robots-flying-robots",
+                      "label": "Flying Robots",
+                      "count": 5,
+                      "children": [
+                        {
+                          "id": "tree-evaluation-engineering-systems-robots-mobile-robots-flying-robots-multirotors",
+                          "label": "Multirotors",
+                          "count": 2,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "tree-evaluation-engineering-systems-robots-mobile-robots-wheeled-robots",
+                      "label": "Wheeled Robots",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-evaluation-engineering-systems-robots-mobile-robots-driving-robots",
+                      "label": "Driving Robots",
+                      "count": 6,
+                      "children": [
+                        {
+                          "id": "tree-evaluation-engineering-systems-robots-mobile-robots-driving-robots-darpa-urban-challenge",
+                          "label": "DARPA Urban Challenge",
+                          "count": 4,
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "tree-evaluation-engineering-systems-stirling-engines",
+              "label": "Stirling Engines",
+              "count": 3,
+              "children": []
+            },
+            {
+              "id": "tree-evaluation-engineering-systems-nuclear-reactors",
+              "label": "Nuclear Reactors",
+              "count": 1,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tree-quantitative-foundations",
+      "label": "Quantitative Foundations",
+      "count": 85,
+      "children": [
+        {
+          "id": "tree-quantitative-foundations-mathematics",
+          "label": "Mathematics",
+          "count": 26,
+          "children": [
+            {
+              "id": "tree-quantitative-foundations-mathematics-geometry-tiling",
+              "label": "Geometry & Tiling",
+              "count": 3,
+              "children": []
+            },
+            {
+              "id": "tree-quantitative-foundations-mathematics-table-theorems",
+              "label": "Table Theorems",
+              "count": 2,
+              "children": []
+            },
+            {
+              "id": "tree-quantitative-foundations-mathematics-linear-algebra-signal-processing",
+              "label": "Linear Algebra & Signal Processing",
+              "count": 11,
+              "children": [
+                {
+                  "id": "tree-quantitative-foundations-mathematics-linear-algebra-signal-processing-fourier-transforms",
+                  "label": "Fourier Transforms",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-quantitative-foundations-mathematics-linear-algebra-signal-processing-signal-filtering-and-smoothing",
+                  "label": "Signal Filtering and Smoothing",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-quantitative-foundations-mathematics-linear-algebra-signal-processing-conjugate-gradient",
+                  "label": "Conjugate Gradient",
+                  "count": 8,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-quantitative-foundations-mathematics-numerical-methods",
+              "label": "Numerical Methods",
+              "count": 1,
+              "children": []
+            },
+            {
+              "id": "tree-quantitative-foundations-mathematics-sampling-quasi-monte-carlo",
+              "label": "Sampling & Quasi-Monte Carlo",
+              "count": 1,
+              "children": []
+            },
+            {
+              "id": "tree-quantitative-foundations-mathematics-statistics-probability",
+              "label": "Statistics & Probability",
+              "count": 8,
+              "children": [
+                {
+                  "id": "tree-quantitative-foundations-mathematics-statistics-probability-concentration-bounds",
+                  "label": "Concentration Bounds",
+                  "count": 4,
+                  "children": []
+                },
+                {
+                  "id": "tree-quantitative-foundations-mathematics-statistics-probability-risk-measures",
+                  "label": "Risk Measures",
+                  "count": 2,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tree-quantitative-foundations-software-programming",
+          "label": "Software & Programming",
+          "count": 17,
+          "children": [
+            {
+              "id": "tree-quantitative-foundations-software-programming-essays",
+              "label": "Essays",
+              "count": 3,
+              "children": []
+            },
+            {
+              "id": "tree-quantitative-foundations-software-programming-scientific-computing",
+              "label": "Scientific Computing",
+              "count": 2,
+              "children": []
+            },
+            {
+              "id": "tree-quantitative-foundations-software-programming-machine-learning",
+              "label": "Machine learning",
+              "count": 6,
+              "children": [
+                {
+                  "id": "tree-quantitative-foundations-software-programming-machine-learning-jax-ecosystem",
+                  "label": "JAX Ecosystem",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-quantitative-foundations-software-programming-machine-learning-ray-ecosystem",
+                  "label": "Ray Ecosystem",
+                  "count": 3,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-quantitative-foundations-software-programming-databases",
+              "label": "Databases",
+              "count": 1,
+              "children": []
+            },
+            {
+              "id": "tree-quantitative-foundations-software-programming-robotics",
+              "label": "Robotics",
+              "count": 4,
+              "children": [
+                {
+                  "id": "tree-quantitative-foundations-software-programming-robotics-ros-ecosystem",
+                  "label": "ROS Ecosystem",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-quantitative-foundations-software-programming-robotics-message-protocols",
+                  "label": "Message Protocols",
+                  "count": 1,
+                  "children": []
+                },
+                {
+                  "id": "tree-quantitative-foundations-software-programming-robotics-user-interfaces",
+                  "label": "User Interfaces",
+                  "count": 1,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-quantitative-foundations-software-programming-visualization-plotting",
+              "label": "Visualization & Plotting",
+              "count": 1,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "tree-quantitative-foundations-algorithms-data-structures",
+          "label": "Algorithms & Data Structures",
+          "count": 28,
+          "children": [
+            {
+              "id": "tree-quantitative-foundations-algorithms-data-structures-sorting",
+              "label": "Sorting",
+              "count": 4,
+              "children": []
+            },
+            {
+              "id": "tree-quantitative-foundations-algorithms-data-structures-priority-queues",
+              "label": "Priority Queues",
+              "count": 1,
+              "children": []
+            },
+            {
+              "id": "tree-quantitative-foundations-algorithms-data-structures-nearest-neighbor-search",
+              "label": "Nearest Neighbor Search",
+              "count": 8,
+              "children": [
+                {
+                  "id": "tree-quantitative-foundations-algorithms-data-structures-nearest-neighbor-search-approximate-nearest-neighbor-search",
+                  "label": "Approximate Nearest Neighbor Search",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-quantitative-foundations-algorithms-data-structures-nearest-neighbor-search-quantization",
+                  "label": "Quantization",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-quantitative-foundations-algorithms-data-structures-nearest-neighbor-search-large-scale-vector-search",
+                  "label": "Large-scale Vector Search",
+                  "count": 4,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-quantitative-foundations-algorithms-data-structures-trees-spatial-indexing",
+              "label": "Trees & Spatial Indexing",
+              "count": 10,
+              "children": [
+                {
+                  "id": "tree-quantitative-foundations-algorithms-data-structures-trees-spatial-indexing-ordered-search-trees",
+                  "label": "Ordered Search Trees",
+                  "count": 4,
+                  "children": [
+                    {
+                      "id": "tree-quantitative-foundations-algorithms-data-structures-trees-spatial-indexing-ordered-search-trees-b-tree",
+                      "label": "B-tree",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-quantitative-foundations-algorithms-data-structures-trees-spatial-indexing-ordered-search-trees-red-black-tree",
+                      "label": "Red-black Tree",
+                      "count": 2,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-quantitative-foundations-algorithms-data-structures-trees-spatial-indexing-spatial-partition-trees",
+                  "label": "Spatial Partition Trees",
+                  "count": 2,
+                  "children": []
+                },
+                {
+                  "id": "tree-quantitative-foundations-algorithms-data-structures-trees-spatial-indexing-bounding-volume-trees",
+                  "label": "Bounding Volume Trees",
+                  "count": 3,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "tree-quantitative-foundations-algorithms-data-structures-probabilistic-data-structures",
+              "label": "Probabilistic Data Structures",
+              "count": 3,
+              "children": []
+            },
+            {
+              "id": "tree-quantitative-foundations-algorithms-data-structures-parallel-algorithms",
+              "label": "Parallel Algorithms",
+              "count": 2,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "tree-quantitative-foundations-network-science",
+          "label": "Network Science",
+          "count": 14,
+          "children": [
+            {
+              "id": "tree-quantitative-foundations-network-science-small-world-and-scale-free-networks",
+              "label": "Small-World and Scale-Free Networks",
+              "count": 2,
+              "children": []
+            },
+            {
+              "id": "tree-quantitative-foundations-network-science-centrality",
+              "label": "Centrality",
+              "count": 5,
+              "children": []
+            },
+            {
+              "id": "tree-quantitative-foundations-network-science-community-detection",
+              "label": "Community Detection",
+              "count": 7,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tree-human-natural-worlds",
+      "label": "Human & Natural Worlds",
+      "count": 16,
+      "children": [
+        {
+          "id": "tree-human-natural-worlds-environmental-impacts",
+          "label": "Environmental Impacts",
+          "count": 3,
+          "children": []
+        },
+        {
+          "id": "tree-human-natural-worlds-biology",
+          "label": "Biology",
+          "count": 10,
+          "children": [
+            {
+              "id": "tree-human-natural-worlds-biology-evolution",
+              "label": "Evolution",
+              "count": 2,
+              "children": []
+            },
+            {
+              "id": "tree-human-natural-worlds-biology-dna",
+              "label": "DNA",
+              "count": 5,
+              "children": []
+            },
+            {
+              "id": "tree-human-natural-worlds-biology-genetic-engineering",
+              "label": "Genetic Engineering",
+              "count": 3,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "tree-human-natural-worlds-humanities-culture",
+          "label": "Humanities & Culture",
+          "count": 3,
+          "children": []
+        }
+      ]
     }
   ],
   "auditStatuses": [

@@ -322,8 +322,10 @@
     const html = [
       '<div class="ct-focus-stack">',
       ancestors.length ? renderNodeSection('Ancestors', ancestors, 'path', node) : '',
-      parent ? renderNodeSection('Siblings', siblings, 'siblings', node) : '',
+      '<div class="ct-focus-core' + (parent ? '' : ' ct-focus-core--root') + '">',
       renderNodeSection('', [node], 'ego', node, { hideHeader: true }),
+      parent ? renderNodeSection('Siblings', siblings, 'siblings', node) : '',
+      '</div>',
       node.children.length ? renderNodeSection('Children', children, 'children', node) : '',
       '</div>',
     ].filter(Boolean).join('');

@@ -1369,14 +1369,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Physical Systems",
         "Experiments with an Inverted Pendulum Subject to Random Parametric Excitation"
       ],
       "tags": [
@@ -1625,43 +1625,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1967_wonham_on_pole_assignment_in"
     },
     {
-      "id": "1967_wonham_optimal_stationary_control_of",
-      "label": "Optimal Stationary Control of a Linear System with State-Dependent Noise",
-      "title": "Optimal Stationary Control of a Linear System with State-Dependent Noise",
-      "authors": [
-        "W. M. Wonham"
-      ],
-      "authorShort": "Wonham",
-      "year": 1967,
-      "source": "SIAM Journal on Control",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "State-space Methods",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
-        "Optimal Stationary Control of a Linear System with State-Dependent Noise"
-      ],
-      "tags": [
-        "Stochastic control",
-        "Linear systems",
-        "State-dependent noise",
-        "Multiplicative noise",
-        "Algebraic Riccati equation",
-        "Optimal control"
-      ],
-      "abstract": "Consider the linear control system described by the formal, vector stochastic differential equation x_dot = A x - B u + C w_dot_1 + G(x) w_dot_2. In this equation, u is the control and w_dot_1, w_dot_2 are independent Gaussian white noise disturbances. The elements of the matrix G are assumed to be linear in x; and so the term G(x) w_dot_2 represents a disturbance of which the intensity is roughly proportional to the deviation of x from the origin x = 0. Equivalently, the disturbance can be regarded as a wideband random perturbation of the system matrix A. Now consider the problem of choosing a feedback control u = phi(x) such that, in the steady state, the expected quadratic cost E{x'Mx + u'Nu} is a minimum. If G(x) = 0, the solution of this problem is well known. Under mild restrictions the optimal control always exists and is a linear function of x which is independent of the intensity of the additive disturbance C w_dot_1. In the present article it is shown that an optimal control exists for the more general system above, provided the state-dependent noise G(x) w_dot_2 is sufficiently small. The optimal control is again linear, but is now rather critically dependent on the coefficients of G. Examples are provided to show that instability may result if this dependence is ignored. The problem is stated precisely in section 2; the proof of existence is given in sections 3 and 4; and some examples are studied in sections 5 and 6. We conclude with some remarks on the interpretation of the system equation and discuss alternative optimization problems which are closely related.",
-      "summary": "Extends LQR to linear systems subject to multiplicative (state-dependent) Gaussian noise, deriving a modified algebraic Riccati equation whose stabilizing solution yields the optimal stationary feedback gain. Establishes existence and uniqueness conditions and lays the groundwork for stochastic LQR theory.",
-      "url": "../papers/1967_wonham_optimal_stationary_control_of/",
-      "treeUrl": "../tree/#paper=1967_wonham_optimal_stationary_control_of",
-      "mapUrl": "../map/#paper=1967_wonham_optimal_stationary_control_of"
-    },
-    {
       "id": "1967_kleinman_suboptimal_design_of_linear",
       "label": "Suboptimal Design of Linear Regulator Systems",
       "title": "Suboptimal Design of Linear Regulator Systems Subject to Computer Storage Limitations",
@@ -1696,6 +1659,43 @@ window.timelineData = {
       "url": "../papers/1967_kleinman_suboptimal_design_of_linear/",
       "treeUrl": "../tree/#paper=1967_kleinman_suboptimal_design_of_linear",
       "mapUrl": "../map/#paper=1967_kleinman_suboptimal_design_of_linear"
+    },
+    {
+      "id": "1967_wonham_optimal_stationary_control_of",
+      "label": "Optimal Stationary Control of a Linear System with State-Dependent Noise",
+      "title": "Optimal Stationary Control of a Linear System with State-Dependent Noise",
+      "authors": [
+        "W. M. Wonham"
+      ],
+      "authorShort": "Wonham",
+      "year": 1967,
+      "source": "SIAM Journal on Control",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Stochastic Control",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "State Feedback",
+        "Optimal Stationary Control of a Linear System with State-Dependent Noise"
+      ],
+      "tags": [
+        "Stochastic control",
+        "Linear systems",
+        "State-dependent noise",
+        "Multiplicative noise",
+        "Algebraic Riccati equation",
+        "Optimal control"
+      ],
+      "abstract": "Consider the linear control system described by the formal, vector stochastic differential equation x_dot = A x - B u + C w_dot_1 + G(x) w_dot_2. In this equation, u is the control and w_dot_1, w_dot_2 are independent Gaussian white noise disturbances. The elements of the matrix G are assumed to be linear in x; and so the term G(x) w_dot_2 represents a disturbance of which the intensity is roughly proportional to the deviation of x from the origin x = 0. Equivalently, the disturbance can be regarded as a wideband random perturbation of the system matrix A. Now consider the problem of choosing a feedback control u = phi(x) such that, in the steady state, the expected quadratic cost E{x'Mx + u'Nu} is a minimum. If G(x) = 0, the solution of this problem is well known. Under mild restrictions the optimal control always exists and is a linear function of x which is independent of the intensity of the additive disturbance C w_dot_1. In the present article it is shown that an optimal control exists for the more general system above, provided the state-dependent noise G(x) w_dot_2 is sufficiently small. The optimal control is again linear, but is now rather critically dependent on the coefficients of G. Examples are provided to show that instability may result if this dependence is ignored. The problem is stated precisely in section 2; the proof of existence is given in sections 3 and 4; and some examples are studied in sections 5 and 6. We conclude with some remarks on the interpretation of the system equation and discuss alternative optimization problems which are closely related.",
+      "summary": "Extends LQR to linear systems subject to multiplicative (state-dependent) Gaussian noise, deriving a modified algebraic Riccati equation whose stabilizing solution yields the optimal stationary feedback gain. Establishes existence and uniqueness conditions and lays the groundwork for stochastic LQR theory.",
+      "url": "../papers/1967_wonham_optimal_stationary_control_of/",
+      "treeUrl": "../tree/#paper=1967_wonham_optimal_stationary_control_of",
+      "mapUrl": "../map/#paper=1967_wonham_optimal_stationary_control_of"
     },
     {
       "id": "1967_macqueen_some_methods_for_classification",
@@ -1758,43 +1758,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1968_kleinman_on_an_iterative_technique"
     },
     {
-      "id": "1968_wonham_on_the_separation_theorem",
-      "label": "On the Separation Theorem of Stochastic Control",
-      "title": "On the Separation Theorem of Stochastic Control",
-      "authors": [
-        "W. M. Wonham"
-      ],
-      "authorShort": "Wonham",
-      "year": 1968,
-      "source": "SIAM Journal on Control",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "State-space Methods",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
-        "On the Separation Theorem of Stochastic Control"
-      ],
-      "tags": [
-        "Stochastic control",
-        "Separation theorem",
-        "Certainty equivalence",
-        "Kalman filter",
-        "LQG control",
-        "Optimal control"
-      ],
-      "abstract": "The object of this paper is to show that the combined problem of optimal control and filtering, for a stochastic linear dynamic system observed via a noisy linear channel, can be reduced to two independent problems of control and filtering, respectively. Under suitable conditions, solutions of the latter problems are shown to exist. This structural property of the optimal system holds whether or not the cost functional is quadratic, and whether or not the optimal feedback control happens to be linear in the system state or its expectation. In general, the optimal control depends parametrically on the intensity of channel noise; the result means, however, that channel noise plays qualitatively the same role as dynamic disturbances in determination of the feedback law. A special result of this type, for the standard, linear stochastic regulator problem, is well known, and has been called the “separation theorem”. For discrete-time systems the general result can be proved by relatively straightforward application of dynamic programming. In this paper attention is confined to continuous systems. The method is again dynamic programming, with appeal to the Itô-Nisio-Fleming theory of functional stochastic differential equations, Kalman's filter and an existence theorem for parabolic equations due to Ladyjenskaya, Solonnikov and Uraltseva. To apply the foregoing results it is necessary to impose rather stringent conditions on system coefficients. Undoubtedly the separation theorem (Theorem 2.1) is true under weaker hypotheses, more in line with requirements met in practice. In this paper our aim is to clarify some of the principles involved and to indicate the type of result to be expected.",
-      "summary": "Proves the separation theorem for linear-Gaussian stochastic control: the optimal policy decomposes into a Kalman filter for state estimation and an LQR feedback law computed as if the state were known. Establishes the theoretical foundation for LQG control and certainty-equivalence principles.",
-      "url": "../papers/1968_wonham_on_the_separation_theorem/",
-      "treeUrl": "../tree/#paper=1968_wonham_on_the_separation_theorem",
-      "mapUrl": "../map/#paper=1968_wonham_on_the_separation_theorem"
-    },
-    {
       "id": "1968_davison_the_numerical_solution_of",
       "label": "The Numerical Solution of A'Q+QA=-C",
       "title": "The Numerical Solution of A'Q + QA = -C",
@@ -1826,6 +1789,43 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1968_davison_the_numerical_solution_of"
     },
     {
+      "id": "1968_wonham_on_the_separation_theorem",
+      "label": "On the Separation Theorem of Stochastic Control",
+      "title": "On the Separation Theorem of Stochastic Control",
+      "authors": [
+        "W. M. Wonham"
+      ],
+      "authorShort": "Wonham",
+      "year": 1968,
+      "source": "SIAM Journal on Control",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Stochastic Control",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Output Feedback",
+        "On the Separation Theorem of Stochastic Control"
+      ],
+      "tags": [
+        "Stochastic control",
+        "Separation theorem",
+        "Certainty equivalence",
+        "Kalman filter",
+        "LQG control",
+        "Optimal control"
+      ],
+      "abstract": "The object of this paper is to show that the combined problem of optimal control and filtering, for a stochastic linear dynamic system observed via a noisy linear channel, can be reduced to two independent problems of control and filtering, respectively. Under suitable conditions, solutions of the latter problems are shown to exist. This structural property of the optimal system holds whether or not the cost functional is quadratic, and whether or not the optimal feedback control happens to be linear in the system state or its expectation. In general, the optimal control depends parametrically on the intensity of channel noise; the result means, however, that channel noise plays qualitatively the same role as dynamic disturbances in determination of the feedback law. A special result of this type, for the standard, linear stochastic regulator problem, is well known, and has been called the “separation theorem”. For discrete-time systems the general result can be proved by relatively straightforward application of dynamic programming. In this paper attention is confined to continuous systems. The method is again dynamic programming, with appeal to the Itô-Nisio-Fleming theory of functional stochastic differential equations, Kalman's filter and an existence theorem for parabolic equations due to Ladyjenskaya, Solonnikov and Uraltseva. To apply the foregoing results it is necessary to impose rather stringent conditions on system coefficients. Undoubtedly the separation theorem (Theorem 2.1) is true under weaker hypotheses, more in line with requirements met in practice. In this paper our aim is to clarify some of the principles involved and to indicate the type of result to be expected.",
+      "summary": "Proves the separation theorem for linear-Gaussian stochastic control: the optimal policy decomposes into a Kalman filter for state estimation and an LQR feedback law computed as if the state were known. Establishes the theoretical foundation for LQG control and certainty-equivalence principles.",
+      "url": "../papers/1968_wonham_on_the_separation_theorem/",
+      "treeUrl": "../tree/#paper=1968_wonham_on_the_separation_theorem",
+      "mapUrl": "../map/#paper=1968_wonham_on_the_separation_theorem"
+    },
+    {
       "id": "1969_kozin_a_survey_of_stability",
       "label": "A Survey of Stability of Stochastic Systems",
       "title": "A Survey of Stability of Stochastic Systems",
@@ -1838,14 +1838,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Stochastic Stability",
         "A Survey of Stability of Stochastic Systems"
       ],
       "tags": [],
@@ -1868,14 +1868,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "State Feedback",
         "Optimal Stationary Control of Linear Systems with Control-Dependent Noise"
       ],
       "tags": [],
@@ -1988,14 +1988,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "State Feedback",
         "The Optimal Regulator Problem for a Stationary Linear System with State-Dependent Noise"
       ],
       "tags": [
@@ -2238,14 +2238,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "State Feedback",
         "Optimal Stationary Control with State and Control Dependent Noise"
       ],
       "tags": [
@@ -2674,14 +2674,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "State Feedback",
         "Design of Linear Regulators for Nonlinear Stochastic Systems"
       ],
       "tags": [
@@ -2700,7 +2700,7 @@ window.timelineData = {
     },
     {
       "id": "1975_rana_on_optimal_stationary_control",
-      "label": "On Optimal Stationary Control of Systems with State-Dependent Noise",
+      "label": "On Optimal Stationary Control of Systems with State Dependent Noise",
       "title": "On Optimal Stationary Control of Systems with State Dependent Noise",
       "authors": [
         "R. Rana",
@@ -2712,15 +2712,15 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
-        "On Optimal Stationary Control of Systems with State-Dependent Noise"
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "State Feedback",
+        "On Optimal Stationary Control of Systems with State Dependent Noise"
       ],
       "tags": [],
       "abstract": "This note proposes a simplified existence criterion for the linear quadratic optimal control law for systems with state dependent noise.",
@@ -2859,14 +2859,15 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "State Feedback",
+        "Riccati Equations",
         "Numerical Solution of the State-Dependent Noise Problem"
       ],
       "tags": [],
@@ -2878,7 +2879,7 @@ window.timelineData = {
     },
     {
       "id": "1976_athans_the_uncertainty_threshold_principle",
-      "label": "The Uncertainty Threshold Principle: Fundamental Limitations",
+      "label": "The Uncertainty Threshold Principle",
       "title": "The Uncertainty Threshold Principle: Fundamental Limitations of Optimal Decision Making under Dynamic Uncertainty",
       "authors": [
         "Michael Athans",
@@ -2891,15 +2892,14 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
-        "The Uncertainty Threshold Principle: Fundamental Limitations"
+        "Stochastic Control",
+        "Control of Uncertain Linear Systems",
+        "The Uncertainty Threshold Principle"
       ],
       "tags": [],
       "abstract": "This note shows that the optimal control of dynamic systems with uncertain parameters has certain limitations. In particular, by means of a simple scalar linear-quadratic optimal control example, it is shown that the infinite horizon solution does not exist if the parameter uncertainty exceeds a certain threshold; we call this the Uncertainty Thereshold Principle. The philosophical and design implications of this result are discussed.",
@@ -3479,14 +3479,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Control of Uncertain Linear Systems",
         "Risk-sensitive LQG"
       ],
       "tags": [],
@@ -3883,12 +3882,11 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Planning",
-      "subCategory": "Kinodynamic Planning",
+      "subCategory": "Speed Planning",
       "path": [
         "Tree",
         "Decision-making",
         "Planning",
-        "Kinodynamic Planning",
         "Speed Planning",
         "Time-Optimal Path Parameterization (TOPP)",
         "TOPP"
@@ -4079,12 +4077,11 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Planning",
-      "subCategory": "Kinodynamic Planning",
+      "subCategory": "Speed Planning",
       "path": [
         "Tree",
         "Decision-making",
         "Planning",
-        "Kinodynamic Planning",
         "Speed Planning",
         "Optimization-based Speed Planning",
         "Path-Velocity Decomposition"
@@ -4184,6 +4181,7 @@ window.timelineData = {
         "Deep Learning",
         "Neural Networks",
         "Training Algorithms",
+        "Backpropagation",
         "Backpropagation"
       ],
       "tags": [],
@@ -5847,12 +5845,11 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Planning",
-      "subCategory": "Kinodynamic Planning",
+      "subCategory": "Speed Planning",
       "path": [
         "Tree",
         "Decision-making",
         "Planning",
-        "Kinodynamic Planning",
         "Speed Planning",
         "Time-Optimal Path Parameterization (TOPP)",
         "Kinodynamic motion planning"
@@ -6137,7 +6134,6 @@ window.timelineData = {
         "Control",
         "State-space Methods",
         "Nonlinear Control Design",
-        "Feedback Linearization",
         "Partial Feedback Linearization"
       ],
       "tags": [
@@ -6446,14 +6442,15 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "State Feedback",
+        "Linear Matrix Inequalities",
         "State-Feedback Control of Systems with Multiplicative Noise via LMIs"
       ],
       "tags": [],
@@ -8961,14 +8958,15 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "State Feedback",
+        "Riccati Equations",
         "Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control"
       ],
       "tags": [
@@ -11071,14 +11069,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Control of Uncertain Linear Systems",
         "Optimal Control of LTI Systems over Unreliable Communication Links"
       ],
       "tags": [],
@@ -13024,49 +13021,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2009_shkolnik_reachability_guided_sampling_for"
     },
     {
-      "id": "2009_verscheure_time_optimal_path_tracking",
-      "label": "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach",
-      "title": "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach",
-      "authors": [
-        "Diederik Verscheure",
-        "Bram Demeulenaere",
-        "Jan Swevers",
-        "Joris De Schutter",
-        "Moritz Diehl"
-      ],
-      "authorShort": "Verscheure, Demeulenaere, Swevers",
-      "year": 2009,
-      "source": "IEEE Transactions on Automatic Control (TAC)",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Kinodynamic Planning",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Planning",
-        "Kinodynamic Planning",
-        "Speed Planning",
-        "Optimization-based Speed Planning",
-        "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach"
-      ],
-      "tags": [
-        "Speed planning",
-        "Path tracking",
-        "Path following",
-        "Optimal control",
-        "Convex optimization",
-        "Convexification",
-        "Second-order cone program",
-        "Constraints"
-      ],
-      "abstract": "This paper focuses on time-optimal path tracking, a subproblem in time-optimal motion planning of robot systems. Through a nonlinear change of variables, the time-optimal path tracking problem is transformed here into a convex optimal control problem with a single state. Various convexity-preserving extension are introduced, resulting in a versatile approach for optimal path tracking. A direct transcription method is presented that reduces finding the globally optimal trajectory to solving a second-order cone program using robust numerical algorithms that are freely available. Validation against known examples and application to a more complex example illustrate the versatility and practicality of the new method.",
-      "summary": "Demonstrates how to write down a large optimal control problem (OCP) for time-optimal path tracking for a robotic manipulator, considering many constraints and the dynamics related to such systems. The resulting OCP is a convex second-order cone program, which can be solved with a variety of generic solvers. The value of the paper mostly comes from just the handwritten transcription of the OCP.",
-      "url": "../papers/2009_verscheure_time_optimal_path_tracking/",
-      "treeUrl": "../tree/#paper=2009_verscheure_time_optimal_path_tracking",
-      "mapUrl": "../map/#paper=2009_verscheure_time_optimal_path_tracking"
-    },
-    {
       "id": "2009_prentice_the_belief_roadmap_efficient",
       "label": "BRM",
       "title": "The Belief Roadmap: Efficient Planning in Belief Space by Factoring the Covariance",
@@ -13164,6 +13118,48 @@ window.timelineData = {
       "url": "../papers/2009_huynh_iclqg_combining_local_and/",
       "treeUrl": "../tree/#paper=2009_huynh_iclqg_combining_local_and",
       "mapUrl": "../map/#paper=2009_huynh_iclqg_combining_local_and"
+    },
+    {
+      "id": "2009_verscheure_time_optimal_path_tracking",
+      "label": "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach",
+      "title": "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach",
+      "authors": [
+        "Diederik Verscheure",
+        "Bram Demeulenaere",
+        "Jan Swevers",
+        "Joris De Schutter",
+        "Moritz Diehl"
+      ],
+      "authorShort": "Verscheure, Demeulenaere, Swevers",
+      "year": 2009,
+      "source": "IEEE Transactions on Automatic Control (TAC)",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Speed Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Speed Planning",
+        "Optimization-based Speed Planning",
+        "Time-Optimal Path Tracking for Robots: A Convex Optimization Approach"
+      ],
+      "tags": [
+        "Speed planning",
+        "Path tracking",
+        "Path following",
+        "Optimal control",
+        "Convex optimization",
+        "Convexification",
+        "Second-order cone program",
+        "Constraints"
+      ],
+      "abstract": "This paper focuses on time-optimal path tracking, a subproblem in time-optimal motion planning of robot systems. Through a nonlinear change of variables, the time-optimal path tracking problem is transformed here into a convex optimal control problem with a single state. Various convexity-preserving extension are introduced, resulting in a versatile approach for optimal path tracking. A direct transcription method is presented that reduces finding the globally optimal trajectory to solving a second-order cone program using robust numerical algorithms that are freely available. Validation against known examples and application to a more complex example illustrate the versatility and practicality of the new method.",
+      "summary": "Demonstrates how to write down a large optimal control problem (OCP) for time-optimal path tracking for a robotic manipulator, considering many constraints and the dynamics related to such systems. The resulting OCP is a convex second-order cone program, which can be solved with a variety of generic solvers. The value of the paper mostly comes from just the handwritten transcription of the OCP.",
+      "url": "../papers/2009_verscheure_time_optimal_path_tracking/",
+      "treeUrl": "../tree/#paper=2009_verscheure_time_optimal_path_tracking",
+      "mapUrl": "../map/#paper=2009_verscheure_time_optimal_path_tracking"
     },
     {
       "id": "2009_weinberger_distance_metric_learning_for",
@@ -13413,45 +13409,6 @@ window.timelineData = {
       "url": "../papers/2010_lam_model_predictive_contouring_control/",
       "treeUrl": "../tree/#paper=2010_lam_model_predictive_contouring_control",
       "mapUrl": "../map/#paper=2010_lam_model_predictive_contouring_control"
-    },
-    {
-      "id": "2010_martens_deep_learning_via_hessian",
-      "label": "Hessian-free Optimization",
-      "title": "Deep Learning via Hessian-Free Optimization",
-      "authors": [
-        "James Martens"
-      ],
-      "authorShort": "Martens",
-      "year": 2010,
-      "source": "International Conference on Machine Learning",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Neural Network Training Algorithms",
-        "Optimization with Curvature Information",
-        "Hessian-free Optimization"
-      ],
-      "tags": [
-        "Hessian-free optimization",
-        "Second-order optimization",
-        "Deep learning",
-        "Neural network training",
-        "Autoencoders",
-        "Conjugate gradient",
-        "Pathological curvature",
-        "Gauss-Newton methods"
-      ],
-      "abstract": "We develop a 2nd-order optimization method based on the \"Hessian-free\" approach, and apply it to training deep auto-encoders. Without using pre-training, we obtain results superior to those reported by Hinton & Salakhutdinov (2006) on the same tasks they considered. Our method is practical, easy to use, scales nicely to very large datasets, and isn't limited in applicability to auto-encoders, or any specific model class. We also discuss the issue of \"pathological curvature\" as a possible explanation for the difficulty of deep-learning and how 2nd-order optimization, and our method in particular, effectively deals with it.",
-      "summary": "Adapts Hessian-free second-order optimization to deep neural-network training by using matrix-vector products, conjugate-gradient inner solves, damping, and curvature-aware updates instead of explicitly forming the Hessian. The paper showed that deep autoencoders could be trained competitively without layerwise pretraining and framed pathological curvature as a central obstacle for first-order deep-learning optimization.",
-      "url": "../papers/2010_martens_deep_learning_via_hessian/",
-      "treeUrl": "../tree/#paper=2010_martens_deep_learning_via_hessian",
-      "mapUrl": "../map/#paper=2010_martens_deep_learning_via_hessian"
     },
     {
       "id": "1012_0621",
@@ -13720,6 +13677,46 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2010_ross_efficient_reductions_for_imitation"
     },
     {
+      "id": "2010_martens_deep_learning_via_hessian",
+      "label": "Hessian-free Optimization",
+      "title": "Deep Learning via Hessian-Free Optimization",
+      "authors": [
+        "James Martens"
+      ],
+      "authorShort": "Martens",
+      "year": 2010,
+      "source": "International Conference on Machine Learning",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Deep Learning",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "Optimization with Curvature Information",
+        "Hessian-free Optimization"
+      ],
+      "tags": [
+        "Hessian-free optimization",
+        "Second-order optimization",
+        "Deep learning",
+        "Neural network training",
+        "Autoencoders",
+        "Conjugate gradient",
+        "Pathological curvature",
+        "Gauss-Newton methods"
+      ],
+      "abstract": "We develop a 2nd-order optimization method based on the \"Hessian-free\" approach, and apply it to training deep auto-encoders. Without using pre-training, we obtain results superior to those reported by Hinton & Salakhutdinov (2006) on the same tasks they considered. Our method is practical, easy to use, scales nicely to very large datasets, and isn't limited in applicability to auto-encoders, or any specific model class. We also discuss the issue of \"pathological curvature\" as a possible explanation for the difficulty of deep-learning and how 2nd-order optimization, and our method in particular, effectively deals with it.",
+      "summary": "Adapts Hessian-free second-order optimization to deep neural-network training by using matrix-vector products, conjugate-gradient inner solves, damping, and curvature-aware updates instead of explicitly forming the Hessian. The paper showed that deep autoencoders could be trained competitively without layerwise pretraining and framed pathological curvature as a central obstacle for first-order deep-learning optimization.",
+      "url": "../papers/2010_martens_deep_learning_via_hessian/",
+      "treeUrl": "../tree/#paper=2010_martens_deep_learning_via_hessian",
+      "mapUrl": "../map/#paper=2010_martens_deep_learning_via_hessian"
+    },
+    {
       "id": "2010_levinson_robust_vehicle_localization_in",
       "label": "Robust Vehicle Localization in Urban Environments Using Probabilistic Maps",
       "title": "Robust Vehicle Localization in Urban Environments Using Probabilistic Maps",
@@ -13853,14 +13850,14 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Stochastic Stability",
         "Product of Random Stochastic Matrices"
       ],
       "tags": [],
@@ -15964,42 +15961,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2013_palamakumbura_minimum_jerk_trajectory_generation"
     },
     {
-      "id": "2013_lipp_minimum_time_speed_optimisation",
-      "label": "Minimum-time Speed Optimisation Over a Fixed Path",
-      "title": "Minimum-time Speed Optimisation over a Fixed Path",
-      "authors": [
-        "Thomas Lipp",
-        "Stephen Boyd"
-      ],
-      "authorShort": "Lipp, Boyd",
-      "year": 2013,
-      "source": "International Journal of Control",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Kinodynamic Planning",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Planning",
-        "Kinodynamic Planning",
-        "Speed Planning",
-        "Optimization-based Speed Planning",
-        "Minimum-time Speed Optimisation Over a Fixed Path"
-      ],
-      "tags": [
-        "Speed planning",
-        "Convex optimization",
-        "Minimum time",
-        "Trajectory optimization"
-      ],
-      "abstract": "In this paper we investigate the problem of optimising the speed of a vehicle over a fixed path for minimum time traversal. We utilise a change of variables that has been known since the 1980s, although the resulting convexity of the problem was not noted until recently. The contributions of this paper are three fold. First, we extend the convexification of the problem to a more general framework. Second, we identify a wide range of vehicle models and constraints which can be included in this expanded framework. Third, we develop and implement an algorithm that allows these problems to be solved in real time, on embedded systems, with a high degree of accuracy.",
-      "summary": "Formulates minimum-time speed planning along a fixed geometric path as a convex optimization problem.",
-      "url": "../papers/2013_lipp_minimum_time_speed_optimisation/",
-      "treeUrl": "../tree/#paper=2013_lipp_minimum_time_speed_optimisation",
-      "mapUrl": "../map/#paper=2013_lipp_minimum_time_speed_optimisation"
-    },
-    {
       "id": "2013_jeon_optimal_motion_planning_with",
       "label": "Optimal motion planning with the half-car dynamical model for autonomous high-speed driving",
       "title": "Optimal Motion Planning with the Half-car Dynamical Model for Autonomous High-speed Driving",
@@ -16184,6 +16145,41 @@ window.timelineData = {
       "url": "../papers/2013_turpin_goal_assignment_and_trajectory/",
       "treeUrl": "../tree/#paper=2013_turpin_goal_assignment_and_trajectory",
       "mapUrl": "../map/#paper=2013_turpin_goal_assignment_and_trajectory"
+    },
+    {
+      "id": "2013_lipp_minimum_time_speed_optimisation",
+      "label": "Minimum-time Speed Optimisation Over a Fixed Path",
+      "title": "Minimum-time Speed Optimisation over a Fixed Path",
+      "authors": [
+        "Thomas Lipp",
+        "Stephen Boyd"
+      ],
+      "authorShort": "Lipp, Boyd",
+      "year": 2013,
+      "source": "International Journal of Control",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Speed Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Speed Planning",
+        "Optimization-based Speed Planning",
+        "Minimum-time Speed Optimisation Over a Fixed Path"
+      ],
+      "tags": [
+        "Speed planning",
+        "Convex optimization",
+        "Minimum time",
+        "Trajectory optimization"
+      ],
+      "abstract": "In this paper we investigate the problem of optimising the speed of a vehicle over a fixed path for minimum time traversal. We utilise a change of variables that has been known since the 1980s, although the resulting convexity of the problem was not noted until recently. The contributions of this paper are three fold. First, we extend the convexification of the problem to a more general framework. Second, we identify a wide range of vehicle models and constraints which can be included in this expanded framework. Third, we develop and implement an algorithm that allows these problems to be solved in real time, on embedded systems, with a high degree of accuracy.",
+      "summary": "Formulates minimum-time speed planning along a fixed geometric path as a convex optimization problem.",
+      "url": "../papers/2013_lipp_minimum_time_speed_optimisation/",
+      "treeUrl": "../tree/#paper=2013_lipp_minimum_time_speed_optimisation",
+      "mapUrl": "../map/#paper=2013_lipp_minimum_time_speed_optimisation"
     },
     {
       "id": "2013_kalakrishnan_learning_objective_functions_for",
@@ -17063,45 +17059,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2014_palmieri_a_novel_rrt_extend"
     },
     {
-      "id": "1411_4045",
-      "label": "AVP",
-      "title": "Admissible Velocity Propagation: Beyond Quasi-Static Path Planning for High-Dimensional Robots",
-      "authors": [
-        "Quang-Cuong Pham",
-        "Stephane Caron",
-        "Puttichai Lertkultanon",
-        "Yoshihiko Nakamura"
-      ],
-      "authorShort": "Pham, Caron, Lertkultanon",
-      "year": 2014,
-      "source": "The International Journal of Robotics Research (IJRR)",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Kinodynamic Planning",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Planning",
-        "Kinodynamic Planning",
-        "Speed Planning",
-        "Time-Optimal Path Parameterization (TOPP)",
-        "AVP"
-      ],
-      "tags": [
-        "Kinodynamic planning",
-        "Path-velocity decomposition",
-        "Quasi-static planning",
-        "Velocity propagation",
-        "Dynamic motions"
-      ],
-      "abstract": "Path-velocity decomposition is an intuitive yet powerful approach to address the complexity of kinodynamic motion planning. The difficult trajectory planning problem is solved in two separate, simpler, steps: first, find a path in the configuration space that satisfies the geometric constraints (path planning), and second, find a time-parameterization of that path satisfying the kinodynamic constraints. A fundamental requirement is that the path found in the first step should be time-parameterizable. Most existing works fulfill this requirement by enforcing quasi-static constraints in the path planning step, resulting in an important loss in completeness. We propose a method that enables path-velocity decomposition to discover truly dynamic motions, i.e. motions that are not quasi-statically executable. At the heart of the proposed method is a new algorithm — Admissible Velocity Propagation — which, given a path and an interval of reachable velocities at the beginning of that path, computes the interval of all reachable and time-parameterizable velocities at the end of that path.",
-      "summary": "Starting point is quasi-static (velocity ~= 0) path planning. Then augments state space with velocity and uses propagation of velocity using kinodynamics to determine the reachable set (admissible interval) of velocity, and includes that in the connection check for new nodes. Builds on the foundational TOPP velocity planner (Bobrow 1985, DOI: 10.1177/027836498500400301). AVP is modularly (re)usable in many sampling-based planners; the authors give a concrete instantiation and numerical experiments with AVP-RRT.",
-      "url": "../papers/1411_4045/",
-      "treeUrl": "../tree/#paper=1411_4045",
-      "mapUrl": "../map/#paper=1411_4045"
-    },
-    {
       "id": "1407_0414",
       "label": "KOMO",
       "title": "KOMO: Newton Methods for k-order Markov Constrained Motion Problems",
@@ -17305,42 +17262,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2014_sintov_time_based_rrt_algorithm"
     },
     {
-      "id": "2014_pham_trajectory_planning",
-      "label": "Trajectory Planning",
-      "title": "Trajectory Planning",
-      "authors": [
-        "Quang-Cuong Pham"
-      ],
-      "authorShort": "Pham",
-      "year": 2014,
-      "source": "Handbook of Manufacturing Engineering and Technology",
-      "type": "Other",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Kinodynamic Planning",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Planning",
-        "Kinodynamic Planning",
-        "Trajectory Planning",
-        "Trajectory Planning"
-      ],
-      "tags": [
-        "Trajectory planning",
-        "Robot manipulators",
-        "Motion planning",
-        "Path parameterization",
-        "Industrial robotics",
-        "Constraints"
-      ],
-      "abstract": "Trajectory planning consists in finding a time series of successive joint angles that allows moving a robot from a starting configuration towards a goal configuration, in order to achieve a task, such as grabbing an object from a conveyor belt and placing it on a shelf. This trajectory must respect given constraints: for instance, the robot should not collide with the environment, the joint angles, velocities, accelerations or torques should be within specified limits, etc. Next, if several trajectories are possible, one should choose the one that optimizes a certain objective, such as the trajectory execution time or energy consumption. This chapter reviews methods to plan trajectories with constraints and optimization objectives relevant to industrial robot manipulators.",
-      "summary": "A compact handbook chapter on trajectory planning for industrial manipulators, spanning constraint handling, path-to-trajectory conversion, and objectives such as time and energy. It is useful as a taxonomy and orientation source rather than a new algorithm paper.",
-      "url": "../papers/2014_pham_trajectory_planning/",
-      "treeUrl": "../tree/#paper=2014_pham_trajectory_planning",
-      "mapUrl": "../map/#paper=2014_pham_trajectory_planning"
-    },
-    {
       "id": "2014_dai_whole_body_motion_planning",
       "label": "Whole-body motion planning with centroidal dynamics and full kinematics",
       "title": "Whole-body Motion Planning with Centroidal Dynamics and Full Kinematics",
@@ -17441,6 +17362,42 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2014_turpin_capt_concurrent_assignment_and"
     },
     {
+      "id": "2014_pham_trajectory_planning",
+      "label": "Trajectory Planning",
+      "title": "Trajectory Planning",
+      "authors": [
+        "Quang-Cuong Pham"
+      ],
+      "authorShort": "Pham",
+      "year": 2014,
+      "source": "Handbook of Manufacturing Engineering and Technology",
+      "type": "Other",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Planning for Robots",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Planning for Robots",
+        "Manipulation & Contact",
+        "Trajectory Planning"
+      ],
+      "tags": [
+        "Trajectory planning",
+        "Robot manipulators",
+        "Motion planning",
+        "Path parameterization",
+        "Industrial robotics",
+        "Constraints"
+      ],
+      "abstract": "Trajectory planning consists in finding a time series of successive joint angles that allows moving a robot from a starting configuration towards a goal configuration, in order to achieve a task, such as grabbing an object from a conveyor belt and placing it on a shelf. This trajectory must respect given constraints: for instance, the robot should not collide with the environment, the joint angles, velocities, accelerations or torques should be within specified limits, etc. Next, if several trajectories are possible, one should choose the one that optimizes a certain objective, such as the trajectory execution time or energy consumption. This chapter reviews methods to plan trajectories with constraints and optimization objectives relevant to industrial robot manipulators.",
+      "summary": "A compact handbook chapter on trajectory planning for industrial manipulators, spanning constraint handling, path-to-trajectory conversion, and objectives such as time and energy. It is useful as a taxonomy and orientation source rather than a new algorithm paper.",
+      "url": "../papers/2014_pham_trajectory_planning/",
+      "treeUrl": "../tree/#paper=2014_pham_trajectory_planning",
+      "mapUrl": "../map/#paper=2014_pham_trajectory_planning"
+    },
+    {
       "id": "1401_3827",
       "label": "PBD",
       "title": "Efficient Planning under Uncertainty with Macro-actions",
@@ -17472,6 +17429,44 @@ window.timelineData = {
       "url": "../papers/1401_3827/",
       "treeUrl": "../tree/#paper=1401_3827",
       "mapUrl": "../map/#paper=1401_3827"
+    },
+    {
+      "id": "1411_4045",
+      "label": "AVP",
+      "title": "Admissible Velocity Propagation: Beyond Quasi-Static Path Planning for High-Dimensional Robots",
+      "authors": [
+        "Quang-Cuong Pham",
+        "Stephane Caron",
+        "Puttichai Lertkultanon",
+        "Yoshihiko Nakamura"
+      ],
+      "authorShort": "Pham, Caron, Lertkultanon",
+      "year": 2014,
+      "source": "The International Journal of Robotics Research (IJRR)",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Speed Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Speed Planning",
+        "Time-Optimal Path Parameterization (TOPP)",
+        "AVP"
+      ],
+      "tags": [
+        "Kinodynamic planning",
+        "Path-velocity decomposition",
+        "Quasi-static planning",
+        "Velocity propagation",
+        "Dynamic motions"
+      ],
+      "abstract": "Path-velocity decomposition is an intuitive yet powerful approach to address the complexity of kinodynamic motion planning. The difficult trajectory planning problem is solved in two separate, simpler, steps: first, find a path in the configuration space that satisfies the geometric constraints (path planning), and second, find a time-parameterization of that path satisfying the kinodynamic constraints. A fundamental requirement is that the path found in the first step should be time-parameterizable. Most existing works fulfill this requirement by enforcing quasi-static constraints in the path planning step, resulting in an important loss in completeness. We propose a method that enables path-velocity decomposition to discover truly dynamic motions, i.e. motions that are not quasi-statically executable. At the heart of the proposed method is a new algorithm — Admissible Velocity Propagation — which, given a path and an interval of reachable velocities at the beginning of that path, computes the interval of all reachable and time-parameterizable velocities at the end of that path.",
+      "summary": "Starting point is quasi-static (velocity ~= 0) path planning. Then augments state space with velocity and uses propagation of velocity using kinodynamics to determine the reachable set (admissible interval) of velocity, and includes that in the connection check for new nodes. Builds on the foundational TOPP velocity planner (Bobrow 1985, DOI: 10.1177/027836498500400301). AVP is modularly (re)usable in many sampling-based planners; the authors give a concrete instantiation and numerical experiments with AVP-RRT.",
+      "url": "../papers/1411_4045/",
+      "treeUrl": "../tree/#paper=1411_4045",
+      "mapUrl": "../map/#paper=1411_4045"
     },
     {
       "id": "2014_trimpe_a_self_tuning_lqr",
@@ -17904,6 +17899,7 @@ window.timelineData = {
         "Machine Learning",
         "Deep Learning",
         "Neural Networks",
+        "Training Algorithms",
         "Regularization",
         "Dropout"
       ],
@@ -18618,37 +18614,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1507_01030"
     },
     {
-      "id": "1503_05671",
-      "label": "K-FAC",
-      "title": "Optimizing Neural Networks with Kronecker-factored Approximate Curvature",
-      "authors": [
-        "James Martens",
-        "Roger Grosse"
-      ],
-      "authorShort": "Martens, Grosse",
-      "year": 2015,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Neural Network Training Algorithms",
-        "Optimization with Curvature Information",
-        "K-FAC"
-      ],
-      "tags": [],
-      "abstract": "We propose an efficient method for approximating natural gradient descent in neural networks which we call Kronecker-Factored Approximate Curvature (K-FAC). K-FAC is based on an efficiently invertible approximation of a neural network's Fisher information matrix which is neither diagonal nor low-rank, and in some cases is completely non-sparse. It is derived by approximating various large blocks of the Fisher (corresponding to entire layers) as being the Kronecker product of two much smaller matrices. While only several times more expensive to compute than the plain stochastic gradient, the updates produced by K-FAC make much more progress optimizing the objective, which results in an algorithm that can be much faster than stochastic gradient descent with momentum in practice. And unlike some previously proposed approximate natural-gradient/Newton methods which use high-quality non-diagonal curvature matrices (such as Hessian-free optimization), K-FAC works very well in highly stochastic optimization regimes. This is because the cost of storing and inverting K-FAC's approximation to the curvature matrix does not depend on the amount of data used to estimate it, which is a feature typically associated only with diagonal or low-rank approximations to the curvature matrix.",
-      "summary": "",
-      "url": "../papers/1503_05671/",
-      "treeUrl": "../tree/#paper=1503_05671",
-      "mapUrl": "../map/#paper=1503_05671"
-    },
-    {
       "id": "2015_nesterov_random_gradient_free_minimization",
       "label": "Random Gradient-Free Minimization of Convex Functions",
       "title": "Random Gradient-Free Minimization of Convex Functions",
@@ -19074,6 +19039,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Fundamentals",
         "Model Predictive Path Integral Control using Covariance Variable Importance Sampling"
       ],
       "tags": [],
@@ -19767,6 +19733,38 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1511_07289"
     },
     {
+      "id": "1503_05671",
+      "label": "K-FAC",
+      "title": "Optimizing Neural Networks with Kronecker-factored Approximate Curvature",
+      "authors": [
+        "James Martens",
+        "Roger Grosse"
+      ],
+      "authorShort": "Martens, Grosse",
+      "year": 2015,
+      "source": "",
+      "type": "",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Deep Learning",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "Optimization with Curvature Information",
+        "K-FAC"
+      ],
+      "tags": [],
+      "abstract": "We propose an efficient method for approximating natural gradient descent in neural networks which we call Kronecker-Factored Approximate Curvature (K-FAC). K-FAC is based on an efficiently invertible approximation of a neural network's Fisher information matrix which is neither diagonal nor low-rank, and in some cases is completely non-sparse. It is derived by approximating various large blocks of the Fisher (corresponding to entire layers) as being the Kronecker product of two much smaller matrices. While only several times more expensive to compute than the plain stochastic gradient, the updates produced by K-FAC make much more progress optimizing the objective, which results in an algorithm that can be much faster than stochastic gradient descent with momentum in practice. And unlike some previously proposed approximate natural-gradient/Newton methods which use high-quality non-diagonal curvature matrices (such as Hessian-free optimization), K-FAC works very well in highly stochastic optimization regimes. This is because the cost of storing and inverting K-FAC's approximation to the curvature matrix does not depend on the amount of data used to estimate it, which is a feature typically associated only with diagonal or low-rank approximations to the curvature matrix.",
+      "summary": "",
+      "url": "../papers/1503_05671/",
+      "treeUrl": "../tree/#paper=1503_05671",
+      "mapUrl": "../map/#paper=1503_05671"
+    },
+    {
       "id": "1505_04597",
       "label": "U-Net",
       "title": "U-Net: Convolutional Networks for Biomedical Image Segmentation",
@@ -20062,14 +20060,14 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Output Feedback",
         "When Multiplicative Noise Stymies Control"
       ],
       "tags": [],
@@ -22452,6 +22450,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Fundamentals",
         "IT-MPC"
       ],
       "tags": [],
@@ -22463,7 +22462,7 @@ window.timelineData = {
     },
     {
       "id": "2017_williams_model_predictive_path_integral",
-      "label": "MPPI",
+      "label": "MPPI (tutorial)",
       "title": "Model Predictive Path Integral Control: From Theory to Parallel Computation",
       "authors": [
         "Grady Williams",
@@ -22485,7 +22484,8 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
-        "MPPI"
+        "Fundamentals",
+        "MPPI (tutorial)"
       ],
       "tags": [
         "Model predictive path integral control",
@@ -22612,41 +22612,6 @@ window.timelineData = {
       "url": "../papers/2017_rosmann_kinodynamic_trajectory_optimization_and/",
       "treeUrl": "../tree/#paper=2017_rosmann_kinodynamic_trajectory_optimization_and",
       "mapUrl": "../map/#paper=2017_rosmann_kinodynamic_trajectory_optimization_and"
-    },
-    {
-      "id": "1707_07239",
-      "label": "TOPP-RA",
-      "title": "A New Approach to Time-Optimal Path Parameterization Based on Reachability Analysis",
-      "authors": [
-        "Hung Pham",
-        "Quang-Cuong Pham"
-      ],
-      "authorShort": "Pham, Pham",
-      "year": 2017,
-      "source": "IEEE Transactions on Robotics (TRO)",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Kinodynamic Planning",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Planning",
-        "Kinodynamic Planning",
-        "Speed Planning",
-        "Time-Optimal Path Parameterization (TOPP)",
-        "TOPP-RA"
-      ],
-      "tags": [
-        "Time-optimal",
-        "Speed planning",
-        "Reachability"
-      ],
-      "abstract": "Time-optimal path parameterization (TOPP) is a well-studied problem in robotics and has a wide range of applications. There are two main families of methods to address TOPP: numerical integration (NI) and convex optimization (CO). The NI-based methods are fast but difficult to implement and suffer from robustness issues, while CO-based approaches are more robust but, at the same time, significantly slower. Here, we propose a new approach to TOPP based on reachability analysis. The key insight is to recursively compute reachable and controllable sets at discretized positions on the path by solving small linear programs. The resulting algorithm is faster than NI-based methods and as robust as CO-based ones (100% success rate), as confirmed by extensive numerical evaluations. Moreover, the proposed approach offers unique additional benefits: admissible velocity propagation and robustness to parametric uncertainty can be derived from it in a simple and natural way.",
-      "summary": "Reframes TOPP as a reachability problem, propagating feasible velocity sets via small LPs, so you get the speed of numerical integration and the robustness of convex optimization in one easy-to-implement algorithm. Claims to (at least partially) generalize AVP (1411.4045).",
-      "url": "../papers/1707_07239/",
-      "treeUrl": "../tree/#paper=1707_07239",
-      "mapUrl": "../map/#paper=1707_07239"
     },
     {
       "id": "1709_05448",
@@ -22853,6 +22818,40 @@ window.timelineData = {
       "url": "../papers/1710_09483/",
       "treeUrl": "../tree/#paper=1710_09483",
       "mapUrl": "../map/#paper=1710_09483"
+    },
+    {
+      "id": "1707_07239",
+      "label": "TOPP-RA",
+      "title": "A New Approach to Time-Optimal Path Parameterization Based on Reachability Analysis",
+      "authors": [
+        "Hung Pham",
+        "Quang-Cuong Pham"
+      ],
+      "authorShort": "Pham, Pham",
+      "year": 2017,
+      "source": "IEEE Transactions on Robotics (TRO)",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Speed Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Speed Planning",
+        "Time-Optimal Path Parameterization (TOPP)",
+        "TOPP-RA"
+      ],
+      "tags": [
+        "Time-optimal",
+        "Speed planning",
+        "Reachability"
+      ],
+      "abstract": "Time-optimal path parameterization (TOPP) is a well-studied problem in robotics and has a wide range of applications. There are two main families of methods to address TOPP: numerical integration (NI) and convex optimization (CO). The NI-based methods are fast but difficult to implement and suffer from robustness issues, while CO-based approaches are more robust but, at the same time, significantly slower. Here, we propose a new approach to TOPP based on reachability analysis. The key insight is to recursively compute reachable and controllable sets at discretized positions on the path by solving small linear programs. The resulting algorithm is faster than NI-based methods and as robust as CO-based ones (100% success rate), as confirmed by extensive numerical evaluations. Moreover, the proposed approach offers unique additional benefits: admissible velocity propagation and robustness to parametric uncertainty can be derived from it in a simple and natural way.",
+      "summary": "Reframes TOPP as a reachability problem, propagating feasible velocity sets via small LPs, so you get the speed of numerical integration and the robustness of convex optimization in one easy-to-implement algorithm. Claims to (at least partially) generalize AVP (1411.4045).",
+      "url": "../papers/1707_07239/",
+      "treeUrl": "../tree/#paper=1707_07239",
+      "mapUrl": "../map/#paper=1707_07239"
     },
     {
       "id": "1710_11248",
@@ -24273,39 +24272,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1804_03906"
     },
     {
-      "id": "1810_02054",
-      "label": "Gradient Descent Provably Optimizes Over-parameterized Neural Networks",
-      "title": "Gradient Descent Provably Optimizes Over-parameterized Neural Networks",
-      "authors": [
-        "Simon S. Du",
-        "Xiyu Zhai",
-        "Barnabas Poczos",
-        "Aarti Singh"
-      ],
-      "authorShort": "Du, Zhai, Poczos",
-      "year": 2018,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Neural Network Training Algorithms",
-        "Overparameterization",
-        "Gradient Descent Provably Optimizes Over-parameterized Neural Networks"
-      ],
-      "tags": [],
-      "abstract": "One of the mysteries in the success of neural networks is randomly initialized first order methods like gradient descent can achieve zero training loss even though the objective function is non-convex and non-smooth. This paper demystifies this surprising phenomenon for two-layer fully connected ReLU activated neural networks. For an $m$ hidden node shallow neural network with ReLU activation and $n$ training data, we show as long as $m$ is large enough and no two inputs are parallel, randomly initialized gradient descent converges to a globally optimal solution at a linear convergence rate for the quadratic loss function. Our analysis relies on the following observation: over-parameterization and random initialization jointly restrict every weight vector to be close to its initialization for all iterations, which allows us to exploit a strong convexity-like property to show that gradient descent converges at a global linear rate to the global optimum. We believe these insights are also useful in analyzing deep models and other first order methods.",
-      "summary": "",
-      "url": "../papers/1810_02054/",
-      "treeUrl": "../tree/#paper=1810_02054",
-      "mapUrl": "../map/#paper=1810_02054"
-    },
-    {
       "id": "1803_06073",
       "label": "Lyapunov Functions for First-Order Methods: Tight Automated Convergence Guarantees",
       "title": "Lyapunov Functions for First-Order Methods: Tight Automated Convergence Guarantees",
@@ -24370,38 +24336,6 @@ window.timelineData = {
       "url": "../papers/1802_03653/",
       "treeUrl": "../tree/#paper=1802_03653",
       "mapUrl": "../map/#paper=1802_03653"
-    },
-    {
-      "id": "2018_arora_on_the_optimization_of",
-      "label": "On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization",
-      "title": "On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization",
-      "authors": [
-        "Sanjeev Arora",
-        "Nadav Cohen",
-        "Elad Hazan"
-      ],
-      "authorShort": "Arora, Cohen, Hazan",
-      "year": 2018,
-      "source": "International Conference on Machine Learning",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Neural Network Training Algorithms",
-        "Overparameterization",
-        "On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization"
-      ],
-      "tags": [],
-      "abstract": "Conventional wisdom in deep learning states that increasing depth improves expressiveness but complicates optimization. This paper suggests that, sometimes, increasing depth can speed up optimization. The effect of depth on optimization is decoupled from expressiveness by focusing on settings where additional layers amount to overparameterization – linear neural networks, a well-studied model. Theoretical analysis, as well as experiments, show that here depth acts as a preconditioner which may accelerate convergence. Even on simple convex problems such as linear regression with $\\ell_p$ loss, $p>2$, gradient descent can benefit from transitioning to a non-convex overparameterized objective, more than it would from some common acceleration schemes. We also prove that it is mathematically impossible to obtain the acceleration effect of overparametrization via gradients of any regularizer.",
-      "summary": "",
-      "url": "../papers/2018_arora_on_the_optimization_of/",
-      "treeUrl": "../tree/#paper=2018_arora_on_the_optimization_of",
-      "mapUrl": "../map/#paper=2018_arora_on_the_optimization_of"
     },
     {
       "id": "1802_01548",
@@ -24895,51 +24829,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2018_preiss_simultaneous_self_calibration_and"
     },
     {
-      "id": "2018_zhang_toward_a_more_complete",
-      "label": "Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization",
-      "title": "Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization",
-      "authors": [
-        "Yu Zhang",
-        "Huiyan Chen",
-        "Steven L. Waslander",
-        "Tian Yang",
-        "Sheng Zhang",
-        "Guangming Xiong",
-        "Kai Liu"
-      ],
-      "authorShort": "Zhang, Chen, Waslander",
-      "year": 2018,
-      "source": "Sensors",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Kinodynamic Planning",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Planning",
-        "Kinodynamic Planning",
-        "Speed Planning",
-        "Optimization-based Speed Planning",
-        "Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization"
-      ],
-      "tags": [
-        "Speed planning",
-        "Autonomous driving",
-        "Convex optimization",
-        "Constraints",
-        "Safety",
-        "Comfort",
-        "Mobility",
-        "Flexibility"
-      ],
-      "abstract": "In this paper, we present a complete, flexible and safe convex-optimization-based method to solve speed planning problems over a fixed path for autonomous driving in both static and dynamic environments. Our contributions are five fold. First, we summarize the most common constraints raised in various autonomous driving scenarios as the requirements for speed planner developments and metrics to measure the capacity of existing speed planners roughly for autonomous driving. Second, we introduce a more general, flexible and complete speed planning mathematical model including all the summarized constraints compared to the state-of-the-art speed planners, which addresses limitations of existing methods and is able to provide smooth, safety-guaranteed, dynamic-feasible, and time-efficient speed profiles. Third, we emphasize comfort while guaranteeing fundamental motion safety without sacrificing the mobility of cars by treating the comfort box constraint as a semi-hard constraint in optimization via slack variables and penalty functions, which distinguishes our method from existing ones. Fourth, we demonstrate that our problem preserves convexity with the added constraints, thus global optimality of solutions is guaranteed. Fifth, we showcase how our formulation can be used in various autonomous driving scenarios by providing several challenging case studies in both static and dynamic environments. A range of numerical experiments and challenging realistic speed planning case studies have depicted that the proposed method outperforms existing speed planners for autonomous driving in terms of constraint type covered, optimality, safety, mobility and flexibility.",
-      "summary": "Extends convex-optimization-based speed planning to handle a broader set of constraints (comfort, safety, traffic rules) more completely and flexibly than prior approaches, demonstrated on autonomous driving scenarios.",
-      "url": "../papers/2018_zhang_toward_a_more_complete/",
-      "treeUrl": "../tree/#paper=2018_zhang_toward_a_more_complete",
-      "mapUrl": "../map/#paper=2018_zhang_toward_a_more_complete"
-    },
-    {
       "id": "1809_10252",
       "label": "Deeply Informed Neural Sampling for Robot Motion Planning",
       "title": "Deeply Informed Neural Sampling for Robot Motion Planning",
@@ -25215,6 +25104,50 @@ window.timelineData = {
       "url": "../papers/2018_mehta_backprop_mpdm_faster_risk/",
       "treeUrl": "../tree/#paper=2018_mehta_backprop_mpdm_faster_risk",
       "mapUrl": "../map/#paper=2018_mehta_backprop_mpdm_faster_risk"
+    },
+    {
+      "id": "2018_zhang_toward_a_more_complete",
+      "label": "Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization",
+      "title": "Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization",
+      "authors": [
+        "Yu Zhang",
+        "Huiyan Chen",
+        "Steven L. Waslander",
+        "Tian Yang",
+        "Sheng Zhang",
+        "Guangming Xiong",
+        "Kai Liu"
+      ],
+      "authorShort": "Zhang, Chen, Waslander",
+      "year": 2018,
+      "source": "Sensors",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Speed Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Speed Planning",
+        "Optimization-based Speed Planning",
+        "Toward a More Complete, Flexible, and Safer Speed Planning for Autonomous Driving via Convex Optimization"
+      ],
+      "tags": [
+        "Speed planning",
+        "Autonomous driving",
+        "Convex optimization",
+        "Constraints",
+        "Safety",
+        "Comfort",
+        "Mobility",
+        "Flexibility"
+      ],
+      "abstract": "In this paper, we present a complete, flexible and safe convex-optimization-based method to solve speed planning problems over a fixed path for autonomous driving in both static and dynamic environments. Our contributions are five fold. First, we summarize the most common constraints raised in various autonomous driving scenarios as the requirements for speed planner developments and metrics to measure the capacity of existing speed planners roughly for autonomous driving. Second, we introduce a more general, flexible and complete speed planning mathematical model including all the summarized constraints compared to the state-of-the-art speed planners, which addresses limitations of existing methods and is able to provide smooth, safety-guaranteed, dynamic-feasible, and time-efficient speed profiles. Third, we emphasize comfort while guaranteeing fundamental motion safety without sacrificing the mobility of cars by treating the comfort box constraint as a semi-hard constraint in optimization via slack variables and penalty functions, which distinguishes our method from existing ones. Fourth, we demonstrate that our problem preserves convexity with the added constraints, thus global optimality of solutions is guaranteed. Fifth, we showcase how our formulation can be used in various autonomous driving scenarios by providing several challenging case studies in both static and dynamic environments. A range of numerical experiments and challenging realistic speed planning case studies have depicted that the proposed method outperforms existing speed planners for autonomous driving in terms of constraint type covered, optimality, safety, mobility and flexibility.",
+      "summary": "Extends convex-optimization-based speed planning to handle a broader set of constraints (comfort, safety, traffic rules) more completely and flexibly than prior approaches, demonstrated on autonomous driving scenarios.",
+      "url": "../papers/2018_zhang_toward_a_more_complete/",
+      "treeUrl": "../tree/#paper=2018_zhang_toward_a_more_complete",
+      "mapUrl": "../map/#paper=2018_zhang_toward_a_more_complete"
     },
     {
       "id": "1808_00177",
@@ -26234,6 +26167,40 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1806_00451"
     },
     {
+      "id": "1810_02054",
+      "label": "Gradient Descent Provably Optimizes Over-parameterized Neural Networks",
+      "title": "Gradient Descent Provably Optimizes Over-parameterized Neural Networks",
+      "authors": [
+        "Simon S. Du",
+        "Xiyu Zhai",
+        "Barnabas Poczos",
+        "Aarti Singh"
+      ],
+      "authorShort": "Du, Zhai, Poczos",
+      "year": 2018,
+      "source": "",
+      "type": "",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Deep Learning",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "Overparameterization",
+        "Gradient Descent Provably Optimizes Over-parameterized Neural Networks"
+      ],
+      "tags": [],
+      "abstract": "One of the mysteries in the success of neural networks is randomly initialized first order methods like gradient descent can achieve zero training loss even though the objective function is non-convex and non-smooth. This paper demystifies this surprising phenomenon for two-layer fully connected ReLU activated neural networks. For an $m$ hidden node shallow neural network with ReLU activation and $n$ training data, we show as long as $m$ is large enough and no two inputs are parallel, randomly initialized gradient descent converges to a globally optimal solution at a linear convergence rate for the quadratic loss function. Our analysis relies on the following observation: over-parameterization and random initialization jointly restrict every weight vector to be close to its initialization for all iterations, which allows us to exploit a strong convexity-like property to show that gradient descent converges at a global linear rate to the global optimum. We believe these insights are also useful in analyzing deep models and other first order methods.",
+      "summary": "",
+      "url": "../papers/1810_02054/",
+      "treeUrl": "../tree/#paper=1810_02054",
+      "mapUrl": "../map/#paper=1810_02054"
+    },
+    {
       "id": "1810_12575",
       "label": "Neural Nearest Neighbors Networks",
       "title": "Neural Nearest Neighbors Networks",
@@ -26263,6 +26230,39 @@ window.timelineData = {
       "url": "../papers/1810_12575/",
       "treeUrl": "../tree/#paper=1810_12575",
       "mapUrl": "../map/#paper=1810_12575"
+    },
+    {
+      "id": "2018_arora_on_the_optimization_of",
+      "label": "On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization",
+      "title": "On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization",
+      "authors": [
+        "Sanjeev Arora",
+        "Nadav Cohen",
+        "Elad Hazan"
+      ],
+      "authorShort": "Arora, Cohen, Hazan",
+      "year": 2018,
+      "source": "International Conference on Machine Learning",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Deep Learning",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "Overparameterization",
+        "On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization"
+      ],
+      "tags": [],
+      "abstract": "Conventional wisdom in deep learning states that increasing depth improves expressiveness but complicates optimization. This paper suggests that, sometimes, increasing depth can speed up optimization. The effect of depth on optimization is decoupled from expressiveness by focusing on settings where additional layers amount to overparameterization – linear neural networks, a well-studied model. Theoretical analysis, as well as experiments, show that here depth acts as a preconditioner which may accelerate convergence. Even on simple convex problems such as linear regression with $\\ell_p$ loss, $p>2$, gradient descent can benefit from transitioning to a non-convex overparameterized objective, more than it would from some common acceleration schemes. We also prove that it is mathematically impossible to obtain the acceleration effect of overparametrization via gradients of any regularizer.",
+      "summary": "",
+      "url": "../papers/2018_arora_on_the_optimization_of/",
+      "treeUrl": "../tree/#paper=2018_arora_on_the_optimization_of",
+      "mapUrl": "../map/#paper=2018_arora_on_the_optimization_of"
     },
     {
       "id": "1812_11118",
@@ -26638,38 +26638,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1903_11199"
     },
     {
-      "id": "1912_09990",
-      "label": "Data-driven distributionally robust LQR with multiplicative noise",
-      "title": "Data-driven Distributionally Robust LQR with Multiplicative Noise",
-      "authors": [
-        "Peter Coppens",
-        "Mathijs Schuurmans",
-        "Panagiotis Patrinos"
-      ],
-      "authorShort": "Coppens, Schuurmans, Patrinos",
-      "year": 2019,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "State-space Methods",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
-        "Data-driven distributionally robust LQR with multiplicative noise"
-      ],
-      "tags": [],
-      "abstract": "We present a data-driven method for solving the linear quadratic regulator problem for systems with multiplicative disturbances, the distribution of which is only known through sample estimates. We adopt a distributionally robust approach to cast the controller synthesis problem as semidefinite programs. Using results from high dimensional statistics, the proposed methodology ensures that their solution provides mean-square stabilizing controllers with high probability even for low sample sizes. As sample size increases the closed-loop cost approaches that of the optimal controller produced when the distribution is known. We demonstrate the practical applicability and performance of the method through a numerical experiment.",
-      "summary": "",
-      "url": "../papers/1912_09990/",
-      "treeUrl": "../tree/#paper=1912_09990",
-      "mapUrl": "../map/#paper=1912_09990"
-    },
-    {
       "id": "1907_06553",
       "label": "Dynamic Tube MPC",
       "title": "Dynamic Tube MPC for Nonlinear Systems",
@@ -26700,6 +26668,38 @@ window.timelineData = {
       "url": "../papers/1907_06553/",
       "treeUrl": "../tree/#paper=1907_06553",
       "mapUrl": "../map/#paper=1907_06553"
+    },
+    {
+      "id": "1912_09990",
+      "label": "Data-driven distributionally robust LQR with multiplicative noise",
+      "title": "Data-driven Distributionally Robust LQR with Multiplicative Noise",
+      "authors": [
+        "Peter Coppens",
+        "Mathijs Schuurmans",
+        "Panagiotis Patrinos"
+      ],
+      "authorShort": "Coppens, Schuurmans, Patrinos",
+      "year": 2019,
+      "source": "",
+      "type": "",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Stochastic Control",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Learning-based Control",
+        "Data-driven distributionally robust LQR with multiplicative noise"
+      ],
+      "tags": [],
+      "abstract": "We present a data-driven method for solving the linear quadratic regulator problem for systems with multiplicative disturbances, the distribution of which is only known through sample estimates. We adopt a distributionally robust approach to cast the controller synthesis problem as semidefinite programs. Using results from high dimensional statistics, the proposed methodology ensures that their solution provides mean-square stabilizing controllers with high probability even for low sample sizes. As sample size increases the closed-loop cost approaches that of the optimal controller produced when the distribution is known. We demonstrate the practical applicability and performance of the method through a numerical experiment.",
+      "summary": "",
+      "url": "../papers/1912_09990/",
+      "treeUrl": "../tree/#paper=1912_09990",
+      "mapUrl": "../map/#paper=1912_09990"
     },
     {
       "id": "1903_08599",
@@ -27338,6 +27338,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Fundamentals",
         "Model Predictive Path Integral Control: Theoretical Foundations and Applications to Autonomous Driving (Grady Williams PhD Dissertation)"
       ],
       "tags": [
@@ -29380,14 +29381,14 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Connections with Robust Control",
         "Robust Control Design for Linear Systems via Multiplicative Noise"
       ],
       "tags": [
@@ -29417,14 +29418,14 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Learning-based Control",
         "Sample Complexity of Data-Driven Stochastic LQR with Multiplicative Uncertainty"
       ],
       "tags": [],
@@ -29468,41 +29469,6 @@ window.timelineData = {
       "url": "../papers/2003_02395/",
       "treeUrl": "../tree/#paper=2003_02395",
       "mapUrl": "../map/#paper=2003_02395"
-    },
-    {
-      "id": "2006_06835",
-      "label": "Adaptive Gradient Methods Converge Faster with Over-Parameterization (but you should do a line-search)",
-      "title": "Adaptive Gradient Methods Converge Faster with Over-Parameterization (but You Should Do a Line-search)",
-      "authors": [
-        "Sharan Vaswani",
-        "Issam Laradji",
-        "Frederik Kunstner",
-        "Si Yi Meng",
-        "Mark Schmidt",
-        "Simon Lacoste-Julien"
-      ],
-      "authorShort": "Vaswani, Laradji, Kunstner",
-      "year": 2020,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Neural Network Training Algorithms",
-        "Overparameterization",
-        "Adaptive Gradient Methods Converge Faster with Over-Parameterization (but you should do a line-search)"
-      ],
-      "tags": [],
-      "abstract": "Adaptive gradient methods are typically used for training over-parameterized models. To better understand their behaviour, we study a simplistic setting -- smooth, convex losses with models over-parameterized enough to interpolate the data. In this setting, we prove that AMSGrad with constant step-size and momentum converges to the minimizer at a faster $O(1/T)$ rate. When interpolation is only approximately satisfied, constant step-size AMSGrad converges to a neighbourhood of the solution at the same rate, while AdaGrad is robust to the violation of interpolation. However, even for simple convex problems satisfying interpolation, the empirical performance of both methods heavily depends on the step-size and requires tuning, questioning their adaptivity. We alleviate this problem by automatically determining the step-size using stochastic line-search or Polyak step-sizes. With these techniques, we prove that both AdaGrad and AMSGrad retain their convergence guarantees, without needing to know problem-dependent constants. Empirically, we demonstrate that these techniques improve the convergence and generalization of adaptive gradient methods across tasks, from binary classification with kernel mappings to multi-class classification with deep networks.",
-      "summary": "",
-      "url": "../papers/2006_06835/",
-      "treeUrl": "../tree/#paper=2006_06835",
-      "mapUrl": "../map/#paper=2006_06835"
     },
     {
       "id": "2002_08809",
@@ -31022,6 +30988,42 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2012_04456"
     },
     {
+      "id": "2006_06835",
+      "label": "Adaptive Gradient Methods Converge Faster with Over-Parameterization (but you should do a line-search)",
+      "title": "Adaptive Gradient Methods Converge Faster with Over-Parameterization (but You Should Do a Line-search)",
+      "authors": [
+        "Sharan Vaswani",
+        "Issam Laradji",
+        "Frederik Kunstner",
+        "Si Yi Meng",
+        "Mark Schmidt",
+        "Simon Lacoste-Julien"
+      ],
+      "authorShort": "Vaswani, Laradji, Kunstner",
+      "year": 2020,
+      "source": "",
+      "type": "",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Deep Learning",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "Overparameterization",
+        "Adaptive Gradient Methods Converge Faster with Over-Parameterization (but you should do a line-search)"
+      ],
+      "tags": [],
+      "abstract": "Adaptive gradient methods are typically used for training over-parameterized models. To better understand their behaviour, we study a simplistic setting -- smooth, convex losses with models over-parameterized enough to interpolate the data. In this setting, we prove that AMSGrad with constant step-size and momentum converges to the minimizer at a faster $O(1/T)$ rate. When interpolation is only approximately satisfied, constant step-size AMSGrad converges to a neighbourhood of the solution at the same rate, while AdaGrad is robust to the violation of interpolation. However, even for simple convex problems satisfying interpolation, the empirical performance of both methods heavily depends on the step-size and requires tuning, questioning their adaptivity. We alleviate this problem by automatically determining the step-size using stochastic line-search or Polyak step-sizes. With these techniques, we prove that both AdaGrad and AMSGrad retain their convergence guarantees, without needing to know problem-dependent constants. Empirically, we demonstrate that these techniques improve the convergence and generalization of adaptive gradient methods across tasks, from binary classification with kernel mappings to multi-class classification with deep networks.",
+      "summary": "",
+      "url": "../papers/2006_06835/",
+      "treeUrl": "../tree/#paper=2006_06835",
+      "mapUrl": "../map/#paper=2006_06835"
+    },
+    {
       "id": "2006_07733",
       "label": "BYOL",
       "title": "Bootstrap Your Own Latent: A New Approach to Self-Supervised Learning",
@@ -31491,58 +31493,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2021_dean_certainty_equivalent_perception_based"
     },
     {
-      "id": "2103_15228",
-      "label": "Anomaly Detection Under Multiplicative Noise Model Uncertainty",
-      "title": "Anomaly Detection under Multiplicative Noise Model Uncertainty",
-      "authors": [
-        "Venkatraman Renganathan",
-        "Benjamin J. Gravell",
-        "Justin Ruths",
-        "Tyler H. Summers"
-      ],
-      "authorShort": "Renganathan, Gravell, Ruths",
-      "year": 2021,
-      "source": "IEEE Control Systems Letters",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Control",
-      "subCategory": "State-space Methods",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
-        "Anomaly Detection Under Multiplicative Noise Model Uncertainty"
-      ],
-      "tags": [
-        "Cyber-physical systems",
-        "Anomaly detection",
-        "Attack detection",
-        "Robust state estimation",
-        "LQG control",
-        "Multiplicative noise",
-        "Model uncertainty",
-        "Stochastic systems",
-        "State-space models",
-        "Kalman filtering",
-        "Robust filtering",
-        "Sensor attacks",
-        "False data injection",
-        "Detection performance",
-        "Uncertainty-aware estimation",
-        "Resilient control systems",
-        "Secure control",
-        "Numerical simulation"
-      ],
-      "abstract": "State estimators are crucial components of anomaly detectors that are used to monitor cyber-physical systems. Many frequently-used state estimators are susceptible to model risk as they rely critically on the availability of an accurate state-space model. Modeling errors make it more difficult to distinguish whether deviations from expected behavior are due to anomalies or simply a lack of knowledge about the system dynamics. In this research, we account for model uncertainty through a multiplicative noise framework. Specifically, we propose to use the multiplicative noise LQG based compensator in this setting to hedge against the model uncertainty risk. The size of the residual from the estimator can then be compared against a threshold to detect anomalies. Finally, the proposed detector is validated using numerical simulations. Extension of state-of-the-art anomaly detection in cyber-physical systems to handle model uncertainty represents the main novel contribution of the present work.",
-      "summary": "Uses the multiplicative-noise control design framework in order to control an uncertain system using output measurement feedback and monitor for excessive output residuals (anomaly detection).",
-      "url": "../papers/2103_15228/",
-      "treeUrl": "../tree/#paper=2103_15228",
-      "mapUrl": "../map/#paper=2103_15228"
-    },
-    {
       "id": "2103_03006",
       "label": "Data-driven distributionally robust MPC for constrained stochastic systems",
       "title": "Data-driven Distributionally Robust MPC for Constrained Stochastic Systems",
@@ -31636,6 +31586,58 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2102_08302"
     },
     {
+      "id": "2103_15228",
+      "label": "Anomaly Detection Under Multiplicative Noise Model Uncertainty",
+      "title": "Anomaly Detection under Multiplicative Noise Model Uncertainty",
+      "authors": [
+        "Venkatraman Renganathan",
+        "Benjamin J. Gravell",
+        "Justin Ruths",
+        "Tyler H. Summers"
+      ],
+      "authorShort": "Renganathan, Gravell, Ruths",
+      "year": 2021,
+      "source": "IEEE Control Systems Letters",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Stochastic Control",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Anomaly Detection",
+        "Anomaly Detection Under Multiplicative Noise Model Uncertainty"
+      ],
+      "tags": [
+        "Cyber-physical systems",
+        "Anomaly detection",
+        "Attack detection",
+        "Robust state estimation",
+        "LQG control",
+        "Multiplicative noise",
+        "Model uncertainty",
+        "Stochastic systems",
+        "State-space models",
+        "Kalman filtering",
+        "Robust filtering",
+        "Sensor attacks",
+        "False data injection",
+        "Detection performance",
+        "Uncertainty-aware estimation",
+        "Resilient control systems",
+        "Secure control",
+        "Numerical simulation"
+      ],
+      "abstract": "State estimators are crucial components of anomaly detectors that are used to monitor cyber-physical systems. Many frequently-used state estimators are susceptible to model risk as they rely critically on the availability of an accurate state-space model. Modeling errors make it more difficult to distinguish whether deviations from expected behavior are due to anomalies or simply a lack of knowledge about the system dynamics. In this research, we account for model uncertainty through a multiplicative noise framework. Specifically, we propose to use the multiplicative noise LQG based compensator in this setting to hedge against the model uncertainty risk. The size of the residual from the estimator can then be compared against a threshold to detect anomalies. Finally, the proposed detector is validated using numerical simulations. Extension of state-of-the-art anomaly detection in cyber-physical systems to handle model uncertainty represents the main novel contribution of the present work.",
+      "summary": "Uses the multiplicative-noise control design framework in order to control an uncertain system using output measurement feedback and monitor for excessive output residuals (anomaly detection).",
+      "url": "../papers/2103_15228/",
+      "treeUrl": "../tree/#paper=2103_15228",
+      "mapUrl": "../map/#paper=2103_15228"
+    },
+    {
       "id": "2021_gravell_stochastic_stability_via_robustness",
       "label": "Stochastic Stability via Robustness of Linear Systems",
       "title": "Stochastic Stability via Robustness of Linear Systems",
@@ -31649,14 +31651,14 @@ window.timelineData = {
       "type": "Conference Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Connections with Robust Control",
         "Stochastic Stability via Robustness of Linear Systems"
       ],
       "tags": [
@@ -31687,7 +31689,7 @@ window.timelineData = {
     },
     {
       "id": "2021_smith_stochasticity_in_feedback_loops",
-      "label": "Stochasticity in Feedback Loops: Great Expectations and Guaranteed Ruin",
+      "label": "Stochasticity in Feedback Loops",
       "title": "Stochasticity in Feedback Loops: Great Expectations and Guaranteed Ruin",
       "authors": [
         "Roy S. Smith",
@@ -31699,15 +31701,15 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
-        "Stochasticity in Feedback Loops: Great Expectations and Guaranteed Ruin"
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Stochastic Stability",
+        "Stochasticity in Feedback Loops"
       ],
       "tags": [],
       "abstract": "Stochastic components in a feedback loop introduce state behaviors that are fundamentally different from those observed in a deterministic system. The effect of injecting a stochastic signal additively in linear feedback systems can be viewed as the addition of filtered stochastic noise. If the stochastic signal enters the feedback loop in a multiplicative manner, a much richer set of state behaviors emerges. These phenomena are investigated for the simplest possible system: a multiplicative noise in a scalar, integrating feedback loop. The same dynamics arise when considering a first-order system in feedback with a stochastic gain. The dynamics of this form arise naturally in a number of domains, including compound investments in finance, chemical reaction dynamics, population dynamics, epidemiology, control over lossy communication channels, and adaptive control. Understanding the nature of such dynamics in a simple system is a precursor to recognizing them in more complex stochastic dynamical systems.",
@@ -31730,14 +31732,13 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Control of Uncertain Linear Systems",
         "Toward a Scalable Upper Bound for a CVaR-LQ Problem"
       ],
       "tags": [],
@@ -31846,40 +31847,6 @@ window.timelineData = {
       "url": "../papers/2102_02202/",
       "treeUrl": "../tree/#paper=2102_02202",
       "mapUrl": "../map/#paper=2102_02202"
-    },
-    {
-      "id": "2103_00065",
-      "label": "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability",
-      "title": "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability",
-      "authors": [
-        "Jeremy M. Cohen",
-        "Simran Kaur",
-        "Yuanzhi Li",
-        "J. Zico Kolter",
-        "Ameet Talwalkar"
-      ],
-      "authorShort": "Cohen, Kaur, Li",
-      "year": 2021,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Neural Network Training Algorithms",
-        "Edge of Stability",
-        "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability"
-      ],
-      "tags": [],
-      "abstract": "We empirically demonstrate that full-batch gradient descent on neural network training objectives typically operates in a regime we call the Edge of Stability. In this regime, the maximum eigenvalue of the training loss Hessian hovers just above the numerical value $2 / \\text{(step size)}$, and the training loss behaves non-monotonically over short timescales, yet consistently decreases over long timescales. Since this behavior is inconsistent with several widespread presumptions in the field of optimization, our findings raise questions as to whether these presumptions are relevant to neural network training. We hope that our findings will inspire future efforts aimed at rigorously understanding optimization at the Edge of Stability. Code is available at https://github.com/locuslab/edge-of-stability.",
-      "summary": "",
-      "url": "../papers/2103_00065/",
-      "treeUrl": "../tree/#paper=2103_00065",
-      "mapUrl": "../map/#paper=2103_00065"
     },
     {
       "id": "2102_09468",
@@ -32523,6 +32490,8 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Sampling Distributions",
+        "Multimodal Sampling",
         "Tsallis VI-SOC"
       ],
       "tags": [
@@ -33761,6 +33730,41 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2103_03230"
     },
     {
+      "id": "2103_00065",
+      "label": "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability",
+      "title": "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability",
+      "authors": [
+        "Jeremy M. Cohen",
+        "Simran Kaur",
+        "Yuanzhi Li",
+        "J. Zico Kolter",
+        "Ameet Talwalkar"
+      ],
+      "authorShort": "Cohen, Kaur, Li",
+      "year": 2021,
+      "source": "",
+      "type": "",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Deep Learning",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "Edge of Stability",
+        "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability"
+      ],
+      "tags": [],
+      "abstract": "We empirically demonstrate that full-batch gradient descent on neural network training objectives typically operates in a regime we call the Edge of Stability. In this regime, the maximum eigenvalue of the training loss Hessian hovers just above the numerical value $2 / \\text{(step size)}$, and the training loss behaves non-monotonically over short timescales, yet consistently decreases over long timescales. Since this behavior is inconsistent with several widespread presumptions in the field of optimization, our findings raise questions as to whether these presumptions are relevant to neural network training. We hope that our findings will inspire future efforts aimed at rigorously understanding optimization at the Edge of Stability. Code is available at https://github.com/locuslab/edge-of-stability.",
+      "summary": "",
+      "url": "../papers/2103_00065/",
+      "treeUrl": "../tree/#paper=2103_00065",
+      "mapUrl": "../map/#paper=2103_00065"
+    },
+    {
       "id": "2105_04906",
       "label": "VICReg",
       "title": "VICReg: Variance-Invariance-Covariance Regularization for Self-Supervised Learning",
@@ -34322,14 +34326,15 @@ window.timelineData = {
       "type": "",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "State Feedback",
+        "Riccati Equations",
         "Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically"
       ],
       "tags": [],
@@ -38224,6 +38229,7 @@ window.timelineData = {
         "Kinodynamic Planning",
         "Trajectory Optimization",
         "Learning in Trajectory Optimization",
+        "Learning Initial Solutions",
         "Learning-Aided Warmstart of Model Predictive Control in Uncertain Fast-Changing Traffic"
       ],
       "tags": [],
@@ -40461,14 +40467,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Control",
-      "subCategory": "State-space Methods",
+      "subCategory": "Stochastic Control",
       "path": [
         "Tree",
         "Decision-making",
         "Control",
-        "State-space Methods",
-        "Linear Quadratic Regulator (LQR)",
-        "Multiplicative noise / stochastic system parameters",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Learning-based Control",
         "Provably Stable Learning Control of Linear Dynamics With Multiplicative Noise"
       ],
       "tags": [],
@@ -41101,6 +41107,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Sampling Distributions",
         "Biased-MPPI"
       ],
       "tags": [
@@ -41140,6 +41147,8 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Sampling Distributions",
+        "Reachability-informed Sampling",
         "C-Uniform MPPI"
       ],
       "tags": [
@@ -41221,7 +41230,8 @@ window.timelineData = {
         "Planning",
         "Kinodynamic Planning",
         "Trajectory Optimization",
-        "Hybrid Approaches",
+        "Learning in Trajectory Optimization",
+        "Sampling-based MPC",
         "DIAL-MPC"
       ],
       "tags": [
@@ -41554,6 +41564,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Action Smoothing",
         "Low Frequency Sampling in Model Predictive Path Integral Control"
       ],
       "tags": [],
@@ -41589,6 +41600,7 @@ window.timelineData = {
         "Kinodynamic Planning",
         "Trajectory Optimization",
         "Learning in Trajectory Optimization",
+        "Learning Initial Solutions",
         "MISO"
       ],
       "tags": [
@@ -45300,6 +45312,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Safety & Uncertainty Handling",
         "BC-MPPI"
       ],
       "tags": [
@@ -45341,6 +45354,8 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Sampling Distributions",
+        "Reachability-informed Sampling",
         "CU-MPPI"
       ],
       "tags": [
@@ -45383,6 +45398,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Safety & Uncertainty Handling",
         "DBaS-Log-MPPI"
       ],
       "tags": [
@@ -45489,6 +45505,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Interaction-aware & Dynamic Planning",
         "Dynamic Risk-Aware MPPI for Mobile Robots in Crowds via Efficient Monte Carlo Approximations"
       ],
       "tags": [],
@@ -45597,6 +45614,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Interaction-aware & Dynamic Planning",
         "Interaction-Rich MPPI"
       ],
       "tags": [
@@ -45634,6 +45652,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Action Smoothing",
         "Low-pass MPPI"
       ],
       "tags": [
@@ -45673,6 +45692,8 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Sampling Distributions",
+        "Multimodal Sampling",
         "Multi-Modal MPPI"
       ],
       "tags": [
@@ -45712,6 +45733,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Safety & Uncertainty Handling",
         "PA-MPPI"
       ],
       "tags": [],
@@ -45865,6 +45887,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Sampling Distributions",
         "Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control"
       ],
       "tags": [],
@@ -45897,6 +45920,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Action Smoothing",
         "TC-MPPI"
       ],
       "tags": [
@@ -45936,8 +45960,8 @@ window.timelineData = {
         "Planning",
         "Kinodynamic Planning",
         "Trajectory Optimization",
-        "Model Predictive Sampling-Based Control",
-        "Model Predictive Path Integral Control (MPPI)",
+        "Learning in Trajectory Optimization",
+        "Sampling-based MPC",
         "TD-CD-MPPI"
       ],
       "tags": [
@@ -46013,6 +46037,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Accelerating Integration/Simulation",
         "VIMPPI"
       ],
       "tags": [
@@ -47657,6 +47682,7 @@ window.timelineData = {
         "Deep Learning",
         "Neural Networks",
         "Training Algorithms",
+        "Optimization with constraints",
         "PInet"
       ],
       "tags": [],
@@ -49226,41 +49252,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2603_08824"
     },
     {
-      "id": "2604_14669",
-      "label": "Zeroth-Order Optimization at the Edge of Stability",
-      "title": "Zeroth-Order Optimization at the Edge of Stability",
-      "authors": [
-        "Minhak Song",
-        "Liang Zhang",
-        "Bingcong Li",
-        "Niao He",
-        "Michael Muehlebach",
-        "Sewoong Oh"
-      ],
-      "authorShort": "Song, Zhang, Li",
-      "year": 2026,
-      "source": "",
-      "type": "",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Neural Network Training Algorithms",
-        "Edge of Stability",
-        "Zeroth-Order Optimization at the Edge of Stability"
-      ],
-      "tags": [],
-      "abstract": "Zeroth-order (ZO) methods are widely used when gradients are unavailable or prohibitively expensive, including black-box learning and memory-efficient fine-tuning of large models, yet their optimization dynamics in deep learning remain underexplored. In this work, we provide an explicit step size condition that exactly captures the (mean-square) linear stability of a family of ZO methods based on the standard two-point estimator. Our characterization reveals a sharp contrast with first-order (FO) methods: whereas FO stability is governed solely by the largest Hessian eigenvalue, mean-square stability of ZO methods depends on the entire Hessian spectrum. Since computing the full Hessian spectrum is infeasible in practical neural network training, we further derive tractable stability bounds that depend only on the largest eigenvalue and the Hessian trace. Empirically, we find that full-batch ZO methods operate at the edge of stability: ZO-GD, ZO-GDM, and ZO-Adam consistently stabilize near the predicted stability boundary across a range of deep learning training problems. Our results highlight an implicit regularization effect specific to ZO methods, where large step sizes primarily regularize the Hessian trace, whereas in FO methods they regularize the top eigenvalue.",
-      "summary": "",
-      "url": "../papers/2604_14669/",
-      "treeUrl": "../tree/#paper=2604_14669",
-      "mapUrl": "../map/#paper=2604_14669"
-    },
-    {
       "id": "2605_01614",
       "label": "CvxCluster",
       "title": "CvxCluster: Solving Large, Complex, Granular Resource Allocation Problems 100-1000x Faster",
@@ -49562,47 +49553,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2603_11335"
     },
     {
-      "id": "2603_16059",
-      "label": "AkinoPDF",
-      "title": "Ultrafast Sampling-based Kinodynamic Planning via Differential Flatness",
-      "authors": [
-        "Thai Duong",
-        "Clayton W. Ramsey",
-        "Zachary Kingston",
-        "Wil Thomason",
-        "Lydia E. Kavraki"
-      ],
-      "authorShort": "Duong, Ramsey, Kingston",
-      "year": 2026,
-      "source": "arXiv",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Planning",
-      "subCategory": "Kinodynamic Planning",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Planning",
-        "Kinodynamic Planning",
-        "Trajectory Planning",
-        "Rapidly Exploring Random Trees (RRT)",
-        "AkinoPDF"
-      ],
-      "tags": [
-        "Kinodynamic planning",
-        "Differential flatness",
-        "Steering function",
-        "Parallelization",
-        "Manipulators",
-        "Quadrotors"
-      ],
-      "abstract": "Motion planning under dynamics constraints, i.e., kinodynamic planning, enables safe robot operation by generating dynamically feasible trajectories that the robot can accurately track. For high-DoF robots such as manipulators, sampling-based motion planners are commonly used, especially for complex tasks in cluttered environments. However, enforcing constraints on robot dynamics in such planners requires solving either challenging two-point boundary value problems (BVPs) or propagating robot dynamics over time, both of which are computational bottlenecks that drastically increase planning times. Meanwhile, recent efforts have shown that sampling-based motion planners can generate plans in microseconds using parallelization, but are limited to geometric paths. This paper develops AkinoPDF, a fast parallelized sampling-based kinodynamic motion planning technique for a broad class of differentially flat robot systems, including manipulators, ground and aerial vehicles, and more. Differential flatness allows us to transform the motion planning problem from the original state space to a flat output space, where an analytical time-parameterized solution of the BVP and dynamics integration can be obtained. A trajectory in the flat output space is then converted back to a closed-form dynamically feasible trajectory in the original state space, enabling fast validation via \"single instruction, multiple data\" parallelism. Our method is fast, exact, and compatible with any sampling-based motion planner. We extensively verify the effectiveness of our approach in both simulated benchmarks and real experiments with cluttered and dynamic environments, requiring mere microseconds to milliseconds of planning time.",
-      "summary": "Exploits differential flatness to obtain closed-form analytical BVP solutions in a flat output space. Planning is done in the flat space (concatenation of flat outputs and several time derivatives thereof). Kinodynamic constraints and collision checking can be done very efficiently/quickly by using SIMD instructions on CPU. Closely related to the linear-systems approach of Webb & van den Berg (1205.5088) but extended to the broader class of differentially flat systems.",
-      "url": "../papers/2603_16059/",
-      "treeUrl": "../tree/#paper=2603_16059",
-      "mapUrl": "../map/#paper=2603_16059"
-    },
-    {
       "id": "2604_06406",
       "label": "Augmented GCS for TSP",
       "title": "Augmented Graphs of Convex Sets and the Traveling Salesman Problem",
@@ -49700,6 +49650,47 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2026_suh_dexterous_contact_rich_manipulation"
     },
     {
+      "id": "2603_16059",
+      "label": "FLASK",
+      "title": "Ultrafast Sampling-based Kinodynamic Planning via Differential Flatness",
+      "authors": [
+        "Thai Duong",
+        "Clayton W. Ramsey",
+        "Zachary Kingston",
+        "Wil Thomason",
+        "Lydia E. Kavraki"
+      ],
+      "authorShort": "Duong, Ramsey, Kingston",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Kinodynamic Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Planning",
+        "Rapidly Exploring Random Trees (RRT)",
+        "FLASK"
+      ],
+      "tags": [
+        "Kinodynamic planning",
+        "Differential flatness",
+        "Steering function",
+        "Parallelization",
+        "Manipulators",
+        "Quadrotors"
+      ],
+      "abstract": "Motion planning under dynamics constraints, i.e, kinodynamic planning, enables safe robot operation by generating dynamically feasible trajectories that the robot can accurately track. For high-DOF robots such as manipulators, sampling-based motion planners are commonly used, especially for complex tasks in cluttered environments. However, enforcing constraints on robot dynamics in such planners requires solving either challenging two-point boundary value problems (BVPs) or propagating robot dynamics, both of which cause computational bottlenecks that drastically increase planning times. Meanwhile, recent efforts have shown that sampling-based motion planners can generate plans in microseconds using parallelization, but are limited to geometric paths. This paper develops FLASK, a fast parallelized sampling-based kinodynamic motion planning framework for a broad class of differentially flat robot systems, including manipulators, ground and aerial vehicles, and more. Differential flatness allows us to transform the motion planning problem from the original state space to a flat output space, where an analytical time-parameterized solution of the BVP problem can be obtained. A trajectory in the flat output space is then converted back to a closed-form dynamically feasible trajectory in the original state space, enabling fast validation via ``single instruction, multiple data\" parallelism. Our framework is fast, exact, and compatible with any sampling-based motion planner, while offering theoretical guarantees on probabilistic exhaustibility and asymptotic optimality based on the closed-form BVP solutions. We extensively verify the effectiveness of our approach in both simulated benchmarks and real experiments with cluttered and dynamic environments, requiring mere microseconds to milliseconds of planning time.",
+      "summary": "Exploits differential flatness to obtain closed-form analytical BVP solutions in a flat output space. Planning is done in the flat space (concatenation of flat outputs and several time derivatives thereof). Kinodynamic constraints and collision checking can be done very efficiently/quickly by using SIMD instructions on CPU. Closely related to the linear-systems approach of Webb & van den Berg (1205.5088) but extended to the broader class of differentially flat systems.",
+      "url": "../papers/2603_16059/",
+      "treeUrl": "../tree/#paper=2603_16059",
+      "mapUrl": "../map/#paper=2603_16059"
+    },
+    {
       "id": "2604_27175",
       "label": "Global Sampling-Based Trajectory Optimization for Contact-Rich Manipulation via KernelSOS",
       "title": "Global Sampling-Based Trajectory Optimization for Contact-Rich Manipulation via KernelSOS",
@@ -49784,6 +49775,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Heavy Vehicles",
         "Improving MPPI for High-Inertia Industrial Vehicles"
       ],
       "tags": [
@@ -49824,6 +49816,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Fundamentals",
         "Model Predictive Path Integral Control as Preconditioned Gradient Descent"
       ],
       "tags": [],
@@ -49857,6 +49850,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Heavy Vehicles",
         "Neural Distance-Guided Path Integral Control for Tractor-Trailer Navigation"
       ],
       "tags": [],
@@ -49954,7 +49948,7 @@ window.timelineData = {
         "Kinodynamic Planning",
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
-        "Model Predictive Path Integral Control (MPPI)",
+        "Partially Observed Systems",
         "Path Integral Control in Gaussian Belief Space for Partially Observed Systems"
       ],
       "tags": [],
@@ -50089,6 +50083,7 @@ window.timelineData = {
         "Trajectory Optimization",
         "Model Predictive Sampling-Based Control",
         "Model Predictive Path Integral Control (MPPI)",
+        "Variance Reduction",
         "Variance-Reduced Model Predictive Path Integral via Quadratic Model Approximation"
       ],
       "tags": [],
@@ -51459,6 +51454,7 @@ window.timelineData = {
         "Deep Learning",
         "Neural Networks",
         "Training Algorithms",
+        "Optimization with Curvature Information",
         "The Hessian of tall-skinny networks is easy to invert"
       ],
       "tags": [],
@@ -51467,6 +51463,42 @@ window.timelineData = {
       "url": "../papers/2601_06096/",
       "treeUrl": "../tree/#paper=2601_06096",
       "mapUrl": "../map/#paper=2601_06096"
+    },
+    {
+      "id": "2604_14669",
+      "label": "Zeroth-Order Optimization at the Edge of Stability",
+      "title": "Zeroth-Order Optimization at the Edge of Stability",
+      "authors": [
+        "Minhak Song",
+        "Liang Zhang",
+        "Bingcong Li",
+        "Niao He",
+        "Michael Muehlebach",
+        "Sewoong Oh"
+      ],
+      "authorShort": "Song, Zhang, Li",
+      "year": 2026,
+      "source": "",
+      "type": "",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Deep Learning",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "Edge of Stability",
+        "Zeroth-Order Optimization at the Edge of Stability"
+      ],
+      "tags": [],
+      "abstract": "Zeroth-order (ZO) methods are widely used when gradients are unavailable or prohibitively expensive, including black-box learning and memory-efficient fine-tuning of large models, yet their optimization dynamics in deep learning remain underexplored. In this work, we provide an explicit step size condition that exactly captures the (mean-square) linear stability of a family of ZO methods based on the standard two-point estimator. Our characterization reveals a sharp contrast with first-order (FO) methods: whereas FO stability is governed solely by the largest Hessian eigenvalue, mean-square stability of ZO methods depends on the entire Hessian spectrum. Since computing the full Hessian spectrum is infeasible in practical neural network training, we further derive tractable stability bounds that depend only on the largest eigenvalue and the Hessian trace. Empirically, we find that full-batch ZO methods operate at the edge of stability: ZO-GD, ZO-GDM, and ZO-Adam consistently stabilize near the predicted stability boundary across a range of deep learning training problems. Our results highlight an implicit regularization effect specific to ZO methods, where large step sizes primarily regularize the Hessian trace, whereas in FO methods they regularize the top eigenvalue.",
+      "summary": "",
+      "url": "../papers/2604_14669/",
+      "treeUrl": "../tree/#paper=2604_14669",
+      "mapUrl": "../map/#paper=2604_14669"
     },
     {
       "id": "2601_03220",
@@ -52171,6 +52203,7 @@ window.timelineData = {
       "Planning": [
         "Geometric Planning",
         "Kinodynamic Planning",
+        "Speed Planning",
         "Planning in Changing Environments",
         "Learning-Based Motion Planning",
         "Planning for Robots",
@@ -52180,6 +52213,7 @@ window.timelineData = {
         "Theory",
         "Frequency and Laplace-Domain Methods",
         "State-space Methods",
+        "Stochastic Control",
         "Robust & Safety-Critical Control",
         "Adaptive Control",
         "Distributed Control",
