@@ -3,7 +3,7 @@
 ## Taxonomy
 
 ```sh
-poetry run python scripts/suggest_branch_subgroupings.py --max-results 1
+poetry run python scripts/suggest_branch_subgroupings.py --max-results 1 --write-tree
 ```
 
 ```sh
