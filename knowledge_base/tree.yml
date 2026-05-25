@@ -194,17 +194,6 @@
             - "A General Analysis of the Convergence of ADMM": docs/papers/2015/1502.02009/metadata.yml
             - "Incremental Gradient, Subgradient, and Proximal Methods for Convex Optimization: A Survey": docs/papers/2015/1507.01030/metadata.yml
             - "On the Douglas-Rachford Splitting Method and the Proximal Point Algorithm for Maximal Monotone Operators": docs/papers/1992/1992.eckstein.on_the_douglasrachford_splitting/metadata.yml
-        - Neural Network Training Algorithms:
-          - Optimization with Curvature Information:
-            - Hessian-free Optimization: docs/papers/2010/2010.martens.deep_learning_via_hessian/metadata.yml
-            - K-FAC: docs/papers/2015/1503.05671/metadata.yml
-          - Overparameterization:
-            - "Gradient Descent Provably Optimizes Over-parameterized Neural Networks": docs/papers/2018/1810.02054/metadata.yml
-            - "On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization": docs/papers/2018/2018.arora.on_the_optimization_of/metadata.yml
-            - "Adaptive Gradient Methods Converge Faster with Over-Parameterization (but you should do a line-search)": docs/papers/2020/2006.06835/metadata.yml
-          - Edge of Stability:
-            - "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability": docs/papers/2021/2103.00065/metadata.yml
-            - "Zeroth-Order Optimization at the Edge of Stability": docs/papers/2026/2604.14669/metadata.yml
         - Robust Optimization:
           - Mean Robust Optimization: docs/papers/2022/2207.10820/metadata.yml
           - "Data-driven Distributionally Robust Optimization Using the Wasserstein Metric: Performance Guarantees and Tractable Reformulations": docs/papers/2015/1505.05116/metadata.yml
@@ -1502,11 +1491,23 @@
           - Activation Functions:
             - ELU: docs/papers/2015/1511.07289/metadata.yml
           - Training Algorithms:
-            - Backpropagation: docs/papers/1986/1986.rumelhart.learning_representations_by_back/metadata.yml
-            - PInet: docs/papers/2025/2508.10480/metadata.yml
-            - The Hessian of tall-skinny networks is easy to invert: docs/papers/2026/2601.06096/metadata.yml
-          - Regularization:
-            - Dropout: docs/papers/2014/2014.srivastava.dropout_a_simple_way/metadata.yml
+            - Backpropagation:
+              - Backpropagation: docs/papers/1986/1986.rumelhart.learning_representations_by_back/metadata.yml
+            - Optimization with Curvature Information:
+              - Hessian-free Optimization: docs/papers/2010/2010.martens.deep_learning_via_hessian/metadata.yml
+              - K-FAC: docs/papers/2015/1503.05671/metadata.yml
+              - The Hessian of tall-skinny networks is easy to invert: docs/papers/2026/2601.06096/metadata.yml
+            - Optimization with constraints:
+              - PInet: docs/papers/2025/2508.10480/metadata.yml
+            - Regularization:
+              - Dropout: docs/papers/2014/2014.srivastava.dropout_a_simple_way/metadata.yml
+            - Overparameterization:
+              - "Gradient Descent Provably Optimizes Over-parameterized Neural Networks": docs/papers/2018/1810.02054/metadata.yml
+              - "On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization": docs/papers/2018/2018.arora.on_the_optimization_of/metadata.yml
+              - "Adaptive Gradient Methods Converge Faster with Over-Parameterization (but you should do a line-search)": docs/papers/2020/2006.06835/metadata.yml
+            - Edge of Stability:
+              - "Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability": docs/papers/2021/2103.00065/metadata.yml
+              - "Zeroth-Order Optimization at the Edge of Stability": docs/papers/2026/2604.14669/metadata.yml
           - Theory & Science:
             - "Understanding deep learning requires rethinking generalization": docs/papers/2016/1611.03530/metadata.yml
             - "Reconciling modern machine learning practice and the bias-variance trade-off": docs/papers/2018/1812.11118/metadata.yml
