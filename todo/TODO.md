@@ -399,9 +399,6 @@ Hand-crafted
 
 ## Timeline
 
-Performance is bad. When clicking hide/show settings it lags another. Also interacting and changing filters causes bad lag spike.
-Investigate low hanging fruit for performance enhancement as well as deeper structural issues that might be contributing.
-
 ### UX
 
 ### Design inspiration
@@ -422,11 +419,8 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 
 ### UX
 
-#### bug
-
-I type in settings search bar, but when pinching to zoom on mobile it brings up the virtual keyboard over the mapped canvas and it breaks the interaction usability.
-
 #### filters
+
 Selected node filter
 
 Include more filters utilizing as many metadata fields as possible.
@@ -437,7 +431,7 @@ Include more filters utilizing as many metadata fields as possible.
 
 Global filters
 
-- author 
+- author
 - venue
 - tag
 - arxiv available
