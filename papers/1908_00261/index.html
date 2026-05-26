@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,6 +1611,8 @@
       <a href="../../search/?year=2019">2019</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1597,6 +1621,11 @@
     <div class="paper-meta-card__value">Policy Gradient</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1613,6 +1642,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Policy gradient methods are among the most effective methods in challenging reinforcement learning problems with large state and/or action spaces. However, little is known about even their most basic theoretical convergence properties, including: if and how fast they converge to a globally optimal solution or how they cope with approximation error due to using a restricted class of parametric policies. This work provides provable characterizations of the computational, approximation, and sample size properties of policy gradient methods in the context of discounted Markov Decision Processes (MDPs). We focus on both: "tabular" policy parameterizations, where the optimal policy is contained in the class and where we show global convergence to the optimal policy; and parametric policy classes (considering both log-linear and neural policy classes), which may not contain the optimal policy and where we provide agnostic learning results. One central contribution of this work is in providing approximation guarantees that are average case -- which avoid explicit worst-case dependencies on the size of state space -- by making a formal connection to supervised learning under distribution shift. This characterization shows an important interplay between estimation error, approximation error, and exploration (as characterized through a precisely defined condition number).</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Policy gradient methods are among the most effective methods in challenging reinforcement learning problems with large state and/or action spaces. The abstract also notes that however, little is known about even their most basic theoretical convergence properties, including: if and how fast they converge to a globally optimal solution or how they cope with approximation error due to using a restricted class of parametric policies.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1657,6 +1689,25 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1908_00261&amp;tag=Reinforcement%20learning">Reinforcement learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1908_00261&amp;tag=Supervised%20learning">Supervised learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1908_00261&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1908_00261&amp;tag=Policy%20gradient">Policy gradient</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1908_00261&amp;tag=Markov%20decision%20process">Markov decision process</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1908_00261&amp;tag=State%20space">State space</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1908_00261&amp;tag=Approximation%20error">Approximation error</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1679,30 +1730,28 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 163.8deg;" aria-label="91% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 162.0deg;" aria-label="90% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>91%</span>
+        <span>90%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2007_11120/">On Linear Convergence of Policy Gradient Methods for Finite MDPs</a></h3>
-
-      <p class="paper-similar-card__label">Policy Gradient</p>
+      <h3><a href="../../papers/2000_baxter_direct_gradient_based_reinforcement/">Direct Gradient-Based Reinforcement Learning</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Jalaj Bhandari et al. / 2020</span>
+        <span>Jonathan Baxter et al. / 2000</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 162.0deg;" aria-label="90% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>90%</span>
+        <span>89%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1724,21 +1773,23 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2000_baxter_direct_gradient_based_reinforcement/">Direct Gradient-Based Reinforcement Learning</a></h3>
+      <h3><a href="../../papers/2007_11120/">On Linear Convergence of Policy Gradient Methods for Finite MDPs</a></h3>
+
+      <p class="paper-similar-card__label">Policy Gradient</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Jonathan Baxter et al. / 2000</span>
+        <span>Jalaj Bhandari et al. / 2020</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>89%</span>
+        <span>88%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">

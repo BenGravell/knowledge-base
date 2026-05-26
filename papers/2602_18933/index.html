@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,14 +1611,16 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
+
 
 
   <div class="paper-meta-card">
-    <div class="paper-meta-card__label">Algorithm</div>
-    <div class="paper-meta-card__value">Policy Gradient</div>
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
   </div>
-
 
 
   <div class="paper-meta-card">
@@ -1613,6 +1637,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>In this work, we propose a stochastic gradient descent (SGD) framework to design data-driven policy gradient descent algorithms for the linear quadratic regulator problem. Two alternative schemes are considered to estimate the policy gradient from stochastic trajectory data: (i) an indirect online identification based approach, in which the system matrices are first estimated and subsequently used to construct the gradient, and (ii) a direct zeroth-order approach, which approximates the gradient using empirical cost evaluations. In both cases, the resulting gradient estimates are random due to stochasticity in the data, allowing us to use SGD theory to analyze the convergence of the associated policy gradient methods. A key technical step consists of modeling the gradient estimates as suitable stochastic gradient oracles, which, because of the way they are computed, are inherently based. We derive sufficient conditions under which SGD with a biased gradient oracle converges asymptotically to the optimal policy, and leverage these conditions to design the parameters of the gradient estimation schemes. Moreover, we compare the advantages and limitations of the two data-driven gradient estimators. Numerical experiments validate the effectiveness of the proposed methods.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper proposes a stochastic gradient descent (SGD) framework to design data-driven policy gradient descent algorithms for the linear quadratic regulator problem. The abstract also notes that two alternative schemes are considered to estimate the policy gradient from stochastic trajectory data: (i) an indirect online identification based approach, in which the system matrices are first estimated and subsequently used to construct the gradient, and (ii) a direct zeroth-order approach, which approximates the gradient using empirical cost evaluations.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1657,14 +1684,33 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_18933&amp;tag=Gradient%20descent">Gradient descent</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_18933&amp;tag=Stochastic%20gradient">Stochastic gradient</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_18933&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_18933&amp;tag=Policy%20gradient">Policy gradient</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_18933&amp;tag=SGD">SGD</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_18933&amp;tag=Gradient%20method">Gradient method</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_18933&amp;tag=Stochastic%20gradient%20descent">Stochastic gradient descent</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>89%</span>
+        <span>88%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1679,10 +1725,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>89%</span>
+        <span>88%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1699,10 +1745,28 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>87%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2210_04810/">Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Bin Hu et al. / 2022</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>87%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1717,10 +1781,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+      <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1729,24 +1793,6 @@
 
       <div class="paper-similar-card__meta">
         <span>Yinbin Han et al. / 2023</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2210_04810/">Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Bin Hu et al. / 2022</span>
       </div>
 
     </div>

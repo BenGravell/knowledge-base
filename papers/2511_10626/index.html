@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,9 +1611,16 @@
       <a href="../../search/?year=2025">2025</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1608,6 +1637,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Constrained non-convex optimization is fundamentally challenging, as global solutions are generally intractable and constraint qualifications may not hold. However, in many applications, including safe policy optimization in control and reinforcement learning, such problems possess hidden convexity, meaning they can be reformulated as convex programs via a nonlinear invertible transformation. Typically such transformations are implicit or unknown, making the direct link with the convex program impossible. On the other hand, (sub-)gradients with respect to the original variables are often accessible or can be easily estimated, which motivates algorithms that operate directly in the original (non-convex) problem space using standard (sub-)gradient oracles. In this work, we develop the first algorithms to provably solve such non-convex problems to global minima. First, using a modified inexact proximal point method, we establish global last-iterate convergence guarantees with $\widetilde{\mathcal{O}}(\varepsilon^{-3})$ oracle complexity in non-smooth setting. For smooth problems, we propose a new bundle-level type method based on linearly constrained quadratic subproblems, improving the oracle complexity to $\widetilde{\mathcal{O}}(\varepsilon^{-1})$. Surprisingly, despite non-convexity, our methodology does not require any constraint qualifications, can handle hidden convex equality constraints, and achieves complexities matching those for solving unconstrained hidden convex optimization.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Constrained non-convex optimization is fundamentally challenging, as global solutions are generally intractable and constraint qualifications may not hold. The abstract also notes that however, in many applications, including safe policy optimization in control and reinforcement learning, such problems possess hidden convexity, meaning they can be reformulated as convex programs via a nonlinear invertible transformation.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1652,12 +1684,67 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_10626&amp;tag=Convex%20optimization">Convex optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_10626&amp;tag=Reinforcement%20learning">Reinforcement learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_10626&amp;tag=Safety">Safety</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_10626&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_10626&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_10626&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_10626&amp;tag=Learning">Learning</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">1</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>86%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2303_08431/">Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Yinbin Han et al. / 2023</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>85%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1906_08383/">Global Convergence of Policy Gradient Methods to (Almost) Locally Optimal Policies</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Kaiqing Zhang et al. / 2019</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
         <span>85%</span>
       </div>
@@ -1674,10 +1761,28 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">2</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>84%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1910_09496/">Policy Optimization for H2 Linear Control with H∞ Robustness Guarantee: Implicit Regularization and Global Convergence</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Kaiqing Zhang et al. / 2019</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1686,62 +1791,6 @@
 
       <div class="paper-similar-card__meta">
         <span>Marina Danilova et al. / 2020</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2511_10622/">Verification of Sequential Convex Programming for Parametric Non-convex Optimization</a></h3>
-
-      <p class="paper-similar-card__label">SCP</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Rajiv Sambharya et al. / 2025</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2001_nedic_incremental_subgradient_methods_for/">Incremental Subgradient Methods for Nondifferentiable Optimization</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Angelia Nedic et al. / 2001</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1906_08383/">Global Convergence of Policy Gradient Methods to (Almost) Locally Optimal Policies</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Kaiqing Zhang et al. / 2019</span>
       </div>
 
     </div>

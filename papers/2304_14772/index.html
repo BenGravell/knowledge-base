@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1593,9 +1615,21 @@
       <a href="../../search/?year=2023">2023</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">Multisample Flow Matching</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1612,6 +1646,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Simulation-free methods for training continuous-time generative models construct probability paths that go between noise distributions and individual data samples. Recent works, such as Flow Matching, derived paths that are optimal for each data sample. However, these algorithms rely on independent data and noise samples, and do not exploit underlying structure in the data distribution for constructing probability paths. We propose Multisample Flow Matching, a more general framework that uses non-trivial couplings between data and noise samples while satisfying the correct marginal constraints. At very small overhead costs, this generalization allows us to (i) reduce gradient variance during training, (ii) obtain straighter flows for the learned vector field, which allows us to generate high-quality samples using fewer function evaluations, and (iii) obtain transport maps with lower cost in high dimensions, which has applications beyond generative modeling. Importantly, we do so in a completely simulation-free manner with a simple minimization objective. We show that our proposed methods improve sample consistency on downsampled ImageNet data sets, and lead to better low-cost sample generation.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Simulation-free methods for training continuous-time generative models construct probability paths that go between noise distributions and individual data samples. The abstract also notes that recent works, such as Flow Matching, derived paths that are optimal for each data sample.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1656,18 +1693,31 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2304_14772&amp;tag=Generalization">Generalization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2304_14772&amp;tag=Matching">Matching</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2304_14772&amp;tag=Generative%20model">Generative model</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 169.2deg;" aria-label="94% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 167.4deg;" aria-label="93% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>94%</span>
+        <span>93%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2210_02747/">Flow Matching for Generative Modeling</a></h3>
+
+      <p class="paper-similar-card__label">Flow Matching</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1678,32 +1728,16 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2209_03003/">Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Xingchao Liu et al. / 2022</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
+        <span>87%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2403_13117/">Optimal Flow Matching: Learning Straight Trajectories in Just One Step</a></h3>
+
+      <p class="paper-similar-card__label">Optimal Flow Matching</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1714,10 +1748,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
+        <span>85%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1732,10 +1766,30 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>83%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2209_03003/">Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow</a></h3>
+
+      <p class="paper-similar-card__label">Rectified Flow</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Xingchao Liu et al. / 2022</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 142.2deg;" aria-label="79% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>80%</span>
+        <span>79%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">

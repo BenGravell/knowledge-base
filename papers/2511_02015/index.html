@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1585,14 +1607,21 @@
       <a href="../../search/?year=2025">2025</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
   <div class="paper-meta-card">
     <div class="paper-meta-card__label">Algorithm</div>
-    <div class="paper-meta-card__value">MPPI</div>
+    <div class="paper-meta-card__value">SOPPI</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1609,6 +1638,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>This paper introduces a method for Model Predictive Path Integral (MPPI) control that optimizes sample generation towards an optimal trajectory through Stein Variational Gradient Descent (SVGD). MPPI relies upon predictive rollout of trajectories sampled from a distribution of possible actions. Traditionally, these action distributions are assumed to be unimodal and represented as Gaussian. The result can lead suboptimal rollout predictions due to sample deprivation and, in the case of differentiable simulation, sensitivity to noise in the cost gradients. Through introducing SVGD updates in between MPPI environment steps, we present Stein-Optimized Path-Integral Inference (SOPPI), an MPPI/SVGD algorithm that can dynamically update noise distributions at runtime to better capture action sampling distributions without an excessive increase in computational requirements. We demonstrate the efficacy of SOPPI through experiments on a planar cart-pole, 7-DOF robot arm, and a planar bipedal walker. These results indicate improved system performance compared to state-of-the-art MPPI algorithms across a range of hyper-parameters and demonstrate feasibility at lower particle counts.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper introduces a method for Model Predictive Path Integral (MPPI) control that optimizes sample generation towards an optimal trajectory through Stein Variational Gradient Descent (SVGD). The abstract also notes that mPPI relies upon predictive rollout of trajectories sampled from a distribution of possible actions.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1653,6 +1685,31 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_02015&amp;tag=Gradient%20descent">Gradient descent</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_02015&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_02015&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_02015&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_02015&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_02015&amp;tag=Model%20predictive%20path%20integral">Model predictive path integral</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_02015&amp;tag=MPPI">MPPI</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_02015&amp;tag=SVGD">SVGD</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_02015&amp;tag=Stein-optimized">Stein-optimized</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2511_02015&amp;tag=SOPPI">SOPPI</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1666,8 +1723,6 @@
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2603_24489/">Model Predictive Path Integral Control as Preconditioned Gradient Descent</a></h3>
 
-      <p class="paper-similar-card__label">MPPI</p>
-
 
       <div class="paper-similar-card__meta">
         <span>Mahyar Fazlyab et al. / 2026</span>
@@ -1677,10 +1732,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>89%</span>
+        <span>88%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1695,10 +1750,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>87%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1713,10 +1768,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1733,18 +1788,20 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2603_05385/">Accelerating Sampling-Based Control via Learned Linear Koopman Dynamics</a></h3>
+      <h3><a href="../../papers/2017_williams_model_predictive_path_integral/">Model Predictive Path Integral Control: From Theory to Parallel Computation</a></h3>
+
+      <p class="paper-similar-card__label">MPPI</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Wenjian Hao et al. / 2026</span>
+        <span>Grady Williams et al. / 2017</span>
       </div>
 
     </div>

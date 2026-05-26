@@ -1,5 +1,5 @@
 title: 'Diffusion Forcing: Next-token Prediction Meets Full-Sequence Diffusion'
-algorithm:
+algorithm: Forcing
 authors:
   - Boyuan Chen
   - Diego Marti Monso
@@ -8,14 +8,20 @@ authors:
   - Russ Tedrake
   - Vincent Sitzmann
 year: 2024
-source:
-type: ''
-doi:
+source: Advances in Neural Information Processing Systems 37
+type: Conference Paper
+doi: 10.52202/079017-0759
 arxiv_id: "2407.01392"
 tags:
-abstract: >
-  This paper presents Diffusion Forcing, a new training paradigm where a diffusion model is trained to denoise a set of tokens with independent per-token noise levels. We apply Diffusion Forcing to sequence generative modeling by training a causal next-token prediction model to generate one or several future tokens without fully diffusing past ones. Our approach is shown to combine the strengths of next-token prediction models, such as variable-length generation, with the strengths of full-sequence diffusion models, such as the ability to guide sampling to desirable trajectories. Our method offers a range of additional capabilities, such as (1) rolling-out sequences of continuous tokens, such as video, with lengths past the training horizon, where baselines diverge and (2) new sampling and guiding schemes that uniquely profit from Diffusion Forcing's variable-horizon and causal architecture, and which lead to marked performance gains in decision-making and planning tasks. In addition to its empirical success, our method is proven to optimize a variational lower bound on the likelihoods of all subsequences of tokens drawn from the true joint distribution. Project website: https://boyuan.space/diffusion-forcing
-summary: ''
+  - Diffusion models
+  - Causal inference
+  - Planning
+  - Sampling
+  - Forcing
+abstract: 'This paper presents Diffusion Forcing, a new training paradigm where a diffusion model is trained to denoise a set of tokens with independent per-token noise levels. We apply Diffusion Forcing to sequence generative modeling by training a causal next-token prediction model to generate one or several future tokens without fully diffusing past ones. Our approach is shown to combine the strengths of next-token prediction models, such as variable-length generation, with the strengths of full-sequence diffusion models, such as the ability to guide sampling to desirable trajectories. Our method offers a range of additional capabilities, such as (1) rolling-out sequences of continuous tokens, such as video, with lengths past the training horizon, where baselines diverge and (2) new sampling and guiding schemes that uniquely profit from Diffusion Forcing''s variable-horizon and causal architecture, and which lead to marked performance gains in decision-making and planning tasks. In addition to its empirical success, our method is proven to optimize a variational lower bound on the likelihoods of all subsequences of tokens drawn from the true joint distribution. Project website: https://boyuan.space/diffusion-forcing'
+summary: This paper presents Diffusion Forcing, a new training paradigm where a diffusion model is trained to denoise a set of tokens with independent per-token noise levels. The abstract also states that we apply Diffusion Forcing to sequence generative modeling by training a causal next-token prediction model to generate one or several future tokens without fully diffusing past ones.
 link: https://arxiv.org/pdf/2407.01392
 links_alt:
+  - https://doi.org/10.52202/079017-0759
+  - http://www.proceedings.com/079017-0759.html
 audit_status: raw

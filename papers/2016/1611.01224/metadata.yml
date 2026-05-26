@@ -1,5 +1,5 @@
 title: Sample Efficient Actor-Critic with Experience Replay
-algorithm: "ACER"
+algorithm: ACER
 authors:
   - Ziyu Wang
   - Victor Bapst
@@ -9,14 +9,18 @@ authors:
   - Koray Kavukcuoglu
   - Nando de Freitas
 year: 2016
-source:
-type: ''
+source: arXiv
+type: Preprint
 doi:
 arxiv_id: "1611.01224"
 tags:
-abstract: >
-  This paper presents an actor-critic deep reinforcement learning agent with experience replay that is stable, sample efficient, and performs remarkably well on challenging environments, including the discrete 57-game Atari domain and several continuous control problems. To achieve this, the paper introduces several innovations, including truncated importance sampling with bias correction, stochastic dueling network architectures, and a new trust region policy optimization method.
-summary: ''
+  - Reinforcement learning
+  - Optimization
+  - Control
+  - Learning
+  - Sampling
+abstract: This paper presents an actor-critic deep reinforcement learning agent with experience replay that is stable, sample efficient, and performs remarkably well on challenging environments, including the discrete 57-game Atari domain and several continuous control problems. To achieve this, the paper introduces several innovations, including truncated importance sampling with bias correction, stochastic dueling network architectures, and a new trust region policy optimization method.
+summary: This paper presents an actor-critic deep reinforcement learning agent with experience replay that is stable, sample efficient, and performs remarkably well on challenging environments, including the discrete 57-game Atari domain and several continuous control problems. The abstract also notes that to achieve this, the paper introduces several innovations, including truncated importance sampling with bias correction, stochastic dueling network architectures, and a new trust region policy optimization method.
 link: https://arxiv.org/pdf/1611.01224
 links_alt:
 audit_status: raw

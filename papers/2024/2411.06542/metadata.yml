@@ -1,5 +1,4 @@
-title: >
-  Is Linear Feedback on Smoothed Dynamics Sufficient for Stabilizing Contact-Rich Plans?
+title: Is Linear Feedback on Smoothed Dynamics Sufficient for Stabilizing Contact-Rich Plans?
 algorithm:
 authors:
   - Yuki Shirai
@@ -11,14 +10,20 @@ authors:
   - Max Simchowitz
   - Tao Pang
 year: 2024
-source:
-type: ''
-doi:
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/icra55743.2025.11127776
 arxiv_id: "2411.06542"
 tags:
-abstract: >
-  Designing planners and controllers for contact-rich manipulation is extremely challenging as contact violates the smoothness conditions that many gradient-based controller synthesis tools assume. Contact smoothing approximates a non-smooth system with a smooth one, allowing one to use these synthesis tools more effectively. However, applying classical control synthesis methods to smoothed contact dynamics remains relatively under-explored. This paper analyzes the efficacy of linear controller synthesis using differential simulators based on contact smoothing. We introduce natural baselines for leveraging contact smoothing to compute (a) open-loop plans robust to uncertain conditions and/or dynamics, and (b) feedback gains to stabilize around open-loop plans. Using robotic bimanual whole-body manipulation as a testbed, we perform extensive empirical experiments on over 300 trajectories and analyze why LQR seems insufficient for stabilizing contact-rich plans. The video summarizing this paper and hardware experiments is found here: https://youtu.be/HLaKi6qbwQg?si=_zCAmBBD6rGSitm9.
-summary: ''
+  - Robotics
+  - Robustness
+  - Control
+abstract: 'Designing planners and controllers for contact-rich manipulation is extremely challenging as contact violates the smoothness conditions that many gradient-based controller synthesis tools assume. Contact smoothing approximates a non-smooth system with a smooth one, allowing one to use these synthesis tools more effectively. However, applying classical control synthesis methods to smoothed contact dynamics remains relatively under-explored. This paper analyzes the efficacy of linear controller synthesis using differential simulators based on contact smoothing. We introduce natural baselines for leveraging contact smoothing to compute (a) open-loop plans robust to uncertain conditions and/or dynamics, and (b) feedback gains to stabilize around open-loop plans. Using robotic bimanual whole-body manipulation as a testbed, we perform extensive empirical experiments on over 300 trajectories and analyze why LQR seems insufficient for stabilizing contact-rich plans. The video summarizing this paper and hardware experiments is found here: https://youtu.be/HLaKi6qbwQg?si=_zCAmBBD6rGSitm9.'
+summary: Designing planners and controllers for contact-rich manipulation is extremely challenging as contact violates the smoothness conditions that many gradient-based controller synthesis tools assume. The abstract also notes that contact smoothing approximates a non-smooth system with a smooth one, allowing one to use these synthesis tools more effectively.
 link: https://arxiv.org/pdf/2411.06542
 links_alt:
+  - https://doi.org/10.1109/ICRA55743.2025.11127776
+  - https://doi.org/10.1109/icra55743.2025.11127776
+  - https://ieeexplore.ieee.org/document/11127776/
+  - http://xplorestaging.ieee.org/ielx8/11127273/11127223/11127776.pdf?arnumber=11127776
 audit_status: raw

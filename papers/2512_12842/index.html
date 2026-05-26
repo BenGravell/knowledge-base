@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1593,6 +1615,8 @@
       <a href="../../search/?year=2025">2025</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1601,6 +1625,11 @@
     <div class="paper-meta-card__value">SAGA</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1617,6 +1646,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We present SAGA, a versatile and adaptive framework for visuomotor control that can generalize across various environments, task objectives, and user specifications. To efficiently learn such capability, our key idea is to disentangle high-level semantic intent from low-level visuomotor control by explicitly grounding task objectives in the observed environment. Using an affordance-based task representation, we express diverse and complex behaviors in a unified, structured form. By leveraging multimodal foundation models, SAGA grounds the proposed task representation to the robot's visual observation as 3D affordance heatmaps, highlighting task-relevant entities while abstracting away spurious appearance variations that would hinder generalization. These grounded affordances enable us to effectively train a conditional policy on multi-task demonstration data for whole-body control. In a unified framework, SAGA can solve tasks specified in different forms, including language instructions, selected points, and example demonstrations, enabling both zero-shot execution and few-shot adaptation. We instantiate SAGA on a quadrupedal manipulator and conduct extensive experiments across eleven real-world tasks. SAGA consistently outperforms end-to-end and modular baselines by substantial margins. Together, these results demonstrate that structured affordance grounding offers a scalable and effective pathway toward generalist mobile manipulation.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper presents SAGA, a versatile and adaptive framework for visuomotor control that can generalize across various environments, task objectives, and user specifications. The abstract also notes that to efficiently learn such capability, our key idea is to disentangle high-level semantic intent from low-level visuomotor control by explicitly grounding task objectives in the observed environment.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1661,14 +1693,31 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_12842&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_12842&amp;tag=Foundation%20models">Foundation models</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_12842&amp;tag=Few-shot%20learning">Few-shot learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_12842&amp;tag=Generalization">Generalization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_12842&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_12842&amp;tag=SAGA">SAGA</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1685,30 +1734,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2503_14734/">GR00T N1: An Open Foundation Model for Generalist Humanoid Robots</a></h3>
-
-      <p class="paper-similar-card__label">GR00T N1</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Johan Bjorck et al. / 2025</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1725,20 +1754,38 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2410_24164/">pi0: A Vision-Language-Action Flow Model for General Robot Control</a></h3>
-
-      <p class="paper-similar-card__label">pi0</p>
+      <h3><a href="../../papers/2512_15840/">Large Video Planner Enables Generalizable Robot Control</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Kevin Black et al. / 2024</span>
+        <span>Boyuan Chen et al. / 2025</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>82%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2503_14734/">GR00T N1: An Open Foundation Model for Generalist Humanoid Robots</a></h3>
+
+      <p class="paper-similar-card__label">GR00T N1</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Johan Bjorck et al. / 2025</span>
       </div>
 
     </div>
@@ -1752,13 +1799,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2408_01258/">Jacta: A Versatile Planner for Learning Dexterous and Whole-body Manipulation</a></h3>
+      <h3><a href="../../papers/2406_09246/">OpenVLA: An Open-Source Vision-Language-Action Model</a></h3>
 
-      <p class="paper-similar-card__label">Jacta</p>
+      <p class="paper-similar-card__label">OpenVLA</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Jan Brüdigam et al. / 2024</span>
+        <span>Moo Jin Kim et al. / 2024</span>
       </div>
 
     </div>

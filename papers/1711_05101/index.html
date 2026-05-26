@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1585,6 +1607,8 @@
       <a href="../../search/?year=2017">2017</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1593,6 +1617,11 @@
     <div class="paper-meta-card__value">AdamW</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1609,6 +1638,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>L$_2$ regularization and weight decay regularization are equivalent for standard stochastic gradient descent (when rescaled by the learning rate), but as we demonstrate this is \emph{not} the case for adaptive gradient algorithms, such as Adam. While common implementations of these algorithms employ L$_2$ regularization (often calling it "weight decay" in what may be misleading due to the inequivalence we expose), we propose a simple modification to recover the original formulation of weight decay regularization by \emph{decoupling} the weight decay from the optimization steps taken w.r.t. the loss function. We provide empirical evidence that our proposed modification (i) decouples the optimal choice of weight decay factor from the setting of the learning rate for both standard SGD and Adam and (ii) substantially improves Adam's generalization performance, allowing it to compete with SGD with momentum on image classification datasets (on which it was previously typically outperformed by the latter). Our proposed decoupled weight decay has already been adopted by many researchers, and the community has implemented it in TensorFlow and PyTorch; the complete source code for our experiments is available at https://github.com/loshchil/AdamW-and-SGDW</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>L$_2$ regularization and weight decay regularization are equivalent for standard stochastic gradient descent (when rescaled by the learning rate), but as we demonstrate this is \emph{not} the case for adaptive gradient algorithms, such as Adam. The abstract also notes that while common implementations of these algorithms employ L$_2$ regularization (often calling it "weight decay" in what may be misleading due to the inequivalence we expose), we propose a simple modification to recover the original formulation of weight decay regularization by \emph{decoupling} the weight decay from the optimization steps taken w.r.t. the loss function.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1653,30 +1685,33 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1711_05101&amp;tag=Gradient%20descent">Gradient descent</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1711_05101&amp;tag=Stochastic%20gradients">Stochastic gradients</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1711_05101&amp;tag=Classification">Classification</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1711_05101&amp;tag=Datasets">Datasets</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1711_05101&amp;tag=Generalization">Generalization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1711_05101&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1711_05101&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1711_05101&amp;tag=AdamW">AdamW</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
-      <div class="paper-similar-card__rank-top">1</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2003_02395/">A Simple Convergence Proof of Adam and Adagrad</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Alexandre Défossez et al. / 2020</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
-      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
         <span>81%</span>
       </div>
@@ -1695,8 +1730,46 @@
   </article>
 
   <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>81%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2003_02395/">A Simple Convergence Proof of Adam and Adagrad</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Alexandre Défossez et al. / 2020</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
       <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>78%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2010_martens_deep_learning_via_hessian/">Deep Learning via Hessian-Free Optimization</a></h3>
+
+      <p class="paper-similar-card__label">Hessian-free Optimization</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>James Martens / 2010</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
         <span>78%</span>
       </div>
@@ -1715,38 +1788,20 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2023_ivgi_dog_is_sgds_best/">DoG Is SGD’s Best Friend: A Parameter-Free Dynamic Step Size Schedule</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Maor Ivgi et al. / 2023</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
+        <span>77%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2010_martens_deep_learning_via_hessian/">Deep Learning via Hessian-Free Optimization</a></h3>
+      <h3><a href="../../papers/2010_01412/">Sharpness-Aware Minimization for Efficiently Improving Generalization</a></h3>
 
-      <p class="paper-similar-card__label">Hessian-free Optimization</p>
+      <p class="paper-similar-card__label">SAM</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>James Martens / 2010</span>
+        <span>Pierre Foret et al. / 2020</span>
       </div>
 
     </div>

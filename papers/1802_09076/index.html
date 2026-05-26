@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,9 +1611,21 @@
       <a href="../../search/?year=2018">2018</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Conference%20Paper">Conference Paper</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">NanoMap</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=IEEE%20International%20Conference%20on%20Robotics%20and%20Automation%20%28ICRA%29">IEEE International Conference on Robotics and Automation (ICRA)</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1601,6 +1635,8 @@
       <a href="https://arxiv.org/abs/1802.09076" target="_blank" rel="noopener noreferrer">arXiv 1802.09076</a>
 
 
+      <a href="https://doi.org/10.1109/icra.2018.8463195" target="_blank" rel="noopener noreferrer">DOI 10.1109/icra.2018.8463195</a>
+
     </div>
   </div>
 
@@ -1608,6 +1644,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We would like robots to be able to safely navigate at high speed, efficiently use local 3D information, and robustly plan motions that consider pose uncertainty of measurements in a local map structure. This is hard to do with previously existing mapping approaches, like occupancy grids, that are focused on incrementally fusing 3D data into a common world frame. In particular, both their fragile sensitivity to state estimation errors and computational cost can be limiting. We develop an alternative framework, NanoMap, which alleviates the need for global map fusion and enables a motion planner to efficiently query pose-uncertainty-aware local 3D geometric information. The key idea of NanoMap is to store a history of noisy relative pose transforms and search over a corresponding set of depth sensor measurements for the minimum-uncertainty view of a queried point in space. This approach affords a variety of capabilities not offered by traditional mapping techniques: (a) the pose uncertainty associated with 3D data can be incorporated in motion planning, (b) poses can be updated (i.e., from loop closures) with minimal computational effort, and (c) 3D data can be fused lazily for the purpose of planning. We provide an open-source implementation of NanoMap, and analyze its capabilities and computational efficiency in simulation experiments. Finally, we demonstrate in hardware its effectiveness for fast 3D obstacle avoidance onboard a quadrotor flying up to 10 m/s.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>The arXiv abstract states that we would like robots to be able to safely navigate at high speed, efficiently use local 3D information, and robustly plan motions that consider pose uncertainty of measurements in a local map structure. The abstract also notes that this is hard to do with previously existing mapping approaches, like occupancy grids, that are focused on incrementally fusing 3D data into a common world frame.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1647,8 +1686,43 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1109/icra.2018.8463195" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://ieeexplore.ieee.org/document/8463195/" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">ieeexplore.ieee.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://xplorestaging.ieee.org/ielx7/8449910/8460178/08463195.pdf?arnumber=8463195" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">xplorestaging.ieee.org PDF</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_09076&amp;tag=Motion%20planning">Motion planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_09076&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_09076&amp;tag=Aerial%20robotics">Aerial robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_09076&amp;tag=Safety">Safety</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_09076&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_09076&amp;tag=Uncertainty">Uncertainty</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_09076&amp;tag=State%20estimation">State estimation</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_09076&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_09076&amp;tag=NanoMap">NanoMap</a>
 
 </div>
 
@@ -1656,10 +1730,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1694,10 +1768,30 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>81%</span>
+        <span>80%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2011_bachrach_range_robust_autonomous_navigation/">RANGE: Robust Autonomous Navigation in GPS-denied Environments</a></h3>
+
+      <p class="paper-similar-card__label">RANGE</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Abraham Bachrach et al. / 2011</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>80%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1714,26 +1808,6 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>81%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2406_02807/">Collision-Affording Point Trees: SIMD-Amenable Nearest Neighbors for Fast Collision Checking</a></h3>
-
-      <p class="paper-similar-card__label">Collision-Affording Point Trees</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Clayton W. Ramsey et al. / 2024</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
@@ -1741,13 +1815,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2402_13817/">Khronos: A Unified Approach for Spatio-Temporal Metric-Semantic SLAM in Dynamic Environments</a></h3>
-
-      <p class="paper-similar-card__label">Khronos</p>
+      <h3><a href="../../papers/2008_he_planning_in_information_space/">Planning in Information Space for a Quadrotor Helicopter in a GPS-denied Environment</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Lukas Schmid et al. / 2024</span>
+        <span>Ruijie He et al. / 2008</span>
       </div>
 
     </div>

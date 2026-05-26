@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,9 +1611,16 @@
       <a href="../../search/?year=2018">2018</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Journal%20Paper">Journal Paper</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=IEEE%20Transactions%20on%20Robotics">IEEE Transactions on Robotics</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1601,6 +1630,8 @@
       <a href="https://arxiv.org/abs/1807.11058" target="_blank" rel="noopener noreferrer">arXiv 1807.11058</a>
 
 
+      <a href="https://doi.org/10.1109/tro.2020.3014022" target="_blank" rel="noopener noreferrer">DOI 10.1109/tro.2020.3014022</a>
+
     </div>
   </div>
 
@@ -1608,6 +1639,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We present a distributed formation control strategy for agents with a variety of dynamics to achieve a desired planar formation. Our approach is based on the barycentric-coordinate-based (BCB) control, which is fully distributed, does not require inter-agent communication or a common sense of orientation, and can be implemented using relative position measurements acquired by agents in their local coordinate frames. This removes the need for global positioning or alignment of local coordinate frames, which are required across several existing strategies. We show how the BCB control for agents with the simplest dynamical model, i.e., the single-integrator dynamics, can be extended to agents with higher-order dynamics such as quadrotors, and nonholonomic agents such as unicycles and cars. Specifically, our extension preserves the desired convergence and robustness guarantees of the BCB approach and is provably robust to saturations in the input and unmodeled linear actuator dynamics for unicycle and car agents. We further show that under our proposed BCB control design, the agents can move along a rotated and scaled control direction without affecting the convergence to the desired formation. This observation is used to design a fully distributed collision avoidance strategy, which is often not considered in the formation control literature. We demonstrate the proposed approach in simulations and further present a distributed robotic platform to test the strategy experimentally. Our experimental platform consists of off-the-shelf equipment that can be used to test and validate other multi-agent algorithms. The code and implementation instructions for this platform are available online.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper presents a distributed formation control strategy for agents with a variety of dynamics to achieve a desired planar formation. The abstract also states that our approach is based on the barycentric-coordinate-based (BCB) control, which is fully distributed, does not require inter-agent communication or a common sense of orientation, and can be implemented using relative position measurements acquired by agents in their local coordinate frames.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1647,8 +1681,41 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1109/tro.2020.3014022" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://ieeexplore.ieee.org/document/9174658/" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">ieeexplore.ieee.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://xplorestaging.ieee.org/ielx7/8860/9347829/09174658.pdf?arnumber=9174658" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">xplorestaging.ieee.org PDF</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1807_11058&amp;tag=Multi-agent%20systems">Multi-agent systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1807_11058&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1807_11058&amp;tag=Aerial%20robotics">Aerial robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1807_11058&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1807_11058&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1807_11058&amp;tag=Distributed%20systems">Distributed systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1807_11058&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1807_11058&amp;tag=BCB">BCB</a>
 
 </div>
 
@@ -1683,11 +1750,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2012_turpin_trajectory_design_and_control/">Trajectory Design and Control for Aggressive Formation Flight with Quadrotors</a></h3>
+      <h3><a href="../../papers/2018_chung_a_survey_on_aerial/">A Survey on Aerial Swarm Robotics</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Matthew Turpin et al. / 2012</span>
+        <span>Soon-Jo Chung et al. / 2018</span>
       </div>
 
     </div>
@@ -1701,29 +1768,29 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2018_honig_trajectory_planning_for_quadrotor/">Trajectory Planning for Quadrotor Swarms</a></h3>
+      <h3><a href="../../papers/2012_turpin_trajectory_design_and_control/">Trajectory Design and Control for Aggressive Formation Flight with Quadrotors</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Wolfgang Honig et al. / 2018</span>
+        <span>Matthew Turpin et al. / 2012</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>81%</span>
+        <span>80%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2018_chung_a_survey_on_aerial/">A Survey on Aerial Swarm Robotics</a></h3>
+      <h3><a href="../../papers/2018_honig_trajectory_planning_for_quadrotor/">Trajectory Planning for Quadrotor Swarms</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Soon-Jo Chung et al. / 2018</span>
+        <span>Wolfgang Honig et al. / 2018</span>
       </div>
 
     </div>

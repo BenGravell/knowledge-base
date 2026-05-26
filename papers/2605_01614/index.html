@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,6 +1609,8 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1595,6 +1619,11 @@
     <div class="paper-meta-card__value">CvxCluster</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1611,6 +1640,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Cluster resource allocation is a multidimensional search problem that finds the best allocation of tasks to servers. Because the search space grows exponentially, modern approaches frame it as a mixed integer program (MIP) or a complex set of search heuristics. This paper proposes using a different approach: convex optimization, which has extremely fast solution methods. The research challenge is devising how to transform cluster resource allocation into a convex problem that generates good placements. We describe CvxCluster, which allocates cluster resources with a two-stage algorithm. The first stage solves a convex relaxation of the placement problem to yield a principled set of per-machine resource prices. The second stage uses these prices to drive a lightweight greedy procedure to place tasks. Experimental results with Azure traces find that CvxCluster scales to 100,480 servers under proportional workload growth and sustains arrival rates up to 500,000x the baseline trace. CvxCluster runs 100 to 2,500x faster than a state-of-the-art MIP solver while remaining within 3% of the optimal objective. CvxCluster can support complex constraints such as job anti-affinity, machine types, and GPU servers. The key insight behind CvxCluster is that reformulating placement as a continuous rather than discrete problem enables much faster methods that find solutions just as good or better than prior heuristics.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Cluster resource allocation is a multidimensional search problem that finds the best allocation of tasks to servers. The abstract also notes that because the search space grows exponentially, modern approaches frame it as a mixed integer program (MIP) or a complex set of search heuristics.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1652,6 +1684,23 @@
 
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01614&amp;tag=Convex%20optimization">Convex optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01614&amp;tag=Convex%20relaxation">Convex relaxation</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01614&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01614&amp;tag=CvxCluster">CvxCluster</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01614&amp;tag=MIP">MIP</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01614&amp;tag=Resource%20allocation">Resource allocation</a>
 
 </div>
 
@@ -1704,43 +1753,23 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2203_11419/">Embedded Code Generation with CVXPY</a></h3>
+      <h3><a href="../../papers/2506_11513/">Automatic Generation of Explicit Quadratic Programming Solvers</a></h3>
 
       <p class="paper-similar-card__label">CVXPYgen</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Maximilian Schaller et al. / 2022</span>
+        <span>Maximilian Schaller et al. / 2025</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 127.8deg;" aria-label="71% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 126.0deg;" aria-label="70% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>71%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1604_02639/">Disciplined Convex-Concave Programming</a></h3>
-
-      <p class="paper-similar-card__label">DCCP</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Xinyue Shen et al. / 2016</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 127.8deg;" aria-label="71% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>71%</span>
+        <span>70%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1751,6 +1780,26 @@
 
       <div class="paper-similar-card__meta">
         <span>James B. Orlin et al. / 1993</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 126.0deg;" aria-label="70% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>70%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2024_safaoui_cvxriskopt_a_risk_based/">cvxRiskOpt: A Risk-Based Optimization Tool Based on CVXPY</a></h3>
+
+      <p class="paper-similar-card__label">cvxRiskOpt</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Sleiman Safaoui et al. / 2024</span>
       </div>
 
     </div>

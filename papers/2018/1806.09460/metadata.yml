@@ -1,16 +1,26 @@
 title: 'A Tour of Reinforcement Learning: The View from Continuous Control'
-algorithm:
+algorithm: LQR
 authors:
   - Benjamin Recht
 year: 2018
-source:
-type: ''
-doi:
+source: Annual Review of Control, Robotics, and Autonomous Systems
+type: Journal Paper
+doi: 10.1146/annurev-control-053018-023825
 arxiv_id: "1806.09460"
 tags:
-abstract: >
-  This manuscript surveys reinforcement learning from the perspective of optimization and control with a focus on continuous control applications. It surveys the general formulation, terminology, and typical experimental implementations of reinforcement learning and reviews competing solution paradigms. In order to compare the relative merits of various techniques, this survey presents a case study of the Linear Quadratic Regulator (LQR) with unknown dynamics, perhaps the simplest and best-studied problem in optimal control. The manuscript describes how merging techniques from learning theory and control can provide non-asymptotic characterizations of LQR performance and shows that these characterizations tend to match experimental behavior. In turn, when revisiting more complex applications, many of the observed phenomena in LQR persist. In particular, theory and experiment demonstrate the role and importance of models and the cost of generality in reinforcement learning algorithms. This survey concludes with a discussion of some of the challenges in designing learning systems that safely and reliably interact with complex and uncertain environments and how tools from reinforcement learning and control might be combined to approach these challenges.
-summary: ''
+  - Reinforcement learning
+  - Optimal control
+  - Safety
+  - Optimization
+  - Control
+  - Learning
+  - LQR
+  - Linear-quadratic regulator
+abstract: This manuscript surveys reinforcement learning from the perspective of optimization and control with a focus on continuous control applications. It surveys the general formulation, terminology, and typical experimental implementations of reinforcement learning and reviews competing solution paradigms. In order to compare the relative merits of various techniques, this survey presents a case study of the Linear Quadratic Regulator (LQR) with unknown dynamics, perhaps the simplest and best-studied problem in optimal control. The manuscript describes how merging techniques from learning theory and control can provide non-asymptotic characterizations of LQR performance and shows that these characterizations tend to match experimental behavior. In turn, when revisiting more complex applications, many of the observed phenomena in LQR persist. In particular, theory and experiment demonstrate the role and importance of models and the cost of generality in reinforcement learning algorithms. This survey concludes with a discussion of some of the challenges in designing learning systems that safely and reliably interact with complex and uncertain environments and how tools from reinforcement learning and control might be combined to approach these challenges.
+summary: This manuscript surveys reinforcement learning from the perspective of optimization and control with a focus on continuous control applications. The abstract also notes that it surveys the general formulation, terminology, and typical experimental implementations of reinforcement learning and reviews competing solution paradigms.
 link: https://arxiv.org/pdf/1806.09460
 links_alt:
+  - https://doi.org/10.1146/annurev-control-053018-023825
+  - https://www.annualreviews.org/doi/10.1146/annurev-control-053018-023825
+  - https://www.annualreviews.org/doi/pdf/10.1146/annurev-control-053018-023825
 audit_status: raw

@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1593,9 +1615,21 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">Epiplexity</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1612,6 +1646,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Can we learn more from data than existed in the generating process itself? Can new and useful information be constructed from merely applying deterministic transformations to existing data? Can the learnable content in data be evaluated without considering a downstream task? On these questions, Shannon information and Kolmogorov complexity come up nearly empty-handed, in part because they assume observers with unlimited computational capacity and do not target the useful information content. In this work, we identify and exemplify three seeming paradoxes in information theory: (1) information cannot be increased by deterministic transformations; (2) information is independent of the order of data; (3) likelihood modeling is merely distribution matching. To shed light on the tension between these results and modern practice, and to quantify the value of data, we introduce epiplexity, a formalization of information capturing what computationally bounded observers can learn from data. Epiplexity captures the structural content in data while excluding time-bounded entropy, the random unpredictable content exemplified by pseudorandom number generators and chaotic dynamical systems. With these concepts, we demonstrate how information can be created with computation, how it depends on the ordering of the data, and how likelihood modeling can produce more complex programs than present in the data generating process itself. We also present practical procedures to estimate epiplexity which we show capture differences across data sources, track with downstream performance, and highlight dataset interventions that improve out-of-distribution generalization. In contrast to principles of model selection, epiplexity provides a theoretical foundation for data selection, guiding how to select, generate, or transform data for learning systems.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Can we learn more from data than existed in the generating process itself? The abstract also notes that can new and useful information be constructed from merely applying deterministic transformations to existing data?</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1656,14 +1693,55 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2601_03220&amp;tag=Deterministic%20transforms">Deterministic transforms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2601_03220&amp;tag=Datasets">Datasets</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2601_03220&amp;tag=Generalization">Generalization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2601_03220&amp;tag=Out-of-distribution%20generalization">Out-of-distribution generalization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2601_03220&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2601_03220&amp;tag=Epiplexity">Epiplexity</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2601_03220&amp;tag=Information%20theory">Information theory</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2601_03220&amp;tag=Kolmogorov%20complexity">Kolmogorov complexity</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>80%</span>
+        <span>77%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1901_04592/">Interpretable Machine Learning: Definitions, Methods, and Applications</a></h3>
+
+      <p class="paper-similar-card__label">Interpretable machine learning</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>W. James Murdoch et al. / 2019</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
+      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>77%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1678,28 +1756,48 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 142.2deg;" aria-label="79% similar">
-      <div class="paper-similar-card__rank-top">2</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 136.8deg;" aria-label="76% similar">
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>79%</span>
+        <span>76%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1901_04592/">Interpretable Machine Learning: Definitions, Methods, and Applications</a></h3>
+      <h3><a href="../../papers/2201_02177/">Grokking: Generalization beyond Overfitting on Small Algorithmic Datasets</a></h3>
+
+      <p class="paper-similar-card__label">Grokking</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>W. James Murdoch et al. / 2019</span>
+        <span>Alethea Power et al. / 2022</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
-      <div class="paper-similar-card__rank-top">3</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 136.8deg;" aria-label="76% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
+        <span>76%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1805_00909/">Reinforcement Learning and Control as Probabilistic Inference: Tutorial and Review</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Sergey Levine / 2018</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 136.8deg;" aria-label="76% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>76%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1710,44 +1808,6 @@
 
       <div class="paper-similar-card__meta">
         <span>F. Rosenblatt / 1958</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>77%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1702_08608/">Towards A Rigorous Science of Interpretable Machine Learning</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Finale Doshi-Velez et al. / 2017</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>77%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2412_12036/">LeARN: Learnable and Adaptive Representations for Nonlinear Dynamics in System Identification</a></h3>
-
-      <p class="paper-similar-card__label">LeARN</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Arunabh Singh et al. / 2024</span>
       </div>
 
     </div>

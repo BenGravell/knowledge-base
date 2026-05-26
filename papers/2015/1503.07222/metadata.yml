@@ -1,18 +1,23 @@
-title: "Exponential Convergence Bounds Using Integral Quadratic Constraints"
+title: Exponential Convergence Bounds Using Integral Quadratic Constraints
 algorithm:
 authors:
   - Ross Boczar
   - Laurent Lessard
   - Benjamin Recht
 year: 2015
-source:
-type: ''
-doi:
+source: 54th IEEE Conference on Decision and Control (CDC)
+type: Conference Paper
+doi: 10.1109/cdc.2015.7403406
 arxiv_id: "1503.07222"
 tags:
-abstract: >
-  The theory of integral quadratic constraints (IQCs) allows verification of stability and gain-bound properties of systems containing nonlinear or uncertain elements. Gain bounds often imply exponential stability, but it can be challenging to compute useful numerical bounds on the exponential decay rate. In this work, we present a modification of the classical IQC results of Megretski and Rantzer that leads to a tractable computational procedure for finding exponential rate certificates.
-summary: ''
+  - Stability analysis
+  - Online algorithms
+  - Exponential stability
+abstract: The theory of integral quadratic constraints (IQCs) allows verification of stability and gain-bound properties of systems containing nonlinear or uncertain elements. Gain bounds often imply exponential stability, but it can be challenging to compute useful numerical bounds on the exponential decay rate. In this work, we present a modification of the classical IQC results of Megretski and Rantzer that leads to a tractable computational procedure for finding exponential rate certificates.
+summary: The theory of integral quadratic constraints (IQCs) allows verification of stability and gain-bound properties of systems containing nonlinear or uncertain elements. The abstract also notes that gain bounds often imply exponential stability, but it can be challenging to compute useful numerical bounds on the exponential decay rate.
 link: https://arxiv.org/pdf/1503.07222
 links_alt:
+  - https://doi.org/10.1109/cdc.2015.7403406
+  - https://ieeexplore.ieee.org/document/7403406/
+  - http://xplorestaging.ieee.org/ielx7/7396016/7402066/07403406.pdf?arnumber=7403406
 audit_status: raw

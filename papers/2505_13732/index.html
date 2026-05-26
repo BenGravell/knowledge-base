@@ -1642,7 +1642,7 @@
 <p>We introduce $\textit{Backward Conformal Prediction}$, a method that guarantees conformal coverage while providing flexible control over the size of prediction sets. Unlike standard conformal prediction, which fixes the coverage level and allows the conformal set size to vary, our approach defines a rule that constrains how prediction set sizes behave based on the observed data, and adapts the coverage level accordingly. Our method builds on two key foundations: (i) recent results by Gauthier et al. [2025] on post-hoc validity using e-values, which ensure marginal coverage of the form $\mathbb{P}(Y_{\rm test} \in \hat C_n^{\tilde{\alpha}}(X_{\rm test})) \ge 1 - \mathbb{E}[\tilde{\alpha}]$ up to a first-order Taylor approximation for any data-dependent miscoverage $\tilde{\alpha}$, and (ii) a novel leave-one-out estimator $\hat{\alpha}^{\rm LOO}$ of the marginal miscoverage $\mathbb{E}[\tilde{\alpha}]$ based on the calibration set, ensuring that the theoretical guarantees remain computable in practice. This approach is particularly useful in applications where large prediction sets are impractical such as medical diagnosis. We provide theoretical results and empirical evidence supporting the validity of our method, demonstrating that it maintains computable coverage guarantees while ensuring interpretable, well-controlled prediction set sizes.</p>
 
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>Introduces a conformal prediction variant that begins from constraints on prediction-set size and then adapts the miscoverage level needed to preserve computable coverage guarantees. The paper combines post-hoc validity via e-values with a leave-one-out estimator, targeting settings where large conformal sets are practically unusable.</p>
+<p>This paper introduces $\textit{Backward Conformal Prediction}$, a method that guarantees conformal coverage while providing flexible control over the size of prediction sets. The abstract also notes that unlike standard conformal prediction, which fixes the coverage level and allows the conformal set size to vary, our approach defines a rule that constrains how prediction set sizes behave based on the observed data, and adapts the coverage level accordingly.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1694,21 +1694,9 @@
 <h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
 <div class="paper-tag-list">
 
+  <a class="paper-tag-chip" href="../../search/?paper=2505_13732&amp;tag=Control">Control</a>
+
   <a class="paper-tag-chip" href="../../search/?paper=2505_13732&amp;tag=Backward%20conformal%20prediction">Backward conformal prediction</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2505_13732&amp;tag=Conformal%20prediction">Conformal prediction</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2505_13732&amp;tag=Prediction%20sets">Prediction sets</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2505_13732&amp;tag=Coverage%20guarantees">Coverage guarantees</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2505_13732&amp;tag=E-values">E-values</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2505_13732&amp;tag=Leave-one-out%20estimation">Leave-one-out estimation</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2505_13732&amp;tag=Uncertainty%20quantification">Uncertainty quantification</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2505_13732&amp;tag=Medical%20diagnosis">Medical diagnosis</a>
 
 </div>
 
@@ -1716,10 +1704,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 131.4deg;" aria-label="73% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 136.8deg;" aria-label="76% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>73%</span>
+        <span>76%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1734,20 +1722,36 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 129.6deg;" aria-label="72% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 131.4deg;" aria-label="73% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>72%</span>
+        <span>73%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1502_04269/">Supersparse Linear Integer Models for Optimized Medical Scoring Systems</a></h3>
-
-      <p class="paper-similar-card__label">SLIM</p>
+      <h3><a href="../../papers/1905_00820/">On the Smoothness of Nonlinear System Identification</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Berk Ustun et al. / 2015</span>
+        <span>Antônio H. Ribeiro et al. / 2019</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 131.4deg;" aria-label="73% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>73%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2604_21270/">CLT-Optimal Parameter Error Bounds for Linear System Identification</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Yichen Zhou et al. / 2026</span>
       </div>
 
     </div>
@@ -1755,27 +1759,9 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 129.6deg;" aria-label="72% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>72%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1812_11118/">Reconciling Modern Machine Learning Practice and the Bias-variance Trade-off</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Mikhail Belkin et al. / 2018</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 127.8deg;" aria-label="71% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>71%</span>
+        <span>72%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1790,18 +1776,18 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 127.8deg;" aria-label="71% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 129.6deg;" aria-label="72% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>71%</span>
+        <span>72%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2510_03745/">Neural Low-Discrepancy Sequences</a></h3>
+      <h3><a href="../../papers/1812_11118/">Reconciling Modern Machine Learning Practice and the Bias-variance Trade-off</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Michael Etienne Van Huffel et al. / 2025</span>
+        <span>Mikhail Belkin et al. / 2018</span>
       </div>
 
     </div>

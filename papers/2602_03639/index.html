@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1591,9 +1613,16 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1610,6 +1639,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Sampling-based controllers, such as Model Predictive Path Integral (MPPI) methods, offer substantial flexibility but often suffer from high variance and low sample efficiency. To address these challenges, we introduce a hybrid variance-reduced MPPI framework that integrates a prior model into the sampling process. Our key insight is to decompose the objective function into a known approximate model and a residual term. Since the residual captures only the discrepancy between the model and the objective, it typically exhibits a smaller magnitude and lower variance than the original objective. Although this principle applies to general modeling choices, we demonstrate that adopting a quadratic approximation enables the derivation of a closed-form, model-guided prior that effectively concentrates samples in informative regions. Crucially, the framework is agnostic to the source of geometric information, allowing the quadratic model to be constructed from exact derivatives, structural approximations (e.g., Gauss- or Quasi-Newton), or gradient-free randomized smoothing. We validate the approach on standard optimization benchmarks, a nonlinear, underactuated cart-pole control task, and a contact-rich manipulation problem with non-smooth dynamics. Across these domains, we achieve faster convergence and superior performance in low-sample regimes compared to standard MPPI. These results suggest that the method can make sample-based control strategies more practical in scenarios where obtaining samples is expensive or limited.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Sampling-based controllers, such as Model Predictive Path Integral (MPPI) methods, offer substantial flexibility but often suffer from high variance and low sample efficiency. The abstract also notes that to address these challenges, we introduce a hybrid variance-reduced MPPI framework that integrates a prior model into the sampling process.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1654,6 +1686,27 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_03639&amp;tag=Benchmarks">Benchmarks</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_03639&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_03639&amp;tag=Sampling-based%20methods">Sampling-based methods</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_03639&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_03639&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_03639&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_03639&amp;tag=Model%20predictive%20path%20integral">Model predictive path integral</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_03639&amp;tag=MPPI">MPPI</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1667,8 +1720,6 @@
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2603_24489/">Model Predictive Path Integral Control as Preconditioned Gradient Descent</a></h3>
 
-      <p class="paper-similar-card__label">MPPI</p>
-
 
       <div class="paper-similar-card__meta">
         <span>Mahyar Fazlyab et al. / 2026</span>
@@ -1678,30 +1729,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 162.0deg;" aria-label="90% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>89%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2511_02015/">Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control</a></h3>
-
-      <p class="paper-similar-card__label">MPPI</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Jace Aldrich et al. / 2025</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>90%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1718,28 +1749,50 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>89%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2603_05385/">Accelerating Sampling-Based Control via Learned Linear Koopman Dynamics</a></h3>
+      <h3><a href="../../papers/2017_williams_model_predictive_path_integral/">Model Predictive Path Integral Control: From Theory to Parallel Computation</a></h3>
+
+      <p class="paper-similar-card__label">MPPI</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Wenjian Hao et al. / 2026</span>
+        <span>Grady Williams et al. / 2017</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>89%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1509_01149/">Model Predictive Path Integral Control Using Covariance Variable Importance Sampling</a></h3>
+
+      <p class="paper-similar-card__label">MPPI</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Grady Williams et al. / 2015</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>89%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">

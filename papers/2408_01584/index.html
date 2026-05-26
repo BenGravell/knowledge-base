@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1591,6 +1613,8 @@
       <a href="../../search/?year=2024">2024</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1599,6 +1623,11 @@
     <div class="paper-meta-card__value">GPUDrive</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1615,6 +1644,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Multi-agent learning algorithms have been successful at generating superhuman planning in various games but have had limited impact on the design of deployed multi-agent planners. A key bottleneck in applying these techniques to multi-agent planning is that they require billions of steps of experience. To enable the study of multi-agent planning at scale, we present GPUDrive. GPUDrive is a GPU-accelerated, multi-agent simulator built on top of the Madrona Game Engine capable of generating over a million simulation steps per second. Observation, reward, and dynamics functions are written directly in C++, allowing users to define complex, heterogeneous agent behaviors that are lowered to high-performance CUDA. Despite these low-level optimizations, GPUDrive is fully accessible through Python, offering a seamless and efficient workflow for multi-agent, closed-loop simulation. Using GPUDrive, we train reinforcement learning agents on the Waymo Open Motion Dataset, achieving efficient goal-reaching in minutes and scaling to thousands of scenarios in hours. We open-source the code and pre-trained agents at https://github.com/Emerge-Lab/gpudrive.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Multi-agent learning algorithms have been successful at generating superhuman planning in various games but have had limited impact on the design of deployed multi-agent planners. The abstract also notes that a key bottleneck in applying these techniques to multi-agent planning is that they require billions of steps of experience.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1659,6 +1691,25 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2408_01584&amp;tag=Reinforcement%20learning">Reinforcement learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2408_01584&amp;tag=Multi-agent%20systems">Multi-agent systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2408_01584&amp;tag=Datasets">Datasets</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2408_01584&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2408_01584&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2408_01584&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2408_01584&amp;tag=GPUDrive">GPUDrive</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1690,25 +1741,9 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2312_15122/">Scaling Is All You Need: Autonomous Driving with JAX-Accelerated Reinforcement Learning</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Moritz Harmel et al. / 2023</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
       <h3><a href="../../papers/2605_10034/">Beyond Self-Play and Scale: A Behavior Benchmark for Generalization in Autonomous Driving</a></h3>
+
+      <p class="paper-similar-card__label">BehaviorBench</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1720,7 +1755,7 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
         <span>82%</span>
       </div>
@@ -1739,6 +1774,26 @@
   </article>
 
   <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>81%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2312_15122/">Scaling Is All You Need: Autonomous Driving with JAX-Accelerated Reinforcement Learning</a></h3>
+
+      <p class="paper-similar-card__label">Scaling Is All You Need</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Moritz Harmel et al. / 2023</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
@@ -1746,13 +1801,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1705_02403/">Group Marching Tree: Sampling-Based Approximately Optimal Motion Planning on GPUs</a></h3>
+      <h3><a href="../../papers/2408_09662/">CusADi: A GPU Parallelization Framework for Symbolic Expressions and Optimal Control</a></h3>
 
-      <p class="paper-similar-card__label">GMT*</p>
+      <p class="paper-similar-card__label">CusADi</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Brian Ichter et al. / 2017</span>
+        <span>Se Hwan Jeon et al. / 2024</span>
       </div>
 
     </div>

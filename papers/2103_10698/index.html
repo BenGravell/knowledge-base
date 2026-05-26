@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,9 +1609,21 @@
       <a href="../../search/?year=2021">2021</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Journal%20Paper">Journal Paper</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">AutoTune</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=IEEE%20Robotics%20and%20Automation%20Letters">IEEE Robotics and Automation Letters</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1599,6 +1633,8 @@
       <a href="https://arxiv.org/abs/2103.10698" target="_blank" rel="noopener noreferrer">arXiv 2103.10698</a>
 
 
+      <a href="https://doi.org/10.1109/lra.2022.3146897" target="_blank" rel="noopener noreferrer">DOI 10.1109/lra.2022.3146897</a>
+
     </div>
   </div>
 
@@ -1606,6 +1642,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Due to noisy actuation and external disturbances, tuning controllers for high-speed flight is very challenging. In this paper, we ask the following questions: How sensitive are controllers to tuning when tracking high-speed maneuvers? What algorithms can we use to automatically tune them? To answer the first question, we study the relationship between parameters and performance and find out that the faster the maneuver, the more sensitive a controller becomes to its parameters. To answer the second question, we review existing methods for controller tuning and discover that prior works often perform poorly on the task of high-speed flight. Therefore, we propose AutoTune, a sampling-based tuning algorithm specifically tailored to high-speed flight. In contrast to previous work, our algorithm does not assume any prior knowledge of the drone or its optimization function and can deal with the multi-modal characteristics of the parameters' optimization space. We thoroughly evaluate AutoTune both in simulation and in the physical world. In our experiments, we outperform existing tuning algorithms by up to 90% in trajectory completion. The resulting controllers are tested in the AirSim Game of Drones competition, where we outperform the winner by up to 25% in lap-time. Finally, we show that AutoTune improves tracking error when flying a physical platform with respect to parameters tuned by a human expert.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Due to noisy actuation and external disturbances, tuning controllers for high-speed flight is very challenging. The abstract also notes that in this paper, we ask the following questions: How sensitive are controllers to tuning when tracking high-speed maneuvers?</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1645,8 +1684,39 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1109/lra.2022.3146897" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://doi.org/10.1109/LRA.2022.3146897" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://ieeexplore.ieee.org/document/9696365/" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">ieeexplore.ieee.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://xplorestaging.ieee.org/ielx7/7083369/9647862/09696365.pdf?arnumber=9696365" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">xplorestaging.ieee.org PDF</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2103_10698&amp;tag=Sampling-based%20methods">Sampling-based methods</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2103_10698&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2103_10698&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2103_10698&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2103_10698&amp;tag=AutoTune">AutoTune</a>
 
 </div>
 
@@ -1662,6 +1732,8 @@
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2209_10021/">DiffTune: Auto-Tuning through Auto-Differentiation</a></h3>
+
+      <p class="paper-similar-card__label">DiffTune</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1679,7 +1751,9 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2212_03194/">DiffTune+: Hyperparameter-Free Auto-Tuning Using Auto-Differentiation</a></h3>
+      <h3><a href="../../papers/2212_03194/">Diff Tune ^+: Hyperparameter-Free Auto-Tuning Using Auto-Differentiation</a></h3>
+
+      <p class="paper-similar-card__label">DiffTune$^+$</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1690,10 +1764,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
+        <span>80%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1708,10 +1782,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>81%</span>
+        <span>80%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1726,20 +1800,18 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>80%</span>
+        <span>78%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2306_09852/">Actor-Critic Model Predictive Control: Differentiable Optimization Meets Reinforcement Learning for Agile Flight</a></h3>
-
-      <p class="paper-similar-card__label">Actor-Critic Model Predictive Control</p>
+      <h3><a href="../../papers/2512_14450/">Nonlinear System Identification Nano-drone Benchmark</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Angel Romero et al. / 2023</span>
+        <span>Riccardo Busetto et al. / 2025</span>
       </div>
 
     </div>

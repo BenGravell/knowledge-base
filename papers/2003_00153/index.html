@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,9 +1611,16 @@
       <a href="../../search/?year=2020">2020</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1608,6 +1637,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We study the exploration problem with approximate linear action-value functions in episodic reinforcement learning under the notion of low inherent Bellman error, a condition normally employed to show convergence of approximate value iteration. First we relate this condition to other common frameworks and show that it is strictly more general than the low rank (or linear) MDP assumption of prior work. Second we provide an algorithm with a high probability regret bound $\widetilde O(\sum_{t=1}^H d_t \sqrt{K} + \sum_{t=1}^H \sqrt{d_t} \IBE K)$ where $H$ is the horizon, $K$ is the number of episodes, $\IBE$ is the value if the inherent Bellman error and $d_t$ is the feature dimension at timestep $t$. In addition, we show that the result is unimprovable beyond constants and logs by showing a matching lower bound. This has two important consequences: 1) it shows that exploration is possible using only \emph{batch assumptions} with an algorithm that achieves the optimal statistical rate for the setting we consider, which is more general than prior work on low-rank MDPs 2) the lack of closedness (measured by the inherent Bellman error) is only amplified by $\sqrt{d_t}$ despite working in the online setting. Finally, the algorithm reduces to the celebrated \textsc{LinUCB} when $H=1$ but with a different choice of the exploration parameter that allows handling misspecified contextual linear bandits. While computational tractability questions remain open for the MDP setting, this enriches the class of MDPs with a linear representation for the action-value function where statistically efficient reinforcement learning is possible.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper studies the exploration problem with approximate linear action-value functions in episodic reinforcement learning under the notion of low inherent Bellman error, a condition normally employed to show convergence of approximate value iteration. The abstract also notes that first we relate this condition to other common frameworks and show that it is strictly more general than the low rank (or linear) MDP assumption of prior work.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1652,30 +1684,33 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2003_00153&amp;tag=Low-rank%20models">Low-rank models</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2003_00153&amp;tag=Reinforcement%20learning">Reinforcement learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2003_00153&amp;tag=Bellman%20equations">Bellman equations</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2003_00153&amp;tag=Value%20iteration">Value iteration</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2003_00153&amp;tag=Bandits">Bandits</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2003_00153&amp;tag=Regret%20bounds">Regret bounds</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2003_00153&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2003_00153&amp;tag=Learning">Learning</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
       <div class="paper-similar-card__rank-top">1</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1805_09045/">When Simple Exploration Is Sample Efficient: Identifying Sufficient Conditions for Random Exploration to Yield PAC RL Algorithms</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Yao Liu et al. / 2018</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
         <span>85%</span>
       </div>
@@ -1693,13 +1728,15 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
         <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2605_10671/">Natural Policy Gradient as Doubly Smoothed Policy Iteration: A Bellman-Operator Framework</a></h3>
+
+      <p class="paper-similar-card__label">DSPI</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1711,7 +1748,7 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
         <span>83%</span>
       </div>
@@ -1731,19 +1768,37 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>83%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1805_09045/">When Simple Exploration Is Sample Efficient: Identifying Sufficient Conditions for Random Exploration to Yield PAC RL Algorithms</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Yao Liu et al. / 2018</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
         <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2002_auer_finite_time_analysis_of/">Finite-time Analysis of the Multiarmed Bandit Problem</a></h3>
+      <h3><a href="../../papers/1979_puterman_on_the_convergence_of/">On the Convergence of Policy Iteration in Stationary Dynamic Programming</a></h3>
 
-      <p class="paper-similar-card__label">UCB</p>
+      <p class="paper-similar-card__label">Policy Iteration</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Peter Auer et al. / 2002</span>
+        <span>Martin L. Puterman et al. / 1979</span>
       </div>
 
     </div>

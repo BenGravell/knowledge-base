@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1595,9 +1617,16 @@
       <a href="../../search/?year=2024">2024</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1614,6 +1643,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We study online policy optimization in nonlinear time-varying dynamical systems where the true dynamical models are unknown to the controller. This problem is challenging because, unlike in linear systems, the controller cannot obtain globally accurate estimations of the ground-truth dynamics using local exploration. We propose a meta-framework that combines a general online policy optimization algorithm ($\texttt{ALG}$) with a general online estimator of the dynamical system's model parameters ($\texttt{EST}$). We show that if the hypothetical joint dynamics induced by $\texttt{ALG}$ with known parameters satisfies several desired properties, the joint dynamics under inexact parameters from $\texttt{EST}$ will be robust to errors. Importantly, the final policy regret only depends on $\texttt{EST}$'s predictions on the visited trajectory, which relaxes a bottleneck on identifying the true parameters globally. To demonstrate our framework, we develop a computationally efficient variant of Gradient-based Adaptive Policy Selection, called Memoryless GAPS (M-GAPS), and use it to instantiate $\texttt{ALG}$. Combining M-GAPS with online gradient descent to instantiate $\texttt{EST}$ yields (to our knowledge) the first local regret bound for online policy optimization in nonlinear time-varying systems with unknown dynamics.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper studies online policy optimization in nonlinear time-varying dynamical systems where the true dynamical models are unknown to the controller. The abstract also notes that this problem is challenging because, unlike in linear systems, the controller cannot obtain globally accurate estimations of the ground-truth dynamics using local exploration.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1658,14 +1690,37 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2404_13009&amp;tag=Gradient%20descent">Gradient descent</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2404_13009&amp;tag=Regret%20bounds">Regret bounds</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2404_13009&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2404_13009&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2404_13009&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2404_13009&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2404_13009&amp;tag=Called%20memoryless%20GAPS">Called memoryless GAPS</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2404_13009&amp;tag=M-GAPS">M-GAPS</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2404_13009&amp;tag=Nonlinear%20system">Nonlinear system</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1687,11 +1742,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2210_04810/">Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies</a></h3>
+      <h3><a href="../../papers/2019_agarwal_logarithmic_regret_for_online/">Logarithmic Regret for Online Control</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Bin Hu et al. / 2022</span>
+        <span>Naman Agarwal et al. / 2019</span>
       </div>
 
     </div>
@@ -1718,36 +1773,36 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2019_agarwal_logarithmic_regret_for_online/">Logarithmic Regret for Online Control</a></h3>
+      <h3><a href="../../papers/2303_08431/">Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Naman Agarwal et al. / 2019</span>
+        <span>Yinbin Han et al. / 2023</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1906_08383/">Global Convergence of Policy Gradient Methods to (Almost) Locally Optimal Policies</a></h3>
+      <h3><a href="../../papers/2210_04810/">Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Kaiqing Zhang et al. / 2019</span>
+        <span>Bin Hu et al. / 2022</span>
       </div>
 
     </div>

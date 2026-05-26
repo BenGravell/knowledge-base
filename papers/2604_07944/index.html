@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,9 +1611,16 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1608,6 +1637,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Large language models (LLMs) have recently demonstrated strong potential for autonomous vehicle motion planning by reformulating trajectory prediction as a language generation problem. However, deploying capable LLMs in resource-constrained onboard systems remains a fundamental challenge. In this paper, we study how to effectively transfer motion planning knowledge from a large teacher LLM to a smaller, more deployable student model. We build on the GPT-Driver framework, which represents driving scenes as language prompts and generates waypoint trajectories with chain-of-thought reasoning, and investigate two student training paradigms: (i) on-policy generalized knowledge distillation (GKD), which trains the student on its own self-generated outputs using dense token-level feedback from the teacher, and (ii) a dense-feedback reinforcement learning (RL) baseline that uses the teacher's log-probabilities as per-token reward signals in a policy gradient framework. Experiments on the nuScenes benchmark show that GKD substantially outperforms the RL baseline and closely approaches teacher-level performance despite a 5$\times$ reduction in model size. These results highlight the practical value of on-policy distillation as a principled and effective approach to deploying LLM-based planners in autonomous driving systems.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Large language models (LLMs) have recently demonstrated strong potential for autonomous vehicle motion planning by reformulating trajectory prediction as a language generation problem. The abstract also notes that however, deploying capable LLMs in resource-constrained onboard systems remains a fundamental challenge.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1652,6 +1684,39 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_07944&amp;tag=Policy%20gradients">Policy gradients</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_07944&amp;tag=Reinforcement%20learning">Reinforcement learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_07944&amp;tag=Motion%20planning">Motion planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_07944&amp;tag=Autonomous%20driving">Autonomous driving</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_07944&amp;tag=Vehicles">Vehicles</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_07944&amp;tag=Large%20language%20models">Large language models</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_07944&amp;tag=Language%20models">Language models</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_07944&amp;tag=Benchmarks">Benchmarks</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_07944&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_07944&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_07944&amp;tag=On-policy%20generalized%20knowledge%20distillation">On-policy generalized knowledge distillation</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_07944&amp;tag=GKD">GKD</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_07944&amp;tag=Dense-feedback%20reinforcement%20learning">Dense-feedback reinforcement learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_07944&amp;tag=RL">RL</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1685,6 +1750,8 @@
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2301_11902/">Tree-structured Policy Planning with Learned Behavior Models</a></h3>
 
+      <p class="paper-similar-card__label">TPP</p>
+
 
       <div class="paper-similar-card__meta">
         <span>Yuxiao Chen et al. / 2023</span>
@@ -1696,6 +1763,26 @@
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
       <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>85%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2511_00088/">Alpamayo-R1: Bridging Reasoning and Action Prediction for Generalizable Autonomous Driving in the Long Tail</a></h3>
+
+      <p class="paper-similar-card__label">Alpamayo-R1</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Yan Wang et al. / 2025</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
         <span>85%</span>
       </div>
@@ -1715,33 +1802,15 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
         <span>85%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2511_00088/">Alpamayo-R1: Bridging Reasoning and Action Prediction for Generalizable Autonomous Driving in the Long Tail</a></h3>
-
-      <p class="paper-similar-card__label">Alpamayo-R1</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Yan Wang et al. / 2025</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
       <h3><a href="../../papers/1206_3231/">CORL: A Continuous-state Offset-dynamics Reinforcement Learner</a></h3>
+
+      <p class="paper-similar-card__label">CORL</p>
 
 
       <div class="paper-similar-card__meta">

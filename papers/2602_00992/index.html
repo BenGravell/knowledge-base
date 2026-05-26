@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1585,9 +1607,16 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1603,7 +1632,10 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>In many robot motion planning problems, task objectives and physical constraints induce non-Euclidean geometry on the configuration space, yet many planners operate using Euclidean distances that ignore this structure. We address the problem of planning collision-free motions that minimize length under configuration-dependent Riemannian metrics, corresponding to geodesics on the configuration manifold. Conventional numerical methods for computing such paths do not scale well to high-dimensional systems, while sampling-based planners trade scalability for geometric fidelity. To bridge this gap, we propose a sampling-based motion planning framework that operates directly on Riemannian manifolds. We introduce a computationally efficient midpoint-based approximation of the Riemannian geodesic distance and prove that it matches the true Riemannian distance with third-order accuracy. Building on this approximation, we design a local planner that traces the manifold using first-order retractions guided by Riemannian natural gradients. Experiments on a two-link planar arm and a 7-DoF Franka manipulator under a kinetic-energy metric, as well as on rigid-body planning in SE(2) with non-holonomic motion constraints, demonstrate that our approach consistently produces lower-cost trajectories than Euclidean-based planners and classical numerical geodesic-solver baselines.</p>
+<p>In many robot motion planning problems, task objectives and physical constraints induce non-Euclidean geometry on the configuration space, yet many planners operate using Euclidean distances that ignore this structure. We address the problem of planning collision-free motions that minimize length under configuration-dependent Riemannian metrics, corresponding to geodesics on the configuration manifold. Conventional numerical methods for computing such paths do not scale well to high-dimensional systems, while sampling-based planners trade scalability for geometric fidelity. To bridge this gap, we propose a sampling-based motion planning framework that operates directly on Riemannian manifolds. We introduce a computationally efficient midpoint-based approximation of the Riemannian geodesic distance and prove that it matches the true Riemannian distance with third-order accuracy. Building on this approximation, we design a local planner that traces the manifold using first-order retractions guided by Riemannian natural gradients. Experiments on a two-link planar arm and a 7-DoF Franka manipulator under a kinetic-energy metric, as well as on rigid-body planning in $\mathrm{SE}(2)$ with non-holonomic motion constraints, demonstrate that our approach consistently produces lower-cost trajectories than Euclidean-based planners and classical numerical geodesic-solver baselines.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>In many robot motion planning problems, task objectives and physical constraints induce non-Euclidean geometry on the configuration space, yet many planners operate using Euclidean distances that ignore this structure. It also addresses the problem of planning collision-free motions that minimize length under configuration-dependent Riemannian metrics, corresponding to geodesics on the configuration manifold.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1648,14 +1680,39 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_00992&amp;tag=Natural%20gradients">Natural gradients</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_00992&amp;tag=Motion%20planning">Motion planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_00992&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_00992&amp;tag=Accuracy">Accuracy</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_00992&amp;tag=Scalability">Scalability</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_00992&amp;tag=Sampling-based%20methods">Sampling-based methods</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_00992&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_00992&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_00992&amp;tag=Riemannian%20manifold">Riemannian manifold</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2602_00992&amp;tag=Euclidean%20geometry">Euclidean geometry</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
+        <span>85%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1677,24 +1734,6 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2604_13323/">Vectorizing Projection in Manifold-Constrained Motion Planning for Real-Time Whole-Body Control</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Shrutheesh R Iyer et al. / 2026</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
       <h3><a href="../../papers/1709_07610/">Efficient Nearest-Neighbor Search for Dynamical Systems with Nonholonomic Constraints</a></h3>
 
       <p class="paper-similar-card__label">Nearest Neighbor Search</p>
@@ -1709,9 +1748,27 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
         <span>84%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2604_13323/">Vectorizing Projection in Manifold-Constrained Motion Planning for Real-Time Whole-Body Control</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Shrutheesh R Iyer et al. / 2026</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1726,20 +1783,20 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2011_perez_asymptotically_optimal_path_planning/">Asymptotically-optimal Path Planning for Manipulation Using Incremental Sampling-based Algorithms</a></h3>
+      <h3><a href="../../papers/1407_2896/">Asymptotically Optimal Sampling-based Kinodynamic Planning</a></h3>
 
-      <p class="paper-similar-card__label">BT+RRT*</p>
+      <p class="paper-similar-card__label">SST*</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Alejandro Perez et al. / 2011</span>
+        <span>Yanbo Li et al. / 2014</span>
       </div>
 
     </div>

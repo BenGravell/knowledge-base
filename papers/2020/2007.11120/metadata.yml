@@ -1,17 +1,20 @@
 title: On Linear Convergence of Policy Gradient Methods for Finite MDPs
-algorithm: "Policy Gradient"
+algorithm: Policy Gradient
 authors:
   - Jalaj Bhandari
   - Daniel Russo
 year: 2020
-source:
-type: ''
+source: International Conference on Artificial Intelligence and Statistics
+type: Conference Paper
 doi:
 arxiv_id: "2007.11120"
 tags:
-abstract: >
-  We revisit the finite time analysis of policy gradient methods in the one of the simplest settings: finite state and action MDPs with a policy class consisting of all stochastic policies and with exact gradient evaluations. There has been some recent work viewing this setting as an instance of smooth non-linear optimization problems and showing sub-linear convergence rates with small step-sizes. Here, we take a different perspective based on connections with policy iteration and show that many variants of policy gradient methods succeed with large step-sizes and attain a linear rate of convergence.
-summary: ''
+  - Policy iteration
+  - Optimization
+  - Policy gradient
+abstract: 'We revisit the finite time analysis of policy gradient methods in the one of the simplest settings: finite state and action MDPs with a policy class consisting of all stochastic policies and with exact gradient evaluations. There has been some recent work viewing this setting as an instance of smooth non-linear optimization problems and showing sub-linear convergence rates with small step-sizes. Here, we take a different perspective based on connections with policy iteration and show that many variants of policy gradient methods succeed with large step-sizes and attain a linear rate of convergence.'
+summary: 'The arXiv abstract states that we revisit the finite time analysis of policy gradient methods in the one of the simplest settings: finite state and action MDPs with a policy class consisting of all stochastic policies and with exact gradient evaluations. The abstract also notes that there has been some recent work viewing this setting as an instance of smooth non-linear optimization problems and showing sub-linear convergence rates with small step-sizes.'
 link: https://arxiv.org/pdf/2007.11120
 links_alt:
+  - http://proceedings.mlr.press/v130/bhandari21a/bhandari21a.pdf
 audit_status: raw

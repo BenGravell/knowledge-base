@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,6 +1611,8 @@
       <a href="../../search/?year=2023">2023</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Journal%20Paper">Journal Paper</a></div>
+
   </div>
 
 
@@ -1598,6 +1622,11 @@
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=IEEE%20Transactions%20on%20Robotics">IEEE Transactions on Robotics</a></div>
+  </div>
+
 
   <div class="paper-meta-card">
     <div class="paper-meta-card__label">Identifiers</div>
@@ -1606,6 +1635,8 @@
       <a href="https://arxiv.org/abs/2306.09852" target="_blank" rel="noopener noreferrer">arXiv 2306.09852</a>
 
 
+      <a href="https://doi.org/10.1109/tro.2025.3644945" target="_blank" rel="noopener noreferrer">DOI 10.1109/tro.2025.3644945</a>
+
     </div>
   </div>
 
@@ -1613,6 +1644,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>A key open challenge in agile quadrotor flight is how to combine the flexibility and task-level generality of model-free reinforcement learning (RL) with the structure and online replanning capabilities of model predictive control (MPC), aiming to leverage their complementary strengths in dynamic and uncertain environments. This paper provides an answer by introducing a new framework called Actor-Critic Model Predictive Control. The key idea is to embed a differentiable MPC within an actor-critic RL framework. This integration allows for short-term predictive optimization of control actions through MPC, while leveraging RL for end-to-end learning and exploration over longer horizons. Through various ablation studies, conducted in the context of agile quadrotor racing, we expose the benefits of the proposed approach: it achieves better out-of-distribution behaviour, better robustness to changes in the quadrotor's dynamics and improved sample efficiency. Additionally, we conduct an empirical analysis using a quadrotor platform that reveals a relationship between the critic's learned value function and the cost function of the differentiable MPC, providing a deeper understanding of the interplay between the critic's value and the MPC cost functions. Finally, we validate our method in a drone racing task on different tracks, in both simulation and the real world. Our method achieves the same superhuman performance as state-of-the-art model-free RL, showcasing speeds of up to 21 m/s. We show that the proposed architecture can achieve real-time control performance, learn complex behaviors via trial and error, and retain the predictive properties of the MPC to better handle out-of-distribution behavior.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>A key open challenge in agile quadrotor flight is how to combine the flexibility and task-level generality of model-free reinforcement learning (RL) with the structure and online replanning capabilities of model predictive control (MPC), aiming to leverage their complementary strengths in dynamic and uncertain environments.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1652,8 +1686,59 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1109/tro.2025.3644945" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://doi.org/10.1109/TRO.2025.3644945" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://ieeexplore.ieee.org/document/11301631/" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">ieeexplore.ieee.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://xplorestaging.ieee.org/ielx8/8860/11297026/11301631.pdf?arnumber=11301631" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">xplorestaging.ieee.org PDF</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=Reinforcement%20learning">Reinforcement learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=Model%20predictive%20control">Model predictive control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=Predictive%20control">Predictive control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=Aerial%20robotics">Aerial robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=Real-time%20systems">Real-time systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=Out-of-distribution%20generalization">Out-of-distribution generalization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=Actor-critic%20model%20predictive%20control">Actor-critic model predictive control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=RL">RL</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2306_09852&amp;tag=MPC">MPC</a>
 
 </div>
 
@@ -1661,10 +1746,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 162.0deg;" aria-label="90% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>90%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1681,28 +1766,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2507_10914/">Fast Non-Episodic Adaptive Tuning of Robot Controllers with Online Policy Optimization</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>James A. Preiss et al. / 2025</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>87%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1719,10 +1786,28 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>86%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2507_10914/">Fast Non-Episodic Adaptive Tuning of Robot Controllers with Online Policy Optimization</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>James A. Preiss et al. / 2025</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1737,20 +1822,18 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>85%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2212_02603/">Learning to Optimize in Model Predictive Control</a></h3>
-
-      <p class="paper-similar-card__label">MPC</p>
+      <h3><a href="../../papers/2410_23916/">Transformer-based Model Predictive Control: Trajectory Optimization via Sequence Modeling</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Jacob Sacks et al. / 2022</span>
+        <span>Davide Celestini et al. / 2024</span>
       </div>
 
     </div>

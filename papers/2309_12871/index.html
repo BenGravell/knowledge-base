@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1585,9 +1607,16 @@
       <a href="../../search/?year=2023">2023</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1604,6 +1633,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>High-quality text embedding is pivotal in improving semantic textual similarity (STS) tasks, which are crucial components in Large Language Model (LLM) applications. However, a common challenge existing text embedding models face is the problem of vanishing gradients, primarily due to their reliance on the cosine function in the optimization objective, which has saturation zones. To address this issue, this paper proposes a novel angle-optimized text embedding model called AnglE. The core idea of AnglE is to introduce angle optimization in a complex space. This novel approach effectively mitigates the adverse effects of the saturation zone in the cosine function, which can impede gradient and hinder optimization processes. To set up a comprehensive STS evaluation, we experimented on existing short-text STS datasets and a newly collected long-text STS dataset from GitHub Issues. Furthermore, we examine domain-specific STS scenarios with limited labeled data and explore how AnglE works with LLM-annotated data. Extensive experiments were conducted on various tasks including short-text STS, long-text STS, and domain-specific STS tasks. The results show that AnglE outperforms the state-of-the-art (SOTA) STS models that ignore the cosine saturation zone. These findings demonstrate the ability of AnglE to generate high-quality text embeddings and the usefulness of angle optimization in STS.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>High-quality text embedding is pivotal in improving semantic textual similarity (STS) tasks, which are crucial components in Large Language Model (LLM) applications. The abstract also notes that however, a common challenge existing text embedding models face is the problem of vanishing gradients, primarily due to their reliance on the cosine function in the optimization objective, which has saturation zones.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1648,6 +1680,25 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2309_12871&amp;tag=Large%20language%20models">Large language models</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2309_12871&amp;tag=Language%20models">Language models</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2309_12871&amp;tag=Datasets">Datasets</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2309_12871&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2309_12871&amp;tag=STS">STS</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2309_12871&amp;tag=LLM">LLM</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2309_12871&amp;tag=SOTA">SOTA</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1659,23 +1710,23 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2203_05794/">BERTopic: Neural Topic Modeling with a Class-based TF-IDF Procedure</a></h3>
+      <h3><a href="../../papers/2106_09685/">LoRA: Low-Rank Adaptation of Large Language Models</a></h3>
 
-      <p class="paper-similar-card__label">BERTopic</p>
+      <p class="paper-similar-card__label">LoRA</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Maarten Grootendorst / 2022</span>
+        <span>Edward J. Hu et al. / 2021</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 133.2deg;" aria-label="74% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 131.4deg;" aria-label="73% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>74%</span>
+        <span>73%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1692,28 +1743,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 131.4deg;" aria-label="73% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 127.8deg;" aria-label="71% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>73%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2106_09685/">LoRA: Low-Rank Adaptation of Large Language Models</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Edward J. Hu et al. / 2021</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 129.6deg;" aria-label="72% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>72%</span>
+        <span>71%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1731,17 +1764,39 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 127.8deg;" aria-label="71% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>71%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2203_05794/">BERTopic: Neural Topic Modeling with a Class-based TF-IDF Procedure</a></h3>
+
+      <p class="paper-similar-card__label">BERTopic</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Maarten Grootendorst / 2022</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 127.8deg;" aria-label="71% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
         <span>71%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2204_06125/">Hierarchical Text-Conditional Image Generation with CLIP Latents</a></h3>
+      <h3><a href="../../papers/2204_02311/">PaLM: Scaling Language Modeling with Pathways</a></h3>
+
+      <p class="paper-similar-card__label">PaLM</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Aditya Ramesh et al. / 2022</span>
+        <span>Aakanksha Chowdhery et al. / 2022</span>
       </div>
 
     </div>

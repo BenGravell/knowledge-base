@@ -8,14 +8,19 @@ authors:
   - Alexandros G. Dimakis
   - Peyman Milanfar
 year: 2021
-source:
-type: ''
-doi:
+source: IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+type: Conference Paper
+doi: 10.1109/cvpr52688.2022.01581
 arxiv_id: "2112.02475"
 tags:
-abstract: >
-  Image deblurring is an ill-posed problem with multiple plausible solutions for a given input image. However, most existing methods produce a deterministic estimate of the clean image and are trained to minimize pixel-level distortion. These metrics are known to be poorly correlated with human perception, and often lead to unrealistic reconstructions. We present an alternative framework for blind deblurring based on conditional diffusion models. Unlike existing techniques, we train a stochastic sampler that refines the output of a deterministic predictor and is capable of producing a diverse set of plausible reconstructions for a given input. This leads to a significant improvement in perceptual quality over existing state-of-the-art methods across multiple standard benchmarks. Our predict-and-refine approach also enables much more efficient sampling compared to typical diffusion models. Combined with a carefully tuned network architecture and inference procedure, our method is competitive in terms of distortion metrics such as PSNR. These results show clear benefits of our diffusion-based method for deblurring and challenge the widely used strategy of producing a single, deterministic reconstruction.
-summary: ''
+  - Diffusion models
+  - Benchmarks
+  - Sampling
+abstract: Image deblurring is an ill-posed problem with multiple plausible solutions for a given input image. However, most existing methods produce a deterministic estimate of the clean image and are trained to minimize pixel-level distortion. These metrics are known to be poorly correlated with human perception, and often lead to unrealistic reconstructions. We present an alternative framework for blind deblurring based on conditional diffusion models. Unlike existing techniques, we train a stochastic sampler that refines the output of a deterministic predictor and is capable of producing a diverse set of plausible reconstructions for a given input. This leads to a significant improvement in perceptual quality over existing state-of-the-art methods across multiple standard benchmarks. Our predict-and-refine approach also enables much more efficient sampling compared to typical diffusion models. Combined with a carefully tuned network architecture and inference procedure, our method is competitive in terms of distortion metrics such as PSNR. These results show clear benefits of our diffusion-based method for deblurring and challenge the widely used strategy of producing a single, deterministic reconstruction.
+summary: Image deblurring is an ill-posed problem with multiple plausible solutions for a given input image. The abstract also notes that however, most existing methods produce a deterministic estimate of the clean image and are trained to minimize pixel-level distortion.
 link: https://arxiv.org/pdf/2112.02475
 links_alt:
+  - https://doi.org/10.1109/cvpr52688.2022.01581
+  - https://ieeexplore.ieee.org/document/9879619/
+  - http://xplorestaging.ieee.org/ielx7/9878378/9878366/09879619.pdf?arnumber=9879619
 audit_status: raw

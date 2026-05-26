@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1585,6 +1607,8 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1593,6 +1617,11 @@
     <div class="paper-meta-card__value">KernelSOS</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1609,6 +1638,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Contact-rich manipulation is challenging due to its high dimensionality, the requirement for long time horizons, and the presence of hybrid contact dynamics. Sampling-based methods have become a popular approach for this class of problems, but without explicit mechanisms for global exploration, they are susceptible to converging to poor local minima. In this paper, we introduce Global-MPPI, a unified trajectory optimization framework that integrates global exploration and local refinement. At the global level, we leverage kernel sum-of-squares optimization to identify globally promising regions of the solution space. To enable reliable performance for the non-smooth landscapes inherent to contact-rich manipulation, we introduce a graduated non-convexity strategy based on log-sum-exp smoothing, which transitions the optimization landscape from a smoothed surrogate to the original non-smooth objective. Finally, we employ the model-predictive path integral method to locally refine the solution. We evaluate Global-MPPI on high-dimensional, long-horizon contact-rich tasks, including the PushT task and dexterous in-hand manipulation. Experimental results demonstrate that our approach robustly uncovers high-quality solutions, achieving faster convergence and lower final costs compared to existing baseline methods.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Contact-rich manipulation is challenging due to its high dimensionality, the requirement for long time horizons, and the presence of hybrid contact dynamics. The abstract also notes that sampling-based methods have become a popular approach for this class of problems, but without explicit mechanisms for global exploration, they are susceptible to converging to poor local minima.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1653,30 +1685,29 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_27175&amp;tag=Trajectory%20optimization">Trajectory optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_27175&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_27175&amp;tag=Sampling-based%20methods">Sampling-based methods</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_27175&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_27175&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_27175&amp;tag=KernelSOS">KernelSOS</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">1</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2026_suh_dexterous_contact_rich_manipulation/">Dexterous Contact-rich Manipulation via the Contact Trust Region</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>H. J. Terry Suh et al. / 2026</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
         <span>84%</span>
       </div>
@@ -1693,10 +1724,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">3</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+      <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1713,40 +1744,58 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2603_24489/">Model Predictive Path Integral Control as Preconditioned Gradient Descent</a></h3>
-
-      <p class="paper-similar-card__label">MPPI</p>
+      <h3><a href="../../papers/2026_suh_dexterous_contact_rich_manipulation/">Dexterous Contact-rich Manipulation via the Contact Trust Region</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Mahyar Fazlyab et al. / 2026</span>
+        <span>H. J. Terry Suh et al. / 2026</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">5</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2511_02015/">Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control</a></h3>
 
-      <p class="paper-similar-card__label">MPPI</p>
+      <p class="paper-similar-card__label">SOPPI</p>
 
 
       <div class="paper-similar-card__meta">
         <span>Jace Aldrich et al. / 2025</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>82%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2011_perez_asymptotically_optimal_path_planning/">Asymptotically-optimal Path Planning for Manipulation Using Incremental Sampling-based Algorithms</a></h3>
+
+      <p class="paper-similar-card__label">BT+RRT*</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Alejandro Perez et al. / 2011</span>
       </div>
 
     </div>

@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,6 +1611,8 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1597,6 +1621,11 @@
     <div class="paper-meta-card__value">SCP</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1613,6 +1642,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Real-time trajectory optimization for nonlinear constrained autonomous systems is critical and typically performed by CPU-based sequential solvers. Specifically, reliance on global sparse linear algebra or the serial nature of dynamic programming algorithms restricts the utilization of massively parallel computing architectures like GPUs. To bridge this gap, we introduce a fully GPU-native trajectory optimization framework that combines sequential convex programming with a consensus-based alternating direction method of multipliers. By applying a temporal splitting strategy, our algorithm decouples the optimization horizon into independent, per-node subproblems that execute massively in parallel. The entire process runs fully on the GPU, eliminating costly memory transfers and large-scale sparse factorizations. This architecture naturally scales to multi-trajectory optimization. We validate the solver on a quadrotor agile flight task and a Mars powered descent problem using an on-board edge computing platform. Benchmarks reveal a sustained 4x throughput speedup and a 51% reduction in energy consumption over a heavily optimized 12-core CPU baseline. Crucially, the framework saturates the hardware, maintaining over 96% active GPU utilization to achieve planning rates exceeding 100 Hz. Furthermore, we demonstrate the solver's extensibility to robust Model Predictive Control by jointly optimizing dynamically coupled scenarios under stochastic disturbances, enabling scalable and safe autonomy.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Real-time trajectory optimization for nonlinear constrained autonomous systems is critical and typically performed by CPU-based sequential solvers. The abstract also notes that reliance on global sparse linear algebra or the serial nature of dynamic programming algorithms restricts the utilization of massively parallel computing architectures like GPUs.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1657,34 +1689,49 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Optimal%20control">Optimal control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Model%20predictive%20control">Model predictive control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Predictive%20control">Predictive control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Trajectory%20optimization">Trajectory optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Aerial%20robotics">Aerial robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Safety">Safety</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Benchmarks">Benchmarks</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Real-time%20systems">Real-time systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Parallel%20computing">Parallel computing</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_10711&amp;tag=Massively%20parallel">Massively parallel</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2406_05846/">Fast and Certifiable Trajectory Optimization</a></h3>
-
-      <p class="paper-similar-card__label">Trajectory Optimization</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Shucheng Kang et al. / 2024</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">2</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1702,19 +1749,39 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>84%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2406_05846/">Fast and Certifiable Trajectory Optimization</a></h3>
+
+      <p class="paper-similar-card__label">STROM</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Shucheng Kang et al. / 2024</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
         <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2411_11833/">Differentiable GPU-Parallelized Task and Motion Planning</a></h3>
+      <h3><a href="../../papers/2303_16746/">FATROP: A Fast Constrained Optimal Control Problem Solver for Robot Trajectory Optimization and Control</a></h3>
 
-      <p class="paper-similar-card__label">cuTAMP</p>
+      <p class="paper-similar-card__label">FATROP</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>William Shen et al. / 2024</span>
+        <span>Lander Vanroye et al. / 2023</span>
       </div>
 
     </div>
@@ -1728,13 +1795,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2408_09662/">CusADi: A GPU Parallelization Framework for Symbolic Expressions and Optimal Control</a></h3>
+      <h3><a href="../../papers/1705_02403/">Group Marching Tree: Sampling-Based Approximately Optimal Motion Planning on GPUs</a></h3>
 
-      <p class="paper-similar-card__label">CusADi</p>
+      <p class="paper-similar-card__label">GMT*</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Se Hwan Jeon et al. / 2024</span>
+        <span>Brian Ichter et al. / 2017</span>
       </div>
 
     </div>
@@ -1748,13 +1815,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1705_02403/">Group Marching Tree: Sampling-Based Approximately Optimal Motion Planning on GPUs</a></h3>
+      <h3><a href="../../papers/2411_11833/">Differentiable GPU-Parallelized Task and Motion Planning</a></h3>
 
-      <p class="paper-similar-card__label">GMT*</p>
+      <p class="paper-similar-card__label">cuTAMP</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Brian Ichter et al. / 2017</span>
+        <span>William Shen et al. / 2024</span>
       </div>
 
     </div>

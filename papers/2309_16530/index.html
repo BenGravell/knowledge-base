@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1585,9 +1607,21 @@
       <a href="../../search/?year=2023">2023</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Journal%20Paper">Journal Paper</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">II</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=Mathematical%20Programming">Mathematical Programming</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1597,6 +1631,8 @@
       <a href="https://arxiv.org/abs/2309.16530" target="_blank" rel="noopener noreferrer">arXiv 2309.16530</a>
 
 
+      <a href="https://doi.org/10.1007/s10107-024-02164-2" target="_blank" rel="noopener noreferrer">DOI 10.1007/s10107-024-02164-2</a>
+
     </div>
   </div>
 
@@ -1604,6 +1640,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We provide a concise, self-contained proof that the Silver Stepsize Schedule proposed in Part I directly applies to smooth (non-strongly) convex optimization. Specifically, we show that with these stepsizes, gradient descent computes an $ε$-minimizer in $O(ε^{-\log_ρ 2}) = O(ε^{-0.7864})$ iterations, where $ρ= 1+\sqrt{2}$ is the silver ratio. This is intermediate between the textbook unaccelerated rate $O(ε^{-1})$ and the accelerated rate $O(ε^{-1/2})$ due to Nesterov in 1983. The Silver Stepsize Schedule is a simple explicit fractal: the $i$-th stepsize is $1+ρ^{v(i)-1}$ where $v(i)$ is the $2$-adic valuation of $i$. The design and analysis are conceptually identical to the strongly convex setting in Part I, but simplify remarkably in this specific setting.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper provides a concise, self-contained proof that the Silver Stepsize Schedule proposed in Part I directly applies to smooth (non-strongly) convex optimization. It also shows that with these stepsizes, gradient descent computes an $ε$-minimizer in $O(ε^{-\log_ρ 2}) = O(ε^{-0.7864})$ iterations, where $ρ= 1+\sqrt{2}$ is the silver ratio.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1643,8 +1682,37 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1007/s10107-024-02164-2" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://link.springer.com/10.1007/s10107-024-02164-2" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">link.springer.com</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://link.springer.com/content/pdf/10.1007/s10107-024-02164-2.pdf" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">link.springer.com PDF</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://link.springer.com/article/10.1007/s10107-024-02164-2/fulltext.html" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">link.springer.com</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2309_16530&amp;tag=Convex%20optimization">Convex optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2309_16530&amp;tag=Gradient%20descent">Gradient descent</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2309_16530&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2309_16530&amp;tag=II">II</a>
 
 </div>
 
@@ -1661,6 +1729,8 @@
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2309_07879/">Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule</a></h3>
 
+      <p class="paper-similar-card__label">Acceleration by Stepsize Hedging I</p>
+
 
       <div class="paper-similar-card__meta">
         <span>Jason M. Altschuler et al. / 2023</span>
@@ -1670,10 +1740,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1688,28 +1758,28 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>81%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1806_06655/">Beyond Convexity -- Contraction and Global Convergence of Gradient Descent</a></h3>
+      <h3><a href="../../papers/2211_00140/">A Damped Newton Method Achieves Global O(1/k^2) and Local Quadratic Convergence Rate</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Patrick M. Wensing et al. / 2018</span>
+        <span>Slavomír Hanzely et al. / 2022</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>80%</span>
+        <span>81%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1724,18 +1794,18 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>80%</span>
+        <span>81%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2211_00140/">A Damped Newton Method Achieves Global O(1/k^2) and Local Quadratic Convergence Rate</a></h3>
+      <h3><a href="../../papers/1806_06655/">Beyond Convexity -- Contraction and Global Convergence of Gradient Descent</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Slavomír Hanzely et al. / 2022</span>
+        <span>Patrick M. Wensing et al. / 2018</span>
       </div>
 
     </div>

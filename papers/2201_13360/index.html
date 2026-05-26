@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,6 +1609,8 @@
       <a href="../../search/?year=2022">2022</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Conference%20Paper">Conference Paper</a></div>
+
   </div>
 
 
@@ -1596,6 +1620,11 @@
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=Robotics%3A%20Science%20and%20Systems%20XVIII">Robotics: Science and Systems XVIII</a></div>
+  </div>
+
 
   <div class="paper-meta-card">
     <div class="paper-meta-card__label">Identifiers</div>
@@ -1604,6 +1633,8 @@
       <a href="https://arxiv.org/abs/2201.13360" target="_blank" rel="noopener noreferrer">arXiv 2201.13360</a>
 
 
+      <a href="https://doi.org/10.15607/rss.2022.xviii.050" target="_blank" rel="noopener noreferrer">DOI 10.15607/rss.2022.xviii.050</a>
+
     </div>
   </div>
 
@@ -1611,6 +1642,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>3D scene graphs have recently emerged as a powerful high-level representation of 3D environments. A 3D scene graph describes the environment as a layered graph where nodes represent spatial concepts at multiple levels of abstraction and edges represent relations between concepts. While 3D scene graphs can serve as an advanced "mental model" for robots, how to build such a rich representation in real-time is still uncharted territory. This paper describes a real-time Spatial Perception System, a suite of algorithms to build a 3D scene graph from sensor data in real-time. Our first contribution is to develop real-time algorithms to incrementally construct the layers of a scene graph as the robot explores the environment; these algorithms build a local Euclidean Signed Distance Function (ESDF) around the current robot location, extract a topological map of places from the ESDF, and then segment the places into rooms using an approach inspired by community-detection techniques. Our second contribution is to investigate loop closure detection and optimization in 3D scene graphs. We show that 3D scene graphs allow defining hierarchical descriptors for loop closure detection; our descriptors capture statistics across layers in the scene graph, ranging from low-level visual appearance to summary statistics about objects and places. We then propose the first algorithm to optimize a 3D scene graph in response to loop closures; our approach relies on embedded deformation graphs to simultaneously correct all layers of the scene graph. We implement the proposed Spatial Perception System into a architecture named Hydra, that combines fast early and mid-level perception processes with slower high-level perception. We evaluate Hydra on simulated and real data and show it is able to reconstruct 3D scene graphs with an accuracy comparable with batch offline methods despite running online.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>3D scene graphs have recently emerged as a powerful high-level representation of 3D environments. The abstract also notes that a 3D scene graph describes the environment as a layered graph where nodes represent spatial concepts at multiple levels of abstraction and edges represent relations between concepts.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1650,8 +1684,39 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.15607/rss.2022.xviii.050" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://www.roboticsproceedings.org/rss18/p050.pdf" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">roboticsproceedings.org PDF</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2201_13360&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2201_13360&amp;tag=Graphs">Graphs</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2201_13360&amp;tag=Accuracy">Accuracy</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2201_13360&amp;tag=Real-time%20systems">Real-time systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2201_13360&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2201_13360&amp;tag=Offline%20algorithms">Offline algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2201_13360&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2201_13360&amp;tag=Hydra">Hydra</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2201_13360&amp;tag=ESDF">ESDF</a>
 
 </div>
 
@@ -1659,10 +1724,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1679,28 +1744,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>81%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2602_09153/">SceneSmith: Agentic Generation of Simulation-Ready Indoor Scenes</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Nicholas Pfaff et al. / 2026</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>81%</span>
+        <span>80%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1717,10 +1764,30 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 142.2deg;" aria-label="79% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>79%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2602_09153/">SceneSmith: Agentic Generation of Simulation-Ready Indoor Scenes</a></h3>
+
+      <p class="paper-similar-card__label">SceneSmith</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Nicholas Pfaff et al. / 2026</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 142.2deg;" aria-label="79% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>80%</span>
+        <span>79%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1735,10 +1802,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>80%</span>
+        <span>78%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">

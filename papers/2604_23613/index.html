@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1583,9 +1605,16 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1602,6 +1631,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Zeroth-order optimization aims to minimize an objective function using only function evaluations, and is therefore fundamental in black-box optimization, hyperparameter tuning, bandit learning, and adversarial machine learning. While classical zeroth-order methods are well understood in expectation, much less is known about their high-probability behavior, especially for smooth and strongly convex objectives. In this paper, we establish high-probability convergence guarantees for random zeroth-order gradient descent in both deterministic and stochastic settings. For deterministic $L$-smooth and $μ$-strongly convex objectives of $d$-dimension, we show that the classical two-query random zeroth-order method finds an $\varepsilon$-suboptimal solution with probability at least $1-δ$ using \[ \mathcal{O}\left( \frac{dL}μ\log\frac{1}{\varepsilon} + \log\frac{1}δ \right) \] function queries. Thus, compared with the standard in-expectation complexity, only an additive logarithmic dependence on the confidence parameter is needed. For stochastic objectives, under a bounded-noise condition and without assuming uniformly bounded stochastic gradients, we prove that random zeroth-order stochastic gradient descent achieves an $\varepsilon$-suboptimal solution with probability at least $1-δ$ using \[ \mathcal{O}\left( \frac{ d\log(1/\varepsilon) \left(\log(1/\varepsilon)+\log(1/δ)\right) }{\varepsilon} \right) \] queries. Our results provide high-confidence counterparts to classical expectation-based zeroth-order convergence guarantees and clarify the additional cost required to obtain reliable performance guarantees.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Zeroth-order optimization aims to minimize an objective function using only function evaluations, and is therefore fundamental in black-box optimization, hyperparameter tuning, bandit learning, and adversarial machine learning. The abstract also notes that while classical zeroth-order methods are well understood in expectation, much less is known about their high-probability behavior, especially for smooth and strongly convex objectives.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1646,6 +1678,23 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_23613&amp;tag=Gradient%20descent">Gradient descent</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_23613&amp;tag=Stochastic%20gradients">Stochastic gradients</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_23613&amp;tag=Bandits">Bandits</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_23613&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_23613&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_23613&amp;tag=Stochastic%20gradient%20descent">Stochastic gradient descent</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1686,34 +1735,16 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1805_10367/">Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization</a></h3>
-
-      <p class="paper-similar-card__label">ZO-SVRG</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Sijia Liu et al. / 2018</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
         <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/1911_06317/">Gradientless Descent: High-Dimensional Zeroth-Order Optimization</a></h3>
+
+      <p class="paper-similar-card__label">GLD</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1725,19 +1756,37 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
         <span>85%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2015_nesterov_random_gradient_free_minimization/">Random Gradient-Free Minimization of Convex Functions</a></h3>
-
-      <p class="paper-similar-card__label">Random Gradient-Free Method</p>
+      <h3><a href="../../papers/2506_05454/">Zeroth-Order Optimization Finds Flat Minima</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Yurii Nesterov et al. / 2015</span>
+        <span>Liang Zhang et al. / 2025</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>84%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1805_10367/">Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization</a></h3>
+
+      <p class="paper-similar-card__label">ZO-SVRG</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Sijia Liu et al. / 2018</span>
       </div>
 
     </div>

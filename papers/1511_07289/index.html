@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,9 +1609,16 @@
       <a href="../../search/?year=2015">2015</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1606,6 +1635,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We introduce the "exponential linear unit" (ELU) which speeds up learning in deep neural networks and leads to higher classification accuracies. Like rectified linear units (ReLUs), leaky ReLUs (LReLUs) and parametrized ReLUs (PReLUs), ELUs alleviate the vanishing gradient problem via the identity for positive values. However, ELUs have improved learning characteristics compared to the units with other activation functions. In contrast to ReLUs, ELUs have negative values which allows them to push mean unit activations closer to zero like batch normalization but with lower computational complexity. Mean shifts toward zero speed up learning by bringing the normal gradient closer to the unit natural gradient because of a reduced bias shift effect. While LReLUs and PReLUs have negative values, too, they do not ensure a noise-robust deactivation state. ELUs saturate to a negative value with smaller inputs and thereby decrease the forward propagated variation and information. Therefore, ELUs code the degree of presence of particular phenomena in the input, while they do not quantitatively model the degree of their absence. In experiments, ELUs lead not only to faster learning, but also to significantly better generalization performance than ReLUs and LReLUs on networks with more than 5 layers. On CIFAR-100 ELUs networks significantly outperform ReLU networks with batch normalization while batch normalization does not improve ELU networks. ELU networks are among the top 10 reported CIFAR-10 results and yield the best published result on CIFAR-100, without resorting to multi-view evaluation or model averaging. On ImageNet, ELU networks considerably speed up learning compared to a ReLU network with the same architecture, obtaining less than 10% classification error for a single crop, single model network.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper introduces the "exponential linear unit" (ELU) which speeds up learning in deep neural networks and leads to higher classification accuracies. The abstract also notes that like rectified linear units (ReLUs), leaky ReLUs (LReLUs) and parametrized ReLUs (PReLUs), ELUs alleviate the vanishing gradient problem via the identity for positive values.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1650,12 +1682,49 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1511_07289&amp;tag=Natural%20gradients">Natural gradients</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1511_07289&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1511_07289&amp;tag=Neural%20networks">Neural networks</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1511_07289&amp;tag=Classification">Classification</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1511_07289&amp;tag=Computational%20complexity">Computational complexity</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1511_07289&amp;tag=Generalization">Generalization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1511_07289&amp;tag=Learning">Learning</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 135.0deg;" aria-label="75% similar">
       <div class="paper-similar-card__rank-top">1</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>75%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1611_03530/">Understanding Deep Learning Requires Rethinking Generalization</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Chiyuan Zhang et al. / 2016</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 135.0deg;" aria-label="75% similar">
+      <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
         <span>75%</span>
       </div>
@@ -1674,36 +1743,20 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 135.0deg;" aria-label="75% similar">
-      <div class="paper-similar-card__rank-top">2</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>75%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1611_03530/">Understanding Deep Learning Requires Rethinking Generalization</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Chiyuan Zhang et al. / 2016</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 135.0deg;" aria-label="75% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 133.2deg;" aria-label="74% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>75%</span>
+        <span>74%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2012_krizhevsky_imagenet_classification_with_deep/">ImageNet Classification with Deep Convolutional Neural Networks</a></h3>
+      <h3><a href="../../papers/1512_03385/">Deep Residual Learning for Image Recognition</a></h3>
+
+      <p class="paper-similar-card__label">ResNet</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Alex Krizhevsky et al. / 2012</span>
+        <span>Kaiming He et al. / 2015</span>
       </div>
 
     </div>
@@ -1717,13 +1770,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1409_4842/">Going Deeper with Convolutions</a></h3>
-
-      <p class="paper-similar-card__label">Inception</p>
+      <h3><a href="../../papers/2018_arora_on_the_optimization_of/">On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Christian Szegedy et al. / 2014</span>
+        <span>Sanjeev Arora et al. / 2018</span>
       </div>
 
     </div>

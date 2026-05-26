@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1591,9 +1613,16 @@
       <a href="../../search/?year=2022">2022</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Journal%20Paper">Journal Paper</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=Journal%20of%20Artificial%20Intelligence%20Research">Journal of Artificial Intelligence Research</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1603,6 +1632,8 @@
       <a href="https://arxiv.org/abs/2210.05015" target="_blank" rel="noopener noreferrer">arXiv 2210.05015</a>
 
 
+      <a href="https://doi.org/10.1613/jair.1.14525" target="_blank" rel="noopener noreferrer">DOI 10.1613/jair.1.14525</a>
+
     </div>
   </div>
 
@@ -1610,6 +1641,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Partially observable Markov decision processes (POMDPs) provide a flexible representation for real-world decision and control problems. However, POMDPs are notoriously difficult to solve, especially when the state and observation spaces are continuous or hybrid, which is often the case for physical systems. While recent online sampling-based POMDP algorithms that plan with observation likelihood weighting have shown practical effectiveness, a general theory characterizing the approximation error of the particle filtering techniques that these algorithms use has not previously been proposed. Our main contribution is bounding the error between any POMDP and its corresponding finite sample particle belief MDP (PB-MDP) approximation. This fundamental bridge between PB-MDPs and POMDPs allows us to adapt any sampling-based MDP algorithm to a POMDP by solving the corresponding particle belief MDP, thereby extending the convergence guarantees of the MDP algorithm to the POMDP. Practically, this is implemented by using the particle filter belief transition model as the generative model for the MDP solver. While this requires access to the observation density model from the POMDP, it only increases the transition sampling complexity of the MDP solver by a factor of $\mathcal{O}(C)$, where $C$ is the number of particles. Thus, when combined with sparse sampling MDP algorithms, this approach can yield algorithms for POMDPs that have no direct theoretical dependence on the size of the state and observation spaces. In addition to our theoretical contribution, we perform five numerical experiments on benchmark POMDPs to demonstrate that a simple MDP algorithm adapted using PB-MDP approximation, Sparse-PFT, achieves performance competitive with other leading continuous observation POMDP solvers.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Partially observable Markov decision processes (POMDPs) provide a flexible representation for real-world decision and control problems. The abstract also notes that however, POMDPs are notoriously difficult to solve, especially when the state and observation spaces are continuous or hybrid, which is often the case for physical systems.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1649,8 +1683,41 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1613/jair.1.14525" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://jair.org/index.php/jair/article/view/14525" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">jair.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://jair.org/index.php/jair/article/download/14525/26961" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">jair.org</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2210_05015&amp;tag=Partial%20observability">Partial observability</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2210_05015&amp;tag=Benchmarks">Benchmarks</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2210_05015&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2210_05015&amp;tag=Sampling-based%20methods">Sampling-based methods</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2210_05015&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2210_05015&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2210_05015&amp;tag=PB-MDP">PB-MDP</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2210_05015&amp;tag=Markov%20decision%20process">Markov decision process</a>
 
 </div>
 
@@ -1658,10 +1725,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
+        <span>88%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1685,6 +1752,24 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1106_0665/">Infinite-Horizon Policy-Gradient Estimation</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Jonathan Baxter et al. / 2011</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>84%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
       <h3><a href="../../papers/1908_00261/">On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift</a></h3>
 
       <p class="paper-similar-card__label">Policy Gradient</p>
@@ -1699,55 +1784,35 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
         <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1106_0665/">Infinite-Horizon Policy-Gradient Estimation</a></h3>
+      <h3><a href="../../papers/1401_3827/">Efficient Planning under Uncertainty with Macro-actions</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Jonathan Baxter et al. / 2011</span>
+        <span>Ruijie He et al. / 2014</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1706_06491/">Data-Efficient Reinforcement Learning with Probabilistic Model Predictive Control</a></h3>
-
-      <p class="paper-similar-card__label">PETS</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Sanket Kamthe et al. / 2017</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1805_00909/">Reinforcement Learning and Control as Probabilistic Inference: Tutorial and Review</a></h3>
+      <h3><a href="../../papers/2000_baxter_direct_gradient_based_reinforcement/">Direct Gradient-Based Reinforcement Learning</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Sergey Levine / 2018</span>
+        <span>Jonathan Baxter et al. / 2000</span>
       </div>
 
     </div>

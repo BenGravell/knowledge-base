@@ -1,5 +1,5 @@
 title: 'Llama 2: Open Foundation and Fine-Tuned Chat Models'
-algorithm:
+algorithm: Llama 2
 authors:
   - Hugo Touvron
   - Louis Martin
@@ -70,14 +70,18 @@ authors:
   - Sergey Edunov
   - Thomas Scialom
 year: 2023
-source:
-type: ''
+source: arXiv
+type: Preprint
 doi:
 arxiv_id: "2307.09288"
 tags:
-abstract: >
-  In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. Our fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases. Our models outperform open-source chat models on most benchmarks we tested, and based on our human evaluations for helpfulness and safety, may be a suitable substitute for closed-source models. We provide a detailed description of our approach to fine-tuning and safety improvements of Llama 2-Chat in order to enable the community to build on our work and contribute to the responsible development of LLMs.
-summary: ''
+  - Safety
+  - Large language models
+  - Language models
+  - Benchmarks
+  - Llama 2
+abstract: In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. Our fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases. Our models outperform open-source chat models on most benchmarks we tested, and based on our human evaluations for helpfulness and safety, may be a suitable substitute for closed-source models. We provide a detailed description of our approach to fine-tuning and safety improvements of Llama 2-Chat in order to enable the community to build on our work and contribute to the responsible development of LLMs.
+summary: This paper develops and release Llama 2, a collection of pretrained and fine-tuned large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. The abstract also states that our fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases.
 link: https://arxiv.org/pdf/2307.09288
 links_alt:
 audit_status: raw

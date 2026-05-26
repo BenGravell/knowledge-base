@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,9 +1609,21 @@
       <a href="../../search/?year=2025">2025</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">CRSAIL</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1606,6 +1640,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Active imitation learning (AIL) combats covariate shift by querying an expert during training. However, expert action labeling often dominates the cost, especially in GPU-intensive simulators, human-in-the-loop settings, and robot fleets that revisit near-duplicate states. We present Conformalized Rejection Sampling for Active Imitation Learning (CRSAIL), a querying rule that requests an expert action only when the visited state is under-represented in the expert-labeled dataset. CRSAIL scores state novelty by the distance to the $K$-th nearest expert state and sets a single global threshold via conformal prediction. This threshold is the empirical $(1-α)$ quantile of on-policy calibration scores, providing a distribution-free calibration rule that links $α$ to the expected query rate and makes $α$ a task-agnostic tuning knob. This state-space querying strategy is robust to outliers and, unlike safety-gate-based AIL, can be run without real-time expert takeovers: we roll out full trajectories (episodes) with the learner and only afterward query the expert on a subset of visited states. Evaluated on MuJoCo robotics tasks, CRSAIL matches or exceeds expert-level reward while reducing total expert queries by up to 96% vs. DAgger and up to 65% vs. prior AIL methods, with empirical robustness to $α$ and $K$, easing deployment on novel systems with unknown dynamics.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Active imitation learning (AIL) combats covariate shift by querying an expert during training. The abstract also notes that however, expert action labeling often dominates the cost, especially in GPU-intensive simulators, human-in-the-loop settings, and robot fleets that revisit near-duplicate states.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1650,24 +1687,51 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_00453&amp;tag=Imitation%20learning">Imitation learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_00453&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_00453&amp;tag=Safety">Safety</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_00453&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_00453&amp;tag=Datasets">Datasets</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_00453&amp;tag=Real-time%20systems">Real-time systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_00453&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_00453&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_00453&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_00453&amp;tag=CRSAIL">CRSAIL</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_00453&amp;tag=Active%20imitation%20learning">Active imitation learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2512_00453&amp;tag=AIL">AIL</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2205_14812/">TaSIL: Taylor Series Imitation Learning</a></h3>
-
-      <p class="paper-similar-card__label">TaSIL</p>
+      <h3><a href="../../papers/2507_09061/">Action Chunking and Exploratory Data Collection Yield Exponential Improvements in Behavior Cloning for Continuous Control</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Daniel Pfrommer et al. / 2022</span>
+        <span>Thomas T. Zhang et al. / 2025</span>
       </div>
 
     </div>
@@ -1681,11 +1745,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2407_15007/">Is Behavior Cloning All You Need? Understanding Horizon in Imitation Learning</a></h3>
+      <h3><a href="../../papers/2205_14812/">TaSIL: Taylor Series Imitation Learning</a></h3>
+
+      <p class="paper-similar-card__label">TaSIL</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Dylan J. Foster et al. / 2024</span>
+        <span>Daniel Pfrommer et al. / 2022</span>
       </div>
 
     </div>
@@ -1710,18 +1776,18 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
+        <span>81%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2507_09061/">Action Chunking and Exploratory Data Collection Yield Exponential Improvements in Behavior Cloning for Continuous Control</a></h3>
+      <h3><a href="../../papers/2503_09722/">The Pitfalls of Imitation Learning When Actions Are Continuous</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Thomas T. Zhang et al. / 2025</span>
+        <span>Max Simchowitz et al. / 2025</span>
       </div>
 
     </div>
@@ -1735,11 +1801,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2503_09722/">The Pitfalls of Imitation Learning When Actions Are Continuous</a></h3>
+      <h3><a href="../../papers/2407_15007/">Is Behavior Cloning All You Need? Understanding Horizon in Imitation Learning</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Max Simchowitz et al. / 2025</span>
+        <span>Dylan J. Foster et al. / 2024</span>
       </div>
 
     </div>

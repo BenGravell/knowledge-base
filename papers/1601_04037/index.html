@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1585,9 +1607,16 @@
       <a href="../../search/?year=2016">2016</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Journal%20Paper">Journal Paper</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=The%20International%20Journal%20of%20Robotics%20Research">The International Journal of Robotics Research</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1597,6 +1626,8 @@
       <a href="https://arxiv.org/abs/1601.04037" target="_blank" rel="noopener noreferrer">arXiv 1601.04037</a>
 
 
+      <a href="https://doi.org/10.1177/0278364917712421" target="_blank" rel="noopener noreferrer">DOI 10.1177/0278364917712421</a>
+
     </div>
   </div>
 
@@ -1604,6 +1635,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We consider the problem of generating motion plans for a robot that are guaranteed to succeed despite uncertainty in the environment, parametric model uncertainty, and disturbances. Furthermore, we consider scenarios where these plans must be generated in real-time, because constraints such as obstacles in the environment may not be known until they are perceived (with a noisy sensor) at runtime. Our approach is to pre-compute a library of "funnels" along different maneuvers of the system that the state is guaranteed to remain within (despite bounded disturbances) when the feedback controller corresponding to the maneuver is executed. We leverage powerful computational machinery from convex optimization (sums-of-squares programming in particular) to compute these funnels. The resulting funnel library is then used to sequentially compose motion plans at runtime while ensuring the safety of the robot. A major advantage of the work presented here is that by explicitly taking into account the effect of uncertainty, the robot can evaluate motion plans based on how vulnerable they are to disturbances. We demonstrate and validate our method using extensive hardware experiments on a small fixed-wing airplane avoiding obstacles at high speed (~12 mph), along with thorough simulation experiments of ground vehicle and quadrotor models navigating through cluttered environments. To our knowledge, these demonstrations constitute one of the first examples of provably safe and robust control for robotic systems with complex nonlinear dynamics that need to plan in real-time in environments with complex geometric constraints.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper considers the problem of generating motion plans for a robot that are guaranteed to succeed despite uncertainty in the environment, parametric model uncertainty, and disturbances. It also considers scenarios where these plans must be generated in real-time, because constraints such as obstacles in the environment may not be known until they are perceived (with a noisy sensor) at runtime.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1643,8 +1677,55 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1177/0278364917712421" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://journals.sagepub.com/doi/10.1177/0278364917712421" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">journals.sagepub.com</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://journals.sagepub.com/doi/pdf/10.1177/0278364917712421" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">journals.sagepub.com</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://journals.sagepub.com/doi/full-xml/10.1177/0278364917712421" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">journals.sagepub.com</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1601_04037&amp;tag=Convex%20optimization">Convex optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1601_04037&amp;tag=Motion%20planning">Motion planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1601_04037&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1601_04037&amp;tag=Aerial%20robotics">Aerial robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1601_04037&amp;tag=Vehicles">Vehicles</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1601_04037&amp;tag=Safety">Safety</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1601_04037&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1601_04037&amp;tag=Uncertainty">Uncertainty</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1601_04037&amp;tag=Real-time%20systems">Real-time systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1601_04037&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1601_04037&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1601_04037&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1601_04037&amp;tag=Control">Control</a>
 
 </div>
 
@@ -1677,24 +1758,6 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2009_lindemann_simple_and_efficient_algorithms/">Simple and Efficient Algorithms for Computing Smooth, Collision-free Feedback Laws over Given Cell Decompositions</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Stephen R. Lindemann et al. / 2009</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
       <h3><a href="../../papers/2103_05572/">Risk-Averse RRT* Planning with Nonlinear Steering and Tracking Controllers for Nonlinear Robotic Systems under Uncertainty</a></h3>
 
       <p class="paper-similar-card__label">RANS-RRT*</p>
@@ -1708,30 +1771,30 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2010_tedrake_lqr_trees_feedback_motion/">LQR-trees: Feedback Motion Planning via Sums-of-Squares Verification</a></h3>
+      <h3><a href="../../papers/2205_04422/">Motion Planning around Obstacles with Convex Optimization</a></h3>
 
-      <p class="paper-similar-card__label">LQR-trees</p>
+      <p class="paper-similar-card__label">GCS</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Russ Tedrake et al. / 2010</span>
+        <span>Tobia Marcucci et al. / 2022</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">5</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1740,6 +1803,24 @@
 
       <div class="paper-similar-card__meta">
         <span>Sleiman Safaoui et al. / 2023</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>84%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2009_lindemann_simple_and_efficient_algorithms/">Simple and Efficient Algorithms for Computing Smooth, Collision-free Feedback Laws over Given Cell Decompositions</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Stephen R. Lindemann et al. / 2009</span>
       </div>
 
     </div>

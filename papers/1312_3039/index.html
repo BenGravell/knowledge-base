@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,6 +1611,8 @@
       <a href="../../search/?year=2013">2013</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Journal%20Paper">Journal Paper</a></div>
+
   </div>
 
 
@@ -1598,6 +1622,11 @@
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=Journal%20of%20Optimization%20Theory%20and%20Applications">Journal of Optimization Theory and Applications</a></div>
+  </div>
+
 
   <div class="paper-meta-card">
     <div class="paper-meta-card__label">Identifiers</div>
@@ -1606,6 +1635,8 @@
       <a href="https://arxiv.org/abs/1312.3039" target="_blank" rel="noopener noreferrer">arXiv 1312.3039</a>
 
 
+      <a href="https://doi.org/10.1007/s10957-016-0892-3" target="_blank" rel="noopener noreferrer">DOI 10.1007/s10957-016-0892-3</a>
+
     </div>
   </div>
 
@@ -1613,6 +1644,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We introduce a first order method for solving very large convex cone programs. The method uses an operator splitting method, the alternating directions method of multipliers, to solve the homogeneous self-dual embedding, an equivalent feasibility problem involving finding a nonzero point in the intersection of a subspace and a cone. This approach has several favorable properties. Compared to interior-point methods, first-order methods scale to very large problems, at the cost of requiring more time to reach very high accuracy. Compared to other first-order methods for cone programs, our approach finds both primal and dual solutions when available or a certificate of infeasibility or unboundedness otherwise, is parameter-free, and the per-iteration cost of the method is the same as applying a splitting method to the primal or dual alone. We discuss efficient implementation of the method in detail, including direct and indirect methods for computing projection onto the subspace, scaling the original problem data, and stopping criteria. We describe an open-source implementation, which handles the usual (symmetric) non-negative, second-order, and semidefinite cones as well as the (non-self-dual) exponential and power cones and their duals. We report numerical results that show speedups over interior-point cone solvers for large problems, and scaling to very large general cone programs.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper introduces a first order method for solving very large convex cone programs. The abstract also notes that the method uses an operator splitting method, the alternating directions method of multipliers, to solve the homogeneous self-dual embedding, an equivalent feasibility problem involving finding a nonzero point in the intersection of a subspace and a cone.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1652,8 +1686,43 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1007/s10957-016-0892-3" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://link.springer.com/10.1007/s10957-016-0892-3" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">link.springer.com</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://link.springer.com/content/pdf/10.1007/s10957-016-0892-3.pdf" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">link.springer.com PDF</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://link.springer.com/article/10.1007/s10957-016-0892-3/fulltext.html" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">link.springer.com</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://link.springer.com/content/pdf/10.1007/s10957-016-0892-3" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">link.springer.com</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1312_3039&amp;tag=Semidefinite%20programming">Semidefinite programming</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1312_3039&amp;tag=Accuracy">Accuracy</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1312_3039&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1312_3039&amp;tag=Conic%20optimization">Conic optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1312_3039&amp;tag=Interior%20point%20method">Interior point method</a>
 
 </div>
 
@@ -1661,10 +1730,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
+        <span>88%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1701,38 +1770,40 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>81%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2008_grant_graph_implementations_for_nonsmooth/">Graph Implementations for Nonsmooth Convex Programs</a></h3>
+      <h3><a href="../../papers/1711_08013/">OSQP: An Operator Splitting Solver for Quadratic Programs</a></h3>
 
-      <p class="paper-similar-card__label">Graph Implementations</p>
+      <p class="paper-similar-card__label">OSQP</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Michael C. Grant et al. / 2008</span>
+        <span>Bartolomeo Stellato et al. / 2017</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>81%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1992_eckstein_on_the_douglasrachford_splitting/">On the Douglas—Rachford Splitting Method and the Proximal Point Algorithm for Maximal Monotone Operators</a></h3>
+      <h3><a href="../../papers/2013_domahidi_ecos_an_socp_solver/">ECOS: An SOCP Solver for Embedded Systems</a></h3>
+
+      <p class="paper-similar-card__label">ECOS</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Jonathan Eckstein et al. / 1992</span>
+        <span>Alexander Domahidi et al. / 2013</span>
       </div>
 
     </div>
@@ -1746,13 +1817,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2013_domahidi_ecos_an_socp_solver/">ECOS: An SOCP Solver for Embedded Systems</a></h3>
-
-      <p class="paper-similar-card__label">ECOS</p>
+      <h3><a href="../../papers/1992_eckstein_on_the_douglas_rachford/">On the Douglas-Rachford Splitting Method and the Proximal Point Algorithm for Maximal Monotone Operators</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Alexander Domahidi et al. / 2013</span>
+        <span>Jonathan Eckstein et al. / 1992</span>
       </div>
 
     </div>

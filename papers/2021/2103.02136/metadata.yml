@@ -4,14 +4,21 @@ authors:
   - Margaret P. Chapman
   - Laurent Lessard
 year: 2021
-source:
-type: ''
-doi:
+source: IEEE Control Systems Letters
+type: Journal Paper
+doi: 10.1109/lcsys.2021.3086842
 arxiv_id: "2103.02136"
 tags:
-abstract: >
-  We study a linear-quadratic, optimal control problem on a discrete, finite time horizon with distributional ambiguity, in which the cost is assessed via Conditional Value-at-Risk (CVaR). We take steps toward deriving a scalable dynamic programming approach to upper-bound the optimal value function for this problem. This dynamic program yields a novel, tunable risk-averse control policy, which we compare to existing state-of-the-art methods.
-summary: ''
+  - Optimal control
+  - Control
+  - CVAR
+  - Dynamic programming
+abstract: We study a linear-quadratic, optimal control problem on a discrete, finite time horizon with distributional ambiguity, in which the cost is assessed via Conditional Value-at-Risk (CVaR). We take steps toward deriving a scalable dynamic programming approach to upper-bound the optimal value function for this problem. This dynamic program yields a novel, tunable risk-averse control policy, which we compare to existing state-of-the-art methods.
+summary: This paper studies a linear-quadratic, optimal control problem on a discrete, finite time horizon with distributional ambiguity, in which the cost is assessed via Conditional Value-at-Risk (CVaR). The abstract also states that we take steps toward deriving a scalable dynamic programming approach to upper-bound the optimal value function for this problem.
 link: https://arxiv.org/pdf/2103.02136
 links_alt:
+  - https://doi.org/10.1109/lcsys.2021.3086842
+  - https://ieeexplore.ieee.org/document/9447803/
+  - https://ieeexplore.ieee.org/ielam/7782633/9462165/9447803-aam.pdf
+  - http://xplorestaging.ieee.org/ielx7/7782633/9462165/09447803.pdf?arnumber=9447803
 audit_status: raw

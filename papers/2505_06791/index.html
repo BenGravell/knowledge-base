@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,6 +1609,8 @@
       <a href="../../search/?year=2025">2025</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1595,6 +1619,11 @@
     <div class="paper-meta-card__value">cpRRTC</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1611,6 +1640,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Motion planning is a fundamental problem in robotics that involves generating feasible trajectories for a robot to follow. Recent advances in parallel computing, particularly through CPU and GPU architectures, have significantly reduced planning times to the order of milliseconds. However, constrained motion planning especially using sampling based methods on GPUs remains underexplored. Prior work such as pRRTC leverages a tracking compiler with a CUDA backend to accelerate forward kinematics and collision checking. While effective in simple settings, their approach struggles with increased complexity in robot models or environments. In this paper, we propose a novel GPU based framework utilizing NVRTC for runtime compilation, enabling efficient handling of high complexity scenarios and supporting constrained motion planning. Experimental results demonstrate that our method achieves superior performance compared to existing approaches.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Motion planning is a fundamental problem in robotics that involves generating feasible trajectories for a robot to follow. The abstract also notes that recent advances in parallel computing, particularly through CPU and GPU architectures, have significantly reduced planning times to the order of milliseconds.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1655,6 +1687,27 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2505_06791&amp;tag=Motion%20planning">Motion planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2505_06791&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2505_06791&amp;tag=Sampling-based%20methods">Sampling-based methods</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2505_06791&amp;tag=Parallel%20computing">Parallel computing</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2505_06791&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2505_06791&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2505_06791&amp;tag=cpRRTC">cpRRTC</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2505_06791&amp;tag=CUDA">CUDA</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1679,20 +1732,20 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1705_02403/">Group Marching Tree: Sampling-Based Approximately Optimal Motion Planning on GPUs</a></h3>
+      <h3><a href="../../papers/2505_10542/">AORRTC: Almost-Surely Asymptotically Optimal Planning with RRT-Connect</a></h3>
 
-      <p class="paper-similar-card__label">GMT*</p>
+      <p class="paper-similar-card__label">AORRTC</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Brian Ichter et al. / 2017</span>
+        <span>Tyler S. Wilson et al. / 2025</span>
       </div>
 
     </div>
@@ -1706,13 +1759,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2603_10711/">Parallel-in-Time Nonlinear Optimal Control via GPU-native Sequential Convex Programming</a></h3>
+      <h3><a href="../../papers/1705_02403/">Group Marching Tree: Sampling-Based Approximately Optimal Motion Planning on GPUs</a></h3>
 
-      <p class="paper-similar-card__label">SCP</p>
+      <p class="paper-similar-card__label">GMT*</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Yilin Zou et al. / 2026</span>
+        <span>Brian Ichter et al. / 2017</span>
       </div>
 
     </div>
@@ -1739,20 +1792,20 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
+        <span>81%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2411_11833/">Differentiable GPU-Parallelized Task and Motion Planning</a></h3>
+      <h3><a href="../../papers/2603_10711/">Parallel-in-Time Nonlinear Optimal Control via GPU-native Sequential Convex Programming</a></h3>
 
-      <p class="paper-similar-card__label">cuTAMP</p>
+      <p class="paper-similar-card__label">SCP</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>William Shen et al. / 2024</span>
+        <span>Yilin Zou et al. / 2026</span>
       </div>
 
     </div>

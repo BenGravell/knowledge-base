@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,9 +1609,16 @@
       <a href="../../search/?year=2015">2015</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Journal%20Paper">Journal Paper</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=Mathematical%20Programming">Mathematical Programming</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1599,6 +1628,8 @@
       <a href="https://arxiv.org/abs/1510.08560" target="_blank" rel="noopener noreferrer">arXiv 1510.08560</a>
 
 
+      <a href="https://doi.org/10.1007/s10107-019-01440-w" target="_blank" rel="noopener noreferrer">DOI 10.1007/s10107-019-01440-w</a>
+
     </div>
   </div>
 
@@ -1606,6 +1637,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We analyze the convergence rate of the random reshuffling (RR) method, which is a randomized first-order incremental algorithm for minimizing a finite sum of convex component functions. RR proceeds in cycles, picking a uniformly random order (permutation) and processing the component functions one at a time according to this order, i.e., at each cycle, each component function is sampled without replacement from the collection. Though RR has been numerically observed to outperform its with-replacement counterpart stochastic gradient descent (SGD), characterization of its convergence rate has been a long standing open question. In this paper, we answer this question by showing that when the component functions are quadratics or smooth and the sum function is strongly convex, RR with iterate averaging and a diminishing stepsize $α_k=Θ(1/k^s)$ for $s\in (1/2,1)$ converges at rate $Θ(1/k^{2s})$ with probability one in the suboptimality of the objective value, thus improving upon the $Ω(1/k)$ rate of SGD. Our analysis draws on the theory of Polyak-Ruppert averaging and relies on decoupling the dependent cycle gradient error into an independent term over cycles and another term dominated by $α_k^2$. This allows us to apply law of large numbers to an appropriately weighted version of the cycle gradient errors, where the weights depend on the stepsize. We also provide high probability convergence rate estimates that shows decay rate of different terms and allows us to propose a modification of RR with convergence rate ${\cal O}(\frac{1}{k^2})$.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper analyzes the convergence rate of the random reshuffling (RR) method, which is a randomized first-order incremental algorithm for minimizing a finite sum of convex component functions. The abstract also notes that rR proceeds in cycles, picking a uniformly random order (permutation) and processing the component functions one at a time according to this order, i.e., at each cycle, each component function is sampled without replacement from the collection.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1645,8 +1679,39 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1007/s10107-019-01440-w" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://link.springer.com/10.1007/s10107-019-01440-w" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">link.springer.com</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://link.springer.com/content/pdf/10.1007/s10107-019-01440-w.pdf" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">link.springer.com PDF</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://link.springer.com/article/10.1007/s10107-019-01440-w/fulltext.html" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">link.springer.com</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1510_08560&amp;tag=Gradient%20descent">Gradient descent</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1510_08560&amp;tag=Stochastic%20gradients">Stochastic gradients</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1510_08560&amp;tag=RR">RR</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1510_08560&amp;tag=SGD">SGD</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1510_08560&amp;tag=Stochastic%20gradient%20descent">Stochastic gradient descent</a>
 
 </div>
 
@@ -1654,8 +1719,28 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">1</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>84%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2013_johnson_accelerating_stochastic_gradient_descent/">Accelerating Stochastic Gradient Descent Using Predictive Variance Reduction</a></h3>
+
+      <p class="paper-similar-card__label">SVRG</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Rie Johnson et al. / 2013</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+      <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
         <span>83%</span>
       </div>
@@ -1675,7 +1760,27 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>83%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1202_6258/">A Stochastic Gradient Method with an Exponential Convergence Rate for Finite Training Sets</a></h3>
+
+      <p class="paper-similar-card__label">SAG</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Nicolas Le Roux et al. / 2012</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
         <span>83%</span>
       </div>
@@ -1693,57 +1798,17 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
         <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2013_johnson_accelerating_stochastic_gradient_descent/">Accelerating Stochastic Gradient Descent Using Predictive Variance Reduction</a></h3>
-
-      <p class="paper-similar-card__label">SVRG</p>
+      <h3><a href="../../papers/1905_10018/">Momentum-Based Variance Reduction in Non-Convex SGD</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Rie Johnson et al. / 2013</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2109_05059/">The Speed-Robustness Trade-Off for First-Order Methods with Additive Gradient Noise</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Bryan Van Scoy et al. / 2021</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1202_6258/">A Stochastic Gradient Method with an Exponential Convergence Rate for Finite Training Sets</a></h3>
-
-      <p class="paper-similar-card__label">SAG</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Nicolas Le Roux et al. / 2012</span>
+        <span>Ashok Cutkosky et al. / 2019</span>
       </div>
 
     </div>

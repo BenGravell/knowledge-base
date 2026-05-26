@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1591,6 +1613,8 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1599,6 +1623,11 @@
     <div class="paper-meta-card__value">JZ-Tree</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1615,6 +1644,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Algorithms based on spatial tree traversal are widely regarded as among the most efficient and flexible approaches for many problems in CPU-based high-performance computing (HPC). However, directly transferring these algorithms to GPU architectures often yields substantially smaller performance gains than expected in light of the high computational throughput of modern GPUs. The branching nature of tree algorithms leads to thread divergence and irregular memory access patterns -- both of which may severely limit GPU performance. To address these challenges, we propose a Morton (z-order) 'plane-based tree hierarchy' that is specifically designed for GPU architectures. The resulting flattened data layout enables efficient dual-tree traversal with collaborative execution across thread groups, leading to highly coalesced memory access patterns. Based on this framework we present implementations of two important spatial algorithms -- exact $k$-nearest neighbour search and friends-of-friends (FoF) clustering. For both cases, we observe more than an order-of-magnitude performance improvement over the closest competing GPU libraries for large problem sizes ($N \gtrsim 10^7$), together with strong scaling to distributed multi-GPU systems. We provide an open-source implementation, 'JZ-Tree' (JAX z-order tree), which serves as a foundation for efficient GPU implementations of a broad class of tree-based algorithms.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Algorithms based on spatial tree traversal are widely regarded as among the most efficient and flexible approaches for many problems in CPU-based high-performance computing (HPC). The abstract also notes that however, directly transferring these algorithms to GPU architectures often yields substantially smaller performance gains than expected in light of the high computational throughput of modern GPUs.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1659,14 +1691,31 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_05885&amp;tag=Clustering">Clustering</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_05885&amp;tag=Distributed%20systems">Distributed systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_05885&amp;tag=JZ-Tree">JZ-Tree</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_05885&amp;tag=HPC">HPC</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_05885&amp;tag=Tree%20traversal">Tree traversal</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_05885&amp;tag=CUDA">CUDA</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>81%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1683,10 +1732,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 142.2deg;" aria-label="79% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
+        <span>79%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1703,10 +1752,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 142.2deg;" aria-label="79% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>79%</span>
+        <span>78%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1723,28 +1772,8 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 136.8deg;" aria-label="76% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>76%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2604_23951/">Presolving for GPU-Accelerated First-Order LP Solvers</a></h3>
-
-      <p class="paper-similar-card__label">PSLP</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Daniel Cederberg et al. / 2026</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 135.0deg;" aria-label="75% similar">
-      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
         <span>75%</span>
       </div>
@@ -1757,6 +1786,24 @@
 
       <div class="paper-similar-card__meta">
         <span>Nicolas Perrault et al. / 2024</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 133.2deg;" aria-label="74% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>74%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1996_gottschalk_obbtree/">OBBTree</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>S. Gottschalk et al. / 1996</span>
       </div>
 
     </div>

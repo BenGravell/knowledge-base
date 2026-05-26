@@ -1,4 +1,4 @@
-title: "Integrating Asymptotically-optimal Path Planning with Local Optimization"
+title: Integrating Asymptotically-optimal Path Planning with Local Optimization
 algorithm:
 authors:
   - Scott Paulin
@@ -6,14 +6,18 @@ authors:
   - XiaoQi Chen
   - Richard Green
 year: 2017
-source:
-type: ''
+source: arXiv
+type: Preprint
 doi:
 arxiv_id: "1708.06056"
 tags:
-abstract: >
-  Many robots operating in unpredictable environments require an online path planning algorithm that can quickly compute high quality paths. Asymptotically optimal planners are capable of finding the optimal path, but can be slow to converge. Local optimisation algorithms are capable of quickly improving a solution, but are not guaranteed to converge to the optimal solution. In this paper we develop a new way to integrate an asymptotically optimal planners with a local optimiser. We test our approach using RRTConnect* with a short-cutting local optimiser. Our approach results in a significant performance improvement when compared with the state-of-the-art RRTConnect* asymptotically optimal planner and computes paths that are 31% faster to execute when both are given 3 seconds of planning time.
-summary: ''
+  - Path planning
+  - Robotics
+  - Online algorithms
+  - Optimization
+  - Planning
+abstract: Many robots operating in unpredictable environments require an online path planning algorithm that can quickly compute high quality paths. Asymptotically optimal planners are capable of finding the optimal path, but can be slow to converge. Local optimisation algorithms are capable of quickly improving a solution, but are not guaranteed to converge to the optimal solution. In this paper we develop a new way to integrate an asymptotically optimal planners with a local optimiser. We test our approach using RRTConnect* with a short-cutting local optimiser. Our approach results in a significant performance improvement when compared with the state-of-the-art RRTConnect* asymptotically optimal planner and computes paths that are 31\% faster to execute when both are given 3 seconds of planning time.
+summary: Many robots operating in unpredictable environments require an online path planning algorithm that can quickly compute high quality paths. The abstract also notes that asymptotically optimal planners are capable of finding the optimal path, but can be slow to converge.
 link: https://arxiv.org/pdf/1708.06056
 links_alt:
 audit_status: raw

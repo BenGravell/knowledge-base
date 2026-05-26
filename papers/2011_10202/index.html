@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,9 +1609,21 @@
       <a href="../../search/?year=2020">2020</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Conference%20Paper">Conference Paper</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">CLIPPER</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=IEEE%20International%20Conference%20on%20Robotics%20and%20Automation%20%28ICRA%29">IEEE International Conference on Robotics and Automation (ICRA)</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1599,6 +1633,8 @@
       <a href="https://arxiv.org/abs/2011.10202" target="_blank" rel="noopener noreferrer">arXiv 2011.10202</a>
 
 
+      <a href="https://doi.org/10.1109/icra48506.2021.9561069" target="_blank" rel="noopener noreferrer">DOI 10.1109/icra48506.2021.9561069</a>
+
     </div>
   </div>
 
@@ -1606,6 +1642,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We present CLIPPER (Consistent LInking, Pruning, and Pairwise Error Rectification), a framework for robust data association in the presence of noise and outliers. We formulate the problem in a graph-theoretic framework using the notion of geometric consistency. State-of-the-art techniques that use this framework utilize either combinatorial optimization techniques that do not scale well to large-sized problems, or use heuristic approximations that yield low accuracy in high-noise, high-outlier regimes. In contrast, CLIPPER uses a relaxation of the combinatorial problem and returns solutions that are guaranteed to correspond to the optima of the original problem. Low time complexity is achieved with an efficient projected gradient ascent approach. Experiments indicate that CLIPPER maintains a consistently low runtime of 15 ms where exact methods can require up to 24 s at their peak, even on small-sized problems with 200 associations. When evaluated on noisy point cloud registration problems, CLIPPER achieves 100% precision and 98% recall in 90% outlier regimes while competing algorithms begin degrading by 70% outliers. In an instance of associating noisy points of the Stanford Bunny with 990 outlier associations and only 10 inlier associations, CLIPPER successfully returns 8 inlier associations with 100% precision in 138 ms. Code is available at https://mit-acl.github.io/clipper.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper presents CLIPPER (Consistent LInking, Pruning, and Pairwise Error Rectification), a framework for robust data association in the presence of noise and outliers. The abstract also states that we formulate the problem in a graph-theoretic framework using the notion of geometric consistency.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1645,8 +1684,35 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1109/icra48506.2021.9561069" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://ieeexplore.ieee.org/document/9561069/" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">ieeexplore.ieee.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://xplorestaging.ieee.org/ielx7/9560720/9560666/09561069.pdf?arnumber=9561069" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">xplorestaging.ieee.org PDF</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2011_10202&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2011_10202&amp;tag=Graphs">Graphs</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2011_10202&amp;tag=Accuracy">Accuracy</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2011_10202&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2011_10202&amp;tag=CLIPPER">CLIPPER</a>
 
 </div>
 
@@ -1654,14 +1720,16 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 165.6deg;" aria-label="92% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 162.0deg;" aria-label="90% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>92%</span>
+        <span>90%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2402_15464/">CLIPPER+: A Fast Maximal Clique Algorithm for Robust Global Registration</a></h3>
+
+      <p class="paper-similar-card__label">CLIPPER+</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1672,48 +1740,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 135.0deg;" aria-label="75% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 133.2deg;" aria-label="74% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>75%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2012_04456/">Understanding How Dimension Reduction Tools Work: An Empirical Approach to Deciphering t-SNE, UMAP, TriMAP, and PaCMAP for Data Visualization</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Yingfan Wang et al. / 2020</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 135.0deg;" aria-label="75% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>75%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2201_13360/">Hydra: A Real-time Spatial Perception System for 3D Scene Graph Construction and Optimization</a></h3>
-
-      <p class="paper-similar-card__label">Hydra</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Nathan Hughes et al. / 2022</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 135.0deg;" aria-label="75% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>75%</span>
+        <span>74%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1730,20 +1760,56 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 133.2deg;" aria-label="74% similar">
-      <div class="paper-similar-card__rank-top">5</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 131.4deg;" aria-label="73% similar">
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>74%</span>
+        <span>73%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2506_13753/">Edge Nearest Neighbor: Neighbor-Finding Revisited in Sampling-Based Motion Planning</a></h3>
+      <h3><a href="../../papers/2014_muja_scalable_nearest_neighbor_algorithms/">Scalable Nearest Neighbor Algorithms for High Dimensional Data</a></h3>
 
-      <p class="paper-similar-card__label">Edge Nearest Neighbor</p>
+      <p class="paper-similar-card__label">FLANN</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Stav Ashur et al. / 2025</span>
+        <span>Marius Muja et al. / 2014</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 129.6deg;" aria-label="72% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>72%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2021_dellaert_factor_graphs_exploiting_structure/">Factor Graphs: Exploiting Structure in Robotics</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Frank Dellaert / 2021</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 129.6deg;" aria-label="72% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>72%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2008_kaess_isam_incremental_smoothing_and/">iSAM: Incremental Smoothing and Mapping</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>M. Kaess et al. / 2008</span>
       </div>
 
     </div>

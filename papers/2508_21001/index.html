@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,6 +1609,8 @@
       <a href="../../search/?year=2025">2025</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1595,6 +1619,11 @@
     <div class="paper-meta-card__value">Diffusion Trees</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1611,6 +1640,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Kinodynamic motion planning is concerned with computing collision-free trajectories while abiding by the robot's dynamic constraints. This critical problem is often tackled using sampling-based planners (SBPs) that explore the robot's high-dimensional state space by constructing a search tree via action propagations. Although SBPs can offer global guarantees on completeness and solution quality, their performance is often hindered by slow exploration due to uninformed action sampling. Learning-based approaches can yield significantly faster runtimes, yet they fail to generalize to out-of-distribution (OOD) scenarios and lack critical guarantees, e.g., safety, thus limiting their deployment on physical robots. We present Diffusion Tree (DiTree): a provably-generalizable framework leveraging diffusion policies (DPs) as informed samplers to efficiently guide state-space search within SBPs. DiTree combines DP's ability to model complex distributions of expert trajectories, conditioned on local observations, with the completeness of SBPs to yield provably-safe solutions within a few action propagation iterations for complex dynamical systems. We demonstrate DiTree's power with an implementation combining the popular RRT planner with a DP action sampler trained on a single environment. In comprehensive evaluations on OOD scenarios, DiTree achieves on average a 30% higher success rate compared to standalone DP or SBPs, on a dynamic car and Mujoco's ant robot settings (for the latter, SBPs fail completely). Beyond simulation, real-world car experiments confirm DiTree's applicability, demonstrating superior trajectory quality and robustness even under severe sim-to-real gaps. Project webpage: https://sites.google.com/view/ditree.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Kinodynamic motion planning is concerned with computing collision-free trajectories while abiding by the robot's dynamic constraints. The abstract also notes that this critical problem is often tackled using sampling-based planners (SBPs) that explore the robot's high-dimensional state space by constructing a search tree via action propagations.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1655,6 +1687,39 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2508_21001&amp;tag=Motion%20planning">Motion planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2508_21001&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2508_21001&amp;tag=Safety">Safety</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2508_21001&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2508_21001&amp;tag=Diffusion%20models">Diffusion models</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2508_21001&amp;tag=Sampling-based%20methods">Sampling-based methods</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2508_21001&amp;tag=Search%20trees">Search trees</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2508_21001&amp;tag=Generalization">Generalization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2508_21001&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2508_21001&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2508_21001&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2508_21001&amp;tag=Diffusion%20trees">Diffusion trees</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2508_21001&amp;tag=Out-of-distribution">Out-of-distribution</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2508_21001&amp;tag=OOD">OOD</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1666,11 +1731,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2508_21800/">Tree-Guided Diffusion Planner</a></h3>
+      <h3><a href="../../papers/2004_lamiraux_kinodynamic_motion_planning_connecting/">Kinodynamic Motion Planning: Connecting Exploration Trees Using Trajectory Optimization Methods</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Hyeonseong Jeon et al. / 2025</span>
+        <span>F. Lamiraux et al. / 2004</span>
       </div>
 
     </div>
@@ -1684,31 +1749,33 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2004_lamiraux_kinodynamic_motion_planning_connecting/">Kinodynamic Motion Planning: Connecting Exploration Trees Using Trajectory Optimization Methods</a></h3>
+      <h3><a href="../../papers/2403_10745/">iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization</a></h3>
 
-      <p class="paper-similar-card__label">Trajectory Optimization</p>
+      <p class="paper-similar-card__label">iDb-RRT</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>F. Lamiraux et al. / 2004</span>
+        <span>Joaquim Ortiz-Haro et al. / 2024</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>87%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2503_05539/">Accelerating db-A* for Kinodynamic Motion Planning Using Diffusion</a></h3>
+      <h3><a href="../../papers/1710_10122/">RRT-CoLearn: Towards Kinodynamic Planning without Numerical Trajectory Optimization</a></h3>
+
+      <p class="paper-similar-card__label">RRT-CoLearn</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Julius Franke et al. / 2025</span>
+        <span>Wouter Wolfslag et al. / 2017</span>
       </div>
 
     </div>
@@ -1722,13 +1789,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2203_11108/">db-A*: Discontinuity-bounded Search for Kinodynamic Mobile Robot Motion Planning</a></h3>
+      <h3><a href="../../papers/2508_21800/">Tree-Guided Diffusion Planner</a></h3>
 
-      <p class="paper-similar-card__label">db-A*</p>
+      <p class="paper-similar-card__label">TDP</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Wolfgang Hoenig et al. / 2022</span>
+        <span>Hyeonseong Jeon et al. / 2025</span>
       </div>
 
     </div>
@@ -1742,13 +1809,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2403_10745/">iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization</a></h3>
+      <h3><a href="../../papers/1809_02399/">Sampling-based Optimal Kinodynamic Planning with Motion Primitives</a></h3>
 
-      <p class="paper-similar-card__label">iDb-RRT</p>
+      <p class="paper-similar-card__label">RRT*_MotionPrimitives</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Joaquim Ortiz-Haro et al. / 2024</span>
+        <span>Basak Sakcak et al. / 2018</span>
       </div>
 
     </div>

@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,9 +1609,16 @@
       <a href="../../search/?year=2021">2021</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Journal%20Paper">Journal Paper</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=SIAM%20Journal%20on%20Optimization">SIAM Journal on Optimization</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1599,6 +1628,8 @@
       <a href="https://arxiv.org/abs/2103.05478" target="_blank" rel="noopener noreferrer">arXiv 2103.05478</a>
 
 
+      <a href="https://doi.org/10.1137/22m1510261" target="_blank" rel="noopener noreferrer">DOI 10.1137/22m1510261</a>
+
     </div>
   </div>
 
@@ -1606,6 +1637,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Most zeroth-order optimization algorithms mimic a first-order algorithm but replace the gradient of the objective function with some gradient estimator that can be computed from a small number of function evaluations. This estimator is constructed randomly, and its expectation matches the gradient of a smooth approximation of the objective function whose quality improves as the underlying smoothing parameter $δ$ is reduced. Gradient estimators requiring a smaller number of function evaluations are preferable from a computational point of view. While estimators based on a single function evaluation can be obtained by use of the divergence theorem from vector calculus, their variance explodes as $δ$ tends to $0$. Estimators based on multiple function evaluations, on the other hand, suffer from numerical cancellation when $δ$ tends to $0$. To combat both effects simultaneously, we extend the objective function to the complex domain and construct a gradient estimator that evaluates the objective at a complex point whose coordinates have small imaginary parts of the order $δ$. As this estimator requires only one function evaluation, it is immune to cancellation. In addition, its variance remains bounded as $δ$ tends to $0$. We prove that zeroth-order algorithms that use our estimator offer the same theoretical convergence guarantees as the state-of-the-art methods. Numerical experiments suggest, however, that they often converge faster in practice.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Most zeroth-order optimization algorithms mimic a first-order algorithm but replace the gradient of the objective function with some gradient estimator that can be computed from a small number of function evaluations. The abstract also notes that this estimator is constructed randomly, and its expectation matches the gradient of a smooth approximation of the objective function whose quality improves as the underlying smoothing parameter $δ$ is reduced.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1645,8 +1679,27 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1137/22m1510261" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://doi.org/10.1137/22M1510261" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://epubs.siam.org/doi/10.1137/22M1510261" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">epubs.siam.org</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2103_05478&amp;tag=Optimization">Optimization</a>
 
 </div>
 
@@ -1690,10 +1743,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1710,18 +1763,20 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2406_19617/">Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity</a></h3>
+      <h3><a href="../../papers/2202_04612/">Zeroth-Order Randomized Subspace Newton Methods</a></h3>
+
+      <p class="paper-similar-card__label">Newton&#39;s Method</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Qian Yu et al. / 2024</span>
+        <span>Erik Berglund et al. / 2022</span>
       </div>
 
     </div>
@@ -1735,13 +1790,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2015_nesterov_random_gradient_free_minimization/">Random Gradient-Free Minimization of Convex Functions</a></h3>
+      <h3><a href="../../papers/1911_06317/">Gradientless Descent: High-Dimensional Zeroth-Order Optimization</a></h3>
 
-      <p class="paper-similar-card__label">Random Gradient-Free Method</p>
+      <p class="paper-similar-card__label">GLD</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Yurii Nesterov et al. / 2015</span>
+        <span>Daniel Golovin et al. / 2019</span>
       </div>
 
     </div>

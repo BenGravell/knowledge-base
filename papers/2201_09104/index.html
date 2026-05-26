@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,9 +1609,16 @@
       <a href="../../search/?year=2022">2022</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1606,6 +1635,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Natural policy gradient methods are popular reinforcement learning methods that improve the stability of policy gradient methods by utilizing second-order approximations to precondition the gradient with the inverse of the Fisher-information matrix. However, to the best of the authors' knowledge, there has not been a study that has investigated the effects of different second-order approximations in a comprehensive and systematic manner. To address this, five different second-order approximations were studied and compared across multiple key metrics including performance, stability, sample efficiency, and computation time. Furthermore, hyperparameters which aren't typically acknowledged in the literature are studied including the effect of different batch sizes and optimizing the critic network with the natural gradient. Experimental results show that on average, improved second-order approximations achieve the best performance and that using properly tuned hyperparameters can lead to large improvements in performance and sample efficiency ranging up to +181%. We also make the code in this study available at https://github.com/gebob19/natural-policy-gradient-reinforcement-learning.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Natural policy gradient methods are popular reinforcement learning methods that improve the stability of policy gradient methods by utilizing second-order approximations to precondition the gradient with the inverse of the Fisher-information matrix. The abstract also notes that however, to the best of the authors' knowledge, there has not been a study that has investigated the effects of different second-order approximations in a comprehensive and systematic manner.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1650,6 +1682,21 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2201_09104&amp;tag=Natural%20gradients">Natural gradients</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2201_09104&amp;tag=Policy%20gradients">Policy gradients</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2201_09104&amp;tag=Reinforcement%20learning">Reinforcement learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2201_09104&amp;tag=Stability%20analysis">Stability analysis</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2201_09104&amp;tag=Learning">Learning</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1658,42 +1705,6 @@
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
         <span>86%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2023_yuan_stochastic_second_order_methods/">Stochastic Second Order Methods and Finite Time Analysis of Policy Gradient Methods</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Rui Yuan / 2023</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
-      <div class="paper-similar-card__rank-top">2</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1999_sutton_policy_gradient_methods_for/">Policy Gradient Methods for Reinforcement Learning with Function Approximation</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Richard Sutton et al. / 1999</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1710,8 +1721,26 @@
   </article>
 
   <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>85%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2023_yuan_stochastic_second_order_methods/">Stochastic Second Order Methods and Finite Time Analysis of Policy Gradient Methods</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Rui Yuan / 2023</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
         <span>84%</span>
       </div>
@@ -1730,10 +1759,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">5</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1744,6 +1773,24 @@
 
       <div class="paper-similar-card__meta">
         <span>Amirreza Valaei et al. / 2025</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>83%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1999_sutton_policy_gradient_methods_for/">Policy Gradient Methods for Reinforcement Learning with Function Approximation</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Richard Sutton et al. / 1999</span>
       </div>
 
     </div>

@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1591,14 +1613,21 @@
       <a href="../../search/?year=2024">2024</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Conference%20Paper">Conference Paper</a></div>
+
   </div>
 
 
   <div class="paper-meta-card">
     <div class="paper-meta-card__label">Algorithm</div>
-    <div class="paper-meta-card__value">Trajectory Optimization</div>
+    <div class="paper-meta-card__value">STROM</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=Springer%20Proceedings%20in%20Advanced%20Robotics">Springer Proceedings in Advanced Robotics</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1608,6 +1637,8 @@
       <a href="https://arxiv.org/abs/2406.05846" target="_blank" rel="noopener noreferrer">arXiv 2406.05846</a>
 
 
+      <a href="https://doi.org/10.1007/978-3-032-09967-9_3" target="_blank" rel="noopener noreferrer">DOI 10.1007/978-3-032-09967-9_3</a>
+
     </div>
   </div>
 
@@ -1615,6 +1646,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We propose semidefinite trajectory optimization (STROM), a framework that computes fast and certifiably optimal solutions for nonconvex trajectory optimization problems defined by polynomial objectives and constraints. STROM employs sparse second-order Lasserre's hierarchy to generate semidefinite program (SDP) relaxations of trajectory optimization. Different from existing tools (e.g., YALMIP and SOSTOOLS in Matlab), STROM generates chain-like multiple-block SDPs with only positive semidefinite (PSD) variables. Moreover, STROM does so two orders of magnitude faster. Underpinning STROM is cuADMM, the first ADMM-based SDP solver implemented in CUDA and runs in GPUs (with C/C++ extension). cuADMM builds upon the symmetric Gauss-Seidel ADMM algorithm and leverages GPU parallelization to speedup solving sparse linear systems and projecting onto PSD cones. In five trajectory optimization problems (inverted pendulum, cart-pole, vehicle landing, flying robot, and car back-in), cuADMM computes optimal trajectories (with certified suboptimality below 1%) in minutes (when other solvers take hours or run out of memory) and seconds (when others take minutes). Further, when warmstarted by data-driven initialization in the inverted pendulum problem, cuADMM delivers real-time performance: providing certifiably optimal trajectories in 0.66 seconds despite the SDP has 49,500 variables and 47,351 constraints.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper proposes semidefinite trajectory optimization (STROM), a framework that computes fast and certifiably optimal solutions for nonconvex trajectory optimization problems defined by polynomial objectives and constraints. The abstract also notes that sTROM employs sparse second-order Lasserre's hierarchy to generate semidefinite program (SDP) relaxations of trajectory optimization.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1654,8 +1688,45 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1007/978-3-032-09967-9_3" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://link.springer.com/10.1007/978-3-032-09967-9_3" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">link.springer.com</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://link.springer.com/content/pdf/10.1007/978-3-032-09967-9_3" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">link.springer.com</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_05846&amp;tag=Semidefinite%20programming">Semidefinite programming</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_05846&amp;tag=Nonconvex%20optimization">Nonconvex optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_05846&amp;tag=Trajectory%20optimization">Trajectory optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_05846&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_05846&amp;tag=Vehicles">Vehicles</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_05846&amp;tag=Real-time%20systems">Real-time systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_05846&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_05846&amp;tag=STROM">STROM</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_05846&amp;tag=SDP">SDP</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_05846&amp;tag=PSD">PSD</a>
 
 </div>
 
@@ -1690,6 +1761,26 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2511_14752/">A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces</a></h3>
+
+      <p class="paper-similar-card__label">Trajectory Optimization</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Justin Ganiban et al. / 2025</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>84%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
       <h3><a href="../../papers/2603_10711/">Parallel-in-Time Nonlinear Optimal Control via GPU-native Sequential Convex Programming</a></h3>
 
       <p class="paper-similar-card__label">SCP</p>
@@ -1704,29 +1795,9 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2511_14752/">A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces</a></h3>
-
-      <p class="paper-similar-card__label">Trajectory Optimization</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Justin Ganiban et al. / 2025</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1743,10 +1814,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">

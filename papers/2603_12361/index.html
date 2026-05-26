@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,6 +1611,8 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1597,6 +1621,11 @@
     <div class="paper-meta-card__value">GNN-DIP</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1613,6 +1642,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Motion planning through narrow passages remains a core challenge: sampling-based planners rarely place samples inside these narrow but critical regions, and even when samples land inside a passage, the straight-line connections between them run close to obstacle boundaries and are frequently rejected by collision checking. Decomposition-based planners resolve both issues by partitioning free space into convex cells -- every passage is captured exactly as a cell boundary, and any path within a cell is collision-free by construction. However, the number of candidate corridors through the cell graph grows combinatorially with environment complexity, creating a bottleneck in corridor selection. We present GNN-DIP, a framework that addresses this by integrating a Graph Neural Network (GNN) with a two-phase Decomposition-Informed Planner (DIP). The GNN predicts portal scores on the cell adjacency graph to bias corridor search toward near-optimal regions while preserving completeness. In 2D, Constrained Delaunay Triangulation (CDT) with the Funnel algorithm yields exact shortest paths within corridors; in 3D, Slab convex decomposition with portal-face sampling provides near-optimal path evaluation. Benchmarks on 2D narrow-passage scenarios, 3D bottleneck environments with up to 246 obstacles, and dynamic 2D settings show that GNN-DIP achieves 99--100% success rates with 2--280 times speedup over sampling-based baselines.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Motion planning through narrow passages remains a core challenge: sampling-based planners rarely place samples inside these narrow but critical regions, and even when samples land inside a passage, the straight-line connections between them run close to obstacle boundaries and are frequently rejected by collision checking.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1657,18 +1689,55 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=Motion%20planning">Motion planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=Neural%20networks">Neural networks</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=Graph%20neural%20networks">Graph neural networks</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=Graphs">Graphs</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=Benchmarks">Benchmarks</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=Sampling-based%20methods">Sampling-based methods</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=GNN-DIP">GNN-DIP</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=GNN">GNN</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=Two-phase">Two-phase</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=Decomposition-informed">Decomposition-informed</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=DIP">DIP</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=Delaunay%20triangulation">Delaunay triangulation</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_12361&amp;tag=CDT">CDT</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2407_08848/">GCS*: Forward Heuristic Search on Implicit Graphs of Convex Sets</a></h3>
+
+      <p class="paper-similar-card__label">GCS*</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1704,21 +1773,23 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1809_10252/">Deeply Informed Neural Sampling for Robot Motion Planning</a></h3>
+      <h3><a href="../../papers/1405_5848/">Batch Informed Trees (BIT*): Sampling-based Optimal Planning via the Heuristically Guided Search of Implicit Random Geometric Graphs</a></h3>
+
+      <p class="paper-similar-card__label">BIT*</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Ahmed H. Qureshi et al. / 2018</span>
+        <span>Jonathan D. Gammell et al. / 2014</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1735,18 +1806,18 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2508_21800/">Tree-Guided Diffusion Planner</a></h3>
+      <h3><a href="../../papers/1809_10252/">Deeply Informed Neural Sampling for Robot Motion Planning</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Hyeonseong Jeon et al. / 2025</span>
+        <span>Ahmed H. Qureshi et al. / 2018</span>
       </div>
 
     </div>

@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1591,6 +1613,8 @@
       <a href="../../search/?year=2016">2016</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1599,6 +1623,11 @@
     <div class="paper-meta-card__value">Q-Prop</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1615,6 +1644,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Model-free deep reinforcement learning (RL) methods have been successful in a wide variety of simulated domains. However, a major obstacle facing deep RL in the real world is their high sample complexity. Batch policy gradient methods offer stable learning, but at the cost of high variance, which often requires large batches. TD-style methods, such as off-policy actor-critic and Q-learning, are more sample-efficient but biased, and often require costly hyperparameter sweeps to stabilize. In this work, we aim to develop methods that combine the stability of policy gradients with the efficiency of off-policy RL. We present Q-Prop, a policy gradient method that uses a Taylor expansion of the off-policy critic as a control variate. Q-Prop is both sample efficient and stable, and effectively combines the benefits of on-policy and off-policy methods. We analyze the connection between Q-Prop and existing model-free algorithms, and use control variate theory to derive two variants of Q-Prop with conservative and aggressive adaptation. We show that conservative Q-Prop provides substantial gains in sample efficiency over trust region policy optimization (TRPO) with generalized advantage estimation (GAE), and improves stability over deep deterministic policy gradient (DDPG), the state-of-the-art on-policy and off-policy methods, on OpenAI Gym's MuJoCo continuous control environments.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Model-free deep reinforcement learning (RL) methods have been successful in a wide variety of simulated domains. The abstract also notes that however, a major obstacle facing deep RL in the real world is their high sample complexity.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1659,12 +1691,65 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1611_02247&amp;tag=Policy%20gradients">Policy gradients</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1611_02247&amp;tag=Reinforcement%20learning">Reinforcement learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1611_02247&amp;tag=Q-learning">Q-learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1611_02247&amp;tag=Stability%20analysis">Stability analysis</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1611_02247&amp;tag=Sample%20complexity">Sample complexity</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1611_02247&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1611_02247&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1611_02247&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1611_02247&amp;tag=Q-Prop">Q-Prop</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1611_02247&amp;tag=RL">RL</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1611_02247&amp;tag=TRPO">TRPO</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1611_02247&amp;tag=With%20generalized%20advantage%20estimation">With generalized advantage estimation</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1611_02247&amp;tag=GAE">GAE</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1611_02247&amp;tag=DDPG">DDPG</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">1</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>86%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1509_02971/">Continuous Control with Deep Reinforcement Learning</a></h3>
+
+      <p class="paper-similar-card__label">DDPG</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Timothy P. Lillicrap et al. / 2015</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+      <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
         <span>86%</span>
       </div>
@@ -1684,9 +1769,29 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
         <span>85%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2014_silver_deterministic_policy_gradient_algorithms/">Deterministic Policy Gradient Algorithms</a></h3>
+
+      <p class="paper-similar-card__label">DPG</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>David Silver et al. / 2014</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1703,44 +1808,6 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1509_02971/">Continuous Control with Deep Reinforcement Learning</a></h3>
-
-      <p class="paper-similar-card__label">DDPG</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Timothy P. Lillicrap et al. / 2015</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1801_05039/">Global Convergence of Policy Gradient Methods for the Linear Quadratic Regulator</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Maryam Fazel et al. / 2018</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
@@ -1748,11 +1815,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1999_sutton_policy_gradient_methods_for/">Policy Gradient Methods for Reinforcement Learning with Function Approximation</a></h3>
+      <h3><a href="../../papers/2210_04810/">Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Richard Sutton et al. / 1999</span>
+        <span>Bin Hu et al. / 2022</span>
       </div>
 
     </div>

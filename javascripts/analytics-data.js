@@ -3,13 +3,13 @@ window.analyticsData = {
     "totalPapers": 1449,
     "datedPapers": 1449,
     "undatedPapers": 0,
-    "uniqueAuthors": 5163,
-    "uniqueSources": 403,
-    "uniqueTags": 1532,
+    "uniqueAuthors": 5414,
+    "uniqueSources": 438,
+    "uniqueTags": 2229,
     "minYear": 1816,
     "maxYear": 2026,
     "arxivPapers": 800,
-    "doiPapers": 689
+    "doiPapers": 924
   },
   "years": [
     {
@@ -2373,6 +2373,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "C Raymond",
+      "count": 2
+    },
+    {
       "label": "C. Canudas de Wit",
       "count": 2
     },
@@ -2898,6 +2902,10 @@ window.analyticsData = {
     },
     {
       "label": "Issam Laradji",
+      "count": 2
+    },
+    {
+      "label": "J Szustakowki",
       "count": 2
     },
     {
@@ -4453,7 +4461,103 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "A Bateman",
+      "count": 1
+    },
+    {
+      "label": "A Coulson",
+      "count": 1
+    },
+    {
+      "label": "A Delehaunty",
+      "count": 1
+    },
+    {
+      "label": "A Dunham",
+      "count": 1
+    },
+    {
+      "label": "A F Smit",
+      "count": 1
+    },
+    {
+      "label": "A Felsenfeld",
+      "count": 1
+    },
+    {
+      "label": "A Fujiyama",
+      "count": 1
+    },
+    {
+      "label": "A Heaford",
+      "count": 1
+    },
+    {
+      "label": "A Hunt",
+      "count": 1
+    },
+    {
+      "label": "A Kaspryzk",
+      "count": 1
+    },
+    {
+      "label": "A Madan",
+      "count": 1
+    },
+    {
+      "label": "A McLysaght",
+      "count": 1
+    },
+    {
+      "label": "A McMurray",
+      "count": 1
+    },
+    {
+      "label": "A Mungall",
+      "count": 1
+    },
+    {
+      "label": "A Olsen",
+      "count": 1
+    },
+    {
+      "label": "A P Abola",
+      "count": 1
+    },
+    {
+      "label": "A Patrinos",
+      "count": 1
+    },
+    {
+      "label": "A Rosenthal",
+      "count": 1
+    },
+    {
+      "label": "A Rump",
+      "count": 1
+    },
+    {
       "label": "A S Huang",
+      "count": 1
+    },
+    {
+      "label": "A Sheridan",
+      "count": 1
+    },
+    {
+      "label": "A Subramanian",
+      "count": 1
+    },
+    {
+      "label": "A T Chinwalla",
+      "count": 1
+    },
+    {
+      "label": "A Toyoda",
+      "count": 1
+    },
+    {
+      "label": "A Williams",
       "count": 1
     },
     {
@@ -6033,6 +6137,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "B A Roe",
+      "count": 1
+    },
+    {
+      "label": "B Birren",
+      "count": 1
+    },
+    {
       "label": "B. A. Francis",
       "count": 1
     },
@@ -6577,7 +6689,55 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "C B Burge",
+      "count": 1
+    },
+    {
+      "label": "C Clee",
+      "count": 1
+    },
+    {
+      "label": "C Elkin",
+      "count": 1
+    },
+    {
+      "label": "C Harmon",
+      "count": 1
+    },
+    {
+      "label": "C Kawagoe",
+      "count": 1
+    },
+    {
+      "label": "C Lloyd",
+      "count": 1
+    },
+    {
+      "label": "C M Rives",
+      "count": 1
+    },
+    {
+      "label": "C Miranda",
+      "count": 1
+    },
+    {
+      "label": "C Nusbaum",
+      "count": 1
+    },
+    {
+      "label": "C P Ponting",
+      "count": 1
+    },
+    {
+      "label": "C Robert",
+      "count": 1
+    },
+    {
       "label": "C Schmid",
+      "count": 1
+    },
+    {
+      "label": "C Sougnez",
       "count": 1
     },
     {
@@ -6625,7 +6785,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "C. Yalcin Kaya",
+      "label": "C. Yalçın Kaya",
       "count": 1
     },
     {
@@ -7353,7 +7513,67 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "D Bentley",
+      "count": 1
+    },
+    {
       "label": "D C Moore",
+      "count": 1
+    },
+    {
+      "label": "D Church",
+      "count": 1
+    },
+    {
+      "label": "D G Brown",
+      "count": 1
+    },
+    {
+      "label": "D Gage",
+      "count": 1
+    },
+    {
+      "label": "D Grafham",
+      "count": 1
+    },
+    {
+      "label": "D Haussler",
+      "count": 1
+    },
+    {
+      "label": "D Kulp",
+      "count": 1
+    },
+    {
+      "label": "D L Johnson",
+      "count": 1
+    },
+    {
+      "label": "D L Nelson",
+      "count": 1
+    },
+    {
+      "label": "D Lancet",
+      "count": 1
+    },
+    {
+      "label": "D M Muzny",
+      "count": 1
+    },
+    {
+      "label": "D R Cox",
+      "count": 1
+    },
+    {
+      "label": "D R Smith",
+      "count": 1
+    },
+    {
+      "label": "D Thierry-Mieg",
+      "count": 1
+    },
+    {
+      "label": "D Wyman",
       "count": 1
     },
     {
@@ -8265,7 +8485,47 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "E Birney",
+      "count": 1
+    },
+    {
+      "label": "E Branscomb",
+      "count": 1
+    },
+    {
+      "label": "E E Eichler",
+      "count": 1
+    },
+    {
+      "label": "E J Sodergren",
+      "count": 1
+    },
+    {
       "label": "E Olson",
+      "count": 1
+    },
+    {
+      "label": "E Pelletier",
+      "count": 1
+    },
+    {
+      "label": "E R Mardis",
+      "count": 1
+    },
+    {
+      "label": "E S Lander",
+      "count": 1
+    },
+    {
+      "label": "E Stupka",
+      "count": 1
+    },
+    {
+      "label": "E Uberbacher",
+      "count": 1
+    },
+    {
+      "label": "E V Koonin",
       "count": 1
     },
     {
@@ -8721,6 +8981,18 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "F Artiguenave",
+      "count": 1
+    },
+    {
+      "label": "F Chen",
+      "count": 1
+    },
+    {
+      "label": "F Collins",
+      "count": 1
+    },
+    {
       "label": "F. Allgower",
       "count": 1
     },
@@ -9109,6 +9381,34 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "G A Evans",
+      "count": 1
+    },
+    {
+      "label": "G Huang",
+      "count": 1
+    },
+    {
+      "label": "G M Weinstock",
+      "count": 1
+    },
+    {
+      "label": "G Nordsiek",
+      "count": 1
+    },
+    {
+      "label": "G Nyakatura",
+      "count": 1
+    },
+    {
+      "label": "G Schuler",
+      "count": 1
+    },
+    {
+      "label": "G Slater",
+      "count": 1
+    },
+    {
       "label": "G. A. Rummery",
       "count": 1
     },
@@ -9301,7 +9601,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "George L. Gabor",
+      "label": "George L. Gabor Miklos",
       "count": 1
     },
     {
@@ -9613,11 +9913,47 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "H Blocker",
+      "count": 1
+    },
+    {
+      "label": "H C Chen",
+      "count": 1
+    },
+    {
+      "label": "H Hermjakob",
+      "count": 1
+    },
+    {
       "label": "H Jégou",
       "count": 1
     },
     {
+      "label": "H Lehrach",
+      "count": 1
+    },
+    {
+      "label": "H M Lee",
+      "count": 1
+    },
+    {
+      "label": "H Pan",
+      "count": 1
+    },
+    {
       "label": "H Peng",
+      "count": 1
+    },
+    {
+      "label": "H Shizuya",
+      "count": 1
+    },
+    {
+      "label": "H Watanabe",
+      "count": 1
+    },
+    {
+      "label": "H Yang",
       "count": 1
     },
     {
@@ -10265,6 +10601,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "I Dunham",
+      "count": 1
+    },
+    {
+      "label": "I Korf",
+      "count": 1
+    },
+    {
       "label": "I Made Aswin Nahendra",
       "count": 1
     },
@@ -10330,6 +10674,10 @@ window.analyticsData = {
     },
     {
       "label": "Ibrahim Awwal",
+      "count": 1
+    },
+    {
+      "label": "IEEE",
       "count": 1
     },
     {
@@ -10410,10 +10758,6 @@ window.analyticsData = {
     },
     {
       "label": "Innokentiy Shibaev",
-      "count": 1
-    },
-    {
-      "label": "International Human Genome Sequencing Consortium",
       "count": 1
     },
     {
@@ -10522,6 +10866,134 @@ window.analyticsData = {
     },
     {
       "label": "Ivanoe De Falco",
+      "count": 1
+    },
+    {
+      "label": "J A Bailey",
+      "count": 1
+    },
+    {
+      "label": "J B Bouck",
+      "count": 1
+    },
+    {
+      "label": "J B Kramer",
+      "count": 1
+    },
+    {
+      "label": "J Baldwin",
+      "count": 1
+    },
+    {
+      "label": "J Burton",
+      "count": 1
+    },
+    {
+      "label": "J C Mullikin",
+      "count": 1
+    },
+    {
+      "label": "J D McPherson",
+      "count": 1
+    },
+    {
+      "label": "J Dubois",
+      "count": 1
+    },
+    {
+      "label": "J F Cheng",
+      "count": 1
+    },
+    {
+      "label": "J G Gilbert",
+      "count": 1
+    },
+    {
+      "label": "J Galagan",
+      "count": 1
+    },
+    {
+      "label": "J Grimwood",
+      "count": 1
+    },
+    {
+      "label": "J Gu",
+      "count": 1
+    },
+    {
+      "label": "J H Gorrell",
+      "count": 1
+    },
+    {
+      "label": "J Howland",
+      "count": 1
+    },
+    {
+      "label": "J J Catanese",
+      "count": 1
+    },
+    {
+      "label": "J Lehoczky",
+      "count": 1
+    },
+    {
+      "label": "J Meldrim",
+      "count": 1
+    },
+    {
+      "label": "J Naylor",
+      "count": 1
+    },
+    {
+      "label": "J P Mesirov",
+      "count": 1
+    },
+    {
+      "label": "J Peterson",
+      "count": 1
+    },
+    {
+      "label": "J Ramser",
+      "count": 1
+    },
+    {
+      "label": "J Rogers",
+      "count": 1
+    },
+    {
+      "label": "J Schmutz",
+      "count": 1
+    },
+    {
+      "label": "J Schultz",
+      "count": 1
+    },
+    {
+      "label": "J Sulston",
+      "count": 1
+    },
+    {
+      "label": "J Thierry-Mieg",
+      "count": 1
+    },
+    {
+      "label": "J V Moran",
+      "count": 1
+    },
+    {
+      "label": "J Wallis",
+      "count": 1
+    },
+    {
+      "label": "J Wang",
+      "count": 1
+    },
+    {
+      "label": "J Weissenbach",
+      "count": 1
+    },
+    {
+      "label": "J Yu",
       "count": 1
     },
     {
@@ -12165,7 +12637,63 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "K A Wetterstrand",
+      "count": 1
+    },
+    {
+      "label": "K C Worley",
+      "count": 1
+    },
+    {
+      "label": "K D Delehaunty",
+      "count": 1
+    },
+    {
+      "label": "K Devon",
+      "count": 1
+    },
+    {
+      "label": "K Dewar",
+      "count": 1
+    },
+    {
       "label": "K Furuta",
+      "count": 1
+    },
+    {
+      "label": "K H Pepin",
+      "count": 1
+    },
+    {
+      "label": "K H Wolfe",
+      "count": 1
+    },
+    {
+      "label": "K Harris",
+      "count": 1
+    },
+    {
+      "label": "K Hokamp",
+      "count": 1
+    },
+    {
+      "label": "K Hornischer",
+      "count": 1
+    },
+    {
+      "label": "K Kawasaki",
+      "count": 1
+    },
+    {
+      "label": "K McKernan",
+      "count": 1
+    },
+    {
+      "label": "K Osoegawa",
+      "count": 1
+    },
+    {
+      "label": "K Weinstock",
       "count": 1
     },
     {
@@ -12593,10 +13121,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Kimi Team",
-      "count": 1
-    },
-    {
       "label": "Kin G. Olivares",
       "count": 1
     },
@@ -12762,6 +13286,62 @@ window.analyticsData = {
     },
     {
       "label": "Kyunghyun Cho",
+      "count": 1
+    },
+    {
+      "label": "L A Fulton",
+      "count": 1
+    },
+    {
+      "label": "L Aravind",
+      "count": 1
+    },
+    {
+      "label": "L Cerutti",
+      "count": 1
+    },
+    {
+      "label": "L Doucette-Stamm",
+      "count": 1
+    },
+    {
+      "label": "L French",
+      "count": 1
+    },
+    {
+      "label": "L Hood",
+      "count": 1
+    },
+    {
+      "label": "L Kann",
+      "count": 1
+    },
+    {
+      "label": "L L Cook",
+      "count": 1
+    },
+    {
+      "label": "L M Linton",
+      "count": 1
+    },
+    {
+      "label": "L Matthews",
+      "count": 1
+    },
+    {
+      "label": "L Rowen",
+      "count": 1
+    },
+    {
+      "label": "L S Johnson",
+      "count": 1
+    },
+    {
+      "label": "L W Hillier",
+      "count": 1
+    },
+    {
+      "label": "L Wagner",
       "count": 1
     },
     {
@@ -13377,7 +13957,87 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "M A Marra",
+      "count": 1
+    },
+    {
+      "label": "M Athanasiou",
+      "count": 1
+    },
+    {
+      "label": "M C Wendl",
+      "count": 1
+    },
+    {
+      "label": "M C Zody",
+      "count": 1
+    },
+    {
+      "label": "M Clamp",
+      "count": 1
+    },
+    {
+      "label": "M de la Bastide",
+      "count": 1
+    },
+    {
+      "label": "M Dickson",
+      "count": 1
+    },
+    {
       "label": "M Douze",
+      "count": 1
+    },
+    {
+      "label": "M Doyle",
+      "count": 1
+    },
+    {
+      "label": "M Frazier",
+      "count": 1
+    },
+    {
+      "label": "M Hattori",
+      "count": 1
+    },
+    {
+      "label": "M J Morgan",
+      "count": 1
+    },
+    {
+      "label": "M J Proctor",
+      "count": 1
+    },
+    {
+      "label": "M Jones",
+      "count": 1
+    },
+    {
+      "label": "M L Metzker",
+      "count": 1
+    },
+    {
+      "label": "M Platzer",
+      "count": 1
+    },
+    {
+      "label": "M Rosetti",
+      "count": 1
+    },
+    {
+      "label": "M Ross",
+      "count": 1
+    },
+    {
+      "label": "M Rubenfield",
+      "count": 1
+    },
+    {
+      "label": "M S Guyer",
+      "count": 1
+    },
+    {
+      "label": "M V Olson",
       "count": 1
     },
     {
@@ -14717,10 +15377,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Miklos",
-      "count": 1
-    },
-    {
       "label": "Miles Macklin",
       "count": 1
     },
@@ -15014,6 +15670,34 @@ window.analyticsData = {
     },
     {
       "label": "Myungkyu Koo",
+      "count": 1
+    },
+    {
+      "label": "N A Federspiel",
+      "count": 1
+    },
+    {
+      "label": "N Carter",
+      "count": 1
+    },
+    {
+      "label": "N Dedhia",
+      "count": 1
+    },
+    {
+      "label": "N Doggett",
+      "count": 1
+    },
+    {
+      "label": "N Mulder",
+      "count": 1
+    },
+    {
+      "label": "N Shimizu",
+      "count": 1
+    },
+    {
+      "label": "N Stojanovic",
       "count": 1
     },
     {
@@ -15569,6 +16253,46 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "P Bork",
+      "count": 1
+    },
+    {
+      "label": "P Brottier",
+      "count": 1
+    },
+    {
+      "label": "P de Jong",
+      "count": 1
+    },
+    {
+      "label": "P Deloukas",
+      "count": 1
+    },
+    {
+      "label": "P J Minx",
+      "count": 1
+    },
+    {
+      "label": "P Kitts",
+      "count": 1
+    },
+    {
+      "label": "P McEwan",
+      "count": 1
+    },
+    {
+      "label": "P Predki",
+      "count": 1
+    },
+    {
+      "label": "P Richardson",
+      "count": 1
+    },
+    {
+      "label": "P Wincker",
+      "count": 1
+    },
+    {
       "label": "P. Bogdan",
       "count": 1
     },
@@ -16053,6 +16777,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Physical Intelligence",
+      "count": 1
+    },
+    {
       "label": "Pia Hanfeld",
       "count": 1
     },
@@ -16290,6 +17018,98 @@ window.analyticsData = {
     },
     {
       "label": "Quoc V Le",
+      "count": 1
+    },
+    {
+      "label": "R A Gibbs",
+      "count": 1
+    },
+    {
+      "label": "R Agarwala",
+      "count": 1
+    },
+    {
+      "label": "R Ainscough",
+      "count": 1
+    },
+    {
+      "label": "R Deadman",
+      "count": 1
+    },
+    {
+      "label": "R Durbin",
+      "count": 1
+    },
+    {
+      "label": "R F Yeh",
+      "count": 1
+    },
+    {
+      "label": "R Funke",
+      "count": 1
+    },
+    {
+      "label": "R H Waterston",
+      "count": 1
+    },
+    {
+      "label": "R Heilig",
+      "count": 1
+    },
+    {
+      "label": "R K Wilson",
+      "count": 1
+    },
+    {
+      "label": "R Kaul",
+      "count": 1
+    },
+    {
+      "label": "R LeVine",
+      "count": 1
+    },
+    {
+      "label": "R M Myers",
+      "count": 1
+    },
+    {
+      "label": "R Plumb",
+      "count": 1
+    },
+    {
+      "label": "R R Copley",
+      "count": 1
+    },
+    {
+      "label": "R Reinhardt",
+      "count": 1
+    },
+    {
+      "label": "R S Fulton",
+      "count": 1
+    },
+    {
+      "label": "R S Kucherlapati",
+      "count": 1
+    },
+    {
+      "label": "R Santos",
+      "count": 1
+    },
+    {
+      "label": "R Schultz",
+      "count": 1
+    },
+    {
+      "label": "R Shownkeen",
+      "count": 1
+    },
+    {
+      "label": "R W Davis",
+      "count": 1
+    },
+    {
+      "label": "R Wheeler",
       "count": 1
     },
     {
@@ -17145,7 +17965,91 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "S Batzoglou",
+      "count": 1
+    },
+    {
+      "label": "S Beck",
+      "count": 1
+    },
+    {
+      "label": "S Choi",
+      "count": 1
+    },
+    {
+      "label": "S E Scherer",
+      "count": 1
+    },
+    {
+      "label": "S Gregory",
+      "count": 1
+    },
+    {
+      "label": "S Humphray",
+      "count": 1
+    },
+    {
+      "label": "S Kasif",
+      "count": 1
+    },
+    {
+      "label": "S Kennedy",
+      "count": 1
+    },
+    {
       "label": "S Kobayashi",
+      "count": 1
+    },
+    {
+      "label": "S L Chissoe",
+      "count": 1
+    },
+    {
+      "label": "S L Naylor",
+      "count": 1
+    },
+    {
+      "label": "S Lucas",
+      "count": 1
+    },
+    {
+      "label": "S Mercer",
+      "count": 1
+    },
+    {
+      "label": "S Milne",
+      "count": 1
+    },
+    {
+      "label": "S Minoshima",
+      "count": 1
+    },
+    {
+      "label": "S P Yang",
+      "count": 1
+    },
+    {
+      "label": "S Qin",
+      "count": 1
+    },
+    {
+      "label": "S R Eddy",
+      "count": 1
+    },
+    {
+      "label": "S Sims",
+      "count": 1
+    },
+    {
+      "label": "S Taudien",
+      "count": 1
+    },
+    {
+      "label": "S W Clifton",
+      "count": 1
+    },
+    {
+      "label": "S Wenning",
       "count": 1
     },
     {
@@ -18669,6 +19573,58 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "T A Jones",
+      "count": 1
+    },
+    {
+      "label": "T Bruls",
+      "count": 1
+    },
+    {
+      "label": "T Doerks",
+      "count": 1
+    },
+    {
+      "label": "T Hawkins",
+      "count": 1
+    },
+    {
+      "label": "T Hubbard",
+      "count": 1
+    },
+    {
+      "label": "T Itoh",
+      "count": 1
+    },
+    {
+      "label": "T L Miner",
+      "count": 1
+    },
+    {
+      "label": "T M Lowe",
+      "count": 1
+    },
+    {
+      "label": "T Mikkelsen",
+      "count": 1
+    },
+    {
+      "label": "T S Furey",
+      "count": 1
+    },
+    {
+      "label": "T Slezak",
+      "count": 1
+    },
+    {
+      "label": "T Taylor",
+      "count": 1
+    },
+    {
+      "label": "T Yada",
+      "count": 1
+    },
+    {
       "label": "T. Basar",
       "count": 1
     },
@@ -19225,10 +20181,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "TRI LBM Team",
-      "count": 1
-    },
-    {
       "label": "Trinity Chung",
       "count": 1
     },
@@ -19325,6 +20277,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "V J Pollara",
+      "count": 1
+    },
+    {
       "label": "Vaibhav Saxena",
       "count": 1
     },
@@ -19354,10 +20310,6 @@ window.analyticsData = {
     },
     {
       "label": "Vangelis Metsis",
-      "count": 1
-    },
-    {
-      "label": "Various",
       "count": 1
     },
     {
@@ -19566,6 +20518,34 @@ window.analyticsData = {
     },
     {
       "label": "Vít Musil",
+      "count": 1
+    },
+    {
+      "label": "W FitzHugh",
+      "count": 1
+    },
+    {
+      "label": "W J Kent",
+      "count": 1
+    },
+    {
+      "label": "W Jang",
+      "count": 1
+    },
+    {
+      "label": "W Morris",
+      "count": 1
+    },
+    {
+      "label": "W R Gish",
+      "count": 1
+    },
+    {
+      "label": "W R McCombie",
+      "count": 1
+    },
+    {
+      "label": "W Saurin",
       "count": 1
     },
     {
@@ -20169,7 +21149,31 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Y Hayashizaki",
+      "count": 1
+    },
+    {
+      "label": "Y I Wolf",
+      "count": 1
+    },
+    {
+      "label": "Y J Chen",
+      "count": 1
+    },
+    {
       "label": "Y Jennifer Sun",
+      "count": 1
+    },
+    {
+      "label": "Y Sakaki",
+      "count": 1
+    },
+    {
+      "label": "Y Stange-Thomann",
+      "count": 1
+    },
+    {
+      "label": "Y Totoki",
       "count": 1
     },
     {
@@ -21251,43 +22255,71 @@ window.analyticsData = {
   ],
   "sources": [
     {
-      "label": "Unspecified",
-      "count": 627
+      "label": "arXiv",
+      "count": 378
     },
     {
       "label": "IEEE International Conference on Robotics and Automation (ICRA)",
-      "count": 37
+      "count": 61
     },
     {
       "label": "IEEE Transactions on Automatic Control",
-      "count": 34
+      "count": 38
     },
     {
       "label": "IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
-      "count": 24
+      "count": 38
+    },
+    {
+      "label": "IEEE Robotics and Automation Letters",
+      "count": 28
     },
     {
       "label": "Advances in Neural Information Processing Systems",
       "count": 23
     },
     {
-      "label": "arXiv",
+      "label": "IEEE International Conference on Robotics and Automation",
       "count": 20
     },
     {
       "label": "The International Journal of Robotics Research",
-      "count": 13
+      "count": 19
+    },
+    {
+      "label": "International Conference on Machine Learning",
+      "count": 16
+    },
+    {
+      "label": "American Control Conference (ACC)",
+      "count": 15
     },
     {
       "label": "Automatica",
-      "count": 11
+      "count": 13
+    },
+    {
+      "label": "IEEE Transactions on Robotics",
+      "count": 12
+    },
+    {
+      "label": "Nature",
+      "count": 10
     },
     {
       "label": "Autonomous Robots",
       "count": 9
     },
     {
-      "label": "International Conference on Machine Learning",
+      "label": "Journal of Machine Learning Research",
+      "count": 9
+    },
+    {
+      "label": "Machine Learning",
+      "count": 9
+    },
+    {
+      "label": "Mathematical Programming",
       "count": 9
     },
     {
@@ -21299,15 +22331,19 @@ window.analyticsData = {
       "count": 8
     },
     {
-      "label": "Machine Learning",
+      "label": "International Conference on Robotics and Automation (ICRA)",
       "count": 8
     },
     {
-      "label": "Nature",
+      "label": "Lecture Notes in Computer Science",
       "count": 8
     },
     {
-      "label": "American Control Conference (ACC)",
+      "label": "Communications of the ACM",
+      "count": 7
+    },
+    {
+      "label": "IEEE Control Systems Letters",
       "count": 7
     },
     {
@@ -21315,23 +22351,55 @@ window.analyticsData = {
       "count": 7
     },
     {
+      "label": "IEEE/RSJ International Conference on Intelligent Robots and Systems",
+      "count": 7
+    },
+    {
+      "label": "Journal of Optimization Theory and Applications",
+      "count": 7
+    },
+    {
+      "label": "Proceedings of the AAAI Conference on Artificial Intelligence",
+      "count": 7
+    },
+    {
       "label": "Science",
       "count": 7
     },
     {
-      "label": "IEEE International Conference on Robotics and Automation",
+      "label": "SIAM Journal on Optimization",
+      "count": 7
+    },
+    {
+      "label": "Unspecified",
+      "count": 7
+    },
+    {
+      "label": "Annual Review of Control, Robotics, and Autonomous Systems",
       "count": 6
     },
     {
-      "label": "IEEE Transactions on Robotics",
+      "label": "Data Mining and Knowledge Discovery",
       "count": 6
     },
     {
-      "label": "Journal of Machine Learning Research",
+      "label": "European Control Conference (ECC)",
       "count": 6
     },
     {
-      "label": "Lecture Notes in Computer Science",
+      "label": "IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "count": 6
+    },
+    {
+      "label": "IEEE Intelligent Vehicles Symposium (IV)",
+      "count": 6
+    },
+    {
+      "label": "Journal of Field Robotics",
+      "count": 6
+    },
+    {
+      "label": "Neural Information Processing Systems",
       "count": 6
     },
     {
@@ -21339,15 +22407,7 @@ window.analyticsData = {
       "count": 6
     },
     {
-      "label": "2011 IEEE International Conference on Robotics and Automation",
-      "count": 5
-    },
-    {
-      "label": "Annual Review of Control, Robotics, and Autonomous Systems",
-      "count": 5
-    },
-    {
-      "label": "Communications of the ACM",
+      "label": "American Control Conference",
       "count": 5
     },
     {
@@ -21355,11 +22415,11 @@ window.analyticsData = {
       "count": 5
     },
     {
-      "label": "IEEE Robotics and Automation Letters",
+      "label": "IFAC Proceedings Volumes",
       "count": 5
     },
     {
-      "label": "IFAC Proceedings Volumes",
+      "label": "International Conference on Learning Representations",
       "count": 5
     },
     {
@@ -21367,11 +22427,15 @@ window.analyticsData = {
       "count": 5
     },
     {
-      "label": "Journal of Field Robotics",
+      "label": "Journal of Artificial Intelligence Research",
       "count": 5
     },
     {
-      "label": "Journal of Optimization Theory and Applications",
+      "label": "Journal of the ACM",
+      "count": 5
+    },
+    {
+      "label": "Learning for Dynamics and Control",
       "count": 5
     },
     {
@@ -21383,7 +22447,19 @@ window.analyticsData = {
       "count": 5
     },
     {
-      "label": "2014 IEEE International Conference on Robotics and Automation (ICRA)",
+      "label": "Advances in Neural Information Processing Systems 37",
+      "count": 4
+    },
+    {
+      "label": "Annual Reviews in Control",
+      "count": 4
+    },
+    {
+      "label": "Control Engineering Practice",
+      "count": 4
+    },
+    {
+      "label": "Evolutionary Computation",
       "count": 4
     },
     {
@@ -21395,15 +22471,19 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "IEEE Control Systems Letters",
+      "label": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
       "count": 4
     },
     {
-      "label": "Journal of the ACM",
+      "label": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
       "count": 4
     },
     {
-      "label": "Mathematical Programming",
+      "label": "IEEE/CVF International Conference on Computer Vision (ICCV)",
+      "count": 4
+    },
+    {
+      "label": "IFAC-PapersOnLine",
       "count": 4
     },
     {
@@ -21411,11 +22491,19 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Proceedings of the National Academy of Sciences",
+      "count": 4
+    },
+    {
       "label": "Robotics: Science and Systems",
       "count": 4
     },
     {
-      "label": "SIAM Journal on Optimization",
+      "label": "SIAM Review",
+      "count": 4
+    },
+    {
+      "label": "Springer Proceedings in Advanced Robotics",
       "count": 4
     },
     {
@@ -21425,18 +22513,6 @@ window.analyticsData = {
     {
       "label": "Unbox AI Research Blog",
       "count": 4
-    },
-    {
-      "label": "2009 IEEE International Conference on Robotics and Automation",
-      "count": 3
-    },
-    {
-      "label": "2013 IEEE International Conference on Robotics and Automation",
-      "count": 3
-    },
-    {
-      "label": "2019 International Conference on Robotics and Automation (ICRA)",
-      "count": 3
     },
     {
       "label": "ACM SIGGRAPH Computer Graphics",
@@ -21451,23 +22527,27 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Computer-Aided Design",
+      "count": 3
+    },
+    {
       "label": "Conference on Robot Learning (CoRL)",
       "count": 3
     },
     {
-      "label": "Control Engineering Practice",
+      "label": "Foundations of Computational Mathematics",
       "count": 3
     },
     {
-      "label": "European Control Conference (ECC)",
+      "label": "IEEE 58th Conference on Decision and Control (CDC)",
       "count": 3
     },
     {
-      "label": "Evolutionary Computation",
+      "label": "IEEE 64th Conference on Decision and Control (CDC)",
       "count": 3
     },
     {
-      "label": "IEEE Intelligent Vehicles Symposium (IV)",
+      "label": "IEEE Transactions on Control Systems Technology",
       "count": 3
     },
     {
@@ -21475,11 +22555,19 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+      "label": "IEEE Transactions on Signal Processing",
       "count": 3
     },
     {
       "label": "IEEE Transactions on Visualization and Computer Graphics",
+      "count": 3
+    },
+    {
+      "label": "International Conference on Artificial Intelligence and Statistics",
+      "count": 3
+    },
+    {
+      "label": "International Journal of Computer Vision",
       "count": 3
     },
     {
@@ -21495,6 +22583,18 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Journal of Statistical Mechanics: Theory and Experiment",
+      "count": 3
+    },
+    {
+      "label": "Linear Algebra and its Applications",
+      "count": 3
+    },
+    {
+      "label": "Nature Communications",
+      "count": 3
+    },
+    {
       "label": "Pacific Journal of Mathematics",
       "count": 3
     },
@@ -21507,7 +22607,11 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "SIAM Review",
+      "label": "Robotics: Science and Systems XX",
+      "count": 3
+    },
+    {
+      "label": "SIAM Journal on Control and Optimization",
       "count": 3
     },
     {
@@ -21523,19 +22627,11 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "2008 IEEE International Conference on Robotics and Automation",
+      "label": "18th European Control Conference (ECC)",
       "count": 2
     },
     {
-      "label": "2012 IEEE/RSJ International Conference on Intelligent Robots and Systems",
-      "count": 2
-    },
-    {
-      "label": "2015 IEEE International Conference on Robotics and Automation (ICRA)",
-      "count": 2
-    },
-    {
-      "label": "2016 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
+      "label": "54th IEEE Conference on Decision and Control (CDC)",
       "count": 2
     },
     {
@@ -21547,15 +22643,23 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "American Control Conference",
-      "count": 2
-    },
-    {
-      "label": "Annual Reviews in Control",
+      "label": "ACM Transactions on Mathematical Software",
       "count": 2
     },
     {
       "label": "Applied Mathematics and Computation",
+      "count": 2
+    },
+    {
+      "label": "Artificial Intelligence",
+      "count": 2
+    },
+    {
+      "label": "Combinatorial Theory",
+      "count": 2
+    },
+    {
+      "label": "Computational Optimization and Applications",
       "count": 2
     },
     {
@@ -21567,7 +22671,19 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "ICASSP - IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)",
+      "count": 2
+    },
+    {
+      "label": "IEEE 61st Conference on Decision and Control (CDC)",
+      "count": 2
+    },
+    {
       "label": "IEEE Conference on Decision and Control",
+      "count": 2
+    },
+    {
+      "label": "IEEE Signal Processing Magazine",
       "count": 2
     },
     {
@@ -21575,11 +22691,15 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "IEEE Transactions on Big Data",
+      "count": 2
+    },
+    {
       "label": "IEEE Transactions on Computers",
       "count": 2
     },
     {
-      "label": "IEEE Transactions on Control Systems Technology",
+      "label": "IEEE Transactions on Evolutionary Computation",
       "count": 2
     },
     {
@@ -21587,11 +22707,11 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "IEEE Transactions on Robotics and Automation",
+      "label": "IEEE Transactions on Intelligent Transportation Systems",
       "count": 2
     },
     {
-      "label": "IEEE Transactions on Signal Processing",
+      "label": "IEEE Transactions on Robotics and Automation",
       "count": 2
     },
     {
@@ -21603,23 +22723,7 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "IEEE/RSJ International Conference on Intelligent Robots and Systems",
-      "count": 2
-    },
-    {
       "label": "IFAC World Congress",
-      "count": 2
-    },
-    {
-      "label": "IFAC-PapersOnLine",
-      "count": 2
-    },
-    {
-      "label": "International Conference on Robotics and Automation (ICRA)",
-      "count": 2
-    },
-    {
-      "label": "International Journal of Computer Vision",
       "count": 2
     },
     {
@@ -21635,10 +22739,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Journal of Artificial Intelligence Research",
-      "count": 2
-    },
-    {
       "label": "Journal of Basic Engineering",
       "count": 2
     },
@@ -21651,23 +22751,11 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Journal of Statistical Mechanics: Theory and Experiment",
-      "count": 2
-    },
-    {
       "label": "Journal of the American Statistical Association",
       "count": 2
     },
     {
-      "label": "Learning for Dynamics and Control",
-      "count": 2
-    },
-    {
       "label": "Lecture Notes in Control and Information Sciences",
-      "count": 2
-    },
-    {
-      "label": "Linear Algebra and its Applications",
       "count": 2
     },
     {
@@ -21683,10 +22771,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Nature Communications",
-      "count": 2
-    },
-    {
       "label": "Naval Research Logistics Quarterly",
       "count": 2
     },
@@ -21696,6 +22780,14 @@ window.analyticsData = {
     },
     {
       "label": "Numerische Mathematik",
+      "count": 2
+    },
+    {
+      "label": "Operations Research",
+      "count": 2
+    },
+    {
+      "label": "Proceedings of the Genetic and Evolutionary Computation Conference",
       "count": 2
     },
     {
@@ -21711,11 +22803,19 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "SIAM Journal on Matrix Analysis and Applications",
+      "count": 2
+    },
+    {
       "label": "SIAM Journal on Numerical Analysis",
       "count": 2
     },
     {
       "label": "SIAM Journal on Scientific and Statistical Computing",
+      "count": 2
+    },
+    {
+      "label": "Systems & Control Letters",
       "count": 2
     },
     {
@@ -21727,143 +22827,55 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "16th Annual Symposium on Foundations of Computer Science (sfcs 1975)",
+      "label": "13th IEEE-RAS International Conference on Humanoid Robots (Humanoids)",
       "count": 1
     },
     {
-      "label": "1976 IEEE Conference on Decision and Control including the 15th Symposium on Adaptive Processes",
+      "label": "16th Annual Symposium on Foundations of Computer Science (sfcs)",
       "count": 1
     },
     {
-      "label": "1977 IEEE Conference on Decision and Control including the 16th Symposium on Adaptive Processes and A Special Symposium on Fuzzy Set Theory and Applications",
+      "label": "19th Annual Symposium on Foundations of Computer Science (sfcs)",
       "count": 1
     },
     {
-      "label": "19th Annual Symposium on Foundations of Computer Science (sfcs 1978)",
+      "label": "22nd IEEE International Conference on Industrial Technology (ICIT)",
       "count": 1
     },
     {
-      "label": "2004 IEEE International Symposium on Computer-Aided Control Systems Design",
+      "label": "25th International Conference on Pattern Recognition (ICPR)",
       "count": 1
     },
     {
-      "label": "2005 IEEE Computer Society Conference on Computer Vision and Pattern Recognition",
+      "label": "29th Chinese Control And Decision Conference (CCDC)",
       "count": 1
     },
     {
-      "label": "2007 46th IEEE Conference on Decision and Control",
+      "label": "42nd International Convention on Information and Communication Technology, Electronics and Microelectronics (MIPRO)",
       "count": 1
     },
     {
-      "label": "2007 American Control Conference",
+      "label": "46th IEEE Conference on Decision and Control",
       "count": 1
     },
     {
-      "label": "2009 47th Annual Allerton Conference on Communication, Control, and Computing (Allerton)",
-      "count": 1
-    },
-    {
-      "label": "2010 IEEE International Conference on Robotics and Automation",
-      "count": 1
-    },
-    {
-      "label": "2010 IEEE/RSJ International Conference on Intelligent Robots and Systems",
-      "count": 1
-    },
-    {
-      "label": "2011 IEEE Intelligent Vehicles Symposium (IV)",
-      "count": 1
-    },
-    {
-      "label": "2011 IEEE/RSJ International Conference on Intelligent Robots and Systems",
-      "count": 1
-    },
-    {
-      "label": "2013 13th IEEE-RAS International Conference on Humanoid Robots (Humanoids)",
-      "count": 1
-    },
-    {
-      "label": "2013 American Control Conference",
-      "count": 1
-    },
-    {
-      "label": "2014 IEEE-RAS International Conference on Humanoid Robots",
-      "count": 1
-    },
-    {
-      "label": "2014 IEEE/RSJ International Conference on Intelligent Robots and Systems",
-      "count": 1
-    },
-    {
-      "label": "2014 International Conference on Unmanned Aircraft Systems (ICUAS)",
-      "count": 1
-    },
-    {
-      "label": "2015 IEEE Intelligent Vehicles Symposium (IV)",
-      "count": 1
-    },
-    {
-      "label": "2016 American Control Conference (ACC)",
-      "count": 1
-    },
-    {
-      "label": "2016 IEEE International Conference on Robotics and Automation (ICRA)",
-      "count": 1
-    },
-    {
-      "label": "2017 IEEE International Conference on Robotics and Automation (ICRA)",
-      "count": 1
-    },
-    {
-      "label": "2018 European Control Conference (ECC)",
-      "count": 1
-    },
-    {
-      "label": "2018 IEEE International Conference on Robotics and Automation (ICRA)",
-      "count": 1
-    },
-    {
-      "label": "2018 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
-      "count": 1
-    },
-    {
-      "label": "2019 42nd International Convention on Information and Communication Technology, Electronics and Microelectronics (MIPRO)",
-      "count": 1
-    },
-    {
-      "label": "2020 IEEE International Conference on Robotics and Automation (ICRA)",
-      "count": 1
-    },
-    {
-      "label": "2021 22nd IEEE International Conference on Industrial Technology (ICIT)",
-      "count": 1
-    },
-    {
-      "label": "2021 IEEE Global Engineering Education Conference (EDUCON)",
-      "count": 1
-    },
-    {
-      "label": "2021 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
-      "count": 1
-    },
-    {
-      "label": "2022 IEEE Intelligent Vehicles Symposium (IV)",
-      "count": 1
-    },
-    {
-      "label": "2022 International Conference on Robotics and Automation (ICRA)",
-      "count": 1
-    },
-    {
-      "label": "2023 62nd IEEE Conference on Decision and Control (CDC)",
-      "count": 1
-    },
-    {
-      "label": "2023 American Control Conference (ACC)",
+      "label": "47th Annual Allerton Conference on Communication, Control, and Computing (Allerton)",
       "count": 1
     },
     {
       "label": "49th IEEE Conference on Decision and Control (CDC)",
+      "count": 1
+    },
+    {
+      "label": "55th Annual Conference on Information Sciences and Systems (CISS)",
+      "count": 1
+    },
+    {
+      "label": "59th IEEE Conference on Decision and Control (CDC)",
+      "count": 1
+    },
+    {
+      "label": "62nd IEEE Conference on Decision and Control (CDC)",
       "count": 1
     },
     {
@@ -21900,10 +22912,6 @@ window.analyticsData = {
     },
     {
       "label": "ACM Transactions on Knowledge Discovery from Data",
-      "count": 1
-    },
-    {
-      "label": "ACM Transactions on Mathematical Software",
       "count": 1
     },
     {
@@ -21947,6 +22955,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "AIAA SCITECH Forum",
+      "count": 1
+    },
+    {
       "label": "Algorithmic Learning Theory",
       "count": 1
     },
@@ -21975,6 +22987,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Annual American Control Conference (ACC)",
+      "count": 1
+    },
+    {
       "label": "Annual Review of Fluid Mechanics",
       "count": 1
     },
@@ -21988,10 +23004,6 @@ window.analyticsData = {
     },
     {
       "label": "Applied Statistics",
-      "count": 1
-    },
-    {
-      "label": "Artificial Intelligence",
       "count": 1
     },
     {
@@ -22039,15 +23051,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Communications in Mathematical Research",
+      "count": 1
+    },
+    {
       "label": "Complexity of Computer Computations",
       "count": 1
     },
     {
       "label": "Comptes Rendus de l Academie des Sciences",
-      "count": 1
-    },
-    {
-      "label": "Computational Optimization and Applications",
       "count": 1
     },
     {
@@ -22059,7 +23071,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Computer-Aided Design",
+      "label": "Computer Vision and Pattern Recognition",
       "count": 1
     },
     {
@@ -22087,11 +23099,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Conservatoire national des arts et m´etiers",
+      "label": "Conference on Robot Learning",
       "count": 1
     },
     {
-      "label": "Data Mining and Knowledge Discovery",
+      "label": "Conference on Uncertainty in Artificial Intelligence",
+      "count": 1
+    },
+    {
+      "label": "Conservatoire national des arts et m´etiers",
       "count": 1
     },
     {
@@ -22123,15 +23139,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Expert Systems",
+      "count": 1
+    },
+    {
       "label": "Field and Service Robots (FSR)",
       "count": 1
     },
     {
-      "label": "Foundations and Trends® in Optimization",
+      "label": "Foundations and Trends® in Machine Learning",
       "count": 1
     },
     {
-      "label": "Foundations of Computational Mathematics",
+      "label": "Foundations and Trends® in Optimization",
       "count": 1
     },
     {
@@ -22151,11 +23171,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "ICASSP 2026 - 2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)",
-      "count": 1
-    },
-    {
-      "label": "ICCAS 2010",
+      "label": "ICCAS",
       "count": 1
     },
     {
@@ -22167,7 +23183,27 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "label": "IEEE 23rd International Conference on Intelligent Transportation Systems (ITSC)",
+      "count": 1
+    },
+    {
+      "label": "IEEE 25th International Conference on Intelligent Transportation Systems (ITSC)",
+      "count": 1
+    },
+    {
+      "label": "IEEE 55th Conference on Decision and Control (CDC)",
+      "count": 1
+    },
+    {
+      "label": "IEEE Computer Society Conference on Computer Vision and Pattern Recognition",
+      "count": 1
+    },
+    {
+      "label": "IEEE Conference on Decision and Control including the 15th Symposium on Adaptive Processes",
+      "count": 1
+    },
+    {
+      "label": "IEEE Conference on Decision and Control including the 16th Symposium on Adaptive Processes and A Special Symposium on Fuzzy Set Theory and Applications",
       "count": 1
     },
     {
@@ -22179,7 +23215,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "IEEE Global Engineering Education Conference (EDUCON)",
+      "count": 1
+    },
+    {
+      "label": "IEEE International Conference on Advanced Robotics (ICAR)",
+      "count": 1
+    },
+    {
       "label": "IEEE International Conference on Communications",
+      "count": 1
+    },
+    {
+      "label": "IEEE International Conference on Computer Vision (ICCV)",
+      "count": 1
+    },
+    {
+      "label": "IEEE International Conference on Data Mining Workshops (ICDMW)",
       "count": 1
     },
     {
@@ -22199,7 +23251,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "IEEE International Conference on Robotics and Automation, 2004. Proceedings. ICRA '04. 2004",
+      "label": "IEEE International Conference on Robotics and Automation, Proceedings. ICRA '04.",
       "count": 1
     },
     {
@@ -22208,6 +23260,10 @@ window.analyticsData = {
     },
     {
       "label": "IEEE International Symposium on Circuits and Systems",
+      "count": 1
+    },
+    {
+      "label": "IEEE International Symposium on Computer-Aided Control Systems Design",
       "count": 1
     },
     {
@@ -22223,15 +23279,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "IEEE Signal Processing Magazine",
-      "count": 1
-    },
-    {
       "label": "IEEE Standards",
       "count": 1
     },
     {
       "label": "IEEE Symposium on Electromagnetic Launch Technology",
+      "count": 1
+    },
+    {
+      "label": "IEEE Symposium Series on Computational Intelligence (SSCI)",
       "count": 1
     },
     {
@@ -22247,7 +23303,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "IEEE Transactions on Evolutionary Computation",
+      "label": "IEEE Transactions on Computational Imaging",
       "count": 1
     },
     {
@@ -22256,10 +23312,6 @@ window.analyticsData = {
     },
     {
       "label": "IEEE Transactions on Industrial Electronics (TIE)",
-      "count": 1
-    },
-    {
-      "label": "IEEE Transactions on Intelligent Transportation Systems",
       "count": 1
     },
     {
@@ -22275,11 +23327,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "IEEE/ASME International Conference on Advanced Intelligent Mechatronics (AIM)",
+      "label": "IEEE-RAS International Conference on Humanoid Robots",
       "count": 1
     },
     {
-      "label": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "label": "IEEE/ASME International Conference on Advanced Intelligent Mechatronics (AIM)",
       "count": 1
     },
     {
@@ -22311,15 +23363,19 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "International Conference on Learning Representations",
-      "count": 1
-    },
-    {
       "label": "International Conference on Learning Representations (ICLR)",
       "count": 1
     },
     {
       "label": "International Conference on Neural Networks (ICNN)",
+      "count": 1
+    },
+    {
+      "label": "International Conference on Space Robotics (iSpaRo)",
+      "count": 1
+    },
+    {
+      "label": "International Conference on Unmanned Aircraft Systems (ICUAS)",
       "count": 1
     },
     {
@@ -22375,6 +23431,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Journal of Control and Decision",
+      "count": 1
+    },
+    {
       "label": "Journal of Control Theory and Applications",
       "count": 1
     },
@@ -22427,6 +23487,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Journal of Scientific Computing",
+      "count": 1
+    },
+    {
       "label": "Journal of Spacecraft and Rockets",
       "count": 1
     },
@@ -22436,10 +23500,6 @@ window.analyticsData = {
     },
     {
       "label": "Journal of the Optical Society of America",
-      "count": 1
-    },
-    {
-      "label": "Journal of the Proceedings of the Linnean Society of London.",
       "count": 1
     },
     {
@@ -22479,11 +23539,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Machine Learning: Science and Technology",
+      "count": 1
+    },
+    {
       "label": "Massachusetts Institute of Technology",
       "count": 1
     },
     {
       "label": "Mathematical Finance",
+      "count": 1
+    },
+    {
+      "label": "Mathematical Methods in the Applied Sciences",
       "count": 1
     },
     {
@@ -22515,7 +23583,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Nature Machine Intelligence",
+      "count": 1
+    },
+    {
       "label": "Nature Physics",
+      "count": 1
+    },
+    {
+      "label": "Neural Information Processing Systems Deep Learning Workshop",
       "count": 1
     },
     {
@@ -22551,11 +23627,19 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Operations Research",
+      "label": "Optimal Control Applications and Methods",
       "count": 1
     },
     {
-      "label": "Optimal Control Applications and Methods",
+      "label": "Optimization for Machine Learning",
+      "count": 1
+    },
+    {
+      "label": "Pattern Recognition",
+      "count": 1
+    },
+    {
+      "label": "PLOS ONE",
       "count": 1
     },
     {
@@ -22575,27 +23659,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Proceedings of the 1961 16th ACM national meeting on -",
+      "label": "Proceedings of the 16th ACM national meeting",
       "count": 1
     },
     {
-      "label": "Proceedings of the 1970 ACM SIGFIDET (now SIGMOD) Workshop on Data Description, Access and Control - SIGFIDET '70",
-      "count": 1
-    },
-    {
-      "label": "Proceedings of the 1985 IEEE International Conference on Robotics and Automation",
-      "count": 1
-    },
-    {
-      "label": "Proceedings of the 2001 IEEE Computer Society Conference on Computer Vision and Pattern Recognition",
-      "count": 1
-    },
-    {
-      "label": "Proceedings of the 2011 American Control Conference",
-      "count": 1
-    },
-    {
-      "label": "Proceedings of the 2019 International Conference on Management of Data",
+      "label": "Proceedings of the 16th International Joint Conference on Knowledge Discovery, Knowledge Engineering and Knowledge Management",
       "count": 1
     },
     {
@@ -22607,7 +23675,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining",
+      "count": 1
+    },
+    {
       "label": "Proceedings of the 23rd annual conference on Computer graphics and interactive techniques",
+      "count": 1
+    },
+    {
+      "label": "Proceedings of the 25th ACM International Conference on Intelligent Virtual Agents",
+      "count": 1
+    },
+    {
+      "label": "Proceedings of the 27th ACM SIGKDD Conference on Knowledge Discovery & Data Mining",
       "count": 1
     },
     {
@@ -22627,7 +23707,23 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Proceedings of the AAAI Conference on Artificial Intelligence",
+      "label": "Proceedings of the 49th Annual ACM SIGACT Symposium on Theory of Computing",
+      "count": 1
+    },
+    {
+      "label": "Proceedings of the ACM SIGFIDET (now SIGMOD) Workshop on Data Description, Access and Control - SIGFIDET '70",
+      "count": 1
+    },
+    {
+      "label": "Proceedings of the American Control Conference",
+      "count": 1
+    },
+    {
+      "label": "Proceedings of the Conference of the North American Chapter of the Association for Computational Linguistics: Demonstrations",
+      "count": 1
+    },
+    {
+      "label": "Proceedings of the Conference on Empirical Methods in Natural Language Processing (EMNLP)",
       "count": 1
     },
     {
@@ -22635,7 +23731,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Proceedings of the Genetic and Evolutionary Computation Conference",
+      "label": "Proceedings of the forty-eighth annual ACM symposium on Theory of Computing",
       "count": 1
     },
     {
@@ -22643,7 +23739,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Proceedings of the IEEE 2000 Adaptive Systems for Signal Processing, Communications, and Control Symposium (Cat. No.00EX373)",
+      "label": "Proceedings of the IEEE Adaptive Systems for Signal Processing, Communications, and Control Symposium (Cat. No.00EX373)",
+      "count": 1
+    },
+    {
+      "label": "Proceedings of the IEEE Computer Society Conference on Computer Vision and Pattern Recognition",
+      "count": 1
+    },
+    {
+      "label": "Proceedings of the IEEE International Conference on Robotics and Automation",
       "count": 1
     },
     {
@@ -22651,11 +23755,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Proceedings of the National Academy of Sciences",
+      "label": "Proceedings of the International Conference on Management of Data",
       "count": 1
     },
     {
       "label": "Proceedings of the National Academy of Sciences (PNAS)",
+      "count": 1
+    },
+    {
+      "label": "Proceedings of the Royal Society A: Mathematical, Physical and Engineering Sciences",
       "count": 1
     },
     {
@@ -22668,6 +23776,14 @@ window.analyticsData = {
     },
     {
       "label": "Proceedings of the Thirteenth International Conference on Artificial Intelligence and Statistics",
+      "count": 1
+    },
+    {
+      "label": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+      "count": 1
+    },
+    {
+      "label": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
       "count": 1
     },
     {
@@ -22699,7 +23815,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Reviews of Modern Physics",
+      "count": 1
+    },
+    {
       "label": "ROBOMECH Journal",
+      "count": 1
+    },
+    {
+      "label": "Robotics and Autonomous Systems",
       "count": 1
     },
     {
@@ -22708,6 +23832,18 @@ window.analyticsData = {
     },
     {
       "label": "Robotics: Science and Systems IX",
+      "count": 1
+    },
+    {
+      "label": "Robotics: Science and Systems XIX",
+      "count": 1
+    },
+    {
+      "label": "Robotics: Science and Systems XVIII",
+      "count": 1
+    },
+    {
+      "label": "Robotics: Science and Systems XXI",
       "count": 1
     },
     {
@@ -22724,6 +23860,10 @@ window.analyticsData = {
     },
     {
       "label": "Safety Science",
+      "count": 1
+    },
+    {
+      "label": "Scientific Reports",
       "count": 1
     },
     {
@@ -22747,15 +23887,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "SIAM Journal on Control and Optimization",
-      "count": 1
-    },
-    {
       "label": "SIAM Journal on Imaging Sciences",
-      "count": 1
-    },
-    {
-      "label": "SIAM Journal on Matrix Analysis and Applications",
       "count": 1
     },
     {
@@ -22783,11 +23915,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "SoftwareX",
+      "count": 1
+    },
+    {
       "label": "SPIE Proceedings",
       "count": 1
     },
     {
-      "label": "Springer Proceedings in Advanced Robotics",
+      "label": "Springer Optimization and Its Applications",
       "count": 1
     },
     {
@@ -22795,7 +23931,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Systems & Control Letters",
+      "label": "Studies in Systems, Decision and Control",
       "count": 1
     },
     {
@@ -22804,6 +23940,10 @@ window.analyticsData = {
     },
     {
       "label": "Technical Report CUED/F-INFENG/TR 166",
+      "count": 1
+    },
+    {
+      "label": "The Annals of Applied Probability",
       "count": 1
     },
     {
@@ -22865,28 +24005,28 @@ window.analyticsData = {
     {
       "label": "Wadsworth",
       "count": 1
+    },
+    {
+      "label": "Zoological Journal of the Linnean Society",
+      "count": 1
     }
   ],
   "types": [
     {
-      "label": "Unspecified",
-      "count": 620
-    },
-    {
       "label": "Journal Paper",
-      "count": 436
+      "count": 571
     },
     {
       "label": "Conference Paper",
-      "count": 302
+      "count": 422
     },
     {
       "label": "Preprint",
-      "count": 24
+      "count": 382
     },
     {
       "label": "Other",
-      "count": 23
+      "count": 28
     },
     {
       "label": "Technical Report",
@@ -22897,11 +24037,11 @@ window.analyticsData = {
       "count": 12
     },
     {
-      "label": "PhD Dissertation",
-      "count": 6
+      "label": "Workshop Paper",
+      "count": 8
     },
     {
-      "label": "Workshop Paper",
+      "label": "PhD Dissertation",
       "count": 6
     },
     {
@@ -22915,47 +24055,227 @@ window.analyticsData = {
   ],
   "tags": [
     {
-      "label": "Motion planning",
-      "count": 74
+      "label": "Learning",
+      "count": 276
     },
     {
-      "label": "Trajectory optimization",
-      "count": 72
+      "label": "Control",
+      "count": 249
+    },
+    {
+      "label": "Optimization",
+      "count": 220
+    },
+    {
+      "label": "Robotics",
+      "count": 166
     },
     {
       "label": "Reinforcement learning",
+      "count": 141
+    },
+    {
+      "label": "Motion planning",
+      "count": 127
+    },
+    {
+      "label": "Robustness",
+      "count": 121
+    },
+    {
+      "label": "Planning",
+      "count": 113
+    },
+    {
+      "label": "Trajectory optimization",
+      "count": 108
+    },
+    {
+      "label": "Online algorithms",
+      "count": 91
+    },
+    {
+      "label": "Datasets",
+      "count": 86
+    },
+    {
+      "label": "Benchmarks",
+      "count": 77
+    },
+    {
+      "label": "Safety",
+      "count": 76
+    },
+    {
+      "label": "Sampling",
+      "count": 73
+    },
+    {
+      "label": "Neural networks",
+      "count": 71
+    },
+    {
+      "label": "Convex optimization",
+      "count": 63
+    },
+    {
+      "label": "Optimal control",
+      "count": 60
+    },
+    {
+      "label": "Model predictive control",
+      "count": 52
+    },
+    {
+      "label": "Autonomous driving",
+      "count": 51
+    },
+    {
+      "label": "Predictive control",
+      "count": 48
+    },
+    {
+      "label": "Uncertainty",
+      "count": 46
+    },
+    {
+      "label": "Gradient descent",
+      "count": 45
+    },
+    {
+      "label": "Accuracy",
+      "count": 44
+    },
+    {
+      "label": "Generalization",
+      "count": 44
+    },
+    {
+      "label": "Vehicles",
+      "count": 43
+    },
+    {
+      "label": "Sampling-based methods",
+      "count": 41
+    },
+    {
+      "label": "Deep learning",
+      "count": 39
+    },
+    {
+      "label": "Classification",
+      "count": 38
+    },
+    {
+      "label": "Real-time systems",
+      "count": 38
+    },
+    {
+      "label": "Stability analysis",
+      "count": 36
+    },
+    {
+      "label": "RL",
       "count": 35
     },
     {
+      "label": "System identification",
+      "count": 35
+    },
+    {
+      "label": "Graphs",
+      "count": 34
+    },
+    {
+      "label": "Diffusion models",
+      "count": 33
+    },
+    {
+      "label": "Machine learning",
+      "count": 32
+    },
+    {
       "label": "Sampling-based planning",
-      "count": 31
+      "count": 32
+    },
+    {
+      "label": "MPPI",
+      "count": 30
+    },
+    {
+      "label": "Path planning",
+      "count": 30
+    },
+    {
+      "label": "Policy gradients",
+      "count": 30
+    },
+    {
+      "label": "Imitation learning",
+      "count": 26
+    },
+    {
+      "label": "Computer vision",
+      "count": 25
+    },
+    {
+      "label": "Convolutional networks",
+      "count": 25
+    },
+    {
+      "label": "MPC",
+      "count": 25
+    },
+    {
+      "label": "Sample complexity",
+      "count": 25
+    },
+    {
+      "label": "Differential dynamic programming",
+      "count": 24
+    },
+    {
+      "label": "Distributed systems",
+      "count": 23
     },
     {
       "label": "Kinodynamic planning",
       "count": 23
     },
     {
-      "label": "MPPI",
-      "count": 23
-    },
-    {
-      "label": "Autonomous driving",
+      "label": "Transformers",
       "count": 22
     },
     {
-      "label": "Differential dynamic programming",
-      "count": 22
+      "label": "Attention mechanisms",
+      "count": 21
     },
     {
-      "label": "Optimal control",
-      "count": 22
+      "label": "Probabilistic models",
+      "count": 20
     },
     {
-      "label": "Path planning",
-      "count": 22
+      "label": "Semidefinite programming",
+      "count": 20
     },
     {
-      "label": "Robotics",
+      "label": "Nonconvex optimization",
+      "count": 19
+    },
+    {
+      "label": "Aerial robotics",
+      "count": 18
+    },
+    {
+      "label": "Multiplicative noise",
+      "count": 18
+    },
+    {
+      "label": "RRT",
+      "count": 18
+    },
+    {
+      "label": "Stochastic gradients",
       "count": 18
     },
     {
@@ -22963,35 +24283,83 @@ window.analyticsData = {
       "count": 17
     },
     {
+      "label": "Language models",
+      "count": 17
+    },
+    {
+      "label": "Regret bounds",
+      "count": 17
+    },
+    {
       "label": "Survey",
       "count": 17
     },
     {
-      "label": "System identification",
-      "count": 17
-    },
-    {
-      "label": "Convex optimization",
-      "count": 15
+      "label": "Foundation models",
+      "count": 16
     },
     {
       "label": "Linear systems",
       "count": 15
     },
     {
-      "label": "RRT",
+      "label": "Linear-quadratic regulator",
       "count": 15
     },
     {
-      "label": "Multiplicative noise",
+      "label": "LQR",
+      "count": 15
+    },
+    {
+      "label": "Regression",
+      "count": 15
+    },
+    {
+      "label": "Robust control",
+      "count": 15
+    },
+    {
+      "label": "Scalability",
+      "count": 15
+    },
+    {
+      "label": "Computational complexity",
       "count": 14
+    },
+    {
+      "label": "Markov decision process",
+      "count": 14
+    },
+    {
+      "label": "Policy gradient",
+      "count": 14
+    },
+    {
+      "label": "Dynamic programming",
+      "count": 13
+    },
+    {
+      "label": "Large language models",
+      "count": 13
+    },
+    {
+      "label": "Offline algorithms",
+      "count": 13
     },
     {
       "label": "RRT*",
       "count": 13
     },
     {
-      "label": "Model predictive control",
+      "label": "Time series",
+      "count": 13
+    },
+    {
+      "label": "Clustering",
+      "count": 12
+    },
+    {
+      "label": "Collision avoidance",
       "count": 12
     },
     {
@@ -23000,6 +24368,10 @@ window.analyticsData = {
     },
     {
       "label": "Sampling-based control",
+      "count": 12
+    },
+    {
+      "label": "Self-supervised learning",
       "count": 12
     },
     {
@@ -23027,19 +24399,39 @@ window.analyticsData = {
       "count": 11
     },
     {
-      "label": "Computer vision",
+      "label": "Optimization problem",
+      "count": 11
+    },
+    {
+      "label": "Policy optimization",
+      "count": 11
+    },
+    {
+      "label": "Stochastic gradient descent",
+      "count": 11
+    },
+    {
+      "label": "Supervised learning",
+      "count": 11
+    },
+    {
+      "label": "Adaptive control",
       "count": 10
     },
     {
-      "label": "Machine learning",
+      "label": "Classifiers",
       "count": 10
     },
     {
-      "label": "Robust control",
+      "label": "DDP",
       "count": 10
     },
     {
-      "label": "Safety",
+      "label": "Nonlinear system",
+      "count": 10
+    },
+    {
+      "label": "Policy iteration",
       "count": 10
     },
     {
@@ -23047,15 +24439,39 @@ window.analyticsData = {
       "count": 10
     },
     {
-      "label": "Adaptive control",
-      "count": 9
+      "label": "Vision-language models",
+      "count": 10
     },
     {
       "label": "Decision trees",
       "count": 9
     },
     {
-      "label": "Dynamic programming",
+      "label": "GPU",
+      "count": 9
+    },
+    {
+      "label": "Kalman filter",
+      "count": 9
+    },
+    {
+      "label": "Lyapunov methods",
+      "count": 9
+    },
+    {
+      "label": "Multi-agent systems",
+      "count": 9
+    },
+    {
+      "label": "Object detection",
+      "count": 9
+    },
+    {
+      "label": "Partial observability",
+      "count": 9
+    },
+    {
+      "label": "Representation learning",
       "count": 9
     },
     {
@@ -23063,7 +24479,27 @@ window.analyticsData = {
       "count": 9
     },
     {
-      "label": "Collision avoidance",
+      "label": "State space",
+      "count": 9
+    },
+    {
+      "label": "Variance reduction",
+      "count": 9
+    },
+    {
+      "label": "VLA",
+      "count": 9
+    },
+    {
+      "label": "Autoencoders",
+      "count": 8
+    },
+    {
+      "label": "Control theory",
+      "count": 8
+    },
+    {
+      "label": "Convolutional neural network",
       "count": 8
     },
     {
@@ -23071,35 +24507,59 @@ window.analyticsData = {
       "count": 8
     },
     {
-      "label": "DDP",
+      "label": "Low-rank models",
       "count": 8
     },
     {
-      "label": "Deep learning",
+      "label": "Natural gradients",
       "count": 8
     },
     {
-      "label": "GPU",
+      "label": "Nearest neighbors",
       "count": 8
     },
     {
-      "label": "Optimization",
+      "label": "Nonlinear systems",
       "count": 8
     },
     {
-      "label": "Policy optimization",
-      "count": 8
-    },
-    {
-      "label": "Stochastic optimal control",
-      "count": 8
+      "label": "Bandits",
+      "count": 7
     },
     {
       "label": "Benchmarking",
       "count": 7
     },
     {
-      "label": "Nonlinear systems",
+      "label": "Computer graphics",
+      "count": 7
+    },
+    {
+      "label": "Control barrier functions",
+      "count": 7
+    },
+    {
+      "label": "Dynamic mode decomposition",
+      "count": 7
+    },
+    {
+      "label": "Gradient method",
+      "count": 7
+    },
+    {
+      "label": "Kalman filtering",
+      "count": 7
+    },
+    {
+      "label": "Linear system",
+      "count": 7
+    },
+    {
+      "label": "LQG",
+      "count": 7
+    },
+    {
+      "label": "Optimal transport",
       "count": 7
     },
     {
@@ -23107,8 +24567,36 @@ window.analyticsData = {
       "count": 7
     },
     {
+      "label": "Q-learning",
+      "count": 7
+    },
+    {
+      "label": "Real-time",
+      "count": 7
+    },
+    {
+      "label": "Real-time planning",
+      "count": 7
+    },
+    {
       "label": "Social networks",
       "count": 7
+    },
+    {
+      "label": "Stochastic optimal control",
+      "count": 7
+    },
+    {
+      "label": "Stochastic optimization",
+      "count": 7
+    },
+    {
+      "label": "Time series classification",
+      "count": 7
+    },
+    {
+      "label": "Algebraic Riccati equation",
+      "count": 6
     },
     {
       "label": "Anytime planning",
@@ -23123,15 +24611,15 @@ window.analyticsData = {
       "count": 6
     },
     {
-      "label": "Computer graphics",
-      "count": 6
-    },
-    {
       "label": "Continuous control",
       "count": 6
     },
     {
-      "label": "Control",
+      "label": "Convex function",
+      "count": 6
+    },
+    {
+      "label": "CUDA",
       "count": 6
     },
     {
@@ -23139,15 +24627,23 @@ window.analyticsData = {
       "count": 6
     },
     {
-      "label": "Dynamic mode decomposition",
-      "count": 6
-    },
-    {
       "label": "Flow visualization",
       "count": 6
     },
     {
-      "label": "Imitation learning",
+      "label": "Game theory",
+      "count": 6
+    },
+    {
+      "label": "GCS",
+      "count": 6
+    },
+    {
+      "label": "Generative model",
+      "count": 6
+    },
+    {
+      "label": "Hyperparameter optimization",
       "count": 6
     },
     {
@@ -23155,7 +24651,15 @@ window.analyticsData = {
       "count": 6
     },
     {
+      "label": "Line search",
+      "count": 6
+    },
+    {
       "label": "Model-based",
+      "count": 6
+    },
+    {
+      "label": "Monte Carlo methods",
       "count": 6
     },
     {
@@ -23171,14 +24675,6 @@ window.analyticsData = {
       "count": 6
     },
     {
-      "label": "Real-time",
-      "count": 6
-    },
-    {
-      "label": "Real-time planning",
-      "count": 6
-    },
-    {
       "label": "Robot motion planning",
       "count": 6
     },
@@ -23191,7 +24687,7 @@ window.analyticsData = {
       "count": 6
     },
     {
-      "label": "Self-supervised learning",
+      "label": "State estimation",
       "count": 6
     },
     {
@@ -23203,7 +24699,19 @@ window.analyticsData = {
       "count": 6
     },
     {
-      "label": "Algebraic Riccati equation",
+      "label": "Value iteration",
+      "count": 6
+    },
+    {
+      "label": "Vector field visualization",
+      "count": 6
+    },
+    {
+      "label": "Wasserstein distances",
+      "count": 6
+    },
+    {
+      "label": "ADMM",
       "count": 5
     },
     {
@@ -23211,19 +24719,35 @@ window.analyticsData = {
       "count": 5
     },
     {
-      "label": "Control theory",
+      "label": "Bayesian methods",
       "count": 5
     },
     {
-      "label": "Foundation models",
+      "label": "Bellman equations",
       "count": 5
     },
     {
-      "label": "Game theory",
+      "label": "Causal inference",
       "count": 5
     },
     {
-      "label": "Gradient descent",
+      "label": "CVAR",
+      "count": 5
+    },
+    {
+      "label": "DMD",
+      "count": 5
+    },
+    {
+      "label": "Exponential stability",
+      "count": 5
+    },
+    {
+      "label": "Gradient boosting",
+      "count": 5
+    },
+    {
+      "label": "Humanoid robot",
       "count": 5
     },
     {
@@ -23231,11 +24755,15 @@ window.analyticsData = {
       "count": 5
     },
     {
-      "label": "Hyperparameter optimization",
+      "label": "Image generation",
       "count": 5
     },
     {
-      "label": "Kalman filter",
+      "label": "Language model",
+      "count": 5
+    },
+    {
+      "label": "Linear programming",
       "count": 5
     },
     {
@@ -23243,15 +24771,35 @@ window.analyticsData = {
       "count": 5
     },
     {
+      "label": "Mobile robots",
+      "count": 5
+    },
+    {
       "label": "Nonholonomic systems",
       "count": 5
     },
     {
-      "label": "Policy gradient",
+      "label": "Obstacle avoidance",
+      "count": 5
+    },
+    {
+      "label": "Open source",
+      "count": 5
+    },
+    {
+      "label": "Policy learning",
+      "count": 5
+    },
+    {
+      "label": "Quadratic programming",
       "count": 5
     },
     {
       "label": "Stabilization",
+      "count": 5
+    },
+    {
+      "label": "Stationary point",
       "count": 5
     },
     {
@@ -23263,7 +24811,11 @@ window.analyticsData = {
       "count": 5
     },
     {
-      "label": "Vector field visualization",
+      "label": "Transfer learning",
+      "count": 5
+    },
+    {
+      "label": "Variational inference",
       "count": 5
     },
     {
@@ -23275,7 +24827,15 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Automatic differentiation",
+      "count": 4
+    },
+    {
       "label": "Bayesian optimization",
+      "count": 4
+    },
+    {
+      "label": "Behavior cloning",
       "count": 4
     },
     {
@@ -23287,11 +24847,15 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Classification",
+      "label": "Complex networks",
       "count": 4
     },
     {
-      "label": "Complex networks",
+      "label": "Configuration space",
+      "count": 4
+    },
+    {
+      "label": "Constraints",
       "count": 4
     },
     {
@@ -23307,11 +24871,7 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Diffusion models",
-      "count": 4
-    },
-    {
-      "label": "DMD",
+      "label": "DR",
       "count": 4
     },
     {
@@ -23323,7 +24883,19 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Evolution strategies",
+      "count": 4
+    },
+    {
       "label": "Evolutionary computation",
+      "count": 4
+    },
+    {
+      "label": "Few-shot learning",
+      "count": 4
+    },
+    {
+      "label": "Fluid dynamics",
       "count": 4
     },
     {
@@ -23331,7 +24903,11 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "GCS",
+      "label": "Function approximation",
+      "count": 4
+    },
+    {
+      "label": "Gaussian processes",
       "count": 4
     },
     {
@@ -23339,11 +24915,23 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Inverse reinforcement learning",
+      "count": 4
+    },
+    {
       "label": "Legged robots",
       "count": 4
     },
     {
-      "label": "Mobile robots",
+      "label": "Linear dynamical system",
+      "count": 4
+    },
+    {
+      "label": "Lyapunov function",
+      "count": 4
+    },
+    {
+      "label": "MDP",
       "count": 4
     },
     {
@@ -23367,11 +24955,11 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Network centrality",
+      "label": "Natural language",
       "count": 4
     },
     {
-      "label": "Nonlinear optimization",
+      "label": "Network centrality",
       "count": 4
     },
     {
@@ -23387,7 +24975,35 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Ordinary differential equation",
+      "count": 4
+    },
+    {
+      "label": "OT",
+      "count": 4
+    },
+    {
+      "label": "Out-of-distribution generalization",
+      "count": 4
+    },
+    {
+      "label": "Parallel computing",
+      "count": 4
+    },
+    {
+      "label": "PG",
+      "count": 4
+    },
+    {
       "label": "Post-processing",
+      "count": 4
+    },
+    {
+      "label": "PPO",
+      "count": 4
+    },
+    {
+      "label": "Proximal policy optimization",
       "count": 4
     },
     {
@@ -23395,7 +25011,7 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Representation learning",
+      "label": "Robust optimization",
       "count": 4
     },
     {
@@ -23403,7 +25019,11 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Semidefinite programming",
+      "label": "Saddle point",
+      "count": 4
+    },
+    {
+      "label": "SCP",
       "count": 4
     },
     {
@@ -23435,10 +25055,6 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Variance reduction",
-      "count": 4
-    },
-    {
       "label": "3D scene",
       "count": 3
     },
@@ -23451,7 +25067,23 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "AD",
+      "count": 3
+    },
+    {
+      "label": "Animation",
+      "count": 3
+    },
+    {
       "label": "Animation coherence",
+      "count": 3
+    },
+    {
+      "label": "BC",
+      "count": 3
+    },
+    {
+      "label": "Bellman equation",
       "count": 3
     },
     {
@@ -23467,11 +25099,15 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "computer vision",
+      "label": "Computational geometry",
       "count": 3
     },
     {
-      "label": "Constraints",
+      "label": "Conic optimization",
+      "count": 3
+    },
+    {
+      "label": "Constraint satisfaction",
       "count": 3
     },
     {
@@ -23483,7 +25119,23 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "CUDA",
+      "label": "CVXPY",
+      "count": 3
+    },
+    {
+      "label": "Decision tree",
+      "count": 3
+    },
+    {
+      "label": "Deployment",
+      "count": 3
+    },
+    {
+      "label": "Differential equation",
+      "count": 3
+    },
+    {
+      "label": "Diffusion",
       "count": 3
     },
     {
@@ -23507,15 +25159,11 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "Evolution strategies",
+      "label": "Federated learning",
       "count": 3
     },
     {
       "label": "Feedback control",
-      "count": 3
-    },
-    {
-      "label": "Fluid dynamics",
       "count": 3
     },
     {
@@ -23524,6 +25172,10 @@ window.analyticsData = {
     },
     {
       "label": "Goal assignment",
+      "count": 3
+    },
+    {
+      "label": "Graph neural networks",
       "count": 3
     },
     {
@@ -23539,7 +25191,19 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Image compression",
+      "count": 3
+    },
+    {
+      "label": "Information theory",
+      "count": 3
+    },
+    {
       "label": "Informed sampling",
+      "count": 3
+    },
+    {
+      "label": "Inverted pendulum",
       "count": 3
     },
     {
@@ -23555,11 +25219,35 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "LQR",
+      "label": "Markov decision processes",
+      "count": 3
+    },
+    {
+      "label": "MARL",
+      "count": 3
+    },
+    {
+      "label": "Matching",
+      "count": 3
+    },
+    {
+      "label": "Meta-learning",
+      "count": 3
+    },
+    {
+      "label": "Model predictive path integral",
       "count": 3
     },
     {
       "label": "Model-free control",
+      "count": 3
+    },
+    {
+      "label": "Monte Carlo tree search",
+      "count": 3
+    },
+    {
+      "label": "Nearest neighbor search",
       "count": 3
     },
     {
@@ -23571,7 +25259,15 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Nonlinear optimization",
+      "count": 3
+    },
+    {
       "label": "Nonlinear programming",
+      "count": 3
+    },
+    {
+      "label": "NP-hardness",
       "count": 3
     },
     {
@@ -23579,19 +25275,15 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "object detection",
-      "count": 3
-    },
-    {
-      "label": "Obstacle avoidance",
-      "count": 3
-    },
-    {
-      "label": "Open source",
+      "label": "ODE",
       "count": 3
     },
     {
       "label": "Open-source software",
+      "count": 3
+    },
+    {
+      "label": "Output feedback",
       "count": 3
     },
     {
@@ -23607,10 +25299,6 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "Policy iteration",
-      "count": 3
-    },
-    {
       "label": "Prediction",
       "count": 3
     },
@@ -23623,15 +25311,19 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Rate of convergence",
+      "count": 3
+    },
+    {
+      "label": "Recurrent neural networks",
+      "count": 3
+    },
+    {
       "label": "Robot learning",
       "count": 3
     },
     {
       "label": "Robot navigation",
-      "count": 3
-    },
-    {
-      "label": "Robustness",
       "count": 3
     },
     {
@@ -23643,7 +25335,23 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "SGD",
+      "count": 3
+    },
+    {
+      "label": "SIMD",
+      "count": 3
+    },
+    {
       "label": "Software",
+      "count": 3
+    },
+    {
+      "label": "SPC",
+      "count": 3
+    },
+    {
+      "label": "Stability",
       "count": 3
     },
     {
@@ -23659,15 +25367,39 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "Stochastic gradient descent",
+      "label": "Temporal difference learning",
       "count": 3
     },
     {
-      "label": "Transfer learning",
+      "label": "Transformer",
+      "count": 3
+    },
+    {
+      "label": "TSC",
+      "count": 3
+    },
+    {
+      "label": "UCR archive",
       "count": 3
     },
     {
       "label": "Unsteady flows",
+      "count": 3
+    },
+    {
+      "label": "Unsupervised learning",
+      "count": 3
+    },
+    {
+      "label": "Vehicle dynamics",
+      "count": 3
+    },
+    {
+      "label": "Vision-language-action",
+      "count": 3
+    },
+    {
+      "label": "VLM",
       "count": 3
     },
     {
@@ -23687,15 +25419,23 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "AI",
+      "count": 2
+    },
+    {
       "label": "Algorithm",
       "count": 2
     },
     {
-      "label": "Animation",
+      "label": "Architecture",
       "count": 2
     },
     {
       "label": "Articulated vehicles",
+      "count": 2
+    },
+    {
+      "label": "Artificial intelligence",
       "count": 2
     },
     {
@@ -23707,15 +25447,11 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Automatic differentiation",
-      "count": 2
-    },
-    {
-      "label": "Autonomous Driving",
-      "count": 2
-    },
-    {
       "label": "Autonomous systems",
+      "count": 2
+    },
+    {
+      "label": "AV",
       "count": 2
     },
     {
@@ -23728,6 +25464,10 @@ window.analyticsData = {
     },
     {
       "label": "BIT*",
+      "count": 2
+    },
+    {
+      "label": "Black box",
       "count": 2
     },
     {
@@ -23755,7 +25495,15 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Clustering",
+      "label": "CMA-ES",
+      "count": 2
+    },
+    {
+      "label": "CNN",
+      "count": 2
+    },
+    {
+      "label": "Code generation",
       "count": 2
     },
     {
@@ -23775,23 +25523,15 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Computational geometry",
+      "label": "Compressed sensing",
       "count": 2
     },
     {
-      "label": "Configuration space",
-      "count": 2
-    },
-    {
-      "label": "Conic optimization",
+      "label": "Conjugate gradient",
       "count": 2
     },
     {
       "label": "Constrained optimal control",
-      "count": 2
-    },
-    {
-      "label": "Control barrier functions",
       "count": 2
     },
     {
@@ -23823,6 +25563,18 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Convex hull",
+      "count": 2
+    },
+    {
+      "label": "Convex relaxation",
+      "count": 2
+    },
+    {
+      "label": "Convolutional kernels",
+      "count": 2
+    },
+    {
       "label": "CRISPR-Cas9",
       "count": 2
     },
@@ -23835,7 +25587,7 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "CVXPY",
+      "label": "CVXPYgen",
       "count": 2
     },
     {
@@ -23843,7 +25595,27 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Data-driven Simulation",
+      "label": "Data-driven",
+      "count": 2
+    },
+    {
+      "label": "Data-driven simulation",
+      "count": 2
+    },
+    {
+      "label": "Deep neural networks",
+      "count": 2
+    },
+    {
+      "label": "Delaunay triangulation",
+      "count": 2
+    },
+    {
+      "label": "Deterministic transforms",
+      "count": 2
+    },
+    {
+      "label": "Differentiable programming",
       "count": 2
     },
     {
@@ -23851,7 +25623,7 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Diffusion",
+      "label": "Diffusion policy",
       "count": 2
     },
     {
@@ -23863,7 +25635,15 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "DROID",
+      "count": 2
+    },
+    {
       "label": "Dubins",
+      "count": 2
+    },
+    {
+      "label": "Dynamical system",
       "count": 2
     },
     {
@@ -23871,19 +25651,19 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Embodied AI",
-      "count": 2
-    },
-    {
       "label": "Empirical risk minimization",
       "count": 2
     },
     {
-      "label": "Evolutionary algorithms",
+      "label": "ENCODE",
       "count": 2
     },
     {
-      "label": "Explainability",
+      "label": "ES",
+      "count": 2
+    },
+    {
+      "label": "ESDF",
       "count": 2
     },
     {
@@ -23899,10 +25679,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Feature attribution",
-      "count": 2
-    },
-    {
       "label": "Finite-sum optimization",
       "count": 2
     },
@@ -23911,7 +25687,11 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Function approximation",
+      "label": "Flow matching",
+      "count": 2
+    },
+    {
+      "label": "FM",
       "count": 2
     },
     {
@@ -23919,7 +25699,11 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Gaussian processes",
+      "label": "Gaussian process",
+      "count": 2
+    },
+    {
+      "label": "Generative adversarial network",
       "count": 2
     },
     {
@@ -23943,10 +25727,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Gradient boosting",
-      "count": 2
-    },
-    {
       "label": "Gradient methods",
       "count": 2
     },
@@ -23956,6 +25736,14 @@ window.analyticsData = {
     },
     {
       "label": "Graph implementations",
+      "count": 2
+    },
+    {
+      "label": "Graphs of convex sets",
+      "count": 2
+    },
+    {
+      "label": "GRASP",
       "count": 2
     },
     {
@@ -23983,11 +25771,11 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Humanoid robots",
+      "label": "Hybrid planning",
       "count": 2
     },
     {
-      "label": "Hybrid planning",
+      "label": "IL",
       "count": 2
     },
     {
@@ -24003,15 +25791,23 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Inference",
+      "count": 2
+    },
+    {
       "label": "Information retrieval",
       "count": 2
     },
     {
-      "label": "Information theory",
+      "label": "Informed RRT*",
       "count": 2
     },
     {
-      "label": "Informed RRT*",
+      "label": "Integer programming",
+      "count": 2
+    },
+    {
+      "label": "Intelligent driver model",
       "count": 2
     },
     {
@@ -24023,11 +25819,27 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Interior point method",
+      "count": 2
+    },
+    {
+      "label": "Inverse kinematics",
+      "count": 2
+    },
+    {
       "label": "Inverse optimal control",
       "count": 2
     },
     {
-      "label": "Inverted pendulum",
+      "label": "IQC",
+      "count": 2
+    },
+    {
+      "label": "IRL",
+      "count": 2
+    },
+    {
+      "label": "ISS",
       "count": 2
     },
     {
@@ -24035,7 +25847,11 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Joint embedding predictive architecture",
+      "label": "JPEG",
+      "count": 2
+    },
+    {
+      "label": "K-FAC",
       "count": 2
     },
     {
@@ -24047,7 +25863,7 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Learning",
+      "label": "LDS",
       "count": 2
     },
     {
@@ -24059,7 +25875,15 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Linear programming",
+      "label": "Linear classifiers",
+      "count": 2
+    },
+    {
+      "label": "Linear transformations",
+      "count": 2
+    },
+    {
+      "label": "Linear-quadratic-Gaussian control",
       "count": 2
     },
     {
@@ -24067,11 +25891,23 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "LLM",
+      "count": 2
+    },
+    {
       "label": "Local minima",
       "count": 2
     },
     {
+      "label": "LQ",
+      "count": 2
+    },
+    {
       "label": "LQG control",
+      "count": 2
+    },
+    {
+      "label": "LTI",
       "count": 2
     },
     {
@@ -24083,11 +25919,19 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Markov chain",
+      "count": 2
+    },
+    {
       "label": "MATLAB toolbox",
       "count": 2
     },
     {
-      "label": "MDP",
+      "label": "Matrix factorization",
+      "count": 2
+    },
+    {
+      "label": "MCTS",
       "count": 2
     },
     {
@@ -24099,7 +25943,19 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "MIP",
+      "count": 2
+    },
+    {
       "label": "Mixed-integer programming",
+      "count": 2
+    },
+    {
+      "label": "ML",
+      "count": 2
+    },
+    {
+      "label": "Mobile robot",
       "count": 2
     },
     {
@@ -24108,6 +25964,10 @@ window.analyticsData = {
     },
     {
       "label": "Model uncertainty",
+      "count": 2
+    },
+    {
+      "label": "Model-based reinforcement learning",
       "count": 2
     },
     {
@@ -24127,15 +25987,7 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Monte Carlo Tree Search",
-      "count": 2
-    },
-    {
       "label": "Moving obstacles",
-      "count": 2
-    },
-    {
-      "label": "MPC",
       "count": 2
     },
     {
@@ -24159,6 +26011,22 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "NE",
+      "count": 2
+    },
+    {
+      "label": "NeRF",
+      "count": 2
+    },
+    {
+      "label": "Nesterov acceleration",
+      "count": 2
+    },
+    {
+      "label": "Network architecture",
+      "count": 2
+    },
+    {
       "label": "Neural network",
       "count": 2
     },
@@ -24167,11 +26035,7 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Neural networks",
-      "count": 2
-    },
-    {
-      "label": "Neural rendering",
+      "label": "NLP",
       "count": 2
     },
     {
@@ -24191,11 +26055,23 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "OpenAI Gym",
+      "label": "nuPlan",
       "count": 2
     },
     {
-      "label": "optimal control",
+      "label": "OLS",
+      "count": 2
+    },
+    {
+      "label": "Online learning",
+      "count": 2
+    },
+    {
+      "label": "OOD",
+      "count": 2
+    },
+    {
+      "label": "OpenAI Gym",
       "count": 2
     },
     {
@@ -24215,6 +26091,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "PAC",
+      "count": 2
+    },
+    {
       "label": "Parameter estimation",
       "count": 2
     },
@@ -24231,15 +26111,19 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "pedestrian detection",
+      "label": "Pedestrian detection",
       "count": 2
     },
     {
-      "label": "Planning",
+      "label": "PID controller",
       "count": 2
     },
     {
-      "label": "Policy gradients",
+      "label": "PL",
+      "count": 2
+    },
+    {
+      "label": "Point cloud",
       "count": 2
     },
     {
@@ -24247,11 +26131,11 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Policy Learning",
+      "label": "POMDPs",
       "count": 2
     },
     {
-      "label": "POMDPs",
+      "label": "Pose estimation",
       "count": 2
     },
     {
@@ -24279,23 +26163,11 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Proximal policy optimization",
-      "count": 2
-    },
-    {
       "label": "Python",
       "count": 2
     },
     {
-      "label": "Quadratic programming",
-      "count": 2
-    },
-    {
       "label": "Quasi-Newton methods",
-      "count": 2
-    },
-    {
-      "label": "Random forests",
       "count": 2
     },
     {
@@ -24307,7 +26179,19 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Random variable",
+      "count": 2
+    },
+    {
       "label": "Randomized planning",
+      "count": 2
+    },
+    {
+      "label": "Rank minimization",
+      "count": 2
+    },
+    {
+      "label": "Rapidly-exploring random tree",
       "count": 2
     },
     {
@@ -24347,6 +26231,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Riccati equation",
+      "count": 2
+    },
+    {
       "label": "Roadmap",
       "count": 2
     },
@@ -24355,11 +26243,11 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Robot control",
+      "label": "Robot arm",
       "count": 2
     },
     {
-      "label": "Robot foundation models",
+      "label": "Robot control",
       "count": 2
     },
     {
@@ -24371,7 +26259,15 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Sample complexity",
+      "label": "SAGA",
+      "count": 2
+    },
+    {
+      "label": "SDP",
+      "count": 2
+    },
+    {
+      "label": "Search trees",
       "count": 2
     },
     {
@@ -24387,23 +26283,27 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Self driving",
+      "count": 2
+    },
+    {
+      "label": "Semantic segmentation",
+      "count": 2
+    },
+    {
       "label": "Sequential decision making",
       "count": 2
     },
     {
-      "label": "SHAP",
+      "label": "Sequential quadratic programming",
       "count": 2
     },
     {
-      "label": "Shapley values",
+      "label": "Shortest path problem",
       "count": 2
     },
     {
-      "label": "Sim-to-Real Transfer",
-      "count": 2
-    },
-    {
-      "label": "SIMD",
+      "label": "Sim-to-real transfer",
       "count": 2
     },
     {
@@ -24423,15 +26323,19 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "SOS",
+      "count": 2
+    },
+    {
+      "label": "Source code",
+      "count": 2
+    },
+    {
       "label": "Sparse regression",
       "count": 2
     },
     {
       "label": "Splines",
-      "count": 2
-    },
-    {
-      "label": "State estimation",
       "count": 2
     },
     {
@@ -24447,10 +26351,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Stochastic optimization",
-      "count": 2
-    },
-    {
       "label": "Stochastic parameters",
       "count": 2
     },
@@ -24463,11 +26363,15 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Sum-of-squares programming",
+      "count": 2
+    },
+    {
       "label": "SVM",
       "count": 2
     },
     {
-      "label": "Temporal difference learning",
+      "label": "TAMP",
       "count": 2
     },
     {
@@ -24479,7 +26383,15 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Thompson sampling",
+      "count": 2
+    },
+    {
       "label": "Time-dependent vector fields",
+      "count": 2
+    },
+    {
+      "label": "Time-optimal",
       "count": 2
     },
     {
@@ -24491,11 +26403,11 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Tracking control",
+      "label": "TO",
       "count": 2
     },
     {
-      "label": "Transformer",
+      "label": "Tracking control",
       "count": 2
     },
     {
@@ -24511,11 +26423,11 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "UFLIC",
+      "label": "UAV",
       "count": 2
     },
     {
-      "label": "Uncertainty",
+      "label": "UFLIC",
       "count": 2
     },
     {
@@ -24523,27 +26435,19 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Unsupervised learning",
-      "count": 2
-    },
-    {
       "label": "Urban driving",
       "count": 2
     },
     {
-      "label": "V-JEPA",
+      "label": "Variational autoencoders",
       "count": 2
     },
     {
-      "label": "Variational inference",
+      "label": "Vision-language model",
       "count": 2
     },
     {
-      "label": "Vehicle dynamics",
-      "count": 2
-    },
-    {
-      "label": "Video representation learning",
+      "label": "Vision-language-action model",
       "count": 2
     },
     {
@@ -24551,7 +26455,7 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "World models",
+      "label": "XAI",
       "count": 2
     },
     {
@@ -24559,7 +26463,27 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "acados",
+      "label": "ZO",
+      "count": 2
+    },
+    {
+      "label": "3D ShapeNets",
+      "count": 1
+    },
+    {
+      "label": "Abstraction",
+      "count": 1
+    },
+    {
+      "label": "Acados",
+      "count": 1
+    },
+    {
+      "label": "Accelerated HDBSCAN",
+      "count": 1
+    },
+    {
+      "label": "Acceleration",
       "count": 1
     },
     {
@@ -24568,6 +26492,14 @@ window.analyticsData = {
     },
     {
       "label": "Accelerators",
+      "count": 1
+    },
+    {
+      "label": "ACKTR",
+      "count": 1
+    },
+    {
+      "label": "AcroMonk",
       "count": 1
     },
     {
@@ -24583,6 +26515,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Action reasoning",
+      "count": 1
+    },
+    {
       "label": "Action sampling",
       "count": 1
     },
@@ -24591,7 +26527,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Action-conditioned prediction",
+      "label": "Active imitation learning",
+      "count": 1
+    },
+    {
+      "label": "Actor-critic model predictive control",
       "count": 1
     },
     {
@@ -24607,6 +26547,18 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Adam",
+      "count": 1
+    },
+    {
+      "label": "Adam-mini",
+      "count": 1
+    },
+    {
+      "label": "AdamW",
+      "count": 1
+    },
+    {
       "label": "Adaptation",
       "count": 1
     },
@@ -24619,11 +26571,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Adaptive experimentation",
+      "label": "Adaptive immunity",
       "count": 1
     },
     {
-      "label": "Adaptive immunity",
+      "label": "Adaptive sampling",
       "count": 1
     },
     {
@@ -24631,11 +26583,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "ADMM",
+      "label": "Adopt the quasi-Newton method",
       "count": 1
     },
     {
       "label": "ADS",
+      "count": 1
+    },
+    {
+      "label": "Adversarial IRL",
       "count": 1
     },
     {
@@ -24644,6 +26600,10 @@ window.analyticsData = {
     },
     {
       "label": "Aerial swarms",
+      "count": 1
+    },
+    {
+      "label": "Affine rank minimization",
       "count": 1
     },
     {
@@ -24656,6 +26616,18 @@ window.analyticsData = {
     },
     {
       "label": "AID",
+      "count": 1
+    },
+    {
+      "label": "AIL",
+      "count": 1
+    },
+    {
+      "label": "AIRL",
+      "count": 1
+    },
+    {
+      "label": "AKA",
       "count": 1
     },
     {
@@ -24683,7 +26655,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Ambiguity sets",
+      "label": "Amortized",
       "count": 1
     },
     {
@@ -24691,11 +26663,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "angular acceleration",
-      "count": 1
-    },
-    {
-      "label": "animation",
+      "label": "Angular acceleration",
       "count": 1
     },
     {
@@ -24711,11 +26679,27 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "AORRTC",
+      "count": 1
+    },
+    {
+      "label": "APDAGD",
+      "count": 1
+    },
+    {
+      "label": "Aperiodic monotile",
+      "count": 1
+    },
+    {
       "label": "Approximate dynamic programming",
       "count": 1
     },
     {
       "label": "Approximate force calculation",
+      "count": 1
+    },
+    {
+      "label": "Approximate inference",
       "count": 1
     },
     {
@@ -24735,11 +26719,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Approximation error",
+      "count": 1
+    },
+    {
       "label": "Arbitrary-shape clusters",
       "count": 1
     },
     {
-      "label": "Architecture",
+      "label": "ARMA",
       "count": 1
     },
     {
@@ -24747,11 +26735,19 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Artificial intelligence",
+      "label": "Artificial life",
       "count": 1
     },
     {
-      "label": "Artificial life",
+      "label": "Artificial neural network",
+      "count": 1
+    },
+    {
+      "label": "ASAO",
+      "count": 1
+    },
+    {
+      "label": "ASIA",
       "count": 1
     },
     {
@@ -24787,11 +26783,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Augmented Lagrangian method",
+      "count": 1
+    },
+    {
       "label": "Authority score",
       "count": 1
     },
     {
-      "label": "Autoencoders",
+      "label": "Automated convergence proofs",
       "count": 1
     },
     {
@@ -24800,6 +26800,10 @@ window.analyticsData = {
     },
     {
       "label": "Automation",
+      "count": 1
+    },
+    {
+      "label": "Automotive industry",
       "count": 1
     },
     {
@@ -24815,11 +26819,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Average reward",
+      "label": "AutoTune",
       "count": 1
     },
     {
-      "label": "Ax",
+      "label": "Average reward",
       "count": 1
     },
     {
@@ -24840,6 +26844,10 @@ window.analyticsData = {
     },
     {
       "label": "Backward conformal prediction",
+      "count": 1
+    },
+    {
+      "label": "Bake off redux",
       "count": 1
     },
     {
@@ -24867,7 +26875,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Batch belief trees",
+      "count": 1
+    },
+    {
       "label": "Bayesian constraints",
+      "count": 1
+    },
+    {
+      "label": "Bayesian hyperparameter optimization",
       "count": 1
     },
     {
@@ -24875,7 +26891,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Behavior cloning",
+      "label": "BBT",
+      "count": 1
+    },
+    {
+      "label": "BC-Z",
+      "count": 1
+    },
+    {
+      "label": "BCB",
       "count": 1
     },
     {
@@ -24899,11 +26923,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "BERTopic",
+      "count": 1
+    },
+    {
       "label": "Betweenness centrality",
       "count": 1
     },
     {
-      "label": "Bicycle Model",
+      "label": "BFGS",
+      "count": 1
+    },
+    {
+      "label": "Bicycle model",
       "count": 1
     },
     {
@@ -24916,10 +26948,6 @@ window.analyticsData = {
     },
     {
       "label": "Bilevel rendering",
-      "count": 1
-    },
-    {
-      "label": "Bimanual manipulation",
       "count": 1
     },
     {
@@ -24983,15 +27011,23 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "BoTorch",
-      "count": 1
-    },
-    {
       "label": "Bounded controls",
       "count": 1
     },
     {
+      "label": "Bounded ratio",
+      "count": 1
+    },
+    {
       "label": "Bounding volume hierarchies",
+      "count": 1
+    },
+    {
+      "label": "BPO",
+      "count": 1
+    },
+    {
+      "label": "BRRL",
       "count": 1
     },
     {
@@ -25007,7 +27043,31 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Bézier curve",
+      "count": 1
+    },
+    {
+      "label": "C2M",
+      "count": 1
+    },
+    {
       "label": "C4.5",
+      "count": 1
+    },
+    {
+      "label": "CACTO-BIC",
+      "count": 1
+    },
+    {
+      "label": "CAD",
+      "count": 1
+    },
+    {
+      "label": "Called memoryless GAPS",
+      "count": 1
+    },
+    {
+      "label": "CAPT",
       "count": 1
     },
     {
@@ -25027,6 +27087,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Cardinality minimization",
+      "count": 1
+    },
+    {
+      "label": "CARLA",
+      "count": 1
+    },
+    {
       "label": "CART",
       "count": 1
     },
@@ -25035,7 +27103,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "cascade classifier",
+      "label": "Cascade classifier",
+      "count": 1
+    },
+    {
+      "label": "CAT-ORA",
+      "count": 1
+    },
+    {
+      "label": "CatBoost",
       "count": 1
     },
     {
@@ -25047,11 +27123,27 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "CCD",
+      "count": 1
+    },
+    {
+      "label": "CCP",
+      "count": 1
+    },
+    {
+      "label": "CDT",
+      "count": 1
+    },
+    {
       "label": "Cell reprogramming",
       "count": 1
     },
     {
       "label": "Cellular plasticity",
+      "count": 1
+    },
+    {
+      "label": "CEM",
       "count": 1
     },
     {
@@ -25064,6 +27156,14 @@ window.analyticsData = {
     },
     {
       "label": "Certainty-equivalent",
+      "count": 1
+    },
+    {
+      "label": "Certificates",
+      "count": 1
+    },
+    {
+      "label": "CG",
       "count": 1
     },
     {
@@ -25087,7 +27187,27 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Chiral aperiodic monotile",
+      "count": 1
+    },
+    {
+      "label": "Cholesky decomposition",
+      "count": 1
+    },
+    {
       "label": "CHOMP",
+      "count": 1
+    },
+    {
+      "label": "ChopGrad",
+      "count": 1
+    },
+    {
+      "label": "Chopsticks",
+      "count": 1
+    },
+    {
+      "label": "Circle packing",
       "count": 1
     },
     {
@@ -25095,11 +27215,31 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Clarabel",
+      "count": 1
+    },
+    {
+      "label": "CLARITY",
+      "count": 1
+    },
+    {
       "label": "Climate policy",
       "count": 1
     },
     {
+      "label": "CLIP",
+      "count": 1
+    },
+    {
+      "label": "CLIPPER",
+      "count": 1
+    },
+    {
       "label": "Clique percolation",
+      "count": 1
+    },
+    {
+      "label": "Closed loop",
       "count": 1
     },
     {
@@ -25123,10 +27263,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "CMA-ES",
-      "count": 1
-    },
-    {
       "label": "CNM algorithm",
       "count": 1
     },
@@ -25135,19 +27271,23 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Code generation",
-      "count": 1
-    },
-    {
       "label": "Coincidence theorems",
       "count": 1
     },
     {
-      "label": "collision avoidance",
+      "label": "Collaborative filtering",
       "count": 1
     },
     {
       "label": "Collision checking",
+      "count": 1
+    },
+    {
+      "label": "Collision primitives",
+      "count": 1
+    },
+    {
+      "label": "Collision-affording point tree",
       "count": 1
     },
     {
@@ -25164,6 +27304,10 @@ window.analyticsData = {
     },
     {
       "label": "Communication networks",
+      "count": 1
+    },
+    {
+      "label": "Community structure",
       "count": 1
     },
     {
@@ -25191,6 +27335,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Complex system",
+      "count": 1
+    },
+    {
       "label": "Complex systems",
       "count": 1
     },
@@ -25203,10 +27351,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Computational complexity",
-      "count": 1
-    },
-    {
       "label": "Computational constraints",
       "count": 1
     },
@@ -25215,11 +27359,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "computer graphics",
+      "label": "Computer science philosophy",
       "count": 1
     },
     {
-      "label": "Computer science philosophy",
+      "label": "Concave function",
+      "count": 1
+    },
+    {
+      "label": "Concentration bounds",
       "count": 1
     },
     {
@@ -25231,15 +27379,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Conformal prediction",
-      "count": 1
-    },
-    {
       "label": "Conjugate directions",
       "count": 1
     },
     {
-      "label": "Conjugate gradient",
+      "label": "Conservative",
       "count": 1
     },
     {
@@ -25247,7 +27391,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Constrained delaunay triangulation",
+      "label": "Constrained Delaunay triangulation",
       "count": 1
     },
     {
@@ -25263,10 +27407,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Constraint satisfaction",
-      "count": 1
-    },
-    {
       "label": "Consumer electronics",
       "count": 1
     },
@@ -25276,6 +27416,10 @@ window.analyticsData = {
     },
     {
       "label": "Contact mechanics",
+      "count": 1
+    },
+    {
+      "label": "Contingency plan",
       "count": 1
     },
     {
@@ -25291,7 +27435,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Continuous time",
+      "count": 1
+    },
+    {
       "label": "Contouring control",
+      "count": 1
+    },
+    {
+      "label": "Contract theory",
       "count": 1
     },
     {
@@ -25319,7 +27471,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "control theory",
+      "label": "Control point",
+      "count": 1
+    },
+    {
+      "label": "Control variable",
+      "count": 1
+    },
+    {
+      "label": "Controlgym",
       "count": 1
     },
     {
@@ -25331,7 +27491,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Convergent iLQR",
+      "count": 1
+    },
+    {
       "label": "Convex analysis",
+      "count": 1
+    },
+    {
+      "label": "Convex geometry",
       "count": 1
     },
     {
@@ -25340,6 +27508,10 @@ window.analyticsData = {
     },
     {
       "label": "Convex polyhedra",
+      "count": 1
+    },
+    {
+      "label": "Convex polytope",
       "count": 1
     },
     {
@@ -25371,6 +27543,18 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Coordinate descent",
+      "count": 1
+    },
+    {
+      "label": "Coprime integers",
+      "count": 1
+    },
+    {
+      "label": "CORL",
+      "count": 1
+    },
+    {
       "label": "Cost-constrained planning",
       "count": 1
     },
@@ -25395,7 +27579,19 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Coverage guarantees",
+      "label": "CP",
+      "count": 1
+    },
+    {
+      "label": "cpRRTC",
+      "count": 1
+    },
+    {
+      "label": "Creating vision-language-action",
+      "count": 1
+    },
+    {
+      "label": "Criminal justice",
       "count": 1
     },
     {
@@ -25403,7 +27599,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "CRSAIL",
+      "count": 1
+    },
+    {
       "label": "Cuckoo filter",
+      "count": 1
+    },
+    {
+      "label": "CuClarabel",
+      "count": 1
+    },
+    {
+      "label": "Curse of dimensionality",
       "count": 1
     },
     {
@@ -25415,7 +27623,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "CVXPYgen",
+      "label": "CusADi",
+      "count": 1
+    },
+    {
+      "label": "CV",
+      "count": 1
+    },
+    {
+      "label": "CvxCluster",
       "count": 1
     },
     {
@@ -25427,7 +27643,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "DARPA Urban Challenge",
+      "label": "DARPA urban challenge",
       "count": 1
     },
     {
@@ -25447,11 +27663,31 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Data-driven",
+      "label": "DBSCAN",
       "count": 1
     },
     {
-      "label": "DBSCAN",
+      "label": "DCCP",
+      "count": 1
+    },
+    {
+      "label": "DCP",
+      "count": 1
+    },
+    {
+      "label": "DDPG",
+      "count": 1
+    },
+    {
+      "label": "DDPNOpt",
+      "count": 1
+    },
+    {
+      "label": "De facto",
+      "count": 1
+    },
+    {
+      "label": "DEC",
       "count": 1
     },
     {
@@ -25463,11 +27699,27 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Decomposition-informed",
+      "count": 1
+    },
+    {
+      "label": "Deep embedded clustering",
+      "count": 1
+    },
+    {
       "label": "Deep learning safety",
       "count": 1
     },
     {
       "label": "Deep reinforcement learning",
+      "count": 1
+    },
+    {
+      "label": "DeePC",
+      "count": 1
+    },
+    {
+      "label": "Defeating quicksort",
       "count": 1
     },
     {
@@ -25483,7 +27735,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "DenMune",
+      "count": 1
+    },
+    {
       "label": "Dense features",
+      "count": 1
+    },
+    {
+      "label": "Dense-feedback reinforcement learning",
       "count": 1
     },
     {
@@ -25491,11 +27751,23 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Deployment",
+      "label": "DEPICT",
+      "count": 1
+    },
+    {
+      "label": "Derivative-free",
       "count": 1
     },
     {
       "label": "Derivatives",
+      "count": 1
+    },
+    {
+      "label": "DERL",
+      "count": 1
+    },
+    {
+      "label": "Design",
       "count": 1
     },
     {
@@ -25523,15 +27795,27 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "DFT",
+      "count": 1
+    },
+    {
+      "label": "DGU",
+      "count": 1
+    },
+    {
+      "label": "Different",
+      "count": 1
+    },
+    {
+      "label": "Differentiable MPC",
+      "count": 1
+    },
+    {
       "label": "Differentiable optimization",
       "count": 1
     },
     {
       "label": "Differentiable planning",
-      "count": 1
-    },
-    {
-      "label": "Differentiable programming",
       "count": 1
     },
     {
@@ -25551,15 +27835,19 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Diffusion policies",
+      "label": "DiffLoop",
       "count": 1
     },
     {
-      "label": "Diffusion policy",
+      "label": "DiffTune",
       "count": 1
     },
     {
-      "label": "Diffusion Policy",
+      "label": "Diffusion trees",
+      "count": 1
+    },
+    {
+      "label": "DiffusionSeeder",
       "count": 1
     },
     {
@@ -25571,7 +27859,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Dimension reduction",
+      "count": 1
+    },
+    {
+      "label": "DINO",
+      "count": 1
+    },
+    {
+      "label": "DINOv2",
+      "count": 1
+    },
+    {
       "label": "DINOv3",
+      "count": 1
+    },
+    {
+      "label": "DIP",
       "count": 1
     },
     {
@@ -25596,6 +27900,18 @@ window.analyticsData = {
     },
     {
       "label": "Discovery",
+      "count": 1
+    },
+    {
+      "label": "Discrete fourier transform",
+      "count": 1
+    },
+    {
+      "label": "Discrete time",
+      "count": 1
+    },
+    {
+      "label": "Discrete-time",
       "count": 1
     },
     {
@@ -25631,7 +27947,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Distributed systems",
+      "label": "Distributed RL",
       "count": 1
     },
     {
@@ -25639,7 +27955,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Distributionally robust control",
+      "label": "Distributional robustness",
       "count": 1
     },
     {
@@ -25652,6 +27968,10 @@ window.analyticsData = {
     },
     {
       "label": "Divisive clustering",
+      "count": 1
+    },
+    {
+      "label": "DKO",
       "count": 1
     },
     {
@@ -25671,7 +27991,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "DNN",
+      "count": 1
+    },
+    {
       "label": "Document recognition",
+      "count": 1
+    },
+    {
+      "label": "Domain randomization",
+      "count": 1
+    },
+    {
+      "label": "Domain-specific language",
       "count": 1
     },
     {
@@ -25679,11 +28011,51 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "DQN",
+      "count": 1
+    },
+    {
+      "label": "DRA-MPPI",
+      "count": 1
+    },
+    {
       "label": "DreamerV3",
       "count": 1
     },
     {
+      "label": "DreamZero",
+      "count": 1
+    },
+    {
+      "label": "DriveGPT",
+      "count": 1
+    },
+    {
+      "label": "Driving simulator",
+      "count": 1
+    },
+    {
+      "label": "DRO",
+      "count": 1
+    },
+    {
       "label": "Drone racing",
+      "count": 1
+    },
+    {
+      "label": "DROP",
+      "count": 1
+    },
+    {
+      "label": "DSPI",
+      "count": 1
+    },
+    {
+      "label": "DTMPC",
+      "count": 1
+    },
+    {
+      "label": "DTW",
       "count": 1
     },
     {
@@ -25695,6 +28067,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "DWPP",
+      "count": 1
+    },
+    {
       "label": "Dynamic game",
       "count": 1
     },
@@ -25703,7 +28079,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Dynamic Mode Decomposition",
+      "label": "Dynamic Mode decomposition",
       "count": 1
     },
     {
@@ -25719,7 +28095,19 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "E-values",
+      "label": "Dynamic time warping",
+      "count": 1
+    },
+    {
+      "label": "Dynamic window",
+      "count": 1
+    },
+    {
+      "label": "Dynamical systems theory",
+      "count": 1
+    },
+    {
+      "label": "ECL",
       "count": 1
     },
     {
@@ -25740,6 +28128,18 @@ window.analyticsData = {
     },
     {
       "label": "Efficiency",
+      "count": 1
+    },
+    {
+      "label": "Efficient",
+      "count": 1
+    },
+    {
+      "label": "EGAD",
+      "count": 1
+    },
+    {
+      "label": "EGO-Planner",
       "count": 1
     },
     {
@@ -25783,6 +28183,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Energy consumption",
+      "count": 1
+    },
+    {
       "label": "Energy efficiency",
       "count": 1
     },
@@ -25811,11 +28215,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Epiplexity",
+      "count": 1
+    },
+    {
       "label": "Epistemology",
       "count": 1
     },
     {
       "label": "Equations of motion",
+      "count": 1
+    },
+    {
+      "label": "Equilibrium point",
       "count": 1
     },
     {
@@ -25827,15 +28239,47 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Estimation",
+      "count": 1
+    },
+    {
+      "label": "Euclidean distance",
+      "count": 1
+    },
+    {
+      "label": "Euclidean embedding",
+      "count": 1
+    },
+    {
+      "label": "Euclidean geometry",
+      "count": 1
+    },
+    {
+      "label": "Euclidean signed distance field",
+      "count": 1
+    },
+    {
       "label": "Evaluation",
       "count": 1
     },
     {
-      "label": "Event Camera",
+      "label": "Event camera",
       "count": 1
     },
     {
       "label": "Evolution",
+      "count": 1
+    },
+    {
+      "label": "Evolution strategy",
+      "count": 1
+    },
+    {
+      "label": "Evolutionary algorithm",
+      "count": 1
+    },
+    {
+      "label": "Evolutionary algorithms",
       "count": 1
     },
     {
@@ -25848,6 +28292,10 @@ window.analyticsData = {
     },
     {
       "label": "Evolutionary theory",
+      "count": 1
+    },
+    {
+      "label": "EVORA",
       "count": 1
     },
     {
@@ -25879,6 +28327,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Explainability",
+      "count": 1
+    },
+    {
+      "label": "Explainable artificial intelligence",
+      "count": 1
+    },
+    {
       "label": "Exploitation",
       "count": 1
     },
@@ -25903,6 +28359,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "F-S",
+      "count": 1
+    },
+    {
+      "label": "FaceNet",
+      "count": 1
+    },
+    {
       "label": "Factorization caching",
       "count": 1
     },
@@ -25911,7 +28375,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Faiss library",
+      "count": 1
+    },
+    {
       "label": "False data injection",
+      "count": 1
+    },
+    {
+      "label": "Fast",
       "count": 1
     },
     {
@@ -25935,23 +28407,43 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "fast time series classification",
+      "count": 1
+    },
+    {
       "label": "FCIT*",
       "count": 1
     },
     {
-      "label": "Feasibility driven differential dynamic programming",
+      "label": "Feasibility driven",
       "count": 1
     },
     {
-      "label": "feature descriptor",
+      "label": "Feature attribution",
       "count": 1
     },
     {
-      "label": "Feature prediction",
+      "label": "Feature descriptor",
       "count": 1
     },
     {
       "label": "Feature randomization",
+      "count": 1
+    },
+    {
+      "label": "Feedback linearization",
+      "count": 1
+    },
+    {
+      "label": "Feedback loop",
+      "count": 1
+    },
+    {
+      "label": "FG",
+      "count": 1
+    },
+    {
+      "label": "Field of safe motion",
       "count": 1
     },
     {
@@ -25971,6 +28463,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "First order methods",
+      "count": 1
+    },
+    {
       "label": "First-order optimization",
       "count": 1
     },
@@ -25987,11 +28483,27 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Fixed point",
+      "count": 1
+    },
+    {
+      "label": "Fixed-point iteration",
+      "count": 1
+    },
+    {
       "label": "Fixed-point theory",
       "count": 1
     },
     {
       "label": "FLANN",
+      "count": 1
+    },
+    {
+      "label": "FlashAttention",
+      "count": 1
+    },
+    {
+      "label": "FlashSAC",
       "count": 1
     },
     {
@@ -26015,7 +28527,19 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Flow matching",
+      "label": "FLOPS",
+      "count": 1
+    },
+    {
+      "label": "Flow",
+      "count": 1
+    },
+    {
+      "label": "Flow control",
+      "count": 1
+    },
+    {
+      "label": "Flow Gym",
       "count": 1
     },
     {
@@ -26027,7 +28551,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "FlowDrive",
+      "count": 1
+    },
+    {
+      "label": "FlowMP",
+      "count": 1
+    },
+    {
       "label": "FMT",
+      "count": 1
+    },
+    {
+      "label": "FO",
       "count": 1
     },
     {
@@ -26043,11 +28579,35 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Forcing",
+      "count": 1
+    },
+    {
+      "label": "FORGE",
+      "count": 1
+    },
+    {
       "label": "Formal methods",
       "count": 1
     },
     {
+      "label": "Formal verification",
+      "count": 1
+    },
+    {
       "label": "Formation control",
+      "count": 1
+    },
+    {
+      "label": "Formation reshaping",
+      "count": 1
+    },
+    {
+      "label": "Fourier transform",
+      "count": 1
+    },
+    {
+      "label": "frax",
       "count": 1
     },
     {
@@ -26059,15 +28619,35 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Frenet-serret",
+      "count": 1
+    },
+    {
       "label": "Friction ellipse",
       "count": 1
     },
     {
-      "label": "Frozen backbone evaluation",
+      "label": "FRS",
+      "count": 1
+    },
+    {
+      "label": "FSM",
+      "count": 1
+    },
+    {
+      "label": "FST",
+      "count": 1
+    },
+    {
+      "label": "Fully observed",
       "count": 1
     },
     {
       "label": "G2 continuity",
+      "count": 1
+    },
+    {
+      "label": "GAE",
       "count": 1
     },
     {
@@ -26079,6 +28659,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "GAS",
+      "count": 1
+    },
+    {
       "label": "Gauss-Newton method",
       "count": 1
     },
@@ -26087,11 +28671,31 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "GBDT",
+      "count": 1
+    },
+    {
+      "label": "GBPO",
+      "count": 1
+    },
+    {
+      "label": "GD",
+      "count": 1
+    },
+    {
+      "label": "Gemma",
+      "count": 1
+    },
+    {
+      "label": "Gemma 2",
+      "count": 1
+    },
+    {
       "label": "Gene regulation",
       "count": 1
     },
     {
-      "label": "Generalization",
+      "label": "Generalization error",
       "count": 1
     },
     {
@@ -26100,6 +28704,10 @@ window.analyticsData = {
     },
     {
       "label": "Generalized inverse",
+      "count": 1
+    },
+    {
+      "label": "Generative predictive control",
       "count": 1
     },
     {
@@ -26135,11 +28743,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Geometric median",
+      "count": 1
+    },
+    {
       "label": "Geometric modeling",
       "count": 1
     },
     {
       "label": "Girvan-Newman algorithm",
+      "count": 1
+    },
+    {
+      "label": "GKD",
+      "count": 1
+    },
+    {
+      "label": "GLD",
       "count": 1
     },
     {
@@ -26151,6 +28771,26 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "GNN",
+      "count": 1
+    },
+    {
+      "label": "GNN-DIP",
+      "count": 1
+    },
+    {
+      "label": "Go-explore",
+      "count": 1
+    },
+    {
+      "label": "GP",
+      "count": 1
+    },
+    {
+      "label": "GPC",
+      "count": 1
+    },
+    {
       "label": "GPU acceleration",
       "count": 1
     },
@@ -26159,7 +28799,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "GPyTorch",
+      "label": "GPUDrive",
+      "count": 1
+    },
+    {
+      "label": "GR00T N1",
+      "count": 1
+    },
+    {
+      "label": "Grad-CAM",
       "count": 1
     },
     {
@@ -26195,10 +28843,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Graph neural networks",
-      "count": 1
-    },
-    {
       "label": "Graph theory",
       "count": 1
     },
@@ -26211,11 +28855,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Graphs of convex sets",
+      "label": "Grasp analysis",
       "count": 1
     },
     {
-      "label": "Grasp analysis",
+      "label": "Grasping",
       "count": 1
     },
     {
@@ -26239,7 +28883,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Grokking",
+      "count": 1
+    },
+    {
       "label": "Ground vehicles",
+      "count": 1
+    },
+    {
+      "label": "Group-relative",
       "count": 1
     },
     {
@@ -26247,7 +28899,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "GTN",
+      "count": 1
+    },
+    {
       "label": "Guide RNA",
+      "count": 1
+    },
+    {
+      "label": "GuSTO",
       "count": 1
     },
     {
@@ -26287,6 +28947,18 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "HB",
+      "count": 1
+    },
+    {
+      "label": "HBM",
+      "count": 1
+    },
+    {
+      "label": "HD",
+      "count": 1
+    },
+    {
       "label": "Heat engines",
       "count": 1
     },
@@ -26296,6 +28968,14 @@ window.analyticsData = {
     },
     {
       "label": "Heritable variation",
+      "count": 1
+    },
+    {
+      "label": "Hessian",
+      "count": 1
+    },
+    {
+      "label": "Hessian matrix",
       "count": 1
     },
     {
@@ -26315,7 +28995,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "HierarchicalForecast",
+      "count": 1
+    },
+    {
       "label": "Hierarchy",
+      "count": 1
+    },
+    {
+      "label": "High bandwidth memory",
       "count": 1
     },
     {
@@ -26327,7 +29015,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "histogram of oriented gradients",
+      "label": "Hippo",
+      "count": 1
+    },
+    {
+      "label": "Histogram of oriented gradients",
       "count": 1
     },
     {
@@ -26339,7 +29031,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "HNSW",
+      "count": 1
+    },
+    {
       "label": "HOG",
+      "count": 1
+    },
+    {
+      "label": "Homogeneous polynomial",
       "count": 1
     },
     {
@@ -26348,6 +29048,18 @@ window.analyticsData = {
     },
     {
       "label": "HOOF",
+      "count": 1
+    },
+    {
+      "label": "Horizon",
+      "count": 1
+    },
+    {
+      "label": "HPC",
+      "count": 1
+    },
+    {
+      "label": "HRT1",
       "count": 1
     },
     {
@@ -26371,11 +29083,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Hybrid system",
+      "count": 1
+    },
+    {
       "label": "Hybrid trajectory optimization",
       "count": 1
     },
     {
       "label": "Hybridization",
+      "count": 1
+    },
+    {
+      "label": "Hydra",
+      "count": 1
+    },
+    {
+      "label": "HydroGym",
       "count": 1
     },
     {
@@ -26399,7 +29123,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "IDM",
+      "count": 1
+    },
+    {
       "label": "IEEE standard",
+      "count": 1
+    },
+    {
+      "label": "II",
+      "count": 1
+    },
+    {
+      "label": "IK",
       "count": 1
     },
     {
@@ -26415,11 +29151,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Image segmentation",
+      "count": 1
+    },
+    {
       "label": "Imagination",
       "count": 1
     },
     {
       "label": "Importance sampling",
+      "count": 1
+    },
+    {
+      "label": "Inception",
+      "count": 1
+    },
+    {
+      "label": "InceptionTime",
       "count": 1
     },
     {
@@ -26443,10 +29191,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Inference",
-      "count": 1
-    },
-    {
       "label": "Influence measurement",
       "count": 1
     },
@@ -26460,6 +29204,10 @@ window.analyticsData = {
     },
     {
       "label": "Informed set",
+      "count": 1
+    },
+    {
+      "label": "Informer",
       "count": 1
     },
     {
@@ -26483,11 +29231,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Input-to-state stability",
+      "label": "Inscribed square",
       "count": 1
     },
     {
-      "label": "Inscribed square",
+      "label": "Inside madupite",
+      "count": 1
+    },
+    {
+      "label": "Instrumental variable",
       "count": 1
     },
     {
@@ -26495,15 +29247,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Integer programming",
+      "label": "Integral control",
       "count": 1
     },
     {
-      "label": "integral image",
-      "count": 1
-    },
-    {
-      "label": "Intelligent driver model",
+      "label": "Integral image",
       "count": 1
     },
     {
@@ -26523,11 +29271,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Interface",
+      "count": 1
+    },
+    {
       "label": "Interior point",
       "count": 1
     },
     {
       "label": "Interior-point methods",
+      "count": 1
+    },
+    {
+      "label": "International space station",
       "count": 1
     },
     {
@@ -26539,19 +29295,39 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Interpretable machine learning",
+      "count": 1
+    },
+    {
+      "label": "InterpretML",
+      "count": 1
+    },
+    {
       "label": "Invariant mapping",
       "count": 1
     },
     {
-      "label": "Inverse kinematics",
+      "label": "Inverse problem",
       "count": 1
     },
     {
-      "label": "Inverse reinforcement learning",
+      "label": "IOC",
+      "count": 1
+    },
+    {
+      "label": "IPM",
+      "count": 1
+    },
+    {
+      "label": "IRIS-ZO",
       "count": 1
     },
     {
       "label": "Isaac",
+      "count": 1
+    },
+    {
+      "label": "Isaac Gym",
       "count": 1
     },
     {
@@ -26560,6 +29336,10 @@ window.analyticsData = {
     },
     {
       "label": "ISO 26262",
+      "count": 1
+    },
+    {
+      "label": "IT-MPC",
       "count": 1
     },
     {
@@ -26579,7 +29359,27 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Jacta",
+      "count": 1
+    },
+    {
+      "label": "JAX-IK",
+      "count": 1
+    },
+    {
       "label": "JIT compilation",
+      "count": 1
+    },
+    {
+      "label": "JPEG 2000",
+      "count": 1
+    },
+    {
+      "label": "JZ-Tree",
+      "count": 1
+    },
+    {
+      "label": "K-d tree",
       "count": 1
     },
     {
@@ -26591,7 +29391,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Kalman filtering",
+      "label": "Katyusha",
       "count": 1
     },
     {
@@ -26599,7 +29399,31 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Kernel method",
+      "count": 1
+    },
+    {
       "label": "Kernel methods",
+      "count": 1
+    },
+    {
+      "label": "KernelSOS",
+      "count": 1
+    },
+    {
+      "label": "KGFL",
+      "count": 1
+    },
+    {
+      "label": "Khronos",
+      "count": 1
+    },
+    {
+      "label": "Kimi-VL",
+      "count": 1
+    },
+    {
+      "label": "KinDER",
       "count": 1
     },
     {
@@ -26615,7 +29439,43 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Kullback-Leibler divergence",
+      "label": "KIPPO",
+      "count": 1
+    },
+    {
+      "label": "KL",
+      "count": 1
+    },
+    {
+      "label": "KNN",
+      "count": 1
+    },
+    {
+      "label": "Kolmogorov complexity",
+      "count": 1
+    },
+    {
+      "label": "KOMO",
+      "count": 1
+    },
+    {
+      "label": "Koopman",
+      "count": 1
+    },
+    {
+      "label": "KPC",
+      "count": 1
+    },
+    {
+      "label": "KRONIC",
+      "count": 1
+    },
+    {
+      "label": "L-BFGS",
+      "count": 1
+    },
+    {
+      "label": "L4DC",
       "count": 1
     },
     {
@@ -26623,11 +29483,31 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "LAG-ROS",
+      "count": 1
+    },
+    {
+      "label": "Lagrange multiplier",
+      "count": 1
+    },
+    {
+      "label": "Lagrangian relaxation",
+      "count": 1
+    },
+    {
+      "label": "Laminar flow",
+      "count": 1
+    },
+    {
       "label": "Laplacian of Gaussian",
       "count": 1
     },
     {
-      "label": "Large language models",
+      "label": "Large deviations theory",
+      "count": 1
+    },
+    {
+      "label": "Las vegas",
       "count": 1
     },
     {
@@ -26635,11 +29515,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Latent diffusion models",
+      "label": "Latent variable",
       "count": 1
     },
     {
       "label": "Law of the iterated logarithm",
+      "count": 1
+    },
+    {
+      "label": "LeARN",
       "count": 1
     },
     {
@@ -26655,15 +29539,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Learning-based MPC",
+      "count": 1
+    },
+    {
       "label": "Least-squares",
       "count": 1
     },
     {
       "label": "Least-squares estimation",
-      "count": 1
-    },
-    {
-      "label": "Leave-one-out estimation",
       "count": 1
     },
     {
@@ -26675,11 +29559,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Leiden",
+      "count": 1
+    },
+    {
       "label": "LeNet",
       "count": 1
     },
     {
       "label": "Levenberg-Marquardt",
+      "count": 1
+    },
+    {
+      "label": "LFW",
+      "count": 1
+    },
+    {
+      "label": "LGP",
       "count": 1
     },
     {
@@ -26695,11 +29591,19 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "line integral convolution",
+      "label": "Like cyclic coordinate descent",
       "count": 1
     },
     {
-      "label": "Line search",
+      "label": "LIME",
+      "count": 1
+    },
+    {
+      "label": "Limited memory BFGS",
+      "count": 1
+    },
+    {
+      "label": "line integral convolution",
       "count": 1
     },
     {
@@ -26707,7 +29611,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Linear equality constraints",
+      "count": 1
+    },
+    {
       "label": "Linear filtering",
+      "count": 1
+    },
+    {
+      "label": "Linear matrix equations",
       "count": 1
     },
     {
@@ -26719,11 +29631,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Linear quadratic",
+      "count": 1
+    },
+    {
       "label": "Linear quadratic games",
       "count": 1
     },
     {
-      "label": "Linear Quadratic Gaussian (LQG)",
+      "label": "Linear quadratic Gaussian",
+      "count": 1
+    },
+    {
+      "label": "Linear quadratic Gaussian (LQG)",
       "count": 1
     },
     {
@@ -26735,11 +29655,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Linear-quadratic-regulator",
+      "count": 1
+    },
+    {
       "label": "Linearization",
       "count": 1
     },
     {
       "label": "Lipschitz gradients",
+      "count": 1
+    },
+    {
+      "label": "Llama 2",
+      "count": 1
+    },
+    {
+      "label": "LM",
       "count": 1
     },
     {
@@ -26760,6 +29692,14 @@ window.analyticsData = {
     },
     {
       "label": "Loop closure",
+      "count": 1
+    },
+    {
+      "label": "LoRA",
+      "count": 1
+    },
+    {
+      "label": "Lorenz system",
       "count": 1
     },
     {
@@ -26787,7 +29727,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "LQG",
+      "label": "LP",
+      "count": 1
+    },
+    {
+      "label": "LQI",
       "count": 1
     },
     {
@@ -26799,11 +29743,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "LSTF",
+      "count": 1
+    },
+    {
       "label": "Lyapunov equation",
       "count": 1
     },
     {
       "label": "Lyapunov equations",
+      "count": 1
+    },
+    {
+      "label": "M-GAPS",
+      "count": 1
+    },
+    {
+      "label": "MAB-RRT",
       "count": 1
     },
     {
@@ -26823,6 +29779,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Machine translation",
+      "count": 1
+    },
+    {
       "label": "Magnetic levitation",
       "count": 1
     },
@@ -26839,6 +29799,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Manipulation",
+      "count": 1
+    },
+    {
       "label": "Manipulator trajectory planning",
       "count": 1
     },
@@ -26851,15 +29815,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Markov chain",
-      "count": 1
-    },
-    {
       "label": "Markov chain Monte Carlo",
-      "count": 1
-    },
-    {
-      "label": "Markov decision processes",
       "count": 1
     },
     {
@@ -26875,7 +29831,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Masked prediction",
+      "label": "Massively parallel",
       "count": 1
     },
     {
@@ -26883,11 +29839,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Matching",
+      "label": "Mathematical optimization",
       "count": 1
     },
     {
-      "label": "mathematical programming",
+      "label": "Mathematical programming",
       "count": 1
     },
     {
@@ -26899,6 +29855,22 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "MATLAB",
+      "count": 1
+    },
+    {
+      "label": "Matrix concentration inequalities",
+      "count": 1
+    },
+    {
+      "label": "Matrix exponential",
+      "count": 1
+    },
+    {
+      "label": "Matrix function",
+      "count": 1
+    },
+    {
       "label": "Matrix methods",
       "count": 1
     },
@@ -26907,7 +29879,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "MCTS",
+      "label": "Mean squared error",
       "count": 1
     },
     {
@@ -26919,15 +29891,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Medical diagnosis",
-      "count": 1
-    },
-    {
-      "label": "Memory-efficient training",
-      "count": 1
-    },
-    {
       "label": "Mendelian inheritance",
+      "count": 1
+    },
+    {
+      "label": "Mental model",
       "count": 1
     },
     {
@@ -26935,11 +29903,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Message-passing Monte Carlo",
+      "count": 1
+    },
+    {
       "label": "Meta algorithm",
       "count": 1
     },
     {
-      "label": "Meta-learning",
+      "label": "Meta-harness",
       "count": 1
     },
     {
@@ -26947,7 +29919,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Metric",
+      "count": 1
+    },
+    {
       "label": "Metric learning",
+      "count": 1
+    },
+    {
+      "label": "Metric-semantic SLAM",
       "count": 1
     },
     {
@@ -26967,7 +29947,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Minimal variance sampling",
+      "count": 1
+    },
+    {
       "label": "Minimum jerk",
+      "count": 1
+    },
+    {
+      "label": "Minimum rank",
       "count": 1
     },
     {
@@ -26975,15 +29963,47 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Minimum-rank solutions",
+      "count": 1
+    },
+    {
       "label": "Minimum-time planning",
       "count": 1
     },
     {
-      "label": "Mobile robot tracking",
+      "label": "MINIROCKET",
       "count": 1
     },
     {
-      "label": "mobile robots",
+      "label": "MINVO basis",
+      "count": 1
+    },
+    {
+      "label": "MIP-DM",
+      "count": 1
+    },
+    {
+      "label": "MIQP",
+      "count": 1
+    },
+    {
+      "label": "Mixed H2/H-infinity control",
+      "count": 1
+    },
+    {
+      "label": "Mixed-integer quadratic program",
+      "count": 1
+    },
+    {
+      "label": "Mixing",
+      "count": 1
+    },
+    {
+      "label": "MLP",
+      "count": 1
+    },
+    {
+      "label": "Mobile robot tracking",
       "count": 1
     },
     {
@@ -27007,19 +30027,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "model predictive control",
-      "count": 1
-    },
-    {
-      "label": "Model Predictive Control",
-      "count": 1
-    },
-    {
       "label": "Model scaling",
-      "count": 1
-    },
-    {
-      "label": "Model-based reinforcement learning",
       "count": 1
     },
     {
@@ -27031,7 +30039,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Model-free proportional derivative",
+      "count": 1
+    },
+    {
       "label": "Modeling",
+      "count": 1
+    },
+    {
+      "label": "Modular design",
       "count": 1
     },
     {
@@ -27039,7 +30055,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Molecular graphs",
+      "label": "MolmoAct2",
       "count": 1
     },
     {
@@ -27055,19 +30071,35 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Motion capture",
-      "count": 1
-    },
-    {
-      "label": "Motion tracking",
-      "count": 1
-    },
-    {
       "label": "Moving average",
       "count": 1
     },
     {
-      "label": "Multi-agent Interaction",
+      "label": "MPCritic",
+      "count": 1
+    },
+    {
+      "label": "MPMC",
+      "count": 1
+    },
+    {
+      "label": "MPPI-Belief",
+      "count": 1
+    },
+    {
+      "label": "MSAT",
+      "count": 1
+    },
+    {
+      "label": "MT-Opt",
+      "count": 1
+    },
+    {
+      "label": "MuJoCo playground",
+      "count": 1
+    },
+    {
+      "label": "Multi-agent interaction",
       "count": 1
     },
     {
@@ -27075,15 +30107,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Multi-agent reinforcement learning",
+      "count": 1
+    },
+    {
       "label": "Multi-agent simulation",
       "count": 1
     },
     {
-      "label": "Multi-agent systems",
+      "label": "Multi-armed bandit",
       "count": 1
     },
     {
       "label": "Multi-contact",
+      "count": 1
+    },
+    {
+      "label": "Multi-layer perceptron",
       "count": 1
     },
     {
@@ -27103,7 +30143,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Multimodal Sensing",
+      "label": "Multi-Step prediction models",
+      "count": 1
+    },
+    {
+      "label": "Multimodal sensing",
       "count": 1
     },
     {
@@ -27123,7 +30167,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Multiplicative Noise",
+      "label": "MultiRocket",
       "count": 1
     },
     {
@@ -27131,7 +30175,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "MVS",
+      "count": 1
+    },
+    {
       "label": "N-body simulation",
+      "count": 1
+    },
+    {
+      "label": "N-FOT",
+      "count": 1
+    },
+    {
+      "label": "N2D",
       "count": 1
     },
     {
@@ -27139,7 +30195,27 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Named gated transformer networks",
+      "count": 1
+    },
+    {
+      "label": "NanoMap",
+      "count": 1
+    },
+    {
+      "label": "Nash equilibrium",
+      "count": 1
+    },
+    {
       "label": "Natural gradient descent",
+      "count": 1
+    },
+    {
+      "label": "Natural language processing",
+      "count": 1
+    },
+    {
+      "label": "Natural PG",
       "count": 1
     },
     {
@@ -27151,11 +30227,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "NAVSIM",
+      "count": 1
+    },
+    {
+      "label": "NBP",
+      "count": 1
+    },
+    {
       "label": "Near-linear algorithms",
       "count": 1
     },
     {
-      "label": "Nearest neighbor search",
+      "label": "Nearly linear time",
       "count": 1
     },
     {
@@ -27163,11 +30247,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "NeRF",
-      "count": 1
-    },
-    {
-      "label": "Nesterov acceleration",
+      "label": "Need",
       "count": 1
     },
     {
@@ -27195,7 +30275,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Neumann series",
+      "count": 1
+    },
+    {
+      "label": "Neural low-discrepancy sequences",
+      "count": 1
+    },
+    {
       "label": "Neural network verification",
+      "count": 1
+    },
+    {
+      "label": "Neural rendering",
+      "count": 1
+    },
+    {
+      "label": "Neural tree expansion",
       "count": 1
     },
     {
@@ -27215,15 +30311,19 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Newton-Kantorovich iteration",
+      "label": "Newton-kantorovich iteration",
       "count": 1
     },
     {
-      "label": "NLP",
+      "label": "NN",
       "count": 1
     },
     {
       "label": "Noise handling",
+      "count": 1
+    },
+    {
+      "label": "Noising",
       "count": 1
     },
     {
@@ -27259,6 +30359,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Nonconvexity",
+      "count": 1
+    },
+    {
       "label": "Nonholonomic vehicles",
       "count": 1
     },
@@ -27271,11 +30375,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Nonlinear model predictive control",
+      "count": 1
+    },
+    {
       "label": "Nonlinear parameterization",
       "count": 1
     },
     {
-      "label": "nonlinear systems",
+      "label": "Nonlinear system identification",
       "count": 1
     },
     {
@@ -27291,7 +30399,27 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Normalizing flows",
+      "count": 1
+    },
+    {
       "label": "Novel view synthesis",
+      "count": 1
+    },
+    {
+      "label": "NPG",
+      "count": 1
+    },
+    {
+      "label": "NSW",
+      "count": 1
+    },
+    {
+      "label": "NTE",
+      "count": 1
+    },
+    {
+      "label": "Nuclear norm minimization",
       "count": 1
     },
     {
@@ -27307,10 +30435,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "obstacle avoidance",
-      "count": 1
-    },
-    {
       "label": "Octrees",
       "count": 1
     },
@@ -27319,7 +30443,19 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Online learning",
+      "label": "OGPO",
+      "count": 1
+    },
+    {
+      "label": "OMPL",
+      "count": 1
+    },
+    {
+      "label": "On-policy generalized knowledge distillation",
+      "count": 1
+    },
+    {
+      "label": "Once",
       "count": 1
     },
     {
@@ -27339,7 +30475,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "operational space",
+      "label": "OpenVLA",
+      "count": 1
+    },
+    {
+      "label": "Operational space",
       "count": 1
     },
     {
@@ -27348,6 +30488,10 @@ window.analyticsData = {
     },
     {
       "label": "Operator splitting",
+      "count": 1
+    },
+    {
+      "label": "OPTAMI",
       "count": 1
     },
     {
@@ -27367,11 +30511,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Optimal transport",
+      "label": "Optimization algorithm",
       "count": 1
     },
     {
-      "label": "optimization",
+      "label": "Optimization and control",
+      "count": 1
+    },
+    {
+      "label": "OptNet",
       "count": 1
     },
     {
@@ -27379,11 +30527,23 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Outlier detection",
+      "label": "Orbit",
       "count": 1
     },
     {
-      "label": "Output feedback",
+      "label": "Ordinary least squares",
+      "count": 1
+    },
+    {
+      "label": "Orion-Lite",
+      "count": 1
+    },
+    {
+      "label": "Out-of-distribution",
+      "count": 1
+    },
+    {
+      "label": "Outlier detection",
       "count": 1
     },
     {
@@ -27399,11 +30559,51 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Parallel computing",
+      "label": "P-T",
+      "count": 1
+    },
+    {
+      "label": "PA-MPPI",
+      "count": 1
+    },
+    {
+      "label": "PAC-NMPC",
+      "count": 1
+    },
+    {
+      "label": "PACS",
+      "count": 1
+    },
+    {
+      "label": "PAGE",
+      "count": 1
+    },
+    {
+      "label": "PAGE-PG",
+      "count": 1
+    },
+    {
+      "label": "PaliGemma",
+      "count": 1
+    },
+    {
+      "label": "PaLM",
+      "count": 1
+    },
+    {
+      "label": "PaLM-E",
+      "count": 1
+    },
+    {
+      "label": "Parallel transport",
       "count": 1
     },
     {
       "label": "Parallelization",
+      "count": 1
+    },
+    {
+      "label": "Parameter space",
       "count": 1
     },
     {
@@ -27423,7 +30623,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Partial observability",
+      "label": "Particle filter",
+      "count": 1
+    },
+    {
+      "label": "Particle image velocimetry",
       "count": 1
     },
     {
@@ -27435,7 +30639,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "PAS 21448",
+      "count": 1
+    },
+    {
       "label": "Passivity",
+      "count": 1
+    },
+    {
+      "label": "Past",
       "count": 1
     },
     {
@@ -27451,11 +30663,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "path planning",
+      "label": "Path integral particle filtering",
       "count": 1
     },
     {
       "label": "Path smoothness",
+      "count": 1
+    },
+    {
+      "label": "Path-consistent",
       "count": 1
     },
     {
@@ -27471,11 +30687,43 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "PB-MDP",
+      "count": 1
+    },
+    {
+      "label": "PBD",
+      "count": 1
+    },
+    {
+      "label": "PC",
+      "count": 1
+    },
+    {
+      "label": "PCA",
+      "count": 1
+    },
+    {
+      "label": "PD",
+      "count": 1
+    },
+    {
       "label": "PDDP",
       "count": 1
     },
     {
+      "label": "PDE",
+      "count": 1
+    },
+    {
+      "label": "PDR",
+      "count": 1
+    },
+    {
       "label": "Pendubot",
+      "count": 1
+    },
+    {
+      "label": "Perception-aware",
       "count": 1
     },
     {
@@ -27491,6 +30739,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Physical law",
+      "count": 1
+    },
+    {
       "label": "Physical plant design",
       "count": 1
     },
@@ -27499,15 +30751,31 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "PI",
+      "count": 1
+    },
+    {
+      "label": "PIC",
+      "count": 1
+    },
+    {
+      "label": "PIML",
+      "count": 1
+    },
+    {
+      "label": "PInet",
+      "count": 1
+    },
+    {
       "label": "Pipeline planning",
       "count": 1
     },
     {
-      "label": "Pixel-to-control",
+      "label": "PIV",
       "count": 1
     },
     {
-      "label": "Pixel-wise losses",
+      "label": "Pixel-to-control",
       "count": 1
     },
     {
@@ -27527,15 +30795,31 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "PO",
+      "count": 1
+    },
+    {
+      "label": "PO-LGP",
+      "count": 1
+    },
+    {
+      "label": "PO-MPC",
+      "count": 1
+    },
+    {
+      "label": "Poisson regression",
+      "count": 1
+    },
+    {
       "label": "Pole placement",
       "count": 1
     },
     {
-      "label": "Policy learning",
+      "label": "Policy search",
       "count": 1
     },
     {
-      "label": "Policy search",
+      "label": "Polyblur",
       "count": 1
     },
     {
@@ -27555,6 +30839,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "POMDP",
+      "count": 1
+    },
+    {
       "label": "Pontryagin maximum principle",
       "count": 1
     },
@@ -27567,11 +30855,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Position paper",
+      "count": 1
+    },
+    {
       "label": "Positive operators",
       "count": 1
     },
     {
-      "label": "potential field",
+      "label": "Posterior belief distribution",
+      "count": 1
+    },
+    {
+      "label": "Potential field",
       "count": 1
     },
     {
@@ -27587,7 +30883,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "PPO",
+      "label": "Powered descent",
       "count": 1
     },
     {
@@ -27603,15 +30899,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Prediction sets",
-      "count": 1
-    },
-    {
-      "label": "Predictive control",
-      "count": 1
-    },
-    {
-      "label": "Predictive Sampling",
+      "label": "Predictive sampling",
       "count": 1
     },
     {
@@ -27636,6 +30924,14 @@ window.analyticsData = {
     },
     {
       "label": "Primal-dual optimization",
+      "count": 1
+    },
+    {
+      "label": "Prioritized experience replay",
+      "count": 1
+    },
+    {
+      "label": "Privacy",
       "count": 1
     },
     {
@@ -27679,11 +30975,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Probability distribution",
+      "count": 1
+    },
+    {
       "label": "Probability theory",
       "count": 1
     },
     {
-      "label": "Problem Instances",
+      "label": "Probably approximately correct",
+      "count": 1
+    },
+    {
+      "label": "Problem instances",
       "count": 1
     },
     {
@@ -27692,6 +30996,18 @@ window.analyticsData = {
     },
     {
       "label": "Programmable biology",
+      "count": 1
+    },
+    {
+      "label": "Programming style",
+      "count": 1
+    },
+    {
+      "label": "Propose deep embedded clustering",
+      "count": 1
+    },
+    {
+      "label": "Propose tree policy planning",
       "count": 1
     },
     {
@@ -27707,7 +31023,39 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "PSD",
+      "count": 1
+    },
+    {
+      "label": "PSLP",
+      "count": 1
+    },
+    {
+      "label": "Pure pursuit",
+      "count": 1
+    },
+    {
       "label": "PyHopper",
+      "count": 1
+    },
+    {
+      "label": "PyTorch",
+      "count": 1
+    },
+    {
+      "label": "Q-functions",
+      "count": 1
+    },
+    {
+      "label": "Q-Prop",
+      "count": 1
+    },
+    {
+      "label": "QNM",
+      "count": 1
+    },
+    {
+      "label": "QPI",
       "count": 1
     },
     {
@@ -27727,7 +31075,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "QuadSoft",
+      "count": 1
+    },
+    {
+      "label": "QuadSwarm",
+      "count": 1
+    },
+    {
+      "label": "QUANT",
+      "count": 1
+    },
+    {
       "label": "Quasi-static planning",
+      "count": 1
+    },
+    {
+      "label": "Question answering",
       "count": 1
     },
     {
@@ -27747,11 +31111,35 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Rainbow",
+      "count": 1
+    },
+    {
+      "label": "RAKOMO",
+      "count": 1
+    },
+    {
       "label": "Random embeddings",
       "count": 1
     },
     {
+      "label": "Random ensembles",
+      "count": 1
+    },
+    {
       "label": "Random features",
+      "count": 1
+    },
+    {
+      "label": "Random forest",
+      "count": 1
+    },
+    {
+      "label": "Random forests",
+      "count": 1
+    },
+    {
+      "label": "Random fourier features",
       "count": 1
     },
     {
@@ -27760,6 +31148,14 @@ window.analyticsData = {
     },
     {
       "label": "Random matrices",
+      "count": 1
+    },
+    {
+      "label": "Random matrix",
+      "count": 1
+    },
+    {
+      "label": "Random tree",
       "count": 1
     },
     {
@@ -27787,11 +31183,27 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "RAPID",
+      "count": 1
+    },
+    {
+      "label": "Rate function",
+      "count": 1
+    },
+    {
       "label": "Rational matrix equations",
       "count": 1
     },
     {
+      "label": "Ray",
+      "count": 1
+    },
+    {
       "label": "RC cars",
+      "count": 1
+    },
+    {
+      "label": "RDAR",
       "count": 1
     },
     {
@@ -27803,15 +31215,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "real-time",
-      "count": 1
-    },
-    {
       "label": "Real-time decision making",
       "count": 1
     },
     {
-      "label": "real-time planning",
+      "label": "Real-world",
+      "count": 1
+    },
+    {
+      "label": "Real-world scenarios. robust MPC",
       "count": 1
     },
     {
@@ -27819,7 +31231,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "receding horizon",
+      "label": "Receding horizon",
       "count": 1
     },
     {
@@ -27851,6 +31263,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Reference frame",
+      "count": 1
+    },
+    {
       "label": "Reference tracking",
       "count": 1
     },
@@ -27867,15 +31283,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Regression",
-      "count": 1
-    },
-    {
       "label": "Regret",
-      "count": 1
-    },
-    {
-      "label": "Regret bounds",
       "count": 1
     },
     {
@@ -27887,11 +31295,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Regularized Newton methods",
+      "label": "Regularized Newton method",
       "count": 1
     },
     {
-      "label": "Relative entropy",
+      "label": "Regularized Newton methods",
       "count": 1
     },
     {
@@ -27900,6 +31308,10 @@ window.analyticsData = {
     },
     {
       "label": "Relaxed controls",
+      "count": 1
+    },
+    {
+      "label": "Rely on k-nearest neighbors",
       "count": 1
     },
     {
@@ -27912,6 +31324,10 @@ window.analyticsData = {
     },
     {
       "label": "Rendering",
+      "count": 1
+    },
+    {
+      "label": "RES",
       "count": 1
     },
     {
@@ -27935,7 +31351,35 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Resource allocation",
+      "count": 1
+    },
+    {
+      "label": "Responsibility-sensitive safety",
+      "count": 1
+    },
+    {
+      "label": "Restricted isometry property",
+      "count": 1
+    },
+    {
+      "label": "Reversible learning",
+      "count": 1
+    },
+    {
       "label": "Review",
+      "count": 1
+    },
+    {
+      "label": "Reweighted L1 minimization",
+      "count": 1
+    },
+    {
+      "label": "Reynolds number",
+      "count": 1
+    },
+    {
+      "label": "RF",
       "count": 1
     },
     {
@@ -27944,6 +31388,10 @@ window.analyticsData = {
     },
     {
       "label": "Riccati factorization",
+      "count": 1
+    },
+    {
+      "label": "Riemannian manifold",
       "count": 1
     },
     {
@@ -27979,7 +31427,27 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "RLDX-1",
+      "count": 1
+    },
+    {
+      "label": "RLlib",
+      "count": 1
+    },
+    {
+      "label": "RMPC",
+      "count": 1
+    },
+    {
       "label": "RNA-guided nuclease",
+      "count": 1
+    },
+    {
+      "label": "RNN",
+      "count": 1
+    },
+    {
+      "label": "RNN encoder-decoder",
       "count": 1
     },
     {
@@ -27991,15 +31459,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "robot arm",
-      "count": 1
-    },
-    {
-      "label": "Robot arm",
+      "label": "RoboPlayground",
       "count": 1
     },
     {
       "label": "Robot hands",
+      "count": 1
+    },
+    {
+      "label": "Robot kinematics",
       "count": 1
     },
     {
@@ -28027,10 +31495,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Robotic planning",
-      "count": 1
-    },
-    {
       "label": "Robotics education",
       "count": 1
     },
@@ -28039,11 +31503,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Robust momentum method",
+      "count": 1
+    },
+    {
       "label": "Robust stability",
       "count": 1
     },
     {
       "label": "Robust state estimation",
+      "count": 1
+    },
+    {
+      "label": "ROCKET",
       "count": 1
     },
     {
@@ -28059,6 +31531,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "RR",
+      "count": 1
+    },
+    {
       "label": "RRG",
       "count": 1
     },
@@ -28071,19 +31547,55 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "RSS",
+      "count": 1
+    },
+    {
+      "label": "RT-1",
+      "count": 1
+    },
+    {
+      "label": "RT-2",
+      "count": 1
+    },
+    {
+      "label": "RTG",
+      "count": 1
+    },
+    {
+      "label": "Running time",
+      "count": 1
+    },
+    {
+      "label": "S Fast gradient",
+      "count": 1
+    },
+    {
+      "label": "S heavy Ball",
+      "count": 1
+    },
+    {
+      "label": "S-MPC",
+      "count": 1
+    },
+    {
+      "label": "Safety filtering",
+      "count": 1
+    },
+    {
       "label": "Safety models",
       "count": 1
     },
     {
-      "label": "SAGA",
+      "label": "SAIL",
+      "count": 1
+    },
+    {
+      "label": "SAM",
       "count": 1
     },
     {
       "label": "Sampled differential dynamic programming",
-      "count": 1
-    },
-    {
-      "label": "Sampling",
       "count": 1
     },
     {
@@ -28092,6 +31604,14 @@ window.analyticsData = {
     },
     {
       "label": "Sanger sequencing",
+      "count": 1
+    },
+    {
+      "label": "SARAH",
+      "count": 1
+    },
+    {
+      "label": "Scale",
       "count": 1
     },
     {
@@ -28107,6 +31627,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Scenario-based",
+      "count": 1
+    },
+    {
+      "label": "SceneSmith",
+      "count": 1
+    },
+    {
       "label": "Scientific computing",
       "count": 1
     },
@@ -28115,7 +31643,19 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "SDP",
+      "label": "SCO",
+      "count": 1
+    },
+    {
+      "label": "Scratch",
+      "count": 1
+    },
+    {
+      "label": "SCSC",
+      "count": 1
+    },
+    {
+      "label": "Search algorithm",
       "count": 1
     },
     {
@@ -28136,6 +31676,10 @@ window.analyticsData = {
     },
     {
       "label": "Secure control",
+      "count": 1
+    },
+    {
+      "label": "Security",
       "count": 1
     },
     {
@@ -28164,10 +31708,6 @@ window.analyticsData = {
     },
     {
       "label": "Self-organization",
-      "count": 1
-    },
-    {
-      "label": "semidefinite programming",
       "count": 1
     },
     {
@@ -28203,7 +31743,27 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Sequential quadratic programming",
+      "label": "Sequential convex programming",
+      "count": 1
+    },
+    {
+      "label": "Series",
+      "count": 1
+    },
+    {
+      "label": "SFT",
+      "count": 1
+    },
+    {
+      "label": "SGB",
+      "count": 1
+    },
+    {
+      "label": "SHAP",
+      "count": 1
+    },
+    {
+      "label": "ShapeNet",
       "count": 1
     },
     {
@@ -28211,7 +31771,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Shapley values",
+      "count": 1
+    },
+    {
       "label": "Sharpness",
+      "count": 1
+    },
+    {
+      "label": "Sharpness-aware minimization",
       "count": 1
     },
     {
@@ -28227,11 +31795,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Sigma points",
+      "label": "SigLIP",
       "count": 1
     },
     {
-      "label": "Sim-to-real transfer",
+      "label": "Sigma points",
       "count": 1
     },
     {
@@ -28251,7 +31819,23 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "singular control",
+      "label": "Simulation samples per second",
+      "count": 1
+    },
+    {
+      "label": "SINDY",
+      "count": 1
+    },
+    {
+      "label": "Singular control",
+      "count": 1
+    },
+    {
+      "label": "SIPP",
+      "count": 1
+    },
+    {
+      "label": "SISO",
       "count": 1
     },
     {
@@ -28271,7 +31855,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Sliding-Window Informed RRT*",
+      "label": "Sliding-window informed RRT*",
+      "count": 1
+    },
+    {
+      "label": "SLIM",
       "count": 1
     },
     {
@@ -28299,6 +31887,18 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "SMPC",
+      "count": 1
+    },
+    {
+      "label": "SMS",
+      "count": 1
+    },
+    {
+      "label": "SNMPC",
+      "count": 1
+    },
+    {
       "label": "Societal-scale systems",
       "count": 1
     },
@@ -28311,11 +31911,43 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Soft MPCritic",
+      "count": 1
+    },
+    {
+      "label": "Soft projections",
+      "count": 1
+    },
+    {
+      "label": "Soft robotics",
+      "count": 1
+    },
+    {
+      "label": "SoftJAX & SoftTorch",
+      "count": 1
+    },
+    {
       "label": "Software quality",
       "count": 1
     },
     {
+      "label": "SONIC",
+      "count": 1
+    },
+    {
+      "label": "SOPPI",
+      "count": 1
+    },
+    {
       "label": "SOSTOOLS",
+      "count": 1
+    },
+    {
+      "label": "SOTA",
+      "count": 1
+    },
+    {
+      "label": "SOTIF",
       "count": 1
     },
     {
@@ -28351,6 +31983,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Spatio-temporal",
+      "count": 1
+    },
+    {
       "label": "Speciation",
       "count": 1
     },
@@ -28360,6 +31996,10 @@ window.analyticsData = {
     },
     {
       "label": "Spectral methods",
+      "count": 1
+    },
+    {
+      "label": "Spectral radius",
       "count": 1
     },
     {
@@ -28375,7 +32015,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Splat-Nav",
+      "count": 1
+    },
+    {
       "label": "SPO",
+      "count": 1
+    },
+    {
+      "label": "SPS",
+      "count": 1
+    },
+    {
+      "label": "SQP",
       "count": 1
     },
     {
@@ -28383,15 +32035,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "SRT",
+      "count": 1
+    },
+    {
+      "label": "SSIM",
+      "count": 1
+    },
+    {
       "label": "SST",
-      "count": 1
-    },
-    {
-      "label": "stability",
-      "count": 1
-    },
-    {
-      "label": "Stability",
       "count": 1
     },
     {
@@ -28427,6 +32079,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Statistical inference",
+      "count": 1
+    },
+    {
       "label": "Statistical testing",
       "count": 1
     },
@@ -28443,7 +32099,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Stein-optimized",
+      "count": 1
+    },
+    {
       "label": "Stem cells",
+      "count": 1
+    },
+    {
+      "label": "Stepsize hedging",
       "count": 1
     },
     {
@@ -28455,7 +32119,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Stochastic BFGS",
+      "count": 1
+    },
+    {
+      "label": "Stochastic data-driven predictive control",
+      "count": 1
+    },
+    {
       "label": "Stochastic dual coordinate ascent",
+      "count": 1
+    },
+    {
+      "label": "Stochastic gradient",
+      "count": 1
+    },
+    {
+      "label": "Stochastic model predictive control",
       "count": 1
     },
     {
@@ -28471,11 +32151,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Stochastic recursive gradients",
+      "count": 1
+    },
+    {
       "label": "Stochastic uncertainty models",
       "count": 1
     },
     {
+      "label": "Stochastic variance-reduced gradient",
+      "count": 1
+    },
+    {
       "label": "STOMP",
+      "count": 1
+    },
+    {
+      "label": "STORM-PG",
       "count": 1
     },
     {
@@ -28492,6 +32184,10 @@ window.analyticsData = {
     },
     {
       "label": "Streamline integration",
+      "count": 1
+    },
+    {
+      "label": "STROM",
       "count": 1
     },
     {
@@ -28519,6 +32215,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "STS",
+      "count": 1
+    },
+    {
       "label": "Subdivision surfaces",
       "count": 1
     },
@@ -28535,7 +32235,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Sum-of-squares programming",
+      "label": "Sumo",
       "count": 1
     },
     {
@@ -28547,11 +32247,31 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "support vector machine",
+      "label": "Supervised fine-tuning",
+      "count": 1
+    },
+    {
+      "label": "Support vector machine",
       "count": 1
     },
     {
       "label": "Support vector machines",
+      "count": 1
+    },
+    {
+      "label": "Surgical robot",
+      "count": 1
+    },
+    {
+      "label": "Surgical robot transformer",
+      "count": 1
+    },
+    {
+      "label": "Surrogate model",
+      "count": 1
+    },
+    {
+      "label": "Surrogate-assisted illumination",
       "count": 1
     },
     {
@@ -28568,6 +32288,22 @@ window.analyticsData = {
     },
     {
       "label": "Sustainable computing",
+      "count": 1
+    },
+    {
+      "label": "Sustainable development",
+      "count": 1
+    },
+    {
+      "label": "SVGD",
+      "count": 1
+    },
+    {
+      "label": "SVRG",
+      "count": 1
+    },
+    {
+      "label": "SVRPG",
       "count": 1
     },
     {
@@ -28603,15 +32339,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Synthetic data",
-      "count": 1
-    },
-    {
       "label": "System",
       "count": 1
     },
     {
       "label": "Systems of equations",
+      "count": 1
+    },
+    {
+      "label": "T-PDG",
       "count": 1
     },
     {
@@ -28623,11 +32359,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "TAMP",
+      "label": "Target tree",
       "count": 1
     },
     {
-      "label": "Target tree",
+      "label": "TaSIL",
       "count": 1
     },
     {
@@ -28643,6 +32379,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Tasks",
+      "count": 1
+    },
+    {
       "label": "Taxonomy",
       "count": 1
     },
@@ -28651,7 +32391,19 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Teleoperation",
+      "label": "Taylor series",
+      "count": 1
+    },
+    {
+      "label": "TD-MPC",
+      "count": 1
+    },
+    {
+      "label": "TD-MPC2",
+      "count": 1
+    },
+    {
+      "label": "TDP",
       "count": 1
     },
     {
@@ -28663,7 +32415,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Test set",
+      "count": 1
+    },
+    {
       "label": "Texture mapping",
+      "count": 1
+    },
+    {
+      "label": "Tf–idf",
       "count": 1
     },
     {
@@ -28671,7 +32431,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Thomas Simpson",
+      "label": "Thomas simpson",
       "count": 1
     },
     {
@@ -28687,7 +32447,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Time-optimal",
+      "label": "Time horizon",
       "count": 1
     },
     {
@@ -28695,11 +32455,27 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Timed Elastic Band",
+      "label": "Timed elastic Band",
       "count": 1
     },
     {
       "label": "Tire model",
+      "count": 1
+    },
+    {
+      "label": "TM",
+      "count": 1
+    },
+    {
+      "label": "Together with quality-filtered Franka",
+      "count": 1
+    },
+    {
+      "label": "Topic model",
+      "count": 1
+    },
+    {
+      "label": "Topic modeling",
       "count": 1
     },
     {
@@ -28712,6 +32488,22 @@ window.analyticsData = {
     },
     {
       "label": "Torque constraints",
+      "count": 1
+    },
+    {
+      "label": "Tournament selection",
+      "count": 1
+    },
+    {
+      "label": "TPP",
+      "count": 1
+    },
+    {
+      "label": "TR",
+      "count": 1
+    },
+    {
+      "label": "TRACE",
       "count": 1
     },
     {
@@ -28739,11 +32531,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Transfer operator",
+      "count": 1
+    },
+    {
       "label": "Transformation",
       "count": 1
     },
     {
-      "label": "Transformers",
+      "label": "Transforms",
+      "count": 1
+    },
+    {
+      "label": "Transport",
       "count": 1
     },
     {
@@ -28755,7 +32555,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Tree ensembles",
+      "label": "Tree traversal",
       "count": 1
     },
     {
@@ -28763,11 +32563,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "TreeSHAP",
+      "label": "Trial-and-error based reinforcement learning",
       "count": 1
     },
     {
-      "label": "Truncated backpropagation",
+      "label": "TRPO",
+      "count": 1
+    },
+    {
+      "label": "Trust region",
       "count": 1
     },
     {
@@ -28779,11 +32583,27 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "TSP",
+      "count": 1
+    },
+    {
+      "label": "Tune",
+      "count": 1
+    },
+    {
       "label": "Tutorial",
       "count": 1
     },
     {
-      "label": "UAV",
+      "label": "TVLQR",
+      "count": 1
+    },
+    {
+      "label": "Two-phase",
+      "count": 1
+    },
+    {
+      "label": "U-Net",
       "count": 1
     },
     {
@@ -28799,7 +32619,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "UCR",
+      "count": 1
+    },
+    {
+      "label": "UGE-TO",
+      "count": 1
+    },
+    {
       "label": "UKF",
+      "count": 1
+    },
+    {
+      "label": "UMAP",
+      "count": 1
+    },
+    {
+      "label": "UMI",
       "count": 1
     },
     {
@@ -28815,7 +32651,23 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Unifying PAC and regret",
+      "count": 1
+    },
+    {
       "label": "Unique solution",
+      "count": 1
+    },
+    {
+      "label": "Universal",
+      "count": 1
+    },
+    {
+      "label": "Universal regularized Newton method",
+      "count": 1
+    },
+    {
+      "label": "Universal sequence preconditioning",
       "count": 1
     },
     {
@@ -28835,6 +32687,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "V-JEPA",
+      "count": 1
+    },
+    {
+      "label": "V-JEPA 2",
+      "count": 1
+    },
+    {
       "label": "Validation",
       "count": 1
     },
@@ -28851,7 +32711,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Value iteration",
+      "label": "Value-gradient iteration",
       "count": 1
     },
     {
@@ -28887,7 +32747,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "vector field visualization",
+      "label": "Vector quantization",
+      "count": 1
+    },
+    {
+      "label": "VectorNet",
       "count": 1
     },
     {
@@ -28915,31 +32779,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Via ordinary least-squares regression",
+      "count": 1
+    },
+    {
       "label": "VICReg",
       "count": 1
     },
     {
-      "label": "Video diffusion",
+      "label": "View synthesis",
       "count": 1
     },
     {
-      "label": "Video generation",
-      "count": 1
-    },
-    {
-      "label": "Video inpainting",
-      "count": 1
-    },
-    {
-      "label": "Video question answering",
-      "count": 1
-    },
-    {
-      "label": "Video super-resolution",
-      "count": 1
-    },
-    {
-      "label": "Video understanding",
+      "label": "Vision banana",
       "count": 1
     },
     {
@@ -28951,11 +32803,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Vision-language-action model",
+      "label": "Vision-language",
       "count": 1
     },
     {
-      "label": "Vision-language-action models",
+      "label": "Visual question answering",
       "count": 1
     },
     {
@@ -28963,7 +32815,27 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "ViT",
+      "count": 1
+    },
+    {
+      "label": "ViViT",
+      "count": 1
+    },
+    {
+      "label": "Volume rendering",
+      "count": 1
+    },
+    {
+      "label": "VQA",
+      "count": 1
+    },
+    {
       "label": "VTOL",
+      "count": 1
+    },
+    {
+      "label": "WAM",
       "count": 1
     },
     {
@@ -28979,6 +32851,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Wasserstein GAN",
+      "count": 1
+    },
+    {
+      "label": "Wasserstein metric",
+      "count": 1
+    },
+    {
       "label": "Waterbed effect",
       "count": 1
     },
@@ -28987,11 +32867,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "wavelet features",
+      "label": "Wavelet features",
       "count": 1
     },
     {
       "label": "Wayformer",
+      "count": 1
+    },
+    {
+      "label": "Waymax",
       "count": 1
     },
     {
@@ -29007,6 +32891,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "WestWorld",
+      "count": 1
+    },
+    {
       "label": "Wheeled mobile robots",
       "count": 1
     },
@@ -29015,11 +32903,39 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Whole-body control",
+      "label": "White noise",
+      "count": 1
+    },
+    {
+      "label": "With convex-concave programming",
+      "count": 1
+    },
+    {
+      "label": "With generalized advantage estimation",
+      "count": 1
+    },
+    {
+      "label": "WOMD",
+      "count": 1
+    },
+    {
+      "label": "World action model",
+      "count": 1
+    },
+    {
+      "label": "World models",
       "count": 1
     },
     {
       "label": "World Wide Web",
+      "count": 1
+    },
+    {
+      "label": "WOSAC",
+      "count": 1
+    },
+    {
+      "label": "XGBoost",
       "count": 1
     },
     {
@@ -29039,7 +32955,19 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Zero-shot robotics",
+      "label": "Zero-sum linear quadratic",
+      "count": 1
+    },
+    {
+      "label": "Zeroth-order optimization",
+      "count": 1
+    },
+    {
+      "label": "ZO-RSN",
+      "count": 1
+    },
+    {
+      "label": "ZO-SVRG",
       "count": 1
     }
   ],
@@ -32274,15 +36202,15 @@ window.analyticsData = {
   "auditStatuses": [
     {
       "label": "raw",
-      "count": 1217
+      "count": 1216
     },
     {
       "label": "reviewed",
-      "count": 213
+      "count": 215
     },
     {
       "label": "partial",
-      "count": 19
+      "count": 18
     }
   ]
 };

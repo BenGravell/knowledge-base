@@ -1,5 +1,4 @@
-title: >
-  Synthesis of Model Predictive Control and Reinforcement Learning: Survey and Classification
+title: 'Synthesis of Model Predictive Control and Reinforcement Learning: Survey and Classification'
 algorithm:
 authors:
   - Rudolf Reiter
@@ -12,14 +11,28 @@ authors:
   - Moritz Diehl
   - Sebastien Gros
 year: 2025
-source:
-type: ''
-doi:
+source: Annual Reviews in Control
+type: Journal Paper
+doi: 10.1016/j.arcontrol.2026.101045
 arxiv_id: "2502.02133"
 tags:
-abstract: >
-  The fields of MPC and RL consider two successful control techniques for Markov decision processes. Both approaches are derived from similar fundamental principles, and both are widely used in practical applications, including robotics, process control, energy systems, and autonomous driving. Despite their similarities, MPC and RL follow distinct paradigms that emerged from diverse communities and different requirements. Various technical discrepancies, particularly the role of an environment model as part of the algorithm, lead to methodologies with nearly complementary advantages. Due to their orthogonal benefits, research interest in combination methods has recently increased significantly, leading to a large and growing set of complex ideas leveraging MPC and RL. This work illuminates the differences, similarities, and fundamentals that allow for different combination algorithms and categorizes existing work accordingly. Particularly, we focus on the versatile actor-critic RL approach as a basis for our categorization and examine how the online optimization approach of MPC can be used to improve the overall closed-loop performance of a policy.
-summary: ''
+  - Reinforcement learning
+  - Model predictive control
+  - Predictive control
+  - Robotics
+  - Autonomous driving
+  - Classification
+  - Online algorithms
+  - Optimization
+  - Control
+  - Learning
+  - Markov decision process
+abstract: The fields of MPC and RL consider two successful control techniques for Markov decision processes. Both approaches are derived from similar fundamental principles, and both are widely used in practical applications, including robotics, process control, energy systems, and autonomous driving. Despite their similarities, MPC and RL follow distinct paradigms that emerged from diverse communities and different requirements. Various technical discrepancies, particularly the role of an environment model as part of the algorithm, lead to methodologies with nearly complementary advantages. Due to their orthogonal benefits, research interest in combination methods has recently increased significantly, leading to a large and growing set of complex ideas leveraging MPC and RL. This work illuminates the differences, similarities, and fundamentals that allow for different combination algorithms and categorizes existing work accordingly. Particularly, we focus on the versatile actor-critic RL approach as a basis for our categorization and examine how the online optimization approach of MPC can be used to improve the overall closed-loop performance of a policy.
+summary: The fields of MPC and RL consider two successful control techniques for Markov decision processes. The abstract also notes that both approaches are derived from similar fundamental principles, and both are widely used in practical applications, including robotics, process control, energy systems, and autonomous driving.
 link: https://arxiv.org/pdf/2502.02133
 links_alt:
+  - https://doi.org/10.1016/j.arcontrol.2026.101045
+  - https://linkinghub.elsevier.com/retrieve/pii/S1367578826000015
+  - https://api.elsevier.com/content/article/PII:S1367578826000015?httpAccept=text/xml
+  - https://api.elsevier.com/content/article/PII:S1367578826000015?httpAccept=text/plain
 audit_status: raw

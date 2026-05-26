@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,9 +1609,16 @@
       <a href="../../search/?year=2017">2017</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Conference%20Paper">Conference Paper</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=IEEE%20International%20Conference%20on%20Robotics%20and%20Automation%20%28ICRA%29">IEEE International Conference on Robotics and Automation (ICRA)</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1599,6 +1628,8 @@
       <a href="https://arxiv.org/abs/1709.05448" target="_blank" rel="noopener noreferrer">arXiv 1709.05448</a>
 
 
+      <a href="https://doi.org/10.1109/icra.2018.8460730" target="_blank" rel="noopener noreferrer">DOI 10.1109/icra.2018.8460730</a>
+
     </div>
   </div>
 
@@ -1606,6 +1637,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>A defining feature of sampling-based motion planning is the reliance on an implicit representation of the state space, which is enabled by a set of probing samples. Traditionally, these samples are drawn either probabilistically or deterministically to uniformly cover the state space. Yet, the motion of many robotic systems is often restricted to "small" regions of the state space, due to, for example, differential constraints or collision-avoidance constraints. To accelerate the planning process, it is thus desirable to devise non-uniform sampling strategies that favor sampling in those regions where an optimal solution might lie. This paper proposes a methodology for non-uniform sampling, whereby a sampling distribution is learned from demonstrations, and then used to bias sampling. The sampling distribution is computed through a conditional variational autoencoder, allowing sample generation from the latent space conditioned on the specific planning problem. This methodology is general, can be used in combination with any sampling-based planner, and can effectively exploit the underlying structure of a planning problem while maintaining the theoretical guarantees of sampling-based approaches. Specifically, on several planning problems, the proposed methodology is shown to effectively learn representations for the relevant regions of the state space, resulting in an order of magnitude improvement in terms of success rate and convergence to the optimal cost.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>A defining feature of sampling-based motion planning is the reliance on an implicit representation of the state space, which is enabled by a set of probing samples. The abstract also notes that traditionally, these samples are drawn either probabilistically or deterministically to uniformly cover the state space.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1645,8 +1679,45 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1109/icra.2018.8460730" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://ieeexplore.ieee.org/document/8460730/" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">ieeexplore.ieee.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://xplorestaging.ieee.org/ielx7/8449910/8460178/08460730.pdf?arnumber=8460730" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">xplorestaging.ieee.org PDF</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1709_05448&amp;tag=Motion%20planning">Motion planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1709_05448&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1709_05448&amp;tag=Variational%20autoencoders">Variational autoencoders</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1709_05448&amp;tag=Autoencoders">Autoencoders</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1709_05448&amp;tag=Probabilistic%20models">Probabilistic models</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1709_05448&amp;tag=Sampling-based%20methods">Sampling-based methods</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1709_05448&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1709_05448&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1709_05448&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1709_05448&amp;tag=State%20space">State space</a>
 
 </div>
 
@@ -1672,10 +1743,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>89%</span>
+        <span>88%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1726,20 +1797,20 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
+        <span>85%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2411_17293/">SIL-RRT*: Learning Sampling Distribution through Self Imitation Learning</a></h3>
+      <h3><a href="../../papers/2015_janson_deterministic_sampling_based_motion/">Deterministic Sampling-Based Motion Planning: Optimality, Complexity, and Performance</a></h3>
 
-      <p class="paper-similar-card__label">SIL-RRT*</p>
+      <p class="paper-similar-card__label">Deterministic low-dispersion sampling</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Xuzhe Dang et al. / 2024</span>
+        <span>Lucas Janson et al. / 2015</span>
       </div>
 
     </div>

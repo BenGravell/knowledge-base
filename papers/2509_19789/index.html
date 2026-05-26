@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1591,6 +1613,8 @@
       <a href="../../search/?year=2025">2025</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1599,6 +1623,11 @@
     <div class="paper-meta-card__value">RDAR</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1614,7 +1643,10 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>Human drivers focus only on a handful of agents at any one time. On the other hand, autonomous driving systems process complex scenes with numerous agents, regardless of whether they are pedestrians on a crosswalk or vehicles parked on the side of the road. While attention mechanisms offer an implicit way to reduce the input to the elements that affect decisions, existing attention mechanisms for capturing agent interactions are quadratic, and generally computationally expensive. We propose RDAR, a strategy to learn per-agent relevance - how much each agent influences the behavior of the controlled vehicle - by identifying which agents can be excluded from the input to a pre-trained behavior model. We formulate the masking procedure as a Markov Decision Process where the action consists of a binary mask indicating agent selection. We evaluate RDAR on a large-scale driving dataset, and demonstrate its ability to learn an accurate numerical measure of relevance by achieving comparable driving performance, in terms of overall progress, safety and performance, while processing significantly fewer agents compared to a state of the art behavior model.</p>
+<p>Human drivers focus only on a handful of agents at any one time. On the other hand, autonomous driving systems process complex scenes with numerous agents, regardless of whether they are pedestrians on a crosswalk or vehicles parked on the side of the road. While attention mechanisms offer an implicit way to reduce the input to the elements that affect decisions, existing attention mechanisms for capturing agent interactions are quadratic, and generally computationally expensive. We propose RDAR, a strategy to learn per-agent relevance -- how much each agent influences the behavior of the controlled vehicle -- by identifying which agents can be excluded from the input to a pre-trained behavior model. We formulate the masking procedure as a Markov Decision Process where the action consists of a binary mask indicating agent selection. We evaluate RDAR on a large-scale driving dataset, and demonstrate its ability to learn an accurate numerical measure of relevance by achieving comparable driving performance, in terms of overall progress, safety and performance, while processing significantly fewer agents compared to a state of the art behavior model.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Human drivers focus only on a handful of agents at any one time. The abstract also notes that on the other hand, autonomous driving systems process complex scenes with numerous agents, regardless of whether they are pedestrians on a crosswalk or vehicles parked on the side of the road.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1659,32 +1691,35 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_19789&amp;tag=Markov%20decision%20processes">Markov decision processes</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_19789&amp;tag=MDP">MDP</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_19789&amp;tag=Autonomous%20driving">Autonomous driving</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_19789&amp;tag=Vehicles">Vehicles</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_19789&amp;tag=Safety">Safety</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_19789&amp;tag=Attention%20mechanisms">Attention mechanisms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_19789&amp;tag=Datasets">Datasets</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_19789&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_19789&amp;tag=RDAR">RDAR</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">1</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2412_14415/">DriveGPT: Scaling Autoregressive Behavior Models for Driving</a></h3>
-
-      <p class="paper-similar-card__label">DriveGPT</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Xin Huang et al. / 2024</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
         <span>84%</span>
       </div>
@@ -1701,18 +1736,20 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">3</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+      <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2605_10034/">Beyond Self-Play and Scale: A Behavior Benchmark for Generalization in Autonomous Driving</a></h3>
+      <h3><a href="../../papers/2412_14415/">DriveGPT: Scaling Autoregressive Behavior Models for Driving</a></h3>
+
+      <p class="paper-similar-card__label">DriveGPT</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Aron Distelzweig et al. / 2026</span>
+        <span>Xin Huang et al. / 2024</span>
       </div>
 
     </div>
@@ -1720,7 +1757,7 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
         <span>83%</span>
       </div>
@@ -1740,19 +1777,37 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
-      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
         <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2310_08710/">Waymax: An Accelerated, Data-Driven Simulator for Large-Scale Autonomous Driving Research</a></h3>
+      <h3><a href="../../papers/2605_10034/">Beyond Self-Play and Scale: A Behavior Benchmark for Generalization in Autonomous Driving</a></h3>
 
-      <p class="paper-similar-card__label">Waymax</p>
+      <p class="paper-similar-card__label">BehaviorBench</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Cole Gulino et al. / 2023</span>
+        <span>Aron Distelzweig et al. / 2026</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>81%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2018_schwarting_planning_and_decision_making/">Planning and Decision-Making for Autonomous Vehicles</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Wilko Schwarting et al. / 2018</span>
       </div>
 
     </div>

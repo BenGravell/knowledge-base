@@ -6,14 +6,23 @@ authors:
   - Arshia Kermani
   - Vangelis Metsis
 year: 2025
-source:
-type: ''
-doi:
+source: Expert Systems
+type: Journal Paper
+doi: 10.1111/exsy.70148
 arxiv_id: "2501.13392"
 tags:
-abstract: >
-  Time series analysis has become crucial in various fields, from engineering and finance to healthcare and social sciences. Due to their multidimensional nature, time series often need to be embedded into a fixed-dimensional feature space to enable processing with various machine learning algorithms. In this paper, we present a comprehensive review and quantitative evaluation of time series embedding methods for effective representations in machine learning and deep learning models. We introduce a taxonomy of embedding techniques, categorizing them based on their theoretical foundations and application contexts. Our work provides a quantitative evaluation of representative methods from each category by assessing their performance on downstream classification tasks across diverse real-world datasets. Our experimental results demonstrate that the performance of embedding methods varies significantly depending on the dataset and classification algorithm used, highlighting the importance of careful model selection and extensive experimentation for specific applications. To facilitate further research and practical applications, we provide an open-source code repository implementing these embedding methods. This study contributes to the field by offering a systematic comparison of time series embedding techniques, guiding practitioners in selecting appropriate methods for their specific applications, and providing a foundation for future advancements in time series analysis.
-summary: ''
+  - Deep learning
+  - Classification
+  - Time series
+  - Datasets
+  - Learning
+  - Tasks
+abstract: Time series analysis has become crucial in various fields, from engineering and finance to healthcare and social sciences. Due to their multidimensional nature, time series often need to be embedded into a fixed-dimensional feature space to enable processing with various machine learning algorithms. In this paper, we present a comprehensive review and quantitative evaluation of time series embedding methods for effective representations in machine learning and deep learning models. We introduce a taxonomy of embedding techniques, categorizing them based on their theoretical foundations and application contexts. Our work provides a quantitative evaluation of representative methods from each category by assessing their performance on downstream classification tasks across diverse real-world datasets. Our experimental results demonstrate that the performance of embedding methods varies significantly depending on the dataset and classification algorithm used, highlighting the importance of careful model selection and extensive experimentation for specific applications. To facilitate further research and practical applications, we provide an open-source code repository implementing these embedding methods. This study contributes to the field by offering a systematic comparison of time series embedding techniques, guiding practitioners in selecting appropriate methods for their specific applications, and providing a foundation for future advancements in time series analysis.
+summary: Time series analysis has become crucial in various fields, from engineering and finance to healthcare and social sciences. The abstract also notes that due to their multidimensional nature, time series often need to be embedded into a fixed-dimensional feature space to enable processing with various machine learning algorithms.
 link: https://arxiv.org/pdf/2501.13392
 links_alt:
+  - https://doi.org/10.1111/exsy.70148
+  - https://onlinelibrary.wiley.com/doi/10.1111/exsy.70148
+  - https://onlinelibrary.wiley.com/doi/pdf/10.1111/exsy.70148
+  - https://onlinelibrary.wiley.com/doi/full-xml/10.1111/exsy.70148
 audit_status: raw

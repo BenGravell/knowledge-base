@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,6 +1611,8 @@
       <a href="../../search/?year=2023">2023</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Conference%20Paper">Conference Paper</a></div>
+
   </div>
 
 
@@ -1598,6 +1622,11 @@
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=IEEE%2FCVF%20International%20Conference%20on%20Computer%20Vision%20%28ICCV%29">IEEE/CVF International Conference on Computer Vision (ICCV)</a></div>
+  </div>
+
 
   <div class="paper-meta-card">
     <div class="paper-meta-card__label">Identifiers</div>
@@ -1606,6 +1635,8 @@
       <a href="https://arxiv.org/abs/2303.15343" target="_blank" rel="noopener noreferrer">arXiv 2303.15343</a>
 
 
+      <a href="https://doi.org/10.1109/iccv51070.2023.01100" target="_blank" rel="noopener noreferrer">DOI 10.1109/iccv51070.2023.01100</a>
+
     </div>
   </div>
 
@@ -1613,6 +1644,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We propose a simple pairwise Sigmoid loss for Language-Image Pre-training (SigLIP). Unlike standard contrastive learning with softmax normalization, the sigmoid loss operates solely on image-text pairs and does not require a global view of the pairwise similarities for normalization. The sigmoid loss simultaneously allows further scaling up the batch size, while also performing better at smaller batch sizes. Combined with Locked-image Tuning, with only four TPUv4 chips, we train a SigLiT model that achieves 84.5% ImageNet zero-shot accuracy in two days. The disentanglement of the batch size from the loss further allows us to study the impact of examples vs pairs and negative to positive ratio. Finally, we push the batch size to the extreme, up to one million, and find that the benefits of growing batch size quickly diminish, with a more reasonable batch size of 32k being sufficient. We release our models at https://github.com/google-research/big_vision and hope our research motivates further explorations in improving the quality and efficiency of language-image pre-training.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper proposes a simple pairwise Sigmoid loss for Language-Image Pre-training (SigLIP). The abstract also notes that unlike standard contrastive learning with softmax normalization, the sigmoid loss operates solely on image-text pairs and does not require a global view of the pairwise similarities for normalization.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1652,8 +1686,31 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1109/iccv51070.2023.01100" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://ieeexplore.ieee.org/document/10377550/" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">ieeexplore.ieee.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://xplorestaging.ieee.org/ielx7/10376473/10376477/10377550.pdf?arnumber=10377550" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">xplorestaging.ieee.org PDF</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2303_15343&amp;tag=Accuracy">Accuracy</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2303_15343&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2303_15343&amp;tag=SigLIP">SigLIP</a>
 
 </div>
 
@@ -1661,10 +1718,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>81%</span>
+        <span>78%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1681,50 +1738,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 136.8deg;" aria-label="76% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>77%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1711_05101/">Decoupled Weight Decay Regularization</a></h3>
-
-      <p class="paper-similar-card__label">AdamW</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Ilya Loshchilov et al. / 2017</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>77%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1412_6980/">Adam: A Method for Stochastic Optimization</a></h3>
-
-      <p class="paper-similar-card__label">Adam</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Diederik P. Kingma et al. / 2014</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>77%</span>
+        <span>76%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1741,10 +1758,48 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 135.0deg;" aria-label="75% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>75%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1711_05101/">Decoupled Weight Decay Regularization</a></h3>
+
+      <p class="paper-similar-card__label">AdamW</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Ilya Loshchilov et al. / 2017</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 135.0deg;" aria-label="75% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>75%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2023_ivgi_dog_is_sgds_best/">DoG Is SGD’s Best Friend: A Parameter-Free Dynamic Step Size Schedule</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Maor Ivgi et al. / 2023</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 135.0deg;" aria-label="75% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>77%</span>
+        <span>75%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">

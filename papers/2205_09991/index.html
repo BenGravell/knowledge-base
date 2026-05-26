@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,6 +1611,8 @@
       <a href="../../search/?year=2022">2022</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1597,6 +1621,11 @@
     <div class="paper-meta-card__value">Diffuser</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1613,6 +1642,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Model-based reinforcement learning methods often use learning only for the purpose of estimating an approximate dynamics model, offloading the rest of the decision-making work to classical trajectory optimizers. While conceptually simple, this combination has a number of empirical shortcomings, suggesting that learned models may not be well-suited to standard trajectory optimization. In this paper, we consider what it would look like to fold as much of the trajectory optimization pipeline as possible into the modeling problem, such that sampling from the model and planning with it become nearly identical. The core of our technical approach lies in a diffusion probabilistic model that plans by iteratively denoising trajectories. We show how classifier-guided sampling and image inpainting can be reinterpreted as coherent planning strategies, explore the unusual and useful properties of diffusion-based planning methods, and demonstrate the effectiveness of our framework in control settings that emphasize long-horizon decision-making and test-time flexibility.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Model-based reinforcement learning methods often use learning only for the purpose of estimating an approximate dynamics model, offloading the rest of the decision-making work to classical trajectory optimizers. The abstract also notes that while conceptually simple, this combination has a number of empirical shortcomings, suggesting that learned models may not be well-suited to standard trajectory optimization.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1657,14 +1689,39 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2205_09991&amp;tag=Reinforcement%20learning">Reinforcement learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2205_09991&amp;tag=Trajectory%20optimization">Trajectory optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2205_09991&amp;tag=Diffusion%20models">Diffusion models</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2205_09991&amp;tag=Probabilistic%20models">Probabilistic models</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2205_09991&amp;tag=Classifiers">Classifiers</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2205_09991&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2205_09991&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2205_09991&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2205_09991&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2205_09991&amp;tag=Sampling">Sampling</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>89%</span>
+        <span>87%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1688,11 +1745,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2508_21800/">Tree-Guided Diffusion Planner</a></h3>
+      <h3><a href="../../papers/2604_19011/">Accelerating Trajectory Optimization with Sobolev-trained Diffusion Policies</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Hyeonseong Jeon et al. / 2025</span>
+        <span>Théotime Le Hellard et al. / 2026</span>
       </div>
 
     </div>
@@ -1706,49 +1763,53 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2025_li_diffusolve_diffusion_based_solver/">DiffuSolve: Diffusion-based Solver for Non-convex Trajectory Optimization</a></h3>
+      <h3><a href="../../papers/2508_21800/">Tree-Guided Diffusion Planner</a></h3>
+
+      <p class="paper-similar-card__label">TDP</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Anjian Li et al. / 2025</span>
+        <span>Hyeonseong Jeon et al. / 2025</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2212_02603/">Learning to Optimize in Model Predictive Control</a></h3>
+      <h3><a href="../../papers/1706_06491/">Data-Efficient Reinforcement Learning with Probabilistic Model Predictive Control</a></h3>
 
-      <p class="paper-similar-card__label">MPC</p>
+      <p class="paper-similar-card__label">PETS</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Jacob Sacks et al. / 2022</span>
+        <span>Sanket Kamthe et al. / 2017</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
+        <span>85%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2604_19011/">Accelerating Trajectory Optimization with Sobolev-trained Diffusion Policies</a></h3>
+      <h3><a href="../../papers/2303_04137/">Diffusion Policy: Visuomotor Policy Learning via Action Diffusion</a></h3>
+
+      <p class="paper-similar-card__label">Diffusion Policy</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Théotime Le Hellard et al. / 2026</span>
+        <span>Cheng Chi et al. / 2023</span>
       </div>
 
     </div>

@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1593,9 +1615,16 @@
       <a href="../../search/?year=2023">2023</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Conference%20Paper">Conference Paper</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=IEEE%2FRSJ%20International%20Conference%20on%20Intelligent%20Robots%20and%20Systems%20%28IROS%29">IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1605,6 +1634,8 @@
       <a href="https://arxiv.org/abs/2307.13782" target="_blank" rel="noopener noreferrer">arXiv 2307.13782</a>
 
 
+      <a href="https://doi.org/10.1109/iros55552.2023.10341651" target="_blank" rel="noopener noreferrer">DOI 10.1109/iros55552.2023.10341651</a>
+
     </div>
   </div>
 
@@ -1612,6 +1643,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We consider joint trajectory generation and tracking control for under-actuated robotic systems. A common solution is to use a layered control architecture, where the top layer uses a simplified model of system dynamics for trajectory generation, and the low layer ensures approximate tracking of this trajectory via feedback control. While such layered control architectures are standard and work well in practice, selecting the simplified model used for trajectory generation typically relies on engineering intuition and experience. In this paper, we propose an alternative data-driven approach to dynamics-aware trajectory generation. We show that a suitable augmented Lagrangian reformulation of a global nonlinear optimal control problem results in a layered decomposition of the overall problem into trajectory planning and feedback control layers. Crucially, the resulting trajectory optimization is dynamics-aware, in that, it is modified with a tracking penalty regularizer encoding the dynamic feasibility of the generated trajectory. We show that this tracking penalty regularizer can be learned from system rollouts for independently-designed low layer feedback control policies, and instantiate our framework in the context of a unicycle and a quadrotor control problem in simulation. Further, we show that our approach handles the sim-to-real gap through experiments on the quadrotor hardware platform without any additional training. For both the synthetic unicycle example and the quadrotor system, our framework shows significant improvements in both computation time and dynamic feasibility in simulation and hardware experiments.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper considers joint trajectory generation and tracking control for under-actuated robotic systems. The abstract also notes that a common solution is to use a layered control architecture, where the top layer uses a simplified model of system dynamics for trajectory generation, and the low layer ensures approximate tracking of this trajectory via feedback control.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1651,8 +1685,45 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1109/iros55552.2023.10341651" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://dx.doi.org/10.1109/iros55552.2023.10341651" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://ieeexplore.ieee.org/document/10341651/" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">ieeexplore.ieee.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://xplorestaging.ieee.org/ielx7/10341341/10341342/10341651.pdf?arnumber=10341651" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">xplorestaging.ieee.org PDF</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2307_13782&amp;tag=Optimal%20control">Optimal control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2307_13782&amp;tag=Trajectory%20optimization">Trajectory optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2307_13782&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2307_13782&amp;tag=Aerial%20robotics">Aerial robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2307_13782&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2307_13782&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2307_13782&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2307_13782&amp;tag=Control">Control</a>
 
 </div>
 
@@ -1667,11 +1738,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2012_mellinger_trajectory_generation_and_control/">Trajectory Generation and Control for Precise Aggressive Maneuvers with Quadrotors</a></h3>
+      <h3><a href="../../papers/2011_hehn_quadrocopter_trajectory_generation_and/">Quadrocopter Trajectory Generation and Control</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Daniel Mellinger et al. / 2012</span>
+        <span>Markus Hehn et al. / 2011</span>
       </div>
 
     </div>
@@ -1705,11 +1776,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2011_hehn_quadrocopter_trajectory_generation_and/">Quadrocopter Trajectory Generation and Control</a></h3>
+      <h3><a href="../../papers/2012_mellinger_trajectory_generation_and_control/">Trajectory Generation and Control for Precise Aggressive Maneuvers with Quadrotors</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Markus Hehn et al. / 2011</span>
+        <span>Daniel Mellinger et al. / 2012</span>
       </div>
 
     </div>

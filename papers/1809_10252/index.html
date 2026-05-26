@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1585,9 +1607,16 @@
       <a href="../../search/?year=2018">2018</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Conference%20Paper">Conference Paper</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=IEEE%2FRSJ%20International%20Conference%20on%20Intelligent%20Robots%20and%20Systems%20%28IROS%29">IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1597,6 +1626,8 @@
       <a href="https://arxiv.org/abs/1809.10252" target="_blank" rel="noopener noreferrer">arXiv 1809.10252</a>
 
 
+      <a href="https://doi.org/10.1109/iros.2018.8593772" target="_blank" rel="noopener noreferrer">DOI 10.1109/iros.2018.8593772</a>
+
     </div>
   </div>
 
@@ -1604,6 +1635,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Sampling-based Motion Planners (SMPs) have become increasingly popular as they provide collision-free path solutions regardless of obstacle geometry in a given environment. However, their computational complexity increases significantly with the dimensionality of the motion planning problem. Adaptive sampling is one of the ways to speed up SMPs by sampling a particular region of a configuration space that is more likely to contain an optimal path solution. Although there are a wide variety of algorithms for adaptive sampling, they rely on hand-crafted heuristics; furthermore, their performance decreases significantly in high-dimensional spaces. In this paper, we present a neural network-based adaptive sampler for motion planning called Deep Sampling-based Motion Planner (DeepSMP). DeepSMP generates samples for SMPs and enhances their overall speed significantly while exhibiting efficient scalability to higher-dimensional problems. DeepSMP's neural architecture comprises of a Contractive AutoEncoder which encodes given workspaces directly from a raw point cloud data, and a Dropout-based stochastic deep feedforward neural network which takes the workspace encoding, start and goal configuration, and iteratively generates feasible samples for SMPs to compute end-to-end collision-free optimal paths. DeepSMP is not only consistently computationally efficient in all tested environments but has also shown remarkable generalization to completely unseen environments. We evaluate DeepSMP on multiple planning problems including planning of a point-mass robot, rigid-body, 6-link robotic manipulator in various 2D and 3D environments. The results show that on average our method is at least 7 times faster in point-mass and rigid-body case and about 28 times faster in 6-link robot case than the existing state-of-the-art.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Sampling-based Motion Planners (SMPs) have become increasingly popular as they provide collision-free path solutions regardless of obstacle geometry in a given environment. The abstract also notes that however, their computational complexity increases significantly with the dimensionality of the motion planning problem.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1643,8 +1677,49 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1109/iros.2018.8593772" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://ieeexplore.ieee.org/document/8593772/" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">ieeexplore.ieee.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://xplorestaging.ieee.org/ielx7/8574473/8593358/08593772.pdf?arnumber=8593772" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">xplorestaging.ieee.org PDF</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1809_10252&amp;tag=Motion%20planning">Motion planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1809_10252&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1809_10252&amp;tag=Neural%20networks">Neural networks</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1809_10252&amp;tag=Autoencoders">Autoencoders</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1809_10252&amp;tag=Computational%20complexity">Computational complexity</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1809_10252&amp;tag=Scalability">Scalability</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1809_10252&amp;tag=Sampling-based%20methods">Sampling-based methods</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1809_10252&amp;tag=Generalization">Generalization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1809_10252&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1809_10252&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1809_10252&amp;tag=Configuration%20space">Configuration space</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1809_10252&amp;tag=Adaptive%20sampling">Adaptive sampling</a>
 
 </div>
 
@@ -1670,10 +1745,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1688,10 +1763,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
+        <span>85%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1713,33 +1788,33 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2411_17293/">SIL-RRT*: Learning Sampling Distribution through Self Imitation Learning</a></h3>
+      <h3><a href="../../papers/2603_06773/">Stability-Guided Exploration for Diverse Motion Generation</a></h3>
 
-      <p class="paper-similar-card__label">SIL-RRT*</p>
+      <p class="paper-similar-card__label">StaGE</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Xuzhe Dang et al. / 2024</span>
+        <span>Eckart Cobo-Briesewitz et al. / 2026</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2309_14545/">Motions in Microseconds via Vectorized Sampling-Based Planning</a></h3>
+      <h3><a href="../../papers/2309_14595/">Neural Informed RRT*: Learning-based Path Planning with Point Cloud State Representations under Admissible Ellipsoidal Constraints</a></h3>
 
-      <p class="paper-similar-card__label">VAMP</p>
+      <p class="paper-similar-card__label">Neural Informed RRT*</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Wil Thomason et al. / 2023</span>
+        <span>Zhe Huang et al. / 2023</span>
       </div>
 
     </div>

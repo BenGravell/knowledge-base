@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,6 +1609,8 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1595,6 +1619,11 @@
     <div class="paper-meta-card__value">Sinkhorn Control</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1611,6 +1640,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Sampling-based model predictive control methods like MPPI and CEM are essential for real-time control of nonlinear robotic systems, particularly where discontinuous dynamics preclude gradient-based optimization. However, these methods derive from information-theoretic objectives that are agnostic to the geometry of the control problem, leading to pathological behaviors such as mode-averaging when the cost landscape is complex. We present OT-MPC, a sampling-based algorithm that overcomes these limitations through an entropy-regularized optimal transport formulation. By computing an optimal coupling between candidate control sequences and low-cost proposals, OT-MPC refines candidates toward nearby promising samples while coordinating updates across the ensemble to maintain coverage of the solution space. We derive closed-form, gradient-free updates via the Sinkhorn algorithm, enabling real-time performance. Experiments on navigation, manipulation, and locomotion tasks demonstrate improved success rates over existing methods.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Sampling-based model predictive control methods like MPPI and CEM are essential for real-time control of nonlinear robotic systems, particularly where discontinuous dynamics preclude gradient-based optimization. The abstract also notes that however, these methods derive from information-theoretic objectives that are agnostic to the geometry of the control problem, leading to pathological behaviors such as mode-averaging when the cost landscape is complex.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1655,34 +1687,79 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_02147&amp;tag=Model%20predictive%20control">Model predictive control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_02147&amp;tag=Predictive%20control">Predictive control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_02147&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_02147&amp;tag=Real-time%20systems">Real-time systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_02147&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_02147&amp;tag=Sampling-based%20methods">Sampling-based methods</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_02147&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_02147&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_02147&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_02147&amp;tag=Optimal%20transport">Optimal transport</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>87%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2603_24489/">Model Predictive Path Integral Control as Preconditioned Gradient Descent</a></h3>
+      <h3><a href="../../papers/2401_09241/">Biased-MPPI: Informing Sampling-Based Model Predictive Control by Fusing Ancillary Controllers</a></h3>
 
-      <p class="paper-similar-card__label">MPPI</p>
+      <p class="paper-similar-card__label">Biased-MPPI</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Mahyar Fazlyab et al. / 2026</span>
+        <span>Elia Trevisan et al. / 2024</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>87%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2017_williams_model_predictive_path_integral/">Model Predictive Path Integral Control: From Theory to Parallel Computation</a></h3>
+
+      <p class="paper-similar-card__label">MPPI</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Grady Williams et al. / 2017</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>87%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1699,38 +1776,20 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
-      <div class="paper-similar-card__rank-top">3</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2511_02015/">Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control</a></h3>
+      <h3><a href="../../papers/2603_05385/">Accelerating Sampling-Based Control via Learned Linear Koopman Dynamics</a></h3>
 
       <p class="paper-similar-card__label">MPPI</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Jace Aldrich et al. / 2025</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2510_14643/">Generative Models from and for Sampling-Based MPC: A Bootstrapped Approach for Adaptive Contact-Rich Manipulation</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Lara Brudermüller et al. / 2025</span>
+        <span>Wenjian Hao et al. / 2026</span>
       </div>
 
     </div>
@@ -1744,13 +1803,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2401_09241/">Biased-MPPI: Informing Sampling-Based Model Predictive Control by Fusing Ancillary Controllers</a></h3>
+      <h3><a href="../../papers/2511_02015/">Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control</a></h3>
 
-      <p class="paper-similar-card__label">Biased-MPPI</p>
+      <p class="paper-similar-card__label">SOPPI</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Elia Trevisan et al. / 2024</span>
+        <span>Jace Aldrich et al. / 2025</span>
       </div>
 
     </div>

@@ -8,10 +8,8 @@ type: Journal Paper
 doi: 10.1137/1013035
 arxiv_id:
 tags:
-abstract: >
-  Some corrections and amplifications are appended to Convergence conditions for ascent methods, this Review, 11 (1969), pp. 226-235.
-summary: >
-  Corrections to 'Convergence Conditions for Ascent Methods' (https://epubs.siam.org/doi/10.1137/1011036).
+abstract: Some corrections and amplifications are appended to Convergence conditions for ascent methods, this Review, 11 (1969), pp. 226-235.
+summary: Corrections to 'Convergence Conditions for Ascent Methods' (https://epubs.siam.org/doi/10.1137/1011036).
 link: https://epubs.siam.org/doi/10.1137/1013035
 links_alt:
 audit_status: reviewed

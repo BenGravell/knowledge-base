@@ -21,7 +21,7 @@
     
     
       
-        <title>DiffTune+: Hyperparameter-Free Auto-Tuning Using Auto-Differentiation - Knowledge Base</title>
+        <title>Diff Tune ^+: Hyperparameter-Free Auto-Tuning Using Auto-Differentiation - Knowledge Base</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#difftune-hyperparameter-free-auto-tuning-using-auto-differentiation" class="md-skip">
+        <a href="#diff-tune-hyperparameter-free-auto-tuning-using-auto-differentiation" class="md-skip">
           Skip to content
         </a>
       
@@ -109,7 +109,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              DiffTune+: Hyperparameter-Free Auto-Tuning Using Auto-Differentiation
+              Diff Tune ^+: Hyperparameter-Free Auto-Tuning Using Auto-Differentiation
             
           </span>
         </div>
@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1564,7 +1586,7 @@
 
 
 
-<h1 id="difftune-hyperparameter-free-auto-tuning-using-auto-differentiation">DiffTune+: Hyperparameter-Free Auto-Tuning Using Auto-Differentiation<a class="headerlink" href="#difftune-hyperparameter-free-auto-tuning-using-auto-differentiation" title="Permanent link">&para;</a></h1>
+<h1 id="diff-tune-hyperparameter-free-auto-tuning-using-auto-differentiation">Diff Tune ^+: Hyperparameter-Free Auto-Tuning Using Auto-Differentiation<a class="headerlink" href="#diff-tune-hyperparameter-free-auto-tuning-using-auto-differentiation" title="Permanent link">&para;</a></h1>
 <section class="paper-meta-grid" aria-label="Paper metadata">
 
   <div class="paper-meta-card paper-meta-card--wide">
@@ -1591,9 +1613,21 @@
       <a href="../../search/?year=2022">2022</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">DiffTune$^+$</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1610,6 +1644,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Controller tuning is a vital step to ensure the controller delivers its designed performance. DiffTune has been proposed as an automatic tuning method that unrolls the dynamical system and controller into a computational graph and uses auto-differentiation to obtain the gradient for the controller's parameter update. However, DiffTune uses the vanilla gradient descent to iteratively update the parameter, in which the performance largely depends on the choice of the learning rate (as a hyperparameter). In this paper, we propose to use hyperparameter-free methods to update the controller parameters. We find the optimal parameter update by maximizing the loss reduction, where a predicted loss based on the approximated state and control is used for the maximization. Two methods are proposed to optimally update the parameters and are compared with related variants in simulations on a Dubin's car and a quadrotor. Simulation experiments show that the proposed first-order method outperforms the hyperparameter-based methods and is more robust than the second-order hyperparameter-free methods.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Controller tuning is a vital step to ensure the controller delivers its designed performance. The abstract also notes that diffTune has been proposed as an automatic tuning method that unrolls the dynamical system and controller into a computational graph and uses auto-differentiation to obtain the gradient for the controller's parameter update.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1654,18 +1691,37 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_03194&amp;tag=Gradient%20descent">Gradient descent</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_03194&amp;tag=Aerial%20robotics">Aerial robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_03194&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_03194&amp;tag=Graphs">Graphs</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_03194&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_03194&amp;tag=Learning">Learning</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 169.2deg;" aria-label="94% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 171.0deg;" aria-label="95% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>94%</span>
+        <span>95%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2209_10021/">DiffTune: Auto-Tuning through Auto-Differentiation</a></h3>
+
+      <p class="paper-similar-card__label">DiffTune</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1685,6 +1741,8 @@
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2103_10698/">AutoTune: Controller Tuning for High-Speed Flight</a></h3>
 
+      <p class="paper-similar-card__label">AutoTune</p>
+
 
       <div class="paper-similar-card__meta">
         <span>Antonio Loquercio et al. / 2021</span>
@@ -1694,14 +1752,16 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2106_10516/">DiffLoop: Tuning PID Controllers by Differentiating through the Feedback Loop</a></h3>
+
+      <p class="paper-similar-card__label">DiffLoop</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1712,10 +1772,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>81%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1737,13 +1797,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2207_06362/">Iterative Linear Quadratic Optimization for Nonlinear Control: Differentiable Programming Algorithmic Templates</a></h3>
+      <h3><a href="../../papers/2306_09852/">Actor-Critic Model Predictive Control: Differentiable Optimization Meets Reinforcement Learning for Agile Flight</a></h3>
 
-      <p class="paper-similar-card__label">iLQR Algorithmic Templates</p>
+      <p class="paper-similar-card__label">Actor-Critic Model Predictive Control</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Vincent Roulet et al. / 2022</span>
+        <span>Angel Romero et al. / 2023</span>
       </div>
 
     </div>

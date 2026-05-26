@@ -1,17 +1,21 @@
 title: 'XGBoost: A Scalable Tree Boosting System'
-algorithm: "XGBoost"
+algorithm: XGBoost
 authors:
   - Tianqi Chen
   - Carlos Guestrin
 year: 2016
-source:
-type: ''
-doi:
+source: Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining
+type: Conference Paper
+doi: 10.1145/2939672.2939785
 arxiv_id: "1603.02754"
 tags:
-abstract: >
-  Tree boosting is a highly effective and widely used machine learning method. In this paper, we describe a scalable end-to-end tree boosting system called XGBoost, which is used widely by data scientists to achieve state-of-the-art results on many machine learning challenges. We propose a novel sparsity-aware algorithm for sparse data and weighted quantile sketch for approximate tree learning. More importantly, we provide insights on cache access patterns, data compression and sharding to build a scalable tree boosting system. By combining these insights, XGBoost scales beyond billions of examples using far fewer resources than existing systems.
-summary: ''
+  - Learning
+  - XGBoost
+abstract: Tree boosting is a highly effective and widely used machine learning method. In this paper, we describe a scalable end-to-end tree boosting system called XGBoost, which is used widely by data scientists to achieve state-of-the-art results on many machine learning challenges. We propose a novel sparsity-aware algorithm for sparse data and weighted quantile sketch for approximate tree learning. More importantly, we provide insights on cache access patterns, data compression and sharding to build a scalable tree boosting system. By combining these insights, XGBoost scales beyond billions of examples using far fewer resources than existing systems.
+summary: Tree boosting is a highly effective and widely used machine learning method. It also describes a scalable end-to-end tree boosting system called XGBoost, which is used widely by data scientists to achieve state-of-the-art results on many machine learning challenges.
 link: https://arxiv.org/pdf/1603.02754
 links_alt:
+  - https://doi.org/10.1145/2939672.2939785
+  - https://dl.acm.org/doi/10.1145/2939672.2939785
+  - https://dl.acm.org/doi/pdf/10.1145/2939672.2939785
 audit_status: raw

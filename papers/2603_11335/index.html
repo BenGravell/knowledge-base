@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,6 +1611,8 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1597,6 +1621,11 @@
     <div class="paper-meta-card__value">GCS</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1613,6 +1642,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>This paper presents a numerical solver for computing continuous trajectories in non-convex environments. Our approach relies on a customized implementation of the Alternating Direction Method of Multipliers (ADMM) built upon two key components: First, we parameterize trajectories as polynomials, allowing the primal update to be computed in closed form as a minimum-control-effort problem. Second, we introduce the concept of a spatio-temporal allocation graph based on a mixed-integer formulation and pose the slack update as a shortest-path search. The combination of these ingredients results in a solver with several distinct advantages over the state of the art. By jointly optimizing over both discrete spatial and continuous temporal domains, our method accesses a larger search space than existing decoupled approaches, enabling the discovery of superior trajectories. Additionally, the solver's structural robustness ensures reliable convergence from naive initializations, removing the bottleneck of complex warm starting in non-convex environments.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper presents a numerical solver for computing continuous trajectories in non-convex environments. The abstract also states that our approach relies on a customized implementation of the Alternating Direction Method of Multipliers (ADMM) built upon two key components: First, we parameterize trajectories as polynomials, allowing the primal update to be computed in closed form as a minimum-control-effort problem.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1657,6 +1689,23 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_11335&amp;tag=Trajectory%20optimization">Trajectory optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_11335&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_11335&amp;tag=Graphs">Graphs</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_11335&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_11335&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_11335&amp;tag=ADMM">ADMM</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1690,7 +1739,7 @@
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2406_05846/">Fast and Certifiable Trajectory Optimization</a></h3>
 
-      <p class="paper-similar-card__label">Trajectory Optimization</p>
+      <p class="paper-similar-card__label">STROM</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1703,6 +1752,24 @@
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
       <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>85%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2311_06404/">Augmented Lagrangian Methods as Layered Control Architectures</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Anusha Srikanthan et al. / 2023</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
         <span>85%</span>
       </div>
@@ -1721,10 +1788,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1735,24 +1802,6 @@
 
       <div class="paper-similar-card__meta">
         <span>Tobia Marcucci et al. / 2025</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2025_li_diffusolve_diffusion_based_solver/">DiffuSolve: Diffusion-based Solver for Non-convex Trajectory Optimization</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Anjian Li et al. / 2025</span>
       </div>
 
     </div>

@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,9 +1611,21 @@
       <a href="../../search/?year=2019">2019</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Conference%20Paper">Conference Paper</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">N2D</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=25th%20International%20Conference%20on%20Pattern%20Recognition%20%28ICPR%29">25th International Conference on Pattern Recognition (ICPR)</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1601,6 +1635,8 @@
       <a href="https://arxiv.org/abs/1908.05968" target="_blank" rel="noopener noreferrer">arXiv 1908.05968</a>
 
 
+      <a href="https://doi.org/10.1109/icpr48806.2021.9413131" target="_blank" rel="noopener noreferrer">DOI 10.1109/icpr48806.2021.9413131</a>
+
     </div>
   </div>
 
@@ -1608,6 +1644,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Deep clustering has increasingly been demonstrating superiority over conventional shallow clustering algorithms. Deep clustering algorithms usually combine representation learning with deep neural networks to achieve this performance, typically optimizing a clustering and non-clustering loss. In such cases, an autoencoder is typically connected with a clustering network, and the final clustering is jointly learned by both the autoencoder and clustering network. Instead, we propose to learn an autoencoded embedding and then search this further for the underlying manifold. For simplicity, we then cluster this with a shallow clustering algorithm, rather than a deeper network. We study a number of local and global manifold learning methods on both the raw data and autoencoded embedding, concluding that UMAP in our framework is best able to find the most clusterable manifold in the embedding, suggesting local manifold learning on an autoencoded embedding is effective for discovering higher quality discovering clusters. We quantitatively show across a range of image and time-series datasets that our method has competitive performance against the latest deep clustering algorithms, including out-performing current state-of-the-art on several. We postulate that these results show a promising research direction for deep clustering. The code can be found at https://github.com/rymc/n2d</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Deep clustering has increasingly been demonstrating superiority over conventional shallow clustering algorithms. The abstract also notes that deep clustering algorithms usually combine representation learning with deep neural networks to achieve this performance, typically optimizing a clustering and non-clustering loss.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1647,8 +1686,39 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1109/icpr48806.2021.9413131" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://ieeexplore.ieee.org/document/9413131/" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">ieeexplore.ieee.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://xplorestaging.ieee.org/ielx7/9411940/9411911/09413131.pdf?arnumber=9413131" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">xplorestaging.ieee.org PDF</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1908_05968&amp;tag=Neural%20networks">Neural networks</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1908_05968&amp;tag=Autoencoders">Autoencoders</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1908_05968&amp;tag=Representation%20learning">Representation learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1908_05968&amp;tag=Clustering">Clustering</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1908_05968&amp;tag=Datasets">Datasets</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1908_05968&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1908_05968&amp;tag=N2D">N2D</a>
 
 </div>
 
@@ -1656,10 +1726,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
+        <span>88%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1674,14 +1744,16 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
+        <span>88%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/1511_06335/">Unsupervised Deep Embedding for Clustering Analysis</a></h3>
+
+      <p class="paper-similar-card__label">DEC</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1692,36 +1764,40 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
+        <span>77%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2012_04456/">Understanding How Dimension Reduction Tools Work: An Empirical Approach to Deciphering t-SNE, UMAP, TriMAP, and PaCMAP for Data Visualization</a></h3>
+      <h3><a href="../../papers/2006_hadsell_dimensionality_reduction_by_learning/">Dimensionality Reduction by Learning an Invariant Mapping</a></h3>
+
+      <p class="paper-similar-card__label">DrLIM</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Yingfan Wang et al. / 2020</span>
+        <span>Raia Hadsell et al. / 2006</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
+        <span>77%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1810_12575/">Neural Nearest Neighbors Networks</a></h3>
+      <h3><a href="../../papers/1503_03832/">FaceNet: A Unified Embedding for Face Recognition and Clustering</a></h3>
+
+      <p class="paper-similar-card__label">FaceNet</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Tobias Plötz et al. / 2018</span>
+        <span>Florian Schroff et al. / 2015</span>
       </div>
 
     </div>
@@ -1735,13 +1811,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1503_03832/">FaceNet: A Unified Embedding for Face Recognition and Clustering</a></h3>
+      <h3><a href="../../papers/1810_12575/">Neural Nearest Neighbors Networks</a></h3>
 
-      <p class="paper-similar-card__label">FaceNet</p>
+      <p class="paper-similar-card__label">N3</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Florian Schroff et al. / 2015</span>
+        <span>Tobias Plötz et al. / 2018</span>
       </div>
 
     </div>

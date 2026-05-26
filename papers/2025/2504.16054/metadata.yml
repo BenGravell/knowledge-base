@@ -1,6 +1,7 @@
-title: "pi0.5: A Vision-Language-Action Model with Open-World Generalization"
+title: 'Π0.5: A Vision-Language-Action Model with Open-World Generalization'
 algorithm: pi0.5
 authors:
+  - Physical Intelligence
   - Kevin Black
   - Noah Brown
   - James Darpinian
@@ -37,14 +38,21 @@ authors:
   - Lili Yu
   - Ury Zhilinsky
 year: 2025
-source:
-type: ''
+source: arXiv
+type: Preprint
 doi:
 arxiv_id: "2504.16054"
 tags:
-abstract: >
-  In order for robots to be useful, they must perform practically relevant tasks in the real world, outside of the lab. While vision-language-action (VLA) models have demonstrated impressive results for end-to-end robot control, it remains an open question how far such models can generalize in the wild. We describe $π_{0.5}$, a new model based on $π_{0}$ that uses co-training on heterogeneous tasks to enable broad generalization. $π_{0.5}$\ uses data from multiple robots, high-level semantic prediction, web data, and other sources to enable broadly generalizable real-world robotic manipulation. Our system uses a combination of co-training and hybrid multi-modal examples that combine image observations, language commands, object detections, semantic subtask prediction, and low-level actions. Our experiments show that this kind of knowledge transfer is essential for effective generalization, and we demonstrate for the first time that an end-to-end learning-enabled robotic system can perform long-horizon and dexterous manipulation skills, such as cleaning a kitchen or bedroom, in entirely new homes.
-summary: ''
+  - Robotics
+  - Vision-language model
+  - Object detection
+  - Generalization
+  - Control
+  - Learning
+  - Vision-language-action model
+  - VLA
+abstract: In order for robots to be useful, they must perform practically relevant tasks in the real world, outside of the lab. While vision-language-action (VLA) models have demonstrated impressive results for end-to-end robot control, it remains an open question how far such models can generalize in the wild. We describe $π_{0.5}$, a new model based on $π_{0}$ that uses co-training on heterogeneous tasks to enable broad generalization. $π_{0.5}$\ uses data from multiple robots, high-level semantic prediction, web data, and other sources to enable broadly generalizable real-world robotic manipulation. Our system uses a combination of co-training and hybrid multi-modal examples that combine image observations, language commands, object detections, semantic subtask prediction, and low-level actions. Our experiments show that this kind of knowledge transfer is essential for effective generalization, and we demonstrate for the first time that an end-to-end learning-enabled robotic system can perform long-horizon and dexterous manipulation skills, such as cleaning a kitchen or bedroom, in entirely new homes.
+summary: In order for robots to be useful, they must perform practically relevant tasks in the real world, outside of the lab. The abstract also notes that while vision-language-action (VLA) models have demonstrated impressive results for end-to-end robot control, it remains an open question how far such models can generalize in the wild.
 link: https://arxiv.org/pdf/2504.16054
 links_alt:
 audit_status: raw

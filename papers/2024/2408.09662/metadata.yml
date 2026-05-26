@@ -1,5 +1,4 @@
-title: >
-  CusADi: A GPU Parallelization Framework for Symbolic Expressions and Optimal Control
+title: 'CusADi: A GPU Parallelization Framework for Symbolic Expressions and Optimal Control'
 algorithm: CusADi
 authors:
   - Se Hwan Jeon
@@ -8,14 +7,24 @@ authors:
   - Charles Khazoom
   - Sangbae Kim
 year: 2024
-source:
-type: ''
-doi:
+source: IEEE Robotics and Automation Letters
+type: Journal Paper
+doi: 10.1109/lra.2024.3512254
 arxiv_id: "2408.09662"
 tags:
-abstract: >
-  The parallelism afforded by GPUs presents significant advantages in training controllers through reinforcement learning (RL). However, integrating model-based optimization into this process remains challenging due to the complexity of formulating and solving optimization problems across thousands of instances. In this work, we present CusADi, an extension of the CasADi symbolic framework to support the parallelization of arbitrary closed-form expressions on GPUs with CUDA. We also formulate a closed-form approximation for solving general optimal control problems, enabling large-scale parallelization and evaluation of MPC controllers. Our results show a ten-fold speedup relative to similar MPC implementation on the CPU, and we demonstrate the use of CusADi for various applications, including parallel simulation, parameter sweeps, and policy training.
-summary: ''
+  - Reinforcement learning
+  - Optimal control
+  - Optimization
+  - Control
+  - Learning
+  - CusADi
+  - RL
+  - CUDA
+abstract: The parallelism afforded by GPUs presents significant advantages in training controllers through reinforcement learning (RL). However, integrating model-based optimization into this process remains challenging due to the complexity of formulating and solving optimization problems across thousands of instances. In this work, we present CusADi, an extension of the CasADi symbolic framework to support the parallelization of arbitrary closed-form expressions on GPUs with CUDA. We also formulate a closed-form approximation for solving general optimal control problems, enabling large-scale parallelization and evaluation of MPC controllers. Our results show a ten-fold speedup relative to similar MPC implementation on the CPU, and we demonstrate the use of CusADi for various applications, including parallel simulation, parameter sweeps, and policy training.
+summary: The parallelism afforded by GPUs presents significant advantages in training controllers through reinforcement learning (RL). The abstract also notes that however, integrating model-based optimization into this process remains challenging due to the complexity of formulating and solving optimization problems across thousands of instances.
 link: https://arxiv.org/pdf/2408.09662
 links_alt:
+  - https://doi.org/10.1109/lra.2024.3512254
+  - https://ieeexplore.ieee.org/document/10778410/
+  - http://xplorestaging.ieee.org/ielx8/7083369/10805214/10778410.pdf?arnumber=10778410
 audit_status: raw

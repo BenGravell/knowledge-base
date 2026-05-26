@@ -1548,6 +1548,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#top-5-most-similar-papers" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1598,9 +1609,21 @@
       <a href="../../search/?year=2018">2018</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">APDAGD</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1619,7 +1642,7 @@
 <p>We analyze two algorithms for approximating the general optimal transport (OT) distance between two discrete distributions of size $n$, up to accuracy $\varepsilon$. For the first algorithm, which is based on the celebrated Sinkhorn's algorithm, we prove the complexity bound $\widetilde{O}\left({n^2/\varepsilon^2}\right)$ arithmetic operations. For the second one, which is based on our novel Adaptive Primal-Dual Accelerated Gradient Descent (APDAGD) algorithm, we prove the complexity bound $\widetilde{O}\left(\min\left\{n^{9/4}/\varepsilon, n^{2}/\varepsilon^2 \right\}\right)$ arithmetic operations. Both bounds have better dependence on $\varepsilon$ than the state-of-the-art result given by $\widetilde{O}\left({n^2/\varepsilon^3}\right)$. Our second algorithm not only has better dependence on $\varepsilon$ in the complexity bound, but also is not specific to entropic regularization and can solve the OT problem with different regularizers.</p>
 
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>Sharpens the complexity story for discrete optimal transport by analyzing both Sinkhorn-based entropic regularization and an adaptive primal-dual accelerated gradient method. The paper is useful as a computational OT reference because it gives improved dependence on the target accuracy and highlights that the accelerated approach can support regularizers beyond entropy, including cases where the transport plan's sparsity matters.</p>
+<p>This paper analyzes two algorithms for approximating the general optimal transport (OT) distance between two discrete distributions of size $n$, up to accuracy $\varepsilon$. The abstract also notes that for the first algorithm, which is based on the celebrated Sinkhorn's algorithm, we prove the complexity bound $\widetilde{O}\left({n^2/\varepsilon^2}\right)$ arithmetic operations.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1664,18 +1687,37 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_04367&amp;tag=Gradient%20descent">Gradient descent</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_04367&amp;tag=Accuracy">Accuracy</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_04367&amp;tag=Optimal%20transport">Optimal transport</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_04367&amp;tag=Transport">Transport</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_04367&amp;tag=OT">OT</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1802_04367&amp;tag=APDAGD">APDAGD</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2209_14577/">Rectified Flow: A Marginal Preserving Approach to Optimal Transport</a></h3>
+
+      <p class="paper-similar-card__label">Rectified Flow</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1686,10 +1728,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 142.2deg;" aria-label="79% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>79%</span>
+        <span>78%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1704,10 +1746,28 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
+        <span>77%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2205_05653/">The First Optimal Algorithm for Smooth and Strongly-Convex-Strongly-Concave Minimax Optimization</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Dmitry Kovalev et al. / 2022</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>77%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1724,10 +1784,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 136.8deg;" aria-label="76% similar">
+      <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
+        <span>76%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1738,26 +1798,6 @@
 
       <div class="paper-similar-card__meta">
         <span>Bryan Van Scoy et al. / 2018</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2015_nesterov_random_gradient_free_minimization/">Random Gradient-Free Minimization of Convex Functions</a></h3>
-
-      <p class="paper-similar-card__label">Random Gradient-Free Method</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Yurii Nesterov et al. / 2015</span>
       </div>
 
     </div>

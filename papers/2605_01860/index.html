@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1585,9 +1607,21 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">PO-MPC</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1603,7 +1637,10 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>This paper explores the benefits of computing arborescent trajectories (trajectory-trees) instead of commonly used sequential trajectories for partially observable robotic planning problems. In such environments, a robot infers knowledge from observations, and the optimal course of action depends on these observations. Trajectory-trees, optimized in belief space, naturally capture this dependency by branching where the belief state is expected to evolve into multiple distinct scenarios, such as upon receiving an observation. Unlike sequential trajectories, which model a single forward evolution of the system, trajectory-trees capture multiple possible contingencies. First, we focus on Model Predictive Control (MPC) and demonstrate the benefits of planning tree-like trajectories. We formulate the control problem as the optimization of a tree with a single branching (PO-MPC). This improves performance by reducing control costs through more informed planning. To satisfy the real-time constraints of MPC, we develop an optimization algorithm called Distributed Augmented Lagrangian (D-AuLa), which leverages the decomposability of the PO-MPC formulation to parallelize and accelerate the optimization. We apply the method to both linear and non-linear MPC problems using autonomous driving examples. Second, we address Task And Motion Planning (TAMP), and introduce a planner (PO-LGP) reasoning on decision trees at task level, and trajectory-trees at motion-planning level. This approach builds upon the Logic-Geometric-Programming Framework (LGP) and extends it to partially observable problems. The experiments show the method's applicability to problems with a small belief state size, and scales to larger problems by optimizing explorative policies, which are used as macro-actions in an overarching task plan.</p>
+<p>This paper explores the benefits of computing arborescent trajectories (trajectory-trees) instead of commonly used sequential trajectories for partially observable robotic planning problems. In such environments, a robot infers knowledge from observations, and the optimal course of action depends on these observations. \revise{Trajectory-trees, optimized in belief space, naturally capture this dependency by branching where the belief state is expected to evolve into multiple distinct scenarios, such as upon receiving an observation. Unlike sequential trajectories, which model a single forward evolution of the system, trajectory-trees capture multiple possible contingencies.} First, we focus on Model Predictive Control (MPC) and demonstrate the benefits of planning tree-like trajectories. We formulate the control problem as the optimization of a tree with a single branching (PO-MPC). This improves performance by reducing control costs through more informed planning. To satisfy the real-time constraints of MPC, we develop an optimization algorithm called Distributed Augmented Lagrangian (D-AuLa), which leverages the decomposability of the PO-MPC formulation to parallelize and accelerate the optimization. We apply the method to both linear and non-linear MPC problems using autonomous driving examples. Second, we address Task And Motion Planning (TAMP), and introduce a planner (PO-LGP) reasoning on decision trees at task level, and trajectory-trees at motion-planning level. This approach builds upon the Logic-Geometric-Programming Framework (LGP) and extends it to partially observable problems. The experiments show the method's applicability to problems with a small belief state size, and scales to larger problems by optimizing explorative policies, which are used as macro-actions in an overarching task plan.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper explores the benefits of computing arborescent trajectories (trajectory-trees) instead of commonly used sequential trajectories for partially observable robotic planning problems. The abstract also notes that in such environments, a robot infers knowledge from observations, and the optimal course of action depends on these observations. \revise{Trajectory-trees, optimized in belief space, naturally capture this dependency by branching where the belief state is expected to evolve into multiple distinct scenarios, such as upon receiving an observation.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1648,32 +1685,49 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=Partial%20observability">Partial observability</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=Model%20predictive%20control">Model predictive control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=Predictive%20control">Predictive control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=Motion%20planning">Motion planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=Autonomous%20driving">Autonomous driving</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=Real-time%20systems">Real-time systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=Distributed%20systems">Distributed systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=MPC">MPC</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=PO-MPC">PO-MPC</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=TAMP">TAMP</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=PO-LGP">PO-LGP</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2605_01860&amp;tag=LGP">LGP</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
-      <div class="paper-similar-card__rank-top">1</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>89%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2011_bry_rapidly_exploring_random_belief/">Rapidly-exploring Random Belief Trees for Motion Planning under Uncertainty</a></h3>
-
-      <p class="paper-similar-card__label">RRBT</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Adam Bry et al. / 2011</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
-      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
         <span>88%</span>
       </div>
@@ -1692,14 +1746,36 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>88%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2011_bry_rapidly_exploring_random_belief/">Rapidly-exploring Random Belief Trees for Motion Planning under Uncertainty</a></h3>
+
+      <p class="paper-similar-card__label">RRBT</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Adam Bry et al. / 2011</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2301_11902/">Tree-structured Policy Planning with Learned Behavior Models</a></h3>
+
+      <p class="paper-similar-card__label">TPP</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1710,10 +1786,30 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
+        <span>85%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2024_piazza_mptree_a_sampling_based/">MPTree: A Sampling-based Vehicle Motion Planner for Real-time Obstacle Avoidance</a></h3>
+
+      <p class="paper-similar-card__label">MPTree</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Mattia Piazza et al. / 2024</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>85%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1724,26 +1820,6 @@
 
       <div class="paper-similar-card__meta">
         <span>Benjamin Rivière et al. / 2024</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2508_21001/">Train-Once Plan-Anywhere Kinodynamic Motion Planning via Diffusion Trees</a></h3>
-
-      <p class="paper-similar-card__label">Diffusion Trees</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Yaniv Hassidof et al. / 2025</span>
       </div>
 
     </div>

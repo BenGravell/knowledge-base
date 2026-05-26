@@ -1608,7 +1608,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>Quicksort is the preferred in-place sorting algorithm in many contexts, since its average computing time on uniformly distributed inputs is Θ(N log N), and it is in fact faster than most other sorting algorithms on most inputs. Its drawback is that its worst-case time bound is Θ(N2). Previous attempts to protect against the worst case by improving the way quicksort chooses pivot elements for partitioning have increased the average computing time too much – one might as well use heapsort, which has a Θ(N log N) worst-case time bound, but is on the average 2–5 times slower than quicksort. A similar dilemma exists with selection algorithms (for finding the i-th largest element) based on partitioning. This paper describes a simple solution to this dilemma: limit the depth of partitioning, and for subproblems that exceed the limit switch to another algorithm with a better worst-case bound. Using heapsort as the ‘stopper’ yields a sorting algorithm that is just as fast as quicksort in the average case, but also has an Θ(N log N) worst case time bound. For selection, a hybrid of Hoare's FIND algorithm, which is linear on average but quadratic in the worst case, and the Blum–Floyd–Pratt–Rivest–Tarjan algorithm is as fast as Hoare's algorithm in practice, yet has a linear worst-case time bound. Also discussed are issues of implementing the new algorithms as generic algorithms, and accurately measuring their performance in the framework of the C+:+ Standard Template Library. ©1997 by John Wiley &amp; Sons, Ltd.</p>
+<p>Quicksort is the preferred in-place sorting algorithm in many contexts, since its average computing time on uniformly distributed inputs is Θ(N log N), and it is in fact faster than most other sorting algorithms on most inputs. Its drawback is that its worst-case time bound is Θ(N2). Previous attempts to protect against the worst case by improving the way quicksort chooses pivot elements for partitioning have increased the average computing time too much – one might as well use heapsort, which has a Θ(N log N) worst-case time bound, but is on the average 2–5 times slower than quicksort. A similar dilemma exists with selection algorithms (for finding the i-th largest element) based on partitioning. This paper describes a simple solution to this dilemma: limit the depth of partitioning, and for subproblems that exceed the limit switch to another algorithm with a better worst-case bound. Using heapsort as the ‘stopper’ yields a sorting algorithm that is just as fast as quicksort in the average case, but also has an Θ(N log N) worst case time bound. For selection, a hybrid of Hoare's FIND algorithm, which is linear on average but quadratic in the worst case, and the Blum–Floyd–Pratt–Rivest–Tarjan algorithm is as fast as Hoare's algorithm in practice, yet has a linear worst-case time bound. Also discussed are issues of implementing the new algorithms as generic algorithms, and accurately measuring their performance in the framework of the C+:+ Standard Template Library.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1640,6 +1640,10 @@
         <span class="paper-link-pill__label">DOI</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://doi.org/10.1002/%28SICI%291097-024X%28199708%2927%3A8%3C983%3A%3AAID-SPE117%3E3.0.CO%3B2-%23" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
     </div>
   </section>
 
@@ -1656,24 +1660,6 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1962_hoare_quicksort/">Quicksort</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>C. A. R. Hoare / 1962</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">2</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
       <h3><a href="../../papers/1964_williams_algorithm_232_heapsort/">Algorithm 232: Heapsort</a></h3>
 
       <p class="paper-similar-card__label">Heapsort</p>
@@ -1687,10 +1673,28 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>85%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1962_hoare_quicksort/">Quicksort</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>C. A. R. Hoare / 1962</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">

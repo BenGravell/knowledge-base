@@ -1688,7 +1688,7 @@
 <p>Despite the rise of billion-parameter foundation models trained across thousands of GPUs, similar scaling gains have not been shown for humanoid control. Current neural controllers for humanoids remain modest in size, target a limited set of behaviors, and are trained on a handful of GPUs over several days. We show that scaling up model capacity, data, and compute yields a generalist humanoid controller capable of creating natural and robust whole-body movements. Specifically, we posit motion tracking as a natural and scalable task for humanoid control, leveraging dense supervision from diverse motion-capture data to acquire human motion priors without manual reward engineering. We build a foundation model for motion tracking by scaling along three axes: network size (from 1.2M to 42M parameters), dataset volume (over 100M frames, 700 hours of high-quality motion data), and compute (9k GPU hours). Beyond demonstrating the benefits of scale, we show the practical utility of our model through two mechanisms: (1) a real-time universal kinematic planner that bridges motion tracking to downstream task execution, enabling natural and interactive control, and (2) a unified token space that supports various motion input interfaces, such as VR teleoperation devices, human videos, and vision-language-action (VLA) models, all using the same policy. Scaling motion tracking exhibits favorable properties: performance improves steadily with increased compute and data diversity, and learned representations generalize to unseen motions, establishing motion tracking at scale as a practical foundation for humanoid control.</p>
 
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>SONIC argues that motion tracking is a scalable pretraining task for humanoid whole-body control, then demonstrates gains from increasing controller size, motion-capture data volume, and training compute. The system is useful beyond tracking itself: a universal kinematic planner and unified token space let the same policy interface with VR teleoperation, human video, and VLA-style inputs, making motion priors a foundation layer for natural humanoid behavior.</p>
+<p>Despite the rise of billion-parameter foundation models trained across thousands of GPUs, similar scaling gains have not been shown for humanoid control. The abstract also notes that current neural controllers for humanoids remain modest in size, target a limited set of behaviors, and are trained on a handful of GPUs over several days.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1744,25 +1744,23 @@
 <h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
 <div class="paper-tag-list">
 
-  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Robotics">Robotics</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Robustness">Robustness</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Humanoid%20robots">Humanoid robots</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Foundation%20models">Foundation models</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Whole-body%20control">Whole-body control</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Vision-language%20models">Vision-language models</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Motion%20tracking">Motion tracking</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Datasets">Datasets</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Robot%20foundation%20models">Robot foundation models</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Real-time%20systems">Real-time systems</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Reinforcement%20learning">Reinforcement learning</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Control">Control</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Motion%20capture">Motion capture</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=SONIC">SONIC</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Teleoperation">Teleoperation</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Vision-language-action">Vision-language-action</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Sim-to-real%20transfer">Sim-to-real transfer</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=Embodied%20AI">Embodied AI</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2511_07820&amp;tag=VLA">VLA</a>
 
 </div>
 
@@ -1770,10 +1768,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1790,30 +1788,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2604_04539/">FlashSAC: Fast and Stable Off-Policy Reinforcement Learning for High-Dimensional Robot Control</a></h3>
-
-      <p class="paper-similar-card__label">FlashSAC</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Donghu Kim et al. / 2026</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1830,20 +1808,38 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2605_03269/">RLDX-1 Technical Report</a></h3>
+      <h3><a href="../../papers/2406_09246/">OpenVLA: An Open-Source Vision-Language-Action Model</a></h3>
 
-      <p class="paper-similar-card__label">RLDX-1</p>
+      <p class="paper-similar-card__label">OpenVLA</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Dongyoung Kim et al. / 2026</span>
+        <span>Moo Jin Kim et al. / 2024</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>82%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2512_01809/">Much Ado about Noising: Dispelling the Myths of Generative Robotic Control</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Chaoyi Pan et al. / 2025</span>
       </div>
 
     </div>
@@ -1857,11 +1853,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2013_erez_an_integrated_system_for/">An Integrated System for Real-time Model Predictive Control of Humanoid Robots</a></h3>
+      <h3><a href="../../papers/2605_03269/">RLDX-1 Technical Report</a></h3>
+
+      <p class="paper-similar-card__label">RLDX-1</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Tom Erez et al. / 2013</span>
+        <span>Dongyoung Kim et al. / 2026</span>
       </div>
 
     </div>

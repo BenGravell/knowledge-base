@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1585,9 +1607,16 @@
       <a href="../../search/?year=2021">2021</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1604,6 +1633,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We study the trade-off between convergence rate and sensitivity to stochastic additive gradient noise for first-order optimization methods. Ordinary Gradient Descent (GD) can be made fast-and-sensitive or slow-and-robust by increasing or decreasing the stepsize, respectively. However, it is not clear how such a trade-off can be navigated when working with accelerated methods such as Polyak's Heavy Ball (HB) or Nesterov's Fast Gradient (FG) methods. We consider two classes of functions: (1) strongly convex quadratics and (2) smooth strongly convex functions. For each function class, we present a tractable way to compute the convergence rate and sensitivity to additive gradient noise for a broad family of first-order methods, and we present algorithm designs that trade off these competing performance metrics. Each design consists of a simple analytic update rule with two states of memory, similar to HB and FG. Moreover, each design has a scalar tuning parameter that explicitly trades off convergence rate and sensitivity to additive gradient noise. We numerically validate the performance of our designs by comparing their convergence rate and sensitivity to those of many other algorithms, and through simulations on Nesterov's "bad function".</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper studies the trade-off between convergence rate and sensitivity to stochastic additive gradient noise for first-order optimization methods. The abstract also notes that ordinary Gradient Descent (GD) can be made fast-and-sensitive or slow-and-robust by increasing or decreasing the stepsize, respectively.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1645,6 +1677,29 @@
 
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2109_05059&amp;tag=Gradient%20descent">Gradient descent</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2109_05059&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2109_05059&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2109_05059&amp;tag=GD">GD</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2109_05059&amp;tag=S%20heavy%20Ball">S heavy Ball</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2109_05059&amp;tag=HB">HB</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2109_05059&amp;tag=S%20Fast%20gradient">S Fast gradient</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2109_05059&amp;tag=FG">FG</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2109_05059&amp;tag=Convex%20function">Convex function</a>
 
 </div>
 
@@ -1699,11 +1754,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2406_19617/">Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity</a></h3>
+      <h3><a href="../../papers/2018_van_scoy_the_fastest_known_globally/">The Fastest Known Globally Convergent First-Order Method for Minimizing Strongly Convex Functions</a></h3>
+
+      <p class="paper-similar-card__label">Triple Momentum Method</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Qian Yu et al. / 2024</span>
+        <span>Bryan Van Scoy et al. / 2018</span>
       </div>
 
     </div>
@@ -1717,11 +1774,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2604_23613/">High-Probability Guarantees for Random Zeroth-Order (Stochastic) Gradient Descent</a></h3>
+      <h3><a href="../../papers/2406_19617/">Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Haishan Ye / 2026</span>
+        <span>Qian Yu et al. / 2024</span>
       </div>
 
     </div>
@@ -1735,13 +1792,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2018_van_scoy_the_fastest_known_globally/">The Fastest Known Globally Convergent First-Order Method for Minimizing Strongly Convex Functions</a></h3>
-
-      <p class="paper-similar-card__label">Triple Momentum Method</p>
+      <h3><a href="../../papers/2604_23613/">High-Probability Guarantees for Random Zeroth-Order (Stochastic) Gradient Descent</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Bryan Van Scoy et al. / 2018</span>
+        <span>Haishan Ye / 2026</span>
       </div>
 
     </div>

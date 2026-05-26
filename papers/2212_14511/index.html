@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,9 +1611,16 @@
       <a href="../../search/?year=2022">2022</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1608,6 +1637,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We study the task of learning state representations from potentially high-dimensional observations, with the goal of controlling an unknown partially observable system. We pursue a cost-driven approach, where a dynamic model in some latent state space is learned by predicting the costs without predicting the observations or actions. In particular, we focus on an intuitive cost-driven state representation learning method for solving Linear Quadratic Gaussian (LQG) control, one of the most fundamental partially observable control problems. As our main results, we establish finite-sample guarantees of finding a near-optimal state representation function and a near-optimal controller using the directly learned latent model, for finite-horizon time-varying LQG control problems. To the best of our knowledge, despite various empirical successes, finite-sample guarantees of such a cost-driven approach remain elusive. Our result underscores the value of predicting multi-step costs, an idea that is key to our theory, and notably also an idea that is known to be empirically valuable for learning state representations. A second part of this work, that is to appear as Part II, addresses the infinite-horizon linear time-invariant setting; it also extends the results to an approach that implicitly learns the latent dynamics, inspired by the recent empirical breakthrough of MuZero in model-based reinforcement learning.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper studies the task of learning state representations from potentially high-dimensional observations, with the goal of controlling an unknown partially observable system. The abstract also states that we pursue a cost-driven approach, where a dynamic model in some latent state space is learned by predicting the costs without predicting the observations or actions.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1652,6 +1684,29 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_14511&amp;tag=Reinforcement%20learning">Reinforcement learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_14511&amp;tag=Partial%20observability">Partial observability</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_14511&amp;tag=Optimal%20control">Optimal control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_14511&amp;tag=Representation%20learning">Representation learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_14511&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_14511&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_14511&amp;tag=LQG">LQG</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_14511&amp;tag=Linear-quadratic-Gaussian%20control">Linear-quadratic-Gaussian control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2212_14511&amp;tag=State%20space">State space</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1674,10 +1729,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 171.0deg;" aria-label="95% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 169.2deg;" aria-label="94% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>95%</span>
+        <span>94%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1699,24 +1754,6 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2604_24442/">The Fragility of Learning LQG Controllers</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Bruce D. Lee et al. / 2026</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
       <h3><a href="../../papers/2210_04810/">Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies</a></h3>
 
 
@@ -1728,20 +1765,36 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">5</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2604_10635/">On the Optimization Landscape of Observer-based Dynamic Linear Quadratic Control</a></h3>
 
-      <p class="paper-similar-card__label">LQR</p>
-
 
       <div class="paper-similar-card__meta">
         <span>Jingliang Duan et al. / 2026</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>86%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2604_24442/">The Fragility of Learning LQG Controllers</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Bruce D. Lee et al. / 2026</span>
       </div>
 
     </div>

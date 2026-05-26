@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1585,6 +1607,8 @@
       <a href="../../search/?year=2015">2015</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1593,6 +1617,11 @@
     <div class="paper-meta-card__value">K-FAC</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1609,6 +1638,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We propose an efficient method for approximating natural gradient descent in neural networks which we call Kronecker-Factored Approximate Curvature (K-FAC). K-FAC is based on an efficiently invertible approximation of a neural network's Fisher information matrix which is neither diagonal nor low-rank, and in some cases is completely non-sparse. It is derived by approximating various large blocks of the Fisher (corresponding to entire layers) as being the Kronecker product of two much smaller matrices. While only several times more expensive to compute than the plain stochastic gradient, the updates produced by K-FAC make much more progress optimizing the objective, which results in an algorithm that can be much faster than stochastic gradient descent with momentum in practice. And unlike some previously proposed approximate natural-gradient/Newton methods which use high-quality non-diagonal curvature matrices (such as Hessian-free optimization), K-FAC works very well in highly stochastic optimization regimes. This is because the cost of storing and inverting K-FAC's approximation to the curvature matrix does not depend on the amount of data used to estimate it, which is a feature typically associated only with diagonal or low-rank approximations to the curvature matrix.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper proposes an efficient method for approximating natural gradient descent in neural networks which we call Kronecker-Factored Approximate Curvature (K-FAC). The abstract also notes that k-FAC is based on an efficiently invertible approximation of a neural network's Fisher information matrix which is neither diagonal nor low-rank, and in some cases is completely non-sparse.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1653,6 +1685,29 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1503_05671&amp;tag=Low-rank%20models">Low-rank models</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1503_05671&amp;tag=Stochastic%20optimization">Stochastic optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1503_05671&amp;tag=Gradient%20descent">Gradient descent</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1503_05671&amp;tag=Stochastic%20gradients">Stochastic gradients</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1503_05671&amp;tag=Natural%20gradients">Natural gradients</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1503_05671&amp;tag=Neural%20networks">Neural networks</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1503_05671&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1503_05671&amp;tag=K-FAC">K-FAC</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1503_05671&amp;tag=Stochastic%20gradient%20descent">Stochastic gradient descent</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1677,28 +1732,30 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 142.2deg;" aria-label="79% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>79%</span>
+        <span>80%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1994_pearlmutter_fast_exact_multiplication_by/">Fast Exact Multiplication by the Hessian</a></h3>
+      <h3><a href="../../papers/1708_05144/">Scalable Trust-region Method for Deep Reinforcement Learning Using Kronecker-factored Approximation</a></h3>
+
+      <p class="paper-similar-card__label">ACKTR</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Barak A. Pearlmutter / 1994</span>
+        <span>Yuhuai Wu et al. / 2017</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 142.2deg;" aria-label="79% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
+        <span>79%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1722,13 +1779,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1708_05144/">Scalable Trust-region Method for Deep Reinforcement Learning Using Kronecker-factored Approximation</a></h3>
+      <h3><a href="../../papers/2015_nesterov_random_gradient_free_minimization/">Random Gradient-Free Minimization of Convex Functions</a></h3>
 
-      <p class="paper-similar-card__label">ACKTR</p>
+      <p class="paper-similar-card__label">Random Gradient-Free Method</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Yuhuai Wu et al. / 2017</span>
+        <span>Yurii Nesterov et al. / 2015</span>
       </div>
 
     </div>

@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,9 +1611,21 @@
       <a href="../../search/?year=2025">2025</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">Inside madupite</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1608,6 +1642,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>In this work, we introduce and benchmark madupite, a newly proposed high-performance solver designed for large-scale discounted infinite-horizon Markov decision processes with finite state and action spaces. After a brief overview of the class of mathematical optimization methods on which madupite relies, we provide details on implementation choices, technical design and deployment. We then demonstrate its scalability and efficiency by showcasing its performance on the solution of Markov decision processes arising from different application areas, including epidemiology and classical control. Madupite sets a new standard as, to the best of our knowledge, it is the only solver capable of efficiently computing exact solutions for large-scale Markov decision processes, even when these exceed the memory capacity of modern laptops and operate in near-undiscounted settings. This is possible as madupite can work in a fully distributed manner and therefore leverage the memory storage and computation capabilities of modern high-performance computing clusters. This key feature enables the solver to efficiently handle problems of medium to large size in an exact manner instead of necessarily resorting to function approximations. Moreover, madupite is unique in allowing users to customize the solution algorithm to better exploit the specific structure of their problem, significantly accelerating convergence especially in large-discount factor settings. Overall, madupite represents a significant advancement, offering unmatched scalability and flexibility in solving large-scale Markov decision processes.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper introduces and benchmark madupite, a newly proposed high-performance solver designed for large-scale discounted infinite-horizon Markov decision processes with finite state and action spaces. The abstract also notes that after a brief overview of the class of mathematical optimization methods on which madupite relies, we provide details on implementation choices, technical design and deployment.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1652,6 +1689,25 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2507_22538&amp;tag=Benchmarks">Benchmarks</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2507_22538&amp;tag=Scalability">Scalability</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2507_22538&amp;tag=Distributed%20systems">Distributed systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2507_22538&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2507_22538&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2507_22538&amp;tag=Inside%20madupite">Inside madupite</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2507_22538&amp;tag=Markov%20decision%20process">Markov decision process</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1660,42 +1716,6 @@
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
         <span>79%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2018_mehta_backprop_mpdm_faster_risk/">Backprop-MPDM: Faster Risk-Aware Policy Evaluation through Efficient Gradient Optimization</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Dhanvin Mehta et al. / 2018</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
-      <div class="paper-similar-card__rank-top">2</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2203_08678/">Dynamic Programming through the Lens of Semismooth Newton-Type Methods (Extended Version)</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Matilde Gargiani et al. / 2022</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1710,10 +1730,64 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
+      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>77%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2203_08678/">Dynamic Programming through the Lens of Semismooth Newton-Type Methods (Extended Version)</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Matilde Gargiani et al. / 2022</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>77%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2018_mehta_backprop_mpdm_faster_risk/">Backprop-MPDM: Faster Risk-Aware Policy Evaluation through Efficient Gradient Optimization</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Dhanvin Mehta et al. / 2018</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
+        <span>77%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2011_bertsekas_approximate_policy_iteration_a/">Approximate Policy Iteration: A Survey and Some New Methods</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Dimitri P. Bertsekas / 2011</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>77%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1724,26 +1798,6 @@
 
       <div class="paper-similar-card__meta">
         <span>Emma Brunskill et al. / 2012</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1908_00261/">On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift</a></h3>
-
-      <p class="paper-similar-card__label">Policy Gradient</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Alekh Agarwal et al. / 2019</span>
       </div>
 
     </div>

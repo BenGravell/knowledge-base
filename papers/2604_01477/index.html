@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,6 +1609,8 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1595,6 +1619,11 @@
     <div class="paper-meta-card__value">Soft MPCritic</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1611,6 +1640,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Reinforcement learning (RL) and model predictive control (MPC) offer complementary strengths, yet combining them at scale remains computationally challenging. We propose soft MPCritic, an RL-MPC framework that learns in (soft) value space while using sample-based planning for both online control and value target generation. soft MPCritic instantiates MPC through model predictive path integral control (MPPI) and trains a terminal Q-function with fitted value iteration, aligning the learned value function with the planner and implicitly extending the effective planning horizon. We introduce an amortized warm-start strategy that recycles planned open-loop action sequences from online observations when computing batched MPPI-based value targets. This makes soft MPCritic computationally practical, while preserving solution quality. soft MPCritic plans in a scenario-based fashion with an ensemble of dynamic models trained for next-step prediction accuracy. Together, these ingredients enable soft MPCritic to learn effectively through robust, short-horizon planning on classic and complex control tasks. These results establish soft MPCritic as a practical and scalable blueprint for synthesizing MPC policies in settings where policy extraction and direct, long-horizon planning may fail.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Reinforcement learning (RL) and model predictive control (MPC) offer complementary strengths, yet combining them at scale remains computationally challenging. It also proposes soft MPCritic, an RL-MPC framework that learns in (soft) value space while using sample-based planning for both online control and value target generation. soft MPCritic instantiates MPC through model predictive path integral control (MPPI) and trains a terminal Q-function with fitted value iteration, aligning the learned value function with the planner and implicitly extending the effective planning horizon.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1655,14 +1687,49 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=Reinforcement%20learning">Reinforcement learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=Value%20iteration">Value iteration</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=Model%20predictive%20control">Model predictive control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=Predictive%20control">Predictive control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=Accuracy">Accuracy</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=Soft%20MPCritic">Soft MPCritic</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=Amortized">Amortized</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=RL">RL</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=MPC">MPC</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_01477&amp;tag=MPPI">MPPI</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 167.4deg;" aria-label="93% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 163.8deg;" aria-label="91% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>93%</span>
+        <span>91%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1686,11 +1753,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2502_02133/">Synthesis of Model Predictive Control and Reinforcement Learning: Survey and Classification</a></h3>
+      <h3><a href="../../papers/2502_06996/">A View on Learning Robust Goal-conditioned Value Functions: Interplay between RL and MPC</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Rudolf Reiter et al. / 2025</span>
+        <span>Nathan P. Lawrence et al. / 2025</span>
       </div>
 
     </div>
@@ -1704,41 +1771,21 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2212_02603/">Learning to Optimize in Model Predictive Control</a></h3>
-
-      <p class="paper-similar-card__label">MPC</p>
+      <h3><a href="../../papers/2502_02133/">Synthesis of Model Predictive Control and Reinforcement Learning: Survey and Classification</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Jacob Sacks et al. / 2022</span>
+        <span>Rudolf Reiter et al. / 2025</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2502_06996/">A View on Learning Robust Goal-conditioned Value Functions: Interplay between RL and MPC</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Nathan P. Lawrence et al. / 2025</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1749,6 +1796,24 @@
 
       <div class="paper-similar-card__meta">
         <span>Sanket Kamthe et al. / 2017</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>83%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2605_07768/">Interactive Trajectory Planning with Learning-based Distributionally Robust Model Predictive Control and Markov Systems</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Erik Börve et al. / 2026</span>
       </div>
 
     </div>

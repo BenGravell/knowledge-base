@@ -1694,7 +1694,7 @@
 <p>A major challenge for modern AI is to learn to understand the world and learn to act largely by observation. This paper explores a self-supervised approach that combines internet-scale video data with a small amount of interaction data (robot trajectories), to develop models capable of understanding, predicting, and planning in the physical world. We first pre-train an action-free joint-embedding-predictive architecture, V-JEPA 2, on a video and image dataset comprising over 1 million hours of internet video. V-JEPA 2 achieves strong performance on motion understanding (77.3 top-1 accuracy on Something-Something v2) and state-of-the-art performance on human action anticipation (39.7 recall-at-5 on Epic-Kitchens-100) surpassing previous task-specific models. Additionally, after aligning V-JEPA 2 with a large language model, we demonstrate state-of-the-art performance on multiple video question-answering tasks at the 8 billion parameter scale (e.g., 84.0 on PerceptionTest, 76.9 on TempCompass). Finally, we show how self-supervised learning can be applied to robotic planning tasks by post-training a latent action-conditioned world model, V-JEPA 2-AC, using less than 62 hours of unlabeled robot videos from the Droid dataset. We deploy V-JEPA 2-AC zero-shot on Franka arms in two different labs and enable picking and placing of objects using planning with image goals. Notably, this is achieved without collecting any data from the robots in these environments, and without any task-specific training or reward. This work demonstrates how self-supervised learning from web-scale data and a small amount of robot interaction data can yield a world model capable of planning in the physical world.</p>
 
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>V-JEPA 2 scales the JEPA video objective to internet-scale video and then adapts the learned representation into an action-conditioned latent world model for planning. The paper is important because it connects self-supervised video understanding, video-language alignment, and robot planning in one pipeline, showing that a mostly observation-trained model can support strong video benchmarks and zero-shot image-goal manipulation after limited robot-video post-training.</p>
+<p>A major challenge for modern AI is to learn to understand the world and learn to act largely by observation. It also explores a self-supervised approach that combines internet-scale video data with a small amount of interaction data (robot trajectories), to develop models capable of understanding, predicting, and planning in the physical world.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1746,25 +1746,25 @@
 <h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
 <div class="paper-tag-list">
 
+  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Large%20language%20models">Large language models</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Language%20models">Language models</a>
+
   <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Self-supervised%20learning">Self-supervised learning</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Video%20representation%20learning">Video representation learning</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Supervised%20learning">Supervised learning</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=World%20models">World models</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Datasets">Datasets</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Robotic%20planning">Robotic planning</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Accuracy">Accuracy</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=V-JEPA">V-JEPA</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Planning">Planning</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Joint%20embedding%20predictive%20architecture">Joint embedding predictive architecture</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Learning">Learning</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Video%20question%20answering">Video question answering</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Action-conditioned%20prediction">Action-conditioned prediction</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Zero-shot%20robotics">Zero-shot robotics</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=Foundation%20models">Foundation models</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2506_09985&amp;tag=V-JEPA%202">V-JEPA 2</a>
 
 </div>
 
@@ -1772,10 +1772,48 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>87%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2512_15840/">Large Video Planner Enables Generalizable Robot Control</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Boyuan Chen et al. / 2025</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>86%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2504_16054/">Π0.5: A Vision-Language-Action Model with Open-World Generalization</a></h3>
+
+      <p class="paper-similar-card__label">pi0.5</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Physical Intelligence et al. / 2025</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>85%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1792,56 +1830,20 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
-      <div class="paper-similar-card__rank-top">2</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2512_15840/">Large Video Planner Enables Generalizable Robot Control</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Boyuan Chen et al. / 2025</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
         <span>85%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2504_16054/">pi0.5: A Vision-Language-Action Model with Open-World Generalization</a></h3>
+      <h3><a href="../../papers/2307_15818/">RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control</a></h3>
 
-      <p class="paper-similar-card__label">pi0.5</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Kevin Black et al. / 2025</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2406_09246/">OpenVLA: An Open-Source Vision-Language-Action Model</a></h3>
+      <p class="paper-similar-card__label">RT-2</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Moo Jin Kim et al. / 2024</span>
+        <span>Anthony Brohan et al. / 2023</span>
       </div>
 
     </div>
@@ -1855,13 +1857,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2602_15922/">World Action Models Are Zero-shot Policies</a></h3>
+      <h3><a href="../../papers/2406_09246/">OpenVLA: An Open-Source Vision-Language-Action Model</a></h3>
 
-      <p class="paper-similar-card__label">DreamZero</p>
+      <p class="paper-similar-card__label">OpenVLA</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Seonghyeon Ye et al. / 2026</span>
+        <span>Moo Jin Kim et al. / 2024</span>
       </div>
 
     </div>

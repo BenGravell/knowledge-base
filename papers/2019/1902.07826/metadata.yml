@@ -1,18 +1,25 @@
-title: "Certainty Equivalence Is Efficient for Linear Quadratic Control"
-algorithm: "LQR"
+title: Certainty Equivalence Is Efficient for Linear Quadratic Control
+algorithm: LQR
 authors:
   - Horia Mania
   - Stephen Tu
   - Benjamin Recht
 year: 2019
-source:
-type: ''
+source: Neural Information Processing Systems
+type: Conference Paper
 doi:
 arxiv_id: "1902.07826"
 tags:
-abstract: >
-  We study the performance of the certainty equivalent controller on Linear Quadratic (LQ) control problems with unknown transition dynamics. We show that for both the fully and partially observed settings, the sub-optimality gap between the cost incurred by playing the certainty equivalent controller on the true system and the cost incurred by using the optimal LQ controller enjoys a fast statistical rate, scaling as the square of the parameter error. To the best of our knowledge, our result is the first sub-optimality guarantee in the partially observed Linear Quadratic Gaussian (LQG) setting. Furthermore, in the fully observed Linear Quadratic Regulator (LQR), our result improves upon recent work by Dean et al. (2017), who present an algorithm achieving a sub-optimality gap linear in the parameter error. A key part of our analysis relies on perturbation bounds for discrete Riccati equations. We provide two new perturbation bounds, one that expands on an existing result from Konstantinov et al. (1993), and another based on a new elementary proof strategy.
-summary: ''
+  - Control
+  - LQR
+  - LQ
+  - LQG
+  - Fully observed
+  - Linear-quadratic regulator
+  - Riccati equation
+abstract: We study the performance of the certainty equivalent controller on Linear Quadratic (LQ) control problems with unknown transition dynamics. We show that for both the fully and partially observed settings, the sub-optimality gap between the cost incurred by playing the certainty equivalent controller on the true system and the cost incurred by using the optimal LQ controller enjoys a fast statistical rate, scaling as the square of the parameter error. To the best of our knowledge, our result is the first sub-optimality guarantee in the partially observed Linear Quadratic Gaussian (LQG) setting. Furthermore, in the fully observed Linear Quadratic Regulator (LQR), our result improves upon recent work by Dean et al. (2017), who present an algorithm achieving a sub-optimality gap linear in the parameter error. A key part of our analysis relies on perturbation bounds for discrete Riccati equations. We provide two new perturbation bounds, one that expands on an existing result from Konstantinov et al. (1993), and another based on a new elementary proof strategy.
+summary: This paper studies the performance of the certainty equivalent controller on Linear Quadratic (LQ) control problems with unknown transition dynamics. It also shows that for both the fully and partially observed settings, the sub-optimality gap between the cost incurred by playing the certainty equivalent controller on the true system and the cost incurred by using the optimal LQ controller enjoys a fast statistical rate, scaling as the square of the parameter error.
 link: https://arxiv.org/pdf/1902.07826
 links_alt:
+  - https://papers.nips.cc/paper/2019/file/5dbc8390f17e019d300d5a162c3ce3bc-Paper.pdf
 audit_status: raw

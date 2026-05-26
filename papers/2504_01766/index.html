@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,9 +1611,16 @@
       <a href="../../search/?year=2025">2025</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1608,6 +1637,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Compounding error, where small prediction mistakes accumulate over time, presents a major challenge in learning-based control. For example, this issue often limits the performance of model-based reinforcement learning and imitation learning. One common approach to mitigate compounding error is to train multi-step predictors directly, rather than relying on autoregressive rollout of a single-step model. However, it is not well understood when the benefits of multi-step prediction outweigh the added complexity of learning a more complicated model. In this work, we provide a rigorous analysis of this trade-off in the context of linear dynamical systems. We show that when the model class is well-specified and accurately captures the system dynamics, single-step models achieve lower asymptotic prediction error. On the other hand, when the model class is misspecified due to partial observability, direct multi-step predictors can significantly reduce bias and thus outperform single-step approaches. These theoretical results are supported by numerical experiments, wherein we also (a) empirically evaluate an intermediate strategy which trains a single-step model using a multi-step loss and (b) evaluate performance of single step and multi-step predictors in a closed loop control setting.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Compounding error, where small prediction mistakes accumulate over time, presents a major challenge in learning-based control. The abstract also notes that for example, this issue often limits the performance of model-based reinforcement learning and imitation learning.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1652,6 +1684,19 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2504_01766&amp;tag=Reinforcement%20learning">Reinforcement learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2504_01766&amp;tag=Imitation%20learning">Imitation learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2504_01766&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2504_01766&amp;tag=Learning">Learning</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1674,10 +1719,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1692,30 +1737,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2018_terzi_learning_multi_step_prediction/">Learning Multi-step Prediction Models for Receding Horizon Control</a></h3>
-
-      <p class="paper-similar-card__label">Multi-Step Prediction Models</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Enrico Terzi et al. / 2018</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
+        <span>80%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1732,20 +1757,38 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
-      <div class="paper-similar-card__rank-top">5</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
+        <span>80%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2212_02603/">Learning to Optimize in Model Predictive Control</a></h3>
-
-      <p class="paper-similar-card__label">MPC</p>
+      <h3><a href="../../papers/2507_09061/">Action Chunking and Exploratory Data Collection Yield Exponential Improvements in Behavior Cloning for Continuous Control</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Jacob Sacks et al. / 2022</span>
+        <span>Thomas T. Zhang et al. / 2025</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>80%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2205_14812/">TaSIL: Taylor Series Imitation Learning</a></h3>
+
+      <p class="paper-similar-card__label">TaSIL</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Daniel Pfrommer et al. / 2022</span>
       </div>
 
     </div>

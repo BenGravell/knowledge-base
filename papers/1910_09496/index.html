@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,9 +1609,16 @@
       <a href="../../search/?year=2019">2019</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1606,6 +1635,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Policy optimization (PO) is a key ingredient for reinforcement learning (RL). For control design, certain constraints are usually enforced on the policies to optimize, accounting for either the stability, robustness, or safety concerns on the system. Hence, PO is by nature a constrained (nonconvex) optimization in most cases, whose global convergence is challenging to analyze in general. More importantly, some constraints that are safety-critical, e.g., the $\mathcal{H}_\infty$-norm constraint that guarantees the system robustness, are difficult to enforce as the PO methods proceed. Recently, policy gradient methods have been shown to converge to the global optimum of linear quadratic regulator (LQR), a classical optimal control problem, without regularizing/projecting the control iterates onto the stabilizing set, its (implicit) feasible set. This striking result is built upon the coercive property of the cost, ensuring that the iterates remain feasible as the cost decreases. In this paper, we study the convergence theory of PO for $\mathcal{H}_2$ linear control with $\mathcal{H}_\infty$-norm robustness guarantee. One significant new feature of this problem is the lack of coercivity, i.e., the cost may have finite value around the feasible set boundary, breaking the existing analysis for LQR. Interestingly, we show that two PO methods enjoy the implicit regularization property, i.e., the iterates preserve the $\mathcal{H}_\infty$ robustness constraint as if they are regularized by the algorithms. Furthermore, despite the nonconvexity of the problem, we show that these algorithms converge to the globally optimal policies with globally sublinear rates, avoiding all suboptimal stationary points/local minima, and with locally (super-)linear rates under certain conditions.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Policy optimization (PO) is a key ingredient for reinforcement learning (RL). The abstract also notes that for control design, certain constraints are usually enforced on the policies to optimize, accounting for either the stability, robustness, or safety concerns on the system.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1650,12 +1682,63 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1910_09496&amp;tag=Nonconvex%20optimization">Nonconvex optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1910_09496&amp;tag=Policy%20gradients">Policy gradients</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1910_09496&amp;tag=Reinforcement%20learning">Reinforcement learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1910_09496&amp;tag=Optimal%20control">Optimal control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1910_09496&amp;tag=Stability%20analysis">Stability analysis</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1910_09496&amp;tag=Safety">Safety</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1910_09496&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1910_09496&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1910_09496&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1910_09496&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1910_09496&amp;tag=Policy%20optimization">Policy optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1910_09496&amp;tag=PO">PO</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1910_09496&amp;tag=RL">RL</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1910_09496&amp;tag=LQR">LQR</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 162.0deg;" aria-label="90% similar">
       <div class="paper-similar-card__rank-top">1</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>90%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2210_04810/">Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Bin Hu et al. / 2022</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+      <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
         <span>89%</span>
       </div>
@@ -1672,10 +1755,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
-      <div class="paper-similar-card__rank-top">2</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>89%</span>
+        <span>88%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1690,28 +1773,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2603_04843/">Policy Optimization of Mixed H2/H-infinity Control: Benign Nonconvexity and Global Optimality</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Chih-Fan Pai et al. / 2026</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>87%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1726,18 +1791,18 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>87%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2210_04810/">Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies</a></h3>
+      <h3><a href="../../papers/1905_13547/">Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Bin Hu et al. / 2022</span>
+        <span>Benjamin Gravell et al. / 2019</span>
       </div>
 
     </div>

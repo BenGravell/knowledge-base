@@ -1,5 +1,5 @@
 title: 'Ray: A Distributed Framework for Emerging AI Applications'
-algorithm: "Ray"
+algorithm: Ray
 authors:
   - Philipp Moritz
   - Robert Nishihara
@@ -13,14 +13,18 @@ authors:
   - Michael I. Jordan
   - Ion Stoica
 year: 2017
-source:
-type: ''
+source: arXiv
+type: Preprint
 doi:
 arxiv_id: "1712.05889"
 tags:
-abstract: >
-  The next generation of AI applications will continuously interact with the environment and learn from these interactions. These applications impose new and demanding systems requirements, both in terms of performance and flexibility. In this paper, we consider these requirements and present Ray---a distributed system to address them. Ray implements a unified interface that can express both task-parallel and actor-based computations, supported by a single dynamic execution engine. To meet the performance requirements, Ray employs a distributed scheduler and a distributed and fault-tolerant store to manage the system's control state. In our experiments, we demonstrate scaling beyond 1.8 million tasks per second and better performance than existing specialized systems for several challenging reinforcement learning applications.
-summary: ''
+  - Reinforcement learning
+  - Distributed systems
+  - Control
+  - Learning
+  - Ray
+abstract: The next generation of AI applications will continuously interact with the environment and learn from these interactions. These applications impose new and demanding systems requirements, both in terms of performance and flexibility. In this paper, we consider these requirements and present Ray---a distributed system to address them. Ray implements a unified interface that can express both task-parallel and actor-based computations, supported by a single dynamic execution engine. To meet the performance requirements, Ray employs a distributed scheduler and a distributed and fault-tolerant store to manage the system's control state. In our experiments, we demonstrate scaling beyond 1.8 million tasks per second and better performance than existing specialized systems for several challenging reinforcement learning applications.
+summary: The next generation of AI applications will continuously interact with the environment and learn from these interactions. The abstract also notes that these applications impose new and demanding systems requirements, both in terms of performance and flexibility.
 link: https://arxiv.org/pdf/1712.05889
 links_alt:
 audit_status: raw

@@ -4,14 +4,19 @@ authors:
   - Nikolai Matni
   - Stephen Tu
 year: 2019
-source:
-type: ''
-doi:
+source: IEEE 58th Conference on Decision and Control (CDC)
+type: Conference Paper
+doi: 10.1109/cdc40024.2019.9029621
 arxiv_id: "1906.11395"
 tags:
-abstract: >
-  We provide a brief tutorial on the use of concentration inequalities as they apply to system identification of state-space parameters of linear time invariant systems, with a focus on the fully observed setting. We draw upon tools from the theories of large-deviations and self-normalized martingales, and provide both data-dependent and independent bounds on the learning rate.
-summary: ''
+  - System identification
+  - Learning
+  - State space
+abstract: We provide a brief tutorial on the use of concentration inequalities as they apply to system identification of state-space parameters of linear time invariant systems, with a focus on the fully observed setting. We draw upon tools from the theories of large-deviations and self-normalized martingales, and provide both data-dependent and independent bounds on the learning rate.
+summary: This paper provides a brief tutorial on the use of concentration inequalities as they apply to system identification of state-space parameters of linear time invariant systems, with a focus on the fully observed setting. The abstract also states that we draw upon tools from the theories of large-deviations and self-normalized martingales, and provide both data-dependent and independent bounds on the learning rate.
 link: https://arxiv.org/pdf/1906.11395
 links_alt:
+  - https://doi.org/10.1109/cdc40024.2019.9029621
+  - https://ieeexplore.ieee.org/document/9029621/
+  - http://xplorestaging.ieee.org/ielx7/8977134/9028853/09029621.pdf?arnumber=9029621
 audit_status: raw

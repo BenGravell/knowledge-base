@@ -1,16 +1,22 @@
-title: Asymptotic Stability Equals Exponential Stability - While You Twist Your Eyes
+title: Asymptotic Stability Equals Exponential Stability -- While You Twist Your Eyes
 algorithm:
 authors:
   - Wouter Jongeneel
 year: 2024
-source:
-type: ''
-doi:
+source: Systems & Control Letters
+type: Journal Paper
+doi: 10.1016/j.sysconle.2025.106324
 arxiv_id: "2411.03277"
 tags:
-abstract: >
-  Suppose that two vector fields on a smooth manifold render some equilibrium point globally asymptotically stable (GAS). We show that there exists a homotopy between the corresponding semiflows such that this point remains GAS along this homotopy.
-summary: ''
+  - Stability analysis
+  - GAS
+  - Exponential stability
+abstract: Suppose that two vector fields on a smooth manifold render some equilibrium point globally asymptotically stable (GAS). We show that there exists a homotopy between the corresponding semiflows such that this point remains GAS along this homotopy.
+summary: Suppose that two vector fields on a smooth manifold render some equilibrium point globally asymptotically stable (GAS). It also shows that there exists a homotopy between the corresponding semiflows such that this point remains GAS along this homotopy.
 link: https://arxiv.org/pdf/2411.03277
 links_alt:
+  - https://doi.org/10.1016/j.sysconle.2025.106324
+  - https://linkinghub.elsevier.com/retrieve/pii/S0167691125003068
+  - https://api.elsevier.com/content/article/PII:S0167691125003068?httpAccept=text/xml
+  - https://api.elsevier.com/content/article/PII:S0167691125003068?httpAccept=text/plain
 audit_status: raw

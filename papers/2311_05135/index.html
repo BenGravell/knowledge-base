@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1591,6 +1613,8 @@
       <a href="../../search/?year=2023">2023</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Conference%20Paper">Conference Paper</a></div>
+
   </div>
 
 
@@ -1600,6 +1624,11 @@
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=AIAA%20SCITECH%20Forum">AIAA SCITECH Forum</a></div>
+  </div>
+
 
   <div class="paper-meta-card">
     <div class="paper-meta-card__label">Identifiers</div>
@@ -1608,6 +1637,8 @@
       <a href="https://arxiv.org/abs/2311.05135" target="_blank" rel="noopener noreferrer">arXiv 2311.05135</a>
 
 
+      <a href="https://doi.org/10.2514/6.2024-1760" target="_blank" rel="noopener noreferrer">DOI 10.2514/6.2024-1760</a>
+
     </div>
   </div>
 
@@ -1615,6 +1646,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>In this work, we present Transformer-based Powered Descent Guidance (T-PDG), a scalable algorithm for reducing the computational complexity of the direct optimization formulation of the spacecraft powered descent guidance problem. T-PDG uses data from prior runs of trajectory optimization algorithms to train a transformer neural network, which accurately predicts the relationship between problem parameters and the globally optimal solution for the powered descent guidance problem. The solution is encoded as the set of tight constraints corresponding to the constrained minimum-cost trajectory and the optimal final time of landing. By leveraging the attention mechanism of transformer neural networks, large sequences of time series data can be accurately predicted when given only the spacecraft state and landing site parameters. When applied to the real problem of Mars powered descent guidance, T-PDG reduces the time for computing the 3 degree of freedom fuel-optimal trajectory, when compared to lossless convexification, from an order of 1-8 seconds to less than 500 milliseconds. A safe and optimal solution is guaranteed by including a feasibility check in T-PDG before returning the final trajectory.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This paper presents Transformer-based Powered Descent Guidance (T-PDG), a scalable algorithm for reducing the computational complexity of the direct optimization formulation of the spacecraft powered descent guidance problem. The abstract also notes that t-PDG uses data from prior runs of trajectory optimization algorithms to train a transformer neural network, which accurately predicts the relationship between problem parameters and the globally optimal solution for the powered descent guidance problem.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1654,8 +1688,45 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.2514/6.2024-1760" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://arc.aiaa.org/doi/10.2514/6.2024-1760" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">arc.aiaa.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://arc.aiaa.org/doi/pdf/10.2514/6.2024-1760" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">arc.aiaa.org</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_05135&amp;tag=Trajectory%20optimization">Trajectory optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_05135&amp;tag=Safety">Safety</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_05135&amp;tag=Neural%20networks">Neural networks</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_05135&amp;tag=Transformers">Transformers</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_05135&amp;tag=Attention%20mechanisms">Attention mechanisms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_05135&amp;tag=Time%20series">Time series</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_05135&amp;tag=Computational%20complexity">Computational complexity</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_05135&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_05135&amp;tag=T-PDG">T-PDG</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_05135&amp;tag=Powered%20descent">Powered descent</a>
 
 </div>
 
@@ -1672,8 +1743,6 @@
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2410_23916/">Transformer-based Model Predictive Control: Trajectory Optimization via Sequence Modeling</a></h3>
 
-      <p class="paper-similar-card__label">MPC</p>
-
 
       <div class="paper-similar-card__meta">
         <span>Davide Celestini et al. / 2024</span>
@@ -1683,10 +1752,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 136.8deg;" aria-label="76% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>76%</span>
+        <span>78%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1703,10 +1772,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 133.2deg;" aria-label="74% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 135.0deg;" aria-label="75% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>74%</span>
+        <span>75%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1730,6 +1799,26 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1962_bryson_a_steepest_ascent_method/">A Steepest-Ascent Method for Solving Optimum Programming Problems</a></h3>
+
+      <p class="paper-similar-card__label">Steepest Ascent</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Arthur E. Bryson et al. / 1962</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 133.2deg;" aria-label="74% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>74%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
       <h3><a href="../../papers/2603_10711/">Parallel-in-Time Nonlinear Optimal Control via GPU-native Sequential Convex Programming</a></h3>
 
       <p class="paper-similar-card__label">SCP</p>
@@ -1737,26 +1826,6 @@
 
       <div class="paper-similar-card__meta">
         <span>Yilin Zou et al. / 2026</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 131.4deg;" aria-label="73% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>73%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2506_14865/">Efficient and Real-Time Motion Planning for Robotics Using Projection-Based Optimization</a></h3>
-
-      <p class="paper-similar-card__label">ALSPG</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Xuemin Chi et al. / 2025</span>
       </div>
 
     </div>

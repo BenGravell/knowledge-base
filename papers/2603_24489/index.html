@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,14 +1609,16 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
+
 
 
   <div class="paper-meta-card">
-    <div class="paper-meta-card__label">Algorithm</div>
-    <div class="paper-meta-card__value">MPPI</div>
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
   </div>
-
 
 
   <div class="paper-meta-card">
@@ -1610,7 +1634,10 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>Model Predictive Path Integral (MPPI) control is a popular sampling-based method for trajectory optimization in nonlinear and nonconvex settings, yet its optimization structure remains only partially understood. We develop a variational, optimization-theoretic interpretation of MPPI by lifting constrained trajectory optimization to a KL-regularized problem over distributions and reducing it to a negative log-partition (free-energy) objective over a tractable sampling family. For a general parametric family, this yields a preconditioned gradient method on the distribution parameters and a natural multi-step extension of MPPI. For the fixed-covariance Gaussian family, we show that classical MPPI is recovered exactly as a preconditioned gradient descent step with unit step size. This interpretation enables a direct convergence analysis: under bounded feasible sets, we derive an explicit upper bound on the smoothness constant and a simple sufficient condition guaranteeing descent of exact MPPI. Numerical experiments support the theory and illustrate the effect of key hyperparameters on performance.</p>
+<p>Model Predictive Path Integral (MPPI) control is a widely used sampling-based method for trajectory optimization, yet its convergence properties remain only partially understood. This paper provides a direct convergence analysis using variational optimization. By lifting constrained trajectory optimization to a Kullback-Leibler (KL) regularized problem over decision distributions, we derive a reduced free-energy objective defined over a parametric sampling family. For general parametric families, we derive gradient and Hessian representations of this reduced objective and analyze preconditioned gradient descent on the sampling-distribution parameters. In the fixed-covariance Gaussian case, the classical MPPI update is recovered exactly as a unit-step preconditioned gradient update. We prove descent and stationarity guarantees for the exact expectation-based iteration when the Hessian of the reduced objective is bounded in the metric induced by the preconditioner. For the Gaussian family, we further show that the preconditioned Hessian is governed by the covariance of the Gibbs-tilted distribution relative to the covariance of the sampling distribution, yielding a covariance-dependent sufficient condition for the descent of exact unit-step MPPI. Numerical experiments illustrate the theory and the effect of key hyperparameters.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Model Predictive Path Integral (MPPI) control is a widely used sampling-based method for trajectory optimization, yet its convergence properties remain only partially understood. It also provides a direct convergence analysis using variational optimization.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1652,6 +1679,27 @@
 
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_24489&amp;tag=Gradient%20descent">Gradient descent</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_24489&amp;tag=Trajectory%20optimization">Trajectory optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_24489&amp;tag=Sampling-based%20methods">Sampling-based methods</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_24489&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_24489&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_24489&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_24489&amp;tag=MPPI">MPPI</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_24489&amp;tag=KL">KL</a>
 
 </div>
 
@@ -1704,31 +1752,31 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2309_12566/">Recent Advances in Path Integral Control for Trajectory Optimization: An Overview in Theoretical and Algorithmic Perspectives</a></h3>
+      <h3><a href="../../papers/2511_02015/">Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control</a></h3>
+
+      <p class="paper-similar-card__label">SOPPI</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Muhammad Kazim et al. / 2023</span>
+        <span>Jace Aldrich et al. / 2025</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 162.0deg;" aria-label="90% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>90%</span>
+        <span>89%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2511_02015/">Stein-based Optimization of Sampling Distributions in Model Predictive Path Integral Control</a></h3>
-
-      <p class="paper-similar-card__label">MPPI</p>
+      <h3><a href="../../papers/2309_12566/">Recent Advances in Path Integral Control for Trajectory Optimization: An Overview in Theoretical and Algorithmic Perspectives</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Jace Aldrich et al. / 2025</span>
+        <span>Muhammad Kazim et al. / 2023</span>
       </div>
 
     </div>

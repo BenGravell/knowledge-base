@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,14 +1609,21 @@
       <a href="../../search/?year=2025">2025</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Journal%20Paper">Journal Paper</a></div>
+
   </div>
 
 
   <div class="paper-meta-card">
     <div class="paper-meta-card__label">Algorithm</div>
-    <div class="paper-meta-card__value">MPPI</div>
+    <div class="paper-meta-card__value">PA-MPPI</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=IEEE%20Robotics%20and%20Automation%20Letters">IEEE Robotics and Automation Letters</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1604,6 +1633,8 @@
       <a href="https://arxiv.org/abs/2509.14978" target="_blank" rel="noopener noreferrer">arXiv 2509.14978</a>
 
 
+      <a href="https://doi.org/10.1109/lra.2026.3662653" target="_blank" rel="noopener noreferrer">DOI 10.1109/lra.2026.3662653</a>
+
     </div>
   </div>
 
@@ -1611,6 +1642,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Quadrotor navigation in unknown environments is critical for practical missions such as search-and-rescue. Solving this problem requires addressing three key challenges: path planning in non-convex free space due to obstacles, satisfying quadrotor-specific dynamics and objectives, and exploring unknown regions to expand the map. Recently, the Model Predictive Path Integral (MPPI) method has emerged as a promising solution to the first two challenges. By leveraging sampling-based optimization, it can effectively handle non-convex free space while directly optimizing over the full quadrotor dynamics, enabling the inclusion of quadrotor-specific costs such as energy consumption. However, MPPI has been limited to tracking control that optimizes trajectories only within a small neighborhood around a reference trajectory, as it lacks the ability to explore unknown regions and plan alternative paths when blocked by large obstacles. To address this limitation, we introduce Perception-Aware MPPI (PA-MPPI). In this approach, perception-awareness is characterized by planning and adapting the trajectory online based on perception objectives. Specifically, when the goal is occluded, PA-MPPI incorporates a perception cost that biases trajectories toward those that can observe unknown regions. This expands the mapped traversable space and increases the likelihood of finding alternative paths to the goal. Through hardware experiments, we demonstrate that PA-MPPI, running at 50 Hz, performs on par with the state-of-the-art quadrotor navigation planner for unknown environments in challenging test scenarios. Furthermore, we show that PA-MPPI can serve as a safe and robust action policy for navigation foundation models, which often provide goal poses that are not directly reachable.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Quadrotor navigation in unknown environments is critical for practical missions such as search-and-rescue. The abstract also notes that solving this problem requires addressing three key challenges: path planning in non-convex free space due to obstacles, satisfying quadrotor-specific dynamics and objectives, and exploring unknown regions to expand the map.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1650,8 +1684,59 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1109/lra.2026.3662653" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://doi.org/10.1109/LRA.2026.3662653" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://ieeexplore.ieee.org/document/11386891/" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">ieeexplore.ieee.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://xplorestaging.ieee.org/ielx8/7083369/11359420/11386891.pdf?arnumber=11386891" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">xplorestaging.ieee.org PDF</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=Path%20planning">Path planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=Aerial%20robotics">Aerial robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=Safety">Safety</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=Robustness">Robustness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=Foundation%20models">Foundation models</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=Sampling-based%20methods">Sampling-based methods</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=MPPI">MPPI</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=Model%20predictive%20path%20integral">Model predictive path integral</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=Perception-aware">Perception-aware</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2509_14978&amp;tag=PA-MPPI">PA-MPPI</a>
 
 </div>
 
@@ -1679,10 +1764,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1722,11 +1807,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1709_05401/">Search-based Motion Planning for Quadrotors Using Linear Quadratic Minimum Time Control</a></h3>
+      <h3><a href="../../papers/2506_21205/">Dynamic Risk-Aware MPPI for Mobile Robots in Crowds via Efficient Monte Carlo Approximations</a></h3>
+
+      <p class="paper-similar-card__label">DRA-MPPI</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Sikang Liu et al. / 2017</span>
+        <span>Elia Trevisan et al. / 2025</span>
       </div>
 
     </div>

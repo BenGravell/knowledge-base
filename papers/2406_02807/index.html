@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1589,6 +1611,8 @@
       <a href="../../search/?year=2024">2024</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1597,6 +1621,11 @@
     <div class="paper-meta-card__value">Collision-Affording Point Trees</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1613,6 +1642,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Motion planning against sensor data is often a critical bottleneck in real-time robot control. For sampling-based motion planners, which are effective for high-dimensional systems such as manipulators, the most time-intensive component is collision checking. We present a novel spatial data structure, the collision-affording point tree (CAPT): an exact representation of point clouds that accelerates collision-checking queries between robots and point clouds by an order of magnitude, with an average query time of less than 10 nanoseconds on 3D scenes comprising thousands of points. With the CAPT, sampling-based planners can generate valid, high-quality paths in under a millisecond, with total end-to-end computation time faster than 60 FPS, on a single thread of a consumer-grade CPU. We also present a point cloud filtering algorithm, based on space-filling curves, which reduces the number of points in a point cloud while preserving structure. Our approach enables robots to plan at real-time speeds in sensed environments, opening up potential uses of planning for high-dimensional systems in dynamic, changing, and unmodeled environments.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Motion planning against sensor data is often a critical bottleneck in real-time robot control. The abstract also notes that for sampling-based motion planners, which are effective for high-dimensional systems such as manipulators, the most time-intensive component is collision checking.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1657,52 +1689,39 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_02807&amp;tag=Motion%20planning">Motion planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_02807&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_02807&amp;tag=Nearest%20neighbors">Nearest neighbors</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_02807&amp;tag=Real-time%20systems">Real-time systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_02807&amp;tag=Sampling-based%20methods">Sampling-based methods</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_02807&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_02807&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_02807&amp;tag=Sampling">Sampling</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_02807&amp;tag=Collision-affording%20point%20tree">Collision-affording point tree</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_02807&amp;tag=CAPT">CAPT</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_02807&amp;tag=SIMD">SIMD</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
       <div class="paper-similar-card__rank-top">1</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2204_09352/">Differentiable Collision Avoidance Using Collision Primitives</a></h3>
-
-      <p class="paper-similar-card__label">Collision Primitives</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Simon Zimmermann et al. / 2022</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">2</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1999_larsen_fast_proximity_queries_with/">Fast Proximity Queries with Swept Sphere Volumes</a></h3>
-
-      <p class="paper-similar-card__label">Swept Sphere Volumes (SSV)</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Eric Larsen et al. / 1999</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
         <span>85%</span>
       </div>
@@ -1722,17 +1741,55 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
         <span>85%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1409_8112/">Efficient High-quality Motion Planning by Fast All-pairs r-nearest-neighbors</a></h3>
+      <h3><a href="../../papers/2411_17902/">Nearest-Neighbourless Asymptotically Optimal Motion Planning with Fully Connected Informed Trees (FCIT*)</a></h3>
+
+      <p class="paper-similar-card__label">FCIT*</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Tyler S. Wilson et al. / 2024</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>85%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1409_8112/">Efficient High-quality Motion Planning by Fast All-pairs R-nearest-neighbors</a></h3>
 
 
       <div class="paper-similar-card__meta">
         <span>Michal Kleinbort et al. / 2014</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>84%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2410_19414/">Motion Planning for Robotics: A Review for Sampling-based Planners</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Liding Zhang et al. / 2024</span>
       </div>
 
     </div>
@@ -1746,13 +1803,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2503_06757/">pRRTC: GPU-Parallel RRT-Connect for Fast, Consistent, and Low-Cost Motion Planning</a></h3>
+      <h3><a href="../../papers/1709_07610/">Efficient Nearest-Neighbor Search for Dynamical Systems with Nonholonomic Constraints</a></h3>
 
-      <p class="paper-similar-card__label">pRRTC</p>
+      <p class="paper-similar-card__label">Nearest Neighbor Search</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Chih H. Huang et al. / 2025</span>
+        <span>Valerio Varricchio et al. / 2017</span>
       </div>
 
     </div>

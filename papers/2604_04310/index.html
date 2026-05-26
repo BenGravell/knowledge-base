@@ -21,7 +21,7 @@
     
     
       
-        <title>frax: Fast Robot Kinematics and Dynamics in JAX - Knowledge Base</title>
+        <title>Frax: Fast Robot Kinematics and Dynamics in JAX - Knowledge Base</title>
       
     
     
@@ -109,7 +109,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              frax: Fast Robot Kinematics and Dynamics in JAX
+              Frax: Fast Robot Kinematics and Dynamics in JAX
             
           </span>
         </div>
@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1564,7 +1586,7 @@
 
 
 
-<h1 id="frax-fast-robot-kinematics-and-dynamics-in-jax">frax: Fast Robot Kinematics and Dynamics in JAX<a class="headerlink" href="#frax-fast-robot-kinematics-and-dynamics-in-jax" title="Permanent link">&para;</a></h1>
+<h1 id="frax-fast-robot-kinematics-and-dynamics-in-jax">Frax: Fast Robot Kinematics and Dynamics in JAX<a class="headerlink" href="#frax-fast-robot-kinematics-and-dynamics-in-jax" title="Permanent link">&para;</a></h1>
 <section class="paper-meta-grid" aria-label="Paper metadata">
 
   <div class="paper-meta-card paper-meta-card--wide">
@@ -1585,9 +1607,21 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">frax</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1604,6 +1638,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>In robot control, planning, and learning, there is a need for rigid-body dynamics libraries that are highly performant, easy to use, and compatible with CPUs and accelerators. While existing libraries often excel at either low-latency CPU execution or high-throughput GPU workloads, few provide a unified framework that targets multiple architectures without compromising performance or ease-of-use. To address this, we introduce frax, a JAX-based library for robot kinematics and dynamics, providing a high-performance, pure-Python interface across CPU, GPU, and TPU. Via a fully-vectorized approach to robot dynamics, frax enables efficient real-time control and parallelization, while supporting automatic differentiation for optimization-based methods. On CPU, frax achieves low-microsecond computation times suitable for kilohertz control rates, outperforming common libraries in Python and approaching optimized C++ implementations. On GPU, the same code scales to thousands of instances, reaching upwards of 100 million dynamics evaluations per second. We validate performance on a Franka Panda manipulator and a Unitree G1 humanoid, and release frax as an open-source library.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>In robot control, planning, and learning, there is a need for rigid-body dynamics libraries that are highly performant, easy to use, and compatible with CPUs and accelerators. The abstract also notes that while existing libraries often excel at either low-latency CPU execution or high-throughput GPU workloads, few provide a unified framework that targets multiple architectures without compromising performance or ease-of-use.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1648,6 +1685,27 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_04310&amp;tag=Robotics">Robotics</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_04310&amp;tag=Real-time%20systems">Real-time systems</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_04310&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_04310&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_04310&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_04310&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_04310&amp;tag=frax">frax</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2604_04310&amp;tag=Robot%20kinematics">Robot kinematics</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1659,13 +1717,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2507_00792/">JAX-IK: Real-Time Inverse Kinematics for Generating Multi-Constrained Movements of Virtual Human Characters</a></h3>
+      <h3><a href="../../papers/2310_17274/">cuRobo: Parallelized Collision-Free Minimum-Jerk Robot Motion Generation</a></h3>
 
-      <p class="paper-similar-card__label">JAX-IK</p>
+      <p class="paper-similar-card__label">cuRobo</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Hendric Voss et al. / 2025</span>
+        <span>Balakumar Sundaralingam et al. / 2023</span>
       </div>
 
     </div>
@@ -1679,13 +1737,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2310_17274/">cuRobo: Parallelized Collision-Free Minimum-Jerk Robot Motion Generation</a></h3>
+      <h3><a href="../../papers/2507_00792/">JAX-IK: Real-Time Inverse Kinematics for Generating Multi-Constrained Movements of Virtual Human Characters</a></h3>
 
-      <p class="paper-similar-card__label">cuRobo</p>
+      <p class="paper-similar-card__label">JAX-IK</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Balakumar Sundaralingam et al. / 2023</span>
+        <span>Hendric Voss et al. / 2025</span>
       </div>
 
     </div>
@@ -1739,13 +1797,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2309_14545/">Motions in Microseconds via Vectorized Sampling-Based Planning</a></h3>
+      <h3><a href="../../papers/2506_17184/">Judo: A User-Friendly Open-Source Package for Sampling-Based Model Predictive Control</a></h3>
 
-      <p class="paper-similar-card__label">VAMP</p>
+      <p class="paper-similar-card__label">Judo</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Wil Thomason et al. / 2023</span>
+        <span>Albert H. Li et al. / 2025</span>
       </div>
 
     </div>

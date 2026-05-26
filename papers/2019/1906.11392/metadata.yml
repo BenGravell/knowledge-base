@@ -1,4 +1,4 @@
-title: "From Self-tuning Regulators to Reinforcement Learning and Back Again"
+title: From Self-tuning Regulators to Reinforcement Learning and Back Again
 algorithm:
 authors:
   - Nikolai Matni
@@ -6,14 +6,26 @@ authors:
   - Anders Rantzer
   - Stephen Tu
 year: 2019
-source:
-type: ''
-doi:
+source: IEEE 58th Conference on Decision and Control (CDC)
+type: Conference Paper
+doi: 10.1109/cdc40024.2019.9029916
 arxiv_id: "1906.11392"
 tags:
-abstract: >
-  Machine and reinforcement learning (RL) are increasingly being applied to plan and control the behavior of autonomous systems interacting with the physical world. Examples include self-driving vehicles, distributed sensor networks, and agile robots. However, when machine learning is to be applied in these new settings, the algorithms had better come with the same type of reliability, robustness, and safety bounds that are hallmarks of control theory, or failures could be catastrophic. Thus, as learning algorithms are increasingly and more aggressively deployed in safety critical settings, it is imperative that control theorists join the conversation. The goal of this tutorial paper is to provide a starting point for control theorists wishing to work on learning related problems, by covering recent advances bridging learning and control theory, and by placing these results within an appropriate historical context of system identification and adaptive control.
-summary: ''
+  - Reinforcement learning
+  - Robotics
+  - Vehicles
+  - Safety
+  - Robustness
+  - System identification
+  - Distributed systems
+  - Control
+  - Learning
+  - RL
+abstract: Machine and reinforcement learning (RL) are increasingly being applied to plan and control the behavior of autonomous systems interacting with the physical world. Examples include self-driving vehicles, distributed sensor networks, and agile robots. However, when machine learning is to be applied in these new settings, the algorithms had better come with the same type of reliability, robustness, and safety bounds that are hallmarks of control theory, or failures could be catastrophic. Thus, as learning algorithms are increasingly and more aggressively deployed in safety critical settings, it is imperative that control theorists join the conversation. The goal of this tutorial paper is to provide a starting point for control theorists wishing to work on learning related problems, by covering recent advances bridging learning and control theory, and by placing these results within an appropriate historical context of system identification and adaptive control.
+summary: Machine and reinforcement learning (RL) are increasingly being applied to plan and control the behavior of autonomous systems interacting with the physical world. The abstract also notes that examples include self-driving vehicles, distributed sensor networks, and agile robots.
 link: https://arxiv.org/pdf/1906.11392
 links_alt:
+  - https://doi.org/10.1109/cdc40024.2019.9029916
+  - https://ieeexplore.ieee.org/document/9029916/
+  - http://xplorestaging.ieee.org/ielx7/8977134/9028853/09029916.pdf?arnumber=9029916
 audit_status: raw

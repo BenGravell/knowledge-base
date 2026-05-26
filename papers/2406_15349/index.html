@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1605,6 +1627,8 @@
       <a href="../../search/?year=2024">2024</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Conference%20Paper">Conference Paper</a></div>
+
   </div>
 
 
@@ -1614,6 +1638,11 @@
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=Advances%20in%20Neural%20Information%20Processing%20Systems%2037">Advances in Neural Information Processing Systems 37</a></div>
+  </div>
+
 
   <div class="paper-meta-card">
     <div class="paper-meta-card__label">Identifiers</div>
@@ -1622,6 +1651,8 @@
       <a href="https://arxiv.org/abs/2406.15349" target="_blank" rel="noopener noreferrer">arXiv 2406.15349</a>
 
 
+      <a href="https://doi.org/10.52202/079017-0902" target="_blank" rel="noopener noreferrer">DOI 10.52202/079017-0902</a>
+
     </div>
   </div>
 
@@ -1629,6 +1660,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Benchmarking vision-based driving policies is challenging. On one hand, open-loop evaluation with real data is easy, but these results do not reflect closed-loop performance. On the other, closed-loop evaluation is possible in simulation, but is hard to scale due to its significant computational demands. Further, the simulators available today exhibit a large domain gap to real data. This has resulted in an inability to draw clear conclusions from the rapidly growing body of research on end-to-end autonomous driving. In this paper, we present NAVSIM, a middle ground between these evaluation paradigms, where we use large datasets in combination with a non-reactive simulator to enable large-scale real-world benchmarking. Specifically, we gather simulation-based metrics, such as progress and time to collision, by unrolling bird's eye view abstractions of the test scenes for a short simulation horizon. Our simulation is non-reactive, i.e., the evaluated policy and environment do not influence each other. As we demonstrate empirically, this decoupling allows open-loop metric computation while being better aligned with closed-loop evaluations than traditional displacement errors. NAVSIM enabled a new competition held at CVPR 2024, where 143 teams submitted 463 entries, resulting in several new insights. On a large set of challenging scenarios, we observe that simple methods with moderate compute requirements such as TransFuser can match recent large-scale end-to-end driving architectures such as UniAD. Our modular framework can potentially be extended with new datasets, data curation strategies, and metrics, and will be continually maintained to host future challenges. Our code is available at https://github.com/autonomousvision/navsim.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Benchmarking vision-based driving policies is challenging. The abstract also notes that on one hand, open-loop evaluation with real data is easy, but these results do not reflect closed-loop performance.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1668,8 +1702,31 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.52202/079017-0902" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://www.proceedings.com/079017-0902.html" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">proceedings.com</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_15349&amp;tag=Autonomous%20driving">Autonomous driving</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_15349&amp;tag=Vehicles">Vehicles</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_15349&amp;tag=Datasets">Datasets</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_15349&amp;tag=Benchmarks">Benchmarks</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2406_15349&amp;tag=NAVSIM">NAVSIM</a>
 
 </div>
 
@@ -1677,10 +1734,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>89%</span>
+        <span>88%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1702,7 +1759,7 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2106_11810/">nuPlan: A Closed-loop ML-based Planning Benchmark for Autonomous Vehicles</a></h3>
+      <h3><a href="../../papers/2106_11810/">NuPlan: A Closed-loop ML-based Planning Benchmark for Autonomous Vehicles</a></h3>
 
       <p class="paper-similar-card__label">nuPlan</p>
 
@@ -1715,28 +1772,8 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2310_08710/">Waymax: An Accelerated, Data-Driven Simulator for Large-Scale Autonomous Driving Research</a></h3>
-
-      <p class="paper-similar-card__label">Waymax</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Cole Gulino et al. / 2023</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
         <span>86%</span>
       </div>
@@ -1755,6 +1792,26 @@
   </article>
 
   <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>86%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2111_12137/">Learning Interactive Driving Policies via Data-driven Simulation</a></h3>
+
+      <p class="paper-similar-card__label">Inpainted Data-Driven Simulation</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Tsun-Hsuan Wang et al. / 2021</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
@@ -1762,11 +1819,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2605_10034/">Beyond Self-Play and Scale: A Behavior Benchmark for Generalization in Autonomous Driving</a></h3>
+      <h3><a href="../../papers/2310_08710/">Waymax: An Accelerated, Data-Driven Simulator for Large-Scale Autonomous Driving Research</a></h3>
+
+      <p class="paper-similar-card__label">Waymax</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Aron Distelzweig et al. / 2026</span>
+        <span>Cole Gulino et al. / 2023</span>
       </div>
 
     </div>

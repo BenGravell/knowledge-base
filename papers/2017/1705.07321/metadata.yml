@@ -4,14 +4,19 @@ authors:
   - Leland McInnes
   - John Healy
 year: 2017
-source:
-type: ''
-doi:
+source: IEEE International Conference on Data Mining Workshops (ICDMW)
+type: Workshop Paper
+doi: 10.1109/icdmw.2017.12
 arxiv_id: "1705.07321"
 tags:
-abstract: >
-  We present an accelerated algorithm for hierarchical density based clustering. Our new algorithm improves upon HDBSCAN*, which itself provided a significant qualitative improvement over the popular DBSCAN algorithm. The accelerated HDBSCAN* algorithm provides comparable performance to DBSCAN, while supporting variable density clusters, and eliminating the need for the difficult to tune distance scale parameter. This makes accelerated HDBSCAN* the default choice for density based clustering. Library available at: https://github.com/scikit-learn-contrib/hdbscan
-summary: ''
+  - Clustering
+  - Accelerated HDBSCAN
+abstract: 'We present an accelerated algorithm for hierarchical density based clustering. Our new algorithm improves upon HDBSCAN*, which itself provided a significant qualitative improvement over the popular DBSCAN algorithm. The accelerated HDBSCAN* algorithm provides comparable performance to DBSCAN, while supporting variable density clusters, and eliminating the need for the difficult to tune distance scale parameter. This makes accelerated HDBSCAN* the default choice for density based clustering. Library available at: https://github.com/scikit-learn-contrib/hdbscan'
+summary: This paper presents an accelerated algorithm for hierarchical density based clustering. The abstract also states that our new algorithm improves upon HDBSCAN*, which itself provided a significant qualitative improvement over the popular DBSCAN algorithm.
 link: https://arxiv.org/pdf/1705.07321
 links_alt:
+  - https://doi.org/10.1109/ICDMW.2017.12
+  - https://doi.org/10.1109/icdmw.2017.12
+  - http://ieeexplore.ieee.org/document/8215642/
+  - http://xplorestaging.ieee.org/ielx7/8211022/8215629/08215642.pdf?arnumber=8215642
 audit_status: raw

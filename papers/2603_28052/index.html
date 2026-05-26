@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1593,6 +1615,8 @@
       <a href="../../search/?year=2026">2026</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
@@ -1601,6 +1625,11 @@
     <div class="paper-meta-card__value">Meta-Harness</div>
   </div>
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1617,6 +1646,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>The performance of large language model (LLM) systems depends not only on model weights, but also on their harness: the code that determines what information to store, retrieve, and present to the model. Yet harnesses are still designed largely by hand, and existing text optimizers are poorly matched to this setting because they compress feedback too aggressively. We introduce Meta-Harness, an outer-loop system that searches over harness code for LLM applications. It uses an agentic proposer that accesses the source code, scores, and execution traces of all prior candidates through a filesystem. On online text classification, Meta-Harness improves over a state-of-the-art context management system by 7.7 points while using 4x fewer context tokens. On retrieval-augmented math reasoning, a single discovered harness improves accuracy on 200 IMO-level problems by 4.7 points on average across five held-out models. On agentic coding, discovered harnesses surpass the best hand-engineered baselines on TerminalBench-2. Together, these results show that richer access to prior experience can enable automated harness engineering.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>The performance of large language model (LLM) systems depends not only on model weights, but also on their harness: the code that determines what information to store, retrieve, and present to the model. The abstract also notes that yet harnesses are still designed largely by hand, and existing text optimizers are poorly matched to this setting because they compress feedback too aggressively.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1661,6 +1693,29 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_28052&amp;tag=Large%20language%20models">Large language models</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_28052&amp;tag=Classification">Classification</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_28052&amp;tag=Accuracy">Accuracy</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_28052&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_28052&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_28052&amp;tag=Meta-harness">Meta-harness</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_28052&amp;tag=LLM">LLM</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_28052&amp;tag=Source%20code">Source code</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2603_28052&amp;tag=Language%20model">Language model</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
@@ -1674,6 +1729,8 @@
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2307_09288/">Llama 2: Open Foundation and Fine-Tuned Chat Models</a></h3>
 
+      <p class="paper-similar-card__label">Llama 2</p>
+
 
       <div class="paper-similar-card__meta">
         <span>Hugo Touvron et al. / 2023</span>
@@ -1683,14 +1740,16 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 142.2deg;" aria-label="79% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
+        <span>79%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2106_09685/">LoRA: Low-Rank Adaptation of Large Language Models</a></h3>
+
+      <p class="paper-similar-card__label">LoRA</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1721,40 +1780,40 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
+        <span>77%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2408_00118/">Gemma 2: Improving Open Language Models at a Practical Size</a></h3>
+      <h3><a href="../../papers/2605_10480/">ASIA: An Autonomous System Identification Agent</a></h3>
 
-      <p class="paper-similar-card__label">Gemma 2</p>
+      <p class="paper-similar-card__label">ASIA</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Morgane Riviere et al. / 2024</span>
+        <span>Dario Piga et al. / 2026</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>78%</span>
+        <span>77%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1807_05118/">Tune: A Research Platform for Distributed Model Selection and Training</a></h3>
+      <h3><a href="../../papers/2604_08266/">Orion-Lite: Distilling LLM Reasoning into Efficient Vision-Only Driving Models</a></h3>
 
-      <p class="paper-similar-card__label">Tune</p>
+      <p class="paper-similar-card__label">Orion-Lite</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Richard Liaw et al. / 2018</span>
+        <span>Jing Gu et al. / 2026</span>
       </div>
 
     </div>

@@ -1,18 +1,23 @@
-title: "Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach"
+title: 'Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach'
 algorithm: CL1
 authors:
   - Arun Lakshmanan
   - Aditya Gahlawat
   - Naira Hovakimyan
 year: 2020
-source:
-type: ''
+source: arXiv
+type: Preprint
 doi:
 arxiv_id: "2004.01142"
 tags:
-abstract: >
-  Autonomous robots that are capable of operating safely in the presence of imperfect model knowledge or external disturbances are vital in safety-critical applications. In this paper, we present a planner-agnostic framework to design and certify safe tubes around desired trajectories that the robot is always guaranteed to remain inside of. By leveraging recent results in contraction analysis and $\mathcal{L}_1$-adaptive control we synthesize an architecture that induces safe tubes for nonlinear systems with state and time-varying uncertainties. We demonstrate with a few illustrative examples how contraction theory-based $\mathcal{L}_1$-adaptive control can be used in conjunction with traditional motion planning algorithms to obtain provably safe trajectories.
-summary: ''
+  - Motion planning
+  - Robotics
+  - Safety
+  - Online algorithms
+  - Planning
+  - Control
+abstract: Autonomous robots that are capable of operating safely in the presence of imperfect model knowledge or external disturbances are vital in safety-critical applications. In this paper, we present a planner-agnostic framework to design and certify safe tubes around desired trajectories that the robot is always guaranteed to remain inside of. By leveraging recent results in contraction analysis and $\mathcal{L}_1$-adaptive control we synthesize an architecture that induces safe tubes for nonlinear systems with state and time-varying uncertainties. We demonstrate with a few illustrative examples how contraction theory-based $\mathcal{L}_1$-adaptive control can be used in conjunction with traditional motion planning algorithms to obtain provably safe trajectories.
+summary: Autonomous robots that are capable of operating safely in the presence of imperfect model knowledge or external disturbances are vital in safety-critical applications. It also presents a planner-agnostic framework to design and certify safe tubes around desired trajectories that the robot is always guaranteed to remain inside of.
 link: https://arxiv.org/pdf/2004.01142
 links_alt:
 audit_status: raw

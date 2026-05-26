@@ -1,5 +1,5 @@
 title: Going Deeper with Convolutions
-algorithm: "Inception"
+algorithm: Inception
 authors:
   - Christian Szegedy
   - Wei Liu
@@ -11,14 +11,22 @@ authors:
   - Vincent Vanhoucke
   - Andrew Rabinovich
 year: 2014
-source:
-type: ''
-doi:
+source: IEEE Conference on Computer Vision and Pattern Recognition (CVPR)
+type: Conference Paper
+doi: 10.1109/cvpr.2015.7298594
 arxiv_id: "1409.4842"
 tags:
-abstract: >
-  We propose a deep convolutional neural network architecture codenamed "Inception", which was responsible for setting the new state of the art for classification and detection in the ImageNet Large-Scale Visual Recognition Challenge 2014 (ILSVRC 2014). The main hallmark of this architecture is the improved utilization of the computing resources inside the network. This was achieved by a carefully crafted design that allows for increasing the depth and width of the network while keeping the computational budget constant. To optimize quality, the architectural decisions were based on the Hebbian principle and the intuition of multi-scale processing. One particular incarnation used in our submission for ILSVRC 2014 is called GoogLeNet, a 22 layers deep network, the quality of which is assessed in the context of classification and detection.
-summary: ''
+  - Neural networks
+  - Convolutional networks
+  - Classification
+  - Inception
+  - Convolutional neural network
+  - Network architecture
+abstract: We propose a deep convolutional neural network architecture codenamed "Inception", which was responsible for setting the new state of the art for classification and detection in the ImageNet Large-Scale Visual Recognition Challenge 2014 (ILSVRC 2014). The main hallmark of this architecture is the improved utilization of the computing resources inside the network. This was achieved by a carefully crafted design that allows for increasing the depth and width of the network while keeping the computational budget constant. To optimize quality, the architectural decisions were based on the Hebbian principle and the intuition of multi-scale processing. One particular incarnation used in our submission for ILSVRC 2014 is called GoogLeNet, a 22 layers deep network, the quality of which is assessed in the context of classification and detection.
+summary: This paper proposes a deep convolutional neural network architecture codenamed "Inception", which was responsible for setting the new state of the art for classification and detection in the ImageNet Large-Scale Visual Recognition Challenge 2014 (ILSVRC 2014). The abstract also notes that the main hallmark of this architecture is the improved utilization of the computing resources inside the network.
 link: https://arxiv.org/pdf/1409.4842
 links_alt:
+  - https://doi.org/10.1109/cvpr.2015.7298594
+  - http://ieeexplore.ieee.org/document/7298594/
+  - http://xplorestaging.ieee.org/ielx7/7293313/7298593/07298594.pdf?arnumber=7298594
 audit_status: raw

@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1583,6 +1605,8 @@
       <a href="../../search/?year=2016">2016</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Conference%20Paper">Conference Paper</a></div>
+
   </div>
 
 
@@ -1592,6 +1616,11 @@
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=Proceedings%20of%20the%2049th%20Annual%20ACM%20SIGACT%20Symposium%20on%20Theory%20of%20Computing">Proceedings of the 49th Annual ACM SIGACT Symposium on Theory of Computing</a></div>
+  </div>
+
 
   <div class="paper-meta-card">
     <div class="paper-meta-card__label">Identifiers</div>
@@ -1600,6 +1629,8 @@
       <a href="https://arxiv.org/abs/1603.05953" target="_blank" rel="noopener noreferrer">arXiv 1603.05953</a>
 
 
+      <a href="https://doi.org/10.1145/3055399.3055448" target="_blank" rel="noopener noreferrer">DOI 10.1145/3055399.3055448</a>
+
     </div>
   </div>
 
@@ -1607,6 +1638,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Nesterov's momentum trick is famously known for accelerating gradient descent, and has been proven useful in building fast iterative algorithms. However, in the stochastic setting, counterexamples exist and prevent Nesterov's momentum from providing similar acceleration, even if the underlying problem is convex and finite-sum. We introduce $\mathtt{Katyusha}$, a direct, primal-only stochastic gradient method to fix this issue. In convex finite-sum stochastic optimization, $\mathtt{Katyusha}$ has an optimal accelerated convergence rate, and enjoys an optimal parallel linear speedup in the mini-batch setting. The main ingredient is $\textit{Katyusha momentum}$, a novel "negative momentum" on top of Nesterov's momentum. It can be incorporated into a variance-reduction based algorithm and speed it up, both in terms of $\textit{sequential and parallel}$ performance. Since variance reduction has been successfully applied to a growing list of practical problems, our paper suggests that in each of such cases, one could potentially try to give Katyusha a hug.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Nesterov's momentum trick is famously known for accelerating gradient descent, and has been proven useful in building fast iterative algorithms. The abstract also notes that however, in the stochastic setting, counterexamples exist and prevent Nesterov's momentum from providing similar acceleration, even if the underlying problem is convex and finite-sum.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1646,8 +1680,37 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1145/3055399.3055448" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://dl.acm.org/doi/10.1145/3055399.3055448" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">dl.acm.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://dl.acm.org/doi/pdf/10.1145/3055399.3055448" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">dl.acm.org</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=1603_05953&amp;tag=Stochastic%20optimization">Stochastic optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1603_05953&amp;tag=Gradient%20descent">Gradient descent</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1603_05953&amp;tag=Stochastic%20gradients">Stochastic gradients</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1603_05953&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1603_05953&amp;tag=Katyusha">Katyusha</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=1603_05953&amp;tag=Variance%20reduction">Variance reduction</a>
 
 </div>
 
@@ -1680,23 +1743,21 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2018_van_scoy_the_fastest_known_globally/">The Fastest Known Globally Convergent First-Order Method for Minimizing Strongly Convex Functions</a></h3>
-
-      <p class="paper-similar-card__label">Triple Momentum Method</p>
+      <h3><a href="../../papers/1905_10018/">Momentum-Based Variance Reduction in Non-Convex SGD</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Bryan Van Scoy et al. / 2018</span>
+        <span>Ashok Cutkosky et al. / 2019</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1713,40 +1774,40 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1710_04753/">A Robust Accelerated Optimization Algorithm for Strongly Convex Functions</a></h3>
+      <h3><a href="../../papers/2018_van_scoy_the_fastest_known_globally/">The Fastest Known Globally Convergent First-Order Method for Minimizing Strongly Convex Functions</a></h3>
 
-      <p class="paper-similar-card__label">Robust Momentum Method</p>
+      <p class="paper-similar-card__label">Triple Momentum Method</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Saman Cyrus et al. / 2017</span>
+        <span>Bryan Van Scoy et al. / 2018</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1703_00102/">SARAH: A Novel Method for Machine Learning Problems Using Stochastic Recursive Gradient</a></h3>
+      <h3><a href="../../papers/2013_johnson_accelerating_stochastic_gradient_descent/">Accelerating Stochastic Gradient Descent Using Predictive Variance Reduction</a></h3>
 
-      <p class="paper-similar-card__label">SARAH</p>
+      <p class="paper-similar-card__label">SVRG</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Lam M. Nguyen et al. / 2017</span>
+        <span>Rie Johnson et al. / 2013</span>
       </div>
 
     </div>

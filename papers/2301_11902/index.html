@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1591,9 +1613,21 @@
       <a href="../../search/?year=2023">2023</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Conference%20Paper">Conference Paper</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">TPP</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=IEEE%20International%20Conference%20on%20Robotics%20and%20Automation%20%28ICRA%29">IEEE International Conference on Robotics and Automation (ICRA)</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1603,6 +1637,8 @@
       <a href="https://arxiv.org/abs/2301.11902" target="_blank" rel="noopener noreferrer">arXiv 2301.11902</a>
 
 
+      <a href="https://doi.org/10.1109/icra48891.2023.10161419" target="_blank" rel="noopener noreferrer">DOI 10.1109/icra48891.2023.10161419</a>
+
     </div>
   </div>
 
@@ -1610,6 +1646,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Autonomous vehicles (AVs) need to reason about the multimodal behavior of neighboring agents while planning their own motion. Many existing trajectory planners seek a single trajectory that performs well under \emph{all} plausible futures simultaneously, ignoring bi-directional interactions and thus leading to overly conservative plans. Policy planning, whereby the ego agent plans a policy that reacts to the environment's multimodal behavior, is a promising direction as it can account for the action-reaction interactions between the AV and the environment. However, most existing policy planners do not scale to the complexity of real autonomous vehicle applications: they are either not compatible with modern deep learning prediction models, not interpretable, or not able to generate high quality trajectories. To fill this gap, we propose Tree Policy Planning (TPP), a policy planner that is compatible with state-of-the-art deep learning prediction models, generates multistage motion plans, and accounts for the influence of ego agent on the environment behavior. The key idea of TPP is to reduce the continuous optimization problem into a tractable discrete Markov Decision Process (MDP) through the construction of two tree structures: an ego trajectory tree for ego trajectory options, and a scenario tree for multi-modal ego-conditioned environment predictions. We demonstrate the efficacy of TPP in closed-loop simulations based on real-world nuScenes dataset and results show that TPP scales to realistic AV scenarios and significantly outperforms non-policy baselines.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Autonomous vehicles (AVs) need to reason about the multimodal behavior of neighboring agents while planning their own motion. The abstract also notes that many existing trajectory planners seek a single trajectory that performs well under \emph{all} plausible futures simultaneously, ignoring bi-directional interactions and thus leading to overly conservative plans.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1649,8 +1688,45 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1109/icra48891.2023.10161419" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://ieeexplore.ieee.org/document/10161419/" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">ieeexplore.ieee.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="http://xplorestaging.ieee.org/ielx7/10160211/10160212/10161419.pdf?arnumber=10161419" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">xplorestaging.ieee.org PDF</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2301_11902&amp;tag=Vehicles">Vehicles</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2301_11902&amp;tag=Deep%20learning">Deep learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2301_11902&amp;tag=Datasets">Datasets</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2301_11902&amp;tag=Optimization">Optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2301_11902&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2301_11902&amp;tag=Learning">Learning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2301_11902&amp;tag=TPP">TPP</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2301_11902&amp;tag=Propose%20tree%20policy%20planning">Propose tree policy planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2301_11902&amp;tag=MDP">MDP</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2301_11902&amp;tag=Markov%20decision%20process">Markov decision process</a>
 
 </div>
 
@@ -1658,14 +1734,16 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2605_01860/">Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning</a></h3>
+
+      <p class="paper-similar-card__label">PO-MPC</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1712,20 +1790,20 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2508_21001/">Train-Once Plan-Anywhere Kinodynamic Motion Planning via Diffusion Trees</a></h3>
+      <h3><a href="../../papers/2411_15651/">Model Predictive Trees: Sample-Efficient Receding Horizon Planning with Reusable Tree Search</a></h3>
 
-      <p class="paper-similar-card__label">Diffusion Trees</p>
+      <p class="paper-similar-card__label">MPT</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Yaniv Hassidof et al. / 2025</span>
+        <span>John Lathrop et al. / 2024</span>
       </div>
 
     </div>
@@ -1739,13 +1817,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2024_piazza_mptree_a_sampling_based/">MPTree: A Sampling-based Vehicle Motion Planner for Real-time Obstacle Avoidance</a></h3>
-
-      <p class="paper-similar-card__label">MPTree</p>
+      <h3><a href="../../papers/1710_09483/">Multimodal Probabilistic Model-Based Planning for Human-Robot Interaction</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Mattia Piazza et al. / 2024</span>
+        <span>Edward Schmerling et al. / 2017</span>
       </div>
 
     </div>

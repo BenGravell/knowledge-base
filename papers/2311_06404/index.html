@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1587,9 +1609,16 @@
       <a href="../../search/?year=2023">2023</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Preprint">Preprint</a></div>
+
   </div>
 
 
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=arXiv">arXiv</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1606,6 +1635,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>For optimal control problems that involve planning and following a trajectory, two degree of freedom (2DOF) controllers are a ubiquitously used control architecture that decomposes the problem into a trajectory generation layer and a feedback control layer. However, despite the broad use and practical success of this layered control architecture, it remains a design choice that must be imposed $a\ priori$ on the control policy. To address this gap, this paper seeks to initiate a principled study of the design of layered control architectures, with an initial focus on the 2DOF controller. We show that applying the Alternating Direction Method of Multipliers (ADMM) algorithm to solve a strategically rewritten optimal control problem results in solutions that are naturally layered, and composed of a trajectory generation layer and a feedback control layer. Furthermore, these layers are coupled via Lagrange multipliers that ensure dynamic feasibility of the planned trajectory. We instantiate this framework in the context of deterministic and stochastic linear optimal control problems, and show how our approach automatically yields a feedforward/feedback-based control policy that exactly solves the original problem. We then show that the simplicity of the resulting controller structure suggests natural heuristic algorithms for approximately solving nonlinear optimal control problems. We empirically demonstrate improved performance of these layered nonlinear optimal controllers as compared to iLQR, and highlight their flexibility by incorporating both convex and nonconvex constraints.</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>For optimal control problems that involve planning and following a trajectory, two degree of freedom (2DOF) controllers are a ubiquitously used control architecture that decomposes the problem into a trajectory generation layer and a feedback control layer. The abstract also notes that however, despite the broad use and practical success of this layered control architecture, it remains a design choice that must be imposed $a\ priori$ on the control policy.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1650,12 +1682,73 @@
 
 </div>
 
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_06404&amp;tag=Nonconvex%20optimization">Nonconvex optimization</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_06404&amp;tag=Optimal%20control">Optimal control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_06404&amp;tag=Online%20algorithms">Online algorithms</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_06404&amp;tag=Planning">Planning</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_06404&amp;tag=Control">Control</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_06404&amp;tag=ADMM">ADMM</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_06404&amp;tag=Augmented%20Lagrangian%20method">Augmented Lagrangian method</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2311_06404&amp;tag=Lagrange%20multiplier">Lagrange multiplier</a>
+
+</div>
+
 <h2 id="top-5-most-similar-papers">Top 5 Most Similar Papers<a class="headerlink" href="#top-5-most-similar-papers" title="Permanent link">&para;</a></h2>
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
       <div class="paper-similar-card__rank-top">1</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>85%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2603_11335/">ADMM-based Continuous Trajectory Optimization in Graphs of Convex Sets</a></h3>
+
+      <p class="paper-similar-card__label">GCS</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Lukas Pries et al. / 2026</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>84%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2209_09006/">Enforcing the Consensus between Trajectory Optimization and Policy Learning for Precise Robot Control</a></h3>
+
+      <p class="paper-similar-card__label">PLAL</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Quentin Le Lidec et al. / 2022</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
         <span>84%</span>
       </div>
@@ -1675,27 +1768,7 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">2</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2209_09006/">Enforcing the Consensus between Trajectory Optimization and Policy Learning for Precise Robot Control</a></h3>
-
-      <p class="paper-similar-card__label">PLAL</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Quentin Le Lidec et al. / 2022</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
         <span>83%</span>
       </div>
@@ -1715,7 +1788,7 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
         <span>83%</span>
       </div>
@@ -1726,26 +1799,6 @@
 
       <div class="paper-similar-card__meta">
         <span>Anusha Srikanthan et al. / 2023</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2603_24489/">Model Predictive Path Integral Control as Preconditioned Gradient Descent</a></h3>
-
-      <p class="paper-similar-card__label">MPPI</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Mahyar Fazlyab et al. / 2026</span>
       </div>
 
     </div>

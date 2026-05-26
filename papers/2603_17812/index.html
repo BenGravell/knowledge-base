@@ -1652,7 +1652,7 @@
 <p>Recent video diffusion models achieve high-quality generation through recurrent frame processing where each frame generation depends on previous frames. However, this recurrent mechanism means that training such models in the pixel domain incurs prohibitive memory costs, as activations accumulate across the entire video sequence. This fundamental limitation also makes fine-tuning these models with pixel-wise losses computationally intractable for long or high-resolution videos. This paper introduces ChopGrad, a truncated backpropagation scheme for video decoding, limiting gradient computation to local frame windows while maintaining global consistency. We provide a theoretical analysis of this approximation and show that it enables efficient fine-tuning with frame-wise losses. ChopGrad reduces training memory from scaling linearly with the number of video frames (full backpropagation) to constant memory, and compares favorably to existing state-of-the-art video diffusion models across a suite of conditional video generation tasks with pixel-wise losses, including video super-resolution, video inpainting, video enhancement of neural-rendered scenes, and controlled driving video generation.</p>
 
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>ChopGrad makes pixel-domain fine-tuning practical for recurrent latent video diffusion decoders by truncating gradient flow to local temporal windows while still using the recurrent state for global consistency. The paper combines a locality argument for why distant frame gradients can be ignored with experiments across video super-resolution, inpainting, neural-rendering enhancement, and controlled driving-video generation, turning a linear-in-length memory bottleneck into an approximately constant-memory training procedure.</p>
+<p>Recent video diffusion models achieve high-quality generation through recurrent frame processing where each frame generation depends on previous frames. The abstract also notes that however, this recurrent mechanism means that training such models in the pixel domain incurs prohibitive memory costs, as activations accumulate across the entire video sequence.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1708,25 +1708,11 @@
 <h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
 <div class="paper-tag-list">
 
-  <a class="paper-tag-chip" href="../../search/?paper=2603_17812&amp;tag=Video%20diffusion">Video diffusion</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2603_17812&amp;tag=Diffusion%20models">Diffusion models</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2603_17812&amp;tag=Latent%20diffusion%20models">Latent diffusion models</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2603_17812&amp;tag=Control">Control</a>
 
-  <a class="paper-tag-chip" href="../../search/?paper=2603_17812&amp;tag=Truncated%20backpropagation">Truncated backpropagation</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2603_17812&amp;tag=Pixel-wise%20losses">Pixel-wise losses</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2603_17812&amp;tag=Memory-efficient%20training">Memory-efficient training</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2603_17812&amp;tag=Video%20generation">Video generation</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2603_17812&amp;tag=Video%20super-resolution">Video super-resolution</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2603_17812&amp;tag=Video%20inpainting">Video inpainting</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2603_17812&amp;tag=Neural%20rendering">Neural rendering</a>
-
-  <a class="paper-tag-chip" href="../../search/?paper=2603_17812&amp;tag=Computer%20vision">Computer vision</a>
+  <a class="paper-tag-chip" href="../../search/?paper=2603_17812&amp;tag=ChopGrad">ChopGrad</a>
 
 </div>
 
@@ -1734,48 +1720,8 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
       <div class="paper-similar-card__rank-top">1</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1610_02391/">Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization</a></h3>
-
-      <p class="paper-similar-card__label">Grad-CAM</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Ramprasaath R. Selvaraju et al. / 2016</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
-      <div class="paper-similar-card__rank-top">2</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>80%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2003_08934/">NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis</a></h3>
-
-      <p class="paper-similar-card__label">NeRF</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Ben Mildenhall et al. / 2020</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
-      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
         <span>80%</span>
       </div>
@@ -1794,14 +1740,54 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 142.2deg;" aria-label="79% similar">
+      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>79%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1610_02391/">Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization</a></h3>
+
+      <p class="paper-similar-card__label">Grad-CAM</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Ramprasaath R. Selvaraju et al. / 2016</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>78%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2204_06125/">Hierarchical Text-Conditional Image Generation with CLIP Latents</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Aditya Ramesh et al. / 2022</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>80%</span>
+        <span>78%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2304_14772/">Multisample Flow Matching: Straightening Flows with Minibatch Couplings</a></h3>
+
+      <p class="paper-similar-card__label">Multisample Flow Matching</p>
 
 
       <div class="paper-similar-card__meta">
@@ -1812,10 +1798,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>80%</span>
+        <span>78%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">

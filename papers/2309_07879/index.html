@@ -1526,10 +1526,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
         Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags
       
     </span>
   </a>
@@ -1585,9 +1607,21 @@
       <a href="../../search/?year=2023">2023</a>
     </div>
 
+    <div class="paper-meta-card__detail"><a href="../../search/?type=Journal%20Paper">Journal Paper</a></div>
+
   </div>
 
 
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Algorithm</div>
+    <div class="paper-meta-card__value">Acceleration by Stepsize Hedging I</div>
+  </div>
+
+
+  <div class="paper-meta-card">
+    <div class="paper-meta-card__label">Source</div>
+    <div class="paper-meta-card__value"><a href="../../search/?source=Journal%20of%20the%20ACM">Journal of the ACM</a></div>
+  </div>
 
 
   <div class="paper-meta-card">
@@ -1597,6 +1631,8 @@
       <a href="https://arxiv.org/abs/2309.07879" target="_blank" rel="noopener noreferrer">arXiv 2309.07879</a>
 
 
+      <a href="https://doi.org/10.1145/3708502" target="_blank" rel="noopener noreferrer">DOI 10.1145/3708502</a>
+
     </div>
   </div>
 
@@ -1604,6 +1640,9 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Can we accelerate convergence of gradient descent without changing the algorithm -- just by carefully choosing stepsizes? Surprisingly, we show that the answer is yes. Our proposed Silver Stepsize Schedule optimizes strongly convex functions in $k^{\log_ρ 2} \approx k^{0.7864}$ iterations, where $ρ=1+\sqrt{2}$ is the silver ratio and $k$ is the condition number. This is intermediate between the textbook unaccelerated rate $k$ and the accelerated rate $\sqrt{k}$ due to Nesterov in 1983. The non-strongly convex setting is conceptually identical, and standard black-box reductions imply an analogous accelerated rate $\varepsilon^{-\log_ρ 2} \approx \varepsilon^{-0.7864}$. We conjecture and provide partial evidence that these rates are optimal among all possible stepsize schedules. The Silver Stepsize Schedule is constructed recursively in a fully explicit way. It is non-monotonic, fractal-like, and approximately periodic of period $k^{\log_ρ 2}$. This leads to a phase transition in the convergence rate: initially super-exponential (acceleration regime), then exponential (saturation regime).</p>
+
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Can we accelerate convergence of gradient descent without changing the algorithm -- just by carefully choosing stepsizes? The abstract also notes that surprisingly, we show that the answer is yes.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1643,8 +1682,31 @@
         <span class="paper-link-pill__label">arXiv HTML</span>
       </a>
 
+      <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1145/3708502" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://dl.acm.org/doi/10.1145/3708502" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">dl.acm.org</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://dl.acm.org/doi/pdf/10.1145/3708502" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">dl.acm.org</span>
+      </a>
+
     </div>
   </section>
+
+</div>
+
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<div class="paper-tag-list">
+
+  <a class="paper-tag-chip" href="../../search/?paper=2309_07879&amp;tag=Gradient%20descent">Gradient descent</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2309_07879&amp;tag=Acceleration">Acceleration</a>
+
+  <a class="paper-tag-chip" href="../../search/?paper=2309_07879&amp;tag=Stepsize%20hedging">Stepsize hedging</a>
 
 </div>
 
@@ -1661,6 +1723,8 @@
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/2309_16530/">Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization</a></h3>
 
+      <p class="paper-similar-card__label">II</p>
+
 
       <div class="paper-similar-card__meta">
         <span>Jason M. Altschuler et al. / 2023</span>
@@ -1670,10 +1734,28 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>83%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2211_00140/">A Damped Newton Method Achieves Global O(1/k^2) and Local Quadratic Convergence Rate</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Slavomír Hanzely et al. / 2022</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1689,7 +1771,7 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
-      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
         <span>82%</span>
       </div>
@@ -1700,24 +1782,6 @@
 
       <div class="paper-similar-card__meta">
         <span>Bryan Van Scoy et al. / 2021</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2211_00140/">A Damped Newton Method Achieves Global O(1/k^2) and Local Quadratic Convergence Rate</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Slavomír Hanzely et al. / 2022</span>
       </div>
 
     </div>

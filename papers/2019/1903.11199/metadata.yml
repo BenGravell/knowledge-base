@@ -1,5 +1,5 @@
 title: 'Control Barrier Functions: Theory and Applications'
-algorithm: "CBF-QP"
+algorithm: CBF-QP
 authors:
   - Aaron D. Ames
   - Samuel Coogan
@@ -8,14 +8,21 @@ authors:
   - Koushil Sreenath
   - Paulo Tabuada
 year: 2019
-source:
-type: ''
-doi:
+source: 18th European Control Conference (ECC)
+type: Conference Paper
+doi: 10.23919/ecc.2019.8796030
 arxiv_id: "1903.11199"
 tags:
-abstract: >
-  This paper provides an introduction and overview of recent work on control barrier functions and their use to verify and enforce safety properties in the context of (optimization based) safety-critical controllers. We survey the main technical results and discuss applications to several domains including robotic systems.
-summary: ''
+  - Robotics
+  - Control barrier functions
+  - Safety
+  - Optimization
+  - Control
+abstract: This paper provides an introduction and overview of recent work on control barrier functions and their use to verify and enforce safety properties in the context of (optimization based) safety-critical controllers. We survey the main technical results and discuss applications to several domains including robotic systems.
+summary: This paper provides an introduction and overview of recent work on control barrier functions and their use to verify and enforce safety properties in the context of (optimization based) safety-critical controllers. The abstract also states that we survey the main technical results and discuss applications to several domains including robotic systems.
 link: https://arxiv.org/pdf/1903.11199
 links_alt:
+  - https://doi.org/10.23919/ecc.2019.8796030
+  - https://ieeexplore.ieee.org/document/8796030/
+  - http://xplorestaging.ieee.org/ielx7/8778424/8795605/08796030.pdf?arnumber=8796030
 audit_status: raw
