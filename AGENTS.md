@@ -1,6 +1,6 @@
 # knowledge-base
 
-A personal knowledge base of distilled notes, paper summaries, and explainers, published as a static site via MkDocs.
+A personal knowledge base of publications, distilled notes, paper summaries, and explainers, published as a static site via MkDocs.
 
 ## Key Commands
 
@@ -104,21 +104,37 @@ Collect papers from the location/file given by the user.
 
 Use subsection headers and other contextual clues to determine where each paper belongs in the `nav` hierarchy in `knowledge_base/tree.yml`.
 
-For each paper, perform the agent task "Generate metadata for a single paper"
+For each paper, first perform the agent task "Check for an arXiv version of a paper", then perform the agent task "Generate metadata for a single paper".
+
+### Check for an arXiv version of a paper
+
+Use this task whenever a paper's `arxiv_id` is unknown, especially before choosing a metadata path or deciding that a paywalled link must be primary.
+
+1. If the paper year is 1990 or earlier, do not search for an arXiv version. arXiv only started in 1991, so papers dated 1990 and earlier cannot have a valid arXiv version.
+2. If an existing source or metadata file already has a non-empty `arxiv_id`, do not search again. Reuse the known ID, normalized as a bare arXiv ID without an `arXiv:` prefix or version suffix. Preserve old-style archive prefixes such as `cond-mat/9910332`.
+3. For papers from 1991 onward with no known `arxiv_id`, search for an arXiv version before finalizing metadata.
+   - Start with the official title plus the first author.
+   - If that fails, search alternate forms: title without subtitle, distinctive phrases from the abstract, algorithm or method name, DOI, full author set, and the official publication title plus "arXiv".
+   - Check the official paper page, author pages, lab pages, Semantic Scholar, OpenAlex, Google Scholar snippets, and arXiv search results when available.
+4. Remember that an arXiv reprint may have a different title from the formally published version. Do not reject a candidate only because the title differs.
+5. Accept a candidate only when the authors, abstract, core contribution, and bibliographic clues make it clearly the same work. Strong evidence includes matching authors plus matching abstract/contribution, an arXiv page that links to the DOI or venue version, or an official/author page that links both versions.
+6. If the match is ambiguous, leave `arxiv_id` blank and do not add an arXiv link. Prefer a known open non-arXiv link when one exists.
+7. When an arXiv version is found while generating metadata, use the arXiv ID for `SLUG`, set `year` from the earliest arXiv version year, use the arXiv PDF as `link`, and include the formal publication DOI/source when available.
 
 ### Generate metadata for a single paper
 
 1. Use `knowledge_base/docs/templates/metadata.yml` as the template.
-2. The metadata for the item is to be placed at:
+2. Perform the agent task "Check for an arXiv version of a paper" before choosing the metadata path.
+3. The metadata for the item is to be placed at:
 
     ```text
     knowledge_base/docs/papers/<YEAR>/<SLUG>/metadata.yml
     ```
 
     - `YEAR`: 4-digit year of the earliest published version.
-    - `SLUG`: arXiv ID in `YYMM.NNNNN` format if one exists; otherwise `YEAR.first_author_last_name_lowercase.title_first_four_words`.
-3. Re-use existing files and information, if it exists.
-4. Fill in all fields.
+    - `SLUG`: arXiv ID if one exists or is found, using either new-style `YYMM.NNNNN` or old-style `archive/YYMMNNN` format; otherwise `YEAR.first_author_last_name_lowercase.title_first_four_words`.
+4. Re-use existing files and information, if it exists.
+5. Fill in all fields.
     - title: Full title of the paper, copied verbatim then re-written in title case, in double quotes (string).
     - algorithm: Short name of the primary algorithm or technique or method put forward by the paper.
     - authors: List of authors, one author per item, in the order given by the paper. Include full name where possible. Use middle initials if given. Prefer using the 26 English letters to make searching and pattern matching easier.

@@ -103,19 +103,36 @@ _ARXIV_OLD_RE = re.compile(  # e.g. math.CO/0701001
 _HTML_ENTITY_RE = re.compile(
     r"&(?:#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);"
 )
+_SOURCE_YEAR_RE = re.compile(r"(?<!\d)(?:18|19|20)\d{2}(?!\d)")
+_URL_RE = re.compile(r"\b(?:https?://|ftp://|www\.)[^\s<>()]+", re.IGNORECASE)
 _TITLE_HTML_TAG_RE = re.compile(r"</?\s*[A-Za-z][^>]*>")
 _TITLE_MATH_SPAN_RE = re.compile(r"\$(?P<math>[^$]+)\$")
 _TITLE_LATEX_COMMAND_RE = re.compile(
     r"\\(?:mathcal|mathrm|mathbf|mathit|operatorname)\{([^{}]+)\}"
 )
+_GARBLED_MARKUP_RE = re.compile(
+    r"<\s*/?\s*(?:sub|sup|math|mml:[A-Za-z0-9_-]+)\b[^>]*>|"
+    r"<[^>]*\bxmlns(?::[A-Za-z0-9_-]+)?=",
+    re.I,
+)
+_ABSTRACT_WORD_RE = re.compile(r"\babstract\b", re.I)
+_DOLLAR_SIGN_RE = re.compile(r"\$")
+_MOJIBAKE_RE = re.compile(
+    r"(?:Ã[\u0080-\u00ff]|Â[\u0080-\u00ff]?|â[\u0080-\uffff]{1,2}|�)"
+)
 CHECK_UNKNOWN = "unknown"
 CHECK_REQUIRED = "required"
 CHECK_TITLE = "title"
+CHECK_ALGORITHM = "algorithm"
 CHECK_AUTHORS = "authors"
+CHECK_TAGS = "tags"
 CHECK_YEAR = "year"
 CHECK_ARXIV = "arxiv"
 CHECK_ABSTRACT = "abstract"
 CHECK_ESCAPE = "escape"
+CHECK_URL = "url"
+CHECK_MULTILINE = "multiline"
+CHECK_SOURCE = "source"
 CHECK_TYPE = "type"
 CHECK_STATUS = "status"
 CHECK_PATH = "path"
@@ -125,11 +142,16 @@ CHECKS: tuple[str, ...] = (
     CHECK_UNKNOWN,
     CHECK_REQUIRED,
     CHECK_TITLE,
+    CHECK_ALGORITHM,
     CHECK_AUTHORS,
+    CHECK_TAGS,
     CHECK_YEAR,
     CHECK_ARXIV,
     CHECK_ABSTRACT,
     CHECK_ESCAPE,
+    CHECK_URL,
+    CHECK_MULTILINE,
+    CHECK_SOURCE,
     CHECK_TYPE,
     CHECK_STATUS,
     CHECK_PATH,
@@ -189,6 +211,106 @@ _SCRAPED_ABSTRACT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
         re.compile(r"Publisher Site\s*(?:Get Access|eReaderPDF)?\b", re.I),
     ),
 )
+_URL_DISALLOWED_FIELDS = {
+    "title",
+    "algorithm",
+    "authors",
+    "year",
+    "source",
+    "type",
+    "doi",
+    "arxiv_id",
+    "tags",
+    "audit_status",
+}
+_MULTILINE_FORBIDDEN_FIELDS = {
+    "title",
+    "algorithm",
+    "year",
+    "source",
+    "type",
+    "doi",
+    "arxiv_id",
+    "abstract",
+    "summary",
+    "link",
+    "audit_status",
+}
+_GENERIC_ALGORITHM_VALUES = {
+    "ai",
+    "algorithm",
+    "algorithms",
+    "approach",
+    "architecture",
+    "basis",
+    "conservative",
+    "constraints",
+    "control",
+    "deployment",
+    "descent",
+    "design",
+    "did",
+    "different",
+    "efficient",
+    "estimation",
+    "fast",
+    "feedback",
+    "flow",
+    "framework",
+    "gradient",
+    "guarantee",
+    "hessian",
+    "inference",
+    "interface",
+    "iteration",
+    "learning",
+    "metric",
+    "method",
+    "methods",
+    "mixing",
+    "model",
+    "models",
+    "need",
+    "noising",
+    "optimization",
+    "past",
+    "planning",
+    "plus",
+    "policy",
+    "regret",
+    "robotics",
+    "scale",
+    "search",
+    "series",
+    "sparsity",
+    "space",
+    "stability",
+    "strategy",
+    "survey",
+    "systems",
+    "tasks",
+    "transforms",
+    "transport",
+    "vehicles",
+    "work",
+}
+_SENTENCE_LIKE_TAG_START_RE = re.compile(
+    r"^(?:"
+    r"we\b|"
+    r"i\b|"
+    r"our\b|"
+    r"this\s+(?:paper|work|article|study)\b|"
+    r"the\s+(?:paper|work|article|study|authors?)\b|"
+    r"in\s+this\s+(?:paper|work|article|study)\b"
+    r")",
+    re.IGNORECASE,
+)
+_SENTENCE_LIKE_TAG_CLAUSE_RE = re.compile(
+    r"\b(?:argue|argues|show|shows|prove|proves|demonstrate|demonstrates|"
+    r"present|presents|propose|proposes|introduce|introduces|study|studies|"
+    r"investigate|investigates|claim|claims)\s+that\b",
+    re.IGNORECASE,
+)
 _AUTHOR_SUFFIX_RE = re.compile(
     r"^(?:"
     r"Jr\.?|Sr\.?|"
@@ -219,11 +341,242 @@ _LAST_NAME_PARTICLES = {
     "van",
     "von",
 }
+_NON_INDIVIDUAL_AUTHOR_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    ("team author", re.compile(r"\bteam\b", re.I)),
+    ("collaboration author", re.compile(r"\bcollaboration\b", re.I)),
+    ("consortium author", re.compile(r"\bconsortium\b", re.I)),
+    ("working-group author", re.compile(r"\bworking\s+group\b", re.I)),
+    ("committee author", re.compile(r"\bcommittee\b", re.I)),
+    ("task-force author", re.compile(r"\btask\s+force\b", re.I)),
+    ("lab/laboratory author", re.compile(r"\b(?:lab|laboratory|labs)\b", re.I)),
+    ("institutional author", re.compile(r"\b(?:institute|university|department|center|centre)\b", re.I)),
+    ("project/community author", re.compile(r"\b(?:project|initiative|community|contributors|developers)\b", re.I)),
+    ("placeholder author", re.compile(r"^(?:anonymous|various|various authors|unknown|et\s+al\.?)$", re.I)),
+)
+_COMMON_MISSPELLINGS: dict[str, str] = {
+    "acommodate": "accommodate",
+    "accomodate": "accommodate",
+    "adress": "address",
+    "adresses": "addresses",
+    "acheive": "achieve",
+    "acheives": "achieves",
+    "acheived": "achieved",
+    "acheiving": "achieving",
+    "alogrithm": "algorithm",
+    "algoritm": "algorithm",
+    "algoritms": "algorithms",
+    "aproach": "approach",
+    "approches": "approaches",
+    "approximatly": "approximately",
+    "artifical": "artificial",
+    "assymetric": "asymmetric",
+    "availabe": "available",
+    "behaviourial": "behavioral",
+    "caluculate": "calculate",
+    "comparision": "comparison",
+    "computional": "computational",
+    "concensus": "consensus",
+    "constriant": "constraint",
+    "constriants": "constraints",
+    "convergece": "convergence",
+    "definately": "definitely",
+    "dependance": "dependence",
+    "descrete": "discrete",
+    "developement": "development",
+    "differentiatiable": "differentiable",
+    "effecient": "efficient",
+    "enviroment": "environment",
+    "enviroments": "environments",
+    "evalution": "evaluation",
+    "existance": "existence",
+    "experimentaly": "experimentally",
+    "expermental": "experimental",
+    "gaurantee": "guarantee",
+    "gaurantees": "guarantees",
+    "guarentee": "guarantee",
+    "heirarchical": "hierarchical",
+    "immediatly": "immediately",
+    "implmentation": "implementation",
+    "independant": "independent",
+    "intergrated": "integrated",
+    "intergration": "integration",
+    "langauge": "language",
+    "maintainance": "maintenance",
+    "manuever": "maneuver",
+    "manuevers": "maneuvers",
+    "minmization": "minimization",
+    "neccessary": "necessary",
+    "occured": "occurred",
+    "occuring": "occurring",
+    "paramter": "parameter",
+    "paramters": "parameters",
+    "performace": "performance",
+    "postion": "position",
+    "postions": "positions",
+    "preceed": "precede",
+    "preceeded": "preceded",
+    "preceeding": "preceding",
+    "recieve": "receive",
+    "recieved": "received",
+    "recieves": "receives",
+    "recieving": "receiving",
+    "relevent": "relevant",
+    "represention": "representation",
+    "resistence": "resistance",
+    "seperate": "separate",
+    "seperated": "separated",
+    "similiar": "similar",
+    "stablity": "stability",
+    "stocastic": "stochastic",
+    "succesful": "successful",
+    "sucessful": "successful",
+    "teh": "the",
+    "thier": "their",
+    "tranjectory": "trajectory",
+    "unkown": "unknown",
+    "usefull": "useful",
+}
+_OCR_SPLIT_WORDS = {
+    "acceleration",
+    "algorithm",
+    "algorithms",
+    "approximation",
+    "autonomous",
+    "classification",
+    "computational",
+    "constraint",
+    "constraints",
+    "continuous",
+    "controller",
+    "controllers",
+    "convergence",
+    "decomposition",
+    "demonstrate",
+    "differential",
+    "differentiable",
+    "dimension",
+    "dynamical",
+    "environment",
+    "environments",
+    "estimation",
+    "evaluation",
+    "experiment",
+    "experimental",
+    "experiments",
+    "function",
+    "functions",
+    "gradient",
+    "gradients",
+    "implementation",
+    "information",
+    "learning",
+    "minimization",
+    "nonconvex",
+    "optimization",
+    "parameter",
+    "parameters",
+    "performance",
+    "planning",
+    "probabilistic",
+    "reinforcement",
+    "representation",
+    "robustness",
+    "simulation",
+    "stochastic",
+    "trajectory",
+    "trajectories",
+    "vehicle",
+    "vehicles",
+}
 
 
 # ---------------------------------------------------------------------------
 # Author helpers
 # ---------------------------------------------------------------------------
+
+
+def _is_unicode_noncharacter(char: str) -> bool:
+    codepoint = ord(char)
+    return 0xFDD0 <= codepoint <= 0xFDEF or codepoint & 0xFFFE == 0xFFFE
+
+
+def _suspicious_text_char_descriptions(text: str) -> list[str]:
+    descriptions: list[str] = []
+    for char in text:
+        if char in "\n\r\t":
+            continue
+        if char == "\ufffd":
+            descriptions.append("U+FFFD REPLACEMENT CHARACTER")
+            continue
+        if _is_unicode_noncharacter(char):
+            descriptions.append(f"U+{ord(char):04X} NONCHARACTER")
+            continue
+
+        category = unicodedata.category(char)
+        if category in {"Cc", "Cf", "Cs", "Co", "Cn"}:
+            name = unicodedata.name(char, "UNNAMED")
+            descriptions.append(f"U+{ord(char):04X} {name}")
+
+    return descriptions
+
+
+def _mojibake_examples(text: str, *, limit: int = 5) -> list[str]:
+    examples: list[str] = []
+    seen: set[str] = set()
+    for match in _MOJIBAKE_RE.finditer(text):
+        value = match.group(0)
+        if value in seen:
+            continue
+        examples.append(value)
+        seen.add(value)
+        if len(examples) >= limit:
+            break
+    return examples
+
+
+def find_weird_text_character_issues(
+    path: Path,
+    field: str,
+    text: str,
+) -> list["Issue"]:
+    issues: list[Issue] = []
+    char_descriptions = sorted(set(_suspicious_text_char_descriptions(text)))
+    if char_descriptions:
+        examples = ", ".join(char_descriptions[:5])
+        if len(char_descriptions) > 5:
+            examples += f", ... ({len(char_descriptions)} total)"
+        issues.append(
+            Issue(
+                path,
+                field,
+                f"Contains suspicious Unicode character(s): {examples}",
+                "Replace mojibake, replacement, private-use, zero-width, or control characters with clean text.",
+            )
+        )
+
+    mojibake = _mojibake_examples(text)
+    if mojibake:
+        examples = ", ".join(repr(example) for example in mojibake)
+        issues.append(
+            Issue(
+                path,
+                field,
+                f"Contains likely mojibake/encoding artifact(s): {examples}",
+                "Replace with the correctly decoded source text.",
+            )
+        )
+
+    return issues
+
+
+def _non_individual_author_reason(author: str) -> str | None:
+    stripped = " ".join(author.split()).strip(" .")
+    if not stripped:
+        return None
+    for reason, pattern in _NON_INDIVIDUAL_AUTHOR_PATTERNS:
+        if pattern.search(stripped):
+            return reason
+    return None
 
 
 def _looks_like_author_suffix(segment: str) -> bool:
@@ -249,18 +602,9 @@ def _looks_like_last_first_author(author: str) -> bool:
 
 
 def _suspicious_author_char_descriptions(author: str) -> list[str]:
-    descriptions: list[str] = []
-    for char in author:
-        if char == "\ufffd":
-            descriptions.append("U+FFFD REPLACEMENT CHARACTER")
-            continue
-
-        category = unicodedata.category(char)
-        if category in {"Cc", "Cf", "Cs", "Cn"}:
-            name = unicodedata.name(char, "UNNAMED")
-            descriptions.append(f"U+{ord(char):04X} {name}")
-
-    return descriptions
+    return _suspicious_text_char_descriptions(author) + [
+        f"likely mojibake {example!r}" for example in _mojibake_examples(author)
+    ]
 
 
 # ---------------------------------------------------------------------------
@@ -581,6 +925,13 @@ class Severity(Enum):
     INFO = "info"
 
 
+_SEVERITY_RANK = {
+    Severity.INFO: 0,
+    Severity.WARNING: 1,
+    Severity.ERROR: 2,
+}
+
+
 @dataclass
 class Issue:
     path: Path
@@ -676,6 +1027,31 @@ def find_malformed_abstract_issues(
             )
         )
 
+    abstract_word_matches = _ABSTRACT_WORD_RE.findall(text)
+    if abstract_word_matches:
+        count = len(abstract_word_matches)
+        issues.append(
+            Issue(
+                path,
+                "abstract",
+                f"Contains the word 'abstract' {count} time(s)",
+                "Verify that an 'Abstract' heading, page chrome, or commentary was not copied into the abstract field.",
+                severity=Severity.WARNING,
+            )
+        )
+
+    dollar_count = len(_DOLLAR_SIGN_RE.findall(text))
+    if dollar_count:
+        issues.append(
+            Issue(
+                path,
+                "abstract",
+                f"Contains {dollar_count} dollar sign(s), likely from inline/display math",
+                "Rewrite math notation as readable plain text, for example O(n/k) instead of LaTeX dollar math.",
+                severity=Severity.WARNING,
+            )
+        )
+
     if not scraped_hits and len(text) > _LONG_ABSTRACT_CHAR_LIMIT:
         issues.append(
             Issue(
@@ -685,6 +1061,305 @@ def find_malformed_abstract_issues(
                 severity=Severity.WARNING,
             )
         )
+
+    return issues
+
+
+def find_likely_misspelling_issues(
+    path: Path,
+    field: str,
+    text: str,
+) -> list[Issue]:
+    hits: list[tuple[str, str]] = []
+    folded = text.casefold()
+    for typo, correction in _COMMON_MISSPELLINGS.items():
+        pattern = rf"(?<![A-Za-z]){re.escape(typo.casefold())}(?![A-Za-z])"
+        if re.search(pattern, folded):
+            hits.append((typo, correction))
+
+    if not hits:
+        return []
+
+    examples = ", ".join(f"{typo!r} -> {correction!r}" for typo, correction in hits[:6])
+    if len(hits) > 6:
+        examples += f", ... ({len(hits)} total)"
+    return [
+        Issue(
+            path,
+            field,
+            f"Contains likely misspelling(s): {examples}",
+            "Review against the source text and fix only genuine typos.",
+            severity=Severity.WARNING,
+        )
+    ]
+
+
+def _ocr_split_examples(text: str, *, limit: int = 8) -> list[str]:
+    examples: list[str] = []
+    seen: set[str] = set()
+    for word in sorted(_OCR_SPLIT_WORDS):
+        for split_at in range(3, len(word) - 2):
+            left = re.escape(word[:split_at])
+            right = re.escape(word[split_at:])
+            pattern = re.compile(rf"\b{left}(?:\s+|-\s*){right}\b", re.I)
+            match = pattern.search(text)
+            if not match:
+                continue
+            example = f"{match.group(0)!r} -> {word!r}"
+            if example in seen:
+                continue
+            examples.append(example)
+            seen.add(example)
+            if len(examples) >= limit:
+                return examples
+    return examples
+
+
+_LINEBREAK_HYPHEN_RE = re.compile(r"\b[A-Za-z]{3,}-\s+[A-Za-z]{3,}\b")
+
+
+def find_ocr_spacing_issues(path: Path, field: str, text: str) -> list[Issue]:
+    examples = _ocr_split_examples(text)
+    linebreak_examples = []
+    for match in _LINEBREAK_HYPHEN_RE.finditer(text):
+        value = match.group(0)
+        if value not in linebreak_examples:
+            linebreak_examples.append(value)
+        if len(linebreak_examples) >= 5:
+            break
+
+    if not examples and not linebreak_examples:
+        return []
+
+    fragments: list[str] = []
+    if examples:
+        fragments.append(", ".join(examples[:5]))
+    if linebreak_examples:
+        fragments.append(
+            "line-break hyphenation: "
+            + ", ".join(repr(example) for example in linebreak_examples[:5])
+        )
+    return [
+        Issue(
+            path,
+            field,
+            "Contains likely OCR word-splitting artifact(s): " + "; ".join(fragments),
+            "Join accidentally split words and remove line-break hyphenation when the source word is not hyphenated.",
+            severity=Severity.WARNING,
+        )
+    ]
+
+
+def find_garbled_markup_issues(path: Path, data: dict) -> list[Issue]:
+    issues: list[Issue] = []
+    for field_name, value in _walk_string_values(data, ""):
+        if not value:
+            continue
+        has_garbled_markup = bool(_GARBLED_MARKUP_RE.search(value))
+        is_link_field = field_name == "link" or field_name.startswith("links_alt[")
+        has_link_markup = is_link_field and ("<" in value or ">" in value)
+        if not has_garbled_markup and not has_link_markup:
+            continue
+
+        example = _normalize_inline_text(value)
+        if len(example) > 160:
+            example = example[:157] + "..."
+        issues.append(
+            Issue(
+                path,
+                field_name,
+                f"Contains likely garbled HTML/XML markup: {example!r}",
+                "Replace with clean plain text or a plain URL.",
+            )
+        )
+    return issues
+
+
+def _strip_years_from_source(source: str) -> str:
+    """Remove publication-year tokens from a venue/source name."""
+    source = re.sub(r"\s+", " ", source).strip()
+    source = _SOURCE_YEAR_RE.sub("", source)
+
+    # Remove punctuation left behind by year-only parentheticals/brackets.
+    source = re.sub(r"\(\s*([^)]*?)\s+\)", r"(\1)", source)
+    source = re.sub(r"\[\s*([^\]]*?)\s+\]", r"[\1]", source)
+    source = re.sub(r"\{\s*([^}]*?)\s+\}", r"{\1}", source)
+    source = re.sub(r"\(\s*\)", "", source)
+    source = re.sub(r"\[\s*\]", "", source)
+    source = re.sub(r"\{\s*\}", "", source)
+
+    # Clean common separators around the removed year.
+    source = re.sub(r",\s*\.\s*", ", ", source)
+    source = re.sub(r"\s+([,;:])", r"\1", source)
+    source = re.sub(r"([,;:])\s*([,;:])+", r"\1", source)
+    source = re.sub(r"\s*[-–—]\s*(?=,|;|:|$)", "", source)
+    source = re.sub(r"(?<=^)\s*[-–—]\s*", "", source)
+    source = re.sub(r"\s{2,}", " ", source)
+    source = re.sub(r"\b(?:on|at|in|of)\s*$", "", source, flags=re.IGNORECASE)
+    source = source.strip(" ,;:-–—")
+    return source
+
+
+def _looks_like_url(text: str) -> bool:
+    return bool(_URL_RE.match(text))
+
+
+def _find_urls(text: object) -> list[str]:
+    return _URL_RE.findall(str(text))
+
+
+def find_disallowed_url_issues(path: Path, data: dict) -> list["Issue"]:
+    issues: list[Issue] = []
+    for field_name in sorted(_URL_DISALLOWED_FIELDS):
+        if field_name not in data:
+            continue
+
+        value = data.get(field_name)
+        if isinstance(value, list):
+            for index, item in enumerate(value):
+                urls = _find_urls(item)
+                if urls:
+                    issues.append(
+                        Issue(
+                            path,
+                            field_name,
+                            f"URL detected in {field_name}[{index}]: {urls[0]!r}",
+                        )
+                    )
+            continue
+
+        urls = _find_urls(value)
+        if urls:
+            issues.append(
+                Issue(
+                    path,
+                    field_name,
+                    f"URL detected in {field_name}: {urls[0]!r}",
+                )
+            )
+
+    return issues
+
+
+def _algorithm_tokens(text: str) -> list[str]:
+    return re.findall(r"[A-Za-z0-9+_.*-]+", text)
+
+
+def find_algorithm_issues(path: Path, data: dict) -> list["Issue"]:
+    algorithm = str(data.get("algorithm") or "").strip()
+    if not algorithm:
+        return []
+
+    folded = algorithm.casefold()
+    if folded in _GENERIC_ALGORITHM_VALUES:
+        return [
+            Issue(
+                path,
+                "algorithm",
+                f"Generic algorithm label: {algorithm!r}",
+                "Leave algorithm blank unless the paper gives a specific method, system, or technique name.",
+            )
+        ]
+
+    return []
+
+
+def _tag_word_count(tag: str) -> int:
+    return len(re.findall(r"[A-Za-z0-9]+(?:[-'][A-Za-z0-9]+)*", tag))
+
+
+def _sentence_like_tag_reason(tag: str) -> str | None:
+    stripped = " ".join(tag.split())
+    if not stripped:
+        return None
+
+    if _SENTENCE_LIKE_TAG_START_RE.search(stripped):
+        return "starts like prose copied from an abstract"
+    if _SENTENCE_LIKE_TAG_CLAUSE_RE.search(stripped):
+        return "contains a sentence-like claim clause"
+    if stripped.endswith((".", "!", "?")) and _tag_word_count(stripped) >= 4:
+        return "ends like a sentence"
+    if _tag_word_count(stripped) >= 7 and re.search(
+        r"\b(?:that|because|while|although|where|which|who|whose|when)\b",
+        stripped,
+        re.IGNORECASE,
+    ):
+        return "looks like a long clause, not a tag"
+
+    return None
+
+
+def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
+    tags = data.get("tags")
+    if tags in (None, ""):
+        return []
+    if not isinstance(tags, list):
+        return [Issue(path, "tags", "Must be a list")]
+
+    issues: list[Issue] = []
+    for index, tag_raw in enumerate(tags):
+        tag = str(tag_raw).strip()
+        reason = _sentence_like_tag_reason(tag)
+        if reason:
+            issues.append(
+                Issue(
+                    path,
+                    "tags",
+                    f"Sentence-like debris in tags[{index}]: {tag!r} ({reason})",
+                    "Replace with a short pattern-matched phrase, or remove the tag.",
+                )
+            )
+
+    return issues
+
+
+_TOP_LEVEL_SCALAR_FIELD_RE = re.compile(
+    r"^(?P<key>[A-Za-z_][A-Za-z0-9_]*)\s*:\s*(?P<value>.*?)(?P<newline>\r?\n?)$"
+)
+
+
+def _top_level_field_span(lines: list[str], start: int) -> tuple[str, str, int] | None:
+    match = _TOP_LEVEL_SCALAR_FIELD_RE.match(lines[start])
+    if not match:
+        return None
+
+    field_name = match.group("key")
+    value = match.group("value")
+    end = start + 1
+    if (
+        _is_block_scalar_header(value)
+        or _is_multiline_quoted_scalar_header(value)
+        or _has_indented_continuation(lines, start)
+    ):
+        while end < len(lines):
+            next_line = lines[end]
+            if next_line.strip() and not next_line.startswith((" ", "\t")):
+                break
+            end += 1
+
+    return field_name, value, end
+
+
+def find_multiline_field_issues(path: Path, raw: str) -> list["Issue"]:
+    issues: list[Issue] = []
+    lines = raw.splitlines(keepends=True)
+    for index, line in enumerate(lines):
+        parsed = _top_level_field_span(lines, index)
+        if parsed is None:
+            continue
+
+        field_name, value, end = parsed
+        if field_name not in _MULTILINE_FORBIDDEN_FIELDS:
+            continue
+
+        if end > index + 1 or _is_block_scalar_header(value):
+            issues.append(
+                Issue(
+                    path,
+                    field_name,
+                    f"Field must be a single-line scalar but spans {end - index} YAML line(s)",
+                )
+            )
 
     return issues
 
@@ -718,6 +1393,13 @@ def audit_file(
     if should_check(CHECK_ESCAPE):
         issues.extend(find_escaped_sequence_issues(path, data))
 
+    if should_check(CHECK_URL):
+        issues.extend(find_disallowed_url_issues(path, data))
+        issues.extend(find_garbled_markup_issues(path, data))
+
+    if should_check(CHECK_MULTILINE):
+        issues.extend(find_multiline_field_issues(path, raw))
+
     # -- unknown fields --
     if should_check(CHECK_UNKNOWN):
         _valid_set = set(VALID_FIELDS)
@@ -738,6 +1420,8 @@ def audit_file(
         if not title:
             issues.append(Issue(path, "title", "Empty"))
         else:
+            issues.extend(find_weird_text_character_issues(path, "title", title))
+            issues.extend(find_likely_misspelling_issues(path, "title", title))
             corrected = _suggest_title_fix(raw, title)
             if title != corrected:
                 message = (
@@ -753,6 +1437,10 @@ def audit_file(
                         corrected,
                     )
                 )
+
+    # -- algorithm --
+    if should_check(CHECK_ALGORITHM):
+        issues.extend(find_algorithm_issues(path, data))
 
     # -- authors --
     authors = data.get("authors")
@@ -788,6 +1476,29 @@ def audit_file(
                         f"Use first-name last-name order; review: {examples}",
                     )
                 )
+            non_individual = {
+                i: _non_individual_author_reason(str(a))
+                for i, a in enumerate(authors)
+            }
+            non_individual = {
+                i: reason for i, reason in non_individual.items() if reason is not None
+            }
+            if non_individual:
+                examples = ", ".join(
+                    f"{i}: {repr(str(authors[i]))} ({reason})"
+                    for i, reason in list(non_individual.items())[:4]
+                )
+                if len(non_individual) > 4:
+                    examples += f", ... ({len(non_individual)} total)"
+                issues.append(
+                    Issue(
+                        path,
+                        "authors",
+                        "Author entries appear to be non-individual names at index(es): "
+                        f"{list(non_individual)}",
+                        f"Replace team/institution placeholders with individual human authors where available; review: {examples}",
+                    )
+                )
             suspicious_chars = {}
             for i, a in enumerate(authors):
                 char_descriptions = _suspicious_author_char_descriptions(str(a))
@@ -812,6 +1523,10 @@ def audit_file(
     else:
         authors = authors if isinstance(authors, list) else []
 
+    # -- tags --
+    if should_check(CHECK_TAGS):
+        issues.extend(find_tag_issues(path, data))
+
     # -- year --
     if should_check(CHECK_YEAR) and "year" not in missing:
         meta_year_raw = data.get("year")
@@ -824,6 +1539,22 @@ def audit_file(
     if should_check(CHECK_ARXIV) and arxiv_id and not is_valid_arxiv_id(arxiv_id):
         issues.append(Issue(path, "arxiv_id", f"Invalid arXiv ID format: {arxiv_id!r}"))
 
+    # -- source --
+    if should_check(CHECK_SOURCE):
+        source_raw = data.get("source")
+        source = str(source_raw).strip() if source_raw not in (None, "") else ""
+        if source and not _looks_like_url(source):
+            source_without_years = _strip_years_from_source(source)
+            if source_without_years != source:
+                issues.append(
+                    Issue(
+                        path,
+                        "source",
+                        f"Contains year in source field: {source!r}",
+                        source_without_years,
+                    )
+                )
+
     # -- abstract --
     if should_check(CHECK_ABSTRACT) and "abstract" not in missing:
         abstract = data.get("abstract")
@@ -831,6 +1562,9 @@ def audit_file(
         if not abstract_str.strip():
             issues.append(Issue(path, "abstract", "Empty"))
         else:
+            issues.extend(find_weird_text_character_issues(path, "abstract", abstract_str))
+            issues.extend(find_likely_misspelling_issues(path, "abstract", abstract_str))
+            issues.extend(find_ocr_spacing_issues(path, "abstract", abstract_str))
             audit_status = str(data.get(AUDIT_STATUS_FIELD) or "").strip()
             issues.extend(
                 find_malformed_abstract_issues(
@@ -924,6 +1658,10 @@ def audit_file(
         if not summary or not str(summary).strip():
             issues.append(
                 Issue(path, "summary", "Missing or empty", severity=Severity.WARNING)
+            )
+        else:
+            issues.extend(
+                find_likely_misspelling_issues(path, "summary", str(summary))
             )
 
     # -- optional field completeness (info) --
@@ -1442,6 +2180,117 @@ def _fix_escaped_sequences_in_yaml(raw: str) -> tuple[str, int]:
     return new_raw, len(_HTML_ENTITY_RE.findall(raw))
 
 
+def _format_source_line(source: str, newline: str = "\n") -> str:
+    dumped = yaml.safe_dump(
+        {"source": source},
+        sort_keys=False,
+        allow_unicode=True,
+        width=1_000_000_000,
+    ).strip()
+    return dumped + newline
+
+
+def _fix_source_in_yaml(raw: str, new_source: str) -> str:
+    lines = raw.splitlines(keepends=True)
+    for start, line in enumerate(lines):
+        match = re.match(
+            r"^(?P<indent>\s*)source\s*:\s*(?P<value>.*?)(?P<newline>\r?\n)?$",
+            line,
+        )
+        if not match:
+            continue
+
+        end = start + 1
+        value = match.group("value")
+        if (
+            _is_block_scalar_header(value)
+            or _is_multiline_quoted_scalar_header(value)
+            or _has_indented_continuation(lines, start)
+        ):
+            while end < len(lines):
+                next_line = lines[end]
+                if next_line.strip() and not next_line.startswith((" ", "\t")):
+                    break
+                end += 1
+
+        replacement = match.group("indent") + _format_source_line(
+            new_source, match.group("newline") or "\n"
+        )
+        return "".join(lines[:start] + [replacement] + lines[end:])
+
+    return raw
+
+
+def _is_source_year_issue(issue: Issue) -> bool:
+    return (
+        issue.field == "source"
+        and issue.suggestion is not None
+        and issue.message.startswith("Contains year")
+    )
+
+
+def _is_multiline_field_issue(issue: Issue) -> bool:
+    return (
+        issue.field in _MULTILINE_FORBIDDEN_FIELDS
+        and issue.message.startswith("Field must be a single-line scalar")
+    )
+
+
+def _format_metadata_scalar_line(field_name: str, value: object, newline: str = "\n") -> str:
+    if value is None or value == "":
+        return f"{field_name}:{newline}"
+
+    if isinstance(value, str):
+        value = _normalize_inline_text(value)
+        if field_name == "arxiv_id":
+            return f"{field_name}: {json.dumps(value, ensure_ascii=False)}{newline}"
+
+    dumped = yaml.safe_dump(
+        {field_name: value},
+        sort_keys=False,
+        allow_unicode=True,
+        width=1_000_000_000,
+    ).strip()
+    return dumped + newline
+
+
+def _fix_multiline_fields_in_yaml(
+    raw: str,
+    data: dict,
+    fields: set[str],
+) -> tuple[str, int]:
+    lines = raw.splitlines(keepends=True)
+    changed = 0
+    index = 0
+    while index < len(lines):
+        parsed = _top_level_field_span(lines, index)
+        if parsed is None:
+            index += 1
+            continue
+
+        field_name, value, end = parsed
+        if (
+            field_name in fields
+            and field_name in _MULTILINE_FORBIDDEN_FIELDS
+            and (end > index + 1 or _is_block_scalar_header(value))
+        ):
+            match = _TOP_LEVEL_SCALAR_FIELD_RE.match(lines[index])
+            newline = match.group("newline") if match else "\n"
+            replacement = _format_metadata_scalar_line(
+                field_name,
+                data.get(field_name),
+                newline or "\n",
+            )
+            lines[index:end] = [replacement]
+            changed += 1
+            index += 1
+            continue
+
+        index = end
+
+    return "".join(lines), changed
+
+
 _REFERENCE_SKIP_DIRS = {
     ".git",
     ".mypy_cache",
@@ -1647,10 +2496,21 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
     path_replacements: dict[Path, Path] = {}
     for path, issues in results:
         title_fixes = [
-            i for i in issues if i.field == "title" and i.suggestion is not None
+            i
+            for i in issues
+            if i.field == "title"
+            and i.suggestion is not None
+            and not _is_multiline_field_issue(i)
         ]
+        source_year_fixes = [i for i in issues if _is_source_year_issue(i)]
+        multiline_fields = {i.field for i in issues if _is_multiline_field_issue(i)}
         has_escaped_sequence_fixes = any(_is_escaped_sequence_issue(i) for i in issues)
-        if not title_fixes and not has_escaped_sequence_fixes:
+        if (
+            not title_fixes
+            and not source_year_fixes
+            and not multiline_fields
+            and not has_escaped_sequence_fixes
+        ):
             continue
         try:
             raw = path.read_text(encoding="utf-8")
@@ -1662,6 +2522,23 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
                 new_raw = _fix_title_in_yaml(new_raw, new_title)
                 old_title = yaml.safe_load(raw).get("title", "")
                 messages.append(f"  title: {old_title!r} [green]->[/] {new_title!r}")
+
+            if source_year_fixes:
+                old_source = yaml.safe_load(new_raw).get("source", "")
+                new_source = source_year_fixes[0].suggestion
+                new_raw = _fix_source_in_yaml(new_raw, new_source)
+                messages.append(f"  source: {old_source!r} [green]->[/] {new_source!r}")
+
+            if multiline_fields:
+                parsed = yaml.safe_load(new_raw) or {}
+                new_raw, n_single_lined = _fix_multiline_fields_in_yaml(
+                    new_raw,
+                    parsed,
+                    multiline_fields,
+                )
+                if n_single_lined:
+                    fields = ", ".join(sorted(multiline_fields))
+                    messages.append(f"  single-lined {n_single_lined} field(s): {fields}")
 
             if has_escaped_sequence_fixes:
                 new_raw, n_decoded = _fix_escaped_sequences_in_yaml(new_raw)
@@ -1725,6 +2602,24 @@ def _skip_reviewed_errors(data: dict, issues: list[Issue]) -> tuple[list[Issue],
     return kept, len(issues) - len(kept)
 
 
+def _filter_results_by_severity(
+    results: list[tuple[Path, list[Issue]]],
+    *,
+    minimum: Severity,
+) -> list[tuple[Path, list[Issue]]]:
+    minimum_rank = _SEVERITY_RANK[minimum]
+    filtered: list[tuple[Path, list[Issue]]] = []
+    for path, issues in results:
+        kept = [
+            issue
+            for issue in issues
+            if _SEVERITY_RANK[issue.severity] >= minimum_rank
+        ]
+        if kept:
+            filtered.append((path, kept))
+    return filtered
+
+
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
@@ -1738,23 +2633,33 @@ def main() -> None:
 Checks performed on each metadata.yml:
   unknown   - ERROR for any field not in the VALID_FIELDS schema
   required  - ERROR if any of title, authors, year, abstract, type, audit_status missing
-  title     - ERROR if empty; ERROR if not in title case
-  authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order; ERROR if entries contain suspicious Unicode corruption/control characters
+  title     - ERROR if empty; ERROR if not in title case; ERROR/WARN for corrupt characters or likely misspellings
+  algorithm - ERROR if the algorithm label is generic
+  authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order, non-individual names, or suspicious Unicode corruption/control characters
+  tags      - ERROR if tags contain sentence-like prose debris copied from an abstract
   year      - ERROR if not a 4-digit integer
   arxiv     - ERROR if arxiv_id is present but not a valid arXiv ID
-  abstract  - ERROR if empty, placeholder-like, contains scraped page text, or has PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed
+  abstract  - ERROR if empty, placeholder-like, contains scraped page text, or has PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed; WARN for dollar math, copied "abstract" headings, likely misspellings, or OCR word splits
   escape    - ERROR if string fields contain HTML/entity escapes like &#39; or &amp;
+  url       - ERROR if URLs appear in title, algorithm, authors, year, source, type, doi, arxiv_id, tags, or audit_status; ERROR if links contain garbled HTML/XML markup
+  multiline - ERROR if scalar fields that must be one-line are written across multiple YAML lines
+  source    - ERROR if the source/venue field contains a publication year
   type      - ERROR if not a recognised paper type
   status    - ERROR if audit_status is not one of: raw, partial, reviewed
   path      - ERROR if YEAR/SLUG do not match metadata or expected slug format; ERROR if map-data.js or embedding_cache.json IDs are stale, missing, malformed, or inconsistent
-  summary   - WARN if missing or empty
+  summary   - WARN if missing, empty, or likely misspelled
   optional  - INFO for each optional field that is not populated
 
 By default, every check runs. Use --check to opt into a smaller set:
   --check abstract escape
 
+Use --severity to filter reported issues by severity threshold:
+  --severity error    # ERROR only
+  --severity warning  # WARNING and ERROR
+  --severity info     # INFO, WARNING, and ERROR
+
 Available --check names:
-  unknown required title authors year arxiv abstract escape type status path summary optional
+  unknown required title algorithm authors tags year arxiv abstract escape url multiline source type status path summary optional
 """,
     )
     parser.add_argument(
@@ -1767,7 +2672,7 @@ Available --check names:
         "--fix",
         action="store_true",
         help=(
-            "Auto-fix title-case, escaped HTML/entity issues, and path slugs; "
+            "Auto-fix title-case, escaped HTML/entity issues, multiline scalar fields, source years, and path slugs; "
             "path fixes move metadata directories and update direct references"
         ),
     )
@@ -1788,6 +2693,16 @@ Available --check names:
         "--skip-reviewed-errors",
         action="store_true",
         help="Do not report or fail on ERROR issues for metadata with audit_status: reviewed",
+    )
+    parser.add_argument(
+        "--severity",
+        choices=[severity.value for severity in Severity],
+        default=Severity.INFO.value,
+        metavar="LEVEL",
+        help=(
+            "Minimum severity to report: error shows ERROR only; warning shows "
+            "WARNING and ERROR; info shows INFO, WARNING, and ERROR (default: info)"
+        ),
     )
     args = parser.parse_args()
     selected_names, invalid_names = _normalize_check_names(
@@ -1831,6 +2746,9 @@ Available --check names:
                 report_stale=not args.file,
             )
         )
+
+    minimum_severity = Severity(args.severity)
+    results = _filter_results_by_severity(results, minimum=minimum_severity)
 
     all_issues = [i for _, issues in results for i in issues]
     n_errors = sum(1 for i in all_issues if i.severity == Severity.ERROR)
