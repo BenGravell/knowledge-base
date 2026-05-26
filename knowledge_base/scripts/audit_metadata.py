@@ -667,6 +667,9 @@ _DUPLICATE_TAG_MESSAGE_PREFIX = "Duplicate tag value(s)"
 _FORBIDDEN_TAGS = {
     "state of the art": "too generic to be useful as a tag",
 }
+_LONG_TAG_ALLOWLIST = {
+    "model predictive path integral control",
+}
 _NON_PLURAL_S_ENDINGS = ("ss", "us", "is", "ics")
 _NON_PLURAL_S_WORDS = {
     "bias",
@@ -1714,6 +1717,10 @@ def _forbidden_tag_reason(tag: str) -> str | None:
     return _FORBIDDEN_TAGS.get(_normalized_tag_for_forbidden_check(tag))
 
 
+def _is_long_tag_allowed(tag: str) -> bool:
+    return _normalized_tag_for_duplicate_check(tag) in _LONG_TAG_ALLOWLIST
+
+
 def _duplicate_tag_groups(tags: list[object]) -> dict[str, list[int]]:
     tag_indexes: dict[str, list[int]] = {}
     for index, tag_raw in enumerate(tags):
@@ -1991,7 +1998,7 @@ def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
             continue
 
         word_count = _tag_word_count(tag)
-        if word_count > _MAX_TAG_WORDS:
+        if word_count > _MAX_TAG_WORDS and not _is_long_tag_allowed(tag):
             issues.append(
                 Issue(
                     path,
