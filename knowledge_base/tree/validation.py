@@ -230,7 +230,10 @@ def validate_tree(
                 issues.append(
                     TreeIssue(
                         code="algorithm-label-mismatch",
-                        message="Tree leaf label does not match metadata algorithm.",
+                        message=(
+                            "Tree leaf label and metadata algorithm disagree; "
+                            "review both fields and keep the corrected value."
+                        ),
                         tree_label=leaf.label,
                         algorithm=paper.algorithm,
                         source=source,
@@ -264,7 +267,10 @@ def validate_tree(
                 issues.append(
                     TreeIssue(
                         code="algorithm-label-mismatch",
-                        message="Tree leaf label does not match metadata algorithm.",
+                        message=(
+                            "Tree leaf label and metadata algorithm disagree; "
+                            "review both fields and keep the corrected value."
+                        ),
                         tree_label=leaf.label,
                         algorithm=paper.algorithm,
                         source=source,
@@ -327,8 +333,8 @@ def format_issue(issue: TreeIssue) -> str:
         location = format_nav_path(issue.nav_path) if issue.nav_path else "<unknown location>"
         metadata_path = relative_to_kb(issue.metadata_path) if issue.metadata_path else "<unknown>"
         return (
-            f"{location}: tree label `{issue.tree_label}` should be "
-            f"`{issue.algorithm}` ({metadata_path})"
+            f"{location}: tree label `{issue.tree_label}` disagrees with "
+            f"metadata algorithm `{issue.algorithm}` ({metadata_path})"
         )
 
     location = format_nav_path(issue.nav_path) if issue.nav_path else "<unknown location>"
@@ -360,7 +366,7 @@ def format_tree_validation_report(
     titles = {
         "missing-linked-doc": "Missing linked docs",
         "unplaced-paper": "Unplaced metadata-backed papers",
-        "algorithm-label-mismatch": "Tree labels not matching metadata algorithm",
+        "algorithm-label-mismatch": "Tree label / metadata algorithm disagreements",
     }
 
     for code in ("missing-linked-doc", "unplaced-paper", "algorithm-label-mismatch"):
