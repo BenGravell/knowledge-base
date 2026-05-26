@@ -488,6 +488,118 @@ _OCR_SPLIT_WORDS = {
     "vehicle",
     "vehicles",
 }
+_COMMON_SHORT_TAG_WORDS = {
+    "agent",
+    "agents",
+    "bandit",
+    "code",
+    "color",
+    "cost",
+    "data",
+    "deep",
+    "edge",
+    "end",
+    "few",
+    "filter",
+    "game",
+    "graph",
+    "high",
+    "in",
+    "image",
+    "lane",
+    "long",
+    "loop",
+    "low",
+    "map",
+    "maps",
+    "model",
+    "motion",
+    "of",
+    "off",
+    "on",
+    "one",
+    "open",
+    "out",
+    "path",
+    "policy",
+    "pose",
+    "real",
+    "risk",
+    "robot",
+    "robots",
+    "safe",
+    "safety",
+    "scene",
+    "search",
+    "short",
+    "shot",
+    "state",
+    "states",
+    "time",
+    "to",
+    "tree",
+    "trees",
+    "value",
+    "values",
+    "vision",
+    "zero",
+}
+_TAG_LEADING_ARTICLES = {"a", "an", "and", "recent", "the"}
+_MAX_TAG_WORDS = 4
+_NON_PLURAL_S_ENDINGS = ("ss", "us", "is", "ics")
+_NON_PLURAL_S_WORDS = {
+    "bias",
+    "canvas",
+    "chaos",
+    "cosmos",
+    "kinematics",
+    "mathematics",
+    "physics",
+    "robotics",
+    "semantics",
+    "statistics",
+}
+_TAG_PROPER_NAME_WORDS = {
+    "aitken": "Aitken",
+    "arnoldi": "Arnoldi",
+    "bayes": "Bayes",
+    "bayesian": "Bayesian",
+    "bellman": "Bellman",
+    "broyden": "Broyden",
+    "chebyshev": "Chebyshev",
+    "dijkstra": "Dijkstra",
+    "euclidean": "Euclidean",
+    "euler": "Euler",
+    "floyd": "Floyd",
+    "ford": "Ford",
+    "frank": "Frank",
+    "gauss": "Gauss",
+    "gaussian": "Gaussian",
+    "hamilton": "Hamilton",
+    "hamiltonian": "Hamiltonian",
+    "jacobi": "Jacobi",
+    "kalman": "Kalman",
+    "krylov": "Krylov",
+    "kutta": "Kutta",
+    "lagrange": "Lagrange",
+    "lagrangian": "Lagrangian",
+    "laplace": "Laplace",
+    "levenberg": "Levenberg",
+    "levy": "Levy",
+    "liapunov": "Liapunov",
+    "lyapunov": "Lyapunov",
+    "markov": "Markov",
+    "markovian": "Markovian",
+    "marquardt": "Marquardt",
+    "newton": "Newton",
+    "newtonian": "Newtonian",
+    "pontryagin": "Pontryagin",
+    "riccati": "Riccati",
+    "runge": "Runge",
+    "schur": "Schur",
+    "warshall": "Warshall",
+    "wolfe": "Wolfe",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -1289,6 +1401,128 @@ def _sentence_like_tag_reason(tag: str) -> str | None:
     return None
 
 
+def _normalized_tag_for_duplicate_check(tag: str) -> str:
+    return " ".join(tag.split()).casefold()
+
+
+def _tag_part_is_abbreviation_or_mixed(core: str) -> bool:
+    alpha = re.sub(r"[^A-Za-z]", "", core)
+    if not alpha:
+        return True
+    if core != alpha:
+        return True
+    if len(alpha) > 1 and alpha == alpha.upper():
+        return True
+    return len(alpha) > 1 and any(char.isupper() for char in alpha[1:])
+
+
+def _singularize_trivial_plural_word(word: str) -> str:
+    folded = word.casefold()
+    if not folded or _tag_part_is_abbreviation_or_mixed(word):
+        return folded
+    if folded in _NON_PLURAL_S_WORDS:
+        return folded
+    if len(folded) <= 3:
+        return folded
+    if folded.endswith("ies") and len(folded) > 4:
+        return folded[:-3] + "y"
+    if folded.endswith(("sses", "ches", "shes", "xes", "zes")) and len(folded) > 4:
+        return folded[:-2]
+    if folded.endswith("s") and not folded.endswith(_NON_PLURAL_S_ENDINGS):
+        return folded[:-1]
+    return folded
+
+
+def _plural_insensitive_tag_key(tag: str) -> str:
+    key = re.sub(
+        r"[A-Za-z]+",
+        lambda match: _singularize_trivial_plural_word(match.group(0)),
+        tag,
+    )
+    return " ".join(key.split()).casefold()
+
+
+def _tag_proper_name_casing(core: str) -> str | None:
+    return _TAG_PROPER_NAME_WORDS.get(core.casefold())
+
+
+def _tag_part_is_ordinary_english(core: str) -> bool:
+    if _tag_proper_name_casing(core) is not None:
+        return False
+    if _tag_part_is_abbreviation_or_mixed(core):
+        return False
+    folded = core.casefold()
+    return len(folded) >= 5 or folded in _COMMON_SHORT_TAG_WORDS
+
+
+def _case_tag_part(core: str, *, seen_any_word: bool) -> str:
+    proper_name = _tag_proper_name_casing(core)
+    if proper_name is not None:
+        return proper_name
+    if not _tag_part_is_ordinary_english(core):
+        return core
+    if seen_any_word:
+        return core.casefold()
+    return core[:1].upper() + core[1:].casefold()
+
+
+def _tag_token_has_nonordinary_hyphen_part(token: str) -> bool:
+    if "-" not in token:
+        return False
+    for part in token.split("-"):
+        _, core, _ = _split_token_punctuation(part)
+        if core and _tag_part_is_abbreviation_or_mixed(core):
+            return True
+    return False
+
+
+def _suggest_tag_capitalization(tag: str) -> str:
+    tokens = tag.split()
+    if not tokens:
+        return tag
+
+    cased_tokens: list[str] = []
+    seen_any_word = False
+    for token in tokens:
+        if _tag_token_has_nonordinary_hyphen_part(token):
+            lead, core, _ = _split_token_punctuation(token)
+            if re.search(r"[A-Za-z]", core):
+                seen_any_word = True
+            cased_tokens.append(token)
+            continue
+
+        pieces = re.split(r"(-)", token)
+        cased_pieces: list[str] = []
+        for piece in pieces:
+            if piece == "-":
+                cased_pieces.append(piece)
+                continue
+            lead, core, tail = _split_token_punctuation(piece)
+            if not core:
+                cased_pieces.append(piece)
+                continue
+
+            cased_core = _case_tag_part(core, seen_any_word=seen_any_word)
+            if re.search(r"[A-Za-z]", core):
+                seen_any_word = True
+            cased_pieces.append(lead + cased_core + tail)
+
+        cased_tokens.append("".join(cased_pieces))
+
+    return " ".join(cased_tokens)
+
+
+def _suggest_tag_without_leading_article(tag: str) -> str | None:
+    match = re.match(r"^(?P<article>a|an|and|recent|the)\b\s+(?P<rest>.+)$", tag, re.I)
+    if not match:
+        return None
+    article = match.group("article").casefold()
+    if article not in _TAG_LEADING_ARTICLES:
+        return None
+    rest = match.group("rest").strip()
+    return _suggest_tag_capitalization(rest) if rest else None
+
+
 def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
     tags = data.get("tags")
     if tags in (None, ""):
@@ -1297,8 +1531,54 @@ def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
         return [Issue(path, "tags", "Must be a list")]
 
     issues: list[Issue] = []
+    tag_indexes: dict[str, list[int]] = {}
+    tag_display: dict[str, str] = {}
+    plural_tag_indexes: dict[str, list[int]] = {}
+    normalized_tag_by_index: dict[int, str] = {}
     for index, tag_raw in enumerate(tags):
         tag = str(tag_raw).strip()
+        normalized_tag = _normalized_tag_for_duplicate_check(tag)
+        if normalized_tag:
+            normalized_tag_by_index[index] = normalized_tag
+            tag_indexes.setdefault(normalized_tag, []).append(index)
+            tag_display.setdefault(normalized_tag, tag)
+            plural_key = _plural_insensitive_tag_key(tag)
+            if plural_key:
+                plural_tag_indexes.setdefault(plural_key, []).append(index)
+
+        word_count = _tag_word_count(tag)
+        if word_count > _MAX_TAG_WORDS:
+            issues.append(
+                Issue(
+                    path,
+                    "tags",
+                    f"Wordy tag at tags[{index}] has {word_count} words: {tag!r}",
+                    f"Shorten to {_MAX_TAG_WORDS} words or fewer.",
+                )
+            )
+
+        without_article = _suggest_tag_without_leading_article(tag)
+        if without_article is not None:
+            issues.append(
+                Issue(
+                    path,
+                    "tags",
+                    f"Tag starts with an article at tags[{index}]: {tag!r}",
+                    without_article,
+                )
+            )
+        else:
+            suggested_tag = _suggest_tag_capitalization(tag)
+            if suggested_tag != tag:
+                issues.append(
+                    Issue(
+                        path,
+                        "tags",
+                        f"Tag is not in capital case at tags[{index}]: {tag!r}",
+                        suggested_tag,
+                    )
+                )
+
         reason = _sentence_like_tag_reason(tag)
         if reason:
             issues.append(
@@ -1309,6 +1589,47 @@ def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
                     "Replace with a short pattern-matched phrase, or remove the tag.",
                 )
             )
+
+    duplicate_tags = {
+        key: indexes for key, indexes in tag_indexes.items() if len(indexes) > 1
+    }
+    if duplicate_tags:
+        examples = ", ".join(
+            f"{tag_display[key]!r} at indexes {indexes}"
+            for key, indexes in list(duplicate_tags.items())[:6]
+        )
+        if len(duplicate_tags) > 6:
+            examples += f", ... ({len(duplicate_tags)} total)"
+        issues.append(
+            Issue(
+                path,
+                "tags",
+                f"Duplicate tag value(s): {examples}",
+                "Remove duplicate tags or merge near-identical spellings into one canonical tag.",
+            )
+        )
+
+    plural_duplicate_tags = {
+        key: indexes
+        for key, indexes in plural_tag_indexes.items()
+        if len(indexes) > 1
+        and len({normalized_tag_by_index[index] for index in indexes}) > 1
+    }
+    if plural_duplicate_tags:
+        examples = ", ".join(
+            ", ".join(f"{str(tags[index]).strip()!r} at index {index}" for index in indexes)
+            for indexes in list(plural_duplicate_tags.values())[:6]
+        )
+        if len(plural_duplicate_tags) > 6:
+            examples += f", ... ({len(plural_duplicate_tags)} total)"
+        issues.append(
+            Issue(
+                path,
+                "tags",
+                f"Duplicate tag value(s) after trivial plural normalization: {examples}",
+                "Use one canonical singular/plural spelling for near-identical tags.",
+            )
+        )
 
     return issues
 
@@ -2236,6 +2557,24 @@ def _is_multiline_field_issue(issue: Issue) -> bool:
     )
 
 
+def _is_fixable_tag_issue(issue: Issue) -> bool:
+    return (
+        issue.field == "tags"
+        and issue.suggestion is not None
+        and (
+            issue.message.startswith("Tag is not in capital case")
+            or issue.message.startswith("Tag starts with an article")
+        )
+    )
+
+
+def _tag_issue_index(issue: Issue) -> int | None:
+    match = re.search(r"tags\[(\d+)\]", issue.message)
+    if not match:
+        return None
+    return int(match.group(1))
+
+
 def _format_metadata_scalar_line(field_name: str, value: object, newline: str = "\n") -> str:
     if value is None or value == "":
         return f"{field_name}:{newline}"
@@ -2289,6 +2628,81 @@ def _fix_multiline_fields_in_yaml(
         index = end
 
     return "".join(lines), changed
+
+
+def _format_tags_block(tags: list[object], newline: str = "\n") -> str:
+    if not tags:
+        return f"tags:{newline}"
+
+    lines = ["tags:"]
+    for tag in tags:
+        if tag is None or tag == "":
+            lines.append("  -")
+            continue
+        dumped = yaml.safe_dump(
+            [tag],
+            sort_keys=False,
+            allow_unicode=True,
+            default_flow_style=False,
+            width=1_000_000_000,
+        ).strip()
+        item = dumped.removeprefix("-").strip()
+        lines.append(f"  - {item}")
+    return newline.join(lines) + newline
+
+
+def _fix_tags_in_yaml(
+    raw: str,
+    data: dict,
+    tag_fixes: list[Issue],
+) -> tuple[str, int]:
+    tags_raw = data.get("tags")
+    if not isinstance(tags_raw, list):
+        return raw, 0
+
+    tags = list(tags_raw)
+    changed = 0
+    for issue in tag_fixes:
+        index = _tag_issue_index(issue)
+        if index is None or index < 0 or index >= len(tags):
+            continue
+        if tags[index] == issue.suggestion:
+            continue
+        tags[index] = issue.suggestion
+        changed += 1
+
+    if changed == 0:
+        return raw, 0
+
+    lines = raw.splitlines(keepends=True)
+    for start, line in enumerate(lines):
+        match = re.match(
+            r"^(?P<indent>\s*)tags\s*:\s*(?P<value>.*?)(?P<newline>\r?\n)?$",
+            line,
+        )
+        if not match:
+            continue
+
+        end = start + 1
+        value = match.group("value")
+        if (
+            _is_block_scalar_header(value)
+            or _is_multiline_quoted_scalar_header(value)
+            or _has_indented_continuation(lines, start)
+        ):
+            while end < len(lines):
+                next_line = lines[end]
+                if next_line.strip() and not next_line.startswith((" ", "\t")):
+                    break
+                end += 1
+
+        replacement = match.group("indent") + _format_tags_block(
+            tags,
+            match.group("newline") or "\n",
+        )
+        return "".join(lines[:start] + [replacement] + lines[end:]), changed
+
+    return raw, 0
 
 
 _REFERENCE_SKIP_DIRS = {
@@ -2503,11 +2917,13 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
             and not _is_multiline_field_issue(i)
         ]
         source_year_fixes = [i for i in issues if _is_source_year_issue(i)]
+        tag_fixes = [i for i in issues if _is_fixable_tag_issue(i)]
         multiline_fields = {i.field for i in issues if _is_multiline_field_issue(i)}
         has_escaped_sequence_fixes = any(_is_escaped_sequence_issue(i) for i in issues)
         if (
             not title_fixes
             and not source_year_fixes
+            and not tag_fixes
             and not multiline_fields
             and not has_escaped_sequence_fixes
         ):
@@ -2539,6 +2955,16 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
                 if n_single_lined:
                     fields = ", ".join(sorted(multiline_fields))
                     messages.append(f"  single-lined {n_single_lined} field(s): {fields}")
+
+            if tag_fixes:
+                parsed = yaml.safe_load(new_raw) or {}
+                new_raw, n_fixed_tags = _fix_tags_in_yaml(
+                    new_raw,
+                    parsed,
+                    tag_fixes,
+                )
+                if n_fixed_tags:
+                    messages.append(f"  fixed {n_fixed_tags} tag(s)")
 
             if has_escaped_sequence_fixes:
                 new_raw, n_decoded = _fix_escaped_sequences_in_yaml(new_raw)
@@ -2636,7 +3062,7 @@ Checks performed on each metadata.yml:
   title     - ERROR if empty; ERROR if not in title case; ERROR/WARN for corrupt characters or likely misspellings
   algorithm - ERROR if the algorithm label is generic
   authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order, non-individual names, or suspicious Unicode corruption/control characters
-  tags      - ERROR if tags contain sentence-like prose debris copied from an abstract
+  tags      - ERROR if tags contain duplicate values, trivial singular/plural duplicates, leading articles, more than 4 words, non-capital-case ordinary English words, or sentence-like prose debris copied from an abstract
   year      - ERROR if not a 4-digit integer
   arxiv     - ERROR if arxiv_id is present but not a valid arXiv ID
   abstract  - ERROR if empty, placeholder-like, contains scraped page text, or has PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed; WARN for dollar math, copied "abstract" headings, likely misspellings, or OCR word splits
@@ -2672,7 +3098,7 @@ Available --check names:
         "--fix",
         action="store_true",
         help=(
-            "Auto-fix title-case, escaped HTML/entity issues, multiline scalar fields, source years, and path slugs; "
+            "Auto-fix title-case, tag casing/leading articles, escaped HTML/entity issues, multiline scalar fields, source years, and path slugs; "
             "path fixes move metadata directories and update direct references"
         ),
     )
