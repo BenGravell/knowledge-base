@@ -12,8 +12,6 @@ type: Preprint
 doi:
 arxiv_id: "2203.08678"
 tags:
-  - Markov decision processes
-  - Bellman equations
   - Policy iteration
   - Value iteration
   - Control

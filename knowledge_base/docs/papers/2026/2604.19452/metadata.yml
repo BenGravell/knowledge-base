@@ -1,5 +1,5 @@
 title: Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks
-algorithm: MPC
+algorithm:
 authors:
   - Joscha F. Bongard
   - Georg Jank

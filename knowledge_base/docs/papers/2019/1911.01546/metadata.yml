@@ -12,7 +12,6 @@ doi: 10.1609/aaai.v34i04.5870
 arxiv_id: "1911.01546"
 tags:
   - Reinforcement learning
-  - Markov decision processes
   - Bellman equations
   - Uncertainty
   - Learning

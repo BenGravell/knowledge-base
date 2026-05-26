@@ -12,10 +12,9 @@ doi:
 arxiv_id: "2602.18933"
 tags:
   - Gradient descent
-  - Stochastic gradients
-  - Policy gradients
+  - Stochastic gradient
   - Online algorithms
-  - Policy Gradient
+  - Policy gradient
   - SGD
   - Gradient method
   - Stochastic gradient descent

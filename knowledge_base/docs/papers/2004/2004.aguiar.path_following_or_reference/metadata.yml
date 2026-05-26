@@ -1,5 +1,5 @@
 title: "Path-Following or Reference-Tracking? An Answer Relaxing the Limits to Performance"
-algorithm: "Path-following"
+algorithm:
 authors:
   - "A. Pedro Aguiar"
   - "Dragan B. Dacic"

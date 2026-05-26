@@ -1,5 +1,5 @@
 title: Intelligent Trajectory Planning for Autonomous Vehicles via Adaptive Model Predictive Control
-algorithm: "MPC"
+algorithm:
 authors:
   - Catarina Gonçalves
   - M. do Rosário Calado

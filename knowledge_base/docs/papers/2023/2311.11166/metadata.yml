@@ -10,14 +10,13 @@ doi:
 arxiv_id: "2311.11166"
 tags:
   - Convex optimization
-  - Markov decision processes
   - Policy iteration
   - Value iteration
   - Computational complexity
   - Optimization
   - Control
   - QPI
-  - We adopt the quasi-Newton method
+  - Adopt the quasi-Newton method
   - QNM
   - Markov decision process
   - Hessian matrix

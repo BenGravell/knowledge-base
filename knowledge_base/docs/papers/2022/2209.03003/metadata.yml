@@ -1,5 +1,5 @@
 title: 'Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow'
-algorithm: Fast
+algorithm: Rectified Flow
 authors:
   - Xingchao Liu
   - Chengyue Gong

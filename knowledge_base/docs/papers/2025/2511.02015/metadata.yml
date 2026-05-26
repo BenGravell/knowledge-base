@@ -11,11 +11,10 @@ arxiv_id: "2511.02015"
 tags:
   - Gradient descent
   - Robotics
-  - State of the art
   - Optimization
   - Control
   - Sampling
-  - Model Predictive Path Integral
+  - Model predictive path integral
   - MPPI
   - SVGD
   - Stein-optimized

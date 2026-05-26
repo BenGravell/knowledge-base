@@ -12,10 +12,9 @@ arxiv_id: "2311.07411"
 tags:
   - Gradient descent
   - Stochastic gradients
-  - Policy gradients
   - Reinforcement learning
   - Learning
-  - Policy Gradient
+  - Policy gradient
   - Stochastic gradient descent
   - Rate function
   - Gradient method

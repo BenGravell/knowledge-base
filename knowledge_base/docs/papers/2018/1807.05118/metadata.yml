@@ -13,7 +13,6 @@ type: Preprint
 doi:
 arxiv_id: "1807.05118"
 tags:
-  - State of the art
   - Distributed systems
   - Learning
   - Tune

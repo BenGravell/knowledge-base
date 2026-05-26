@@ -10,7 +10,6 @@ doi:
 arxiv_id: "2212.01192"
 tags:
   - Policy gradients
-  - Markov decision processes
   - Policy iteration
   - System identification
   - Q-functions

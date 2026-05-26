@@ -1,5 +1,5 @@
 title: 'Scaling Is All You Need: Autonomous Driving with JAX-Accelerated Reinforcement Learning'
-algorithm: Need
+algorithm: Scaling Is All You Need
 authors:
   - Moritz Harmel
   - Anubhav Paras
@@ -16,7 +16,6 @@ tags:
   - Autonomous driving
   - Vehicles
   - Safety
-  - State of the art
   - Scalability
   - Learning
   - Need

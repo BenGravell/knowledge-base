@@ -13,7 +13,6 @@ doi:
 arxiv_id: "1806.05618"
 tags:
   - Policy gradients
-  - Markov decision processes
   - Supervised learning
   - Learning
   - Sampling

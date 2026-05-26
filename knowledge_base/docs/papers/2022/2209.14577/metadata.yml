@@ -1,5 +1,5 @@
 title: 'Rectified Flow: A Marginal Preserving Approach to Optimal Transport'
-algorithm: Flow
+algorithm: Rectified Flow
 authors:
   - Qiang Liu
 year: 2022

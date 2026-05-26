@@ -14,7 +14,7 @@ doi:
 arxiv_id: "2212.00541"
 tags:
   - Model predictive control
-  - Predictive Sampling
+  - Predictive sampling
   - Derivative-free optimization
   - Real-time
   - MuJoCo

@@ -10,7 +10,6 @@ doi:
 arxiv_id: "1910.13204"
 tags:
   - Stochastic gradients
-  - State of the art
   - Accuracy
   - Generalization
   - Optimization
@@ -18,7 +17,7 @@ tags:
   - Sampling
   - MVS
   - SGB
-  - Which we call Minimal Variance Sampling
+  - Which we call minimal variance sampling
   - Gradient boosting
   - Decision tree
   - Machine learning

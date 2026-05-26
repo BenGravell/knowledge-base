@@ -11,9 +11,9 @@ type: Conference Paper
 doi: 10.1109/IROS58592.2024.10802673
 arxiv_id: "2411.15651"
 tags:
-  - Model Predictive Control
+  - Model predictive control
   - Tree search
-  - Monte Carlo Tree Search
+  - Monte Carlo tree search
   - Receding horizon planning
   - Motion planning
   - Robotics

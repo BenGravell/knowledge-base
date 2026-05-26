@@ -11,12 +11,10 @@ type: Preprint
 doi:
 arxiv_id: "1908.00261"
 tags:
-  - Policy gradients
   - Reinforcement learning
-  - Markov decision processes
   - Supervised learning
   - Learning
-  - Policy Gradient
+  - Policy gradient
   - Markov decision process
   - State space
   - Approximation error
