@@ -1,5 +1,5 @@
 title: 'Optimal Sampling-Based Motion Planning under Differential Constraints: The Drift Case with Linear Affine Dynamics'
-algorithm: Constraints
+algorithm: Differential FMT
 authors:
   - Edward Schmerling
   - Lucas Janson

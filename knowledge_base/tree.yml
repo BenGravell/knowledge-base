@@ -1720,7 +1720,7 @@
           - "Scalable Autonomous Vehicle Safety Validation through Dynamic Programming and Scene Decomposition": docs/papers/2020/2004.06801/metadata.yml
           - "Accelerated Evaluation of Automated Vehicles Safety in Lane Change Scenarios Based on Importance Sampling Techniques": docs/papers/2016/1605.04965/metadata.yml
         - Standards:
-          - "IEEE Standard 3079-2022": docs/papers/2022/2022.various.ieee_standard_for_assumptions/metadata.yml
+          - "IEEE Standard 3079-2022": docs/papers/2022/2022.ieee.ieee_standard_for_assumptions/metadata.yml
         - Formal Methods:
           - "On a Formal Model of Safe and Scalable Self-driving Cars": docs/papers/2017/1708.06374/metadata.yml
           - Formal Specification for Deep Neural Networks: docs/papers/2018/2018.seshia.formal_specification_for_deep/metadata.yml
@@ -1937,7 +1937,7 @@
         - DNA Double Helix Structure: docs/papers/1953/1953.watson.molecular_structure_of_nucleic/metadata.yml
         - DNA Sequencing: docs/papers/1977/1977.sanger.dna_sequencing_with_chain/metadata.yml
         - Genome Sequence of Drosophila melanogaster: docs/papers/2000/2000.adams.the_genome_sequence_of/metadata.yml
-        - Human Genome Project: docs/papers/2001/2001.consortium.initial_sequencing_and_analysis/metadata.yml
+        - Human Genome Project: docs/papers/2001/2001.lander.initial_sequencing_and_analysis/metadata.yml
       - Genetic Engineering:
         - Induced Pluripotent Stem Cells: docs/papers/2006/2006.takahashi.induction_of_pluripotent_stem/metadata.yml
         - CRISPR-Cas9: docs/papers/2012/2012.jinek.a_programmable_dual_rna/metadata.yml

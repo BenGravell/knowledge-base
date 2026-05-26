@@ -1,0 +1,280 @@
+title: "Initial Sequencing and Analysis of the Human Genome"
+algorithm: Human Genome Project
+authors:
+  - E S Lander
+  - L M Linton
+  - B Birren
+  - C Nusbaum
+  - M C Zody
+  - J Baldwin
+  - K Devon
+  - K Dewar
+  - M Doyle
+  - W FitzHugh
+  - R Funke
+  - D Gage
+  - K Harris
+  - A Heaford
+  - J Howland
+  - L Kann
+  - J Lehoczky
+  - R LeVine
+  - P McEwan
+  - K McKernan
+  - J Meldrim
+  - J P Mesirov
+  - C Miranda
+  - W Morris
+  - J Naylor
+  - C Raymond
+  - M Rosetti
+  - R Santos
+  - A Sheridan
+  - C Sougnez
+  - Y Stange-Thomann
+  - N Stojanovic
+  - A Subramanian
+  - D Wyman
+  - J Rogers
+  - J Sulston
+  - R Ainscough
+  - S Beck
+  - D Bentley
+  - J Burton
+  - C Clee
+  - N Carter
+  - A Coulson
+  - R Deadman
+  - P Deloukas
+  - A Dunham
+  - I Dunham
+  - R Durbin
+  - L French
+  - D Grafham
+  - S Gregory
+  - T Hubbard
+  - S Humphray
+  - A Hunt
+  - M Jones
+  - C Lloyd
+  - A McMurray
+  - L Matthews
+  - S Mercer
+  - S Milne
+  - J C Mullikin
+  - A Mungall
+  - R Plumb
+  - M Ross
+  - R Shownkeen
+  - S Sims
+  - R H Waterston
+  - R K Wilson
+  - L W Hillier
+  - J D McPherson
+  - M A Marra
+  - E R Mardis
+  - L A Fulton
+  - A T Chinwalla
+  - K H Pepin
+  - W R Gish
+  - S L Chissoe
+  - M C Wendl
+  - K D Delehaunty
+  - T L Miner
+  - A Delehaunty
+  - J B Kramer
+  - L L Cook
+  - R S Fulton
+  - D L Johnson
+  - P J Minx
+  - S W Clifton
+  - T Hawkins
+  - E Branscomb
+  - P Predki
+  - P Richardson
+  - S Wenning
+  - T Slezak
+  - N Doggett
+  - J F Cheng
+  - A Olsen
+  - S Lucas
+  - C Elkin
+  - E Uberbacher
+  - M Frazier
+  - R A Gibbs
+  - D M Muzny
+  - S E Scherer
+  - J B Bouck
+  - E J Sodergren
+  - K C Worley
+  - C M Rives
+  - J H Gorrell
+  - M L Metzker
+  - S L Naylor
+  - R S Kucherlapati
+  - D L Nelson
+  - G M Weinstock
+  - Y Sakaki
+  - A Fujiyama
+  - M Hattori
+  - T Yada
+  - A Toyoda
+  - T Itoh
+  - C Kawagoe
+  - H Watanabe
+  - Y Totoki
+  - T Taylor
+  - J Weissenbach
+  - R Heilig
+  - W Saurin
+  - F Artiguenave
+  - P Brottier
+  - T Bruls
+  - E Pelletier
+  - C Robert
+  - P Wincker
+  - D R Smith
+  - L Doucette-Stamm
+  - M Rubenfield
+  - K Weinstock
+  - H M Lee
+  - J Dubois
+  - A Rosenthal
+  - M Platzer
+  - G Nyakatura
+  - S Taudien
+  - A Rump
+  - H Yang
+  - J Yu
+  - J Wang
+  - G Huang
+  - J Gu
+  - L Hood
+  - L Rowen
+  - A Madan
+  - S Qin
+  - R W Davis
+  - N A Federspiel
+  - A P Abola
+  - M J Proctor
+  - R M Myers
+  - J Schmutz
+  - M Dickson
+  - J Grimwood
+  - D R Cox
+  - M V Olson
+  - R Kaul
+  - C Raymond
+  - N Shimizu
+  - K Kawasaki
+  - S Minoshima
+  - G A Evans
+  - M Athanasiou
+  - R Schultz
+  - B A Roe
+  - F Chen
+  - H Pan
+  - J Ramser
+  - H Lehrach
+  - R Reinhardt
+  - W R McCombie
+  - M de la Bastide
+  - N Dedhia
+  - H Blocker
+  - K Hornischer
+  - G Nordsiek
+  - R Agarwala
+  - L Aravind
+  - J A Bailey
+  - A Bateman
+  - S Batzoglou
+  - E Birney
+  - P Bork
+  - D G Brown
+  - C B Burge
+  - L Cerutti
+  - H C Chen
+  - D Church
+  - M Clamp
+  - R R Copley
+  - T Doerks
+  - S R Eddy
+  - E E Eichler
+  - T S Furey
+  - J Galagan
+  - J G Gilbert
+  - C Harmon
+  - Y Hayashizaki
+  - D Haussler
+  - H Hermjakob
+  - K Hokamp
+  - W Jang
+  - L S Johnson
+  - T A Jones
+  - S Kasif
+  - A Kaspryzk
+  - S Kennedy
+  - W J Kent
+  - P Kitts
+  - E V Koonin
+  - I Korf
+  - D Kulp
+  - D Lancet
+  - T M Lowe
+  - A McLysaght
+  - T Mikkelsen
+  - J V Moran
+  - N Mulder
+  - V J Pollara
+  - C P Ponting
+  - G Schuler
+  - J Schultz
+  - G Slater
+  - A F Smit
+  - E Stupka
+  - J Szustakowki
+  - D Thierry-Mieg
+  - J Thierry-Mieg
+  - L Wagner
+  - J Wallis
+  - R Wheeler
+  - A Williams
+  - Y I Wolf
+  - K H Wolfe
+  - S P Yang
+  - R F Yeh
+  - F Collins
+  - M S Guyer
+  - J Peterson
+  - A Felsenfeld
+  - K A Wetterstrand
+  - A Patrinos
+  - M J Morgan
+  - P de Jong
+  - J J Catanese
+  - K Osoegawa
+  - H Shizuya
+  - S Choi
+  - Y J Chen
+  - J Szustakowki
+year: 2001
+source: Nature
+type: Journal Paper
+doi: 10.1038/35057062
+arxiv_id:
+tags:
+  - Human genome
+  - Genome sequencing
+  - Genomics
+  - Comparative genomics
+  - Genetic variation
+  - Genome annotation
+  - Bioinformatics
+  - Evolutionary biology
+abstract: The human genome holds an extraordinary trove of information about human development, physiology, medicine and evolution. Here we report the results of an international collaboration to produce and make freely available a draft sequence of the human genome. We also present an initial analysis of the data, describing some of the insights that can be gleaned from the sequence.
+summary: Reports the public Human Genome Project draft sequence and an initial computational analysis of genes, repeats, variation, and comparative signals.
+link: https://www.nature.com/articles/35057062
+links_alt:
+  - https://doi.org/10.1038/35057062
+  - https://pubmed.ncbi.nlm.nih.gov/11237011/
+audit_status: raw

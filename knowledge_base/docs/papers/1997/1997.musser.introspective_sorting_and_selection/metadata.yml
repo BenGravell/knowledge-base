@@ -12,5 +12,5 @@ abstract: 'Quicksort is the preferred in-place sorting algorithm in many context
 summary: ''
 link: https://onlinelibrary.wiley.com/doi/abs/10.1002/%28SICI%291097-024X%28199708%2927%3A8%3C983%3A%3AAID-SPE117%3E3.0.CO%3B2-%23
 links_alt:
-  - https://doi.org/10.1002/(SICI)1097-024X(199708)27:8<983::AID-SPE117>3.0.CO;2-#
+  - https://doi.org/10.1002/%28SICI%291097-024X%28199708%2927%3A8%3C983%3A%3AAID-SPE117%3E3.0.CO%3B2-%23
 audit_status: raw

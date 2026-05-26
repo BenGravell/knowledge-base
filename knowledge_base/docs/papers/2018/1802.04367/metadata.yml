@@ -1,5 +1,5 @@
 title: 'Computational Optimal Transport: Complexity by Accelerated Gradient Descent Is Better than by Sinkhorn''s Algorithm'
-algorithm: Transport
+algorithm: APDAGD
 authors:
   - Pavel Dvurechensky
   - Alexander Gasnikov

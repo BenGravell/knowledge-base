@@ -1,5 +1,5 @@
 title: 'Automatic Differentiation in Machine Learning: A Survey'
-algorithm: Automatic Differentiation
+algorithm:
 authors:
   - Atilim Gunes Baydin
   - Barak A. Pearlmutter
@@ -15,7 +15,7 @@ tags:
   - Optimization
   - Learning
   - Automatic differentiation
-  - Are ubiquitous in machine learning. automatic differentiation
+  - Differentiable programming
   - AD
   - Machine learning
   - CLARITY

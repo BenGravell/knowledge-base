@@ -1,5 +1,5 @@
 title: 'Data-driven Distributionally Robust Optimization Using the Wasserstein Metric: Performance Guarantees and Tractable Reformulations'
-algorithm: Metric
+algorithm: Wasserstein DRO
 authors:
   - Peyman Mohajerin Esfahani
   - Daniel Kuhn

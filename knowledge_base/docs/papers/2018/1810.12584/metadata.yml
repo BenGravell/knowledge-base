@@ -1,5 +1,5 @@
 title: 'Learning-based Predictive Control for Linear Systems: A Unitary Approach'
-algorithm: Learning-based Predictive Control for Linear Systems
+algorithm:
 authors:
   - Enrico Terzi
   - Lorenzo Fagiano
@@ -18,7 +18,7 @@ tags:
   - Datasets
   - Control
   - Learning
-  - Learning-based predictive control for linear systems
+  - Learning-based MPC
   - MPC
   - Constraint satisfaction
   - Robust control

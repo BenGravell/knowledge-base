@@ -9,8 +9,8 @@ authors:
   - Daan Wierstra
   - Martin Riedmiller
 year: 2013
-source: http://psych.stanford.edu/~jlm/pdfs/MnehEtAlAtariRL.pdf
-type: Other
+source: Neural Information Processing Systems Deep Learning Workshop
+type: Workshop Paper
 doi:
 arxiv_id: "1312.5602"
 tags:

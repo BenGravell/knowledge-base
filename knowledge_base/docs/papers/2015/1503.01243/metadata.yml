@@ -1,5 +1,5 @@
 title: 'A Differential Equation for Modeling Nesterov''s Accelerated Gradient Method: Theory and Insights'
-algorithm: Nesterov Accelerated Gradient
+algorithm:
 authors:
   - Weijie Su
   - Stephen Boyd
@@ -10,7 +10,7 @@ type: Journal Paper
 doi:
 arxiv_id: "1503.01243"
 tags:
-  - Derive a second-order ordinary differential equation
+  - Nesterov acceleration
   - ODE
   - Ordinary differential equation
   - Differential equation

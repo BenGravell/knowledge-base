@@ -1,5 +1,5 @@
 title: Uncertainty Guided Exploratory Trajectory Optimization for Sampling-Based Model Predictive Control
-algorithm:
+algorithm: UGE-MPC
 authors:
   - O. Goktug Poyrazoglu
   - Yukang Cao
