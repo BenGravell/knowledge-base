@@ -4,14 +4,26 @@ authors:
   - Aref Amiri
   - Steven M. LaValle
 year: 2026
-source:
-type: ''
-doi:
+source: IEEE Robotics and Automation Letters
+type: Journal Paper
+doi: 10.1109/lra.2026.3682600
 arxiv_id: "2604.01614"
 tags:
-abstract: >
-  Feedback motion planning over cell decompositions provides a robust method for generating collision-free robot motion with formal guarantees. However, existing algorithms often produce paths with unnecessary bending, leading to slower motion and higher control effort. This paper presents a computationally efficient method to mitigate this issue for a given simplicial decomposition. A heuristic is introduced that systematically aligns and assigns local vector fields to produce more direct trajectories, complemented by a novel geometric algorithm that constructs a maximal star-shaped chain of simplexes around the goal. This creates a large ``funnel'' in which an optimal, direct-to-goal control law can be safely applied. Simulations demonstrate that our method generates measurably more direct paths, reducing total bending by an average of 91.40\% and LQR control effort by an average of 45.47\%. Furthermore, comparative analysis against sampling-based and optimization-based planners confirms the time efficacy and robustness of our approach. While the proposed algorithms work over any finite-dimensional simplicial complex embedded in the collision-free subset of the configuration space, the practical application focuses on low-dimensional ($d\le3$) configuration spaces, where simplicial decomposition is computationally tractable.
-summary: ''
+  - Motion planning
+  - Robotics
+  - Safety
+  - Robustness
+  - Sampling-based methods
+  - Optimization
+  - Planning
+  - Control
+  - Sampling
+abstract: Feedback motion planning over cell decompositions provides a robust method for generating collision-free robot motion with formal guarantees. However, existing algorithms often produce paths with unnecessary bending, leading to slower motion and higher control effort. This paper presents a computationally efficient method to mitigate this issue for a given simplicial decomposition. A heuristic is introduced that systematically aligns and assigns local vector fields to produce more direct trajectories, complemented by a novel geometric algorithm that constructs a maximal star-shaped chain of simplexes around the goal. This creates a large ``funnel'' in which an optimal, direct-to-goal control law can be safely applied. Simulations demonstrate that our method generates measurably more direct paths, reducing total bending by an average of 91.40\% and LQR control effort by an average of 45.47\%. Furthermore, comparative analysis against sampling-based and optimization-based planners confirms the time efficacy and robustness of our approach. While the proposed algorithms work over any finite-dimensional simplicial complex embedded in the collision-free subset of the configuration space, the practical application focuses on low-dimensional ($d\le3$) configuration spaces, where simplicial decomposition is computationally tractable.
+summary: Feedback motion planning over cell decompositions provides a robust method for generating collision-free robot motion with formal guarantees. The abstract also notes that however, existing algorithms often produce paths with unnecessary bending, leading to slower motion and higher control effort.
 link: https://arxiv.org/pdf/2604.01614
 links_alt:
+  - https://doi.org/10.1109/LRA.2026.3682600
+  - https://doi.org/10.1109/lra.2026.3682600
+  - https://ieeexplore.ieee.org/document/11478294/
+  - http://xplorestaging.ieee.org/ielx8/7083369/11481819/11478294.pdf?arnumber=11478294
 audit_status: raw

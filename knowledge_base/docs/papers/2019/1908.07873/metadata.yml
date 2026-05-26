@@ -6,14 +6,22 @@ authors:
   - Ameet Talwalkar
   - Virginia Smith
 year: 2019
-source:
-type: ''
-doi:
+source: IEEE Signal Processing Magazine
+type: Journal Paper
+doi: 10.1109/msp.2020.2975749
 arxiv_id: "1908.07873"
 tags:
-abstract: >
-  Federated learning involves training statistical models over remote devices or siloed data centers, such as mobile phones or hospitals, while keeping data localized. Training in heterogeneous and potentially massive networks introduces novel challenges that require a fundamental departure from standard approaches for large-scale machine learning, distributed optimization, and privacy-preserving data analysis. In this article, we discuss the unique characteristics and challenges of federated learning, provide a broad overview of current approaches, and outline several directions of future work that are relevant to a wide range of research communities.
-summary: ''
+  - Federated learning
+  - Privacy
+  - Distributed systems
+  - Optimization
+  - Learning
+abstract: Federated learning involves training statistical models over remote devices or siloed data centers, such as mobile phones or hospitals, while keeping data localized. Training in heterogeneous and potentially massive networks introduces novel challenges that require a fundamental departure from standard approaches for large-scale machine learning, distributed optimization, and privacy-preserving data analysis. In this article, we discuss the unique characteristics and challenges of federated learning, provide a broad overview of current approaches, and outline several directions of future work that are relevant to a wide range of research communities.
+summary: Federated learning involves training statistical models over remote devices or siloed data centers, such as mobile phones or hospitals, while keeping data localized. The abstract also notes that training in heterogeneous and potentially massive networks introduces novel challenges that require a fundamental departure from standard approaches for large-scale machine learning, distributed optimization, and privacy-preserving data analysis.
 link: https://arxiv.org/pdf/1908.07873
 links_alt:
+  - https://doi.org/10.1109/MSP.2020.2975749
+  - https://doi.org/10.1109/msp.2020.2975749
+  - https://ieeexplore.ieee.org/document/9084352/
+  - http://xplorestaging.ieee.org/ielx7/79/9084311/09084352.pdf?arnumber=9084352
 audit_status: raw

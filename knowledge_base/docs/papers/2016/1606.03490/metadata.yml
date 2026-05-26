@@ -3,14 +3,19 @@ algorithm:
 authors:
   - Zachary C. Lipton
 year: 2016
-source:
-type: ''
-doi:
+source: Communications of the ACM
+type: Journal Paper
+doi: 10.1145/3233231
 arxiv_id: "1606.03490"
 tags:
-abstract: >
-  Supervised machine learning models boast remarkable predictive capabilities. But can you trust your model? Will it work in deployment? What else can it tell you about the world? We want models to be not only good, but interpretable. And yet the task of interpretation appears underspecified. Papers provide diverse and sometimes non-overlapping motivations for interpretability, and offer myriad notions of what attributes render models interpretable. Despite this ambiguity, many papers proclaim interpretability axiomatically, absent further explanation. In this paper, we seek to refine the discourse on interpretability. First, we examine the motivations underlying interest in interpretability, finding them to be diverse and occasionally discordant. Then, we address model properties and techniques thought to confer interpretability, identifying transparency to humans and post-hoc explanations as competing notions. Throughout, we discuss the feasibility and desirability of different notions, and question the oft-made assertions that linear models are interpretable and that deep neural networks are not.
-summary: ''
+  - Neural networks
+  - Learning
+  - Machine learning
+abstract: Supervised machine learning models boast remarkable predictive capabilities. But can you trust your model? Will it work in deployment? What else can it tell you about the world? We want models to be not only good, but interpretable. And yet the task of interpretation appears underspecified. Papers provide diverse and sometimes non-overlapping motivations for interpretability, and offer myriad notions of what attributes render models interpretable. Despite this ambiguity, many papers proclaim interpretability axiomatically, absent further explanation. In this paper, we seek to refine the discourse on interpretability. First, we examine the motivations underlying interest in interpretability, finding them to be diverse and occasionally discordant. Then, we address model properties and techniques thought to confer interpretability, identifying transparency to humans and post-hoc explanations as competing notions. Throughout, we discuss the feasibility and desirability of different notions, and question the oft-made assertions that linear models are interpretable and that deep neural networks are not.
+summary: Supervised machine learning models boast remarkable predictive capabilities. The abstract also notes that but can you trust your model?
 link: https://arxiv.org/pdf/1606.03490
 links_alt:
+  - https://doi.org/10.1145/3233231
+  - https://dl.acm.org/doi/10.1145/3233231
+  - https://dl.acm.org/doi/pdf/10.1145/3233231
 audit_status: raw

@@ -1,18 +1,26 @@
-title: "A Regularized Limited Memory BFGS Method for Large-Scale Unconstrained Optimization and Its Efficient Implementations"
+title: A Regularized Limited Memory BFGS Method for Large-Scale Unconstrained Optimization and Its Efficient Implementations
 algorithm:
 authors:
   - Hardik Tankaria
   - Shinji Sugimoto
   - Nobuo Yamashita
 year: 2021
-source:
-type: ''
-doi:
+source: Computational Optimization and Applications
+type: Journal Paper
+doi: 10.1007/s10589-022-00351-5
 arxiv_id: "2101.04413"
 tags:
-abstract: >
-  The limited memory BFGS (L-BFGS) method is one of the popular methods for solving large-scale unconstrained optimization. Since the standard L-BFGS method uses a line search to guarantee its global convergence, it sometimes requires a large number of function evaluations. To overcome the difficulty, we propose a new L-BFGS with a certain regularization technique. We show its global convergence under the usual assumptions. In order to make the method more robust and efficient, we also extend it with several techniques such as nonmonotone technique and simultaneous use of the Wolfe line search. Finally, we present some numerical results for test problems in CUTEst, which show that the proposed method is robust in terms of solving number of problems.
-summary: ''
+  - Robustness
+  - Optimization
+  - The limited memory BFGS
+  - L-BFGS
+  - Line search
+abstract: The limited memory BFGS (L-BFGS) method is one of the popular methods for solving large-scale unconstrained optimization. Since the standard L-BFGS method uses a line search to guarantee its global convergence, it sometimes requires a large number of function evaluations. To overcome the difficulty, we propose a new L-BFGS with a certain regularization technique. We show its global convergence under the usual assumptions. In order to make the method more robust and efficient, we also extend it with several techniques such as nonmonotone technique and simultaneous use of the Wolfe line search. Finally, we present some numerical results for test problems in CUTEst, which show that the proposed method is robust in terms of solving number of problems.
+summary: The limited memory BFGS (L-BFGS) method is one of the popular methods for solving large-scale unconstrained optimization. The abstract also notes that since the standard L-BFGS method uses a line search to guarantee its global convergence, it sometimes requires a large number of function evaluations.
 link: https://arxiv.org/pdf/2101.04413
 links_alt:
+  - https://doi.org/10.1007/s10589-022-00351-5
+  - https://link.springer.com/10.1007/s10589-022-00351-5
+  - https://link.springer.com/content/pdf/10.1007/s10589-022-00351-5.pdf
+  - https://link.springer.com/article/10.1007/s10589-022-00351-5/fulltext.html
 audit_status: raw

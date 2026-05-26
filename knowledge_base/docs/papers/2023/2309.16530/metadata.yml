@@ -1,18 +1,24 @@
-title: >
-  Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization
-algorithm:
+title: 'Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization'
+algorithm: II
 authors:
   - Jason M. Altschuler
   - Pablo A. Parrilo
 year: 2023
-source:
-type: ''
-doi:
+source: Mathematical Programming
+type: Journal Paper
+doi: 10.1007/s10107-024-02164-2
 arxiv_id: "2309.16530"
 tags:
-abstract: >
-  We provide a concise, self-contained proof that the Silver Stepsize Schedule proposed in Part I directly applies to smooth (non-strongly) convex optimization. Specifically, we show that with these stepsizes, gradient descent computes an $ε$-minimizer in $O(ε^{-\log_ρ 2}) = O(ε^{-0.7864})$ iterations, where $ρ= 1+\sqrt{2}$ is the silver ratio. This is intermediate between the textbook unaccelerated rate $O(ε^{-1})$ and the accelerated rate $O(ε^{-1/2})$ due to Nesterov in 1983. The Silver Stepsize Schedule is a simple explicit fractal: the $i$-th stepsize is $1+ρ^{v(i)-1}$ where $v(i)$ is the $2$-adic valuation of $i$. The design and analysis are conceptually identical to the strongly convex setting in Part I, but simplify remarkably in this specific setting.
-summary: ''
+  - Convex optimization
+  - Gradient descent
+  - Optimization
+  - II
+abstract: 'We provide a concise, self-contained proof that the Silver Stepsize Schedule proposed in Part I directly applies to smooth (non-strongly) convex optimization. Specifically, we show that with these stepsizes, gradient descent computes an $ε$-minimizer in $O(ε^{-\log_ρ 2}) = O(ε^{-0.7864})$ iterations, where $ρ= 1+\sqrt{2}$ is the silver ratio. This is intermediate between the textbook unaccelerated rate $O(ε^{-1})$ and the accelerated rate $O(ε^{-1/2})$ due to Nesterov in 1983. The Silver Stepsize Schedule is a simple explicit fractal: the $i$-th stepsize is $1+ρ^{v(i)-1}$ where $v(i)$ is the $2$-adic valuation of $i$. The design and analysis are conceptually identical to the strongly convex setting in Part I, but simplify remarkably in this specific setting.'
+summary: This paper provides a concise, self-contained proof that the Silver Stepsize Schedule proposed in Part I directly applies to smooth (non-strongly) convex optimization. It also shows that with these stepsizes, gradient descent computes an $ε$-minimizer in $O(ε^{-\log_ρ 2}) = O(ε^{-0.7864})$ iterations, where $ρ= 1+\sqrt{2}$ is the silver ratio.
 link: https://arxiv.org/pdf/2309.16530
 links_alt:
+  - https://doi.org/10.1007/s10107-024-02164-2
+  - https://link.springer.com/10.1007/s10107-024-02164-2
+  - https://link.springer.com/content/pdf/10.1007/s10107-024-02164-2.pdf
+  - https://link.springer.com/article/10.1007/s10107-024-02164-2/fulltext.html
 audit_status: raw

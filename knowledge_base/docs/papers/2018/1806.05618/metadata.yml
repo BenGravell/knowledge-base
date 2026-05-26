@@ -1,5 +1,5 @@
 title: Stochastic Variance-Reduced Policy Gradient
-algorithm: "SVRPG"
+algorithm: SVRPG
 authors:
   - Matteo Papini
   - Damiano Binaghi
@@ -7,14 +7,23 @@ authors:
   - Matteo Pirotta
   - Marcello Restelli
 year: 2018
-source:
-type: ''
+source: arXiv
+type: Preprint
 doi:
 arxiv_id: "1806.05618"
 tags:
-abstract: >
-  In this paper, we propose a novel reinforcement- learning algorithm consisting in a stochastic variance-reduced version of policy gradient for solving Markov Decision Processes (MDPs). Stochastic variance-reduced gradient (SVRG) methods have proven to be very successful in supervised learning. However, their adaptation to policy gradient is not straightforward and needs to account for I) a non-concave objective func- tion; II) approximations in the full gradient com- putation; and III) a non-stationary sampling pro- cess. The result is SVRPG, a stochastic variance- reduced policy gradient algorithm that leverages on importance weights to preserve the unbiased- ness of the gradient estimate. Under standard as- sumptions on the MDP, we provide convergence guarantees for SVRPG with a convergence rate that is linear under increasing batch sizes. Finally, we suggest practical variants of SVRPG, and we empirically evaluate them on continuous MDPs.
-summary: ''
+  - Policy gradients
+  - Markov decision processes
+  - Supervised learning
+  - Learning
+  - Sampling
+  - SVRPG
+  - Stochastic variance-reduced gradient
+  - SVRG
+  - Reinforcement learning
+  - Markov decision process
+abstract: In this paper, we propose a novel reinforcement- learning algorithm consisting in a stochastic variance-reduced version of policy gradient for solving Markov Decision Processes (MDPs). Stochastic variance-reduced gradient (SVRG) methods have proven to be very successful in supervised learning. However, their adaptation to policy gradient is not straightforward and needs to account for I) a non-concave objective func- tion; II) approximations in the full gradient com- putation; and III) a non-stationary sampling pro- cess. The result is SVRPG, a stochastic variance- reduced policy gradient algorithm that leverages on importance weights to preserve the unbiased- ness of the gradient estimate. Under standard as- sumptions on the MDP, we provide convergence guarantees for SVRPG with a convergence rate that is linear under increasing batch sizes. Finally, we suggest practical variants of SVRPG, and we empirically evaluate them on continuous MDPs.
+summary: This paper proposes a novel reinforcement- learning algorithm consisting in a stochastic variance-reduced version of policy gradient for solving Markov Decision Processes (MDPs). The abstract also notes that stochastic variance-reduced gradient (SVRG) methods have proven to be very successful in supervised learning.
 link: https://arxiv.org/pdf/1806.05618
 links_alt:
 audit_status: raw

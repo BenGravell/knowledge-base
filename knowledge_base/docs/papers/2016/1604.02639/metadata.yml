@@ -1,19 +1,29 @@
 title: Disciplined Convex-Concave Programming
-algorithm: "DCCP"
+algorithm: DCCP
 authors:
   - Xinyue Shen
   - Steven Diamond
   - Yuantao Gu
   - Stephen Boyd
 year: 2016
-source:
-type: ''
-doi:
+source: IEEE 55th Conference on Decision and Control (CDC)
+type: Conference Paper
+doi: 10.1109/cdc.2016.7798400
 arxiv_id: "1604.02639"
 tags:
-abstract: >
-  In this paper we introduce disciplined convex-concave programming (DCCP), which combines the ideas of disciplined convex programming (DCP) with convex-concave programming (CCP). Convex-concave programming is an organized heuristic for solving nonconvex problems that involve objective and constraint functions that are a sum of a convex and a concave term. DCP is a structured way to define convex optimization problems, based on a family of basic convex and concave functions and a few rules for combining them. Problems expressed using DCP can be automatically converted to standard form and solved by a generic solver; widely used implementations include YALMIP, CVX, CVXPY, and Convex.jl. In this paper we propose a framework that combines the two ideas, and includes two improvements over previously published work on convex-concave programming, specifically the handling of domains of the functions, and the issue of nondifferentiability on the boundary of the domains. We describe a Python implementation called DCCP, which extends CVXPY, and give examples.
-summary: ''
+  - Convex optimization
+  - Nonconvex optimization
+  - Optimization
+  - DCCP
+  - DCP
+  - With convex-concave programming
+  - CCP
+  - Concave function
+abstract: In this paper we introduce disciplined convex-concave programming (DCCP), which combines the ideas of disciplined convex programming (DCP) with convex-concave programming (CCP). Convex-concave programming is an organized heuristic for solving nonconvex problems that involve objective and constraint functions that are a sum of a convex and a concave term. DCP is a structured way to define convex optimization problems, based on a family of basic convex and concave functions and a few rules for combining them. Problems expressed using DCP can be automatically converted to standard form and solved by a generic solver; widely used implementations include YALMIP, CVX, CVXPY, and Convex.jl. In this paper we propose a framework that combines the two ideas, and includes two improvements over previously published work on convex-concave programming, specifically the handling of domains of the functions, and the issue of nondifferentiability on the boundary of the domains. We describe a Python implementation called DCCP, which extends CVXPY, and give examples.
+summary: This paper introduces disciplined convex-concave programming (DCCP), which combines the ideas of disciplined convex programming (DCP) with convex-concave programming (CCP). The abstract also notes that convex-concave programming is an organized heuristic for solving nonconvex problems that involve objective and constraint functions that are a sum of a convex and a concave term.
 link: https://arxiv.org/pdf/1604.02639
 links_alt:
+  - https://doi.org/10.1109/cdc.2016.7798400
+  - http://ieeexplore.ieee.org/document/7798400/
+  - http://xplorestaging.ieee.org/ielx7/7786694/7798233/07798400.pdf?arnumber=7798400
 audit_status: raw

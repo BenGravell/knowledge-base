@@ -5,14 +5,23 @@ authors:
   - Steven L. Brunton
   - Gianmarco Mengaldo
 year: 2026
-source:
-type: ''
+source: arXiv
+type: Preprint
 doi:
 arxiv_id: "2601.05525"
 tags:
-abstract: >
-  Artificial intelligence now outperforms humans in several scientific and engineering tasks, yet its internal representations often remain opaque. In this Perspective, we argue that explainable artificial intelligence (XAI), combined with causal reasoning, enables {\it learning from the learners}. Focusing on discovery, optimization and certification, we show how the combination of foundation models and explainability methods allows the extraction of causal mechanisms, guides robust design and control, and supports trust and accountability in high-stakes applications. We discuss challenges in faithfulness, generalization and usability of explanations, and propose XAI as a unifying framework for human-AI collaboration in science and engineering.
-summary: ''
+  - Robustness
+  - Foundation models
+  - Causal inference
+  - Generalization
+  - Optimization
+  - Control
+  - Learning
+  - AI
+  - We argue that explainable artificial intelligence
+  - XAI
+abstract: Artificial intelligence now outperforms humans in several scientific and engineering tasks, yet its internal representations often remain opaque. In this Perspective, we argue that explainable artificial intelligence (XAI), combined with causal reasoning, enables {\it learning from the learners}. Focusing on discovery, optimization and certification, we show how the combination of foundation models and explainability methods allows the extraction of causal mechanisms, guides robust design and control, and supports trust and accountability in high-stakes applications. We discuss challenges in faithfulness, generalization and usability of explanations, and propose XAI as a unifying framework for human-AI collaboration in science and engineering.
+summary: Artificial intelligence now outperforms humans in several scientific and engineering tasks, yet its internal representations often remain opaque. The abstract also notes that in this Perspective, we argue that explainable artificial intelligence (XAI), combined with causal reasoning, enables {\it learning from the learners}.
 link: https://arxiv.org/pdf/2601.05525
 links_alt:
 audit_status: raw

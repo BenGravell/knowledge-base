@@ -1,19 +1,26 @@
-title: >
-  Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors
+title: Efficient Reward Identification in Max Entropy Reinforcement Learning with Sparsity and Rank Priors
 algorithm:
 authors:
   - Mohamad Louai Shehab
   - Alperen Tercan
   - Necmiye Ozay
 year: 2025
-source:
-type: ''
-doi:
+source: IEEE 64th Conference on Decision and Control (CDC)
+type: Conference Paper
+doi: 10.1109/cdc57313.2025.11312031
 arxiv_id: "2508.07400"
 tags:
-abstract: >
-  In this paper, we consider the problem of recovering time-varying reward functions from either optimal policies or demonstrations coming from a max entropy reinforcement learning problem. This problem is highly ill-posed without additional assumptions on the underlying rewards. However, in many applications, the rewards are indeed parsimonious, and some prior information is available. We consider two such priors on the rewards: 1) rewards are mostly constant and they change infrequently, 2) rewards can be represented by a linear combination of a small number of feature functions. We first show that the reward identification problem with the former prior can be recast as a sparsification problem subject to linear constraints. Moreover, we give a polynomial-time algorithm that solves this sparsification problem exactly. Then, we show that identifying rewards representable with the minimum number of features can be recast as a rank minimization problem subject to linear constraints, for which convex relaxations of rank can be invoked. In both cases, these observations lead to efficient optimization-based reward identification algorithms. Several examples are given to demonstrate the accuracy of the recovered rewards as well as their generalizability.
-summary: ''
+  - Rank minimization
+  - Convex relaxation
+  - Reinforcement learning
+  - Accuracy
+  - Optimization
+  - Learning
+abstract: 'In this paper, we consider the problem of recovering time-varying reward functions from either optimal policies or demonstrations coming from a max entropy reinforcement learning problem. This problem is highly ill-posed without additional assumptions on the underlying rewards. However, in many applications, the rewards are indeed parsimonious, and some prior information is available. We consider two such priors on the rewards: 1) rewards are mostly constant and they change infrequently, 2) rewards can be represented by a linear combination of a small number of feature functions. We first show that the reward identification problem with the former prior can be recast as a sparsification problem subject to linear constraints. Moreover, we give a polynomial-time algorithm that solves this sparsification problem exactly. Then, we show that identifying rewards representable with the minimum number of features can be recast as a rank minimization problem subject to linear constraints, for which convex relaxations of rank can be invoked. In both cases, these observations lead to efficient optimization-based reward identification algorithms. Several examples are given to demonstrate the accuracy of the recovered rewards as well as their generalizability.'
+summary: This paper considers the problem of recovering time-varying reward functions from either optimal policies or demonstrations coming from a max entropy reinforcement learning problem. The abstract also notes that this problem is highly ill-posed without additional assumptions on the underlying rewards.
 link: https://arxiv.org/pdf/2508.07400
 links_alt:
+  - https://doi.org/10.1109/cdc57313.2025.11312031
+  - https://ieeexplore.ieee.org/document/11312031/
+  - http://xplorestaging.ieee.org/ielx8/11311984/11311968/11312031.pdf?arnumber=11312031
 audit_status: raw

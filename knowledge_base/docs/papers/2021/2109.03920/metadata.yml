@@ -5,14 +5,18 @@ authors:
   - Rafid Mahmood
   - Ian Yihang Zhu
 year: 2021
-source:
-type: ''
-doi:
+source: Operations Research
+type: Journal Paper
+doi: 10.1287/opre.2022.0382
 arxiv_id: "2109.03920"
 tags:
-abstract: >
-  Inverse optimization describes a process that is the "reverse" of traditional mathematical optimization. Unlike traditional optimization, which seeks to compute optimal decisions given an objective and constraints, inverse optimization takes decisions as input and determines an objective and/or constraints that render these decisions approximately or exactly optimal. In recent years, there has been an explosion of interest in the mathematics and applications of inverse optimization. This paper provides a comprehensive review of both the methodological and application-oriented literature in inverse optimization.
-summary: ''
+  - Optimization
+  - Mathematical optimization
+abstract: Inverse optimization describes a process that is the "reverse" of traditional mathematical optimization. Unlike traditional optimization, which seeks to compute optimal decisions given an objective and constraints, inverse optimization takes decisions as input and determines an objective and/or constraints that render these decisions approximately or exactly optimal. In recent years, there has been an explosion of interest in the mathematics and applications of inverse optimization. This paper provides a comprehensive review of both the methodological and application-oriented literature in inverse optimization.
+summary: Inverse optimization describes a process that is the "reverse" of traditional mathematical optimization. The abstract also notes that unlike traditional optimization, which seeks to compute optimal decisions given an objective and constraints, inverse optimization takes decisions as input and determines an objective and/or constraints that render these decisions approximately or exactly optimal.
 link: https://arxiv.org/pdf/2109.03920
 links_alt:
+  - https://doi.org/10.1287/opre.2022.0382
+  - https://pubsonline.informs.org/doi/10.1287/opre.2022.0382
+  - https://pubsonline.informs.org/doi/pdf/10.1287/opre.2022.0382
 audit_status: raw

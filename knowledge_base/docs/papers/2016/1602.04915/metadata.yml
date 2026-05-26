@@ -1,19 +1,20 @@
 title: Gradient Descent Converges to Minimizers
-algorithm: "Gradient Descent"
+algorithm: Gradient Descent
 authors:
   - Jason D. Lee
   - Max Simchowitz
   - Michael I. Jordan
   - Benjamin Recht
 year: 2016
-source:
-type: ''
+source: arXiv
+type: Preprint
 doi:
 arxiv_id: "1602.04915"
 tags:
-abstract: >
-  We show that gradient descent converges to a local minimizer, almost surely with random initialization. This is proved by applying the Stable Manifold Theorem from dynamical systems theory.
-summary: ''
+  - Gradient descent
+  - Gradient Descent
+abstract: We show that gradient descent converges to a local minimizer, almost surely with random initialization. This is proved by applying the Stable Manifold Theorem from dynamical systems theory.
+summary: This paper shows that gradient descent converges to a local minimizer, almost surely with random initialization. The abstract also notes that this is proved by applying the Stable Manifold Theorem from dynamical systems theory.
 link: https://arxiv.org/pdf/1602.04915
 links_alt:
 audit_status: raw

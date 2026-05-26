@@ -1,5 +1,4 @@
-title: >
-  A Convex Optimization Approach to Smooth Trajectories for Motion Planning with Car-Like Robots
+title: A Convex Optimization Approach to Smooth Trajectories for Motion Planning with Car-Like Robots
 algorithm: CES
 authors:
   - Zhijie Zhu
@@ -27,10 +26,8 @@ tags:
   - Collision-free
   - Vehicle dynamics
   - Speed profile
-abstract: >
-  In the recent past, several sampling-based algorithms have been proposed to compute trajectories that are collision-free and dynamically-feasible. However, the outputs of such algorithms are notoriously jagged. In this paper, by focusing on robots with car-like dynamics, we present a fast and simple heuristic algorithm, named Convex Elastic Smoothing (CES) algorithm, for trajectory smoothing and speed optimization. The CES algorithm is inspired by earlier work on elastic band planning and iteratively performs shape and speed optimization. The key feature of the algorithm is that both optimization problems can be solved via convex programming, making CES particularly fast. A range of numerical experiments show that the CES algorithm returns high-quality solutions in a matter of a few hundreds of milliseconds and hence appears amenable to a real-time implementation.
-summary: >
-  CES takes a reference trajectory as input, then re-plans both the path shape and speed profile within a sequence of obstacle-free "bubble" regions along the trajectory using convex programming. This makes it a powerful post-processor, reportedly outperforming traditional path shortcutting heuristics as well as elastic band approaches.
+abstract: In the recent past, several sampling-based algorithms have been proposed to compute trajectories that are collision-free and dynamically-feasible. However, the outputs of such algorithms are notoriously jagged. In this paper, by focusing on robots with car-like dynamics, we present a fast and simple heuristic algorithm, named Convex Elastic Smoothing (CES) algorithm, for trajectory smoothing and speed optimization. The CES algorithm is inspired by earlier work on elastic band planning and iteratively performs shape and speed optimization. The key feature of the algorithm is that both optimization problems can be solved via convex programming, making CES particularly fast. A range of numerical experiments show that the CES algorithm returns high-quality solutions in a matter of a few hundreds of milliseconds and hence appears amenable to a real-time implementation.
+summary: CES takes a reference trajectory as input, then re-plans both the path shape and speed profile within a sequence of obstacle-free "bubble" regions along the trajectory using convex programming. This makes it a powerful post-processor, reportedly outperforming traditional path shortcutting heuristics as well as elastic band approaches.
 link: https://arxiv.org/pdf/1506.01085
 links_alt:
   - https://ieeexplore.ieee.org/document/7402333

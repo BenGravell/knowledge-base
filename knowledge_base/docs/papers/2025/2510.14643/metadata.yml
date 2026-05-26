@@ -1,5 +1,5 @@
-title: "Generative Models from and for Sampling-Based MPC: A Bootstrapped Approach for Adaptive Contact-Rich Manipulation"
-algorithm:
+title: 'Generative Models from and for Sampling-Based MPC: A Bootstrapped Approach for Adaptive Contact-Rich Manipulation'
+algorithm: MPC
 authors:
   - Lara Brudermüller
   - Brandon Hung
@@ -9,14 +9,31 @@ authors:
   - Preston Culbertson
   - Simon Le Cleac'h
 year: 2025
-source:
-type: ''
-doi:
+source: IEEE Robotics and Automation Letters
+type: Journal Paper
+doi: 10.1109/lra.2026.3655193
 arxiv_id: "2510.14643"
 tags:
-abstract: >
-  We present a generative predictive control (GPC) framework that amortizes sampling-based Model Predictive Control (SPC) by bootstrapping it with conditional flow-matching models trained on SPC control sequences collected in simulation. Unlike prior work relying on iterative refinement or gradient-based solvers, we show that meaningful proposal distributions can be learned directly from noisy SPC data, enabling more efficient and informed sampling during online planning. We further demonstrate, for the first time, the application of this approach to real-world contact-rich loco-manipulation with a quadruped robot. Extensive experiments in simulation and on hardware show that our method improves sample efficiency, reduces planning horizon requirements, and generalizes robustly across task variations.
-summary: ''
+  - Model predictive control
+  - Predictive control
+  - Robotics
+  - Robustness
+  - Online algorithms
+  - Sampling-based methods
+  - Planning
+  - Control
+  - Sampling
+  - MPC
+  - We present a generative predictive control
+  - GPC
+  - Framework that amortizes sampling-based Model Predictive Control
+  - SPC
+  - Generative model
+abstract: We present a generative predictive control (GPC) framework that amortizes sampling-based Model Predictive Control (SPC) by bootstrapping it with conditional flow-matching models trained on SPC control sequences collected in simulation. Unlike prior work relying on iterative refinement or gradient-based solvers, we show that meaningful proposal distributions can be learned directly from noisy SPC data, enabling more efficient and informed sampling during online planning. We further demonstrate, for the first time, the application of this approach to real-world contact-rich loco-manipulation with a quadruped robot. Extensive experiments in simulation and on hardware show that our method improves sample efficiency, reduces planning horizon requirements, and generalizes robustly across task variations.
+summary: This paper presents a generative predictive control (GPC) framework that amortizes sampling-based Model Predictive Control (SPC) by bootstrapping it with conditional flow-matching models trained on SPC control sequences collected in simulation. The abstract also notes that unlike prior work relying on iterative refinement or gradient-based solvers, we show that meaningful proposal distributions can be learned directly from noisy SPC data, enabling more efficient and informed sampling during online planning.
 link: https://arxiv.org/pdf/2510.14643
 links_alt:
+  - https://doi.org/10.1109/lra.2026.3655193
+  - https://ieeexplore.ieee.org/document/11358435/
+  - http://xplorestaging.ieee.org/ielx8/7083369/11359420/11358435.pdf?arnumber=11358435
 audit_status: raw

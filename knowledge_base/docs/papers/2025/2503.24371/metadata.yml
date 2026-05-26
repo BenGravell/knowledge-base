@@ -1,19 +1,28 @@
 title: Policy Gradient for LQR with Domain Randomization
-algorithm: "Policy Gradient"
+algorithm: Policy Gradient
 authors:
   - Tesshu Fujinami
   - Bruce D. Lee
   - Nikolai Matni
   - George J. Pappas
 year: 2025
-source:
-type: ''
-doi:
+source: IEEE 64th Conference on Decision and Control (CDC)
+type: Conference Paper
+doi: 10.1109/cdc57313.2025.11312642
 arxiv_id: "2503.24371"
 tags:
-abstract: >
-  Domain randomization (DR) enables sim-to-real transfer by training controllers on a distribution of simulated environments, with the goal of achieving robust performance in the real world. Although DR is widely used in practice and is often solved using simple policy gradient (PG) methods, understanding of its theoretical guarantees remains limited. Toward addressing this gap, we provide the first convergence analysis of PG methods for domain-randomized linear quadratic regulation (LQR). We show that PG converges globally to the minimizer of a finite-sample approximation of the DR objective under suitable bounds on the heterogeneity of the sampled systems. We also quantify the sample-complexity associated with achieving a small performance gap between the sample-average and population-level objectives. Additionally, we propose and analyze a discount-factor annealing algorithm that obviates the need for an initial jointly stabilizing controller, which may be challenging to find. Empirical results support our theoretical findings and highlight promising directions for future work, including risk-sensitive DR formulations and stochastic PG algorithms.
-summary: ''
+  - Policy gradients
+  - Robustness
+  - Control
+  - Policy Gradient
+  - DR
+  - PG
+  - LQR
+abstract: Domain randomization (DR) enables sim-to-real transfer by training controllers on a distribution of simulated environments, with the goal of achieving robust performance in the real world. Although DR is widely used in practice and is often solved using simple policy gradient (PG) methods, understanding of its theoretical guarantees remains limited. Toward addressing this gap, we provide the first convergence analysis of PG methods for domain-randomized linear quadratic regulation (LQR). We show that PG converges globally to the minimizer of a finite-sample approximation of the DR objective under suitable bounds on the heterogeneity of the sampled systems. We also quantify the sample-complexity associated with achieving a small performance gap between the sample-average and population-level objectives. Additionally, we propose and analyze a discount-factor annealing algorithm that obviates the need for an initial jointly stabilizing controller, which may be challenging to find. Empirical results support our theoretical findings and highlight promising directions for future work, including risk-sensitive DR formulations and stochastic PG algorithms.
+summary: Domain randomization (DR) enables sim-to-real transfer by training controllers on a distribution of simulated environments, with the goal of achieving robust performance in the real world. The abstract also notes that although DR is widely used in practice and is often solved using simple policy gradient (PG) methods, understanding of its theoretical guarantees remains limited.
 link: https://arxiv.org/pdf/2503.24371
 links_alt:
+  - https://doi.org/10.1109/cdc57313.2025.11312642
+  - https://ieeexplore.ieee.org/document/11312642/
+  - http://xplorestaging.ieee.org/ielx8/11311984/11311968/11312642.pdf?arnumber=11312642
 audit_status: raw

@@ -17,10 +17,8 @@ tags:
   - Sampling-based control
   - Variational integration
   - Underactuated systems
-abstract: >
-  This paper presents VIMPPI, a novel control approach for underactuated double pendulum systems developed for the AI Olympics competition. We enhance the Model Predictive Path Integral framework by incorporating variational integration techniques, enabling longer planning horizons without additional computational cost. Operating at 500-700 Hz with control interpolation and disturbance detection mechanisms, VIMPPI substantially outperforms both baseline methods and alternative MPPI implementations.
-summary: >
-  Enhances MPPI with variational integration (VI) to accurately simulate the system evolution inside an MPPI over long planning horizons.
+abstract: This paper presents VIMPPI, a novel control approach for underactuated double pendulum systems developed for the AI Olympics competition. We enhance the Model Predictive Path Integral framework by incorporating variational integration techniques, enabling longer planning horizons without additional computational cost. Operating at 500-700 Hz with control interpolation and disturbance detection mechanisms, VIMPPI substantially outperforms both baseline methods and alternative MPPI implementations.
+summary: Enhances MPPI with variational integration (VI) to accurately simulate the system evolution inside an MPPI over long planning horizons.
 link: https://arxiv.org/pdf/2505.05507
 links_alt:
 audit_status: reviewed

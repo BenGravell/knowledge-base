@@ -1,18 +1,27 @@
 title: Risk-Averse Trajectory Optimization via Sample Average Approximation
-algorithm: "Trajectory Optimization"
+algorithm: Trajectory Optimization
 authors:
   - Thomas Lew
   - Riccardo Bonalli
   - Marco Pavone
 year: 2023
-source:
-type: ''
-doi:
+source: IEEE Robotics and Automation Letters
+type: Journal Paper
+doi: 10.1109/lra.2023.3331889
 arxiv_id: "2307.03167"
 tags:
-abstract: >
-  Trajectory optimization under uncertainty underpins a wide range of applications in robotics. However, existing methods are limited in terms of reasoning about sources of epistemic and aleatoric uncertainty, space and time correlations, nonlinear dynamics, and non-convex constraints. In this work, we first introduce a continuous-time planning formulation with an average-value-at-risk constraint over the entire planning horizon. Then, we propose a sample-based approximation that unlocks an efficient and general-purpose algorithm for risk-averse trajectory optimization. We prove that the method is asymptotically optimal and derive finite-sample error bounds. Simulations demonstrate the high speed and reliability of the approach on problems with stochasticity in nonlinear dynamics, obstacle fields, interactions, and terrain parameters.
-summary: ''
+  - Trajectory optimization
+  - Robotics
+  - Uncertainty
+  - Online algorithms
+  - Optimization
+  - Planning
+  - Trajectory Optimization
+abstract: Trajectory optimization under uncertainty underpins a wide range of applications in robotics. However, existing methods are limited in terms of reasoning about sources of epistemic and aleatoric uncertainty, space and time correlations, nonlinear dynamics, and non-convex constraints. In this work, we first introduce a continuous-time planning formulation with an average-value-at-risk constraint over the entire planning horizon. Then, we propose a sample-based approximation that unlocks an efficient and general-purpose algorithm for risk-averse trajectory optimization. We prove that the method is asymptotically optimal and derive finite-sample error bounds. Simulations demonstrate the high speed and reliability of the approach on problems with stochasticity in nonlinear dynamics, obstacle fields, interactions, and terrain parameters.
+summary: Trajectory optimization under uncertainty underpins a wide range of applications in robotics. The abstract also notes that however, existing methods are limited in terms of reasoning about sources of epistemic and aleatoric uncertainty, space and time correlations, nonlinear dynamics, and non-convex constraints.
 link: https://arxiv.org/pdf/2307.03167
 links_alt:
+  - https://doi.org/10.1109/lra.2023.3331889
+  - https://ieeexplore.ieee.org/document/10314724/
+  - http://xplorestaging.ieee.org/ielx7/7083369/10360389/10314724.pdf?arnumber=10314724
 audit_status: raw

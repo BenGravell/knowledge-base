@@ -1,17 +1,27 @@
-title: "DiffLoop: Tuning PID Controllers by Differentiating through the Feedback Loop"
-algorithm:
+title: 'DiffLoop: Tuning PID Controllers by Differentiating through the Feedback Loop'
+algorithm: DiffLoop
 authors:
   - Athindran Ramesh Kumar
   - Peter J. Ramadge
 year: 2021
-source:
-type: ''
-doi:
+source: 55th Annual Conference on Information Sciences and Systems (CISS)
+type: Conference Paper
+doi: 10.1109/ciss50987.2021.9400299
 arxiv_id: "2106.10516"
 tags:
-abstract: >
-  Since most industrial control applications use PID controllers, PID tuning and anti-windup measures are significant problems. This paper investigates tuning the feedback gains of a PID controller via back-calculation and automatic differentiation tools. In particular, we episodically use a cost function to generate gradients and perform gradient descent to improve controller performance. We provide a theoretical framework for analyzing this non-convex optimization and establish a relationship between back-calculation and disturbance feedback policies. We include numerical experiments on linear systems with actuator saturation to show the efficacy of this approach.
-summary: ''
+  - Convex optimization
+  - Gradient descent
+  - Optimization
+  - Control
+  - DiffLoop
+  - PID controller
+  - Feedback loop
+abstract: Since most industrial control applications use PID controllers, PID tuning and anti-windup measures are significant problems. This paper investigates tuning the feedback gains of a PID controller via back-calculation and automatic differentiation tools. In particular, we episodically use a cost function to generate gradients and perform gradient descent to improve controller performance. We provide a theoretical framework for analyzing this non-convex optimization and establish a relationship between back-calculation and disturbance feedback policies. We include numerical experiments on linear systems with actuator saturation to show the efficacy of this approach.
+summary: Since most industrial control applications use PID controllers, PID tuning and anti-windup measures are significant problems. It also investigates tuning the feedback gains of a PID controller via back-calculation and automatic differentiation tools.
 link: https://arxiv.org/pdf/2106.10516
 links_alt:
+  - https://doi.org/10.1109/CISS50987.2021.9400299
+  - https://doi.org/10.1109/ciss50987.2021.9400299
+  - https://ieeexplore.ieee.org/document/9400299/
+  - http://xplorestaging.ieee.org/ielx7/9400188/9400208/09400299.pdf?arnumber=9400299
 audit_status: raw

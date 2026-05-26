@@ -1,5 +1,5 @@
 title: 'CARLA: An Open Urban Driving Simulator'
-algorithm: "CARLA"
+algorithm: CARLA
 authors:
   - Alexey Dosovitskiy
   - German Ros
@@ -7,14 +7,24 @@ authors:
   - Antonio Lopez
   - Vladlen Koltun
 year: 2017
-source:
-type: ''
+source: Conference on Robot Learning
+type: Conference Paper
 doi:
 arxiv_id: "1711.03938"
 tags:
-abstract: >
-  We introduce CARLA, an open-source simulator for autonomous driving research. CARLA has been developed from the ground up to support development, training, and validation of autonomous urban driving systems. In addition to open-source code and protocols, CARLA provides open digital assets (urban layouts, buildings, vehicles) that were created for this purpose and can be used freely. The simulation platform supports flexible specification of sensor suites and environmental conditions. We use CARLA to study the performance of three approaches to autonomous driving: a classic modular pipeline, an end-to-end model trained via imitation learning, and an end-to-end model trained via reinforcement learning. The approaches are evaluated in controlled scenarios of increasing difficulty, and their performance is examined via metrics provided by CARLA, illustrating the platform's utility for autonomous driving research. The supplementary video can be viewed at https://youtu.be/Hp8Dz-Zek2E
-summary: ''
+  - Reinforcement learning
+  - Imitation learning
+  - Autonomous driving
+  - Vehicles
+  - Control
+  - Learning
+  - CARLA
+  - Open source
+  - Driving simulator
+  - Source code
+abstract: 'We introduce CARLA, an open-source simulator for autonomous driving research. CARLA has been developed from the ground up to support development, training, and validation of autonomous urban driving systems. In addition to open-source code and protocols, CARLA provides open digital assets (urban layouts, buildings, vehicles) that were created for this purpose and can be used freely. The simulation platform supports flexible specification of sensor suites and environmental conditions. We use CARLA to study the performance of three approaches to autonomous driving: a classic modular pipeline, an end-to-end model trained via imitation learning, and an end-to-end model trained via reinforcement learning. The approaches are evaluated in controlled scenarios of increasing difficulty, and their performance is examined via metrics provided by CARLA, illustrating the platform''s utility for autonomous driving research. The supplementary video can be viewed at https://youtu.be/Hp8Dz-Zek2E'
+summary: This paper introduces CARLA, an open-source simulator for autonomous driving research. The abstract also notes that cARLA has been developed from the ground up to support development, training, and validation of autonomous urban driving systems.
 link: https://arxiv.org/pdf/1711.03938
 links_alt:
+  - http://proceedings.mlr.press/v78/dosovitskiy17a/dosovitskiy17a.pdf
 audit_status: raw

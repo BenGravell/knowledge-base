@@ -1,4 +1,4 @@
-title: "Isaac Gym: High Performance GPU-Based Physics Simulation for Robot Learning"
+title: 'Isaac Gym: High Performance GPU-Based Physics Simulation for Robot Learning'
 algorithm: Isaac Gym
 authors:
   - Viktor Makoviychuk
@@ -13,14 +13,17 @@ authors:
   - Ankur Handa
   - Gavriel State
 year: 2021
-source:
-type: ''
+source: arXiv
+type: Preprint
 doi:
 arxiv_id: "2108.10470"
 tags:
-abstract: >
-  Isaac Gym offers a high performance learning platform to train policies for wide variety of robotics tasks directly on GPU. Both physics simulation and the neural network policy training reside on GPU and communicate by directly passing data from physics buffers to PyTorch tensors without ever going through any CPU bottlenecks. This leads to blazing fast training times for complex robotics tasks on a single GPU with 2-3 orders of magnitude improvements compared to conventional RL training that uses a CPU based simulator and GPU for neural networks. We host the results and videos at \url{https://sites.google.com/view/isaacgym-nvidia} and isaac gym can be downloaded at \url{https://developer.nvidia.com/isaac-gym}.
-summary: ''
+  - Robotics
+  - Neural networks
+  - Learning
+  - Isaac Gym
+abstract: Isaac Gym offers a high performance learning platform to train policies for wide variety of robotics tasks directly on GPU. Both physics simulation and the neural network policy training reside on GPU and communicate by directly passing data from physics buffers to PyTorch tensors without ever going through any CPU bottlenecks. This leads to blazing fast training times for complex robotics tasks on a single GPU with 2-3 orders of magnitude improvements compared to conventional RL training that uses a CPU based simulator and GPU for neural networks. We host the results and videos at \url{https://sites.google.com/view/isaacgym-nvidia} and isaac gym can be downloaded at \url{https://developer.nvidia.com/isaac-gym}.
+summary: Isaac Gym offers a high performance learning platform to train policies for wide variety of robotics tasks directly on GPU. The abstract also notes that both physics simulation and the neural network policy training reside on GPU and communicate by directly passing data from physics buffers to PyTorch tensors without ever going through any CPU bottlenecks.
 link: https://arxiv.org/pdf/2108.10470
 links_alt:
 audit_status: raw

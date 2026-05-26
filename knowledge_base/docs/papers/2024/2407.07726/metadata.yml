@@ -1,4 +1,4 @@
-title: "PaliGemma: A Versatile 3B VLM for Transfer"
+title: 'PaliGemma: A Versatile 3B VLM for Transfer'
 algorithm: PaliGemma
 authors:
   - Lucas Beyer
@@ -37,14 +37,18 @@ authors:
   - Jeremiah Harmsen
   - Xiaohua Zhai
 year: 2024
-source:
-type: ''
+source: arXiv
+type: Preprint
 doi:
 arxiv_id: "2407.07726"
 tags:
-abstract: >
-  PaliGemma is an open Vision-Language Model (VLM) that is based on the SigLIP-So400m vision encoder and the Gemma-2B language model. It is trained to be a versatile and broadly knowledgeable base model that is effective to transfer. It achieves strong performance on a wide variety of open-world tasks. We evaluate PaliGemma on almost 40 diverse tasks including standard VLM benchmarks, but also more specialized tasks such as remote-sensing and segmentation.
-summary: ''
+  - Language models
+  - Vision-language models
+  - Benchmarks
+  - PaliGemma
+  - VLM
+abstract: PaliGemma is an open Vision-Language Model (VLM) that is based on the SigLIP-So400m vision encoder and the Gemma-2B language model. It is trained to be a versatile and broadly knowledgeable base model that is effective to transfer. It achieves strong performance on a wide variety of open-world tasks. We evaluate PaliGemma on almost 40 diverse tasks including standard VLM benchmarks, but also more specialized tasks such as remote-sensing and segmentation.
+summary: PaliGemma is an open Vision-Language Model (VLM) that is based on the SigLIP-So400m vision encoder and the Gemma-2B language model. The abstract also notes that it is trained to be a versatile and broadly knowledgeable base model that is effective to transfer.
 link: https://arxiv.org/pdf/2407.07726
 links_alt:
 audit_status: raw

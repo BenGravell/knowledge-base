@@ -1,6 +1,5 @@
-title: >
-  Information Theoretic Model Predictive Control: Theory and Applications to Autonomous Driving
-algorithm: "IT-MPC"
+title: 'Information Theoretic Model Predictive Control: Theory and Applications to Autonomous Driving'
+algorithm: IT-MPC
 authors:
   - Grady Williams
   - Paul Drews
@@ -8,14 +7,26 @@ authors:
   - James M. Rehg
   - Evangelos A. Theodorou
 year: 2017
-source:
-type: ''
-doi:
+source: IEEE Transactions on Robotics
+type: Journal Paper
+doi: 10.1109/tro.2018.2865891
 arxiv_id: "1707.02342"
 tags:
-abstract: >
-  We present an information theoretic approach to stochastic optimal control problems that can be used to derive general sampling based optimization schemes. This new mathematical method is used to develop a sampling based model predictive control algorithm. We apply this information theoretic model predictive control (IT-MPC) scheme to the task of aggressive autonomous driving around a dirt test track, and compare its performance to a model predictive control version of the cross-entropy method.
-summary: ''
+  - Optimal control
+  - Model predictive control
+  - Predictive control
+  - Autonomous driving
+  - Sampling-based methods
+  - Optimization
+  - Control
+  - Sampling
+  - IT-MPC
+abstract: We present an information theoretic approach to stochastic optimal control problems that can be used to derive general sampling based optimization schemes. This new mathematical method is used to develop a sampling based model predictive control algorithm. We apply this information theoretic model predictive control (IT-MPC) scheme to the task of aggressive autonomous driving around a dirt test track, and compare its performance to a model predictive control version of the cross-entropy method.
+summary: This paper presents an information theoretic approach to stochastic optimal control problems that can be used to derive general sampling based optimization schemes. The abstract also notes that this new mathematical method is used to develop a sampling based model predictive control algorithm.
 link: https://arxiv.org/pdf/1707.02342
 links_alt:
+  - https://doi.org/10.1109/tro.2018.2865891
+  - https://ieeexplore.ieee.org/document/8558663/
+  - https://ieeexplore.ieee.org/ielam/8860/8558659/8558663-aam.pdf
+  - http://xplorestaging.ieee.org/ielx7/8860/8558659/08558663.pdf?arnumber=8558663
 audit_status: raw

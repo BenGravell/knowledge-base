@@ -1,6 +1,5 @@
-title: >
-  QuadSwarm: A Modular Multi-Quadrotor Simulator for Deep Reinforcement Learning with Direct Thrust Control
-algorithm:
+title: 'QuadSwarm: A Modular Multi-Quadrotor Simulator for Deep Reinforcement Learning with Direct Thrust Control'
+algorithm: QuadSwarm
 authors:
   - Zhehui Huang
   - Sumeet Batra
@@ -13,14 +12,23 @@ authors:
   - Zhaojing Yang
   - Gaurav S. Sukhatme
 year: 2023
-source:
-type: ''
+source: arXiv
+type: Preprint
 doi:
 arxiv_id: "2306.09537"
 tags:
-abstract: >
-  Reinforcement learning (RL) has shown promise in creating robust policies for robotics tasks. However, contemporary RL algorithms are data-hungry, often requiring billions of environment transitions to train successful policies. This necessitates the use of fast and highly-parallelizable simulators. In addition to speed, such simulators need to model the physics of the robots and their interaction with the environment to a level acceptable for transferring policies learned in simulation to reality. We present QuadSwarm, a fast, reliable simulator for research in single and multi-robot RL for quadrotors that addresses both issues. QuadSwarm, with fast forward-dynamics propagation decoupled from rendering, is designed to be highly parallelizable such that throughput scales linearly with additional compute. It provides multiple components tailored toward multi-robot RL, including diverse training scenarios, and provides domain randomization to facilitate the development and sim2real transfer of multi-quadrotor control policies. Initial experiments suggest that QuadSwarm achieves over 48,500 simulation samples per second (SPS) on a single quadrotor and over 62,000 SPS on eight quadrotors on a 16-core CPU. The code can be found in https://github.com/Zhehui-Huang/quad-swarm-rl.
-summary: ''
+  - Reinforcement learning
+  - Robotics
+  - Aerial robotics
+  - Robustness
+  - Control
+  - Learning
+  - QuadSwarm
+  - RL
+  - Simulation samples per second
+  - SPS
+abstract: Reinforcement learning (RL) has shown promise in creating robust policies for robotics tasks. However, contemporary RL algorithms are data-hungry, often requiring billions of environment transitions to train successful policies. This necessitates the use of fast and highly-parallelizable simulators. In addition to speed, such simulators need to model the physics of the robots and their interaction with the environment to a level acceptable for transferring policies learned in simulation to reality. We present QuadSwarm, a fast, reliable simulator for research in single and multi-robot RL for quadrotors that addresses both issues. QuadSwarm, with fast forward-dynamics propagation decoupled from rendering, is designed to be highly parallelizable such that throughput scales linearly with additional compute. It provides multiple components tailored toward multi-robot RL, including diverse training scenarios, and provides domain randomization to facilitate the development and sim2real transfer of multi-quadrotor control policies. Initial experiments suggest that QuadSwarm achieves over 48,500 simulation samples per second (SPS) on a single quadrotor and over 62,000 SPS on eight quadrotors on a 16-core CPU. The code can be found in https://github.com/Zhehui-Huang/quad-swarm-rl.
+summary: Reinforcement learning (RL) has shown promise in creating robust policies for robotics tasks. The abstract also notes that however, contemporary RL algorithms are data-hungry, often requiring billions of environment transitions to train successful policies.
 link: https://arxiv.org/pdf/2306.09537
 links_alt:
 audit_status: raw

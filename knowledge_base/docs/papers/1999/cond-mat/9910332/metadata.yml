@@ -19,10 +19,8 @@ tags:
   - Self-organization
   - World Wide Web
   - Genetic networks
-abstract: >
-  Systems as diverse as genetic networks or the world wide web are best described as networks with complex topology. A common property of many large networks is that the vertex connectivities follow a scale-free power-law distribution. This feature is found to be a consequence of the two generic mechanisms that networks expand continuously by the addition of new vertices, and new vertices attach preferentially to already well connected sites. A model based on these two ingredients reproduces the observed stationary scale-free distributions, indicating that the development of large networks is governed by robust self-organizing phenomena that go beyond the particulars of the individual systems.
-summary: >
-  Introduces the Barabasi-Albert model, explaining scale-free degree distributions through network growth and preferential attachment. The paper helped establish power-law degree structure as a major organizing idea in complex networks and gave a compact generative mechanism for hub formation in systems such as the Web and biological networks.
+abstract: Systems as diverse as genetic networks or the world wide web are best described as networks with complex topology. A common property of many large networks is that the vertex connectivities follow a scale-free power-law distribution. This feature is found to be a consequence of the two generic mechanisms that networks expand continuously by the addition of new vertices, and new vertices attach preferentially to already well connected sites. A model based on these two ingredients reproduces the observed stationary scale-free distributions, indicating that the development of large networks is governed by robust self-organizing phenomena that go beyond the particulars of the individual systems.
+summary: Introduces the Barabasi-Albert model, explaining scale-free degree distributions through network growth and preferential attachment. The paper helped establish power-law degree structure as a major organizing idea in complex networks and gave a compact generative mechanism for hub formation in systems such as the Web and biological networks.
 link: https://arxiv.org/pdf/cond-mat/9910332
 links_alt:
   - https://arxiv.org/abs/cond-mat/9910332
