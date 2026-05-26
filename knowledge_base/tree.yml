@@ -193,7 +193,7 @@
             - Proximal Algorithms: docs/papers/2014/2014.parikh.proximal_algorithms/metadata.yml
             - "A General Analysis of the Convergence of ADMM": docs/papers/2015/1502.02009/metadata.yml
             - "Incremental Gradient, Subgradient, and Proximal Methods for Convex Optimization: A Survey": docs/papers/2015/1507.01030/metadata.yml
-            - "On the Douglas-Rachford Splitting Method and the Proximal Point Algorithm for Maximal Monotone Operators": docs/papers/1992/1992.eckstein.on_the_douglasrachford_splitting/metadata.yml
+            - "On the Douglas-Rachford Splitting Method and the Proximal Point Algorithm for Maximal Monotone Operators": docs/papers/1992/1992.eckstein.on_the_douglas_rachford/metadata.yml
         - Robust Optimization:
           - Mean Robust Optimization: docs/papers/2022/2207.10820/metadata.yml
           - "Data-driven Distributionally Robust Optimization Using the Wasserstein Metric: Performance Guarantees and Tractable Reformulations": docs/papers/2015/1505.05116/metadata.yml
@@ -817,7 +817,7 @@
             - On an Iterative Technique for Riccati Equation Computations: docs/papers/1968/1968.kleinman.on_an_iterative_technique/metadata.yml
             - An Iterative Technique for the Steady-State Gains: docs/papers/1971/1971.hewer.an_iterative_technique_for/metadata.yml
             - "A Numerical Algorithm to Solve A^T X A - X = Q": docs/papers/1977/1977.barraud.a_numerical_algorithm_to/metadata.yml
-            - "Inexact Kleinman-Newton Method for Riccati Equations": docs/papers/2009/2009.feitzinger.inexact_kleinmannewton_method_for/metadata.yml
+            - "Inexact Kleinman-Newton Method for Riccati Equations": docs/papers/2009/2009.feitzinger.inexact_kleinman_newton_method/metadata.yml
             - "Solving the linear quadratic regulator problem in the policy space: The Policy Algebraic Riccati Equation": docs/papers/2026/2026.possieri.solving_the_linear_quadratic/metadata.yml
             - Systematic Control Design by Optimizing a Vector Performance Index: docs/papers/1979/1979.kreisselmeier.systematic_control_design_by/metadata.yml
         - Model Predictive Control (MPC):
@@ -1317,7 +1317,7 @@
         - Fitting a Kalman Smoother to Data: docs/papers/2019/1910.08615/metadata.yml
         - Globally Convergent Policy Search over Dynamic Filters for Output Estimation: docs/papers/2022/2202.11659/metadata.yml
       - Particle Filter:
-        - CONDENSATION: docs/papers/1998/1998.isard.condensationconditional_density_propagation_for/metadata.yml
+        - CONDENSATION: docs/papers/1998/1998.isard.condensation_conditional_density_propagation/metadata.yml
         - "Particle filters for positioning, navigation, and tracking": docs/papers/2002/2002.gustafsson.particle_filters_for_positioning/metadata.yml
         - "Marginalized particle filters for mixed linear/nonlinear state-space models": docs/papers/2005/2005.schon.marginalized_particle_filters_for/metadata.yml
         - "Path Integral Particle Filtering for Hybrid Systems via Saltation Matrices": docs/papers/2026/2603.01176/metadata.yml
@@ -1786,7 +1786,7 @@
               - Junior: docs/papers/2008/2008.montemerlo.junior_the_stanford_entry/metadata.yml
               - "Towards Fully Autonomous Driving: Systems and Algorithms": docs/papers/2011/2011.levinson.towards_fully_autonomous_driving/metadata.yml
               - Boss: docs/papers/2008/2008.urmson.autonomous_driving_in_urban/metadata.yml
-              - "A perception-driven autonomous urban vehicle": docs/papers/2008/2008.leonard.a_perceptiondriven_autonomous_urban/metadata.yml
+              - "A perception-driven autonomous urban vehicle": docs/papers/2008/2008.leonard.a_perception_driven_autonomous/metadata.yml
             - "Connected and automated road vehicles: state of the art and future challenges": docs/papers/2020/2020.ersal.connected_and_automated_road/metadata.yml
       - Stirling Engines:
         - The Stirling Engine of 1816: docs/papers/1816/1816.stirling.the_stirling_engine_of/metadata.yml
