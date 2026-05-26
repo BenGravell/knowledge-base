@@ -4,7 +4,7 @@ authors:
   - Charles Darwin
   - Alfred Russel Wallace
 year: 1858
-source: Journal of the Proceedings of the Linnean Society of London.
+source: Zoological Journal of the Linnean Society
 type: Journal Paper
 doi: 10.1111/j.1096-3642.1858.tb02500.x
 arxiv_id:
@@ -15,12 +15,12 @@ tags:
   - Adaptation
   - Speciation
   - Evolutionary theory
-  - Evolutionary algorithms
-abstract: ''
+abstract: >
+  My Dear Sir, the accompanying papers, which we have the honour of communicating to the Linnean Society, and which all relate to the same subject, viz. the Laws which affect the Production of Varieties, Races, and Species, contain the results of the investigations of two indefatigable naturalists, Mr. Charles Darwin and Mr. Alfred Wallace. These gentlemen having, independently and unknown to one another, conceived the same very ingenious theory to account for the appearance and perpetuation of varieties and of specific forms on our planet, may both fairly claim the merit of being original thinkers in this important line of inquiry; but neither of them having published his views, though Mr. Darwin has for many years past been repeatedly urged by us to do so, and both authors having now unreservedly placed their papers in our hands, we think it would best promote the interests of science that a selection from them should be laid before the Linnean Society. Taken in the order of their dates, they consist of: 1. Extracts from a MS. work on Species*, by Mr. Darwin, which was sketched in 1839, and copied in 1844, when the copy was read by Dr. Hooker, and its contents afterwards communicated to Sir Charles Lyell. The first Part is devoted to "The Variation of Organic Beings under Domestication and in their Natural State;" and the second chapter of that Part, from which we propose to read to the Society the extracts referred to, is headed, "On the Variation of Organic Beings in a state of Nature; on the Natural Means of Selection; on the Comparison of Domestic Races and true Species." 2. An abstract of a private letter addressed to Professor Asa Gray, of Boston, U.S., in October 1857, by Mr. Darwin, in which he repeats his views, and which shows that these remained unaltered from 1839 to 1857. 3. An Essay by Mr. Wallace, entitled "On the Tendency of Varieties to depart indefinitely from the Original Type." This was written at Ternate in February 1858, for the perusal of his friend and correspondent Mr. Darwin, and sent to him with the expressed wish that it should be forwarded to Sir Charles Lyell, if Mr. Darwin thought it sufficiently novel and interesting. So highly did Mr. Darwin appreciate the value of the views therein set forth, that he proposed, in a letter to Sir Charles Lyell, to obtain Mr. Wallace's consent to allow the Essay to be published as soon as possible. Of this step we highly approved, provided Mr. Darwin did not withhold from the public, as he was strongly inclined to do (in favour of Mr. Wallace), the memoir which he had himself written on the same subject, and which, as before stated, one of us had perused in 1844, and the contents of which we had both of us been privy to for many years. On representing this to Mr. Darwin, he gave us permission to make what use we thought proper of his memoir; and in adopting our present course, of presenting it to the Linnean Society, we have explained to him that we are not solely considering the relative claims to priority of himself and his friend, but the interests of science generally; for we feel it to be desirable that views founded on a wide deduction from facts, and matured by years of reflection, should constitute at once a goal from which others may start, and that, while the scientific world is waiting for the appearance of Mr. Darwin's complete work, some of the leading results of his labours, as well as those of his able correspondent, should together be laid before the public.
 summary: >
-  Presents the joint Darwin-Wallace announcement of evolution by natural selection: heritable variation, struggle for existence, and differential survival can accumulate adaptations and produce new species.
+  Presents the joint Darwin-Wallace announcement of evolution by natural selection: that heritable variation, struggle for existence, and differential survival can accumulate adaptations and produce new species.
 link: https://academic.oup.com/zoolinnean/article/3/9/45/2645875
 links_alt:
-  - https://doi.org/10.1111/j.1096-3642.1858.tb02500.x
+  - https://darwin-online.org.uk/content/frameset?itemID=F350&viewtype=text&pageseq=1
   - https://www.linnean.org/news/2018/07/01/1st-july-2018-160th-anniversary-of-the-presentation-of-on-the-tendency-of-species-to-form-varieties
-audit_status: raw
+audit_status: reviewed
