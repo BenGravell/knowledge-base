@@ -1,5 +1,44 @@
 # TODO
 
+## Home page
+
+
+### Verbiage to include
+
+I do not claim to have read every detail of every paper - many I have just skimmed the abstract.
+
+I have my own personal biases - I include more papers from people I know and/or especially admire, and there are certain areas I find especially intriguing and hence are overrepresneted compared to a neutral external observer or encyclopedist
+
+
+
+What this is:
+- A moderately sized collection of items that have passed my personal 'sniff test' and manual triage into a taxonomy 
+
+What this is not:
+- A collection of every single paper in the universe
+- A collection of every paper written by every author I admire 
+- A collection of only the important papers from every field in academia and industry - some areas are deep and thorough, and some are wide/small
+
+
+
+### Include more onboarding content
+
+Needs to answer:
+
+Why this site exists? Aren't there other knowledge graph systems? Isn't this reinventing the wheel?
+
+
+Need to highlight twin values:
+1. Semantic embeddings reveal similarity between what the papers claim to be about, using large language model as a prior about semantics. 
+2. Tree taxonomy reveals similarity about papers based on one human expert's opinion: my own.
+
+We get a strong combination of both machine learned relresentation of the human collective, as well as my own singular and (mostly) coherent perspective.
+
+
+The aim is not to index the universe, it is to collect a moderate size corpus of things I find interesting and compelling, and put some engaging tooling behind it for discovery. 
+
+Think of it as an interactive mega survey paper.
+
 ## Taxonomy
 
 ```sh
@@ -250,45 +289,6 @@ One more reality check: “completely” means removed from refs you control. Ol
 
 ### Scripts
 
-#### arxiv check
-
-Add script /skill to check for arXiv version of papers.
-
-Leverage these facts:
-1. arXiv only started in 1991, so papers dated year 1990 and earlier cannot possibly have a valid arxiv version
-2. Papers already having an arxiv ID do not need a search, we already found it.
-3. Sometimes a paper's reprint version has a different name than the officially published version.
-
-#### audit checks
-
-Add audit check for "Team" and other non individual human names in the author list.
-Positive example
-<https://bengravell.github.io/knowledge-base/papers/2507_05331/>
-
-Write a soft audit script that checks for high embedding dissimilarity of items belonging to the same category in the tree. This is to assist me with making good categories
-
-Write audit script to check for identical tree key label and algorithm field in metadata. Flag violations with both sides for manual resolution.
-
-Write audit script to check for multiple metadata items claiming the same algorithm. Flag violations for manual resolution.
-
-add check to audit script for the word 'abstract' actually appearing in the abstract field text
-
-add checks for weird characters in abstract, title, author fields
-
-add check for likely mis-spellings
-
-add check for likely unnecessary space and hyphens in middle of words (typical from OCR generated abstracts)
-
-add check for likely garbled links like <sub xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">1</sub>
-
-#### dollar sign / math
-
-Add checked in audit for dollar signs in abstract.
-example:
-<https://bengravell.github.io/knowledge-base/papers/2015_nesterov_random_gradient_free_minimization/>
-
-Fix math notation, make plain text readable.
-
 ### prefill
 
 Arxiv prefill script should strip off version number from url if present before fetching data.
@@ -418,6 +418,14 @@ Use clustering algorithm results (hierarchical agg) to help set new categories.
 ## Map
 
 ### UX
+
+https://bengravell.github.io/knowledge-base/map/
+
+Lock max zoom out to just above the max needed to see every possible node at once. This is to help users avoid making the map too tiny to reasonably see or use. And to prevent tiny node crowding at minimum node draw size.
+
+Reduce the minimum node draw size by 2x (i believe the current setting is 4 pixel diameter?)
+
+When on mobile, selected node tooltip must only take up thr bottom half of the page, leaving the top half for settings menu and map.
 
 #### filters
 
