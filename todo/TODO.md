@@ -283,15 +283,6 @@ One more reality check: “completely” means removed from refs you control. Ol
 
 ## Metadata cleanup
 
-### Scripts
-
-### Add validation on mkdocs.yml
-
-- ensure every linked doc actually exists
-- ensure every paper in the docs source has a reference in mkdocs.yml (no dead data)
-
-- Ensure every tail branch in tree has more than one leaf node / item. Use sparse tail branches to guide exploration
-
 ### Schema
 
 Define the schema in a single source of truth doc.

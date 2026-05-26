@@ -123,6 +123,13 @@ python scripts/add_audit_status.py --dry-run
 python scripts/add_audit_status.py
 ```
 
+Validate `tree.yml` local links and paper placement:
+
+```bash
+python scripts/validate_tree.py
+python scripts/validate_tree.py --check-algorithm-labels
+```
+
 Find generated paper pages that are missing from the `Tree` nav:
 
 ```bash

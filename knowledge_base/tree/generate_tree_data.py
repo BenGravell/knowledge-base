@@ -21,6 +21,7 @@ import mkdocs_gen_files
 import yaml
 
 from knowledge_base.tree.nav_source import metadata_source_path, tree_from_config, tree_from_file
+from knowledge_base.tree.validation import format_tree_validation_report, validate_tree
 from knowledge_base.utils.paper_ids import paper_id_from_metadata as generated_paper_id
 
 
@@ -239,6 +240,11 @@ def build_children(items: list[Any], path: list[str], ids: IdFactory) -> list[di
                 nodes.append(build_branch(label, child, path, ids))
 
     return nodes
+
+
+tree_validation_report = validate_tree()
+if not tree_validation_report.ok:
+    raise RuntimeError(format_tree_validation_report(tree_validation_report, max_results=50))
 
 
 with open(MKDOCS_YML, "r", encoding="utf-8") as f:

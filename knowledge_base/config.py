@@ -38,6 +38,7 @@ VALID_TYPES: list[str] = [
     "Technical Report",
     "PhD Dissertation",
     "Survey Paper",
+    "Book",
     "Blog Post",
     "Other",
 ]

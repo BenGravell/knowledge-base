@@ -103,6 +103,9 @@ _ARXIV_OLD_RE = re.compile(  # e.g. math.CO/0701001
 _HTML_ENTITY_RE = re.compile(
     r"&(?:#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);"
 )
+_YAML_CHARACTER_ESCAPE_RE = re.compile(
+    r"\\(?:x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})"
+)
 _SOURCE_YEAR_RE = re.compile(r"(?<!\d)(?:18|19|20)\d{2}(?!\d)")
 _URL_RE = re.compile(r"\b(?:https?://|ftp://|www\.)[^\s<>()]+", re.IGNORECASE)
 _TITLE_HTML_TAG_RE = re.compile(r"</?\s*[A-Za-z][^>]*>")
@@ -219,6 +222,29 @@ _SCRAPED_ABSTRACT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
         "publisher access controls",
         re.compile(r"Publisher Site\s*(?:Get Access|eReaderPDF)?\b", re.I),
     ),
+)
+_PUBLISHER_MARK_ABSTRACT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    (
+        "copyright notice",
+        re.compile(
+            "(?:"
+            r"\N{COPYRIGHT SIGN}\s*(?:18|19|20)\d{2}[^.]{0,120}\.?|"
+            r"\bcopyright\s*(?:\N{COPYRIGHT SIGN})?\s*(?:18|19|20)\d{2}[^.]{0,120}\.?|"
+            r"\(c\)\s*(?:18|19|20)\d{2}[^.]{0,120}\.?"
+            ")",
+            re.I,
+        ),
+    ),
+    (
+        "rights-reserved notice",
+        re.compile(r"\ball\s+rights\s+reserved\.?", re.I),
+    ),
+)
+_PUBLISHER_MARK_ABSTRACT_ISSUE_PREFIX = (
+    "Contains publisher/copyright notice in the abstract:"
+)
+_TITLE_CHARACTER_ESCAPE_ISSUE_PREFIX = (
+    "Contains escaped YAML character sequence(s) in title"
 )
 _URL_DISALLOWED_FIELDS = {
     "title",
@@ -467,6 +493,9 @@ _NON_INDIVIDUAL_AUTHOR_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("project/community author", re.compile(r"\b(?:project|initiative|community|contributors|developers)\b", re.I)),
     ("placeholder author", re.compile(r"^(?:anonymous|various|various authors|unknown|et\s+al\.?)$", re.I)),
 )
+_KNOWN_INDIVIDUAL_AUTHOR_NAMES = {
+    "angela center",
+}
 _COMMON_MISSPELLINGS: dict[str, str] = {
     "acommodate": "accommodate",
     "accomodate": "accommodate",
@@ -668,6 +697,7 @@ _FORBIDDEN_TAGS = {
     "state of the art": "too generic to be useful as a tag",
 }
 _LONG_TAG_ALLOWLIST = {
+    "law of the iterated logarithm",
     "model predictive path integral control",
 }
 _NON_PLURAL_S_ENDINGS = ("ss", "us", "is", "ics")
@@ -812,6 +842,8 @@ def find_weird_text_character_issues(
 def _non_individual_author_reason(author: str) -> str | None:
     stripped = " ".join(author.split()).strip(" .")
     if not stripped:
+        return None
+    if stripped.casefold() in _KNOWN_INDIVIDUAL_AUTHOR_NAMES:
         return None
     for reason, pattern in _NON_INDIVIDUAL_AUTHOR_PATTERNS:
         if pattern.search(stripped):
@@ -1098,7 +1130,16 @@ def find_escaped_sequence_issues(path: Path, data: dict) -> list["Issue"]:
 # ---------------------------------------------------------------------------
 
 
+def _normalize_slug_separators(text: str) -> str:
+    """Preserve Unicode dash word breaks before ASCII folding removes them."""
+    return "".join(
+        "-" if unicodedata.category(ch) == "Pd" or ch == "\N{MINUS SIGN}" else ch
+        for ch in text
+    )
+
+
 def _ascii_fold(text: str) -> str:
+    text = _normalize_slug_separators(text)
     return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
 
 
@@ -1202,6 +1243,25 @@ def _abstract_word_count(text: str) -> int:
     return len(re.findall(r"[A-Za-z0-9]+(?:[-'][A-Za-z0-9]+)*", text))
 
 
+def _format_labeled_text_hits(hits: list[tuple[str, str]]) -> str:
+    examples: list[str] = []
+    seen: set[tuple[str, str]] = set()
+    for label, snippet in hits:
+        snippet = _normalize_inline_text(snippet)
+        if len(snippet) > 90:
+            snippet = f"{snippet[:87]}..."
+        key = (label, snippet)
+        if key in seen:
+            continue
+        seen.add(key)
+        examples.append(f"{label} ({snippet!r})")
+        if len(examples) >= 4:
+            break
+
+    suffix = f", ... ({len(hits)} total)" if len(hits) > len(examples) else ""
+    return ", ".join(examples) + suffix
+
+
 def find_malformed_abstract_issues(
     path: Path,
     abstract: str,
@@ -1254,6 +1314,22 @@ def find_malformed_abstract_issues(
                 "abstract",
                 f"Looks like scraped page text mixed into the abstract: {examples}",
                 "Replace with only the source abstract; remove navigation, references, metrics, and cited-by text.",
+            )
+        )
+
+    publisher_mark_hits = [
+        (label, match.group(0))
+        for label, pattern in _PUBLISHER_MARK_ABSTRACT_PATTERNS
+        for match in pattern.finditer(text)
+    ]
+    if publisher_mark_hits:
+        issues.append(
+            Issue(
+                path,
+                "abstract",
+                f"{_PUBLISHER_MARK_ABSTRACT_ISSUE_PREFIX} "
+                f"{_format_labeled_text_hits(publisher_mark_hits)}",
+                "Remove publisher notices, copyright footers, and rights-reserved text; keep only the source abstract.",
             )
         )
 
@@ -2131,6 +2207,72 @@ def find_multiline_field_issues(path: Path, raw: str) -> list["Issue"]:
     return issues
 
 
+def _top_level_field_raw(raw: str, target_field: str) -> str | None:
+    lines = raw.splitlines(keepends=True)
+    index = 0
+    while index < len(lines):
+        parsed = _top_level_field_span(lines, index)
+        if parsed is None:
+            index += 1
+            continue
+
+        field_name, _, end = parsed
+        if field_name == target_field:
+            return "".join(lines[index:end])
+        index = end
+
+    return None
+
+
+def _decode_yaml_character_escape(sequence: str) -> str | None:
+    prefix = sequence[1]
+    digits = sequence[2:]
+    if prefix not in {"x", "u", "U"}:
+        return None
+
+    try:
+        codepoint = int(digits, 16)
+        return chr(codepoint)
+    except ValueError:
+        return None
+
+
+def find_title_character_escape_issues(
+    path: Path,
+    raw: str,
+    fixed_title: str,
+) -> list["Issue"]:
+    title_raw = _top_level_field_raw(raw, "title")
+    if title_raw is None:
+        return []
+
+    matches = sorted(set(_YAML_CHARACTER_ESCAPE_RE.findall(title_raw)))
+    if not matches:
+        return []
+
+    examples = ", ".join(matches[:5])
+    if len(matches) > 5:
+        examples += f", ... ({len(matches)} total)"
+
+    decoded = []
+    for match in matches[:3]:
+        decoded_char = _decode_yaml_character_escape(match)
+        if decoded_char is None:
+            decoded.append(f"{match} is not a valid Unicode scalar value")
+        else:
+            decoded.append(f"{match} decodes to {decoded_char!r}")
+    decoded_note = f" ({'; '.join(decoded)})" if decoded else ""
+
+    return [
+        Issue(
+            path,
+            "title",
+            f"{_TITLE_CHARACTER_ESCAPE_ISSUE_PREFIX}: {examples}{decoded_note}",
+            fixed_title,
+        )
+    ]
+
+
 # ---------------------------------------------------------------------------
 # Per-file audit
 # ---------------------------------------------------------------------------
@@ -2183,14 +2325,18 @@ def audit_file(
     # -- title --
     title_raw = data.get("title")
     title = str(title_raw).strip() if title_raw not in (None, "") else ""
+    title_corrected = title
+    if title and should_check(CHECK_TITLE):
+        title_corrected = _suggest_title_fix(raw, title)
+    if title and (should_check(CHECK_TITLE) or should_check(CHECK_ESCAPE)):
+        issues.extend(find_title_character_escape_issues(path, raw, title_corrected))
     if should_check(CHECK_TITLE) and "title" not in missing:
         if not title:
             issues.append(Issue(path, "title", "Empty"))
         else:
             issues.extend(find_weird_text_character_issues(path, "title", title))
             issues.extend(find_likely_misspelling_issues(path, "title", title))
-            corrected = _suggest_title_fix(raw, title)
-            if title != corrected:
+            if title != title_corrected:
                 message = (
                     f"Contains title markup/math garbage: {title!r}"
                     if _title_has_garbage(title)
@@ -2201,7 +2347,7 @@ def audit_file(
                         path,
                         "title",
                         message,
-                        corrected,
+                        title_corrected,
                     )
                 )
 
@@ -2946,6 +3092,26 @@ def _is_garbled_markup_issue(issue: Issue) -> bool:
     return issue.message.startswith("Contains likely garbled HTML/XML markup")
 
 
+def _is_publisher_mark_abstract_issue(issue: Issue) -> bool:
+    return (
+        issue.field == "abstract"
+        and issue.message.startswith(_PUBLISHER_MARK_ABSTRACT_ISSUE_PREFIX)
+    )
+
+
+def _delete_publisher_marks_from_abstract(abstract: str) -> tuple[str, int]:
+    cleaned = abstract
+    removed = 0
+    for _, pattern in _PUBLISHER_MARK_ABSTRACT_PATTERNS:
+        cleaned, count = pattern.subn("", cleaned)
+        removed += count
+
+    if removed:
+        cleaned = _normalize_inline_text(cleaned)
+        cleaned = re.sub(r"\s+([,.;:])", r"\1", cleaned)
+    return cleaned, removed
+
+
 def _fix_escaped_sequences_in_yaml(raw: str) -> tuple[str, int]:
     new_raw = _html_unescape_repeated(raw)
     return new_raw, len(_HTML_ENTITY_RE.findall(raw))
@@ -3098,6 +3264,29 @@ def _format_metadata_scalar_line(field_name: str, value: object, newline: str = 
         width=1_000_000_000,
     ).strip()
     return dumped + newline
+
+
+def _fix_metadata_scalar_field_in_yaml(raw: str, field_name: str, new_value: object) -> str:
+    lines = raw.splitlines(keepends=True)
+    for start, _line in enumerate(lines):
+        parsed = _top_level_field_span(lines, start)
+        if parsed is None:
+            continue
+
+        current_field_name, _value, end = parsed
+        if current_field_name != field_name:
+            continue
+
+        match = _TOP_LEVEL_SCALAR_FIELD_RE.match(lines[start])
+        newline = match.group("newline") if match else "\n"
+        replacement = _format_metadata_scalar_line(
+            field_name,
+            new_value,
+            newline or "\n",
+        )
+        return "".join(lines[:start] + [replacement] + lines[end:])
+
+    return raw
 
 
 def _fix_multiline_fields_in_yaml(
@@ -3453,6 +3642,9 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
         ]
         source_year_fixes = [i for i in issues if _is_source_year_issue(i)]
         tag_fixes = [i for i in issues if _is_fixable_tag_issue(i)]
+        abstract_publisher_fixes = [
+            i for i in issues if _is_publisher_mark_abstract_issue(i)
+        ]
         multiline_fields = {i.field for i in issues if _is_multiline_field_issue(i)}
         has_escaped_sequence_fixes = any(_is_escaped_sequence_issue(i) for i in issues)
         has_garbled_markup_fixes = any(_is_garbled_markup_issue(i) for i in issues)
@@ -3460,6 +3652,7 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
             not title_fixes
             and not source_year_fixes
             and not tag_fixes
+            and not abstract_publisher_fixes
             and not multiline_fields
             and not has_escaped_sequence_fixes
             and not has_garbled_markup_fixes
@@ -3481,6 +3674,23 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
                 new_source = source_year_fixes[0].suggestion
                 new_raw = _fix_source_in_yaml(new_raw, new_source)
                 messages.append(f"  source: {old_source!r} [green]->[/] {new_source!r}")
+
+            if abstract_publisher_fixes:
+                parsed = yaml.safe_load(new_raw) or {}
+                old_abstract = str(parsed.get("abstract") or "")
+                new_abstract, n_removed_marks = _delete_publisher_marks_from_abstract(
+                    old_abstract
+                )
+                if n_removed_marks and new_abstract != old_abstract:
+                    new_raw = _fix_metadata_scalar_field_in_yaml(
+                        new_raw,
+                        "abstract",
+                        new_abstract,
+                    )
+                    messages.append(
+                        "  removed "
+                        f"{n_removed_marks} publisher/copyright notice(s) from abstract"
+                    )
 
             if multiline_fields:
                 parsed = yaml.safe_load(new_raw) or {}
@@ -3601,14 +3811,14 @@ def main() -> None:
 Checks performed on each metadata.yml:
   unknown   - ERROR for any field not in the VALID_FIELDS schema
   required  - ERROR if any of title, authors, year, abstract, type, audit_status missing
-  title     - ERROR if empty; ERROR if not in title case; ERROR/WARN for corrupt characters or likely misspellings
+  title     - ERROR if empty; ERROR if not in title case; ERROR for raw YAML character escapes like \\u2014; ERROR/WARN for corrupt characters or likely misspellings
   algorithm - ERROR if the algorithm label is generic; WARN if a bare concrete method label appears to describe analysis/application of an existing method rather than the proposing paper
   authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order, non-individual names, or suspicious Unicode corruption/control characters
   tags      - ERROR if tags contain duplicate values, trivial singular/plural duplicates, forbidden generic values, leading articles, more than 4 words, non-capital-case ordinary English words, or sentence-like prose debris copied from an abstract
   year      - ERROR if not a 4-digit integer
   arxiv     - ERROR if arxiv_id is present but not a valid arXiv ID
-  abstract  - ERROR if empty, placeholder-like, contains scraped page text, or has PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed; WARN for dollar math, copied "abstract" headings, likely misspellings, or OCR word splits
-  escape    - ERROR if string fields contain HTML/entity escapes like &#39; or &amp;
+  abstract  - ERROR if empty, placeholder-like, contains scraped page text, publisher/copyright notices, or PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed; WARN for dollar math, copied "abstract" headings, likely misspellings, or OCR word splits
+  escape    - ERROR if string fields contain HTML/entity escapes like &#39; or &amp;, or if title contains raw YAML character escapes like \\u2014
   url       - ERROR if URLs appear in title, algorithm, authors, year, source, type, doi, arxiv_id, tags, or audit_status; ERROR if links contain garbled HTML/XML markup
   multiline - ERROR if scalar fields that must be one-line are written across multiple YAML lines
   source    - ERROR if the source/venue field contains a publication year
@@ -3640,7 +3850,7 @@ Available --check names:
         "--fix",
         action="store_true",
         help=(
-            "Auto-fix title-case, tag casing/leading articles/duplicate tags, escaped HTML/entity/markup issues, multiline scalar fields, source years, and path slugs; "
+            "Auto-fix title-case, tag casing/leading articles/duplicate tags, abstract publisher/copyright notices, escaped HTML/entity/markup issues, multiline scalar fields, source years, and path slugs; "
             "path fixes move metadata directories and update direct references"
         ),
     )
