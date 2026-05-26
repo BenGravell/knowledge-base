@@ -611,7 +611,12 @@ def _abstract_word_count(text: str) -> int:
     return len(re.findall(r"[A-Za-z0-9]+(?:[-'][A-Za-z0-9]+)*", text))
 
 
-def find_malformed_abstract_issues(path: Path, abstract: str) -> list[Issue]:
+def find_malformed_abstract_issues(
+    path: Path,
+    abstract: str,
+    *,
+    allow_short: bool = False,
+) -> list[Issue]:
     issues: list[Issue] = []
     text = _normalize_inline_text(abstract)
     if not text:
@@ -627,7 +632,13 @@ def find_malformed_abstract_issues(path: Path, abstract: str) -> list[Issue]:
                 "Replace with the full source abstract, or leave blank only when no abstract truly exists.",
             )
         )
-    elif len(text) < _NEAR_EMPTY_ABSTRACT_CHAR_LIMIT or word_count < _NEAR_EMPTY_ABSTRACT_WORD_LIMIT:
+    elif (
+        not allow_short
+        and (
+            len(text) < _NEAR_EMPTY_ABSTRACT_CHAR_LIMIT
+            or word_count < _NEAR_EMPTY_ABSTRACT_WORD_LIMIT
+        )
+    ):
         issues.append(
             Issue(
                 path,
@@ -820,7 +831,14 @@ def audit_file(
         if not abstract_str.strip():
             issues.append(Issue(path, "abstract", "Empty"))
         else:
-            issues.extend(find_malformed_abstract_issues(path, abstract_str))
+            audit_status = str(data.get(AUDIT_STATUS_FIELD) or "").strip()
+            issues.extend(
+                find_malformed_abstract_issues(
+                    path,
+                    abstract_str,
+                    allow_short=audit_status == "reviewed",
+                )
+            )
 
     # -- type --
     if should_check(CHECK_TYPE) and "type" not in missing:
@@ -1724,7 +1742,7 @@ Checks performed on each metadata.yml:
   authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order; ERROR if entries contain suspicious Unicode corruption/control characters
   year      - ERROR if not a 4-digit integer
   arxiv     - ERROR if arxiv_id is present but not a valid arXiv ID
-  abstract  - ERROR if empty, near-empty, placeholder-like, contains scraped page text, or has PDF extraction artifacts
+  abstract  - ERROR if empty, placeholder-like, contains scraped page text, or has PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed
   escape    - ERROR if string fields contain HTML/entity escapes like &#39; or &amp;
   type      - ERROR if not a recognised paper type
   status    - ERROR if audit_status is not one of: raw, partial, reviewed
