@@ -2,24 +2,21 @@
 
 ## Home page
 
-
 ### Verbiage to include
 
 I do not claim to have read every detail of every paper - many I have just skimmed the abstract.
 
 I have my own personal biases - I include more papers from people I know and/or especially admire, and there are certain areas I find especially intriguing and hence are overrepresneted compared to a neutral external observer or encyclopedist
 
-
-
 What this is:
-- A moderately sized collection of items that have passed my personal 'sniff test' and manual triage into a taxonomy 
+
+- A moderately sized collection of items that have passed my personal 'sniff test' and manual triage into a taxonomy
 
 What this is not:
+
 - A collection of every single paper in the universe
-- A collection of every paper written by every author I admire 
+- A collection of every paper written by every author I admire
 - A collection of only the important papers from every field in academia and industry - some areas are deep and thorough, and some are wide/small
-
-
 
 ### Include more onboarding content
 
@@ -27,13 +24,12 @@ Needs to answer:
 
 Why this site exists? Aren't there other knowledge graph systems? Isn't this reinventing the wheel?
 
-
 Need to highlight twin values:
-1. Semantic embeddings reveal similarity between what the papers claim to be about, using large language model as a prior about semantics. 
+
+1. Semantic embeddings reveal similarity between what the papers claim to be about, using large language model as a prior about semantics.
 2. Tree taxonomy reveals similarity about papers based on one human expert's opinion: my own.
 
 We get a strong combination of both machine learned relresentation of the human collective, as well as my own singular and (mostly) coherent perspective.
-
 
 The aim is not to index the universe, it is to collect a moderate size corpus of things I find interesting and compelling, and put some engaging tooling behind it for discovery. 
 
@@ -288,23 +284,6 @@ One more reality check: “completely” means removed from refs you control. Ol
 ## Metadata cleanup
 
 ### Scripts
-
-### prefill
-
-Arxiv prefill script should strip off version number from url if present before fetching data.
-
-### normalization and de-duplication
-
-Normalized authors to remove differently spelled duplicates. Align them to a central database of unique authors in the repo.
-
-Eliminate initials in the author names for first and last name (middle initial ok and preferred).
-
-Do same for source field (venues).
-
-Create scripts for automatically creating the databases the first time, and for auditong and suggesting fix based on pattern matching
-
-Audit the algorithm field.
-It should only use an abbreviation representing a concrete algorithm if it was the first paper to propose thr algorithm. If it merely analyzes an existing algorithm, then it should be a phrase like "Adam convergence analysis"
 
 ### Add validation on mkdocs.yml
 

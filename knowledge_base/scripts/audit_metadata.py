@@ -115,6 +115,15 @@ _GARBLED_MARKUP_RE = re.compile(
     r"<[^>]*\bxmlns(?::[A-Za-z0-9_-]+)?=",
     re.I,
 )
+_XML_URI_TAG_RE = re.compile(
+    r"<\s*(?:[A-Za-z0-9_.-]+:)?uri\b[^>]*>(?P<inner>.*?)"
+    r"</\s*(?:[A-Za-z0-9_.-]+:)?uri\s*>",
+    re.I | re.S,
+)
+_XML_HTML_TAG_RE = re.compile(
+    r"</?\s*[A-Za-z][A-Za-z0-9_.:-]*\b[^>]*>",
+    re.I,
+)
 _ABSTRACT_WORD_RE = re.compile(r"\babstract\b", re.I)
 _DOLLAR_SIGN_RE = re.compile(r"\$")
 _MOJIBAKE_RE = re.compile(
@@ -294,6 +303,111 @@ _GENERIC_ALGORITHM_VALUES = {
     "vehicles",
     "work",
 }
+_ALGORITHM_DESCRIPTIVE_WORDS = {
+    "analysis",
+    "application",
+    "applications",
+    "benchmark",
+    "benchmarking",
+    "case",
+    "comparison",
+    "comparative",
+    "convergence",
+    "control",
+    "controller",
+    "extension",
+    "framework",
+    "improvement",
+    "interpretation",
+    "learning",
+    "method",
+    "modification",
+    "optimization",
+    "robust",
+    "robustness",
+    "sampling",
+    "scheme",
+    "study",
+    "survey",
+    "template",
+    "templates",
+    "theory",
+    "variant",
+    "variants",
+}
+_ALGORITHM_EXPANDED_NAMES = {
+    "adam": ("adam",),
+    "ddp": ("differential dynamic programming",),
+    "ddpg": ("deep deterministic policy gradient",),
+    "ddpm": ("denoising diffusion probabilistic models",),
+    "dqn": ("deep q-network", "deep q network"),
+    "ilqr": ("iterative linear quadratic regulator",),
+    "mppi": (
+        "model predictive path integral",
+        "model predictive path integral control",
+    ),
+    "mpc": ("model predictive control",),
+    "mpcc": ("model predictive contouring control",),
+    "ppo": ("proximal policy optimization",),
+    "rrt": ("rapidly-exploring random tree", "rapidly-exploring random trees"),
+    "rrt*": ("rrt*", "rapidly-exploring random tree star"),
+    "sac": ("soft actor-critic", "soft actor critic"),
+    "td3": ("twin delayed deep deterministic policy gradient",),
+}
+_ALGORITHM_RELATIONAL_CUES: tuple[tuple[str, str, str], ...] = (
+    (
+        "preconditioned-gradient interpretation",
+        r"{name}[^.\n]{0,140}\bas\s+(?:a\s+)?preconditioned\s+gradient\s+descent\b|"
+        r"\bpreconditioned\s+gradient\s+descent\b[^.\n]{0,140}{name}",
+        "{algorithm} preconditioned-gradient analysis",
+    ),
+    (
+        "low-frequency sampling",
+        r"\blow[-\s]+frequency\s+sampling\b[^.\n]{0,100}{name}|"
+        r"{name}[^.\n]{0,100}\blow[-\s]+frequency\s+sampling\b",
+        "{algorithm} low-frequency sampling",
+    ),
+    (
+        "learning-based optimization",
+        r"\blearning\s+to\s+optimi[sz]e\b[^.\n]{0,100}{name}|"
+        r"{name}[^.\n]{0,100}\blearn(?:ed|ing)?\s+(?:optimizer|update|controller|control)\b",
+        "{algorithm} learning-based optimization",
+    ),
+    (
+        "transformer-based variant",
+        r"\btransformer-based\b[^.\n]{0,100}{name}|"
+        r"{name}[^.\n]{0,100}\btransformer-based\b",
+        "Transformer-based {algorithm}",
+    ),
+    (
+        "convergence analysis",
+        r"\b(?:convergence|convergent|non[-\s]?convergence|analysis|study)\s+"
+        r"(?:of|for|in|on)\s+{name}|"
+        r"{name}(?:'s)?[^.\n]{0,120}\b(?:convergence|convergent|converges?|"
+        r"non[-\s]?convergence|stationarity|descent guarantees?|regret bounds?)\b",
+        "{algorithm} convergence analysis",
+    ),
+    (
+        "stability analysis",
+        r"\b(?:stability|stabilization|stable|stabilizing)\s+(?:of|for|in|on)\s+{name}|"
+        r"{name}[^.\n]{0,120}\b(?:stability|stabilization|stable|stabilizing)\b",
+        "{algorithm} stability analysis",
+    ),
+    (
+        "robust variant or analysis",
+        r"\b(?:robust|robustness|uncertain|uncertainty-aware)\b[^.\n]{0,120}{name}|"
+        r"{name}[^.\n]{0,120}\b(?:robust|robustness|uncertainty|disturbance)\b",
+        "Robust {algorithm}",
+    ),
+    (
+        "existing-method discussion",
+        r"\b(?:widely\s+used|classical|standard|existing|established|"
+        r"recently\s+proposed)\b[^.\n]{0,120}{name}|"
+        r"{name}[^.\n]{0,120}\b(?:widely\s+used|classical|standard|existing|"
+        r"established|recently\s+proposed)\b",
+        "{algorithm} analysis",
+    ),
+)
 _SENTENCE_LIKE_TAG_START_RE = re.compile(
     r"^(?:"
     r"we\b|"
@@ -544,8 +658,15 @@ _COMMON_SHORT_TAG_WORDS = {
     "vision",
     "zero",
 }
-_TAG_LEADING_ARTICLES = {"a", "an", "and", "recent", "the"}
+_TAG_LEADING_ARTICLES = {"a", "an", "and", "as", "i", "in", "or", "recent", "such", "the", "we"}
 _MAX_TAG_WORDS = 4
+_PLURAL_DUPLICATE_TAG_MESSAGE_PREFIX = (
+    "Duplicate tag value(s) after trivial plural normalization"
+)
+_DUPLICATE_TAG_MESSAGE_PREFIX = "Duplicate tag value(s)"
+_FORBIDDEN_TAGS = {
+    "state of the art": "too generic to be useful as a tag",
+}
 _NON_PLURAL_S_ENDINGS = ("ss", "us", "is", "ics")
 _NON_PLURAL_S_WORDS = {
     "bias",
@@ -566,13 +687,16 @@ _TAG_PROPER_NAME_WORDS = {
     "bayesian": "Bayesian",
     "bellman": "Bellman",
     "broyden": "Broyden",
+    "carlo": "Carlo",
     "chebyshev": "Chebyshev",
+    "delaunay": "Delaunay",
     "dijkstra": "Dijkstra",
     "euclidean": "Euclidean",
     "euler": "Euler",
     "floyd": "Floyd",
     "ford": "Ford",
     "frank": "Frank",
+    "franka": "Franka",
     "gauss": "Gauss",
     "gaussian": "Gaussian",
     "hamilton": "Hamilton",
@@ -591,6 +715,7 @@ _TAG_PROPER_NAME_WORDS = {
     "markov": "Markov",
     "markovian": "Markovian",
     "marquardt": "Marquardt",
+    "monte": "Monte",
     "newton": "Newton",
     "newtonian": "Newtonian",
     "pontryagin": "Pontryagin",
@@ -1357,6 +1482,159 @@ def _algorithm_tokens(text: str) -> list[str]:
     return re.findall(r"[A-Za-z0-9+_.*-]+", text)
 
 
+def _algorithm_key(text: str) -> str:
+    return re.sub(r"[^a-z0-9*]+", "", text.casefold())
+
+
+def _algorithm_token_is_method_like(token: str) -> bool:
+    alpha = re.sub(r"[^A-Za-z]", "", token)
+    if not alpha:
+        return bool(re.search(r"[0-9+_*.-]", token))
+    if len(alpha) > 1 and alpha == alpha.upper():
+        return True
+    if len(alpha) > 1 and any(char.isupper() for char in alpha[1:]):
+        return True
+    if re.search(r"[0-9+_*]", token):
+        return True
+    return alpha[:1].isupper() and len(alpha) >= 3
+
+
+def _algorithm_token_is_abbreviation_like(token: str) -> bool:
+    alpha = re.sub(r"[^A-Za-z]", "", token)
+    if len(alpha) > 1 and alpha == alpha.upper():
+        return True
+    if len(alpha) > 1 and any(char.isupper() for char in alpha[1:]):
+        return True
+    return bool(re.search(r"[0-9+_*]", token))
+
+
+def _algorithm_label_is_bare_method_name(algorithm: str) -> bool:
+    tokens = _algorithm_tokens(algorithm)
+    if not tokens or len(tokens) > 3:
+        return False
+
+    folded_tokens = [token.casefold() for token in tokens]
+    if len(tokens) > 1 and any(
+        token in _ALGORITHM_DESCRIPTIVE_WORDS for token in folded_tokens
+    ):
+        return False
+
+    if len(tokens) > 1 and not any(
+        _algorithm_token_is_abbreviation_like(token) for token in tokens
+    ):
+        return False
+
+    return any(_algorithm_token_is_method_like(token) for token in tokens)
+
+
+def _phrase_search_pattern(phrase: str) -> str:
+    escaped = re.escape(phrase)
+    escaped = escaped.replace(r"\ ", r"\s+")
+    return rf"(?<![A-Za-z0-9]){escaped}(?![A-Za-z0-9])"
+
+
+def _algorithm_reference_names(algorithm: str) -> list[str]:
+    names = [algorithm]
+    names.extend(_ALGORITHM_EXPANDED_NAMES.get(_algorithm_key(algorithm), ()))
+
+    deduped: list[str] = []
+    seen: set[str] = set()
+    for name in names:
+        normalized = " ".join(name.split()).casefold()
+        if not normalized or normalized in seen:
+            continue
+        deduped.append(name)
+        seen.add(normalized)
+    return deduped
+
+
+def _text_mentions_algorithm(algorithm: str, text: str) -> bool:
+    return any(
+        re.search(_phrase_search_pattern(name), text, re.I)
+        for name in _algorithm_reference_names(algorithm)
+    )
+
+
+def _text_introduces_algorithm_label(algorithm: str, title: str, text: str) -> bool:
+    for name in _algorithm_reference_names(algorithm):
+        name_pattern = _phrase_search_pattern(name)
+        if re.search(
+            rf"^\s*{name_pattern}\s*:\s*(?:a|an|the)?\s*"
+            rf"(?:new|novel)?\s*(?:algorithm|method|approach|optimizer|"
+            rf"planner|controller|framework|tool)\b",
+            title,
+            re.I,
+        ):
+            return True
+        if re.search(rf"^\s*{name_pattern}\s*:", title, re.I):
+            return True
+        if re.search(
+            rf"^\s*(?:introducing|introduce|propose|present|develop)\s+"
+            rf"(?:(?:a|an|the|our|new|novel|simple|generalized)\s+)*"
+            rf"{name_pattern}\b",
+            title,
+            re.I,
+        ):
+            return True
+        if re.search(
+            rf"\b(?:we|this\s+(?:paper|work|article|letter)|in\s+this\s+"
+            rf"(?:paper|work|article|letter))\s+(?:first\s+)?"
+            rf"(?:introduce|propose|present|develop|derive|formulate)\s+"
+            rf"(?:(?:a|an|the|our|new|novel|simple|generalized)\s+)*"
+            rf"{name_pattern}\b",
+            text,
+            re.I,
+        ):
+            return True
+        if re.search(
+            rf"\b(?:we|this\s+(?:paper|work|article|letter)|in\s+this\s+"
+            rf"(?:paper|work|article|letter))\s+(?:first\s+)?"
+            rf"(?:introduce|propose|present|develop|derive|formulate)\b"
+            rf"[^.\n]{{0,140}}\b(?:algorithm|method|approach|optimizer|"
+            rf"planner|controller|framework|tool|system)\s+(?:called\s+|named\s+)?"
+            rf"{name_pattern}\b",
+            text,
+            re.I,
+        ):
+            return True
+        if re.search(
+            rf"\b(?:called|named|coined)\s+{name_pattern}\b",
+            text,
+            re.I,
+        ):
+            return True
+    return False
+
+
+def _algorithm_context_text(data: dict) -> tuple[str, str]:
+    title = str(data.get("title") or "").strip()
+    body = " ".join(
+        str(data.get(field) or "")
+        for field in ("title", "abstract", "summary")
+    )
+    body = _URL_RE.sub("", body)
+    return title, _normalize_inline_text(body)
+
+
+def _algorithm_issue_cue(
+    algorithm: str,
+    title: str,
+    context: str,
+) -> tuple[str, str] | None:
+    if not _text_mentions_algorithm(algorithm, context):
+        return None
+
+    search_chunks = [title, context]
+    for name in _algorithm_reference_names(algorithm):
+        name_pattern = _phrase_search_pattern(name)
+        for reason, pattern_template, suggestion_template in _ALGORITHM_RELATIONAL_CUES:
+            pattern = re.compile(pattern_template.replace("{name}", name_pattern), re.I)
+            if any(pattern.search(chunk) for chunk in search_chunks):
+                return reason, suggestion_template.format(algorithm=algorithm)
+
+    return None
+
+
 def find_algorithm_issues(path: Path, data: dict) -> list["Issue"]:
     algorithm = str(data.get("algorithm") or "").strip()
     if not algorithm:
@@ -1370,6 +1648,29 @@ def find_algorithm_issues(path: Path, data: dict) -> list["Issue"]:
                 "algorithm",
                 f"Generic algorithm label: {algorithm!r}",
                 "Leave algorithm blank unless the paper gives a specific method, system, or technique name.",
+            )
+        ]
+
+    if not _algorithm_label_is_bare_method_name(algorithm):
+        return []
+
+    title, context = _algorithm_context_text(data)
+    if _text_introduces_algorithm_label(algorithm, title, context):
+        return []
+
+    cue = _algorithm_issue_cue(algorithm, title, context)
+    if cue is not None:
+        reason, suggested_label = cue
+        return [
+            Issue(
+                path,
+                "algorithm",
+                f"Bare algorithm label {algorithm!r} appears to be {reason}, not the original proposing paper",
+                (
+                    "Use a descriptive contribution phrase instead, for example "
+                    f"{suggested_label!r}."
+                ),
+                severity=Severity.WARNING,
             )
         ]
 
@@ -1403,6 +1704,35 @@ def _sentence_like_tag_reason(tag: str) -> str | None:
 
 def _normalized_tag_for_duplicate_check(tag: str) -> str:
     return " ".join(tag.split()).casefold()
+
+
+def _normalized_tag_for_forbidden_check(tag: str) -> str:
+    return re.sub(r"[\s-]+", " ", tag).strip().casefold()
+
+
+def _forbidden_tag_reason(tag: str) -> str | None:
+    return _FORBIDDEN_TAGS.get(_normalized_tag_for_forbidden_check(tag))
+
+
+def _duplicate_tag_groups(tags: list[object]) -> dict[str, list[int]]:
+    tag_indexes: dict[str, list[int]] = {}
+    for index, tag_raw in enumerate(tags):
+        normalized = _normalized_tag_for_duplicate_check(str(tag_raw).strip())
+        if normalized:
+            tag_indexes.setdefault(normalized, []).append(index)
+
+    return {
+        key: indexes
+        for key, indexes in tag_indexes.items()
+        if len(indexes) > 1
+    }
+
+
+def _duplicate_tag_removal_indexes(tags: list[object]) -> set[int]:
+    remove_indexes: set[int] = set()
+    for indexes in _duplicate_tag_groups(tags).values():
+        remove_indexes.update(indexes[1:])
+    return remove_indexes
 
 
 def _tag_part_is_abbreviation_or_mixed(core: str) -> bool:
@@ -1442,12 +1772,100 @@ def _plural_insensitive_tag_key(tag: str) -> str:
     return " ".join(key.split()).casefold()
 
 
-def _tag_proper_name_casing(core: str) -> str | None:
-    return _TAG_PROPER_NAME_WORDS.get(core.casefold())
+def _plural_duplicate_tag_groups(tags: list[object]) -> dict[str, list[int]]:
+    plural_tag_indexes: dict[str, list[int]] = {}
+    normalized_tag_by_index: dict[int, str] = {}
+
+    for index, tag_raw in enumerate(tags):
+        tag = str(tag_raw).strip()
+        normalized_tag = _normalized_tag_for_duplicate_check(tag)
+        if not normalized_tag:
+            continue
+
+        normalized_tag_by_index[index] = normalized_tag
+        plural_key = _plural_insensitive_tag_key(tag)
+        if plural_key:
+            plural_tag_indexes.setdefault(plural_key, []).append(index)
+
+    return {
+        key: indexes
+        for key, indexes in plural_tag_indexes.items()
+        if len(indexes) > 1
+        and len({normalized_tag_by_index[index] for index in indexes}) > 1
+    }
 
 
-def _tag_part_is_ordinary_english(core: str) -> bool:
-    if _tag_proper_name_casing(core) is not None:
+def _preferred_plural_duplicate_tag_index(
+    tags: list[object],
+    plural_key: str,
+    indexes: list[int],
+) -> int:
+    def score(index: int) -> tuple[int, int, int]:
+        normalized = _normalized_tag_for_duplicate_check(str(tags[index]).strip())
+        is_singular = normalized == plural_key
+        return (0 if is_singular else 1, len(normalized), index)
+
+    return min(indexes, key=score)
+
+
+def _plural_duplicate_tag_removal_indexes(tags: list[object]) -> set[int]:
+    remove_indexes: set[int] = set()
+    for plural_key, indexes in _plural_duplicate_tag_groups(tags).items():
+        keep_index = _preferred_plural_duplicate_tag_index(tags, plural_key, indexes)
+        remove_indexes.update(index for index in indexes if index != keep_index)
+    return remove_indexes
+
+
+def _plural_duplicate_tag_fix_suggestion(
+    tags: list[object],
+    groups: dict[str, list[int]],
+) -> str:
+    suggestions: list[str] = []
+    for plural_key, indexes in groups.items():
+        keep_index = _preferred_plural_duplicate_tag_index(tags, plural_key, indexes)
+        removals = [
+            f"{str(tags[index]).strip()!r} at index {index}"
+            for index in indexes
+            if index != keep_index
+        ]
+        suggestions.append(
+            f"keep {str(tags[keep_index]).strip()!r} at index {keep_index}; "
+            f"remove {', '.join(removals)}"
+        )
+
+    return "Prefer singular spelling: " + "; ".join(suggestions)
+
+
+def _author_last_name_tag_proper_words(data: dict) -> dict[str, str]:
+    authors = data.get("authors")
+    if not isinstance(authors, list):
+        return {}
+
+    proper_words: dict[str, str] = {}
+    for author in authors:
+        last_name = _extract_last_name(str(author).strip())
+        for word in re.findall(r"[A-Za-z]+", last_name):
+            if not word:
+                continue
+            proper_words.setdefault(word.casefold(), word[:1].upper() + word[1:])
+    return proper_words
+
+
+def _tag_proper_name_casing(
+    core: str,
+    proper_name_words: dict[str, str] | None = None,
+) -> str | None:
+    folded = core.casefold()
+    if proper_name_words is not None and folded in proper_name_words:
+        return proper_name_words[folded]
+    return _TAG_PROPER_NAME_WORDS.get(folded)
+
+
+def _tag_part_is_ordinary_english(
+    core: str,
+    proper_name_words: dict[str, str] | None = None,
+) -> bool:
+    if _tag_proper_name_casing(core, proper_name_words) is not None:
         return False
     if _tag_part_is_abbreviation_or_mixed(core):
         return False
@@ -1455,11 +1873,16 @@ def _tag_part_is_ordinary_english(core: str) -> bool:
     return len(folded) >= 5 or folded in _COMMON_SHORT_TAG_WORDS
 
 
-def _case_tag_part(core: str, *, seen_any_word: bool) -> str:
-    proper_name = _tag_proper_name_casing(core)
+def _case_tag_part(
+    core: str,
+    *,
+    seen_any_word: bool,
+    proper_name_words: dict[str, str] | None = None,
+) -> str:
+    proper_name = _tag_proper_name_casing(core, proper_name_words)
     if proper_name is not None:
         return proper_name
-    if not _tag_part_is_ordinary_english(core):
+    if not _tag_part_is_ordinary_english(core, proper_name_words):
         return core
     if seen_any_word:
         return core.casefold()
@@ -1476,7 +1899,10 @@ def _tag_token_has_nonordinary_hyphen_part(token: str) -> bool:
     return False
 
 
-def _suggest_tag_capitalization(tag: str) -> str:
+def _suggest_tag_capitalization(
+    tag: str,
+    proper_name_words: dict[str, str] | None = None,
+) -> str:
     tokens = tag.split()
     if not tokens:
         return tag
@@ -1502,7 +1928,11 @@ def _suggest_tag_capitalization(tag: str) -> str:
                 cased_pieces.append(piece)
                 continue
 
-            cased_core = _case_tag_part(core, seen_any_word=seen_any_word)
+            cased_core = _case_tag_part(
+                core,
+                seen_any_word=seen_any_word,
+                proper_name_words=proper_name_words,
+            )
             if re.search(r"[A-Za-z]", core):
                 seen_any_word = True
             cased_pieces.append(lead + cased_core + tail)
@@ -1512,15 +1942,22 @@ def _suggest_tag_capitalization(tag: str) -> str:
     return " ".join(cased_tokens)
 
 
-def _suggest_tag_without_leading_article(tag: str) -> str | None:
-    match = re.match(r"^(?P<article>a|an|and|recent|the)\b\s+(?P<rest>.+)$", tag, re.I)
+def _suggest_tag_without_leading_article(
+    tag: str,
+    proper_name_words: dict[str, str] | None = None,
+) -> str | None:
+    match = re.match(
+        r"^(?P<article>a|an|and|as|i|in|or|recent|such|the|we)\b\s+(?P<rest>.+)$",
+        tag,
+        re.I,
+    )
     if not match:
         return None
     article = match.group("article").casefold()
     if article not in _TAG_LEADING_ARTICLES:
         return None
     rest = match.group("rest").strip()
-    return _suggest_tag_capitalization(rest) if rest else None
+    return _suggest_tag_capitalization(rest, proper_name_words) if rest else None
 
 
 def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
@@ -1533,18 +1970,25 @@ def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
     issues: list[Issue] = []
     tag_indexes: dict[str, list[int]] = {}
     tag_display: dict[str, str] = {}
-    plural_tag_indexes: dict[str, list[int]] = {}
-    normalized_tag_by_index: dict[int, str] = {}
+    proper_name_words = _author_last_name_tag_proper_words(data)
     for index, tag_raw in enumerate(tags):
         tag = str(tag_raw).strip()
         normalized_tag = _normalized_tag_for_duplicate_check(tag)
         if normalized_tag:
-            normalized_tag_by_index[index] = normalized_tag
             tag_indexes.setdefault(normalized_tag, []).append(index)
             tag_display.setdefault(normalized_tag, tag)
-            plural_key = _plural_insensitive_tag_key(tag)
-            if plural_key:
-                plural_tag_indexes.setdefault(plural_key, []).append(index)
+
+        forbidden_reason = _forbidden_tag_reason(tag)
+        if forbidden_reason:
+            issues.append(
+                Issue(
+                    path,
+                    "tags",
+                    f"Forbidden tag at tags[{index}]: {tag!r} ({forbidden_reason})",
+                    "Remove this tag.",
+                )
+            )
+            continue
 
         word_count = _tag_word_count(tag)
         if word_count > _MAX_TAG_WORDS:
@@ -1557,7 +2001,7 @@ def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
                 )
             )
 
-        without_article = _suggest_tag_without_leading_article(tag)
+        without_article = _suggest_tag_without_leading_article(tag, proper_name_words)
         if without_article is not None:
             issues.append(
                 Issue(
@@ -1568,7 +2012,7 @@ def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
                 )
             )
         else:
-            suggested_tag = _suggest_tag_capitalization(tag)
+            suggested_tag = _suggest_tag_capitalization(tag, proper_name_words)
             if suggested_tag != tag:
                 issues.append(
                     Issue(
@@ -1609,12 +2053,7 @@ def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
             )
         )
 
-    plural_duplicate_tags = {
-        key: indexes
-        for key, indexes in plural_tag_indexes.items()
-        if len(indexes) > 1
-        and len({normalized_tag_by_index[index] for index in indexes}) > 1
-    }
+    plural_duplicate_tags = _plural_duplicate_tag_groups(tags)
     if plural_duplicate_tags:
         examples = ", ".join(
             ", ".join(f"{str(tags[index]).strip()!r} at index {index}" for index in indexes)
@@ -1626,8 +2065,8 @@ def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
             Issue(
                 path,
                 "tags",
-                f"Duplicate tag value(s) after trivial plural normalization: {examples}",
-                "Use one canonical singular/plural spelling for near-identical tags.",
+                f"{_PLURAL_DUPLICATE_TAG_MESSAGE_PREFIX}: {examples}",
+                _plural_duplicate_tag_fix_suggestion(tags, plural_duplicate_tags),
             )
         )
 
@@ -2496,9 +2935,44 @@ def _is_escaped_sequence_issue(issue: Issue) -> bool:
     return issue.message.startswith("Contains escaped HTML/entity sequence")
 
 
+def _is_garbled_markup_issue(issue: Issue) -> bool:
+    return issue.message.startswith("Contains likely garbled HTML/XML markup")
+
+
 def _fix_escaped_sequences_in_yaml(raw: str) -> tuple[str, int]:
     new_raw = _html_unescape_repeated(raw)
     return new_raw, len(_HTML_ENTITY_RE.findall(raw))
+
+
+def _clean_garbled_markup_text(text: str) -> str:
+    text = html.unescape(text)
+    text = _XML_URI_TAG_RE.sub(lambda match: match.group("inner").strip(), text)
+    text = _XML_HTML_TAG_RE.sub("", text)
+    return _normalize_inline_text(text)
+
+
+def _fix_garbled_markup_in_yaml(raw: str) -> tuple[str, int]:
+    changed = 0
+    data = yaml.safe_load(raw)
+    if not isinstance(data, dict):
+        return raw, 0
+
+    replacements: list[tuple[str, str]] = []
+    for _, value in _walk_string_values(data, ""):
+        if not isinstance(value, str) or not _GARBLED_MARKUP_RE.search(value):
+            continue
+        cleaned = _clean_garbled_markup_text(value)
+        if cleaned and cleaned != value:
+            replacements.append((value, cleaned))
+
+    new_raw = raw
+    for old, new in replacements:
+        new_raw_next = new_raw.replace(old, new)
+        if new_raw_next != new_raw:
+            changed += new_raw.count(old)
+            new_raw = new_raw_next
+
+    return new_raw, changed
 
 
 def _format_source_line(source: str, newline: str = "\n") -> str:
@@ -2557,7 +3031,33 @@ def _is_multiline_field_issue(issue: Issue) -> bool:
     )
 
 
+def _is_plural_duplicate_tag_issue(issue: Issue) -> bool:
+    return (
+        issue.field == "tags"
+        and issue.message.startswith(_PLURAL_DUPLICATE_TAG_MESSAGE_PREFIX)
+    )
+
+
+def _is_duplicate_tag_issue(issue: Issue) -> bool:
+    return (
+        issue.field == "tags"
+        and issue.message.startswith(_DUPLICATE_TAG_MESSAGE_PREFIX)
+        and not _is_plural_duplicate_tag_issue(issue)
+    )
+
+
+def _is_forbidden_tag_issue(issue: Issue) -> bool:
+    return issue.field == "tags" and issue.message.startswith("Forbidden tag at tags[")
+
+
 def _is_fixable_tag_issue(issue: Issue) -> bool:
+    if (
+        _is_duplicate_tag_issue(issue)
+        or _is_plural_duplicate_tag_issue(issue)
+        or _is_forbidden_tag_issue(issue)
+    ):
+        return True
+
     return (
         issue.field == "tags"
         and issue.suggestion is not None
@@ -2663,6 +3163,13 @@ def _fix_tags_in_yaml(
     tags = list(tags_raw)
     changed = 0
     for issue in tag_fixes:
+        if (
+            _is_duplicate_tag_issue(issue)
+            or _is_plural_duplicate_tag_issue(issue)
+            or _is_forbidden_tag_issue(issue)
+        ):
+            continue
+
         index = _tag_issue_index(issue)
         if index is None or index < 0 or index >= len(tags):
             continue
@@ -2670,6 +3177,27 @@ def _fix_tags_in_yaml(
             continue
         tags[index] = issue.suggestion
         changed += 1
+
+    forbidden_tag_indexes = {
+        index
+        for issue in tag_fixes
+        if _is_forbidden_tag_issue(issue)
+        for index in [_tag_issue_index(issue)]
+        if index is not None and 0 <= index < len(tags)
+    }
+    for index in sorted(forbidden_tag_indexes, reverse=True):
+        del tags[index]
+        changed += 1
+
+    if any(_is_duplicate_tag_issue(issue) for issue in tag_fixes):
+        for index in sorted(_duplicate_tag_removal_indexes(tags), reverse=True):
+            del tags[index]
+            changed += 1
+
+    if any(_is_plural_duplicate_tag_issue(issue) for issue in tag_fixes):
+        for index in sorted(_plural_duplicate_tag_removal_indexes(tags), reverse=True):
+            del tags[index]
+            changed += 1
 
     if changed == 0:
         return raw, 0
@@ -2920,12 +3448,14 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
         tag_fixes = [i for i in issues if _is_fixable_tag_issue(i)]
         multiline_fields = {i.field for i in issues if _is_multiline_field_issue(i)}
         has_escaped_sequence_fixes = any(_is_escaped_sequence_issue(i) for i in issues)
+        has_garbled_markup_fixes = any(_is_garbled_markup_issue(i) for i in issues)
         if (
             not title_fixes
             and not source_year_fixes
             and not tag_fixes
             and not multiline_fields
             and not has_escaped_sequence_fixes
+            and not has_garbled_markup_fixes
         ):
             continue
         try:
@@ -2970,6 +3500,11 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
                 new_raw, n_decoded = _fix_escaped_sequences_in_yaml(new_raw)
                 if n_decoded:
                     messages.append(f"  decoded {n_decoded} escaped sequence(s)")
+
+            if has_garbled_markup_fixes:
+                new_raw, n_cleaned_markup = _fix_garbled_markup_in_yaml(new_raw)
+                if n_cleaned_markup:
+                    messages.append(f"  cleaned {n_cleaned_markup} markup fragment(s)")
 
             if new_raw == raw:
                 err_console.print(f"  [dim](no change written for {path})[/]")
@@ -3060,9 +3595,9 @@ Checks performed on each metadata.yml:
   unknown   - ERROR for any field not in the VALID_FIELDS schema
   required  - ERROR if any of title, authors, year, abstract, type, audit_status missing
   title     - ERROR if empty; ERROR if not in title case; ERROR/WARN for corrupt characters or likely misspellings
-  algorithm - ERROR if the algorithm label is generic
+  algorithm - ERROR if the algorithm label is generic; WARN if a bare concrete method label appears to describe analysis/application of an existing method rather than the proposing paper
   authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order, non-individual names, or suspicious Unicode corruption/control characters
-  tags      - ERROR if tags contain duplicate values, trivial singular/plural duplicates, leading articles, more than 4 words, non-capital-case ordinary English words, or sentence-like prose debris copied from an abstract
+  tags      - ERROR if tags contain duplicate values, trivial singular/plural duplicates, forbidden generic values, leading articles, more than 4 words, non-capital-case ordinary English words, or sentence-like prose debris copied from an abstract
   year      - ERROR if not a 4-digit integer
   arxiv     - ERROR if arxiv_id is present but not a valid arXiv ID
   abstract  - ERROR if empty, placeholder-like, contains scraped page text, or has PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed; WARN for dollar math, copied "abstract" headings, likely misspellings, or OCR word splits
@@ -3098,7 +3633,7 @@ Available --check names:
         "--fix",
         action="store_true",
         help=(
-            "Auto-fix title-case, tag casing/leading articles, escaped HTML/entity issues, multiline scalar fields, source years, and path slugs; "
+            "Auto-fix title-case, tag casing/leading articles/duplicate tags, escaped HTML/entity/markup issues, multiline scalar fields, source years, and path slugs; "
             "path fixes move metadata directories and update direct references"
         ),
     )

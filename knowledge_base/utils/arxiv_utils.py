@@ -12,10 +12,10 @@ from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS
 PAPERS_DIR = Path("docs/papers")
 ARXIV_API = "https://export.arxiv.org/api/query"
 ARXIV_NS = "http://www.w3.org/2005/Atom"
-_ARXIV_NEW_RE = re.compile(r"^(?P<yy>\d{2})(?P<mm>\d{2})\.\d{4,5}(?:v\d+)?$")
+_ARXIV_NEW_RE = re.compile(r"^(?P<yy>\d{2})(?P<mm>\d{2})\.\d{4,5}(?:[vV]\d+)?$")
 _ARXIV_OLD_RE = re.compile(
     r"^[A-Za-z][A-Za-z0-9-]*(?:\.[A-Z]{2})?/"
-    r"(?P<yy>\d{2})(?P<mm>\d{2})\d{3}(?:v\d+)?$"
+    r"(?P<yy>\d{2})(?P<mm>\d{2})\d{3}(?:[vV]\d+)?$"
 )
 # arXiv asks automated clients to identify themselves and stay contactable.
 # https://info.arxiv.org/help/api/tou.html
@@ -51,6 +51,8 @@ def normalize_arxiv_id(arxiv_id: str | None) -> str:
     text = text.strip().strip("<>()[]").rstrip("/")
     if text.lower().endswith(".pdf"):
         text = text[:-4]
+    if _ARXIV_NEW_RE.match(text) or _ARXIV_OLD_RE.match(text):
+        text = re.sub(r"[vV]\d+$", "", text)
     return text
 
 
