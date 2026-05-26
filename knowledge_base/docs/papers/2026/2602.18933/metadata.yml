@@ -1,5 +1,5 @@
 title: A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR
-algorithm: Policy Gradient
+algorithm:
 authors:
   - Bowen Song
   - Simon Weissmann
@@ -16,7 +16,6 @@ tags:
   - Policy gradients
   - Online algorithms
   - Policy Gradient
-  - We propose a stochastic gradient descent
   - SGD
   - Gradient method
   - Stochastic gradient descent
