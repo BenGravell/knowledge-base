@@ -1,5 +1,5 @@
 title: 'Reinforcement Learning and Control as Probabilistic Inference: Tutorial and Review'
-algorithm: Inference
+algorithm:
 authors:
   - Sergey Levine
 year: 2018

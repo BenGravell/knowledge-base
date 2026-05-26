@@ -1,5 +1,5 @@
 title: 'cvxRiskOpt: A Risk-Based Optimization Tool Based on CVXPY'
-algorithm:
+algorithm: cvxRiskOpt
 authors:
   - Sleiman Safaoui
   - Tyler H. Summers

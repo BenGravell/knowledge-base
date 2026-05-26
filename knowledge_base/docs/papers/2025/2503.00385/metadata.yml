@@ -1,5 +1,5 @@
 title: 'Model-Agnostic Meta-Policy Optimization via Zeroth-Order Estimation: A Linear Quadratic Regulator Perspective'
-algorithm: Estimation
+algorithm:
 authors:
   - Yunian Pan
   - Tao Li

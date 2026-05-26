@@ -1,5 +1,5 @@
 title: 'Stochastic Zeroth-Order Optimization under Strongly Convexity and Lipschitz Hessian: Minimax Sample Complexity'
-algorithm: Hessian
+algorithm:
 authors:
   - Qian Yu
   - Yining Wang

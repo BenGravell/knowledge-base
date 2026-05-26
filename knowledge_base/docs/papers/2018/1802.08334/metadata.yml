@@ -1,5 +1,5 @@
 title: 'Learning without Mixing: Towards a Sharp Analysis of Linear System Identification'
-algorithm: Mixing
+algorithm: Learning without Mixing
 authors:
   - Max Simchowitz
   - Horia Mania
@@ -16,7 +16,6 @@ tags:
   - Generalization
   - Learning
   - Mixing
-  - We prove that the ordinary least-squares
   - OLS
   - Linear system
   - Linear dynamical system

@@ -1,5 +1,5 @@
 title: 'Discovering Transforms: A Tutorial on Circulant Matrices, Circular Convolution, and the Discrete Fourier Transform'
-algorithm: Transforms
+algorithm:
 authors:
   - Bassam Bamieh
 year: 2018

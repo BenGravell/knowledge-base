@@ -12,9 +12,8 @@ doi:
 arxiv_id: "1802.06640"
 tags:
   - Computational complexity
-  - Random Forest
   - RF
-  - Or Gradient Boosted Decision Trees
+  - Gradient Boosting
   - GBDT
   - Decision tree
   - Random forest
