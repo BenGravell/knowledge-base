@@ -1,5 +1,5 @@
 title: 'Learning-based Robust Motion Planning with Guaranteed Stability: A Contraction Theory Approach'
-algorithm: Stability
+algorithm: LAG-ROS
 authors:
   - Hiroyasu Tsukamoto
   - Soon-Jo Chung

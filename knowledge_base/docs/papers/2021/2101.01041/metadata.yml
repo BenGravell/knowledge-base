@@ -1,5 +1,5 @@
 title: 'Derivative-Free Policy Optimization for Linear Risk-Sensitive and Robust Control Design: Implicit Regularization and Sample Complexity'
-algorithm: Design
+algorithm:
 authors:
   - Kaiqing Zhang
   - Xiangyuan Zhang
