@@ -81,6 +81,7 @@ extra_javascript:
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
   - javascripts/math-fit.js
   - javascripts/header-link.js
+  - javascripts/nav-drawer-state.js
 
 markdown_extensions:
   - meta
@@ -102,6 +103,7 @@ nav:
   - Search: search.md
   - Analytics: analytics.md
   - Explainers:
+    - explainers/index.md
     - Planning & Control:
       - PID: explainers/pid/index.md
       - LQR: explainers/lqr/index.md
@@ -118,11 +120,11 @@ nav:
       - Waymo AI: explainers/waymo_ai.md
       - Adversarial Training and Robot Safety: explainers/adversarial_training_robot_safety.md
   - Software:
+    - programming/index.md
     - Art & Practice: programming/art_and_practice.md
     - "C++": programming/cpp.md
     - Python: programming/python.md
     - Interoperability: programming/interoperability.md
     - Trajectory Optimization: programming/trajectory_optimization.md
   - About: about.md
-  - Credits: credits.md
   - Portfolio: https://bengravell.github.io/portfolio/

@@ -1,29 +1,50 @@
 # About
 
-## Why This Exists
+## What is this? Why does it exist?
 
 Paper indexes, citation databases, search engines, and literature review tools are already good at retrieval. I wanted something a little different: a place where a curated corpus could be explored through several complementary lenses.
 
 The collection is meant to be browsed, searched, compared, and revisited from different angles. Together, those views make it easier to wander, follow threads, notice relationships, and build a feel for the surrounding landscape.
 
-## What This Is
-
-This is a moderately sized collection of items that have passed my personal sniff test and manual triage. It reflects papers, ideas, and methods I find useful, intriguing, or worth returning to, with stronger coverage in areas I know, work near, or especially admire.
-
-It is part literature map, part reading notebook, part guided survey.
-
-## What This Is Not
-
-- A replacement for general paper indexes, citation databases, search engines, or knowledge graph systems.
-- A collection of every single paper in the universe.
-- A claim that I have read every detail of every paper; many entries come from skimming, abstracts, related work, talks, conversations, or reputation.
-- A neutral or encyclopedic taxonomy; it reflects my interests, admiration, professional context, and personal biases.
-- A complete bibliography of every paper written by certain authors.
-- A collection of papers from every field in academia and industry.
-- A collection where every branch has the same depth, maturity, or level of coverage.
+<div class="kb-about-compare">
+  <section class="kb-about-compare-panel kb-about-compare-panel--is">
+    <h3>What This Is</h3>
+    <p>A moderately sized collection of items that have passed my personal sniff test and manual triage.</p>
+    <ul>
+      <li>Papers, ideas, and methods I find useful, intriguing, or worth returning to.</li>
+      <li>Stronger coverage in areas I know, work near, or especially admire.</li>
+      <li>Part literature map, part reading notebook, part guided survey.</li>
+    </ul>
+  </section>
+  <div class="kb-about-compare-divider" aria-hidden="true">vs</div>
+  <section class="kb-about-compare-panel kb-about-compare-panel--not">
+    <h3>What This Is Not</h3>
+    <p>A neutral encyclopedia, universal index, or replacement for general retrieval tools.</p>
+    <ul>
+      <li>Not every single paper in the universe.</li>
+      <li>Not a claim that I have read every detail of every paper.</li>
+      <li>Not a complete bibliography of every author or field.</li>
+      <li>Not a taxonomy where every branch has equal depth or maturity.</li>
+    </ul>
+  </section>
+</div>
 
 ## Reach Out
 
 If you'd like to suggest papers, discuss an idea, or share feedback, feel free to reach out on [GitHub](https://github.com/BenGravell).
 
 Happy exploring!
+
+## Credits
+
+This site was built with the following tools:
+
+- [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)
+    - Site theme, navigation, search presentation, and responsive layout.
+- [MkDocs](https://www.mkdocs.org/)
+    - Static site builds.
+- [MathJax](https://www.mathjax.org/)
+    - Mathematical notation rendering.
+- [Atkinson Hyperlegible](https://www.brailleinstitute.org/freefont/)
+    - Text and code typefaces.
+- [Codex](https://openai.com/codex/) and [Claude Code](https://claude.com/product/claude-code)
