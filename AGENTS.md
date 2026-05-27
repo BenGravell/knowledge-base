@@ -61,7 +61,7 @@ knowledge-base/
 - Paper URL lists live under `todo/papers/<SOURCE>.md`
 - Source-specific prefill scripts live under `knowledge_base/scripts/prefill/<source>.py`
 - No test suite; do not run programmatic tests except for the following conditions:
-  - When UX changes are made:
+  - When UX changes (actual UI controls, not just simple content changes) are made:
     - Verify changes by running `mkdocs build` and checking for warnings.
 
 ## Agent Tasks
