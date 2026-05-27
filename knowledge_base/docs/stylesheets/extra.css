@@ -638,7 +638,7 @@ body:has(#ct-app)
 .md-typeset .kb-home-bento-secondary {
   --kb-bento-sheen-blend-mode: normal;
   --kb-bento-sheen-peak-opacity: 0.82;
-  --kb-bento-sheen-tail-opacity: 0.28;
+  --kb-bento-sheen-tail-opacity: 0.16;
   --kb-bento-sheen-reduced-opacity: 0.34;
   --kb-bento-sheen-white-soft: color-mix(in srgb, #ffffff 34%, transparent);
   --kb-bento-sheen-white-strong: color-mix(in srgb, #ffffff 52%, transparent);
@@ -647,7 +647,7 @@ body:has(#ct-app)
 [data-md-color-scheme="slate"] .md-typeset .kb-home-bento,
 [data-md-color-scheme="slate"] .md-typeset .kb-home-bento-secondary {
   --kb-bento-sheen-peak-opacity: 0.42;
-  --kb-bento-sheen-tail-opacity: 0.12;
+  --kb-bento-sheen-tail-opacity: 0.07;
   --kb-bento-sheen-reduced-opacity: 0.2;
   --kb-bento-sheen-white-soft: color-mix(in srgb, #ffffff 14%, transparent);
   --kb-bento-sheen-white-strong: color-mix(in srgb, #ffffff 28%, transparent);
@@ -724,7 +724,7 @@ body:has(#ct-app)
     );
   filter: blur(0.4px);
   mix-blend-mode: var(--kb-bento-sheen-blend-mode);
-  transform: translate3d(-32%, 0, 0) rotate(2deg);
+  transform: translate3d(-42%, -3%, 0) rotate(2deg);
   transition: opacity 0.18s ease;
 }
 
@@ -757,7 +757,7 @@ body:has(#ct-app)
   .md-typeset a.kb-bento-card:focus-visible::before,
   .md-typeset a.kb-bento-secondary-card:hover::before,
   .md-typeset a.kb-bento-secondary-card:focus-visible::before {
-    animation: kb-bento-sheen 0.82s cubic-bezier(0.2, 0.75, 0.26, 1) forwards;
+    animation: kb-bento-sheen 0.72s ease-out forwards;
   }
 }
 
@@ -774,26 +774,27 @@ body:has(#ct-app)
 @keyframes kb-bento-sheen {
   0% {
     opacity: 0;
-    transform: translate3d(-32%, 0, 0) rotate(2deg);
+    transform: translate3d(-42%, -3%, 0) rotate(2deg);
   }
 
-  18% {
+  14% {
     opacity: var(--kb-bento-sheen-peak-opacity);
+    transform: translate3d(-22%, -2%, 0) rotate(2deg);
   }
 
-  56% {
+  38% {
     opacity: var(--kb-bento-sheen-tail-opacity);
-    transform: translate3d(20%, 0, 0) rotate(2deg);
+    transform: translate3d(6%, 0, 0) rotate(2deg);
   }
 
-  76% {
+  54% {
     opacity: 0;
-    transform: translate3d(38%, 0, 0) rotate(2deg);
+    transform: translate3d(26%, 2%, 0) rotate(2deg);
   }
 
   100% {
     opacity: 0;
-    transform: translate3d(48%, 0, 0) rotate(2deg);
+    transform: translate3d(58%, 5%, 0) rotate(2deg);
   }
 }
 
