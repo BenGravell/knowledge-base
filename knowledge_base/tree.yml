@@ -23,7 +23,7 @@
             - Approximation of the Joint Spectral Radius Using Sum of Squares: docs/papers/2007/0712.2887/metadata.yml
             - A Convex Polynomial That Is Not sos-convex: docs/papers/2009/0903.1287/metadata.yml
           - Online Convex Optimization:
-            - No-Regret Algorithms for Unconstrained Online Convex Optimization: docs/papers/2012/1211.2260/metadata.yml
+            - Reward-Doubling: docs/papers/2012/1211.2260/metadata.yml
           - Applications in Probability Theory:
             - "Optimal Inequalities in Probability Theory: A Convex Optimization Approach": docs/papers/2005/2005.bertsimas.optimal_inequalities_in_probability/metadata.yml
         - Nonlinear Optimization:
