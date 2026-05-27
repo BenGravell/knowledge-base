@@ -10745,8 +10745,8 @@ window.tagSearchData = {
     "2506_11513": {
       "id": "2506_11513",
       "title": "Automatic Generation of Explicit Quadratic Programming Solvers",
-      "label": "CVXPYgen",
-      "algorithm": "CVXPYgen",
+      "label": "Automatic Generation of Explicit Quadratic Programming Solvers",
+      "algorithm": "",
       "authors": [
         "Maximilian Schaller",
         "Daniel Arnström",
@@ -18432,8 +18432,8 @@ window.tagSearchData = {
     "1211_2260": {
       "id": "1211_2260",
       "title": "No-Regret Algorithms for Unconstrained Online Convex Optimization",
-      "label": "No-Regret OCO",
-      "algorithm": "No-Regret OCO",
+      "label": "Reward-Doubling",
+      "algorithm": "Reward-Doubling",
       "authors": [
         "Matthew Streeter",
         "H. Brendan McMahan"
@@ -29297,8 +29297,8 @@ window.tagSearchData = {
     "2011_mangasarian_probability_of_unique_integer": {
       "id": "2011_mangasarian_probability_of_unique_integer",
       "title": "Probability of Unique Integer Solution to a System of Linear Equations",
-      "label": "Linear programming relaxation",
-      "algorithm": "Linear programming relaxation",
+      "label": "Probability of Unique Integer Solution to a System of Linear Equations",
+      "algorithm": "",
       "authors": [
         "O. L. Mangasarian",
         "Benjamin Recht"

@@ -57,6 +57,22 @@
 
     
     
+  
+  <script>
+    (function () {
+      try {
+        if (window.matchMedia("(min-width: 76.25em)").matches) {
+          var state = window.localStorage.getItem("kb-primary-nav-open");
+          if (state === "open" || state === "closed") {
+            document.documentElement.dataset.kbPrimaryNavState = state;
+          }
+        }
+      } catch (error) {
+        document.documentElement.dataset.kbPrimaryNavState = "closed";
+      }
+    })();
+  </script>
+
   </head>
   
   
@@ -253,32 +269,6 @@
         
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  
-  
-    
-    <span class="kb-nav-icon" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-    </span>
-  
-
-  <span class="md-ellipsis">
-    
-  
-    Home
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="." class="md-nav__link md-nav__link--active">
         
   
@@ -303,36 +293,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#contribute-or-reach-out" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Contribute or Reach Out
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -458,7 +418,7 @@
   
     
     <span class="kb-nav-icon" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2h7v5h5v11H6zm2 8v2h8v-2zm0 4v2h5v-2z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 13c0 .53-.21 1.04-.59 1.41l-.41.42a6.004 6.004 0 0 0-4.89-5.72L11 4H4v7l5.11 5.11c.51 2.73 2.86 4.8 5.72 4.89l-.42.41c-.37.38-.88.59-1.41.59s-1.03-.21-1.41-.58l-9-9C2.21 12.04 2 11.53 2 11V4c0-1.1.9-2 2-2h7c.53 0 1.04.21 1.41.58l9 9c.38.38.59.89.59 1.42M5 6.5C5 7.33 5.67 8 6.5 8S8 7.33 8 6.5 7.33 5 6.5 5 5 5.67 5 6.5m10.11 4.11c-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5c.89 0 1.69-.25 2.39-.68L20.61 22 22 20.61l-3.08-3.11c.44-.68.69-1.5.69-2.39 0-2.5-2-4.5-4.5-4.5m0 2c1.39 0 2.5 1.12 2.5 2.5s-1.11 2.5-2.5 2.5-2.5-1.11-2.5-2.5 1.12-2.5 2.5-2.5"/></svg>
     </span>
   
 
@@ -523,6 +483,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -539,8 +503,9 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="explainers/" class="md-nav__link ">
+              
   
   
   
@@ -562,8 +527,14 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -575,6 +546,8 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -611,10 +584,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
         
           
-          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
             
   
   
@@ -640,8 +613,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_1">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1002,10 +975,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
         
           
-          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
             
   
   
@@ -1031,8 +1004,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_2">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1107,10 +1080,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_4" >
         
           
-          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
             
   
   
@@ -1136,8 +1109,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_3">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1244,6 +1217,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -1264,8 +1241,9 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="programming/" class="md-nav__link ">
+              
   
   
   
@@ -1287,8 +1265,14 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8">
@@ -1300,6 +1284,8 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -1495,7 +1481,7 @@
   
   
     <li class="md-nav__item">
-      <a href="credits/" class="md-nav__link">
+      <a href="about/" class="md-nav__link">
         
   
   
@@ -1503,14 +1489,14 @@
   
     
     <span class="kb-nav-icon" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.1 18.55-.1.1-.11-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04 1 3.57 2.36h1.86C13.46 6 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05M16.5 3c-1.74 0-3.41.81-4.5 2.08C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.41 2 8.5c0 3.77 3.4 6.86 8.55 11.53L12 21.35l1.45-1.32C18.6 15.36 22 12.27 22 8.5 22 5.41 19.58 3 16.5 3"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 9h2V7h-2m1 13c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1 15h2v-6h-2z"/></svg>
     </span>
   
 
   <span class="md-ellipsis">
     
   
-    Credits
+    About
   
 
     
@@ -1580,25 +1566,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#contribute-or-reach-out" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Contribute or Reach Out
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1617,11 +1584,121 @@
 
 
 <h1 id="knowledge-base">Knowledge Base<a class="headerlink" href="#knowledge-base" title="Permanent link">&para;</a></h1>
-<p>Welcome to my curated collection of research papers, ideas, and explanations in the fields of <strong>motion planning</strong>, <strong>optimization</strong>, <strong>robotics</strong>, <strong>machine learning</strong>, and more.</p>
-<p>Whether you're here to deepen your understanding, explore specific research areas, or follow my perspective through complex topics, I hope you find the content useful and engaging.</p>
-<h2 id="contribute-or-reach-out">Contribute or Reach Out<a class="headerlink" href="#contribute-or-reach-out" title="Permanent link">&para;</a></h2>
-<p>If you'd like to suggest papers, discuss an idea, or share feedback, feel free to reach out to me on <a href="https://github.com/BenGravell">GitHub</a>.</p>
-<p>Happy exploring!</p>
+<p>Welcome to my curated collection of research papers, ideas, and explainers in motion planning, optimization, robotics, machine learning, and more, structured with tooling to make exploration engaging and fruitful.</p>
+<div class="kb-home-bento" aria-label="Knowledge Base quick start">
+  <a class="kb-bento-card kb-bento-card--map" href="map/">
+    <h3>
+      <span class="kb-bento-title-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m15 19-6-2.11V5l6 2.11M20.5 3h-.16L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5a.5.5 0 0 0 .5.5c.05 0 .11 0 .16-.03L9 18.9l6 2.1 5.64-1.9c.21-.1.36-.25.36-.48V3.5a.5.5 0 0 0-.5-.5"/></svg>
+      </span>
+      <span>Map</span>
+    </h3>
+    <p>Browse in semantic similarity space.</p>
+    <span class="kb-bento-visual kb-bento-visual--map" aria-hidden="true">
+      <span class="kb-map-node kb-map-node--a"></span>
+      <span class="kb-map-node kb-map-node--b"></span>
+      <span class="kb-map-node kb-map-node--c"></span>
+      <span class="kb-map-node kb-map-node--d"></span>
+      <span class="kb-map-node kb-map-node--e"></span>
+      <span class="kb-map-edge kb-map-edge--a"></span>
+      <span class="kb-map-edge kb-map-edge--b"></span>
+      <span class="kb-map-edge kb-map-edge--c"></span>
+      <span class="kb-map-edge kb-map-edge--d"></span>
+      <span class="kb-map-edge kb-map-edge--e"></span>
+      <span class="kb-map-edge kb-map-edge--f"></span>
+    </span>
+  </a>
+
+  <a class="kb-bento-card kb-bento-card--tree" href="tree/">
+    <h3>
+      <span class="kb-bento-title-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 13H7v5h5v2H5V10h2v1h5zM8 4v2H4V4zm2-2H2v6h8zm10 9v2h-4v-2zm2-2h-8v6h8zm-2 9v2h-4v-2zm2-2h-8v6h8z"/></svg>
+      </span>
+      <span>Tree</span>
+    </h3>
+    <p>Walk the taxonomy.</p>
+    <span class="kb-bento-visual kb-bento-visual--tree" aria-hidden="true">
+      <span class="kb-tree-root"></span>
+      <span class="kb-tree-branch kb-tree-branch--one"></span>
+      <span class="kb-tree-branch kb-tree-branch--two"></span>
+      <span class="kb-tree-branch kb-tree-branch--three"></span>
+    </span>
+  </a>
+
+  <a class="kb-bento-card kb-bento-card--timeline" href="timeline/">
+    <h3>
+      <span class="kb-bento-title-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 2v6H2V2zM2 22v-6h2v6zm3-10c0 1.11-.89 2-2 2a2 2 0 1 1 2-2m11-8c4.42 0 8 3.58 8 8s-3.58 8-8 8c-3.6 0-6.64-2.38-7.65-5.65L6 12l2.35-2.35C9.36 6.38 12.4 4 16 4m0 2c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6m-1 7V8h1.5v4.2l3 1.8-.82 1.26z"/></svg>
+      </span>
+      <span>Timeline</span>
+    </h3>
+    <p>Explore chronology and trends.</p>
+    <span class="kb-bento-visual kb-bento-visual--timeline" aria-hidden="true">
+      <svg class="kb-time-streams" viewBox="0 0 112 71" focusable="false" aria-hidden="true"><path class="kb-time-stream-shape kb-time-stream-shape--one" d="M 6.0 14.5 C 8.0 14.0 13.8 11.9 18.0 11.6 C 22.2 11.3 26.3 12.7 31.0 12.5 C 35.7 12.3 40.7 10.4 46.0 10.2 C 51.3 10.0 57.3 11.5 63.0 11.5 C 68.7 11.5 74.5 10.2 80.0 10.4 C 85.5 10.6 91.7 12.2 96.0 12.9 C 100.3 13.6 104.3 14.2 106.0 14.5 L 106.0 16.5 106.0 16.5 C 104.3 16.8 100.3 17.4 96.0 18.1 C 91.7 18.8 85.5 20.4 80.0 20.6 C 74.5 20.8 68.7 19.5 63.0 19.5 C 57.3 19.5 51.3 21.0 46.0 20.8 C 40.7 20.6 35.7 18.7 31.0 18.5 C 26.3 18.3 22.2 19.7 18.0 19.4 C 13.8 19.1 8.0 17.0 6.0 16.5 Z" /><path class="kb-time-stream-shape kb-time-stream-shape--two" d="M 6.0 35.9 C 8.0 35.1 14.0 32.1 18.0 31.0 C 22.0 29.9 25.7 29.3 30.0 29.5 C 34.3 29.7 39.3 32.6 44.0 32.4 C 48.7 32.2 53.3 28.9 58.0 28.5 C 62.7 28.1 67.0 29.8 72.0 29.8 C 77.0 29.8 82.3 27.7 88.0 28.7 C 93.7 29.7 103.0 34.6 106.0 35.8 L 106.0 38.2 106.0 38.2 C 103.0 39.4 93.7 44.3 88.0 45.3 C 82.3 46.3 77.0 44.2 72.0 44.2 C 67.0 44.2 62.7 45.9 58.0 45.5 C 53.3 45.1 48.7 41.8 44.0 41.6 C 39.3 41.4 34.3 44.3 30.0 44.5 C 25.7 44.7 22.0 44.1 18.0 43.0 C 14.0 41.9 8.0 38.9 6.0 38.1 Z" /><path class="kb-time-stream-shape kb-time-stream-shape--three" d="M 6.0 57.1 C 8.3 56.8 15.3 55.1 20.0 55.0 C 24.7 54.9 29.0 56.5 34.0 56.2 C 39.0 55.9 44.8 53.4 50.0 53.0 C 55.2 52.6 60.0 53.4 65.0 53.6 C 70.0 53.8 74.8 54.0 80.0 54.2 C 85.2 54.4 91.7 54.3 96.0 54.8 C 100.3 55.3 104.3 56.7 106.0 57.1 L 106.0 58.9 106.0 58.9 C 104.3 59.3 100.3 60.7 96.0 61.2 C 91.7 61.7 85.2 61.6 80.0 61.8 C 74.8 62.0 70.0 62.2 65.0 62.4 C 60.0 62.6 55.2 63.4 50.0 63.0 C 44.8 62.6 39.0 60.1 34.0 59.8 C 29.0 59.5 24.7 61.1 20.0 61.0 C 15.3 60.9 8.3 59.2 6.0 58.9 Z" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--one" cx="18.0" cy="15.2" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--one" cx="32.0" cy="15.6" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--one" cx="47.0" cy="15.2" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--one" cx="55.0" cy="16.2" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--one" cx="65.0" cy="15.0" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--one" cx="81.0" cy="15.7" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--two" cx="17.0" cy="36.2" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--two" cx="25.0" cy="37.8" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--two" cx="43.0" cy="36.7" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--two" cx="47.0" cy="38.0" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--two" cx="52.0" cy="35.7" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--two" cx="66.0" cy="37.4" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--two" cx="80.0" cy="38.4" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--two" cx="88.0" cy="35.9" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--three" cx="20.0" cy="57.9" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--three" cx="51.0" cy="58.4" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--three" cx="58.0" cy="57.8" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--three" cx="69.0" cy="58.6" r="2.0" /><circle class="kb-time-swarm-dot kb-time-swarm-dot--three" cx="81.0" cy="57.7" r="2.0" /></svg>
+    </span>
+  </a>
+
+  <a class="kb-bento-card kb-bento-card--search" href="search/">
+    <h3>
+      <span class="kb-bento-title-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 13c0 .53-.21 1.04-.59 1.41l-.41.42a6.004 6.004 0 0 0-4.89-5.72L11 4H4v7l5.11 5.11c.51 2.73 2.86 4.8 5.72 4.89l-.42.41c-.37.38-.88.59-1.41.59s-1.03-.21-1.41-.58l-9-9C2.21 12.04 2 11.53 2 11V4c0-1.1.9-2 2-2h7c.53 0 1.04.21 1.41.58l9 9c.38.38.59.89.59 1.42M5 6.5C5 7.33 5.67 8 6.5 8S8 7.33 8 6.5 7.33 5 6.5 5 5 5.67 5 6.5m10.11 4.11c-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5c.89 0 1.69-.25 2.39-.68L20.61 22 22 20.61l-3.08-3.11c.44-.68.69-1.5.69-2.39 0-2.5-2-4.5-4.5-4.5m0 2c1.39 0 2.5 1.12 2.5 2.5s-1.11 2.5-2.5 2.5-2.5-1.11-2.5-2.5 1.12-2.5 2.5-2.5"/></svg>
+      </span>
+      <span>Search</span>
+    </h3>
+    <p>Find entries by meaning and metadata.</p>
+    <span class="kb-bento-visual kb-bento-visual--search" aria-hidden="true">
+      <span class="kb-search-window">
+        <span class="kb-search-pill">safe motion planning</span>
+        <span class="kb-search-result kb-search-result--one"></span>
+        <span class="kb-search-result kb-search-result--two"></span>
+        <span class="kb-search-result kb-search-result--three"></span>
+      </span>
+    </span>
+  </a>
+
+</div>
+
+<div class="kb-home-bento-secondary" aria-label="Additional Knowledge Base pages">
+  <a class="kb-bento-secondary-card kb-bento-secondary-card--analytics" href="analytics/">
+    <h3>
+      <span class="kb-bento-title-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m16 11.78 4.24-7.33 1.73 1-5.23 9.05-6.51-3.75L5.46 19H22v2H2V3h2v14.54L9.5 8z"/></svg>
+      </span>
+      <span>Analytics</span>
+    </h3>
+    <p>Quantify the collection by slice.</p>
+  </a>
+
+  <a class="kb-bento-secondary-card kb-bento-secondary-card--explainers" href="explainers/">
+    <h3>
+      <span class="kb-bento-title-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 1-5 5v11l5-4.5zm2 4v13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6c-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1M10 18.41C8.75 18.09 7.5 18 6.5 18c-1.06 0-2.32.19-3.5.5V7.13c.91-.4 2.14-.63 3.5-.63s2.59.23 3.5.63z"/></svg>
+      </span>
+      <span>Explainers</span>
+    </h3>
+    <p>Read longer guided notes.</p>
+  </a>
+
+  <a class="kb-bento-secondary-card kb-bento-secondary-card--software" href="programming/">
+    <h3>
+      <span class="kb-bento-title-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 3a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2H3v2h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h2v-2H8v-5a2 2 0 0 0-2-2 2 2 0 0 0 2-2V5h2V3m6 0a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1v2h-1a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-2v-2h2v-5a2 2 0 0 1 2-2 2 2 0 0 1-2-2V5h-2V3z"/></svg>
+      </span>
+      <span>Software</span>
+    </h3>
+    <p>Read programming notes.</p>
+  </a>
+
+  <a class="kb-bento-secondary-card kb-bento-secondary-card--about" href="about/">
+    <h3>
+      <span class="kb-bento-title-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 9h2V7h-2m1 13c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1 15h2v-6h-2z"/></svg>
+      </span>
+      <span>About</span>
+    </h3>
+    <p>Understand the intent.</p>
+  </a>
+</div>
 
 
 
@@ -1685,6 +1762,8 @@
         <script src="javascripts/math-fit.js"></script>
       
         <script src="javascripts/header-link.js"></script>
+      
+        <script src="javascripts/nav-drawer-state.js"></script>
       
     
   </body>

@@ -1,5 +1,5 @@
 title: "Probability of Unique Integer Solution to a System of Linear Equations"
-algorithm: "Linear programming relaxation"
+algorithm:
 authors:
   - "O. L. Mangasarian"
   - "Benjamin Recht"

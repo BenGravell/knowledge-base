@@ -15124,7 +15124,7 @@ window.timelineData = {
     },
     {
       "id": "1211_2260",
-      "label": "No-Regret Algorithms for Unconstrained Online Convex Optimization",
+      "label": "Reward-Doubling",
       "title": "No-Regret Algorithms for Unconstrained Online Convex Optimization",
       "authors": [
         "Matthew Streeter",
@@ -15144,7 +15144,7 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "Online Convex Optimization",
-        "No-Regret Algorithms for Unconstrained Online Convex Optimization"
+        "Reward-Doubling"
       ],
       "tags": [
         "Convex optimization",

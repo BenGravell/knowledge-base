@@ -94,9 +94,9 @@ window.treeData = {
                             "branchCount": 0,
                             "paper": {
                               "id": "2011_mangasarian_probability_of_unique_integer",
-                              "label": "Linear programming relaxation",
+                              "label": "Mangasarian et al. 2011",
                               "title": "Probability of Unique Integer Solution to a System of Linear Equations",
-                              "algorithm": "Linear programming relaxation",
+                              "algorithm": "",
                               "authors": [
                                 "O. L. Mangasarian",
                                 "Benjamin Recht"
@@ -162,9 +162,9 @@ window.treeData = {
                             "branchCount": 0,
                             "paper": {
                               "id": "2506_11513",
-                              "label": "CVXPYgen",
+                              "label": "Schaller et al. 2025",
                               "title": "Automatic Generation of Explicit Quadratic Programming Solvers",
-                              "algorithm": "CVXPYgen",
+                              "algorithm": "",
                               "authors": [
                                 "Maximilian Schaller",
                                 "Daniel Arnström",
@@ -819,8 +819,8 @@ window.treeData = {
                         ],
                         "children": [
                           {
-                            "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-online-convex-optimization-no-regret-algorithms-for-unconstrained-online-convex-optimization-papers-1211-2260-md",
-                            "label": "No-Regret Algorithms for Unconstrained Online Convex Optimization",
+                            "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-online-convex-optimization-reward-doubling-papers-1211-2260-md",
+                            "label": "Reward-Doubling",
                             "kind": "paper",
                             "source": "papers/1211_2260.md",
                             "url": "../papers/1211_2260/",
@@ -831,16 +831,16 @@ window.treeData = {
                               "Continuous Optimization",
                               "Convex Optimization",
                               "Online Convex Optimization",
-                              "No-Regret Algorithms for Unconstrained Online Convex Optimization"
+                              "Reward-Doubling"
                             ],
                             "children": [],
                             "leafCount": 1,
                             "branchCount": 0,
                             "paper": {
                               "id": "1211_2260",
-                              "label": "No-Regret OCO",
+                              "label": "Reward-Doubling",
                               "title": "No-Regret Algorithms for Unconstrained Online Convex Optimization",
-                              "algorithm": "No-Regret OCO",
+                              "algorithm": "Reward-Doubling",
                               "authors": [
                                 "Matthew Streeter",
                                 "H. Brendan McMahan"
