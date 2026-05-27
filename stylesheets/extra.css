@@ -638,23 +638,19 @@ body:has(#ct-app)
 .md-typeset .kb-home-bento-secondary {
   --kb-bento-sheen-blend-mode: normal;
   --kb-bento-sheen-peak-opacity: 0.82;
-  --kb-bento-sheen-tail-opacity: 0.45;
+  --kb-bento-sheen-tail-opacity: 0.28;
   --kb-bento-sheen-reduced-opacity: 0.34;
   --kb-bento-sheen-white-soft: color-mix(in srgb, #ffffff 34%, transparent);
   --kb-bento-sheen-white-strong: color-mix(in srgb, #ffffff 52%, transparent);
-  --kb-bento-sheen-accent-soft: color-mix(in srgb, var(--kb-bento-accent) 28%, transparent);
-  --kb-bento-sheen-accent-strong: color-mix(in srgb, var(--kb-bento-accent-2) 24%, transparent);
 }
 
 [data-md-color-scheme="slate"] .md-typeset .kb-home-bento,
 [data-md-color-scheme="slate"] .md-typeset .kb-home-bento-secondary {
   --kb-bento-sheen-peak-opacity: 0.42;
-  --kb-bento-sheen-tail-opacity: 0.22;
+  --kb-bento-sheen-tail-opacity: 0.12;
   --kb-bento-sheen-reduced-opacity: 0.2;
   --kb-bento-sheen-white-soft: color-mix(in srgb, #ffffff 14%, transparent);
   --kb-bento-sheen-white-strong: color-mix(in srgb, #ffffff 28%, transparent);
-  --kb-bento-sheen-accent-soft: color-mix(in srgb, var(--kb-bento-accent) 20%, transparent);
-  --kb-bento-sheen-accent-strong: color-mix(in srgb, var(--kb-bento-accent-2) 16%, transparent);
 }
 
 .md-typeset .kb-home-bento {
@@ -715,9 +711,9 @@ body:has(#ct-app)
       112deg,
       transparent 28%,
       var(--kb-bento-sheen-white-soft) 40%,
-      var(--kb-bento-sheen-accent-soft) 47%,
+      color-mix(in srgb, var(--kb-bento-accent) 28%, transparent) 47%,
       var(--kb-bento-sheen-white-strong) 53%,
-      var(--kb-bento-sheen-accent-strong) 59%,
+      color-mix(in srgb, var(--kb-bento-accent-2) 24%, transparent) 59%,
       transparent 72%
     ),
     linear-gradient(
@@ -761,7 +757,7 @@ body:has(#ct-app)
   .md-typeset a.kb-bento-card:focus-visible::before,
   .md-typeset a.kb-bento-secondary-card:hover::before,
   .md-typeset a.kb-bento-secondary-card:focus-visible::before {
-    animation: kb-bento-sheen 0.95s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    animation: kb-bento-sheen 0.82s cubic-bezier(0.2, 0.75, 0.26, 1) forwards;
   }
 }
 
@@ -785,13 +781,19 @@ body:has(#ct-app)
     opacity: var(--kb-bento-sheen-peak-opacity);
   }
 
-  72% {
+  56% {
     opacity: var(--kb-bento-sheen-tail-opacity);
+    transform: translate3d(20%, 0, 0) rotate(2deg);
+  }
+
+  76% {
+    opacity: 0;
+    transform: translate3d(38%, 0, 0) rotate(2deg);
   }
 
   100% {
     opacity: 0;
-    transform: translate3d(32%, 0, 0) rotate(2deg);
+    transform: translate3d(48%, 0, 0) rotate(2deg);
   }
 }
 
@@ -1463,6 +1465,8 @@ body:has(#semantic-search-app) .md-content {
   --kb-app-panel: var(--ct-panel);
   --ct-muted-bg: color-mix(in srgb, var(--md-default-fg-color) 4%, transparent);
   --ct-muted-line: color-mix(in srgb, var(--md-default-fg-color) 28%, transparent);
+  --ct-tree-button-min: 2.78rem;
+  --ct-current-button-min: 4.17rem;
   --ct-subtle-grey-surface: #e4e7eb;
   --ct-subtle-grey-surface-hover: #b8bec8;
   --ct-subtle-grey-border: #8d96a3;
@@ -2217,7 +2221,7 @@ body:has(#semantic-search-app) .md-content {
   gap: 0.45rem;
   align-items: center;
   width: 100%;
-  min-height: 2.78rem;
+  min-height: var(--ct-tree-button-min);
   margin-left: 0;
   padding: 0.42rem 0.62rem 0.42rem 0;
   border: 1px solid transparent;
@@ -2317,7 +2321,7 @@ body:has(#semantic-search-app) .md-content {
   background-position: 18% 24%, 82% 22%, 20% 82%, 0% 50%;
   background-clip: padding-box;
   color: var(--ct-selected-text);
-  min-height: clamp(7rem, 18vh, 11rem);
+  min-height: var(--ct-current-button-min);
   box-shadow:
     0 8px 18px color-mix(in srgb, var(--ct-cyan) 30%, transparent),
     inset 0 -2px 0 var(--ct-selected-inset);
@@ -2455,6 +2459,8 @@ body:has(#semantic-search-app) .md-content {
 @media (max-width: 720px) {
   .ct-page {
     --ct-rail-center: 0.98rem;
+    --ct-tree-button-min: 2.35rem;
+    --ct-current-button-min: 3.53rem;
   }
 
   .md-content__inner:has(#ct-app) {
@@ -2524,12 +2530,12 @@ body:has(#semantic-search-app) .md-content {
   .ct-tree-button {
     grid-template-columns: calc(var(--ct-rail-center) * 2) minmax(0, 1fr);
     gap: 0.34rem;
-    min-height: 2.35rem;
+    min-height: var(--ct-tree-button-min);
     padding: 0.34rem 0.46rem 0.34rem 0;
   }
 
   .ct-tree-node.is-current > .ct-tree-button {
-    min-height: 4.75rem;
+    min-height: var(--ct-current-button-min);
   }
 
   .ct-tree-label {
