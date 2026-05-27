@@ -22,6 +22,8 @@ from knowledge_base.scripts.suggest_tree_algorithm_labels import (  # noqa: E402
     format_nav_path,
     load_metadata,
     relative_to_kb,
+    replace_metadata_algorithm,
+    replace_tree_label,
 )
 
 
@@ -81,13 +83,63 @@ def dedupe_options(options: list[tuple[str, str | None]]) -> list[tuple[str, str
     return deduped
 
 
+def display_label(value: str) -> str:
+    value = clean_text(value)
+    return f"`{value}`" if value else "`<empty>`"
+
+
+def apply_algorithm(suggestion: Suggestion, algorithm: str) -> None:
+    algorithm = clean_text(algorithm)
+    changed_paths: list[Path] = []
+    if not algorithm:
+        title = clean_text(suggestion.title)
+        if not title:
+            st.error("Cannot use an empty algorithm because the paper title is empty.")
+            return
+        if replace_tree_label(TREE_YML, suggestion.source, title):
+            changed_paths.append(TREE_YML)
+    if replace_metadata_algorithm(suggestion.metadata_path, algorithm):
+        changed_paths.append(suggestion.metadata_path)
+    metadata_path = relative_to_kb(suggestion.metadata_path)
+    if changed_paths:
+        changed_text = ", ".join(f"`{relative_to_kb(path)}`" for path in changed_paths)
+        if algorithm:
+            st.session_state.tree_label_last_result = (
+                f"Wrote algorithm {display_label(algorithm)} to `{metadata_path}`."
+            )
+        else:
+            st.session_state.tree_label_last_result = (
+                f"Cleared algorithm and labeled the Tree with "
+                f"{display_label(suggestion.title)} in {changed_text}."
+            )
+    else:
+        if algorithm:
+            st.session_state.tree_label_last_result = (
+                f"Algorithm {display_label(algorithm)} was already applied."
+            )
+        else:
+            st.session_state.tree_label_last_result = (
+                "Empty algorithm and title Tree label were already applied."
+            )
+    refresh_suggestions()
+    st.rerun()
+
+
 def apply_label(suggestion: Suggestion, label: str) -> None:
+    if not clean_text(label):
+        apply_algorithm(suggestion, "")
+        return
+
     changed = apply_canonical_label(suggestion, label, tree_path=TREE_YML)
     if changed:
         changed_text = ", ".join(f"`{relative_to_kb(path)}`" for path in changed)
-        st.session_state.tree_label_last_result = f"Applied `{label}` to {changed_text}."
+        st.session_state.tree_label_last_result = (
+            f"Applied {display_label(label)} to {changed_text}."
+        )
     else:
-        st.session_state.tree_label_last_result = f"`{label}` was already applied."
+        st.session_state.tree_label_last_result = (
+            f"{display_label(label)} was already applied."
+        )
     refresh_suggestions()
     st.rerun()
 
@@ -213,6 +265,12 @@ with left:
     for button_label, value in options:
         if st.button(button_label, key=f"{button_label}-{value}", use_container_width=True):
             apply_label(suggestion, value)
+    if st.button(
+        "Use empty algorithm + title",
+        key="Use empty algorithm",
+        use_container_width=True,
+    ):
+        apply_algorithm(suggestion, "")
 
     manual_default = suggestion.canonical_label or suggestion.algorithm or suggestion.tree_label
     manual_label = st.text_input("Manual canonical label", value=manual_default)

@@ -326,7 +326,12 @@ def yaml_key(value: str) -> str:
 
 def replace_metadata_algorithm(metadata_path: Path, algorithm: str) -> bool:
     lines = metadata_path.read_text(encoding="utf-8").splitlines(keepends=True)
-    replacement = f"algorithm: {yaml_inline_value(algorithm)}\n"
+    algorithm = clean_text(algorithm)
+    replacement = (
+        "algorithm:\n"
+        if not algorithm
+        else f"algorithm: {yaml_inline_value(algorithm)}\n"
+    )
     for index, line in enumerate(lines):
         if re.match(r"^algorithm\s*:", line):
             if line == replacement:
