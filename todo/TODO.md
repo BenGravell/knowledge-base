@@ -427,6 +427,12 @@ Add an export button to get a json or csv of all currently displayed items
 CSV should include one item per row. Tree ancestry in a column.
 JSON can use tree hierarchy natively.
 
+## Search
+
+Use semantic search by default.
+
+Unify metadata Search and material site Search. Use the same code and search bars.
+
 ## Credits
 
 Sub bullet indent is too wide
