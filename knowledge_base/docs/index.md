@@ -56,29 +56,7 @@ Welcome to my curated collection of research papers, ideas, and explainers in mo
     </h3>
     <p>Explore chronology and trends.</p>
     <span class="kb-bento-visual kb-bento-visual--timeline" aria-hidden="true">
-      <svg class="kb-time-streams" viewBox="0 0 112 71" focusable="false" aria-hidden="true">
-        <path class="kb-time-stream-shape kb-time-stream-shape--one" d="M6 16 C7 12 13 11 22 13 C29 9 40 10 48 14 C57 8 71 10 80 14 C91 11 102 13 106 16 C102 19 91 21 80 18 C71 22 57 24 48 18 C40 22 29 23 22 19 C13 21 7 20 6 16 Z" />
-        <path class="kb-time-stream-shape kb-time-stream-shape--two" d="M6 36 C7 29 17 26 28 31 C39 22 52 23 62 31 C74 22 90 25 98 32 C103 33 106 35 106 36 C106 37 103 39 98 40 C90 47 74 50 62 41 C52 49 39 50 28 41 C17 46 7 43 6 36 Z" />
-        <path class="kb-time-stream-shape kb-time-stream-shape--three" d="M6 57 C8 53 18 52 30 55 C41 50 55 51 66 56 C77 51 97 52 106 57 C97 62 77 63 66 58 C55 64 41 64 30 59 C18 62 8 61 6 57 Z" />
-      </svg>
-      <span class="kb-time-dot kb-time-dot--one"></span>
-      <span class="kb-time-dot kb-time-dot--two"></span>
-      <span class="kb-time-dot kb-time-dot--three"></span>
-      <span class="kb-time-dot kb-time-dot--four"></span>
-      <span class="kb-time-dot kb-time-dot--five"></span>
-      <span class="kb-time-dot kb-time-dot--six"></span>
-      <span class="kb-time-dot kb-time-dot--seven"></span>
-      <span class="kb-time-dot kb-time-dot--eight"></span>
-      <span class="kb-time-dot kb-time-dot--nine"></span>
-      <span class="kb-time-dot kb-time-dot--ten"></span>
-      <span class="kb-time-dot kb-time-dot--eleven"></span>
-      <span class="kb-time-dot kb-time-dot--twelve"></span>
-      <span class="kb-time-dot kb-time-dot--thirteen"></span>
-      <span class="kb-time-dot kb-time-dot--fourteen"></span>
-      <span class="kb-time-dot kb-time-dot--fifteen"></span>
-      <span class="kb-time-dot kb-time-dot--sixteen"></span>
-      <span class="kb-time-dot kb-time-dot--seventeen"></span>
-      <span class="kb-time-dot kb-time-dot--eighteen"></span>
+      {{ timeline_preview() }}
     </span>
   </a>
 

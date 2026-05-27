@@ -1223,122 +1223,22 @@ body:has(#ct-app)
   fill: color-mix(in srgb, var(--kb-color-rose) 32%, var(--md-default-bg-color));
 }
 
-.md-typeset .kb-time-dot {
-  z-index: 2;
-  width: 0.42rem;
-  height: 0.42rem;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--md-default-bg-color) 74%, transparent);
-  background: color-mix(in srgb, var(--kb-time-dot-color, var(--kb-bento-accent)) 78%, var(--md-default-bg-color));
-  box-shadow: 0 0 0 0.12rem color-mix(in srgb, var(--kb-time-dot-color, var(--kb-bento-accent)) 15%, transparent);
+.md-typeset .kb-time-swarm-dot {
+  stroke: color-mix(in srgb, var(--md-default-bg-color) 74%, transparent);
+  stroke-width: 1.05;
+  paint-order: stroke fill;
 }
 
-.md-typeset .kb-time-dot--one {
-  --kb-time-dot-color: var(--kb-color-teal);
-  left: 2.02rem;
-  top: 1.42rem;
+.md-typeset .kb-time-swarm-dot--one {
+  fill: color-mix(in srgb, var(--kb-color-teal) 78%, var(--md-default-bg-color));
 }
 
-.md-typeset .kb-time-dot--two {
-  --kb-time-dot-color: var(--kb-color-teal);
-  left: 3.42rem;
-  top: 1.36rem;
+.md-typeset .kb-time-swarm-dot--two {
+  fill: color-mix(in srgb, var(--kb-color-blue) 78%, var(--md-default-bg-color));
 }
 
-.md-typeset .kb-time-dot--three {
-  --kb-time-dot-color: var(--kb-color-teal);
-  left: 5.28rem;
-  top: 1.32rem;
-}
-
-.md-typeset .kb-time-dot--four {
-  --kb-time-dot-color: var(--kb-color-teal);
-  left: 6.74rem;
-  top: 1.44rem;
-}
-
-.md-typeset .kb-time-dot--five {
-  --kb-time-dot-color: var(--kb-color-teal);
-  left: 8.22rem;
-  top: 1.34rem;
-}
-
-.md-typeset .kb-time-dot--six {
-  --kb-time-dot-color: var(--kb-color-blue);
-  left: 1.92rem;
-  top: 3.46rem;
-}
-
-.md-typeset .kb-time-dot--seven {
-  --kb-time-dot-color: var(--kb-color-blue);
-  left: 2.72rem;
-  top: 3.2rem;
-}
-
-.md-typeset .kb-time-dot--eight {
-  --kb-time-dot-color: var(--kb-color-blue);
-  left: 4.42rem;
-  top: 3.58rem;
-}
-
-.md-typeset .kb-time-dot--nine {
-  --kb-time-dot-color: var(--kb-color-blue);
-  left: 5.02rem;
-  top: 3.22rem;
-}
-
-.md-typeset .kb-time-dot--ten {
-  --kb-time-dot-color: var(--kb-color-blue);
-  left: 6.7rem;
-  top: 3.62rem;
-}
-
-.md-typeset .kb-time-dot--eleven {
-  --kb-time-dot-color: var(--kb-color-blue);
-  left: 7.76rem;
-  top: 3.26rem;
-}
-
-.md-typeset .kb-time-dot--twelve {
-  --kb-time-dot-color: var(--kb-color-rose);
-  left: 2.2rem;
-  top: 5.64rem;
-}
-
-.md-typeset .kb-time-dot--thirteen {
-  --kb-time-dot-color: var(--kb-color-rose);
-  left: 5.62rem;
-  top: 5.48rem;
-}
-
-.md-typeset .kb-time-dot--fourteen {
-  --kb-time-dot-color: var(--kb-color-rose);
-  left: 7.48rem;
-  top: 5.66rem;
-}
-
-.md-typeset .kb-time-dot--fifteen {
-  --kb-time-dot-color: var(--kb-color-teal);
-  left: 5.86rem;
-  top: 1.58rem;
-}
-
-.md-typeset .kb-time-dot--sixteen {
-  --kb-time-dot-color: var(--kb-color-blue);
-  left: 4.78rem;
-  top: 3.78rem;
-}
-
-.md-typeset .kb-time-dot--seventeen {
-  --kb-time-dot-color: var(--kb-color-blue);
-  left: 8.46rem;
-  top: 3.48rem;
-}
-
-.md-typeset .kb-time-dot--eighteen {
-  --kb-time-dot-color: var(--kb-color-rose);
-  left: 6.32rem;
-  top: 5.76rem;
+.md-typeset .kb-time-swarm-dot--three {
+  fill: color-mix(in srgb, var(--kb-color-rose) 78%, var(--md-default-bg-color));
 }
 
 @media (max-width: 64rem) {
