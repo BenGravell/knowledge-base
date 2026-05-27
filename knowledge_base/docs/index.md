@@ -3,9 +3,9 @@ hide:
   - toc
 ---
 
-# Knowledge Base
+# Curated Research You Can Actually Navigate
 
-Welcome to my curated collection of research papers, ideas, and explainers in motion planning, optimization, robotics, machine learning, and more, structured with tooling to make exploration engaging and fruitful.
+*A hand-picked collection of research items structured with tooling to make exploration engaging and fruitful.*
 
 <div class="kb-home-bento" aria-label="Knowledge Base quick start">
   <a class="kb-bento-card kb-bento-card--map" href="map/">
@@ -98,7 +98,7 @@ Welcome to my curated collection of research papers, ideas, and explainers in mo
       </span>
       <span>Explainers</span>
     </h3>
-    <p>Read longer guided notes.</p>
+    <p>Read guided notes.</p>
   </a>
 
   <a class="kb-bento-secondary-card kb-bento-secondary-card--software" href="programming/">
