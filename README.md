@@ -130,6 +130,15 @@ python scripts/validate_tree.py
 python scripts/validate_tree.py --check-algorithm-labels
 ```
 
+Suggest likely fixes for Tree/metadata algorithm-label disagreements:
+
+```bash
+python scripts/suggest_tree_algorithm_labels.py
+python scripts/suggest_tree_algorithm_labels.py --min-confidence high
+python scripts/suggest_tree_algorithm_labels.py --format json
+streamlit run apps/tree_label_review_app.py
+```
+
 Find generated paper pages that are missing from the `Tree` nav:
 
 ```bash
