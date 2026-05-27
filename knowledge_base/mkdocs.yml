@@ -4,6 +4,18 @@ site_url: https://bengravell.github.io/knowledge-base/
 
 extra:
   generator: false
+  nav_icons:
+    home: material/home
+    map: material/map
+    tree: material/file-tree-outline
+    timeline: material/timeline-clock-outline
+    search: material/tag-search-outline
+    analytics: material/chart-line
+    explainers: material/book-open-page-variant-outline
+    software: material/code-braces
+    about: material/information-outline
+    credits: material/heart-outline
+    portfolio: material/briefcase-outline
 
 not_in_nav: |
   papers/**/*.md
@@ -111,5 +123,6 @@ nav:
     - Python: programming/python.md
     - Interoperability: programming/interoperability.md
     - Trajectory Optimization: programming/trajectory_optimization.md
+  - About: about.md
   - Credits: credits.md
   - Portfolio: https://bengravell.github.io/portfolio/

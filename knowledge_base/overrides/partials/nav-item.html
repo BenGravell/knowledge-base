@@ -27,26 +27,8 @@
     {{ nav_item.meta.icon }}
   {% elif ref.meta and ref.meta.icon %}
     {{ ref.meta.icon }}
-  {% elif title == "home" %}
-    material/home
-  {% elif title == "map" %}
-    material/map
-  {% elif title == "timeline" %}
-    material/timeline-clock-outline
-  {% elif title == "tree" %}
-    material/file-tree-outline
-  {% elif title == "tag search" %}
-    material/tag-search-outline
-  {% elif title == "analytics" %}
-    material/chart-line
-  {% elif title == "explainers" %}
-    material/book-open-page-variant-outline
-  {% elif title == "software" %}
-    material/code-braces
-  {% elif title == "credits" %}
-    material/heart-outline
-  {% elif title == "portfolio" %}
-    material/briefcase-outline
+  {% elif title in config.extra.nav_icons %}
+    {{ config.extra.nav_icons[title] }}
   {% elif ref.children %}
     material/folder-outline
   {% elif nav_item.url and nav_item.url is string and nav_item.url.startswith("http") %}

@@ -5,7 +5,7 @@ hide:
 
 # Credits
 
-This site is built with the following tools:
+This site was built with the following tools:
 
 - [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)
     - Site theme, navigation, search presentation, and responsive layout.
