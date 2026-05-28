@@ -19,9 +19,8 @@
    *   sibling category -> slight hue/lightness variation
    *   sub-category -> smaller variation around its category
    *
-   * Rendered nodes are recoloured dynamically from a fixed high-distinction
-   * palette based on the broadest branch split among the currently visible
-   * papers.
+   * Rendered nodes are recoloured dynamically from the shared CSS palette based
+   * on the broadest branch split among the currently visible papers.
    * -------------------------------------------------------------------------*/
   const UNCATEGORIZED_CATEGORY = 'Uncategorized';
   const UNCATEGORIZED_CATEGORIES = new Set([UNCATEGORIZED_CATEGORY, 'Other']);
@@ -29,7 +28,9 @@
   const WCAG_NORMAL_TEXT_CONTRAST = 4.5;
   const NODE_LABEL_LIGHT = '#FFFFFF';
   const NODE_LABEL_DARK = '#000000';
-  const VISIBILITY_BRANCH_PALETTES = {
+  const VISIBILITY_BRANCH_PALETTE_CSS_PREFIX = '--kb-map-node-color-';
+  const VISIBILITY_BRANCH_PALETTE_SIZE = 12;
+  const VISIBILITY_BRANCH_PALETTE_FALLBACKS = {
     light: [
       '#005AB5',
       '#A52A00',
@@ -95,9 +96,10 @@
   const PAPER_NODE_RADIUS_CLEARANCE_RATIO = 0.30;
   const PAPER_NODE_RADIUS_TARGET = 12 * NODE_DIAMETER_SCALE;
   const MIN_CAMERA_RATIO = 0.04;
-  const MAX_CAMERA_RATIO = 6;
+  const FALLBACK_MAX_CAMERA_RATIO = 6;
+  const MAX_ZOOM_OUT_OVERSCAN_RATIO = 1.12;
   const MAX_ZOOM_LABEL_RATIO = MIN_CAMERA_RATIO * 1.05;
-  const MIN_NODE_SCREEN_DIAMETER = 4;
+  const MIN_NODE_SCREEN_DIAMETER = 2;
   const MIN_NODE_SCREEN_RADIUS = MIN_NODE_SCREEN_DIAMETER / 2;
   const AGGREGATE_EXTRA_AREA_UNITS_BY_LEVEL = [18, 12, 8, 5, 3];
   const AGGREGATE_EXTRA_AREA_FALLBACK_UNITS = 2;
@@ -197,6 +199,7 @@
   let visibleNodeCount = 0;
   let searchMatchCount = 0;
   let visibilityColorContext = null;
+  let visibilityPaletteCache = null;
   let graphToViewportRatioCache = null;
   let lastCameraRenderRatio = null;
   let graphPanGesture = null;
@@ -349,7 +352,37 @@
   }
 
   function currentVisibilityPalette() {
-    return VISIBILITY_BRANCH_PALETTES[currentColorScheme()] || VISIBILITY_BRANCH_PALETTES.light;
+    const colorScheme = currentColorScheme();
+    if (visibilityPaletteCache && visibilityPaletteCache.colorScheme === colorScheme) {
+      return visibilityPaletteCache.palette;
+    }
+
+    const cssPalette = cssVisibilityPalette();
+    const palette = cssPalette.length >= VISIBILITY_BRANCH_PALETTE_SIZE
+      ? cssPalette
+      : VISIBILITY_BRANCH_PALETTE_FALLBACKS[colorScheme] ||
+      VISIBILITY_BRANCH_PALETTE_FALLBACKS.light;
+
+    visibilityPaletteCache = { colorScheme, palette };
+    return palette;
+  }
+
+  function cssVisibilityPalette() {
+    const styleSources = [];
+    if (document.body) styleSources.push(getComputedStyle(document.body));
+    styleSources.push(getComputedStyle(document.documentElement));
+
+    const palette = [];
+    for (let index = 1; index <= VISIBILITY_BRANCH_PALETTE_SIZE; index += 1) {
+      const property = `${VISIBILITY_BRANCH_PALETTE_CSS_PREFIX}${index}`;
+      const raw = styleSources
+        .map(styles => styles.getPropertyValue(property).trim())
+        .find(Boolean);
+      const color = normalizedCssColor(raw);
+      if (color) palette.push(color);
+    }
+
+    return palette;
   }
 
   function readTheme() {
@@ -372,7 +405,7 @@
 
   function normalizedCssColor(color) {
     const c = String(color || '').trim();
-    return c && !c.startsWith('color-mix(') ? c : null;
+    return c && !c.startsWith('color-mix(') && !c.startsWith('var(') ? c : null;
   }
 
   function colorWithAlpha(color, alpha) {
@@ -1362,6 +1395,20 @@
     };
   }
 
+  function aggregateLayoutKey(path) {
+    return JSON.stringify((path || []).map(part => String(part || '')));
+  }
+
+  function precomputedAggregatePosition(group) {
+    const layouts = ((DATA.meta || {}).aggregateLayouts || {})[group.level] || {};
+    const raw = layouts[aggregateLayoutKey(group.path)];
+    if (!raw) return null;
+
+    const x = Array.isArray(raw) ? Number(raw[0]) : Number(raw.x);
+    const y = Array.isArray(raw) ? Number(raw[1]) : Number(raw.y);
+    return Number.isFinite(x) && Number.isFinite(y) ? { x, y } : null;
+  }
+
   function computeAggregateLayoutPositions(roots) {
     const rootTotals = roots.reduce(
       (acc, group) => {
@@ -1379,7 +1426,8 @@
 
     function visit(group, parentCentroid = null) {
       const referencePoint = parentCentroid || globalCentroid;
-      const position = biasedAggregatePosition(group, referencePoint);
+      const position = precomputedAggregatePosition(group) ||
+        biasedAggregatePosition(group, referencePoint);
       const centroid = hierarchyGroupCentroid(group);
 
       group.layoutX = position.x;
@@ -2037,6 +2085,7 @@
     if (renderer) renderer.scheduleRefresh();
     updateStats();
     updateRelevancePanel();
+    updateZoomOutLimit();
   }
 
   function nextDetailLevel(level) {
@@ -2374,7 +2423,7 @@
     try {
       renderer = new window.Sigma(graph, graphContainer, {
         minCameraRatio: MIN_CAMERA_RATIO,
-        maxCameraRatio: MAX_CAMERA_RATIO,
+        maxCameraRatio: FALLBACK_MAX_CAMERA_RATIO,
         zIndex: true,
         hideLabelsOnMove: false,
         renderLabels: true,
@@ -3498,6 +3547,143 @@
     };
   }
 
+  function rawBBoxForNodes(nodes) {
+    const bboxes = {
+      rawXmin: Infinity,
+      rawXmax: -Infinity,
+      rawYmin: Infinity,
+      rawYmax: -Infinity,
+    };
+
+    nodes.forEach(node => {
+      if (!graphHasNode(node)) return;
+      const attrs = graph.getNodeAttributes(node);
+      const point = homePoint(attrs);
+      const radius = Math.max(Number(nodeDisplaySize(attrs)) || 0, 0);
+      if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) return;
+
+      bboxes.rawXmin = Math.min(bboxes.rawXmin, point.x - radius);
+      bboxes.rawXmax = Math.max(bboxes.rawXmax, point.x + radius);
+      bboxes.rawYmin = Math.min(bboxes.rawYmin, point.y - radius);
+      bboxes.rawYmax = Math.max(bboxes.rawYmax, point.y + radius);
+    });
+
+    if (!Number.isFinite(bboxes.rawXmin)) return null;
+
+    if (bboxes.rawXmin === bboxes.rawXmax) {
+      bboxes.rawXmin -= 1;
+      bboxes.rawXmax += 1;
+    }
+    if (bboxes.rawYmin === bboxes.rawYmax) {
+      bboxes.rawYmin -= 1;
+      bboxes.rawYmax += 1;
+    }
+
+    const rawPadX = Math.max((bboxes.rawXmax - bboxes.rawXmin) * 0.04, 1);
+    const rawPadY = Math.max((bboxes.rawYmax - bboxes.rawYmin) * 0.04, 1);
+
+    return {
+      x: [bboxes.rawXmin - rawPadX, bboxes.rawXmax + rawPadX],
+      y: [bboxes.rawYmin - rawPadY, bboxes.rawYmax + rawPadY],
+    };
+  }
+
+  function zoomOutRawBBox() {
+    const nodes = [];
+    graph.forEachNode((node, attrs) => {
+      if (fitNodeEligible(attrs)) nodes.push(node);
+    });
+    if (nodes.length) return rawBBoxForNodes(nodes);
+
+    const allNodes = [];
+    graph.forEachNode(node => allNodes.push(node));
+    return rawBBoxForNodes(allNodes);
+  }
+
+  function framedPointForRawPoint(point, padding) {
+    const baseState = { x: 0.5, y: 0.5, ratio: 1, angle: 0 };
+    const viewportPoint = renderer.graphToViewport(point, { cameraState: baseState, padding });
+    return renderer.viewportToFramedGraph(viewportPoint, { cameraState: baseState, padding });
+  }
+
+  function viewportBBoxForRawBBox(rawBBox, cameraState, padding) {
+    const points = [
+      { x: rawBBox.x[0], y: rawBBox.y[0] },
+      { x: rawBBox.x[1], y: rawBBox.y[0] },
+      { x: rawBBox.x[0], y: rawBBox.y[1] },
+      { x: rawBBox.x[1], y: rawBBox.y[1] },
+    ].map(point => renderer.graphToViewport(point, { cameraState, padding }));
+
+    const xs = points.map(point => point.x).filter(Number.isFinite);
+    const ys = points.map(point => point.y).filter(Number.isFinite);
+    if (!xs.length || !ys.length) return null;
+
+    const left = Math.min(...xs);
+    const right = Math.max(...xs);
+    const top = Math.min(...ys);
+    const bottom = Math.max(...ys);
+
+    return {
+      left,
+      right,
+      top,
+      bottom,
+      width: right - left,
+      height: bottom - top,
+    };
+  }
+
+  function zoomOutLimitForRawBBox(rawBBox, minAllowedRatio = 0) {
+    if (!renderer || !rawBBox) return null;
+
+    const dims = renderer.getDimensions();
+    if (!dims.width || !dims.height) return null;
+
+    const padding = VIEWPORT_PADDING;
+    const usable = usableCanvasRect(padding);
+    const usableWidth = Math.max(usable.right - usable.left, 1);
+    const usableHeight = Math.max(usable.bottom - usable.top, 1);
+    const rawCenter = {
+      x: (rawBBox.x[0] + rawBBox.x[1]) / 2,
+      y: (rawBBox.y[0] + rawBBox.y[1]) / 2,
+    };
+    const framedCenter = framedPointForRawPoint(rawCenter, padding);
+    if (!Number.isFinite(framedCenter.x) || !Number.isFinite(framedCenter.y)) return null;
+
+    const centeredState = {
+      x: framedCenter.x,
+      y: framedCenter.y,
+      ratio: 1,
+      angle: 0,
+    };
+    const screenBBox = viewportBBoxForRawBBox(rawBBox, centeredState, padding);
+    if (!screenBBox) return null;
+
+    const requiredRatio = Math.max(
+      1,
+      screenBBox.width / usableWidth,
+      screenBBox.height / usableHeight,
+      Number(minAllowedRatio) || 0
+    );
+
+    return Math.max(
+      MIN_CAMERA_RATIO * 1.05,
+      requiredRatio * MAX_ZOOM_OUT_OVERSCAN_RATIO
+    );
+  }
+
+  function updateZoomOutLimit(minAllowedRatio = 0) {
+    if (!renderer || !graph) return;
+
+    const limit = zoomOutLimitForRawBBox(zoomOutRawBBox(), minAllowedRatio);
+    if (!Number.isFinite(limit)) return;
+
+    const currentLimit = Number(renderer.getSetting('maxCameraRatio'));
+    if (Number.isFinite(currentLimit) && Math.abs(currentLimit - limit) < 1e-4) return;
+
+    renderer.setSetting('maxCameraRatio', limit);
+  }
+
   function allDetailBBoxes() {
     const bboxes = {
       rawXmin: Infinity,
@@ -3862,6 +4048,7 @@
       angle: 0,
     };
     target = includeLabelsInFit(target, usable, dims, stagePadding);
+    updateZoomOutLimit(target.ratio);
 
     if (duration === 0) renderer.getCamera().setState(target);
     else renderer.getCamera().animate(target, { duration: duration || 260 });
@@ -4404,6 +4591,10 @@
 
     if (labelsToggle) {
       labelsToggle.setAttribute('aria-pressed', showNodeLabels ? 'true' : 'false');
+      labelsToggle.setAttribute('aria-label', showNodeLabels ? 'Hide node labels' : 'Show node labels');
+      labelsToggle.title = showNodeLabels ? 'Hide node labels' : 'Show node labels';
+      const state = labelsToggle.querySelector('.mm-label-toggle-state');
+      if (state) state.textContent = showNodeLabels ? 'On' : 'Off';
     }
   }
 
@@ -4504,6 +4695,7 @@
       hideBtn.textContent = collapsed ? 'Show Settings' : 'Hide Settings';
       hideBtn.title = collapsed ? 'Show Settings' : 'Hide Settings';
       hideBtn.setAttribute('aria-expanded', String(!collapsed));
+      window.requestAnimationFrame(() => updateZoomOutLimit());
     });
   }
 
@@ -4511,6 +4703,7 @@
     const search = document.getElementById('mm-search');
     const clearSearch = document.getElementById('mm-search-clear');
     let debounce;
+
     function updateSearchClearButton() {
       if (clearSearch) clearSearch.hidden = !search.value;
     }
@@ -4634,6 +4827,7 @@
   initSigma();
 
   const themeObserver = new MutationObserver(() => {
+    visibilityPaletteCache = null;
     theme = readTheme();
     const selectedCategories = new Set(activeCategories);
     hierarchyData = null;
@@ -4696,6 +4890,9 @@
         : currentNodeRadius(),
       minimumVisibleGraphDistance: minimumVisibleGraphDistance(),
       minimumVisibleScreenDistance: minimumVisibleScreenDistance(),
+      maxCameraRatio: renderer && typeof renderer.getSetting === 'function'
+        ? renderer.getSetting('maxCameraRatio')
+        : null,
       clearanceRatio: PAPER_NODE_RADIUS_CLEARANCE_RATIO,
       visibleNodeCount,
       lastLevelTransition: lastLevelTransitionMetrics,

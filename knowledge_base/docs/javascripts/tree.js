@@ -21,6 +21,10 @@
   const resetButton = document.getElementById('ct-reset');
   const searchResults = document.getElementById('ct-search-results');
   const ancestorChain = document.getElementById('ct-ancestor-chain');
+  const focusCoreSingleColumnQuery = '(max-width: 720px)';
+  const focusCoreSingleColumn = typeof window.matchMedia === 'function'
+    ? window.matchMedia(focusCoreSingleColumnQuery)
+    : { matches: false };
 
   if (!data || !data.root) {
     app.innerHTML = '<p class="ct-error">Tree data is unavailable. Run <code>mkdocs build</code> to regenerate it.</p>';
@@ -33,6 +37,7 @@
   let currentId = data.root.id;
   let lastMatches = [];
   let filterMemo = new Map();
+  let currentBranchHeightFrame = 0;
   const state = {
     query: '',
     yearStart: null,
@@ -176,6 +181,13 @@
     }
   });
 
+  window.addEventListener('resize', scheduleCurrentBranchHeightSync);
+  if (typeof focusCoreSingleColumn.addEventListener === 'function') {
+    focusCoreSingleColumn.addEventListener('change', render);
+  } else if (typeof focusCoreSingleColumn.addListener === 'function') {
+    focusCoreSingleColumn.addListener(render);
+  }
+
   function hydrate(node, parent) {
     const paper = node.paper || {};
     const authors = Array.isArray(paper.authors) ? paper.authors.join(' ') : '';
@@ -309,13 +321,15 @@
     renderFocusedTree(node);
     renderSearch();
     updateSettingsState();
+    scheduleCurrentBranchHeightSync();
     centerCurrentTreeNode(node);
   }
 
   function renderFocusedTree(node) {
     const ancestors = node.pathNodes.slice(0, -1);
     const parent = node.parent;
-    const siblings = parent ? visibleChildren(parent).filter(function (child) {
+    const showSiblings = Boolean(parent) && !focusCoreSingleColumn.matches;
+    const siblings = showSiblings ? visibleChildren(parent).filter(function (child) {
       return child.id !== node.id;
     }) : [];
     const children = visibleChildren(node);
@@ -323,8 +337,8 @@
       '<div class="ct-focus-stack">',
       ancestors.length ? renderNodeSection('Ancestors', ancestors, 'path', node) : '',
       '<div class="ct-focus-core' + (parent ? '' : ' ct-focus-core--root') + '">',
-      renderNodeSection('', [node], 'ego', node, { hideHeader: true }),
-      parent ? renderNodeSection('Siblings', siblings, 'siblings', node) : '',
+      renderNodeSection('', [node], 'ego', node, { hideHeader: true, reserveHeader: showSiblings }),
+      showSiblings ? renderNodeSection('Siblings', siblings, 'siblings', node) : '',
       '</div>',
       node.children.length ? renderNodeSection('Children', children, 'children', node) : '',
       '</div>',
@@ -332,19 +346,46 @@
     ancestorChain.innerHTML = html;
   }
 
+  function scheduleCurrentBranchHeightSync() {
+    if (currentBranchHeightFrame) window.cancelAnimationFrame(currentBranchHeightFrame);
+    currentBranchHeightFrame = window.requestAnimationFrame(function () {
+      currentBranchHeightFrame = 0;
+      syncCurrentBranchHeight();
+    });
+  }
+
+  function syncCurrentBranchHeight() {
+    const core = ancestorChain.querySelector('.ct-focus-core:not(.ct-focus-core--root)');
+    const currentButton = core && core.querySelector('.ct-focus-section--ego .ct-tree-node.is-current > .ct-tree-button');
+    if (currentButton) currentButton.style.minHeight = '';
+    if (!core || !currentButton || focusCoreSingleColumn.matches) return;
+
+    const siblingStack = core.querySelector('.ct-focus-section--siblings > .ct-tree-list, .ct-focus-section--siblings > .ct-empty');
+    if (!siblingStack) return;
+
+    const siblingHeight = Math.ceil(siblingStack.getBoundingClientRect().height);
+    if (siblingHeight > 0) currentButton.style.minHeight = siblingHeight + 'px';
+  }
+
   function renderNodeSection(title, rows, sectionKind, currentNode, options) {
     const hideHeader = Boolean(options && options.hideHeader);
+    const reserveHeader = Boolean(options && options.reserveHeader);
     const empty = sectionKind === 'children'
       ? 'No children match the current filters.'
       : 'No matching siblings.';
-    return [
-      '<section class="ct-focus-section ct-focus-section--' + escAttr(sectionKind) + '">',
-      hideHeader ? '' : [
+    const header = hideHeader
+      ? (reserveHeader
+        ? '<div class="ct-focus-section-head ct-focus-section-head--spacer" aria-hidden="true"><h2>&nbsp;</h2><span>&nbsp;</span></div>'
+        : '')
+      : [
         '<div class="ct-focus-section-head">',
         '<h2>' + esc(title) + '</h2>',
         '<span>' + esc(plural(rows.length, 'item')) + '</span>',
         '</div>',
-      ].join(''),
+      ].join('');
+    return [
+      '<section class="ct-focus-section ct-focus-section--' + escAttr(sectionKind) + '">',
+      header,
       rows.length
         ? '<ul class="ct-tree-list">' + rows.map(function (row, index) {
           return renderTreeNode(row, currentNode, sectionKind, index, rows.length);

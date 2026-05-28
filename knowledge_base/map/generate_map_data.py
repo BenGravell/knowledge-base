@@ -85,6 +85,7 @@ For fastembed backend:
 from __future__ import annotations
 
 import argparse
+from dataclasses import dataclass, field
 import hashlib
 import json
 import os
@@ -117,6 +118,18 @@ DEFAULT_OUTPUT = MAP_DIR / "map-data.js"
 DEFAULT_UMAP_SCALE = 1500.0  # Base UMAP coordinate extent; formerly 1000 px.
 SIMILARITY_EXPORT_SCALE = 1000  # Store cosine similarities as compact rounded integers.
 TREE_PROXIMITY_HISTOGRAM_BINS = 101
+
+LEGACY_BRANCH_LEVEL_IDS = ["super_category", "category", "sub_category"]
+NODE_DIAMETER_SCALE = 2
+PAPER_NODE_RADIUS_TARGET = 12 * NODE_DIAMETER_SCALE
+AGGREGATE_EXTRA_AREA_UNITS_BY_LEVEL = [18, 12, 8, 5, 3]
+AGGREGATE_EXTRA_AREA_FALLBACK_UNITS = 2
+AGGREGATE_MIN_RADIUS_RATIO = 1.7
+AGGREGATE_POSITION_OUTER_QUANTILE = 0.84
+AGGREGATE_POSITION_BIAS_BY_LEVEL = [0.68, 0.52, 0.36, 0.24]
+AGGREGATE_COLLISION_PADDING = 0.75
+AGGREGATE_FINAL_COLLISION_ITERATIONS = 240
+AGGREGATE_COLLISION_EPSILON = 1e-3
 
 # ---------------------------------------------------------------------------
 # Helper utilities
@@ -469,6 +482,366 @@ def _resolve_collisions(pos: "np.ndarray", radius: float) -> None:
 
     np.add.at(pos, i_idx,  correction)
     np.add.at(pos, j_idx, -correction)
+
+
+@dataclass
+class AggregateLayoutGroup:
+    level: str
+    label: str
+    path: list[str]
+    path_index: int
+    parent: "AggregateLayoutGroup | None" = None
+    children: list["AggregateLayoutGroup"] = field(default_factory=list)
+    child_map: dict[str, "AggregateLayoutGroup"] = field(default_factory=dict)
+    leaf_indices: list[int] = field(default_factory=list)
+    x: float = 0.0
+    y: float = 0.0
+    leaf_points: list[tuple[float, float]] = field(default_factory=list)
+    layout_x: float | None = None
+    layout_y: float | None = None
+    centroid_x: float | None = None
+    centroid_y: float | None = None
+
+
+def aggregate_branch_levels(papers: list[dict], nav_order: dict) -> list[dict[str, int | str]]:
+    data_depth = max((len(p.get("nav_path") or []) for p in papers), default=0)
+    max_depth = max(4, int(nav_order.get("maxBranchDepth") or 0), data_depth)
+    return [
+        {
+            "id": LEGACY_BRANCH_LEVEL_IDS[i] if i < len(LEGACY_BRANCH_LEVEL_IDS) else f"branch_{i + 1}",
+            "path_index": i,
+        }
+        for i in range(max_depth)
+    ]
+
+
+def aggregate_node_size(count: int, level: str, level_indices: dict[str, int]) -> float:
+    n = max(int(count) if count else 1, 1)
+    index = max(level_indices.get(level, 0), 0)
+    extra_area_units = (
+        AGGREGATE_EXTRA_AREA_UNITS_BY_LEVEL[index]
+        if index < len(AGGREGATE_EXTRA_AREA_UNITS_BY_LEVEL)
+        else AGGREGATE_EXTRA_AREA_FALLBACK_UNITS
+    )
+    radius = PAPER_NODE_RADIUS_TARGET * np.sqrt(n + extra_area_units)
+    min_radius = PAPER_NODE_RADIUS_TARGET * AGGREGATE_MIN_RADIUS_RATIO
+    return float(max(radius, min_radius))
+
+
+def padded_aggregate_nav_path(path: list[str], branch_depth: int) -> list[str]:
+    clean_path = [str(part).strip() for part in (path or []) if str(part or "").strip()]
+    if not clean_path:
+        clean_path = [UNCATEGORIZED_CATEGORY]
+
+    padded = list(clean_path)
+    fallback = clean_path[-1]
+    while len(padded) < branch_depth:
+        padded.append(fallback)
+    return padded[:branch_depth]
+
+
+def quantile_value(values: list[float], q: float) -> float | None:
+    finite = sorted(value for value in values if np.isfinite(value))
+    if not finite:
+        return None
+    if len(finite) == 1:
+        return finite[0]
+
+    index = float(np.clip(q, 0.0, 1.0)) * (len(finite) - 1)
+    lower = int(np.floor(index))
+    upper = int(np.ceil(index))
+    t = index - lower
+    return finite[lower] * (1 - t) + finite[upper] * t
+
+
+def hierarchy_group_centroid(group: AggregateLayoutGroup) -> tuple[float, float]:
+    count = len(group.leaf_indices) or 1
+    return group.x / count, group.y / count
+
+
+def aggregate_position_bias(group: AggregateLayoutGroup) -> float:
+    index = max(int(group.path_index), 0)
+    if index < len(AGGREGATE_POSITION_BIAS_BY_LEVEL):
+        return AGGREGATE_POSITION_BIAS_BY_LEVEL[index]
+    return 0.18
+
+
+def biased_aggregate_position(
+    group: AggregateLayoutGroup,
+    reference_point: tuple[float, float] | None,
+) -> tuple[float, float]:
+    centroid_x, centroid_y = hierarchy_group_centroid(group)
+    if len(group.leaf_points) < 2 or reference_point is None:
+        return centroid_x, centroid_y
+
+    dx = centroid_x - reference_point[0]
+    dy = centroid_y - reference_point[1]
+    distance = float(np.hypot(dx, dy))
+    if not np.isfinite(distance) or distance < 1e-6:
+        return centroid_x, centroid_y
+
+    ux = dx / distance
+    uy = dy / distance
+    centroid_projection = dx * ux + dy * uy
+    outer_projection = quantile_value(
+        [
+            (point_x - reference_point[0]) * ux + (point_y - reference_point[1]) * uy
+            for point_x, point_y in group.leaf_points
+        ],
+        AGGREGATE_POSITION_OUTER_QUANTILE,
+    )
+
+    if (
+        outer_projection is None
+        or not np.isfinite(outer_projection)
+        or outer_projection <= centroid_projection
+    ):
+        return centroid_x, centroid_y
+
+    offset = (outer_projection - centroid_projection) * aggregate_position_bias(group)
+    return centroid_x + ux * offset, centroid_y + uy * offset
+
+
+def aggregate_group_key(path: list[str]) -> str:
+    return json.dumps([str(part or "") for part in path], ensure_ascii=False, separators=(",", ":"))
+
+
+def deterministic_pair_unit(i: int, j: int) -> tuple[float, float]:
+    angle = (((i + 1) * 12.9898) + ((j + 1) * 78.233)) % (np.pi * 2)
+    return float(np.cos(angle)), float(np.sin(angle))
+
+
+def _resolve_variable_collisions(
+    pos: "np.ndarray",
+    radii: "np.ndarray",
+    padding: float = 0.0,
+    pair_indices: tuple["np.ndarray", "np.ndarray"] | None = None,
+) -> float:
+    n = len(pos)
+    if n < 2:
+        return 0.0
+
+    i_idx, j_idx = pair_indices if pair_indices is not None else np.triu_indices(n, k=1)
+    delta = pos[i_idx] - pos[j_idx]
+    dist = np.linalg.norm(delta, axis=1)
+    min_dist = radii[i_idx] + radii[j_idx] + padding
+    overlap = min_dist - dist
+    mask = np.isfinite(dist) & (overlap > AGGREGATE_COLLISION_EPSILON)
+
+    if not np.any(mask):
+        return 0.0
+
+    active_i = i_idx[mask]
+    active_j = j_idx[mask]
+    active_delta = delta[mask].copy()
+    active_dist = dist[mask].copy()
+    active_overlap = overlap[mask]
+
+    zero_mask = active_dist < 1e-8
+    if np.any(zero_mask):
+        for zero_index in np.flatnonzero(zero_mask):
+            unit = deterministic_pair_unit(
+                int(active_i[zero_index]),
+                int(active_j[zero_index]),
+            )
+            active_delta[zero_index] = unit
+            active_dist[zero_index] = 1.0
+
+    correction = 0.5 * active_overlap[:, None] * (active_delta / active_dist[:, None])
+    np.add.at(pos, active_i, correction)
+    np.add.at(pos, active_j, -correction)
+    return float(active_overlap.max())
+
+
+def aggregate_force_layout_postprocess(
+    home_coords: "np.ndarray",
+    aggregate_embeddings: "np.ndarray",
+    radii: "np.ndarray",
+    *,
+    anchor_strength: float = 0.85,
+    sim_threshold: float = 0.75,
+    sim_candidate_limit: int = 10,
+    sim_attraction_strength: float = 0.4,
+    gap_factor: float = 2.0,
+    collision_padding: float = AGGREGATE_COLLISION_PADDING,
+    collision_iterations: int = 3,
+    final_collision_iterations: int = AGGREGATE_FINAL_COLLISION_ITERATIONS,
+    iterations: int = 120,
+    initial_alpha: float = 0.3,
+    alpha_decay: float = 0.98,
+    verbose: bool = False,
+) -> "np.ndarray":
+    """Apply the item-level anchor/similarity force pass to aggregate disks."""
+    n = len(home_coords)
+    if n < 2:
+        return home_coords.copy()
+
+    emb_norm = normalize(aggregate_embeddings.astype(np.float32))
+    pos = home_coords.astype(np.float64).copy()
+    pair_indices = np.triu_indices(n, k=1)
+
+    tree_home = cKDTree(home_coords)
+    nn_dists, _ = tree_home.query(home_coords, k=2)
+    median_nn_dist = np.median(nn_dists[:, 1])
+    gap_threshold = gap_factor * median_nn_dist
+    attract_pairs = _build_attraction_pairs(
+        emb_norm,
+        home_coords.astype(np.float64),
+        sim_candidate_limit,
+        sim_threshold,
+        gap_threshold,
+        verbose,
+    )
+
+    alpha = initial_alpha
+    for _ in range(iterations):
+        forces = np.zeros_like(pos)
+        forces += anchor_strength * (home_coords - pos)
+
+        if len(attract_pairs) > 0:
+            _apply_attraction(pos, attract_pairs, sim_attraction_strength, forces)
+
+        pos += alpha * forces
+
+        for _ in range(collision_iterations):
+            _resolve_variable_collisions(pos, radii, collision_padding, pair_indices)
+
+        alpha *= alpha_decay
+
+    for _ in range(final_collision_iterations):
+        overlap = _resolve_variable_collisions(pos, radii, collision_padding, pair_indices)
+        if overlap <= AGGREGATE_COLLISION_EPSILON:
+            break
+
+    return pos
+
+
+def build_aggregate_layouts(
+    papers: list[dict],
+    paper_coords: "np.ndarray",
+    embeddings: "np.ndarray",
+    nav_order: dict,
+    force_params: dict,
+) -> dict[str, dict[str, list[float]]]:
+    """Precompute aggregate LOD positions so the browser avoids layout work."""
+    branch_levels = aggregate_branch_levels(papers, nav_order)
+    level_indices = {str(level["id"]): int(level["path_index"]) for level in branch_levels}
+    branch_depth = len(branch_levels)
+    roots: list[AggregateLayoutGroup] = []
+    root_map: dict[str, AggregateLayoutGroup] = {}
+    groups_by_level: dict[str, list[AggregateLayoutGroup]] = {
+        str(level["id"]): [] for level in branch_levels
+    }
+    embedding_norm = normalize(embeddings.astype(np.float32))
+
+    def ensure_group(
+        parent: AggregateLayoutGroup | None,
+        label: str,
+        level: str,
+        path: list[str],
+        path_index: int,
+    ) -> AggregateLayoutGroup:
+        group_map = parent.child_map if parent else root_map
+        if label in group_map:
+            return group_map[label]
+
+        group = AggregateLayoutGroup(
+            level=level,
+            label=label,
+            path=path,
+            path_index=path_index,
+            parent=parent,
+        )
+        group_map[label] = group
+        groups_by_level[level].append(group)
+        if parent:
+            parent.children.append(group)
+        else:
+            roots.append(group)
+        return group
+
+    for paper_index, paper in enumerate(papers):
+        path = padded_aggregate_nav_path(paper.get("nav_path") or [], branch_depth)
+        parent = None
+
+        for level_index, level_info in enumerate(branch_levels):
+            label = path[level_index] or path[-1] or UNCATEGORIZED_CATEGORY
+            path_prefix = path[:level_index + 1]
+            level = str(level_info["id"])
+            group = ensure_group(parent, label, level, path_prefix, level_index)
+
+            x = float(paper_coords[paper_index, 0])
+            y = float(paper_coords[paper_index, 1])
+            group.leaf_indices.append(paper_index)
+            group.x += x
+            group.y += y
+            group.leaf_points.append((x, y))
+            parent = group
+
+    root_total_x = sum(group.x for group in roots)
+    root_total_y = sum(group.y for group in roots)
+    root_count = sum(len(group.leaf_indices) for group in roots)
+    global_centroid = (
+        (root_total_x / root_count, root_total_y / root_count)
+        if root_count
+        else (0.0, 0.0)
+    )
+
+    def visit(group: AggregateLayoutGroup, parent_centroid: tuple[float, float] | None = None) -> None:
+        reference_point = parent_centroid or global_centroid
+        layout_x, layout_y = biased_aggregate_position(group, reference_point)
+        centroid_x, centroid_y = hierarchy_group_centroid(group)
+        group.layout_x = layout_x
+        group.layout_y = layout_y
+        group.centroid_x = centroid_x
+        group.centroid_y = centroid_y
+
+        for child in group.children:
+            visit(child, (centroid_x, centroid_y))
+
+    for root in roots:
+        visit(root)
+
+    for level, groups in groups_by_level.items():
+        if len(groups) < 2:
+            continue
+
+        home_coords = np.array(
+            [[group.layout_x, group.layout_y] for group in groups],
+            dtype=np.float64,
+        )
+        radii = np.array(
+            [
+                aggregate_node_size(len(group.leaf_indices), group.level, level_indices)
+                for group in groups
+            ],
+            dtype=np.float64,
+        )
+        aggregate_embeddings = np.vstack([
+            embedding_norm[group.leaf_indices].mean(axis=0)
+            for group in groups
+        ])
+        layout_coords = aggregate_force_layout_postprocess(
+            home_coords,
+            aggregate_embeddings,
+            radii,
+            **force_params,
+        )
+
+        for group, coords in zip(groups, layout_coords):
+            group.layout_x = float(coords[0])
+            group.layout_y = float(coords[1])
+
+    return {
+        level: {
+            aggregate_group_key(group.path): [
+                round(float(group.layout_x), 1),
+                round(float(group.layout_y), 1),
+            ]
+            for group in groups
+        }
+        for level, groups in groups_by_level.items()
+    }
 
 
 def build_embed_text(data: dict) -> str:
@@ -1255,6 +1628,35 @@ def main() -> None:
         for i, p in enumerate(papers)
     ]
 
+    print("    Precomputing aggregate LOD layouts…")
+    node_coords = np.array(
+        [
+            [node["position"]["x"], node["position"]["y"]]
+            for node in nodes
+        ],
+        dtype=np.float64,
+    )
+    aggregate_force_params = dict(
+        anchor_strength=force_params["anchor_strength"],
+        sim_threshold=force_params["sim_threshold"],
+        sim_candidate_limit=force_params["sim_candidate_limit"],
+        sim_attraction_strength=force_params["sim_attraction_strength"],
+        gap_factor=force_params["gap_factor"],
+        collision_padding=AGGREGATE_COLLISION_PADDING,
+        collision_iterations=force_params["collision_iterations"],
+        final_collision_iterations=AGGREGATE_FINAL_COLLISION_ITERATIONS,
+        iterations=force_params["iterations"],
+        initial_alpha=force_params["initial_alpha"],
+        alpha_decay=force_params["alpha_decay"],
+    )
+    aggregate_layouts = build_aggregate_layouts(
+        papers,
+        node_coords,
+        embeddings,
+        nav_order,
+        aggregate_force_params,
+    )
+
     graph_data = {
         "nodes": nodes,
         "similarity": {
@@ -1274,6 +1676,7 @@ def main() -> None:
             "subCategoryOrder": nav_order["subCategoryOrder"],
             "navPathOrder": nav_order["navPathOrder"],
             "maxBranchDepth": nav_order["maxBranchDepth"],
+            "aggregateLayouts": aggregate_layouts,
             "treeProximity": tree_proximity,
         },
     }

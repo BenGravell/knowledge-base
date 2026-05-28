@@ -21,7 +21,6 @@ not_in_nav: |
   papers/**/*.md
 
 plugins:
-  - search
   - macros
   - gen-files:
       scripts:
@@ -71,7 +70,6 @@ theme:
     - metadata
     - navigation.indexes
     - tags
-    - search.highlight
 
 extra_css:
   - stylesheets/extra.css

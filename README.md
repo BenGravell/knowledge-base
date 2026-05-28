@@ -52,6 +52,17 @@ Paper entries in `tree.yml` should use their literal metadata paths,
 such as `docs/papers/2025/2506.11513/metadata.yml`; the build converts those
 paths to generated `papers/<slug>.md` pages behind the scenes.
 
+## Local generated data
+
+Refresh all local generated data and validate the site is self-consistent:
+
+```bash
+python scripts/refresh_offline_data.py
+```
+
+Use `--force` to recompute cached embeddings, or `--strict` to also fail on
+Tree algorithm-label drift and MkDocs warnings.
+
 ## Streamlit Apps
 
 Generate and edit a `metadata.yml` entry from an arXiv ID:

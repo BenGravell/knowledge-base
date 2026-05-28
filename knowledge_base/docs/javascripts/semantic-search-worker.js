@@ -5,6 +5,7 @@ env.useBrowserCache = true;
 
 const INDEX_URL = '../javascripts/semantic-search-index.json';
 const DEFAULT_LIMIT = 24;
+const DEFAULT_SCORE_THRESHOLD = 0.25;
 
 let manifest = null;
 let vectors = null;
@@ -51,6 +52,7 @@ async function ensureReady() {
       type: 'ready',
       count: manifest.count,
       model: manifest.browserModel || manifest.model,
+      scoreThreshold: scoreThreshold(),
     });
   })();
   return initPromise;
@@ -77,8 +79,16 @@ async function search(query, limit) {
     type: 'results',
     query: text,
     results,
+    scoreThreshold: scoreThreshold(),
     elapsedMs: performance.now() - started,
   });
+}
+
+function scoreThreshold() {
+  const threshold = Number(manifest && manifest.scoreThreshold);
+  return Number.isFinite(threshold) && threshold >= 0 && threshold <= 1
+    ? threshold
+    : DEFAULT_SCORE_THRESHOLD;
 }
 
 function topMatches(queryVector, limit) {
@@ -107,13 +117,13 @@ function topMatches(queryVector, limit) {
 }
 
 async function fetchJson(url) {
-  const response = await fetch(url, { cache: 'force-cache' });
+  const response = await fetch(url, { cache: 'no-cache' });
   if (!response.ok) throw new Error(`Could not load ${url}: ${response.status}`);
   return response.json();
 }
 
 async function fetchArrayBuffer(url) {
-  const response = await fetch(url, { cache: 'force-cache' });
+  const response = await fetch(url, { cache: 'no-cache' });
   if (!response.ok) throw new Error(`Could not load ${url}: ${response.status}`);
   return response.arrayBuffer();
 }

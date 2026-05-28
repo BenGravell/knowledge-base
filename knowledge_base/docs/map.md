@@ -83,10 +83,9 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 #mm-app {
   --mm-ribbon-max-h: min(46vh, 31rem);
   --mm-ribbon-header-h: 2.65rem;
-  --mm-modifier-accent: var(--mm-blue);
-  --mm-filter-accent: var(--mm-gold);
-  --mm-modifier-bg: color-mix(in srgb, var(--mm-blue) 18%, var(--md-default-bg-color));
-  --mm-filter-bg: color-mix(in srgb, var(--mm-gold) 18%, var(--md-default-bg-color));
+  --mm-control-height: 2.12rem;
+  --mm-settings-tile-bg: color-mix(in srgb, var(--md-default-fg-color) 5%, var(--md-default-bg-color));
+  --mm-settings-tile-border: color-mix(in srgb, var(--md-default-fg-color) 13%, transparent);
   --kb-app-border: var(--mm-border);
   --kb-app-panel: var(--mm-panel);
   --kb-app-header-bg: color-mix(in srgb, var(--md-code-bg-color) 82%, var(--kb-app-panel));
@@ -190,8 +189,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 
 #mm-panel-body {
-  padding: 0.85rem;
-  display: block;
+  padding: 0.62rem;
+  display: grid;
+  gap: 0.52rem;
+  align-content: start;
   flex: 1;
   max-height: var(--mm-ribbon-max-h);
   overflow-y: auto;
@@ -217,13 +218,13 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   margin-bottom: 5px;
 }
 .mm-section--actions {
-  flex: 0 0 7rem;
+  min-width: 5.8rem;
 }
 .mm-section--detail {
   flex: 1 1 17rem;
 }
 .mm-section--visibility {
-  flex: 0 1 9rem;
+  min-width: 8.4rem;
 }
 .mm-section--search {
   flex: 2 1 18rem;
@@ -235,59 +236,46 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   flex: 1 1 13rem;
 }
 
-/* Bento settings layout */
-.mm-bento {
+/* Settings layout */
+.mm-settings-section {
   display: grid;
-  grid-template-columns: minmax(22rem, 1.04fr) minmax(24rem, 1fr);
-  gap: 0.68rem;
-  align-items: stretch;
-}
-.mm-bento-group {
   min-width: 0;
-  display: grid;
-  grid-template-rows: minmax(0, 1fr);
-  gap: 0.42rem;
+  gap: 0.5rem;
 }
-.mm-bento-grid {
+.mm-settings-grid {
+  display: grid;
   min-width: 0;
-  min-height: 0;
-  display: grid;
-  gap: 0.58rem;
+  gap: 0.46rem;
+  grid-template-columns: minmax(16rem, 1fr) minmax(5.7rem, auto) minmax(8.2rem, auto) minmax(16rem, 1fr) minmax(11rem, 0.75fr);
+  grid-template-areas:
+    "detail fit labels search types"
+    "categories categories categories categories categories"
+    "relevance relevance relevance stats stats";
+  align-items: end;
 }
-.mm-bento-grid--modifiers {
-  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
-  grid-template-rows: auto minmax(5.8rem, 1fr);
-}
-.mm-bento-grid--filters {
-  grid-template-columns: minmax(0, 1.55fr) minmax(11rem, 0.95fr);
-  grid-template-rows: auto minmax(8.5rem, 1fr);
-}
+.mm-settings-grid > .mm-section--detail { grid-area: detail; }
+.mm-settings-grid > .mm-section--actions { grid-area: fit; }
+.mm-settings-grid > .mm-section--visibility { grid-area: labels; }
+.mm-settings-grid > .mm-section--search { grid-area: search; }
+.mm-settings-grid > .mm-section--categories { grid-area: categories; }
+.mm-settings-grid > .mm-section--types { grid-area: types; }
+.mm-settings-grid > .mm-relevance-panel { grid-area: relevance; }
+.mm-settings-grid > #mm-stats { grid-area: stats; }
 .mm-bento-tile {
   min-width: 0;
   min-height: 0;
   box-sizing: border-box;
-  padding: 0.68rem;
+  padding: 0.56rem;
   border: 1px solid var(--mm-soft-border);
   border-radius: 8px;
   overflow: hidden;
 }
-.mm-bento-group--modifiers .mm-bento-tile {
-  background: var(--mm-modifier-bg);
-  border-color: color-mix(in srgb, var(--mm-modifier-accent) 24%, transparent);
-}
-.mm-bento-group--filters .mm-bento-tile,
+.mm-settings-section .mm-bento-tile,
 .mm-bento-count {
-  background: var(--mm-filter-bg);
-  border-color: color-mix(in srgb, var(--mm-filter-accent) 28%, transparent);
-}
-.mm-bento-tile--wide {
-  grid-column: 1 / -1;
+  background: var(--mm-settings-tile-bg);
+  border-color: var(--mm-settings-tile-border);
 }
 .mm-bento-tile--categories {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-}
-.mm-bento-tile--types {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
 }
@@ -318,8 +306,9 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   background: var(--md-default-fg-color--lightest);
   border: 1px solid var(--md-default-fg-color--lighter);
   color: var(--md-default-fg-color);
-  min-height: 2.42rem;
-  padding: 7px 2rem 7px 10px;
+  height: var(--mm-control-height);
+  min-height: var(--mm-control-height);
+  padding: 6px 2rem 6px 10px;
   border-radius: 7px;
   font-size: 0.82rem;
   outline: none;
@@ -353,19 +342,12 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 /* Selected-node relevance filter */
 .mm-relevance-panel {
   flex: 1 1 100%;
-  padding: 0.72rem;
+  padding: 0.6rem;
   border: 1px solid var(--mm-soft-border);
   border-radius: 8px;
   background: color-mix(in srgb, var(--md-default-bg-color) 42%, transparent);
 }
 .mm-relevance-panel[hidden] { display: none; }
-.mm-relevance-panel[hidden] + .mm-settings-separator { display: none; }
-.mm-settings-separator {
-  display: none;
-  flex: 1 1 100%;
-  height: 1px;
-  background: var(--mm-soft-border);
-}
 .mm-relevance-head,
 .mm-relevance-options,
 .mm-filter-row,
@@ -461,10 +443,12 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   box-sizing: border-box;
 }
 .mm-detail-controls {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  --mm-detail-button-size: var(--mm-control-height);
+  grid-template-columns: repeat(5, var(--mm-detail-button-size));
+  justify-content: start;
 }
 .mm-visibility-controls {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
 }
 .mm-detail-controls button,
 .mm-visibility-controls button {
@@ -475,8 +459,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   background: var(--md-default-fg-color--lightest);
   border: 1px solid var(--md-default-fg-color--lighter);
   color: var(--md-default-fg-color--light);
-  min-height: 2.35rem;
-  padding: 5px 4px;
+  min-height: var(--mm-control-height);
+  padding: 4px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.72rem;
@@ -486,6 +470,48 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .mm-detail-controls button {
   display: grid;
   place-items: center;
+  width: var(--mm-detail-button-size);
+  height: var(--mm-detail-button-size);
+  min-height: 0;
+  aspect-ratio: 1;
+}
+.mm-label-toggle {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.46rem;
+  text-align: left;
+}
+.mm-label-toggle-icon {
+  position: relative;
+  width: 1.72rem;
+  height: 0.92rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 18%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 30%, transparent);
+}
+.mm-label-toggle-icon::after {
+  content: "";
+  position: absolute;
+  top: 0.16rem;
+  left: 0.16rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 999px;
+  background: currentColor;
+  transition: transform 0.16s ease;
+}
+.mm-label-toggle[aria-pressed="true"] .mm-label-toggle-icon::after {
+  transform: translateX(0.8rem);
+}
+.mm-label-toggle-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mm-label-toggle-state {
+  font-size: 0.68rem;
+  font-weight: 850;
 }
 .mm-detail-controls button:hover,
 .mm-visibility-controls button:hover {
@@ -582,10 +608,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   gap: 0.62rem;
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
-  min-height: 6.2rem;
+  height: var(--mm-control-height);
+  min-height: var(--mm-control-height);
   margin: 0;
-  padding: 0.48rem 0.74rem;
+  padding: 0.42rem 0.68rem;
   border: 1px solid var(--mm-border);
   border-radius: 8px;
   background: var(--md-default-fg-color--lightest);
@@ -672,9 +698,12 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   background: color-mix(in srgb, var(--md-default-fg-color) 7%, var(--md-default-bg-color));
   color: var(--md-default-fg-color);
   cursor: pointer;
-  transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease, transform 0.16s ease;
+  flex: 0 0 auto;
+  line-height: 0;
+  transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease, transform 0.08s ease;
 }
 .mm-type-close svg {
+  display: block;
   width: 1.1rem;
   height: 1.1rem;
   fill: currentColor;
@@ -684,7 +713,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   border-color: var(--md-accent-fg-color);
   background: color-mix(in srgb, var(--md-accent-fg-color) 14%, var(--md-default-bg-color));
   color: var(--md-default-fg-color);
-  transform: scale(1.04);
+}
+.mm-type-close:active {
+  background: color-mix(in srgb, var(--md-accent-fg-color) 22%, var(--md-default-bg-color));
+  transform: translateY(1px) scale(0.94);
 }
 .mm-type-list {
   display: grid;
@@ -865,17 +897,19 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 /* Action buttons */
 .mm-actions {
-  display: flex;
+  display: grid;
+  align-items: end;
   gap: 0.4rem;
-  min-height: 100%;
+  min-height: 0;
 }
 .mm-actions button {
-  flex: 1;
+  width: 100%;
   background: var(--md-default-fg-color--lightest);
   border: 1px solid var(--md-default-fg-color--lighter);
   color: var(--md-default-fg-color--light);
-  min-height: 5rem;
-  padding: 0.6rem;
+  height: var(--mm-control-height);
+  min-height: var(--mm-control-height);
+  padding: 0.48rem;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.78rem;
@@ -888,9 +922,9 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   justify-self: stretch;
   width: 100%;
   box-sizing: border-box;
-  margin-top: 0.62rem;
+  margin-top: 0;
   padding: 0.62rem 0.84rem;
-  border: 1px solid var(--mm-filter-accent);
+  border: 1px solid var(--mm-settings-tile-border);
   border-radius: 8px;
   color: var(--md-default-fg-color);
   font-size: 0.78rem;
@@ -1062,6 +1096,17 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   margin-top: 0.9rem;
 }
 
+@media (max-width: 980px) and (min-width: 701px) {
+  .mm-settings-grid {
+    grid-template-columns: minmax(16rem, 1fr) minmax(5.7rem, auto) minmax(8.2rem, auto) minmax(11rem, 0.75fr);
+    grid-template-areas:
+      "detail fit labels types"
+      "search search search search"
+      "categories categories categories categories"
+      "relevance relevance stats stats";
+  }
+}
+
 @media (max-width: 700px) {
   #mm-app {
     --mm-ribbon-max-h: calc(50vh - var(--mm-ribbon-header-h) - 0.85rem);
@@ -1074,18 +1119,17 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     align-items: stretch;
   }
 
-  .mm-bento {
-    grid-template-columns: 1fr;
-  }
-
-  .mm-bento-grid--modifiers,
-  .mm-bento-grid--filters {
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
-  }
-
-  .mm-bento-tile--wide {
-    grid-column: auto;
+  .mm-settings-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "detail detail"
+      "fit labels"
+      "search search"
+      "relevance relevance"
+      "categories categories"
+      "types types"
+      "stats stats";
+    align-items: stretch;
   }
 
   #mm-stats {
@@ -1111,11 +1155,21 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   .tt-tags    { font-size: 0.76rem; line-height: 1.45; }
   .tt-summary { font-size: 0.78rem; line-height: 1.48; }
   .tt-hint    { font-size: 0.72rem; }
-  .mm-modal { padding: 0.55rem; }
+  .mm-modal {
+    inset: 50vh 0 var(--mm-footer-h, 0px) 0;
+    inset: 50dvh 0 var(--mm-footer-h, 0px) 0;
+    place-items: stretch;
+    padding: 0.42rem 0.55rem;
+    background: transparent;
+    backdrop-filter: none;
+    pointer-events: none;
+  }
   .mm-modal-card {
+    align-self: end;
     width: calc(100vw - 1.1rem);
-    max-height: min(88vh, calc(100vh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - 1.1rem));
-    max-height: min(88vh, calc(100dvh - var(--mm-header-h, 56px) - var(--mm-footer-h, 0px) - 1.1rem));
+    height: 100%;
+    max-height: 100%;
+    pointer-events: auto;
   }
 }
 </style>
@@ -1141,118 +1195,113 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   <div id="mm-panel" class="body-collapsed">
     <div id="mm-panel-body">
 
-      <div id="mm-relevance-panel" class="mm-section mm-relevance-panel" hidden>
-        <div class="mm-relevance-head">
-          <span class="mm-section-label" style="margin:0">Selected-node filter</span>
-          <label class="mm-switch">
-            <input id="mm-relevance-enabled" type="checkbox">
-            <span>Enable</span>
-          </label>
-        </div>
-        <div id="mm-relevance-ego" class="mm-relevance-ego"></div>
-        <div class="mm-relevance-options">
-          <select id="mm-relevance-mode" aria-label="Combine selected-node filters">
-            <option value="and">And</option>
-            <option value="or">Or</option>
-          </select>
-        </div>
-        <label class="mm-filter-toggle">
-          <span class="mm-filter-check">
-            <input id="mm-relevance-semantic" type="checkbox" checked>
-          </span>
-          <span class="mm-filter-body">
-            <span class="mm-filter-row">
-              <span>Semantic similarity</span>
-              <span id="mm-relevance-similarity-val">0.25</span>
-            </span>
-            <input id="mm-relevance-similarity" type="range" min="0" max="100" step="1" value="25">
-          </span>
-        </label>
-        <label class="mm-filter-toggle">
-          <span class="mm-filter-check">
-            <input id="mm-relevance-taxonomy" type="checkbox" checked>
-          </span>
-          <span class="mm-filter-body">
-            <span class="mm-filter-row">
-              <span>Tree proximity</span>
-              <span id="mm-relevance-distance-val">0.25</span>
-            </span>
-            <input id="mm-relevance-distance" type="range" min="0" max="100" step="1" value="25">
-          </span>
-        </label>
-        <div class="mm-relevance-foot">
-          <span id="mm-relevance-status">Filter off</span>
-          <span id="mm-relevance-match-count">…</span>
-        </div>
-      </div>
+      <section id="mm-settings" class="mm-settings-section" aria-label="Map settings">
+        <div class="mm-settings-grid">
+          <div class="mm-section mm-section--detail">
+            <span class="mm-section-label">Level of Detail</span>
+            <div id="mm-detail-controls" class="mm-detail-controls"></div>
+          </div>
 
-      <div class="mm-settings-separator" aria-hidden="true"></div>
+          <div class="mm-section mm-section--actions mm-actions">
+            <button id="mm-fit-btn" type="button">Fit View</button>
+          </div>
 
-      <div class="mm-bento">
-        <section class="mm-bento-group mm-bento-group--modifiers" aria-label="Modifiers">
-          <div class="mm-bento-grid mm-bento-grid--modifiers">
-            <div class="mm-section mm-section--detail mm-bento-tile mm-bento-tile--wide">
-              <span class="mm-section-label">Level of Detail</span>
-              <div id="mm-detail-controls" class="mm-detail-controls"></div>
-            </div>
-
-            <div class="mm-section mm-section--actions mm-actions mm-bento-tile mm-bento-tile--button">
-              <button id="mm-fit-btn">Fit View</button>
-            </div>
-
-            <div class="mm-section mm-section--visibility mm-bento-tile">
-              <span class="mm-section-label">Visibility</span>
-              <div class="mm-visibility-controls">
-                <button id="mm-labels-toggle" type="button" aria-pressed="true">Node Labels</button>
-              </div>
+          <div class="mm-section mm-section--visibility">
+            <div class="mm-visibility-controls">
+              <button id="mm-labels-toggle" class="mm-label-toggle" type="button" aria-pressed="true" aria-label="Hide node labels" title="Hide node labels">
+                <span class="mm-label-toggle-icon" aria-hidden="true"></span>
+                <span class="mm-label-toggle-text">Node labels</span>
+                <span class="mm-label-toggle-state" aria-hidden="true">On</span>
+              </button>
             </div>
           </div>
-        </section>
 
-        <section class="mm-bento-group mm-bento-group--filters" aria-label="Filters">
-          <div class="mm-bento-grid mm-bento-grid--filters">
-            <div class="mm-section mm-section--search mm-bento-tile mm-bento-tile--wide">
-              <span class="mm-section-label">Search</span>
-              <div class="mm-search-wrap">
-                <input id="mm-search" type="text" placeholder="Search for items…">
-                <button id="mm-search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
+          <div id="mm-relevance-panel" class="mm-section mm-relevance-panel" hidden>
+            <div class="mm-relevance-head">
+              <span class="mm-section-label" style="margin:0">Selected-node filter</span>
+              <label class="mm-switch">
+                <input id="mm-relevance-enabled" type="checkbox">
+                <span>Enable</span>
+              </label>
+            </div>
+            <div id="mm-relevance-ego" class="mm-relevance-ego"></div>
+            <div class="mm-relevance-options">
+              <select id="mm-relevance-mode" aria-label="Combine selected-node filters">
+                <option value="and">And</option>
+                <option value="or">Or</option>
+              </select>
+            </div>
+            <label class="mm-filter-toggle">
+              <span class="mm-filter-check">
+                <input id="mm-relevance-semantic" type="checkbox" checked>
+              </span>
+              <span class="mm-filter-body">
+                <span class="mm-filter-row">
+                  <span>Semantic similarity</span>
+                  <span id="mm-relevance-similarity-val">0.25</span>
+                </span>
+                <input id="mm-relevance-similarity" type="range" min="0" max="100" step="1" value="25">
+              </span>
+            </label>
+            <label class="mm-filter-toggle">
+              <span class="mm-filter-check">
+                <input id="mm-relevance-taxonomy" type="checkbox" checked>
+              </span>
+              <span class="mm-filter-body">
+                <span class="mm-filter-row">
+                  <span>Tree proximity</span>
+                  <span id="mm-relevance-distance-val">0.25</span>
+                </span>
+                <input id="mm-relevance-distance" type="range" min="0" max="100" step="1" value="25">
+              </span>
+            </label>
+            <div class="mm-relevance-foot">
+              <span id="mm-relevance-status">Filter off</span>
+              <span id="mm-relevance-match-count">…</span>
+            </div>
+          </div>
+
+          <div class="mm-section mm-section--search">
+            <span class="mm-section-label">Search</span>
+            <div class="mm-search-wrap">
+              <input id="mm-search" type="text" placeholder="Search for items…">
+              <button id="mm-search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
+            </div>
+          </div>
+
+          <div class="mm-section mm-section--categories mm-bento-tile mm-bento-tile--categories">
+            <div class="mm-bento-tile-head">
+              <span class="mm-section-label">Categories</span>
+              <div class="mm-cat-links">
+                <button id="mm-all-cats">All</button>
+                <button id="mm-no-cats">None</button>
               </div>
             </div>
+            <div id="mm-category-filters"></div>
+          </div>
 
-            <div class="mm-section mm-section--categories mm-bento-tile mm-bento-tile--categories">
-              <div class="mm-bento-tile-head">
-                <span class="mm-section-label">Categories</span>
-                <div class="mm-cat-links">
-                  <button id="mm-all-cats">All</button>
-                  <button id="mm-no-cats">None</button>
+          <div class="mm-section mm-section--types">
+            <span class="mm-section-label">Item Types</span>
+            <button id="mm-type-trigger" class="mm-type-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="mm-type-dialog">
+              <span id="mm-type-summary">All item types</span>
+            </button>
+            <dialog id="mm-type-dialog" class="mm-type-dialog" aria-labelledby="mm-type-title">
+              <div class="mm-type-panel">
+                <div class="mm-type-head">
+                  <h2 id="mm-type-title">Item Types</h2>
+                  <button id="mm-type-close" class="mm-type-close" type="button" aria-label="Close item types filter">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.41L10.59 13.41 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.3l6.3 6.29 6.3-6.29z"></path>
+                    </svg>
+                  </button>
                 </div>
+                <div class="mm-type-actions">
+                  <button id="mm-all-types" type="button">All</button>
+                  <button id="mm-no-types" type="button">None</button>
+                </div>
+                <div id="mm-type-filters" class="mm-type-list" role="group" aria-label="Item types"></div>
               </div>
-              <div id="mm-category-filters"></div>
-            </div>
-
-            <div class="mm-section mm-section--types mm-bento-tile mm-bento-tile--types">
-              <span class="mm-section-label">Item Types</span>
-              <button id="mm-type-trigger" class="mm-type-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="mm-type-dialog">
-                <span id="mm-type-summary">All item types</span>
-              </button>
-              <dialog id="mm-type-dialog" class="mm-type-dialog" aria-labelledby="mm-type-title">
-                <div class="mm-type-panel">
-                  <div class="mm-type-head">
-                    <h2 id="mm-type-title">Item Types</h2>
-                    <button id="mm-type-close" class="mm-type-close" type="button" aria-label="Close item types filter">
-                      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                        <path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.41L10.59 13.41 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.3l6.3 6.29 6.3-6.29z"></path>
-                      </svg>
-                    </button>
-                  </div>
-                  <div class="mm-type-actions">
-                    <button id="mm-all-types" type="button">All</button>
-                    <button id="mm-no-types" type="button">None</button>
-                  </div>
-                  <div id="mm-type-filters" class="mm-type-list" role="group" aria-label="Item types"></div>
-                </div>
-              </dialog>
-            </div>
+            </dialog>
           </div>
 
           <div id="mm-stats" class="mm-bento-count">
@@ -1260,8 +1309,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
             <span id="mm-search-count" hidden></span>
             <span id="mm-relevance-count" hidden></span>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
     </div>
   </div>

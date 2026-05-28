@@ -511,27 +511,32 @@ def build_analytics_year_bins(year_counts: Counter[int], mode: str) -> list[dict
     if not years:
         return []
 
-    ranges: list[tuple[int, int]] = []
+    ranges: list[tuple[int, int, bool]] = []
     start = aligned_bin_start(min(years), analytics_bin_step(min(years), mode))
     max_year = max(years)
     while start <= max_year:
         step = analytics_bin_step(start, mode)
-        end = start + step - 1
-        ranges.append((start, end))
-        start = end + 1
+        raw_end = start + step - 1
+        end = min(raw_end, max_year)
+        ranges.append((start, end, mode == "coarse" and end == max_year))
+        start = raw_end + 1
 
-    return [
-        {
-            "label": year_bin_label(start, end),
+    rows: list[dict[str, Any]] = []
+    for start, end, is_present_bucket in ranges:
+        if start > end:
+            continue
+        row = {
+            "label": f"{start}-Present" if is_present_bucket else year_bin_label(start, end),
             "start": start,
             "end": end,
             "width": analytics_bin_step(start, mode),
             "count": int(sum(year_counts.get(year, 0) for year in range(start, end + 1))),
             "region": analytics_bin_region(start, mode),
         }
-        for start, end in ranges
-        if start <= end
-    ]
+        if is_present_bucket:
+            row["presentYear"] = max_year
+        rows.append(row)
+    return rows
 
 
 def normalize_author(author: str) -> str:

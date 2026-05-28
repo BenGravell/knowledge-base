@@ -269,6 +269,7 @@ def paper_record(data: dict, paper_id: str) -> dict:
         "source": clean_scalar(data.get("source")),
         "type": clean_scalar(data.get("type")),
         "tags": tags,
+        "abstract": clean_scalar(data.get("abstract")),
         "summary": clean_scalar(data.get("summary")),
         "url": f"../papers/{paper_id}/",
         "treeUrl": f"../tree/#paper={quote(paper_id, safe='')}",

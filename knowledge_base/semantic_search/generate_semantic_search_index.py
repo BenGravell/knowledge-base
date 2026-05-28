@@ -30,8 +30,13 @@ DEFAULT_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 DEFAULT_BROWSER_MODEL = "Xenova/all-MiniLM-L6-v2"
 DEFAULT_CACHE = OUT_DIR / "embedding_cache.json"
 DEFAULT_MANIFEST = OUT_DIR / "semantic-search-index.json"
+DEFAULT_SETTINGS = OUT_DIR / "semantic-search-settings.json"
 DEFAULT_VECTORS = OUT_DIR / "semantic-search-vectors.i8"
 QUANTIZATION_SCALE = 127
+THRESHOLD_GRID_STEP = 0.01
+THRESHOLD_ROUNDING_STEP = 0.05
+THRESHOLD_TARGET_RECALL = 0.85
+DEFAULT_SCORE_THRESHOLD = 0.25
 
 
 def clean_scalar(value: object) -> str:
@@ -101,6 +106,7 @@ def load_papers() -> list[dict]:
         algorithm = clean_scalar(data.get("algorithm"))
         authors = as_clean_list(data.get("authors"))
         tags = as_clean_list(data.get("tags"))
+        abstract = clean_scalar(data.get("abstract"))
         summary = clean_scalar(data.get("summary"))
         year = data.get("year") or ""
         embed_text = build_embed_text({**data, "tags": tags})
@@ -110,9 +116,11 @@ def load_papers() -> list[dict]:
                 "id": paper_id,
                 "title": title,
                 "label": algorithm or title or paper_id,
+                "algorithm": algorithm,
                 "authors": authors,
                 "year": year,
                 "tags": tags,
+                "abstract": abstract,
                 "summary": summary,
                 "url": f"../papers/{quote(paper_id, safe='')}/",
                 "mapUrl": f"../map/#paper={quote(paper_id, safe='')}",
@@ -132,6 +140,124 @@ def l2_normalize(matrix: np.ndarray) -> np.ndarray:
 
 def quantize_normalized(matrix: np.ndarray) -> np.ndarray:
     return np.clip(np.rint(matrix * QUANTIZATION_SCALE), -128, 127).astype(np.int8)
+
+
+def normalize_tag(tag: object) -> str:
+    return clean_scalar(tag).casefold()
+
+
+def round_to_step(value: float, step: float = THRESHOLD_ROUNDING_STEP) -> float:
+    rounded = np.floor((float(value) / step) + 0.5) * step
+    return round(float(np.clip(rounded, 0.0, 1.0)), 2)
+
+
+def threshold_metrics(scores: np.ndarray, labels: np.ndarray, threshold: float) -> dict[str, float]:
+    predicted = scores >= threshold
+    positives = labels
+    negatives = ~labels
+    tp = int(np.count_nonzero(predicted & positives))
+    fp = int(np.count_nonzero(predicted & negatives))
+    fn = int(np.count_nonzero(~predicted & positives))
+    tn = int(np.count_nonzero(~predicted & negatives))
+
+    precision = tp / (tp + fp) if tp + fp else 0.0
+    recall = tp / (tp + fn) if tp + fn else 0.0
+    fpr = fp / (fp + tn) if fp + tn else 0.0
+    f1 = (2 * precision * recall / (precision + recall)) if precision + recall else 0.0
+    return {
+        "threshold": float(threshold),
+        "precision": precision,
+        "recall": recall,
+        "false_positive_rate": fpr,
+        "f1": f1,
+        "youden_j": recall - fpr,
+    }
+
+
+def best_threshold_at_recall(metrics: list[dict[str, float]], target_recall: float) -> dict[str, float]:
+    candidates = [item for item in metrics if item["recall"] >= target_recall]
+    if not candidates:
+        return max(metrics, key=lambda item: item["recall"])
+    return max(candidates, key=lambda item: (item["threshold"], item["precision"]))
+
+
+def best_thresholds_for_shared_tags(matrix: np.ndarray, papers: list[dict]) -> dict:
+    if len(papers) < 2:
+        return {
+            "scoreThreshold": DEFAULT_SCORE_THRESHOLD,
+            "scoreThresholdCalibration": {
+                "method": "shared-tag-proxy",
+                "status": "default-not-enough-papers",
+                "roundingStep": THRESHOLD_ROUNDING_STEP,
+                "targetRecall": THRESHOLD_TARGET_RECALL,
+            },
+        }
+
+    tags = [
+        {normalize_tag(tag) for tag in paper.get("tags", []) if normalize_tag(tag)}
+        for paper in papers
+    ]
+    row_idx, col_idx = np.triu_indices(len(papers), k=1)
+    labels = np.asarray(
+        [bool(tags[row] & tags[col]) for row, col in zip(row_idx, col_idx, strict=True)],
+        dtype=bool,
+    )
+    if not labels.any() or labels.all():
+        return {
+            "scoreThreshold": DEFAULT_SCORE_THRESHOLD,
+            "scoreThresholdCalibration": {
+                "method": "shared-tag-proxy",
+                "status": "default-degenerate-labels",
+                "roundingStep": THRESHOLD_ROUNDING_STEP,
+                "targetRecall": THRESHOLD_TARGET_RECALL,
+            },
+        }
+
+    scores = (matrix @ matrix.T)[row_idx, col_idx]
+    thresholds = np.arange(0.0, 1.0 + (THRESHOLD_GRID_STEP / 2), THRESHOLD_GRID_STEP)
+    metrics = [threshold_metrics(scores, labels, threshold) for threshold in thresholds]
+    recall_target = best_threshold_at_recall(metrics, THRESHOLD_TARGET_RECALL)
+    balanced = max(metrics, key=lambda item: item["youden_j"])
+    best_f1 = max(metrics, key=lambda item: item["f1"])
+    rounded_recall = round_to_step(recall_target["threshold"])
+    rounded_balanced = round_to_step(balanced["threshold"])
+    rounded_f1 = round_to_step(best_f1["threshold"])
+    score_threshold = min(rounded_recall, rounded_balanced, rounded_f1)
+
+    return {
+        "scoreThreshold": score_threshold,
+        "scoreThresholdCalibration": {
+            "method": "shared-tag-proxy",
+            "status": "ok",
+            "gridStep": THRESHOLD_GRID_STEP,
+            "roundingStep": THRESHOLD_ROUNDING_STEP,
+            "targetRecall": THRESHOLD_TARGET_RECALL,
+            "recallTarget": {
+                "threshold": round(recall_target["threshold"], 2),
+                "roundedThreshold": rounded_recall,
+                "precision": round(recall_target["precision"], 3),
+                "recall": round(recall_target["recall"], 3),
+                "falsePositiveRate": round(recall_target["false_positive_rate"], 3),
+            },
+            "balancedRoc": {
+                "threshold": round(balanced["threshold"], 2),
+                "roundedThreshold": rounded_balanced,
+                "youdenJ": round(balanced["youden_j"], 3),
+                "precision": round(balanced["precision"], 3),
+                "recall": round(balanced["recall"], 3),
+                "falsePositiveRate": round(balanced["false_positive_rate"], 3),
+            },
+            "bestF1": {
+                "threshold": round(best_f1["threshold"], 2),
+                "roundedThreshold": rounded_f1,
+                "f1": round(best_f1["f1"], 3),
+                "precision": round(best_f1["precision"], 3),
+                "recall": round(best_f1["recall"], 3),
+                "falsePositiveRate": round(best_f1["false_positive_rate"], 3),
+            },
+            "selected": "min(rounded recallTarget, rounded balancedRoc, rounded bestF1)",
+        },
+    }
 
 
 def generate(args: argparse.Namespace) -> None:
@@ -173,13 +299,28 @@ def generate(args: argparse.Namespace) -> None:
     matrix = np.asarray([cached_papers[paper["id"]]["embedding"] for paper in papers], dtype=np.float32)
     matrix = l2_normalize(matrix)
     quantized = quantize_normalized(matrix)
+    threshold_data = best_thresholds_for_shared_tags(matrix, papers)
 
     paper_records = []
     for paper in papers:
         paper_records.append(
             {
                 key: paper[key]
-                for key in ("id", "title", "label", "authors", "year", "tags", "summary", "url", "mapUrl", "treeUrl", "byline")
+                for key in (
+                    "id",
+                    "title",
+                    "label",
+                    "algorithm",
+                    "authors",
+                    "year",
+                    "tags",
+                    "abstract",
+                    "summary",
+                    "url",
+                    "mapUrl",
+                    "treeUrl",
+                    "byline",
+                )
             }
         )
 
@@ -194,16 +335,32 @@ def generate(args: argparse.Namespace) -> None:
             "scale": QUANTIZATION_SCALE,
             "normalized": True,
         },
+        **threshold_data,
         "papers": paper_records,
     }
 
     args.manifest.parent.mkdir(parents=True, exist_ok=True)
     args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    args.settings.write_text(
+        json.dumps(
+            {
+                "model": args.model,
+                "browserModel": args.browser_model,
+                "count": len(papers),
+                **threshold_data,
+            },
+            ensure_ascii=False,
+            separators=(",", ":"),
+        ),
+        encoding="utf-8",
+    )
     args.vectors.write_bytes(quantized.tobytes(order="C"))
 
     print(f"Manifest: {args.manifest} ({args.manifest.stat().st_size // 1024} KB)")
+    print(f"Settings: {args.settings} ({args.settings.stat().st_size} bytes)")
     print(f"Vectors : {args.vectors} ({args.vectors.stat().st_size // 1024} KB)")
     print(f"Matrix  : {quantized.shape[0]} x {quantized.shape[1]} int8")
+    print(f"Semantic score threshold: {threshold_data['scoreThreshold']:.2f}")
 
 
 def parse_args() -> argparse.Namespace:
@@ -212,6 +369,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--browser-model", default=DEFAULT_BROWSER_MODEL, help=f"Transformers.js model name (default: {DEFAULT_BROWSER_MODEL})")
     parser.add_argument("--cache", type=Path, default=DEFAULT_CACHE, help=f"Embedding cache path (default: {DEFAULT_CACHE})")
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST, help=f"Output JSON manifest (default: {DEFAULT_MANIFEST})")
+    parser.add_argument("--settings", type=Path, default=DEFAULT_SETTINGS, help=f"Output search settings JSON (default: {DEFAULT_SETTINGS})")
     parser.add_argument("--vectors", type=Path, default=DEFAULT_VECTORS, help=f"Output int8 vector table (default: {DEFAULT_VECTORS})")
     parser.add_argument("--force", action="store_true", help="Re-embed all papers even when cached")
     return parser.parse_args()
