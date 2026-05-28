@@ -429,10 +429,6 @@ JSON can use tree hierarchy natively.
 
 ## Search
 
-Use semantic search by default, make it the first one in the list.
-
-Unify metadata Search and material site Search. Use the same code and search bars.
-
 ## Credits
 
 Sub bullet indent is too wide
