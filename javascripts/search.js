@@ -11,12 +11,20 @@
   }
 
   const workerUrl = '../javascripts/semantic-search-worker.js';
+  const semanticSettingsUrl = '../javascripts/semantic-search-settings.json';
   const semanticLimit = 80;
+  const semanticDisplayLimit = 20;
+  const fallbackSemanticScoreThreshold = 0.25;
   const modeLabels = {
     metadata: 'Metadata',
     semantic: 'Semantic',
-    site: 'Site',
   };
+  const configuredDefaultMode = app.dataset.defaultMode || '';
+  const defaultMode = Object.hasOwn(modeLabels, configuredDefaultMode)
+    ? configuredDefaultMode
+    : 'metadata';
+  const settingsDefault = app.dataset.settingsDefault || 'closed';
+  const settingsOpenByDefault = settingsDefault === 'open';
   const fieldConfig = {
     tag: {
       label: 'Tag',
@@ -44,6 +52,14 @@
       getValues: paper => paper.type ? [paper.type] : [],
     },
   };
+  const filterFields = ['tag', 'author', 'year', 'source', 'type'];
+  const icons = {
+    search: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m21 21-4.35-4.35"></path><circle cx="10.5" cy="10.5" r="6.5"></circle></svg>',
+    metadata: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5" rx="7" ry="3"></ellipse><path d="M5 5v6c0 1.66 3.13 3 7 3s7-1.34 7-3V5"></path><path d="M5 11v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"></path></svg>',
+    semantic: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3z"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z"></path><path d="M5 14l.7 1.8L7.5 16.5l-1.8.7L5 19l-.7-1.8-1.8-.7 1.8-.7L5 14z"></path></svg>',
+    abstract: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg>',
+    tags: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L3 13V3h10l7.59 7.59a2 2 0 0 1 0 2.82z"></path><path d="M7 7h.01"></path></svg>',
+  };
 
   const papers = Object.values(data.papers).map(paper => {
     const authors = Array.isArray(paper.authors) ? paper.authors : [];
@@ -60,6 +76,7 @@
         paper.source,
         paper.type,
         tags.join(' '),
+        paper.abstract,
         paper.summary,
       ].join(' ')),
     });
@@ -74,63 +91,87 @@
   let lastSemanticQuery = '';
   let latestSemanticRows = null;
   let semanticRequestId = 0;
+  let semanticSuggestedScoreThreshold = null;
+  let semanticScoreThreshold = fallbackSemanticScoreThreshold;
+  let semanticThresholdTouched = false;
+  let semanticSettingsLoaded = false;
 
   app.innerHTML =
-    appHeader('Search') +
-    '<section class="tag-search-settings unified-search-settings" aria-label="Search settings">' +
-      '<div class="tag-search-settings-body unified-search-settings-body">' +
-        '<div class="unified-search-query-section">' +
-          '<form id="unified-search-form" class="tag-search-form unified-search-form" role="search">' +
-            '<label for="unified-search-input">Search</label>' +
-            '<div class="tag-search-input-row unified-search-input-row">' +
-              '<input id="unified-search-input" type="search" autocomplete="off" placeholder="Search papers, authors, tags, sources, or concepts">' +
-              '<button type="submit">Search</button>' +
-            '</div>' +
-          '</form>' +
-          '<div class="unified-search-mode" aria-label="Search mode">' +
-            Object.entries(modeLabels).map(([mode, label]) => (
-              `<button type="button" data-search-mode="${escAttr(mode)}">${esc(label)}</button>`
-            )).join('') +
+    `<section id="unified-search-settings" class="tag-search-settings unified-search-settings${settingsOpenByDefault ? '' : ' is-collapsed'}" aria-label="Search settings">` +
+      '<div class="tag-search-settings-header unified-search-settings-header kb-app-header">' +
+        '<span class="kb-app-header-title">Search</span>' +
+        '<form id="unified-search-form" class="tag-search-form unified-search-form unified-search-header-form" role="search">' +
+          '<div class="tag-search-input-row unified-search-input-row">' +
+            '<input id="unified-search-input" type="search" autocomplete="off" aria-label="Search papers, authors, tags, sources, or concepts" placeholder="Search papers, authors, tags, sources, or concepts">' +
+            `<button class="unified-search-submit" type="submit" aria-label="Search">${icons.search}</button>` +
           '</div>' +
+        '</form>' +
+        `<div class="unified-search-mode" aria-label="Search mode" data-active-mode="${escAttr(state.mode)}">` +
+          Object.entries(modeLabels).map(([mode, label]) => (
+            `<button type="button" data-search-mode="${escAttr(mode)}">` +
+              `<span class="unified-search-mode-icon">${icons[mode] || ''}</span>` +
+              `<span>${esc(label)}</span>` +
+            '</button>'
+          )).join('') +
         '</div>' +
+        `<button id="unified-search-settings-toggle" class="kb-app-header-action" type="button" aria-expanded="${settingsOpenByDefault ? 'true' : 'false'}" aria-controls="unified-search-settings-body">` +
+          `<span id="unified-search-settings-state">${settingsOpenByDefault ? 'Hide Settings' : 'Show Settings'}</span>` +
+        '</button>' +
+      '</div>' +
+      '<div id="unified-search-settings-body" class="tag-search-settings-body unified-search-settings-body">' +
         '<section class="unified-search-filter-section" aria-label="Metadata filters">' +
           '<div class="unified-search-section-title">Filters</div>' +
-          '<div class="unified-search-filters">' +
-            filterControl('author') +
-            filterControl('year') +
-            filterControl('source') +
-            filterControl('type') +
-          '</div>' +
+          `<div id="unified-search-facet-filters" class="unified-search-filters">${filterFields.map(filterExpander).join('')}</div>` +
           '<div id="unified-search-active" class="unified-search-active"></div>' +
         '</section>' +
-        '<section class="unified-search-status-section" aria-label="Search status">' +
-          '<div class="unified-search-section-title">Status</div>' +
-          '<div class="semantic-search-status-wrap unified-search-status-wrap">' +
-            '<p id="unified-search-status" class="semantic-search-status">Ready.</p>' +
-          '</div>' +
+        '<section class="unified-search-threshold-section" aria-label="Semantic similarity threshold">' +
+          '<div class="unified-search-section-title">Semantic</div>' +
+          '<label class="unified-search-threshold-label" for="unified-search-threshold">' +
+            '<span>Similarity cutoff</span>' +
+            '<strong id="unified-search-threshold-value">...</strong>' +
+          '</label>' +
+          '<input id="unified-search-threshold" class="unified-search-threshold-slider" type="range" min="0" max="100" step="5" value="0" aria-describedby="unified-search-threshold-reset" disabled>' +
+          '<button id="unified-search-threshold-reset" class="unified-search-threshold-reset" type="button" disabled>Suggested <span>...</span></button>' +
         '</section>' +
-        '<div id="unified-search-count" class="tag-search-count"><strong>0</strong><span>results</span></div>' +
       '</div>' +
     '</section>' +
-    '<section id="unified-search-results-panel" class="tag-search-selection semantic-search-results-panel is-empty"></section>' +
-    datalistMarkup('author') +
-    datalistMarkup('year') +
-    datalistMarkup('source') +
-    datalistMarkup('type');
+    '<section id="unified-search-results-panel" class="tag-search-selection semantic-search-results-panel is-empty">' +
+      '<div id="unified-search-count" class="tag-search-count unified-search-panel-count"><strong>0</strong><span>results</span></div>' +
+      '<div id="unified-search-results-body" class="unified-search-results-body"></div>' +
+    '</section>' +
+    filterFields.map(datalistMarkup).join('');
 
   const form = app.querySelector('#unified-search-form');
   const input = app.querySelector('#unified-search-input');
+  const settings = app.querySelector('#unified-search-settings');
+  const settingsToggle = app.querySelector('#unified-search-settings-toggle');
+  const settingsState = app.querySelector('#unified-search-settings-state');
+  const modeControl = app.querySelector('.unified-search-mode');
   const modeButtons = Array.from(app.querySelectorAll('[data-search-mode]'));
-  const filterInputs = {
-    author: app.querySelector('#unified-search-author'),
-    year: app.querySelector('#unified-search-year'),
-    source: app.querySelector('#unified-search-source'),
-    type: app.querySelector('#unified-search-type'),
-  };
+  const filterInputs = Object.fromEntries(
+    filterFields.map(field => [field, app.querySelector(`#unified-search-${field}`)])
+  );
+  const facetFilters = app.querySelector('#unified-search-facet-filters');
   const activeFilters = app.querySelector('#unified-search-active');
-  const status = app.querySelector('#unified-search-status');
+  const thresholdInput = app.querySelector('#unified-search-threshold');
+  const thresholdValue = app.querySelector('#unified-search-threshold-value');
+  const thresholdReset = app.querySelector('#unified-search-threshold-reset');
+  const thresholdSuggested = app.querySelector('#unified-search-threshold-reset span');
   const count = app.querySelector('#unified-search-count');
   const panel = app.querySelector('#unified-search-results-panel');
+  const resultsBody = app.querySelector('#unified-search-results-body');
+
+  syncThresholdControl();
+  loadSemanticSettings();
+
+  if (settingsToggle && settings) {
+    settingsToggle.addEventListener('click', () => {
+      const collapsed = settings.classList.toggle('is-collapsed');
+      settingsToggle.setAttribute('aria-expanded', String(!collapsed));
+      updateSettingsState();
+    });
+    updateSettingsState();
+  }
 
   form.addEventListener('submit', event => {
     event.preventDefault();
@@ -150,19 +191,19 @@
 
   modeButtons.forEach(button => {
     button.addEventListener('click', () => {
-      state.mode = button.getAttribute('data-search-mode') || 'metadata';
+      state.mode = button.getAttribute('data-search-mode') || defaultMode;
       state.q = input.value.trim();
       if (state.mode !== 'metadata') state.paper = '';
       syncUrl(true);
       render();
-      if (state.mode === 'site') openMaterialSearch(state.q);
     });
   });
 
   Object.entries(filterInputs).forEach(([field, element]) => {
     element.addEventListener('change', () => {
       state[field] = element.value.trim();
-      if (field !== 'tag') state.paper = '';
+      state.paper = '';
+      useMetadataModeForEmptyQuery();
       syncUrl(true);
       render();
     });
@@ -171,26 +212,46 @@
       element.value = '';
       state[field] = '';
       state.paper = '';
+      useMetadataModeForEmptyQuery();
       syncUrl(true);
       render();
     });
   });
 
-  panel.addEventListener('click', event => {
-    const facetButton = event.target.closest('[data-search-facet]');
-    if (facetButton) {
-      const field = facetButton.getAttribute('data-search-facet');
-      const value = facetButton.getAttribute('data-search-value') || '';
-      if (field && Object.hasOwn(fieldConfig, field)) {
-        state[field] = value;
-        state.paper = '';
-        if (field === 'tag') state.tag = value;
-        syncUrl(true);
-        render();
+  if (thresholdInput) {
+    thresholdInput.addEventListener('input', () => {
+      semanticThresholdTouched = true;
+      semanticScoreThreshold = readSemanticScoreThreshold(Number(thresholdInput.value) / 100, semanticScoreThreshold);
+      syncThresholdControl();
+      if (state.mode === 'semantic' && latestSemanticRows && lastSemanticQuery === state.q) {
+        renderSemanticRows(latestSemanticRows);
       }
-      return;
-    }
+    });
+  }
 
+  if (thresholdReset) {
+    thresholdReset.addEventListener('click', () => {
+      const previous = semanticScoreThreshold;
+      semanticThresholdTouched = false;
+      semanticScoreThreshold = semanticSuggestedScoreThreshold;
+      syncThresholdControl();
+      if (
+        semanticScoreThreshold !== previous &&
+        state.mode === 'semantic' &&
+        latestSemanticRows &&
+        lastSemanticQuery === state.q
+      ) {
+        renderSemanticRows(latestSemanticRows);
+      }
+    });
+  }
+
+  facetFilters.addEventListener('click', event => {
+    if (handleFacetClick(event)) return;
+  });
+
+  panel.addEventListener('click', event => {
+    if (handleFacetClick(event)) return;
     const clearButton = event.target.closest('[data-search-clear]');
     if (clearButton) {
       clearState();
@@ -209,6 +270,7 @@
       state[field] = '';
       if (field === 'tag') state.paper = '';
     }
+    useMetadataModeForEmptyQuery();
     syncUrl(true);
     render();
   });
@@ -224,8 +286,6 @@
     syncControls();
     if (state.mode === 'semantic') {
       renderSemantic();
-    } else if (state.mode === 'site') {
-      renderSiteSearch();
     } else {
       renderMetadataSearch();
     }
@@ -234,38 +294,37 @@
   function renderMetadataSearch() {
     workerLoading = false;
     const rows = metadataRows();
+    renderFacetFilters(rows.map(row => row.paper));
     const resultLabel = rows.length === 1 ? 'result' : 'results';
-    count.innerHTML = `<strong>${rows.length}</strong><span>${resultLabel}</span>`;
-    setStatus(metadataStatus(rows.length));
+    renderCount(rows.length, resultLabel);
     panel.classList.remove('is-empty');
 
     const title = metadataTitle();
-    panel.innerHTML =
+    const kicker = metadataKicker();
+    resultsBody.innerHTML =
       '<section class="tag-search-selected-head unified-search-result-head">' +
         '<div>' +
-          `<span class="tag-search-kicker">${esc(metadataKicker())}</span>` +
+          (kicker === 'Metadata' ? '' : `<span class="tag-search-kicker">${esc(kicker)}</span>`) +
           `<h2>${esc(title)}</h2>` +
         '</div>' +
-        `<div class="tag-search-count"><strong>${rows.length}</strong><span>${resultLabel}</span></div>` +
       '</section>' +
-      '<div class="unified-search-layout">' +
-        renderFacetRail(rows.map(row => row.paper)) +
-        '<div class="tag-search-results unified-search-results">' +
-          (rows.length
-            ? rows.slice(0, 160).map(renderMetadataCard).join('')
-            : emptyBlock('No Results', 'No papers match the current query and filters.')) +
-        '</div>' +
+      '<div class="tag-search-results unified-search-results">' +
+        (rows.length
+          ? rows.slice(0, 160).map(renderMetadataCard).join('')
+          : emptyBlock('', 'No items match the current query and filters.')) +
       '</div>';
   }
 
   function renderSemantic() {
+    renderFacetFilters(papers);
     if (!state.q) {
+      workerLoading = false;
+      semanticRequestId += 1;
       latestSemanticRows = null;
       lastSemanticQuery = '';
-      count.innerHTML = '<strong>0</strong><span>results</span>';
-      setStatus('Ready.');
+      renderCount(0, 'results');
       panel.classList.remove('is-empty');
-      panel.innerHTML = emptyBlock('Semantic Search', 'Enter a concept or natural-language phrase, then run the search.');
+      resultsBody.innerHTML = '';
       return;
     }
 
@@ -278,10 +337,9 @@
     lastSemanticQuery = state.q;
     latestSemanticRows = null;
     workerLoading = true;
-    count.innerHTML = '<strong>...</strong><span>searching</span>';
+    renderCount('...', 'searching');
     panel.classList.remove('is-empty');
-    panel.innerHTML = emptyBlock('Searching', state.q);
-    setStatus(workerReady ? 'Embedding query...' : 'Loading embedding model and vector index...');
+    renderProgress(workerReady ? 'Embedding query...' : 'Loading embedding model and vector index...');
 
     const activeWorker = ensureWorker(requestId);
     if (workerReady) {
@@ -300,43 +358,29 @@
       });
     });
     const filteredRows = enrichedRows
-      .filter(row => matchesFilters(row.paper, { includeQuery: false }))
-      .slice(0, 36);
-    const resultLabel = filteredRows.length === 1 ? 'result' : 'results';
-    count.innerHTML = `<strong>${filteredRows.length}</strong><span>${resultLabel}</span>`;
-    setStatus(`Semantic ranking for "${state.q}".`);
+      .filter(row => Number(row.score) >= semanticScoreThreshold)
+      .filter(row => matchesFilters(row.paper, { includeQuery: false }));
+    const displayedRows = filteredRows.slice(0, semanticDisplayLimit);
+    const hiddenCount = Math.max(0, filteredRows.length - displayedRows.length);
+    renderFacetFilters(filteredRows.map(row => row.paper));
+    const resultLabel = displayedRows.length === 1 ? 'result' : 'results';
+    renderCount(displayedRows.length, resultLabel, hiddenCount);
     panel.classList.remove('is-empty');
-    panel.innerHTML =
-      '<section class="tag-search-selected-head unified-search-result-head">' +
-        '<div>' +
-          '<span class="tag-search-kicker">Semantic</span>' +
-          `<h2>${esc(state.q)}</h2>` +
-        '</div>' +
-        `<div class="tag-search-count"><strong>${filteredRows.length}</strong><span>${resultLabel}</span></div>` +
-      '</section>' +
-      '<div class="unified-search-layout">' +
-        renderFacetRail(filteredRows.map(row => row.paper)) +
-        '<div class="paper-similar-list semantic-search-result-list unified-search-results">' +
-          (filteredRows.length
-            ? filteredRows.map(renderSemanticCard).join('')
-            : emptyBlock('No Results', 'No semantic matches remain after applying the metadata filters.')) +
-        '</div>' +
+    resultsBody.innerHTML =
+      '<div class="paper-similar-list semantic-search-result-list unified-search-results">' +
+        (displayedRows.length
+          ? displayedRows.map(renderSemanticCard).join('')
+          : emptyBlock('No Results', `No semantic matches remain above the ${semanticThresholdPercent()}% threshold after applying the metadata filters.`)) +
       '</div>';
   }
 
-  function renderSiteSearch() {
-    const label = state.q ? `Open the Material site search for "${state.q}".` : 'Open the Material site search for full-text page search.';
-    count.innerHTML = '<strong>-</strong><span>site</span>';
-    setStatus('Material site search is available from the header search bar.');
-    panel.classList.remove('is-empty');
-    panel.innerHTML =
-      '<div class="tag-search-selection-empty unified-search-site-mode">' +
-        '<h2>Material Site Search</h2>' +
-        `<p>${esc(label)}</p>` +
-        '<button type="button" id="unified-search-open-site">Open Site Search</button>' +
-      '</div>';
-    const button = panel.querySelector('#unified-search-open-site');
-    button.addEventListener('click', () => openMaterialSearch(state.q));
+  function renderCount(value, label, hiddenCount = 0) {
+    const hidden = Math.max(0, Number(hiddenCount) || 0);
+    const limitNote = hidden
+      ? `<small class="unified-search-limit-note">${hidden} more not displayed</small>`
+      : '';
+    count.innerHTML = `<strong>${esc(String(value))}</strong><span>${esc(label)}</span>${limitNote}`;
+    panel.classList.toggle('has-hidden-results', hidden > 0);
   }
 
   function metadataRows() {
@@ -361,22 +405,31 @@
       const terms = normalizeText(state.q).split(' ').filter(Boolean);
       if (terms.length && !terms.every(term => paper.searchText.includes(term))) return false;
     }
-    return ['tag', 'author', 'year', 'source', 'type'].every(field => {
+    return filterFields.every(field => {
       const value = normalizeFacet(state[field]);
       if (!value) return true;
       return fieldConfig[field].getValues(paper).some(item => normalizeFacet(item) === value);
     });
   }
 
-  function renderFacetRail(sourcePapers) {
-    const sections = ['tag', 'author', 'year', 'source', 'type']
-      .map(field => renderFacetSection(field, sourcePapers))
-      .filter(Boolean)
-      .join('');
-    return `<aside class="unified-search-facet-rail" aria-label="Search facets">${sections}</aside>`;
+  function renderFacetFilters(sourcePapers) {
+    filterFields.forEach(field => {
+      const expander = facetFilters.querySelector(`[data-filter-expander="${escAttr(field)}"]`);
+      const list = facetFilters.querySelector(`[data-search-facet-list="${escAttr(field)}"]`);
+      const count = facetFilters.querySelector(`[data-search-facet-count="${escAttr(field)}"]`);
+      if (!expander || !list || !count) return;
+      const rows = facetRows(field, sourcePapers);
+      list.innerHTML = rows.map(row => (
+        `<button type="button" class="${normalizeFacet(state[field]) === normalizeFacet(row.label) ? 'is-active' : ''}" data-search-facet="${escAttr(field)}" data-search-value="${escAttr(row.label)}">` +
+          `<span>${esc(row.label)}</span><strong>${row.count}</strong>` +
+        '</button>'
+      )).join('');
+      count.textContent = String(rows.length);
+      if (state[field]) expander.open = true;
+    });
   }
 
-  function renderFacetSection(field, sourcePapers) {
+  function facetRows(field, sourcePapers) {
     const counts = new Map();
     sourcePapers.forEach(paper => {
       const seen = new Set();
@@ -392,87 +445,84 @@
     const rows = Array.from(counts.values())
       .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
       .slice(0, field === 'tag' ? 18 : 12);
-    if (!rows.length) return '';
-    return (
-      '<section class="unified-search-facet-section">' +
-        `<h3>${esc(fieldConfig[field].plural)}</h3>` +
-        '<div class="unified-search-facet-list">' +
-          rows.map(row => (
-            `<button type="button" data-search-facet="${escAttr(field)}" data-search-value="${escAttr(row.label)}">` +
-              `<span>${esc(row.label)}</span><strong>${row.count}</strong>` +
-            '</button>'
-          )).join('') +
-        '</div>' +
-      '</section>'
-    );
+    return rows;
   }
 
   function renderMetadataCard(row, index) {
-    const paper = row.paper;
-    const score = Number.isFinite(row.item.score)
-      ? `<span>${Math.round(row.item.score * 100)}% similar</span>`
-      : '';
+    return renderResultCard(row.paper, index, null);
+  }
+
+  function renderSemanticCard(row, index) {
+    return renderResultCard(row.paper || {}, index, row.score);
+  }
+
+  function renderResultCard(paper, index, score) {
+    const algorithm = clean(paper.algorithm || (paper.label !== paper.title ? paper.label : ''));
+    const abstract = clean(paper.abstract || paper.summary);
+    const byline = paper.byline || paperYearByline(paper);
     const tags = (paper.tags || [])
       .slice(0, 8)
       .map(tag => `<a href="?tag=${encodeURIComponent(tag)}">${esc(tag)}</a>`)
       .join('');
-    const authors = (paper.authors || []).slice(0, 3).join(', ');
-    const meta = [
-      paper.year || 'Undated',
-      paper.type,
-      paper.source,
-      authors,
+    const expanderItems = [
+      abstract ? renderResultExpander('abstract', 'Abstract', icons.abstract, `<p class="paper-similar-card__abstract">${esc(abstract)}</p>`) : '',
+      tags ? renderResultExpander('tags', 'Tags', icons.tags, `<div class="tag-search-tags paper-similar-card__tags">${tags}</div>`) : '',
     ].filter(Boolean);
-
+    const expanders = expanderItems.join('');
+    const expanderCountClass = expanderItems.length
+      ? ` paper-similar-card__actions--${expanderItems.length}-expanders`
+      : '';
     return (
-      '<article class="tag-search-card">' +
-        '<div class="tag-search-rank">' + String(index + 1) + '</div>' +
-        '<div class="tag-search-card-main">' +
-          '<div class="tag-search-meta">' +
-            meta.map(item => `<span>${esc(item)}</span>`).join('') +
-            score +
-          '</div>' +
-          `<h2><a href="${escAttr(paper.url)}">${esc(paperTitle(paper))}</a></h2>` +
-          (paper.label && paper.label !== paper.title ? `<p class="tag-search-label">${esc(paper.label)}</p>` : '') +
-          (paper.summary ? `<p class="tag-search-summary">${esc(paper.summary)}</p>` : '') +
-          (tags ? `<div class="tag-search-tags">${tags}</div>` : '') +
-          '<div class="paper-link-pills tag-search-actions">' +
-            actionLink(paper.url, 'Detail') +
-            actionLink(paper.mapUrl, 'Map') +
-            actionLink(paper.treeUrl, 'Tree') +
+      '<article class="paper-similar-card">' +
+        renderResultRank(index, score) +
+        '<div class="paper-similar-card__body">' +
+          `<h3><a href="${escAttr(paper.url || '#')}">${esc(paperTitle(paper))}</a></h3>` +
+          (algorithm ? `<p class="paper-similar-card__label">${esc(algorithm)}</p>` : '') +
+          (byline ? `<div class="paper-similar-card__meta"><span>${esc(byline)}</span></div>` : '') +
+          `<div class="paper-similar-card__actions${expanderCountClass}">` +
+            '<div class="paper-link-pills paper-similar-card__action-links">' +
+              actionLink(paper.url, 'Detail') +
+              actionLink(paper.mapUrl, 'Map') +
+              actionLink(paper.treeUrl, 'Tree') +
+            '</div>' +
+            (expanders ? `<div class="paper-similar-card__expanders">${expanders}</div>` : '') +
           '</div>' +
         '</div>' +
       '</article>'
     );
   }
 
-  function renderSemanticCard(row, index) {
-    const paper = row.paper || {};
-    const scorePercent = Number.isFinite(row.score)
-      ? Math.max(0, Math.min(100, Math.round(row.score * 100)))
-      : 0;
-    const scoreGaugeDegrees = Math.round(scorePercent * 1.8 * 10) / 10;
-    const scoreLabel = `${scorePercent}% match`;
-    const byline = paper.byline || paperYearByline(paper);
+  function renderResultExpander(kind, label, icon, content) {
     return (
-      '<article class="paper-similar-card">' +
-        `<div class="paper-similar-card__rank" style="--paper-similar-gauge: ${scoreGaugeDegrees}deg;" aria-label="${escAttr(scoreLabel)}">` +
-          `<div class="paper-similar-card__rank-top">${String(index + 1)}</div>` +
-          '<div class="paper-similar-card__rank-bottom">' +
-            `<span>${scorePercent}%</span>` +
-          '</div>' +
+      `<details class="paper-similar-card__expander paper-similar-card__expander--${escAttr(kind)}">` +
+        `<summary aria-label="${escAttr(label)}" title="${escAttr(label)}">` +
+          `<span class="paper-similar-card__expander-icon">${icon}</span>` +
+        '</summary>' +
+        `<div class="paper-similar-card__expander-content">${content}</div>` +
+      '</details>'
+    );
+  }
+
+  function renderResultRank(index, score) {
+    const rank = String(index + 1);
+    if (!Number.isFinite(score)) {
+      return (
+        `<div class="paper-similar-card__rank paper-similar-card__rank--number-only" aria-label="Result ${escAttr(rank)}">` +
+          `<div class="paper-similar-card__rank-top">${rank}</div>` +
+        '</div>'
+      );
+    }
+
+    const scorePercent = Math.max(0, Math.min(100, Math.round(score * 100)));
+    const scoreGaugeDegrees = Math.round(scorePercent * 1.8 * 10) / 10;
+    const scoreLabel = `Result ${rank}, ${scorePercent}% match`;
+    return (
+      `<div class="paper-similar-card__rank" style="--paper-similar-gauge: ${scoreGaugeDegrees}deg;" aria-label="${escAttr(scoreLabel)}">` +
+        `<div class="paper-similar-card__rank-top">${rank}</div>` +
+        '<div class="paper-similar-card__rank-bottom">' +
+          `<span>${scorePercent}%</span>` +
         '</div>' +
-        '<div class="paper-similar-card__body">' +
-          `<h3><a href="${escAttr(paper.url || '#')}">${esc(paperTitle(paper))}</a></h3>` +
-          (paper.label && paper.label !== paper.title ? `<p class="paper-similar-card__label">${esc(paper.label)}</p>` : '') +
-          (byline ? `<div class="paper-similar-card__meta"><span>${esc(byline)}</span></div>` : '') +
-          '<div class="paper-link-pills paper-similar-card__actions">' +
-            actionLink(paper.url, 'Detail') +
-            actionLink(paper.mapUrl, 'Map') +
-            actionLink(paper.treeUrl, 'Tree') +
-          '</div>' +
-        '</div>' +
-      '</article>'
+      '</div>'
     );
   }
 
@@ -483,44 +533,41 @@
       const message = event.data || {};
       if (message.type === 'ready') {
         workerReady = true;
-        workerLoading = false;
-        setStatus(`Ready. ${message.count || 0} papers indexed with ${message.model || 'the browser model'}.`);
-        if (lastSemanticQuery) worker.postMessage({ type: 'query', query: lastSemanticQuery, limit: semanticLimit });
+        applyWorkerSemanticScoreSuggestion(message.scoreThreshold);
+        if (lastSemanticQuery && state.mode === 'semantic' && state.q === lastSemanticQuery) {
+          workerLoading = true;
+          renderProgress('Embedding query...');
+          worker.postMessage({ type: 'query', query: lastSemanticQuery, limit: semanticLimit });
+        } else {
+          workerLoading = false;
+        }
       } else if (message.type === 'status') {
-        setStatus(message.message || 'Working...');
+        renderProgress(message.message || 'Working...');
       } else if (message.type === 'results') {
+        if (state.mode !== 'semantic') return;
         if (requestId !== semanticRequestId && message.query !== state.q) return;
         workerLoading = false;
+        applyWorkerSemanticScoreSuggestion(message.scoreThreshold);
         latestSemanticRows = message.results || [];
         lastSemanticQuery = message.query || state.q;
         renderSemanticRows(latestSemanticRows);
       } else if (message.type === 'error') {
+        if (state.mode !== 'semantic') return;
         workerLoading = false;
         renderError(message.message || 'Semantic search failed.');
       }
     });
     worker.addEventListener('error', event => {
+      if (state.mode !== 'semantic') return;
       workerLoading = false;
       renderError(event.message || 'Semantic search worker failed.');
     });
     return worker;
   }
 
-  function openMaterialSearch(query) {
-    const toggle = document.getElementById('__search');
-    const searchInput = document.querySelector('.md-search__input');
-    if (toggle) toggle.checked = true;
-    if (!searchInput) return;
-    searchInput.focus();
-    if (query) {
-      searchInput.value = query;
-      searchInput.dispatchEvent(new Event('input', { bubbles: true }));
-      searchInput.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true }));
-    }
-  }
-
   function syncControls() {
     input.value = state.q || '';
+    if (modeControl) modeControl.dataset.activeMode = state.mode;
     Object.entries(filterInputs).forEach(([field, element]) => {
       element.value = state[field] || '';
     });
@@ -530,10 +577,94 @@
       button.setAttribute('aria-pressed', String(active));
     });
     activeFilters.innerHTML = renderActiveFilters();
+    syncThresholdControl();
+  }
+
+  function updateSettingsState() {
+    if (!settingsState || !settings || !settingsToggle) return;
+    const collapsed = settings.classList.contains('is-collapsed');
+    const label = collapsed ? 'Show Settings' : 'Hide Settings';
+    settingsState.textContent = label;
+    settingsToggle.title = label;
+  }
+
+  function readSemanticScoreThreshold(value, fallback) {
+    const threshold = Number(value);
+    if (!Number.isFinite(threshold)) return fallback;
+    const stepped = Math.round((Math.max(0, Math.min(1, threshold)) * 100) / 5) * 5;
+    return Math.max(0, Math.min(100, stepped)) / 100;
+  }
+
+  function applySemanticScoreSuggestion(value) {
+    const previous = semanticScoreThreshold;
+    const fallback = semanticSuggestedScoreThreshold ?? fallbackSemanticScoreThreshold;
+    const next = readSemanticScoreThreshold(value, fallback);
+    semanticSuggestedScoreThreshold = next;
+    if (!semanticThresholdTouched) semanticScoreThreshold = next;
+    syncThresholdControl();
+    if (
+      semanticScoreThreshold !== previous &&
+      state.mode === 'semantic' &&
+      latestSemanticRows &&
+      lastSemanticQuery === state.q
+    ) {
+      renderSemanticRows(latestSemanticRows);
+    }
+  }
+
+  function applyWorkerSemanticScoreSuggestion(value) {
+    if (semanticSettingsLoaded) return;
+    applySemanticScoreSuggestion(value);
+  }
+
+  function syncThresholdControl() {
+    const currentPercent = semanticThresholdPercent();
+    const hasSuggestion = semanticSuggestedScoreThreshold !== null;
+    const suggestedPercent = hasSuggestion ? Math.round(semanticSuggestedScoreThreshold * 100) : null;
+    if (thresholdInput) thresholdInput.value = String(currentPercent);
+    if (thresholdInput) thresholdInput.disabled = !hasSuggestion;
+    if (thresholdValue) thresholdValue.textContent = hasSuggestion ? `${currentPercent}%` : '...';
+    if (thresholdSuggested) thresholdSuggested.textContent = hasSuggestion ? `${suggestedPercent}%` : '...';
+    if (thresholdReset) {
+      thresholdReset.disabled = !hasSuggestion;
+      thresholdReset.classList.toggle('is-current', hasSuggestion && currentPercent === suggestedPercent);
+      if (hasSuggestion) {
+        thresholdReset.setAttribute('aria-label', `Reset similarity cutoff to suggested ${suggestedPercent}%`);
+        thresholdReset.title = `Reset to suggested ${suggestedPercent}%`;
+      } else {
+        thresholdReset.setAttribute('aria-label', 'Suggested similarity cutoff is loading');
+        thresholdReset.title = '';
+      }
+    }
+  }
+
+  function loadSemanticSettings() {
+    fetch(semanticSettingsUrl, { cache: 'no-cache' })
+      .then(response => (response.ok ? response.json() : null))
+      .then(settingsData => {
+        if (!settingsData) {
+          applySemanticScoreSuggestion(fallbackSemanticScoreThreshold);
+          return;
+        }
+        const settingsScoreThreshold = Number(settingsData.scoreThreshold);
+        if (!Number.isFinite(settingsScoreThreshold) || settingsScoreThreshold < 0 || settingsScoreThreshold > 1) {
+          applySemanticScoreSuggestion(fallbackSemanticScoreThreshold);
+          return;
+        }
+        semanticSettingsLoaded = true;
+        applySemanticScoreSuggestion(settingsScoreThreshold);
+      })
+      .catch(() => {
+        applySemanticScoreSuggestion(fallbackSemanticScoreThreshold);
+      });
+  }
+
+  function semanticThresholdPercent() {
+    return Math.round(semanticScoreThreshold * 100);
   }
 
   function renderActiveFilters() {
-    const filters = ['tag', 'author', 'year', 'source', 'type']
+    const filters = filterFields
       .filter(field => state[field])
       .map(field => (
         `<button type="button" data-clear-filter="${escAttr(field)}">` +
@@ -558,6 +689,20 @@
         `<span>${esc(fieldConfig[field].label)}</span>` +
         `<input id="${escAttr(id)}" type="${type}" list="${escAttr(id)}-list" autocomplete="off">` +
       '</label>'
+    );
+  }
+
+  function filterExpander(field) {
+    const isOpen = state[field] ? ' open' : '';
+    return (
+      `<details class="unified-search-filter-expander" data-filter-expander="${escAttr(field)}"${isOpen}>` +
+        '<summary>' +
+          `<span>${esc(fieldConfig[field].plural)}</span>` +
+          `<strong data-search-facet-count="${escAttr(field)}">0</strong>` +
+        '</summary>' +
+        filterControl(field) +
+        `<div class="unified-search-facet-list" data-search-facet-list="${escAttr(field)}"></div>` +
+      '</details>'
     );
   }
 
@@ -592,9 +737,9 @@
 
   function parseState() {
     const params = new URLSearchParams(window.location.search);
-    const defaultMode = app.dataset.defaultMode || 'metadata';
-    const rawMode = params.get('mode') || defaultMode;
-    const mode = Object.hasOwn(modeLabels, rawMode) ? rawMode : 'metadata';
+    const rawMode = params.get('mode');
+    const inferredMode = rawMode || inferDefaultMode(params);
+    const mode = Object.hasOwn(modeLabels, inferredMode) ? inferredMode : inferDefaultMode(params);
     return {
       mode,
       q: params.get('q') || '',
@@ -607,12 +752,21 @@
     };
   }
 
+  function inferDefaultMode(params) {
+    return filterFields.concat(['source_type', 'paper']).some(field => params.get(field))
+      ? 'metadata'
+      : defaultMode;
+  }
+
   function syncUrl(push) {
     const nextUrl = new URL(window.location.href);
+    const hasMetadataFilters = filterFields.some(field => state[field]) || Boolean(state.paper);
     nextUrl.search = '';
-    if (state.mode !== 'metadata') nextUrl.searchParams.set('mode', state.mode);
+    if (state.mode !== defaultMode || (state.mode === 'semantic' && hasMetadataFilters)) {
+      nextUrl.searchParams.set('mode', state.mode);
+    }
     if (state.q) nextUrl.searchParams.set('q', state.q);
-    ['tag', 'author', 'year', 'source', 'type'].forEach(field => {
+    filterFields.forEach(field => {
       if (state[field]) nextUrl.searchParams.set(field, state[field]);
     });
     if (state.paper && state.tag) nextUrl.searchParams.set('paper', state.paper);
@@ -635,17 +789,38 @@
     lastSemanticQuery = '';
   }
 
+  function handleFacetClick(event) {
+    const facetButton = event.target.closest('[data-search-facet]');
+    if (!facetButton) return false;
+    const field = facetButton.getAttribute('data-search-facet');
+    const value = facetButton.getAttribute('data-search-value') || '';
+    if (field && Object.hasOwn(fieldConfig, field)) {
+      state[field] = value;
+      state.paper = '';
+      useMetadataModeForEmptyQuery();
+      syncUrl(true);
+      render();
+    }
+    return true;
+  }
+
+  function useMetadataModeForEmptyQuery() {
+    if (state.mode === 'semantic' && !state.q && filterFields.some(field => state[field])) {
+      state.mode = 'metadata';
+    }
+  }
+
   function metadataTitle() {
     if (state.paper && state.tag) {
       const ego = papersById.get(state.paper);
       const paper = ego ? paperTitle(ego) : 'Selected Paper';
       return `${state.tag} near ${paper}`;
     }
-    const active = ['tag', 'author', 'year', 'source', 'type']
+    const active = filterFields
       .filter(field => state[field])
       .map(field => `${fieldConfig[field].label}: ${state[field]}`);
-    if (state.q) active.unshift(state.q);
-    return active.length ? active.join(' / ') : 'All Papers';
+    if (active.length) return active.join(' / ');
+    return state.q ? 'Results' : 'All Papers';
   }
 
   function metadataKicker() {
@@ -658,19 +833,10 @@
     return 'Metadata';
   }
 
-  function metadataStatus(total) {
-    if (state.paper && state.tag) return 'Showing related papers ranked by shared-tag similarity when available.';
-    if (state.q || state.tag || state.author || state.year || state.source || state.type) {
-      return `Matched ${total} papers across metadata fields.`;
-    }
-    return 'Ready.';
-  }
-
   function renderError(message) {
-    count.innerHTML = '<strong>!</strong><span>error</span>';
-    setStatus(message);
+    renderCount('!', 'error');
     panel.classList.remove('is-empty');
-    panel.innerHTML =
+    resultsBody.innerHTML =
       '<div class="tag-search-selection-empty semantic-search-error">' +
         '<h2>Search Unavailable</h2>' +
         `<p>${esc(message)}</p>` +
@@ -680,28 +846,27 @@
   function emptyBlock(title, message) {
     return (
       '<div class="tag-search-selection-empty">' +
-        `<h2>${esc(title)}</h2>` +
+        (title ? `<h2>${esc(title)}</h2>` : '') +
         `<p>${esc(message)}</p>` +
       '</div>'
     );
+  }
+
+  function renderProgress(message) {
+    if (!workerLoading || state.mode !== 'semantic' || !state.q) return;
+    if (latestSemanticRows && lastSemanticQuery === state.q) return;
+    panel.classList.remove('is-empty');
+    resultsBody.innerHTML =
+      '<div class="tag-search-selection-empty semantic-search-progress" role="status" aria-live="polite">' +
+        '<h2>Searching</h2>' +
+        `<p>${esc(message || 'Working...')}</p>` +
+      '</div>';
   }
 
   function actionLink(url, label) {
     return url
       ? `<a class="paper-link-pill paper-link-pill--internal" href="${escAttr(url)}"><span class="paper-link-pill__label">${esc(label)}</span></a>`
       : '';
-  }
-
-  function appHeader(title) {
-    return (
-      '<header class="kb-app-header kb-app-header--static tag-search-header">' +
-        `<h1 class="kb-app-header-title">${esc(title)}</h1>` +
-      '</header>'
-    );
-  }
-
-  function setStatus(message) {
-    status.textContent = workerLoading ? message : message || 'Ready.';
   }
 
   function comparePapers(a, b) {

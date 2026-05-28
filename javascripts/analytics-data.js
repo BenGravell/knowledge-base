@@ -117,12 +117,13 @@ window.analyticsData = {
       "region": "2000-present"
     },
     {
-      "label": "2025-2029",
+      "label": "2025-Present",
       "start": 2025,
-      "end": 2029,
+      "end": 2026,
       "width": 5,
       "count": 213,
-      "region": "2000-present"
+      "region": "2000-present",
+      "presentYear": 2026
     }
   ],
   "yearBins": {
@@ -232,12 +233,13 @@ window.analyticsData = {
         "region": "2000-present"
       },
       {
-        "label": "2025-2029",
+        "label": "2025-Present",
         "start": 2025,
-        "end": 2029,
+        "end": 2026,
         "width": 5,
         "count": 213,
-        "region": "2000-present"
+        "region": "2000-present",
+        "presentYear": 2026
       }
     ],
     "fine": [
