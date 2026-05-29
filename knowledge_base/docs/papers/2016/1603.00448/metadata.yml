@@ -1,6 +1,6 @@
 title: >
   Guided Cost Learning: Deep Inverse Optimal Control via Policy Optimization
-algorithm:
+algorithm: Guided Cost Learning
 authors:
   - Chelsea Finn
   - Sergey Levine

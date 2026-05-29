@@ -1,6 +1,6 @@
 title: >
   CoSaMP: Iterative Signal Recovery from Incomplete and Inaccurate Samples
-algorithm:
+algorithm: CoSaMP
 authors:
   - D. Needell
   - J. A. Tropp

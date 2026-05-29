@@ -1,6 +1,6 @@
 title: >
   HOGWILD! : A Lock-Free Approach to Parallelizing Stochastic Gradient Descent
-algorithm:
+algorithm: HOGWILD!
 authors:
   - Feng Niu
   - Benjamin Recht

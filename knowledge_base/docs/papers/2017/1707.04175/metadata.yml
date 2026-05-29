@@ -1,6 +1,6 @@
 title: >
   Distral: Robust Multitask Reinforcement Learning
-algorithm:
+algorithm: Distral
 authors:
   - Yee Whye Teh
   - Victor Bapst

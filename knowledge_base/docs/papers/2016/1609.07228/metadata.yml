@@ -1,6 +1,6 @@
 title: >
   EFANNA : An Extremely Fast Approximate Nearest Neighbor Search Algorithm Based on kNN Graph
-algorithm:
+algorithm: EFANNA
 authors:
   - Cong Fu
   - Deng Cai

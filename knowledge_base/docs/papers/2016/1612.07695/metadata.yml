@@ -1,6 +1,6 @@
 title: >
   MultiNet: Real-time Joint Semantic Reasoning for Autonomous Driving
-algorithm:
+algorithm: MultiNet
 authors:
   - Marvin Teichmann
   - Michael Weber

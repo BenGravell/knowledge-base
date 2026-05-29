@@ -1,6 +1,6 @@
 title: >
   Multimotion Visual Odometry (MVO): Simultaneous Estimation of Camera and Third-Party Motions
-algorithm:
+algorithm: MVO
 authors:
   - Kevin M. Judd
   - Jonathan D. Gammell

@@ -1,6 +1,6 @@
 title: >
   Woulda, Coulda, Shoulda: Counterfactually-Guided Policy Search
-algorithm:
+algorithm: CF-GPS
 authors:
   - Lars Buesing
   - Theophane Weber

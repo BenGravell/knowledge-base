@@ -1,6 +1,6 @@
 title: >
   Maximum a Posteriori Policy Optimisation
-algorithm:
+algorithm: MPO
 authors:
   - Abbas Abdolmaleki
   - Jost Tobias Springenberg

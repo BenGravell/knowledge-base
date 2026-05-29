@@ -1,6 +1,6 @@
 title: >
   PointPillars: Fast Encoders for Object Detection from Point Clouds
-algorithm:
+algorithm: PointPillars
 authors:
   - Alex H. Lang
   - Sourabh Vora

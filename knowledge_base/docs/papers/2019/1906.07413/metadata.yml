@@ -1,6 +1,6 @@
 title: >
   Learning Imbalanced Datasets with Label-Distribution-Aware Margin Loss
-algorithm:
+algorithm: LDAM
 authors:
   - Kaidi Cao
   - Colin Wei

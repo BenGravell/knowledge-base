@@ -1,6 +1,6 @@
 title: >
   CVXR: An R Package for Disciplined Convex Optimization
-algorithm:
+algorithm: CVXR
 authors:
   - Anqi Fu
   - Balasubramanian Narasimhan

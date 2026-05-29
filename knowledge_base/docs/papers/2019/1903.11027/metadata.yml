@@ -1,6 +1,6 @@
 title: >
   nuScenes: A Multimodal Dataset for Autonomous Driving
-algorithm:
+algorithm: nuScenes
 authors:
   - Holger Caesar
   - Varun Bankiti

@@ -1,6 +1,6 @@
 title: >
   SnapVX: A Network-Based Convex Optimization Solver
-algorithm:
+algorithm: SnapVX
 authors:
   - David Hallac
   - Christopher Wong

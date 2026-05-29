@@ -1,6 +1,6 @@
 title: >
   Universal Fast Gradient Method for Stochastic Composit Optimization Problems
-algorithm:
+algorithm: TM
 authors:
   - Alexander Gasnikov
   - Yurii Nesterov

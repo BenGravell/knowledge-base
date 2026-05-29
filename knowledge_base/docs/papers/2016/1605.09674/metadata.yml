@@ -1,6 +1,6 @@
 title: >
   VIME: Variational Information Maximizing Exploration
-algorithm:
+algorithm: VIME
 authors:
   - Rein Houthooft
   - Xi Chen

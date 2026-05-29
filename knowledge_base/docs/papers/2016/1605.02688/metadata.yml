@@ -1,6 +1,6 @@
 title: >
   Theano: A Python Framework for Fast Computation of Mathematical Expressions
-algorithm:
+algorithm: Theano
 authors:
   - The Theano Development Team
   - Rami Al-Rfou

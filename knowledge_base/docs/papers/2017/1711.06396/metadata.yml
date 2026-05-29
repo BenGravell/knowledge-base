@@ -1,6 +1,6 @@
 title: >
   VoxelNet: End-to-End Learning for Point Cloud Based 3D Object Detection
-algorithm:
+algorithm: VoxelNet
 authors:
   - Yin Zhou
   - Oncel Tuzel

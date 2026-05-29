@@ -1,6 +1,6 @@
 title: >
   ChauffeurNet: Learning to Drive by Imitating the Best and Synthesizing the Worst
-algorithm:
+algorithm: ChauffeurNet
 authors:
   - Mayank Bansal
   - Alex Krizhevsky

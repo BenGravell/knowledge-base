@@ -1,6 +1,6 @@
 title: >
   Shampoo: Preconditioned Stochastic Tensor Optimization
-algorithm:
+algorithm: Shampoo
 authors:
   - Vineet Gupta
   - Tomer Koren

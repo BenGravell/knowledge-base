@@ -1,6 +1,6 @@
 title: >
   PIXOR: Real-time 3D Object Detection from Point Clouds
-algorithm:
+algorithm: PIXOR
 authors:
   - Bin Yang
   - Wenjie Luo

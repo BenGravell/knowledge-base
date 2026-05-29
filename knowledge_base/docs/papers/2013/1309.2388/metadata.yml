@@ -1,6 +1,6 @@
 title: >
   Minimizing Finite Sums with the Stochastic Average Gradient
-algorithm:
+algorithm: SAG
 authors:
   - Mark Schmidt
   - Nicolas Le Roux
