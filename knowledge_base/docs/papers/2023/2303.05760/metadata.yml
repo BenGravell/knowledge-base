@@ -1,6 +1,6 @@
 title: >
   GameFormer: Game-theoretic Modeling and Learning of Transformer-based Interactive Prediction and Planning for Autonomous Driving
-algorithm:
+algorithm: GameFormer
 authors:
   - Zhiyu Huang
   - Haochen Liu

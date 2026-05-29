@@ -1,6 +1,6 @@
 title: >
   NeuPL: Neural Population Learning
-algorithm:
+algorithm: NeuPL
 authors:
   - Siqi Liu
   - Luke Marris

@@ -1,6 +1,6 @@
 title: >
   PIQP: A Proximal Interior-Point Quadratic Programming Solver
-algorithm:
+algorithm: PIQP
 authors:
   - Roland Schwan
   - Yuning Jiang

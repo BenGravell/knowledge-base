@@ -1,6 +1,6 @@
 title: >
   BITS: Bi-level Imitation for Traffic Simulation
-algorithm:
+algorithm: BITS
 authors:
   - Danfei Xu
   - Yuxiao Chen

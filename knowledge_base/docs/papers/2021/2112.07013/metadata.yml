@@ -1,6 +1,6 @@
 title: >
   PantheonRL: A MARL Library for Dynamic Training Interactions
-algorithm:
+algorithm: PantheonRL
 authors:
   - Bidipta Sarkar
   - Aditi Talati

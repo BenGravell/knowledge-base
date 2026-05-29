@@ -1,6 +1,6 @@
 title: >
   RAYEN: Imposition of Hard Convex Constraints on Neural Networks
-algorithm:
+algorithm: RAYEN
 authors:
   - Jesus Tordesillas
   - Victor Klemm

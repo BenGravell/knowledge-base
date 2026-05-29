@@ -1,6 +1,6 @@
 title: >
   Deep-PANTHER: Learning-Based Perception-Aware Trajectory Planner in Dynamic Environments
-algorithm:
+algorithm: Deep-PANTHER
 authors:
   - Jesus Tordesillas
   - Jonathan P. How

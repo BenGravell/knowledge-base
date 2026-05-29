@@ -1,6 +1,6 @@
 title: >
   DR3: Value-Based Deep Reinforcement Learning Requires Explicit Regularization
-algorithm:
+algorithm: DR3
 authors:
   - Aviral Kumar
   - Rishabh Agarwal

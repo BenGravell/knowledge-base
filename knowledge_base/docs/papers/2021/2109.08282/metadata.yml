@@ -1,6 +1,6 @@
 title: >
   AdaLoss: A Computationally-efficient and Provably Convergent Adaptive Gradient Method
-algorithm:
+algorithm: AdaLoss
 authors:
   - Xiaoxia Wu
   - Yuege Xie

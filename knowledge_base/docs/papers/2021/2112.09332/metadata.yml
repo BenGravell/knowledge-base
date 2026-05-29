@@ -1,6 +1,6 @@
 title: >
   WebGPT: Browser-assisted Question-answering with Human Feedback
-algorithm:
+algorithm: WebGPT
 authors:
   - Reiichiro Nakano
   - Jacob Hilton

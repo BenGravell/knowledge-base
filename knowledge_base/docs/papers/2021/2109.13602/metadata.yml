@@ -1,6 +1,6 @@
 title: >
   SafetyNet: Safe Planning for Real-world Self-driving Vehicles Using Machine-learned Policies
-algorithm:
+algorithm: SafetyNet
 authors:
   - Matt Vitelli
   - Yan Chang

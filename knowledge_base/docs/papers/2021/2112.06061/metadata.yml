@@ -1,6 +1,6 @@
 title: >
   OstrichRL: A Musculoskeletal Ostrich Simulation to Study Bio-mechanical Locomotion
-algorithm:
+algorithm: OstrichRL
 authors:
   - Vittorio La Barbera
   - Fabio Pardo

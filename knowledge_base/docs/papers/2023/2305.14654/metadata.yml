@@ -1,6 +1,6 @@
 title: >
   Barkour: Benchmarking Animal-level Agility with Quadruped Robots
-algorithm:
+algorithm: Barkour
 authors:
   - Ken Caluwaerts
   - Atil Iscen

@@ -1,6 +1,6 @@
 title: >
   GRiD: GPU-Accelerated Rigid Body Dynamics with Analytical Gradients
-algorithm:
+algorithm: GRiD
 authors:
   - Brian Plancher
   - Sabrina M. Neuman

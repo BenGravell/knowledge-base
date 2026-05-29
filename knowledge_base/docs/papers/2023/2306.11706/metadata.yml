@@ -1,6 +1,6 @@
 title: >
   RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation
-algorithm:
+algorithm: RoboCat
 authors:
   - Konstantinos Bousmalis
   - Giulia Vezzani

@@ -1,6 +1,6 @@
 title: >
   Robowflex: Robot Motion Planning with MoveIt Made Easy
-algorithm:
+algorithm: Robowflex
 authors:
   - Zachary Kingston
   - Lydia E. Kavraki

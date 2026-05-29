@@ -1,6 +1,6 @@
 title: >
   PANTHER: Perception-Aware Trajectory Planner in Dynamic Environments
-algorithm:
+algorithm: PANTHER
 authors:
   - Jesus Tordesillas
   - Jonathan P. How

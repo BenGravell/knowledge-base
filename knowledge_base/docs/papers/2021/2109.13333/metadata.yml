@@ -1,6 +1,6 @@
 title: >
   Urban Driver: Learning to Drive from Real-world Demonstrations Using Policy Gradients
-algorithm:
+algorithm: Urban Driver
 authors:
   - Oliver Scheel
   - Luca Bergamini

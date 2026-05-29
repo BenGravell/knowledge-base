@@ -1,6 +1,6 @@
 title: >
   TransFollower: Long-Sequence Car-Following Trajectory Prediction through Transformer
-algorithm:
+algorithm: TransFollower
 authors:
   - Meixin Zhu
   - Simon S. Du

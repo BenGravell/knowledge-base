@@ -1,6 +1,6 @@
 title: >
   Sophia: A Scalable Stochastic Second-order Optimizer for Language Model Pre-training
-algorithm:
+algorithm: Sophia
 authors:
   - Hong Liu
   - Zhiyuan Li

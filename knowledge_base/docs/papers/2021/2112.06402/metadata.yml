@@ -1,6 +1,6 @@
 title: >
   MotionBenchMaker: A Tool to Generate and Benchmark Motion Planning Datasets
-algorithm:
+algorithm: MotionBenchMaker
 authors:
   - Constantinos Chamzas
   - Carlos Quintero-Pena

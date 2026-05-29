@@ -1,6 +1,6 @@
 title: >
   IntentNet: Learning to Predict Intention from Raw Sensor Data
-algorithm:
+algorithm: IntentNet
 authors:
   - Sergio Casas
   - Wenjie Luo

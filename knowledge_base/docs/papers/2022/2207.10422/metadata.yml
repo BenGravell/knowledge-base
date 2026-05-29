@@ -1,6 +1,6 @@
 title: >
   Differentiable Integrated Motion Prediction and Planning with Learnable Cost Function for Autonomous Driving
-algorithm:
+algorithm: DIPP
 authors:
   - Zhiyu Huang
   - Haochen Liu

@@ -1,6 +1,6 @@
 title: >
   PolarStream: Streaming Lidar Object Detection and Segmentation with Polar Pillars
-algorithm:
+algorithm: PolarStream
 authors:
   - Qi Chen
   - Sourabh Vora

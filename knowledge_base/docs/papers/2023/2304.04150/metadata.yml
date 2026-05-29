@@ -1,6 +1,6 @@
 title: >
   RoboPianist: Dexterous Piano Playing with Deep Reinforcement Learning
-algorithm:
+algorithm: RoboPianist
 authors:
   - Kevin Zakka
   - Philipp Wu

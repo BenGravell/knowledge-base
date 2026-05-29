@@ -1,6 +1,6 @@
 title: >
   Rethinking Closed-loop Training for Autonomous Driving
-algorithm:
+algorithm: TRAVL
 authors:
   - Chris Zhang
   - Runsheng Guo
