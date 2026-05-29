@@ -1,8 +1,8 @@
 """Enrich existing raw arXiv metadata.yml files from the arXiv Atom API.
 
 This updates already-created metadata entries in place. It is intentionally
-conservative: factual bibliographic fields come from arXiv, while tags and
-summary are derived from arXiv categories and abstracts.
+conservative: factual bibliographic fields come from arXiv, while tags are
+derived from arXiv categories and abstracts.
 """
 
 from __future__ import annotations
@@ -190,6 +190,64 @@ def dump_yaml(data: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+TOP_LEVEL_FIELD_RE = re.compile(
+    r"^(?P<key>[A-Za-z_][A-Za-z0-9_]*):(?P<value>[^\n\r]*)(?P<newline>\r?\n?)$"
+)
+
+
+def top_level_field_span(lines: list[str], start: int) -> tuple[str, str, int] | None:
+    match = TOP_LEVEL_FIELD_RE.match(lines[start])
+    if not match:
+        return None
+
+    field_name = match.group("key")
+    value = match.group("value")
+    end = start + 1
+    if value.lstrip().startswith(("|", ">")) or (
+        end < len(lines) and lines[end].startswith((" ", "\t"))
+    ):
+        while end < len(lines):
+            next_line = lines[end]
+            if next_line.strip() and not next_line.startswith((" ", "\t")):
+                break
+            end += 1
+
+    return field_name, value, end
+
+
+def format_scalar_line(field_name: str, value: object, newline: str = "\n") -> str:
+    if value is None or value == "":
+        return f"{field_name}:{newline}"
+
+    dumped = yaml.safe_dump(
+        {field_name: value},
+        sort_keys=False,
+        allow_unicode=True,
+        width=1_000_000_000,
+    ).strip()
+    return f"{dumped}{newline}"
+
+
+def replace_scalar_field(raw: str, field_name: str, value: object) -> str:
+    lines = raw.splitlines(keepends=True)
+    for start, line in enumerate(lines):
+        parsed = top_level_field_span(lines, start)
+        if parsed is None:
+            continue
+
+        current_field, _current_value, end = parsed
+        if current_field != field_name:
+            continue
+
+        match = TOP_LEVEL_FIELD_RE.match(line)
+        newline = match.group("newline") if match else "\n"
+        replacement = format_scalar_line(field_name, value, newline or "\n")
+        return "".join(lines[:start] + [replacement] + lines[end:])
+
+    prefix = raw if raw.endswith("\n") or not raw else f"{raw}\n"
+    return f"{prefix}{format_scalar_line(field_name, value)}"
+
+
 def title_case_ascii(title: str) -> str:
     # Keep acronyms/math-ish tokens intact while matching the repository's
     # title-case expectation closely enough for audit.
@@ -236,95 +294,6 @@ def title_case_ascii(title: str) -> str:
         else:
             cased.append(token[:1].upper() + token[1:].lower())
     return "".join(cased)
-
-
-def first_sentences(text: str, limit: int = 2) -> list[str]:
-    bits = re.split(r"(?<=[.!?])\s+(?=[A-Z0-9$])", clean_space(text))
-    return [bit.strip() for bit in bits if bit.strip()][:limit]
-
-
-def lower_first(text: str) -> str:
-    return text[:1].lower() + text[1:] if text else text
-
-
-def ensure_period(text: str) -> str:
-    text = text.strip()
-    return text if not text or text[-1] in ".!?" else f"{text}."
-
-
-VERB_THIRD_PERSON = {
-    "address": "addresses",
-    "analyze": "analyzes",
-    "characterize": "characterizes",
-    "consider": "considers",
-    "demonstrate": "demonstrates",
-    "derive": "derives",
-    "describe": "describes",
-    "develop": "develops",
-    "establish": "establishes",
-    "examine": "examines",
-    "explore": "explores",
-    "give": "gives",
-    "investigate": "investigates",
-    "introduce": "introduces",
-    "present": "presents",
-    "prove": "proves",
-    "provide": "provides",
-    "propose": "proposes",
-    "show": "shows",
-    "study": "studies",
-}
-
-
-def observer_sentence(sentence: str) -> str:
-    sentence = ensure_period(sentence)
-    lowered = sentence.lower()
-    if lowered.startswith("this paper "):
-        return sentence
-
-    match = re.match(
-        r"^(?:in this (?:paper|work|article),?\s+|here,?\s+)?we\s+"
-        r"(address|analyze|characterize|consider|demonstrate|derive|describe|develop|"
-        r"establish|examine|explore|give|investigate|introduce|present|prove|provide|"
-        r"propose|show|study)\s+(.+)$",
-        sentence,
-        flags=re.IGNORECASE,
-    )
-    if match:
-        verb = VERB_THIRD_PERSON[match.group(1).lower()]
-        rest = match.group(2)
-        return ensure_period(f"This paper {verb} {rest}")
-
-    if lowered.startswith(("we ", "our ")):
-        return ensure_period(f"The arXiv abstract states that {lower_first(sentence)}")
-
-    return sentence
-
-
-def follow_on_sentence(sentence: str) -> str:
-    cleaned = re.sub(
-        r"^(specifically|in particular|moreover|furthermore|additionally),\s+",
-        "",
-        ensure_period(sentence),
-        flags=re.IGNORECASE,
-    )
-    observed = observer_sentence(cleaned)
-    if observed.startswith("This paper "):
-        return ensure_period(f"It also {lower_first(observed[len('This paper '):])}")
-    prefix = "The arXiv abstract states that "
-    if observed.startswith(prefix):
-        return ensure_period(f"The abstract also states that {observed[len(prefix):]}")
-    return ensure_period(f"The abstract also notes that {lower_first(observed)}")
-
-
-def build_summary(record: ArxivRecord) -> str:
-    sentences = first_sentences(record.abstract, 2)
-    if not sentences:
-        return ""
-    summary = observer_sentence(sentences[0])
-    if len(sentences) > 1 and len(summary) < 280:
-        summary = f"{summary} {follow_on_sentence(sentences[1])}"
-    return summary
 
 
 def build_tags(record: ArxivRecord) -> list[str]:
@@ -617,7 +586,7 @@ def enrich(path: Path, record: ArxivRecord) -> bool:
     data["doi"] = data.get("doi") or record.doi or None
     data["arxiv_id"] = normalize_arxiv_id(record.arxiv_id or data.get("arxiv_id")) or None
     data["abstract"] = record.abstract or data.get("abstract") or ""
-    data["summary"] = data.get("summary") or build_summary(record)
+    data["summary"] = data.get("summary") or ""
     data["link"] = arxiv_pdf_url(data["arxiv_id"])
 
     links = list(data.get("links_alt") or [])
@@ -648,9 +617,8 @@ def enrich(path: Path, record: ArxivRecord) -> bool:
     return False
 
 
-def refresh_derived(path: Path) -> bool:
+def refresh_derived(path: Path, *, dry_run: bool = False) -> bool:
     data = load_yaml(path)
-    before = dump_yaml(data)
     record = ArxivRecord(
         arxiv_id=data.get("arxiv_id") or "",
         title=data.get("title") or "",
@@ -664,27 +632,28 @@ def refresh_derived(path: Path) -> bool:
         categories=[],
     )
 
-    data["summary"] = build_summary(record) or data.get("summary") or ""
-
     algorithm = data.get("algorithm") or ""
     inferred = infer_algorithm(record)
-    if algorithm.lower() in GENERIC_ALGORITHMS or (algorithm and len(algorithm) <= 2 and not algorithm_like(algorithm)):
-        data["algorithm"] = inferred or None
+    if algorithm.lower() in GENERIC_ALGORITHMS or (
+        algorithm and len(algorithm) <= 2 and not algorithm_like(algorithm)
+    ):
+        new_algorithm = inferred or None
     elif not algorithm:
-        data["algorithm"] = inferred or None
+        new_algorithm = inferred or None
+    else:
+        new_algorithm = algorithm or None
 
-    if data.get("arxiv_id") == "1512.09075v1" and "no longer abstract" in (data.get("abstract") or ""):
-        data["abstract"] = (
-            "This paper specifies a notation for Markov decision processes. "
-            "The arXiv record and abstract page do not provide a longer abstract for this item."
+    if new_algorithm == (algorithm or None):
+        return False
+
+    if not dry_run:
+        raw = path.read_text(encoding="utf-8")
+        path.write_text(
+            replace_scalar_field(raw, "algorithm", new_algorithm),
+            encoding="utf-8",
         )
-
-    data["audit_status"] = "raw"
-    after = dump_yaml(data)
-    if after != before:
-        path.write_text(after, encoding="utf-8")
         return True
-    return False
+    return True
 
 
 def main() -> None:
@@ -696,7 +665,7 @@ def main() -> None:
     parser.add_argument(
         "--refresh-derived",
         action="store_true",
-        help="Regenerate summaries and cautious algorithm labels from existing local metadata.",
+        help="Refresh cautious algorithm labels from existing local metadata.",
     )
     args = parser.parse_args()
 
@@ -706,7 +675,7 @@ def main() -> None:
     if args.refresh_derived:
         updated = 0
         for path in paths:
-            if args.dry_run or refresh_derived(path):
+            if refresh_derived(path, dry_run=args.dry_run):
                 updated += 1
         print(f"Done: {updated} refreshed")
         return

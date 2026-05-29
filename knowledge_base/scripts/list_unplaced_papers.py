@@ -4,6 +4,7 @@ Usage:
   python scripts/list_unplaced_papers.py
   python scripts/list_unplaced_papers.py --neighbors 3
   python scripts/list_unplaced_papers.py --format paths
+  python scripts/list_unplaced_papers.py --write-tree
   python scripts/list_unplaced_papers.py --fail-on-missing
 """
 
@@ -12,6 +13,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -20,23 +22,33 @@ from typing import Any
 import yaml
 
 from knowledge_base.config import KB_DIR
-from knowledge_base.tree.nav_source import load_tree
+from knowledge_base.tree.nav_source import load_tree, metadata_source_path, tree_from_file
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
 MKDOCS_YML = KB_DIR / "mkdocs.yml"
 EMBEDDING_CACHE = KB_DIR / "map" / "embedding_cache.json"
+TREE_YML = KB_DIR / "tree.yml"
 
 
 @dataclass(frozen=True)
 class Paper:
     id: str
     title: str
+    algorithm: str
     metadata_path: Path
     generated_path: str
     abstract: str
     tags: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class TreeLeaf:
+    id: str
+    label: str
+    source: str
+    nav_path: list[str]
 
 
 def paper_id_from_file(metadata_file: Path, data: dict[str, Any]) -> str:
@@ -60,11 +72,13 @@ def collect_papers(metadata_root: Path) -> dict[str, Paper]:
 
         paper_id = paper_id_from_file(metadata_file, data)
         title = " ".join(str(data.get("title") or paper_id).split())
+        algorithm = " ".join(str(data.get("algorithm") or "").split())
         abstract = str(data.get("abstract") or "").strip()
         tags = tuple(str(tag) for tag in as_list(data.get("tags")))
         papers[paper_id] = Paper(
             id=paper_id,
             title=title,
+            algorithm=algorithm,
             metadata_path=metadata_file,
             generated_path=f"papers/{paper_id}.md",
             abstract=abstract,
@@ -100,6 +114,45 @@ def collect_nav_locations(nav: Any) -> dict[str, list[str]]:
 
     walk(nav, [])
     return locations
+
+
+def collect_tree_leaves(nav: Any, *, base_dir: Path = KB_DIR) -> dict[str, TreeLeaf]:
+    """Map generated paper ID to its raw tree source and nav path."""
+    leaves: dict[str, TreeLeaf] = {}
+
+    def walk(node: Any, labels: list[str]) -> None:
+        if isinstance(node, str):
+            return
+
+        if isinstance(node, list):
+            for item in node:
+                walk(item, labels)
+            return
+
+        if isinstance(node, dict):
+            for label, child in node.items():
+                label_text = str(label)
+                if isinstance(child, str):
+                    metadata_path = metadata_source_path(child, base_dir)
+                    if metadata_path is not None and metadata_path.exists():
+                        with metadata_path.open("r", encoding="utf-8") as f:
+                            data = yaml.safe_load(f) or {}
+                        if isinstance(data, dict):
+                            paper_id = paper_id_from_file(metadata_path, data)
+                            leaves.setdefault(
+                                paper_id,
+                                TreeLeaf(
+                                    id=paper_id,
+                                    label=label_text,
+                                    source=child,
+                                    nav_path=labels + [label_text],
+                                ),
+                            )
+                    continue
+                walk(child, labels + [label_text])
+
+    walk(nav, [])
+    return leaves
 
 
 def load_embeddings(cache_path: Path) -> dict[str, list[float]]:
@@ -151,6 +204,147 @@ def relative_to_kb(path: Path) -> str:
         return str(path.relative_to(KB_DIR))
     except ValueError:
         return str(path)
+
+
+def yaml_key(value: str) -> str:
+    placeholder = "__KB_TREE_LABEL_VALUE__"
+    dumped = yaml.safe_dump(
+        [{value: placeholder}],
+        allow_unicode=True,
+        default_flow_style=False,
+        sort_keys=False,
+        width=10_000,
+    ).strip()
+    match = re.fullmatch(r"- (.*): " + re.escape(placeholder), dumped)
+    if not match:
+        raise ValueError(f"Could not render YAML key for {value!r}")
+    return match.group(1)
+
+
+def tree_label(paper: Paper) -> str:
+    return paper.algorithm or paper.title
+
+
+def tree_source(paper: Paper) -> str:
+    return relative_to_kb(paper.metadata_path)
+
+
+def leaf_line_pattern(source: str) -> re.Pattern[str]:
+    return re.compile(
+        rf"^(?P<indent>\s*)-\s+(?P<label>.+):\s+{re.escape(source)}\s*(?P<comment>#.*)?$"
+    )
+
+
+def insert_after_leaf(lines: list[str], source: str, new_line: str) -> bool:
+    pattern = leaf_line_pattern(source)
+    for index, line in enumerate(lines):
+        if pattern.match(line.rstrip("\n")):
+            lines.insert(index + 1, new_line)
+            return True
+    return False
+
+
+def write_tree_placements(
+    missing: list[Paper],
+    nav_locations: dict[str, list[str]],
+    tree_leaves: dict[str, TreeLeaf],
+    embeddings: dict[str, list[float]],
+    *,
+    tree_path: Path,
+    min_neighbor_score: float,
+) -> tuple[list[tuple[Paper, TreeLeaf, float]], list[tuple[Paper, str]]]:
+    placed: list[tuple[Paper, TreeLeaf, float]] = []
+    skipped: list[tuple[Paper, str]] = []
+    placed_ids = set(nav_locations)
+
+    text = tree_path.read_text(encoding="utf-8")
+    lines = text.splitlines(keepends=True)
+    had_trailing_newline = text.endswith("\n")
+
+    used_sources = {leaf.source for leaf in tree_leaves.values()}
+    insertion_anchor_by_neighbor_source: dict[str, str] = {}
+    for paper in missing:
+        source = tree_source(paper)
+        if source in used_sources:
+            skipped.append((paper, "already present in tree.yml"))
+            continue
+
+        candidates = nearest_placed_neighbors(paper.id, placed_ids, embeddings, top_k=1)
+        if not candidates:
+            skipped.append((paper, "no placed embedding neighbor found"))
+            continue
+
+        neighbor_id, score = candidates[0]
+        if score < min_neighbor_score:
+            skipped.append(
+                (
+                    paper,
+                    f"best neighbor score {score:.3f} is below --min-neighbor-score {min_neighbor_score:.3f}",
+                )
+            )
+            continue
+
+        neighbor = tree_leaves.get(neighbor_id)
+        if neighbor is None:
+            skipped.append((paper, f"nearest neighbor `{neighbor_id}` has no raw tree source"))
+            continue
+
+        pattern = leaf_line_pattern(neighbor.source)
+        indent = None
+        for line in lines:
+            match = pattern.match(line.rstrip("\n"))
+            if match:
+                indent = match.group("indent")
+                break
+        if indent is None:
+            skipped.append((paper, f"could not find neighbor source `{neighbor.source}` in tree.yml"))
+            continue
+
+        line = f"{indent}- {yaml_key(tree_label(paper))}: {source}\n"
+        insertion_anchor = insertion_anchor_by_neighbor_source.get(neighbor.source, neighbor.source)
+        if not insert_after_leaf(lines, insertion_anchor, line):
+            skipped.append((paper, f"could not insert after source `{insertion_anchor}`"))
+            continue
+
+        insertion_anchor_by_neighbor_source[neighbor.source] = source
+        placed.append((paper, neighbor, score))
+        placed_ids.add(paper.id)
+        used_sources.add(source)
+        tree_leaves[paper.id] = TreeLeaf(
+            id=paper.id,
+            label=tree_label(paper),
+            source=source,
+            nav_path=neighbor.nav_path[:-1] + [tree_label(paper)],
+        )
+        nav_locations[paper.id] = neighbor.nav_path[:-1] + [tree_label(paper)]
+
+    new_text = "".join(lines)
+    if had_trailing_newline and not new_text.endswith("\n"):
+        new_text += "\n"
+
+    if placed:
+        yaml.safe_load(new_text)
+        tree_path.write_text(new_text, encoding="utf-8")
+
+    return placed, skipped
+
+
+def print_write_summary(
+    placed: list[tuple[Paper, TreeLeaf, float]],
+    skipped: list[tuple[Paper, str]],
+) -> None:
+    print(f"Wrote {len(placed)} placement(s) to tree.yml.")
+    for paper, neighbor, score in placed:
+        location = " > ".join(neighbor.nav_path[:-1])
+        print(
+            f"- {tree_label(paper)} (`{paper.id}`) after `{neighbor.id}` "
+            f"({score:.3f}) in {location}"
+        )
+
+    if skipped:
+        print(f"\nSkipped {len(skipped)} paper(s):")
+        for paper, reason in skipped:
+            print(f"- {paper.title} (`{paper.id}`): {reason}")
 
 
 def print_markdown(
@@ -245,6 +439,26 @@ def main() -> None:
         action="store_true",
         help="Exit with status 1 when any missing papers are found.",
     )
+    parser.add_argument(
+        "--write-tree",
+        action="store_true",
+        help=(
+            "Insert missing papers into tree.yml after their nearest already-placed "
+            "embedding neighbor. Uses the metadata algorithm as the label when present."
+        ),
+    )
+    parser.add_argument(
+        "--tree-yml",
+        type=Path,
+        default=TREE_YML,
+        help="Tree YAML file to read and optionally write.",
+    )
+    parser.add_argument(
+        "--min-neighbor-score",
+        type=float,
+        default=-1.0,
+        help="When writing, skip placements below this cosine-similarity score.",
+    )
     args = parser.parse_args()
 
     with MKDOCS_YML.open("r", encoding="utf-8") as f:
@@ -256,7 +470,28 @@ def main() -> None:
     nav_locations = collect_nav_locations(load_tree(config))
     missing = [paper for paper_id, paper in sorted(papers.items()) if paper_id not in nav_locations]
     display = missing[: args.max_results] if args.max_results is not None else missing
-    embeddings = load_embeddings(EMBEDDING_CACHE) if args.neighbors > 0 else {}
+    needs_embeddings = args.neighbors > 0 or args.write_tree
+    embeddings = load_embeddings(EMBEDDING_CACHE) if needs_embeddings else {}
+
+    if args.write_tree:
+        if not embeddings:
+            sys.exit(
+                f"Could not load embeddings from {EMBEDDING_CACHE}. "
+                "Run `python map/generate_map_data.py` first."
+            )
+        tree_leaves = collect_tree_leaves(tree_from_file(args.tree_yml, normalize=False))
+        placed, skipped = write_tree_placements(
+            display,
+            nav_locations,
+            tree_leaves,
+            embeddings,
+            tree_path=args.tree_yml,
+            min_neighbor_score=args.min_neighbor_score,
+        )
+        print_write_summary(placed, skipped)
+        if args.fail_on_missing and (len(missing) - len(placed) > 0):
+            raise SystemExit(1)
+        return
 
     if args.format == "paths":
         for paper in display:
