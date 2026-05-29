@@ -486,6 +486,29 @@ _LAST_NAME_PARTICLES = {
     "von",
 }
 _NON_INDIVIDUAL_AUTHOR_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    (
+        "known organization author",
+        re.compile(
+            r"^(?:"
+            r"OpenAI|"
+            r"Google(?:\s+(?:Research|Brain|DeepMind))?|"
+            r"DeepMind|"
+            r"Anthropic|"
+            r"Meta(?:\s+AI)?|"
+            r"Facebook(?:\s+(?:AI|Research|AI\s+Research))?|"
+            r"Microsoft(?:\s+Research)?|"
+            r"Apple|"
+            r"Amazon|"
+            r"Alibaba(?:\s+(?:Cloud|Group))?|"
+            r"Qwen|"
+            r"Baidu|"
+            r"Tencent|"
+            r"NVIDIA|"
+            r"IBM(?:\s+Research)?"
+            r")$",
+            re.I,
+        ),
+    ),
     ("team author", re.compile(r"\bteam\b", re.I)),
     ("collaboration author", re.compile(r"\bcollaboration\b", re.I)),
     ("consortium author", re.compile(r"\bconsortium\b", re.I)),
@@ -583,6 +606,25 @@ _COMMON_MISSPELLINGS: dict[str, str] = {
     "unkown": "unknown",
     "usefull": "useful",
 }
+_HIGH_CONFIDENCE_OCR_ARTIFACTS: tuple[tuple[str, re.Pattern[str], str], ...] = (
+    ("solution", re.compile(r"\bso[-\s]*Iutio+n\b"), "solution"),
+    ("conventional", re.compile(r"\bcorwen[-\s]*tional\b"), "conventional"),
+    (
+        "conventional",
+        re.compile(r"\bcorwent\s+i\s*o\s*n\s*a\s*l\b"),
+        "conventional",
+    ),
+    ("techniques", re.compile(r"\btechniqucs\b"), "techniques"),
+    (
+        "techniques",
+        re.compile(r"\bt\s+e\s+c\s+h\s+n\s+i\s+q\s+u\s+e\s+s\b"),
+        "techniques",
+    ),
+    ("particular", re.compile(r"\bpt~rticular\b"), "particular"),
+)
+_HIGH_CONFIDENCE_OCR_ARTIFACT_ISSUE_PREFIX = (
+    "Contains high-confidence OCR artifact(s):"
+)
 _OCR_SPLIT_WORDS = {
     "acceleration",
     "algorithm",
@@ -852,6 +894,10 @@ def _non_individual_author_reason(author: str) -> str | None:
     for reason, pattern in _NON_INDIVIDUAL_AUTHOR_PATTERNS:
         if pattern.search(stripped):
             return reason
+    if not re.search(r"[A-Za-z]", stripped):
+        return "non-name author token"
+    if len(stripped.split()) == 1:
+        return "single-token author"
     return None
 
 
@@ -1449,6 +1495,44 @@ def find_likely_misspelling_issues(
             field,
             f"Contains likely misspelling(s): {examples}",
             "Review against the source text and fix only genuine typos.",
+            severity=Severity.WARNING,
+        )
+    ]
+
+
+def _apply_high_confidence_ocr_replacements(text: str) -> tuple[str, int]:
+    fixed = text
+    changed = 0
+    for _label, pattern, replacement in _HIGH_CONFIDENCE_OCR_ARTIFACTS:
+        fixed, count = pattern.subn(replacement, fixed)
+        changed += count
+    return fixed, changed
+
+
+def find_high_confidence_ocr_artifact_issues(
+    path: Path,
+    field: str,
+    text: str,
+) -> list[Issue]:
+    hits: list[tuple[str, str]] = []
+    for label, pattern, _replacement in _HIGH_CONFIDENCE_OCR_ARTIFACTS:
+        for match in pattern.finditer(text):
+            hits.append((match.group(0), label))
+
+    if not hits:
+        return []
+
+    examples = ", ".join(
+        f"{artifact!r} -> {replacement!r}" for artifact, replacement in hits[:6]
+    )
+    if len(hits) > 6:
+        examples += f", ... ({len(hits)} total)"
+    return [
+        Issue(
+            path,
+            field,
+            f"{_HIGH_CONFIDENCE_OCR_ARTIFACT_ISSUE_PREFIX} {examples}",
+            "Replace exact OCR artifacts with their clean source words.",
             severity=Severity.WARNING,
         )
     ]
@@ -2456,7 +2540,7 @@ def audit_file(
                         "authors",
                         "Author entries appear to be non-individual names at index(es): "
                         f"{list(non_individual)}",
-                        f"Replace team/institution placeholders with individual human authors where available; review: {examples}",
+                        f"Replace organizations, team/institution placeholders, and one-token names with individual human authors where available; review: {examples}",
                     )
                 )
             suspicious_chars = {}
@@ -2524,6 +2608,13 @@ def audit_file(
         else:
             issues.extend(find_weird_text_character_issues(path, "abstract", abstract_str))
             issues.extend(find_likely_misspelling_issues(path, "abstract", abstract_str))
+            issues.extend(
+                find_high_confidence_ocr_artifact_issues(
+                    path,
+                    "abstract",
+                    abstract_str,
+                )
+            )
             issues.extend(find_ocr_spacing_issues(path, "abstract", abstract_str))
             audit_status = str(data.get(AUDIT_STATUS_FIELD) or "").strip()
             issues.extend(
@@ -2919,6 +3010,8 @@ def audit_map_data_paths(
 
 _TITLE_LINE_RE = re.compile(r"^title\s*:\s*(?P<value>.*?)(?P<newline>\r?\n?)$")
 _BLOCK_SCALAR_HEADER_RE = re.compile(r"^[>|][0-9+-]*(?:\s+#.*)?$")
+_EMPTY_YAML_LIST_KEY_RE = re.compile(r"^[ \t]*-\s*:\s*(?:#.*)?\r?\n?", re.M)
+_C1_CONTROL_CHAR_RE = re.compile(r"[\u0080-\u009f]")
 
 
 def _format_title_line(new_title: str, line_ending: str = "\n") -> str:
@@ -3150,6 +3243,10 @@ def _is_publisher_mark_abstract_issue(issue: Issue) -> bool:
     )
 
 
+def _is_high_confidence_ocr_artifact_issue(issue: Issue) -> bool:
+    return issue.message.startswith(_HIGH_CONFIDENCE_OCR_ARTIFACT_ISSUE_PREFIX)
+
+
 def _delete_publisher_marks_from_abstract(abstract: str) -> tuple[str, int]:
     cleaned = abstract
     removed = 0
@@ -3166,6 +3263,64 @@ def _delete_publisher_marks_from_abstract(abstract: str) -> tuple[str, int]:
 def _fix_escaped_sequences_in_yaml(raw: str) -> tuple[str, int]:
     new_raw = _html_unescape_repeated(raw)
     return new_raw, len(_HTML_ENTITY_RE.findall(raw))
+
+
+def _decode_utf8_mojibake_controls(raw: str) -> tuple[str, int]:
+    if not _C1_CONTROL_CHAR_RE.search(raw):
+        return raw, 0
+
+    pieces: list[str] = []
+    decoded = 0
+    index = 0
+    while index < len(raw):
+        codepoint = ord(raw[index])
+        if 0xC2 <= codepoint <= 0xDF:
+            byte_count = 2
+        elif 0xE0 <= codepoint <= 0xEF:
+            byte_count = 3
+        elif 0xF0 <= codepoint <= 0xF4:
+            byte_count = 4
+        else:
+            byte_count = 0
+
+        token = raw[index : index + byte_count]
+        if (
+            byte_count
+            and len(token) == byte_count
+            and all(0x80 <= ord(char) <= 0xBF for char in token[1:])
+        ):
+            try:
+                replacement = token.encode("latin-1").decode("utf-8")
+            except UnicodeError:
+                replacement = ""
+            if replacement and not _C1_CONTROL_CHAR_RE.search(replacement):
+                pieces.append(replacement)
+                decoded += 1
+                index += byte_count
+                continue
+
+        pieces.append(raw[index])
+        index += 1
+
+    return "".join(pieces), decoded
+
+
+def _remove_empty_yaml_list_keys(raw: str) -> tuple[str, int]:
+    return _EMPTY_YAML_LIST_KEY_RE.subn("", raw)
+
+
+def _fix_high_confidence_parse_errors_in_yaml(raw: str) -> tuple[str, list[str]]:
+    messages: list[str] = []
+
+    raw, removed_empty_items = _remove_empty_yaml_list_keys(raw)
+    if removed_empty_items:
+        messages.append(f"  removed {removed_empty_items} empty YAML list item(s)")
+
+    raw, decoded_mojibake = _decode_utf8_mojibake_controls(raw)
+    if decoded_mojibake:
+        messages.append(f"  decoded {decoded_mojibake} UTF-8 mojibake sequence(s)")
+
+    return raw, messages
 
 
 def _collapse_big_whitespace_after_indent(line: str) -> tuple[str, int]:
@@ -3380,6 +3535,33 @@ def _fix_metadata_scalar_field_in_yaml(raw: str, field_name: str, new_value: obj
         return "".join(lines[:start] + [replacement] + lines[end:])
 
     return raw
+
+
+def _fix_high_confidence_ocr_artifacts_in_yaml(
+    raw: str,
+    data: dict,
+    fields: set[str],
+) -> tuple[str, int]:
+    fixed_raw = raw
+    changed = 0
+    for field_name in sorted(fields):
+        value = data.get(field_name)
+        if not isinstance(value, str):
+            continue
+
+        fixed_value, count = _apply_high_confidence_ocr_replacements(value)
+        if not count or fixed_value == value:
+            continue
+
+        fixed_raw = _fix_metadata_scalar_field_in_yaml(
+            fixed_raw,
+            field_name,
+            fixed_value,
+        )
+        data[field_name] = fixed_value
+        changed += count
+
+    return fixed_raw, changed
 
 
 def _fix_multiline_fields_in_yaml(
@@ -3726,6 +3908,7 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
     fixed = 0
     path_replacements: dict[Path, Path] = {}
     for path, issues in results:
+        has_parse_fixes = any(i.field == "parse" for i in issues)
         title_fixes = [
             i
             for i in issues
@@ -3738,6 +3921,9 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
         abstract_publisher_fixes = [
             i for i in issues if _is_publisher_mark_abstract_issue(i)
         ]
+        ocr_artifact_fields = {
+            i.field for i in issues if _is_high_confidence_ocr_artifact_issue(i)
+        }
         multiline_fields = {i.field for i in issues if _is_multiline_field_issue(i)}
         has_escaped_sequence_fixes = any(_is_escaped_sequence_issue(i) for i in issues)
         has_garbled_markup_fixes = any(_is_garbled_markup_issue(i) for i in issues)
@@ -3747,10 +3933,12 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
             if _is_big_whitespace_issue(i)
         }
         if (
-            not title_fixes
+            not has_parse_fixes
+            and not title_fixes
             and not source_year_fixes
             and not tag_fixes
             and not abstract_publisher_fixes
+            and not ocr_artifact_fields
             and not multiline_fields
             and not has_escaped_sequence_fixes
             and not has_garbled_markup_fixes
@@ -3761,6 +3949,12 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
             raw = path.read_text(encoding="utf-8")
             new_raw = raw
             messages = []
+
+            if has_parse_fixes:
+                new_raw, parse_messages = _fix_high_confidence_parse_errors_in_yaml(
+                    new_raw
+                )
+                messages.extend(parse_messages)
 
             if title_fixes:
                 new_title = title_fixes[0].suggestion
@@ -3789,6 +3983,20 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
                     messages.append(
                         "  removed "
                         f"{n_removed_marks} publisher/copyright notice(s) from abstract"
+                    )
+
+            if ocr_artifact_fields:
+                parsed = yaml.safe_load(new_raw) or {}
+                new_raw, n_fixed_ocr = _fix_high_confidence_ocr_artifacts_in_yaml(
+                    new_raw,
+                    parsed,
+                    ocr_artifact_fields,
+                )
+                if n_fixed_ocr:
+                    fields = ", ".join(sorted(ocr_artifact_fields))
+                    messages.append(
+                        "  fixed "
+                        f"{n_fixed_ocr} high-confidence OCR artifact(s): {fields}"
                     )
 
             if multiline_fields:
@@ -3924,11 +4132,11 @@ Checks performed on each metadata.yml:
   required  - ERROR if any of title, authors, year, abstract, type, audit_status missing
   title     - ERROR if empty; ERROR if not in title case; ERROR for raw YAML character escapes like \\u2014; ERROR/WARN for corrupt characters or likely misspellings
   algorithm - ERROR if the algorithm label is generic; WARN if a bare concrete method label appears to describe analysis/application of an existing method rather than the proposing paper
-  authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order, non-individual names, or suspicious Unicode corruption/control characters
+  authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order, single-token names, known organization names, other non-individual names, or suspicious Unicode corruption/control characters
   tags      - ERROR if tags contain duplicate values, trivial singular/plural duplicates, forbidden generic values, leading articles, more than 4 words, non-capital-case ordinary English words, or sentence-like prose debris copied from an abstract
   year      - ERROR if not a 4-digit integer
   arxiv     - ERROR if arxiv_id is present but not a valid arXiv ID
-  abstract  - ERROR if empty, placeholder-like, contains scraped page text, publisher/copyright notices, or PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed; WARN for dollar math, copied "abstract" headings, likely misspellings, or OCR word splits
+  abstract  - ERROR if empty, placeholder-like, contains scraped page text, publisher/copyright notices, or PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed; WARN for dollar math, copied "abstract" headings, likely misspellings, high-confidence OCR artifacts, or OCR word splits
   escape    - ERROR if string fields contain HTML/entity escapes like &#39; or &amp;, or if title contains raw YAML character escapes like \\u2014
   url       - ERROR if URLs appear in title, algorithm, authors, year, source, type, doi, arxiv_id, tags, or audit_status; ERROR if links contain garbled HTML/XML markup
   multiline - ERROR if scalar fields that must be one-line are written across multiple YAML lines
@@ -3963,7 +4171,8 @@ Available --check names:
         action="store_true",
         help=(
             "Auto-fix title-case, tag casing/leading articles/duplicate tags, "
-            "abstract publisher/copyright notices, escaped HTML/entity/markup issues, "
+            "abstract publisher/copyright notices, high-confidence OCR artifacts, "
+            "escaped HTML/entity/markup issues, high-confidence parse artifacts, "
             "multiline scalar fields, large whitespace runs, source years, and path slugs; "
             "path fixes move metadata directories and update direct references"
         ),
