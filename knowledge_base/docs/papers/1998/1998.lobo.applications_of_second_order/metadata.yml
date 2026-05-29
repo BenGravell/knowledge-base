@@ -12,8 +12,11 @@ type: Journal Paper
 doi: 10.1016/s0024-3795(98)10032-0
 arxiv_id:
 tags:
-abstract: ''
-summary: ''
-link: https://doi.org/10.1016/s0024-3795(98)10032-0
+abstract: >
+  In a second-order cone program (SOCP) a linear function is minimized over the intersection of an affine set and the product of second-order (quadratic) cones. SOCPs are nonlinear convex problems that include linear and convex quadratic programs as special cases, and arise in many engineering problems, such as filter design, antenna array weight design, truss design, robust estimation, and problems involving friction, for example robot grasp. In this paper we describe the basic theory of SOCPs, a variety of engineering applications, and an efficient primal-dual interior-point method for solving SOCPs. The algorithm we describe shares many of the features of primal-dual interior-point methods for linear programming (LP): Worst-case theoretical analysis shows that the number of iterations required to solve a problem grows at most as the square root of the problem size, while numerical experiments indicate that the typical number of iterations ranges between 5 and 50, almost independent of the problem size.
+summary:
+link: https://web.stanford.edu/~boyd/papers/pdf/socp.pdf
 links_alt:
+- https://web.stanford.edu/~boyd/papers/socp.html
+- https://doi.org/10.1016/s0024-3795(98)10032-0
 audit_status: raw

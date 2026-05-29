@@ -15,8 +15,7 @@ tags:
   - Policy gradients
 abstract: >
   We study the variance of the REINFORCE policy gradient estimator in environments with continuous state and action spaces, linear dynamics, quadratic cost, and Gaussian noise. These simple environments allow us to derive bounds on the estimator variance in terms of the environment and noise parameters. We compare the predictions of our bounds to the empirical variance in simulation experiments.
-summary: >
-  This paper studies the variance of the REINFORCE policy gradient estimator in environments with continuous state and action spaces, linear dynamics, quadratic cost, and Gaussian noise. The abstract also notes that these simple environments allow us to derive bounds on the estimator variance in terms of the environment and noise parameters.
+summary:
 link: https://arxiv.org/pdf/1910.01249
 links_alt:
 audit_status: raw

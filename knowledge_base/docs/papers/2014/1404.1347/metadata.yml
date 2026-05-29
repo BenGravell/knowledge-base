@@ -6,13 +6,13 @@ authors:
   - Timothy D. Barfoot
 year: 2014
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "1404.1347"
 tags:
 abstract: >
   Sun and Farooq [2] showed that random samples can be efficiently drawn from an arbitrary n-dimensional hyperellipsoid by transforming samples drawn randomly from the unit n-ball. They stated that it was a straightforward to show that, given a uniform distribution over the n-ball, the transformation results in a uniform distribution over the hyperellipsoid, but did not present a full proof. This technical note presents such a proof.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/1404.1347
 links_alt:
 audit_status: raw

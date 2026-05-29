@@ -22,8 +22,7 @@ tags:
   - QUANT
 abstract: >
   We show that it is possible to achieve the same accuracy, on average, as the most accurate existing interval methods for time series classification on a standard set of benchmark datasets using a single type of feature (quantiles), fixed intervals, and an 'off the shelf' classifier. This distillation of interval-based approaches represents a fast and accurate method for time series classification, achieving state-of-the-art accuracy on the expanded set of 142 datasets in the UCR archive with a total compute time (training and inference) of less than 15 minutes using a single CPU core.
-summary: >
-  This paper shows that it is possible to achieve the same accuracy, on average, as the most accurate existing interval methods for time series classification on a standard set of benchmark datasets using a single type of feature (quantiles), fixed intervals, and an 'off the shelf' classifier.
+summary:
 link: https://arxiv.org/pdf/2308.00928
 links_alt:
   - https://doi.org/10.1007/s10618-024-01036-9

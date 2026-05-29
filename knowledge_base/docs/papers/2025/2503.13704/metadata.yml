@@ -8,13 +8,13 @@ authors:
   - Zachary Kingston
 year: 2025
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2503.13704"
 tags:
 abstract: >
   Many applications in robotics require primitive spherical geometry, especially in cases where efficient distance queries are necessary. Manual creation of spherical models is time-consuming and prone to errors. This paper presents Foam, a tool to generate spherical approximations of robot geometry from an input Universal Robot Description Format (URDF) file. Foam provides a robust preprocessing pipeline to handle mesh defects and a number of configuration parameters to control the level and approximation of the spherization, and generates an output URDF with collision geometry specified only by spheres. We demonstrate Foam on a number of standard robot models on common tasks, and demonstrate improved collision checking and distance query performance with only a minor loss in fidelity compared to the true collision geometry. We release our tool as an open source Python library and containerized command-line application to facilitate adoption across the robotics community.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2503.13704
 links_alt:
 audit_status: raw

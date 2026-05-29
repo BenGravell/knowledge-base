@@ -15,8 +15,7 @@ tags:
   - Sample complexity
 abstract: >
   This paper studies the sample complexity of the stochastic Linear Quadratic Regulator when applied to systems with multiplicative noise. We assume that the covariance of the noise is unknown and estimate it using the sample covariance, which results in suboptimal behaviour. The main contribution of this paper is then to bound the suboptimality of the methodology and prove that it decreases with 1/N, where N denotes the amount of samples. The methodology easily generalizes to the case where the mean is unknown and to the distributionally robust case studied in a previous work of the authors. The analysis is mostly based on results from matrix function perturbation analysis.
-summary: >
-  This paper studies the sample complexity of the stochastic Linear Quadratic Regulator when applied to systems with multiplicative noise. The abstract also states that we assume that the covariance of the noise is unknown and estimate it using the sample covariance, which results in suboptimal behaviour.
+summary:
 link: https://arxiv.org/pdf/2005.12167
 links_alt:
   - https://doi.org/10.1109/CDC42340.2020.9303905

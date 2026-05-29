@@ -21,8 +21,7 @@ tags:
   - Learning
 abstract: >
   This paper concerns the problem of learning control policies for an unknown linear dynamical system to minimize a quadratic cost function. We present a method, based on convex optimization, that accomplishes this task robustly: i.e., we minimize the worst-case cost, accounting for system uncertainty given the observed data. The method balances exploitation and exploration, exciting the system in such a way so as to reduce uncertainty in the model parameters to which the worst-case cost is most sensitive. Numerical simulations and application to a hardware-in-the-loop servo-mechanism demonstrate the approach, with appreciable performance and robustness gains over alternative methods observed in both.
-summary: >
-  This paper concerns the problem of learning control policies for an unknown linear dynamical system to minimize a quadratic cost function. It also presents a method, based on convex optimization, that accomplishes this task robustly: i.e., we minimize the worst-case cost, accounting for system uncertainty given the observed data.
+summary:
 link: https://arxiv.org/pdf/1906.01584
 links_alt:
   - https://papers.nips.cc/paper/2019/file/060fd70a06ead2e1079d27612b84aff4-Paper.pdf

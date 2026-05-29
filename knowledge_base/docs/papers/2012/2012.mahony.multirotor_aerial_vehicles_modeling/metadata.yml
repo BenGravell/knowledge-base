@@ -13,7 +13,7 @@ arxiv_id:
 tags:
 abstract: >
   This article provides a tutorial introduction to modeling, estimation, and control formultirotor aerial vehicles that includes the common four-rotor or quadrotor case.
-summary: ''
+summary:
 link: https://doi.org/10.1109/MRA.2012.2206474
 links_alt:
 audit_status: raw

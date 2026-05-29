@@ -13,7 +13,7 @@ arxiv_id:
 tags:
 abstract: >
   In this tutorial, an approach to the analysis and design of linear control systems based on numerical convex optimization over closed-loop maps is presented. Convexity makes numerical solution effective: it is possible to determine whether or not there is a controller that achieves a given set of specifications. Thus, the limit of achievable performance can be computed. To provide a context for the material presented, a brief overview of control engineering is given. A broad outline of various approaches to control design for linear and time-invariant systems is presented, including their advantages and disadvantages, for purposes of comparison with the approach presented. It is shown that many performance specifications have natural and useful geometric interpretations, and the notion of a closed-loop convex design specification is defined. The performance requirement that the closed-loop system be stable is discussed. It is shown that many performance specifications can be expressed as convex constraints on closed-loop performance specifications, and how some of these can be expressed as convex constraints on closed-loop transfer matrices is examined.< >
-summary: ''
+summary:
 link: https://doi.org/10.1109/5.52229
 links_alt:
 audit_status: raw

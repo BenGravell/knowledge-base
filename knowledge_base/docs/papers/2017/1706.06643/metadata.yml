@@ -15,8 +15,7 @@ tags:
   - Learning
 abstract: >
   We show how an action-dependent baseline can be used by the policy gradient theorem using function approximation, originally presented with action-independent baselines by (Sutton et al. 2000).
-summary: >
-  This paper shows how an action-dependent baseline can be used by the policy gradient theorem using function approximation, originally presented with action-independent baselines by (Sutton et al. The abstract also notes that 2000).
+summary:
 link: https://arxiv.org/pdf/1706.06643
 links_alt:
 audit_status: raw

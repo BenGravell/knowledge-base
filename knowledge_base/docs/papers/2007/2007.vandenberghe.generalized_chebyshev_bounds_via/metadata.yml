@@ -13,7 +13,7 @@ arxiv_id:
 tags:
 abstract: >
   A sharp lower bound on the probability of a set defined by quadratic inequalities, given the first two moments of the distribution, can be efficiently computed using convex optimization. This result generalizes Chebyshev’s inequality for scalar random variables. Two semidefinite programming formulations are presented, with a constructive proof based on convex optimization duality and elementary linear algebra.
-summary: ''
+summary:
 link: https://epubs.siam.org/doi/10.1137/S0036144504440543
 links_alt:
   - https://doi.org/10.1137/S0036144504440543

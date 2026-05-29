@@ -21,8 +21,7 @@ tags:
   - State space
 abstract: >
   This paper contrasts recursive state space models and direct multi-step predictors for linear predictive control. We provide a tutorial exposition for both model structures to solve the following problems: 1. stochastic optimal control; 2. system identification; 3. stochastic optimal control based on the estimated model. Throughout the paper, we provide detailed discussions of the benefits and limitations of these two model parametrizations for predictive control and highlight the relation to existing works. Additionally, we derive a novel (partially tight) constraint tightening for stochastic predictive control with parametric uncertainty in the multi-step predictor.
-summary: >
-  This paper contrasts recursive state space models and direct multi-step predictors for linear predictive control. It also provides a tutorial exposition for both model structures to solve the following problems: 1. stochastic optimal control; 2. system identification; 3. stochastic optimal control based on the estimated model.
+summary:
 link: https://arxiv.org/pdf/2203.15471
 links_alt:
   - https://doi.org/10.1109/cdc51059.2022.9992373

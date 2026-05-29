@@ -9,13 +9,13 @@ authors:
   - Stephen Tu
 year: 2025
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2510.06434"
 tags:
 abstract: >
   Learning from temporally-correlated data is a core facet of modern machine learning. Yet our understanding of sequential learning remains incomplete, particularly in the multi-trajectory setting where data consists of many independent realizations of a time-indexed stochastic process. This important regime both reflects modern training pipelines such as for large foundation models, and offers the potential for learning without the typical mixing assumptions made in the single-trajectory case. However, instance-optimal bounds are known only for least-squares regression with dependent covariates; for more general models or loss functions, the only broadly applicable guarantees result from a reduction to either i.i.d. learning, with effective sample size scaling only in the number of trajectories, or an existing single-trajectory result when each individual trajectory mixes, with effective sample size scaling as the full data budget deflated by the mixing-time. In this work, we significantly broaden the scope of instance-optimal rates in multi-trajectory settings via the Hellinger localization framework, a general approach for maximum likelihood estimation. Our method proceeds by first controlling the squared Hellinger distance at the path-measure level via a reduction to i.i.d. learning, followed by localization as a quadratic form in parameter space weighted by the trajectory Fisher information. This yields instance-optimal bounds that scale with the full data budget under a broad set of conditions. We instantiate our framework across four diverse case studies: a simple mixture of Markov chains, dependent linear regression under non-Gaussian noise, generalized linear models with non-monotonic activations, and linear-attention sequence models. In all cases, our bounds nearly match the instance-optimal rates from asymptotic normality, substantially improving over standard reductions.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2510.06434
 links_alt:
 audit_status: raw

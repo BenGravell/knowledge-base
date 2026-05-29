@@ -6,13 +6,13 @@ authors:
   - Jonathan D. Gammell
 year: 2021
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2104.02298"
 tags:
 abstract: >
   Obstacle clearance in state space is an important optimization objective in path planning because it can result in safe paths. This technical report presents admissible solution- and path-cost heuristics for this objective, which can be used to improve the performance of informed path planning algorithms.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2104.02298
 links_alt:
 audit_status: raw

@@ -9,13 +9,13 @@ authors:
   - George J. Pappas
 year: 2022
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2205.14035"
 tags:
 abstract: >
   In this paper, we study the statistical difficulty of learning to control linear systems. We focus on two standard benchmarks, the sample complexity of stabilization, and the regret of the online learning of the Linear Quadratic Regulator (LQR). Prior results state that the statistical difficulty for both benchmarks scales polynomially with the system state dimension up to system-theoretic quantities. However, this does not reveal the whole picture. By utilizing minimax lower bounds for both benchmarks, we prove that there exist non-trivial classes of systems for which learning complexity scales dramatically, i.e. exponentially, with the system dimension. This situation arises in the case of underactuated systems, i.e. systems with fewer inputs than states. Such systems are structurally difficult to control and their system theoretic quantities can scale exponentially with the system dimension dominating learning complexity. Under some additional structural assumptions (bounding systems away from uncontrollability), we provide qualitatively matching upper bounds. We prove that learning complexity can be at most exponential with the controllability index of the system, that is the degree of underactuation.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2205.14035
 links_alt:
 audit_status: raw

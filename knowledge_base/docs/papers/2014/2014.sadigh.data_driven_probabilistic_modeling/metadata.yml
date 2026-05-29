@@ -2,23 +2,24 @@ title: >
   Data-Driven Probabilistic Modeling and Verification of Human Driver Behavior
 algorithm:
 authors:
-  - Dorsa Sadigh
-  - K. Driggs-Campbell
-  - A. Puggelli
-  - Wenchao Li
-  - Victor Shia
-  - R. Bajcsy
-  - A. Sangiovanni-Vincentelli
-  - S. Sastry
-  - S. Seshia
+- Dorsa Sadigh
+- Katherine Driggs-Campbell
+- Anayo Puggelli
+- Wenchao Li
+- Victor Shia
+- Ruzena Bajcsy
+- Alberto Sangiovanni-Vincentelli
+- Sanjit A. Seshia
+- Shankar Sastry
 year: 2014
 source: AAAI Spring Symposia
 type: Journal Paper
 doi:
 arxiv_id:
 tags:
-abstract: ''
-summary: ''
+abstract: >
+  We address the problem of formally verifying quantitative properties of driver models. We first propose a novel stochastic model of the driver behavior based on Convex Markov Chains, i.e., Markov chains in which the transition probabilities are only known to lie in convex uncertainty sets. This formalism captures the intrinsic uncertainty in estimating transition probabilities starting from experimentally-collected data. We then formally verify properties of the model expressed in probabilistic computation tree logic (PCTL). Results show that our approach can correctly predict quantitative information about driver behavior depending on her state, e.g., whether he or she is attentive or distracted.
+summary:
 link: https://www.semanticscholar.org/paper/63c965e8fa3d3c995c84805c9abb70612301b675
 links_alt:
 audit_status: raw

@@ -9,13 +9,13 @@ authors:
   - John Lygeros
 year: 2025
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2503.23543"
 tags:
 abstract: >
   We consider distributionally robust optimization problems where the uncertainty is modeled via a structured Wasserstein ambiguity set. Specifically, the ambiguity is restricted to product measures $P^{\otimes N}$, where $P$ lies within a Wasserstein ball centered at an empirical distribution $\widehat{P}$. This structure reflects the assumption of independent and identically distributed (i.i.d.) uncertainty components and yields a non-convex ambiguity set that is strictly contained in its unstructured counterpart, thereby reducing conservatism. The resulting optimization problem is generally intractable due to the loss of convexity. We address this by introducing a sequence of tractable convex relaxations, each admitting strong duality, and prove that this sequence converges to the original problem value under suitable conditions. Numerical examples are provided to illustrate the effectiveness of the proposed approach. As a byproduct of our proofs, we establish a novel formula, of independent interest, relating the Wasserstein distance of a mixture of product distributions to the Wasserstein distance between its constituent measures.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2503.23543
 links_alt:
 audit_status: raw

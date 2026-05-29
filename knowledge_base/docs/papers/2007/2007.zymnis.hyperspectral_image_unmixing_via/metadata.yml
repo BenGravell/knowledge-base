@@ -15,7 +15,7 @@ arxiv_id:
 tags:
 abstract: >
   We consider the problem of factorizing a hyperspectral image into the product of two nonnegative matrices, which represent nonnegative bases for image spectra and mixing coefficients, respectively. This spectral unmixing problem is a nonconvex optimization problem, which is very difficult to solve exactly. We present a simple heuristic for approximately solving this problem based on the idea of alternating projected subgradient descent. Finally, we present the results of applying this method on the 1990 AVIRIS image of Cuprite, Nevada and show that our results are in agreement with similar studies on the same data.
-summary: ''
+summary:
 link: https://doi.org/10.1109/ACSSC.2007.4487406
 links_alt:
 audit_status: raw

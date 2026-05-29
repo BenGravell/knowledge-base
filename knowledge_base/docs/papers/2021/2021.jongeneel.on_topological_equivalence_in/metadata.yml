@@ -12,7 +12,7 @@ arxiv_id:
 tags:
 abstract: >
   Dynamical systems are topologically equivalent when their orbits can be mapped onto each other via a homeomorphic change of coordinates. We will show that in general, closed-loop systems resulting from Linear Quadratic Optimal Control problems are all topologically equivalent. As such, we provide new insights in structural "tuning" of controlled behaviour.
-summary: ''
+summary:
 link: https://doi.org/10.23919/ECC54610.2021.9654863
 links_alt:
 audit_status: raw

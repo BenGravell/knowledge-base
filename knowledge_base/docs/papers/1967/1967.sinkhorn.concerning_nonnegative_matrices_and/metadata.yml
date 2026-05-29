@@ -5,13 +5,14 @@ authors:
   - Richard Sinkhorn
   - Paul Knopp
 year: 1967
-source: Semantic Scholar
+source: Pacific Journal of Mathematics
 type: Other
 doi: 10.2140/PJM.1967.21.343
 arxiv_id:
 tags:
-abstract: ''
-summary: ''
+abstract: >
+  This paper is concerned with the condition for the convergence to a doubly stochastic limit of a sequence of matrices obtained from a nonnegative matrix A by alternately scaling the rows and columns of A and with the condition for the existence of diagonal matrices D1 and D2 with positive main diagonals such that D1AD2 is doubly stochastic. The result is the following. The sequence of matrices converges to a doubly stochastic limit if and only if the matrix A contains at least one positive diagonal. A necessary and sufficient condition that there exist diagonal matrices D1 and D2 with positive main diagonals such that D1AD2 is both doubly stochastic and the limit of the iteration is that A is not the zero matrix and each positive entry of A is contained in a positive diagonal. The form D1AD2 is unique, and D1 and D2 are unique up to a positive scalar multiple if and only if A is fully indecomposable.
+summary:
 link: http://msp.org/pjm/1967/21-2/pjm-v21-n2-p14-s.pdf
 links_alt:
   - https://www.semanticscholar.org/paper/70e0d2487440b519b392503f4fa6b94891238c90

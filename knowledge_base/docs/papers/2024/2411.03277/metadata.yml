@@ -14,8 +14,7 @@ tags:
   - Exponential stability
 abstract: >
   Suppose that two vector fields on a smooth manifold render some equilibrium point globally asymptotically stable (GAS). We show that there exists a homotopy between the corresponding semiflows such that this point remains GAS along this homotopy.
-summary: >
-  Suppose that two vector fields on a smooth manifold render some equilibrium point globally asymptotically stable (GAS). It also shows that there exists a homotopy between the corresponding semiflows such that this point remains GAS along this homotopy.
+summary:
 link: https://arxiv.org/pdf/2411.03277
 links_alt:
   - https://doi.org/10.1016/j.sysconle.2025.106324

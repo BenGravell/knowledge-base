@@ -7,13 +7,13 @@ authors:
   - Frank Allgower
 year: 2019
 source:
-type: ''
+type: Preprint
 doi: 10.1109/TAC.2019.2949350
 arxiv_id: "1909.12765"
 tags:
 abstract: >
   In this paper, we present a quasi infinite horizon nonlinear model predictive control (MPC) scheme for tracking of generic reference trajectories. This scheme is applicable to nonlinear systems, which are locally incrementally stabilizable. For such systems, we provide a reference generic offline procedure to compute an incrementally stabilizing feedback with a continuously parameterized quadratic quasi infinite horizon terminal cost. As a result we get a nonlinear reference tracking MPC scheme with a valid terminal cost for general reachable reference trajectories without increasing the online computational complexity. As a corollary, the terminal cost can also be used to design nonlinear MPC schemes that reliably operate under online changing conditions, including unreachable reference signals. The practicality of this approach is demonstrated with a benchmark example. This paper is an extended version of the accepted paper [1], and contains additional details regarding \textit{robust} trajectory tracking (App.~B), continuous-time dynamics (App.~C), output tracking stage costs (App.~D) and the connection to incremental system properties (App.~A).
-summary: ''
+summary:
 link: https://arxiv.org/pdf/1909.12765
 links_alt:
 audit_status: raw

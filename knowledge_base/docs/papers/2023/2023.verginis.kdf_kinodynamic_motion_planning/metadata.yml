@@ -13,7 +13,7 @@ arxiv_id:
 tags:
 abstract: >
   We integrate sampling-based planning techniques with funnel-based feedback control to develop KDF, a new framework for solving the kinodynamic motion-planning problem via funnel control. The considered systems evolve subject to complex, nonlinear, and uncertain dynamics (also known as differential constraints). First, we use a geometric planner to obtain a high-level safe path in a user-defined extended free space. Second, we develop a low-level funnel control algorithm that guarantees safe tracking of the path by the system. Neither the planner nor the control algorithm uses information on the underlying dynamics of the system, which makes the proposed scheme easily distributable to a large variety of different systems and scenarios. Intuitively, the funnel control module is able to implicitly accommodate the dynamics of the system, allowing hence the deployment of purely geometrical motion planners. Extensive computer simulations and hardware experiments with a 6-DOF robotic arm validate the proposed approach.
-summary: ''
+summary:
 link: https://doi.org/10.1109/TRO.2022.3208502
 links_alt:
 audit_status: raw

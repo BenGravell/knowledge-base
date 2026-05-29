@@ -19,8 +19,7 @@ tags:
   - Planning
 abstract: >
   In recent years, different approaches for motion planning of autonomous vehicles have been proposed that can handle complex traffic situations. However, these approaches are rarely compared on the same set of benchmarks. To address this issue, we present the results of a large-scale motion planning competition for autonomous vehicles based on the CommonRoad benchmark suite. The benchmark scenarios contain highway and urban environments featuring various types of traffic participants, such as passengers, cars, buses, etc. The solutions are evaluated considering efficiency, safety, comfort, and compliance with a selection of traffic rules. This report summarizes the main results of the competition.
-summary: >
-  In recent years, different approaches for motion planning of autonomous vehicles have been proposed that can handle complex traffic situations. The abstract also notes that however, these approaches are rarely compared on the same set of benchmarks.
+summary:
 link: https://arxiv.org/pdf/2411.06425
 links_alt:
 audit_status: raw

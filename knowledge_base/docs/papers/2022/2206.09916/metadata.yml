@@ -7,13 +7,13 @@ authors:
   - Solmaz S. Kia
 year: 2022
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2206.09916"
 tags:
 abstract: >
   In this letter, we study the problem of accelerating reaching average consensus over connected graphs in a discrete-time communication setting. Literature has shown that consensus algorithms can be accelerated by increasing the graph connectivity or optimizing the weights agents place on the information received from their neighbors. In this letter instead of altering the communication graph, we investigate two methods that use buffered states to accelerate reaching average consensus over a given graph. In the first method, we study how convergence rate of the well-known first-order Laplacian average consensus algorithm changes with delayed feedback and obtain a sufficient condition on the ranges of delay that leads to faster convergence. In the second proposed method, we show how average consensus problem can be cast as a convex optimization problem and solved by first-order accelerated optimization algorithms for strongly-convex cost functions. We construct the fastest converging average consensus algorithm using the so-called Triple Momentum optimization algorithm. We demonstrate our results using an in-network linear regression problem, which is formulated as two average consensus problems.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2206.09916
 links_alt:
 audit_status: raw

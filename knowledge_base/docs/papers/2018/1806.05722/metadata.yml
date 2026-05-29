@@ -18,8 +18,7 @@ tags:
   - LTI
 abstract: >
   We consider the problem of learning a realization for a linear time-invariant (LTI) dynamical system from input/output data. Given a single input/output trajectory, we provide finite time analysis for learning the system's Markov parameters, from which a balanced realization is obtained using the classical Ho-Kalman algorithm. By proving a stability result for the Ho-Kalman algorithm and combining it with the sample complexity results for Markov parameters, we show how much data is needed to learn a balanced realization of the system up to a desired accuracy with high probability.
-summary: >
-  This paper considers the problem of learning a realization for a linear time-invariant (LTI) dynamical system from input/output data. The abstract also notes that given a single input/output trajectory, we provide finite time analysis for learning the system's Markov parameters, from which a balanced realization is obtained using the classical Ho-Kalman algorithm.
+summary:
 link: https://arxiv.org/pdf/1806.05722
 links_alt:
   - https://doi.org/10.23919/acc.2019.8814438

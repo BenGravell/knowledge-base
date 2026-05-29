@@ -10,13 +10,13 @@ authors:
   - Yuval Tassa
 year: 2018
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "1801.08757"
 tags:
 abstract: >
   We address the problem of deploying a reinforcement learning (RL) agent on a physical system such as a datacenter cooling unit or robot, where critical constraints must never be violated. We show how to exploit the typically smooth dynamics of these systems and enable RL algorithms to never violate constraints during learning. Our technique is to directly add to the policy a safety layer that analytically solves an action correction formulation per each state. The novelty of obtaining an elegant closed-form solution is attained due to a linearized model, learned on past trajectories consisting of arbitrary actions. This is to mimic the real-world circumstances where data logs were generated with a behavior policy that is implausible to describe mathematically; such cases render the known safety-aware off-policy methods inapplicable. We demonstrate the efficacy of our approach on new representative physics-based environments, and prevail where reward shaping fails by maintaining zero constraint violations.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/1801.08757
 links_alt:
 audit_status: raw

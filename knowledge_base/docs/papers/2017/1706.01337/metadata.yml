@@ -18,8 +18,7 @@ tags:
   - Exponential stability
 abstract: >
   The theory of integral quadratic constraints (IQCs) allows verification of stability and gain-bound properties of systems containing nonlinear or uncertain elements. Gain bounds often imply exponential stability, but it can be challenging to compute useful numerical bounds on the exponential decay rate. This work presents a generalization of the classical IQC results of Megretski and Rantzer that leads to a tractable computational procedure for finding exponential rate certificates that are far less conservative than ones computed from $L_2$ gain bounds alone. An expanded library of IQCs for certifying exponential stability is also provided and the effectiveness of the technique is demonstrated via numerical examples.
-summary: >
-  The theory of integral quadratic constraints (IQCs) allows verification of stability and gain-bound properties of systems containing nonlinear or uncertain elements. The abstract also notes that gain bounds often imply exponential stability, but it can be challenging to compute useful numerical bounds on the exponential decay rate.
+summary:
 link: https://arxiv.org/pdf/1706.01337
 links_alt:
 audit_status: raw

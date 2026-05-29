@@ -7,13 +7,13 @@ authors:
   - Simon S. Du
 year: 2020
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2006.09118"
 tags:
 abstract: >
   This paper presents the first non-asymptotic result showing that a model-free algorithm can achieve a logarithmic cumulative regret for episodic tabular reinforcement learning if there exists a strictly positive sub-optimality gap in the optimal $Q$-function. We prove that the optimistic $Q$-learning studied in [Jin et al. 2018] enjoys a ${\mathcal{O}}\left(\frac{SA\cdot \mathrm{poly}\left(H\right)}{Δ_{\min}}\log\left(SAT\right)\right)$ cumulative regret bound, where $S$ is the number of states, $A$ is the number of actions, $H$ is the planning horizon, $T$ is the total number of steps, and $Δ_{\min}$ is the minimum sub-optimality gap. This bound matches the information theoretical lower bound in terms of $S,A,T$ up to a $\log\left(SA\right)$ factor. We further extend our analysis to the discounted setting and obtain a similar logarithmic cumulative regret bound.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2006.09118
 links_alt:
 audit_status: raw

@@ -19,8 +19,7 @@ tags:
   - Control
 abstract: >
   This note extends a recently proposed algorithm for model identification and robust MPC of asymptotically stable, linear time-invariant systems subject to process and measurement disturbances. Independent output predictors for different steps ahead are estimated with Set Membership methods. It is here shown that the corresponding prediction error bounds are the least conservative in the considered model class. Then, a new multi-rate robust MPC algorithm is developed, employing said multi-step predictors to robustly enforce constraints and stability against disturbances and model uncertainty, and to reduce conservativeness. A simulation example illustrates the effectiveness of the approach.
-summary: >
-  This note extends a recently proposed algorithm for model identification and robust MPC of asymptotically stable, linear time-invariant systems subject to process and measurement disturbances. The abstract also notes that independent output predictors for different steps ahead are estimated with Set Membership methods.
+summary:
 link: https://arxiv.org/pdf/2102.08302
 links_alt:
   - https://doi.org/10.1016/j.automatica.2021.109852

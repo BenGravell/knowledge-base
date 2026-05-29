@@ -8,13 +8,13 @@ authors:
   - John Lygeros
 year: 2017
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "1701.06379"
 tags:
 abstract: >
   We consider linear programming (LP) problems in infinite dimensional spaces that are in general computationally intractable. Under suitable assumptions, we develop an approximation bridge from the infinite-dimensional LP to tractable finite convex programs in which the performance of the approximation is quantified explicitly. To this end, we adopt the recent developments in two areas of randomized optimization and first order methods, leading to a priori as well as a posterior performance guarantees. We illustrate the generality and implications of our theoretical results in the special case of the long-run average cost and discounted cost optimal control problems for Markov decision processes on Borel spaces. The applicability of the theoretical results is demonstrated through a constrained linear quadratic optimal control problem and a fisheries management problem.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/1701.06379
 links_alt:
 audit_status: raw
