@@ -207,18 +207,15 @@ def relative_to_kb(path: Path) -> str:
 
 
 def yaml_key(value: str) -> str:
-    placeholder = "__KB_TREE_LABEL_VALUE__"
-    dumped = yaml.safe_dump(
-        [{value: placeholder}],
-        allow_unicode=True,
-        default_flow_style=False,
-        sort_keys=False,
-        width=10_000,
-    ).strip()
-    match = re.fullmatch(r"- (.*): " + re.escape(placeholder), dumped)
-    if not match:
-        raise ValueError(f"Could not render YAML key for {value!r}")
-    return match.group(1)
+    if (
+        value
+        and value == value.strip()
+        and not value.startswith(("-", "?", "@", "`"))
+        and not re.search(r"[:#{}\[\],&*!|>%\"']", value)
+        and value.lower() not in {"null", "true", "false", "yes", "no", "on", "off"}
+    ):
+        return value
+    return json.dumps(value, ensure_ascii=False)
 
 
 def tree_label(paper: Paper) -> str:
