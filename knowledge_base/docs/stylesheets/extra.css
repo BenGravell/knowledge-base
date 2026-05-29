@@ -3498,32 +3498,40 @@ body:has(#semantic-search-app) .md-content {
 .tag-search-input-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.4rem;
+  overflow: hidden;
+  border: 1px solid var(--tag-search-border);
+  border-radius: 8px;
+  background: var(--md-default-bg-color);
+}
+
+.tag-search-input-row:focus-within {
+  border-color: color-mix(in srgb, var(--kb-link-internal) 62%, transparent);
+  outline: 2px solid color-mix(in srgb, var(--kb-link-internal) 22%, transparent);
+  outline-offset: 1px;
 }
 
 .tag-search-input-row input {
   min-width: 0;
   min-height: 2rem;
   padding: 0.36rem 0.52rem;
-  border: 1px solid var(--tag-search-border);
-  border-radius: 8px;
-  background: var(--md-default-bg-color);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: var(--md-default-fg-color);
   font: inherit;
   font-size: 0.78rem;
 }
 
 .tag-search-input-row input:focus {
-  border-color: color-mix(in srgb, var(--kb-link-internal) 62%, transparent);
-  outline: 2px solid color-mix(in srgb, var(--kb-link-internal) 22%, transparent);
-  outline-offset: 1px;
+  outline: 0;
 }
 
 .tag-search-input-row button {
   min-height: 2rem;
   padding: 0.36rem 0.62rem;
-  border: 1px solid color-mix(in srgb, var(--kb-link-internal) 48%, transparent);
-  border-radius: 8px;
+  border: 0;
+  border-left: 1px solid color-mix(in srgb, var(--kb-link-internal) 48%, transparent);
+  border-radius: 0;
   background: color-mix(in srgb, var(--kb-link-internal) 8%, var(--md-default-bg-color));
   color: var(--kb-link-internal);
   font: inherit;

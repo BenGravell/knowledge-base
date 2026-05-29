@@ -1,6 +1,6 @@
 # About
 
-## What is this? Why does it exist?
+## Why does this exist?
 
 Paper indexes, citation databases, search engines, and literature review tools are already good at retrieval. I wanted something a little different: a place where a curated corpus could be explored through several complementary lenses.
 

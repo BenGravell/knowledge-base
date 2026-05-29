@@ -9,7 +9,7 @@ extra:
     map: material/map
     tree: material/file-tree-outline
     timeline: material/timeline-clock-outline
-    search: material/tag-search-outline
+    search: material/magnify
     analytics: material/chart-line
     explainers: material/book-open-page-variant-outline
     software: material/code-braces
