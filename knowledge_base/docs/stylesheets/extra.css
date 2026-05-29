@@ -779,8 +779,29 @@ body:has(#ct-app)
 
 /* Home page quick-start bento */
 
+body:has(.kb-home-bento) .md-main__inner {
+  justify-content: center;
+}
+
+body:has(.kb-home-bento) .md-content {
+  flex: 0 1 calc(76rem + 2.4rem);
+  width: min(100%, calc(76rem + 2.4rem));
+}
+
 .md-content__inner:has(.kb-home-bento) {
+  width: min(100%, 76rem);
   max-width: min(100%, 76rem);
+  margin-inline: auto;
+}
+
+.md-content__inner:has(.kb-home-bento) > h1:first-child {
+  margin-bottom: 0.35rem;
+  text-align: center;
+}
+
+.md-content__inner:has(.kb-home-bento) > h1:first-child + p {
+  margin-top: 0;
+  text-align: center;
 }
 
 .md-typeset .kb-home-bento,
@@ -2993,7 +3014,7 @@ body:has(#semantic-search-app) .md-content {
 .paper-link-pill__label {
   min-width: 0;
   max-width: 100%;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   white-space: normal;
   word-break: normal;
 }
@@ -3313,6 +3334,11 @@ body:has(#semantic-search-app) .md-content {
   flex: 0 0 auto;
   min-width: auto;
   width: auto;
+}
+
+.paper-similar-card__actions .paper-link-pill__label {
+  overflow-wrap: normal;
+  white-space: nowrap;
 }
 
 @media (max-width: 640px) {
