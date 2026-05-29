@@ -1,0 +1,17 @@
+title: On the stability of distance-based formation control
+algorithm:
+authors:
+  - Dimos V. Dimarogonas
+  - Karl H. Johansson
+year: 2008
+source: 2008 47th IEEE Conference on Decision and Control
+type: Conference Paper
+doi: 10.1109/CDC.2008.4739215
+arxiv_id:
+tags:
+abstract: >
+  This paper examines stability properties of distance-based formations. These are formations encoded by inter-agent relative distances. A negative gradient control law is proposed and is shown to be provably correct when the formation graph is a tree. Moreover, it is shown that the tree structure is a necessary and sufficient condition for distance-based formation stabilization with negative gradient control laws. For graphs that contain cycles, a characterization of the resulting equilibria is given based on the properties of the cycle space of the graph. The results are also applied to flocking motion for double integrator agents.
+summary: ''
+link: https://doi.org/10.1109/CDC.2008.4739215
+links_alt:
+audit_status: raw

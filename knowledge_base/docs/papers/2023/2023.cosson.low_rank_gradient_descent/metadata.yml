@@ -1,0 +1,20 @@
+title: Low-Rank Gradient Descent
+algorithm:
+authors:
+  - Romain Cosson
+  - Ali Jadbabaie
+  - Anuran Makur
+  - Amirhossein Reisizadeh
+  - Devavrat Shah
+year: 2023
+source: IEEE Open Journal of Control Systems
+type: Journal Paper
+doi: 10.1109/OJCSYS.2023.3315088
+arxiv_id:
+tags:
+abstract: >
+  Several recent empirical studies demonstrate that important machine learning tasks such as training deep neural networks, exhibit a low-rank structure, where most of the variation in the loss function occurs only in a few directions of the input space. In this paper, we leverage such low-rank structure to reduce the high computational cost of canonical gradient-based methods such as gradient descent (GD). Our proposed Low-Rank Gradient Descent (LRGD) algorithm finds an <inline-formula xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink"><tex-math notation="LaTeX">$\epsilon$</tex-math></inline-formula> -approximate stationary point of a p-dimensional function by first identifying <inline-formula xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink"><tex-math notation="LaTeX">$r ≤ p$</tex-math></inline-formula> significant directions, and then estimating the true p-dimensional gradient at every iteration by computing directional derivatives only along those r directions. We establish that the “directional oracle complexities” of LRGD for strongly convex and non-convex objective functions are <inline-formula xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink"><tex-math notation="LaTeX">$\mathcal{O}(r\ {\rm{log}}(1/\epsilon) + rp)$</tex-math></inline-formula> and <inline-formula xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink"><tex-math notation="LaTeX">$\mathcal{O}(r/\epsilon^2 + rp)$</tex-math></inline-formula> , respectively. Therefore, when <inline-formula xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink"><tex-math notation="LaTeX">$r\ll p$</tex-math></inline-formula> , LRGD provides significant improvement over the known complexities of <inline-formula xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink"><tex-math notation="LaTeX">$\mathcal{O}(p\ \rm{log}(1/\epsilon)$</tex-math></inline-formula> ) and <inline-formula xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink"><tex-math notation="LaTeX">$\mathcal{O}(p/\epsilon^2)$</tex-math></inline-formula> of GD in the strongly convex and non-convex settings, respectively. Furthermore, we formally characterize the classes of exactly and approximately low-rank functions. Empirically, using real and synthetic data, LRGD provides significant gains over GD when the data has low-rank structure, and in the absence of such structure, LRGD does not degrade performance compared to GD. This suggests that LRGD could be used in practice in any setting in place of GD.
+summary: ''
+link: https://doi.org/10.1109/OJCSYS.2023.3315088
+links_alt:
+audit_status: raw

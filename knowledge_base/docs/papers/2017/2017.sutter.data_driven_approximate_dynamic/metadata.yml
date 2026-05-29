@@ -1,0 +1,19 @@
+title: 'Data-driven approximate dynamic programming: A linear programming approach'
+algorithm:
+authors:
+  - Tobias Sutter
+  - Angeliki Kamoutsi
+  - Peyman Mohajerin Esfahani
+  - John Lygeros
+year: 2017
+source: 2017 IEEE 56th Annual Conference on Decision and Control (CDC)
+type: Conference Paper
+doi: 10.1109/CDC.2017.8264426
+arxiv_id:
+tags:
+abstract: >
+  This article presents an approximation scheme for the infinite-dimensional linear programming formulation of discrete-time Markov control processes via a finite-dimensional convex program, when the dynamics are unknown and learned from data. We derive a probabilistic explicit error bound between the data-driven finite convex program and the original infinite linear program. We further discuss the sample complexity of the error bound which translates to the number of samples required for an a priori approximation accuracy. Our analysis sheds light on the impact of the choice of basis functions for approximating the true value function. Finally, the relevance of the method is illustrated on a truncated LQG problem.
+summary: ''
+link: https://doi.org/10.1109/CDC.2017.8264426
+links_alt:
+audit_status: raw

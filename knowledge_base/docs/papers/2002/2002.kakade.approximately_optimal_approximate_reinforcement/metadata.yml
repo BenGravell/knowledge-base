@@ -1,0 +1,18 @@
+title: Approximately Optimal Approximate Reinforcement Learning
+algorithm:
+authors:
+  - Sham M. Kakade
+  - John Langford
+year: 2002
+source: International Conference on Machine Learning
+type: Conference Paper
+doi: 10.5555/645531.656005
+arxiv_id:
+tags:
+abstract: ''
+summary: ''
+link: https://mlanthology.org/icml/2002/kakade2002icml-approximately/
+links_alt:
+  - https://dl.acm.org/doi/10.5555/645531.656005
+  - https://dblp.org/rec/conf/icml/KakadeL02
+audit_status: raw

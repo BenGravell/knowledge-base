@@ -1,0 +1,20 @@
+title: >
+  Escaping High-order Saddles in Policy Optimization for Linear Quadratic Gaussian (LQG) Control
+algorithm:
+authors:
+  - Yang Zheng
+  - Yue Sun
+  - Maryam Fazel
+  - Na Li
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2204.00912"
+tags:
+abstract: >
+  First order policy optimization has been widely used in reinforcement learning. It guarantees to find the optimal policy for the state-feedback linear quadratic regulator (LQR). However, the performance of policy optimization remains unclear for the linear quadratic Gaussian (LQG) control where the LQG cost has spurious suboptimal stationary points. In this paper, we introduce a novel perturbed policy gradient (PGD) method to escape a large class of bad stationary points (including high-order saddles). In particular, based on the specific structure of LQG, we introduce a novel reparameterization procedure which converts the iterate from a high-order saddle to a strict saddle, from which standard random perturbations in PGD can escape efficiently. We further characterize the high-order saddles that can be escaped by our algorithm.
+summary: ''
+link: https://arxiv.org/pdf/2204.00912
+links_alt:
+audit_status: raw

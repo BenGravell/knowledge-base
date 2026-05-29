@@ -1,0 +1,20 @@
+title: Online Linear Quadratic Tracking with Regret Guarantees
+algorithm:
+authors:
+  - Aren Karapetyan
+  - Diego Bolliger
+  - Anastasios Tsiamis
+  - Efe C. Balta
+  - John Lygeros
+year: 2023
+source:
+type: ''
+doi: 10.1109/LCSYS.2023.3345809
+arxiv_id: "2303.10260"
+tags:
+abstract: >
+  Online learning algorithms for dynamical systems provide finite time guarantees for control in the presence of sequentially revealed cost functions. We pose the classical linear quadratic tracking problem in the framework of online optimization where the time-varying reference state is unknown a priori and is revealed after the applied control input. We show the equivalence of this problem to the control of linear systems subject to adversarial disturbances and propose a novel online gradient descent based algorithm to achieve efficient tracking in finite time. We provide a dynamic regret upper bound scaling linearly with the path length of the reference trajectory and a numerical example to corroborate the theoretical guarantees.
+summary: ''
+link: https://arxiv.org/pdf/2303.10260
+links_alt:
+audit_status: raw

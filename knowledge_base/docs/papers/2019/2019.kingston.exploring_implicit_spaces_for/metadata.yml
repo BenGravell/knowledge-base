@@ -1,0 +1,19 @@
+title: Exploring implicit spaces for constrained sampling-based planning
+algorithm:
+authors:
+  - Zachary Kingston
+  - Mark Moll
+  - Lydia E Kavraki
+year: 2019
+source: The International Journal of Robotics Research
+type: Journal Paper
+doi: 10.1177/0278364919868530
+arxiv_id:
+tags:
+abstract: >
+  We present a review and reformulation of manifold constrained sampling-based motion planning within a unifying framework, IMACS (implicit manifold configuration space). IMACS enables a broad class of motion planners to plan in the presence of manifold constraints, decoupling the choice of motion planning algorithm and method for constraint adherence into orthogonal choices. We show that implicit configuration spaces defined by constraints can be presented to sampling-based planners by addressing two key fundamental primitives, sampling and local planning, and that IMACS preserves theoretical properties of probabilistic completeness and asymptotic optimality through these primitives. Within IMACS, we implement projection- and continuation-based methods for constraint adherence, and demonstrate the framework on a range of planners with both methods in simulated and realistic scenarios. Our results show that the choice of method for constraint adherence depends on many factors and that novel combinations of planners and methods of constraint adherence can be more effective than previous approaches. Our implementation of IMACS is open source within the Open Motion Planning Library and is easily extended for novel planners and constraint spaces.
+summary: ''
+link: https://journals.sagepub.com/doi/10.1177/0278364919868530
+links_alt:
+  - https://doi.org/10.1177/0278364919868530
+audit_status: raw

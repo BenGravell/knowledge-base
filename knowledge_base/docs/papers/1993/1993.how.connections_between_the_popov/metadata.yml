@@ -1,0 +1,18 @@
+title: >
+  Connections between the Popov Stability Criterion and Bounds for Real Parameter Uncertainty
+algorithm:
+authors:
+  - Jonathan P. How
+  - Steven R. Hall
+year: 1993
+source: 1993 American Control Conference
+type: Conference Paper
+doi: 10.23919/ACC.1993.4793033
+arxiv_id:
+tags:
+abstract: >
+  The purpose of this paper is to investigate an extension of μ theory for robust control design by considering systems with linear and nonlinear real parameter uncertainties. In the process, explicit connections are made between mixed μ and absolute stability theory. In particular, it is shown that the upper bounds for mixed μ are a generalization of results from absolute stability theory. Both state space and frequency domain criteria are developed using the wealth of literature on absolute stability theory and the concepts of supply rates and storage functions. The state space conditions are expressed in terms of Riccati equations and parameter-dependent Lyapunov functions. A geometric interpretation of the equivalent frequency domain criteria in terms of off-axis circles clarifies the important role of the multiplier and shows that both the magnitude and phase of the uncertainty are considered.
+summary: ''
+link: https://doi.org/10.23919/ACC.1993.4793033
+links_alt:
+audit_status: raw

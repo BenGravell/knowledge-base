@@ -1,0 +1,17 @@
+title: Computational Methods for Sparse Solution of Linear Inverse Problems
+algorithm:
+authors:
+  - Joel A Tropp
+  - Stephen J Wright
+year: 2010
+source: Proceedings of the IEEE
+type: Journal Paper
+doi: 10.1109/JPROC.2010.2044010
+arxiv_id:
+tags:
+abstract: >
+  The goal of the sparse approximation problem is to approximate a target signal using a linear combination of a few elementary signals drawn from a fixed collection. This paper surveys the major practical algorithms for sparse approximation. Specific attention is paid to computational issues, to the circumstances in which individual methods tend to perform well, and to the theoretical guarantees available. Many fundamental questions in electrical engineering, statistics, and applied mathematics can be posed as sparse approximation problems, making these algorithms versatile and relevant to a plethora of applications.
+summary: ''
+link: https://doi.org/10.1109/JPROC.2010.2044010
+links_alt:
+audit_status: raw

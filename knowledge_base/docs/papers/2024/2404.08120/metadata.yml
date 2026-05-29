@@ -1,0 +1,18 @@
+title: >
+  A least-square method for non-asymptotic identification in linear switching control
+algorithm:
+authors:
+  - Haoyuan Sun
+  - Ali Jadbabaie
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2404.08120"
+tags:
+abstract: >
+  The focus of this paper is on linear system identification in the setting where it is known that the underlying partially-observed linear dynamical system lies within a finite collection of known candidate models. We first consider the problem of identification from a given trajectory, which in this setting reduces to identifying the index of the true model with high probability. We characterize the finite-time sample complexity of this problem by leveraging recent advances in the non-asymptotic analysis of linear least-square methods in the literature. In comparison to the earlier results that assume no prior knowledge of the system, our approach takes advantage of the smaller hypothesis class and leads to the design of a learner with a dimension-free sample complexity bound. Next, we consider the switching control of linear systems, where there is a candidate controller for each of the candidate models and data is collected through interaction of the system with a collection of potentially destabilizing controllers. We develop a dimension-dependent criterion that can detect those destabilizing controllers in finite time. By leveraging these results, we propose a data-driven switching strategy that identifies the unknown parameters of the underlying system. We then provide a non-asymptotic analysis of its performance and discuss its implications on the classical method of estimator-based supervisory control.
+summary: ''
+link: https://arxiv.org/pdf/2404.08120
+links_alt:
+audit_status: raw

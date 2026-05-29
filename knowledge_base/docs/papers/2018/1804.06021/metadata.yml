@@ -1,0 +1,18 @@
+title: Model-Free Linear Quadratic Control via Reduction to Expert Prediction
+algorithm:
+authors:
+  - Yasin Abbasi-Yadkori
+  - Nevena Lazic
+  - Csaba Szepesvari
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1804.06021"
+tags:
+abstract: >
+  Model-free approaches for reinforcement learning (RL) and continuous control find policies based only on past states and rewards, without fitting a model of the system dynamics. They are appealing as they are general purpose and easy to implement; however, they also come with fewer theoretical guarantees than model-based RL. In this work, we present a new model-free algorithm for controlling linear quadratic (LQ) systems, and show that its regret scales as $O(T^{Î¾+2/3})$ for any small $Î¾>0$ if time horizon satisfies $T>C^{1/Î¾}$ for a constant $C$. The algorithm is based on a reduction of control of Markov decision processes to an expert prediction problem. In practice, it corresponds to a variant of policy iteration with forced exploration, where the policy in each phase is greedy with respect to the average of all previous value functions. This is the first model-free algorithm for adaptive control of LQ systems that provably achieves sublinear regret and has a polynomial computation cost. Empirically, our algorithm dramatically outperforms standard policy iteration, but performs worse than a model-based approach.
+summary: ''
+link: https://arxiv.org/pdf/1804.06021
+links_alt:
+audit_status: raw

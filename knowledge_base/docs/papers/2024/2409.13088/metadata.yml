@@ -1,0 +1,18 @@
+title: Informative Input Design for Dynamic Mode Decomposition
+algorithm:
+authors:
+  - Joshua Ott
+  - Mykel J. Kochenderfer
+  - Stephen Boyd
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2409.13088"
+tags:
+abstract: >
+  Efficiently estimating system dynamics from data is essential for minimizing data collection costs and improving model performance. This work addresses the challenge of designing future control inputs to maximize information gain, thereby improving the efficiency of the system identification process. We propose an approach that integrates informative input design into the Dynamic Mode Decomposition with control (DMDc) framework, which is well-suited for high-dimensional systems. By formulating an approximate convex optimization problem that minimizes the trace of the estimation error covariance matrix, we are able to efficiently reduce uncertainty in the model parameters while respecting constraints on the system states and control inputs. This method outperforms traditional techniques like Pseudo-Random Binary Sequences (PRBS) and orthogonal multisines, which do not adapt to the current system model and often gather redundant information. We validate our approach using aircraft and fluid dynamics simulations to demonstrate the practical applicability and effectiveness of our method. Our results show that strategically planning control inputs based on the current model enhances the accuracy of system identification while requiring less data. Furthermore, we provide our implementation and simulation interfaces as an open-source software package, facilitating further research development and use by industry practitioners.
+summary: ''
+link: https://arxiv.org/pdf/2409.13088
+links_alt:
+audit_status: raw

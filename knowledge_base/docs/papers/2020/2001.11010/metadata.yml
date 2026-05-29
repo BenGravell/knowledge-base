@@ -1,0 +1,18 @@
+title: Automatic Repair of Convex Optimization Problems
+algorithm:
+authors:
+  - Shane Barratt
+  - Guillermo Angeris
+  - Stephen Boyd
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2001.11010"
+tags:
+abstract: >
+  Given an infeasible, unbounded, or pathological convex optimization problem, a natural question to ask is: what is the smallest change we can make to the problem's parameters such that the problem becomes solvable? In this paper, we address this question by posing it as an optimization problem involving the minimization of a convex regularization function of the parameters, subject to the constraint that the parameters result in a solvable problem. We propose a heuristic for approximately solving this problem that is based on the penalty method and leverages recently developed methods that can efficiently evaluate the derivative of the solution of a convex cone program with respect to its parameters. We illustrate our method by applying it to examples in optimal control and economics.
+summary: ''
+link: https://arxiv.org/pdf/2001.11010
+links_alt:
+audit_status: raw

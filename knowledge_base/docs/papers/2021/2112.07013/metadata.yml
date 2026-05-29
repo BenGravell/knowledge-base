@@ -1,0 +1,19 @@
+title: 'PantheonRL: A MARL Library for Dynamic Training Interactions'
+algorithm:
+authors:
+  - Bidipta Sarkar
+  - Aditi Talati
+  - Andy Shih
+  - Dorsa Sadigh
+year: 2021
+source:
+type: ''
+doi: 10.1609/aaai.v36i11.21734
+arxiv_id: "2112.07013"
+tags:
+abstract: >
+  We present PantheonRL, a multiagent reinforcement learning software package for dynamic training interactions such as round-robin, adaptive, and ad-hoc training. Our package is designed around flexible agent objects that can be easily configured to support different training interactions, and handles fully general multiagent environments with mixed rewards and n agents. Built on top of StableBaselines3, our package works directly with existing powerful deep RL algorithms. Finally, PantheonRL comes with an intuitive yet functional web user interface for configuring experiments and launching multiple asynchronous jobs. Our package can be found at https://github.com/Stanford-ILIAD/PantheonRL.
+summary: ''
+link: https://arxiv.org/pdf/2112.07013
+links_alt:
+audit_status: raw

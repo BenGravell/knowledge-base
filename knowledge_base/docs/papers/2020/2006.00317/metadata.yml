@@ -1,0 +1,20 @@
+title: Control Design for Risk-Based Signal Temporal Logic Specifications
+algorithm:
+authors:
+  - Sleiman Safaoui
+  - Lars Lindemann
+  - Dimos V Dimarogonas
+  - Iman Shames
+  - Tyler H Summers
+year: 2020
+source:
+type: ''
+doi: 10.1109/LCSYS.2020.2998543
+arxiv_id: "2006.00317"
+tags:
+abstract: >
+  We present a general framework for risk semantics on Signal Temporal Logic (STL) specifications for stochastic dynamical systems using axiomatic risk theory. We show that under our recursive risk semantics, risk constraints on STL formulas can be expressed in terms of risk constraints on atomic predicates. We then show how this allows a (stochastic) STL risk constraint to be transformed into a risk-tightened deterministic STL constraint on a related deterministic nominal system, enabling the application of existing STL methods. For affine predicate functions and a (coherent) Distributionally Robust Value at Risk measure, we show how risk constraints on atomic predicates can be reformulated as tightened deterministic affine constraints. We demonstrate the framework using a Model Predictive Control (MPC) design with an STL risk constraint.
+summary: ''
+link: https://arxiv.org/pdf/2006.00317
+links_alt:
+audit_status: raw

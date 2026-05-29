@@ -1,0 +1,21 @@
+title: A Tutorial on the Non-Asymptotic Theory of System Identification
+algorithm:
+authors:
+  - Ingvar Ziemann
+  - Anastasios Tsiamis
+  - Bruce Lee
+  - Yassir Jedra
+  - Nikolai Matni
+  - George J. Pappas
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2309.03873"
+tags:
+abstract: >
+  This tutorial serves as an introduction to recently developed non-asymptotic methods in the theory of -- mainly linear -- system identification. We emphasize tools we deem particularly useful for a range of problems in this domain, such as the covering technique, the Hanson-Wright Inequality and the method of self-normalized martingales. We then employ these tools to give streamlined proofs of the performance of various least-squares based estimators for identifying the parameters in autoregressive models. We conclude by sketching out how the ideas presented herein can be extended to certain nonlinear identification problems.
+summary: ''
+link: https://arxiv.org/pdf/2309.03873
+links_alt:
+audit_status: raw

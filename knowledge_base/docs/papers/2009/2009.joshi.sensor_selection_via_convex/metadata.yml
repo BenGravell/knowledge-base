@@ -1,0 +1,17 @@
+title: Sensor Selection via Convex Optimization
+algorithm:
+authors:
+  - S. Joshi
+  - S. Boyd
+year: 2009
+source: IEEE Transactions on Signal Processing
+type: Journal Paper
+doi: 10.1109/TSP.2008.2007095
+arxiv_id:
+tags:
+abstract: >
+  We consider the problem of choosing a set of k sensor measurements, from a set of m possible or potential sensor measurements, that minimizes the error in estimating some parameters. Solving this problem by evaluating the performance for each of the ( <sub xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">m</sub> <sup xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">k</sup> ) possible choices of sensor measurements is not practical unless m and k are small. In this paper, we describe a heuristic, based on convex optimization, for approximately solving this problem. Our heuristic gives a subset selection as well as a bound on the best performance that can be achieved by any selection of k sensor measurements. There is no guarantee that the gap between the performance of the chosen subset and the performance bound is always small; but numerical experiments suggest that the gap is small in many cases. Our heuristic method requires on the order of <i xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">m</i> <sup xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">3</sup> operations; for <i xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">m</i> = 1000 possible sensors, we can carry out sensor selection in a few seconds on a 2-GHz personal computer.
+summary: ''
+link: https://doi.org/10.1109/TSP.2008.2007095
+links_alt:
+audit_status: raw

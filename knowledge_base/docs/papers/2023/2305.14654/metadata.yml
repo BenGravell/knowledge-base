@@ -1,0 +1,59 @@
+title: 'Barkour: Benchmarking Animal-level Agility with Quadruped Robots'
+algorithm:
+authors:
+  - Ken Caluwaerts
+  - Atil Iscen
+  - J. Chase Kew
+  - Wenhao Yu
+  - Tingnan Zhang
+  - Daniel Freeman
+  - Kuang-Huei Lee
+  - Lisa Lee
+  - Stefano Saliceti
+  - Vincent Zhuang
+  - Nathan Batchelor
+  - Steven Bohez
+  - Federico Casarini
+  - Jose Enrique Chen
+  - Omar Cortes
+  - Erwin Coumans
+  - Adil Dostmohamed
+  - Gabriel Dulac-Arnold
+  - Alejandro Escontrela
+  - Erik Frey
+  - Roland Hafner
+  - Deepali Jain
+  - Bauyrjan Jyenis
+  - Yuheng Kuang
+  - Edward Lee
+  - Linda Luu
+  - Ofir Nachum
+  - Ken Oslund
+  - Jason Powell
+  - Diego Reyes
+  - Francesco Romano
+  - Feresteh Sadeghi
+  - Ron Sloat
+  - Baruch Tabanpour
+  - Daniel Zheng
+  - Michael Neunert
+  - Raia Hadsell
+  - Nicolas Heess
+  - Francesco Nori
+  - Jeff Seto
+  - Carolina Parada
+  - Vikas Sindhwani
+  - Vincent Vanhoucke
+  - Jie Tan
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2305.14654"
+tags:
+abstract: >
+  Animals have evolved various agile locomotion strategies, such as sprinting, leaping, and jumping. There is a growing interest in developing legged robots that move like their biological counterparts and show various agile skills to navigate complex environments quickly. Despite the interest, the field lacks systematic benchmarks to measure the performance of control policies and hardware in agility. We introduce the Barkour benchmark, an obstacle course to quantify agility for legged robots. Inspired by dog agility competitions, it consists of diverse obstacles and a time based scoring mechanism. This encourages researchers to develop controllers that not only move fast, but do so in a controllable and versatile way. To set strong baselines, we present two methods for tackling the benchmark. In the first approach, we train specialist locomotion skills using on-policy reinforcement learning methods and combine them with a high-level navigation controller. In the second approach, we distill the specialist skills into a Transformer-based generalist locomotion policy, named Locomotion-Transformer, that can handle various terrains and adjust the robot's gait based on the perceived environment and robot states. Using a custom-built quadruped robot, we demonstrate that our method can complete the course at half the speed of a dog. We hope that our work represents a step towards creating controllers that enable robots to reach animal-level agility.
+summary: ''
+link: https://arxiv.org/pdf/2305.14654
+links_alt:
+audit_status: raw

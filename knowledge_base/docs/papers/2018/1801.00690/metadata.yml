@@ -1,0 +1,27 @@
+title: DeepMind Control Suite
+algorithm:
+authors:
+  - Yuval Tassa
+  - Yotam Doron
+  - Alistair Muldal
+  - Tom Erez
+  - Yazhe Li
+  - Diego de Las Casas
+  - David Budden
+  - Abbas Abdolmaleki
+  - Josh Merel
+  - Andrew Lefrancq
+  - Timothy Lillicrap
+  - Martin Riedmiller
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1801.00690"
+tags:
+abstract: >
+  The DeepMind Control Suite is a set of continuous control tasks with a standardised structure and interpretable rewards, intended to serve as performance benchmarks for reinforcement learning agents. The tasks are written in Python and powered by the MuJoCo physics engine, making them easy to use and modify. We include benchmarks for several learning algorithms. The Control Suite is publicly available at https://www.github.com/deepmind/dm_control . A video summary of all tasks is available at http://youtu.be/rAai4QzcYbs .
+summary: ''
+link: https://arxiv.org/pdf/1801.00690
+links_alt:
+audit_status: raw

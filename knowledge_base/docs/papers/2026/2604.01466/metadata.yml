@@ -1,0 +1,21 @@
+title: Efficient Equivariant Transformer for Self-Driving Agent Modeling
+algorithm:
+authors:
+  - Scott Xu
+  - Dian Chen
+  - Kelvin Wong
+  - Chris Zhang
+  - Kion Fallah
+  - Raquel Urtasun
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2604.01466"
+tags:
+abstract: >
+  Accurately modeling agent behaviors is an important task in self-driving. It is also a task with many symmetries, such as equivariance to the order of agents and objects in the scene or equivariance to arbitrary roto-translations of the entire scene as a whole; i.e., SE(2)-equivariance. The transformer architecture is a ubiquitous tool for modeling these symmetries. While standard self-attention is inherently permutation equivariant, explicit pairwise relative positional encodings have been the standard for introducing SE(2)-equivariance. However, this approach introduces an additional cost that is quadratic in the number of agents, limiting its scalability to larger scenes and batch sizes. In this work, we propose DriveGATr, a novel transformer-based architecture for agent modeling that achieves SE(2)-equivariance without the computational cost of existing methods. Inspired by recent advances in geometric deep learning, DriveGATr encodes scene elements as multivectors in the 2D projective geometric algebra $\mathbb{R}^*_{2,0,1}$ and processes them with a stack of equivariant transformer blocks. Crucially, DriveGATr models geometric relationships using standard attention between multivectors, eliminating the need for costly explicit pairwise relative positional encodings. Experiments on the Waymo Open Motion Dataset demonstrate that DriveGATr is comparable to the state-of-the-art in traffic simulation and establishes a superior Pareto front for performance vs computational cost.
+summary: ''
+link: https://arxiv.org/pdf/2604.01466
+links_alt:
+audit_status: raw

@@ -1,0 +1,17 @@
+title: Fast Model Predictive Control Using Online Optimization
+algorithm:
+authors:
+  - Yang Wang
+  - Stephen Boyd
+year: 2010
+source: IEEE Transactions on Control Systems Technology
+type: Journal Paper
+doi: 10.1109/TCST.2009.2017934
+arxiv_id:
+tags:
+abstract: >
+  A widely recognized shortcoming of model predictive control (MPC) is that it can usually only be used in applications with slow dynamics, where the sample time is measured in seconds or minutes. A well-known technique for implementing fast MPC is to compute the entire control law offline, in which case the online controller can be implemented as a lookup table. This method works well for systems with small state and input dimensions (say, no more than five), few constraints, and short time horizons. In this paper, we describe a collection of methods for improving the speed of MPC, using online optimization. These custom methods, which exploit the particular structure of the MPC problem, can compute the control action on the order of 100 times faster than a method that uses a generic optimizer. As an example, our method computes the control actions for a problem with 12 states, 3 controls, and horizon of 30 time steps (which entails solving a quadratic program with 450 variables and 1284 constraints) in around 5 ms, allowing MPC to be carried out at 200 Hz.
+summary: ''
+link: https://doi.org/10.1109/TCST.2009.2017934
+links_alt:
+audit_status: raw

@@ -1,0 +1,19 @@
+title: 'RAYEN: Imposition of Hard Convex Constraints on Neural Networks'
+algorithm:
+authors:
+  - Jesus Tordesillas
+  - Victor Klemm
+  - Jonathan P. How
+  - Marco Hutter
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2307.08336"
+tags:
+abstract: >
+  Despite the numerous applications of convex constraints in Robotics, enforcing them within learning-based frameworks remains an open challenge. Existing techniques either fail to guarantee satisfaction at all times, or incur prohibitive computational costs. This paper presents RAYEN, a framework for imposing hard convex constraints on the output or latent variables of a neural network. RAYEN guarantees constraint satisfaction during both training and testing, for any input and any network weights. Unlike prior approaches, RAYEN avoids computationally expensive orthogonal projections, soft constraints, conservative approximations of the feasible set, and slow iterative corrections. RAYEN supports any combination of linear, convex quadratic, second-order cone (SOC), and linear matrix inequality (LMI) constraints, with negligible overhead compared to unconstrained networks. For instance, it imposes 1K quadratic constraints on a 1K-dimensional variable with only 8 ms of overhead compared to a network that does not enforce these constraints. An LMI constraint with 300x300 dense matrices on a 10K-dimensional variable can be guaranteed with only 12 ms additional overhead. When used in neural networks that approximate the solution of constrained trajectory optimization problems, RAYEN runs 20 to 7468 times faster than state-of-the-art algorithms, while guaranteeing constraint satisfaction at all times and achieving a near-optimal cost (<1.5% optimality gap). Finally, we demonstrate RAYEN's ability to enforce actuator constraints on a learned locomotion policy by validating constraint satisfaction in both simulation and real-world experiments on a quadruped robot. The code is available at https://github.com/leggedrobotics/rayen
+summary: ''
+link: https://arxiv.org/pdf/2307.08336
+links_alt:
+audit_status: raw

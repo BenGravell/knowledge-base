@@ -1,0 +1,18 @@
+title: Safely Learning Controlled Stochastic Dynamics
+algorithm:
+authors:
+  - Luc Brogat-Motte
+  - Alessandro Rudi
+  - Riccardo Bonalli
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2506.02754"
+tags:
+abstract: >
+  We address the problem of safely learning controlled stochastic dynamics from discrete-time trajectory observations, ensuring system trajectories remain within predefined safe regions during both training and deployment. Safety-critical constraints of this kind are crucial in applications such as autonomous robotics, finance, and biomedicine. We introduce a method that ensures safe exploration and efficient estimation of system dynamics by iteratively expanding an initial known safe control set using kernel-based confidence bounds. After training, the learned model enables predictions of the system's dynamics and permits safety verification of any given control. Our approach requires only mild smoothness assumptions and access to an initial safe control set, enabling broad applicability to complex real-world systems. We provide theoretical guarantees for safety and derive adaptive learning rates that improve with increasing Sobolev regularity of the true dynamics. Experimental evaluations demonstrate the practical effectiveness of our method in terms of safety, estimation accuracy, and computational efficiency.
+summary: ''
+link: https://arxiv.org/pdf/2506.02754
+links_alt:
+audit_status: raw

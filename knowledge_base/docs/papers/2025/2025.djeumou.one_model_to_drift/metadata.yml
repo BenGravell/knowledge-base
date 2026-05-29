@@ -1,0 +1,25 @@
+title: >
+  One Model to Drift Them All: Physics-Informed Conditional Diffusion Model for Driving at the Limits
+algorithm:
+authors:
+  - Franck Djeumou
+  - Thomas Jonathan Lew
+  - NAN DING
+  - Michael Thompson
+  - Makoto Suminaka
+  - Marcus Greiff
+  - John Subosits
+year: 2025
+source: Conference on Robot Learning
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+abstract: >
+  Enabling autonomous vehicles to reliably operate at the limits of handling— where tire forces are saturated — would improve their safety, particularly in scenarios like emergency obstacle avoidance or adverse weather conditions. However, unlocking this capability is challenging due to the task’s dynamic nature and the high sensitivity to uncertain multimodal properties of the road, vehicle, and their dynamic interactions. Motivated by these challenges, we propose a framework to learn a conditional diffusion model for high-performance vehicle control using an unlabelled multimodal trajectory dataset. We design the diffusion model to capture the distribution of parameters of a physics-informed data-driven dynamics model. By conditioning the generation process on online measurements, we integrate the diffusion model into a real-time model predictive control framework for driving at the limits, and show that it can adapt on the fly to a given vehicle and environment. Extensive experiments on a Toyota Supra and a Lexus LC 500 show that a single diffusion model enables reliable autonomous drifting on both vehicles when operating with different tires in varying road conditions. The model matches the performance of task-specific expert models while outperforming them in generalization to unseen conditions, paving the way towards a general, reliable method for autonomous driving at the limits of handling.
+summary: ''
+link: >
+  https://raw.githubusercontent.com/mlresearch/v270/main/assets/djeumou25a/djeumou25a.pdf
+links_alt:
+  - https://proceedings.mlr.press/v270/djeumou25a.html
+audit_status: raw

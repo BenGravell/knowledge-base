@@ -1,0 +1,19 @@
+title: 'Newton-PIPG: A Fast Hybrid Algorithm for Quadratic Programs in Optimal Control'
+algorithm:
+authors:
+  - Dayou Luo
+  - Yue Yu
+  - Maryam Fazel
+  - BehÃ§et AÃ§Ä±kmeÅe
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2503.22131"
+tags:
+abstract: >
+  We propose Newton-PIPG, an efficient method for solving quadratic programming (QP) problems arising in optimal control, subject to additional set constraints. Newton-PIPG integrates the Proportional-Integral Projected Gradient (PIPG) method with the Newton method, thereby achieving both global convergence and local quadratic convergence. The PIPG method, an operator-splitting algorithm, seeks a fixed point of the PIPG operator. Under mild assumptions, we demonstrate that this operator is locally smooth, enabling the application of the Newton method to solve the corresponding nonlinear fixed-point equation. Furthermore, we prove that the linear system associated with the Newton method is locally nonsingular under strict complementarity conditions. To enhance efficiency, we design a specialized matrix factorization technique that leverages the typical sparsity of optimal control problems in such systems. Numerical experiments demonstrate that Newton-PIPG achieves high accuracy and reduces computation time, particularly when feasibility is easily guaranteed.
+summary: ''
+link: https://arxiv.org/pdf/2503.22131
+links_alt:
+audit_status: raw

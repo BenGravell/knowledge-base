@@ -1,0 +1,29 @@
+title: Towards Open-Source and Modular Space Systems with ATMOS
+algorithm:
+authors:
+  - Pedro Roque
+  - Sujet Phodapol
+  - Elias Krantz
+  - Jaeyoung Lim
+  - Joris Verhagen
+  - Frank J. Jiang
+  - David DÃ¶rner
+  - Huina Mao
+  - Gunnar Tibert
+  - Roland Siegwart
+  - Ivan Stenius
+  - Jana Tumova
+  - Christer Fuglesang
+  - Dimos V. Dimarogonas
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2501.16973"
+tags:
+abstract: >
+  In the near future, autonomous space systems will compose many of the deployed spacecraft. Their tasks will involve autonomous rendezvous and proximity operations with large structures, such as inspections, assembly, and maintenance of orbiting space stations, as well as human-assistance tasks over shared workspaces. To promote replicable and reliable scientific results for autonomous control of spacecraft, we present the design of a space robotics laboratory based on open-source and modular software and hardware. The simulation software provides a software-in-the-loop architecture that seamlessly transfers simulated results to the hardware. Our results provide an insight into such a system, including comparisons of hardware and software results, as well as control and planning methodologies for controlling free-flying platforms.
+summary: ''
+link: https://arxiv.org/pdf/2501.16973
+links_alt:
+audit_status: raw

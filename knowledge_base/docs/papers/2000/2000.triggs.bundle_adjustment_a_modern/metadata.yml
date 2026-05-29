@@ -1,0 +1,19 @@
+title: "Bundle Adjustment \u2014 A Modern Synthesis"
+algorithm:
+authors:
+  - Bill Triggs
+  - Philip F. McLauchlan
+  - Richard I. Hartley
+  - Andrew W. Fitzgibbon
+year: 2000
+source: Lecture Notes in Computer Science
+type: Conference Paper
+doi: 10.1007/3-540-44480-7_21
+arxiv_id:
+tags:
+abstract: >
+  This paper is a survey of the theory and methods of photogrammetric bundle adjustment, aimed at potential implementors in the computer vision community. Bundle adjustment is the problem of refining a visual reconstruction to produce jointly optimal structure and viewing parameter estimates. Topics covered include: the choice of cost function and robustness; numerical optimization including sparse Newton methods, linearly convergent approximations, updating and recursive methods; gauge (datum) invariance; and quality control. The theory is developed for general robust cost functions rather than restricting attention to traditional nonlinear least squares.
+summary: ''
+link: https://doi.org/10.1007/3-540-44480-7_21
+links_alt:
+audit_status: raw

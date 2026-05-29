@@ -1,0 +1,18 @@
+title: >
+  Revisiting Ho–Kalman-Based System Identification: Robustness and Finite-Sample Analysis
+algorithm:
+authors:
+  - Samet Oymak
+  - Necmiye Ozay
+year: 2022
+source: IEEE Transactions on Automatic Control
+type: Journal Paper
+doi: 10.1109/TAC.2021.3083651
+arxiv_id:
+tags:
+abstract: >
+  Weconsider the problem of learning a realization for a linear time-invariant (LTI) dynamical system from input/output data. Given a single input/output trajectory, we provide finite time analysis for learning the system’s Markov parameters, from which a balanced realization is estimated using the classical Ho–Kalman algorithm. By proving a robustness result for the Ho–Kalman algorithm and combining it with the sample complexity results for Markov parameters, we show how much data are needed to approximate the balanced realization of the system up to a desired accuracy with high probability.
+summary: ''
+link: https://doi.org/10.1109/TAC.2021.3083651
+links_alt:
+audit_status: raw

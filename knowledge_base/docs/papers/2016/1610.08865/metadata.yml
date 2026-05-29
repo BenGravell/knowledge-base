@@ -1,0 +1,19 @@
+title: Hit-and-Run for Sampling and Planning in Non-Convex Spaces
+algorithm:
+authors:
+  - Yasin Abbasi-Yadkori
+  - Peter L. Bartlett
+  - Victor Gabillon
+  - Alan Malek
+year: 2016
+source:
+type: ''
+doi:
+arxiv_id: "1610.08865"
+tags:
+abstract: >
+  We propose the Hit-and-Run algorithm for planning and sampling problems in non-convex spaces. For sampling, we show the first analysis of the Hit-and-Run algorithm in non-convex spaces and show that it mixes fast as long as certain smoothness conditions are satisfied. In particular, our analysis reveals an intriguing connection between fast mixing and the existence of smooth measure-preserving mappings from a convex space to the non-convex space. For planning, we show advantages of Hit-and-Run compared to state-of-the-art planning methods such as Rapidly-Exploring Random Trees.
+summary: ''
+link: https://arxiv.org/pdf/1610.08865
+links_alt:
+audit_status: raw

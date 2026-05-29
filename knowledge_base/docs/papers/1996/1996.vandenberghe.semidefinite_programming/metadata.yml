@@ -1,0 +1,18 @@
+title: Semidefinite Programming
+algorithm:
+authors:
+  - Lieven Vandenberghe
+  - Stephen Boyd
+year: 1996
+source: SIAM Review
+type: Journal Paper
+doi: 10.1137/1038003
+arxiv_id:
+tags:
+abstract: >
+  In semidefinite programming one minimizes a linear function subject to the constraint that an affine combination of symmetric matrices is positive semidefinite. Such a constraint is nonlinear and nonsmooth, but convex, so semidefinite programs are convex optimization problems. Semidefinite programming unifies several standard problems (e.g., linear and quadratic programming) and finds many applications in engineering and combinatorial optimization. Although semidefinite programs are much more general than linear programs, they are not much harder to solve. Most interior-point methods for linear programming have been generalized to semidefinite programs. As in linear programming, these methods have polynomial worst-case complexity, and perform very well in practice. This paper gives a survey of the theory and applications of semidefinite programs, and an introduction to primal-dual interior-point methods for their solution.
+summary: ''
+link: https://epubs.siam.org/doi/10.1137/1038003
+links_alt:
+  - https://doi.org/10.1137/1038003
+audit_status: raw

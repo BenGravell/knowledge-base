@@ -1,0 +1,21 @@
+title: Brax -- A Differentiable Physics Engine for Large Scale Rigid Body Simulation
+algorithm:
+authors:
+  - C. Daniel Freeman
+  - Erik Frey
+  - Anton Raichuk
+  - Sertan Girgin
+  - Igor Mordatch
+  - Olivier Bachem
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2106.13281"
+tags:
+abstract: >
+  We present Brax, an open source library for rigid body simulation with a focus on performance and parallelism on accelerators, written in JAX. We present results on a suite of tasks inspired by the existing reinforcement learning literature, but remade in our engine. Additionally, we provide reimplementations of PPO, SAC, ES, and direct policy optimization in JAX that compile alongside our environments, allowing the learning algorithm and the environment processing to occur on the same device, and to scale seamlessly on accelerators. Finally, we include notebooks that facilitate training of performant policies on common OpenAI Gym MuJoCo-like tasks in minutes.
+summary: ''
+link: https://arxiv.org/pdf/2106.13281
+links_alt:
+audit_status: raw

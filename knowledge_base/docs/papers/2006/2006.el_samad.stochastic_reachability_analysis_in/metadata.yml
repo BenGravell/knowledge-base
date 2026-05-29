@@ -1,0 +1,20 @@
+title: Stochastic reachability analysis in complex biological networks
+algorithm:
+authors:
+  - H. El-Samad
+  - M. Fazel
+  - X. Liu
+  - A. Papachristodoulou
+  - S. Prajna
+year: 2006
+source: 2006 American Control Conference
+type: Conference Paper
+doi: 10.1109/ACC.2006.1657471
+arxiv_id:
+tags:
+abstract: >
+  The impact of noise on cellular networks and its interplay with their rich dynamics are increasingly being characterized as important phenomena that must be thoroughly investigated for a useful understanding of biological dynamics. At the same time, the mathematical modeling and analysis of these networks in a stochastic setting presents a number of challenges, such as the need for a large number of computationally expensive stochastic simulations to collect statistics about the occurrence of important events or correlate their occurrence with the noise intensity. In this paper, we demonstrate the use of new techniques of stochastic reachability analysis to address these problems. Specifically, we study the problem of computing bounds on the probability of a biological stochastic process to reach certain parts of the state space in a finite time. The techniques presented are based on the algorithmic construction of barrier certificates using convex optimization, and are illustrated through the use of a biologically important system: the bacteriophage lambda genetic switch
+summary: ''
+link: https://doi.org/10.1109/ACC.2006.1657471
+links_alt:
+audit_status: raw

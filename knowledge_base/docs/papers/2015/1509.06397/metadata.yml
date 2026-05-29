@@ -1,0 +1,22 @@
+title: 'SnapVX: A Network-Based Convex Optimization Solver'
+algorithm:
+authors:
+  - David Hallac
+  - Christopher Wong
+  - Steven Diamond
+  - Abhijit Sharang
+  - Rok Sosic
+  - Stephen Boyd
+  - Jure Leskovec
+year: 2015
+source:
+type: ''
+doi:
+arxiv_id: "1509.06397"
+tags:
+abstract: >
+  SnapVX is a high-performance Python solver for convex optimization problems defined on networks. For these problems, it provides a fast and scalable solution with guaranteed global convergence. SnapVX combines the capabilities of two open source software packages: Snap.py and CVXPY. Snap.py is a large scale graph processing library, and CVXPY provides a general modeling framework for small-scale subproblems. SnapVX offers a customizable yet easy-to-use interface with out-of-the-box functionality. Based on the Alternating Direction Method of Multipliers (ADMM), it is able to efficiently store, analyze, and solve large optimization problems from a variety of different applications. Documentation, examples, and more can be found on the SnapVX website at http://snap.stanford.edu/snapvx.
+summary: ''
+link: https://arxiv.org/pdf/1509.06397
+links_alt:
+audit_status: raw

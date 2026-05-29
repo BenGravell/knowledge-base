@@ -1,0 +1,23 @@
+title: Practical Large-Scale Optimization for Max-norm Regularization
+algorithm:
+authors:
+  - Jason Lee
+  - Ben Recht
+  - Nathan Srebro
+  - Joel Tropp
+  - Russ Salakhutdinov
+year: 2010
+source: Advances in Neural Information Processing Systems
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+abstract: >
+  The max-norm was proposed as a convex matrix regularizer by Srebro et al (2004) and was shown to be empirically superior to the trace-norm for collaborative filtering problems. Although the max-norm can be computed in polynomial time, there are currently no practical algorithms for solving large-scale optimization problems that incorporate the max-norm. The present work uses a factorization technique of Burer and Monteiro (2003) to devise scalable first-order algorithms for convex programs involving the max-norm. These algorithms are applied to solve huge collaborative filtering, graph cut, and clustering problems. Empirically, the new methods outperform mature techniques from all three areas.
+summary: ''
+link: >
+  https://proceedings.neurips.cc/paper_files/paper/2010/file/9fe8593a8a330607d76796b35c64c600-Paper.pdf
+links_alt:
+  - https://proceedings.neurips.cc/paper/2010/hash/9fe8593a8a330607d76796b35c64c600-Abstract.html
+  - https://proceedings.neurips.cc/paper_files/paper/2010/file/9fe8593a8a330607d76796b35c64c600-Metadata.json
+audit_status: raw

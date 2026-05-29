@@ -1,0 +1,22 @@
+title: In Defense of Liquid Democracy
+algorithm:
+authors:
+  - Daniel Halpern
+  - Joseph Y. Halpern
+  - Ali Jadbabaie
+  - Elchanan Mossel
+  - Ariel D. Procaccia
+  - Manon Revel
+year: 2023
+source: Proceedings of the 24th ACM Conference on Economics and Computation
+type: Conference Paper
+doi: 10.1145/3580507.3597817
+arxiv_id:
+tags:
+abstract: >
+  Liquid democracy is a voting paradigm that is conceptually situated between direct democracy, in which voters have direct influence over decisions, and representative democracy, where voters choose delegates who represent them for a period of time. Under liquid democracy, voters have a choice: they can either vote directly on an issue like in direct democracy, or delegate their vote to another voter, entrusting them to vote on their behalf. The defining feature of liquid democracy is that these delegations are transitive: if voter 1 delegates to voter 2 and voter 2 delegates to voter 3, then voter 3 votes (or delegates) on behalf of all three voters.
+summary: ''
+link: https://dl.acm.org/doi/abs/10.1145/3580507.3597817
+links_alt:
+  - https://doi.org/10.1145/3580507.3597817
+audit_status: raw

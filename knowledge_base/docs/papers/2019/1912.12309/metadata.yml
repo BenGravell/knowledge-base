@@ -1,0 +1,18 @@
+title: Sample Complexity of Kalman Filtering for Unknown Systems
+algorithm:
+authors:
+  - Anastasios Tsiamis
+  - Nikolai Matni
+  - George J. Pappas
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1912.12309"
+tags:
+abstract: >
+  In this paper, we consider the task of designing a Kalman Filter (KF) for an unknown and partially observed autonomous linear time invariant system driven by process and sensor noise. To do so, we propose studying the following two step process: first, using system identification tools rooted in subspace methods, we obtain coarse finite-data estimates of the state-space parameters and Kalman gain describing the autonomous system; and second, we use these approximate parameters to design a filter which produces estimates of the system state. We show that when the system identification step produces sufficiently accurate estimates, or when the underlying true KF is sufficiently robust, that a Certainty Equivalent (CE) KF, i.e., one designed using the estimated parameters directly, enjoys provable sub-optimality guarantees. We further show that when these conditions fail, and in particular, when the CE KF is marginally stable (i.e., has eigenvalues very close to the unit circle), that imposing additional robustness constraints on the filter leads to similar sub-optimality guarantees. We further show that with high probability, both the CE and robust filters have mean prediction error bounded by $\tilde O(1/\sqrt{N})$, where $N$ is the number of data points collected in the system identification step. To the best of our knowledge, these are the first end-to-end sample complexity bounds for the Kalman Filtering of an unknown system.
+summary: ''
+link: https://arxiv.org/pdf/1912.12309
+links_alt:
+audit_status: raw

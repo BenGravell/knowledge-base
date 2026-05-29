@@ -1,0 +1,18 @@
+title: Escaping from saddle points on Riemannian manifolds
+algorithm:
+authors:
+  - Yue Sun
+  - Nicolas Flammarion
+  - Maryam Fazel
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1906.07355"
+tags:
+abstract: >
+  We consider minimizing a nonconvex, smooth function $f$ on a Riemannian manifold $\mathcal{M}$. We show that a perturbed version of Riemannian gradient descent algorithm converges to a second-order stationary point (and hence is able to escape saddle points on the manifold). The rate of convergence depends as $1/Îµ^2$ on the accuracy $Îµ$, which matches a rate known only for unconstrained smooth minimization. The convergence rate depends polylogarithmically on the manifold dimension $d$, hence is almost dimension-free. The rate also has a polynomial dependence on the parameters describing the curvature of the manifold and the smoothness of the function. While the unconstrained problem (Euclidean setting) is well-studied, our result is the first to prove such a rate for nonconvex, manifold-constrained problems.
+summary: ''
+link: https://arxiv.org/pdf/1906.07355
+links_alt:
+audit_status: raw

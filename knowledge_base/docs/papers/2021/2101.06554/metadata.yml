@@ -1,0 +1,22 @@
+title: Diverse Complexity Measures for Dataset Curation in Self-driving
+algorithm:
+authors:
+  - Abbas Sadat
+  - Sean Segal
+  - Sergio Casas
+  - James Tu
+  - Bin Yang
+  - Raquel Urtasun
+  - Ersin Yumer
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2101.06554"
+tags:
+abstract: >
+  Modern self-driving autonomy systems heavily rely on deep learning. As a consequence, their performance is influenced significantly by the quality and richness of the training data. Data collecting platforms can generate many hours of raw data in a daily basis, however, it is not feasible to label everything. It is thus of key importance to have a mechanism to identify "what to label". Active learning approaches identify examples to label, but their interestingness is tied to a fixed model performing a particular task. These assumptions are not valid in self-driving, where we have to solve a diverse set of tasks (i.e., perception, and motion forecasting) and our models evolve over time frequently. In this paper we introduce a novel approach and propose a new data selection method that exploits a diverse set of criteria that quantize interestingness of traffic scenes. Our experiments on a wide range of tasks and models show that the proposed curation pipeline is able to select datasets that lead to better generalization and higher performance.
+summary: ''
+link: https://arxiv.org/pdf/2101.06554
+links_alt:
+audit_status: raw

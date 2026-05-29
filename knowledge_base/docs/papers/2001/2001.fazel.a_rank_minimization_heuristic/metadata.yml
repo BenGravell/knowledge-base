@@ -1,0 +1,19 @@
+title: >
+  A rank minimization heuristic with application to minimum order system approximation
+algorithm:
+authors:
+  - M. Fazel
+  - H. Hindi
+  - S.P. Boyd
+year: 2001
+source: Proceedings of the 2001 American Control Conference. (Cat. No.01CH37148)
+type: Conference Paper
+doi: 10.1109/ACC.2001.945730
+arxiv_id:
+tags:
+abstract: >
+  We describe a generalization of the trace heuristic that applies to general nonsymmetric, even non-square, matrices, and reduces to the trace heuristic when the matrix is positive semidefinite. The heuristic is to replace the (nonconvex) rank objective with the sum of the singular values of the matrix, which is the dual of the spectral norm. We show that this problem can be reduced to a semidefinite program, hence efficiently solved. To motivate the heuristic, we, show that the dual spectral norm is the convex envelope of the rank on the set of matrices with norm less than one. We demonstrate the method on the problem of minimum-order system approximation.
+summary: ''
+link: https://doi.org/10.1109/ACC.2001.945730
+links_alt:
+audit_status: raw

@@ -1,0 +1,18 @@
+title: 'Policy Optimization in Robust Control: Weak Convexity and Subgradient Methods'
+algorithm:
+authors:
+  - Yuto Watanabe
+  - Feng-Yi Liao
+  - Yang Zheng
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2509.25633"
+tags:
+abstract: >
+  Robust control seeks stabilizing policies that perform reliably under adversarial disturbances, with $\mathcal{H}_\infty$ control as a classical formulation. It is known that policy optimization of robust $\mathcal{H}_\infty$ control naturally lead to nonsmooth and nonconvex problems. This paper builds on recent advances in nonsmooth optimization to analyze discrete-time static output-feedback $\mathcal{H}_\infty$ control. We show that the $\mathcal{H}_\infty$ cost is weakly convex over any convex subset of a sublevel set. This structural property allows us to establish the first non-asymptotic deterministic convergence rate for the subgradient method under suitable assumptions. In addition, we prove a weak Polyak-Åojasiewicz (PL) inequality in the state-feedback case, implying that all stationary points are globally optimal. We finally present a few numerical examples to validate the theoretical results.
+summary: ''
+link: https://arxiv.org/pdf/2509.25633
+links_alt:
+audit_status: raw

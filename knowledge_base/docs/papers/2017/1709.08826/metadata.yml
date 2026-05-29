@@ -1,0 +1,19 @@
+title: Sensing-Constrained LQG Control
+algorithm:
+authors:
+  - Vasileios Tzoumas
+  - Luca Carlone
+  - George J. Pappas
+  - Ali Jadbabaie
+year: 2017
+source:
+type: ''
+doi:
+arxiv_id: "1709.08826"
+tags:
+abstract: >
+  Linear-Quadratic-Gaussian (LQG) control is concerned with the design of an optimal controller and estimator for linear Gaussian systems with imperfect state information. Standard LQG assumes the set of sensor measurements, to be fed to the estimator, to be given. However, in many problems, arising in networked systems and robotics, one may not be able to use all the available sensors, due to power or payload constraints, or may be interested in using the smallest subset of sensors that guarantees the attainment of a desired control goal. In this paper, we introduce the sensing-constrained LQG control problem, in which one has to jointly design sensing, estimation, and control, under given constraints on the resources spent for sensing. We focus on the realistic case in which the sensing strategy has to be selected among a finite set of possible sensing modalities. While the computation of the optimal sensing strategy is intractable, we present the first scalable algorithm that computes a near-optimal sensing strategy with provable sub-optimality guarantees. To this end, we show that a separation principle holds, which allows the design of sensing, estimation, and control policies in isolation. We conclude the paper by discussing two applications of sensing-constrained LQG control, namely, sensing-constrained formation control and resource-constrained robot navigation.
+summary: ''
+link: https://arxiv.org/pdf/1709.08826
+links_alt:
+audit_status: raw

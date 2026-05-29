@@ -1,0 +1,20 @@
+title: >
+  Dull, Dirty, Dangerous: Understanding the Past, Present, and Future of a Key Motivation for Robotics
+algorithm:
+authors:
+  - Nozomi Nakajima
+  - Pedro Reynolds-CuÃ©llar
+  - Caitrin Lynch
+  - Kate Darling
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2602.04746"
+tags:
+abstract: >
+  In robotics, the concept of "dull, dirty, and dangerous" (DDD) work has been used to motivate where robots might be useful. In this paper, we conduct an empirical analysis of robotics publications between 1980 and 2024 that mention DDD, and find that only 2.7% of publications define DDD and 8.7% of publications provide concrete examples of tasks or jobs that are DDD. We then review the social science literature on "dull," "dirty," and "dangerous" work to provide definitions and guidance on how to conceptualize DDD for robotics. Finally, we propose a framework that helps the robotics community consider the job context for our technology, encouraging a more informed perspective on how robotics may impact human labor.
+summary: ''
+link: https://arxiv.org/pdf/2602.04746
+links_alt:
+audit_status: raw

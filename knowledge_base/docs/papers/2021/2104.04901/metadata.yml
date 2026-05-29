@@ -1,0 +1,19 @@
+title: >
+  Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs
+algorithm:
+authors:
+  - Feiran Zhao
+  - Keyou You
+  - Tamer BaÅar
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2104.04901"
+tags:
+abstract: >
+  While the techniques in optimal control theory are often model-based, the policy optimization (PO) approach directly optimizes the performance metric of interest. Even though it has been an essential approach for reinforcement learning problems, there is little theoretical understanding on its performance. In this paper, we focus on the risk-constrained linear quadratic regulator (RC-LQR) problem via the PO approach, which requires addressing a challenging non-convex constrained optimization problem. To solve it, we first build on our earlier result that an optimal policy has a time-invariant affine structure to show that the associated Lagrangian function is coercive, locally gradient dominated and has local Lipschitz continuous gradient, based on which we establish strong duality. Then, we design policy gradient primal-dual methods with global convergence guarantees in both model-based and sample-based settings. Finally, we use samples of system trajectories in simulations to validate our methods.
+summary: ''
+link: https://arxiv.org/pdf/2104.04901
+links_alt:
+audit_status: raw

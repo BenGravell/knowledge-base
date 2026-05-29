@@ -1,0 +1,19 @@
+title: >
+  PLUTO: Pushing the Limit of Imitation Learning-based Planning for Autonomous Driving
+algorithm:
+authors:
+  - Jie Cheng
+  - Yingbing Chen
+  - Qifeng Chen
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2404.14327"
+tags:
+abstract: >
+  We present PLUTO, a powerful framework that pushes the limit of imitation learning-based planning for autonomous driving. Our improvements stem from three pivotal aspects: a longitudinal-lateral aware model architecture that enables flexible and diverse driving behaviors; An innovative auxiliary loss computation method that is broadly applicable and efficient for batch-wise calculation; A novel training framework that leverages contrastive learning, augmented by a suite of new data augmentations to regulate driving behaviors and facilitate the understanding of underlying interactions. We assessed our framework using the large-scale real-world nuPlan dataset and its associated standardized planning benchmark. Impressively, PLUTO achieves state-of-the-art closed-loop performance, beating other competing learning-based methods and surpassing the current top-performed rule-based planner for the first time. Results and code are available at https://jchengai.github.io/pluto.
+summary: ''
+link: https://arxiv.org/pdf/2404.14327
+links_alt:
+audit_status: raw

@@ -1,0 +1,19 @@
+title: Finite Sample Identification of Partially Observed Bilinear Dynamical Systems
+algorithm:
+authors:
+  - Yahya Sattar
+  - Yassir Jedra
+  - Maryam Fazel
+  - Sarah Dean
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2501.07652"
+tags:
+abstract: >
+  We consider the problem of learning a realization of a partially observed bilinear dynamical system (BLDS) from noisy input-output data. Given a single trajectory of input-output samples, we provide a finite time analysis for learning the system's Markov-like parameters, from which a balanced realization of the bilinear system can be obtained. Our bilinear system identification algorithm learns the system's Markov-like parameters by regressing the outputs to highly correlated, nonlinear, and heavy-tailed covariates. Moreover, the stability of BLDS depends on the sequence of inputs used to excite the system. These properties, unique to partially observed bilinear dynamical systems, pose significant challenges to the analysis of our algorithm for learning the unknown dynamics. We address these challenges and provide high probability error bounds on our identification algorithm under a uniform stability assumption. Our analysis provides insights into system theoretic quantities that affect learning accuracy and sample complexity. Lastly, we perform numerical experiments with synthetic data to reinforce these insights.
+summary: ''
+link: https://arxiv.org/pdf/2501.07652
+links_alt:
+audit_status: raw

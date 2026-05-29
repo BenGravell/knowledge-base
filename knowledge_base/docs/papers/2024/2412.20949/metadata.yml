@@ -1,0 +1,16 @@
+title: A Vector Bernstein Inequality for Self-Normalized Martingales
+algorithm:
+authors:
+  - Ingvar Ziemann
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2412.20949"
+tags:
+abstract: >
+  We prove a Bernstein inequality for vector-valued self-normalized martingales. We first give an alternative perspective of the corresponding sub-Gaussian bound due to Abbasi-Yadkori et al. via a PAC-Bayesian argument with Gaussian priors. By instantiating this argument to priors drawn uniformly over well-chosen ellipsoids, we obtain a Bernstein bound.
+summary: ''
+link: https://arxiv.org/pdf/2412.20949
+links_alt:
+audit_status: raw

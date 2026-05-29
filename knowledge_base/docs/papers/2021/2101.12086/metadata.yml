@@ -1,0 +1,21 @@
+title: Risk-sensitive safety analysis using Conditional Value-at-Risk
+algorithm:
+authors:
+  - Margaret P. Chapman
+  - Riccardo Bonalli
+  - Kevin M. Smith
+  - Insoon Yang
+  - Marco Pavone
+  - Claire J. Tomlin
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2101.12086"
+tags:
+abstract: >
+  This paper develops a safety analysis method for stochastic systems that is sensitive to the possibility and severity of rare harmful outcomes. We define risk-sensitive safe sets as sub-level sets of the solution to a non-standard optimal control problem, where a random maximum cost is assessed via Conditional Value-at-Risk (CVaR). The objective function represents the maximum extent of constraint violation of the state trajectory, averaged over a given percentage of worst cases. This problem is well-motivated but difficult to solve tractably because the temporal decomposition for CVaR is history-dependent. Our primary theoretical contribution is to derive computationally tractable under-approximations to risk-sensitive safe sets. Our method provides a novel, theoretically guaranteed, parameter-dependent upper bound to the CVaR of a maximum cost without the need to augment the state space. For a fixed parameter value, the solution to only one Markov decision process problem is required to obtain the under-approximations for any family of risk-sensitivity levels. In addition, we propose a second definition for risk-sensitive safe sets and provide a tractable method for their estimation without using a parameter-dependent upper bound. The second definition is expressed in terms of a new coherent risk functional, which is inspired by CVaR. We demonstrate our primary theoretical contribution via numerical examples.
+summary: ''
+link: https://arxiv.org/pdf/2101.12086
+links_alt:
+audit_status: raw

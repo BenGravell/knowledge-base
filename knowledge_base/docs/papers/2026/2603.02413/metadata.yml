@@ -1,0 +1,21 @@
+title: 'TruckDrive: Long-Range Autonomous Highway Driving Dataset'
+algorithm:
+authors:
+  - Filippo Ghilotti
+  - Edoardo Palladin
+  - Samuel Brucker
+  - Adam Sigal
+  - Mario Bijelic
+  - Felix Heide
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2603.02413"
+tags:
+abstract: >
+  Safe highway autonomy for heavy trucks remains an open and unsolved challenge: due to long braking distances, scene understanding of hundreds of meters is required for anticipatory planning and to allow safe braking margins. However, existing driving datasets primarily cover urban scenes, with perception effectively limited to short ranges of only up to 100 meters. To address this gap, we introduce TruckDrive, a highway-scale multimodal driving dataset, captured with a sensor suite purpose-built for long range sensing: seven long-range FMCW LiDARs measuring range and radial velocity, three high-resolution short-range LiDARs, eleven 8MP surround cameras with varying focal lengths and ten 4D FMCW radars. The dataset offers 475 thousands samples with 165 thousands densely annotated frames for driving perception benchmarking up to 1,000 meters for 2D detection and 400 meters for 3D detection, depth estimation, tracking, planning and end to end driving over 20 seconds sequences at highway speeds. We find that state-of-the-art autonomous driving models do not generalize to ranges beyond 150 meters, with drops between 31% and 99% in 3D perception tasks, exposing a systematic long-range gap that current architectures and training signals cannot close.
+summary: ''
+link: https://arxiv.org/pdf/2603.02413
+links_alt:
+audit_status: raw

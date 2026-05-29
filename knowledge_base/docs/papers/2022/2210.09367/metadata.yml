@@ -1,0 +1,19 @@
+title: >
+  Task and Motion Informed Trees (TMIT*): Almost-Surely Asymptotically Optimal Integrated Task and Motion Planning
+algorithm:
+authors:
+  - Wil Thomason
+  - Marlin P. Strub
+  - Jonathan D. Gammell
+year: 2022
+source:
+type: ''
+doi: 10.1109/LRA.2022.3199676
+arxiv_id: "2210.09367"
+tags:
+abstract: >
+  High-level autonomy requires discrete and continuous reasoning to decide both what actions to take and how to execute them. Integrated Task and Motion Planning (TMP) algorithms solve these hybrid problems jointly to consider constraints between the discrete symbolic actions (i.e., the task plan) and their continuous geometric realization (i.e., motion plans). This joint approach solves more difficult problems than approaches that address the task and motion subproblems independently. TMP algorithms combine and extend results from both task and motion planning. TMP has mainly focused on computational performance and completeness and less on solution optimality. Optimal TMP is difficult because the independent optima of the subproblems may not be the optimal integrated solution, which can only be found by jointly optimizing both plans. This paper presents Task and Motion Informed Trees (TMIT*), an optimal TMP algorithm that combines results from makespan-optimal task planning and almost-surely asymptotically optimal motion planning. TMIT* interleaves asymmetric forward and reverse searches to delay computationally expensive operations until necessary and perform an efficient informed search directly in the problem's hybrid state space. This allows it to solve problems quickly and then converge towards the optimal solution with additional computational time, as demonstrated on the evaluated robotic-manipulation benchmark problems.
+summary: ''
+link: https://arxiv.org/pdf/2210.09367
+links_alt:
+audit_status: raw

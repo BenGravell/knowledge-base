@@ -1,0 +1,18 @@
+title: On the Adaptive Control of Robot Manipulators
+algorithm:
+authors:
+  - Jean-Jacques E. Slotine
+  - Weiping Li
+year: 1987
+source: The International Journal of Robotics Research
+type: Journal Paper
+doi: 10.1177/027836498700600303
+arxiv_id:
+tags:
+abstract: >
+  A new adaptive robot control algorithm is derived, which consists of a PD feedback part and a full dynamics feedfor ward compensation part, with the unknown manipulator and payload parameters being estimated online. The algorithm is computationally simple, because of an effective exploitation of the structure of manipulator dynamics. In particular, it requires neither feedback of joint accelerations nor inversion of the estimated inertia matrix. The algorithm can also be applied directly in Cartesian space.
+summary: ''
+link: https://journals.sagepub.com/doi/10.1177/027836498700600303
+links_alt:
+  - https://doi.org/10.1177/027836498700600303
+audit_status: raw

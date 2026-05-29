@@ -1,0 +1,17 @@
+title: The achievable performance of convex demixing
+algorithm:
+authors:
+  - Michael B. McCoy
+  - Joel A. Tropp
+year: 2013
+source:
+type: ''
+doi:
+arxiv_id: "1309.7478"
+tags:
+abstract: >
+  Demixing is the problem of identifying multiple structured signals from a superimposed, undersampled, and noisy observation. This work analyzes a general framework, based on convex optimization, for solving demixing problems. When the constituent signals follow a generic incoherence model, this analysis leads to precise recovery guarantees. These results admit an attractive interpretation: each signal possesses an intrinsic degrees-of-freedom parameter, and demixing can succeed if and only if the dimension of the observation exceeds the total degrees of freedom present in the observation.
+summary: ''
+link: https://arxiv.org/pdf/1309.7478
+links_alt:
+audit_status: raw

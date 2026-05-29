@@ -1,0 +1,19 @@
+title: Learning to Forecast Dynamical Systems from Streaming Data
+algorithm:
+authors:
+  - Dimitris Giannakis
+  - Amelia Henriksen
+  - Joel A. Tropp
+  - Rachel Ward
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2109.09703"
+tags:
+abstract: >
+  Kernel analog forecasting (KAF) is a powerful methodology for data-driven, non-parametric forecasting of dynamically generated time series data. This approach has a rigorous foundation in Koopman operator theory and it produces good forecasts in practice, but it suffers from the heavy computational costs common to kernel methods. This paper proposes a streaming algorithm for KAF that only requires a single pass over the training data. This algorithm dramatically reduces the costs of training and prediction without sacrificing forecasting skill. Computational experiments demonstrate that the streaming KAF method can successfully forecast several classes of dynamical systems (periodic, quasi-periodic, and chaotic) in both data-scarce and data-rich regimes. The overall methodology may have wider interest as a new template for streaming kernel regression.
+summary: ''
+link: https://arxiv.org/pdf/2109.09703
+links_alt:
+audit_status: raw

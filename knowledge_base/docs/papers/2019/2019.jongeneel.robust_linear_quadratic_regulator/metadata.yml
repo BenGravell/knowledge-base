@@ -1,0 +1,18 @@
+title: 'Robust Linear Quadratic Regulator: Exact Tractable Reformulation'
+algorithm:
+authors:
+  - Wouter Jongeneel
+  - Tyler Summers
+  - Peyman Mohajerin Esfahani
+year: 2019
+source: 2019 IEEE 58th Conference on Decision and Control (CDC)
+type: Conference Paper
+doi: 10.1109/CDC40024.2019.9028884
+arxiv_id:
+tags:
+abstract: >
+  We consider the problem of controlling an unknown stochastic linear dynamical system subject to an infinitehorizon discounted quadratic cost. Existing approaches for handling the corresponding robust optimal control problem resort to either conservative uncertainty sets or various approximations schemes, and to our best knowledge, the current literature lacks an exact, yet tractable, solution. We propose a class of novel uncertainty sets for the system matrices of the linear system. We show that the resulting robust linear quadratic regulator problem enjoys a closed-form solution described through a generalized algebraic Riccati equation arising from dynamic game theory.
+summary: ''
+link: https://doi.org/10.1109/CDC40024.2019.9028884
+links_alt:
+audit_status: raw

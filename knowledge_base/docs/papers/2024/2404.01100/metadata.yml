@@ -1,0 +1,19 @@
+title: Finite Sample Frequency Domain Identification
+algorithm:
+authors:
+  - Anastasios Tsiamis
+  - Mohamed Abdalmoaty
+  - Roy S. Smith
+  - John Lygeros
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2404.01100"
+tags:
+abstract: >
+  We study non-parametric frequency-domain system identification from a finite-sample perspective. We assume an open loop scenario where the excitation input is periodic and consider the Empirical Transfer Function Estimate (ETFE), where the goal is to estimate the frequency response at certain desired (evenly-spaced) frequencies, given input-output samples. We show that under sub-Gaussian colored noise (in time-domain) and stability assumptions, the ETFE estimates are concentrated around the true values. The error rate is of the order of $\mathcal{O}((d_{\mathrm{u}}+\sqrt{d_{\mathrm{u}}d_{\mathrm{y}}})\sqrt{M/N_{\mathrm{tot}}})$, where $N_{\mathrm{tot}}$ is the total number of samples, $M$ is the number of desired frequencies, and $d_{\mathrm{u}},\,d_{\mathrm{y}}$ are the dimensions of the input and output signals respectively. This rate remains valid for general irrational transfer functions and does not require a finite order state-space representation. By tuning $M$, we obtain a $N_{\mathrm{tot}}^{-1/3}$ finite-sample rate for learning the frequency response over all frequencies in the $ \mathcal{H}_{\infty}$ norm. Our result draws upon an extension of the Hanson-Wright inequality to semi-infinite matrices. We study the finite-sample behavior of ETFE in simulations.
+summary: ''
+link: https://arxiv.org/pdf/2404.01100
+links_alt:
+audit_status: raw

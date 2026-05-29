@@ -1,0 +1,21 @@
+title: Maximum a Posteriori Policy Optimisation
+algorithm:
+authors:
+  - Abbas Abdolmaleki
+  - Jost Tobias Springenberg
+  - Yuval Tassa
+  - Remi Munos
+  - Nicolas Heess
+  - Martin Riedmiller
+year: 2018
+source:
+type: ''
+doi:
+arxiv_id: "1806.06920"
+tags:
+abstract: >
+  We introduce a new algorithm for reinforcement learning called Maximum aposteriori Policy Optimisation (MPO) based on coordinate ascent on a relative entropy objective. We show that several existing methods can directly be related to our derivation. We develop two off-policy algorithms and demonstrate that they are competitive with the state-of-the-art in deep reinforcement learning. In particular, for continuous control, our method outperforms existing methods with respect to sample efficiency, premature convergence and robustness to hyperparameter settings while achieving similar or better final performance.
+summary: ''
+link: https://arxiv.org/pdf/1806.06920
+links_alt:
+audit_status: raw
