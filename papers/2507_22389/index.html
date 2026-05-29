@@ -1635,17 +1635,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1759,9 +1748,6 @@
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>The advent of end-to-end autonomy stacks - often lacking interpretable intermediate modules - has placed an increased burden on ensuring that the final output, i.e., the motion plan, is safe in order to validate the safety of the entire stack. This requires a safety monitor that is both complete (able to detect all unsafe plans) and sound (does not flag safe plans). In this work, we propose a principled safety monitor that leverages modern multi-modal trajectory predictors to approximate forward reachable sets (FRS) of surrounding agents. By formulating a convex program, we efficiently extract these data-driven FRSs directly from the predicted state distributions, conditioned on scene context such as lane topology and agent history. To ensure completeness, we leverage conformal prediction to calibrate the FRS and guarantee coverage of ground-truth trajectories with high probability. To preserve soundness in out-of-distribution (OOD) scenarios or under predictor failure, we introduce a Bayesian filter that dynamically adjusts the FRS conservativeness based on the predictor's observed performance. We then assess the safety of the ego vehicle's motion plan by checking for intersections with these calibrated FRSs, ensuring the plan remains collision-free under plausible future behaviors of others. Extensive experiments on the nuScenes dataset show our approach significantly improves soundness while maintaining completeness, offering a practical and reliable safety monitor for learned autonomy stacks.</p>
 
-<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>The advent of end-to-end autonomy stacks - often lacking interpretable intermediate modules - has placed an increased burden on ensuring that the final output, i.e., the motion plan, is safe in order to validate the safety of the entire stack. The abstract also notes that this requires a safety monitor that is both complete (able to detect all unsafe plans) and sound (does not flag safe plans).</p>
-
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
 
@@ -1844,10 +1830,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>89%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1905,11 +1891,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2210_02761/">Learning Autonomous Vehicle Safety Concepts from Demonstrations</a></h3>
+      <h3><a href="../../papers/2503_03262/">Trajectory Prediction for Autonomous Driving: Progress, Limitations, and Future Directions</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Karen Leung et al. / 2022</span>
+        <span>Nadya Abdel Madjid et al. / 2025</span>
       </div>
 
     </div>
@@ -1923,13 +1909,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2604_27168/">The Field of Safe Motion: Operationalizing Affordances in the Field of Safe Travel Using Reachability Analysis</a></h3>
-
-      <p class="paper-similar-card__label">Field of Safe Motion</p>
+      <h3><a href="../../papers/2505_09074/">Trends in Motion Prediction Toward Deployable and Generalizable Autonomy: A Revisit and Perspectives</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Leif Johnson et al. / 2026</span>
+        <span>Letian Wang et al. / 2025</span>
       </div>
 
     </div>

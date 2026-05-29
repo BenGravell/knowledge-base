@@ -6,13 +6,13 @@ authors:
   - Peyman Mohajerin Esfahani
 year: 2023
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2309.12758"
 tags:
 abstract: >
   We establish a collection of closed-loop guarantees and propose a scalable optimization algorithm for distributionally robust model predictive control (DRMPC) applied to linear systems, convex constraints, and quadratic costs. Via standard assumptions for the terminal cost and constraint, we establish distribtionally robust long-term and stage-wise performance guarantees for the closed-loop system. We further demonstrate that a common choice of the terminal cost, i.e., via the discrete-algebraic Riccati equation, renders the origin input-to-state stable for the closed-loop system. This choice also ensures that the exact long-term performance of the closed-loop system is independent of the choice of ambiguity set for the DRMPC formulation. Thus, we establish conditions under which DRMPC does not provide a long-term performance benefit relative to stochastic MPC. To solve the DRMPC optimization problem, we propose a Newton-type algorithm that empirically achieves superlinear convergence and guarantees the feasibility of each iterate. We demonstrate the implications of the closed-loop guarantees and the scalability of the proposed algorithm via two examples. To facilitate the reproducibility of the results, we also provide open-source code to implement the proposed algorithm and generate the figures.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2309.12758
 links_alt:
 audit_status: raw

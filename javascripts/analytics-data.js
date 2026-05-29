@@ -3,8 +3,8 @@ window.analyticsData = {
     "totalPapers": 2130,
     "datedPapers": 2130,
     "undatedPapers": 0,
-    "uniqueAuthors": 12692,
-    "uniqueSources": 490,
+    "uniqueAuthors": 12658,
+    "uniqueSources": 491,
     "uniqueTags": 2234,
     "minYear": 1816,
     "maxYear": 2026,
@@ -624,7 +624,7 @@ window.analyticsData = {
     },
     {
       "label": "Yuval Tassa",
-      "count": 32
+      "count": 33
     },
     {
       "label": "Maryam Fazel",
@@ -1275,6 +1275,10 @@ window.analyticsData = {
       "count": 6
     },
     {
+      "label": "Hui Li",
+      "count": 6
+    },
+    {
       "label": "J. Andrew Bagnell",
       "count": 6
     },
@@ -1328,6 +1332,10 @@ window.analyticsData = {
     },
     {
       "label": "Nicolas Ballas",
+      "count": 6
+    },
+    {
+      "label": "Nicolas Mansard",
       "count": 6
     },
     {
@@ -1575,6 +1583,10 @@ window.analyticsData = {
       "count": 5
     },
     {
+      "label": "Hao Yang",
+      "count": 5
+    },
+    {
       "label": "Haowei Zhang",
       "count": 5
     },
@@ -1588,10 +1600,6 @@ window.analyticsData = {
     },
     {
       "label": "Hongkai Dai",
-      "count": 5
-    },
-    {
-      "label": "Hui Li",
       "count": 5
     },
     {
@@ -1731,10 +1739,6 @@ window.analyticsData = {
       "count": 5
     },
     {
-      "label": "Nicolas Mansard",
-      "count": 5
-    },
-    {
       "label": "Noah Brown",
       "count": 5
     },
@@ -1852,6 +1856,10 @@ window.analyticsData = {
     },
     {
       "label": "Tom Hennigan",
+      "count": 5
+    },
+    {
+      "label": "Tomas Lozano-Perez",
       "count": 5
     },
     {
@@ -2280,10 +2288,6 @@ window.analyticsData = {
     },
     {
       "label": "Hao Hu",
-      "count": 4
-    },
-    {
-      "label": "Hao Yang",
       "count": 4
     },
     {
@@ -2956,10 +2960,6 @@ window.analyticsData = {
     },
     {
       "label": "Tomas Kocisky",
-      "count": 4
-    },
-    {
-      "label": "Tomas Lozano-Perez",
       "count": 4
     },
     {
@@ -3900,10 +3900,6 @@ window.analyticsData = {
     },
     {
       "label": "Dayou Du",
-      "count": 3
-    },
-    {
-      "label": "DeepSeek-AI",
       "count": 3
     },
     {
@@ -5515,10 +5511,6 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "OpenAI",
-      "count": 3
-    },
-    {
       "label": "Oskar Bunyan",
       "count": 3
     },
@@ -5884,6 +5876,10 @@ window.analyticsData = {
     },
     {
       "label": "Sanjay Ganapathy",
+      "count": 3
+    },
+    {
+      "label": "Sanjit A. Seshia",
       "count": 3
     },
     {
@@ -6264,6 +6260,10 @@ window.analyticsData = {
     },
     {
       "label": "Tong Che",
+      "count": 3
+    },
+    {
+      "label": "Tony Nguyen",
       "count": 3
     },
     {
@@ -8915,14 +8915,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Gemini Robotics Team",
-      "count": 2
-    },
-    {
-      "label": "Gemini Team",
-      "count": 2
-    },
-    {
       "label": "Gena Gibson",
       "count": 2
     },
@@ -9743,6 +9735,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Jerry Liu",
+      "count": 2
+    },
+    {
       "label": "Jerry Tworek",
       "count": 2
     },
@@ -10207,6 +10203,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Katherine Driggs-Campbell",
+      "count": 2
+    },
+    {
       "label": "Kathie Wang",
       "count": 2
     },
@@ -10312,10 +10312,6 @@ window.analyticsData = {
     },
     {
       "label": "Kiam Choo",
-      "count": 2
-    },
-    {
-      "label": "Kimi Team",
       "count": 2
     },
     {
@@ -11199,10 +11195,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "N. Mansard",
-      "count": 2
-    },
-    {
       "label": "Nai-Chieh Huang",
       "count": 2
     },
@@ -11791,6 +11783,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Qiong Hu",
+      "count": 2
+    },
+    {
       "label": "Qiujia Li",
       "count": 2
     },
@@ -12199,10 +12195,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Sanjit A. Seshia",
-      "count": 2
-    },
-    {
       "label": "Santiago Ontanon",
       "count": 2
     },
@@ -12340,6 +12332,10 @@ window.analyticsData = {
     },
     {
       "label": "Shangbang Long",
+      "count": 2
+    },
+    {
+      "label": "Shankar Sastry",
       "count": 2
     },
     {
@@ -12863,10 +12859,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Tony Nguyen",
-      "count": 2
-    },
-    {
       "label": "Tony Z. Zhao",
       "count": 2
     },
@@ -13075,11 +13067,11 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Wang",
+      "label": "Wangding Zeng",
       "count": 2
     },
     {
-      "label": "Wangding Zeng",
+      "label": "Warren Chen",
       "count": 2
     },
     {
@@ -13348,10 +13340,6 @@ window.analyticsData = {
     },
     {
       "label": "Xiyu Zhai",
-      "count": 2
-    },
-    {
-      "label": "Xu",
       "count": 2
     },
     {
@@ -14067,10 +14055,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "A. Puggelli",
-      "count": 1
-    },
-    {
       "label": "A. Rajhans",
       "count": 1
     },
@@ -14084,10 +14068,6 @@ window.analyticsData = {
     },
     {
       "label": "A. S. Morse",
-      "count": 1
-    },
-    {
-      "label": "A. Sangiovanni-Vincentelli",
       "count": 1
     },
     {
@@ -14900,6 +14880,10 @@ window.analyticsData = {
     },
     {
       "label": "Alberto Orlandi",
+      "count": 1
+    },
+    {
+      "label": "Alberto Sangiovanni-Vincentelli",
       "count": 1
     },
     {
@@ -15984,6 +15968,10 @@ window.analyticsData = {
     },
     {
       "label": "Anatoly Belikov",
+      "count": 1
+    },
+    {
+      "label": "Anayo Puggelli",
       "count": 1
     },
     {
@@ -19655,10 +19643,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Chen",
-      "count": 1
-    },
-    {
       "label": "Chen Ding",
       "count": 1
     },
@@ -20351,7 +20335,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Chuqiao",
+      "label": "Chuqiao Xu",
       "count": 1
     },
     {
@@ -25311,7 +25295,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Guangyi",
+      "label": "Guangyi Zhang",
       "count": 1
     },
     {
@@ -25864,10 +25848,6 @@ window.analyticsData = {
     },
     {
       "label": "Hanyu Zhou",
-      "count": 1
-    },
-    {
-      "label": "Hao",
       "count": 1
     },
     {
@@ -26519,10 +26499,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Hu",
-      "count": 1
-    },
-    {
       "label": "Hua Shen",
       "count": 1
     },
@@ -26604,10 +26580,6 @@ window.analyticsData = {
     },
     {
       "label": "Hugo Vallet",
-      "count": 1
-    },
-    {
-      "label": "Hui",
       "count": 1
     },
     {
@@ -26867,7 +26839,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "IEEE",
+      "label": "IEEE Standards Association",
       "count": 1
     },
     {
@@ -28671,15 +28643,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Jerry",
-      "count": 1
-    },
-    {
       "label": "Jerry Li",
-      "count": 1
-    },
-    {
-      "label": "Jerry Liu",
       "count": 1
     },
     {
@@ -29191,7 +29155,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Jilei",
+      "label": "Jilei Wang",
       "count": 1
     },
     {
@@ -30687,10 +30651,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "K. Driggs-Campbell",
-      "count": 1
-    },
-    {
       "label": "K. Glover",
       "count": 1
     },
@@ -31111,10 +31071,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Katherine Driggs-Campbell",
-      "count": 1
-    },
-    {
       "label": "Katherine Liu",
       "count": 1
     },
@@ -31183,11 +31139,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Katrina",
+      "label": "Katrina McKinney",
       "count": 1
     },
     {
-      "label": "Katrina McKinney",
+      "label": "Katrina Xu",
       "count": 1
     },
     {
@@ -32171,10 +32127,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Lai",
-      "count": 1
-    },
-    {
       "label": "Laikh Tewari",
       "count": 1
     },
@@ -32643,10 +32595,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Li",
-      "count": 1
-    },
-    {
       "label": "Li Deng",
       "count": 1
     },
@@ -33015,10 +32963,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Liu",
-      "count": 1
-    },
-    {
       "label": "Liviu Aolaritei",
       "count": 1
     },
@@ -33152,10 +33096,6 @@ window.analyticsData = {
     },
     {
       "label": "Lovish Madaan",
-      "count": 1
-    },
-    {
-      "label": "Lozano-Perez",
       "count": 1
     },
     {
@@ -33439,10 +33379,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Lyria Team",
-      "count": 1
-    },
-    {
       "label": "Lyric Doshi",
       "count": 1
     },
@@ -33656,10 +33592,6 @@ window.analyticsData = {
     },
     {
       "label": "M. Pavone",
-      "count": 1
-    },
-    {
-      "label": "M. Raison",
       "count": 1
     },
     {
@@ -35127,6 +35059,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Maxime Raison",
+      "count": 1
+    },
+    {
       "label": "Maxime Robic",
       "count": 1
     },
@@ -35459,10 +35395,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Michael",
-      "count": 1
-    },
-    {
       "label": "Michael A. Hopkins",
       "count": 1
     },
@@ -35716,6 +35648,10 @@ window.analyticsData = {
     },
     {
       "label": "Michael Pliskin",
+      "count": 1
+    },
+    {
+      "label": "Michael Pokorny",
       "count": 1
     },
     {
@@ -36779,6 +36715,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "N. Mansard",
+      "count": 1
+    },
+    {
       "label": "N. Matni",
       "count": 1
     },
@@ -37224,10 +37164,6 @@ window.analyticsData = {
     },
     {
       "label": "Nevan Wichers",
-      "count": 1
-    },
-    {
-      "label": "Nguyen",
       "count": 1
     },
     {
@@ -37803,10 +37739,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "NVIDIA",
-      "count": 1
-    },
-    {
       "label": "O. I. Camps",
       "count": 1
     },
@@ -37832,10 +37764,6 @@ window.analyticsData = {
     },
     {
       "label": "Octavio Ponce",
-      "count": 1
-    },
-    {
-      "label": "Octo Model Team",
       "count": 1
     },
     {
@@ -39379,10 +39307,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Pokorny",
-      "count": 1
-    },
-    {
       "label": "Pol Jane-Soneira",
       "count": 1
     },
@@ -39819,14 +39743,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Qiong",
-      "count": 1
-    },
-    {
-      "label": "Qiong Hu",
-      "count": 1
-    },
-    {
       "label": "Qiqi Ren",
       "count": 1
     },
@@ -39916,10 +39832,6 @@ window.analyticsData = {
     },
     {
       "label": "Quoc V Le",
-      "count": 1
-    },
-    {
-      "label": "Qwen",
       "count": 1
     },
     {
@@ -40024,10 +39936,6 @@ window.analyticsData = {
     },
     {
       "label": "R. Alex Hofer",
-      "count": 1
-    },
-    {
-      "label": "R. Bajcsy",
       "count": 1
     },
     {
@@ -41771,6 +41679,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Ruzena Bajcsy",
+      "count": 1
+    },
+    {
       "label": "Ryan Buckley",
       "count": 1
     },
@@ -41963,10 +41875,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "S. Achiche",
-      "count": 1
-    },
-    {
       "label": "S. Amin",
       "count": 1
     },
@@ -42076,14 +41984,6 @@ window.analyticsData = {
     },
     {
       "label": "S. Sarma",
-      "count": 1
-    },
-    {
-      "label": "S. Sastry",
-      "count": 1
-    },
-    {
-      "label": "S. Seshia",
       "count": 1
     },
     {
@@ -43299,10 +43199,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Shankar Sastry",
-      "count": 1
-    },
-    {
       "label": "Shanli Xing",
       "count": 1
     },
@@ -43787,7 +43683,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Shuaiqi",
+      "label": "Shuaiqi Xia",
       "count": 1
     },
     {
@@ -44304,6 +44200,10 @@ window.analyticsData = {
     },
     {
       "label": "Sofia Erell",
+      "count": 1
+    },
+    {
+      "label": "Sofiane Achiche",
       "count": 1
     },
     {
@@ -45743,10 +45643,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "The Theano Development Team",
-      "count": 1
-    },
-    {
       "label": "Theo Guidroz",
       "count": 1
     },
@@ -46512,10 +46408,6 @@ window.analyticsData = {
     },
     {
       "label": "Toni Creswell",
-      "count": 1
-    },
-    {
-      "label": "Tony",
       "count": 1
     },
     {
@@ -47623,15 +47515,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Warren",
-      "count": 1
-    },
-    {
       "label": "Warren Barkley",
-      "count": 1
-    },
-    {
-      "label": "Warren Chen",
       "count": 1
     },
     {
@@ -48163,7 +48047,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "WINFRIED LOHMILLER",
+      "label": "Winfried Lohmiller",
       "count": 1
     },
     {
@@ -48235,10 +48119,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Wu",
-      "count": 1
-    },
-    {
       "label": "X. Liu",
       "count": 1
     },
@@ -48260,10 +48140,6 @@ window.analyticsData = {
     },
     {
       "label": "Xi Liu",
-      "count": 1
-    },
-    {
-      "label": "Xia",
       "count": 1
     },
     {
@@ -48679,7 +48555,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Xintian",
+      "label": "Xintian Wu",
       "count": 1
     },
     {
@@ -48988,10 +48864,6 @@ window.analyticsData = {
     },
     {
       "label": "Yanda Chen",
-      "count": 1
-    },
-    {
-      "label": "Yang",
       "count": 1
     },
     {
@@ -49943,10 +49815,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Yu",
-      "count": 1
-    },
-    {
       "label": "Yu Bai",
       "count": 1
     },
@@ -49976,6 +49844,10 @@ window.analyticsData = {
     },
     {
       "label": "Yu Wan",
+      "count": 1
+    },
+    {
+      "label": "Yu Wang",
       "count": 1
     },
     {
@@ -50471,7 +50343,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Yuvein",
+      "label": "Yuvein Zhu",
       "count": 1
     },
     {
@@ -50716,10 +50588,6 @@ window.analyticsData = {
     },
     {
       "label": "Zeyuan Feng",
-      "count": 1
-    },
-    {
-      "label": "Zhang",
       "count": 1
     },
     {
@@ -51051,7 +50919,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Zhixin",
+      "label": "Zhixin Lai",
       "count": 1
     },
     {
@@ -51124,10 +50992,6 @@ window.analyticsData = {
     },
     {
       "label": "Zhouyuan Huo",
-      "count": 1
-    },
-    {
-      "label": "Zhu",
       "count": 1
     },
     {
@@ -51649,6 +51513,10 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Pacific Journal of Mathematics",
+      "count": 4
+    },
+    {
       "label": "Proceedings of the American Control Conference",
       "count": 4
     },
@@ -51658,10 +51526,6 @@ window.analyticsData = {
     },
     {
       "label": "Proceedings of the National Academy of Sciences",
-      "count": 4
-    },
-    {
-      "label": "Semantic Scholar",
       "count": 4
     },
     {
@@ -51742,10 +51606,6 @@ window.analyticsData = {
     },
     {
       "label": "Nature Communications",
-      "count": 3
-    },
-    {
-      "label": "Pacific Journal of Mathematics",
       "count": 3
     },
     {
@@ -51989,6 +51849,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Semantic Scholar",
+      "count": 2
+    },
+    {
       "label": "SIAM Journal on Numerical Analysis",
       "count": 2
     },
@@ -52146,6 +52010,10 @@ window.analyticsData = {
     },
     {
       "label": "Advances in Applied Probability",
+      "count": 1
+    },
+    {
+      "label": "Advances in Robot Kinematics",
       "count": 1
     },
     {
@@ -53335,20 +53203,16 @@ window.analyticsData = {
   ],
   "types": [
     {
+      "label": "Preprint",
+      "count": 870
+    },
+    {
       "label": "Journal Paper",
       "count": 658
     },
     {
       "label": "Conference Paper",
       "count": 522
-    },
-    {
-      "label": "Unspecified",
-      "count": 487
-    },
-    {
-      "label": "Preprint",
-      "count": 383
     },
     {
       "label": "Other",

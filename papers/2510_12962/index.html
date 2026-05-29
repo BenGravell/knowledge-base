@@ -1635,17 +1635,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1747,9 +1736,6 @@
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Path planning for 3D solid objects is a challenging problem, requiring a search in a six-dimensional configuration space, which is, nevertheless, essential in many robotic applications such as bin-picking and assembly. The commonly used sampling-based planners, such as Rapidly-exploring Random Trees, struggle with narrow passages where the sampling probability is low, increasing the time needed to find a solution. In scenarios like robotic bin-picking, various objects must be transported through the same environment. However, traditional planners start from scratch each time, losing valuable information gained during the planning process. We address this by using a library of past solutions, allowing the reuse of previous experiences even when planning for a new, previously unseen object. Paths for a set of objects are stored, and when planning for a new object, we find the most similar one in the library and use its paths as approximate solutions, adjusting for possible mutual transformations. The configuration space is then sampled along the approximate paths. Our method is tested in various narrow passage scenarios and compared with state-of-the-art methods from the OMPL library. Results show significant speed improvements (up to 85% decrease in the required time) of our method, often finding a solution in cases where the other planners fail. Our implementation of the proposed method is released as an open-source package.</p>
 
-<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>Path planning for 3D solid objects is a challenging problem, requiring a search in a six-dimensional configuration space, which is, nevertheless, essential in many robotic applications such as bin-picking and assembly. The abstract also notes that the commonly used sampling-based planners, such as Rapidly-exploring Random Trees, struggle with narrow passages where the sampling probability is low, increasing the time needed to find a solution.</p>
-
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
 
@@ -1846,10 +1832,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>89%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1909,13 +1895,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2015_janson_deterministic_sampling_based_motion/">Deterministic Sampling-Based Motion Planning: Optimality, Complexity, and Performance</a></h3>
+      <h3><a href="../../papers/2002_06589/">Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques</a></h3>
 
-      <p class="paper-similar-card__label">Deterministic low-dispersion sampling</p>
+      <p class="paper-similar-card__label">ABIT*</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Lucas Janson et al. / 2015</span>
+        <span>Marlin P. Strub et al. / 2020</span>
       </div>
 
     </div>

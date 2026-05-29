@@ -8,13 +8,13 @@ authors:
   - Csaba Szepesvari
 year: 2020
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2011.05944"
 tags:
 abstract: >
   We introduce a simple and efficient algorithm for stochastic linear bandits with finitely many actions that is asymptotically optimal and (nearly) worst-case optimal in finite time. The approach is based on the frequentist information-directed sampling (IDS) framework, with a surrogate for the information gain that is informed by the optimization problem that defines the asymptotic lower bound. Our analysis sheds light on how IDS balances the trade-off between regret and information and uncovers a surprising connection between the recently proposed primal-dual methods and the IDS algorithm. We demonstrate empirically that IDS is competitive with UCB in finite-time, and can be significantly better in the asymptotic regime.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2011.05944
 links_alt:
 audit_status: raw

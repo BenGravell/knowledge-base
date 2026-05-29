@@ -7,13 +7,13 @@ authors:
   - Hamidreza Modares
 year: 2025
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2503.06070"
 tags:
 abstract: >
   This paper bridges optimization and control, and presents a novel closed-loop control framework based on natural gradient descent, offering a trajectory-oriented alternative to traditional cost-function tuning. By leveraging the Fisher Information Matrix, we formulate a preconditioned gradient descent update that explicitly shapes system trajectories. We show that, in sharp contrast to traditional controllers, our approach provides flexibility to shape the system's low-level behavior. To this end, the proposed method parameterizes closed-loop dynamics in terms of stationary covariance and an unknown cost function, providing a geometric interpretation of control adjustments. We establish theoretical stability conditions. The simulation results on a rotary inverted pendulum benchmark highlight the advantages of natural gradient descent in trajectory shaping.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2503.06070
 links_alt:
 audit_status: raw

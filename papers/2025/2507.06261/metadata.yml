@@ -275,8 +275,7 @@ authors:
   - Mohak Patel
   - Tianhe Yu
   - Toni Creswell
-  - Jerry
-  - Liu
+  - Jerry Liu
   - Catarina Barros
   - Yasaman Razeghi
   - Aurko Roy
@@ -396,8 +395,7 @@ authors:
   - Vincent Roulet
   - Folawiyo Campbell-Ajala
   - Pier Giuseppe Sessa
-  - Xintian
-  - Wu
+  - Xintian Wu
   - Guangda Lai
   - Paul Collins
   - Alex Haig
@@ -883,8 +881,7 @@ authors:
   - Tyler Liechty
   - Renke Pan
   - Hoang Nguyen
-  - Qiong
-  - Hu
+  - Qiong Hu
   - Sarah Perrin
   - Abhinav Arora
   - Emily Pitler
@@ -963,8 +960,7 @@ authors:
   - Stav Ginzburg
   - Max Chang
   - Robert Riachi
-  - Chuqiao
-  - Xu
+  - Chuqiao Xu
   - Zalan Borsos
   - Michael Pliskin
   - Julia Pawar
@@ -1694,8 +1690,7 @@ authors:
   - Mirek Olsak
   - Jennifer She
   - Carl Doersch
-  - Jilei
-  - Wang
+  - Jilei Wang
   - Bingyuan Liu
   - Qijun Tan
   - Tamar Yakar
@@ -1949,8 +1944,7 @@ authors:
   - Jean Tarbouriech
   - Srimon Chatterjee
   - Julie Jin
-  - Katrina
-  - Xu
+  - Katrina Xu
   - Jennimaria Palomaki
   - Seb Arnold
   - Madhavi Sewak
@@ -2026,8 +2020,7 @@ authors:
   - Mihajlo Velimirovic
   - Hubert Soyer
   - William Kong
-  - Tony
-  - Nguyen
+  - Tony Nguyen
   - Zhen Yang
   - Jeremiah Liu
   - Joost van Amersfoort
@@ -2394,8 +2387,7 @@ authors:
   - Hayato Kobayashi
   - Soroosh Mariooryad
   - Kacper Krasowiak
-  - Zhixin
-  - Lai
+  - Zhixin Lai
   - Shibl Mourad
   - Mingqiu Wang
   - Fan Bu
@@ -2465,8 +2457,7 @@ authors:
   - Thang Luong
   - Rodolphe Jenatton
   - Vineetha Govindaraj
-  - Hui
-  - Li
+  - Hui Li
   - Gabriel Dulac-Arnold
   - Wonpyo Park
   - Henry Wang
@@ -2552,8 +2543,7 @@ authors:
   - Shiyu Huang
   - Saloni Shah
   - Octavio Ponce
-  - Warren
-  - Chen
+  - Warren Chen
   - Manaal Faruqui
   - Jialin Wu
   - Slavica Andacic
@@ -3235,8 +3225,7 @@ authors:
   - James Cobon-Kerr
   - Chris Hahn
   - Jiaming Luo
-  - Yuvein
-  - Zhu
+  - Yuvein Zhu
   - Niharika Ahuja
   - Rodrigo Benenson
   - Raphael Lopez Kaufman
@@ -3439,13 +3428,13 @@ authors:
   - Wesley Helmholz
 year: 2025
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2507.06261"
 tags:
 abstract: >
   In this report, we introduce the Gemini 2.X model family: Gemini 2.5 Pro and Gemini 2.5 Flash, as well as our earlier Gemini 2.0 Flash and Flash-Lite models. Gemini 2.5 Pro is our most capable model yet, achieving SoTA performance on frontier coding and reasoning benchmarks. In addition to its incredible coding and reasoning skills, Gemini 2.5 Pro is a thinking model that excels at multimodal understanding and it is now able to process up to 3 hours of video content. Its unique combination of long context, multimodal and reasoning capabilities can be combined to unlock new agentic workflows. Gemini 2.5 Flash provides excellent reasoning abilities at a fraction of the compute and latency requirements and Gemini 2.0 Flash and Flash-Lite provide high performance at low latency and cost. Taken together, the Gemini 2.X model generation spans the full Pareto frontier of model capability vs cost, allowing users to explore the boundaries of what is possible with complex agentic problem solving.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2507.06261
 links_alt:
 audit_status: raw

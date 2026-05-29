@@ -14,7 +14,7 @@ arxiv_id:
 tags:
 abstract: >
   This work presents an embedded nonlinear model predictive control (NMPC) strategy for autonomous vehicles under a minimum time objective. The time-optimal control problem is stated in a path-parametric formulation such that existing reliable numerical methods for real-time nonlinear MPC can be used. Building on previous work on timeoptimal driving, we present an approach based on a sequential quadratic programming type algorithm with online propagation of second order derivatives. As an illustration of our method, we provide closed-loop simulation results based on a vehicle model identified for small-scale electric race cars.
-summary: ''
+summary:
 link: https://doi.org/10.1109/ECC.2016.7810277
 links_alt:
 audit_status: raw

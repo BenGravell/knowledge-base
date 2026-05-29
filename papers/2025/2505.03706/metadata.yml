@@ -7,13 +7,13 @@ authors:
   - Florian Dorfler
 year: 2025
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2505.03706"
 tags:
 abstract: >
   Motivated by recent advances of reinforcement learning and direct data-driven control, we propose policy gradient adaptive control (PGAC) for the linear quadratic regulator (LQR), which uses online closed-loop data to improve the control policy while maintaining stability. Our method adaptively updates the policy in feedback by descending the gradient of the LQR cost and is categorized as indirect, when gradients are computed via an estimated model, versus direct, when gradients are derived from data using sample covariance parameterization. Beyond the vanilla gradient, we also showcase the merits of the natural gradient and Gauss-Newton methods for the policy update. Notably, natural gradient descent bridges the indirect and direct PGAC, and the Gauss-Newton method of the indirect PGAC leads to an adaptive version of the celebrated Hewer's algorithm. To account for the uncertainty from noise, we propose a regularization method for both indirect and direct PGAC. For all the considered PGAC approaches, we show closed-loop stability and convergence of the policy to the optimal LQR gain. Simulations validate our theoretical findings and demonstrate the robustness and computational efficiency of PGAC.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2505.03706
 links_alt:
 audit_status: raw

@@ -7,13 +7,13 @@ authors:
   - John Lygeros
 year: 2013
 source:
-type: ''
+type: Preprint
 doi: 10.1109/TAC.2014.2330702
 arxiv_id: "1307.0345"
 tags:
 abstract: >
   We consider the Scenario Convex Program (SCP) for two classes of optimization problems that are not tractable in general: Robust Convex Programs (RCPs) and Chance-Constrained Programs (CCPs). We establish a probabilistic bridge from the optimal value of SCP to the optimal values of RCP and CCP in which the uncertainty takes values in a general, possibly infinite dimensional, metric space. We then extend our results to a certain class of non-convex problems that includes, for example, binary decision variables. In the process, we also settle a measurability issue for a general class of scenario programs, which to date has been addressed by an assumption. Finally, we demonstrate the applicability of our results on a benchmark problem and a problem in fault detection and isolation.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/1307.0345
 links_alt:
 audit_status: raw

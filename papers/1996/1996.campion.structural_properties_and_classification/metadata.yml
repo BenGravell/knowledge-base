@@ -13,7 +13,7 @@ arxiv_id:
 tags:
 abstract: >
   The structure of the kinematic and dynamic models of wheeled mobile robots is analyzed. It is shown that, for a large class of possible configurations, they can be classified into five types, characterized by generic structures of the model equations. For each type of model the following questions are addressed: (ir)reducibility and (non)holonomy, mobility and controllability, configuration of the motorization, and feedback equivalence.
-summary: ''
+summary:
 link: https://doi.org/10.1109/70.481750
 links_alt:
 audit_status: raw

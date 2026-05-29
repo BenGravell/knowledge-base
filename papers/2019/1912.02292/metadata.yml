@@ -18,8 +18,7 @@ tags:
   - Learning
 abstract: >
   We show that a variety of modern deep learning tasks exhibit a "double-descent" phenomenon where, as we increase model size, performance first gets worse and then gets better. Moreover, we show that double descent occurs not just as a function of model size, but also as a function of the number of training epochs. We unify the above phenomena by defining a new complexity measure we call the effective model complexity and conjecture a generalized double descent with respect to this measure. Furthermore, our notion of model complexity allows us to identify certain regimes where increasing (even quadrupling) the number of train samples actually hurts test performance.
-summary: >
-  This paper shows that a variety of modern deep learning tasks exhibit a "double-descent" phenomenon where, as we increase model size, performance first gets worse and then gets better. It also shows that double descent occurs not just as a function of model size, but also as a function of the number of training epochs.
+summary:
 link: https://arxiv.org/pdf/1912.02292
 links_alt:
   - https://doi.org/10.1088/1742-5468/ac3a74

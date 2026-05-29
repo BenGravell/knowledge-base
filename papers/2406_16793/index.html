@@ -1635,17 +1635,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1762,9 +1751,6 @@
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We propose Adam-mini, an optimizer that achieves on par or better performance than AdamW with 50% less memory footprint. Adam-mini reduces memory by cutting down the learning rate resources in Adam (i.e., $1/\sqrt{v}$). By investigating the Hessian structure of neural nets, we find Adam's $v$ might not function at its full potential as effectively as we expected. We find that $\geq$ 99.9% of these learning rates in $v$ could be harmlessly removed if we (1) carefully partition the parameters into blocks following our new principle on Hessian structure; (2) assign a single but good learning rate to each parameter block. We then provide one simple way to find good learning rates and propose Adam-mini. Empirically, we verify that Adam-mini performs on par or better than AdamW on various language models sized from 39M to 13B for pre-training, supervised fine-tuning, and RLHF. The reduced memory footprint of Adam-mini also alleviates communication overheads among GPUs, thereby increasing throughput. For instance, Adam-mini achieves 49.6% higher throughput than AdamW when pre-training Llama 2-7B on $2\times$ A800-80GB GPUs, which saves 33% wall-clock time for pre-training.</p>
 
-<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>This paper proposes Adam-mini, an optimizer that achieves on par or better performance than AdamW with 50% less memory footprint. The abstract also notes that adam-mini reduces memory by cutting down the learning rate resources in Adam (i.e., $1/\sqrt{v}$).</p>
-
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
 
@@ -1841,8 +1827,48 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>82%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1412_6980/">Adam: A Method for Stochastic Optimization</a></h3>
+
+      <p class="paper-similar-card__label">Adam</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Diederik P. Kingma et al. / 2014</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>81%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2204_02311/">PaLM: Scaling Language Modeling with Pathways</a></h3>
+
+      <p class="paper-similar-card__label">PaLM</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Aakanksha Chowdhery et al. / 2022</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
         <span>81%</span>
       </div>
@@ -1861,30 +1887,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
-      <div class="paper-similar-card__rank-top">3</div>
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 145.8deg;" aria-label="81% similar">
+      <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>80%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1412_6980/">Adam: A Method for Stochastic Optimization</a></h3>
-
-      <p class="paper-similar-card__label">Adam</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Diederik P. Kingma et al. / 2014</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>80%</span>
+        <span>81%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1893,26 +1899,6 @@
 
       <div class="paper-similar-card__meta">
         <span>Jared Kaplan et al. / 2020</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>80%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2204_02311/">PaLM: Scaling Language Modeling with Pathways</a></h3>
-
-      <p class="paper-similar-card__label">PaLM</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Aakanksha Chowdhery et al. / 2022</span>
       </div>
 
     </div>

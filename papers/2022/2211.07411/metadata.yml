@@ -9,13 +9,13 @@ authors:
   - John Lygeros
 year: 2022
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2211.07411"
 tags:
 abstract: >
   The setting of an agent making decisions under uncertainty and under dynamic constraints is common for the fields of optimal control, reinforcement learning, and recently also for online learning. In the online learning setting, the quality of an agent's decision is often quantified by the concept of regret, comparing the performance of the chosen decisions to the best possible ones in hindsight. While regret is a useful performance measure, when dynamical systems are concerned, it is important to also assess the stability of the closed-loop system for a chosen policy. In this work, we show that for linear state feedback policies and linear systems subject to adversarial disturbances, linear regret implies asymptotic stability in both time-varying and time-invariant settings. Conversely, we also show that bounded input bounded state stability and summability of the state transition matrices imply linear regret.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2211.07411
 links_alt:
 audit_status: raw

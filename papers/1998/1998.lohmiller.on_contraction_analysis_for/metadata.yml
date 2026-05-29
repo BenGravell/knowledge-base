@@ -2,16 +2,19 @@ title: >
   On Contraction Analysis for Non-linear Systems
 algorithm:
 authors:
-  - WINFRIED LOHMILLER
-  - JEAN-JACQUES E. SLOTINE
+- Winfried Lohmiller
+- Jean-Jacques E. Slotine
 year: 1998
 source: Automatica
 type: Journal Paper
 doi: 10.1016/s0005-1098(98)00019-3
 arxiv_id:
 tags:
-abstract: ''
-summary: ''
-link: https://doi.org/10.1016/s0005-1098(98)00019-3
+abstract: >
+  This paper derives new results in nonlinear system analysis using methods inspired from fluid mechanics and differential geometry. Based on a differential analysis of convergence, these results may be viewed as generalizing the classical Krasovskii theorem, and, more loosely, linear eigenvalue analysis. A central feature is that convergence and limit behavior are in a sense treated separately, leading to significant conceptual simplifications. The approach is illustrated by controller and observer designs for simple physical examples.
+summary:
+link: https://web.mit.edu/nsl/www/preprints/contraction.pdf
 links_alt:
+- https://doi.org/10.1016/S0005-1098(98)00019-3
+- https://www.sciencedirect.com/science/article/pii/S0005109898000193
 audit_status: raw

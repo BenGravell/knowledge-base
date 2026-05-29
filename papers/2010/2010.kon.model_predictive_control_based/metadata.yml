@@ -12,7 +12,7 @@ arxiv_id:
 tags:
 abstract: >
   This study proposes linear model predictive control (MPC) based on ARX models in incremental form. Feedforward action for external disturbance can eliminate the effect of unmeasured disturbance, which is popular in process industries. Simulation example illustrates the robust performance of the proposed approach.
-summary: ''
+summary:
 link: https://doi.org/10.1109/ICCAS.2010.5669662
 links_alt:
 audit_status: raw

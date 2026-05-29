@@ -12,7 +12,7 @@ arxiv_id:
 tags:
 abstract: >
   Trajectory optimization algorithms are a core technology behind many modern nonlinear control applications. However, with increasing system complexity, the computation of dynamics derivatives during optimization creates a computational bottleneck, particularly in second-order methods. In this paper, we present a modification of the classical Differential Dynamic Programming (DDP) algorithm that eliminates the computation of dynamics derivatives while maintaining similar convergence properties. Rather than relying on naive finite difference calculations, we propose a deterministic sampling scheme inspired by the Unscented Kalman Filter that propagates a quadratic approximation of the cost-to-go function through the nonlinear dynamics at each time step. Our algorithm takes larger steps than Iterative LQR-a DDP variant that approximates the cost-to-go Hessian using only first derivatives-while maintaining the same computational cost. We present results demonstrating its numerical performance in simulated balancing and aerobatic flight experiments.
-summary: ''
+summary:
 link: https://doi.org/10.1109/CDC.2016.7798817
 links_alt:
 audit_status: raw

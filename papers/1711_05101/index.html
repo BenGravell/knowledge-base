@@ -1635,17 +1635,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1748,9 +1737,6 @@
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>L$_2$ regularization and weight decay regularization are equivalent for standard stochastic gradient descent (when rescaled by the learning rate), but as we demonstrate this is \emph{not} the case for adaptive gradient algorithms, such as Adam. While common implementations of these algorithms employ L$_2$ regularization (often calling it "weight decay" in what may be misleading due to the inequivalence we expose), we propose a simple modification to recover the original formulation of weight decay regularization by \emph{decoupling} the weight decay from the optimization steps taken w.r.t. the loss function. We provide empirical evidence that our proposed modification (i) decouples the optimal choice of weight decay factor from the setting of the learning rate for both standard SGD and Adam and (ii) substantially improves Adam's generalization performance, allowing it to compete with SGD with momentum on image classification datasets (on which it was previously typically outperformed by the latter). Our proposed decoupled weight decay has already been adopted by many researchers, and the community has implemented it in TensorFlow and PyTorch; the complete source code for our experiments is available at https://github.com/loshchil/AdamW-and-SGDW</p>
 
-<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>L$_2$ regularization and weight decay regularization are equivalent for standard stochastic gradient descent (when rescaled by the learning rate), but as we demonstrate this is \emph{not} the case for adaptive gradient algorithms, such as Adam. The abstract also notes that while common implementations of these algorithms employ L$_2$ regularization (often calling it "weight decay" in what may be misleading due to the inequivalence we expose), we propose a simple modification to recover the original formulation of weight decay regularization by \emph{decoupling} the weight decay from the optimization steps taken w.r.t. the loss function.</p>
-
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
 
@@ -1826,13 +1812,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1904_09237/">On the Convergence of Adam and Beyond</a></h3>
-
-      <p class="paper-similar-card__label">AMSGrad</p>
+      <h3><a href="../../papers/2003_02395/">A Simple Convergence Proof of Adam and Adagrad</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Sashank J. Reddi et al. / 2019</span>
+        <span>Alexandre Defossez et al. / 2020</span>
       </div>
 
     </div>
@@ -1846,11 +1830,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2003_02395/">A Simple Convergence Proof of Adam and Adagrad</a></h3>
+      <h3><a href="../../papers/1904_09237/">On the Convergence of Adam and Beyond</a></h3>
+
+      <p class="paper-similar-card__label">AMSGrad</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Alexandre Defossez et al. / 2020</span>
+        <span>Sashank J. Reddi et al. / 2019</span>
       </div>
 
     </div>
@@ -1864,11 +1850,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2107_12685/">On the Role of Optimization in Double Descent: A Least Squares Study</a></h3>
+      <h3><a href="../../papers/1412_6980/">Adam: A Method for Stochastic Optimization</a></h3>
+
+      <p class="paper-similar-card__label">Adam</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Ilja Kuzborskij et al. / 2021</span>
+        <span>Diederik P. Kingma et al. / 2014</span>
       </div>
 
     </div>
@@ -1882,11 +1870,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2304_13972/">Convergence of Adam under Relaxed Assumptions</a></h3>
+      <h3><a href="../../papers/2509_02046/">Fantastic Pretraining Optimizers and Where to Find Them</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Haochuan Li et al. / 2023</span>
+        <span>Kaiyue Wen et al. / 2025</span>
       </div>
 
     </div>
@@ -1900,13 +1888,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2010_martens_deep_learning_via_hessian/">Deep Learning via Hessian-Free Optimization</a></h3>
-
-      <p class="paper-similar-card__label">Hessian-free Optimization</p>
+      <h3><a href="../../papers/2107_12685/">On the Role of Optimization in Double Descent: A Least Squares Study</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>James Martens / 2010</span>
+        <span>Ilja Kuzborskij et al. / 2021</span>
       </div>
 
     </div>

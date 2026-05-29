@@ -12,7 +12,7 @@ arxiv_id:
 tags:
 abstract: >
   This paper demonstrates theoretically and empirically that a greedy algorithm called Orthogonal Matching Pursuit (OMP) can reliably recover a signal with $m$ nonzero entries in dimension $d$ given $ {\rm O}(m \ln d)$ random linear measurements of that signal. This is a massive improvement over previous results, which require ${\rm O}(m^{2})$ measurements. The new results for OMP are comparable with recent results for another approach called Basis Pursuit (BP). In some settings, the OMP algorithm is faster and easier to implement, so it is an attractive alternative to BP for signal recovery problems.
-summary: ''
+summary:
 link: https://doi.org/10.1109/TIT.2007.909108
 links_alt:
 audit_status: raw

@@ -1635,17 +1635,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1746,9 +1735,6 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>We analyze the convergence rate of the random reshuffling (RR) method, which is a randomized first-order incremental algorithm for minimizing a finite sum of convex component functions. RR proceeds in cycles, picking a uniformly random order (permutation) and processing the component functions one at a time according to this order, i.e., at each cycle, each component function is sampled without replacement from the collection. Though RR has been numerically observed to outperform its with-replacement counterpart stochastic gradient descent (SGD), characterization of its convergence rate has been a long standing open question. In this paper, we answer this question by showing that when the component functions are quadratics or smooth and the sum function is strongly convex, RR with iterate averaging and a diminishing stepsize $α_k=Θ(1/k^s)$ for $s\in (1/2,1)$ converges at rate $Θ(1/k^{2s})$ with probability one in the suboptimality of the objective value, thus improving upon the $Ω(1/k)$ rate of SGD. Our analysis draws on the theory of Polyak-Ruppert averaging and relies on decoupling the dependent cycle gradient error into an independent term over cycles and another term dominated by $α_k^2$. This allows us to apply law of large numbers to an appropriately weighted version of the cycle gradient errors, where the weights depend on the stepsize. We also provide high probability convergence rate estimates that shows decay rate of different terms and allows us to propose a modification of RR with convergence rate ${\cal O}(\frac{1}{k^2})$.</p>
-
-<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>This paper analyzes the convergence rate of the random reshuffling (RR) method, which is a randomized first-order incremental algorithm for minimizing a finite sum of convex component functions. The abstract also notes that rR proceeds in cycles, picking a uniformly random order (permutation) and processing the component functions one at a time according to this order, i.e., at each cycle, each component function is sampled without replacement from the collection.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1855,13 +1841,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2015_nesterov_random_gradient_free_minimization/">Random Gradient-Free Minimization of Convex Functions</a></h3>
-
-      <p class="paper-similar-card__label">Random Gradient-Free Method</p>
+      <h3><a href="../../papers/2604_23613/">High-Probability Guarantees for Random Zeroth-Order (Stochastic) Gradient Descent</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Yurii Nesterov et al. / 2015</span>
+        <span>Haishan Ye / 2026</span>
       </div>
 
     </div>
@@ -1870,6 +1854,24 @@
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>83%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1905_09997/">Painless Stochastic Gradient: Interpolation, Line-Search, and Convergence Rates</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Sharan Vaswani et al. / 2019</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
         <span>83%</span>
       </div>
@@ -1889,35 +1891,19 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2604_23613/">High-Probability Guarantees for Random Zeroth-Order (Stochastic) Gradient Descent</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Haishan Ye / 2026</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
         <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1905_10018/">Momentum-Based Variance Reduction in Non-Convex SGD</a></h3>
+      <h3><a href="../../papers/2015_nesterov_random_gradient_free_minimization/">Random Gradient-Free Minimization of Convex Functions</a></h3>
+
+      <p class="paper-similar-card__label">Random Gradient-Free Method</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Ashok Cutkosky et al. / 2019</span>
+        <span>Yurii Nesterov et al. / 2015</span>
       </div>
 
     </div>

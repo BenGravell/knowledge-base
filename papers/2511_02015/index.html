@@ -1635,17 +1635,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1748,9 +1737,6 @@
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>This paper introduces a method for Model Predictive Path Integral (MPPI) control that optimizes sample generation towards an optimal trajectory through Stein Variational Gradient Descent (SVGD). MPPI relies upon predictive rollout of trajectories sampled from a distribution of possible actions. Traditionally, these action distributions are assumed to be unimodal and represented as Gaussian. The result can lead suboptimal rollout predictions due to sample deprivation and, in the case of differentiable simulation, sensitivity to noise in the cost gradients. Through introducing SVGD updates in between MPPI environment steps, we present Stein-Optimized Path-Integral Inference (SOPPI), an MPPI/SVGD algorithm that can dynamically update noise distributions at runtime to better capture action sampling distributions without an excessive increase in computational requirements. We demonstrate the efficacy of SOPPI through experiments on a planar cart-pole, 7-DOF robot arm, and a planar bipedal walker. These results indicate improved system performance compared to state-of-the-art MPPI algorithms across a range of hyper-parameters and demonstrate feasibility at lower particle counts.</p>
 
-<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>This paper introduces a method for Model Predictive Path Integral (MPPI) control that optimizes sample generation towards an optimal trajectory through Stein Variational Gradient Descent (SVGD). The abstract also notes that mPPI relies upon predictive rollout of trajectories sampled from a distribution of possible actions.</p>
-
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
 
@@ -1823,10 +1809,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 162.0deg;" aria-label="90% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>90%</span>
+        <span>89%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1884,13 +1870,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2605_02147/">Sampling-Based Control via Entropy-Regularized Optimal Transport</a></h3>
+      <h3><a href="../../papers/2025_crestaz_td_cd_mppi_temporal/">TD-CD-MPPI: Temporal-Difference Constraint-Discounted Model Predictive Path Integral Control</a></h3>
 
-      <p class="paper-similar-card__label">Sinkhorn Control</p>
+      <p class="paper-similar-card__label">TD-CD-MPPI</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Vincent Pacelli et al. / 2026</span>
+        <span>Pietro Noah Crestaz et al. / 2025</span>
       </div>
 
     </div>

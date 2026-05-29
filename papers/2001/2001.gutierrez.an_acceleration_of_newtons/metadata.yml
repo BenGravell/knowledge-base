@@ -12,7 +12,7 @@ arxiv_id:
 tags:
 abstract: >
   From a study of the convexity we give an acceleration for Newton's method and obtain a new third order method. Then we use this method for solving non-linear equations in Banach spaces, establishing conditions on convergence, existence and uniqueness of solution, as well as error estimates
-summary: ''
+summary:
 link: https://doi.org/10.1016/s0096-3003(99)00175-7
 links_alt:
 audit_status: raw

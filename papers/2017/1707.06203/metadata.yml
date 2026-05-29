@@ -19,13 +19,13 @@ authors:
   - Daan Wierstra
 year: 2017
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "1707.06203"
 tags:
 abstract: >
   We introduce Imagination-Augmented Agents (I2As), a novel architecture for deep reinforcement learning combining model-free and model-based aspects. In contrast to most existing model-based reinforcement learning and planning methods, which prescribe how a model should be used to arrive at a policy, I2As learn to interpret predictions from a learned environment model to construct implicit plans in arbitrary ways, by using the predictions as additional context in deep policy networks. I2As show improved data efficiency, performance, and robustness to model misspecification compared to several baselines.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/1707.06203
 links_alt:
 audit_status: raw

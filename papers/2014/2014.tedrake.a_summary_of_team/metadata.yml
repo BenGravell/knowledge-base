@@ -36,7 +36,7 @@ arxiv_id:
 tags:
 abstract: >
   The paper describes the system developed by researchers from MIT for the Defense Advanced Research Projects Agency's (DARPA) Virtual Robotics Challenge (VRC), held in June 2013. The VRC was the first competition in the DARPA Robotics Challenge (DRC), a program that aims to “develop ground robotic capabilities to execute complex tasks in dangerous, degraded, human-engineered environments”. The VRC required teams to guide a model of Boston Dynamics' humanoid robot, Atlas, through driving, walking, and manipulation tasks in simulation. Team MIT's user interface, the Viewer, provided the operator with a unified representation of all available information. A 3D rendering of the robot depicted its most recently estimated body state with respect to the surrounding environment, represented by point clouds and texture-mapped meshes as sensed by on-board LIDAR and fused over time.
-summary: ''
+summary:
 link: https://doi.org/10.1109/ICRA.2014.6907140
 links_alt:
 audit_status: raw

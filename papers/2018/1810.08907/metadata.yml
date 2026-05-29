@@ -8,13 +8,13 @@ authors:
   - Weijie J. Su
 year: 2018
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "1810.08907"
 tags:
 abstract: >
   Gradient-based optimization algorithms can be studied from the perspective of limiting ordinary differential equations (ODEs). Motivated by the fact that existing ODEs do not distinguish between two fundamentally different algorithms---Nesterov's accelerated gradient method for strongly convex functions (NAG-SC) and Polyak's heavy-ball method---we study an alternative limiting process that yields high-resolution ODEs. We show that these ODEs permit a general Lyapunov function framework for the analysis of convergence in both continuous and discrete time. We also show that these ODEs are more accurate surrogates for the underlying algorithms; in particular, they not only distinguish between NAG-SC and Polyak's heavy-ball method, but they allow the identification of a term that we refer to as "gradient correction" that is present in NAG-SC but not in the heavy-ball method and is responsible for the qualitative difference in convergence of the two methods. We also use the high-resolution ODE framework to study Nesterov's accelerated gradient method for (non-strongly) convex functions, uncovering a hitherto unknown result---that NAG-C minimizes the squared gradient norm at an inverse cubic rate. Finally, by modifying the high-resolution ODE of NAG-C, we obtain a family of new optimization methods that are shown to maintain the accelerated convergence rates of NAG-C for smooth convex functions.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/1810.08907
 links_alt:
 audit_status: raw

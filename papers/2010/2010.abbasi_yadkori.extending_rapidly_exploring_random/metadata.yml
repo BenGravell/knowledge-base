@@ -13,7 +13,7 @@ arxiv_id:
 tags:
 abstract: >
   We consider the problem of anytime planning in continuous state and action spaces with non-linear deterministic dynamics. We review the existing approaches to this problem and find no algorithms that both quickly find feasible solutions and also eventually approach optimal solutions with additional time. The state-of-the-art solution to this problem is the rapidly-exploring random tree (RRT) algorithm that quickly finds a feasible solution. However, the RRT algorithm does not return better results with additional time. We introduce RRT ++ , an anytime extension of the basic RRT algorithm. We show that the new algorithm has desirable theoretical properties and experimentally show that it efficiently finds near optimal solutions.
-summary: ''
+summary:
 link: https://doi.org/10.1109/IROS.2010.5650614
 links_alt:
 audit_status: raw

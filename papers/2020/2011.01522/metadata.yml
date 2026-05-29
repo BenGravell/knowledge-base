@@ -8,13 +8,13 @@ authors:
   - Tyler H. Summers
 year: 2020
 source:
-type: ''
+type: Preprint
 doi: 10.1109/LCSYS.2021.3058269
 arxiv_id: "2011.01522"
 tags:
 abstract: >
   The identification of anomalies is a critical component of operating complex, and possibly large-scale and geo-graphically distributed cyber-physical systems. While designing anomaly detectors, it is common to assume Gaussian noise models to maintain tractability; however, this assumption can lead to the actual false alarm rate being significantly higher than expected. Here we design a distributionally robust threshold of detection using finite and fixed higher-order moments of the detection measure data such that it guarantees the actual false alarm rate to be upper bounded by the desired one. Further, we bound the states reachable through the action of a stealthy attack and identify the trade-off between this impact of attacks that cannot be detected and the worst-case false alarm rate. Through numerical experiments, we illustrate how knowledge of higher-order moments results in a tightened threshold, thereby restricting an attacker's potential impact.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2011.01522
 links_alt:
 audit_status: raw

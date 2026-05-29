@@ -1635,17 +1635,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1750,9 +1739,6 @@
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Kinodynamic motion planning is concerned with computing collision-free trajectories while abiding by the robot's dynamic constraints. This critical problem is often tackled using sampling-based planners (SBPs) that explore the robot's high-dimensional state space by constructing a search tree via action propagations. Although SBPs can offer global guarantees on completeness and solution quality, their performance is often hindered by slow exploration due to uninformed action sampling. Learning-based approaches can yield significantly faster runtimes, yet they fail to generalize to out-of-distribution (OOD) scenarios and lack critical guarantees, e.g., safety, thus limiting their deployment on physical robots. We present Diffusion Tree (DiTree): a provably-generalizable framework leveraging diffusion policies (DPs) as informed samplers to efficiently guide state-space search within SBPs. DiTree combines DP's ability to model complex distributions of expert trajectories, conditioned on local observations, with the completeness of SBPs to yield provably-safe solutions within a few action propagation iterations for complex dynamical systems. We demonstrate DiTree's power with an implementation combining the popular RRT planner with a DP action sampler trained on a single environment. In comprehensive evaluations on OOD scenarios, DiTree achieves on average a 30% higher success rate compared to standalone DP or SBPs, on a dynamic car and Mujoco's ant robot settings (for the latter, SBPs fail completely). Beyond simulation, real-world car experiments confirm DiTree's applicability, demonstrating superior trajectory quality and robustness even under severe sim-to-real gaps. Project webpage: https://sites.google.com/view/ditree.</p>
 
-<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>Kinodynamic motion planning is concerned with computing collision-free trajectories while abiding by the robot's dynamic constraints. The abstract also notes that this critical problem is often tackled using sampling-based planners (SBPs) that explore the robot's high-dimensional state space by constructing a search tree via action propagations.</p>
-
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
 
@@ -1833,10 +1819,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>87%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1851,10 +1837,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>87%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1878,13 +1864,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1710_10122/">RRT-CoLearn: Towards Kinodynamic Planning without Numerical Trajectory Optimization</a></h3>
+      <h3><a href="../../papers/2203_11108/">db-A*: Discontinuity-bounded Search for Kinodynamic Mobile Robot Motion Planning</a></h3>
 
-      <p class="paper-similar-card__label">RRT-CoLearn</p>
+      <p class="paper-similar-card__label">db-A*</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Wouter Wolfslag et al. / 2017</span>
+        <span>Wolfgang Hoenig et al. / 2022</span>
       </div>
 
     </div>
@@ -1918,13 +1904,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1809_02399/">Sampling-based Optimal Kinodynamic Planning with Motion Primitives</a></h3>
+      <h3><a href="../../papers/1710_10122/">RRT-CoLearn: Towards Kinodynamic Planning without Numerical Trajectory Optimization</a></h3>
 
-      <p class="paper-similar-card__label">RRT*_MotionPrimitives</p>
+      <p class="paper-similar-card__label">RRT-CoLearn</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Basak Sakcak et al. / 2018</span>
+        <span>Wouter Wolfslag et al. / 2017</span>
       </div>
 
     </div>

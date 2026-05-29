@@ -8,13 +8,13 @@ authors:
   - Zaid Harchaoui
 year: 2019
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "1910.08221"
 tags:
 abstract: >
   A classical method for risk-sensitive nonlinear control is the iterative linear exponential quadratic Gaussian algorithm. We present its convergence analysis from a first-order optimization viewpoint. We identify the objective that the algorithm actually minimizes and we show how the addition of a proximal term guarantees convergence to a stationary point.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/1910.08221
 links_alt:
 audit_status: raw

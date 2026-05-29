@@ -7,13 +7,13 @@ authors:
   - Tyler H. Summers
 year: 2020
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2002.02928"
 tags:
 abstract: >
   Safely deploying robots in uncertain and dynamic environments requires a systematic accounting of various risks, both within and across layers in an autonomy stack from perception to motion planning and control. Many widely used motion planning algorithms do not adequately incorporate inherent perception and prediction uncertainties, often ignoring them altogether or making questionable assumptions of Gaussianity. We propose a distributionally robust incremental sampling-based motion planning framework that explicitly and coherently incorporates perception and prediction uncertainties. We design output feedback policies and consider moment-based ambiguity sets of distributions to enforce probabilistic collision avoidance constraints under the worst-case distribution in the ambiguity set. Our solution approach, called Output Feedback Distributionally Robust $RRT^{*}$(OFDR-$RRT^{*})$, produces asymptotically optimal risk-bounded trajectories for robots operating in dynamic, cluttered, and uncertain environments, explicitly incorporating mapping and localization error, stochastic process disturbances, unpredictable obstacle motion, and uncertain obstacle locations. Numerical experiments illustrate the effectiveness of the proposed algorithm.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2002.02928
 links_alt:
 audit_status: raw

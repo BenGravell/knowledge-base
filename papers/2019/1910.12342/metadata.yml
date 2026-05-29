@@ -7,13 +7,13 @@ authors:
   - Stephen Boyd
 year: 2019
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "1910.12342"
 tags:
 abstract: >
   We consider the problem of minimizing a sum of clipped convex functions; applications include clipped empirical risk minimization and clipped control. While the problem of minimizing the sum of clipped convex functions is NP-hard, we present some heuristics for approximately solving instances of these problems. These heuristics can be used to find good, if not global, solutions and appear to work well in practice. We also describe an alternative formulation, based on the perspective transformation, which makes the problem amenable to mixed-integer convex programming and yields computationally tractable lower bounds. We illustrate one of our heuristic methods by applying it to various examples and use the perspective transformation to certify that the solutions are relatively close to the global optimum. This paper is accompanied by an open-source implementation.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/1910.12342
 links_alt:
 audit_status: raw

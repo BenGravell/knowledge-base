@@ -9,13 +9,13 @@ authors:
   - Raquel Urtasun
 year: 2019
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "1910.11296"
 tags:
 abstract: >
   In the past few years, we have seen great progress in perception algorithms, particular through the use of deep learning. However, most existing approaches focus on a few categories of interest, which represent only a small fraction of the potential categories that robots need to handle in the real-world. Thus, identifying objects from unknown classes remains a challenging yet crucial task. In this paper, we develop a novel open-set instance segmentation algorithm for point clouds which can segment objects from both known and unknown classes in a holistic way. Our method uses a deep convolutional neural network to project points into a category-agnostic embedding space in which they can be clustered into instances irrespective of their semantics. Experiments on two large-scale self-driving datasets validate the effectiveness of our proposed method.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/1910.11296
 links_alt:
 audit_status: raw

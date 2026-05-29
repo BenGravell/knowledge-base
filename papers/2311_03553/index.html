@@ -1635,17 +1635,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1754,9 +1743,6 @@
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Motion planning for robotic systems with complex dynamics is a challenging problem. While recent sampling-based algorithms achieve asymptotic optimality by propagating random control inputs, their empirical convergence rate is often poor, especially in high-dimensional systems such as multirotors. An alternative approach is to first plan with a simplified geometric model and then use trajectory optimization to follow the reference path while accounting for the true dynamics. However, this approach may fail to produce a valid trajectory if the initial guess is not close to a dynamically feasible trajectory. In this paper, we present Iterative Discontinuity Bounded A* (iDb-A*), a novel kinodynamic motion planner that combines search and optimization iteratively. The search step utilizes a finite set of short trajectories (motion primitives) that are interconnected while allowing for a bounded discontinuity between them. The optimization step locally repairs the discontinuities with trajectory optimization. By progressively reducing the allowed discontinuity and incorporating more motion primitives, our algorithm achieves asymptotic optimality with excellent any-time performance. We provide a benchmark of 43 problems across eight different dynamical systems, including different versions of unicycles and multirotors. Compared to state-of-the-art methods, iDb-A* consistently solves more problem instances and finds lower-cost solutions more rapidly.</p>
 
-<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>Motion planning for robotic systems with complex dynamics is a challenging problem. The abstract also notes that while recent sampling-based algorithms achieve asymptotic optimality by propagating random control inputs, their empirical convergence rate is often poor, especially in high-dimensional systems such as multirotors.</p>
-
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
 
@@ -1839,10 +1825,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 165.6deg;" aria-label="92% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 167.4deg;" aria-label="93% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>92%</span>
+        <span>93%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1859,10 +1845,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 163.8deg;" aria-label="91% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 165.6deg;" aria-label="92% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>91%</span>
+        <span>92%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1879,10 +1865,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>89%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1904,13 +1890,11 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1205_5088/">Kinodynamic RRT*: Optimal Motion Planning for Systems with Linear Differential Constraints</a></h3>
-
-      <p class="paper-similar-card__label">Linear Kinodynamic RRT*</p>
+      <h3><a href="../../papers/2015_xie_toward_asymptotically_optimal_motion/">Toward Asymptotically Optimal Motion Planning for Kinodynamic Systems Using a Two-point Boundary Value Problem Solver</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Dustin J. Webb et al. / 2012</span>
+        <span>Christopher Xie et al. / 2015</span>
       </div>
 
     </div>
@@ -1924,13 +1908,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1407_2896/">Asymptotically Optimal Sampling-based Kinodynamic Planning</a></h3>
+      <h3><a href="../../papers/1205_5088/">Kinodynamic RRT*: Optimal Motion Planning for Systems with Linear Differential Constraints</a></h3>
 
-      <p class="paper-similar-card__label">SST*</p>
+      <p class="paper-similar-card__label">Linear Kinodynamic RRT*</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Yanbo Li et al. / 2014</span>
+        <span>Dustin J. Webb et al. / 2012</span>
       </div>
 
     </div>

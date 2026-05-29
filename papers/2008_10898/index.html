@@ -1635,17 +1635,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1752,9 +1741,6 @@
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>In this paper, we propose a novel stochastic gradient estimator -- ProbAbilistic Gradient Estimator (PAGE) -- for nonconvex optimization. PAGE is easy to implement as it is designed via a small adjustment to vanilla SGD: in each iteration, PAGE uses the vanilla minibatch SGD update with probability $p_t$ or reuses the previous gradient with a small adjustment, at a much lower computational cost, with probability $1-p_t$. We give a simple formula for the optimal choice of $p_t$. Moreover, we prove the first tight lower bound $Ω(n+\frac{\sqrt{n}}{ε^2})$ for nonconvex finite-sum problems, which also leads to a tight lower bound $Ω(b+\frac{\sqrt{b}}{ε^2})$ for nonconvex online problems, where $b:= \min\{\frac{σ^2}{ε^2}, n\}$. Then, we show that PAGE obtains the optimal convergence results $O(n+\frac{\sqrt{n}}{ε^2})$ (finite-sum) and $O(b+\frac{\sqrt{b}}{ε^2})$ (online) matching our lower bounds for both nonconvex finite-sum and online problems. Besides, we also show that for nonconvex functions satisfying the Polyak-Łojasiewicz (PL) condition, PAGE can automatically switch to a faster linear convergence rate $O(\cdot\log \frac{1}ε)$. Finally, we conduct several deep learning experiments (e.g., LeNet, VGG, ResNet) on real datasets in PyTorch showing that PAGE not only converges much faster than SGD in training but also achieves the higher test accuracy, validating the optimal theoretical results and confirming the practical superiority of PAGE.</p>
 
-<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>This paper proposes a novel stochastic gradient estimator -- ProbAbilistic Gradient Estimator (PAGE) -- for nonconvex optimization. The abstract also notes that pAGE is easy to implement as it is designed via a small adjustment to vanilla SGD: in each iteration, PAGE uses the vanilla minibatch SGD update with probability $p_t$ or reuses the previous gradient with a small adjustment, at a much lower computational cost, with probability $1-p_t$.</p>
-
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
 
@@ -1831,30 +1817,28 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2202_00308/">PAGE-PG: A Simple and Loopless Variance-Reduced Policy Gradient Method with Probabilistic Gradient Estimation</a></h3>
-
-      <p class="paper-similar-card__label">PAGE-PG</p>
+      <h3><a href="../../papers/2012_06188/">Recent Theoretical Advances in Non-Convex Optimization</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Matilde Gargiani et al. / 2022</span>
+        <span>Marina Danilova et al. / 2020</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1878,21 +1862,23 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2012_06188/">Recent Theoretical Advances in Non-Convex Optimization</a></h3>
+      <h3><a href="../../papers/1805_10367/">Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization</a></h3>
+
+      <p class="paper-similar-card__label">ZO-SVRG</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Marina Danilova et al. / 2020</span>
+        <span>Sijia Liu et al. / 2018</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1909,10 +1895,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">

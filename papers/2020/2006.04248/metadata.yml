@@ -7,13 +7,13 @@ authors:
   - Stephen Boyd
 year: 2020
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2006.04248"
 tags:
 abstract: >
   A convex optimization model predicts an output from an input by solving a convex optimization problem. The class of convex optimization models is large, and includes as special cases many well-known models like linear and logistic regression. We propose a heuristic for learning the parameters in a convex optimization model given a dataset of input-output pairs, using recently developed methods for differentiating the solution of a convex optimization problem with respect to its parameters. We describe three general classes of convex optimization models, maximum a posteriori (MAP) models, utility maximization models, and agent models, and present a numerical experiment for each.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2006.04248
 links_alt:
 audit_status: raw

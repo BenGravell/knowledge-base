@@ -1719,6 +1719,8 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
+<p>We consider the problem of minimizing the largest generalized eigenvalue of a pair of symmetric matrices, each of which depends affinely on the decision variables. Although this problem may appear specialized, it is in fact quite general, and includes for example all linear, quadratic, and linear fractional programs. Many problems arising in control theory can be cast in this form. The problem is nondifferentiable but quasiconvex, so methods such as Kelley's cutting-plane algorithm or the ellipsoid algorithm of Shor, Nemirovksy, and Yudin are guaranteed to minimize it. In this paper we describe relevant background material and a simple interior point method that solves such problems more efficiently. The algorithm is a variation on Huard's method of centers, using a self-concordant barrier for matrix inequalities developed by Nesterov and Nemirovsky. Since the problem is quasiconvex but not convex, devising a non-heuristic stopping criterion, i.e., one that guarantees a given accuracy, is more difficult than in the convex case. We describe several non-heuristic stopping criteria that are based on the dual of a related convex problem and a new ellipsoidal approximation that is slightly sharper, in some cases, than a more general result due to Nesterov and Nemirovsky. The algorithm is demonstrated on an example: determining the quadratic Lyapunov function that optimizes a decay rate estimate for a differential inclusion.</p>
+
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
 
@@ -1741,12 +1743,16 @@
     <h3>External</h3>
     <div class="paper-link-pills">
 
-      <a class="paper-link-pill paper-link-pill--primary" href="https://doi.org/10.1016/0024-3795(93)90465-z" target="_blank" rel="noopener noreferrer">
+      <a class="paper-link-pill paper-link-pill--primary" href="https://web.stanford.edu/~boyd/papers/pdf/gevc.pdf" target="_blank" rel="noopener noreferrer">
         <span class="paper-link-pill__label">Document</span>
       </a>
 
       <a class="paper-link-pill paper-link-pill--standard" href="https://doi.org/10.1016/0024-3795(93)90465-z" target="_blank" rel="noopener noreferrer">
         <span class="paper-link-pill__label">DOI</span>
+      </a>
+
+      <a class="paper-link-pill paper-link-pill--alternate" href="https://web.stanford.edu/~boyd/papers/gevc.html" target="_blank" rel="noopener noreferrer">
+        <span class="paper-link-pill__label">web.stanford.edu</span>
       </a>
 
     </div>
@@ -1758,10 +1764,48 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 133.2deg;" aria-label="74% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>74%</span>
+        <span>84%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1408_3595/">Analysis and Design of Optimization Algorithms via Integral Quadratic Constraints</a></h3>
+
+      <p class="paper-similar-card__label">IQC</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Laurent Lessard et al. / 2014</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>83%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1994_boyd_linear_matrix_inequalities_in/">Linear Matrix Inequalities in System and Control Theory</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Stephen Boyd et al. / 1994</span>
+      </div>
+
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1776,72 +1820,38 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 131.4deg;" aria-label="73% similar">
-      <div class="paper-similar-card__rank-top">2</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>73%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2111_00113/">Fast &amp; Accurate Randomized Algorithms for Linear Systems and Eigenvalue Problems</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Yuji Nakatsukasa et al. / 2021</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 129.6deg;" aria-label="72% similar">
-      <div class="paper-similar-card__rank-top">3</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>72%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2013_fazel_hankel_matrix_rank_minimization/">Hankel Matrix Rank Minimization with Applications to System Identification and Realization</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Maryam Fazel et al. / 2013</span>
-      </div>
-
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 129.6deg;" aria-label="72% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>72%</span>
+        <span>80%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2024_carson_towards_understanding_cg_and/">Towards Understanding CG and GMRES through Examples</a></h3>
+      <h3><a href="../../papers/1312_3039/">Conic Optimization via Operator Splitting and Homogeneous Self-Dual Embedding</a></h3>
+
+      <p class="paper-similar-card__label">SCS</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Erin Carson et al. / 2024</span>
+        <span>Brendan O&#39;Donoghue et al. / 2013</span>
       </div>
 
     </div>
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 129.6deg;" aria-label="72% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 144.0deg;" aria-label="80% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>72%</span>
+        <span>80%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1998_lobo_applications_of_second_order/">Applications of Second-order Cone Programming</a></h3>
+      <h3><a href="../../papers/1706_04381/">Dissipativity Theory for Nesterov&#39;s Accelerated Method</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Miguel Sousa Lobo et al. / 1998</span>
+        <span>Bin Hu et al. / 2017</span>
       </div>
 
     </div>

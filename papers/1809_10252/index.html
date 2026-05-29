@@ -1635,17 +1635,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1744,9 +1733,6 @@
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
 <p>Sampling-based Motion Planners (SMPs) have become increasingly popular as they provide collision-free path solutions regardless of obstacle geometry in a given environment. However, their computational complexity increases significantly with the dimensionality of the motion planning problem. Adaptive sampling is one of the ways to speed up SMPs by sampling a particular region of a configuration space that is more likely to contain an optimal path solution. Although there are a wide variety of algorithms for adaptive sampling, they rely on hand-crafted heuristics; furthermore, their performance decreases significantly in high-dimensional spaces. In this paper, we present a neural network-based adaptive sampler for motion planning called Deep Sampling-based Motion Planner (DeepSMP). DeepSMP generates samples for SMPs and enhances their overall speed significantly while exhibiting efficient scalability to higher-dimensional problems. DeepSMP's neural architecture comprises of a Contractive AutoEncoder which encodes given workspaces directly from a raw point cloud data, and a Dropout-based stochastic deep feedforward neural network which takes the workspace encoding, start and goal configuration, and iteratively generates feasible samples for SMPs to compute end-to-end collision-free optimal paths. DeepSMP is not only consistently computationally efficient in all tested environments but has also shown remarkable generalization to completely unseen environments. We evaluate DeepSMP on multiple planning problems including planning of a point-mass robot, rigid-body, 6-link robotic manipulator in various 2D and 3D environments. The results show that on average our method is at least 7 times faster in point-mass and rigid-body case and about 28 times faster in 6-link robot case than the existing state-of-the-art.</p>
-
-<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>Sampling-based Motion Planners (SMPs) have become increasingly popular as they provide collision-free path solutions regardless of obstacle geometry in a given environment. The abstract also notes that however, their computational complexity increases significantly with the dimensionality of the motion planning problem.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -1890,10 +1876,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -1917,13 +1903,13 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2309_14595/">Neural Informed RRT*: Learning-based Path Planning with Point Cloud State Representations under Admissible Ellipsoidal Constraints</a></h3>
+      <h3><a href="../../papers/2309_14545/">Motions in Microseconds via Vectorized Sampling-Based Planning</a></h3>
 
-      <p class="paper-similar-card__label">Neural Informed RRT*</p>
+      <p class="paper-similar-card__label">VAMP</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Zhe Huang et al. / 2023</span>
+        <span>Wil Thomason et al. / 2023</span>
       </div>
 
     </div>

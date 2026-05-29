@@ -9,13 +9,13 @@ authors:
   - John Schulman
 year: 2019
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "1904.03646"
 tags:
 abstract: >
   Monte Carlo Tree Search (MCTS) algorithms perform simulation-based search to improve policies online. During search, the simulation policy is adapted to explore the most promising lines of play. MCTS has been used by state-of-the-art programs for many problems, however a disadvantage to MCTS is that it estimates the values of states with Monte Carlo averages, stored in a search tree; this does not scale to games with very high branching factors. We propose an alternative simulation-based search method, Policy Gradient Search (PGS), which adapts a neural network simulation policy online via policy gradient updates, avoiding the need for a search tree. In Hex, PGS achieves comparable performance to MCTS, and an agent trained using Expert Iteration with PGS was able defeat MoHex 2.0, the strongest open-source Hex agent, in 9x9 Hex.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/1904.03646
 links_alt:
 audit_status: raw

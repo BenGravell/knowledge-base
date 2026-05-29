@@ -12,7 +12,7 @@ arxiv_id:
 tags:
 abstract: >
   This note proposes a simplified existence criterion for the linear quadratic optimal control law for systems with state dependent noise.
-summary: ''
+summary:
 link: https://doi.org/10.1109/TAC.1975.1101056
 links_alt:
 audit_status: raw

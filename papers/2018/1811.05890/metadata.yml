@@ -21,8 +21,7 @@ tags:
   - MPC
 abstract: >
   We consider the problem of optimal trajectory tracking for unknown systems. A novel data-enabled predictive control (DeePC) algorithm is presented that computes optimal and safe control policies using real-time feedback driving the unknown system along a desired trajectory while satisfying system constraints. Using a finite number of data samples from the unknown system, our proposed algorithm uses a behavioural systems theory approach to learn a non-parametric system model used to predict future trajectories. The DeePC algorithm is shown to be equivalent to the classical and widely adopted Model Predictive Control (MPC) algorithm in the case of deterministic linear time-invariant systems. In the case of nonlinear stochastic systems, we propose regularizations to the DeePC algorithm. Simulations are provided to illustrate performance and compare the algorithm with other methods.
-summary: >
-  This paper considers the problem of optimal trajectory tracking for unknown systems. The abstract also notes that a novel data-enabled predictive control (DeePC) algorithm is presented that computes optimal and safe control policies using real-time feedback driving the unknown system along a desired trajectory while satisfying system constraints.
+summary:
 link: https://arxiv.org/pdf/1811.05890
 links_alt:
   - https://doi.org/10.23919/ecc.2019.8795639

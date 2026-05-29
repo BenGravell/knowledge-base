@@ -2,19 +2,23 @@ title: >
   From Inverse Kinematics to Optimal Control
 algorithm:
 authors:
-  - Perle Geoffroy
-  - N. Mansard
-  - M. Raison
-  - S. Achiche
-  - Emo Todorov
+- Perle Geoffroy
+- Nicolas Mansard
+- Maxime Raison
+- Sofiane Achiche
+- Yuval Tassa
+- Emo Todorov
 year: 2014
-source: Semantic Scholar
+source: Advances in Robot Kinematics
 type: Survey Paper
 doi: 10.1007/978-3-319-06698-1_42
 arxiv_id:
 tags:
-abstract: ''
-summary: ''
-link: https://www.semanticscholar.org/paper/eebf7b5702760b2a8864aaaa44e96d06ae3bf88a
+abstract: >
+  Numerical optimal control, the approximation of an optimal trajectory using numerical iterative algorithms, is a promising approach to compute the control of complex dynamical systems whose instantaneous linearization is not meaningful. Aside from the problems of computation cost, these methods raise several conceptual problems, like stability, robustness, or simply understanding of the nature of the obtained solution. In this paper, we propose a rewriting of the Differential Dynamic Programing solver. Our variant is more efficient and numerically more interesting. Furthermore, it draws some interesting comparisons with the classical inverse formulation: in particular, we show that inverse kinematics can be seen as singular case of it, when the preview horizon collapses.
+summary:
+link: https://www.roboti.us/lab/papers/GeoffroyARK14.pdf
 links_alt:
+- https://doi.org/10.1007/978-3-319-06698-1_42
+- https://www.semanticscholar.org/paper/eebf7b5702760b2a8864aaaa44e96d06ae3bf88a
 audit_status: raw

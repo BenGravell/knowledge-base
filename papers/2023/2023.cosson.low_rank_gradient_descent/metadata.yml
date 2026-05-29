@@ -15,7 +15,7 @@ arxiv_id:
 tags:
 abstract: >
   Several recent empirical studies demonstrate that important machine learning tasks such as training deep neural networks, exhibit a low-rank structure, where most of the variation in the loss function occurs only in a few directions of the input space. In this paper, we leverage such low-rank structure to reduce the high computational cost of canonical gradient-based methods such as gradient descent (GD). Our proposed Low-Rank Gradient Descent (LRGD) algorithm finds an $\epsilon$ -approximate stationary point of a p-dimensional function by first identifying $r ≤ p$ significant directions, and then estimating the true p-dimensional gradient at every iteration by computing directional derivatives only along those r directions. We establish that the “directional oracle complexities” of LRGD for strongly convex and non-convex objective functions are $\mathcal{O}(r\ {\rm{log}}(1/\epsilon) + rp)$ and $\mathcal{O}(r/\epsilon^2 + rp)$ , respectively. Therefore, when $r\ll p$ , LRGD provides significant improvement over the known complexities of $\mathcal{O}(p\ \rm{log}(1/\epsilon)$ ) and $\mathcal{O}(p/\epsilon^2)$ of GD in the strongly convex and non-convex settings, respectively. Furthermore, we formally characterize the classes of exactly and approximately low-rank functions. Empirically, using real and synthetic data, LRGD provides significant gains over GD when the data has low-rank structure, and in the absence of such structure, LRGD does not degrade performance compared to GD. This suggests that LRGD could be used in practice in any setting in place of GD.
-summary: ''
+summary:
 link: https://doi.org/10.1109/OJCSYS.2023.3315088
 links_alt:
 audit_status: raw

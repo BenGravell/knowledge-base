@@ -7,13 +7,13 @@ authors:
   - Maryam Fazel
 year: 2022
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2203.16673"
 tags:
 abstract: >
   This paper studies the problem of identifying low-order linear systems via Hankel nuclear norm regularization. Hankel regularization encourages the low-rankness of the Hankel matrix, which maps to the low-orderness of the system. We provide novel statistical analysis for this regularization and carefully contrast it with the unregularized ordinary least-squares (OLS) estimator. Our analysis leads to new bounds on estimating the impulse response and the Hankel matrix associated with the linear system. We first design an input excitation and show that Hankel regularization enables one to recover the system using optimal number of observations in the true system order and achieve strong statistical estimation rates. Surprisingly, we demonstrate that the input design indeed matters, by showing that intuitive choices such as i.i.d. Gaussian input leads to provably sub-optimal sample complexity. To better understand the benefits of regularization, we also revisit the OLS estimator. Besides refining existing bounds, we experimentally identify when regularized approach improves over OLS: (1) For low-order systems with slow impulse-response decay, OLS method performs poorly in terms of sample complexity, (2) Hankel matrix returned by regularization has a more clear singular value gap that ease identification of the system order, (3) Hankel regularization is less sensitive to hyperparameter choice. Finally, we establish model selection guarantees through a joint train-validation procedure where we tune the regularization parameter for near-optimal estimation.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2203.16673
 links_alt:
 audit_status: raw

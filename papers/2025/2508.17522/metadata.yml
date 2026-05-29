@@ -7,13 +7,13 @@ authors:
   - Stephen Boyd
 year: 2025
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2508.17522"
 tags:
 abstract: >
   Quadratic cone programs are rapidly becoming the standard canonical form for convex optimization problems. In this paper we address the question of differentiating the solution map for such problems, generalizing previous work for linear cone programs. We follow a similar path, using the implicit function theorem applied to the optimality conditions for a homogenous primal-dual embedding. Along with our proof of differentiability, we present methods for efficiently evaluating the derivative operator and its adjoint at a vector. Additionally, we present an open-source implementation of these methods, named \texttt{diffqcp}, that can execute on CPUs and GPUs. GPU-compatibility is already of consequence as it enables convex optimization solvers to be integrated into neural networks with reduced data movement, but we go a step further demonstrating that \texttt{diffqcp}'s performance on GPUs surpasses the performance of its CPU-based counterpart for larger quadratic cone programs.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2508.17522
 links_alt:
 audit_status: raw

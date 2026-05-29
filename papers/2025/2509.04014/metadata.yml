@@ -6,13 +6,13 @@ authors:
   - Sei Zhen Khong
 year: 2025
 source:
-type: ''
+type: Preprint
 doi:
 arxiv_id: "2509.04014"
 tags:
 abstract: >
   While the existing stochastic control theory is well equipped to handle dynamical systems with stochastic uncertainties, a paradigm shift using distance measure based decision making is required for the effective further exploration of the field. As a first step, a distance measure between two stochastic linear time invariant systems is proposed here, extending the existing distance metrics between deterministic linear dynamical systems. In the frequency domain, the proposed distance measure corresponds to the worst-case point-wise in frequency Wasserstein distance between distributions characterising the uncertainties using inverse stereographic projection on the Riemann sphere. For the time domain setting, the proposed distance corresponds to the gap metric induced type-q Wasserstein distance between the distributions characterising the uncertainty of plant models. Apart from providing lower and upper bounds for the proposed distance measures in both frequency and time domain settings, it is proved that the former never exceeds the latter. The proposed distance measures will facilitate the provision of probabilistic guarantees on system robustness and controller performances.
-summary: ''
+summary:
 link: https://arxiv.org/pdf/2509.04014
 links_alt:
 audit_status: raw

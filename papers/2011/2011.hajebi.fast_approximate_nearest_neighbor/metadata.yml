@@ -12,8 +12,9 @@ type: Conference Paper
 doi: 10.5591/978-1-57735-516-8/IJCAI11-222
 arxiv_id:
 tags:
-abstract: ''
-summary: ''
+abstract: >
+  We introduce a new nearest neighbor search algorithm. The algorithm builds a nearest neighbor graph in an offline phase and when queried with a new point, performs hill-climbing starting from a randomly sampled node of the graph. We provide theoretical guarantees for the accuracy and the computational complexity and empirically show the effectiveness of this algorithm.
+summary:
 link: https://www.ijcai.org/Proceedings/11/Papers/222.pdf
 links_alt:
   - https://doi.org/10.5591/978-1-57735-516-8/IJCAI11-222
