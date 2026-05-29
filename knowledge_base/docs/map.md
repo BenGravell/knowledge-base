@@ -246,7 +246,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   display: grid;
   min-width: 0;
   gap: 0.46rem;
-  grid-template-columns: minmax(16rem, 1fr) minmax(5.7rem, auto) minmax(8.2rem, auto) minmax(16rem, 1fr) minmax(11rem, 0.75fr);
+  grid-template-columns: minmax(11.75rem, 1fr) minmax(5.8rem, 0.4fr) minmax(8.4rem, 0.5fr) minmax(12rem, 1.25fr) minmax(9rem, 0.75fr);
   grid-template-areas:
     "detail fit labels search types"
     "categories categories categories categories categories"
@@ -299,6 +299,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   position: relative;
   display: flex;
   align-items: center;
+  min-width: 0;
 }
 #mm-search {
   width: 100%;
@@ -587,7 +588,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 #mm-category-filters {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr));
   gap: 3px 0.7rem;
   max-height: none;
   min-height: 0;
@@ -759,6 +760,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   display: flex;
   align-items: center;
   gap: 7px;
+  min-width: 0;
   cursor: pointer;
   padding: 2px 0;
 }
@@ -812,10 +814,15 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 .mm-cat-name {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: var(--md-default-fg-color--light);
   font-size: 0.8rem;
 }
 .mm-cat-count {
+  flex: 0 0 auto;
   color: var(--md-default-fg-color--lighter);
   font-size: 0.72rem;
 }
@@ -871,6 +878,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 .mm-cat-group-name {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--md-default-fg-color--light);
@@ -1096,9 +1107,9 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   margin-top: 0.9rem;
 }
 
-@media (max-width: 980px) and (min-width: 701px) {
+@media (max-width: 1260px) and (min-width: 761px) {
   .mm-settings-grid {
-    grid-template-columns: minmax(16rem, 1fr) minmax(5.7rem, auto) minmax(8.2rem, auto) minmax(11rem, 0.75fr);
+    grid-template-columns: minmax(11.75rem, 1fr) minmax(5.8rem, 0.45fr) minmax(8.4rem, 0.55fr) minmax(9rem, 0.7fr);
     grid-template-areas:
       "detail fit labels types"
       "search search search search"
@@ -1107,7 +1118,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
   #mm-app {
     --mm-ribbon-max-h: calc(50vh - var(--mm-ribbon-header-h) - 0.85rem);
     --mm-ribbon-max-h: calc(50dvh - var(--mm-ribbon-header-h) - 0.85rem);

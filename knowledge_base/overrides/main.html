@@ -5,7 +5,7 @@
   <script>
     (function () {
       try {
-        if (window.matchMedia("(min-width: 76.25em)").matches) {
+        if (window.matchMedia("(min-width: 60em)").matches) {
           var state = window.localStorage.getItem("kb-primary-nav-open");
           if (state === "open" || state === "closed") {
             document.documentElement.dataset.kbPrimaryNavState = state;

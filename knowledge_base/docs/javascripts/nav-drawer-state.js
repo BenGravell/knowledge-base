@@ -1,6 +1,6 @@
 (function () {
   const storageKey = "kb-primary-nav-open";
-  const desktopQuery = window.matchMedia("(min-width: 76.25em)");
+  const desktopQuery = window.matchMedia("(min-width: 60em)");
 
   function drawer() {
     return document.getElementById("__drawer");
@@ -17,6 +17,19 @@
     }
   }
 
+  function syncForViewport() {
+    const input = drawer();
+    if (!input) return;
+
+    if (desktopQuery.matches) {
+      applyStoredState();
+      return;
+    }
+
+    input.checked = false;
+    delete document.documentElement.dataset.kbPrimaryNavState;
+  }
+
   function rememberState(event) {
     if (!desktopQuery.matches) return;
     const state = event.currentTarget.checked ? "open" : "closed";
@@ -28,8 +41,13 @@
     const input = drawer();
     if (!input) return;
 
-    applyStoredState();
+    syncForViewport();
     input.addEventListener("change", rememberState);
+    if (typeof desktopQuery.addEventListener === "function") {
+      desktopQuery.addEventListener("change", syncForViewport);
+    } else if (typeof desktopQuery.addListener === "function") {
+      desktopQuery.addListener(syncForViewport);
+    }
     requestAnimationFrame(() => {
       document.documentElement.classList.add("kb-nav-transitions-ready");
     });
