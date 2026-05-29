@@ -44,14 +44,17 @@ ARXIV_URL_RE = re.compile(
 # arXiv asks clients to make no more than one request every 3 seconds and
 # use a single connection; keep this comfortably above that floor.
 # https://info.arxiv.org/help/api/tou.html
-BASE_DELAY = 5.0
+BASE_DELAY = 3.25
 MAX_RETRIES = 6
 BACKOFF_BASE = 60.0
 BACKOFF_MAX = 15 * 60.0
 BATCH_SIZE = 20
 OAI_BATCH_SIZE = 1
 THROTTLE_STATE = REPO_ROOT / ".cache" / "prefill" / "arxiv_last_request.txt"
+EXPORT_BLOCK_STATE = REPO_ROOT / ".cache" / "prefill" / "arxiv_export_blocked_until.txt"
+EXPORT_BLOCK_COOLDOWN = 2 * 60 * 60
 RETRY_STATUS_CODES = {429, 500, 502, 503, 504}
+_PACING_NOTICE_SHOWN: set[str] = set()
 
 
 class ArxivExportRateLimited(Exception):
@@ -98,26 +101,46 @@ def wait_for_retry(attempt: int, response: requests.Response | None) -> None:
     time.sleep(wait)
 
 
-def wait_for_request_slot() -> None:
-    """Persist a small delay between arXiv API requests, including across reruns."""
-    THROTTLE_STATE.parent.mkdir(parents=True, exist_ok=True)
+def read_timestamp(path: Path) -> float:
     try:
-        last_request = float(THROTTLE_STATE.read_text(encoding="utf-8").strip())
+        return float(path.read_text(encoding="utf-8").strip())
     except (OSError, ValueError):
-        last_request = 0.0
+        return 0.0
 
+
+def write_timestamp(path: Path, value: float) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(f"{value:.6f}\n", encoding="utf-8")
+
+
+def export_blocked_for_seconds() -> float:
+    return max(0.0, read_timestamp(EXPORT_BLOCK_STATE) - time.time())
+
+
+def remember_export_block() -> None:
+    write_timestamp(EXPORT_BLOCK_STATE, time.time() + EXPORT_BLOCK_COOLDOWN)
+
+
+def wait_for_request_slot(label: str = "arXiv") -> None:
+    """Persist a small delay between arXiv API requests, including across reruns."""
+    last_request = read_timestamp(THROTTLE_STATE)
     wait = max(0.0, last_request + BASE_DELAY - time.time())
     if wait > 0.1:
-        print(f"    arXiv throttle - waiting {wait:.0f}s before next request")
+        if label == "OAI-PMH":
+            if label not in _PACING_NOTICE_SHOWN:
+                print(f"    OAI-PMH pacing: waiting up to {BASE_DELAY:.2f}s between records")
+                _PACING_NOTICE_SHOWN.add(label)
+        else:
+            print(f"    {label} throttle - waiting {wait:.0f}s before next request")
         time.sleep(wait)
 
-    THROTTLE_STATE.write_text(f"{time.time():.6f}\n", encoding="utf-8")
+    write_timestamp(THROTTLE_STATE, time.time())
 
 
 def fetch_many_with_retry(arxiv_ids: list[str]) -> dict[str, dict]:
     last_exc: Exception | None = None
     for attempt in range(MAX_RETRIES):
-        wait_for_request_slot()
+        wait_for_request_slot("export.arxiv.org")
         try:
             return fetch_arxiv_many(arxiv_ids)
         except requests.HTTPError as exc:
@@ -125,6 +148,7 @@ def fetch_many_with_retry(arxiv_ids: list[str]) -> dict[str, dict]:
             if response is None or response.status_code not in RETRY_STATUS_CODES:
                 raise
             if response.status_code == 429:
+                remember_export_block()
                 raise ArxivExportRateLimited from exc
             last_exc = exc
             if attempt + 1 < MAX_RETRIES:
@@ -143,7 +167,7 @@ def fetch_many_with_retry(arxiv_ids: list[str]) -> dict[str, dict]:
 def fetch_oai_with_retry(arxiv_id: str) -> dict:
     last_exc: Exception | None = None
     for attempt in range(MAX_RETRIES):
-        wait_for_request_slot()
+        wait_for_request_slot("OAI-PMH")
         try:
             return fetch_arxiv_oai(arxiv_id)
         except requests.HTTPError as exc:
@@ -179,7 +203,7 @@ def fetch_many_via_oai(arxiv_ids: list[str]) -> dict[str, dict]:
 def fetch_with_retry(arxiv_id: str) -> dict:
     last_exc: Exception | None = None
     for attempt in range(MAX_RETRIES):
-        wait_for_request_slot()
+        wait_for_request_slot("export.arxiv.org")
         try:
             return fetch_arxiv(arxiv_id)
         except requests.HTTPError as exc:
@@ -187,6 +211,7 @@ def fetch_with_retry(arxiv_id: str) -> dict:
             if response is None or response.status_code not in RETRY_STATUS_CODES:
                 raise
             if response.status_code == 429:
+                remember_export_block()
                 print("    export.arxiv.org returned 429; switching this request to OAI-PMH")
                 return fetch_oai_with_retry(arxiv_id)
             last_exc = exc
@@ -212,7 +237,8 @@ class ArxivBatchCache:
         self.batch_size = batch_size
         self.cache: dict[str, dict] = {}
         self.missing: set[str] = set()
-        self.use_oai = False
+        self.use_oai = export_blocked_for_seconds() > 0.0
+        self.printed_oai_cooldown = False
 
     def fetch(self, entry: str) -> dict:
         arxiv_id = normalize_arxiv_id(entry)
@@ -245,6 +271,14 @@ class ArxivBatchCache:
 
     def fetch_batch(self, batch: list[str]) -> tuple[dict[str, dict], list[str]]:
         if self.use_oai:
+            if not self.printed_oai_cooldown:
+                blocked_for = export_blocked_for_seconds()
+                if blocked_for > 0.0:
+                    print(
+                        "    export.arxiv.org is in local cooldown "
+                        f"({blocked_for / 3600:.1f}h left); using OAI-PMH"
+                    )
+                self.printed_oai_cooldown = True
             attempted = batch[:OAI_BATCH_SIZE]
             return fetch_many_via_oai(attempted), attempted
         try:

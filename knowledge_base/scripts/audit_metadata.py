@@ -133,6 +133,7 @@ _MOJIBAKE_RE = re.compile(
     r"(?:Ã[\u0080-\u00ff]|Â[\u0080-\u00ff]?|â[\u0080-\uffff]{1,2}|�)"
 )
 _BIG_WHITESPACE_RE = re.compile(r" {3,}")
+_BIG_WHITESPACE_ISSUE_PREFIX = "Contains 3+ consecutive spaces"
 CHECK_UNKNOWN = "unknown"
 CHECK_REQUIRED = "required"
 CHECK_TITLE = "title"
@@ -1128,7 +1129,7 @@ def find_big_whitespace_issues(path: Path, data: dict) -> list["Issue"]:
         if not examples:
             continue
 
-        message = "Contains 3+ consecutive spaces"
+        message = _BIG_WHITESPACE_ISSUE_PREFIX
         if examples:
             message += ": " + "; ".join(repr(example) for example in examples)
         issues.append(
@@ -3138,6 +3139,10 @@ def _is_garbled_markup_issue(issue: Issue) -> bool:
     return issue.message.startswith("Contains likely garbled HTML/XML markup")
 
 
+def _is_big_whitespace_issue(issue: Issue) -> bool:
+    return issue.message.startswith(_BIG_WHITESPACE_ISSUE_PREFIX)
+
+
 def _is_publisher_mark_abstract_issue(issue: Issue) -> bool:
     return (
         issue.field == "abstract"
@@ -3161,6 +3166,48 @@ def _delete_publisher_marks_from_abstract(abstract: str) -> tuple[str, int]:
 def _fix_escaped_sequences_in_yaml(raw: str) -> tuple[str, int]:
     new_raw = _html_unescape_repeated(raw)
     return new_raw, len(_HTML_ENTITY_RE.findall(raw))
+
+
+def _collapse_big_whitespace_after_indent(line: str) -> tuple[str, int]:
+    match = re.match(
+        r"^(?P<indent>[ \t]*)(?P<body>.*?)(?P<newline>\r?\n?)$",
+        line,
+    )
+    if not match:
+        return line, 0
+
+    body = match.group("body")
+    collapsed, count = _BIG_WHITESPACE_RE.subn(" ", body)
+    if count == 0:
+        return line, 0
+
+    return match.group("indent") + collapsed + match.group("newline"), count
+
+
+def _fix_big_whitespace_in_yaml(raw: str, fields: set[str]) -> tuple[str, int]:
+    lines = raw.splitlines(keepends=True)
+    changed = 0
+    index = 0
+    while index < len(lines):
+        parsed = _top_level_field_span(lines, index)
+        if parsed is None:
+            index += 1
+            continue
+
+        field_name, _value, end = parsed
+        if field_name not in fields:
+            index = end
+            continue
+
+        for line_index in range(index, end):
+            lines[line_index], count = _collapse_big_whitespace_after_indent(
+                lines[line_index]
+            )
+            changed += count
+
+        index = end
+
+    return "".join(lines), changed
 
 
 def _clean_garbled_markup_text(text: str) -> str:
@@ -3694,6 +3741,11 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
         multiline_fields = {i.field for i in issues if _is_multiline_field_issue(i)}
         has_escaped_sequence_fixes = any(_is_escaped_sequence_issue(i) for i in issues)
         has_garbled_markup_fixes = any(_is_garbled_markup_issue(i) for i in issues)
+        whitespace_fields = {
+            re.split(r"[.\[]", i.field, maxsplit=1)[0]
+            for i in issues
+            if _is_big_whitespace_issue(i)
+        }
         if (
             not title_fixes
             and not source_year_fixes
@@ -3702,6 +3754,7 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
             and not multiline_fields
             and not has_escaped_sequence_fixes
             and not has_garbled_markup_fixes
+            and not whitespace_fields
         ):
             continue
         try:
@@ -3768,6 +3821,18 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
                 new_raw, n_cleaned_markup = _fix_garbled_markup_in_yaml(new_raw)
                 if n_cleaned_markup:
                     messages.append(f"  cleaned {n_cleaned_markup} markup fragment(s)")
+
+            if whitespace_fields:
+                new_raw, n_collapsed_spaces = _fix_big_whitespace_in_yaml(
+                    new_raw,
+                    whitespace_fields,
+                )
+                if n_collapsed_spaces:
+                    fields = ", ".join(sorted(whitespace_fields))
+                    messages.append(
+                        "  collapsed "
+                        f"{n_collapsed_spaces} large whitespace run(s): {fields}"
+                    )
 
             if new_raw == raw:
                 err_console.print(f"  [dim](no change written for {path})[/]")
@@ -3897,7 +3962,9 @@ Available --check names:
         "--fix",
         action="store_true",
         help=(
-            "Auto-fix title-case, tag casing/leading articles/duplicate tags, abstract publisher/copyright notices, escaped HTML/entity/markup issues, multiline scalar fields, source years, and path slugs; "
+            "Auto-fix title-case, tag casing/leading articles/duplicate tags, "
+            "abstract publisher/copyright notices, escaped HTML/entity/markup issues, "
+            "multiline scalar fields, large whitespace runs, source years, and path slugs; "
             "path fixes move metadata directories and update direct references"
         ),
     )
