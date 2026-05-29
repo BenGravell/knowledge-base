@@ -142,6 +142,17 @@ _BIG_WHITESPACE_RE = re.compile(r" {3,}")
 _BIG_WHITESPACE_ISSUE_PREFIX = "Contains 3+ consecutive spaces"
 _AUTHOR_MOJIBAKE_ISSUE_PREFIX = "Author entries contain suspicious Unicode character"
 _AUTHOR_ASCII_NORMALIZATION_ISSUE_PREFIX = "Author entries are not ASCII-normalized"
+_TEXT_MOJIBAKE_ISSUE_PREFIX = "Contains likely mojibake/encoding artifact(s)"
+_NON_INDIVIDUAL_AUTHOR_ISSUE_PREFIX = (
+    "Author entries appear to be non-individual names"
+)
+_EMPTY_ABSTRACT_ISSUE_PREFIX = "Empty abstract"
+_EMPTY_SUMMARY_ISSUE_PREFIX = "Missing or empty"
+_LOW_SIGNAL_SUMMARY_ISSUE_PREFIX = "Low-signal generated summary"
+_LOW_SIGNAL_SUMMARY_PHRASE = (
+    "It is useful as a compact reference for the problem formulation, "
+    "main assumptions, and evaluation setting behind the contribution."
+)
 CHECK_UNKNOWN = "unknown"
 CHECK_REQUIRED = "required"
 CHECK_TITLE = "title"
@@ -188,6 +199,7 @@ _LONG_ABSTRACT_CHAR_LIMIT = 6000
 _SUMMARY_ABSTRACT_OVERLAP_MIN_RUN_WORDS = 18
 _SUMMARY_ABSTRACT_OVERLAP_MIN_COVERED_WORDS = 24
 _SUMMARY_ABSTRACT_OVERLAP_MIN_COVERAGE = 0.45
+_SUMMARY_ABSTRACT_OVERLAP_ISSUE_PREFIX = "Substantial verbatim overlap with abstract:"
 _SUMMARY_ABSTRACT_WORD_RE = re.compile(r"[A-Za-z0-9]+(?:[-'][A-Za-z0-9]+)*")
 _PDF_TEXT_ARTIFACT_RE = re.compile(r"\(cid:\d+\)")
 _PLACEHOLDER_ABSTRACT_RE = re.compile(
@@ -516,6 +528,7 @@ _NON_INDIVIDUAL_AUTHOR_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
             r"Microsoft(?:\s+Research)?|"
             r"Apple|"
             r"Amazon|"
+            r"DeepSeek(?:-AI)?|"
             r"Alibaba(?:\s+(?:Cloud|Group))?|"
             r"Qwen|"
             r"Baidu|"
@@ -1446,13 +1459,31 @@ def find_summary_abstract_overlap_issues(
             path,
             "summary",
             (
-                "Substantial verbatim overlap with abstract: "
+                f"{_SUMMARY_ABSTRACT_OVERLAP_ISSUE_PREFIX} "
                 f"{longest_run} consecutive word(s) "
                 f"({run_coverage:.0%} of summary); "
                 f"{covered_words} word(s) covered by shared 8-word phrases "
                 f"({shingle_coverage:.0%} of summary). Example: {snippet!r}"
             ),
             "Rewrite the summary in original observer-language instead of reusing abstract phrasing.",
+        )
+    ]
+
+
+def find_low_signal_summary_issues(path: Path, summary: str) -> list[Issue]:
+    text = _normalize_inline_text(summary)
+    if _LOW_SIGNAL_SUMMARY_PHRASE not in text:
+        return []
+
+    return [
+        Issue(
+            path,
+            "summary",
+            f"{_LOW_SIGNAL_SUMMARY_ISSUE_PREFIX}: contains generic boilerplate",
+            (
+                "Replace with a paper-specific observer-language summary, or leave "
+                "the field blank until one can be written from the source."
+            ),
         )
     ]
 
@@ -2772,7 +2803,15 @@ def audit_file(
         abstract = data.get("abstract")
         abstract_str = str(abstract)
         if not abstract_str.strip():
-            issues.append(Issue(path, "abstract", "Empty"))
+            issues.append(
+                Issue(
+                    path,
+                    "abstract",
+                    _EMPTY_ABSTRACT_ISSUE_PREFIX,
+                    "Fill from the source when an abstract exists; leave blank only after verifying the source has no abstract.",
+                    severity=Severity.WARNING,
+                )
+            )
         else:
             issues.extend(find_weird_text_character_issues(path, "abstract", abstract_str))
             issues.extend(find_likely_misspelling_issues(path, "abstract", abstract_str))
@@ -2798,11 +2837,16 @@ def audit_file(
         paper_type = data.get("type")
         type_str = str(paper_type).strip() if paper_type not in (None, "") else ""
         if type_str not in VALID_TYPES:
+            type_suggestion = None
+            link = str(data.get("link") or "")
+            if not type_str and (arxiv_id or "arxiv.org" in link.casefold()):
+                type_suggestion = "Preprint"
             issues.append(
                 Issue(
                     path,
                     "type",
                     f"Invalid value {type_str!r}; must be one of: {sorted(VALID_TYPES)}",
+                    type_suggestion,
                 )
             )
 
@@ -2876,9 +2920,15 @@ def audit_file(
         summary = data.get("summary")
         if not summary or not str(summary).strip():
             issues.append(
-                Issue(path, "summary", "Missing or empty", severity=Severity.WARNING)
+                Issue(
+                    path,
+                    "summary",
+                    _EMPTY_SUMMARY_ISSUE_PREFIX,
+                    severity=Severity.WARNING,
+                )
             )
         else:
+            issues.extend(find_low_signal_summary_issues(path, str(summary)))
             issues.extend(
                 find_likely_misspelling_issues(path, "summary", str(summary))
             )
@@ -3473,10 +3523,31 @@ def _is_fixable_author_name_issue(issue: Issue) -> bool:
     return _is_author_mojibake_issue(issue) or _is_author_ascii_normalization_issue(issue)
 
 
+def _is_fixable_non_individual_author_issue(issue: Issue) -> bool:
+    return issue.field == "authors" and issue.message.startswith(
+        _NON_INDIVIDUAL_AUTHOR_ISSUE_PREFIX
+    )
+
+
 def _is_publisher_mark_abstract_issue(issue: Issue) -> bool:
     return (
         issue.field == "abstract"
         and issue.message.startswith(_PUBLISHER_MARK_ABSTRACT_ISSUE_PREFIX)
+    )
+
+
+def _is_text_mojibake_issue(issue: Issue) -> bool:
+    return issue.message.startswith(_TEXT_MOJIBAKE_ISSUE_PREFIX)
+
+
+def _is_type_fix_issue(issue: Issue) -> bool:
+    return issue.field == "type" and issue.suggestion in VALID_TYPES
+
+
+def _is_clearable_summary_issue(issue: Issue) -> bool:
+    return issue.field == "summary" and (
+        issue.message.startswith(_SUMMARY_ABSTRACT_OVERLAP_ISSUE_PREFIX)
+        or issue.message.startswith(_LOW_SIGNAL_SUMMARY_ISSUE_PREFIX)
     )
 
 
@@ -3988,6 +4059,123 @@ def _fix_author_names_in_yaml(raw: str, data: dict) -> tuple[str, int, int]:
     return raw, 0, 0
 
 
+_KNOWN_SINGLE_AUTHOR_REPLACEMENTS = {
+    "IEEE": "IEEE Standards Association",
+    "Lozano-Perez": "Tomas Lozano-Perez",
+}
+
+
+def _looks_like_split_author_token(author: object) -> bool:
+    if not isinstance(author, str):
+        return False
+    return bool(re.fullmatch(r"[A-Z][A-Za-z'-]*", author.strip()))
+
+
+def _is_removable_collective_author(author: object) -> bool:
+    if not isinstance(author, str):
+        return False
+    reason = _non_individual_author_reason(author)
+    return bool(reason and reason != "single-token author")
+
+
+def _repair_non_individual_author_list(authors_raw: list[object]) -> tuple[list[object], int]:
+    authors: list[object] = []
+    changed = 0
+    index = 0
+    while index < len(authors_raw):
+        author = authors_raw[index]
+        if isinstance(author, str) and author in _KNOWN_SINGLE_AUTHOR_REPLACEMENTS:
+            authors.append(_KNOWN_SINGLE_AUTHOR_REPLACEMENTS[author])
+            changed += 1
+            index += 1
+            continue
+
+        if len(authors_raw) > 1 and _is_removable_collective_author(author):
+            changed += 1
+            index += 1
+            continue
+
+        if (
+            index + 1 < len(authors_raw)
+            and _looks_like_split_author_token(author)
+            and _looks_like_split_author_token(authors_raw[index + 1])
+        ):
+            combined = f"{str(author).strip()} {str(authors_raw[index + 1]).strip()}"
+            if _non_individual_author_reason(combined) is None:
+                authors.append(combined)
+                changed += 1
+                index += 2
+                continue
+
+        authors.append(author)
+        index += 1
+
+    return authors, changed
+
+
+def _fix_non_individual_authors_in_yaml(raw: str, data: dict) -> tuple[str, int]:
+    authors_raw = data.get("authors")
+    if not isinstance(authors_raw, list):
+        return raw, 0
+    authors, changed = _repair_non_individual_author_list(authors_raw)
+    if not changed:
+        return raw, 0
+
+    lines = raw.splitlines(keepends=True)
+    for start, line in enumerate(lines):
+        match = re.match(
+            r"^(?P<indent>\s*)authors\s*:\s*(?P<value>.*?)(?P<newline>\r?\n)?$",
+            line,
+        )
+        if not match:
+            continue
+
+        end = start + 1
+        value = match.group("value")
+        if (
+            _is_block_scalar_header(value)
+            or _is_multiline_quoted_scalar_header(value)
+            or _has_indented_continuation(lines, start)
+        ):
+            while end < len(lines):
+                next_line = lines[end]
+                if next_line.strip() and not next_line.startswith((" ", "\t")):
+                    break
+                end += 1
+
+        replacement = match.group("indent") + _format_authors_block(
+            authors,
+            match.group("newline") or "\n",
+        )
+        return "".join(lines[:start] + [replacement] + lines[end:]), changed
+
+    return raw, 0
+
+
+def _fix_mojibake_text_fields_in_yaml(
+    raw: str,
+    data: dict,
+    fields: set[str],
+) -> tuple[str, int]:
+    fixed_raw = raw
+    changed = 0
+    for field_name in sorted(fields):
+        value = data.get(field_name)
+        if not isinstance(value, str):
+            continue
+        fixed_value, count = _decode_utf8_mojibake_text(value)
+        if not count or fixed_value == value:
+            continue
+        fixed_raw = _fix_metadata_scalar_field_in_yaml(
+            fixed_raw,
+            field_name,
+            fixed_value,
+        )
+        data[field_name] = fixed_value
+        changed += count
+    return fixed_raw, changed
+
+
 def _format_tags_block(tags: list[object], newline: str = "\n") -> str:
     if not tags:
         return f"tags:{newline}"
@@ -4318,6 +4506,14 @@ def apply_fixes(
             i for i in issues if _is_publisher_mark_abstract_issue(i)
         ]
         author_name_fixes = [i for i in issues if _is_fixable_author_name_issue(i)]
+        non_individual_author_fixes = [
+            i for i in issues if _is_fixable_non_individual_author_issue(i)
+        ]
+        type_fixes = [i for i in issues if _is_type_fix_issue(i)]
+        summary_clear_fixes = [i for i in issues if _is_clearable_summary_issue(i)]
+        mojibake_text_fields = {
+            i.field for i in issues if _is_text_mojibake_issue(i)
+        }
         ocr_artifact_fields = {
             i.field for i in issues if _is_high_confidence_ocr_artifact_issue(i)
         }
@@ -4339,6 +4535,10 @@ def apply_fixes(
             and not tag_fixes
             and not abstract_publisher_fixes
             and not author_name_fixes
+            and not non_individual_author_fixes
+            and not type_fixes
+            and not summary_clear_fixes
+            and not mojibake_text_fields
             and not ocr_artifact_fields
             and not multiline_fields
             and not folded_text_fields
@@ -4405,6 +4605,41 @@ def apply_fixes(
                         messages.append(
                             f"  ASCII-normalized {n_fixed_authors} author name(s)"
                         )
+
+            if non_individual_author_fixes:
+                parsed = yaml.safe_load(new_raw) or {}
+                new_raw, n_repaired_authors = _fix_non_individual_authors_in_yaml(
+                    new_raw,
+                    parsed,
+                )
+                if n_repaired_authors:
+                    messages.append(
+                        f"  repaired {n_repaired_authors} non-individual author entry(s)"
+                    )
+
+            if type_fixes:
+                parsed = yaml.safe_load(new_raw) or {}
+                old_type = parsed.get("type", "")
+                new_type = type_fixes[0].suggestion
+                new_raw = _fix_metadata_scalar_field_in_yaml(new_raw, "type", new_type)
+                messages.append(f"  type: {old_type!r} [green]->[/] {new_type!r}")
+
+            if summary_clear_fixes:
+                new_raw = _fix_metadata_scalar_field_in_yaml(new_raw, "summary", "")
+                messages.append("  cleared copied or low-signal summary")
+
+            if mojibake_text_fields:
+                parsed = yaml.safe_load(new_raw) or {}
+                new_raw, n_decoded_text = _fix_mojibake_text_fields_in_yaml(
+                    new_raw,
+                    parsed,
+                    mojibake_text_fields,
+                )
+                if n_decoded_text:
+                    fields = ", ".join(sorted(mojibake_text_fields))
+                    messages.append(
+                        f"  decoded {n_decoded_text} text mojibake sequence(s): {fields}"
+                    )
 
             if ocr_artifact_fields:
                 parsed = yaml.safe_load(new_raw) or {}
@@ -4570,7 +4805,7 @@ Checks performed on each metadata.yml:
   tags      - ERROR if tags contain duplicate values, trivial singular/plural duplicates, forbidden generic values, leading articles, more than 4 words, non-capital-case ordinary English words, or sentence-like prose debris copied from an abstract
   year      - ERROR if not a 4-digit integer
   arxiv     - ERROR if arxiv_id is present but not a valid arXiv ID
-  abstract  - ERROR if empty, placeholder-like, contains scraped page text, publisher/copyright notices, or PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed; WARN for dollar math, copied "abstract" headings, likely misspellings, high-confidence OCR artifacts, or OCR word splits
+  abstract  - ERROR if placeholder-like, contains scraped page text, publisher/copyright notices, or PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed; WARN if empty, or for dollar math, copied "abstract" headings, likely misspellings, high-confidence OCR artifacts, or OCR word splits
   escape    - ERROR if string fields contain HTML/entity escapes like &#39; or &amp;, or if title contains raw YAML character escapes like \\u2014
   url       - ERROR if URLs appear in title, algorithm, authors, year, source, type, doi, arxiv_id, tags, or audit_status; ERROR if links contain garbled HTML/XML markup
   multiline - ERROR if one-line scalar fields span multiple YAML lines, or if title/abstract/summary do not use folded `>` YAML style
@@ -4578,7 +4813,7 @@ Checks performed on each metadata.yml:
   type      - ERROR if not a recognised paper type
   status    - ERROR if audit_status is not one of: raw, partial, reviewed
   path      - ERROR if YEAR/SLUG do not match metadata or expected slug format; ERROR if map-data.js or embedding_cache.json IDs are stale, missing, malformed, or inconsistent
-  summary   - ERROR if it has substantial verbatim overlap with the abstract; WARN if missing, empty, or likely misspelled
+  summary   - ERROR if it has substantial verbatim overlap with the abstract or known low-signal generated boilerplate; WARN if missing, empty, or likely misspelled
   optional  - INFO for each optional field that is not populated
   whitespace - ERROR if any string field contains 3 or more consecutive spaces
 
@@ -4607,6 +4842,8 @@ Available --check names:
             "Auto-fix title-case, tag casing/leading articles/duplicate tags, "
             "abstract publisher/copyright notices, high-confidence OCR artifacts, "
             "escaped HTML/entity/markup issues, author-name mojibake/diacritics, "
+            "text-field mojibake, obvious collective/split author entries, "
+            "blank arXiv-backed type fields, copied or low-signal summaries, "
             "high-confidence parse artifacts, "
             "multiline scalar fields, folded text-field style, large whitespace runs, "
             "source years, and path slugs; path fixes move metadata directories "
