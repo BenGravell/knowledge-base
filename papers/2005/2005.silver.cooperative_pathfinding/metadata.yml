@@ -1,0 +1,19 @@
+title: >
+  Cooperative Pathfinding
+algorithm:
+authors:
+  - David Silver
+year: 2005
+source: AAAI Conference on Artificial Intelligence and Interactive Digital Entertainment
+type: Conference Paper
+doi: 10.1609/aiide.v1i1.18726
+arxiv_id:
+tags:
+abstract: >
+  Cooperative Pathfinding is a multi-agent path planning problem where agents must find non-colliding routes to separate destinations, given full information about the routes of other agents. This paper presents three new algorithms for efficiently solving this problem, suitable for use in Real-Time Strategy games and other real-time environments. The algorithms are decoupled approaches that break down the problem into a series of single-agent searches. Cooperative A* (CA*) searches space-time for a non-colliding route. Hierarchical Cooperative A* (HCA*) uses an abstract heuristic to boost performance. Finally, Windowed Hierarchical Cooperative A* (WHCA*) limits the space-time search depth to a dynamic window, spreading computation over the duration of the route. The algorithms are applied to a series of challenging, maze-like environments, and compared to A* with Local Repair (the current video-games industry standard). The results show that the new algorithms, especially WHCA*, are robust and efficient solutions to the Cooperative Pathfinding problem, finding more successful routes and following better paths than Local Repair A*
+summary: ''
+link: https://ojs.aaai.org/index.php/AIIDE/article/download/18726/18503
+links_alt:
+  - https://doi.org/10.1609/aiide.v1i1.18726
+  - https://dl.acm.org/doi/10.5555/3022473.3022494
+audit_status: raw

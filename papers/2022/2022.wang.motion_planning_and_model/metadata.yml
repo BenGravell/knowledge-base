@@ -1,0 +1,24 @@
+title: >
+  Motion Planning and Model Predictive Control for Automated Tractor-Trailer Hitching Maneuver
+algorithm:
+authors:
+  - Zejiang Wang
+  - Ahmad Ahmad
+  - Rien Quirynen
+  - Yebin Wang
+  - Akshay Bhagat
+  - Eyad Zeino
+  - Yuji Zushi
+  - Stefano Di Cairano
+year: 2022
+source: IEEE Conference on Control Technology and Applications (CCTA)
+type: Conference Paper
+doi: 10.1109/CCTA49430.2022.9966181
+arxiv_id:
+tags:
+abstract: >
+  In recent years significant progress has been made in optimization-based planning and control for automated vehicle operation. For heavy-duty vehicles, the research focus has been on platooning and control of articulated vehicles especially when cruising on the highway. This paper proposes an integrated system using a motion planning algorithm and a real-time reference tracking controller, tailored to the task of automated tractor-trailer hitching which is a critical maneuver in heavy-duty vehicle operations, due to requiring a very high precision. The motion planner is based on a bi-directional A-search guided tree algorithm and the tracking controller is im-plemented using nonlinear model predictive control. To validate the proposed approach, we present results from hardware-in-the-loop simulations on a dSPACE Scalexio real-time computing unit and extensive Monte Carlo closed-loop simulations.
+summary: ''
+link: https://doi.org/10.1109/CCTA49430.2022.9966181
+links_alt:
+audit_status: raw

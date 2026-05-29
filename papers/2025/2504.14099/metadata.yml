@@ -1,0 +1,18 @@
+title: >
+  Code Generation for Solving and Differentiating through Convex Optimization Problems
+algorithm:
+authors:
+  - Maximilian Schaller
+  - Stephen Boyd
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2504.14099"
+tags:
+abstract: >
+  We introduce custom code generation for parametrized convex optimization problems that supports evaluating the derivative of the solution with respect to the parameters, i.e., differentiating through the optimization problem. We extend the open source code generator CVXPYgen, which itself extends CVXPY, a Python-embedded domain-specific language with a natural syntax for specifying convex optimization problems, following their mathematical description. Our extension of CVXPYgen adds a custom C implementation to differentiate the solution of a convex optimization problem with respect to its parameters, together with a Python wrapper for prototyping and desktop (non-embedded) applications. We give three representative application examples: Tuning hyper-parameters in machine learning; choosing the parameters in an approximate dynamic programming (ADP) controller; and adjusting the parameters in an optimization based financial trading engine via back-testing, i.e., simulation on historical data. While differentiating through convex optimization problems is not new, CVXPYgen is the first tool that generates custom C code for the task, and increases the computation speed by about an order of magnitude in most applications, compared to CVXPYlayers, a general-purpose tool for differentiating through convex optimization problems.
+summary: ''
+link: https://arxiv.org/pdf/2504.14099
+links_alt:
+audit_status: raw

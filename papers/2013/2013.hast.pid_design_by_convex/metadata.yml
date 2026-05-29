@@ -1,0 +1,20 @@
+title: >
+  PID Design by Convex-concave Optimization
+algorithm:
+authors:
+  - M. Hast
+  - K.J. Astrom
+  - B. Bernhardsson
+  - S. Boyd
+year: 2013
+source: European Control Conference (ECC)
+type: Conference Paper
+doi: 10.23919/ECC.2013.6669312
+arxiv_id:
+tags:
+abstract: >
+  This paper describes how PID controllers can be designed by optimizing performance subject to robustness constraints. The optimization problem is solved using convex-concave programming. The method admits general process descriptions in terms of frequency response data and it can cope with many different constraints. Examples are presented and some pitfalls in optimization are discussed.
+summary: ''
+link: https://doi.org/10.23919/ECC.2013.6669312
+links_alt:
+audit_status: raw

@@ -1,4 +1,5 @@
-title: No-Regret Algorithms for Unconstrained Online Convex Optimization
+title: >
+  No-Regret Algorithms for Unconstrained Online Convex Optimization
 algorithm: Reward-Doubling
 authors:
   - Matthew Streeter
@@ -14,8 +15,10 @@ tags:
   - Classification
   - Online algorithms
   - Optimization
-abstract: 'Some of the most compelling applications of online convex optimization, including online prediction and classification, are unconstrained: the natural feasible set is R^n. Existing algorithms fail to achieve sub-linear regret in this setting unless constraints on the comparator point x^* are known in advance. We present algorithms that, without such prior knowledge, offer near-optimal regret bounds with respect to any choice of x^*. In particular, regret with respect to x^* = 0 is constant. We then prove lower bounds showing that our guarantees are near-optimal in this setting.'
-summary: 'Some of the most compelling applications of online convex optimization, including online prediction and classification, are unconstrained: the natural feasible set is R^n. The abstract also notes that existing algorithms fail to achieve sub-linear regret in this setting unless constraints on the comparator point x^* are known in advance.'
+abstract: >
+  Some of the most compelling applications of online convex optimization, including online prediction and classification, are unconstrained: the natural feasible set is R^n. Existing algorithms fail to achieve sub-linear regret in this setting unless constraints on the comparator point x^* are known in advance. We present algorithms that, without such prior knowledge, offer near-optimal regret bounds with respect to any choice of x^*. In particular, regret with respect to x^* = 0 is constant. We then prove lower bounds showing that our guarantees are near-optimal in this setting.
+summary: >
+  Some of the most compelling applications of online convex optimization, including online prediction and classification, are unconstrained: the natural feasible set is R^n. The abstract also notes that existing algorithms fail to achieve sub-linear regret in this setting unless constraints on the comparator point x^* are known in advance.
 link: https://arxiv.org/pdf/1211.2260
 links_alt:
   - http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.251.2580

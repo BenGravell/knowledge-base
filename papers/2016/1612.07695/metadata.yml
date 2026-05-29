@@ -1,0 +1,21 @@
+title: >
+  MultiNet: Real-time Joint Semantic Reasoning for Autonomous Driving
+algorithm: MultiNet
+authors:
+  - Marvin Teichmann
+  - Michael Weber
+  - Marius Zoellner
+  - Roberto Cipolla
+  - Raquel Urtasun
+year: 2016
+source:
+type: ''
+doi:
+arxiv_id: "1612.07695"
+tags:
+abstract: >
+  While most approaches to semantic reasoning have focused on improving performance, in this paper we argue that computational times are very important in order to enable real time applications such as autonomous driving. Towards this goal, we present an approach to joint classification, detection and semantic segmentation via a unified architecture where the encoder is shared amongst the three tasks. Our approach is very simple, can be trained end-to-end and performs extremely well in the challenging KITTI dataset, outperforming the state-of-the-art in the road segmentation task. Our approach is also very efficient, taking less than 100 ms to perform all tasks.
+summary: ''
+link: https://arxiv.org/pdf/1612.07695
+links_alt:
+audit_status: raw

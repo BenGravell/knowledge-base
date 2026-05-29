@@ -1,4 +1,5 @@
-title: 'Control Barrier Functions: Theory and Applications'
+title: >
+  Control Barrier Functions: Theory and Applications
 algorithm: CBF-QP
 authors:
   - Aaron D. Ames
@@ -18,8 +19,10 @@ tags:
   - Safety
   - Optimization
   - Control
-abstract: This paper provides an introduction and overview of recent work on control barrier functions and their use to verify and enforce safety properties in the context of (optimization based) safety-critical controllers. We survey the main technical results and discuss applications to several domains including robotic systems.
-summary: This paper provides an introduction and overview of recent work on control barrier functions and their use to verify and enforce safety properties in the context of (optimization based) safety-critical controllers. The abstract also states that we survey the main technical results and discuss applications to several domains including robotic systems.
+abstract: >
+  This paper provides an introduction and overview of recent work on control barrier functions and their use to verify and enforce safety properties in the context of (optimization based) safety-critical controllers. We survey the main technical results and discuss applications to several domains including robotic systems.
+summary: >
+  This paper provides an introduction and overview of recent work on control barrier functions and their use to verify and enforce safety properties in the context of (optimization based) safety-critical controllers. The abstract also states that we survey the main technical results and discuss applications to several domains including robotic systems.
 link: https://arxiv.org/pdf/1903.11199
 links_alt:
   - https://doi.org/10.23919/ecc.2019.8796030

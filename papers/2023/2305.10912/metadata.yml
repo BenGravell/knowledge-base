@@ -1,0 +1,26 @@
+title: >
+  A Generalist Dynamics Model for Control
+algorithm:
+authors:
+  - Ingmar Schubert
+  - Jingwei Zhang
+  - Jake Bruce
+  - Sarah Bechtle
+  - Emilio Parisotto
+  - Martin Riedmiller
+  - Jost Tobias Springenberg
+  - Arunkumar Byravan
+  - Leonard Hasenclever
+  - Nicolas Heess
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2305.10912"
+tags:
+abstract: >
+  We investigate the use of transformer sequence models as dynamics models (TDMs) for control. We find that TDMs exhibit strong generalization capabilities to unseen environments, both in a few-shot setting, where a generalist TDM is fine-tuned with small amounts of data from the target environment, and in a zero-shot setting, where a generalist TDM is applied to an unseen environment without any further training. Here, we demonstrate that generalizing system dynamics can work much better than generalizing optimal behavior directly as a policy. Additional results show that TDMs also perform well in a single-environment learning setting when compared to a number of baseline models. These properties make TDMs a promising ingredient for a foundation model of control.
+summary: ''
+link: https://arxiv.org/pdf/2305.10912
+links_alt:
+audit_status: raw

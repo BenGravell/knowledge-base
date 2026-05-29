@@ -1,4 +1,5 @@
-title: A Fast and Robust GJK Implementation for Collision Detection of Convex Objects
+title: >
+  A Fast and Robust GJK Implementation for Collision Detection of Convex Objects
 algorithm: Fast and Robust GJK
 authors:
   - Gino Van den Bergen
@@ -8,7 +9,8 @@ type: Journal Paper
 doi: 10.1080/10867651.1999.10487502
 arxiv_id:
 tags:
-abstract: This paper presents an implementation of the Gilbert-Johnson-Keerthi algorithm for computing the distance between convex objects, that has improved performance, robustness, and versatility over earlier implementations. The algorithm presented here is especially suitable for use in collision detection of objects modeled using various types of geometric primitives, such as boxes, cones, and spheres, and their images under affine transformation.
+abstract: >
+  This paper presents an implementation of the Gilbert-Johnson-Keerthi algorithm for computing the distance between convex objects, that has improved performance, robustness, and versatility over earlier implementations. The algorithm presented here is especially suitable for use in collision detection of objects modeled using various types of geometric primitives, such as boxes, cones, and spheres, and their images under affine transformation.
 summary: ''
 link: https://doi.org/10.1080/10867651.1999.10487502
 links_alt:

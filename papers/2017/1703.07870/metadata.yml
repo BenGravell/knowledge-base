@@ -1,0 +1,18 @@
+title: >
+  General Heuristics for Nonconvex Quadratically Constrained Quadratic Programming
+algorithm:
+authors:
+  - Jaehyun Park
+  - Stephen Boyd
+year: 2017
+source:
+type: ''
+doi:
+arxiv_id: "1703.07870"
+tags:
+abstract: >
+  We introduce the Suggest-and-Improve framework for general nonconvex quadratically constrained quadratic programs (QCQPs). Using this framework, we generalize a number of known methods and provide heuristics to get approximate solutions to QCQPs for which no specialized methods are available. We also introduce an open-source Python package QCQP, which implements the heuristics discussed in the paper.
+summary: ''
+link: https://arxiv.org/pdf/1703.07870
+links_alt:
+audit_status: raw

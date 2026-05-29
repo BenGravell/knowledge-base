@@ -1,0 +1,18 @@
+title: >
+  Trajectory Optimization for Domains with Contacts Using Inverse Dynamics
+algorithm:
+authors:
+  - Tom Erez
+  - Emanuel Todorov
+year: 2012
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems
+type: Conference Paper
+doi: 10.1109/IROS.2012.6386181
+arxiv_id:
+tags:
+abstract: >
+  This paper presents an algorithm for direct trajectory optimization in domains with contact. Since contacts and other unilateral constraints may introduce non-smooth dynamics, many standard algorithms of optimal control and reinforcement learning cannot be directly applied to such domains. We use a smooth contact model that can compute inverse dynamics through the contact, thereby avoiding hybrid representation of the non-smooth contact state. This allows us to formulate an unconstrained, continuous trajectory optimization problem, which can be solved using standard optimization tools. We demonstrate our approach by optimizing a running gait for a 31-dimensional simulated humanoid. The resulting gait is demonstrated in a movie attached as supplementary material. The optimization result exhibits a synchronous motion of the arm and the opposite leg, eliminating undesired angular momentum; this is a key feature of bipedal running, and its emergence attests to the power of the optimization process.
+summary: ''
+link: https://doi.org/10.1109/IROS.2012.6386181
+links_alt:
+audit_status: raw

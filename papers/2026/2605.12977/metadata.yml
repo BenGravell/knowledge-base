@@ -1,0 +1,22 @@
+title: >
+  Enhancing a Risk Model by Adding Transient Statistical Factors
+algorithm:
+authors:
+  - Alexandros E. Tzikas
+  - Emmanuel J. Candes
+  - Trevor Hastie
+  - Stephen P. Boyd
+  - Mykel J. Kochenderfer
+  - Ronald N. Kahn
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2605.12977"
+tags:
+abstract: >
+  Estimating the covariance of asset returns, i.e., the risk model, is a key component of financial portfolio construction and evaluation. Most risk modeling approaches produce a factor model that decomposes the asset variability into two components: the first attributed to a small number of factors that are common among the assets and the second attributed to the idiosyncratic behavior of each asset. Third-party providers typically provide risk models to investors, and while these models are typically of high quality, they may fail to capture important information, e.g., changing market regimes and transient factors. To overcome these limitations, we propose a systematic method based on maximum likelihood estimation to enhance an existing factor model by both refining the given model and adding new statistical factors. Our approach relies only on the observed sequence of realized returns and on the choice of two hyperparameters: the number of additional factors and the half-life parameter that determines the weights assigned to returns in the log-likelihood objective. Importantly, our methodology applies to the situation where asset returns may be missing, making it suitable for typical equity datasets. We demonstrate our approach on the Barra short-term US risk model, a high-quality risk model used in practice, for a universe of US high-capitalization equities. We show that the proposed extension captures structure in the returns that is missed by the original model.
+summary: ''
+link: https://arxiv.org/pdf/2605.12977
+links_alt:
+audit_status: raw

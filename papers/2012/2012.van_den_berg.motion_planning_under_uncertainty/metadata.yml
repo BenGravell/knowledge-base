@@ -1,0 +1,20 @@
+title: >
+  Motion Planning under Uncertainty Using Iterative Local Optimization in Belief Space
+algorithm:
+authors:
+  - Jur van den Berg
+  - Sachin Patil
+  - Ron Alterovitz
+year: 2012
+source: The International Journal of Robotics Research
+type: Journal Paper
+doi: 10.1177/0278364912456319
+arxiv_id:
+tags:
+abstract: >
+  We present a new approach to motion planning under sensing and motion uncertainty by computing a locally optimal solution to a continuous partially observable Markov decision process (POMDP). Our approach represents beliefs (the distributions of the robot’s state estimate) by Gaussian distributions and is applicable to robot systems with non-linear dynamics and observation models. The method follows the general POMDP solution framework in which we approximate the belief dynamics using an extended Kalman filter and represent the value function by a quadratic function that is valid in the vicinity of a nominal trajectory through belief space. Using a belief space variant of iterative LQG (iLQG), our approach iterates with second-order convergence towards a linear control policy over the belief space that is locally optimal with respect to a user-defined cost function. Unlike previous work, our approach does not assume maximum-likelihood observations, does not assume fixed estimator or control gains, takes into account obstacles in the environment, and does not require discretization of the state and action spaces. The running time of the algorithm is polynomial (O[n 6 ]) in the dimension n of the state space. We demonstrate the potential of our approach in simulation for holonomic and non-holonomic robots maneuvering through environments with obstacles with noisy and partial sensing and with non-linear dynamics and observation models.
+summary: ''
+link: https://journals.sagepub.com/doi/10.1177/0278364912456319
+links_alt:
+  - https://doi.org/10.1177/0278364912456319
+audit_status: raw

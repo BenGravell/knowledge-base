@@ -1,0 +1,18 @@
+title: >
+  Least Squares Auto-Tuning
+algorithm:
+authors:
+  - Shane Barratt
+  - Stephen Boyd
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1904.05460"
+tags:
+abstract: >
+  Least squares is by far the simplest and most commonly applied computational method in many fields. In almost all applications, the least squares objective is rarely the true objective. We account for this discrepancy by parametrizing the least squares problem and automatically adjusting these parameters using an optimization algorithm. We apply our method, which we call least squares auto-tuning, to data fitting.
+summary: ''
+link: https://arxiv.org/pdf/1904.05460
+links_alt:
+audit_status: raw

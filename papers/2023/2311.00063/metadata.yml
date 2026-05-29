@@ -1,0 +1,22 @@
+title: >
+  Safe Multi-agent Motion Planning under Uncertainty for Drones Using Filtered Reinforcement Learning
+algorithm:
+authors:
+  - Sleiman Safaoui
+  - Abraham P. Vinod
+  - Ankush Chakrabarty
+  - Rien Quirynen
+  - Nobuyuki Yoshikawa
+  - Stefano Di Cairano
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2311.00063"
+tags:
+abstract: >
+  We consider the problem of safe multi-agent motion planning for drones in uncertain, cluttered workspaces. For this problem, we present a tractable motion planner that builds upon the strengths of reinforcement learning and constrained-control-based trajectory planning. First, we use single-agent reinforcement learning to learn motion plans from data that reach the target but may not be collision-free. Next, we use a convex optimization, chance constraints, and set-based methods for constrained control to ensure safety, despite the uncertainty in the workspace, agent motion, and sensing. The proposed approach can handle state and control constraints on the agents, and enforce collision avoidance among themselves and with static obstacles in the workspace with high probability. The proposed approach yields a safe, real-time implementable, multi-agent motion planner that is simpler to train than methods based solely on learning. Numerical simulations and experiments show the efficacy of the approach.
+summary: ''
+link: https://arxiv.org/pdf/2311.00063
+links_alt:
+audit_status: raw

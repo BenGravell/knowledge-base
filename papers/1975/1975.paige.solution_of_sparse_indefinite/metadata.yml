@@ -1,4 +1,5 @@
-title: Solution of Sparse Indefinite Systems of Linear Equations
+title: >
+  Solution of Sparse Indefinite Systems of Linear Equations
 algorithm:
 authors:
   - C. C. Paige
@@ -9,7 +10,8 @@ type: Journal Paper
 doi: 10.1137/0712047
 arxiv_id:
 tags:
-abstract: The method of conjugate gradients for solving systems of linear equations with a symmetric positive definite matrix A is given as a logical development of the Lanczos algorithm for tridiagonalizing A. This approach suggests numerical algorithms for solving such systems when A is symmetric but indefinite. These methods have advantages when A is large and sparse.
+abstract: >
+  The method of conjugate gradients for solving systems of linear equations with a symmetric positive definite matrix A is given as a logical development of the Lanczos algorithm for tridiagonalizing A. This approach suggests numerical algorithms for solving such systems when A is symmetric but indefinite. These methods have advantages when A is large and sparse.
 summary: ''
 link: https://epubs.siam.org/doi/10.1137/0712047
 links_alt:

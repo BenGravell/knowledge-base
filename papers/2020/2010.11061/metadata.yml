@@ -1,0 +1,18 @@
+title: >
+  MADER: Trajectory Planner in Multi-Agent and Dynamic Environments
+algorithm: MADER
+authors:
+  - Jesus Tordesillas
+  - Jonathan P. How
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2010.11061"
+tags:
+abstract: >
+  This paper presents MADER, a 3D decentralized and asynchronous trajectory planner for UAVs that generates collision-free trajectories in environments with static obstacles, dynamic obstacles, and other planning agents. Real-time collision avoidance with other dynamic obstacles or agents is done by performing outer polyhedral representations of every interval of the trajectories and then including the plane that separates each pair of polyhedra as a decision variable in the optimization problem. MADER uses our recently developed MINVO basis to obtain outer polyhedral representations with volumes 2.36 and 254.9 times, respectively, smaller than the Bernstein or B-Spline bases used extensively in the planning literature. Our decentralized and asynchronous algorithm guarantees safety with respect to other agents by including their committed trajectories as constraints in the optimization and then executing a collision check-recheck scheme. Finally, extensive simulations in challenging cluttered environments show up to a 33.9% reduction in the flight time, and a 88.8% reduction in the number of stops compared to the Bernstein and B-Spline bases, shorter flight distances than centralized approaches, and shorter total times on average than synchronous decentralized approaches.
+summary: ''
+link: https://arxiv.org/pdf/2010.11061
+links_alt:
+audit_status: raw

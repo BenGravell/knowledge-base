@@ -1,4 +1,5 @@
-title: 'Gemma 2: Improving Open Language Models at a Practical Size'
+title: >
+  Gemma 2: Improving Open Language Models at a Practical Size
 algorithm: Gemma 2
 authors:
   - Morgane Riviere
@@ -6,10 +7,10 @@ authors:
   - Pier Giuseppe Sessa
   - Cassidy Hardin
   - Surya Bhupatiraju
-  - Léonard Hussenot
+  - Leonard Hussenot
   - Thomas Mesnard
   - Bobak Shahriari
-  - Alexandre Ramé
+  - Alexandre Rame
   - Johan Ferret
   - Peter Liu
   - Pouya Tafti
@@ -53,7 +54,7 @@ authors:
   - Danila Sinopalnikov
   - David Weinberger
   - Dimple Vijaykumar
-  - Dominika Rogozińska
+  - Dominika Rogozinska
   - Dustin Herbison
   - Elisa Bandy
   - Emma Wang
@@ -67,7 +68,7 @@ authors:
   - Glenn Cameron
   - Gus Martins
   - Hadi Hashemi
-  - Hanna Klimczak-Plucińska
+  - Hanna Klimczak-Plucinska
   - Harleen Batra
   - Harsh Dhand
   - Ivan Nardini
@@ -107,7 +108,7 @@ authors:
   - Machel Reid
   - Manvinder Singh
   - Mark Iverson
-  - Martin Görner
+  - Martin Gorner
   - Mat Velloso
   - Mateo Wirth
   - Matt Davidow
@@ -146,7 +147,7 @@ authors:
   - Sara Mc Carthy
   - Sarah Cogan
   - Sarah Perrin
-  - Sébastien M. R. Arnold
+  - Sebastien M. R. Arnold
   - Sebastian Krause
   - Shengyang Dai
   - Shruti Garg
@@ -208,8 +209,10 @@ tags:
   - Attention mechanisms
   - Language models
   - Gemma 2
-abstract: In this work, we introduce Gemma 2, a new addition to the Gemma family of lightweight, state-of-the-art open models, ranging in scale from 2 billion to 27 billion parameters. In this new version, we apply several known technical modifications to the Transformer architecture, such as interleaving local-global attentions (Beltagy et al., 2020a) and group-query attention (Ainslie et al., 2023). We also train the 2B and 9B models with knowledge distillation (Hinton et al., 2015) instead of next token prediction. The resulting models deliver the best performance for their size, and even offer competitive alternatives to models that are 2-3 times bigger. We release all our models to the community.
-summary: This paper introduces Gemma 2, a new addition to the Gemma family of lightweight, state-of-the-art open models, ranging in scale from 2 billion to 27 billion parameters. The abstract also notes that in this new version, we apply several known technical modifications to the Transformer architecture, such as interleaving local-global attentions (Beltagy et al., 2020a) and group-query attention (Ainslie et al., 2023).
+abstract: >
+  In this work, we introduce Gemma 2, a new addition to the Gemma family of lightweight, state-of-the-art open models, ranging in scale from 2 billion to 27 billion parameters. In this new version, we apply several known technical modifications to the Transformer architecture, such as interleaving local-global attentions (Beltagy et al., 2020a) and group-query attention (Ainslie et al., 2023). We also train the 2B and 9B models with knowledge distillation (Hinton et al., 2015) instead of next token prediction. The resulting models deliver the best performance for their size, and even offer competitive alternatives to models that are 2-3 times bigger. We release all our models to the community.
+summary: >
+  This paper introduces Gemma 2, a new addition to the Gemma family of lightweight, state-of-the-art open models, ranging in scale from 2 billion to 27 billion parameters. The abstract also notes that in this new version, we apply several known technical modifications to the Transformer architecture, such as interleaving local-global attentions (Beltagy et al., 2020a) and group-query attention (Ainslie et al., 2023).
 link: https://arxiv.org/pdf/2408.00118
 links_alt:
 audit_status: raw

@@ -1,0 +1,19 @@
+title: >
+  Minimizing Finite Sums with the Stochastic Average Gradient
+algorithm: SAG
+authors:
+  - Mark Schmidt
+  - Nicolas Le Roux
+  - Francis Bach
+year: 2013
+source:
+type: ''
+doi:
+arxiv_id: "1309.2388"
+tags:
+abstract: >
+  We propose the stochastic average gradient (SAG) method for optimizing the sum of a finite number of smooth convex functions. Like stochastic gradient (SG) methods, the SAG method's iteration cost is independent of the number of terms in the sum. However, by incorporating a memory of previous gradient values the SAG method achieves a faster convergence rate than black-box SG methods. The convergence rate is improved from O(1/k^{1/2}) to O(1/k) in general, and when the sum is strongly-convex the convergence rate is improved from the sub-linear O(1/k) to a linear convergence rate of the form O(p^k) for p \textless{} 1. Further, in many cases the convergence rate of the new method is also faster than black-box deterministic gradient methods, in terms of the number of gradient evaluations. Numerical experiments indicate that the new algorithm often dramatically outperforms existing SG and deterministic gradient methods, and that the performance may be further improved through the use of non-uniform sampling strategies.
+summary: ''
+link: https://arxiv.org/pdf/1309.2388
+links_alt:
+audit_status: raw

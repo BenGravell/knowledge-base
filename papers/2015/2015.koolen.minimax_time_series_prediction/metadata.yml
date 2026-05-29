@@ -1,0 +1,22 @@
+title: >
+  Minimax Time Series Prediction
+algorithm:
+authors:
+  - Wouter M. Koolen
+  - Alan Malek
+  - Peter L. Bartlett
+  - Yasin Abbasi-Yadkori
+year: 2015
+source: Advances in Neural Information Processing Systems
+type: Conference Paper
+doi: 10.5555/2969442.2969525
+arxiv_id:
+tags:
+abstract: ''
+summary: ''
+link: https://proceedings.neurips.cc/paper_files/paper/2015/file/4dcf435435894a4d0972046fc566af76-Paper.pdf
+links_alt:
+  - https://dl.acm.org/doi/10.5555/2969442.2969525
+  - https://dblp.org/rec/conf/nips/KoolenMBA15
+  - https://proceedings.neurips.cc/paper/2015/hash/4dcf435435894a4d0972046fc566af76-Abstract.html
+audit_status: raw

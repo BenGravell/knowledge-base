@@ -1,0 +1,21 @@
+title: >
+  Error Propagation for Approximate Policy and Value Iteration
+algorithm:
+authors:
+  - Amir Massoud Farahmand
+  - Remi Munos
+  - Csaba Szepesvari
+year: 2010
+source: Advances in Neural Information Processing Systems
+type: Conference Paper
+doi: 10.5555/2997189.2997253
+arxiv_id:
+tags:
+abstract: ''
+summary: ''
+link: https://proceedings.neurips.cc/paper_files/paper/2010/file/65cc2c8205a05d7379fa3a6386f710e1-Paper.pdf
+links_alt:
+  - https://dl.acm.org/doi/10.5555/2997189.2997253
+  - https://dblp.org/rec/conf/nips/FarahmandMS10
+  - https://proceedings.neurips.cc/paper/2010/hash/65cc2c8205a05d7379fa3a6386f710e1-Abstract.html
+audit_status: raw

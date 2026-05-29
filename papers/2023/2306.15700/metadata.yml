@@ -1,0 +1,26 @@
+title: >
+  Imitation with Spatial-Temporal Heatmap: 2nd Place Solution for NuPlan Challenge
+algorithm:
+authors:
+  - Yihan Hu
+  - Kun Li
+  - Pingyuan Liang
+  - Jingyu Qian
+  - Zhening Yang
+  - Haichao Zhang
+  - Wenxin Shao
+  - Zhuangzhuang Ding
+  - Wei Xu
+  - Qiang Liu
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2306.15700"
+tags:
+abstract: >
+  This paper presents our 2nd place solution for the NuPlan Challenge 2023. Autonomous driving in real-world scenarios is highly complex and uncertain. Achieving safe planning in the complex multimodal scenarios is a highly challenging task. Our approach, Imitation with Spatial-Temporal Heatmap, adopts the learning form of behavior cloning, innovatively predicts the future multimodal states with a heatmap representation, and uses trajectory refinement techniques to ensure final safety. The experiment shows that our method effectively balances the vehicle's progress and safety, generating safe and comfortable trajectories. In the NuPlan competition, we achieved the second highest overall score, while obtained the best scores in the ego progress and comfort metrics.
+summary: ''
+link: https://arxiv.org/pdf/2306.15700
+links_alt:
+audit_status: raw

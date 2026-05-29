@@ -1,4 +1,5 @@
-title: Stochastic Recursive Momentum for Policy Gradient Methods
+title: >
+  Stochastic Recursive Momentum for Policy Gradient Methods
 algorithm: Policy Gradient
 authors:
   - Huizhuo Yuan
@@ -14,8 +15,10 @@ tags:
   - Sample complexity
   - Policy gradient
   - STORM-PG
-abstract: In this paper, we propose a novel algorithm named STOchastic Recursive Momentum for Policy Gradient (STORM-PG), which operates a SARAH-type stochastic recursive variance-reduced policy gradient in an exponential moving average fashion. STORM-PG enjoys a provably sharp $O(1/ε^3)$ sample complexity bound for STORM-PG, matching the best-known convergence rate for policy gradient algorithm. In the mean time, STORM-PG avoids the alternations between large batches and small batches which persists in comparable variance-reduced policy gradient methods, allowing considerably simpler parameter tuning. Numerical experiments depicts the superiority of our algorithm over comparative policy gradient algorithms.
-summary: This paper proposes a novel algorithm named STOchastic Recursive Momentum for Policy Gradient (STORM-PG), which operates a SARAH-type stochastic recursive variance-reduced policy gradient in an exponential moving average fashion. The abstract also notes that sTORM-PG enjoys a provably sharp $O(1/ε^3)$ sample complexity bound for STORM-PG, matching the best-known convergence rate for policy gradient algorithm.
+abstract: >
+  In this paper, we propose a novel algorithm named STOchastic Recursive Momentum for Policy Gradient (STORM-PG), which operates a SARAH-type stochastic recursive variance-reduced policy gradient in an exponential moving average fashion. STORM-PG enjoys a provably sharp $O(1/ε^3)$ sample complexity bound for STORM-PG, matching the best-known convergence rate for policy gradient algorithm. In the mean time, STORM-PG avoids the alternations between large batches and small batches which persists in comparable variance-reduced policy gradient methods, allowing considerably simpler parameter tuning. Numerical experiments depicts the superiority of our algorithm over comparative policy gradient algorithms.
+summary: >
+  This paper proposes a novel algorithm named STOchastic Recursive Momentum for Policy Gradient (STORM-PG), which operates a SARAH-type stochastic recursive variance-reduced policy gradient in an exponential moving average fashion. The abstract also notes that sTORM-PG enjoys a provably sharp $O(1/ε^3)$ sample complexity bound for STORM-PG, matching the best-known convergence rate for policy gradient algorithm.
 link: https://arxiv.org/pdf/2003.04302
 links_alt:
 audit_status: raw

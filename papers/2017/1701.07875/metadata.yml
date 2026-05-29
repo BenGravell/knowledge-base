@@ -1,9 +1,10 @@
-title: Wasserstein GAN
+title: >
+  Wasserstein GAN
 algorithm: Wasserstein GAN
 authors:
   - Martin Arjovsky
   - Soumith Chintala
-  - Léon Bottou
+  - Leon Bottou
 year: 2017
 source: arXiv
 type: Preprint
@@ -15,8 +16,10 @@ tags:
   - Learning
   - Wasserstein distances
   - Wasserstein GAN
-abstract: We introduce a new algorithm named WGAN, an alternative to traditional GAN training. In this new model, we show that we can improve the stability of learning, get rid of problems like mode collapse, and provide meaningful learning curves useful for debugging and hyperparameter searches. Furthermore, we show that the corresponding optimization problem is sound, and provide extensive theoretical work highlighting the deep connections to other distances between distributions.
-summary: This paper introduces a new algorithm named WGAN, an alternative to traditional GAN training. The abstract also notes that in this new model, we show that we can improve the stability of learning, get rid of problems like mode collapse, and provide meaningful learning curves useful for debugging and hyperparameter searches.
+abstract: >
+  We introduce a new algorithm named WGAN, an alternative to traditional GAN training. In this new model, we show that we can improve the stability of learning, get rid of problems like mode collapse, and provide meaningful learning curves useful for debugging and hyperparameter searches. Furthermore, we show that the corresponding optimization problem is sound, and provide extensive theoretical work highlighting the deep connections to other distances between distributions.
+summary: >
+  This paper introduces a new algorithm named WGAN, an alternative to traditional GAN training. The abstract also notes that in this new model, we show that we can improve the stability of learning, get rid of problems like mode collapse, and provide meaningful learning curves useful for debugging and hyperparameter searches.
 link: https://arxiv.org/pdf/1701.07875
 links_alt:
 audit_status: raw

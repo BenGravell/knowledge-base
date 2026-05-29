@@ -1,4 +1,5 @@
-title: Efficient Numerical Algorithm for Large-Scale Damped Natural Gradient Descent
+title: >
+  Efficient Numerical Algorithm for Large-Scale Damped Natural Gradient Descent
 algorithm: Gradient Descent
 authors:
   - Yixiao Chen
@@ -14,8 +15,10 @@ tags:
   - Natural gradients
   - Benchmarks
   - Cholesky decomposition
-abstract: We propose a new algorithm for efficiently solving the damped Fisher matrix in large-scale scenarios where the number of parameters significantly exceeds the number of available samples. This problem is fundamental for natural gradient descent and stochastic reconfiguration. Our algorithm is based on Cholesky decomposition and is generally applicable. Benchmark results show that the algorithm is significantly faster than existing methods.
-summary: This paper proposes a new algorithm for efficiently solving the damped Fisher matrix in large-scale scenarios where the number of parameters significantly exceeds the number of available samples. The abstract also notes that this problem is fundamental for natural gradient descent and stochastic reconfiguration.
+abstract: >
+  We propose a new algorithm for efficiently solving the damped Fisher matrix in large-scale scenarios where the number of parameters significantly exceeds the number of available samples. This problem is fundamental for natural gradient descent and stochastic reconfiguration. Our algorithm is based on Cholesky decomposition and is generally applicable. Benchmark results show that the algorithm is significantly faster than existing methods.
+summary: >
+  This paper proposes a new algorithm for efficiently solving the damped Fisher matrix in large-scale scenarios where the number of parameters significantly exceeds the number of available samples. The abstract also notes that this problem is fundamental for natural gradient descent and stochastic reconfiguration.
 link: https://arxiv.org/pdf/2310.17556
 links_alt:
 audit_status: raw

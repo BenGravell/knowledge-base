@@ -1,0 +1,20 @@
+title: >
+  OmniPlanner: Universal Exploration and Inspection Path Planning across Robot Morphologies
+algorithm: OmniPlanner
+authors:
+  - Angelos Zacharia
+  - Mihir Dharmadhikari
+  - Mohit Singh
+  - Kostas Alexis
+year: 2026
+source:
+type: ''
+doi:
+arxiv_id: "2603.04284"
+tags:
+abstract: >
+  Autonomous robotic systems are increasingly deployed for mapping, monitoring, and inspection in complex and unstructured environments. However, most existing path planning approaches remain domain-specific (i.e., either on air, land, or sea), limiting their scalability and cross-platform applicability. This article presents OmniPlanner, a unified planning framework for autonomous exploration and inspection across aerial, ground, and underwater robots. The method integrates volumetric exploration and viewpoint-based inspection, alongside target reach behaviors within a single modular architecture, complemented by a platform abstraction layer that captures morphology-specific sensing, traversability and motion constraints. This enables the same planning strategy to generalize across distinct mobility domains with minimal retuning. The framework is validated through extensive simulation studies and field deployments in underground mines, industrial facilities, forests, submarine bunkers, and structured outdoor environments. Across these diverse scenarios, OmniPlanner demonstrates robust performance, consistent cross-domain generalization, and improved exploration and inspection efficiency compared to representative state-of-the-art baselines.
+summary: ''
+link: https://arxiv.org/pdf/2603.04284
+links_alt:
+audit_status: raw

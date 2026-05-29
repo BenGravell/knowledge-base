@@ -1,4 +1,5 @@
-title: 'UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction'
+title: >
+  UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction
 algorithm: UMAP
 authors:
   - Leland McInnes
@@ -12,8 +13,10 @@ arxiv_id: "1802.03426"
 tags:
   - Learning
   - UMAP
-abstract: UMAP (Uniform Manifold Approximation and Projection) is a novel manifold learning technique for dimension reduction. UMAP is constructed from a theoretical framework based in Riemannian geometry and algebraic topology. The result is a practical scalable algorithm that applies to real world data. The UMAP algorithm is competitive with t-SNE for visualization quality, and arguably preserves more of the global structure with superior run time performance. Furthermore, UMAP has no computational restrictions on embedding dimension, making it viable as a general purpose dimension reduction technique for machine learning.
-summary: UMAP (Uniform Manifold Approximation and Projection) is a novel manifold learning technique for dimension reduction. The abstract also notes that uMAP is constructed from a theoretical framework based in Riemannian geometry and algebraic topology.
+abstract: >
+  UMAP (Uniform Manifold Approximation and Projection) is a novel manifold learning technique for dimension reduction. UMAP is constructed from a theoretical framework based in Riemannian geometry and algebraic topology. The result is a practical scalable algorithm that applies to real world data. The UMAP algorithm is competitive with t-SNE for visualization quality, and arguably preserves more of the global structure with superior run time performance. Furthermore, UMAP has no computational restrictions on embedding dimension, making it viable as a general purpose dimension reduction technique for machine learning.
+summary: >
+  UMAP (Uniform Manifold Approximation and Projection) is a novel manifold learning technique for dimension reduction. The abstract also notes that uMAP is constructed from a theoretical framework based in Riemannian geometry and algebraic topology.
 link: https://arxiv.org/pdf/1802.03426
 links_alt:
 audit_status: raw

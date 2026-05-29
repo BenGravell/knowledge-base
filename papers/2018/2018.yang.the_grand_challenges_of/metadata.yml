@@ -1,4 +1,5 @@
-title: "The Grand Challenges of Science Robotics"
+title: >
+  The Grand Challenges of Science Robotics
 algorithm:
 authors:
   - Guang-Zhong Yang
@@ -24,7 +25,8 @@ type: Journal Paper
 doi: 10.1126/scirobotics.aar7650
 arxiv_id:
 tags:
-abstract: These 10 grand challenges may have major breakthroughs, research, and/or socioeconomic impacts in the next 5 to 10 years.
+abstract: >
+  These 10 grand challenges may have major breakthroughs, research, and/or socioeconomic impacts in the next 5 to 10 years.
 summary: ''
 link: https://www.science.org/doi/10.1126/scirobotics.aar7650
 links_alt:

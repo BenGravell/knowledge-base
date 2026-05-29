@@ -1,4 +1,5 @@
-title: A General Analysis of the Convergence of ADMM
+title: >
+  A General Analysis of the Convergence of ADMM
 algorithm:
 authors:
   - Robert Nishihara
@@ -16,8 +17,10 @@ tags:
   - Optimization
   - ADMM
   - Rate of convergence
-abstract: We provide a new proof of the linear convergence of the alternating direction method of multipliers (ADMM) when one of the objective terms is strongly convex. Our proof is based on a framework for analyzing optimization algorithms introduced in Lessard et al. (2014), reducing algorithm convergence to verifying the stability of a dynamical system. This approach generalizes a number of existing results and obviates any assumptions about specific choices of algorithm parameters. On a numerical example, we demonstrate that minimizing the derived bound on the convergence rate provides a practical approach to selecting algorithm parameters for particular ADMM instances. We complement our upper bound by constructing a nearly-matching lower bound on the worst-case rate of convergence.
-summary: This paper provides a new proof of the linear convergence of the alternating direction method of multipliers (ADMM) when one of the objective terms is strongly convex. The abstract also states that our proof is based on a framework for analyzing optimization algorithms introduced in Lessard et al. (2014), reducing algorithm convergence to verifying the stability of a dynamical system.
+abstract: >
+  We provide a new proof of the linear convergence of the alternating direction method of multipliers (ADMM) when one of the objective terms is strongly convex. Our proof is based on a framework for analyzing optimization algorithms introduced in Lessard et al. (2014), reducing algorithm convergence to verifying the stability of a dynamical system. This approach generalizes a number of existing results and obviates any assumptions about specific choices of algorithm parameters. On a numerical example, we demonstrate that minimizing the derived bound on the convergence rate provides a practical approach to selecting algorithm parameters for particular ADMM instances. We complement our upper bound by constructing a nearly-matching lower bound on the worst-case rate of convergence.
+summary: >
+  This paper provides a new proof of the linear convergence of the alternating direction method of multipliers (ADMM) when one of the objective terms is strongly convex. The abstract also states that our proof is based on a framework for analyzing optimization algorithms introduced in Lessard et al. (2014), reducing algorithm convergence to verifying the stability of a dynamical system.
 link: https://arxiv.org/pdf/1502.02009
 links_alt:
   - http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.697.6113

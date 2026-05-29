@@ -1,0 +1,18 @@
+title: >
+  First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems
+algorithm:
+authors:
+  - Riccardo Bonalli
+  - Benoit Bonnet
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2204.03036"
+tags:
+abstract: >
+  In this paper, we derive first-order Pontryagin optimality conditions for risk-averse stochastic optimal control problems subject to final time inequality constraints, and whose costs are general, possibly non-smooth finite coherent risk measures. Unlike preexisting contributions covering this situation, our analysis holds for classical stochastic differential equations driven by standard Brownian motions. In addition, it presents the advantages of neither involving second-order adjoint equations, nor leading to the so-called weak version of the PMP, in which the maximization condition with respect to the control variable is replaced by the stationarity of the Hamiltonian.
+summary: ''
+link: https://arxiv.org/pdf/2204.03036
+links_alt:
+audit_status: raw

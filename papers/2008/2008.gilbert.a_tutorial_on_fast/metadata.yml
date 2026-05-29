@@ -1,0 +1,19 @@
+title: >
+  A Tutorial on Fast Fourier Sampling
+algorithm:
+authors:
+  - A.C. Gilbert
+  - M.J. Strauss
+  - J.A. Tropp
+year: 2008
+source: IEEE Signal Processing Magazine
+type: Journal Paper
+doi: 10.1109/MSP.2007.915000
+arxiv_id:
+tags:
+abstract: >
+  This article describes a computational method, called the Fourier sampling algorithm. The algorithm takes a small number of (correlated) random samples from a signal and processes them efficiently to produce an approximation of the DFT of the signal. The algorithm offers provable guarantees on the number of samples, the running time, and the amount of storage. As we will see, these requirements are exponentially better than the FFT for some cases of interest.
+summary: ''
+link: https://doi.org/10.1109/MSP.2007.915000
+links_alt:
+audit_status: raw

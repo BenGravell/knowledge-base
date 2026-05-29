@@ -1,0 +1,21 @@
+title: >
+  Motion Planning for Urban Driving Using RRT
+algorithm:
+authors:
+  - Y. Kuwata
+  - G.A. Fiore
+  - J. Teo
+  - E. Frazzoli
+  - J.P. How
+year: 2008
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems
+type: Conference Paper
+doi: 10.1109/IROS.2008.4651075
+arxiv_id:
+tags:
+abstract: >
+  This paper provides a detailed analysis of the motion planning subsystem for the MIT DARPA Urban Challenge vehicle. The approach is based on the Rapidly-exploring Random Trees (RRT) algorithm. The purpose of this paper is to present the numerous extensions made to the standard RRT algorithm that enable the on-line use of RRT on robotic vehicles with complex, unstable dynamics and significant drift, while preserving safety in the face of uncertainty and limited sensing. The paper includes numerous simulation and race results that clearly demonstrate the effectiveness of the planning system.
+summary: ''
+link: https://doi.org/10.1109/IROS.2008.4651075
+links_alt:
+audit_status: raw

@@ -1,0 +1,18 @@
+title: >
+  An Elementary Approach to Convergence Guarantees of Optimization Algorithms for Deep Networks
+algorithm:
+authors:
+  - Vincent Roulet
+  - Zaid Harchaoui
+year: 2020
+source:
+type: ''
+doi:
+arxiv_id: "2002.09051"
+tags:
+abstract: >
+  We present an approach to obtain convergence guarantees of optimization algorithms for deep networks based on elementary arguments and computations. The convergence analysis revolves around the analytical and computational structures of optimization oracles central to the implementation of deep networks in machine learning software. We provide a systematic way to compute estimates of the smoothness constants that govern the convergence behavior of first-order optimization algorithms used to train deep networks. A diverse set of example components and architectures arising in modern deep networks intersperse the exposition to illustrate the approach.
+summary: ''
+link: https://arxiv.org/pdf/2002.09051
+links_alt:
+audit_status: raw

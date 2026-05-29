@@ -1,0 +1,18 @@
+title: >
+  Learning Optimal Controllers by Policy Gradient: Global Optimality via Convex Parameterization
+algorithm:
+authors:
+  - Yue Sun
+  - Maryam Fazel
+year: 2021
+source: 60th IEEE Conference on Decision and Control (CDC)
+type: Conference Paper
+doi: 10.1109/CDC45484.2021.9682821
+arxiv_id:
+tags:
+abstract: >
+  Common reinforcement learning methods seek optimal controllers for unknown dynamical systems by searching in the "policy" space directly. A recent line of research, starting with [1], aims to provide theoretical guarantees for such direct policy-update methods by exploring their performance in classical control settings, such as the infinite horizon linear quadratic regulator (LQR) problem. A key property these analyses rely on is that the LQR cost function satisfies the "gradient dominance" property with respect to the policy parameters. Gradient dominance helps guarantee that the optimal controller can be found by running gradient-based algorithms on the LQR cost. The gradient dominance property has so far been verified on a case-by-case basis for several control problems including continuous/discrete time LQR, LQR with decentralized controller, ${\mathcal{H}_2}/{\mathcal{H}_\infty }$ robust control.In this paper, we make a connection between this line of work and classical convex parameterizations based on linear matrix inequalities (LMIs). Using this, we propose a unified framework for showing that gradient dominance indeed holds for a broad class of control problems, such as continuous- and discrete-time LQR, minimizing the L2 gain, and problems using system-level parameterization. Our unified framework provides insights into the landscape of the cost function as a function of the policy, and enables extending convergence results for policy gradient descent to a much larger class of problems.
+summary: ''
+link: https://doi.org/10.1109/CDC45484.2021.9682821
+links_alt:
+audit_status: raw

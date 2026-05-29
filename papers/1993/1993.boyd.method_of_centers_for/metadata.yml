@@ -1,0 +1,17 @@
+title: >
+  Method of Centers for Minimizing Generalized Eigenvalues
+algorithm:
+authors:
+  - Stephen Boyd
+  - Laurent El Ghaoui
+year: 1993
+source: Linear Algebra and its Applications
+type: Journal Paper
+doi: 10.1016/0024-3795(93)90465-z
+arxiv_id:
+tags:
+abstract: ''
+summary: ''
+link: https://doi.org/10.1016/0024-3795(93)90465-z
+links_alt:
+audit_status: raw

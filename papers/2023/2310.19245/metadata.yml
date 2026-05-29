@@ -1,0 +1,19 @@
+title: >
+  Efficient Shapley Performance Attribution for Least-Squares Regression
+algorithm:
+authors:
+  - Logan Bell
+  - Nikhil Devanathan
+  - Stephen Boyd
+year: 2023
+source:
+type: ''
+doi: 10.1007/s11222-024-10459-9
+arxiv_id: "2310.19245"
+tags:
+abstract: >
+  We consider the performance of a least-squares regression model, as judged by out-of-sample $R^2$. Shapley values give a fair attribution of the performance of a model to its input features, taking into account interdependencies between features. Evaluating the Shapley values exactly requires solving a number of regression problems that is exponential in the number of features, so a Monte Carlo-type approximation is typically used. We focus on the special case of least-squares regression models, where several tricks can be used to compute and evaluate regression models efficiently. These tricks give a substantial speed up, allowing many more Monte Carlo samples to be evaluated, achieving better accuracy. We refer to our method as least-squares Shapley performance attribution (LS-SPA), and describe our open-source implementation.
+summary: ''
+link: https://arxiv.org/pdf/2310.19245
+links_alt:
+audit_status: raw

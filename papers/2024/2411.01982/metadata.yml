@@ -1,0 +1,19 @@
+title: >
+  Learning Controlled Stochastic Differential Equations
+algorithm:
+authors:
+  - Luc Brogat-Motte
+  - Riccardo Bonalli
+  - Alessandro Rudi
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2411.01982"
+tags:
+abstract: >
+  Identification of nonlinear dynamical systems is crucial across various fields, facilitating tasks such as control, prediction, optimization, and fault detection. Many applications require methods capable of handling complex systems while providing strong learning guarantees for safe and reliable performance. However, existing approaches often focus on simplified scenarios, such as deterministic models, known diffusion, discrete systems, one-dimensional dynamics, or systems constrained by strong structural assumptions such as linearity. This work proposes a novel method for estimating both drift and diffusion coefficients of continuous, multidimensional, nonlinear controlled stochastic differential equations with non-uniform diffusion. We assume regularity of the coefficients within a Sobolev space, allowing for broad applicability to various dynamical systems in robotics, finance, climate modeling, and biology. Leveraging the Fokker-Planck equation, we split the estimation into two tasks: (a) estimating system dynamics for a finite set of controls, and (b) estimating coefficients that govern those dynamics. We provide strong theoretical guarantees, including finite-sample bounds for \(L^2\), \(L^\infty\), and risk metrics, with learning rates adaptive to coefficients' regularity, similar to those in nonparametric least-squares regression literature. The practical effectiveness of our approach is demonstrated through extensive numerical experiments. Our method is available as an open-source Python library.
+summary: ''
+link: https://arxiv.org/pdf/2411.01982
+links_alt:
+audit_status: raw

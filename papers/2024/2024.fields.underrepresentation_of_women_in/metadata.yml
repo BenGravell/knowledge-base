@@ -1,0 +1,21 @@
+title: >
+  Underrepresentation of Women in Robotics Research [Women in Engineering]
+algorithm:
+authors:
+  - Elizabeth Fields
+  - Chloe Ho
+  - Min Jie Kim
+  - Zixuan Wu
+  - Brian Plancher
+year: 2024
+source: IEEE Robotics & Automation Magazine
+type: Journal Paper
+doi: 10.1109/MRA.2024.3352439
+arxiv_id:
+tags:
+abstract: >
+  Computer science (CS) and engineering research both have large and well-documented gender diversity gaps [1] , [2] , [3] . In fact, previous studies have reported that the overall CS female author ratio (FAR) is only in the range of 16%–26% [1] , [3] , [4] . As shown in Table 1 , recent evidence shows that this number varies significantly among CS subfields, ranging from as high as 42% in CS education to as low as 8% in theory and algorithms [1] , [4] . Furthermore, while recent work has shown that the diversity in conference leadership has increased substantially over recent years [5] and that the state of gender diversity in marine robotics ranges from 7% to 44% across various countries in Europe [6] , there has not been a comprehensive study analyzing the current state of gender diversity across the broader overall field of robotics.
+summary: ''
+link: https://doi.org/10.1109/MRA.2024.3352439
+links_alt:
+audit_status: raw

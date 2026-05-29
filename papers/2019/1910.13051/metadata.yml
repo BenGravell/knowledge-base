@@ -1,8 +1,9 @@
-title: 'ROCKET: Exceptionally Fast and Accurate Time Series Classification Using Random Convolutional Kernels'
+title: >
+  ROCKET: Exceptionally Fast and Accurate Time Series Classification Using Random Convolutional Kernels
 algorithm: ROCKET
 authors:
   - Angus Dempster
-  - François Petitjean
+  - Francois Petitjean
   - Geoffrey I. Webb
 year: 2019
 source: Data Mining and Knowledge Discovery
@@ -23,8 +24,10 @@ tags:
   - Accuracy
   - ROCKET
   - Convolutional neural network
-abstract: Most methods for time series classification that attain state-of-the-art accuracy have high computational complexity, requiring significant training time even for smaller datasets, and are intractable for larger datasets. Additionally, many existing methods focus on a single type of feature such as shape or frequency. Building on the recent success of convolutional neural networks for time series classification, we show that simple linear classifiers using random convolutional kernels achieve state-of-the-art accuracy with a fraction of the computational expense of existing methods.
-summary: Most methods for time series classification that attain state-of-the-art accuracy have high computational complexity, requiring significant training time even for smaller datasets, and are intractable for larger datasets. The abstract also notes that many existing methods focus on a single type of feature such as shape or frequency.
+abstract: >
+  Most methods for time series classification that attain state-of-the-art accuracy have high computational complexity, requiring significant training time even for smaller datasets, and are intractable for larger datasets. Additionally, many existing methods focus on a single type of feature such as shape or frequency. Building on the recent success of convolutional neural networks for time series classification, we show that simple linear classifiers using random convolutional kernels achieve state-of-the-art accuracy with a fraction of the computational expense of existing methods.
+summary: >
+  Most methods for time series classification that attain state-of-the-art accuracy have high computational complexity, requiring significant training time even for smaller datasets, and are intractable for larger datasets. The abstract also notes that many existing methods focus on a single type of feature such as shape or frequency.
 link: https://arxiv.org/pdf/1910.13051
 links_alt:
   - https://doi.org/10.1007/s10618-020-00701-z

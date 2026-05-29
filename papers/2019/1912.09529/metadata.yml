@@ -1,0 +1,20 @@
+title: >
+  Learning Convex Optimization Control Policies
+algorithm:
+authors:
+  - Akshay Agrawal
+  - Shane Barratt
+  - Stephen Boyd
+  - Bartolomeo Stellato
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1912.09529"
+tags:
+abstract: >
+  Many control policies used in various applications determine the input or action by solving a convex optimization problem that depends on the current state and some parameters. Common examples of such convex optimization control policies (COCPs) include the linear quadratic regulator (LQR), convex model predictive control (MPC), and convex control-Lyapunov or approximate dynamic programming (ADP) policies. These types of control policies are tuned by varying the parameters in the optimization problem, such as the LQR weights, to obtain good performance, judged by application-specific metrics. Tuning is often done by hand, or by simple methods such as a crude grid search. In this paper we propose a method to automate this process, by adjusting the parameters using an approximate gradient of the performance metric with respect to the parameters. Our method relies on recently developed methods that can efficiently evaluate the derivative of the solution of a convex optimization problem with respect to its parameters. We illustrate our method on several examples.
+summary: ''
+link: https://arxiv.org/pdf/1912.09529
+links_alt:
+audit_status: raw

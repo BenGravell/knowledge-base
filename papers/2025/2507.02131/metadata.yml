@@ -1,4 +1,5 @@
-title: Perturbed Gradient Descent Algorithms Are Small-Disturbance Input-to-State Stable
+title: >
+  Perturbed Gradient Descent Algorithms Are Small-Disturbance Input-to-State Stable
 algorithm: SGD Input-to-State Stability
 authors:
   - Leilei Cui
@@ -19,8 +20,10 @@ tags:
   - Online algorithms
   - ISS
   - PL
-abstract: This article investigates the robustness of gradient descent algorithms under perturbations. The concept of small-disturbance input-to-state stability (ISS) for discrete-time nonlinear dynamical systems is introduced, along with its Lyapunov characterization. The conventional linear Polyak-Lojasiewicz (PL) condition is then extended to a nonlinear version, and it is shown that the gradient descent algorithm is small-disturbance ISS provided the objective function satisfies the generalized nonlinear PL condition. This small-disturbance ISS property guarantees that the gradient descent algorithm converges to a small neighborhood of the optimum under sufficiently small perturbations. As a direct application of the developed framework, we demonstrate that the LQR cost satisfies the generalized nonlinear PL condition, thereby establishing that the policy gradient algorithm for LQR is small-disturbance ISS. Additionally, other popular policy gradient algorithms, including natural policy gradient and Gauss-Newton method, are also proven to be small-disturbance ISS.
-summary: This article investigates the robustness of gradient descent algorithms under perturbations. The abstract also notes that the concept of small-disturbance input-to-state stability (ISS) for discrete-time nonlinear dynamical systems is introduced, along with its Lyapunov characterization.
+abstract: >
+  This article investigates the robustness of gradient descent algorithms under perturbations. The concept of small-disturbance input-to-state stability (ISS) for discrete-time nonlinear dynamical systems is introduced, along with its Lyapunov characterization. The conventional linear Polyak-Lojasiewicz (PL) condition is then extended to a nonlinear version, and it is shown that the gradient descent algorithm is small-disturbance ISS provided the objective function satisfies the generalized nonlinear PL condition. This small-disturbance ISS property guarantees that the gradient descent algorithm converges to a small neighborhood of the optimum under sufficiently small perturbations. As a direct application of the developed framework, we demonstrate that the LQR cost satisfies the generalized nonlinear PL condition, thereby establishing that the policy gradient algorithm for LQR is small-disturbance ISS. Additionally, other popular policy gradient algorithms, including natural policy gradient and Gauss-Newton method, are also proven to be small-disturbance ISS.
+summary: >
+  This article investigates the robustness of gradient descent algorithms under perturbations. The abstract also notes that the concept of small-disturbance input-to-state stability (ISS) for discrete-time nonlinear dynamical systems is introduced, along with its Lyapunov characterization.
 link: https://arxiv.org/pdf/2507.02131
 links_alt:
 audit_status: raw

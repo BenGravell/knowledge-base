@@ -1,0 +1,21 @@
+title: >
+  Clustering by Left-Stochastic Matrix Factorization
+algorithm:
+authors:
+  - Raman Arora
+  - Maya R. Gupta
+  - Amol Kapila
+  - Maryam Fazel
+year: 2011
+source: International Conference on Machine Learning
+type: Conference Paper
+doi: 10.5555/3104482.3104578
+arxiv_id:
+tags:
+abstract: ''
+summary: ''
+link: https://icml.cc/2011/papers/426_icmlpaper.pdf
+links_alt:
+  - https://dl.acm.org/doi/10.5555/3104482.3104578
+  - https://dblp.org/rec/conf/icml/AroraGKF11
+audit_status: raw

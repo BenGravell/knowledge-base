@@ -1,0 +1,19 @@
+title: >
+  Data-Driven Distributionally Robust System Level Synthesis
+algorithm:
+authors:
+  - Francesco Micheli
+  - Anastasios Tsiamis
+  - John Lygeros
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2405.18142"
+tags:
+abstract: >
+  We present a novel approach for the control of uncertain, linear time-invariant systems, which are perturbed by potentially unbounded, additive disturbances. We propose a \emph{doubly robust} data-driven state-feedback controller to ensure reliable performance against both model mismatch and disturbance distribution uncertainty. Our controller, which leverages the System Level Synthesis parameterization, is designed as the solution to a distributionally robust finite-horizon optimal control problem. The goal is to minimize a cost function while satisfying constraints against the worst-case realization of the uncertainty, which is quantified using distributional ambiguity sets. The latter are defined as balls in the Wasserstein metric centered on the predictive empirical distribution computed from a set of collected trajectory data. By harnessing techniques from robust control and distributionally robust optimization, we characterize the distributional shift between the predictive and the actual closed-loop distributions, and highlight its dependency on the model mismatch and the uncertainty about the disturbance distribution. We also provide bounds on the number of samples required to achieve a desired confidence level and propose a tractable approximate formulation for the doubly robust data-driven controller. To demonstrate the effectiveness of our approach, we present a numerical example showcasing the performance of the proposed algorithm.
+summary: ''
+link: https://arxiv.org/pdf/2405.18142
+links_alt:
+audit_status: raw

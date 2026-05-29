@@ -1,4 +1,5 @@
-title: Data-driven Distributionally Robust LQR with Multiplicative Noise
+title: >
+  Data-driven Distributionally Robust LQR with Multiplicative Noise
 algorithm:
 authors:
   - Peter Coppens
@@ -16,8 +17,10 @@ tags:
   - Control
   - Multiplicative noise
   - Linear-quadratic regulator
-abstract: We present a data-driven method for solving the linear quadratic regulator problem for systems with multiplicative disturbances, the distribution of which is only known through sample estimates. We adopt a distributionally robust approach to cast the controller synthesis problem as semidefinite programs. Using results from high dimensional statistics, the proposed methodology ensures that their solution provides mean-square stabilizing controllers with high probability even for low sample sizes. As sample size increases the closed-loop cost approaches that of the optimal controller produced when the distribution is known. We demonstrate the practical applicability and performance of the method through a numerical experiment.
-summary: This paper presents a data-driven method for solving the linear quadratic regulator problem for systems with multiplicative disturbances, the distribution of which is only known through sample estimates. The abstract also states that we adopt a distributionally robust approach to cast the controller synthesis problem as semidefinite programs.
+abstract: >
+  We present a data-driven method for solving the linear quadratic regulator problem for systems with multiplicative disturbances, the distribution of which is only known through sample estimates. We adopt a distributionally robust approach to cast the controller synthesis problem as semidefinite programs. Using results from high dimensional statistics, the proposed methodology ensures that their solution provides mean-square stabilizing controllers with high probability even for low sample sizes. As sample size increases the closed-loop cost approaches that of the optimal controller produced when the distribution is known. We demonstrate the practical applicability and performance of the method through a numerical experiment.
+summary: >
+  This paper presents a data-driven method for solving the linear quadratic regulator problem for systems with multiplicative disturbances, the distribution of which is only known through sample estimates. The abstract also states that we adopt a distributionally robust approach to cast the controller synthesis problem as semidefinite programs.
 link: https://arxiv.org/pdf/1912.09990
 links_alt:
   - http://proceedings.mlr.press/v120/coppens20a/coppens20a.pdf

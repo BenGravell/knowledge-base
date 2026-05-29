@@ -1,0 +1,32 @@
+title: >
+  DemoStart: Demonstration-led Auto-curriculum Applied to Sim-to-real with Multi-fingered Robots
+algorithm: DemoStart
+authors:
+  - Maria Bauza
+  - Jose Enrique Chen
+  - Valentin Dalibard
+  - Nimrod Gileadi
+  - Roland Hafner
+  - Murilo F. Martins
+  - Joss Moore
+  - Rugile Pevceviciute
+  - Antoine Laurens
+  - Dushyant Rao
+  - Martina Zambelli
+  - Martin Riedmiller
+  - Jon Scholz
+  - Konstantinos Bousmalis
+  - Francesco Nori
+  - Nicolas Heess
+year: 2024
+source:
+type: ''
+doi:
+arxiv_id: "2409.06613"
+tags:
+abstract: >
+  We present DemoStart, a novel auto-curriculum reinforcement learning method capable of learning complex manipulation behaviors on an arm equipped with a three-fingered robotic hand, from only a sparse reward and a handful of demonstrations in simulation. Learning from simulation drastically reduces the development cycle of behavior generation, and domain randomization techniques are leveraged to achieve successful zero-shot sim-to-real transfer. Transferred policies are learned directly from raw pixels from multiple cameras and robot proprioception. Our approach outperforms policies learned from demonstrations on the real robot and requires 100 times fewer demonstrations, collected in simulation. More details and videos in https://sites.google.com/view/demostart.
+summary: ''
+link: https://arxiv.org/pdf/2409.06613
+links_alt:
+audit_status: raw

@@ -1,4 +1,5 @@
-title: 'FlowMP: Learning Motion Fields for Robot Planning with Conditional Flow Matching'
+title: >
+  FlowMP: Learning Motion Fields for Robot Planning with Conditional Flow Matching
 algorithm: FlowMP
 authors:
   - Khang Nguyen
@@ -20,8 +21,10 @@ tags:
   - Planning
   - Learning
   - FlowMP
-abstract: Prior flow matching methods in robotics have primarily learned velocity fields to morph one distribution of trajectories into another. In this work, we extend flow matching to capture second-order trajectory dynamics, incorporating acceleration effects either explicitly in the model or implicitly through the learning objective. Unlike diffusion models, which rely on a noisy forward process and iterative denoising steps, flow matching trains a continuous transformation (flow) that directly maps a simple prior distribution to the target trajectory distribution without any denoising procedure. By modeling trajectories with second-order dynamics, our approach ensures that generated robot motions are smooth and physically executable, avoiding the jerky or dynamically infeasible trajectories that first-order models might produce. We empirically demonstrate that this second-order conditional flow matching yields superior performance on motion planning benchmarks, achieving smoother trajectories and higher success rates than baseline planners. These findings highlight the advantage of learning acceleration-aware motion fields, as our method outperforms existing motion planning methods in terms of trajectory quality and planning success.
-summary: Prior flow matching methods in robotics have primarily learned velocity fields to morph one distribution of trajectories into another. The abstract also notes that in this work, we extend flow matching to capture second-order trajectory dynamics, incorporating acceleration effects either explicitly in the model or implicitly through the learning objective.
+abstract: >
+  Prior flow matching methods in robotics have primarily learned velocity fields to morph one distribution of trajectories into another. In this work, we extend flow matching to capture second-order trajectory dynamics, incorporating acceleration effects either explicitly in the model or implicitly through the learning objective. Unlike diffusion models, which rely on a noisy forward process and iterative denoising steps, flow matching trains a continuous transformation (flow) that directly maps a simple prior distribution to the target trajectory distribution without any denoising procedure. By modeling trajectories with second-order dynamics, our approach ensures that generated robot motions are smooth and physically executable, avoiding the jerky or dynamically infeasible trajectories that first-order models might produce. We empirically demonstrate that this second-order conditional flow matching yields superior performance on motion planning benchmarks, achieving smoother trajectories and higher success rates than baseline planners. These findings highlight the advantage of learning acceleration-aware motion fields, as our method outperforms existing motion planning methods in terms of trajectory quality and planning success.
+summary: >
+  Prior flow matching methods in robotics have primarily learned velocity fields to morph one distribution of trajectories into another. The abstract also notes that in this work, we extend flow matching to capture second-order trajectory dynamics, incorporating acceleration effects either explicitly in the model or implicitly through the learning objective.
 link: https://arxiv.org/pdf/2503.06135
 links_alt:
   - https://doi.org/10.1109/iros60139.2025.11246537

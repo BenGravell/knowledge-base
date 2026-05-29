@@ -1,0 +1,19 @@
+title: >
+  Single Trajectory Nonparametric Learning of Nonlinear Dynamics
+algorithm:
+authors:
+  - Ingvar Ziemann
+  - Henrik Sandberg
+  - Nikolai Matni
+year: 2022
+source:
+type: ''
+doi:
+arxiv_id: "2202.08311"
+tags:
+abstract: >
+  Given a single trajectory of a dynamical system, we analyze the performance of the nonparametric least squares estimator (LSE). More precisely, we give nonasymptotic expected $l^2$-distance bounds between the LSE and the true regression function, where expectation is evaluated on a fresh, counterfactual, trajectory. We leverage recently developed information-theoretic methods to establish the optimality of the LSE for nonparametric hypotheses classes in terms of supremum norm metric entropy and a subgaussian parameter. Next, we relate this subgaussian parameter to the stability of the underlying process using notions from dynamical systems theory. When combined, these developments lead to rate-optimal error bounds that scale as $T^{-1/(2+q)}$ for suitably stable processes and hypothesis classes with metric entropy growth of order $Î´^{-q}$. Here, $T$ is the length of the observed trajectory, $Î´\in \mathbb{R}_+$ is the packing granularity and $q\in (0,2)$ is a complexity term. Finally, we specialize our results to a number of scenarios of practical interest, such as Lipschitz dynamics, generalized linear models, and dynamics described by functions in certain classes of Reproducing Kernel Hilbert Spaces (RKHS).
+summary: ''
+link: https://arxiv.org/pdf/2202.08311
+links_alt:
+audit_status: raw

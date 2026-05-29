@@ -1,0 +1,20 @@
+title: >
+  Deep Structured Reactive Planning
+algorithm:
+authors:
+  - Jerry Liu
+  - Wenyuan Zeng
+  - Raquel Urtasun
+  - Ersin Yumer
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2101.06832"
+tags:
+abstract: >
+  An intelligent agent operating in the real-world must balance achieving its goal with maintaining the safety and comfort of not only itself, but also other participants within the surrounding scene. This requires jointly reasoning about the behavior of other actors while deciding its own actions as these two processes are inherently intertwined - a vehicle will yield to us if we decide to proceed first at the intersection but will proceed first if we decide to yield. However, this is not captured in most self-driving pipelines, where planning follows prediction. In this paper we propose a novel data-driven, reactive planning objective which allows a self-driving vehicle to jointly reason about its own plans as well as how other actors will react to them. We formulate the problem as an energy-based deep structured model that is learned from observational data and encodes both the planning and prediction problems. Through simulations based on both real-world driving and synthetically generated dense traffic, we demonstrate that our reactive model outperforms a non-reactive variant in successfully completing highly complex maneuvers (lane merges/turns in traffic) faster, without trading off collision rate.
+summary: ''
+link: https://arxiv.org/pdf/2101.06832
+links_alt:
+audit_status: raw

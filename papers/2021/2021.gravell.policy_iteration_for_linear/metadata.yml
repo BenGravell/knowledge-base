@@ -1,4 +1,5 @@
-title: "Policy Iteration for Linear Quadratic Games with Stochastic Parameters"
+title: >
+  Policy Iteration for Linear Quadratic Games with Stochastic Parameters
 algorithm: Approximate policy iteration for SLQ games
 authors:
   - Benjamin Gravell
@@ -33,8 +34,10 @@ tags:
 - Multiplicative noise
 - Uncertainty
 - Robustness
-abstract: 'Robustness is a key challenge in the integration of learning and control. In machine learning and robotics, two common approaches to promote robustness are adversarial training and domain randomization. Both of these approaches have analogs in control theory: adversarial training relates to H∞ control and dynamic game theory, while domain randomization relates to theory for systems with stochastic model parameters. We propose a stochastic dynamic game framework that integrates both of these complementary approaches to modeling uncertainty and promoting robustness. We describe policy iteration algorithms in both model-based and model-free settings to compute equilibrium strategies and value functions. We present numerical experiments that illustrate their effectiveness and the value of combining uncertainty representations in our integrated framework. We also provide an open-source implementation of the algorithms to facilitate their wider use.'
-summary: Develops a polcy iteration algorithm for a state-feedback (fully observed) problem setting with linear dynamics, multiplicative noise (stochastic parameters), and adversarial disturbances. Nice compact notation for rather complicated Riccati equations, useful as a reference.
+abstract: >
+  Robustness is a key challenge in the integration of learning and control. In machine learning and robotics, two common approaches to promote robustness are adversarial training and domain randomization. Both of these approaches have analogs in control theory: adversarial training relates to H∞ control and dynamic game theory, while domain randomization relates to theory for systems with stochastic model parameters. We propose a stochastic dynamic game framework that integrates both of these complementary approaches to modeling uncertainty and promoting robustness. We describe policy iteration algorithms in both model-based and model-free settings to compute equilibrium strategies and value functions. We present numerical experiments that illustrate their effectiveness and the value of combining uncertainty representations in our integrated framework. We also provide an open-source implementation of the algorithms to facilitate their wider use.
+summary: >
+  Develops a polcy iteration algorithm for a state-feedback (fully observed) problem setting with linear dynamics, multiplicative noise (stochastic parameters), and adversarial disturbances. Nice compact notation for rather complicated Riccati equations, useful as a reference.
 link: https://personal.utdallas.edu/~tyler.summers/papers/GravellGanapathySummers_LCSS2020.pdf
 links_alt:
   - https://ieeexplore.ieee.org/document/9115001

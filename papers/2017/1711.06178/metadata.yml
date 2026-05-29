@@ -1,4 +1,5 @@
-title: 'Beyond Sparsity: Tree Regularization of Deep Models for Interpretability'
+title: >
+  Beyond Sparsity: Tree Regularization of Deep Models for Interpretability
 algorithm:
 authors:
   - Mike Wu
@@ -15,8 +16,10 @@ arxiv_id: "1711.06178"
 tags:
   - Accuracy
   - Decision tree
-abstract: The lack of interpretability remains a key barrier to the adoption of deep models in many applications. In this work, we explicitly regularize deep models so human users might step through the process behind their predictions in little time. Specifically, we train deep time-series models so their class-probability predictions have high accuracy while being closely modeled by decision trees with few nodes. Using intuitive toy examples as well as medical tasks for treating sepsis and HIV, we demonstrate that this new tree regularization yields models that are easier for humans to simulate than simpler L1 or L2 penalties without sacrificing predictive power.
-summary: The lack of interpretability remains a key barrier to the adoption of deep models in many applications. The abstract also notes that in this work, we explicitly regularize deep models so human users might step through the process behind their predictions in little time.
+abstract: >
+  The lack of interpretability remains a key barrier to the adoption of deep models in many applications. In this work, we explicitly regularize deep models so human users might step through the process behind their predictions in little time. Specifically, we train deep time-series models so their class-probability predictions have high accuracy while being closely modeled by decision trees with few nodes. Using intuitive toy examples as well as medical tasks for treating sepsis and HIV, we demonstrate that this new tree regularization yields models that are easier for humans to simulate than simpler L1 or L2 penalties without sacrificing predictive power.
+summary: >
+  The lack of interpretability remains a key barrier to the adoption of deep models in many applications. The abstract also notes that in this work, we explicitly regularize deep models so human users might step through the process behind their predictions in little time.
 link: https://arxiv.org/pdf/1711.06178
 links_alt:
   - https://doi.org/10.1609/aaai.v32i1.11501

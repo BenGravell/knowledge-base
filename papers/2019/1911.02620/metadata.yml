@@ -1,0 +1,27 @@
+title: >
+  Argoverse: 3D Tracking and Forecasting with Rich Maps
+algorithm: Argoverse
+authors:
+  - Ming-Fang Chang
+  - John Lambert
+  - Patsorn Sangkloy
+  - Jagjeet Singh
+  - Slawomir Bak
+  - Andrew Hartnett
+  - De Wang
+  - Peter Carr
+  - Simon Lucey
+  - Deva Ramanan
+  - James Hays
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1911.02620"
+tags:
+abstract: >
+  We present Argoverse -- two datasets designed to support autonomous vehicle machine learning tasks such as 3D tracking and motion forecasting. Argoverse was collected by a fleet of autonomous vehicles in Pittsburgh and Miami. The Argoverse 3D Tracking dataset includes 360 degree images from 7 cameras with overlapping fields of view, 3D point clouds from long range LiDAR, 6-DOF pose, and 3D track annotations. Notably, it is the only modern AV dataset that provides forward-facing stereo imagery. The Argoverse Motion Forecasting dataset includes more than 300,000 5-second tracked scenarios with a particular vehicle identified for trajectory forecasting. Argoverse is the first autonomous vehicle dataset to include "HD maps" with 290 km of mapped lanes with geometric and semantic metadata. All data is released under a Creative Commons license at www.argoverse.org. In our baseline experiments, we illustrate how detailed map information such as lane direction, driveable area, and ground height improves the accuracy of 3D object tracking and motion forecasting. Our tracking and forecasting experiments represent only an initial exploration of the use of rich maps in robotic perception. We hope that Argoverse will enable the research community to explore these problems in greater depth.
+summary: ''
+link: https://arxiv.org/pdf/1911.02620
+links_alt:
+audit_status: raw

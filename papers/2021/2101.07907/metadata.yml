@@ -1,0 +1,19 @@
+title: >
+  IntentNet: Learning to Predict Intention from Raw Sensor Data
+algorithm: IntentNet
+authors:
+  - Sergio Casas
+  - Wenjie Luo
+  - Raquel Urtasun
+year: 2021
+source:
+type: ''
+doi:
+arxiv_id: "2101.07907"
+tags:
+abstract: >
+  In order to plan a safe maneuver, self-driving vehicles need to understand the intent of other traffic participants. We define intent as a combination of discrete high-level behaviors as well as continuous trajectories describing future motion. In this paper, we develop a one-stage detector and forecaster that exploits both 3D point clouds produced by a LiDAR sensor as well as dynamic maps of the environment. Our multi-task model achieves better accuracy than the respective separate modules while saving computation, which is critical to reducing reaction time in self-driving applications.
+summary: ''
+link: https://arxiv.org/pdf/2101.07907
+links_alt:
+audit_status: raw

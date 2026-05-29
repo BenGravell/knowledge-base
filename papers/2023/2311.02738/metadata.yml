@@ -1,4 +1,5 @@
-title: 'Scenario Diffusion: Controllable Driving Scenario Generation with Diffusion'
+title: >
+  Scenario Diffusion: Controllable Driving Scenario Generation with Diffusion
 algorithm: Scenario Diffusion
 authors:
   - Ethan Pronovost
@@ -22,8 +23,10 @@ tags:
   - Regression
   - Control
   - Diffusion
-abstract: Automated creation of synthetic traffic scenarios is a key part of validating the safety of autonomous vehicles (AVs). In this paper, we propose Scenario Diffusion, a novel diffusion-based architecture for generating traffic scenarios that enables controllable scenario generation. We combine latent diffusion, object detection and trajectory regression to generate distributions of synthetic agent poses, orientations and trajectories simultaneously. To provide additional control over the generated scenario, this distribution is conditioned on a map and sets of tokens describing the desired scenario. We show that our approach has sufficient expressive capacity to model diverse traffic patterns and generalizes to different geographical regions.
-summary: Automated creation of synthetic traffic scenarios is a key part of validating the safety of autonomous vehicles (AVs). It also proposes Scenario Diffusion, a novel diffusion-based architecture for generating traffic scenarios that enables controllable scenario generation.
+abstract: >
+  Automated creation of synthetic traffic scenarios is a key part of validating the safety of autonomous vehicles (AVs). In this paper, we propose Scenario Diffusion, a novel diffusion-based architecture for generating traffic scenarios that enables controllable scenario generation. We combine latent diffusion, object detection and trajectory regression to generate distributions of synthetic agent poses, orientations and trajectories simultaneously. To provide additional control over the generated scenario, this distribution is conditioned on a map and sets of tokens describing the desired scenario. We show that our approach has sufficient expressive capacity to model diverse traffic patterns and generalizes to different geographical regions.
+summary: >
+  Automated creation of synthetic traffic scenarios is a key part of validating the safety of autonomous vehicles (AVs). It also proposes Scenario Diffusion, a novel diffusion-based architecture for generating traffic scenarios that enables controllable scenario generation.
 link: https://arxiv.org/pdf/2311.02738
 links_alt:
 audit_status: raw

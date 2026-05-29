@@ -1,7 +1,8 @@
-title: Optimal Control of the Double Integrator with Minimum Total Variation
+title: >
+  Optimal Control of the Double Integrator with Minimum Total Variation
 algorithm:
 authors:
-  - C. Yalçın Kaya
+  - C. Yalcin Kaya
 year: 2019
 source: Journal of Optimization Theory and Applications
 type: Journal Paper
@@ -11,8 +12,10 @@ tags:
   - Optimal control
   - Control
   - Control variable
-abstract: We study the well-known minimum-energy control of the double integrator, along with the simultaneous minimization of the total variation in the control variable. We derive the optimality conditions and obtain the unique optimal solution to the combined problem, where the initial and terminal boundary points are specified. We study the problem from a multi-objective optimal control viewpoint, constructing the Pareto front. We show that the unique asymptotic optimal control function, for the minimization of the total variation alone, is piecewise constant with one switching at the midpoint of the time horizon. For any instance of the boundary conditions of the problem, we prove that the asymptotic optimal total variation is exactly $2/3$ of the total variation of the minimum-energy control. We illustrate the results for a particular instance of the problem and include a link to a video which animates the solutions while moving along the Pareto front.
-summary: This paper studies the well-known minimum-energy control of the double integrator, along with the simultaneous minimization of the total variation in the control variable. It also derives the optimality conditions and obtain the unique optimal solution to the combined problem, where the initial and terminal boundary points are specified.
+abstract: >
+  We study the well-known minimum-energy control of the double integrator, along with the simultaneous minimization of the total variation in the control variable. We derive the optimality conditions and obtain the unique optimal solution to the combined problem, where the initial and terminal boundary points are specified. We study the problem from a multi-objective optimal control viewpoint, constructing the Pareto front. We show that the unique asymptotic optimal control function, for the minimization of the total variation alone, is piecewise constant with one switching at the midpoint of the time horizon. For any instance of the boundary conditions of the problem, we prove that the asymptotic optimal total variation is exactly $2/3$ of the total variation of the minimum-energy control. We illustrate the results for a particular instance of the problem and include a link to a video which animates the solutions while moving along the Pareto front.
+summary: >
+  This paper studies the well-known minimum-energy control of the double integrator, along with the simultaneous minimization of the total variation in the control variable. It also derives the optimality conditions and obtain the unique optimal solution to the combined problem, where the initial and terminal boundary points are specified.
 link: https://arxiv.org/pdf/1901.00491
 links_alt:
   - https://doi.org/10.1007/s10957-020-01671-4

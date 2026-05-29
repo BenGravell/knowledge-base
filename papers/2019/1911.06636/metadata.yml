@@ -1,0 +1,25 @@
+title: >
+  Catch & Carry: Reusable Neural Controllers for Vision-Guided Whole-Body Tasks
+algorithm: Catch & Carry
+authors:
+  - Josh Merel
+  - Saran Tunyasuvunakool
+  - Arun Ahuja
+  - Yuval Tassa
+  - Leonard Hasenclever
+  - Vu Pham
+  - Tom Erez
+  - Greg Wayne
+  - Nicolas Heess
+year: 2019
+source:
+type: ''
+doi:
+arxiv_id: "1911.06636"
+tags:
+abstract: >
+  We address the longstanding challenge of producing flexible, realistic humanoid character controllers that can perform diverse whole-body tasks involving object interactions. This challenge is central to a variety of fields, from graphics and animation to robotics and motor neuroscience. Our physics-based environment uses realistic actuation and first-person perception -- including touch sensors and egocentric vision -- with a view to producing active-sensing behaviors (e.g. gaze direction), transferability to real robots, and comparisons to the biology. We develop an integrated neural-network based approach consisting of a motor primitive module, human demonstrations, and an instructed reinforcement learning regime with curricula and task variations. We demonstrate the utility of our approach for several tasks, including goal-conditioned box carrying and ball catching, and we characterize its behavioral robustness. The resulting controllers can be deployed in real-time on a standard PC. See overview video, https://youtu.be/2rQAW-8gQQk .
+summary: ''
+link: https://arxiv.org/pdf/1911.06636
+links_alt:
+audit_status: raw

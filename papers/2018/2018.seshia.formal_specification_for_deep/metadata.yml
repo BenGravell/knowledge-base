@@ -1,4 +1,5 @@
-title: "Formal Specification for Deep Neural Networks"
+title: >
+  Formal Specification for Deep Neural Networks
 algorithm: "DNN formal specification"
 authors:
   - "Sanjit A. Seshia"
@@ -22,8 +23,10 @@ tags:
   - "Deep learning safety"
   - "Autonomous systems"
   - "Testing"
-abstract: The increasing use of deep neural networks in a variety of applications, including some safety-critical ones, has brought renewed interest in the topic of verification of neural networks. However, verification is most meaningful when performed with high-quality formal specifications. In this paper, we survey the landscape of formal specification for deep neural networks, and discuss the opportunities and challenges for formal methods for this domain.
-summary: Surveys what it means to specify properties of deep neural networks for verification, moving the discussion beyond solver mechanics to the quality of the property being checked. It is useful for thinking about robustness, safety envelopes, and environment assumptions in learning-enabled systems.
+abstract: >
+  The increasing use of deep neural networks in a variety of applications, including some safety-critical ones, has brought renewed interest in the topic of verification of neural networks. However, verification is most meaningful when performed with high-quality formal specifications. In this paper, we survey the landscape of formal specification for deep neural networks, and discuss the opportunities and challenges for formal methods for this domain.
+summary: >
+  Surveys what it means to specify properties of deep neural networks for verification, moving the discussion beyond solver mechanics to the quality of the property being checked. It is useful for thinking about robustness, safety envelopes, and environment assumptions in learning-enabled systems.
 link: "https://people.eecs.berkeley.edu/~sseshia/pubdir/atva18.pdf"
 links_alt:
   - "https://doi.org/10.1007/978-3-030-01090-4_2"

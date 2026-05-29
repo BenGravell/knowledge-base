@@ -1,0 +1,20 @@
+title: >
+  Sampling-Based Planning under STL Specifications: A Forward Invariance Approach
+algorithm:
+authors:
+  - Gregorio Marchesini
+  - Siyuan Liu
+  - Lars Lindemann
+  - Dimos V. Dimarogonas
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2506.10739"
+tags:
+abstract: >
+  We propose a variant of the Rapidly Exploring Random Tree Star (RRT$^{\star}$) algorithm to synthesize trajectories satisfying a given spatio-temporal specification expressed in a fragment of Signal Temporal Logic (STL) for linear systems. Previous approaches for planning trajectories under STL specifications using sampling-based methods leverage either mixed-integer or non-smooth optimization techniques, with poor scalability in the horizon and complexity of the task. We adopt instead a control-theoretic perspective on the problem, based on the notion of set forward invariance. Specifically, from a given STL task defined over polyhedral predicates, we develop a novel algorithmic framework by which the task is efficiently encoded into a time-varying set via linear programming, such that trajectories evolving within the set also satisfy the task. Forward invariance properties of the resulting set with respect to the system dynamics and input limitations are then proved via non-smooth analysis. We then present a modified RRT$^{\star}$ algorithm to synthesize asymptotically optimal and dynamically feasible trajectories satisfying a given STL specification, by sampling a tree of trajectories within the previously constructed time-varying set. We showcase two use cases of our approach involving an autonomous inspection of the International Space Station and room-servicing task requiring timed revisit of a charging station.
+summary: ''
+link: https://arxiv.org/pdf/2506.10739
+links_alt:
+audit_status: raw

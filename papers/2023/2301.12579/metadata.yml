@@ -1,0 +1,22 @@
+title: >
+  Sample Efficient Deep Reinforcement Learning via Local Planning
+algorithm:
+authors:
+  - Dong Yin
+  - Sridhar Thiagarajan
+  - Nevena Lazic
+  - Nived Rajaraman
+  - Botao Hao
+  - Csaba Szepesvari
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2301.12579"
+tags:
+abstract: >
+  The focus of this work is sample-efficient deep reinforcement learning (RL) with a simulator. One useful property of simulators is that it is typically easy to reset the environment to a previously observed state. We propose an algorithmic framework, named uncertainty-first local planning (UFLP), that takes advantage of this property. Concretely, in each data collection iteration, with some probability, our meta-algorithm resets the environment to an observed state which has high uncertainty, instead of sampling according to the initial-state distribution. The agent-environment interaction then proceeds as in the standard online RL setting. We demonstrate that this simple procedure can dramatically improve the sample cost of several baseline RL algorithms on difficult exploration tasks. Notably, with our framework, we can achieve super-human performance on the notoriously hard Atari game, Montezuma's Revenge, with a simple (distributional) double DQN. Our work can be seen as an efficient approximate implementation of an existing algorithm with theoretical guarantees, which offers an interpretation of the positive empirical results.
+summary: ''
+link: https://arxiv.org/pdf/2301.12579
+links_alt:
+audit_status: raw

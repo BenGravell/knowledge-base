@@ -1,10 +1,11 @@
-title: Exponential Stability of Data-driven Nonlinear MPC Based on Input/output Models
+title: >
+  Exponential Stability of Data-driven Nonlinear MPC Based on Input/output Models
 algorithm:
 authors:
   - Lea Bold
   - Irene Schimperna
   - Karl Worthmann
-  - Johannes Köhler
+  - Johannes Kohler
 year: 2026
 source: arXiv
 type: Preprint
@@ -20,8 +21,10 @@ tags:
   - MPC
   - Nonlinear system
   - Exponential stability
-abstract: We consider nonlinear model predictive control (MPC) schemes using surrogate models in the optimization step based on input-output data only. We establish exponential stability for sufficiently long prediction horizons assuming exponential stabilizability and a proportional error bound. Moreover, we verify the imposed condition on the approximation using kernel interpolation and demonstrate the practical applicability to nonlinear systems with a numerical example.
-summary: This paper considers nonlinear model predictive control (MPC) schemes using surrogate models in the optimization step based on input-output data only. It also establishes exponential stability for sufficiently long prediction horizons assuming exponential stabilizability and a proportional error bound.
+abstract: >
+  We consider nonlinear model predictive control (MPC) schemes using surrogate models in the optimization step based on input-output data only. We establish exponential stability for sufficiently long prediction horizons assuming exponential stabilizability and a proportional error bound. Moreover, we verify the imposed condition on the approximation using kernel interpolation and demonstrate the practical applicability to nonlinear systems with a numerical example.
+summary: >
+  This paper considers nonlinear model predictive control (MPC) schemes using surrogate models in the optimization step based on input-output data only. It also establishes exponential stability for sufficiently long prediction horizons assuming exponential stabilizability and a proportional error bound.
 link: https://arxiv.org/pdf/2603.16808
 links_alt:
 audit_status: raw

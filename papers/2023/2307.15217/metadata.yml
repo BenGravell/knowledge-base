@@ -1,0 +1,48 @@
+title: >
+  Open Problems and Fundamental Limitations of Reinforcement Learning from Human Feedback
+algorithm:
+authors:
+  - Stephen Casper
+  - Xander Davies
+  - Claudia Shi
+  - Thomas Krendl Gilbert
+  - Jeremy Scheurer
+  - Javier Rando
+  - Rachel Freedman
+  - Tomasz Korbak
+  - David Lindner
+  - Pedro Freire
+  - Tony Wang
+  - Samuel Marks
+  - Charbel-Raphael Segerie
+  - Micah Carroll
+  - Andi Peng
+  - Phillip Christoffersen
+  - Mehul Damani
+  - Stewart Slocum
+  - Usman Anwar
+  - Anand Siththaranjan
+  - Max Nadeau
+  - Eric J. Michaud
+  - Jacob Pfau
+  - Dmitrii Krasheninnikov
+  - Xin Chen
+  - Lauro Langosco
+  - Peter Hase
+  - Erdem Biyik
+  - Anca Dragan
+  - David Krueger
+  - Dorsa Sadigh
+  - Dylan Hadfield-Menell
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2307.15217"
+tags:
+abstract: >
+  Reinforcement learning from human feedback (RLHF) is a technique for training AI systems to align with human goals. RLHF has emerged as the central method used to finetune state-of-the-art large language models (LLMs). Despite this popularity, there has been relatively little public work systematizing its flaws. In this paper, we (1) survey open problems and fundamental limitations of RLHF and related methods; (2) overview techniques to understand, improve, and complement RLHF in practice; and (3) propose auditing and disclosure standards to improve societal oversight of RLHF systems. Our work emphasizes the limitations of RLHF and highlights the importance of a multi-faceted approach to the development of safer AI systems.
+summary: ''
+link: https://arxiv.org/pdf/2307.15217
+links_alt:
+audit_status: raw

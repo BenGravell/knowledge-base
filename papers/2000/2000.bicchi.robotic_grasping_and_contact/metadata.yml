@@ -1,4 +1,5 @@
-title: "Robotic Grasping and Contact: A Review"
+title: >
+  Robotic Grasping and Contact: A Review
 algorithm: Robotic Grasping and Contact Review
 authors:
   - Antonio Bicchi
@@ -16,8 +17,10 @@ tags:
   - Dexterous manipulation
   - Force closure
   - Grasp analysis
-abstract: In this paper, we survey the field of robotic grasping and the work that has been done in this area over the last two decades, with a slight bias toward the development of the theoretical framework and analytical results in this area.
-summary: Reviews classical robotic grasping research with emphasis on contact models, grasp analysis, and the analytical theory behind dexterous manipulation. It is a compact entry point into the pre-deep-learning literature on grasp stability, contact constraints, and robot hand mechanics.
+abstract: >
+  In this paper, we survey the field of robotic grasping and the work that has been done in this area over the last two decades, with a slight bias toward the development of the theoretical framework and analytical results in this area.
+summary: >
+  Reviews classical robotic grasping research with emphasis on contact models, grasp analysis, and the analytical theory behind dexterous manipulation. It is a compact entry point into the pre-deep-learning literature on grasp stability, contact constraints, and robot hand mechanics.
 link: https://www.centropiaggio.unipi.it/sites/default/files/surveys-icra00.pdf
 links_alt:
   - https://www.centropiaggio.unipi.it/publications/robotic-grasping-and-contact-review.html

@@ -1,0 +1,17 @@
+title: >
+  Wasserstein Distributionally Robust Stochastic Control: A Data-Driven Approach
+algorithm:
+authors:
+  - Insoon Yang
+year: 2018
+source:
+type: ''
+doi: 10.1109/TAC.2020.3030884
+arxiv_id: "1812.09808"
+tags:
+abstract: >
+  Standard stochastic control methods assume that the probability distribution of uncertain variables is available. Unfortunately, in practice, obtaining accurate distribution information is a challenging task. To resolve this issue, we investigate the problem of designing a control policy that is robust against errors in the empirical distribution obtained from data. This problem can be formulated as a two-player zero-sum dynamic game problem, where the action space of the adversarial player is a Wasserstein ball centered at the empirical distribution. We propose computationally tractable value and policy iteration algorithms with explicit estimates of the number of iterations required for constructing an $Îµ$-optimal policy. We show that the contraction property of associated Bellman operators extends a single-stage out-of-sample performance guarantee, obtained using a measure concentration inequality, to the corresponding multi-stage guarantee without any degradation in the confidence level. In addition, we characterize an explicit form of the optimal distributionally robust control policy and the worst-case distribution policy for linear-quadratic problems with Wasserstein penalty. Our study indicates that dynamic programming and Kantorovich duality play a critical role in solving and analyzing the Wasserstein distributionally robust stochastic control problems.
+summary: ''
+link: https://arxiv.org/pdf/1812.09808
+links_alt:
+audit_status: raw

@@ -1,0 +1,21 @@
+title: >
+  RMP: A Random Mask Pretrain Framework for Motion Prediction
+algorithm: RMP
+authors:
+  - Yi Yang
+  - Qingwen Zhang
+  - Thomas Gilles
+  - Nazre Batool
+  - John Folkesson
+year: 2023
+source:
+type: ''
+doi:
+arxiv_id: "2309.08989"
+tags:
+abstract: >
+  As the pretraining technique is growing in popularity, little work has been done on pretrained learning-based motion prediction methods in autonomous driving. In this paper, we propose a framework to formalize the pretraining task for trajectory prediction of traffic participants. Within our framework, inspired by the random masked model in natural language processing (NLP) and computer vision (CV), objects' positions at random timesteps are masked and then filled in by the learned neural network (NN). By changing the mask profile, our framework can easily switch among a range of motion-related tasks. We show that our proposed pretraining framework is able to deal with noisy inputs and improves the motion prediction accuracy and miss rate, especially for objects occluded over time by evaluating it on Argoverse and NuScenes datasets.
+summary: ''
+link: https://arxiv.org/pdf/2309.08989
+links_alt:
+audit_status: raw

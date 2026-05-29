@@ -1,0 +1,20 @@
+title: >
+  Optimality of Linear Policies in Distributionally Robust Linear Quadratic Control
+algorithm:
+authors:
+  - Bahar Taskesen
+  - Dan A. Iancu
+  - Cagil Kocyigit
+  - Daniel Kuhn
+year: 2025
+source:
+type: ''
+doi:
+arxiv_id: "2508.11858"
+tags:
+abstract: >
+  We study a generalization of the classical discrete-time, Linear-Quadratic-Gaussian (LQG) control problem where the noise distributions affecting the states and observations are unknown and chosen adversarially from divergence-based ambiguity sets centered around a known nominal distribution. For a finite horizon model with Gaussian nominal noise and a structural assumption on the divergence that is satisfied by many examples -- including 2-Wasserstein distance, Kullback-Leibler divergence, moment-based divergences, entropy-regularized optimal transport, or Fisher (score-matching) divergence -- we prove that a control policy that is affine in the observations is optimal and the adversary's corresponding worst-case optimal distribution is Gaussian. When the nominal means are zero (as in the classical LQG model), we show that the adversary should optimally set the distribution's mean to zero and the optimal control policy becomes linear. Moreover, the adversary should optimally ``inflate" the noise by choosing covariance matrices that dominate the nominal covariance in Loewner order. Exploiting these structural properties, we develop a Frank-Wolfe algorithm whose inner step solves standard LQG subproblems via Kalman filtering and dynamic programming and show that the implementation consistently outperforms semidefinite-programming reformulations of the problem. All structural and algorithmic results extend to an infinite-horizon, average-cost formulation, yielding stationary linear policies and a time-invariant Gaussian distribution for the adversary. Lastly, we show that when the divergence is 2-Wasserstein, the entire framework remains valid when the nominal distributions are elliptical rather than Gaussian.
+summary: ''
+link: https://arxiv.org/pdf/2508.11858
+links_alt:
+audit_status: raw

@@ -1,4 +1,5 @@
-title: "Linear System Identification under Multiplicative Noise from Multiple Trajectory Data"
+title: >
+  Linear System Identification under Multiplicative Noise from Multiple Trajectory Data
 algorithm: MALS
 authors:
   - Yu Xing
@@ -24,8 +25,10 @@ tags:
   - Convergence rate
   - Recursive
   - Algorithm
-abstract: The study of multiplicative noise models has a long history in control theory but is re-emerging in the context of complex networked systems and systems with learning-based control. We consider linear system identification with multiplicative noise from multiple state-input trajectory data. We propose exploratory input signals along with a least-squares algorithm to simultaneously estimate nominal system parameters and multiplicative noise covariance matrices. Identifiability of the covariance structure and asymptotic consistency of the least-squares estimator are demonstrated by analyzing first and second moment dynamics of the system. The results are illustrated by numerical simulations.
-summary: Provides asymptotic results on convergence of identified system parameters (dynamics parameters and noise covariances) to true values using a trajectory-averaging least-squares estimation algorithm for linear systems with multiplicative noise. Later extended to non-asymptotic results in 2106.16078.
+abstract: >
+  The study of multiplicative noise models has a long history in control theory but is re-emerging in the context of complex networked systems and systems with learning-based control. We consider linear system identification with multiplicative noise from multiple state-input trajectory data. We propose exploratory input signals along with a least-squares algorithm to simultaneously estimate nominal system parameters and multiplicative noise covariance matrices. Identifiability of the covariance structure and asymptotic consistency of the least-squares estimator are demonstrated by analyzing first and second moment dynamics of the system. The results are illustrated by numerical simulations.
+summary: >
+  Provides asymptotic results on convergence of identified system parameters (dynamics parameters and noise covariances) to true values using a trajectory-averaging least-squares estimation algorithm for linear systems with multiplicative noise. Later extended to non-asymptotic results in 2106.16078.
 link: https://arxiv.org/pdf/2002.06613
 links_alt:
   - https://people.kth.se/~kallej/papers/network_acc20xing.pdf

@@ -1,7 +1,8 @@
-title: A Topology Layer for Machine Learning
+title: >
+  A Topology Layer for Machine Learning
 algorithm:
 authors:
-  - Rickard Brüel-Gabrielsson
+  - Rickard Bruel-Gabrielsson
   - Bradley J. Nelson
   - Anjan Dwaraknath
   - Primoz Skraba
@@ -15,8 +16,10 @@ arxiv_id: "1905.12200"
 tags:
   - Deep learning
   - Learning
-abstract: 'Topology applied to real world data using persistent homology has started to find applications within machine learning, including deep learning. We present a differentiable topology layer that computes persistent homology based on level set filtrations and edge-based filtrations. We present three novel applications: the topological layer can (i) regularize data reconstruction or the weights of machine learning models, (ii) construct a loss on the output of a deep generative network to incorporate topological priors, and (iii) perform topological adversarial attacks on deep networks trained with persistence features. The code (www.github.com/bruel-gabrielsson/TopologyLayer) is publicly available and we hope its availability will facilitate the use of persistent homology in deep learning and other gradient based applications.'
-summary: Topology applied to real world data using persistent homology has started to find applications within machine learning, including deep learning. It also presents a differentiable topology layer that computes persistent homology based on level set filtrations and edge-based filtrations.
+abstract: >
+  Topology applied to real world data using persistent homology has started to find applications within machine learning, including deep learning. We present a differentiable topology layer that computes persistent homology based on level set filtrations and edge-based filtrations. We present three novel applications: the topological layer can (i) regularize data reconstruction or the weights of machine learning models, (ii) construct a loss on the output of a deep generative network to incorporate topological priors, and (iii) perform topological adversarial attacks on deep networks trained with persistence features. The code (www.github.com/bruel-gabrielsson/TopologyLayer) is publicly available and we hope its availability will facilitate the use of persistent homology in deep learning and other gradient based applications.
+summary: >
+  Topology applied to real world data using persistent homology has started to find applications within machine learning, including deep learning. It also presents a differentiable topology layer that computes persistent homology based on level set filtrations and edge-based filtrations.
 link: https://arxiv.org/pdf/1905.12200
 links_alt:
 audit_status: raw

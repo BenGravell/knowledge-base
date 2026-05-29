@@ -1,0 +1,18 @@
+title: >
+  Finite-Time Bounds for Fitted Value Iteration
+algorithm:
+authors:
+  - Remi Munos
+  - Csaba Szepesvari
+year: 2008
+source: Journal of Machine Learning Research
+type: Journal Paper
+doi:
+arxiv_id:
+tags:
+abstract: ''
+summary: ''
+link: http://jmlr.org/papers/volume9/munos08a/munos08a.pdf
+links_alt:
+  - https://jmlr.org/papers/v9/munos08a.html
+audit_status: raw
