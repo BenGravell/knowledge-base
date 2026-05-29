@@ -1,6 +1,6 @@
 title: >
   Foam: A Tool for Spherical Approximation of Robot Geometry
-algorithm:
+algorithm: Foam
 authors:
   - Sai Coumar
   - Gilbert Chang

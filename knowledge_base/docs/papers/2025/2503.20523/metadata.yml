@@ -1,6 +1,6 @@
 title: >
   GAIA-2: A Controllable Multi-View Generative World Model for Autonomous Driving
-algorithm:
+algorithm: GAIA-2
 authors:
   - Lloyd Russell
   - Anthony Hu

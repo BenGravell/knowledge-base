@@ -1,6 +1,6 @@
 title: >
   Manifold Sampling via Entropy Maximization
-algorithm:
+algorithm: MASEM
 authors:
   - Cornelius V. Braun
   - Tilman Burghoff

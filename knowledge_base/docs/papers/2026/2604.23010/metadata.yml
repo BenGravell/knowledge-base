@@ -1,6 +1,6 @@
 title: >
   GenAssets: Generating in-the-wild 3D Assets in Latent Space
-algorithm:
+algorithm: GenAssets
 authors:
   - Ze Yang
   - Jingkang Wang

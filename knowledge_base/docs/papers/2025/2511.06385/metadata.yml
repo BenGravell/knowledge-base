@@ -1,6 +1,6 @@
 title: >
   From Demonstrations to Safe Deployment: Path-Consistent Safety Filtering for Diffusion Policies
-algorithm:
+algorithm: PACS
 authors:
   - Ralf Romer
   - Julian Balletshofer

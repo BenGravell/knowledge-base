@@ -1,6 +1,6 @@
 title: >
   ScenarioControl: Vision-Language Controllable Vectorized Latent Scenario Generation
-algorithm:
+algorithm: ScenarioControl
 authors:
   - Lili Gao
   - Yanbo Xu

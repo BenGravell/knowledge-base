@@ -1,6 +1,6 @@
 title: >
   Sensor2Sensor: Cross-Embodiment Sensor Conversion for Autonomous Driving
-algorithm:
+algorithm: Sensor2Sensor
 authors:
   - Jiahao Wang
   - Bo Sun

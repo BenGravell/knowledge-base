@@ -1,6 +1,6 @@
 title: >
   Iteratively Saturated Kalman Filtering
-algorithm:
+algorithm: ISKF
 authors:
   - Alan Yang
   - Stephen Boyd

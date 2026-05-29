@@ -1,6 +1,6 @@
 title: >
   SigLIP 2: Multilingual Vision-Language Encoders with Improved Semantic Understanding, Localization, and Dense Features
-algorithm:
+algorithm: SigLIP 2
 authors:
   - Michael Tschannen
   - Alexey Gritsenko

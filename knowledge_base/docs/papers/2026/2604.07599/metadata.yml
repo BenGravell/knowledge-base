@@ -1,6 +1,6 @@
 title: >
   SANDO: Safe Autonomous Trajectory Planning for Dynamic Unknown Environments
-algorithm:
+algorithm: SANDO
 authors:
   - Kota Kondo
   - Jesus Tordesillas

@@ -1,6 +1,6 @@
 title: >
   LeWorldModel: Stable End-to-End Joint-Embedding Predictive Architecture from Pixels
-algorithm:
+algorithm: LeWorldModel
 authors:
   - Lucas Maes
   - Quentin Le Lidec

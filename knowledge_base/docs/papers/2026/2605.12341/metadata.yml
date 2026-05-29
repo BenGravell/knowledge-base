@@ -1,6 +1,6 @@
 title: >
   Multi-Variable Conformal Prediction: Optimizing Prediction Sets without Data Splitting
-algorithm:
+algorithm: MCP
 authors:
   - Laura Lutzow
   - Simone Garatti

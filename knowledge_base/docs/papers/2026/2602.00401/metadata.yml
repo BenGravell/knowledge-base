@@ -1,6 +1,6 @@
 title: >
   ZEST: Zero-shot Embodied Skill Transfer for Athletic Robot Control
-algorithm:
+algorithm: ZEST
 authors:
   - Jean Pierre Sleiman
   - He Li

@@ -1,6 +1,6 @@
 title: >
   TruckDrive: Long-Range Autonomous Highway Driving Dataset
-algorithm:
+algorithm: TruckDrive
 authors:
   - Filippo Ghilotti
   - Edoardo Palladin

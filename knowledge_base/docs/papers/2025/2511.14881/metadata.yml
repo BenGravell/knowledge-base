@@ -1,6 +1,6 @@
 title: >
   SilverTorch: A Unified Model-based System to Democratize Large-Scale Recommendation on GPUs
-algorithm:
+algorithm: SilverTorch
 authors:
   - Bi Xue
   - Hong Wu

@@ -1,6 +1,6 @@
 title: >
   DYNUS: Uncertainty-aware Trajectory Planner in Dynamic Unknown Environments
-algorithm:
+algorithm: DYNUS
 authors:
   - Kota Kondo
   - Mason Peterson

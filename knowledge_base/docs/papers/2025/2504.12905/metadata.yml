@@ -1,6 +1,6 @@
 title: >
   Matrix-free Second-order Optimization of Gaussian Splats with Residual Sampling
-algorithm: LM
+algorithm:
 authors:
   - Hamza Pehlivan
   - Andrea Boscolo Camiletto

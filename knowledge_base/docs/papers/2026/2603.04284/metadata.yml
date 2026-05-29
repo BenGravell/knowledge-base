@@ -1,6 +1,6 @@
 title: >
   OmniPlanner: Universal Exploration and Inspection Path Planning across Robot Morphologies
-algorithm:
+algorithm: OmniPlanner
 authors:
   - Angelos Zacharia
   - Mihir Dharmadhikari

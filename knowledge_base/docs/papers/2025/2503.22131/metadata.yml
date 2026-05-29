@@ -1,6 +1,6 @@
 title: >
   Newton-PIPG: A Fast Hybrid Algorithm for Quadratic Programs in Optimal Control
-algorithm:
+algorithm: Newton-PIPG
 authors:
   - Dayou Luo
   - Yue Yu

@@ -1,6 +1,6 @@
 title: >
   MMaDA: Multimodal Large Diffusion Language Models
-algorithm:
+algorithm: MMaDA
 authors:
   - Ling Yang
   - Ye Tian

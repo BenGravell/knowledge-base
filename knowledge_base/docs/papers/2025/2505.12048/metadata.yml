@@ -1,6 +1,6 @@
 title: >
   Accelerating Diffusion-based Super-Resolution with Dynamic Time-Spatial Sampling
-algorithm:
+algorithm: TSS
 authors:
   - Rui Qin
   - Qijie Wang

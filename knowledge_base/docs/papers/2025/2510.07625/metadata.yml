@@ -1,6 +1,6 @@
 title: >
   GATO: GPU-Accelerated and Batched Trajectory Optimization for Scalable Edge Model Predictive Control
-algorithm:
+algorithm: GATO
 authors:
   - Alexander Du
   - Emre Adabag

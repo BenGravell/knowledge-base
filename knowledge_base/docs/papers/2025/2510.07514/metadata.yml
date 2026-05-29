@@ -1,6 +1,6 @@
 title: >
   HJCD-IK: GPU-Accelerated Inverse Kinematics through Batched Hybrid Jacobian Coordinate Descent
-algorithm:
+algorithm: HJCD-IK
 authors:
   - Cael Yasutake
   - Zachary Kingston

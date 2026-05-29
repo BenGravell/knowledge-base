@@ -1,6 +1,6 @@
 title: >
   LeJEPA: Provable and Scalable Self-Supervised Learning without the Heuristics
-algorithm:
+algorithm: LeJEPA
 authors:
   - Randall Balestriero
   - Yann LeCun

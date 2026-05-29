@@ -1,6 +1,6 @@
 title: >
   EvoClaw: Evaluating AI Agents on Continuous Software Evolution
-algorithm:
+algorithm: EvoClaw
 authors:
   - Gangda Deng
   - Zhaoling Chen

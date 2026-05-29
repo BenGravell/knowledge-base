@@ -1,6 +1,6 @@
 title: >
   Policy Gradient Adaptive Control for the LQR: Indirect and Direct Approaches
-algorithm:
+algorithm: PGAC
 authors:
   - Feiran Zhao
   - Alessandro Chiuso

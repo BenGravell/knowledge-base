@@ -1,6 +1,6 @@
 title: >
   TinySDP: Real Time Semidefinite Optimization for Certifiable and Agile Edge Robotics
-algorithm:
+algorithm: TinySDP
 authors:
   - Ishaan Mahajan
   - Jon Arrizabalaga

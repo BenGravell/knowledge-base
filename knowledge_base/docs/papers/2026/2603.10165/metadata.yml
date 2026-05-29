@@ -1,6 +1,6 @@
 title: >
   OpenClaw-RL: Train Any Agent Simply by Talking
-algorithm:
+algorithm: OpenClaw-RL
 authors:
   - Yinjie Wang
   - Xuyang Chen

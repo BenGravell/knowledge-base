@@ -1,6 +1,6 @@
 title: >
   Robust and Efficient MuJoCo-based Model Predictive Control via Web of Affine Spaces Derivatives
-algorithm:
+algorithm: WASP
 authors:
   - Chen Liang
   - Daniel Rakita

@@ -1,6 +1,6 @@
 title: >
   World-Gymnast: Training Robots with Reinforcement Learning in a World Model
-algorithm:
+algorithm: World-Gymnast
 authors:
   - Ansh Kumar Sharma
   - Yixiang Sun

@@ -1,6 +1,6 @@
 title: >
   MIGHTY: Hermite Spline-based Efficient Trajectory Planning
-algorithm:
+algorithm: MIGHTY
 authors:
   - Kota Kondo
   - Yuwei Wu
