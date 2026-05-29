@@ -1,5 +1,4 @@
-title: >
-  Perceive, Predict, and Plan: Safe Motion Planning Through Interpretable Semantic Representations
+title: "Perceive, Predict, and Plan: Safe Motion Planning through Interpretable Semantic Representations"
 algorithm:
 authors:
   - Abbas Sadat
@@ -14,8 +13,7 @@ type: ''
 doi:
 arxiv_id: "2008.05930"
 tags:
-abstract: >
-  In this paper we propose a novel end-to-end learnable network that performs joint perception, prediction and motion planning for self-driving vehicles and produces interpretable intermediate representations. Unlike existing neural motion planners, our motion planning costs are consistent with our perception and prediction estimates. This is achieved by a novel differentiable semantic occupancy representation that is explicitly used as cost by the motion planning process. Our network is learned end-to-end from human demonstrations. The experiments in a large-scale manual-driving dataset and closed-loop simulation show that the proposed model significantly outperforms state-of-the-art planners in imitating the human behaviors while producing much safer trajectories.
+abstract: In this paper we propose a novel end-to-end learnable network that performs joint perception, prediction and motion planning for self-driving vehicles and produces interpretable intermediate representations. Unlike existing neural motion planners, our motion planning costs are consistent with our perception and prediction estimates. This is achieved by a novel differentiable semantic occupancy representation that is explicitly used as cost by the motion planning process. Our network is learned end-to-end from human demonstrations. The experiments in a large-scale manual-driving dataset and closed-loop simulation show that the proposed model significantly outperforms state-of-the-art planners in imitating the human behaviors while producing much safer trajectories.
 summary: ''
 link: https://arxiv.org/pdf/2008.05930
 links_alt:

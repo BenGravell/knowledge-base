@@ -67,7 +67,7 @@ authors:
   - David Farhi
   - Liam Fedus
   - Niko Felix
-  - SimÃ³n Posada Fishman
+  - Simón Posada Fishman
   - Juston Forte
   - Isabella Fulford
   - Leo Gao
@@ -110,7 +110,7 @@ authors:
   - Billie Jonn
   - Heewoo Jun
   - Tomer Kaftan
-  - Åukasz Kaiser
+  - Łukasz Kaiser
   - Ali Kamali
   - Ingmar Kanitscheider
   - Nitish Shirish Keskar
@@ -123,7 +123,7 @@ authors:
   - Jamie Kiros
   - Matt Knight
   - Daniel Kokotajlo
-  - Åukasz Kondraciuk
+  - Łukasz Kondraciuk
   - Andrew Kondrich
   - Aris Konstantinidis
   - Kyle Kosic
@@ -168,7 +168,7 @@ authors:
   - Tong Mu
   - Mira Murati
   - Oleg Murk
-  - David MÃ©ly
+  - David Mély
   - Ashvin Nair
   - Reiichiro Nakano
   - Rajeev Nayak
@@ -244,7 +244,7 @@ authors:
   - Preston Tuggle
   - Nick Turley
   - Jerry Tworek
-  - Juan Felipe CerÃ³n Uribe
+  - Juan Felipe Cerón Uribe
   - Andrea Vallone
   - Arun Vijayvergiya
   - Chelsea Voss
@@ -288,8 +288,7 @@ type: ''
 doi:
 arxiv_id: "2303.08774"
 tags:
-abstract: >
-  We report the development of GPT-4, a large-scale, multimodal model which can accept image and text inputs and produce text outputs. While less capable than humans in many real-world scenarios, GPT-4 exhibits human-level performance on various professional and academic benchmarks, including passing a simulated bar exam with a score around the top 10% of test takers. GPT-4 is a Transformer-based model pre-trained to predict the next token in a document. The post-training alignment process results in improved performance on measures of factuality and adherence to desired behavior. A core component of this project was developing infrastructure and optimization methods that behave predictably across a wide range of scales. This allowed us to accurately predict some aspects of GPT-4's performance based on models trained with no more than 1/1,000th the compute of GPT-4.
+abstract: We report the development of GPT-4, a large-scale, multimodal model which can accept image and text inputs and produce text outputs. While less capable than humans in many real-world scenarios, GPT-4 exhibits human-level performance on various professional and academic benchmarks, including passing a simulated bar exam with a score around the top 10% of test takers. GPT-4 is a Transformer-based model pre-trained to predict the next token in a document. The post-training alignment process results in improved performance on measures of factuality and adherence to desired behavior. A core component of this project was developing infrastructure and optimization methods that behave predictably across a wide range of scales. This allowed us to accurately predict some aspects of GPT-4's performance based on models trained with no more than 1/1,000th the compute of GPT-4.
 summary: ''
 link: https://arxiv.org/pdf/2303.08774
 links_alt:

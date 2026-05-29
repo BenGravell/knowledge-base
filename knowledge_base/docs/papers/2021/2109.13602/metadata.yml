@@ -1,12 +1,11 @@
-title: >
-  SafetyNet: Safe planning for real-world self-driving vehicles using machine-learned policies
+title: "SafetyNet: Safe Planning for Real-world Self-driving Vehicles Using Machine-learned Policies"
 algorithm:
 authors:
   - Matt Vitelli
   - Yan Chang
   - Yawei Ye
-  - Maciej WoÅczyk
-  - BÅaÅ¼ej OsiÅski
+  - Maciej Wołczyk
+  - Błażej Osiński
   - Moritz Niendorf
   - Hugo Grimmett
   - Qiangui Huang
@@ -18,8 +17,7 @@ type: ''
 doi:
 arxiv_id: "2109.13602"
 tags:
-abstract: >
-  In this paper we present the first safe system for full control of self-driving vehicles trained from human demonstrations and deployed in challenging, real-world, urban environments. Current industry-standard solutions use rule-based systems for planning. Although they perform reasonably well in common scenarios, the engineering complexity renders this approach incompatible with human-level performance. On the other hand, the performance of machine-learned (ML) planning solutions can be improved by simply adding more exemplar data. However, ML methods cannot offer safety guarantees and sometimes behave unpredictably. To combat this, our approach uses a simple yet effective rule-based fallback layer that performs sanity checks on an ML planner's decisions (e.g. avoiding collision, assuring physical feasibility). This allows us to leverage ML to handle complex situations while still assuring the safety, reducing ML planner-only collisions by 95%. We train our ML planner on 300 hours of expert driving demonstrations using imitation learning and deploy it along with the fallback layer in downtown San Francisco, where it takes complete control of a real vehicle and navigates a wide variety of challenging urban driving scenarios.
+abstract: In this paper we present the first safe system for full control of self-driving vehicles trained from human demonstrations and deployed in challenging, real-world, urban environments. Current industry-standard solutions use rule-based systems for planning. Although they perform reasonably well in common scenarios, the engineering complexity renders this approach incompatible with human-level performance. On the other hand, the performance of machine-learned (ML) planning solutions can be improved by simply adding more exemplar data. However, ML methods cannot offer safety guarantees and sometimes behave unpredictably. To combat this, our approach uses a simple yet effective rule-based fallback layer that performs sanity checks on an ML planner's decisions (e.g. avoiding collision, assuring physical feasibility). This allows us to leverage ML to handle complex situations while still assuring the safety, reducing ML planner-only collisions by 95%. We train our ML planner on 300 hours of expert driving demonstrations using imitation learning and deploy it along with the fallback layer in downtown San Francisco, where it takes complete control of a real vehicle and navigates a wide variety of challenging urban driving scenarios.
 summary: ''
 link: https://arxiv.org/pdf/2109.13602
 links_alt:

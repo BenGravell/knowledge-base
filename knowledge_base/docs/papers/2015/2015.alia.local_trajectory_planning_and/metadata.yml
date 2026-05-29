@@ -1,5 +1,4 @@
-title: >
-  Local trajectory planning and tracking of autonomous vehicles, using clothoid tentacles method
+title: "Local Trajectory Planning and Tracking of Autonomous Vehicles, Using Clothoid Tentacles Method"
 algorithm:
 authors:
   - Chebly Alia
@@ -7,13 +6,12 @@ authors:
   - Talj Reine
   - Charara Ali
 year: 2015
-source: 2015 IEEE Intelligent Vehicles Symposium (IV)
+source: IEEE Intelligent Vehicles Symposium (IV)
 type: Conference Paper
 doi: 10.1109/IVS.2015.7225762
 arxiv_id:
 tags:
-abstract: >
-  In general, autonomous navigation requires three key steps, the perception of the environment surrounding the vehicle, the trajectory planning and the actuators control. Numerous works on the localization, perception, generation of occupancy grids and control of vehicles were developed within the ASER team at Heudiasyc laboratory. The work presented in this paper covers, essentially, trajectory planning and is based on the results of these works. The challenge is to avoid static and dynamic obstacles at high speed, using real time algorithms. The planning method developed in this work uses an empirical approach for local path planning. This approach consists on drawing clothoid tentacles in the ego-centered reference frame related to the vehicle. An occupancy grid represents the environment surrounding the vehicle and is considered to be ego-centered around it. Using the information of the occupancy grid, each tentacle is classified as navigable or not navigable. Among the navigable tentacles, only one tentacle is chosen as the vehicle reference trajectory using several criteria. The chosen tentacle is then applied to the vehicle using a lateral controller based on Immersion and Invariance principle (I&I).
+abstract: In general, autonomous navigation requires three key steps, the perception of the environment surrounding the vehicle, the trajectory planning and the actuators control. Numerous works on the localization, perception, generation of occupancy grids and control of vehicles were developed within the ASER team at Heudiasyc laboratory. The work presented in this paper covers, essentially, trajectory planning and is based on the results of these works. The challenge is to avoid static and dynamic obstacles at high speed, using real time algorithms. The planning method developed in this work uses an empirical approach for local path planning. This approach consists on drawing clothoid tentacles in the ego-centered reference frame related to the vehicle. An occupancy grid represents the environment surrounding the vehicle and is considered to be ego-centered around it. Using the information of the occupancy grid, each tentacle is classified as navigable or not navigable. Among the navigable tentacles, only one tentacle is chosen as the vehicle reference trajectory using several criteria. The chosen tentacle is then applied to the vehicle using a lateral controller based on Immersion and Invariance principle (I&I).
 summary: ''
 link: https://doi.org/10.1109/IVS.2015.7225762
 links_alt:

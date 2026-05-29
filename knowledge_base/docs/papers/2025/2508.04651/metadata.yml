@@ -28,8 +28,8 @@ authors:
   - Ondrej Skopek
   - Rafael Ferrer
   - Savvas Petridis
-  - ZalÃ¡n Borsos
-  - Ãaron van den Oord
+  - Zalán Borsos
+  - Äaron van den Oord
   - Douglas Eck
   - Eli Collins
   - Jason Baldridge
@@ -43,8 +43,7 @@ type: ''
 doi:
 arxiv_id: "2508.04651"
 tags:
-abstract: >
-  We introduce a new class of generative models for music called live music models that produce a continuous stream of music in real-time with synchronized user control. We release Magenta RealTime, an open-weights live music model that can be steered using text or audio prompts to control acoustic style. On automatic metrics of music quality, Magenta RealTime outperforms other open-weights music generation models, despite using fewer parameters and offering first-of-its-kind live generation capabilities. We also release Lyria RealTime, an API-based model with extended controls, offering access to our most powerful model with wide prompt coverage. These models demonstrate a new paradigm for AI-assisted music creation that emphasizes human-in-the-loop interaction for live music performance.
+abstract: We introduce a new class of generative models for music called live music models that produce a continuous stream of music in real-time with synchronized user control. We release Magenta RealTime, an open-weights live music model that can be steered using text or audio prompts to control acoustic style. On automatic metrics of music quality, Magenta RealTime outperforms other open-weights music generation models, despite using fewer parameters and offering first-of-its-kind live generation capabilities. We also release Lyria RealTime, an API-based model with extended controls, offering access to our most powerful model with wide prompt coverage. These models demonstrate a new paradigm for AI-assisted music creation that emphasizes human-in-the-loop interaction for live music performance.
 summary: ''
 link: https://arxiv.org/pdf/2508.04651
 links_alt:

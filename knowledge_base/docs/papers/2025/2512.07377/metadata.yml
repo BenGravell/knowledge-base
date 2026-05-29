@@ -1,5 +1,4 @@
-title: >
-  Control and Reinforcement Learning through the Lens of Optimization: An Algorithmic Perspective
+title: 'Control and Reinforcement Learning through the Lens of Optimization: An Algorithmic Perspective'
 algorithm:
 authors:
   - Tolga Ok
@@ -12,8 +11,7 @@ type: ''
 doi:
 arxiv_id: "2512.07377"
 tags:
-abstract: >
-  The connection between control algorithms for Markov decision processes and optimization algorithms has been implicitly and explicitly exploited since the introduction of dynamic programming algorithm by Bellman in the 1950s. Recently, this connection has attracted a lot of attention for developing new control algorithms inspired by well-established optimization algorithms. In this paper, we make this analogy explicit across four problem classes with a unified solution characterization. This novel framework, in turn, allows for a systematic transformation of algorithms from one domain to the other. In particular, we identify equivalent optimization and control algorithms that have already been pointed out in the existing literature, but mostly in a scattered way. We also discuss the issues arising in providing theoretical convergence guarantees for these new control algorithms and provide simple yet effective techniques to solve them. The provided framework and techniques then lay out a concrete methodology for developing new convergent control algorithms.
+abstract: The connection between control algorithms for Markov decision processes and optimization algorithms has been implicitly and explicitly exploited since the introduction of dynamic programming algorithm by Bellman in the 1950s. Recently, this connection has attracted a lot of attention for developing new control algorithms inspired by well-established optimization algorithms. In this paper, we make this analogy explicit across four problem classes with a unified solution characterization. This novel framework, in turn, allows for a systematic transformation of algorithms from one domain to the other. In particular, we identify equivalent optimization and control algorithms that have already been pointed out in the existing literature, but mostly in a scattered way. We also discuss the issues arising in providing theoretical convergence guarantees for these new control algorithms and provide simple yet effective techniques to solve them. The provided framework and techniques then lay out a concrete methodology for developing new convergent control algorithms.
 summary: ''
 link: https://arxiv.org/pdf/2512.07377
 links_alt:

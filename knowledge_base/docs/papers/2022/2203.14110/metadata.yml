@@ -1,5 +1,4 @@
-title: >
-  Correct-By-Construction Design of Adaptive Cruise Control with Control Barrier Functions Under Safety and Regulatory Constraints
+title: "Correct-By-Construction Design of Adaptive Cruise Control with Control Barrier Functions under Safety and Regulatory Constraints"
 algorithm:
 authors:
   - Muhammad Waqas
@@ -12,8 +11,7 @@ type: ''
 doi:
 arxiv_id: "2203.14110"
 tags:
-abstract: >
-  The safety-critical nature of adaptive cruise control (ACC) systems calls for systematic design procedures, e.g., based on formal methods or control barrier functions (CBFs), to provide strong guarantees of safety and performance under all driving conditions. However, existing approaches have mostly focused on fully verified solutions under smooth traffic conditions, with the exception of stop-and-go scenarios. Systematic methods for high-performance ACC design under safety and regulatory constraints like traffic signals are still elusive. A challenge for correct-by-construction approaches based on CBFs stems from the need to capture the constraints imposed by traffic signals, which lead to candidate time-varying CBFs (TV-CBFs) with finite jump discontinuities in bounded time intervals.
+abstract: The safety-critical nature of adaptive cruise control (ACC) systems calls for systematic design procedures, e.g., based on formal methods or control barrier functions (CBFs), to provide strong guarantees of safety and performance under all driving conditions. However, existing approaches have mostly focused on fully verified solutions under smooth traffic conditions, with the exception of stop-and-go scenarios. Systematic methods for high-performance ACC design under safety and regulatory constraints like traffic signals are still elusive. A challenge for correct-by-construction approaches based on CBFs stems from the need to capture the constraints imposed by traffic signals, which lead to candidate time-varying CBFs (TV-CBFs) with finite jump discontinuities in bounded time intervals.
 summary: ''
 link: https://arxiv.org/pdf/2203.14110
 links_alt:

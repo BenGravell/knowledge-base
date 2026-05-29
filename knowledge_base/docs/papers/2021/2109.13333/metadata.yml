@@ -1,11 +1,10 @@
-title: >
-  Urban Driver: Learning to Drive from Real-world Demonstrations Using Policy Gradients
+title: 'Urban Driver: Learning to Drive from Real-world Demonstrations Using Policy Gradients'
 algorithm:
 authors:
   - Oliver Scheel
   - Luca Bergamini
-  - Maciej WoÅczyk
-  - BÅaÅ¼ej OsiÅski
+  - Maciej Wołczyk
+  - Błażej Osiński
   - Peter Ondruska
 year: 2021
 source:
@@ -13,8 +12,7 @@ type: ''
 doi:
 arxiv_id: "2109.13333"
 tags:
-abstract: >
-  In this work we are the first to present an offline policy gradient method for learning imitative policies for complex urban driving from a large corpus of real-world demonstrations. This is achieved by building a differentiable data-driven simulator on top of perception outputs and high-fidelity HD maps of the area. It allows us to synthesize new driving experiences from existing demonstrations using mid-level representations. Using this simulator we then train a policy network in closed-loop employing policy gradients. We train our proposed method on 100 hours of expert demonstrations on urban roads and show that it learns complex driving policies that generalize well and can perform a variety of driving maneuvers. We demonstrate this in simulation as well as deploy our model to self-driving vehicles in the real-world. Our method outperforms previously demonstrated state-of-the-art for urban driving scenarios -- all this without the need for complex state perturbations or collecting additional on-policy data during training. We make code and data publicly available.
+abstract: In this work we are the first to present an offline policy gradient method for learning imitative policies for complex urban driving from a large corpus of real-world demonstrations. This is achieved by building a differentiable data-driven simulator on top of perception outputs and high-fidelity HD maps of the area. It allows us to synthesize new driving experiences from existing demonstrations using mid-level representations. Using this simulator we then train a policy network in closed-loop employing policy gradients. We train our proposed method on 100 hours of expert demonstrations on urban roads and show that it learns complex driving policies that generalize well and can perform a variety of driving maneuvers. We demonstrate this in simulation as well as deploy our model to self-driving vehicles in the real-world. Our method outperforms previously demonstrated state-of-the-art for urban driving scenarios -- all this without the need for complex state perturbations or collecting additional on-policy data during training. We make code and data publicly available.
 summary: ''
 link: https://arxiv.org/pdf/2109.13333
 links_alt:

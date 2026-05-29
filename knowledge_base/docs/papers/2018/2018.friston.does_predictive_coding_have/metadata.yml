@@ -1,4 +1,4 @@
-title: Does predictive coding have a future?
+title: "Does Predictive Coding Have a Future?"
 algorithm:
 authors:
   - Karl Friston
@@ -8,8 +8,7 @@ type: Journal Paper
 doi: 10.1038/s41593-018-0200-7
 arxiv_id:
 tags:
-abstract: >
-  In the 20th century we thought the brain extracted knowledge from sensations. The 21st century witnessed a &#8216;strange inversion&#8217;, in which the brain became an organ of inference, actively constructing explanations for what&#8217;s going on &#8216;out there&#8217;, beyond its sensory epithelia. One paper played a key role in this paradigm shift.
+abstract: In the 20th century we thought the brain extracted knowledge from sensations. The 21st century witnessed a ‘strange inversion’, in which the brain became an organ of inference, actively constructing explanations for what’s going on ‘out there’, beyond its sensory epithelia. One paper played a key role in this paradigm shift.
 summary: ''
 link: https://www.nature.com/articles/s41593-018-0200-7
 links_alt:

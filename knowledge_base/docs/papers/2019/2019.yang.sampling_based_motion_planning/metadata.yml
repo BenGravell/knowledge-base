@@ -7,14 +7,12 @@ authors:
   - Calin Belta
   - Roberto Tron
 year: 2019
-source: >
-  Proceedings of the 2019 3rd International Conference on Automation, Control and Robots
+source: Proceedings of the 3rd International Conference on Automation, Control and Robots
 type: Conference Paper
 doi: 10.1145/3365265.3365282
 arxiv_id:
 tags:
-abstract: >
-  Robot motion planning is central to real-world autonomous applications, such as self-driving cars, persistence surveillance, and robotic arm manipulation. One challenge in motion planning is generating control signals for nonlinear systems that result in obstacle free paths through dynamic environments. In this paper, we propose Control Barrier Function guided Rapidly-exploring Random Trees (CBF-RRT), a sampling-based motion planning algorithm for continuoustime nonlinear systems in dynamic environments. The algorithm focuses on two objectives: efficiently generating feasible controls that steer the system toward a goal region, and handling environments with dynamical obstacles in continuous time. We formulate the control synthesis problem as a Quadratic Program (QP) that enforces Control Barrier Function (CBF) constraints to achieve obstacle avoidance. Additionally, CBF-RRT does not require nearest neighbor or explicit collision checks during sampling.
+abstract: 'Robot motion planning is central to real-world autonomous applications, such as self-driving cars, persistence surveillance, and robotic arm manipulation. One challenge in motion planning is generating control signals for nonlinear systems that result in obstacle free paths through dynamic environments. In this paper, we propose Control Barrier Function guided Rapidly-exploring Random Trees (CBF-RRT), a sampling-based motion planning algorithm for continuoustime nonlinear systems in dynamic environments. The algorithm focuses on two objectives: efficiently generating feasible controls that steer the system toward a goal region, and handling environments with dynamical obstacles in continuous time. We formulate the control synthesis problem as a Quadratic Program (QP) that enforces Control Barrier Function (CBF) constraints to achieve obstacle avoidance. Additionally, CBF-RRT does not require nearest neighbor or explicit collision checks during sampling.'
 summary: ''
 link: https://dl.acm.org/doi/10.1145/3365265.3365282
 links_alt:

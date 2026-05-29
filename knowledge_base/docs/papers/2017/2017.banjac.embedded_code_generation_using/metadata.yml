@@ -1,4 +1,4 @@
-title: Embedded code generation using the OSQP solver
+title: "Embedded Code Generation Using the OSQP Solver"
 algorithm:
 authors:
   - Goran Banjac
@@ -8,13 +8,12 @@ authors:
   - Alberto Bemporad
   - Stephen Boyd
 year: 2017
-source: 2017 IEEE 56th Annual Conference on Decision and Control (CDC)
+source: IEEE 56th Annual Conference on Decision and Control (CDC)
 type: Conference Paper
 doi: 10.1109/CDC.2017.8263928
 arxiv_id:
 tags:
-abstract: >
-  We introduce a code generation software package that accepts a parametric description of a quadratic program (QP) as input and generates tailored C code that compiles into a fast and reliable optimization solver for the QP that can run on embedded platforms. The generated code is based on OSQP, a novel open-source operator splitting solver for quadratic programming. Our software supports matrix factorization caching and warm starting, and allows updates of the problem parameters during runtime. The generated C code is library-free and has a very small compiled footprint. Examples arising in real-world applications show that the generated code outperforms state-of-the-art embedded and desktop QP solvers.
+abstract: We introduce a code generation software package that accepts a parametric description of a quadratic program (QP) as input and generates tailored C code that compiles into a fast and reliable optimization solver for the QP that can run on embedded platforms. The generated code is based on OSQP, a novel open-source operator splitting solver for quadratic programming. Our software supports matrix factorization caching and warm starting, and allows updates of the problem parameters during runtime. The generated C code is library-free and has a very small compiled footprint. Examples arising in real-world applications show that the generated code outperforms state-of-the-art embedded and desktop QP solvers.
 summary: ''
 link: https://doi.org/10.1109/CDC.2017.8263928
 links_alt:

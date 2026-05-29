@@ -1,4 +1,4 @@
-title: Adaptive iterative closest keypoint
+title: "Adaptive Iterative Closest Keypoint"
 algorithm:
 authors:
   - Johan Ekekrantz
@@ -6,13 +6,12 @@ authors:
   - John Folkesson
   - Patric Jensfelt
 year: 2013
-source: 2013 European Conference on Mobile Robots
+source: European Conference on Mobile Robots
 type: Conference Paper
 doi: 10.1109/ECMR.2013.6698824
 arxiv_id:
 tags:
-abstract: >
-  Finding accurate correspondences between overlapping 3D views is crucial for many robotic applications, from multi-view 3D object recognition to SLAM. This step, often referred to as view registration, plays a key role in determining the overall system performance. In this paper, we propose a fast and simple method for registering RGB-D data, building on the principle of the Iterative Closest Point (ICP) algorithm. In contrast to ICP, our method exploits both point position and visual appearance and is able to smoothly transition the weighting between them with an adaptive metric. This results in robust initial registration based on appearance and accurate final registration using 3D points. Using keypoint clustering we are able to utilize a non exhaustive search strategy, reducing runtime of the algorithm significantly. We show through an evaluation on an established benchmark that the method significantly outperforms current methods in both robustness and precision.
+abstract: Finding accurate correspondences between overlapping 3D views is crucial for many robotic applications, from multi-view 3D object recognition to SLAM. This step, often referred to as view registration, plays a key role in determining the overall system performance. In this paper, we propose a fast and simple method for registering RGB-D data, building on the principle of the Iterative Closest Point (ICP) algorithm. In contrast to ICP, our method exploits both point position and visual appearance and is able to smoothly transition the weighting between them with an adaptive metric. This results in robust initial registration based on appearance and accurate final registration using 3D points. Using keypoint clustering we are able to utilize a non exhaustive search strategy, reducing runtime of the algorithm significantly. We show through an evaluation on an established benchmark that the method significantly outperforms current methods in both robustness and precision.
 summary: ''
 link: https://doi.org/10.1109/ECMR.2013.6698824
 links_alt:

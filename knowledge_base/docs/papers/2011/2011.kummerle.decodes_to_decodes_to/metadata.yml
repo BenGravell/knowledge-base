@@ -1,0 +1,19 @@
+title: "> Decodes to '>', < Decodes to '<'"
+algorithm:
+authors:
+  - Rainer Kummerle
+  - Giorgio Grisetti
+  - Hauke Strasdat
+  - Kurt Konolige
+  - Wolfram Burgard
+year: 2011
+source: IEEE International Conference on Robotics and Automation
+type: Conference Paper
+doi: 10.1109/ICRA.2011.5979949
+arxiv_id:
+tags:
+abstract: Many popular problems in robotics and computer vision including various types of simultaneous localization and mapping (SLAM) or bundle adjustment (BA) can be phrased as least squares optimization of an error function that can be represented by a graph. This paper describes the general structure of such problems and presents g 2 o, an open-source C++ framework for optimizing graph-based nonlinear error functions. Our system has been designed to be easily extensible to a wide range of problems and a new problem typically can be specified in a few lines of code. The current implementation provides solutions to several variants of SLAM and BA. We provide evaluations on a wide range of real-world and simulated datasets. The results demonstrate that while being general g 2 o offers a performance comparable to implementations of state of-the-art approaches for the specific problems.
+summary: ''
+link: https://doi.org/10.1109/ICRA.2011.5979949
+links_alt:
+audit_status: raw

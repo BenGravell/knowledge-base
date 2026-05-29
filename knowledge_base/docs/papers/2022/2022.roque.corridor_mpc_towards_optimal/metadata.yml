@@ -6,13 +6,12 @@ authors:
   - L. Lindemann
   - D. V. Dimarogonas
 year: 2022
-source: 2022 American Control Conference (ACC)
+source: American Control Conference (ACC)
 type: Conference Paper
 doi: 10.23919/ACC53348.2022.9867764
 arxiv_id:
 tags:
-abstract: >
-  We present a framework for safe and optimal trajectory tracking by combining Model Predictive Control and Sampled-Data Control Barrier functions. This framework, which we call Corridor MPC, safely and robustly keeps the state of the system within a corridor that is defined as a permissible error around a reference trajectory. By incorporating Sampled-Data Control Barrier functions into an MPC framework, we guarantee safety for the continuous-time system in the sense of staying within the corridor and practical stability in the sense of converging to the reference trajectory. The proposed framework is evaluated with a free-flyer kinematics system.
+abstract: We present a framework for safe and optimal trajectory tracking by combining Model Predictive Control and Sampled-Data Control Barrier functions. This framework, which we call Corridor MPC, safely and robustly keeps the state of the system within a corridor that is defined as a permissible error around a reference trajectory. By incorporating Sampled-Data Control Barrier functions into an MPC framework, we guarantee safety for the continuous-time system in the sense of staying within the corridor and practical stability in the sense of converging to the reference trajectory. The proposed framework is evaluated with a free-flyer kinematics system.
 summary: ''
 link: https://doi.org/10.23919/ACC53348.2022.9867764
 links_alt:

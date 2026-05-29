@@ -7,14 +7,12 @@ authors:
   - Huan Xu
   - Richard M. Murray
 year: 2011
-source: >
-  Proceedings of the 14th international conference on Hybrid systems: computation and control
+source: 'Proceedings of the 14th international conference on Hybrid systems: computation and control'
 type: Conference Paper
 doi: 10.1145/1967701.1967747
 arxiv_id:
 tags:
-abstract: >
-  This paper describes TuLiP, a Python-based software toolbox for the synthesis of embedded control software that is provably correct with respect to an expressive subset of linear temporal logic (LTL) specifications. TuLiP combines routines for (1) finite state abstraction of control systems, (2) digital design synthesis from LTL specifications, and (3) receding horizon planning. The underlying digital design synthesis routine treats the environment as adversary; hence, the resulting controller is guaranteed to be correct for any admissible environment profile. TuLiP applies the receding horizon framework, allowing the synthesis problem to be broken into a set of smaller problems, and consequently alleviating the computational complexity of the synthesis procedure, while preserving the correctness guarantee.
+abstract: This paper describes TuLiP, a Python-based software toolbox for the synthesis of embedded control software that is provably correct with respect to an expressive subset of linear temporal logic (LTL) specifications. TuLiP combines routines for (1) finite state abstraction of control systems, (2) digital design synthesis from LTL specifications, and (3) receding horizon planning. The underlying digital design synthesis routine treats the environment as adversary; hence, the resulting controller is guaranteed to be correct for any admissible environment profile. TuLiP applies the receding horizon framework, allowing the synthesis problem to be broken into a set of smaller problems, and consequently alleviating the computational complexity of the synthesis procedure, while preserving the correctness guarantee.
 summary: ''
 link: https://dl.acm.org/doi/10.1145/1967701.1967747
 links_alt:

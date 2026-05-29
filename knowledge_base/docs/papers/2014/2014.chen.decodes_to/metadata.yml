@@ -1,0 +1,19 @@
+title: "& Decodes to '&'"
+algorithm:
+authors:
+  - Cheng Chen
+  - Yuqing He
+  - Chunguang Bu
+  - Jianda Han
+  - Xuebo Zhang
+year: 2014
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA.2014.6907759
+arxiv_id:
+tags:
+abstract: To generate local trajectory between initial states and target states for autonomous vehicles, a feasible trajectory generation algorithm based on quartic Bézier curve is proposed. The problem of trajectory generation is firstly separated into generating continuous and bounded curvature profile to shape the trajectory and generating linear velocity profile to execute the trajectory. The curvature profile generation is further converted to an optimization problem with only 3 parameters owing to the specific properties of quartic Bézier curve. Sequential quadratic programming is employed to find optimal solution with respect to specific objective function. To avoid sideslip and ensure velocity-continuity and acceleration limits, the framework of linear velocity profile generation is also proposed. A simple profile with constant acceleration is also provided as an example. Simulation results on lane keeping and changing and path following demonstrate the capability and the real-time performance of the proposed algorithm.
+summary: ''
+link: https://doi.org/10.1109/ICRA.2014.6907759
+links_alt:
+audit_status: raw

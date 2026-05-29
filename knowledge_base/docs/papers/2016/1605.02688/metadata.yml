@@ -1,4 +1,4 @@
-title: 'Theano: A Python framework for fast computation of mathematical expressions'
+title: "Theano: A Python Framework for Fast Computation of Mathematical Expressions"
 algorithm:
 authors:
   - The Theano Development Team
@@ -8,7 +8,7 @@ authors:
   - Christof Angermueller
   - Dzmitry Bahdanau
   - Nicolas Ballas
-  - FrÃ©dÃ©ric Bastien
+  - Frédéric Bastien
   - Justin Bayer
   - Anatoly Belikov
   - Alexander Belopolsky
@@ -20,15 +20,15 @@ authors:
   - Nicolas Bouchard
   - Nicolas Boulanger-Lewandowski
   - Xavier Bouthillier
-  - Alexandre de BrÃ©bisson
+  - Alexandre de Brébisson
   - Olivier Breuleux
   - Pierre-Luc Carrier
   - Kyunghyun Cho
   - Jan Chorowski
   - Paul Christiano
   - Tim Cooijmans
-  - Marc-Alexandre CÃ´tÃ©
-  - Myriam CÃ´tÃ©
+  - Marc-Alexandre Côté
+  - Myriam Côté
   - Aaron Courville
   - Yann N. Dauphin
   - Olivier Delalleau
@@ -36,7 +36,7 @@ authors:
   - Guillaume Desjardins
   - Sander Dieleman
   - Laurent Dinh
-  - MÃ©lanie Ducoffe
+  - Mélanie Ducoffe
   - Vincent Dumoulin
   - Samira Ebrahimi Kahou
   - Dumitru Erhan
@@ -50,21 +50,21 @@ authors:
   - Philippe Hamel
   - Iban Harlouchet
   - Jean-Philippe Heng
-  - BalÃ¡zs Hidasi
+  - Balázs Hidasi
   - Sina Honari
   - Arjun Jain
-  - SÃ©bastien Jean
+  - Sébastien Jean
   - Kai Jia
   - Mikhail Korobov
   - Vivek Kulkarni
   - Alex Lamb
   - Pascal Lamblin
   - Eric Larsen
-  - CÃ©sar Laurent
+  - César Laurent
   - Sean Lee
   - Simon Lefrancois
   - Simon Lemieux
-  - Nicholas LÃ©onard
+  - Nicholas Léonard
   - Zhouhan Lin
   - Jesse A. Livezey
   - Cory Lorenz
@@ -74,7 +74,7 @@ authors:
   - Olivier Mastropietro
   - Robert T. McGibbon
   - Roland Memisevic
-  - Bart van MerriÃ«nboer
+  - Bart van Merriënboer
   - Vincent Michalski
   - Mehdi Mirza
   - Alberto Orlandi
@@ -88,18 +88,18 @@ authors:
   - Markus Roth
   - Peter Sadowski
   - John Salvatier
-  - FranÃ§ois Savard
-  - Jan SchlÃ¼ter
+  - François Savard
+  - Jan Schlüter
   - John Schulman
   - Gabriel Schwartz
   - Iulian Vlad Serban
   - Dmitriy Serdyuk
   - Samira Shabanian
-  - Ãtienne Simon
+  - Étienne Simon
   - Sigurd Spieckermann
   - S. Ramana Subramanyam
   - Jakub Sygnowski
-  - JÃ©rÃ©mie Tanguay
+  - Jérémie Tanguay
   - Gijs van Tulder
   - Joseph Turian
   - Sebastian Urban
@@ -120,8 +120,7 @@ type: ''
 doi:
 arxiv_id: "1605.02688"
 tags:
-abstract: >
-  Theano is a Python library that allows to define, optimize, and evaluate mathematical expressions involving multi-dimensional arrays efficiently. Since its introduction, it has been one of the most used CPU and GPU mathematical compilers - especially in the machine learning community - and has shown steady performance improvements. Theano is being actively and continuously developed since 2008, multiple frameworks have been built on top of it and it has been used to produce many state-of-the-art machine learning models. The present article is structured as follows. Section I provides an overview of the Theano software and its community. Section II presents the principal features of Theano and how to use them, and compares them with other similar projects. Section III focuses on recently-introduced functionalities and improvements. Section IV compares the performance of Theano against Torch7 and TensorFlow on several machine learning models. Section V discusses current limitations of Theano and potential ways of improving it.
+abstract: Theano is a Python library that allows to define, optimize, and evaluate mathematical expressions involving multi-dimensional arrays efficiently. Since its introduction, it has been one of the most used CPU and GPU mathematical compilers - especially in the machine learning community - and has shown steady performance improvements. Theano is being actively and continuously developed since 2008, multiple frameworks have been built on top of it and it has been used to produce many state-of-the-art machine learning models. The present article is structured as follows. Section I provides an overview of the Theano software and its community. Section II presents the principal features of Theano and how to use them, and compares them with other similar projects. Section III focuses on recently-introduced functionalities and improvements. Section IV compares the performance of Theano against Torch7 and TensorFlow on several machine learning models. Section V discusses current limitations of Theano and potential ways of improving it.
 summary: ''
 link: https://arxiv.org/pdf/1605.02688
 links_alt:

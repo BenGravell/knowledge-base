@@ -1,5 +1,4 @@
-title: >
-  From Convex Optimization to MDPs: A Review of First-Order, Second-Order and Quasi-Newton Methods for MDPs
+title: 'From Convex Optimization to MDPs: A Review of First-Order, Second-Order and Quasi-Newton Methods for MDPs'
 algorithm:
 authors:
   - Julien Grand-ClÃ©ment
@@ -9,8 +8,7 @@ type: ''
 doi:
 arxiv_id: "2104.10677"
 tags:
-abstract: >
-  In this paper we present a review of the connections between classical algorithms for solving Markov Decision Processes (MDPs) and classical gradient-based algorithms in convex optimization. Some of these connections date as far back as the 1980s, but they have gained momentum in recent years and have lead to faster algorithms for solving MDPs. In particular, two of the most popular methods for solving MDPs, Value Iteration and Policy Iteration, can be linked to first-order and second-order methods in convex optimization. In addition, recent results in quasi-Newton methods lead to novel algorithms for MDPs, such as Anderson acceleration. By explicitly classifying algorithms for MDPs as first-order, second-order, and quasi-Newton methods, we hope to provide a better understanding of these algorithms, and, further expanding this analogy, to help to develop novel algorithms for MDPs, based on recent advances in convex optimization.
+abstract: In this paper we present a review of the connections between classical algorithms for solving Markov Decision Processes (MDPs) and classical gradient-based algorithms in convex optimization. Some of these connections date as far back as the 1980s, but they have gained momentum in recent years and have lead to faster algorithms for solving MDPs. In particular, two of the most popular methods for solving MDPs, Value Iteration and Policy Iteration, can be linked to first-order and second-order methods in convex optimization. In addition, recent results in quasi-Newton methods lead to novel algorithms for MDPs, such as Anderson acceleration. By explicitly classifying algorithms for MDPs as first-order, second-order, and quasi-Newton methods, we hope to provide a better understanding of these algorithms, and, further expanding this analogy, to help to develop novel algorithms for MDPs, based on recent advances in convex optimization.
 summary: ''
 link: https://arxiv.org/pdf/2104.10677
 links_alt:

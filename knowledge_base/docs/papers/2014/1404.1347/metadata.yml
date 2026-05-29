@@ -1,5 +1,4 @@
-title: >
-  The Probability Density Function of a Transformation-based Hyperellipsoid Sampling Technique
+title: The Probability Density Function of a Transformation-based Hyperellipsoid Sampling Technique
 algorithm:
 authors:
   - Jonathan D. Gammell
@@ -10,8 +9,7 @@ type: ''
 doi:
 arxiv_id: "1404.1347"
 tags:
-abstract: >
-  Sun and Farooq [2] showed that random samples can be efficiently drawn from an arbitrary n-dimensional hyperellipsoid by transforming samples drawn randomly from the unit n-ball. They stated that it was a straightforward to show that, given a uniform distribution over the n-ball, the transformation results in a uniform distribution over the hyperellipsoid, but did not present a full proof. This technical note presents such a proof.
+abstract: Sun and Farooq [2] showed that random samples can be efficiently drawn from an arbitrary n-dimensional hyperellipsoid by transforming samples drawn randomly from the unit n-ball. They stated that it was a straightforward to show that, given a uniform distribution over the n-ball, the transformation results in a uniform distribution over the hyperellipsoid, but did not present a full proof. This technical note presents such a proof.
 summary: ''
 link: https://arxiv.org/pdf/1404.1347
 links_alt:

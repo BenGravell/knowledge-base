@@ -1,4 +1,4 @@
-title: Receding Horizon Differential Dynamic Programming Under Parametric Uncertainty
+title: "Receding Horizon Differential Dynamic Programming under Parametric Uncertainty"
 algorithm:
 authors:
   - Yuichiro Aoyama
@@ -10,8 +10,7 @@ type: ''
 doi:
 arxiv_id: "2104.10836"
 tags:
-abstract: >
-  Generalized Polynomial Chaos (gPC) theory has been widely used for representing parametric uncertainty in a system, thanks to its ability to propagate uncertainty evolution. In an optimal control context, gPC can be combined with several optimization techniques to achieve a control policy that handles effectively this type of uncertainty. Such a suitable method is Differential Dynamic Programming (DDP), leading to an algorithm that inherits the scalability to high-dimensional systems and fast convergence nature of the latter. In this paper, we expand this combination aiming to acquire probabilistic guarantees on the satisfaction of nonlinear constraints. In particular, we exploit the ability of gPC to express higher order moments of the uncertainty distribution - without any Gaussianity assumption - and we incorporate chance constraints that lead to expressions involving the state covariance. Furthermore, we demonstrate that by implementing our algorithm in a receding horizon fashion, we are able to compute control policies that effectively reduce the accumulation of uncertainty on the trajectory. The applicability of our method is verified through simulation results on a differential wheeled robot and a quadrotor that perform obstacle avoidance tasks.
+abstract: Generalized Polynomial Chaos (gPC) theory has been widely used for representing parametric uncertainty in a system, thanks to its ability to propagate uncertainty evolution. In an optimal control context, gPC can be combined with several optimization techniques to achieve a control policy that handles effectively this type of uncertainty. Such a suitable method is Differential Dynamic Programming (DDP), leading to an algorithm that inherits the scalability to high-dimensional systems and fast convergence nature of the latter. In this paper, we expand this combination aiming to acquire probabilistic guarantees on the satisfaction of nonlinear constraints. In particular, we exploit the ability of gPC to express higher order moments of the uncertainty distribution - without any Gaussianity assumption - and we incorporate chance constraints that lead to expressions involving the state covariance. Furthermore, we demonstrate that by implementing our algorithm in a receding horizon fashion, we are able to compute control policies that effectively reduce the accumulation of uncertainty on the trajectory. The applicability of our method is verified through simulation results on a differential wheeled robot and a quadrotor that perform obstacle avoidance tasks.
 summary: ''
 link: https://arxiv.org/pdf/2104.10836
 links_alt:

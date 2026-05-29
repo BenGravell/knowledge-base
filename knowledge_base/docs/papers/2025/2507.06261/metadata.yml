@@ -1,5 +1,4 @@
-title: >
-  Gemini 2.5: Pushing the Frontier with Advanced Reasoning, Multimodality, Long Context, and Next Generation Agentic Capabilities
+title: 'Gemini 2.5: Pushing the Frontier with Advanced Reasoning, Multimodality, Long Context, and Next Generation Agentic Capabilities'
 algorithm:
 authors:
   - Gheorghe Comanici
@@ -37,12 +36,12 @@ authors:
   - Ya Xu
   - Ollie Purkiss
   - Uri Mendlovic
-  - IlaÃ¯ Deutel
+  - Ilaï Deutel
   - Nam Nguyen
   - Adam Langley
   - Flip Korn
   - Lucia Rossazza
-  - Alexandre RamÃ©
+  - Alexandre Ramé
   - Sagar Waghmare
   - Helen Miller
   - Nathan Byrd
@@ -91,14 +90,14 @@ authors:
   - Markus Mircea
   - Animesh Sinha
   - Alberto Magni
-  - PaweÅ Stradomski
+  - Paweł Stradomski
   - Tal Marian
-  - Vlado GaliÄ
+  - Vlado Galić
   - Wenhu Chen
   - Hisham Husain
   - Achintya Singhal
   - Dominik Grewe
-  - FranÃ§ois-Xavier Aubet
+  - François-Xavier Aubet
   - Shuang Song
   - Lorenzo Blanco
   - Leland Rechis
@@ -116,10 +115,10 @@ authors:
   - Eric Doi
   - Berivan Isik
   - Nir Shabat
-  - Dominika RogoziÅska
+  - Dominika Rogozińska
   - Kashyap Kolipaka
   - Jason Chang
-  - Eugen VuÅ¡ak
+  - Eugen Vušak
   - Srinivasan Venkatachary
   - Shadi Noghabi
   - Tarun Bharti
@@ -223,7 +222,7 @@ authors:
   - Abe Ittycheriah
   - Lewis Chiang
   - Chak Yeung
-  - Alexandre FrÃ©chette
+  - Alexandre Fréchette
   - Jinmeng Rao
   - Huisheng Wang
   - Himanshu Srivastava
@@ -235,7 +234,7 @@ authors:
   - Felix Gimeno
   - Rachana Fellinger
   - Pierre Marcenac
-  - JosÃ© Leal
+  - José Leal
   - Eyal Marcus
   - Victor Cotruta
   - Rodrigo Cabrera
@@ -319,12 +318,12 @@ authors:
   - Ada Maksutaj Oflazer
   - Francesco Pongetti
   - Mingyao Yang
-  - Adrien Ali TaÃ¯ga
+  - Adrien Ali Taïga
   - Vincent Perot
   - Nuo Wang Pierse
   - Feng Han
   - Yoel Drori
-  - IÃ±aki Iturrate
+  - Iñaki Iturrate
   - Ayan Chakrabarti
   - Legg Yeung
   - Dave Dopson
@@ -477,7 +476,7 @@ authors:
   - Shibo Wang
   - Georgie Evans
   - David Du
-  - Alfonso CastaÃ±o
+  - Alfonso Castaño
   - Gautam Prasad
   - Mona El Mahdy
   - Sebastian Gerlach
@@ -507,13 +506,13 @@ authors:
   - Ben Withbroe
   - Zhang Li
   - Siyang Xue
-  - NiccolÃ² Dal Santo
+  - Niccolò Dal Santo
   - Georgi Stoyanov
   - Yves Raimond
   - Steven Zheng
   - Yilin Gao
-  - VÃ­t ListÃ­k
-  - SÅawek Kwasiborski
+  - Vít Listík
+  - Sławek Kwasiborski
   - Rachel Saputro
   - Adnan Ozturel
   - Ganesh Mallya
@@ -534,7 +533,7 @@ authors:
   - Roy Hirsch
   - Cicero Nogueira dos Santos
   - Eugene Weinstein
-  - AÃ¤ron van den Oord
+  - Aäron van den Oord
   - Sid Lall
   - Nicholas FitzGerald
   - Zixuan Jiang
@@ -605,8 +604,8 @@ authors:
   - Siddhartha Brahma
   - David Steiner
   - Dayou Du
-  - Ante Å½uÅ¾ul
-  - Mislav Å½aniÄ
+  - Ante Žužul
+  - Mislav Žanić
   - Mukund Raghavachari
   - Willi Gierke
   - Zeyu Zheng
@@ -618,7 +617,7 @@ authors:
   - Chris Duvarney
   - Seokhwan Kim
   - Hyo Lee
-  - LÃ©onard Hussenot
+  - Léonard Hussenot
   - Jeffrey Hui
   - Josh Smith
   - Deepali Jain
@@ -658,7 +657,7 @@ authors:
   - Tianli Ding
   - Angelos Filos
   - Zhongru Wu
-  - AndrÃ© Susano Pinto
+  - André Susano Pinto
   - Shuang Liu
   - Saarthak Khanna
   - Aditya Pandey
@@ -688,9 +687,9 @@ authors:
   - Tao Jiang
   - Omer Barak
   - Yuan Shangguan
-  - Eszter VÃ©rtes
+  - Eszter Vértes
   - Renee Wong
-  - JÃ¶rg Bornschein
+  - Jörg Bornschein
   - Alex Tudor
   - Michele Bevilacqua
   - Tom Schaul
@@ -720,7 +719,7 @@ authors:
   - James Keeling
   - Keyang Xu
   - Nathan Waters
-  - Florent AltchÃ©
+  - Florent Altché
   - Ashok Popat
   - Bhavishya Mittal
   - David Saxton
@@ -765,7 +764,7 @@ authors:
   - Hongkun Yu
   - Geng Yan
   - Beer Changpinyo
-  - Filip PavetiÄ
+  - Filip Pavetić
   - Amy Coyle
   - Yasuhisa Fujii
   - Jorge Gonzalez Mendez
@@ -806,7 +805,7 @@ authors:
   - Evan Palmer
   - Samira Daruki
   - Arijit Pramanik
-  - Siim PÃµder
+  - Siim Põder
   - Austin Kyker
   - Mina Khan
   - Evgeny Sluzhaev
@@ -821,7 +820,7 @@ authors:
   - Jay Hartford
   - Izhak Shafran
   - Long Zhao
-  - Maciej MikuÅa
+  - Maciej Mikuła
   - Tom Eccles
   - Hidetoshi Shimokawa
   - Kanav Garg
@@ -958,14 +957,14 @@ authors:
   - Anselm Levskaya
   - Bo Wang
   - Reed Roberts
-  - RÃ©mi Leblond
+  - Rémi Leblond
   - Sharat Chikkerur
   - Stav Ginzburg
   - Max Chang
   - Robert Riachi
   - Chuqiao
   - Xu
-  - ZalÃ¡n Borsos
+  - Zalán Borsos
   - Michael Pliskin
   - Julia Pawar
   - Morgane Lustman
@@ -1050,7 +1049,7 @@ authors:
   - Peter Young
   - Jiewen Tan
   - Matan Eyal
-  - Arthur BraÅ¾inskas
+  - Arthur Bražinskas
   - Li Zhong
   - Zhichun Wu
   - Mark Epstein
@@ -1228,7 +1227,7 @@ authors:
   - Steven Hansen
   - Sara Mc Carthy
   - Bidisha Samanta
-  - Domagoj Äevid
+  - Domagoj Ćevid
   - Xin Wang
   - Fangtao Li
   - Michael Voznesensky
@@ -1267,7 +1266,7 @@ authors:
   - Tanuj Bhatia
   - Pranav Talluri
   - Alex Morris
-  - Andrija RaÅ¾natoviÄ
+  - Andrija Ražnatović
   - Bethanie Brownfield
   - James An
   - Sheng Peng
@@ -1278,7 +1277,7 @@ authors:
   - James Noraky
   - Siqi Liu
   - Keran Rong
-  - Petar VeliÄkoviÄ
+  - Petar Veličković
   - Keith Rush
   - Alex Goldin
   - Fanny Wei
@@ -1288,7 +1287,7 @@ authors:
   - Jianmo Ni
   - Eric Noland
   - Julia Di Trapani
-  - FranÃ§oise Beaufays
+  - Françoise Beaufays
   - Abhijit Guha Roy
   - Yinlam Chow
   - Aybuke Turker
@@ -1296,7 +1295,7 @@ authors:
   - Lantao Mei
   - Jon Clark
   - Qingyun Dou
-  - Matko BoÅ¡njak
+  - Matko Bošnjak
   - Ralph Leith
   - Yuqing Du
   - Amir Yazdanbakhsh
@@ -1331,7 +1330,7 @@ authors:
   - Alicia Jin
   - Anand Iyer
   - Marcella Valentine
-  - AndrÃ¡s GyÃ¶rgy
+  - András György
   - Arun Ahuja
   - Daniel Hernandez Diaz
   - Chen-Yu Lee
@@ -1440,7 +1439,7 @@ authors:
   - Guru Guruganesh
   - Nan Hua
   - Ofir Roval
-  - PaweÅ WesoÅowski
+  - Paweł Wesołowski
   - Rishikesh Ingale
   - Jonathan Halcrow
   - Tim Sohn
@@ -1531,7 +1530,7 @@ authors:
   - Jens Heitkaemper
   - John Lambert
   - Jinhyuk Lee
-  - Alexander FrÃ¶mmgen
+  - Alexander Frömmgen
   - Sergey Rogulenko
   - Pranav Nair
   - Paul Niemczyk
@@ -1566,7 +1565,7 @@ authors:
   - Hung Nguyen
   - Kingshuk Dasgupta
   - Dirk Robinson
-  - Iulia ComÅa
+  - Iulia Comşa
   - Michael Riley
   - Arjun Pillai
   - Basil Mustafa
@@ -1628,19 +1627,19 @@ authors:
   - Yoel Zeldes
   - Tian Xie
   - Anja Hauth
-  - Alexandru Å¢ifrea
+  - Alexandru Ţifrea
   - Yuqi Li
   - Sam El-Husseini
   - Dan Abolafia
   - Howard Zhou
   - Wen Ding
   - Sahra Ghalebikesabi
-  - Carlos GuÃ­a
+  - Carlos Guía
   - Andrii Maksai
-  - Ãgoston Weisz
+  - Ágoston Weisz
   - Sercan Arik
   - Nick Sukhanov
-  - Aga Åwietlik
+  - Aga Świetlik
   - Xuhui Jia
   - Luo Yu
   - Weiyue Wang
@@ -1691,7 +1690,7 @@ authors:
   - Daniel von Dincklage
   - Qingchun Ren
   - Blagoj Mitrevski
-  - Mirek OlÅ¡Ã¡k
+  - Mirek Olšák
   - Jennifer She
   - Carl Doersch
   - Jilei
@@ -1713,7 +1712,7 @@ authors:
   - Alexei Bendebury
   - Ryan Julian
   - Bharath Mankalale
-  - Daria Äurko
+  - Daria Ćurko
   - Paulo Zacchello
   - Adam R. Brown
   - Kiranbir Sodhia
@@ -1777,7 +1776,7 @@ authors:
   - Zhi Li
   - Liangchen Luo
   - Karel Lenc
-  - Mario LuÄiÄ
+  - Mario Lučić
   - Fuzhao Xue
   - Ryan Mullins
   - Alexey Guseynov
@@ -1824,7 +1823,7 @@ authors:
   - Mohammad Hossein Bateni
   - Isaac Noble
   - Lisa Lee
-  - Amelio VÃ¡zquez-Reina
+  - Amelio Vázquez-Reina
   - Julian Salazar
   - Xiaomeng Yang
   - Boyu Wang
@@ -1876,7 +1875,7 @@ authors:
   - Doug Reid
   - Joss Moore
   - Arvind Neelakantan
-  - MichaÃ«l Sander
+  - Michaël Sander
   - Jonathan Herzig
   - Aviv Rosenberg
   - Mostafa Dehghani
@@ -1903,7 +1902,7 @@ authors:
   - Duc Dung Nguyen
   - Reut Tsarfaty
   - Samuel Albanie
-  - Jovana MitroviÄ
+  - Jovana Mitrović
   - Meet Gandhi
   - Bo-Juen Chen
   - Alessandro Epasto
@@ -1936,7 +1935,7 @@ authors:
   - Elan Rosenfeld
   - Sam Ritter
   - Jieming Mao
-  - JoÃ£o Gabriel Oliveira
+  - João Gabriel Oliveira
   - Zoltan Egyed
   - Bernd Bandemer
   - Emilio Parisotto
@@ -1952,7 +1951,7 @@ authors:
   - Katrina
   - Xu
   - Jennimaria Palomaki
-  - SÃ©b Arnold
+  - Séb Arnold
   - Madhavi Sewak
   - Federico Piccinini
   - Mohit Sharma
@@ -2023,11 +2022,11 @@ authors:
   - Felipe Tiengo Ferreira
   - Yaoyiran Li
   - Frederik Benzing
-  - Mihajlo VelimiroviÄ
+  - Mihajlo Velimirović
   - Hubert Soyer
   - William Kong
   - Tony
-  - NguyÃªn
+  - Nguyên
   - Zhen Yang
   - Jeremiah Liu
   - Joost van Amersfoort
@@ -2084,7 +2083,7 @@ authors:
   - Julian Walker
   - Bing Zhang
   - Annie Xie
-  - Goran Å½uÅ¾iÄ
+  - Goran Žužić
   - Adaeze Chukwuka
   - Alex Druinsky
   - Donghyun Cho
@@ -2145,7 +2144,7 @@ authors:
   - Simon Osindero
   - Craig Swanson
   - Jacob Scott
-  - Anastasija IliÄ
+  - Anastasija Ilić
   - Xiaowei Li
   - Siddhartha Reddy Jonnalagadda
   - Afzal Shama Soudagar
@@ -2205,7 +2204,7 @@ authors:
   - Philippe Schlattner
   - George Zhang
   - Rohun Saxena
-  - Petar DeviÄ
+  - Petar Dević
   - Kritika Muralidharan
   - Ashwin Murthy
   - Yiqian Zhou
@@ -2264,7 +2263,7 @@ authors:
   - Claire Cui
   - Elena Pochernina
   - Cip Baetu
-  - Krzysztof JastrzÄbski
+  - Krzysztof Jastrzębski
   - Mimi Ly
   - Mohamed Elhawaty
   - Dan Suh
@@ -2282,7 +2281,7 @@ authors:
   - Kevin R. McKee
   - Mandy Guo
   - Malika Mehrotra
-  - Artur MendonÃ§a
+  - Artur Mendonça
   - Sanket Vaibhav Mehta
   - Sherry Ben
   - Chetan Tekur
@@ -2291,7 +2290,7 @@ authors:
   - Victoria Krakovna
   - Hongrae Lee
   - AJ Maschinot
-  - SÃ©bastien Cevey
+  - Sébastien Cevey
   - HyunJeong Choe
   - Aijun Bai
   - Hansa Srinivasan
@@ -2358,7 +2357,7 @@ authors:
   - Navneet Potti
   - Yan Virin
   - Christian Wright
-  - GaÃ«l Liu
+  - Gaël Liu
   - Oriana Riva
   - Etienne Pot
   - Greg Kochanski
@@ -2390,7 +2389,7 @@ authors:
   - Kaiz Alarakyia
   - Robert Geirhos
   - Diana Mincu
-  - HÃ¥vard Garnes
+  - Håvard Garnes
   - Hayato Kobayashi
   - Soroosh Mariooryad
   - Kacper Krasowiak
@@ -2432,7 +2431,7 @@ authors:
   - Lisa Wang
   - Madeleine Clare Elish
   - Raluca Ada Popa
-  - SÃ©bastien Pereira
+  - Sébastien Pereira
   - Jianqiao Liu
   - Raphael Koster
   - Donnie Kim
@@ -2459,7 +2458,7 @@ authors:
   - Steven Hemingray
   - Bonnie Li
   - Joana Iljazi
-  - MikoÅaj RybiÅski
+  - Mikołaj Rybiński
   - Ballie Sandhu
   - Peggy Lu
   - Thang Luong
@@ -2481,7 +2480,7 @@ authors:
   - Jianling Wang
   - Kilol Gupta
   - Hyeontaek Lim
-  - BlaÅ¾ BrataniÄ
+  - Blaž Bratanič
   - Andy Brock
   - Ilia Akolzin
   - Jim Sproch
@@ -2526,12 +2525,12 @@ authors:
   - Nelson George
   - Simon Niklaus
   - Zach Eaton-Rosen
-  - Nemanja RakiÄeviÄ
+  - Nemanja Rakićević
   - Erik Jue
   - Sagi Perel
   - Carrie Zhang
   - Yuval Bahat
-  - AngÃ©line Pouget
+  - Angéline Pouget
   - Zhi Xing
   - Fantine Huot
   - Ashish Shenoy
@@ -2556,7 +2555,7 @@ authors:
   - Chen
   - Manaal Faruqui
   - Jialin Wu
-  - Slavica AndaÄiÄ
+  - Slavica Andačić
   - Szabolcs Payrits
   - Daniel McDuff
   - Tom Hume
@@ -2651,7 +2650,7 @@ authors:
   - Mauro Verzetti
   - Leon Li
   - George Papamakarios
-  - Hanna Klimczak-PluciÅska
+  - Hanna Klimczak-Plucińska
   - Mary Cassin
   - Koray Kavukcuoglu
   - Rigel Swavely
@@ -2701,7 +2700,7 @@ authors:
   - Eran Ofek
   - Clemens Meyer
   - Khuslen Baatarsukh
-  - Hana StrejÄek
+  - Hana Strejček
   - Jun Qian
   - James Freedman
   - Ricardo Figueira
@@ -2825,7 +2824,7 @@ authors:
   - Lu Li
   - SQ Mah
   - Yennie Jun
-  - Morgane RiviÃ¨re
+  - Morgane Rivière
   - Abhijit Karmarkar
   - Tammo Spalink
   - Tao Huang
@@ -2837,7 +2836,7 @@ authors:
   - Ellie Talius
   - Harsh Mehta
   - Thibault Sellam
-  - Philipp FrÃ¤nken
+  - Philipp Fränken
   - Massimo Nicosia
   - Kyle He
   - Aditya Kini
@@ -2899,7 +2898,7 @@ authors:
   - Adhi Kuncoro
   - Toshihiro Yoshino
   - Ankit Bhagatwala
-  - MarcÃ¡urelio Ranzato
+  - Marcáurelio Ranzato
   - Rylan Schaeffer
   - Tianlin Liu
   - Shuai Ye
@@ -2918,7 +2917,7 @@ authors:
   - Wolfgang Macherey
   - Ethan Dyer
   - Logan Kilpatrick
-  - VÃ­ctor Campos
+  - Víctor Campos
   - Mukul Bhutani
   - Stanislav Fort
   - Yanif Ahmad
@@ -2986,7 +2985,7 @@ authors:
   - Arjun Kar
   - Borja De Balle Pigem
   - Tayfun Terzi
-  - GellÃ©rt Weisz
+  - Gellért Weisz
   - Dipankar Ghosh
   - Aditi Mavalankar
   - Dhruv Madeka
@@ -3136,7 +3135,7 @@ authors:
   - Jiayu Ye
   - Paul Vicol
   - Mihaela Rosca
-  - AdriÃ PuigdomÃ¨nech
+  - AdriÃ Puigdomènech
   - Zohar Yahav
   - Sanjay Ghemawat
   - Hanzhao Lin
@@ -3170,12 +3169,12 @@ authors:
   - Ying Chen
   - Yani Donchev
   - Charlotte Magister
-  - Signe NÃ¸rly
+  - Signe Nørly
   - Vitor Rodrigues
   - Tomas Izo
   - Hila Noga
   - Joe Zou
-  - Thomas KÃ¶ppe
+  - Thomas Köppe
   - Wenxuan Zhou
   - Kenton Lee
   - Xiangzhu Long
@@ -3229,7 +3228,7 @@ authors:
   - Adam Kraft
   - Setareh Ariafar
   - Yiming Gu
-  - EugÃ©nie Rives
+  - Eugénie Rives
   - Charles Yoon
   - Andrei Rusu
   - James Cobon-Kerr
@@ -3239,7 +3238,7 @@ authors:
   - Zhu
   - Niharika Ahuja
   - Rodrigo Benenson
-  - RaphaÃ«l Lopez Kaufman
+  - Raphaël Lopez Kaufman
   - Honglin Yu
   - Lloyd Hightower
   - Junlin Zhang
@@ -3317,7 +3316,7 @@ authors:
   - Yichi Zhang
   - Richard Killam
   - Vincent Zhuang
-  - Mai GimÃ©nez
+  - Mai Giménez
   - Wael Al Jishi
   - Ruy Ley-Wild
   - Alex Zhai
@@ -3336,10 +3335,10 @@ authors:
   - Sanjiv Kumar
   - Xiang Deng
   - Artiom Myaskovsky
-  - Tea SaboliÄ
+  - Tea Sabolić
   - Jeffrey Dudek
   - Sarah York
-  - FÃ©lix de Chaumont Quitry
+  - Félix de Chaumont Quitry
   - Jiazhong Nie
   - Dee Cattle
   - Alok Gunjan
@@ -3443,8 +3442,7 @@ type: ''
 doi:
 arxiv_id: "2507.06261"
 tags:
-abstract: >
-  In this report, we introduce the Gemini 2.X model family: Gemini 2.5 Pro and Gemini 2.5 Flash, as well as our earlier Gemini 2.0 Flash and Flash-Lite models. Gemini 2.5 Pro is our most capable model yet, achieving SoTA performance on frontier coding and reasoning benchmarks. In addition to its incredible coding and reasoning skills, Gemini 2.5 Pro is a thinking model that excels at multimodal understanding and it is now able to process up to 3 hours of video content. Its unique combination of long context, multimodal and reasoning capabilities can be combined to unlock new agentic workflows. Gemini 2.5 Flash provides excellent reasoning abilities at a fraction of the compute and latency requirements and Gemini 2.0 Flash and Flash-Lite provide high performance at low latency and cost. Taken together, the Gemini 2.X model generation spans the full Pareto frontier of model capability vs cost, allowing users to explore the boundaries of what is possible with complex agentic problem solving.
+abstract: 'In this report, we introduce the Gemini 2.X model family: Gemini 2.5 Pro and Gemini 2.5 Flash, as well as our earlier Gemini 2.0 Flash and Flash-Lite models. Gemini 2.5 Pro is our most capable model yet, achieving SoTA performance on frontier coding and reasoning benchmarks. In addition to its incredible coding and reasoning skills, Gemini 2.5 Pro is a thinking model that excels at multimodal understanding and it is now able to process up to 3 hours of video content. Its unique combination of long context, multimodal and reasoning capabilities can be combined to unlock new agentic workflows. Gemini 2.5 Flash provides excellent reasoning abilities at a fraction of the compute and latency requirements and Gemini 2.0 Flash and Flash-Lite provide high performance at low latency and cost. Taken together, the Gemini 2.X model generation spans the full Pareto frontier of model capability vs cost, allowing users to explore the boundaries of what is possible with complex agentic problem solving.'
 summary: ''
 link: https://arxiv.org/pdf/2507.06261
 links_alt:

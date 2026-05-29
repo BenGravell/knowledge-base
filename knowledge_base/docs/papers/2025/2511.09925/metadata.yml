@@ -1,5 +1,4 @@
-title: >
-  Global Convergence of Four-Layer Matrix Factorization under Random Initialization
+title: Global Convergence of Four-Layer Matrix Factorization under Random Initialization
 algorithm:
 authors:
   - Minrui Luo
@@ -13,8 +12,7 @@ type: ''
 doi:
 arxiv_id: "2511.09925"
 tags:
-abstract: >
-  Gradient descent dynamics on the deep matrix factorization problem is extensively studied as a simplified theoretical model for deep neural networks. Although the convergence theory for two-layer matrix factorization is well-established, no global convergence guarantee for general deep matrix factorization under random initialization has been established to date. To address this gap, we provide a polynomial-time global convergence guarantee for randomly initialized gradient descent on four-layer matrix factorization, given certain conditions on the target matrix and a standard balanced regularization term. Our analysis employs new techniques to show saddle-avoidance properties of gradient decent dynamics, and extends previous theories to characterize the change in eigenvalues of layer weights.
+abstract: Gradient descent dynamics on the deep matrix factorization problem is extensively studied as a simplified theoretical model for deep neural networks. Although the convergence theory for two-layer matrix factorization is well-established, no global convergence guarantee for general deep matrix factorization under random initialization has been established to date. To address this gap, we provide a polynomial-time global convergence guarantee for randomly initialized gradient descent on four-layer matrix factorization, given certain conditions on the target matrix and a standard balanced regularization term. Our analysis employs new techniques to show saddle-avoidance properties of gradient decent dynamics, and extends previous theories to characterize the change in eigenvalues of layer weights.
 summary: ''
 link: https://arxiv.org/pdf/2511.09925
 links_alt:

@@ -1,17 +1,15 @@
-title: Graphical SLAM - a self-correcting map
+title: "Graphical SLAM - a Self-correcting Map"
 algorithm:
 authors:
   - J. Folkesson
   - H. Christensen
 year: 2004
-source: >
-  IEEE International Conference on Robotics and Automation, 2004. Proceedings. ICRA '04. 2004
+source: IEEE International Conference on Robotics and Automation, Proceedings. ICRA '04.
 type: Conference Paper
 doi: 10.1109/ROBOT.2004.1307180
 arxiv_id:
 tags:
-abstract: >
-  We describe an approach to simultaneous localization and mapping, SLAM. This approach has the highly desirable property of robustness to data association errors. Another important advantage of our algorithm is that non-linearities are computed exactly, so that global constraints can be imposed even if they result in large shifts to the map. We represent the map as a graph and use the graph to find an efficient map update algorithm. We also show how topological consistency can be imposed on the map, such as, closing a loop. The algorithm has been implemented on an outdoor robot and we have experimental validation of our ideas. We also explain how the graph can be simplified leading to linear approximations of sections of the map. This reduction gives us a natural way to connect local map patches into a much larger global map.
+abstract: We describe an approach to simultaneous localization and mapping, SLAM. This approach has the highly desirable property of robustness to data association errors. Another important advantage of our algorithm is that non-linearities are computed exactly, so that global constraints can be imposed even if they result in large shifts to the map. We represent the map as a graph and use the graph to find an efficient map update algorithm. We also show how topological consistency can be imposed on the map, such as, closing a loop. The algorithm has been implemented on an outdoor robot and we have experimental validation of our ideas. We also explain how the graph can be simplified leading to linear approximations of sections of the map. This reduction gives us a natural way to connect local map patches into a much larger global map.
 summary: ''
 link: https://doi.org/10.1109/ROBOT.2004.1307180
 links_alt:

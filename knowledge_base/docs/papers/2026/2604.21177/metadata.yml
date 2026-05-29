@@ -1,5 +1,4 @@
-title: >
-  Revisiting Subgradient Dominance in Robust MDPs: Counterexamples, Hardness, and Sufficient Conditions
+title: 'Revisiting Subgradient Dominance in Robust MDPs: Counterexamples, Hardness, and Sufficient Conditions'
 algorithm:
 authors:
   - Toshinori Kitamura
@@ -13,8 +12,7 @@ type: ''
 doi:
 arxiv_id: "2604.21177"
 tags:
-abstract: >
-  Projected subgradient descent (PSD) has gained popularity for solving robust Markov decision processes (RMDPs) because it applies to a broader class of uncertainty sets than traditional dynamic programming. Existing work claims that RMDPs with a general compact uncertainty set satisfy the subgradient dominance property, under which exact PSD converges to an $\varepsilon$-optimal policy in a polynomial number of updates (e.g., Wang et al., 2023). We show that these claims are incorrect. Even when the uncertainty set has cardinality two, the RMDP objective is not subgradient-dominant and can admit suboptimal strict local minima. Moreover, we prove that finding an $\varepsilon$-optimal policy can be NP-hard even in settings where subgradients are efficiently computable: (i) finite transition uncertainty sets and (ii) $sa$-rectangular finite transition uncertainty sets with finite cost uncertainty sets. Finally, we identify two conditions under which RMDPs do satisfy subgradient dominance: when, for each policy, either the worst-case transition kernel or the worst-case action-value function is unique.
+abstract: 'Projected subgradient descent (PSD) has gained popularity for solving robust Markov decision processes (RMDPs) because it applies to a broader class of uncertainty sets than traditional dynamic programming. Existing work claims that RMDPs with a general compact uncertainty set satisfy the subgradient dominance property, under which exact PSD converges to an $\varepsilon$-optimal policy in a polynomial number of updates (e.g., Wang et al., 2023). We show that these claims are incorrect. Even when the uncertainty set has cardinality two, the RMDP objective is not subgradient-dominant and can admit suboptimal strict local minima. Moreover, we prove that finding an $\varepsilon$-optimal policy can be NP-hard even in settings where subgradients are efficiently computable: (i) finite transition uncertainty sets and (ii) $sa$-rectangular finite transition uncertainty sets with finite cost uncertainty sets. Finally, we identify two conditions under which RMDPs do satisfy subgradient dominance: when, for each policy, either the worst-case transition kernel or the worst-case action-value function is unique.'
 summary: ''
 link: https://arxiv.org/pdf/2604.21177
 links_alt:

@@ -1,4 +1,4 @@
-title: Convexity of optimal linear controller design
+title: "Convexity of Optimal Linear Controller Design"
 algorithm:
 authors:
   - Krishnamurthy Dvijotham
@@ -11,8 +11,7 @@ type: Conference Paper
 doi: 10.1109/CDC.2013.6760252
 arxiv_id:
 tags:
-abstract: >
-  We develop a general class of stochastic optimal control problems for which the problem of designing optimal linear feedback gains is convex. The class of problems includes arbitrary time varying linear systems and costs that are mixtures of exponentiated quadratics. This allows us to model problems with quadratic state costs and linear constraints on states and state transitions. Further, convexity in the feedback gains lets us impose arbitrary convex constraints or penalties on the feedback matrix: Thus we can model problems like distributed control (by imposing a sparsity structure on the feedback matrix) and variable-stiffness control (by applying time-varying penalties to feedback gain matrices). We show that the convex optimization problem can be solved efficiently by using the structure of the matrices involved. Finally, we present an application of these ideas to a practical problem arising in distributed control of power systems.
+abstract: 'We develop a general class of stochastic optimal control problems for which the problem of designing optimal linear feedback gains is convex. The class of problems includes arbitrary time varying linear systems and costs that are mixtures of exponentiated quadratics. This allows us to model problems with quadratic state costs and linear constraints on states and state transitions. Further, convexity in the feedback gains lets us impose arbitrary convex constraints or penalties on the feedback matrix: Thus we can model problems like distributed control (by imposing a sparsity structure on the feedback matrix) and variable-stiffness control (by applying time-varying penalties to feedback gain matrices). We show that the convex optimization problem can be solved efficiently by using the structure of the matrices involved. Finally, we present an application of these ideas to a practical problem arising in distributed control of power systems.'
 summary: ''
 link: https://doi.org/10.1109/CDC.2013.6760252
 links_alt:

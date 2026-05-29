@@ -1,5 +1,4 @@
-title: >
-  High-Speed Motion Planning for Aerial Swarms in Unknown and Cluttered Environments
+title: High-Speed Motion Planning for Aerial Swarms in Unknown and Cluttered Environments
 algorithm:
 authors:
   - Charbel Toumieh
@@ -10,8 +9,7 @@ type: ''
 doi:
 arxiv_id: "2402.19033"
 tags:
-abstract: >
-  Coordinated flight of multiple drones allows to achieve tasks faster such as search and rescue and infrastructure inspection. Thus, pushing the state-of-the-art of aerial swarms in navigation speed and robustness is of tremendous benefit. In particular, being able to account for unexplored/unknown environments when planning trajectories allows for safer flight. In this work, we propose the first high-speed, decentralized, and synchronous motion planning framework (HDSM) for an aerial swarm that explicitly takes into account the unknown/undiscovered parts of the environment. The proposed approach generates an optimized trajectory for each planning agent that avoids obstacles and other planning agents while moving and exploring the environment. The only global information that each agent has is the target location. The generated trajectory is high-speed, safe from unexplored spaces, and brings the agent closer to its goal. The proposed method outperforms four recent state-of-the-art methods in success rate (100% success in reaching the target location), flight speed (97% faster), and flight time (50% lower). Finally, the method is validated on a set of Crazyflie nano-drones as a proof of concept.
+abstract: Coordinated flight of multiple drones allows to achieve tasks faster such as search and rescue and infrastructure inspection. Thus, pushing the state-of-the-art of aerial swarms in navigation speed and robustness is of tremendous benefit. In particular, being able to account for unexplored/unknown environments when planning trajectories allows for safer flight. In this work, we propose the first high-speed, decentralized, and synchronous motion planning framework (HDSM) for an aerial swarm that explicitly takes into account the unknown/undiscovered parts of the environment. The proposed approach generates an optimized trajectory for each planning agent that avoids obstacles and other planning agents while moving and exploring the environment. The only global information that each agent has is the target location. The generated trajectory is high-speed, safe from unexplored spaces, and brings the agent closer to its goal. The proposed method outperforms four recent state-of-the-art methods in success rate (100% success in reaching the target location), flight speed (97% faster), and flight time (50% lower). Finally, the method is validated on a set of Crazyflie nano-drones as a proof of concept.
 summary: ''
 link: https://arxiv.org/pdf/2402.19033
 links_alt:

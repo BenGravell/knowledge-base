@@ -9,8 +9,7 @@ type: ''
 doi:
 arxiv_id: "2103.04910"
 tags:
-abstract: >
-  The emerging field of Reinforcement Learning (RL) has led to impressive results in varied domains like strategy games, robotics, etc. This handout aims to give a simple introduction to RL from control perspective and discuss three possible approaches to solve an RL problem: Policy Gradient, Policy Iteration, and Model-building. Dynamical systems might have discrete action-space like cartpole where two possible actions are +1 and -1 or continuous action space like linear Gaussian systems. Our discussion covers both cases.
+abstract: 'The emerging field of Reinforcement Learning (RL) has led to impressive results in varied domains like strategy games, robotics, etc. This handout aims to give a simple introduction to RL from control perspective and discuss three possible approaches to solve an RL problem: Policy Gradient, Policy Iteration, and Model-building. Dynamical systems might have discrete action-space like cartpole where two possible actions are +1 and -1 or continuous action space like linear Gaussian systems. Our discussion covers both cases.'
 summary: ''
 link: https://arxiv.org/pdf/2103.04910
 links_alt:
