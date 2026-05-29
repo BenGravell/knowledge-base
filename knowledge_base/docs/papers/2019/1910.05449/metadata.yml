@@ -1,6 +1,6 @@
 title: >
   MultiPath: Multiple Probabilistic Anchor Trajectory Hypotheses for Behavior Prediction
-algorithm:
+algorithm: MultiPath
 authors:
   - Yuning Chai
   - Benjamin Sapp

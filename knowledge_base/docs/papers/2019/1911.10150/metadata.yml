@@ -1,6 +1,6 @@
 title: >
   PointPainting: Sequential Fusion for 3D Object Detection
-algorithm:
+algorithm: PointPainting
 authors:
   - Sourabh Vora
   - Alex H. Lang

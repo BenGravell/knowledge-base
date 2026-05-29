@@ -1,6 +1,6 @@
 title: >
   MADER: Trajectory Planner in Multi-Agent and Dynamic Environments
-algorithm:
+algorithm: MADER
 authors:
   - Jesus Tordesillas
   - Jonathan P. How

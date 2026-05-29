@@ -1,6 +1,6 @@
 title: >
   SceneGen: Learning to Generate Realistic Traffic Scenes
-algorithm:
+algorithm: SceneGen
 authors:
   - Shuhan Tan
   - Kelvin Wong

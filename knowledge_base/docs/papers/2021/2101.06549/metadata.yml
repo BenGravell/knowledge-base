@@ -1,6 +1,6 @@
 title: >
   AdvSim: Generating Safety-Critical Scenarios for Self-Driving Vehicles
-algorithm:
+algorithm: AdvSim
 authors:
   - Jingkang Wang
   - Ava Pun

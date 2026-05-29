@@ -1,6 +1,6 @@
 title: >
   Adaptive Approximate Policy Iteration
-algorithm:
+algorithm: AAPI
 authors:
   - Botao Hao
   - Nevena Lazic

@@ -1,6 +1,6 @@
 title: >
   RL Unplugged: A Suite of Benchmarks for Offline Reinforcement Learning
-algorithm:
+algorithm: RL Unplugged
 authors:
   - Caglar Gulcehre
   - Ziyu Wang

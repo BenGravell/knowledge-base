@@ -1,6 +1,6 @@
 title: >
   DiffTaichi: Differentiable Programming for Physical Simulation
-algorithm:
+algorithm: DiffTaichi
 authors:
   - Yuanming Hu
   - Luke Anderson

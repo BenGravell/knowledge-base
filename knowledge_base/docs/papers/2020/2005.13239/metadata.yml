@@ -1,6 +1,6 @@
 title: >
   MOPO: Model-based Offline Policy Optimization
-algorithm:
+algorithm: MOPO
 authors:
   - Tianhe Yu
   - Garrett Thomas

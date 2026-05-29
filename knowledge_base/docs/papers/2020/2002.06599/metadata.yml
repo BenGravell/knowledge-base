@@ -1,6 +1,6 @@
 title: >
   Adaptively Informed Trees (AIT*): Fast Asymptotically Optimal Path Planning through Adaptive Heuristics
-algorithm:
+algorithm: AIT*
 authors:
   - Marlin P. Strub
   - Jonathan D. Gammell

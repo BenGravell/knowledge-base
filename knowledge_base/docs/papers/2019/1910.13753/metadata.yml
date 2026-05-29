@@ -1,6 +1,6 @@
 title: >
   acados: A Modular Open-source Framework for Fast Embedded Optimal Control
-algorithm:
+algorithm: acados
 authors:
   - Robin Verschueren
   - Gianluca Frison

@@ -1,6 +1,6 @@
 title: >
   End-to-end Interpretable Neural Motion Planner
-algorithm:
+algorithm: NMP
 authors:
   - Wenyuan Zeng
   - Wenjie Luo

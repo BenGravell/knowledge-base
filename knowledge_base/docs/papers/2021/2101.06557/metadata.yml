@@ -1,6 +1,6 @@
 title: >
   TrafficSim: Learning to Simulate Realistic Multi-Agent Behaviors
-algorithm:
+algorithm: TrafficSim
 authors:
   - Simon Suo
   - Sebastian Regalado

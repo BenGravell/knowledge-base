@@ -1,6 +1,6 @@
 title: >
   Learning Dexterous Manipulation from Suboptimal Experts
-algorithm:
+algorithm: REQ
 authors:
   - Rae Jeong
   - Jost Tobias Springenberg

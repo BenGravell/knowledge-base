@@ -1,6 +1,6 @@
 title: >
   Quinoa: A Q-function You Infer Normalized over Actions
-algorithm:
+algorithm: Quinoa
 authors:
   - Jonas Degrave
   - Abbas Abdolmaleki

@@ -1,6 +1,6 @@
 title: >
   Advanced BIT* (ABIT*): Sampling-Based Planning with Advanced Graph-Search Techniques
-algorithm:
+algorithm: ABIT*
 authors:
   - Marlin P. Strub
   - Jonathan D. Gammell

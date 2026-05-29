@@ -1,6 +1,6 @@
 title: >
   Picasso: A Sparse Learning Library for High Dimensional Data Analysis in R and Python
-algorithm:
+algorithm: Picasso
 authors:
   - Jason Ge
   - Xingguo Li

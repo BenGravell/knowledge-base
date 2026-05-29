@@ -1,6 +1,6 @@
 title: >
   dm_control: Software and Tasks for Continuous Control
-algorithm:
+algorithm: dm_control
 authors:
   - Yuval Tassa
   - Saran Tunyasuvunakool

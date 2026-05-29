@@ -1,6 +1,6 @@
 title: >
   CoverNet: Multimodal Behavior Prediction Using Trajectory Sets
-algorithm:
+algorithm: CoverNet
 authors:
   - Tung Phan-Minh
   - Elena Corina Grigore

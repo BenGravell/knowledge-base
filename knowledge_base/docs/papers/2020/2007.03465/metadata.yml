@@ -1,6 +1,6 @@
 title: >
   RAPTOR: Robust and Perception-aware Trajectory Replanning for Quadrotor Fast Flight
-algorithm:
+algorithm: RAPTOR
 authors:
   - Boyu Zhou
   - Jie Pan
