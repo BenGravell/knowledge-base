@@ -59,14 +59,14 @@ authors:
   - Balaji Lakshminarayanan
   - Jeremiah Liu
   - Andras Orban
-  - Fabian Güra
+  - Fabian Gura
   - Hao Zhou
   - Xinying Song
   - Aurelien Boffy
   - Harish Ganapathy
   - Steven Zheng
   - HyunJeong Choe
-  - Ágoston Weisz
+  - Agoston Weisz
   - Tao Zhu
   - Yifeng Lu
   - Siddharth Gopal
@@ -88,7 +88,7 @@ authors:
   - Nikolay Savinov
   - Ivo Danihelka
   - Becca Roelofs
-  - Anaïs White
+  - Anais White
   - Anders Andreassen
   - Tamara von Glehn
   - Lakshman Yagati
@@ -134,7 +134,7 @@ authors:
   - Martin Chadwick
   - Ilya Kornakov
   - Nithya Attaluri
-  - Iñaki Iturrate
+  - Inaki Iturrate
   - Ruibo Liu
   - Yunxuan Li
   - Sarah Cogan
@@ -152,7 +152,7 @@ authors:
   - Dasha Valter
   - Connie Tao
   - Lorenzo Blanco
-  - Adrià Puigdomènech Badia
+  - Adria Puigdomenech Badia
   - David Reitter
   - Mianna Chen
   - Jenny Brennan
@@ -202,7 +202,7 @@ authors:
   - Sina Samangooei
   - Bogdan Damoc
   - Alex Kaskasoli
-  - Sébastien M. R. Arnold
+  - Sebastien M. R. Arnold
   - Vijay Vasudevan
   - Shubham Agrawal
   - Jason Riesa
@@ -226,7 +226,7 @@ authors:
   - Elizabeth Cole
   - Aakanksha Chowdhery
   - Dipanjan Das
-  - Dominika Rogozińska
+  - Dominika Rogozinska
   - Vitaliy Nikolaev
   - Pablo Sprechmann
   - Zachary Nado
@@ -266,7 +266,7 @@ authors:
   - Luyu Wang
   - Wenhao Jia
   - Matthew Rahtz
-  - Mai Giménez
+  - Mai Gimenez
   - Legg Yeung
   - James Keeling
   - Petko Georgiev
@@ -291,7 +291,7 @@ authors:
   - Shuo-yiin Chang
   - Paul Komarek
   - Ross McIlroy
-  - Mario Lučić
+  - Mario Lucic
   - Guodong Zhang
   - Wael Farhan
   - Michael Sharman
@@ -354,7 +354,7 @@ authors:
   - Jeremy Greer
   - Guolong Su
   - Martin Polacek
-  - Raphaël Lopez Kaufman
+  - Raphael Lopez Kaufman
   - Simon Tokumine
   - Hexiang Hu
   - Elena Buchatskaya
@@ -392,8 +392,8 @@ authors:
   - Jiepu Jiang
   - Justin Chiu
   - Jaime Alonso Lorenzo
-  - Lars Lowe Sjösund
-  - Sébastien Cevey
+  - Lars Lowe Sjosund
+  - Sebastien Cevey
   - Zach Gleicher
   - Thi Avrahami
   - Anudhyan Boral
@@ -401,11 +401,11 @@ authors:
   - Vittorio Selo
   - Rhys May
   - Konstantinos Aisopos
-  - Léonard Hussenot
+  - Leonard Hussenot
   - Livio Baldini Soares
   - Kate Baumli
   - Michael B. Chang
-  - AdriÃ Recasens
+  - Adria Recasens
   - Ben Caine
   - Alexander Pritzel
   - Filip Pavetic
@@ -418,7 +418,7 @@ authors:
   - Nora Kassner
   - Subhrajit Roy
   - Ethan Dyer
-  - Víctor Campos Campos
+  - Victor Campos Campos
   - Alex Tomala
   - Yunhao Tang
   - Dalia El Badawy
@@ -435,7 +435,7 @@ authors:
   - Wojciech Stokowiec
   - Ce Zheng
   - Phoebe Thacker
-  - Çağlar Ünlü
+  - Caglar Unlu
   - Zhishuai Zhang
   - Mohammad Saleh
   - James Svensson
@@ -484,7 +484,7 @@ authors:
   - Hannah Sheahan
   - Vedant Misra
   - Cheng Li
-  - Nemanja Rakićević
+  - Nemanja Rakicevic
   - Mostafa Dehghani
   - Fangyu Liu
   - Sid Mittal
@@ -515,7 +515,7 @@ authors:
   - Anhad Mohananey
   - Jonah Joughin
   - Egor Filonov
-  - Tomasz Kępa
+  - Tomasz Kepa
   - Yomna Eldawy
   - Jiawern Lim
   - Rahul Rishi
@@ -572,8 +572,8 @@ authors:
   - Ankur Garg
   - Yifan He
   - Oleksii Duzhyi
-  - Anton Älgmyr
-  - Timothée Lottaz
+  - Anton Algmyr
+  - Timothee Lottaz
   - Qi Li
   - Vikas Yadav
   - Luyao Xu
@@ -605,7 +605,7 @@ authors:
   - Idan Heimlich Shtacher
   - Shachi Paul
   - Oscar Akerlund
-  - François-Xavier Aubet
+  - Francois-Xavier Aubet
   - Terry Huang
   - Chen Zhu
   - Eric Zhu
@@ -613,7 +613,7 @@ authors:
   - Matthew Fritze
   - Francesco Bertolini
   - Liana-Eleonora Marinescu
-  - Martin Bölle
+  - Martin Bolle
   - Dominik Paulus
   - Khyatti Gupta
   - Tejasi Latkar
@@ -661,8 +661,8 @@ authors:
   - Alessandro Agostini
   - Maulik Shah
   - Hung Nguyen
-  - Noah Ó Donnaile
-  - Sébastien Pereira
+  - Noah O Donnaile
+  - Sebastien Pereira
   - Linda Friso
   - Adam Stambler
   - Adam Kurzrok
@@ -719,7 +719,7 @@ authors:
   - Pierre-Louis Cedoz
   - Chenmei Li
   - Shiyuan Chen
-  - Niccolò Dal Santo
+  - Niccolo Dal Santo
   - Siddharth Goyal
   - Jitesh Punjabi
   - Karthik Kappaganthu
@@ -739,7 +739,7 @@ authors:
   - Yenai Ma
   - Adams Yu
   - Soo Kwak
-  - Victor Ähdel
+  - Victor Ahdel
   - Sujeevan Rajayogam
   - Travis Choma
   - Fei Liu
@@ -771,17 +771,17 @@ authors:
   - Raynald Chung
   - Kai Yang
   - Nihal Balani
-  - Arthur Bražinskas
+  - Arthur Brazinskas
   - Andrei Sozanschi
   - Matthew Hayes
-  - Héctor Fernández Alcalde
+  - Hector Fernandez Alcalde
   - Peter Makarov
   - Will Chen
   - Antonio Stella
   - Liselotte Snijders
   - Michael Mandl
-  - Ante Kärrman
-  - Paweł Nowak
+  - Ante Karrman
+  - Pawel Nowak
   - Xinyi Wu
   - Alex Dyck
   - Krishnan Vaidyanathan
@@ -867,10 +867,10 @@ authors:
   - Norman Casagrande
   - Evan Palmer
   - Paul Suganthan
-  - Alfonso Castaño
+  - Alfonso Castano
   - Irene Giannoumis
   - Wooyeol Kim
-  - Mikołaj Rybiński
+  - Mikolaj Rybinski
   - Ashwin Sreevatsa
   - Jennifer Prendki
   - David Soergel
@@ -947,7 +947,7 @@ authors:
   - Colin Gaffney
   - Ken Franko
   - Anna Bulanova
-  - Rémi Leblond
+  - Remi Leblond
   - Shirley Chung
   - Harry Askham
   - Luis C. Cobo
@@ -1041,7 +1041,7 @@ authors:
   - Benigno Uria
   - Yeongil Ko
   - Laura Knight
-  - Amélie Héliou
+  - Amelie Heliou
   - Ning Niu
   - Shane Gu
   - Chenxi Pang
@@ -1063,7 +1063,7 @@ authors:
   - Sho Arora
   - Christy Koh
   - Soheil Hassas Yeganeh
-  - Siim Põder
+  - Siim Poder
   - Mukarram Tariq
   - Yanhua Sun
   - Lucian Ionita
@@ -1101,9 +1101,9 @@ authors:
   - Fedor Moiseev
   - Henrik Jacobsson
   - Alireza Ghaffarkhah
-  - Morgane Rivière
+  - Morgane Riviere
   - Alanna Walton
-  - Clément Crepy
+  - Clement Crepy
   - Alicia Parrish
   - Zongwei Zhou
   - Clement Farabet
@@ -1113,7 +1113,7 @@ authors:
   - Andreas Fidjeland
   - Salvatore Scellato
   - Eri Latorre-Chimoto
-  - Hanna Klimczak-Plucińska
+  - Hanna Klimczak-Plucinska
   - David Bridson
   - Dario de Cesare
   - Tom Hudson
@@ -1279,12 +1279,12 @@ authors:
   - Chenel Elkind
   - Aviel Atias
   - Paulina Lee
-  - Vít Listík
+  - Vit Listik
   - Mathias Carlen
   - Jan van de Kerkhof
   - Marcin Pikus
   - Krunoslav Zaher
-  - Paul Müller
+  - Paul Muller
   - Sasha Zykova
   - Richard Stefanec
   - Vitaly Gatsko

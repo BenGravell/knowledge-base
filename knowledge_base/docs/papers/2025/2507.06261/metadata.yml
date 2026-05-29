@@ -37,12 +37,12 @@ authors:
   - Ya Xu
   - Ollie Purkiss
   - Uri Mendlovic
-  - Ilaï Deutel
+  - Ilai Deutel
   - Nam Nguyen
   - Adam Langley
   - Flip Korn
   - Lucia Rossazza
-  - Alexandre Ramé
+  - Alexandre Rame
   - Sagar Waghmare
   - Helen Miller
   - Nathan Byrd
@@ -91,14 +91,14 @@ authors:
   - Markus Mircea
   - Animesh Sinha
   - Alberto Magni
-  - Paweł Stradomski
+  - Pawel Stradomski
   - Tal Marian
-  - Vlado Galić
+  - Vlado Galic
   - Wenhu Chen
   - Hisham Husain
   - Achintya Singhal
   - Dominik Grewe
-  - François-Xavier Aubet
+  - Francois-Xavier Aubet
   - Shuang Song
   - Lorenzo Blanco
   - Leland Rechis
@@ -116,10 +116,10 @@ authors:
   - Eric Doi
   - Berivan Isik
   - Nir Shabat
-  - Dominika Rogozińska
+  - Dominika Rogozinska
   - Kashyap Kolipaka
   - Jason Chang
-  - Eugen Vušak
+  - Eugen Vusak
   - Srinivasan Venkatachary
   - Shadi Noghabi
   - Tarun Bharti
@@ -223,7 +223,7 @@ authors:
   - Abe Ittycheriah
   - Lewis Chiang
   - Chak Yeung
-  - Alexandre Fréchette
+  - Alexandre Frechette
   - Jinmeng Rao
   - Huisheng Wang
   - Himanshu Srivastava
@@ -235,7 +235,7 @@ authors:
   - Felix Gimeno
   - Rachana Fellinger
   - Pierre Marcenac
-  - José Leal
+  - Jose Leal
   - Eyal Marcus
   - Victor Cotruta
   - Rodrigo Cabrera
@@ -319,12 +319,12 @@ authors:
   - Ada Maksutaj Oflazer
   - Francesco Pongetti
   - Mingyao Yang
-  - Adrien Ali Taïga
+  - Adrien Ali Taiga
   - Vincent Perot
   - Nuo Wang Pierse
   - Feng Han
   - Yoel Drori
-  - Iñaki Iturrate
+  - Inaki Iturrate
   - Ayan Chakrabarti
   - Legg Yeung
   - Dave Dopson
@@ -477,7 +477,7 @@ authors:
   - Shibo Wang
   - Georgie Evans
   - David Du
-  - Alfonso Castaño
+  - Alfonso Castano
   - Gautam Prasad
   - Mona El Mahdy
   - Sebastian Gerlach
@@ -507,13 +507,13 @@ authors:
   - Ben Withbroe
   - Zhang Li
   - Siyang Xue
-  - Niccolò Dal Santo
+  - Niccolo Dal Santo
   - Georgi Stoyanov
   - Yves Raimond
   - Steven Zheng
   - Yilin Gao
-  - Vít Listík
-  - Sławek Kwasiborski
+  - Vit Listik
+  - Slawek Kwasiborski
   - Rachel Saputro
   - Adnan Ozturel
   - Ganesh Mallya
@@ -534,7 +534,7 @@ authors:
   - Roy Hirsch
   - Cicero Nogueira dos Santos
   - Eugene Weinstein
-  - Aäron van den Oord
+  - Aaron van den Oord
   - Sid Lall
   - Nicholas FitzGerald
   - Zixuan Jiang
@@ -605,8 +605,8 @@ authors:
   - Siddhartha Brahma
   - David Steiner
   - Dayou Du
-  - Ante Žužul
-  - Mislav Žanić
+  - Ante Zuzul
+  - Mislav Zanic
   - Mukund Raghavachari
   - Willi Gierke
   - Zeyu Zheng
@@ -618,7 +618,7 @@ authors:
   - Chris Duvarney
   - Seokhwan Kim
   - Hyo Lee
-  - Léonard Hussenot
+  - Leonard Hussenot
   - Jeffrey Hui
   - Josh Smith
   - Deepali Jain
@@ -658,7 +658,7 @@ authors:
   - Tianli Ding
   - Angelos Filos
   - Zhongru Wu
-  - André Susano Pinto
+  - Andre Susano Pinto
   - Shuang Liu
   - Saarthak Khanna
   - Aditya Pandey
@@ -688,9 +688,9 @@ authors:
   - Tao Jiang
   - Omer Barak
   - Yuan Shangguan
-  - Eszter Vértes
+  - Eszter Vertes
   - Renee Wong
-  - Jörg Bornschein
+  - Jorg Bornschein
   - Alex Tudor
   - Michele Bevilacqua
   - Tom Schaul
@@ -720,7 +720,7 @@ authors:
   - James Keeling
   - Keyang Xu
   - Nathan Waters
-  - Florent Altché
+  - Florent Altche
   - Ashok Popat
   - Bhavishya Mittal
   - David Saxton
@@ -765,7 +765,7 @@ authors:
   - Hongkun Yu
   - Geng Yan
   - Beer Changpinyo
-  - Filip Pavetić
+  - Filip Pavetic
   - Amy Coyle
   - Yasuhisa Fujii
   - Jorge Gonzalez Mendez
@@ -806,7 +806,7 @@ authors:
   - Evan Palmer
   - Samira Daruki
   - Arijit Pramanik
-  - Siim Põder
+  - Siim Poder
   - Austin Kyker
   - Mina Khan
   - Evgeny Sluzhaev
@@ -821,7 +821,7 @@ authors:
   - Jay Hartford
   - Izhak Shafran
   - Long Zhao
-  - Maciej Mikuła
+  - Maciej Mikula
   - Tom Eccles
   - Hidetoshi Shimokawa
   - Kanav Garg
@@ -958,14 +958,14 @@ authors:
   - Anselm Levskaya
   - Bo Wang
   - Reed Roberts
-  - Rémi Leblond
+  - Remi Leblond
   - Sharat Chikkerur
   - Stav Ginzburg
   - Max Chang
   - Robert Riachi
   - Chuqiao
   - Xu
-  - Zalán Borsos
+  - Zalan Borsos
   - Michael Pliskin
   - Julia Pawar
   - Morgane Lustman
@@ -1050,7 +1050,7 @@ authors:
   - Peter Young
   - Jiewen Tan
   - Matan Eyal
-  - Arthur Bražinskas
+  - Arthur Brazinskas
   - Li Zhong
   - Zhichun Wu
   - Mark Epstein
@@ -1228,7 +1228,7 @@ authors:
   - Steven Hansen
   - Sara Mc Carthy
   - Bidisha Samanta
-  - Domagoj Ćevid
+  - Domagoj Cevid
   - Xin Wang
   - Fangtao Li
   - Michael Voznesensky
@@ -1267,7 +1267,7 @@ authors:
   - Tanuj Bhatia
   - Pranav Talluri
   - Alex Morris
-  - Andrija Ražnatović
+  - Andrija Raznatovic
   - Bethanie Brownfield
   - James An
   - Sheng Peng
@@ -1278,7 +1278,7 @@ authors:
   - James Noraky
   - Siqi Liu
   - Keran Rong
-  - Petar Veličković
+  - Petar Velickovic
   - Keith Rush
   - Alex Goldin
   - Fanny Wei
@@ -1288,7 +1288,7 @@ authors:
   - Jianmo Ni
   - Eric Noland
   - Julia Di Trapani
-  - Françoise Beaufays
+  - Francoise Beaufays
   - Abhijit Guha Roy
   - Yinlam Chow
   - Aybuke Turker
@@ -1296,7 +1296,7 @@ authors:
   - Lantao Mei
   - Jon Clark
   - Qingyun Dou
-  - Matko Bošnjak
+  - Matko Bosnjak
   - Ralph Leith
   - Yuqing Du
   - Amir Yazdanbakhsh
@@ -1331,7 +1331,7 @@ authors:
   - Alicia Jin
   - Anand Iyer
   - Marcella Valentine
-  - András György
+  - Andras Gyorgy
   - Arun Ahuja
   - Daniel Hernandez Diaz
   - Chen-Yu Lee
@@ -1440,7 +1440,7 @@ authors:
   - Guru Guruganesh
   - Nan Hua
   - Ofir Roval
-  - Paweł Wesołowski
+  - Pawel Wesolowski
   - Rishikesh Ingale
   - Jonathan Halcrow
   - Tim Sohn
@@ -1531,7 +1531,7 @@ authors:
   - Jens Heitkaemper
   - John Lambert
   - Jinhyuk Lee
-  - Alexander Frömmgen
+  - Alexander Frommgen
   - Sergey Rogulenko
   - Pranav Nair
   - Paul Niemczyk
@@ -1566,7 +1566,7 @@ authors:
   - Hung Nguyen
   - Kingshuk Dasgupta
   - Dirk Robinson
-  - Iulia Comşa
+  - Iulia Comsa
   - Michael Riley
   - Arjun Pillai
   - Basil Mustafa
@@ -1584,7 +1584,7 @@ authors:
   - Taylor Tobin
   - Pavel Dubov
   - Hongzhi Shi
-  - AdriÃ Recasens
+  - Adria Recasens
   - Anton Kovsharov
   - Sebastian Borgeaud
   - Lucio Dery
@@ -1628,19 +1628,19 @@ authors:
   - Yoel Zeldes
   - Tian Xie
   - Anja Hauth
-  - Alexandru Ţifrea
+  - Alexandru Tifrea
   - Yuqi Li
   - Sam El-Husseini
   - Dan Abolafia
   - Howard Zhou
   - Wen Ding
   - Sahra Ghalebikesabi
-  - Carlos Guía
+  - Carlos Guia
   - Andrii Maksai
-  - Ágoston Weisz
+  - Agoston Weisz
   - Sercan Arik
   - Nick Sukhanov
-  - Aga Świetlik
+  - Aga Swietlik
   - Xuhui Jia
   - Luo Yu
   - Weiyue Wang
@@ -1691,7 +1691,7 @@ authors:
   - Daniel von Dincklage
   - Qingchun Ren
   - Blagoj Mitrevski
-  - Mirek Olšák
+  - Mirek Olsak
   - Jennifer She
   - Carl Doersch
   - Jilei
@@ -1713,7 +1713,7 @@ authors:
   - Alexei Bendebury
   - Ryan Julian
   - Bharath Mankalale
-  - Daria Ćurko
+  - Daria Curko
   - Paulo Zacchello
   - Adam R. Brown
   - Kiranbir Sodhia
@@ -1777,7 +1777,7 @@ authors:
   - Zhi Li
   - Liangchen Luo
   - Karel Lenc
-  - Mario Lučić
+  - Mario Lucic
   - Fuzhao Xue
   - Ryan Mullins
   - Alexey Guseynov
@@ -1824,7 +1824,7 @@ authors:
   - Mohammad Hossein Bateni
   - Isaac Noble
   - Lisa Lee
-  - Amelio Vázquez-Reina
+  - Amelio Vazquez-Reina
   - Julian Salazar
   - Xiaomeng Yang
   - Boyu Wang
@@ -1876,7 +1876,7 @@ authors:
   - Doug Reid
   - Joss Moore
   - Arvind Neelakantan
-  - Michaël Sander
+  - Michael Sander
   - Jonathan Herzig
   - Aviv Rosenberg
   - Mostafa Dehghani
@@ -1903,7 +1903,7 @@ authors:
   - Duc Dung Nguyen
   - Reut Tsarfaty
   - Samuel Albanie
-  - Jovana Mitrović
+  - Jovana Mitrovic
   - Meet Gandhi
   - Bo-Juen Chen
   - Alessandro Epasto
@@ -1936,7 +1936,7 @@ authors:
   - Elan Rosenfeld
   - Sam Ritter
   - Jieming Mao
-  - João Gabriel Oliveira
+  - Joao Gabriel Oliveira
   - Zoltan Egyed
   - Bernd Bandemer
   - Emilio Parisotto
@@ -1952,7 +1952,7 @@ authors:
   - Katrina
   - Xu
   - Jennimaria Palomaki
-  - Séb Arnold
+  - Seb Arnold
   - Madhavi Sewak
   - Federico Piccinini
   - Mohit Sharma
@@ -2023,11 +2023,11 @@ authors:
   - Felipe Tiengo Ferreira
   - Yaoyiran Li
   - Frederik Benzing
-  - Mihajlo Velimirović
+  - Mihajlo Velimirovic
   - Hubert Soyer
   - William Kong
   - Tony
-  - Nguyên
+  - Nguyen
   - Zhen Yang
   - Jeremiah Liu
   - Joost van Amersfoort
@@ -2084,7 +2084,7 @@ authors:
   - Julian Walker
   - Bing Zhang
   - Annie Xie
-  - Goran Žužić
+  - Goran Zuzic
   - Adaeze Chukwuka
   - Alex Druinsky
   - Donghyun Cho
@@ -2145,7 +2145,7 @@ authors:
   - Simon Osindero
   - Craig Swanson
   - Jacob Scott
-  - Anastasija Ilić
+  - Anastasija Ilic
   - Xiaowei Li
   - Siddhartha Reddy Jonnalagadda
   - Afzal Shama Soudagar
@@ -2205,7 +2205,7 @@ authors:
   - Philippe Schlattner
   - George Zhang
   - Rohun Saxena
-  - Petar Dević
+  - Petar Devic
   - Kritika Muralidharan
   - Ashwin Murthy
   - Yiqian Zhou
@@ -2264,7 +2264,7 @@ authors:
   - Claire Cui
   - Elena Pochernina
   - Cip Baetu
-  - Krzysztof Jastrzębski
+  - Krzysztof Jastrzebski
   - Mimi Ly
   - Mohamed Elhawaty
   - Dan Suh
@@ -2282,7 +2282,7 @@ authors:
   - Kevin R. McKee
   - Mandy Guo
   - Malika Mehrotra
-  - Artur Mendonça
+  - Artur Mendonca
   - Sanket Vaibhav Mehta
   - Sherry Ben
   - Chetan Tekur
@@ -2291,7 +2291,7 @@ authors:
   - Victoria Krakovna
   - Hongrae Lee
   - AJ Maschinot
-  - Sébastien Cevey
+  - Sebastien Cevey
   - HyunJeong Choe
   - Aijun Bai
   - Hansa Srinivasan
@@ -2358,7 +2358,7 @@ authors:
   - Navneet Potti
   - Yan Virin
   - Christian Wright
-  - Gaël Liu
+  - Gael Liu
   - Oriana Riva
   - Etienne Pot
   - Greg Kochanski
@@ -2390,7 +2390,7 @@ authors:
   - Kaiz Alarakyia
   - Robert Geirhos
   - Diana Mincu
-  - Håvard Garnes
+  - Havard Garnes
   - Hayato Kobayashi
   - Soroosh Mariooryad
   - Kacper Krasowiak
@@ -2432,7 +2432,7 @@ authors:
   - Lisa Wang
   - Madeleine Clare Elish
   - Raluca Ada Popa
-  - Sébastien Pereira
+  - Sebastien Pereira
   - Jianqiao Liu
   - Raphael Koster
   - Donnie Kim
@@ -2459,7 +2459,7 @@ authors:
   - Steven Hemingray
   - Bonnie Li
   - Joana Iljazi
-  - Mikołaj Rybiński
+  - Mikolaj Rybinski
   - Ballie Sandhu
   - Peggy Lu
   - Thang Luong
@@ -2481,7 +2481,7 @@ authors:
   - Jianling Wang
   - Kilol Gupta
   - Hyeontaek Lim
-  - Blaž Bratanič
+  - Blaz Bratanic
   - Andy Brock
   - Ilia Akolzin
   - Jim Sproch
@@ -2526,12 +2526,12 @@ authors:
   - Nelson George
   - Simon Niklaus
   - Zach Eaton-Rosen
-  - Nemanja Rakićević
+  - Nemanja Rakicevic
   - Erik Jue
   - Sagi Perel
   - Carrie Zhang
   - Yuval Bahat
-  - Angéline Pouget
+  - Angeline Pouget
   - Zhi Xing
   - Fantine Huot
   - Ashish Shenoy
@@ -2556,7 +2556,7 @@ authors:
   - Chen
   - Manaal Faruqui
   - Jialin Wu
-  - Slavica Andačić
+  - Slavica Andacic
   - Szabolcs Payrits
   - Daniel McDuff
   - Tom Hume
@@ -2651,7 +2651,7 @@ authors:
   - Mauro Verzetti
   - Leon Li
   - George Papamakarios
-  - Hanna Klimczak-Plucińska
+  - Hanna Klimczak-Plucinska
   - Mary Cassin
   - Koray Kavukcuoglu
   - Rigel Swavely
@@ -2701,7 +2701,7 @@ authors:
   - Eran Ofek
   - Clemens Meyer
   - Khuslen Baatarsukh
-  - Hana Strejček
+  - Hana Strejcek
   - Jun Qian
   - James Freedman
   - Ricardo Figueira
@@ -2825,7 +2825,7 @@ authors:
   - Lu Li
   - SQ Mah
   - Yennie Jun
-  - Morgane Rivière
+  - Morgane Riviere
   - Abhijit Karmarkar
   - Tammo Spalink
   - Tao Huang
@@ -2837,7 +2837,7 @@ authors:
   - Ellie Talius
   - Harsh Mehta
   - Thibault Sellam
-  - Philipp Fränken
+  - Philipp Franken
   - Massimo Nicosia
   - Kyle He
   - Aditya Kini
@@ -2899,7 +2899,7 @@ authors:
   - Adhi Kuncoro
   - Toshihiro Yoshino
   - Ankit Bhagatwala
-  - Marcáurelio Ranzato
+  - Marcaurelio Ranzato
   - Rylan Schaeffer
   - Tianlin Liu
   - Shuai Ye
@@ -2918,7 +2918,7 @@ authors:
   - Wolfgang Macherey
   - Ethan Dyer
   - Logan Kilpatrick
-  - Víctor Campos
+  - Victor Campos
   - Mukul Bhutani
   - Stanislav Fort
   - Yanif Ahmad
@@ -2986,7 +2986,7 @@ authors:
   - Arjun Kar
   - Borja De Balle Pigem
   - Tayfun Terzi
-  - Gellért Weisz
+  - Gellert Weisz
   - Dipankar Ghosh
   - Aditi Mavalankar
   - Dhruv Madeka
@@ -3136,7 +3136,7 @@ authors:
   - Jiayu Ye
   - Paul Vicol
   - Mihaela Rosca
-  - AdriÃ Puigdomènech
+  - Adria Puigdomenech
   - Zohar Yahav
   - Sanjay Ghemawat
   - Hanzhao Lin
@@ -3170,12 +3170,12 @@ authors:
   - Ying Chen
   - Yani Donchev
   - Charlotte Magister
-  - Signe Nørly
+  - Signe Norly
   - Vitor Rodrigues
   - Tomas Izo
   - Hila Noga
   - Joe Zou
-  - Thomas Köppe
+  - Thomas Koppe
   - Wenxuan Zhou
   - Kenton Lee
   - Xiangzhu Long
@@ -3229,7 +3229,7 @@ authors:
   - Adam Kraft
   - Setareh Ariafar
   - Yiming Gu
-  - Eugénie Rives
+  - Eugenie Rives
   - Charles Yoon
   - Andrei Rusu
   - James Cobon-Kerr
@@ -3239,7 +3239,7 @@ authors:
   - Zhu
   - Niharika Ahuja
   - Rodrigo Benenson
-  - Raphaël Lopez Kaufman
+  - Raphael Lopez Kaufman
   - Honglin Yu
   - Lloyd Hightower
   - Junlin Zhang
@@ -3317,7 +3317,7 @@ authors:
   - Yichi Zhang
   - Richard Killam
   - Vincent Zhuang
-  - Mai Giménez
+  - Mai Gimenez
   - Wael Al Jishi
   - Ruy Ley-Wild
   - Alex Zhai
@@ -3336,10 +3336,10 @@ authors:
   - Sanjiv Kumar
   - Xiang Deng
   - Artiom Myaskovsky
-  - Tea Sabolić
+  - Tea Sabolic
   - Jeffrey Dudek
   - Sarah York
-  - Félix de Chaumont Quitry
+  - Felix de Chaumont Quitry
   - Jiazhong Nie
   - Dee Cattle
   - Alok Gunjan

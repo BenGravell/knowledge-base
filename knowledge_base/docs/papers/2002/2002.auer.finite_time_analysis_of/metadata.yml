@@ -3,7 +3,7 @@ title: >
 algorithm: "UCB"
 authors:
   - Peter Auer
-  - Nicolò Cesa-Bianchi
+  - Nicolo Cesa-Bianchi
   - Paul Fischer
 year: 2002
 source: Machine Learning

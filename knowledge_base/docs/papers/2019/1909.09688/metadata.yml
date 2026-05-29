@@ -1,6 +1,6 @@
 title: >
   Revisiting the Asymptotic Optimality of RRT*
-algorithm: RRT*
+algorithm:
 authors:
   - Kiril Solovey
   - Lucas Janson

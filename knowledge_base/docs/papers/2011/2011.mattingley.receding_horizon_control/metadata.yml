@@ -2,6 +2,9 @@ title: >
   Receding Horizon Control
 algorithm:
 authors:
+  - Jacob Mattingley
+  - Yang Wang
+  - Stephen Boyd
 year: 2011
 source: IEEE Control Systems
 type: Journal Paper

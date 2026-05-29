@@ -3,7 +3,7 @@ title: >
 algorithm: "LSTM"
 authors:
   - Sepp Hochreiter
-  - Jürgen Schmidhuber
+  - Jurgen Schmidhuber
 year: 1997
 source: Neural Computation
 type: Journal Paper

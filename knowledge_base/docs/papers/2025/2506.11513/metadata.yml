@@ -2,10 +2,10 @@ title: >
   Automatic Generation of Explicit Quadratic Programming Solvers
 algorithm:
 authors:
- - Maximilian Schaller
- - Daniel Arnström
- - Alberto Bemporad
- - Stephen Boyd
+  - Maximilian Schaller
+  - Daniel Arnstrom
+  - Alberto Bemporad
+  - Stephen Boyd
 year: 2025
 source: "Robotics: Science and Systems (RSS)"
 type: Journal Paper

@@ -1,6 +1,6 @@
 title: >
   Learning-Aided Warmstart of Model Predictive Control in Uncertain Fast-Changing Traffic
-algorithm: MPC
+algorithm:
 authors:
   - Mohamed-Khalil Bouzidi
   - Yue Yao

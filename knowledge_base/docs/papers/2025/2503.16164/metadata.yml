@@ -2,8 +2,8 @@ title: >
   Asymptotically Optimal Path Planning with an Approximation of the Omniscient Set
 algorithm: PI-RRT*
 authors:
-  - Jonáš Kříž
-  - Vojtěch Vonásek
+  - Jonas Kriz
+  - Vojtech Vonasek
 year: 2025
 source: IEEE Robotics and Automation Letters
 type: Journal Paper

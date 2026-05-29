@@ -4,7 +4,7 @@ algorithm: Faiss
 authors:
   - Jeff Johnson
   - Matthijs Douze
-  - Hervé Jégou
+  - Herve Jegou
 year: 2017
 source: IEEE Transactions on Big Data
 type: Journal Paper

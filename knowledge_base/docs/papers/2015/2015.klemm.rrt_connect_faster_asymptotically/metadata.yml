@@ -3,12 +3,12 @@ title: >
 algorithm: RRT*-Connect
 authors:
   - Sebastian Klemm
-  - Jan Oberländer
+  - Jan Oberlander
   - Andreas Hermann
   - Arne Roennau
   - Thomas Schamm
-  - Johann Marius Zöllner
-  - Rüdiger Dillmann
+  - Johann Marius Zollner
+  - Rudiger Dillmann
 year: 2015
 source: IEEE International Conference on Robotics and Biomimetics (ROBIO)
 type: Conference Paper

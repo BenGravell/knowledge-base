@@ -2,14 +2,14 @@ title: >
   Design and Control of a Bipedal Robotic Character
 algorithm:
 authors:
- - Ruben Grandia
- - Espen Knoop
- - Michael A. Hopkins
- - Georg Wiedebach
- - Jared Bishop
- - Steven Pickles
- - David Müller
- - Moritz Bächer
+  - Ruben Grandia
+  - Espen Knoop
+  - Michael A. Hopkins
+  - Georg Wiedebach
+  - Jared Bishop
+  - Steven Pickles
+  - David Muller
+  - Moritz Bacher
 year: 2025
 type: Conference Paper
 arxiv_id: "2501.05204"

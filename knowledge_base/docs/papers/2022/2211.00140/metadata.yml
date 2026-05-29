@@ -2,12 +2,12 @@ title: >
   A Damped Newton Method Achieves Global O(1/k^2) and Local Quadratic Convergence Rate
 algorithm:
 authors:
-  - Slavomír Hanzely
+  - Slavomir Hanzely
   - Dmitry Kamzolov
   - Dmitry Pasechnyuk
   - Alexander Gasnikov
-  - Peter Richtárik
-  - Martin Takáč
+  - Peter Richtarik
+  - Martin Takac
 year: 2022
 source: arXiv
 type: Preprint

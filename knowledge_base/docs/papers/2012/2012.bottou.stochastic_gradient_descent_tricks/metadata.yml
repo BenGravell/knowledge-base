@@ -2,7 +2,7 @@ title: >
   Stochastic Gradient Descent Tricks
 algorithm: "SGD"
 authors:
-  - Léon Bottou
+  - Leon Bottou
 year: 2012
 source: Lecture Notes in Computer Science
 type: Conference Paper

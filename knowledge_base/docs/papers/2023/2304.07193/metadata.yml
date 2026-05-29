@@ -3,8 +3,8 @@ title: >
 algorithm: DINOv2
 authors:
   - Maxime Oquab
-  - Timothée Darcet
-  - Théo Moutakanni
+  - Timothee Darcet
+  - Theo Moutakanni
   - Huy Vo
   - Marc Szafraniec
   - Vasil Khalidov
@@ -23,7 +23,7 @@ authors:
   - Vasu Sharma
   - Gabriel Synnaeve
   - Hu Xu
-  - Hervé Jegou
+  - Herve Jegou
   - Julien Mairal
   - Patrick Labatut
   - Armand Joulin

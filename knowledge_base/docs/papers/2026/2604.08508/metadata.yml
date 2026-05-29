@@ -4,7 +4,7 @@ algorithm: Sumo
 authors:
   - John Z. Zhang
   - Maks Sorokin
-  - Jan Brüdigam
+  - Jan Brudigam
   - Brandon Hung
   - Stephen Phillips
   - Dmitry Yershov
@@ -18,7 +18,7 @@ authors:
   - Jiuguang Wang
   - Preston Culbertson
   - Zachary Manchester
-  - Simon Le Cléac'h
+  - Simon Le Cleac'h
 year: 2026
 source: arXiv
 type: Preprint

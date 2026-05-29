@@ -2,11 +2,11 @@ title: >
   Closed-loop Analysis of Linear Stochastic MPC with Risk-averse Constraints
 algorithm: Risk-Averse Stochastic MPC
 authors:
-  - Jonas Schießl
+  - Jonas Schiessl
   - Ruchuan Ou
   - Michael H. Baumann
   - Timm Faulwasser
-  - Lars Grüne
+  - Lars Grune
 year: 2026
 source: arXiv
 type: Preprint
