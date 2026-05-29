@@ -1,4 +1,5 @@
-title: Applied Random Matrix Theory
+title: >
+  Applied Random Matrix Theory
 algorithm:
 authors:
   - Joel A. Tropp
@@ -8,7 +9,8 @@ type: ''
 doi:
 arxiv_id: "2604.27119"
 tags:
-abstract: Random matrices now play a role in many parts of computational mathematics. To advance these applications, it is desirable to have tools that are flexible, easy to use, and powerful. Over the last 25 years, researchers have developed a remarkable family of results, called matrix concentration inequalities, that meet the criteria. This paper offers an invitation to the field of matrix concentration and its multifarious applications.
+abstract: >
+  Random matrices now play a role in many parts of computational mathematics. To advance these applications, it is desirable to have tools that are flexible, easy to use, and powerful. Over the last 25 years, researchers have developed a remarkable family of results, called matrix concentration inequalities, that meet the criteria. This paper offers an invitation to the field of matrix concentration and its multifarious applications.
 summary: ''
 link: https://arxiv.org/pdf/2604.27119
 links_alt:

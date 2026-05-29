@@ -1,4 +1,5 @@
-title: "Batch Size-invariance for Policy Optimization"
+title: >
+  Batch Size-invariance for Policy Optimization
 algorithm:
 authors:
   - Jacob Hilton
@@ -10,7 +11,8 @@ type: ''
 doi:
 arxiv_id: "2110.00641"
 tags:
-abstract: We say an algorithm is batch size-invariant if changes to the batch size can largely be compensated for by changes to other hyperparameters. Stochastic gradient descent is well-known to have this property at small batch sizes, via the learning rate. However, some policy optimization algorithms (such as PPO) do not have this property, because of how they control the size of policy updates. In this work we show how to make these algorithms batch size-invariant. Our key insight is to decouple the proximal policy (used for controlling policy updates) from the behavior policy (used for off-policy corrections). Our experiments help explain why these algorithms work, and additionally show how they can make more efficient use of stale data.
+abstract: >
+  We say an algorithm is batch size-invariant if changes to the batch size can largely be compensated for by changes to other hyperparameters. Stochastic gradient descent is well-known to have this property at small batch sizes, via the learning rate. However, some policy optimization algorithms (such as PPO) do not have this property, because of how they control the size of policy updates. In this work we show how to make these algorithms batch size-invariant. Our key insight is to decouple the proximal policy (used for controlling policy updates) from the behavior policy (used for off-policy corrections). Our experiments help explain why these algorithms work, and additionally show how they can make more efficient use of stale data.
 summary: ''
 link: https://arxiv.org/pdf/2110.00641
 links_alt:

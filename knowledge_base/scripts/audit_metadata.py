@@ -262,16 +262,21 @@ _URL_DISALLOWED_FIELDS = {
     "tags",
     "audit_status",
 }
-_MULTILINE_FORBIDDEN_FIELDS = {
+_FOLDED_TEXT_FIELDS = {
     "title",
+    "abstract",
+    "summary",
+}
+_FOLDED_TEXT_FIELD_ISSUE_PREFIX = (
+    "Long text field should use folded YAML block style"
+)
+_MULTILINE_FORBIDDEN_FIELDS = {
     "algorithm",
     "year",
     "source",
     "type",
     "doi",
     "arxiv_id",
-    "abstract",
-    "summary",
     "link",
     "audit_status",
 }
@@ -2311,7 +2316,11 @@ def _top_level_field_span(lines: list[str], start: int) -> tuple[str, str, int] 
     return field_name, value, end
 
 
-def find_multiline_field_issues(path: Path, raw: str) -> list["Issue"]:
+def _is_folded_scalar_header(value: str) -> bool:
+    return value.lstrip().startswith(">")
+
+
+def find_multiline_field_issues(path: Path, raw: str, data: dict) -> list["Issue"]:
     issues: list[Issue] = []
     lines = raw.splitlines(keepends=True)
     for index, line in enumerate(lines):
@@ -2320,6 +2329,23 @@ def find_multiline_field_issues(path: Path, raw: str) -> list["Issue"]:
             continue
 
         field_name, value, end = parsed
+        if field_name in _FOLDED_TEXT_FIELDS:
+            field_value = data.get(field_name)
+            if (
+                isinstance(field_value, str)
+                and field_value.strip()
+                and not _is_folded_scalar_header(value)
+            ):
+                issues.append(
+                    Issue(
+                        path,
+                        field_name,
+                        f"{_FOLDED_TEXT_FIELD_ISSUE_PREFIX}: {field_name}",
+                        "Use the `field: >` newline pattern with indented text.",
+                    )
+                )
+            continue
+
         if field_name not in _MULTILINE_FORBIDDEN_FIELDS:
             continue
 
@@ -2435,7 +2461,7 @@ def audit_file(
         issues.extend(find_garbled_markup_issues(path, data))
 
     if should_check(CHECK_MULTILINE):
-        issues.extend(find_multiline_field_issues(path, raw))
+        issues.extend(find_multiline_field_issues(path, raw, data))
 
     if should_check(CHECK_WHITESPACE):
         issues.extend(find_big_whitespace_issues(path, data))
@@ -2467,6 +2493,9 @@ def audit_file(
         else:
             issues.extend(find_weird_text_character_issues(path, "title", title))
             issues.extend(find_likely_misspelling_issues(path, "title", title))
+            issues.extend(
+                find_high_confidence_ocr_artifact_issues(path, "title", title)
+            )
             if title != title_corrected:
                 message = (
                     f"Contains title markup/math garbage: {title!r}"
@@ -2713,6 +2742,13 @@ def audit_file(
         else:
             issues.extend(
                 find_likely_misspelling_issues(path, "summary", str(summary))
+            )
+            issues.extend(
+                find_high_confidence_ocr_artifact_issues(
+                    path,
+                    "summary",
+                    str(summary),
+                )
             )
 
     # -- optional field completeness (info) --
@@ -3015,7 +3051,7 @@ _C1_CONTROL_CHAR_RE = re.compile(r"[\u0080-\u009f]")
 
 
 def _format_title_line(new_title: str, line_ending: str = "\n") -> str:
-    return f"title: {json.dumps(new_title, ensure_ascii=False)}{line_ending}"
+    return _format_metadata_scalar_line("title", new_title, line_ending)
 
 
 def _is_block_scalar_header(value: str) -> bool:
@@ -3452,6 +3488,13 @@ def _is_multiline_field_issue(issue: Issue) -> bool:
     )
 
 
+def _is_folded_text_field_issue(issue: Issue) -> bool:
+    return (
+        issue.field in _FOLDED_TEXT_FIELDS
+        and issue.message.startswith(_FOLDED_TEXT_FIELD_ISSUE_PREFIX)
+    )
+
+
 def _is_plural_duplicate_tag_issue(issue: Issue) -> bool:
     return (
         issue.field == "tags"
@@ -3496,12 +3539,25 @@ def _tag_issue_index(issue: Issue) -> int | None:
     return int(match.group(1))
 
 
-def _format_metadata_scalar_line(field_name: str, value: object, newline: str = "\n") -> str:
+def _format_folded_scalar_field(field_name: str, value: str, newline: str) -> str:
+    text = _normalize_inline_text(value)
+    if not text:
+        return f"{field_name}:{newline}"
+    return f"{field_name}: >{newline}  {text}{newline}"
+
+
+def _format_metadata_scalar_line(
+    field_name: str,
+    value: object,
+    newline: str = "\n",
+) -> str:
     if value is None or value == "":
         return f"{field_name}:{newline}"
 
     if isinstance(value, str):
         value = _normalize_inline_text(value)
+        if field_name in _FOLDED_TEXT_FIELDS:
+            return _format_folded_scalar_field(field_name, value, newline)
         if field_name == "arxiv_id":
             return f"{field_name}: {json.dumps(value, ensure_ascii=False)}{newline}"
 
@@ -3599,6 +3655,24 @@ def _fix_multiline_fields_in_yaml(
         index = end
 
     return "".join(lines), changed
+
+
+def _fix_folded_text_fields_in_yaml(
+    raw: str,
+    data: dict,
+    fields: set[str],
+) -> tuple[str, list[str]]:
+    fixed_raw = raw
+    changed_fields: list[str] = []
+    for field_name in sorted(fields):
+        value = data.get(field_name)
+        if not isinstance(value, str) or not value.strip():
+            continue
+        new_raw = _fix_metadata_scalar_field_in_yaml(fixed_raw, field_name, value)
+        if new_raw != fixed_raw:
+            fixed_raw = new_raw
+            changed_fields.append(field_name)
+    return fixed_raw, changed_fields
 
 
 def _format_tags_block(tags: list[object], newline: str = "\n") -> str:
@@ -3904,10 +3978,18 @@ def _apply_path_fix(path_fix: PathFix, kb_root: Path) -> bool:
         return False
 
 
-def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> dict[Path, Path]:
+def apply_fixes(
+    results: list[tuple[Path, list[Issue]]],
+    *,
+    kb_root: Path,
+    fix_paths: bool = True,
+) -> dict[Path, Path]:
     fixed = 0
     path_replacements: dict[Path, Path] = {}
+    metadata_paths_seen: set[Path] = set()
     for path, issues in results:
+        if path.name == "metadata.yml":
+            metadata_paths_seen.add(path)
         has_parse_fixes = any(i.field == "parse" for i in issues)
         title_fixes = [
             i
@@ -3915,6 +3997,7 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
             if i.field == "title"
             and i.suggestion is not None
             and not _is_multiline_field_issue(i)
+            and not _is_folded_text_field_issue(i)
         ]
         source_year_fixes = [i for i in issues if _is_source_year_issue(i)]
         tag_fixes = [i for i in issues if _is_fixable_tag_issue(i)]
@@ -3925,6 +4008,9 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
             i.field for i in issues if _is_high_confidence_ocr_artifact_issue(i)
         }
         multiline_fields = {i.field for i in issues if _is_multiline_field_issue(i)}
+        folded_text_fields = {
+            i.field for i in issues if _is_folded_text_field_issue(i)
+        }
         has_escaped_sequence_fixes = any(_is_escaped_sequence_issue(i) for i in issues)
         has_garbled_markup_fixes = any(_is_garbled_markup_issue(i) for i in issues)
         whitespace_fields = {
@@ -3940,6 +4026,7 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
             and not abstract_publisher_fixes
             and not ocr_artifact_fields
             and not multiline_fields
+            and not folded_text_fields
             and not has_escaped_sequence_fixes
             and not has_garbled_markup_fixes
             and not whitespace_fields
@@ -3958,8 +4045,8 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
 
             if title_fixes:
                 new_title = title_fixes[0].suggestion
+                old_title = (yaml.safe_load(new_raw) or {}).get("title", "")
                 new_raw = _fix_title_in_yaml(new_raw, new_title)
-                old_title = yaml.safe_load(raw).get("title", "")
                 messages.append(f"  title: {old_title!r} [green]->[/] {new_title!r}")
 
             if source_year_fixes:
@@ -4010,6 +4097,19 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
                     fields = ", ".join(sorted(multiline_fields))
                     messages.append(f"  single-lined {n_single_lined} field(s): {fields}")
 
+            if folded_text_fields:
+                parsed = yaml.safe_load(new_raw) or {}
+                new_raw, folded_fields = _fix_folded_text_fields_in_yaml(
+                    new_raw,
+                    parsed,
+                    folded_text_fields,
+                )
+                if folded_fields:
+                    fields = ", ".join(folded_fields)
+                    messages.append(
+                        f"  folded {len(folded_fields)} text field(s): {fields}"
+                    )
+
             if tag_fixes:
                 parsed = yaml.safe_load(new_raw) or {}
                 new_raw, n_fixed_tags = _fix_tags_in_yaml(
@@ -4055,8 +4155,8 @@ def apply_fixes(results: list[tuple[Path, list[Issue]]], *, kb_root: Path) -> di
             err_console.print(f"[red]Error fixing {path}:[/] {exc}")
 
     moved = 0
-    for path, issues in results:
-        if not path.exists() or not any(i.field == CHECK_PATH for i in issues):
+    for path in sorted(metadata_paths_seen):
+        if not fix_paths or not path.exists():
             continue
         path_fix = _path_fix_for(path, kb_root)
         if path_fix is None:
@@ -4139,7 +4239,7 @@ Checks performed on each metadata.yml:
   abstract  - ERROR if empty, placeholder-like, contains scraped page text, publisher/copyright notices, or PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed; WARN for dollar math, copied "abstract" headings, likely misspellings, high-confidence OCR artifacts, or OCR word splits
   escape    - ERROR if string fields contain HTML/entity escapes like &#39; or &amp;, or if title contains raw YAML character escapes like \\u2014
   url       - ERROR if URLs appear in title, algorithm, authors, year, source, type, doi, arxiv_id, tags, or audit_status; ERROR if links contain garbled HTML/XML markup
-  multiline - ERROR if scalar fields that must be one-line are written across multiple YAML lines
+  multiline - ERROR if one-line scalar fields span multiple YAML lines, or if title/abstract/summary do not use folded `>` YAML style
   source    - ERROR if the source/venue field contains a publication year
   type      - ERROR if not a recognised paper type
   status    - ERROR if audit_status is not one of: raw, partial, reviewed
@@ -4173,8 +4273,9 @@ Available --check names:
             "Auto-fix title-case, tag casing/leading articles/duplicate tags, "
             "abstract publisher/copyright notices, high-confidence OCR artifacts, "
             "escaped HTML/entity/markup issues, high-confidence parse artifacts, "
-            "multiline scalar fields, large whitespace runs, source years, and path slugs; "
-            "path fixes move metadata directories and update direct references"
+            "multiline scalar fields, folded text-field style, large whitespace runs, "
+            "source years, and path slugs; path fixes move metadata directories "
+            "after metadata edits and update direct references"
         ),
     )
     parser.add_argument(
@@ -4299,7 +4400,11 @@ Available --check names:
         console.print()
 
     if args.fix:
-        path_replacements = apply_fixes(results, kb_root=kb_root)
+        path_replacements = apply_fixes(
+            results,
+            kb_root=kb_root,
+            fix_paths=checked_map_data,
+        )
         if path_replacements:
             targets = [path_replacements.get(p, p) for p in targets]
         remaining_errors = 0

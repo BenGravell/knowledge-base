@@ -1,4 +1,5 @@
-title: "A Cantor-Kantorovich Metric between Markov Decision Processes with Application to Transfer Learning"
+title: >
+  A Cantor-Kantorovich Metric between Markov Decision Processes with Application to Transfer Learning
 algorithm:
 authors:
   - Adrien Banse
@@ -10,7 +11,8 @@ type: ''
 doi:
 arxiv_id: "2407.08324"
 tags:
-abstract: We extend the notion of Cantor-Kantorovich distance between Markov chains introduced by (Banse et al., 2023) in the context of Markov Decision Processes (MDPs). The proposed metric is well-defined and can be efficiently approximated given a finite horizon. Then, we provide numerical evidences that the latter metric can lead to interesting applications in the field of reinforcement learning. In particular, we show that it could be used for forecasting the performance of transfer learning algorithms.
+abstract: >
+  We extend the notion of Cantor-Kantorovich distance between Markov chains introduced by (Banse et al., 2023) in the context of Markov Decision Processes (MDPs). The proposed metric is well-defined and can be efficiently approximated given a finite horizon. Then, we provide numerical evidences that the latter metric can lead to interesting applications in the field of reinforcement learning. In particular, we show that it could be used for forecasting the performance of transfer learning algorithms.
 summary: ''
 link: https://arxiv.org/pdf/2407.08324
 links_alt:

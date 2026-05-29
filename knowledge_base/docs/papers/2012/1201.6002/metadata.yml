@@ -1,4 +1,5 @@
-title: "Matrix Concentration Inequalities via the Method of Exchangeable Pairs"
+title: >
+  Matrix Concentration Inequalities via the Method of Exchangeable Pairs
 algorithm:
 authors:
   - Lester Mackey
@@ -12,7 +13,8 @@ type: ''
 doi: 10.1214/13-AOP892
 arxiv_id: "1201.6002"
 tags:
-abstract: This paper derives exponential concentration inequalities and polynomial moment inequalities for the spectral norm of a random matrix. The analysis requires a matrix extension of the scalar concentration theory developed by Sourav Chatterjee using Stein's method of exchangeable pairs. When applied to a sum of independent random matrices, this approach yields matrix generalizations of the classical inequalities due to Hoeffding, Bernstein, Khintchine and Rosenthal. The same technique delivers bounds for sums of dependent random matrices and more general matrix-valued functions of dependent random variables.
+abstract: >
+  This paper derives exponential concentration inequalities and polynomial moment inequalities for the spectral norm of a random matrix. The analysis requires a matrix extension of the scalar concentration theory developed by Sourav Chatterjee using Stein's method of exchangeable pairs. When applied to a sum of independent random matrices, this approach yields matrix generalizations of the classical inequalities due to Hoeffding, Bernstein, Khintchine and Rosenthal. The same technique delivers bounds for sums of dependent random matrices and more general matrix-valued functions of dependent random variables.
 summary: ''
 link: https://arxiv.org/pdf/1201.6002
 links_alt:

@@ -1,4 +1,5 @@
-title: "Robust, Non-fragile and Optimal Controller Design via Linear Matrix Inequalities"
+title: >
+  Robust, Non-fragile and Optimal Controller Design via Linear Matrix Inequalities
 algorithm:
 authors:
   - A. Jadbabaie
@@ -11,7 +12,8 @@ type: Conference Paper
 doi: 10.1109/ACC.1998.688374
 arxiv_id:
 tags:
-abstract: In this article, we introduce a robust nonfragile state feedback controller which is also optimal with respect to a quadratic performance index, using linear matrix inequalities (LMI). The uncertainties are assumed to be polytopic, both in the controller gains and the system dynamics. A numerical example is presented to demonstrate the efficiency of this method, and the controller turns out to be robust with respect to the uncertainties in the plant and the controller.
+abstract: >
+  In this article, we introduce a robust nonfragile state feedback controller which is also optimal with respect to a quadratic performance index, using linear matrix inequalities (LMI). The uncertainties are assumed to be polytopic, both in the controller gains and the system dynamics. A numerical example is presented to demonstrate the efficiency of this method, and the controller turns out to be robust with respect to the uncertainties in the plant and the controller.
 summary: ''
 link: https://doi.org/10.1109/ACC.1998.688374
 links_alt:

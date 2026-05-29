@@ -1,4 +1,5 @@
-title: How Are Policy Gradient Methods Affected by the Limits of Control?
+title: >
+  How Are Policy Gradient Methods Affected by the Limits of Control?
 algorithm:
 authors:
   - Ingvar Ziemann
@@ -15,8 +16,10 @@ tags:
   - Control
   - Curse of dimensionality
   - Gradient method
-abstract: We study stochastic policy gradient methods from the perspective of control-theoretic limitations. Our main result is that ill-conditioned linear systems in the sense of Doyle inevitably lead to noisy gradient estimates. We also give an example of a class of stable systems in which policy gradient methods suffer from the curse of dimensionality. Our results apply to both state feedback and partially observed systems.
-summary: This paper studies stochastic policy gradient methods from the perspective of control-theoretic limitations. The abstract also states that our main result is that ill-conditioned linear systems in the sense of Doyle inevitably lead to noisy gradient estimates.
+abstract: >
+  We study stochastic policy gradient methods from the perspective of control-theoretic limitations. Our main result is that ill-conditioned linear systems in the sense of Doyle inevitably lead to noisy gradient estimates. We also give an example of a class of stable systems in which policy gradient methods suffer from the curse of dimensionality. Our results apply to both state feedback and partially observed systems.
+summary: >
+  This paper studies stochastic policy gradient methods from the perspective of control-theoretic limitations. The abstract also states that our main result is that ill-conditioned linear systems in the sense of Doyle inevitably lead to noisy gradient estimates.
 link: https://arxiv.org/pdf/2206.06863
 links_alt:
   - https://doi.org/10.1109/cdc51059.2022.9992612

@@ -1,4 +1,5 @@
-title: Spectral State Space Models
+title: >
+  Spectral State Space Models
 algorithm: S4
 authors:
   - Naman Agarwal
@@ -14,8 +15,10 @@ tags:
   - Robustness
   - Convolutional networks
   - Learning
-abstract: This paper studies sequence modeling for prediction tasks with long range dependencies. We propose a new formulation for state space models (SSMs) based on learning linear dynamical systems with the spectral filtering algorithm (Hazan et al. (2017)). This gives rise to a novel sequence prediction architecture we call a spectral state space model. Spectral state space models have two primary advantages. First, they have provable robustness properties as their performance depends on neither the spectrum of the underlying dynamics nor the dimensionality of the problem. Second, these models are constructed with fixed convolutional filters that do not require learning while still outperforming SSMs in both theory and practice. The resulting models are evaluated on synthetic dynamical systems and long-range prediction tasks of various modalities. These evaluations support the theoretical benefits of spectral filtering for tasks requiring very long range memory.
-summary: This paper studies sequence modeling for prediction tasks with long range dependencies. It also proposes a new formulation for state space models (SSMs) based on learning linear dynamical systems with the spectral filtering algorithm (Hazan et al. (2017)).
+abstract: >
+  This paper studies sequence modeling for prediction tasks with long range dependencies. We propose a new formulation for state space models (SSMs) based on learning linear dynamical systems with the spectral filtering algorithm (Hazan et al. (2017)). This gives rise to a novel sequence prediction architecture we call a spectral state space model. Spectral state space models have two primary advantages. First, they have provable robustness properties as their performance depends on neither the spectrum of the underlying dynamics nor the dimensionality of the problem. Second, these models are constructed with fixed convolutional filters that do not require learning while still outperforming SSMs in both theory and practice. The resulting models are evaluated on synthetic dynamical systems and long-range prediction tasks of various modalities. These evaluations support the theoretical benefits of spectral filtering for tasks requiring very long range memory.
+summary: >
+  This paper studies sequence modeling for prediction tasks with long range dependencies. It also proposes a new formulation for state space models (SSMs) based on learning linear dynamical systems with the spectral filtering algorithm (Hazan et al. (2017)).
 link: https://arxiv.org/pdf/2312.06837
 links_alt:
 audit_status: raw

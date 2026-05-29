@@ -1,4 +1,5 @@
-title: Label Noise SGD Provably Prefers Flat Global Minimizers
+title: >
+  Label Noise SGD Provably Prefers Flat Global Minimizers
 algorithm:
 authors:
   - Alex Damian
@@ -10,7 +11,8 @@ type: ''
 doi:
 arxiv_id: "2106.06530"
 tags:
-abstract: In overparametrized models, the noise in stochastic gradient descent (SGD) implicitly regularizes the optimization trajectory and determines which local minimum SGD converges to. Motivated by empirical studies that demonstrate that training with noisy labels improves generalization, we study the implicit regularization effect of SGD with label noise. We show that SGD with label noise converges to a stationary point of a regularized loss $L(Î¸) +Î»R(Î¸)$, where $L(Î¸)$ is the training loss, $Î»$ is an effective regularization parameter depending on the step size, strength of the label noise, and the batch size, and $R(Î¸)$ is an explicit regularizer that penalizes sharp minimizers. Our analysis uncovers an additional regularization effect of large learning rates beyond the linear scaling rule that penalizes large eigenvalues of the Hessian more than small ones. We also prove extensions to classification with general loss functions, SGD with momentum, and SGD with general noise covariance, significantly strengthening the prior work of Blanc et al. to global convergence and large learning rates and of HaoChen et al. to general models.
+abstract: >
+  In overparametrized models, the noise in stochastic gradient descent (SGD) implicitly regularizes the optimization trajectory and determines which local minimum SGD converges to. Motivated by empirical studies that demonstrate that training with noisy labels improves generalization, we study the implicit regularization effect of SGD with label noise. We show that SGD with label noise converges to a stationary point of a regularized loss $L(Î¸) +Î»R(Î¸)$, where $L(Î¸)$ is the training loss, $Î»$ is an effective regularization parameter depending on the step size, strength of the label noise, and the batch size, and $R(Î¸)$ is an explicit regularizer that penalizes sharp minimizers. Our analysis uncovers an additional regularization effect of large learning rates beyond the linear scaling rule that penalizes large eigenvalues of the Hessian more than small ones. We also prove extensions to classification with general loss functions, SGD with momentum, and SGD with general noise covariance, significantly strengthening the prior work of Blanc et al. to global convergence and large learning rates and of HaoChen et al. to general models.
 summary: ''
 link: https://arxiv.org/pdf/2106.06530
 links_alt:

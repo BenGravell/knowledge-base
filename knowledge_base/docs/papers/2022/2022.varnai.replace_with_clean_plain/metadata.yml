@@ -1,4 +1,5 @@
-title: "Replace with Clean Plain Text or a Plain URL."
+title: >
+  Replace with Clean Plain Text or a Plain URL.
 algorithm:
 authors:
   - Peter Varnai
@@ -9,7 +10,8 @@ type: Journal Paper
 doi: 10.1109/LCSYS.2021.3137133
 arxiv_id:
 tags:
-abstract: PI 2 is a stochastic optimal control method generally regarded as a reinforcement learning algorithm. Recent work, however, suggests that the reinforcement learning aspect of PI 2 actually appears when optimizing feedforward controls which will lead to optimal closed-loop performance once combined with feedback controls. These feedbacks are necessary to achieve the predicted performance, yet have been largely neglected in the literature and applications due to their complexity. In this letter, we show that the feedbacks actually take a simple-to-implement form for a wide range of system dynamics, paving way for future research and applications of PI 2 . The correctness of the results is demonstrated through numerical simulations.
+abstract: >
+  PI 2 is a stochastic optimal control method generally regarded as a reinforcement learning algorithm. Recent work, however, suggests that the reinforcement learning aspect of PI 2 actually appears when optimizing feedforward controls which will lead to optimal closed-loop performance once combined with feedback controls. These feedbacks are necessary to achieve the predicted performance, yet have been largely neglected in the literature and applications due to their complexity. In this letter, we show that the feedbacks actually take a simple-to-implement form for a wide range of system dynamics, paving way for future research and applications of PI 2 . The correctness of the results is demonstrated through numerical simulations.
 summary: ''
 link: https://doi.org/10.1109/LCSYS.2021.3137133
 links_alt:

@@ -1,4 +1,5 @@
-title: Learning-Aided Warmstart of Model Predictive Control in Uncertain Fast-Changing Traffic
+title: >
+  Learning-Aided Warmstart of Model Predictive Control in Uncertain Fast-Changing Traffic
 algorithm: MPC
 authors:
   - Mohamed-Khalil Bouzidi
@@ -22,8 +23,10 @@ tags:
   - Learning
   - Sampling
   - Monte Carlo methods
-abstract: Model Predictive Control lacks the ability to escape local minima in nonconvex problems. Furthermore, in fast-changing, uncertain environments, the conventional warmstart, using the optimal trajectory from the last timestep, often falls short of providing an adequately close initial guess for the current optimal trajectory. This can potentially result in convergence failures and safety issues. Therefore, this paper proposes a framework for learning-aided warmstarts of Model Predictive Control algorithms. Our method leverages a neural network based multimodal predictor to generate multiple trajectory proposals for the autonomous vehicle, which are further refined by a sampling-based technique. This combined approach enables us to identify multiple distinct local minima and provide an improved initial guess. We validate our approach with Monte Carlo simulations of traffic scenarios.
-summary: Model Predictive Control lacks the ability to escape local minima in nonconvex problems. The abstract also notes that in fast-changing, uncertain environments, the conventional warmstart, using the optimal trajectory from the last timestep, often falls short of providing an adequately close initial guess for the current optimal trajectory.
+abstract: >
+  Model Predictive Control lacks the ability to escape local minima in nonconvex problems. Furthermore, in fast-changing, uncertain environments, the conventional warmstart, using the optimal trajectory from the last timestep, often falls short of providing an adequately close initial guess for the current optimal trajectory. This can potentially result in convergence failures and safety issues. Therefore, this paper proposes a framework for learning-aided warmstarts of Model Predictive Control algorithms. Our method leverages a neural network based multimodal predictor to generate multiple trajectory proposals for the autonomous vehicle, which are further refined by a sampling-based technique. This combined approach enables us to identify multiple distinct local minima and provide an improved initial guess. We validate our approach with Monte Carlo simulations of traffic scenarios.
+summary: >
+  Model Predictive Control lacks the ability to escape local minima in nonconvex problems. The abstract also notes that in fast-changing, uncertain environments, the conventional warmstart, using the optimal trajectory from the last timestep, often falls short of providing an adequately close initial guess for the current optimal trajectory.
 link: https://arxiv.org/pdf/2310.02918
 links_alt:
   - https://doi.org/10.1109/icra57147.2024.10610472

@@ -1,4 +1,5 @@
-title: On Topological Equivalence in Linear Quadratic Optimal Control
+title: >
+  On Topological Equivalence in Linear Quadratic Optimal Control
 algorithm:
 authors:
   - Wouter Jongeneel
@@ -9,7 +10,8 @@ type: Conference Paper
 doi: 10.23919/ECC54610.2021.9654863
 arxiv_id:
 tags:
-abstract: Dynamical systems are topologically equivalent when their orbits can be mapped onto each other via a homeomorphic change of coordinates. We will show that in general, closed-loop systems resulting from Linear Quadratic Optimal Control problems are all topologically equivalent. As such, we provide new insights in structural "tuning" of controlled behaviour.
+abstract: >
+  Dynamical systems are topologically equivalent when their orbits can be mapped onto each other via a homeomorphic change of coordinates. We will show that in general, closed-loop systems resulting from Linear Quadratic Optimal Control problems are all topologically equivalent. As such, we provide new insights in structural "tuning" of controlled behaviour.
 summary: ''
 link: https://doi.org/10.23919/ECC54610.2021.9654863
 links_alt:

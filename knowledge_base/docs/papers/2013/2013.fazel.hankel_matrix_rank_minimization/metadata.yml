@@ -1,4 +1,5 @@
-title: Hankel Matrix Rank Minimization with Applications to System Identification and Realization
+title: >
+  Hankel Matrix Rank Minimization with Applications to System Identification and Realization
 algorithm:
 authors:
   - Maryam Fazel
@@ -11,7 +12,8 @@ type: Journal Paper
 doi: 10.1137/110853996
 arxiv_id:
 tags:
-abstract: We introduce a flexible optimization framework for nuclear norm minimization of matrices with linear structure, including Hankel, Toeplitz, and moment structures and catalog applications from diverse fields under this framework. We discuss various first-order methods for solving the resulting optimization problem, including alternating direction methods of multipliers, proximal point algorithms, and gradient projection methods. We perform computational experiments to compare these methods on system identification problems and system realization problems. For the system identification problem, the gradient projection method (accelerated by Nesterov's extrapolation techniques) and the proximal point algorithm usually outperform other first-order methods in terms of CPU time on both real and simulated data, for small and large regularization parameters, respectively, while for the system realization problem, the alternating direction method of multipliers, as applied to a certain primal reformulation, usually outperforms other first-order methods in terms of CPU time. We also study the convergence of the proximal alternating direction methods of multipliers used in this paper.
+abstract: >
+  We introduce a flexible optimization framework for nuclear norm minimization of matrices with linear structure, including Hankel, Toeplitz, and moment structures and catalog applications from diverse fields under this framework. We discuss various first-order methods for solving the resulting optimization problem, including alternating direction methods of multipliers, proximal point algorithms, and gradient projection methods. We perform computational experiments to compare these methods on system identification problems and system realization problems. For the system identification problem, the gradient projection method (accelerated by Nesterov's extrapolation techniques) and the proximal point algorithm usually outperform other first-order methods in terms of CPU time on both real and simulated data, for small and large regularization parameters, respectively, while for the system realization problem, the alternating direction method of multipliers, as applied to a certain primal reformulation, usually outperforms other first-order methods in terms of CPU time. We also study the convergence of the proximal alternating direction methods of multipliers used in this paper.
 summary: ''
 link: https://epubs.siam.org/doi/10.1137/110853996
 links_alt:

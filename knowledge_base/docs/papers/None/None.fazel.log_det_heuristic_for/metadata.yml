@@ -1,4 +1,5 @@
-title: "Log-det Heuristic for Matrix Rank Minimization with Applications to Hankel and Euclidean Distance Matrices"
+title: >
+  Log-det Heuristic for Matrix Rank Minimization with Applications to Hankel and Euclidean Distance Matrices
 algorithm:
 authors:
   - M. Fazel
@@ -10,7 +11,8 @@ type: Conference Paper
 doi: 10.1109/ACC.2003.1243393
 arxiv_id:
 tags:
-abstract: 'We present a heuristic for minimizing the rank of a positive semidefinite matrix over a convex set. We use the logarithm of the determinant as a smooth approximation for rank, and locally minimize this function to obtain a sequence of trace minimization problems. We then present a lemma that relates the rank of any general matrix to that of a corresponding positive semidefinite one. Using this, we readily extend the proposed heuristic to handle general matrices. We examine the vector case as a special case, where the heuristic reduces to an iterative l/sub 1/-norm minimization technique. As practical applications of the rank minimization problem and our heuristic, we consider two examples: minimum-order system realization with time-domain constraints, and finding lowest-dimension embedding of points in a Euclidean space from noisy distance data.'
+abstract: >
+  We present a heuristic for minimizing the rank of a positive semidefinite matrix over a convex set. We use the logarithm of the determinant as a smooth approximation for rank, and locally minimize this function to obtain a sequence of trace minimization problems. We then present a lemma that relates the rank of any general matrix to that of a corresponding positive semidefinite one. Using this, we readily extend the proposed heuristic to handle general matrices. We examine the vector case as a special case, where the heuristic reduces to an iterative l/sub 1/-norm minimization technique. As practical applications of the rank minimization problem and our heuristic, we consider two examples: minimum-order system realization with time-domain constraints, and finding lowest-dimension embedding of points in a Euclidean space from noisy distance data.
 summary: ''
 link: https://doi.org/10.1109/ACC.2003.1243393
 links_alt:

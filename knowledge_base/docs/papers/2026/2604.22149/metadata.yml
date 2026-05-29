@@ -1,4 +1,5 @@
-title: Sampling-Based Safety Filter with Probabilistic Restrictiveness Guarantee
+title: >
+  Sampling-Based Safety Filter with Probabilistic Restrictiveness Guarantee
 algorithm:
 authors:
   - Junyoung Park
@@ -10,7 +11,8 @@ type: ''
 doi:
 arxiv_id: "2604.22149"
 tags:
-abstract: Ensuring safety is a critical requirement for autonomous systems, yet providing formal guarantees for nominal controllers remains a significant challenge. In this paper, we propose a modular sampling-based safety filter to ensure the safety of arbitrary nominal control inputs. At each timestep, the filter evaluates the safety of the nominal input by leveraging control sequence samples generated via Stein Variational Model Predictive Control (SV-MPC). This approach approximates a safety-conditioned posterior distribution over control sequences, enabling the filter to effectively capture multimodal safe regions in complex, non-convex environments. The filter guarantees safety by overriding the nominal input when all sampled control sequence candidates are deemed unsafe. By leveraging the scenario approach, the proposed method provides a probabilistic guarantee on its restrictiveness. We validate the filter through collision avoidance tasks in both single- and multi-vehicle settings, demonstrating its efficacy in navigating cluttered environments where nominal controllers may fail.
+abstract: >
+  Ensuring safety is a critical requirement for autonomous systems, yet providing formal guarantees for nominal controllers remains a significant challenge. In this paper, we propose a modular sampling-based safety filter to ensure the safety of arbitrary nominal control inputs. At each timestep, the filter evaluates the safety of the nominal input by leveraging control sequence samples generated via Stein Variational Model Predictive Control (SV-MPC). This approach approximates a safety-conditioned posterior distribution over control sequences, enabling the filter to effectively capture multimodal safe regions in complex, non-convex environments. The filter guarantees safety by overriding the nominal input when all sampled control sequence candidates are deemed unsafe. By leveraging the scenario approach, the proposed method provides a probabilistic guarantee on its restrictiveness. We validate the filter through collision avoidance tasks in both single- and multi-vehicle settings, demonstrating its efficacy in navigating cluttered environments where nominal controllers may fail.
 summary: ''
 link: https://arxiv.org/pdf/2604.22149
 links_alt:

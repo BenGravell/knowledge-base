@@ -1,4 +1,5 @@
-title: "Deep Learning via Hessian-Free Optimization"
+title: >
+  Deep Learning via Hessian-Free Optimization
 algorithm: Hessian-free Optimization
 authors:
   - James Martens
@@ -16,8 +17,10 @@ tags:
   - Conjugate gradient
   - Pathological curvature
   - Gauss-Newton methods
-abstract: We develop a 2nd-order optimization method based on the "Hessian-free" approach, and apply it to training deep auto-encoders. Without using pre-training, we obtain results superior to those reported by Hinton & Salakhutdinov (2006) on the same tasks they considered. Our method is practical, easy to use, scales nicely to very large datasets, and isn't limited in applicability to auto-encoders, or any specific model class. We also discuss the issue of "pathological curvature" as a possible explanation for the difficulty of deep-learning and how 2nd-order optimization, and our method in particular, effectively deals with it.
-summary: Adapts Hessian-free second-order optimization to deep neural-network training by using matrix-vector products, conjugate-gradient inner solves, damping, and curvature-aware updates instead of explicitly forming the Hessian. The paper showed that deep autoencoders could be trained competitively without layerwise pretraining and framed pathological curvature as a central obstacle for first-order deep-learning optimization.
+abstract: >
+  We develop a 2nd-order optimization method based on the "Hessian-free" approach, and apply it to training deep auto-encoders. Without using pre-training, we obtain results superior to those reported by Hinton & Salakhutdinov (2006) on the same tasks they considered. Our method is practical, easy to use, scales nicely to very large datasets, and isn't limited in applicability to auto-encoders, or any specific model class. We also discuss the issue of "pathological curvature" as a possible explanation for the difficulty of deep-learning and how 2nd-order optimization, and our method in particular, effectively deals with it.
+summary: >
+  Adapts Hessian-free second-order optimization to deep neural-network training by using matrix-vector products, conjugate-gradient inner solves, damping, and curvature-aware updates instead of explicitly forming the Hessian. The paper showed that deep autoencoders could be trained competitively without layerwise pretraining and framed pathological curvature as a central obstacle for first-order deep-learning optimization.
 link: https://www.cs.utoronto.ca/~jmartens/docs/Deep_HessianFree.pdf
 links_alt:
   - https://dblp.org/rec/conf/icml/Martens10

@@ -1,4 +1,5 @@
-title: Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC
+title: >
+  Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC
 algorithm:
 authors:
   - Ishaan Mahajan
@@ -14,7 +15,8 @@ type: ''
 doi:
 arxiv_id: "2403.18149"
 tags:
-abstract: Model-predictive control (MPC) is a state-of-the-art control method for constrained robotic systems, yet deployment on resource-limited hardware remains difficult. This challenge is magnified by expressive conic constraints, which offer greater modeling power but require significantly more computation than linear alternatives. To address this challenge, we extend recent work developing fast, structure-exploiting, cached solvers for embedded applications based on the Alternating Direction Method of Multipliers (ADMM) to provide support for second-order cones, as well as C++ code generation from Python, MATLAB, and Julia. Microcontroller benchmarks show that our solver provides up to a two-order-of-magnitude speedup, ranging from 10.6x to 142.7x, over state-of-the-art embedded solvers on QP and SOCP problems, and enables us to fit order-of-magnitude larger problems in memory. We validate our solver's deployed performance through simulation and hardware experiments, including trajectory tracking with conic constraints on a 27g Crazyflie quadrotor. Our open-source code is available at https://tinympc.org.
+abstract: >
+  Model-predictive control (MPC) is a state-of-the-art control method for constrained robotic systems, yet deployment on resource-limited hardware remains difficult. This challenge is magnified by expressive conic constraints, which offer greater modeling power but require significantly more computation than linear alternatives. To address this challenge, we extend recent work developing fast, structure-exploiting, cached solvers for embedded applications based on the Alternating Direction Method of Multipliers (ADMM) to provide support for second-order cones, as well as C++ code generation from Python, MATLAB, and Julia. Microcontroller benchmarks show that our solver provides up to a two-order-of-magnitude speedup, ranging from 10.6x to 142.7x, over state-of-the-art embedded solvers on QP and SOCP problems, and enables us to fit order-of-magnitude larger problems in memory. We validate our solver's deployed performance through simulation and hardware experiments, including trajectory tracking with conic constraints on a 27g Crazyflie quadrotor. Our open-source code is available at https://tinympc.org.
 summary: ''
 link: https://arxiv.org/pdf/2403.18149
 links_alt:

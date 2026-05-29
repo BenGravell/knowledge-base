@@ -1,4 +1,5 @@
-title: An Interior-Point Method for Large-Scale -Regularized Least Squares
+title: >
+  An Interior-Point Method for Large-Scale -Regularized Least Squares
 algorithm:
 authors:
   - Seung-Jean Kim
@@ -12,7 +13,8 @@ type: Journal Paper
 doi: 10.1109/JSTSP.2007.910971
 arxiv_id:
 tags:
-abstract: Recently, a lot of attention has been paid to regularization based methods for sparse signal reconstruction (e.g., basis pursuit denoising and compressed sensing) and feature selection (e.g., the Lasso algorithm) in signal processing, statistics, and related fields. These problems can be cast as -regularized least-squares programs (LSPs), which can be reformulated as convex quadratic programs, and then solved by several standard methods such as interior-point methods, at least for small and medium size problems. In this paper, we describe a specialized interior-point method for solving large-scale -regularized LSPs that uses the preconditioned conjugate gradients algorithm to compute the search direction. The interior-point method can solve large sparse problems, with a million variables and observations, in a few tens of minutes on a PC. It can efficiently solve large dense problems, that arise in sparse signal recovery with orthogonal transforms, by exploiting fast algorithms for these transforms. The method is illustrated on a magnetic resonance imaging data set.
+abstract: >
+  Recently, a lot of attention has been paid to regularization based methods for sparse signal reconstruction (e.g., basis pursuit denoising and compressed sensing) and feature selection (e.g., the Lasso algorithm) in signal processing, statistics, and related fields. These problems can be cast as -regularized least-squares programs (LSPs), which can be reformulated as convex quadratic programs, and then solved by several standard methods such as interior-point methods, at least for small and medium size problems. In this paper, we describe a specialized interior-point method for solving large-scale -regularized LSPs that uses the preconditioned conjugate gradients algorithm to compute the search direction. The interior-point method can solve large sparse problems, with a million variables and observations, in a few tens of minutes on a PC. It can efficiently solve large dense problems, that arise in sparse signal recovery with orthogonal transforms, by exploiting fast algorithms for these transforms. The method is illustrated on a magnetic resonance imaging data set.
 summary: ''
 link: https://doi.org/10.1109/JSTSP.2007.910971
 links_alt:

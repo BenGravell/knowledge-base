@@ -1,4 +1,5 @@
-title: Sparse Optimal Control of Networks with Multiplicative Noise via Policy Gradient
+title: >
+  Sparse Optimal Control of Networks with Multiplicative Noise via Policy Gradient
 algorithm:
 authors:
   - Benjamin Gravell
@@ -15,8 +16,10 @@ tags:
   - Networks
   - Sensor placement
   - Actuator placement
-abstract: We give algorithms for designing near-optimal sparse controllers using policy gradient with applications to control of systems corrupted by multiplicative noise, which is increasingly important in emerging complex dynamical networks. Various regularization schemes are examined and incorporated into the optimization by the use of gradient, subgradient, and proximal gradient methods. Numerical experiments on a large networked system show that the algorithms converge to performant sparse mean-square stabilizing controllers.
-summary: Showed that one can use policy gradient to automatically design the placement of sensors and actuators in a controller for linear systems with multiplicative noise. Achieved by encoding the preference for certain kinds of sparsity patterns with sparsity-promoting convex regularizers in the objective function.
+abstract: >
+  We give algorithms for designing near-optimal sparse controllers using policy gradient with applications to control of systems corrupted by multiplicative noise, which is increasingly important in emerging complex dynamical networks. Various regularization schemes are examined and incorporated into the optimization by the use of gradient, subgradient, and proximal gradient methods. Numerical experiments on a large networked system show that the algorithms converge to performant sparse mean-square stabilizing controllers.
+summary: >
+  Showed that one can use policy gradient to automatically design the placement of sensors and actuators in a controller for linear systems with multiplicative noise. Achieved by encoding the preference for certain kinds of sparsity patterns with sparsity-promoting convex regularizers in the objective function.
 link: https://arxiv.org/pdf/1905.13548
 links_alt:
   - https://www.sciencedirect.com/science/article/pii/S2405896319320294

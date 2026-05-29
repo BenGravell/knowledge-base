@@ -1,4 +1,5 @@
-title: A Notation for Markov Decision Processes
+title: >
+  A Notation for Markov Decision Processes
 algorithm: MDPNv1
 authors:
   - Philip S. Thomas
@@ -10,8 +11,10 @@ doi:
 arxiv_id: "1512.09075"
 tags:
   - Markov decision process
-abstract: This paper specifies a notation for Markov decision processes. The arXiv record and abstract page provide no longer abstract for this item.
-summary: This paper specifies a notation for Markov decision processes. The abstract also notes that the arXiv record and abstract page provide no longer abstract for this item.
+abstract: >
+  This paper specifies a notation for Markov decision processes. The arXiv record and abstract page provide no longer abstract for this item.
+summary: >
+  This paper specifies a notation for Markov decision processes. The abstract also notes that the arXiv record and abstract page provide no longer abstract for this item.
 link: https://arxiv.org/pdf/1512.09075
 links_alt:
 audit_status: raw

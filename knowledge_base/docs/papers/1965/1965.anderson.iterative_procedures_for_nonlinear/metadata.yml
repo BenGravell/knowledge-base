@@ -1,4 +1,5 @@
-title: Iterative Procedures for Nonlinear Integral Equations
+title: >
+  Iterative Procedures for Nonlinear Integral Equations
 algorithm:
 authors:
   - Donald G. Anderson
@@ -8,7 +9,8 @@ type: Journal Paper
 doi: 10.1145/321296.321305
 arxiv_id:
 tags:
-abstract: The numerical solution of nonlinear integral equations involves the iterative solution of finite systems of nonlinear algebraic or transcendental equations. Certain conventional techniques for treating such systems are reviewed in the context of a particular class of nonlinear equations. A procedure is synthesized to offset some of the disadvantages of these techniques in this context; however, the procedure is not restricted to this particular class of systems of nonlinear equations.
+abstract: >
+  The numerical solution of nonlinear integral equations involves the iterative solution of finite systems of nonlinear algebraic or transcendental equations. Certain conventional techniques for treating such systems are reviewed in the context of a particular class of nonlinear equations. A procedure is synthesized to offset some of the disadvantages of these techniques in this context; however, the procedure is not restricted to this particular class of systems of nonlinear equations.
 summary: ''
 link: https://dl.acm.org/doi/10.1145/321296.321305
 links_alt:

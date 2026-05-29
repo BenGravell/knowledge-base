@@ -1,4 +1,5 @@
-title: Certifying Some Distributional Robustness with Principled Adversarial Training
+title: >
+  Certifying Some Distributional Robustness with Principled Adversarial Training
 algorithm:
 authors:
   - Aman Sinha
@@ -16,8 +17,10 @@ tags:
   - Optimization
   - Wasserstein distances
   - Robust optimization
-abstract: Neural networks are vulnerable to adversarial examples and researchers have proposed many heuristic attack and defense mechanisms. We address this problem through the principled lens of distributionally robust optimization, which guarantees performance under adversarial input perturbations. By considering a Lagrangian penalty formulation of perturbing the underlying data distribution in a Wasserstein ball, we provide a training procedure that augments model parameter updates with worst-case perturbations of training data. For smooth losses, our procedure provably achieves moderate levels of robustness with little computational or statistical cost relative to empirical risk minimization. Furthermore, our statistical guarantees allow us to efficiently certify robustness for the population loss. For imperceptible perturbations, our method matches or outperforms heuristic approaches.
-summary: Neural networks are vulnerable to adversarial examples and researchers have proposed many heuristic attack and defense mechanisms. It also addresses this problem through the principled lens of distributionally robust optimization, which guarantees performance under adversarial input perturbations.
+abstract: >
+  Neural networks are vulnerable to adversarial examples and researchers have proposed many heuristic attack and defense mechanisms. We address this problem through the principled lens of distributionally robust optimization, which guarantees performance under adversarial input perturbations. By considering a Lagrangian penalty formulation of perturbing the underlying data distribution in a Wasserstein ball, we provide a training procedure that augments model parameter updates with worst-case perturbations of training data. For smooth losses, our procedure provably achieves moderate levels of robustness with little computational or statistical cost relative to empirical risk minimization. Furthermore, our statistical guarantees allow us to efficiently certify robustness for the population loss. For imperceptible perturbations, our method matches or outperforms heuristic approaches.
+summary: >
+  Neural networks are vulnerable to adversarial examples and researchers have proposed many heuristic attack and defense mechanisms. It also addresses this problem through the principled lens of distributionally robust optimization, which guarantees performance under adversarial input perturbations.
 link: https://arxiv.org/pdf/1710.10571
 links_alt:
   - https://openreview.net/pdf?id=Hk6kPgZA-

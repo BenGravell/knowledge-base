@@ -1,4 +1,5 @@
-title: "Fast Linear Iterations for Distributed Averaging"
+title: >
+  Fast Linear Iterations for Distributed Averaging
 algorithm:
 authors:
   - Lin Xiao
@@ -9,7 +10,8 @@ type: Conference Paper
 doi: 10.1109/CDC.2003.1272421
 arxiv_id:
 tags:
-abstract: We consider the problem of finding a linear iteration that yields distributed averaging consensus over a network, i.e., that asymptotically computes the average of some initial values given at the nodes. When the iteration is assumed symmetric, the problem of finding the fastest converging linear iteration can be cast as a semidefinite program, and therefore efficiently and globally solved. These optimal linear iterations are often substantially faster than several simple heuristics that are based on the Laplacian matrix of the associated graph.
+abstract: >
+  We consider the problem of finding a linear iteration that yields distributed averaging consensus over a network, i.e., that asymptotically computes the average of some initial values given at the nodes. When the iteration is assumed symmetric, the problem of finding the fastest converging linear iteration can be cast as a semidefinite program, and therefore efficiently and globally solved. These optimal linear iterations are often substantially faster than several simple heuristics that are based on the Laplacian matrix of the associated graph.
 summary: ''
 link: https://doi.org/10.1109/CDC.2003.1272421
 links_alt:

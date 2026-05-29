@@ -1,4 +1,5 @@
-title: Robotics
+title: >
+  Robotics
 algorithm:
 authors:
 year: 2013
@@ -7,7 +8,8 @@ type: Other
 doi: 10.7551/mitpress/9816.001.0001
 arxiv_id:
 tags:
-abstract: 'Papers from a flagship conference reflect the latest developments in the field, including work in such rapidly advancing areas as human-robot interaction and formal methods. Robotics: Science and Systems VIII spans a wide spectrum of robotics, bringing together contributions from researchers working on the mathematical foundations of robotics, robotics applications, and analysis of robotics systems. This volume presents the proceedings of the eighth annual Robotics: Science and Systems (RSS) conference, held in July 2012 at the University of Sydney. The contributions reflect the exciting diversity of the field, presenting the best, the newest, and the most challenging work on such topics as mechanisms, kinematics, dynamics and control, human-robot interaction and human-centered systems, distributed systems, mobile systems and mobility, manipulation, field robotics, medical robotics, biological robotics, robot perception, and estimation and learning in robotic systems. The conference and its proceedings reflect not only the tremendous growth of robotics as a discipline but also the desire in the robotics community for a flagship event at which the best of the research in the field can be presented.'
+abstract: >
+  Papers from a flagship conference reflect the latest developments in the field, including work in such rapidly advancing areas as human-robot interaction and formal methods. Robotics: Science and Systems VIII spans a wide spectrum of robotics, bringing together contributions from researchers working on the mathematical foundations of robotics, robotics applications, and analysis of robotics systems. This volume presents the proceedings of the eighth annual Robotics: Science and Systems (RSS) conference, held in July 2012 at the University of Sydney. The contributions reflect the exciting diversity of the field, presenting the best, the newest, and the most challenging work on such topics as mechanisms, kinematics, dynamics and control, human-robot interaction and human-centered systems, distributed systems, mobile systems and mobility, manipulation, field robotics, medical robotics, biological robotics, robot perception, and estimation and learning in robotic systems. The conference and its proceedings reflect not only the tremendous growth of robotics as a discipline but also the desire in the robotics community for a flagship event at which the best of the research in the field can be presented.
 summary: ''
 link: https://doi.org/10.7551/mitpress/9816.001.0001
 links_alt:

@@ -1,4 +1,5 @@
-title: "On the Stability of the Kuramoto Model of Coupled Nonlinear Oscillators"
+title: >
+  On the Stability of the Kuramoto Model of Coupled Nonlinear Oscillators
 algorithm:
 authors:
   - Ali Jadbabaie
@@ -10,7 +11,8 @@ type: ''
 doi:
 arxiv_id: "math/0504419"
 tags:
-abstract: We provide an analysis of the classic Kuramoto model of coupled nonlinear oscillators that goes beyond the existing results for all-to-all networks of identical oscillators. Our work is applicable to oscillator networks of arbitrary interconnection topology with uncertain natural frequencies. Using tools from spectral graph theory and control theory, we prove that for couplings above a critical value, the synchronized state is locally asymptotically stable, resulting in convergence of all phase differences to a constant value, both in the case of identical natural frequencies as well as uncertain ones. We further explain the behavior of the system as the number of oscillators grows to infinity.
+abstract: >
+  We provide an analysis of the classic Kuramoto model of coupled nonlinear oscillators that goes beyond the existing results for all-to-all networks of identical oscillators. Our work is applicable to oscillator networks of arbitrary interconnection topology with uncertain natural frequencies. Using tools from spectral graph theory and control theory, we prove that for couplings above a critical value, the synchronized state is locally asymptotically stable, resulting in convergence of all phase differences to a constant value, both in the case of identical natural frequencies as well as uncertain ones. We further explain the behavior of the system as the number of oscillators grows to infinity.
 summary: ''
 link: https://arxiv.org/pdf/math/0504419
 links_alt:

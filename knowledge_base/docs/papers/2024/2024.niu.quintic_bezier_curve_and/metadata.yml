@@ -1,4 +1,5 @@
-title: "Quintic Bezier Curve and Numerical Optimal Solution Based Path Planning Approach in Seismic Exploration"
+title: >
+  Quintic Bezier Curve and Numerical Optimal Solution Based Path Planning Approach in Seismic Exploration
 algorithm: "Quintic Bezier Curve Path Planning"
 authors:
   - Tao Niu
@@ -18,8 +19,10 @@ tags:
   - Seismic exploration
   - Curvature constraint
   - Optimal path
-abstract: This paper proposes a novel optimal global path planning approach with operational constraints based on a parameterized quintic Bezier transition scheme, which allows for quick and accurate solution of optimal paths involving multiple constraints. The approach develops an elaborately parameterized quintic Bezier transition curve with a closed form that can satisfy curvature constraints at the vibroseis source points without redundant calculations.
-summary: Applies parameterized quintic Bezier transition curves to globally optimal path planning for seismic exploration vehicles, satisfying curvature constraints at survey points in closed form without iterative calculation. The method achieves measurable improvements in operational efficiency and precision over prior approaches.
+abstract: >
+  This paper proposes a novel optimal global path planning approach with operational constraints based on a parameterized quintic Bezier transition scheme, which allows for quick and accurate solution of optimal paths involving multiple constraints. The approach develops an elaborately parameterized quintic Bezier transition curve with a closed form that can satisfy curvature constraints at the vibroseis source points without redundant calculations.
+summary: >
+  Applies parameterized quintic Bezier transition curves to globally optimal path planning for seismic exploration vehicles, satisfying curvature constraints at survey points in closed form without iterative calculation. The method achieves measurable improvements in operational efficiency and precision over prior approaches.
 link: https://www.sciencedirect.com/science/article/abs/pii/S0967066124000157
 links_alt:
 audit_status: raw

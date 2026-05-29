@@ -1,4 +1,5 @@
-title: Bayesian Hyperparameter Optimization with BoTorch, GPyTorch and Ax
+title: >
+  Bayesian Hyperparameter Optimization with BoTorch, GPyTorch and Ax
 algorithm: Bayesian hyperparameter optimization
 authors:
   - Daniel T. Chang
@@ -18,8 +19,10 @@ tags:
   - Bayesian hyperparameter optimization
   - Bayesian optimization
   - Hyperparameter optimization
-abstract: Deep learning models are full of hyperparameters, which are set manually before the learning process can start. To find the best configuration for these hyperparameters in such a high dimensional space, with time-consuming and expensive model training / validation, is not a trivial challenge. Bayesian optimization is a powerful tool for the joint optimization of hyperparameters, efficiently trading off exploration and exploitation of the hyperparameter space. In this paper, we discuss Bayesian hyperparameter optimization, including hyperparameter optimization, Bayesian optimization, and Gaussian processes. We also review BoTorch, GPyTorch and Ax, the new open-source frameworks that we use for Bayesian optimization, Gaussian process inference and adaptive experimentation, respectively. For experimentation, we apply Bayesian hyperparameter optimization, for optimizing group weights, to weighted group pooling, which couples unsupervised tiered graph autoencoders learning and supervised graph prediction learning for molecular graphs. We find that Ax, BoTorch and GPyTorch together provide a simple-to-use but powerful framework for Bayesian hyperparameter optimization, using Ax's high-level API that constructs and runs a full optimization loop and returns the best hyperparameter configuration.
-summary: Deep learning models are full of hyperparameters, which are set manually before the learning process can start. The abstract also notes that to find the best configuration for these hyperparameters in such a high dimensional space, with time-consuming and expensive model training / validation, is not a trivial challenge.
+abstract: >
+  Deep learning models are full of hyperparameters, which are set manually before the learning process can start. To find the best configuration for these hyperparameters in such a high dimensional space, with time-consuming and expensive model training / validation, is not a trivial challenge. Bayesian optimization is a powerful tool for the joint optimization of hyperparameters, efficiently trading off exploration and exploitation of the hyperparameter space. In this paper, we discuss Bayesian hyperparameter optimization, including hyperparameter optimization, Bayesian optimization, and Gaussian processes. We also review BoTorch, GPyTorch and Ax, the new open-source frameworks that we use for Bayesian optimization, Gaussian process inference and adaptive experimentation, respectively. For experimentation, we apply Bayesian hyperparameter optimization, for optimizing group weights, to weighted group pooling, which couples unsupervised tiered graph autoencoders learning and supervised graph prediction learning for molecular graphs. We find that Ax, BoTorch and GPyTorch together provide a simple-to-use but powerful framework for Bayesian hyperparameter optimization, using Ax's high-level API that constructs and runs a full optimization loop and returns the best hyperparameter configuration.
+summary: >
+  Deep learning models are full of hyperparameters, which are set manually before the learning process can start. The abstract also notes that to find the best configuration for these hyperparameters in such a high dimensional space, with time-consuming and expensive model training / validation, is not a trivial challenge.
 link: https://arxiv.org/pdf/1912.05686
 links_alt:
 audit_status: raw

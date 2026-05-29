@@ -1,4 +1,5 @@
-title: Gradient-based Hyperparameter Optimization through Reversible Learning
+title: >
+  Gradient-based Hyperparameter Optimization through Reversible Learning
 algorithm: Reversible Learning
 authors:
   - Dougal Maclaurin
@@ -18,8 +19,10 @@ tags:
   - Reversible learning
   - Hyperparameter optimization
   - Stochastic gradient descent
-abstract: Tuning hyperparameters of learning algorithms is hard because gradients are usually unavailable. We compute exact gradients of cross-validation performance with respect to all hyperparameters by chaining derivatives backwards through the entire training procedure. These gradients allow us to optimize thousands of hyperparameters, including step-size and momentum schedules, weight initialization distributions, richly parameterized regularization schemes, and neural network architectures. We compute hyperparameter gradients by exactly reversing the dynamics of stochastic gradient descent with momentum.
-summary: Tuning hyperparameters of learning algorithms is hard because gradients are usually unavailable. The abstract also states that we compute exact gradients of cross-validation performance with respect to all hyperparameters by chaining derivatives backwards through the entire training procedure.
+abstract: >
+  Tuning hyperparameters of learning algorithms is hard because gradients are usually unavailable. We compute exact gradients of cross-validation performance with respect to all hyperparameters by chaining derivatives backwards through the entire training procedure. These gradients allow us to optimize thousands of hyperparameters, including step-size and momentum schedules, weight initialization distributions, richly parameterized regularization schemes, and neural network architectures. We compute hyperparameter gradients by exactly reversing the dynamics of stochastic gradient descent with momentum.
+summary: >
+  Tuning hyperparameters of learning algorithms is hard because gradients are usually unavailable. The abstract also states that we compute exact gradients of cross-validation performance with respect to all hyperparameters by chaining derivatives backwards through the entire training procedure.
 link: https://arxiv.org/pdf/1502.03492
 links_alt:
 audit_status: raw

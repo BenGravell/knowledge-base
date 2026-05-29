@@ -1,4 +1,5 @@
-title: 'MotionBenchMaker: A Tool to Generate and Benchmark Motion Planning Datasets'
+title: >
+  MotionBenchMaker: A Tool to Generate and Benchmark Motion Planning Datasets
 algorithm:
 authors:
   - Constantinos Chamzas
@@ -15,7 +16,8 @@ type: ''
 doi: 10.1109/LRA.2021.3133603
 arxiv_id: "2112.06402"
 tags:
-abstract: Recently, there has been a wealth of development in motion planning for robotic manipulation new motion planners are continuously proposed, each with their own unique strengths and weaknesses. However, evaluating new planners is challenging and researchers often create their own ad-hoc problems for benchmarking, which is time-consuming, prone to bias, and does not directly compare against other state-of-the-art planners. We present MotionBenchMaker, an open-source tool to generate benchmarking datasets for realistic robot manipulation problems. MotionBenchMaker is designed to be an extensible, easy-to-use tool that allows users to both generate datasets and benchmark them by comparing motion planning algorithms. Empirically, we show the benefit of using MotionBenchMaker as a tool to procedurally generate datasets which helps in the fair evaluation of planners. We also present a suite of 40 prefabricated datasets, with 5 different commonly used robots in 8 environments, to serve as a common ground to accelerate motion planning research.
+abstract: >
+  Recently, there has been a wealth of development in motion planning for robotic manipulation new motion planners are continuously proposed, each with their own unique strengths and weaknesses. However, evaluating new planners is challenging and researchers often create their own ad-hoc problems for benchmarking, which is time-consuming, prone to bias, and does not directly compare against other state-of-the-art planners. We present MotionBenchMaker, an open-source tool to generate benchmarking datasets for realistic robot manipulation problems. MotionBenchMaker is designed to be an extensible, easy-to-use tool that allows users to both generate datasets and benchmark them by comparing motion planning algorithms. Empirically, we show the benefit of using MotionBenchMaker as a tool to procedurally generate datasets which helps in the fair evaluation of planners. We also present a suite of 40 prefabricated datasets, with 5 different commonly used robots in 8 environments, to serve as a common ground to accelerate motion planning research.
 summary: ''
 link: https://arxiv.org/pdf/2112.06402
 links_alt:

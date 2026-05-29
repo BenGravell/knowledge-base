@@ -1,4 +1,5 @@
-title: Model Predictive Path Integral Control as Preconditioned Gradient Descent
+title: >
+  Model Predictive Path Integral Control as Preconditioned Gradient Descent
 algorithm:
 authors:
   - Mahyar Fazlyab
@@ -18,8 +19,10 @@ tags:
   - Sampling
   - MPPI
   - KL
-abstract: Model Predictive Path Integral (MPPI) control is a widely used sampling-based method for trajectory optimization, yet its convergence properties remain only partially understood. This paper provides a direct convergence analysis using variational optimization. By lifting constrained trajectory optimization to a Kullback-Leibler (KL) regularized problem over decision distributions, we derive a reduced free-energy objective defined over a parametric sampling family. For general parametric families, we derive gradient and Hessian representations of this reduced objective and analyze preconditioned gradient descent on the sampling-distribution parameters. In the fixed-covariance Gaussian case, the classical MPPI update is recovered exactly as a unit-step preconditioned gradient update. We prove descent and stationarity guarantees for the exact expectation-based iteration when the Hessian of the reduced objective is bounded in the metric induced by the preconditioner. For the Gaussian family, we further show that the preconditioned Hessian is governed by the covariance of the Gibbs-tilted distribution relative to the covariance of the sampling distribution, yielding a covariance-dependent sufficient condition for the descent of exact unit-step MPPI. Numerical experiments illustrate the theory and the effect of key hyperparameters.
-summary: Model Predictive Path Integral (MPPI) control is a widely used sampling-based method for trajectory optimization, yet its convergence properties remain only partially understood. It also provides a direct convergence analysis using variational optimization.
+abstract: >
+  Model Predictive Path Integral (MPPI) control is a widely used sampling-based method for trajectory optimization, yet its convergence properties remain only partially understood. This paper provides a direct convergence analysis using variational optimization. By lifting constrained trajectory optimization to a Kullback-Leibler (KL) regularized problem over decision distributions, we derive a reduced free-energy objective defined over a parametric sampling family. For general parametric families, we derive gradient and Hessian representations of this reduced objective and analyze preconditioned gradient descent on the sampling-distribution parameters. In the fixed-covariance Gaussian case, the classical MPPI update is recovered exactly as a unit-step preconditioned gradient update. We prove descent and stationarity guarantees for the exact expectation-based iteration when the Hessian of the reduced objective is bounded in the metric induced by the preconditioner. For the Gaussian family, we further show that the preconditioned Hessian is governed by the covariance of the Gibbs-tilted distribution relative to the covariance of the sampling distribution, yielding a covariance-dependent sufficient condition for the descent of exact unit-step MPPI. Numerical experiments illustrate the theory and the effect of key hyperparameters.
+summary: >
+  Model Predictive Path Integral (MPPI) control is a widely used sampling-based method for trajectory optimization, yet its convergence properties remain only partially understood. It also provides a direct convergence analysis using variational optimization.
 link: https://arxiv.org/pdf/2603.24489
 links_alt:
 audit_status: raw

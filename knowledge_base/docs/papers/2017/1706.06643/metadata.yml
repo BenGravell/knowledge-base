@@ -1,4 +1,5 @@
-title: Policy Gradient Methods for Reinforcement Learning with Function Approximation and Action-Dependent Baselines
+title: >
+  Policy Gradient Methods for Reinforcement Learning with Function Approximation and Action-Dependent Baselines
 algorithm:
 authors:
   - Philip S. Thomas
@@ -12,8 +13,10 @@ tags:
   - Policy gradients
   - Reinforcement learning
   - Learning
-abstract: We show how an action-dependent baseline can be used by the policy gradient theorem using function approximation, originally presented with action-independent baselines by (Sutton et al. 2000).
-summary: This paper shows how an action-dependent baseline can be used by the policy gradient theorem using function approximation, originally presented with action-independent baselines by (Sutton et al. The abstract also notes that 2000).
+abstract: >
+  We show how an action-dependent baseline can be used by the policy gradient theorem using function approximation, originally presented with action-independent baselines by (Sutton et al. 2000).
+summary: >
+  This paper shows how an action-dependent baseline can be used by the policy gradient theorem using function approximation, originally presented with action-independent baselines by (Sutton et al. The abstract also notes that 2000).
 link: https://arxiv.org/pdf/1706.06643
 links_alt:
 audit_status: raw

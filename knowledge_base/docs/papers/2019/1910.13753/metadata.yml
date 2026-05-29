@@ -1,4 +1,5 @@
-title: "acados: A Modular Open-source Framework for Fast Embedded Optimal Control"
+title: >
+  acados: A Modular Open-source Framework for Fast Embedded Optimal Control
 algorithm:
 authors:
   - Robin Verschueren
@@ -17,7 +18,8 @@ type: ''
 doi:
 arxiv_id: "1910.13753"
 tags:
-abstract: 'This paper presents the acados software package, a collection of solvers for fast embedded optimization intended for fast embedded applications. Its interfaces to higher-level languages make it useful for quickly designing an optimization-based control algorithm by putting together different algorithmic components that can be readily connected and interchanged. Since the core of acados is written on top of a high-performance linear algebra library, we do not sacrifice computational performance. Thus, we aim to provide both flexibility and performance through modularity, without the need to rely on automatic code generation, which facilitates maintainability and extensibility. The main features of acados are: efficient optimal control algorithms targeting embedded devices implemented in C, linear algebra based on the high-performance BLASFEO library, user-friendly interfaces to Matlab and Python, and compatibility with the modeling language of CasADi. acados is free and open-source software released under the permissive BSD 2-Clause license.'
+abstract: >
+  This paper presents the acados software package, a collection of solvers for fast embedded optimization intended for fast embedded applications. Its interfaces to higher-level languages make it useful for quickly designing an optimization-based control algorithm by putting together different algorithmic components that can be readily connected and interchanged. Since the core of acados is written on top of a high-performance linear algebra library, we do not sacrifice computational performance. Thus, we aim to provide both flexibility and performance through modularity, without the need to rely on automatic code generation, which facilitates maintainability and extensibility. The main features of acados are: efficient optimal control algorithms targeting embedded devices implemented in C, linear algebra based on the high-performance BLASFEO library, user-friendly interfaces to Matlab and Python, and compatibility with the modeling language of CasADi. acados is free and open-source software released under the permissive BSD 2-Clause license.
 summary: ''
 link: https://arxiv.org/pdf/1910.13753
 links_alt:

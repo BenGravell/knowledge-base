@@ -1,4 +1,5 @@
-title: "Song from PI: A Musically Plausible Network for Pop Music Generation"
+title: >
+  Song from PI: A Musically Plausible Network for Pop Music Generation
 algorithm:
 authors:
   - Hang Chu
@@ -10,7 +11,8 @@ type: ''
 doi:
 arxiv_id: "1611.03477"
 tags:
-abstract: 'We present a novel framework for generating pop music. Our model is a hierarchical Recurrent Neural Network, where the layers and the structure of the hierarchy encode our prior knowledge about how pop music is composed. In particular, the bottom layers generate the melody, while the higher levels produce the drums and chords. We conduct several human studies that show strong preference of our generated music over that produced by the recent method by Google. We additionally show two applications of our framework: neural dancing and karaoke, as well as neural story singing.'
+abstract: >
+  We present a novel framework for generating pop music. Our model is a hierarchical Recurrent Neural Network, where the layers and the structure of the hierarchy encode our prior knowledge about how pop music is composed. In particular, the bottom layers generate the melody, while the higher levels produce the drums and chords. We conduct several human studies that show strong preference of our generated music over that produced by the recent method by Google. We additionally show two applications of our framework: neural dancing and karaoke, as well as neural story singing.
 summary: ''
 link: https://arxiv.org/pdf/1611.03477
 links_alt:

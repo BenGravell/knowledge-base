@@ -1,4 +1,5 @@
-title: Toward a Scalable Upper Bound for a CVaR-LQ Problem
+title: >
+  Toward a Scalable Upper Bound for a CVaR-LQ Problem
 algorithm:
 authors:
   - Margaret P. Chapman
@@ -13,8 +14,10 @@ tags:
   - Control
   - CVAR
   - Dynamic programming
-abstract: We study a linear-quadratic, optimal control problem on a discrete, finite time horizon with distributional ambiguity, in which the cost is assessed via Conditional Value-at-Risk (CVaR). We take steps toward deriving a scalable dynamic programming approach to upper-bound the optimal value function for this problem. This dynamic program yields a novel, tunable risk-averse control policy, which we compare to existing state-of-the-art methods.
-summary: This paper studies a linear-quadratic, optimal control problem on a discrete, finite time horizon with distributional ambiguity, in which the cost is assessed via Conditional Value-at-Risk (CVaR). The abstract also states that we take steps toward deriving a scalable dynamic programming approach to upper-bound the optimal value function for this problem.
+abstract: >
+  We study a linear-quadratic, optimal control problem on a discrete, finite time horizon with distributional ambiguity, in which the cost is assessed via Conditional Value-at-Risk (CVaR). We take steps toward deriving a scalable dynamic programming approach to upper-bound the optimal value function for this problem. This dynamic program yields a novel, tunable risk-averse control policy, which we compare to existing state-of-the-art methods.
+summary: >
+  This paper studies a linear-quadratic, optimal control problem on a discrete, finite time horizon with distributional ambiguity, in which the cost is assessed via Conditional Value-at-Risk (CVaR). The abstract also states that we take steps toward deriving a scalable dynamic programming approach to upper-bound the optimal value function for this problem.
 link: https://arxiv.org/pdf/2103.02136
 links_alt:
   - https://doi.org/10.1109/lcsys.2021.3086842

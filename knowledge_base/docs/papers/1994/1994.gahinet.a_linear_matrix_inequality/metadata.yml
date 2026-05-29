@@ -1,4 +1,5 @@
-title: "A Linear Matrix Inequality Approach to H∞ Control"
+title: >
+  A Linear Matrix Inequality Approach to H∞ Control
 algorithm:
 authors:
   - Pascal Gahinet
@@ -9,7 +10,8 @@ type: Journal Paper
 doi: 10.1002/rnc.4590040403
 arxiv_id:
 tags:
-abstract: 'The continuous- and discrete-time H∞ control problems are solved via elementary manipulations on linear matrix inequalities (LMI). Two interesting new features emerge through this approach: solvability conditions valid for both regular and singular problems, and an LMI-based parametrization of all H∞-suboptimal controllers, including reduced-order controllers.The solvability conditions involve Riccati inequalities rather than the usual indefinite Riccati equations. Alternatively, these conditions can be expressed as a system of three LMIs. Efficient convex optimization techniques are available to solve this system. Moreover, its solutions parametrize the set of H∞ controllers and bear important connections with the controller order and the closed-loop Lyapunov functions. Thanks to such connections, the LMI-based characterization of H∞ controllers opens new perspectives for the refinement of H∞ design. Applications to cancellation-free design and controller order reduction are discussed and illustrated by examples.'
+abstract: >
+  The continuous- and discrete-time H∞ control problems are solved via elementary manipulations on linear matrix inequalities (LMI). Two interesting new features emerge through this approach: solvability conditions valid for both regular and singular problems, and an LMI-based parametrization of all H∞-suboptimal controllers, including reduced-order controllers.The solvability conditions involve Riccati inequalities rather than the usual indefinite Riccati equations. Alternatively, these conditions can be expressed as a system of three LMIs. Efficient convex optimization techniques are available to solve this system. Moreover, its solutions parametrize the set of H∞ controllers and bear important connections with the controller order and the closed-loop Lyapunov functions. Thanks to such connections, the LMI-based characterization of H∞ controllers opens new perspectives for the refinement of H∞ design. Applications to cancellation-free design and controller order reduction are discussed and illustrated by examples.
 summary: ''
 link: https://onlinelibrary.wiley.com/doi/10.1002/rnc.4590040403
 links_alt:

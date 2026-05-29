@@ -1,4 +1,5 @@
-title: Error Propagation for Approximate Policy and Value Iteration
+title: >
+  Error Propagation for Approximate Policy and Value Iteration
 algorithm:
 authors:
   - Amir Massoud Farahmand

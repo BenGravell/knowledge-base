@@ -1,4 +1,5 @@
-title: "Method of Centers for Minimizing Generalized Eigenvalues"
+title: >
+  Method of Centers for Minimizing Generalized Eigenvalues
 algorithm:
 authors:
   - Stephen Boyd

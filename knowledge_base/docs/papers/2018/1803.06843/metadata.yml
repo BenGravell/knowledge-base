@@ -1,4 +1,5 @@
-title: Linear-time Geometric Algorithm for Evaluating Bézier Curves
+title: >
+  Linear-time Geometric Algorithm for Evaluating Bézier Curves
 algorithm:
 authors:
   - Filip Chudy
@@ -13,8 +14,10 @@ tags:
   - Control
   - Bézier curve
   - Control point
-abstract: A new algorithm for computing a point on a polynomial or rational curve in Bézier form is proposed. The method has a geometric interpretation and uses only convex combinations of control points. The new algorithm's computational complexity is linear with respect to the number of control points and its memory complexity is $O(1)$. Some remarks on similar methods for surfaces in rectangular and triangular Bézier form are also given.
-summary: A new algorithm for computing a point on a polynomial or rational curve in Bézier form is proposed. The abstract also notes that the method has a geometric interpretation and uses only convex combinations of control points.
+abstract: >
+  A new algorithm for computing a point on a polynomial or rational curve in Bézier form is proposed. The method has a geometric interpretation and uses only convex combinations of control points. The new algorithm's computational complexity is linear with respect to the number of control points and its memory complexity is $O(1)$. Some remarks on similar methods for surfaces in rectangular and triangular Bézier form are also given.
+summary: >
+  A new algorithm for computing a point on a polynomial or rational curve in Bézier form is proposed. The abstract also notes that the method has a geometric interpretation and uses only convex combinations of control points.
 link: https://arxiv.org/pdf/1803.06843
 links_alt:
   - https://doi.org/10.1016/j.cad.2019.102760

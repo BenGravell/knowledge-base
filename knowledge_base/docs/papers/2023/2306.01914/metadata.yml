@@ -1,4 +1,5 @@
-title: On the Sample Complexity of Imitation Learning for Smoothed Model Predictive Control
+title: >
+  On the Sample Complexity of Imitation Learning for Smoothed Model Predictive Control
 algorithm:
 authors:
   - Daniel Pfrommer
@@ -14,7 +15,8 @@ type: ''
 doi:
 arxiv_id: "2306.01914"
 tags:
-abstract: Recent work in imitation learning has shown that having an expert controller that is both suitably smooth and stable enables stronger guarantees on the performance of the learned controller. However, constructing such smoothed expert controllers for arbitrary systems remains challenging, especially in the presence of input and state constraints. As our primary contribution, we show how such a smoothed expert can be designed for a general class of systems using a log-barrier-based relaxation of a standard Model Predictive Control (MPC) optimization problem. At the crux of this theoretical guarantee on smoothness is a new lower bound we prove on the optimality gap of the analytic center associated with a convex Lipschitz function, which we hope could be of independent interest. We validate our theoretical findings via experiments, demonstrating the merits of our smoothing approach over randomized smoothing.
+abstract: >
+  Recent work in imitation learning has shown that having an expert controller that is both suitably smooth and stable enables stronger guarantees on the performance of the learned controller. However, constructing such smoothed expert controllers for arbitrary systems remains challenging, especially in the presence of input and state constraints. As our primary contribution, we show how such a smoothed expert can be designed for a general class of systems using a log-barrier-based relaxation of a standard Model Predictive Control (MPC) optimization problem. At the crux of this theoretical guarantee on smoothness is a new lower bound we prove on the optimality gap of the analytic center associated with a convex Lipschitz function, which we hope could be of independent interest. We validate our theoretical findings via experiments, demonstrating the merits of our smoothing approach over randomized smoothing.
 summary: ''
 link: https://arxiv.org/pdf/2306.01914
 links_alt:

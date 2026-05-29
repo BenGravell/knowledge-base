@@ -1,4 +1,5 @@
-title: "A Bisection Algorithm for Time-Optimal Trajectory Planning along Fully Specified Paths"
+title: >
+  A Bisection Algorithm for Time-Optimal Trajectory Planning along Fully Specified Paths
 algorithm:
 authors:
   - Eric Barnett
@@ -9,7 +10,8 @@ type: Journal Paper
 doi: 10.1109/TRO.2020.3010632
 arxiv_id:
 tags:
-abstract: 'The time-optimal trajectory planning problem involves minimizing the time required to follow a path defined in space, subject to kinematic and dynamic constraints. Here, we introduce a novel technique, called the bisection algorithm (BA), which is fully implemented in C++ and extends dynamic programming approaches to the problem. These approaches, which rely on dividing the global problem into a series of simpler subproblems, become increasingly advantageous compared to direct transcription methods as the number of problem constraints increases. In contrast to nearly all other dynamic programming approaches, BA does not rely on finding a maximum-velocity curve or explicitly finding acceleration switching points during the trajectory planning process. Additionally, only one forward and one backward integration are used, during which all constraints are imposed. This approach is made feasible through careful control of the numerical integration process and the use of a bisection algorithm to resolve constraint violations during integration. BA is shown to be significantly simpler, faster, and more robust than recently proposed algorithms: a direct comparison is made for a series of paths to be followed by a serial manipulator, subject to kinematic constraints. The wide applicability of BA is then established by solving the time-optimal problem for a parallel manipulator following a complex path, subject to both kinematic and dynamic constraints.'
+abstract: >
+  The time-optimal trajectory planning problem involves minimizing the time required to follow a path defined in space, subject to kinematic and dynamic constraints. Here, we introduce a novel technique, called the bisection algorithm (BA), which is fully implemented in C++ and extends dynamic programming approaches to the problem. These approaches, which rely on dividing the global problem into a series of simpler subproblems, become increasingly advantageous compared to direct transcription methods as the number of problem constraints increases. In contrast to nearly all other dynamic programming approaches, BA does not rely on finding a maximum-velocity curve or explicitly finding acceleration switching points during the trajectory planning process. Additionally, only one forward and one backward integration are used, during which all constraints are imposed. This approach is made feasible through careful control of the numerical integration process and the use of a bisection algorithm to resolve constraint violations during integration. BA is shown to be significantly simpler, faster, and more robust than recently proposed algorithms: a direct comparison is made for a series of paths to be followed by a serial manipulator, subject to kinematic constraints. The wide applicability of BA is then established by solving the time-optimal problem for a parallel manipulator following a complex path, subject to both kinematic and dynamic constraints.
 summary: ''
 link: https://doi.org/10.1109/TRO.2020.3010632
 links_alt:

@@ -1,4 +1,5 @@
-title: An Operator Splitting Method for Large-Scale CVaR-Constrained Quadratic Programs
+title: >
+  An Operator Splitting Method for Large-Scale CVaR-Constrained Quadratic Programs
 algorithm:
 authors:
   - Eric Luxenberg
@@ -11,7 +12,8 @@ type: ''
 doi:
 arxiv_id: "2504.10814"
 tags:
-abstract: We introduce a fast and scalable method for solving quadratic programs with conditional value-at-risk (CVaR) constraints. While these problems can be formulated as standard quadratic programs, the number of variables and constraints grows linearly with the number of scenarios, making general-purpose solvers impractical for large-scale problems. Our method combines operator splitting with a specialized $O(m\log m)$ algorithm for projecting onto CVaR constraints, where $m$ is the number of scenarios. The method alternates between solving a linear system and performing parallel projections, onto CVaR constraints using our specialized algorithm and onto box constraints by simple clipping. Numerical examples from several application domains demonstrate that our method outperforms general-purpose solvers by several orders of magnitude on problems with up to millions of scenarios. Our method is implemented in an open-source package called CVQP.
+abstract: >
+  We introduce a fast and scalable method for solving quadratic programs with conditional value-at-risk (CVaR) constraints. While these problems can be formulated as standard quadratic programs, the number of variables and constraints grows linearly with the number of scenarios, making general-purpose solvers impractical for large-scale problems. Our method combines operator splitting with a specialized $O(m\log m)$ algorithm for projecting onto CVaR constraints, where $m$ is the number of scenarios. The method alternates between solving a linear system and performing parallel projections, onto CVaR constraints using our specialized algorithm and onto box constraints by simple clipping. Numerical examples from several application domains demonstrate that our method outperforms general-purpose solvers by several orders of magnitude on problems with up to millions of scenarios. Our method is implemented in an open-source package called CVQP.
 summary: ''
 link: https://arxiv.org/pdf/2504.10814
 links_alt:

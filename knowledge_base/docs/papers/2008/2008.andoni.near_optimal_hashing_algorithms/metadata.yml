@@ -1,4 +1,5 @@
-title: "Near-optimal Hashing Algorithms for Approximate Nearest Neighbor in High Dimensions"
+title: >
+  Near-optimal Hashing Algorithms for Approximate Nearest Neighbor in High Dimensions
 algorithm:
 authors:
   - Alexandr Andoni
@@ -9,7 +10,8 @@ type: Journal Paper
 doi: 10.1145/1327452.1327494
 arxiv_id:
 tags:
-abstract: In this article, we give an overview of efficient algorithms for the approximate and exact nearest neighbor problem. The goal is to preprocess a dataset of objects (e.g., images) so that later, given a new query object, one can quickly return the dataset object that is most similar to the query. The problem is of significant interest in a wide variety of areas.
+abstract: >
+  In this article, we give an overview of efficient algorithms for the approximate and exact nearest neighbor problem. The goal is to preprocess a dataset of objects (e.g., images) so that later, given a new query object, one can quickly return the dataset object that is most similar to the query. The problem is of significant interest in a wide variety of areas.
 summary: ''
 link: https://dl.acm.org/doi/10.1145/1327452.1327494
 links_alt:

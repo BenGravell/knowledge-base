@@ -1,4 +1,5 @@
-title: On the Performance of Thompson Sampling on Logistic Bandits
+title: >
+  On the Performance of Thompson Sampling on Logistic Bandits
 algorithm:
 authors:
   - Shi Dong
@@ -10,7 +11,8 @@ type: ''
 doi:
 arxiv_id: "1905.04654"
 tags:
-abstract: We study the logistic bandit, in which rewards are binary with success probability $\exp(Î²a^\top Î¸) / (1 + \exp(Î²a^\top Î¸))$ and actions $a$ and coefficients $Î¸$ are within the $d$-dimensional unit ball. While prior regret bounds for algorithms that address the logistic bandit exhibit exponential dependence on the slope parameter $Î²$, we establish a regret bound for Thompson sampling that is independent of $Î²$. Specifically, we establish that, when the set of feasible actions is identical to the set of possible coefficient vectors, the Bayesian regret of Thompson sampling is $\tilde{O}(d\sqrt{T})$. We also establish a $\tilde{O}(\sqrt{dÎ·T}/Î»)$ bound that applies more broadly, where $Î»$ is the worst-case optimal log-odds and $Î·$ is the "fragility dimension," a new statistic we define to capture the degree to which an optimal action for one model fails to satisfice for others. We demonstrate that the fragility dimension plays an essential role by showing that, for any $Îµ> 0$, no algorithm can achieve $\mathrm{poly}(d, 1/Î»)\cdot T^{1-Îµ}$ regret.
+abstract: >
+  We study the logistic bandit, in which rewards are binary with success probability $\exp(Î²a^\top Î¸) / (1 + \exp(Î²a^\top Î¸))$ and actions $a$ and coefficients $Î¸$ are within the $d$-dimensional unit ball. While prior regret bounds for algorithms that address the logistic bandit exhibit exponential dependence on the slope parameter $Î²$, we establish a regret bound for Thompson sampling that is independent of $Î²$. Specifically, we establish that, when the set of feasible actions is identical to the set of possible coefficient vectors, the Bayesian regret of Thompson sampling is $\tilde{O}(d\sqrt{T})$. We also establish a $\tilde{O}(\sqrt{dÎ·T}/Î»)$ bound that applies more broadly, where $Î»$ is the worst-case optimal log-odds and $Î·$ is the "fragility dimension," a new statistic we define to capture the degree to which an optimal action for one model fails to satisfice for others. We demonstrate that the fragility dimension plays an essential role by showing that, for any $Îµ> 0$, no algorithm can achieve $\mathrm{poly}(d, 1/Î»)\cdot T^{1-Îµ}$ regret.
 summary: ''
 link: https://arxiv.org/pdf/1905.04654
 links_alt:

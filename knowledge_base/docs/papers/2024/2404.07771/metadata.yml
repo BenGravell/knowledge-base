@@ -1,4 +1,5 @@
-title: "An Overview of Diffusion Models: Applications, Guided Generation, Statistical Rates and Optimization"
+title: >
+  An Overview of Diffusion Models: Applications, Guided Generation, Statistical Rates and Optimization
 algorithm: Diffusion Models
 authors:
   - Minshuo Chen
@@ -20,8 +21,10 @@ tags:
   - High-dimensional optimization
   - Machine learning theory
   - Survey
-abstract: Diffusion models, a powerful and universal generative AI technology, have achieved tremendous success in computer vision, audio, reinforcement learning, and computational biology. In these applications, diffusion models provide flexible high-dimensional data modeling, and act as a sampler for generating new samples under active guidance towards task-desired properties. Despite the significant empirical success, theory of diffusion models is very limited, potentially slowing down principled methodological innovations for further harnessing and improving diffusion models. In this paper, we review emerging applications of diffusion models, understanding their sample generation under various controls. Next, we overview the existing theories of diffusion models, covering their statistical properties and sampling capabilities. We adopt a progressive routine, beginning with unconditional diffusion models and connecting to conditional counterparts. Further, we review a new avenue in high-dimensional structured optimization through conditional diffusion models, where searching for solutions is reformulated as a conditional sampling problem and solved by diffusion models. Lastly, we discuss future directions about diffusion models. The purpose of this paper is to provide a well-rounded theoretical exposure for stimulating forward-looking theories and methods of diffusion models.
-summary: This review surveys diffusion models as generative samplers, guided generators, and tools for structured optimization, emphasizing statistical rates, sampling guarantees, and the transition from unconditional diffusion to conditional and controlled generation.
+abstract: >
+  Diffusion models, a powerful and universal generative AI technology, have achieved tremendous success in computer vision, audio, reinforcement learning, and computational biology. In these applications, diffusion models provide flexible high-dimensional data modeling, and act as a sampler for generating new samples under active guidance towards task-desired properties. Despite the significant empirical success, theory of diffusion models is very limited, potentially slowing down principled methodological innovations for further harnessing and improving diffusion models. In this paper, we review emerging applications of diffusion models, understanding their sample generation under various controls. Next, we overview the existing theories of diffusion models, covering their statistical properties and sampling capabilities. We adopt a progressive routine, beginning with unconditional diffusion models and connecting to conditional counterparts. Further, we review a new avenue in high-dimensional structured optimization through conditional diffusion models, where searching for solutions is reformulated as a conditional sampling problem and solved by diffusion models. Lastly, we discuss future directions about diffusion models. The purpose of this paper is to provide a well-rounded theoretical exposure for stimulating forward-looking theories and methods of diffusion models.
+summary: >
+  This review surveys diffusion models as generative samplers, guided generators, and tools for structured optimization, emphasizing statistical rates, sampling guarantees, and the transition from unconditional diffusion to conditional and controlled generation.
 link: https://arxiv.org/pdf/2404.07771
 links_alt:
   - https://arxiv.org/abs/2404.07771

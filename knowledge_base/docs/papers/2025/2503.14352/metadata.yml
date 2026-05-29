@@ -1,4 +1,5 @@
-title: Flying in Highly Dynamic Environments with End-to-end Learning Approach
+title: >
+  Flying in Highly Dynamic Environments with End-to-end Learning Approach
 algorithm:
 authors:
   - Xiyu Fan
@@ -11,7 +12,8 @@ type: ''
 doi: 10.1109/LRA.2025.3547306
 arxiv_id: "2503.14352"
 tags:
-abstract: Obstacle avoidance for unmanned aerial vehicles like quadrotors is a popular research topic. Most existing research focuses only on static environments, and obstacle avoidance in environments with multiple dynamic obstacles remains challenging. This paper proposes a novel deep-reinforcement learning-based approach for the quadrotors to navigate through highly dynamic environments. We propose a lidar data encoder to extract obstacle information from the massive point cloud data from the lidar. Multi frames of historical scans will be compressed into a 2-dimension obstacle map while maintaining the obstacle features required. An end-to-end deep neural network is trained to extract the kinematics of dynamic and static obstacles from the obstacle map, and it will generate acceleration commands to the quadrotor to control it to avoid these obstacles. Our approach contains perception and navigating functions in a single neural network, which can change from a navigating state into a hovering state without mode switching. We also present simulations and real-world experiments to show the effectiveness of our approach while navigating in highly dynamic cluttered environments.
+abstract: >
+  Obstacle avoidance for unmanned aerial vehicles like quadrotors is a popular research topic. Most existing research focuses only on static environments, and obstacle avoidance in environments with multiple dynamic obstacles remains challenging. This paper proposes a novel deep-reinforcement learning-based approach for the quadrotors to navigate through highly dynamic environments. We propose a lidar data encoder to extract obstacle information from the massive point cloud data from the lidar. Multi frames of historical scans will be compressed into a 2-dimension obstacle map while maintaining the obstacle features required. An end-to-end deep neural network is trained to extract the kinematics of dynamic and static obstacles from the obstacle map, and it will generate acceleration commands to the quadrotor to control it to avoid these obstacles. Our approach contains perception and navigating functions in a single neural network, which can change from a navigating state into a hovering state without mode switching. We also present simulations and real-world experiments to show the effectiveness of our approach while navigating in highly dynamic cluttered environments.
 summary: ''
 link: https://arxiv.org/pdf/2503.14352
 links_alt:

@@ -1,4 +1,5 @@
-title: "The Genome Sequence of Drosophila melanogaster"
+title: >
+  The Genome Sequence of Drosophila melanogaster
 algorithm:
 authors:
   - Mark D. Adams
@@ -202,7 +203,8 @@ type: Journal Paper
 doi: 10.1126/science.287.5461.2185
 arxiv_id:
 tags:
-abstract: The fly Drosophila melanogaster is one of the most intensively studied organisms in biology and serves as a model system for the investigation of many developmental and cellular processes common to higher eukaryotes, including humans. We have determined the nucleotide sequence of nearly all of the ∼120-megabase euchromatic portion of the Drosophila genome using a whole-genome shotgun sequencing strategy supported by extensive clone-based sequence and a high-quality bacterial artificial chromosome physical map. Efforts are under way to close the remaining gaps; however, the sequence is of sufficient accuracy and contiguity to be declared substantially complete and to support an initial analysis of genome structure and preliminary gene annotation and interpretation. The genome encodes ∼13,600 genes, somewhat fewer than the smaller Caenorhabditis elegans genome, but with comparable functional diversity.
+abstract: >
+  The fly Drosophila melanogaster is one of the most intensively studied organisms in biology and serves as a model system for the investigation of many developmental and cellular processes common to higher eukaryotes, including humans. We have determined the nucleotide sequence of nearly all of the ∼120-megabase euchromatic portion of the Drosophila genome using a whole-genome shotgun sequencing strategy supported by extensive clone-based sequence and a high-quality bacterial artificial chromosome physical map. Efforts are under way to close the remaining gaps; however, the sequence is of sufficient accuracy and contiguity to be declared substantially complete and to support an initial analysis of genome structure and preliminary gene annotation and interpretation. The genome encodes ∼13,600 genes, somewhat fewer than the smaller Caenorhabditis elegans genome, but with comparable functional diversity.
 summary: ''
 link: https://www.science.org/doi/10.1126/science.287.5461.2185
 links_alt:

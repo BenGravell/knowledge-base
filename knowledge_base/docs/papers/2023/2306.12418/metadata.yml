@@ -1,4 +1,5 @@
-title: "Randomized Algorithms for Low-rank Matrix Approximation: Design, Analysis, and Applications"
+title: >
+  Randomized Algorithms for Low-rank Matrix Approximation: Design, Analysis, and Applications
 algorithm:
 authors:
   - Joel A. Tropp
@@ -9,7 +10,8 @@ type: ''
 doi:
 arxiv_id: "2306.12418"
 tags:
-abstract: This survey explores modern approaches for computing low-rank approximations of high-dimensional matrices by means of the randomized SVD, randomized subspace iteration, and randomized block Krylov iteration. The paper compares the procedures via theoretical analyses and numerical studies to highlight how the best choice of algorithm depends on spectral properties of the matrix and the computational resources available. Despite superior performance for many problems, randomized block Krylov iteration has not been widely adopted in computational science. The paper strengthens the case for this method in three ways. First, it presents new pseudocode that can significantly reduce computational costs. Second, it provides a new analysis that yields simple, precise, and informative error bounds. Last, it showcases applications to challenging scientific problems, including principal component analysis for genetic data and spectral clustering for molecular dynamics data.
+abstract: >
+  This survey explores modern approaches for computing low-rank approximations of high-dimensional matrices by means of the randomized SVD, randomized subspace iteration, and randomized block Krylov iteration. The paper compares the procedures via theoretical analyses and numerical studies to highlight how the best choice of algorithm depends on spectral properties of the matrix and the computational resources available. Despite superior performance for many problems, randomized block Krylov iteration has not been widely adopted in computational science. The paper strengthens the case for this method in three ways. First, it presents new pseudocode that can significantly reduce computational costs. Second, it provides a new analysis that yields simple, precise, and informative error bounds. Last, it showcases applications to challenging scientific problems, including principal component analysis for genetic data and spectral clustering for molecular dynamics data.
 summary: ''
 link: https://arxiv.org/pdf/2306.12418
 links_alt:

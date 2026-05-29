@@ -1,4 +1,5 @@
-title: Dynamic Landing of an Autonomous Quadrotor on a Moving Platform in Turbulent Wind Conditions
+title: >
+  Dynamic Landing of an Autonomous Quadrotor on a Moving Platform in Turbulent Wind Conditions
 algorithm:
 authors:
   - Aleix Paris
@@ -10,7 +11,8 @@ type: ''
 doi:
 arxiv_id: "1909.11071"
 tags:
-abstract: Autonomous landing on a moving platform presents unique challenges for multirotor vehicles, including the need to accurately localize the platform, fast trajectory planning, and precise/robust control. Previous works studied this problem but most lack explicit consideration of the wind disturbance, which typically leads to slow descents onto the platform. This work presents a fully autonomous vision-based system that addresses these limitations by tightly coupling the localization, planning, and control, thereby enabling fast and accurate landing on a moving platform. The platform's position, orientation, and velocity are estimated by an extended Kalman filter using simulated GPS measurements when the quadrotor-platform distance is large, and by a visual fiducial system when the platform is nearby. The landing trajectory is computed online using receding horizon control and is followed by a boundary layer sliding controller that provides tracking performance guarantees in the presence of unknown, but bounded, disturbances. To improve the performance, the characteristics of the turbulent conditions are accounted for in the controller. The landing trajectory is fast, direct, and does not require hovering over the platform, as is typical of most state-of-the-art approaches. Simulations and hardware experiments are presented to validate the robustness of the approach.
+abstract: >
+  Autonomous landing on a moving platform presents unique challenges for multirotor vehicles, including the need to accurately localize the platform, fast trajectory planning, and precise/robust control. Previous works studied this problem but most lack explicit consideration of the wind disturbance, which typically leads to slow descents onto the platform. This work presents a fully autonomous vision-based system that addresses these limitations by tightly coupling the localization, planning, and control, thereby enabling fast and accurate landing on a moving platform. The platform's position, orientation, and velocity are estimated by an extended Kalman filter using simulated GPS measurements when the quadrotor-platform distance is large, and by a visual fiducial system when the platform is nearby. The landing trajectory is computed online using receding horizon control and is followed by a boundary layer sliding controller that provides tracking performance guarantees in the presence of unknown, but bounded, disturbances. To improve the performance, the characteristics of the turbulent conditions are accounted for in the controller. The landing trajectory is fast, direct, and does not require hovering over the platform, as is typical of most state-of-the-art approaches. Simulations and hardware experiments are presented to validate the robustness of the approach.
 summary: ''
 link: https://arxiv.org/pdf/1909.11071
 links_alt:

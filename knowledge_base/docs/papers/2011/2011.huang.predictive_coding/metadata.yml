@@ -1,4 +1,5 @@
-title: "Predictive Coding"
+title: >
+  Predictive Coding
 algorithm:
 authors:
   - Yanping Huang
@@ -9,7 +10,8 @@ type: Journal Paper
 doi: 10.1002/wcs.142
 arxiv_id:
 tags:
-abstract: 'AbstractPredictive coding is a unifying framework for understanding redundancy reduction and efficient coding in the nervous system. By transmitting only the unpredicted portions of an incoming sensory signal, predictive coding allows the nervous system to reduce redundancy and make full use of the limited dynamic range of neurons. Starting with the hypothesis of efficient coding as a design principle in the sensory system, predictive coding provides a functional explanation for a range of neural responses and many aspects of brain organization. The lateral and temporal antagonism in receptive fields in the retina and lateral geniculate nucleus occur naturally as a consequence of predictive coding of natural images. In the higher visual system, predictive coding provides an explanation for oriented receptive fields and contextual effects as well as the hierarchical reciprocally connected organization of the cortex. Predictive coding has also been found to be consistent with a variety of neurophysiological and psychophysical data obtained from different areas of the brain. WIREs Cogni Sci 2011 2 580–593 DOI: 10.1002/wcs.142This article is categorized under: Computer Science > Neural Networks'
+abstract: >
+  AbstractPredictive coding is a unifying framework for understanding redundancy reduction and efficient coding in the nervous system. By transmitting only the unpredicted portions of an incoming sensory signal, predictive coding allows the nervous system to reduce redundancy and make full use of the limited dynamic range of neurons. Starting with the hypothesis of efficient coding as a design principle in the sensory system, predictive coding provides a functional explanation for a range of neural responses and many aspects of brain organization. The lateral and temporal antagonism in receptive fields in the retina and lateral geniculate nucleus occur naturally as a consequence of predictive coding of natural images. In the higher visual system, predictive coding provides an explanation for oriented receptive fields and contextual effects as well as the hierarchical reciprocally connected organization of the cortex. Predictive coding has also been found to be consistent with a variety of neurophysiological and psychophysical data obtained from different areas of the brain. WIREs Cogni Sci 2011 2 580–593 DOI: 10.1002/wcs.142This article is categorized under: Computer Science > Neural Networks
 summary: ''
 link: https://wires.onlinelibrary.wiley.com/doi/10.1002/wcs.142
 links_alt:

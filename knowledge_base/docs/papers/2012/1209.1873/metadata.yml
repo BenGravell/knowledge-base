@@ -1,4 +1,5 @@
-title: "Stochastic Dual Coordinate Ascent Methods for Regularized Loss Minimization"
+title: >
+  Stochastic Dual Coordinate Ascent Methods for Regularized Loss Minimization
 algorithm: SDCA
 authors:
   - Shai Shalev-Shwartz
@@ -16,8 +17,10 @@ tags:
   - Coordinate ascent
   - Support vector machines
   - Regularized loss minimization
-abstract: Stochastic Gradient Descent (SGD) has become popular for solving large scale supervised machine learning optimization problems such as SVM, due to their strong theoretical guarantees. While the closely related Dual Coordinate Ascent (DCA) method has been implemented in various software packages, it has so far lacked good convergence analysis. This paper presents a new analysis of Stochastic Dual Coordinate Ascent (SDCA) showing that this class of methods enjoy strong theoretical guarantees that are comparable or better than SGD. This analysis justifies the effectiveness of SDCA for practical applications.
-summary: Reanalyzes stochastic dual coordinate ascent for regularized empirical-risk objectives and establishes strong convergence guarantees comparable to or better than stochastic gradient descent. The paper helped make SDCA a canonical variance-reduced finite-sum method, especially for linear supervised-learning problems with convex losses and explicit regularization.
+abstract: >
+  Stochastic Gradient Descent (SGD) has become popular for solving large scale supervised machine learning optimization problems such as SVM, due to their strong theoretical guarantees. While the closely related Dual Coordinate Ascent (DCA) method has been implemented in various software packages, it has so far lacked good convergence analysis. This paper presents a new analysis of Stochastic Dual Coordinate Ascent (SDCA) showing that this class of methods enjoy strong theoretical guarantees that are comparable or better than SGD. This analysis justifies the effectiveness of SDCA for practical applications.
+summary: >
+  Reanalyzes stochastic dual coordinate ascent for regularized empirical-risk objectives and establishes strong convergence guarantees comparable to or better than stochastic gradient descent. The paper helped make SDCA a canonical variance-reduced finite-sum method, especially for linear supervised-learning problems with convex losses and explicit regularization.
 link: https://arxiv.org/pdf/1209.1873
 links_alt:
   - https://arxiv.org/abs/1209.1873

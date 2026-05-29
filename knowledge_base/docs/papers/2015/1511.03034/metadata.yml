@@ -1,4 +1,5 @@
-title: Learning with a Strong Adversary
+title: >
+  Learning with a Strong Adversary
 algorithm:
 authors:
   - Ruitong Huang
@@ -11,7 +12,8 @@ type: ''
 doi:
 arxiv_id: "1511.03034"
 tags:
-abstract: The robustness of neural networks to intended perturbations has recently attracted significant attention. In this paper, we propose a new method, \emph{learning with a strong adversary}, that learns robust classifiers from supervised data. The proposed method takes finding adversarial examples as an intermediate step. A new and simple way of finding adversarial examples is presented and experimentally shown to be efficient. Experimental results demonstrate that resulting learning method greatly improves the robustness of the classification models produced.
+abstract: >
+  The robustness of neural networks to intended perturbations has recently attracted significant attention. In this paper, we propose a new method, \emph{learning with a strong adversary}, that learns robust classifiers from supervised data. The proposed method takes finding adversarial examples as an intermediate step. A new and simple way of finding adversarial examples is presented and experimentally shown to be efficient. Experimental results demonstrate that resulting learning method greatly improves the robustness of the classification models produced.
 summary: ''
 link: https://arxiv.org/pdf/1511.03034
 links_alt:

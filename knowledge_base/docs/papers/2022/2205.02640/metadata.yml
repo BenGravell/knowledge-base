@@ -1,4 +1,5 @@
-title: 'Model-Based Deep Learning: On the Intersection of Deep Learning and Optimization'
+title: >
+  Model-Based Deep Learning: On the Intersection of Deep Learning and Optimization
 algorithm:
 authors:
   - Nir Shlezinger
@@ -10,7 +11,8 @@ type: ''
 doi:
 arxiv_id: "2205.02640"
 tags:
-abstract: Decision making algorithms are used in a multitude of different applications. Conventional approaches for designing decision algorithms employ principled and simplified modelling, based on which one can determine decisions via tractable optimization. More recently, deep learning approaches that use highly parametric architectures tuned from data without relying on mathematical models, are becoming increasingly popular. Model-based optimization and data-centric deep learning are often considered to be distinct disciplines. Here, we characterize them as edges of a continuous spectrum varying in specificity and parameterization, and provide a tutorial-style presentation to the methodologies lying in the middle ground of this spectrum, referred to as model-based deep learning. We accompany our presentation with running examples in super-resolution and stochastic control, and show how they are expressed using the provided characterization and specialized in each of the detailed methodologies. The gains of combining model-based optimization and deep learning are demonstrated using experimental results in various applications, ranging from biomedical imaging to digital communications.
+abstract: >
+  Decision making algorithms are used in a multitude of different applications. Conventional approaches for designing decision algorithms employ principled and simplified modelling, based on which one can determine decisions via tractable optimization. More recently, deep learning approaches that use highly parametric architectures tuned from data without relying on mathematical models, are becoming increasingly popular. Model-based optimization and data-centric deep learning are often considered to be distinct disciplines. Here, we characterize them as edges of a continuous spectrum varying in specificity and parameterization, and provide a tutorial-style presentation to the methodologies lying in the middle ground of this spectrum, referred to as model-based deep learning. We accompany our presentation with running examples in super-resolution and stochastic control, and show how they are expressed using the provided characterization and specialized in each of the detailed methodologies. The gains of combining model-based optimization and deep learning are demonstrated using experimental results in various applications, ranging from biomedical imaging to digital communications.
 summary: ''
 link: https://arxiv.org/pdf/2205.02640
 links_alt:

@@ -1,4 +1,5 @@
-title: A High-Performant Multi-Parametric Quadratic Programming Solver
+title: >
+  A High-Performant Multi-Parametric Quadratic Programming Solver
 algorithm:
 authors:
   - Daniel ArnstrÃ¶m
@@ -9,7 +10,8 @@ type: ''
 doi:
 arxiv_id: "2404.05511"
 tags:
-abstract: We propose a combinatorial method for computing explicit solutions to multi-parametric quadratic programs, which can be used to compute explicit control laws for linear model predictive control. In contrast to classical methods, which are based on geometrical adjacency, the proposed method is based on combinatorial adjacency. After introducing the notion of combinatorial adjacency, we show that the explicit solution forms a connected graph in terms of it. We then leverage this connectedness to propose an algorithm that computes the explicit solution. The purely combinatorial nature of the algorithm leads to computational advantages since it enables demanding geometrical operations (such as computing facets of polytopes) to be avoided. Compared with classical combinatorial methods, the proposed method requires fewer combinations to be considered by exploiting combinatorial connectedness. We show that an implementation of the proposed method can yield a speedup of about two orders of magnitude compared with state-of-the-art software packages such as MPT and POP.
+abstract: >
+  We propose a combinatorial method for computing explicit solutions to multi-parametric quadratic programs, which can be used to compute explicit control laws for linear model predictive control. In contrast to classical methods, which are based on geometrical adjacency, the proposed method is based on combinatorial adjacency. After introducing the notion of combinatorial adjacency, we show that the explicit solution forms a connected graph in terms of it. We then leverage this connectedness to propose an algorithm that computes the explicit solution. The purely combinatorial nature of the algorithm leads to computational advantages since it enables demanding geometrical operations (such as computing facets of polytopes) to be avoided. Compared with classical combinatorial methods, the proposed method requires fewer combinations to be considered by exploiting combinatorial connectedness. We show that an implementation of the proposed method can yield a speedup of about two orders of magnitude compared with state-of-the-art software packages such as MPT and POP.
 summary: ''
 link: https://arxiv.org/pdf/2404.05511
 links_alt:

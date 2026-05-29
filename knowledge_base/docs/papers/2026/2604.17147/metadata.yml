@@ -1,4 +1,5 @@
-title: 'ScenarioControl: Vision-Language Controllable Vectorized Latent Scenario Generation'
+title: >
+  ScenarioControl: Vision-Language Controllable Vectorized Latent Scenario Generation
 algorithm:
 authors:
   - Lili Gao
@@ -18,7 +19,8 @@ type: ''
 doi:
 arxiv_id: "2604.17147"
 tags:
-abstract: 'We introduce ScenarioControl, the first vision-language control mechanism for learned driving scenario generation. Given a text prompt or an input image, Scenario-Control synthesizes diverse, realistic 3D scenario rollouts - including map, 3D boxes of reactive actors over time, pedestrians, driving infrastructure, and ego camera observations. The method generates scenes in a vectorized latent space that represents road structure and dynamic agents jointly. To connect multimodal control with sparse vectorized scene elements, we propose a cross-global control mechanism that integrates crossattention with a lightweight global-context branch, enabling fine-grained control over road layout and traffic conditions while preserving realism. The method produces temporally consistent scenario rollouts from the perspectives different actors in the scene, supporting long-horizon continuation of driving scenarios. To facilitate training and evaluation, we release a dataset with text annotations aligned to vectorized map structures. Extensive experiments validate that the control adherence and fidelity of ScenarioControl compare favorable to all tested methods across all experiments. Project webpage: https://light.princeton.edu/ScenarioControl'
+abstract: >
+  We introduce ScenarioControl, the first vision-language control mechanism for learned driving scenario generation. Given a text prompt or an input image, Scenario-Control synthesizes diverse, realistic 3D scenario rollouts - including map, 3D boxes of reactive actors over time, pedestrians, driving infrastructure, and ego camera observations. The method generates scenes in a vectorized latent space that represents road structure and dynamic agents jointly. To connect multimodal control with sparse vectorized scene elements, we propose a cross-global control mechanism that integrates crossattention with a lightweight global-context branch, enabling fine-grained control over road layout and traffic conditions while preserving realism. The method produces temporally consistent scenario rollouts from the perspectives different actors in the scene, supporting long-horizon continuation of driving scenarios. To facilitate training and evaluation, we release a dataset with text annotations aligned to vectorized map structures. Extensive experiments validate that the control adherence and fidelity of ScenarioControl compare favorable to all tested methods across all experiments. Project webpage: https://light.princeton.edu/ScenarioControl
 summary: ''
 link: https://arxiv.org/pdf/2604.17147
 links_alt:

@@ -1,4 +1,5 @@
-title: "CVXGEN: A Code Generator for Embedded Convex Optimization"
+title: >
+  CVXGEN: A Code Generator for Embedded Convex Optimization
 algorithm:
 authors:
   - Jacob Mattingley
@@ -9,7 +10,8 @@ type: Journal Paper
 doi: 10.1007/s11081-011-9176-9
 arxiv_id:
 tags:
-abstract: CVXGEN is a software tool that takes a high level description of a convex optimization problem family, and automatically generates custom C code that compiles into a reliable, high speed solver for the problem family. The current implementation targets problem families that can be transformed, using disciplined convex programming techniques, to convex quadratic programs of modest size. CVXGEN generates simple, flat, library-free code suitable for embedding in real-time applications. The generated code is almost branch free, and so has highly predictable run-time behavior. The combination of regularization (both static and dynamic) and iterative refinement in the search direction computation yields reliable performance, even with poor quality data. In this paper we describe how CVXGEN is implemented, and give some results on the speed and reliability of the automatically generated solvers.
+abstract: >
+  CVXGEN is a software tool that takes a high level description of a convex optimization problem family, and automatically generates custom C code that compiles into a reliable, high speed solver for the problem family. The current implementation targets problem families that can be transformed, using disciplined convex programming techniques, to convex quadratic programs of modest size. CVXGEN generates simple, flat, library-free code suitable for embedding in real-time applications. The generated code is almost branch free, and so has highly predictable run-time behavior. The combination of regularization (both static and dynamic) and iterative refinement in the search direction computation yields reliable performance, even with poor quality data. In this paper we describe how CVXGEN is implemented, and give some results on the speed and reliability of the automatically generated solvers.
 summary: ''
 link: https://doi.org/10.1007/s11081-011-9176-9
 links_alt:
