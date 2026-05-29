@@ -12,6 +12,9 @@ from dataclasses import field as dc_field
 from enum import Enum
 from pathlib import Path
 
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
 import yaml
 from rich.console import Console
 
@@ -130,10 +133,15 @@ _XML_HTML_TAG_RE = re.compile(
 _ABSTRACT_WORD_RE = re.compile(r"\babstract\b", re.I)
 _DOLLAR_SIGN_RE = re.compile(r"\$")
 _MOJIBAKE_RE = re.compile(
-    r"(?:Ã[\u0080-\u00ff]|Â[\u0080-\u00ff]?|â[\u0080-\uffff]{1,2}|�)"
+    r"(?:[\u00c2-\u00df][\u0080-\u00bf]|"
+    r"[\u00e0-\u00ef][\u0080-\u00bf]{2}|"
+    r"[\u00f0-\u00f4][\u0080-\u00bf]{3}|"
+    r"Ã(?=\s|$)|Â[\u0080-\u00ff]?|â[\u0080-\uffff]{1,2}|�)"
 )
 _BIG_WHITESPACE_RE = re.compile(r" {3,}")
 _BIG_WHITESPACE_ISSUE_PREFIX = "Contains 3+ consecutive spaces"
+_AUTHOR_MOJIBAKE_ISSUE_PREFIX = "Author entries contain suspicious Unicode character"
+_AUTHOR_ASCII_NORMALIZATION_ISSUE_PREFIX = "Author entries are not ASCII-normalized"
 CHECK_UNKNOWN = "unknown"
 CHECK_REQUIRED = "required"
 CHECK_TITLE = "title"
@@ -177,6 +185,10 @@ CHECKS: tuple[str, ...] = (
 _NEAR_EMPTY_ABSTRACT_CHAR_LIMIT = 120
 _NEAR_EMPTY_ABSTRACT_WORD_LIMIT = 20
 _LONG_ABSTRACT_CHAR_LIMIT = 6000
+_SUMMARY_ABSTRACT_OVERLAP_MIN_RUN_WORDS = 18
+_SUMMARY_ABSTRACT_OVERLAP_MIN_COVERED_WORDS = 24
+_SUMMARY_ABSTRACT_OVERLAP_MIN_COVERAGE = 0.45
+_SUMMARY_ABSTRACT_WORD_RE = re.compile(r"[A-Za-z0-9]+(?:[-'][A-Za-z0-9]+)*")
 _PDF_TEXT_ARTIFACT_RE = re.compile(r"\(cid:\d+\)")
 _PLACEHOLDER_ABSTRACT_RE = re.compile(
     r"^(?:n/?a|none|no abstract(?: available)?|not available|abstract unavailable|"
@@ -934,6 +946,22 @@ def _suspicious_author_char_descriptions(author: str) -> list[str]:
     ]
 
 
+def _author_ascii_normalization(author: str) -> str:
+    decoded_author, _ = _decode_utf8_mojibake_text(author)
+    return _fold_author_name_to_ascii(decoded_author)
+
+
+def _author_ascii_normalization_issues(authors: list[object]) -> dict[int, str]:
+    normalization_issues: dict[int, str] = {}
+    for i, author in enumerate(authors):
+        if not isinstance(author, str):
+            continue
+        normalized = _author_ascii_normalization(author)
+        if normalized and normalized != author:
+            normalization_issues[i] = normalized
+    return normalization_issues
+
+
 # ---------------------------------------------------------------------------
 # Title-case helpers
 # ---------------------------------------------------------------------------
@@ -1336,6 +1364,97 @@ def _normalize_inline_text(text: str) -> str:
 
 def _abstract_word_count(text: str) -> int:
     return len(re.findall(r"[A-Za-z0-9]+(?:[-'][A-Za-z0-9]+)*", text))
+
+
+def _overlap_words(text: str) -> list[str]:
+    return [
+        match.group(0).casefold()
+        for match in _SUMMARY_ABSTRACT_WORD_RE.finditer(text)
+    ]
+
+
+def _longest_common_word_run(left: list[str], right: list[str]) -> tuple[int, int]:
+    previous = [0] * (len(right) + 1)
+    best_len = 0
+    best_left_end = 0
+
+    for left_index, left_word in enumerate(left, 1):
+        current = [0] * (len(right) + 1)
+        for right_index, right_word in enumerate(right, 1):
+            if left_word != right_word:
+                continue
+            current[right_index] = previous[right_index - 1] + 1
+            if current[right_index] > best_len:
+                best_len = current[right_index]
+                best_left_end = left_index
+        previous = current
+
+    return best_len, best_left_end - best_len
+
+
+def _shared_shingle_coverage(
+    summary_words: list[str],
+    abstract_words: list[str],
+    *,
+    size: int = 8,
+) -> float:
+    if len(summary_words) < size or len(abstract_words) < size:
+        return 0.0
+
+    abstract_shingles = {
+        tuple(abstract_words[index : index + size])
+        for index in range(len(abstract_words) - size + 1)
+    }
+    covered = [False] * len(summary_words)
+    for index in range(len(summary_words) - size + 1):
+        if tuple(summary_words[index : index + size]) in abstract_shingles:
+            for covered_index in range(index, index + size):
+                covered[covered_index] = True
+
+    return sum(covered) / len(summary_words)
+
+
+def find_summary_abstract_overlap_issues(
+    path: Path,
+    summary: str,
+    abstract: str,
+) -> list[Issue]:
+    summary_words = _overlap_words(summary)
+    abstract_words = _overlap_words(abstract)
+    if not summary_words or not abstract_words:
+        return []
+
+    longest_run, run_start = _longest_common_word_run(summary_words, abstract_words)
+    shingle_coverage = _shared_shingle_coverage(summary_words, abstract_words)
+    covered_words = round(shingle_coverage * len(summary_words))
+    run_coverage = longest_run / len(summary_words)
+
+    has_long_run = longest_run >= _SUMMARY_ABSTRACT_OVERLAP_MIN_RUN_WORDS
+    has_dominant_run = longest_run >= 12 and run_coverage >= 0.45
+    has_broad_overlap = (
+        covered_words >= _SUMMARY_ABSTRACT_OVERLAP_MIN_COVERED_WORDS
+        and shingle_coverage >= _SUMMARY_ABSTRACT_OVERLAP_MIN_COVERAGE
+    )
+    if not (has_long_run or has_dominant_run or has_broad_overlap):
+        return []
+
+    snippet = " ".join(summary_words[run_start : run_start + longest_run])
+    if len(snippet) > 120:
+        snippet = snippet[:117] + "..."
+    return [
+        Issue(
+            path,
+            "summary",
+            (
+                "Substantial verbatim overlap with abstract: "
+                f"{longest_run} consecutive word(s) "
+                f"({run_coverage:.0%} of summary); "
+                f"{covered_words} word(s) covered by shared 8-word phrases "
+                f"({shingle_coverage:.0%} of summary). Example: {snippet!r}"
+            ),
+            "Rewrite the summary in original observer-language instead of reusing abstract phrasing.",
+        )
+    ]
 
 
 def _format_labeled_text_hits(hits: list[tuple[str, str]]) -> str:
@@ -2593,6 +2712,26 @@ def audit_file(
                         f"Replace mojibake/control characters with clean author names; review: {examples}",
                     )
                 )
+            ascii_normalization = _author_ascii_normalization_issues(authors)
+            if ascii_normalization:
+                examples = ", ".join(
+                    f"{i}: {repr(str(authors[i]))} -> {normalized!r}"
+                    for i, normalized in list(ascii_normalization.items())[:4]
+                )
+                if len(ascii_normalization) > 4:
+                    examples += f", ... ({len(ascii_normalization)} total)"
+                issues.append(
+                    Issue(
+                        path,
+                        "authors",
+                        "Author entries are not ASCII-normalized at index(es): "
+                        f"{list(ascii_normalization)}",
+                        (
+                            "Normalize author names to the native 26 English "
+                            f"letters for centralized author matching; review: {examples}"
+                        ),
+                    )
+                )
     else:
         authors = authors if isinstance(authors, list) else []
 
@@ -2732,7 +2871,7 @@ def audit_file(
                     )
                 )
 
-    # -- summary (warning) --
+    # -- summary --
     if should_check(CHECK_SUMMARY):
         summary = data.get("summary")
         if not summary or not str(summary).strip():
@@ -2750,6 +2889,14 @@ def audit_file(
                     str(summary),
                 )
             )
+            if "abstract" not in missing:
+                issues.extend(
+                    find_summary_abstract_overlap_issues(
+                        path,
+                        str(summary),
+                        str(data.get("abstract") or ""),
+                    )
+                )
 
     # -- optional field completeness (info) --
     if should_check(CHECK_OPTIONAL):
@@ -3048,6 +3195,44 @@ _TITLE_LINE_RE = re.compile(r"^title\s*:\s*(?P<value>.*?)(?P<newline>\r?\n?)$")
 _BLOCK_SCALAR_HEADER_RE = re.compile(r"^[>|][0-9+-]*(?:\s+#.*)?$")
 _EMPTY_YAML_LIST_KEY_RE = re.compile(r"^[ \t]*-\s*:\s*(?:#.*)?\r?\n?", re.M)
 _C1_CONTROL_CHAR_RE = re.compile(r"[\u0080-\u009f]")
+_AUTHOR_ASCII_TRANSLATION = str.maketrans(
+    {
+        "ß": "ss",
+        "ẞ": "SS",
+        "Æ": "AE",
+        "æ": "ae",
+        "Œ": "OE",
+        "œ": "oe",
+        "Ø": "O",
+        "ø": "o",
+        "Đ": "D",
+        "đ": "d",
+        "Ð": "D",
+        "ð": "d",
+        "Þ": "Th",
+        "þ": "th",
+        "Ł": "L",
+        "ł": "l",
+        "ı": "i",
+        "İ": "I",
+        "Ŋ": "N",
+        "ŋ": "n",
+        "Ħ": "H",
+        "ħ": "h",
+        "‐": "-",
+        "‑": "-",
+        "‒": "-",
+        "–": "-",
+        "—": "-",
+        "―": "-",
+        "’": "'",
+        "‘": "'",
+        "ʼ": "'",
+        "ʹ": "'",
+        "ˈ": "'",
+        "´": "'",
+    }
+)
 
 
 def _format_title_line(new_title: str, line_ending: str = "\n") -> str:
@@ -3272,6 +3457,22 @@ def _is_big_whitespace_issue(issue: Issue) -> bool:
     return issue.message.startswith(_BIG_WHITESPACE_ISSUE_PREFIX)
 
 
+def _is_author_mojibake_issue(issue: Issue) -> bool:
+    return issue.field == "authors" and issue.message.startswith(
+        _AUTHOR_MOJIBAKE_ISSUE_PREFIX
+    )
+
+
+def _is_author_ascii_normalization_issue(issue: Issue) -> bool:
+    return issue.field == "authors" and issue.message.startswith(
+        _AUTHOR_ASCII_NORMALIZATION_ISSUE_PREFIX
+    )
+
+
+def _is_fixable_author_name_issue(issue: Issue) -> bool:
+    return _is_author_mojibake_issue(issue) or _is_author_ascii_normalization_issue(issue)
+
+
 def _is_publisher_mark_abstract_issue(issue: Issue) -> bool:
     return (
         issue.field == "abstract"
@@ -3281,6 +3482,24 @@ def _is_publisher_mark_abstract_issue(issue: Issue) -> bool:
 
 def _is_high_confidence_ocr_artifact_issue(issue: Issue) -> bool:
     return issue.message.startswith(_HIGH_CONFIDENCE_OCR_ARTIFACT_ISSUE_PREFIX)
+
+
+def _mojibake_byte(char: str) -> int | None:
+    codepoint = ord(char)
+    if codepoint <= 0xFF:
+        return codepoint
+    try:
+        encoded = char.encode("cp1252")
+    except UnicodeError:
+        return None
+    return encoded[0] if len(encoded) == 1 else None
+
+
+def _fold_author_name_to_ascii(author: str) -> str:
+    translated = author.translate(_AUTHOR_ASCII_TRANSLATION)
+    normalized = unicodedata.normalize("NFKD", translated)
+    ascii_text = normalized.encode("ascii", "ignore").decode("ascii")
+    return _normalize_inline_text(ascii_text)
 
 
 def _delete_publisher_marks_from_abstract(abstract: str) -> tuple[str, int]:
@@ -3301,32 +3520,38 @@ def _fix_escaped_sequences_in_yaml(raw: str) -> tuple[str, int]:
     return new_raw, len(_HTML_ENTITY_RE.findall(raw))
 
 
-def _decode_utf8_mojibake_controls(raw: str) -> tuple[str, int]:
-    if not _C1_CONTROL_CHAR_RE.search(raw):
-        return raw, 0
+def _decode_utf8_mojibake_text(text: str) -> tuple[str, int]:
+    if not _mojibake_examples(text):
+        return text, 0
 
     pieces: list[str] = []
     decoded = 0
     index = 0
-    while index < len(raw):
-        codepoint = ord(raw[index])
-        if 0xC2 <= codepoint <= 0xDF:
+    while index < len(text):
+        leading_byte = _mojibake_byte(text[index])
+        if leading_byte is None:
+            byte_count = 0
+        elif 0xC2 <= leading_byte <= 0xDF:
             byte_count = 2
-        elif 0xE0 <= codepoint <= 0xEF:
+        elif 0xE0 <= leading_byte <= 0xEF:
             byte_count = 3
-        elif 0xF0 <= codepoint <= 0xF4:
+        elif 0xF0 <= leading_byte <= 0xF4:
             byte_count = 4
         else:
             byte_count = 0
 
-        token = raw[index : index + byte_count]
+        token = text[index : index + byte_count]
+        token_bytes = [
+            byte for char in token for byte in [_mojibake_byte(char)] if byte is not None
+        ]
         if (
             byte_count
             and len(token) == byte_count
-            and all(0x80 <= ord(char) <= 0xBF for char in token[1:])
+            and len(token_bytes) == byte_count
+            and all(0x80 <= byte <= 0xBF for byte in token_bytes[1:])
         ):
             try:
-                replacement = token.encode("latin-1").decode("utf-8")
+                replacement = bytes(token_bytes).decode("utf-8")
             except UnicodeError:
                 replacement = ""
             if replacement and not _C1_CONTROL_CHAR_RE.search(replacement):
@@ -3335,10 +3560,18 @@ def _decode_utf8_mojibake_controls(raw: str) -> tuple[str, int]:
                 index += byte_count
                 continue
 
-        pieces.append(raw[index])
+        pieces.append(text[index])
         index += 1
 
-    return "".join(pieces), decoded
+    fixed = "".join(pieces)
+    fixed, orphaned_grave_a = re.subn(r"Ã(?=\s|$)", "à", fixed)
+    return fixed, decoded + orphaned_grave_a
+
+
+def _decode_utf8_mojibake_controls(raw: str) -> tuple[str, int]:
+    if not _C1_CONTROL_CHAR_RE.search(raw):
+        return raw, 0
+    return _decode_utf8_mojibake_text(raw)
 
 
 def _remove_empty_yaml_list_keys(raw: str) -> tuple[str, int]:
@@ -3675,6 +3908,86 @@ def _fix_folded_text_fields_in_yaml(
     return fixed_raw, changed_fields
 
 
+def _format_authors_block(authors: list[object], newline: str = "\n") -> str:
+    if not authors:
+        return f"authors:{newline}"
+
+    lines = ["authors:"]
+    for author in authors:
+        if author is None or author == "":
+            lines.append("  -")
+            continue
+        dumped = yaml.safe_dump(
+            [author],
+            sort_keys=False,
+            allow_unicode=True,
+            default_flow_style=False,
+            width=1_000_000_000,
+        ).strip()
+        item = dumped.removeprefix("-").strip()
+        lines.append(f"  - {item}")
+    return newline.join(lines) + newline
+
+
+def _fix_author_names_in_yaml(raw: str, data: dict) -> tuple[str, int, int]:
+    authors_raw = data.get("authors")
+    if not isinstance(authors_raw, list):
+        return raw, 0, 0
+
+    authors = list(authors_raw)
+    changed_authors = 0
+    decoded_sequences = 0
+    for index, author in enumerate(authors):
+        if not isinstance(author, str):
+            continue
+
+        decoded_author, count = _decode_utf8_mojibake_text(author)
+        fixed_author = _fold_author_name_to_ascii(decoded_author)
+        if not fixed_author or fixed_author == author:
+            continue
+
+        authors[index] = fixed_author
+        changed_authors += 1
+        decoded_sequences += count
+
+    if changed_authors == 0:
+        return raw, 0, 0
+
+    lines = raw.splitlines(keepends=True)
+    for start, line in enumerate(lines):
+        match = re.match(
+            r"^(?P<indent>\s*)authors\s*:\s*(?P<value>.*?)(?P<newline>\r?\n)?$",
+            line,
+        )
+        if not match:
+            continue
+
+        end = start + 1
+        value = match.group("value")
+        if (
+            _is_block_scalar_header(value)
+            or _is_multiline_quoted_scalar_header(value)
+            or _has_indented_continuation(lines, start)
+        ):
+            while end < len(lines):
+                next_line = lines[end]
+                if next_line.strip() and not next_line.startswith((" ", "\t")):
+                    break
+                end += 1
+
+        replacement = match.group("indent") + _format_authors_block(
+            authors,
+            match.group("newline") or "\n",
+        )
+        return (
+            "".join(lines[:start] + [replacement] + lines[end:]),
+            changed_authors,
+            decoded_sequences,
+        )
+
+    return raw, 0, 0
+
+
 def _format_tags_block(tags: list[object], newline: str = "\n") -> str:
     if not tags:
         return f"tags:{newline}"
@@ -4004,6 +4317,7 @@ def apply_fixes(
         abstract_publisher_fixes = [
             i for i in issues if _is_publisher_mark_abstract_issue(i)
         ]
+        author_name_fixes = [i for i in issues if _is_fixable_author_name_issue(i)]
         ocr_artifact_fields = {
             i.field for i in issues if _is_high_confidence_ocr_artifact_issue(i)
         }
@@ -4024,6 +4338,7 @@ def apply_fixes(
             and not source_year_fixes
             and not tag_fixes
             and not abstract_publisher_fixes
+            and not author_name_fixes
             and not ocr_artifact_fields
             and not multiline_fields
             and not folded_text_fields
@@ -4071,6 +4386,25 @@ def apply_fixes(
                         "  removed "
                         f"{n_removed_marks} publisher/copyright notice(s) from abstract"
                     )
+
+            if author_name_fixes:
+                parsed = yaml.safe_load(new_raw) or {}
+                (
+                    new_raw,
+                    n_fixed_authors,
+                    n_decoded_author_sequences,
+                ) = _fix_author_names_in_yaml(new_raw, parsed)
+                if n_fixed_authors:
+                    if n_decoded_author_sequences:
+                        messages.append(
+                            "  decoded "
+                            f"{n_decoded_author_sequences} author mojibake sequence(s) "
+                            f"and ASCII-normalized {n_fixed_authors} name(s)"
+                        )
+                    else:
+                        messages.append(
+                            f"  ASCII-normalized {n_fixed_authors} author name(s)"
+                        )
 
             if ocr_artifact_fields:
                 parsed = yaml.safe_load(new_raw) or {}
@@ -4232,7 +4566,7 @@ Checks performed on each metadata.yml:
   required  - ERROR if any of title, authors, year, abstract, type, audit_status missing
   title     - ERROR if empty; ERROR if not in title case; ERROR for raw YAML character escapes like \\u2014; ERROR/WARN for corrupt characters or likely misspellings
   algorithm - ERROR if the algorithm label is generic; WARN if a bare concrete method label appears to describe analysis/application of an existing method rather than the proposing paper
-  authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order, single-token names, known organization names, other non-individual names, or suspicious Unicode corruption/control characters
+  authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order, single-token names, known organization names, other non-individual names, suspicious Unicode corruption/control characters, or names that are not normalized to the native 26 English letters
   tags      - ERROR if tags contain duplicate values, trivial singular/plural duplicates, forbidden generic values, leading articles, more than 4 words, non-capital-case ordinary English words, or sentence-like prose debris copied from an abstract
   year      - ERROR if not a 4-digit integer
   arxiv     - ERROR if arxiv_id is present but not a valid arXiv ID
@@ -4244,7 +4578,7 @@ Checks performed on each metadata.yml:
   type      - ERROR if not a recognised paper type
   status    - ERROR if audit_status is not one of: raw, partial, reviewed
   path      - ERROR if YEAR/SLUG do not match metadata or expected slug format; ERROR if map-data.js or embedding_cache.json IDs are stale, missing, malformed, or inconsistent
-  summary   - WARN if missing, empty, or likely misspelled
+  summary   - ERROR if it has substantial verbatim overlap with the abstract; WARN if missing, empty, or likely misspelled
   optional  - INFO for each optional field that is not populated
   whitespace - ERROR if any string field contains 3 or more consecutive spaces
 
@@ -4272,7 +4606,8 @@ Available --check names:
         help=(
             "Auto-fix title-case, tag casing/leading articles/duplicate tags, "
             "abstract publisher/copyright notices, high-confidence OCR artifacts, "
-            "escaped HTML/entity/markup issues, high-confidence parse artifacts, "
+            "escaped HTML/entity/markup issues, author-name mojibake/diacritics, "
+            "high-confidence parse artifacts, "
             "multiline scalar fields, folded text-field style, large whitespace runs, "
             "source years, and path slugs; path fixes move metadata directories "
             "after metadata edits and update direct references"
