@@ -124,6 +124,12 @@ class RssPrefill(PagePrefillScript[tuple[str, str, str]]):
         _html_url, _pdf_url, key = entry
         return key
 
+    def source_key_for_token(self, token: str) -> str | None:
+        match = _RSS_RE.search(token)
+        if not match:
+            return None
+        return self.normalize_source_key(f"{match.group(1).lower()}/{match.group(2)}")
+
     def fetch_fields(self, entry: tuple[str, str, str], _context: dict) -> dict:
         html_url, pdf_url, _key = entry
         return fetch_rss_fields(html_url, pdf_url)

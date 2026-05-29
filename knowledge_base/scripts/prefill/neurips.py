@@ -170,6 +170,12 @@ class NeuripsPrefill(PagePrefillScript[tuple[str, str]]):
         year, paper_hash = entry
         return f"{year}/{paper_hash}"
 
+    def source_key_for_token(self, token: str) -> str | None:
+        match = _ABSTRACT_RE.search(token) or _FILE_RE.search(token)
+        if not match:
+            return None
+        return self.normalize_source_key(f"{match.group(1)}/{match.group(2).lower()}")
+
     def fetch_fields(self, entry: tuple[str, str], _context: dict) -> dict:
         year, paper_hash = entry
         return fetch_neurips_fields(year, paper_hash)

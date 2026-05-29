@@ -45,6 +45,46 @@ _KNOWN_FIELDS_BY_TOKEN = {
         "doi": None,
         "abstract": "",
     },
+    "New_stochastic_approximation_type_procedures": {
+        "title": "New Stochastic Approximation Type Procedures",
+        "authors": ["Boris T. Polyak"],
+        "year": 1990,
+        "source": "Avtomatika i Telemekhanika",
+        "type": "Journal Paper",
+        "doi": None,
+        "abstract": "",
+        "link": "https://www.researchgate.net/publication/236736759",
+    },
+    "Efficient_estimators_from_a_slowly_converging_robbins-monro_process": {
+        "title": "Efficient Estimators from a Slowly Converging Robbins-Monro Process",
+        "authors": ["David Ruppert"],
+        "year": 1988,
+        "source": "Cornell University School of Operations Research and Industrial Engineering Technical Report 781",
+        "type": "Technical Report",
+        "doi": None,
+        "abstract": "",
+        "link": "https://www.researchgate.net/publication/242608650",
+    },
+    "Beyond_Regression_New_Tools_for_Prediction_and_Analysis_in_the_Behavioral_Science": {
+        "title": "Beyond Regression: New Tools for Prediction and Analysis in the Behavioral Sciences",
+        "authors": ["Paul John Werbos"],
+        "year": 1974,
+        "source": "Harvard University",
+        "type": "PhD Dissertation",
+        "doi": None,
+        "abstract": "",
+        "link": "https://gwern.net/doc/ai/nn/1974-werbos.pdf",
+    },
+    "Path_Integral_Policy_Improvement_An_Information-Geometric_Optimization_Approach": {
+        "title": "Path Integral Policy Improvement: An Information-Geometric Approach",
+        "authors": ["Peter Varnai", "Dimos V. Dimarogonas"],
+        "year": 2020,
+        "source": "ResearchGate",
+        "type": "Preprint",
+        "doi": "10.13140/RG.2.2.13969.76645",
+        "abstract": "",
+        "link": "https://doi.org/10.13140/RG.2.2.13969.76645",
+    },
 }
 _DOI_BY_TOKEN = {
     "The_BOSS_is_concerned_with_time_series_classification_in_the_presence_of_noise": (
@@ -73,8 +113,14 @@ def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
 def fetch_researchgate_fields(url: str) -> dict:
     for token, fields in _KNOWN_FIELDS_BY_TOKEN.items():
         if token in url:
-            links_alt = [f"https://doi.org/{fields['doi']}"] if fields.get("doi") else []
-            return {**fields, "link": url, "links_alt": links_alt}
+            link = fields.get("link") or url
+            links_alt = list(fields.get("links_alt") or [])
+            if link != url:
+                links_alt.append(url)
+            if fields.get("doi"):
+                links_alt.append(f"https://doi.org/{fields['doi']}")
+            links_alt = list(dict.fromkeys(x for x in links_alt if x and x != link))
+            return {**fields, "link": link, "links_alt": links_alt}
 
     for token, doi in _DOI_BY_TOKEN.items():
         if token in url:

@@ -16,6 +16,17 @@ DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "PROJECT_EUCLID.md"
 _KNOWN_FIELDS_BY_TOKEN = {
     # Project Euclid's old Berkeley Symposium pages sit behind a bot challenge,
     # so keep the stable bibliographic record for the listed chapter here.
+    "bsmsp/1200501645": {
+        "title": "On Stochastic Approximation",
+        "authors": ["Aryeh Dvoretzky"],
+        "year": 1956,
+        "source": "Proceedings of the Third Berkeley Symposium on Mathematical Statistics and Probability",
+        "type": "Conference Paper",
+        "doi": None,
+        "abstract": "",
+        "link": "https://digicoll.lib.berkeley.edu/record/112820/files/math_s3_v1_article-04.pdf",
+        "links_alt": ["https://digicoll.lib.berkeley.edu/record/112820"],
+    },
     "bsmsp/1200512992": {
         "title": "Some Methods for Classification and Analysis of Multivariate Observations",
         "authors": ["James MacQueen"],
@@ -26,6 +37,21 @@ _KNOWN_FIELDS_BY_TOKEN = {
         "abstract": "",
     },
 }
+
+
+def strip_project_euclid_view_suffix(doi: str) -> str:
+    """Remove Project Euclid page-view suffixes that are not part of the DOI."""
+    for suffix in (".full", ".short", ".pdf"):
+        if doi.lower().endswith(suffix):
+            return doi[: -len(suffix)]
+    return doi
+
+
+def preferred_project_euclid_link(url: str) -> str:
+    """Prefer Project Euclid full-text pages over abstract-only short pages."""
+    if url.lower().endswith(".short"):
+        return url[: -len(".short")] + ".full"
+    return url
 
 
 def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
@@ -48,13 +74,25 @@ def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
 def fetch_project_euclid_fields(url: str) -> dict:
     for token, fields in _KNOWN_FIELDS_BY_TOKEN.items():
         if token in url:
-            return {**fields, "link": url, "links_alt": []}
+            record = {**fields}
+            link = record.get("link") or url
+            links_alt = list(record.get("links_alt") or [])
+            if link != url:
+                links_alt.append(url)
+            return {
+                **record,
+                "link": link,
+                "links_alt": list(dict.fromkeys(x for x in links_alt if x and x != link)),
+            }
 
-    doi = extract_doi_from_url(url)
+    doi = strip_project_euclid_view_suffix(extract_doi_from_url(url))
     if not doi:
         raise ValueError(f"Could not find a DOI or known Project Euclid record for {url!r}")
 
     data = fetch_with_retry(fetch_crossref, doi)
+    link = preferred_project_euclid_link(url)
+    links_alt = [url] if link != url else []
+    links_alt.append(f"https://doi.org/{data.get('doi') or doi}")
     return {
         "title": data["title"],
         "authors": data["authors"],
@@ -63,8 +101,8 @@ def fetch_project_euclid_fields(url: str) -> dict:
         "type": data.get("type") or "Journal Paper",
         "doi": data.get("doi") or doi,
         "abstract": data.get("abstract", ""),
-        "link": url,
-        "links_alt": [f"https://doi.org/{data.get('doi') or doi}"],
+        "link": link,
+        "links_alt": list(dict.fromkeys(x for x in links_alt if x and x != link)),
     }
 
 

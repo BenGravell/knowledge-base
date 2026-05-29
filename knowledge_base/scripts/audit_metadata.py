@@ -132,6 +132,7 @@ _DOLLAR_SIGN_RE = re.compile(r"\$")
 _MOJIBAKE_RE = re.compile(
     r"(?:Ã[\u0080-\u00ff]|Â[\u0080-\u00ff]?|â[\u0080-\uffff]{1,2}|�)"
 )
+_BIG_WHITESPACE_RE = re.compile(r" {3,}")
 CHECK_UNKNOWN = "unknown"
 CHECK_REQUIRED = "required"
 CHECK_TITLE = "title"
@@ -150,6 +151,7 @@ CHECK_STATUS = "status"
 CHECK_PATH = "path"
 CHECK_SUMMARY = "summary"
 CHECK_OPTIONAL = "optional"
+CHECK_WHITESPACE = "whitespace"
 CHECKS: tuple[str, ...] = (
     CHECK_UNKNOWN,
     CHECK_REQUIRED,
@@ -169,6 +171,7 @@ CHECKS: tuple[str, ...] = (
     CHECK_PATH,
     CHECK_SUMMARY,
     CHECK_OPTIONAL,
+    CHECK_WHITESPACE,
 )
 _NEAR_EMPTY_ABSTRACT_CHAR_LIMIT = 120
 _NEAR_EMPTY_ABSTRACT_WORD_LIMIT = 20
@@ -1098,6 +1101,46 @@ def _walk_string_values(value, field_name: str):
         for key, item in value.items():
             nested = f"{field_name}.{key}" if field_name else str(key)
             yield from _walk_string_values(item, nested)
+
+
+def _big_whitespace_examples(text: str, *, limit: int = 5) -> list[str]:
+    examples: list[str] = []
+    seen: set[str] = set()
+    for match in _BIG_WHITESPACE_RE.finditer(text):
+        left = _normalize_inline_text(
+            text[max(0, match.start() - 40) : match.start()]
+        )
+        right = _normalize_inline_text(text[match.end() : match.end() + 40])
+        example = f"{left} [{len(match.group(0))} spaces] {right}".strip()
+        if example in seen:
+            continue
+        examples.append(example)
+        seen.add(example)
+        if len(examples) >= limit:
+            break
+    return examples
+
+
+def find_big_whitespace_issues(path: Path, data: dict) -> list["Issue"]:
+    issues: list[Issue] = []
+    for field_name, value in _walk_string_values(data, ""):
+        examples = _big_whitespace_examples(value)
+        if not examples:
+            continue
+
+        message = "Contains 3+ consecutive spaces"
+        if examples:
+            message += ": " + "; ".join(repr(example) for example in examples)
+        issues.append(
+            Issue(
+                path,
+                field_name,
+                message,
+                "Collapse accidental spacing to one space unless the spacing is "
+                "semantically meaningful.",
+            )
+        )
+    return issues
 
 
 def find_escaped_sequence_issues(path: Path, data: dict) -> list["Issue"]:
@@ -2308,6 +2351,9 @@ def audit_file(
 
     if should_check(CHECK_MULTILINE):
         issues.extend(find_multiline_field_issues(path, raw))
+
+    if should_check(CHECK_WHITESPACE):
+        issues.extend(find_big_whitespace_issues(path, data))
 
     # -- unknown fields --
     if should_check(CHECK_UNKNOWN):
@@ -3827,6 +3873,7 @@ Checks performed on each metadata.yml:
   path      - ERROR if YEAR/SLUG do not match metadata or expected slug format; ERROR if map-data.js or embedding_cache.json IDs are stale, missing, malformed, or inconsistent
   summary   - WARN if missing, empty, or likely misspelled
   optional  - INFO for each optional field that is not populated
+  whitespace - ERROR if any string field contains 3 or more consecutive spaces
 
 By default, every check runs. Use --check to opt into a smaller set:
   --check abstract escape
@@ -3837,7 +3884,7 @@ Use --severity to filter reported issues by severity threshold:
   --severity info     # INFO, WARNING, and ERROR
 
 Available --check names:
-  unknown required title algorithm authors tags year arxiv abstract escape url multiline source type status path summary optional
+  unknown required title algorithm authors tags year arxiv abstract escape url multiline source type status path summary optional whitespace
 """,
     )
     parser.add_argument(

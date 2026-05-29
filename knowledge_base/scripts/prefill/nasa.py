@@ -111,6 +111,13 @@ class NasaPrefill(PagePrefillScript[str]):
     def extract_entries(self, path: Path) -> list[str]:
         return extract_entries(path, self.record_parse_failure)
 
+    def source_key_for_entry(self, entry: str) -> str | None:
+        return self.normalize_source_key(entry)
+
+    def source_key_for_token(self, token: str) -> str | None:
+        match = _NTRS_ID_RE.search(token)
+        return self.normalize_source_key(match.group(1)) if match else None
+
     def fetch_fields(self, entry: str, _context: dict) -> dict:
         return fetch_nasa_fields(entry)
 

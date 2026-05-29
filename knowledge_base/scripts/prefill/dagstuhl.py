@@ -49,6 +49,12 @@ class DagstuhlPrefill(DoiPrefillScript[tuple[str, str]]):
     def entry_doi(self, entry: tuple[str, str]) -> str:
         return entry[1]
 
+    def source_key_for_token(self, token: str) -> str | None:
+        match = _LIPICS_RE.search(token)
+        if not match:
+            return None
+        return self.normalize_source_key(f"10.4230/{match.group(1)}")
+
     def postprocess_crossref_data(self, entry: tuple[str, str], data: dict) -> dict:
         url, _doi = entry
         return {**data, "link": url}

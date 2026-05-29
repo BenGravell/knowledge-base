@@ -91,6 +91,10 @@ class ElsevierPrefill(DoiPrefillScript[tuple[str, str]]):
         _url, pii = entry
         return pii
 
+    def source_key_for_token(self, token: str) -> str | None:
+        match = _SD_PII_RE.search(token)
+        return self.normalize_source_key(match.group(1).upper()) if match else None
+
     def resolve_doi(self, entry: tuple[str, str]) -> str:
         url, pii = entry
         return fetch_elsevier_doi(url, pii)

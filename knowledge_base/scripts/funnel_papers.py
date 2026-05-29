@@ -4,7 +4,9 @@
 High-confidence items (URL domain matches a known academic publisher) go to the
 corresponding todo/papers/<PUBLISHER>.md file.  Everything else goes to todo/PAPERS_MISC.md.
 
-URLs already present in the destination file are skipped.
+Rows whose URLs are newly routed, already present in the destination, or
+duplicates of a routed row are removed from the funnel file after successful
+writes. Dry runs never write or remove rows.
 
 Usage:
     python funnel_papers.py [--dry-run]
@@ -146,12 +148,20 @@ def append_to_file(path: Path, urls: list[str], dry_run: bool) -> None:
     path.write_text(existing + "\n".join(urls) + "\n", encoding="utf-8")
 
 
+def remove_handled_rows(raw_lines: list[str], handled_rows: set[int], dry_run: bool) -> int:
+    if dry_run or not handled_rows:
+        return len(handled_rows)
+    kept_lines = [line for index, line in enumerate(raw_lines) if index not in handled_rows]
+    FUNNEL_FILE.write_text("".join(kept_lines), encoding="utf-8")
+    return len(handled_rows)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dry-run", action="store_true", help="Print plan without writing files")
     args = parser.parse_args()
 
-    raw_lines = FUNNEL_FILE.read_text(encoding="utf-8").splitlines()
+    raw_lines = FUNNEL_FILE.read_text(encoding="utf-8").splitlines(keepends=True)
     funnel_urls = [ln.strip() for ln in raw_lines if ln.strip()]
 
     if not funnel_urls:
@@ -165,25 +175,32 @@ def main() -> None:
 
     routed: dict[str, list[str]] = {}
     skipped = 0
+    handled_rows: set[int] = set()
 
-    seen_in_run: set[str] = set()  # dedup within this run
-    for url in funnel_urls:
-        if url in seen_in_run:
-            skipped += 1
+    for index, line in enumerate(raw_lines):
+        url = line.strip()
+        if not url:
             continue
-        seen_in_run.add(url)
 
         stem = classify(url)
         dest = stem if stem is not None else "PAPERS_MISC"
+        dest_existing = existing.setdefault(dest, set())
 
-        if url in existing.get(dest, set()):
+        if url in dest_existing:
             skipped += 1
+            handled_rows.add(index)
             continue
 
         routed.setdefault(dest, []).append(url)
-        existing.setdefault(dest, set()).add(url)
+        dest_existing.add(url)
+        handled_rows.add(index)
 
     if not routed:
+        removed = remove_handled_rows(raw_lines, handled_rows, args.dry_run)
+        tag = "[DRY RUN] " if args.dry_run else ""
+        if removed:
+            action = "Would remove" if args.dry_run else "Removed"
+            print(f"{tag}{action} {removed} handled row(s) from {FUNNEL_FILE.relative_to(REPO_ROOT)}.")
         print(f"Nothing new to funnel ({skipped} already present or duplicate).")
         return
 
@@ -195,9 +212,14 @@ def main() -> None:
             print(f"    {u}")
         append_to_file(target, urls, args.dry_run)
 
+    removed = remove_handled_rows(raw_lines, handled_rows, args.dry_run)
     total = sum(len(v) for v in routed.values())
     mode = " (dry run — no files written)" if args.dry_run else ""
-    print(f"\nFunneled {total} URL(s) across {len(routed)} file(s), skipped {skipped}{mode}.")
+    row_action = "would remove" if args.dry_run else "removed"
+    print(
+        f"\nFunneled {total} URL(s) across {len(routed)} file(s), "
+        f"skipped {skipped}, {row_action} {removed} handled source row(s){mode}."
+    )
 
 
 if __name__ == "__main__":

@@ -392,6 +392,9 @@ def fetch_page_html(url: str, extra_headers: dict | None = None) -> str:
         headers.update(extra_headers)
     r = requests.get(url, headers=headers, timeout=60)
     r.raise_for_status()
+    content_type = r.headers.get("content-type", "").lower()
+    if "charset=" not in content_type and (r.encoding or "").lower() == "iso-8859-1":
+        r.encoding = r.apparent_encoding
     return r.text
 
 

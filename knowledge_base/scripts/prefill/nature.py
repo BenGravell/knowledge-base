@@ -93,6 +93,12 @@ class NaturePrefill(DoiPrefillScript[tuple[str, str]]):
     def entry_doi(self, entry: tuple[str, str]) -> str:
         return entry[1]
 
+    def source_key_for_token(self, token: str) -> str | None:
+        match = _NATURE_ARTICLE_RE.search(token)
+        if not match:
+            return None
+        return self.normalize_source_key(f"10.1038/{match.group(1).rstrip('/')}")
+
     def fetch_fields(self, entry: tuple[str, str], _context: dict) -> dict:
         url, doi = entry
         return fetch_nature_data(url, doi)

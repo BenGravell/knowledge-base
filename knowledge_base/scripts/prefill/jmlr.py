@@ -12,7 +12,11 @@ from knowledge_base.utils.prefill_template import CitationPagePrefillScript, REP
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "JMLR.md"
 
-_JMLR_PDF_RE = re.compile(r"jmlr\.csail\.mit\.edu/papers/volume(\d+)/([^/]+)/[^/]+\.pdf", re.I)
+_JMLR_PDF_RE = re.compile(
+    r"(?:www\.)?(?:jmlr\.org|jmlr\.csail\.mit\.edu)/papers/"
+    r"(?:volume|v)(\d+)/([^/]+)/[^/]+\.pdf$",
+    re.I,
+)
 
 
 class JmlrPrefill(CitationPagePrefillScript):

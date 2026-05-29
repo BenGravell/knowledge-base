@@ -12,6 +12,7 @@ raw metadata.yml entry using the repository's non-arXiv folder convention.
 """
 
 from pathlib import Path
+from urllib.parse import urlparse, urlunparse
 
 if __package__ in (None, ""):
     import sys
@@ -36,10 +37,22 @@ DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "MLR.md"
 
 def normalize_url(url: str) -> str:
     """Normalize a PMLR paper URL to the HTML page."""
-    url = url.rstrip("/")
-    if not url.endswith(".html"):
-        url = f"{url}.html"
-    return url
+    parsed = urlparse(url.strip())
+    scheme = "https" if parsed.netloc == "proceedings.mlr.press" else parsed.scheme
+    path = parsed.path.rstrip("/")
+
+    if path.endswith(".pdf.html"):
+        path = path[: -len(".pdf.html")]
+    elif path.endswith(".pdf"):
+        path = path[: -len(".pdf")]
+    parts = path.split("/")
+    if len(parts) >= 2 and parts[-1] == parts[-2]:
+        parts.pop()
+        path = "/".join(parts)
+    if not path.endswith(".html"):
+        path = f"{path}.html"
+
+    return urlunparse((scheme, parsed.netloc, path, "", "", ""))
 
 
 def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
@@ -99,6 +112,14 @@ class MlrPrefill(PagePrefillScript[str]):
 
     def extract_entries(self, path: Path) -> list[str]:
         return extract_entries(path, self.record_parse_failure)
+
+    def source_key_for_entry(self, entry: str) -> str | None:
+        return self.normalize_source_key(entry)
+
+    def source_key_for_token(self, token: str) -> str | None:
+        if "proceedings.mlr.press/" not in token:
+            return None
+        return self.normalize_source_key(normalize_url(token))
 
     def fetch_fields(self, entry: str, _context: dict) -> dict:
         return fetch_mlr_fields(entry)

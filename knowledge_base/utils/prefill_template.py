@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+import os
+import random
 import subprocess
 import tempfile
 import time
 from abc import ABC, abstractmethod
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Any, Generic, TypeVar
 from urllib.parse import quote
@@ -34,6 +37,8 @@ from knowledge_base.utils.prefill_utils import (
     citation_doi,
     extract_doi_from_url,
     fetch_citation_page_fields,
+    source_row_token,
+    write_text_atomic,
     read_url_lines,
 )
 
@@ -42,6 +47,31 @@ EntryT = TypeVar("EntryT")
 
 class HaltPrefill(Exception):
     """Signal that a prefill run should stop without treating it as a failure."""
+
+
+class SourceFileCleanup:
+    """Remove handled input rows by re-reading and atomically replacing the file."""
+
+    def __init__(self, path: Path, key_for_token) -> None:
+        self.path = path
+        self.key_for_token = key_for_token
+
+    def remove(self, handled_key: str) -> int:
+        raw_lines = self.path.read_text(encoding="utf-8").splitlines(keepends=True)
+        removed = 0
+        kept_lines: list[str] = []
+
+        for line in raw_lines:
+            token = source_row_token(line)
+            row_key = self.key_for_token(token) if token else None
+            if row_key and row_key == handled_key:
+                removed += 1
+                continue
+            kept_lines.append(line)
+
+        if removed:
+            write_text_atomic(self.path, "".join(kept_lines))
+        return removed
 
 
 class PrefillScript(ABC, Generic[EntryT]):
@@ -73,7 +103,9 @@ class PrefillScript(ABC, Generic[EntryT]):
             return
 
         ok = skipped = failed = 0
+        source_removed = 0
         parse_failed = len(self.parse_failures)
+        source_cleanup = SourceFileCleanup(args.input, self.source_key_for_token)
 
         for i, entry in enumerate(entries, 1):
             prefix = f"[{i}/{len(entries)}] {self.entry_label(entry)}"
@@ -81,6 +113,7 @@ class PrefillScript(ABC, Generic[EntryT]):
             existing = self.existing_for_entry(entry, context)
             if should_skip(existing, args):
                 print(f"{prefix}  SKIP (exists: {existing})")
+                source_removed += self.remove_handled_source_rows(source_cleanup, entry, prefix)
                 skipped += 1
                 continue
 
@@ -101,6 +134,7 @@ class PrefillScript(ABC, Generic[EntryT]):
             existing = existing or self.existing_for_fields(fields, context)
             if should_skip(existing, args):
                 print(f"{prefix}  SKIP (exists: {existing})")
+                source_removed += self.remove_handled_source_rows(source_cleanup, entry, prefix)
                 skipped += 1
                 time.sleep(self.delay)
                 continue
@@ -109,6 +143,7 @@ class PrefillScript(ABC, Generic[EntryT]):
             yaml_text = metadata_to_yaml(metadata)
             out = self.write_metadata(entry, fields, yaml_text)
             print(self.success_message(prefix, entry, fields, out))
+            source_removed += self.remove_handled_source_rows(source_cleanup, entry, prefix)
             ok += 1
 
             if args.first is not None and ok + failed >= args.first:
@@ -117,9 +152,15 @@ class PrefillScript(ABC, Generic[EntryT]):
 
         failed += parse_failed
         if parse_failed:
-            print(f"\nDone: {ok} written, {skipped} skipped, {failed} failed ({parse_failed} parse)")
+            print(
+                f"\nDone: {ok} written, {skipped} skipped, {failed} failed "
+                f"({parse_failed} parse), {source_removed} source row(s) removed"
+            )
         else:
-            print(f"\nDone: {ok} written, {skipped} skipped, {failed} failed")
+            print(
+                f"\nDone: {ok} written, {skipped} skipped, {failed} failed, "
+                f"{source_removed} source row(s) removed"
+            )
 
     def record_parse_failure(self, message: str) -> None:
         self.parse_failures.append(message)
@@ -150,6 +191,36 @@ class PrefillScript(ABC, Generic[EntryT]):
 
     def prepare_context(self, _args: Any) -> dict[str, Any]:
         return {}
+
+    def normalize_source_key(self, value: str) -> str:
+        return str(value).strip().lower()
+
+    def source_key_for_entry(self, entry: EntryT) -> str | None:
+        label = self.entry_label(entry)
+        return self.normalize_source_key(label) if label else None
+
+    def source_key_for_token(self, token: str) -> str | None:
+        return self.normalize_source_key(token) if token else None
+
+    def remove_handled_source_rows(
+        self,
+        source_cleanup: SourceFileCleanup,
+        entry: EntryT,
+        prefix: str,
+    ) -> int:
+        key = self.source_key_for_entry(entry)
+        if not key:
+            return 0
+        try:
+            removed = source_cleanup.remove(key)
+        except Exception as exc:
+            raise RuntimeError(
+                f"Metadata for {self.entry_label(entry)!r} was handled, but "
+                f"{source_cleanup.path} could not be updated safely."
+            ) from exc
+        if removed:
+            print(f"{prefix}  SOURCE -{removed} row(s)")
+        return removed
 
     @abstractmethod
     def extract_entries(self, path: Path) -> list[EntryT]:
@@ -228,6 +299,20 @@ class DoiPrefillScript(PrefillScript[EntryT], ABC):
     def existing_for_fields(self, fields: dict, context: dict[str, Any]) -> Path | None:
         doi = str(fields.get("doi") or "").strip()
         return context["doi_index"].get(doi.lower()) if doi else None
+
+    def source_key_for_entry(self, entry: EntryT) -> str | None:
+        if isinstance(entry, tuple) and len(entry) >= 2:
+            return self.normalize_source_key(str(entry[1]))
+        doi = self.entry_doi(entry)
+        if doi:
+            return self.normalize_source_key(doi)
+        return super().source_key_for_entry(entry)
+
+    def source_key_for_token(self, token: str) -> str | None:
+        doi = extract_doi_from_url(token)
+        if doi:
+            return self.normalize_source_key(doi)
+        return super().source_key_for_token(token)
 
     def build_metadata(self, entry: EntryT, fields: dict) -> dict:
         return self.postprocess_metadata(entry, fields, build_doi_metadata(fields))
@@ -312,6 +397,14 @@ class UrlDoiPrefillScript(DoiPrefillScript[str]):
     def entry_key(self, url: str) -> str:
         return (self.entry_doi(url) or url).lower()
 
+    def source_key_for_entry(self, entry: str) -> str | None:
+        return self.normalize_source_key(self.entry_key(entry))
+
+    def source_key_for_token(self, token: str) -> str | None:
+        if not self.accept_url(token):
+            return None
+        return self.normalize_source_key(self.entry_key(token))
+
     def entry_label(self, entry: str) -> str:
         return self.entry_doi(entry) or entry
 
@@ -377,6 +470,14 @@ class CitationPagePrefillScript(PagePrefillScript[str]):
     def normalize_url(self, url: str) -> str:
         return url
 
+    def source_key_for_entry(self, entry: str) -> str | None:
+        return self.normalize_source_key(entry)
+
+    def source_key_for_token(self, token: str) -> str | None:
+        if not self.accept_url(token):
+            return None
+        return self.normalize_source_key(self.normalize_url(token))
+
     def fetch_fields(self, entry: str, _context: dict) -> dict:
         return fetch_citation_page_fields(
             entry,
@@ -399,6 +500,112 @@ _S2_FIELDS = ",".join(
     ]
 )
 _S2_BY_ID = "https://api.semanticscholar.org/graph/v1/paper/{paper_id}?fields={fields}"
+_S2_RETRY_STATUS_CODES = {429, 500, 502, 503, 504}
+_S2_HEADERS = {"User-Agent": "knowledge-base-prefill/1.0"}
+
+
+def _env_int(name: str, default: int) -> int:
+    try:
+        return max(1, int(os.environ.get(name, str(default))))
+    except ValueError:
+        return default
+
+
+def _env_float(name: str, default: float) -> float:
+    try:
+        return max(0.0, float(os.environ.get(name, str(default))))
+    except ValueError:
+        return default
+
+
+_S2_MAX_RETRIES = _env_int("SEMANTIC_SCHOLAR_MAX_RETRIES", 5)
+_S2_BACKOFF_BASE = _env_float("SEMANTIC_SCHOLAR_BACKOFF_BASE", 10.0)
+_S2_BACKOFF_MAX = _env_float("SEMANTIC_SCHOLAR_BACKOFF_MAX", 90.0)
+
+
+def _semantic_scholar_headers() -> dict[str, str]:
+    headers = dict(_S2_HEADERS)
+    for env_name in ("SEMANTIC_SCHOLAR_API_KEY", "S2_API_KEY"):
+        api_key = os.environ.get(env_name, "").strip()
+        if api_key:
+            headers["x-api-key"] = api_key
+            break
+    return headers
+
+
+def _retry_after_seconds(response: requests.Response | None) -> float | None:
+    if response is None:
+        return None
+    raw = response.headers.get("Retry-After")
+    if not raw:
+        return None
+    try:
+        return max(float(raw), 0.0)
+    except ValueError:
+        try:
+            retry_at = parsedate_to_datetime(raw)
+        except (TypeError, ValueError):
+            return None
+        return max(retry_at.timestamp() - time.time(), 0.0)
+
+
+def _wait_for_semantic_scholar_retry(
+    attempt: int,
+    response: requests.Response | None,
+) -> None:
+    retry_after = _retry_after_seconds(response)
+    fallback = min(_S2_BACKOFF_BASE * (2 ** attempt), _S2_BACKOFF_MAX)
+    wait = retry_after if retry_after is not None else fallback
+    wait += random.uniform(0.0, min(5.0, wait * 0.1))
+    status = response.status_code if response is not None else "network"
+    print(
+        f"    {status} from Semantic Scholar - waiting {wait:.0f}s "
+        f"before retry {attempt + 2}/{_S2_MAX_RETRIES}"
+    )
+    time.sleep(wait)
+
+
+def _semantic_scholar_rate_limit_message() -> str:
+    hint = (
+        "Set SEMANTIC_SCHOLAR_API_KEY or S2_API_KEY to use an individual "
+        "Semantic Scholar API key."
+    )
+    return (
+        "Semantic Scholar is still rate-limiting this run after several polite "
+        f"retries. {hint} The run stopped so it can be resumed later without "
+        "marking the remaining papers as failed."
+    )
+
+
+def _semantic_scholar_get_json(url: str) -> dict:
+    headers = _semantic_scholar_headers()
+    last_exc: Exception | None = None
+
+    for attempt in range(_S2_MAX_RETRIES):
+        try:
+            response = requests.get(url, headers=headers, timeout=60)
+        except (requests.ConnectionError, requests.Timeout) as exc:
+            last_exc = exc
+            if attempt + 1 < _S2_MAX_RETRIES:
+                _wait_for_semantic_scholar_retry(attempt, None)
+                continue
+            raise HaltPrefill(
+                "Semantic Scholar did not respond after several retries. "
+                "The run stopped so it can be resumed later."
+            ) from exc
+
+        if response.status_code in _S2_RETRY_STATUS_CODES:
+            last_exc = requests.HTTPError(response=response)
+            if attempt + 1 < _S2_MAX_RETRIES:
+                _wait_for_semantic_scholar_retry(attempt, response)
+                continue
+            if response.status_code == 429:
+                raise HaltPrefill(_semantic_scholar_rate_limit_message()) from last_exc
+
+        response.raise_for_status()
+        return response.json()
+
+    raise HaltPrefill(_semantic_scholar_rate_limit_message()) from last_exc
 
 
 def semantic_scholar_type(publication_types: list[str] | None) -> str:
@@ -419,13 +626,7 @@ def semantic_scholar_fields(identifier: str, fallback_url: str = "") -> dict:
     else:
         paper_id = quote(identifier, safe="")
     url = _S2_BY_ID.format(paper_id=paper_id, fields=_S2_FIELDS)
-    for attempt in range(4):
-        r = requests.get(url, timeout=60)
-        if r.status_code != 429 or attempt == 3:
-            break
-        time.sleep(5 * (attempt + 1))
-    r.raise_for_status()
-    data = r.json()
+    data = _semantic_scholar_get_json(url)
 
     title = str(data.get("title") or "").strip()
     authors = [
@@ -479,6 +680,13 @@ class SemanticScholarPrefillScript(PagePrefillScript[str]):
         if "semanticscholar.org/paper/" in url:
             return url.rstrip("/").split("/")[-1]
         return f"URL:{url}"
+
+    def source_key_for_entry(self, entry: str) -> str | None:
+        return self.normalize_source_key(entry)
+
+    def source_key_for_token(self, token: str) -> str | None:
+        identifier = self.identifier_for_url(token)
+        return self.normalize_source_key(identifier) if identifier else None
 
     def entry_label(self, entry: str) -> str:
         return entry.removeprefix("URL:")
@@ -534,6 +742,14 @@ class PdfTextPrefillScript(PagePrefillScript[str], ABC):
 
     def accept_url(self, url: str) -> bool:
         return url.lower().endswith(".pdf")
+
+    def source_key_for_entry(self, entry: str) -> str | None:
+        return self.normalize_source_key(entry)
+
+    def source_key_for_token(self, token: str) -> str | None:
+        if not self.accept_url(token):
+            return None
+        return self.normalize_source_key(token)
 
     def fetch_fields(self, entry: str, _context: dict) -> dict:
         return self.fields_from_pdf(entry, pdf_text_from_url(entry, first_pages=self.first_pages))

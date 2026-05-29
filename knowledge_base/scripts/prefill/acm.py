@@ -33,7 +33,18 @@ Entry = tuple[str, str]
 # ACM DL occasionally hosts legacy/imported records under 10.5555 pseudo-DOIs.
 # Prefer the formal publisher DOI when it is known.
 DOI_ALIASES = {
+    "10.5555/3022473.3022494": "10.1609/aiide.v1i1.18726",
     "10.5555/2777421.2777434": "10.1287/opre.2014.1314",
+    "10.5555/2095116.2095209": "10.1137/1.9781611973099.93",
+}
+
+LINK_OVERRIDES = {
+    "10.5555/3022473.3022494": (
+        "https://ojs.aaai.org/index.php/AIIDE/article/download/18726/18503"
+    ),
+    "10.5555/2095116.2095209": (
+        "https://people.csail.mit.edu/haitham/Papers/sFFT.pdf"
+    ),
 }
 
 # Some 10.5555 ACM DL records are not registered with Crossref/doi.org, and
@@ -41,6 +52,24 @@ DOI_ALIASES = {
 # for entries that are present in todo/papers/ACM.md and have stable public
 # bibliographic metadata elsewhere.
 FALLBACK_RECORDS = {
+    "10.5555/645925.671516": {
+        "title": "Similarity Search in High Dimensions via Hashing",
+        "authors": [
+            "Aristides Gionis",
+            "Piotr Indyk",
+            "Rajeev Motwani",
+        ],
+        "year": 1999,
+        "source": "International Conference on Very Large Data Bases",
+        "type": "Conference Paper",
+        "doi": "10.5555/645925.671516",
+        "abstract": "",
+        "link": "https://www.vldb.org/conf/1999/P49.pdf",
+        "links_alt": [
+            "https://dl.acm.org/doi/10.5555/645925.671516",
+            "https://dblp.org/rec/conf/vldb/GionisIM99",
+        ],
+    },
     "10.5555/1620270.1620297": {
         "title": "Maximum Entropy Inverse Reinforcement Learning",
         "authors": [
@@ -75,9 +104,146 @@ FALLBACK_RECORDS = {
             "http://www.aaai.org/Library/AAAI/2008/aaai08-227.php",
         ],
     },
+    "10.5555/3104482.3104578": {
+        "title": "Clustering by Left-Stochastic Matrix Factorization",
+        "authors": [
+            "Raman Arora",
+            "Maya R. Gupta",
+            "Amol Kapila",
+            "Maryam Fazel",
+        ],
+        "year": 2011,
+        "source": "International Conference on Machine Learning",
+        "type": "Conference Paper",
+        "doi": "10.5555/3104482.3104578",
+        "abstract": "",
+        "link": "https://icml.cc/2011/papers/426_icmlpaper.pdf",
+        "links_alt": [
+            "https://dl.acm.org/doi/10.5555/3104482.3104578",
+            "https://dblp.org/rec/conf/icml/AroraGKF11",
+        ],
+    },
+    "10.5555/2283516.2283615": {
+        "title": "Fast Approximate Nearest-Neighbor Search with k-Nearest Neighbor Graph",
+        "authors": [
+            "Kiana Hajebi",
+            "Yasin Abbasi-Yadkori",
+            "Hossein Shahbazi",
+            "Hong Zhang",
+        ],
+        "year": 2011,
+        "source": "International Joint Conference on Artificial Intelligence",
+        "type": "Conference Paper",
+        "doi": "10.5591/978-1-57735-516-8/IJCAI11-222",
+        "abstract": "",
+        "link": "https://www.ijcai.org/Proceedings/11/Papers/222.pdf",
+        "links_alt": [
+            "https://doi.org/10.5591/978-1-57735-516-8/IJCAI11-222",
+            "https://dl.acm.org/doi/10.5555/2283516.2283615",
+            "https://dblp.org/rec/conf/ijcai/HajebiASZ11",
+        ],
+    },
+    "10.5555/645531.656005": {
+        "title": "Approximately Optimal Approximate Reinforcement Learning",
+        "authors": [
+            "Sham M. Kakade",
+            "John Langford",
+        ],
+        "year": 2002,
+        "source": "International Conference on Machine Learning",
+        "type": "Conference Paper",
+        "doi": "10.5555/645531.656005",
+        "abstract": "",
+        "link": "https://mlanthology.org/icml/2002/kakade2002icml-approximately/",
+        "links_alt": [
+            "https://dl.acm.org/doi/10.5555/645531.656005",
+            "https://dblp.org/rec/conf/icml/KakadeL02",
+        ],
+    },
+    "10.5555/3008904.3009053": {
+        "title": "The Asymptotic Convergence-Rate of Q-learning",
+        "authors": [
+            "Csaba Szepesvari",
+        ],
+        "year": 1997,
+        "source": "Advances in Neural Information Processing Systems",
+        "type": "Conference Paper",
+        "doi": "10.5555/3008904.3009053",
+        "abstract": "",
+        "link": (
+            "https://proceedings.neurips.cc/paper_files/paper/1997/file/"
+            "cd0dce8fca267bf1fb86cf43e18d5598-Paper.pdf"
+        ),
+        "links_alt": [
+            "https://dl.acm.org/doi/10.5555/3008904.3009053",
+            "https://dblp.org/rec/conf/nips/Szepesvari97",
+            (
+                "https://proceedings.neurips.cc/paper_files/paper/1997/hash/"
+                "cd0dce8fca267bf1fb86cf43e18d5598-Abstract.html"
+            ),
+        ],
+    },
+    "10.5555/2997189.2997253": {
+        "title": "Error Propagation for Approximate Policy and Value Iteration",
+        "authors": [
+            "Amir Massoud Farahmand",
+            "Remi Munos",
+            "Csaba Szepesvari",
+        ],
+        "year": 2010,
+        "source": "Advances in Neural Information Processing Systems",
+        "type": "Conference Paper",
+        "doi": "10.5555/2997189.2997253",
+        "abstract": "",
+        "link": (
+            "https://proceedings.neurips.cc/paper_files/paper/2010/file/"
+            "65cc2c8205a05d7379fa3a6386f710e1-Paper.pdf"
+        ),
+        "links_alt": [
+            "https://dl.acm.org/doi/10.5555/2997189.2997253",
+            "https://dblp.org/rec/conf/nips/FarahmandMS10",
+            (
+                "https://proceedings.neurips.cc/paper/2010/hash/"
+                "65cc2c8205a05d7379fa3a6386f710e1-Abstract.html"
+            ),
+        ],
+    },
+    "10.5555/2969442.2969525": {
+        "title": "Minimax Time Series Prediction",
+        "authors": [
+            "Wouter M. Koolen",
+            "Alan Malek",
+            "Peter L. Bartlett",
+            "Yasin Abbasi-Yadkori",
+        ],
+        "year": 2015,
+        "source": "Advances in Neural Information Processing Systems",
+        "type": "Conference Paper",
+        "doi": "10.5555/2969442.2969525",
+        "abstract": "",
+        "link": (
+            "https://proceedings.neurips.cc/paper_files/paper/2015/file/"
+            "4dcf435435894a4d0972046fc566af76-Paper.pdf"
+        ),
+        "links_alt": [
+            "https://dl.acm.org/doi/10.5555/2969442.2969525",
+            "https://dblp.org/rec/conf/nips/KoolenMBA15",
+            (
+                "https://proceedings.neurips.cc/paper/2015/hash/"
+                "4dcf435435894a4d0972046fc566af76-Abstract.html"
+            ),
+        ],
+    },
 }
 
 FIELD_OVERRIDES = {
+    "10.1609/aiide.v1i1.18726": {
+        "source": "AAAI Conference on Artificial Intelligence and Interactive Digital Entertainment",
+        "type": "Conference Paper",
+    },
+    "10.1137/1.9781611973099.93": {
+        "source": "ACM-SIAM Symposium on Discrete Algorithms",
+    },
     "10.1016/0005-1098(73)90073-3": {
         "title": "On Self-Tuning Regulators",
         "authors": [
@@ -178,8 +344,9 @@ class AcmPrefill(DoiPrefillScript[Entry]):
         return {**fields, **overrides} if overrides else fields
 
     def postprocess_crossref_data(self, entry: Entry, data: dict) -> dict:
-        url, _doi = entry
-        return {**data, "link": url}
+        url, input_doi = entry
+        link = LINK_OVERRIDES.get(input_doi.lower(), url)
+        return {**data, "link": link}
 
     def postprocess_metadata(self, entry: Entry, fields: dict, metadata: dict) -> dict:
         _url, input_doi = entry

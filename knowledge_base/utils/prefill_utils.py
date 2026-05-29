@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 import html
+import os
 import re
+import tempfile
+from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urljoin, urlparse
 
@@ -18,17 +21,73 @@ _DOI_RE = re.compile(r"10\.\d{4,9}/[^\s\"'<>]+", re.I)
 _YEAR_RE = re.compile(r"\b(18|19|20)\d{2}\b")
 
 
+@dataclass(frozen=True)
+class SourceRow:
+    """A source-file row token and its original zero-based line number."""
+
+    index: int
+    token: str
+
+
+def source_row_token(line: str) -> str | None:
+    """Return the todo token represented by *line*, preserving read_url_lines rules."""
+    line = line.strip()
+    if not line or line.startswith("#"):
+        return None
+    token = line.split()[0].strip()
+    if token.startswith("<") and token.endswith(">"):
+        token = token[1:-1].strip()
+    return token or None
+
+
+def read_source_rows(path: Path) -> list[SourceRow]:
+    """Return non-comment, non-empty source rows from a paper todo file."""
+    rows: list[SourceRow] = []
+    for index, line in enumerate(path.read_text(encoding="utf-8").splitlines()):
+        token = source_row_token(line)
+        if token:
+            rows.append(SourceRow(index, token))
+    return rows
+
+
 def read_url_lines(path: Path) -> list[str]:
     """Return non-comment, non-empty URL tokens from a paper todo file."""
-    lines: list[str] = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if line and not line.startswith("#"):
-            token = line.split()[0].strip()
-            if token.startswith("<") and token.endswith(">"):
-                token = token[1:-1].strip()
-            lines.append(token)
-    return lines
+    return [row.token for row in read_source_rows(path)]
+
+
+def write_text_atomic(path: Path, text: str) -> None:
+    """Atomically replace *path* with *text* using a temp file in the same directory."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            "w",
+            encoding="utf-8",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as tmp:
+            tmp_path = Path(tmp.name)
+            tmp.write(text)
+            tmp.flush()
+            os.fsync(tmp.fileno())
+        tmp_path.replace(path)
+        try:
+            dir_fd = os.open(path.parent, os.O_RDONLY)
+        except OSError:
+            return
+        try:
+            os.fsync(dir_fd)
+        finally:
+            os.close(dir_fd)
+    except Exception:
+        if tmp_path is not None:
+            try:
+                tmp_path.unlink(missing_ok=True)
+            except OSError:
+                pass
+        raise
 
 
 def clean_doi(raw: str) -> str:

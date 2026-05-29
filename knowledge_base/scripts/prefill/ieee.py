@@ -112,6 +112,10 @@ class IeeePrefill(DoiPrefillScript[tuple[str, str]]):
         _url, article_id = entry
         return article_id
 
+    def source_key_for_token(self, token: str) -> str | None:
+        match = _IEEE_ARTICLE_RE.search(token)
+        return self.normalize_source_key(match.group(1)) if match else None
+
     def resolve_doi(self, entry: tuple[str, str]) -> str:
         _url, article_id = entry
         return fetch_ieee_doi(article_id)

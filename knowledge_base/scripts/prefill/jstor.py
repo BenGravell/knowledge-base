@@ -15,6 +15,8 @@ DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "JSTOR.md"
 
 _STABLE_RE = re.compile(r"jstor\.org/stable/([^/?#\s]+)", re.I)
 _DOI_BY_STABLE_ID = {
+    "2238545": "10.1214/aoms/1177703591",
+    "23358653": "10.1287/moor.1120.0566",
     "43633451": "10.1090/qam/10666",
     "43633461": "10.1090/qam/10667",
 }
@@ -59,6 +61,10 @@ class JstorPrefill(DoiPrefillScript[tuple[str, str, str]]):
     def entry_doi(self, entry: tuple[str, str, str]) -> str:
         _url, _stable_id, doi = entry
         return doi
+
+    def source_key_for_token(self, token: str) -> str | None:
+        match = _STABLE_RE.search(token)
+        return self.normalize_source_key(match.group(1)) if match else None
 
     def postprocess_crossref_data(self, entry: tuple[str, str, str], data: dict) -> dict:
         url, _stable_id, _doi = entry

@@ -23,6 +23,8 @@ import requests
 from knowledge_base.utils.arxiv_utils import (
     build_metadata,
     fetch_arxiv,
+    fetch_arxiv_many,
+    fetch_arxiv_oai,
     normalize_arxiv_id,
     target_path,
     write_metadata,
@@ -38,15 +40,22 @@ ARXIV_URL_RE = re.compile(
     flags=re.IGNORECASE,
 )
 
-# Duration in seconds between successful requests.
+# Duration in seconds between arXiv API requests.
 # arXiv asks clients to make no more than one request every 3 seconds and
 # use a single connection; keep this comfortably above that floor.
 # https://info.arxiv.org/help/api/tou.html
 BASE_DELAY = 5.0
-MAX_RETRIES = 3
-BACKOFF_BASE = 10.0
-BACKOFF_MAX = 30.0
+MAX_RETRIES = 6
+BACKOFF_BASE = 60.0
+BACKOFF_MAX = 15 * 60.0
+BATCH_SIZE = 20
+OAI_BATCH_SIZE = 1
+THROTTLE_STATE = REPO_ROOT / ".cache" / "prefill" / "arxiv_last_request.txt"
 RETRY_STATUS_CODES = {429, 500, 502, 503, 504}
+
+
+class ArxivExportRateLimited(Exception):
+    """Signal that the legacy export API is rate-limiting this client path."""
 
 
 def extract_ids(path: Path) -> list[str]:
@@ -89,15 +98,34 @@ def wait_for_retry(attempt: int, response: requests.Response | None) -> None:
     time.sleep(wait)
 
 
-def fetch_with_retry(arxiv_id: str) -> dict:
+def wait_for_request_slot() -> None:
+    """Persist a small delay between arXiv API requests, including across reruns."""
+    THROTTLE_STATE.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        last_request = float(THROTTLE_STATE.read_text(encoding="utf-8").strip())
+    except (OSError, ValueError):
+        last_request = 0.0
+
+    wait = max(0.0, last_request + BASE_DELAY - time.time())
+    if wait > 0.1:
+        print(f"    arXiv throttle - waiting {wait:.0f}s before next request")
+        time.sleep(wait)
+
+    THROTTLE_STATE.write_text(f"{time.time():.6f}\n", encoding="utf-8")
+
+
+def fetch_many_with_retry(arxiv_ids: list[str]) -> dict[str, dict]:
     last_exc: Exception | None = None
     for attempt in range(MAX_RETRIES):
+        wait_for_request_slot()
         try:
-            return fetch_arxiv(arxiv_id)
+            return fetch_arxiv_many(arxiv_ids)
         except requests.HTTPError as exc:
             response = exc.response
             if response is None or response.status_code not in RETRY_STATUS_CODES:
                 raise
+            if response.status_code == 429:
+                raise ArxivExportRateLimited from exc
             last_exc = exc
             if attempt + 1 < MAX_RETRIES:
                 wait_for_retry(attempt, response)
@@ -112,15 +140,155 @@ def fetch_with_retry(arxiv_id: str) -> dict:
     ) from last_exc
 
 
+def fetch_oai_with_retry(arxiv_id: str) -> dict:
+    last_exc: Exception | None = None
+    for attempt in range(MAX_RETRIES):
+        wait_for_request_slot()
+        try:
+            return fetch_arxiv_oai(arxiv_id)
+        except requests.HTTPError as exc:
+            response = exc.response
+            if response is None or response.status_code not in RETRY_STATUS_CODES:
+                raise
+            last_exc = exc
+            if attempt + 1 < MAX_RETRIES:
+                wait_for_retry(attempt, response)
+        except (requests.ConnectionError, requests.Timeout) as exc:
+            last_exc = exc
+            if attempt + 1 < MAX_RETRIES:
+                wait_for_retry(attempt, None)
+
+    raise HaltPrefill(
+        "arXiv OAI-PMH is still rate-limiting or unavailable after several polite retries. "
+        "The run stopped so it can be resumed later without hammering the API."
+    ) from last_exc
+
+
+def fetch_many_via_oai(arxiv_ids: list[str]) -> dict[str, dict]:
+    records: dict[str, dict] = {}
+    for arxiv_id in arxiv_ids:
+        try:
+            fields = fetch_oai_with_retry(arxiv_id)
+        except ValueError as exc:
+            print(f"    OAI-PMH missing {arxiv_id}: {exc}")
+            continue
+        records[normalize_arxiv_id(fields.get("arxiv_id"))] = fields
+    return records
+
+
+def fetch_with_retry(arxiv_id: str) -> dict:
+    last_exc: Exception | None = None
+    for attempt in range(MAX_RETRIES):
+        wait_for_request_slot()
+        try:
+            return fetch_arxiv(arxiv_id)
+        except requests.HTTPError as exc:
+            response = exc.response
+            if response is None or response.status_code not in RETRY_STATUS_CODES:
+                raise
+            if response.status_code == 429:
+                print("    export.arxiv.org returned 429; switching this request to OAI-PMH")
+                return fetch_oai_with_retry(arxiv_id)
+            last_exc = exc
+            if attempt + 1 < MAX_RETRIES:
+                wait_for_retry(attempt, response)
+        except (requests.ConnectionError, requests.Timeout) as exc:
+            last_exc = exc
+            if attempt + 1 < MAX_RETRIES:
+                wait_for_retry(attempt, None)
+
+    raise HaltPrefill(
+        "arXiv is still rate-limiting or unavailable after several polite retries. "
+        "The run stopped so it can be resumed later without hammering the API."
+    ) from last_exc
+
+
+class ArxivBatchCache:
+    """Fetch nearby todo rows together and serve later entries from memory."""
+
+    def __init__(self, entries: list[str], batch_size: int = BATCH_SIZE) -> None:
+        self.entries = [normalize_arxiv_id(entry) for entry in entries]
+        self.index = {entry: i for i, entry in enumerate(self.entries)}
+        self.batch_size = batch_size
+        self.cache: dict[str, dict] = {}
+        self.missing: set[str] = set()
+        self.use_oai = False
+
+    def fetch(self, entry: str) -> dict:
+        arxiv_id = normalize_arxiv_id(entry)
+        if arxiv_id in self.cache:
+            return self.cache[arxiv_id]
+        if arxiv_id in self.missing:
+            raise ValueError(f"No entry found for arXiv ID '{arxiv_id}'")
+
+        batch = self.next_batch(arxiv_id)
+        records, attempted = self.fetch_batch(batch)
+        self.cache.update(records)
+        self.missing.update(arxiv_id for arxiv_id in attempted if arxiv_id not in records)
+
+        if arxiv_id not in self.cache:
+            raise ValueError(f"No entry found for arXiv ID '{arxiv_id}'")
+        return self.cache[arxiv_id]
+
+    def next_batch(self, arxiv_id: str) -> list[str]:
+        start = self.index.get(arxiv_id, 0)
+        batch: list[str] = []
+        for candidate in self.entries[start:]:
+            if len(batch) >= self.batch_size:
+                break
+            if candidate in self.cache or candidate in self.missing:
+                continue
+            if candidate != arxiv_id and find_existing_by_arxiv_id(candidate):
+                continue
+            batch.append(candidate)
+        return batch or [arxiv_id]
+
+    def fetch_batch(self, batch: list[str]) -> tuple[dict[str, dict], list[str]]:
+        if self.use_oai:
+            attempted = batch[:OAI_BATCH_SIZE]
+            return fetch_many_via_oai(attempted), attempted
+        try:
+            return fetch_many_with_retry(batch), batch
+        except ArxivExportRateLimited:
+            self.use_oai = True
+            print(
+                "    export.arxiv.org returned 429 on a cold request; "
+                "switching to OAI-PMH for this run"
+            )
+            attempted = batch[:OAI_BATCH_SIZE]
+            return fetch_many_via_oai(attempted), attempted
+
+
 class ArxivPrefill(PrefillScript[str]):
     description = "Prefill arXiv metadata files."
     default_input = DEFAULT_INPUT
     entry_kind = "arXiv IDs"
-    delay = BASE_DELAY
+    delay = 0.0
     fetch_error_label = "fetching"
 
     def extract_entries(self, path: Path) -> list[str]:
-        return extract_ids(path)
+        self.entries = extract_ids(path)
+        return self.entries
+
+    def prepare_context(self, args) -> dict:
+        batch_size = BATCH_SIZE
+        if args.first is not None:
+            batch_size = max(1, min(BATCH_SIZE, args.first))
+        return {
+            "batch_cache": ArxivBatchCache(
+                getattr(self, "entries", []),
+                batch_size=batch_size,
+            )
+        }
+
+    def source_key_for_entry(self, entry: str) -> str | None:
+        return self.normalize_source_key(normalize_arxiv_id(entry))
+
+    def source_key_for_token(self, token: str) -> str | None:
+        m = ARXIV_URL_RE.search(token)
+        arxiv_id = m.group(1) if m else token
+        arxiv_id = normalize_arxiv_id(arxiv_id)
+        return self.normalize_source_key(arxiv_id) if arxiv_id else None
 
     def existing_for_entry(self, entry: str, _context: dict) -> Path | None:
         return find_existing_by_arxiv_id(entry)
@@ -129,7 +297,10 @@ class ArxivPrefill(PrefillScript[str]):
         return False
 
     def fetch_fields(self, entry: str, _context: dict) -> dict:
-        return fetch_with_retry(entry)
+        batch_cache = _context.get("batch_cache")
+        if batch_cache is None:
+            return fetch_with_retry(entry)
+        return batch_cache.fetch(entry)
 
     def build_metadata(self, _entry: str, fields: dict) -> dict:
         return build_metadata(fields)
