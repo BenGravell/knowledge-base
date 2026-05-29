@@ -1,6 +1,6 @@
 title: >
   TinyMPC: Model-Predictive Control on Resource-Constrained Microcontrollers
-algorithm:
+algorithm: TinyMPC
 authors:
   - Anoushka Alavilli
   - Khai Nguyen

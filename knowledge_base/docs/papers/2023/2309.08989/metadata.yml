@@ -1,6 +1,6 @@
 title: >
   RMP: A Random Mask Pretrain Framework for Motion Prediction
-algorithm:
+algorithm: RMP
 authors:
   - Yi Yang
   - Qingwen Zhang

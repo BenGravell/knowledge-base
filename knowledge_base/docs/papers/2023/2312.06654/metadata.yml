@@ -1,6 +1,6 @@
 title: >
   LightSim: Neural Lighting Simulation for Urban Scenes
-algorithm:
+algorithm: LightSim
 authors:
   - Ava Pun
   - Gary Sun

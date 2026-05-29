@@ -1,6 +1,6 @@
 title: >
   Dual Approximation Policy Optimization
-algorithm:
+algorithm: DAPO
 authors:
   - Zhihan Xiong
   - Maryam Fazel

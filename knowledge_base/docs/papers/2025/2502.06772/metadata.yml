@@ -1,6 +1,6 @@
 title: >
   ReasonFlux: Hierarchical LLM Reasoning via Scaling Thought Templates
-algorithm:
+algorithm: ReasonFlux
 authors:
   - Ling Yang
   - Zhaochen Yu

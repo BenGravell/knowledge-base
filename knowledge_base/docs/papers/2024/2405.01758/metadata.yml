@@ -1,6 +1,6 @@
 title: >
   CGD: Constraint-Guided Diffusion Policies for UAV Trajectory Planning
-algorithm:
+algorithm: CGD
 authors:
   - Kota Kondo
   - Andrea Tagliabue

@@ -1,6 +1,6 @@
 title: >
   Diffusion-ES: Gradient-free Planning with Diffusion for Autonomous Driving and Zero-Shot Instruction Following
-algorithm:
+algorithm: Diffusion-ES
 authors:
   - Brian Yang
   - Huangyuan Su

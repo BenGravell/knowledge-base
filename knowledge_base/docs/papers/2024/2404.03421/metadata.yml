@@ -1,6 +1,6 @@
 title: >
   Gen3DSR: Generalizable 3D Scene Reconstruction via Divide and Conquer from a Single View
-algorithm:
+algorithm: Gen3DSR
 authors:
   - Andreea Ardelean
   - Mert Ozer

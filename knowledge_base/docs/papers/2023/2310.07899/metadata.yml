@@ -1,6 +1,6 @@
 title: >
   RoboCLIP: One Demonstration Is Enough to Learn Robot Policies
-algorithm:
+algorithm: RoboCLIP
 authors:
   - Sumedh A Sontakke
   - Jesse Zhang

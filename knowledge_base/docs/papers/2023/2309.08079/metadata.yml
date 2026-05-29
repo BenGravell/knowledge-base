@@ -1,6 +1,6 @@
 title: >
   MPCGPU: Real-Time Nonlinear Model Predictive Control through Preconditioned Conjugate Gradient on the GPU
-algorithm:
+algorithm: MPCGPU
 authors:
   - Emre Adabag
   - Miloni Atal

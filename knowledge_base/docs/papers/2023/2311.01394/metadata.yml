@@ -1,6 +1,6 @@
 title: >
   Learning Realistic Traffic Agents in Closed-loop
-algorithm:
+algorithm: RTR
 authors:
   - Chris Zhang
   - James Tu

@@ -1,6 +1,6 @@
 title: >
   SpatialVLM: Endowing Vision-Language Models with Spatial Reasoning Capabilities
-algorithm:
+algorithm: SpatialVLM
 authors:
   - Boyuan Chen
   - Zhuo Xu

@@ -1,6 +1,6 @@
 title: >
   DINO-WM: World Models on Pre-trained Visual Features Enable Zero-shot Planning
-algorithm:
+algorithm: DINO-WM
 authors:
   - Gaoyue Zhou
   - Hengkai Pan

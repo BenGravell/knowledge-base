@@ -1,6 +1,6 @@
 title: >
   Imitation Bootstrapped Reinforcement Learning
-algorithm:
+algorithm: IBRL
 authors:
   - Hengyuan Hu
   - Suvir Mirchandani

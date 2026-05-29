@@ -1,6 +1,6 @@
 title: >
   QuAD: Query-based Interpretable Neural Motion Planning for Autonomous Driving
-algorithm:
+algorithm: QuAD
 authors:
   - Sourav Biswas
   - Sergio Casas

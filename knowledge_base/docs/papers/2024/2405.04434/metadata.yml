@@ -1,6 +1,6 @@
 title: >
   DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model
-algorithm:
+algorithm: DeepSeek-V2
 authors:
   - DeepSeek-AI
   - Aixin Liu

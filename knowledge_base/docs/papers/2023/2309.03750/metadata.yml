@@ -1,6 +1,6 @@
 title: >
   PBP: Path-based Trajectory Prediction for Autonomous Driving
-algorithm:
+algorithm: PBP
 authors:
   - Sepideh Afshar
   - Nachiket Deo

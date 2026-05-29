@@ -1,6 +1,6 @@
 title: >
   Bench2Drive: Towards Multi-Ability Benchmarking of Closed-Loop End-To-End Autonomous Driving
-algorithm:
+algorithm: Bench2Drive
 authors:
   - Xiaosong Jia
   - Zhenjie Yang

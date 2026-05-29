@@ -1,6 +1,6 @@
 title: >
   RobotPerf: An Open-Source, Vendor-Agnostic, Benchmarking Suite for Evaluating Robotics Computing System Performance
-algorithm:
+algorithm: RobotPerf
 authors:
   - Victor Mayoral-Vilches
   - Jason Jabbour
