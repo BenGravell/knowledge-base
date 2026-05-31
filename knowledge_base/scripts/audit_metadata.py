@@ -294,6 +294,9 @@ _FOLDED_TEXT_FIELDS = {
 _FOLDED_TEXT_FIELD_ISSUE_PREFIX = (
     "Long text field should use folded YAML block style"
 )
+_FOLDED_TEXT_FIELD_MULTILINE_ISSUE_PREFIX = (
+    "Folded text field should use a single YAML content line"
+)
 _MULTILINE_FORBIDDEN_FIELDS = {
     "algorithm",
     "year",
@@ -2470,6 +2473,10 @@ def _is_folded_scalar_header(value: str) -> bool:
     return value.lstrip().startswith(">")
 
 
+def _nonblank_content_line_count(lines: list[str], start: int, end: int) -> int:
+    return sum(1 for line in lines[start + 1 : end] if line.strip())
+
+
 def find_multiline_field_issues(path: Path, raw: str, data: dict) -> list["Issue"]:
     issues: list[Issue] = []
     lines = raw.splitlines(keepends=True)
@@ -2494,6 +2501,25 @@ def find_multiline_field_issues(path: Path, raw: str, data: dict) -> list["Issue
                         "Use the `field: >` newline pattern with indented text.",
                     )
                 )
+            elif (
+                isinstance(field_value, str)
+                and field_value.strip()
+                and _is_folded_scalar_header(value)
+            ):
+                content_line_count = _nonblank_content_line_count(lines, index, end)
+                if content_line_count > 1:
+                    issues.append(
+                        Issue(
+                            path,
+                            field_name,
+                            (
+                                f"{_FOLDED_TEXT_FIELD_MULTILINE_ISSUE_PREFIX}: "
+                                f"{field_name} spans {content_line_count} YAML "
+                                "content line(s)"
+                            ),
+                            f"Collapse the text to one indented line under `{field_name}: >`.",
+                        )
+                    )
             continue
 
         if field_name not in _MULTILINE_FORBIDDEN_FIELDS:
@@ -3795,7 +3821,12 @@ def _is_multiline_field_issue(issue: Issue) -> bool:
 def _is_folded_text_field_issue(issue: Issue) -> bool:
     return (
         issue.field in _FOLDED_TEXT_FIELDS
-        and issue.message.startswith(_FOLDED_TEXT_FIELD_ISSUE_PREFIX)
+        and issue.message.startswith(
+            (
+                _FOLDED_TEXT_FIELD_ISSUE_PREFIX,
+                _FOLDED_TEXT_FIELD_MULTILINE_ISSUE_PREFIX,
+            )
+        )
     )
 
 
@@ -4760,6 +4791,32 @@ def _audit_status(data: dict) -> str:
     return str(data.get(AUDIT_STATUS_FIELD) or "").strip()
 
 
+def _read_audit_status(path: Path) -> str | None:
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except (OSError, yaml.YAMLError):
+        return None
+    if not isinstance(data, dict):
+        return None
+    return _audit_status(data)
+
+
+def _filter_targets_by_audit_status(
+    targets: list[Path],
+    audit_status: str,
+) -> tuple[list[Path], int]:
+    filtered: list[Path] = []
+    unreadable = 0
+    for path in targets:
+        status = _read_audit_status(path)
+        if status is None:
+            unreadable += 1
+            continue
+        if status == audit_status:
+            filtered.append(path)
+    return filtered, unreadable
+
+
 def _skip_reviewed_errors(data: dict, issues: list[Issue]) -> tuple[list[Issue], int]:
     if _audit_status(data) != "reviewed":
         return issues, 0
@@ -4808,7 +4865,7 @@ Checks performed on each metadata.yml:
   abstract  - ERROR if placeholder-like, contains scraped page text, publisher/copyright notices, or PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed; WARN if empty, or for dollar math, copied "abstract" headings, likely misspellings, high-confidence OCR artifacts, or OCR word splits
   escape    - ERROR if string fields contain HTML/entity escapes like &#39; or &amp;, or if title contains raw YAML character escapes like \\u2014
   url       - ERROR if URLs appear in title, algorithm, authors, year, source, type, doi, arxiv_id, tags, or audit_status; ERROR if links contain garbled HTML/XML markup
-  multiline - ERROR if one-line scalar fields span multiple YAML lines, or if title/abstract/summary do not use folded `>` YAML style
+  multiline - ERROR if one-line scalar fields span multiple YAML lines, or if title/abstract/summary do not use folded `>` YAML style with a single content line
   source    - ERROR if the source/venue field contains a publication year
   type      - ERROR if not a recognised paper type
   status    - ERROR if audit_status is not one of: raw, partial, reviewed
@@ -4845,7 +4902,7 @@ Available --check names:
             "text-field mojibake, obvious collective/split author entries, "
             "blank arXiv-backed type fields, copied or low-signal summaries, "
             "high-confidence parse artifacts, "
-            "multiline scalar fields, folded text-field style, large whitespace runs, "
+            "multiline scalar fields, folded text-field style/content, large whitespace runs, "
             "source years, and path slugs; path fixes move metadata directories "
             "after metadata edits and update direct references"
         ),
@@ -4854,6 +4911,15 @@ Available --check names:
         "--file",
         metavar="PATH",
         help="Audit a single metadata.yml instead of the whole tree",
+    )
+    parser.add_argument(
+        "--audit-status",
+        choices=VALID_AUDIT_STATUSES,
+        metavar="STATUS",
+        help=(
+            "Audit only metadata files whose audit_status matches STATUS. "
+            "Choices: " + ", ".join(VALID_AUDIT_STATUSES)
+        ),
     )
     parser.add_argument(
         "--check",
@@ -4899,11 +4965,29 @@ Available --check names:
             sys.exit(f"Papers directory not found: {papers_root}")
         targets = sorted(papers_root.rglob("metadata.yml"))
     kb_root = Path(args.root)
+    if args.audit_status:
+        targets, unreadable_status_count = _filter_targets_by_audit_status(
+            targets,
+            args.audit_status,
+        )
+        if unreadable_status_count:
+            console.print(
+                f"[dim]Skipped {unreadable_status_count} file(s) whose "
+                f"{AUDIT_STATUS_FIELD} could not be read while applying "
+                f"--audit-status {args.audit_status}.[/]"
+            )
+        if not targets:
+            console.print(
+                f"[yellow]No metadata.yml file(s) matched "
+                f"{AUDIT_STATUS_FIELD}: {args.audit_status}.[/]"
+            )
+            return
 
     skipped_reviewed_errors = 0
     results: list[tuple[Path, list[Issue]]] = []
     checked_file_count = len(targets)
     checked_map_data = selected_checks is None or CHECK_PATH in selected_checks
+    report_stale_map_ids = not args.file and args.audit_status is None
     for p in targets:
         data, issues = audit_file(p, selected_checks=selected_checks)
         if args.skip_reviewed_errors:
@@ -4917,7 +5001,7 @@ Available --check names:
             audit_map_data_paths(
                 targets,
                 kb_root=kb_root,
-                report_stale=not args.file,
+                report_stale=report_stale_map_ids,
             )
         )
 
@@ -4989,7 +5073,7 @@ Available --check names:
             map_results = audit_map_data_paths(
                 targets,
                 kb_root=kb_root,
-                report_stale=not args.file,
+                report_stale=report_stale_map_ids,
             )
             remaining_errors += sum(
                 1

@@ -16,6 +16,7 @@ and runs a final MkDocs build so gen-files assets are republished together.
 from __future__ import annotations
 
 import argparse
+import os
 from dataclasses import dataclass
 import shlex
 import subprocess
@@ -25,6 +26,7 @@ from pathlib import Path
 
 
 KB_DIR = Path(__file__).resolve().parents[1]
+REPO_ROOT = KB_DIR.parent
 
 
 @dataclass(frozen=True)
@@ -37,6 +39,15 @@ def format_command(command: list[str]) -> str:
     return shlex.join(command)
 
 
+def subprocess_env() -> dict[str, str]:
+    env = os.environ.copy()
+    pythonpath_parts = [str(REPO_ROOT)]
+    if env.get("PYTHONPATH"):
+        pythonpath_parts.append(env["PYTHONPATH"])
+    env["PYTHONPATH"] = os.pathsep.join(pythonpath_parts)
+    return env
+
+
 def run_step(step: Step, *, index: int, total: int, dry_run: bool) -> int:
     print(f"\n[{index}/{total}] {step.name}")
     print(f"$ {format_command(step.command)}")
@@ -44,7 +55,7 @@ def run_step(step: Step, *, index: int, total: int, dry_run: bool) -> int:
         return 0
 
     start = time.monotonic()
-    result = subprocess.run(step.command, cwd=KB_DIR)
+    result = subprocess.run(step.command, cwd=KB_DIR, env=subprocess_env())
     elapsed = time.monotonic() - start
     if result.returncode:
         print(f"\nStep failed after {elapsed:.1f}s: {step.name}", file=sys.stderr)

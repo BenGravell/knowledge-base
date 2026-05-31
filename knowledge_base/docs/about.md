@@ -13,7 +13,6 @@ The collection is meant to be browsed, searched, compared, and revisited from di
     <ul>
       <li>Papers, ideas, and methods I find useful, intriguing, or worth returning to.</li>
       <li>Stronger coverage in areas I know, work near, or especially admire.</li>
-      <li>Part literature map, part reading notebook, part guided survey.</li>
     </ul>
   </section>
   <div class="kb-about-compare-divider" aria-hidden="true">vs</div>
@@ -24,7 +23,7 @@ The collection is meant to be browsed, searched, compared, and revisited from di
       <li>Not every single paper in the universe.</li>
       <li>Not a claim that I have read every detail of every paper.</li>
       <li>Not a complete bibliography of every author or field.</li>
-      <li>Not a taxonomy where every branch has equal depth or maturity.</li>
+      <li>Not a balanced tree where every branch has equal depth or maturity.</li>
     </ul>
   </section>
 </div>

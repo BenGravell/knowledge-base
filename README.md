@@ -121,6 +121,12 @@ Audit all paper metadata files:
 python scripts/audit_metadata.py
 ```
 
+Audit only entries marked `audit_status: partial`:
+
+```bash
+python scripts/audit_metadata.py --audit-status partial
+```
+
 List entries still marked `audit_status: raw`:
 
 ```bash
