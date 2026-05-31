@@ -1,0 +1,27 @@
+title: >
+  The Two-Stage PI2 Control Strategy
+algorithm: Two-Stage PI2 Control Strategy
+authors:
+  - Peter Varnai
+  - Dimos V. Dimarogonas
+year: 2022
+source: IEEE Control Systems Letters
+type: Journal Paper
+doi: 10.1109/LCSYS.2021.3137133
+arxiv_id:
+tags:
+  - Path integral policy improvement
+  - Stochastic optimal control
+  - Feedback control
+  - Feedforward control
+  - Reinforcement learning
+  - Nonlinear control
+abstract: >
+  PI2 is a stochastic optimal control method generally regarded as a reinforcement learning algorithm. Recent work, however, suggests that the reinforcement learning aspect of PI2 actually appears when optimizing feedforward controls which will lead to optimal closed-loop performance once combined with feedback controls. These feedbacks are necessary to achieve the predicted performance, yet have been largely neglected in the literature and applications due to their complexity. In this letter, we show that the feedbacks actually take a simple-to-implement form for a wide range of system dynamics, paving way for future research and applications of PI2. The correctness of the results is demonstrated through numerical simulations.
+summary: >
+  Reframes PI2 as a two-stage strategy in which feedforward controls are optimized for closed-loop performance and the required feedbacks are implemented at run time. The paper simplifies the feedback-control side of PI2 for a broad class of stochastic nonlinear systems and demonstrates the resulting control law numerically.
+link: https://people.kth.se/~dimos/pdfs/PI2_LCSS.pdf
+links_alt:
+  - https://doi.org/10.1109/LCSYS.2021.3137133
+  - https://ieeexplore.ieee.org/document/9656948
+audit_status: partial
