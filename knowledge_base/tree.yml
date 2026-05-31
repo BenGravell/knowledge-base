@@ -823,7 +823,7 @@
               - SaDDP: docs/papers/2016/2016.rajamaki.sampled_differential_dynamic_programming/metadata.yml
               - Regularized SaDDP: docs/papers/2018/2018.rajamaki.regularizing_sampled_differential_dynamic/metadata.yml
               - PI2-CMA: docs/papers/2012/1206.4621/metadata.yml
-              - Replace with Clean Plain Text or a Plain URL.: docs/papers/2022/2022.varnai.replace_with_clean_plain/metadata.yml
+              - The Two-Stage PI2 Control Strategy: docs/papers/2022/2022.varnai.the_two_stage_pi2/metadata.yml
               - PI2-DDP: docs/papers/2019/2019.lefebvre.path_integral_policy_improvement/metadata.yml
             - "Grad+CEM": docs/papers/2020/2004.08763/metadata.yml
             - Constrained Cross-Entropy Method for Safe Reinforcement Learning: docs/papers/2021/2021.wen.constrained_cross_entropy_method/metadata.yml
@@ -1287,7 +1287,7 @@
           - On Exponential Synchronization of Kuramoto Oscillators: docs/papers/2009/2009.chopra.on_exponential_synchronization_of/metadata.yml
           - On the Stability of the Kuramoto Model of Coupled Nonlinear Oscillators: docs/papers/2005/math/0504419/metadata.yml
       - Robot Control:
-        - Theory of Robot Control: docs/papers/1996/1996.wit.theory_of_robot_control/metadata.yml
+        - Theory of Robot Control: docs/papers/1996/1996.de_wit.theory_of_robot_control/metadata.yml
         - "Adaptive Motion Control of Rigid Robots: A Tutorial": docs/papers/1989/1989.ortega.adaptive_motion_control_of/metadata.yml
         - On the Adaptive Control of Robot Manipulators: docs/papers/1987/1987.slotine.on_the_adaptive_control/metadata.yml
         - Tracking control:
@@ -1355,7 +1355,7 @@
             - Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs: docs/papers/2021/2104.04901/metadata.yml
             - LQR through the Lens of First Order Methods: docs/papers/2019/1907.08921/metadata.yml
             - Analyzing the Variance of Policy Gradient Estimators for the Linear-Quadratic Regulator: docs/papers/2019/1910.01249/metadata.yml
-            - Stabilizing Dynamical Systems via Policy Gradient Methods: docs/papers/2021/2021.perdomo.stabilizing_dynamical_systems_via/metadata.yml
+            - Stabilizing Dynamical Systems via Policy Gradient Methods: docs/papers/2021/2110.06418/metadata.yml
             - Second-Order Policy Gradient Methods for the Linear Quadratic Regulator: docs/papers/2025/2511.02095/metadata.yml
             - Convergence of Flow-Policy Gradient Learning for Linear Quadratic Regulator Problems: docs/papers/2025/2511.11131/metadata.yml
             - A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR: docs/papers/2026/2602.18933/metadata.yml
@@ -1416,7 +1416,7 @@
             - Linear Systems with Additive Noise:
               - Linear System Identification via EM with Latent Disturbances and Lagrangian Relaxation: docs/papers/2016/1603.09157/metadata.yml
               - Learning Without Mixing: docs/papers/2018/1802.08334/metadata.yml
-              - Ell1 Trend Filtering: docs/papers/2009/2009.kim.ell1_trend_filtering/metadata.yml
+              - L1 Trend Filtering: docs/papers/2009/2009.kim.l1_trend_filtering/metadata.yml
               - Single Trajectory Nonparametric Learning of Nonlinear Dynamics: docs/papers/2022/2202.08311/metadata.yml
               - Nearly Instance-Optimal Parameter Recovery from Many Trajectories via Hellinger Localization: docs/papers/2025/2510.06434/metadata.yml
               - Learning with Little Mixing: docs/papers/2022/2206.08269/metadata.yml
@@ -1663,7 +1663,7 @@
             - "An Information-state based Approach to the Optimal Output Feedback Control of Nonlinear Systems": docs/papers/2021/2107.08086/metadata.yml
             - "How Are Learned Perception-Based Controllers Impacted by the Limits of Robust Control?": docs/papers/2021/2104.00827/metadata.yml
             - "Physics-Informed Machine Learning for Modeling and Control of Dynamical Systems": docs/papers/2023/2306.13867/metadata.yml
-            - "Self-Normalized Processes: Exponential Inequalities, Moment Bounds and Iterated Logarithm Laws": docs/papers/2004/2004.de_la_pena.self_normalized_processes_exponential/metadata.yml
+            - "Self-Normalized Processes: Exponential Inequalities, Moment Bounds and Iterated Logarithm Laws": docs/papers/2004/math/0410102/metadata.yml
             - A Vector Bernstein Inequality for Self-Normalized Martingales: docs/papers/2024/2412.20949/metadata.yml
             - "State space models vs. multi-step predictors in predictive control: Are state space models complicating safe data-driven designs?": docs/papers/2022/2203.15471/metadata.yml
             - "Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control": docs/papers/2026/2603.23465/metadata.yml
@@ -1846,7 +1846,7 @@
           - Graph-Based SLAM & Smoothing:
             - Fast Iterative Alignment of Pose Graphs with Poor Initial Estimates: docs/papers/2006/2006.olson.fast_iterative_alignment_of/metadata.yml
             - Graphical SLAM - a Self-correcting Map: docs/papers/2004/2004.folkesson.graphical_slam_a_self/metadata.yml
-            - "> Decodes to '>', < Decodes to '<'": docs/papers/2011/2011.kummerle.decodes_to_decodes_to/metadata.yml
+            - g2o: docs/papers/2011/2011.kummerle.g2o_a_general_framework/metadata.yml
             - Adaptive Iterative Closest Keypoint: docs/papers/2013/2013.ekekrantz.adaptive_iterative_closest_keypoint/metadata.yml
             - iSAM: docs/papers/2008/2008.kaess.isam_incremental_smoothing_and/metadata.yml
           - Metric-Semantic SLAM:
@@ -1867,7 +1867,7 @@
           - Automatic Online Calibration of Cameras and Lasers: docs/papers/2013/2013.levinson.automatic_online_calibration_of/metadata.yml
     - Motion Prediction:
       - Driver Models:
-        - IDM: docs/papers/2000/2000.treiber.congested_traffic_states_in/metadata.yml
+        - IDM: docs/papers/2000/cond-mat/0002177/metadata.yml
         - Interaction Aware Trajectory Planning for Merge Scenarios in Congested Traffic Situations: docs/papers/2016/2016.evestedt.interaction_aware_trajectory_planning/metadata.yml
         - Probabilistic Model for Interaction Aware Planning in Merge Scenarios: docs/papers/2017/2017.ward.probabilistic_model_for_interaction/metadata.yml
         - Interaction-Aware Trajectory Prediction and Planning for Autonomous Vehicles in Forced Merge Scenarios: docs/papers/2021/2112.07624/metadata.yml
@@ -2384,7 +2384,7 @@
           - "Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification": docs/papers/2024/2403.18972/metadata.yml
       - General Automated Systems:
         - "Assume/Guarantee Contracts for Dynamical Systems: Theory and Computational Tools": docs/papers/2020/2012.12657/metadata.yml
-        - TuLiP: docs/papers/2011/2011.wongpiromsarn.tulip/metadata.yml
+        - TuLiP: docs/papers/2011/2011.wongpiromsarn.tulip_a_software_toolbox/metadata.yml
         - "Correct-by-Construction Adaptive Cruise Control: Two Approaches": docs/papers/2016/2016.nilsson.correct_by_construction_adaptive/metadata.yml
         - Correct-By-Construction Design of Adaptive Cruise Control with Control Barrier Functions under Safety and Regulatory Constraints: docs/papers/2022/2203.14110/metadata.yml
         - "On the validation of complex systems operating in open contexts": docs/papers/2019/1902.10517/metadata.yml
