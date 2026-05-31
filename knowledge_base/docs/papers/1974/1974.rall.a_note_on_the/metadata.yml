@@ -18,4 +18,4 @@ abstract: >
 summary: >
   Provides refined conditions and tighter bounds on the local quadratic convergence of Newton's method for solving nonlinear equations in Banach spaces, extending classical Kantorovich-type analyses.
 link: https://epubs.siam.org/doi/10.1137/0711004
-audit_status: raw
+audit_status: "partial"

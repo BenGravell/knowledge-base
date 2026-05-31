@@ -9,7 +9,7 @@ year: 2004
 source: IEEE International Conference on Robotics and Automation (ICRA)
 type: Conference Paper
 doi: 10.1109/ROBOT.2004.1308890
-arxiv_id: null
+arxiv_id:
 tags:
   - Motion planning
   - Expansive space trees
@@ -24,4 +24,4 @@ summary: >
 link: https://users.cs.utah.edu/~jeffp/papers/guidedESTs_ICRA04.pdf
 links_alt:
   - https://ieeexplore.ieee.org/document/1308890
-audit_status: raw
+audit_status: "partial"

@@ -1,17 +1,25 @@
 title: >
   Values and Strategies for Infinite Time Linear Quadratic Games
-algorithm:
+algorithm: Infinite-Horizon LQ Game Riccati Solution
 authors:
-  - E. Mageirou
+  - Eleftherios F. Mageirou
 year: 1976
 source: IEEE Transactions on Automatic Control
 type: Journal Paper
 doi: 10.1109/TAC.1976.1101291
 arxiv_id:
 tags:
+  - Linear quadratic games
+  - Differential games
+  - Riccati equation
+  - Infinite-horizon control
+  - Equilibrium strategies
+  - Epsilon-optimal strategies
 abstract: >
   For a class of infinite time linear quadratic games it is shown that an appropriate solution of an algebraic Riccati type equation determines the value of the game but not necessarily any equilibrium strategies. In the case of nonexistence of equilibrium strategies, ε-optimal strategies are constructed through the solutions of a differential Riccati equation.
-summary:
+summary: >
+  Mageirou studies infinite-time linear quadratic games and shows how algebraic Riccati-type equations can determine the value even when equilibrium strategies may not exist. The paper also constructs epsilon-optimal strategies through differential Riccati equations, clarifying the gap between game value and attainable equilibria.
 link: https://doi.org/10.1109/TAC.1976.1101291
 links_alt:
-audit_status: raw
+  - https://doi.org/10.1109/TAC.1976.1101291
+audit_status: "partial"

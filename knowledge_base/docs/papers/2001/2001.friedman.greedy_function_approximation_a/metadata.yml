@@ -22,4 +22,4 @@ summary: >
   Derives gradient boosted trees from first principles as steepest-descent optimization in function space, unifying boosting with numerical optimization. Introduces the TreeBoost algorithm and specific gradient update rules for regression and classification, forming the basis for XGBoost, LightGBM, CatBoost, and all modern gradient boosting libraries.
 link: https://projecteuclid.org/journals/annals-of-statistics/volume-29/issue-5/Greedy-function-approximation-A-gradient-boosting-machine/10.1214/aos/1013203451.full
 links_alt:
-audit_status: raw
+audit_status: "partial"

@@ -1,6 +1,6 @@
 title: >
   A Relationship between Arbitrary Positive Matrices and Doubly Stochastic Matrices
-algorithm:
+algorithm: Sinkhorn Scaling
 authors:
   - Richard Sinkhorn
 year: 1964
@@ -9,9 +9,18 @@ type: Journal Paper
 doi: 10.1214/aoms/1177703591
 arxiv_id:
 tags:
-abstract: ''
-summary:
-link: https://www.jstor.org/stable/2238545
+  - Sinkhorn scaling
+  - Matrix scaling
+  - Doubly stochastic matrices
+  - Positive matrices
+  - Diagonal scaling
+  - Matrix analysis
+abstract: >
+  The author has shown that corresponding to each positive square matrix A, that is, every a_ij > 0, is a unique doubly stochastic matrix of the form D_1 A D_2, where the D_i are diagonal matrices with positive diagonals. This note gives a further relationship between arbitrary positive matrices and doubly stochastic matrices.
+summary: >
+  Sinkhorn proves that positive square matrices have a canonical relationship to doubly stochastic matrices through positive diagonal scaling. The result became the basis for Sinkhorn scaling and later alternating row-column normalization methods used in matrix balancing, optimal transport, statistics, and machine learning.
+link: https://projecteuclid.org/download/pdf_1/euclid.aoms/1177703591
 links_alt:
+  - https://www.jstor.org/stable/2238545
   - https://doi.org/10.1214/aoms/1177703591
-audit_status: raw
+audit_status: "partial"

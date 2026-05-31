@@ -1,6 +1,6 @@
 title: >
   ImageNet Classification with Deep Convolutional Neural Networks
-algorithm:
+algorithm: AlexNet
 authors:
   - Alex Krizhevsky
   - Ilya Sutskever
@@ -9,13 +9,22 @@ year: 2012
 source: Advances in Neural Information Processing Systems
 type: Conference Paper
 doi:
-arxiv_id:
+arxiv_id: 
 tags:
+  - AlexNet
+  - Convolutional neural networks
+  - ImageNet
+  - Deep learning
+  - GPU training
+  - Dropout
+  - ReLU activations
+  - Computer vision
 abstract: >
   We trained a large, deep convolutional neural network to classify the 1.3 million high-resolution images in the LSVRC-2010 ImageNet training set into the 1000 different classes. On the test data, we achieved top-1 and top-5 error rates of 39.7\% and 18.9\% which is considerably better than the previous state-of-the-art results. The neural network, which has 60 million parameters and 500,000 neurons, consists of five convolutional layers, some of which are followed by max-pooling layers, and two globally connected layers with a final 1000-way softmax. To make training faster, we used non-saturating neurons and a very efficient GPU implementation of convolutional nets. To reduce overfitting in the globally connected layers we employed a new regularization method that proved to be very effective.
-summary:
-link: https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf
+summary: >
+  Introduces the deep convolutional network later known as AlexNet and demonstrates a large jump in ImageNet classification accuracy using GPUs, ReLUs, dropout, data augmentation, and a large labeled dataset. The paper's historical importance is that it made deep supervised representation learning the dominant computer-vision recipe, while its architectural details became the baseline vocabulary for later CNNs.
+link: https://papers.nips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf
 links_alt:
-  - https://proceedings.neurips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html
-  - https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Metadata.json
-audit_status: raw
+  - https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks
+  - https://dl.acm.org/doi/10.1145/3065386
+audit_status: partial

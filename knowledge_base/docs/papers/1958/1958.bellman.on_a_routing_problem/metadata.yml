@@ -1,6 +1,6 @@
 title: >
   On a Routing Problem
-algorithm: Bellman-Ford
+algorithm: Bellman-Ford Algorithm
 authors:
   - Richard Bellman
 year: 1958
@@ -18,4 +18,6 @@ abstract: >
 summary: >
   Introduces the Bellman-Ford shortest-path algorithm using dynamic programming, handling graphs with negative-weight edges and detecting negative cycles. Foundational to modern network routing and graph search.
 link: https://pubs.ams.org/journals/qam/1958-16-01/S0033-569X-1958-0102435-2/
-audit_status: raw
+links_alt:
+  - https://doi.org/10.1090/qam/102435
+audit_status: "partial"

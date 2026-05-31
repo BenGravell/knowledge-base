@@ -1,6 +1,6 @@
 title: >
   Histograms of Oriented Gradients for Human Detection
-algorithm: HOG
+algorithm: Histograms of Oriented Gradients
 authors:
   - Navneet Dalal
   - Bill Triggs
@@ -23,4 +23,4 @@ summary: >
   Introduces HOG (Histograms of Oriented Gradients) descriptors: gradient orientation histograms computed in overlapping, contrast-normalized blocks over a dense grid, fed into a linear SVM. Significantly outperformed prior human detection methods, and the HOG+SVM pipeline dominated rigid object detection until the deep learning era.
 link: https://doi.org/10.1109/CVPR.2005.177
 links_alt:
-audit_status: raw
+audit_status: "partial"

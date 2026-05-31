@@ -1,0 +1,28 @@
+title: >
+  L1 Trend Filtering
+algorithm: "L1 Trend Filtering"
+authors:
+  - "Seung-Jean Kim"
+  - "Kwangmoo Koh"
+  - "Stephen Boyd"
+  - "Dimitry Gorinevsky"
+year: 2009
+source: "SIAM Review"
+type: "Journal Paper"
+doi: "10.1137/070690274"
+arxiv_id:
+tags:
+  - "Trend filtering"
+  - "L1 regularization"
+  - "Time series"
+  - "Convex optimization"
+  - "Piecewise polynomials"
+  - "Signal denoising"
+abstract: >
+  The problem of estimating underlying trends in time series data arises in a variety of disciplines. In this paper we propose a variation on Hodrick–Prescott (H-P) filtering, a widely used method for trend estimation. The proposed L1 trend filtering method substitutes a sum of absolute values (i.e., L1 norm) for the sum of squares used in H-P filtering to penalize variations in the estimated trend. The L1 trend filtering method produces trend estimates that are piecewise linear, and therefore it is well suited to analyzing time series with an underlying piecewise linear trend. The kinks, knots, or changes in slope of the estimated trend can be interpreted as abrupt changes or events in the underlying dynamics of the time series. Using specialized interior-point methods, L1 trend filtering can be carried out with not much more effort than H-P filtering; in particular, the number of arithmetic operations required grows linearly with the number of data points. We describe the method and some of its basic properties and give some illustrative examples. We show how the method is related to L1 regularization based methods in sparse signal recovery and feature selection, and we list some extensions of the basic method.
+summary: >
+  Introduces L1 trend filtering, which estimates a piecewise-polynomial trend by penalizing discrete differences of the signal. The method gives a convex alternative to smoothing splines that preserves adaptively placed changes in slope or curvature.
+link: "https://epubs.siam.org/doi/abs/10.1137/070690274"
+links_alt:
+  - "https://doi.org/10.1137/070690274"
+audit_status: "partial"

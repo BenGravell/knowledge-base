@@ -1,6 +1,6 @@
 title: >
   A Lyapunov-Like Characterization of Asymptotic Controllability
-algorithm:
+algorithm: Control Lyapunov Function
 authors:
   - Eduardo D. Sontag
 year: 1983
@@ -9,10 +9,17 @@ type: Journal Paper
 doi: 10.1137/0321028
 arxiv_id:
 tags:
+  - Control Lyapunov functions
+  - Asymptotic controllability
+  - Nonlinear control
+  - Lyapunov methods
+  - Stabilization
+  - Feedback control
 abstract: >
-  It is shown that a control system in ${\bf R}^n $ is asymptotically controllable to the origin if and only if there exists a positive definite continuous functional of the states whose derivative can be made negative by appropriate choices of controls.
-summary:
+  It is shown that a control system in R^n is asymptotically controllable to the origin if and only if there exists a positive definite continuous functional of the states whose derivative can be made negative by appropriate choices of controls.
+summary: >
+  Sontag characterizes asymptotic controllability through the existence of a Lyapunov-like function whose derivative can be made negative by suitable controls. The result is a foundational step toward control Lyapunov functions and feedback stabilization theory for nonlinear systems.
 link: https://epubs.siam.org/doi/10.1137/0321028
 links_alt:
   - https://doi.org/10.1137/0321028
-audit_status: raw
+audit_status: "partial"

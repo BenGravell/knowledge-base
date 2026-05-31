@@ -1,20 +1,29 @@
 title: >
   Robust Computation of Linear Models by Convex Relaxation
-algorithm:
+algorithm: REAPER
 authors:
   - Gilad Lerman
   - Michael McCoy
   - Joel A. Tropp
   - Teng Zhang
 year: 2012
-source:
-type: Preprint
+source: Foundations of Computational Mathematics
+type: Journal Paper
 doi: 10.1007/s10208-014-9221-0
 arxiv_id: "1202.4044"
 tags:
+  - Robust subspace recovery
+  - Convex relaxation
+  - REAPER
+  - Outlier robustness
+  - Orthogonal projectors
+  - High-dimensional statistics
 abstract: >
   Consider a dataset of vector-valued observations that consists of noisy inliers, which are explained well by a low-dimensional subspace, along with some number of outliers. This work describes a convex optimization problem, called REAPER, that can reliably fit a low-dimensional model to this type of data. This approach parameterizes linear subspaces using orthogonal projectors, and it uses a relaxation of the set of orthogonal projectors to reach the convex formulation. The paper provides an efficient algorithm for solving the REAPER problem, and it documents numerical experiments which confirm that REAPER can dependably find linear structure in synthetic and natural data. In addition, when the inliers lie near a low-dimensional subspace, there is a rigorous theory that describes when REAPER can approximate this subspace.
-summary:
+summary: >
+  Introduces REAPER, a convex relaxation for fitting a low-dimensional linear subspace in the presence of many outliers by optimizing over a convex hull of orthogonal projectors. The paper matters because it couples a practical solver with recovery theory for noisy inliers, making robust PCA-style model fitting less dependent on brittle combinatorial inlier selection.
 link: https://arxiv.org/pdf/1202.4044
 links_alt:
-audit_status: raw
+  - https://arxiv.org/abs/1202.4044
+  - https://doi.org/10.1007/s10208-014-9221-0
+audit_status: partial

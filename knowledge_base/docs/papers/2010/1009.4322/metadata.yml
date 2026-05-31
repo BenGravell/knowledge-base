@@ -1,20 +1,25 @@
 title: >
   A Simple Proof of Thue's Theorem on Circle Packing
-algorithm:
+algorithm: "Delaunay Circle Packing Proof"
 authors:
-  - Hai-Chau Chang
-  - Lih-Chung Wang
+  - "Hai-Chau Chang"
+  - "Lih-Chung Wang"
 year: 2010
-source: arXiv
-type: Preprint
+source: "arXiv"
+type: "Preprint"
 doi:
 arxiv_id: "1009.4322"
 tags:
-  - Delaunay triangulation
-  - Circle packing
+  - "Circle packing"
+  - "Delaunay triangulation"
+  - "Discrete geometry"
+  - "Packing density"
+  - "Thue theorem"
+  - "Geometric proof"
 abstract: >
   A simple proof of Thue theorem on Circle Packing is given. The proof is only based on density analysis of Delaunay triangulation for the set of points that are centers of circles in a saturated circle configuration.
-summary:
-link: https://arxiv.org/pdf/1009.4322
+summary: >
+  Gives a short proof of Thue's circle-packing theorem using density analysis on the Delaunay triangulation of saturated circle centers. The note is useful as a compact geometric route to the optimality of hexagonal circle packing.
+link: "https://arxiv.org/pdf/1009.4322"
 links_alt:
-audit_status: raw
+audit_status: "partial"

@@ -1,18 +1,25 @@
 title: >
   Signal Recovery from Random Measurements via Orthogonal Matching Pursuit
-algorithm:
+algorithm: "Orthogonal Matching Pursuit Recovery"
 authors:
-  - Joel A. Tropp
-  - Anna C. Gilbert
+  - "Joel A. Tropp"
+  - "Anna C. Gilbert"
 year: 2007
-source: IEEE Transactions on Information Theory
-type: Journal Paper
-doi: 10.1109/TIT.2007.909108
+source: "IEEE Transactions on Information Theory"
+type: "Journal Paper"
+doi: "10.1109/TIT.2007.909108"
 arxiv_id:
 tags:
+  - "Compressed sensing"
+  - "Orthogonal matching pursuit"
+  - "Sparse recovery"
+  - "Random measurements"
+  - "Greedy algorithms"
+  - "Signal reconstruction"
 abstract: >
-  This paper demonstrates theoretically and empirically that a greedy algorithm called Orthogonal Matching Pursuit (OMP) can reliably recover a signal with $m$ nonzero entries in dimension $d$ given $ {\rm O}(m \ln d)$ random linear measurements of that signal. This is a massive improvement over previous results, which require ${\rm O}(m^{2})$ measurements. The new results for OMP are comparable with recent results for another approach called Basis Pursuit (BP). In some settings, the OMP algorithm is faster and easier to implement, so it is an attractive alternative to BP for signal recovery problems.
-summary:
-link: https://doi.org/10.1109/TIT.2007.909108
+  This paper demonstrates theoretically and empirically that a greedy algorithm called Orthogonal Matching Pursuit (OMP) can reliably recover a signal with m nonzero entries in dimension d given O(m log d) random linear measurements of that signal. This is a massive improvement over previous results, which require O(m^2) measurements. The new results for OMP are comparable with recent results for another approach called Basis Pursuit (BP). In some settings, the OMP algorithm is faster and easier to implement, so it is an attractive alternative to BP for signal recovery problems.
+summary: >
+  Analyzes when orthogonal matching pursuit can recover sparse signals from random measurements. The paper gives theoretical support for a simple greedy alternative to convex L1 recovery in compressed sensing.
+link: "https://doi.org/10.1109/TIT.2007.909108"
 links_alt:
-audit_status: raw
+audit_status: "partial"

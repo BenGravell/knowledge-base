@@ -1,18 +1,25 @@
 title: >
   Bandit Based Monte-Carlo Planning
-algorithm:
+algorithm: "Upper Confidence Trees"
 authors:
-  - Levente Kocsis
-  - Csaba Szepesvari
+  - "Levente Kocsis"
+  - "Csaba Szepesvari"
 year: 2006
-source: Lecture Notes in Computer Science
-type: Conference Paper
-doi: 10.1007/11871842_29
+source: "Lecture Notes in Computer Science"
+type: "Conference Paper"
+doi: "10.1007/11871842_29"
 arxiv_id:
 tags:
+  - "Monte Carlo planning"
+  - "Tree search"
+  - "Bandit algorithms"
+  - "Upper confidence bounds"
+  - "Reinforcement learning"
+  - "MDPs"
 abstract: >
   For large state-space Markovian Decision Problems Monte-Carlo planning is one of the few viable approaches to find near-optimal solutions. In this paper we introduce a new algorithm, UCT, that applies bandit ideas to guide Monte-Carlo planning. In finite-horizon or discounted MDPs the algorithm is shown to be consistent and finite sample bounds are derived on the estimation error due to sampling. Experimental results show that in several domains, UCT is significantly more efficient than its alternatives.
-summary:
-link: https://doi.org/10.1007/11871842_29
+summary: >
+  Introduces UCT, which applies upper-confidence bandit selection inside Monte Carlo tree search. The paper gives consistency and finite-sample analysis for planning in large MDPs and became a central ancestor of modern MCTS systems.
+link: "https://doi.org/10.1007/11871842_29"
 links_alt:
-audit_status: raw
+audit_status: "partial"

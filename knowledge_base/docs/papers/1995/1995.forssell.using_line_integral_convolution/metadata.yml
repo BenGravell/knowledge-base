@@ -27,4 +27,4 @@ summary: >
 link: https://graphics.stanford.edu/papers/flowvis2/
 links_alt:
   - https://doi.org/10.1109/2945.468406
-audit_status: raw
+audit_status: "partial"

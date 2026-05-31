@@ -24,6 +24,5 @@ summary: >
 link: https://arxiv.org/pdf/1209.1873
 links_alt:
   - https://arxiv.org/abs/1209.1873
-  - https://www.jmlr.org/papers/v14/shalev-shwartz13a.html
-  - https://www.jmlr.org/papers/volume14/shalev-shwartz13a/shalev-shwartz13a.pdf
-audit_status: raw
+  - https://jmlr.org/papers/v14/shalev-shwartz13a.html
+audit_status: partial

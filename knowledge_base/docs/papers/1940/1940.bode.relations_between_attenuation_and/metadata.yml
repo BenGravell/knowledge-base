@@ -1,6 +1,6 @@
 title: >
   Relations between Attenuation and Phase in Feedback Amplifier Design
-algorithm:
+algorithm: Bode Gain-Phase Relation
 authors:
   - H. W. Bode
 year: 1940
@@ -9,10 +9,19 @@ type: Journal Paper
 doi: 10.1002/j.1538-7305.1940.tb00839.x
 arxiv_id:
 tags:
+  - Bode plot
+  - Gain-phase relation
+  - Feedback control
+  - Frequency response
+  - Loop shaping
+  - Stability margins
+  - Minimum-phase systems
 abstract: >
-  The engineer who embarks upon the design of a feedback amplifier must be a creature of mixed emotions. On the one hand, he can rejoice in the improvements in the characteristics of the structure which feedback promises to secure him.1 On the other hand, he knows that unless he can finally adjust the phase and attenuation characteristics around the feedback loop so the amplifier will not spontaneously burst into uncontrollable singing, none of these advantages can actually be realized. The emotional situation is much like that of an impecunious young man who has impetuously invited the lady of his heart to see a play, unmindful, for the moment, of the limitations of the $2.65 in his pockets. The rapturous comments of the girl on the way to the theater would be very pleasant if they were not shadowed by his private speculation about the cost of the tickets.
+  The engineer who embarks upon the design of a feedback amplifier must be a creature of mixed emotions. On the one hand, he can rejoice in the improvements in the characteristics of the structure which feedback promises to secure him.1 On the other hand, he knows that unless he can finally adjust the phase and attenuation characteristics around the feedback loop so the amplifier will not spontaneously burst into uncontrollable singing, none of these advantages can actually be realized. The emotional situation is much like that of an impecunious young man who has impetuously invited the lady of his heart to see a play, unmindful, for the moment, of the limitations of the 2.65 dollars in his pockets. The rapturous comments of the girl on the way to the theater would be very pleasant if they were not shadowed by his private speculation about the cost of the tickets.
 summary: >
   Establishes the frequency-domain relationship between attenuation and phase that made feedback amplifier design into a practical loop-shaping discipline. Bode showed that, for causal minimum-phase networks, magnitude and phase are linked rather than independently adjustable, exposing the tradeoffs behind bandwidth, stability margin, noise amplification, and disturbance rejection.
-link: https://doi.org/10.1002/j.1538-7305.1940.tb00839.x
+link: https://vtda.org/pubs/BSTJ/vol19-1940/articles/bstj19-3-421.pdf
 links_alt:
-audit_status: raw
+  - https://www.nokia.com/bell-labs/publications-and-media/publications/relations-between-attenuation-and-phase-in-feedback-amplifer-design/
+  - https://doi.org/10.1002/j.1538-7305.1940.tb00839.x
+audit_status: "partial"

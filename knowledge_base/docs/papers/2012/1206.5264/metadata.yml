@@ -1,18 +1,27 @@
 title: >
   Apprenticeship Learning Using Inverse Reinforcement Learning and Gradient Methods
-algorithm:
+algorithm: Natural-Gradient IRL
 authors:
   - Gergely Neu
   - Csaba Szepesvari
 year: 2012
-source:
-type: Preprint
+source: Conference on Uncertainty in Artificial Intelligence
+type: Conference Paper
 doi:
 arxiv_id: "1206.5264"
 tags:
+  - Inverse reinforcement learning
+  - Apprenticeship learning
+  - Natural gradients
+  - Subgradient methods
+  - Markov decision processes
+  - Reward learning
+  - Policy matching
 abstract: >
-  In this paper we propose a novel gradient algorithm to learn a policy from an expert's observed behavior assuming that the expert behaves optimally with respect to some unknown reward function of a Markovian Decision Problem. The algorithm's aim is to find a reward function such that the resulting optimal policy matches well the expert's observed behavior. The main difficulty is that the mapping from the parameters to policies is both nonsmooth and highly redundant. Resorting to subdifferentials solves the first difficulty, while the second one is over- come by computing natural gradients. We tested the proposed method in two artificial domains and found it to be more reliable and efficient than some previous methods.
-summary:
+  In this paper we propose a novel gradient algorithm to learn a policy from an expert's observed behavior assuming that the expert behaves optimally with respect to some unknown reward function of a Markovian Decision Problem. The algorithm's aim is to find a reward function such that the resulting optimal policy matches well the expert's observed behavior. The main difficulty is that the mapping from the parameters to policies is both nonsmooth and highly redundant. Resorting to subdifferentials solves the first difficulty, while the second one is overcome by computing natural gradients. We tested the proposed method in two artificial domains and found it to be more reliable and efficient than some previous methods.
+summary: >
+  Frames apprenticeship learning as a nonsmooth optimization problem over reward parameters and uses subgradients plus natural gradients to deal with policy non-smoothness and reward redundancy. The contribution is a more direct gradient-based IRL procedure that can match expert behavior reliably without repeatedly solving the max-margin style formulations common in earlier approaches.
 link: https://arxiv.org/pdf/1206.5264
 links_alt:
-audit_status: raw
+  - https://arxiv.org/abs/1206.5264
+audit_status: partial

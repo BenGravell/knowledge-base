@@ -5,20 +5,23 @@ authors:
   - Matthew Streeter
   - H. Brendan McMahan
 year: 2012
-source: Neural Information Processing Systems
+source: Advances in Neural Information Processing Systems
 type: Conference Paper
 doi:
 arxiv_id: "1211.2260"
 tags:
-  - Convex optimization
+  - Online convex optimization
+  - Unconstrained OCO
   - Regret bounds
-  - Classification
-  - Online algorithms
-  - Optimization
+  - Parameter-free learning
+  - Reward doubling
+  - Linear prediction
 abstract: >
   Some of the most compelling applications of online convex optimization, including online prediction and classification, are unconstrained: the natural feasible set is R^n. Existing algorithms fail to achieve sub-linear regret in this setting unless constraints on the comparator point x^* are known in advance. We present algorithms that, without such prior knowledge, offer near-optimal regret bounds with respect to any choice of x^*. In particular, regret with respect to x^* = 0 is constant. We then prove lower bounds showing that our guarantees are near-optimal in this setting.
-summary:
+summary: >
+  Develops unconstrained online convex optimization algorithms whose regret adapts to any comparator norm without needing the feasible-set radius in advance. The reward-doubling idea is important because it preserves near-optimal guarantees on unbounded domains, including constant regret to the zero comparator, and clarifies the lower-bound tradeoffs faced by parameter-free OCO.
 link: https://arxiv.org/pdf/1211.2260
 links_alt:
-  - http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.251.2580
-audit_status: raw
+  - https://arxiv.org/abs/1211.2260
+  - https://papers.nips.cc/paper_files/paper/2012/hash/2c89109d42178de8a367c0228f169bf8-Abstract.html
+audit_status: partial

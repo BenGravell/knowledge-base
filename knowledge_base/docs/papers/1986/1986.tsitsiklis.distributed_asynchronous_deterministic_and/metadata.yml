@@ -1,6 +1,6 @@
 title: >
   Distributed Asynchronous Deterministic and Stochastic Gradient Optimization Algorithms
-algorithm:
+algorithm: Distributed Asynchronous Gradient Optimization
 authors:
   - J. Tsitsiklis
   - D. Bertsekas
@@ -11,9 +11,17 @@ type: Journal Paper
 doi: 10.1109/TAC.1986.1104412
 arxiv_id:
 tags:
+  - Distributed optimization
+  - Asynchronous algorithms
+  - Gradient methods
+  - Stochastic optimization
+  - Parallel computation
+  - Convergence analysis
+  - Convex optimization
 abstract: >
   We present a model for asynchronous distributed computation and then proceed to analyze the convergence of natural asynchronous distributed versions of a large class of deterministic and stochastic gradient-like algorithms. We show that such algorithms retain the desirable convergence properties of their centralized counterparts, provided that the time between consecutive interprocessor communications and the communication delays are not too large.
-summary:
+summary: >
+  Tsitsiklis, Bertsekas, and Athans analyze deterministic and stochastic gradient-style optimization algorithms executed asynchronously across distributed processors. The paper is an early foundation for distributed optimization, showing how convergence can survive communication delays, stale information, and parallel updates under suitable assumptions.
 link: https://doi.org/10.1109/TAC.1986.1104412
 links_alt:
-audit_status: raw
+audit_status: "partial"

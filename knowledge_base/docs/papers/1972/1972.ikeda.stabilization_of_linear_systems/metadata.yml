@@ -1,6 +1,6 @@
 title: >
   Stabilization of Linear Systems
-algorithm:
+algorithm: Linear Feedback Stabilization
 authors:
   - Masao Ikeda
   - Hajime Maeda
@@ -21,4 +21,4 @@ abstract: >
 summary: >
   Studies stabilization of linear time-invariant systems via state feedback, providing conditions under which a system can be stabilized and characterizing the achievable closed-loop spectra. Connects controllability theory to stabilizability and eigenvalue assignment.
 link: https://epubs.siam.org/doi/10.1137/0310052
-audit_status: raw
+audit_status: "partial"

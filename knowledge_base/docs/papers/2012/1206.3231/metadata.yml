@@ -13,17 +13,18 @@ type: Conference Paper
 doi:
 arxiv_id: "1206.3231"
 tags:
-  - Value iteration
-  - Robotics
+  - Reinforcement learning
+  - Continuous state spaces
+  - Offset dynamics
   - Sample complexity
-  - Planning
-  - Learning
-  - CORL
-  - State space
+  - Fitted value iteration
+  - Robotic driving
+  - PAC learning
 abstract: >
   Continuous state spaces and stochastic, switching dynamics characterize a number of rich, realworld domains, such as robot navigation across varying terrain. We describe a reinforcementlearning algorithm for learning in these domains and prove for certain environments the algorithm is probably approximately correct with a sample complexity that scales polynomially with the state-space dimension. Unfortunately, no optimal planning techniques exist in general for such problems; instead we use fitted value iteration to solve the learned MDP, and include the error due to approximate planning in our bounds. Finally, we report an experiment using a robotic car driving over varying terrain to demonstrate that these dynamics representations adequately capture real-world dynamics and that our algorithm can be used to efficiently solve such problems.
-summary:
+summary: >
+  Introduces CORL for learning continuous-state MDPs whose dynamics switch among offset models, giving PAC-style sample-complexity bounds that include the cost of approximate planning. The paper is a bridge between theoretical RL and robotics because it learns a structured transition model, solves it with fitted value iteration, and demonstrates the representation on a robotic car over varying terrain.
 link: https://arxiv.org/pdf/1206.3231
 links_alt:
-  - http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.150.8611
-audit_status: raw
+  - https://arxiv.org/abs/1206.3231
+audit_status: partial

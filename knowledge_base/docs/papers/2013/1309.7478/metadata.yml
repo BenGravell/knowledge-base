@@ -1,18 +1,28 @@
 title: >
   The Achievable Performance of Convex Demixing
-algorithm:
+algorithm: Convex Demixing
 authors:
   - Michael B. McCoy
   - Joel A. Tropp
 year: 2013
-source:
+source: arXiv
 type: Preprint
 doi:
 arxiv_id: "1309.7478"
 tags:
+  - Convex demixing
+  - Conic geometry
+  - Statistical dimension
+  - Signal separation
+  - Phase transitions
+  - Noisy observations
+  - Structured recovery
 abstract: >
   Demixing is the problem of identifying multiple structured signals from a superimposed, undersampled, and noisy observation. This work analyzes a general framework, based on convex optimization, for solving demixing problems. When the constituent signals follow a generic incoherence model, this analysis leads to precise recovery guarantees. These results admit an attractive interpretation: each signal possesses an intrinsic degrees-of-freedom parameter, and demixing can succeed if and only if the dimension of the observation exceeds the total degrees of freedom present in the observation.
-summary:
+summary: >
+  Generalizes convex demixing analysis to superimposed, undersampled, and noisy observations, emphasizing the achievable limits of convex programs under generic incoherence. The central takeaway is geometric: each structure contributes an intrinsic degrees-of-freedom term, and convex demixing succeeds essentially when the measurement dimension exceeds the sum of those terms, giving a precise benchmark for what convex separation can and cannot recover.
 link: https://arxiv.org/pdf/1309.7478
 links_alt:
-audit_status: raw
+  - https://arxiv.org/abs/1309.7478
+  - https://authors.library.caltech.edu/records/kw8x8-1b864
+audit_status: partial

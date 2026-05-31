@@ -1,20 +1,27 @@
 title: >
   Embedded Deformation for Shape Manipulation
-algorithm:
+algorithm: "Embedded Deformation"
 authors:
-  - Robert W. Sumner
-  - Johannes Schmid
-  - Mark Pauly
+  - "Robert W. Sumner"
+  - "Johannes Schmid"
+  - "Mark Pauly"
 year: 2007
-source: ACM Transactions on Graphics
-type: Journal Paper
-doi: 10.1145/1276377.1276478
+source: "ACM Transactions on Graphics"
+type: "Journal Paper"
+doi: "10.1145/1276377.1276478"
 arxiv_id:
 tags:
+  - "Shape deformation"
+  - "Computer graphics"
+  - "Geometry processing"
+  - "Mesh editing"
+  - "Character animation"
+  - "Nonrigid registration"
 abstract: >
   We present an algorithm that generates natural and intuitive deformations via direct manipulation for a wide range of shape representations and editing scenarios. Our method builds a space deformation represented by a collection of affine transformations organized in a graph structure. One transformation is associated with each graph node and applies a deformation to the nearby space. Positional constraints are specified on the points of an embedded object. As the user manipulates the constraints, a nonlinear minimization problem is solved to find optimal values for the affine transformations. Feature preservation is encoded directly in the objective function by measuring the deviation of each transformation from a true rotation. This algorithm addresses the problem of "embedded deformation" since it deforms space through direct manipulation of objects embedded within it, while preserving the embedded objects' features. We demonstrate our method by editing meshes, polygon soups, mesh animations, and animated particle systems.
-summary:
-link: https://dl.acm.org/doi/10.1145/1276377.1276478
+summary: >
+  Introduces embedded deformation, representing shape edits through a sparse graph of local affine transformations embedded in the object. The method enables intuitive, smooth, and detail-preserving manipulation of meshes and other geometric shapes.
+link: "https://dl.acm.org/doi/10.1145/1276377.1276478"
 links_alt:
-  - https://doi.org/10.1145/1276377.1276478
-audit_status: raw
+  - "https://doi.org/10.1145/1276377.1276478"
+audit_status: "partial"

@@ -1,6 +1,6 @@
 title: >
   Congested Traffic States in Empirical Observations and Microscopic Simulations
-algorithm: IDM
+algorithm: Intelligent Driver Model
 authors:
   - Martin Treiber
   - Ansgar Hennecke
@@ -9,7 +9,7 @@ year: 2000
 source: Physical Review E
 type: Journal Paper
 doi: 10.1103/PhysRevE.62.1805
-arxiv_id:
+arxiv_id: "cond-mat/0002177"
 tags:
   - Traffic modeling
   - Intelligent driver model
@@ -24,4 +24,4 @@ summary: >
 link: https://arxiv.org/pdf/cond-mat/0002177
 links_alt:
   - https://journals.aps.org/pre/abstract/10.1103/PhysRevE.62.1805
-audit_status: raw
+audit_status: "partial"

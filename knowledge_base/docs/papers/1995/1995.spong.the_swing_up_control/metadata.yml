@@ -7,6 +7,7 @@ year: 1995
 source: IEEE Control Systems
 type: Journal Paper
 doi: 10.1109/37.341864
+arxiv_id:
 tags:
   - Acrobot
   - Swing-up control
@@ -19,4 +20,6 @@ abstract: >
 summary: >
   Introduces the Acrobot (a two-link robot arm with one passive joint) as a benchmark for underactuated control and presents an energy-based swing-up strategy that pumps energy to bring the arm from hanging to the inverted position, after which a linear stabilizer takes over. Popularized the Acrobot as a canonical underactuated control problem.
 link: https://ieeexplore.ieee.org/document/341864
-audit_status: raw
+links_alt:
+  - https://doi.org/10.1109/37.341864
+audit_status: "partial"

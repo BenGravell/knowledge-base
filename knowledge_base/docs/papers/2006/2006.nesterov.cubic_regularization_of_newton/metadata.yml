@@ -2,17 +2,24 @@ title: >
   Cubic Regularization of Newton Method and Its Global Performance
 algorithm: "Cubic Regularized Newton"
 authors:
-  - Yurii Nesterov
-  - B.T. Polyak
+  - "Yurii Nesterov"
+  - "Boris T. Polyak"
 year: 2006
-source: Mathematical Programming
-type: Journal Paper
-doi: 10.1007/s10107-006-0706-8
+source: "Mathematical Programming"
+type: "Journal Paper"
+doi: "10.1007/s10107-006-0706-8"
 arxiv_id:
 tags:
+  - "Newton methods"
+  - "Cubic regularization"
+  - "Nonconvex optimization"
+  - "Complexity bounds"
+  - "Second-order methods"
+  - "Global convergence"
 abstract: >
   In this paper, we provide theoretical analysis for a cubic regularization of Newton method as applied to unconstrained minimization problem. For this scheme, we prove general local convergence results. However, the main contribution of the paper is related to global worst-case complexity bounds for different problem classes including some nonconvex cases. It is shown that the search direction can be computed by standard linear algebra technique.
-summary:
-link: https://doi.org/10.1007/s10107-006-0706-8
+summary: >
+  Analyzes Newton's method with a cubic model regularizer and proves global worst-case complexity bounds across several smooth optimization classes, including nonconvex cases. The paper is a landmark reference for modern second-order methods with explicit complexity guarantees.
+link: "https://doi.org/10.1007/s10107-006-0706-8"
 links_alt:
-audit_status: raw
+audit_status: "partial"

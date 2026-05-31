@@ -1,18 +1,27 @@
 title: >
   The Internal Model Principle for Linear Multivariable Regulators
-algorithm: "Internal Model Principle"
+algorithm: Internal Model Principle
 authors:
-  - B. A. Francis
-  - W. M. Wonham
+  - Bruce A. Francis
+  - W. Murray Wonham
 year: 1975
 source: Applied Mathematics and Optimization
 type: Journal Paper
 doi: 10.1007/BF01447855
 arxiv_id:
 tags:
+  - Internal model principle
+  - Output regulation
+  - Robust regulation
+  - Linear multivariable systems
+  - Feedback control
+  - Disturbance rejection
+  - Reference tracking
 abstract: >
   Necessary structural criteria are obtained for linear multivariable regulators which retain loop stability and output regulation in the presence of small perturbations, of specified types, in system parameters. It is shown that structural stability thus defined requires feedback of the regulated variable, together with a suitably reduplicated model, internal to the feedback loop, of the dynamic structure of the exogenous reference and disturbance signals which the regulator is required to process. Necessity of these structural features constitutes the 'internal model principle'.
-summary:
+summary: >
+  Francis and Wonham state and prove the internal model principle for robust output regulation in linear multivariable systems. The paper shows that robust regulation requires feedback plus an internal copy of the exogenous signal dynamics, making internal models a structural necessity rather than a design convenience.
 link: https://doi.org/10.1007/BF01447855
 links_alt:
-audit_status: raw
+  - https://doi.org/10.1007/BF01447855
+audit_status: "partial"

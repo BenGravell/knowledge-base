@@ -2,17 +2,25 @@ title: >
   The Numerical Solution of A'Q + QA = -C
 algorithm: "Lyapunov Equation Solver"
 authors:
-  - E. Davison
-  - F. Man
+  - Edward J. Davison
+  - Francis T. Man
 year: 1968
 source: IEEE Transactions on Automatic Control
 type: Journal Paper
 doi: 10.1109/TAC.1968.1098954
 arxiv_id:
 tags:
+  - Lyapunov equation
+  - Matrix equations
+  - Numerical linear algebra
+  - Canonical forms
+  - Control theory
+  - Stability analysis
 abstract: >
   The eigenvalues of the system matrix are used to construct a matrix which is a transformation in state space between two most frequently used canonical forms.
-summary:
+summary: >
+  Davison and Man present a numerical approach for solving the continuous-time Lyapunov equation A'Q + QA = -C by exploiting canonical-form transformations built from the system matrix eigenvalues. The paper is an early contribution to computational state-space control, where Lyapunov equations are central to stability, observability, controllability, and quadratic-performance calculations.
 link: https://doi.org/10.1109/TAC.1968.1098954
 links_alt:
-audit_status: raw
+  - https://doi.org/10.1109/TAC.1968.1098954
+audit_status: "partial"

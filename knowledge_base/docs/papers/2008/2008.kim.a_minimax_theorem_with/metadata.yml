@@ -1,19 +1,26 @@
 title: >
   A Minimax Theorem with Applications to Machine Learning, Signal Processing, and Finance
-algorithm:
+algorithm: "Minimax Probability Bounds"
 authors:
-  - Seung-Jean Kim
-  - Stephen Boyd
+  - "Seung-Jean Kim"
+  - "Stephen Boyd"
 year: 2008
-source: SIAM Journal on Optimization
-type: Journal Paper
-doi: 10.1137/060677586
+source: "SIAM Journal on Optimization"
+type: "Journal Paper"
+doi: "10.1137/060677586"
 arxiv_id:
 tags:
+  - "Minimax theorem"
+  - "Machine learning"
+  - "Signal processing"
+  - "Finance"
+  - "Convex analysis"
+  - "Probability bounds"
 abstract: >
-  This paper concerns a fractional function of the form $x^Ta/\sqrt{x^TBx}$, where B is positive definite. We consider the game of choosing x from a convex set, to maximize the function, and choosing $(a,B)$ from a convex set, to minimize it. We prove the existence of a saddle point and describe an efficient method, based on convex optimization, for computing it. We describe applications in machine learning (robust Fisher linear discriminant analysis), signal processing (robust beamforming and robust matched filtering), and finance (robust portfolio selection). In these applications, x corresponds to some design variables to be chosen, and the pair $(a,B)$ corresponds to the statistical model, which is uncertain.
-summary:
-link: https://epubs.siam.org/doi/abs/10.1137/060677586
+  This paper concerns a fractional function of the form x^T a / sqrt(x^T B x), where B is positive definite. We consider the game of choosing x from a convex set, to maximize the function, and choosing (a, B) from a convex set, to minimize it. We prove the existence of a saddle point and describe an efficient method, based on convex optimization, for computing it. We describe applications in machine learning (robust Fisher linear discriminant analysis), signal processing (robust beamforming and robust matched filtering), and finance (robust portfolio selection). In these applications, x corresponds to some design variables to be chosen, and the pair (a, B) corresponds to the statistical model, which is uncertain.
+summary: >
+  Develops a minimax theorem and uses it to unify robust formulations arising in learning, signal processing, and finance. The paper is valuable as a convex-analytic tool for turning uncertainty descriptions into tractable worst-case guarantees.
+link: "https://epubs.siam.org/doi/abs/10.1137/060677586"
 links_alt:
-  - https://doi.org/10.1137/060677586
-audit_status: raw
+  - "https://doi.org/10.1137/060677586"
+audit_status: "partial"

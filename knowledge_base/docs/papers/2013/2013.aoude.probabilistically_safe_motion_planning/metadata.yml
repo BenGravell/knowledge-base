@@ -1,6 +1,6 @@
 title: >
   Probabilistically Safe Motion Planning to Avoid Dynamic Obstacles with Uncertain Motion Patterns
-algorithm:
+algorithm: Probabilistic Obstacle Avoidance
 authors:
   - Georges S. Aoude
   - Brandon D. Luders
@@ -11,11 +11,22 @@ year: 2013
 source: Autonomous Robots
 type: Journal Paper
 doi: 10.1007/s10514-013-9334-3
-arxiv_id:
+arxiv_id: 
 tags:
+  - Chance-constrained planning
+  - Dynamic obstacles
+  - Motion prediction
+  - Gaussian processes
+  - Probabilistic safety
+  - RRT
+  - Autonomous vehicles
+  - Uncertain intent
 abstract: >
   This paper presents a real-time path planning algorithm that guarantees probabilistic feasibility for autonomous robots with uncertain dynamics operating amidst one or more dynamic obstacles with uncertain motion patterns. Planning safe trajectories under such conditions requires both accurate prediction and proper integration of future obstacle behavior within the planner. Given that available observation data is limited, the motion model must provide generalizable predictions that satisfy dynamic and environmental constraints, a limitation of existing approaches. This work presents a novel solution, named RR-GP, which builds a learned motion pattern model by combining the flexibility of Gaussian processes (GP) with the efficiency of RRT-Reach, a sampling-based reachability computation. Obstacle trajectory GP predictions are conditioned on dynamically feasible paths identified from the reachability analysis, yielding more accurate predictions of future behavior. RR-GP predictions are integrated with a robust path planner, using chance-constrained RRT, to identify probabilistically feasible paths. Theoretical guarantees of probabilistic feasibility are shown for linear systems under Gaussian uncertainty; approximations for nonlinear dynamics and/or non-Gaussian uncertainty are also presented. Simulations demonstrate that, with this planner, an autonomous vehicle can safely navigate a complex environment in real-time while significantly reducing the risk of collisions with dynamic obstacles.
-summary:
+summary: >
+  Presents a real-time motion-planning framework that keeps collision probability below a bound while avoiding dynamic obstacles with uncertain motion patterns. The paper combines learned obstacle-motion models, probabilistic feasibility constraints, and replanning, making it a useful precursor to modern risk-aware autonomous navigation where the planner must account for both robot uncertainty and uncertain human or vehicle behavior.
 link: https://doi.org/10.1007/s10514-013-9334-3
 links_alt:
-audit_status: raw
+  - https://doi.org/10.1007/s10514-013-9334-3
+  - https://cir.nii.ac.jp/crid/1361418521039163648
+audit_status: partial

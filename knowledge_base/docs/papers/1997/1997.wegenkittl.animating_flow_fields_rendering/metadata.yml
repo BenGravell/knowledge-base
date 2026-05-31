@@ -11,9 +11,9 @@ type: Conference Paper
 doi: 10.1109/CA.1997.601035
 arxiv_id:
 tags:
-  - flow visualization
+  - Flow visualization
   - Vector field visualization
-  - line integral convolution
+  - Line integral convolution
   - LIC
   - Computer graphics
   - Animation
@@ -23,4 +23,4 @@ summary: >
   Extends the standard Line Integral Convolution (LIC) visualization technique to encode both flow direction and orientation in a single image, using a sparse input texture and an asymmetric ramp convolution kernel. The resulting Oriented LIC (OLIC) also supports animation of flow fields by reusing precomputed pixel traces.
 link: https://doi.org/10.1109/CA.1997.601035
 links_alt:
-audit_status: raw
+audit_status: "partial"

@@ -1,6 +1,6 @@
 title: >
   Nonlinear Control Synthesis by Convex Optimization
-algorithm:
+algorithm: Density Function SOS Control
 authors:
   - S. Prajna
   - P.A. Parrilo
@@ -11,9 +11,17 @@ type: Journal Paper
 doi: 10.1109/TAC.2003.823000
 arxiv_id:
 tags:
+  - Nonlinear control
+  - Sum of squares
+  - Convex optimization
+  - Density functions
+  - Polynomial systems
+  - Lyapunov duality
+  - Semidefinite programming
 abstract: >
   A stability criterion for nonlinear systems, recently derived by the third author, can be viewed as a dual to Lyapunov's second theorem. The criterion is stated in terms of a function which can be interpreted as the stationary density of a substance that is generated all over the state-space and flows along the system trajectories toward the equilibrium. The new criterion has a remarkable convexity property, which in this note is used for controller synthesis via convex optimization. Recent numerical methods for verification of positivity of multivariate polynomials based on sum of squares decompositions are used.
-summary:
+summary: >
+  Uses Rantzer's density-function stability criterion, dual to Lyapunov's theorem, to synthesize nonlinear controllers through convex optimization. The paper applies sum-of-squares polynomial positivity tools to turn nonlinear control synthesis into a tractable SDP-style search.
 link: https://doi.org/10.1109/TAC.2003.823000
 links_alt:
-audit_status: raw
+audit_status: "partial"

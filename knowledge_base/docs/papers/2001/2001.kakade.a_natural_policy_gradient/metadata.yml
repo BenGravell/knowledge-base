@@ -21,4 +21,4 @@ summary: >
   Proposes using the natural gradient (Fisher information metric) for policy optimization in RL, showing it moves toward policy-iteration greedy actions rather than merely better actions. Motivated and formalized the use of the natural gradient in RL, directly inspiring later work on TRPO and NPG-based algorithms.
 link: https://proceedings.neurips.cc/paper_files/paper/2001/hash/4b86abe48d358ecf194c56c69108433e-Abstract.html
 links_alt:
-audit_status: raw
+audit_status: "partial"

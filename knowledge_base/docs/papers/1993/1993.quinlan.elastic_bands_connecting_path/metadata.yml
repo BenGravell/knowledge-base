@@ -24,4 +24,4 @@ link: "https://khatib.stanford.edu/publications/pdfs/Quinlan_1993_ICRA.pdf"
 links_alt:
   - "https://doi.org/10.1109/ROBOT.1993.291936"
   - "https://research.google/pubs/elastic-bands-connecting-path-planning-and-control/"
-audit_status: raw
+audit_status: "partial"

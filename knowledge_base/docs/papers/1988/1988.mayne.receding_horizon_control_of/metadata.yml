@@ -22,4 +22,4 @@ summary: >
   Foundational paper establishing that the receding horizon (model predictive) control strategy produces a stable closed-loop system for nonlinear systems, not just linear ones. By sequentially solving finite-horizon open-loop optimal control problems online, the method provides feedback control with a stability guarantee.
 link: https://doi.org/10.1109/CDC.1988.194354
 links_alt:
-audit_status: raw
+audit_status: "partial"

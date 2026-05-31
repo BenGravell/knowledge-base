@@ -1,17 +1,27 @@
 title: >
   Stochastic Gradient Descent Tricks
-algorithm: "SGD"
+algorithm: SGD
 authors:
   - Leon Bottou
 year: 2012
-source: Lecture Notes in Computer Science
-type: Conference Paper
+source: "Neural Networks: Tricks of the Trade"
+type: Book
 doi: 10.1007/978-3-642-35289-8_25
-arxiv_id:
+arxiv_id: 
 tags:
+  - Stochastic gradient descent
+  - Large-scale learning
+  - Learning rates
+  - Online learning
+  - Neural network training
+  - Optimization practice
+  - Generalization
 abstract: >
   Chapter 1 strongly advocates the stochastic back-propagation method to train neural networks. This is in fact an instance of a more general technique called stochastic gradient descent (SGD). This chapter provides background material, explains why SGD is a good learning algorithm when the training set is large, and provides useful recommendations.
-summary:
-link: https://doi.org/10.1007/978-3-642-35289-8_25
+summary: >
+  Surveys practical SGD design choices for large-scale machine learning, including objective decomposition, stochastic approximations, step-size schedules, averaging, feature scaling, and implementation pitfalls. Its value is not a new convergence theorem but an experienced practitioner's map of why SGD works well on large datasets and how to tune it so that statistical efficiency, computation, and generalization line up.
+link: https://leon.bottou.org/publications/pdf/tricks-2012.pdf
 links_alt:
-audit_status: raw
+  - https://www.microsoft.com/en-us/research/publication/stochastic-gradient-tricks/
+  - https://doi.org/10.1007/978-3-642-35289-8_25
+audit_status: partial

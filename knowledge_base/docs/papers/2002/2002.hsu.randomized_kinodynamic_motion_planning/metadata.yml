@@ -10,7 +10,7 @@ year: 2002
 source: International Journal of Robotics Research
 type: Journal Paper
 doi: 10.1177/027836402320556421
-arxiv_id: null
+arxiv_id:
 tags:
   - Motion planning
   - Kinodynamic planning
@@ -25,4 +25,4 @@ summary: >
 link: http://robotics.stanford.edu/~latombe/papers/IJRR-kino/final.pdf
 links_alt:
   - https://journals.sagepub.com/doi/10.1177/027836402320556421
-audit_status: raw
+audit_status: "partial"

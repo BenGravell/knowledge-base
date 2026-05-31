@@ -26,4 +26,4 @@ summary: >
   Introduces the Barnes-Hut tree code for approximating long-range N-body forces in O(N log N) time by recursively partitioning space into cubic cells and replacing sufficiently distant particle groups with aggregate cell interactions. The paper made hierarchical spatial trees a standard tool for gravitational simulation and later influenced fast approximate interaction methods in visualization, molecular simulation, and machine learning.
 link: https://www.nature.com/articles/324446a0
 links_alt:
-audit_status: raw
+audit_status: "partial"

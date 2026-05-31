@@ -1,6 +1,6 @@
 title: >
   Algorithms for the Assignment and Transportation Problems
-algorithm: Munkres algorithm
+algorithm: Munkres Algorithm
 authors:
   - James Munkres
 year: 1957
@@ -20,4 +20,5 @@ summary: >
 link: https://epubs.siam.org/doi/10.1137/0105003
 links_alt:
   - https://www.jstor.org/stable/2098689
-audit_status: raw
+  - https://doi.org/10.1137/0105003
+audit_status: "partial"

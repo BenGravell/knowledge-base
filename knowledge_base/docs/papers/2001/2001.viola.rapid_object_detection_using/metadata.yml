@@ -11,7 +11,7 @@ doi: 10.1109/CVPR.2001.990517
 arxiv_id:
 tags:
   - Object detection
-  - face detection
+  - Face detection
   - AdaBoost
   - Integral image
   - Cascade classifier
@@ -23,4 +23,4 @@ summary: >
   Introduces the Viola-Jones real-time face detector with three key contributions: the integral image for O(1) Haar-like feature computation, AdaBoost for selecting a small discriminative feature set, and a cascaded classifier that rapidly rejects background regions. Ran at 15 fps and was the dominant face detection algorithm for a decade.
 link: https://doi.org/10.1109/CVPR.2001.990517
 links_alt:
-audit_status: raw
+audit_status: "partial"

@@ -1,6 +1,6 @@
 title: >
   New Stochastic Approximation Type Procedures
-algorithm:
+algorithm: Polyak Averaging
 authors:
   - Boris T. Polyak
 year: 1990
@@ -9,9 +9,17 @@ type: Journal Paper
 doi:
 arxiv_id:
 tags:
-abstract: ''
-summary:
+  - Polyak averaging
+  - Stochastic approximation
+  - Averaged iterates
+  - Stochastic optimization
+  - Asymptotic efficiency
+  - Recursive estimation
+abstract: >
+  The paper introduces stochastic approximation procedures based on averaging iterates, showing that suitable averaging can improve convergence and asymptotic statistical efficiency.
+summary: >
+  Polyak develops new stochastic-approximation procedures based on averaging the trajectory of iterates rather than relying only on the final iterate. Together with Ruppert's work, this established Polyak-Ruppert averaging as a key technique for improving asymptotic efficiency in stochastic approximation and stochastic gradient methods.
 link: https://www.researchgate.net/publication/236736759
 links_alt:
   - https://www.researchgate.net/publication/236736759_New_stochastic_approximation_type_procedures
-audit_status: raw
+audit_status: "partial"

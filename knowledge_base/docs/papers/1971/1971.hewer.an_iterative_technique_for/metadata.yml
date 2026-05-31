@@ -15,4 +15,4 @@ summary: >
   An efficient algorithm for designing the discrete-time linear quadratic regulator / solving the discrete-time algebraic Riccati equation is proposed and proven to be globally convergent with a quadratic rate. It was later shown that Hewer's algorithm is an instance of the dynamic programming technique of policy iteration, which itself is an application of Newton's method to the Bellman equation.
 link: https://doi.org/10.1109/TAC.1971.1099755
 links_alt:
-audit_status: raw
+audit_status: "partial"
