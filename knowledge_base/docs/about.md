@@ -34,7 +34,7 @@ The collection is meant to be browsed, searched, compared, and revisited from di
 
 ## Reach Out
 
-If you'd like to suggest papers, discuss an idea, or share feedback, feel free to reach out on [GitHub](https://github.com/BenGravell).
+If you'd like to suggest papers, discuss an idea, or share feedback, feel free to reach out on [GitHub](https://github.com/BenGravell) or [LinkedIn](https://www.linkedin.com/in/benjamin-gravell/).
 
 ## Credits
 
