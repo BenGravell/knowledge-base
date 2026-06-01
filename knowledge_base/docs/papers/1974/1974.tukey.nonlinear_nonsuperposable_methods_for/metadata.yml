@@ -1,0 +1,25 @@
+title: "Nonlinear (Nonsuperposable) Methods for Smoothing Data"
+algorithm: "Median Smoothing"
+authors:
+  - John W. Tukey
+year: 1974
+source: Congress Record EASCON
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+  - Signal filtering
+  - Nonlinear smoothing
+  - Median filtering
+  - Robust smoothing
+  - Outlier removal
+  - Order-statistic filters
+  - Time series
+  - Impulsive noise
+abstract: ""
+summary: >
+  Presents Tukey's early formulation of nonlinear, nonsuperposable smoothing methods for data sequences, helping establish median-style smoothers as robust alternatives to linear averaging when outliers or sharp features are important. The note became a foundational citation for later median filters, rank-order filters, and LULU smoothing theory.
+link: https://www.semanticscholar.org/paper/Nonlinear-%28nonsuperposable%29-methods-for-smoothing-Tukey/7e5d1e517a5dc03c604f5e115babd24591b46ba6
+links_alt:
+  - https://www.scirp.org/reference/referencespapers?referenceid=511825
+audit_status: raw

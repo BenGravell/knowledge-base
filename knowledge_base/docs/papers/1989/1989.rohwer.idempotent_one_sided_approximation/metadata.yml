@@ -1,0 +1,27 @@
+title: "Idempotent One-Sided Approximation of Median Smoothers"
+algorithm: "LULU One-Sided Smoothers"
+authors:
+  - Carl H. Rohwer
+year: 1989
+source: Journal of Approximation Theory
+type: Journal Paper
+doi: "10.1016/0021-9045(89)90017-8"
+arxiv_id:
+tags:
+  - Signal filtering
+  - Nonlinear smoothing
+  - Median smoothers
+  - LULU smoothing
+  - Idempotent filters
+  - Rank filters
+  - Outlier removal
+  - Lattice methods
+  - Time series
+abstract: >
+  There has been considerable interest recently in nonlinear smoothing algorithms for handling outliers in time series. The simpler algorithms are predominantly chosen to be rank-based selectors, and concatenations of these. Analytical investigation lags and is considered difficult, so that theoretical understanding seems inadequate. It may be that a lattice is a useful structure for investigating and comparing smoothers, and a few related simple selectors are defined and investigated for this purpose.
+summary: >
+  Introduces one-sided idempotent smoothers that bound and approximate median smoothers while being easier to analyze algebraically. The paper is an early step toward LULU theory, framing nonlinear time-series denoising through ordered lattice operators rather than only through running medians.
+link: https://www.sciencedirect.com/science/article/pii/0021904589900178
+links_alt:
+  - https://doi.org/10.1016/0021-9045(89)90017-8
+audit_status: raw

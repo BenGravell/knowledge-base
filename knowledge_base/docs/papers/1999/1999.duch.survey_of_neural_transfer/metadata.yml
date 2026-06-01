@@ -1,0 +1,29 @@
+title: >
+  Survey of Neural Transfer Functions
+algorithm:
+authors:
+  - Wlodzislaw Duch
+  - Norbert Jankowski
+year: 1999
+source: Neural Computing Surveys
+type: Survey Paper
+doi:
+arxiv_id:
+tags:
+  - Transfer functions
+  - Activation functions
+  - Neural networks
+  - Adaptive systems
+  - Local learning
+  - Minimal distance methods
+  - Function taxonomy
+  - Survey
+abstract: >
+  The choice of transfer functions may strongly influence complexity and performance of neural networks. Although sigmoidal transfer functions are the most common there is no a priori reason why models based on such functions should always provide optimal decision borders. A large number of alternative transfer functions has been described in the literature. A taxonomy of activation and output functions is proposed, and advantages of various non-local and local neural transfer functions are discussed. Several less-known types of transfer functions and new combinations of activation/output functions are described. Universal transfer functions, parametrized to change from localized to delocalized type, are of greatest interest. Other types of neural transfer functions discussed here include functions with activations based on nonEuclidean distance measures, bicentral functions, formed from products or linear combinations of pairs of sigmoids, and extensions of such functions making rotations of localized decision borders in highly dimensional spaces practical. Nonlinear input preprocessing techniques are briefly described, offering an alternative way to change the shapes of decision borders.
+summary: >
+  This early survey treats activation and output functions as a major design axis for neural networks rather than a fixed choice. It is useful background for modern activation-function work because it separates local and non-local transfer functions, discusses decision-boundary geometry, and anticipates later interest in richer parameterized nonlinearities.
+link: https://is.umk.pl/~duch/pubs/99ncs.pdf
+links_alt:
+  - https://www.semanticscholar.org/paper/Survey-of-Neural-Transfer-Functions-Duch-Jankowski/50975d6cd92e71f828ffd54bf776c32daa79e295
+  - https://omega.umk.pl/info/article/UMK2ac83063cd934e43aa55852cdc36b0de/
+audit_status: partial
