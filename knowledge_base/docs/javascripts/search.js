@@ -125,13 +125,14 @@
           '<div id="unified-search-active" class="unified-search-active"></div>' +
         '</section>' +
         '<section class="unified-search-threshold-section" aria-label="Semantic similarity threshold">' +
-          '<div class="unified-search-section-title">Semantic</div>' +
-          '<label class="unified-search-threshold-label" for="unified-search-threshold">' +
-            '<span>Similarity cutoff</span>' +
-            '<strong id="unified-search-threshold-value">...</strong>' +
-          '</label>' +
+          '<div class="unified-search-threshold-header">' +
+            '<label class="unified-search-threshold-label" for="unified-search-threshold">' +
+              '<span>Semantic Similarity Cutoff</span>' +
+              '<strong id="unified-search-threshold-value">...</strong>' +
+            '</label>' +
+            '<button id="unified-search-threshold-reset" class="unified-search-threshold-reset" type="button" disabled>Suggested <span>...</span></button>' +
+          '</div>' +
           '<input id="unified-search-threshold" class="unified-search-threshold-slider" type="range" min="0" max="100" step="5" value="0" aria-describedby="unified-search-threshold-reset" disabled>' +
-          '<button id="unified-search-threshold-reset" class="unified-search-threshold-reset" type="button" disabled>Suggested <span>...</span></button>' +
         '</section>' +
       '</div>' +
     '</section>' +
@@ -252,6 +253,11 @@
 
   panel.addEventListener('click', event => {
     if (handleFacetClick(event)) return;
+    const resultToggle = event.target.closest('[data-result-toggle]');
+    if (resultToggle) {
+      toggleResultPanel(resultToggle);
+      return;
+    }
     const clearButton = event.target.closest('[data-search-clear]');
     if (clearButton) {
       clearState();
@@ -464,14 +470,12 @@
       .slice(0, 8)
       .map(tag => `<a href="?tag=${encodeURIComponent(tag)}">${esc(tag)}</a>`)
       .join('');
-    const expanderItems = [
-      abstract ? renderResultExpander('abstract', 'Abstract', icons.abstract, `<p class="paper-similar-card__abstract">${esc(abstract)}</p>`) : '',
-      tags ? renderResultExpander('tags', 'Tags', icons.tags, `<div class="tag-search-tags paper-similar-card__tags">${tags}</div>`) : '',
+    const panelItems = [
+      tags ? { kind: 'tags', label: 'Tags', icon: icons.tags, content: `<div class="tag-search-tags paper-similar-card__tags">${tags}</div>` } : null,
+      abstract ? { kind: 'abstract', label: 'Abstract', icon: icons.abstract, content: `<p class="paper-similar-card__abstract">${esc(abstract)}</p>` } : null,
     ].filter(Boolean);
-    const expanders = expanderItems.join('');
-    const expanderCountClass = expanderItems.length
-      ? ` paper-similar-card__actions--${expanderItems.length}-expanders`
-      : '';
+    const toggles = panelItems.map(renderResultToggle).join('');
+    const panels = panelItems.map(renderResultPanel).join('');
     return (
       '<article class="paper-similar-card">' +
         renderResultRank(index, score) +
@@ -479,28 +483,51 @@
           `<h3><a href="${escAttr(paper.url || '#')}">${esc(paperTitle(paper))}</a></h3>` +
           (algorithm ? `<p class="paper-similar-card__label">${esc(algorithm)}</p>` : '') +
           (byline ? `<div class="paper-similar-card__meta"><span>${esc(byline)}</span></div>` : '') +
-          `<div class="paper-similar-card__actions${expanderCountClass}">` +
-            '<div class="paper-link-pills paper-similar-card__action-links">' +
-              actionLink(paper.url, 'Detail') +
-              actionLink(paper.mapUrl, 'Map') +
-              actionLink(paper.treeUrl, 'Tree') +
+          '<div class="paper-similar-card__actions">' +
+            '<div class="paper-similar-card__action-row">' +
+              '<div class="paper-link-pills paper-similar-card__action-links">' +
+                actionLink(paper.url, 'Detail') +
+                actionLink(paper.mapUrl, 'Map') +
+                actionLink(paper.treeUrl, 'Tree') +
+              '</div>' +
+              (toggles ? `<div class="paper-similar-card__toggles">${toggles}</div>` : '') +
             '</div>' +
-            (expanders ? `<div class="paper-similar-card__expanders">${expanders}</div>` : '') +
+            (panels ? `<div class="paper-similar-card__panels">${panels}</div>` : '') +
           '</div>' +
         '</div>' +
       '</article>'
     );
   }
 
-  function renderResultExpander(kind, label, icon, content) {
+  function renderResultToggle(item) {
     return (
-      `<details class="paper-similar-card__expander paper-similar-card__expander--${escAttr(kind)}">` +
-        `<summary aria-label="${escAttr(label)}" title="${escAttr(label)}">` +
-          `<span class="paper-similar-card__expander-icon">${icon}</span>` +
-        '</summary>' +
-        `<div class="paper-similar-card__expander-content">${content}</div>` +
-      '</details>'
+      `<button class="paper-similar-card__toggle paper-similar-card__toggle--${escAttr(item.kind)}" type="button" ` +
+        `data-result-toggle="${escAttr(item.kind)}" aria-expanded="false" aria-label="Show ${escAttr(item.label)}" title="${escAttr(item.label)}">` +
+        `<span class="paper-similar-card__expander-icon">${item.icon}</span>` +
+      '</button>'
     );
+  }
+
+  function renderResultPanel(item) {
+    return (
+      `<div class="paper-similar-card__panel paper-similar-card__panel--${escAttr(item.kind)}" data-result-panel="${escAttr(item.kind)}" hidden>` +
+        item.content +
+      '</div>'
+    );
+  }
+
+  function toggleResultPanel(button) {
+    const kind = button.getAttribute('data-result-toggle');
+    const card = button.closest('.paper-similar-card');
+    if (!kind || !card) return;
+    const panelElement = Array.from(card.querySelectorAll('[data-result-panel]'))
+      .find(panelItem => panelItem.getAttribute('data-result-panel') === kind);
+    if (!panelElement) return;
+    const nextExpanded = button.getAttribute('aria-expanded') !== 'true';
+    const label = button.getAttribute('title') || kind;
+    button.setAttribute('aria-expanded', String(nextExpanded));
+    button.setAttribute('aria-label', `${nextExpanded ? 'Hide' : 'Show'} ${label}`);
+    panelElement.hidden = !nextExpanded;
   }
 
   function renderResultRank(index, score) {

@@ -81,24 +81,78 @@ hide:
 
 </div>
 
-<div class="kb-home-bento-secondary" aria-label="Additional Knowledge Base pages">
-  <a class="kb-bento-secondary-card kb-bento-secondary-card--analytics" href="analytics/">
-    <h3>
+<div class="kb-home-expanders" aria-label="Additional Knowledge Base context">
+  <details class="kb-home-expander kb-home-expander--analytics">
+    <summary>
       <span class="kb-bento-title-icon" aria-hidden="true">
         {{ material_icon(config.extra.nav_icons.analytics) }}
       </span>
-      <span>Analytics</span>
-    </h3>
-    <p>Quantify the collection by slice.</p>
-  </a>
+      <span class="kb-home-expander-summary-text">
+        <span class="kb-home-expander-title">Analytics</span>
+      </span>
+    </summary>
+    <div class="kb-home-expander-content">
+      <div id="an-app" class="an-page"></div>
+    </div>
+  </details>
 
-  <a class="kb-bento-secondary-card kb-bento-secondary-card--about" href="about/">
-    <h3>
+  <details class="kb-home-expander kb-home-expander--about">
+    <summary>
       <span class="kb-bento-title-icon" aria-hidden="true">
         {{ material_icon(config.extra.nav_icons.about) }}
       </span>
-      <span>About</span>
-    </h3>
-    <p>Understand the intent.</p>
-  </a>
+      <span class="kb-home-expander-summary-text">
+        <span class="kb-home-expander-title">About</span>
+      </span>
+    </summary>
+    <div class="kb-home-expander-content kb-home-about">
+      <h2>Why does this exist?</h2>
+
+      <p>Paper indexes, citation databases, search engines, and literature review tools are already good at retrieval. I wanted something a little different: a place where a curated corpus could be explored through several complementary lenses.</p>
+
+      <p>The collection is meant to be browsed, searched, compared, and revisited from different angles. Together, those views make it easier to wander, follow threads, notice relationships, and build a feel for the surrounding landscape.</p>
+
+      <div class="kb-about-compare">
+        <section class="kb-about-compare-panel kb-about-compare-panel--is">
+          <h3>What This Is</h3>
+          <p>A moderately sized collection of items that have passed my personal sniff test and manual triage.</p>
+          <ul>
+            <li>Papers, ideas, and methods I find useful, intriguing, or worth returning to.</li>
+            <li>Stronger coverage in areas I know, work near, or especially admire.</li>
+          </ul>
+        </section>
+        <div class="kb-about-compare-divider" aria-hidden="true">vs</div>
+        <section class="kb-about-compare-panel kb-about-compare-panel--not">
+          <h3>What This Is Not</h3>
+          <p>A neutral encyclopedia, universal index, or replacement for general retrieval tools.</p>
+          <ul>
+            <li>Not every single paper in the universe.</li>
+            <li>Not a claim that I have read every detail of every paper.</li>
+            <li>Not a complete bibliography of every author or field.</li>
+            <li>Not a balanced tree where every branch has equal depth or maturity.</li>
+          </ul>
+        </section>
+      </div>
+
+      <h2>Reach Out</h2>
+
+      <p>If you'd like to suggest papers, discuss an idea, or share feedback, feel free to reach out on <a href="https://github.com/BenGravell">GitHub</a> or <a href="https://www.linkedin.com/in/benjamin-gravell/">LinkedIn</a>.</p>
+
+      <h2>Credits</h2>
+
+      <p>This site was built with the following tools:</p>
+
+      <ul>
+        <li><a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a></li>
+        <li><a href="https://www.mkdocs.org/">MkDocs</a></li>
+        <li><a href="https://www.mathjax.org/">MathJax</a></li>
+        <li><a href="https://www.brailleinstitute.org/freefont/">Atkinson Hyperlegible</a></li>
+        <li><a href="https://openai.com/codex/">Codex</a></li>
+        <li><a href="https://claude.com/product/claude-code">Claude Code</a></li>
+      </ul>
+    </div>
+  </details>
 </div>
+
+<script src="javascripts/analytics-data.js"></script>
+<script src="javascripts/analytics.js"></script>

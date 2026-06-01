@@ -702,7 +702,7 @@ body:has(#an-app) .md-grid,body:has(#an-app) .md-main__inner{max-width:100%!impo
   <section class="an-grid" aria-label="Aggregate charts">
     <article class="an-card an-card--wide">
       <div class="an-card-head">
-        <h2>Items by Year</h2>
+        <h2>Years</h2>
         <div class="an-bin-toggle" role="group" aria-label="Year bin density">
           <button type="button" data-an-bin="coarse" aria-pressed="true">Coarse</button>
           <button type="button" data-an-bin="fine" aria-pressed="false">Fine</button>
@@ -791,6 +791,27 @@ body:has(#an-app) .md-grid,body:has(#an-app) .md-main__inner{max-width:100%!impo
 <script src="../javascripts/analytics-data.js"></script>
 <script src="../javascripts/analytics.js"></script>
 """
+
+
+ANALYTICS_CSS = (
+    ANALYTICS_PAGE.split("<style>\n", 1)[1].split("</style>", 1)[0].strip()
+)
+ANALYTICS_HOME_CSS = "\n".join(ANALYTICS_CSS.splitlines()[1:]).strip()
+ANALYTICS_APP_HTML = (
+    ANALYTICS_PAGE.split("</style>\n\n", 1)[1].split("\n\n<script", 1)[0].strip()
+)
+ANALYTICS_APP_HTML = re.sub(
+    r"\n\s*<header class=\"an-header.*?</header>\n",
+    "\n",
+    ANALYTICS_APP_HTML,
+    count=1,
+    flags=re.S,
+).strip()
+ANALYTICS_APP_HTML = re.sub(
+    r'^<div id="an-app" class="an-page">\n|\n</div>$',
+    "",
+    ANALYTICS_APP_HTML,
+).strip()
 
 
 ANALYTICS_JS = r"""'use strict';
@@ -1105,8 +1126,9 @@ TIMELINE_JS = r"""'use strict';
 analytics_data = build_analytics_data(root)
 timeline_data = build_timeline_data(root)
 
-with mkdocs_gen_files.open("analytics.md", "w") as out:
-    out.write(ANALYTICS_PAGE)
+with mkdocs_gen_files.open("stylesheets/analytics.css", "w") as out:
+    out.write(ANALYTICS_HOME_CSS)
+    out.write("\n")
 
 with mkdocs_gen_files.open("javascripts/analytics-data.js", "w") as out:
     out.write("window.analyticsData = ")
@@ -1114,7 +1136,15 @@ with mkdocs_gen_files.open("javascripts/analytics-data.js", "w") as out:
     out.write(";\n")
 
 with mkdocs_gen_files.open("javascripts/analytics.js", "w") as out:
-    out.write(ANALYTICS_JS)
+    analytics_js = ANALYTICS_JS.replace(
+        "(function(){\n  const app=document.getElementById('an-app'); if(!app) return;",
+        "(function(){\n  const appHtml="
+        + json.dumps(ANALYTICS_APP_HTML, ensure_ascii=False)
+        + ";\n  const app=document.getElementById('an-app'); if(!app) return; "
+        "if(!app.firstElementChild) app.innerHTML=appHtml;",
+        1,
+    )
+    out.write(analytics_js)
     out.write("\n")
 
 with mkdocs_gen_files.open("timeline.md", "w") as out:

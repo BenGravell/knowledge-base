@@ -71,6 +71,7 @@ theme:
 
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/analytics.css
 
 extra_javascript:
   - javascripts/mathjax.js
@@ -97,6 +98,4 @@ nav:
   - Tree: tree/index.md
   - Timeline: timeline.md
   - Search: search.md
-  - Analytics: analytics.md
-  - About: about.md
   - Portfolio: https://bengravell.github.io/portfolio/
