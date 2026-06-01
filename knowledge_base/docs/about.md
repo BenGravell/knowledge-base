@@ -1,4 +1,8 @@
-# About
+<header class="kb-app-header kb-app-header--static">
+  <div>
+    <h1 class="kb-app-header-title">About</h1>
+  </div>
+</header>
 
 ## Why does this exist?
 
@@ -31,8 +35,6 @@ The collection is meant to be browsed, searched, compared, and revisited from di
 ## Reach Out
 
 If you'd like to suggest papers, discuss an idea, or share feedback, feel free to reach out on [GitHub](https://github.com/BenGravell).
-
-Happy exploring!
 
 ## Credits
 

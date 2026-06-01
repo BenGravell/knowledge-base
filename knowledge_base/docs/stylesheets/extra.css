@@ -221,6 +221,10 @@ body:has(#semantic-search-app) .md-content__inner::after {
 }
 
 @media screen and (min-width: 60em) {
+  .md-main__inner {
+    margin-top: 0 !important;
+  }
+
   .md-header__button[for="__drawer"] {
     display: inline-flex !important;
   }
@@ -234,7 +238,7 @@ body:has(#semantic-search-app) .md-content__inner::after {
     align-self: flex-start;
     height: 0 !important;
     max-height: none !important;
-    padding: 1.2rem 0 !important;
+    padding: var(--kb-app-top-gap) 0 0 !important;
     position: sticky !important;
     top: var(--kb-site-header-height) !important;
     background: transparent !important;
@@ -261,8 +265,8 @@ body:has(#semantic-search-app) .md-content__inner::after {
     height: auto !important;
     max-height: none !important;
     margin: 0 0.2rem !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
+    overflow: visible !important;
+    overflow-y: visible !important;
     scroll-snap-type: none !important;
     touch-action: pan-y;
   }
@@ -293,6 +297,7 @@ body:has(#semantic-search-app) .md-content__inner::after {
     color: var(--md-default-fg-color--light) !important;
     cursor: default;
     line-height: 1.3;
+    margin-bottom: 0.35rem;
     white-space: normal;
     z-index: 1;
   }
@@ -447,6 +452,11 @@ body:has(#semantic-search-app) .md-content__inner::after {
     pointer-events: auto;
     transform: translateX(0);
   }
+
+  body:has(#mm-app) .md-sidebar--primary,
+  body:has(#mm-app) .md-header--lifted ~ .md-container .md-sidebar--primary {
+    top: 0 !important;
+  }
 }
 
 @media screen and (max-width: 59.984375em) {
@@ -486,8 +496,8 @@ body:has(#semantic-search-app) .md-content__inner::after {
   }
 }
 
-body:has(#knowledge-base) .md-sidebar--secondary,
-body:has(#knowledge-base) .md-header__button[for="__toc"],
+body:has(.kb-home-bento) .md-sidebar--secondary,
+body:has(.kb-home-bento) .md-header__button[for="__toc"],
 body:has(#tag-search-app) .md-sidebar--secondary,
 body:has(#tag-search-app) .md-header__button[for="__toc"],
 body:has(#semantic-search-app) .md-sidebar--secondary,
@@ -558,11 +568,33 @@ body:has(#semantic-search-app) .md-header__button[for="__toc"] {
 }
 
 @media screen and (max-width: 44.984375em) {
+  .md-header__button[for="__drawer"] {
+    order: 0;
+  }
+
+  .md-header__button.md-logo {
+    align-items: center;
+    display: inline-flex !important;
+    flex-shrink: 0;
+    justify-content: center;
+    order: 1;
+  }
+
+  .md-header__title {
+    display: none;
+  }
+
   .kb-header-search {
     flex: 1 1 auto;
     min-width: 0;
     max-width: none;
     margin-left: 0;
+    order: 2;
+  }
+
+  .md-header__option {
+    flex-shrink: 0;
+    order: 3;
   }
 
   .kb-header-search__input::placeholder {
@@ -808,6 +840,21 @@ body {
   opacity: 1;
 }
 
+/* Keep page TOCs out of the primary drawer so active pages don't leave a
+   hidden panel-sized gap before the trailing Portfolio link. */
+.md-nav--primary > .md-nav__list > .md-nav__item--active > label.md-nav__link[for="__toc"],
+.md-nav--primary > .md-nav__list > .md-nav__item--active > .md-nav--secondary {
+  display: none !important;
+}
+
+.md-nav--primary
+  > .md-nav__list
+  > .md-nav__item--active
+  > label.md-nav__link[for="__toc"]
+  + a.md-nav__link {
+  display: flex !important;
+}
+
 @media screen and (min-width: 60em) {
   .md-sidebar--primary {
     width: var(--md-sidebar-width);
@@ -832,14 +879,6 @@ body {
 
   .md-sidebar--primary .md-nav__icon {
     margin-inline-end: 0.12rem;
-  }
-
-  .md-nav--primary > .md-nav__list > .md-nav__item--active > .md-nav--secondary {
-    display: none;
-  }
-
-  .md-nav--primary > .md-nav__list > .md-nav__item--active > label.md-nav__link[for="__toc"] {
-    display: none;
   }
 }
 
@@ -980,14 +1019,14 @@ body:has(.kb-home-bento) .md-content {
   --kb-bento-muted: var(--md-default-fg-color--light);
   --kb-bento-visual-offset: 1.55rem;
   --kb-bento-preview-opacity: 0.64;
-  --kb-bento-preview-search-opacity: 0.52;
+  --kb-bento-preview-search-opacity: 0.66;
   --kb-bento-preview-mobile-opacity: 0.42;
-  --kb-bento-preview-search-mobile-opacity: 0.24;
+  --kb-bento-preview-search-mobile-opacity: 0.38;
   --kb-bento-preview-fill-strong: 78%;
   --kb-bento-preview-fill-medium: 70%;
   --kb-bento-preview-fill-soft: 34%;
-  --kb-bento-preview-fill-search-primary: 20%;
-  --kb-bento-preview-fill-search-secondary: 14%;
+  --kb-bento-preview-fill-search-primary: 30%;
+  --kb-bento-preview-fill-search-secondary: 22%;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-rows: 15.5rem;

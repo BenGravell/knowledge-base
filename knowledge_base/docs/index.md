@@ -1,11 +1,12 @@
 ---
 hide:
+  - title
   - toc
 ---
 
-# Curated Research You Can Actually Navigate
+<h1>Knowledge Base</h1>
 
-*A hand-picked collection of research items structured with tooling to make exploration engaging and fruitful.*
+*Curated research you can actually navigate.*
 
 <div class="kb-home-bento" aria-label="Knowledge Base quick start">
   <a class="kb-bento-card kb-bento-card--map" href="map/">
