@@ -192,22 +192,6 @@ https://arxiv.org/abs/2508.05396
 
 Move vaporwave stuff to another place outside knowledge base, too irrelevant
 
-## ConLab scrape
-
-<https://labs.utdallas.edu/conlab/>
-
-Pull content for portfolio
-
-### Original research
-
-<https://labs.utdallas.edu/conlab/learning-robust-control-for-lqr-systems-with-multiplicative-noise-via-policy-gradient/>
-<https://labs.utdallas.edu/conlab/robust-learning-based-control-via-bootstrapped-multiplicative-noise/>
-<https://labs.utdallas.edu/conlab/risk-averse-rrt-planning-with-nonlinear-steering-and-tracking-controllers-for-nonlinear-robotic-systems-under-uncertainty/>
-
-### Resources
-
-<https://labs.utdallas.edu/conlab/resources/>
-
 ## Site
 
 Use git-filter-repo. It is the modern, reliable way to remove a path from all reachable Git history.
@@ -263,9 +247,6 @@ Define the schema in a single source of truth doc.
 clarify distinction between year of first publication (typically arxiv preprint) and year of official publication
 
 add other URIs besides DOI since not all papers have DOI e.g. dissertations, arxiv papers, PLMR and JMLR
-
-- Autogenerate the key for papers
-  - policy: use algorithm if non-null, else use the paper name
 
 ## Quality of life
 
@@ -368,10 +349,6 @@ CSV should include one item per row. Tree ancestry in a column.
 JSON can use tree hierarchy natively.
 
 ## Search
-
-## Credits
-
-Sub bullet indent is too wide
 
 ## Dissertations page (new feature)
 
