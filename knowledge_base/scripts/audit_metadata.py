@@ -10,6 +10,7 @@ import unicodedata
 from dataclasses import dataclass
 from dataclasses import field as dc_field
 from enum import Enum
+from functools import lru_cache
 from pathlib import Path
 
 if __package__ in {None, ""}:
@@ -18,7 +19,8 @@ if __package__ in {None, ""}:
 import yaml
 from rich.console import Console
 
-from knowledge_base.config import AUDIT_STATUS_FIELD, REQUIRED_FIELDS, VALID_AUDIT_STATUSES, VALID_FIELDS, VALID_TYPES
+from knowledge_base.config import AUDIT_STATUS_FIELD, KB_DIR, REQUIRED_FIELDS, VALID_AUDIT_STATUSES, VALID_FIELDS, VALID_TYPES
+from knowledge_base.utils.normalization_db import build_index, expand_tag_acronyms, load_yaml, tag_key
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 console = Console(highlight=False)
@@ -772,13 +774,35 @@ _PLURAL_DUPLICATE_TAG_MESSAGE_PREFIX = (
     "Duplicate tag value(s) after trivial plural normalization"
 )
 _DUPLICATE_TAG_MESSAGE_PREFIX = "Duplicate tag value(s)"
+_DATABASE_DUPLICATE_TAG_MESSAGE_PREFIX = (
+    "Duplicate tag value(s) after tag database normalization"
+)
+_TAG_DATABASE_ISSUE_PREFIX = "Tag differs from normalization database"
+_TAG_DATABASE_MISSING_ISSUE_PREFIX = "Tag is missing from normalization database"
 _FORBIDDEN_TAGS = {
     "state of the art": "too generic to be useful as a tag",
 }
 _LONG_TAG_ALLOWLIST = {
+    "alternating-direction method of multipliers",
+    "covariance matrix adaptation evolution strategy",
+    "distributionally robust model predictive path integral control",
+    "global positioning system-denied navigation",
+    "graph-based simultaneous localization and mapping",
+    "greedy randomized adaptive search procedure",
+    "informed rapidly-exploring random tree star",
+    "joint photographic experts group 2000",
     "law of the iterated logarithm",
+    "metric-semantic simultaneous localization and mapping",
+    "model predictive path integral belief",
     "model predictive path integral control",
+    "partially observable markov decision process",
+    "predictive-action model predictive path integral control",
+    "sliding-window informed rapidly-exploring random tree star",
+    "structural similarity index measure",
+    "trust region policy optimization",
+    "worst-case conditional value at risk",
 }
+_TAGS_DB = KB_DIR / "normalization" / "tags.yml"
 _NON_PLURAL_S_ENDINGS = ("ss", "us", "is", "ics")
 _NON_PLURAL_S_WORDS = {
     "bias",
@@ -2083,6 +2107,101 @@ def _is_long_tag_allowed(tag: str) -> bool:
     return _normalized_tag_for_duplicate_check(tag) in _LONG_TAG_ALLOWLIST
 
 
+@lru_cache(maxsize=1)
+def _tag_normalization_index():
+    try:
+        data = load_yaml(_TAGS_DB)
+    except FileNotFoundError:
+        return None, f"Missing tag normalization database: {_TAGS_DB}"
+    except yaml.YAMLError as exc:
+        return None, f"Could not parse tag normalization database {_TAGS_DB}: {exc}"
+
+    entries = data.get("tags")
+    if not isinstance(entries, list):
+        return None, f"Tag normalization database has no list field: {_TAGS_DB}"
+    tag_entries = [entry for entry in entries if isinstance(entry, dict)]
+    return build_index(tag_entries, key_fn=tag_key), None
+
+
+def _tag_database_error() -> str | None:
+    _, error = _tag_normalization_index()
+    return error
+
+
+def _tag_database_canonical(tag: str) -> str | None:
+    index, error = _tag_normalization_index()
+    if error is not None or index is None:
+        return None
+
+    canonical = index.lookup(tag_key(tag))
+    if canonical:
+        return canonical
+
+    expanded = expand_tag_acronyms(tag)
+    if expanded != tag:
+        return index.lookup(tag_key(expanded))
+    return None
+
+
+def _database_tag_duplicate_groups(tags: list[object]) -> dict[str, list[int]]:
+    tag_indexes: dict[str, list[int]] = {}
+    for index, tag_raw in enumerate(tags):
+        tag = str(tag_raw).strip()
+        if not tag:
+            continue
+        canonical = _tag_database_canonical(tag) or tag
+        key = tag_key(canonical)
+        if not key:
+            continue
+        tag_indexes.setdefault(key, []).append(index)
+
+    return {
+        key: indexes
+        for key, indexes in tag_indexes.items()
+        if len(indexes) > 1
+        and len({_normalized_tag_for_duplicate_check(str(tags[index]).strip()) for index in indexes}) > 1
+    }
+
+
+def _preferred_database_duplicate_tag_index(tags: list[object], indexes: list[int]) -> int:
+    def score(index: int) -> tuple[int, int]:
+        tag = str(tags[index]).strip()
+        canonical = _tag_database_canonical(tag)
+        is_canonical = canonical is not None and tag == canonical
+        return (0 if is_canonical else 1, index)
+
+    return min(indexes, key=score)
+
+
+def _database_duplicate_tag_removal_indexes(tags: list[object]) -> set[int]:
+    remove_indexes: set[int] = set()
+    for indexes in _database_tag_duplicate_groups(tags).values():
+        keep_index = _preferred_database_duplicate_tag_index(tags, indexes)
+        remove_indexes.update(index for index in indexes if index != keep_index)
+    return remove_indexes
+
+
+def _database_duplicate_tag_fix_suggestion(
+    tags: list[object],
+    groups: dict[str, list[int]],
+) -> str:
+    suggestions: list[str] = []
+    for indexes in groups.values():
+        keep_index = _preferred_database_duplicate_tag_index(tags, indexes)
+        removals = [
+            f"{str(tags[index]).strip()!r} at index {index}"
+            for index in indexes
+            if index != keep_index
+        ]
+        canonical = _tag_database_canonical(str(tags[keep_index]).strip())
+        canonical_note = f" as {canonical!r}" if canonical else ""
+        suggestions.append(
+            f"keep {str(tags[keep_index]).strip()!r} at index {keep_index}{canonical_note}; "
+            f"remove {', '.join(removals)}"
+        )
+    return "Resolve aliases through normalization/tags.yml: " + "; ".join(suggestions)
+
+
 def _duplicate_tag_groups(tags: list[object]) -> dict[str, list[int]]:
     tag_indexes: dict[str, list[int]] = {}
     for index, tag_raw in enumerate(tags):
@@ -2340,12 +2459,49 @@ def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
     tag_indexes: dict[str, list[int]] = {}
     tag_display: dict[str, str] = {}
     proper_name_words = _author_last_name_tag_proper_words(data)
+    tag_db_error = _tag_database_error()
+    if tag_db_error is not None:
+        issues.append(
+            Issue(
+                path,
+                "tags",
+                tag_db_error,
+                "Run `python scripts/build_normalization_db.py --only tags` from knowledge_base/.",
+            )
+        )
     for index, tag_raw in enumerate(tags):
         tag = str(tag_raw).strip()
         normalized_tag = _normalized_tag_for_duplicate_check(tag)
         if normalized_tag:
             tag_indexes.setdefault(normalized_tag, []).append(index)
             tag_display.setdefault(normalized_tag, tag)
+
+        if normalized_tag and tag_db_error is None:
+            canonical_tag = _tag_database_canonical(tag)
+            if canonical_tag is None:
+                expanded = expand_tag_acronyms(tag)
+                suggestion = (
+                    expanded
+                    if expanded != tag
+                    else f"Add {tag!r} to normalization/tags.yml as a canonical tag or alias."
+                )
+                issues.append(
+                    Issue(
+                        path,
+                        "tags",
+                        f"{_TAG_DATABASE_MISSING_ISSUE_PREFIX} at tags[{index}]: {tag!r}",
+                        suggestion,
+                    )
+                )
+            elif canonical_tag != tag:
+                issues.append(
+                    Issue(
+                        path,
+                        "tags",
+                        f"{_TAG_DATABASE_ISSUE_PREFIX} at tags[{index}]: {tag!r}",
+                        canonical_tag,
+                    )
+                )
 
         forbidden_reason = _forbidden_tag_reason(tag)
         if forbidden_reason:
@@ -2438,6 +2594,24 @@ def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
                 _plural_duplicate_tag_fix_suggestion(tags, plural_duplicate_tags),
             )
         )
+
+    if tag_db_error is None:
+        database_duplicate_tags = _database_tag_duplicate_groups(tags)
+        if database_duplicate_tags:
+            examples = ", ".join(
+                ", ".join(f"{str(tags[index]).strip()!r} at index {index}" for index in indexes)
+                for indexes in list(database_duplicate_tags.values())[:6]
+            )
+            if len(database_duplicate_tags) > 6:
+                examples += f", ... ({len(database_duplicate_tags)} total)"
+            issues.append(
+                Issue(
+                    path,
+                    "tags",
+                    f"{_DATABASE_DUPLICATE_TAG_MESSAGE_PREFIX}: {examples}",
+                    _database_duplicate_tag_fix_suggestion(tags, database_duplicate_tags),
+                )
+            )
 
     return issues
 
@@ -3837,11 +4011,19 @@ def _is_plural_duplicate_tag_issue(issue: Issue) -> bool:
     )
 
 
+def _is_database_duplicate_tag_issue(issue: Issue) -> bool:
+    return (
+        issue.field == "tags"
+        and issue.message.startswith(_DATABASE_DUPLICATE_TAG_MESSAGE_PREFIX)
+    )
+
+
 def _is_duplicate_tag_issue(issue: Issue) -> bool:
     return (
         issue.field == "tags"
         and issue.message.startswith(_DUPLICATE_TAG_MESSAGE_PREFIX)
         and not _is_plural_duplicate_tag_issue(issue)
+        and not _is_database_duplicate_tag_issue(issue)
     )
 
 
@@ -3853,6 +4035,7 @@ def _is_fixable_tag_issue(issue: Issue) -> bool:
     if (
         _is_duplicate_tag_issue(issue)
         or _is_plural_duplicate_tag_issue(issue)
+        or _is_database_duplicate_tag_issue(issue)
         or _is_forbidden_tag_issue(issue)
     ):
         return True
@@ -3863,6 +4046,7 @@ def _is_fixable_tag_issue(issue: Issue) -> bool:
         and (
             issue.message.startswith("Tag is not in capital case")
             or issue.message.startswith("Tag starts with an article")
+            or issue.message.startswith(_TAG_DATABASE_ISSUE_PREFIX)
         )
     )
 
@@ -4243,6 +4427,7 @@ def _fix_tags_in_yaml(
         if (
             _is_duplicate_tag_issue(issue)
             or _is_plural_duplicate_tag_issue(issue)
+            or _is_database_duplicate_tag_issue(issue)
             or _is_forbidden_tag_issue(issue)
         ):
             continue
@@ -4276,6 +4461,14 @@ def _fix_tags_in_yaml(
             del tags[index]
             changed += 1
 
+    if any(_is_database_duplicate_tag_issue(issue) for issue in tag_fixes):
+        for index in sorted(_duplicate_tag_removal_indexes(tags), reverse=True):
+            del tags[index]
+            changed += 1
+        for index in sorted(_database_duplicate_tag_removal_indexes(tags), reverse=True):
+            del tags[index]
+            changed += 1
+
     if changed == 0:
         return raw, 0
 
@@ -4300,6 +4493,16 @@ def _fix_tags_in_yaml(
                 if next_line.strip() and not next_line.startswith((" ", "\t")):
                     break
                 end += 1
+        elif not value.strip():
+            while end < len(lines):
+                next_line = lines[end]
+                if not next_line.strip():
+                    end += 1
+                    continue
+                if re.match(r"^-\s+", next_line):
+                    end += 1
+                    continue
+                break
 
         replacement = match.group("indent") + _format_tags_block(
             tags,
@@ -4859,7 +5062,7 @@ Checks performed on each metadata.yml:
   title     - ERROR if empty; ERROR if not in title case; ERROR for raw YAML character escapes like \\u2014; ERROR/WARN for corrupt characters or likely misspellings
   algorithm - ERROR if the algorithm label is generic; WARN if a bare concrete method label appears to describe analysis/application of an existing method rather than the proposing paper
   authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order, single-token names, known organization names, other non-individual names, suspicious Unicode corruption/control characters, or names that are not normalized to the native 26 English letters
-  tags      - ERROR if tags contain duplicate values, trivial singular/plural duplicates, forbidden generic values, leading articles, more than 4 words, non-capital-case ordinary English words, or sentence-like prose debris copied from an abstract
+  tags      - ERROR if tags are missing from normalization/tags.yml, differ from its canonical full-spelling form, duplicate after database or plural normalization, contain forbidden generic values, leading articles, more than 4 words, non-capital-case ordinary English words, or sentence-like prose debris copied from an abstract
   year      - ERROR if not a 4-digit integer
   arxiv     - ERROR if arxiv_id is present but not a valid arXiv ID
   abstract  - ERROR if placeholder-like, contains scraped page text, publisher/copyright notices, or PDF extraction artifacts; ERROR if near-empty unless audit_status is reviewed; WARN if empty, or for dollar math, copied "abstract" headings, likely misspellings, high-confidence OCR artifacts, or OCR word splits
@@ -4896,7 +5099,7 @@ Available --check names:
         "--fix",
         action="store_true",
         help=(
-            "Auto-fix title-case, tag casing/leading articles/duplicate tags, "
+            "Auto-fix title-case, tag database aliases/casing/leading articles/duplicate tags, "
             "abstract publisher/copyright notices, high-confidence OCR artifacts, "
             "escaped HTML/entity/markup issues, author-name mojibake/diacritics, "
             "text-field mojibake, obvious collective/split author entries, "

@@ -1,4 +1,4 @@
-"""Audit author/source metadata against central normalization databases.
+"""Audit author/source/tag metadata against central normalization databases.
 
 Usage:
   python scripts/audit_normalization.py
@@ -36,9 +36,11 @@ from knowledge_base.utils.normalization_db import (  # noqa: E402
     build_index,
     canonical_author_display,
     canonical_source_display,
+    expand_tag_acronyms,
     load_yaml,
     parse_author,
     source_key,
+    tag_key,
 )
 
 
@@ -46,6 +48,9 @@ METADATA_ROOT = KB_DIR / "docs" / "papers"
 NORMALIZATION_DIR = KB_DIR / "normalization"
 AUTHORS_DB = NORMALIZATION_DIR / "authors.yml"
 SOURCES_DB = NORMALIZATION_DIR / "sources.yml"
+TAGS_DB = NORMALIZATION_DIR / "tags.yml"
+TAG_DATABASE_ISSUE_PREFIX = "Tag differs from normalization database"
+TAG_DATABASE_MISSING_PREFIX = "Tag is missing from normalization database"
 
 
 @dataclass(frozen=True)
@@ -171,7 +176,88 @@ def audit_source(path: Path, source: str, source_index) -> list[Issue]:
     return []
 
 
-def audit_file(path: Path, author_index, initial_index, source_index) -> tuple[dict[str, Any], list[Issue]]:
+def audit_tag(path: Path, tag: str, index: int, tag_index) -> list[Issue]:
+    if not tag:
+        return []
+
+    suggestion = tag_index.lookup(tag_key(tag))
+    expanded = expand_tag_acronyms(tag)
+    if suggestion is None and expanded != tag:
+        suggestion = tag_index.lookup(tag_key(expanded))
+
+    if suggestion and tag != suggestion:
+        return [
+            Issue(
+                path,
+                "tags",
+                f"{TAG_DATABASE_ISSUE_PREFIX} at tags[{index}]: {tag!r}",
+                suggestion,
+            )
+        ]
+
+    if suggestion is None:
+        fallback = (
+            expanded
+            if expanded != tag
+            else f"Add {tag!r} to normalization/tags.yml as a canonical tag or alias."
+        )
+        return [
+            Issue(
+                path,
+                "tags",
+                f"{TAG_DATABASE_MISSING_PREFIX} at tags[{index}]: {tag!r}",
+                fallback,
+            )
+        ]
+    return []
+
+
+def normalized_tag_value(tag: str, tag_index) -> str:
+    suggestion = tag_index.lookup(tag_key(tag))
+    if suggestion:
+        return suggestion
+    expanded = expand_tag_acronyms(tag)
+    if expanded != tag:
+        suggestion = tag_index.lookup(tag_key(expanded))
+        if suggestion:
+            return suggestion
+    return tag
+
+
+def audit_tag_duplicates(path: Path, tags: list[Any], tag_index) -> list[Issue]:
+    normalized_indexes: dict[str, list[int]] = {}
+    for index, tag in enumerate(tags):
+        normalized = normalized_tag_value(str(tag).strip(), tag_index)
+        key = tag_key(normalized)
+        if key:
+            normalized_indexes.setdefault(key, []).append(index)
+
+    duplicate_groups = {
+        key: indexes
+        for key, indexes in normalized_indexes.items()
+        if len(indexes) > 1
+        and len({str(tags[index]).strip().casefold() for index in indexes}) > 1
+    }
+    if not duplicate_groups:
+        return []
+
+    examples = ", ".join(
+        ", ".join(f"{str(tags[index]).strip()!r} at index {index}" for index in indexes)
+        for indexes in list(duplicate_groups.values())[:6]
+    )
+    if len(duplicate_groups) > 6:
+        examples += f", ... ({len(duplicate_groups)} total)"
+    return [
+        Issue(
+            path,
+            "tags",
+            f"Duplicate tag value(s) after tag database normalization: {examples}",
+            "Replace aliases with canonical tags and remove duplicates.",
+        )
+    ]
+
+
+def audit_file(path: Path, author_index, initial_index, source_index, tag_index) -> tuple[dict[str, Any], list[Issue]]:
     data = load_metadata(path)
     issues: list[Issue] = []
     authors = data.get("authors")
@@ -189,6 +275,11 @@ def audit_file(path: Path, author_index, initial_index, source_index) -> tuple[d
 
     source = str(data.get("source") or "").strip()
     issues.extend(audit_source(path, source, source_index))
+    tags = data.get("tags")
+    if isinstance(tags, list):
+        for index, tag in enumerate(tags):
+            issues.extend(audit_tag(path, str(tag).strip(), index, tag_index))
+        issues.extend(audit_tag_duplicates(path, tags, tag_index))
     return data, issues
 
 
@@ -222,6 +313,26 @@ def _format_authors_block(authors: list[object], newline: str = "\n") -> str:
     return newline.join(lines) + newline
 
 
+def _format_tags_block(tags: list[object], newline: str = "\n") -> str:
+    if not tags:
+        return f"tags:{newline}"
+    lines = ["tags:"]
+    for tag in tags:
+        if tag is None or tag == "":
+            lines.append("  -")
+            continue
+        dumped = yaml.safe_dump(
+            [str(tag)],
+            sort_keys=False,
+            allow_unicode=False,
+            default_flow_style=False,
+            width=1_000_000_000,
+        ).strip()
+        item = dumped.removeprefix("-").strip()
+        lines.append(f"  - {item}")
+    return newline.join(lines) + newline
+
+
 def _field_span(lines: list[str], start: int) -> tuple[str, str, int] | None:
     match = re.match(
         r"^(?P<key>[A-Za-z_][A-Za-z0-9_]*)\s*:\s*(?P<value>.*?)(?P<newline>\r?\n?)$",
@@ -235,7 +346,11 @@ def _field_span(lines: list[str], start: int) -> tuple[str, str, int] | None:
     end = start + 1
     while end < len(lines):
         next_line = lines[end]
-        if next_line.strip() and not next_line.startswith((" ", "\t")):
+        if (
+            next_line.strip()
+            and not next_line.startswith((" ", "\t"))
+            and not (not value.strip() and re.match(r"^-\s+", next_line))
+        ):
             break
         end += 1
     return field, value, end
@@ -255,6 +370,11 @@ def _replace_field(raw: str, field: str, replacement: str) -> str:
 
 def issue_author_index(issue: Issue) -> int | None:
     match = re.search(r"authors\[(\d+)\]", issue.message)
+    return int(match.group(1)) if match else None
+
+
+def issue_tag_index(issue: Issue) -> int | None:
+    match = re.search(r"tags\[(\d+)\]", issue.message)
     return int(match.group(1)) if match else None
 
 
@@ -278,6 +398,35 @@ def apply_fixes(results: list[tuple[Path, dict[str, Any], list[Issue]]]) -> int:
 
         if changed_authors:
             new_raw = _replace_field(new_raw, "authors", _format_authors_block(authors))
+
+        tags = list(data.get("tags") or []) if isinstance(data.get("tags"), list) else []
+        changed_tags = 0
+        for issue in issues:
+            if (
+                issue.field != "tags"
+                or issue.suggestion is None
+                or not issue.message.startswith(TAG_DATABASE_ISSUE_PREFIX)
+            ):
+                continue
+            index = issue_tag_index(issue)
+            if index is None or index >= len(tags):
+                continue
+            if tags[index] == issue.suggestion:
+                continue
+            tags[index] = issue.suggestion
+            changed_tags += 1
+
+        if changed_tags:
+            deduped_tags: list[object] = []
+            seen: set[str] = set()
+            for tag in tags:
+                key = tag_key(str(tag).strip())
+                if key and key in seen:
+                    continue
+                if key:
+                    seen.add(key)
+                deduped_tags.append(tag)
+            new_raw = _replace_field(new_raw, "tags", _format_tags_block(deduped_tags))
 
         source_issue = next(
             (issue for issue in issues if issue.field == "source" and issue.suggestion),
@@ -337,7 +486,7 @@ def print_json(results: list[tuple[Path, dict[str, Any], list[Issue]]]) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Audit author/source metadata against normalization databases."
+        description="Audit author/source/tag metadata against normalization databases."
     )
     parser.add_argument(
         "--file",
@@ -353,13 +502,14 @@ def main() -> int:
     parser.add_argument(
         "--fix",
         action="store_true",
-        help="Apply suggestions for authors/source fields.",
+        help="Apply suggestions for authors/source/tag fields.",
     )
     args = parser.parse_args()
 
     try:
         author_entries = load_entries(AUTHORS_DB, "authors")
         source_entries = load_entries(SOURCES_DB, "sources")
+        tag_entries = load_entries(TAGS_DB, "tags")
     except FileNotFoundError as exc:
         print(
             f"Missing normalization database: {exc.filename}. Run scripts/build_normalization_db.py first.",
@@ -369,6 +519,7 @@ def main() -> int:
 
     author_index, initial_index = build_author_lookup(author_entries)
     source_index = build_index(source_entries, key_fn=source_key)
+    tag_index = build_index(tag_entries, key_fn=tag_key)
 
     if args.file:
         targets = [Path(args.file)]
@@ -377,7 +528,7 @@ def main() -> int:
 
     results: list[tuple[Path, dict[str, Any], list[Issue]]] = []
     for target in targets:
-        data, issues = audit_file(target, author_index, initial_index, source_index)
+        data, issues = audit_file(target, author_index, initial_index, source_index, tag_index)
         if issues:
             results.append((target, data, issues))
 
@@ -395,7 +546,7 @@ def main() -> int:
         print(f"\nFixed {fixed_files} file(s).")
         remaining = 0
         for target in targets:
-            _, issues = audit_file(target, author_index, initial_index, source_index)
+            _, issues = audit_file(target, author_index, initial_index, source_index, tag_index)
             remaining += len(issues)
         return 1 if remaining else 0
     return 1

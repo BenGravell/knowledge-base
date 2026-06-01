@@ -1,4 +1,4 @@
-"""Shared helpers for author/source normalization databases."""
+"""Shared helpers for author/source/tag normalization databases."""
 
 from __future__ import annotations
 
@@ -68,6 +68,119 @@ SOURCE_ORDINAL_PREFIX_RE = re.compile(
     r"^\s*\d+(?:st|nd|rd|th)\s+(?:annual\s+)?",
     re.I,
 )
+TAG_SYMBOL_WORDS = {
+    "*": " star ",
+    "#": " sharp ",
+    "+": " plus ",
+}
+TAG_ACRONYM_EXPANSIONS: dict[str, str] = {
+    "A2C": "Advantage actor critic",
+    "AD": "Automatic differentiation",
+    "ADMM": "Alternating-direction method of multipliers",
+    "AI": "Artificial intelligence",
+    "BC": "Behavior cloning",
+    "CBF": "Control barrier function",
+    "CLF": "Control Lyapunov function",
+    "CMA-ES": "Covariance matrix adaptation evolution strategy",
+    "CNN": "Convolutional neural network",
+    "CUDA": "Compute unified device architecture",
+    "CVAR": "Conditional value at risk",
+    "CVaR": "Conditional value at risk",
+    "DDP": "Differential dynamic programming",
+    "DDPG": "Deep deterministic policy gradient",
+    "DMD": "Dynamic mode decomposition",
+    "ES": "Evolution strategies",
+    "ESDF": "Euclidean signed distance field",
+    "FDDP": "Feasibility-driven differential dynamic programming",
+    "FFT": "Fast Fourier transform",
+    "GAN": "Generative adversarial network",
+    "GCS": "Graphs of convex sets",
+    "GNN": "Graph neural network",
+    "GPU": "Graphics processing unit",
+    "GRASP": "Greedy randomized adaptive search procedure",
+    "IL": "Imitation learning",
+    "ILQR": "Iterative linear quadratic regulator",
+    "IMU": "Inertial measurement unit",
+    "IRL": "Inverse reinforcement learning",
+    "JPEG": "Joint photographic experts group",
+    "LDS": "Linear dynamical system",
+    "LIC": "Line integral convolution",
+    "LLM": "Large language model",
+    "LQ": "Linear quadratic",
+    "LQG": "Linear quadratic Gaussian",
+    "LQR": "Linear quadratic regulator",
+    "MARL": "Multi-agent reinforcement learning",
+    "MCTS": "Monte Carlo tree search",
+    "MDP": "Markov decision process",
+    "MIP": "Mixed-integer programming",
+    "ML": "Machine learning",
+    "MOESP": "Multivariable output-error state-space",
+    "MPC": "Model predictive control",
+    "MPCC": "Model predictive contouring control",
+    "MPPI": "Model predictive path integral control",
+    "NE": "Neuroevolution",
+    "NMPC": "Nonlinear model predictive control",
+    "ODE": "Ordinary differential equation",
+    "OLS": "Ordinary least squares",
+    "OT": "Optimal transport",
+    "PAC": "Probably approximately correct",
+    "PCA": "Principal component analysis",
+    "PDE": "Partial differential equation",
+    "PG": "Policy gradient",
+    "POMDP": "Partially observable Markov decision process",
+    "PPO": "Proximal policy optimization",
+    "QP": "Quadratic programming",
+    "RL": "Reinforcement learning",
+    "RNN": "Recurrent neural network",
+    "RRT": "Rapidly-exploring random tree",
+    "RRT#": "Rapidly-exploring random tree sharp",
+    "RRT*": "Rapidly-exploring random tree star",
+    "SAC": "Soft actor critic",
+    "SCP": "Sequential convex programming",
+    "SDP": "Semidefinite programming",
+    "SGD": "Stochastic gradient descent",
+    "SIMD": "Single-instruction multiple-data",
+    "SLAM": "Simultaneous localization and mapping",
+    "SOCP": "Second-order cone programming",
+    "SQP": "Sequential quadratic programming",
+    "SSIM": "Structural similarity index measure",
+    "SVD": "Singular value decomposition",
+    "SVM": "Support vector machine",
+    "TAMP": "Task and motion planning",
+    "TRPO": "Trust region policy optimization",
+    "TSP": "Traveling salesman problem",
+    "UAV": "Uncrewed aerial vehicle",
+    "VAE": "Variational autoencoder",
+    "VLA": "Vision-language-action model",
+    "VLM": "Vision-language model",
+    "VQA": "Visual question answering",
+    "VRP": "Vehicle routing problem",
+    "XAI": "Explainable artificial intelligence",
+}
+TAG_EXACT_EXPANSIONS: dict[str, str] = {
+    "3DGS": "3D Gaussian splatting",
+    "DRA-MPPI": "Distributionally robust model predictive path integral control",
+    "GPS-denied navigation": "Global positioning system-denied navigation",
+    "Informed RRT*": "Informed rapidly-exploring random tree star",
+    "Iterative LQG": "Iterative linear quadratic Gaussian",
+    "Learning-based MPC": "Learning-based model predictive control",
+    "Linear quadratic Gaussian (LQG)": "Linear quadratic Gaussian",
+    "LQG control": "Linear quadratic Gaussian control",
+    "LQR design": "Linear quadratic regulator design",
+    "LQR heuristics": "Linear quadratic regulator heuristics",
+    "LQR-trees": "Linear quadratic regulator trees",
+    "Metric-semantic SLAM": "Metric-semantic simultaneous localization and mapping",
+    "Model-based RL": "Model-based reinforcement learning",
+    "MPPI-Belief": "Model predictive path integral belief",
+    "PA-MPPI": "Predictive-action model predictive path integral control",
+    "Proximal DDP": "Proximal differential dynamic programming",
+    "Real-world scenarios. robust MPC": "Robust model predictive control",
+    "RRT-Connect": "Rapidly-exploring random tree connect",
+    "Sliding-window informed RRT*": "Sliding-window informed rapidly-exploring random tree star",
+    "TD-MPC": "Temporal-difference model predictive control",
+    "Tube MPC": "Tube model predictive control",
+    "Wasserstein GAN": "Wasserstein generative adversarial network",
+}
 
 
 @dataclass(frozen=True)
@@ -214,6 +327,110 @@ def canonical_source_display(source: str) -> str:
     source = re.sub(r"\s+([,;:])", r"\1", source)
     source = re.sub(r"\s{2,}", " ", source)
     return source.strip(" ,;:-")
+
+
+def _tag_acronym_pattern() -> re.Pattern[str]:
+    keys = sorted(TAG_ACRONYM_EXPANSIONS, key=len, reverse=True)
+    body = "|".join(re.escape(key) for key in keys)
+    return re.compile(rf"(?<![A-Za-z0-9-])(?:{body})(?![A-Za-z0-9-])")
+
+
+TAG_ACRONYM_RE = _tag_acronym_pattern()
+
+
+def _match_case_for_tag_expansion(expansion: str, *, at_start: bool) -> str:
+    if at_start:
+        return expansion
+    return expansion[:1].casefold() + expansion[1:]
+
+
+def expand_tag_acronyms(tag: str) -> str:
+    """Expand known acronym tokens in a tag into full-spelling phrases."""
+
+    tag = clean_spaces(tag)
+    if not tag:
+        return tag
+
+    exact = TAG_EXACT_EXPANSIONS.get(tag)
+    if exact:
+        return exact
+
+    def replace(match: re.Match[str]) -> str:
+        expansion = TAG_ACRONYM_EXPANSIONS[match.group(0)]
+        prefix = tag[: match.start()]
+        at_start = not re.search(r"[A-Za-z0-9]", prefix)
+        return _match_case_for_tag_expansion(expansion, at_start=at_start)
+
+    return clean_spaces(TAG_ACRONYM_RE.sub(replace, tag))
+
+
+def _tag_symbol_key_text(text: str) -> str:
+    for symbol, word in TAG_SYMBOL_WORDS.items():
+        text = text.replace(symbol, word)
+    return text
+
+
+def tag_key(tag: str) -> str:
+    tag = ascii_clean(tag)
+    tag = _tag_symbol_key_text(tag)
+    tag = tag.replace("&", " and ")
+    tag = re.sub(r"(?<=[a-z])['’](?=[a-z])", "", tag)
+    tag = re.sub(r"[^A-Za-z0-9]+", " ", tag)
+    return " ".join(tag.casefold().split())
+
+
+_TAG_NON_PLURAL_S_ENDINGS = ("ss", "us", "is", "ics")
+_TAG_NON_PLURAL_S_WORDS = {
+    "bias",
+    "canvas",
+    "chaos",
+    "cosmos",
+    "kinematics",
+    "mathematics",
+    "physics",
+    "robotics",
+    "semantics",
+    "statistics",
+}
+
+
+def _tag_part_is_abbreviation_or_mixed(core: str) -> bool:
+    alpha = re.sub(r"[^A-Za-z]", "", core)
+    if not alpha:
+        return True
+    if core != alpha:
+        return True
+    if len(alpha) > 1 and alpha == alpha.upper():
+        return True
+    return len(alpha) > 1 and any(char.isupper() for char in alpha[1:])
+
+
+def _singularize_tag_word(word: str) -> str:
+    folded = word.casefold()
+    if not folded or _tag_part_is_abbreviation_or_mixed(word):
+        return folded
+    if folded in _TAG_NON_PLURAL_S_WORDS:
+        return folded
+    if len(folded) <= 3:
+        return folded
+    if folded.endswith("ies") and len(folded) > 4:
+        return folded[:-3] + "y"
+    if folded.endswith(("sses", "ches", "shes", "xes", "zes")) and len(folded) > 4:
+        return folded[:-2]
+    if folded.endswith("s") and not folded.endswith(_TAG_NON_PLURAL_S_ENDINGS):
+        return folded[:-1]
+    return folded
+
+
+def tag_dedupe_key(tag: str) -> str:
+    expanded = expand_tag_acronyms(tag)
+    key = tag_key(expanded)
+    key = re.sub(
+        r"[A-Za-z]+",
+        lambda match: _singularize_tag_word(match.group(0)),
+        key,
+    )
+    return " ".join(key.split()).casefold()
 
 
 def load_yaml(path: Path) -> dict[str, Any]:
