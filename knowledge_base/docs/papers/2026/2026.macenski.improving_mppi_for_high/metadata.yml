@@ -9,12 +9,12 @@ type: "Blog Post"
 doi: 
 arxiv_id: 
 tags:
-  - "MPPI"
-  - "Nav2"
-  - "Acceleration constraints"
-  - "Industrial robots"
-  - "Model predictive control"
-  - "Robot navigation"
+  - Model predictive path integral control
+  - Nav2
+  - Acceleration constraints
+  - Industrial robots
+  - Model predictive control
+  - Robot navigation
 abstract: >
   If you've ever tried to navigate a 4-ton warehouse robot, you know that “move carefully” is not just a suggestion: it's a physics problem. Heavy industrial vehicles with raised centers of gravity, like Dexory's autonomous inventory scanning towers, cannot accelerate or decelerate the way a lightweight AMR can. Commanding even modest jerks can tip product, stress mechanical joints, or simply cause the drivetrain to fight the controller. Yet until now, Nav2's MPPI controller was tuned for the nimble end of the spectrum, with default acceleration limits of 3.0 m/s^2, more than ten times what some industrial platforms can safely handle. This post walks through the investigation and set of fixes we developed to make MPPI reliably respect low and asymmetric acceleration constraints. The work was motivated by Dexory, whose tall scanning towers require acceleration limits as low as 0.25 m/s^2 forward and -0.5 m/s^2 braking which is an order of magnitude below the defaults typically used. The result is a set of carefully validated improvements that benefit not just Dexory, but every team pushing Nav2 onto heavier, higher-inertia platforms. We write these musings up as a blog post because it is a nice, confined challenge to solve in a highly technical part of the Nav2 project. Hopefully this provides useful context and learnings for future engineers about both MPPI itself and understanding these changes in detail.
 summary: >

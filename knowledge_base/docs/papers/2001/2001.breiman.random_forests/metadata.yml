@@ -10,7 +10,7 @@ doi: 10.1023/A:1010933404324
 arxiv_id:
 tags:
   - Ensemble methods
-  - Random forests
+  - Random forest
   - Decision trees
   - Bagging
   - Feature randomization

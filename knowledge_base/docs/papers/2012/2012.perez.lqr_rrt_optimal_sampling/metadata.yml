@@ -14,8 +14,8 @@ doi: 10.1109/ICRA.2012.6225177
 arxiv_id:
 tags:
   - Kinodynamic planning
-  - RRT*
-  - LQR
+  - Rapidly-exploring random tree star
+  - Linear quadratic regulator
   - Steering function
   - Underactuated systems
 abstract: >

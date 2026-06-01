@@ -16,7 +16,7 @@ tags:
   - Trajectory planning
   - Asymptotic optimality
   - Sampling-based
-  - RRT*
+  - Rapidly-exploring random tree star
   - Motion primitives
   - Precomputed
   - Lookup table

@@ -14,7 +14,6 @@ tags:
   - Iterative linear quadratic regulator
   - Differential dynamic programming
   - iLQR
-  - DDP
   - Nonlinear control
 abstract: >
   This paper presents an Iterative Linear Quadratic Regulator (ILQR) method for locally-optimal feedback control of nonlinear dynamical systems. The method is applied to a musculo-skeletal arm model with 10 state dimensions and 6 controls, and is used to compute energy-optimal reaching movements. Numerical comparisons with three existing methods demonstrate that the new method converges substantially faster and finds slightly better solutions.

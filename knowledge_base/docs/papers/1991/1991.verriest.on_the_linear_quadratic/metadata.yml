@@ -13,7 +13,7 @@ tags:
   - Optimal control
   - Linear quadratic control
   - Minimum-time control
-  - Riccati equations
+  - Riccati equation
   - Feedback control
 abstract: >
   A nontraditional minimum-time problem that includes quadratic-state and control-weighting terms in the performance index is investigated. This formulation provides a convenient solution to the problem that uses the solution of the Riccati equation to compute the optimal feedback gain and the optimal time. In some cases the latter is simply found using the derivative of the Riccati equation solution.

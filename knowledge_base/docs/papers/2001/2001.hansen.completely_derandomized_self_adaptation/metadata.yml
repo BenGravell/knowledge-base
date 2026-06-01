@@ -10,7 +10,7 @@ type: Journal Paper
 doi: 10.1162/106365601750190398
 arxiv_id:
 tags:
-  - CMA-ES
+  - Covariance matrix adaptation evolution strategy
   - Evolution strategies
   - Covariance matrix adaptation
   - Derandomization

@@ -10,7 +10,7 @@ doi: 10.1007/s10107-012-0629-5
 arxiv_id: 
 tags:
   - Composite optimization
-  - Gradient methods
+  - Gradient method
   - Proximal gradient
   - Nesterov acceleration
   - Black-box oracles

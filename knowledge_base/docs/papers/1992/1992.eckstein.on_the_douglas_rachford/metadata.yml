@@ -12,7 +12,7 @@ arxiv_id:
 tags:
   - Douglas-rachford splitting
   - Proximal point algorithm
-  - ADMM
+  - Alternating-direction method of multipliers
   - Monotone operators
   - Convex optimization
   - Operator splitting

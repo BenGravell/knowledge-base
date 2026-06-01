@@ -14,7 +14,7 @@ arxiv_id: "1801.01290"
 tags:
   - Reinforcement learning
   - Actor-critic
-  - Maximum entropy RL
+  - Maximum entropy reinforcement learning
   - Off-policy
   - Continuous control
   - Deep reinforcement learning

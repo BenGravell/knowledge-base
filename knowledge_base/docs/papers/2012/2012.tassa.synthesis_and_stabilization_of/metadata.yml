@@ -15,7 +15,6 @@ tags:
   - Iterative linear quadratic regulator
   - Differential dynamic programming
   - iLQR
-  - DDP
   - Nonlinear control
   - Online optimization
   - Synthesis

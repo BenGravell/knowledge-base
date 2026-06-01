@@ -12,7 +12,7 @@ type: Survey Paper
 doi: 10.1016/j.arcontrol.2023.100931
 arxiv_id: "2309.12566"
 tags:
-  - MPPI
+  - Model predictive path integral control
   - Path integral control
   - Survey
   - Trajectory optimization

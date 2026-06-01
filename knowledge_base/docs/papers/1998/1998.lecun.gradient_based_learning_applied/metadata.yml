@@ -12,12 +12,12 @@ type: "Journal Paper"
 doi: 10.1109/5.726791
 arxiv_id: 
 tags:
-  - "Convolutional neural networks"
-  - "LeNet"
-  - "Document recognition"
-  - "Handwriting recognition"
-  - "Gradient-based learning"
-  - "Graph transformer networks"
+  - Convolutional neural network
+  - LeNet
+  - Document recognition
+  - Handwriting recognition
+  - Gradient-based learning
+  - Graph transformer networks
 abstract: >
   Multilayer neural networks trained with the backpropagation algorithm constitute the best example of a successful gradient-based learning technique. Given an appropriate network architecture, gradient-based learning algorithms can be used to synthesize a complex decision surface that can classify high-dimensional patterns such as handwritten characters, with minimal preprocessing. This paper reviews various methods applied to handwritten character recognition and compares them on a standard handwritten digit recognition task. Convolutional neural networks, that are specifically designed to deal with the variability of 2D shapes, are shown to outperform all other techniques. Real-life document recognition systems are composed of multiple modules including field extraction, segmentation, recognition, and language modeling. A new learning paradigm, called Graph Transformer Networks (GTN), allows such multi-module systems to be trained globally using gradient-based methods so as to minimize an overall performance measure. Two systems for on-line handwriting recognition are described. Experiments demonstrate the advantage of global training, and the flexibility of Graph Transformer Networks. A graph transformer network for reading a bank cheque is also described. It uses convolutional neural network character recognizers combined with global training techniques to provide record accuracy on business and personal cheques.
 summary: >

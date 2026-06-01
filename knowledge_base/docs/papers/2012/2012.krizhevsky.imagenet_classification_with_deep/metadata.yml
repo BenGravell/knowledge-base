@@ -12,10 +12,10 @@ doi:
 arxiv_id: 
 tags:
   - AlexNet
-  - Convolutional neural networks
+  - Convolutional neural network
   - ImageNet
   - Deep learning
-  - GPU training
+  - Graphics processing unit training
   - Dropout
   - ReLU activations
   - Computer vision

@@ -14,7 +14,7 @@ type: Conference Paper
 doi: 10.1109/IROS.2011.6094994
 arxiv_id:
 tags:
-  - RRT*
+  - Rapidly-exploring random tree star
   - Manipulation planning
   - Sampling-based planning
   - Asymptotic optimality

@@ -9,10 +9,9 @@ type: Journal Paper
 doi: 10.1137/0311021
 tags:
   - Algebraic Riccati equation
-  - LQR
+  - Linear quadratic regulator
   - Stabilizing solution
   - Optimal control
-  - Linear quadratic regulator
   - Existence conditions
 abstract: >
   This paper investigates solutions Xhat of the algebraic Riccati equation F'X + XF - XGG'X + Q = 0 with the property Re lambda(F - GG'Xhat) <= 0. The uniqueness and existence of such a solution is completely characterized. In addition, the conditions are strengthened to characterize the important stabilizing solution (Re lambda(F - GG'Xhat) < 0). All standard existence results are recovered as special cases.

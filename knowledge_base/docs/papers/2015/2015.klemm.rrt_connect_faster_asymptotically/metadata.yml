@@ -19,8 +19,8 @@ tags:
   - Sampling-based planning
   - Asymptotic optimality
   - Bidirectional search
-  - RRT*
-  - RRT-Connect
+  - Rapidly-exploring random tree star
+  - Rapidly-exploring random tree connect
 abstract: >
   We present an efficient asymptotically-optimal randomized motion planning algorithm solving single-query path planning problems using a bidirectional search. The algorithm combines the benefits from the widely known algorithms RRT-Connect and RRT* and scores better than both by finding a solution faster than RRT*, and - unlike RRT-Connect - converging towards a theoretical optimum. We outline the proposed algorithm and proof its optimality. The efficiency and robustness is demonstrated in a number of real world applications which benefit from the bidirectional approach: planning car trajectories in a parking garage for the autonomous vehicle CoCar, generating cost-efficient trajectories for the multi-legged walking robot LAURON V in a planetary exploration scenario and performing mobile manipulation tasks for our highly actuated service robot HoLLiE. Moreover, we compare and show the improvements over “vanilla” RRT in a set of challenging benchmarks. RRT*-Connect will contribute to increase the performance of autonomous robots and vehicles due to the reduced motion planning time in complex environments.
 summary: >

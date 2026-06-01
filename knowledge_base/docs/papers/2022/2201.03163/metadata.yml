@@ -13,9 +13,9 @@ arxiv_id: "2201.03163"
 tags:
   - Path planning
   - Parking
-  - Clothoids
+  - Clothoid
   - Curvature continuity
-  - RRT
+  - Rapidly-exploring random tree
   - Target tree
   - Autonomous vehicles
 abstract: >

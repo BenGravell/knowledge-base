@@ -11,7 +11,7 @@ type: Conference Paper
 doi:
 arxiv_id: "2508.21364"
 tags:
-  - MPPI
+  - Model predictive path integral control
   - Trajectory optimization
   - Collision avoidance
   - Multimodal

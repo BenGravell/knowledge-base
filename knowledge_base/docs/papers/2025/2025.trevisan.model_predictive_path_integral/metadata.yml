@@ -9,7 +9,7 @@ type: PhD Dissertation
 doi: 10.4233/uuid:e7343dd8-cab4-4679-92a6-84a67430af54
 arxiv_id:
 tags:
-  - MPPI
+  - Model predictive path integral control
   - Trajectory optimization
   - Interaction-aware planning
   - Dynamic environments

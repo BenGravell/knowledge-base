@@ -18,10 +18,9 @@ tags:
   - Planning
   - Learning
   - Model-based reinforcement learning
-  - RL
-  - MARL
+  - Multi-agent reinforcement learning
   - Nash equilibrium
-  - NE
+  - Neuroevolution
   - Generative model
   - State space
 abstract: >

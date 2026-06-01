@@ -13,10 +13,10 @@ tags:
   - System identification
   - Subspace identification
   - Subspace methods
-  - State space models
+  - State-space models
   - N4SID
   - Kalman filter
-  - Riccati equations
+  - Riccati equation
   - QR decomposition
   - Singular value decomposition
 abstract: >

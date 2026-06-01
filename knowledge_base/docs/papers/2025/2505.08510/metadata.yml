@@ -16,7 +16,7 @@ arxiv_id: "2505.08510"
 tags:
   - Trajectory optimization
   - Gaussian splatting
-  - 3DGS
+  - 3D Gaussian splatting
   - 3D scene
   - Representation
 abstract: >

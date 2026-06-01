@@ -11,12 +11,12 @@ type: "Journal Paper"
 doi: "10.1137/070700978"
 arxiv_id:
 tags:
-  - "Riccati equations"
-  - "Kleinman-Newton method"
-  - "Inexact solves"
-  - "Optimal control"
-  - "Numerical linear algebra"
-  - "Large-scale systems"
+  - Riccati equation
+  - Kleinman-Newton method
+  - Inexact solves
+  - Optimal control
+  - Numerical linear algebra
+  - Large-scale systems
 abstract: >
   In this paper we consider the numerical solution of the algebraic Riccati equation using Newton's method. We propose an inexact variant which allows one control the number of the inner iterates used in an iterative solver for each Newton step. Conditions are given under which the monotonicity and global convergence result of Kleinman also hold for the inexact Newton iterates. Numerical results illustrate the efficiency of this method.
 summary: >

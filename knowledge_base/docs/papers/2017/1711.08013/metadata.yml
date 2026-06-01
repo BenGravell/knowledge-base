@@ -16,11 +16,11 @@ tags:
   - Quadratic programming
   - Convex optimization
   - Operator splitting
-  - ADMM
+  - Alternating-direction method of multipliers
   - First-order optimization
   - Embedded optimization
   - Model predictive control
-  - Warm starting
+  - Warm-starting
   - Factorization caching
   - Infeasibility detection
   - Sparse linear algebra

@@ -17,12 +17,12 @@ tags:
   - Augmented Lagrangian
   - Primal-dual
   - iLQR
-  - DDP
-  - Proximal DDP
+  - Differential dynamic programming
+  - Proximal differential dynamic programming
   - ProxDDP
   - Constraint programming
   - Constrained optimal control
-  - Multiple-shooting
+  - Multiple shooting
   - Aligator
   - Library
 abstract: >

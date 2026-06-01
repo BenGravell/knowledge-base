@@ -13,7 +13,7 @@ arxiv_id:
 tags:
   - Distributed optimization
   - Asynchronous algorithms
-  - Gradient methods
+  - Gradient method
   - Stochastic optimization
   - Parallel computation
   - Convergence analysis

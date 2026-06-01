@@ -13,7 +13,7 @@ tags:
   - Linear quadratic regulator
   - Nonlinear systems
   - Linearization
-  - LQR design
+  - Linear quadratic regulator design
   - Trajectory optimization
 abstract: >
   The problem of regulating a nonlinear stochastic system with uncertain parameters and nonlinear noisy measurements is considered. The second-order terms in an expansion about the reference path are viewed as multiplicative disturbances in state and control. The linear estimation/control problem is solved by approximating these as wideband disturbances. The Certainty-Equivalence Principle and the Separation Theorem do not hold. The control and filter gains, found by solving a TPBVP, explicitly hedge against the parameter uncertainties and nonlinearity effects. Numerical results are presented for a combined guidance/navigation system for shuttle entry.

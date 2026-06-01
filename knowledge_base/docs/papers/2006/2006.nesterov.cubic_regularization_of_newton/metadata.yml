@@ -10,12 +10,12 @@ type: "Journal Paper"
 doi: "10.1007/s10107-006-0706-8"
 arxiv_id:
 tags:
-  - "Newton methods"
-  - "Cubic regularization"
-  - "Nonconvex optimization"
-  - "Complexity bounds"
-  - "Second-order methods"
-  - "Global convergence"
+  - Newton's method
+  - Cubic regularization
+  - Nonconvex optimization
+  - Complexity bounds
+  - Second-order methods
+  - Global convergence
 abstract: >
   In this paper, we provide theoretical analysis for a cubic regularization of Newton method as applied to unconstrained minimization problem. For this scheme, we prove general local convergence results. However, the main contribution of the paper is related to global worst-case complexity bounds for different problem classes including some nonconvex cases. It is shown that the search direction can be computed by standard linear algebra technique.
 summary: >

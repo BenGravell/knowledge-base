@@ -12,7 +12,7 @@ type: Journal Paper
 doi: 10.1016/j.automatica.2003.08.009
 arxiv_id:
 tags:
-  - Tube MPC
+  - Tube model predictive control
   - Robust model predictive control
   - Uncertain systems
   - Piecewise affine control

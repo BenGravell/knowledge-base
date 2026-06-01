@@ -14,7 +14,7 @@ doi: 10.1109/ICRA.2011.5979949
 arxiv_id:
 tags:
   - Graph optimization
-  - SLAM
+  - Simultaneous localization and mapping
   - Bundle adjustment
   - Nonlinear least squares
   - Robotics software

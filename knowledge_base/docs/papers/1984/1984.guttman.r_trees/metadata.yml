@@ -9,7 +9,7 @@ type: Journal Paper
 doi: 10.1145/971697.602266
 arxiv_id:
 tags:
-  - R-tree
+  - R-trees
   - Spatial indexing
   - Database systems
   - Multidimensional data

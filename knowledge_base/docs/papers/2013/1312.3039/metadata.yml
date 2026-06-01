@@ -15,7 +15,7 @@ tags:
   - Conic optimization
   - Operator splitting
   - Homogeneous self-dual embedding
-  - ADMM
+  - Alternating-direction method of multipliers
   - First-order methods
   - SCS
   - Infeasibility certificates

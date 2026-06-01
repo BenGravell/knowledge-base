@@ -10,9 +10,9 @@ type: Preprint
 doi:
 arxiv_id: "2605.10671"
 tags:
-  - Policy gradient
+  - Policy gradients
   - Reinforcement learning
-  - Bellman equation
+  - Bellman equations
   - Policy iteration
   - Learning
   - DSPI

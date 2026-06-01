@@ -10,7 +10,7 @@ type: Journal Paper
 doi: 10.1109/LRA.2024.3397083
 arxiv_id: "2401.09241"
 tags:
-  - MPPI
+  - Model predictive path integral control
   - Trajectory optimization
   - Sampling-based control
   - Informed sampling

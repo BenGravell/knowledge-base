@@ -12,7 +12,7 @@ type: Journal Paper
 doi: 10.1177/0278364910369189
 arxiv_id:
 tags:
-  - LQR-trees
+  - Linear quadratic regulator trees
   - Feedback motion planning
   - Sum-of-squares optimization
   - Lyapunov functions

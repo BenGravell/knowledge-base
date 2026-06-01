@@ -11,7 +11,7 @@ type: Conference Paper
 doi: 10.1109/ICRA55743.2025.11127482
 arxiv_id: "2409.12266"
 tags:
-  - MPPI
+  - Model predictive path integral control
   - Trajectory optimization
   - Sampling-based control
   - Action sampling

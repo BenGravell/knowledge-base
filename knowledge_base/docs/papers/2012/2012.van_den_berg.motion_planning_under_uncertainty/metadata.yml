@@ -14,7 +14,7 @@ tags:
   - Belief-space planning
   - Motion uncertainty
   - POMDPs
-  - Iterative LQG
+  - Iterative linear quadratic Gaussian
   - Extended Kalman filters
   - Obstacle avoidance
   - Gaussian beliefs

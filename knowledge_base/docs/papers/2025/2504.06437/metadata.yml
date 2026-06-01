@@ -13,7 +13,7 @@ type: Conference Paper
 doi: 10.1109/IROS60139.2025.11245991
 arxiv_id: "2504.06437"
 tags:
-  - MPPI
+  - Model predictive path integral control
   - Trajectory optimization
   - Safety
   - Barrier states

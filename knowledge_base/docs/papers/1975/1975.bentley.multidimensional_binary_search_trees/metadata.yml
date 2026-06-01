@@ -9,10 +9,10 @@ type: Journal Paper
 doi: 10.1145/361002.361007
 arxiv_id:
 tags:
-  - k-d tree
+  - K-d tree
   - Multidimensional search
   - Associative search
-  - Nearest neighbor
+  - Nearest neighbors
   - Partial match queries
   - Data structures
   - Computational geometry

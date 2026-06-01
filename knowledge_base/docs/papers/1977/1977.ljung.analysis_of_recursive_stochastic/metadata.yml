@@ -10,7 +10,7 @@ doi: 10.1109/TAC.1977.1101561
 arxiv_id:
 tags:
   - Recursive stochastic algorithms
-  - ODE method
+  - Ordinary differential equation method
   - Stochastic approximation
   - Recursive identification
   - Adaptive control

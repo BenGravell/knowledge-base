@@ -13,7 +13,7 @@ type: Preprint
 doi:
 arxiv_id: "2505.05507"
 tags:
-  - MPPI
+  - Model predictive path integral control
   - Trajectory optimization
   - Sampling-based control
   - Variational integration

@@ -10,7 +10,7 @@ type: Conference Paper
 doi: 10.1109/ROBOT.2004.1307180
 arxiv_id:
 tags:
-  - SLAM
+  - Simultaneous localization and mapping
   - Graph-based mapping
   - Mobile robotics
   - Data association

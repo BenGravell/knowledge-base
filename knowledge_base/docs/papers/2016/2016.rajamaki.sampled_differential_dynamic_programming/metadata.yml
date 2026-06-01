@@ -20,7 +20,7 @@ tags:
   - Hessian-free optimization
   - Path integral control
   - Evolution strategies
-  - CMA-ES
+  - Covariance matrix adaptation evolution strategy
   - Taylor expansion
   - Gradient-based
 abstract: >

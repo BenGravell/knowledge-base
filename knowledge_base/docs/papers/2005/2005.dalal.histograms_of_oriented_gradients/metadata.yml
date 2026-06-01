@@ -14,7 +14,7 @@ tags:
   - Histogram of oriented gradients
   - HOG
   - Object detection
-  - SVM
+  - Support vector machine
   - Computer vision
   - Feature descriptor
 abstract: >

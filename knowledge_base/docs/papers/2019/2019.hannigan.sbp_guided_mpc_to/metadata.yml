@@ -16,9 +16,9 @@ arxiv_id:
 tags:
   - Trajectory planning
   - Trajectory optimization
-  - MPC
+  - Model predictive control
   - iLQR
-  - RRT
+  - Rapidly-exploring random tree
   - Sampling-based planning
   - Local minima
   - Hybrid planning

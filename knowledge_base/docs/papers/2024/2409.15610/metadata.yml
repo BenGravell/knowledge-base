@@ -14,7 +14,7 @@ doi: 10.1109/ICRA55743.2025.11127320
 arxiv_id: "2409.15610"
 tags:
   - Trajectory optimization
-  - MPPI
+  - Model predictive path integral control
   - Diffusion
   - Locomotion
   - Model predictive control

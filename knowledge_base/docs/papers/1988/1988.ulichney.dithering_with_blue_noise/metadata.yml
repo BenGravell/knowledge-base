@@ -9,7 +9,7 @@ type: Journal Paper
 doi: 10.1109/5.3288
 arxiv_id:
 tags:
-  - Blue noise dithering
+  - Blue-noise dithering
   - Digital halftoning
   - Image processing
   - Dither patterns

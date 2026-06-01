@@ -11,7 +11,7 @@ type: Conference Paper
 doi:
 arxiv_id: "2110.06418"
 tags:
-  - Policy gradient
+  - Policy gradients
   - Stabilization
   - Dynamical systems
   - Linear quadratic regulator

@@ -13,7 +13,7 @@ tags:
   - Scan primitive
   - Parallel algorithms
   - Data-parallel computation
-  - SIMD algorithms
+  - Single-instruction multiple-data algorithms
   - Parallel programming
   - Functional primitives
 abstract: >

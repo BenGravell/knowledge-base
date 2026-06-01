@@ -14,7 +14,7 @@ tags:
   - Trajectory planning
   - Kinodynamic planning
   - Sampling-based planning
-  - RRT
+  - Rapidly-exploring random tree
   - Distance metric learning
   - Machine learning
   - Inference

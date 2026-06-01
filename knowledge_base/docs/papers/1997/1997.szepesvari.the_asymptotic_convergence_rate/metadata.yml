@@ -11,8 +11,8 @@ arxiv_id:
 tags:
   - Reinforcement learning
   - Q-learning
-  - Convergence rates
-  - Markov decision processes
+  - Convergence rate
+  - Markov decision process
   - Stochastic approximation
   - Temporal difference learning
 abstract: >

@@ -13,9 +13,9 @@ doi: 10.1002/rob.20400
 arxiv_id:
 tags:
   - Aerial robotics
-  - GPS-denied navigation
+  - Global positioning system-denied navigation
   - Autonomous exploration
-  - SLAM
+  - Simultaneous localization and mapping
   - Micro aerial vehicles
   - Laser rangefinder
   - State estimation

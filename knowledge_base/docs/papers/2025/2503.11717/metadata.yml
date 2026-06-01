@@ -9,7 +9,7 @@ type: Conference Paper
 doi:
 arxiv_id: "2503.11717"
 tags:
-  - MPPI
+  - Model predictive path integral control
   - Trajectory optimization
   - Sampling-based control
   - Action smoothing

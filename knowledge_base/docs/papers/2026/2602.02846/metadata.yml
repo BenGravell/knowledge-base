@@ -14,7 +14,7 @@ tags:
   - Motion planning
   - Sampling-based planning
   - Kinodynamic planning
-  - GPU
+  - Graphics processing unit
   - Parallelized
   - Asymptotic optimality
   - Real-time planning

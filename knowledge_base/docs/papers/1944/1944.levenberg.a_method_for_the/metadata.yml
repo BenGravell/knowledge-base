@@ -13,8 +13,8 @@ tags:
   - Levenberg-Marquardt
   - Damped least squares
   - Nonlinear least squares
-  - Gauss-Newton method
-  - Trust-region methods
+  - Gauss-Newton methods
+  - Trust region methods
   - Parameter estimation
   - Optimization history
 abstract: >

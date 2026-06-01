@@ -13,7 +13,7 @@ arxiv_id:
 tags:
   - Distributionally robust optimization
   - Joint chance constraints
-  - Worst-case CVaR
+  - Worst-case conditional value at risk
   - Semidefinite programming
   - Moment ambiguity
   - Robust control

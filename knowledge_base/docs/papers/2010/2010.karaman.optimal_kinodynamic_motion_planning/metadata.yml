@@ -11,7 +11,7 @@ doi: 10.1109/CDC.2010.5717430
 arxiv_id:
 tags:
   - Kinodynamic planning
-  - RRT*
+  - Rapidly-exploring random tree star
   - Asymptotic optimality
   - Differential constraints
 abstract: >

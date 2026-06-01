@@ -9,7 +9,7 @@ type: Conference Paper
 doi: 10.1007/BFB0080116
 arxiv_id:
 tags:
-  - BiConjugate gradient
+  - Biconjugate gradient
   - Indefinite systems
   - Krylov subspace methods
   - Conjugate gradient

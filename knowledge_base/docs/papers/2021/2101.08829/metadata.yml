@@ -10,26 +10,26 @@ type: Journal Paper
 doi: 10.1016/j.conengprac.2021.104753
 arxiv_id: "2101.08829"
 tags:
-- Robotics
-- Swarm robotics
-- Cooperative robotics
-- Multi-agent systems
-- Aerial swarms
-- Autonomous drones
-- Quadrotors
-- UAV coordination
-- Formation control
-- Centralized planning
-- Goal assignment
-- Task allocation
-- Assignment problem
-- Hungarian algorithm
-- Motion planning
-- Collision-free motion planning
-- Collision avoidance
-- Trajectory planning
-- Trajectory optimization
-- Polynomial trajectories
+  - Robotics
+  - Swarm robotics
+  - Cooperative robotics
+  - Multi-agent systems
+  - Aerial swarms
+  - Autonomous drones
+  - Quadrotors
+  - Uncrewed aerial vehicle coordination
+  - Formation control
+  - Centralized planning
+  - Goal assignment
+  - Task allocation
+  - Assignment problem
+  - Hungarian algorithm
+  - Motion planning
+  - Collision-free motion planning
+  - Collision avoidance
+  - Trajectory planning
+  - Trajectory optimization
+  - Polynomial trajectories
 abstract: >
   Computationally tractable methods are developed for centralized goal assignment and planning of collision-free polynomial-in-time trajectories for systems of multiple aerial robots. The method first assigns robots to goals to minimize total time-in-motion based on initial trajectories. By coupling the assignment and trajectory generation, the initial motion plans tend to require only limited collision resolution. The plans are then refined by checking for potential collisions and resolving them using either start time delays or altitude assignment. Numerical experiments using both methods show significant reductions in the total time required for agents to arrive at goals with only modest additional computational effort in comparison to state-of-the-art prior work, enabling planning for thousands of agents.
 summary: >

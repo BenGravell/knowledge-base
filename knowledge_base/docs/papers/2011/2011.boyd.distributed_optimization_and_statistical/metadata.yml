@@ -13,11 +13,11 @@ type: Journal Paper
 doi: 10.1561/2200000016
 arxiv_id:
 tags:
-  - ADMM
+  - Alternating-direction method of multipliers
   - Distributed optimization
   - Convex optimization
   - Statistical learning
-  - Augmented Lagrangian methods
+  - Augmented Lagrangian method
   - Consensus optimization
   - Large-scale optimization
   - Survey paper

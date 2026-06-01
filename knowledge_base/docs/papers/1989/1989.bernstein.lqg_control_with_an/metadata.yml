@@ -10,7 +10,7 @@ type: Journal Paper
 doi: 10.1109/9.16419
 arxiv_id:
 tags:
-  - LQG control
+  - Linear quadratic Gaussian control
   - H-infinity bounds
   - Riccati equation
   - Robust control
